@@ -9,9 +9,7 @@ namespace NTMiner.Core.MinerServer.Impl {
         private readonly INTMinerRoot _root;
         public AppSettingSet(INTMinerRoot root) {
             _root = root;
-            VirtualRoot.Window<ChangeAppSettingCommand>(
-                "处理设置AppSetting命令",
-                LogEnum.DevConsole,
+            VirtualRoot.Window<ChangeAppSettingCommand>("处理设置AppSetting命令", LogEnum.DevConsole,
                 action: message => {
                     if (message.AppSetting == null) {
                         return;
@@ -46,9 +44,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                     });
                     VirtualRoot.Happened(new AppSettingChangedEvent(entity));
                 });
-            VirtualRoot.Window<ChangeAppSettingsCommand>(
-                "处理批量设置AppSetting命令",
-                LogEnum.DevConsole,
+            VirtualRoot.Window<ChangeAppSettingsCommand>("处理批量设置AppSetting命令", LogEnum.DevConsole,
                 action: message => {
                     if (message.AppSettings == null) {
                         return;

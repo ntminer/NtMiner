@@ -180,7 +180,7 @@ namespace NTMiner {
         }
 
         /// <summary>
-        /// 命令窗口
+        /// 命令窗口。使用该方法的代码行应将前两个参数放在第一行以方便vs查找引用时展示出参数信息
         /// </summary>
         public static DelegateHandler<TCmd> Window<TCmd>(string description, LogEnum logType, Action<TCmd> action)
             where TCmd : ICmd {

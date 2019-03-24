@@ -64,9 +64,7 @@ namespace NTMiner {
                             System.Drawing.Icon icon = new System.Drawing.Icon(GetResourceStream(new Uri("pack://application:,,,/MinerStudio;component/logo.ico")).Stream);
                             AppHelper.NotifyIcon = ExtendedNotifyIcon.Create(icon, "群控客户端", isMinerStudio: true);
                             #region 处理显示主界面命令
-                            VirtualRoot.Window<ShowMainWindowCommand>(
-                                "处理显示主界面命令",
-                                LogEnum.None,
+                            VirtualRoot.Window<ShowMainWindowCommand>("处理显示主界面命令", LogEnum.None,
                                 action: message => {
                                     Dispatcher.Invoke((ThreadStart)ChartsWindow.ShowWindow);
                                 });

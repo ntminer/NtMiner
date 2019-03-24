@@ -60,9 +60,7 @@ namespace NTMiner {
                             System.Drawing.Icon icon = new System.Drawing.Icon(GetResourceStream(new Uri("pack://application:,,,/NTMiner;component/logo.ico")).Stream);
                             AppHelper.NotifyIcon = ExtendedNotifyIcon.Create(icon, "挖矿端", isMinerStudio: false);
                             #region 处理显示主界面命令
-                            VirtualRoot.Window<ShowMainWindowCommand>(
-                                "处理显示主界面命令",
-                                LogEnum.None,
+                            VirtualRoot.Window<ShowMainWindowCommand>("处理显示主界面命令", LogEnum.None,
                                 action: message => {
                                     Dispatcher.Invoke((ThreadStart)mainWindow.ShowThisWindow);
                                 });
@@ -79,9 +77,7 @@ namespace NTMiner {
                             });
                         });
                     });
-                    VirtualRoot.Window<CloseNTMinerCommand>(
-                        "处理关闭NTMiner客户端命令",
-                        LogEnum.UserConsole,
+                    VirtualRoot.Window<CloseNTMinerCommand>("处理关闭NTMiner客户端命令", LogEnum.UserConsole,
                         action: message => {
                             UIThread.Execute(() => {
                                 if (MainWindow != null) {
@@ -91,15 +87,11 @@ namespace NTMiner {
                                 Environment.Exit(0);
                             });
                         });
-                    VirtualRoot.On<MineStartedEvent>(
-                        "开始挖矿后启动1080ti小药丸",
-                        LogEnum.DevConsole,
+                    VirtualRoot.On<MineStartedEvent>("开始挖矿后启动1080ti小药丸", LogEnum.DevConsole,
                         action: message => {
                             OhGodAnETHlargementPill.OhGodAnETHlargementPillUtil.Start();
                         });
-                    VirtualRoot.On<MineStopedEvent>(
-                        "停止挖矿后停止1080ti小药丸",
-                        LogEnum.DevConsole,
+                    VirtualRoot.On<MineStopedEvent>("停止挖矿后停止1080ti小药丸", LogEnum.DevConsole,
                         action: message => {
                             OhGodAnETHlargementPill.OhGodAnETHlargementPillUtil.Stop();
                         });

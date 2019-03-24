@@ -13,9 +13,7 @@ namespace NTMiner.Core.Impl {
         public CoinSet(INTMinerRoot root, bool isUseJson) {
             _root = root;
             _isUseJson = isUseJson;
-            VirtualRoot.Window<AddCoinCommand>(
-                "添加币种",
-                LogEnum.DevConsole,
+            VirtualRoot.Window<AddCoinCommand>("添加币种", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -38,9 +36,7 @@ namespace NTMiner.Core.Impl {
 
                     VirtualRoot.Happened(new CoinAddedEvent(entity));
                 }).AddToCollection(root.ContextHandlers);
-            VirtualRoot.Window<UpdateCoinCommand>(
-                "更新币种",
-                LogEnum.DevConsole,
+            VirtualRoot.Window<UpdateCoinCommand>("更新币种", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -62,9 +58,7 @@ namespace NTMiner.Core.Impl {
 
                     VirtualRoot.Happened(new CoinUpdatedEvent(message.Input));
                 }).AddToCollection(root.ContextHandlers);
-            VirtualRoot.Window<RemoveCoinCommand>(
-                "移除币种",
-                LogEnum.DevConsole,
+            VirtualRoot.Window<RemoveCoinCommand>("移除币种", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {

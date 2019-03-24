@@ -13,9 +13,7 @@ namespace NTMiner.Core.Kernels.Impl {
         public KernelSet(INTMinerRoot root, bool isUseJson) {
             _root = root;
             _isUseJson = isUseJson;
-            VirtualRoot.Window<AddKernelCommand>(
-                "添加内核",
-                LogEnum.DevConsole,
+            VirtualRoot.Window<AddKernelCommand>("添加内核", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -34,9 +32,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.Happened(new KernelAddedEvent(entity));
                 }).AddToCollection(root.ContextHandlers);
-            VirtualRoot.Window<UpdateKernelCommand>(
-                "更新内核",
-                LogEnum.DevConsole,
+            VirtualRoot.Window<UpdateKernelCommand>("更新内核", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -58,9 +54,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.Happened(new KernelUpdatedEvent(entity));
                 }).AddToCollection(root.ContextHandlers);
-            VirtualRoot.Window<RemoveKernelCommand>(
-                "移除内核",
-                LogEnum.DevConsole,
+            VirtualRoot.Window<RemoveKernelCommand>("移除内核", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {

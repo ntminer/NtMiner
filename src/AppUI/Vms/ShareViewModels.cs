@@ -9,8 +9,7 @@ namespace NTMiner.Vms {
         private readonly Dictionary<Guid, ShareViewModel> _dicByCoinId = new Dictionary<Guid, ShareViewModel>();
 
         private ShareViewModels() {
-            VirtualRoot.On<ShareChangedEvent>(
-                "收益变更后调整VM内存",
+            VirtualRoot.On<ShareChangedEvent>("收益变更后调整VM内存",
                 LogEnum.DevConsole,
                 action: message => {
                     ShareViewModel shareVm;

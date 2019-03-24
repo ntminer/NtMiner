@@ -43,9 +43,7 @@ namespace NTMiner.Core.Profiles {
         }
 
         public void Register(INTMinerRoot root) {
-            VirtualRoot.Window<AddOrUpdateGpuProfileCommand>(
-                "处理添加或更新Gpu超频数据命令",
-                LogEnum.DevConsole,
+            VirtualRoot.Window<AddOrUpdateGpuProfileCommand>("处理添加或更新Gpu超频数据命令", LogEnum.DevConsole,
                 action: message => {
                     GpuProfileData data = _data.GpuProfiles.FirstOrDefault(a => a.CoinId == message.Input.CoinId && a.Index == message.Input.Index);
                     if (data != null) {
@@ -59,17 +57,13 @@ namespace NTMiner.Core.Profiles {
                     }
                     VirtualRoot.Happened(new GpuProfileAddedOrUpdatedEvent(data));
                 });
-            VirtualRoot.Window<OverClockCommand>(
-                "处理超频命令",
-                LogEnum.DevConsole,
+            VirtualRoot.Window<OverClockCommand>("处理超频命令", LogEnum.DevConsole,
                 action: message => {
                     if (root.GpuSet.TryGetGpu(message.Input.Index, out IGpu gpu)) {
                         message.Input.OverClock(gpu.OverClock);
                     }
                 });
-            VirtualRoot.Window<CoinOverClockCommand>(
-                "处理币种超频命令",
-                LogEnum.DevConsole,
+            VirtualRoot.Window<CoinOverClockCommand>("处理币种超频命令", LogEnum.DevConsole,
                 action: message => {
                     if (IsOverClockGpuAll(message.CoinId)) {
                         GpuProfileData overClockData = _data.GpuProfiles.FirstOrDefault(a => a.CoinId == message.CoinId && a.Index == NTMinerRoot.GpuAllId);

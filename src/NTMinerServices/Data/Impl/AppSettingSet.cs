@@ -10,9 +10,7 @@ namespace NTMiner.Data.Impl {
 
         public AppSettingSet(string dbFileFullName) {
             _dbFileFullName = dbFileFullName;
-            VirtualRoot.Window<ChangeAppSettingCommand>(
-                "处理设置AppSetting命令",
-                LogEnum.DevConsole,
+            VirtualRoot.Window<ChangeAppSettingCommand>("处理设置AppSetting命令", LogEnum.DevConsole,
                 action: message => {
                     if (message.AppSetting == null) {
                         return;
