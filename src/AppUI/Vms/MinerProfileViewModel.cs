@@ -18,34 +18,18 @@ namespace NTMiner.Vms {
             NTMinerRoot.Current.OnReRendContext += () => {
                 OnPropertyChanged(nameof(CoinVm));
             };
-            VirtualRoot.Accept<RefreshAutoBootStartCommand>(
-                "刷新开机自动启动和启动后自动开始挖矿的展示",
-                LogEnum.Console,
+            VirtualRoot.Window<RefreshAutoBootStartCommand>("刷新开机自动启动和启动后自动开始挖矿的展示", LogEnum.UserConsole,
                 action: message => {
                     OnPropertyChanged(nameof(IsAutoBoot));
                     OnPropertyChanged(nameof(IsAutoStart));
                 });
-            VirtualRoot.On<MinerProfilePropertyChangedEvent>(
-                "MinerProfile设置变更后刷新VM内存",
-                LogEnum.Console,
+            VirtualRoot.On<MinerProfilePropertyChangedEvent>("MinerProfile设置变更后刷新VM内存", LogEnum.DevConsole,
                 action: message => {
                     OnPropertyChanged(message.PropertyName);
                 });
-            VirtualRoot.On<MineWorkPropertyChangedEvent>(
-                "MineWork设置变更后刷新VM内存",
-                LogEnum.Console,
+            VirtualRoot.On<MineWorkPropertyChangedEvent>("MineWork设置变更后刷新VM内存", LogEnum.DevConsole,
                 action: message => {
                     OnPropertyChanged(message.PropertyName);
-                });
-
-            VirtualRoot.On<GpuProfileSetRefreshedEvent>(
-                "Gpu超频集合刷新后刷新附着在当前币种上的超频数据",
-                LogEnum.Console,
-                action: message => {
-                    CoinVm.OnPropertyChanged(nameof(CoinVm.GpuAllProfileVm));
-                    CoinVm.OnPropertyChanged(nameof(CoinVm.GpuProfileVms));
-                    CoinVm.OnPropertyChanged(nameof(CoinVm.IsOverClockEnabled));
-                    CoinVm.OnPropertyChanged(nameof(CoinVm.IsOverClockGpuAll));
                 });
 
             NTMinerRoot.Current.OnReRendMinerProfile += () => {
@@ -77,7 +61,7 @@ namespace NTMiner.Vms {
 
         public bool IsFreeClient {
             get {
-                return MineWork == null || VirtualRoot.IsControlCenter;
+                return MineWork == null || VirtualRoot.IsMinerStudio;
             }
         }
 
@@ -274,7 +258,7 @@ namespace NTMiner.Vms {
 
         public bool IsWorker {
             get {
-                return MineWork != null && !VirtualRoot.IsControlCenter;
+                return MineWork != null && !VirtualRoot.IsMinerStudio;
             }
         }
     }

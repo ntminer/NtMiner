@@ -22,15 +22,12 @@ namespace NTMiner.Vms {
         }
 
         private void Init() {
-            VirtualRoot.On<KernelOutputFilterAddedEvent>(
-                "添加了内核输出过滤器后刷新VM内存",
-                LogEnum.Console,
+            VirtualRoot.On<KernelOutputFilterAddedEvent>("添加了内核输出过滤器后刷新VM内存", LogEnum.DevConsole,
                 action: message => {
                     if (!_dicById.ContainsKey(message.Source.GetId())) {
                         KernelOutputFilterViewModel vm = new KernelOutputFilterViewModel(message.Source);
                         _dicById.Add(vm.Id, vm);
-                        KernelOutputViewModel kernelOutputVm;
-                        if (KernelOutputViewModels.Current.TryGetKernelOutputVm(vm.KernelOutputId, out kernelOutputVm)) {
+                        if (KernelOutputViewModels.Current.TryGetKernelOutputVm(vm.KernelOutputId, out KernelOutputViewModel kernelOutputVm)) {
                             if (!_dicByKernelOutputId.ContainsKey(vm.KernelOutputId)) {
                                 _dicByKernelOutputId.Add(vm.KernelOutputId, new List<KernelOutputFilterViewModel>());
                             }
@@ -39,21 +36,15 @@ namespace NTMiner.Vms {
                         }
                     }
                 }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
-            VirtualRoot.On<KernelOutputFilterUpdatedEvent>(
-                "更新了内核输出过滤器后刷新VM内存",
-                LogEnum.Console,
+            VirtualRoot.On<KernelOutputFilterUpdatedEvent>("更新了内核输出过滤器后刷新VM内存", LogEnum.DevConsole,
                 action: message => {
-                    KernelOutputFilterViewModel vm;
-                    if (_dicById.TryGetValue(message.Source.GetId(), out vm)) {
+                    if (_dicById.TryGetValue(message.Source.GetId(), out KernelOutputFilterViewModel vm)) {
                         vm.Update(message.Source);
                     }
                 }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
-            VirtualRoot.On<KernelOutputFilterRemovedEvent>(
-                "删除了内核输出过滤器后刷新VM内存",
-                LogEnum.Console,
+            VirtualRoot.On<KernelOutputFilterRemovedEvent>("删除了内核输出过滤器后刷新VM内存", LogEnum.DevConsole,
                 action: message => {
-                    KernelOutputFilterViewModel vm;
-                    if (_dicById.TryGetValue(message.Source.GetId(), out vm)) {
+                    if (_dicById.TryGetValue(message.Source.GetId(), out KernelOutputFilterViewModel vm)) {
                         _dicById.Remove(vm.Id);
                         _dicByKernelOutputId[vm.KernelOutputId].Remove(vm);
                         KernelOutputViewModel kernelOutputVm;

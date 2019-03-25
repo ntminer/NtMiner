@@ -85,7 +85,7 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\ClientAppSelfHost\HttpServer.cs">
+    <Compile Include="..\MinerClientSelfHost\HttpServer.cs">
       <Link>HttpServer.cs</Link>
     </Compile>
     <Compile Include="..\NTMinerDaemon\ExtendedNotifyIcon.cs">

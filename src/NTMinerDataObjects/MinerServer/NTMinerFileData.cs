@@ -13,6 +13,8 @@ namespace NTMiner.MinerServer {
 
         public Guid Id { get; set; }
 
+        public NTMinerAppType AppType { get; set; }
+
         public string FileName { get; set; }
 
         public string Version { get; set; }

@@ -354,72 +354,20 @@
 			</DataGrid.Columns>
 		</DataGrid>
 		<TextBlock Visibility="{Binding QueryResults, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{DynamicResource TbNoRecord}"></TextBlock>
-		<WrapPanel Grid.Row="1" HorizontalAlignment="Right" Visibility="{Binding IsPageNumbersEmpty,Converter={StaticResource BoolToVisibilityInvertConverter}}">
-			<Button x:Name="ButtonLeft" IsEnabled="{Binding CanPageSub}" Command="{Binding PageSub}">
-				<Button.Template>
-					<ControlTemplate>
-						<Border 
-							x:Name="Content"
-							BorderThickness="1"
-							Background="Transparent">
-							<Path
-								x:Name="Icon"
-								Width="22"
-								Height="22"
-								Data="{StaticResource Icon_Page-}"
-								Fill="#676767"
-								Stretch="Fill">
-							</Path>
-						</Border>
-						<ControlTemplate.Triggers>
-							<Trigger Property="IsEnabled" Value="False">
-								<Setter Property="Opacity" Value="0.5"></Setter>
-							</Trigger>
-							<Trigger Property="IsMouseOver" Value="true">
-								<Setter TargetName="Icon" Property="Fill" Value="#2DA4FF"/>
-							</Trigger>
-						</ControlTemplate.Triggers>
-					</ControlTemplate>
-				</Button.Template>
-			</Button>
+		<Grid Grid.Row="1">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*"></ColumnDefinition>
+				<ColumnDefinition Width="Auto"></ColumnDefinition>
+			</Grid.ColumnDefinitions>
 			<ListBox 
-				Margin="4"
-				Background="Transparent"
-				ItemsSource="{Binding PageNumbers}"
-				SelectedItem="{Binding PageNumber}"
+				VerticalAlignment="Center"
+				Background="Transparent"				
+				ItemsSource="{Binding SysDicItemVms.KernelBrandItems}"
+				SelectedItem="{Binding BrandItem}"
+				ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+				ScrollViewer.VerticalScrollBarVisibility="Disabled"
+				ItemContainerStyle="{StaticResource ListBoxBarItem}"
 				BorderThickness="0">
-				<ListBox.ItemContainerStyle>
-					<Style TargetType="ListBoxItem">
-						<Setter Property="Template">
-							<Setter.Value>
-								<ControlTemplate TargetType="ListBoxItem">
-									<Border 
-										BorderThickness="1"
-										BorderBrush="{StaticResource LineColor}"
-										Margin="4 0"
-										Background="{TemplateBinding Background}" 
-										Width="24" 
-										Height="24" 
-										CornerRadius="12">
-										<ContentPresenter 
-											HorizontalAlignment="Center"
-											VerticalAlignment="Center"
-											TextBlock.Foreground="{TemplateBinding Foreground}"/>
-									</Border>
-								</ControlTemplate>
-							</Setter.Value>
-						</Setter>
-						<Style.Triggers>
-							<Trigger Property="IsSelected" Value="true">
-								<Setter Property="Background" Value="#2DA4FF"/>
-								<Setter Property="Foreground" Value="White"/>
-							</Trigger>
-							<Trigger Property="IsMouseOver" Value="true">
-								<Setter Property="Background" Value="#2DA4FF"/>
-							</Trigger>
-						</Style.Triggers>
-					</Style>
-				</ListBox.ItemContainerStyle>
 				<ListBox.ItemsPanel>
 					<ItemsPanelTemplate>
 						<WrapPanel>
@@ -428,54 +376,132 @@
 				</ListBox.ItemsPanel>
 				<ListBox.ItemTemplate>
 					<DataTemplate>
-						<TextBlock Text="{Binding}"></TextBlock>
+						<TextBlock Padding="10 2" Text="{Binding Value}" ToolTip="{Binding Description}"></TextBlock>
 					</DataTemplate>
 				</ListBox.ItemTemplate>
 			</ListBox>
-			<Button x:Name="ButtonRight" Margin="2 0 0 0" IsEnabled="{Binding CanPageAdd}" Command="{Binding PageAdd}">
-				<Button.Template>
-					<ControlTemplate>
-						<Border 
-							x:Name="Content"
-							BorderThickness="1"
-							Background="Transparent">
-							<Path
-								x:Name="Icon"
-								Width="22"
-								Height="22"
-								Data="{StaticResource Icon_Page+}"
-								Fill="#676767"
-								Stretch="Fill">
-							</Path>
-						</Border>
-						<ControlTemplate.Triggers>
-							<Trigger Property="IsEnabled" Value="False">
-								<Setter Property="Opacity" Value="0.5"></Setter>
-							</Trigger>
-							<Trigger Property="IsMouseOver" Value="true">
-								<Setter TargetName="Icon" Property="Fill" Value="#2DA4FF"/>
-							</Trigger>
-						</ControlTemplate.Triggers>
-					</ControlTemplate>
-				</Button.Template>
-			</Button>
-		</WrapPanel>
-		<controls:KbButton
-			Grid.Row="1"
-			HorizontalAlignment="Left"
-			Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-			ToolTip="{x:Static local:KernelGrid.ViewId}"
-			Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-			CommandParameter="{x:Static local:KernelGrid.ViewId}"
-			Background="Transparent">
-			<WrapPanel>
-				<Path
-					Width="14"
-					Height="14"
-					Data="{StaticResource Icon_Translate}"
-					Fill="{StaticResource ThemeBackground}"
-					Stretch="Fill" />
+			<WrapPanel Grid.Column="1" HorizontalAlignment="Right" Visibility="{Binding IsPageNumbersEmpty,Converter={StaticResource BoolToVisibilityInvertConverter}}">
+				<controls:KbButton
+					HorizontalAlignment="Left"
+					Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+					ToolTip="{x:Static local:KernelGrid.ViewId}"
+					Command="{x:Static vm:AppStatic.ShowLangViewItems}"
+					CommandParameter="{x:Static local:KernelGrid.ViewId}"
+					Background="Transparent">
+					<WrapPanel>
+						<Path
+							Width="14"
+							Height="14"
+							Data="{StaticResource Icon_Translate}"
+							Fill="{StaticResource ThemeBackground}"
+							Stretch="Fill" />
+					</WrapPanel>
+				</controls:KbButton>
+				<Button x:Name="ButtonLeft" IsEnabled="{Binding CanPageSub}" Command="{Binding PageSub}">
+					<Button.Template>
+						<ControlTemplate>
+							<Border 
+								x:Name="Content"
+								BorderThickness="1"
+								Background="Transparent">
+								<Path
+									x:Name="Icon"
+									Width="22"
+									Height="22"
+									Data="{StaticResource Icon_Page-}"
+									Fill="#676767"
+									Stretch="Fill">
+								</Path>
+							</Border>
+							<ControlTemplate.Triggers>
+								<Trigger Property="IsEnabled" Value="False">
+									<Setter Property="Opacity" Value="0.5"></Setter>
+								</Trigger>
+								<Trigger Property="IsMouseOver" Value="true">
+									<Setter TargetName="Icon" Property="Fill" Value="#2DA4FF"/>
+								</Trigger>
+							</ControlTemplate.Triggers>
+						</ControlTemplate>
+					</Button.Template>
+				</Button>
+				<ListBox 
+					Margin="4"
+					Background="Transparent"
+					ItemsSource="{Binding PageNumbers}"
+					SelectedItem="{Binding PageNumber}"
+					BorderThickness="0">
+					<ListBox.ItemContainerStyle>
+						<Style TargetType="ListBoxItem">
+							<Setter Property="Template">
+								<Setter.Value>
+									<ControlTemplate TargetType="ListBoxItem">
+										<Border 
+											BorderThickness="1"
+											BorderBrush="{StaticResource LineColor}"
+											Margin="4 0"
+											Background="{TemplateBinding Background}" 
+											Width="24" 
+											Height="24" 
+											CornerRadius="12">
+											<ContentPresenter 
+												HorizontalAlignment="Center"
+												VerticalAlignment="Center"
+												TextBlock.Foreground="{TemplateBinding Foreground}"/>
+										</Border>
+									</ControlTemplate>
+								</Setter.Value>
+							</Setter>
+							<Style.Triggers>
+								<Trigger Property="IsSelected" Value="true">
+									<Setter Property="Background" Value="#2DA4FF"/>
+									<Setter Property="Foreground" Value="White"/>
+								</Trigger>
+								<Trigger Property="IsMouseOver" Value="true">
+									<Setter Property="Background" Value="#2DA4FF"/>
+								</Trigger>
+							</Style.Triggers>
+						</Style>
+					</ListBox.ItemContainerStyle>
+					<ListBox.ItemsPanel>
+						<ItemsPanelTemplate>
+							<WrapPanel>
+							</WrapPanel>
+						</ItemsPanelTemplate>
+					</ListBox.ItemsPanel>
+					<ListBox.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding}"></TextBlock>
+						</DataTemplate>
+					</ListBox.ItemTemplate>
+				</ListBox>
+				<Button x:Name="ButtonRight" Margin="2 0 0 0" IsEnabled="{Binding CanPageAdd}" Command="{Binding PageAdd}">
+					<Button.Template>
+						<ControlTemplate>
+							<Border 
+								x:Name="Content"
+								BorderThickness="1"
+								Background="Transparent">
+								<Path
+									x:Name="Icon"
+									Width="22"
+									Height="22"
+									Data="{StaticResource Icon_Page+}"
+									Fill="#676767"
+									Stretch="Fill">
+								</Path>
+							</Border>
+							<ControlTemplate.Triggers>
+								<Trigger Property="IsEnabled" Value="False">
+									<Setter Property="Opacity" Value="0.5"></Setter>
+								</Trigger>
+								<Trigger Property="IsMouseOver" Value="true">
+									<Setter TargetName="Icon" Property="Fill" Value="#2DA4FF"/>
+								</Trigger>
+							</ControlTemplate.Triggers>
+						</ControlTemplate>
+					</Button.Template>
+				</Button>
 			</WrapPanel>
-		</controls:KbButton>
+		</Grid>
 	</Grid>
 </UserControl>

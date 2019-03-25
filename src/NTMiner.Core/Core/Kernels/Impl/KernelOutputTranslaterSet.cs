@@ -15,9 +15,7 @@ namespace NTMiner.Core.Kernels.Impl {
         public KernelOutputTranslaterSet(INTMinerRoot root, bool isUseJson) {
             _root = root;
             _isUseJson = isUseJson;
-            VirtualRoot.Accept<AddKernelOutputTranslaterCommand>(
-                "添加内核输出翻译器",
-                LogEnum.Console,
+            VirtualRoot.Window<AddKernelOutputTranslaterCommand>("添加内核输出翻译器", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -40,9 +38,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.Happened(new KernelOutputTranslaterAddedEvent(entity));
                 }).AddToCollection(root.ContextHandlers);
-            VirtualRoot.Accept<UpdateKernelOutputTranslaterCommand>(
-                "更新内核输出翻译器",
-                LogEnum.Console,
+            VirtualRoot.Window<UpdateKernelOutputTranslaterCommand>("更新内核输出翻译器", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -73,9 +69,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.Happened(new KernelOutputTranslaterUpdatedEvent(entity));
                 }).AddToCollection(root.ContextHandlers);
-            VirtualRoot.Accept<RemoveKernelOutputTranslaterCommand>(
-                "移除内核输出翻译器",
-                LogEnum.Console,
+            VirtualRoot.Window<RemoveKernelOutputTranslaterCommand>("移除内核输出翻译器", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {
@@ -95,9 +89,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.Happened(new KernelOutputTranslaterRemovedEvent(entity));
                 }).AddToCollection(root.ContextHandlers);
-            VirtualRoot.On<SysDicItemUpdatedEvent>(
-                "LogColor字典项更新后刷新翻译器内存",
-                LogEnum.Console,
+            VirtualRoot.On<SysDicItemUpdatedEvent>("LogColor字典项更新后刷新翻译器内存", LogEnum.DevConsole,
                 action: message => {
                     ISysDic dic;
                     if (!_root.SysDicSet.TryGetSysDic("LogColor", out dic)) {

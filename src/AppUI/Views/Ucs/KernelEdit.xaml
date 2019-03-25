@@ -111,7 +111,7 @@
 								IsEnabled="{x:Static vm:AppStatic.IsDebugMode}"
 								Width="120" 
 								Height="26"
-								ItemsSource="{Binding KernelBrandItems}"
+								ItemsSource="{Binding SysDicItemVms.KernelBrandItems}"
 								DisplayMemberPath="Value" SelectedItem="{Binding BrandItem}">
 							</controls:KbComboBox>
 						</WrapPanel>

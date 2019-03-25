@@ -18,7 +18,7 @@
 			超频
 		</sys:String>
 	</UserControl.Resources>
-	<Grid>
+	<Grid IsEnabled="{Binding CoinVm.IsOverClockEnabled}">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"></RowDefinition>
 			<RowDefinition Height="Auto"></RowDefinition>
@@ -32,11 +32,12 @@
 			<WrapPanel VerticalAlignment="Center">
 				<TextBlock 
 					Visibility="{Binding CoinVm.OverClockDatas,Converter={StaticResource NoRecordInvertVisibilityConverter}}"
-					Style="{StaticResource LblTb}" Width="Auto">推荐</TextBlock>
+					Style="{StaticResource LblTb}" Width="Auto">背包</TextBlock>
 				<TextBlock 
 					Visibility="{Binding CoinVm.OverClockDatas,Converter={StaticResource NoRecordVisibilityConverter}}"
 					Style="{StaticResource LblTb}" Width="Auto">没有推荐</TextBlock>
 				<ItemsControl
+					VerticalAlignment="Center"
 					BorderThickness="0"
 					MouseDown="ItemsControl_MouseDown"
 					ItemsSource="{Binding CoinVm.OverClockDatas}" 
@@ -53,8 +54,10 @@
 						<DataTemplate>
 							<controls:KbButton
 								ToolTip="{Binding Tooltip}"
-								Command="{Binding Data.CoinVm.OverClock,Source={StaticResource proxy}}"
+								Command="{Binding Data.CoinVm.ApplyTemplateOverClock,Source={StaticResource proxy}}"
 								CommandParameter="{Binding}"
+								Background="{StaticResource ThemeBackground}"
+								Foreground="{StaticResource ThemeForeground}"
 								Margin="10 0"
 								Padding="6 2"
 								CornerRadius="2">
@@ -67,19 +70,22 @@
 			<WrapPanel Grid.Column="1">
 				<TextBlock x:Name="TbRedText" Foreground="Red" VerticalAlignment="Center"></TextBlock>
 				<controls:KbButton
-					Height="22"
+					Height="21"
+					Padding="6 2"
+					Margin="10 0"
 					ToolTip="点击应用超频设置"
-					Command="{Binding CoinVm.ApplyOverClock}" 
-					Background="Transparent"
-					Foreground="{StaticResource IconFillColor}"
+					Command="{Binding CoinVm.ApplyCustomOverClock}" 
+					Background="{StaticResource ThemeBackground}"
+					Foreground="{StaticResource ThemeForeground}"
 					CornerRadius="2">
 					<WrapPanel>
 						<Path
-							Width="16"
-							Height="16"
-							Data="{StaticResource Icon_Save}"
-							Fill="{StaticResource IconFillColor}"
+							Width="12"
+							Height="12"
+							Data="{StaticResource Icon_Ok}"
+							Fill="{StaticResource ThemeForeground}"
 							Stretch="Fill" />
+						<TextBlock>应用</TextBlock>
 					</WrapPanel>
 				</controls:KbButton>
 			</WrapPanel>
@@ -104,12 +110,12 @@
 				</WrapPanel>
 				<WrapPanel>
 					<TextBlock Style="{StaticResource LblTb}">功耗</TextBlock>
-					<TextBox VerticalAlignment="Center" ToolTip="50至110" Text="{Binding CoinVm.GpuAllProfileVm.PowerCapacity, ValidatesOnExceptions=True}" Width="50"></TextBox>
+					<TextBox VerticalAlignment="Center" ToolTip="{Binding CoinVm.GpuAllProfileVm.GpuVm.PowerMinMaxText}" Text="{Binding CoinVm.GpuAllProfileVm.PowerCapacity, ValidatesOnExceptions=True}" Width="50"></TextBox>
 					<TextBlock VerticalAlignment="Center">%</TextBlock>
 				</WrapPanel>
 				<WrapPanel>
 					<TextBlock Style="{StaticResource LblTb}">风扇</TextBlock>
-					<TextBox VerticalAlignment="Center" ToolTip="38至100" Text="{Binding CoinVm.GpuAllProfileVm.Cool, ValidatesOnExceptions=True}" Width="50"></TextBox>
+					<TextBox VerticalAlignment="Center" ToolTip="{Binding CoinVm.GpuAllProfileVm.GpuVm.CoolMinMaxText}" Text="{Binding CoinVm.GpuAllProfileVm.Cool, ValidatesOnExceptions=True}" Width="50"></TextBox>
 					<TextBlock VerticalAlignment="Center">%</TextBlock>
 				</WrapPanel>
 			</WrapPanel>
@@ -163,13 +169,13 @@
 									</WrapPanel>
 									<TextBlock Grid.Row="2" Style="{StaticResource LblTb}">功耗</TextBlock>
 									<WrapPanel Grid.Row="2" Grid.Column="1">
-										<TextBox ToolTip="50至110" Text="{Binding PowerCapacity, ValidatesOnExceptions=True}" Width="50"></TextBox>
+										<TextBox ToolTip="{Binding GpuVm.PowerMinMaxText}" Text="{Binding PowerCapacity, ValidatesOnExceptions=True}" Width="50"></TextBox>
 										<TextBlock>%</TextBlock>
 										<TextBlock Margin="4 0 0 0" Text="{Binding GpuVm.PowerUsageWText}"></TextBlock>
 									</WrapPanel>
 									<TextBlock Grid.Row="3" Style="{StaticResource LblTb}">风扇</TextBlock>
 									<WrapPanel Grid.Row="3" Grid.Column="1">
-										<TextBox ToolTip="38至100" Text="{Binding Cool, ValidatesOnExceptions=True}" Width="50"></TextBox>
+										<TextBox ToolTip="{Binding GpuVm.CoolMinMaxText}" Text="{Binding Cool, ValidatesOnExceptions=True}" Width="50"></TextBox>
 										<TextBlock>%</TextBlock>
 										<TextBlock Margin="4 0 0 0" Text="{Binding GpuVm.FanSpeedText}"></TextBlock>
 									</WrapPanel>

@@ -11,6 +11,17 @@ namespace NTMiner.Vms {
             this.CoinId = coinId;
         }
 
+        public void Update(ICoinShare share) {
+            _acceptShareCount = share.AcceptShareCount;
+            _rejectShareCount = share.RejectShareCount;
+            _shareOn = share.ShareOn;
+            OnPropertyChanged(nameof(TotalShareCount));
+            OnPropertyChanged(nameof(RejectPercent));
+            OnPropertyChanged(nameof(RejectPercentText));
+            OnPropertyChanged(nameof(RejectShareCount));
+            OnPropertyChanged(nameof(ShareOn));
+        }
+
         public Guid CoinId { get; private set; }
 
         public int TotalShareCount {

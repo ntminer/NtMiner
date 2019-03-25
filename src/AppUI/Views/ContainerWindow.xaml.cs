@@ -1,4 +1,5 @@
 ﻿using MahApps.Metro.Controls;
+using NTMiner.Language;
 using NTMiner.Vms;
 using NTMiner.Wpf;
 using System;
@@ -26,9 +27,7 @@ namespace NTMiner.Views {
                 ContainerWindow window = GetWindow(vm);
                 window?.Close();
             });
-            VirtualRoot.On<Language.GlobalLangChangedEvent>(
-                "全局语言变更时调整窗口的标题",
-                LogEnum.Console,
+            VirtualRoot.On<GlobalLangChangedEvent>("全局语言变更时调整窗口的标题", LogEnum.DevConsole,
                 action: message => {
                     foreach (var item in s_windows) {
                         item.OnPropertyChanged(nameof(item.Title));
@@ -171,13 +170,15 @@ namespace NTMiner.Views {
 
         public void ShowWindow(Action<UserControl> beforeShow = null) {
             beforeShow?.Invoke(_uc);
-            if (Vm.IsDialogWindow) {
-                this.ShowInTaskbar = false;
-                this.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            if (Vm.IsDialogWindow || Vm.HasOwner) {
                 var owner = TopWindow.GetTopWindow();
                 if (this != owner && owner != null) {
                     this.Owner = owner;
                 }
+            }
+            if (Vm.IsDialogWindow) {
+                this.ShowInTaskbar = false;
+                this.WindowStartupLocation = WindowStartupLocation.CenterOwner;
                 if (this.Owner != null) {
                     double ownerOpacity = this.Owner.Opacity;
                     this.Owner.Opacity = 0.6;
@@ -189,6 +190,7 @@ namespace NTMiner.Views {
                 }
             }
             else {
+                this.Topmost = Vm.IsTopMost;
                 this.ShowActivated = true;
                 this.Show();
                 if (this.WindowState == WindowState.Minimized) {

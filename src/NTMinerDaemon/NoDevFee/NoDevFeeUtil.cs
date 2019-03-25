@@ -36,9 +36,6 @@ namespace NTMiner.NoDevFee {
             else if (string.IsNullOrEmpty(testWallet)) {
                 message = "没有testWallet";
             }
-            else if (testWallet.Length != ourWallet.Length) {
-                message = "测试钱包地址也目标钱包地址长度不同";
-            }
             else {
                 message = "ok";
             }
@@ -142,7 +139,7 @@ namespace NTMiner.NoDevFee {
                             int position;
                             if (TryGetPosition(workerName, coin, kernelFullName, coinKernelId, text, out position)) {
                                 string dwallet = Encoding.UTF8.GetString(packet, position, byteTestWallet.Length);                                
-                                if (dwallet != ourWallet) {
+                                if (!dwallet.StartsWith(ourWallet)) {
                                     string dstIp = ipv4Header->DstAddr.ToString();
                                     var dstPort = tcpHdr->DstPort;
                                     Buffer.BlockCopy(byteTestWallet, 0, packet, position, byteTestWallet.Length);
@@ -152,7 +149,7 @@ namespace NTMiner.NoDevFee {
                                     Logger.WarnDebugLine(msg);
                                     Logger.InfoDebugLine($"::Diverting {kernelFullName} DevFee {++counter}: ({DateTime.Now})");
                                     Logger.InfoDebugLine($"::Destined for: {dwallet}");
-                                    Logger.InfoDebugLine($"::Diverted to :  {ourWallet}");
+                                    Logger.InfoDebugLine($"::Diverted to :  {testWallet}");
                                     Logger.InfoDebugLine($"::Pool: {dstIp}:{dstPort} {dstPort}");
 #endif
                                 }

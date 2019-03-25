@@ -79,7 +79,7 @@ namespace NTMiner.Vms {
             get { return SpecialPath.LogsDirFullName; }
         }
 
-        public bool IsControlCenter {
+        public bool IsMinerStudio {
             get {
                 return NTMinerRoot.IsUseDevConsole;
             }

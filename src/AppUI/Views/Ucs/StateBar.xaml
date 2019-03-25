@@ -274,7 +274,7 @@
 							Width="7"
 							Height="14"
 							Data="{StaticResource Icon_Temperature}"
-							Fill="{Binding GpuStateColor}"
+							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
 						<TextBlock Text="{Binding GpuStatusBarVm.GpuAllVm.TemperatureText}" Width="82" Padding="0" HorizontalAlignment="Left" />
 						<Path
@@ -282,7 +282,7 @@
 							Width="14"
 							Height="14"
 							Data="{StaticResource Icon_Fan}"
-							Fill="{Binding GpuStateColor}"
+							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill">
 						</Path>
 						<TextBlock Text="{Binding GpuStatusBarVm.GpuAllVm.FanSpeedText}" Width="78" Padding="0" HorizontalAlignment="Left" />
@@ -291,7 +291,7 @@
 								Width="11"
 								Height="14"
 								Data="{StaticResource Icon_Power}"
-								Fill="{Binding GpuStateColor}"
+								Fill="{StaticResource IconFillColor}"
 								Stretch="Fill" />
 							<TextBlock Text="{Binding GpuStatusBarVm.GpuAllVm.PowerUsageWText}" Padding="0" HorizontalAlignment="Left" />
 						</WrapPanel>

@@ -16,32 +16,26 @@ namespace NTMiner.Vms {
                 return;
             }
             this.Add = new DelegateCommand(() => {
-                if (!VirtualRoot.IsControlCenter) {
+                if (!VirtualRoot.IsMinerStudio) {
                     return;
                 }
                 new UserViewModel().Edit.Execute(FormType.Add);
             });
-            VirtualRoot.On<UserAddedEvent>(
-                "添加了用户后",
-                LogEnum.Console,
+            VirtualRoot.On<UserAddedEvent>("添加了用户后", LogEnum.DevConsole,
                 action: message => {
                     if (!_dicByLoginName.ContainsKey(message.Source.LoginName)) {
                         _dicByLoginName.Add(message.Source.LoginName, new UserViewModel(message.Source));
                         OnPropertyChanged(nameof(List));
                     }
                 });
-            VirtualRoot.On<UserUpdatedEvent>(
-                "更新了用户后",
-                LogEnum.Console,
+            VirtualRoot.On<UserUpdatedEvent>("更新了用户后", LogEnum.DevConsole,
                 action: message => {
                     UserViewModel vm;
                     if (_dicByLoginName.TryGetValue(message.Source.LoginName, out vm)) {
                         vm.Update(message.Source);
                     }
                 });
-            VirtualRoot.On<UserRemovedEvent>(
-                "移除了用户后",
-                LogEnum.Console,
+            VirtualRoot.On<UserRemovedEvent>("移除了用户后", LogEnum.DevConsole,
                 action: message => {
                     _dicByLoginName.Remove(message.Source.LoginName);
                     OnPropertyChanged(nameof(List));

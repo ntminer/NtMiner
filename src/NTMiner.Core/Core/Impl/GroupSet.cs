@@ -11,9 +11,7 @@ namespace NTMiner.Core.Impl {
         public GroupSet(INTMinerRoot root, bool isUseJson) {
             _isUseJson = isUseJson;
             _root = root;
-            VirtualRoot.Accept<AddGroupCommand>(
-                "添加组",
-                LogEnum.Console,
+            VirtualRoot.Window<AddGroupCommand>("添加组", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -29,9 +27,7 @@ namespace NTMiner.Core.Impl {
 
                     VirtualRoot.Happened(new GroupAddedEvent(entity));
                 }).AddToCollection(root.ContextHandlers);
-            VirtualRoot.Accept<UpdateGroupCommand>(
-                "更新组",
-                LogEnum.Console,
+            VirtualRoot.Window<UpdateGroupCommand>("更新组", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -53,9 +49,7 @@ namespace NTMiner.Core.Impl {
 
                     VirtualRoot.Happened(new GroupUpdatedEvent(entity));
                 }).AddToCollection(root.ContextHandlers);
-            VirtualRoot.Accept<RemoveGroupCommand>(
-                "移除组",
-                LogEnum.Console,
+            VirtualRoot.Window<RemoveGroupCommand>("移除组", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {

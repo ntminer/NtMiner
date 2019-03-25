@@ -21,6 +21,7 @@ namespace NTMiner.Vms {
                 return;
             }
             this.StartMine = new DelegateCommand(() => {
+                this.StateBarVm.IsMining = true;
                 NTMinerRoot.Current.StartMine();
             });
             this.StopMine = new DelegateCommand(() => {
@@ -33,9 +34,7 @@ namespace NTMiner.Vms {
                 }, icon: IconConst.IconConfirm);
             });
             if (DevMode.IsDevMode) {
-                VirtualRoot.On<ServerJsonVersionChangedEvent>(
-                    "在开发者调试区展示ServerJsonVersion",
-                    LogEnum.Console,
+                VirtualRoot.On<ServerJsonVersionChangedEvent>("在开发者调试区展示ServerJsonVersion", LogEnum.DevConsole,
                     action: message => {
                         this.ServerJsonVersion = NTMinerRoot.JsonFileVersion;
                     });

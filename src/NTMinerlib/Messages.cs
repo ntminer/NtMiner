@@ -1,5 +1,6 @@
 ﻿using NTMiner.Bus;
 using System;
+using System.Collections.Generic;
 
 namespace NTMiner {
 
@@ -51,6 +52,17 @@ namespace NTMiner {
         }
 
         public IAppSetting AppSetting {
+            get; private set;
+        }
+    }
+
+    [MessageType(messageType: typeof(ChangeAppSettingsCommand), description: "设置AppSetting")]
+    public class ChangeAppSettingsCommand : Cmd {
+        public ChangeAppSettingsCommand(IEnumerable<IAppSetting> appSettings) {
+            this.AppSettings = appSettings;
+        }
+
+        public IEnumerable<IAppSetting> AppSettings {
             get; private set;
         }
     }

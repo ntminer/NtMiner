@@ -41,6 +41,7 @@ namespace NTMiner.Views.Ucs {
             }
         }
 
+        private readonly List<IDelegateHandler> _handlers = new List<IDelegateHandler>();
         private readonly Dictionary<SpeedChartViewModel, CartesianChart> _chartDic = new Dictionary<SpeedChartViewModel, CartesianChart>();
         public SpeedCharts() {
             InitializeComponent();
@@ -50,9 +51,7 @@ namespace NTMiner.Views.Ucs {
                 return;
             }
             Guid mainCoinId = NTMinerRoot.Current.MinerProfile.CoinId;
-            DelegateHandler<GpuSpeedChangedEvent> gpuSpeedChangedEventHandler = VirtualRoot.On<GpuSpeedChangedEvent>(
-                "显卡算力变更后刷新算力图界面",
-                LogEnum.Console,
+            VirtualRoot.On<GpuSpeedChangedEvent>("显卡算力变更后刷新算力图界面", LogEnum.DevConsole,
                 action: (message) => {
                     UIThread.Execute(() => {
                         if (mainCoinId != NTMinerRoot.Current.MinerProfile.CoinId) {
@@ -115,11 +114,13 @@ namespace NTMiner.Views.Ucs {
                             speedChartVm.SetAxisLimits(now);
                         }
                     });
-                });
+                }).AddToCollection(_handlers);
 
             Vm.ItemsPanelColumns = 1;
             this.Unloaded += (object sender, RoutedEventArgs e) => {
-                VirtualRoot.UnPath(gpuSpeedChangedEventHandler);
+                foreach (var handler in _handlers) {
+                    VirtualRoot.UnPath(handler);
+                }
                 foreach (var item in Vm.SpeedChartVms) {
                     item.Series = null;
                     item.SeriesShadow = null;

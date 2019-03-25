@@ -49,36 +49,36 @@ namespace NTMiner.Controllers {
         [HttpPost]
         public ResponseBase AddOrUpdateNTMinerFile([FromBody]DataRequest<NTMinerFileData> request) {
             if (request == null || request.Data == null) {
-                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
+                return ResponseBase.InvalidInput("参数错误");
             }
             try {
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 HostRoot.Current.NTMinerFileSet.AddOrUpdate(request.Data);
-                return ResponseBase.Ok(request.MessageId);
+                return ResponseBase.Ok();
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
-                return ResponseBase.ServerError(request.MessageId, e.Message);
+                return ResponseBase.ServerError(e.Message);
             }
         }
 
         [HttpPost]
         public ResponseBase RemoveNTMinerFile([FromBody]DataRequest<Guid> request) {
             if (request == null) {
-                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
+                return ResponseBase.InvalidInput("参数错误");
             }
             try {
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 HostRoot.Current.NTMinerFileSet.Remove(request.Data);
-                return ResponseBase.Ok(request.MessageId);
+                return ResponseBase.Ok();
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
-                return ResponseBase.ServerError(request.MessageId, e.Message);
+                return ResponseBase.ServerError(e.Message);
             }
         }
 

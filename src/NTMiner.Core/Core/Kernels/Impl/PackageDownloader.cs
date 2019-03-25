@@ -41,7 +41,6 @@ namespace NTMiner.Core.Kernels.Impl {
                         if (e.Cancelled) {
                             message = "下载取消";
                         }
-                        string etag = webClient.ResponseHeaders.Get("ETag").Trim('"');
                         downloadComplete?.Invoke(isSuccess, message, saveFileFullName);
                     });
                 };

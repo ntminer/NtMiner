@@ -20,7 +20,7 @@ namespace NTMiner.Core.Profiles {
             return new GpuProfilesJsonDb();
         }
 
-        public GpuData[] CreateGpus() {
+        private GpuData[] CreateGpus() {
             List<GpuData> list = new List<GpuData>();
             foreach (var gpu in NTMinerRoot.Current.GpuSet) {
                 list.Add(new GpuData {
@@ -43,9 +43,7 @@ namespace NTMiner.Core.Profiles {
         }
 
         public void Register(INTMinerRoot root) {
-            VirtualRoot.Accept<AddOrUpdateGpuProfileCommand>(
-                "处理添加或更新Gpu超频数据命令",
-                LogEnum.Console,
+            VirtualRoot.Window<AddOrUpdateGpuProfileCommand>("处理添加或更新Gpu超频数据命令", LogEnum.DevConsole,
                 action: message => {
                     GpuProfileData data = _data.GpuProfiles.FirstOrDefault(a => a.CoinId == message.Input.CoinId && a.Index == message.Input.Index);
                     if (data != null) {
@@ -59,17 +57,13 @@ namespace NTMiner.Core.Profiles {
                     }
                     VirtualRoot.Happened(new GpuProfileAddedOrUpdatedEvent(data));
                 });
-            VirtualRoot.Accept<OverClockCommand>(
-                "处理超频命令",
-                LogEnum.Console,
+            VirtualRoot.Window<OverClockCommand>("处理超频命令", LogEnum.DevConsole,
                 action: message => {
                     if (root.GpuSet.TryGetGpu(message.Input.Index, out IGpu gpu)) {
                         message.Input.OverClock(gpu.OverClock);
                     }
                 });
-            VirtualRoot.Accept<CoinOverClockCommand>(
-                "处理币种超频命令",
-                LogEnum.Console,
+            VirtualRoot.Window<CoinOverClockCommand>("处理币种超频命令", LogEnum.DevConsole,
                 action: message => {
                     if (IsOverClockGpuAll(message.CoinId)) {
                         GpuProfileData overClockData = _data.GpuProfiles.FirstOrDefault(a => a.CoinId == message.CoinId && a.Index == NTMinerRoot.GpuAllId);
@@ -88,7 +82,6 @@ namespace NTMiner.Core.Profiles {
         }
 
         private void Save() {
-            Data.GpuType = NTMinerRoot.Current.GpuSet.GpuType;
             Data.Gpus = CreateGpus();
             string json = VirtualRoot.JsonSerializer.Serialize(Data);
             SpecialPath.WriteGpuProfilesJsonFile(json);

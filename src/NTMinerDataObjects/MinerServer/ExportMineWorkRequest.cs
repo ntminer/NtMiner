@@ -21,8 +21,7 @@ namespace NTMiner.MinerServer {
 
         public StringBuilder GetSignData() {
             StringBuilder sb = new StringBuilder();
-            sb.Append(nameof(MessageId)).Append(MessageId)
-                .Append(nameof(LoginName)).Append(LoginName)
+            sb.Append(nameof(LoginName)).Append(LoginName)
                 .Append(nameof(MineWorkId)).Append(MineWorkId)
                 .Append(nameof(LocalJson)).Append(LocalJson)
                 .Append(nameof(ServerJson)).Append(ServerJson)

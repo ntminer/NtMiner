@@ -71,6 +71,27 @@ namespace NTMiner.Vms {
             }
         }
 
+        private SysDicItemViewModel _brandItem = SysDicItemViewModel.PleaseSelect;
+        public SysDicItemViewModel BrandItem {
+            get {
+                return _brandItem;
+            }
+            set {
+                if (value == null) {
+                    value = SysDicItemViewModel.PleaseSelect;
+                }
+                _brandItem = value;
+                OnPropertyChanged(nameof(BrandItem));
+                this.PageNumber = 1;
+            }
+        }
+
+        public SysDicItemViewModels SysDicItemVms {
+            get {
+                return SysDicItemViewModels.Current;
+            }
+        }
+
         public bool CanPageSub {
             get {
                 return PageNumber != 1;
@@ -186,6 +207,9 @@ namespace NTMiner.Vms {
                 }
                 if (SelectedCoinVm != null && SelectedCoinVm != CoinViewModel.PleaseSelect) {
                     query = query.Where(a => a.SupportedCoinVms.Contains(SelectedCoinVm));
+                }
+                if (BrandItem != null && BrandItem != SysDicItemViewModel.PleaseSelect) {
+                    query = query.Where(a => a.BrandItem == BrandItem);
                 }
                 if (CurrentKernelMenu == _uninstallKernelMenu) {
                     query = query.Where(a => a.KernelProfileVm.InstallStatus == InstallStatus.Installed);

@@ -1,7 +1,6 @@
 ﻿using NTMiner.Views.Ucs;
 using System;
 using System.Windows.Input;
-using System.Windows.Media;
 
 namespace NTMiner.Vms {
     public class StateBarViewModel : ViewModelBase {
@@ -10,6 +9,7 @@ namespace NTMiner.Vms {
         private TimeSpan _mineTimeSpan = TimeSpan.Zero;
         private TimeSpan _bootTimeSpan = TimeSpan.Zero;
         private bool _isShovelEmpty = true;
+        private bool _isMining;
 
         public ICommand ConfigControlCenterHost { get; private set; }
 
@@ -17,9 +17,7 @@ namespace NTMiner.Vms {
             this.ConfigControlCenterHost = new DelegateCommand(() => {
                 ControlCenterHostConfig.ShowWindow();
             });
-            VirtualRoot.On<Per1SecondEvent>(
-                "挖矿计时秒表，周期性挥动铲子表示在挖矿中",
-                LogEnum.None,
+            VirtualRoot.On<Per1SecondEvent>("挖矿计时秒表，周期性挥动铲子表示在挖矿中", LogEnum.None,
                 action: message => {
                     DateTime now = DateTime.Now;
                     this.BootTimeSpan = now - NTMinerRoot.Current.CreatedOn;
@@ -33,19 +31,13 @@ namespace NTMiner.Vms {
                         IsShovelEmpty = !IsShovelEmpty;
                     }
                 });
-            VirtualRoot.On<MineStartedEvent>(
-                "挖矿开始后将风扇转起来",
-                LogEnum.Console,
+            VirtualRoot.On<MineStartedEvent>("挖矿开始后将风扇转起来", LogEnum.DevConsole,
                 action: message => {
-                    this.OnPropertyChanged(nameof(this.IsMining));
-                    OnPropertyChanged(nameof(GpuStateColor));
+                    this.IsMining = true;
                 });
-            VirtualRoot.On<MineStopedEvent>(
-                "挖矿停止后将风扇停转",
-                LogEnum.Console,
+            VirtualRoot.On<MineStopedEvent>("挖矿停止后将风扇停转", LogEnum.DevConsole,
                 action: message => {
-                    this.OnPropertyChanged(nameof(this.IsMining));
-                    OnPropertyChanged(nameof(GpuStateColor));
+                    this.IsMining = false;
                 });
         }
 
@@ -60,25 +52,16 @@ namespace NTMiner.Vms {
         }
 
         public bool IsMining {
-            get {
-                return NTMinerRoot.Current.IsMining;
+            get => _isMining;
+            set {
+                _isMining = value;
+                OnPropertyChanged(nameof(IsMining));
             }
         }
 
         public GpuSpeedViewModels GpuSpeedVms {
             get {
                 return GpuSpeedViewModels.Current;
-            }
-        }
-
-        private static readonly SolidColorBrush s_gray = new SolidColorBrush(Colors.Gray);
-        private static readonly SolidColorBrush s_miningColor = (SolidColorBrush)System.Windows.Application.Current.Resources["IconFillColor"];
-        public SolidColorBrush GpuStateColor {
-            get {
-                if (NTMinerRoot.Current.IsMining) {
-                    return s_miningColor;
-                }
-                return s_gray;
             }
         }
 

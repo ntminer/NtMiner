@@ -10,8 +10,8 @@ namespace NTMiner.MinerClient {
             this.Index = index;
             this.CoreClockDelta = 0;
             this.MemoryClockDelta = 0;
-            this.PowerCapacity = 0;
-            this.Cool = 0;
+            this.PowerCapacity = 100;
+            this.Cool = 90;
         }
 
         public GpuProfileData(IGpuProfile data) {

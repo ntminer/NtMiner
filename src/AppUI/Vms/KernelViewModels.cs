@@ -21,9 +21,7 @@ namespace NTMiner.Vms {
         }
 
         private void Init() {
-            VirtualRoot.On<KernelAddedEvent>(
-                "添加了内核后调整VM内存",
-                LogEnum.Console,
+            VirtualRoot.On<KernelAddedEvent>("添加了内核后调整VM内存", LogEnum.DevConsole,
                 action: (message) => {
                     _dicById.Add(message.Source.GetId(), new KernelViewModel(message.Source));
                     OnPropertyChanged(nameof(AllKernels));
@@ -32,9 +30,7 @@ namespace NTMiner.Vms {
                         coinKernelVm.OnPropertyChanged(nameof(coinKernelVm.IsSupportDualMine));
                     }
                 }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
-            VirtualRoot.On<KernelRemovedEvent>(
-                "删除了内核后调整VM内存",
-                LogEnum.Console,
+            VirtualRoot.On<KernelRemovedEvent>("删除了内核后调整VM内存", LogEnum.DevConsole,
                 action: message => {
                     _dicById.Remove(message.Source.GetId());
                     OnPropertyChanged(nameof(AllKernels));
@@ -43,9 +39,7 @@ namespace NTMiner.Vms {
                         coinKernelVm.OnPropertyChanged(nameof(coinKernelVm.IsSupportDualMine));
                     }
                 }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
-            VirtualRoot.On<KernelUpdatedEvent>(
-                "更新了内核后调整VM内存",
-                LogEnum.Console,
+            VirtualRoot.On<KernelUpdatedEvent>("更新了内核后调整VM内存", LogEnum.DevConsole,
                 action: message => {
                     var entity = _dicById[message.Source.GetId()];
                     PublishStatus publishStatus = entity.PublishState;

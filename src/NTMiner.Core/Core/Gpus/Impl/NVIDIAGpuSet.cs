@@ -36,7 +36,7 @@ namespace NTMiner.Core.Gpus.Impl {
             this.Properties = new List<GpuSetProperty>();
         }
 
-        private uint deviceCount = 0;
+        private readonly uint deviceCount = 0;
         public NVIDIAGpuSet(INTMinerRoot root) : this() {
             _root = root;
             if (Design.IsInDesignMode) {
@@ -50,9 +50,8 @@ namespace NTMiner.Core.Gpus.Impl {
                 for (int i = 0; i < deviceCount; i++) {
                     nvmlDevice nvmlDevice = new nvmlDevice();
                     NvmlNativeMethods.nvmlDeviceGetHandleByIndex((uint)i, ref nvmlDevice);
-                    string name;
                     uint gClock = 0, mClock = 0;
-                    NvmlNativeMethods.nvmlDeviceGetName(nvmlDevice, out name);
+                    NvmlNativeMethods.nvmlDeviceGetName(nvmlDevice, out string name);
                     NvmlNativeMethods.nvmlDeviceGetMaxClockInfo(nvmlDevice, nvmlClockType.Graphics, ref gClock);
                     NvmlNativeMethods.nvmlDeviceGetMaxClockInfo(nvmlDevice, nvmlClockType.Mem, ref mClock);
                     if (!string.IsNullOrEmpty(name)) {
@@ -69,10 +68,8 @@ namespace NTMiner.Core.Gpus.Impl {
                     _gpus.Add(i, gpu);
                 }
                 if (deviceCount > 0) {
-                    string driverVersion;
-                    NvmlNativeMethods.nvmlSystemGetDriverVersion(out driverVersion);
-                    string nvmlVersion;
-                    NvmlNativeMethods.nvmlSystemGetNVMLVersion(out nvmlVersion);
+                    NvmlNativeMethods.nvmlSystemGetDriverVersion(out string driverVersion);
+                    NvmlNativeMethods.nvmlSystemGetNVMLVersion(out string nvmlVersion);
                     this.Properties.Add(new GpuSetProperty("DriverVersion", "driver version", driverVersion));
                     this.Properties.Add(new GpuSetProperty("NVMLVersion", "NVML version", nvmlVersion));
                     Dictionary<string, string> kvs = new Dictionary<string, string> {
@@ -93,19 +90,13 @@ namespace NTMiner.Core.Gpus.Impl {
                     });
                 }
             }
-            VirtualRoot.On<Per5SecondEvent>(
-                "周期刷新显卡状态",
-                LogEnum.None,
-                action: message => {
-                    LoadGpuStateAsync();
-                });
         }
 
         ~NVIDIAGpuSet() {
             NvmlNativeMethods.nvmlShutdown();
         }
 
-        private void LoadGpuStateAsync() {
+        public void LoadGpuState() {
             for (int i = 0; i < deviceCount; i++) {
                 nvmlDevice nvmlDevice = new nvmlDevice();
                 NvmlNativeMethods.nvmlDeviceGetHandleByIndex((uint)i, ref nvmlDevice);

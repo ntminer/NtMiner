@@ -54,7 +54,7 @@ namespace NTMiner {
                 });
                 GpuProfileSet.Instance.Register(this);
                 bool isWork = Environment.GetCommandLineArgs().Contains("--work", StringComparer.OrdinalIgnoreCase);
-                if (DevMode.IsDebugMode && !VirtualRoot.IsControlCenter && !isWork) {
+                if (DevMode.IsDebugMode && !VirtualRoot.IsMinerStudio && !isWork) {
                     DoInit(isWork, callback);
                     return;
                 }
@@ -145,6 +145,12 @@ namespace NTMiner {
                 mineWorkData = LocalJson.MineWork;
             }
             this._minerProfile = new MinerProfile(this, mineWorkData);
+
+            NTMinerRegistry.SetLocation(ClientId.AppFileFullName);
+            NTMinerRegistry.SetArguments(string.Join(" ", CommandLineArgs.Args));
+            NTMinerRegistry.SetCurrentVersion(CurrentVersion.ToString());
+            NTMinerRegistry.SetCurrentVersionTag(CurrentVersionTag);
+
             callback?.Invoke();
         }
 
@@ -165,7 +171,7 @@ namespace NTMiner {
         }
 
         private void ContextInit(bool isWork) {
-            bool isUseJson = !DevMode.IsDebugMode || VirtualRoot.IsControlCenter || isWork;
+            bool isUseJson = !DevMode.IsDebugMode || VirtualRoot.IsMinerStudio || isWork;
             this.SysDicSet = new SysDicSet(this, isUseJson);
             this.SysDicItemSet = new SysDicItemSet(this, isUseJson);
             this.CoinSet = new CoinSet(this, isUseJson);
@@ -201,19 +207,13 @@ namespace NTMiner {
                     Logger.WarnDebugLine($"本机时间和服务器时间不同步，请调整，本地：{DateTime.Now}，服务器：{remoteTime}");
                 }
             });
-            NTMinerRegistry.SetLocation(ClientId.AppFileFullName);
-            NTMinerRegistry.SetArguments(string.Join(" ", CommandLineArgs.Args));
-            NTMinerRegistry.SetCurrentVersion(CurrentVersion.ToString());
-            NTMinerRegistry.SetCurrentVersionTag(CurrentVersionTag);
 
             Report.Init(this);
 
             #region 挖矿开始时将无份额内核重启份额计数置0
             int shareCount = 0;
             DateTime shareOn = DateTime.Now;
-            VirtualRoot.On<MineStartedEvent>(
-                "挖矿开始后将无份额内核重启份额计数置0，应用超频，启动NoDevFee，启动DevConsole，清理除当前外的Temp/Kernel",
-                LogEnum.Console,
+            VirtualRoot.On<MineStartedEvent>("挖矿开始后将无份额内核重启份额计数置0，应用超频，启动NoDevFee，启动DevConsole，清理除当前外的Temp/Kernel", LogEnum.DevConsole,
                 action: message => {
                     // 将无份额内核重启份额计数置0
                     shareCount = 0;
@@ -228,17 +228,7 @@ namespace NTMiner {
                             Logger.ErrorDebugLine(e.Message, e);
                         }
                     });
-                    // 启动NoDevFee
-                    var context = CurrentMineContext;
-                    StartNoDevFeeRequest request = new StartNoDevFeeRequest {
-                        ContextId = context.Id.GetHashCode(),
-                        MinerName = context.MinerName,
-                        Coin = context.MainCoin.Code,
-                        OurWallet = context.MainCoinWallet,
-                        TestWallet = context.MainCoin.TestWallet,
-                        KernelName = context.Kernel.GetFullName()
-                    };
-                    Client.NTMinerDaemonService.StartNoDevFeeAsync(request, callback: null);
+                    StartNoDevFeeAsync();
                     // 启动DevConsole
                     if (IsUseDevConsole) {
                         string poolIp = CurrentMineContext.MainCoinPool.GetIp();
@@ -250,9 +240,7 @@ namespace NTMiner {
                 });
             #endregion
             #region 每10秒钟检查是否需要重启
-            VirtualRoot.On<Per10SecondEvent>(
-                "每10秒钟检查是否需要重启",
-                LogEnum.None,
+            VirtualRoot.On<Per10SecondEvent>("每10秒钟检查是否需要重启", LogEnum.None,
                 action: message => {
                     #region 重启电脑
                     try {
@@ -314,9 +302,7 @@ namespace NTMiner {
                 });
             #endregion
             #region 每50分钟执行一次过期日志清理工作
-            VirtualRoot.On<Per50MinuteEvent>(
-                "每50分钟执行一次过期日志清理工作",
-                LogEnum.Console,
+            VirtualRoot.On<Per50MinuteEvent>("每50分钟执行一次过期日志清理工作", LogEnum.DevConsole,
                 action: message => {
                     Cleaner.ClearKernelLogs();
                     Cleaner.ClearRootLogs();
@@ -324,38 +310,23 @@ namespace NTMiner {
                 });
             #endregion
             #region 停止挖矿后停止NoDevFee
-            VirtualRoot.On<MineStopedEvent>(
-                "停止挖矿后停止NoDevFee",
-                LogEnum.Console,
+            VirtualRoot.On<MineStopedEvent>("停止挖矿后停止NoDevFee", LogEnum.DevConsole,
                  action: message => {
                      Client.NTMinerDaemonService.StopNoDevFeeAsync(callback: null);
                  });
             #endregion
             #region 周期确保守护进程在运行
-            Daemon.DaemonUtil.RunNTMinerDaemon();
-            VirtualRoot.On<Per20SecondEvent>(
-                    "周期确保守护进程在运行",
-                    LogEnum.None,
-                    action: message => {
-                        Daemon.DaemonUtil.RunNTMinerDaemon();
-                        if (IsMining) {
-                            var context = CurrentMineContext;
-                            StartNoDevFeeRequest request = new StartNoDevFeeRequest {
-                                ContextId = context.Id.GetHashCode(),
-                                MinerName = context.MinerName,
-                                Coin = context.MainCoin.Code,
-                                OurWallet = context.MainCoinWallet,
-                                TestWallet = context.MainCoin.TestWallet,
-                                KernelName = context.Kernel.GetFullName()
-                            };
-                            Client.NTMinerDaemonService.StartNoDevFeeAsync(request, callback: null);
-                        }
-                    });
+            DaemonUtil.RunNTMinerDaemon();
+            VirtualRoot.On<Per20SecondEvent>("周期确保守护进程在运行", LogEnum.None,
+                action: message => {
+                    DaemonUtil.RunNTMinerDaemon();
+                    if (IsMining) {
+                        StartNoDevFeeAsync();
+                    }
+                });
             #endregion
             #region 发生了用户活动时检查serverJson是否有新版本
-            VirtualRoot.On<UserActionEvent>(
-                    "发生了用户活动时检查serverJson是否有新版本",
-                    LogEnum.Console,
+            VirtualRoot.On<UserActionEvent>("发生了用户活动时检查serverJson是否有新版本", LogEnum.DevConsole,
                     action: message => {
                         OfficialServer.GetJsonFileVersionAsync(AssemblyInfo.ServerJsonFileName, (jsonFileVersion) => {
                             if (!string.IsNullOrEmpty(jsonFileVersion) && JsonFileVersion != jsonFileVersion) {
@@ -364,7 +335,7 @@ namespace NTMiner {
                                     string rawJson = Encoding.UTF8.GetString(data);
                                     SpecialPath.WriteServerJsonFile(rawJson);
                                     ReInitServerJson();
-                                    bool isUseJson = !DevMode.IsDebugMode || VirtualRoot.IsControlCenter;
+                                    bool isUseJson = !DevMode.IsDebugMode || VirtualRoot.IsMinerStudio;
                                     if (isUseJson) {
                                         // 作业模式下界面是禁用的，所以这里的初始化isWork必然是false
                                         ContextReInit(isWork: false);
@@ -399,6 +370,21 @@ namespace NTMiner {
             if ((NTMinerRegistry.GetIsAutoStart() || CommandLineArgs.IsAutoStart) && !IsMining) {
                 StartMine();
             }
+        }
+
+        private void StartNoDevFeeAsync() {
+            var context = CurrentMineContext;
+            string testWallet = context.MainCoin.TestWallet;
+            string kernelName = context.Kernel.GetFullName();
+            StartNoDevFeeRequest request = new StartNoDevFeeRequest {
+                ContextId = context.Id.GetHashCode(),
+                MinerName = context.MinerName,
+                Coin = context.MainCoin.Code,
+                OurWallet = context.MainCoinWallet,
+                TestWallet = testWallet,
+                KernelName = kernelName
+            };
+            Client.NTMinerDaemonService.StartNoDevFeeAsync(request, callback: null);
         }
         #endregion
 
@@ -649,7 +635,7 @@ namespace NTMiner {
         public IGpuSet GpuSet {
             get {
                 if (_gpuSet == null) {
-                    if (VirtualRoot.IsControlCenter) {
+                    if (VirtualRoot.IsMinerStudio) {
                         _gpuSet = EmptyGpuSet.Instance;
                     }
                     else {
@@ -669,10 +655,14 @@ namespace NTMiner {
                                 Logger.ErrorDebugLine(ex);
                             }
                         }
-                        if (_gpuSet == null) {
-                            _gpuSet = EmptyGpuSet.Instance;
-                        }
                     }
+                    if (_gpuSet == null) {
+                        _gpuSet = EmptyGpuSet.Instance;
+                    }
+                    VirtualRoot.On<Per5SecondEvent>("周期刷新显卡状态", LogEnum.None,
+                        action: message => {
+                            _gpuSet.LoadGpuState();
+                        });
                 }
                 return _gpuSet;
             }

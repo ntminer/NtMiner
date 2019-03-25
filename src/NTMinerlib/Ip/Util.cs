@@ -14,22 +14,27 @@ namespace NTMiner.Ip {
             if (ipAddress == "localhost" || ipAddress == "127.0.0.1") {
                 return true;
             }
-            bool isInnerIp = false;
-            long ipNum = GetIpNum(ipAddress);
-            /**
-            私有IP：A类 10.0.0.0-10.255.255.255
-            B类 172.16.0.0-172.31.255.255
-            C类 192.168.0.0-192.168.255.255
-            当然，还有127这个网段是环回地址 
-            **/
-            long aBegin = GetIpNum("10.0.0.0");
-            long aEnd = GetIpNum("10.255.255.255");
-            long bBegin = GetIpNum("172.16.0.0");
-            long bEnd = GetIpNum("172.31.255.255");
-            long cBegin = GetIpNum("192.168.0.0");
-            long cEnd = GetIpNum("192.168.255.255");
-            isInnerIp = IsInner(ipNum, aBegin, aEnd) || IsInner(ipNum, bBegin, bEnd) || IsInner(ipNum, cBegin, cEnd);
-            return isInnerIp;
+            try {
+                bool isInnerIp = false;
+                long ipNum = GetIpNum(ipAddress);
+                /**
+                私有IP：A类 10.0.0.0-10.255.255.255
+                B类 172.16.0.0-172.31.255.255
+                C类 192.168.0.0-192.168.255.255
+                当然，还有127这个网段是环回地址 
+                **/
+                long aBegin = GetIpNum("10.0.0.0");
+                long aEnd = GetIpNum("10.255.255.255");
+                long bBegin = GetIpNum("172.16.0.0");
+                long bEnd = GetIpNum("172.31.255.255");
+                long cBegin = GetIpNum("192.168.0.0");
+                long cEnd = GetIpNum("192.168.255.255");
+                isInnerIp = IsInner(ipNum, aBegin, aEnd) || IsInner(ipNum, bBegin, bEnd) || IsInner(ipNum, cBegin, cEnd);
+                return isInnerIp;
+            }
+            catch {
+                return false;
+            }
         }
 
         /// <summary>

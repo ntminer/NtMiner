@@ -18,12 +18,12 @@ using System.Windows;
 // 方法是按如下所示使用“*”:
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion(AssemblyInfo.Version + ".*")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription(AssemblyInfo.Tag)]
 [assembly: AssemblyFileVersion(AssemblyInfo.Version)]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("MinerStudio")]
-[assembly: AssemblyCopyright("")]
+[assembly: AssemblyCopyright(AssemblyInfo.Copyright)]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 //下载于mycodes.net

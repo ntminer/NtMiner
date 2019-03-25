@@ -1,6 +1,7 @@
 ﻿using NTMiner.Core.Gpus;
 using NTMiner.Core.Gpus.Impl;
 using NTMiner.MinerClient;
+using System;
 using System.Linq;
 
 namespace NTMiner.Vms {
@@ -325,6 +326,34 @@ namespace NTMiner.Vms {
                     }
                 }
                 return $"{this.MemoryClockDeltaMinMText} - {this.MemoryClockDeltaMaxMText}";
+            }
+        }
+
+        public string CoolMinMaxText {
+            get {
+                if (Index == NTMinerRoot.GpuAllId) {
+                    if (_isGpuData) {
+                        return $"{_gpuDatas.Max(a => a.CoolMin)} - {_gpuDatas.Min(a => a.CoolMax)}%";
+                    }
+                    else {
+                        return $"{NTMinerRoot.Current.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Max(a => a.CoolMin)} - {NTMinerRoot.Current.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Min(a => a.CoolMax)}%";
+                    }
+                }
+                return $"{this.CoolMin} - {this.CoolMax}%";
+            }
+        }
+
+        public string PowerMinMaxText {
+            get {
+                if (Index == NTMinerRoot.GpuAllId) {
+                    if (_isGpuData) {
+                        return $"{Math.Ceiling(_gpuDatas.Max(a => a.PowerMin))} - {(int)_gpuDatas.Min(a => a.PowerMax)}%";
+                    }
+                    else {
+                        return $"{Math.Ceiling(NTMinerRoot.Current.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Max(a => a.PowerMin))} - {(int)NTMinerRoot.Current.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Min(a => a.PowerMax)}%";
+                    }
+                }
+                return $"{Math.Ceiling(this.PowerMin)} - {(int)this.PowerMax}%";
             }
         }
 

@@ -67,7 +67,7 @@ namespace NTMiner.Vms {
             ControlCenterHostConfig.ShowWindow();
         });
 
-        public static readonly BitmapImage BigLogoImageSource = new BitmapImage(new Uri((VirtualRoot.IsControlCenter ? "/NTMinerWpf;component/Styles/Images/cc128.png" : "/NTMinerWpf;component/Styles/Images/logo128.png"), UriKind.RelativeOrAbsolute));
+        public static readonly BitmapImage BigLogoImageSource = IconConst.BigLogoImageSource;
 
         public static IEnumerable<EnumItem<SupportedGpu>> SupportedGpuEnumItems {
             get {
@@ -77,7 +77,7 @@ namespace NTMiner.Vms {
 
         public static IEnumerable<EnumItem<LogEnum>> LogTypeItems {
             get {
-                return LogEnum.Console.GetEnumItems();
+                return LogEnum.DevConsole.GetEnumItems();
             }
         }
 
@@ -272,6 +272,9 @@ namespace NTMiner.Vms {
                         if (!string.IsNullOrEmpty(ntminerFileName)) {
                             argument = "ntminerFileName=" + ntminerFileName;
                         }
+                        if (VirtualRoot.IsMinerStudio) {
+                            argument += " --minerstudio";
+                        }
                         string ntMinerUpdaterFileFullName = Path.Combine(updaterDirFullName, "NTMinerUpdater.exe");
                         Uri uri = new Uri(downloadFileUrl);
                         string updaterVersion = NTMinerRegistry.GetUpdaterVersion();
@@ -438,18 +441,18 @@ namespace NTMiner.Vms {
             get; private set;
         }
 
-        public static Visibility IsControlCenterVisible {
+        public static Visibility IsMinerStudioVisible {
             get {
-                if (VirtualRoot.IsControlCenter) {
+                if (VirtualRoot.IsMinerStudio) {
                     return Visibility.Visible;
                 }
                 return Visibility.Collapsed;
             }
         }
 
-        public static Visibility IsControlCenterCollapsed {
+        public static Visibility IsMinerStudioCollapsed {
             get {
-                if (VirtualRoot.IsControlCenter) {
+                if (VirtualRoot.IsMinerStudio) {
                     return Visibility.Collapsed;
                 }
                 return Visibility.Visible;

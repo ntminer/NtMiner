@@ -2,6 +2,7 @@
 using NTMiner.Daemon;
 using NTMiner.JsonDb;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -63,6 +64,22 @@ namespace NTMiner {
                         e = e.GetInnerException();
                         callback?.Invoke(null, e);
                         return null;
+                    }
+                });
+            }
+
+            public void SaveGpuProfilesJsonAsync(string clientHost, string json) {
+                Task.Factory.StartNew(() => {
+                    try {
+                        using (HttpClient client = new HttpClient()) {
+                            client.Timeout = TimeSpan.FromMilliseconds(3000);
+                            HttpContent content = new StringContent(json);
+                            Task<HttpResponseMessage> message = client.PostAsync($"http://{clientHost}:{WebApiConst.NTMinerDaemonPort}/api/{s_controllerName}/{nameof(INTMinerDaemonController.SaveGpuProfilesJson)}", content);
+                            Write.DevLine(message.Result.ReasonPhrase);
+                        }
+                    }
+                    catch (Exception e) {
+                        Logger.ErrorDebugLine(e.Message, e);
                     }
                 });
             }

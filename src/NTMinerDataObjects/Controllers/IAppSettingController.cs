@@ -8,5 +8,6 @@ namespace NTMiner.Controllers {
         DataResponse<AppSettingData> AppSetting(AppSettingRequest request);
         DataResponse<List<AppSettingData>> AppSettings(AppSettingsRequest request);
         ResponseBase SetAppSetting(DataRequest<AppSettingData> request);
+        ResponseBase SetAppSettings(DataRequest<List<AppSettingData>> request);
     }
 }

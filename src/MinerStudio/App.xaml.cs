@@ -10,7 +10,9 @@ using System.Windows.Threading;
 namespace NTMiner {
     public partial class App : Application, IDisposable {
         public App() {
-            VirtualRoot.IsControlCenter = true;
+            VirtualRoot.IsMinerStudio = true;
+            VirtualRoot.GlobalDirFullName = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NTMiner");
+            Logging.LogDir.SetDir(System.IO.Path.Combine(VirtualRoot.GlobalDirFullName, "Logs"));
             AppHelper.Init(this);
             InitializeComponent();
         }
@@ -64,13 +66,9 @@ namespace NTMiner {
                             System.Drawing.Icon icon = new System.Drawing.Icon(GetResourceStream(new Uri("pack://application:,,,/MinerStudio;component/logo.ico")).Stream);
                             AppHelper.NotifyIcon = ExtendedNotifyIcon.Create(icon, "群控客户端", isMinerStudio: true);
                             #region 处理显示主界面命令
-                            VirtualRoot.Accept<ShowMainWindowCommand>(
-                                "处理显示主界面命令",
-                                LogEnum.None,
+                            VirtualRoot.Window<ShowMainWindowCommand>("处理显示主界面命令", LogEnum.None,
                                 action: message => {
-                                    UIThread.Execute(() => {
-                                        Dispatcher.Invoke((ThreadStart)ChartsWindow.ShowWindow);
-                                    });
+                                    Dispatcher.Invoke((ThreadStart)ChartsWindow.ShowWindow);
                                 });
                             #endregion
                             HttpServer.Start($"http://localhost:{WebApiConst.MinerStudioPort}");
@@ -78,6 +76,16 @@ namespace NTMiner {
                         }
                     });
                 });
+                VirtualRoot.Window<CloseNTMinerCommand>("处理关闭群控客户端命令", LogEnum.UserConsole,
+                    action: message => {
+                        UIThread.Execute(() => {
+                            if (MainWindow != null) {
+                                MainWindow.Close();
+                            }
+                            Shutdown();
+                            Environment.Exit(0);
+                        });
+                    });
             }
             else {
                 try {

@@ -22,8 +22,7 @@ namespace NTMiner.Profile {
 
         public StringBuilder GetSignData() {
             StringBuilder sb = new StringBuilder();
-            sb.Append(nameof(MessageId)).Append(MessageId)
-                .Append(nameof(LoginName)).Append(LoginName)
+            sb.Append(nameof(LoginName)).Append(LoginName)
                 .Append(nameof(WorkId)).Append(WorkId)
                 .Append(nameof(CoinKernelId)).Append(CoinKernelId)
                 .Append(nameof(PropertyName)).Append(PropertyName)

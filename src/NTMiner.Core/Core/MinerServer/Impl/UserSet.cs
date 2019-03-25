@@ -10,9 +10,7 @@ namespace NTMiner.Core.MinerServer.Impl {
         private Dictionary<string, UserData> _dicByLoginName = new Dictionary<string, UserData>();
 
         public UserSet() {
-            VirtualRoot.Accept<AddUserCommand>(
-                "处理添加用户命令",
-                LogEnum.Console,
+            VirtualRoot.Window<AddUserCommand>("处理添加用户命令", LogEnum.DevConsole,
                 action: message => {
                     if (!_dicByLoginName.ContainsKey(message.User.LoginName)) {
                         Server.ControlCenterService.AddUserAsync(new UserData {
@@ -32,9 +30,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                         });
                     }
                 });
-            VirtualRoot.Accept<UpdateUserCommand>(
-                "处理修改用户命令",
-                LogEnum.Console,
+            VirtualRoot.Window<UpdateUserCommand>("处理修改用户命令", LogEnum.DevConsole,
                 action: message => {
                     if (_dicByLoginName.ContainsKey(message.User.LoginName)) {
                         UserData entity = _dicByLoginName[message.User.LoginName];
@@ -57,9 +53,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                         VirtualRoot.Happened(new UserUpdatedEvent(entity));
                     }
                 });
-            VirtualRoot.Accept<RemoveUserCommand>(
-                "处理删除用户命令",
-                LogEnum.Console,
+            VirtualRoot.Window<RemoveUserCommand>("处理删除用户命令", LogEnum.DevConsole,
                 action: message => {
                     if (_dicByLoginName.ContainsKey(message.LoginName)) {
                         UserData entity = _dicByLoginName[message.LoginName];
@@ -85,7 +79,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 lock (_locker) {
                     if (!_isInited) {
                         Guid? clientId = null;
-                        if (!VirtualRoot.IsControlCenter) {
+                        if (!VirtualRoot.IsMinerStudio) {
                             clientId = ClientId.Id;
                         }
                         var result = Server.ControlCenterService.GetUsers(clientId);

@@ -16,7 +16,7 @@ namespace NTMiner.Controllers {
         [HttpPost]
         public ResponseBase RestartWindows([FromBody]WrapperRequest<SignatureRequest> request) {
             if (request == null || request.InnerRequest == null || string.IsNullOrEmpty(request.ClientIp)) {
-                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
+                return ResponseBase.InvalidInput("参数错误");
             }
             try {
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
@@ -28,7 +28,7 @@ namespace NTMiner.Controllers {
             catch (Exception e) {
                 e = e.GetInnerException();
                 Logger.ErrorDebugLine(e.Message, e);
-                return ResponseBase.ServerError(request.MessageId, e.Message);
+                return ResponseBase.ServerError(e.Message);
             }
         }
         #endregion
@@ -37,7 +37,7 @@ namespace NTMiner.Controllers {
         [HttpPost]
         public ResponseBase ShutdownWindows([FromBody]WrapperRequest<SignatureRequest> request) {
             if (request == null || request.InnerRequest == null || string.IsNullOrEmpty(request.ClientIp)) {
-                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
+                return ResponseBase.InvalidInput("参数错误");
             }
             try {
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
@@ -49,7 +49,7 @@ namespace NTMiner.Controllers {
             catch (Exception e) {
                 e = e.GetInnerException();
                 Logger.ErrorDebugLine(e.Message, e);
-                return ResponseBase.ServerError(request.MessageId, e.Message);
+                return ResponseBase.ServerError(e.Message);
             }
         }
         #endregion
@@ -58,7 +58,7 @@ namespace NTMiner.Controllers {
         [HttpPost]
         public ResponseBase UpgradeNTMiner([FromBody]WrapperRequest<UpgradeNTMinerRequest> request) {
             if (request == null || request.InnerRequest == null || string.IsNullOrEmpty(request.ClientIp)) {
-                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
+                return ResponseBase.InvalidInput("参数错误");
             }
             try {
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
@@ -70,7 +70,7 @@ namespace NTMiner.Controllers {
             catch (Exception e) {
                 e = e.GetInnerException();
                 Logger.ErrorDebugLine(e.Message, e);
-                return ResponseBase.ServerError(request.MessageId, e.Message);
+                return ResponseBase.ServerError(e.Message);
             }
         }
         #endregion
@@ -79,7 +79,7 @@ namespace NTMiner.Controllers {
         [HttpPost]
         public ResponseBase StartMine([FromBody]WrapperRequest<WorkRequest> request) {
             if (request == null || request.InnerRequest == null || string.IsNullOrEmpty(request.ClientIp)) {
-                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
+                return ResponseBase.InvalidInput("参数错误");
             }
             try {
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
@@ -87,7 +87,7 @@ namespace NTMiner.Controllers {
                 }
                 IClientData clientData = HostRoot.Current.ClientSet.GetByObjectId(request.ObjectId);
                 if (clientData == null) {
-                    return ResponseBase.ClientError(request.MessageId, "给定标识的矿机不存在");
+                    return ResponseBase.ClientError("给定标识的矿机不存在");
                 }
                 string localJson = string.Empty, serverJson = string.Empty;
                 Guid workId = request.InnerRequest.WorkId;
@@ -96,7 +96,6 @@ namespace NTMiner.Controllers {
                     serverJson = SpecialPath.ReadMineWorkServerJsonFile(workId);
                 }
                 WorkRequest innerRequest = new WorkRequest {
-                    MessageId = request.InnerRequest.MessageId,
                     Timestamp = request.InnerRequest.Timestamp,
                     WorkId = workId,
                     LocalJson = localJson,
@@ -108,7 +107,7 @@ namespace NTMiner.Controllers {
             catch (Exception e) {
                 e = e.GetInnerException();
                 Logger.ErrorDebugLine(e.Message, e);
-                return ResponseBase.ServerError(request.MessageId, e.Message);
+                return ResponseBase.ServerError(e.Message);
             }
         }
         #endregion
@@ -117,7 +116,7 @@ namespace NTMiner.Controllers {
         [HttpPost]
         public ResponseBase RestartNTMiner([FromBody]WrapperRequest<WorkRequest> request) {
             if (request == null || request.InnerRequest == null || string.IsNullOrEmpty(request.ClientIp)) {
-                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
+                return ResponseBase.InvalidInput("参数错误");
             }
             try {
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
@@ -125,7 +124,7 @@ namespace NTMiner.Controllers {
                 }
                 IClientData clientData = HostRoot.Current.ClientSet.GetByObjectId(request.ObjectId);
                 if (clientData == null) {
-                    return ResponseBase.ClientError(request.MessageId, "给定标识的矿机不存在");
+                    return ResponseBase.ClientError("给定标识的矿机不存在");
                 }
                 string localJson = string.Empty, serverJson = string.Empty;
                 Guid workId = request.InnerRequest.WorkId;
@@ -134,7 +133,6 @@ namespace NTMiner.Controllers {
                     serverJson = SpecialPath.ReadMineWorkServerJsonFile(workId);
                 }
                 WorkRequest innerRequest = new WorkRequest {
-                    MessageId = request.InnerRequest.MessageId,
                     Timestamp = request.InnerRequest.Timestamp,
                     WorkId = workId,
                     LocalJson = localJson,
@@ -146,7 +144,7 @@ namespace NTMiner.Controllers {
             catch (Exception e) {
                 e = e.GetInnerException();
                 Logger.ErrorDebugLine(e.Message, e);
-                return ResponseBase.ServerError(request.MessageId, e.Message);
+                return ResponseBase.ServerError(e.Message);
             }
         }
         #endregion
@@ -155,7 +153,7 @@ namespace NTMiner.Controllers {
         [HttpPost]
         public ResponseBase StopMine([FromBody]WrapperRequest<SignatureRequest> request) {
             if (request == null || request.InnerRequest == null || string.IsNullOrEmpty(request.ClientIp)) {
-                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
+                return ResponseBase.InvalidInput("参数错误");
             }
             try {
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
@@ -167,7 +165,7 @@ namespace NTMiner.Controllers {
             catch (Exception e) {
                 e = e.GetInnerException();
                 Logger.ErrorDebugLine(e.Message, e);
-                return ResponseBase.ServerError(request.MessageId, e.Message);
+                return ResponseBase.ServerError(e.Message);
             }
         }
         #endregion
@@ -176,7 +174,7 @@ namespace NTMiner.Controllers {
         [HttpPost]
         public ResponseBase SetClientMinerProfileProperty([FromBody]WrapperRequest<SetClientMinerProfilePropertyRequest> request) {
             if (request == null || request.InnerRequest == null || string.IsNullOrEmpty(request.ClientIp)) {
-                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
+                return ResponseBase.InvalidInput("参数错误");
             }
             try {
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
@@ -188,7 +186,7 @@ namespace NTMiner.Controllers {
             catch (Exception e) {
                 e = e.GetInnerException();
                 Logger.ErrorDebugLine(e.Message, e);
-                return ResponseBase.ServerError(request.MessageId, e.Message);
+                return ResponseBase.ServerError(e.Message);
             }
         }
         #endregion

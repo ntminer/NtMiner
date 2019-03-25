@@ -7,9 +7,8 @@ namespace NTMiner.MinerServer {
             this.Data = new List<ClientData>();
         }
 
-        public static QueryClientsResponse Ok(Guid messageId, List<ClientData> data, int total, int miningCount) {
+        public static QueryClientsResponse Ok(List<ClientData> data, int total, int miningCount) {
             return new QueryClientsResponse() {
-                MessageId = messageId,
                 StateCode = 200,
                 ReasonPhrase = "Ok",
                 Description = "成功",

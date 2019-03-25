@@ -76,9 +76,7 @@ namespace NTMiner {
                     clear?.Invoke();
                 }
                 string processName = mineContext.Kernel.GetProcessName();
-                s_daemon = VirtualRoot.On<Per1MinuteEvent>(
-                    "周期性检查挖矿内核是否消失，如果消失尝试重启",
-                    LogEnum.Console,
+                s_daemon = VirtualRoot.On<Per1MinuteEvent>("周期性检查挖矿内核是否消失，如果消失尝试重启", LogEnum.DevConsole,
                     action: message => {
                         if (mineContext == Current.CurrentMineContext) {
                             if (!string.IsNullOrEmpty(processName)) {
@@ -248,9 +246,7 @@ namespace NTMiner {
                             }
                             VirtualRoot.UnPath(closeHandle);
                         });
-                        closeHandle = VirtualRoot.On<MineStopedEvent>(
-                            "挖矿停止后关闭非托管的日志句柄",
-                            LogEnum.Console,
+                        closeHandle = VirtualRoot.On<MineStopedEvent>("挖矿停止后关闭非托管的日志句柄", LogEnum.DevConsole,
                             action: message => {
                                 // 挖矿停止后摘除挖矿内核进程守护器
                                 if (s_daemon != null) {

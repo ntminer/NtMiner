@@ -121,7 +121,7 @@
 				FontWeight="Bold"
 				Text="群控"></TextBlock>
 		</Border>
-		<GroupBox Grid.Row="1" Header="{DynamicResource GHSysSetting}" Visibility="{x:Static vm:AppStatic.IsControlCenterCollapsed}">
+		<GroupBox Grid.Row="1" Header="{DynamicResource GHSysSetting}" Visibility="{x:Static vm:AppStatic.IsMinerStudioCollapsed}">
 			<StackPanel>
 				<WrapPanel Margin="0 2">
 					<controls:KbCheckBox 

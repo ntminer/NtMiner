@@ -10,16 +10,14 @@ using System.Timers;
 namespace NTMiner {
     public static partial class VirtualRoot {
         private static ILang _sLang = null;
-        private static bool _sIsControlCenter;
+        private static bool _sIsMinerStudio;
 
         public static string GlobalDirFullName { get; set; } = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "NTMiner");
         
-        public static bool IsControlCenter {
-            get => _sIsControlCenter;
+        public static bool IsMinerStudio {
+            get => _sIsMinerStudio;
             set {
-                _sIsControlCenter = value;
-                GlobalDirFullName = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NTMiner");
-                Logging.LogDir.SetDir(System.IO.Path.Combine(GlobalDirFullName, "Logs"));
+                _sIsMinerStudio = value;
             }
         }
 
@@ -151,16 +149,26 @@ namespace NTMiner {
             t.Start();
         }
 
+        /// <summary>
+        /// 发生某个事件
+        /// </summary>
+        /// <typeparam name="TEvent"></typeparam>
+        /// <param name="evnt"></param>
         public static void Happened<TEvent>(TEvent evnt) where TEvent : class, IEvent {
             EventBus.Publish(evnt);
             EventBus.Commit();
         }
 
+        /// <summary>
+        /// 执行某个命令
+        /// </summary>
+        /// <param name="command"></param>
         public static void Execute(ICmd command) {
             CommandBus.Publish(command);
             CommandBus.Commit();
         }
 
+        // 修建消息（命令或事件）的运动路径
         private static DelegateHandler<TMessage> Path<TMessage>(string description, LogEnum logType, Action<TMessage> action) {
             StackTrace ss = new StackTrace(false);
             // 0是Path，1是Accpt或On，2是当地
@@ -169,16 +177,23 @@ namespace NTMiner {
             return MessageDispatcher.Register(handlerId, action);
         }
 
-        public static DelegateHandler<TCmd> Accept<TCmd>(string description, LogEnum logType, Action<TCmd> action)
+        /// <summary>
+        /// 命令窗口。使用该方法的代码行应将前两个参数放在第一行以方便vs查找引用时展示出参数信息
+        /// </summary>
+        public static DelegateHandler<TCmd> Window<TCmd>(string description, LogEnum logType, Action<TCmd> action)
             where TCmd : ICmd {
             return Path(description, logType, action);
         }
 
+        /// <summary>
+        /// 事件响应
+        /// </summary>
         public static DelegateHandler<TEvent> On<TEvent>(string description, LogEnum logType, Action<TEvent> action)
             where TEvent : IEvent {
             return Path(description, logType, action);
         }
 
+        // 拆除消息（命令或事件）的运动路径
         public static void UnPath(IDelegateHandler handler) {
             MessageDispatcher.UnRegister(handler);
         }

@@ -59,7 +59,6 @@ namespace NTMiner.Vms {
         public ICommand EditMineWork { get; private set; }
         public ICommand OneKeyMinerNames { get; private set; }
         public ICommand RemoteDesktop { get; private set; }
-        public ICommand ReName { get; private set; }
         public ICommand OneKeySetting { get; private set; }
 
         #region ctor
@@ -67,28 +66,31 @@ namespace NTMiner.Vms {
             if (Design.IsInDesignMode) {
                 return;
             }
-            VirtualRoot.On<Per1SecondEvent>(
-                "刷新倒计时秒表，周期性挥动铲子表示在挖矿中",
-                LogEnum.None,
-                action: message => {
-                    var minerClients = this.MinerClients.ToArray();
-                    if (this.CountDown > 0) {
-                        this.CountDown = this.CountDown - 1;
-                        foreach (var item in minerClients) {
-                            item.OnPropertyChanged(nameof(item.LastActivedOnText));
-                        }
-                    }
-                    // 周期性挥动铲子表示在挖矿中
-                    foreach (var item in minerClients) {
-                        if (item.IsMining) {
-                            item.IsShovelEmpty = !item.IsShovelEmpty;
-                        }
-                    }
-                });
-            Guid columnsShowId = ColumnsShowData.PleaseSelectId;
-            if (NTMinerRoot.Current.AppSettingSet.TryGetAppSetting("ColumnsShowId", out IAppSetting columnsShowAppSetting) && columnsShowAppSetting.Value != null) {
+            var appSettings = NTMinerRoot.Current.AppSettingSet;
+            Guid columnsShowId = ColumnsShowData.PleaseSelect.Id;
+            if (appSettings.TryGetAppSetting("ColumnsShowId", out IAppSetting columnsShowAppSetting) && columnsShowAppSetting.Value != null) {
                 if (Guid.TryParse(columnsShowAppSetting.Value.ToString(), out Guid guid)) {
                     columnsShowId = guid;
+                }
+            }
+            if (appSettings.TryGetAppSetting("FrozenColumnCount", out IAppSetting frozenColumnCountAppSetting) && frozenColumnCountAppSetting.Value != null) {
+                if (int.TryParse(frozenColumnCountAppSetting.Value.ToString(), out int frozenColumnCount)) {
+                    _frozenColumnCount = frozenColumnCount;
+                }
+            }
+            if (appSettings.TryGetAppSetting("MaxTemp", out IAppSetting maxTempAppSetting) && maxTempAppSetting.Value != null) {
+                if (uint.TryParse(maxTempAppSetting.Value.ToString(), out uint maxTemp)) {
+                    _maxTemp = maxTemp;
+                }
+            }
+            if (appSettings.TryGetAppSetting("MinTemp", out IAppSetting minTempAppSetting) && minTempAppSetting.Value != null) {
+                if (uint.TryParse(minTempAppSetting.Value.ToString(), out uint minTemp)) {
+                    _minTemp = minTemp;
+                }
+            }
+            if (appSettings.TryGetAppSetting("RejectPercent", out IAppSetting rejectPercentAppSetting) && rejectPercentAppSetting.Value != null) {
+                if (int.TryParse(rejectPercentAppSetting.Value.ToString(), out int rejectPercent)) {
+                    _rejectPercent = rejectPercent;
                 }
             }
             this._columnsShow = this.ColumnsShows.List.FirstOrDefault(a => a.Id == columnsShowId);
@@ -105,15 +107,13 @@ namespace NTMiner.Vms {
             this.OneKeySetting = new DelegateCommand(() => {
                 MinerClientSetting.ShowWindow(new MinerClientSettingViewModel(this.SelectedMinerClients));
             }, CanCommand);
-            this.ReName = new DelegateCommand(() => {
-                var selectedMinerClient = this.SelectedMinerClients[0];
-                InputWindow.ShowDialog("作业矿工名", selectedMinerClient.MinerName, null, minerName => {
-                    selectedMinerClient.MinerName = minerName;
-                });
-            }, OnlySelectedOne);
             this.OneKeyMinerNames = new DelegateCommand(() => {
                 if (this.SelectedMinerClients.Length == 1) {
-                    this.ReName.Execute(null);
+                    var selectedMinerClient = this.SelectedMinerClients[0];
+                    InputWindow.ShowDialog("作业矿工名 注意：重新开始挖矿时生效", selectedMinerClient.MinerName, null, minerName => {
+                        selectedMinerClient.MinerName = minerName;
+                        NotiCenterWindowViewModel.Current.Manager.ShowSuccessMessage("设置作业矿工名成功，重新开始挖矿时生效。");
+                    });
                     return;
                 }
                 MinerNamesSeterViewModel vm = new MinerNamesSeterViewModel(
@@ -140,20 +140,16 @@ namespace NTMiner.Vms {
                         }
                     });
                 }
-            });
+            }, CanCommand);
             this.RemoteDesktop = new DelegateCommand(() => {
                 if (this.SelectedMinerClients != null && this.SelectedMinerClients.Length == 1) {
                     this.SelectedMinerClients[0].RemoteDesktop.Execute(null);
                 }
             }, OnlySelectedOne);
             this.EditMineWork = new DelegateCommand(() => {
-                if (this.SelectedMinerClients != null
-                    && this.SelectedMinerClients.Length == 1
-                    && this.SelectedMinerClients[0].SelectedMineWork != null
-                    && this.SelectedMinerClients[0].SelectedMineWork != MineWorkViewModel.PleaseSelect) {
-                    this.SelectedMinerClients[0].SelectedMineWork.Edit.Execute(null);
-                }
-            }, OnlySelectedOne);
+                this.SelectedMinerClients[0].SelectedMineWork.Edit.Execute(null);
+            }, () => OnlySelectedOne() && this.SelectedMinerClients[0].SelectedMineWork != null
+                    && this.SelectedMinerClients[0].SelectedMineWork != MineWorkViewModel.PleaseSelect);
             this.OneKeyWork = new DelegateCommand<MineWorkViewModel>((work) => {
                 foreach (var item in SelectedMinerClients) {
                     item.SelectedMineWork = work;
@@ -166,9 +162,9 @@ namespace NTMiner.Vms {
             });
             this.OneKeyOverClock = new DelegateCommand(() => {
                 if (this.SelectedMinerClients.Length == 1) {
-                    GpuProfilesPage.ShowWindow(new GpuProfilesPageViewModel(this.SelectedMinerClients[0]));
+                    GpuProfilesPage.ShowWindow(this);
                 }
-            }, CanCommand);
+            }, OnlySelectedOne);
             this.OneKeyUpgrade = new DelegateCommand<NTMinerFileData>((ntminerFileData) => {
                 DialogWindow.ShowDialog(message: "确定升级到该版本吗？", title: "确认", onYes: () => {
                     foreach (var item in SelectedMinerClients) {
@@ -341,9 +337,7 @@ namespace NTMiner.Vms {
 
         private bool OnlySelectedOne() {
             return this.SelectedMinerClients != null
-                    && this.SelectedMinerClients.Length == 1
-                    && this.SelectedMinerClients[0].SelectedMineWork != null
-                    && this.SelectedMinerClients[0].SelectedMineWork != MineWorkViewModel.PleaseSelect;
+                    && this.SelectedMinerClients.Length == 1;
         }
 
         public List<NTMinerFileData> NTMinerFileList {

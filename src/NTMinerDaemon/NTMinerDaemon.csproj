@@ -79,7 +79,7 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\ClientAppSelfHost\HttpServer.cs">
+    <Compile Include="..\MinerClientSelfHost\HttpServer.cs">
       <Link>HttpServer.cs</Link>
     </Compile>
     <Compile Include="..\NTMiner.Core\Windows\Power.cs">
@@ -126,6 +126,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SpecialPath.cs" />
     <Compile Include="User\Impl\UserSet.cs" />
+    <Compile Include="VirtualRoot.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="NoDevFee\WinDivert.lib" />

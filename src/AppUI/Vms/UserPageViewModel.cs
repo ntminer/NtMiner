@@ -15,9 +15,9 @@
             get { return MinerProfileViewModel.Current; }
         }
 
-        public bool IsControlCenter {
+        public bool IsMinerStudio {
             get {
-                return VirtualRoot.IsControlCenter;
+                return VirtualRoot.IsMinerStudio;
             }
         }
     }

@@ -15,9 +15,7 @@ namespace NTMiner.Vms {
             this.Add = new DelegateCommand(() => {
                 new ColumnsShowViewModel(Guid.NewGuid()).Edit.Execute(FormType.Add);
             });
-            VirtualRoot.On<ColumnsShowAddedEvent>(
-                "添加了列显后刷新VM内存",
-                LogEnum.Console,
+            VirtualRoot.On<ColumnsShowAddedEvent>("添加了列显后刷新VM内存", LogEnum.DevConsole,
                 action: message => {
                     if (!_dicById.ContainsKey(message.Source.GetId())) {
                         ColumnsShowViewModel vm = new ColumnsShowViewModel(message.Source);
@@ -26,18 +24,14 @@ namespace NTMiner.Vms {
                         MinerClientsWindowViewModel.Current.ColumnsShow = vm;
                     }
                 });
-            VirtualRoot.On<ColumnsShowUpdatedEvent>(
-                "更新了列显后刷新VM内存",
-                LogEnum.Console,
+            VirtualRoot.On<ColumnsShowUpdatedEvent>("更新了列显后刷新VM内存", LogEnum.DevConsole,
                 action: message => {
                     if (_dicById.ContainsKey(message.Source.GetId())) {
                         ColumnsShowViewModel entity = _dicById[message.Source.GetId()];
                         entity.Update(message.Source);
                     }
                 });
-            VirtualRoot.On<ColumnsShowRemovedEvent>(
-                "移除了列显后刷新VM内存",
-                LogEnum.Console,
+            VirtualRoot.On<ColumnsShowRemovedEvent>("移除了列显后刷新VM内存", LogEnum.DevConsole,
                 action: message => {
                     MinerClientsWindowViewModel.Current.ColumnsShow = _dicById.Values.FirstOrDefault();
                     _dicById.Remove(message.Source.GetId());

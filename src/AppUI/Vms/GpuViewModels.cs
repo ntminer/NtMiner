@@ -18,9 +18,7 @@ namespace NTMiner.Vms {
             if (_gpuVms.ContainsKey(NTMinerRoot.GpuAllId)) {
                 _totalGpuVm = _gpuVms[NTMinerRoot.GpuAllId];
             }
-            VirtualRoot.On<GpuStateChangedEvent>(
-                "显卡状态变更后刷新VM内存",
-                LogEnum.None,
+            VirtualRoot.On<GpuStateChangedEvent>("显卡状态变更后刷新VM内存", LogEnum.None,
                 action: message => {
                     if (_gpuVms.ContainsKey(message.Source.Index)) {
                         GpuViewModel vm = _gpuVms[message.Source.Index];
@@ -47,6 +45,8 @@ namespace NTMiner.Vms {
                             _totalGpuVm.OnPropertyChanged(nameof(_totalGpuVm.MemoryClockDeltaMText));
                             _totalGpuVm.OnPropertyChanged(nameof(_totalGpuVm.CoreClockDeltaMinMaxMText));
                             _totalGpuVm.OnPropertyChanged(nameof(_totalGpuVm.MemoryClockDeltaMinMaxMText));
+                            _totalGpuVm.OnPropertyChanged(nameof(_totalGpuVm.CoolMinMaxText));
+                            _totalGpuVm.OnPropertyChanged(nameof(_totalGpuVm.PowerMinMaxText));
                         }
                     }
                 });

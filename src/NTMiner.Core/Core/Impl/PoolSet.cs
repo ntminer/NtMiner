@@ -13,9 +13,7 @@ namespace NTMiner.Core.Impl {
         public PoolSet(INTMinerRoot root, bool isUseJson) {
             _root = root;
             _isUseJson = isUseJson;
-            VirtualRoot.Accept<AddPoolCommand>(
-                "添加矿池",
-                LogEnum.Console,
+            VirtualRoot.Window<AddPoolCommand>("添加矿池", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -33,7 +31,7 @@ namespace NTMiner.Core.Impl {
                     PoolData entity = new PoolData().Update(message.Input);
                     _dicById.Add(entity.Id, entity);
 
-                    if (VirtualRoot.IsControlCenter) {
+                    if (VirtualRoot.IsMinerStudio) {
                         Server.ControlCenterService.AddOrUpdatePoolAsync(entity, callback: null);
                     }
                     else {
@@ -59,9 +57,7 @@ namespace NTMiner.Core.Impl {
                         }
                     }
                 }).AddToCollection(root.ContextHandlers);
-            VirtualRoot.Accept<UpdatePoolCommand>(
-                "更新矿池",
-                LogEnum.Console,
+            VirtualRoot.Window<UpdatePoolCommand>("更新矿池", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -84,7 +80,7 @@ namespace NTMiner.Core.Impl {
                         return;
                     }
                     entity.Update(message.Input);
-                    if (VirtualRoot.IsControlCenter) {
+                    if (VirtualRoot.IsMinerStudio) {
                         Server.ControlCenterService.AddOrUpdatePoolAsync(entity, callback: null);
                     }
                     else {
@@ -94,9 +90,7 @@ namespace NTMiner.Core.Impl {
 
                     VirtualRoot.Happened(new PoolUpdatedEvent(entity));
                 }).AddToCollection(root.ContextHandlers);
-            VirtualRoot.Accept<RemovePoolCommand>(
-                "移除矿池",
-                LogEnum.Console,
+            VirtualRoot.Window<RemovePoolCommand>("移除矿池", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {
@@ -108,7 +102,7 @@ namespace NTMiner.Core.Impl {
                     
                     PoolData entity = _dicById[message.EntityId];
                     _dicById.Remove(entity.GetId());
-                    if (VirtualRoot.IsControlCenter) {
+                    if (VirtualRoot.IsMinerStudio) {
                         Server.ControlCenterService.RemovePoolAsync(entity.Id, callback: null);
                     }
                     else {
@@ -146,13 +140,12 @@ namespace NTMiner.Core.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    IEnumerable<PoolData> data;
-                    if (VirtualRoot.IsControlCenter) {
-                        data = Server.ControlCenterService.GetPools();
-                    }
-                    else {
-                        var repository = CreateCompositeRepository<PoolData>(_isUseJson);
-                        data = repository.GetAll();
+                    var repository = CreateCompositeRepository<PoolData>(_isUseJson);
+                    List<PoolData> data = repository.GetAll().ToList();
+                    if (VirtualRoot.IsMinerStudio) {
+                        foreach (var item in Server.ControlCenterService.GetPools()) {
+                            data.Add(item);
+                        }
                     }
                     foreach (var item in data) {
                         if (!_dicById.ContainsKey(item.GetId())) {

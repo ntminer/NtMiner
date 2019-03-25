@@ -22,11 +22,11 @@ namespace NTMiner.Controllers {
                 if (!HostRoot.Current.AppSettingSet.TryGetAppSetting(request.Key, out IAppSetting data)) {
                     data = null;
                 }
-                return DataResponse<AppSettingData>.Ok(request.MessageId, AppSettingData.Create(data));
+                return DataResponse<AppSettingData>.Ok(AppSettingData.Create(data));
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
-                return ResponseBase.ServerError<DataResponse<AppSettingData>>(request.MessageId, e.Message);
+                return ResponseBase.ServerError<DataResponse<AppSettingData>>(e.Message);
             }
         }
 
@@ -34,18 +34,18 @@ namespace NTMiner.Controllers {
         public DataResponse<List<AppSettingData>> AppSettings([FromBody]AppSettingsRequest request) {
             try {
                 var data = HostRoot.Current.AppSettingSet;
-                return DataResponse<List<AppSettingData>>.Ok(request.MessageId, data.Select(a => AppSettingData.Create(a)).ToList());
+                return DataResponse<List<AppSettingData>>.Ok(data.Select(a => AppSettingData.Create(a)).ToList());
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
-                return ResponseBase.ServerError<DataResponse<List<AppSettingData>>>(request.MessageId, e.Message);
+                return ResponseBase.ServerError<DataResponse<List<AppSettingData>>>(e.Message);
             }
         }
 
         [HttpPost]
         public ResponseBase SetAppSetting([FromBody]DataRequest<AppSettingData> request) {
             if (request == null || request.Data == null) {
-                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
+                return ResponseBase.InvalidInput("参数错误");
             }
             try {
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
@@ -53,11 +53,32 @@ namespace NTMiner.Controllers {
                 }
                 VirtualRoot.Execute(new ChangeAppSettingCommand(request.Data));
                 Write.DevLine($"{request.Data.Key} {request.Data.Value}");
-                return ResponseBase.Ok(request.MessageId);
+                return ResponseBase.Ok();
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
-                return ResponseBase.ServerError(request.MessageId, e.Message);
+                return ResponseBase.ServerError(e.Message);
+            }
+        }
+
+        [HttpPost]
+        public ResponseBase SetAppSettings([FromBody]DataRequest<List<AppSettingData>> request) {
+            if (request == null || request.Data == null) {
+                return ResponseBase.InvalidInput("参数错误");
+            }
+            try {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
+                    return response;
+                }
+                foreach (var item in request.Data) {
+                    VirtualRoot.Execute(new ChangeAppSettingCommand(item));
+                    Write.DevLine($"{item.Key} {item.Value}");
+                }
+                return ResponseBase.Ok();
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+                return ResponseBase.ServerError(e.Message);
             }
         }
     }

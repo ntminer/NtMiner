@@ -55,9 +55,11 @@ namespace NTMiner.Vms {
 
         public ICommand AddOverClockData { get; private set; }
 
-        public ICommand ApplyOverClock { get; private set; }
+        public ICommand ApplyTemplateOverClock { get; private set; }
 
-        public ICommand OverClock { get; private set; }
+        public ICommand ApplyCustomOverClock { get; private set; }
+
+        public ICommand FillOverClockForm { get; private set; }
 
         public Action CloseWindow { get; set; }
 
@@ -78,35 +80,49 @@ namespace NTMiner.Vms {
             _justAsDualCoin = data.JustAsDualCoin;
         }
 
+        private void ApplyOverClock() {
+            VirtualRoot.Execute(new AddOrUpdateGpuProfileCommand(GpuAllProfileVm));
+            var list = GpuProfileVms.ToArray();
+            foreach (var item in list) {
+                VirtualRoot.Execute(new AddOrUpdateGpuProfileCommand(item));
+            }
+            VirtualRoot.Execute(new CoinOverClockCommand(this.Id));
+        }
+
+        private void FillOverClock(OverClockDataViewModel data) {
+            if (IsOverClockGpuAll) {
+                GpuAllProfileVm.Update(data);
+            }
+            else {
+                foreach (var item in GpuProfileVms) {
+                    if (item.Index == NTMinerRoot.GpuAllId) {
+                        continue;
+                    }
+                    item.Update(data);
+                }
+            }
+        }
+
         public CoinViewModel(Guid id) {
             _id = id;
-            this.OverClock = new DelegateCommand<OverClockDataViewModel>((data) => {
-                DialogWindow.ShowDialog(message: $"确定应用该超频设置吗？", title: "确认", onYes: () => {
-                    if (IsOverClockGpuAll) {
-                        GpuAllProfileVm.Update(data);
-                    }
-                    else {
-                        foreach (var item in GpuProfileVms) {
-                            if (item.Index == NTMinerRoot.GpuAllId) {
-                                continue;
-                            }
-                            item.Update(data);
-                        }
-                    }
-                    ApplyOverClock.Execute(null);
+            this.ApplyTemplateOverClock = new DelegateCommand<OverClockDataViewModel>((data) => {
+                DialogWindow.ShowDialog(message: data.Tooltip, title: "确定应用该超频设置吗？", onYes: () => {
+                    FillOverClock(data);
+                    ApplyOverClock();
                 }, icon: IconConst.IconConfirm);
+            });
+            this.ApplyCustomOverClock = new DelegateCommand(() => {
+                DialogWindow.ShowDialog(message: $"确定应用您的自定义超频吗？", title: "确认自定义超频", onYes: () => {
+                    ApplyOverClock();
+                }, icon: IconConst.IconConfirm);
+            });
+            this.FillOverClockForm = new DelegateCommand<OverClockDataViewModel>((data) => {
+                FillOverClock(data);
             });
             this.AddOverClockData = new DelegateCommand(() => {
                 new OverClockDataViewModel(Guid.NewGuid()) {
                     CoinId = this.Id
                 }.Edit.Execute(FormType.Add);
-            });
-            this.ApplyOverClock = new DelegateCommand(() => {
-                var list = GpuProfileVms.ToArray();
-                foreach (var item in list) {
-                    VirtualRoot.Execute(new AddOrUpdateGpuProfileCommand(item));
-                }
-                VirtualRoot.Execute(new CoinOverClockCommand(this.Id));
             });
             this.Save = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {
@@ -183,6 +199,15 @@ namespace NTMiner.Vms {
             });
         }
 
+        public void OnOverClockPropertiesChanges() {
+            OnPropertyChanged(nameof(IsOverClockEnabled));
+            OnPropertyChanged(nameof(IsOverClockGpuAll));
+            _gpuAllProfileVm = null;
+            _gpuProfileVms = null;
+            OnPropertyChanged(nameof(GpuAllProfileVm));
+            OnPropertyChanged(nameof(GpuProfileVms));
+        }
+
         public bool IsOverClockEnabled {
             get { return GpuProfileSet.Instance.IsOverClockEnabled(this.Id); }
             set {
@@ -245,7 +270,7 @@ namespace NTMiner.Vms {
 
         public bool IsSupported {
             get {
-                if (this == PleaseSelect || VirtualRoot.IsControlCenter) {
+                if (this == PleaseSelect || VirtualRoot.IsMinerStudio) {
                     return true;
                 }
                 foreach (var coinKernel in NTMinerRoot.Current.CoinKernelSet.Where(a => a.CoinId == this.Id)) {

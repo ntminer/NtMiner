@@ -2,7 +2,6 @@
 using NTMiner.MinerClient;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace NTMiner.Core.Gpus {
     public class EmptyGpuSet : IGpuSet {
@@ -51,11 +50,11 @@ namespace NTMiner.Core.Gpus {
         public List<GpuSetProperty> Properties { get; private set; } = new List<GpuSetProperty>();
 
         public string GetProperty(string key) {
-            GpuSetProperty item = this.Properties.FirstOrDefault(a => a.Code == key);
-            if (item == null || item.Value == null) {
-                return string.Empty;
-            }
-            return item.Value.ToString();
+            return string.Empty;
+        }
+
+        public void LoadGpuState() {
+            // nothing need todo
         }
 
         public IEnumerator<IGpu> GetEnumerator() {

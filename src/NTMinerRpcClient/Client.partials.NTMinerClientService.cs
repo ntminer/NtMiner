@@ -35,7 +35,7 @@ namespace NTMiner {
                 bool isClosed = false;
                 try {
                     using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:{WebApiConst.MinerClientAppPort}/api/MinerClient/CloseNTMiner", new SignatureRequest {});
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:{WebApiConst.MinerClientAPort}/api/MinerClient/CloseNTMiner", new SignatureRequest {});
                         ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                         isClosed = response.IsSuccess();
                     }
@@ -72,7 +72,7 @@ namespace NTMiner {
 
             public ResponseBase StartMine(string clientIp, WorkRequest request) {
                 using (HttpClient client = new HttpClient()) {
-                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientIp}:{WebApiConst.MinerClientAppPort}/api/{s_controllerName}/{nameof(IMinerClientController.StartMine)}", request);
+                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientIp}:{WebApiConst.MinerClientAPort}/api/{s_controllerName}/{nameof(IMinerClientController.StartMine)}", request);
                     ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                     return response;
                 }
@@ -93,7 +93,7 @@ namespace NTMiner {
 
             public ResponseBase StopMine(string clientIp, SignatureRequest request) {
                 using (HttpClient client = new HttpClient()) {
-                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientIp}:{WebApiConst.MinerClientAppPort}/api/{s_controllerName}/{nameof(IMinerClientController.StopMine)}", request);
+                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientIp}:{WebApiConst.MinerClientAPort}/api/{s_controllerName}/{nameof(IMinerClientController.StopMine)}", request);
                     ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                     return response;
                 }
@@ -115,7 +115,7 @@ namespace NTMiner {
             public ResponseBase SetMinerProfileProperty(string clientIp, SetClientMinerProfilePropertyRequest request) {
                 using (HttpClient client = new HttpClient()) {
                     client.Timeout = TimeSpan.FromMilliseconds(3000);
-                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientIp}:{WebApiConst.MinerClientAppPort}/api/{s_controllerName}/{nameof(IMinerClientController.SetMinerProfileProperty)}", request);
+                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientIp}:{WebApiConst.MinerClientAPort}/api/{s_controllerName}/{nameof(IMinerClientController.SetMinerProfileProperty)}", request);
                     ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                     return response;
                 }
@@ -126,7 +126,7 @@ namespace NTMiner {
                     try {
                         using (HttpClient client = new HttpClient()) {
                             client.Timeout = TimeSpan.FromMilliseconds(3000);
-                            Task<HttpResponseMessage> message = client.PostAsync($"http://{clientHost}:{WebApiConst.MinerClientAppPort}/api/{s_controllerName}/{nameof(IMinerClientController.GetSpeed)}", null);
+                            Task<HttpResponseMessage> message = client.PostAsync($"http://{clientHost}:{WebApiConst.MinerClientAPort}/api/{s_controllerName}/{nameof(IMinerClientController.GetSpeed)}", null);
                             SpeedData data = message.Result.Content.ReadAsAsync<SpeedData>().Result;
                             callback?.Invoke(data, null);
                             return data;
@@ -145,7 +145,22 @@ namespace NTMiner {
                     try {
                         using (HttpClient client = new HttpClient()) {
                             client.Timeout = TimeSpan.FromMilliseconds(3000);
-                            Task<HttpResponseMessage> message = client.PostAsync($"http://localhost:{WebApiConst.MinerClientAppPort}/api/{s_controllerName}/{nameof(IMinerClientController.RefreshAutoBootStart)}", null);
+                            Task<HttpResponseMessage> message = client.PostAsync($"http://localhost:{WebApiConst.MinerClientAPort}/api/{s_controllerName}/{nameof(IMinerClientController.RefreshAutoBootStart)}", null);
+                            Write.DevLine(message.Result.ReasonPhrase);
+                        }
+                    }
+                    catch (Exception e) {
+                        Logger.ErrorDebugLine(e.Message, e);
+                    }
+                });
+            }
+
+            public void OverClockAsync() {
+                Task.Factory.StartNew(() => {
+                    try {
+                        using (HttpClient client = new HttpClient()) {
+                            client.Timeout = TimeSpan.FromMilliseconds(3000);
+                            Task<HttpResponseMessage> message = client.PostAsync($"http://localhost:{WebApiConst.MinerClientAPort}/api/{s_controllerName}/{nameof(IMinerClientController.OverClock)}", null);
                             Write.DevLine(message.Result.ReasonPhrase);
                         }
                     }

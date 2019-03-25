@@ -11,15 +11,11 @@ namespace NTMiner.Data.Impl {
         private readonly List<CoinSnapshotData> _dataList = new List<CoinSnapshotData>();
         internal CoinSnapshotSet(IHostRoot root) {
             _root = root;
-            VirtualRoot.On<Per10SecondEvent>(
-                "周期性拍摄快照",
-                LogEnum.Console,
+            VirtualRoot.On<Per10SecondEvent>("周期性拍摄快照", LogEnum.DevConsole,
                 action: message => {
                     Snapshot(message.Timestamp);
                 });
-            VirtualRoot.On<Per2MinuteEvent>(
-                "周期性拍摄快照",
-                LogEnum.Console,
+            VirtualRoot.On<Per2MinuteEvent>("周期性拍摄快照", LogEnum.DevConsole,
                 action: message => {
                     DateTime time = DateTime.Now.AddMinutes(-20);
                     List<CoinSnapshotData> toRemoves = _dataList.Where(a => a.Timestamp < time).ToList();

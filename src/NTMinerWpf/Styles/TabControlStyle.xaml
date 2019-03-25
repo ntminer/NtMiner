@@ -57,7 +57,7 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type TabItem}">
-					<Border x:Name="Border" BorderThickness="0 0 0 2" VerticalAlignment="Bottom" HorizontalAlignment="Center" BorderBrush="Transparent">
+					<Border x:Name="Border" BorderThickness="0 0 0 1" VerticalAlignment="Bottom" HorizontalAlignment="Center" BorderBrush="Transparent">
 						<TextBlock 
 							x:Name="header" 
 							TextWrapping="Wrap" 
@@ -73,7 +73,7 @@
 							<Setter Property="Opacity" TargetName="header" Value="1"></Setter>
 						</Trigger>
 						<Trigger Property="IsSelected" Value="true">
-							<Setter Property="BorderBrush" TargetName="Border" Value="Black"/>
+							<Setter Property="BorderBrush" TargetName="Border" Value="{StaticResource ThemeForeground}"/>
 							<Setter Property="Opacity" TargetName="header" Value="1"></Setter>
 						</Trigger>
 						<MultiTrigger>

@@ -122,13 +122,13 @@ namespace NTMiner.Vms {
             set {
                 _data.CoreClockDelta = value;
                 OnPropertyChanged(nameof(CoreClockDelta));
-                OnPropertyChanged(nameof(CoreClockDeltaText));
+                OnPropertyChanged(nameof(CoreClockDeltaMText));
             }
         }
 
-        public string CoreClockDeltaText {
+        public string CoreClockDeltaMText {
             get {
-                return CoreClockDelta.ToString() + "M";
+                return (CoreClockDelta / 1000).ToString() + "M";
             }
         }
 
@@ -137,13 +137,13 @@ namespace NTMiner.Vms {
             set {
                 _data.MemoryClockDelta = value;
                 OnPropertyChanged(nameof(MemoryClockDelta));
-                OnPropertyChanged(nameof(MemoryClockDeltaText));
+                OnPropertyChanged(nameof(MemoryClockDeltaMText));
             }
         }
 
-        public string MemoryClockDeltaText {
+        public string MemoryClockDeltaMText {
             get {
-                return MemoryClockDelta.ToString() + "M";
+                return (MemoryClockDelta / 1000).ToString() + "M";
             }
         }
 

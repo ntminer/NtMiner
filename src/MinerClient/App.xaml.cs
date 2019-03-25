@@ -60,19 +60,15 @@ namespace NTMiner {
                             System.Drawing.Icon icon = new System.Drawing.Icon(GetResourceStream(new Uri("pack://application:,,,/NTMiner;component/logo.ico")).Stream);
                             AppHelper.NotifyIcon = ExtendedNotifyIcon.Create(icon, "挖矿端", isMinerStudio: false);
                             #region 处理显示主界面命令
-                            VirtualRoot.Accept<ShowMainWindowCommand>(
-                                "处理显示主界面命令",
-                                LogEnum.None,
+                            VirtualRoot.Window<ShowMainWindowCommand>("处理显示主界面命令", LogEnum.None,
                                 action: message => {
-                                    UIThread.Execute(() => {
-                                        Dispatcher.Invoke((ThreadStart)mainWindow.ShowThisWindow);
-                                    });
+                                    Dispatcher.Invoke((ThreadStart)mainWindow.ShowThisWindow);
                                 });
                             #endregion
                             splashWindow?.Close();
                             Task.Factory.StartNew(() => {
                                 try {
-                                    HttpServer.Start($"http://localhost:{WebApiConst.MinerClientAppPort}");
+                                    HttpServer.Start($"http://localhost:{WebApiConst.MinerClientAPort}");
                                     NTMinerRoot.Current.Start();
                                 }
                                 catch (Exception ex) {
@@ -81,30 +77,21 @@ namespace NTMiner {
                             });
                         });
                     });
-                    VirtualRoot.Accept<CloseNTMinerCommand>(
-                        "处理关闭NTMiner客户端命令",
-                        LogEnum.Console,
+                    VirtualRoot.Window<CloseNTMinerCommand>("处理关闭NTMiner客户端命令", LogEnum.UserConsole,
                         action: message => {
-                            Write.DevLine("关闭客NTMiner客户端");
                             UIThread.Execute(() => {
                                 if (MainWindow != null) {
                                     MainWindow.Close();
                                 }
-                                else {
-                                    Shutdown();
-                                    Environment.Exit(0);
-                                }
+                                Shutdown();
+                                Environment.Exit(0);
                             });
                         });
-                    VirtualRoot.On<MineStartedEvent>(
-                        "开始挖矿后启动1080ti小药丸",
-                        LogEnum.Console,
+                    VirtualRoot.On<MineStartedEvent>("开始挖矿后启动1080ti小药丸", LogEnum.DevConsole,
                         action: message => {
                             OhGodAnETHlargementPill.OhGodAnETHlargementPillUtil.Start();
                         });
-                    VirtualRoot.On<MineStopedEvent>(
-                        "停止挖矿后停止1080ti小药丸",
-                        LogEnum.Console,
+                    VirtualRoot.On<MineStopedEvent>("停止挖矿后停止1080ti小药丸", LogEnum.DevConsole,
                         action: message => {
                             OhGodAnETHlargementPill.OhGodAnETHlargementPillUtil.Stop();
                         });
@@ -112,7 +99,7 @@ namespace NTMiner {
                 }
                 else {
                     try {
-                        AppHelper.ShowMainWindow(this, WebApiConst.MinerClientAppPort);
+                        AppHelper.ShowMainWindow(this, WebApiConst.MinerClientAPort);
                     }
                     catch (Exception) {
                         DialogWindow.ShowDialog(message: "另一个NTMiner正在运行，请手动结束正在运行的NTMiner进程后再次尝试。", title: "alert", icon: "Icon_Error");

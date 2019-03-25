@@ -12,9 +12,7 @@ namespace NTMiner.Core.Kernels.Impl {
         public KernelInputSet(INTMinerRoot root, bool isUseJson) {
             _root = root;
             _isUseJson = isUseJson;
-            VirtualRoot.Accept<AddKernelInputCommand>(
-                "添加内核输入组",
-                LogEnum.Console,
+            VirtualRoot.Window<AddKernelInputCommand>("添加内核输入组", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -30,9 +28,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.Happened(new KernelInputAddedEvent(entity));
                 }).AddToCollection(root.ContextHandlers);
-            VirtualRoot.Accept<UpdateKernelInputCommand>(
-                "更新内核输入组",
-                LogEnum.Console,
+            VirtualRoot.Window<UpdateKernelInputCommand>("更新内核输入组", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -54,9 +50,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.Happened(new KernelInputUpdatedEvent(entity));
                 }).AddToCollection(root.ContextHandlers);
-            VirtualRoot.Accept<RemoveKernelInputCommand>(
-                "移除内核输入组",
-                LogEnum.Console,
+            VirtualRoot.Window<RemoveKernelInputCommand>("移除内核输入组", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {

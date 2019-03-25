@@ -27,7 +27,7 @@
 					MinWidth="100" CanUserResize="True" IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
 						<controls:KbButton
-							IsEnabled="{Binding Data.IsControlCenter,Source={StaticResource proxy}}"
+							IsEnabled="{Binding Data.IsMinerStudio,Source={StaticResource proxy}}"
 							Command="{Binding Data.UserVms.Add, Source={StaticResource proxy}}" 
 							Background="Transparent" BorderThickness="0"
 							Margin="2 0"
@@ -45,7 +45,7 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel 
-								IsEnabled="{Binding IsControlCenter}"
+								IsEnabled="{Binding IsMinerStudio}"
 								HorizontalAlignment="Right" Background="Transparent" VerticalAlignment="Center" Orientation="Horizontal">
 								<controls:KbButton 
 									Command="{Binding Edit}" Background="Transparent" BorderThickness="0"
