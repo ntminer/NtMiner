@@ -123,15 +123,23 @@ namespace NTMiner.MinerServer {
         private DateTime _preMainCoinDeltaOn;
         private DateTime _preDualCoinDeltaOn;
 
-        public int GetMainCoinShareDelta() {
-            if (this.IsMining == false || string.IsNullOrEmpty(this.MainCoinCode) || this.ModifiedOn.AddSeconds(20) < DateTime.Now) {
+        public int GetMainCoinShareDelta(bool isPull) {
+            if (this.IsMining == false || string.IsNullOrEmpty(this.MainCoinCode)) {
+                return 0;
+            }
+            if (isPull) {
+                if (this.ModifiedOn.AddSeconds(20) < DateTime.Now) {
+                    return 0;
+                }
+            }
+            else if(this.ModifiedOn.AddSeconds(130) < DateTime.Now) {
                 return 0;
             }
 
             int delta = 0;
 
             if (_preMainCoin == this.MainCoinCode) {
-                if (_preMainCoinShare != 0 && _preMainCoinDeltaOn.AddSeconds(20) > DateTime.Now) {
+                if (_preMainCoinShare != 0) {
                     delta = this.MainCoinTotalShare - _preMainCoinShare;
                     if (delta < 0) {
                         delta = 0;
@@ -149,15 +157,23 @@ namespace NTMiner.MinerServer {
             return delta;
         }
 
-        public int GetDualCoinShareDelta() {
-            if (this.IsMining == false || string.IsNullOrEmpty(this.DualCoinCode) || this.ModifiedOn.AddSeconds(20) < DateTime.Now) {
+        public int GetDualCoinShareDelta(bool isPull) {
+            if (this.IsMining == false || string.IsNullOrEmpty(this.DualCoinCode)) {
+                return 0;
+            }
+            if (isPull) {
+                if (this.ModifiedOn.AddSeconds(20) < DateTime.Now) {
+                    return 0;
+                }
+            }
+            else if (this.ModifiedOn.AddSeconds(130) < DateTime.Now) {
                 return 0;
             }
 
             int delta = 0;
 
             if (_preDualCoin == this.DualCoinCode) {
-                if (_preDualCoinShare != 0 && _preDualCoinDeltaOn.AddSeconds(20) > DateTime.Now) {
+                if (_preDualCoinShare != 0) {
                     delta = this.DualCoinTotalShare - _preDualCoinShare;
                     if (delta < 0) {
                         delta = 0;
@@ -175,8 +191,14 @@ namespace NTMiner.MinerServer {
             return delta;
         }
 
-        public int GetMainCoinRejectShareDelta() {
-            if (this.IsMining == false || string.IsNullOrEmpty(this.MainCoinCode) || this.ModifiedOn.AddSeconds(20) < DateTime.Now) {
+        public int GetMainCoinRejectShareDelta(bool isPull) {
+            if (this.IsMining == false || string.IsNullOrEmpty(this.MainCoinCode)) {
+                return 0;
+            }
+            if (isPull && this.ModifiedOn.AddSeconds(20) < DateTime.Now) {
+                return 0;
+            }
+            else if (this.ModifiedOn.AddSeconds(130) < DateTime.Now) {
                 return 0;
             }
 
@@ -199,8 +221,16 @@ namespace NTMiner.MinerServer {
             return delta;
         }
 
-        public int GetDualCoinRejectShareDelta() {
-            if (this.IsMining == false || string.IsNullOrEmpty(this.DualCoinCode) || this.ModifiedOn.AddSeconds(20) < DateTime.Now) {
+        public int GetDualCoinRejectShareDelta(bool isPull) {
+            if (this.IsMining == false || string.IsNullOrEmpty(this.DualCoinCode)) {
+                return 0;
+            }
+            if (isPull) {
+                if (this.ModifiedOn.AddSeconds(20) < DateTime.Now) {
+                    return 0;
+                }
+            }
+            else if (this.ModifiedOn.AddSeconds(130) < DateTime.Now) {
                 return 0;
             }
 

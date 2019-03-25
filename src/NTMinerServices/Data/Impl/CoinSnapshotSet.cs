@@ -96,8 +96,8 @@ namespace NTMiner.Data.Impl {
                         miningCount++;
                         mainCoinSnapshotData.MainCoinMiningCount += 1;
                         mainCoinSnapshotData.Speed += clientData.MainCoinSpeed;
-                        mainCoinSnapshotData.ShareDelta += clientData.GetMainCoinShareDelta();
-                        mainCoinSnapshotData.RejectShareDelta += clientData.GetMainCoinRejectShareDelta();
+                        mainCoinSnapshotData.ShareDelta += clientData.GetMainCoinShareDelta(HostRoot.Current.HostConfig.IsPull);
+                        mainCoinSnapshotData.RejectShareDelta += clientData.GetMainCoinRejectShareDelta(HostRoot.Current.HostConfig.IsPull);
                     }
 
                     mainCoinSnapshotData.MainCoinOnlineCount += 1;
@@ -115,8 +115,8 @@ namespace NTMiner.Data.Impl {
                         if (clientData.IsMining) {
                             dualCoinSnapshotData.DualCoinMiningCount += 1;
                             dualCoinSnapshotData.Speed += clientData.DualCoinSpeed;
-                            dualCoinSnapshotData.ShareDelta += clientData.GetDualCoinShareDelta();
-                            dualCoinSnapshotData.RejectShareDelta += clientData.GetDualCoinRejectShareDelta();
+                            dualCoinSnapshotData.ShareDelta += clientData.GetDualCoinShareDelta(HostRoot.Current.HostConfig.IsPull);
+                            dualCoinSnapshotData.RejectShareDelta += clientData.GetDualCoinRejectShareDelta(HostRoot.Current.HostConfig.IsPull);
                         }
 
                         dualCoinSnapshotData.DualCoinOnlineCount += 1;
