@@ -37,6 +37,7 @@ namespace NTMiner.Core.Gpus.Impl {
         }
 
         private readonly uint deviceCount = 0;
+        private readonly bool _isNvmlInited = false;
         public NVIDIAGpuSet(INTMinerRoot root) : this() {
             _root = root;
             if (Design.IsInDesignMode) {
@@ -46,6 +47,7 @@ namespace NTMiner.Core.Gpus.Impl {
             if (Directory.Exists(nvsmiDir)) {
                 Windows.NativeMethods.SetDllDirectory(nvsmiDir);
                 NvmlNativeMethods.nvmlInit();
+                _isNvmlInited = true;
                 NvmlNativeMethods.nvmlDeviceGetCount(ref deviceCount);
                 for (int i = 0; i < deviceCount; i++) {
                     nvmlDevice nvmlDevice = new nvmlDevice();
@@ -93,10 +95,8 @@ namespace NTMiner.Core.Gpus.Impl {
         }
 
         ~NVIDIAGpuSet() {
-            try {
+            if (_isNvmlInited) {
                 NvmlNativeMethods.nvmlShutdown();
-            }
-            catch {
             }
         }
 
