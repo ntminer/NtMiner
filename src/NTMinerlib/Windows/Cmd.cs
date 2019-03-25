@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 
 namespace NTMiner.Windows {
     public static class Cmd {
@@ -10,6 +11,9 @@ namespace NTMiner.Windows {
                     proc.StartInfo.UseShellExecute = false;
                     proc.StartInfo.FileName = "cmd.exe";
                     proc.StartInfo.Arguments = $"/C \"{filePullName}\" {args}";
+                    if (Path.IsPathRooted(filePullName)) {
+                        proc.StartInfo.WorkingDirectory = Path.GetDirectoryName(filePullName);
+                    }
                     proc.Start();
                 }
             }
@@ -25,6 +29,9 @@ namespace NTMiner.Windows {
                     proc.StartInfo.UseShellExecute = false;
                     proc.StartInfo.FileName = "cmd.exe";
                     proc.StartInfo.Arguments = $"/C \"{filePullName}\" {args}";
+                    if (Path.IsPathRooted(filePullName)) {
+                        proc.StartInfo.WorkingDirectory = Path.GetDirectoryName(filePullName);
+                    }
                     proc.Start();
                     proc.WaitForExit(10 * 1000);
                     exitCode = proc.ExitCode;
@@ -45,6 +52,9 @@ namespace NTMiner.Windows {
                     proc.StartInfo.RedirectStandardError = true;
                     proc.StartInfo.FileName = "cmd.exe";
                     proc.StartInfo.Arguments = $"/C \"{filePullName}\" {args}";
+                    if (Path.IsPathRooted(filePullName)) {
+                        proc.StartInfo.WorkingDirectory = Path.GetDirectoryName(filePullName);
+                    }
                     proc.Start();
 
                     output = proc.StandardOutput.ReadToEnd();// 注意：读取输出可能被阻塞
