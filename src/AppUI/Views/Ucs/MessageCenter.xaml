@@ -13,13 +13,14 @@
 	</UserControl.Resources>
 	<Grid Background="Black">
 		<Grid.RowDefinitions>
-			<RowDefinition Height="*"></RowDefinition>
+			<RowDefinition Height="Auto"></RowDefinition>
 			<RowDefinition Height="*"></RowDefinition>
 		</Grid.RowDefinitions>
 		<FlowDocumentScrollViewer 	
+			x:Name="FlowDocumentScrollViewerDebug" 
+			Height="200"
 			Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
 			VerticalScrollBarVisibility="Auto"
-			x:Name="FlowDocumentScrollViewerDebug" 
 			BorderThickness="0" 
 			Foreground="White">
 			<FlowDocument PagePadding="4">
@@ -39,7 +40,7 @@
 			</FlowDocument>
 		</FlowDocumentScrollViewer>
 		<controls:KbCheckBox 
-			Grid.Row="0"
+			Grid.Row="1"
 			Margin="0 2 14 0"
 			HorizontalAlignment="Right"
 			VerticalAlignment="Top"
