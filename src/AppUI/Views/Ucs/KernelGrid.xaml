@@ -360,6 +360,7 @@
 				<ColumnDefinition Width="Auto"></ColumnDefinition>
 			</Grid.ColumnDefinitions>
 			<ListBox 
+				Visibility="{Binding IsBrandVisible}"
 				VerticalAlignment="Center"
 				Background="Transparent"				
 				ItemsSource="{Binding SysDicItemVms.KernelBrandItems}"

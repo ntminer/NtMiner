@@ -92,6 +92,15 @@ namespace NTMiner.Vms {
             }
         }
 
+        public Visibility IsBrandVisible {
+            get {
+                if (NTMinerRoot.KernelBrandId != Guid.Empty) {
+                    return Visibility.Collapsed;
+                }
+                return Visibility.Visible;
+            }
+        }
+
         public bool CanPageSub {
             get {
                 return PageNumber != 1;
