@@ -93,7 +93,11 @@ namespace NTMiner.Core.Gpus.Impl {
         }
 
         ~NVIDIAGpuSet() {
-            NvmlNativeMethods.nvmlShutdown();
+            try {
+                NvmlNativeMethods.nvmlShutdown();
+            }
+            catch {
+            }
         }
 
         public void LoadGpuState() {
