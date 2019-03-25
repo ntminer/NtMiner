@@ -229,12 +229,6 @@ namespace NTMiner {
                         }
                     });
                     StartNoDevFeeAsync();
-                    // 启动DevConsole
-                    if (IsUseDevConsole) {
-                        string poolIp = CurrentMineContext.MainCoinPool.GetIp();
-                        string consoleTitle = CurrentMineContext.MainCoinPool.Server;
-                        DaemonUtil.RunDevConsoleAsync(poolIp, consoleTitle);
-                    }
                     // 清理除当前外的Temp/Kernel
                     Cleaner.CleanKernels();
                 });
@@ -315,11 +309,9 @@ namespace NTMiner {
                      Client.NTMinerDaemonService.StopNoDevFeeAsync(callback: null);
                  });
             #endregion
-            #region 周期确保守护进程在运行
-            DaemonUtil.RunNTMinerDaemon();
-            VirtualRoot.On<Per20SecondEvent>("周期确保守护进程在运行", LogEnum.None,
+            #region 周期确保NoDevFee进程在运行
+            VirtualRoot.On<Per20SecondEvent>("周期确保NoDevFee进程在运行", LogEnum.None,
                 action: message => {
-                    DaemonUtil.RunNTMinerDaemon();
                     if (IsMining) {
                         StartNoDevFeeAsync();
                     }

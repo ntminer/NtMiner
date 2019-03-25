@@ -151,7 +151,6 @@
     <Compile Include="Core\PoolExtensions.cs" />
     <Compile Include="Core\IDualMineContext.cs" />
     <Compile Include="Core\IMineContext.cs" />
-    <Compile Include="Daemon\DaemonUtil.cs" />
     <Compile Include="DoubleExtension.cs" />
     <Compile Include="NTMinerRoot.partials.MineContext.cs" />
     <Compile Include="NTMinerRoot.partials.MinerProcess.cs" />
@@ -247,12 +246,6 @@
       <Project>{dd8e010e-d5e9-47cf-9cb4-8dc6e13d483d}</Project>
       <Name>NTMinerWpf</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Daemon\DevConsole.exe" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Daemon\NTMinerDaemon.exe" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

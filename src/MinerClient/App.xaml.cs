@@ -1,4 +1,5 @@
-﻿using NTMiner.OverClock;
+﻿using NTMiner.Core;
+using NTMiner.OverClock;
 using NTMiner.Views;
 using System;
 using System.Diagnostics;
@@ -87,8 +88,22 @@ namespace NTMiner {
                                 Environment.Exit(0);
                             });
                         });
-                    VirtualRoot.On<MineStartedEvent>("开始挖矿后启动1080ti小药丸", LogEnum.DevConsole,
+                    #region 周期确保守护进程在运行
+                    Daemon.DaemonUtil.RunNTMinerDaemon();
+                    VirtualRoot.On<Per20SecondEvent>("周期确保守护进程在运行", LogEnum.None,
                         action: message => {
+                            Daemon.DaemonUtil.RunNTMinerDaemon();
+                        });
+                    #endregion
+                    VirtualRoot.On<MineStartedEvent>("开始挖矿后启动1080ti小药丸、挖矿开始后如果需要启动DevConsole则启动DevConsole", LogEnum.DevConsole,
+                        action: message => {
+                            // 启动DevConsole
+                            if (NTMinerRoot.IsUseDevConsole) {
+                                var mineContext = message.MineContext;
+                                string poolIp = mineContext.MainCoinPool.GetIp();
+                                string consoleTitle = mineContext.MainCoinPool.Server;
+                                Daemon.DaemonUtil.RunDevConsoleAsync(poolIp, consoleTitle);
+                            }
                             OhGodAnETHlargementPill.OhGodAnETHlargementPillUtil.Start();
                         });
                     VirtualRoot.On<MineStopedEvent>("停止挖矿后停止1080ti小药丸", LogEnum.DevConsole,
