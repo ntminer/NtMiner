@@ -124,7 +124,7 @@ namespace NTMiner.Core.Impl {
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         private static IRepository<T> CreateCompositeRepository<T>(bool isUseJson) where T : class, ILevelEntity<Guid> {
-            return new CompositeRepository<T>(NTMinerRoot.CreateServerRepository<T>(isUseJson), NTMinerRoot.CreateLocalRepository<T>(isUseJson));
+            return new CompositeRepository<T>(NTMinerRoot.CreateServerRepository<T>(isUseJson), NTMinerRoot.CreateLocalRepository<T>(isUseJson: false));
         }
 
         private bool _isInited = false;
