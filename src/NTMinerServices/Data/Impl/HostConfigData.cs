@@ -2,6 +2,14 @@
 
 namespace NTMiner.Data.Impl {
     public class HostConfigData : IHostConfig {
+        public static readonly HostConfigData LocalHostConfig = new HostConfigData {
+            Id = Guid.Empty,
+            IsPull = true,
+            OssAccessKeyId = string.Empty,
+            OssAccessKeySecret = string.Empty,
+            OssEndpoint = string.Empty
+        };
+
         public HostConfigData() {
             IsPull = true;
         }

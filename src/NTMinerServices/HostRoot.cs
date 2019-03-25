@@ -5,6 +5,7 @@ using NTMiner.Data.Impl;
 using NTMiner.User;
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading;
 
 namespace NTMiner {
@@ -82,29 +83,35 @@ namespace NTMiner {
         }
 
         #region OSSClientInit
+        private readonly bool _isNotOfficial = Environment.CommandLine.IndexOf("--notofficial", StringComparison.OrdinalIgnoreCase) != -1;
         private DateTime _ossClientOn = DateTime.MinValue;
         private readonly object _ossClientLocker = new object();
         private void OssClientInit() {
-            DateTime now = DateTime.Now;
-            if (_ossClientOn.AddMinutes(10) < now) {
-                lock (_ossClientLocker) {
-                    if (_ossClientOn.AddMinutes(10) < now) {
-                        HostConfigData hostConfigData;
-                        using (LiteDatabase db = CreateLocalDb()) {
-                            var col = db.GetCollection<HostConfigData>();
-                            hostConfigData = col.FindOne(Query.All());
+            if (_isNotOfficial) {
+                this.HostConfig = HostConfigData.LocalHostConfig;
+            }
+            else {
+                DateTime now = DateTime.Now;
+                if (_ossClientOn.AddMinutes(10) < now) {
+                    lock (_ossClientLocker) {
+                        if (_ossClientOn.AddMinutes(10) < now) {
+                            HostConfigData hostConfigData;
+                            using (LiteDatabase db = CreateLocalDb()) {
+                                var col = db.GetCollection<HostConfigData>();
+                                hostConfigData = col.FindOne(Query.All());
+                            }
+                            if (hostConfigData == null) {
+                                Console.WriteLine("HostConfigData未配置");
+                            }
+                            else {
+                                this.HostConfig = hostConfigData;
+                            }
+                            string accessKeyId = hostConfigData.OssAccessKeyId;
+                            string accessKeySecret = hostConfigData.OssAccessKeySecret;
+                            string endpoint = hostConfigData.OssEndpoint;
+                            _ossClientOn = DateTime.Now;
+                            _ossClient = new OssClient(endpoint, accessKeyId, accessKeySecret);
                         }
-                        if (hostConfigData == null) {
-                            Console.WriteLine("HostConfigData未配置");
-                        }
-                        else {
-                            this.HostConfig = hostConfigData;
-                        }
-                        string accessKeyId = hostConfigData.OssAccessKeyId;
-                        string accessKeySecret = hostConfigData.OssAccessKeySecret;
-                        string endpoint = hostConfigData.OssEndpoint;
-                        _ossClientOn = DateTime.Now;
-                        _ossClient = new OssClient(endpoint, accessKeyId, accessKeySecret);
                     }
                 }
             }

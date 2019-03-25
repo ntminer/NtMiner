@@ -42,7 +42,7 @@ namespace NTMiner.NTMinerServices {
 #else
                 bool createNoWindow = true;
 #endif
-                Windows.Cmd.RunClose(SpecialPath.NTMinerServicesFileFullName, "--enableInnerIp", createNoWindow);
+                Windows.Cmd.RunClose(SpecialPath.NTMinerServicesFileFullName, "--enableInnerIp --notofficial", createNoWindow);
                 Logger.OkDebugLine("群控服务进程启动成功");
             });
         }
