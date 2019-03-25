@@ -10,7 +10,7 @@ namespace NTMiner.JsonDb {
         public LocalJsonDb() {
             this.CoinKernelProfiles = new CoinKernelProfileData[0];
             this.CoinProfiles = new CoinProfileData[0];
-            this.MinerProfile = new MinerProfileData();
+            this.MinerProfile = MinerProfileData.CreateDefaultData(Guid.Empty);
             this.MineWork = new MineWorkData();
             this.Pools = new PoolData[0];
             this.PoolProfiles = new PoolProfileData[0];

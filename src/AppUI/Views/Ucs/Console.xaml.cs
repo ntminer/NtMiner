@@ -47,7 +47,7 @@ namespace NTMiner.Views.Ucs {
             list.Add(run);
 
             if (ChkbIsConsoleAutoScrollToEnd.IsChecked.HasValue && ChkbIsConsoleAutoScrollToEnd.IsChecked.Value) {
-                this.ScrollViewer.ScrollToEnd();
+                this.ScrollViewer?.ScrollToEnd();
             }
         }
 

@@ -91,7 +91,7 @@ namespace NTMiner.Vms {
                             return "作业名称是必须的";
                         }
                         return string.Empty;
-                    }, workName => {
+                    }, onOk: workName => {
                         new MineWorkViewModel(this) { Name = workName }.Save.Execute(null);
                     });
                 }
@@ -101,11 +101,9 @@ namespace NTMiner.Vms {
                     string json = Server.ControlCenterService.GetLocalJson(this.Id);
                     if (!string.IsNullOrEmpty(json)) {
                         File.WriteAllText(SpecialPath.LocalJsonFileFullName, json);
-                        NTMinerRoot.ReInitLocalJson();
                     }
                     else {
                         File.Delete(SpecialPath.LocalJsonFileFullName);
-                        NTMinerRoot.ReInitLocalJson(new MineWorkData(this));
                     }
                     NTMinerRoot.Current.ReInitMinerProfile();
                     this.Sha1 = NTMinerRoot.Current.MinerProfile.GetSha1();

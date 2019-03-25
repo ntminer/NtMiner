@@ -10,14 +10,6 @@ namespace NTMiner.Vms {
         public ChartsWindowViewModel() {
         }
 
-        public bool IsAutoCloseServices {
-            get => NTMinerRegistry.GetIsAutoCloseServices();
-            set {
-                NTMinerRegistry.SetIsAutoCloseServices(value);
-                OnPropertyChanged(nameof(IsAutoCloseServices));
-            }
-        }
-
         public LangViewModels LangVms {
             get {
                 return LangViewModels.Current;

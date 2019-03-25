@@ -57,7 +57,7 @@ namespace NTMiner.Views.Ucs {
             list.Add(run);
 
             if (ChkbIsConsoleAutoScrollToEnd.IsChecked.HasValue && ChkbIsConsoleAutoScrollToEnd.IsChecked.Value) {
-                ScrollViewer(rtb).ScrollToEnd();
+                ScrollViewer(rtb)?.ScrollToEnd();
             }
         }
 

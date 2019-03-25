@@ -8,6 +8,7 @@
 	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 	xmlns:local="clr-namespace:NTMiner.Views"
 	xmlns:vm="clr-namespace:NTMiner.Vms"
+	DataContext="{x:Static vm:MainBarViewModel.Current}"
 	Background="{StaticResource ThemeBackground}"
 	mc:Ignorable="d">
 	<WrapPanel>
@@ -140,5 +141,11 @@
 				Fill="{StaticResource ThemeForeground}"
 				Stretch="Fill" />
 		</controls:KbButton>
+		<CheckBox 
+			Content="退出时同时退出本机群控服务"
+			VerticalAlignment="Center"
+			Cursor="Hand"
+			Foreground="{StaticResource ThemeForeground}"
+			IsChecked="{Binding IsAutoCloseServices}" />
 	</WrapPanel>
 </UserControl>

@@ -283,6 +283,7 @@
     </Compile>
     <Compile Include="Vms\AppSettingViewModel.cs" />
     <Compile Include="Vms\AppSettingViewModels.cs" />
+    <Compile Include="Vms\MainBarViewModel.cs" />
     <Compile Include="Vms\MinerClientSettingViewModel.cs" />
     <Compile Include="Vms\CalcConfigViewModel.cs" />
     <Compile Include="Vms\CalcConfigViewModels.cs" />
