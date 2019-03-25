@@ -348,8 +348,14 @@ namespace NTMiner.Vms {
             }
         }
 
+        private readonly bool _isInnerIp = Ip.Util.IsInnerIp(NTMinerRegistry.GetControlCenterHost());
         public bool IsOnline {
-            get { return this.ModifiedOn.AddSeconds(20) > DateTime.Now; }
+            get {
+                if (_isInnerIp) {
+                    return this.ModifiedOn.AddSeconds(20) > DateTime.Now;
+                }
+                return this.ModifiedOn.AddSeconds(130) > DateTime.Now;
+            }
         }
 
         public DateTime? MineStartedOn {

@@ -46,13 +46,16 @@ namespace NTMiner {
                 splashWindow.Show();
                 NotiCenterWindow.Instance.Show();
                 NTMinerRoot.AppName = "开源矿工群控客户端";
-                NTMinerServices.NTMinerServicesUtil.RunNTMinerServices();
+                bool isInnerIp = Ip.Util.IsInnerIp(NTMinerRegistry.GetControlCenterHost());
+                if (isInnerIp) {
+                    NTMinerServices.NTMinerServicesUtil.RunNTMinerServices();
+                }
                 NTMinerRoot.Current.Init(() => {
                     NTMinerRoot.KernelDownloader = new KernelDownloader();
                     UIThread.Execute(() => {
                         splashWindow?.Close();
                         bool? result = true;
-                        if (Ip.Util.IsInnerIp(NTMinerRegistry.GetControlCenterHost())) {
+                        if (isInnerIp) {
                             SingleUser.LoginName = "innerip";
                             SingleUser.SetPasswordSha1("123");
                             result = true;
