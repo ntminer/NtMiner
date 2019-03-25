@@ -11,20 +11,13 @@ namespace NTMiner {
         public static readonly FileUrlServiceFace FileUrlService = FileUrlServiceFace.Instance;
         public static readonly OverClockDataServiceFace OverClockDataService = OverClockDataServiceFace.Instance;
 
-#if DEBUG
-        // TODO:上线前改成官网
-        public static readonly string OfficialServerHost = "192.168.0.104";
-#else
-        public static readonly string OfficialServerHost = "server.ntminer.com";
-#endif
-
         #region private methods
         private static void PostAsync<T>(string controller, string action, object param, Action<T, Exception> callback) where T : class {
             Task.Factory.StartNew(() => {
                 try {
                     using (HttpClient client = new HttpClient()) {
                         Task<HttpResponseMessage> message =
-                            client.PostAsJsonAsync($"http://{OfficialServerHost}:{WebApiConst.ControlCenterPort}/api/{controller}/{action}", param);
+                            client.PostAsJsonAsync($"http://{AssemblyInfo.OfficialServerHost}:{WebApiConst.ControlCenterPort}/api/{controller}/{action}", param);
                         T response = message.Result.Content.ReadAsAsync<T>().Result;
                         callback?.Invoke(response, null);
                     }
@@ -39,7 +32,7 @@ namespace NTMiner {
         private static T Post<T>(string controller, string action, object param) where T : class {
             try {
                 using (HttpClient client = new HttpClient()) {
-                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{OfficialServerHost}:{WebApiConst.ControlCenterPort}/api/{controller}/{action}", param);
+                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{AssemblyInfo.OfficialServerHost}:{WebApiConst.ControlCenterPort}/api/{controller}/{action}", param);
                     T response = message.Result.Content.ReadAsAsync<T>().Result;
                     return response;
                 }
@@ -59,7 +52,7 @@ namespace NTMiner {
                         }
 
                         Task<HttpResponseMessage> message =
-                            client.GetAsync($"http://{OfficialServerHost}:{WebApiConst.ControlCenterPort}/api/{controller}/{action}{queryString}");
+                            client.GetAsync($"http://{AssemblyInfo.OfficialServerHost}:{WebApiConst.ControlCenterPort}/api/{controller}/{action}{queryString}");
                         T response = message.Result.Content.ReadAsAsync<T>().Result;
                         callback?.Invoke(response, null);
                     }
