@@ -71,6 +71,26 @@ namespace NTMiner.Vms {
             }
         }
 
+        private SysDicItemViewModel _brandItem = SysDicItemViewModel.PleaseSelect;
+        public SysDicItemViewModel BrandItem {
+            get {
+                return _brandItem;
+            }
+            set {
+                if (value == null) {
+                    value = SysDicItemViewModel.PleaseSelect;
+                }
+                this._brandItem = value;
+                OnPropertyChanged(nameof(BrandItem));
+            }
+        }
+
+        public SysDicItemViewModels SysDicItemVms {
+            get {
+                return SysDicItemViewModels.Current;
+            }
+        }
+
         public bool CanPageSub {
             get {
                 return PageNumber != 1;

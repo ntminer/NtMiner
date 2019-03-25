@@ -27,6 +27,7 @@ namespace NTMiner.Vms {
                         _dicById.Add(message.Source.GetId(), new SysDicItemViewModel(message.Source));
                         OnPropertyChanged(nameof(List));
                         OnPropertyChanged(nameof(Count));
+                        OnPropertyChanged(nameof(KernelBrandItems));
                         SysDicViewModel sysDicVm;
                         if (SysDicViewModels.Current.TryGetSysDicVm(message.Source.DicId, out sysDicVm)) {
                             sysDicVm.OnPropertyChanged(nameof(sysDicVm.SysDicItems));
@@ -54,6 +55,7 @@ namespace NTMiner.Vms {
                     _dicById.Remove(message.Source.GetId());
                     OnPropertyChanged(nameof(List));
                     OnPropertyChanged(nameof(Count));
+                    OnPropertyChanged(nameof(KernelBrandItems));
                     SysDicViewModel sysDicVm;
                     if (SysDicViewModels.Current.TryGetSysDicVm(message.Source.DicId, out sysDicVm)) {
                         sysDicVm.OnPropertyChanged(nameof(sysDicVm.SysDicItems));
@@ -62,6 +64,19 @@ namespace NTMiner.Vms {
                 }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             foreach (var item in NTMinerRoot.Current.SysDicItemSet) {
                 _dicById.Add(item.GetId(), new SysDicItemViewModel(item));
+            }
+        }
+
+        public List<SysDicItemViewModel> KernelBrandItems {
+            get {
+                List<SysDicItemViewModel> list = new List<SysDicItemViewModel> {
+                    SysDicItemViewModel.PleaseSelect
+                };
+                SysDicViewModel sysDic;
+                if (SysDicViewModels.Current.TryGetSysDicVm("KernelBrand", out sysDic)) {
+                    list.AddRange(List.Where(a => a.DicId == sysDic.Id));
+                }
+                return list;
             }
         }
 
