@@ -11,8 +11,12 @@ namespace NTMiner {
         public static readonly FileUrlServiceFace FileUrlService = FileUrlServiceFace.Instance;
         public static readonly OverClockDataServiceFace OverClockDataService = OverClockDataServiceFace.Instance;
 
+#if DEBUG
         // TODO:上线前改成官网
         public static readonly string OfficialServerHost = "192.168.0.104";
+#else
+        public static readonly string OfficialServerHost = "server.ntminer.com";
+#endif
 
         #region private methods
         private static void PostAsync<T>(string controller, string action, object param, Action<T, Exception> callback) where T : class {
@@ -66,7 +70,7 @@ namespace NTMiner {
                 }
             });
         }
-        #endregion
+#endregion
 
         public static void GetTimeAsync(Action<DateTime> callback) {
             GetAsync("AppSetting", nameof(IAppSettingController.GetTime), null, callback: (DateTime datetime, Exception e) => {
@@ -77,7 +81,7 @@ namespace NTMiner {
             });
         }
 
-        #region GetCalcConfigs
+#region GetCalcConfigs
         /// <summary>
         /// 同步方法
         /// </summary>
@@ -96,9 +100,9 @@ namespace NTMiner {
                 return null;
             }
         }
-        #endregion
+#endregion
 
-        #region SaveCalcConfigsAsync
+#region SaveCalcConfigsAsync
         public static void SaveCalcConfigsAsync(List<CalcConfigData> configs, Action<ResponseBase, Exception> callback) {
             if (configs == null || configs.Count == 0) {
                 return;
@@ -110,7 +114,7 @@ namespace NTMiner {
             request.SignIt(SingleUser.PasswordSha1);
             PostAsync("ControlCenter", nameof(IControlCenterController.SaveCalcConfigs), request, callback);
         }
-        #endregion
+#endregion
 
         public static void GetJsonFileVersionAsync(string key, Action<string> callback) {
             AppSettingRequest request = new AppSettingRequest {
@@ -135,7 +139,7 @@ namespace NTMiner {
 
             private FileUrlServiceFace() { }
 
-            #region GetNTMinerUrlAsync
+#region GetNTMinerUrlAsync
             // ReSharper disable once InconsistentNaming
             public void GetNTMinerUrlAsync(string fileName, Action<string, Exception> callback) {
                 NTMinerUrlRequest request = new NTMinerUrlRequest {
@@ -143,9 +147,9 @@ namespace NTMiner {
                 };
                 PostAsync(SControllerName, nameof(IFileUrlController.NTMinerUrl), request, callback);
             }
-            #endregion
+#endregion
 
-            #region GetNTMinerFilesAsync
+#region GetNTMinerFilesAsync
             // ReSharper disable once InconsistentNaming
             public void GetNTMinerFilesAsync(NTMinerAppType appType, Action<List<NTMinerFileData>, Exception> callback) {
                 PostAsync<List<NTMinerFileData>>(SControllerName, nameof(IFileUrlController.NTMinerFiles), null, callback: (data, e)=> {
@@ -155,9 +159,9 @@ namespace NTMiner {
                     callback?.Invoke(data, e);
                 });
             }
-            #endregion
+#endregion
 
-            #region AddOrUpdateNTMinerFileAsync
+#region AddOrUpdateNTMinerFileAsync
             // ReSharper disable once InconsistentNaming
             public void AddOrUpdateNTMinerFileAsync(NTMinerFileData entity, Action<ResponseBase, Exception> callback) {
                 DataRequest<NTMinerFileData> request = new DataRequest<NTMinerFileData>() {
@@ -167,9 +171,9 @@ namespace NTMiner {
                 request.SignIt(SingleUser.PasswordSha1);
                 PostAsync(SControllerName, nameof(IFileUrlController.AddOrUpdateNTMinerFile), request, callback);
             }
-            #endregion
+#endregion
 
-            #region RemoveNTMinerFileAsync
+#region RemoveNTMinerFileAsync
             // ReSharper disable once InconsistentNaming
             public void RemoveNTMinerFileAsync(Guid id, Action<ResponseBase, Exception> callback) {
                 DataRequest<Guid> request = new DataRequest<Guid>() {
@@ -179,29 +183,29 @@ namespace NTMiner {
                 request.SignIt(SingleUser.PasswordSha1);
                 PostAsync(SControllerName, nameof(IFileUrlController.RemoveNTMinerFile), request, callback);
             }
-            #endregion
+#endregion
 
-            #region GetLiteDbExplorerUrlAsync
+#region GetLiteDbExplorerUrlAsync
             public void GetLiteDbExplorerUrlAsync(Action<string, Exception> callback) {
                 PostAsync(SControllerName, nameof(IFileUrlController.LiteDbExplorerUrl), null, callback);
             }
-            #endregion
+#endregion
 
-            #region GetNTMinerUpdaterUrlAsync
+#region GetNTMinerUpdaterUrlAsync
             // ReSharper disable once InconsistentNaming
             public void GetNTMinerUpdaterUrlAsync(Action<string, Exception> callback) {
                 PostAsync(SControllerName, nameof(IFileUrlController.NTMinerUpdaterUrl), null, callback);
             }
-            #endregion
+#endregion
 
-            #region GetPackageUrlAsync
+#region GetPackageUrlAsync
             public void GetPackageUrlAsync(string package, Action<string, Exception> callback) {
                 PackageUrlRequest request = new PackageUrlRequest {
                     Package = package
                 };
                 PostAsync(SControllerName, nameof(IFileUrlController.PackageUrl), request, callback);
             }
-            #endregion
+#endregion
         }
 
         public class OverClockDataServiceFace {
@@ -210,7 +214,7 @@ namespace NTMiner {
 
             private OverClockDataServiceFace() { }
 
-            #region GetOverClockDatas
+#region GetOverClockDatas
             /// <summary>
             /// 同步方法
             /// </summary>
@@ -233,9 +237,9 @@ namespace NTMiner {
                     return new List<OverClockData>();
                 }
             }
-            #endregion
+#endregion
 
-            #region AddOrUpdateOverClockDataAsync
+#region AddOrUpdateOverClockDataAsync
             public void AddOrUpdateOverClockDataAsync(OverClockData entity, Action<ResponseBase, Exception> callback) {
                 DataRequest<OverClockData> request = new DataRequest<OverClockData>() {
                     LoginName = SingleUser.LoginName,
@@ -244,9 +248,9 @@ namespace NTMiner {
                 request.SignIt(SingleUser.PasswordSha1);
                 PostAsync(SControllerName, nameof(IOverClockDataController.AddOrUpdateOverClockData), request, callback);
             }
-            #endregion
+#endregion
 
-            #region RemoveOverClockDataAsync
+#region RemoveOverClockDataAsync
             public void RemoveOverClockDataAsync(Guid id, Action<ResponseBase, Exception> callback) {
                 DataRequest<Guid> request = new DataRequest<Guid>() {
                     LoginName = SingleUser.LoginName,
@@ -255,7 +259,7 @@ namespace NTMiner {
                 request.SignIt(SingleUser.PasswordSha1);
                 PostAsync(SControllerName, nameof(IOverClockDataController.RemoveOverClockData), request, callback);
             }
-            #endregion
+#endregion
         }
     }
 }
