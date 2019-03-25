@@ -29,7 +29,7 @@ namespace NTMiner.Vms {
                 Server.ControlCenterService.ActiveControlCenterAdminAsync(passwordSha1, (response, e) => {
                     if (response.IsSuccess()) {
                         IsPasswordAgainVisible = Visibility.Collapsed;
-                        this.ShowMessage("激活成功");
+                        this.ShowMessage("激活成功", isSuccess: true);
                     }
                     else {
                         this.ShowMessage(response != null ? response.Description : "激活失败");
@@ -39,16 +39,18 @@ namespace NTMiner.Vms {
         }
 
         public void ShowMessage(string message, bool isSuccess = false) {
-            if (isSuccess) {
-                NotiCenterWindowViewModel.Current.Manager.ShowSuccessMessage(message);
-            }
-            else {
-                NotiCenterWindowViewModel.Current.Manager.CreateMessage()
-                    .Error(message)
-                    .Dismiss()
-                    .WithDelay(TimeSpan.FromSeconds(2))
-                    .Queue();
-            }
+            UIThread.Execute(() => {
+                if (isSuccess) {
+                    NotiCenterWindowViewModel.Current.Manager.ShowSuccessMessage(message);
+                }
+                else {
+                    NotiCenterWindowViewModel.Current.Manager.CreateMessage()
+                        .Error(message)
+                        .Dismiss()
+                        .WithDelay(TimeSpan.FromSeconds(2))
+                        .Queue();
+                }
+            });
         }
 
         public Visibility IsPasswordAgainVisible {

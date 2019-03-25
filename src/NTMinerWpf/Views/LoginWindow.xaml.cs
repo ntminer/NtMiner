@@ -57,6 +57,7 @@ namespace NTMiner.Views {
                     else if (_vm.LoginName == "admin" && response.StateCode == 404) {
                         _vm.IsPasswordAgainVisible = Visibility.Visible;
                         _vm.ShowMessage(response.Description);
+                        this.PbPasswordAgain.Focus();
                     }
                     else {
                         _vm.IsPasswordAgainVisible = Visibility.Collapsed;

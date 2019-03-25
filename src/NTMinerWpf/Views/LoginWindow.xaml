@@ -64,6 +64,7 @@
                     Visibility="{Binding IsPasswordAgainVisible}"
                     Margin="0 2" Content="重复密码" HorizontalContentAlignment="Right" Foreground="{StaticResource LableColor}"></Label>
                 <PasswordBox 
+                    x:Name="PbPasswordAgain"
                     Grid.Row="3" Grid.Column="1" 
                     Visibility="{Binding IsPasswordAgainVisible}"
                     Margin="0 2" VerticalContentAlignment="Center" Background="White" controls:PasswordBoxHelper.Attach="true" controls:PasswordBoxHelper.Password="{Binding PasswordAgain, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>

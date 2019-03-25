@@ -72,10 +72,11 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
+                Write.DevLine($"{request.LoginName} {request.Sign} {request.Timestamp}");
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out IUser user, out ResponseBase response)) {
                     return response;
                 }
-                Write.DevLine($"{request.LoginName}登录");
+                Write.DevLine($"{request.LoginName}登录成功");
                 return ResponseBase.Ok();
             }
             catch (Exception e) {
