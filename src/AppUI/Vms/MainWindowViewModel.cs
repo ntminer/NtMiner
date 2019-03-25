@@ -25,6 +25,9 @@ namespace NTMiner.Vms {
                 NTMinerRoot.Current.StartMine();
             });
             this.StopMine = new DelegateCommand(() => {
+                if (!NTMinerRoot.Current.IsMining) {
+                    this.StateBarVm.IsMining = false;
+                }
                 NTMinerRoot.Current.StopMineAsync();
             });
             this.UseThisPcName = new DelegateCommand(() => {
