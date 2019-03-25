@@ -1,4 +1,5 @@
-﻿using NTMiner.Views;
+﻿using NTMiner.MinerServer;
+using NTMiner.Views;
 using System;
 using System.Diagnostics;
 using System.Threading;
@@ -39,16 +40,32 @@ namespace NTMiner {
         #endregion
 
         #region ShowMainWindow
-        public static void ShowMainWindow(Application app, int clientPort) {
+        public static void ShowMainWindow(Application app, NTMinerAppType appType) {
             try {
-                Client.MinerClientService.ShowMainWindowAsync(clientPort, (isSuccess, exception) => {
-                    if (!isSuccess) {
-                        RestartNTMiner();
-                    }
-                    UIThread.Execute(() => {
-                        app.Shutdown();
-                    });
-                });
+                switch (appType) {
+                    case NTMinerAppType.MinerClient:
+                        Client.MinerClientService.ShowMainWindowAsync(WebApiConst.MinerClientPort, (isSuccess, exception) => {
+                            if (!isSuccess) {
+                                RestartNTMiner();
+                            }
+                            UIThread.Execute(() => {
+                                app.Shutdown();
+                            });
+                        });
+                        break;
+                    case NTMinerAppType.MinerStudio:
+                        Client.MinerStudioService.ShowMainWindowAsync(WebApiConst.MinerStudioPort, (isSuccess, exception) => {
+                            if (!isSuccess) {
+                                RestartNTMiner();
+                            }
+                            UIThread.Execute(() => {
+                                app.Shutdown();
+                            });
+                        });
+                        break;
+                    default:
+                        break;
+                }
             }
             catch (Exception ex) {
                 RestartNTMiner();

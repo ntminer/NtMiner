@@ -68,7 +68,7 @@ namespace NTMiner {
                             splashWindow?.Close();
                             Task.Factory.StartNew(() => {
                                 try {
-                                    HttpServer.Start($"http://localhost:{WebApiConst.MinerClientAPort}");
+                                    HttpServer.Start($"http://localhost:{WebApiConst.MinerClientPort}");
                                     NTMinerRoot.Current.Start();
                                 }
                                 catch (Exception ex) {
@@ -99,7 +99,7 @@ namespace NTMiner {
                 }
                 else {
                     try {
-                        AppHelper.ShowMainWindow(this, WebApiConst.MinerClientAPort);
+                        AppHelper.ShowMainWindow(this, MinerServer.NTMinerAppType.MinerClient);
                     }
                     catch (Exception) {
                         DialogWindow.ShowDialog(message: "另一个NTMiner正在运行，请手动结束正在运行的NTMiner进程后再次尝试。", title: "alert", icon: "Icon_Error");
