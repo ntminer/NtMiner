@@ -373,6 +373,10 @@ namespace NTMiner.Vms {
             Process.Start("https://github.com/ntminer/ntminer/issues");
         });
 
+        public static ICommand DownloadMinerStudio { get; private set; } = new DelegateCommand(() => {
+            Process.Start("https://minerjson.oss-cn-beijing.aliyuncs.com/MinerStudio2.0.exe");
+        });
+
         public static ICommand ShowQQGroupQrCode { get; private set; } = new DelegateCommand(() => {
             QQGroupQrCode.ShowWindow();
         });

@@ -190,6 +190,17 @@
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
 					</controls:KbButton>
+					<controls:KbLinkButton
+						Margin="4 0 0 0"
+						Foreground="#0072C1"
+						Command="{x:Static vm:AppStatic.DownloadMinerStudio}"
+						Background="Transparent"
+						KbSystemButtonHoverBackground="Transparent"
+						KbDisplayLine="False">
+						<WrapPanel>
+							<TextBlock Text="下载群控"></TextBlock>
+						</WrapPanel>
+					</controls:KbLinkButton>
 				</WrapPanel>
 			</StackPanel>
 			<StackPanel Grid.Column="1">
