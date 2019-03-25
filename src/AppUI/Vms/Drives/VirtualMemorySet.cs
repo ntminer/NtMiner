@@ -18,8 +18,9 @@ namespace NTMiner.Vms {
                 _dic.Add(drive.Name, new VirtualMemory(drive.Name, 0));
             }
             foreach (var item in GetPagingFiles()) {
-                VirtualMemory virtualMemory = _dic[item.DriveName];
-                virtualMemory.MaxSizeMb = item.MaxSizeMb;
+                if (_dic.TryGetValue(item.DriveName, out VirtualMemory vm)) {
+                    vm.MaxSizeMb = item.MaxSizeMb;
+                }
             }
             NTMinerRoot.OSVirtualMemoryMb = _dic.Values.Sum(a => a.MaxSizeMb);
         }

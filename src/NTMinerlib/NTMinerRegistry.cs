@@ -171,8 +171,12 @@ namespace NTMiner {
 
         #region UpdaterVersion
         public static string GetUpdaterVersion() {
+            string valueName = "UpdaterVersion";
+            if (VirtualRoot.IsMinerStudio) {
+                valueName = "MinerStudioUpdaterVersion";
+            }
             string updaterVersion = "NTMinerUpdater.exe";
-            object updaterVersionValue = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, "UpdaterVersion");
+            object updaterVersionValue = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, valueName);
             if (updaterVersionValue != null) {
                 updaterVersion = (string)updaterVersionValue;
             }
@@ -183,7 +187,11 @@ namespace NTMiner {
         }
 
         public static void SetUpdaterVersion(string version) {
-            Windows.Registry.SetValue(Registry.Users, NTMinerRegistrySubKey, "UpdaterVersion", version);
+            string valueName = "UpdaterVersion";
+            if (VirtualRoot.IsMinerStudio) {
+                valueName = "MinerStudioUpdaterVersion";
+            }
+            Windows.Registry.SetValue(Registry.Users, NTMinerRegistrySubKey, valueName, version);
         }
         #endregion
 
