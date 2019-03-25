@@ -64,7 +64,6 @@ namespace NTMiner {
             bool mutexCreated;
             try {
                 mutexApp = new Mutex(true, "NTMinerUpdaterAppMutex", out mutexCreated);
-                DropOld.DropOldUpdater();
             }
             catch {
                 mutexCreated = false;

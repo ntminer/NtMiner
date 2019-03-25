@@ -88,7 +88,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="CommandLineArgs.partial.cs" />
-    <Compile Include="DropOld.cs" />
     <Compile Include="SpecialPath.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
