@@ -165,7 +165,7 @@ namespace NTMiner {
             };
             string json = VirtualRoot.JsonSerializer.Serialize(serverJsonObj);
             File.WriteAllText(AssemblyInfo.ServerVersionJsonFileFullName, json);
-            return AssemblyInfo.ServerVersionJsonFileFullName;
+            return Path.GetFileName(AssemblyInfo.ServerVersionJsonFileFullName);
         }
 
         public static void ExportWorkJson(MineWorkData mineWorkData, out string localJson, out string serverJson) {
