@@ -17,6 +17,7 @@
 			<RowDefinition Height="*"></RowDefinition>
 		</Grid.RowDefinitions>
 		<FlowDocumentScrollViewer 	
+			Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
 			VerticalScrollBarVisibility="Auto"
 			x:Name="FlowDocumentScrollViewerDebug" 
 			BorderThickness="0" 
