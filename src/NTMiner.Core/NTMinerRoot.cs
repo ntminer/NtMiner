@@ -67,8 +67,12 @@ namespace NTMiner {
                 CountdownEvent countdown = new CountdownEvent(initialCount);
                 if (!isWork) {
                     SpecialPath.GetAliyunServerJson((data) => {
-                        serverJson = Encoding.UTF8.GetString(data);
-                        SpecialPath.WriteServerJsonFile(serverJson);
+                        if (data != null && data.Length != 0) {
+                            serverJson = Encoding.UTF8.GetString(data);
+                            if (!string.IsNullOrEmpty(serverJson)) {
+                                SpecialPath.WriteServerJsonFile(serverJson);
+                            }
+                        }
                         countdown.Signal();
                     });
                 }
