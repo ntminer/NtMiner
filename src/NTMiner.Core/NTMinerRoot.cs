@@ -67,6 +67,7 @@ namespace NTMiner {
                 CountdownEvent countdown = new CountdownEvent(initialCount);
                 if (!isWork) {
                     SpecialPath.GetAliyunServerJson((data) => {
+                        // 如果server.json未下载成功则不覆写本地server.json
                         if (data != null && data.Length != 0) {
                             serverJson = Encoding.UTF8.GetString(data);
                             if (!string.IsNullOrEmpty(serverJson)) {
@@ -103,6 +104,7 @@ namespace NTMiner {
 
             ContextInit(isWork);
 
+            // 打码支持内核品牌
             if (!string.IsNullOrEmpty(CommandLineArgs.KernelBrand)) {
                 if (SysDicItemSet.TryGetDicItem("KernelBrand", CommandLineArgs.KernelBrand, out ISysDicItem brandItem)) {
                     #region KernelBrandId
@@ -150,6 +152,7 @@ namespace NTMiner {
             }
             this._minerProfile = new MinerProfile(this, mineWorkData);
 
+            // 这几个注册表内部区分挖矿端和群控客户端
             NTMinerRegistry.SetLocation(ClientId.AppFileFullName);
             NTMinerRegistry.SetArguments(string.Join(" ", CommandLineArgs.Args));
             NTMinerRegistry.SetCurrentVersion(CurrentVersion.ToString());
