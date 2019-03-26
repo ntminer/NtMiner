@@ -27,6 +27,7 @@ namespace NTMiner {
         public static EventWaitHandle WaitHandle = new AutoResetEvent(false);
         public static ExtendedNotifyIcon NotifyIcon;
         private static Mutex s_mutexApp;
+        [STAThread]
         static void Main(string[] args) {
             try {
                 Console.Title = "NTMinerDaemon";

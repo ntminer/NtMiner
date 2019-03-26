@@ -13,9 +13,9 @@ namespace NTMiner.Wpf {
 
     public class NativeMethods {
         [DllImport("user32.dll")]
-        public static extern IntPtr GetForegroundWindow();
+        internal static extern IntPtr GetForegroundWindow();
 
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        public static extern bool GetCursorPos(out POINT pt);
+        internal static extern bool GetCursorPos(out POINT pt);
     }
 }

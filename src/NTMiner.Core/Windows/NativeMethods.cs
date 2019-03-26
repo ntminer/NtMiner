@@ -4,11 +4,11 @@ using static NTMiner.Windows.Ram;
 
 namespace NTMiner.Windows {
     internal static partial class NativeMethods {
-        [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
         internal static extern bool SetDllDirectory(string lpPathName);
 
         [return: MarshalAs(UnmanagedType.Bool)]
-        [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
         internal static extern bool GlobalMemoryStatusEx([In, Out]MemoryStatusEx lpBuffer);
 
         [DllImport("kernel32.dll")]
