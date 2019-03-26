@@ -7,16 +7,8 @@ namespace NTMiner.Vms {
         private AboutPageViewModel() {
         }
 
-        public Version CurrentVersion {
-            get {
-                return NTMinerRoot.CurrentVersion;
-            }
-        }
+        public Version CurrentVersion => NTMinerRoot.CurrentVersion;
 
-        public int ThisYear {
-            get {
-                return DateTime.Now.Year;
-            }
-        }
+        public int ThisYear => DateTime.Now.Year;
     }
 }

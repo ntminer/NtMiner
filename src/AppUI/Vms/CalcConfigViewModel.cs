@@ -36,7 +36,7 @@ namespace NTMiner.Vms {
         public double Speed {
             get => _speed;
             set {
-                if (_speed != value) {
+                if (Math.Abs(_speed - value) > 0.01) {
                     _speed = value;
                     OnPropertyChanged(nameof(Speed));
                 }
@@ -66,7 +66,7 @@ namespace NTMiner.Vms {
         public double IncomePerDay {
             get => _incomePerDay;
             set {
-                if (_incomePerDay != value) {
+                if (Math.Abs(_incomePerDay - value) > 0.01) {
                     _incomePerDay = value;
                     OnPropertyChanged(nameof(IncomePerDay));
                 }
@@ -76,7 +76,7 @@ namespace NTMiner.Vms {
         public double IncomeUsdPerDay {
             get { return _incomeUsdPerDay; }
             set {
-                if (_incomeUsdPerDay != value) {
+                if (Math.Abs(_incomeUsdPerDay - value) > 0.01) {
                     _incomeUsdPerDay = value;
                     OnPropertyChanged(nameof(IncomeUsdPerDay));
                 }
@@ -86,7 +86,7 @@ namespace NTMiner.Vms {
         public double IncomeCnyPerDay {
             get { return _incomeCnyPerDay; }
             set {
-                if (_incomeCnyPerDay != value) {
+                if (Math.Abs(_incomeCnyPerDay - value) > 0.01) {
                     _incomeCnyPerDay = value;
                     OnPropertyChanged(nameof(IncomeCnyPerDay));
                 }

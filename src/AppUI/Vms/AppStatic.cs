@@ -15,89 +15,43 @@ using System.Windows.Media.Imaging;
 
 namespace NTMiner.Vms {
     public static class AppStatic {
-        private static bool s_isMinerClient;
+        private static bool _sIsMinerClient;
 
-        public static string CurrentVersion {
-            get {
-                return NTMinerRoot.CurrentVersion.ToString();
-            }
-        }
+        public static string CurrentVersion => NTMinerRoot.CurrentVersion.ToString();
 
-        public static string VersionTag {
-            get {
-                return NTMinerRoot.CurrentVersionTag;
-            }
-        }
+        public static string VersionTag => NTMinerRoot.CurrentVersionTag;
 
-        public static string QQGroup {
-            get {
-                return NTMinerRoot.Current.QQGroup;
-            }
-        }
+        public static string QQGroup => NTMinerRoot.Current.QQGroup;
 
-        public static string WindowsEdition {
-            get {
-                return Windows.OS.Current.WindowsEdition;
-            }
-        }
+        public static string WindowsEdition => Windows.OS.Current.WindowsEdition;
 
-        public static string TotalVirtualMemoryGbText {
-            get {
-                return DriveSet.Current.VirtualMemorySet.TotalVirtualMemoryGbText;
-            }
-        }
+        public static string TotalVirtualMemoryGbText => DriveSet.Current.VirtualMemorySet.TotalVirtualMemoryGbText;
 
-        public static string GpuSetInfo {
-            get {
-                return NTMinerRoot.Current.GpuSetInfo;
-            }
-        }
+        public static string GpuSetInfo => NTMinerRoot.Current.GpuSetInfo;
 
         public static string DriverVersion {
             get {
                 var driverVersion = NTMinerRoot.Current.GpuSet.Properties.FirstOrDefault(a => a.Code == "DriverVersion");
-                if (driverVersion == null || driverVersion.Value == null) {
+                if (driverVersion?.Value == null) {
                     return string.Empty;
                 }
                 return driverVersion.Value.ToString();
             }
         }
 
-        public static ICommand ConfigControlCenterHost { get; private set; } = new DelegateCommand(() => {
-            ControlCenterHostConfig.ShowWindow();
-        });
+        public static ICommand ConfigControlCenterHost { get; private set; } = new DelegateCommand(ControlCenterHostConfig.ShowWindow);
 
         public static readonly BitmapImage BigLogoImageSource = IconConst.BigLogoImageSource;
 
-        public static IEnumerable<EnumItem<SupportedGpu>> SupportedGpuEnumItems {
-            get {
-                return SupportedGpu.AMD.GetEnumItems();
-            }
-        }
+        public static IEnumerable<EnumItem<SupportedGpu>> SupportedGpuEnumItems => SupportedGpu.AMD.GetEnumItems();
 
-        public static IEnumerable<EnumItem<LogEnum>> LogTypeItems {
-            get {
-                return LogEnum.DevConsole.GetEnumItems();
-            }
-        }
+        public static IEnumerable<EnumItem<LogEnum>> LogTypeItems => LogEnum.DevConsole.GetEnumItems();
 
-        public static IEnumerable<EnumItem<PublishStatus>> PublishStatusEnumItems {
-            get {
-                return PublishStatus.Published.GetEnumItems();
-            }
-        }
+        public static IEnumerable<EnumItem<PublishStatus>> PublishStatusEnumItems => PublishStatus.Published.GetEnumItems();
 
-        public static IEnumerable<EnumItem<MineStatus>> MineStatusEnumItems {
-            get {
-                return MineStatus.All.GetEnumItems();
-            }
-        }
+        public static IEnumerable<EnumItem<MineStatus>> MineStatusEnumItems => MineStatus.All.GetEnumItems();
 
-        public static double MainWindowHeight {
-            get {
-                return GetMainWindowHeight(DevMode.IsDevMode);
-            }
-        }
+        public static double MainWindowHeight => GetMainWindowHeight(DevMode.IsDevMode);
 
         public static double GetMainWindowHeight(bool isDevMode) {
             if (isDevMode) {
@@ -170,21 +124,13 @@ namespace NTMiner.Vms {
             }
         });
 
-        public static ICommand ShowUsers { get; private set; } = new DelegateCommand(() => {
-            UserPage.ShowWindow();
-        });
+        public static ICommand ShowUsers { get; private set; } = new DelegateCommand(UserPage.ShowWindow);
 
-        public static ICommand ShowOverClockDatas { get; private set; } = new DelegateCommand(() => {
-            OverClockDataPage.ShowWindow();
-        });
+        public static ICommand ShowOverClockDatas { get; private set; } = new DelegateCommand(OverClockDataPage.ShowWindow);
 
-        public static ICommand ShowChartsWindow { get; private set; } = new DelegateCommand(() => {
-            ChartsWindow.ShowWindow();
-        });
+        public static ICommand ShowChartsWindow { get; private set; } = new DelegateCommand(ChartsWindow.ShowWindow);
 
-        public static ICommand ShowInnerProperty { get; private set; } = new DelegateCommand(() => {
-            InnerProperty.ShowWindow();
-        });
+        public static ICommand ShowInnerProperty { get; private set; } = new DelegateCommand(InnerProperty.ShowWindow);
 
         public static ICommand ShowLangViewItems { get; private set; } = new DelegateCommand<string>((viewId) => {
             ViewLang.ShowWindow(new ViewLangViewModel(viewId));
@@ -194,39 +140,23 @@ namespace NTMiner.Vms {
             Process.Start("https://jq.qq.com/?_wv=1027&k=5ZPsuCk");
         });
 
-        public static ICommand RunAsAdministrator { get; private set; } = new DelegateCommand(() => {
-            AppHelper.RunAsAdministrator();
-        });
+        public static ICommand RunAsAdministrator { get; private set; } = new DelegateCommand(AppHelper.RunAsAdministrator);
 
-        public static ICommand ShowNotificationSample { get; private set; } = new DelegateCommand(() => {
-            NotificationSample.ShowWindow();
-        });
+        public static ICommand ShowNotificationSample { get; private set; } = new DelegateCommand(NotificationSample.ShowWindow);
 
         public static ICommand AppExit { get; private set; } = new DelegateCommand(() => {
             Application.Current.MainWindow?.Close();
             Application.Current.Shutdown();
         });
 
-        public static ICommand ShowRestartWindows { get; private set; } = new DelegateCommand(() => {
-            RestartWindows.ShowDialog();
-        });
+        public static ICommand ShowRestartWindows { get; private set; } = new DelegateCommand(RestartWindows.ShowDialog);
 
-        public static ICommand ShowVirtualMemory { get; private set; } = new DelegateCommand(() => {
-            Views.Ucs.VirtualMemory.ShowWindow();
-        });
+        public static ICommand ShowVirtualMemory { get; private set; } = new DelegateCommand(Views.Ucs.VirtualMemory.ShowWindow);
 
-        public static ICommand ShowSysDic { get; private set; } = new DelegateCommand(() => {
-            SysDicPage.ShowWindow();
-        });
-        public static ICommand ShowGroups { get; private set; } = new DelegateCommand(() => {
-            GroupPage.ShowWindow();
-        });
-        public static ICommand ShowCoins { get; private set; } = new DelegateCommand<CoinViewModel>((currentCoin) => {
-            CoinPage.ShowWindow(currentCoin);
-        });
-        public static ICommand ManageColumnsShows { get; private set; } = new DelegateCommand(() => {
-            ColumnsShowPage.ShowWindow();
-        });
+        public static ICommand ShowSysDic { get; private set; } = new DelegateCommand(SysDicPage.ShowWindow);
+        public static ICommand ShowGroups { get; private set; } = new DelegateCommand(GroupPage.ShowWindow);
+        public static ICommand ShowCoins { get; private set; } = new DelegateCommand<CoinViewModel>(CoinPage.ShowWindow);
+        public static ICommand ManageColumnsShows { get; private set; } = new DelegateCommand(ColumnsShowPage.ShowWindow);
         public static ICommand ManagePools { get; private set; } = new DelegateCommand<CoinViewModel>(coinVm => {
             CoinPageViewModel.Current.IsPoolTabSelected = true;
             CoinPage.ShowWindow(coinVm);
@@ -235,24 +165,16 @@ namespace NTMiner.Vms {
             CoinPageViewModel.Current.IsWalletTabSelected = true;
             CoinPage.ShowWindow(coinVm);
         });
-        public static ICommand ShowKernelInputs { get; private set; } = new DelegateCommand(() => {
-            KernelInputPage.ShowWindow();
-        });
-        public static ICommand ShowKernelOutputs { get; private set; } = new DelegateCommand<KernelOutputViewModel>((selectedKernelOutputVm) => {
-            KernelOutputPage.ShowWindow(selectedKernelOutputVm);
-        });
+        public static ICommand ShowKernelInputs { get; private set; } = new DelegateCommand(KernelInputPage.ShowWindow);
+        public static ICommand ShowKernelOutputs { get; private set; } = new DelegateCommand<KernelOutputViewModel>(KernelOutputPage.ShowWindow);
         public static ICommand ShowKernels { get; private set; } = new DelegateCommand(() => {
             KernelPage.ShowWindow(Guid.Empty);
         });
-        public static ICommand ShowAbout { get; private set; } = new DelegateCommand<string>((appType) => {
-            AboutPage.ShowWindow(appType);
-        });
+        public static ICommand ShowAbout { get; private set; } = new DelegateCommand<string>(AboutPage.ShowWindow);
         public static ICommand ShowSpeedChart { get; private set; } = new DelegateCommand(() => {
             SpeedCharts.ShowWindow();
         });
-        public static ICommand ShowNTMinerUpdaterConfig { get; private set; } = new DelegateCommand(() => {
-            NTMinerUpdaterConfig.ShowWindow();
-        });
+        public static ICommand ShowNTMinerUpdaterConfig { get; private set; } = new DelegateCommand(NTMinerUpdaterConfig.ShowWindow);
         public static ICommand ShowOnlineUpdate { get; private set; } = new DelegateCommand(() => {
             Upgrade(string.Empty, null);
         });
@@ -319,9 +241,7 @@ namespace NTMiner.Vms {
         public static ICommand ShowMinerClients { get; private set; } = new DelegateCommand(() => {
             MinerClientsWindow.ShowWindow();
         });
-        public static ICommand ShowCalcConfig { get; private set; } = new DelegateCommand(() => {
-            CalcConfig.ShowWindow();
-        });
+        public static ICommand ShowCalcConfig { get; private set; } = new DelegateCommand(CalcConfig.ShowWindow);
         public static ICommand ShowGlobalDir { get; private set; } = new DelegateCommand(() => {
             Process.Start(VirtualRoot.GlobalDirFullName);
         });
@@ -361,9 +281,7 @@ namespace NTMiner.Vms {
             }
         }
 
-        public static ICommand ShowCalc { get; private set; } = new DelegateCommand<CoinViewModel>(coin => {
-            Calc.ShowWindow(coin);
-        });
+        public static ICommand ShowCalc { get; private set; } = new DelegateCommand<CoinViewModel>(Calc.ShowWindow);
 
         public static ICommand OpenOfficialSite { get; private set; } = new DelegateCommand(() => {
             Process.Start("https://github.com/ntminer/ntminer");
@@ -377,9 +295,7 @@ namespace NTMiner.Vms {
             Process.Start("https://minerjson.oss-cn-beijing.aliyuncs.com/MinerStudio2.0.exe");
         });
 
-        public static ICommand ShowQQGroupQrCode { get; private set; } = new DelegateCommand(() => {
-            QQGroupQrCode.ShowWindow();
-        });
+        public static ICommand ShowQQGroupQrCode { get; private set; } = new DelegateCommand(QQGroupQrCode.ShowWindow);
 
         public static bool IsDebugMode {
             get {
@@ -390,11 +306,7 @@ namespace NTMiner.Vms {
             }
         }
 
-        public static bool IsNotDebugMode {
-            get {
-                return !IsDebugMode;
-            }
-        }
+        public static bool IsNotDebugMode => !IsDebugMode;
 
         public static Visibility IsDebugModeVisible {
             get {
@@ -415,11 +327,9 @@ namespace NTMiner.Vms {
         }
 
         public static bool IsMinerClient {
-            get {
-                return s_isMinerClient;
-            }
+            get => _sIsMinerClient;
             set {
-                s_isMinerClient = value;
+                _sIsMinerClient = value;
                 if (value) {
                     IsMinerClientVisible = Visibility.Visible;
                     IsMinerClientDevVisible = DevMode.IsDebugMode ? Visibility.Visible : Visibility.Collapsed;

@@ -24,10 +24,6 @@ namespace NTMiner.Vms {
             return _dicByKey.TryGetValue(key, out vm);
         }
 
-        public List<AppSettingViewModel> List {
-            get {
-                return _dicByKey.Values.ToList();
-            }
-        }
+        public List<AppSettingViewModel> List => _dicByKey.Values.ToList();
     }
 }
