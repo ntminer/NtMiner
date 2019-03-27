@@ -4,10 +4,10 @@ using System.IO;
 
 namespace NTMiner.Windows {
     public static class Cmd {
-        public static void RunClose(string filePullName, string args, bool createNoWindow = true) {
+        public static void RunClose(string filePullName, string args) {
             try {
                 using (Process proc = new Process()) {
-                    proc.StartInfo.CreateNoWindow = createNoWindow;
+                    proc.StartInfo.CreateNoWindow = true;
                     proc.StartInfo.UseShellExecute = false;
                     proc.StartInfo.FileName = "cmd.exe";
                     proc.StartInfo.Arguments = $"/C \"{filePullName}\" {args}";

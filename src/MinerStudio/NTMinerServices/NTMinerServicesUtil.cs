@@ -37,12 +37,7 @@ namespace NTMiner.NTMinerServices {
                 foreach (var name in names) {
                     ExtractResource(name);
                 }
-#if DEBUG
-                bool createNoWindow = false;
-#else
-                bool createNoWindow = true;
-#endif
-                Windows.Cmd.RunClose(SpecialPath.NTMinerServicesFileFullName, "--enableInnerIp --notofficial", createNoWindow);
+                Windows.Cmd.RunClose(SpecialPath.NTMinerServicesFileFullName, "--enableInnerIp --notofficial");
                 Logger.OkDebugLine("群控服务进程启动成功");
             });
         }
