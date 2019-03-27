@@ -87,7 +87,7 @@
 		</Grid>
 		<WrapPanel Grid.Row="1" Grid.Column="2" Background="#EEEEF2">
 			<Menu>
-				<MenuItem Header="开始挖矿" Padding="4" Margin="0 0 6 0" Command="{Binding StartMine}">
+				<MenuItem Header="开挖" Padding="4" Margin="0 0 6 0" Command="{Binding StartMine}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -97,7 +97,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="停止挖矿" Padding="4" Margin="0 0 6 0" Command="{Binding StopMine}">
+				<MenuItem Header="停挖" Padding="4" Margin="0 0 6 0" Command="{Binding StopMine}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -127,7 +127,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem x:Name="MenuItemMinerGroup" IsEnabled="{Binding ElementName=MenuItemRefresh, Path=IsEnabled}" Padding="4" Margin="0 0 6 0" Header="加入组" Click="MenuItemGroup_Click">
+				<MenuItem x:Name="MenuItemMinerGroup" IsEnabled="{Binding ElementName=MenuItemRefresh, Path=IsEnabled}" Padding="4" Margin="0 0 6 0" Header="分组" Click="MenuItemGroup_Click">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -147,7 +147,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Command="{Binding OneKeySetting}" Padding="4" Margin="0 0 6 0" Header="远程设置">
+				<MenuItem Command="{Binding OneKeySetting}" Padding="4" Margin="0 0 6 0" Header="设置">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -167,7 +167,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem x:Name="MenuItemUpgrade" Header="升级挖矿端" Padding="4" Margin="0 0 6 0" Click="MenuItemUpgrade_Click">
+				<MenuItem x:Name="MenuItemUpgrade" Header="升级" Padding="4" Margin="0 0 6 0" Click="MenuItemUpgrade_Click">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -177,7 +177,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="重启挖矿端" Padding="4" Margin="0 0 6 0" Command="{Binding RestartNTMiner}">
+				<MenuItem Header="重启" Padding="4" Margin="0 0 6 0" Command="{Binding RestartNTMiner}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
