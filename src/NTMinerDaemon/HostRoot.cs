@@ -30,7 +30,6 @@ namespace NTMiner {
         [STAThread]
         static void Main(string[] args) {
             try {
-                Console.Title = "NTMinerDaemon";
                 bool mutexCreated;
                 try {
                     _sMutexApp = new Mutex(true, "NTMinerDaemonAppMutex", out mutexCreated);

@@ -12,14 +12,13 @@ namespace NTMiner {
     public class HostRoot : IHostRoot {
         public static EventWaitHandle WaitHandle = new AutoResetEvent(false);
         public static ExtendedNotifyIcon NotifyIcon;
-        private static Mutex s_mutexApp;
+        private static Mutex _sMutexApp;
         [STAThread]
         static void Main(string[] args) {
             try {
-                Console.Title = "NTMinerServices";
                 bool mutexCreated;
                 try {
-                    s_mutexApp = new Mutex(true, "NTMinerServicesMutex", out mutexCreated);
+                    _sMutexApp = new Mutex(true, "NTMinerServicesMutex", out mutexCreated);
                 }
                 catch {
                     mutexCreated = false;
@@ -41,7 +40,7 @@ namespace NTMiner {
             if (!_isClosed) {
                 _isClosed = true;
                 HttpServer.Stop();
-                s_mutexApp?.Dispose();
+                _sMutexApp?.Dispose();
                 NotifyIcon?.Dispose();
             }
         }
