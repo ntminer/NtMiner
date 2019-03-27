@@ -55,9 +55,7 @@ namespace NTMiner {
             try {
                 string baseAddress = $"http://localhost:{WebApiConst.ControlCenterPort}";
                 HttpServer.Start(baseAddress);
-                Windows.ConsoleHandler.Register(() => {
-                    Close();
-                });
+                Windows.ConsoleHandler.Register(Close);
                 WaitHandle.WaitOne();
                 Close();
             }

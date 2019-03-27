@@ -26,14 +26,14 @@ namespace NTMiner {
 
         public static EventWaitHandle WaitHandle = new AutoResetEvent(false);
         public static ExtendedNotifyIcon NotifyIcon;
-        private static Mutex s_mutexApp;
+        private static Mutex _sMutexApp;
         [STAThread]
         static void Main(string[] args) {
             try {
                 Console.Title = "NTMinerDaemon";
                 bool mutexCreated;
                 try {
-                    s_mutexApp = new Mutex(true, "NTMinerDaemonAppMutex", out mutexCreated);
+                    _sMutexApp = new Mutex(true, "NTMinerDaemonAppMutex", out mutexCreated);
                 }
                 catch {
                     mutexCreated = false;
@@ -68,7 +68,7 @@ namespace NTMiner {
             if (!_isClosed) {
                 _isClosed = true;
                 HttpServer.Stop();
-                s_mutexApp?.Dispose();
+                _sMutexApp?.Dispose();
                 NotifyIcon?.Dispose();
             }
         }
@@ -81,9 +81,7 @@ namespace NTMiner {
         private static void Run() {
             try {
                 HttpServer.Start($"http://localhost:{WebApiConst.NTMinerDaemonPort}");
-                Windows.ConsoleHandler.Register(() => {
-                    Close();
-                });
+                Windows.ConsoleHandler.Register(Close);
                 WaitHandle.WaitOne();
                 Close();
             }

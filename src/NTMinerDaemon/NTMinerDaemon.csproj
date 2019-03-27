@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{4B8A3AEC-4021-480A-8C5F-DCA17E6867B0}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <RootNamespace>NTMiner</RootNamespace>
     <AssemblyName>NTMinerDaemon</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
