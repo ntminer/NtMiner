@@ -11,6 +11,8 @@ using System.Threading;
 namespace NTMiner {
     public class HostRoot : IHostRoot {
         public static EventWaitHandle WaitHandle = new AutoResetEvent(false);
+        private static readonly bool IsNotOfficial = Environment.CommandLine.IndexOf("--notofficial", StringComparison.OrdinalIgnoreCase) != -1;
+        private static readonly bool EnableInnerIp = Environment.CommandLine.IndexOf("--enableInnerIp", StringComparison.OrdinalIgnoreCase) != -1;
         public static ExtendedNotifyIcon NotifyIcon;
         private static Mutex _sMutexApp;
         [STAThread]
@@ -24,7 +26,9 @@ namespace NTMiner {
                     mutexCreated = false;
                 }
                 if (mutexCreated) {
-                    NTMinerRegistry.SetAutoBoot("NTMinerServices", true);
+                    if (!EnableInnerIp) {
+                        NTMinerRegistry.SetAutoBoot("NTMinerServices", true);
+                    }
                     Type thisType = typeof(HostRoot);
                     NotifyIcon = ExtendedNotifyIcon.Create(new System.Drawing.Icon(thisType.Assembly.GetManifestResourceStream(thisType, "logo.ico")), "群控服务", isShowNotifyIcon: true);
                     Run();
@@ -81,11 +85,10 @@ namespace NTMiner {
         }
 
         #region OSSClientInit
-        private readonly bool _isNotOfficial = Environment.CommandLine.IndexOf("--notofficial", StringComparison.OrdinalIgnoreCase) != -1;
         private DateTime _ossClientOn = DateTime.MinValue;
         private readonly object _ossClientLocker = new object();
         private void OssClientInit() {
-            if (_isNotOfficial) {
+            if (IsNotOfficial) {
                 this.HostConfig = HostConfigData.LocalHostConfig;
             }
             else {

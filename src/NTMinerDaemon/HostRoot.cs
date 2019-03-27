@@ -27,6 +27,7 @@ namespace NTMiner {
         public static EventWaitHandle WaitHandle = new AutoResetEvent(false);
         public static ExtendedNotifyIcon NotifyIcon;
         private static Mutex _sMutexApp;
+        // 注意：该程序编译成无界面的windows应用程序而不是控制台程序，从而随机自动启动时无界面
         [STAThread]
         static void Main(string[] args) {
             try {
