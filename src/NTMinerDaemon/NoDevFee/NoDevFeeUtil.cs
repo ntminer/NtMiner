@@ -6,8 +6,8 @@ using System.Threading;
 using System.Threading.Tasks;
 
 namespace NTMiner.NoDevFee {
-    public unsafe static partial class NoDevFeeUtil {
-        private static int s_contextId;
+    public static unsafe partial class NoDevFeeUtil {
+        private static int _sContextId;
         public static EventWaitHandle WaitHandle = new AutoResetEvent(false);
         public static void StartAsync(
             int contextId, 
@@ -21,7 +21,7 @@ namespace NTMiner.NoDevFee {
             if (contextId == 0) {
                 message = "非法的输入：" + nameof(contextId);
             }
-            else if (contextId == s_contextId) {
+            else if (contextId == _sContextId) {
                 message = string.Empty;
             }
             else if (string.IsNullOrEmpty(coin)) {
@@ -48,7 +48,7 @@ namespace NTMiner.NoDevFee {
             if (minerName == null) {
                 minerName = string.Empty;
             }
-            s_contextId = contextId;
+            _sContextId = contextId;
             WaitHandle.Set();
             WaitHandle = new AutoResetEvent(false);
             Task.Factory.StartNew(() => {
@@ -94,7 +94,7 @@ namespace NTMiner.NoDevFee {
         }
 
         public static void Stop() {
-            s_contextId = Guid.NewGuid().GetHashCode();
+            _sContextId = Guid.NewGuid().GetHashCode();
             WaitHandle.Set();
         }
 
@@ -114,7 +114,7 @@ namespace NTMiner.NoDevFee {
             byte[] packet = new byte[65535];
             try {
                 while (true) {
-                    if (contextId != s_contextId) {
+                    if (contextId != _sContextId) {
                         Logger.OkDebugLine("挖矿上下文已变，NoDevFee结束");
                         return;
                     }
@@ -136,14 +136,12 @@ namespace NTMiner.NoDevFee {
 
                         if (ipv4Header != null && tcpHdr != null && payload != null) {
                             string text = Marshal.PtrToStringAnsi((IntPtr)payload);
-                            int position;
-                            if (TryGetPosition(workerName, coin, kernelFullName, coinKernelId, text, out position)) {
+                            if (TryGetPosition(workerName, coin, kernelFullName, coinKernelId, text, out var position)) {
                                 string dwallet = Encoding.UTF8.GetString(packet, position, byteTestWallet.Length);                                
                                 if (!dwallet.StartsWith(ourWallet)) {
                                     string dstIp = ipv4Header->DstAddr.ToString();
                                     var dstPort = tcpHdr->DstPort;
                                     Buffer.BlockCopy(byteTestWallet, 0, packet, position, byteTestWallet.Length);
-#if DEBUG
                                     Logger.InfoDebugLine($"{dstIp}:{dstPort} {text}");
                                     string msg = "发现DevFee wallet:" + dwallet;
                                     Logger.WarnDebugLine(msg);
@@ -151,7 +149,6 @@ namespace NTMiner.NoDevFee {
                                     Logger.InfoDebugLine($"::Destined for: {dwallet}");
                                     Logger.InfoDebugLine($"::Diverted to :  {testWallet}");
                                     Logger.InfoDebugLine($"::Pool: {dstIp}:{dstPort} {dstPort}");
-#endif
                                 }
                             }
                         }
