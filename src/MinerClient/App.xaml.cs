@@ -25,7 +25,6 @@ namespace NTMiner {
             AppHelper.NotifyIcon?.Dispose();
             NTMinerRoot.Current.Exit();
             HttpServer.Stop();
-            appMutex?.ReleaseMutex();
             base.OnExit(e);
         }
 
