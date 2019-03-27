@@ -217,7 +217,7 @@
 												</TextBlock>
 											</WrapPanel>
 										</StackPanel>
-										<WrapPanel Grid.Column="1">
+										<WrapPanel Grid.Column="1" Margin="0 0 50 0">
 											<TextBlock FontSize="14" FontWeight="Bold" Text="{Binding CoinVm.Code}" Margin="4 0 0 0"></TextBlock>
 											<TextBlock FontSize="14" FontWeight="Bold" ToolTip="当前算力" Text="{Binding SnapshotDataVm.SpeedText}" Margin="8 0 0 0"></TextBlock>
 										</WrapPanel>
