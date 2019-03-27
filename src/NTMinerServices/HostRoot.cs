@@ -15,9 +15,11 @@ namespace NTMiner {
         private static readonly bool EnableInnerIp = Environment.CommandLine.IndexOf("--enableInnerIp", StringComparison.OrdinalIgnoreCase) != -1;
         public static ExtendedNotifyIcon NotifyIcon;
         private static Mutex _sMutexApp;
+        // 该程序编译为控制台程序，如果不启用内网支持则默认设置为开机自动启动
         [STAThread]
         static void Main(string[] args) {
             try {
+                Console.Title = "NTMinerServices";
                 bool mutexCreated;
                 try {
                     _sMutexApp = new Mutex(true, "NTMinerServicesMutex", out mutexCreated);
