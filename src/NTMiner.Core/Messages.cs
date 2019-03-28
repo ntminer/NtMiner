@@ -23,6 +23,7 @@ namespace NTMiner {
     }
 
     [MessageType(messageType: typeof(CloseNTMinerCommand), description: "关闭NTMiner客户端")]
+    // ReSharper disable once InconsistentNaming
     public class CloseNTMinerCommand : Cmd {
     }
 

@@ -11,7 +11,7 @@ namespace NTMiner.Bus {
         #region IMessageDispatcher Members
         public void DispatchMessage<TMessage>(TMessage message) {
             if (message == null) {
-                throw new ArgumentNullException("message");
+                throw new ArgumentNullException(nameof(message));
             }
             var messageType = typeof(TMessage);
             MessageTypeAttribute messageTypeDescription = MessageTypeAttribute.GetMessageTypeDescription(messageType);
@@ -40,7 +40,7 @@ namespace NTMiner.Bus {
                 }
             }
             else if (!messageTypeDescription.IsCanNoHandler) {
-                Write.DevLine(messageType.FullName + "类型的消息没有对应的处理器");
+                Write.DevLine(messageType.FullName + "类型的消息没有对应的处理器", ConsoleColor.Red);
             }
         }
 
@@ -63,13 +63,8 @@ namespace NTMiner.Bus {
                     if (registeredHandlers.Count > 0 && typeof(ICmd).IsAssignableFrom(keyType)) {
                         throw new Exception($"one {typeof(TMessage).Name} cmd can be handle and only be handle by one handler");
                     }
-                    if (registeredHandlers != null) {
-                        if (!registeredHandlers.Contains(handler))
-                            registeredHandlers.Add(handler);
-                    }
-                    else {
-                        registeredHandlers = new List<dynamic> { handler };
-                        _handlers.Add(keyType, registeredHandlers);
+                    if (!registeredHandlers.Contains(handler)) {
+                        registeredHandlers.Add(handler);
                     }
                 }
                 else {

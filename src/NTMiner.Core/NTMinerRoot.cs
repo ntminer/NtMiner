@@ -158,6 +158,35 @@ namespace NTMiner {
             NTMinerRegistry.SetCurrentVersion(CurrentVersion.ToString());
             NTMinerRegistry.SetCurrentVersionTag(CurrentVersionTag);
 
+            #region 发生了用户活动时检查serverJson是否有新版本
+            VirtualRoot.On<UserActionEvent>("发生了用户活动时检查serverJson是否有新版本", LogEnum.DevConsole,
+                action: message => {
+                    OfficialServer.GetJsonFileVersionAsync(AssemblyInfo.ServerJsonFileName, (jsonFileVersion) => {
+                        if (!string.IsNullOrEmpty(jsonFileVersion) && JsonFileVersion != jsonFileVersion) {
+                            SpecialPath.GetAliyunServerJson((data) => {
+                                Write.DevLine($"有新版本{JsonFileVersion}->{jsonFileVersion}");
+                                string rawJson = Encoding.UTF8.GetString(data);
+                                SpecialPath.WriteServerJsonFile(rawJson);
+                                ReInitServerJson();
+                                bool isUseJson = !DevMode.IsDebugMode || VirtualRoot.IsMinerStudio;
+                                if (isUseJson) {
+                                    // 作业模式下界面是禁用的，所以这里的初始化isWork必然是false
+                                    ContextReInit(isWork: false);
+                                    Logger.InfoDebugLine("刷新完成");
+                                }
+                                else {
+                                    Write.DevLine("不是使用的json，无需刷新");
+                                }
+                                JsonFileVersion = jsonFileVersion;
+                            });
+                        }
+                        else {
+                            Write.DevLine("server.json没有新版本", ConsoleColor.Green);
+                        }
+                    });
+                });
+            #endregion
+
             callback?.Invoke();
         }
 
@@ -323,34 +352,6 @@ namespace NTMiner {
                         StartNoDevFeeAsync();
                     }
                 });
-            #endregion
-            #region 发生了用户活动时检查serverJson是否有新版本
-            VirtualRoot.On<UserActionEvent>("发生了用户活动时检查serverJson是否有新版本", LogEnum.DevConsole,
-                    action: message => {
-                        OfficialServer.GetJsonFileVersionAsync(AssemblyInfo.ServerJsonFileName, (jsonFileVersion) => {
-                            if (!string.IsNullOrEmpty(jsonFileVersion) && JsonFileVersion != jsonFileVersion) {
-                                SpecialPath.GetAliyunServerJson((data) => {
-                                    Write.DevLine($"有新版本{JsonFileVersion}->{jsonFileVersion}");
-                                    string rawJson = Encoding.UTF8.GetString(data);
-                                    SpecialPath.WriteServerJsonFile(rawJson);
-                                    ReInitServerJson();
-                                    bool isUseJson = !DevMode.IsDebugMode || VirtualRoot.IsMinerStudio;
-                                    if (isUseJson) {
-                                        // 作业模式下界面是禁用的，所以这里的初始化isWork必然是false
-                                        ContextReInit(isWork: false);
-                                        Logger.InfoDebugLine("刷新完成");
-                                    }
-                                    else {
-                                        Write.DevLine("不是使用的json，无需刷新");
-                                    }
-                                    JsonFileVersion = jsonFileVersion;
-                                });
-                            }
-                            else {
-                                Write.DevLine("server.json没有新版本", ConsoleColor.Green);
-                            }
-                        });
-                    });
             #endregion
 
             // 因为这里耗时500毫秒左右
