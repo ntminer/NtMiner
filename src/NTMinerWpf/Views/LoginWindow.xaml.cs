@@ -12,9 +12,9 @@ namespace NTMiner.Views {
         public LoginWindow() {
             _vm = new LoginWindowViewModel();
             this.DataContext = _vm;
-            EventHandler ChangeNotiCenterWindowLocation = Util.ChangeNotiCenterWindowLocation(this);
-            this.Activated += ChangeNotiCenterWindowLocation;
-            this.LocationChanged += ChangeNotiCenterWindowLocation;
+            EventHandler changeNotiCenterWindowLocation = Util.ChangeNotiCenterWindowLocation(this);
+            this.Activated += changeNotiCenterWindowLocation;
+            this.LocationChanged += changeNotiCenterWindowLocation;
             InitializeComponent();
             this.PbPassword.Focus();
         }

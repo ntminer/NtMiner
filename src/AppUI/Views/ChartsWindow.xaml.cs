@@ -36,9 +36,9 @@ namespace NTMiner.Views {
             Width = SystemParameters.FullPrimaryScreenWidth * 0.95;
             Height = SystemParameters.FullPrimaryScreenHeight * 0.95;
             InitializeComponent();
-            EventHandler ChangeNotiCenterWindowLocation = Wpf.Util.ChangeNotiCenterWindowLocation(this);
-            this.Activated += ChangeNotiCenterWindowLocation;
-            this.LocationChanged += ChangeNotiCenterWindowLocation;
+            EventHandler changeNotiCenterWindowLocation = Wpf.Util.ChangeNotiCenterWindowLocation(this);
+            this.Activated += changeNotiCenterWindowLocation;
+            this.LocationChanged += changeNotiCenterWindowLocation;
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
             #region 总算力
             VirtualRoot.On<Per10SecondEvent>("周期刷新总算力图", LogEnum.DevConsole,

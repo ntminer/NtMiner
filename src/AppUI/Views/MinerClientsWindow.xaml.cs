@@ -56,9 +56,9 @@ namespace NTMiner.Views {
                 action: message => {
                     MinerClientsWindowViewModel.Current.QueryMinerClients();
                 }).AddToCollection(_handlers);
-            EventHandler ChangeNotiCenterWindowLocation = Wpf.Util.ChangeNotiCenterWindowLocation(this);
-            this.Activated += ChangeNotiCenterWindowLocation;
-            this.LocationChanged += ChangeNotiCenterWindowLocation;
+            EventHandler changeNotiCenterWindowLocation = Wpf.Util.ChangeNotiCenterWindowLocation(this);
+            this.Activated += changeNotiCenterWindowLocation;
+            this.LocationChanged += changeNotiCenterWindowLocation;
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
             MinerClientsWindowViewModel.Current.QueryMinerClients();
         }

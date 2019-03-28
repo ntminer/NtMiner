@@ -35,9 +35,9 @@ namespace NTMiner.Views {
                 }
             };
             InitializeComponent();
-            EventHandler ChangeNotiCenterWindowLocation = Wpf.Util.ChangeNotiCenterWindowLocation(this);
-            this.Activated += ChangeNotiCenterWindowLocation;
-            this.LocationChanged += ChangeNotiCenterWindowLocation;
+            EventHandler changeNotiCenterWindowLocation = Wpf.Util.ChangeNotiCenterWindowLocation(this);
+            this.Activated += changeNotiCenterWindowLocation;
+            this.LocationChanged += changeNotiCenterWindowLocation;
             Write.WriteDevLineMethod = DebugLine;
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
             if (!Windows.Role.IsAdministrator) {
