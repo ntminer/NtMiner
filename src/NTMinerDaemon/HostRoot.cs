@@ -1,5 +1,4 @@
-﻿using NTMiner.Serialization;
-using NTMiner.User;
+﻿using NTMiner.User;
 using NTMiner.User.Impl;
 using System;
 using System.Diagnostics;
@@ -8,7 +7,6 @@ using System.Threading;
 namespace NTMiner {
     public class HostRoot : IHostRoot {
         public static readonly IHostRoot Current = new HostRoot();
-        public static readonly IObjectSerializer JsonSerializer = new ObjectJsonSerializer();
 
         public DateTime StartedOn { get; private set; } = DateTime.Now;
 
@@ -25,7 +23,6 @@ namespace NTMiner {
         }
 
         public static EventWaitHandle WaitHandle = new AutoResetEvent(false);
-        public static ExtendedNotifyIcon NotifyIcon;
         private static Mutex _sMutexApp;
         // 注意：该程序编译成无界面的windows应用程序而不是控制台程序，从而随机自动启动时无界面
         [STAThread]
@@ -40,8 +37,6 @@ namespace NTMiner {
                 }
                 if (mutexCreated) {
                     NTMinerRegistry.SetAutoBoot("NTMinerDaemon", true);
-                    Type thisType = typeof(HostRoot);
-                    NotifyIcon = ExtendedNotifyIcon.Create(new System.Drawing.Icon(thisType.Assembly.GetManifestResourceStream(thisType, "logo.ico")), "挖矿端守护进程", isShowNotifyIcon: DevMode.IsDebugMode);
                     bool isAutoBoot = NTMinerRegistry.GetIsAutoBoot();
                     if (isAutoBoot) {
                         string location = NTMinerRegistry.GetLocation();
@@ -69,7 +64,6 @@ namespace NTMiner {
                 _isClosed = true;
                 HttpServer.Stop();
                 _sMutexApp?.Dispose();
-                NotifyIcon?.Dispose();
             }
         }
 

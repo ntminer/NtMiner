@@ -19,13 +19,13 @@ namespace NTMiner.Controllers {
         }
 
         #region GetServicesVersion
-        private static string s_sha1 = null;
+        private static string _sSha1 = null;
         public static string Sha1 {
             get {
-                if (s_sha1 == null) {
-                    s_sha1 = HashUtil.Sha1(File.ReadAllBytes(Process.GetCurrentProcess().MainModule.FileName));
+                if (_sSha1 == null) {
+                    _sSha1 = HashUtil.Sha1(File.ReadAllBytes(Process.GetCurrentProcess().MainModule.FileName));
                 }
-                return s_sha1;
+                return _sSha1;
             }
         }
 
@@ -179,8 +179,8 @@ namespace NTMiner.Controllers {
         #region ChangePassword
         [HttpPost]
         public ResponseBase ChangePassword([FromBody]ChangePasswordRequest request) {
-            if (request == null || string.IsNullOrEmpty(request.LoginName) 
-                || string.IsNullOrEmpty(request.OldPassword) 
+            if (request == null || string.IsNullOrEmpty(request.LoginName)
+                || string.IsNullOrEmpty(request.OldPassword)
                 || string.IsNullOrEmpty(request.NewPassword)) {
                 return ResponseBase.InvalidInput("参数错误");
             }
@@ -283,6 +283,9 @@ namespace NTMiner.Controllers {
                 }
 
                 foreach (var clientIp in request.ClientIps) {
+                    if (!Ip.Util.Ping(clientIp)) {
+                        continue;
+                    }
                     ClientData clientData = HostRoot.Current.ClientSet.FirstOrDefault(a => a.MinerIp == clientIp);
                     if (clientData != null) {
                         continue;

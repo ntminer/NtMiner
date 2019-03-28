@@ -32,14 +32,6 @@ namespace NTMiner.Views {
             }
         }
 
-        private void CbLanguage_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e) {
-            LangViewModel selectedItem = (LangViewModel)e.AddedItems[0];
-            if (selectedItem != VirtualRoot.Lang) {
-                VirtualRoot.Lang = selectedItem;
-                ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
-            }
-        }
-
         private void BtnLogin_OnClick(object sender, RoutedEventArgs e) {
             string passwordSha1 = HashUtil.Sha1(_vm.Password);
             Server.ControlCenterService.LoginAsync(_vm.LoginName, passwordSha1, (response, exception) => {

@@ -54,11 +54,17 @@
 				<TextBlock Style="{StaticResource LblTb}"></TextBlock>
 				<CheckBox IsChecked="{Binding IsIpRange}">至</CheckBox>
 			</WrapPanel>
-			<WrapPanel Margin="0 2" Visibility="{Binding IsIpRange,Converter={StaticResource BoolToVisibilityConverter}}">
-				<TextBlock Style="{StaticResource LblTb}">IP</TextBlock>
-				<TextBox Width="200" Height="24" Text="{Binding RightIp, ValidatesOnExceptions=True}">
-				</TextBox>
-			</WrapPanel>
+			<StackPanel Margin="0 2" Visibility="{Binding IsIpRange,Converter={StaticResource BoolToVisibilityConverter}}">
+				<WrapPanel>
+					<TextBlock Style="{StaticResource LblTb}">IP</TextBlock>
+					<TextBox Width="200" Height="24" Text="{Binding RightIp, ValidatesOnExceptions=True}">
+					</TextBox>
+				</WrapPanel>
+				<WrapPanel>
+					<TextBlock Style="{StaticResource LblTb}"></TextBlock>
+					<TextBlock Text="未开机的IP会被跳过" Foreground="Red"></TextBlock>
+				</WrapPanel>
+			</StackPanel>
 			<WrapPanel>
 				<TextBlock Style="{StaticResource LblTb}"></TextBlock>
 				<TextBlock Margin="4 0 0 0" Foreground="Red" VerticalAlignment="Center" Text="{Binding Message}" Visibility="{Binding MessageVisible}"></TextBlock>

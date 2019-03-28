@@ -1,7 +1,22 @@
 ﻿using System;
+using System.Net.NetworkInformation;
 
 namespace NTMiner.Ip {
     public static class Util {
+        public static bool Ping(string hostOrIp) {
+            try {
+                Ping p1 = new Ping();
+                PingReply reply = p1.Send(hostOrIp);
+                if (reply == null) {
+                    return false;
+                }
+                return reply.Status == IPStatus.Success;
+            }
+            catch {
+                return false;
+            }
+        }
+
         /// <summary>
         /// 判断IP地址是否为内网IP地址
         /// </summary>

@@ -24,7 +24,7 @@ namespace NTMiner {
         /// Standard IDisposable interface implementation. If you dont dispose the windows notify icon, the application
         /// closes but the icon remains in the task bar until such time as you mouse over it.
         /// </summary>
-        private bool _IsDisposed = false;
+        private bool _isDisposed = false;
 
         ~ExtendedNotifyIcon() {
             Dispose(false);
@@ -37,16 +37,16 @@ namespace NTMiner {
             GC.SuppressFinalize(true);
         }
 
-        protected virtual void Dispose(bool IsDisposing) {
-            if (_IsDisposed)
+        protected virtual void Dispose(bool isDisposing) {
+            if (_isDisposed)
                 return;
 
-            if (IsDisposing) {
+            if (isDisposing) {
                 _targetNotifyIcon.Dispose();
             }
 
             // Free any unmanaged resources in this section
-            _IsDisposed = true;
+            _isDisposed = true;
         }
 
         #endregion
