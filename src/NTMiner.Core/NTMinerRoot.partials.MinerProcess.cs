@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 namespace NTMiner {
+    // ReSharper disable once InconsistentNaming
     public partial class NTMinerRoot : INTMinerRoot {
         private static class MinerProcess {
             #region CreateProcess
@@ -21,11 +22,9 @@ namespace NTMiner {
                         // 解压内核包
                         mineContext.Kernel.ExtractPackage();
 
-                        string kernelExeFileFullName;
-                        string arguments;
                         Logger.InfoDebugLine("组装命令");
                         // 组装命令
-                        BuildCmdLine(mineContext, out kernelExeFileFullName, out arguments);
+                        BuildCmdLine(mineContext, out var kernelExeFileFullName, out var arguments);
                         bool isLogFile = arguments.Contains("{logfile}");
                         // 这是不应该发生的，如果发生很可能是填写命令的时候拼写错误了
                         if (!File.Exists(kernelExeFileFullName)) {
@@ -56,6 +55,9 @@ namespace NTMiner {
             #region BuildCmdLine
             private static void BuildCmdLine(IMineContext mineContext, out string kernelExeFileFullName, out string arguments) {
                 var kernel = mineContext.Kernel;
+                if (string.IsNullOrEmpty(kernel.Package)) {
+                    throw new InvalidDataException();
+                }
                 string kernelDir = Path.Combine(SpecialPath.KernelsDirFullName, Path.GetFileNameWithoutExtension(kernel.Package));
                 string kernelCommandName = kernel.GetCommandName();
                 kernelExeFileFullName = Path.Combine(kernelDir, kernelCommandName);
@@ -68,15 +70,15 @@ namespace NTMiner {
             #endregion
 
             #region Daemon
-            private static Bus.DelegateHandler<Per1MinuteEvent> s_daemon = null;
+            private static Bus.DelegateHandler<Per1MinuteEvent> _sDaemon = null;
             private static void Daemon(IMineContext mineContext, Action clear) {
-                if (s_daemon != null) {
-                    VirtualRoot.UnPath(s_daemon);
-                    s_daemon = null;
+                if (_sDaemon != null) {
+                    VirtualRoot.UnPath(_sDaemon);
+                    _sDaemon = null;
                     clear?.Invoke();
                 }
                 string processName = mineContext.Kernel.GetProcessName();
-                s_daemon = VirtualRoot.On<Per1MinuteEvent>("周期性检查挖矿内核是否消失，如果消失尝试重启", LogEnum.DevConsole,
+                _sDaemon = VirtualRoot.On<Per1MinuteEvent>("周期性检查挖矿内核是否消失，如果消失尝试重启", LogEnum.DevConsole,
                     action: message => {
                         if (mineContext == Current.CurrentMineContext) {
                             if (!string.IsNullOrEmpty(processName)) {
@@ -92,16 +94,16 @@ namespace NTMiner {
                                     else {
                                         Current.StopMineAsync();
                                     }
-                                    if (s_daemon != null) {
-                                        VirtualRoot.UnPath(s_daemon);
+                                    if (_sDaemon != null) {
+                                        VirtualRoot.UnPath(_sDaemon);
                                         clear?.Invoke();
                                     }
                                 }
                             }
                         }
                         else {
-                            if (s_daemon != null) {
-                                VirtualRoot.UnPath(s_daemon);
+                            if (_sDaemon != null) {
+                                VirtualRoot.UnPath(_sDaemon);
                                 clear?.Invoke();
                             }
                         }
@@ -118,7 +120,7 @@ namespace NTMiner {
                 ProcessStartInfo startInfo = new ProcessStartInfo(kernelExeFileFullName, arguments) {
                     UseShellExecute = false,
                     CreateNoWindow = true,
-                    WorkingDirectory = Path.Combine(SpecialPath.KernelsDirFullName, Path.GetFileNameWithoutExtension(mineContext.Kernel.Package))
+                    WorkingDirectory = SpecialPath.KernelsDirFullName
                 };
                 Process process = new Process();
                 process.StartInfo = startInfo;
@@ -194,22 +196,21 @@ namespace NTMiner {
             #region CreatePipProcess
             // 创建管道，将输出通过管道转送到日志文件，然后读取日志文件内容打印到控制台
             private static void CreatePipProcess(IMineContext mineContext, string cmdLine) {
-                SECURITY_ATTRIBUTES saAttr = new SECURITY_ATTRIBUTES();
-                IntPtr hReadOut, hWriteOut;
+                SECURITY_ATTRIBUTES saAttr = new SECURITY_ATTRIBUTES
+                {
+                    bInheritHandle = true,
+                    lpSecurityDescriptor = IntPtr.Zero,
+                    length = Marshal.SizeOf(typeof(SECURITY_ATTRIBUTES))
+                };
 
                 //set the bInheritHandle flag so pipe handles are inherited
 
-                saAttr.bInheritHandle = true;
-                saAttr.lpSecurityDescriptor = IntPtr.Zero;
-                saAttr.length = Marshal.SizeOf(typeof(SECURITY_ATTRIBUTES));
                 saAttr.lpSecurityDescriptor = IntPtr.Zero;
                 //get handle to current stdOut
 
-                bool bret;
-
                 IntPtr mypointer = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(STARTUPINFO)));
                 Marshal.StructureToPtr(saAttr, mypointer, true);
-                bret = CreatePipe(out hReadOut, out hWriteOut, mypointer, 0);
+                var bret = CreatePipe(out var hReadOut, out var hWriteOut, mypointer, 0);
                 //ensure the read handle to pipe for stdout is not inherited
                 SetHandleInformation(hReadOut, HANDLE_FLAG_INHERIT, 0);
                 ////Create pipe for the child process's STDIN
@@ -221,7 +222,6 @@ namespace NTMiner {
                     hStdError = hWriteOut,
                     hStdInput = IntPtr.Zero
                 };
-                PROCESS_INFORMATION lpProcessInformation;
                 if (CreateProcess(
                     lpApplicationName: null,
                     lpCommandLine: new StringBuilder(cmdLine),
@@ -230,11 +230,12 @@ namespace NTMiner {
                     bInheritHandles: true,
                     dwCreationFlags: NORMAL_PRIORITY_CLASS,
                     lpEnvironment: IntPtr.Zero,
-                    lpCurrentDirectory: null,
+                    lpCurrentDirectory: SpecialPath.KernelsDirFullName,
                     lpStartupInfo: ref lpStartupInfo,
-                    lpProcessInformation: out lpProcessInformation)) {
+                    lpProcessInformation: out _)) {
                     if (bret == false) {
                         int lasterr = Marshal.GetLastWin32Error();
+                        Write.UserLine($"管道型进程创建失败 lasterr:{lasterr}", ConsoleColor.Red);
                     }
                     else {
                         Bus.DelegateHandler<MineStopedEvent> closeHandle = null;
@@ -249,9 +250,9 @@ namespace NTMiner {
                         closeHandle = VirtualRoot.On<MineStopedEvent>("挖矿停止后关闭非托管的日志句柄", LogEnum.DevConsole,
                             action: message => {
                                 // 挖矿停止后摘除挖矿内核进程守护器
-                                if (s_daemon != null) {
-                                    VirtualRoot.UnPath(s_daemon);
-                                    s_daemon = null;
+                                if (_sDaemon != null) {
+                                    VirtualRoot.UnPath(_sDaemon);
+                                    _sDaemon = null;
                                 }
                                 if (!isHWriteOutHasClosed) {
                                     CloseHandle(hWriteOut);
