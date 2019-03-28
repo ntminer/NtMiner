@@ -601,9 +601,7 @@ namespace NTMiner.Vms {
         private void UpdateColumnsShowAsync() {
             Server.ControlCenterService.AddOrUpdateColumnsShowAsync(new ColumnsShowData().Update(this), (response, exception) => {
                 if (!response.IsSuccess()) {
-                    if (response != null) {
-                        Write.UserLine(response.Description, ConsoleColor.Red);
-                    }
+                    Write.UserLine(response.ReadMessage(exception), ConsoleColor.Red);
                 }
             });
         }

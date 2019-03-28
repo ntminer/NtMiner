@@ -36,9 +36,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                             else {
                                 entity.Value = oldValue.Value;
                             }
-                            if (response != null) {
-                                Write.UserLine(response.Description, System.ConsoleColor.Red);
-                            }
+                            Write.UserLine(response.ReadMessage(exception), System.ConsoleColor.Red);
                             VirtualRoot.Happened(new AppSettingChangedEvent(entity));
                         }
                     });

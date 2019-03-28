@@ -46,9 +46,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                         if (!response.IsSuccess()) {
                             entity.Update(oldValue);
                             VirtualRoot.Happened(new MineWorkUpdatedEvent(entity));
-                            if (response != null) {
-                                Write.UserLine(response.Description, ConsoleColor.Red);
-                            }
+                            Write.UserLine(response.ReadMessage(exception), ConsoleColor.Red);
                         }
                     });
                     VirtualRoot.Happened(new MineWorkUpdatedEvent(entity));
@@ -68,8 +66,8 @@ namespace NTMiner.Core.MinerServer.Impl {
                             _dicById.Remove(entity.Id);
                             VirtualRoot.Happened(new MineWorkRemovedEvent(entity));
                         }
-                        else if (response != null) {
-                            Write.UserLine(response.Description, ConsoleColor.Red);
+                        else {
+                            Write.UserLine(response.ReadMessage(exception), ConsoleColor.Red);
                         }
                     });
                 });

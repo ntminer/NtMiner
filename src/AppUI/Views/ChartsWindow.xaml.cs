@@ -88,11 +88,7 @@ namespace NTMiner.Views {
                     }
 
                     if (!response.IsSuccess()) {
-                        Write.UserLine(response.Description, ConsoleColor.Red);
-                        return;
-                    }
-                    if (exception != null) {
-                        Write.DevLine(exception.Message);
+                        Write.UserLine(response.ReadMessage(exception), ConsoleColor.Red);
                         return;
                     }
                     UIThread.Execute(() => {

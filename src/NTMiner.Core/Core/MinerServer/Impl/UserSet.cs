@@ -24,8 +24,8 @@ namespace NTMiner.Core.MinerServer.Impl {
                                 _dicByLoginName.Add(message.User.LoginName, entity);
                                 VirtualRoot.Happened(new UserAddedEvent(entity));
                             }
-                            else if (response != null) {
-                                Write.UserLine(response.Description, ConsoleColor.Red);
+                            else {
+                                Write.UserLine(response.ReadMessage(exception), ConsoleColor.Red);
                             }
                         });
                     }
@@ -45,9 +45,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                             if (!response.IsSuccess()) {
                                 entity.Update(oldValue);
                                 VirtualRoot.Happened(new UserUpdatedEvent(entity));
-                                if (response != null) {
-                                    Write.UserLine(response.Description, ConsoleColor.Red);
-                                }
+                                Write.UserLine(response.ReadMessage(exception), ConsoleColor.Red);
                             }
                         });
                         VirtualRoot.Happened(new UserUpdatedEvent(entity));
@@ -62,15 +60,15 @@ namespace NTMiner.Core.MinerServer.Impl {
                                 _dicByLoginName.Remove(entity.LoginName);
                                 VirtualRoot.Happened(new UserRemovedEvent(entity));
                             }
-                            else if (response != null) {
-                                Write.UserLine(response.Description, ConsoleColor.Red);
+                            else {
+                                Write.UserLine(response.ReadMessage(exception), ConsoleColor.Red);
                             }
                         });
                     }
                 });
         }
 
-        private object _locker = new object();
+        private readonly object _locker = new object();
         private bool _isInited = false;
 
         private void InitOnece() {

@@ -25,8 +25,8 @@ namespace NTMiner.Core.MinerServer.Impl {
                             _dicById.Add(entity.Id, entity);
                             VirtualRoot.Happened(new ColumnsShowAddedEvent(entity));
                         }
-                        else if (response != null) {
-                            Write.UserLine(response.Description, ConsoleColor.Red);
+                        else {
+                            Write.UserLine(response.ReadMessage(exception), ConsoleColor.Red);
                         }
                     });
                 });
@@ -46,9 +46,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                         if (!response.IsSuccess()) {
                             entity.Update(oldValue);
                             VirtualRoot.Happened(new ColumnsShowUpdatedEvent(entity));
-                            if (response != null) {
-                                Write.UserLine(response.Description, ConsoleColor.Red);
-                            }
+                            Write.UserLine(response.ReadMessage(exception), ConsoleColor.Red);
                         }
                     });
                     VirtualRoot.Happened(new ColumnsShowUpdatedEvent(entity));
@@ -68,8 +66,8 @@ namespace NTMiner.Core.MinerServer.Impl {
                             _dicById.Remove(entity.Id);
                             VirtualRoot.Happened(new ColumnsShowRemovedEvent(entity));
                         }
-                        else if (response != null) {
-                            Write.UserLine(response.Description, ConsoleColor.Red);
+                        else {
+                            Write.UserLine(response.ReadMessage(exception), ConsoleColor.Red);
                         }
                     });
                 });
@@ -99,7 +97,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                             _dicById.Add(ColumnsShowData.PleaseSelect.Id, ColumnsShowData.PleaseSelect);
                             Server.ControlCenterService.AddOrUpdateColumnsShowAsync(ColumnsShowData.PleaseSelect, (response, exception) => {
                                 if (!response.IsSuccess()) {
-                                    Logger.ErrorDebugLine("AddOrUpdateColumnsShowAsync " + response?.Description);
+                                    Logger.ErrorDebugLine("AddOrUpdateColumnsShowAsync " + response.ReadMessage(exception));
                                 }
                             });
                         }

@@ -60,9 +60,7 @@ namespace NTMiner.Vms {
                 DialogWindow.ShowDialog(message: $"确定删除该矿机吗？", title: "确认", onYes: () => {
                     Server.ControlCenterService.RemoveClientsAsync(new List<string> { this.Id }, (response, e) => {
                         if (!response.IsSuccess()) {
-                            if (response != null) {
-                                Write.UserLine(response.Description, ConsoleColor.Red);
-                            }
+                            Write.UserLine(response.ReadMessage(e), ConsoleColor.Red);
                         }
                         else {
                             MinerClientsWindowViewModel.Current.QueryMinerClients();
@@ -73,9 +71,7 @@ namespace NTMiner.Vms {
             this.Refresh = new DelegateCommand(() => {
                 Server.ControlCenterService.RefreshClientsAsync(new List<string> { this.Id }, (response, e) => {
                     if (!response.IsSuccess()) {
-                        if (response != null) {
-                            Write.UserLine(response.Description, ConsoleColor.Red);
-                        }
+                        Write.UserLine(response.ReadMessage(e), ConsoleColor.Red);
                     }
                     else {
                         var data = response.Data.FirstOrDefault(a => a.Id == this.Id);
@@ -98,9 +94,7 @@ namespace NTMiner.Vms {
                 DialogWindow.ShowDialog(message: $"您确定重启{this.MinerName}({this.MinerIp})电脑吗？", title: "确认", onYes: () => {
                     Server.MinerClientService.RestartWindowsAsync(this, (response, e) => {
                         if (!response.IsSuccess()) {
-                            if (response != null) {
-                                Write.UserLine(response.Description, ConsoleColor.Red);
-                            }
+                            Write.UserLine(response.ReadMessage(e), ConsoleColor.Red);
                         }
                     });
                 }, icon: IconConst.IconConfirm);
@@ -109,9 +103,7 @@ namespace NTMiner.Vms {
                 DialogWindow.ShowDialog(message: $"确定关闭{this.MinerName}({this.MinerIp})电脑吗？", title: "确认", onYes: () => {
                     Server.MinerClientService.ShutdownWindowsAsync(this, (response, e) => {
                         if (!response.IsSuccess()) {
-                            if (response != null) {
-                                Write.UserLine(response.Description, ConsoleColor.Red);
-                            }
+                            Write.UserLine(response.ReadMessage(e), ConsoleColor.Red);
                         }
                     });
                 }, icon: IconConst.IconConfirm);
@@ -131,8 +123,7 @@ namespace NTMiner.Vms {
                 IsMining = true;
                 Server.MinerClientService.StartMineAsync(this, WorkId, (response, e) => {
                     if (!response.IsSuccess()) {
-                        string message = $"{this.MinerIp} {response?.Description}";
-                        Write.UserLine(message, ConsoleColor.Red);
+                        Write.UserLine($"{this.MinerIp} {response.ReadMessage(e)}", ConsoleColor.Red);
                     }
                 });
                 Server.ControlCenterService.UpdateClientAsync(this.Id, nameof(IsMining), IsMining, null);
@@ -142,8 +133,7 @@ namespace NTMiner.Vms {
                     IsMining = false;
                     Server.MinerClientService.StopMineAsync(this, (response, e) => {
                         if (!response.IsSuccess()) {
-                            string message = $"{this.MinerIp} {response?.Description}";
-                            Write.UserLine(message, ConsoleColor.Red);
+                            Write.UserLine($"{this.MinerIp} {response.ReadMessage(e)}", ConsoleColor.Red);
                         }
                     });
                     Server.ControlCenterService.UpdateClientAsync(this.Id, nameof(IsMining), IsMining, null);
@@ -251,12 +241,7 @@ namespace NTMiner.Vms {
                                 if (!response.IsSuccess()) {
                                     _selectedMineWork = old;
                                     this.WorkId = old.Id;
-                                    if (response != null) {
-                                        Write.UserLine($"{this.MinerIp} {response.Description}", ConsoleColor.Red);
-                                    }
-                                    else {
-                                        NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage($"{this.MinerIp}切换作业失败，已撤销");
-                                    }
+                                    Write.UserLine($"{this.MinerIp} {response.ReadMessage(exception)}", ConsoleColor.Red);
                                 }
                                 OnPropertyChanged(nameof(SelectedMineWork));
                             });
@@ -413,12 +398,7 @@ namespace NTMiner.Vms {
                     Server.ControlCenterService.UpdateClientAsync(this.Id, nameof(MinerName), value, (response, e) => {
                         if (!response.IsSuccess()) {
                             _data.MinerName = old;
-                            if (response != null) {
-                                Write.UserLine($"{this.MinerIp} {response.Description}", ConsoleColor.Red);
-                            }
-                            else {
-                                NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage($"{this.MinerIp}更改矿机名失败，已撤销");
-                            }
+                            Write.UserLine($"{this.MinerIp} {response.ReadMessage(e)}", ConsoleColor.Red);
                         }
                         OnPropertyChanged(nameof(MinerName));
                     });
@@ -462,12 +442,7 @@ namespace NTMiner.Vms {
                             if (!response.IsSuccess()) {
                                 _selectedMinerGroup = old;
                                 this.GroupId = old.Id;
-                                if (response != null) {
-                                    Write.UserLine($"{this.MinerIp} {response.Description}", ConsoleColor.Red);
-                                }
-                                else {
-                                    NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage($"{this.MinerIp}更改分组失败，已撤销");
-                                }
+                                Write.UserLine($"{this.MinerIp} {response.ReadMessage(exception)}", ConsoleColor.Red);
                             }
                             OnPropertyChanged(nameof(SelectedMinerGroup));
                         });
@@ -499,12 +474,7 @@ namespace NTMiner.Vms {
                     Server.ControlCenterService.UpdateClientAsync(this.Id, nameof(WindowsLoginName), value, (response, exception) => {
                         if (!response.IsSuccess()) {
                             _data.WindowsLoginName = old;
-                            if (response != null) {
-                                Write.UserLine($"{this.MinerIp} {response.Description}", ConsoleColor.Red);
-                            }
-                            else {
-                                NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage($"{this.MinerIp}更改登录名失败，已撤销");
-                            }
+                            Write.UserLine($"{this.MinerIp} {response.ReadMessage(exception)}", ConsoleColor.Red);
                         }
                         OnPropertyChanged(nameof(WindowsLoginName));
                     });
@@ -531,12 +501,7 @@ namespace NTMiner.Vms {
                     Server.ControlCenterService.UpdateClientAsync(this.Id, nameof(WindowsPassword), value, (response, exception) => {
                         if (!response.IsSuccess()) {
                             _data.WindowsPassword = old;
-                            if (response != null) {
-                                Write.UserLine($"{this.MinerIp} {response.Description}", ConsoleColor.Red);
-                            }
-                            else {
-                                NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage($"{this.MinerIp}更改登录密码失败，已撤销");
-                            }
+                            Write.UserLine($"{this.MinerIp} {response.ReadMessage(exception)}", ConsoleColor.Red);
                         }
                         OnPropertyChanged(nameof(WindowsPassword));
                         OnPropertyChanged(nameof(WindowsPasswordStar));

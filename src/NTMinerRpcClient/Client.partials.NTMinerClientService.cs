@@ -31,6 +31,7 @@ namespace NTMiner {
                 });
             }
 
+            // ReSharper disable once InconsistentNaming
             public void CloseNTMiner() {
                 bool isClosed = false;
                 try {

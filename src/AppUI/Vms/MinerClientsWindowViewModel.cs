@@ -126,9 +126,7 @@ namespace NTMiner.Vms {
                     this.CountDown = 10;
                     Server.ControlCenterService.UpdateClientsAsync(nameof(MinerClientViewModel.MinerName), vm.NamesByObjectId.ToDictionary(a => a.Item1, a => (object)a.Item2), callback: (response, e) => {
                         if (!response.IsSuccess()) {
-                            if (response != null) {
-                                Write.UserLine(response.Description, ConsoleColor.Red);
-                            }
+                            Write.UserLine(response.ReadMessage(e), ConsoleColor.Red);
                         }
                         else {
                             foreach (var kv in vm.NamesByObjectId) {
@@ -171,9 +169,7 @@ namespace NTMiner.Vms {
                     foreach (var item in SelectedMinerClients) {
                         Server.MinerClientService.UpgradeNTMinerAsync(item, ntminerFileData.FileName, (response, e) => {
                             if (!response.IsSuccess()) {
-                                if (response != null) {
-                                    Write.UserLine($"{item.MinerName} {item.MinerIp} {response.Description}", ConsoleColor.Red);
-                                }
+                                Write.UserLine($"{item.MinerName} {item.MinerIp} {response.ReadMessage(e)}", ConsoleColor.Red);
                             }
                         });
                     }
@@ -189,9 +185,7 @@ namespace NTMiner.Vms {
                         this.CountDown = 10;
                         Server.ControlCenterService.RemoveClientsAsync(SelectedMinerClients.Select(a => a.Id).ToList(), (response, e) => {
                             if (!response.IsSuccess()) {
-                                if (response != null) {
-                                    Write.UserLine(response.Description, ConsoleColor.Red);
-                                }
+                                Write.UserLine(response.ReadMessage(e), ConsoleColor.Red);
                             }
                             else {
                                 QueryMinerClients();
@@ -207,9 +201,7 @@ namespace NTMiner.Vms {
                 else {
                     Server.ControlCenterService.RefreshClientsAsync(SelectedMinerClients.Select(a => a.Id).ToList(), (response, e) => {
                         if (!response.IsSuccess()) {
-                            if (response != null) {
-                                Write.UserLine(response.Description, ConsoleColor.Red);
-                            }
+                            Write.UserLine(response.ReadMessage(e), ConsoleColor.Red);
                         }
                         else {
                             foreach (var data in response.Data) {
@@ -231,9 +223,7 @@ namespace NTMiner.Vms {
                         foreach (var item in SelectedMinerClients) {
                             Server.MinerClientService.RestartWindowsAsync(item, (response, e) => {
                                 if (!response.IsSuccess()) {
-                                    if (response != null) {
-                                        Write.UserLine(response.Description, ConsoleColor.Red);
-                                    }
+                                    Write.UserLine(response.ReadMessage(e), ConsoleColor.Red);
                                 }
                             });
                         }
@@ -249,9 +239,7 @@ namespace NTMiner.Vms {
                         foreach (var item in SelectedMinerClients) {
                             Server.MinerClientService.ShutdownWindowsAsync(item, (response, e) => {
                                 if (!response.IsSuccess()) {
-                                    if (response != null) {
-                                        Write.UserLine(response.Description, ConsoleColor.Red);
-                                    }
+                                    Write.UserLine(response.ReadMessage(e), ConsoleColor.Red);
                                 }
                             });
                         }
@@ -267,9 +255,7 @@ namespace NTMiner.Vms {
                         foreach (var item in SelectedMinerClients) {
                             Server.MinerClientService.RestartNTMinerAsync(item, (response, e) => {
                                 if (!response.IsSuccess()) {
-                                    if (response != null) {
-                                        Write.UserLine(response.Description, ConsoleColor.Red);
-                                    }
+                                    Write.UserLine(response.ReadMessage(e), ConsoleColor.Red);
                                 }
                             });
                         }
@@ -285,8 +271,7 @@ namespace NTMiner.Vms {
                         item.IsMining = true;
                         Server.MinerClientService.StartMineAsync(item, item.WorkId, (response, e) => {
                             if (!response.IsSuccess()) {
-                                string message = $"{item.MinerIp} {response?.Description}";
-                                Write.UserLine(message, ConsoleColor.Red);
+                                Write.UserLine($"{item.MinerIp} {response.ReadMessage(e)}", ConsoleColor.Red);
                             }
                         });
                         Server.ControlCenterService.UpdateClientAsync(item.Id, nameof(item.IsMining), item.IsMining, null);
@@ -303,8 +288,7 @@ namespace NTMiner.Vms {
                             item.IsMining = false;
                             Server.MinerClientService.StopMineAsync(item, (response, e) => {
                                 if (!response.IsSuccess()) {
-                                    string message = $"{item.MinerIp} {response?.Description}";
-                                    Write.UserLine(message, ConsoleColor.Red);
+                                    Write.UserLine($"{item.MinerIp} {response.ReadMessage(e)}", ConsoleColor.Red);
                                 }
                             });
                             Server.ControlCenterService.UpdateClientAsync(item.Id, nameof(item.IsMining), item.IsMining, null);

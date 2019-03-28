@@ -48,13 +48,7 @@ namespace NTMiner.Vms {
                         }
                         Server.ControlCenterService.AddClientsAsync(clientIps, (response, e) => {
                             if (!response.IsSuccess()) {
-                                if (response != null) {
-                                    this.ShowMessage(response.Description);
-                                }
-                                else if (e != null) {
-                                    this.ShowMessage(e.Message);
-                                    Logger.ErrorDebugLine(e.Message, e);
-                                }
+                                this.ShowMessage(response.ReadMessage(e));
                             }
                             else {
                                 MinerClientsWindowViewModel.Current.QueryMinerClients();
@@ -71,13 +65,7 @@ namespace NTMiner.Vms {
                 else {
                     Server.ControlCenterService.AddClientsAsync(new List<string> { this.LeftIp }, (response, e) => {
                         if (!response.IsSuccess()) {
-                            if (response != null) {
-                                this.ShowMessage(response.Description);
-                            }
-                            else if (e != null) {
-                                this.ShowMessage(e.Message);
-                                Logger.ErrorDebugLine(e.Message, e);
-                            }
+                            this.ShowMessage(response.ReadMessage(e));
                         }
                         else {
                             MinerClientsWindowViewModel.Current.QueryMinerClients();

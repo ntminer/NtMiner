@@ -32,7 +32,7 @@ namespace NTMiner.Vms {
                         this.ShowMessage("激活成功", isSuccess: true);
                     }
                     else {
-                        this.ShowMessage(response != null ? response.Description : "激活失败");
+                        this.ShowMessage(response.ReadMessage(e));
                     }
                 });
             });
