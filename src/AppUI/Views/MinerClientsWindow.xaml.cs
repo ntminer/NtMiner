@@ -142,5 +142,9 @@ namespace NTMiner.Views {
                 Vm.SelectedMinerClients[0].RemoteDesktop.Execute(null);
             }
         }
+
+        private void DataGrid_OnSorting(object sender, DataGridSortingEventArgs e) {
+            e.Handled = true;
+        }
     }
 }

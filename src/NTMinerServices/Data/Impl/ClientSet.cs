@@ -5,7 +5,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Sockets;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -20,25 +19,40 @@ namespace NTMiner.Data.Impl {
         internal ClientSet(IHostRoot root) {
             _root = root;
             GetSpeed();
-            VirtualRoot.On<Per20SecondEvent>("周期性将内存中的ClientData列表刷入磁盘", LogEnum.DevConsole,
+            VirtualRoot.On<Per20SecondEvent>("周期性将内存中3分钟内活跃的ClientData列表刷入磁盘", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
+                    List<MinerData> minerDatas = new List<MinerData>();
                     lock (_locker) {
-                        DateTime time = message.Timestamp.AddMinutes(-5);
-                        using (LiteDatabase db = HostRoot.CreateLocalDb()) {
-                            var col = db.GetCollection<MinerData>();
-                            col.Upsert(_dicByObjectId.Values.Where(a => a.ModifiedOn > time).Select(a => new MinerData {
-                                CreatedOn = a.CreatedOn,
-                                GroupId = a.GroupId,
-                                Id = a.Id,
-                                ClientId = a.ClientId,
-                                MinerIp = a.MinerIp,
-                                MinerName = a.MinerName,
-                                WindowsLoginName = a.WindowsLoginName,
-                                WindowsPassword = a.WindowsPassword,
-                                WorkId = a.WorkId
-                            }));
+                        DateTime time = message.Timestamp.AddMinutes(-3);
+                        foreach (var clientData in _dicByObjectId.Values) {
+                            if (clientData.ModifiedOn > time) {
+                                minerDatas.Add(new MinerData {
+                                    CreatedOn = clientData.CreatedOn,
+                                    GroupId = clientData.GroupId,
+                                    Id = clientData.Id,
+                                    ClientId = clientData.ClientId,
+                                    MinerIp = clientData.MinerIp,
+                                    MinerName = clientData.MinerName,
+                                    WindowsLoginName = clientData.WindowsLoginName,
+                                    WindowsPassword = clientData.WindowsPassword,
+                                    WorkId = clientData.WorkId
+                                });
+                            }
+                            else {
+                                clientData.IsMining = false;
+                                clientData.MainCoinSpeed = 0;
+                                clientData.DualCoinSpeed = 0;
+                                foreach (var item in clientData.GpuTable) {
+                                    item.MainCoinSpeed = 0;
+                                    item.DualCoinSpeed = 0;
+                                }
+                            }
                         }
+                    }
+                    using (LiteDatabase db = HostRoot.CreateLocalDb()) {
+                        var col = db.GetCollection<MinerData>();
+                        col.Upsert(minerDatas);
                     }
                 });
         }
@@ -187,8 +201,8 @@ namespace NTMiner.Data.Impl {
                 query = query.Where(a => a.MinerIp == minerIp);
             }
             if (!string.IsNullOrEmpty(minerName)) {
-                query = query.Where(a => 
-                (!string.IsNullOrEmpty(a.MinerName) && a.MinerName.IndexOf(minerName, StringComparison.OrdinalIgnoreCase) != -1) 
+                query = query.Where(a =>
+                (!string.IsNullOrEmpty(a.MinerName) && a.MinerName.IndexOf(minerName, StringComparison.OrdinalIgnoreCase) != -1)
                 || (!string.IsNullOrEmpty(a.ClientName) && a.ClientName.IndexOf(minerName, StringComparison.OrdinalIgnoreCase) != -1));
             }
             if (mineState != MineStatus.All) {
@@ -268,15 +282,12 @@ namespace NTMiner.Data.Impl {
         public Task<SpeedData> CreatePullTask(ClientData clientData) {
             return Client.MinerClientService.GetSpeedAsync(clientData.MinerIp, (speedData, exception) => {
                 if (exception != null) {
-                    Exception innerException = exception.GetInnerException();
-                    if (innerException is SocketException || innerException is TaskCanceledException) {
-                        clientData.IsMining = false;
-                        clientData.MainCoinSpeed = 0;
-                        clientData.DualCoinSpeed = 0;
-                        foreach (var item in clientData.GpuTable) {
-                            item.MainCoinSpeed = 0;
-                            item.DualCoinSpeed = 0;
-                        }
+                    clientData.IsMining = false;
+                    clientData.MainCoinSpeed = 0;
+                    clientData.DualCoinSpeed = 0;
+                    foreach (var item in clientData.GpuTable) {
+                        item.MainCoinSpeed = 0;
+                        item.DualCoinSpeed = 0;
                     }
                 }
                 else {

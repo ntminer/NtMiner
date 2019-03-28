@@ -635,6 +635,7 @@
 				IsReadOnly="True"
 				SelectionMode="Extended"
 				SelectionChanged="MinerClientsGrid_OnSelectionChanged"
+				Sorting="DataGrid_OnSorting"
 				HeadersVisibility="All"
 				RowHeaderWidth="10"
 				FrozenColumnCount="{Binding FrozenColumnCount}"
@@ -823,7 +824,10 @@
 					<DataGridTextColumn 
 						Binding="{Binding BootTimeSpanText}"
 						Visibility="{Binding Data.ColumnsShow.BootTimeSpanText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-						CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+						CanUserResize="True" CanUserReorder="False" 
+					    CanUserSort="True" 
+					    SortMemberPath="BootOn"
+					    IsReadOnly="True">
 						<DataGridTextColumn.Header>
 							<WrapPanel>
 								<TextBlock>运行时长</TextBlock>
