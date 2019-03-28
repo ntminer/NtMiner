@@ -1,5 +1,4 @@
 ﻿using LiteDB;
-using NTMiner.MinerClient;
 using NTMiner.MinerServer;
 using System;
 using System.Collections;
@@ -10,7 +9,6 @@ using System.Threading.Tasks;
 
 namespace NTMiner.Data.Impl {
     public class ClientSet : IClientSet {
-        // 内存中保留20分钟内活跃的客户端
         private readonly Dictionary<string, ClientData> _dicByObjectId = new Dictionary<string, ClientData>();
         private readonly Dictionary<Guid, ClientData> _dicByClientId = new Dictionary<Guid, ClientData>();
 
@@ -279,7 +277,7 @@ namespace NTMiner.Data.Impl {
             }
         }
 
-        public Task<SpeedData> CreatePullTask(ClientData clientData) {
+        public Task CreatePullTask(ClientData clientData) {
             return Client.MinerClientService.GetSpeedAsync(clientData.MinerIp, (speedData, exception) => {
                 if (exception != null) {
                     clientData.IsMining = false;
