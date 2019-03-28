@@ -40,6 +40,7 @@ namespace NTMiner.Vms {
 
         public ICommand RestartWindows { get; private set; }
         public ICommand ShutdownWindows { get; private set; }
+        // ReSharper disable once InconsistentNaming
         public ICommand RestartNTMiner { get; private set; }
         public ICommand StartMine { get; private set; }
         public ICommand StopMine { get; private set; }
@@ -177,12 +178,8 @@ namespace NTMiner.Vms {
                         });
                     }
                 }, icon: IconConst.IconConfirm);
-            }, (ntminerFileData) => {
-                return this.SelectedMinerClients != null && this.SelectedMinerClients.Length != 0;
-            });
-            this.AddMinerClient = new DelegateCommand(()=> {
-                MinerClientAdd.ShowWindow();
-            });
+            }, (ntminerFileData) => this.SelectedMinerClients != null && this.SelectedMinerClients.Length != 0);
+            this.AddMinerClient = new DelegateCommand(MinerClientAdd.ShowWindow);
             this.RemoveMinerClients = new DelegateCommand(() => {
                 if (SelectedMinerClients.Length == 0) {
                     ShowNoRecordSelected();

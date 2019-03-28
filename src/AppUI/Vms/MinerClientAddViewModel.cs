@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Net;
 using System.Windows;
 using System.Windows.Input;
-using NTMiner.Notifications;
 
 namespace NTMiner.Vms {
     public class MinerClientAddViewModel : ViewModelBase {
@@ -19,15 +18,13 @@ namespace NTMiner.Vms {
 
         public MinerClientAddViewModel() {
             this.Save = new DelegateCommand(() => {
-                IPAddress leftIp;
-                if (!IPAddress.TryParse(this.LeftIp, out leftIp)) {
+                if (!IPAddress.TryParse(this.LeftIp, out _)) {
                     this.ShowMessage("IP格式不正确");
                     return;
                 }
 
                 if (this.IsIpRange) {
-                    IPAddress rightIp;
-                    if (!IPAddress.TryParse(this.RightIp, out rightIp)) {
+                    if (!IPAddress.TryParse(this.RightIp, out _)) {
                         this.ShowMessage("IP格式不正确");
                         return;
                     }
@@ -54,6 +51,10 @@ namespace NTMiner.Vms {
                                 if (response != null) {
                                     this.ShowMessage(response.Description);
                                 }
+                                else if (e != null) {
+                                    this.ShowMessage(e.Message);
+                                    Logger.ErrorDebugLine(e.Message, e);
+                                }
                             }
                             else {
                                 MinerClientsWindowViewModel.Current.QueryMinerClients();
@@ -71,8 +72,11 @@ namespace NTMiner.Vms {
                     Server.ControlCenterService.AddClientsAsync(new List<string> { this.LeftIp }, (response, e) => {
                         if (!response.IsSuccess()) {
                             if (response != null) {
-                                Write.UserLine(response.Description, ConsoleColor.Red);
-                                throw new ValidationException(response.Description);
+                                this.ShowMessage(response.Description);
+                            }
+                            else if (e != null) {
+                                this.ShowMessage(e.Message);
+                                Logger.ErrorDebugLine(e.Message, e);
                             }
                         }
                         else {
@@ -88,18 +92,18 @@ namespace NTMiner.Vms {
 
         public static uint IpToInt(string ipStr) {
             string[] ip = ipStr.Split('.');
-            uint ipcode = 0xFFFFFF00 | byte.Parse(ip[3]);
-            ipcode = ipcode & 0xFFFF00FF | (uint.Parse(ip[2]) << 0x8);
-            ipcode = ipcode & 0xFF00FFFF | (uint.Parse(ip[1]) << 0xF);
-            ipcode = ipcode & 0x00FFFFFF | (uint.Parse(ip[0]) << 0x18);
-            return ipcode;
+            uint ipCode = 0xFFFFFF00 | byte.Parse(ip[3]);
+            ipCode = ipCode & 0xFFFF00FF | (uint.Parse(ip[2]) << 0x8);
+            ipCode = ipCode & 0xFF00FFFF | (uint.Parse(ip[1]) << 0xF);
+            ipCode = ipCode & 0x00FFFFFF | (uint.Parse(ip[0]) << 0x18);
+            return ipCode;
         }
-        public static string IntToIp(uint ipcode) {
-            byte a = (byte)((ipcode & 0xFF000000) >> 0x18);
-            byte b = (byte)((ipcode & 0x00FF0000) >> 0xF);
-            byte c = (byte)((ipcode & 0x0000FF00) >> 0x8);
-            byte d = (byte)(ipcode & 0x000000FF);
-            string ipStr = string.Format("{0}.{1}.{2}.{3}", a, b, c, d);
+        public static string IntToIp(uint ipCode) {
+            byte a = (byte)((ipCode & 0xFF000000) >> 0x18);
+            byte b = (byte)((ipCode & 0x00FF0000) >> 0xF);
+            byte c = (byte)((ipCode & 0x0000FF00) >> 0x8);
+            byte d = (byte)(ipCode & 0x000000FF);
+            string ipStr = $"{a}.{b}.{c}.{d}";
             return ipStr;
         }
 
@@ -138,8 +142,7 @@ namespace NTMiner.Vms {
             set {
                 _leftIp = value;
                 OnPropertyChanged(nameof(LeftIp));
-                IPAddress ip;
-                if (!IPAddress.TryParse(value, out ip)) {
+                if (!IPAddress.TryParse(value, out _)) {
                     throw new ValidationException("IP格式不正确");
                 }
             }
@@ -158,8 +161,7 @@ namespace NTMiner.Vms {
             set {
                 _rightIp = value;
                 OnPropertyChanged(nameof(RightIp));
-                IPAddress ip;
-                if (!IPAddress.TryParse(value, out ip)) {
+                if (!IPAddress.TryParse(value, out _)) {
                     throw new ValidationException("IP格式不正确");
                 }
             }
