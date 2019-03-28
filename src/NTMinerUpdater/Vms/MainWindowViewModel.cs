@@ -17,7 +17,7 @@ namespace NTMiner.Vms {
 
         private double _downloadPercent;
         private bool _isDownloading = false;
-        private NTMinerFileViewModel _selectedNTMinerFile;
+        private NTMinerFileViewModel _selectedNtMinerFile;
         private NTMinerFileViewModel _serverLatestVm;
         private bool _isReady;
         private bool _localIsLatest;
@@ -28,10 +28,11 @@ namespace NTMiner.Vms {
         private string _downloadMessage;
         private Visibility _btnCancelVisible = Visibility.Visible;
 
-        private Action cancel;
+        private Action _cancel;
         public ICommand Install { get; private set; }
         public ICommand CancelDownload { get; private set; }
         public ICommand ShowHistory { get; private set; }
+        // ReSharper disable once InconsistentNaming
         public ICommand AddNTMinerFile { get; private set; }
 
         private MainWindowViewModel() {
@@ -40,7 +41,7 @@ namespace NTMiner.Vms {
             }
             this.Refresh();
             this.CancelDownload = new DelegateCommand(() => {
-                this.cancel?.Invoke();
+                this._cancel?.Invoke();
                 this.IsDownloading = false;
             });
             this.Install = new DelegateCommand(() => {
@@ -86,7 +87,7 @@ namespace NTMiner.Vms {
                             Process.Start(location, arguments);
                             this.IsDownloading = false;
                             UIThread.Execute(() => {
-                                Application.Current.MainWindow.Close();
+                                Application.Current.MainWindow?.Close();
                             });
                         });
                     }
@@ -95,7 +96,7 @@ namespace NTMiner.Vms {
                             this.IsDownloading = false;
                         });
                     }
-                }, cancel: out cancel);
+                }, cancel: out _cancel);
             });
             this.ShowHistory = new DelegateCommand(() => {
                 if (IsHistoryVisible == Visibility.Visible) {
@@ -113,6 +114,7 @@ namespace NTMiner.Vms {
             });
         }
 
+        private static readonly Dictionary<string, int> _downlodTimes = new Dictionary<string, int>();
         public static void Download(
             string fileName,
             string version,
@@ -129,12 +131,25 @@ namespace NTMiner.Vms {
                 webClient.DownloadProgressChanged += (object sender, DownloadProgressChangedEventArgs e) => {
                     progressChanged?.Invoke(e.ProgressPercentage);
                 };
-                webClient.DownloadFileCompleted += (object sender, System.ComponentModel.AsyncCompletedEventArgs e) => {
+                webClient.DownloadFileCompleted += (sender, e) => {
+                    if (!_downlodTimes.ContainsKey(fileName)) {
+                        _downlodTimes.Add(fileName, 1);
+                    }
+                    else {
+                        _downlodTimes[fileName] += 1;
+                    }
                     bool isSuccess = !e.Cancelled && e.Error == null;
                     string message = "下载成功";
                     if (e.Error != null) {
                         message = "下载失败";
                         Logger.ErrorDebugLine(e.Error.Message, e.Error);
+                        if (_downlodTimes[fileName] < 3) {
+                            System.Threading.Thread.Sleep(100);
+                            OfficialServer.FileUrlService.GetNTMinerUrlAsync(fileName, (url, ex) => {
+                                webClient.DownloadFileAsync(new Uri(url), saveFileFullName);
+                            });
+                            return;
+                        }
                     }
                     if (e.Cancelled) {
                         message = "下载取消";
@@ -302,9 +317,9 @@ namespace NTMiner.Vms {
         }
 
         public NTMinerFileViewModel SelectedNTMinerFile {
-            get => _selectedNTMinerFile;
+            get => _selectedNtMinerFile;
             set {
-                _selectedNTMinerFile = value;
+                _selectedNtMinerFile = value;
                 OnPropertyChanged(nameof(SelectedNTMinerFile));
                 OnPropertyChanged(nameof(IsBtnInstallVisible));
             }

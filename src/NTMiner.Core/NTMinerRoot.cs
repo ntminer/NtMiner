@@ -543,7 +543,8 @@ namespace NTMiner {
                             StartMine();
                         }
                         // 阿里云可能偶尔下载失败，如果下载失败这里尝试3次
-                        else if (_kernelAutoDownloadTimes[kernel.GetId()] <= 3) {
+                        else if (_kernelAutoDownloadTimes[kernel.GetId()] < 3) {
+                            Thread.Sleep(100);
                             StartMine();
                         }
                     });
