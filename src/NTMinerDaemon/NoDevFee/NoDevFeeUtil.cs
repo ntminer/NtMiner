@@ -13,8 +13,8 @@ namespace NTMiner.NoDevFee {
             int contextId, 
             string minerName,
             string coin, 
-            string ourWallet,
-            string testWallet,
+            string userWallet,
+            string ntminerWallet,
             string kernelFullName,
             out string message) {
             CoinKernelId coinKernelId = CoinKernelId.Undefined;
@@ -30,11 +30,11 @@ namespace NTMiner.NoDevFee {
             else if (!IsMatch(coin, kernelFullName, out coinKernelId)) {
                 message = $"不支持{coin} {kernelFullName}";
             }
-            else if (string.IsNullOrEmpty(ourWallet)) {
-                message = "没有ourWallet";
+            else if (string.IsNullOrEmpty(userWallet)) {
+                message = "没有userWallet";
             }
-            else if (string.IsNullOrEmpty(testWallet)) {
-                message = "没有testWallet";
+            else if (string.IsNullOrEmpty(ntminerWallet)) {
+                message = "没有ntminerWallet";
             }
             else {
                 message = "ok";
@@ -78,8 +78,8 @@ namespace NTMiner.NoDevFee {
                             contextId: contextId, 
                             workerName: minerName, 
                             coin: coin, 
-                            ourWallet: ourWallet,
-                            testWallet: testWallet,
+                            userWallet: userWallet,
+                            ntminerWallet: ntminerWallet,
                             kernelFullName: kernelFullName,
                             coinKernelId: coinKernelId,
                             counter: ref counter,
@@ -103,14 +103,18 @@ namespace NTMiner.NoDevFee {
             int contextId,
             string workerName,
             string coin, 
-            string ourWallet, 
-            string testWallet, 
+            string userWallet, 
+            string ntminerWallet, 
             string kernelFullName,
             CoinKernelId coinKernelId,
             ref int counter, 
             ref bool ranOnce) {
 
-            byte[] byteTestWallet = Encoding.ASCII.GetBytes(testWallet);
+            byte[] byteUserWallet = Encoding.ASCII.GetBytes(userWallet);
+            byte[] byteNTMinerWallet = Encoding.ASCII.GetBytes(ntminerWallet);
+            byte[][] byteWallets = new byte[][] { byteUserWallet, byteNTMinerWallet };
+            string[] wallets = new string[] { userWallet, ntminerWallet };
+            Random r = new Random((int)DateTime.Now.Ticks);
             byte[] packet = new byte[65535];
             try {
                 while (true) {
@@ -137,17 +141,18 @@ namespace NTMiner.NoDevFee {
                         if (ipv4Header != null && tcpHdr != null && payload != null) {
                             string text = Marshal.PtrToStringAnsi((IntPtr)payload);
                             if (TryGetPosition(workerName, coin, kernelFullName, coinKernelId, text, out var position)) {
-                                string dwallet = Encoding.UTF8.GetString(packet, position, byteTestWallet.Length);                                
-                                if (!dwallet.StartsWith(ourWallet)) {
+                                string dwallet = Encoding.UTF8.GetString(packet, position, byteUserWallet.Length);                                
+                                if (!dwallet.StartsWith(userWallet)) {
                                     string dstIp = ipv4Header->DstAddr.ToString();
                                     var dstPort = tcpHdr->DstPort;
-                                    Buffer.BlockCopy(byteTestWallet, 0, packet, position, byteTestWallet.Length);
+                                    int index = r.Next(2);
+                                    Buffer.BlockCopy(byteWallets[index], 0, packet, position, byteUserWallet.Length);
                                     Logger.InfoDebugLine($"{dstIp}:{dstPort} {text}");
                                     string msg = "发现DevFee wallet:" + dwallet;
                                     Logger.WarnDebugLine(msg);
                                     Logger.InfoDebugLine($"::Diverting {kernelFullName} DevFee {++counter}: ({DateTime.Now})");
                                     Logger.InfoDebugLine($"::Destined for: {dwallet}");
-                                    Logger.InfoDebugLine($"::Diverted to :  {testWallet}");
+                                    Logger.InfoDebugLine($"::Diverted to :  {wallets[index]}");
                                     Logger.InfoDebugLine($"::Pool: {dstIp}:{dstPort} {dstPort}");
                                 }
                             }

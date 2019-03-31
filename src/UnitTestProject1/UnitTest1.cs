@@ -161,6 +161,26 @@ namespace UnitTestProject1 {
         }
 
         [TestMethod]
+        public void RandomTest() {
+            Random r = new Random((int)DateTime.Now.Ticks);
+            int total = 1000;
+            int userWalletCount = 0;
+            int ntminerWalletCount = 0;
+            for (int i = 0; i < 1000; i++) {
+                int n = r.Next(2);
+                if (n == 0) {
+                    userWalletCount++;
+                }
+                else {
+                    ntminerWalletCount++;
+                }
+            }
+            Console.WriteLine($"测试{total}次");
+            Console.WriteLine($"选中用户的钱包    {userWalletCount}次，{(double)userWalletCount / total * 100} %");
+            Console.WriteLine($"选中NTMiner的钱包 {ntminerWalletCount}次，{(double)ntminerWalletCount / total * 100} %");
+        }
+
+        [TestMethod]
         public void IntTest() {
             int i;
             Assert.IsTrue(int.TryParse("001", out i));
