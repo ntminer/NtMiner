@@ -34,7 +34,10 @@ namespace NTMiner.Controllers {
                 return string.Empty;
             }
             var req = new GeneratePresignedUriRequest("ntminer", request.FileName, SignHttpMethod.Get) {
-                Expiration = DateTime.Now.AddMinutes(10)
+                Expiration = DateTime.Now.AddMinutes(10),
+                QueryParams = new Dictionary<string, string> {
+                    {"t", DateTime.Now.Ticks.ToString() }
+                }
             };
             var uri = HostRoot.Current.OssClient.GeneratePresignedUri(req);
             return uri.ToString();
@@ -92,7 +95,11 @@ namespace NTMiner.Controllers {
                 else {
                     ntminerUpdaterFileName = (string)ntminerUpdaterFileNameSetting.Value;
                 }
-                var req = new GeneratePresignedUriRequest("ntminer", ntminerUpdaterFileName, SignHttpMethod.Get);
+                var req = new GeneratePresignedUriRequest("ntminer", ntminerUpdaterFileName, SignHttpMethod.Get) {
+                    QueryParams = new Dictionary<string, string> {
+                        {"t", DateTime.Now.Ticks.ToString() }
+                    }
+                };
                 var uri = HostRoot.Current.OssClient.GeneratePresignedUri(req);
                 return uri.ToString();
             }
@@ -105,7 +112,11 @@ namespace NTMiner.Controllers {
         [HttpPost]
         public string LiteDbExplorerUrl() {
             try {
-                var req = new GeneratePresignedUriRequest("ntminer", "LiteDBExplorerPortable.zip", SignHttpMethod.Get);
+                var req = new GeneratePresignedUriRequest("ntminer", "LiteDBExplorerPortable.zip", SignHttpMethod.Get) {
+                    QueryParams = new Dictionary<string, string> {
+                        {"t", DateTime.Now.Ticks.ToString() }
+                    }
+                };
                 var uri = HostRoot.Current.OssClient.GeneratePresignedUri(req);
                 return uri.ToString();
             }
@@ -122,7 +133,10 @@ namespace NTMiner.Controllers {
                     return string.Empty;
                 }
                 var req = new GeneratePresignedUriRequest("ntminer", $"packages/{request.Package}", SignHttpMethod.Get) {
-                    Expiration = DateTime.Now.AddMinutes(10)
+                    Expiration = DateTime.Now.AddMinutes(10),
+                    QueryParams = new Dictionary<string, string> {
+                        {"t", DateTime.Now.Ticks.ToString() }
+                    }
                 };
                 var uri = HostRoot.Current.OssClient.GeneratePresignedUri(req);
                 return uri.ToString();
