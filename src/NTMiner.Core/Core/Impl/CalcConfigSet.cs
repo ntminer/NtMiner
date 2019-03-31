@@ -31,10 +31,13 @@ namespace NTMiner.Core.Impl {
                         }).ToList();
                         var response = OfficialServer.GetCalcConfigs();
                         if (response != null) {
-                            foreach (var item in list) {
-                                var exist = response.Data.FirstOrDefault(a => string.Equals(a.CoinCode, item.CoinCode, StringComparison.OrdinalIgnoreCase));
+                            foreach (var item in response.Data) {
+                                var exist = list.FirstOrDefault(a => string.Equals(a.CoinCode, item.CoinCode, StringComparison.OrdinalIgnoreCase));
                                 if (exist != null) {
-                                    item.Update(exist);
+                                    exist.Update(item);
+                                }
+                                else {
+                                    list.Add(item);
                                 }
                             }
                         }
