@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -29,6 +30,14 @@ namespace NTMiner {
             }
 
             public void CloseMinerStudio() {
+                string location = NTMinerRegistry.GetLocation();
+                if (string.IsNullOrEmpty(location) || !File.Exists(location)) {
+                    return;
+                }
+                string processName = Path.GetFileNameWithoutExtension(location);
+                if (Process.GetProcessesByName(processName).Length == 0) {
+                    return;
+                }
                 bool isClosed = false;
                 try {
                     using (HttpClient client = new HttpClient()) {
@@ -42,11 +51,7 @@ namespace NTMiner {
                 }
                 if (!isClosed) {
                     try {
-                        string location = NTMinerRegistry.GetLocation();
-                        if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
-                            string processName = Path.GetFileNameWithoutExtension(location);
-                            Windows.TaskKill.Kill(processName);
-                        }
+                        Windows.TaskKill.Kill(processName);
                     }
                     catch (Exception e) {
                         Logger.ErrorDebugLine(e.Message, e);

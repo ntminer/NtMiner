@@ -97,12 +97,7 @@ namespace NTMiner {
                 catch (Exception) {
                     DialogWindow.ShowDialog(message: "另一个NTMiner正在运行，请手动结束正在运行的NTMiner进程后再次尝试。", title: "alert", icon: "Icon_Error");
                     Process currentProcess = Process.GetCurrentProcess();
-                    Process[] processes = Process.GetProcessesByName(currentProcess.ProcessName);
-                    foreach (var process in processes) {
-                        if (process.Id != currentProcess.Id) {
-                            NTMiner.Windows.TaskKill.Kill(process.Id);
-                        }
-                    }
+                    NTMiner.Windows.TaskKill.KillOtherProcess(currentProcess);
                 }
             }
             base.OnStartup(e);

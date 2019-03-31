@@ -2,6 +2,7 @@
 using NTMiner.Daemon;
 using NTMiner.MinerClient;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -33,9 +34,18 @@ namespace NTMiner {
 
             // ReSharper disable once InconsistentNaming
             public void CloseNTMiner() {
+                string location = NTMinerRegistry.GetLocation();
+                if (string.IsNullOrEmpty(location) || !File.Exists(location)) {
+                    return;
+                }
+                string processName = Path.GetFileNameWithoutExtension(location);
+                if (Process.GetProcessesByName(processName).Length == 0) {
+                    return;
+                }
                 bool isClosed = false;
                 try {
                     using (HttpClient client = new HttpClient()) {
+                        client.Timeout = TimeSpan.FromMilliseconds(200);
                         Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:{WebApiConst.MinerClientPort}/api/MinerClient/CloseNTMiner", new SignatureRequest {});
                         ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                         isClosed = response.IsSuccess();
@@ -46,11 +56,7 @@ namespace NTMiner {
                 }
                 if (!isClosed) {
                     try {
-                        string location = NTMinerRegistry.GetLocation();
-                        if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
-                            string processName = Path.GetFileNameWithoutExtension(location);
-                            Windows.TaskKill.Kill(processName);
-                        }
+                        Windows.TaskKill.Kill(processName);
                     }
                     catch (Exception e) {
                         Logger.ErrorDebugLine(e.Message, e);

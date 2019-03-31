@@ -39,6 +39,10 @@ namespace NTMiner {
 
             public void CloseServices() {
                 try {
+                    Process[] processes = Process.GetProcessesByName("NTMinerServices");
+                    if (processes.Length == 0) {
+                        return;
+                    }
                     using (HttpClient client = new HttpClient()) {
                         Task<HttpResponseMessage> message = client.PostAsync($"http://localhost:{WebApiConst.ControlCenterPort}/api/{SControllerName}/{nameof(IControlCenterController.CloseServices)}", null);
                         Write.DevLine("CloseServices " + message.Result.ReasonPhrase);

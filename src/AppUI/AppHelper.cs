@@ -12,10 +12,11 @@ namespace NTMiner {
         public static Action<RemoteDesktopInput> RemoteDesktop;
 
         public static void RunAsAdministrator() {
-            ProcessStartInfo startInfo = new ProcessStartInfo();
-            startInfo.FileName = ClientId.AppFileFullName;
-            startInfo.Arguments = string.Join(" ", CommandLineArgs.Args);
-            startInfo.Verb = "runas";
+            ProcessStartInfo startInfo = new ProcessStartInfo {
+                FileName = ClientId.AppFileFullName,
+                Arguments = string.Join(" ", CommandLineArgs.Args),
+                Verb = "runas"
+            };
             Process.Start(startInfo);
             Application.Current.Shutdown();
         }
@@ -23,8 +24,7 @@ namespace NTMiner {
         #region Init
         public static void Init(Application app) {
             AppDomain.CurrentDomain.UnhandledException += (object sender, UnhandledExceptionEventArgs e) => {
-                var exception = e.ExceptionObject as Exception;
-                if (exception != null) {
+                if (e.ExceptionObject is Exception exception) {
                     Handle(exception);
                 }
             };
@@ -75,15 +75,7 @@ namespace NTMiner {
 
         private static void RestartNTMiner() {
             Process thisProcess = Process.GetCurrentProcess();
-            foreach (var process in Process.GetProcessesByName(thisProcess.ProcessName)) {
-                if (process.Id != thisProcess.Id) {
-                    try {
-                        Windows.TaskKill.Kill(process.Id);
-                    }
-                    catch {
-                    }
-                }
-            }
+            Windows.TaskKill.KillOtherProcess(thisProcess);
             Windows.Cmd.RunClose(ClientId.AppFileFullName, string.Join(" ", CommandLineArgs.Args));
         }
         #endregion
