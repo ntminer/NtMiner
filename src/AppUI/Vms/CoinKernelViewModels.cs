@@ -32,7 +32,6 @@ namespace NTMiner.Vms {
                     }
                     var kernelVm = coinKernelVm.Kernel;
                     if (kernelVm != null) {
-                        kernelVm.OnPropertyChanged(nameof(kernelVm.IsSupported));
                         kernelVm.OnPropertyChanged(nameof(kernelVm.IsNvidiaIconVisible));
                         kernelVm.OnPropertyChanged(nameof(kernelVm.IsAMDIconVisible));
                         kernelVm.OnPropertyChanged(nameof(kernelVm.CoinKernels));
@@ -56,7 +55,6 @@ namespace NTMiner.Vms {
                                 coinVm.OnPropertyChanged(nameof(coinVm.IsSupported));
                                 coinVm.OnPropertyChanged(nameof(coinVm.CoinKernels));
                             }
-                            coinKernel.Kernel.OnPropertyChanged(nameof(coinKernel.Kernel.IsSupported));
                         }
                         var kernelVm = entity.Kernel;
                         kernelVm.OnPropertyChanged(nameof(kernelVm.IsNvidiaIconVisible));
@@ -86,7 +84,6 @@ namespace NTMiner.Vms {
                             coinVm.OnPropertyChanged(nameof(CoinViewModel.IsSupported));
                         }
                         var kernelVm = coinKernelVm.Kernel;
-                        kernelVm.OnPropertyChanged(nameof(kernelVm.IsSupported));
                         kernelVm.OnPropertyChanged(nameof(kernelVm.IsNvidiaIconVisible));
                         kernelVm.OnPropertyChanged(nameof(kernelVm.IsAMDIconVisible));
                         kernelVm.OnPropertyChanged(nameof(kernelVm.CoinKernels));

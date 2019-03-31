@@ -1,4 +1,5 @@
 ﻿using NTMiner.Core;
+using NTMiner.Core.Kernels;
 using NTMiner.Core.Profiles;
 using NTMiner.Views;
 using NTMiner.Views.Ucs;
@@ -500,8 +501,8 @@ namespace NTMiner.Vms {
         public CoinKernelViewModel CoinKernel {
             get {
                 CoinKernelViewModel coinKernel = CoinKernels.FirstOrDefault(a => a.Id == CoinProfile.CoinKernelId);
-                if (coinKernel == null || !coinKernel.Kernel.IsSupported) {
-                    coinKernel = CoinKernels.FirstOrDefault(a => a.Kernel.IsSupported);
+                if (coinKernel == null || !coinKernel.Kernel.IsSupported(this)) {
+                    coinKernel = CoinKernels.FirstOrDefault(a => a.Kernel.IsSupported(this));
                     if (coinKernel != null) {
                         CoinProfile.CoinKernelId = coinKernel.Id;
                     }

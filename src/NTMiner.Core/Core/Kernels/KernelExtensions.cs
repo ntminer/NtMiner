@@ -54,11 +54,11 @@ namespace NTMiner.Core.Kernels {
             }
         }
 
-        public static bool IsSupported(this IKernel kernel) {
+        public static bool IsSupported(this IKernel kernel, ICoin coin) {
             if (VirtualRoot.IsMinerStudio) {
                 return true;
             }
-            foreach (var item in NTMinerRoot.Current.CoinKernelSet.Where(a => a.KernelId == kernel.GetId())) {
+            foreach (var item in NTMinerRoot.Current.CoinKernelSet.Where(a => a.CoinId == coin.GetId() && a.KernelId == kernel.GetId())) {
                 if (item.SupportedGpu == SupportedGpu.Both) {
                     return true;
                 }

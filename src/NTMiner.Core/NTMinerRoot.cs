@@ -469,7 +469,7 @@ namespace NTMiner {
                     Write.UserLine("无效的挖矿内核。", ConsoleColor.Red);
                     return;
                 }
-                if (!kernel.IsSupported()) {
+                if (!kernel.IsSupported(mainCoin)) {
                     Write.UserLine($"该内核不支持{GpuSet.GpuType.GetDescription()}卡。", ConsoleColor.Red);
                     return;
                 }

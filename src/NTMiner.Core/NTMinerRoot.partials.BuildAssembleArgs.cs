@@ -21,7 +21,7 @@ namespace NTMiner {
             if (!KernelSet.TryGetKernel(coinKernel.KernelId, out IKernel kernel)) {
                 return string.Empty;
             }
-            if (!kernel.IsSupported()) {
+            if (!kernel.IsSupported(mainCoin)) {
                 return string.Empty;
             }
             if (!KernelInputSet.TryGetKernelInput(kernel.KernelInputId, out IKernelInput kernelInput)) {

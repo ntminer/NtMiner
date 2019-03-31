@@ -322,12 +322,6 @@
 							Width="132" 
 							ItemsSource="{Binding KernelVmSingleInstance.CoinVms}" 
 							DisplayMemberPath="CodeAlgo">
-							<controls:KbComboBox.ItemContainerStyle>
-								<Style TargetType="ComboBoxItem">
-									<Setter Property="Height" Value="30"></Setter>
-									<Setter  Property="IsEnabled" Value="{Binding IsSupported}" />
-								</Style>
-							</controls:KbComboBox.ItemContainerStyle>
 						</controls:KbComboBox>
 						<controls:KbButton 
 							Command="{Binding KernelVmSingleInstance.AddCoinKernel}" 

@@ -536,12 +536,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        public bool IsSupported {
-            get {
-                return this.IsSupported();
-            }
-        }
-
         public string HelpArg {
             get { return _helpArg; }
             set {
