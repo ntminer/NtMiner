@@ -20,13 +20,18 @@ namespace NTMiner.Views.Ucs {
         public MessageCenter() {
             InitializeComponent();
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
-            Write.WriteUserLineMethod = (text, foreground) => {
+            Write.WriteUserLineMethod = (text, foreground, isNotice) => {
                 WriteLine(this.FlowDocumentScrollViewer, this.ConsoleParagraph, text, foreground);
-                if (foreground == ConsoleColor.Red) {
-                    NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage(text, 4);
-                }
-                else {
-                    NotiCenterWindowViewModel.Current.Manager.ShowInfo(text);
+                if (isNotice) {
+                    if (foreground == ConsoleColor.Red) {
+                        NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage(text, 4);
+                    }
+                    else if (foreground == ConsoleColor.Green) {
+                        NotiCenterWindowViewModel.Current.Manager.ShowSuccessMessage(text);
+                    }
+                    else {
+                        NotiCenterWindowViewModel.Current.Manager.ShowInfo(text);
+                    }
                 }
             };
             Write.WriteDevLineMethod = (text, foreground) => {

@@ -2,14 +2,14 @@
 
 namespace NTMiner {
     public static class Write {
-        public static Action<string, ConsoleColor> WriteUserLineMethod;
+        public static Action<string, ConsoleColor, bool> WriteUserLineMethod;
         public static Action<string, ConsoleColor> WriteDevLineMethod;
 
         static Write() {
-            WriteUserLineMethod = (line, color) => {
+            WriteUserLineMethod = (line, color, isNotice) => {
                 ConsoleColor oldColor = Console.ForegroundColor;
                 Console.ForegroundColor = color;
-                Console.WriteLine(line);
+                Console.WriteLine(line, isNotice);
                 Console.ForegroundColor = oldColor;
             };
             WriteDevLineMethod = (line, color) => {
@@ -20,8 +20,8 @@ namespace NTMiner {
             };
         }
 
-        public static void UserLine(string text, ConsoleColor foreground) {
-            WriteUserLineMethod?.Invoke(text, foreground);
+        public static void UserLine(string text, ConsoleColor foreground, bool isNotice = true) {
+            WriteUserLineMethod?.Invoke(text, foreground, isNotice);
         }
 
         public static void DevLine(string text) {

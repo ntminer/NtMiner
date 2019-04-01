@@ -32,7 +32,7 @@ namespace NTMiner.Views.Ucs {
             }
         }
 
-        private void InnerWrite(string text, ConsoleColor foreground) {
+        private void InnerWrite(string text, ConsoleColor foreground, bool isNotice) {
             InlineCollection list = this.ConsoleParagraph.Inlines;
             // 满1000行删除500行
             if (list.Count > 1000) {
@@ -51,12 +51,12 @@ namespace NTMiner.Views.Ucs {
             }
         }
 
-        public void WriteLine(string text, ConsoleColor foreground) {
+        public void WriteLine(string text, ConsoleColor foreground, bool isNotice) {
             Dispatcher.Invoke((Action)(() => {
                 if (this.ConsoleParagraph.Inlines.Count > 0) {
                     text = "\n" + text;
                 }
-                InnerWrite(text, foreground);
+                InnerWrite(text, foreground, isNotice);
             }));
         }
     }

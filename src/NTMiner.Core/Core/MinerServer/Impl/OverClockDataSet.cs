@@ -80,7 +80,7 @@ namespace NTMiner.Core.MinerServer.Impl {
         }
 
         private bool _isInited = false;
-        private object _locker = new object();
+        private readonly object _locker = new object();
 
         private void InitOnece() {
             if (_isInited) {
@@ -108,8 +108,7 @@ namespace NTMiner.Core.MinerServer.Impl {
 
         public bool TryGetOverClockData(Guid id, out IOverClockData group) {
             InitOnece();
-            OverClockData g;
-            var r = _dicById.TryGetValue(id, out g);
+            var r = _dicById.TryGetValue(id, out OverClockData g);
             group = g;
             return r;
         }

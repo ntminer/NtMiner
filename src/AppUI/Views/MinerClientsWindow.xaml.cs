@@ -61,6 +61,7 @@ namespace NTMiner.Views {
             this.LocationChanged += changeNotiCenterWindowLocation;
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
             MinerClientsWindowViewModel.Current.QueryMinerClients();
+            Write.UserLine("小提示：鼠标配合ctrl和shift可以多选矿机", ConsoleColor.Yellow, isNotice: false);
         }
 
         protected override void OnClosing(CancelEventArgs e) {

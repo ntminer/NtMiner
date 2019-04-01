@@ -122,8 +122,9 @@ namespace NTMiner {
                     CreateNoWindow = true,
                     WorkingDirectory = SpecialPath.KernelsDirFullName
                 };
-                Process process = new Process();
-                process.StartInfo = startInfo;
+                Process process = new Process {
+                    StartInfo = startInfo
+                };
                 process.Start();
                 ReadPrintLoopLogFileAsync(mineContext, logFile);
                 Daemon(mineContext, null);
@@ -171,8 +172,7 @@ namespace NTMiner {
                                     Current.KernelOutputSet.Pick(kernelOutputId, ref input, mineContext);
                                     Current.KernelOutputTranslaterSet.Translate(kernelOutputId, ref input, ref color);
                                     if (!string.IsNullOrEmpty(input)) {
-                                        IKernelOutput kernelOutput;
-                                        if (Current.KernelOutputSet.TryGetKernelOutput(kernelOutputId, out kernelOutput)) {
+                                        if (Current.KernelOutputSet.TryGetKernelOutput(kernelOutputId, out IKernelOutput kernelOutput)) {
                                             if (kernelOutput.PrependDateTime) {
                                                 Write.UserLine($"{DateTime.Now}    {input}", color);
                                             }

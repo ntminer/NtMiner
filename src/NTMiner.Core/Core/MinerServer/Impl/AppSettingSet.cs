@@ -14,9 +14,8 @@ namespace NTMiner.Core.MinerServer.Impl {
                     if (message.AppSetting == null) {
                         return;
                     }
-                    AppSettingData entity;
                     AppSettingData oldValue;
-                    if (_dicByKey.TryGetValue(message.AppSetting.Key, out entity)) {
+                    if (_dicByKey.TryGetValue(message.AppSetting.Key, out AppSettingData entity)) {
                         oldValue = new AppSettingData {
                             Key = entity.Key,
                             Value = entity.Value
@@ -48,9 +47,8 @@ namespace NTMiner.Core.MinerServer.Impl {
                         return;
                     }
                     foreach (var item in message.AppSettings) {
-                        AppSettingData entity;
                         AppSettingData oldValue;
-                        if (_dicByKey.TryGetValue(item.Key, out entity)) {
+                        if (_dicByKey.TryGetValue(item.Key, out AppSettingData entity)) {
                             oldValue = new AppSettingData {
                                 Key = entity.Key,
                                 Value = entity.Value
@@ -70,7 +68,7 @@ namespace NTMiner.Core.MinerServer.Impl {
         }
 
         private bool _isInited = false;
-        private object _locker = new object();
+        private readonly object _locker = new object();
 
         private void InitOnece() {
             if (_isInited) {
@@ -93,8 +91,7 @@ namespace NTMiner.Core.MinerServer.Impl {
 
         public bool TryGetAppSetting(string key, out IAppSetting appSetting) {
             InitOnece();
-            AppSettingData data;
-            var result = _dicByKey.TryGetValue(key, out data);
+            var result = _dicByKey.TryGetValue(key, out AppSettingData data);
             appSetting = data;
             return result;
         }
