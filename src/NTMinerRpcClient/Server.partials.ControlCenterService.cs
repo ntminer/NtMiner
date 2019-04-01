@@ -45,7 +45,7 @@ namespace NTMiner {
                     }
                     using (HttpClient client = new HttpClient()) {
                         Task<HttpResponseMessage> message = client.PostAsync($"http://localhost:{WebApiConst.ControlCenterPort}/api/{SControllerName}/{nameof(IControlCenterController.CloseServices)}", null);
-                        Write.DevInfo("CloseServices " + message.Result.ReasonPhrase);
+                        Write.DevInfo($"{nameof(CloseServices)} {message.Result.ReasonPhrase}");
                     }
                 }
                 catch (Exception e) {

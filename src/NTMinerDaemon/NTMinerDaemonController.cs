@@ -51,7 +51,7 @@ namespace NTMiner {
                 if (IsNTMinerOpened()) {
                     using (HttpClient client = new HttpClient()) {
                         Task<HttpResponseMessage> message = client.PostAsync($"http://localhost:{WebApiConst.MinerClientPort}/api/MinerClient/OverClock", null);
-                        Write.DevInfo(message.Result.ReasonPhrase);
+                        Write.DevInfo($"{nameof(SaveGpuProfilesJson)} {message.Result.ReasonPhrase}");
                     }
                 }
             }
@@ -69,7 +69,7 @@ namespace NTMiner {
             if (IsNTMinerOpened()) {
                 using (HttpClient client = new HttpClient()) {
                     Task<HttpResponseMessage> message = client.PostAsync($"http://localhost:{WebApiConst.MinerClientPort}/api/MinerClient/RefreshAutoBootStart", null);
-                    Write.DevInfo(message.Result.ReasonPhrase);
+                    Write.DevInfo($"{nameof(SetAutoBootStart)} {message.Result.ReasonPhrase}");
                 }
             }
         }

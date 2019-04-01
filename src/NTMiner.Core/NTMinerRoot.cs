@@ -164,18 +164,18 @@ namespace NTMiner {
                     OfficialServer.GetJsonFileVersionAsync(AssemblyInfo.ServerJsonFileName, (jsonFileVersion) => {
                         if (!string.IsNullOrEmpty(jsonFileVersion) && JsonFileVersion != jsonFileVersion) {
                             SpecialPath.GetAliyunServerJson((data) => {
-                                Write.DevInfo($"有新版本{JsonFileVersion}->{jsonFileVersion}");
+                                Write.UserInfo($"server.json配置文件有新版本{JsonFileVersion}->{jsonFileVersion}");
                                 string rawJson = Encoding.UTF8.GetString(data);
                                 SpecialPath.WriteServerJsonFile(rawJson);
                                 ReInitServerJson();
                                 bool isUseJson = !DevMode.IsDebugMode || VirtualRoot.IsMinerStudio;
                                 if (isUseJson) {
                                     // 作业模式下界面是禁用的，所以这里的初始化isWork必然是false
-                                    ContextReInit(isWork: false);
-                                    Logger.InfoDebugLine("刷新完成");
+                                    ContextReInit(isWork: VirtualRoot.IsMinerStudio);
+                                    Write.UserInfo("刷新完成");
                                 }
                                 else {
-                                    Write.DevInfo("不是使用的json，无需刷新");
+                                    Write.UserInfo("不是使用的server.json，无需刷新");
                                 }
                                 JsonFileVersion = jsonFileVersion;
                             });
