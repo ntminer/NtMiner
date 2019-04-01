@@ -12,9 +12,6 @@
 		<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
 			<Setter Property="Width" Value="80"></Setter>
 		</Style>
-		<sys:String x:Key="WindowTitle">
-			内核输出翻译器
-		</sys:String>
 	</UserControl.Resources>
 	<StackPanel Margin="10">
 		<WrapPanel Margin="0 2">

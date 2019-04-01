@@ -22,7 +22,6 @@ namespace NTMiner.Views.Ucs {
 
         public MinerProfileOption() {
             InitializeComponent();
-            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
 
         private void ButtonHotKey_KeyDown(object sender, System.Windows.Input.KeyEventArgs e) {

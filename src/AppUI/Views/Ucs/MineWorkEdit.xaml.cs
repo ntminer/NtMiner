@@ -29,7 +29,6 @@ namespace NTMiner.Views.Ucs {
         public MineWorkEdit(MineWorkViewModel vm) {
             this.DataContext = vm;
             InitializeComponent();
-            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
     }
 }

@@ -15,42 +15,6 @@
 				<Setter Property="Foreground" Value="{StaticResource LableColor}"></Setter>
 				<Setter Property="HorizontalContentAlignment" Value="Right"></Setter>
 			</Style>
-			<sys:String x:Key="BtnCheckUpdate">
-				BtnCheckUpdate
-			</sys:String>
-			<sys:String x:Key="BtnServerConfig">
-				BtnServerConfig
-			</sys:String>
-			<sys:String x:Key="PoolIncome">
-				PoolIncome
-			</sys:String>
-			<sys:String x:Key="Day">
-				Day
-			</sys:String>
-			<sys:String x:Key="LblReject">
-				LblReject
-			</sys:String>
-			<sys:String x:Key="LblRejectShareCount">
-				LblRejectShareCount
-			</sys:String>
-			<sys:String x:Key="LblSubmitShareRequestCount">
-				LblSubmitShareRequestCount
-			</sys:String>
-			<sys:String x:Key="LblTotalSpeed">
-				LblTotalSpeed
-			</sys:String>
-			<sys:String x:Key="Github">
-				Github
-			</sys:String>
-			<sys:String x:Key="Discuss">
-				Discuss
-			</sys:String>
-			<sys:String x:Key="RunningTimeSpan">
-				RunningTimeSpan
-			</sys:String>
-			<sys:String x:Key="MiningTimeSpan">
-				MiningTimeSpan
-			</sys:String>
 		</ResourceDictionary>
 	</UserControl.Resources>
 	<Border Padding="4 0 4 0" Background="Transparent">
@@ -105,7 +69,7 @@
 						KbSystemButtonHoverBackground="Transparent"
 						KbDisplayLine="False">
 						<WrapPanel>
-							<TextBlock Text="{DynamicResource Github}"></TextBlock>
+							<TextBlock Text="Github"></TextBlock>
 							<Path 
 								Width="14"
 								Height="14"
@@ -122,7 +86,7 @@
 						KbSystemButtonHoverBackground="Transparent"
 						KbDisplayLine="False">
 						<WrapPanel>
-							<TextBlock Text="{DynamicResource Discuss}"></TextBlock>
+							<TextBlock Text="讨论"></TextBlock>
 							<Path 
 								Width="14"
 								Height="14"
@@ -165,7 +129,7 @@
 					<controls:KbButton 
 						Margin="4 0 0 0"
 						Cursor="Hand"
-						ToolTip="{DynamicResource BtnCheckUpdate}"
+						ToolTip="检查更新"
 						Background="Transparent" 
 						BorderThickness="0"
 						Command="{x:Static vm:AppStatic.ShowOnlineUpdate}">
@@ -180,7 +144,7 @@
 						Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
 						Margin="4 0 0 0"
 						Cursor="Hand"
-						ToolTip="{DynamicResource BtnServerConfig}"
+						ToolTip="服务器"
 						Command="{Binding ConfigControlCenterHost}"
 						Background="Transparent">
 						<Path 
@@ -225,7 +189,7 @@
 						Margin="0 0 4 0"
 						HorizontalAlignment="Right"
 						VerticalAlignment="Top"
-						ToolTip="{DynamicResource RunningTimeSpan}"
+						ToolTip="运行时长"
 						Text="{Binding BootTimeSpanText}"
 						Background="Transparent"></TextBlock>
 					<WrapPanel>
@@ -264,7 +228,7 @@
 						<TextBlock 
 							Width="83"
 							Margin="4 0 0 0"
-							ToolTip="{DynamicResource MiningTimeSpan}"
+							ToolTip="挖矿时长"
 							Text="{Binding MineTimeSpanText}"
 							Background="Transparent"
 							VerticalAlignment="Center"></TextBlock>
@@ -315,7 +279,7 @@
 							Foreground="#0072C1"
 							Command="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.ViewPoolIncome}"
 							CommandParameter="{Binding MinerProfile.CoinVm.CoinProfile.SelectedWallet}"
-							Content="{DynamicResource PoolIncome}"
+							Content="矿池收益"
 							KbDisplayLine="False"
 							KbSystemButtonHoverBackground="Transparent"
 							Background="Transparent" />
@@ -360,19 +324,18 @@
 									Margin="2 0 0 0"
 									Padding="0"
 									Foreground="{StaticResource LableColor}"></TextBlock>
-								<TextBlock Padding="1 0" Text="/" Foreground="{StaticResource LableColor}" />
-								<TextBlock Padding="0" Text="{DynamicResource Day}" Foreground="{StaticResource LableColor}" />
+								<TextBlock Padding="1 0" Text="/天" Foreground="{StaticResource LableColor}" />
 							</WrapPanel>
 						</controls:KbButton>
 						<WrapPanel Width="140">
-							<Label Padding="0" Content="{DynamicResource LblReject}" Style="{StaticResource Lbl}" />
-							<TextBlock Text="{Binding MinerProfile.CoinVm.ShareVm.RejectShareCount}" ToolTip="{DynamicResource LblRejectShareCount}" />
+							<Label Padding="0" Content="拒绝率" Style="{StaticResource Lbl}" />
+							<TextBlock Text="{Binding MinerProfile.CoinVm.ShareVm.RejectShareCount}" ToolTip="拒绝次数" />
 							<Label Padding="1" Content="/" Foreground="{StaticResource LableColor}" />
-							<TextBlock Text="{Binding MinerProfile.CoinVm.ShareVm.TotalShareCount}" ToolTip="{DynamicResource LblSubmitShareRequestCount}" />
+							<TextBlock Text="{Binding MinerProfile.CoinVm.ShareVm.TotalShareCount}" ToolTip="提交次数" />
 							<TextBlock Margin="8 0 0 0" ToolTip="拒绝率" Text="{Binding MinerProfile.CoinVm.ShareVm.RejectPercentText}" />
 						</WrapPanel>
 						<WrapPanel Width="130">
-							<Label Padding="0" Content="{DynamicResource LblTotalSpeed}" Style="{StaticResource Lbl}" />
+							<Label Padding="0" Content="总算力" Style="{StaticResource Lbl}" />
 							<TextBlock Text="{Binding GpuSpeedVms.TotalSpeedVm.MainCoinSpeed.SpeedText}" />
 						</WrapPanel>
 					</WrapPanel>
@@ -383,7 +346,7 @@
 								Foreground="#0072C1"
 								Command="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.ViewPoolIncome}"
 								CommandParameter="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.SelectedDualCoinWallet}"
-								Content="{DynamicResource PoolIncome}"
+								Content="矿池收益"
 								KbDisplayLine="False"
 								KbSystemButtonHoverBackground="Transparent"
 								Background="Transparent" />
@@ -428,19 +391,18 @@
 										Margin="2 0 0 0"
 										Padding="0"
 										Foreground="{StaticResource LableColor}"></TextBlock>
-									<TextBlock Padding="1 0" Text="/" Foreground="{StaticResource LableColor}" />
-									<TextBlock Padding="0" Text="{DynamicResource Day}" Foreground="{StaticResource LableColor}" />
+									<TextBlock Padding="1 0" Text="/天" Foreground="{StaticResource LableColor}" />
 								</WrapPanel>
 							</controls:KbButton>
 							<WrapPanel Width="140">
-								<Label Padding="0" Content="{DynamicResource LblReject}" Style="{StaticResource Lbl}" />
-								<TextBlock Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.RejectShareCount}" ToolTip="{DynamicResource LblRejectShareCount}" />
+								<Label Padding="0" Content="拒绝率" Style="{StaticResource Lbl}" />
+								<TextBlock Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.RejectShareCount}" ToolTip="拒绝次数" />
 								<Label Padding="1" Content="/" Foreground="{StaticResource LableColor}" />
-								<TextBlock Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.TotalShareCount}" ToolTip="{DynamicResource LblSubmitShareRequestCount}" />
+								<TextBlock Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.TotalShareCount}" ToolTip="提交次数" />
 								<TextBlock Margin="8 0 0 0" ToolTip="拒绝率" Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.RejectPercentText}" />
 							</WrapPanel>
 							<WrapPanel Width="130">
-								<Label Padding="0" Content="{DynamicResource LblTotalSpeed}" Style="{StaticResource Lbl}" />
+								<Label Padding="0" Content="总算力" Style="{StaticResource Lbl}" />
 								<TextBlock Text="{Binding GpuSpeedVms.TotalSpeedVm.DualCoinSpeed.SpeedText}" />
 							</WrapPanel>
 						</WrapPanel>

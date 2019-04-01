@@ -13,7 +13,6 @@ namespace NTMiner.Views.Ucs {
 
         public StateBar() {
             InitializeComponent();
-            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
     }
 }

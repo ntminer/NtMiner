@@ -43,7 +43,6 @@ namespace NTMiner.Views.Ucs {
 
         public KernelPage() {
             InitializeComponent();
-            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
 
         private void BtnDownloadMenu_Click(object sender, RoutedEventArgs e) {

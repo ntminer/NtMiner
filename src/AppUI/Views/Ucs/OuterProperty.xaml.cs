@@ -23,7 +23,6 @@ namespace NTMiner.Views.Ucs {
             if (Design.IsInDesignMode) {
                 return;
             }
-            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
     }
 }

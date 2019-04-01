@@ -3,8 +3,6 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class GroupEdit : UserControl {
-        public static string ViewId = nameof(GroupEdit);
-
         public static void ShowWindow(FormType formType, GroupViewModel source) {
             ContainerWindow.ShowWindow("组", new ContainerWindowViewModel {
                 FormType = formType,
@@ -29,7 +27,6 @@ namespace NTMiner.Views.Ucs {
         public GroupEdit(GroupViewModel vm) {
             this.DataContext = vm;
             InitializeComponent();
-            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
     }
 }

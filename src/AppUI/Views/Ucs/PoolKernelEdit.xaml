@@ -17,53 +17,15 @@
 			<Setter Property="TextAlignment" Value="Right"></Setter>
 			<Setter Property="TextWrapping" Value="Wrap"></Setter>
 		</Style>
-		<sys:String x:Key="WindowTitle">
-			WindowTitle
-		</sys:String>
-		<sys:String x:Key="PoolName">
-			PoolName
-		</sys:String>
-		<sys:String x:Key="Kernel">
-			Kernel
-		</sys:String>
-		<sys:String x:Key="KernelArgs">
-			KernelArgs
-		</sys:String>
-		<sys:String x:Key="CoinKernelArgs">
-			CoinKernelArgs
-		</sys:String>
-		<sys:String x:Key="Args">
-			Args
-		</sys:String>
-		<sys:String x:Key="Description">
-			Description
-		</sys:String>
 	</UserControl.Resources>
 	<StackPanel Margin="10">
 		<WrapPanel Margin="0 2">
-			<TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource PoolName}" ToolTip="{DynamicResource PoolName}"></TextBlock>
+			<TextBlock Style="{StaticResource LblTb}" Text="矿池"></TextBlock>
 			<WrapPanel Width="180" VerticalAlignment="Center">
 				<TextBlock Text="{Binding PoolName}">
 				</TextBlock>
-				<controls:KbButton
-					Margin="2 0"
-					HorizontalAlignment="Right"
-					Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-					ToolTip="{x:Static local:PoolKernelEdit.ViewId}"
-					Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-					CommandParameter="{x:Static local:PoolKernelEdit.ViewId}"
-					Background="Transparent">
-					<WrapPanel>
-						<Path
-							Width="14"
-							Height="14"
-							Data="{StaticResource Icon_Translate}"
-							Fill="{StaticResource ThemeBackground}"
-							Stretch="Fill" />
-					</WrapPanel>
-				</controls:KbButton>
 			</WrapPanel>
-			<TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource Kernel}" ToolTip="{DynamicResource Kernel}"></TextBlock>
+			<TextBlock Style="{StaticResource LblTb}" Text="内核"></TextBlock>
 			<TextBlock VerticalAlignment="Center"
 					   Text="{Binding Kernel.FullName, Mode=OneWay}">
 			</TextBlock>
@@ -72,7 +34,6 @@
 		<WrapPanel Margin="0 2">
 			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top">
 				<controls:KbLinkButton 
-					ToolTip="{DynamicResource KernelArgs}"
 					KbDisplayLine="False"
 					KbSystemButtonHoverBackground="Transparent" 
 					Background="Transparent"
@@ -90,7 +51,7 @@
 							MaxWidth="78"
 							VerticalAlignment="Center"
 							TextWrapping="Wrap"
-							Text="{DynamicResource KernelArgs}"
+							Text="内核级参数"
 							Foreground="{StaticResource LableColor}" />
 					</WrapPanel>
 				</controls:KbLinkButton>
@@ -104,7 +65,6 @@
 		<WrapPanel Margin="0 2">
 			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top">
 				<controls:KbLinkButton 
-					ToolTip="{DynamicResource CoinKernelArgs}"
 					KbDisplayLine="False"
 					KbSystemButtonHoverBackground="Transparent" 
 					Background="Transparent"
@@ -122,7 +82,7 @@
 							Padding="0 4"
 							VerticalAlignment="Center"
 							TextWrapping="Wrap"
-							Text="{DynamicResource CoinKernelArgs}"
+							Text="币种级参数"
 							Foreground="{StaticResource LableColor}" />
 					</WrapPanel>
 				</controls:KbLinkButton>
@@ -134,7 +94,7 @@
 		</WrapPanel>
 
 		<WrapPanel Margin="0 2">
-			<TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource Args}" ToolTip="{DynamicResource Args}"></TextBlock>
+			<TextBlock Style="{StaticResource LblTb}" Text="矿池级参数"></TextBlock>
 			<TextBox 
 				VerticalContentAlignment="Center"
 				Height="30"
@@ -145,7 +105,7 @@
 		</WrapPanel>
 
 		<WrapPanel Margin="0 2">
-			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="{DynamicResource Description}" ToolTip="{DynamicResource Description}"></TextBlock>
+			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="备注"></TextBlock>
 			<TextBox 
 				Width="436" Background="Transparent"
 				IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"

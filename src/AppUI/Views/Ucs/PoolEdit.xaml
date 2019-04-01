@@ -19,21 +19,6 @@
 			<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
 				<Setter Property="Width" Value="84"></Setter>
 			</Style>
-			<sys:String x:Key="WindowTitle">
-				WindowTitle
-			</sys:String>
-			<sys:String x:Key="Pool">
-				Pool
-			</sys:String>
-			<sys:String x:Key="Kernel">
-				Kernel
-			</sys:String>
-			<sys:String x:Key="Args">
-				Args
-			</sys:String>
-			<sys:String x:Key="TbNoRecord">
-				TbNoRecord
-			</sys:String>
 		</ResourceDictionary>
 	</UserControl.Resources>
 	<Grid>
@@ -42,7 +27,7 @@
 			BorderBrush="{StaticResource LineColor}">
 			<TabItem>
 				<TabItem.Header>
-					<TextBlock Text="{DynamicResource Pool}" Padding="10 0"></TextBlock>
+					<TextBlock Text="矿池" Padding="10 0"></TextBlock>
 				</TabItem.Header>
 				<Grid Width="504">
 					<Grid.RowDefinitions>
@@ -135,7 +120,7 @@
 			<!--start矿池级参数-->
 			<TabItem>
 				<TabItem.Header>
-					<TextBlock Padding="10 0" Text="{DynamicResource Kernel}"></TextBlock>
+					<TextBlock Padding="10 0" Text="内核"></TextBlock>
 				</TabItem.Header>
 				<Grid>
 					<DataGrid 
@@ -150,13 +135,13 @@
 							<DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Binding="{Binding Kernel.FullName}">
 								<DataGridTextColumn.Header>
 									<WrapPanel>
-										<TextBlock Text="{DynamicResource Kernel}"></TextBlock>
+										<TextBlock Text="内核"></TextBlock>
 									</WrapPanel>
 								</DataGridTextColumn.Header>
 							</DataGridTextColumn>
 							<DataGridTemplateColumn Width="*" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 								<DataGridTemplateColumn.Header>
-									<TextBlock Text="{DynamicResource Args}"></TextBlock>
+									<TextBlock Text="矿池级参数"></TextBlock>
 								</DataGridTemplateColumn.Header>
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate>

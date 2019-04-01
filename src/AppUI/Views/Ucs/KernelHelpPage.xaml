@@ -8,11 +8,6 @@
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:vm="clr-namespace:NTMiner.Vms"
 		mc:Ignorable="d" d:DesignHeight="200" d:DesignWidth="500">
-	<UserControl.Resources>
-		<sys:String x:Key="WindowTitle">
-			WindowTitle
-		</sys:String>
-	</UserControl.Resources>
 	<Grid>
 		<TextBox 
 			Text="{Binding HelpText, Mode=OneWay}"

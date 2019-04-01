@@ -9,8 +9,6 @@
 		xmlns:vm="clr-namespace:NTMiner.Vms"
 		DataContext="{x:Static vm:MessageCenterViewModel.Current}"
 		mc:Ignorable="d" d:DesignHeight="408" d:DesignWidth="408">
-	<UserControl.Resources>
-	</UserControl.Resources>
 	<Grid Background="Black">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"></RowDefinition>

@@ -32,7 +32,6 @@ namespace NTMiner.Views.Ucs {
             this.DataContext = vm;
             InitializeComponent();
             this.CbCoins.SelectedItem = CoinViewModel.PleaseSelect;
-            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
 
         private void CoinKernelDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e) {

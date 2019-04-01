@@ -21,84 +21,6 @@
 			<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
 				<Setter Property="Width" Value="58"></Setter>
 			</Style>
-			<sys:String x:Key="MainCoin">
-				MainCoin
-			</sys:String>
-			<sys:String x:Key="MainPool">
-				MainPool
-			</sys:String>
-			<sys:String x:Key="UserName">
-				UserName
-			</sys:String>
-			<sys:String x:Key="Password">
-				Password
-			</sys:String>
-			<sys:String x:Key="MainWallet">
-				MainWallet
-			</sys:String>
-			<sys:String x:Key="Kernel">
-				Kernel
-			</sys:String>
-			<sys:String x:Key="IsDualCoinEnabled">
-				IsDualCoinEnabled
-			</sys:String>
-			<sys:String x:Key="DualCoinWeight">
-				DualCoinWeight
-			</sys:String>
-			<sys:String x:Key="DualWeightWarning">
-				DualWeightWarning
-			</sys:String>
-			<sys:String x:Key="SupportDualMine">
-				SupportDualMine
-			</sys:String>
-			<sys:String x:Key="IsAutoDualWeight">
-				IsAutoDualWeight
-			</sys:String>
-			<sys:String x:Key="DualCoin">
-				DualCoin
-			</sys:String>
-			<sys:String x:Key="DualPool">
-				DualPool
-			</sys:String>
-			<sys:String x:Key="DualWallet">
-				DualWallet
-			</sys:String>
-			<sys:String x:Key="CustomArgs">
-				CustomArgs
-			</sys:String>
-			<sys:String x:Key="Manage">
-				Manage
-			</sys:String>
-			<sys:String x:Key="Add">
-				Add
-			</sys:String>
-			<sys:String x:Key="Edit">
-				Edit
-			</sys:String>
-			<sys:String x:Key="AddWallet">
-				AddWallet
-			</sys:String>
-			<sys:String x:Key="ShowUserNamePassword">
-				ShowUserNamePassword
-			</sys:String>
-			<sys:String x:Key="HideUserNamePassword">
-				HideUserNamePassword
-			</sys:String>
-			<sys:String x:Key="ShowWalletAddress">
-				ShowWalletAddress
-			</sys:String>
-			<sys:String x:Key="HideWalletAddress">
-				HideWalletAddress
-			</sys:String>
-			<sys:String x:Key="CopyWalletAddress">
-				CopyWalletAddress
-			</sys:String>
-			<sys:String x:Key="EditWalletAddress">
-				EditWalletAddress
-			</sys:String>
-			<sys:String x:Key="CustomArgsTip">
-				CustomArgsTip
-			</sys:String>
 		</ResourceDictionary>
 	</UserControl.Resources>
 	<Grid>
@@ -107,8 +29,7 @@
 				<WrapPanel Margin="0 2">
 					<TextBlock
 						Style="{StaticResource LblTb}"
-						ToolTip="{DynamicResource MainCoin}"
-						Text="{DynamicResource MainCoin}" />
+						Text="主币" />
 					<controls:KbComboBox 
 						BorderThickness="0"
 						Height="30"
@@ -141,14 +62,14 @@
 											Data="{StaticResource Icon_Coin}"
 											Fill="{StaticResource ThemeForeground}"
 											Stretch="Fill" />
-										<TextBlock Margin="4 0 0 0" Text="{DynamicResource Manage}" Foreground="{StaticResource ThemeForeground}"></TextBlock>
+										<TextBlock Margin="4 0 0 0" Text="管理" Foreground="{StaticResource ThemeForeground}"></TextBlock>
 									</WrapPanel>
 								</controls:KbButton>
 							</WrapPanel>
 						</controls:KbComboBox.Toolbar>
 						<controls:KbComboBox.ContextMenuEx>
 							<ContextMenu>
-								<MenuItem Header="{DynamicResource Manage}" Command="{x:Static vm:AppStatic.ShowCoins}" CommandParameter="{Binding MinerProfile.CoinVm}">
+								<MenuItem Header="管理" Command="{x:Static vm:AppStatic.ShowCoins}" CommandParameter="{Binding MinerProfile.CoinVm}">
 								</MenuItem>
 							</ContextMenu>
 						</controls:KbComboBox.ContextMenuEx>
@@ -156,8 +77,7 @@
 					<TextBlock 
 						Margin="2 0 0 0"
 						Style="{StaticResource LblTb}"
-						ToolTip="{DynamicResource MainPool}"
-						Text="{DynamicResource MainPool}" />
+						Text="主币矿池" />
 					<controls:KbComboBox 
 						BorderThickness="0"
 						Height="30"
@@ -189,7 +109,7 @@
 											Data="{StaticResource Icon_Add}"
 											Fill="{StaticResource ThemeForeground}"
 											Stretch="Fill" />
-										<TextBlock Margin="4 0 0 0" Text="{DynamicResource Add}" Foreground="{StaticResource ThemeForeground}"></TextBlock>
+										<TextBlock Margin="4 0 0 0" Text="添加" Foreground="{StaticResource ThemeForeground}"></TextBlock>
 									</WrapPanel>
 								</controls:KbButton>
 								<controls:KbButton
@@ -208,16 +128,16 @@
 											Data="{StaticResource Icon_Pool}"
 											Fill="{StaticResource ThemeForeground}"
 											Stretch="Fill" />
-										<TextBlock Margin="4 0 0 0" Text="{DynamicResource Manage}" Foreground="{StaticResource ThemeForeground}"></TextBlock>
+										<TextBlock Margin="4 0 0 0" Text="管理" Foreground="{StaticResource ThemeForeground}"></TextBlock>
 									</WrapPanel>
 								</controls:KbButton>
 							</WrapPanel>
 						</controls:KbComboBox.Toolbar>
 						<controls:KbComboBox.ContextMenuEx>
 							<ContextMenu>
-								<MenuItem Header="{DynamicResource Add}" Command="{Binding MinerProfile.CoinVm.AddPool}">
+								<MenuItem Header="添加" Command="{Binding MinerProfile.CoinVm.AddPool}">
 								</MenuItem>
-								<MenuItem Header="{DynamicResource Manage}" Command="{x:Static vm:AppStatic.ManagePools}">
+								<MenuItem Header="管理" Command="{x:Static vm:AppStatic.ManagePools}">
 								</MenuItem>
 							</ContextMenu>
 						</controls:KbComboBox.ContextMenuEx>
@@ -229,8 +149,7 @@
 					<WrapPanel>
 						<TextBlock
 							Style="{StaticResource LblTb}"
-							ToolTip="{DynamicResource MainWallet}"
-							Text="{DynamicResource MainWallet}" />
+							Text="钱包" />
 						<controls:KbComboBox 
 							Height="40"
 							BorderThickness="0"
@@ -260,7 +179,7 @@
 												Data="{StaticResource Icon_Add}"
 												Fill="{StaticResource ThemeForeground}"
 												Stretch="Fill" />
-											<TextBlock Margin="4 0 0 0" Text="{DynamicResource AddWallet}" Foreground="{StaticResource ThemeForeground}"></TextBlock>
+											<TextBlock Margin="4 0 0 0" Text="添加钱包" Foreground="{StaticResource ThemeForeground}"></TextBlock>
 										</WrapPanel>
 									</controls:KbButton>
 									<controls:KbButton
@@ -279,16 +198,16 @@
 												Data="{StaticResource Icon_Wallet}"
 												Fill="{StaticResource ThemeForeground}"
 												Stretch="Fill" />
-											<TextBlock Margin="4 0 0 0" Text="{DynamicResource Manage}" Foreground="{StaticResource ThemeForeground}"></TextBlock>
+											<TextBlock Margin="4 0 0 0" Text="管理" Foreground="{StaticResource ThemeForeground}"></TextBlock>
 										</WrapPanel>
 									</controls:KbButton>
 								</WrapPanel>
 							</controls:KbComboBox.Toolbar>
 							<controls:KbComboBox.ContextMenuEx>
 								<ContextMenu>
-									<MenuItem Header="{DynamicResource AddWallet}" Command="{Binding MinerProfile.CoinVm.CoinProfile.AddWallet}">
+									<MenuItem Header="添加钱包" Command="{Binding MinerProfile.CoinVm.CoinProfile.AddWallet}">
 									</MenuItem>
-									<MenuItem Header="{DynamicResource Manage}" Command="{x:Static vm:AppStatic.ManageWallet}">
+									<MenuItem Header="管理" Command="{x:Static vm:AppStatic.ManageWallet}">
 									</MenuItem>
 								</ContextMenu>
 							</controls:KbComboBox.ContextMenuEx>
@@ -307,7 +226,6 @@
 							Padding="2"
 							Margin="0 -1 -4 2"
 							VerticalAlignment="Bottom"
-							ToolTip="{DynamicResource ShowWalletAddress}"
 							Background="Transparent" BorderThickness="0"
 							Command="{Binding MinerProfile.CoinVm.CoinProfile.ShowWallet}"
 							HorizontalAlignment="Left">
@@ -321,7 +239,7 @@
 						</controls:KbButton>
 						<controls:KbButton 
 							Padding="2"
-							ToolTip="{DynamicResource HideWalletAddress}"
+							ToolTip="隐藏钱包地址"
 							Background="Transparent" BorderThickness="0"
 							Command="{Binding MinerProfile.CoinVm.CoinProfile.HideWallet}"
 							HorizontalAlignment="Left">
@@ -337,7 +255,7 @@
 							Margin="4 0 0 0"
 							Padding="2"
 							Visibility="{Binding ElementName=CbMainWallet, Path=SelectedItem, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
-							ToolTip="{DynamicResource CopyWalletAddress}"
+							ToolTip="复制钱包"
 							Background="Transparent" BorderThickness="0"
 							Command="{Binding MinerProfile.CoinVm.CoinProfile.CopyWallet}"
 							HorizontalAlignment="Left">
@@ -354,7 +272,7 @@
 				<WrapPanel 
 					Margin="0 2" 
 					Visibility="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.IsUserMode, Converter={StaticResource BoolToVisibilityConverter}}">
-					<TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource UserName}"></TextBlock>
+					<TextBlock Style="{StaticResource LblTb}" Text="用户名"></TextBlock>
 					<Grid>
 						<TextBox 
 							Height="30"
@@ -377,7 +295,7 @@
 					</Grid>
 					<TextBlock 
 						Margin="2 0 0 0"
-						Style="{StaticResource LblTb}" Text="{DynamicResource Password}"></TextBlock>
+						Style="{StaticResource LblTb}" Text="密码"></TextBlock>
 					<Grid>
 						<TextBox 
 							Height="30"
@@ -400,7 +318,7 @@
 					</Grid>
 					<Grid>
 						<controls:KbButton 
-							ToolTip="{DynamicResource ShowUserNamePassword}"
+							ToolTip="显示用户名密码"
 							Background="Transparent" BorderThickness="0"
 							Command="{Binding MinerProfile.CoinVm.CoinProfile.ShowWallet}"
 							HorizontalAlignment="Left">
@@ -413,7 +331,7 @@
 								Stretch="Fill" />
 						</controls:KbButton>
 						<controls:KbButton 
-							ToolTip="{DynamicResource HideUserNamePassword}"
+							ToolTip="隐藏用户名密码"
 							Background="Transparent" BorderThickness="0"
 							Command="{Binding MinerProfile.CoinVm.CoinProfile.HideWallet}"
 							HorizontalAlignment="Left">
@@ -431,8 +349,7 @@
 				<WrapPanel Margin="0 2">
 					<TextBlock
 						Style="{StaticResource LblTb}"
-						ToolTip="{DynamicResource Kernel}"
-						Text="{DynamicResource Kernel}" />
+						Text="内核" />
 					<controls:KbComboBox 
 						BorderThickness="0"
 						x:Name="CbKernel"
@@ -471,7 +388,7 @@
 										Margin="4 0 0 0"
 										Width="12"
 										Height="14"
-										ToolTip="{DynamicResource SupportDualMine}"
+										ToolTip="支持双挖"
 										Visibility="{Binding IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}"
 										Data="{StaticResource Icon_DualMine}"
 										Fill="{StaticResource IconFillColor}"
@@ -497,7 +414,7 @@
 											Data="{StaticResource Icon_Kernel}"
 											Fill="{StaticResource ThemeForeground}"
 											Stretch="Fill" />
-										<TextBlock Margin="4 0 0 0" Text="{DynamicResource Manage}" Foreground="{StaticResource ThemeForeground}"></TextBlock>
+										<TextBlock Margin="4 0 0 0" Text="管理" Foreground="{StaticResource ThemeForeground}"></TextBlock>
 									</WrapPanel>
 								</controls:KbButton>
 							</WrapPanel>
@@ -505,11 +422,11 @@
 						<controls:KbComboBox.ContextMenuEx>
 							<ContextMenu>
 								<MenuItem 
-									Header="{DynamicResource Edit}" 
+									Header="编辑" 
 									Command="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.Edit}" 
 									Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
 								</MenuItem>
-								<MenuItem Header="{DynamicResource Manage}" Command="{x:Static vm:AppStatic.ShowKernels}">
+								<MenuItem Header="管理" Command="{x:Static vm:AppStatic.ShowKernels}">
 								</MenuItem>
 							</ContextMenu>
 						</controls:KbComboBox.ContextMenuEx>
@@ -520,7 +437,7 @@
 						IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}" 
 						Visibility="{Binding MinerProfile.CoinVm.CoinKernel.IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}">
 						<controls:KbCheckBox
-							Content="{DynamicResource IsDualCoinEnabled}"
+							Content="启用双挖"
 							IconColor="{StaticResource IconFillColor}"
 							IsChecked="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled}" />
 					</WrapPanel>
@@ -537,10 +454,10 @@
 							Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
 							<TextBlock
 								Style="{StaticResource LblTb}"
-								ToolTip="{DynamicResource DualCoinWeight}"
-								Text="{DynamicResource DualCoinWeight}" />
+								Text="双挖权重" />
 							<controls:KbCheckBox
-								Content="{DynamicResource IsAutoDualWeight}"
+								Content="自动权重"
+								VerticalContentAlignment="Center"
 								IconColor="{StaticResource IconFillColor}"
 								IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}"
 								Visibility="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.KernelInputVm.IsAutoDualWeight, Converter={StaticResource BoolToVisibilityConverter}}"
@@ -555,7 +472,7 @@
 									Maximum="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.KernelInputVm.DualWeightMax}" 
 									Width="100"
 									IsSnapToTickEnabled="True"
-									ToolTip="{DynamicResource DualWeightWarning}"
+									ToolTip="注意：调整双挖权重可能导致挖矿失败，请注意观察。"
 									LostFocus="DualCoinWeightSlider_LostFocus"
 									Value="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.DualCoinWeight}"
 									IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}"></Slider>
@@ -568,8 +485,7 @@
 						<WrapPanel Margin="0 2">
 							<TextBlock
 								Style="{StaticResource LblTb}"
-								ToolTip="{DynamicResource DualCoin}"
-								Text="{DynamicResource DualCoin}" />
+								Text="双挖币" />
 							<DockPanel IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}">
 								<controls:KbComboBox 
 									BorderThickness="0"
@@ -597,7 +513,7 @@
 														Data="{StaticResource Icon_Coin}"
 														Fill="{StaticResource ThemeForeground}"
 														Stretch="Fill" />
-													<TextBlock Margin="4 0 0 0" Text="{DynamicResource Manage}" Foreground="{StaticResource ThemeForeground}"></TextBlock>
+													<TextBlock Margin="4 0 0 0" Text="管理" Foreground="{StaticResource ThemeForeground}"></TextBlock>
 												</WrapPanel>
 											</controls:KbButton>
 										</WrapPanel>
@@ -605,7 +521,7 @@
 									<controls:KbComboBox.ContextMenuEx>
 										<ContextMenu>
 											<MenuItem 
-												Header="{DynamicResource Manage}" 
+												Header="管理" 
 												Command="{x:Static vm:AppStatic.ShowCoins}" 
 												CommandParameter="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin}">
 											</MenuItem>
@@ -616,8 +532,7 @@
 							<TextBlock
 								Margin="2 0 0 0"
 								Style="{StaticResource LblTb}"
-								ToolTip="{DynamicResource DualPool}"
-								Text="{DynamicResource DualPool}" />
+								Text="双挖币池" />
 							<DockPanel IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}">
 								<controls:KbComboBox 
 									BorderThickness="0"
@@ -650,7 +565,7 @@
 														Data="{StaticResource Icon_Add}"
 														Fill="{StaticResource ThemeForeground}"
 														Stretch="Fill" />
-													<TextBlock Margin="4 0 0 0" Text="{DynamicResource Add}" Foreground="{StaticResource ThemeForeground}"></TextBlock>
+													<TextBlock Margin="4 0 0 0" Text="添加" Foreground="{StaticResource ThemeForeground}"></TextBlock>
 												</WrapPanel>
 											</controls:KbButton>
 											<controls:KbButton
@@ -669,7 +584,7 @@
 														Data="{StaticResource Icon_Pool}"
 														Fill="{StaticResource ThemeForeground}"
 														Stretch="Fill" />
-													<TextBlock Margin="4 0 0 0" Text="{DynamicResource Manage}" Foreground="{StaticResource ThemeForeground}"></TextBlock>
+													<TextBlock Margin="4 0 0 0" Text="管理" Foreground="{StaticResource ThemeForeground}"></TextBlock>
 												</WrapPanel>
 											</controls:KbButton>
 										</WrapPanel>
@@ -677,10 +592,10 @@
 									<controls:KbComboBox.ContextMenuEx>
 										<ContextMenu>
 											<MenuItem 
-												Header="{DynamicResource Add}" 
+												Header="添加" 
 												Command="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.AddPool}">
 											</MenuItem>
-											<MenuItem Header="{DynamicResource Manage}" Command="{x:Static vm:AppStatic.ManagePools}">
+											<MenuItem Header="管理" Command="{x:Static vm:AppStatic.ManagePools}">
 											</MenuItem>
 										</ContextMenu>
 									</controls:KbComboBox.ContextMenuEx>
@@ -693,8 +608,7 @@
 								<WrapPanel>
 									<TextBlock
 										Style="{StaticResource LblTb}"
-										ToolTip="{DynamicResource DualWallet}"
-										Text="{DynamicResource DualWallet}" />
+										Text="钱包" />
 									<DockPanel IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}">
 										<controls:KbComboBox 
 											Height="40"
@@ -725,7 +639,7 @@
 																Data="{StaticResource Icon_Add}"
 																Fill="{StaticResource ThemeForeground}"
 																Stretch="Fill" />
-															<TextBlock Margin="4 0 0 0" Text="{DynamicResource AddWallet}" Foreground="{StaticResource ThemeForeground}"></TextBlock>
+															<TextBlock Margin="4 0 0 0" Text="添加钱包" Foreground="{StaticResource ThemeForeground}"></TextBlock>
 														</WrapPanel>
 													</controls:KbButton>
 													<controls:KbButton
@@ -744,16 +658,16 @@
 																Data="{StaticResource Icon_Wallet}"
 																Fill="{StaticResource ThemeForeground}"
 																Stretch="Fill" />
-															<TextBlock Margin="4 0 0 0" Text="{DynamicResource Manage}" Foreground="{StaticResource ThemeForeground}"></TextBlock>
+															<TextBlock Margin="4 0 0 0" Text="管理" Foreground="{StaticResource ThemeForeground}"></TextBlock>
 														</WrapPanel>
 													</controls:KbButton>
 												</WrapPanel>
 											</controls:KbComboBox.Toolbar>
 											<controls:KbComboBox.ContextMenuEx>
 												<ContextMenu>
-													<MenuItem Header="{DynamicResource AddWallet}" Command="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.AddDualCoinWallet}">
+													<MenuItem Header="添加钱包" Command="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.AddDualCoinWallet}">
 													</MenuItem>
-													<MenuItem Header="{DynamicResource Manage}" Command="{x:Static vm:AppStatic.ManageWallet}">
+													<MenuItem Header="管理" Command="{x:Static vm:AppStatic.ManageWallet}">
 													</MenuItem>
 												</ContextMenu>
 											</controls:KbComboBox.ContextMenuEx>
@@ -774,7 +688,7 @@
 									Padding="2"
 									Margin="0 -1 -4 2"
 									VerticalAlignment="Bottom"
-									ToolTip="{DynamicResource ShowWalletAddress}"
+									ToolTip="显示钱包地址"
 									Background="Transparent" BorderThickness="0"
 									Command="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.ShowDualCoinWallet}"
 									HorizontalAlignment="Left">
@@ -788,7 +702,7 @@
 								</controls:KbButton>
 								<controls:KbButton 
 									Padding="2"
-									ToolTip="{DynamicResource HideWalletAddress}"
+									ToolTip="隐藏钱包地址"
 									Background="Transparent" BorderThickness="0"
 									Command="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.HideDualCoinWallet}"
 									HorizontalAlignment="Left">
@@ -804,7 +718,7 @@
 									Margin="4 0 0 0"
 									Padding="2" 
 									Visibility="{Binding ElementName=CbDualCoinWallet, Path=SelectedItem, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
-									ToolTip="{DynamicResource CopyWalletAddress}"
+									ToolTip="复制钱包地址"
 									Background="Transparent" BorderThickness="0"
 									Command="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.CopyDualCoinWallet}"
 									HorizontalAlignment="Left">
@@ -820,12 +734,12 @@
 						<WrapPanel 
 							Margin="0 2" 
 							Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.IsUserMode, Converter={StaticResource BoolToVisibilityConverter}}">
-							<TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource UserName}"></TextBlock>
+							<TextBlock Style="{StaticResource LblTb}" Text="用户名"></TextBlock>
 							<Grid>
 								<TextBox 
 									Height="26"
 									Width="136"
-							        Background="{Binding StateBarVm.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
+									Background="{Binding StateBarVm.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
 									ToolTip="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.Description}"
 									IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}"
 									VerticalContentAlignment="Center" 
@@ -843,12 +757,12 @@
 							</Grid>
 							<TextBlock 
 								Margin="2 0 0 0"
-								Style="{StaticResource LblTb}" Text="{DynamicResource Password}"></TextBlock>
+								Style="{StaticResource LblTb}" Text="密码"></TextBlock>
 							<Grid>
 								<TextBox 
 									Height="26"
 									Width="114"
-							        Background="{Binding StateBarVm.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
+									Background="{Binding StateBarVm.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
 									ToolTip="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.Description}"
 									IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}"
 									VerticalContentAlignment="Center" 
@@ -866,7 +780,7 @@
 							</Grid>
 							<Grid>
 								<controls:KbButton 
-									ToolTip="{DynamicResource ShowUserNamePassword}"
+									ToolTip="显示用户名密码"
 									Background="Transparent" BorderThickness="0"
 									Command="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.ShowDualCoinWallet}"
 									HorizontalAlignment="Left">
@@ -879,7 +793,7 @@
 										Stretch="Fill" />
 								</controls:KbButton>
 								<controls:KbButton 
-									ToolTip="{DynamicResource HideUserNamePassword}"
+									ToolTip="隐藏用户名密码"
 									Background="Transparent" BorderThickness="0"
 									Command="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.HideDualCoinWallet}"
 									HorizontalAlignment="Left">
@@ -899,8 +813,7 @@
 				<WrapPanel Margin="0 2 0 0" VerticalAlignment="Center">
 					<TextBlock
 						Style="{StaticResource LblTb}"
-						ToolTip="{DynamicResource CustomArgs}"
-						Text="{DynamicResource CustomArgs}" />
+						Text="高级参数" />
 					<TextBox 
 						Height="30"
 						Width="330"
@@ -910,29 +823,11 @@
 						VerticalScrollBarVisibility="Auto"
 						Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.CustomArgs, Mode=TwoWay}">
 						<TextBox.ToolTip>
-							<TextBlock Foreground="Red" Width="300" TextWrapping="Wrap" Text="{DynamicResource CustomArgsTip}"></TextBlock>
+							<TextBlock Foreground="Red" Width="300" TextWrapping="Wrap" Text="这是高级用户的工具，通常我们无需关心这一块。"></TextBlock>
 						</TextBox.ToolTip>
 					</TextBox>
 				</WrapPanel>
 			</StackPanel>
 		</StackPanel>
-		<controls:KbButton
-			BorderThickness="0"
-			VerticalAlignment="Top"
-			HorizontalAlignment="Left"
-			Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-			ToolTip="{x:Static local:MinerProfileIndex.ViewId}"
-			Background="Transparent"
-			Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-			CommandParameter="{x:Static local:MinerProfileIndex.ViewId}">
-			<WrapPanel>
-				<Path
-					Width="14"
-					Height="14"
-					Data="{StaticResource Icon_Translate}"
-					Fill="{StaticResource ThemeBackground}"
-					Stretch="Fill" />
-			</WrapPanel>
-		</controls:KbButton>
 	</Grid>
 </UserControl>

@@ -26,7 +26,6 @@ namespace NTMiner.Views.Ucs {
         public KernelOutputFilterEdit(KernelOutputFilterViewModel vm) {
             this.DataContext = vm;
             InitializeComponent();
-            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
     }
 }

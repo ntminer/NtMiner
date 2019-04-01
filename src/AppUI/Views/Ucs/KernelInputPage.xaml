@@ -12,25 +12,6 @@
 			 TextOptions.TextFormattingMode="Display" 
 			 DataContext="{x:Static vm:KernelInputPageViewModel.Current}"
 			 d:DesignHeight="520" d:DesignWidth="1000">
-	<UserControl.Resources>
-		<ResourceDictionary>
-			<sys:String x:Key="WindowTitle">
-				WindowTitle
-			</sys:String>
-			<sys:String x:Key="TbNoRecord">
-				TbNoRecord
-			</sys:String>
-			<sys:String x:Key="Name">
-				Name
-			</sys:String>
-			<sys:String x:Key="Args">
-				Args
-			</sys:String>
-			<sys:String x:Key="IsSupportDualMine">
-				IsSupportDualMine
-			</sys:String>
-		</ResourceDictionary>
-	</UserControl.Resources>
 	<Grid>
 		<DataGrid 
 			Margin="0" ItemsSource="{Binding KernelInputVms.AllKernelInputVms}" 
@@ -43,7 +24,7 @@
 			<DataGrid.Columns>
 				<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
-						<TextBlock Text="{DynamicResource Name}"></TextBlock>
+						<TextBlock Text="名称"></TextBlock>
 					</DataGridTemplateColumn.Header>
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
@@ -53,12 +34,12 @@
 				</DataGridTemplateColumn>
 				<DataGridTextColumn Width="*" Binding="{Binding Args}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTextColumn.Header>
-						<TextBlock Text="{DynamicResource Args}"></TextBlock>
+						<TextBlock Text="形参"></TextBlock>
 					</DataGridTextColumn.Header>
 				</DataGridTextColumn>
 				<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
-						<TextBlock Text="{DynamicResource IsSupportDualMine}"></TextBlock>
+						<TextBlock Text="支持双挖"></TextBlock>
 					</DataGridTemplateColumn.Header>
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
@@ -121,22 +102,5 @@
 			</DataGrid.Columns>
 		</DataGrid>
 		<TextBlock Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding KernelInputVms.AllKernelInputVms, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" Text="沒有记录"></TextBlock>
-		<controls:KbButton
-			HorizontalAlignment="Right"
-			VerticalAlignment="Top"
-			Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-			ToolTip="{x:Static local:KernelInputPage.ViewId}"
-			Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-			CommandParameter="{x:Static local:KernelInputPage.ViewId}"
-			Background="Transparent">
-			<WrapPanel>
-				<Path
-					Width="14"
-					Height="14"
-					Data="{StaticResource Icon_Translate}"
-					Fill="{StaticResource ThemeBackground}"
-					Stretch="Fill" />
-			</WrapPanel>
-		</controls:KbButton>
 	</Grid>
 </UserControl>

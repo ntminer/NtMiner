@@ -13,17 +13,6 @@
 		BorderThickness="0 0 1 0"
 		DataContext="{x:Static vm:KernelPageViewModel.Current}"
 		mc:Ignorable="d" d:DesignHeight="520" Width="294">
-	<UserControl.Resources>
-		<sys:String x:Key="Downloading">
-			Downloading
-		</sys:String>
-		<sys:String x:Key="TbNoRecord">
-			TbNoRecord
-		</sys:String>
-		<sys:String x:Key="CancelDownload">
-			CancelDownload
-		</sys:String>
-	</UserControl.Resources>
 	<UserControl.Effect>
 		<DropShadowEffect Color="LightGray" BlurRadius="16" ShadowDepth="0" Opacity="1" />
 	</UserControl.Effect>
@@ -37,7 +26,7 @@
 				<ColumnDefinition Width="*"></ColumnDefinition>
 				<ColumnDefinition Width="Auto"></ColumnDefinition>
 			</Grid.ColumnDefinitions>
-			<TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="{DynamicResource Downloading}"></TextBlock>
+			<TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="下载中"></TextBlock>
 			<controls:KbButton
 				HorizontalAlignment="Right"
 				Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
@@ -118,7 +107,7 @@
 									Text="{Binding KernelProfileVm.DownloadMessage}"></TextBlock>
 								<controls:KbButton 
 									Command="{Binding KernelProfileVm.CancelDownload}"
-									ToolTip="{DynamicResource CancelDownload}"
+									ToolTip="取消下载"
 									Background="Transparent" BorderThickness="0">
 									<Path
 										Width="14"

@@ -13,26 +13,6 @@
              TextOptions.TextFormattingMode="Display" 
              DataContext="{x:Static vm:GpuSpeedViewModels.Current}"
              d:DesignHeight="450" d:DesignWidth="800">
-    <UserControl.Resources>
-        <sys:String x:Key="WindowTitle">
-            WindowTitle
-        </sys:String>
-        <sys:String x:Key="DghGpuIndex">
-            DghGpuIndex
-        </sys:String>
-        <sys:String x:Key="DghGpuName">
-            DghGpuName
-        </sys:String>
-        <sys:String x:Key="DghGpuTemperature">
-            DghGpuTemperature
-        </sys:String>
-        <sys:String x:Key="DghGpuFan">
-            DghGpuFan
-        </sys:String>
-        <sys:String x:Key="DghGpuTotalPower">
-            DghGpuTotalPower
-        </sys:String>
-    </UserControl.Resources>
     <Grid>
         <DataGrid 
             ItemsSource="{Binding GpuSpeedVms}" 
@@ -47,7 +27,7 @@
                 <DataGridTemplateColumn MinWidth="50" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{DynamicResource DghGpuIndex}"></TextBlock>
+                            <TextBlock Text="序号"></TextBlock>
                         </DataTemplate>
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
@@ -58,7 +38,7 @@
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn MinWidth="80" Width="*" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
                     <DataGridTemplateColumn.Header>
-                        <TextBlock Text="{DynamicResource DghGpuName}"></TextBlock>
+                        <TextBlock Text="名称"></TextBlock>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -96,7 +76,7 @@
                 <DataGridTemplateColumn MinWidth="50" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{DynamicResource DghGpuTemperature}"></TextBlock>
+                            <TextBlock Text="温度"></TextBlock>
                         </DataTemplate>
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
@@ -108,7 +88,7 @@
                 <DataGridTemplateColumn MinWidth="50" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{DynamicResource DghGpuFan}"></TextBlock>
+                            <TextBlock Text="风扇"></TextBlock>
                         </DataTemplate>
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
@@ -121,7 +101,7 @@
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
                             <StackPanel>
-                                <TextBlock Text="{DynamicResource DghGpuTotalPower}" FontSize="12"></TextBlock>
+                                <TextBlock Text="功耗" FontSize="12"></TextBlock>
                                 <TextBlock Text="{Binding Data.GpuAllVm.PowerUsageWText, Source={StaticResource proxy}}" FontSize="11"></TextBlock>
                             </StackPanel>
                         </DataTemplate>
@@ -135,7 +115,7 @@
                 <DataGridTemplateColumn MinWidth="40" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{DynamicResource DghGpuTotalPower}" FontSize="12"></TextBlock>
+                            <TextBlock Text="功耗" FontSize="12"></TextBlock>
                         </DataTemplate>
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>

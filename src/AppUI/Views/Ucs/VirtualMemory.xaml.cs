@@ -25,7 +25,6 @@ namespace NTMiner.Views.Ucs {
 
         public VirtualMemory() {
             InitializeComponent();
-            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
 
         private void OpenDrive_MouseDown(object sender, MouseButtonEventArgs e) {

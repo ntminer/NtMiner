@@ -10,64 +10,6 @@
 		xmlns:vm="clr-namespace:NTMiner.Vms"
 		DataContext="{x:Static vm:KernelPageViewModel.Current}"
 		mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="800">
-	<UserControl.Resources>
-		<ResourceDictionary>
-			<sys:String x:Key="WindowTitle">
-				WindowTitle
-			</sys:String>
-			<sys:String x:Key="TbNoRecord">
-				TbNoRecord
-			</sys:String>
-			<sys:String x:Key="Code">
-				Code
-			</sys:String>
-			<sys:String x:Key="SupportedGpus">
-				SupportedGpus
-			</sys:String>
-			<sys:String x:Key="SupportedCoins">
-				SupportedCoins
-			</sys:String>
-			<sys:String x:Key="Size">
-				Size
-			</sys:String>
-			<sys:String x:Key="PublishOn">
-				PublishOn
-			</sys:String>
-			<sys:String x:Key="UnPublished">
-				UnPublished
-			</sys:String>
-			<sys:String x:Key="Version">
-				Version
-			</sys:String>
-			<sys:String x:Key="KernelInput">
-				KernelInput
-			</sys:String>
-			<sys:String x:Key="KernelOutput">
-				KernelOutput
-			</sys:String>
-			<sys:String x:Key="IsSupportDualMine">
-				IsSupportDualMine
-			</sys:String>
-			<sys:String x:Key="Install">
-				Install
-			</sys:String>
-			<sys:String x:Key="UnInstall">
-				UnInstall
-			</sys:String>
-			<sys:String x:Key="Installed">
-				Installed
-			</sys:String>
-			<sys:String x:Key="Publish">
-				Publish
-			</sys:String>
-			<sys:String x:Key="CancelPublish">
-				CancelPublish
-			</sys:String>
-			<sys:String x:Key="Upgrade">
-				Upgrade
-			</sys:String>
-		</ResourceDictionary>
-	</UserControl.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*"></RowDefinition>
@@ -89,7 +31,7 @@
 					MinWidth="50" CanUserResize="True" CanUserReorder="False" 
 					CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
-						<TextBlock Text="{DynamicResource SupportedGpus}"></TextBlock>
+						<TextBlock Text="支持显卡"></TextBlock>
 					</DataGridTemplateColumn.Header>
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
@@ -121,7 +63,7 @@
 				<DataGridTemplateColumn MinWidth="100" Width="*" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
 						<WrapPanel>
-							<TextBlock Text="{DynamicResource Code}"></TextBlock>
+							<TextBlock Text="币种"></TextBlock>
 							<TextBlock Margin="4 0 0 0" Text="{Binding Data.QueryResults.Count, Source={StaticResource proxy}}"></TextBlock>
 						</WrapPanel>
 					</DataGridTemplateColumn.Header>
@@ -141,14 +83,14 @@
 											Stretch="Fill" />
 									</WrapPanel>
 								</WrapPanel>
-								<TextBlock Text="{Binding SupportedCoins}" ToolTip="{DynamicResource SupportedCoins}"></TextBlock>
+								<TextBlock Text="{Binding SupportedCoins}"></TextBlock>
 							</StackPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn MinWidth="80" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
-						<TextBlock Text="{DynamicResource Version}"></TextBlock>
+						<TextBlock Text="版本"></TextBlock>
 					</DataGridTemplateColumn.Header>
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
@@ -171,16 +113,16 @@
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn MinWidth="170" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
-						<TextBlock Text="{DynamicResource PublishOn}"></TextBlock>
+						<TextBlock Text="发布时间"></TextBlock>
 					</DataGridTemplateColumn.Header>
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel HorizontalAlignment="Center">
 								<WrapPanel Visibility="{Binding IsPublished, Converter={StaticResource BoolToVisibilityConverter}}">
-									<TextBlock Text="{DynamicResource PublishOn}" Margin="0 0 4 0"></TextBlock>
+									<TextBlock Text="发布于" Margin="0 0 4 0"></TextBlock>
 									<TextBlock Text="{Binding PublishOnText}"></TextBlock>
 								</WrapPanel>
-								<TextBlock Text="{DynamicResource UnPublished}" Visibility="{Binding IsPublished, Converter={StaticResource BoolToVisibilityInvertConverter}}"></TextBlock>
+								<TextBlock Text="未发布" Visibility="{Binding IsPublished, Converter={StaticResource BoolToVisibilityInvertConverter}}"></TextBlock>
 								<TextBlock Text="{Binding Package}" Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"></TextBlock>
 							</StackPanel>
 						</DataTemplate>
@@ -188,7 +130,7 @@
 				</DataGridTemplateColumn>
 				<DataGridTextColumn MinWidth="80" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Binding="{Binding SizeMbText}">
 					<DataGridTextColumn.Header>
-						<TextBlock Text="{DynamicResource Size}"></TextBlock>
+						<TextBlock Text="尺寸"></TextBlock>
 					</DataGridTextColumn.Header>
 				</DataGridTextColumn>
 				<DataGridTemplateColumn 
@@ -196,7 +138,7 @@
 					Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
 					CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
-						<TextBlock Text="{DynamicResource KernelInput}" HorizontalAlignment="Center"></TextBlock>
+						<TextBlock Text="输入" HorizontalAlignment="Center"></TextBlock>
 					</DataGridTemplateColumn.Header>
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
@@ -210,7 +152,7 @@
 					Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
 					CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
-						<TextBlock Text="{DynamicResource KernelOutput}" HorizontalAlignment="Center"></TextBlock>
+						<TextBlock Text="输出" HorizontalAlignment="Center"></TextBlock>
 					</DataGridTemplateColumn.Header>
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
@@ -224,19 +166,19 @@
 					Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
 					CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
-						<TextBlock Text="{DynamicResource IsSupportDualMine}" HorizontalAlignment="Center"></TextBlock>
+						<TextBlock Text="支持双挖" HorizontalAlignment="Center"></TextBlock>
 					</DataGridTemplateColumn.Header>
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock 
-								Text="{DynamicResource IsSupportDualMine}" 
+								Text="支持双挖" 
 								Visibility="{Binding KernelInputVm.IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}"></TextBlock>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn  MaxWidth="100" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
-						<TextBlock Text="{DynamicResource Install}"></TextBlock>
+						<TextBlock Text="安装"></TextBlock>
 					</DataGridTemplateColumn.Header>
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
@@ -254,7 +196,7 @@
 												Width="78"
 												Padding="8 4"
 												Command="{Binding KernelProfileVm.Install}"
-												Content="{DynamicResource Install}"
+												Content="安装"
 												Foreground="White"
 												Background="#05c400">
 											</controls:KbButton>
@@ -273,7 +215,7 @@
 										Height="26"
 										Width="78"
 										Padding="8 4"
-										Content="{DynamicResource UnInstall}"
+										Content="卸载"
 										Foreground="Black">
 									</controls:KbButton>
 								</WrapPanel>
@@ -288,7 +230,7 @@
 						<DataTemplate>
 							<WrapPanel>
 								<controls:KbButton 
-									ToolTip="{DynamicResource Publish}"
+									ToolTip="发布"
 									Command="{Binding Publish}" 
 									Background="Transparent" BorderThickness="0"
 									Visibility="{Binding IsBtnPublishVisible}"
@@ -304,7 +246,7 @@
 									</WrapPanel>
 								</controls:KbButton>
 								<controls:KbButton 
-									ToolTip="{DynamicResource CancelPublish}"
+									ToolTip="取消发布"
 									Command="{Binding UnPublish}" 
 									Background="Transparent" BorderThickness="0"
 									Visibility="{Binding IsBtnPublishVisible, Converter={StaticResource VisibilityInvertConverter}}"

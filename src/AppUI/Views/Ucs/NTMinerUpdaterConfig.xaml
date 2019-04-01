@@ -12,11 +12,6 @@
 	<UserControl.DataContext>
 		<vm:NTMinerUpdaterConfigViewModel></vm:NTMinerUpdaterConfigViewModel>
 	</UserControl.DataContext>
-	<UserControl.Resources>
-		<sys:String x:Key="WindowTitle">
-			升级器管理
-		</sys:String>
-	</UserControl.Resources>
 	<StackPanel VerticalAlignment="Center">
 		<WrapPanel Margin="0 10 0 0">
 			<Label Width="120" HorizontalContentAlignment="Right" Foreground="{StaticResource LableColor}">升级器文件名：</Label>

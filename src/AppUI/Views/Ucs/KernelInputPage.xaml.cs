@@ -24,7 +24,6 @@ namespace NTMiner.Views.Ucs {
 
         public KernelInputPage() {
             InitializeComponent();
-            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
 
         private void DataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {

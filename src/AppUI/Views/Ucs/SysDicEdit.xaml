@@ -11,9 +11,6 @@
         <Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
             <Setter Property="Width" Value="60"></Setter>
         </Style>
-        <sys:String x:Key="WindowTitle">
-            字典
-        </sys:String>
     </UserControl.Resources>
     <StackPanel Margin="10">
         <WrapPanel Margin="0 2">

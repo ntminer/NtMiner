@@ -21,9 +21,6 @@
 		<Style TargetType="TextBlock">
 			<Setter Property="VerticalAlignment" Value="Center"></Setter>
 		</Style>
-		<sys:String x:Key="WindowTitle">
-			InnerProperty
-		</sys:String>
 	</UserControl.Resources>
 	<StackPanel Margin="0 0 20 0">
 		<WrapPanel>

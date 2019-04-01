@@ -27,7 +27,6 @@ namespace NTMiner.Views.Ucs {
         public SysDicItemEdit(SysDicItemViewModel vm) {
             this.DataContext = vm;
             InitializeComponent();
-            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
     }
 }

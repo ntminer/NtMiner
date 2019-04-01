@@ -13,7 +13,6 @@ namespace NTMiner.Views.Ucs {
 
         public MinerProfileIndex() {
             InitializeComponent();
-            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
 
         private void DualCoinWeightSlider_LostFocus(object sender, System.Windows.RoutedEventArgs e) {

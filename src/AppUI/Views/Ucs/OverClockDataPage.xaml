@@ -9,11 +9,6 @@
 		xmlns:vm="clr-namespace:NTMiner.Vms"
 		DataContext="{x:Static vm:OverClockDataPageViewModel.Current}"
 		mc:Ignorable="d" d:DesignHeight="200" d:DesignWidth="600">
-	<UserControl.Resources>
-		<sys:String x:Key="WindowTitle">
-			超频建议
-		</sys:String>
-	</UserControl.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"></RowDefinition>

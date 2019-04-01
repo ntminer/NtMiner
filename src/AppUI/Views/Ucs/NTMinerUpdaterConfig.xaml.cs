@@ -23,7 +23,6 @@ namespace NTMiner.Views.Ucs {
 
         public NTMinerUpdaterConfig() {
             InitializeComponent();
-            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
     }
 }

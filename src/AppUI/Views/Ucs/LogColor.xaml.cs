@@ -18,7 +18,6 @@ namespace NTMiner.Views.Ucs {
 
         public LogColor() {
             InitializeComponent();
-            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
     }
 }

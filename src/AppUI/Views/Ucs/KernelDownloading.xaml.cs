@@ -13,7 +13,6 @@ namespace NTMiner.Views.Ucs {
 
         public KernelDownloading() {
             InitializeComponent();
-            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
 
         private void BtnHide_Click(object sender, System.Windows.RoutedEventArgs e) {

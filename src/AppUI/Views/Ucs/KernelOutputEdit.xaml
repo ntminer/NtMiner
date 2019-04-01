@@ -25,69 +25,6 @@
 			<Setter Property="VerticalContentAlignment" Value="Center"></Setter>
 			<Setter Property="Background" Value="White"></Setter>
 		</Style>
-		<sys:String x:Key="WindowTitle">
-			WindowTitle
-		</sys:String>
-		<sys:String x:Key="Name">
-			Name
-		</sys:String>
-		<sys:String x:Key="PrependDateTime">
-			PrependDateTime
-		</sys:String>
-		<sys:String x:Key="MainCoin">
-			MainCoin
-		</sys:String>
-		<sys:String x:Key="TotalSpeedPattern">
-			TotalSpeedPattern
-		</sys:String>
-		<sys:String x:Key="TotalSharePattern">
-			TotalSharePattern
-		</sys:String>
-		<sys:String x:Key="AcceptSharePattern">
-			AcceptSharePattern
-		</sys:String>
-		<sys:String x:Key="AcceptOneShare">
-			AcceptOneShare
-		</sys:String>
-		<sys:String x:Key="RejectSharePattern">
-			RejectSharePattern
-		</sys:String>
-		<sys:String x:Key="RejectOneShare">
-			RejectOneShare
-		</sys:String>
-		<sys:String x:Key="RejectPercentPattern">
-			RejectPercentPattern
-		</sys:String>
-		<sys:String x:Key="GpuSpeedPattern">
-			GpuSpeedPattern
-		</sys:String>
-		<sys:String x:Key="DualCoin">
-			DualCoin
-		</sys:String>
-		<sys:String x:Key="DualTotalSpeedPattern">
-			DualTotalSpeedPattern
-		</sys:String>
-		<sys:String x:Key="DualTotalSharePattern">
-			DualTotalSharePattern
-		</sys:String>
-		<sys:String x:Key="DualAcceptSharePattern">
-			DualAcceptSharePattern
-		</sys:String>
-		<sys:String x:Key="DualAcceptOneShare">
-			DualAcceptOneShare
-		</sys:String>
-		<sys:String x:Key="DualRejectSharePattern">
-			DualRejectSharePattern
-		</sys:String>
-		<sys:String x:Key="DualRejectOneShare">
-			DualRejectOneShare
-		</sys:String>
-		<sys:String x:Key="DualRejectPercentPattern">
-			DualRejectPercentPattern
-		</sys:String>
-		<sys:String x:Key="DualGpuSpeedPattern">
-			DualGpuSpeedPattern
-		</sys:String>
 	</UserControl.Resources>
 	<Grid Margin="10">
 		<Grid.ColumnDefinitions>
@@ -96,126 +33,107 @@
 		</Grid.ColumnDefinitions>
 		<StackPanel>
 			<WrapPanel Margin="6 0 0 0">
-				<TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource Name}" ToolTip="{DynamicResource Name}"></TextBlock>
+				<TextBlock Style="{StaticResource LblTb}" Text="名称"></TextBlock>
 				<TextBox Style="{StaticResource TbRegex}" Text="{Binding Name, ValidatesOnExceptions=True}">
 				</TextBox>
 			</WrapPanel>
 
 			<WrapPanel Margin="6 0 0 0">
 				<TextBlock Style="{StaticResource LblTb}"></TextBlock>
-				<CheckBox Margin="0 2 0 0" IsChecked="{Binding PrependDateTime}" Content="{DynamicResource PrependDateTime}">
+				<CheckBox Margin="0 2 0 0" IsChecked="{Binding PrependDateTime}" Content="为输出行附加上前缀时间戳（当内核输出默认没有时间戳时勾选）">
 				</CheckBox>
 			</WrapPanel>
 
-			<GroupBox Header="{DynamicResource MainCoin}">
+			<GroupBox Header="主币">
 				<StackPanel>
 					<WrapPanel Margin="0 2">
-						<TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource TotalSpeedPattern}" ToolTip="{DynamicResource TotalSpeedPattern}"></TextBlock>
+						<TextBlock Style="{StaticResource LblTb}" Text="总算力正则"></TextBlock>
 						<TextBox Style="{StaticResource TbRegex}" Text="{Binding TotalSpeedPattern}">
 						</TextBox>
 					</WrapPanel>
 					<WrapPanel Margin="0 2">
-						<TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource TotalSharePattern}" ToolTip="{DynamicResource TotalSharePattern}"></TextBlock>
+						<TextBlock Style="{StaticResource LblTb}" Text="总份额正则"></TextBlock>
 						<TextBox Style="{StaticResource TbRegex}" Text="{Binding TotalSharePattern}">
 						</TextBox>
 					</WrapPanel>
 					<WrapPanel Margin="0 2">
-						<TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource AcceptSharePattern}" ToolTip="{DynamicResource AcceptSharePattern}"></TextBlock>
+						<TextBlock Style="{StaticResource LblTb}" Text="矿池接受份额正则"></TextBlock>
 						<TextBox Style="{StaticResource TbRegex}" Text="{Binding AcceptSharePattern}">
 						</TextBox>
 					</WrapPanel>
 					<WrapPanel Margin="0 2">
-						<TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource AcceptOneShare}" ToolTip="{DynamicResource AcceptOneShare}"></TextBlock>
+						<TextBlock Style="{StaticResource LblTb}" Text="矿池接受一个份额正则"></TextBlock>
 						<TextBox Style="{StaticResource TbRegex}" Text="{Binding AcceptOneShare}">
 						</TextBox>
 					</WrapPanel>
 					<WrapPanel Margin="0 2">
-						<TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource RejectSharePattern}" ToolTip="{DynamicResource RejectSharePattern}"></TextBlock>
+						<TextBlock Style="{StaticResource LblTb}" Text="矿池拒绝份额正则"></TextBlock>
 						<TextBox Style="{StaticResource TbRegex}" Text="{Binding RejectSharePattern}">
 						</TextBox>
 					</WrapPanel>
 					<WrapPanel Margin="0 2">
-						<TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource RejectOneShare}" ToolTip="{DynamicResource RejectOneShare}"></TextBlock>
+						<TextBlock Style="{StaticResource LblTb}" Text="矿池拒绝一个份额正则"></TextBlock>
 						<TextBox Style="{StaticResource TbRegex}" Text="{Binding RejectOneShare}">
 						</TextBox>
 					</WrapPanel>
 					<WrapPanel Margin="0 2">
-						<TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource RejectPercentPattern}" ToolTip="{DynamicResource RejectPercentPattern}"></TextBlock>
+						<TextBlock Style="{StaticResource LblTb}" Text="拒绝率正则"></TextBlock>
 						<TextBox Style="{StaticResource TbRegex}" Text="{Binding RejectPercentPattern}">
 						</TextBox>
 					</WrapPanel>
 					<WrapPanel Margin="0 2">
-						<TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource GpuSpeedPattern}" ToolTip="{DynamicResource GpuSpeedPattern}"></TextBlock>
+						<TextBlock Style="{StaticResource LblTb}" Text="显卡算力正则"></TextBlock>
 						<TextBox Style="{StaticResource TbRegex}" Text="{Binding GpuSpeedPattern}">
 						</TextBox>
 					</WrapPanel>
 				</StackPanel>
 			</GroupBox>
 
-			<GroupBox Header="{DynamicResource DualCoin}">
+			<GroupBox Header="双挖币">
 				<StackPanel>
 					<WrapPanel Margin="0 2">
-						<TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource DualTotalSpeedPattern}" ToolTip="{DynamicResource DualTotalSpeedPattern}"></TextBlock>
+						<TextBlock Style="{StaticResource LblTb}" Text="总算力正则"></TextBlock>
 						<TextBox Style="{StaticResource TbRegex}" Text="{Binding DualTotalSpeedPattern}">
 						</TextBox>
 					</WrapPanel>
 					<WrapPanel Margin="0 2">
-						<TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource DualTotalSharePattern}" ToolTip="{DynamicResource DualTotalSharePattern}"></TextBlock>
+						<TextBlock Style="{StaticResource LblTb}" Text="总份额正则" ></TextBlock>
 						<TextBox Style="{StaticResource TbRegex}" Text="{Binding DualTotalSharePattern}">
 						</TextBox>
 					</WrapPanel>
 					<WrapPanel Margin="0 2">
-						<TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource DualAcceptSharePattern}" ToolTip="{DynamicResource DualAcceptSharePattern}"></TextBlock>
+						<TextBlock Style="{StaticResource LblTb}" Text="矿池接受份额正则"></TextBlock>
 						<TextBox Style="{StaticResource TbRegex}" Text="{Binding DualAcceptSharePattern}">
 						</TextBox>
 					</WrapPanel>
 					<WrapPanel Margin="0 2">
-						<TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource DualAcceptOneShare}" ToolTip="{DynamicResource DualAcceptOneShare}"></TextBlock>
+						<TextBlock Style="{StaticResource LblTb}" Text="矿池接受一个份额正则"></TextBlock>
 						<TextBox Style="{StaticResource TbRegex}" Text="{Binding DualAcceptOneShare}">
 						</TextBox>
 					</WrapPanel>
 					<WrapPanel Margin="0 2">
-						<TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource DualRejectSharePattern}" ToolTip="{DynamicResource DualRejectSharePattern}"></TextBlock>
+						<TextBlock Style="{StaticResource LblTb}" Text="矿池拒绝份额正则"></TextBlock>
 						<TextBox Style="{StaticResource TbRegex}" Text="{Binding DualRejectSharePattern}">
 						</TextBox>
 					</WrapPanel>
 					<WrapPanel Margin="0 2">
-						<TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource DualRejectOneShare}" ToolTip="{DynamicResource DualRejectOneShare}"></TextBlock>
+						<TextBlock Style="{StaticResource LblTb}" Text="矿池拒绝一个份额正则"></TextBlock>
 						<TextBox Style="{StaticResource TbRegex}" Text="{Binding DualRejectOneShare}">
 						</TextBox>
 					</WrapPanel>
 					<WrapPanel Margin="0 2">
-						<TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource DualRejectPercentPattern}" ToolTip="{DynamicResource DualRejectPercentPattern}"></TextBlock>
+						<TextBlock Style="{StaticResource LblTb}" Text="拒绝率正则"></TextBlock>
 						<TextBox Style="{StaticResource TbRegex}" Text="{Binding DualRejectPercentPattern}">
 						</TextBox>
 					</WrapPanel>
 					<WrapPanel Margin="0 2">
-						<TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource DualGpuSpeedPattern}" ToolTip="{DynamicResource DualGpuSpeedPattern}"></TextBlock>
+						<TextBlock Style="{StaticResource LblTb}" Text="显卡算力正则"></TextBlock>
 						<TextBox Style="{StaticResource TbRegex}" Text="{Binding DualGpuSpeedPattern}">
 						</TextBox>
 					</WrapPanel>
 				</StackPanel>
 			</GroupBox>
 		</StackPanel>
-		<controls:KbButton
-			Grid.Column="1"
-			Margin="10 0 0 0"
-			VerticalAlignment="Top"
-			HorizontalAlignment="Left"
-			Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-			ToolTip="{x:Static local:KernelOutputEdit.ViewId}"
-			Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-			CommandParameter="{x:Static local:KernelOutputEdit.ViewId}"
-			Background="Transparent">
-			<WrapPanel>
-				<Path
-					Width="14"
-					Height="14"
-					Data="{StaticResource Icon_Translate}"
-					Fill="{StaticResource ThemeBackground}"
-					Stretch="Fill" />
-			</WrapPanel>
-		</controls:KbButton>
 		<TextBox 
 			Grid.Column="1"
 			Margin="10 20 0 0"

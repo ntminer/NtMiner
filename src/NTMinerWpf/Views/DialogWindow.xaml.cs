@@ -36,7 +36,6 @@ namespace NTMiner.Views {
             Action onYes, 
             Action onNo) {
             InitializeComponent();
-            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
             this.Resources["Title"] = title;
             this.Resources["Message"] = message;
             if (!string.IsNullOrEmpty(icon) && Application.Current.Resources.Contains(icon)) {

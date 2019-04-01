@@ -15,7 +15,6 @@ namespace NTMiner.Views.Ucs {
 
         public MinerClientUc() {
             InitializeComponent();
-            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
 
         private void TbIp_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e) {

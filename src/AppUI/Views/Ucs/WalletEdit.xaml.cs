@@ -26,7 +26,6 @@ namespace NTMiner.Views.Ucs {
         public WalletEdit(WalletViewModel vm) {
             this.DataContext = vm;
             InitializeComponent();
-            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
     }
 }

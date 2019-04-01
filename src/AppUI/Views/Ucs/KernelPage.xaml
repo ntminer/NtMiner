@@ -13,13 +13,6 @@
 	TextOptions.TextFormattingMode="Display" 
 	DataContext="{x:Static vm:KernelPageViewModel.Current}"
 	d:DesignHeight="520" d:DesignWidth="860">
-	<UserControl.Resources>
-		<ResourceDictionary>
-			<sys:String x:Key="WindowTitle">
-				内核管理
-			</sys:String>
-		</ResourceDictionary>
-	</UserControl.Resources>
 	<Grid>
 		<DockPanel>
 			<StackPanel DockPanel.Dock="Left" Background="{StaticResource IconFillColor}" Margin="0 0 10 0">

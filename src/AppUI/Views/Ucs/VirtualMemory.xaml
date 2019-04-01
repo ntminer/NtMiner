@@ -9,11 +9,6 @@
 		xmlns:vm="clr-namespace:NTMiner.Vms" Background="White"
 		DataContext="{x:Static vm:DriveSet.Current}"
 		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="360">
-	<UserControl.Resources>
-		<sys:String x:Key="WindowTitle">
-			虚拟内存
-		</sys:String>
-	</UserControl.Resources>
 	<Grid Margin="10 0">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="30"></RowDefinition>

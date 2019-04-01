@@ -12,7 +12,7 @@ namespace NTMiner.Views.Ucs {
                 return;
             }
             var minerClientVm = minerClientsWindowVm.SelectedMinerClients[0];
-            ContainerWindow.ShowWindow("显卡设置", new ContainerWindowViewModel {
+            ContainerWindow.ShowWindow($"超频 - 基于矿机{minerClientVm.MinerName}({minerClientVm.MinerIp})", new ContainerWindowViewModel {
                 HasOwner = true,
                 IsTopMost = true,
                 IconName = "Icon_OverClock",
@@ -56,7 +56,6 @@ namespace NTMiner.Views.Ucs {
         public GpuProfilesPage(GpuProfilesPageViewModel vm) {
             this.DataContext = vm;
             InitializeComponent();
-            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
 
         private void ScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {

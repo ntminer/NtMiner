@@ -23,7 +23,6 @@ namespace NTMiner.Views.Ucs {
 
         public UserPage() {
             InitializeComponent();
-            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
 
         private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e) {

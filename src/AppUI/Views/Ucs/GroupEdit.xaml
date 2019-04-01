@@ -11,22 +11,13 @@
         <Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
             <Setter Property="Width" Value="60"></Setter>
         </Style>
-        <sys:String x:Key="WindowTitle">
-            WindowTitle
-        </sys:String>
-        <sys:String x:Key="Name">
-            Name
-        </sys:String>
-        <sys:String x:Key="Sort">
-            Sort
-        </sys:String>
     </UserControl.Resources>
     <StackPanel Margin="10">
         <WrapPanel Margin="0 2">
-            <TextBlock Text="{DynamicResource Name}" Style="{StaticResource LblTb}"></TextBlock>
+            <TextBlock Text="名称" Style="{StaticResource LblTb}"></TextBlock>
             <TextBox Width="180" VerticalContentAlignment="Center" Text="{Binding Name, ValidatesOnExceptions=True}">
             </TextBox>
-            <TextBlock Text="{DynamicResource Sort}" Style="{StaticResource LblTb}"></TextBlock>
+            <TextBlock Text="排序" Style="{StaticResource LblTb}"></TextBlock>
             <TextBox Width="60" VerticalContentAlignment="Center" Text="{Binding SortNumber, ValidatesOnExceptions=True}">
             </TextBox>
         </WrapPanel>
@@ -49,22 +40,6 @@
                         VerticalAlignment="Center"
                         Foreground="{StaticResource ThemeForeground}"
                         Text="确定" />
-                </WrapPanel>
-            </controls:KbButton>
-            <controls:KbButton
-                    Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-                    ToolTip="{x:Static local:GroupEdit.ViewId}"
-                    Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-                    CommandParameter="{x:Static local:GroupEdit.ViewId}"
-                    Padding="8 0"
-                    Background="Transparent">
-                <WrapPanel>
-                    <Path
-                        Width="14"
-                        Height="14"
-                        Data="{StaticResource Icon_Translate}"
-                        Fill="{StaticResource ThemeBackground}"
-                        Stretch="Fill" />
                 </WrapPanel>
             </controls:KbButton>
         </WrapPanel>

@@ -19,7 +19,6 @@ namespace NTMiner.Views.Ucs {
 
         public MessageCenter() {
             InitializeComponent();
-            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
             Write.WriteUserLineMethod = (text, foreground, isNotice) => {
                 WriteLine(this.FlowDocumentScrollViewer, this.ConsoleParagraph, text, foreground);
                 if (isNotice) {

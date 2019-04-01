@@ -25,7 +25,6 @@ namespace NTMiner.Views.Ucs {
         public OverClockDataEdit(OverClockDataViewModel vm) {
             this.DataContext = vm;
             InitializeComponent();
-            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
     }
 }

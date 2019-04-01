@@ -28,7 +28,6 @@ namespace NTMiner.Views.Ucs {
                 KernelOutputPageViewModel.Current.CurrentKernelOutputVm = selectedKernelOutputVm;
             }
             InitializeComponent();
-            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
 
         private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e) {

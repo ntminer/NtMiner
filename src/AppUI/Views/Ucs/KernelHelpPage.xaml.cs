@@ -29,7 +29,6 @@ namespace NTMiner.Views.Ucs {
         public KernelHelpPage(KernelHelpPageViewModel vm) {
             this.DataContext = vm;
             InitializeComponent();
-            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
     }
 }
