@@ -6,7 +6,7 @@ namespace NTMiner.Views.Ucs {
         public static string ViewId = nameof(MinerProfileOption);
 
         public static void ShowWindow() {
-            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+            ContainerWindow.ShowWindow("选项", new ContainerWindowViewModel {
                 IconName = "Icon_MinerProfile",
                 Width = 450,
                 Height = 360,

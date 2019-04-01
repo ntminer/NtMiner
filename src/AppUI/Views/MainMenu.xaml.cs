@@ -6,10 +6,6 @@ namespace NTMiner.Views {
 
         public MainMenu() {
             InitializeComponent();
-            if (Design.IsInDesignMode) {
-                return;
-            }
-            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
     }
 }

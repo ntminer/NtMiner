@@ -9,26 +9,6 @@
 		xmlns:vm="clr-namespace:NTMiner.Vms"
 		DataContext="{x:Static vm:ConsoleViewModel.Current}"
 		mc:Ignorable="d" d:DesignHeight="408" d:DesignWidth="408">
-	<UserControl.Resources>
-		<sys:String x:Key="AnnouncementContent">
-			AnnouncementContent
-		</sys:String>
-		<sys:String x:Key="AnnouncementContentTooltip">
-			AnnouncementContentTooltip
-		</sys:String>
-		<sys:String x:Key="IsShowCommandLine">
-			IsShowCommandLine
-		</sys:String>
-		<sys:String x:Key="IsShowCommandLineTooltip">
-			IsShowCommandLineTooltip
-		</sys:String>
-		<sys:String x:Key="AutoScrollToEnd">
-			AutoScrollToEnd
-		</sys:String>
-		<sys:String x:Key="KernelNotice">
-			KernelNotice
-		</sys:String>
-	</UserControl.Resources>
 	<Grid Background="Black">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"></RowDefinition>
@@ -42,8 +22,8 @@
 			</Grid.RowDefinitions>
 			<TextBox 
 				FontFamily="Courier New"
-				Text="{DynamicResource AnnouncementContent}"
-				ToolTip="{DynamicResource AnnouncementContentTooltip}"
+				Text="做好用的集成挖矿客户端"
+				ToolTip="简介"
 				BorderThickness="0" AcceptsReturn="True" 
 				TextWrapping="Wrap" IsReadOnly="True" 
 				Padding="4 0 16 0" Foreground="White">
@@ -69,7 +49,7 @@
 				<controls:KbCheckBox 
 					Margin="4 0 0 0"
 					Width="16"
-					ToolTip="{DynamicResource IsShowCommandLine}"
+					ToolTip="显示命令行"
 					IconColor="{StaticResource IconFillColor}"
 					IsChecked="{Binding MinerProfile.IsShowCommandLine}" />
 				<controls:KbButton 
@@ -91,7 +71,7 @@
 				Grid.Row="1"
 				FontFamily="Courier New"
 				Padding="4 2"
-				ToolTip="{DynamicResource IsShowCommandLineTooltip}"
+				ToolTip="参数总成。这是高级用户的工具，通常我们无需关心这一块。"
 				TextWrapping="Wrap"
 				AcceptsReturn="True"
 				BorderThickness="0"
@@ -113,7 +93,7 @@
 		<TextBox 
 			Grid.Row="1"
 			FontFamily="Courier New"
-			ToolTip="{DynamicResource KernelNotice}"
+			ToolTip="内核公告"
 			Text="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.KernelNotice, Mode=OneWay, Converter={StaticResource TextIndentConverter}}"
 			BorderThickness="0" AcceptsReturn="True" 
 			TextWrapping="Wrap" IsReadOnly="True" 
@@ -125,7 +105,7 @@
 			HorizontalAlignment="Right"
 			VerticalAlignment="Bottom"
 			x:Name="ChkbIsConsoleAutoScrollToEnd"
-			ToolTip="{DynamicResource AutoScrollToEnd}"
+			ToolTip="自动滚屏"
 			IconColor="{StaticResource IconFillColor}"
 			IsChecked="True" />
 		<Path 

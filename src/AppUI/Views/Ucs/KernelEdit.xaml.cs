@@ -7,7 +7,7 @@ namespace NTMiner.Views.Ucs {
         public static string ViewId = nameof(KernelEdit);
 
         public static void ShowWindow(FormType formType, KernelViewModel source) {
-            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+            ContainerWindow.ShowWindow("内核", new ContainerWindowViewModel {
                 FormType = formType,
                 IconName = "Icon_Kernel",
                 IsDialogWindow = true,
@@ -15,8 +15,9 @@ namespace NTMiner.Views.Ucs {
                 Height = 400,
                 CloseVisible = System.Windows.Visibility.Visible
             }, ucFactory: (window) => {
-                KernelViewModel vm = new KernelViewModel(source);
-                vm.CloseWindow = () => window.Close();
+                KernelViewModel vm = new KernelViewModel(source) {
+                    CloseWindow = () => window.Close()
+                };
                 return new KernelEdit(vm);
             }, fixedSize: false);
         }

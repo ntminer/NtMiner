@@ -39,51 +39,6 @@
 					</Trigger>
 				</Style.Triggers>
 			</Style>
-			<sys:String x:Key="NTMinerTitle">
-				NTMinerTitle
-			</sys:String>
-			<sys:String x:Key="MinerName">
-				MinerName
-			</sys:String>
-			<sys:String x:Key="MinerNameTip">
-				MinerNameTip
-			</sys:String>
-			<sys:String x:Key="UseThisPcName">
-				UseThisPcName
-			</sys:String>
-			<sys:String x:Key="NTMinerTitleToopTip">
-				NTMinerTitleToopTip
-			</sys:String>
-			<sys:String x:Key="HStart">
-				HStart
-			</sys:String>
-			<sys:String x:Key="HProperty">
-				HProperty
-			</sys:String>
-			<sys:String x:Key="HSpeed">
-				HSpeed
-			</sys:String>
-			<sys:String x:Key="HOption">
-				HOption
-			</sys:String>
-			<sys:String x:Key="HOverClock">
-				HOverClock
-			</sys:String>
-			<sys:String x:Key="BtnStartMine">
-				BtnStartMine
-			</sys:String>
-			<sys:String x:Key="BtnMining">
-				BtnMining
-			</sys:String>
-			<sys:String x:Key="BtnStopMine">
-				BtnStopMine
-			</sys:String>
-			<sys:String x:Key="ChkIsAutoBoot">
-				ChkIsAutoBoot
-			</sys:String>
-			<sys:String x:Key="ChkIsAutoStart">
-				ChkIsAutoStart
-			</sys:String>
 		</ResourceDictionary>
 	</metro:MetroWindow.Resources>
 	<Grid>
@@ -97,7 +52,7 @@
 			<WrapPanel VerticalAlignment="Center">
 				<Image Width="18" Height="18" Source="/NTMinerWpf;component/Styles/Images/logo32.png"></Image>
 				<controls:KbLinkButton
-					ToolTip="{DynamicResource NTMinerTitleToopTip}"
+					ToolTip="点击打开官网"
 					Command="{x:Static vm:AppStatic.OpenOfficialSite}"
 					KbDisplayLine="False"
 					KbSystemButtonHoverBackground="Transparent"
@@ -109,7 +64,7 @@
 							HorizontalAlignment="Left"
 							VerticalAlignment="Center"
 							FontSize="16"
-							Text="{DynamicResource NTMinerTitle}" />
+							Text="开源矿工 - github.com/ntminer/ntminer" />
 						<TextBlock
 							Margin="0"
 							HorizontalAlignment="Left"
@@ -184,8 +139,8 @@
 		<Grid Grid.Row="1">
 			<TabControl 
 				Name="tab" BorderThickness="0"
-				Margin="0" Style="{DynamicResource TabControlStyle}">
-				<TabItem Margin="3 0 8 0" Header="{DynamicResource HStart}" Height="36" Style="{DynamicResource TabItemStyle}" 
+				Margin="0" Style="{StaticResource TabControlStyle}">
+				<TabItem Margin="3 0 8 0" Header="开始" Height="36" Style="{StaticResource TabItemStyle}" 
 					 TextOptions.TextFormattingMode="Display">
 					<Grid Background="{StaticResource MinerProfileBackground}">
 						<Grid.ColumnDefinitions>
@@ -215,8 +170,7 @@
 												VerticalAlignment="Center"
 												TextAlignment="Right"
 												TextWrapping="Wrap"
-												ToolTip="{DynamicResource MinerName}"
-												Text="{DynamicResource MinerName}"></TextBlock>
+												Text="矿机名"></TextBlock>
 											<TextBox 
 												Height="30"
 												Width="136" 
@@ -225,13 +179,13 @@
 												VerticalContentAlignment="Center">
 												<TextBox.ToolTip>
 													<StackPanel>
-														<TextBlock Text="{DynamicResource MinerNameTip}"></TextBlock>
+														<TextBlock Text="点号、空格、减号、下划线将被去除。"></TextBlock>
 													</StackPanel>
 												</TextBox.ToolTip>
 											</TextBox>
 											<controls:KbButton 
 												BorderThickness="0"
-												ToolTip="{DynamicResource UseThisPcName}"
+												ToolTip="使用本机名作为矿工名"
 												Command="{Binding UseThisPcName}"
 												Background="Transparent"
 												CornerRadius="2">
@@ -247,12 +201,12 @@
 											Margin="42 0 0 0">
 											<controls:KbCheckBox
 												Margin="0 2 0 0"
-												Content="{DynamicResource ChkIsAutoBoot}"
+												Content="开机自动启动"
 												IconColor="{StaticResource IconFillColor}"
 												IsChecked="{Binding MinerProfile.IsAutoBoot}" />
 											<controls:KbCheckBox
 												Margin="0 2 0 0"
-												Content="{DynamicResource ChkIsAutoStart}"
+												Content="启动后自动开始挖矿"
 												IconColor="{StaticResource IconFillColor}"
 												IsChecked="{Binding MinerProfile.IsAutoStart}" />
 										</StackPanel>
@@ -301,7 +255,7 @@
 											VerticalAlignment="Center"
 											Foreground="{StaticResource ThemeForeground}"
 											FontSize="16"
-											Content="{DynamicResource BtnStartMine}" />
+											Content="开始挖矿" />
 									</WrapPanel>
 								</controls:KbButton>
 								<Button                        
@@ -344,7 +298,7 @@
 														VerticalAlignment="Center"
 														Foreground="{StaticResource IconFillColor}"
 														FontSize="16"
-														Content="{DynamicResource BtnMining}" />
+														Content="正在挖矿" />
 												</WrapPanel>
 											</Border>
 											<ControlTemplate.Triggers>
@@ -354,7 +308,7 @@
 													<Setter TargetName="Content" Property="Background" Value="Red"></Setter>
 													<Setter TargetName="Content" Property="BorderBrush" Value="Red"></Setter>
 													<Setter TargetName="Text" Property="Foreground" Value="White"></Setter>
-													<Setter TargetName="Text" Property="Content" Value="{DynamicResource BtnStopMine}"></Setter>
+													<Setter TargetName="Text" Property="Content" Value="停止挖矿"></Setter>
 												</Trigger>
 											</ControlTemplate.Triggers>
 										</ControlTemplate>
@@ -385,7 +339,7 @@
 								<TabItem.Header>
 									<Border Padding="2 0">
 										<WrapPanel>
-											<TextBlock Text="{DynamicResource HSpeed}"></TextBlock>
+											<TextBlock Text="算力"></TextBlock>
 										</WrapPanel>
 									</Border>
 								</TabItem.Header>
@@ -397,7 +351,7 @@
 									<Border Padding="2 0">
 										<WrapPanel>
 											<TextBlock Text="{Binding MinerProfile.CoinVm.Code}"></TextBlock>
-											<TextBlock Text="{DynamicResource HOverClock}"></TextBlock>
+											<TextBlock Text="超频"></TextBlock>
 											<CheckBox 
 												Margin="4 0 0 0" 
 												ToolTip="启用超频" 
@@ -412,7 +366,7 @@
 								<TabItem.Header>
 									<Border Padding="2 0">
 										<WrapPanel>
-											<TextBlock Text="{DynamicResource HOption}"></TextBlock>
+											<TextBlock Text="选项"></TextBlock>
 										</WrapPanel>
 									</Border>
 								</TabItem.Header>
@@ -431,7 +385,7 @@
 						</uc:StateBar>
 					</Grid>
 				</TabItem>
-				<TabItem Header="{DynamicResource HProperty}" Style="{DynamicResource TabItemStyle}">
+				<TabItem Header="属性" Style="{StaticResource TabItemStyle}">
 					<Border BorderThickness="0" BorderBrush="{StaticResource LineColor}" Padding="14 0 0 0" Background="White">
 						<uc:OuterProperty />
 					</Border>

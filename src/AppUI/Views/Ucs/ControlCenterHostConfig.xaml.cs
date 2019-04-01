@@ -4,7 +4,7 @@ using System.Windows.Controls;
 namespace NTMiner.Views.Ucs {
     public partial class ControlCenterHostConfig : UserControl {
         public static void ShowWindow() {
-            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+            ContainerWindow.ShowWindow("群控服务器", new ContainerWindowViewModel {
                 IsDialogWindow = true,
                 IconName = "Icon_Server",
                 CloseVisible = System.Windows.Visibility.Visible
@@ -24,7 +24,6 @@ namespace NTMiner.Views.Ucs {
 
         public ControlCenterHostConfig() {
             InitializeComponent();
-            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
     }
 }

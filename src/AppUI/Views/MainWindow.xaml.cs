@@ -39,7 +39,6 @@ namespace NTMiner.Views {
             this.Activated += changeNotiCenterWindowLocation;
             this.LocationChanged += changeNotiCenterWindowLocation;
             Write.WriteDevLineMethod = DebugLine;
-            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
             if (!Windows.Role.IsAdministrator) {
                 NotiCenterWindowViewModel.Current.Manager
                     .CreateMessage()

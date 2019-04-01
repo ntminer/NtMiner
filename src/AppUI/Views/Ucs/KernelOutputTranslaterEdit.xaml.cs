@@ -5,15 +5,16 @@ namespace NTMiner.Views.Ucs {
     public partial class KernelOutputTranslaterEdit : UserControl {
         public static void ShowWindow(FormType formType, KernelOutputTranslaterViewModel source) {
             int sortNumber = source.SortNumber;
-            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+            ContainerWindow.ShowWindow("内核输出翻译器", new ContainerWindowViewModel {
                 FormType = formType,
                 IsDialogWindow = true,
                 CloseVisible = System.Windows.Visibility.Visible,
                 IconName = "Icon_Coin"
             }, ucFactory: (window) =>
             {
-                KernelOutputTranslaterViewModel vm = new KernelOutputTranslaterViewModel(source);
-                vm.CloseWindow = () => window.Close();
+                KernelOutputTranslaterViewModel vm = new KernelOutputTranslaterViewModel(source) {
+                    CloseWindow = () => window.Close()
+                };
                 return new KernelOutputTranslaterEdit(vm);
             }, fixedSize: true);
         }

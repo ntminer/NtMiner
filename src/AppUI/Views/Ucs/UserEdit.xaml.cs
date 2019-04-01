@@ -4,14 +4,15 @@ using System.Windows.Controls;
 namespace NTMiner.Views.Ucs {
     public partial class UserEdit : UserControl {
         public static void ShowWindow(FormType formType, UserViewModel source) {
-            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+            ContainerWindow.ShowWindow("用户", new ContainerWindowViewModel {
                 FormType = formType,
                 IsDialogWindow = true,
                 CloseVisible = System.Windows.Visibility.Visible,
                 IconName = "Icon_User"
             }, ucFactory: (window) => {
-                UserViewModel vm = new UserViewModel(source);
-                vm.CloseWindow = () => window.Close();
+                UserViewModel vm = new UserViewModel(source) {
+                    CloseWindow = () => window.Close()
+                };
                 return new UserEdit(vm);
             }, fixedSize: true);
         }

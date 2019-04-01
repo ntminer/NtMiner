@@ -7,7 +7,7 @@ namespace NTMiner.Views.Ucs {
         public static string ViewId = nameof(CalcConfig);
 
         public static void ShowWindow() {
-            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+            ContainerWindow.ShowWindow("收益计算器设置", new ContainerWindowViewModel {
                 IconName = "Icon_Calc",
                 CloseVisible = System.Windows.Visibility.Visible
             }, ucFactory: (window) => {
@@ -31,7 +31,6 @@ namespace NTMiner.Views.Ucs {
 
         private CalcConfig() {
             InitializeComponent();
-            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
 
         private void ScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {

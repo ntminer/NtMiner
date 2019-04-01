@@ -18,7 +18,6 @@ namespace NTMiner.Views.Ucs {
 
         public Console() {
             InitializeComponent();
-            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
             Write.WriteUserLineMethod = WriteLine;
         }
 

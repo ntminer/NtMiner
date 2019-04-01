@@ -120,7 +120,7 @@
 				</DataGridTemplateColumn>
 			</DataGrid.Columns>
 		</DataGrid>
-		<TextBlock Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding KernelInputVms.AllKernelInputVms, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" Text="{DynamicResource TbNoRecord}"></TextBlock>
+		<TextBlock Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding KernelInputVms.AllKernelInputVms, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" Text="沒有记录"></TextBlock>
 		<controls:KbButton
 			HorizontalAlignment="Right"
 			VerticalAlignment="Top"

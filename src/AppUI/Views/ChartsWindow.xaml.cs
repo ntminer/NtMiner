@@ -39,7 +39,6 @@ namespace NTMiner.Views {
             EventHandler changeNotiCenterWindowLocation = Wpf.Util.ChangeNotiCenterWindowLocation(this);
             this.Activated += changeNotiCenterWindowLocation;
             this.LocationChanged += changeNotiCenterWindowLocation;
-            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
             #region 总算力
             VirtualRoot.On<Per10SecondEvent>("周期刷新总算力图", LogEnum.DevConsole,
                 action: message => {

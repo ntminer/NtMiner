@@ -49,7 +49,7 @@
 			<TextBox 
 				Background="Transparent"
 				HorizontalAlignment="Center"
-				Text="{DynamicResource AboutContent}"
+				Text="做好用的集成挖矿客户端"
 				BorderThickness="0" AcceptsReturn="True" 
 				TextWrapping="Wrap" IsReadOnly="True" 
 				FontSize="14" 
@@ -60,7 +60,7 @@
 			<WrapPanel HorizontalAlignment="Center">
 				<Label>NTMiner</Label>
 				<Label>|</Label>
-				<Label Content="{DynamicResource Copyright}"></Label>
+				<Label Content="版权所有"></Label>
 				<Label>|</Label>
 				<Label Content="LGPL"></Label>
 			</WrapPanel>

@@ -6,7 +6,7 @@ namespace NTMiner.Views.Ucs {
         public static string ViewId = nameof(PoolKernelEdit);
 
         public static void ShowWindow(FormType formType, PoolKernelViewModel source) {
-            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+            ContainerWindow.ShowWindow("矿池级参数", new ContainerWindowViewModel {
                 FormType = formType,
                 IsDialogWindow = true,
                 IconName = "Icon_Kernel",

@@ -4,7 +4,7 @@ using System.Windows.Controls;
 namespace NTMiner.Views.Ucs {
     public partial class NTMinerUpdaterConfig : UserControl {
         public static void ShowWindow() {
-            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+            ContainerWindow.ShowWindow("升级器版本", new ContainerWindowViewModel {
                 IconName = "Icon_Update",
                 CloseVisible = System.Windows.Visibility.Visible
             }, ucFactory: (window) => {

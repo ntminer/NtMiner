@@ -17,17 +17,10 @@
 		WindowStartupLocation="CenterScreen"
 		MouseDown="MetroWindow_MouseDown"
 		mc:Ignorable="d"
-		Title="{DynamicResource Title}" d:DesignHeight="900" d:DesignWidth="1720">
+		Title="开源矿工群控客户端" d:DesignHeight="900" d:DesignWidth="1720">
 	<metro:MetroWindow.DataContext>
 		<vm:ChartsWindowViewModel></vm:ChartsWindowViewModel>
 	</metro:MetroWindow.DataContext>
-	<metro:MetroWindow.Resources>
-		<ResourceDictionary>
-			<sys:String x:Key="Title">
-				开源矿工群控客户端
-			</sys:String>
-		</ResourceDictionary>
-	</metro:MetroWindow.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="30"></RowDefinition>
@@ -48,7 +41,7 @@
 					Margin="4 0 8 0"
 					FontSize="14"
 					Foreground="{StaticResource ThemeForeground}"
-					Text="{DynamicResource Title}">
+					Text="开源矿工群控客户端">
 				</TextBlock>
 				<local:MainBar></local:MainBar>
 			</WrapPanel>

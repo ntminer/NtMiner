@@ -188,7 +188,7 @@
 							</DataGridTemplateColumn>
 						</DataGrid.Columns>
 					</DataGrid>
-					<TextBlock Visibility="{Binding PoolKernels, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{DynamicResource TbNoRecord}"></TextBlock>
+					<TextBlock Visibility="{Binding PoolKernels, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Text="沒有记录"></TextBlock>
 				</Grid>
 			</TabItem>
 			<!--end矿池级参数-->

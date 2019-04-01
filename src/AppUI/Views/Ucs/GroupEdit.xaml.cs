@@ -6,15 +6,16 @@ namespace NTMiner.Views.Ucs {
         public static string ViewId = nameof(GroupEdit);
 
         public static void ShowWindow(FormType formType, GroupViewModel source) {
-            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+            ContainerWindow.ShowWindow("组", new ContainerWindowViewModel {
                 FormType = formType,
                 IsDialogWindow = true,
                 CloseVisible = System.Windows.Visibility.Visible,
                 IconName = "Icon_Group"
             }, ucFactory: (window) =>
             {
-                GroupViewModel vm = new GroupViewModel(source);
-                vm.CloseWindow = () => window.Close();
+                GroupViewModel vm = new GroupViewModel(source) {
+                    CloseWindow = () => window.Close()
+                };
                 return new GroupEdit(vm);
             }, fixedSize: true);
         }

@@ -9,11 +9,6 @@
         xmlns:vm="clr-namespace:NTMiner.Vms"
         DataContext="{x:Static vm:ColumnsShowPageViewModel.Current}"
         mc:Ignorable="d" d:DesignHeight="400" d:DesignWidth="300">
-    <UserControl.Resources>
-        <sys:String x:Key="WindowTitle">
-            列显
-        </sys:String>
-    </UserControl.Resources>
     <Grid>
         <DataGrid 
             Margin="0" ItemsSource="{Binding ColumnsShowVms.List}" 

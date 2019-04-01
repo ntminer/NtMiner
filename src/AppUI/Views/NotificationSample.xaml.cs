@@ -8,14 +8,15 @@ using System.Windows.Media;
 namespace NTMiner.Views {
     public partial class NotificationSample : UserControl {
         public static void ShowWindow() {
-            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                Width = 800,
-                Height = 500,
-                CloseVisible = Visibility.Visible
-            }, ucFactory: (window) => {
-                var uc = new NotificationSample();
-                return uc;
-            }, fixedSize: false);
+            ContainerWindow.ShowWindow("通知示例",
+                new ContainerWindowViewModel {
+                    Width = 800,
+                    Height = 500,
+                    CloseVisible = Visibility.Visible
+                }, ucFactory: (window) => {
+                    var uc = new NotificationSample();
+                    return uc;
+                }, fixedSize: false);
         }
 
         public NotificationSample() {
@@ -23,16 +24,14 @@ namespace NTMiner.Views {
         }
 
 
-        private void ButtonBaseErrorOnClick(object sender, RoutedEventArgs e)
-        {
+        private void ButtonBaseErrorOnClick(object sender, RoutedEventArgs e) {
             NotiCenterWindowViewModel.Current.Manager
                 .CreateMessage()
                 .Accent("#F15B19")
                 .Background("#F15B19")
                 .HasHeader("Lost connection to server")
                 .HasMessage("Reconnecting...")
-                .WithOverlay(new ProgressBar
-                {
+                .WithOverlay(new ProgressBar {
                     VerticalAlignment = VerticalAlignment.Bottom,
                     HorizontalAlignment = HorizontalAlignment.Stretch,
                     Height = 3,
@@ -46,8 +45,7 @@ namespace NTMiner.Views {
                 .Queue();
         }
 
-        private void ButtonBaseWarningOnClick(object sender, RoutedEventArgs e)
-        {
+        private void ButtonBaseWarningOnClick(object sender, RoutedEventArgs e) {
             NotiCenterWindowViewModel.Current.Manager
                 .CreateMessage()
                 .Accent("#E0A030")
@@ -60,8 +58,7 @@ namespace NTMiner.Views {
                 .Queue();
         }
 
-        private void ButtonBaseInfoOnClick(object sender, RoutedEventArgs e)
-        {
+        private void ButtonBaseInfoOnClick(object sender, RoutedEventArgs e) {
             NotiCenterWindowViewModel.Current.Manager
                 .CreateMessage()
                 .Accent("#1751C3")
@@ -74,8 +71,7 @@ namespace NTMiner.Views {
                 .Queue();
         }
 
-        private void ButtonBaseInfoDelayOnClick(object sender, RoutedEventArgs e)
-        {
+        private void ButtonBaseInfoDelayOnClick(object sender, RoutedEventArgs e) {
             NotiCenterWindowViewModel.Current.Manager
                 .CreateMessage()
                 .Accent("#1751C3")
@@ -91,8 +87,7 @@ namespace NTMiner.Views {
                 .Queue();
         }
 
-        private void ButtonBaseAdditionalContentOnClick(object sender, RoutedEventArgs e)
-        {
+        private void ButtonBaseAdditionalContentOnClick(object sender, RoutedEventArgs e) {
             NotiCenterWindowViewModel.Current.Manager
                 .CreateMessage()
                 .Accent("#1751C3")
@@ -101,43 +96,37 @@ namespace NTMiner.Views {
                 .HasBadge("Info")
                 .HasHeader("Header")
                 .HasMessage("This is the message!")
-                .WithAdditionalContent(ContentLocation.Top, new Border
-                {
+                .WithAdditionalContent(ContentLocation.Top, new Border {
                     Height = 25,
                     VerticalAlignment = VerticalAlignment.Stretch,
                     HorizontalAlignment = HorizontalAlignment.Stretch,
                     Background = Brushes.Red
                 })
-                .WithAdditionalContent(ContentLocation.Bottom, new Border
-                {
+                .WithAdditionalContent(ContentLocation.Bottom, new Border {
                     Height = 25,
                     VerticalAlignment = VerticalAlignment.Stretch,
                     HorizontalAlignment = HorizontalAlignment.Stretch,
                     Background = Brushes.Green
                 })
-                .WithAdditionalContent(ContentLocation.Left, new Border
-                {
+                .WithAdditionalContent(ContentLocation.Left, new Border {
                     Width = 25,
                     VerticalAlignment = VerticalAlignment.Stretch,
                     HorizontalAlignment = HorizontalAlignment.Stretch,
                     Background = Brushes.Yellow
                 })
-                .WithAdditionalContent(ContentLocation.Right, new Border
-                {
+                .WithAdditionalContent(ContentLocation.Right, new Border {
                     Width = 25,
                     VerticalAlignment = VerticalAlignment.Stretch,
                     HorizontalAlignment = HorizontalAlignment.Stretch,
                     Background = Brushes.Violet
                 })
-                .WithAdditionalContent(ContentLocation.Main, new Border
-                {
+                .WithAdditionalContent(ContentLocation.Main, new Border {
                     MinHeight = 50,
                     VerticalAlignment = VerticalAlignment.Stretch,
                     HorizontalAlignment = HorizontalAlignment.Stretch,
                     Background = Brushes.Orange
                 })
-                .WithAdditionalContent(ContentLocation.AboveBadge, new Border
-                {
+                .WithAdditionalContent(ContentLocation.AboveBadge, new Border {
                     Height = 40,
                     Width = 40,
                     Background = Brushes.Indigo

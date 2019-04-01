@@ -13,20 +13,6 @@
 	<UserControl.DataContext>
 		<vm:CalcConfigViewModels></vm:CalcConfigViewModels>
 	</UserControl.DataContext>
-	<UserControl.Resources>
-		<sys:String x:Key="WindowTitle">
-			WindowTitle
-		</sys:String>
-		<sys:String x:Key="LblSpeed">
-			LblSpeed
-		</sys:String>
-		<sys:String x:Key="LblIncome">
-			LblIncome
-		</sys:String>
-		<sys:String x:Key="TbDay">
-			TbDay
-		</sys:String>
-	</UserControl.Resources>
 	<Grid Background="White">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*"></RowDefinition>
@@ -70,7 +56,7 @@
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
 						<WrapPanel Margin="0 4">
-							<Label Content="{DynamicResource LblSpeed}"></Label>
+							<Label Content="算力"></Label>
 							<TextBox Text="{Binding Speed, ValidatesOnExceptions=True}" IsReadOnly="True">
 							</TextBox>
 							<controls:KbComboBox 
@@ -89,13 +75,12 @@
 								Data="{StaticResource Icon_ArrowRight}"
 								Fill="{StaticResource IconFillColor}"
 								Stretch="Fill"/>
-							<Label Content="{DynamicResource LblIncome}"></Label>
+							<Label Content="收益"></Label>
 							<TextBox Text="{Binding IncomePerDay, ValidatesOnExceptions=True}" IsReadOnly="True"></TextBox>
 							<Label>
 								<WrapPanel>
 									<TextBlock Text="{Binding CoinCode}"></TextBlock>
-									<TextBlock Text="/"></TextBlock>
-									<TextBlock Text="{DynamicResource TbDay}"></TextBlock>
+									<TextBlock Text="/天"></TextBlock>
 								</WrapPanel>
 							</Label>
 						</WrapPanel>

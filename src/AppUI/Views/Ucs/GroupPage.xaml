@@ -180,7 +180,7 @@
 				</DataGridTemplateColumn>
 			</DataGrid.Columns>
 		</DataGrid>
-		<TextBlock Grid.Row="1" Grid.Column="0" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding GroupVms, Converter={StaticResource NoRecordVisibilityConverter}}" Text="{DynamicResource TbNoRecord}"></TextBlock>
+		<TextBlock Grid.Row="1" Grid.Column="0" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding GroupVms, Converter={StaticResource NoRecordVisibilityConverter}}" Text="沒有记录"></TextBlock>
 		<WrapPanel Grid.Row="0" Grid.Column="2" Margin="0 2" VerticalAlignment="Center" Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
 			<Label Width="40" Content="{DynamicResource Coin}"></Label>
 			<controls:KbComboBox 
@@ -291,7 +291,7 @@
 					</DataGridTemplateColumn>
 				</DataGrid.Columns>
 			</DataGrid>
-			<TextBlock Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding CurrentGroup.CoinGroupVms, Converter={StaticResource NoRecordVisibilityConverter}}" Text="{DynamicResource TbNoRecord}"></TextBlock>
+			<TextBlock Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding CurrentGroup.CoinGroupVms, Converter={StaticResource NoRecordVisibilityConverter}}" Text="沒有记录"></TextBlock>
 		</Grid>
 	</Grid>
 </UserControl>

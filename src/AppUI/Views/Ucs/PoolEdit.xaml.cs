@@ -6,7 +6,7 @@ namespace NTMiner.Views.Ucs {
         public static string ViewId = nameof(PoolEdit);
 
         public static void ShowWindow(FormType formType, PoolViewModel source) {
-            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+            ContainerWindow.ShowWindow("矿池", new ContainerWindowViewModel {
                 FormType = formType,
                 IconName = "Icon_Pool",
                 IsDialogWindow = true,

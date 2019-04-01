@@ -6,7 +6,7 @@ namespace NTMiner.Views.Ucs {
         public static string ViewId = nameof(Calc);
 
         public static void ShowWindow(CoinViewModel coin) {
-            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+            ContainerWindow.ShowWindow("收益计算器", new ContainerWindowViewModel {
                 IconName = "Icon_Calc",
                 Width = 650,
                 Height = 300,
@@ -26,7 +26,6 @@ namespace NTMiner.Views.Ucs {
 
         private Calc(CoinViewModel coin) {
             InitializeComponent();
-            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
             Vm.SelectedCoinVm = coin;
         }
     }

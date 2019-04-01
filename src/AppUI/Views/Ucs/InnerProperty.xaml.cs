@@ -4,7 +4,7 @@ using System.Windows.Controls;
 namespace NTMiner.Views.Ucs {
     public partial class InnerProperty : UserControl {
         public static void ShowWindow() {
-            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+            ContainerWindow.ShowWindow("属性", new ContainerWindowViewModel {
                 IconName = "Icon_Property",
                 CloseVisible = System.Windows.Visibility.Visible
             }, ucFactory: (window) => new InnerProperty(), fixedSize: true);

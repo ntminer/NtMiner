@@ -15,7 +15,7 @@ using System.Windows.Media;
 namespace NTMiner.Views.Ucs {
     public partial class SpeedCharts : UserControl {
         public static void ShowWindow(GpuSpeedViewModel gpuSpeedVm = null) {
-            ContainerWindow.ShowWindow(new ContainerWindowViewModel() {
+            ContainerWindow.ShowWindow("算力图", new ContainerWindowViewModel() {
                 IconName = "Icon_Speed",
                 Width = 860,
                 Height = 520,

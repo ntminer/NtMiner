@@ -12,7 +12,7 @@ namespace NTMiner.Views.Ucs {
                 return;
             }
             var minerClientVm = minerClientsWindowVm.SelectedMinerClients[0];
-            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+            ContainerWindow.ShowWindow("显卡设置", new ContainerWindowViewModel {
                 HasOwner = true,
                 IsTopMost = true,
                 IconName = "Icon_OverClock",
@@ -27,9 +27,7 @@ namespace NTMiner.Views.Ucs {
                     }
                 };
                 var uc = new GpuProfilesPage(vm);
-                ResourceDictionarySet.Instance.TryGetResourceDic(nameof(GpuProfilesPage), out ResourceDictionary resourceDictionary);
                 var client = minerClientsWindowVm.SelectedMinerClients[0];
-                resourceDictionary["WindowTitle"] = $"超频 - 基于矿机{client.MinerName}({client.MinerIp})";
                 void handler(object sender, PropertyChangedEventArgs e) {
                     if (e.PropertyName == nameof(minerClientsWindowVm.SelectedMinerClients)) {
                         if (minerClientsWindowVm.SelectedMinerClients.Contains(minerClientVm)) {

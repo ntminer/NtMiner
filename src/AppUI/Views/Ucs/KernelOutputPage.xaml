@@ -156,7 +156,7 @@
 					</DataGridTemplateColumn>
 				</DataGrid.Columns>
 			</DataGrid>
-			<TextBlock Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding KernelOutputVms.AllKernelOutputVms, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" Text="{DynamicResource TbNoRecord}"></TextBlock>
+			<TextBlock Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding KernelOutputVms.AllKernelOutputVms, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" Text="沒有记录"></TextBlock>
 		</Grid>
 
 		<Grid Grid.Column="2">
@@ -384,7 +384,7 @@
 								</DataGridTemplateColumn>
 							</DataGrid.Columns>
 						</DataGrid>
-						<TextBlock Grid.Row="1" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding CurrentKernelOutputVm.KernelOutputTranslaters, Converter={StaticResource NoRecordVisibilityConverter}}" Grid.Column="1" Text="{DynamicResource TbNoRecord}"></TextBlock>
+						<TextBlock Grid.Row="1" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding CurrentKernelOutputVm.KernelOutputTranslaters, Converter={StaticResource NoRecordVisibilityConverter}}" Grid.Column="1" Text="沒有记录"></TextBlock>
 					</Grid>
 				</TabItem>
 				<!--end翻译-->
@@ -469,7 +469,7 @@
 								</DataGridTemplateColumn>
 							</DataGrid.Columns>
 						</DataGrid>
-						<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Red" Visibility="{Binding CurrentKernelOutputVm.KernelOutputFilters, Converter={StaticResource NoRecordVisibilityConverter}}" Grid.Column="1" Text="{DynamicResource TbNoRecord}"></TextBlock>
+						<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Red" Visibility="{Binding CurrentKernelOutputVm.KernelOutputFilters, Converter={StaticResource NoRecordVisibilityConverter}}" Grid.Column="1" Text="沒有记录"></TextBlock>
 					</Grid>
 				</TabItem>
 				<!--end过滤-->

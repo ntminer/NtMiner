@@ -13,40 +13,16 @@
 		<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
 			<Setter Property="Width" Value="70"></Setter>
 		</Style>
-		<sys:String x:Key="WindowTitle">
-			WindowTitle
-		</sys:String>
-		<sys:String x:Key="Code">
-			Code
-		</sys:String>
-		<sys:String x:Key="Algo">
-			Algo
-		</sys:String>
-		<sys:String x:Key="EnName">
-			EnName
-		</sys:String>
-		<sys:String x:Key="CnName">
-			CnName
-		</sys:String>
-		<sys:String x:Key="WalletRegexPattern">
-			WalletRegexPattern
-		</sys:String>
-		<sys:String x:Key="TestWallet">
-			TestWallet
-		</sys:String>
-		<sys:String x:Key="JustAsDualCoin">
-			JustAsDualCoin
-		</sys:String>
 	</UserControl.Resources>
 	<StackPanel Margin="10">
 		<WrapPanel Margin="0 2">
-			<TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource Code}"></TextBlock>
+			<TextBlock Style="{StaticResource LblTb}" Text="编码"></TextBlock>
 			<TextBox 
 				IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
 				Width="150"
 				VerticalContentAlignment="Center" Text="{Binding Code, ValidatesOnExceptions=True}">
 			</TextBox>
-			<TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource Algo}"></TextBlock>
+			<TextBlock Style="{StaticResource LblTb}" Text="算法"></TextBlock>
 			<TextBox 
 				IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
 				Width="160"
@@ -55,13 +31,13 @@
 		</WrapPanel>
 
 		<WrapPanel Margin="0 2">
-			<TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource EnName}"></TextBlock>
+			<TextBlock Style="{StaticResource LblTb}" Text="英文名"></TextBlock>
 			<TextBox 
 				IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
 				Width="150"
 				VerticalContentAlignment="Center" Text="{Binding EnName}">
 			</TextBox>
-			<TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource CnName}"></TextBlock>
+			<TextBlock Style="{StaticResource LblTb}" Text="中文名"></TextBlock>
 			<TextBox 
 				IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
 				Width="160"
@@ -70,7 +46,7 @@
 		</WrapPanel>
 
 		<WrapPanel Margin="0 2" Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
-			<TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource WalletRegexPattern}"></TextBlock>
+			<TextBlock Style="{StaticResource LblTb}" Text="钱包格式正则"></TextBlock>
 			<TextBox 
 				Width="380"
 				IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
@@ -79,7 +55,7 @@
 		</WrapPanel>
 
 		<WrapPanel Margin="0 2" Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
-			<TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource TestWallet}"></TextBlock>
+			<TextBlock Style="{StaticResource LblTb}" Text="测试钱包"></TextBlock>
 			<TextBox 
 				x:Name="TbTestWallet" 
 				Width="380" 
@@ -94,7 +70,7 @@
 		<WrapPanel Margin="0 2" Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
 			<TextBlock Style="{StaticResource LblTb}"></TextBlock>
 			<CheckBox
-				Content="{DynamicResource JustAsDualCoin}"
+				Content="仅作为双挖币"
 				VerticalContentAlignment="Center" IsChecked="{Binding JustAsDualCoin}">
 			</CheckBox>
 			<controls:KbButton

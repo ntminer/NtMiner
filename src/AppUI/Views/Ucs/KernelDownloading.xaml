@@ -133,6 +133,6 @@
 				</DataTemplate>
 			</ItemsControl.ItemTemplate>
 		</ItemsControl>
-		<TextBlock Grid.Row="1" Visibility="{Binding DownloadingVms, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{DynamicResource TbNoRecord}"></TextBlock>
+		<TextBlock Grid.Row="1" Visibility="{Binding DownloadingVms, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center" Text="沒有记录"></TextBlock>
 	</Grid>
 </UserControl>

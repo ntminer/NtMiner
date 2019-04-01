@@ -25,7 +25,6 @@ namespace NTMiner.Views.Ucs {
                     this.TbRedText.Text = "没有显卡";
                     break;
             }
-            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
 
         private void ScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {

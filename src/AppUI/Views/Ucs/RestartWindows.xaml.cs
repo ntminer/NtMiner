@@ -5,7 +5,7 @@ using System.Windows.Controls;
 namespace NTMiner.Views.Ucs {
     public partial class RestartWindows : UserControl {
         public static void ShowDialog() {
-            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+            ContainerWindow.ShowWindow("重启电脑", new ContainerWindowViewModel {
                 Width = 400,
                 Height = 200,
                 IsDialogWindow = true,

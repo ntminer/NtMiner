@@ -9,14 +9,6 @@
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:vm="clr-namespace:NTMiner.Vms"
 		mc:Ignorable="d" Height="200" Width="400">
-	<UserControl.Resources>
-		<sys:String x:Key="WindowTitle">
-			file downloader
-		</sys:String>
-		<sys:String x:Key="Cancel">
-			cancel download
-		</sys:String>
-	</UserControl.Resources>
 	<Grid
 		Background="#F5F4F5"
 		Width="400" 
@@ -57,7 +49,7 @@
 				Visibility="{Binding BtnCancelVisible}"
 				Margin="4 0 0 0"
 				Command="{Binding CancelDownload}"
-				ToolTip="{DynamicResource Cancel}"
+				ToolTip="取消"
 				Background="Transparent" BorderThickness="0">
 				<Path
 					Width="20"

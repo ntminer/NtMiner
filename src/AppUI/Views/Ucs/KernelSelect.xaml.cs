@@ -8,7 +8,7 @@ namespace NTMiner.Views.Ucs {
     public partial class KernelSelect : UserControl {
         public static void ShowWindow(CoinViewModel coin) {
             KernelSelect uc = null;
-            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+            ContainerWindow.ShowWindow("内核选择", new ContainerWindowViewModel {
                 IconName = "Icon_Kernel",
                 IsDialogWindow = true,
                 CloseVisible = System.Windows.Visibility.Visible

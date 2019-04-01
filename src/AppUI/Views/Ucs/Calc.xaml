@@ -10,22 +10,6 @@
 	xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 	xmlns:vm="clr-namespace:NTMiner.Vms"
 	mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="650">
-	<UserControl.Resources>
-		<ResourceDictionary>
-			<sys:String x:Key="WindowTitle">
-				收益计算器
-			</sys:String>
-			<sys:String x:Key="LblCoin">
-				LblCoin
-			</sys:String>
-			<sys:String x:Key="LblSpeed">
-				LblSpeed
-			</sys:String>
-			<sys:String x:Key="TbDay">
-				TbDay
-			</sys:String>
-		</ResourceDictionary>
-	</UserControl.Resources>
 	<UserControl.DataContext>
 		<vm:CalcViewModel></vm:CalcViewModel>
 	</UserControl.DataContext>
@@ -72,7 +56,7 @@
 			</ListBox.ItemTemplate>
 		</ListBox>
 		<WrapPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-			<Label Content="{DynamicResource LblSpeed}"></Label>
+			<Label Content="算力"></Label>
 			<TextBox Width="100" Text="{Binding Speed, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center"></TextBox>
 			<controls:KbComboBox 
 				Height="30"
@@ -97,9 +81,7 @@
 				<TextBlock Text="USD"></TextBlock>
 				<TextBlock Text="，"></TextBlock>
 				<TextBox IsReadOnly="True" BorderThickness="0" Text="{Binding IncomeCnyPerDayText, Mode=OneWay}" VerticalContentAlignment="Center"></TextBox>
-				<TextBlock Text="CNY"></TextBlock>
-				<TextBlock Text="/"></TextBlock>
-				<TextBlock Text="{DynamicResource TbDay}"></TextBlock>
+				<TextBlock Text="CNY/天"></TextBlock>
 			</WrapPanel>
 		</WrapPanel>
 	</Grid>

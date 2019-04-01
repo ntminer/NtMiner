@@ -20,34 +20,10 @@
 			<Setter Property="TextAlignment" Value="Right"></Setter>
 			<Setter Property="TextWrapping" Value="Wrap"></Setter>
 		</Style>
-		<sys:String x:Key="WindowTitle">
-			WindowTitle
-		</sys:String>
-		<sys:String x:Key="CoinCode">
-			CoinCode
-		</sys:String>
-		<sys:String x:Key="Kernel">
-			Kernel
-		</sys:String>
-		<sys:String x:Key="SupportedGpu">
-			SupportedGpu
-		</sys:String>
-		<sys:String x:Key="DualCoinGroup">
-			DualCoinGroup
-		</sys:String>
-		<sys:String x:Key="KernelArgs">
-			KernelArgs
-		</sys:String>
-		<sys:String x:Key="Args">
-			Args
-		</sys:String>
-		<sys:String x:Key="Description">
-			Description
-		</sys:String>
 	</UserControl.Resources>
 	<StackPanel Margin="10">
 		<WrapPanel Margin="0 2">
-			<TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource CoinCode}" ToolTip="{DynamicResource CoinCode}"></TextBlock>
+			<TextBlock Style="{StaticResource LblTb}" Text="币种"></TextBlock>
 			<WrapPanel Width="180" VerticalAlignment="Center">
 				<TextBlock Text="{Binding CoinCode}">
 				</TextBlock>
@@ -69,14 +45,14 @@
 					</WrapPanel>
 				</controls:KbButton>
 			</WrapPanel>
-			<TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource Kernel}" ToolTip="{DynamicResource Kernel}"></TextBlock>
+			<TextBlock Style="{StaticResource LblTb}" Text="内核"></TextBlock>
 			<TextBlock VerticalAlignment="Center"
 					   Text="{Binding Kernel.FullName, Mode=OneWay}">
 			</TextBlock>
 		</WrapPanel>
 
 		<WrapPanel Margin="0 2">
-			<TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource SupportedGpu}" ToolTip="{DynamicResource SupportedGpu}"></TextBlock>
+			<TextBlock Style="{StaticResource LblTb}" Text="支持显卡"></TextBlock>
 			<WrapPanel Width="180" VerticalAlignment="Center">
 				<controls:KbComboBox 
 					Width="130" ItemsSource="{x:Static vm:AppStatic.SupportedGpuEnumItems}"
@@ -104,7 +80,7 @@
 					Stretch="Fill" />
 			</WrapPanel>
 			<WrapPanel Visibility="{Binding Kernel.KernelInputVm.IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}">
-				<TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource DualCoinGroup}" ToolTip="{DynamicResource DualCoinGroup}"></TextBlock>
+				<TextBlock Style="{StaticResource LblTb}" Text="双挖币组"></TextBlock>
 				<controls:KbComboBox 
 					BorderThickness="0"
 					Width="166" ItemsSource="{Binding GroupVms.SelectionOptions}"
@@ -118,7 +94,6 @@
 		<WrapPanel Margin="0 2">
 			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top">
 				<controls:KbLinkButton 
-					ToolTip="{DynamicResource KernelArgs}"
 					KbDisplayLine="False"
 					KbSystemButtonHoverBackground="Transparent" 
 					Background="Transparent"
@@ -134,7 +109,7 @@
 						<Label
 							Padding="0 4"
 							VerticalAlignment="Center"
-							Content="{DynamicResource KernelArgs}"
+							Content="内核参级数"
 							Foreground="{StaticResource LableColor}" />
 					</WrapPanel>
 				</controls:KbLinkButton>
@@ -146,7 +121,7 @@
 		</WrapPanel>
 
 		<WrapPanel Margin="0 2">
-			<TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource Args}" ToolTip="{DynamicResource Args}"></TextBlock>
+			<TextBlock Style="{StaticResource LblTb}" Text="币种级参数"></TextBlock>
 			<TextBox 
 				VerticalContentAlignment="Center"
 				Height="30"
@@ -157,7 +132,7 @@
 		</WrapPanel>
 
 		<WrapPanel Margin="0 2">
-			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="{DynamicResource Description}" ToolTip="{DynamicResource Description}"></TextBlock>
+			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="备注"></TextBlock>
 			<TextBox 
 				Width="436" Background="Transparent"
 				IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"

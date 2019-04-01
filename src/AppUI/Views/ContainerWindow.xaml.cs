@@ -43,6 +43,7 @@ namespace NTMiner.Views {
         }
 
         public static ContainerWindow ShowWindow<TUc>(
+            string title,
             ContainerWindowViewModel vm, 
             Func<ContainerWindow, TUc> ucFactory, 
             Action<UserControl> beforeShow = null, 
@@ -59,7 +60,7 @@ namespace NTMiner.Views {
                 window = s_windowDicByType[ucType];
             }
             else {
-                window = new ContainerWindow(vm, ucFactory, fixedSize) {
+                window = new ContainerWindow(title, vm, ucFactory, fixedSize) {
                     WindowStartupLocation = WindowStartupLocation.Manual,
                     Owner = null
                 };
@@ -99,6 +100,7 @@ namespace NTMiner.Views {
         }
 
         public ContainerWindow(
+            string title,
             ContainerWindowViewModel vm, 
             Func<ContainerWindow, UserControl> ucFactory, 
             bool fixedSize = false, 
@@ -108,6 +110,7 @@ namespace NTMiner.Views {
             _uc = ucFactory(this);
             vm.UcResourceDic = _uc.Resources;
             _vm = vm;
+            this.Title = title;
             this.DataContext = _vm;
             if (vm.Height == 0 && vm.Width == 0) {
                 this.SizeToContent = SizeToContent.WidthAndHeight;

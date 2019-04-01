@@ -10,64 +10,6 @@
 	xmlns:vm="clr-namespace:NTMiner.Vms"
 	Background="{StaticResource ThemeBackground}"
 	mc:Ignorable="d">
-	<UserControl.Resources>
-		<ResourceDictionary>
-			<sys:String x:Key="User">
-				User
-			</sys:String>
-			<sys:String x:Key="Option">
-				Option
-			</sys:String>
-			<sys:String x:Key="Coin">
-				Coin
-			</sys:String>
-			<sys:String x:Key="CoinGroup">
-				CoinGroup
-			</sys:String>
-			<sys:String x:Key="Kernel">
-				Kernel
-			</sys:String>
-			<sys:String x:Key="SpeedChart">
-				SpeedChart
-			</sys:String>
-			<sys:String x:Key="OnlineUpdate">
-				OnlineUpdate
-			</sys:String>
-			<sys:String x:Key="Help">
-				Help
-			</sys:String>
-			<sys:String x:Key="About">
-				About
-			</sys:String>
-			<sys:String x:Key="SetServerJsonVersion">
-				SetServerJsonVersion
-			</sys:String>
-			<sys:String x:Key="ShowNTMinerUpdaterConfig">
-				ShowNTMinerUpdaterConfig
-			</sys:String>
-			<sys:String x:Key="Exit">
-				Exit
-			</sys:String>
-			<sys:String x:Key="Miner">
-				Miner
-			</sys:String>
-			<sys:String x:Key="Charts">
-				Charts
-			</sys:String>
-			<sys:String x:Key="MinerGroup">
-				MinerGroup
-			</sys:String>
-			<sys:String x:Key="MineWork">
-				MineWork
-			</sys:String>
-			<sys:String x:Key="OverClock">
-				OverClock
-			</sys:String>
-			<sys:String x:Key="CalcConfig">
-				CalcConfig
-			</sys:String>
-		</ResourceDictionary>
-	</UserControl.Resources>
 	<WrapPanel>
 		<controls:KbButton
 			Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
@@ -205,7 +147,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="{DynamicResource OverClock}" Command="{x:Static vm:AppStatic.ShowOverClockDatas}">
+				<MenuItem Header="超频" Command="{x:Static vm:AppStatic.ShowOverClockDatas}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -215,7 +157,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="{DynamicResource CalcConfig}" Command="{x:Static vm:AppStatic.ShowCalcConfig}">
+				<MenuItem Header="收益计算器设置" Command="{x:Static vm:AppStatic.ShowCalcConfig}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -226,7 +168,7 @@
 					</MenuItem.Icon>
 				</MenuItem>
 				<MenuItem 
-					Header="{DynamicResource SetServerJsonVersion}" 
+					Header="刷新server.json版本" 
 					ToolTip="{x:Static vm:AppStatic.ServerJsonFileName}"
 					Command="{x:Static vm:AppStatic.SetServerJsonVersion}">
 					<MenuItem.Icon>
@@ -239,7 +181,7 @@
 					</MenuItem.Icon>
 				</MenuItem>
 				<MenuItem 
-					Header="{DynamicResource ShowNTMinerUpdaterConfig}" 
+					Header="升级器版本" 
 					Command="{x:Static vm:AppStatic.ShowNTMinerUpdaterConfig}">
 					<MenuItem.Icon>
 						<Path
@@ -260,7 +202,7 @@
 						Fill="{StaticResource ThemeForeground}"
 						Stretch="Fill" />
 				</MenuItem.Icon>
-				<MenuItem Header="{DynamicResource Coin}" Command="{x:Static vm:AppStatic.ShowCoins}">
+				<MenuItem Header="币种" Command="{x:Static vm:AppStatic.ShowCoins}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -270,7 +212,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="{DynamicResource CoinGroup}" Command="{x:Static vm:AppStatic.ShowGroups}">
+				<MenuItem Header="币组" Command="{x:Static vm:AppStatic.ShowGroups}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -290,7 +232,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="{DynamicResource Kernel}" Command="{x:Static vm:AppStatic.ShowKernels}">
+				<MenuItem Header="内核" Command="{x:Static vm:AppStatic.ShowKernels}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -300,7 +242,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="{DynamicResource SpeedChart}" Command="{x:Static vm:AppStatic.ShowSpeedChart}">
+				<MenuItem Header="算力图" Command="{x:Static vm:AppStatic.ShowSpeedChart}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -310,7 +252,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="{DynamicResource OnlineUpdate}" Command="{x:Static vm:AppStatic.ShowOnlineUpdate}">
+				<MenuItem Header="在线更新" Command="{x:Static vm:AppStatic.ShowOnlineUpdate}">
 					<MenuItem.Icon>
 						<Path
 							Width="14"
@@ -320,7 +262,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="{DynamicResource Help}" Command="{x:Static vm:AppStatic.ShowHelp}">
+				<MenuItem Header="帮助" Command="{x:Static vm:AppStatic.ShowHelp}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -330,7 +272,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="{DynamicResource About}" Command="{x:Static vm:AppStatic.ShowAbout}">
+				<MenuItem Header="关于" Command="{x:Static vm:AppStatic.ShowAbout}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -340,7 +282,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="{DynamicResource Exit}" Command="{x:Static vm:AppStatic.AppExit}">
+				<MenuItem Header="退出" Command="{x:Static vm:AppStatic.AppExit}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -360,7 +302,7 @@
 						Fill="{StaticResource ThemeForeground}"
 						Stretch="Fill" />
 				</MenuItem.Icon>
-				<MenuItem Header="{DynamicResource Miner}" Command="{x:Static vm:AppStatic.ShowMinerClients}">
+				<MenuItem Header="矿工列表" Command="{x:Static vm:AppStatic.ShowMinerClients}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -370,13 +312,13 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="{DynamicResource Charts}" Command="{x:Static vm:AppStatic.ShowChartsWindow}">
+				<MenuItem Header="算力图" Command="{x:Static vm:AppStatic.ShowChartsWindow}">
 					<MenuItem.Icon>
 						<Image Width="18" Height="18" Source="/NTMinerWpf;component/Styles/Images/cc32.png">
 						</Image>
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="{DynamicResource Coin}" Command="{x:Static vm:AppStatic.ShowCoins}">
+				<MenuItem Header="币种" Command="{x:Static vm:AppStatic.ShowCoins}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -386,7 +328,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="{DynamicResource CoinGroup}" Command="{x:Static vm:AppStatic.ShowGroups}">
+				<MenuItem Header="币组" Command="{x:Static vm:AppStatic.ShowGroups}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -396,7 +338,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="{DynamicResource Kernel}" Command="{x:Static vm:AppStatic.ShowKernels}">
+				<MenuItem Header="内核" Command="{x:Static vm:AppStatic.ShowKernels}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -406,7 +348,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="{DynamicResource OnlineUpdate}" Command="{x:Static vm:AppStatic.ShowOnlineUpdate}">
+				<MenuItem Header="在线升级" Command="{x:Static vm:AppStatic.ShowOnlineUpdate}">
 					<MenuItem.Icon>
 						<Path
 							Width="14"
@@ -416,7 +358,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="{DynamicResource Help}" Command="{x:Static vm:AppStatic.ShowHelp}">
+				<MenuItem Header="帮助" Command="{x:Static vm:AppStatic.ShowHelp}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -426,7 +368,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="{DynamicResource About}" Command="{x:Static vm:AppStatic.ShowAbout}" CommandParameter="ControlCenter">
+				<MenuItem Header="关于" Command="{x:Static vm:AppStatic.ShowAbout}" CommandParameter="ControlCenter">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -436,7 +378,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="{DynamicResource User}" Command="{x:Static vm:AppStatic.ShowUsers}">
+				<MenuItem Header="用户" Command="{x:Static vm:AppStatic.ShowUsers}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -446,7 +388,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="{DynamicResource Exit}" Command="{x:Static vm:AppStatic.AppExit}">
+				<MenuItem Header="退出" Command="{x:Static vm:AppStatic.AppExit}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"

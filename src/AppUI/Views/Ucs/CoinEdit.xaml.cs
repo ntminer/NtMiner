@@ -6,15 +6,16 @@ namespace NTMiner.Views.Ucs {
         public static string ViewId = nameof(CoinEdit);
 
         public static void ShowWindow(FormType formType, CoinViewModel source) {
-            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+            ContainerWindow.ShowWindow("币种", new ContainerWindowViewModel {
                 FormType = formType,
                 IsDialogWindow = true,
                 CloseVisible = System.Windows.Visibility.Visible,
                 IconName = "Icon_Coin",
             }, ucFactory: (window) =>
             {
-                CoinViewModel vm = new CoinViewModel(source);
-                vm.CloseWindow = () => window.Close();
+                CoinViewModel vm = new CoinViewModel(source) {
+                    CloseWindow = () => window.Close()
+                };
                 return new CoinEdit(vm);
             }, fixedSize: true);
         }
@@ -27,7 +28,6 @@ namespace NTMiner.Views.Ucs {
         public CoinEdit(CoinViewModel vm) {
             this.DataContext = vm;
             InitializeComponent();
-            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
     }
 }

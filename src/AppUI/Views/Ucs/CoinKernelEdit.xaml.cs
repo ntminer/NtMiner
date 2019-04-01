@@ -8,15 +8,16 @@ namespace NTMiner.Views.Ucs {
         public static string ViewId = nameof(CoinKernelEdit);
 
         public static void ShowWindow(FormType formType, CoinKernelViewModel source) {
-            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+            ContainerWindow.ShowWindow("币种级参数", new ContainerWindowViewModel {
                 FormType = formType,
                 IsDialogWindow = true,
                 IconName = "Icon_Kernel",
                 CloseVisible = System.Windows.Visibility.Visible
             }, ucFactory: (window) =>
             {
-                CoinKernelViewModel vm = new CoinKernelViewModel(source);
-                vm.CloseWindow = () => window.Close();
+                CoinKernelViewModel vm = new CoinKernelViewModel(source) {
+                    CloseWindow = () => window.Close()
+                };
                 return new CoinKernelEdit(vm);
             }, fixedSize: true);
         }
@@ -30,7 +31,6 @@ namespace NTMiner.Views.Ucs {
         public CoinKernelEdit(CoinKernelViewModel vm) {
             this.DataContext = vm;
             InitializeComponent();
-            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
 
         private void DataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {

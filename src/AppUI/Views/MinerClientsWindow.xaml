@@ -24,9 +24,6 @@
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="pack://application:,,,/AppUI;component/Styles/KbWallet.xaml" />
 			</ResourceDictionary.MergedDictionaries>
-			<sys:String x:Key="WindowTitle">
-				矿机
-			</sys:String>
 			<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
 			</Style>
 		</ResourceDictionary>

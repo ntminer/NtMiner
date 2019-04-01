@@ -6,7 +6,7 @@ namespace NTMiner.Views.Ucs {
         public static string ViewId = nameof(OuterProperty);
 
         public static void ShowWindow() {
-            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+            ContainerWindow.ShowWindow("属性", new ContainerWindowViewModel {
                 IconName = "Icon_Property",
                 CloseVisible = System.Windows.Visibility.Visible
             }, ucFactory: (window) => new OuterProperty(), fixedSize: true);

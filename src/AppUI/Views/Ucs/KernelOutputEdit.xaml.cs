@@ -6,15 +6,16 @@ namespace NTMiner.Views.Ucs {
         public static string ViewId = nameof(KernelOutputEdit);
 
         public static void ShowWindow(FormType formType, KernelOutputViewModel source) {
-            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+            ContainerWindow.ShowWindow("内核输出", new ContainerWindowViewModel {
                 FormType = formType,
                 IsDialogWindow = true,
                 CloseVisible = System.Windows.Visibility.Visible,
                 IconName = "Icon_KernelOutput"
             }, ucFactory: (window) =>
             {
-                KernelOutputViewModel vm = new KernelOutputViewModel(source);
-                vm.CloseWindow = () => window.Close();
+                KernelOutputViewModel vm = new KernelOutputViewModel(source) {
+                    CloseWindow = () => window.Close()
+                };
                 return new KernelOutputEdit(vm);
             }, fixedSize: true);
         }

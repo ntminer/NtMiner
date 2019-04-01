@@ -6,7 +6,7 @@ using System.Windows.Input;
 namespace NTMiner.Views.Ucs {
     public partial class UserPage : UserControl {
         public static void ShowWindow() {
-            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+            ContainerWindow.ShowWindow("用户", new ContainerWindowViewModel {
                 IconName = "Icon_User",
                 Width = 600,
                 Height = 300,
