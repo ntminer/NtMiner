@@ -6,7 +6,8 @@ namespace NTMiner.Views.Ucs {
         public static string ViewId = nameof(CoinEdit);
 
         public static void ShowWindow(FormType formType, CoinViewModel source) {
-            ContainerWindow.ShowWindow("币种", new ContainerWindowViewModel {
+            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+                Title = "币种",
                 FormType = formType,
                 IsDialogWindow = true,
                 CloseVisible = System.Windows.Visibility.Visible,

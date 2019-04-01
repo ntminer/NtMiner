@@ -14,9 +14,6 @@ namespace NTMiner.Vms {
         public DateTime BootOn {
             get => NTMinerRoot.Current.CreatedOn;
         }
-        public LangViewModels LangVms {
-            get => LangViewModels.Current;
-        }
         public string GlobalDir {
             get => VirtualRoot.GlobalDirFullName;
         }

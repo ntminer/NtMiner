@@ -5,7 +5,8 @@ using System.Windows.Controls;
 namespace NTMiner.Views.Ucs {
     public partial class OverClockDataPage : UserControl {
         public static void ShowWindow() {
-            ContainerWindow.ShowWindow("超频背包", new ContainerWindowViewModel {
+            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+                Title = "超频背包",
                 IconName = "Icon_OverClock",
                 Width = 600,
                 Height = 400,

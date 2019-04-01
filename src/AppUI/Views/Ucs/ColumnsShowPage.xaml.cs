@@ -5,7 +5,8 @@ using System.Windows.Controls;
 namespace NTMiner.Views.Ucs {
     public partial class ColumnsShowPage : UserControl {
         public static void ShowWindow() {
-            ContainerWindow.ShowWindow("列显", new ContainerWindowViewModel {
+            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+                Title = "列显",
                 IconName = "Icon_ColumnsShow",
                 Width = 300,
                 Height = 400,

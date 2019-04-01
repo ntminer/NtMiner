@@ -4,7 +4,8 @@ using System.Windows.Controls;
 namespace NTMiner.Views.Ucs {
     public partial class MineWorkEdit : UserControl {
         public static void ShowWindow(FormType formType, MineWorkViewModel source) {
-            ContainerWindow.ShowWindow("矿工", new ContainerWindowViewModel {
+            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+                Title = "矿工",
                 FormType = formType,
                 IsDialogWindow = true,
                 CloseVisible = System.Windows.Visibility.Visible,

@@ -6,7 +6,8 @@ namespace NTMiner.Views.Ucs {
         public static string ViewId = nameof(PoolEdit);
 
         public static void ShowWindow(FormType formType, PoolViewModel source) {
-            ContainerWindow.ShowWindow("矿池", new ContainerWindowViewModel {
+            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+                Title = "矿池",
                 FormType = formType,
                 IconName = "Icon_Pool",
                 IsDialogWindow = true,
@@ -15,8 +16,9 @@ namespace NTMiner.Views.Ucs {
                 CloseVisible = System.Windows.Visibility.Visible
             }, ucFactory: (window) =>
             {
-                PoolViewModel vm = new PoolViewModel(source);
-                vm.CloseWindow = () => window.Close();
+                PoolViewModel vm = new PoolViewModel(source) {
+                    CloseWindow = () => window.Close()
+                };
                 return new PoolEdit(vm);
             }, fixedSize: true);
         }

@@ -1,6 +1,4 @@
 ﻿using NTMiner.Core;
-using NTMiner.Core.Impl;
-using NTMiner.Language.Impl;
 using NTMiner.MinerServer;
 using NTMiner.Views;
 using NTMiner.Views.Ucs;
@@ -91,16 +89,6 @@ namespace NTMiner.Vms {
             }
         });
 
-        public static ICommand ExportLangJson { get; private set; } = new DelegateCommand(() => {
-            try {
-                string fileName = LangJson.Export();
-                NotiCenterWindowViewModel.Current.Manager.ShowSuccessMessage($"导出成功：{fileName}");
-            }
-            catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
-            }
-        });
-
         public static string ServerJsonFileName = AssemblyInfo.ServerJsonFileName;
 
         public static ICommand SetServerJsonVersion { get; private set; } = new DelegateCommand(() => {
@@ -131,10 +119,6 @@ namespace NTMiner.Vms {
         public static ICommand ShowChartsWindow { get; private set; } = new DelegateCommand(ChartsWindow.ShowWindow);
 
         public static ICommand ShowInnerProperty { get; private set; } = new DelegateCommand(InnerProperty.ShowWindow);
-
-        public static ICommand ShowLangViewItems { get; private set; } = new DelegateCommand<string>((viewId) => {
-            ViewLang.ShowWindow(new ViewLangViewModel(viewId));
-        });
 
         public static ICommand JoinQQGroup { get; private set; } = new DelegateCommand(() => {
             Process.Start("https://jq.qq.com/?_wv=1027&k=5ZPsuCk");

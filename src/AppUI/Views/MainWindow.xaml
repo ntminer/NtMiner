@@ -73,22 +73,6 @@
 							Text="{Binding BrandTitle}" />
 					</WrapPanel>
 				</controls:KbLinkButton>
-				<controls:KbButton
-					Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-					ToolTip="{x:Static local:MainWindow.ViewId}"
-					Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-					CommandParameter="{x:Static local:MainWindow.ViewId}"
-					Padding="8 0"
-					Background="Transparent">
-					<WrapPanel>
-						<Path
-							Width="14"
-							Height="14"
-							Data="{StaticResource Icon_Translate}"
-							Fill="{StaticResource ThemeForeground}"
-							Stretch="Fill" />
-					</WrapPanel>
-				</controls:KbButton>
 				<controls:KbButton 
 					Margin="4 0 0 0" Height="20" BorderThickness="0" 
 					Content="点击以管理员身份运行"
@@ -113,14 +97,6 @@
 						Cursor="Hand"
 						Foreground="{StaticResource ThemeForeground}"
 						IsChecked="{Binding IsUseDevConsole}" />
-					<controls:KbComboBox 
-						Margin="4 0 0 0"
-						Height="26"
-						Background="{StaticResource ThemeBackground}"
-						ItemsSource="{Binding LangVms.LangVms}"
-						DisplayMemberPath="Name" 
-						SelectedItem="{Binding LangVms.CurrentLangVm}">
-					</controls:KbComboBox>
 					<local:MainMenu>
 					</local:MainMenu>
 					<controls:KbSystemMinButton

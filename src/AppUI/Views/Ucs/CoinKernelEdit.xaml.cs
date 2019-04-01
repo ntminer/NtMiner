@@ -8,7 +8,8 @@ namespace NTMiner.Views.Ucs {
         public static string ViewId = nameof(CoinKernelEdit);
 
         public static void ShowWindow(FormType formType, CoinKernelViewModel source) {
-            ContainerWindow.ShowWindow("币种级参数", new ContainerWindowViewModel {
+            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+                Title = "币种级参数",
                 FormType = formType,
                 IsDialogWindow = true,
                 IconName = "Icon_Kernel",

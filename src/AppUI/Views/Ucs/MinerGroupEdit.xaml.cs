@@ -4,7 +4,8 @@ using System.Windows.Controls;
 namespace NTMiner.Views.Ucs {
     public partial class MinerGroupEdit : UserControl {
         public static void ShowWindow(FormType formType, MinerGroupViewModel source) {
-            ContainerWindow.ShowWindow("矿工分组", new ContainerWindowViewModel {
+            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+                Title = "矿工分组",
                 FormType = formType,
                 IsDialogWindow = true,
                 CloseVisible = System.Windows.Visibility.Visible,

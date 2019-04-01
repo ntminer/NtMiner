@@ -7,7 +7,8 @@ namespace NTMiner.Views.Ucs {
         public static string ViewId = nameof(KernelEdit);
 
         public static void ShowWindow(FormType formType, KernelViewModel source) {
-            ContainerWindow.ShowWindow("内核", new ContainerWindowViewModel {
+            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+                Title = "内核",
                 FormType = formType,
                 IconName = "Icon_Kernel",
                 IsDialogWindow = true,

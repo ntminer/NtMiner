@@ -12,7 +12,8 @@ namespace NTMiner.Views.Ucs {
                 return;
             }
             var minerClientVm = minerClientsWindowVm.SelectedMinerClients[0];
-            ContainerWindow.ShowWindow($"超频 - 基于矿机{minerClientVm.MinerName}({minerClientVm.MinerIp})", new ContainerWindowViewModel {
+            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+                Title = $"超频 - 基于矿机{minerClientVm.MinerName}({minerClientVm.MinerIp})",
                 HasOwner = true,
                 IsTopMost = true,
                 IconName = "Icon_OverClock",

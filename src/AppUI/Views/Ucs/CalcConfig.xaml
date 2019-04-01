@@ -88,24 +88,6 @@
 				</ItemsControl.ItemTemplate>
 			</ItemsControl>
 		</ScrollViewer>
-		<controls:KbButton
-			Margin="2 0"
-			HorizontalAlignment="Right"
-			VerticalAlignment="Top"
-			Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-			ToolTip="{x:Static local:CalcConfig.ViewId}"
-			Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-			CommandParameter="{x:Static local:CalcConfig.ViewId}"
-			Background="Transparent">
-			<WrapPanel>
-				<Path
-					Width="14"
-					Height="14"
-					Data="{StaticResource Icon_Translate}"
-					Fill="{StaticResource ThemeBackground}"
-					Stretch="Fill" />
-			</WrapPanel>
-		</controls:KbButton>
 		<TextBlock Grid.Row="1" HorizontalAlignment="Center" Text="数据来自鱼池首页，每10分钟自动刷新一次" Foreground="Red"></TextBlock>
 		<controls:KbButton
 			Grid.Row="2"

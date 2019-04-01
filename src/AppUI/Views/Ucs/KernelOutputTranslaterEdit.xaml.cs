@@ -5,7 +5,8 @@ namespace NTMiner.Views.Ucs {
     public partial class KernelOutputTranslaterEdit : UserControl {
         public static void ShowWindow(FormType formType, KernelOutputTranslaterViewModel source) {
             int sortNumber = source.SortNumber;
-            ContainerWindow.ShowWindow("内核输出翻译器", new ContainerWindowViewModel {
+            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+                Title = "内核输出翻译器",
                 FormType = formType,
                 IsDialogWindow = true,
                 CloseVisible = System.Windows.Visibility.Visible,

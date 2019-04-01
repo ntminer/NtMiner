@@ -169,22 +169,6 @@
 			</StackPanel>
 			<StackPanel Grid.Column="1">
 				<WrapPanel HorizontalAlignment="Right">
-					<controls:KbButton
-						Margin="0 0 4 0"
-						Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-						ToolTip="{x:Static local:StateBar.ViewId}"
-						Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-						CommandParameter="{x:Static local:StateBar.ViewId}"
-						Background="Transparent">
-						<WrapPanel>
-							<Path
-								Width="14"
-								Height="14"
-								Data="{StaticResource Icon_Translate}"
-								Fill="{StaticResource ThemeBackground}"
-								Stretch="Fill" />
-						</WrapPanel>
-					</controls:KbButton>
 					<TextBlock 
 						Margin="0 0 4 0"
 						HorizontalAlignment="Right"

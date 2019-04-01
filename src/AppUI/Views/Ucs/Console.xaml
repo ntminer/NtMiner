@@ -31,21 +31,6 @@
 			<WrapPanel 
 				HorizontalAlignment="Right" 
 				VerticalAlignment="Top">
-				<controls:KbButton
-					Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-					ToolTip="{x:Static local:Console.ViewId}"
-					Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-					CommandParameter="{x:Static local:Console.ViewId}"
-					Background="Transparent">
-					<WrapPanel>
-						<Path
-							Width="14"
-							Height="14"
-							Data="{StaticResource Icon_Translate}"
-							Fill="{StaticResource IconFillColor}"
-							Stretch="Fill" />
-					</WrapPanel>
-				</controls:KbButton>
 				<controls:KbCheckBox 
 					Margin="4 0 0 0"
 					Width="16"

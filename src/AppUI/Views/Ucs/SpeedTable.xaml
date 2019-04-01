@@ -140,24 +140,6 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <controls:KbButton
-            HorizontalAlignment="Right"
-            VerticalAlignment="Bottom"
-            Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-            ToolTip="{x:Static local:SpeedTable.ViewId}"
-            Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-            CommandParameter="{x:Static local:SpeedTable.ViewId}"
-            Padding="8 0"
-            Background="Transparent">
-            <WrapPanel>
-                <Path
-                    Width="14"
-                    Height="14"
-                    Data="{StaticResource Icon_Translate}"
-                    Fill="{StaticResource ThemeBackground}"
-                    Stretch="Fill" />
-            </WrapPanel>
-        </controls:KbButton>
         <TextBlock Visibility="{Binding GpuSpeedVms, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center">没有矿卡</TextBlock>
     </Grid>
 </UserControl>

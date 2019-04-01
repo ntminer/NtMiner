@@ -4,7 +4,8 @@ using System.Windows.Controls;
 namespace NTMiner.Views.Ucs {
     public partial class KernelOutputFilterEdit : UserControl {
         public static void ShowWindow(FormType formType, KernelOutputFilterViewModel source) {
-            ContainerWindow.ShowWindow("内核输出过滤器", new ContainerWindowViewModel {
+            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+                Title = "内核输出过滤器",
                 FormType = formType,
                 IsDialogWindow = true,
                 CloseVisible = System.Windows.Visibility.Visible,

@@ -7,7 +7,8 @@ namespace NTMiner.Views.Ucs {
         public static string ViewId = nameof(CalcConfig);
 
         public static void ShowWindow() {
-            ContainerWindow.ShowWindow("收益计算器设置", new ContainerWindowViewModel {
+            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+                Title = "收益计算器设置",
                 IconName = "Icon_Calc",
                 CloseVisible = System.Windows.Visibility.Visible
             }, ucFactory: (window) => {

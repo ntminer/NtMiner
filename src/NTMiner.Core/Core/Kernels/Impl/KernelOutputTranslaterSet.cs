@@ -91,8 +91,7 @@ namespace NTMiner.Core.Kernels.Impl {
                 }).AddToCollection(root.ContextHandlers);
             VirtualRoot.On<SysDicItemUpdatedEvent>("LogColor字典项更新后刷新翻译器内存", LogEnum.DevConsole,
                 action: message => {
-                    ISysDic dic;
-                    if (!_root.SysDicSet.TryGetSysDic("LogColor", out dic)) {
+                    if (!_root.SysDicSet.TryGetSysDic("LogColor", out ISysDic dic)) {
                         return;
                     }
                     if (message.Source.DicId != dic.GetId()) {
@@ -107,7 +106,7 @@ namespace NTMiner.Core.Kernels.Impl {
         }
 
         private bool _isInited = false;
-        private object _locker = new object();
+        private readonly object _locker = new object();
 
         private void InitOnece() {
             if (_isInited) {
@@ -154,8 +153,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
         public bool TryGetKernelOutputTranslater(Guid consoleTranslaterId, out IKernelOutputTranslater consoleTranslater) {
             InitOnece();
-            KernelOutputTranslaterData t;
-            var r = _dicById.TryGetValue(consoleTranslaterId, out t);
+            var r = _dicById.TryGetValue(consoleTranslaterId, out KernelOutputTranslaterData t);
             consoleTranslater = t;
             return r;
         }
@@ -173,8 +171,7 @@ namespace NTMiner.Core.Kernels.Impl {
         private Dictionary<IKernelOutputTranslater, ConsoleColor> _colorDic = new Dictionary<IKernelOutputTranslater, ConsoleColor>();
         private ConsoleColor GetColor(IKernelOutputTranslater consoleTranslater) {
             if (!_colorDic.ContainsKey(consoleTranslater)) {
-                ISysDicItem dicItem;
-                if (NTMinerRoot.Current.SysDicItemSet.TryGetDicItem("LogColor", consoleTranslater.Color, out dicItem)) {
+                if (NTMinerRoot.Current.SysDicItemSet.TryGetDicItem("LogColor", consoleTranslater.Color, out ISysDicItem dicItem)) {
                     _colorDic.Add(consoleTranslater, GetColor(dicItem.Value));
                 }
                 else {
@@ -192,8 +189,7 @@ namespace NTMiner.Core.Kernels.Impl {
             if (string.IsNullOrEmpty(color)) {
                 return ConsoleColor.White;
             }
-            ConsoleColor consoleColor;
-            if (color.TryParse(out consoleColor)) {
+            if (color.TryParse(out ConsoleColor consoleColor)) {
                 return consoleColor;
             }
             return ConsoleColor.White;
@@ -248,10 +244,8 @@ namespace NTMiner.Core.Kernels.Impl {
                     }
                     Match match = regex.Match(input);
                     if (match.Success) {
-                        if (VirtualRoot.Lang.Code == "zh-CN" || (isPre && consoleTranslater.IsPre)) {
-                            if (!string.IsNullOrEmpty(consoleTranslater.Replacement)) {
-                                input = regex.Replace(input, consoleTranslater.Replacement);
-                            }
+                        if (!string.IsNullOrEmpty(consoleTranslater.Replacement)) {
+                            input = regex.Replace(input, consoleTranslater.Replacement);
                         }
                         if (!string.IsNullOrEmpty(consoleTranslater.Color)) {
                             color = GetColor(consoleTranslater);

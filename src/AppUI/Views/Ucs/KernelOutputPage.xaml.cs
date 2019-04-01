@@ -7,7 +7,8 @@ namespace NTMiner.Views.Ucs {
         public static string ViewId = nameof(KernelOutputPage);
 
         public static void ShowWindow(KernelOutputViewModel selectedKernelOutputVm) {
-            ContainerWindow.ShowWindow("内核输出", new ContainerWindowViewModel {
+            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+                Title = "内核输出",
                 IconName = "Icon_KernelOutput",
                 CloseVisible = System.Windows.Visibility.Visible,
                 FooterVisible = System.Windows.Visibility.Collapsed,

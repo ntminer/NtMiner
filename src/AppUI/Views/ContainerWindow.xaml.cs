@@ -1,5 +1,4 @@
 ﻿using MahApps.Metro.Controls;
-using NTMiner.Language;
 using NTMiner.Vms;
 using NTMiner.Wpf;
 using System;
@@ -17,7 +16,6 @@ namespace NTMiner.Views {
         private static readonly Dictionary<Type, double> s_windowTopDic = new Dictionary<Type, double>();
         private static readonly Dictionary<ContainerWindowViewModel, ContainerWindow> s_windowDic = new Dictionary<ContainerWindowViewModel, ContainerWindow>();
 
-        private static readonly List<ContainerWindowViewModel> s_windows = new List<ContainerWindowViewModel>();
         public static readonly ObservableCollection<ContainerWindowViewModel> Windows = new ObservableCollection<ContainerWindowViewModel>();
 
         public static ICommand CloseWindow { get; private set; }
@@ -27,12 +25,6 @@ namespace NTMiner.Views {
                 ContainerWindow window = GetWindow(vm);
                 window?.Close();
             });
-            VirtualRoot.On<GlobalLangChangedEvent>("全局语言变更时调整窗口的标题", LogEnum.DevConsole,
-                action: message => {
-                    foreach (var item in s_windows) {
-                        item.OnPropertyChanged(nameof(item.Title));
-                    }
-                });
         }
 
         public static ContainerWindow GetWindow(ContainerWindowViewModel vm) {
@@ -43,7 +35,6 @@ namespace NTMiner.Views {
         }
 
         public static ContainerWindow ShowWindow<TUc>(
-            string title,
             ContainerWindowViewModel vm, 
             Func<ContainerWindow, TUc> ucFactory, 
             Action<UserControl> beforeShow = null, 
@@ -60,7 +51,7 @@ namespace NTMiner.Views {
                 window = s_windowDicByType[ucType];
             }
             else {
-                window = new ContainerWindow(title, vm, ucFactory, fixedSize) {
+                window = new ContainerWindow(vm, ucFactory, fixedSize) {
                     WindowStartupLocation = WindowStartupLocation.Manual,
                     Owner = null
                 };
@@ -68,13 +59,11 @@ namespace NTMiner.Views {
                 if (!vm.IsDialogWindow) {
                     Windows.Add(vm);
                 }
-                s_windows.Add(vm);
                 window.Closed += (object sender, EventArgs e) => {
                     s_windowDic.Remove(vm);
                     if (!vm.IsDialogWindow) {
                         Windows.Remove(vm);
                     }
-                    s_windows.Remove(vm);
                 };
                 s_windowDicByType.Add(ucType, window);
                 if (s_windowLeftDic.ContainsKey(ucType)) {
@@ -100,7 +89,6 @@ namespace NTMiner.Views {
         }
 
         public ContainerWindow(
-            string title,
             ContainerWindowViewModel vm, 
             Func<ContainerWindow, UserControl> ucFactory, 
             bool fixedSize = false, 
@@ -110,7 +98,6 @@ namespace NTMiner.Views {
             _uc = ucFactory(this);
             vm.UcResourceDic = _uc.Resources;
             _vm = vm;
-            this.Title = title;
             this.DataContext = _vm;
             if (vm.Height == 0 && vm.Width == 0) {
                 this.SizeToContent = SizeToContent.WidthAndHeight;

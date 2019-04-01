@@ -10,12 +10,6 @@ namespace NTMiner.Vms {
         public ChartsWindowViewModel() {
         }
 
-        public LangViewModels LangVms {
-            get {
-                return LangViewModels.Current;
-            }
-        }
-
         public int TotalMiningCount {
             get => _totalMiningCount;
             set {

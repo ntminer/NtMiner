@@ -13,23 +13,6 @@
 		Background="#F5F4F5"
 		Width="400" 
 		Height="30">
-		<controls:KbButton
-			Margin="0 -50 0 0"
-			Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-			ToolTip="{x:Static local:FileDownloader.ViewId}"
-			Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-			CommandParameter="{x:Static local:FileDownloader.ViewId}"
-			Padding="8 0"
-			Background="Transparent">
-			<WrapPanel>
-				<Path
-					Width="14"
-					Height="14"
-					Data="{StaticResource Icon_Translate}"
-					Fill="{StaticResource ThemeBackground}"
-					Stretch="Fill" />
-			</WrapPanel>
-		</controls:KbButton>
 		<Rectangle
 			Width="{Binding DownloadPercent, ConverterParameter=400, Converter={StaticResource PercentToLengthConverter}}" 
 			HorizontalAlignment="Left" Fill="#6FBBFE"></Rectangle>

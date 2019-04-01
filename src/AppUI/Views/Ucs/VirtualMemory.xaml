@@ -9,7 +9,7 @@
 		xmlns:vm="clr-namespace:NTMiner.Vms" Background="White"
 		DataContext="{x:Static vm:DriveSet.Current}"
 		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="360">
-	<Grid Margin="10 0">
+	<Grid Margin="20 0">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="30"></RowDefinition>
 			<RowDefinition Height="*"></RowDefinition>
@@ -37,7 +37,7 @@
 				</ItemsControl.ItemsPanel>
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
-						<StackPanel Margin="0 10" Orientation="Horizontal">
+						<StackPanel Margin="0 10 0 50" Orientation="Horizontal">
 							<Path 
 								VerticalAlignment="Top"
 								Margin="4 4 6 0" 
@@ -47,7 +47,7 @@
 								Stretch="Fill"
 								Visibility="{Binding IsSystemDisk, Converter={StaticResource BoolToHiddenConverter}}">
 							</Path>
-							<StackPanel>
+							<StackPanel Width="280">
 								<WrapPanel Margin="0" MouseDown="OpenDrive_MouseDown" Tag="{Binding}">
 									<StackPanel Width="250">
 										<WrapPanel>
@@ -98,7 +98,7 @@
 										<Button Command="{Binding Set}" CommandParameter="6">64G</Button>
 										<Button Command="{Binding Set}" CommandParameter="7">128G</Button>
 									</WrapPanel>
-									<TextBox Canvas.Left="252" Width="48" Background="White" Text="{Binding VirtualMemory.MaxSizeMb}"></TextBox>
+									<TextBox Canvas.Left="252" Width="48" BorderThickness="0" Background="White" Text="{Binding VirtualMemory.MaxSizeMb}"></TextBox>
 									<TextBlock Canvas.Left="300">Mb</TextBlock>
 								</Canvas>
 							</StackPanel>

@@ -30,22 +30,6 @@
             <WrapPanel>
                 <TextBlock Style="{StaticResource LblTb}" Text="机器名"></TextBlock>
                 <TextBlock Text="{Binding MachineName}"></TextBlock>
-                <controls:KbButton
-                    Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-                    ToolTip="{x:Static local:OuterProperty.ViewId}"
-                    Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-                    CommandParameter="{x:Static local:OuterProperty.ViewId}"
-                    Padding="8 0"
-                    Background="Transparent">
-                    <WrapPanel>
-                        <Path
-                            Width="14"
-                            Height="14"
-                            Data="{StaticResource Icon_Translate}"
-                            Fill="{StaticResource ThemeBackground}"
-                            Stretch="Fill" />
-                    </WrapPanel>
-                </controls:KbButton>
             </WrapPanel>
             <WrapPanel>
                 <TextBlock Style="{StaticResource LblTb}" Text="操作系统"></TextBlock>

@@ -30,23 +30,6 @@
 				<RowDefinition Height="26"></RowDefinition>
 				<RowDefinition Height="*"></RowDefinition>
 			</Grid.RowDefinitions>
-			<controls:KbButton
-				Margin="4 0 0 0"
-				HorizontalAlignment="Left"
-				Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-				ToolTip="{x:Static local:KernelOutputPage.ViewId}"
-				Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-				CommandParameter="{x:Static local:KernelOutputPage.ViewId}"
-				Background="Transparent">
-				<WrapPanel>
-					<Path
-						Width="14"
-						Height="14"
-						Data="{StaticResource Icon_Translate}"
-						Fill="{StaticResource ThemeBackground}"
-						Stretch="Fill" />
-				</WrapPanel>
-			</controls:KbButton>
 			<DataGrid 
 				Grid.Row="1" Margin="0" ItemsSource="{Binding KernelOutputVms.AllKernelOutputVms}" 
 				BorderThickness="0 0 1 0" BorderBrush="{StaticResource LineColor}"

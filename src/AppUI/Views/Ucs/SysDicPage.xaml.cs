@@ -4,7 +4,8 @@ using System.Windows.Controls;
 namespace NTMiner.Views.Ucs {
     public partial class SysDicPage : UserControl {
         public static void ShowWindow() {
-            ContainerWindow.ShowWindow("系统字典", new ContainerWindowViewModel {
+            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+                Title = "系统字典",
                 IconName = "Icon_SysDic",
                 CloseVisible = System.Windows.Visibility.Visible,
                 FooterVisible = System.Windows.Visibility.Collapsed,

@@ -27,23 +27,6 @@
 				<ColumnDefinition Width="Auto"></ColumnDefinition>
 			</Grid.ColumnDefinitions>
 			<TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="下载中"></TextBlock>
-			<controls:KbButton
-				HorizontalAlignment="Right"
-				Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-				ToolTip="{x:Static local:KernelDownloading.ViewId}"
-				Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-				CommandParameter="{x:Static local:KernelDownloading.ViewId}"
-				Padding="8 0"
-				Background="Transparent">
-				<WrapPanel>
-					<Path
-						Width="14"
-						Height="14"
-						Data="{StaticResource Icon_Translate}"
-						Fill="{StaticResource ThemeBackground}"
-						Stretch="Fill" />
-				</WrapPanel>
-			</controls:KbButton>
 			<controls:KbSystemButton
 				Grid.Column="1"
 				Click="BtnHide_Click"

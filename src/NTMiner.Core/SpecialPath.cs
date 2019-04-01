@@ -12,10 +12,6 @@ namespace NTMiner {
             GetFileAsync(ServerJsonFileUrl + "?t=" + DateTime.Now.Ticks, callback);
         }
 
-        public static void GetAliyunLangJson(Action<byte[]> callback) {
-            GetFileAsync(LangJsonFileUrl + "?t=" + DateTime.Now.Ticks, callback);
-        }
-
         #region GetFileAsync
         private static void GetFileAsync(string fileUrl, Action<byte[]> callback) {
             Task.Factory.StartNew(() => {

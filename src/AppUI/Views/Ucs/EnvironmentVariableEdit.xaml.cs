@@ -5,7 +5,8 @@ using System.Windows.Controls;
 namespace NTMiner.Views.Ucs {
     public partial class EnvironmentVariableEdit : UserControl {
         public static void ShowWindow(CoinKernelViewModel coinKernelVm, EnvironmentVariable environmentVariable) {
-            ContainerWindow.ShowWindow("环境变量", new ContainerWindowViewModel {
+            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+                Title = "环境变量",
                 IsDialogWindow = true,
                 CloseVisible = System.Windows.Visibility.Visible
             }, ucFactory: (window) =>

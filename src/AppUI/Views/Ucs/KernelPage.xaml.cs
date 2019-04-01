@@ -6,7 +6,8 @@ using System.Windows.Controls;
 namespace NTMiner.Views.Ucs {
     public partial class KernelPage : UserControl {
         public static void ShowWindow(Guid kernelId, Action<bool, string> downloadComplete = null) {
-            ContainerWindow.ShowWindow("内核", new ContainerWindowViewModel {
+            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+                Title = "内核",
                 IconName = "Icon_Logo",
                 CloseVisible = Visibility.Visible,
                 HeaderVisible = Visibility.Collapsed,

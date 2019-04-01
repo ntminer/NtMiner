@@ -4,7 +4,8 @@ using System.Windows.Controls;
 namespace NTMiner.Views.Ucs {
     public partial class OverClockDataEdit : UserControl {
         public static void ShowWindow(FormType formType, OverClockDataViewModel source) {
-            ContainerWindow.ShowWindow("超频菜谱", new ContainerWindowViewModel {
+            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+                Title = "超频菜谱",
                 FormType = formType,
                 IsDialogWindow = true,
                 CloseVisible = System.Windows.Visibility.Visible,

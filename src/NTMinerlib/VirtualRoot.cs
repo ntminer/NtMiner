@@ -1,15 +1,12 @@
 ﻿using NTMiner.Bus;
 using NTMiner.Bus.DirectBus;
-using NTMiner.Language;
 using NTMiner.Serialization;
 using System;
 using System.Diagnostics;
-using System.Linq;
 using System.Timers;
 
 namespace NTMiner {
     public static partial class VirtualRoot {
-        private static ILang _sLang = null;
         private static bool _sIsMinerStudio;
 
         public static string GlobalDirFullName { get; set; } = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "NTMiner");
@@ -18,23 +15,6 @@ namespace NTMiner {
             get => _sIsMinerStudio;
             set {
                 _sIsMinerStudio = value;
-            }
-        }
-
-        public static ILang Lang {
-            get {
-                if (_sLang == null) {
-                    string langCode = NTMinerRegistry.GetLanguage();
-                    _sLang = LangSet.Instance.GetLangByCode(langCode) ?? LangSet.Instance.First();
-                }
-                return _sLang;
-            }
-            set {
-                if (_sLang != value && value != null) {
-                    _sLang = LangSet.Instance.GetLangByCode(value.Code);
-                    NTMinerRegistry.SetLanguage(value.Code);
-                    Happened(new GlobalLangChangedEvent(value));
-                }
             }
         }
 

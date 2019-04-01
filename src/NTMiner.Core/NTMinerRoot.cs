@@ -60,11 +60,6 @@ namespace NTMiner {
                 }
 
                 string langJson = ClientId.ReadLocalLangJsonFile();
-                int initialCount = 2;
-                if (isWork) {
-                    initialCount = 1;
-                }
-                CountdownEvent countdown = new CountdownEvent(initialCount);
                 if (!isWork) {
                     SpecialPath.GetAliyunServerJson((data) => {
                         // 如果server.json未下载成功则不覆写本地server.json
@@ -74,25 +69,13 @@ namespace NTMiner {
                                 SpecialPath.WriteServerJsonFile(serverJson);
                             }
                         }
-                        countdown.Signal();
+                        Logger.InfoDebugLine("json下载完成");
+                        DoInit(isWork, callback);
                     });
                 }
-                SpecialPath.GetAliyunLangJson((data) => {
-                    langJson = Encoding.UTF8.GetString(data);
-                    countdown.Signal();
-                });
-                Task.Factory.StartNew(() => {
-                    if (countdown.Wait(30 * 1000)) {
-                        Logger.InfoDebugLine("json下载完成");
-                        Language.Impl.LangJson.Instance.Init(langJson);
-                        DoInit(isWork, callback);
-                    }
-                    else {
-                        Logger.InfoDebugLine("启动json下载超时");
-                        Language.Impl.LangJson.Instance.Init(langJson);
-                        DoInit(isWork, callback);
-                    }
-                });
+                else {
+                    DoInit(isWork, callback);
+                }
             });
         }
 

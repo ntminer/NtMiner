@@ -6,7 +6,8 @@ namespace NTMiner.Views.Ucs {
         public static string ViewId = nameof(CoinPage);
 
         public static void ShowWindow(CoinViewModel currentCoin) {
-            ContainerWindow.ShowWindow("币种", new ContainerWindowViewModel {
+            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+                Title = "币种",
                 IconName = "Icon_Coin",
                 CloseVisible = System.Windows.Visibility.Visible,
                 FooterVisible = System.Windows.Visibility.Collapsed,

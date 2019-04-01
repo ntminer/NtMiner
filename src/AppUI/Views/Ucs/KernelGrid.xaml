@@ -324,22 +324,6 @@
 				</ListBox.ItemTemplate>
 			</ListBox>
 			<WrapPanel Grid.Column="1" HorizontalAlignment="Right" Visibility="{Binding IsPageNumbersEmpty,Converter={StaticResource BoolToVisibilityInvertConverter}}">
-				<controls:KbButton
-					HorizontalAlignment="Left"
-					Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-					ToolTip="{x:Static local:KernelGrid.ViewId}"
-					Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-					CommandParameter="{x:Static local:KernelGrid.ViewId}"
-					Background="Transparent">
-					<WrapPanel>
-						<Path
-							Width="14"
-							Height="14"
-							Data="{StaticResource Icon_Translate}"
-							Fill="{StaticResource ThemeBackground}"
-							Stretch="Fill" />
-					</WrapPanel>
-				</controls:KbButton>
 				<Button x:Name="ButtonLeft" IsEnabled="{Binding CanPageSub}" Command="{Binding PageSub}">
 					<Button.Template>
 						<ControlTemplate>

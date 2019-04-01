@@ -19,6 +19,13 @@ namespace NTMiner.Vms {
         private double _height = 0;
         private Geometry _icon;
         private bool _isDialogWindow;
+        private ImageSource _iconImageSource = null;
+        private double _minHeight;
+        private double _minWidth;
+        private FormType _formType;
+        private string _footerText;
+        private bool _isTopMost;
+        private string _title;
 
         public Func<UserControl, bool> OnOk;
         public Action<UserControl> OnClose;
@@ -145,12 +152,6 @@ namespace NTMiner.Vms {
                 }
             }
         }
-        private ImageSource _iconImageSource = null;
-        private double _minHeight;
-        private double _minWidth;
-        private FormType _formType;
-        private string _footerText;
-        private bool _isTopMost;
 
         public ImageSource IconImageSource {
             get {
@@ -165,11 +166,10 @@ namespace NTMiner.Vms {
         }
 
         public string Title {
-            get {
-                if (this.UcResourceDic == null || !this.UcResourceDic.Contains("WindowTitle")) {
-                    return string.Empty;
-                }
-                return (string)this.UcResourceDic["WindowTitle"];
+            get => _title;
+            set {
+                _title = value;
+                OnPropertyChanged(nameof(Title));
             }
         }
 

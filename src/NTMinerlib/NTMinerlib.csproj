@@ -55,16 +55,6 @@
     <Compile Include="SignatureRequestExtension.cs" />
     <Compile Include="TimeSpanExtensions.cs" />
     <Compile Include="User\IUserSet.cs" />
-    <Compile Include="Language\ILang.cs" />
-    <Compile Include="Language\ILangViewItem.cs" />
-    <Compile Include="Language\Impl\Lang.cs" />
-    <Compile Include="Language\Impl\LangViewItem.cs" />
-    <Compile Include="Language\Impl\LangJson.cs" />
-    <Compile Include="Language\Impl\ReadOnlyLanguageRepository`1.cs" />
-    <Compile Include="Language\LangViewItemSet.cs" />
-    <Compile Include="Language\LangSet.cs" />
-    <Compile Include="Language\Messages.cs" />
-    <Compile Include="Language\Repository.cs" />
     <Compile Include="NTMinerRegistry.cs" />
     <Compile Include="Repositories\IReadOnlyRepository.cs" />
     <Compile Include="SortNumberComparer.cs" />

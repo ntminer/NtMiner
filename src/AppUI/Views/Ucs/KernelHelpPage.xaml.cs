@@ -6,7 +6,8 @@ namespace NTMiner.Views.Ucs {
         public static string ViewId = nameof(KernelHelpPage);
 
         public static void ShowWindow(string title, string helpText) {
-            ContainerWindow.ShowWindow("内核帮助", new ContainerWindowViewModel {
+            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+                Title = "内核帮助",
                 IconName = "Icon_Help",
                 Width = 700,
                 Height = 500,

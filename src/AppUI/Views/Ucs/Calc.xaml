@@ -18,23 +18,6 @@
 			<RowDefinition Height="Auto"></RowDefinition>
 			<RowDefinition Height="*"></RowDefinition>
 		</Grid.RowDefinitions>
-		<controls:KbButton
-			Margin="2 0"
-			HorizontalAlignment="Right"
-			Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-			ToolTip="{x:Static local:Calc.ViewId}"
-			Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-			CommandParameter="{x:Static local:Calc.ViewId}"
-			Background="Transparent">
-			<WrapPanel>
-				<Path
-					Width="14"
-					Height="14"
-					Data="{StaticResource Icon_Translate}"
-					Fill="{StaticResource ThemeBackground}"
-					Stretch="Fill" />
-			</WrapPanel>
-		</controls:KbButton>
 		<ListBox 
 			Background="Transparent"
 			ItemsSource="{Binding CoinVms.AllCoins}"

@@ -61,22 +61,6 @@
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
 					</controls:KbButton>
-					<controls:KbButton
-						Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-						ToolTip="{x:Static local:CoinPage.ViewId}"
-						Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-						CommandParameter="{x:Static local:CoinPage.ViewId}"
-						Padding="8 0"
-						Background="Transparent">
-						<WrapPanel>
-							<Path
-								Width="14"
-								Height="14"
-								Data="{StaticResource Icon_Translate}"
-								Fill="{StaticResource ThemeForeground}"
-								Stretch="Fill" />
-						</WrapPanel>
-					</controls:KbButton>
 				</WrapPanel>
 			</WrapPanel>
 			<DataGrid 

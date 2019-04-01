@@ -6,7 +6,8 @@ namespace NTMiner.Views.Ucs {
         public static string ViewId = nameof(AboutPage);
 
         public static void ShowWindow(string appType) {
-            ContainerWindow.ShowWindow("关于", new ContainerWindowViewModel {
+            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+                Title = "关于",
                 IconName = "Icon_About",
                 CloseVisible = System.Windows.Visibility.Visible,
                 FooterVisible = System.Windows.Visibility.Collapsed

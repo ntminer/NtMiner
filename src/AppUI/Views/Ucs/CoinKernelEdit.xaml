@@ -27,23 +27,6 @@
 			<WrapPanel Width="180" VerticalAlignment="Center">
 				<TextBlock Text="{Binding CoinCode}">
 				</TextBlock>
-				<controls:KbButton
-					Margin="2 0"
-					HorizontalAlignment="Right"
-					Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-					ToolTip="{x:Static local:CoinKernelEdit.ViewId}"
-					Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-					CommandParameter="{x:Static local:CoinKernelEdit.ViewId}"
-					Background="Transparent">
-					<WrapPanel>
-						<Path
-							Width="14"
-							Height="14"
-							Data="{StaticResource Icon_Translate}"
-							Fill="{StaticResource ThemeBackground}"
-							Stretch="Fill" />
-					</WrapPanel>
-				</controls:KbButton>
 			</WrapPanel>
 			<TextBlock Style="{StaticResource LblTb}" Text="内核"></TextBlock>
 			<TextBlock VerticalAlignment="Center"

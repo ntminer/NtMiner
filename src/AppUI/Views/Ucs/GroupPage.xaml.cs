@@ -6,7 +6,8 @@ namespace NTMiner.Views.Ucs {
         public static string ViewId = nameof(GroupPage);
 
         public static void ShowWindow() {
-            ContainerWindow.ShowWindow("组", new ContainerWindowViewModel {
+            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+                Title = "组",
                 IconName = "Icon_Group",
                 CloseVisible = System.Windows.Visibility.Visible,
                 FooterVisible = System.Windows.Visibility.Collapsed,

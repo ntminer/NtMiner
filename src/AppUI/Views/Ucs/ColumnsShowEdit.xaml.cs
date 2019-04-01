@@ -4,7 +4,8 @@ using System.Windows.Controls;
 namespace NTMiner.Views.Ucs {
     public partial class ColumnsShowEdit : UserControl {
         public static void ShowWindow(FormType formType, ColumnsShowViewModel source) {
-            ContainerWindow.ShowWindow("列显", new ContainerWindowViewModel {
+            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+                Title = "列显",
                 FormType = formType,
                 IsDialogWindow = true,
                 CloseVisible = System.Windows.Visibility.Visible,

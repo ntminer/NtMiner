@@ -71,23 +71,5 @@
 				<TextBlock>NTMiner.com. All Rights Reserved.</TextBlock>
 			</WrapPanel>
 		</StackPanel>
-		<controls:KbButton
-			Grid.Row="2"
-			HorizontalAlignment="Right"
-			Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-			ToolTip="{x:Static local:AboutPage.ViewId}"
-			Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-			CommandParameter="{x:Static local:AboutPage.ViewId}"
-			Padding="8 0"
-			Background="Transparent">
-			<WrapPanel>
-				<Path
-					Width="14"
-					Height="14"
-					Data="{StaticResource Icon_Translate}"
-					Fill="{StaticResource ThemeBackground}"
-					Stretch="Fill" />
-			</WrapPanel>
-		</controls:KbButton>
 	</Grid>
 </UserControl>

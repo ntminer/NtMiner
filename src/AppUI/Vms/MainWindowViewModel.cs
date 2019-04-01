@@ -50,8 +50,7 @@ namespace NTMiner.Vms {
                 if (NTMinerRoot.KernelBrandId == Guid.Empty) {
                     return string.Empty;
                 }
-                ISysDicItem dicItem;
-                if (NTMinerRoot.Current.SysDicItemSet.TryGetDicItem(NTMinerRoot.KernelBrandId, out dicItem)) {
+                if (NTMinerRoot.Current.SysDicItemSet.TryGetDicItem(NTMinerRoot.KernelBrandId, out ISysDicItem dicItem)) {
                     if (!string.IsNullOrEmpty(dicItem.Value)) {
                         return dicItem.Value + "专版";
                     }
@@ -88,12 +87,6 @@ namespace NTMiner.Vms {
                     _isBtnRunAsAdministratorVisible = value;
                     OnPropertyChanged(nameof(IsBtnRunAsAdministratorVisible));
                 }
-            }
-        }
-
-        public LangViewModels LangVms {
-            get {
-                return LangViewModels.Current;
             }
         }
 

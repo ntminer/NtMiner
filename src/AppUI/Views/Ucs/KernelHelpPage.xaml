@@ -16,23 +16,5 @@
 			Background="White" FontSize="14" 
 			Padding="4" VerticalScrollBarVisibility="Auto">
 		</TextBox>
-		<controls:KbButton
-			Margin="0 4 20 0"
-			VerticalAlignment="Top"
-			HorizontalAlignment="Right"
-			Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-			ToolTip="{x:Static local:KernelHelpPage.ViewId}"
-			Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-			CommandParameter="{x:Static local:KernelHelpPage.ViewId}"
-			Background="Transparent">
-			<WrapPanel>
-				<Path
-					Width="14"
-					Height="14"
-					Data="{StaticResource Icon_Translate}"
-					Fill="{StaticResource ThemeBackground}"
-					Stretch="Fill" />
-			</WrapPanel>
-		</controls:KbButton>
 	</Grid>
 </UserControl>

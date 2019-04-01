@@ -44,17 +44,6 @@
 		</WrapPanel>
 
 		<WrapPanel>
-			<TextBlock Style="{StaticResource LblTb}" Text="CurrentLangVm"></TextBlock>
-			<controls:KbComboBox 
-				Width="100"
-				Height="26"
-				HorizontalAlignment="Left"
-				ItemsSource="{Binding LangVms.LangVms}"
-				DisplayMemberPath="Name" SelectedItem="{Binding LangVms.CurrentLangVm}">
-			</controls:KbComboBox>
-		</WrapPanel>
-
-		<WrapPanel>
 			<TextBlock Style="{StaticResource LblTb}" Text="GlobalDir"></TextBlock>
 			<TextBlock Text="{Binding GlobalDir}"></TextBlock>
 		</WrapPanel>

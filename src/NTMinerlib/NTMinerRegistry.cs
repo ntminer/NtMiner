@@ -213,27 +213,6 @@ namespace NTMiner {
         }
         #endregion
 
-        #region Language
-        public static string GetLanguage() {
-            string langCode = string.Empty;
-            object languageValue = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, "Language");
-            if (languageValue == null) {
-                // 如果本机语言是中文则默认是中文
-                if (System.Globalization.CultureInfo.InstalledUICulture.Name == "zh-CN") {
-                    langCode = "zh-CN";
-                }
-            }
-            else {
-                langCode = (string)languageValue;
-            }
-            return langCode;
-        }
-
-        public static void SetLanguage(string langCode) {
-            Windows.Registry.SetValue(Registry.Users, NTMinerRegistrySubKey, "Language", langCode);
-        }
-        #endregion
-
         #region GetClientId
         public static Guid GetClientId() {
             Guid id;

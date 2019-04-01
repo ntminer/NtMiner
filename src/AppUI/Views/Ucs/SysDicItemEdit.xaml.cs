@@ -4,7 +4,8 @@ using System.Windows.Controls;
 namespace NTMiner.Views.Ucs {
     public partial class SysDicItemEdit : UserControl {
         public static void ShowWindow(FormType formType, SysDicItemViewModel source) {
-            ContainerWindow.ShowWindow("系统字典项", new ContainerWindowViewModel {
+            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+                Title = "系统字典项",
                 FormType = formType,
                 IsDialogWindow = true,
                 CloseVisible = System.Windows.Visibility.Visible,

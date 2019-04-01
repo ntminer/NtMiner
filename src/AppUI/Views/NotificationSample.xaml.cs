@@ -8,8 +8,9 @@ using System.Windows.Media;
 namespace NTMiner.Views {
     public partial class NotificationSample : UserControl {
         public static void ShowWindow() {
-            ContainerWindow.ShowWindow("通知示例",
+            ContainerWindow.ShowWindow(
                 new ContainerWindowViewModel {
+                    Title = "通知示例",
                     Width = 800,
                     Height = 500,
                     CloseVisible = Visibility.Visible

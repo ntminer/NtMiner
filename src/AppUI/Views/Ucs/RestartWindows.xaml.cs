@@ -5,16 +5,18 @@ using System.Windows.Controls;
 namespace NTMiner.Views.Ucs {
     public partial class RestartWindows : UserControl {
         public static void ShowDialog() {
-            ContainerWindow.ShowWindow("重启电脑", new ContainerWindowViewModel {
+            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+                Title = "重启电脑",
                 Width = 400,
                 Height = 200,
                 IsDialogWindow = true,
                 CloseVisible = System.Windows.Visibility.Collapsed,
                 IconName = "Icon_Restart"
             }, ucFactory: (window) => {
-                RestartWindows uc = new RestartWindows();
-                uc.CloseWindow = () => {
-                    window.Close();
+                RestartWindows uc = new RestartWindows {
+                    CloseWindow = () => {
+                        window.Close();
+                    }
                 };
                 return uc;
             }, fixedSize: true);

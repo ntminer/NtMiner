@@ -4,7 +4,8 @@ using System.Windows.Controls;
 namespace NTMiner.Views.Ucs {
     public partial class ControlCenterHostConfig : UserControl {
         public static void ShowWindow() {
-            ContainerWindow.ShowWindow("群控服务器", new ContainerWindowViewModel {
+            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+                Title = "群控服务器",
                 IsDialogWindow = true,
                 IconName = "Icon_Server",
                 CloseVisible = System.Windows.Visibility.Visible

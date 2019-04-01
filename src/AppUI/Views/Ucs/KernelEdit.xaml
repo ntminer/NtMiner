@@ -388,23 +388,5 @@
 			</TabItem>
 			<!--end支持币种-->
 		</TabControl>
-		<controls:KbButton
-			Margin="4"
-			VerticalAlignment="Top"
-			HorizontalAlignment="Right"
-			Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-			ToolTip="{x:Static local:KernelEdit.ViewId}"
-			Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-			CommandParameter="{x:Static local:KernelEdit.ViewId}"
-			Background="Transparent">
-			<WrapPanel>
-				<Path
-					Width="14"
-					Height="14"
-					Data="{StaticResource Icon_Translate}"
-					Fill="{StaticResource ThemeBackground}"
-					Stretch="Fill" />
-			</WrapPanel>
-		</controls:KbButton>
 	</Grid>
 </UserControl>
