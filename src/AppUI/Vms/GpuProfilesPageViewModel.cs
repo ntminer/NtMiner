@@ -59,7 +59,7 @@ namespace NTMiner.Vms {
             Client.NTMinerDaemonService.GetGpuProfilesJsonAsync(_minerClientVm.MinerIp, (data, e) => {
                 _data = data;
                 if (e != null) {
-                    Write.UserLine(e.Message, System.ConsoleColor.Red);
+                    Write.UserError(e.Message);
                 }
                 else if (data != null) {
                     string iconName;

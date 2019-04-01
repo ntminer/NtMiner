@@ -76,7 +76,7 @@ namespace NTMiner {
                     string disconnectedText = $"{formText}远程桌面连接已断开！";
                     axMsRdp.DisconnectedText = disconnectedText;
                     axMsRdp.FindForm().Close();
-                    Write.UserLine(disconnectedText, ConsoleColor.Red);
+                    Write.UserFail(disconnectedText);
                     onDisconnected?.Invoke(disconnectedText);
                 };
 

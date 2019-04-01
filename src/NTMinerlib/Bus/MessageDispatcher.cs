@@ -23,11 +23,11 @@ namespace NTMiner.Bus {
                     switch (tMessageHandler.HandlerId.LogType) {
                         case LogEnum.DevConsole:
                             if (DevMode.IsDevMode) {
-                                Write.DevLine($"({messageType.Name})->({tMessageHandler.HandlerId.Location.Name}){tMessageHandler.HandlerId.Description}");
+                                Write.DevInfo($"({messageType.Name})->({tMessageHandler.HandlerId.Location.Name}){tMessageHandler.HandlerId.Description}");
                             }
                             break;
                         case LogEnum.UserConsole:
-                            Write.UserLine($"({messageType.Name})->({tMessageHandler.HandlerId.Location.Name}){tMessageHandler.HandlerId.Description}", ConsoleColor.Gray);
+                            Write.UserInfo($"({messageType.Name})->({tMessageHandler.HandlerId.Location.Name}){tMessageHandler.HandlerId.Description}");
                             break;
                         case LogEnum.Log:
                             Logger.InfoDebugLine($"({messageType.Name})->({tMessageHandler.HandlerId.Location.Name}){tMessageHandler.HandlerId.Description}");
@@ -40,7 +40,7 @@ namespace NTMiner.Bus {
                 }
             }
             else if (!messageTypeDescription.IsCanNoHandler) {
-                Write.DevLine(messageType.FullName + "类型的消息没有对应的处理器", ConsoleColor.Red);
+                Write.DevWarn(messageType.FullName + "类型的消息没有对应的处理器");
             }
         }
 
@@ -56,7 +56,7 @@ namespace NTMiner.Bus {
                     _paths.Add(handlerId.HandlerPath);
                 }
                 else {
-                    Write.DevLine($"重复的路径:{handlerId.HandlerPath}", ConsoleColor.Red);
+                    Write.DevWarn($"重复的路径:{handlerId.HandlerPath}");
                 }
                 if (_handlers.ContainsKey(keyType)) {
                     var registeredHandlers = _handlers[keyType];

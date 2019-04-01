@@ -45,6 +45,7 @@
     <Compile Include="Logging\ILoggingService.cs" />
     <Compile Include="Logging\Log4NetLoggingService.cs" />
     <Compile Include="Logging\LogDir.cs" />
+    <Compile Include="MessageType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Write.cs" />
   </ItemGroup>

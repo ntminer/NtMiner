@@ -30,18 +30,18 @@ namespace NTMiner {
                 if (request.LoginName == "admin") {
                     message = "第一次使用，请先设置密码";
                 }
-                Write.DevLine($"{request.LoginName} {message}");
+                Write.DevInfo($"{request.LoginName} {message}");
                 response = ResponseBase.NotExist<TResponse>(message);
                 return false;
             }
             if (!request.Timestamp.IsInTime()) {
-                Write.DevLine($"过期的请求 {request.Timestamp}");
+                Write.DevInfo($"过期的请求 {request.Timestamp}");
                 response = ResponseBase.Expired<TResponse>();
                 return false;
             }
             if (request.Sign != request.GetSign(user.Password)) {
                 string message = "用户名或密码错误";
-                Write.DevLine($"{request.LoginName} {message}");
+                Write.DevInfo($"{request.LoginName} {message}");
                 response = ResponseBase.Forbidden<TResponse>(message);
                 return false;
             }

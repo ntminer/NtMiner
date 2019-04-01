@@ -29,7 +29,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                             VirtualRoot.Happened(new OverClockDataAddedEvent(entity));
                         }
                         else {
-                            Write.UserLine(response.ReadMessage(e), ConsoleColor.Red);
+                            Write.UserFail(response.ReadMessage(e));
                         }
                     });
                 });
@@ -52,7 +52,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                         if (!response.IsSuccess()) {
                             entity.Update(oldValue);
                             VirtualRoot.Happened(new OverClockDataUpdatedEvent(entity));
-                            Write.UserLine(response.ReadMessage(e), ConsoleColor.Red);
+                            Write.UserFail(response.ReadMessage(e));
                         }
                     });
                     VirtualRoot.Happened(new OverClockDataUpdatedEvent(entity));
@@ -73,7 +73,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                             VirtualRoot.Happened(new OverClockDataRemovedEvent(entity));
                         }
                         else {
-                            Write.UserLine(response.ReadMessage(e), ConsoleColor.Red);
+                            Write.UserFail(response.ReadMessage(e));
                         }
                     });
                 });

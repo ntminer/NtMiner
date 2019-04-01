@@ -235,7 +235,7 @@ namespace NTMiner {
                     lpProcessInformation: out _)) {
                     if (bret == false) {
                         int lasterr = Marshal.GetLastWin32Error();
-                        Write.UserLine($"管道型进程创建失败 lasterr:{lasterr}", ConsoleColor.Red);
+                        Write.UserFail($"管道型进程创建失败 lasterr:{lasterr}");
                     }
                     else {
                         Bus.DelegateHandler<MineStopedEvent> closeHandle = null;

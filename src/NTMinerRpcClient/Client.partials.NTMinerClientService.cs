@@ -153,7 +153,7 @@ namespace NTMiner {
                         using (HttpClient client = new HttpClient()) {
                             client.Timeout = TimeSpan.FromMilliseconds(3000);
                             Task<HttpResponseMessage> message = client.PostAsync($"http://localhost:{WebApiConst.MinerClientPort}/api/{s_controllerName}/{nameof(IMinerClientController.RefreshAutoBootStart)}", null);
-                            Write.DevLine(message.Result.ReasonPhrase);
+                            Write.DevInfo(message.Result.ReasonPhrase);
                         }
                     }
                     catch (Exception e) {
@@ -168,7 +168,7 @@ namespace NTMiner {
                         using (HttpClient client = new HttpClient()) {
                             client.Timeout = TimeSpan.FromMilliseconds(3000);
                             Task<HttpResponseMessage> message = client.PostAsync($"http://localhost:{WebApiConst.MinerClientPort}/api/{s_controllerName}/{nameof(IMinerClientController.OverClock)}", null);
-                            Write.DevLine(message.Result.ReasonPhrase);
+                            Write.DevInfo(message.Result.ReasonPhrase);
                         }
                     }
                     catch (Exception e) {

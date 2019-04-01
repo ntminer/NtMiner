@@ -91,7 +91,7 @@ namespace NTMiner.Core.Profiles {
                 }
                 _coinKernelProfileSet.SetCoinKernelProfileProperty(coinKernelId, propertyName, value);
             }
-            Write.DevLine($"SetCoinKernelProfileProperty({coinCode}, {kernelName}, {propertyName}, {value})");
+            Write.DevInfo($"SetCoinKernelProfileProperty({coinCode}, {kernelName}, {propertyName}, {value})");
         }
 
         public ICoinProfile GetCoinProfile(Guid coinId) {
@@ -104,7 +104,7 @@ namespace NTMiner.Core.Profiles {
                 _coinProfileSet.SetCoinProfileProperty(coinId, propertyName, value);
                 coinCode = coin.Code;
             }
-            Write.DevLine($"SetCoinProfileProperty({coinCode}, {propertyName}, {value})");
+            Write.DevInfo($"SetCoinProfileProperty({coinCode}, {propertyName}, {value})");
         }
 
         public IPoolProfile GetPoolProfile(Guid poolId) {
@@ -116,12 +116,12 @@ namespace NTMiner.Core.Profiles {
             if (_root.PoolSet.TryGetPool(poolId, out IPool pool)) {
                 poolName = pool.Name;
                 if (!pool.IsUserMode) {
-                    Write.DevLine("不是用户名密码模式矿池", ConsoleColor.Green);
+                    Write.DevError("不是用户名密码模式矿池");
                     return;
                 }
                 _poolProfileSet.SetPoolProfileProperty(poolId, propertyName, value);
             }
-            Write.DevLine($"SetPoolProfileProperty({poolName}, {propertyName}, {value})");
+            Write.DevInfo($"SetPoolProfileProperty({poolName}, {propertyName}, {value})");
         }
 
         public bool TryGetWallet(Guid walletId, out IWallet wallet) {
@@ -269,7 +269,7 @@ namespace NTMiner.Core.Profiles {
                         IRepository<MinerProfileData> repository = NTMinerRoot.CreateLocalRepository<MinerProfileData>(isUseJson);
                         repository.Update(_data);
                         VirtualRoot.Happened(new MinerProfilePropertyChangedEvent(propertyName));
-                        Write.DevLine($"SetMinerProfileProperty({propertyName}, {value})");
+                        Write.DevInfo($"SetMinerProfileProperty({propertyName}, {value})");
                     }
                 }
             }

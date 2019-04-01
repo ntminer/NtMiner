@@ -61,7 +61,7 @@ namespace NTMiner.Data.Impl {
                     DateTime now = DateTime.Now;
                     if (_getSpeedOn.AddSeconds(10) <= now) {
                         if (HostRoot.Current.HostConfig.IsPull) {
-                            Write.DevLine("周期拉取数据更新拍照源数据");
+                            Write.DevInfo("周期拉取数据更新拍照源数据");
                             Task.Factory.StartNew(() => {
                                 ClientData[] clientDatas = _dicByObjectId.Values.ToArray();
                                 Task[] tasks = clientDatas.Select(CreatePullTask).ToArray();

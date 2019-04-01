@@ -25,7 +25,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                                 VirtualRoot.Happened(new UserAddedEvent(entity));
                             }
                             else {
-                                Write.UserLine(response.ReadMessage(exception), ConsoleColor.Red);
+                                Write.UserFail(response.ReadMessage(exception));
                             }
                         });
                     }
@@ -45,7 +45,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                             if (!response.IsSuccess()) {
                                 entity.Update(oldValue);
                                 VirtualRoot.Happened(new UserUpdatedEvent(entity));
-                                Write.UserLine(response.ReadMessage(exception), ConsoleColor.Red);
+                                Write.UserFail(response.ReadMessage(exception));
                             }
                         });
                         VirtualRoot.Happened(new UserUpdatedEvent(entity));
@@ -61,7 +61,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                                 VirtualRoot.Happened(new UserRemovedEvent(entity));
                             }
                             else {
-                                Write.UserLine(response.ReadMessage(exception), ConsoleColor.Red);
+                                Write.UserFail(response.ReadMessage(exception));
                             }
                         });
                     }

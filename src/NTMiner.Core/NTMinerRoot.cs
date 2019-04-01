@@ -164,7 +164,7 @@ namespace NTMiner {
                     OfficialServer.GetJsonFileVersionAsync(AssemblyInfo.ServerJsonFileName, (jsonFileVersion) => {
                         if (!string.IsNullOrEmpty(jsonFileVersion) && JsonFileVersion != jsonFileVersion) {
                             SpecialPath.GetAliyunServerJson((data) => {
-                                Write.DevLine($"有新版本{JsonFileVersion}->{jsonFileVersion}");
+                                Write.DevInfo($"有新版本{JsonFileVersion}->{jsonFileVersion}");
                                 string rawJson = Encoding.UTF8.GetString(data);
                                 SpecialPath.WriteServerJsonFile(rawJson);
                                 ReInitServerJson();
@@ -175,13 +175,13 @@ namespace NTMiner {
                                     Logger.InfoDebugLine("刷新完成");
                                 }
                                 else {
-                                    Write.DevLine("不是使用的json，无需刷新");
+                                    Write.DevInfo("不是使用的json，无需刷新");
                                 }
                                 JsonFileVersion = jsonFileVersion;
                             });
                         }
                         else {
-                            Write.DevLine("server.json没有新版本", ConsoleColor.Green);
+                            Write.DevInfo("server.json没有新版本");
                         }
                     });
                 });
@@ -453,28 +453,28 @@ namespace NTMiner {
             try {
                 IWorkProfile minerProfile = this.MinerProfile;
                 if (!this.CoinSet.TryGetCoin(minerProfile.CoinId, out ICoin mainCoin)) {
-                    Write.UserLine("没有选择主挖币种。", ConsoleColor.Red);
+                    Write.UserFail("没有选择主挖币种。");
                     return;
                 }
                 ICoinProfile coinProfile = minerProfile.GetCoinProfile(minerProfile.CoinId);
                 if (!this.PoolSet.TryGetPool(coinProfile.PoolId, out IPool mainCoinPool)) {
-                    Write.UserLine("没有选择主币矿池。", ConsoleColor.Red);
+                    Write.UserFail("没有选择主币矿池。");
                     return;
                 }
                 if (!this.CoinKernelSet.TryGetCoinKernel(coinProfile.CoinKernelId, out ICoinKernel coinKernel)) {
-                    Write.UserLine("没有选择挖矿内核。", ConsoleColor.Red);
+                    Write.UserFail("没有选择挖矿内核。");
                     return;
                 }
                 if (!this.KernelSet.TryGetKernel(coinKernel.KernelId, out IKernel kernel)) {
-                    Write.UserLine("无效的挖矿内核。", ConsoleColor.Red);
+                    Write.UserFail("无效的挖矿内核。");
                     return;
                 }
                 if (!kernel.IsSupported(mainCoin)) {
-                    Write.UserLine($"该内核不支持{GpuSet.GpuType.GetDescription()}卡。", ConsoleColor.Red);
+                    Write.UserFail($"该内核不支持{GpuSet.GpuType.GetDescription()}卡。");
                     return;
                 }
                 if (!this.KernelInputSet.TryGetKernelInput(kernel.KernelInputId, out IKernelInput kernelInput)) {
-                    Write.UserLine("未设置内核输入", ConsoleColor.Red);
+                    Write.UserFail("未设置内核输入");
                     return;
                 }
                 if (string.IsNullOrEmpty(coinProfile.Wallet)) {
@@ -484,12 +484,12 @@ namespace NTMiner {
                     IPoolProfile poolProfile = minerProfile.GetPoolProfile(mainCoinPool.GetId());
                     string userName = poolProfile.UserName;
                     if (string.IsNullOrEmpty(userName)) {
-                        Write.UserLine("没有填写矿池用户名。", ConsoleColor.Red);
+                        Write.UserFail("没有填写矿池用户名。");
                         return;
                     }
                 }
                 if (string.IsNullOrEmpty(coinProfile.Wallet) && !mainCoinPool.IsUserMode) {
-                    Write.UserLine("没有填写钱包地址。", ConsoleColor.Red);
+                    Write.UserFail("没有填写钱包地址。");
                     return;
                 }
                 ICoinKernelProfile coinKernelProfile = minerProfile.GetCoinKernelProfile(coinKernel.GetId());
@@ -497,19 +497,19 @@ namespace NTMiner {
                 IPool dualCoinPool = null;
                 if (coinKernelProfile.IsDualCoinEnabled) {
                     if (!this.CoinSet.TryGetCoin(coinKernelProfile.DualCoinId, out dualCoin)) {
-                        Write.UserLine("没有选择双挖币种。", ConsoleColor.Red);
+                        Write.UserFail("没有选择双挖币种。");
                         return;
                     }
                     coinProfile = minerProfile.GetCoinProfile(coinKernelProfile.DualCoinId);
                     if (!this.PoolSet.TryGetPool(coinProfile.DualCoinPoolId, out dualCoinPool)) {
-                        Write.UserLine("没有选择双挖矿池。", ConsoleColor.Red);
+                        Write.UserFail("没有选择双挖矿池。");
                         return;
                     }
                     if (string.IsNullOrEmpty(coinProfile.DualCoinWallet)) {
                         MinerProfile.SetCoinProfileProperty(dualCoin.GetId(), nameof(coinProfile.DualCoinWallet), dualCoin.TestWallet);
                     }
                     if (string.IsNullOrEmpty(coinProfile.DualCoinWallet)) {
-                        Write.UserLine("没有填写双挖钱包。", ConsoleColor.Red);
+                        Write.UserFail("没有填写双挖钱包。");
                         return;
                     }
                 }
@@ -517,12 +517,12 @@ namespace NTMiner {
                     this.StopMine();
                 }
                 if (string.IsNullOrEmpty(kernel.Package)) {
-                    Write.UserLine(kernel.GetFullName() + "没有内核包", ConsoleColor.Red);
+                    Write.UserFail(kernel.GetFullName() + "没有内核包");
                     this.StopMine();
                     return;
                 }
                 if (string.IsNullOrEmpty(kernelInput.Args)) {
-                    Write.UserLine(kernel.GetFullName() + "没有配置运行参数", ConsoleColor.Red);
+                    Write.UserFail(kernel.GetFullName() + "没有配置运行参数");
                     return;
                 }
                 string packageZipFileFullName = Path.Combine(SpecialPath.PackagesDirFullName, kernel.Package);

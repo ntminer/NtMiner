@@ -52,7 +52,7 @@ namespace NTMiner.Controllers {
                     return response;
                 }
                 VirtualRoot.Execute(new ChangeAppSettingCommand(request.Data));
-                Write.DevLine($"{request.Data.Key} {request.Data.Value}");
+                Write.DevInfo($"{request.Data.Key} {request.Data.Value}");
                 return ResponseBase.Ok();
             }
             catch (Exception e) {
@@ -72,7 +72,7 @@ namespace NTMiner.Controllers {
                 }
                 foreach (var item in request.Data) {
                     VirtualRoot.Execute(new ChangeAppSettingCommand(item));
-                    Write.DevLine($"{item.Key} {item.Value}");
+                    Write.DevInfo($"{item.Key} {item.Value}");
                 }
                 return ResponseBase.Ok();
             }

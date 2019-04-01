@@ -71,7 +71,7 @@ namespace NTMiner.Vms {
                     this.Edit.Execute(FormType.Edit);
                 }
                 if (isMinerProfileChanged) {
-                    Write.DevLine("检测到MinerProfile状态变更");
+                    Write.DevInfo("检测到MinerProfile状态变更");
                     string localJson;
                     string serverJson;
                     NTMinerRoot.ExportWorkJson(new MineWorkData(this), out localJson, out serverJson);
