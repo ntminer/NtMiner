@@ -10,6 +10,10 @@ namespace NTMiner.Core.Gpus.Impl {
             // noting need todo
         }
 
+        public void SetThermCapacity(IGpuProfile data) {
+            // noting need todo
+        }
+
         public void SetCoreClock(IGpuProfile data) {
             // noting need todo
         }

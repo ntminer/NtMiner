@@ -21,6 +21,14 @@ namespace NTMiner.Core.Gpus.Impl {
             // 暂不支持A卡超频
         }
 
+        public void SetThermCapacity(IGpuProfile data) {
+            int value = data.ThermCapacity;
+            if (value == 0) {
+                return;
+            }
+            // 暂不支持A卡超频
+        }
+
         public void SetCool(IGpuProfile data) {
             int value = data.Cool;
             if (value == 0) {
@@ -30,7 +38,7 @@ namespace NTMiner.Core.Gpus.Impl {
         }
 
         public void RefreshGpuState(int gpuIndex) {
-            
+            // 暂不支持A卡超频
         }
     }
 }

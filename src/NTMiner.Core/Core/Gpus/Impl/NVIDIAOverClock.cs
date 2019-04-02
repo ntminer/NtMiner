@@ -56,6 +56,24 @@ namespace NTMiner.Core.Gpus.Impl {
             }
         }
 
+        public void SetThermCapacity(IGpuProfile data) {
+            int value = data.ThermCapacity;
+            if (value == 0) {
+                return;
+            }
+            if (data.Index == NTMinerRoot.GpuAllId) {
+                foreach (var gpu in NTMinerRoot.Current.GpuSet) {
+                    if (gpu.Index == NTMinerRoot.GpuAllId) {
+                        continue;
+                    }
+                    Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{gpu.Index} tcap:{value}");
+                }
+            }
+            else {
+                Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{data.Index} tcap:{value}");
+            }
+        }
+
         public void SetCool(IGpuProfile data) {
             int value = data.Cool;
             if (value == 0) {
