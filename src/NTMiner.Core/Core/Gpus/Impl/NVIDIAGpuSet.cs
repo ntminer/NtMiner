@@ -10,15 +10,7 @@ namespace NTMiner.Core.Gpus.Impl {
     internal class NVIDIAGpuSet : IGpuSet {
         private readonly Dictionary<int, IGpu> _gpus = new Dictionary<int, IGpu>() {
             {
-                NTMinerRoot.GpuAllId, new Gpu{
-                    Index = NTMinerRoot.GpuAllId,
-                    Name = "全部显卡",
-                    Temperature = 0,
-                    FanSpeed = 0,
-                    PowerUsage = 0,
-                    CoreClockDelta = 0,
-                    MemoryClockDelta = 0
-                }
+                NTMinerRoot.GpuAllId, Gpu.GpuAll
             }
         };
 
@@ -54,13 +46,7 @@ namespace NTMiner.Core.Gpus.Impl {
                     if (!string.IsNullOrEmpty(name)) {
                         name = name.Replace("GeForce ", string.Empty);
                     }
-                    Gpu gpu = new Gpu {
-                        Index = i,
-                        Name = name,
-                        Temperature = 0,
-                        PowerUsage = 0,
-                        FanSpeed = 0
-                    };
+                    Gpu gpu = Gpu.Create(i, name);
                     _gpus.Add(i, gpu);
                 }
                 if (deviceCount > 0) {

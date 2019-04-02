@@ -1,5 +1,4 @@
 ﻿using NTMiner.Core.Gpus.Adl;
-using NTMiner.MinerClient;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,15 +10,7 @@ namespace NTMiner.Core.Gpus.Impl {
     internal class AMDGpuSet : IGpuSet {
         private readonly Dictionary<int, IGpu> _gpus = new Dictionary<int, IGpu>() {
             {
-                NTMinerRoot.GpuAllId, new Gpu{
-                    Index = NTMinerRoot.GpuAllId,
-                    Name = "全部显卡",
-                    Temperature = 0,
-                    FanSpeed = 0,
-                    PowerUsage = 0,
-                    CoreClockDelta = 0,
-                    MemoryClockDelta = 0
-                }
+                NTMinerRoot.GpuAllId, Gpu.GpuAll
             }
         };
 
@@ -45,13 +36,8 @@ namespace NTMiner.Core.Gpus.Impl {
             int deviceCount = 0;
             deviceCount = adlHelper.GpuCount;
             for (int i = 0; i < deviceCount; i++) {
-                _gpus.Add(i, new Gpu {
-                    Index = i,
-                    Name = adlHelper.GetGpuName(i),
-                    Temperature = 0,
-                    PowerUsage = 0,
-                    FanSpeed = 0
-                });
+                string name = adlHelper.GetGpuName(i);
+                _gpus.Add(i, Gpu.Create(i, name));
             }
             if (deviceCount > 0) {
                 this.Properties.Add(new GpuSetProperty("DriverVersion", "driver version", GetDriverVersion()));

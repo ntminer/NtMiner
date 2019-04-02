@@ -1,5 +1,4 @@
 ﻿using NTMiner.Core.Gpus.Impl;
-using NTMiner.MinerClient;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -8,15 +7,7 @@ namespace NTMiner.Core.Gpus {
         public static readonly EmptyGpuSet Instance = new EmptyGpuSet();
 
         private List<IGpu> _list = new List<IGpu> {
-            new Gpu {
-                Index = NTMinerRoot.GpuAllId,
-                Name = "全部显卡",
-                Temperature = 0,
-                FanSpeed = 0,
-                PowerUsage = 0,
-                CoreClockDelta = 0,
-                MemoryClockDelta = 0
-            }
+            Gpu.GpuAll
         };
 
         private EmptyGpuSet() {
