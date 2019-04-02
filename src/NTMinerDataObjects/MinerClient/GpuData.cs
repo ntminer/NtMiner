@@ -1,5 +1,5 @@
 ﻿namespace NTMiner.MinerClient {
-    public class GpuData {
+    public class GpuData : IGpuStaticData {
         public GpuData() { }
 
         public int Index { get; set; }

@@ -52,8 +52,8 @@ namespace NTMiner.Vms {
         }
 
         private readonly bool _isGpuData;
-        private readonly GpuData[] _gpuDatas;
-        public GpuViewModel(GpuData gpuData, GpuData[] gpuDatas) {
+        private readonly IGpuStaticData[] _gpuDatas;
+        public GpuViewModel(IGpuStaticData gpuData, IGpuStaticData[] gpuDatas) {
             if (gpuData == null) {
                 throw new ArgumentNullException(nameof(gpuData));
             }
