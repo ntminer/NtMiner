@@ -22,6 +22,10 @@ namespace NTMiner.Vms {
         private double _powerMin;
         private double _powerMax;
         private double _power;
+        private int _tempLimitMin;
+        private int _tempLimitDefault;
+        private int _tempLimitMax;
+        private int _tempLimit;
 
         public GpuViewModel(IGpu data) {
             _index = data.Index;
@@ -41,6 +45,10 @@ namespace NTMiner.Vms {
             _power = data.Power;
             _powerMin = data.PowerMin;
             _powerMax = data.PowerMax;
+            _tempLimit = data.TempLimit;
+            _tempLimitDefault = data.TempLimitDefault;
+            _tempLimitMax = data.TempLimitMax;
+            _tempLimitMin = data.TempLimitMin;
         }
 
         private readonly bool _isGpuData;
@@ -71,6 +79,9 @@ namespace NTMiner.Vms {
             _power = 0;
             _powerMin = gpuData.PowerMin;
             _powerMax = gpuData.PowerMax;
+            _tempLimitMin = gpuData.TempLimitMin;
+            _tempLimitMax = gpuData.TempLimitMax;
+            _tempLimitDefault = gpuData.TempLimitDefault;
         }
 
         public int Index {
@@ -446,6 +457,35 @@ namespace NTMiner.Vms {
         public string PowerText {
             get {
                 return this.Power.ToString("f0") + "%";
+            }
+        }
+
+        public int TempLimitMin {
+            get => _tempLimitMin;
+            set {
+                _tempLimitMin = value;
+                OnPropertyChanged(nameof(TempLimitMin));
+            }
+        }
+        public int TempLimitDefault {
+            get => _tempLimitDefault;
+            set {
+                _tempLimitDefault = value;
+                OnPropertyChanged(nameof(TempLimitDefault));
+            }
+        }
+        public int TempLimitMax {
+            get => _tempLimitMax;
+            set {
+                _tempLimitMax = value;
+                OnPropertyChanged(nameof(TempLimitMax));
+            }
+        }
+        public int TempLimit {
+            get => _tempLimit;
+            set {
+                _tempLimit = value;
+                OnPropertyChanged(nameof(TempLimit));
             }
         }
     }

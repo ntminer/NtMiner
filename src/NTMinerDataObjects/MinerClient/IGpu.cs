@@ -19,5 +19,9 @@
         double PowerMin { get; set; }
         double PowerMax { get; set; }
         double Power { get; set; }
+        int TempLimitMin { get; set; }
+        int TempLimitDefault { get; set; }
+        int TempLimitMax { get; set; }
+        int TempLimit { get; set; }
     }
 }
