@@ -57,7 +57,7 @@ namespace NTMiner.Core.Gpus.Impl {
         }
 
         public void SetThermCapacity(IGpuProfile data) {
-            int value = data.ThermCapacity;
+            int value = data.TempLimit;
             if (value == 0) {
                 return;
             }

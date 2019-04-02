@@ -66,8 +66,8 @@ namespace NTMiner.Vms {
             _coreClockDelta = data.CoreClockDelta;
             _memoryClockDelta = data.MemoryClockDelta;
             _powerCapacity = data.PowerCapacity;
-            _thermCapacity = data.ThermCapacity;
-            _thermGuard = data.ThermGuard;
+            _thermCapacity = data.TempLimit;
+            _thermGuard = data.TempGuard;
             _cool = data.Cool;
         }
 
@@ -126,19 +126,19 @@ namespace NTMiner.Vms {
             }
         }
 
-        public int ThermCapacity {
+        public int TempLimit {
             get => _thermCapacity;
             set {
                 _thermCapacity = value;
-                OnPropertyChanged(nameof(ThermCapacity));
+                OnPropertyChanged(nameof(TempLimit));
             }
         }
 
-        public int ThermGuard {
+        public int TempGuard {
             get => _thermGuard;
             set {
                 _thermGuard = value;
-                OnPropertyChanged(nameof(ThermGuard));
+                OnPropertyChanged(nameof(TempGuard));
             }
         }
 
@@ -165,7 +165,7 @@ namespace NTMiner.Vms {
 
         public string Tooltip {
             get {
-                return $"核心{CoreClockDelta}M, 显存{MemoryClockDelta}M, 功耗{PowerCapacity}%, 风扇{Cool}%, 降频温度{ThermCapacity}, 守卫温度{ThermGuard}";
+                return $"核心{CoreClockDelta}M, 显存{MemoryClockDelta}M, 功耗{PowerCapacity}%, 风扇{Cool}%, 降频温度{TempLimit}, 守卫温度{TempGuard}";
             }
         }
     }

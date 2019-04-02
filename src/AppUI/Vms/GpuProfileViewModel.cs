@@ -25,8 +25,8 @@ namespace NTMiner.Vms {
             _coreClockDelta = data.CoreClockDelta;
             _memoryClockDelta = data.MemoryClockDelta;
             _powerCapacity = data.PowerCapacity;
-            _thermCapacity = data.ThermCapacity;
-            _thermGuard = data.ThermGuard;
+            _thermCapacity = data.TempLimit;
+            _thermGuard = data.TempGuard;
             _cool = data.Cool;
             _gpuVm = gpuVm;
         }
@@ -37,8 +37,8 @@ namespace NTMiner.Vms {
             this._coreClockDelta = data.CoreClockDelta;
             this._memoryClockDelta = data.MemoryClockDelta;
             this._powerCapacity = data.PowerCapacity;
-            this._thermCapacity = data.ThermCapacity;
-            this._thermGuard = data.ThermGuard;
+            this._thermCapacity = data.TempLimit;
+            this._thermGuard = data.TempGuard;
             this._cool = data.Cool;
 
             OnPropertyChanged(nameof(CoinId));
@@ -46,8 +46,8 @@ namespace NTMiner.Vms {
             OnPropertyChanged(nameof(CoreClockDelta));
             OnPropertyChanged(nameof(MemoryClockDelta));
             OnPropertyChanged(nameof(PowerCapacity));
-            OnPropertyChanged(nameof(ThermCapacity));
-            OnPropertyChanged(nameof(ThermGuard));
+            OnPropertyChanged(nameof(TempLimit));
+            OnPropertyChanged(nameof(TempGuard));
             OnPropertyChanged(nameof(Cool));
         }
 
@@ -55,15 +55,15 @@ namespace NTMiner.Vms {
             this._coreClockDelta = data.CoreClockDelta;
             this._memoryClockDelta = data.MemoryClockDelta;
             this._powerCapacity = data.PowerCapacity;
-            this._thermCapacity = data.ThermCapacity;
-            this._thermGuard = data.ThermGuard;
+            this._thermCapacity = data.TempLimit;
+            this._thermGuard = data.TempGuard;
             this._cool = data.Cool;
 
             OnPropertyChanged(nameof(CoreClockDelta));
             OnPropertyChanged(nameof(MemoryClockDelta));
             OnPropertyChanged(nameof(PowerCapacity));
-            OnPropertyChanged(nameof(ThermCapacity));
-            OnPropertyChanged(nameof(ThermGuard));
+            OnPropertyChanged(nameof(TempLimit));
+            OnPropertyChanged(nameof(TempGuard));
             OnPropertyChanged(nameof(Cool));
         }
 
@@ -134,19 +134,19 @@ namespace NTMiner.Vms {
             }
         }
 
-        public int ThermCapacity {
+        public int TempLimit {
             get => _thermCapacity;
             set {
                 _thermCapacity = value;
-                OnPropertyChanged(nameof(ThermCapacity));
+                OnPropertyChanged(nameof(TempLimit));
             }
         }
 
-        public int ThermGuard {
+        public int TempGuard {
             get => _thermGuard;
             set {
                 _thermGuard = value;
-                OnPropertyChanged(nameof(ThermGuard));
+                OnPropertyChanged(nameof(TempGuard));
             }
         }
 

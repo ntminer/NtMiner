@@ -70,8 +70,8 @@ namespace NTMiner.Core.Gpus.Impl {
                 if (deviceCount > 0) {
                     NvmlNativeMethods.nvmlSystemGetDriverVersion(out string driverVersion);
                     NvmlNativeMethods.nvmlSystemGetNVMLVersion(out string nvmlVersion);
-                    this.Properties.Add(new GpuSetProperty("DriverVersion", "driver version", driverVersion));
-                    this.Properties.Add(new GpuSetProperty("NVMLVersion", "NVML version", nvmlVersion));
+                    this.Properties.Add(new GpuSetProperty("DriverVersion", "驱动版本", driverVersion));
+                    this.Properties.Add(new GpuSetProperty("NVMLVersion", "NVML版本", nvmlVersion));
                     Dictionary<string, string> kvs = new Dictionary<string, string> {
                         {"CUDA_DEVICE_ORDER","PCI_BUS_ID" }
                     };

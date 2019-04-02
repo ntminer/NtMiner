@@ -6,9 +6,9 @@
 
         int PowerCapacity { get; }
 
-        int ThermCapacity { get; }
+        int TempLimit { get; }
 
-        int ThermGuard { get; }
+        int TempGuard { get; }
 
         int Cool { get; }
     }
