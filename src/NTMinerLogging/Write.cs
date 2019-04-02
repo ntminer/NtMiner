@@ -6,6 +6,9 @@ namespace NTMiner {
         public static Action<string, ConsoleColor> WriteDevLineMethod;
 
         static Write() {
+            if (DevMode.IsDevMode && !System.Diagnostics.Debugger.IsAttached) {
+                ConsoleManager.Show();
+            }
             WriteUserLineMethod = (line, color, isNotice) => {
                 ConsoleColor oldColor = Console.ForegroundColor;
                 Console.ForegroundColor = color;

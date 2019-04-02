@@ -40,6 +40,7 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DevConsole.cs" />
     <Compile Include="DevMode.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Logging\ILoggingService.cs" />

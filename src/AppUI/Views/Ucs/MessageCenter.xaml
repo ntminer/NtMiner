@@ -10,24 +10,7 @@
 		DataContext="{x:Static vm:MessageCenterViewModel.Current}"
 		mc:Ignorable="d" d:DesignHeight="408" d:DesignWidth="408">
 	<Grid Background="Black">
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto"></RowDefinition>
-			<RowDefinition Height="*"></RowDefinition>
-		</Grid.RowDefinitions>
-		<FlowDocumentScrollViewer 	
-			x:Name="FlowDocumentScrollViewerDebug" 
-			Height="200"
-			Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
-			VerticalScrollBarVisibility="Auto"
-			BorderThickness="0" 
-			Foreground="White">
-			<FlowDocument PagePadding="4">
-				<Paragraph x:Name="ConsoleParagraphDebug" FontFamily="Courier New" FontSize="12">
-				</Paragraph>
-			</FlowDocument>
-		</FlowDocumentScrollViewer>
 		<FlowDocumentScrollViewer 
-			Grid.Row="1"			
 			VerticalScrollBarVisibility="Auto"
 			x:Name="FlowDocumentScrollViewer" 
 			BorderThickness="0" 
@@ -38,7 +21,6 @@
 			</FlowDocument>
 		</FlowDocumentScrollViewer>
 		<controls:KbCheckBox 
-			Grid.Row="1"
 			Margin="0 2 14 0"
 			HorizontalAlignment="Right"
 			VerticalAlignment="Top"

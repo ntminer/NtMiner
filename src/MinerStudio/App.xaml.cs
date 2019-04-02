@@ -29,6 +29,7 @@ namespace NTMiner {
                 Server.ControlCenterService.CloseServices();
             }
             base.OnExit(e);
+            ConsoleManager.Hide();
         }
 
         protected override void OnStartup(StartupEventArgs e) {
