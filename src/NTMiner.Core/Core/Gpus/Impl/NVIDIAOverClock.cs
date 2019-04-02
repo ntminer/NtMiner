@@ -115,6 +115,10 @@ namespace NTMiner.Core.Gpus.Impl {
             const string powerMinPattern = @"policy\[0\]\.pwrLimitMin     = (\d+\.?\d*) %";
             const string powerMaxPattern = @"policy\[0\]\.pwrLimitMax     = (\d+\.?\d*) %";
             const string powerLimitCurrentPattern = @"policy\[0\]\.pwrLimitCurrent = (\d+\.?\d*) %";
+            const string tempLimitMinPattern = @"policy\[0\]\.tempLimitMin     = (\d+\.?\d*)C";
+            const string tempLimitMaxPattern = @"policy\[0\]\.tempLimitMax     = (\d+\.?\d*)C";
+            const string tempLimitDefaultPattern = @"policy\[0\]\.tempLimitDefault = (\d+\.?\d*)C";
+            const string tempLimitPattern = @"policy\[0\]\.tempLimitCurrent = (\d+\.?\d*)C";
             if (gpu.Index == NTMinerRoot.GpuAllId) {
                 return;
             }
@@ -130,6 +134,10 @@ namespace NTMiner.Core.Gpus.Impl {
             double powerMin = 0;
             double powerMax = 0;
             double power = 0;
+            double tempLimitMin = 0;
+            double tempLimitMax = 0;
+            double tempLimitDefault = 0;
+            double tempLimit = 0;
             if (exitCode == 0) {
                 Match match = Regex.Match(output, coreClockDeltaMinMaxPattern);
                 if (match.Success) {
@@ -179,6 +187,29 @@ namespace NTMiner.Core.Gpus.Impl {
                 gpu.PowerMin = powerMin;
                 gpu.PowerMax = powerMax;
                 gpu.Power = power;
+            }
+            Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{gpu.Index} therminfo", ref exitCode, out output);
+            if (exitCode == 0) {
+                Match match = Regex.Match(output, tempLimitMinPattern);
+                if (match.Success) {
+                    double.TryParse(match.Groups[1].Value, out tempLimitMin);
+                }
+                match = Regex.Match(output, tempLimitMaxPattern);
+                if (match.Success) {
+                    double.TryParse(match.Groups[1].Value, out tempLimitMax);
+                }
+                match = Regex.Match(output, tempLimitDefaultPattern);
+                if (match.Success) {
+                    double.TryParse(match.Groups[1].Value, out tempLimitDefault);
+                }
+                match = Regex.Match(output, tempLimitPattern);
+                if (match.Success) {
+                    double.TryParse(match.Groups[1].Value, out tempLimit);
+                }
+                gpu.TempLimitMin = (int)tempLimitMin;
+                gpu.TempLimitMax = (int)tempLimitMax;
+                gpu.TempLimitDefault = (int)tempLimitDefault;
+                gpu.TempLimit = (int)tempLimit;
             }
             VirtualRoot.Happened(new GpuStateChangedEvent(gpu));
         }
