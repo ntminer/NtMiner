@@ -18,8 +18,7 @@ namespace NTMiner.Core.Gpus.Impl {
                     FanSpeed = 0,
                     PowerUsage = 0,
                     CoreClockDelta = 0,
-                    MemoryClockDelta = 0,
-                    OverClock = new NVIDIAOverClock()
+                    MemoryClockDelta = 0
                 }
             }
         };
@@ -64,8 +63,7 @@ namespace NTMiner.Core.Gpus.Impl {
                         Name = name,
                         Temperature = 0,
                         PowerUsage = 0,
-                        FanSpeed = 0,
-                        OverClock = new NVIDIAOverClock()
+                        FanSpeed = 0
                     };
                     _gpus.Add(i, gpu);
                 }
@@ -135,6 +133,8 @@ namespace NTMiner.Core.Gpus.Impl {
         }
 
         public List<GpuSetProperty> Properties { get; private set; }
+
+        public IOverClock OverClock { get; private set; } = new NVIDIAOverClock();
 
         public string GetProperty(string key) {
             GpuSetProperty item = this.Properties.FirstOrDefault(a => a.Code == key);

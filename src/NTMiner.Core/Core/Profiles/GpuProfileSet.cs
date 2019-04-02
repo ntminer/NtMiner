@@ -81,7 +81,7 @@ namespace NTMiner.Core.Profiles {
 
         private void OverClock(INTMinerRoot root, IGpuProfile data) {
             if (root.GpuSet.TryGetGpu(data.Index, out IGpu gpu)) {
-                data.OverClock(gpu.OverClock);
+                data.OverClock(root.GpuSet.OverClock);
             }
         }
 

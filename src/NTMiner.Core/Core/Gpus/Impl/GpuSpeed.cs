@@ -11,8 +11,7 @@ namespace NTMiner.Core.Gpus.Impl {
             FanSpeed = 0,
             PowerUsage = 0,
             CoreClockDelta = 0,
-            MemoryClockDelta = 0,
-            OverClock = new EmptyOverClock()
+            MemoryClockDelta = 0
         }, new Speed(), new Speed());
 
         private readonly Speed _mainCoinSpeed, _dualCoinSpeed;

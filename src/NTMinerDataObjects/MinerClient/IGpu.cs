@@ -1,6 +1,5 @@
 ﻿namespace NTMiner.MinerClient {
     public interface IGpu {
-        IOverClock OverClock { get; }
         int Index { get; }
         string Name { get; }
         uint Temperature { get; set; }

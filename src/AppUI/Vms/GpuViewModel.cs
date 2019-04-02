@@ -1,12 +1,10 @@
 ﻿using NTMiner.Core.Gpus;
-using NTMiner.Core.Gpus.Impl;
 using NTMiner.MinerClient;
 using System;
 using System.Linq;
 
 namespace NTMiner.Vms {
     public class GpuViewModel : ViewModelBase, IGpu {
-        private IOverClock _overClock;
         private int _index;
         private string _name;
         private uint _temperature;
@@ -26,7 +24,6 @@ namespace NTMiner.Vms {
         private double _power;
 
         public GpuViewModel(IGpu data) {
-            _overClock = data.OverClock;
             _index = data.Index;
             _name = data.Name;
             _temperature = data.Temperature;
@@ -50,14 +47,13 @@ namespace NTMiner.Vms {
         private readonly GpuData[] _gpuDatas;
         public GpuViewModel(GpuData gpuData, GpuData[] gpuDatas) {
             if (gpuData == null) {
-                throw new System.ArgumentNullException(nameof(gpuData));
+                throw new ArgumentNullException(nameof(gpuData));
             }
             if (gpuDatas == null) {
-                throw new System.ArgumentNullException(nameof(gpuDatas));
+                throw new ArgumentNullException(nameof(gpuDatas));
             }
             _isGpuData = true;
             _gpuDatas = gpuDatas.Where(a => a.Index != NTMinerRoot.GpuAllId).ToArray();
-            _overClock = new EmptyOverClock();
             _index = gpuData.Index;
             _name = gpuData.Name;
             _temperature = 0;
@@ -75,16 +71,6 @@ namespace NTMiner.Vms {
             _power = 0;
             _powerMin = gpuData.PowerMin;
             _powerMax = gpuData.PowerMax;
-        }
-
-        public IOverClock OverClock {
-            get => _overClock;
-            set {
-                if (_overClock != value) {
-                    _overClock = value;
-                    OnPropertyChanged(nameof(OverClock));
-                }
-            }
         }
 
         public int Index {

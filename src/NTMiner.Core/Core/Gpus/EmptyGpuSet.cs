@@ -15,8 +15,7 @@ namespace NTMiner.Core.Gpus {
                 FanSpeed = 0,
                 PowerUsage = 0,
                 CoreClockDelta = 0,
-                MemoryClockDelta = 0,
-                OverClock = new EmptyOverClock()
+                MemoryClockDelta = 0
             }
         };
 
@@ -48,6 +47,8 @@ namespace NTMiner.Core.Gpus {
         }
 
         public List<GpuSetProperty> Properties { get; private set; } = new List<GpuSetProperty>();
+
+        public IOverClock OverClock { get; private set; } = new EmptyOverClock();
 
         public string GetProperty(string key) {
             return string.Empty;

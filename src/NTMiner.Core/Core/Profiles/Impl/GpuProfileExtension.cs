@@ -1,4 +1,5 @@
-﻿using NTMiner.MinerClient;
+﻿using NTMiner.Core.Gpus;
+using NTMiner.MinerClient;
 using System;
 
 namespace NTMiner.Core.Profiles.Impl {
