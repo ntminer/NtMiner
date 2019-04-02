@@ -59,26 +59,30 @@ namespace NTMiner.Core.Profiles {
                 });
             VirtualRoot.Window<OverClockCommand>("处理超频命令", LogEnum.DevConsole,
                 action: message => {
-                    if (root.GpuSet.TryGetGpu(message.Input.Index, out IGpu gpu)) {
-                        message.Input.OverClock(gpu.OverClock);
-                    }
+                    OverClock(root, message.Input);
                 });
             VirtualRoot.Window<CoinOverClockCommand>("处理币种超频命令", LogEnum.DevConsole,
                 action: message => {
                     if (IsOverClockGpuAll(message.CoinId)) {
                         GpuProfileData overClockData = _data.GpuProfiles.FirstOrDefault(a => a.CoinId == message.CoinId && a.Index == NTMinerRoot.GpuAllId);
                         if (overClockData != null) {
-                            VirtualRoot.Execute(new OverClockCommand(overClockData));
+                            OverClock(root, overClockData);
                         }
                     }
                     else {
                         foreach (var overClockData in _data.GpuProfiles.Where(a => a.CoinId == message.CoinId)) {
                             if (overClockData.Index != NTMinerRoot.GpuAllId) {
-                                VirtualRoot.Execute(new OverClockCommand(overClockData));
+                                OverClock(root, overClockData);
                             }
                         }
                     }
                 });
+        }
+
+        private void OverClock(INTMinerRoot root, IGpuProfile data) {
+            if (root.GpuSet.TryGetGpu(data.Index, out IGpu gpu)) {
+                data.OverClock(gpu.OverClock);
+            }
         }
 
         private void Save() {

@@ -138,7 +138,9 @@
 							<GroupBox BorderBrush="{StaticResource LineColor}" BorderThickness="1" Padding="0 0 0 4">
 								<GroupBox.Header>
 									<WrapPanel>
-										<TextBlock Text="{Binding GpuVm.Name}"></TextBlock>
+										<TextBlock>GPU</TextBlock>
+										<TextBlock Text="{Binding GpuVm.Index}"></TextBlock>
+										<TextBlock Margin="4 0 0 0" Text="{Binding GpuVm.Name}"></TextBlock>
 									</WrapPanel>
 								</GroupBox.Header>
 								<Grid>

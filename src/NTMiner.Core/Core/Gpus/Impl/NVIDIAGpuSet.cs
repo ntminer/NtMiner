@@ -82,13 +82,13 @@ namespace NTMiner.Core.Gpus.Impl {
                         this.Properties.Add(property);
                     }
                     Task.Factory.StartNew(() => {
-                        // 这里会耗时5秒
-                        foreach (var kv in kvs) {
-                            Environment.SetEnvironmentVariable(kv.Key, kv.Value);
-                        }
                         foreach (var gpu in _gpus.Values) {
                             NVIDIAOverClock.RefreshGpuState(gpu);
                         }
+                        // 这里会耗时5秒
+                        foreach (var kv in kvs) {
+                            Environment.SetEnvironmentVariable(kv.Key, kv.Value);
+                        }                        
                     });
                 }
             }
