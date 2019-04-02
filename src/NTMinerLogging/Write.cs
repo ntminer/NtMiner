@@ -3,7 +3,6 @@
 namespace NTMiner {
     public static class Write {
         public static Action<string, ConsoleColor, bool> WriteUserLineMethod;
-        public static Action<string, ConsoleColor> WriteDevLineMethod;
 
         static Write() {
             if (DevMode.IsDevMode && !System.Diagnostics.Debugger.IsAttached) {
@@ -13,12 +12,6 @@ namespace NTMiner {
                 ConsoleColor oldColor = Console.ForegroundColor;
                 Console.ForegroundColor = color;
                 Console.WriteLine(line, isNotice);
-                Console.ForegroundColor = oldColor;
-            };
-            WriteDevLineMethod = (line, color) => {
-                ConsoleColor oldColor = Console.ForegroundColor;
-                Console.ForegroundColor = color;
-                Console.WriteLine(line);
                 Console.ForegroundColor = oldColor;
             };
         }
@@ -60,7 +53,10 @@ namespace NTMiner {
                 return;
             }
             text = $"{DateTime.Now.ToString("HH:mm:ss fff")}  {text}";
-            WriteDevLineMethod?.Invoke(text, messageType.ToConsoleColor());
+            ConsoleColor oldColor = Console.ForegroundColor;
+            Console.ForegroundColor = messageType.ToConsoleColor();
+            Console.WriteLine(text);
+            Console.ForegroundColor = oldColor;
         }
 
         public static void DevError(string text) {
