@@ -1,4 +1,6 @@
-﻿namespace NTMiner.MinerClient {
+﻿using NTMiner.MinerClient;
+
+namespace NTMiner.Core.Gpus {
     public interface IGpu : IGpuStaticData {
         uint Temperature { get; set; }
         uint FanSpeed { get; set; }

@@ -79,7 +79,6 @@
     <Compile Include="JsonDb\LocalJsonDb.cs" />
     <Compile Include="JsonDb\ServerJsonDb.cs" />
     <Compile Include="MinerClient\GpuData.cs" />
-    <Compile Include="MinerClient\IGpu.cs" />
     <Compile Include="MinerClient\IGpuStaticData.cs" />
     <Compile Include="MinerServer\AddClientRequest.cs" />
     <Compile Include="MinerServer\MinerIdsRequest.cs" />

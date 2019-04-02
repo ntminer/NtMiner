@@ -6,9 +6,9 @@ using System.Reflection;
 
 namespace NTMiner.OhGodAnETHlargementPill {
     public static class OhGodAnETHlargementPillUtil {
-        private static string s_processName = "OhGodAnETHlargementPill-r2";
-        private static string s_tempDir = SpecialPath.TempDirFullName;
-        private static string s_fileFullName = Path.Combine(s_tempDir, s_processName + ".exe");
+        private static readonly string s_processName = "OhGodAnETHlargementPill-r2";
+        private static readonly string s_tempDir = SpecialPath.TempDirFullName;
+        private static readonly string s_fileFullName = Path.Combine(s_tempDir, s_processName + ".exe");
 
         public static void Start() {
             try {
