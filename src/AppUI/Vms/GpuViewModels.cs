@@ -34,7 +34,7 @@ namespace NTMiner.Vms {
                         vm.Cool = message.Source.Cool;
                         vm.CoolMin = message.Source.CoolMin;
                         vm.CoolMax = message.Source.CoolMax;
-                        vm.Power = message.Source.Power;
+                        vm.PowerCapacity = message.Source.PowerCapacity;
                         vm.PowerMin = message.Source.PowerMin;
                         vm.PowerMax = message.Source.PowerMax;
                         if (_totalGpuVm != null) {

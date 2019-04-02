@@ -37,10 +37,11 @@
         public int CoolMax { get; set; }
         public double PowerMin { get; set; }
         public double PowerMax { get; set; }
-        public double Power { get; set; }
+        public int PowerCapacity { get; set; }
         public int TempLimitMin { get; set; }
         public int TempLimitDefault { get; set; }
         public int TempLimitMax { get; set; }
         public int TempLimit { get; set; }
+        public int TempGuard { get; set; }
     }
 }

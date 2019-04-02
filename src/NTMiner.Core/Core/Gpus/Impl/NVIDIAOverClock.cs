@@ -186,7 +186,7 @@ namespace NTMiner.Core.Gpus.Impl {
                 }
                 gpu.PowerMin = powerMin;
                 gpu.PowerMax = powerMax;
-                gpu.Power = power;
+                gpu.PowerCapacity = (int)power;
             }
             Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{gpu.Index} therminfo", ref exitCode, out output);
             if (exitCode == 0) {

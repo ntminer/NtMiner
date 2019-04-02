@@ -19,6 +19,6 @@
         public int CoreClockDelta { get; set; }
         public int MemoryClockDelta { get; set; }
         public int Cool { get; set; }
-        public double Power { get; set; }
+        public double PowerCapacity { get; set; }
     }
 }

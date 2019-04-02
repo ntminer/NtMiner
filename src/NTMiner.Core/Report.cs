@@ -89,7 +89,7 @@ namespace NTMiner {
                     Temperature = a.Gpu.Temperature,
                     PowerUsage = a.Gpu.PowerUsage,
                     Cool = a.Gpu.Cool,
-                    Power = a.Gpu.Power,
+                    PowerCapacity = a.Gpu.PowerCapacity,
                     CoreClockDelta = a.Gpu.CoreClockDelta,
                     MemoryClockDelta = a.Gpu.MemoryClockDelta
                 }).ToArray()

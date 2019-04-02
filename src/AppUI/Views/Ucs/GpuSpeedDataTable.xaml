@@ -112,7 +112,7 @@
 			<DataGridTemplateColumn Header="功耗" Width="60" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
-						<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding PowerText}"></TextBlock>
+						<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding PowerCapacityText}"></TextBlock>
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
