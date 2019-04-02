@@ -11,6 +11,10 @@ namespace NTMiner.Vms {
         private int _memoryClockDelta;
         private int _powerCapacity;
         private int _cool;
+        private GpuViewModel _gpuVm;
+        private int _thermCapacity;
+        private int _thermGuard;
+
 
         public GpuProfileViewModel() {
         }
@@ -21,6 +25,8 @@ namespace NTMiner.Vms {
             _coreClockDelta = data.CoreClockDelta;
             _memoryClockDelta = data.MemoryClockDelta;
             _powerCapacity = data.PowerCapacity;
+            _thermCapacity = data.ThermCapacity;
+            _thermGuard = data.ThermGuard;
             _cool = data.Cool;
             _gpuVm = gpuVm;
         }
@@ -31,6 +37,8 @@ namespace NTMiner.Vms {
             this._coreClockDelta = data.CoreClockDelta;
             this._memoryClockDelta = data.MemoryClockDelta;
             this._powerCapacity = data.PowerCapacity;
+            this._thermCapacity = data.ThermCapacity;
+            this._thermGuard = data.ThermGuard;
             this._cool = data.Cool;
 
             OnPropertyChanged(nameof(CoinId));
@@ -38,6 +46,8 @@ namespace NTMiner.Vms {
             OnPropertyChanged(nameof(CoreClockDelta));
             OnPropertyChanged(nameof(MemoryClockDelta));
             OnPropertyChanged(nameof(PowerCapacity));
+            OnPropertyChanged(nameof(ThermCapacity));
+            OnPropertyChanged(nameof(ThermGuard));
             OnPropertyChanged(nameof(Cool));
         }
 
@@ -45,11 +55,15 @@ namespace NTMiner.Vms {
             this._coreClockDelta = data.CoreClockDelta;
             this._memoryClockDelta = data.MemoryClockDelta;
             this._powerCapacity = data.PowerCapacity;
+            this._thermCapacity = data.ThermCapacity;
+            this._thermGuard = data.ThermGuard;
             this._cool = data.Cool;
 
             OnPropertyChanged(nameof(CoreClockDelta));
             OnPropertyChanged(nameof(MemoryClockDelta));
             OnPropertyChanged(nameof(PowerCapacity));
+            OnPropertyChanged(nameof(ThermCapacity));
+            OnPropertyChanged(nameof(ThermGuard));
             OnPropertyChanged(nameof(Cool));
         }
 
@@ -120,6 +134,22 @@ namespace NTMiner.Vms {
             }
         }
 
+        public int ThermCapacity {
+            get => _thermCapacity;
+            set {
+                _thermCapacity = value;
+                OnPropertyChanged(nameof(ThermCapacity));
+            }
+        }
+
+        public int ThermGuard {
+            get => _thermGuard;
+            set {
+                _thermGuard = value;
+                OnPropertyChanged(nameof(ThermGuard));
+            }
+        }
+
         public int Cool {
             get => _cool;
             set {
@@ -128,7 +158,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        private GpuViewModel _gpuVm;
         public GpuViewModel GpuVm {
             get {
                 if (_gpuVm == null) {

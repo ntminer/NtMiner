@@ -12,6 +12,10 @@ namespace NTMiner.MinerServer {
 
         int PowerCapacity { get; }
 
+        int ThermCapacity { get; }
+
+        int ThermGuard { get; }
+
         int Cool { get; }
     }
 }

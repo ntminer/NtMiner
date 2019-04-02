@@ -101,8 +101,7 @@ namespace NTMiner.Core.Gpus.Impl {
                 return;
             }
             int exitCode = -1;
-            string output;
-            Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{gpu.Index} ps20e", ref exitCode, out output);
+            Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{gpu.Index} ps20e", ref exitCode, out string output);
             int coreClockDeltaMin = 0;
             int coreClockDeltaMax = 0;
             int memoryClockDeltaMin = 0;

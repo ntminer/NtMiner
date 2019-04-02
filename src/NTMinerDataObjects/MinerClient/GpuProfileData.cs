@@ -11,6 +11,8 @@ namespace NTMiner.MinerClient {
             this.CoreClockDelta = 0;
             this.MemoryClockDelta = 0;
             this.PowerCapacity = 100;
+            this.ThermCapacity = 83;
+            this.ThermGuard = 70;
             this.Cool = 90;
         }
 
@@ -20,6 +22,8 @@ namespace NTMiner.MinerClient {
             this.CoreClockDelta = data.CoreClockDelta;
             this.MemoryClockDelta = data.MemoryClockDelta;
             this.PowerCapacity = data.PowerCapacity;
+            this.ThermCapacity = data.ThermCapacity;
+            this.ThermGuard = data.ThermGuard;
             this.Cool = data.Cool;
         }
 
@@ -29,6 +33,8 @@ namespace NTMiner.MinerClient {
             this.CoreClockDelta = data.CoreClockDelta;
             this.MemoryClockDelta = data.MemoryClockDelta;
             this.PowerCapacity = data.PowerCapacity;
+            this.ThermCapacity = data.ThermCapacity;
+            this.ThermGuard = data.ThermGuard;
             this.Cool = data.Cool;
         }
 
@@ -46,10 +52,14 @@ namespace NTMiner.MinerClient {
 
         public int PowerCapacity { get; set; }
 
+        public int ThermCapacity { get; set; }
+
+        public int ThermGuard { get; set; }
+
         public int Cool { get; set; }
 
         public override string ToString() {
-            return $"{CoinId}{Index}{CoreClockDelta}{MemoryClockDelta}{PowerCapacity}{Cool}";
+            return $"{CoinId}{Index}{CoreClockDelta}{MemoryClockDelta}{PowerCapacity}{ThermCapacity}{ThermGuard}{Cool}";
         }
     }
 }
