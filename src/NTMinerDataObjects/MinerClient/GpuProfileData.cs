@@ -17,25 +17,22 @@ namespace NTMiner.MinerClient {
         }
 
         public GpuProfileData(IGpuProfile data) {
-            this.CoinId = data.CoinId;
-            this.Index = data.Index;
-            this.CoreClockDelta = data.CoreClockDelta;
-            this.MemoryClockDelta = data.MemoryClockDelta;
-            this.PowerCapacity = data.PowerCapacity;
-            this.ThermCapacity = data.ThermCapacity;
-            this.ThermGuard = data.ThermGuard;
-            this.Cool = data.Cool;
+            Update(data);
         }
 
         public void Update(IGpuProfile data) {
             this.CoinId = data.CoinId;
             this.Index = data.Index;
-            this.CoreClockDelta = data.CoreClockDelta;
-            this.MemoryClockDelta = data.MemoryClockDelta;
-            this.PowerCapacity = data.PowerCapacity;
-            this.ThermCapacity = data.ThermCapacity;
-            this.ThermGuard = data.ThermGuard;
-            this.Cool = data.Cool;
+            Update((IOverClockInput)data);
+        }
+
+        private void Update(IOverClockInput input) {
+            this.CoreClockDelta = input.CoreClockDelta;
+            this.MemoryClockDelta = input.MemoryClockDelta;
+            this.PowerCapacity = input.PowerCapacity;
+            this.ThermCapacity = input.ThermCapacity;
+            this.ThermGuard = input.ThermGuard;
+            this.Cool = input.Cool;
         }
 
         public string GetId() {

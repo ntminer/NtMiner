@@ -1,21 +1,9 @@
 ﻿using System;
 
 namespace NTMiner.MinerServer {
-    public interface IOverClockData : IEntity<Guid> {
+    public interface IOverClockData : IOverClockInput, IEntity<Guid> {
         Guid CoinId { get; }
 
         string Name { get; }
-
-        int CoreClockDelta { get; }
-
-        int MemoryClockDelta { get; }
-
-        int PowerCapacity { get; }
-
-        int ThermCapacity { get; }
-
-        int ThermGuard { get; }
-
-        int Cool { get; }
     }
 }
