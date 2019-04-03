@@ -12,7 +12,8 @@
 		mc:Ignorable="d" d:DesignHeight="430" d:DesignWidth="800">
 	<UserControl.Resources>
 		<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
-			<Setter Property="Width" Value="40"></Setter>
+			<Setter Property="Width" Value="60"></Setter>
+			<Setter Property="Padding" Value="0 0 4 0"></Setter>
 		</Style>
 	</UserControl.Resources>
 	<Grid IsEnabled="{Binding CoinVm.IsOverClockEnabled}">
@@ -94,7 +95,7 @@
 				IconColor="{StaticResource IconFillColor}"
 				IsChecked="{Binding CoinVm.IsOverClockGpuAll}" 
 				Content="统一超频"></controls:KbCheckBox>
-			<WrapPanel IsEnabled="{Binding CoinVm.IsOverClockGpuAll}">
+			<StackPanel IsEnabled="{Binding CoinVm.IsOverClockGpuAll}">
 				<WrapPanel VerticalAlignment="Center">
 					<TextBlock Style="{StaticResource LblTb}">核心</TextBlock>
 					<TextBox VerticalAlignment="Center" ToolTip="{Binding CoinVm.GpuAllProfileVm.GpuVm.CoreClockDeltaMinMaxMText}" Text="{Binding CoinVm.GpuAllProfileVm.CoreClockDelta, ValidatesOnExceptions=True}" Width="50"></TextBox>
@@ -110,12 +111,31 @@
 					<TextBox VerticalAlignment="Center" ToolTip="{Binding CoinVm.GpuAllProfileVm.GpuVm.PowerMinMaxText}" Text="{Binding CoinVm.GpuAllProfileVm.PowerCapacity, ValidatesOnExceptions=True}" Width="50"></TextBox>
 					<TextBlock VerticalAlignment="Center">%</TextBlock>
 				</WrapPanel>
+
+				<WrapPanel>
+					<TextBlock Style="{StaticResource LblTb}">最高温度</TextBlock>
+					<TextBox VerticalAlignment="Center" ToolTip="{Binding CoinVm.GpuAllProfileVm.GpuVm.TempLimitMinMaxText}" Text="{Binding CoinVm.GpuAllProfileVm.GpuVm.TempLimit, ValidatesOnExceptions=True}" Width="50"></TextBox>
+					<TextBlock VerticalAlignment="Center">℃</TextBlock>
+					<TextBlock VerticalAlignment="Center" Margin="4 0 0 0" Text="{Binding CoinVm.GpuAllProfileVm.GpuVm.TempLimitText}"></TextBlock>
+				</WrapPanel>
+				<WrapPanel>
+					<StackPanel Width="60" VerticalAlignment="Center">
+						<CheckBox 
+							Padding="0 0 4 0" 
+							HorizontalAlignment="Right"
+							Foreground="{StaticResource LableColor}"
+							IsChecked="{Binding CoinVm.GpuAllProfileVm.GpuVm.IsGuardTemp}" 
+							Content="守卫"></CheckBox>
+					</StackPanel>
+					<TextBox VerticalAlignment="Center" ToolTip="自动调整风扇使温度趋向于这个温度" Text="{Binding CoinVm.GpuAllProfileVm.GpuVm.TempGuard, ValidatesOnExceptions=True}" Width="50"></TextBox>
+					<TextBlock VerticalAlignment="Center">℃</TextBlock>
+				</WrapPanel>
 				<WrapPanel>
 					<TextBlock Style="{StaticResource LblTb}">风扇</TextBlock>
 					<TextBox VerticalAlignment="Center" ToolTip="{Binding CoinVm.GpuAllProfileVm.GpuVm.CoolMinMaxText}" Text="{Binding CoinVm.GpuAllProfileVm.Cool, ValidatesOnExceptions=True}" Width="50"></TextBox>
 					<TextBlock VerticalAlignment="Center">%</TextBlock>
 				</WrapPanel>
-			</WrapPanel>
+			</StackPanel>
 		</WrapPanel>
 		<ScrollViewer 
 			Grid.Row="2" 
@@ -143,42 +163,50 @@
 										<TextBlock Margin="4 0 0 0" Text="{Binding GpuVm.Name}"></TextBlock>
 									</WrapPanel>
 								</GroupBox.Header>
-								<Grid>
-									<Grid.ColumnDefinitions>
-										<ColumnDefinition Width="Auto"></ColumnDefinition>
-										<ColumnDefinition Width="*"></ColumnDefinition>
-									</Grid.ColumnDefinitions>
-									<Grid.RowDefinitions>
-										<RowDefinition Height="Auto"></RowDefinition>
-										<RowDefinition Height="Auto"></RowDefinition>
-										<RowDefinition Height="Auto"></RowDefinition>
-										<RowDefinition Height="Auto"></RowDefinition>
-									</Grid.RowDefinitions>
-									<TextBlock Grid.Row="0" Style="{StaticResource LblTb}">核心</TextBlock>
-									<WrapPanel Grid.Row="0" Grid.Column="1">
-										<TextBox ToolTip="{Binding GpuVm.CoreClockDeltaMinMaxMText}" Text="{Binding CoreClockDelta, ValidatesOnExceptions=True}" Width="50"></TextBox>
-										<TextBlock>M</TextBlock>
-										<TextBlock Margin="4 0 0 0" Text="{Binding GpuVm.CoreClockDeltaMText}"></TextBlock>
+								<StackPanel>
+									<WrapPanel>
+										<TextBlock Style="{StaticResource LblTb}">核心</TextBlock>
+										<TextBox VerticalAlignment="Center" ToolTip="{Binding GpuVm.CoreClockDeltaMinMaxMText}" Text="{Binding CoreClockDelta, ValidatesOnExceptions=True}" Width="50"></TextBox>
+										<TextBlock VerticalAlignment="Center">M</TextBlock>
+										<TextBlock VerticalAlignment="Center" Margin="4 0 0 0" Text="{Binding GpuVm.CoreClockDeltaMText}"></TextBlock>
 									</WrapPanel>
-									<TextBlock Grid.Row="1" Style="{StaticResource LblTb}">显存</TextBlock>
-									<WrapPanel Grid.Row="1" Grid.Column="1">
-										<TextBox ToolTip="{Binding GpuVm.MemoryClockDeltaMinMaxMText}" Text="{Binding MemoryClockDelta, ValidatesOnExceptions=True}" Width="50"></TextBox>
-										<TextBlock>M</TextBlock>
-										<TextBlock Margin="4 0 0 0" Text="{Binding GpuVm.MemoryClockDeltaMText}"></TextBlock>
+									<WrapPanel>
+										<TextBlock Style="{StaticResource LblTb}">显存</TextBlock>
+										<TextBox VerticalAlignment="Center" ToolTip="{Binding GpuVm.MemoryClockDeltaMinMaxMText}" Text="{Binding MemoryClockDelta, ValidatesOnExceptions=True}" Width="50"></TextBox>
+										<TextBlock VerticalAlignment="Center">M</TextBlock>
+										<TextBlock VerticalAlignment="Center" Margin="4 0 0 0" Text="{Binding GpuVm.MemoryClockDeltaMText}"></TextBlock>
 									</WrapPanel>
-									<TextBlock Grid.Row="2" Style="{StaticResource LblTb}">功耗</TextBlock>
-									<WrapPanel Grid.Row="2" Grid.Column="1">
-										<TextBox ToolTip="{Binding GpuVm.PowerMinMaxText}" Text="{Binding PowerCapacity, ValidatesOnExceptions=True}" Width="50"></TextBox>
-										<TextBlock>%</TextBlock>
-										<TextBlock Margin="4 0 0 0" Text="{Binding GpuVm.PowerUsageWText}"></TextBlock>
+									<WrapPanel>
+										<TextBlock Style="{StaticResource LblTb}">功耗</TextBlock>
+										<TextBox VerticalAlignment="Center" ToolTip="{Binding GpuVm.PowerMinMaxText}" Text="{Binding PowerCapacity, ValidatesOnExceptions=True}" Width="50"></TextBox>
+										<TextBlock VerticalAlignment="Center">%</TextBlock>
+										<TextBlock VerticalAlignment="Center" Margin="4 0 0 0" Text="{Binding GpuVm.PowerUsageWText}"></TextBlock>
 									</WrapPanel>
-									<TextBlock Grid.Row="3" Style="{StaticResource LblTb}">风扇</TextBlock>
-									<WrapPanel Grid.Row="3" Grid.Column="1">
-										<TextBox ToolTip="{Binding GpuVm.CoolMinMaxText}" Text="{Binding Cool, ValidatesOnExceptions=True}" Width="50"></TextBox>
-										<TextBlock>%</TextBlock>
-										<TextBlock Margin="4 0 0 0" Text="{Binding GpuVm.FanSpeedText}"></TextBlock>
+									<WrapPanel>
+										<TextBlock Style="{StaticResource LblTb}">最高温度</TextBlock>
+										<TextBox VerticalAlignment="Center" ToolTip="{Binding GpuVm.TempLimitMinMaxText}" Text="{Binding TempLimit, ValidatesOnExceptions=True}" Width="50"></TextBox>
+										<TextBlock VerticalAlignment="Center">℃</TextBlock>
+										<TextBlock VerticalAlignment="Center" Margin="4 0 0 0" Text="{Binding GpuVm.TempLimitText}"></TextBlock>
 									</WrapPanel>
-								</Grid>
+									<WrapPanel>
+										<StackPanel Width="60" VerticalAlignment="Center">
+											<CheckBox 
+												Padding="0 0 4 0" 
+												HorizontalAlignment="Right"
+												Foreground="{StaticResource LableColor}"
+												IsChecked="{Binding GpuVm.IsGuardTemp}" 
+												Content="守卫"></CheckBox>
+										</StackPanel>
+										<TextBox VerticalAlignment="Center" ToolTip="自动调整风扇使温度趋向于这个温度" Text="{Binding TempGuard, ValidatesOnExceptions=True}" Width="50"></TextBox>
+										<TextBlock VerticalAlignment="Center">℃</TextBlock>
+									</WrapPanel>
+									<WrapPanel>
+										<TextBlock Style="{StaticResource LblTb}">风扇</TextBlock>
+										<TextBox VerticalAlignment="Center" ToolTip="{Binding GpuVm.CoolMinMaxText}" Text="{Binding Cool, ValidatesOnExceptions=True}" Width="50"></TextBox>
+										<TextBlock VerticalAlignment="Center">%</TextBlock>
+										<TextBlock VerticalAlignment="Center" Margin="4 0 0 0" Text="{Binding GpuVm.FanSpeedText}"></TextBlock>
+									</WrapPanel>
+								</StackPanel>
 							</GroupBox>
 						</Grid>
 					</DataTemplate>
