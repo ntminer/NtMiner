@@ -90,7 +90,7 @@
 						Style="{StaticResource LblTb}" Width="Auto">背包</TextBlock>
 					<TextBlock 
 						Visibility="{Binding CoinVm.OverClockDatas,Converter={StaticResource NoRecordVisibilityConverter}}"
-						Style="{StaticResource LblTb}" Width="Auto">没有物品</TextBlock>
+						Style="{StaticResource LblTb}" Width="Auto">没有推荐</TextBlock>
 					<ItemsControl
 						BorderThickness="0"
 						MouseDown="ItemsControl_MouseDown"
@@ -122,14 +122,13 @@
 					</ItemsControl>
 				</WrapPanel>
 				<StackPanel Grid.Row="1">
-					<TextBlock VerticalAlignment="Center">最高温度：表示达到这个温度时显卡将自动降频</TextBlock>
-					<TextBlock VerticalAlignment="Center">防线温度：系统自动调整风扇转速以使温度不越过防线</TextBlock>
+					<TextBlock VerticalAlignment="Center" Foreground="{StaticResource LableColor}">最高温度：表示达到这个温度时显卡将自动降频</TextBlock>
+					<TextBlock VerticalAlignment="Center" Foreground="{StaticResource LableColor}">防线温度：系统自动调整风扇转速以使温度不越过防线</TextBlock>
 				</StackPanel>
 				<WrapPanel Grid.Row="2" VerticalAlignment="Bottom">
 					<controls:KbButton
 						Height="21"
 						Padding="6 2"
-						Margin="10 0"
 						ToolTip="点击应用超频设置"
 						Command="{Binding CoinVm.ApplyCustomOverClock}" 
 						Background="{StaticResource ThemeBackground}"
@@ -145,7 +144,7 @@
 							<TextBlock>应用</TextBlock>
 						</WrapPanel>
 					</controls:KbButton>
-					<TextBlock x:Name="TbRedText" Foreground="Red" VerticalAlignment="Center"></TextBlock>
+					<TextBlock x:Name="TbRedText" Margin="10 0 0 0" Foreground="Red" VerticalAlignment="Center"></TextBlock>
 				</WrapPanel>
 			</Grid>
 		</WrapPanel>
