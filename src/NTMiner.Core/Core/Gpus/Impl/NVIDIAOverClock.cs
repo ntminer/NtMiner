@@ -1,4 +1,5 @@
 ﻿using NTMiner.MinerClient;
+using System;
 using System.Text.RegularExpressions;
 
 namespace NTMiner.Core.Gpus.Impl {
@@ -206,8 +207,8 @@ namespace NTMiner.Core.Gpus.Impl {
                 if (match.Success) {
                     double.TryParse(match.Groups[1].Value, out tempLimit);
                 }
-                gpu.TempLimitMin = (int)tempLimitMin;
-                gpu.TempLimitMax = (int)tempLimitMax;
+                gpu.TempLimitMin = (int)Math.Ceiling(tempLimitMin);
+                gpu.TempLimitMax = (int)Math.Floor(tempLimitMax);
                 gpu.TempLimitDefault = (int)tempLimitDefault;
                 gpu.TempLimit = (int)tempLimit;
             }

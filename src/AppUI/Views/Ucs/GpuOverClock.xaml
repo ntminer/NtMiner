@@ -56,9 +56,8 @@
 
 					<WrapPanel>
 						<TextBlock Style="{StaticResource LblTb}">最高温度</TextBlock>
-						<TextBox Style="{StaticResource TextBox}" ToolTip="{Binding CoinVm.GpuAllProfileVm.GpuVm.TempLimitMinMaxText}" Text="{Binding CoinVm.GpuAllProfileVm.GpuVm.TempLimit, ValidatesOnExceptions=True}"></TextBox>
+						<TextBox Style="{StaticResource TextBox}" ToolTip="{Binding CoinVm.GpuAllProfileVm.GpuVm.TempLimitMinMaxText}" Text="{Binding CoinVm.GpuAllProfileVm.TempLimit, ValidatesOnExceptions=True}"></TextBox>
 						<TextBlock VerticalAlignment="Center">℃</TextBlock>
-						<TextBlock VerticalAlignment="Center" Margin="4 0 0 0" Text="{Binding CoinVm.GpuAllProfileVm.GpuVm.TempLimitText}"></TextBlock>
 					</WrapPanel>
 					<WrapPanel>
 						<StackPanel Width="60" VerticalAlignment="Center">

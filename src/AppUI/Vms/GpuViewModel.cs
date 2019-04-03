@@ -360,6 +360,20 @@ namespace NTMiner.Vms {
             }
         }
 
+        public string TempLimitMinMaxText {
+            get {
+                if (Index == NTMinerRoot.GpuAllId) {
+                    if (_isGpuData) {
+                        return $"{_gpuDatas.Max(a => a.TempLimitMin)} - {_gpuDatas.Min(a => a.TempLimitMax)}%";
+                    }
+                    else {
+                        return $"{NTMinerRoot.Current.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Max(a => a.TempLimitMin)} - {NTMinerRoot.Current.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Min(a => a.TempLimitMax)}%";
+                    }
+                }
+                return $"{this.TempLimitMin} - {this.TempLimitMax}%";
+            }
+        }
+
         public int CoreClockDeltaMin {
             get => _coreClockDeltaMin;
             set {
@@ -492,6 +506,13 @@ namespace NTMiner.Vms {
             set {
                 _tempLimit = value;
                 OnPropertyChanged(nameof(TempLimit));
+                OnPropertyChanged(nameof(TempLimitText));
+            }
+        }
+
+        public string TempLimitText {
+            get {
+                return this.TempLimit.ToString() + "℃";
             }
         }
 
