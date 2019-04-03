@@ -28,12 +28,11 @@ namespace NTMiner.Core.Gpus.Impl {
                     }
                     IGpuProfile gpuProfile = GpuProfileSet.Instance.GetGpuProfile(root.MinerProfile.CoinId, gpu.Index);
                     if (!gpuProfile.IsAutoFanSpeed) {
-                        return;
+                        gpuProfile = GpuProfileSet.Instance.GetGpuProfile(root.MinerProfile.CoinId, NTMinerRoot.GpuAllId);
+                        if (!gpuProfile.IsAutoFanSpeed) {
+                            return;
+                        }
                     }
-                    if (!_temperatureDic.ContainsKey(gpu.Index)) {
-                        _temperatureDic.Add(gpu.Index, 0);
-                    }
-                    _temperatureDic[gpu.Index] = gpu.Temperature;
                     // 警戒时间
                     DateTime guardOn;
                     if (!_guardOn.TryGetValue(gpu.Index, out guardOn)) {
@@ -44,6 +43,13 @@ namespace NTMiner.Core.Gpus.Impl {
                         Write.DevDebug($"GPU{gpu.Index} 温度{gpu.Temperature}大于防线温度{_guardTemp}，但风扇转速已达100%");
                     }
                     else if (gpu.Temperature < _guardTemp) {
+                        if (!_temperatureDic.ContainsKey(gpu.Index)) {
+                            _temperatureDic.Add(gpu.Index, 0);
+                        }
+                        if (gpu.Temperature > _temperatureDic[gpu.Index]) {
+                            _guardOn[gpu.Index] = DateTime.Now;
+                        }
+                        _temperatureDic[gpu.Index] = gpu.Temperature;
                         // 连续?分钟GPU温度没有突破防线
                         if (guardOn.AddSeconds(_fanSpeedDownSeconds) < DateTime.Now) {
                             int cool = (int)(gpu.FanSpeed - _fanSpeedDownStep);

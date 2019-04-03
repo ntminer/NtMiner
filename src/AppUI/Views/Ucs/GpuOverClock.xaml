@@ -74,7 +74,9 @@
 							Padding="0" 
 							VerticalAlignment="Center"
 							Foreground="{StaticResource LableColor}"
+							Tag="{Binding CoinVm.GpuAllProfileVm}"
 							IsChecked="{Binding CoinVm.GpuAllProfileVm.IsAutoFanSpeed}" 
+							Click="CheckBoxIsAutoFanSpeed_Click"
 							Content="自动控温"></CheckBox>
 					</WrapPanel>
 				</StackPanel>
@@ -216,6 +218,8 @@
 										<CheckBox 
 											Padding="0" 
 											VerticalAlignment="Center"
+											Click="CheckBoxIsAutoFanSpeed_Click"
+											Tag="{Binding}"
 											Foreground="{StaticResource LableColor}"
 											IsChecked="{Binding IsAutoFanSpeed}" 
 											Content="自动控温"></CheckBox>
