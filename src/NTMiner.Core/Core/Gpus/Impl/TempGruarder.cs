@@ -36,9 +36,13 @@ namespace NTMiner.Core.Gpus.Impl {
                     }
                     else {
                         Write.UserInfo($"GPU{gpu.Index} 温度{gpu.Temperature}大于防线温度{gpuProfile.GuardTemp}，自动增加风扇转速");
-                        int cool = gpu.Cool + (100 - gpu.Cool) / 2;
-                        if (cool < 100) {
+                        int cool = gpu.Cool + (int)Math.Ceiling((100 - gpu.Cool) / 2.0);
+                        if (cool > 100) {
+                            cool = 100;
+                        }
+                        if (cool <= 100) {
                             root.GpuSet.OverClock.SetCool(gpu.Index, cool);
+                            gpu.Cool = cool;
                             Write.UserInfo($"GPU{gpu.Index} 风扇转速由{gpu.Cool}%自动增加至{cool}%");
                         }
                     }
