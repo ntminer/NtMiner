@@ -66,7 +66,7 @@
 								HorizontalAlignment="Right"
 								Foreground="{StaticResource LableColor}"
 								IsChecked="{Binding CoinVm.GpuAllProfileVm.GpuVm.IsGuardTemp}" 
-								Content="守卫"></CheckBox>
+								Content="防线"></CheckBox>
 						</StackPanel>
 						<TextBox Style="{StaticResource TextBox}" ToolTip="自动调整风扇使温度趋向于这个温度" Text="{Binding CoinVm.GpuAllProfileVm.TempGuard, ValidatesOnExceptions=True}"></TextBox>
 						<TextBlock VerticalAlignment="Center">℃</TextBlock>
@@ -79,6 +79,11 @@
 				</StackPanel>
 			</GroupBox>
 			<Grid Margin="10 4">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="*"></RowDefinition>
+					<RowDefinition Height="Auto"></RowDefinition>
+					<RowDefinition Height="Auto"></RowDefinition>
+				</Grid.RowDefinitions>
 				<WrapPanel>
 					<TextBlock 
 						Visibility="{Binding CoinVm.OverClockDatas,Converter={StaticResource NoRecordInvertVisibilityConverter}}"
@@ -116,8 +121,11 @@
 						</ItemsControl.ItemTemplate>
 					</ItemsControl>
 				</WrapPanel>
-				<WrapPanel VerticalAlignment="Bottom">
-					<TextBlock x:Name="TbRedText" Foreground="Red" VerticalAlignment="Center"></TextBlock>
+				<StackPanel Grid.Row="1">
+					<TextBlock VerticalAlignment="Center">最高温度：表示达到这个温度时显卡将自动降频</TextBlock>
+					<TextBlock VerticalAlignment="Center">防线温度：系统自动调整风扇转速以使温度不越过防线</TextBlock>
+				</StackPanel>
+				<WrapPanel Grid.Row="2" VerticalAlignment="Bottom">
 					<controls:KbButton
 						Height="21"
 						Padding="6 2"
@@ -137,6 +145,7 @@
 							<TextBlock>应用</TextBlock>
 						</WrapPanel>
 					</controls:KbButton>
+					<TextBlock x:Name="TbRedText" Foreground="Red" VerticalAlignment="Center"></TextBlock>
 				</WrapPanel>
 			</Grid>
 		</WrapPanel>
@@ -201,7 +210,7 @@
 												HorizontalAlignment="Right"
 												Foreground="{StaticResource LableColor}"
 												IsChecked="{Binding GpuVm.IsGuardTemp}" 
-												Content="守卫"></CheckBox>
+												Content="防线"></CheckBox>
 										</StackPanel>
 										<TextBox Style="{StaticResource TextBox}" ToolTip="自动调整风扇使温度趋向于这个温度" Text="{Binding TempGuard, ValidatesOnExceptions=True}"></TextBox>
 										<TextBlock VerticalAlignment="Center">℃</TextBlock>
