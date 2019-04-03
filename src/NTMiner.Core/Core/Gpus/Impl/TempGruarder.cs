@@ -35,7 +35,7 @@ namespace NTMiner.Core.Gpus.Impl {
                     }
                     _temperatureDic[gpu.Index] = gpu.Temperature;
                     if (gpu.Temperature <= gpuProfile.GuardTemp) {
-                        // 将防线失守时间设为未来
+                        // 将防线突破时间设为未来
                         DateTime brokenOn = DateTime.Now.AddSeconds(5);
                         if (_guardBrokenOn.ContainsKey(gpu.Index)) {
                             _guardBrokenOn[gpu.Index] = brokenOn;
@@ -77,14 +77,12 @@ namespace NTMiner.Core.Gpus.Impl {
                             brokenOn = DateTime.Now;
                             _guardBrokenOn.Add(gpu.Index, brokenOn);
                         }
-                        else {
-                            _guardBrokenOn[gpu.Index] = DateTime.Now;
-                        }
                         Write.UserInfo($"GPU{gpu.Index} 温度{gpu.Temperature}大于防线温度{gpuProfile.GuardTemp}，自动增加风扇转速");
                         uint cool;
                         uint len;
-                        // 防线已失守10秒钟
+                        // 防线已突破10秒钟，防线突破可能是由于小量降低风扇转速造成的
                         if (brokenOn.AddSeconds(10) < DateTime.Now) {
+                            _guardBrokenOn[gpu.Index] = DateTime.Now;
                             len = 100 - gpu.FanSpeed;
                         }
                         else {
