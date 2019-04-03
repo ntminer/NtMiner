@@ -11,7 +11,7 @@ namespace NTMiner.Core.Gpus.Impl {
 
         private bool _isInited = false;
         private Dictionary<int, uint> _temperatureDic = new Dictionary<int, uint>();
-        private Dictionary<int, DateTime> _tempGuardOn = new Dictionary<int, DateTime>();
+        private Dictionary<int, DateTime> _fanSpeedDownOn = new Dictionary<int, DateTime>();
         public void Init(INTMinerRoot root) {
             if (_isInited) {
                 return;
@@ -32,12 +32,13 @@ namespace NTMiner.Core.Gpus.Impl {
                     }
                     _temperatureDic[gpu.Index] = gpu.Temperature;
                     if (gpu.Temperature <= gpuProfile.GuardTemp) {
-                        DateTime preGuardOn;
-                        if (!_tempGuardOn.TryGetValue(gpu.Index, out preGuardOn)) {
-                            preGuardOn = DateTime.MinValue;
+                        DateTime lastSpeedDownOn;
+                        if (!_fanSpeedDownOn.TryGetValue(gpu.Index, out lastSpeedDownOn)) {
+                            lastSpeedDownOn = DateTime.Now;
                         }
-                        if (preGuardOn.AddMinutes(5) < DateTime.Now) {
-                            // 连续5分钟GPU温度没有突破防线
+                        // 连续?分钟GPU温度没有突破防线
+                        if (lastSpeedDownOn.AddMinutes(1) < DateTime.Now) {
+                            _fanSpeedDownOn[gpu.Index] = DateTime.Now;
                             int cool = (int)gpu.FanSpeed - 2;
                             if (cool > 50) {
                                 root.GpuSet.OverClock.SetCool(gpu.Index, cool);
@@ -55,12 +56,6 @@ namespace NTMiner.Core.Gpus.Impl {
                             cool = 100;
                         }
                         if (cool <= 100) {
-                            if (!_tempGuardOn.ContainsKey(gpu.Index)) {
-                                _tempGuardOn.Add(gpu.Index, DateTime.Now);
-                            }
-                            else {
-                                _tempGuardOn[gpu.Index] = DateTime.Now;
-                            }
                             root.GpuSet.OverClock.SetCool(gpu.Index, (int)cool);
                             Write.UserInfo($"GPU{gpu.Index} 风扇转速由{gpu.FanSpeed}%自动增加至{cool}%");
                         }
