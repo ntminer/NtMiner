@@ -336,7 +336,8 @@ namespace NTMiner {
                     }
                 });
             #endregion
-
+            // 当显卡温度变更时守卫温度防线
+            TempGruarder.Instance.Init(this);
             // 因为这里耗时500毫秒左右
             Task.Factory.StartNew(() => {
                 Windows.Error.DisableWindowsErrorUI();

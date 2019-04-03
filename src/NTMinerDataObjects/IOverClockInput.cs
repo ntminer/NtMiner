@@ -10,7 +10,7 @@
 
         bool IsGuardTemp { get; }
 
-        int TempGuard { get; }
+        int GuardTemp { get; }
 
         int Cool { get; set; }
     }

@@ -43,6 +43,6 @@
         public int TempLimitMax { get; set; }
         public int TempLimit { get; set; }
         public bool IsGuardTemp { get; set; }
-        public int TempGuard { get; set; }
+        public int GuardTemp { get; set; }
     }
 }

@@ -1,12 +1,10 @@
-﻿using NTMiner.MinerClient;
-
-namespace NTMiner.Core.Gpus {
+﻿namespace NTMiner.Core.Gpus {
     public interface IOverClock {
-        void SetCoreClock(IGpuProfile data);
-        void SetMemoryClock(IGpuProfile data);
-        void SetPowerCapacity(IGpuProfile data);
-        void SetThermCapacity(IGpuProfile data);
-        void SetCool(IGpuProfile data);
+        void SetCoreClock(int gpuIndex, int value);
+        void SetMemoryClock(int gpuIndex, int value);
+        void SetPowerCapacity(int gpuIndex, int value);
+        void SetThermCapacity(int gpuIndex, int value);
+        void SetCool(int gpuIndex, int value);
         void RefreshGpuState(int gpuIndex);
     }
 }

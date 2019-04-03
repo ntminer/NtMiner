@@ -68,7 +68,7 @@
 								IsChecked="{Binding CoinVm.GpuAllProfileVm.GpuVm.IsGuardTemp}" 
 								Content="防线"></CheckBox>
 						</StackPanel>
-						<TextBox Style="{StaticResource TextBox}" ToolTip="自动调整风扇使温度趋向于这个温度" Text="{Binding CoinVm.GpuAllProfileVm.TempGuard, ValidatesOnExceptions=True}"></TextBox>
+						<TextBox Style="{StaticResource TextBox}" ToolTip="自动调整风扇使温度趋向于这个温度" Text="{Binding CoinVm.GpuAllProfileVm.GuardTemp, ValidatesOnExceptions=True}"></TextBox>
 						<TextBlock VerticalAlignment="Center">℃</TextBlock>
 					</WrapPanel>
 					<WrapPanel>
@@ -211,7 +211,7 @@
 												IsChecked="{Binding GpuVm.IsGuardTemp}" 
 												Content="防线"></CheckBox>
 										</StackPanel>
-										<TextBox Style="{StaticResource TextBox}" ToolTip="自动调整风扇使温度趋向于这个温度" Text="{Binding TempGuard, ValidatesOnExceptions=True}"></TextBox>
+										<TextBox Style="{StaticResource TextBox}" ToolTip="自动调整风扇使温度趋向于这个温度" Text="{Binding GuardTemp, ValidatesOnExceptions=True}"></TextBox>
 										<TextBlock VerticalAlignment="Center">℃</TextBlock>
 										<TextBlock VerticalAlignment="Center" Margin="4 0 0 0" Text="{Binding GpuVm.TemperatureText}"></TextBlock>
 									</WrapPanel>

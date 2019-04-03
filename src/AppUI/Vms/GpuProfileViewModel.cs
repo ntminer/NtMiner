@@ -27,7 +27,7 @@ namespace NTMiner.Vms {
             _powerCapacity = data.PowerCapacity;
             _tempLimit = data.TempLimit;
             _isGuardTemp = data.IsGuardTemp;
-            _thermGuard = data.TempGuard;
+            _thermGuard = data.GuardTemp;
             _cool = data.Cool;
             _gpuVm = gpuVm;
         }
@@ -40,7 +40,7 @@ namespace NTMiner.Vms {
             this._powerCapacity = data.PowerCapacity;
             this._tempLimit = data.TempLimit;
             this._isGuardTemp = data.IsGuardTemp;
-            this._thermGuard = data.TempGuard;
+            this._thermGuard = data.GuardTemp;
             this._cool = data.Cool;
 
             OnPropertyChanged(nameof(CoinId));
@@ -50,7 +50,7 @@ namespace NTMiner.Vms {
             OnPropertyChanged(nameof(PowerCapacity));
             OnPropertyChanged(nameof(TempLimit));
             OnPropertyChanged(nameof(IsGuardTemp));
-            OnPropertyChanged(nameof(TempGuard));
+            OnPropertyChanged(nameof(GuardTemp));
             OnPropertyChanged(nameof(Cool));
         }
 
@@ -60,7 +60,7 @@ namespace NTMiner.Vms {
             this._powerCapacity = data.PowerCapacity;
             this._tempLimit = data.TempLimit;
             this._isGuardTemp = data.IsGuardTemp;
-            this._thermGuard = data.TempGuard;
+            this._thermGuard = data.GuardTemp;
             this._cool = data.Cool;
 
             OnPropertyChanged(nameof(CoreClockDelta));
@@ -68,7 +68,7 @@ namespace NTMiner.Vms {
             OnPropertyChanged(nameof(PowerCapacity));
             OnPropertyChanged(nameof(TempLimit));
             OnPropertyChanged(nameof(IsGuardTemp));
-            OnPropertyChanged(nameof(TempGuard));
+            OnPropertyChanged(nameof(GuardTemp));
             OnPropertyChanged(nameof(Cool));
         }
 
@@ -155,11 +155,11 @@ namespace NTMiner.Vms {
             }
         }
 
-        public int TempGuard {
+        public int GuardTemp {
             get => _thermGuard;
             set {
                 _thermGuard = value;
-                OnPropertyChanged(nameof(TempGuard));
+                OnPropertyChanged(nameof(GuardTemp));
             }
         }
 
