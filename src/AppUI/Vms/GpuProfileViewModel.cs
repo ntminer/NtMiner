@@ -59,16 +59,12 @@ namespace NTMiner.Vms {
             this._memoryClockDelta = data.MemoryClockDelta;
             this._powerCapacity = data.PowerCapacity;
             this._tempLimit = data.TempLimit;
-            this._isGuardTemp = data.IsGuardTemp;
-            this._thermGuard = data.GuardTemp;
             this._cool = data.Cool;
 
             OnPropertyChanged(nameof(CoreClockDelta));
             OnPropertyChanged(nameof(MemoryClockDelta));
             OnPropertyChanged(nameof(PowerCapacity));
             OnPropertyChanged(nameof(TempLimit));
-            OnPropertyChanged(nameof(IsGuardTemp));
-            OnPropertyChanged(nameof(GuardTemp));
             OnPropertyChanged(nameof(Cool));
         }
 

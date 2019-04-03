@@ -8,10 +8,6 @@
 
         int TempLimit { get; set; }
 
-        bool IsGuardTemp { get; }
-
-        int GuardTemp { get; }
-
         int Cool { get; set; }
     }
 }

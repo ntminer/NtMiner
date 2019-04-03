@@ -65,7 +65,7 @@
 								Padding="0 0 4 0" 
 								HorizontalAlignment="Right"
 								Foreground="{StaticResource LableColor}"
-								IsChecked="{Binding CoinVm.GpuAllProfileVm.GpuVm.IsGuardTemp}" 
+								IsChecked="{Binding CoinVm.GpuAllProfileVm.IsGuardTemp}" 
 								Content="防线"></CheckBox>
 						</StackPanel>
 						<TextBox Style="{StaticResource TextBox}" ToolTip="自动调整风扇使温度趋向于这个温度" Text="{Binding CoinVm.GpuAllProfileVm.GuardTemp, ValidatesOnExceptions=True}"></TextBox>
@@ -208,7 +208,7 @@
 												Padding="0 0 4 0" 
 												HorizontalAlignment="Right"
 												Foreground="{StaticResource LableColor}"
-												IsChecked="{Binding GpuVm.IsGuardTemp}" 
+												IsChecked="{Binding IsGuardTemp}" 
 												Content="防线"></CheckBox>
 										</StackPanel>
 										<TextBox Style="{StaticResource TextBox}" ToolTip="自动调整风扇使温度趋向于这个温度" Text="{Binding GuardTemp, ValidatesOnExceptions=True}"></TextBox>

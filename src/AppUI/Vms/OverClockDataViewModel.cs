@@ -68,8 +68,6 @@ namespace NTMiner.Vms {
             _memoryClockDelta = data.MemoryClockDelta;
             _powerCapacity = data.PowerCapacity;
             _thermCapacity = data.TempLimit;
-            _isGuardTemp = data.IsGuardTemp;
-            _thermGuard = data.GuardTemp;
             _cool = data.Cool;
         }
 

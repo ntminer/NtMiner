@@ -26,8 +26,6 @@ namespace NTMiner.Vms {
         private int _tempLimitDefault;
         private int _tempLimitMax;
         private int _tempLimit;
-        private bool _isGuardTemp;
-        private int _guardTemp;
 
         public GpuViewModel(IGpu data) {
             _index = data.Index;
@@ -51,8 +49,6 @@ namespace NTMiner.Vms {
             _tempLimitDefault = data.TempLimitDefault;
             _tempLimitMax = data.TempLimitMax;
             _tempLimitMin = data.TempLimitMin;
-            _isGuardTemp = data.IsGuardTemp;
-            _guardTemp = data.GuardTemp;
         }
 
         private readonly bool _isGpuData;
@@ -86,8 +82,6 @@ namespace NTMiner.Vms {
             _tempLimitMin = gpuData.TempLimitMin;
             _tempLimitMax = gpuData.TempLimitMax;
             _tempLimitDefault = gpuData.TempLimitDefault;
-            _isGuardTemp = false;
-            _guardTemp = 0;
         }
 
         public int Index {
@@ -513,22 +507,6 @@ namespace NTMiner.Vms {
         public string TempLimitText {
             get {
                 return this.TempLimit.ToString() + "℃";
-            }
-        }
-
-        public bool IsGuardTemp {
-            get => _isGuardTemp;
-            set {
-                _isGuardTemp = value;
-                OnPropertyChanged(nameof(IsGuardTemp));
-            }
-        }
-
-        public int GuardTemp {
-            get => _guardTemp;
-            set {
-                _guardTemp = value;
-                OnPropertyChanged(nameof(GuardTemp));
             }
         }
     }

@@ -24,6 +24,8 @@ namespace NTMiner.MinerClient {
         public void Update(IGpuProfile data) {
             this.CoinId = data.CoinId;
             this.Index = data.Index;
+            this.IsGuardTemp = data.IsGuardTemp;
+            this.GuardTemp = data.GuardTemp;
             Update((IOverClockInput)data);
         }
 
@@ -32,8 +34,6 @@ namespace NTMiner.MinerClient {
             this.MemoryClockDelta = input.MemoryClockDelta;
             this.PowerCapacity = input.PowerCapacity;
             this.TempLimit = input.TempLimit;
-            this.IsGuardTemp = input.IsGuardTemp;
-            this.GuardTemp = input.GuardTemp;
             this.Cool = input.Cool;
         }
 
