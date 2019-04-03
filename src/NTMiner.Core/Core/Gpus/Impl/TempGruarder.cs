@@ -59,12 +59,11 @@ namespace NTMiner.Core.Gpus.Impl {
                             if (cool >= gpu.CoolMin) {
                                 _guardOn[gpu.Index] = DateTime.Now;
                                 root.GpuSet.OverClock.SetCool(gpu.Index, cool);
-                                Write.UserInfo($"GPU{gpu.Index} 风扇转速由{gpu.FanSpeed}%自动降至{cool}%");
+                                Write.DevDebug($"GPU{gpu.Index} 风扇转速由{gpu.FanSpeed}%调低至{cool}%");
                             }
                         }
                     }
                     else if (gpu.Temperature > _guardTemp) {
-                        Write.UserInfo($"GPU{gpu.Index} 温度{gpu.Temperature}大于防线温度{_guardTemp}，自动增加风扇转速");
                         uint cool;
                         uint len;
                         // 防线突破可能是由于小量降低风扇转速造成的
@@ -81,7 +80,7 @@ namespace NTMiner.Core.Gpus.Impl {
                         }
                         if (cool <= 100) {
                             root.GpuSet.OverClock.SetCool(gpu.Index, (int)cool);
-                            Write.UserInfo($"GPU{gpu.Index} 风扇转速由{gpu.FanSpeed}%自动增加至{cool}%");
+                            Write.DevDebug($"GPU{gpu.Index} 风扇转速由{gpu.FanSpeed}%调高至{cool}%");
                         }
                     }
                 });
