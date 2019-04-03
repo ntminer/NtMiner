@@ -15,8 +15,7 @@ namespace NTMiner.Vms {
         private int _powerCapacity;
         private int _cool;
         private int _thermCapacity;
-        private bool _isGuardTemp;
-        private int _thermGuard;
+        private bool _isAutoFanSpeed;
 
         public ICommand Remove { get; private set; }
         public ICommand Edit { get; private set; }
@@ -134,19 +133,11 @@ namespace NTMiner.Vms {
             }
         }
 
-        public bool IsGuardTemp {
-            get => _isGuardTemp;
+        public bool IsAutoFanSpeed {
+            get => _isAutoFanSpeed;
             set {
-                _isGuardTemp = value;
-                OnPropertyChanged(nameof(IsGuardTemp));
-            }
-        }
-
-        public int GuardTemp {
-            get => _thermGuard;
-            set {
-                _thermGuard = value;
-                OnPropertyChanged(nameof(GuardTemp));
+                _isAutoFanSpeed = value;
+                OnPropertyChanged(nameof(IsAutoFanSpeed));
             }
         }
 
@@ -173,7 +164,7 @@ namespace NTMiner.Vms {
 
         public string Tooltip {
             get {
-                return $"核心{CoreClockDelta}M, 显存{MemoryClockDelta}M, 功耗{PowerCapacity}%, 风扇{Cool}%, 降频温度{TempLimit}, 守卫温度{GuardTemp}";
+                return $"核心{CoreClockDelta}M, 显存{MemoryClockDelta}M, 功耗{PowerCapacity}%, 风扇{(IsAutoFanSpeed ? "自动" : Cool + "%")}, 降频温度{TempLimit}";
             }
         }
     }

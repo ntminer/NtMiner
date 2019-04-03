@@ -12,8 +12,7 @@ namespace NTMiner.Vms {
         private int _cool;
         private GpuViewModel _gpuVm;
         private int _tempLimit;
-        private bool _isGuardTemp;
-        private int _thermGuard;
+        private bool _isAutoFanSpeed;
 
 
         public GpuProfileViewModel() {
@@ -26,8 +25,7 @@ namespace NTMiner.Vms {
             _memoryClockDelta = data.MemoryClockDelta;
             _powerCapacity = data.PowerCapacity;
             _tempLimit = data.TempLimit;
-            _isGuardTemp = data.IsGuardTemp;
-            _thermGuard = data.GuardTemp;
+            _isAutoFanSpeed = data.IsAutoFanSpeed;
             _cool = data.Cool;
             _gpuVm = gpuVm;
         }
@@ -39,8 +37,7 @@ namespace NTMiner.Vms {
             this._memoryClockDelta = data.MemoryClockDelta;
             this._powerCapacity = data.PowerCapacity;
             this._tempLimit = data.TempLimit;
-            this._isGuardTemp = data.IsGuardTemp;
-            this._thermGuard = data.GuardTemp;
+            this._isAutoFanSpeed = data.IsAutoFanSpeed;
             this._cool = data.Cool;
 
             OnPropertyChanged(nameof(CoinId));
@@ -49,8 +46,7 @@ namespace NTMiner.Vms {
             OnPropertyChanged(nameof(MemoryClockDelta));
             OnPropertyChanged(nameof(PowerCapacity));
             OnPropertyChanged(nameof(TempLimit));
-            OnPropertyChanged(nameof(IsGuardTemp));
-            OnPropertyChanged(nameof(GuardTemp));
+            OnPropertyChanged(nameof(IsAutoFanSpeed));
             OnPropertyChanged(nameof(Cool));
         }
 
@@ -143,19 +139,11 @@ namespace NTMiner.Vms {
             }
         }
 
-        public bool IsGuardTemp {
-            get => _isGuardTemp;
+        public bool IsAutoFanSpeed {
+            get => _isAutoFanSpeed;
             set {
-                _isGuardTemp = value;
-                OnPropertyChanged(nameof(IsGuardTemp));
-            }
-        }
-
-        public int GuardTemp {
-            get => _thermGuard;
-            set {
-                _thermGuard = value;
-                OnPropertyChanged(nameof(GuardTemp));
+                _isAutoFanSpeed = value;
+                OnPropertyChanged(nameof(IsAutoFanSpeed));
             }
         }
 

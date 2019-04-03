@@ -5,8 +5,6 @@ namespace NTMiner.MinerClient {
         Guid CoinId { get; }
         int Index { get; }
 
-        bool IsGuardTemp { get; }
-
-        int GuardTemp { get; }
+        bool IsAutoFanSpeed { get; }
     }
 }

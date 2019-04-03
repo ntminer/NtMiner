@@ -12,8 +12,7 @@ namespace NTMiner.MinerClient {
             this.MemoryClockDelta = 0;
             this.PowerCapacity = 100;
             this.TempLimit = 83;
-            this.IsGuardTemp = false;
-            this.GuardTemp = 70;
+            this.IsAutoFanSpeed = false;
             this.Cool = 90;
         }
 
@@ -24,8 +23,7 @@ namespace NTMiner.MinerClient {
         public void Update(IGpuProfile data) {
             this.CoinId = data.CoinId;
             this.Index = data.Index;
-            this.IsGuardTemp = data.IsGuardTemp;
-            this.GuardTemp = data.GuardTemp;
+            this.IsAutoFanSpeed = data.IsAutoFanSpeed;
             Update((IOverClockInput)data);
         }
 
@@ -53,14 +51,12 @@ namespace NTMiner.MinerClient {
 
         public int TempLimit { get; set; }
 
-        public bool IsGuardTemp { get; set; }
-
-        public int GuardTemp { get; set; }
+        public bool IsAutoFanSpeed { get; set; }
 
         public int Cool { get; set; }
 
         public override string ToString() {
-            return $"{CoinId}{Index}{CoreClockDelta}{MemoryClockDelta}{PowerCapacity}{TempLimit}{IsGuardTemp}{GuardTemp}{Cool}";
+            return $"{CoinId}{Index}{CoreClockDelta}{MemoryClockDelta}{PowerCapacity}{TempLimit}{IsAutoFanSpeed}{Cool}";
         }
     }
 }

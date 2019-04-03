@@ -60,21 +60,22 @@
 						<TextBlock VerticalAlignment="Center">℃</TextBlock>
 					</WrapPanel>
 					<WrapPanel>
-						<StackPanel Width="60" VerticalAlignment="Center">
-							<CheckBox 
-								Padding="0 0 4 0" 
-								HorizontalAlignment="Right"
-								Foreground="{StaticResource LableColor}"
-								IsChecked="{Binding CoinVm.GpuAllProfileVm.IsGuardTemp}" 
-								Content="防线"></CheckBox>
-						</StackPanel>
-						<TextBox Style="{StaticResource TextBox}" ToolTip="自动调整风扇使温度趋向于这个温度" Text="{Binding CoinVm.GpuAllProfileVm.GuardTemp, ValidatesOnExceptions=True}"></TextBox>
-						<TextBlock VerticalAlignment="Center">℃</TextBlock>
+						<TextBlock Style="{StaticResource LblTb}">风扇</TextBlock>
+						<WrapPanel>
+							<TextBox
+								Style="{StaticResource TextBox}"
+								ToolTip="{Binding CoinVm.GpuAllProfileVm.GpuVm.CoolMinMaxText}" Text="{Binding CoinVm.GpuAllProfileVm.Cool, ValidatesOnExceptions=True}"></TextBox>
+							<TextBlock VerticalAlignment="Center">%</TextBlock>
+						</WrapPanel>
 					</WrapPanel>
 					<WrapPanel>
-						<TextBlock Style="{StaticResource LblTb}">风扇</TextBlock>
-						<TextBox Style="{StaticResource TextBox}" ToolTip="{Binding CoinVm.GpuAllProfileVm.GpuVm.CoolMinMaxText}" Text="{Binding CoinVm.GpuAllProfileVm.Cool, ValidatesOnExceptions=True}"></TextBox>
-						<TextBlock VerticalAlignment="Center">%</TextBlock>
+						<TextBlock Style="{StaticResource LblTb}">温度</TextBlock>
+						<CheckBox 
+							Padding="0" 
+							VerticalAlignment="Center"
+							Foreground="{StaticResource LableColor}"
+							IsChecked="{Binding CoinVm.GpuAllProfileVm.IsAutoFanSpeed}" 
+							Content="自动控温"></CheckBox>
 					</WrapPanel>
 				</StackPanel>
 			</GroupBox>
@@ -203,23 +204,22 @@
 										<TextBlock VerticalAlignment="Center" Margin="4 0 0 0" Text="{Binding GpuVm.TempLimitText}"></TextBlock>
 									</WrapPanel>
 									<WrapPanel>
-										<StackPanel Width="60" VerticalAlignment="Center">
-											<CheckBox 
-												Padding="0 0 4 0" 
-												HorizontalAlignment="Right"
-												Foreground="{StaticResource LableColor}"
-												IsChecked="{Binding IsGuardTemp}" 
-												Content="防线"></CheckBox>
-										</StackPanel>
-										<TextBox Style="{StaticResource TextBox}" ToolTip="自动调整风扇使温度趋向于这个温度" Text="{Binding GuardTemp, ValidatesOnExceptions=True}"></TextBox>
-										<TextBlock VerticalAlignment="Center">℃</TextBlock>
-										<TextBlock VerticalAlignment="Center" Margin="4 0 0 0" Text="{Binding GpuVm.TemperatureText}"></TextBlock>
+										<TextBlock Style="{StaticResource LblTb}">风扇</TextBlock>
+										<TextBox
+											Style="{StaticResource TextBox}"
+											ToolTip="{Binding GpuVm.CoolMinMaxText}" Text="{Binding Cool, ValidatesOnExceptions=True}"></TextBox>
+										<TextBlock VerticalAlignment="Center">%</TextBlock>
+										<TextBlock Margin="4 0 0 0" VerticalAlignment="Center" Text="{Binding GpuVm.FanSpeedText}"></TextBlock>
 									</WrapPanel>
 									<WrapPanel>
-										<TextBlock Style="{StaticResource LblTb}">风扇</TextBlock>
-										<TextBox Style="{StaticResource TextBox}" ToolTip="{Binding GpuVm.CoolMinMaxText}" Text="{Binding Cool, ValidatesOnExceptions=True}"></TextBox>
-										<TextBlock VerticalAlignment="Center">%</TextBlock>
-										<TextBlock VerticalAlignment="Center" Margin="4 0 0 0" Text="{Binding GpuVm.FanSpeedText}"></TextBlock>
+										<TextBlock Style="{StaticResource LblTb}">温度</TextBlock>
+										<CheckBox 
+											Padding="0" 
+											VerticalAlignment="Center"
+											Foreground="{StaticResource LableColor}"
+											IsChecked="{Binding IsAutoFanSpeed}" 
+											Content="自动控温"></CheckBox>
+										<TextBlock Margin="4 0 0 0" VerticalAlignment="Center" Text="{Binding GpuVm.TemperatureText}"></TextBlock>
 									</WrapPanel>
 								</StackPanel>
 							</GroupBox>

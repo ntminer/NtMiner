@@ -14,6 +14,7 @@ namespace NTMiner.Core.Gpus.Impl {
         private Dictionary<int, DateTime> _guardOn = new Dictionary<int, DateTime>();
         private readonly int _fanSpeedDownSeconds = 20;
         private readonly uint _fanSpeedDownStep = 2;
+        private static readonly int _guardTemp = 60;
         public void Init(INTMinerRoot root) {
             if (_isInited) {
                 return;
@@ -26,7 +27,7 @@ namespace NTMiner.Core.Gpus.Impl {
                         return;
                     }
                     IGpuProfile gpuProfile = GpuProfileSet.Instance.GetGpuProfile(root.MinerProfile.CoinId, gpu.Index);
-                    if (!gpuProfile.IsGuardTemp || gpuProfile.GuardTemp == 0) {
+                    if (!gpuProfile.IsAutoFanSpeed) {
                         return;
                     }
                     if (!_temperatureDic.ContainsKey(gpu.Index)) {
@@ -40,9 +41,9 @@ namespace NTMiner.Core.Gpus.Impl {
                         _guardOn.Add(gpu.Index, guardOn);
                     }
                     if (gpu.FanSpeed == 100) {
-                        Write.DevDebug($"GPU{gpu.Index} 温度{gpu.Temperature}大于防线温度{gpuProfile.GuardTemp}，但风扇转速已达100%");
+                        Write.DevDebug($"GPU{gpu.Index} 温度{gpu.Temperature}大于防线温度{_guardTemp}，但风扇转速已达100%");
                     }
-                    else if (gpu.Temperature < gpuProfile.GuardTemp) {
+                    else if (gpu.Temperature < _guardTemp) {
                         // 连续?分钟GPU温度没有突破防线
                         if (guardOn.AddSeconds(_fanSpeedDownSeconds) < DateTime.Now) {
                             int cool = (int)(gpu.FanSpeed - _fanSpeedDownStep);
@@ -56,8 +57,8 @@ namespace NTMiner.Core.Gpus.Impl {
                             }
                         }
                     }
-                    else if (gpu.Temperature > gpuProfile.GuardTemp) {
-                        Write.UserInfo($"GPU{gpu.Index} 温度{gpu.Temperature}大于防线温度{gpuProfile.GuardTemp}，自动增加风扇转速");
+                    else if (gpu.Temperature > _guardTemp) {
+                        Write.UserInfo($"GPU{gpu.Index} 温度{gpu.Temperature}大于防线温度{_guardTemp}，自动增加风扇转速");
                         uint cool;
                         uint len;
                         // 防线突破可能是由于小量降低风扇转速造成的
