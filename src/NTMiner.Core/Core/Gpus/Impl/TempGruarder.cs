@@ -11,6 +11,7 @@ namespace NTMiner.Core.Gpus.Impl {
 
         private bool _isInited = false;
         private Dictionary<int, uint> _temperatureDic = new Dictionary<int, uint>();
+        private Dictionary<int, DateTime> _tempGuardOn = new Dictionary<int, DateTime>();
         public void Init(INTMinerRoot root) {
             if (_isInited) {
                 return;
@@ -31,19 +32,37 @@ namespace NTMiner.Core.Gpus.Impl {
                     }
                     _temperatureDic[gpu.Index] = gpu.Temperature;
                     if (gpu.Temperature <= gpuProfile.GuardTemp) {
-                        Write.DevDebug($"GPU{gpu.Index} 温度{gpu.Temperature}不大于防线温度{gpuProfile.GuardTemp}");
-                        // TODO:风扇降速策略
+                        DateTime preGuardOn;
+                        if (!_tempGuardOn.TryGetValue(gpu.Index, out preGuardOn)) {
+                            preGuardOn = DateTime.MinValue;
+                        }
+                        if (preGuardOn.AddMinutes(5) < DateTime.Now) {
+                            // 连续5分钟GPU温度没有突破防线
+                            int cool = (int)gpu.FanSpeed - 2;
+                            if (cool > 50) {
+                                root.GpuSet.OverClock.SetCool(gpu.Index, cool);
+                                Write.UserInfo($"GPU{gpu.Index} 风扇转速由{gpu.FanSpeed}%自动降至{cool}%");
+                            }
+                        }
+                    }
+                    else if (gpu.FanSpeed == 100) {
+                        Write.DevDebug($"GPU{gpu.Index} 温度{gpu.Temperature}大于防线温度{gpuProfile.GuardTemp}，但风扇转速已达100%");
                     }
                     else {
                         Write.UserInfo($"GPU{gpu.Index} 温度{gpu.Temperature}大于防线温度{gpuProfile.GuardTemp}，自动增加风扇转速");
-                        int cool = gpu.Cool + (int)Math.Ceiling((100 - gpu.Cool) / 2.0);
+                        uint cool = gpu.FanSpeed + (uint)Math.Ceiling((100 - gpu.FanSpeed) / 2.0);
                         if (cool > 100) {
                             cool = 100;
                         }
                         if (cool <= 100) {
-                            root.GpuSet.OverClock.SetCool(gpu.Index, cool);
-                            gpu.Cool = cool;
-                            Write.UserInfo($"GPU{gpu.Index} 风扇转速由{gpu.Cool}%自动增加至{cool}%");
+                            if (!_tempGuardOn.ContainsKey(gpu.Index)) {
+                                _tempGuardOn.Add(gpu.Index, DateTime.Now);
+                            }
+                            else {
+                                _tempGuardOn[gpu.Index] = DateTime.Now;
+                            }
+                            root.GpuSet.OverClock.SetCool(gpu.Index, (int)cool);
+                            Write.UserInfo($"GPU{gpu.Index} 风扇转速由{gpu.FanSpeed}%自动增加至{cool}%");
                         }
                     }
                 });
