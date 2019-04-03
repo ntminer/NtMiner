@@ -12,6 +12,7 @@ namespace NTMiner.Core.Gpus.Impl {
         private bool _isInited = false;
         private Dictionary<int, uint> _temperatureDic = new Dictionary<int, uint>();
         private Dictionary<int, DateTime> _fanSpeedDownOn = new Dictionary<int, DateTime>();
+        private Dictionary<int, DateTime> _guardBrokenOn = new Dictionary<int, DateTime>();
         private readonly int _fanSpeedDownMinutes = 1;
         private readonly uint _fanSpeedDownStep = 2;
         public void Init(INTMinerRoot root) {
@@ -33,6 +34,16 @@ namespace NTMiner.Core.Gpus.Impl {
                         _temperatureDic.Add(gpu.Index, 0);
                     }
                     _temperatureDic[gpu.Index] = gpu.Temperature;
+                    if (gpu.Temperature <= gpuProfile.GuardTemp) {
+                        // 将防线失守时间设为未来
+                        DateTime brokenOn = DateTime.Now.AddSeconds(5);
+                        if (_guardBrokenOn.ContainsKey(gpu.Index)) {
+                            _guardBrokenOn[gpu.Index] = brokenOn;
+                        }
+                        else {
+                            _guardBrokenOn.Add(gpu.Index, brokenOn);
+                        }
+                    }
                     if (gpu.FanSpeed == 100) {
                         Write.DevDebug($"GPU{gpu.Index} 温度{gpu.Temperature}大于防线温度{gpuProfile.GuardTemp}，但风扇转速已达100%");
                     }
@@ -61,17 +72,19 @@ namespace NTMiner.Core.Gpus.Impl {
                         }
                     }
                     else if (gpu.Temperature > gpuProfile.GuardTemp) {
-                        DateTime lastSpeedDownOn;
-                        if (_fanSpeedDownOn.TryGetValue(gpu.Index, out lastSpeedDownOn)) {
-                            _fanSpeedDownOn[gpu.Index] = DateTime.Now;
+                        DateTime brokenOn;
+                        if (!_guardBrokenOn.TryGetValue(gpu.Index, out brokenOn)) {
+                            brokenOn = DateTime.Now;
+                            _guardBrokenOn.Add(gpu.Index, brokenOn);
                         }
                         else {
-                            lastSpeedDownOn = DateTime.MinValue;
+                            _guardBrokenOn[gpu.Index] = DateTime.Now;
                         }
                         Write.UserInfo($"GPU{gpu.Index} 温度{gpu.Temperature}大于防线温度{gpuProfile.GuardTemp}，自动增加风扇转速");
                         uint cool;
                         uint len;
-                        if (lastSpeedDownOn.AddMinutes(_fanSpeedDownMinutes) < DateTime.Now) {
+                        // 防线已失守10秒钟
+                        if (brokenOn.AddSeconds(10) < DateTime.Now) {
                             len = 100 - gpu.FanSpeed;
                         }
                         else {
