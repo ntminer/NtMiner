@@ -12,6 +12,8 @@ namespace NTMiner.Core.Gpus.Impl {
         private bool _isInited = false;
         private Dictionary<int, uint> _temperatureDic = new Dictionary<int, uint>();
         private Dictionary<int, DateTime> _fanSpeedDownOn = new Dictionary<int, DateTime>();
+        private readonly int _fanSpeedDownMinutes = 1;
+        private readonly uint _fanSpeedDownStep = 2;
         public void Init(INTMinerRoot root) {
             if (_isInited) {
                 return;
@@ -31,28 +33,43 @@ namespace NTMiner.Core.Gpus.Impl {
                         _temperatureDic.Add(gpu.Index, 0);
                     }
                     _temperatureDic[gpu.Index] = gpu.Temperature;
-                    if (gpu.Temperature <= gpuProfile.GuardTemp) {
+                    if (gpu.FanSpeed == 100) {
+                        Write.DevDebug($"GPU{gpu.Index} 温度{gpu.Temperature}大于防线温度{gpuProfile.GuardTemp}，但风扇转速已达100%");
+                    }
+                    else if (gpu.Temperature < gpuProfile.GuardTemp) {
                         DateTime lastSpeedDownOn;
                         if (!_fanSpeedDownOn.TryGetValue(gpu.Index, out lastSpeedDownOn)) {
                             lastSpeedDownOn = DateTime.Now;
                             _fanSpeedDownOn.Add(gpu.Index, lastSpeedDownOn);
                         }
                         // 连续?分钟GPU温度没有突破防线
-                        if (lastSpeedDownOn.AddMinutes(1) < DateTime.Now) {
+                        if (lastSpeedDownOn.AddMinutes(_fanSpeedDownMinutes) < DateTime.Now) {
                             _fanSpeedDownOn[gpu.Index] = DateTime.Now;
-                            int cool = (int)gpu.FanSpeed - 2;
+                            int cool = (int)(gpu.FanSpeed - _fanSpeedDownStep);
                             if (cool > 50) {
                                 root.GpuSet.OverClock.SetCool(gpu.Index, cool);
                                 Write.UserInfo($"GPU{gpu.Index} 风扇转速由{gpu.FanSpeed}%自动降至{cool}%");
                             }
                         }
                     }
-                    else if (gpu.FanSpeed == 100) {
-                        Write.DevDebug($"GPU{gpu.Index} 温度{gpu.Temperature}大于防线温度{gpuProfile.GuardTemp}，但风扇转速已达100%");
-                    }
-                    else {
+                    else if (gpu.Temperature > gpuProfile.GuardTemp) {
+                        DateTime lastSpeedDownOn;
+                        if (_fanSpeedDownOn.TryGetValue(gpu.Index, out lastSpeedDownOn)) {
+                            _fanSpeedDownOn[gpu.Index] = DateTime.Now;
+                        }
+                        else {
+                            lastSpeedDownOn = DateTime.MinValue;
+                        }
                         Write.UserInfo($"GPU{gpu.Index} 温度{gpu.Temperature}大于防线温度{gpuProfile.GuardTemp}，自动增加风扇转速");
-                        uint cool = gpu.FanSpeed + (uint)Math.Ceiling((100 - gpu.FanSpeed) / 2.0);
+                        uint cool;
+                        uint len;
+                        if (lastSpeedDownOn.AddMinutes(_fanSpeedDownMinutes) < DateTime.Now) {
+                            len = 100 - gpu.FanSpeed;
+                        }
+                        else {
+                            len = _fanSpeedDownStep;
+                        }
+                        cool = gpu.FanSpeed + (uint)Math.Ceiling(len / 2.0);
                         if (cool > 100) {
                             cool = 100;
                         }
