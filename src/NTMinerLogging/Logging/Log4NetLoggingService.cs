@@ -45,7 +45,7 @@ $@"<log4net>
         }
 
         public void InfoDebugLine(object message) {
-            Write.DevInfo(message?.ToString());
+            Write.DevDebug(message?.ToString());
             _log.Info(message);
         }
 

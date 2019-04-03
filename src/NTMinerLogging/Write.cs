@@ -17,7 +17,7 @@ namespace NTMiner {
         }
 
         public static void UserLine(string text, MessageType messageType = MessageType.Default) {
-            UserLine(text, messageType.ToConsoleColor());
+            UserLine($"{messageType.ToString()} {text}", messageType.ToConsoleColor());
         }
 
         public static void UserError(string text) {
@@ -52,7 +52,7 @@ namespace NTMiner {
             if (!DevMode.IsDevMode) {
                 return;
             }
-            text = $"{DateTime.Now.ToString("HH:mm:ss fff")}  {text}";
+            text = $"{DateTime.Now.ToString("HH:mm:ss fff")}  {messageType.ToString()} {text}";
             ConsoleColor oldColor = Console.ForegroundColor;
             Console.ForegroundColor = messageType.ToConsoleColor();
             Console.WriteLine(text);
@@ -63,8 +63,8 @@ namespace NTMiner {
             DevLine(text, MessageType.Error);
         }
 
-        public static void DevInfo(string text) {
-            DevLine(text, MessageType.Info);
+        public static void DevDebug(string text) {
+            DevLine(text, MessageType.Debug);
         }
 
         public static void DevOk(string text) {

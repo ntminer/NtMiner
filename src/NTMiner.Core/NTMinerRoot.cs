@@ -164,7 +164,7 @@ namespace NTMiner {
                             });
                         }
                         else {
-                            Write.DevInfo("server.json没有新版本");
+                            Write.DevDebug("server.json没有新版本");
                         }
                     });
                 });

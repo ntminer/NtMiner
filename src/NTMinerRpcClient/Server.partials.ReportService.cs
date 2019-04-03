@@ -18,7 +18,7 @@ namespace NTMiner {
                     try {
                         using (HttpClient client = new HttpClient()) {
                             Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{host}:{WebApiConst.ControlCenterPort}/api/{SControllerName}/{nameof(IReportController.ReportSpeed)}", data);
-                            Write.DevInfo($"{nameof(ReportSpeedAsync)} {message.Result.ReasonPhrase}");
+                            Write.DevDebug($"{nameof(ReportSpeedAsync)} {message.Result.ReasonPhrase}");
                         }
                     }
                     catch (Exception e) {
@@ -37,7 +37,7 @@ namespace NTMiner {
                                 IsMining = isMining
                             };
                             Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{host}:{WebApiConst.ControlCenterPort}/api/{SControllerName}/{nameof(IReportController.ReportState)}", request);
-                            Write.DevInfo($"{nameof(ReportStateAsync)} {message.Result.ReasonPhrase}");
+                            Write.DevDebug($"{nameof(ReportStateAsync)} {message.Result.ReasonPhrase}");
                         }
                     }
                     catch (Exception e) {

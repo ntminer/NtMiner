@@ -39,7 +39,7 @@ namespace NTMiner {
                 try {
                     using (HttpClient client = new HttpClient()) {
                         Task<HttpResponseMessage> message = client.PostAsync($"http://localhost:{WebApiConst.NTMinerDaemonPort}/api/{s_controllerName}/{nameof(INTMinerDaemonController.CloseDaemon)}", null);
-                        Write.DevInfo($"{nameof(CloseDaemon)} {message.Result.ReasonPhrase}");
+                        Write.DevDebug($"{nameof(CloseDaemon)} {message.Result.ReasonPhrase}");
                     }
                 }
                 catch (Exception e) {
@@ -75,7 +75,7 @@ namespace NTMiner {
                             client.Timeout = TimeSpan.FromMilliseconds(3000);
                             HttpContent content = new StringContent(json);
                             Task<HttpResponseMessage> message = client.PostAsync($"http://{clientHost}:{WebApiConst.NTMinerDaemonPort}/api/{s_controllerName}/{nameof(INTMinerDaemonController.SaveGpuProfilesJson)}", content);
-                            Write.DevInfo($"{nameof(SaveGpuProfilesJsonAsync)} {nameof(message.Result.ReasonPhrase)}");
+                            Write.DevDebug($"{nameof(SaveGpuProfilesJsonAsync)} {nameof(message.Result.ReasonPhrase)}");
                         }
                     }
                     catch (Exception e) {
@@ -90,7 +90,7 @@ namespace NTMiner {
                         using (HttpClient client = new HttpClient()) {
                             client.Timeout = TimeSpan.FromMilliseconds(3000);
                             Task<HttpResponseMessage> message = client.PostAsync($"http://{clientHost}:{WebApiConst.NTMinerDaemonPort}/api/{s_controllerName}/{nameof(INTMinerDaemonController.SetAutoBootStart)}?autoBoot={autoBoot}&autoStart={autoStart}", null);
-                            Write.DevInfo($"{nameof(SetAutoBootStartAsync)} {nameof(message.Result.ReasonPhrase)}");
+                            Write.DevDebug($"{nameof(SetAutoBootStartAsync)} {nameof(message.Result.ReasonPhrase)}");
                         }
                     }
                     catch (Exception e) {
