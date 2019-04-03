@@ -213,6 +213,7 @@
 										</StackPanel>
 										<TextBox Style="{StaticResource TextBox}" ToolTip="自动调整风扇使温度趋向于这个温度" Text="{Binding TempGuard, ValidatesOnExceptions=True}"></TextBox>
 										<TextBlock VerticalAlignment="Center">℃</TextBlock>
+										<TextBlock VerticalAlignment="Center" Margin="4 0 0 0" Text="{Binding GpuVm.TemperatureText}"></TextBlock>
 									</WrapPanel>
 									<WrapPanel>
 										<TextBlock Style="{StaticResource LblTb}">风扇</TextBlock>
