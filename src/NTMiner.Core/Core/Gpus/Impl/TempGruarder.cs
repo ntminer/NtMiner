@@ -36,6 +36,11 @@ namespace NTMiner.Core.Gpus.Impl {
                     if (gpu.FanSpeed == 100) {
                         Write.DevDebug($"GPU{gpu.Index} 温度{gpu.Temperature}大于防线温度{gpuProfile.GuardTemp}，但风扇转速已达100%");
                     }
+                    else if (gpu.Temperature == gpuProfile.GuardTemp) {
+                        if (_fanSpeedDownOn.ContainsKey(gpu.Index)) {
+                            _fanSpeedDownOn[gpu.Index] = DateTime.Now;
+                        }
+                    }
                     else if (gpu.Temperature < gpuProfile.GuardTemp) {
                         DateTime lastSpeedDownOn;
                         if (!_fanSpeedDownOn.TryGetValue(gpu.Index, out lastSpeedDownOn)) {
@@ -46,7 +51,10 @@ namespace NTMiner.Core.Gpus.Impl {
                         if (lastSpeedDownOn.AddMinutes(_fanSpeedDownMinutes) < DateTime.Now) {
                             _fanSpeedDownOn[gpu.Index] = DateTime.Now;
                             int cool = (int)(gpu.FanSpeed - _fanSpeedDownStep);
-                            if (cool > 50) {
+                            if (gpu.Temperature < 50) {
+                                cool = gpu.CoolMin;
+                            }
+                            if (cool >= gpu.CoolMin) {
                                 root.GpuSet.OverClock.SetCool(gpu.Index, cool);
                                 Write.UserInfo($"GPU{gpu.Index} 风扇转速由{gpu.FanSpeed}%自动降至{cool}%");
                             }
