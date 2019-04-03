@@ -35,6 +35,7 @@ namespace NTMiner.Core.Gpus.Impl {
                         DateTime lastSpeedDownOn;
                         if (!_fanSpeedDownOn.TryGetValue(gpu.Index, out lastSpeedDownOn)) {
                             lastSpeedDownOn = DateTime.Now;
+                            _fanSpeedDownOn.Add(gpu.Index, lastSpeedDownOn);
                         }
                         // 连续?分钟GPU温度没有突破防线
                         if (lastSpeedDownOn.AddMinutes(1) < DateTime.Now) {
