@@ -12,7 +12,7 @@ namespace NTMiner.Core.Gpus.Impl {
         private bool _isInited = false;
         private Dictionary<int, uint> _temperatureDic = new Dictionary<int, uint>();
         private Dictionary<int, DateTime> _guardOn = new Dictionary<int, DateTime>();
-        private readonly int _fanSpeedDownMinutes = 1;
+        private readonly int _fanSpeedDownSeconds = 20;
         private readonly uint _fanSpeedDownStep = 2;
         public void Init(INTMinerRoot root) {
             if (_isInited) {
@@ -44,7 +44,7 @@ namespace NTMiner.Core.Gpus.Impl {
                     }
                     else if (gpu.Temperature < gpuProfile.GuardTemp) {
                         // 连续?分钟GPU温度没有突破防线
-                        if (guardOn.AddMinutes(_fanSpeedDownMinutes) < DateTime.Now) {
+                        if (guardOn.AddSeconds(_fanSpeedDownSeconds) < DateTime.Now) {
                             int cool = (int)(gpu.FanSpeed - _fanSpeedDownStep);
                             if (gpu.Temperature < 50) {
                                 cool = gpu.CoolMin;
@@ -60,8 +60,8 @@ namespace NTMiner.Core.Gpus.Impl {
                         Write.UserInfo($"GPU{gpu.Index} 温度{gpu.Temperature}大于防线温度{gpuProfile.GuardTemp}，自动增加风扇转速");
                         uint cool;
                         uint len;
-                        // 防线已突破10秒钟，防线突破可能是由于小量降低风扇转速造成的
-                        if (guardOn.AddSeconds(10) < DateTime.Now) {
+                        // 防线突破可能是由于小量降低风扇转速造成的
+                        if (guardOn.AddSeconds(_fanSpeedDownSeconds) < DateTime.Now) {
                             _guardOn[gpu.Index] = DateTime.Now;
                             len = 100 - gpu.FanSpeed;
                         }
