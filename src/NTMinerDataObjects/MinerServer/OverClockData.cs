@@ -23,6 +23,8 @@ namespace NTMiner.MinerServer {
 
         public int TempLimit { get; set; }
 
+        public bool IsGuardTemp { get; set; }
+
         public int TempGuard { get; set; }
 
         public int Cool { get; set; }
@@ -36,6 +38,7 @@ namespace NTMiner.MinerServer {
                 .Append(nameof(MemoryClockDelta)).Append(MemoryClockDelta)
                 .Append(nameof(PowerCapacity)).Append(PowerCapacity)
                 .Append(nameof(TempLimit)).Append(TempLimit)
+                .Append(nameof(IsGuardTemp)).Append(IsGuardTemp)
                 .Append(nameof(TempGuard)).Append(TempGuard)
                 .Append(nameof(Cool)).Append(Cool);
             return sb;

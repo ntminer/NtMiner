@@ -12,6 +12,7 @@ namespace NTMiner.MinerClient {
             this.MemoryClockDelta = 0;
             this.PowerCapacity = 100;
             this.TempLimit = 83;
+            this.IsGuardTemp = false;
             this.TempGuard = 70;
             this.Cool = 90;
         }
@@ -31,6 +32,7 @@ namespace NTMiner.MinerClient {
             this.MemoryClockDelta = input.MemoryClockDelta;
             this.PowerCapacity = input.PowerCapacity;
             this.TempLimit = input.TempLimit;
+            this.IsGuardTemp = input.IsGuardTemp;
             this.TempGuard = input.TempGuard;
             this.Cool = input.Cool;
         }
@@ -51,12 +53,14 @@ namespace NTMiner.MinerClient {
 
         public int TempLimit { get; set; }
 
+        public bool IsGuardTemp { get; set; }
+
         public int TempGuard { get; set; }
 
         public int Cool { get; set; }
 
         public override string ToString() {
-            return $"{CoinId}{Index}{CoreClockDelta}{MemoryClockDelta}{PowerCapacity}{TempLimit}{TempGuard}{Cool}";
+            return $"{CoinId}{Index}{CoreClockDelta}{MemoryClockDelta}{PowerCapacity}{TempLimit}{IsGuardTemp}{TempGuard}{Cool}";
         }
     }
 }

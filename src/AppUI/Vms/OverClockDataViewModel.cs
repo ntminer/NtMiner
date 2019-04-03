@@ -15,6 +15,7 @@ namespace NTMiner.Vms {
         private int _powerCapacity;
         private int _cool;
         private int _thermCapacity;
+        private bool _isGuardTemp;
         private int _thermGuard;
 
         public ICommand Remove { get; private set; }
@@ -67,6 +68,7 @@ namespace NTMiner.Vms {
             _memoryClockDelta = data.MemoryClockDelta;
             _powerCapacity = data.PowerCapacity;
             _thermCapacity = data.TempLimit;
+            _isGuardTemp = data.IsGuardTemp;
             _thermGuard = data.TempGuard;
             _cool = data.Cool;
         }
@@ -131,6 +133,14 @@ namespace NTMiner.Vms {
             set {
                 _thermCapacity = value;
                 OnPropertyChanged(nameof(TempLimit));
+            }
+        }
+
+        public bool IsGuardTemp {
+            get => _isGuardTemp;
+            set {
+                _isGuardTemp = value;
+                OnPropertyChanged(nameof(IsGuardTemp));
             }
         }
 

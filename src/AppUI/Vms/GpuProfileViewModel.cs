@@ -13,6 +13,7 @@ namespace NTMiner.Vms {
         private int _cool;
         private GpuViewModel _gpuVm;
         private int _thermCapacity;
+        private bool _isGuardTemp;
         private int _thermGuard;
 
 
@@ -26,6 +27,7 @@ namespace NTMiner.Vms {
             _memoryClockDelta = data.MemoryClockDelta;
             _powerCapacity = data.PowerCapacity;
             _thermCapacity = data.TempLimit;
+            _isGuardTemp = data.IsGuardTemp;
             _thermGuard = data.TempGuard;
             _cool = data.Cool;
             _gpuVm = gpuVm;
@@ -38,6 +40,7 @@ namespace NTMiner.Vms {
             this._memoryClockDelta = data.MemoryClockDelta;
             this._powerCapacity = data.PowerCapacity;
             this._thermCapacity = data.TempLimit;
+            this._isGuardTemp = data.IsGuardTemp;
             this._thermGuard = data.TempGuard;
             this._cool = data.Cool;
 
@@ -47,6 +50,7 @@ namespace NTMiner.Vms {
             OnPropertyChanged(nameof(MemoryClockDelta));
             OnPropertyChanged(nameof(PowerCapacity));
             OnPropertyChanged(nameof(TempLimit));
+            OnPropertyChanged(nameof(IsGuardTemp));
             OnPropertyChanged(nameof(TempGuard));
             OnPropertyChanged(nameof(Cool));
         }
@@ -56,6 +60,7 @@ namespace NTMiner.Vms {
             this._memoryClockDelta = data.MemoryClockDelta;
             this._powerCapacity = data.PowerCapacity;
             this._thermCapacity = data.TempLimit;
+            this._isGuardTemp = data.IsGuardTemp;
             this._thermGuard = data.TempGuard;
             this._cool = data.Cool;
 
@@ -63,6 +68,7 @@ namespace NTMiner.Vms {
             OnPropertyChanged(nameof(MemoryClockDelta));
             OnPropertyChanged(nameof(PowerCapacity));
             OnPropertyChanged(nameof(TempLimit));
+            OnPropertyChanged(nameof(IsGuardTemp));
             OnPropertyChanged(nameof(TempGuard));
             OnPropertyChanged(nameof(Cool));
         }
@@ -139,6 +145,14 @@ namespace NTMiner.Vms {
             set {
                 _thermCapacity = value;
                 OnPropertyChanged(nameof(TempLimit));
+            }
+        }
+
+        public bool IsGuardTemp {
+            get => _isGuardTemp;
+            set {
+                _isGuardTemp = value;
+                OnPropertyChanged(nameof(IsGuardTemp));
             }
         }
 
