@@ -68,7 +68,7 @@
 								IsChecked="{Binding CoinVm.GpuAllProfileVm.GpuVm.IsGuardTemp}" 
 								Content="守卫"></CheckBox>
 						</StackPanel>
-						<TextBox Style="{StaticResource TextBox}" ToolTip="自动调整风扇使温度趋向于这个温度" Text="{Binding CoinVm.GpuAllProfileVm.GpuVm.TempGuard, ValidatesOnExceptions=True}"></TextBox>
+						<TextBox Style="{StaticResource TextBox}" ToolTip="自动调整风扇使温度趋向于这个温度" Text="{Binding CoinVm.GpuAllProfileVm.TempGuard, ValidatesOnExceptions=True}"></TextBox>
 						<TextBlock VerticalAlignment="Center">℃</TextBlock>
 					</WrapPanel>
 					<WrapPanel>

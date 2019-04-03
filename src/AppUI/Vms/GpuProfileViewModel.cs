@@ -1,5 +1,4 @@
-﻿using NTMiner.Core;
-using NTMiner.MinerClient;
+﻿using NTMiner.MinerClient;
 using NTMiner.MinerServer;
 using System;
 
@@ -12,7 +11,7 @@ namespace NTMiner.Vms {
         private int _powerCapacity;
         private int _cool;
         private GpuViewModel _gpuVm;
-        private int _thermCapacity;
+        private int _tempLimit;
         private bool _isGuardTemp;
         private int _thermGuard;
 
@@ -26,7 +25,7 @@ namespace NTMiner.Vms {
             _coreClockDelta = data.CoreClockDelta;
             _memoryClockDelta = data.MemoryClockDelta;
             _powerCapacity = data.PowerCapacity;
-            _thermCapacity = data.TempLimit;
+            _tempLimit = data.TempLimit;
             _isGuardTemp = data.IsGuardTemp;
             _thermGuard = data.TempGuard;
             _cool = data.Cool;
@@ -39,7 +38,7 @@ namespace NTMiner.Vms {
             this._coreClockDelta = data.CoreClockDelta;
             this._memoryClockDelta = data.MemoryClockDelta;
             this._powerCapacity = data.PowerCapacity;
-            this._thermCapacity = data.TempLimit;
+            this._tempLimit = data.TempLimit;
             this._isGuardTemp = data.IsGuardTemp;
             this._thermGuard = data.TempGuard;
             this._cool = data.Cool;
@@ -59,7 +58,7 @@ namespace NTMiner.Vms {
             this._coreClockDelta = data.CoreClockDelta;
             this._memoryClockDelta = data.MemoryClockDelta;
             this._powerCapacity = data.PowerCapacity;
-            this._thermCapacity = data.TempLimit;
+            this._tempLimit = data.TempLimit;
             this._isGuardTemp = data.IsGuardTemp;
             this._thermGuard = data.TempGuard;
             this._cool = data.Cool;
@@ -141,9 +140,9 @@ namespace NTMiner.Vms {
         }
 
         public int TempLimit {
-            get => _thermCapacity;
+            get => _tempLimit;
             set {
-                _thermCapacity = value;
+                _tempLimit = value;
                 OnPropertyChanged(nameof(TempLimit));
             }
         }

@@ -117,11 +117,7 @@ namespace NTMiner.Vms {
                             gpuAllProfileVm = new GpuProfileViewModel(
                                 new GpuProfileData(coinVm.Id, NTMinerRoot.GpuAllId), new GpuViewModel(new GpuData {
                                     Index = NTMinerRoot.GpuAllId,
-                                    Name = "All",
-                                    CoreClockDeltaMax = 0,
-                                    CoreClockDeltaMin = 0,
-                                    MemoryClockDeltaMax = 0,
-                                    MemoryClockDeltaMin = 0
+                                    Name = "All"
                                 }, data.Gpus));
                         }
                         #endregion

@@ -34,7 +34,10 @@ namespace NTMiner.Core.Profiles {
                     CoolMax = gpu.CoolMax,
                     CoolMin = gpu.CoolMin,
                     PowerMax = gpu.PowerMax,
-                    PowerMin = gpu.PowerMin
+                    PowerMin = gpu.PowerMin,
+                    TempLimitDefault = gpu.TempLimitDefault,
+                    TempLimitMax = gpu.TempLimitMax,
+                    TempLimitMin = gpu.TempLimitMin
                 });
             }
             return list.ToArray();

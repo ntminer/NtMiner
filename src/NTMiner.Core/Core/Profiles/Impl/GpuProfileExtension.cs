@@ -8,6 +8,7 @@ namespace NTMiner.Core.Profiles.Impl {
             overClock.SetCoreClock(data);
             overClock.SetMemoryClock(data);
             overClock.SetPowerCapacity(data);
+            overClock.SetThermCapacity(data);
             overClock.SetCool(data);
             TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
                 overClock.RefreshGpuState(data.Index);
