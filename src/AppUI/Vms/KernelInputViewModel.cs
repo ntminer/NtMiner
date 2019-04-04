@@ -3,6 +3,7 @@ using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 
@@ -85,13 +86,16 @@ namespace NTMiner.Vms {
                 }, icon: IconConst.IconConfirm);
             });
             this.AddFragment = new DelegateCommand(() => {
-
+                KernelInputFragmentEdit.ShowWindow(this, new KernelInputFragment());
             });
             this.EditFragment = new DelegateCommand<KernelInputFragment>((fragment) => {
-
+                KernelInputFragmentEdit.ShowWindow(this, fragment);
             });
-            this.RemoveFragment = new DelegateCommand(() => {
-
+            this.RemoveFragment = new DelegateCommand<KernelInputFragment>((fragment) => {
+                DialogWindow.ShowDialog(message: $"您确定删除片段{fragment.Name}吗？", title: "确认", onYes: () => {
+                    this.Fragments.Remove(fragment);
+                    Fragments = Fragments.ToList();
+                }, icon: IconConst.IconConfirm);
             });
         }
 
