@@ -26,7 +26,10 @@ namespace NTMiner {
 
         [HttpPost]
         public void CloseDaemon() {
-            HostRoot.Exit();
+            // 延迟100毫秒再退出从而避免当前的CloseDaemon请求尚未收到响应
+            TimeSpan.FromMilliseconds(100).Delay().ContinueWith(t => {
+                HostRoot.Exit();
+            });
         }
 
         #region GetGpuProfilesJson
@@ -79,7 +82,7 @@ namespace NTMiner {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
+                TimeSpan.FromMilliseconds(100).Delay().ContinueWith(t => {
                     Windows.Power.Restart();
                 });
                 return ResponseBase.Ok();
@@ -96,7 +99,7 @@ namespace NTMiner {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
+                TimeSpan.FromMilliseconds(100).Delay().ContinueWith(t => {
                     Windows.Power.Shutdown();
                 });
                 return ResponseBase.Ok();
