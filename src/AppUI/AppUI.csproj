@@ -287,6 +287,7 @@
     <Compile Include="Vms\AppSettingViewModel.cs" />
     <Compile Include="Vms\AppSettingViewModels.cs" />
     <Compile Include="Vms\KernelInputFragmentEditViewModel.cs" />
+    <Compile Include="Vms\KernelInputFragmentViewModel.cs" />
     <Compile Include="Vms\MainBarViewModel.cs" />
     <Compile Include="Vms\MinerClientSettingViewModel.cs" />
     <Compile Include="Vms\CalcConfigViewModel.cs" />

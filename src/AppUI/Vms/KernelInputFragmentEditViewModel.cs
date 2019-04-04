@@ -12,7 +12,7 @@ namespace NTMiner.Vms {
         public ICommand Save { get; private set; }
         public Action CloseWindow { get; set; }
 
-        public KernelInputFragmentEditViewModel(KernelInputViewModel kernelInputVm, KernelInputFragment fragment) {
+        public KernelInputFragmentEditViewModel(KernelInputViewModel kernelInputVm, KernelInputFragmentViewModel fragment) {
             _name = fragment.Name;
             _fragment = fragment.Fragment;
             _description = fragment.Description;

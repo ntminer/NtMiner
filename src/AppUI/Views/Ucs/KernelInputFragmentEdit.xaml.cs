@@ -1,10 +1,9 @@
-﻿using NTMiner.Core;
-using NTMiner.Vms;
+﻿using NTMiner.Vms;
 using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class KernelInputFragmentEdit : UserControl {
-        public static void ShowWindow(KernelInputViewModel kernelInputVm, KernelInputFragment fragment) {
+        public static void ShowWindow(KernelInputViewModel kernelInputVm, KernelInputFragmentViewModel fragment) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "环境变量",
                 IsDialogWindow = true,
