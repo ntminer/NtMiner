@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace NTMiner.Core {
     public interface IKernelInput : IEntity<Guid> {
@@ -11,5 +12,6 @@ namespace NTMiner.Core {
         bool IsAutoDualWeight { get; }
         string DualWeightArg { get; }
         string DualFullArgs { get; }
+        List<KernelInputFragment> Fragments { get; }
     }
 }

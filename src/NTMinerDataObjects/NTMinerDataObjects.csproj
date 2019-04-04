@@ -60,6 +60,7 @@
     <Compile Include="Core\KernelData.cs" />
     <Compile Include="Core\KernelExtension.cs" />
     <Compile Include="Core\KernelInputData.cs" />
+    <Compile Include="Core\KernelInputFragment.cs" />
     <Compile Include="Core\KernelOutputData.cs" />
     <Compile Include="Core\KernelOutputFilterData.cs" />
     <Compile Include="Core\KernelOutputTranslaterData.cs" />

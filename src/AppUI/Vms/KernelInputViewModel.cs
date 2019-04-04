@@ -1,8 +1,8 @@
 ﻿using NTMiner.Core;
-using NTMiner.Core.Kernels;
 using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 
@@ -24,6 +24,7 @@ namespace NTMiner.Vms {
         private string _dualWeightArg;
 
         private GroupViewModel _dualCoinGroup;
+        private List<KernelInputFragment> _fragments;
 
         public ICommand Remove { get; private set; }
         public ICommand Edit { get; private set; }
@@ -35,6 +36,7 @@ namespace NTMiner.Vms {
             if (!Design.IsInDesignMode) {
                 throw new InvalidProgramException();
             }
+            this._fragments = new List<KernelInputFragment>();
         }
 
         public KernelInputViewModel(IKernelInput data) : this(data.GetId()) {
@@ -47,10 +49,12 @@ namespace NTMiner.Vms {
             _dualWeightMax = data.DualWeightMax;
             _isAutoDualWeight = data.IsAutoDualWeight;
             _dualWeightArg = data.DualWeightArg;
+            _fragments = data.Fragments;
         }
 
         public KernelInputViewModel(Guid id) {
             _id = id;
+            _fragments = new List<KernelInputFragment>();
             this.Save = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {
                     return;
@@ -221,6 +225,14 @@ namespace NTMiner.Vms {
                     _dualFullArgs = value;
                     OnPropertyChanged(nameof(DualFullArgs));
                 }
+            }
+        }
+
+        public List<KernelInputFragment> Fragments {
+            get => _fragments;
+            set {
+                _fragments = value;
+                OnPropertyChanged(nameof(Fragments));
             }
         }
     }
