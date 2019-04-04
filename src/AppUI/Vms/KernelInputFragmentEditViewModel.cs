@@ -4,9 +4,10 @@ using System.Linq;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class KernelInputFragmentEditViewModel : ViewModelBase {
+    public class KernelInputFragmentEditViewModel : ViewModelBase, IKernelInputFragment {
         private string _name;
         private string _fragment;
+        private string _description;
 
         public ICommand Save { get; private set; }
         public Action CloseWindow { get; set; }
@@ -14,12 +15,14 @@ namespace NTMiner.Vms {
         public KernelInputFragmentEditViewModel(KernelInputViewModel kernelInputVm, KernelInputFragment fragment) {
             _name = fragment.Name;
             _fragment = fragment.Fragment;
+            _description = fragment.Description;
             this.Save = new DelegateCommand(() => {
                 if (string.IsNullOrEmpty(this.Name)) {
                     throw new ValidationException("片段名不能为空");
                 }
                 fragment.Name = this.Name;
                 fragment.Fragment = this.Fragment;
+                fragment.Description = this.Description;
                 if (!kernelInputVm.Fragments.Contains(fragment)) {
                     kernelInputVm.Fragments.Add(fragment);
                 }
@@ -44,6 +47,14 @@ namespace NTMiner.Vms {
             set {
                 _fragment = value;
                 OnPropertyChanged(nameof(Fragment));
+            }
+        }
+
+        public string Description {
+            get { return _description; }
+            set {
+                _description = value;
+                OnPropertyChanged(nameof(Description));
             }
         }
     }

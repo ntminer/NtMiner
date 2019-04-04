@@ -849,7 +849,7 @@
 						</ItemsControl.ItemsPanel>
 						<ItemsControl.ItemTemplate>
 							<DataTemplate>
-								<CheckBox Padding="0" Content="{Binding Name}"></CheckBox>
+								<CheckBox Padding="0" Content="{Binding Name}" ToolTip="{Binding Description}"></CheckBox>
 							</DataTemplate>
 						</ItemsControl.ItemTemplate>
 					</ItemsControl>

@@ -51,6 +51,7 @@
     <Compile Include="Core\IGroup.cs" />
     <Compile Include="Core\IKernel.cs" />
     <Compile Include="Core\IKernelInput.cs" />
+    <Compile Include="Core\IKernelInputFragment.cs" />
     <Compile Include="Core\IKernelOutput.cs" />
     <Compile Include="Core\IKernelOutputFilter.cs" />
     <Compile Include="Core\IKernelOutputTranslater.cs" />

@@ -214,8 +214,15 @@
 						</DataGridTemplateColumn>
 						<DataGridTextColumn Header="名称" Binding="{Binding Name}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 						</DataGridTextColumn>
-						<DataGridTextColumn Width="*" Header="片段" Binding="{Binding Fragment}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+						<DataGridTextColumn Width="Auto" Header="片段" Binding="{Binding Fragment}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 						</DataGridTextColumn>
+						<DataGridTemplateColumn Width="*" Header="描述" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding Description}" ToolTip="{Binding Description}"></TextBlock>
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
 					</DataGrid.Columns>
 				</DataGrid>
 			</WrapPanel>
