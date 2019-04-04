@@ -837,7 +837,7 @@
 						Text="选项" />
 					<ItemsControl
 						Grid.Column="1"
-						ItemsSource="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.KernelInputVm.Fragments}"
+						ItemsSource="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.KernelInputVm.FragmentVms}"
 						BorderThickness="0"
 						VerticalAlignment="Center"
 						ScrollViewer.HorizontalScrollBarVisibility="Disabled">

@@ -149,7 +149,7 @@
 				<DataGrid 
 					Width="450"
 					Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-					ItemsSource="{Binding Fragments}" 
+					ItemsSource="{Binding FragmentVms}" 
 					Background="Transparent" 
 					MouseDoubleClick="DataGrid_MouseDoubleClick"
 					VerticalScrollBarVisibility="Auto"

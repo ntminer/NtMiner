@@ -93,8 +93,8 @@ namespace NTMiner.Vms {
             });
             this.RemoveFragment = new DelegateCommand<KernelInputFragmentViewModel>((fragment) => {
                 DialogWindow.ShowDialog(message: $"您确定删除片段{fragment.Name}吗？", title: "确认", onYes: () => {
-                    this.Fragments.Remove(fragment);
-                    Fragments = Fragments.ToList();
+                    this.FragmentVms.Remove(fragment);
+                    FragmentVms = FragmentVms.ToList();
                 }, icon: IconConst.IconConfirm);
             });
         }
@@ -244,11 +244,11 @@ namespace NTMiner.Vms {
             }
         }
 
-        public List<KernelInputFragmentViewModel> Fragments {
+        public List<KernelInputFragmentViewModel> FragmentVms {
             get => _fragments;
             set {
                 _fragments = value;
-                OnPropertyChanged(nameof(Fragments));
+                OnPropertyChanged(nameof(FragmentVms));
             }
         }
 

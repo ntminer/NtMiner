@@ -23,10 +23,10 @@ namespace NTMiner.Vms {
                 fragment.Name = this.Name;
                 fragment.Fragment = this.Fragment;
                 fragment.Description = this.Description;
-                if (!kernelInputVm.Fragments.Contains(fragment)) {
-                    kernelInputVm.Fragments.Add(fragment);
+                if (!kernelInputVm.FragmentVms.Contains(fragment)) {
+                    kernelInputVm.FragmentVms.Add(fragment);
                 }
-                kernelInputVm.Fragments = kernelInputVm.Fragments.ToList();
+                kernelInputVm.FragmentVms = kernelInputVm.FragmentVms.ToList();
                 CloseWindow?.Invoke();
             });
         }
