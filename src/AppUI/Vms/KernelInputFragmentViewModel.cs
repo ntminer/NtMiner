@@ -37,5 +37,42 @@ namespace NTMiner.Vms {
                 OnPropertyChanged(nameof(Description));
             }
         }
+
+        public bool IsChecked {
+            get {
+                if (MinerProfileViewModel.Current.CoinVm?.CoinKernel?.CoinKernelProfile?.CustomArgs?.Contains(this.Fragment) ?? false) {
+                    return true;
+                }
+                return false;
+            }
+            set {
+                CoinKernelProfileViewModel coinKernelProfileVm = MinerProfileViewModel.Current.CoinVm?.CoinKernel?.CoinKernelProfile;
+                string customArgs = coinKernelProfileVm?.CustomArgs ?? string.Empty;
+                bool b = customArgs.Contains(this.Fragment);
+                if (value) {
+                    if (b == false) {
+                        if (string.IsNullOrEmpty(customArgs)) {
+                            customArgs = this.Fragment;
+                        }
+                        else {
+                            customArgs += " " + this.Fragment;
+                        }
+                    }
+                }
+                else {
+                    if (b == true) {
+                        string str = " " + this.Fragment;
+                        if (!customArgs.Contains(str)) {
+                            str = this.Fragment;
+                        }
+                        customArgs = customArgs.Replace(str, string.Empty);
+                    }
+                }
+                if (coinKernelProfileVm != null) {
+                    coinKernelProfileVm.CustomArgs = customArgs;
+                }
+                OnPropertyChanged(nameof(IsChecked));
+            }
+        }
     }
 }
