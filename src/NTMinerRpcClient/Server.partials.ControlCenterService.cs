@@ -31,7 +31,6 @@ namespace NTMiner {
                         }
                     }
                     catch (Exception e) {
-                        e = e.GetInnerException();
                         callback?.Invoke(string.Empty, e);
                     }
                 });
@@ -49,8 +48,7 @@ namespace NTMiner {
                     }
                 }
                 catch (Exception e) {
-                    e = e.GetInnerException();
-                    Logger.ErrorDebugLine(e.Message, e);
+                    Logger.ErrorDebugLine(e.GetInnerMessage(), e);
                 }
             }
 
@@ -90,8 +88,7 @@ namespace NTMiner {
                     return new List<UserData>();
                 }
                 catch (Exception e) {
-                    e = e.GetInnerException();
-                    Logger.ErrorDebugLine(e.Message, e);
+                    Logger.ErrorDebugLine(e.GetInnerMessage(), e);
                     return new List<UserData>();
                 }
             }
@@ -255,8 +252,7 @@ namespace NTMiner {
                     return new List<MinerGroupData>();
                 }
                 catch (Exception e) {
-                    e = e.GetInnerException();
-                    Logger.ErrorDebugLine(e.Message, e);
+                    Logger.ErrorDebugLine(e.GetInnerMessage(), e);
                     return new List<MinerGroupData>();
                 }
             }
@@ -293,7 +289,6 @@ namespace NTMiner {
                         callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
-                        e = e.GetInnerException();
                         callback?.Invoke(null, e);
                     }
                 });
@@ -342,8 +337,7 @@ namespace NTMiner {
                     return new List<MineWorkData>();
                 }
                 catch (Exception e) {
-                    e = e.GetInnerException();
-                    Logger.ErrorDebugLine(e.Message, e);
+                    Logger.ErrorDebugLine(e.GetInnerMessage(), e);
                     return new List<MineWorkData>();
                 }
             }
@@ -375,8 +369,7 @@ namespace NTMiner {
                     }
                 }
                 catch (Exception e) {
-                    e = e.GetInnerException();
-                    Logger.ErrorDebugLine(e.Message, e);
+                    Logger.ErrorDebugLine(e.GetInnerMessage(), e);
                 }
                 return string.Empty;
             }
@@ -396,8 +389,7 @@ namespace NTMiner {
                     return response;
                 }
                 catch (Exception e) {
-                    e = e.GetInnerException();
-                    Logger.ErrorDebugLine(e.Message, e);
+                    Logger.ErrorDebugLine(e.GetInnerMessage(), e);
                     return null;
                 }
             }
@@ -443,8 +435,7 @@ namespace NTMiner {
                     return new List<PoolData>();
                 }
                 catch (Exception e) {
-                    e = e.GetInnerException();
-                    Logger.ErrorDebugLine(e.Message, e);
+                    Logger.ErrorDebugLine(e.GetInnerMessage(), e);
                     return new List<PoolData>();
                 }
             }
@@ -490,8 +481,7 @@ namespace NTMiner {
                     return new List<ColumnsShowData>();
                 }
                 catch (Exception e) {
-                    e = e.GetInnerException();
-                    Logger.ErrorDebugLine(e.Message, e);
+                    Logger.ErrorDebugLine(e.GetInnerMessage(), e);
                     return new List<ColumnsShowData>();
                 }
             }

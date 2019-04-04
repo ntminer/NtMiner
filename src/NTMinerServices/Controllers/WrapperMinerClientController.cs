@@ -26,9 +26,9 @@ namespace NTMiner.Controllers {
                 return response;
             }
             catch (Exception e) {
-                e = e.GetInnerException();
-                Logger.ErrorDebugLine(e.Message, e);
-                return ResponseBase.ServerError(e.Message);
+                string message = e.GetInnerMessage();
+                Logger.ErrorDebugLine(message, e);
+                return ResponseBase.ServerError(message);
             }
         }
         #endregion
@@ -47,9 +47,9 @@ namespace NTMiner.Controllers {
                 return response;
             }
             catch (Exception e) {
-                e = e.GetInnerException();
-                Logger.ErrorDebugLine(e.Message, e);
-                return ResponseBase.ServerError(e.Message);
+                string message = e.GetInnerMessage();
+                Logger.ErrorDebugLine(message, e);
+                return ResponseBase.ServerError(message);
             }
         }
         #endregion
@@ -68,9 +68,9 @@ namespace NTMiner.Controllers {
                 return response;
             }
             catch (Exception e) {
-                e = e.GetInnerException();
-                Logger.ErrorDebugLine(e.Message, e);
-                return ResponseBase.ServerError(e.Message);
+                string message = e.GetInnerMessage();
+                Logger.ErrorDebugLine(message, e);
+                return ResponseBase.ServerError(message);
             }
         }
         #endregion
@@ -105,9 +105,9 @@ namespace NTMiner.Controllers {
                 return response;
             }
             catch (Exception e) {
-                e = e.GetInnerException();
-                Logger.ErrorDebugLine(e.Message, e);
-                return ResponseBase.ServerError(e.Message);
+                string message = e.GetInnerMessage();
+                Logger.ErrorDebugLine(message, e);
+                return ResponseBase.ServerError(message);
             }
         }
         #endregion
@@ -142,9 +142,9 @@ namespace NTMiner.Controllers {
                 return response;
             }
             catch (Exception e) {
-                e = e.GetInnerException();
-                Logger.ErrorDebugLine(e.Message, e);
-                return ResponseBase.ServerError(e.Message);
+                string message = e.GetInnerMessage();
+                Logger.ErrorDebugLine(message, e);
+                return ResponseBase.ServerError(message);
             }
         }
         #endregion
@@ -163,9 +163,9 @@ namespace NTMiner.Controllers {
                 return response;
             }
             catch (Exception e) {
-                e = e.GetInnerException();
-                Logger.ErrorDebugLine(e.Message, e);
-                return ResponseBase.ServerError(e.Message);
+                string message = e.GetInnerMessage();
+                Logger.ErrorDebugLine(message, e);
+                return ResponseBase.ServerError(message);
             }
         }
         #endregion
@@ -184,9 +184,9 @@ namespace NTMiner.Controllers {
                 return response;
             }
             catch (Exception e) {
-                e = e.GetInnerException();
-                Logger.ErrorDebugLine(e.Message, e);
-                return ResponseBase.ServerError(e.Message);
+                string message = e.GetInnerMessage();
+                Logger.ErrorDebugLine(message, e);
+                return ResponseBase.ServerError(message);
             }
         }
         #endregion

@@ -23,7 +23,6 @@ namespace NTMiner {
                     }
                 }
                 catch (Exception e) {
-                    e = e.GetInnerException();
                     callback?.Invoke(null, e);
                 }
             });
@@ -58,7 +57,6 @@ namespace NTMiner {
                     }
                 }
                 catch (Exception e) {
-                    e = e.GetInnerException();
                     callback?.Invoke(default(T), e);
                 }
             });
@@ -69,7 +67,7 @@ namespace NTMiner {
             GetAsync("AppSetting", nameof(IAppSettingController.GetTime), null, callback: (DateTime datetime, Exception e) => {
                 callback?.Invoke(datetime);
                 if (e != null) {
-                    Logger.ErrorDebugLine($"GetTimeAsync失败 {e?.Message}");
+                    Logger.ErrorDebugLine($"GetTimeAsync失败 {e.GetInnerMessage()}");
                 }
             });
         }
@@ -88,8 +86,7 @@ namespace NTMiner {
                 return response;
             }
             catch (Exception e) {
-                e = e.GetInnerException();
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.GetInnerMessage(), e);
                 return null;
             }
         }
@@ -121,7 +118,7 @@ namespace NTMiner {
                 }
                 callback?.Invoke(jsonFileVersion);
                 if (e != null) {
-                    Logger.ErrorDebugLine($"GetJsonFileVersionAsync({AssemblyInfo.ServerJsonFileName})失败 {e?.Message}");
+                    Logger.ErrorDebugLine($"GetJsonFileVersionAsync({AssemblyInfo.ServerJsonFileName})失败 {e.GetInnerMessage()}");
                 }
             });
         }
@@ -225,8 +222,7 @@ namespace NTMiner {
                     return new List<OverClockData>();
                 }
                 catch (Exception e) {
-                    e = e.GetInnerException();
-                    Logger.ErrorDebugLine(e.Message, e);
+                    Logger.ErrorDebugLine(e.GetInnerMessage(), e);
                     return new List<OverClockData>();
                 }
             }

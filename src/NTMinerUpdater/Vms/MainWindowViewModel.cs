@@ -114,7 +114,6 @@ namespace NTMiner.Vms {
             });
         }
 
-        private static readonly Dictionary<string, int> _downlodTimes = new Dictionary<string, int>();
         public static void Download(
             string fileName,
             string version,
@@ -132,24 +131,11 @@ namespace NTMiner.Vms {
                     progressChanged?.Invoke(e.ProgressPercentage);
                 };
                 webClient.DownloadFileCompleted += (sender, e) => {
-                    if (!_downlodTimes.ContainsKey(fileName)) {
-                        _downlodTimes.Add(fileName, 1);
-                    }
-                    else {
-                        _downlodTimes[fileName] += 1;
-                    }
                     bool isSuccess = !e.Cancelled && e.Error == null;
                     string message = "下载成功";
                     if (e.Error != null) {
                         message = "下载失败";
                         Logger.ErrorDebugLine(e.Error.Message, e.Error);
-                        if (_downlodTimes[fileName] < 3) {
-                            System.Threading.Thread.Sleep(100);
-                            OfficialServer.FileUrlService.GetNTMinerUrlAsync(fileName, (url, ex) => {
-                                webClient.DownloadFileAsync(new Uri(url), saveFileFullName);
-                            });
-                            return;
-                        }
                     }
                     if (e.Cancelled) {
                         message = "下载取消";

@@ -23,7 +23,6 @@ namespace NTMiner {
                         }
                     }
                     catch (Exception e) {
-                        e = e.GetInnerException();
                         callback?.Invoke(false, e);
                     }
                 });
@@ -47,7 +46,7 @@ namespace NTMiner {
                     }
                 }
                 catch (Exception e) {
-                    Logger.ErrorDebugLine(e.Message, e);
+                    Logger.ErrorDebugLine(e.GetInnerMessage(), e);
                 }
                 if (!isClosed) {
                     try {

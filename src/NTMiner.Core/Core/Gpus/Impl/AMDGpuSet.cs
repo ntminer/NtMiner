@@ -64,7 +64,7 @@ namespace NTMiner.Core.Gpus.Impl {
             try {
                 ManagementObjectSearcher videos = new ManagementObjectSearcher("select DriverVersion from Win32_VideoController");
                 foreach (var obj in videos.Get()) {
-                    return obj["DriverVersion"] ?.ToString();
+                    return obj["DriverVersion"]?.ToString();
                 }
             }
             catch (Exception e) {

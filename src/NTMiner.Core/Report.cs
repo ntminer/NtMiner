@@ -30,12 +30,7 @@ namespace NTMiner {
 
             VirtualRoot.On<MineStopedEvent>("停止挖矿后报告状态", LogEnum.DevConsole,
                 action: message => {
-                    try {
-                        Server.ReportService.ReportStateAsync(AssemblyInfo.OfficialServerHost, ClientId.Id, isMining: false);
-                    }
-                    catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
-                    }
+                    Server.ReportService.ReportStateAsync(AssemblyInfo.OfficialServerHost, ClientId.Id, isMining: false);
                 });
         }
 

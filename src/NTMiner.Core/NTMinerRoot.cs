@@ -432,7 +432,6 @@ namespace NTMiner {
         #endregion
 
         #region StartMine
-        private readonly Dictionary<Guid, int> _kernelAutoDownloadTimes = new Dictionary<Guid, int>();
         public void StartMine() {
             try {
                 IWorkProfile minerProfile = this.MinerProfile;
@@ -516,21 +515,12 @@ namespace NTMiner {
                         throw new InvalidProgramException("为赋值NTMinerRoot.KernelDownloader");
                     }
 
-                    if (!_kernelAutoDownloadTimes.ContainsKey(kernel.GetId())) {
-                        _kernelAutoDownloadTimes.Add(kernel.GetId(), 1);
-                    }
-                    else {
-                        _kernelAutoDownloadTimes[kernel.GetId()] += 1;
-                    }
                     KernelDownloader.Download(kernel.GetId(), downloadComplete: (isSuccess, message) => {
                         if (isSuccess) {
                             StartMine();
                         }
-                        // 阿里云可能偶尔下载失败，如果下载失败这里尝试3次
-                        else if (_kernelAutoDownloadTimes[kernel.GetId()] < 3) {
-                            Thread.Sleep(100);
-                            StartMine();
-                        }
+                        StopMine();
+                        Write.UserFail("内核下载失败");
                     });
                 }
                 else {
