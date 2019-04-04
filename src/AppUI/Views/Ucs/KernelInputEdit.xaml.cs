@@ -1,4 +1,6 @@
-﻿using NTMiner.Vms;
+﻿using NTMiner.Core;
+using NTMiner.Vms;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
@@ -29,6 +31,17 @@ namespace NTMiner.Views.Ucs {
         public KernelInputEdit(KernelInputViewModel vm) {
             this.DataContext = vm;
             InitializeComponent();
+        }
+
+        private void DataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+            DataGrid dg = (DataGrid)sender;
+            Point p = e.GetPosition(dg);
+            if (p.Y < 30) {
+                return;
+            }
+            if (dg.SelectedItem != null) {
+                Vm.EditFragment.Execute((KernelInputFragment)dg.SelectedItem);
+            }
         }
     }
 }

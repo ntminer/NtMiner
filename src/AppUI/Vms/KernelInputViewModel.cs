@@ -29,6 +29,9 @@ namespace NTMiner.Vms {
         public ICommand Remove { get; private set; }
         public ICommand Edit { get; private set; }
         public ICommand Save { get; private set; }
+        public ICommand AddFragment { get; private set; }
+        public ICommand EditFragment { get; private set; }
+        public ICommand RemoveFragment { get; private set; }
 
         public Action CloseWindow { get; set; }
 
@@ -80,6 +83,15 @@ namespace NTMiner.Vms {
                 DialogWindow.ShowDialog(message: $"您确定删除{this.Name}内核输入吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveKernelInputCommand(this.Id));
                 }, icon: IconConst.IconConfirm);
+            });
+            this.AddFragment = new DelegateCommand(() => {
+
+            });
+            this.EditFragment = new DelegateCommand<KernelInputFragment>((fragment) => {
+
+            });
+            this.RemoveFragment = new DelegateCommand(() => {
+
             });
         }
 
