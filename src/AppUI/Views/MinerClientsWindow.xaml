@@ -1541,41 +1541,6 @@
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-					<!--GpuTableVm-->
-					<DataGridTemplateColumn 
-						Visibility="{Binding Data.ColumnsShow.GpuTableVm,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-						CanUserResize="True" 
-						CanUserReorder="False" 
-						CanUserSort="False" 
-						IsReadOnly="True">
-						<DataGridTemplateColumn.Header>
-							<WrapPanel>
-								<TextBlock>显卡表格</TextBlock>
-								<controls:KbButton
-									ToolTip="不展示"
-									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
-									CommandParameter="GpuTableVm"
-									Background="Transparent">
-									<WrapPanel>
-										<Path
-											Width="14"
-											Height="8"
-											Data="{StaticResource Icon_Hide}"
-											Fill="#FF5A5A5A"
-											Stretch="Fill" />
-									</WrapPanel>
-								</controls:KbButton>
-							</WrapPanel>
-						</DataGridTemplateColumn.Header>
-						<DataGridTemplateColumn.CellTemplate>
-							<DataTemplate>
-								<Grid>
-									<uc:GpuSpeedDataTable DataContext="{Binding GpuTableVm}"></uc:GpuSpeedDataTable>
-									<StackPanel Background="#00ffffff"></StackPanel>
-								</Grid>
-							</DataTemplate>
-						</DataGridTemplateColumn.CellTemplate>
-					</DataGridTemplateColumn>
 					<!--MainCoinWallet-->
 					<DataGridTemplateColumn 
 						Visibility="{Binding Data.ColumnsShow.MainCoinWallet,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
@@ -2244,7 +2209,6 @@
 					<CheckBox Visibility="{Binding ColumnsShow.MaxTempText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MaxTempText}" Margin="0 0 6 0">最高卡温</CheckBox>
 					<CheckBox Visibility="{Binding ColumnsShow.IncomeMainCoinPerDayText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.IncomeMainCoinPerDayText}" Margin="0 0 6 0">主币预期收益</CheckBox>
 					<CheckBox Visibility="{Binding ColumnsShow.IncomeDualCoinPerDayText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.IncomeDualCoinPerDayText}" Margin="0 0 6 0">双挖币预期收益</CheckBox>
-					<CheckBox Visibility="{Binding ColumnsShow.GpuTableVm, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.GpuTableVm}" Margin="0 0 6 0">显卡表格</CheckBox>
 					<CheckBox Visibility="{Binding ColumnsShow.MainCoinWallet, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MainCoinWallet}" Margin="0 0 6 0">主币钱包</CheckBox>
 					<CheckBox Visibility="{Binding ColumnsShow.MainCoinPool, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MainCoinPool}" Margin="0 0 6 0">主币矿池</CheckBox>
 					<CheckBox Visibility="{Binding ColumnsShow.Kernel, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.Kernel}" Margin="0 0 6 0">内核</CheckBox>
