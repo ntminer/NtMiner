@@ -49,21 +49,6 @@
 		</WrapPanel>
 
 		<WrapPanel>
-			<TextBlock Style="{StaticResource LblTb}" Text="LangDbFileFullName"></TextBlock>
-			<TextBlock Text="{Binding LangDbFileFullName}"></TextBlock>
-		</WrapPanel>
-
-		<WrapPanel>
-			<TextBlock Style="{StaticResource LblTb}" Text="LocalLangJsonFileFullName"></TextBlock>
-			<TextBlock Text="{Binding LocalLangJsonFileFullName}"></TextBlock>
-		</WrapPanel>
-
-		<WrapPanel>
-			<TextBlock Style="{StaticResource LblTb}" Text="LangVersionJsonFileFullName"></TextBlock>
-			<TextBlock Text="{Binding LangVersionJsonFileFullName}"></TextBlock>
-		</WrapPanel>
-
-		<WrapPanel>
 			<TextBlock Style="{StaticResource LblTb}" Text="ServerDbFileFullName"></TextBlock>
 			<TextBlock Text="{Binding ServerDbFileFullName}"></TextBlock>
 		</WrapPanel>

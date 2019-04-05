@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 namespace NTMiner {
     public static class SpecialPath {
         private static readonly string ServerJsonFileUrl = "https://minerjson.oss-cn-beijing.aliyuncs.com/" + AssemblyInfo.ServerJsonFileName;
-        private static readonly string LangJsonFileUrl = "https://minerjson.oss-cn-beijing.aliyuncs.com/" + AssemblyInfo.LangJsonFileName;
 
         public static void GetAliyunServerJson(Action<byte[]> callback) {
             GetFileAsync(ServerJsonFileUrl + "?t=" + DateTime.Now.Ticks, callback);

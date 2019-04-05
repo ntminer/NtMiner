@@ -31,16 +31,6 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="lang db" Command="{x:Static vm:AppStatic.OpenLangLiteDb}">
-					<MenuItem.Icon>
-						<Path
-							Width="14"
-							Height="14"
-							Data="{StaticResource Icon_Db}"
-							Fill="{StaticResource IconFillColor}"
-							Stretch="Fill" />
-					</MenuItem.Icon>
-				</MenuItem>
 				<MenuItem Header="server db" Command="{x:Static vm:AppStatic.OpenServerLiteDb}">
 					<MenuItem.Icon>
 						<Path

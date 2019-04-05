@@ -59,7 +59,6 @@ namespace NTMiner {
                     return;
                 }
 
-                string langJson = ClientId.ReadLocalLangJsonFile();
                 if (!isWork) {
                     SpecialPath.GetAliyunServerJson((data) => {
                         // 如果server.json未下载成功则不覆写本地server.json

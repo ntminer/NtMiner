@@ -17,12 +17,6 @@ namespace NTMiner.Vms {
         public string GlobalDir {
             get => VirtualRoot.GlobalDirFullName;
         }
-        public string LangDbFileFullName {
-            get => ClientId.LangDbFileFullName;
-        }
-        public string LocalLangJsonFileFullName {
-            get => ClientId.LocalLangJsonFileFullName;
-        }
         public string ServerDbFileFullName {
             get => SpecialPath.ServerDbFileFullName;
         }
@@ -36,10 +30,6 @@ namespace NTMiner.Vms {
 
         public string ServerVersionJsonFileFullName {
             get { return AssemblyInfo.ServerVersionJsonFileFullName; }
-        }
-
-        public string LangVersionJsonFileFullName {
-            get { return AssemblyInfo.LangVersionJsonFileFullName; }
         }
 
         public string DaemonFileFullName {

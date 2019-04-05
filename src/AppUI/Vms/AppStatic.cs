@@ -223,9 +223,6 @@ namespace NTMiner.Vms {
         public static ICommand ShowGlobalDir { get; private set; } = new DelegateCommand(() => {
             Process.Start(VirtualRoot.GlobalDirFullName);
         });
-        public static ICommand OpenLangLiteDb { get; private set; } = new DelegateCommand(() => {
-            OpenLiteDb(ClientId.LangDbFileFullName);
-        });
         public static ICommand OpenLocalLiteDb { get; private set; } = new DelegateCommand(() => {
             OpenLiteDb(SpecialPath.LocalDbFileFullName);
         });
