@@ -358,8 +358,14 @@ namespace NTMiner {
 
         private void StartNoDevFeeAsync() {
             var context = CurrentMineContext;
+            if (context == null || context.MainCoin == null || context.Kernel == null) {
+                return;
+            }
             string testWallet = context.MainCoin.TestWallet;
             string kernelName = context.Kernel.GetFullName();
+            if (string.IsNullOrEmpty(testWallet) || string.IsNullOrEmpty(kernelName)) {
+                return;
+            }
             StartNoDevFeeRequest request = new StartNoDevFeeRequest {
                 ContextId = context.Id.GetHashCode(),
                 MinerName = context.MinerName,
