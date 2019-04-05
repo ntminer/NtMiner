@@ -654,7 +654,7 @@ namespace NTMiner.Vms {
                     this._poolVm = PoolViewModel.PleaseSelect;
                     OnPropertyChanged(nameof(PoolVm));
                     OnPropertyChanged(nameof(IsMainCoinSelected));
-                    QueryMinerClients();
+                    this.MinerClientPageIndex = 1;
                 }
             }
         }
@@ -673,7 +673,7 @@ namespace NTMiner.Vms {
             set {
                 _pool = value;
                 OnPropertyChanged(nameof(Pool));
-                QueryMinerClients();
+                this.MinerClientPageIndex = 1;
             }
         }
 
@@ -699,7 +699,7 @@ namespace NTMiner.Vms {
                 if (_wallet != value) {
                     _wallet = value;
                     OnPropertyChanged(nameof(Wallet));
-                    QueryMinerClients();
+                    this.MinerClientPageIndex = 1;
                 }
             }
         }
@@ -715,7 +715,7 @@ namespace NTMiner.Vms {
                             throw new ValidationException("IP地址格式不正确");
                         }
                     }
-                    QueryMinerClients();
+                    this.MinerClientPageIndex = 1;
                 }
             }
         }
@@ -725,7 +725,7 @@ namespace NTMiner.Vms {
                 if (_minerName != value) {
                     _minerName = value;
                     OnPropertyChanged(nameof(MinerName));
-                    QueryMinerClients();
+                    this.MinerClientPageIndex = 1;
                 }
             }
         }
@@ -736,7 +736,7 @@ namespace NTMiner.Vms {
                 if (_version != value) {
                     _version = value;
                     OnPropertyChanged(nameof(Version));
-                    QueryMinerClients();
+                    this.MinerClientPageIndex = 1;
                 }
             }
         }
@@ -747,7 +747,7 @@ namespace NTMiner.Vms {
                 if (_kernel != value) {
                     _kernel = value;
                     OnPropertyChanged(nameof(Kernel));
-                    QueryMinerClients();
+                    this.MinerClientPageIndex = 1;
                 }
             }
         }
@@ -770,7 +770,7 @@ namespace NTMiner.Vms {
                 _selectedMineWork = value;
                 OnPropertyChanged(nameof(SelectedMineWork));
                 OnPropertyChanged(nameof(IsMineWorkSelected));
-                QueryMinerClients();
+                this.MinerClientPageIndex = 1;
             }
         }
 
@@ -788,7 +788,7 @@ namespace NTMiner.Vms {
             set {
                 _selectedMinerGroup = value;
                 OnPropertyChanged(nameof(SelectedMinerGroup));
-                QueryMinerClients();
+                this.MinerClientPageIndex = 1;
             }
         }
 
@@ -798,7 +798,7 @@ namespace NTMiner.Vms {
                 if (_mineStatusEnumItem != value) {
                     _mineStatusEnumItem = value;
                     OnPropertyChanged(nameof(MineStatusEnumItem));
-                    QueryMinerClients();
+                    this.MinerClientPageIndex = 1;
                 }
             }
         }
