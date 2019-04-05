@@ -13,6 +13,8 @@ namespace NTMiner {
     class Program {
         static void Main(string[] args) {
             try {
+                // 将服务器地址设为localhost从而使用内网ip访问免于验证用户名密码
+                AssemblyInfo.OfficialServerHost = "localhost";
                 NTMinerRegistry.SetAutoBoot("NTMiner.CalcConfigUpdater", true);
                 const int minutes = 60 * 1000;
                 Timer t = new Timer(10 * minutes) {
@@ -23,15 +25,15 @@ namespace NTMiner {
                 };
                 t.Start();
                 UpdateAsync();
-                Console.WriteLine("输入exit并回车可以停止服务！");
+                Write.UserInfo("输入exit并回车可以停止服务！");
 
                 while (Console.ReadLine() != "exit") {
                 }
 
-                Console.WriteLine("服务停止成功: {0}.", DateTime.Now);
+                Write.UserOk($"服务停止成功: {DateTime.Now}.");
             }
             catch (Exception e) {
-                PrintError(e);
+                Logger.ErrorDebugLine(e.Message, e);
             }
 
             System.Threading.Thread.Sleep(1000);
@@ -42,18 +44,18 @@ namespace NTMiner {
                 try {
                     byte[] htmlData = GetHtmlAsync("https://www.f2pool.com/").Result;
                     if (htmlData != null && htmlData.Length != 0) {
-                        Console.WriteLine($"{DateTime.Now} - 鱼池首页html获取成功");
+                        Write.UserOk($"{DateTime.Now} - 鱼池首页html获取成功");
                         string html = Encoding.UTF8.GetString(htmlData);
                         double usdCny = PickUsdCny(html);
-                        Console.WriteLine($"usdCny={usdCny}");
+                        Write.UserInfo($"usdCny={usdCny}");
                         List<IncomeItem> incomeItems = PickIncomeItems(html);
-                        Console.WriteLine($"鱼池首页有{incomeItems.Count}个币种");
+                        Write.UserInfo($"鱼池首页有{incomeItems.Count}个币种");
                         FillCny(incomeItems, usdCny);
                         NeatenSpeedUnit(incomeItems);
                         if (incomeItems != null && incomeItems.Count != 0) {
                             Login();
                             DataResponse<List<CalcConfigData>> response = OfficialServer.GetCalcConfigs();
-                            Console.WriteLine($"NTMiner有{response.Data.Count}个币种");
+                            Write.UserInfo($"NTMiner有{response.Data.Count}个币种");
                             HashSet<string> coinCodes = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
                             foreach (CalcConfigData calcConfigData in response.Data) {
                                 IncomeItem incomeItem = incomeItems.FirstOrDefault(a => string.Equals(a.CoinCode, calcConfigData.CoinCode, StringComparison.OrdinalIgnoreCase));
@@ -67,31 +69,33 @@ namespace NTMiner {
                                     calcConfigData.ModifiedOn = DateTime.Now;
                                 }
                             }
-                            OfficialServer.SaveCalcConfigsAsync(response.Data, null);
+                            OfficialServer.SaveCalcConfigsAsync(response.Data, callback: (res, e)=> {
+                                if (!res.IsSuccess()) {
+                                    Write.UserFail(res.ReadMessage(e));
+                                }
+                            });
                             foreach (IncomeItem incomeItem in incomeItems) {
                                 if (coinCodes.Contains(incomeItem.CoinCode)) {
                                     continue;
                                 }
-                                Console.WriteLine(incomeItem.ToString());
+                                Write.UserInfo(incomeItem.ToString());
                             }
 
-                            Console.ForegroundColor = ConsoleColor.Green;
                             foreach (var incomeItem in incomeItems) {
                                 if (!coinCodes.Contains(incomeItem.CoinCode)) {
                                     continue;
                                 }
-                                Console.WriteLine(incomeItem.ToString());
+                                Write.UserOk(incomeItem.ToString());
                             }
-                            Console.ResetColor();
 
-                            Console.WriteLine($"更新了{coinCodes.Count}个币种：{string.Join(",", coinCodes)}");
+                            Write.UserOk($"更新了{coinCodes.Count}个币种：{string.Join(",", coinCodes)}");
                             int unUpdatedCount = response.Data.Count - coinCodes.Count;
-                            Console.WriteLine($"{unUpdatedCount}个币种未更新{(unUpdatedCount == 0 ? string.Empty: "：" + string.Join(",", response.Data.Select(a => a.CoinCode).Except(coinCodes)))}");
+                            Write.UserWarn($"{unUpdatedCount}个币种未更新{(unUpdatedCount == 0 ? string.Empty: "：" + string.Join(",", response.Data.Select(a => a.CoinCode).Except(coinCodes)))}");
                         }
                     }
                 }
                 catch (Exception e) {
-                    PrintError(e);
+                    Logger.ErrorDebugLine(e.Message, e);
                 }
             });
         }
@@ -159,7 +163,7 @@ namespace NTMiner {
                 return results;
             }
             catch (Exception e) {
-                PrintError(e);
+                Logger.ErrorDebugLine(e.Message, e);
                 return new List<IncomeItem>();
             }
         }
@@ -202,7 +206,7 @@ namespace NTMiner {
                 return result;
             }
             catch (Exception e) {
-                PrintError(e);
+                Logger.ErrorDebugLine(e.Message, e);
                 return 0;
             }
         }
@@ -214,15 +218,9 @@ namespace NTMiner {
                 }
             }
             catch (Exception e) {
-                PrintError(e);
+                Logger.ErrorDebugLine(e.Message, e);
                 return new byte[0];
             }
-        }
-
-        private static void PrintError(Exception e) {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine(e.Message, e.StackTrace);
-            Console.ResetColor();
         }
     }
 }

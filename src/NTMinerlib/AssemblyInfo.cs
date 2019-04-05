@@ -10,6 +10,6 @@ namespace NTMiner {
         public static readonly string LangJsonFileName = $"lang{Version}.json";
         public static string ServerVersionJsonFileFullName = Path.Combine(VirtualRoot.GlobalDirFullName, ServerJsonFileName);
         public static readonly string LangVersionJsonFileFullName = Path.Combine(VirtualRoot.GlobalDirFullName, LangJsonFileName);
-        public static readonly string OfficialServerHost = "server.ntminer.com";
+        public static string OfficialServerHost = "server.ntminer.com";
     }
 }
