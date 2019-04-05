@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace NTMiner.Core.Gpus.Adl {
+namespace NTMiner.Core.Gpus.Impl.Amd {
     #region Export Delegates
     /// <summary> ADL Memory allocation function allows ADL to callback for memory allocation</summary>
     /// <param name="size">input size</param>

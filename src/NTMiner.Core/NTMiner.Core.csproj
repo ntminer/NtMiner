@@ -95,9 +95,9 @@
     <Compile Include="Cleaner.cs" />
     <Compile Include="CommandLineArgs.cs" />
     <Compile Include="CommandLineArgs.partial.cs" />
-    <Compile Include="Core\Gpus\Adl\AdlHelper.cs" />
-    <Compile Include="Core\Gpus\Adl\AdlNativeMethods.cs" />
-    <Compile Include="Core\Gpus\Adl\AdlTypes.cs" />
+    <Compile Include="Core\Gpus\Impl\Amd\AdlHelper.cs" />
+    <Compile Include="Core\Gpus\Impl\Amd\AdlNativeMethods.cs" />
+    <Compile Include="Core\Gpus\Impl\Amd\AdlTypes.cs" />
     <Compile Include="Core\Gpus\EmptyGpuSet.cs" />
     <Compile Include="Core\Gpus\IGpu.cs" />
     <Compile Include="Core\Gpus\Impl\EmptyOverClock.cs" />
@@ -171,8 +171,8 @@
     <Compile Include="Core\Kernels\IKernelOutputTranslaterSet.cs" />
     <Compile Include="Core\SysDics\ISysDicItemSet.cs" />
     <Compile Include="Core\SysDics\ISysDicSet.cs" />
-    <Compile Include="Core\Gpus\Nvml\NvmlNativeMethods.cs" />
-    <Compile Include="Core\Gpus\Nvml\NvmlTypes.cs" />
+    <Compile Include="Core\Gpus\Impl\Nvidia\NvmlNativeMethods.cs" />
+    <Compile Include="Core\Gpus\Impl\Nvidia\NvmlTypes.cs" />
     <Compile Include="Core\DuplicateCodeException.cs" />
     <Compile Include="Core\Gpus\IGpuSpeed.cs" />
     <Compile Include="Core\Gpus\IGpusSpeed.cs" />
