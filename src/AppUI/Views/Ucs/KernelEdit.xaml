@@ -85,7 +85,7 @@
 								IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
 								AcceptsReturn="True" TextWrapping="Wrap" 
 								VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
-								Text="{Binding Notice, Mode=TwoWay}" Height="100">
+								Text="{Binding Notice, Mode=TwoWay}" Height="150">
 							</TextBox>
 						</WrapPanel>
 
