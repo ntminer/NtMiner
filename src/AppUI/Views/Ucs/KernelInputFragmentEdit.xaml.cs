@@ -5,7 +5,7 @@ namespace NTMiner.Views.Ucs {
     public partial class KernelInputFragmentEdit : UserControl {
         public static void ShowWindow(KernelInputViewModel kernelInputVm, KernelInputFragmentViewModel fragment) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                Title = "环境变量",
+                Title = "片段",
                 IsDialogWindow = true,
                 CloseVisible = System.Windows.Visibility.Visible
             }, ucFactory: (window) =>
