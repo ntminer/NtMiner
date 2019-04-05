@@ -267,17 +267,10 @@ namespace NTMiner.Vms {
                 if (_data.ModifiedOn != value) {
                     _data.ModifiedOn = value;
                     OnPropertyChanged(nameof(ModifiedOn));
-                    OnPropertyChanged(nameof(ModifiedOnText));
                 }
                 OnPropertyChanged(nameof(IsMining));
                 OnPropertyChanged(nameof(LastActivedOnText));
                 OnPropertyChanged(nameof(IsOnline));
-            }
-        }
-
-        public string ModifiedOnText {
-            get {
-                return this.ModifiedOn.ToString("HH:mm:ss");
             }
         }
 

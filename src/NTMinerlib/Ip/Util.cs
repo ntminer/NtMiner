@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Net.NetworkInformation;
 
 namespace NTMiner.Ip {
@@ -17,6 +18,12 @@ namespace NTMiner.Ip {
             }
         }
 
+        private static readonly long aBegin = GetIpNum("10.0.0.0");
+        private static readonly long aEnd = GetIpNum("10.255.255.255");
+        private static readonly long bBegin = GetIpNum("172.16.0.0");
+        private static readonly long bEnd = GetIpNum("172.31.255.255");
+        private static readonly long cBegin = GetIpNum("192.168.0.0");
+        private static readonly long cEnd = GetIpNum("192.168.255.255");
         /// <summary>
         /// 判断IP地址是否为内网IP地址
         /// </summary>
@@ -29,6 +36,10 @@ namespace NTMiner.Ip {
             if (ipAddress == "localhost" || ipAddress == "127.0.0.1") {
                 return true;
             }
+            IPAddress address;
+            if (!IPAddress.TryParse(ipAddress, out address)) {
+                return false;
+            }
             try {
                 bool isInnerIp = false;
                 long ipNum = GetIpNum(ipAddress);
@@ -38,12 +49,6 @@ namespace NTMiner.Ip {
                 C类 192.168.0.0-192.168.255.255
                 当然，还有127这个网段是环回地址 
                 **/
-                long aBegin = GetIpNum("10.0.0.0");
-                long aEnd = GetIpNum("10.255.255.255");
-                long bBegin = GetIpNum("172.16.0.0");
-                long bEnd = GetIpNum("172.31.255.255");
-                long cBegin = GetIpNum("192.168.0.0");
-                long cEnd = GetIpNum("192.168.255.255");
                 isInnerIp = IsInner(ipNum, aBegin, aEnd) || IsInner(ipNum, bBegin, bEnd) || IsInner(ipNum, cBegin, cEnd);
                 return isInnerIp;
             }
