@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using NTMiner.Profile;
 using NTMiner.Serialization;
+using System.Web;
 
 namespace UnitTestProject1 {
     [TestClass]
@@ -194,6 +195,22 @@ namespace UnitTestProject1 {
         [TestMethod]
         public void ZipTest() {
             ZipUtil.DecompressZipFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "lolminer0.7Alpha5.zip"), Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "temp"));
+        }
+
+        private string SignatureSafeUrl(Uri uri) {
+            string url = uri.ToString();
+            if (url.Length > 28) {
+                string signature = url.Substring(url.Length - 28);
+                return url.Substring(0, url.Length - 28) + HttpUtility.UrlEncode(signature);
+            }
+            return url;
+        }
+
+        [TestMethod]
+        public void AliOSSUrlTest() {
+            Uri uri = new Uri("http://ntminer.oss-cn-beijing.aliyuncs.com/packages/HSPMinerAE2.1.2.zip?Expires=1554472712&OSSAccessKeyId=LTAIHNApO2ImeMxI&Signature=FVTf+nX4grLKcPRxpJd9nf3Py7I=");
+            Console.WriteLine(uri.ToString());
+            Console.WriteLine(SignatureSafeUrl(uri));
         }
     }
 }

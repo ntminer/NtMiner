@@ -2,6 +2,7 @@
 using NTMiner.MinerServer;
 using System;
 using System.Collections.Generic;
+using System.Web;
 using System.Web.Http;
 
 namespace NTMiner.Controllers {
@@ -12,6 +13,15 @@ namespace NTMiner.Controllers {
             }
         }
 
+        private string SignatureSafeUrl(Uri uri) {
+            string url = uri.ToString();
+            if (url.Length > 28) {
+                string signature = url.Substring(url.Length - 28);
+                return url.Substring(0, url.Length - 28) + HttpUtility.UrlEncode(signature);
+            }
+            return url;
+        }
+
         [HttpPost]
         public string MinerJsonPutUrl([FromBody]MinerJsonPutUrlRequest request) {
             if (request == null || string.IsNullOrEmpty(request.FileName)) {
@@ -20,7 +30,7 @@ namespace NTMiner.Controllers {
             try {
                 var req = new GeneratePresignedUriRequest("minerjson", request.FileName, SignHttpMethod.Put);
                 var uri = HostRoot.Current.OssClient.GeneratePresignedUri(req);
-                return uri.ToString();
+                return SignatureSafeUrl(uri);
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
@@ -34,13 +44,10 @@ namespace NTMiner.Controllers {
                 return string.Empty;
             }
             var req = new GeneratePresignedUriRequest("ntminer", request.FileName, SignHttpMethod.Get) {
-                Expiration = DateTime.Now.AddMinutes(10),
-                QueryParams = new Dictionary<string, string> {
-                    {"t", DateTime.Now.Ticks.ToString() }
-                }
+                Expiration = DateTime.Now.AddMinutes(10)
             };
             var uri = HostRoot.Current.OssClient.GeneratePresignedUri(req);
-            return uri.ToString();
+            return SignatureSafeUrl(uri);
         }
 
         [HttpPost]
@@ -95,13 +102,9 @@ namespace NTMiner.Controllers {
                 else {
                     ntminerUpdaterFileName = (string)ntminerUpdaterFileNameSetting.Value;
                 }
-                var req = new GeneratePresignedUriRequest("ntminer", ntminerUpdaterFileName, SignHttpMethod.Get) {
-                    QueryParams = new Dictionary<string, string> {
-                        {"t", DateTime.Now.Ticks.ToString() }
-                    }
-                };
+                var req = new GeneratePresignedUriRequest("ntminer", ntminerUpdaterFileName, SignHttpMethod.Get);
                 var uri = HostRoot.Current.OssClient.GeneratePresignedUri(req);
-                return uri.ToString();
+                return SignatureSafeUrl(uri);
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
@@ -112,13 +115,9 @@ namespace NTMiner.Controllers {
         [HttpPost]
         public string LiteDbExplorerUrl() {
             try {
-                var req = new GeneratePresignedUriRequest("ntminer", "LiteDBExplorerPortable.zip", SignHttpMethod.Get) {
-                    QueryParams = new Dictionary<string, string> {
-                        {"t", DateTime.Now.Ticks.ToString() }
-                    }
-                };
+                var req = new GeneratePresignedUriRequest("ntminer", "LiteDBExplorerPortable.zip", SignHttpMethod.Get);
                 var uri = HostRoot.Current.OssClient.GeneratePresignedUri(req);
-                return uri.ToString();
+                return SignatureSafeUrl(uri);
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
@@ -133,13 +132,10 @@ namespace NTMiner.Controllers {
                     return string.Empty;
                 }
                 var req = new GeneratePresignedUriRequest("ntminer", $"packages/{request.Package}", SignHttpMethod.Get) {
-                    Expiration = DateTime.Now.AddMinutes(10),
-                    QueryParams = new Dictionary<string, string> {
-                        {"t", DateTime.Now.Ticks.ToString() }
-                    }
+                    Expiration = DateTime.Now.AddMinutes(10)
                 };
                 var uri = HostRoot.Current.OssClient.GeneratePresignedUri(req);
-                return uri.ToString();
+                return SignatureSafeUrl(uri);
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
