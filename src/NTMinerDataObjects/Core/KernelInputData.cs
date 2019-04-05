@@ -4,7 +4,6 @@ using System.Collections.Generic;
 namespace NTMiner.Core {
     public class KernelInputData : IKernelInput, IDbEntity<Guid> {
         public KernelInputData() {
-            this.Fragments = new List<KernelInputFragment>();
         }
 
         public Guid GetId() {
@@ -22,7 +21,5 @@ namespace NTMiner.Core {
         public bool IsAutoDualWeight { get; set; }
         public string DualWeightArg { get; set; }
         public string DualFullArgs { get; set; }
-
-        public List<KernelInputFragment> Fragments { get; set; }
     }
 }

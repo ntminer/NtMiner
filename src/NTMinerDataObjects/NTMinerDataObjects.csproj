@@ -51,7 +51,7 @@
     <Compile Include="Core\IGroup.cs" />
     <Compile Include="Core\IKernel.cs" />
     <Compile Include="Core\IKernelInput.cs" />
-    <Compile Include="Core\IKernelInputFragment.cs" />
+    <Compile Include="Core\IInputSegment.cs" />
     <Compile Include="Core\IKernelOutput.cs" />
     <Compile Include="Core\IKernelOutputFilter.cs" />
     <Compile Include="Core\IKernelOutputTranslater.cs" />
@@ -61,7 +61,7 @@
     <Compile Include="Core\KernelData.cs" />
     <Compile Include="Core\KernelExtension.cs" />
     <Compile Include="Core\KernelInputData.cs" />
-    <Compile Include="Core\KernelInputFragment.cs" />
+    <Compile Include="Core\InputSegment.cs" />
     <Compile Include="Core\KernelOutputData.cs" />
     <Compile Include="Core\KernelOutputFilterData.cs" />
     <Compile Include="Core\KernelOutputTranslaterData.cs" />

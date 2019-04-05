@@ -832,12 +832,10 @@
 						<ColumnDefinition Width="Auto"></ColumnDefinition>
 						<ColumnDefinition Width="*"></ColumnDefinition>
 					</Grid.ColumnDefinitions>
-					<TextBlock
-						Style="{StaticResource LblTb}"
-						Text="选项" />
+					<TextBlock Style="{StaticResource LblTb}" />
 					<ItemsControl
 						Grid.Column="1"
-						ItemsSource="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.KernelInputVm.FragmentVms}"
+						ItemsSource="{Binding MinerProfile.CoinVm.CoinKernel.InputSegmentVms}"
 						BorderThickness="0"
 						VerticalAlignment="Center"
 						ScrollViewer.HorizontalScrollBarVisibility="Disabled">

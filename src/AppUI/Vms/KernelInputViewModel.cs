@@ -2,8 +2,6 @@
 using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 
@@ -25,14 +23,10 @@ namespace NTMiner.Vms {
         private string _dualWeightArg;
 
         private GroupViewModel _dualCoinGroup;
-        private List<KernelInputFragmentViewModel> _fragments;
 
         public ICommand Remove { get; private set; }
         public ICommand Edit { get; private set; }
         public ICommand Save { get; private set; }
-        public ICommand AddFragment { get; private set; }
-        public ICommand EditFragment { get; private set; }
-        public ICommand RemoveFragment { get; private set; }
 
         public Action CloseWindow { get; set; }
 
@@ -40,7 +34,6 @@ namespace NTMiner.Vms {
             if (!Design.IsInDesignMode) {
                 throw new InvalidProgramException();
             }
-            this._fragments = new List<KernelInputFragmentViewModel>();
         }
 
         public KernelInputViewModel(IKernelInput data) : this(data.GetId()) {
@@ -53,12 +46,10 @@ namespace NTMiner.Vms {
             _dualWeightMax = data.DualWeightMax;
             _isAutoDualWeight = data.IsAutoDualWeight;
             _dualWeightArg = data.DualWeightArg;
-            _fragments = data.Fragments.Select(a=>new KernelInputFragmentViewModel(a)).ToList();
         }
 
         public KernelInputViewModel(Guid id) {
             _id = id;
-            _fragments = new List<KernelInputFragmentViewModel>();
             this.Save = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {
                     return;
@@ -83,18 +74,6 @@ namespace NTMiner.Vms {
                 }
                 DialogWindow.ShowDialog(message: $"您确定删除{this.Name}内核输入吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveKernelInputCommand(this.Id));
-                }, icon: IconConst.IconConfirm);
-            });
-            this.AddFragment = new DelegateCommand(() => {
-                KernelInputFragmentEdit.ShowWindow(this, new KernelInputFragmentViewModel());
-            });
-            this.EditFragment = new DelegateCommand<KernelInputFragmentViewModel>((fragment) => {
-                KernelInputFragmentEdit.ShowWindow(this, fragment);
-            });
-            this.RemoveFragment = new DelegateCommand<KernelInputFragmentViewModel>((fragment) => {
-                DialogWindow.ShowDialog(message: $"您确定删除片段{fragment.Name}吗？", title: "确认", onYes: () => {
-                    this.FragmentVms.Remove(fragment);
-                    FragmentVms = FragmentVms.ToList();
                 }, icon: IconConst.IconConfirm);
             });
         }
@@ -241,20 +220,6 @@ namespace NTMiner.Vms {
                     _dualFullArgs = value;
                     OnPropertyChanged(nameof(DualFullArgs));
                 }
-            }
-        }
-
-        public List<KernelInputFragmentViewModel> FragmentVms {
-            get => _fragments;
-            set {
-                _fragments = value;
-                OnPropertyChanged(nameof(FragmentVms));
-            }
-        }
-
-        List<KernelInputFragment> IKernelInput.Fragments {
-            get {
-                return _fragments.Select(a => new KernelInputFragment(a)).ToList();
             }
         }
     }

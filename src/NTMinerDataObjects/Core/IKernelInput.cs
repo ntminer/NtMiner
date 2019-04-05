@@ -12,6 +12,5 @@ namespace NTMiner.Core {
         bool IsAutoDualWeight { get; }
         string DualWeightArg { get; }
         string DualFullArgs { get; }
-        List<KernelInputFragment> Fragments { get; }
     }
 }

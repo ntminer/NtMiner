@@ -1,16 +1,16 @@
 ﻿using NTMiner.Core;
 
 namespace NTMiner.Vms {
-    public class KernelInputFragmentViewModel : ViewModelBase, IKernelInputFragment {
+    public class InputSegmentViewModel : ViewModelBase, IInputSegment {
         private string _name;
-        private string _fragment;
+        private string _segment;
         private string _description;
 
-        public KernelInputFragmentViewModel() { }
+        public InputSegmentViewModel() { }
 
-        public KernelInputFragmentViewModel(IKernelInputFragment data) {
+        public InputSegmentViewModel(IInputSegment data) {
             _name = data.Name;
-            _fragment = data.Fragment;
+            _segment = data.Segment;
             _description = data.Description;
         }
 
@@ -22,11 +22,11 @@ namespace NTMiner.Vms {
             }
         }
 
-        public string Fragment {
-            get => _fragment;
+        public string Segment {
+            get => _segment;
             set {
-                _fragment = value;
-                OnPropertyChanged(nameof(Fragment));
+                _segment = value;
+                OnPropertyChanged(nameof(Segment));
             }
         }
 
@@ -40,7 +40,7 @@ namespace NTMiner.Vms {
 
         public bool IsChecked {
             get {
-                if (MinerProfileViewModel.Current.CoinVm?.CoinKernel?.CoinKernelProfile?.CustomArgs?.Contains(this.Fragment) ?? false) {
+                if (MinerProfileViewModel.Current.CoinVm?.CoinKernel?.CoinKernelProfile?.CustomArgs?.Contains(this.Segment) ?? false) {
                     return true;
                 }
                 return false;
@@ -48,22 +48,22 @@ namespace NTMiner.Vms {
             set {
                 CoinKernelProfileViewModel coinKernelProfileVm = MinerProfileViewModel.Current.CoinVm?.CoinKernel?.CoinKernelProfile;
                 string customArgs = coinKernelProfileVm?.CustomArgs ?? string.Empty;
-                bool b = customArgs.Contains(this.Fragment);
+                bool b = customArgs.Contains(this.Segment);
                 if (value) {
                     if (b == false) {
                         if (string.IsNullOrEmpty(customArgs)) {
-                            customArgs = this.Fragment;
+                            customArgs = this.Segment;
                         }
                         else {
-                            customArgs += " " + this.Fragment;
+                            customArgs += " " + this.Segment;
                         }
                     }
                 }
                 else {
                     if (b == true) {
-                        string str = " " + this.Fragment;
+                        string str = " " + this.Segment;
                         if (!customArgs.Contains(str)) {
-                            str = this.Fragment;
+                            str = this.Segment;
                         }
                         customArgs = customArgs.Replace(str, string.Empty);
                     }

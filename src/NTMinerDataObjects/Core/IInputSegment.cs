@@ -1,7 +1,7 @@
 ﻿namespace NTMiner.Core {
-    public interface IKernelInputFragment {
+    public interface IInputSegment {
         string Name { get; }
-        string Fragment { get; }
+        string Segment { get; }
         string Description { get; }
     }
 }

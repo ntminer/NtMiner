@@ -44,5 +44,16 @@ namespace NTMiner.Views.Ucs {
                 Vm.EditEnvironmentVariable.Execute((EnvironmentVariable)dg.SelectedItem);
             }
         }
+
+        private void DataGridSegments_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+            DataGrid dg = (DataGrid)sender;
+            Point p = e.GetPosition(dg);
+            if (p.Y < 30) {
+                return;
+            }
+            if (dg.SelectedItem != null) {
+                Vm.EditSegment.Execute((InputSegment)dg.SelectedItem);
+            }
+        }
     }
 }
