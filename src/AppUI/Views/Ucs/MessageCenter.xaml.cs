@@ -33,9 +33,6 @@ namespace NTMiner.Views.Ucs {
                     }
                 }
             };
-            Write.WriteDevLineMethod = (text, foreground) => {
-                WriteLine(this.FlowDocumentScrollViewerDebug, this.ConsoleParagraphDebug, text, foreground);
-            };
         }
 
         private readonly Dictionary<string, ScrollViewer> _scrollView = new Dictionary<string, ScrollViewer>();

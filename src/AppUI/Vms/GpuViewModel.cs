@@ -21,7 +21,11 @@ namespace NTMiner.Vms {
         private int _coolMax;
         private double _powerMin;
         private double _powerMax;
-        private double _power;
+        private int _powerCapacity;
+        private int _tempLimitMin;
+        private int _tempLimitDefault;
+        private int _tempLimitMax;
+        private int _tempLimit;
 
         public GpuViewModel(IGpu data) {
             _index = data.Index;
@@ -38,14 +42,18 @@ namespace NTMiner.Vms {
             _cool = data.Cool;
             _coolMin = data.CoolMin;
             _coolMax = data.CoolMax;
-            _power = data.Power;
+            _powerCapacity = data.PowerCapacity;
             _powerMin = data.PowerMin;
             _powerMax = data.PowerMax;
+            _tempLimit = data.TempLimit;
+            _tempLimitDefault = data.TempLimitDefault;
+            _tempLimitMax = data.TempLimitMax;
+            _tempLimitMin = data.TempLimitMin;
         }
 
         private readonly bool _isGpuData;
-        private readonly GpuData[] _gpuDatas;
-        public GpuViewModel(GpuData gpuData, GpuData[] gpuDatas) {
+        private readonly IGpuStaticData[] _gpuDatas;
+        public GpuViewModel(IGpuStaticData gpuData, IGpuStaticData[] gpuDatas) {
             if (gpuData == null) {
                 throw new ArgumentNullException(nameof(gpuData));
             }
@@ -68,9 +76,12 @@ namespace NTMiner.Vms {
             _cool = 0;
             _coolMin = gpuData.CoolMin;
             _coolMax = gpuData.CoolMax;
-            _power = 0;
+            _powerCapacity = 0;
             _powerMin = gpuData.PowerMin;
             _powerMax = gpuData.PowerMax;
+            _tempLimitMin = gpuData.TempLimitMin;
+            _tempLimitMax = gpuData.TempLimitMax;
+            _tempLimitDefault = gpuData.TempLimitDefault;
         }
 
         public int Index {
@@ -343,6 +354,20 @@ namespace NTMiner.Vms {
             }
         }
 
+        public string TempLimitMinMaxText {
+            get {
+                if (Index == NTMinerRoot.GpuAllId) {
+                    if (_isGpuData) {
+                        return $"{_gpuDatas.Max(a => a.TempLimitMin)} - {_gpuDatas.Min(a => a.TempLimitMax)}%";
+                    }
+                    else {
+                        return $"{NTMinerRoot.Current.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Max(a => a.TempLimitMin)} - {NTMinerRoot.Current.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Min(a => a.TempLimitMax)}%";
+                    }
+                }
+                return $"{this.TempLimitMin} - {this.TempLimitMax}%";
+            }
+        }
+
         public int CoreClockDeltaMin {
             get => _coreClockDeltaMin;
             set {
@@ -434,18 +459,54 @@ namespace NTMiner.Vms {
                 OnPropertyChanged(nameof(PowerMax));
             }
         }
-        public double Power {
-            get => _power;
+        public int PowerCapacity {
+            get => _powerCapacity;
             set {
-                _power = value;
-                OnPropertyChanged(nameof(Power));
-                OnPropertyChanged(nameof(PowerText));
+                _powerCapacity = value;
+                OnPropertyChanged(nameof(PowerCapacity));
+                OnPropertyChanged(nameof(PowerCapacityText));
             }
         }
 
-        public string PowerText {
+        public string PowerCapacityText {
             get {
-                return this.Power.ToString("f0") + "%";
+                return this.PowerCapacity.ToString("f0") + "%";
+            }
+        }
+
+        public int TempLimitMin {
+            get => _tempLimitMin;
+            set {
+                _tempLimitMin = value;
+                OnPropertyChanged(nameof(TempLimitMin));
+            }
+        }
+        public int TempLimitDefault {
+            get => _tempLimitDefault;
+            set {
+                _tempLimitDefault = value;
+                OnPropertyChanged(nameof(TempLimitDefault));
+            }
+        }
+        public int TempLimitMax {
+            get => _tempLimitMax;
+            set {
+                _tempLimitMax = value;
+                OnPropertyChanged(nameof(TempLimitMax));
+            }
+        }
+        public int TempLimit {
+            get => _tempLimit;
+            set {
+                _tempLimit = value;
+                OnPropertyChanged(nameof(TempLimit));
+                OnPropertyChanged(nameof(TempLimitText));
+            }
+        }
+
+        public string TempLimitText {
+            get {
+                return this.TempLimit.ToString() + "℃";
             }
         }
     }

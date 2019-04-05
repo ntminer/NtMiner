@@ -15,7 +15,7 @@ namespace NTMiner.Vms {
         private int _powerCapacity;
         private int _cool;
         private int _thermCapacity;
-        private int _thermGuard;
+        private bool _isAutoFanSpeed;
 
         public ICommand Remove { get; private set; }
         public ICommand Edit { get; private set; }
@@ -66,8 +66,7 @@ namespace NTMiner.Vms {
             _coreClockDelta = data.CoreClockDelta;
             _memoryClockDelta = data.MemoryClockDelta;
             _powerCapacity = data.PowerCapacity;
-            _thermCapacity = data.ThermCapacity;
-            _thermGuard = data.ThermGuard;
+            _thermCapacity = data.TempLimit;
             _cool = data.Cool;
         }
 
@@ -126,19 +125,19 @@ namespace NTMiner.Vms {
             }
         }
 
-        public int ThermCapacity {
+        public int TempLimit {
             get => _thermCapacity;
             set {
                 _thermCapacity = value;
-                OnPropertyChanged(nameof(ThermCapacity));
+                OnPropertyChanged(nameof(TempLimit));
             }
         }
 
-        public int ThermGuard {
-            get => _thermGuard;
+        public bool IsAutoFanSpeed {
+            get => _isAutoFanSpeed;
             set {
-                _thermGuard = value;
-                OnPropertyChanged(nameof(ThermGuard));
+                _isAutoFanSpeed = value;
+                OnPropertyChanged(nameof(IsAutoFanSpeed));
             }
         }
 
@@ -165,7 +164,7 @@ namespace NTMiner.Vms {
 
         public string Tooltip {
             get {
-                return $"核心{CoreClockDelta}M, 显存{MemoryClockDelta}M, 功耗{PowerCapacity}%, 风扇{Cool}%, 降频温度{ThermCapacity}, 守卫温度{ThermGuard}";
+                return $"核心{CoreClockDelta}M, 显存{MemoryClockDelta}M, 功耗{PowerCapacity}%, 风扇{(IsAutoFanSpeed ? "自动" : Cool + "%")}, 降频温度{TempLimit}";
             }
         }
     }

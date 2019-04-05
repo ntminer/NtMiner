@@ -18,7 +18,9 @@ namespace NTMiner.Vms {
         private string _description;
         private SupportedGpu _supportedGpu;
         private GroupViewModel _selectedDualCoinGroup;
-        private List<EnvironmentVariable> _environmentVariables;
+        private List<EnvironmentVariable> _environmentVariables = new List<EnvironmentVariable>();
+        private List<InputSegment> _inputSegments = new List<InputSegment>();
+        private List<InputSegmentViewModel> _inputSegmentVms = new List<InputSegmentViewModel>();
         private CoinViewModel _coinVm;
 
         public Guid GetId() {
@@ -34,6 +36,9 @@ namespace NTMiner.Vms {
         public ICommand AddEnvironmentVariable { get; private set; }
         public ICommand EditEnvironmentVariable { get; private set; }
         public ICommand RemoveEnvironmentVariable { get; private set; }
+        public ICommand AddSegment { get; private set; }
+        public ICommand EditSegment { get; private set; }
+        public ICommand RemoveSegment { get; private set; }
 
         public Action CloseWindow { get; set; }
 
@@ -52,15 +57,14 @@ namespace NTMiner.Vms {
             _description = data.Description;
             _supportedGpu = data.SupportedGpu;
             // 复制，视为值对象，防止直接修改引用
-            _environmentVariables.AddRange(data.EnvironmentVariables.Select(a => new EnvironmentVariable {
-                Key = a.Key,
-                Value = a.Value
-            }));
+            _environmentVariables.AddRange(data.EnvironmentVariables.Select(a => new EnvironmentVariable(a)));
+            // 复制，视为值对象，防止直接修改引用
+            _inputSegments.AddRange(data.InputSegments.Select(a => new InputSegment(a)));
+            _inputSegmentVms.AddRange(_inputSegments.Select(a => new InputSegmentViewModel(a)));
         }
 
         public CoinKernelViewModel(Guid id) {
             _id = id;
-            _environmentVariables = new List<EnvironmentVariable>();
             this.AddEnvironmentVariable = new DelegateCommand(() => {
                 EnvironmentVariableEdit.ShowWindow(this, new EnvironmentVariable());
             });
@@ -71,6 +75,18 @@ namespace NTMiner.Vms {
                 DialogWindow.ShowDialog(message: $"您确定删除环境变量{environmentVariable.Key}吗？", title: "确认", onYes: () => {
                     this.EnvironmentVariables.Remove(environmentVariable);
                     EnvironmentVariables = EnvironmentVariables.ToList();
+                }, icon: IconConst.IconConfirm);
+            });
+            this.AddSegment = new DelegateCommand(() => {
+                InputSegmentEdit.ShowWindow(this, new InputSegment());
+            });
+            this.EditSegment = new DelegateCommand<InputSegment>((segment) => {
+                InputSegmentEdit.ShowWindow(this, segment);
+            });
+            this.RemoveSegment = new DelegateCommand<InputSegment>((segment) => {
+                DialogWindow.ShowDialog(message: $"您确定删除片段{segment.Name}吗？", title: "确认", onYes: () => {
+                    this.InputSegments.Remove(segment);
+                    InputSegments = InputSegments.ToList();
                 }, icon: IconConst.IconConfirm);
             });
             this.Save = new DelegateCommand(() => {
@@ -278,6 +294,30 @@ namespace NTMiner.Vms {
             set {
                 _environmentVariables = value;
                 OnPropertyChanged(nameof(EnvironmentVariables));
+            }
+        }
+
+        public List<InputSegment> InputSegments {
+            get => _inputSegments;
+            set {
+                _inputSegments = value;
+                OnPropertyChanged(nameof(InputSegments));
+                if (value != null) {
+                    this.InputSegmentVms = value.Select(a => new InputSegmentViewModel(a)).ToList();
+                }
+                else {
+                    this.InputSegmentVms = new List<InputSegmentViewModel>();
+                }
+            }
+        }
+
+        public List<InputSegmentViewModel> InputSegmentVms {
+            get {
+                return _inputSegmentVms;
+            }
+            set {
+                _inputSegmentVms = value;
+                OnPropertyChanged(nameof(InputSegmentVms));
             }
         }
 

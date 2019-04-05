@@ -23,7 +23,7 @@ namespace NTMiner.Bus {
                     switch (tMessageHandler.HandlerId.LogType) {
                         case LogEnum.DevConsole:
                             if (DevMode.IsDevMode) {
-                                Write.DevInfo($"({messageType.Name})->({tMessageHandler.HandlerId.Location.Name}){tMessageHandler.HandlerId.Description}");
+                                Write.DevDebug($"({messageType.Name})->({tMessageHandler.HandlerId.Location.Name}){tMessageHandler.HandlerId.Description}");
                             }
                             break;
                         case LogEnum.UserConsole:

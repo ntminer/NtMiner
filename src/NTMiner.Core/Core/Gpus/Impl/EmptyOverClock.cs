@@ -1,24 +1,26 @@
-﻿using NTMiner.MinerClient;
-
-namespace NTMiner.Core.Gpus.Impl {
+﻿namespace NTMiner.Core.Gpus.Impl {
     public class EmptyOverClock : IOverClock {
         public void RefreshGpuState(int gpuIndex) {
             // noting need todo
         }
 
-        public void SetCool(IGpuProfile data) {
+        public void SetCool(int gpuIndex, int value) {
             // noting need todo
         }
 
-        public void SetCoreClock(IGpuProfile data) {
+        public void SetThermCapacity(int gpuIndex, int value) {
             // noting need todo
         }
 
-        public void SetMemoryClock(IGpuProfile data) {
+        public void SetCoreClock(int gpuIndex, int value) {
             // noting need todo
         }
 
-        public void SetPowerCapacity(IGpuProfile data) {
+        public void SetMemoryClock(int gpuIndex, int value) {
+            // noting need todo
+        }
+
+        public void SetPowerCapacity(int gpuIndex, int value) {
             // noting need todo
         }
     }

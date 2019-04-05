@@ -21,7 +21,9 @@ namespace NTMiner {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                VirtualRoot.Execute(new CloseNTMinerCommand());
+                TimeSpan.FromMilliseconds(100).Delay().ContinueWith(t => {
+                    VirtualRoot.Execute(new CloseNTMinerCommand());
+                });
                 return ResponseBase.Ok();
             }
             catch (Exception e) {

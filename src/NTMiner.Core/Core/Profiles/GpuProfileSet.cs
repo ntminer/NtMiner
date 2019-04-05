@@ -1,4 +1,5 @@
-﻿using NTMiner.Core.Profiles.Impl;
+﻿using NTMiner.Core.Gpus;
+using NTMiner.Core.Profiles.Impl;
 using NTMiner.JsonDb;
 using NTMiner.MinerClient;
 using System;
@@ -33,7 +34,10 @@ namespace NTMiner.Core.Profiles {
                     CoolMax = gpu.CoolMax,
                     CoolMin = gpu.CoolMin,
                     PowerMax = gpu.PowerMax,
-                    PowerMin = gpu.PowerMin
+                    PowerMin = gpu.PowerMin,
+                    TempLimitDefault = gpu.TempLimitDefault,
+                    TempLimitMax = gpu.TempLimitMax,
+                    TempLimitMin = gpu.TempLimitMin
                 });
             }
             return list.ToArray();
@@ -81,8 +85,21 @@ namespace NTMiner.Core.Profiles {
 
         private void OverClock(INTMinerRoot root, IGpuProfile data) {
             if (root.GpuSet.TryGetGpu(data.Index, out IGpu gpu)) {
-                data.OverClock(root.GpuSet.OverClock);
+                OverClock(data, root.GpuSet.OverClock);
             }
+        }
+
+        public static void OverClock(IGpuProfile data, IOverClock overClock) {
+            overClock.SetCoreClock(data.Index, data.CoreClockDelta);
+            overClock.SetMemoryClock(data.Index, data.MemoryClockDelta);
+            overClock.SetPowerCapacity(data.Index, data.PowerCapacity);
+            overClock.SetThermCapacity(data.Index, data.TempLimit);
+            if (!data.IsAutoFanSpeed) {
+                overClock.SetCool(data.Index, data.Cool);
+            }
+            TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
+                overClock.RefreshGpuState(data.Index);
+            });
         }
 
         private void Save() {

@@ -1,15 +1,13 @@
 ﻿namespace NTMiner {
     public interface IOverClockInput {
-        int CoreClockDelta { get; }
+        int CoreClockDelta { get; set; }
 
-        int MemoryClockDelta { get; }
+        int MemoryClockDelta { get; set; }
 
-        int PowerCapacity { get; }
+        int PowerCapacity { get; set; }
 
-        int ThermCapacity { get; }
+        int TempLimit { get; set; }
 
-        int ThermGuard { get; }
-
-        int Cool { get; }
+        int Cool { get; set; }
     }
 }

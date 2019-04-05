@@ -162,18 +162,18 @@ namespace NTMiner.Vms {
             }
         }
 
-        public double Power {
-            get => _data.Power;
+        public double PowerCapacity {
+            get => _data.PowerCapacity;
             set {
-                _data.Power = value;
-                OnPropertyChanged(nameof(Power));
-                OnPropertyChanged(nameof(PowerText));
+                _data.PowerCapacity = value;
+                OnPropertyChanged(nameof(PowerCapacity));
+                OnPropertyChanged(nameof(PowerCapacityText));
             }
         }
 
-        public string PowerText {
+        public string PowerCapacityText {
             get {
-                return this.Power.ToString("f0") + "%";
+                return this.PowerCapacity.ToString("f0") + "%";
             }
         }
     }

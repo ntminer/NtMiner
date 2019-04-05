@@ -293,7 +293,7 @@
 							Stretch="Fill"
 							Visibility="{Binding MinerProfile.CoinVm.CoinProfile.IsHideWallet, Converter={StaticResource BoolToVisibilityConverter}}" />
 					</Grid>
-					<TextBlock 
+					<!--<TextBlock 
 						Margin="2 0 0 0"
 						Style="{StaticResource LblTb}" Text="密码"></TextBlock>
 					<Grid>
@@ -315,7 +315,7 @@
 							Fill="{StaticResource ThemeBackground}"
 							Stretch="Fill"
 							Visibility="{Binding MinerProfile.CoinVm.CoinProfile.IsHideWallet, Converter={StaticResource BoolToVisibilityConverter}}" />
-					</Grid>
+					</Grid>-->
 					<Grid>
 						<controls:KbButton 
 							ToolTip="显示用户名密码"
@@ -755,7 +755,7 @@
 									Stretch="Fill"
 									Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.IsDualCoinHideWallet, Converter={StaticResource BoolToVisibilityConverter}}" />
 							</Grid>
-							<TextBlock 
+							<!--<TextBlock 
 								Margin="2 0 0 0"
 								Style="{StaticResource LblTb}" Text="密码"></TextBlock>
 							<Grid>
@@ -777,7 +777,7 @@
 									Fill="{StaticResource ThemeBackground}"
 									Stretch="Fill"
 									Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.IsDualCoinHideWallet, Converter={StaticResource BoolToVisibilityConverter}}" />
-							</Grid>
+							</Grid>-->
 							<Grid>
 								<controls:KbButton 
 									ToolTip="显示用户名密码"
@@ -827,6 +827,31 @@
 						</TextBox.ToolTip>
 					</TextBox>
 				</WrapPanel>
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto"></ColumnDefinition>
+						<ColumnDefinition Width="*"></ColumnDefinition>
+					</Grid.ColumnDefinitions>
+					<TextBlock Style="{StaticResource LblTb}" />
+					<ItemsControl
+						Grid.Column="1"
+						ItemsSource="{Binding MinerProfile.CoinVm.CoinKernel.InputSegmentVms}"
+						BorderThickness="0"
+						VerticalAlignment="Center"
+						ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+						<ItemsControl.ItemsPanel>
+							<ItemsPanelTemplate>
+								<WrapPanel>
+								</WrapPanel>
+							</ItemsPanelTemplate>
+						</ItemsControl.ItemsPanel>
+						<ItemsControl.ItemTemplate>
+							<DataTemplate>
+								<CheckBox Padding="0" IsChecked="{Binding IsChecked}" Content="{Binding Name}" ToolTip="{Binding Description}"></CheckBox>
+							</DataTemplate>
+						</ItemsControl.ItemTemplate>
+					</ItemsControl>
+				</Grid>
 			</StackPanel>
 		</StackPanel>
 	</Grid>

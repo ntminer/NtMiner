@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace NTMiner.Core {
     public class KernelInputData : IKernelInput, IDbEntity<Guid> {
-        public KernelInputData() { }
+        public KernelInputData() {
+        }
 
         public Guid GetId() {
             return this.Id;

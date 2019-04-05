@@ -26,7 +26,6 @@ namespace NTMiner {
                         }
                     }
                     catch (Exception e) {
-                        e = e.GetInnerException();
                         callback?.Invoke(false, e);
                     }
                 });
@@ -52,7 +51,7 @@ namespace NTMiner {
                     }
                 }
                 catch (Exception e) {
-                    Logger.ErrorDebugLine(e.Message, e);
+                    Logger.ErrorDebugLine(e.GetInnerMessage(), e);
                 }
                 if (!isClosed) {
                     try {
@@ -71,7 +70,6 @@ namespace NTMiner {
                         callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
-                        e = e.GetInnerException();
                         callback?.Invoke(null, e);
                     }
                 });
@@ -92,7 +90,6 @@ namespace NTMiner {
                         callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
-                        e = e.GetInnerException();
                         callback?.Invoke(null, e);
                     }
                 });
@@ -113,7 +110,6 @@ namespace NTMiner {
                         callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
-                        e = e.GetInnerException();
                         callback?.Invoke(null, e);
                     }
                 });
@@ -140,7 +136,6 @@ namespace NTMiner {
                         }
                     }
                     catch (Exception e) {
-                        e = e.GetInnerException();
                         callback?.Invoke(null, e);
                         return null;
                     }
@@ -153,11 +148,11 @@ namespace NTMiner {
                         using (HttpClient client = new HttpClient()) {
                             client.Timeout = TimeSpan.FromMilliseconds(3000);
                             Task<HttpResponseMessage> message = client.PostAsync($"http://localhost:{WebApiConst.MinerClientPort}/api/{s_controllerName}/{nameof(IMinerClientController.RefreshAutoBootStart)}", null);
-                            Write.DevInfo($"{nameof(RefreshAutoBootStartAsync)} {message.Result.ReasonPhrase}");
+                            Write.DevDebug($"{nameof(RefreshAutoBootStartAsync)} {message.Result.ReasonPhrase}");
                         }
                     }
                     catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
+                        Logger.ErrorDebugLine(e.GetInnerMessage(), e);
                     }
                 });
             }
@@ -168,11 +163,11 @@ namespace NTMiner {
                         using (HttpClient client = new HttpClient()) {
                             client.Timeout = TimeSpan.FromMilliseconds(3000);
                             Task<HttpResponseMessage> message = client.PostAsync($"http://localhost:{WebApiConst.MinerClientPort}/api/{s_controllerName}/{nameof(IMinerClientController.OverClock)}", null);
-                            Write.DevInfo($"{nameof(OverClockAsync)} {message.Result.ReasonPhrase}");
+                            Write.DevDebug($"{nameof(OverClockAsync)} {message.Result.ReasonPhrase}");
                         }
                     }
                     catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
+                        Logger.ErrorDebugLine(e.GetInnerMessage(), e);
                     }
                 });
             }

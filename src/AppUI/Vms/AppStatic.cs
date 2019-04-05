@@ -52,12 +52,6 @@ namespace NTMiner.Vms {
         public static double MainWindowHeight => GetMainWindowHeight(DevMode.IsDevMode);
 
         public static double GetMainWindowHeight(bool isDevMode) {
-            if (isDevMode) {
-                if (SystemParameters.WorkArea.Size.Height > 920) {
-                    return 920;
-                }
-                return SystemParameters.WorkArea.Size.Height;
-            }
             if (SystemParameters.WorkArea.Size.Height >= 600) {
                 return 600;
             }

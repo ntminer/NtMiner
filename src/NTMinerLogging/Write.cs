@@ -3,25 +3,21 @@
 namespace NTMiner {
     public static class Write {
         public static Action<string, ConsoleColor, bool> WriteUserLineMethod;
-        public static Action<string, ConsoleColor> WriteDevLineMethod;
 
         static Write() {
+            if (DevMode.IsDevMode && !System.Diagnostics.Debugger.IsAttached) {
+                ConsoleManager.Show();
+            }
             WriteUserLineMethod = (line, color, isNotice) => {
                 ConsoleColor oldColor = Console.ForegroundColor;
                 Console.ForegroundColor = color;
                 Console.WriteLine(line, isNotice);
                 Console.ForegroundColor = oldColor;
             };
-            WriteDevLineMethod = (line, color) => {
-                ConsoleColor oldColor = Console.ForegroundColor;
-                Console.ForegroundColor = color;
-                Console.WriteLine(line);
-                Console.ForegroundColor = oldColor;
-            };
         }
 
         public static void UserLine(string text, MessageType messageType = MessageType.Default) {
-            UserLine(text, messageType.ToConsoleColor());
+            UserLine($"{messageType.ToString()} {text}", messageType.ToConsoleColor());
         }
 
         public static void UserError(string text) {
@@ -56,16 +52,19 @@ namespace NTMiner {
             if (!DevMode.IsDevMode) {
                 return;
             }
-            text = $"{DateTime.Now.ToString("HH:mm:ss fff")}  {text}";
-            WriteDevLineMethod?.Invoke(text, messageType.ToConsoleColor());
+            text = $"{DateTime.Now.ToString("HH:mm:ss fff")}  {messageType.ToString()} {text}";
+            ConsoleColor oldColor = Console.ForegroundColor;
+            Console.ForegroundColor = messageType.ToConsoleColor();
+            Console.WriteLine(text);
+            Console.ForegroundColor = oldColor;
         }
 
         public static void DevError(string text) {
             DevLine(text, MessageType.Error);
         }
 
-        public static void DevInfo(string text) {
-            DevLine(text, MessageType.Info);
+        public static void DevDebug(string text) {
+            DevLine(text, MessageType.Debug);
         }
 
         public static void DevOk(string text) {

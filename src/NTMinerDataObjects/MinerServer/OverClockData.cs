@@ -21,9 +21,9 @@ namespace NTMiner.MinerServer {
 
         public int PowerCapacity { get; set; }
 
-        public int ThermCapacity { get; set; }
+        public int TempLimit { get; set; }
 
-        public int ThermGuard { get; set; }
+        public bool IsAutoFanSpeed { get; set; }
 
         public int Cool { get; set; }
 
@@ -35,8 +35,8 @@ namespace NTMiner.MinerServer {
                 .Append(nameof(CoreClockDelta)).Append(CoreClockDelta)
                 .Append(nameof(MemoryClockDelta)).Append(MemoryClockDelta)
                 .Append(nameof(PowerCapacity)).Append(PowerCapacity)
-                .Append(nameof(ThermCapacity)).Append(ThermCapacity)
-                .Append(nameof(ThermGuard)).Append(ThermGuard)
+                .Append(nameof(TempLimit)).Append(TempLimit)
+                .Append(nameof(IsAutoFanSpeed)).Append(IsAutoFanSpeed)
                 .Append(nameof(Cool)).Append(Cool);
             return sb;
         }

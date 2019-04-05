@@ -34,9 +34,13 @@ namespace NTMiner.Vms {
                         vm.Cool = message.Source.Cool;
                         vm.CoolMin = message.Source.CoolMin;
                         vm.CoolMax = message.Source.CoolMax;
-                        vm.Power = message.Source.Power;
+                        vm.PowerCapacity = message.Source.PowerCapacity;
                         vm.PowerMin = message.Source.PowerMin;
                         vm.PowerMax = message.Source.PowerMax;
+                        vm.TempLimit = message.Source.TempLimit;
+                        vm.TempLimitDefault = message.Source.TempLimitDefault;
+                        vm.TempLimitMax = message.Source.TempLimitMax;
+                        vm.TempLimitMin = message.Source.TempLimitMin;
                         if (_totalGpuVm != null) {
                             _totalGpuVm.OnPropertyChanged(nameof(_totalGpuVm.TemperatureText));
                             _totalGpuVm.OnPropertyChanged(nameof(_totalGpuVm.FanSpeedText));
@@ -47,6 +51,7 @@ namespace NTMiner.Vms {
                             _totalGpuVm.OnPropertyChanged(nameof(_totalGpuVm.MemoryClockDeltaMinMaxMText));
                             _totalGpuVm.OnPropertyChanged(nameof(_totalGpuVm.CoolMinMaxText));
                             _totalGpuVm.OnPropertyChanged(nameof(_totalGpuVm.PowerMinMaxText));
+                            _totalGpuVm.OnPropertyChanged(nameof(_totalGpuVm.TempLimitMinMaxText));
                         }
                     }
                 });

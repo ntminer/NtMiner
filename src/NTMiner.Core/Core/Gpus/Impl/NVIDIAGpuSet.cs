@@ -1,5 +1,4 @@
-﻿using NTMiner.Core.Gpus.Nvml;
-using NTMiner.MinerClient;
+﻿using NTMiner.Core.Gpus.Impl.Nvidia;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,15 +10,7 @@ namespace NTMiner.Core.Gpus.Impl {
     internal class NVIDIAGpuSet : IGpuSet {
         private readonly Dictionary<int, IGpu> _gpus = new Dictionary<int, IGpu>() {
             {
-                NTMinerRoot.GpuAllId, new Gpu{
-                    Index = NTMinerRoot.GpuAllId,
-                    Name = "全部显卡",
-                    Temperature = 0,
-                    FanSpeed = 0,
-                    PowerUsage = 0,
-                    CoreClockDelta = 0,
-                    MemoryClockDelta = 0
-                }
+                NTMinerRoot.GpuAllId, Gpu.GpuAll
             }
         };
 
@@ -36,17 +27,14 @@ namespace NTMiner.Core.Gpus.Impl {
         }
 
         private readonly uint deviceCount = 0;
-        private readonly bool _isNvmlInited = false;
+        private readonly string _nvsmiDir = Path.Combine(Environment.GetFolderPath(System.Environment.SpecialFolder.ProgramFiles), "NVIDIA Corporation", "NVSMI");
         public NVIDIAGpuSet(INTMinerRoot root) : this() {
             _root = root;
             if (Design.IsInDesignMode) {
                 return;
             }
-            string nvsmiDir = Path.Combine(Environment.GetFolderPath(System.Environment.SpecialFolder.ProgramFiles), "NVIDIA Corporation", "NVSMI");
-            if (Directory.Exists(nvsmiDir)) {
-                Windows.NativeMethods.SetDllDirectory(nvsmiDir);
-                NvmlNativeMethods.nvmlInit();
-                _isNvmlInited = true;
+            if (Directory.Exists(_nvsmiDir)) {
+                NvmlInit();
                 NvmlNativeMethods.nvmlDeviceGetCount(ref deviceCount);
                 for (int i = 0; i < deviceCount; i++) {
                     nvmlDevice nvmlDevice = new nvmlDevice();
@@ -58,20 +46,14 @@ namespace NTMiner.Core.Gpus.Impl {
                     if (!string.IsNullOrEmpty(name)) {
                         name = name.Replace("GeForce ", string.Empty);
                     }
-                    Gpu gpu = new Gpu {
-                        Index = i,
-                        Name = name,
-                        Temperature = 0,
-                        PowerUsage = 0,
-                        FanSpeed = 0
-                    };
+                    Gpu gpu = Gpu.Create(i, name);
                     _gpus.Add(i, gpu);
                 }
                 if (deviceCount > 0) {
                     NvmlNativeMethods.nvmlSystemGetDriverVersion(out string driverVersion);
                     NvmlNativeMethods.nvmlSystemGetNVMLVersion(out string nvmlVersion);
-                    this.Properties.Add(new GpuSetProperty("DriverVersion", "driver version", driverVersion));
-                    this.Properties.Add(new GpuSetProperty("NVMLVersion", "NVML version", nvmlVersion));
+                    this.Properties.Add(new GpuSetProperty("DriverVersion", "驱动版本", driverVersion));
+                    this.Properties.Add(new GpuSetProperty("NVMLVersion", "NVML版本", nvmlVersion));
                     Dictionary<string, string> kvs = new Dictionary<string, string> {
                         {"CUDA_DEVICE_ORDER","PCI_BUS_ID" }
                     };
@@ -92,6 +74,18 @@ namespace NTMiner.Core.Gpus.Impl {
             }
         }
 
+        private bool _isNvmlInited = false;
+        private void NvmlInit() {
+            if (_isNvmlInited) {
+                return;
+            }
+            if (Directory.Exists(_nvsmiDir)) {
+                Windows.NativeMethods.SetDllDirectory(_nvsmiDir);
+                var nvmlReturn = NvmlNativeMethods.nvmlInit();
+                _isNvmlInited = nvmlReturn == nvmlReturn.Success;
+            }
+        }
+
         ~NVIDIAGpuSet() {
             if (_isNvmlInited) {
                 NvmlNativeMethods.nvmlShutdown();
@@ -99,6 +93,7 @@ namespace NTMiner.Core.Gpus.Impl {
         }
 
         public void LoadGpuState() {
+            NvmlInit();
             for (int i = 0; i < deviceCount; i++) {
                 nvmlDevice nvmlDevice = new nvmlDevice();
                 NvmlNativeMethods.nvmlDeviceGetHandleByIndex((uint)i, ref nvmlDevice);

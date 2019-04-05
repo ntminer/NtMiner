@@ -51,6 +51,7 @@
     <Compile Include="Core\IGroup.cs" />
     <Compile Include="Core\IKernel.cs" />
     <Compile Include="Core\IKernelInput.cs" />
+    <Compile Include="Core\IInputSegment.cs" />
     <Compile Include="Core\IKernelOutput.cs" />
     <Compile Include="Core\IKernelOutputFilter.cs" />
     <Compile Include="Core\IKernelOutputTranslater.cs" />
@@ -60,6 +61,7 @@
     <Compile Include="Core\KernelData.cs" />
     <Compile Include="Core\KernelExtension.cs" />
     <Compile Include="Core\KernelInputData.cs" />
+    <Compile Include="Core\InputSegment.cs" />
     <Compile Include="Core\KernelOutputData.cs" />
     <Compile Include="Core\KernelOutputFilterData.cs" />
     <Compile Include="Core\KernelOutputTranslaterData.cs" />
@@ -74,12 +76,8 @@
     <Compile Include="IOverClockInput.cs" />
     <Compile Include="JsonDb\IGpuProfilesJsonDb.cs" />
     <Compile Include="JsonDb\IJsonDb.cs" />
-    <Compile Include="JsonDb\ILocalJsonDb.cs" />
-    <Compile Include="JsonDb\IServerJsonDb.cs" />
-    <Compile Include="JsonDb\LocalJsonDb.cs" />
-    <Compile Include="JsonDb\ServerJsonDb.cs" />
     <Compile Include="MinerClient\GpuData.cs" />
-    <Compile Include="MinerClient\IGpu.cs" />
+    <Compile Include="MinerClient\IGpuStaticData.cs" />
     <Compile Include="MinerServer\AddClientRequest.cs" />
     <Compile Include="MinerServer\MinerIdsRequest.cs" />
     <Compile Include="MinerClient\CoinOverClockData.cs" />

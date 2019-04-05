@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace NTMiner.Core.Gpus.Adl {
+namespace NTMiner.Core.Gpus.Impl.Amd {
     internal static class AdlTypes {
         #region Internal Constant
         /// <summary> Define the maximum path</summary>

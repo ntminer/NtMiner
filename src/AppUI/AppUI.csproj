@@ -131,6 +131,9 @@
       <DependentUpon>SplashWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ExtendedNotifyIcon.cs" />
+    <Compile Include="Views\Ucs\InputSegmentEdit.xaml.cs">
+      <DependentUpon>InputSegmentEdit.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Ucs\MessageCenter.xaml.cs">
       <DependentUpon>MessageCenter.xaml</DependentUpon>
     </Compile>
@@ -283,6 +286,8 @@
     </Compile>
     <Compile Include="Vms\AppSettingViewModel.cs" />
     <Compile Include="Vms\AppSettingViewModels.cs" />
+    <Compile Include="Vms\InputSegmentEditViewModel.cs" />
+    <Compile Include="Vms\InputSegmentViewModel.cs" />
     <Compile Include="Vms\MainBarViewModel.cs" />
     <Compile Include="Vms\MinerClientSettingViewModel.cs" />
     <Compile Include="Vms\CalcConfigViewModel.cs" />
@@ -450,6 +455,10 @@
     <Page Include="Views\SplashWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Ucs\InputSegmentEdit.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Ucs\MessageCenter.xaml">
       <Generator>MSBuild:Compile</Generator>

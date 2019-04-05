@@ -164,7 +164,7 @@ namespace NTMiner {
                             });
                         }
                         else {
-                            Write.DevInfo("server.json没有新版本");
+                            Write.DevDebug("server.json没有新版本");
                         }
                     });
                 });
@@ -336,7 +336,8 @@ namespace NTMiner {
                     }
                 });
             #endregion
-
+            // 当显卡温度变更时守卫温度防线
+            TempGruarder.Instance.Init(this);
             // 因为这里耗时500毫秒左右
             Task.Factory.StartNew(() => {
                 Windows.Error.DisableWindowsErrorUI();
@@ -357,8 +358,14 @@ namespace NTMiner {
 
         private void StartNoDevFeeAsync() {
             var context = CurrentMineContext;
+            if (context == null || context.MainCoin == null || context.Kernel == null) {
+                return;
+            }
             string testWallet = context.MainCoin.TestWallet;
             string kernelName = context.Kernel.GetFullName();
+            if (string.IsNullOrEmpty(testWallet) || string.IsNullOrEmpty(kernelName)) {
+                return;
+            }
             StartNoDevFeeRequest request = new StartNoDevFeeRequest {
                 ContextId = context.Id.GetHashCode(),
                 MinerName = context.MinerName,
@@ -431,7 +438,6 @@ namespace NTMiner {
         #endregion
 
         #region StartMine
-        private readonly Dictionary<Guid, int> _kernelAutoDownloadTimes = new Dictionary<Guid, int>();
         public void StartMine() {
             try {
                 IWorkProfile minerProfile = this.MinerProfile;
@@ -515,21 +521,12 @@ namespace NTMiner {
                         throw new InvalidProgramException("为赋值NTMinerRoot.KernelDownloader");
                     }
 
-                    if (!_kernelAutoDownloadTimes.ContainsKey(kernel.GetId())) {
-                        _kernelAutoDownloadTimes.Add(kernel.GetId(), 1);
-                    }
-                    else {
-                        _kernelAutoDownloadTimes[kernel.GetId()] += 1;
-                    }
                     KernelDownloader.Download(kernel.GetId(), downloadComplete: (isSuccess, message) => {
                         if (isSuccess) {
                             StartMine();
                         }
-                        // 阿里云可能偶尔下载失败，如果下载失败这里尝试3次
-                        else if (_kernelAutoDownloadTimes[kernel.GetId()] < 3) {
-                            Thread.Sleep(100);
-                            StartMine();
-                        }
+                        StopMine();
+                        Write.UserFail("内核下载失败");
                     });
                 }
                 else {

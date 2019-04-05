@@ -5,6 +5,7 @@ namespace NTMiner.Core {
     public class CoinKernelData : ICoinKernel, IDbEntity<Guid> {
         public CoinKernelData() {
             this.EnvironmentVariables = new List<EnvironmentVariable>();
+            this.InputSegments = new List<InputSegment>();
         }
 
         public Guid GetId() {
@@ -28,5 +29,7 @@ namespace NTMiner.Core {
         public string Description { get; set; }
 
         public List<EnvironmentVariable> EnvironmentVariables { get; set; }
+
+        public List<InputSegment> InputSegments { get; set; }
     }
 }

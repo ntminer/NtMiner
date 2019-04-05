@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-namespace NTMiner.Core.Gpus.Adl {
+namespace NTMiner.Core.Gpus.Impl.Amd {
     public class AdlHelper {
         private IntPtr hHandle;
         private List<ADLAdapterInfo> _adlAdapterInfos = new List<ADLAdapterInfo>();

@@ -1,4 +1,5 @@
 ﻿using NTMiner.Core;
+using NTMiner.Core.Gpus.Impl.Nvidia;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,7 @@ namespace NTMiner.JsonDb {
             this.PoolKernels = new List<PoolKernelData>();
             this.SysDics = new SysDicData[0];
             this.SysDicItems = new SysDicItemData[0];
+            this.CudaVersions = new CudaVersion[0];
             this.TimeStamp = Timestamp.GetTimestamp();
         }
 
@@ -59,6 +61,8 @@ namespace NTMiner.JsonDb {
                     return this.SysDics.Cast<T>();
                 case nameof(SysDicItemData):
                     return this.SysDicItems.Cast<T>();
+                case nameof(CudaVersion):
+                    return this.CudaVersions.Cast<T>();
                 default:
                     return new List<T>();
             }
@@ -91,5 +95,7 @@ namespace NTMiner.JsonDb {
         public SysDicData[] SysDics { get; set; }
 
         public SysDicItemData[] SysDicItems { get; set; }
+
+        public CudaVersion[] CudaVersions { get; set; }
     }
 }

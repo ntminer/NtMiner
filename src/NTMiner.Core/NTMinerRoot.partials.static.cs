@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using NTMiner.Core;
+using NTMiner.Core.Gpus.Impl.Nvidia;
 using NTMiner.Core.Impl;
 using NTMiner.Core.Kernels;
 using NTMiner.JsonDb;
@@ -99,6 +100,10 @@ namespace NTMiner {
                 ServerJsonInit();
                 return _serverJson;
             }
+        }
+
+        public static IEnumerable<ICudaVersion> GetCudaVersions() {
+            return ServerJson.CudaVersions;
         }
 
         public static void ReInitServerJson() {

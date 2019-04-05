@@ -30,12 +30,7 @@ namespace NTMiner {
 
             VirtualRoot.On<MineStopedEvent>("停止挖矿后报告状态", LogEnum.DevConsole,
                 action: message => {
-                    try {
-                        Server.ReportService.ReportStateAsync(AssemblyInfo.OfficialServerHost, ClientId.Id, isMining: false);
-                    }
-                    catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
-                    }
+                    Server.ReportService.ReportStateAsync(AssemblyInfo.OfficialServerHost, ClientId.Id, isMining: false);
                 });
         }
 
@@ -89,7 +84,7 @@ namespace NTMiner {
                     Temperature = a.Gpu.Temperature,
                     PowerUsage = a.Gpu.PowerUsage,
                     Cool = a.Gpu.Cool,
-                    Power = a.Gpu.Power,
+                    PowerCapacity = a.Gpu.PowerCapacity,
                     CoreClockDelta = a.Gpu.CoreClockDelta,
                     MemoryClockDelta = a.Gpu.MemoryClockDelta
                 }).ToArray()

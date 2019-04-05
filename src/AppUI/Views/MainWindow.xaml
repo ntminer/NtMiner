@@ -15,7 +15,7 @@
 		Height="{Binding Height}"
 		MinHeight="480"
 		MinWidth="800"
-		d:DesignHeight="1000"
+		d:DesignHeight="700"
 		UseNoneWindowStyle="True"
 		BorderBrush="Black"
 		Background="{StaticResource ThemeBackground}"
@@ -45,7 +45,6 @@
 		<Grid.RowDefinitions>
 			<RowDefinition Height="30"/>
 			<RowDefinition Height="*" MinHeight="450" />
-			<RowDefinition Height="Auto"/>
 		</Grid.RowDefinitions>
 		<!--上标题栏-->
 		<Grid>
@@ -90,6 +89,12 @@
 			</WrapPanel>
 			<WrapPanel HorizontalAlignment="Right">
 				<WrapPanel Margin="0" HorizontalAlignment="Right" VerticalAlignment="Top">
+					<TextBlock 
+						VerticalAlignment="Center"
+						Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+						ToolTip="ServerJsonVersion"
+						Text="{Binding ServerJsonVersion}" 
+						Foreground="{StaticResource ThemeForeground}"></TextBlock>
 					<CheckBox 
 						Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
 						Content="DevConsole"
@@ -398,35 +403,6 @@
 						</WrapPanel>
 					</controls:KbButton>
 				</Border>
-			</WrapPanel>
-		</Grid>
-
-		<Grid Grid.Row="2" Background="Black" Height="320" Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
-			<FlowDocumentScrollViewer 				
-				Background="Transparent"
-				VerticalScrollBarVisibility="Auto"
-				x:Name="FlowDocumentScrollViewer" BorderThickness="0" 
-				Foreground="White">
-				<FlowDocument PagePadding="4">
-					<Paragraph x:Name="ConsoleParagraphDebug" FontFamily="Courier New" FontSize="12">
-					</Paragraph>
-				</FlowDocument>
-			</FlowDocumentScrollViewer>
-			<WrapPanel
-				Margin="0 0 18 0"
-				HorizontalAlignment="Right"
-				VerticalAlignment="Top">
-				<TextBlock 
-					Margin="0 0 20 0"
-					ToolTip="ServerJsonVersion"
-					Text="{Binding ServerJsonVersion}" 
-					Foreground="White"
-					Background="Black"></TextBlock>
-				<controls:KbCheckBox 
-					x:Name="ChkbIsConsoleAutoScrollToEnd"
-					ToolTip="滚屏"
-					IconColor="{StaticResource IconFillColor}"
-					IsChecked="True" />
 			</WrapPanel>
 		</Grid>
 	</Grid>

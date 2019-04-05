@@ -2,7 +2,14 @@
 
 namespace NTMiner {
     public static class ExceptionExtension {
-        public static Exception GetInnerException(this Exception e) {
+        public static string GetInnerMessage(this Exception e) {
+            if (e == null) {
+                return string.Empty;
+            }
+            return GetInnerException(e).Message;
+        }
+
+        private static Exception GetInnerException(Exception e) {
             if (e == null) {
                 return null;
             }

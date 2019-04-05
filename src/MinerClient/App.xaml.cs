@@ -26,6 +26,7 @@ namespace NTMiner {
             NTMinerRoot.Current.Exit();
             HttpServer.Stop();
             base.OnExit(e);
+            ConsoleManager.Hide();
         }
 
         protected override void OnStartup(StartupEventArgs e) {

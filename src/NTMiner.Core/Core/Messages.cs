@@ -1,5 +1,6 @@
 ﻿using NTMiner.Bus;
 using NTMiner.Core.Gpus;
+using NTMiner.Core.Gpus.Impl.Nvidia;
 using NTMiner.MinerClient;
 using NTMiner.MinerServer;
 using System;
@@ -14,6 +15,52 @@ namespace NTMiner.Core {
         public string OldVersion { get; private set; }
         public string NewVersion { get; private set; }
     }
+
+    #region CudaVersion Messages
+    [MessageType(messageType: typeof(AddCudaVersionCommand), description: "添加CudaVersion")]
+    public class AddCudaVersionCommand : Cmd {
+        public AddCudaVersionCommand(ICudaVersion input) {
+            this.Input = input;
+        }
+
+        public ICudaVersion Input { get; private set; }
+    }
+
+    [MessageType(messageType: typeof(UpdateCudaVersionCommand), description: "更新CudaVersion")]
+    public class UpdateCudaVersionCommand : Cmd {
+        public UpdateCudaVersionCommand(ICudaVersion input) {
+            this.Input = input;
+        }
+        public ICudaVersion Input { get; private set; }
+    }
+
+    [MessageType(messageType: typeof(RemoveCudaVersionCommand), description: "移除CudaVersion")]
+    public class RemoveCudaVersionCommand : Cmd {
+        public RemoveCudaVersionCommand(string cudaVersion) {
+            this.CudaVersion = cudaVersion;
+        }
+
+        public string CudaVersion { get; private set; }
+    }
+
+    [MessageType(messageType: typeof(CudaVersionAddedEvent), description: "添加了CudaVersion后")]
+    public class CudaVersionAddedEvent : DomainEvent<ICudaVersion> {
+        public CudaVersionAddedEvent(ICudaVersion source) : base(source) {
+        }
+    }
+
+    [MessageType(messageType: typeof(CudaVersionUpdatedEvent), description: "更新了CudaVersion后")]
+    public class CudaVersionUpdatedEvent : DomainEvent<ICudaVersion> {
+        public CudaVersionUpdatedEvent(ICudaVersion source) : base(source) {
+        }
+    }
+
+    [MessageType(messageType: typeof(CudaVersionRemovedEvent), description: "移除了CudaVersion后")]
+    public class CudaVersionRemovedEvent : DomainEvent<ICudaVersion> {
+        public CudaVersionRemovedEvent(ICudaVersion source) : base(source) {
+        }
+    }
+    #endregion
 
     #region profile Messages
     [MessageType(messageType: typeof(MinerProfilePropertyChangedEvent), description: "MinerProfile设置变更后")]

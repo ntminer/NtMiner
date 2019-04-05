@@ -18,7 +18,7 @@ namespace NTMiner.Views.Ucs {
                 IsTopMost = true,
                 IconName = "Icon_OverClock",
                 Width = 800,
-                Height = 600,
+                Height = 700,
                 CloseVisible = Visibility.Visible,
                 FooterVisible = Visibility.Collapsed
             }, ucFactory: (window) => {
@@ -45,7 +45,7 @@ namespace NTMiner.Views.Ucs {
                     minerClientsWindowVm.PropertyChanged -= handler;
                 };
                 return uc;
-            }, fixedSize: true);
+            }, fixedSize: false);
         }
 
         public GpuProfilesPageViewModel Vm {

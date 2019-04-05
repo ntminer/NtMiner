@@ -26,7 +26,10 @@ namespace NTMiner {
 
         [HttpPost]
         public void CloseDaemon() {
-            HostRoot.Exit();
+            // 延迟100毫秒再退出从而避免当前的CloseDaemon请求尚未收到响应
+            TimeSpan.FromMilliseconds(100).Delay().ContinueWith(t => {
+                HostRoot.Exit();
+            });
         }
 
         #region GetGpuProfilesJson
@@ -51,13 +54,12 @@ namespace NTMiner {
                 if (IsNTMinerOpened()) {
                     using (HttpClient client = new HttpClient()) {
                         Task<HttpResponseMessage> message = client.PostAsync($"http://localhost:{WebApiConst.MinerClientPort}/api/MinerClient/OverClock", null);
-                        Write.DevInfo($"{nameof(SaveGpuProfilesJson)} {message.Result.ReasonPhrase}");
+                        Write.DevDebug($"{nameof(SaveGpuProfilesJson)} {message.Result.ReasonPhrase}");
                     }
                 }
             }
             catch (Exception e) {
-                e = e.GetInnerException();
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.GetInnerMessage(), e);
             }
         }
         #endregion
@@ -69,7 +71,7 @@ namespace NTMiner {
             if (IsNTMinerOpened()) {
                 using (HttpClient client = new HttpClient()) {
                     Task<HttpResponseMessage> message = client.PostAsync($"http://localhost:{WebApiConst.MinerClientPort}/api/MinerClient/RefreshAutoBootStart", null);
-                    Write.DevInfo($"{nameof(SetAutoBootStart)} {message.Result.ReasonPhrase}");
+                    Write.DevDebug($"{nameof(SetAutoBootStart)} {message.Result.ReasonPhrase}");
                 }
             }
         }
@@ -80,7 +82,7 @@ namespace NTMiner {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
+                TimeSpan.FromMilliseconds(100).Delay().ContinueWith(t => {
                     Windows.Power.Restart();
                 });
                 return ResponseBase.Ok();
@@ -97,7 +99,7 @@ namespace NTMiner {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
+                TimeSpan.FromMilliseconds(100).Delay().ContinueWith(t => {
                     Windows.Power.Shutdown();
                 });
                 return ResponseBase.Ok();
@@ -176,7 +178,7 @@ namespace NTMiner {
                     }
                 }
                 catch (Exception e) {
-                    Logger.ErrorDebugLine(e.Message, e);
+                    Logger.ErrorDebugLine(e.GetInnerMessage(), e);
                 }
                 return ResponseBase.Ok();
             }
@@ -227,7 +229,7 @@ namespace NTMiner {
                 }
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.GetInnerMessage(), e);
             }
             if (!isClosed) {
                 try {

@@ -187,6 +187,11 @@ namespace UnitTestProject1 {
         }
 
         [TestMethod]
+        public void DoubleToIntTest() {
+            Assert.AreEqual(1, (int)1.1);
+        }
+
+        [TestMethod]
         public void ZipTest() {
             ZipUtil.DecompressZipFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "lolminer0.7Alpha5.zip"), Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "temp"));
         }
