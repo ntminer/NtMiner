@@ -141,7 +141,7 @@
 							<Path
 								Width="12"
 								Height="12"
-								Data="{StaticResource Icon_Ok}"
+								Data="{StaticResource Icon_OverClock}"
 								Fill="{StaticResource ThemeForeground}"
 								Stretch="Fill" />
 							<TextBlock>应用</TextBlock>
