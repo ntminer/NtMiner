@@ -10,7 +10,15 @@
 		mc:Ignorable="d" d:DesignHeight="430" d:DesignWidth="800">
 	<UserControl.Resources>
 		<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
-			<Setter Property="Width" Value="40"></Setter>
+			<Setter Property="Width" Value="60"></Setter>
+			<Setter Property="Padding" Value="0 0 4 0"></Setter>
+		</Style>
+		<Style x:Key="TextBox" TargetType="TextBox">
+			<Setter Property="VerticalAlignment" Value="Center"></Setter>
+			<Setter Property="BorderBrush" Value="{StaticResource LineColor}"></Setter>
+			<Setter Property="Width" Value="50"></Setter>
+			<Setter Property="Margin" Value="0 0 4 0"></Setter>
+			<Setter Property="Background" Value="White"></Setter>
 		</Style>
 	</UserControl.Resources>
 	<Grid IsEnabled="{Binding IsEnabled}">
@@ -51,103 +59,126 @@
 				<RowDefinition Height="Auto"></RowDefinition>
 				<RowDefinition Height="*"></RowDefinition>
 			</Grid.RowDefinitions>
-			<Grid Grid.Row="0">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="*"></ColumnDefinition>
-					<ColumnDefinition Width="Auto"></ColumnDefinition>
-				</Grid.ColumnDefinitions>
-				<WrapPanel VerticalAlignment="Center">
-					<TextBlock 
-						Visibility="{Binding CoinVm.OverClockDatas,Converter={StaticResource NoRecordInvertVisibilityConverter}}"
-						Style="{StaticResource LblTb}" Width="Auto">背包</TextBlock>
-					<TextBlock 
-						Visibility="{Binding CoinVm.OverClockDatas,Converter={StaticResource NoRecordVisibilityConverter}}"
-						Style="{StaticResource LblTb}" Width="Auto">没有推荐</TextBlock>
-					<ItemsControl
-						BorderThickness="0"
-						MouseDown="ItemsControl_MouseDown"
-						ItemsSource="{Binding CoinVm.OverClockDatas}" 
-						ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-						<ItemsControl.Resources>
-							<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
-						</ItemsControl.Resources>
-						<ItemsControl.ItemsPanel>
-							<ItemsPanelTemplate>
-								<WrapPanel></WrapPanel>
-							</ItemsPanelTemplate>
-						</ItemsControl.ItemsPanel>
-						<ItemsControl.ItemTemplate>
-							<DataTemplate>
-								<controls:KbButton
-									ToolTip="{Binding Tooltip}"
-									Command="{Binding Data.CoinVm.FillOverClockForm,Source={StaticResource proxy}}"
-									CommandParameter="{Binding}"
-									Margin="10 0"
-									Padding="6 2"
-									CornerRadius="2">
-									<TextBlock Text="{Binding Name}"></TextBlock>
-								</controls:KbButton>
-							</DataTemplate>
-						</ItemsControl.ItemTemplate>
-					</ItemsControl>
-				</WrapPanel>
-				<WrapPanel Grid.Column="1">
-					<Path
-						Margin="0 2 2 0"
-						Width="16"
-						Height="14"
-						Data="{Binding GpuIcon}"
-						Fill="{Binding GpuIconFill}"
-						Stretch="Fill">
-					</Path>
-					<TextBlock Foreground="Red" VerticalAlignment="Center" Text="{Binding RedText}"></TextBlock>
-					<controls:KbButton
-						Height="22"
-						ToolTip="点击将超频设置发送到矿机并应用"
-						Command="{Binding Save}" 
-						Background="Transparent"
-						Foreground="{StaticResource IconFillColor}"
-						CornerRadius="2">
-						<WrapPanel>
-							<Path
-								Width="16"
-								Height="16"
-								Data="{StaticResource Icon_Save}"
-								Fill="{StaticResource IconFillColor}"
-								Stretch="Fill" />
+			<WrapPanel Grid.Row="0" Margin="0 0 0 4">
+				<GroupBox Width="186">
+					<GroupBox.Header>
+						<CheckBox
+							Margin="0 4 0 0"
+							VerticalAlignment="Top"
+							IsChecked="{Binding CoinVm.IsOverClockGpuAll}" 
+							Content="统一超频"></CheckBox>
+					</GroupBox.Header>
+					<StackPanel IsEnabled="{Binding CoinVm.IsOverClockGpuAll}">
+						<WrapPanel VerticalAlignment="Center">
+							<TextBlock Style="{StaticResource LblTb}">核心</TextBlock>
+							<TextBox Style="{StaticResource TextBox}" ToolTip="{Binding CoinVm.GpuAllProfileVm.GpuVm.CoreClockDeltaMinMaxMText}" Text="{Binding CoinVm.GpuAllProfileVm.CoreClockDelta, ValidatesOnExceptions=True}"></TextBox>
+							<TextBlock VerticalAlignment="Center">M</TextBlock>
 						</WrapPanel>
-					</controls:KbButton>
-				</WrapPanel>
-			</Grid>
-			<WrapPanel Grid.Row="1" Margin="0 0 0 4">
-				<controls:KbCheckBox 
-				Margin="0 4 0 0"
-				VerticalAlignment="Top"
-				IconColor="{StaticResource IconFillColor}"
-				IsChecked="{Binding CoinVm.IsOverClockGpuAll}" 
-				Content="统一超频"></controls:KbCheckBox>
-				<WrapPanel IsEnabled="{Binding CoinVm.IsOverClockGpuAll}">
-					<WrapPanel VerticalAlignment="Center">
-						<TextBlock Style="{StaticResource LblTb}">核心</TextBlock>
-						<TextBox VerticalAlignment="Center" ToolTip="{Binding CoinVm.GpuAllProfileVm.GpuVm.CoreClockDeltaMinMaxMText}" Text="{Binding CoinVm.GpuAllProfileVm.CoreClockDelta, ValidatesOnExceptions=True}" Width="50"></TextBox>
-						<TextBlock VerticalAlignment="Center">M</TextBlock>
-					</WrapPanel>
+						<WrapPanel>
+							<TextBlock Style="{StaticResource LblTb}">显存</TextBlock>
+							<TextBox Style="{StaticResource TextBox}" ToolTip="{Binding CoinVm.GpuAllProfileVm.GpuVm.MemoryClockDeltaMinMaxMText}" Text="{Binding CoinVm.GpuAllProfileVm.MemoryClockDelta, ValidatesOnExceptions=True}"></TextBox>
+							<TextBlock VerticalAlignment="Center">M</TextBlock>
+						</WrapPanel>
+						<WrapPanel>
+							<TextBlock Style="{StaticResource LblTb}">功耗</TextBlock>
+							<TextBox Style="{StaticResource TextBox}" ToolTip="{Binding CoinVm.GpuAllProfileVm.GpuVm.PowerMinMaxText}" Text="{Binding CoinVm.GpuAllProfileVm.PowerCapacity, ValidatesOnExceptions=True}"></TextBox>
+							<TextBlock VerticalAlignment="Center">%</TextBlock>
+						</WrapPanel>
+
+						<WrapPanel>
+							<TextBlock Style="{StaticResource LblTb}">最高温度</TextBlock>
+							<TextBox Style="{StaticResource TextBox}" ToolTip="{Binding CoinVm.GpuAllProfileVm.GpuVm.TempLimitMinMaxText}" Text="{Binding CoinVm.GpuAllProfileVm.TempLimit, ValidatesOnExceptions=True}"></TextBox>
+							<TextBlock VerticalAlignment="Center">℃</TextBlock>
+						</WrapPanel>
+						<WrapPanel>
+							<TextBlock Style="{StaticResource LblTb}">风扇</TextBlock>
+							<WrapPanel>
+								<TextBox
+									Style="{StaticResource TextBox}"
+									ToolTip="{Binding CoinVm.GpuAllProfileVm.GpuVm.CoolMinMaxText}" Text="{Binding CoinVm.GpuAllProfileVm.Cool, ValidatesOnExceptions=True}"></TextBox>
+								<TextBlock VerticalAlignment="Center">%</TextBlock>
+							</WrapPanel>
+						</WrapPanel>
+						<WrapPanel>
+							<TextBlock Style="{StaticResource LblTb}">温度</TextBlock>
+							<CheckBox 
+								Padding="0" 
+								VerticalAlignment="Center"
+								Foreground="{StaticResource LableColor}"
+								Tag="{Binding CoinVm.GpuAllProfileVm}"
+								Content="自动控温"></CheckBox>
+						</WrapPanel>
+					</StackPanel>
+				</GroupBox>
+				<Grid Margin="10 4">
+					<Grid.RowDefinitions>
+						<RowDefinition Height="*"></RowDefinition>
+						<RowDefinition Height="Auto"></RowDefinition>
+						<RowDefinition Height="Auto"></RowDefinition>
+					</Grid.RowDefinitions>
 					<WrapPanel>
-						<TextBlock Style="{StaticResource LblTb}">显存</TextBlock>
-						<TextBox VerticalAlignment="Center" ToolTip="{Binding CoinVm.GpuAllProfileVm.GpuVm.MemoryClockDeltaMinMaxMText}" Text="{Binding CoinVm.GpuAllProfileVm.MemoryClockDelta, ValidatesOnExceptions=True}" Width="50"></TextBox>
-						<TextBlock VerticalAlignment="Center">M</TextBlock>
+						<TextBlock 
+							Visibility="{Binding CoinVm.OverClockDatas,Converter={StaticResource NoRecordInvertVisibilityConverter}}"
+							Style="{StaticResource LblTb}" Width="Auto">背包</TextBlock>
+						<TextBlock 
+							Visibility="{Binding CoinVm.OverClockDatas,Converter={StaticResource NoRecordVisibilityConverter}}"
+							Style="{StaticResource LblTb}" Width="Auto">没有推荐</TextBlock>
+						<ItemsControl
+							BorderThickness="0"
+							MouseDown="ItemsControl_MouseDown"
+							ItemsSource="{Binding CoinVm.OverClockDatas}" 
+							ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+							<ItemsControl.Resources>
+								<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
+							</ItemsControl.Resources>
+							<ItemsControl.ItemsPanel>
+								<ItemsPanelTemplate>
+									<WrapPanel></WrapPanel>
+								</ItemsPanelTemplate>
+							</ItemsControl.ItemsPanel>
+							<ItemsControl.ItemTemplate>
+								<DataTemplate>
+									<controls:KbButton
+										ToolTip="{Binding Tooltip}"
+										Command="{Binding Data.CoinVm.FillOverClockForm,Source={StaticResource proxy}}"
+										CommandParameter="{Binding}"
+										Background="{StaticResource ThemeBackground}"
+										Foreground="{StaticResource ThemeForeground}"
+										Margin="10 0"
+										Padding="6 2"
+										CornerRadius="2">
+										<TextBlock Text="{Binding Name}"></TextBlock>
+									</controls:KbButton>
+								</DataTemplate>
+							</ItemsControl.ItemTemplate>
+						</ItemsControl>
 					</WrapPanel>
-					<WrapPanel>
-						<TextBlock Style="{StaticResource LblTb}">功耗</TextBlock>
-						<TextBox VerticalAlignment="Center" ToolTip="{Binding CoinVm.GpuAllProfileVm.GpuVm.PowerMinMaxText}" Text="{Binding CoinVm.GpuAllProfileVm.PowerCapacity, ValidatesOnExceptions=True}" Width="50"></TextBox>
-						<TextBlock VerticalAlignment="Center">%</TextBlock>
+					<StackPanel Grid.Row="1">
+						<TextBlock VerticalAlignment="Center" Foreground="{StaticResource LableColor}">最高温度：表示达到这个温度时显卡将自动降频</TextBlock>
+						<TextBlock VerticalAlignment="Center" Foreground="{StaticResource LableColor}">防线温度：系统自动调整风扇转速以使温度不越过防线</TextBlock>
+					</StackPanel>
+					<WrapPanel Grid.Row="2" VerticalAlignment="Bottom">
+						<controls:KbButton
+							Height="21"
+							Padding="6 2"
+							ToolTip="点击将超频设置发送到矿机并应用"
+							Command="{Binding Save}" 
+							Background="{StaticResource ThemeBackground}"
+							Foreground="{StaticResource ThemeForeground}"
+							CornerRadius="2">
+							<WrapPanel>
+								<Path
+									Width="12"
+									Height="12"
+									Data="{StaticResource Icon_Ok}"
+									Fill="{StaticResource ThemeForeground}"
+									Stretch="Fill" />
+								<TextBlock>应用</TextBlock>
+							</WrapPanel>
+						</controls:KbButton>
+						<TextBlock x:Name="TbRedText" Margin="10 0 0 0" Foreground="Red" VerticalAlignment="Center"></TextBlock>
 					</WrapPanel>
-					<WrapPanel>
-						<TextBlock Style="{StaticResource LblTb}">风扇</TextBlock>
-						<TextBox VerticalAlignment="Center" ToolTip="{Binding CoinVm.GpuAllProfileVm.GpuVm.CoolMinMaxText}" Text="{Binding CoinVm.GpuAllProfileVm.Cool, ValidatesOnExceptions=True}" Width="50"></TextBox>
-						<TextBlock VerticalAlignment="Center">%</TextBlock>
-					</WrapPanel>
-				</WrapPanel>
+				</Grid>
 			</WrapPanel>
 			<ScrollViewer 
 				Grid.Row="2" 
@@ -167,44 +198,52 @@
 					<ItemsControl.ItemTemplate>
 						<DataTemplate>
 							<Grid Width="186" Margin="0 0 4 2" Visibility="{Binding IsGpuAllVm,Converter={StaticResource BoolToVisibilityInvertConverter}}">
-								<GroupBox BorderBrush="{StaticResource LineColor}" BorderThickness="1" Padding="0 0 0 4">
+								<GroupBox Padding="0 0 0 4">
 									<GroupBox.Header>
 										<WrapPanel>
-											<TextBlock Text="{Binding GpuVm.Name}"></TextBlock>
+											<TextBlock>GPU</TextBlock>
+											<TextBlock Text="{Binding GpuVm.Index}"></TextBlock>
+											<TextBlock Margin="4 0 0 0" Text="{Binding GpuVm.Name}"></TextBlock>
 										</WrapPanel>
 									</GroupBox.Header>
-									<Grid>
-										<Grid.ColumnDefinitions>
-											<ColumnDefinition Width="Auto"></ColumnDefinition>
-											<ColumnDefinition Width="*"></ColumnDefinition>
-										</Grid.ColumnDefinitions>
-										<Grid.RowDefinitions>
-											<RowDefinition Height="Auto"></RowDefinition>
-											<RowDefinition Height="Auto"></RowDefinition>
-											<RowDefinition Height="Auto"></RowDefinition>
-											<RowDefinition Height="Auto"></RowDefinition>
-										</Grid.RowDefinitions>
-										<TextBlock Grid.Row="0" Style="{StaticResource LblTb}">核心</TextBlock>
-										<WrapPanel Grid.Row="0" Grid.Column="1">
-											<TextBox ToolTip="{Binding GpuVm.CoreClockDeltaMinMaxMText}" Text="{Binding CoreClockDelta, ValidatesOnExceptions=True}" Width="80"></TextBox>
-											<TextBlock>M</TextBlock>
+									<StackPanel>
+										<WrapPanel>
+											<TextBlock Style="{StaticResource LblTb}">核心</TextBlock>
+											<TextBox Style="{StaticResource TextBox}" ToolTip="{Binding GpuVm.CoreClockDeltaMinMaxMText}" Text="{Binding CoreClockDelta, ValidatesOnExceptions=True}"></TextBox>
+											<TextBlock VerticalAlignment="Center">M</TextBlock>
 										</WrapPanel>
-										<TextBlock Grid.Row="1" Style="{StaticResource LblTb}">显存</TextBlock>
-										<WrapPanel Grid.Row="1" Grid.Column="1">
-											<TextBox ToolTip="{Binding GpuVm.MemoryClockDeltaMinMaxMText}" Text="{Binding MemoryClockDelta, ValidatesOnExceptions=True}" Width="80"></TextBox>
-											<TextBlock>M</TextBlock>
+										<WrapPanel>
+											<TextBlock Style="{StaticResource LblTb}">显存</TextBlock>
+											<TextBox Style="{StaticResource TextBox}" ToolTip="{Binding GpuVm.MemoryClockDeltaMinMaxMText}" Text="{Binding MemoryClockDelta, ValidatesOnExceptions=True}"></TextBox>
+											<TextBlock VerticalAlignment="Center">M</TextBlock>
 										</WrapPanel>
-										<TextBlock Grid.Row="2" Style="{StaticResource LblTb}">功耗</TextBlock>
-										<WrapPanel Grid.Row="2" Grid.Column="1">
-											<TextBox ToolTip="{Binding GpuVm.PowerMinMaxText}" Text="{Binding PowerCapacity, ValidatesOnExceptions=True}" Width="80"></TextBox>
-											<TextBlock>%</TextBlock>
+										<WrapPanel>
+											<TextBlock Style="{StaticResource LblTb}">功耗</TextBlock>
+											<TextBox Style="{StaticResource TextBox}" ToolTip="{Binding GpuVm.PowerMinMaxText}" Text="{Binding PowerCapacity, ValidatesOnExceptions=True}"></TextBox>
+											<TextBlock VerticalAlignment="Center">%</TextBlock>
 										</WrapPanel>
-										<TextBlock Grid.Row="3" Style="{StaticResource LblTb}">风扇</TextBlock>
-										<WrapPanel Grid.Row="3" Grid.Column="1">
-											<TextBox ToolTip="{Binding GpuVm.CoolMinMaxText}" Text="{Binding Cool, ValidatesOnExceptions=True}" Width="80"></TextBox>
-											<TextBlock>%</TextBlock>
+										<WrapPanel>
+											<TextBlock Style="{StaticResource LblTb}">最高温度</TextBlock>
+											<TextBox Style="{StaticResource TextBox}" ToolTip="{Binding GpuVm.TempLimitMinMaxText}" Text="{Binding TempLimit, ValidatesOnExceptions=True}"></TextBox>
+											<TextBlock VerticalAlignment="Center">℃</TextBlock>
 										</WrapPanel>
-									</Grid>
+										<WrapPanel>
+											<TextBlock Style="{StaticResource LblTb}">风扇</TextBlock>
+											<TextBox
+											Style="{StaticResource TextBox}"
+											ToolTip="{Binding GpuVm.CoolMinMaxText}" Text="{Binding Cool, ValidatesOnExceptions=True}"></TextBox>
+											<TextBlock VerticalAlignment="Center">%</TextBlock>
+										</WrapPanel>
+										<WrapPanel>
+											<TextBlock Style="{StaticResource LblTb}">温度</TextBlock>
+											<CheckBox 
+												Padding="0" 
+												VerticalAlignment="Center"
+												Foreground="{StaticResource LableColor}"
+												IsChecked="{Binding IsAutoFanSpeed}" 
+												Content="自动控温"></CheckBox>
+										</WrapPanel>
+									</StackPanel>
 								</GroupBox>
 							</Grid>
 						</DataTemplate>
@@ -221,18 +260,8 @@
 			<Border Grid.Column="0" BorderBrush="{StaticResource LineColor}" BorderThickness="1" Margin="4"
 					Visibility="{Binding IsMinerClientVmVisible}" Background="{StaticResource ThemeBackground}">
 				<StackPanel>
-					<WrapPanel>
-						<TextBlock Style="{StaticResource LblTb}" Width="70" Foreground="{StaticResource ThemeForeground}">矿机名</TextBlock>
-						<TextBlock Text="{Binding MinerClientVm.ClientName}" VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}"></TextBlock>
-					</WrapPanel>
-					<WrapPanel>
-						<TextBlock Style="{StaticResource LblTb}" Width="70" Foreground="{StaticResource ThemeForeground}">作业矿机名</TextBlock>
-						<TextBlock Text="{Binding MinerClientVm.MinerName}" VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}"></TextBlock>
-					</WrapPanel>
-					<WrapPanel>
-						<TextBlock Style="{StaticResource LblTb}" Width="70" Foreground="{StaticResource ThemeForeground}">IP</TextBlock>
-						<TextBlock Text="{Binding MinerClientVm.MinerIp}" VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}"></TextBlock>
-					</WrapPanel>
+					<TextBlock Text="{Binding MinerClientVm.ClientName}" VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}"></TextBlock>
+					<TextBlock Text="{Binding MinerClientVm.MinerIp}" VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}"></TextBlock>
 				</StackPanel>
 			</Border>
 			<ItemsControl
@@ -253,18 +282,8 @@
 					<DataTemplate>
 						<Border BorderBrush="{StaticResource LineColor}" BorderThickness="1" Margin="4" Background="{StaticResource ThemeBackground}">
 							<StackPanel>
-								<WrapPanel>
-									<TextBlock Style="{StaticResource LblTb}" Width="70" Foreground="{StaticResource ThemeForeground}">IP</TextBlock>
-									<TextBlock Text="{Binding MinerIp}" VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}"></TextBlock>
-								</WrapPanel>
-								<WrapPanel>
-									<TextBlock Style="{StaticResource LblTb}" Width="70" Foreground="{StaticResource ThemeForeground}">矿机名</TextBlock>
-									<TextBlock Text="{Binding ClientName}" VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}"></TextBlock>
-								</WrapPanel>
-								<WrapPanel>
-									<TextBlock Style="{StaticResource LblTb}" Width="70" Foreground="{StaticResource ThemeForeground}">作业矿机名</TextBlock>
-									<TextBlock Text="{Binding MinerName}" VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}"></TextBlock>
-								</WrapPanel>
+								<TextBlock Text="{Binding ClientName}" VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}"></TextBlock>
+								<TextBlock Text="{Binding MinerIp}" VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}"></TextBlock>
 							</StackPanel>
 						</Border>
 					</DataTemplate>
