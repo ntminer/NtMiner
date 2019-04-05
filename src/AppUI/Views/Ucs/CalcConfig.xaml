@@ -57,10 +57,9 @@
 					<DataTemplate>
 						<WrapPanel Margin="0 4">
 							<Label Content="算力"></Label>
-							<TextBox Text="{Binding Speed, ValidatesOnExceptions=True}" IsReadOnly="True">
+							<TextBox Text="{Binding Speed, ValidatesOnExceptions=True}">
 							</TextBox>
 							<controls:KbComboBox 
-								IsReadOnly="True"
 								Height="30"
 								Width="60"
 								VerticalAlignment="Center"
@@ -76,7 +75,7 @@
 								Fill="{StaticResource IconFillColor}"
 								Stretch="Fill"/>
 							<Label Content="收益"></Label>
-							<TextBox Text="{Binding IncomePerDay, ValidatesOnExceptions=True}" IsReadOnly="True"></TextBox>
+							<TextBox Text="{Binding IncomePerDay, ValidatesOnExceptions=True}"></TextBox>
 							<Label>
 								<WrapPanel>
 									<TextBlock Text="{Binding CoinCode}"></TextBlock>
@@ -91,7 +90,6 @@
 		<TextBlock Grid.Row="1" HorizontalAlignment="Center" Text="数据来自鱼池首页，每10分钟自动刷新一次" Foreground="Red"></TextBlock>
 		<controls:KbButton
 			Grid.Row="2"
-			IsEnabled="False"
 			Command="{Binding Save}" 
 			VerticalAlignment="Bottom"
 			HorizontalAlignment="Center"
