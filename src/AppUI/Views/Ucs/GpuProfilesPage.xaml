@@ -105,7 +105,7 @@
 								Padding="0" 
 								VerticalAlignment="Center"
 								Foreground="{StaticResource LableColor}"
-								Tag="{Binding CoinVm.GpuAllProfileVm}"
+							    IsChecked="{Binding CoinVm.GpuAllProfileVm.IsAutoFanSpeed}" 
 								Content="自动控温"></CheckBox>
 						</WrapPanel>
 					</StackPanel>
