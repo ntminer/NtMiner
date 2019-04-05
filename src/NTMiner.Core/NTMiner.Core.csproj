@@ -104,6 +104,9 @@
     <Compile Include="Core\Gpus\GpuSetProperty.cs" />
     <Compile Include="Core\Gpus\Impl\AMDGpuSet.cs" />
     <Compile Include="Core\Gpus\Impl\AMDOverClock.cs" />
+    <Compile Include="Core\Gpus\Impl\Nvidia\CudaVersion.cs" />
+    <Compile Include="Core\Gpus\Impl\Nvidia\CudaVersionSet.cs" />
+    <Compile Include="Core\Gpus\Impl\Nvidia\ICudaVersion.cs" />
     <Compile Include="Core\Gpus\Impl\TempGruarder.cs" />
     <Compile Include="Core\Gpus\IOverClock.cs" />
     <Compile Include="Core\Profiles\Impl\GpuProfileExtension.cs" />
@@ -155,6 +158,10 @@
     <Compile Include="Core\IDualMineContext.cs" />
     <Compile Include="Core\IMineContext.cs" />
     <Compile Include="DoubleExtension.cs" />
+    <Compile Include="JsonDb\ILocalJsonDb.cs" />
+    <Compile Include="JsonDb\IServerJsonDb.cs" />
+    <Compile Include="JsonDb\LocalJsonDb.cs" />
+    <Compile Include="JsonDb\ServerJsonDb.cs" />
     <Compile Include="NTMinerRoot.partials.MineContext.cs" />
     <Compile Include="NTMinerRoot.partials.MinerProcess.cs" />
     <Compile Include="Report.cs" />

@@ -76,10 +76,6 @@
     <Compile Include="IOverClockInput.cs" />
     <Compile Include="JsonDb\IGpuProfilesJsonDb.cs" />
     <Compile Include="JsonDb\IJsonDb.cs" />
-    <Compile Include="JsonDb\ILocalJsonDb.cs" />
-    <Compile Include="JsonDb\IServerJsonDb.cs" />
-    <Compile Include="JsonDb\LocalJsonDb.cs" />
-    <Compile Include="JsonDb\ServerJsonDb.cs" />
     <Compile Include="MinerClient\GpuData.cs" />
     <Compile Include="MinerClient\IGpuStaticData.cs" />
     <Compile Include="MinerServer\AddClientRequest.cs" />
