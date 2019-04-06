@@ -28,7 +28,6 @@ namespace NTMiner.Vms {
         private string _userName;
         private string _passWord;
         private bool _isUserMode;
-        private PublishStatus _publishState;
         private CoinViewModel _coinVm;
 
 
@@ -60,7 +59,6 @@ namespace NTMiner.Vms {
             _url = data.Url;
             _sortNumber = data.SortNumber;
             _description = data.Description;
-            _publishState = data.PublishState;
             _userName = data.UserName;
             _passWord = data.Password;
             _isUserMode = data.IsUserMode;
@@ -272,16 +270,6 @@ namespace NTMiner.Vms {
                 if (_sortNumber != value) {
                     _sortNumber = value;
                     OnPropertyChanged(nameof(SortNumber));
-                }
-            }
-        }
-
-        public PublishStatus PublishState {
-            get => _publishState;
-            set {
-                if (_publishState != value) {
-                    _publishState = value;
-                    OnPropertyChanged(nameof(PublishState));
                 }
             }
         }
