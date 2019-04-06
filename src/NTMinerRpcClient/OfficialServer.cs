@@ -12,10 +12,13 @@ namespace NTMiner {
         public static readonly OverClockDataServiceFace OverClockDataService = OverClockDataServiceFace.Instance;
 
         #region private methods
-        private static void PostAsync<T>(string controller, string action, object param, Action<T, Exception> callback) where T : class {
+        private static void PostAsync<T>(string controller, string action, object param, Action<T, Exception> callback, int timeountMilliseconds = 0) where T : class {
             Task.Factory.StartNew(() => {
                 try {
                     using (HttpClient client = new HttpClient()) {
+                        if (timeountMilliseconds != 0) {
+                            client.Timeout = TimeSpan.FromMilliseconds(timeountMilliseconds);
+                        }
                         Task<HttpResponseMessage> message =
                             client.PostAsJsonAsync($"http://{AssemblyInfo.OfficialServerHost}:{WebApiConst.ControlCenterPort}/api/{controller}/{action}", param);
                         T response = message.Result.Content.ReadAsAsync<T>().Result;
@@ -118,7 +121,7 @@ namespace NTMiner {
                 if (e != null) {
                     Logger.ErrorDebugLine($"GetJsonFileVersionAsync({AssemblyInfo.ServerJsonFileName})失败 {e.GetInnerMessage()}");
                 }
-            });
+            }, timeountMilliseconds: 1000);
         }
 
         public class FileUrlServiceFace {
