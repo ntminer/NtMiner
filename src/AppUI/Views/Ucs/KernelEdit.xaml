@@ -33,7 +33,7 @@
 					</Grid.RowDefinitions>
 					<StackPanel Margin="0 0 10 10">
 						<WrapPanel Margin="0 2">
-							<TextBlock Style="{StaticResource LblTb}" Text="币种"></TextBlock>
+							<TextBlock Style="{StaticResource LblTb}" Text="编码"></TextBlock>
 							<TextBox 
 								Height="26"
 								Width="120"
