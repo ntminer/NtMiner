@@ -76,17 +76,21 @@ namespace NTMiner.Vms {
                         else {
                             Client.MinerClientService.CloseNTMiner();
                         }
-                        TimeSpan.FromSeconds(2).Delay().ContinueWith((t) => {
+                        TimeSpan.FromSeconds(3).Delay().ContinueWith((t) => {
                             string location = NTMinerRegistry.GetLocation();
                             if (string.IsNullOrEmpty(location) || !File.Exists(location)) {
                                 location = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ntMinerFile);
                             }
+                            Logger.InfoDebugLine("复制开始");
                             File.Copy(saveFileFullName, location, overwrite: true);
                             File.Delete(saveFileFullName);
+                            Logger.InfoDebugLine("复制完成，删除旧文件");
                             string arguments = NTMinerRegistry.GetArguments();
+                            Logger.InfoDebugLine("启动新程序");
                             Process.Start(location, arguments);
                             this.IsDownloading = false;
                             UIThread.Execute(() => {
+                                Logger.InfoDebugLine("退出升级器");
                                 Application.Current.MainWindow?.Close();
                             });
                         });

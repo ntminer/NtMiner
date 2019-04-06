@@ -44,7 +44,7 @@ namespace NTMiner {
                 bool isClosed = false;
                 try {
                     using (HttpClient client = new HttpClient()) {
-                        client.Timeout = TimeSpan.FromMilliseconds(200);
+                        client.Timeout = TimeSpan.FromMilliseconds(2000);
                         Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:{WebApiConst.MinerClientPort}/api/MinerClient/CloseNTMiner", new SignatureRequest {});
                         ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                         isClosed = response.IsSuccess();
