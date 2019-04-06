@@ -1,4 +1,5 @@
 ﻿using NTMiner.Vms;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
@@ -27,6 +28,13 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void KbComboBox_DropDownOpened(object sender, System.EventArgs e) {
+            ContainerWindow window = KernelSelect.ShowWindow(Vm.MinerProfile.CoinVm, Vm.MinerProfile.CoinVm.CoinKernel?.Kernel);
+            Window parentWindow = Window.GetWindow(this);
+            var control = ((FrameworkElement)sender);
+            Point point = control.TransformToAncestor(parentWindow).Transform(new Point(0, control.Height));
+            window.Left = parentWindow.Left + point.X;
+            window.Top = parentWindow.Top + point.Y;
+            window.Activate();
             VirtualRoot.Happened(new UserActionEvent());
         }
     }

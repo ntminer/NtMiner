@@ -32,11 +32,13 @@ namespace NTMiner.Views.Ucs {
             }
         }
 
-        public static void ShowWindow(CoinViewModel coin, KernelViewModel kernel) {
+        public static ContainerWindow ShowWindow(CoinViewModel coin, KernelViewModel kernel) {
             KernelSelect uc = null;
-            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+            return ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "内核选择",
                 IconName = "Icon_Kernel",
+                IsTopMost = true,
+                HasOwner = true,
                 HeaderVisible = System.Windows.Visibility.Collapsed
             }, ucFactory: (window) => {
                 var vm = new KernelSelectViewModel(coin, isExceptedCoin: false, selectedKernel: kernel);

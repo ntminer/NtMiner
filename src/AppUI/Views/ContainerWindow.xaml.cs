@@ -181,6 +181,9 @@ namespace NTMiner.Views {
             }
             else {
                 this.Topmost = Vm.IsTopMost;
+                if (Vm.IsTopMost) {
+                    this.ShowInTaskbar = false;
+                }
                 this.ShowActivated = true;
                 this.Show();
                 if (this.WindowState == WindowState.Minimized) {
