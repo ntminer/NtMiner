@@ -15,7 +15,6 @@ namespace NTMiner {
             public List<AppSettingData> GetAppSettings() {
                 try {
                     AppSettingsRequest request = new AppSettingsRequest {
-                        MessageId = Guid.NewGuid()
                     };
                     DataResponse<List<AppSettingData>> response = Post<DataResponse<List<AppSettingData>>>(SControllerName, nameof(IAppSettingController.AppSettings), request);
                     return response.Data;

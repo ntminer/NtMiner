@@ -80,7 +80,6 @@ namespace NTMiner {
         public static DataResponse<List<CalcConfigData>> GetCalcConfigs() {
             try {
                 CalcConfigsRequest request = new CalcConfigsRequest {
-                    MessageId = Guid.NewGuid()
                 };
                 DataResponse<List<CalcConfigData>> response = Post<DataResponse<List<CalcConfigData>>>("ControlCenter", nameof(IControlCenterController.CalcConfigs), request);
                 return response;
@@ -108,7 +107,6 @@ namespace NTMiner {
 
         public static void GetJsonFileVersionAsync(string key, Action<string> callback) {
             AppSettingRequest request = new AppSettingRequest {
-                MessageId = Guid.NewGuid(),
                 Key = key
             };
             PostAsync("AppSetting", nameof(IAppSettingController.AppSetting), request, (DataResponse<AppSettingData> response, Exception e) => {
@@ -208,12 +206,10 @@ namespace NTMiner {
             /// <summary>
             /// 同步方法
             /// </summary>
-            /// <param name="messageId"></param>
             /// <returns></returns>
-            public List<OverClockData> GetOverClockDatas(Guid messageId) {
+            public List<OverClockData> GetOverClockDatas() {
                 try {
                     OverClockDatasRequest request = new OverClockDatasRequest {
-                        MessageId = Guid.NewGuid()
                     };
                     DataResponse<List<OverClockData>> response = Post<DataResponse<List<OverClockData>>>(SControllerName, nameof(IOverClockDataController.OverClockDatas), request);
                     if (response != null && response.Data != null) {
