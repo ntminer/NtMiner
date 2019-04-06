@@ -529,8 +529,10 @@ namespace NTMiner {
                         if (isSuccess) {
                             StartMine();
                         }
-                        StopMine();
-                        Write.UserFail("内核下载失败");
+                        else {
+                            StopMine();
+                            Write.UserFail("内核下载失败");
+                        }
                     });
                 }
                 else {
