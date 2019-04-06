@@ -1,5 +1,4 @@
 ﻿using NTMiner.Core;
-using NTMiner.Core.Gpus.Impl.Nvidia;
 using System.Collections.Generic;
 
 namespace NTMiner.JsonDb {
@@ -17,6 +16,5 @@ namespace NTMiner.JsonDb {
         PoolData[] Pools { get; }
         SysDicItemData[] SysDicItems { get; }
         SysDicData[] SysDics { get; }
-        CudaVersion[] CudaVersions { get; }
     }
 }
