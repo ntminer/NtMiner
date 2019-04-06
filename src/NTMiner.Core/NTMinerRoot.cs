@@ -54,21 +54,26 @@ namespace NTMiner {
                 });
                 GpuProfileSet.Instance.Register(this);
                 bool isWork = Environment.GetCommandLineArgs().Contains("--work", StringComparer.OrdinalIgnoreCase);
+                // 如果是Debug模式且不是群控客户端且不是作业则使用本地数据库初始化
                 if (DevMode.IsDebugMode && !VirtualRoot.IsMinerStudio && !isWork) {
                     DoInit(isWork: false, callback: callback);
                     return;
                 }
 
                 if (!isWork) {
+                    // 下载时长约600毫秒
                     SpecialPath.GetAliyunServerJson((data) => {
                         // 如果server.json未下载成功则不覆写本地server.json
                         if (data != null && data.Length != 0) {
+                            Logger.InfoDebugLine("GetAliyunServerJson下载成功");
                             var serverJson = Encoding.UTF8.GetString(data);
                             if (!string.IsNullOrEmpty(serverJson)) {
                                 SpecialPath.WriteServerJsonFile(serverJson);
                             }
                         }
-                        Logger.InfoDebugLine("json下载完成");
+                        else {
+                            Logger.InfoDebugLine("GetAliyunServerJson下载失败");
+                        }
                         DoInit(isWork, callback);
                     });
                 }
