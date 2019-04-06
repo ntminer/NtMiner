@@ -14,7 +14,7 @@ namespace NTMiner.Views.Ucs {
                 IsDialogWindow = true,
                 CloseVisible = System.Windows.Visibility.Visible
             }, ucFactory: (window) => {
-                var vm = new KernelSelectViewModel(coin, isExceptedCoin: true);
+                var vm = new KernelSelectViewModel(coin, isExceptedCoin: true, selectedKernel: null);
                 uc = new KernelSelect(vm);
                 return uc;
             }, fixedSize: true);
@@ -30,6 +30,19 @@ namespace NTMiner.Views.Ucs {
                     }));
                 }
             }
+        }
+
+        public static void ShowWindow(CoinViewModel coin, KernelViewModel kernel) {
+            KernelSelect uc = null;
+            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+                Title = "内核选择",
+                IconName = "Icon_Kernel",
+                HeaderVisible = System.Windows.Visibility.Collapsed
+            }, ucFactory: (window) => {
+                var vm = new KernelSelectViewModel(coin, isExceptedCoin: false, selectedKernel: kernel);
+                uc = new KernelSelect(vm);
+                return uc;
+            }, fixedSize: true);
         }
 
         public KernelSelectViewModel Vm {

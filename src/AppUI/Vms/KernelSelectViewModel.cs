@@ -11,8 +11,9 @@ namespace NTMiner.Vms {
 
         public ICommand ClearKeyword { get; private set; }
 
-        public KernelSelectViewModel(CoinViewModel coin, bool isExceptedCoin) {
+        public KernelSelectViewModel(CoinViewModel coin, bool isExceptedCoin, KernelViewModel selectedKernel) {
             _coin = coin;
+            _selectedResult = selectedKernel;
             this.IsExceptedCoin = IsExceptedCoin;
             this.ClearKeyword = new DelegateCommand(() => {
                 this.Keyword = string.Empty;
@@ -58,7 +59,13 @@ namespace NTMiner.Vms {
 
         public List<KernelViewModel> QueryResults {
             get {
-                IQueryable<KernelViewModel> query = KernelViewModels.Current.AllKernels.AsQueryable();
+                IQueryable<KernelViewModel> query;
+                if (IsExceptedCoin) {
+                    query = KernelViewModels.Current.AllKernels.Where(a => !a.SupportedCoinVms.Contains(Coin)).AsQueryable();
+                }
+                else {
+                    query = Coin.CoinKernels.Select(a => a.Kernel).AsQueryable();
+                }
                 if (!AppStatic.IsDebugMode) {
                     query = query.Where(a => a.PublishState == PublishStatus.Published);
                 }
@@ -68,9 +75,6 @@ namespace NTMiner.Vms {
                         Where(a => (!string.IsNullOrEmpty(a.Code) && a.Code.ToLower().Contains(keyword))
                             || (!string.IsNullOrEmpty(a.Version) && a.Version.ToLower().Contains(keyword))
                             || (!string.IsNullOrEmpty(a.Notice) && a.Notice.ToLower().Contains(keyword)));
-                }
-                if (Coin != null) {
-                    query = query.Where(a => !a.SupportedCoinVms.Contains(Coin));
                 }
                 return query.OrderBy(a => a.Code + a.Version).ToList();
             }
