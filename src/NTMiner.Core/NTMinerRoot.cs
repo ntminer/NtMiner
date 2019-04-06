@@ -47,6 +47,7 @@ namespace NTMiner {
         #region Init
         public void Init(Action callback) {
             Task.Factory.StartNew(() => {
+                // 阿里ECS的响应时间在100毫秒以内，阿里OSS的响应时间在1秒钟以上
                 OfficialServer.GetJsonFileVersionAsync(AssemblyInfo.ServerJsonFileName, (jsonFileVersion) => {
                     if (!string.IsNullOrEmpty(jsonFileVersion)) {
                         JsonFileVersion = jsonFileVersion;
