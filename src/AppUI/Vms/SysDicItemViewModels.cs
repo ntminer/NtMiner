@@ -74,7 +74,7 @@ namespace NTMiner.Vms {
                 };
                 SysDicViewModel sysDic;
                 if (SysDicViewModels.Current.TryGetSysDicVm("KernelBrand", out sysDic)) {
-                    list.AddRange(List.Where(a => a.DicId == sysDic.Id));
+                    list.AddRange(List.Where(a => a.DicId == sysDic.Id).OrderBy(a => a.SortNumber));
                 }
                 return list;
             }
