@@ -169,32 +169,6 @@ namespace NTMiner {
         }
         #endregion
 
-        #region UpdaterVersion
-        public static string GetUpdaterVersion() {
-            string valueName = "UpdaterVersion";
-            if (VirtualRoot.IsMinerStudio) {
-                valueName = "MinerStudioUpdaterVersion";
-            }
-            string updaterVersion = "NTMinerUpdater.exe";
-            object updaterVersionValue = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, valueName);
-            if (updaterVersionValue != null) {
-                updaterVersion = (string)updaterVersionValue;
-            }
-            if (string.IsNullOrEmpty(updaterVersion)) {
-                return "NTMinerUpdater.exe";
-            }
-            return updaterVersion;
-        }
-
-        public static void SetUpdaterVersion(string version) {
-            string valueName = "UpdaterVersion";
-            if (VirtualRoot.IsMinerStudio) {
-                valueName = "MinerStudioUpdaterVersion";
-            }
-            Windows.Registry.SetValue(Registry.Users, NTMinerRegistrySubKey, valueName, version);
-        }
-        #endregion
-
         #region ControlCenterHost
         public const string DefaultControlCenterHost = "localhost";
         public static string GetControlCenterHost() {
