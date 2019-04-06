@@ -9,7 +9,7 @@ namespace NTMiner.Vms {
 
         private readonly Dictionary<string, VirtualMemory> _dic = new Dictionary<string, VirtualMemory>(StringComparer.OrdinalIgnoreCase);
 
-        private readonly Dictionary<string, VirtualMemory> _initialVms = new Dictionary<string, VirtualMemory>();
+        private readonly Dictionary<string, VirtualMemory> _initialVms = new Dictionary<string, VirtualMemory>(StringComparer.OrdinalIgnoreCase);
         private VirtualMemorySet() {
             foreach (var item in GetPagingFiles()) {
                 _initialVms.Add(item.DriveName, item);
@@ -17,7 +17,7 @@ namespace NTMiner.Vms {
             foreach (var drive in DriveSet.Current.Drives) {
                 _dic.Add(drive.Name, new VirtualMemory(drive.Name, 0));
             }
-            foreach (var item in GetPagingFiles()) {
+            foreach (var item in _initialVms.Values) {
                 if (_dic.TryGetValue(item.DriveName, out VirtualMemory vm)) {
                     vm.MaxSizeMb = item.MaxSizeMb;
                 }
