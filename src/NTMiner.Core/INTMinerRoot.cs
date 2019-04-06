@@ -1,4 +1,5 @@
-﻿using NTMiner.Bus;
+﻿using NTMiner.AppSetting;
+using NTMiner.Bus;
 using NTMiner.Core;
 using NTMiner.Core.Gpus;
 using NTMiner.Core.Kernels;

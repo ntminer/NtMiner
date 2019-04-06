@@ -1,4 +1,5 @@
-﻿using NTMiner.Bus;
+﻿using NTMiner.AppSetting;
+using NTMiner.Bus;
 using NTMiner.Core;
 using NTMiner.Core.Gpus;
 using NTMiner.Core.Gpus.Impl;
@@ -90,6 +91,7 @@ namespace NTMiner {
         private void DoInit(bool isWork, Action callback) {
             this.PackageDownloader = new PackageDownloader(this);
             this.ServerAppSettingSet = new ServerAppSettingSet(this);
+            this.LocalAppSettingSet = new LocalAppSettingSet(SpecialPath.LocalDbFileFullName);
             this.CalcConfigSet = new CalcConfigSet(this);
 
             ContextInit(isWork);

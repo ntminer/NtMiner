@@ -42,8 +42,9 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppSetting\LocalAppSettingSet.cs" />
     <Compile Include="Bus\IDelegateHandler.cs" />
-    <Compile Include="IAppSettingSet.cs" />
+    <Compile Include="AppSetting\IAppSettingSet.cs" />
     <Compile Include="Bus\Cmd.cs" />
     <Compile Include="Bus\DelegateHandler`1.cs" />
     <Compile Include="Bus\DirectBus\DirectBus.cs" />

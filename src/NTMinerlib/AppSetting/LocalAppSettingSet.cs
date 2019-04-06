@@ -3,12 +3,12 @@ using NTMiner.MinerServer;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace NTMiner.Data.Impl {
-    public class AppSettingSet : IAppSettingSet {
+namespace NTMiner.AppSetting {
+    public class LocalAppSettingSet : IAppSettingSet {
         private Dictionary<string, AppSettingData> _dicByKey = new Dictionary<string, AppSettingData>();
         private readonly string _dbFileFullName;
 
-        public AppSettingSet(string dbFileFullName) {
+        public LocalAppSettingSet(string dbFileFullName) {
             _dbFileFullName = dbFileFullName;
             VirtualRoot.Window<ChangeAppSettingCommand>("处理设置AppSetting命令", LogEnum.DevConsole,
                 action: message => {

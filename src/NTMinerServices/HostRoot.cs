@@ -1,5 +1,6 @@
 ﻿using Aliyun.OSS;
 using LiteDB;
+using NTMiner.AppSetting;
 using NTMiner.Data;
 using NTMiner.Data.Impl;
 using NTMiner.User;
@@ -133,7 +134,7 @@ namespace NTMiner {
         private HostRoot() {
             OssClientInit();
             this.UserSet = new UserSet(SpecialPath.LocalDbFileFullName);
-            this.AppSettingSet = new AppSettingSet(SpecialPath.LocalDbFileFullName);
+            this.AppSettingSet = new LocalAppSettingSet(SpecialPath.LocalDbFileFullName);
             this.CalcConfigSet = new CalcConfigSet(this);
             this.ColumnsShowSet = new ColumnsShowSet(this);
             this.ClientSet = new ClientSet(this);
