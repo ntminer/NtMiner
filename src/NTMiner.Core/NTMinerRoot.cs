@@ -36,7 +36,9 @@ namespace NTMiner {
 
         public DateTime CreatedOn { get; private set; }
 
-        public IAppSettingSet AppSettingSet { get; private set; }
+        public IAppSettingSet ServerAppSettingSet { get; private set; }
+
+        public IAppSettingSet LocalAppSettingSet { get; private set; }
 
         #region cotr
         private NTMinerRoot() {
@@ -87,7 +89,7 @@ namespace NTMiner {
         private MinerProfile _minerProfile;
         private void DoInit(bool isWork, Action callback) {
             this.PackageDownloader = new PackageDownloader(this);
-            this.AppSettingSet = new AppSettingSet(this);
+            this.ServerAppSettingSet = new ServerAppSettingSet(this);
             this.CalcConfigSet = new CalcConfigSet(this);
 
             ContextInit(isWork);

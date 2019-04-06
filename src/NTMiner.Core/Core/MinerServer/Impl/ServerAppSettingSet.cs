@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace NTMiner.Core.MinerServer.Impl {
-    public class AppSettingSet : IAppSettingSet {
+    public class ServerAppSettingSet : IAppSettingSet {
         private readonly Dictionary<string, AppSettingData> _dicByKey = new Dictionary<string, AppSettingData>();
         private readonly INTMinerRoot _root;
-        public AppSettingSet(INTMinerRoot root) {
+        public ServerAppSettingSet(INTMinerRoot root) {
             _root = root;
             VirtualRoot.Window<ChangeAppSettingCommand>("处理设置AppSetting命令", LogEnum.DevConsole,
                 action: message => {

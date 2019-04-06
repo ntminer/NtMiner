@@ -119,7 +119,7 @@
     <Compile Include="Core\MinerServer\IColumnsShowSet.cs" />
     <Compile Include="Core\MinerServer\IMinerGroupSet.cs" />
     <Compile Include="Core\Impl\GroupSet.cs" />
-    <Compile Include="Core\MinerServer\Impl\AppSettingSet.cs" />
+    <Compile Include="Core\MinerServer\Impl\ServerAppSettingSet.cs" />
     <Compile Include="Core\MinerServer\Impl\ColumnsShowSet.cs" />
     <Compile Include="Core\MinerServer\Impl\MinerGroupSet.cs" />
     <Compile Include="Core\Impl\ReadOnlyRepository`1.cs" />

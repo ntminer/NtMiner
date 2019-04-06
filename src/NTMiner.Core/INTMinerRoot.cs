@@ -24,7 +24,9 @@ namespace NTMiner {
 
         DateTime CreatedOn { get; }
 
-        IAppSettingSet AppSettingSet { get; }
+        IAppSettingSet ServerAppSettingSet { get; }
+
+        IAppSettingSet LocalAppSettingSet { get; }
 
         void Init(Action callback);
 

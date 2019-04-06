@@ -15,7 +15,7 @@ namespace NTMiner.Vms {
                     _dicByKey.Add(message.Source.Key, new AppSettingViewModel(message.Source));
                 }
             });
-            foreach (var item in NTMinerRoot.Current.AppSettingSet) {
+            foreach (var item in NTMinerRoot.Current.ServerAppSettingSet) {
                 _dicByKey.Add(item.Key, new AppSettingViewModel(item));
             }
         }
