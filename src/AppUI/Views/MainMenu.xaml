@@ -17,7 +17,7 @@
 					<Path
 						Width="14"
 						Height="14"
-						Data="{StaticResource Icon_Db}"
+						Data="{StaticResource Icon_Logo}"
 						Fill="{StaticResource ThemeForeground}"
 						Stretch="Fill" />
 				</MenuItem.Icon>
@@ -61,16 +61,6 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-			</MenuItem>
-			<MenuItem Width="26" Height="30" Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
-				<MenuItem.Icon>
-					<Path
-						Width="14"
-						Height="14"
-						Data="{StaticResource Icon_Developer}"
-						Fill="{StaticResource ThemeForeground}"
-						Stretch="Fill" />
-				</MenuItem.Icon>
 				<MenuItem Header="内属性" Command="{x:Static vm:AppStatic.ShowInnerProperty}">
 					<MenuItem.Icon>
 						<Path
@@ -111,6 +101,16 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
+			</MenuItem>
+			<MenuItem Width="26" Height="30" Visibility="{x:Static vm:AppStatic.IsMinerStudioDevVisible}">
+				<MenuItem.Icon>
+					<Path
+						Width="14"
+						Height="14"
+						Data="{StaticResource Icon_Server}"
+						Fill="{StaticResource ThemeForeground}"
+						Stretch="Fill" />
+				</MenuItem.Icon>
 				<MenuItem Header="超频" Command="{x:Static vm:AppStatic.ShowOverClockDatas}">
 					<MenuItem.Icon>
 						<Path
