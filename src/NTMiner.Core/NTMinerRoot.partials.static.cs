@@ -39,17 +39,6 @@ namespace NTMiner {
         public static readonly INTMinerRoot Current = SCurrent;
         public static readonly Version CurrentVersion;
         public static readonly string CurrentVersionTag;
-        private static string _sJsonFileVersion;
-        public static string JsonFileVersion {
-            get { return _sJsonFileVersion; }
-            set {
-                if (_sJsonFileVersion != value) {
-                    string oldVersion = _sJsonFileVersion;
-                    _sJsonFileVersion = value;
-                    VirtualRoot.Happened(new ServerJsonVersionChangedEvent(oldVersion, value));
-                }
-            }
-        }
 
         private static LocalJsonDb _localJson;
         public static ILocalJsonDb LocalJson {

@@ -37,12 +37,20 @@ namespace NTMiner.Vms {
                 }, icon: IconConst.IconConfirm);
             });
             if (DevMode.IsDevMode) {
-                VirtualRoot.On<ServerJsonVersionChangedEvent>("在开发者调试区展示ServerJsonVersion", LogEnum.DevConsole,
+                VirtualRoot.On<ServerJsonVersionChangedEvent>("开发者模式展示ServerJsonVersion", LogEnum.DevConsole,
                     action: message => {
-                        this.ServerJsonVersion = NTMinerRoot.JsonFileVersion;
+                        this.ServerJsonVersion = GetServerJsonVersion();
                     });
-                _serverJsonVersion = NTMinerRoot.JsonFileVersion;
+                _serverJsonVersion = GetServerJsonVersion();
             }
+        }
+
+        private string GetServerJsonVersion() {
+            string serverJsonVersion = string.Empty;
+            if (NTMinerRoot.Current.LocalAppSettingSet.TryGetAppSetting("ServerJsonVersion", out IAppSetting setting) && setting.Value != null) {
+                serverJsonVersion = setting.Value.ToString();
+            }
+            return serverJsonVersion;
         }
 
         public string BrandTitle {
