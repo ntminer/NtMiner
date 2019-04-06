@@ -134,9 +134,9 @@ namespace NTMiner.Vms {
         public bool IsShow {
             get {
                 string key = $"ChartVm.IsShow.{this.CoinVm.Code}";
-                AppSettingViewModel appSettingVm;
-                if (AppSettingViewModels.Current.TryGetAppSettingVm(key, out appSettingVm)) {
-                    return (bool)appSettingVm.Value;
+                IAppSetting appSetting;
+                if (NTMinerRoot.Current.ServerAppSettingSet.TryGetAppSetting(key, out appSetting)) {
+                    return (bool)appSetting.Value;
                 }
                 else {
                     return true;
@@ -144,7 +144,7 @@ namespace NTMiner.Vms {
             }
             set {
                 string key = $"ChartVm.IsShow.{this.CoinVm.Code}";
-                VirtualRoot.Execute(new ChangeAppSettingCommand(new AppSettingData {
+                VirtualRoot.Execute(new ChangeServerAppSettingCommand(new AppSettingData {
                     Key = key,
                     Value = value
                 }));

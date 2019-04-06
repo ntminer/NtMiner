@@ -67,7 +67,7 @@ namespace NTMiner.Views {
             foreach (var handler in _handlers) {
                 VirtualRoot.UnPath(handler);
             }
-            VirtualRoot.Execute(new ChangeAppSettingsCommand(
+            VirtualRoot.Execute(new ChangeServerAppSettingsCommand(
                 new AppSettingData[]{
                         new AppSettingData {
                             Key = "FrozenColumnCount",

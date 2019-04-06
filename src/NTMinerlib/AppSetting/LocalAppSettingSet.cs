@@ -10,7 +10,7 @@ namespace NTMiner.AppSetting {
 
         public LocalAppSettingSet(string dbFileFullName) {
             _dbFileFullName = dbFileFullName;
-            VirtualRoot.Window<ChangeAppSettingCommand>("处理设置AppSetting命令", LogEnum.DevConsole,
+            VirtualRoot.Window<ChangeLocalAppSettingCommand>("处理设置AppSetting命令", LogEnum.DevConsole,
                 action: message => {
                     if (message.AppSetting == null) {
                         return;
@@ -30,7 +30,7 @@ namespace NTMiner.AppSetting {
                             col.Insert(entity);
                         }
                     }
-                    VirtualRoot.Happened(new AppSettingChangedEvent(entity));
+                    VirtualRoot.Happened(new LocalAppSettingChangedEvent(entity));
                 });
         }
 

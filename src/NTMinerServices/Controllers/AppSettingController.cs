@@ -51,7 +51,7 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
                     return response;
                 }
-                VirtualRoot.Execute(new ChangeAppSettingCommand(request.Data));
+                VirtualRoot.Execute(new ChangeLocalAppSettingCommand(request.Data));
                 Logger.InfoDebugLine($"{nameof(SetAppSetting)}({request.Data.Key}, {request.Data.Value})");
                 return ResponseBase.Ok();
             }
@@ -71,7 +71,7 @@ namespace NTMiner.Controllers {
                     return response;
                 }
                 foreach (var item in request.Data) {
-                    VirtualRoot.Execute(new ChangeAppSettingCommand(item));
+                    VirtualRoot.Execute(new ChangeLocalAppSettingCommand(item));
                 }
                 Logger.InfoDebugLine($"{nameof(SetAppSettings)} {string.Join(",", request.Data.Select(a => $"{a.Key}:{a.Value}"))}");
                 return ResponseBase.Ok();

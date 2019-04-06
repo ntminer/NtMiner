@@ -96,7 +96,7 @@ namespace NTMiner.Vms {
             try {
                 DialogWindow.ShowDialog(message: $"您确定刷新{AssemblyInfo.ServerJsonFileName}吗？", title: "确认", onYes: () => {
                     try {
-                        VirtualRoot.Execute(new ChangeAppSettingCommand(new AppSettingData {
+                        VirtualRoot.Execute(new ChangeServerAppSettingCommand(new AppSettingData {
                             Key = ServerJsonFileName,
                             Value = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss fff")
                         }));

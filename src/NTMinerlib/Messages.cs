@@ -45,9 +45,9 @@ namespace NTMiner {
     }
     #endregion
 
-    [MessageType(messageType: typeof(ChangeAppSettingCommand), description: "设置AppSetting")]
-    public class ChangeAppSettingCommand : Cmd {
-        public ChangeAppSettingCommand(IAppSetting appSetting) {
+    [MessageType(messageType: typeof(ChangeServerAppSettingCommand), description: "设置ServerAppSetting")]
+    public class ChangeServerAppSettingCommand : Cmd {
+        public ChangeServerAppSettingCommand(IAppSetting appSetting) {
             this.AppSetting = appSetting;
         }
 
@@ -56,9 +56,9 @@ namespace NTMiner {
         }
     }
 
-    [MessageType(messageType: typeof(ChangeAppSettingsCommand), description: "设置AppSetting")]
-    public class ChangeAppSettingsCommand : Cmd {
-        public ChangeAppSettingsCommand(IEnumerable<IAppSetting> appSettings) {
+    [MessageType(messageType: typeof(ChangeServerAppSettingsCommand), description: "设置ServerAppSetting")]
+    public class ChangeServerAppSettingsCommand : Cmd {
+        public ChangeServerAppSettingsCommand(IEnumerable<IAppSetting> appSettings) {
             this.AppSettings = appSettings;
         }
 
@@ -67,9 +67,37 @@ namespace NTMiner {
         }
     }
 
-    [MessageType(messageType: typeof(AppSettingChangedEvent), description: "AppSetting变更后")]
-    public class AppSettingChangedEvent : DomainEvent<IAppSetting> {
-        public AppSettingChangedEvent(IAppSetting source) : base(source) {
+    [MessageType(messageType: typeof(ServerAppSettingChangedEvent), description: "ServerAppSetting变更后")]
+    public class ServerAppSettingChangedEvent : DomainEvent<IAppSetting> {
+        public ServerAppSettingChangedEvent(IAppSetting source) : base(source) {
+        }
+    }
+
+    [MessageType(messageType: typeof(ChangeLocalAppSettingCommand), description: "设置LocalAppSetting")]
+    public class ChangeLocalAppSettingCommand : Cmd {
+        public ChangeLocalAppSettingCommand(IAppSetting appSetting) {
+            this.AppSetting = appSetting;
+        }
+
+        public IAppSetting AppSetting {
+            get; private set;
+        }
+    }
+
+    [MessageType(messageType: typeof(ChangeLocalAppSettingsCommand), description: "设置LocalAppSetting")]
+    public class ChangeLocalAppSettingsCommand : Cmd {
+        public ChangeLocalAppSettingsCommand(IEnumerable<IAppSetting> appSettings) {
+            this.AppSettings = appSettings;
+        }
+
+        public IEnumerable<IAppSetting> AppSettings {
+            get; private set;
+        }
+    }
+
+    [MessageType(messageType: typeof(LocalAppSettingChangedEvent), description: "LocalAppSetting变更后")]
+    public class LocalAppSettingChangedEvent : DomainEvent<IAppSetting> {
+        public LocalAppSettingChangedEvent(IAppSetting source) : base(source) {
         }
     }
 
