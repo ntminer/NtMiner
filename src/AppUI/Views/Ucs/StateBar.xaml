@@ -269,7 +269,7 @@
 							Background="Transparent" />
 						<controls:KbButton 
 							HorizontalContentAlignment="Left"
-							Width="280" ToolTip="数据来自鱼池首页"
+							Width="280" ToolTip="收益计算器"
 							Padding="2 0" Cursor="Hand" Background="Transparent" BorderThickness="0"
 							Command="{x:Static vm:AppStatic.ShowCalc}"
 							CommandParameter="{Binding MinerProfile.CoinVm}">
@@ -395,7 +395,14 @@
 				<WrapPanel HorizontalAlignment="Right">
 					<TextBlock Text="{x:Static vm:AppStatic.WindowsEdition}" ToolTip="操作系统" Foreground="{StaticResource LableColor}"></TextBlock>
 					<TextBlock Text=" / " Foreground="{StaticResource LableColor}"></TextBlock>
-					<TextBlock Text="{x:Static vm:AppStatic.TotalVirtualMemoryGbText}" ToolTip="虚拟内存" Foreground="{StaticResource LableColor}"></TextBlock>
+					<controls:KbButton 
+						Command="{x:Static vm:AppStatic.ShowVirtualMemory}"
+						Content="{x:Static vm:AppStatic.TotalVirtualMemoryGbText}" 
+						Background="Transparent" 
+						Cursor="Hand"
+						BorderThickness="0" 
+						ToolTip="虚拟内存" 
+						Foreground="{StaticResource LableColor}"></controls:KbButton>
 					<TextBlock Text=" / " Foreground="{StaticResource LableColor}"></TextBlock>
 					<WrapPanel>
 						<TextBlock Text="{x:Static vm:AppStatic.DriverVersion}" ToolTip="显卡驱动版本" Foreground="{StaticResource LableColor}"></TextBlock>

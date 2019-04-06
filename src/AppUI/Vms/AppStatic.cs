@@ -29,9 +29,16 @@ namespace NTMiner.Vms {
 
         public static string DriverVersion {
             get {
-                var driverVersion = NTMinerRoot.Current.GpuSet.Properties.FirstOrDefault(a => a.Code == "DriverVersion");
+                var gpuSet = NTMinerRoot.Current.GpuSet;
+                var driverVersion = gpuSet.Properties.FirstOrDefault(a => a.Code == "DriverVersion");
                 if (driverVersion?.Value == null) {
                     return string.Empty;
+                }
+                if (gpuSet.GpuType == GpuType.NVIDIA) {
+                    var cudaVersion = gpuSet.Properties.FirstOrDefault(a => a.Code == "CudaVersion");
+                    if (cudaVersion != null) {
+                        return $"{driverVersion.Value.ToString()}({cudaVersion.Value})";
+                    }
                 }
                 return driverVersion.Value.ToString();
             }

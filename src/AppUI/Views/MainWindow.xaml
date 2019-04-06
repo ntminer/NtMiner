@@ -15,6 +15,7 @@
 		Height="{Binding Height}"
 		MinHeight="480"
 		MinWidth="800"
+		ResizeBorderThickness="2"
 		d:DesignHeight="700"
 		UseNoneWindowStyle="True"
 		BorderBrush="Black"
@@ -360,6 +361,7 @@
 						<uc:StateBar 
 							Grid.Row="1" 
 							Grid.ColumnSpan="3" 
+							Padding="0 0 0 2"
 							Background="{StaticResource MinerProfileBackground}" 
 							BorderBrush="{StaticResource LineColor}" 
 							BorderThickness="0 1 0 0">
