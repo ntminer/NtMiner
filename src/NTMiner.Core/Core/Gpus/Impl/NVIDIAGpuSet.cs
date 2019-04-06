@@ -53,6 +53,21 @@ namespace NTMiner.Core.Gpus.Impl {
                     NvmlNativeMethods.nvmlSystemGetDriverVersion(out string driverVersion);
                     NvmlNativeMethods.nvmlSystemGetNVMLVersion(out string nvmlVersion);
                     this.Properties.Add(new GpuSetProperty("DriverVersion", "驱动版本", driverVersion));
+                    try {
+                        double driverVersionNum;
+                        if (double.TryParse(driverVersion, out driverVersionNum)) {
+                            var item = root.SysDicItemSet.GetSysDicItems("CudaVersion")
+                                .Select(a => new { Version = double.Parse(a.Value), a })
+                                .OrderByDescending(a => a.Version)
+                                .FirstOrDefault(a => driverVersionNum >= a.Version);
+                            if (item != null) {
+                                this.Properties.Add(new GpuSetProperty("CudaVersion", "Cuda版本", item.a.Code));
+                            }
+                        }
+                    }
+                    catch (Exception e) {
+                        Logger.ErrorDebugLine(e.Message, e);
+                    }
                     this.Properties.Add(new GpuSetProperty("NVMLVersion", "NVML版本", nvmlVersion));
                     Dictionary<string, string> kvs = new Dictionary<string, string> {
                         {"CUDA_DEVICE_ORDER","PCI_BUS_ID" }
@@ -68,7 +83,7 @@ namespace NTMiner.Core.Gpus.Impl {
                         // 这里会耗时5秒
                         foreach (var kv in kvs) {
                             Environment.SetEnvironmentVariable(kv.Key, kv.Value);
-                        }                        
+                        }
                     });
                 }
             }
