@@ -37,6 +37,8 @@ namespace NTMiner.MinerClient {
 
         public string GpuInfo { get; set; }
 
+        public Guid MineWorkId { get; set; }
+
         public string MinerName { get; set; }
 
         public string MainCoinCode { get; set; }
