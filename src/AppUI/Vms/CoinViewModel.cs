@@ -196,7 +196,7 @@ namespace NTMiner.Vms {
                 }.Edit.Execute(FormType.Add);
             });
             this.AddCoinKernel = new DelegateCommand(() => {
-                KernelSelect.ShowWindow(this);
+                KernelSelect.ShowDialog(this);
             });
         }
 

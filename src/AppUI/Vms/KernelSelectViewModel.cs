@@ -6,12 +6,14 @@ using System.Windows.Input;
 namespace NTMiner.Vms {
     public class KernelSelectViewModel : ViewModelBase {
         private string _keyword;
-        private CoinViewModel _exceptedCoin;
+        private CoinViewModel _coin;
         private KernelViewModel _selectedResult;
 
         public ICommand ClearKeyword { get; private set; }
 
-        public KernelSelectViewModel() {
+        public KernelSelectViewModel(CoinViewModel coin, bool isExceptedCoin) {
+            _coin = coin;
+            this.IsExceptedCoin = IsExceptedCoin;
             this.ClearKeyword = new DelegateCommand(() => {
                 this.Keyword = string.Empty;
             });
@@ -39,15 +41,19 @@ namespace NTMiner.Vms {
             }
         }
 
-        public CoinViewModel ExceptedCoin {
-            get => _exceptedCoin;
+        public CoinViewModel Coin {
+            get => _coin;
             set {
-                if (_exceptedCoin != value) {
-                    _exceptedCoin = value;
-                    OnPropertyChanged(nameof(ExceptedCoin));
+                if (_coin != value) {
+                    _coin = value;
+                    OnPropertyChanged(nameof(Coin));
                     OnPropertyChanged(nameof(QueryResults));
                 }
             }
+        }
+
+        public bool IsExceptedCoin {
+            get; private set;
         }
 
         public List<KernelViewModel> QueryResults {
@@ -63,8 +69,8 @@ namespace NTMiner.Vms {
                             || (!string.IsNullOrEmpty(a.Version) && a.Version.ToLower().Contains(keyword))
                             || (!string.IsNullOrEmpty(a.Notice) && a.Notice.ToLower().Contains(keyword)));
                 }
-                if (ExceptedCoin != null) {
-                    query = query.Where(a => !a.SupportedCoinVms.Contains(ExceptedCoin));
+                if (Coin != null) {
+                    query = query.Where(a => !a.SupportedCoinVms.Contains(Coin));
                 }
                 return query.OrderBy(a => a.Code + a.Version).ToList();
             }

@@ -6,7 +6,7 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class KernelSelect : UserControl {
-        public static void ShowWindow(CoinViewModel coin) {
+        public static void ShowDialog(CoinViewModel coin) {
             KernelSelect uc = null;
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "内核选择",
@@ -14,8 +14,8 @@ namespace NTMiner.Views.Ucs {
                 IsDialogWindow = true,
                 CloseVisible = System.Windows.Visibility.Visible
             }, ucFactory: (window) => {
-                uc = new KernelSelect();
-                uc.Vm.ExceptedCoin = coin;
+                var vm = new KernelSelectViewModel(coin, isExceptedCoin: true);
+                uc = new KernelSelect(vm);
                 return uc;
             }, fixedSize: true);
             if (uc != null) {
@@ -38,7 +38,8 @@ namespace NTMiner.Views.Ucs {
             }
         }
 
-        public KernelSelect() {
+        public KernelSelect(KernelSelectViewModel vm) {
+            this.DataContext = vm;
             InitializeComponent();
         }
     }
