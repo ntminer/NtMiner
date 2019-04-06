@@ -46,7 +46,7 @@
 		</WrapPanel>
 
 		<WrapPanel Margin="0 2" Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
-			<TextBlock Style="{StaticResource LblTb}" Text="钱包格式正则"></TextBlock>
+			<TextBlock Style="{StaticResource LblTb}" Text="钱包正则"></TextBlock>
 			<TextBox 
 				Width="380"
 				IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
