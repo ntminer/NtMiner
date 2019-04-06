@@ -56,7 +56,13 @@ namespace NTMiner.Core.SysDics.Impl {
                     if (ReferenceEquals(entity, message.Input)) {
                         return;
                     }
+                    string oldCode = entity.Code;
                     entity.Update(message.Input);
+                    // 如果编码变更了 
+                    if (oldCode != entity.Code) {
+                        _dicByDicId[entity.DicId].Remove(oldCode);
+                        _dicByDicId[entity.DicId].Add(entity.Code, entity);
+                    }
                     var repository = NTMinerRoot.CreateServerRepository<SysDicItemData>(isUseJson);
                     repository.Update(entity);
 
