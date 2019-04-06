@@ -21,7 +21,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace NTMiner {
@@ -39,7 +38,7 @@ namespace NTMiner {
 
         public IAppSettingSet ServerAppSettingSet { get; private set; }
 
-        public IAppSettingSet LocalAppSettingSet { get; private set; }
+        public IAppSettingSet LocalAppSettingSet { get; private set; } = new LocalAppSettingSet(SpecialPath.LocalDbFileFullName);
 
         #region cotr
         private NTMinerRoot() {
@@ -50,48 +49,66 @@ namespace NTMiner {
         #region Init
         public void Init(Action callback) {
             Task.Factory.StartNew(() => {
-                // 阿里ECS的响应时间在100毫秒以内，阿里OSS的响应时间在1秒钟以上
-                OfficialServer.GetJsonFileVersionAsync(AssemblyInfo.ServerJsonFileName, (jsonFileVersion) => {
-                    if (!string.IsNullOrEmpty(jsonFileVersion)) {
-                        JsonFileVersion = jsonFileVersion;
-                    }
-                });
-                GpuProfileSet.Instance.Register(this);
                 bool isWork = Environment.GetCommandLineArgs().Contains("--work", StringComparer.OrdinalIgnoreCase);
+                if (isWork) {
+                    DoInit(isWork, callback);
+                    return;
+                }
                 // 如果是Debug模式且不是群控客户端且不是作业则使用本地数据库初始化
-                if (DevMode.IsDebugMode && !VirtualRoot.IsMinerStudio && !isWork) {
+                if (DevMode.IsDebugMode && !VirtualRoot.IsMinerStudio) {
                     DoInit(isWork: false, callback: callback);
                     return;
                 }
-
-                if (!isWork) {
-                    // 下载时长约600毫秒
-                    SpecialPath.GetAliyunServerJson((data) => {
-                        // 如果server.json未下载成功则不覆写本地server.json
-                        if (data != null && data.Length != 0) {
-                            Logger.InfoDebugLine("GetAliyunServerJson下载成功");
-                            var serverJson = Encoding.UTF8.GetString(data);
-                            if (!string.IsNullOrEmpty(serverJson)) {
-                                SpecialPath.WriteServerJsonFile(serverJson);
+                string serverJsonVersion = string.Empty;
+                if (LocalAppSettingSet.TryGetAppSetting("ServerJsonVersion", out IAppSetting setting) && setting.Value != null) {
+                    serverJsonVersion = setting.Value.ToString();
+                }
+                // 阿里ECS的响应时间在100毫秒以内，阿里OSS的响应时间在1秒，所以这里基于ECS上记录的server.json的时间戳缓存OSS的server.json
+                Logger.InfoDebugLine("开始请求ECS获取server.json版本号");
+                OfficialServer.GetJsonFileVersionAsync(AssemblyInfo.ServerJsonFileName, (jsonFileVersion) => {
+                    Logger.InfoDebugLine("获取到server.json版本号" + jsonFileVersion);
+                    bool needDownloadServerJson
+                         = string.IsNullOrEmpty(jsonFileVersion)
+                        || string.IsNullOrEmpty(serverJsonVersion)
+                        || jsonFileVersion != serverJsonVersion
+                        || !File.Exists(SpecialPath.ServerJsonFileFullName);
+                    if (needDownloadServerJson) {
+                        Logger.InfoDebugLine("开始下载server.json");
+                        SpecialPath.GetAliyunServerJson((data) => {
+                            // 如果server.json未下载成功则不覆写本地server.json
+                            if (data != null && data.Length != 0) {
+                                Logger.InfoDebugLine("GetAliyunServerJson下载成功");
+                                var serverJson = Encoding.UTF8.GetString(data);
+                                if (!string.IsNullOrEmpty(serverJson)) {
+                                    SpecialPath.WriteServerJsonFile(serverJson);
+                                }
+                                JsonFileVersion = jsonFileVersion;
+                                AppSettingData appSettingData = new AppSettingData() {
+                                    Key = "ServerJsonVersion",
+                                    Value = jsonFileVersion
+                                };
+                                appSettingData.Value = jsonFileVersion;
+                                VirtualRoot.Execute(new ChangeLocalAppSettingCommand(appSettingData));
                             }
-                        }
-                        else {
-                            Logger.InfoDebugLine("GetAliyunServerJson下载失败");
-                        }
+                            else {
+                                Logger.InfoDebugLine("GetAliyunServerJson下载失败");
+                            }
+                            DoInit(isWork, callback);
+                        });
+                    }
+                    else {
+                        Logger.InfoDebugLine("本地server.json已最新，不需要下载server.json");
                         DoInit(isWork, callback);
-                    });
-                }
-                else {
-                    DoInit(isWork, callback);
-                }
+                    }
+                });
             });
         }
 
         private MinerProfile _minerProfile;
         private void DoInit(bool isWork, Action callback) {
+            GpuProfileSet.Instance.Register(this);
             this.PackageDownloader = new PackageDownloader(this);
             this.ServerAppSettingSet = new ServerAppSettingSet(this);
-            this.LocalAppSettingSet = new LocalAppSettingSet(SpecialPath.LocalDbFileFullName);
             this.CalcConfigSet = new CalcConfigSet(this);
 
             ContextInit(isWork);
