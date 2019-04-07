@@ -1,4 +1,5 @@
 ﻿using NTMiner.Vms;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -37,7 +38,11 @@ namespace NTMiner.Views.Ucs {
                 return;
             }
             bool isExceptedCoin = false;
-            PopupKernel.Child = new KernelSelect(new KernelSelectViewModel(Vm.MinerProfile.CoinVm, isExceptedCoin, selectedKernel));
+            PopupKernel.Child = new KernelSelect(
+                new KernelSelectViewModel(Vm.MinerProfile.CoinVm, isExceptedCoin, selectedKernel, onSelectedKernelChanged: selectedResult=> {
+                    coinVm.CoinKernel = coinVm.CoinKernels.FirstOrDefault(a => a.Kernel == selectedResult);
+                    PopupKernel.IsOpen = false;
+                }));
             PopupKernel.IsOpen = true;
             VirtualRoot.Happened(new UserActionEvent());
         }

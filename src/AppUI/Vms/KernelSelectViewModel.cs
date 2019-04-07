@@ -1,4 +1,4 @@
-﻿using NTMiner.Wpf;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
@@ -8,12 +8,14 @@ namespace NTMiner.Vms {
         private string _keyword;
         private CoinViewModel _coin;
         private KernelViewModel _selectedResult;
+        private readonly Action<KernelViewModel> _onSelectedKernelChanged;
 
         public ICommand ClearKeyword { get; private set; }
 
-        public KernelSelectViewModel(CoinViewModel coin, bool isExceptedCoin, KernelViewModel selectedKernel) {
+        public KernelSelectViewModel(CoinViewModel coin, bool isExceptedCoin, KernelViewModel selectedKernel, Action<KernelViewModel> onSelectedKernelChanged) {
             _coin = coin;
             _selectedResult = selectedKernel;
+            _onSelectedKernelChanged = onSelectedKernelChanged;
             this.IsExceptedCoin = IsExceptedCoin;
             this.ClearKeyword = new DelegateCommand(() => {
                 this.Keyword = string.Empty;
@@ -26,7 +28,7 @@ namespace NTMiner.Vms {
                 if (_selectedResult != value) {
                     _selectedResult = value;
                     OnPropertyChanged(nameof(SelectedResult));
-                    TopWindow.GetTopWindow()?.Close();
+                    _onSelectedKernelChanged?.Invoke(value);
                 }
             }
         }

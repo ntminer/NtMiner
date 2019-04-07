@@ -527,6 +527,7 @@
 								MinWidth="100" CanUserResize="True" CanUserSort="False" IsReadOnly="True">
 								<DataGridTemplateColumn.Header>
 									<controls:KbButton 
+										x:Name="ButtonAddCoinKernel"
 										Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
 										Command="{Binding Data.CurrentCoin.AddCoinKernel, Source={StaticResource proxy}}" 
 										Background="Transparent" BorderThickness="0"
@@ -674,6 +675,12 @@
 						</DataGrid.Columns>
 					</DataGrid>
 					<TextBlock Visibility="{Binding CurrentCoin.CoinKernels, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Text="沒有记录" Grid.Column="2" Margin="280,239,328,239"></TextBlock>
+					<Popup 
+						x:Name="PopupKernel" 
+						PopupAnimation="Slide" 
+						PlacementTarget="{Binding ElementName=ButtonAddCoinKernel}" 
+						Placement="Bottom" 
+						StaysOpen="False"></Popup>
 				</Grid>
 			</TabItem>
 		</TabControl>

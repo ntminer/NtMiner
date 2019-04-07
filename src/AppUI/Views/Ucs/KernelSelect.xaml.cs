@@ -14,7 +14,9 @@ namespace NTMiner.Views.Ucs {
                 IsDialogWindow = true,
                 CloseVisible = System.Windows.Visibility.Visible
             }, ucFactory: (window) => {
-                var vm = new KernelSelectViewModel(coin, isExceptedCoin: true, selectedKernel: null);
+                var vm = new KernelSelectViewModel(coin, isExceptedCoin: true, selectedKernel: null, onSelectedKernelChanged: selectedResult=> {
+
+                });
                 uc = new KernelSelect(vm);
                 return uc;
             }, fixedSize: true);
