@@ -131,6 +131,9 @@
       <DependentUpon>SplashWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ExtendedNotifyIcon.cs" />
+    <Compile Include="Views\Ucs\CoinSelect.xaml.cs">
+      <DependentUpon>CoinSelect.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Ucs\PoolSelect.xaml.cs">
       <DependentUpon>PoolSelect.xaml</DependentUpon>
     </Compile>
@@ -290,6 +293,7 @@
     <Compile Include="Views\Ucs\MinerProfileOption.xaml.cs">
       <DependentUpon>MinerProfileOption.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Vms\CoinSelectViewModel.cs" />
     <Compile Include="Vms\PoolSelectViewModel.cs" />
     <Compile Include="Vms\CoinKernelSelectViewModel.cs" />
     <Compile Include="Vms\InputSegmentEditViewModel.cs" />
@@ -461,6 +465,10 @@
     <Page Include="Views\SplashWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Ucs\CoinSelect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Ucs\PoolSelect.xaml">
       <Generator>MSBuild:Compile</Generator>
