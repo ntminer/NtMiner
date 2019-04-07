@@ -528,6 +528,7 @@
 								<DataGridTemplateColumn.Header>
 									<controls:KbButton 
 										x:Name="ButtonAddCoinKernel"
+										IsEnabled="{Binding ElementName=PopupKernel,Path=IsOpen, Converter={StaticResource BoolInvertConverter}}"
 										Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
 										Click="ButtonAddCoinKernel_Click"
 										Background="Transparent" BorderThickness="0"
