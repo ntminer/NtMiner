@@ -42,9 +42,9 @@ namespace NTMiner.Views.Ucs {
                 var vm = new KernelSelectViewModel(coin, isExceptedCoin: false, selectedKernel: kernel);
                 uc = new KernelSelect(vm);
                 window.Deactivated += (sender, e) => {
-                    callback?.Invoke(vm.SelectedResult);
                     window.Hide();
                     window.Close();
+                    callback?.Invoke(vm.SelectedResult);
                 };
                 return uc;
             }, fixedSize: true);

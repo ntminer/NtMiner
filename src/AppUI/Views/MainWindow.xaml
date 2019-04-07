@@ -217,6 +217,7 @@
 
 							<WrapPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
 								<controls:KbButton 
+									IsDefault="True"
 									Width="134"
 									Height="44"
 									Command="{Binding StartMine}" 

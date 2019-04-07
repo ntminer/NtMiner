@@ -56,14 +56,12 @@ namespace NTMiner.Views {
                     Owner = null
                 };
                 s_windowDic.Add(vm, window);
-                if (!vm.IsDialogWindow) {
+                if (!vm.IsDialogWindow && vm.HeaderVisible != Visibility.Collapsed) {
                     Windows.Add(vm);
                 }
                 window.Closed += (object sender, EventArgs e) => {
                     s_windowDic.Remove(vm);
-                    if (!vm.IsDialogWindow) {
-                        Windows.Remove(vm);
-                    }
+                    Windows.Remove(vm);
                 };
                 s_windowDicByType.Add(ucType, window);
                 if (s_windowLeftDic.ContainsKey(ucType)) {
