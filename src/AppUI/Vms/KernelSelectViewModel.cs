@@ -64,7 +64,7 @@ namespace NTMiner.Vms {
                     query = KernelViewModels.Current.AllKernels.Where(a => !a.SupportedCoinVms.Contains(Coin)).AsQueryable();
                 }
                 else {
-                    query = Coin.CoinKernels.Select(a => a.Kernel).AsQueryable();
+                    query = Coin.CoinKernels.OrderBy(a => a.SortNumber).Select(a => a.Kernel).AsQueryable();
                 }
                 if (!AppStatic.IsDebugMode) {
                     query = query.Where(a => a.PublishState == PublishStatus.Published);
@@ -76,7 +76,12 @@ namespace NTMiner.Vms {
                             || (!string.IsNullOrEmpty(a.Version) && a.Version.ToLower().Contains(keyword))
                             || (!string.IsNullOrEmpty(a.Notice) && a.Notice.ToLower().Contains(keyword)));
                 }
-                return query.OrderBy(a => a.Code + a.Version).ToList();
+                if (IsExceptedCoin) {
+                    return query.OrderByDescending(a => a.Code + a.Version).ToList();
+                }
+                else {
+                    return query.ToList();
+                }
             }
         }
     }

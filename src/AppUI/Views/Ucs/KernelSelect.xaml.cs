@@ -32,9 +32,9 @@ namespace NTMiner.Views.Ucs {
             }
         }
 
-        public static ContainerWindow ShowWindow(CoinViewModel coin, KernelViewModel kernel) {
+        public static ContainerWindow ShowWindow(CoinViewModel coin, KernelViewModel kernel, Action<KernelViewModel> callback) {
             KernelSelect uc = null;
-            return ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+            var containerWindow = ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "内核选择",
                 IconName = "Icon_Kernel",
                 IsTopMost = true,
@@ -43,8 +43,14 @@ namespace NTMiner.Views.Ucs {
             }, ucFactory: (window) => {
                 var vm = new KernelSelectViewModel(coin, isExceptedCoin: false, selectedKernel: kernel);
                 uc = new KernelSelect(vm);
+                window.Deactivated += (sender, e) => {
+                    callback?.Invoke(vm.SelectedResult);
+                    window.Hide();
+                    window.Close();
+                };
                 return uc;
             }, fixedSize: true);
+            return containerWindow;
         }
 
         public KernelSelectViewModel Vm {
