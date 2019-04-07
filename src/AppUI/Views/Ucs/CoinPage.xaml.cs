@@ -1,4 +1,7 @@
-﻿using NTMiner.Vms;
+﻿using NTMiner.Core;
+using NTMiner.Vms;
+using System;
+using System.Linq;
 using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
@@ -47,6 +50,30 @@ namespace NTMiner.Views.Ucs {
 
         private void KernelDataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
             Wpf.Util.DataGrid_MouseDoubleClick<CoinKernelViewModel>(sender, e);
+        }
+
+        private void ButtonAddCoinKernel_Click(object sender, System.Windows.RoutedEventArgs e) {
+            var coinVm = Vm.CurrentCoin;
+            if (coinVm == null) {
+                return;
+            }
+            bool isExceptedCoin = true;
+            PopupKernel.Child = new KernelSelect(
+                new KernelSelectViewModel(coinVm, isExceptedCoin, null, onSelectedKernelChanged: selectedResult => {
+                    if (selectedResult != null) {
+                        int sortNumber = coinVm.CoinKernels.Count == 0 ? 1 : coinVm.CoinKernels.Max(a => a.SortNumber) + 1;
+                        VirtualRoot.Execute(new AddCoinKernelCommand(new CoinKernelViewModel(Guid.NewGuid()) {
+                            Args = string.Empty,
+                            CoinId = coinVm.Id,
+                            Description = string.Empty,
+                            KernelId = selectedResult.Id,
+                            SortNumber = sortNumber
+                        }));
+                    }
+                    PopupKernel.IsOpen = false;
+                }));
+            PopupKernel.IsOpen = true;
+            VirtualRoot.Happened(new UserActionEvent());
         }
     }
 }

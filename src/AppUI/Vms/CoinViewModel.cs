@@ -50,7 +50,6 @@ namespace NTMiner.Vms {
         public ICommand SortDown { get; private set; }
         public ICommand AddPool { get; private set; }
         public ICommand AddWallet { get; private set; }
-        public ICommand AddCoinKernel { get; private set; }
         public ICommand ViewCoinInfo { get; private set; }
         public ICommand Save { get; private set; }
 
@@ -194,9 +193,6 @@ namespace NTMiner.Vms {
                     CoinId = Id,
                     SortNumber = sortNumber
                 }.Edit.Execute(FormType.Add);
-            });
-            this.AddCoinKernel = new DelegateCommand(() => {
-                KernelSelect.ShowDialog(this);
             });
         }
 

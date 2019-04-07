@@ -39,7 +39,7 @@ namespace NTMiner.Views.Ucs {
             }
             bool isExceptedCoin = false;
             PopupKernel.Child = new KernelSelect(
-                new KernelSelectViewModel(Vm.MinerProfile.CoinVm, isExceptedCoin, selectedKernel, onSelectedKernelChanged: selectedResult=> {
+                new KernelSelectViewModel(coinVm, isExceptedCoin, selectedKernel, onSelectedKernelChanged: selectedResult=> {
                     coinVm.CoinKernel = coinVm.CoinKernels.FirstOrDefault(a => a.Kernel == selectedResult);
                     PopupKernel.IsOpen = false;
                 }));

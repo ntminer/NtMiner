@@ -529,7 +529,7 @@
 									<controls:KbButton 
 										x:Name="ButtonAddCoinKernel"
 										Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-										Command="{Binding Data.CurrentCoin.AddCoinKernel, Source={StaticResource proxy}}" 
+										Click="ButtonAddCoinKernel_Click"
 										Background="Transparent" BorderThickness="0"
 										Margin="2 0"
 										CornerRadius="2" ToolTip="添加">

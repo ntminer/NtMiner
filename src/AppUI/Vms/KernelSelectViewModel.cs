@@ -8,6 +8,7 @@ namespace NTMiner.Vms {
         private string _keyword;
         private CoinViewModel _coin;
         private KernelViewModel _selectedResult;
+        private readonly bool _isExceptedCoin;
         private readonly Action<KernelViewModel> _onSelectedKernelChanged;
 
         public ICommand ClearKeyword { get; private set; }
@@ -16,7 +17,7 @@ namespace NTMiner.Vms {
             _coin = coin;
             _selectedResult = selectedKernel;
             _onSelectedKernelChanged = onSelectedKernelChanged;
-            this.IsExceptedCoin = IsExceptedCoin;
+            _isExceptedCoin = isExceptedCoin;
             this.ClearKeyword = new DelegateCommand(() => {
                 this.Keyword = string.Empty;
             });
@@ -55,14 +56,10 @@ namespace NTMiner.Vms {
             }
         }
 
-        public bool IsExceptedCoin {
-            get; private set;
-        }
-
         public List<KernelViewModel> QueryResults {
             get {
                 IQueryable<KernelViewModel> query;
-                if (IsExceptedCoin) {
+                if (_isExceptedCoin) {
                     query = KernelViewModels.Current.AllKernels.Where(a => !a.SupportedCoinVms.Contains(Coin)).AsQueryable();
                 }
                 else {
@@ -78,7 +75,7 @@ namespace NTMiner.Vms {
                             || (!string.IsNullOrEmpty(a.Version) && a.Version.ToLower().Contains(keyword))
                             || (!string.IsNullOrEmpty(a.Notice) && a.Notice.ToLower().Contains(keyword)));
                 }
-                if (IsExceptedCoin) {
+                if (_isExceptedCoin) {
                     return query.OrderByDescending(a => a.Code + a.Version).ToList();
                 }
                 else {
