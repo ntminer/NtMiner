@@ -37,7 +37,6 @@ namespace NTMiner.Views.Ucs {
             var containerWindow = ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "内核选择",
                 IconName = "Icon_Kernel",
-                HasOwner = true,
                 HeaderVisible = System.Windows.Visibility.Collapsed
             }, ucFactory: (window) => {
                 var vm = new KernelSelectViewModel(coin, isExceptedCoin: false, selectedKernel: kernel);

@@ -29,17 +29,16 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void KbButtonKernel_Clicked(object sender, RoutedEventArgs e) {
+            Window parentWindow = Window.GetWindow(this);
             ContainerWindow window = KernelSelect.ShowWindow(Vm.MinerProfile.CoinVm, Vm.MinerProfile.CoinVm.CoinKernel?.Kernel, callback:kernel=> {
                 if (Vm.MinerProfile.CoinVm.CoinKernel?.Kernel != kernel) {
                     Vm.MinerProfile.CoinVm.CoinKernel = CoinKernelViewModels.Current.AllCoinKernels.FirstOrDefault(a => a.CoinVm == Vm.MinerProfile.CoinVm && a.Kernel == kernel);
                 }
             });
-            Window parentWindow = Window.GetWindow(this);
             var control = ((FrameworkElement)sender);
             Point point = control.TransformToAncestor(parentWindow).Transform(new Point(0, control.Height));
             window.Left = parentWindow.Left + point.X;
             window.Top = parentWindow.Top + point.Y;
-            window.Activate();
             VirtualRoot.Happened(new UserActionEvent());
         }
     }
