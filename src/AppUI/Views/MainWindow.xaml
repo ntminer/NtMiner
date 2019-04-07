@@ -18,6 +18,7 @@
 		MinWidth="800"
 		ResizeBorderThickness="2"
 		d:DesignHeight="700"
+		d:DesignWidth="900"
 		UseNoneWindowStyle="True"
 		BorderBrush="Black"
 		Background="{StaticResource ThemeBackground}"
