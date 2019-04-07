@@ -44,7 +44,7 @@ namespace NTMiner.Core.Gpus.Impl {
                         fightedOn = DateTime.Now;
                         _fightedOnDic.Add(gpu.Index, fightedOn);
                     }
-                    if (gpu.FanSpeed == 100) {
+                    if (gpu.FanSpeed == 100 && gpu.Temperature > _guardTemp) {
                         Write.DevDebug($"GPU{gpu.Index} 温度{gpu.Temperature}大于防线温度{_guardTemp}，但风扇转速已达100%");
                     }
                     else if (gpu.Temperature < _guardTemp) {
