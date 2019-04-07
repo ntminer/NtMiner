@@ -138,28 +138,35 @@
 					</DataGridTemplateColumn>
 					<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
-							<TextBlock Text="名称"></TextBlock>
+							<TextBlock Text="编码"></TextBlock>
 						</DataGridTemplateColumn.Header>
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
-								<StackPanel>
-									<controls:KbLinkButton
-										IsEnabled="{Binding EnName, Converter={StaticResource NotNullOrEmptyBooleanConverter}}"
-										Foreground="#0072C1"
-										ToolTip="{Binding FullName}"
-										Command="{Binding ViewCoinInfo}"
-										Content="{Binding FullName}"
-										KbDisplayLine="False"
-										KbSystemButtonHoverBackground="Transparent"
-										Background="Transparent" />
-									<WrapPanel Visibility="{Binding JustAsDualCoin, Converter={StaticResource BoolToVisibilityConverter}}">
-										<TextBlock Text="仅作为双挖币" Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"></TextBlock>
-									</WrapPanel>
-								</StackPanel>
+								<TextBlock Text="{Binding Code}" />
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-					<DataGridTextColumn Binding="{Binding CodeAlgo}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+						<DataGridTemplateColumn.Header>
+							<TextBlock Text="中文名"></TextBlock>
+						</DataGridTemplateColumn.Header>
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<WrapPanel>
+									<Path
+									ToolTip="仅作为双挖币"
+									Visibility="{Binding JustAsDualCoin, Converter={StaticResource BoolToVisibilityConverter}}"
+									Width="12"
+									Height="12"
+									Data="{StaticResource Icon_DualMine}"
+									Fill="{StaticResource IconFillColor}"
+									Stretch="Fill" />
+									<TextBlock Text="{Binding CnName}" />
+								</WrapPanel>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+					<DataGridTextColumn Binding="{Binding Algo}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 						<DataGridTextColumn.Header>
 							<WrapPanel>
 								<TextBlock Text="算法"></TextBlock>
@@ -167,21 +174,6 @@
 							</WrapPanel>
 						</DataGridTextColumn.Header>
 					</DataGridTextColumn>
-					<DataGridTemplateColumn 
-						CanUserResize="True" CanUserReorder="False" 
-						Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-						CanUserSort="False" IsReadOnly="True">
-						<DataGridTemplateColumn.Header>
-							<WrapPanel>
-								<TextBlock Text="排序"></TextBlock>
-							</WrapPanel>
-						</DataGridTemplateColumn.Header>
-						<DataGridTemplateColumn.CellTemplate>
-							<DataTemplate>
-								<TextBlock Text="{Binding SortNumber}"></TextBlock>
-							</DataTemplate>
-						</DataGridTemplateColumn.CellTemplate>
-					</DataGridTemplateColumn>
 				</DataGrid.Columns>
 			</DataGrid>
 			<TextBlock Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding List, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" Text="沒有记录"></TextBlock>

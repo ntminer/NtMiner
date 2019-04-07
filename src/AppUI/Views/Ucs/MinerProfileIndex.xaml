@@ -358,6 +358,12 @@
 							IsEnabled="{Binding ElementName=PopupKernel,Path=IsOpen,Converter={StaticResource BoolInvertConverter}}"
 							Background="{Binding StateBarVm.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
 							Click="KbButtonKernel_Clicked">
+							<controls:KbButton.ContextMenu>
+								<ContextMenu>
+									<MenuItem Header="编辑" Command="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.Edit}">
+									</MenuItem>
+								</ContextMenu>
+							</controls:KbButton.ContextMenu>
 							<WrapPanel>
 								<TextBlock Padding="0 0 10 0" Foreground="Black" Text="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.FullName}"></TextBlock>
 								<Path

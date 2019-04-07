@@ -50,7 +50,6 @@ namespace NTMiner.Vms {
         public ICommand SortDown { get; private set; }
         public ICommand AddPool { get; private set; }
         public ICommand AddWallet { get; private set; }
-        public ICommand ViewCoinInfo { get; private set; }
         public ICommand Save { get; private set; }
 
         public ICommand AddOverClockData { get; private set; }
@@ -135,9 +134,6 @@ namespace NTMiner.Vms {
                     VirtualRoot.Execute(new AddCoinCommand(this));
                 }
                 CloseWindow?.Invoke();
-            });
-            this.ViewCoinInfo = new DelegateCommand(() => {
-                Process.Start("https://www.feixiaohao.com/currencies/" + this.EnName + "/");
             });
             this.Edit = new DelegateCommand<FormType?>((formType) => {
                 if (this.Id == Guid.Empty) {
