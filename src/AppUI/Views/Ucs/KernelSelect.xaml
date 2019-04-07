@@ -37,10 +37,12 @@
 					SelectedColor="#409EFF" />
 				<controls:KbButton 
 					Height="20"
-					Background="Transparent" BorderThickness="0"
+					Background="Transparent" 
+					BorderThickness="0"
 					Command="{Binding ClearKeyword}"
 					Visibility="{Binding ElementName=TbKeyword,Path=Text, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
-					Margin="-14 0 0 0" HorizontalAlignment="Left">
+					Margin="-14 0 0 0" 
+					HorizontalAlignment="Left">
 					<Path
 						Width="8"
 						Height="8"
@@ -50,6 +52,19 @@
 				</controls:KbButton>
 			</WrapPanel>
 		</Border>
+		<controls:KbButton 
+			Background="Transparent" 
+			BorderThickness="0" 
+			Padding="0 0 4 0"
+			Command="{Binding HideView}"
+			HorizontalAlignment="Right">
+			<Path
+				Width="14"
+				Height="14"
+				Data="{StaticResource Icon_Close}"
+				Fill="Black"
+				Stretch="Fill" />
+		</controls:KbButton>
 		<DataGrid 
 			Grid.Row="1"
 			Margin="0" 

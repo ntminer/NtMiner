@@ -42,7 +42,11 @@ namespace NTMiner.Views.Ucs {
                 new KernelSelectViewModel(coinVm, isExceptedCoin, selectedKernel, onSelectedKernelChanged: selectedResult=> {
                     coinVm.CoinKernel = coinVm.CoinKernels.FirstOrDefault(a => a.Kernel == selectedResult);
                     PopupKernel.IsOpen = false;
-                }));
+                }) {
+                    HideView = new DelegateCommand(() => {
+                        PopupKernel.IsOpen = false;
+                    })
+                });
             PopupKernel.IsOpen = true;
             VirtualRoot.Happened(new UserActionEvent());
         }

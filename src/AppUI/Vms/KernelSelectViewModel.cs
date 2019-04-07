@@ -12,6 +12,7 @@ namespace NTMiner.Vms {
         private readonly Action<KernelViewModel> _onSelectedKernelChanged;
 
         public ICommand ClearKeyword { get; private set; }
+        public ICommand HideView { get; set; }
 
         public KernelSelectViewModel(CoinViewModel coin, bool isExceptedCoin, KernelViewModel selectedKernel, Action<KernelViewModel> onSelectedKernelChanged) {
             _coin = coin;

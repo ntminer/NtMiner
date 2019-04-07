@@ -16,7 +16,7 @@ namespace NTMiner.Views.Ucs {
                 FooterVisible = System.Windows.Visibility.Collapsed,
                 Width = DevMode.IsDebugMode ? 960 : 860,
                 Height = 520
-            }, 
+            },
             ucFactory: (window) => new CoinPage(),
             beforeShow: uc => {
                 if (currentCoin != null) {
@@ -71,7 +71,11 @@ namespace NTMiner.Views.Ucs {
                         }));
                     }
                     PopupKernel.IsOpen = false;
-                }));
+                }) {
+                    HideView = new DelegateCommand(() => {
+                        PopupKernel.IsOpen = false;
+                    })
+                });
             PopupKernel.IsOpen = true;
             VirtualRoot.Happened(new UserActionEvent());
         }
