@@ -349,12 +349,23 @@
 						Style="{StaticResource LblTb}"
 						Text="内核" />
 					<controls:KbButton 
-						BorderThickness="0"
 						x:Name="ButtonKernel"
+						Padding="4 0"
+						BorderThickness="1"
+						BorderBrush="{StaticResource LineColor}"
 						Height="30"
+						Background="{Binding StateBarVm.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
 						Click="KbButtonKernel_Clicked"
-						IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}"
-						Content="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.FullName}">
+						IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}">
+						<WrapPanel>
+							<TextBlock Padding="0 0 10 0" Text="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.FullName}"></TextBlock>
+							<Path
+								Width="14"
+								Height="8"
+								Data="{StaticResource Icon_Menu}"
+								Fill="{StaticResource LableColor}"
+								Stretch="Fill" />
+						</WrapPanel>
 					</controls:KbButton>
 					<Popup 
 						x:Name="PopupKernel" 
