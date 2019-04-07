@@ -362,10 +362,10 @@
 								<TextBlock Padding="0 0 10 0" Foreground="Black" Text="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.FullName}"></TextBlock>
 								<Path
 									Margin="0 2 0 0"
-									Width="14"
-									Height="10"
-									Data="{StaticResource Icon_Menu}"
-									Fill="{StaticResource LableColor}"
+									Width="12"
+									Height="8"
+									Data="{StaticResource Icon_ComboBoxToogle}"
+									Fill="Black"
 									Stretch="Fill" />
 							</WrapPanel>
 						</controls:KbButton>

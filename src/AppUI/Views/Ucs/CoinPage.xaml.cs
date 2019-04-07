@@ -77,7 +77,6 @@ namespace NTMiner.Views.Ucs {
                     })
                 });
             PopupKernel.IsOpen = true;
-            VirtualRoot.Happened(new UserActionEvent());
         }
     }
 }
