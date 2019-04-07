@@ -69,8 +69,8 @@ namespace NTMiner.Views.Ucs {
                             KernelId = selectedResult.Id,
                             SortNumber = sortNumber
                         }));
+                        PopupKernel.IsOpen = false;
                     }
-                    PopupKernel.IsOpen = false;
                 }) {
                     HideView = new DelegateCommand(() => {
                         PopupKernel.IsOpen = false;
