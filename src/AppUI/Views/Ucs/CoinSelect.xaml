@@ -11,7 +11,7 @@
 		BorderBrush="{StaticResource LineColor}"
 		BorderThickness="1"
 		Background="White"
-		mc:Ignorable="d" Height="320" Width="500">
+		mc:Ignorable="d" Height="320" Width="400">
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"></RowDefinition>
@@ -61,7 +61,7 @@
 				Click="KbButtonManageCoins_Click"
 				Background="{StaticResource ThemeBackground}"
 				Command="{x:Static vm:AppStatic.ShowCoins}"
-				CommandParameter="{Binding Coin}"
+				CommandParameter="{Binding SelectedResult}"
 				CornerRadius="2">
 				<WrapPanel>
 					<Path
@@ -104,7 +104,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn Width="*" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock 

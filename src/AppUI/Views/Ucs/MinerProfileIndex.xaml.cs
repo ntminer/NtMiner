@@ -93,5 +93,23 @@ namespace NTMiner.Views.Ucs {
             popup.IsOpen = true;
             VirtualRoot.Happened(new UserActionEvent());
         }
+
+        private void KbButtonMainCoin_Clicked(object sender, RoutedEventArgs e) {
+            var popup = PopupMainCoin;
+            var selected = Vm.MinerProfile.CoinVm;
+            popup.Child = new CoinSelect(
+                new CoinSelectViewModel(Vm.CoinVms.MainCoins, selected, onSelectedChanged: selectedResult => {
+                    if (selectedResult != null) {
+                        Vm.MinerProfile.CoinVm = selectedResult;
+                        popup.IsOpen = false;
+                    }
+                }) {
+                    HideView = new DelegateCommand(() => {
+                        popup.IsOpen = false;
+                    })
+                });
+            popup.IsOpen = true;
+            VirtualRoot.Happened(new UserActionEvent());
+        }
     }
 }
