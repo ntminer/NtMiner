@@ -35,7 +35,7 @@ namespace NTMiner.Views.Ucs {
             }
             var selectedKernel = coinVm.CoinKernel;
             PopupKernel.Child = new CoinKernelSelect(
-                new CoinKernelSelectViewModel(coinVm, selectedKernel, onSelectedKernelChanged: selectedResult=> {
+                new CoinKernelSelectViewModel(coinVm, selectedKernel, onSelectedChanged: selectedResult=> {
                     if (selectedResult != null) {
                         coinVm.CoinKernel = coinVm.CoinKernels.FirstOrDefault(a => a == selectedResult);
                         PopupKernel.IsOpen = false;
