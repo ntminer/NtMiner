@@ -11,7 +11,7 @@
 		BorderBrush="{StaticResource LineColor}"
 		BorderThickness="1"
 		Background="White"
-		mc:Ignorable="d" Height="320" Width="300">
+		mc:Ignorable="d" Height="320" Width="400">
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"></RowDefinition>
@@ -41,6 +41,7 @@
 				BorderThickness="0"
 				Height="24"
 				Padding="4 0"
+				Click="KbButtonManagePools_Click"
 				Background="{StaticResource ThemeBackground}"
 				Command="{x:Static vm:AppStatic.ManagePools}"
 				CommandParameter="{Binding Coin}"

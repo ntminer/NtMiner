@@ -13,5 +13,9 @@ namespace NTMiner.Views.Ucs {
             this.DataContext = vm;
             InitializeComponent();
         }
+
+        private void KbButtonManagePools_Click(object sender, System.Windows.RoutedEventArgs e) {
+            Vm.HideView?.Execute(null);
+        }
     }
 }

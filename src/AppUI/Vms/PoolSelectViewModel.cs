@@ -9,7 +9,6 @@ namespace NTMiner.Vms {
         private PoolViewModel _selectedResult;
         private readonly Action<PoolViewModel> _onSelectedChanged;
 
-        public ICommand ClearKeyword { get; private set; }
         public ICommand HideView { get; set; }
 
         public PoolSelectViewModel(CoinViewModel coin, PoolViewModel selected, Action<PoolViewModel> onSelectedChanged) {
