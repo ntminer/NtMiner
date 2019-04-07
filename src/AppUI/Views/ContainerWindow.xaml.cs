@@ -161,13 +161,13 @@ namespace NTMiner.Views {
         public void ShowWindow(Action<UserControl> beforeShow = null) {
             beforeShow?.Invoke(_uc);
             if (Vm.IsDialogWindow || Vm.HasOwner) {
+                this.ShowInTaskbar = false;
                 var owner = TopWindow.GetTopWindow();
                 if (this != owner && owner != null) {
                     this.Owner = owner;
                 }
             }
             if (Vm.IsDialogWindow) {
-                this.ShowInTaskbar = false;
                 this.WindowStartupLocation = WindowStartupLocation.CenterOwner;
                 if (this.Owner != null) {
                     double ownerOpacity = this.Owner.Opacity;
@@ -181,9 +181,6 @@ namespace NTMiner.Views {
             }
             else {
                 this.Topmost = Vm.IsTopMost;
-                if (Vm.IsTopMost) {
-                    this.ShowInTaskbar = false;
-                }
                 this.ShowActivated = true;
                 this.Show();
                 if (this.WindowState == WindowState.Minimized) {
