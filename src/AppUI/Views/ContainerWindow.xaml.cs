@@ -161,11 +161,13 @@ namespace NTMiner.Views {
         public void ShowWindow(Action<UserControl> beforeShow = null) {
             beforeShow?.Invoke(_uc);
             if (Vm.IsDialogWindow || Vm.HasOwner) {
-                this.ShowInTaskbar = false;
                 var owner = TopWindow.GetTopWindow();
                 if (this != owner && owner != null) {
                     this.Owner = owner;
                 }
+            }
+            if (Vm.IsDialogWindow || Vm.HasOwner || Vm.HeaderVisible == Visibility.Collapsed) {
+                this.ShowInTaskbar = false;
             }
             if (Vm.IsDialogWindow) {
                 this.WindowStartupLocation = WindowStartupLocation.CenterOwner;
