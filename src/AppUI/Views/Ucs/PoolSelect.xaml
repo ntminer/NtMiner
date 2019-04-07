@@ -8,10 +8,12 @@
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:vm="clr-namespace:NTMiner.Vms"
-		BorderBrush="{StaticResource LineColor}"
+		BorderBrush="Black"
 		BorderThickness="1"
 		Background="White"
-		mc:Ignorable="d" Height="320" Width="500">
+		mc:Ignorable="d" 
+		d:DesignHeight="300"
+		MaxHeight="320" Width="300">
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"></RowDefinition>
@@ -103,10 +105,7 @@
 									Data="{StaticResource Icon_User}"
 									Fill="{StaticResource IconFillColor}"
 									Stretch="Fill" />
-								<StackPanel>
-									<TextBlock Text="{Binding Server}" FontWeight="Bold" ToolTip="矿池地址"></TextBlock>
-									<TextBlock Text="{Binding Url}" ToolTip="收益查看地址"></TextBlock>
-								</StackPanel>
+								<TextBlock Text="{Binding Server}" FontWeight="Bold" ToolTip="矿池地址"></TextBlock>
 							</WrapPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
