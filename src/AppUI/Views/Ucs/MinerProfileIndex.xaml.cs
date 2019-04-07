@@ -111,5 +111,26 @@ namespace NTMiner.Views.Ucs {
             popup.IsOpen = true;
             VirtualRoot.Happened(new UserActionEvent());
         }
+
+        private void KbButtonDualCoin_Clicked(object sender, RoutedEventArgs e) {
+            if (Vm.MinerProfile.CoinVm == null || Vm.MinerProfile.CoinVm.CoinKernel == null) {
+                return;
+            }
+            var popup = PopupDualCoin;
+            var selected = Vm.MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin;
+            popup.Child = new CoinSelect(
+                new CoinSelectViewModel(Vm.MinerProfile.CoinVm.CoinKernel.DualCoinGroup.DualCoinVms, selected, onSelectedChanged: selectedResult => {
+                    if (selectedResult != null) {
+                        Vm.MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin = selectedResult;
+                        popup.IsOpen = false;
+                    }
+                }) {
+                    HideView = new DelegateCommand(() => {
+                        popup.IsOpen = false;
+                    })
+                });
+            popup.IsOpen = true;
+            VirtualRoot.Happened(new UserActionEvent());
+        }
     }
 }
