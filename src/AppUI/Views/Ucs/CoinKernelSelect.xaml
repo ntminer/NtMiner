@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="NTMiner.Views.Ucs.KernelSelect"
+﻿<UserControl x:Class="NTMiner.Views.Ucs.CoinKernelSelect"
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -72,9 +72,6 @@
 			SelectedItem="{Binding SelectedResult}"
 			ColumnHeaderHeight="0"
 			BorderThickness="0">
-			<DataGrid.Resources>
-				<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
-			</DataGrid.Resources>
 			<DataGrid.Columns>
 				<DataGridTemplateColumn Width="*" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
@@ -85,13 +82,13 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel>
-								<TextBlock Text="{Binding FullName}" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"></TextBlock>
+								<TextBlock Text="{Binding Kernel.FullName}" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"></TextBlock>
 								<Path
 									Margin="4 0 0 0"
 									Width="12"
 									Height="12"
 									ToolTip="支持双挖"
-									Visibility="{Binding KernelInputVm.IsSupportDualMine,Converter={StaticResource BoolToVisibilityConverter}}"
+									Visibility="{Binding Kernel.KernelInputVm.IsSupportDualMine,Converter={StaticResource BoolToVisibilityConverter}}"
 									Data="{StaticResource Icon_DualMine}"
 									Fill="{StaticResource IconFillColor}"
 									Stretch="Fill" />

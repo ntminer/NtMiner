@@ -4,16 +4,16 @@ using System.Linq;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class KernelSelectViewModel : ViewModelBase {
+    public class CoinKernelSelectViewModel : ViewModelBase {
         private string _keyword;
         private CoinViewModel _coin;
-        private KernelViewModel _selectedResult;
-        private readonly Action<KernelViewModel> _onSelectedKernelChanged;
+        private CoinKernelViewModel _selectedResult;
+        private readonly Action<CoinKernelViewModel> _onSelectedKernelChanged;
 
         public ICommand ClearKeyword { get; private set; }
         public ICommand HideView { get; set; }
 
-        public KernelSelectViewModel(CoinViewModel coin, KernelViewModel selectedKernel, Action<KernelViewModel> onSelectedKernelChanged) {
+        public CoinKernelSelectViewModel(CoinViewModel coin, CoinKernelViewModel selectedKernel, Action<CoinKernelViewModel> onSelectedKernelChanged) {
             _coin = coin;
             _selectedResult = selectedKernel;
             _onSelectedKernelChanged = onSelectedKernelChanged;
@@ -22,7 +22,7 @@ namespace NTMiner.Vms {
             });
         }
 
-        public KernelViewModel SelectedResult {
+        public CoinKernelViewModel SelectedResult {
             get => _selectedResult;
             set {
                 if (_selectedResult != value) {
@@ -55,20 +55,20 @@ namespace NTMiner.Vms {
             }
         }
 
-        public List<KernelViewModel> QueryResults {
+        public List<CoinKernelViewModel> QueryResults {
             get {
-                IQueryable<KernelViewModel> query = KernelViewModels.Current.AllKernels.Where(a => !a.SupportedCoinVms.Contains(Coin)).AsQueryable();
+                IQueryable<CoinKernelViewModel> query = Coin.CoinKernels.Where(a => a.Kernel != null).OrderBy(a => a.SortNumber).AsQueryable();
                 if (!AppStatic.IsDebugMode) {
-                    query = query.Where(a => a.PublishState == PublishStatus.Published);
+                    query = query.Where(a => a.Kernel.PublishState == PublishStatus.Published);
                 }
                 if (!string.IsNullOrEmpty(Keyword)) {
                     string keyword = this.Keyword.ToLower();
                     query = query.
-                        Where(a => (!string.IsNullOrEmpty(a.Code) && a.Code.ToLower().Contains(keyword))
-                            || (!string.IsNullOrEmpty(a.Version) && a.Version.ToLower().Contains(keyword))
-                            || (!string.IsNullOrEmpty(a.Notice) && a.Notice.ToLower().Contains(keyword)));
+                        Where(a => (!string.IsNullOrEmpty(a.Kernel.Code) && a.Kernel.Code.ToLower().Contains(keyword))
+                            || (!string.IsNullOrEmpty(a.Kernel.Version) && a.Kernel.Version.ToLower().Contains(keyword))
+                            || (!string.IsNullOrEmpty(a.Kernel.Notice) && a.Kernel.Notice.ToLower().Contains(keyword)));
                 }
-                return query.OrderByDescending(a => a.Code + a.Version).ToList();
+                return query.ToList();
             }
         }
     }

@@ -57,9 +57,8 @@ namespace NTMiner.Views.Ucs {
             if (coinVm == null) {
                 return;
             }
-            bool isExceptedCoin = true;
             PopupKernel.Child = new KernelSelect(
-                new KernelSelectViewModel(coinVm, isExceptedCoin, null, onSelectedKernelChanged: selectedResult => {
+                new KernelSelectViewModel(coinVm, null, onSelectedKernelChanged: selectedResult => {
                     if (selectedResult != null) {
                         int sortNumber = coinVm.CoinKernels.Count == 0 ? 1 : coinVm.CoinKernels.Max(a => a.SortNumber) + 1;
                         VirtualRoot.Execute(new AddCoinKernelCommand(new CoinKernelViewModel(Guid.NewGuid()) {

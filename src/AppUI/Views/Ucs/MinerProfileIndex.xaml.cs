@@ -33,15 +33,11 @@ namespace NTMiner.Views.Ucs {
             if (coinVm == null) {
                 return;
             }
-            var selectedKernel = coinVm.CoinKernel?.Kernel;
-            if (selectedKernel == null) {
-                return;
-            }
-            bool isExceptedCoin = false;
-            PopupKernel.Child = new KernelSelect(
-                new KernelSelectViewModel(coinVm, isExceptedCoin, selectedKernel, onSelectedKernelChanged: selectedResult=> {
+            var selectedKernel = coinVm.CoinKernel;
+            PopupKernel.Child = new CoinKernelSelect(
+                new CoinKernelSelectViewModel(coinVm, selectedKernel, onSelectedKernelChanged: selectedResult=> {
                     if (selectedResult != null) {
-                        coinVm.CoinKernel = coinVm.CoinKernels.FirstOrDefault(a => a.Kernel == selectedResult);
+                        coinVm.CoinKernel = coinVm.CoinKernels.FirstOrDefault(a => a == selectedResult);
                         PopupKernel.IsOpen = false;
                     }
                 }) {
