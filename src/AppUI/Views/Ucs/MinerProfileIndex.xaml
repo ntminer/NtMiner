@@ -38,7 +38,7 @@
 							BorderBrush="{StaticResource LineColor}"
 							Height="30"							
 							IsEnabled="{Binding ElementName=PopupMainCoin,Path=IsOpen,Converter={StaticResource BoolInvertConverter}}"
-							Background="{Binding StateBarVm.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
+							Background="#E1E1E1"
 							Click="KbButtonMainCoin_Clicked">
 							<controls:KbButton.ContextMenu>
 								<ContextMenu>
@@ -80,7 +80,7 @@
 							ToolTip="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.Description}"
 							Height="30"							
 							IsEnabled="{Binding ElementName=PopupMainCoinPool,Path=IsOpen,Converter={StaticResource BoolInvertConverter}}"
-							Background="{Binding StateBarVm.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
+							Background="#E1E1E1"
 							Click="KbButtonMainCoinPool_Clicked">
 							<controls:KbButton.ContextMenu>
 								<ContextMenu>
@@ -327,7 +327,7 @@
 							BorderBrush="{StaticResource LineColor}"
 							Height="30"
 							IsEnabled="{Binding ElementName=PopupKernel,Path=IsOpen,Converter={StaticResource BoolInvertConverter}}"
-							Background="{Binding StateBarVm.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
+							Background="#E1E1E1"
 							Click="KbButtonKernel_Clicked">
 							<controls:KbButton.ContextMenu>
 								<ContextMenu>
@@ -416,7 +416,7 @@
 									BorderBrush="{StaticResource LineColor}"
 									Height="30"							
 									IsEnabled="{Binding ElementName=PopupDualCoin,Path=IsOpen,Converter={StaticResource BoolInvertConverter}}"
-									Background="{Binding StateBarVm.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
+									Background="#E1E1E1"
 									Click="KbButtonDualCoin_Clicked">
 									<controls:KbButton.ContextMenu>
 										<ContextMenu>
@@ -458,7 +458,7 @@
 									ToolTip="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.Description}"
 									Height="30"							
 									IsEnabled="{Binding ElementName=PopupDualCoinPool,Path=IsOpen,Converter={StaticResource BoolInvertConverter}}"
-									Background="{Binding StateBarVm.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
+									Background="#E1E1E1"
 									Click="KbButtonDualCoinPool_Clicked">
 									<controls:KbButton.ContextMenu>
 										<ContextMenu>
