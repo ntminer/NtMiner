@@ -32,25 +32,6 @@ namespace NTMiner.Views.Ucs {
             }
         }
 
-        public static ContainerWindow ShowWindow(CoinViewModel coin, KernelViewModel kernel, Action<KernelViewModel> callback) {
-            KernelSelect uc = null;
-            var containerWindow = ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                Title = "内核选择",
-                IconName = "Icon_Kernel",
-                HeaderVisible = System.Windows.Visibility.Collapsed
-            }, ucFactory: (window) => {
-                var vm = new KernelSelectViewModel(coin, isExceptedCoin: false, selectedKernel: kernel);
-                uc = new KernelSelect(vm);
-                window.Deactivated += (sender, e) => {
-                    window.Hide();
-                    window.Close();
-                    callback?.Invoke(vm.SelectedResult);
-                };
-                return uc;
-            }, fixedSize: true);
-            return containerWindow;
-        }
-
         public KernelSelectViewModel Vm {
             get {
                 return (KernelSelectViewModel)this.DataContext;

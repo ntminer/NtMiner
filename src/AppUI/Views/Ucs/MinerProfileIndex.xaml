@@ -350,12 +350,18 @@
 						Text="内核" />
 					<controls:KbButton 
 						BorderThickness="0"
-						x:Name="CbKernel"
+						x:Name="ButtonKernel"
 						Height="30"
 						Click="KbButtonKernel_Clicked"
 						IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}"
 						Content="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.FullName}">
 					</controls:KbButton>
+					<Popup 
+						x:Name="PopupKernel" 
+						PopupAnimation="Slide" 
+						PlacementTarget="{Binding ElementName=ButtonKernel}" 
+						Placement="Bottom" 
+						StaysOpen="False"></Popup>
 					<WrapPanel 
 						Margin="4 0 0 0"
 						VerticalAlignment="Center"

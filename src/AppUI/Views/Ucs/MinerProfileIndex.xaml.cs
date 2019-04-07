@@ -1,5 +1,4 @@
 ﻿using NTMiner.Vms;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -29,16 +28,17 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void KbButtonKernel_Clicked(object sender, RoutedEventArgs e) {
-            Window parentWindow = Window.GetWindow(this);
-            ContainerWindow window = KernelSelect.ShowWindow(Vm.MinerProfile.CoinVm, Vm.MinerProfile.CoinVm.CoinKernel?.Kernel, callback:kernel=> {
-                if (Vm.MinerProfile.CoinVm.CoinKernel?.Kernel != kernel) {
-                    Vm.MinerProfile.CoinVm.CoinKernel = CoinKernelViewModels.Current.AllCoinKernels.FirstOrDefault(a => a.CoinVm == Vm.MinerProfile.CoinVm && a.Kernel == kernel);
-                }
-            });
-            var control = ((FrameworkElement)sender);
-            Point point = control.TransformToAncestor(parentWindow).Transform(new Point(0, control.Height));
-            window.Left = parentWindow.Left + point.X;
-            window.Top = parentWindow.Top + point.Y;
+            var coinVm = Vm.MinerProfile.CoinVm;
+            if (coinVm == null) {
+                return;
+            }
+            var selectedKernel = coinVm.CoinKernel?.Kernel;
+            if (selectedKernel == null) {
+                return;
+            }
+            bool isExceptedCoin = false;
+            PopupKernel.Child = new KernelSelect(new KernelSelectViewModel(Vm.MinerProfile.CoinVm, isExceptedCoin, selectedKernel));
+            PopupKernel.IsOpen = true;
             VirtualRoot.Happened(new UserActionEvent());
         }
     }
