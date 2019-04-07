@@ -81,16 +81,10 @@
 				<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<StackPanel>
-								<TextBlock 
-									Text="{Binding Name}" 
-									ToolTip="{Binding Name}"
-									VerticalAlignment="Center"></TextBlock>
-								<TextBlock 
-									Visibility="{Binding IsUserMode, Converter={StaticResource BoolToVisibilityConverter}}"
-									Text="用户名密码模式" 
-									VerticalAlignment="Center"></TextBlock>
-							</StackPanel>
+							<TextBlock 
+								Text="{Binding Name}" 
+								ToolTip="{Binding Name}"
+								VerticalAlignment="Center"></TextBlock>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
@@ -100,10 +94,20 @@
 					</DataGridTemplateColumn.Header>
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<StackPanel>
-								<TextBlock Text="{Binding Server}" FontWeight="Bold" ToolTip="矿池地址"></TextBlock>
-								<TextBlock Text="{Binding Url}" ToolTip="收益查看地址"></TextBlock>
-							</StackPanel>
+							<WrapPanel>
+								<Path
+									Width="18"
+									Height="18"
+									ToolTip="用户名密码模式"
+									Visibility="{Binding IsUserMode, Converter={StaticResource BoolToVisibilityConverter}}"
+									Data="{StaticResource Icon_User}"
+									Fill="{StaticResource IconFillColor}"
+									Stretch="Fill" />
+								<StackPanel>
+									<TextBlock Text="{Binding Server}" FontWeight="Bold" ToolTip="矿池地址"></TextBlock>
+									<TextBlock Text="{Binding Url}" ToolTip="收益查看地址"></TextBlock>
+								</StackPanel>
+							</WrapPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>

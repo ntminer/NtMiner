@@ -81,18 +81,7 @@
 					</DataGridTemplateColumn.Header>
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<WrapPanel>
-								<TextBlock Text="{Binding Kernel.FullName}" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"></TextBlock>
-								<Path
-									Margin="4 0 0 0"
-									Width="12"
-									Height="12"
-									ToolTip="支持双挖"
-									Visibility="{Binding Kernel.KernelInputVm.IsSupportDualMine,Converter={StaticResource BoolToVisibilityConverter}}"
-									Data="{StaticResource Icon_DualMine}"
-									Fill="{StaticResource IconFillColor}"
-									Stretch="Fill" />
-							</WrapPanel>
+							<TextBlock Text="{Binding Kernel.FullName}" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"></TextBlock>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
@@ -122,6 +111,24 @@
 									Fill="Red"
 									Stretch="Fill" />
 							</WrapPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<TextBlock>双挖</TextBlock>
+					</DataGridTemplateColumn.Header>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<Path
+								Margin="4 0 0 0"
+								Width="12"
+								Height="12"
+								ToolTip="支持双挖"
+								Visibility="{Binding Kernel.KernelInputVm.IsSupportDualMine,Converter={StaticResource BoolToVisibilityConverter}}"
+								Data="{StaticResource Icon_DualMine}"
+								Fill="{StaticResource IconFillColor}"
+								Stretch="Fill" />
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
