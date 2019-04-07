@@ -71,5 +71,27 @@ namespace NTMiner.Views.Ucs {
             popup.IsOpen = true;
             VirtualRoot.Happened(new UserActionEvent());
         }
+
+        private void KbButtonDualCoinPool_Clicked(object sender, RoutedEventArgs e) {
+            var coinVm = Vm.MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin;
+            if (coinVm == null) {
+                return;
+            }
+            var popup = PopupDualCoinPool;
+            var selected = coinVm.CoinProfile.DualCoinPool;
+            popup.Child = new PoolSelect(
+                new PoolSelectViewModel(coinVm, selected, onSelectedChanged: selectedResult => {
+                    if (selectedResult != null) {
+                        coinVm.CoinProfile.DualCoinPool = selectedResult;
+                        popup.IsOpen = false;
+                    }
+                }) {
+                    HideView = new DelegateCommand(() => {
+                        popup.IsOpen = false;
+                    })
+                });
+            popup.IsOpen = true;
+            VirtualRoot.Happened(new UserActionEvent());
+        }
     }
 }
