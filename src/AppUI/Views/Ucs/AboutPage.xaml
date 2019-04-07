@@ -10,17 +10,6 @@
 		xmlns:vm="clr-namespace:NTMiner.Vms"
 		DataContext="{x:Static vm:AboutPageViewModel.Current}"
 		mc:Ignorable="d" Height="320" Width="520">
-	<UserControl.Resources>
-		<sys:String x:Key="WindowTitle">
-			WindowTitle
-		</sys:String>
-		<sys:String x:Key="AboutContent">
-			AboutContent
-		</sys:String>
-		<sys:String x:Key="Copyright">
-			Copyright
-		</sys:String>
-	</UserControl.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*"></RowDefinition>

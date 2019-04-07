@@ -23,21 +23,6 @@
         <ResourceDictionary>
             <PathGeometry x:Key="Icon" Figures="{x:Null}">
             </PathGeometry>
-            <sys:String x:Key="Title">
-                Title
-            </sys:String>
-            <sys:String x:Key="Message">
-                Message
-            </sys:String>
-            <sys:String x:Key="OK">
-                OK
-            </sys:String>
-            <sys:String x:Key="Yes">
-                Yes
-            </sys:String>
-            <sys:String x:Key="No">
-                No
-            </sys:String>
         </ResourceDictionary>
     </metro:MetroWindow.Resources>
     <Grid> 
@@ -57,14 +42,14 @@
                     Data="{DynamicResource Icon}"
                     Stretch="Fill"/>
                 <TextBlock
-                    Text="{DynamicResource Title}"
+                    x:Name="TextBlockTitle"
                     Foreground="{StaticResource ThemeForeground}"
                     Margin="4 4 0 0"
                     FontSize="16" />
             </WrapPanel>
         </DockPanel>
         <StackPanel Grid.Row="1" Margin="10 20 10 10" HorizontalAlignment="Center" VerticalAlignment="Top">
-            <TextBlock Text="{DynamicResource Message}" VerticalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+            <TextBlock x:Name="TextBlockMessage" VerticalAlignment="Center" TextWrapping="Wrap"></TextBlock>
         </StackPanel>
         <WrapPanel Grid.Row="2" HorizontalAlignment="Center" Margin="0 0 0 30">
             <controls:KbButton 
@@ -87,7 +72,7 @@
                         FontSize="14"
                         Foreground="{StaticResource ThemeForeground}"
                         VerticalAlignment="Center"
-                        Content="{DynamicResource OK}" />
+                        Content="好" />
                 </WrapPanel>
             </controls:KbButton>
             <controls:KbButton 
@@ -111,7 +96,7 @@
                         FontSize="14"
                         Foreground="{StaticResource ThemeForeground}"
                         VerticalAlignment="Center"
-                        Content="{DynamicResource Yes}" />
+                        Content="是" />
                 </WrapPanel>
             </controls:KbButton>
             <controls:KbButton 
@@ -134,7 +119,7 @@
                         FontSize="14"
                         Foreground="White"
                         VerticalAlignment="Center"
-                        Content="{DynamicResource No}" />
+                        Content="否" />
                 </WrapPanel>
             </controls:KbButton>
         </WrapPanel>

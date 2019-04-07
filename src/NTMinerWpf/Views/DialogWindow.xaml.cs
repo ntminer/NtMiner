@@ -36,8 +36,8 @@ namespace NTMiner.Views {
             Action onYes, 
             Action onNo) {
             InitializeComponent();
-            this.Resources["Title"] = title;
-            this.Resources["Message"] = message;
+            this.TextBlockTitle.Text = title;
+            this.TextBlockMessage.Text = message;
             if (!string.IsNullOrEmpty(icon) && Application.Current.Resources.Contains(icon)) {
                 this.Resources["Icon"] = Application.Current.Resources[icon];
             }
