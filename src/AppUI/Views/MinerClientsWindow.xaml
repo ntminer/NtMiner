@@ -11,6 +11,7 @@
 		xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:vm="clr-namespace:NTMiner.Vms"
 		UseNoneWindowStyle="True"
+		WindowTransitionsEnabled="False"
 		BorderBrush="Black"
 		Background="{StaticResource ThemeBackground}"
 		WindowState="Maximized"

@@ -11,6 +11,7 @@
 		xmlns:vm="clr-namespace:NTMiner.Vms"
 		mc:Ignorable="d"
 		Title="开源矿工"
+		WindowTransitionsEnabled="False"
 		Width="{Binding Width}"
 		Height="{Binding Height}"
 		MinHeight="480"

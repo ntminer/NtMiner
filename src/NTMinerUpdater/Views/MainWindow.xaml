@@ -7,6 +7,7 @@
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 		xmlns:vm="clr-namespace:NTMiner.Vms"
 		mc:Ignorable="d"
+		WindowTransitionsEnabled="False"
 		UseNoneWindowStyle="True"
 		ResizeMode="NoResize"
 		Background="{StaticResource ThemeBackground}"
