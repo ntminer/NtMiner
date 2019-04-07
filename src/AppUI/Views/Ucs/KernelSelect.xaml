@@ -11,7 +11,7 @@
 		BorderBrush="{StaticResource LineColor}"
 		BorderThickness="1"
 		Background="White"
-		mc:Ignorable="d" Height="320" Width="500">
+		mc:Ignorable="d" Height="320" Width="300">
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"></RowDefinition>
@@ -80,13 +80,33 @@
 					<DataGridTemplateColumn.Header>
 						<WrapPanel>
 							<TextBlock>编码</TextBlock>
-							<TextBlock Margin="4 0 0 0" Text="{Binding Data.QueryResults.Count, Source={StaticResource proxy}}"></TextBlock>
+							<TextBlock Margin="4 0 0 0" Text="{Binding QueryResults.Count, Source={StaticResource proxy}}"></TextBlock>
 						</WrapPanel>
 					</DataGridTemplateColumn.Header>
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel>
 								<TextBlock Text="{Binding FullName}" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"></TextBlock>
+								<Path
+									Margin="4 0 0 0"
+									Width="12"
+									Height="12"
+									ToolTip="支持双挖"
+									Visibility="{Binding KernelInputVm.IsSupportDualMine,Converter={StaticResource BoolToVisibilityConverter}}"
+									Data="{StaticResource Icon_DualMine}"
+									Fill="{StaticResource IconFillColor}"
+									Stretch="Fill" />
+							</WrapPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn Width="54" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<TextBlock>显卡</TextBlock>
+					</DataGridTemplateColumn.Header>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<WrapPanel>
 								<Path
 									Margin="4 0 0 0"
 									Width="18"
@@ -109,8 +129,6 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="发布时间" Binding="{Binding PublishOnText}">
-				</DataGridTextColumn>
 			</DataGrid.Columns>
 		</DataGrid>
 		<TextBlock Grid.Row="1" Visibility="{Binding QueryResults, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center">没有记录</TextBlock>
