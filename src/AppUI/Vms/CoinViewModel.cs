@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 
@@ -55,6 +56,7 @@ namespace NTMiner.Vms {
         public ICommand AddPool { get; private set; }
         public ICommand AddWallet { get; private set; }
         public ICommand Save { get; private set; }
+        public ICommand BrowseIcon { get; private set; }
 
         public ICommand AddOverClockData { get; private set; }
 
@@ -109,6 +111,19 @@ namespace NTMiner.Vms {
 
         public CoinViewModel(Guid id) {
             _id = id;
+            this.BrowseIcon = new DelegateCommand(() => {
+                OpenFileDialog openFileDialog = new OpenFileDialog {
+                    InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+                    Filter = "png (*.png)|*.png",
+                    FilterIndex = 1
+                };
+                if (openFileDialog.ShowDialog() == DialogResult.OK) {
+                    string iconFileFullName = openFileDialog.FileName;
+                    this.IconImageSource = new BitmapImage(new Uri(iconFileFullName, UriKind.Absolute));
+                    string pngFileName = Path.GetFileName(iconFileFullName);
+                    this.Icon = pngFileName;
+                }
+            });
             this.ApplyTemplateOverClock = new DelegateCommand<OverClockDataViewModel>((data) => {
                 DialogWindow.ShowDialog(message: data.Tooltip, title: "确定应用该超频设置吗？", onYes: () => {
                     FillOverClock(data);
@@ -357,18 +372,15 @@ namespace NTMiner.Vms {
             }
         }
 
-        public string GetIconFileFullName() {
-            if (string.IsNullOrEmpty(this.Icon)) {
-                return string.Empty;
-            }
-            string iconFileFullName = Path.Combine(SpecialPath.CoinIconsDirFullName, this.Icon);
-            return iconFileFullName;
-        }
-
         public void RefreshIcon() {
-            string iconFileFullName = GetIconFileFullName();
+            string iconFileFullName = this.GetIconFileFullName();
             // 如果磁盘上存在则不再下载，所以如果要更新币种图标则需重命名Icon文件
-            if (string.IsNullOrEmpty(iconFileFullName) || File.Exists(iconFileFullName)) {
+            if (string.IsNullOrEmpty(iconFileFullName)) {
+                return;
+            }
+            if (File.Exists(iconFileFullName)) {
+                // Icon文件已存在，直接下载完成
+                VirtualRoot.Happened(new CoinIconDownloadedEvent(this));
                 return;
             }
             using (WebClient client = new WebClient()) {

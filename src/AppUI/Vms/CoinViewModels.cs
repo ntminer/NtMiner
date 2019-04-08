@@ -3,8 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 
 namespace NTMiner.Vms {
@@ -73,7 +71,7 @@ namespace NTMiner.Vms {
                         if (!_dicById.TryGetValue(message.Source.GetId(), out coinVm)) {
                             return;
                         }
-                        string iconFileFullName = coinVm.GetIconFileFullName();
+                        string iconFileFullName = message.Source.GetIconFileFullName();
                         if (string.IsNullOrEmpty(iconFileFullName) || !File.Exists(iconFileFullName)) {
                             return;
                         }
