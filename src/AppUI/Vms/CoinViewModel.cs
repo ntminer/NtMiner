@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
@@ -351,6 +352,7 @@ namespace NTMiner.Vms {
                 if (_icon != value) {
                     _icon = value;
                     OnPropertyChanged(nameof(Icon));
+                    RefreshIcon();
                 }
             }
         }
@@ -361,6 +363,20 @@ namespace NTMiner.Vms {
             }
             string iconFileFullName = Path.Combine(SpecialPath.CoinIconsDirFullName, this.Icon);
             return iconFileFullName;
+        }
+
+        public void RefreshIcon() {
+            string iconFileFullName = GetIconFileFullName();
+            // 如果磁盘上存在则不再下载，所以如果要更新币种图标则需重命名Icon文件
+            if (string.IsNullOrEmpty(iconFileFullName) || File.Exists(iconFileFullName)) {
+                return;
+            }
+            using (WebClient client = new WebClient()) {
+                client.DownloadFileCompleted += (object sender, System.ComponentModel.AsyncCompletedEventArgs e) => {
+                    VirtualRoot.Happened(new CoinIconDownloadedEvent(this));
+                };
+                client.DownloadFileAsync(new Uri(AssemblyInfo.MinerJsonBucket + "coin_icons/" + this.Icon), iconFileFullName);
+            }
         }
 
         public BitmapImage IconImageSource {

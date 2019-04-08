@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 
@@ -85,14 +86,9 @@ namespace NTMiner.Vms {
             foreach (var item in NTMinerRoot.Current.CoinSet) {
                 _dicById.Add(item.GetId(), new CoinViewModel(item));
             }
-            Task.Factory.StartNew(() => {
-                foreach (var coinVm in _dicById.Values) {
-                    string iconFileFullName = coinVm.GetIconFileFullName();
-                    if (!string.IsNullOrEmpty(iconFileFullName) && !File.Exists(iconFileFullName)) {
-                        // TODO:下载icon文件并保存到磁盘
-                    }
-                }
-            });
+            foreach (var coinVm in _dicById.Values) {
+                coinVm.RefreshIcon();
+            }
         }
 
         public bool TryGetCoinVm(Guid coinId, out CoinViewModel coinVm) {
