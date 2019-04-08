@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 
 namespace NTMiner.Vms {
@@ -63,21 +64,35 @@ namespace NTMiner.Vms {
                 }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             VirtualRoot.On<CoinIconDownloadedEvent>("下载了币种钱包后", LogEnum.DevConsole,
                 action: message => {
-                    if (string.IsNullOrEmpty(message.Source.Icon)) {
-                        return;
-                    }
-                    string iconFileFullName = Path.Combine(SpecialPath.CoinIconsDirFullName, message.Source.Icon);
-                    if (!File.Exists(iconFileFullName)) {
-                        return;
-                    }
-                    CoinViewModel coinVm;
-                    if (!_dicById.TryGetValue(message.Source.GetId(), out coinVm)) {
+                    try {
+                        if (string.IsNullOrEmpty(message.Source.Icon)) {
+                            return;
+                        }
+                        CoinViewModel coinVm;
+                        if (!_dicById.TryGetValue(message.Source.GetId(), out coinVm)) {
+                            return;
+                        }
+                        string iconFileFullName = coinVm.GetIconFileFullName();
+                        if (string.IsNullOrEmpty(iconFileFullName) || !File.Exists(iconFileFullName)) {
+                            return;
+                        }
                         coinVm.IconImageSource = new BitmapImage(new Uri(iconFileFullName, UriKind.Absolute));
+                    }
+                    catch (Exception e) {
+                        Logger.ErrorDebugLine(e.Message, e);
                     }
                 }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             foreach (var item in NTMinerRoot.Current.CoinSet) {
                 _dicById.Add(item.GetId(), new CoinViewModel(item));
             }
+            Task.Factory.StartNew(() => {
+                foreach (var coinVm in _dicById.Values) {
+                    string iconFileFullName = coinVm.GetIconFileFullName();
+                    if (!string.IsNullOrEmpty(iconFileFullName) && !File.Exists(iconFileFullName)) {
+                        // TODO:下载icon文件并保存到磁盘
+                    }
+                }
+            });
         }
 
         public bool TryGetCoinVm(Guid coinId, out CoinViewModel coinVm) {

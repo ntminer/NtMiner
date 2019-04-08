@@ -5,6 +5,7 @@ using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
@@ -352,6 +353,14 @@ namespace NTMiner.Vms {
                     OnPropertyChanged(nameof(Icon));
                 }
             }
+        }
+
+        public string GetIconFileFullName() {
+            if (string.IsNullOrEmpty(this.Icon)) {
+                return string.Empty;
+            }
+            string iconFileFullName = Path.Combine(SpecialPath.CoinIconsDirFullName, this.Icon);
+            return iconFileFullName;
         }
 
         public BitmapImage IconImageSource {
