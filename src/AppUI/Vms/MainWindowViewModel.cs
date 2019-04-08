@@ -36,6 +36,10 @@ namespace NTMiner.Vms {
                     MinerProfile.MinerName = thisPcName;
                 }, icon: IconConst.IconConfirm);
             });
+            VirtualRoot.On<StartingMineFailedEvent>("开始挖矿失败", LogEnum.DevConsole,
+                action: message => {
+                    this.StateBarVm.IsMining = false;
+                });
             if (DevMode.IsDevMode) {
                 VirtualRoot.On<ServerJsonVersionChangedEvent>("开发者模式展示ServerJsonVersion", LogEnum.DevConsole,
                     action: message => {

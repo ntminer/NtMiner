@@ -2,6 +2,15 @@
 using NTMiner.Core;
 
 namespace NTMiner {
+    public class StartingMineFailedEvent : EventBase {
+        [MessageType(messageType: typeof(StartingMineFailedEvent), description: "开始挖矿不成功")]
+        public StartingMineFailedEvent(string message) {
+            this.Message = message;
+        }
+
+        public string Message { get; private set; }
+    }
+
     [MessageType(messageType: typeof(MineStartedEvent), description: "挖矿开始事件")]
     public class MineStartedEvent : EventBase {
         public MineStartedEvent(IMineContext mineContext) {

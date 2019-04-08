@@ -235,7 +235,7 @@ namespace NTMiner {
                     lpProcessInformation: out _)) {
                     if (bret == false) {
                         int lasterr = Marshal.GetLastWin32Error();
-                        Write.UserFail($"管道型进程创建失败 lasterr:{lasterr}");
+                        VirtualRoot.Happened(new StartingMineFailedEvent($"管道型进程创建失败 lasterr:{lasterr}"));
                     }
                     else {
                         Bus.DelegateHandler<MineStopedEvent> closeHandle = null;
@@ -280,7 +280,7 @@ namespace NTMiner {
                     }
                 }
                 else {
-                    Logger.ErrorWriteLine("内核启动失败，请重试");
+                    VirtualRoot.Happened(new StartingMineFailedEvent($"内核启动失败，请重试"));
                 }
             }
 
