@@ -280,7 +280,7 @@ namespace NTMiner.Vms {
         });
 
         public static ICommand DownloadMinerStudio { get; private set; } = new DelegateCommand(() => {
-            Process.Start("https://minerjson.oss-cn-beijing.aliyuncs.com/MinerStudio2.0.exe");
+            Process.Start(AssemblyInfo.MinerJsonBucket + "MinerStudio.exe");
         });
 
         public static ICommand ShowQQGroupQrCode { get; private set; } = new DelegateCommand(QQGroupQrCode.ShowWindow);
