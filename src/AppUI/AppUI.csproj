@@ -134,6 +134,9 @@
     <Compile Include="Views\Ucs\CoinSelect.xaml.cs">
       <DependentUpon>CoinSelect.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Ucs\WalletSelect.xaml.cs">
+      <DependentUpon>WalletSelect.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Ucs\PoolSelect.xaml.cs">
       <DependentUpon>PoolSelect.xaml</DependentUpon>
     </Compile>
@@ -468,6 +471,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Ucs\CoinSelect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Ucs\WalletSelect.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

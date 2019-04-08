@@ -132,5 +132,51 @@ namespace NTMiner.Views.Ucs {
             popup.IsOpen = true;
             VirtualRoot.Happened(new UserActionEvent());
         }
+
+        private void KbButtonMainCoinWallet_Clicked(object sender, RoutedEventArgs e) {
+            var coinVm = Vm.MinerProfile.CoinVm;
+            if (coinVm == null) {
+                return;
+            }
+            var popup = PopupMainCoinWallet;
+            var selected = coinVm.CoinProfile.SelectedWallet;
+            bool isDualCoin = false;
+            popup.Child = new WalletSelect(
+                new WalletSelectViewModel(coinVm, isDualCoin, selected, onSelectedChanged: selectedResult => {
+                    if (selectedResult != null) {
+                        coinVm.CoinProfile.SelectedWallet = selectedResult;
+                        popup.IsOpen = false;
+                    }
+                }) {
+                    HideView = new DelegateCommand(() => {
+                        popup.IsOpen = false;
+                    })
+                });
+            popup.IsOpen = true;
+            VirtualRoot.Happened(new UserActionEvent());
+        }
+
+        private void KbButtonDualCoinWallet_Clicked(object sender, RoutedEventArgs e) {
+            var coinVm = Vm.MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin;
+            if (coinVm == null) {
+                return;
+            }
+            var popup = PopupDualCoinWallet;
+            var selected = coinVm.CoinProfile.SelectedDualCoinWallet;
+            bool isDualCoin = true;
+            popup.Child = new WalletSelect(
+                new WalletSelectViewModel(coinVm, isDualCoin, selected, onSelectedChanged: selectedResult => {
+                    if (selectedResult != null) {
+                        coinVm.CoinProfile.SelectedDualCoinWallet = selectedResult;
+                        popup.IsOpen = false;
+                    }
+                }) {
+                    HideView = new DelegateCommand(() => {
+                        popup.IsOpen = false;
+                    })
+                });
+            popup.IsOpen = true;
+            VirtualRoot.Happened(new UserActionEvent());
+        }
     }
 }
