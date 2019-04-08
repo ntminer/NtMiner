@@ -455,8 +455,11 @@ namespace NTMiner.Vms {
         }
 
         private IEnumerable<WalletViewModel> GetWallets() {
-            if (!string.IsNullOrEmpty(TestWallet)) {
-                yield return TestWalletVm;
+            // 如果不是开发者模式就不要展示测试钱包了
+            if (DevMode.IsDevMode) {
+                if (!string.IsNullOrEmpty(TestWallet)) {
+                    yield return TestWalletVm;
+                }
             }
             foreach (var item in WalletViewModels.Current.WalletList.Where(a => a.CoinId == this.Id).OrderBy(a => a.SortNumber).ToList()) {
                 yield return item;
