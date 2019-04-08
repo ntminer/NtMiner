@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 
 namespace NTMiner.Vms {
     public class CoinViewModel : ViewModelBase, ICoin, IEditableViewModel {
@@ -234,6 +235,8 @@ namespace NTMiner.Vms {
         }
 
         private List<GpuProfileViewModel> _gpuProfileVms;
+        private BitmapImage _iconImageSource;
+
         public List<GpuProfileViewModel> GpuProfileVms {
             get {
                 if (_gpuProfileVms == null) {
@@ -348,6 +351,14 @@ namespace NTMiner.Vms {
                     _icon = value;
                     OnPropertyChanged(nameof(Icon));
                 }
+            }
+        }
+
+        public BitmapImage IconImageSource {
+            get => _iconImageSource;
+            set {
+                _iconImageSource = value;
+                OnPropertyChanged(nameof(IconImageSource));
             }
         }
 

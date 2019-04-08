@@ -131,6 +131,17 @@
 					</DataGridTemplateColumn>
 					<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
+							<TextBlock Text="图标"></TextBlock>
+						</DataGridTemplateColumn.Header>
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<Image Width="30" Height="30" Source="{Binding IconImageSource}">
+								</Image>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+					<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+						<DataGridTemplateColumn.Header>
 							<TextBlock Text="编码"></TextBlock>
 						</DataGridTemplateColumn.Header>
 						<DataGridTemplateColumn.CellTemplate>

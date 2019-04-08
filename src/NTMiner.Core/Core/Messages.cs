@@ -400,6 +400,12 @@ namespace NTMiner.Core {
         public CoinRemovedEvent(ICoin source) : base(source) {
         }
     }
+
+    [MessageType(messageType: typeof(CoinIconDownloadedEvent), description: "下载了币种图标后")]
+    public class CoinIconDownloadedEvent : DomainEvent<ICoin> {
+        public CoinIconDownloadedEvent(ICoin source) : base(source) {
+        }
+    }
     #endregion
 
     #region Group Messages
