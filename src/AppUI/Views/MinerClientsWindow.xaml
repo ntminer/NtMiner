@@ -63,7 +63,7 @@
 			</WrapPanel>
 			<WrapPanel Grid.Column="1">
 				<controls:KbButton 
-					Margin="10 0 0 0"
+					Margin="10 0 4 0"
 					ToolTip="算力图"
 					Command="{x:Static vm:AppStatic.ShowChartsWindow}" Background="Transparent" BorderThickness="0"
 					CornerRadius="2">
