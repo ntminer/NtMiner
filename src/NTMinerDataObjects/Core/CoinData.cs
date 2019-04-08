@@ -7,6 +7,7 @@ namespace NTMiner.Core {
             Code = string.Empty,
             EnName = string.Empty,
             CnName = string.Empty,
+            Icon = string.Empty,
             Algo = string.Empty,
             SortNumber = 0,
             TestWallet = string.Empty,
@@ -28,6 +29,8 @@ namespace NTMiner.Core {
         public string EnName { get; set; }
 
         public string CnName { get; set; }
+
+        public string Icon { get; set; }
 
         public string Algo { get; set; }
 

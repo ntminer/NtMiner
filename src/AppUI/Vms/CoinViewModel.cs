@@ -5,7 +5,6 @@ using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
@@ -17,6 +16,7 @@ namespace NTMiner.Vms {
             _code = string.Empty,
             _enName = string.Empty,
             _cnName = string.Empty,
+            _icon = string.Empty,
             _id = Guid.Empty,
             _testWallet = string.Empty,
             _sortNumber = 0,
@@ -37,6 +37,7 @@ namespace NTMiner.Vms {
         private string _testWallet;
         private string _enName;
         private string _cnName;
+        private string _icon;
         private string _walletRegexPattern;
         private bool _justAsDualCoin;
 
@@ -75,6 +76,7 @@ namespace NTMiner.Vms {
             _testWallet = data.TestWallet;
             _enName = data.EnName;
             _cnName = data.CnName;
+            _icon = data.Icon;
             _walletRegexPattern = data.WalletRegexPattern;
             _justAsDualCoin = data.JustAsDualCoin;
         }
@@ -336,6 +338,16 @@ namespace NTMiner.Vms {
         public string FullName {
             get {
                 return $"{EnName}-{CnName}";
+            }
+        }
+
+        public string Icon {
+            get { return _icon; }
+            set {
+                if (_icon != value) {
+                    _icon = value;
+                    OnPropertyChanged(nameof(Icon));
+                }
             }
         }
 

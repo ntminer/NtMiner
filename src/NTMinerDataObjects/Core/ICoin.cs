@@ -5,6 +5,7 @@ namespace NTMiner.Core {
         string Code { get; }
         string EnName { get; }
         string CnName { get; }
+        string Icon { get; }
         string Algo { get; }
         int SortNumber { get; }
         string TestWallet { get; }
