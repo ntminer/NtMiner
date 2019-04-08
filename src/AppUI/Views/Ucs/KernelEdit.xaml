@@ -60,22 +60,20 @@
 
 						<WrapPanel Margin="0 2">
 							<TextBlock Style="{StaticResource LblTb}" Text="压缩包"></TextBlock>
-							<Grid Width="430">
-								<WrapPanel VerticalAlignment="Center">
-									<TextBox IsReadOnly="True" BorderThickness="0" VerticalAlignment="Center" Text="{Binding Package, Mode=OneWay}">
-									</TextBox>
-									<Button 
-										Margin="4 0 0 0"
-										Padding="4 0"
-										IsEnabled="{x:Static vm:AppStatic.IsDebugMode}"
-										VerticalAlignment="Center"
-										Command="{Binding BrowsePackage}"
-										Content="浏览">
-									</Button>
-									<TextBlock Margin="20 0 0 0" VerticalAlignment="Center" Text="{Binding SizeMbText}">
-									</TextBlock>
-								</WrapPanel>
-							</Grid>
+							<WrapPanel VerticalAlignment="Center">
+								<TextBox IsReadOnly="True" BorderThickness="0" VerticalAlignment="Center" Text="{Binding Package, Mode=OneWay}">
+								</TextBox>
+								<Button 
+									Margin="4 0 0 0"
+									Padding="4 0"
+									IsEnabled="{x:Static vm:AppStatic.IsDebugMode}"
+									VerticalAlignment="Center"
+									Command="{Binding BrowsePackage}"
+									Content="浏览">
+								</Button>
+								<TextBlock Margin="20 0 0 0" VerticalAlignment="Center" Text="{Binding SizeMbText}">
+								</TextBlock>
+							</WrapPanel>
 						</WrapPanel>
 
 						<WrapPanel Margin="0 2">
@@ -218,30 +216,31 @@
 						</WrapPanel>
 					</StackPanel>
 
-					<controls:KbButton
-						Grid.Row="1"
-						Command="{Binding Save}" 
-						Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-						Margin="0 10 0 0"
-						Padding="10 0"
-						HorizontalAlignment="Center"
-						Background="{StaticResource ThemeBackground}"
-						Foreground="{StaticResource ThemeForeground}"
-						CornerRadius="2">
-						<WrapPanel>
-							<Path
-								Width="12"
-								Height="12"
-								Data="{StaticResource Icon_Ok}"
-								Fill="{StaticResource ThemeForeground}"
-								Stretch="Fill" />
-							<TextBlock
-								Padding="4"
-								VerticalAlignment="Center"
-								Foreground="{StaticResource ThemeForeground}"
-								Text="确定" />
-						</WrapPanel>
-					</controls:KbButton>
+					<StackPanel Grid.Row="1">
+						<TextBlock Foreground="Red" HorizontalAlignment="Center">不要覆盖OSS上已有的文件，防止OSS缓存文件</TextBlock>
+						<controls:KbButton
+							Command="{Binding Save}" 
+							Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+							Padding="10 0"
+							HorizontalAlignment="Center"
+							Background="{StaticResource ThemeBackground}"
+							Foreground="{StaticResource ThemeForeground}"
+							CornerRadius="2">
+							<WrapPanel>
+								<Path
+									Width="12"
+									Height="12"
+									Data="{StaticResource Icon_Ok}"
+									Fill="{StaticResource ThemeForeground}"
+									Stretch="Fill" />
+								<TextBlock
+									Padding="4"
+									VerticalAlignment="Center"
+									Foreground="{StaticResource ThemeForeground}"
+									Text="确定" />
+							</WrapPanel>
+						</controls:KbButton>
+					</StackPanel>
 				</Grid>
 			</TabItem>
 
