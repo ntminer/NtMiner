@@ -12,13 +12,6 @@
 			 TextOptions.TextFormattingMode="Display" 
 			 DataContext="{x:Static vm:KernelOutputPageViewModel.Current}"
 			 d:DesignHeight="720" d:DesignWidth="960">
-	<UserControl.Resources>
-		<ResourceDictionary>
-			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="pack://application:,,,/AppUI;component/Styles/KbWallet.xaml" />
-			</ResourceDictionary.MergedDictionaries>
-		</ResourceDictionary>
-	</UserControl.Resources>
 	<Grid Margin="0 2 0 0">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="Auto"></ColumnDefinition>

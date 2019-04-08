@@ -12,13 +12,6 @@
 			 TextOptions.TextFormattingMode="Display" 
 			 DataContext="{x:Static vm:CoinPageViewModel.Current}"
 			 d:DesignHeight="520" d:DesignWidth="960">
-	<UserControl.Resources>
-		<ResourceDictionary>
-			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="pack://application:,,,/AppUI;component/Styles/KbWallet.xaml" />
-			</ResourceDictionary.MergedDictionaries>
-		</ResourceDictionary>
-	</UserControl.Resources>
 	<Grid>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -447,13 +440,25 @@
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
-							<DataGridTemplateColumn Width="*" CellTemplate="{StaticResource WalletAddressDataTemplate}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+							<DataGridTemplateColumn Width="*" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 								<DataGridTemplateColumn.Header>
 									<WrapPanel>
 										<TextBlock Text="钱包"></TextBlock>
 										<TextBlock Margin="4 0 0 0" Text="{Binding Data.CurrentCoin.Wallets.Count, Source={StaticResource proxy}}"></TextBlock>
 									</WrapPanel>
 								</DataGridTemplateColumn.Header>
+								<DataGridTemplateColumn.CellTemplate>
+									<DataTemplate>
+										<StackPanel>
+											<WrapPanel>
+												<TextBlock 
+													Text="{Binding Name}"
+													VerticalAlignment="Center"></TextBlock>
+											</WrapPanel>
+											<TextBlock Text="{Binding Address}"></TextBlock>
+										</StackPanel>
+									</DataTemplate>
+								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
 							<DataGridTemplateColumn 
 								CanUserResize="True" CanUserReorder="False" 

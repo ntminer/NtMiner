@@ -13,9 +13,6 @@
 			 Background="White">
 	<UserControl.Resources>
 		<ResourceDictionary>
-			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="pack://application:,,,/AppUI;component/Styles/KbWallet.xaml" />
-			</ResourceDictionary.MergedDictionaries>
 			<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
 				<Setter Property="Width" Value="84"></Setter>
 			</Style>
