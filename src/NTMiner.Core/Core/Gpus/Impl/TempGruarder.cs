@@ -51,8 +51,8 @@ namespace NTMiner.Core.Gpus.Impl {
                         if (!_preTempDic.ContainsKey(gpu.Index)) {
                             _preTempDic.Add(gpu.Index, 0);
                         }
-                        // 如果当前温度不比上次的温度小
-                        if (gpu.Temperature >= _preTempDic[gpu.Index]) {
+                        // 如果当前温度比上次的温度大
+                        if (gpu.Temperature > _preTempDic[gpu.Index]) {
                             fightedOn = DateTime.Now;
                             _fightedOnDic[gpu.Index] = fightedOn;
                         }
