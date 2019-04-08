@@ -33,7 +33,7 @@
 						x:Name="TbKeyword" Width="154" Height="20"
 						Text="{Binding Keyword, UpdateSourceTrigger=PropertyChanged}" 
 						VerticalContentAlignment="Center"
-						Hint="请输入想搜索的内核"
+						Hint="请输入想搜索的币种"
 						BorderBrush="{StaticResource LineColor}"
 						BorderThickness="1"
 						Background="White"
