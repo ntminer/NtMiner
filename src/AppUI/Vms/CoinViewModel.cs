@@ -385,7 +385,12 @@ namespace NTMiner.Vms {
             }
             using (WebClient client = new WebClient()) {
                 client.DownloadFileCompleted += (object sender, System.ComponentModel.AsyncCompletedEventArgs e) => {
-                    VirtualRoot.Happened(new CoinIconDownloadedEvent(this));
+                    if (!e.Cancelled && e.Error == null) {
+                        VirtualRoot.Happened(new CoinIconDownloadedEvent(this));
+                    }
+                    else {
+                        File.Delete(iconFileFullName);
+                    }
                 };
                 client.DownloadFileAsync(new Uri(AssemblyInfo.MinerJsonBucket + "coin_icons/" + this.Icon), iconFileFullName);
             }
