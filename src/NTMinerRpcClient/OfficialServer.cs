@@ -121,7 +121,7 @@ namespace NTMiner {
                 if (e != null) {
                     Logger.ErrorDebugLine($"GetJsonFileVersionAsync({AssemblyInfo.ServerJsonFileName})失败 {e.GetInnerMessage()}");
                 }
-            }, timeountMilliseconds: 1000);
+            }, timeountMilliseconds: 3000);
         }
 
         public class FileUrlServiceFace {

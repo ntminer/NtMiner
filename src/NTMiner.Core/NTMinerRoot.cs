@@ -59,38 +59,23 @@ namespace NTMiner {
                     DoInit(isWork: false, callback: callback);
                     return;
                 }
-                // 阿里ECS的响应时间在100毫秒以内，阿里OSS的响应时间在1秒，所以这里基于ECS上记录的server.json的时间戳缓存OSS的server.json
-                Logger.InfoDebugLine("开始请求ECS获取server.json版本号");
                 OfficialServer.GetJsonFileVersionAsync(AssemblyInfo.ServerJsonFileName, (jsonFileVersion) => {
-                    Logger.InfoDebugLine("获取到server.json版本号" + jsonFileVersion);
-                    string serverJsonVersion = GetServerJsonVersion();
-                    bool needDownloadServerJson
-                         = string.IsNullOrEmpty(jsonFileVersion)
-                        || string.IsNullOrEmpty(serverJsonVersion)
-                        || jsonFileVersion != serverJsonVersion
-                        || !File.Exists(SpecialPath.ServerJsonFileFullName);
-                    if (needDownloadServerJson) {
-                        Logger.InfoDebugLine("开始下载server.json");
-                        SpecialPath.GetAliyunServerJson((data) => {
-                            // 如果server.json未下载成功则不覆写本地server.json
-                            if (data != null && data.Length != 0) {
-                                Logger.InfoDebugLine("GetAliyunServerJson下载成功");
-                                var serverJson = Encoding.UTF8.GetString(data);
-                                if (!string.IsNullOrEmpty(serverJson)) {
-                                    SpecialPath.WriteServerJsonFile(serverJson);
-                                }
-                                SetServerJsonVersion(jsonFileVersion);
-                            }
-                            else {
-                                Logger.InfoDebugLine("GetAliyunServerJson下载失败");
-                            }
-                            DoInit(isWork, callback);
-                        });
+                    SetServerJsonVersion(jsonFileVersion);
+                });
+                Logger.InfoDebugLine("开始下载server.json");
+                SpecialPath.GetAliyunServerJson((data) => {
+                    // 如果server.json未下载成功则不覆写本地server.json
+                    if (data != null && data.Length != 0) {
+                        Logger.InfoDebugLine("GetAliyunServerJson下载成功");
+                        var serverJson = Encoding.UTF8.GetString(data);
+                        if (!string.IsNullOrEmpty(serverJson)) {
+                            SpecialPath.WriteServerJsonFile(serverJson);
+                        }
                     }
                     else {
-                        Logger.InfoDebugLine("本地server.json已最新，不需要下载server.json");
-                        DoInit(isWork, callback);
+                        Logger.InfoDebugLine("GetAliyunServerJson下载失败");
                     }
+                    DoInit(isWork, callback);
                 });
                 #region 发生了用户活动时检查serverJson是否有新版本
                 VirtualRoot.On<UserActionEvent>("发生了用户活动时检查serverJson是否有新版本", LogEnum.DevConsole,
@@ -105,9 +90,11 @@ namespace NTMiner {
                                     ReInitServerJson();
                                     bool isUseJson = !DevMode.IsDebugMode || VirtualRoot.IsMinerStudio;
                                     if (isUseJson) {
-                                    // 作业模式下界面是禁用的，所以这里的初始化isWork必然是false
-                                    ContextReInit(isWork: VirtualRoot.IsMinerStudio);
-                                        Write.UserInfo("刷新完成");
+                                        UIThread.Execute(() => {
+                                            // 作业模式下界面是禁用的，所以这里的初始化isWork必然是false
+                                            ContextReInit(isWork: VirtualRoot.IsMinerStudio);
+                                            Write.UserInfo("刷新完成");
+                                        });
                                     }
                                     else {
                                         Write.UserInfo("不是使用的server.json，无需刷新");

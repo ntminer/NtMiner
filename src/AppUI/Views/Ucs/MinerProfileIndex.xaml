@@ -567,7 +567,7 @@
 								<controls:KbButton
 									Margin="4 0 0 0"
 									Padding="2" 
-									Visibility="{Binding ElementName=CbDualCoinWallet, Path=SelectedItem, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
+									Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.IsUserMode, Converter={StaticResource BoolToVisibilityInvertConverter}}"
 									ToolTip="复制钱包地址"
 									Background="Transparent" BorderThickness="0"
 									Command="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.CopyDualCoinWallet}"
