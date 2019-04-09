@@ -67,15 +67,20 @@ namespace NTMiner.Vms {
                         if (string.IsNullOrEmpty(message.Source.Icon)) {
                             return;
                         }
-                        CoinViewModel coinVm;
-                        if (!_dicById.TryGetValue(message.Source.GetId(), out coinVm)) {
-                            return;
-                        }
                         string iconFileFullName = message.Source.GetIconFileFullName();
                         if (string.IsNullOrEmpty(iconFileFullName) || !File.Exists(iconFileFullName)) {
                             return;
                         }
-                        coinVm.IconImageSource = new BitmapImage(new Uri(iconFileFullName, UriKind.Absolute));
+                        CoinViewModel coinVm;
+                        if (_dicById.TryGetValue(message.Source.GetId(), out coinVm)) {
+                            try {
+                                coinVm.IconImageSource = new BitmapImage(new Uri(iconFileFullName, UriKind.Absolute));
+                            }
+                            catch (Exception e) {
+                                File.Delete(iconFileFullName);
+                                Logger.ErrorDebugLine(e.Message, e);
+                            }
+                        }
                     }
                     catch (Exception e) {
                         Logger.ErrorDebugLine(e.Message, e);
