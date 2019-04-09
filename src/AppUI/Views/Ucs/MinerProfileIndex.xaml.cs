@@ -37,7 +37,7 @@ namespace NTMiner.Views.Ucs {
             popup.IsOpen = true;
             var selected = coinVm.CoinKernel;
             popup.Child = new CoinKernelSelect(
-                new CoinKernelSelectViewModel(coinVm, selected, onSelectedChanged: selectedResult=> {
+                new CoinKernelSelectViewModel(coinVm, selected, onSelectedChanged: selectedResult => {
                     if (selectedResult != null) {
                         coinVm.CoinKernel = selectedResult;
                         popup.IsOpen = false;
@@ -99,7 +99,7 @@ namespace NTMiner.Views.Ucs {
             popup.IsOpen = true;
             var selected = Vm.MinerProfile.CoinVm;
             popup.Child = new CoinSelect(
-                new CoinSelectViewModel(Vm.CoinVms.MainCoins, selected, onSelectedChanged: selectedResult => {
+                new CoinSelectViewModel(Vm.CoinVms.MainCoins.Where(a => a.IsSupported), selected, onSelectedChanged: selectedResult => {
                     if (selectedResult != null) {
                         Vm.MinerProfile.CoinVm = selectedResult;
                         popup.IsOpen = false;
@@ -120,7 +120,7 @@ namespace NTMiner.Views.Ucs {
             popup.IsOpen = true;
             var selected = Vm.MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin;
             popup.Child = new CoinSelect(
-                new CoinSelectViewModel(Vm.MinerProfile.CoinVm.CoinKernel.DualCoinGroup.DualCoinVms, selected, onSelectedChanged: selectedResult => {
+                new CoinSelectViewModel(Vm.MinerProfile.CoinVm.CoinKernel.DualCoinGroup.DualCoinVms.Where(a => a.IsSupported), selected, onSelectedChanged: selectedResult => {
                     if (selectedResult != null) {
                         Vm.MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin = selectedResult;
                         popup.IsOpen = false;

@@ -69,7 +69,7 @@
 						KbSystemButtonHoverBackground="Transparent"
 						KbDisplayLine="False">
 						<WrapPanel>
-							<TextBlock Text="Github"></TextBlock>
+							<TextBlock Text="github.com/ntminer"></TextBlock>
 							<Path 
 								Width="14"
 								Height="14"
