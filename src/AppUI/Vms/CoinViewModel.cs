@@ -118,10 +118,15 @@ namespace NTMiner.Vms {
                     FilterIndex = 1
                 };
                 if (openFileDialog.ShowDialog() == DialogResult.OK) {
-                    string iconFileFullName = openFileDialog.FileName;
-                    this.IconImageSource = new BitmapImage(new Uri(iconFileFullName, UriKind.Absolute));
-                    string pngFileName = Path.GetFileName(iconFileFullName);
-                    this.Icon = pngFileName;
+                    try {
+                        string iconFileFullName = openFileDialog.FileName;
+                        this.IconImageSource = new BitmapImage(new Uri(iconFileFullName, UriKind.Absolute));
+                        string pngFileName = Path.GetFileName(iconFileFullName);
+                        this.Icon = pngFileName;
+                    }
+                    catch (Exception e) {
+                        Logger.ErrorDebugLine(e.Message, e);
+                    }
                 }
             });
             this.ApplyTemplateOverClock = new DelegateCommand<OverClockDataViewModel>((data) => {
