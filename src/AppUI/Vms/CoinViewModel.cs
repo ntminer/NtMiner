@@ -5,10 +5,13 @@ using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 
 namespace NTMiner.Vms {
     public class CoinViewModel : ViewModelBase, ICoin, IEditableViewModel {
@@ -17,6 +20,7 @@ namespace NTMiner.Vms {
             _code = string.Empty,
             _enName = string.Empty,
             _cnName = string.Empty,
+            _icon = string.Empty,
             _id = Guid.Empty,
             _testWallet = string.Empty,
             _sortNumber = 0,
@@ -37,6 +41,7 @@ namespace NTMiner.Vms {
         private string _testWallet;
         private string _enName;
         private string _cnName;
+        private string _icon;
         private string _walletRegexPattern;
         private bool _justAsDualCoin;
 
@@ -51,6 +56,7 @@ namespace NTMiner.Vms {
         public ICommand AddPool { get; private set; }
         public ICommand AddWallet { get; private set; }
         public ICommand Save { get; private set; }
+        public ICommand BrowseIcon { get; private set; }
 
         public ICommand AddOverClockData { get; private set; }
 
@@ -75,6 +81,7 @@ namespace NTMiner.Vms {
             _testWallet = data.TestWallet;
             _enName = data.EnName;
             _cnName = data.CnName;
+            _icon = data.Icon;
             _walletRegexPattern = data.WalletRegexPattern;
             _justAsDualCoin = data.JustAsDualCoin;
         }
@@ -104,6 +111,24 @@ namespace NTMiner.Vms {
 
         public CoinViewModel(Guid id) {
             _id = id;
+            this.BrowseIcon = new DelegateCommand(() => {
+                OpenFileDialog openFileDialog = new OpenFileDialog {
+                    InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+                    Filter = "png (*.png)|*.png",
+                    FilterIndex = 1
+                };
+                if (openFileDialog.ShowDialog() == DialogResult.OK) {
+                    try {
+                        string iconFileFullName = openFileDialog.FileName;
+                        this.IconImageSource = new BitmapImage(new Uri(iconFileFullName, UriKind.Absolute));
+                        string pngFileName = Path.GetFileName(iconFileFullName);
+                        this.Icon = pngFileName;
+                    }
+                    catch (Exception e) {
+                        Logger.ErrorDebugLine(e.Message, e);
+                    }
+                }
+            });
             this.ApplyTemplateOverClock = new DelegateCommand<OverClockDataViewModel>((data) => {
                 DialogWindow.ShowDialog(message: data.Tooltip, title: "确定应用该超频设置吗？", onYes: () => {
                     FillOverClock(data);
@@ -232,6 +257,8 @@ namespace NTMiner.Vms {
         }
 
         private List<GpuProfileViewModel> _gpuProfileVms;
+        private BitmapImage _iconImageSource;
+
         public List<GpuProfileViewModel> GpuProfileVms {
             get {
                 if (_gpuProfileVms == null) {
@@ -336,6 +363,49 @@ namespace NTMiner.Vms {
         public string FullName {
             get {
                 return $"{EnName}-{CnName}";
+            }
+        }
+
+        public string Icon {
+            get { return _icon; }
+            set {
+                if (_icon != value) {
+                    _icon = value;
+                    OnPropertyChanged(nameof(Icon));
+                    RefreshIcon();
+                }
+            }
+        }
+
+        public void RefreshIcon() {
+            string iconFileFullName = this.GetIconFileFullName();
+            // 如果磁盘上存在则不再下载，所以如果要更新币种图标则需重命名Icon文件
+            if (string.IsNullOrEmpty(iconFileFullName)) {
+                return;
+            }
+            if (File.Exists(iconFileFullName)) {
+                // Icon文件已存在，直接下载完成
+                VirtualRoot.Happened(new CoinIconDownloadedEvent(this));
+                return;
+            }
+            using (WebClient client = new WebClient()) {
+                client.DownloadFileCompleted += (object sender, System.ComponentModel.AsyncCompletedEventArgs e) => {
+                    if (!e.Cancelled && e.Error == null) {
+                        VirtualRoot.Happened(new CoinIconDownloadedEvent(this));
+                    }
+                    else {
+                        File.Delete(iconFileFullName);
+                    }
+                };
+                client.DownloadFileAsync(new Uri(AssemblyInfo.MinerJsonBucket + "coin_icons/" + this.Icon), iconFileFullName);
+            }
+        }
+
+        public BitmapImage IconImageSource {
+            get => _iconImageSource;
+            set {
+                _iconImageSource = value;
+                OnPropertyChanged(nameof(IconImageSource));
             }
         }
 

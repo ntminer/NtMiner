@@ -146,7 +146,12 @@ namespace NTMiner.Vms {
                 if (_iconImage != value) {
                     _iconImage = value;
                     if (!string.IsNullOrEmpty(value)) {
-                        IconImageSource = new BitmapImage(new Uri(IconImage, UriKind.RelativeOrAbsolute));
+                        try {
+                            IconImageSource = new BitmapImage(new Uri(IconImage, UriKind.RelativeOrAbsolute));
+                        }
+                        catch (Exception e) {
+                            Logger.ErrorDebugLine(e.Message, e);
+                        }
                     }
                     OnPropertyChanged(nameof(IconImage));
                 }

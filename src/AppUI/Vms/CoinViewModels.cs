@@ -1,7 +1,9 @@
 ﻿using NTMiner.Core;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Windows.Media.Imaging;
 
 namespace NTMiner.Vms {
     public class CoinViewModels : ViewModelBase {
@@ -59,8 +61,36 @@ namespace NTMiner.Vms {
                         OnPropertyChanged(nameof(MainCoins));
                     }
                 }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
+            VirtualRoot.On<CoinIconDownloadedEvent>("下载了币种钱包后", LogEnum.DevConsole,
+                action: message => {
+                    try {
+                        if (string.IsNullOrEmpty(message.Source.Icon)) {
+                            return;
+                        }
+                        string iconFileFullName = message.Source.GetIconFileFullName();
+                        if (string.IsNullOrEmpty(iconFileFullName) || !File.Exists(iconFileFullName)) {
+                            return;
+                        }
+                        CoinViewModel coinVm;
+                        if (_dicById.TryGetValue(message.Source.GetId(), out coinVm)) {
+                            try {
+                                coinVm.IconImageSource = new BitmapImage(new Uri(iconFileFullName, UriKind.Absolute));
+                            }
+                            catch (Exception e) {
+                                File.Delete(iconFileFullName);
+                                Logger.ErrorDebugLine(e.Message, e);
+                            }
+                        }
+                    }
+                    catch (Exception e) {
+                        Logger.ErrorDebugLine(e.Message, e);
+                    }
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             foreach (var item in NTMinerRoot.Current.CoinSet) {
                 _dicById.Add(item.GetId(), new CoinViewModel(item));
+            }
+            foreach (var coinVm in _dicById.Values) {
+                coinVm.RefreshIcon();
             }
         }
 

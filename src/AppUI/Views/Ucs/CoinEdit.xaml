@@ -22,7 +22,11 @@
 				Width="150"
 				VerticalContentAlignment="Center" Text="{Binding Code, ValidatesOnExceptions=True}">
 			</TextBox>
-			<TextBlock Style="{StaticResource LblTb}" Text="算法"></TextBlock>
+			<controls:KbButton Command="{Binding BrowseIcon}" BorderThickness="0">
+				<Image Width="30" Height="30" Source="{Binding IconImageSource}">
+				</Image>
+			</controls:KbButton>
+			<TextBlock Style="{StaticResource LblTb}" Width="40" Text="算法"></TextBlock>
 			<TextBox 
 				IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
 				Width="160"

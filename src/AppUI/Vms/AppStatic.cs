@@ -13,6 +13,14 @@ using System.Windows.Media.Imaging;
 
 namespace NTMiner.Vms {
     public static class AppStatic {
+        public static string GetIconFileFullName(this ICoin coin) {
+            if (coin == null || string.IsNullOrEmpty(coin.Icon)) {
+                return string.Empty;
+            }
+            string iconFileFullName = Path.Combine(SpecialPath.CoinIconsDirFullName, coin.Icon);
+            return iconFileFullName;
+        }
+
         private static bool _sIsMinerClient;
 
         public static string CurrentVersion => NTMinerRoot.CurrentVersion.ToString();
@@ -280,7 +288,7 @@ namespace NTMiner.Vms {
         });
 
         public static ICommand DownloadMinerStudio { get; private set; } = new DelegateCommand(() => {
-            Process.Start("https://minerjson.oss-cn-beijing.aliyuncs.com/MinerStudio2.0.exe");
+            Process.Start(AssemblyInfo.MinerJsonBucket + "MinerStudio.exe");
         });
 
         public static ICommand ShowQQGroupQrCode { get; private set; } = new DelegateCommand(QQGroupQrCode.ShowWindow);

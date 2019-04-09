@@ -21,7 +21,6 @@ namespace NTMiner.Vms {
             _notice = string.Empty,
             _id = Guid.Empty,
             _publishState = PublishStatus.UnPublished,
-            _sha1 = string.Empty,
             _size = 0,
             _publishOn = 0,
             _version = string.Empty,
@@ -37,7 +36,6 @@ namespace NTMiner.Vms {
         private string _helpArg;
         private ulong _publishOn;
         private string _package;
-        private string _sha1;
         private long _size;
         private PublishStatus _publishState = PublishStatus.UnPublished;
         private string _notice;
@@ -81,7 +79,6 @@ namespace NTMiner.Vms {
             _brandId = data.BrandId;
             _notice = data.Notice;
             _publishState = data.PublishState;
-            _sha1 = data.Sha1;
             _size = data.Size;
             _publishOn = data.PublishOn;
             _version = data.Version;
@@ -136,7 +133,6 @@ namespace NTMiner.Vms {
                 };
                 if (openFileDialog.ShowDialog() == DialogResult.OK) {
                     string package = Path.GetFileName(openFileDialog.FileName);
-                    this.Sha1 = HashUtil.Sha1(File.ReadAllBytes(openFileDialog.FileName));
                     this.Package = package;
                     this.Size = new FileInfo(openFileDialog.FileName).Length;
                     this.KernelProfileVm.Refresh();
@@ -412,16 +408,6 @@ namespace NTMiner.Vms {
                 if (_package != value) {
                     _package = value;
                     OnPropertyChanged(nameof(Package));
-                }
-            }
-        }
-
-        public string Sha1 {
-            get => _sha1;
-            set {
-                if (_sha1 != value) {
-                    _sha1 = value;
-                    OnPropertyChanged(nameof(Sha1));
                 }
             }
         }

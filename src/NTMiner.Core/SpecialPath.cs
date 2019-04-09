@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace NTMiner {
     public static class SpecialPath {
-        private static readonly string ServerJsonFileUrl = "https://minerjson.oss-cn-beijing.aliyuncs.com/" + AssemblyInfo.ServerJsonFileName;
+        private static readonly string ServerJsonFileUrl = AssemblyInfo.MinerJsonBucket + AssemblyInfo.ServerJsonFileName;
 
         public static void GetAliyunServerJson(Action<byte[]> callback) {
             GetFileAsync(ServerJsonFileUrl + "?t=" + DateTime.Now.Ticks, callback);
@@ -124,6 +124,21 @@ namespace NTMiner {
                         Directory.CreateDirectory(dirFullName);
                     }
                     _sIsFirstCallPackageDirFullName = false;
+                }
+
+                return dirFullName;
+            }
+        }
+
+        private static bool _sIsFirstCallCoinIconDirFullName = true;
+        public static string CoinIconsDirFullName {
+            get {
+                string dirFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "CoinIcons");
+                if (_sIsFirstCallCoinIconDirFullName) {
+                    if (!Directory.Exists(dirFullName)) {
+                        Directory.CreateDirectory(dirFullName);
+                    }
+                    _sIsFirstCallCoinIconDirFullName = false;
                 }
 
                 return dirFullName;

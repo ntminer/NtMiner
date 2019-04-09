@@ -9,5 +9,6 @@ namespace NTMiner {
         public static readonly string ServerJsonFileName = $"server{Version}.json";
         public static string ServerVersionJsonFileFullName = Path.Combine(VirtualRoot.GlobalDirFullName, ServerJsonFileName);
         public static string OfficialServerHost = "server.ntminer.com";
+        public static readonly string MinerJsonBucket = "https://minerjson.oss-cn-beijing.aliyuncs.com/";
     }
 }
