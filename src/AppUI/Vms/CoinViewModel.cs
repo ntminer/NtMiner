@@ -86,6 +86,10 @@ namespace NTMiner.Vms {
             _justAsDualCoin = data.JustAsDualCoin;
         }
 
+        public CoinViewModel(CoinViewModel vm) : this((ICoin)vm) {
+            _iconImageSource = vm.IconImageSource;
+        }
+
         private void ApplyOverClock() {
             VirtualRoot.Execute(new AddOrUpdateGpuProfileCommand(GpuAllProfileVm));
             var list = GpuProfileVms.ToArray();
@@ -112,6 +116,9 @@ namespace NTMiner.Vms {
         public CoinViewModel(Guid id) {
             _id = id;
             this.BrowseIcon = new DelegateCommand(() => {
+                if (!DevMode.IsDevMode) {
+                    return;
+                }
                 OpenFileDialog openFileDialog = new OpenFileDialog {
                     InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
                     Filter = "png (*.png)|*.png",

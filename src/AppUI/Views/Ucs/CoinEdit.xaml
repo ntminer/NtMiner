@@ -22,7 +22,9 @@
 				Width="150"
 				VerticalContentAlignment="Center" Text="{Binding Code, ValidatesOnExceptions=True}">
 			</TextBox>
-			<controls:KbButton Command="{Binding BrowseIcon}" BorderThickness="0">
+			<controls:KbButton 
+				Command="{Binding BrowseIcon}" 
+				BorderThickness="0">
 				<Image Width="30" Height="30" Source="{Binding IconImageSource}">
 				</Image>
 			</controls:KbButton>
