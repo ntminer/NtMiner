@@ -25,19 +25,19 @@ namespace NTMiner.Vms {
                     var mineContext = NTMinerRoot.Current.CurrentMineContext;
                     if (mineContext != null) {
                         this.MineTimeSpan = now - mineContext.CreatedOn;
+                        if (!this.IsMining) {
+                            this.IsMining = true;
+                        }
+                    }
+                    else {
+                        if (this.IsMining) {
+                            this.IsMining = false;
+                        }
                     }
                     // 周期性挥动铲子表示在挖矿中
                     if (IsMining) {
                         IsShovelEmpty = !IsShovelEmpty;
                     }
-                });
-            VirtualRoot.On<MineStartedEvent>("挖矿开始后将风扇转起来", LogEnum.DevConsole,
-                action: message => {
-                    this.IsMining = true;
-                });
-            VirtualRoot.On<MineStopedEvent>("挖矿停止后将风扇停转", LogEnum.DevConsole,
-                action: message => {
-                    this.IsMining = false;
                 });
         }
 

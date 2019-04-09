@@ -163,6 +163,7 @@ namespace NTMiner {
                 Task.Factory.StartNew(() => {
                     try {
                         using (HttpClient client = new HttpClient()) {
+                            client.Timeout = TimeSpan.FromSeconds(2);
                             RequestBase request = new RequestBase();
                             Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:{WebApiConst.NTMinerDaemonPort}/api/{s_controllerName}/{nameof(INTMinerDaemonController.StopNoDevFee)}", request);
                             ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
