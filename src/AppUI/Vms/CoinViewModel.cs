@@ -129,6 +129,9 @@ namespace NTMiner.Vms {
                         string iconFileFullName = openFileDialog.FileName;
                         this.IconImageSource = new BitmapImage(new Uri(iconFileFullName, UriKind.Absolute));
                         string pngFileName = Path.GetFileName(iconFileFullName);
+                        if (CoinViewModels.Current.AllCoins.Any(a => a.Icon == pngFileName && a.Id != this.Id)) {
+                            throw new ValidationException("币种图标不能重名");
+                        }
                         this.Icon = pngFileName;
                     }
                     catch (Exception e) {
