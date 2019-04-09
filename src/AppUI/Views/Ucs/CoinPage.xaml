@@ -130,9 +130,6 @@
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
 					<DataGridTemplateColumn Width="40" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-						<DataGridTemplateColumn.Header>
-							<TextBlock Text="图标"></TextBlock>
-						</DataGridTemplateColumn.Header>
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<Image Width="30" Height="30" Source="{Binding IconImageSource}">
@@ -184,6 +181,7 @@
 			<controls:KbButton  
 				Grid.Row="1"
 				Margin="4"
+				Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
 				HorizontalAlignment="Left"
 				VerticalAlignment="Top"
 				Command="{Binding Add}" 
