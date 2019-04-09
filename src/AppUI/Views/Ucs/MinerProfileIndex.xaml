@@ -677,32 +677,25 @@
 						</TextBox.ToolTip>
 					</TextBox>
 				</WrapPanel>
-				<Grid>
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="Auto"></ColumnDefinition>
-						<ColumnDefinition Width="*"></ColumnDefinition>
-					</Grid.ColumnDefinitions>
-					<TextBlock Style="{StaticResource LblTb}" />
-					<ItemsControl
-						Grid.Column="1"
-						IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}"
-						ItemsSource="{Binding MinerProfile.CoinVm.CoinKernel.InputSegmentVms}"
-						BorderThickness="0"
-						VerticalAlignment="Center"
-						ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-						<ItemsControl.ItemsPanel>
-							<ItemsPanelTemplate>
-								<WrapPanel>
-								</WrapPanel>
-							</ItemsPanelTemplate>
-						</ItemsControl.ItemsPanel>
-						<ItemsControl.ItemTemplate>
-							<DataTemplate>
-								<CheckBox Padding="0" IsChecked="{Binding IsChecked}" Content="{Binding Name}" ToolTip="{Binding Description}"></CheckBox>
-							</DataTemplate>
-						</ItemsControl.ItemTemplate>
-					</ItemsControl>
-				</Grid>
+				<ItemsControl
+					Margin="58 0 0 0"
+					IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}"
+					ItemsSource="{Binding MinerProfile.CoinVm.CoinKernel.InputSegmentVms}"
+					BorderThickness="0"
+					VerticalAlignment="Center"
+					ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+					<ItemsControl.ItemsPanel>
+						<ItemsPanelTemplate>
+							<WrapPanel>
+							</WrapPanel>
+						</ItemsPanelTemplate>
+					</ItemsControl.ItemsPanel>
+					<ItemsControl.ItemTemplate>
+						<DataTemplate>
+							<CheckBox Padding="0" IsChecked="{Binding IsChecked}" Content="{Binding Name}" ToolTip="{Binding Description}"></CheckBox>
+						</DataTemplate>
+					</ItemsControl.ItemTemplate>
+				</ItemsControl>
 			</StackPanel>
 		</StackPanel>
 	</Grid>
