@@ -34,6 +34,7 @@ namespace NTMiner.Views.Ucs {
                 return;
             }
             var popup = PopupKernel;
+            popup.IsOpen = true;
             var selected = coinVm.CoinKernel;
             popup.Child = new CoinKernelSelect(
                 new CoinKernelSelectViewModel(coinVm, selected, onSelectedChanged: selectedResult=> {
@@ -46,7 +47,6 @@ namespace NTMiner.Views.Ucs {
                         popup.IsOpen = false;
                     })
                 });
-            popup.IsOpen = true;
             VirtualRoot.Happened(new UserActionEvent());
         }
 
@@ -56,6 +56,7 @@ namespace NTMiner.Views.Ucs {
                 return;
             }
             var popup = PopupMainCoinPool;
+            popup.IsOpen = true;
             var selected = coinVm.CoinProfile.MainCoinPool;
             popup.Child = new PoolSelect(
                 new PoolSelectViewModel(coinVm, selected, onSelectedChanged: selectedResult => {
@@ -68,7 +69,6 @@ namespace NTMiner.Views.Ucs {
                         popup.IsOpen = false;
                     })
                 });
-            popup.IsOpen = true;
             VirtualRoot.Happened(new UserActionEvent());
         }
 
@@ -78,6 +78,7 @@ namespace NTMiner.Views.Ucs {
                 return;
             }
             var popup = PopupDualCoinPool;
+            popup.IsOpen = true;
             var selected = coinVm.CoinProfile.DualCoinPool;
             popup.Child = new PoolSelect(
                 new PoolSelectViewModel(coinVm, selected, onSelectedChanged: selectedResult => {
@@ -90,12 +91,12 @@ namespace NTMiner.Views.Ucs {
                         popup.IsOpen = false;
                     })
                 });
-            popup.IsOpen = true;
             VirtualRoot.Happened(new UserActionEvent());
         }
 
         private void KbButtonMainCoin_Clicked(object sender, RoutedEventArgs e) {
             var popup = PopupMainCoin;
+            popup.IsOpen = true;
             var selected = Vm.MinerProfile.CoinVm;
             popup.Child = new CoinSelect(
                 new CoinSelectViewModel(Vm.CoinVms.MainCoins, selected, onSelectedChanged: selectedResult => {
@@ -108,7 +109,6 @@ namespace NTMiner.Views.Ucs {
                         popup.IsOpen = false;
                     })
                 });
-            popup.IsOpen = true;
             VirtualRoot.Happened(new UserActionEvent());
         }
 
@@ -117,6 +117,7 @@ namespace NTMiner.Views.Ucs {
                 return;
             }
             var popup = PopupDualCoin;
+            popup.IsOpen = true;
             var selected = Vm.MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin;
             popup.Child = new CoinSelect(
                 new CoinSelectViewModel(Vm.MinerProfile.CoinVm.CoinKernel.DualCoinGroup.DualCoinVms, selected, onSelectedChanged: selectedResult => {
@@ -129,7 +130,6 @@ namespace NTMiner.Views.Ucs {
                         popup.IsOpen = false;
                     })
                 });
-            popup.IsOpen = true;
             VirtualRoot.Happened(new UserActionEvent());
         }
 
@@ -139,6 +139,7 @@ namespace NTMiner.Views.Ucs {
                 return;
             }
             var popup = PopupMainCoinWallet;
+            popup.IsOpen = true;
             var selected = coinVm.CoinProfile.SelectedWallet;
             bool isDualCoin = false;
             popup.Child = new WalletSelect(
@@ -152,7 +153,6 @@ namespace NTMiner.Views.Ucs {
                         popup.IsOpen = false;
                     })
                 });
-            popup.IsOpen = true;
             VirtualRoot.Happened(new UserActionEvent());
         }
 
@@ -162,6 +162,7 @@ namespace NTMiner.Views.Ucs {
                 return;
             }
             var popup = PopupDualCoinWallet;
+            popup.IsOpen = true;
             var selected = coinVm.CoinProfile.SelectedDualCoinWallet;
             bool isDualCoin = true;
             popup.Child = new WalletSelect(
@@ -175,7 +176,6 @@ namespace NTMiner.Views.Ucs {
                         popup.IsOpen = false;
                     })
                 });
-            popup.IsOpen = true;
             VirtualRoot.Happened(new UserActionEvent());
         }
     }
