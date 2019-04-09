@@ -34,71 +34,79 @@ namespace NTMiner.Core.Gpus.Impl {
                 return;
             }
             if (Directory.Exists(_nvsmiDir)) {
-                NvmlInit();
-                NvmlNativeMethods.nvmlDeviceGetCount(ref deviceCount);
-                for (int i = 0; i < deviceCount; i++) {
-                    nvmlDevice nvmlDevice = new nvmlDevice();
-                    NvmlNativeMethods.nvmlDeviceGetHandleByIndex((uint)i, ref nvmlDevice);
-                    uint gClock = 0, mClock = 0;
-                    NvmlNativeMethods.nvmlDeviceGetName(nvmlDevice, out string name);
-                    NvmlNativeMethods.nvmlDeviceGetMaxClockInfo(nvmlDevice, nvmlClockType.Graphics, ref gClock);
-                    NvmlNativeMethods.nvmlDeviceGetMaxClockInfo(nvmlDevice, nvmlClockType.Mem, ref mClock);
-                    if (!string.IsNullOrEmpty(name)) {
-                        name = name.Replace("GeForce ", string.Empty);
+                if (NvmlInit()) {
+                    NvmlNativeMethods.nvmlDeviceGetCount(ref deviceCount);
+                    for (int i = 0; i < deviceCount; i++) {
+                        nvmlDevice nvmlDevice = new nvmlDevice();
+                        NvmlNativeMethods.nvmlDeviceGetHandleByIndex((uint)i, ref nvmlDevice);
+                        uint gClock = 0, mClock = 0;
+                        NvmlNativeMethods.nvmlDeviceGetName(nvmlDevice, out string name);
+                        NvmlNativeMethods.nvmlDeviceGetMaxClockInfo(nvmlDevice, nvmlClockType.Graphics, ref gClock);
+                        NvmlNativeMethods.nvmlDeviceGetMaxClockInfo(nvmlDevice, nvmlClockType.Mem, ref mClock);
+                        if (!string.IsNullOrEmpty(name)) {
+                            name = name.Replace("GeForce ", string.Empty);
+                        }
+                        Gpu gpu = Gpu.Create(i, name);
+                        _gpus.Add(i, gpu);
                     }
-                    Gpu gpu = Gpu.Create(i, name);
-                    _gpus.Add(i, gpu);
-                }
-                if (deviceCount > 0) {
-                    NvmlNativeMethods.nvmlSystemGetDriverVersion(out string driverVersion);
-                    NvmlNativeMethods.nvmlSystemGetNVMLVersion(out string nvmlVersion);
-                    this.Properties.Add(new GpuSetProperty("DriverVersion", "驱动版本", driverVersion));
-                    try {
-                        double driverVersionNum;
-                        if (double.TryParse(driverVersion, out driverVersionNum)) {
-                            var item = root.SysDicItemSet.GetSysDicItems("CudaVersion")
-                                .Select(a => new { Version = double.Parse(a.Value), a })
-                                .OrderByDescending(a => a.Version)
-                                .FirstOrDefault(a => driverVersionNum >= a.Version);
-                            if (item != null) {
-                                this.Properties.Add(new GpuSetProperty("CudaVersion", "Cuda版本", item.a.Code));
+                    if (deviceCount > 0) {
+                        NvmlNativeMethods.nvmlSystemGetDriverVersion(out string driverVersion);
+                        NvmlNativeMethods.nvmlSystemGetNVMLVersion(out string nvmlVersion);
+                        this.Properties.Add(new GpuSetProperty("DriverVersion", "驱动版本", driverVersion));
+                        try {
+                            double driverVersionNum;
+                            if (double.TryParse(driverVersion, out driverVersionNum)) {
+                                var item = root.SysDicItemSet.GetSysDicItems("CudaVersion")
+                                    .Select(a => new { Version = double.Parse(a.Value), a })
+                                    .OrderByDescending(a => a.Version)
+                                    .FirstOrDefault(a => driverVersionNum >= a.Version);
+                                if (item != null) {
+                                    this.Properties.Add(new GpuSetProperty("CudaVersion", "Cuda版本", item.a.Code));
+                                }
                             }
                         }
-                    }
-                    catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
-                    }
-                    this.Properties.Add(new GpuSetProperty("NVMLVersion", "NVML版本", nvmlVersion));
-                    Dictionary<string, string> kvs = new Dictionary<string, string> {
+                        catch (Exception e) {
+                            Logger.ErrorDebugLine(e.Message, e);
+                        }
+                        this.Properties.Add(new GpuSetProperty("NVMLVersion", "NVML版本", nvmlVersion));
+                        Dictionary<string, string> kvs = new Dictionary<string, string> {
                         {"CUDA_DEVICE_ORDER","PCI_BUS_ID" }
                     };
-                    foreach (var kv in kvs) {
-                        var property = new GpuSetProperty(kv.Key, kv.Key, kv.Value);
-                        this.Properties.Add(property);
-                    }
-                    Task.Factory.StartNew(() => {
-                        foreach (var gpu in _gpus.Values) {
-                            NVIDIAOverClock.RefreshGpuState(gpu);
-                        }
-                        // 这里会耗时5秒
                         foreach (var kv in kvs) {
-                            Environment.SetEnvironmentVariable(kv.Key, kv.Value);
+                            var property = new GpuSetProperty(kv.Key, kv.Key, kv.Value);
+                            this.Properties.Add(property);
                         }
-                    });
+                        Task.Factory.StartNew(() => {
+                            foreach (var gpu in _gpus.Values) {
+                                NVIDIAOverClock.RefreshGpuState(gpu);
+                            }
+                            // 这里会耗时5秒
+                            foreach (var kv in kvs) {
+                                Environment.SetEnvironmentVariable(kv.Key, kv.Value);
+                            }
+                        });
+                    }
                 }
             }
         }
 
         private bool _isNvmlInited = false;
-        private void NvmlInit() {
+        private bool NvmlInit() {
             if (_isNvmlInited) {
-                return;
+                return _isNvmlInited;
             }
             if (Directory.Exists(_nvsmiDir)) {
-                Windows.NativeMethods.SetDllDirectory(_nvsmiDir);
-                var nvmlReturn = NvmlNativeMethods.nvmlInit();
-                _isNvmlInited = nvmlReturn == nvmlReturn.Success;
+                try {
+                    Windows.NativeMethods.SetDllDirectory(_nvsmiDir);
+                    var nvmlReturn = NvmlNativeMethods.nvmlInit();
+                    _isNvmlInited = nvmlReturn == nvmlReturn.Success;
+                    return _isNvmlInited;
+                }
+                catch (Exception e) {
+                    Logger.ErrorDebugLine(e.Message, e);
+                }
             }
+            return false;
         }
 
         ~NVIDIAGpuSet() {
@@ -108,26 +116,27 @@ namespace NTMiner.Core.Gpus.Impl {
         }
 
         public void LoadGpuState() {
-            NvmlInit();
-            for (int i = 0; i < deviceCount; i++) {
-                nvmlDevice nvmlDevice = new nvmlDevice();
-                NvmlNativeMethods.nvmlDeviceGetHandleByIndex((uint)i, ref nvmlDevice);
-                uint power = 0;
-                NvmlNativeMethods.nvmlDeviceGetPowerUsage(nvmlDevice, ref power);
-                power = (uint)(power / 1000.0);
-                uint temp = 0;
-                NvmlNativeMethods.nvmlDeviceGetTemperature(nvmlDevice, nvmlTemperatureSensors.Gpu, ref temp);
-                uint speed = 0;
-                NvmlNativeMethods.nvmlDeviceGetFanSpeed(nvmlDevice, ref speed);
+            if (NvmlInit()) {
+                for (int i = 0; i < deviceCount; i++) {
+                    nvmlDevice nvmlDevice = new nvmlDevice();
+                    NvmlNativeMethods.nvmlDeviceGetHandleByIndex((uint)i, ref nvmlDevice);
+                    uint power = 0;
+                    NvmlNativeMethods.nvmlDeviceGetPowerUsage(nvmlDevice, ref power);
+                    power = (uint)(power / 1000.0);
+                    uint temp = 0;
+                    NvmlNativeMethods.nvmlDeviceGetTemperature(nvmlDevice, nvmlTemperatureSensors.Gpu, ref temp);
+                    uint speed = 0;
+                    NvmlNativeMethods.nvmlDeviceGetFanSpeed(nvmlDevice, ref speed);
 
-                Gpu gpu = (Gpu)_gpus[i];
-                bool isChanged = gpu.Temperature != temp || gpu.PowerUsage != power || gpu.FanSpeed != speed;
-                gpu.Temperature = temp;
-                gpu.PowerUsage = power;
-                gpu.FanSpeed = speed;
+                    Gpu gpu = (Gpu)_gpus[i];
+                    bool isChanged = gpu.Temperature != temp || gpu.PowerUsage != power || gpu.FanSpeed != speed;
+                    gpu.Temperature = temp;
+                    gpu.PowerUsage = power;
+                    gpu.FanSpeed = speed;
 
-                if (isChanged) {
-                    VirtualRoot.Happened(new GpuStateChangedEvent(gpu));
+                    if (isChanged) {
+                        VirtualRoot.Happened(new GpuStateChangedEvent(gpu));
+                    }
                 }
             }
         }
