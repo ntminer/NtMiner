@@ -1,5 +1,4 @@
-﻿using NTMiner.Core.SysDics;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -244,9 +243,8 @@ namespace NTMiner.Core.Kernels.Impl {
                     }
                     Match match = regex.Match(input);
                     if (match.Success) {
-                        if (!string.IsNullOrEmpty(consoleTranslater.Replacement)) {
-                            input = regex.Replace(input, consoleTranslater.Replacement);
-                        }
+                        string replacement = consoleTranslater.Replacement ?? string.Empty;
+                        input = regex.Replace(input, replacement);
                         if (!string.IsNullOrEmpty(consoleTranslater.Color)) {
                             color = GetColor(consoleTranslater);
                         }
