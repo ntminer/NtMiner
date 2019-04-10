@@ -820,9 +820,9 @@
 						Binding="{Binding BootTimeSpanText}"
 						Visibility="{Binding Data.ColumnsShow.BootTimeSpanText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 						CanUserResize="True" CanUserReorder="False" 
-					    CanUserSort="True" 
-					    SortMemberPath="BootOn"
-					    IsReadOnly="True">
+						CanUserSort="True" 
+						SortMemberPath="BootOn"
+						IsReadOnly="True">
 						<DataGridTextColumn.Header>
 							<WrapPanel>
 								<TextBlock>运行时长</TextBlock>
@@ -2102,7 +2102,20 @@
 					</DataGridTemplateColumn>
 				</DataGrid.Columns>
 			</DataGrid>
-			<TextBlock Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding MinerClients, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" Text="没有记录"></TextBlock>
+			<WrapPanel Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding MinerClients, Converter={StaticResource NoRecordVisibilityConverter}}">
+				<TextBlock VerticalAlignment="Center" Foreground="Red" Text="没有记录，请先添加矿机"></TextBlock>
+				<controls:KbButton Padding="4" Command="{Binding AddMinerClient}">
+					<WrapPanel>
+						<Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_Add}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+						<TextBlock>添加矿机</TextBlock>
+					</WrapPanel>
+				</controls:KbButton>
+			</WrapPanel>
 			<GridSplitter Grid.Row="0" Height="6" Margin="0 0 0 24"  VerticalAlignment="Bottom" HorizontalAlignment="Stretch"></GridSplitter>
 			<Grid Grid.Row="0" VerticalAlignment="Bottom">
 				<Grid.ColumnDefinitions>
