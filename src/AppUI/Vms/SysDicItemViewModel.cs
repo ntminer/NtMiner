@@ -10,8 +10,8 @@ namespace NTMiner.Vms {
     public class SysDicItemViewModel : ViewModelBase, ISysDicItem, IEditableViewModel {
         public static readonly SysDicItemViewModel PleaseSelect = new SysDicItemViewModel(Guid.Empty) {
             _code = string.Empty,
-            _value = "请选择",
-            _description = "请选择",
+            _value = "不指定",
+            _description = "不指定",
             _sortNumber = -1
         };
 
