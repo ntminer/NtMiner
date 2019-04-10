@@ -4,7 +4,7 @@ using System.Text;
 namespace NTMiner.MinerServer {
     public class ColumnsShowData : IDbEntity<Guid>, IColumnsShow, IGetSignData {
         public static readonly ColumnsShowData PleaseSelect = new ColumnsShowData {
-            ColumnsShowName = "请选择",
+            ColumnsShowName = "默认",
             Id = Guid.Parse("197f19e8-0c1b-4018-875d-2f5e56a02491"),
             BootTimeSpanText = true,
             ClientName = true,
