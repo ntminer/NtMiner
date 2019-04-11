@@ -59,6 +59,7 @@ namespace NTMiner {
                 Directory.CreateDirectory(TempDirFullName);
             }
             NTMinerOverClockFileFullName = Path.Combine(TempDirFullName, "NTMinerOverClock.exe");
+            DeviceDetectionPrinterFileFullName = Path.Combine(TempDirFullName, "DeviceDetectionPrinter.exe");
             ServerDbFileFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "server.litedb");
             ServerJsonFileFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "server.json");
 
@@ -112,6 +113,8 @@ namespace NTMiner {
         public static string DevConsoleFileFullName { get; private set; }
 
         public static string NTMinerOverClockFileFullName { get; private set; }
+
+        public static string DeviceDetectionPrinterFileFullName { get; private set; }
 
         public static string TempDirFullName { get; private set; }
 
