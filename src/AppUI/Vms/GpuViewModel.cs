@@ -121,6 +121,13 @@ namespace NTMiner.Vms {
             set {
                 _totalMemory = value;
                 OnPropertyChanged(nameof(TotalMemory));
+                OnPropertyChanged(nameof(TotalMemoryGbText));
+            }
+        }
+
+        public string TotalMemoryGbText {
+            get {
+                return (this.TotalMemory / 1024).ToString() + "G";
             }
         }
 
