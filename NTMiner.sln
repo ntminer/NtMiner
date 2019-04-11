@@ -25,6 +25,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppUI", "src\AppUI\AppUI.cs
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CE1BCA4A-E725-42A7-80ED-AEDF3B0EF2EB}"
 	ProjectSection(SolutionItems) = preProject
+		996LICENSE = 996LICENSE
 		README.md = README.md
 	EndProjectSection
 EndProject
