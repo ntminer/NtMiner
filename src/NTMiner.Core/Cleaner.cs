@@ -5,6 +5,25 @@ using System.IO;
 
 namespace NTMiner {
     public static class Cleaner {
+        private static bool _clearedDownload = false;
+        /// <summary>
+        /// 启动时删除Temp/Download目录下的下载文件，启动时调一次即可
+        /// </summary>
+        public static void ClearDownload() {
+            if (_clearedDownload) {
+                return;
+            }
+            _clearedDownload = true;
+            try {
+                foreach (var file in Directory.GetFiles(SpecialPath.DownloadDirFullName)) {
+                    File.Delete(file);
+                }
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+            }
+        }
+
         public static void ClearPackages() {
             HashSet<string> packageFileNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             foreach (var kernel in NTMinerRoot.Current.KernelSet) {

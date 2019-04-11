@@ -378,6 +378,8 @@ namespace NTMiner {
             });
 
             RefreshArgsAssembly.Invoke();
+            // 清理Temp/Download目录下的下载文件
+            Cleaner.ClearDownload();
             // 自动开始挖矿
             if ((NTMinerRegistry.GetIsAutoStart() || CommandLineArgs.IsAutoStart) && !IsMining) {
                 StartMine();
