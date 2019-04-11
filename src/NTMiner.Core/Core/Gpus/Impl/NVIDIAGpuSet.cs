@@ -39,14 +39,14 @@ namespace NTMiner.Core.Gpus.Impl {
                     for (int i = 0; i < deviceCount; i++) {
                         nvmlDevice nvmlDevice = new nvmlDevice();
                         NvmlNativeMethods.nvmlDeviceGetHandleByIndex((uint)i, ref nvmlDevice);
-                        uint gClock = 0, mClock = 0;
                         NvmlNativeMethods.nvmlDeviceGetName(nvmlDevice, out string name);
-                        NvmlNativeMethods.nvmlDeviceGetMaxClockInfo(nvmlDevice, nvmlClockType.Graphics, ref gClock);
-                        NvmlNativeMethods.nvmlDeviceGetMaxClockInfo(nvmlDevice, nvmlClockType.Mem, ref mClock);
+                        nvmlMemory memory = new nvmlMemory();
+                        NvmlNativeMethods.nvmlDeviceGetMemoryInfo(nvmlDevice, ref memory);
                         if (!string.IsNullOrEmpty(name)) {
                             name = name.Replace("GeForce ", string.Empty);
                         }
                         Gpu gpu = Gpu.Create(i, name);
+                        gpu.TotalMemory = (int)(memory.total / 1024 / 1024);
                         _gpus.Add(i, gpu);
                     }
                     if (deviceCount > 0) {

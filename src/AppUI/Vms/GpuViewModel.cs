@@ -26,10 +26,12 @@ namespace NTMiner.Vms {
         private int _tempLimitDefault;
         private int _tempLimitMax;
         private int _tempLimit;
+        private int _totalMemory;
 
         public GpuViewModel(IGpu data) {
             _index = data.Index;
             _name = data.Name;
+            _totalMemory = data.TotalMemory;
             _temperature = data.Temperature;
             _fanSpeed = data.FanSpeed;
             _powerUsage = data.PowerUsage;
@@ -64,6 +66,7 @@ namespace NTMiner.Vms {
             _gpuDatas = gpuDatas.Where(a => a.Index != NTMinerRoot.GpuAllId).ToArray();
             _index = gpuData.Index;
             _name = gpuData.Name;
+            _totalMemory = gpuData.TotalMemory;
             _temperature = 0;
             _fanSpeed = 0;
             _powerUsage = 0;
@@ -110,6 +113,14 @@ namespace NTMiner.Vms {
                     _name = value;
                     OnPropertyChanged(nameof(Name));
                 }
+            }
+        }
+
+        public int TotalMemory {
+            get => _totalMemory;
+            set {
+                _totalMemory = value;
+                OnPropertyChanged(nameof(TotalMemory));
             }
         }
 

@@ -3,6 +3,11 @@
         int Index { get; }
         string Name { get; }
 
+        /// <summary>
+        /// 单位Mb
+        /// </summary>
+        int TotalMemory { get; set; }
+
         int CoreClockDeltaMin { get; set; }
 
         int CoreClockDeltaMax { get; set; }
