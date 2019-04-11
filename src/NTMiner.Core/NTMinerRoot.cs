@@ -92,6 +92,7 @@ namespace NTMiner {
                                     Write.UserInfo($"server.json配置文件有新版本{localServerJsonFileVersion}->{serverServerJsonFileVersion}");
                                     string rawJson = Encoding.UTF8.GetString(data);
                                     SpecialPath.WriteServerJsonFile(rawJson);
+                                    SetServerJsonVersion(serverServerJsonFileVersion);
                                     ReInitServerJson();
                                     bool isUseJson = !DevMode.IsDebugMode || VirtualRoot.IsMinerStudio;
                                     if (isUseJson) {
@@ -104,7 +105,6 @@ namespace NTMiner {
                                     else {
                                         Write.UserInfo("不是使用的server.json，无需刷新");
                                     }
-                                    SetServerJsonVersion(serverServerJsonFileVersion);
                                 });
                             }
                             else {
