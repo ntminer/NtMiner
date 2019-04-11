@@ -1,491 +1,280 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 
 namespace NTMiner.Core.Gpus.Impl.Amd {
-    #region Export Delegates
-    /// <summary> ADL Memory allocation function allows ADL to callback for memory allocation</summary>
-    /// <param name="size">input size</param>
-    /// <returns> retrun ADL Error Code</returns>
-    internal delegate IntPtr ADL_Main_Memory_Alloc(int size);
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct ADLAdapterInfo {
+        public int Size;
+        public int AdapterIndex;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = ADL.ADL_MAX_PATH)]
+        public string UDID;
+        public int BusNumber;
+        public int DeviceNumber;
+        public int FunctionNumber;
+        public int VendorID;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = ADL.ADL_MAX_PATH)]
+        public string AdapterName;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = ADL.ADL_MAX_PATH)]
+        public string DisplayName;
+        public int Present;
+        public int Exist;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = ADL.ADL_MAX_PATH)]
+        public string DriverPath;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = ADL.ADL_MAX_PATH)]
+        public string DriverPathExt;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = ADL.ADL_MAX_PATH)]
+        public string PNPString;
+        public int OSDisplayIndex;
+    }
 
-    // ///// <summary> ADL Create Function to create ADL Data</summary>
-    /// <param name="callback">Call back functin pointer which is ised to allocate memeory </param>
-    /// <param name="enumConnectedAdapters">If it is 1, then ADL will only retuen the physical exist adapters </param>
-    ///// <returns> retrun ADL Error Code</returns>
-    internal delegate int ADL_Main_Control_Create(ADL_Main_Memory_Alloc callback, int enumConnectedAdapters);
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct ADLPMActivity {
+        public int Size;
+        public int EngineClock;
+        public int MemoryClock;
+        public int Vddc;
+        public int ActivityPercent;
+        public int CurrentPerformanceLevel;
+        public int CurrentBusSpeed;
+        public int CurrentBusLanes;
+        public int MaximumBusLanes;
+        public int Reserved;
+    }
 
-    internal delegate int ADL2_Main_Control_Create(ADL_Main_Memory_Alloc callback, int enumConnectedAdapters, ref IntPtr context);
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct ADLTemperature {
+        public int Size;
+        public int Temperature;
+    }
 
-    /// <summary> ADL Destroy Function to free up ADL Data</summary>
-    /// <returns> retrun ADL Error Code</returns>
-    internal delegate int ADL_Main_Control_Destroy();
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct ADLFanSpeedValue {
+        public int Size;
+        public int SpeedType;
+        public int FanSpeed;
+        public int Flags;
+    }
 
-    internal delegate int ADL2_Main_Control_Destroy(IntPtr context);
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct ADLFanSpeedInfo {
+        public int Size;
+        public int Flags;
+        public int MinPercent;
+        public int MaxPercent;
+        public int MinRPM;
+        public int MaxRPM;
+    }
 
-    /// <summary> ADL Function to get the number of adapters</summary>
-    /// <param name="numAdapters">return number of adapters</param>
-    /// <returns> retrun ADL Error Code</returns>
-    internal delegate int ADL_Adapter_NumberOfAdapters_Get(ref int numAdapters);
+    internal class ADL {
+        public const int ADL_MAX_PATH = 256;
+        public const int ADL_MAX_ADAPTERS = 40;
+        public const int ADL_MAX_DISPLAYS = 40;
+        public const int ADL_MAX_DEVICENAME = 32;
+        public const int ADL_OK = 0;
+        public const int ADL_ERR = -1;
+        public const int ADL_DRIVER_OK = 0;
+        public const int ADL_MAX_GLSYNC_PORTS = 8;
+        public const int ADL_MAX_GLSYNC_PORT_LEDS = 8;
+        public const int ADL_MAX_NUM_DISPLAYMODES = 1024;
 
-    /// <summary> ADL Function to get the GPU adapter information</summary>
-    /// <param name="info">return GPU adapter information</param>
-    /// <param name="inputSize">the size of the GPU adapter struct</param>
-    /// <returns> retrun ADL Error Code</returns>
-    internal delegate int ADL_Adapter_AdapterInfo_Get(IntPtr info, int inputSize);
+        public const int ADL_DL_FANCTRL_SPEED_TYPE_PERCENT = 1;
+        public const int ADL_DL_FANCTRL_SPEED_TYPE_RPM = 2;
 
-    internal delegate int ADL2_Adapter_AdapterInfo_Get(IntPtr context, IntPtr lpInfo, int iInputSize);
+        public const int ADL_DL_FANCTRL_SUPPORTS_PERCENT_READ = 1;
+        public const int ADL_DL_FANCTRL_SUPPORTS_PERCENT_WRITE = 2;
+        public const int ADL_DL_FANCTRL_SUPPORTS_RPM_READ = 4;
+        public const int ADL_DL_FANCTRL_SUPPORTS_RPM_WRITE = 8;
+        public const int ADL_DL_FANCTRL_FLAG_USER_DEFINED_SPEED = 1;
 
-    /// <summary> Function to determine if the adapter is active or not.</summary>
-    /// <remarks>The function is used to check if the adapter associated with iAdapterIndex is active</remarks>  
-    /// <param name="adapterIndex"> Adapter Index.</param>
-    /// <param name="status"> Status of the adapter. True: Active; False: Dsiabled</param>
-    /// <returns>Non zero is successfull</returns> 
-    internal delegate int ADL_Adapter_Active_Get(int adapterIndex, ref int status);
+        public const int ATI_VENDOR_ID = 0x1002;
 
-    /// <summary>Get display information based on adapter index</summary>
-    /// <param name="adapterIndex">Adapter Index</param>
-    /// <param name="numDisplays">return the total number of supported displays</param>
-    /// <param name="displayInfoArray">return ADLDisplayInfo Array for supported displays' information</param>
-    /// <param name="forceDetect">force detect or not</param>
-    /// <returns>return ADL Error Code</returns>
-    internal delegate int ADL_Display_DisplayInfo_Get(int adapterIndex, ref int numDisplays, out IntPtr displayInfoArray, int forceDetect);
+        private delegate int ADL_Main_Control_CreateDelegate(
+          ADL_Main_Memory_AllocDelegate callback, int enumConnectedAdapters);
+        private delegate int ADL_Adapter_AdapterInfo_GetDelegate(IntPtr info,
+          int size);
 
-    internal delegate int ADL_Overdrive5_Temperature_Get(int adapterIndex, int thermalControllerIndex, ref ADLTemperature temperature);
+        public delegate int ADL_Main_Control_DestroyDelegate();
+        public delegate int ADL_Adapter_NumberOfAdapters_GetDelegate(
+          ref int numAdapters);
+        public delegate int ADL_Adapter_ID_GetDelegate(int adapterIndex,
+          out int adapterID);
+        public delegate int ADL_Display_AdapterID_GetDelegate(int adapterIndex,
+          out int adapterID);
+        public delegate int ADL_Adapter_Active_GetDelegate(int adapterIndex,
+          out int status);
+        public delegate int ADL_Overdrive5_CurrentActivity_GetDelegate(
+          int iAdapterIndex, ref ADLPMActivity activity);
+        public delegate int ADL_Overdrive5_Temperature_GetDelegate(int adapterIndex,
+            int thermalControllerIndex, ref ADLTemperature temperature);
+        public delegate int ADL_Overdrive5_FanSpeed_GetDelegate(int adapterIndex,
+            int thermalControllerIndex, ref ADLFanSpeedValue fanSpeedValue);
+        public delegate int ADL_Overdrive5_FanSpeedInfo_GetDelegate(
+          int adapterIndex, int thermalControllerIndex,
+          ref ADLFanSpeedInfo fanSpeedInfo);
+        public delegate int ADL_Overdrive5_FanSpeedToDefault_SetDelegate(
+          int adapterIndex, int thermalControllerIndex);
+        public delegate int ADL_Overdrive5_FanSpeed_SetDelegate(int adapterIndex,
+          int thermalControllerIndex, ref ADLFanSpeedValue fanSpeedValue);
+        internal delegate int ADL2_Overdrive6_CurrentPower_GetDelegate(int iAdapterIndex, int iPowerType, ref int lpCurrentValue);
 
-    internal delegate int ADL_Overdrive5_FanSpeed_Get(int adapterIndex, int thermalControllerIndex, ref ADLFanSpeedValue temperature);
+        private static ADL_Main_Control_CreateDelegate
+          _ADL_Main_Control_Create;
+        private static ADL_Adapter_AdapterInfo_GetDelegate
+          _ADL_Adapter_AdapterInfo_Get;
 
-    internal delegate int ADL2_Overdrive6_CurrentPower_Get(IntPtr context, int iAdapterIndex, int iPowerType, ref int lpCurrentValue);
+        public static ADL_Main_Control_DestroyDelegate
+          ADL_Main_Control_Destroy;
+        public static ADL_Adapter_NumberOfAdapters_GetDelegate
+          ADL_Adapter_NumberOfAdapters_Get;
+        public static ADL_Adapter_ID_GetDelegate
+          _ADL_Adapter_ID_Get;
+        public static ADL_Display_AdapterID_GetDelegate
+          _ADL_Display_AdapterID_Get;
+        public static ADL_Adapter_Active_GetDelegate
+          ADL_Adapter_Active_Get;
+        public static ADL_Overdrive5_CurrentActivity_GetDelegate
+          ADL_Overdrive5_CurrentActivity_Get;
+        public static ADL_Overdrive5_Temperature_GetDelegate
+          ADL_Overdrive5_Temperature_Get;
+        public static ADL_Overdrive5_FanSpeed_GetDelegate
+          ADL_Overdrive5_FanSpeed_Get;
+        public static ADL_Overdrive5_FanSpeedInfo_GetDelegate
+          ADL_Overdrive5_FanSpeedInfo_Get;
+        public static ADL_Overdrive5_FanSpeedToDefault_SetDelegate
+          ADL_Overdrive5_FanSpeedToDefault_Set;
+        public static ADL_Overdrive5_FanSpeed_SetDelegate
+          ADL_Overdrive5_FanSpeed_Set;
+        public static ADL2_Overdrive6_CurrentPower_GetDelegate ADL2_Overdrive6_CurrentPower_Get;
 
-    internal delegate int ADL_Adapter_ID_Get(int iAdapterIndex, ref int lpAdapterID);
+        private static string dllName;
 
-    internal delegate int ADL_Main_Control_Refresh();
-
-    internal delegate int ADL2_Main_Control_Refresh(IntPtr hHandle);
-
-    #endregion Export Delegates
-
-    #region ADL Class
-    /// <summary> ADL Class</summary>
-    internal static class AdlNativeMethods {
-        #region Class ADLImport
-        /// <summary> ADLImport class</summary>
-        private static class ADLImport {
-            #region Internal Constant
-            /// <summary> Atiadlxx_FileName </summary>
-            internal const string Atiadlxx_FileName = "atiadlxx.dll";
-            /// <summary> Kernel32_FileName </summary>
-            internal const string Kernel32_FileName = "kernel32.dll";
-            #endregion Internal Constant
-
-            #region DLLImport
-            [DllImport(Kernel32_FileName, CallingConvention = CallingConvention.StdCall)]
-            internal static extern IntPtr GetModuleHandle(string moduleName);
-
-            [DllImport(Atiadlxx_FileName, CallingConvention = CallingConvention.Cdecl)]
-            internal static extern int ADL_Main_Control_Create(ADL_Main_Memory_Alloc callback, int enumConnectedAdapters);
-
-            [DllImport(Atiadlxx_FileName, CallingConvention = CallingConvention.Cdecl)]
-            internal static extern int ADL2_Main_Control_Create(ADL_Main_Memory_Alloc callback, int enumConnectedAdapters, ref IntPtr context);
-
-            [DllImport(Atiadlxx_FileName, CallingConvention = CallingConvention.Cdecl)]
-            internal static extern int ADL_Main_Control_Destroy();
-
-            [DllImport(Atiadlxx_FileName, CallingConvention = CallingConvention.Cdecl)]
-            internal static extern int ADL2_Main_Control_Destroy(IntPtr context);
-
-            [DllImport(Atiadlxx_FileName, CallingConvention = CallingConvention.Cdecl)]
-            internal static extern int ADL_Main_Control_IsFunctionValid(IntPtr module, string procName);
-
-            [DllImport(Atiadlxx_FileName, CallingConvention = CallingConvention.Cdecl)]
-            internal static extern IntPtr ADL_Main_Control_GetProcAddress(IntPtr module, string procName);
-
-            [DllImport(Atiadlxx_FileName, CallingConvention = CallingConvention.Cdecl)]
-            internal static extern int ADL_Adapter_NumberOfAdapters_Get(ref int numAdapters);
-
-            [DllImport(Atiadlxx_FileName, CallingConvention = CallingConvention.Cdecl)]
-            internal static extern int ADL_Adapter_AdapterInfo_Get(IntPtr info, int inputSize);
-
-            [DllImport(Atiadlxx_FileName, CallingConvention = CallingConvention.Cdecl)]
-            internal static extern int ADL2_Adapter_AdapterInfo_Get(IntPtr context, IntPtr lpInfo, int iInputSize);
-
-            [DllImport(Atiadlxx_FileName, CallingConvention = CallingConvention.Cdecl)]
-            internal static extern int ADL_Adapter_Active_Get(int adapterIndex, ref int status);
-
-            [DllImport(Atiadlxx_FileName, CallingConvention = CallingConvention.Cdecl)]
-            internal static extern int ADL_Display_DisplayInfo_Get(int adapterIndex, ref int numDisplays, out IntPtr displayInfoArray, int forceDetect);
-
-            [DllImport(Atiadlxx_FileName, CallingConvention = CallingConvention.Cdecl)]
-            internal static extern int ADL_Overdrive5_Temperature_Get(int adapterIndex, int thermalControllerIndex, ref ADLTemperature temperature);
-
-            [DllImport(Atiadlxx_FileName, CallingConvention = CallingConvention.Cdecl)]
-            internal static extern int ADL_Overdrive5_FanSpeed_Get(int adapterIndex, int thermalControllerIndex, ref ADLFanSpeedValue fanSpeedValue);
-
-            [DllImport(Atiadlxx_FileName, CallingConvention = CallingConvention.Cdecl)]
-            internal static extern int ADL2_Overdrive6_CurrentPower_Get(IntPtr context, int iAdapterIndex, int iPowerType, ref int lpCurrentValue);
-
-            [DllImport(Atiadlxx_FileName, CallingConvention = CallingConvention.Cdecl)]
-            public static extern int ADL_Adapter_ID_Get(int iAdapterIndex, ref int lpAdapterID);
-
-            [DllImport(Atiadlxx_FileName, CallingConvention = CallingConvention.Cdecl)]
-            public static extern int ADL_Main_Control_Refresh();
-
-            [DllImport(Atiadlxx_FileName, CallingConvention = CallingConvention.Cdecl)]
-            public static extern int ADL2_Main_Control_Refresh(IntPtr hHandle);
-
-            #endregion DLLImport
+        private static void GetDelegate<T>(string entryPoint, out T newDelegate)
+          where T : class {
+            DllImportAttribute attribute = new DllImportAttribute(dllName);
+            attribute.CallingConvention = CallingConvention.Cdecl;
+            attribute.PreserveSig = true;
+            attribute.EntryPoint = entryPoint;
+            PInvokeDelegateFactory.CreateDelegate(attribute, out newDelegate);
         }
-        #endregion Class ADLImport
 
-        #region Class ADLCheckLibrary
-        /// <summary> ADLCheckLibrary class</summary>
-        private class ADLCheckLibrary {
-            #region Private Members
-            private IntPtr ADLLibrary = IntPtr.Zero;
-            #endregion Private Members
+        private static void CreateDelegates(string name) {
+            int p = (int)Environment.OSVersion.Platform;
+            if ((p == 4) || (p == 128))
+                dllName = name + ".so";
+            else
+                dllName = name + ".dll";
 
-            #region Static Members
-            /// <summary> new a private instance</summary>
-            private static ADLCheckLibrary ADLCheckLibrary_ = new ADLCheckLibrary();
-            #endregion Static Members
+            GetDelegate("ADL_Main_Control_Create",
+              out _ADL_Main_Control_Create);
+            GetDelegate("ADL_Adapter_AdapterInfo_Get",
+              out _ADL_Adapter_AdapterInfo_Get);
+            GetDelegate("ADL_Main_Control_Destroy",
+              out ADL_Main_Control_Destroy);
+            GetDelegate("ADL_Adapter_NumberOfAdapters_Get",
+              out ADL_Adapter_NumberOfAdapters_Get);
+            GetDelegate("ADL_Adapter_ID_Get",
+              out _ADL_Adapter_ID_Get);
+            GetDelegate("ADL_Display_AdapterID_Get",
+              out _ADL_Display_AdapterID_Get);
+            GetDelegate("ADL_Adapter_Active_Get",
+              out ADL_Adapter_Active_Get);
+            GetDelegate("ADL_Overdrive5_CurrentActivity_Get",
+              out ADL_Overdrive5_CurrentActivity_Get);
+            GetDelegate("ADL_Overdrive5_Temperature_Get",
+              out ADL_Overdrive5_Temperature_Get);
+            GetDelegate("ADL_Overdrive5_FanSpeed_Get",
+              out ADL_Overdrive5_FanSpeed_Get);
+            GetDelegate("ADL_Overdrive5_FanSpeedInfo_Get",
+              out ADL_Overdrive5_FanSpeedInfo_Get);
+            GetDelegate("ADL_Overdrive5_FanSpeedToDefault_Set",
+              out ADL_Overdrive5_FanSpeedToDefault_Set);
+            GetDelegate("ADL_Overdrive5_FanSpeed_Set",
+              out ADL_Overdrive5_FanSpeed_Set);
+            GetDelegate("ADL2_Overdrive6_CurrentPower_Get",
+              out ADL2_Overdrive6_CurrentPower_Get);
+        }
 
-            #region Constructor
-            /// <summary> Constructor</summary>
-            private ADLCheckLibrary() {
+        static ADL() {
+            CreateDelegates("atiadlxx");
+        }
+
+        private ADL() { }
+
+        public static int ADL_Main_Control_Create(int enumConnectedAdapters) {
+            try {
                 try {
-                    if (1 == ADLImport.ADL_Main_Control_IsFunctionValid(IntPtr.Zero, "ADL_Main_Control_Create")) {
-                        ADLLibrary = ADLImport.GetModuleHandle(ADLImport.Atiadlxx_FileName);
-                    }
+                    return _ADL_Main_Control_Create(Main_Memory_Alloc,
+                      enumConnectedAdapters);
                 }
-                catch (DllNotFoundException e) {
-                    Logger.ErrorDebugLine(e.Message, e);
-                }
-                catch (EntryPointNotFoundException e) {
-                    Logger.ErrorDebugLine(e.Message, e);
-                }
-                catch (Exception e) {
-                    Logger.ErrorDebugLine(e.Message, e);
+                catch {
+                    CreateDelegates("atiadlxy");
+                    return _ADL_Main_Control_Create(Main_Memory_Alloc,
+                      enumConnectedAdapters);
                 }
             }
-            #endregion Constructor
-
-            #region Destructor
-            /// <summary> Destructor to force calling ADL Destroy function before free up the ADL library</summary>
-            ~ADLCheckLibrary() {
-                if (System.IntPtr.Zero != ADLCheckLibrary_.ADLLibrary) {
-                    ADLImport.ADL_Main_Control_Destroy();
-                }
+            catch {
+                return ADL_ERR;
             }
-            #endregion Destructor
-
-            #region Static IsFunctionValid
-            /// <summary> Check the import function to see it exists or not</summary>
-            /// <param name="functionName"> function name</param>
-            /// <returns>return true, if function exists</returns>
-            internal static bool IsFunctionValid(string functionName) {
-                bool result = false;
-                if (System.IntPtr.Zero != ADLCheckLibrary_.ADLLibrary) {
-                    if (1 == ADLImport.ADL_Main_Control_IsFunctionValid(ADLCheckLibrary_.ADLLibrary, functionName)) {
-                        result = true;
-                    }
-                }
-                return result;
-            }
-            #endregion Static IsFunctionValid
-
-            #region Static GetProcAddress
-            /// <summary> Get the unmanaged function pointer </summary>
-            /// <param name="functionName"> function name</param>
-            /// <returns>return function pointer, if function exists</returns>
-            internal static IntPtr GetProcAddress(string functionName) {
-                IntPtr result = System.IntPtr.Zero;
-                if (System.IntPtr.Zero != ADLCheckLibrary_.ADLLibrary) {
-                    result = ADLImport.ADL_Main_Control_GetProcAddress(ADLCheckLibrary_.ADLLibrary, functionName);
-                }
-                return result;
-            }
-            #endregion Static GetProcAddress
         }
-        #endregion Class ADLCheckLibrary
 
-        #region Export Functions
+        public static int ADL_Adapter_AdapterInfo_Get(ADLAdapterInfo[] info) {
+            int elementSize = Marshal.SizeOf(typeof(ADLAdapterInfo));
+            int size = info.Length * elementSize;
+            IntPtr ptr = Marshal.AllocHGlobal(size);
+            int result = _ADL_Adapter_AdapterInfo_Get(ptr, size);
+            for (int i = 0; i < info.Length; i++)
+                info[i] = (ADLAdapterInfo)
+                  Marshal.PtrToStructure((IntPtr)((long)ptr + i * elementSize),
+                  typeof(ADLAdapterInfo));
+            Marshal.FreeHGlobal(ptr);
 
-        #region ADL_Main_Memory_Alloc
-        /// <summary> Build in memory allocation function</summary>
-        internal static ADL_Main_Memory_Alloc ADL_Main_Memory_Alloc = ADL_Main_Memory_Alloc_;
-        /// <summary> Build in memory allocation function</summary>
-        /// <param name="size">input size</param>
-        /// <returns>return the memory buffer</returns>
-        private static IntPtr ADL_Main_Memory_Alloc_(int size) {
-            IntPtr result = Marshal.AllocCoTaskMem(size);
+            // the ADLAdapterInfo.VendorID field reported by ADL is wrong on 
+            // Windows systems (parse error), so we fix this here
+            for (int i = 0; i < info.Length; i++) {
+                // try Windows UDID format
+                Match m = Regex.Match(info[i].UDID, "PCI_VEN_([A-Fa-f0-9]{1,4})&.*");
+                if (m.Success && m.Groups.Count == 2) {
+                    info[i].VendorID = Convert.ToInt32(m.Groups[1].Value, 16);
+                    continue;
+                }
+                // if above failed, try Unix UDID format
+                m = Regex.Match(info[i].UDID, "[0-9]+:[0-9]+:([0-9]+):[0-9]+:[0-9]+");
+                if (m.Success && m.Groups.Count == 2) {
+                    info[i].VendorID = Convert.ToInt32(m.Groups[1].Value, 10);
+                }
+            }
+
             return result;
         }
-        #endregion ADL_Main_Memory_Alloc
 
-        #region ADL_Main_Memory_Free
-        /// <summary> Build in memory free function</summary>
-        /// <param name="buffer">input buffer</param>
-        internal static void ADL_Main_Memory_Free(IntPtr buffer) {
-            if (IntPtr.Zero != buffer) {
-                Marshal.FreeCoTaskMem(buffer);
+        public static int ADL_Adapter_ID_Get(int adapterIndex,
+          out int adapterID) {
+            try {
+                return _ADL_Adapter_ID_Get(adapterIndex, out adapterID);
             }
-        }
-        #endregion ADL_Main_Memory_Free
-
-        #region ADL_Main_Control_Create
-        /// <summary> ADL_Main_Control_Create Delegates</summary>
-        internal static ADL_Main_Control_Create ADL_Main_Control_Create {
-            get {
-                if (!ADL_Main_Control_Create_Check && null == ADL_Main_Control_Create_) {
-                    ADL_Main_Control_Create_Check = true;
-                    if (ADLCheckLibrary.IsFunctionValid("ADL_Main_Control_Create")) {
-                        ADL_Main_Control_Create_ = ADLImport.ADL_Main_Control_Create;
-                    }
+            catch (EntryPointNotFoundException) {
+                try {
+                    return _ADL_Display_AdapterID_Get(adapterIndex, out adapterID);
                 }
-                return ADL_Main_Control_Create_;
-            }
-        }
-        /// <summary> Private Delegate</summary>
-        private static ADL_Main_Control_Create ADL_Main_Control_Create_ = null;
-        /// <summary> check flag to indicate the delegate has been checked</summary>
-        private static bool ADL_Main_Control_Create_Check = false;
-        /// <summary> ADL_Main_Control_Create Delegates</summary>
-        internal static ADL2_Main_Control_Create ADL2_Main_Control_Create {
-            get {
-                if (!ADL2_Main_Control_Create_Check && null == ADL2_Main_Control_Create_) {
-                    ADL2_Main_Control_Create_Check = true;
-                    if (ADLCheckLibrary.IsFunctionValid("ADL_Main_Control_Create")) {
-                        ADL2_Main_Control_Create_ = ADLImport.ADL2_Main_Control_Create;
-                    }
+                catch (EntryPointNotFoundException) {
+                    adapterID = 1;
+                    return ADL_OK;
                 }
-                return ADL2_Main_Control_Create_;
-            }
-        }
-        /// <summary> Private Delegate</summary>
-        private static ADL2_Main_Control_Create ADL2_Main_Control_Create_ = null;
-        /// <summary> check flag to indicate the delegate has been checked</summary>
-        private static bool ADL2_Main_Control_Create_Check = false;
-        #endregion ADL_Main_Control_Create
-
-        #region ADL_Main_Control_Destroy
-        /// <summary> ADL_Main_Control_Destroy Delegates</summary>
-        internal static ADL_Main_Control_Destroy ADL_Main_Control_Destroy {
-            get {
-                if (!ADL_Main_Control_Destroy_Check && null == ADL_Main_Control_Destroy_) {
-                    ADL_Main_Control_Destroy_Check = true;
-                    if (ADLCheckLibrary.IsFunctionValid("ADL_Main_Control_Destroy")) {
-                        ADL_Main_Control_Destroy_ = ADLImport.ADL_Main_Control_Destroy;
-                    }
-                }
-                return ADL_Main_Control_Destroy_;
-            }
-        }
-        /// <summary> Private Delegate</summary>
-        private static ADL_Main_Control_Destroy ADL_Main_Control_Destroy_ = null;
-        /// <summary> check flag to indicate the delegate has been checked</summary>
-        private static bool ADL_Main_Control_Destroy_Check = false;
-        internal static ADL2_Main_Control_Destroy ADL2_Main_Control_Destroy {
-            get {
-                if (!ADL2_Main_Control_Destroy_Check && null == ADL2_Main_Control_Destroy_) {
-                    ADL2_Main_Control_Destroy_Check = true;
-                    if (ADLCheckLibrary.IsFunctionValid("ADL_Main_Control_Destroy")) {
-                        ADL2_Main_Control_Destroy_ = ADLImport.ADL2_Main_Control_Destroy;
-                    }
-                }
-                return ADL2_Main_Control_Destroy_;
-            }
-        }
-        /// <summary> Private Delegate</summary>
-        private static ADL2_Main_Control_Destroy ADL2_Main_Control_Destroy_ = null;
-        /// <summary> check flag to indicate the delegate has been checked</summary>
-        private static bool ADL2_Main_Control_Destroy_Check = false;
-        #endregion ADL_Main_Control_Destroy
-
-        #region ADL_Adapter_NumberOfAdapters_Get
-        /// <summary> ADL_Adapter_NumberOfAdapters_Get Delegates</summary>
-        internal static ADL_Adapter_NumberOfAdapters_Get ADL_Adapter_NumberOfAdapters_Get {
-            get {
-                if (!ADL_Adapter_NumberOfAdapters_Get_Check && null == ADL_Adapter_NumberOfAdapters_Get_) {
-                    ADL_Adapter_NumberOfAdapters_Get_Check = true;
-                    if (ADLCheckLibrary.IsFunctionValid("ADL_Adapter_NumberOfAdapters_Get")) {
-                        ADL_Adapter_NumberOfAdapters_Get_ = ADLImport.ADL_Adapter_NumberOfAdapters_Get;
-                    }
-                }
-                return ADL_Adapter_NumberOfAdapters_Get_;
-            }
-        }
-        /// <summary> Private Delegate</summary>
-        private static ADL_Adapter_NumberOfAdapters_Get ADL_Adapter_NumberOfAdapters_Get_ = null;
-        /// <summary> check flag to indicate the delegate has been checked</summary>
-        private static bool ADL_Adapter_NumberOfAdapters_Get_Check = false;
-        #endregion ADL_Adapter_NumberOfAdapters_Get
-
-        #region ADL_Adapter_AdapterInfo_Get
-        /// <summary> ADL_Adapter_AdapterInfo_Get Delegates</summary>
-        internal static ADL_Adapter_AdapterInfo_Get ADL_Adapter_AdapterInfo_Get {
-            get {
-                if (!ADL_Adapter_AdapterInfo_Get_Check && null == ADL_Adapter_AdapterInfo_Get_) {
-                    ADL_Adapter_AdapterInfo_Get_Check = true;
-                    if (ADLCheckLibrary.IsFunctionValid("ADL_Adapter_AdapterInfo_Get")) {
-                        ADL_Adapter_AdapterInfo_Get_ = ADLImport.ADL_Adapter_AdapterInfo_Get;
-                    }
-                }
-                return ADL_Adapter_AdapterInfo_Get_;
-            }
-        }
-        /// <summary> Private Delegate</summary>
-        private static ADL_Adapter_AdapterInfo_Get ADL_Adapter_AdapterInfo_Get_ = null;
-        /// <summary> check flag to indicate the delegate has been checked</summary>
-        private static bool ADL_Adapter_AdapterInfo_Get_Check = false;
-
-        /// <summary> ADL_Adapter_AdapterInfo_Get Delegates</summary>
-        internal static ADL2_Adapter_AdapterInfo_Get ADL2_Adapter_AdapterInfo_Get {
-            get {
-                if (!ADL2_Adapter_AdapterInfo_Get_Check && null == ADL2_Adapter_AdapterInfo_Get_) {
-                    ADL2_Adapter_AdapterInfo_Get_Check = true;
-                    if (ADLCheckLibrary.IsFunctionValid("ADL_Adapter_AdapterInfo_Get")) {
-                        ADL2_Adapter_AdapterInfo_Get_ = ADLImport.ADL2_Adapter_AdapterInfo_Get;
-                    }
-                }
-                return ADL2_Adapter_AdapterInfo_Get_;
-            }
-        }
-        /// <summary> Private Delegate</summary>
-        private static ADL2_Adapter_AdapterInfo_Get ADL2_Adapter_AdapterInfo_Get_ = null;
-        /// <summary> check flag to indicate the delegate has been checked</summary>
-        private static bool ADL2_Adapter_AdapterInfo_Get_Check = false;
-        #endregion ADL_Adapter_AdapterInfo_Get
-
-        #region ADL_Adapter_Active_Get
-        /// <summary> ADL_Adapter_Active_Get Delegates</summary>
-        internal static ADL_Adapter_Active_Get ADL_Adapter_Active_Get {
-            get {
-                if (!ADL_Adapter_Active_Get_Check && null == ADL_Adapter_Active_Get_) {
-                    ADL_Adapter_Active_Get_Check = true;
-                    if (ADLCheckLibrary.IsFunctionValid("ADL_Adapter_Active_Get")) {
-                        ADL_Adapter_Active_Get_ = ADLImport.ADL_Adapter_Active_Get;
-                    }
-                }
-                return ADL_Adapter_Active_Get_;
-            }
-        }
-        /// <summary> Private Delegate</summary>
-        private static ADL_Adapter_Active_Get ADL_Adapter_Active_Get_ = null;
-        /// <summary> check flag to indicate the delegate has been checked</summary>
-        private static bool ADL_Adapter_Active_Get_Check = false;
-        #endregion ADL_Adapter_Active_Get
-
-        #region ADL_Display_DisplayInfo_Get
-        /// <summary> ADL_Display_DisplayInfo_Get Delegates</summary>
-        internal static ADL_Display_DisplayInfo_Get ADL_Display_DisplayInfo_Get {
-            get {
-                if (!ADL_Display_DisplayInfo_Get_Check && null == ADL_Display_DisplayInfo_Get_) {
-                    ADL_Display_DisplayInfo_Get_Check = true;
-                    if (ADLCheckLibrary.IsFunctionValid("ADL_Display_DisplayInfo_Get")) {
-                        ADL_Display_DisplayInfo_Get_ = ADLImport.ADL_Display_DisplayInfo_Get;
-                    }
-                }
-                return ADL_Display_DisplayInfo_Get_;
-            }
-        }
-        /// <summary> Private Delegate</summary>
-        private static ADL_Display_DisplayInfo_Get ADL_Display_DisplayInfo_Get_ = null;
-        /// <summary> check flag to indicate the delegate has been checked</summary>
-        private static bool ADL_Display_DisplayInfo_Get_Check = false;
-        #endregion ADL_Display_DisplayInfo_Get
-
-        internal static ADL_Overdrive5_Temperature_Get ADL_Overdrive5_Temperature_Get {
-            get {
-                if (!ADL_Overdrive5_Temperature_Get_Check && null == ADL_Overdrive5_Temperature_Get_) {
-                    ADL_Overdrive5_Temperature_Get_Check = true;
-                    if (ADLCheckLibrary.IsFunctionValid("ADL_Overdrive5_Temperature_Get")) {
-                        ADL_Overdrive5_Temperature_Get_ = ADLImport.ADL_Overdrive5_Temperature_Get;
-                    }
-                }
-                return ADL_Overdrive5_Temperature_Get_;
-            }
-        }
-        private static ADL_Overdrive5_Temperature_Get ADL_Overdrive5_Temperature_Get_ = null;
-        private static bool ADL_Overdrive5_Temperature_Get_Check = false;
-
-        internal static ADL_Overdrive5_FanSpeed_Get ADL_Overdrive5_FanSpeed_Get {
-            get {
-                if (!ADL_Overdrive5_FanSpeed_Get_Check && null == ADL_Overdrive5_FanSpeed_Get_) {
-                    ADL_Overdrive5_FanSpeed_Get_Check = true;
-                    if (ADLCheckLibrary.IsFunctionValid("ADL_Overdrive5_FanSpeed_Get")) {
-                        ADL_Overdrive5_FanSpeed_Get_ = ADLImport.ADL_Overdrive5_FanSpeed_Get;
-                    }
-                }
-                return ADL_Overdrive5_FanSpeed_Get_;
-            }
-        }
-        private static ADL_Overdrive5_FanSpeed_Get ADL_Overdrive5_FanSpeed_Get_ = null;
-        private static bool ADL_Overdrive5_FanSpeed_Get_Check = false;
-
-        internal static ADL2_Overdrive6_CurrentPower_Get ADL2_Overdrive6_CurrentPower_Get {
-            get {
-                if (!ADL2_Overdrive6_CurrentPower_Get_Check && null == ADL2_Overdrive6_CurrentPower_Get_) {
-                    ADL2_Overdrive6_CurrentPower_Get_Check = true;
-                    if (ADLCheckLibrary.IsFunctionValid("ADL2_Overdrive6_CurrentPower_Get")) {
-                        ADL2_Overdrive6_CurrentPower_Get_ = ADLImport.ADL2_Overdrive6_CurrentPower_Get;
-                    }
-                }
-
-                return ADL2_Overdrive6_CurrentPower_Get_;
             }
         }
 
-        private static ADL2_Overdrive6_CurrentPower_Get ADL2_Overdrive6_CurrentPower_Get_ = null;
-        private static bool ADL2_Overdrive6_CurrentPower_Get_Check = false;
+        private delegate IntPtr ADL_Main_Memory_AllocDelegate(int size);
 
-        internal static ADL_Adapter_ID_Get ADL_Adapter_ID_Get {
-            get {
-                if (!ADL_Adapter_ID_Get_Check && null == ADL_Adapter_ID_Get_) {
-                    ADL_Adapter_ID_Get_Check = true;
-                    if (ADLCheckLibrary.IsFunctionValid("ADL_Adapter_ID_Get")) {
-                        ADL_Adapter_ID_Get_ = ADLImport.ADL_Adapter_ID_Get;
-                    }
-                }
+        // create a Main_Memory_Alloc delegate and keep it alive
+        private static ADL_Main_Memory_AllocDelegate Main_Memory_Alloc =
+          delegate (int size) {
+              return Marshal.AllocHGlobal(size);
+          };
 
-                return ADL_Adapter_ID_Get_;
-            }
+        private static void Main_Memory_Free(IntPtr buffer) {
+            if (IntPtr.Zero != buffer)
+                Marshal.FreeHGlobal(buffer);
         }
-
-        private static ADL_Adapter_ID_Get ADL_Adapter_ID_Get_ = null;
-        private static bool ADL_Adapter_ID_Get_Check = false;
-
-        internal static ADL_Main_Control_Refresh ADL_Main_Control_Refresh {
-            get {
-                if (!ADL_Main_Control_Refresh_Check && null == ADL_Main_Control_Refresh_) {
-                    ADL_Main_Control_Refresh_Check = true;
-                    if (ADLCheckLibrary.IsFunctionValid("ADL_Main_Control_Refresh")) {
-                        ADL_Main_Control_Refresh_ = ADLImport.ADL_Main_Control_Refresh;
-                    }
-                }
-
-                return ADL_Main_Control_Refresh_;
-            }
-        }
-
-        private static ADL_Main_Control_Refresh ADL_Main_Control_Refresh_ = null;
-        private static bool ADL_Main_Control_Refresh_Check = false;
-
-        internal static ADL2_Main_Control_Refresh ADL2_Main_Control_Refresh {
-            get {
-                if (!ADL2_Main_Control_Refresh_Check && null == ADL2_Main_Control_Refresh_) {
-                    ADL2_Main_Control_Refresh_Check = true;
-                    if (ADLCheckLibrary.IsFunctionValid("ADL2_Main_Control_Refresh")) {
-                        ADL2_Main_Control_Refresh_ = ADLImport.ADL2_Main_Control_Refresh;
-                    }
-                }
-
-                return ADL2_Main_Control_Refresh_;
-            }
-        }
-
-        private static ADL2_Main_Control_Refresh ADL2_Main_Control_Refresh_ = null;
-        private static bool ADL2_Main_Control_Refresh_Check = false;
-
-        #endregion Export Functions
     }
-    #endregion ADL Class
 }

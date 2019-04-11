@@ -1,101 +1,101 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
+﻿using System.Collections.Generic;
+using System.Globalization;
 
 namespace NTMiner.Core.Gpus.Impl.Amd {
     public class AdlHelper {
-        private IntPtr hHandle;
-        private List<ADLAdapterInfo> _adlAdapterInfos = new List<ADLAdapterInfo>();
+        public struct ATIGPU {
+            public int AdapterIndex { get; set; }
+            public int BusNumber { get; set; }
+            public int DeviceNumber { get; set; }
+            public string AdapterName { get; set; }
+        }
 
+        private List<ATIGPU> _gpuNames = new List<ATIGPU>();
         public bool Init() {
-            int ret = 0;
             try {
-                ret += AdlNativeMethods.ADL_Main_Control_Create(AdlNativeMethods.ADL_Main_Memory_Alloc, 1);
-                ret += AdlNativeMethods.ADL_Main_Control_Refresh();
-                AdlNativeMethods.ADL2_Main_Control_Create(AdlNativeMethods.ADL_Main_Memory_Alloc, 1, ref hHandle);
-                ret += AdlNativeMethods.ADL2_Main_Control_Refresh(hHandle);
-                int iNumberAdapters = 0;
-                AdlNativeMethods.ADL_Adapter_NumberOfAdapters_Get(ref iNumberAdapters);
-                ADLAdapterInfo[] adapterInfo = new ADLAdapterInfo[iNumberAdapters];
-
-                int elementSize = Marshal.SizeOf(typeof(ADLAdapterInfo));
-                int size = adapterInfo.Length * elementSize;
-                IntPtr ptr = Marshal.AllocHGlobal(size);
-                int result = AdlNativeMethods.ADL_Adapter_AdapterInfo_Get(ptr, size);
-                for (int i = 0; i < adapterInfo.Length; i++) {
-                    adapterInfo[i] = (ADLAdapterInfo)Marshal.PtrToStructure((IntPtr)((long)ptr + i * elementSize), typeof(ADLAdapterInfo));
-                }
-                Marshal.FreeHGlobal(ptr);
-
-                // the ADLAdapterInfo.VendorID field reported by ADL is wrong on 
-                // Windows systems (parse error), so we fix this here
-                int lastAdapterId = 0;
-                int gpuCount = 0;
-                _adlAdapterInfos = new List<ADLAdapterInfo>();
-                for (int i = 0; i < adapterInfo.Length; i++) {
-                    int lpAdapterID = -1;
-                    ret = AdlNativeMethods.ADL_Adapter_ID_Get(adapterInfo[i].AdapterIndex, ref lpAdapterID);
-                    if (ret != 0)
-                        continue;
-                    if (lastAdapterId == lpAdapterID)
-                        continue;
-                    lastAdapterId = lpAdapterID;
-
-                    gpuCount++;
-                    _adlAdapterInfos.Add(adapterInfo[i]);
+                int status = ADL.ADL_Main_Control_Create(1);
+                Write.DevDebug("AMD Display Library");
+                Write.DevDebug("Status: " + (status == ADL.ADL_OK ? "OK" : status.ToString(CultureInfo.InvariantCulture)));
+                if (status == ADL.ADL_OK) {
+                    int numberOfAdapters = 0;
+                    ADL.ADL_Adapter_NumberOfAdapters_Get(ref numberOfAdapters);
+                    if (numberOfAdapters > 0) {
+                        ADLAdapterInfo[] adapterInfo = new ADLAdapterInfo[numberOfAdapters];
+                        if (ADL.ADL_Adapter_AdapterInfo_Get(adapterInfo) == ADL.ADL_OK) {
+                            for (int i = 0; i < numberOfAdapters; i++) {
+                                int isActive;
+                                ADL.ADL_Adapter_Active_Get(adapterInfo[i].AdapterIndex, out isActive);
+                                if (!string.IsNullOrEmpty(adapterInfo[i].UDID) && adapterInfo[i].VendorID == ADL.ATI_VENDOR_ID) {
+                                    bool found = false;
+                                    foreach (ATIGPU gpu in _gpuNames)
+                                        if (gpu.BusNumber == adapterInfo[i].BusNumber &&
+                                          gpu.DeviceNumber == adapterInfo[i].DeviceNumber) {
+                                            found = true;
+                                            break;
+                                        }
+                                    if (!found)
+                                        _gpuNames.Add(new ATIGPU {
+                                            AdapterName = adapterInfo[i].AdapterName.Trim(),
+                                            AdapterIndex = adapterInfo[i].AdapterIndex,
+                                            BusNumber = adapterInfo[i].BusNumber,
+                                            DeviceNumber = adapterInfo[i].DeviceNumber
+                                        });
+                                }
+                            }
+                        }
+                    }
                 }
             }
             catch {
+                return false;
             }
 
-            return ret == 0;
+            return true;
         }
 
         public int GpuCount {
-            get {
-                return _adlAdapterInfos.Count;
-            }
+            get { return _gpuNames.Count; }
         }
 
         public string GetGpuName(int gpu) {
             try {
-                return _adlAdapterInfos[gpu].AdapterName;
+                if (gpu >= _gpuNames.Count) {
+                    return string.Empty;
+                }
+                return _gpuNames[gpu].AdapterName;
             }
             catch {
                 return string.Empty;
             }
         }
 
-        public uint GetTemperatureByIndex(int gpu) {
-            ADLTemperature temperature = default(ADLTemperature);
-            try {
-                if (AdlNativeMethods.ADL_Overdrive5_Temperature_Get(gpu, 0, ref temperature) == 0) {
-                    return (uint)(temperature.Temperature / 1000.0);
-                }
+        public uint GetTemperatureByIndex(int adapterIndex) {
+            ADLTemperature adlt = new ADLTemperature();
+            if (ADL.ADL_Overdrive5_Temperature_Get(adapterIndex, 0, ref adlt)
+              == ADL.ADL_OK) {
+                return (uint)(0.001f * adlt.Temperature);
             }
-            catch {
+            else {
+                return 0;
             }
-
-            return 0;
         }
 
-        public uint GetFanSpeedByIndex(int gpu) {
-            ADLFanSpeedValue fanspeed = default(ADLFanSpeedValue);
-            fanspeed.SpeedType = AdlTypes.ADL_DL_FANCTRL_SPEED_TYPE_PERCENT;
-            try {
-                if (AdlNativeMethods.ADL_Overdrive5_FanSpeed_Get(gpu, 0, ref fanspeed) == 0) {
-                    return (uint)fanspeed.FanSpeed;
-                }
+        public uint GetFanSpeedByIndex(int adapterIndex) {
+            ADLFanSpeedValue adlf = new ADLFanSpeedValue();
+            adlf.SpeedType = ADL.ADL_DL_FANCTRL_SPEED_TYPE_PERCENT;
+            if (ADL.ADL_Overdrive5_FanSpeed_Get(adapterIndex, 0, ref adlf)
+              == ADL.ADL_OK) {
+                return (uint)adlf.FanSpeed;
             }
-            catch {
+            else {
+                return 0;
             }
-            return 0;
         }
 
         public uint GetPowerUsageByIndex(int gpu) {
             int power = 0;
             try {
-                if (AdlNativeMethods.ADL2_Overdrive6_CurrentPower_Get(hHandle, gpu, 0, ref power) == 0) {
+                if (ADL.ADL2_Overdrive6_CurrentPower_Get(gpu, 0, ref power) == 0) {
                     return (uint)(power / 256.0);
                 }
             }

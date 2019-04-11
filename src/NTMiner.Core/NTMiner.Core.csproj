@@ -97,13 +97,14 @@
     <Compile Include="CommandLineArgs.partial.cs" />
     <Compile Include="Core\Gpus\Impl\Amd\AdlHelper.cs" />
     <Compile Include="Core\Gpus\Impl\Amd\AdlNativeMethods.cs" />
-    <Compile Include="Core\Gpus\Impl\Amd\AdlTypes.cs" />
     <Compile Include="Core\Gpus\EmptyGpuSet.cs" />
     <Compile Include="Core\Gpus\IGpu.cs" />
+    <Compile Include="Core\Gpus\Impl\Amd\Pair.cs" />
     <Compile Include="Core\Gpus\Impl\EmptyOverClock.cs" />
     <Compile Include="Core\Gpus\GpuSetProperty.cs" />
     <Compile Include="Core\Gpus\Impl\AMDGpuSet.cs" />
     <Compile Include="Core\Gpus\Impl\AMDOverClock.cs" />
+    <Compile Include="Core\Gpus\Impl\Amd\PInvokeDelegateFactory.cs" />
     <Compile Include="Core\Gpus\Impl\TempGruarder.cs" />
     <Compile Include="Core\Gpus\IOverClock.cs" />
     <Compile Include="Core\Gpus\Impl\NVIDIAOverClock.cs" />
