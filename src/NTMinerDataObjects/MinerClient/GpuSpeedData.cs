@@ -11,7 +11,7 @@
 
         public double DualCoinSpeed { get; set; }
 
-        public uint Temperature { get; set; }
+        public int Temperature { get; set; }
 
         public uint FanSpeed { get; set; }
 

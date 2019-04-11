@@ -7,7 +7,7 @@ namespace NTMiner.Vms {
     public class GpuViewModel : ViewModelBase, IGpu {
         private int _index;
         private string _name;
-        private uint _temperature;
+        private int _temperature;
         private uint _fanSpeed;
         private uint _powerUsage;
         private int _coreClockDelta;
@@ -131,7 +131,7 @@ namespace NTMiner.Vms {
             }
         }
 
-        public uint Temperature {
+        public int Temperature {
             get => _temperature;
             set {
                 if (_temperature != value) {
@@ -151,7 +151,7 @@ namespace NTMiner.Vms {
                     return "0℃";
                 }
                 if (this.Index == NTMinerRoot.GpuAllId && NTMinerRoot.Current.GpuSet.Count != 0) {
-                    uint min = uint.MaxValue, max = uint.MinValue;
+                    int min = int.MaxValue, max = int.MinValue;
                     foreach (var item in GpuViewModels.Current) {
                         if (item.Index == NTMinerRoot.GpuAllId) {
                             continue;

@@ -55,7 +55,7 @@ namespace NTMiner.Vms {
             }
         }
 
-        public uint Temperature {
+        public int Temperature {
             get { return _data.Temperature; }
             set {
                 _data.Temperature = value;

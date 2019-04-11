@@ -76,7 +76,7 @@ namespace NTMiner.Core.Gpus.Impl {
         public void LoadGpuState() {
             for (int i = 0; i < Count; i++) {
                 uint power = adlHelper.GetPowerUsageByIndex(i);
-                uint temp = adlHelper.GetTemperatureByIndex(i);
+                int temp = adlHelper.GetTemperatureByIndex(i);
                 uint speed = adlHelper.GetFanSpeedByIndex(i);
 
                 Gpu gpu = (Gpu)_gpus[i];

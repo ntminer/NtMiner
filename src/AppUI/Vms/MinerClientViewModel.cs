@@ -900,7 +900,7 @@ namespace NTMiner.Vms {
             get { return $"{GpuTable.Sum(a => a.PowerUsage).ToString("f0")}W"; }
         }
 
-        public uint MaxTemp {
+        public int MaxTemp {
             get {
                 if (GpuTable == null || GpuTable.Length == 0) {
                     return 0;

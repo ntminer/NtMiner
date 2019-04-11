@@ -22,7 +22,7 @@
         public string Name { get; set; }
         public int TotalMemory { get; set; }
 
-        public uint Temperature { get; set; }
+        public int Temperature { get; set; }
 
         public uint FanSpeed { get; set; }
 

@@ -130,7 +130,7 @@ namespace NTMiner.Core.Gpus.Impl {
 
                     Gpu gpu = (Gpu)_gpus[i];
                     bool isChanged = gpu.Temperature != temp || gpu.PowerUsage != power || gpu.FanSpeed != speed;
-                    gpu.Temperature = temp;
+                    gpu.Temperature = (int)temp;
                     gpu.PowerUsage = power;
                     gpu.FanSpeed = speed;
 

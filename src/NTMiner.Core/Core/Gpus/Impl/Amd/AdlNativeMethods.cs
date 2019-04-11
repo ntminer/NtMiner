@@ -91,6 +91,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
 
         private delegate int ADL_Main_Control_CreateDelegate(
           ADL_Main_Memory_AllocDelegate callback, int enumConnectedAdapters);
+        public delegate int ADL2_Main_Control_CreateDelegate(ADL_Main_Memory_AllocDelegate callback, int enumConnectedAdapters, ref IntPtr context);
         private delegate int ADL_Adapter_AdapterInfo_GetDelegate(IntPtr info,
           int size);
 
@@ -116,10 +117,12 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
           int adapterIndex, int thermalControllerIndex);
         public delegate int ADL_Overdrive5_FanSpeed_SetDelegate(int adapterIndex,
           int thermalControllerIndex, ref ADLFanSpeedValue fanSpeedValue);
-        internal delegate int ADL2_Overdrive6_CurrentPower_GetDelegate(int iAdapterIndex, int iPowerType, ref int lpCurrentValue);
+        internal delegate int ADL2_Overdrive6_CurrentPower_GetDelegate(IntPtr context, int iAdapterIndex, int iPowerType, ref int lpCurrentValue);
 
         private static ADL_Main_Control_CreateDelegate
           _ADL_Main_Control_Create;
+        /// <summary> ADL_Main_Control_Create Delegates</summary>
+        public static ADL2_Main_Control_CreateDelegate ADL2_Main_Control_Create;
         private static ADL_Adapter_AdapterInfo_GetDelegate
           _ADL_Adapter_AdapterInfo_Get;
 
@@ -167,6 +170,8 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
 
             GetDelegate("ADL_Main_Control_Create",
               out _ADL_Main_Control_Create);
+            GetDelegate("ADL2_Main_Control_Create",
+              out ADL2_Main_Control_Create);
             GetDelegate("ADL_Adapter_AdapterInfo_Get",
               out _ADL_Adapter_AdapterInfo_Get);
             GetDelegate("ADL_Main_Control_Destroy",
@@ -264,10 +269,10 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
             }
         }
 
-        private delegate IntPtr ADL_Main_Memory_AllocDelegate(int size);
+        internal delegate IntPtr ADL_Main_Memory_AllocDelegate(int size);
 
         // create a Main_Memory_Alloc delegate and keep it alive
-        private static ADL_Main_Memory_AllocDelegate Main_Memory_Alloc =
+        internal static ADL_Main_Memory_AllocDelegate Main_Memory_Alloc =
           delegate (int size) {
               return Marshal.AllocHGlobal(size);
           };

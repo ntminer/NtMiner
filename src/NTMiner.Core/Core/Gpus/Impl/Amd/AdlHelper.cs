@@ -10,6 +10,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
             public string AdapterName { get; set; }
         }
 
+        private System.IntPtr hHandle;
         private List<ATIGPU> _gpuNames = new List<ATIGPU>();
         public bool Init() {
             try {
@@ -18,6 +19,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
                 Write.DevDebug("Status: " + (status == ADL.ADL_OK ? "OK" : status.ToString(CultureInfo.InvariantCulture)));
                 if (status == ADL.ADL_OK) {
                     int numberOfAdapters = 0;
+                    ADL.ADL2_Main_Control_Create(ADL.Main_Memory_Alloc, 1, ref hHandle);
                     ADL.ADL_Adapter_NumberOfAdapters_Get(ref numberOfAdapters);
                     if (numberOfAdapters > 0) {
                         ADLAdapterInfo[] adapterInfo = new ADLAdapterInfo[numberOfAdapters];
@@ -69,11 +71,11 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
             }
         }
 
-        public uint GetTemperatureByIndex(int adapterIndex) {
+        public int GetTemperatureByIndex(int adapterIndex) {
             ADLTemperature adlt = new ADLTemperature();
             if (ADL.ADL_Overdrive5_Temperature_Get(adapterIndex, 0, ref adlt)
               == ADL.ADL_OK) {
-                return (uint)(0.001f * adlt.Temperature);
+                return (int)(0.001f * adlt.Temperature);
             }
             else {
                 return 0;
@@ -95,7 +97,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
         public uint GetPowerUsageByIndex(int gpu) {
             int power = 0;
             try {
-                if (ADL.ADL2_Overdrive6_CurrentPower_Get(gpu, 0, ref power) == 0) {
+                if (ADL.ADL2_Overdrive6_CurrentPower_Get(hHandle, gpu, 0, ref power) == 0) {
                     return (uint)(power / 256.0);
                 }
             }
