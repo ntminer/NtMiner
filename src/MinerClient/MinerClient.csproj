@@ -203,11 +203,6 @@
     <EmbeddedResource Include="Daemon\DevConsole.exe" />
     <EmbeddedResource Include="Daemon\NTMinerDaemon.exe" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="DeviceDetection\cuda_device_detection.dll" />
-    <Content Include="DeviceDetection\DeviceDetectionPrinter.exe" />
-    <Content Include="DeviceDetection\opencl_device_detection.dll" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\Fody.2.0.0\build\portable-net+sl+win+wpa+wp\Fody.targets" Condition="Exists('..\..\packages\Fody.2.0.0\build\portable-net+sl+win+wpa+wp\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

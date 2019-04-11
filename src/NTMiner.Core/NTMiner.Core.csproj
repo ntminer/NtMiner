@@ -100,6 +100,7 @@
     <Compile Include="Core\Gpus\Impl\Amd\AdlTypes.cs" />
     <Compile Include="Core\Gpus\EmptyGpuSet.cs" />
     <Compile Include="Core\Gpus\IGpu.cs" />
+    <Compile Include="Core\Gpus\Impl\DeviceDetection\DeviceDetectionUtil.cs" />
     <Compile Include="Core\Gpus\Impl\EmptyOverClock.cs" />
     <Compile Include="Core\Gpus\GpuSetProperty.cs" />
     <Compile Include="Core\Gpus\Impl\AMDGpuSet.cs" />
@@ -253,6 +254,14 @@
       <Name>NTMinerWpf</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Core\Gpus\Impl\DeviceDetection\cuda_device_detection.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Core\Gpus\Impl\DeviceDetection\DeviceDetectionPrinter.exe" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Core\Gpus\Impl\DeviceDetection\opencl_device_detection.dll" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
