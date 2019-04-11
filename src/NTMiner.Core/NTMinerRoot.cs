@@ -59,32 +59,37 @@ namespace NTMiner {
                     DoInit(isWork: false, callback: callback);
                     return;
                 }
-                OfficialServer.GetJsonFileVersionAsync(AssemblyInfo.ServerJsonFileName, (jsonFileVersion) => {
-                    SetServerJsonVersion(jsonFileVersion);
-                });
-                Logger.InfoDebugLine("开始下载server.json");
-                SpecialPath.GetAliyunServerJson((data) => {
-                    // 如果server.json未下载成功则不覆写本地server.json
-                    if (data != null && data.Length != 0) {
-                        Logger.InfoDebugLine("GetAliyunServerJson下载成功");
-                        var serverJson = Encoding.UTF8.GetString(data);
-                        if (!string.IsNullOrEmpty(serverJson)) {
-                            SpecialPath.WriteServerJsonFile(serverJson);
-                        }
-                    }
-                    else {
-                        Logger.InfoDebugLine("GetAliyunServerJson下载失败");
-                    }
+                if (File.Exists(SpecialPath.ServerJsonFileFullName)) {
                     DoInit(isWork, callback);
-                });
+                }
+                else {
+                    Logger.InfoDebugLine("开始下载server.json");
+                    SpecialPath.GetAliyunServerJson((data) => {
+                        // 如果server.json未下载成功则不覆写本地server.json
+                        if (data != null && data.Length != 0) {
+                            Logger.InfoDebugLine("GetAliyunServerJson下载成功");
+                            var serverJson = Encoding.UTF8.GetString(data);
+                            if (!string.IsNullOrEmpty(serverJson)) {
+                                SpecialPath.WriteServerJsonFile(serverJson);
+                            }
+                            OfficialServer.GetJsonFileVersionAsync(AssemblyInfo.ServerJsonFileName, (jsonFileVersion) => {
+                                SetServerJsonVersion(jsonFileVersion);
+                            });
+                        }
+                        else {
+                            Logger.InfoDebugLine("GetAliyunServerJson下载失败");
+                        }
+                        DoInit(isWork, callback);
+                    });
+                }
                 #region 发生了用户活动时检查serverJson是否有新版本
                 VirtualRoot.On<UserActionEvent>("发生了用户活动时检查serverJson是否有新版本", LogEnum.DevConsole,
                     action: message => {
-                        OfficialServer.GetJsonFileVersionAsync(AssemblyInfo.ServerJsonFileName, (jsonFileVersion) => {
-                            string serverJsonVersion = GetServerJsonVersion();
-                            if (!string.IsNullOrEmpty(jsonFileVersion) && serverJsonVersion != jsonFileVersion) {
+                        OfficialServer.GetJsonFileVersionAsync(AssemblyInfo.ServerJsonFileName, (serverServerJsonFileVersion) => {
+                            string localServerJsonFileVersion = GetServerJsonVersion();
+                            if (!string.IsNullOrEmpty(serverServerJsonFileVersion) && localServerJsonFileVersion != serverServerJsonFileVersion) {
                                 SpecialPath.GetAliyunServerJson((data) => {
-                                    Write.UserInfo($"server.json配置文件有新版本{serverJsonVersion}->{jsonFileVersion}");
+                                    Write.UserInfo($"server.json配置文件有新版本{localServerJsonFileVersion}->{serverServerJsonFileVersion}");
                                     string rawJson = Encoding.UTF8.GetString(data);
                                     SpecialPath.WriteServerJsonFile(rawJson);
                                     ReInitServerJson();
@@ -99,7 +104,7 @@ namespace NTMiner {
                                     else {
                                         Write.UserInfo("不是使用的server.json，无需刷新");
                                     }
-                                    SetServerJsonVersion(jsonFileVersion);
+                                    SetServerJsonVersion(serverServerJsonFileVersion);
                                 });
                             }
                             else {
