@@ -160,21 +160,21 @@
 		<!--上导航栏-->
 		<Grid Grid.Row="1">
 			<TabControl 
-				Name="tab" BorderThickness="0"
+				BorderThickness="0"
 				Margin="0" Style="{StaticResource TabControlStyle}">
-				<TabItem Margin="3 0 8 0" Header="开始" Height="36" Style="{StaticResource TabItemStyle}" 
+				<TabItem x:Name="TabItemStart" Margin="3 0 8 0" Header="开始" Height="36" Style="{StaticResource TabItemStyle}" 
 					 TextOptions.TextFormattingMode="Display">
 					<Grid Background="{StaticResource MinerProfileBackground}">
 						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="334"></ColumnDefinition>
-							<ColumnDefinition Width="1"></ColumnDefinition>
+							<ColumnDefinition Width="Auto"></ColumnDefinition>
+							<ColumnDefinition Width="10"></ColumnDefinition>
 							<ColumnDefinition Width="*"></ColumnDefinition>
 						</Grid.ColumnDefinitions>
 						<Grid.RowDefinitions>
 							<RowDefinition Height="*"></RowDefinition>
 							<RowDefinition Height="Auto"></RowDefinition>
 						</Grid.RowDefinitions>
-						<Grid Grid.Column="0" Grid.Row="0">
+						<Grid x:Name="GridMinerProfile" Grid.Column="0" Grid.Row="0" Width="328">
 							<Grid.RowDefinitions>
 								<RowDefinition Height="Auto"></RowDefinition>
 								<RowDefinition Height="*"></RowDefinition>
@@ -238,7 +238,7 @@
 											<controls:KbButton 
 												IsDefault="True"
 												Width="100"
-												Height="34"
+												Height="32"
 												Command="{Binding StartMine}" 
 												Visibility="{Binding StateBarVm.IsMining, Converter={StaticResource BoolToVisibilityInvertConverter}}" 
 												Background="{StaticResource ThemeBackground}">
@@ -269,7 +269,7 @@
 														<Border 
 															x:Name="Content"
 															Width="100"
-															Height="34"
+															Height="32"
 															Background="Transparent"
 															BorderThickness="1" 
 															BorderBrush="{StaticResource LineColor}">
@@ -324,8 +324,38 @@
 							</Border>							
 						</Grid>
 
-						<StackPanel Grid.Column="1" Background="{StaticResource LineColor}"></StackPanel>
-
+						<StackPanel Grid.Column="1" Width="1" HorizontalAlignment="Right" Background="{StaticResource LineColor}"></StackPanel>
+						<controls:KbButton 
+							x:Name="BtnLeftTriangle"
+							Click="BtnLeftTriangle_Click"
+							Grid.Column="1"
+							VerticalAlignment="Center"
+							BorderThickness="0"
+							Background="Transparent"
+							CornerRadius="2">
+							<Path
+								Width="8"
+								Height="18"
+								Data="{StaticResource Icon_LeftTriangle1}"
+								Fill="Black"
+								Stretch="Fill" />
+						</controls:KbButton>
+						<controls:KbButton 
+							x:Name="BtnRightTriangle"
+							Click="BtnRightTriangle_Click"
+							Grid.Column="1"
+							Visibility="Collapsed"
+							VerticalAlignment="Center"
+							BorderThickness="0"
+							Background="Transparent"
+							CornerRadius="2">
+							<Path
+								Width="8"
+								Height="18"
+								Data="{StaticResource Icon_RightTriangle1}"
+								Fill="Black"
+								Stretch="Fill" />
+						</controls:KbButton>
 						<TabControl
 							Grid.Column="2" Grid.Row="0" 
 							Margin="0 -24 0 0" 
@@ -393,7 +423,7 @@
 						</uc:StateBar>
 					</Grid>
 				</TabItem>
-				<TabItem Header="属性" Style="{StaticResource TabItemStyle}">
+				<TabItem x:Name="TabItemOuterProperty" Header="属性" Style="{StaticResource TabItemStyle}">
 					<Border BorderThickness="0" BorderBrush="{StaticResource LineColor}" Padding="14 0 0 0" Background="White">
 						<uc:OuterProperty />
 					</Border>

@@ -138,5 +138,21 @@ namespace NTMiner.Views {
                 this.DragMove();
             }
         }
+
+        private void BtnLeftTriangle_Click(object sender, RoutedEventArgs e) {
+            BtnRightTriangle.Visibility = Visibility.Visible;
+            BtnLeftTriangle.Visibility = Visibility.Collapsed;
+            GridMinerProfile.Visibility = Visibility.Collapsed;
+            TabItemStart.Visibility = Visibility.Hidden;
+            TabItemOuterProperty.Visibility = Visibility.Hidden;
+        }
+
+        private void BtnRightTriangle_Click(object sender, RoutedEventArgs e) {
+            BtnRightTriangle.Visibility = Visibility.Collapsed;
+            BtnLeftTriangle.Visibility = Visibility.Visible;
+            GridMinerProfile.Visibility = Visibility.Visible;
+            TabItemStart.Visibility = Visibility.Visible;
+            TabItemOuterProperty.Visibility = Visibility.Visible;
+        }
     }
 }
