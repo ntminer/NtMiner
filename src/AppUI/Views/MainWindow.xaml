@@ -174,154 +174,154 @@
 							<RowDefinition Height="*"></RowDefinition>
 							<RowDefinition Height="Auto"></RowDefinition>
 						</Grid.RowDefinitions>
-						<Grid x:Name="GridMinerProfile" Grid.Column="0" Grid.Row="0" Width="328">
+						<Grid 
+							x:Name="GridMinerProfile" 
+							Grid.Column="0" 
+							Grid.Row="0" 
+							Width="328"
+							IsEnabled="{Binding MinerProfile.IsWorker,Converter={StaticResource BoolInvertConverter}}">
 							<Grid.RowDefinitions>
 								<RowDefinition Height="Auto"></RowDefinition>
 								<RowDefinition Height="*"></RowDefinition>
 							</Grid.RowDefinitions>
-							<Border
-								Grid.Column="0" Grid.Row="0" Padding="0 4 0 0">
-								<StackPanel IsEnabled="{Binding MinerProfile.IsWorker,Converter={StaticResource BoolInvertConverter}}">
-									<WrapPanel>
-										<WrapPanel VerticalAlignment="Center" IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}">
-											<TextBlock 
-												FontSize="12"
-												Foreground="{StaticResource LableColor}"
-												Padding="0 0 4 0"
-												Width="54"
+							<WrapPanel Margin="0 4 0 0">
+								<WrapPanel VerticalAlignment="Center" IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}">
+									<TextBlock 
+										FontSize="12"
+										Foreground="{StaticResource LableColor}"
+										Padding="0 0 4 0"
+										Width="54"
+										VerticalAlignment="Center"
+										TextAlignment="Right"
+										TextWrapping="Wrap"
+										Text="矿机名"></TextBlock>
+									<TextBox 
+										Height="30"
+										Width="106" 
+										Padding="3 0 0 0"
+										Background="{Binding StateBarVm.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
+										Text="{Binding MinerProfile.MinerName, UpdateSourceTrigger=LostFocus}" 
+										VerticalContentAlignment="Center">
+										<TextBox.ToolTip>
+											<StackPanel>
+												<TextBlock Text="点号、空格、减号、下划线将被去除。"></TextBlock>
+											</StackPanel>
+										</TextBox.ToolTip>
+									</TextBox>
+									<controls:KbButton 
+										BorderThickness="0"
+										ToolTip="使用本机名作为矿工名"
+										Command="{Binding UseThisPcName}"
+										Background="Transparent"
+										CornerRadius="2">
+										<Path
+											Width="16"
+											Height="14"
+											Data="{StaticResource Icon_WindowsOS}"
+											Fill="{StaticResource IconFillColor}"
+											Stretch="Fill" />
+									</controls:KbButton>
+								</WrapPanel>
+								<Border
+									Margin="12 0 0 0"
+									Width="30"
+									Height="30"
+									Background="Red"
+									CornerRadius="15"
+									Visibility="{Binding MinerProfile.IsWorker,Converter={StaticResource BoolToHiddenConverter}}">
+									<TextBlock 
+										HorizontalAlignment="Center"
+										VerticalAlignment="Center"
+										Foreground="White" 
+										FontWeight="Bold"
+										Text="群控"></TextBlock>
+								</Border>
+								<WrapPanel Margin="8 0 0 0" Width="100" Height="34">
+									<controls:KbButton 
+										IsDefault="True"
+										Width="100"
+										Height="32"
+										Command="{Binding StartMine}" 
+										Visibility="{Binding StateBarVm.IsMining, Converter={StaticResource BoolToVisibilityInvertConverter}}" 
+										Background="{StaticResource ThemeBackground}">
+										<WrapPanel>
+											<Path
+												Width="16"
+												Height="16"
+												Data="{StaticResource Icon_Mining1}"
+												Fill="{StaticResource ThemeForeground}"
+												Stretch="Fill">
+												<Path.RenderTransform>
+													<RotateTransform Angle="-45" CenterX="8" CenterY="8"></RotateTransform>
+												</Path.RenderTransform>
+											</Path>
+											<Label
+												Padding="4 4 4 6"
 												VerticalAlignment="Center"
-												TextAlignment="Right"
-												TextWrapping="Wrap"
-												Text="矿机名"></TextBlock>
-											<TextBox 
-												Height="30"
-												Width="106" 
-												Padding="3 0 0 0"
-												Background="{Binding StateBarVm.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
-												Text="{Binding MinerProfile.MinerName, UpdateSourceTrigger=LostFocus}" 
-												VerticalContentAlignment="Center">
-												<TextBox.ToolTip>
-													<StackPanel>
-														<TextBlock Text="点号、空格、减号、下划线将被去除。"></TextBlock>
-													</StackPanel>
-												</TextBox.ToolTip>
-											</TextBox>
-											<controls:KbButton 
-												BorderThickness="0"
-												ToolTip="使用本机名作为矿工名"
-												Command="{Binding UseThisPcName}"
-												Background="Transparent"
-												CornerRadius="2">
-												<Path
-													Width="16"
-													Height="14"
-													Data="{StaticResource Icon_WindowsOS}"
-													Fill="{StaticResource IconFillColor}"
-													Stretch="Fill" />
-											</controls:KbButton>
+												Foreground="{StaticResource ThemeForeground}"
+												FontSize="16"
+												Content="开始挖矿" />
 										</WrapPanel>
-										<Border
-											Margin="12 0 0 0"
-											Width="30"
-											Height="30"
-											Background="Red"
-											CornerRadius="15"
-											Visibility="{Binding MinerProfile.IsWorker,Converter={StaticResource BoolToHiddenConverter}}">
-											<TextBlock 
-												HorizontalAlignment="Center"
-												VerticalAlignment="Center"
-												Foreground="White" 
-												FontWeight="Bold"
-												Text="群控"></TextBlock>
-										</Border>
-										<WrapPanel Margin="8 0 0 0" Width="100" Height="34">
-											<controls:KbButton 
-												IsDefault="True"
-												Width="100"
-												Height="32"
-												Command="{Binding StartMine}" 
-												Visibility="{Binding StateBarVm.IsMining, Converter={StaticResource BoolToVisibilityInvertConverter}}" 
-												Background="{StaticResource ThemeBackground}">
-												<WrapPanel>
-													<Path
-														Width="16"
-														Height="16"
-														Data="{StaticResource Icon_Mining1}"
-														Fill="{StaticResource ThemeForeground}"
-														Stretch="Fill">
-														<Path.RenderTransform>
-															<RotateTransform Angle="-45" CenterX="8" CenterY="8"></RotateTransform>
-														</Path.RenderTransform>
-													</Path>
-													<Label
-														Padding="4 4 4 6"
-														VerticalAlignment="Center"
-														Foreground="{StaticResource ThemeForeground}"
-														FontSize="16"
-														Content="开始挖矿" />
-												</WrapPanel>
-											</controls:KbButton>
-											<Button                        
-												Command="{Binding StopMine}" 
-												Visibility="{Binding StateBarVm.IsMining, Converter={StaticResource BoolToVisibilityConverter}}">
-												<Button.Template>
-													<ControlTemplate>
-														<Border 
-															x:Name="Content"
-															Width="100"
-															Height="32"
-															Background="Transparent"
-															BorderThickness="1" 
-															BorderBrush="{StaticResource LineColor}">
-															<WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-																<Path
-																	x:Name="Icon2"
-																	Width="16"
-																	Height="16"
-																	Visibility="{Binding StateBarVm.IsShovelEmpty, Converter={StaticResource BoolToVisibilityConverter}}"
-																	Data="{StaticResource Icon_Mining2}"
-																	Fill="{StaticResource IconFillColor}"
-																	Stretch="Fill">
-																</Path>
-																<Path
-																	x:Name="Icon1"
-																	Width="16"
-																	Height="16"
-																	Visibility="{Binding StateBarVm.IsShovelEmpty, Converter={StaticResource BoolToVisibilityInvertConverter}}"
-																	Data="{StaticResource Icon_Mining1}"
-																	Fill="{StaticResource IconFillColor}"
-																	Stretch="Fill">
-																	<Path.RenderTransform>
-																		<RotateTransform Angle="20" CenterX="8" CenterY="8"></RotateTransform>
-																	</Path.RenderTransform>
-																</Path>
-																<Label
-																	Padding="4 4 4 6"
-																	x:Name="Text"
-																	VerticalAlignment="Center"
-																	Foreground="{StaticResource IconFillColor}"
-																	FontSize="16"
-																	Content="正在挖矿" />
-															</WrapPanel>
-														</Border>
-														<ControlTemplate.Triggers>
-															<Trigger Property="IsMouseOver" Value="True">
-																<Setter TargetName="Icon1" Property="Fill" Value="White"></Setter>
-																<Setter TargetName="Icon2" Property="Fill" Value="White"></Setter>
-																<Setter TargetName="Content" Property="Background" Value="Red"></Setter>
-																<Setter TargetName="Content" Property="BorderBrush" Value="Red"></Setter>
-																<Setter TargetName="Text" Property="Foreground" Value="White"></Setter>
-																<Setter TargetName="Text" Property="Content" Value="停止挖矿"></Setter>
-															</Trigger>
-														</ControlTemplate.Triggers>
-													</ControlTemplate>
-												</Button.Template>
-											</Button>
-										</WrapPanel>
-									</WrapPanel>
-									<uc:MinerProfileIndex />
-								</StackPanel>
-							</Border>							
+									</controls:KbButton>
+									<Button                        
+										Command="{Binding StopMine}" 
+										Visibility="{Binding StateBarVm.IsMining, Converter={StaticResource BoolToVisibilityConverter}}">
+										<Button.Template>
+											<ControlTemplate>
+												<Border 
+													x:Name="Content"
+													Width="100"
+													Height="32"
+													Background="Transparent"
+													BorderThickness="1" 
+													BorderBrush="{StaticResource LineColor}">
+													<WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+														<Path
+															x:Name="Icon2"
+															Width="16"
+															Height="16"
+															Visibility="{Binding StateBarVm.IsShovelEmpty, Converter={StaticResource BoolToVisibilityConverter}}"
+															Data="{StaticResource Icon_Mining2}"
+															Fill="{StaticResource IconFillColor}"
+															Stretch="Fill">
+														</Path>
+														<Path
+															x:Name="Icon1"
+															Width="16"
+															Height="16"
+															Visibility="{Binding StateBarVm.IsShovelEmpty, Converter={StaticResource BoolToVisibilityInvertConverter}}"
+															Data="{StaticResource Icon_Mining1}"
+															Fill="{StaticResource IconFillColor}"
+															Stretch="Fill">
+															<Path.RenderTransform>
+																<RotateTransform Angle="20" CenterX="8" CenterY="8"></RotateTransform>
+															</Path.RenderTransform>
+														</Path>
+														<Label
+															Padding="4 4 4 6"
+															x:Name="Text"
+															VerticalAlignment="Center"
+															Foreground="{StaticResource IconFillColor}"
+															FontSize="16"
+															Content="正在挖矿" />
+													</WrapPanel>
+												</Border>
+												<ControlTemplate.Triggers>
+													<Trigger Property="IsMouseOver" Value="True">
+														<Setter TargetName="Icon1" Property="Fill" Value="White"></Setter>
+														<Setter TargetName="Icon2" Property="Fill" Value="White"></Setter>
+														<Setter TargetName="Content" Property="Background" Value="Red"></Setter>
+														<Setter TargetName="Content" Property="BorderBrush" Value="Red"></Setter>
+														<Setter TargetName="Text" Property="Foreground" Value="White"></Setter>
+														<Setter TargetName="Text" Property="Content" Value="停止挖矿"></Setter>
+													</Trigger>
+												</ControlTemplate.Triggers>
+											</ControlTemplate>
+										</Button.Template>
+									</Button>
+								</WrapPanel>
+							</WrapPanel>
+							<uc:MinerProfileIndex Grid.Row="1" />
 						</Grid>
 
 						<StackPanel Grid.Column="1" Width="1" HorizontalAlignment="Right" Background="{StaticResource LineColor}"></StackPanel>
