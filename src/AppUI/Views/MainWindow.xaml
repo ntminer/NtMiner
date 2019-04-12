@@ -176,7 +176,6 @@
 						</Grid.RowDefinitions>
 						<Border 
 							x:Name="MinerProfileContainerLeft" 
-							IsEnabled="{Binding MinerProfile.IsWorker,Converter={StaticResource BoolInvertConverter}}"
 							Grid.Column="0" 
 							Grid.Row="0" 
 							Width="328">
@@ -322,7 +321,9 @@
 										</Button>
 									</WrapPanel>
 								</WrapPanel>
-								<uc:MinerProfileIndex Grid.Row="1" />
+								<uc:MinerProfileIndex 
+									Grid.Row="1" 
+									IsEnabled="{Binding MinerProfile.IsWorker,Converter={StaticResource BoolInvertConverter}}"/>
 							</Grid>
 						</Border>
 
