@@ -171,7 +171,7 @@
 							Stretch="Fill"
 							Visibility="{Binding MinerProfile.CoinVm.CoinProfile.IsHideWallet, Converter={StaticResource BoolToVisibilityConverter}}" />
 					</WrapPanel>
-					<WrapPanel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="240 4 0 0">
+					<WrapPanel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="250 4 0 0">
 						<controls:KbButton 
 							Padding="2"
 							Margin="0 -1 -4 2"
@@ -533,7 +533,7 @@
 									Stretch="Fill"
 									Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.IsDualCoinHideWallet, Converter={StaticResource BoolToVisibilityConverter}}" />
 							</WrapPanel>
-							<WrapPanel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="240 4 0 0">
+							<WrapPanel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="250 4 0 0">
 								<controls:KbButton 
 									Padding="2"
 									Margin="0 -1 -4 2"

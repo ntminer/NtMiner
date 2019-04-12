@@ -374,7 +374,7 @@
 								<Border x:Name="MinerProfileContainerRight" Margin="4 0">
 								</Border>
 							</TabItem>
-							<TabItem x:Name="TabItemLog">
+							<TabItem x:Name="TabItemLog" IsSelected="True">
 								<TabItem.Header>
 									<Border Padding="2 0">
 										<WrapPanel>
