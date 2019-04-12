@@ -142,22 +142,22 @@ namespace NTMiner.Views {
         private void BtnLeftTriangle_Click(object sender, RoutedEventArgs e) {
             BtnRightTriangle.Visibility = Visibility.Visible;
             BtnLeftTriangle.Visibility = Visibility.Collapsed;
-            GridMinerProfile.Visibility = Visibility.Collapsed;
+            MinerProfileContainerLeft.Visibility = Visibility.Collapsed;
             TabItemStart.Visibility = Visibility.Hidden;
             TabItemOuterProperty.Visibility = Visibility.Hidden;
             MinerProfileContainerLeft.Child = null;
-            MinerProfileContainerRight.Child = MinerProfileUc;
+            MinerProfileContainerRight.Child = GridMineStart;
             TabItemMinerProfile.Visibility = Visibility.Visible;
         }
 
         private void BtnRightTriangle_Click(object sender, RoutedEventArgs e) {
             BtnRightTriangle.Visibility = Visibility.Collapsed;
             BtnLeftTriangle.Visibility = Visibility.Visible;
-            GridMinerProfile.Visibility = Visibility.Visible;
+            MinerProfileContainerLeft.Visibility = Visibility.Visible;
             TabItemStart.Visibility = Visibility.Visible;
             TabItemOuterProperty.Visibility = Visibility.Visible;
             MinerProfileContainerRight.Child = null;
-            MinerProfileContainerLeft.Child = MinerProfileUc;
+            MinerProfileContainerLeft.Child = GridMineStart;
             TabItemMinerProfile.Visibility = Visibility.Collapsed;
             if (TabItemMinerProfile.IsSelected) {
                 TabItemLog.IsSelected = true;
