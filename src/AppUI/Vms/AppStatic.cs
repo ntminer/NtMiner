@@ -29,7 +29,12 @@ namespace NTMiner.Vms {
 
         public static string QQGroup => NTMinerRoot.Current.QQGroup;
 
-        public static string WindowsEdition => Windows.OS.Current.WindowsEdition;
+        private static readonly string _windowsEdition = Windows.OS.Current.WindowsEdition?.Replace("Windows ", "Win");
+        public static string WindowsEdition {
+            get {
+                return _windowsEdition;
+            }
+        }
 
         public static string TotalVirtualMemoryGbText => DriveSet.Current.VirtualMemorySet.TotalVirtualMemoryGbText;
 
