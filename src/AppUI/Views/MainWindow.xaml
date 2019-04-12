@@ -188,7 +188,7 @@
 												FontSize="12"
 												Foreground="{StaticResource LableColor}"
 												Padding="0 0 4 0"
-												Width="58"
+												Width="54"
 												VerticalAlignment="Center"
 												TextAlignment="Right"
 												TextWrapping="Wrap"
@@ -220,7 +220,7 @@
 													Stretch="Fill" />
 											</controls:KbButton>
 										</WrapPanel>
-										<StackPanel Margin="10 0 0 0">
+										<StackPanel Margin="12 0 0 0">
 											<controls:KbCheckBox
 												Margin="0 2 0 0"
 												Content="开机自动启动"
