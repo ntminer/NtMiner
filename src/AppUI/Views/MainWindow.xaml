@@ -321,7 +321,9 @@
 									</Button>
 								</WrapPanel>
 							</WrapPanel>
-							<uc:MinerProfileIndex Grid.Row="1" />
+							<Border x:Name="MinerProfileContainerLeft" Grid.Row="1">
+								<uc:MinerProfileIndex x:Name="MinerProfileUc" />
+							</Border>
 						</Grid>
 
 						<StackPanel Grid.Column="1" Width="1" HorizontalAlignment="Right" Background="{StaticResource LineColor}"></StackPanel>
@@ -361,7 +363,18 @@
 							Margin="0 -24 0 0" 
 							Padding="0"
 							BorderThickness="0" Grid.ColumnSpan="2">
-							<TabItem>
+							<TabItem x:Name="TabItemMinerProfile" Visibility="Collapsed">
+								<TabItem.Header>
+									<Border Padding="2 0">
+										<WrapPanel>
+											<TextBlock Text="开始"></TextBlock>
+										</WrapPanel>
+									</Border>
+								</TabItem.Header>
+								<Border x:Name="MinerProfileContainerRight" Margin="4 0">
+								</Border>
+							</TabItem>
+							<TabItem x:Name="TabItemLog">
 								<TabItem.Header>
 									<Border Padding="2 0">
 										<WrapPanel>

@@ -145,6 +145,9 @@ namespace NTMiner.Views {
             GridMinerProfile.Visibility = Visibility.Collapsed;
             TabItemStart.Visibility = Visibility.Hidden;
             TabItemOuterProperty.Visibility = Visibility.Hidden;
+            MinerProfileContainerLeft.Child = null;
+            MinerProfileContainerRight.Child = MinerProfileUc;
+            TabItemMinerProfile.Visibility = Visibility.Visible;
         }
 
         private void BtnRightTriangle_Click(object sender, RoutedEventArgs e) {
@@ -153,6 +156,12 @@ namespace NTMiner.Views {
             GridMinerProfile.Visibility = Visibility.Visible;
             TabItemStart.Visibility = Visibility.Visible;
             TabItemOuterProperty.Visibility = Visibility.Visible;
+            MinerProfileContainerRight.Child = null;
+            MinerProfileContainerLeft.Child = MinerProfileUc;
+            TabItemMinerProfile.Visibility = Visibility.Collapsed;
+            if (TabItemMinerProfile.IsSelected) {
+                TabItemLog.IsSelected = true;
+            }
         }
     }
 }
