@@ -144,7 +144,7 @@
 								<WrapPanel>
 									<StackPanel Width="248">
 										<TextBlock Foreground="Black" Text="{Binding MinerProfile.CoinVm.CoinProfile.SelectedWallet.Name}"></TextBlock>
-										<TextBlock Foreground="Black" Text="{Binding MinerProfile.CoinVm.CoinProfile.SelectedWallet.Address}"></TextBlock>
+										<TextBlock Foreground="Black" Text="{Binding MinerProfile.CoinVm.CoinProfile.SelectedWallet.Address}" TextAlignment="Right"></TextBlock>
 									</StackPanel>
 									<Path
 										Margin="0 2 0 0"
@@ -505,7 +505,7 @@
 											<WrapPanel>
 												<StackPanel Width="248">
 													<TextBlock Foreground="Black" Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.SelectedDualCoinWallet.Name}"></TextBlock>
-													<TextBlock Foreground="Black" Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.SelectedDualCoinWallet.Address}"></TextBlock>
+													<TextBlock Foreground="Black" Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.SelectedDualCoinWallet.Address}" TextAlignment="Right"></TextBlock>
 												</StackPanel>
 												<Path
 													Margin="0 2 0 0"
