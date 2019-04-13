@@ -663,29 +663,27 @@ namespace NTMiner {
                     }
                     else {
                         try {
-                            _gpuSet = new NVIDIAGpuSet(this);
+                            if (IsNCard) {
+                                _gpuSet = new NVIDIAGpuSet(this);
+                            }
+                            else {
+                                _gpuSet = new AMDGpuSet(this);
+                            }
                         }
                         catch (Exception ex) {
                             _gpuSet = EmptyGpuSet.Instance;
                             Logger.ErrorDebugLine(ex);
                         }
-                        if (_gpuSet == null || _gpuSet.Count == 0) {
-                            try {
-                                _gpuSet = new AMDGpuSet(this);
-                            }
-                            catch (Exception ex) {
-                                _gpuSet = EmptyGpuSet.Instance;
-                                Logger.ErrorDebugLine(ex);
-                            }
-                        }
                     }
                     if (_gpuSet == null) {
                         _gpuSet = EmptyGpuSet.Instance;
                     }
-                    VirtualRoot.On<Per5SecondEvent>("周期刷新显卡状态", LogEnum.None,
-                        action: message => {
-                            _gpuSet.LoadGpuState();
-                        });
+                    if (_gpuSet != EmptyGpuSet.Instance) {
+                        VirtualRoot.On<Per5SecondEvent>("周期刷新显卡状态", LogEnum.None,
+                            action: message => {
+                                _gpuSet.LoadGpuState();
+                            });
+                    }
                 }
                 return _gpuSet;
             }

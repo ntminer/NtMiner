@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Management;
 using System.Reflection;
 using System.Text;
 
@@ -39,6 +40,20 @@ namespace NTMiner {
         public static readonly INTMinerRoot Current = SCurrent;
         public static readonly Version CurrentVersion;
         public static readonly string CurrentVersionTag;
+        public bool IsNCard {
+            get {
+                try {
+                    foreach (ManagementBaseObject item in new ManagementObjectSearcher("SELECT AdapterDACType,Caption FROM Win32_VideoController").Get()) {
+                        if (!(item.GetPropertyValue("AdapterDACType").ToString() == "Internal")) {
+                            return item.GetPropertyValue("Caption").ToString().Contains("NVIDIA");
+                        }
+                    }
+                }
+                catch (Exception) {
+                }
+                return false;
+            }
+        }
 
         private static LocalJsonDb _localJson;
         public static ILocalJsonDb LocalJson {
