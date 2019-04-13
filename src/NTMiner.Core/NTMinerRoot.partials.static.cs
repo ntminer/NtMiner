@@ -51,7 +51,8 @@ namespace NTMiner {
                         }
                     }
                 }
-                catch (Exception) {
+                catch (Exception e) {
+                    Logger.ErrorDebugLine(e.Message, e);
                 }
                 return false;
             }
