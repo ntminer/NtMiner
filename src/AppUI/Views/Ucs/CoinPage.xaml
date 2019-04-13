@@ -505,7 +505,6 @@
 			</TabItem>
 
 			<TabItem 
-				Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
 				IsSelected="{Binding IsKernelTabSelected}">
 				<TabItem.Header>
 					<Border Padding="10 0">
@@ -530,15 +529,16 @@
 						</DataGrid.Resources>
 						<DataGrid.Columns>
 							<DataGridTemplateColumn 
+								Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
 								MinWidth="100" CanUserResize="True" CanUserSort="False" IsReadOnly="True">
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate>
 										<StackPanel
-											Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
 											HorizontalAlignment="Right" Background="Transparent" VerticalAlignment="Center" Orientation="Horizontal">
-											<controls:KbButton Command="{Binding Edit}" Background="Transparent" BorderThickness="0"
-												   Margin="2 0"
-												   CornerRadius="2" ToolTip="编辑">
+											<controls:KbButton 
+												Command="{Binding Edit}" Background="Transparent" BorderThickness="0"
+												Margin="2 0"
+												CornerRadius="2" ToolTip="编辑">
 												<WrapPanel>
 													<Path
 														Width="18"
@@ -548,9 +548,10 @@
 														Stretch="Fill" />
 												</WrapPanel>
 											</controls:KbButton>
-											<controls:KbButton Command="{Binding Remove}" Background="Transparent" BorderThickness="0"
-													Margin="2 0"
-													CornerRadius="2" ToolTip="删除">
+											<controls:KbButton 
+												Command="{Binding Remove}" Background="Transparent" BorderThickness="0"
+												Margin="2 0"
+												CornerRadius="2" ToolTip="删除">
 												<WrapPanel>
 													<Path
 														Width="18"
@@ -561,9 +562,9 @@
 												</WrapPanel>
 											</controls:KbButton>
 											<controls:KbButton 
-													Margin="2 0"
-													Command="{Binding SortUp}" Background="Transparent" BorderThickness="0"
-													CornerRadius="2" ToolTip="上移">
+												Margin="2 0"
+												Command="{Binding SortUp}" Background="Transparent" BorderThickness="0"
+												CornerRadius="2" ToolTip="上移">
 												<WrapPanel>
 													<Path
 														Width="18"
