@@ -250,33 +250,80 @@
 					</WrapPanel>
 				</WrapPanel>
 			</StackPanel>
-			<WrapPanel HorizontalAlignment="Right">
-				<TextBlock Text="{x:Static vm:AppStatic.WindowsEdition}" ToolTip="操作系统" Foreground="{StaticResource LableColor}"></TextBlock>
-				<TextBlock Text=" / " Foreground="{StaticResource LableColor}"></TextBlock>
-				<controls:KbButton 
-					Command="{x:Static vm:AppStatic.ShowVirtualMemory}"
-					Content="{x:Static vm:AppStatic.TotalVirtualMemoryGbText}" 
-					Background="Transparent" 
-					Cursor="Hand"
-					BorderThickness="0" 
-					ToolTip="虚拟内存" 
-					Foreground="{StaticResource LableColor}"></controls:KbButton>
-				<TextBlock Text=" / " Foreground="{StaticResource LableColor}"></TextBlock>
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto"></ColumnDefinition>
+					<ColumnDefinition Width="*"></ColumnDefinition>
+				</Grid.ColumnDefinitions>
 				<WrapPanel>
-					<TextBlock Text="{x:Static vm:AppStatic.DriverVersion}" ToolTip="显卡驱动版本" Foreground="{StaticResource LableColor}"></TextBlock>
-					<TextBlock Text=" / " Foreground="{StaticResource LableColor}"></TextBlock>
+					<TextBlock
+						Margin="2 0 0 0"
+						HorizontalAlignment="Left"
+						VerticalAlignment="Center"
+						Text="v" />
+					<TextBlock
+						Margin="0"
+						HorizontalAlignment="Left"
+						VerticalAlignment="Center"
+						Text="{x:Static vm:AppStatic.CurrentVersion}" />
+					<TextBlock
+						Margin="2 0 0 0"
+						HorizontalAlignment="Left"
+						VerticalAlignment="Center"
+						Text="(" />
+					<TextBlock
+						Margin="0"
+						HorizontalAlignment="Left"
+						VerticalAlignment="Center"
+						Text="{x:Static vm:AppStatic.VersionTag}" />
+					<TextBlock
+						HorizontalAlignment="Left"
+						VerticalAlignment="Center"
+						Text=")" />
+					<controls:KbButton 
+						Margin="4 0 0 0"
+						Cursor="Hand"
+						ToolTip="检查更新"
+						Background="Transparent" 
+						BorderThickness="0"
+						Command="{x:Static vm:AppStatic.ShowOnlineUpdate}">
+						<Path 
+							Width="14"
+							Height="13"
+							Data="{StaticResource Icon_Update}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</controls:KbButton>
 				</WrapPanel>
-				<TextBlock Text="{x:Static vm:AppStatic.GpuSetInfo}" MaxWidth="260" ToolTip="{x:Static vm:AppStatic.GpuSetInfo}" Foreground="{StaticResource LableColor}"></TextBlock>
-				<Path
-					Margin="4 0 2 0"
-					Width="16"
-					Height="14"
-					ToolTip="{Binding GpuStatusBarVm.GpuSetName}"
-					Data="{Binding GpuStatusBarVm.Icon}"
-					Fill="{Binding GpuStatusBarVm.IconFill}"
-					Stretch="Fill">
-				</Path>
-			</WrapPanel>
+				<WrapPanel Grid.Column="1" HorizontalAlignment="Right">
+					<TextBlock Text="{x:Static vm:AppStatic.WindowsEdition}" ToolTip="操作系统" Foreground="{StaticResource LableColor}"></TextBlock>
+					<TextBlock Text=" / " Foreground="{StaticResource LableColor}"></TextBlock>
+					<controls:KbButton 
+						Command="{x:Static vm:AppStatic.ShowVirtualMemory}"
+						Content="{x:Static vm:AppStatic.TotalVirtualMemoryGbText}" 
+						Background="Transparent" 
+						Cursor="Hand"
+						BorderThickness="0" 
+						ToolTip="虚拟内存" 
+						Foreground="{StaticResource LableColor}"></controls:KbButton>
+					<TextBlock Text=" / " Foreground="{StaticResource LableColor}"></TextBlock>
+					<WrapPanel>
+						<TextBlock Text="{x:Static vm:AppStatic.DriverVersion}" ToolTip="显卡驱动版本" Foreground="{StaticResource LableColor}"></TextBlock>
+						<TextBlock Text=" / " Foreground="{StaticResource LableColor}"></TextBlock>
+					</WrapPanel>
+					<TextBlock Text="{x:Static vm:AppStatic.GpuSetInfo}" MaxWidth="260" ToolTip="{x:Static vm:AppStatic.GpuSetInfo}" Foreground="{StaticResource LableColor}"></TextBlock>
+					<Path
+						Margin="2 0 0 3"
+						Width="16"
+						Height="14"
+						ToolTip="{Binding GpuStatusBarVm.GpuSetName}"
+						Data="{Binding GpuStatusBarVm.Icon}"
+						Fill="{Binding GpuStatusBarVm.IconFill}"
+						Stretch="Fill">
+					</Path>
+					<TextBlock Margin="0 0 2 0" Text="{Binding GpuStatusBarVm.GpuCountText}" Foreground="{StaticResource LableColor}"></TextBlock>
+				</WrapPanel>
+			</Grid>
 		</StackPanel>
 	</Border>
 </UserControl>

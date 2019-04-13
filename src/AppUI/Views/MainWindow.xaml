@@ -100,20 +100,6 @@
 					</WrapPanel>
 				</controls:KbLinkButton>
 				<controls:KbButton 
-					Margin="4 0 0 0"
-					Cursor="Hand"
-					ToolTip="检查更新"
-					Background="Transparent" 
-					BorderThickness="0"
-					Command="{x:Static vm:AppStatic.ShowOnlineUpdate}">
-					<Path 
-						Width="14"
-						Height="13"
-						Data="{StaticResource Icon_Update}"
-						Fill="{StaticResource ThemeForeground}"
-						Stretch="Fill" />
-				</controls:KbButton>
-				<controls:KbButton 
 					Margin="4 0 0 0" Height="20" BorderThickness="0" 
 					Content="点击以管理员身份运行"
 					Foreground="White"

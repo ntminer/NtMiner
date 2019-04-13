@@ -638,7 +638,7 @@ namespace NTMiner {
                     int len = sb.Length;
                     foreach (var g in GpuSet.Where(a => a.Index != GpuAllId).GroupBy(a => a.Name)) {
                         if (sb.Length != len) {
-                            sb.Append(";");
+                            sb.Append("/");
                         }
                         int gCount = g.Count();
                         if (gCount > 1) {
