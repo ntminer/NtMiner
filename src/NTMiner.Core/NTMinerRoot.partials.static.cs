@@ -43,9 +43,11 @@ namespace NTMiner {
         public bool IsNCard {
             get {
                 try {
-                    foreach (ManagementBaseObject item in new ManagementObjectSearcher("SELECT AdapterDACType,Caption FROM Win32_VideoController").Get()) {
-                        if (!(item.GetPropertyValue("AdapterDACType").ToString() == "Internal")) {
-                            return item.GetPropertyValue("Caption").ToString().Contains("NVIDIA");
+                    foreach (ManagementBaseObject item in new ManagementObjectSearcher("SELECT Caption FROM Win32_VideoController").Get()) {
+                        foreach (var property in item.Properties) {
+                            if ((property.Value ?? string.Empty).ToString().Contains("NVIDIA")) {
+                                return true;
+                            }
                         }
                     }
                 }
