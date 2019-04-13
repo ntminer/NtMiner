@@ -55,7 +55,8 @@ namespace NTMiner.Core.Kernels {
         }
 
         public static bool IsSupported(this IKernel kernel, ICoin coin) {
-            if (VirtualRoot.IsMinerStudio) {
+            // 群控客户端和无显卡的电脑的GpuSet类型都是空
+            if (NTMinerRoot.Current.GpuSet.GpuType == GpuType.Empty) {
                 return true;
             }
             foreach (var item in NTMinerRoot.Current.CoinKernelSet.Where(a => a.CoinId == coin.GetId() && a.KernelId == kernel.GetId())) {

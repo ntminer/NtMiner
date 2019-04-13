@@ -300,7 +300,7 @@ namespace NTMiner.Vms {
 
         public bool IsSupported {
             get {
-                if (this == PleaseSelect || VirtualRoot.IsMinerStudio) {
+                if (this == PleaseSelect || NTMinerRoot.Current.GpuSet.GpuType == GpuType.Empty) {
                     return true;
                 }
                 foreach (var coinKernel in NTMinerRoot.Current.CoinKernelSet.Where(a => a.CoinId == this.Id)) {

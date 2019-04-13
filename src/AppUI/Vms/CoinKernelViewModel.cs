@@ -348,7 +348,7 @@ namespace NTMiner.Vms {
 
         public bool IsSupported {
             get {
-                if (VirtualRoot.IsMinerStudio) {
+                if (NTMinerRoot.Current.GpuSet.GpuType == GpuType.Empty) {
                     return true;
                 }
                 if (this.SupportedGpu == SupportedGpu.Both) {
