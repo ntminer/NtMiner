@@ -6,13 +6,9 @@ namespace NTMiner.Serialization {
         }
 
         public virtual string Serialize<TObject>(TObject obj) {
-#if DEBUG
             return JsonConvert.SerializeObject(obj, new JsonSerializerSettings() {
-                Formatting = Formatting.Indented
+                NullValueHandling = NullValueHandling.Ignore
             });
-#else
-            return JsonConvert.SerializeObject(obj);
-#endif
         }
 
         public virtual TObject Deserialize<TObject>(string json) {
