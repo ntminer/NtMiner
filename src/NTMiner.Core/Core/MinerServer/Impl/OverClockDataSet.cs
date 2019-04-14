@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NTMiner.Core.MinerServer.Impl {
     public class OverClockDataSet : IOverClockDataSet {
@@ -80,7 +81,7 @@ namespace NTMiner.Core.MinerServer.Impl {
         private void Init() {
             OfficialServer.OverClockDataService.GetOverClockDatasAsync((response, e) => {
                 if (response.IsSuccess()) {
-                    foreach (var item in response.Data) {
+                    foreach (var item in response.Data.Where(a => a.GpuType == _root.GpuSet.GpuType)) {
                         if (!_dicById.ContainsKey(item.GetId())) {
                             _dicById.Add(item.GetId(), item);
                         }
