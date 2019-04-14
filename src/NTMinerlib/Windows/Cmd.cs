@@ -5,14 +5,22 @@ using System.IO;
 namespace NTMiner.Windows {
     public static class Cmd {
         public static void RunClose(string filePullName, string args) {
+            if (string.IsNullOrEmpty(filePullName)) {
+                return;
+            }
             try {
                 using (Process proc = new Process()) {
                     proc.StartInfo.CreateNoWindow = true;
                     proc.StartInfo.UseShellExecute = false;
                     proc.StartInfo.FileName = "cmd.exe";
                     proc.StartInfo.Arguments = $"/C \"{filePullName}\" {args}";
-                    if (Path.IsPathRooted(filePullName)) {
-                        proc.StartInfo.WorkingDirectory = Path.GetDirectoryName(filePullName);
+                    try {
+                        if (Path.IsPathRooted(filePullName)) {
+                            proc.StartInfo.WorkingDirectory = Path.GetDirectoryName(filePullName);
+                        }
+                    }
+                    catch (Exception ex) {
+                        Logger.ErrorDebugLine(ex.Message, ex);
                     }
                     proc.Start();
                 }
@@ -23,14 +31,22 @@ namespace NTMiner.Windows {
         }
 
         public static void RunClose(string filePullName, string args, ref int exitCode) {
+            if (string.IsNullOrEmpty(filePullName)) {
+                return;
+            }
             try {
                 using (Process proc = new Process()) {
                     proc.StartInfo.CreateNoWindow = true;
                     proc.StartInfo.UseShellExecute = false;
                     proc.StartInfo.FileName = "cmd.exe";
                     proc.StartInfo.Arguments = $"/C \"{filePullName}\" {args}";
-                    if (Path.IsPathRooted(filePullName)) {
-                        proc.StartInfo.WorkingDirectory = Path.GetDirectoryName(filePullName);
+                    try {
+                        if (Path.IsPathRooted(filePullName)) {
+                            proc.StartInfo.WorkingDirectory = Path.GetDirectoryName(filePullName);
+                        }
+                    }
+                    catch (Exception ex) {
+                        Logger.ErrorDebugLine(ex.Message, ex);
                     }
                     proc.Start();
                     proc.WaitForExit(10 * 1000);
@@ -43,6 +59,10 @@ namespace NTMiner.Windows {
         }
 
         public static void RunClose(string filePullName, string args, ref int exitCode, out string output) {
+            if (string.IsNullOrEmpty(filePullName)) {
+                output = string.Empty;
+                return;
+            }
             try {
                 using (Process proc = new Process()) {
                     proc.StartInfo.CreateNoWindow = true;
@@ -52,8 +72,13 @@ namespace NTMiner.Windows {
                     proc.StartInfo.RedirectStandardError = true;
                     proc.StartInfo.FileName = "cmd.exe";
                     proc.StartInfo.Arguments = $"/C \"{filePullName}\" {args}";
-                    if (Path.IsPathRooted(filePullName)) {
-                        proc.StartInfo.WorkingDirectory = Path.GetDirectoryName(filePullName);
+                    try {
+                        if (Path.IsPathRooted(filePullName)) {
+                            proc.StartInfo.WorkingDirectory = Path.GetDirectoryName(filePullName);
+                        }
+                    }
+                    catch (Exception ex) {
+                        Logger.ErrorDebugLine(ex.Message, ex);
                     }
                     proc.Start();
 

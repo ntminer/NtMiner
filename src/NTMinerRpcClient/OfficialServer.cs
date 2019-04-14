@@ -31,9 +31,12 @@ namespace NTMiner {
             });
         }
 
-        private static T Post<T>(string controller, string action, object param) where T : class {
+        private static T Post<T>(string controller, string action, object param, int? timeout = null) where T : class {
             try {
                 using (HttpClient client = new HttpClient()) {
+                    if (timeout.HasValue) {
+                        client.Timeout = TimeSpan.FromMilliseconds(timeout.Value);
+                    }
                     Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{AssemblyInfo.OfficialServerHost}:{WebApiConst.ControlCenterPort}/api/{controller}/{action}", param);
                     T response = message.Result.Content.ReadAsAsync<T>().Result;
                     return response;
@@ -214,7 +217,7 @@ namespace NTMiner {
                 try {
                     OverClockDatasRequest request = new OverClockDatasRequest {
                     };
-                    DataResponse<List<OverClockData>> response = Post<DataResponse<List<OverClockData>>>(SControllerName, nameof(IOverClockDataController.OverClockDatas), request);
+                    DataResponse<List<OverClockData>> response = Post<DataResponse<List<OverClockData>>>(SControllerName, nameof(IOverClockDataController.OverClockDatas), request, timeout: 2000);
                     if (response != null && response.Data != null) {
                         return response.Data;
                     }
