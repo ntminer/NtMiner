@@ -120,8 +120,6 @@ namespace NTMiner.MinerServer {
         private int _preDualCoinRejectShare = 0;
         private string _preMainCoin;
         private string _preDualCoin;
-        private DateTime _preMainCoinDeltaOn;
-        private DateTime _preDualCoinDeltaOn;
 
         public int GetMainCoinShareDelta(bool isPull) {
             if (this.IsMining == false || string.IsNullOrEmpty(this.MainCoinCode)) {
@@ -151,8 +149,6 @@ namespace NTMiner.MinerServer {
                 _preMainCoinShare = 0;
                 _preMainCoin = this.MainCoinCode;
             }
-
-            _preMainCoinDeltaOn = DateTime.Now;
 
             return delta;
         }
@@ -185,8 +181,6 @@ namespace NTMiner.MinerServer {
                 _preDualCoinShare = 0;
                 _preDualCoin = this.DualCoinCode;
             }
-
-            _preDualCoinDeltaOn = DateTime.Now;
 
             return delta;
         }
