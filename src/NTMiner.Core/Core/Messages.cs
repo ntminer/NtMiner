@@ -188,6 +188,12 @@ namespace NTMiner.Core {
         public OverClockDataRemovedEvent(IOverClockData source) : base(source) {
         }
     }
+
+    [MessageType(messageType: typeof(OverClockDataRemovedEvent), description: "超频建议集初始化后")]
+    public class OverClockDataSetInitedEvent : EventBase {
+        public OverClockDataSetInitedEvent() {
+        }
+    }
     #endregion
 
     #region ColumnsShow Messages

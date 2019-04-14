@@ -12,7 +12,6 @@ namespace NTMiner.Core.MinerServer.Impl {
             _root = root;
             VirtualRoot.Window<AddOverClockDataCommand>("添加超频建议", LogEnum.DevConsole,
                 action: (message) => {
-                    InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
                         throw new ArgumentNullException();
                     }
@@ -35,7 +34,6 @@ namespace NTMiner.Core.MinerServer.Impl {
                 });
             VirtualRoot.Window<UpdateOverClockDataCommand>("更新超频建议", LogEnum.DevConsole,
                 action: (message) => {
-                    InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
                         throw new ArgumentNullException();
                     }
@@ -59,7 +57,6 @@ namespace NTMiner.Core.MinerServer.Impl {
                 });
             VirtualRoot.Window<RemoveOverClockDataCommand>("移除超频建议", LogEnum.DevConsole,
                 action: (message) => {
-                    InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {
                         throw new ArgumentNullException();
                     }
@@ -77,48 +74,33 @@ namespace NTMiner.Core.MinerServer.Impl {
                         }
                     });
                 });
-        }
-
-        private bool _isInited = false;
-        private readonly object _locker = new object();
-
-        private void InitOnece() {
-            if (_isInited) {
-                return;
-            }
             Init();
         }
 
         private void Init() {
-            if (!_isInited) {
-                lock (_locker) {
-                    if (!_isInited) {
-                        var result = OfficialServer.OverClockDataService.GetOverClockDatas();
-                        foreach (var item in result) {
-                            if (!_dicById.ContainsKey(item.GetId())) {
-                                _dicById.Add(item.GetId(), item);
-                            }
+            OfficialServer.OverClockDataService.GetOverClockDatasAsync((response, e) => {
+                if (response.IsSuccess()) {
+                    foreach (var item in response.Data) {
+                        if (!_dicById.ContainsKey(item.GetId())) {
+                            _dicById.Add(item.GetId(), item);
                         }
-                        _isInited = true;
                     }
                 }
-            }
+                VirtualRoot.Happened(new OverClockDataSetInitedEvent());
+            });
         }
 
         public bool TryGetOverClockData(Guid id, out IOverClockData group) {
-            InitOnece();
             var r = _dicById.TryGetValue(id, out OverClockData g);
             group = g;
             return r;
         }
 
         public IEnumerator<IOverClockData> GetEnumerator() {
-            InitOnece();
             return _dicById.Values.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator() {
-            InitOnece();
             return _dicById.Values.GetEnumerator();
         }
     }

@@ -14,9 +14,11 @@ namespace NTMiner.Vms {
             if (Design.IsInDesignMode) {
                 return;
             }
-            foreach (var item in NTMinerRoot.Current.OverClockDataSet) {
-                _dicById.Add(item.GetId(), new OverClockDataViewModel(item));
-            }
+            Init();
+            VirtualRoot.On<OverClockDataSetInitedEvent>("超频建议集初始化后", LogEnum.DevConsole,
+                action: message => {
+                    Init();
+                });
             VirtualRoot.On<OverClockDataAddedEvent>("添加超频建议后刷新VM内存", LogEnum.DevConsole,
                 action: message => {
                     if (!_dicById.ContainsKey(message.Source.GetId())) {
@@ -41,6 +43,17 @@ namespace NTMiner.Vms {
                         coinVm.OnPropertyChanged(nameof(coinVm.OverClockDatas));
                     }
                 });
+        }
+
+        private void Init() {
+            _dicById.Clear();
+            foreach (var item in NTMinerRoot.Current.OverClockDataSet) {
+                _dicById.Add(item.GetId(), new OverClockDataViewModel(item));
+            }
+            OnPropertyChanged(nameof(List));
+            foreach (var coinVm in CoinViewModels.Current.AllCoins) {
+                coinVm.OnPropertyChanged(nameof(coinVm.OverClockDatas));
+            }
         }
 
         public List<OverClockDataViewModel> List {

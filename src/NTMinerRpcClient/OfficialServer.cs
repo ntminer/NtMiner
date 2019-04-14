@@ -213,19 +213,15 @@ namespace NTMiner {
             /// 同步方法
             /// </summary>
             /// <returns></returns>
-            public List<OverClockData> GetOverClockDatas() {
+            public void GetOverClockDatasAsync(Action<DataResponse<List<OverClockData>>, Exception> callback) {
                 try {
                     OverClockDatasRequest request = new OverClockDatasRequest {
                     };
-                    DataResponse<List<OverClockData>> response = Post<DataResponse<List<OverClockData>>>(SControllerName, nameof(IOverClockDataController.OverClockDatas), request, timeout: 2000);
-                    if (response != null && response.Data != null) {
-                        return response.Data;
-                    }
-                    return new List<OverClockData>();
+                    PostAsync(SControllerName, nameof(IOverClockDataController.OverClockDatas), request, callback);
                 }
                 catch (Exception e) {
                     Logger.ErrorDebugLine(e.GetInnerMessage(), e);
-                    return new List<OverClockData>();
+                    callback?.Invoke(null, e);
                 }
             }
             #endregion
