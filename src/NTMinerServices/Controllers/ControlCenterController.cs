@@ -283,9 +283,6 @@ namespace NTMiner.Controllers {
                 }
 
                 foreach (var clientIp in request.ClientIps) {
-                    if (!Ip.Util.Ping(clientIp)) {
-                        continue;
-                    }
                     ClientData clientData = HostRoot.Current.ClientSet.FirstOrDefault(a => a.MinerIp == clientIp);
                     if (clientData != null) {
                         continue;

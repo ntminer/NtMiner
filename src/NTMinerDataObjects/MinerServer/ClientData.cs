@@ -12,6 +12,56 @@ namespace NTMiner.MinerServer {
             return this.Id;
         }
 
+        public static ClientData CreateClientData(MinerData data) {
+            return new ClientData() {
+                ClientId = data.ClientId,
+                MinerIp = data.MinerIp,
+                MinerName = data.MinerName,
+                ClientName = string.Empty,
+                CreatedOn = data.CreatedOn,
+                GroupId = data.GroupId,
+                WorkId = data.WorkId,
+                WindowsLoginName = data.WindowsLoginName,
+                WindowsPassword = data.WindowsPassword,
+                Id = data.Id,
+                IsAutoBoot = false,
+                IsAutoStart = false,
+                IsAutoRestartKernel = false,
+                IsNoShareRestartKernel = false,
+                NoShareRestartKernelMinutes = 0,
+                IsPeriodicRestartKernel = false,
+                PeriodicRestartKernelHours = 0,
+                IsPeriodicRestartComputer = false,
+                PeriodicRestartComputerHours = 0,
+                GpuDriver = String.Empty,
+                GpuType = GpuType.Empty,
+                OSName = String.Empty,
+                OSVirtualMemoryMb = 0,
+                GpuInfo = String.Empty,
+                Version = String.Empty,
+                IsMining = false,
+                BootOn = DateTime.MinValue,
+                MineStartedOn = DateTime.MinValue,
+                ModifiedOn = DateTime.MinValue,
+                MainCoinCode = String.Empty,
+                MainCoinTotalShare = 0,
+                MainCoinRejectShare = 0,
+                MainCoinSpeed = 0,
+                MainCoinPool = String.Empty,
+                MainCoinWallet = String.Empty,
+                Kernel = String.Empty,
+                IsDualCoinEnabled = false,
+                DualCoinPool = String.Empty,
+                DualCoinWallet = String.Empty,
+                DualCoinCode = String.Empty,
+                DualCoinTotalShare = 0,
+                DualCoinRejectShare = 0,
+                DualCoinSpeed = 0,
+                KernelCommandLine = String.Empty,
+                GpuTable = new GpuSpeedData[0]
+            };
+        }
+
         public static ClientData Create(SpeedData speedData, string minerIp) {
             return new ClientData() {
                 Id = ObjectId.NewObjectId().ToString(),
@@ -63,6 +113,14 @@ namespace NTMiner.MinerServer {
             };
         }
 
+        private DateTime _preUpdateOn = DateTime.Now;
+        private int _preMainCoinShare = 0;
+        private int _preDualCoinShare = 0;
+        private int _preMainCoinRejectShare = 0;
+        private int _preDualCoinRejectShare = 0;
+        private string _preMainCoin;
+        private string _preDualCoin;
+
         public void Update(SpeedData speedData, string minerIp) {
             this.MinerIp = minerIp;
             Update(speedData);
@@ -72,7 +130,30 @@ namespace NTMiner.MinerServer {
             if (speedData == null) {
                 return;
             }
-
+            _preUpdateOn = DateTime.Now;
+            if (_preMainCoin != this.MainCoinCode) {
+                _preMainCoinShare = 0;
+                _preMainCoinRejectShare = 0;
+                speedData.MainCoinTotalShare = 0;
+                speedData.MainCoinRejectShare = 0;
+            }
+            else {
+                _preMainCoinShare = this.MainCoinTotalShare;
+                _preMainCoinRejectShare = this.MainCoinRejectShare;
+            }
+            _preMainCoin = this.MainCoinCode;
+            if (_preDualCoin != this.DualCoinCode) {
+                _preDualCoinShare = 0;
+                _preDualCoinRejectShare = 0;
+                speedData.DualCoinTotalShare = 0;
+                speedData.DualCoinRejectShare = 0;
+            }
+            else {
+                _preDualCoinShare = this.DualCoinTotalShare;
+                _preDualCoinRejectShare = this.DualCoinRejectShare;
+            }
+            _preDualCoin = this.DualCoinCode;
+            
             this.ClientId = speedData.ClientId;
             this.IsAutoBoot = speedData.IsAutoBoot;
             this.IsAutoStart = speedData.IsAutoStart;
@@ -114,136 +195,93 @@ namespace NTMiner.MinerServer {
             this.GpuTable = speedData.GpuTable;
         }
 
-        private int _preMainCoinShare = 0;
-        private int _preDualCoinShare = 0;
-        private int _preMainCoinRejectShare = 0;
-        private int _preDualCoinRejectShare = 0;
-        private string _preMainCoin;
-        private string _preDualCoin;
-
         public int GetMainCoinShareDelta(bool isPull) {
+            if (_preMainCoinShare == 0) {
+                return 0;
+            }
             if (this.IsMining == false || string.IsNullOrEmpty(this.MainCoinCode)) {
                 return 0;
             }
             if (isPull) {
-                if (this.ModifiedOn.AddSeconds(20) < DateTime.Now) {
+                if (this._preUpdateOn.AddSeconds(5) > DateTime.Now) {
                     return 0;
                 }
             }
-            else if(this.ModifiedOn.AddSeconds(130) < DateTime.Now) {
+            else if (this._preUpdateOn.AddSeconds(115) > DateTime.Now) {
                 return 0;
             }
 
-            int delta = 0;
-
-            if (_preMainCoin == this.MainCoinCode) {
-                if (_preMainCoinShare != 0) {
-                    delta = this.MainCoinTotalShare - _preMainCoinShare;
-                    if (delta < 0) {
-                        delta = 0;
-                    }
-                }
-                _preMainCoinShare = this.MainCoinTotalShare;
+            int delta = this.MainCoinTotalShare - _preMainCoinShare;
+            if (delta < 0) {
+                delta = 0;
             }
-            else {
-                _preMainCoinShare = 0;
-                _preMainCoin = this.MainCoinCode;
-            }
-
             return delta;
         }
 
         public int GetDualCoinShareDelta(bool isPull) {
+            if (_preDualCoinShare == 0) {
+                return 0;
+            }
             if (this.IsMining == false || string.IsNullOrEmpty(this.DualCoinCode)) {
                 return 0;
             }
             if (isPull) {
-                if (this.ModifiedOn.AddSeconds(20) < DateTime.Now) {
+                if (this._preUpdateOn.AddSeconds(5) > DateTime.Now) {
                     return 0;
                 }
             }
-            else if (this.ModifiedOn.AddSeconds(130) < DateTime.Now) {
+            else if (this._preUpdateOn.AddSeconds(115) > DateTime.Now) {
                 return 0;
             }
 
-            int delta = 0;
-
-            if (_preDualCoin == this.DualCoinCode) {
-                if (_preDualCoinShare != 0) {
-                    delta = this.DualCoinTotalShare - _preDualCoinShare;
-                    if (delta < 0) {
-                        delta = 0;
-                    }
-                }
-                _preDualCoinShare = this.DualCoinTotalShare;
+            int delta = this.DualCoinTotalShare - _preDualCoinShare;
+            if (delta < 0) {
+                delta = 0;
             }
-            else {
-                _preDualCoinShare = 0;
-                _preDualCoin = this.DualCoinCode;
-            }
-
             return delta;
         }
 
         public int GetMainCoinRejectShareDelta(bool isPull) {
+            if (_preMainCoinRejectShare == 0) {
+                return 0;
+            }
             if (this.IsMining == false || string.IsNullOrEmpty(this.MainCoinCode)) {
                 return 0;
             }
-            if (isPull && this.ModifiedOn.AddSeconds(20) < DateTime.Now) {
+            if (isPull && this._preUpdateOn.AddSeconds(5) > DateTime.Now) {
                 return 0;
             }
-            else if (this.ModifiedOn.AddSeconds(130) < DateTime.Now) {
+            else if (this._preUpdateOn.AddSeconds(115) > DateTime.Now) {
                 return 0;
             }
 
-            int delta = 0;
-
-            if (_preMainCoin == this.MainCoinCode) {
-                if (_preMainCoinRejectShare != 0) {
-                    delta = this.MainCoinRejectShare - _preMainCoinRejectShare;
-                    if (delta < 0) {
-                        delta = 0;
-                    }
-                }
-                _preMainCoinRejectShare = this.MainCoinRejectShare;
+            int delta = this.MainCoinRejectShare - _preMainCoinRejectShare;
+            if (delta < 0) {
+                delta = 0;
             }
-            else {
-                _preMainCoinRejectShare = 0;
-                _preMainCoin = this.MainCoinCode;
-            }
-
             return delta;
         }
 
         public int GetDualCoinRejectShareDelta(bool isPull) {
+            if (_preDualCoinRejectShare == 0) {
+                return 0;
+            }
             if (this.IsMining == false || string.IsNullOrEmpty(this.DualCoinCode)) {
                 return 0;
             }
             if (isPull) {
-                if (this.ModifiedOn.AddSeconds(20) < DateTime.Now) {
+                if (this._preUpdateOn.AddSeconds(5) > DateTime.Now) {
                     return 0;
                 }
             }
-            else if (this.ModifiedOn.AddSeconds(130) < DateTime.Now) {
+            else if (this._preUpdateOn.AddSeconds(115) > DateTime.Now) {
                 return 0;
             }
 
-            int delta = 0;
-
-            if (_preDualCoin == this.DualCoinCode) {
-                if (_preDualCoinRejectShare != 0) {
-                    delta = this.DualCoinRejectShare - _preDualCoinRejectShare;
-                    if (delta < 0) {
-                        delta = 0;
-                    }
-                }
-                _preDualCoinRejectShare = this.DualCoinRejectShare;
+            int delta = this.DualCoinRejectShare - _preDualCoinRejectShare;
+            if (delta < 0) {
+                delta = 0;
             }
-            else {
-                _preDualCoinRejectShare = 0;
-                _preDualCoin = this.DualCoinCode;
-            }
-
             return delta;
         }
 

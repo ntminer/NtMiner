@@ -79,6 +79,7 @@
     <Compile Include="MinerClient\GpuData.cs" />
     <Compile Include="MinerClient\IGpuStaticData.cs" />
     <Compile Include="MinerServer\AddClientRequest.cs" />
+    <Compile Include="MinerServer\MinerData.cs" />
     <Compile Include="MinerServer\MinerIdsRequest.cs" />
     <Compile Include="MinerClient\CoinOverClockData.cs" />
     <Compile Include="MinerClient\GpuProfileData.cs" />

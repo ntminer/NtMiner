@@ -93,7 +93,7 @@ namespace NTMiner.Data.Impl {
                     using (LiteDatabase db = HostRoot.CreateLocalDb()) {
                         var col = db.GetCollection<MinerData>();
                         foreach (var item in col.FindAll()) {
-                            var data = MinerData.CreateClientData(item);
+                            var data = ClientData.CreateClientData(item);
                             _dicByObjectId.Add(item.Id, data);
                             if (!_dicByClientId.ContainsKey(item.ClientId)) {
                                 _dicByClientId.Add(item.ClientId, data);
@@ -127,7 +127,7 @@ namespace NTMiner.Data.Impl {
                 WindowsPassword = String.Empty,
                 WorkId = Guid.Empty
             };
-            var clientData = MinerData.CreateClientData(minerData);
+            var clientData = ClientData.CreateClientData(minerData);
             Add(clientData);
             using (LiteDatabase db = HostRoot.CreateLocalDb()) {
                 var col = db.GetCollection<MinerData>();
