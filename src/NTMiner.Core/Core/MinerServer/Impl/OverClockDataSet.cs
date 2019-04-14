@@ -82,7 +82,7 @@ namespace NTMiner.Core.MinerServer.Impl {
             OfficialServer.OverClockDataService.GetOverClockDatasAsync((response, e) => {
                 if (response.IsSuccess()) {
                     IEnumerable<OverClockData> query;
-                    if (VirtualRoot.IsMinerStudio) {
+                    if (_root.GpuSet.GpuType == GpuType.Empty) {
                         query = response.Data;
                     }
                     else {
