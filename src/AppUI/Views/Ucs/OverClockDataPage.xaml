@@ -43,6 +43,35 @@
 				<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
 			</DataGrid.Resources>
 			<DataGrid.Columns>
+				<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<TextBlock Text="显卡类型"></TextBlock>
+					</DataGridTemplateColumn.Header>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<WrapPanel>
+								<Path
+									Margin="4 0 0 0"
+									Width="18"
+									Height="14"
+									ToolTip="NVIDIA"
+									Visibility="{Binding IsNvidiaIconVisible}"
+									Data="{StaticResource Icon_Nvidia}"
+									Fill="Green"
+									Stretch="Fill" />
+								<Path
+									Margin="4 0 0 0"
+									Width="16"
+									Height="14"
+									ToolTip="AMD"
+									Visibility="{Binding IsAMDIconVisible}"
+									Data="{StaticResource Icon_AMD}"
+									Fill="Red"
+									Stretch="Fill" />
+							</WrapPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
 				<DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="名称" Binding="{Binding Name}">
 				</DataGridTextColumn>
 				<DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="主频" Binding="{Binding CoreClockDelta}">
