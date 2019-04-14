@@ -11,30 +11,47 @@
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs" Background="White">
 	<UserControl.Resources>
 		<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
-			<Setter Property="Width" Value="50"></Setter>
+			<Setter Property="Width" Value="60"></Setter>
+		</Style>
+		<Style x:Key="TextBox" TargetType="TextBox">
+			<Setter Property="Width" Value="120"></Setter>
+			<Setter Property="VerticalContentAlignment" Value="Center"></Setter>
 		</Style>
 	</UserControl.Resources>
 	<StackPanel Margin="20 10">
 		<WrapPanel Margin="0 2">
 			<TextBlock Style="{StaticResource LblTb}">名称</TextBlock>
-			<TextBox Width="350" VerticalContentAlignment="Center" Text="{Binding Name, ValidatesOnExceptions=True}">
+			<TextBox Style="{StaticResource TextBox}" Text="{Binding Name, ValidatesOnExceptions=True}">
 			</TextBox>
 		</WrapPanel>
 		
-		<WrapPanel Margin="0 2">
-			<TextBlock Style="{StaticResource LblTb}">核心</TextBlock>
-			<TextBox Width="50" VerticalContentAlignment="Center" Text="{Binding CoreClockDelta, ValidatesOnExceptions=True}">
-			</TextBox>
-			<TextBlock Style="{StaticResource LblTb}">显存</TextBlock>
-			<TextBox Width="50" VerticalContentAlignment="Center" Text="{Binding MemoryClockDelta, ValidatesOnExceptions=True}">
-			</TextBox>
-			<TextBlock Style="{StaticResource LblTb}">功耗</TextBlock>
-			<TextBox Width="50" VerticalContentAlignment="Center" Text="{Binding PowerCapacity, ValidatesOnExceptions=True}">
-			</TextBox>
-			<TextBlock Style="{StaticResource LblTb}">风扇</TextBlock>
-			<TextBox Width="50" VerticalContentAlignment="Center" Text="{Binding Cool, ValidatesOnExceptions=True}">
-			</TextBox>
-		</WrapPanel>
+		<StackPanel Margin="0 2">
+			<WrapPanel>
+				<TextBlock Style="{StaticResource LblTb}">核心</TextBlock>
+				<TextBox Style="{StaticResource TextBox}" Text="{Binding CoreClockDelta, ValidatesOnExceptions=True}">
+				</TextBox>
+			</WrapPanel>
+			<WrapPanel Margin="0 2">
+				<TextBlock Style="{StaticResource LblTb}">显存</TextBlock>
+				<TextBox Style="{StaticResource TextBox}" Text="{Binding MemoryClockDelta, ValidatesOnExceptions=True}">
+				</TextBox>
+			</WrapPanel>
+			<WrapPanel Margin="0 2">
+				<TextBlock Style="{StaticResource LblTb}">功耗</TextBlock>
+				<TextBox Style="{StaticResource TextBox}" Text="{Binding PowerCapacity, ValidatesOnExceptions=True}">
+				</TextBox>
+			</WrapPanel>
+			<WrapPanel Margin="0 2">
+				<TextBlock Style="{StaticResource LblTb}">最高温度</TextBlock>
+				<TextBox Style="{StaticResource TextBox}" Text="{Binding TempLimit, ValidatesOnExceptions=True}">
+				</TextBox>
+			</WrapPanel>
+			<WrapPanel Margin="0 2">
+				<TextBlock Style="{StaticResource LblTb}">风扇</TextBlock>
+				<TextBox Style="{StaticResource TextBox}" Text="{Binding Cool, ValidatesOnExceptions=True}">
+				</TextBox>
+			</WrapPanel>
+		</StackPanel>
 
 		<controls:KbButton
 			Command="{Binding Save}" 

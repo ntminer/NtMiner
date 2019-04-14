@@ -111,7 +111,7 @@
 						Fill="{StaticResource ThemeForeground}"
 						Stretch="Fill" />
 				</MenuItem.Icon>
-				<MenuItem Header="超频" Command="{x:Static vm:AppStatic.ShowOverClockDatas}">
+				<MenuItem Header="超频建议" Command="{x:Static vm:AppStatic.ShowOverClockDatas}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"

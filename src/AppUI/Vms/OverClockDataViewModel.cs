@@ -14,7 +14,7 @@ namespace NTMiner.Vms {
         private int _memoryClockDelta;
         private int _powerCapacity;
         private int _cool;
-        private int _thermCapacity;
+        private int _tempLimit;
         private bool _isAutoFanSpeed;
 
         public ICommand Remove { get; private set; }
@@ -66,7 +66,7 @@ namespace NTMiner.Vms {
             _coreClockDelta = data.CoreClockDelta;
             _memoryClockDelta = data.MemoryClockDelta;
             _powerCapacity = data.PowerCapacity;
-            _thermCapacity = data.TempLimit;
+            _tempLimit = data.TempLimit;
             _cool = data.Cool;
         }
 
@@ -126,9 +126,9 @@ namespace NTMiner.Vms {
         }
 
         public int TempLimit {
-            get => _thermCapacity;
+            get => _tempLimit;
             set {
-                _thermCapacity = value;
+                _tempLimit = value;
                 OnPropertyChanged(nameof(TempLimit));
             }
         }

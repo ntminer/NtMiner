@@ -51,6 +51,8 @@
 				</DataGridTextColumn>
 				<DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="功耗" Binding="{Binding PowerCapacity}">
 				</DataGridTextColumn>
+				<DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="最高温度" Binding="{Binding TempLimit}">
+				</DataGridTextColumn>
 				<DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="风扇" Binding="{Binding Cool}">
 				</DataGridTextColumn>
 				<DataGridTemplateColumn 
