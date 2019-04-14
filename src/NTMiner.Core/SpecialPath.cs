@@ -1,5 +1,7 @@
-﻿using System;
+﻿using ICSharpCode.SharpZipLib.Zip;
+using System;
 using System.IO;
+using System.IO.Compression;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -17,6 +19,7 @@ namespace NTMiner {
                 try {
                     var webRequest = WebRequest.Create(fileUrl);
                     webRequest.Method = "GET";
+                    webRequest.Headers.Add("Accept-Encoding", "gzip, deflate, br");
                     var response = webRequest.GetResponse();
                     using (MemoryStream ms = new MemoryStream())
                     using (Stream stream = response.GetResponseStream()) {
@@ -29,6 +32,7 @@ namespace NTMiner {
                         byte[] data = new byte[ms.Length];
                         ms.Position = 0;
                         ms.Read(data, 0, data.Length);
+                        data = ZipDecompress(data);
                         callback?.Invoke(data);
                     }
                     Logger.InfoDebugLine($"下载完成：{fileUrl}");
@@ -40,6 +44,22 @@ namespace NTMiner {
             });
         }
         #endregion
+
+        private static byte[] ZipDecompress(byte[] zippedData) {
+            MemoryStream ms = new MemoryStream(zippedData);
+            GZipStream compressedzipStream = new GZipStream(ms, CompressionMode.Decompress);
+            MemoryStream outBuffer = new MemoryStream();
+            byte[] block = new byte[1024];
+            while (true) {
+                int bytesRead = compressedzipStream.Read(block, 0, block.Length);
+                if (bytesRead <= 0)
+                    break;
+                else
+                    outBuffer.Write(block, 0, bytesRead);
+            }
+            compressedzipStream.Close();
+            return outBuffer.ToArray();
+        }
 
         static SpecialPath() {
             string daemonDirFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "Daemon");
