@@ -13,6 +13,8 @@ namespace NTMiner.MinerServer {
 
         public Guid CoinId { get; set; }
 
+        public GpuType GpuType { get; set; }
+
         public string Name { get; set; }
 
         public int CoreClockDelta { get; set; }
@@ -32,6 +34,7 @@ namespace NTMiner.MinerServer {
             sb.Append(nameof(Id)).Append(Id)
                 .Append(nameof(CoinId)).Append(CoinId)
                 .Append(nameof(Name)).Append(Name)
+                .Append(nameof(GpuType)).Append(GpuType)
                 .Append(nameof(CoreClockDelta)).Append(CoreClockDelta)
                 .Append(nameof(MemoryClockDelta)).Append(MemoryClockDelta)
                 .Append(nameof(PowerCapacity)).Append(PowerCapacity)

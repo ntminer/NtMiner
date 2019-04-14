@@ -5,5 +5,7 @@ namespace NTMiner.MinerServer {
         Guid CoinId { get; }
 
         string Name { get; }
+
+        GpuType GpuType { get; }
     }
 }

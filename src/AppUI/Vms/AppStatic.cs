@@ -63,6 +63,8 @@ namespace NTMiner.Vms {
 
         public static IEnumerable<EnumItem<SupportedGpu>> SupportedGpuEnumItems => SupportedGpu.AMD.GetEnumItems();
 
+        public static IEnumerable<EnumItem<GpuType>> GpuTypeEnumItems => GpuType.AMD.GetEnumItems();
+
         public static IEnumerable<EnumItem<LogEnum>> LogTypeItems => LogEnum.DevConsole.GetEnumItems();
 
         public static IEnumerable<EnumItem<PublishStatus>> PublishStatusEnumItems => PublishStatus.Published.GetEnumItems();

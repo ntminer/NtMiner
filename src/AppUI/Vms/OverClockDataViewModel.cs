@@ -3,6 +3,8 @@ using NTMiner.MinerServer;
 using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using System;
+using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
@@ -10,6 +12,7 @@ namespace NTMiner.Vms {
         private Guid _id;
         private Guid _coinId;
         private string _name;
+        private GpuType _gpuType;
         private int _coreClockDelta;
         private int _memoryClockDelta;
         private int _powerCapacity;
@@ -63,6 +66,7 @@ namespace NTMiner.Vms {
         public OverClockDataViewModel(IOverClockData data) : this(data.GetId()) {
             _coinId = data.CoinId;
             _name = data.Name;
+            _gpuType = data.GpuType;
             _coreClockDelta = data.CoreClockDelta;
             _memoryClockDelta = data.MemoryClockDelta;
             _powerCapacity = data.PowerCapacity;
@@ -95,6 +99,46 @@ namespace NTMiner.Vms {
             set {
                 _name = value;
                 OnPropertyChanged(nameof(Name));
+            }
+        }
+
+        public GpuType GpuType {
+            get => _gpuType;
+            set {
+                _gpuType = value;
+                OnPropertyChanged(nameof(GpuType));
+                OnPropertyChanged(nameof(IsNvidiaIconVisible));
+                OnPropertyChanged(nameof(IsAMDIconVisible));
+            }
+        }
+
+        public Visibility IsNvidiaIconVisible {
+            get {
+                if (GpuType == GpuType.NVIDIA) {
+                    return Visibility.Visible;
+                }
+                return Visibility.Collapsed;
+            }
+        }
+
+        public Visibility IsAMDIconVisible {
+            get {
+                if (GpuType == GpuType.AMD) {
+                    return Visibility.Visible;
+                }
+                return Visibility.Collapsed;
+            }
+        }
+
+        public EnumItem<GpuType> GpuTypeEnumItem {
+            get {
+                return AppStatic.GpuTypeEnumItems.FirstOrDefault(a => a.Value == GpuType);
+            }
+            set {
+                if (GpuType != value.Value) {
+                    GpuType = value.Value;
+                    OnPropertyChanged(nameof(GpuTypeEnumItem));
+                }
             }
         }
 

@@ -394,12 +394,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        public string SupportedGpuDescription {
-            get {
-                return SupportedGpu.GetDescription();
-            }
-        }
-
         public CoinKernelProfileViewModel CoinKernelProfile {
             get {
                 return CoinProfileViewModels.Current.GetOrCreateCoinKernelProfileVm(this.Id);

@@ -14,10 +14,10 @@ namespace NTMiner.Vms {
             if (Design.IsInDesignMode) {
                 return;
             }
-            Init();
+            Init(refresh: false);
             VirtualRoot.On<OverClockDataSetInitedEvent>("超频建议集初始化后", LogEnum.DevConsole,
                 action: message => {
-                    Init();
+                    Init(refresh: true);
                 });
             VirtualRoot.On<OverClockDataAddedEvent>("添加超频建议后刷新VM内存", LogEnum.DevConsole,
                 action: message => {
@@ -45,14 +45,16 @@ namespace NTMiner.Vms {
                 });
         }
 
-        private void Init() {
+        private void Init(bool refresh) {
             _dicById.Clear();
             foreach (var item in NTMinerRoot.Current.OverClockDataSet) {
                 _dicById.Add(item.GetId(), new OverClockDataViewModel(item));
             }
-            OnPropertyChanged(nameof(List));
-            foreach (var coinVm in CoinViewModels.Current.AllCoins) {
-                coinVm.OnPropertyChanged(nameof(coinVm.OverClockDatas));
+            if (refresh) {
+                OnPropertyChanged(nameof(List));
+                foreach (var coinVm in CoinViewModels.Current.AllCoins) {
+                    coinVm.OnPropertyChanged(nameof(coinVm.OverClockDatas));
+                }
             }
         }
 
