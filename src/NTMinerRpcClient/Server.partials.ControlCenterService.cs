@@ -81,7 +81,7 @@ namespace NTMiner {
                         Data = clientId
                     };
                     request.SignIt(SingleUser.PasswordSha1);
-                    DataResponse<List<UserData>> response = Post<DataResponse<List<UserData>>>(SControllerName, nameof(IControlCenterController.Users), request);
+                    DataResponse<List<UserData>> response = Post<DataResponse<List<UserData>>>(SControllerName, nameof(IControlCenterController.Users), request, timeout: 2000);
                     if (response != null && response.Data != null) {
                         return response.Data;
                     }
@@ -245,7 +245,7 @@ namespace NTMiner {
                         LoginName = SingleUser.LoginName
                     };
                     request.SignIt(SingleUser.PasswordSha1);
-                    DataResponse<List<MinerGroupData>> response = Post<DataResponse<List<MinerGroupData>>>(SControllerName, nameof(IControlCenterController.MinerGroups), request);
+                    DataResponse<List<MinerGroupData>> response = Post<DataResponse<List<MinerGroupData>>>(SControllerName, nameof(IControlCenterController.MinerGroups), request, timeout: 2000);
                     if (response != null && response.Data != null) {
                         return response.Data;
                     }
@@ -330,7 +330,7 @@ namespace NTMiner {
                         LoginName = SingleUser.LoginName
                     };
                     request.SignIt(SingleUser.PasswordSha1);
-                    DataResponse<List<MineWorkData>> response = Post<DataResponse<List<MineWorkData>>>(SControllerName, nameof(IControlCenterController.MineWorks), request);
+                    DataResponse<List<MineWorkData>> response = Post<DataResponse<List<MineWorkData>>>(SControllerName, nameof(IControlCenterController.MineWorks), request, timeout: 2000);
                     if (response != null && response.Data != null) {
                         return response.Data;
                     }
@@ -385,7 +385,7 @@ namespace NTMiner {
                         LoginName = SingleUser.LoginName
                     };
                     request.SignIt(SingleUser.PasswordSha1);
-                    DataResponse<List<WalletData>> response = Post<DataResponse<List<WalletData>>>(SControllerName, nameof(IControlCenterController.Wallets), request);
+                    DataResponse<List<WalletData>> response = Post<DataResponse<List<WalletData>>>(SControllerName, nameof(IControlCenterController.Wallets), request, timeout: 2000);
                     return response;
                 }
                 catch (Exception e) {
@@ -428,7 +428,7 @@ namespace NTMiner {
                         LoginName = SingleUser.LoginName
                     };
                     request.SignIt(SingleUser.PasswordSha1);
-                    DataResponse<List<PoolData>> response = Post<DataResponse<List<PoolData>>>(SControllerName, nameof(IControlCenterController.Pools), request);
+                    DataResponse<List<PoolData>> response = Post<DataResponse<List<PoolData>>>(SControllerName, nameof(IControlCenterController.Pools), request, timeout: 2000);
                     if (response != null && response.Data != null) {
                         return response.Data;
                     }
@@ -474,7 +474,7 @@ namespace NTMiner {
                         LoginName = SingleUser.LoginName
                     };
                     request.SignIt(SingleUser.PasswordSha1);
-                    DataResponse<List<ColumnsShowData>> response = Post<DataResponse<List<ColumnsShowData>>>(SControllerName, nameof(IControlCenterController.ColumnsShows), request);
+                    DataResponse<List<ColumnsShowData>> response = Post<DataResponse<List<ColumnsShowData>>>(SControllerName, nameof(IControlCenterController.ColumnsShows), request, timeout: 2000);
                     if (response != null && response.Data != null) {
                         return response.Data;
                     }

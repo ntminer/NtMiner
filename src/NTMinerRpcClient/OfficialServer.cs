@@ -87,7 +87,7 @@ namespace NTMiner {
             try {
                 CalcConfigsRequest request = new CalcConfigsRequest {
                 };
-                DataResponse<List<CalcConfigData>> response = Post<DataResponse<List<CalcConfigData>>>("ControlCenter", nameof(IControlCenterController.CalcConfigs), request);
+                DataResponse<List<CalcConfigData>> response = Post<DataResponse<List<CalcConfigData>>>("ControlCenter", nameof(IControlCenterController.CalcConfigs), request, timeout: 2000);
                 return response;
             }
             catch (Exception e) {
