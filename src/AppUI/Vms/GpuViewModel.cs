@@ -376,13 +376,13 @@ namespace NTMiner.Vms {
             get {
                 if (Index == NTMinerRoot.GpuAllId) {
                     if (_isGpuData) {
-                        return $"{_gpuDatas.Max(a => a.TempLimitMin)} - {_gpuDatas.Min(a => a.TempLimitMax)}%";
+                        return $"{_gpuDatas.Max(a => a.TempLimitMin)} - {_gpuDatas.Min(a => a.TempLimitMax)}℃";
                     }
                     else {
                         return $"{NTMinerRoot.Current.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Max(a => a.TempLimitMin)} - {NTMinerRoot.Current.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Min(a => a.TempLimitMax)}%";
                     }
                 }
-                return $"{this.TempLimitMin} - {this.TempLimitMax}%";
+                return $"{this.TempLimitMin} - {this.TempLimitMax}℃";
             }
         }
 
