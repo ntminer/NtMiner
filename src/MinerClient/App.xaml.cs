@@ -1,8 +1,10 @@
-﻿using NTMiner.Core;
+﻿using NTMiner.Common;
+using NTMiner.Core;
 using NTMiner.OverClock;
 using NTMiner.Views;
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -44,14 +46,31 @@ namespace NTMiner {
                     createdNew = false;
                 }
                 if (createdNew) {
-                    Vms.AppStatic.IsMinerClient = true;
-                    SplashWindow splashWindow = new SplashWindow();
-                    splashWindow.Show();
                     if (!NTMiner.Windows.WMI.IsWmiEnabled) {
                         DialogWindow.ShowDialog(message: "开源矿工无法运行所需的组件，因为本机未开机WMI服务，开源矿工需要使用WMI服务检测windows的内存、显卡等信息，请先手动开启WMI。", title: "提醒", icon: "Icon_Error");
                         Shutdown();
                         Environment.Exit(0);
                     }
+                    try {
+                        CommonUtil.ExtractResource();
+                        // Set working directory to exe
+                        var path = Path.GetDirectoryName(SpecialPath.CommonDirFullName);
+                        if (path != null) {
+                            Environment.CurrentDirectory = path;
+                        }
+                    }
+                    catch (Exception ex) {
+                        Logger.ErrorDebugLine(ex.Message, ex);
+                    }
+
+                    // Add common folder to path for launched processes
+                    var pathVar = Environment.GetEnvironmentVariable("PATH");
+                    pathVar += ";" + Path.Combine(Environment.CurrentDirectory, "common");
+                    Environment.SetEnvironmentVariable("PATH", pathVar);
+
+                    Vms.AppStatic.IsMinerClient = true;
+                    SplashWindow splashWindow = new SplashWindow();
+                    splashWindow.Show();
                     NTMinerRoot.KernelBrandId = Brand.BrandUtil.KernelBrandId;
                     NotiCenterWindow.Instance.Show();
                     NTMinerRoot.AppName = "开源矿工挖矿客户端";

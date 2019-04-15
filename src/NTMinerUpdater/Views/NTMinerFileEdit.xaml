@@ -5,7 +5,6 @@
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
-		xmlns:timeTool="clr-namespace:Loya.Dameer;assembly=Loya.Dameer"
 		xmlns:vm="clr-namespace:NTMiner.Vms"
 		xmlns:local="clr-namespace:NTMiner.Views"
 		mc:Ignorable="d"
@@ -61,7 +60,7 @@
 			</WrapPanel>
 			<WrapPanel Margin="0 2">
 				<Label Width="80" HorizontalContentAlignment="Right">发布时间：</Label>
-				<timeTool:Dameer Height="25" Width="180" Format="Custom" CustomFormat="yyyy-MM-dd HH:mm:ss" ShowCheckBox="False" Value="{Binding PublishOn}"></timeTool:Dameer>
+				<TextBox IsReadOnly="True" Width="180" BorderThickness="0" VerticalContentAlignment="Center" Text="{Binding PublishOnText, Mode=OneWay}"></TextBox>
 			</WrapPanel>
 		</StackPanel>
 		<Grid Grid.Row="2" Background="White" Height="40">
