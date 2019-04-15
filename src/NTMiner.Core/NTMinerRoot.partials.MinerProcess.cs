@@ -121,7 +121,10 @@ namespace NTMiner {
                     CreateNoWindow = true,
                     WorkingDirectory = Path.GetDirectoryName(kernelExeFileFullName)
                 };
-                // TODO:追加环境变量
+                // 追加环境变量
+                foreach (var item in mineContext.CoinKernel.EnvironmentVariables) {
+                    startInfo.EnvironmentVariables.Add(item.Key, item.Value);
+                }
                 Process process = new Process {
                     StartInfo = startInfo
                 };
@@ -227,6 +230,10 @@ namespace NTMiner {
                 StringBuilder lpEnvironment = new StringBuilder();
                 // 复制父进程的环境变量
                 IDictionary dic = Environment.GetEnvironmentVariables();
+                // 追加环境变量
+                foreach (var item in mineContext.CoinKernel.EnvironmentVariables) {
+                    dic.Add(item.Key, item.Value);
+                }
                 foreach (var key in dic.Keys) {
                     if (key == null || key.ToString().Contains("\0")) {
                         continue;
@@ -237,7 +244,6 @@ namespace NTMiner {
                     }
                     lpEnvironment.Append($"{key.ToString()}={value.ToString()}\0");
                 }
-                // TODO:追加环境变量
                 if (CreateProcess(
                     lpApplicationName: null,
                     lpCommandLine: new StringBuilder(cmdLine),
