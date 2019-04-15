@@ -23,9 +23,9 @@ namespace NTMiner.Vms {
             }
         }
 
-        public Processor Processor {
+        public Cpu Cpu {
             get {
-                return Processor.Current;
+                return Cpu.Current;
             }
         }
 

@@ -71,15 +71,15 @@
                 <StackPanel>
                     <WrapPanel>
                         <TextBlock Style="{StaticResource LblTb}" Text="CPU厂商"></TextBlock>
-                        <TextBlock Text="{Binding Processor.VendorIdentifier}"></TextBlock>
+                        <TextBlock Text="{Binding Cpu.VendorIdentifier}"></TextBlock>
                     </WrapPanel>
                     <WrapPanel>
                         <TextBlock Style="{StaticResource LblTb}" Text="CPU名称"></TextBlock>
-                        <TextBlock Text="{Binding Processor.Name}"></TextBlock>
+                        <TextBlock Text="{Binding Cpu.Name}"></TextBlock>
                     </WrapPanel>
                     <WrapPanel>
                         <TextBlock Style="{StaticResource LblTb}" Text="CPU核心数"></TextBlock>
-                        <TextBlock Text="{Binding Processor.NumberOfLogicalCores}"></TextBlock>
+                        <TextBlock Text="{Binding Cpu.NumberOfLogicalCores}"></TextBlock>
                     </WrapPanel>
                 </StackPanel>
             </GroupBox>

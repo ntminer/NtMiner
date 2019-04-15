@@ -1,16 +1,36 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Diagnostics;
+using System.Management;
 
 namespace NTMiner.Windows {
     /// <summary>
     /// Class for retrieving information related to the processor
     /// </summary>
-    public sealed class Processor {
-        public static readonly Processor Current = new Processor();
+    public sealed class Cpu {
+        public static readonly Cpu Current = new Cpu();
 
         // This stores the total number of logical cores in the processor
         private readonly int numberOfProcessors = Environment.ProcessorCount;
+
+        private static bool _isFirstGetCpuId = true;
+        private static string _cpuId;
+        public static string GetCpuId() {
+            if (!_isFirstGetCpuId) {
+                return _cpuId;
+            }
+            _isFirstGetCpuId = false;
+            _cpuId = "N/A";
+            try {
+                using (var query = new ManagementObjectSearcher("Select ProcessorID from Win32_processor").Get()) {
+                    foreach (var item in query) {
+                        _cpuId = item.GetPropertyValue("ProcessorID").ToString();
+                    }
+                }
+            }
+            catch { }
+            return _cpuId;
+        }
 
         #region Properties
 
