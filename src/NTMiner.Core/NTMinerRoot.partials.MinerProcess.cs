@@ -228,7 +228,14 @@ namespace NTMiner {
                 // 复制父进程的环境变量
                 IDictionary dic = Environment.GetEnvironmentVariables();
                 foreach (var key in dic.Keys) {
-                    lpEnvironment.Append($"{key.ToString()}={dic[key]}\0");
+                    if (key == null || key.ToString().Contains("\0")) {
+                        continue;
+                    }
+                    var value = dic[key];
+                    if (value == null || value.ToString().Contains("\0")) {
+                        continue;
+                    }
+                    lpEnvironment.Append($"{key.ToString()}={value.ToString()}\0");
                 }
                 // TODO:追加环境变量
                 if (CreateProcess(
