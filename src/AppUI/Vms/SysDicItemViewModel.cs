@@ -1,5 +1,4 @@
 ﻿using NTMiner.Core;
-using NTMiner.Core.SysDics;
 using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using System;

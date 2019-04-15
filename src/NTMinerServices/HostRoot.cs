@@ -6,7 +6,6 @@ using NTMiner.Data.Impl;
 using NTMiner.User;
 using System;
 using System.IO;
-using System.Linq;
 using System.Threading;
 
 namespace NTMiner {

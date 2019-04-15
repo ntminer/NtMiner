@@ -1,15 +1,15 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NTMiner;
 using NTMiner.Controllers;
+using NTMiner.Profile;
+using NTMiner.Serialization;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
-using System.Windows;
-using NTMiner.Profile;
-using NTMiner.Serialization;
 using System.Web;
+using System.Windows;
 
 namespace UnitTestProject1 {
     [TestClass]

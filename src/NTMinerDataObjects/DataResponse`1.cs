@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace NTMiner {
+﻿namespace NTMiner {
     public class DataResponse<T> : ResponseBase {
         public DataResponse() {
         }

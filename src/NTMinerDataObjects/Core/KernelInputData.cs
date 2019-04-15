@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace NTMiner.Core {
     public class KernelInputData : IKernelInput, IDbEntity<Guid> {

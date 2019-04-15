@@ -1,6 +1,5 @@
 ﻿using NTMiner.Core;
 using NTMiner.MinerServer;
-using NTMiner.Profile;
 using NTMiner.User;
 using System;
 using System.Collections.Generic;

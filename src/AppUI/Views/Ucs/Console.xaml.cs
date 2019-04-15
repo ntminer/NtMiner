@@ -1,10 +1,10 @@
 ﻿using NTMiner.Vms;
+using NTMiner.Wpf;
 using System;
 using System.Collections;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
-using NTMiner.Wpf;
 
 namespace NTMiner.Views.Ucs {
     public partial class Console : UserControl {

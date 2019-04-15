@@ -1,5 +1,4 @@
 ﻿using NTMiner.Core;
-using NTMiner.Notifications;
 using NTMiner.Profile;
 using System;
 using System.Linq;

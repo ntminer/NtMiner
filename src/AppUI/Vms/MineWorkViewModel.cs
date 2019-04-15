@@ -1,11 +1,8 @@
 ﻿using NTMiner.Core;
-using NTMiner.Core.Impl;
 using NTMiner.MinerServer;
-using NTMiner.Profile;
 using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Input;

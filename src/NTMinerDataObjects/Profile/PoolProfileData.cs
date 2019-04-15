@@ -1,6 +1,6 @@
 ﻿using LiteDB;
-using System;
 using NTMiner.Core;
+using System;
 using System.Text;
 
 namespace NTMiner.Profile {

@@ -1,6 +1,6 @@
-﻿using System.Windows;
+﻿using NTMiner.Vms;
+using System.Windows;
 using System.Windows.Input;
-using NTMiner.Vms;
 
 namespace NTMiner.Views {
     public partial class NotiCenterWindow : Window {

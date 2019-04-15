@@ -1,5 +1,5 @@
-﻿using System;
-using NTMiner.MinerServer;
+﻿using NTMiner.MinerServer;
+using System;
 using System.Collections.Generic;
 
 namespace NTMiner.Controllers {

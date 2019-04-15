@@ -1,6 +1,6 @@
-﻿using System;
+﻿using NTMiner.MinerServer;
+using System;
 using System.Collections.Generic;
-using NTMiner.MinerServer;
 
 namespace NTMiner.Controllers {
     public interface IOverClockDataController {

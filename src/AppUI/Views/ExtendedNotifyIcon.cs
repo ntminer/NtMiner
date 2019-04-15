@@ -1,8 +1,8 @@
-﻿using System;
+﻿using NTMiner.Vms;
+using System;
 using System.Drawing;
 using System.Windows;
 using System.Windows.Forms;
-using NTMiner.Vms;
 
 namespace NTMiner.Views {
     public class ExtendedNotifyIcon : IDisposable {

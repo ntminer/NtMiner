@@ -1,6 +1,6 @@
-﻿using NTMiner.MinerClient;
+﻿using LiteDB;
+using NTMiner.MinerClient;
 using System;
-using LiteDB;
 
 namespace NTMiner.MinerServer {
     public class ClientData : IClientData, IDbEntity<string>, ITimestampEntity<string> {

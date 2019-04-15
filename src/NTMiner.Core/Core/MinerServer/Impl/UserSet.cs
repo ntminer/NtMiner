@@ -1,5 +1,4 @@
-﻿using LiteDB;
-using NTMiner.User;
+﻿using NTMiner.User;
 using System;
 using System.Collections;
 using System.Collections.Generic;

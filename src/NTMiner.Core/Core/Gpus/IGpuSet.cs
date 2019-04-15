@@ -1,5 +1,4 @@
-﻿using NTMiner.MinerClient;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace NTMiner.Core.Gpus {
     public interface IGpuSet : IEnumerable<IGpu> {

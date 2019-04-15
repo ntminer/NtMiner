@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace NTMiner.MinerServer {
+﻿namespace NTMiner.MinerServer {
     public class AppSettingsRequest {
         public AppSettingsRequest() { }
     }

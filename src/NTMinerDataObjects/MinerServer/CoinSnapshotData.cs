@@ -1,5 +1,5 @@
-﻿using System;
-using LiteDB;
+﻿using LiteDB;
+using System;
 
 namespace NTMiner.MinerServer {
     public class CoinSnapshotData {

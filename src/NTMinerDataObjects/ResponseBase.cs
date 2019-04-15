@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace NTMiner {
+﻿namespace NTMiner {
     public class ResponseBase {
         public static ResponseBase Forbidden(string description = "无权访问") {
             return Forbidden<ResponseBase>(description);

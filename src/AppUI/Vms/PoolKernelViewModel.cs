@@ -1,5 +1,4 @@
 ﻿using NTMiner.Core;
-using NTMiner.Core.Kernels;
 using NTMiner.Views.Ucs;
 using System;
 using System.Linq;

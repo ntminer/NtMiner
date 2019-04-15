@@ -1,6 +1,5 @@
 ﻿using NTMiner.Core.Gpus.Impl;
 using NTMiner.Core.Impl;
-using NTMiner.MinerClient;
 
 namespace NTMiner.Core.Gpus {
     public interface IGpuSpeed {

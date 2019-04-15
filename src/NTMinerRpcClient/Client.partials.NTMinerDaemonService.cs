@@ -2,7 +2,6 @@
 using NTMiner.Daemon;
 using NTMiner.JsonDb;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
