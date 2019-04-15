@@ -1,6 +1,7 @@
 ﻿using NTMiner.Core;
 using NTMiner.Core.Kernels;
 using System;
+using System.Collections;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -120,6 +121,7 @@ namespace NTMiner {
                     CreateNoWindow = true,
                     WorkingDirectory = Path.GetDirectoryName(kernelExeFileFullName)
                 };
+                // TODO:追加环境变量
                 Process process = new Process {
                     StartInfo = startInfo
                 };
@@ -222,6 +224,13 @@ namespace NTMiner {
                 };
                 string cmdLine = $"\"{kernelExeFileFullName}\" {arguments}";
                 Logger.InfoDebugLine(cmdLine);
+                StringBuilder lpEnvironment = new StringBuilder();
+                // 复制父进程的环境变量
+                IDictionary dic = Environment.GetEnvironmentVariables();
+                foreach (var key in dic.Keys) {
+                    lpEnvironment.Append($"{key.ToString()}={dic[key]}\0");
+                }
+                // TODO:追加环境变量
                 if (CreateProcess(
                     lpApplicationName: null,
                     lpCommandLine: new StringBuilder(cmdLine),
@@ -229,7 +238,7 @@ namespace NTMiner {
                     lpThreadAttributes: IntPtr.Zero,
                     bInheritHandles: true,
                     dwCreationFlags: NORMAL_PRIORITY_CLASS,
-                    lpEnvironment: IntPtr.Zero,
+                    lpEnvironment: lpEnvironment,
                     lpCurrentDirectory: Path.GetDirectoryName(kernelExeFileFullName),
                     lpStartupInfo: ref lpStartupInfo,
                     lpProcessInformation: out _)) {
@@ -332,6 +341,26 @@ namespace NTMiner {
                 int* pNumberOfBytesRead,
                 NativeOverlapped* lpOverlapped
             );
+
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="lpEnvironment">
+            /// A pointer to the environment block for the new process. If this parameter is NULL, the new process uses the environment of the calling process.
+            /// An environment block consists of a null-terminated block of null-terminated strings. Each string is in the following form:
+            /// name=value\0
+            /// Because the equal sign is used as a separator, it must not be used in the name of an environment variable.
+            /// An environment block can contain either Unicode or ANSI characters. If the environment block pointed to by lpEnvironment contains Unicode characters, be sure that dwCreationFlags includes CREATE_UNICODE_ENVIRONMENT. If this parameter is NULL and the environment block of the parent process contains Unicode characters, you must also ensure that dwCreationFlags includes CREATE_UNICODE_ENVIRONMENT.
+            /// The ANSI version of this function, CreateProcessA fails if the total size of the environment block for the process exceeds 32,767 characters.
+            /// Note that an ANSI environment block is terminated by two zero bytes: one for the last string, one more to terminate the block. A Unicode environment block is terminated by four zero bytes: two for the last string, two more to terminate the block.
+            /// A parent process can directly alter the environment variables of a child process during process creation. This is the only situation when a process can directly change the environment settings of another process. For more information, see Changing Environment Variables.
+            /// 
+            /// If an application provides an environment block, the current directory information of the system drives is not automatically propagated to the new process.
+            /// For example, there is an environment variable named = C: whose value is the current directory on drive C.An application must manually pass the current directory 
+            /// information to the new process.To do so, the application must explicitly create these environment variable strings, sort them alphabetically(because the system 
+            /// uses a sorted environment), and put them into the environment block.Typically, they will go at the front of the environment block, due to the environment block sort order
+            /// </param>
+            /// <returns></returns>
             [DllImport("kernel32.dll")]
             private static extern bool CreateProcess(
                 string lpApplicationName,
@@ -340,7 +369,7 @@ namespace NTMiner {
                 IntPtr lpThreadAttributes,
                 bool bInheritHandles,
                 uint dwCreationFlags,
-                IntPtr lpEnvironment,
+                StringBuilder lpEnvironment,
                 string lpCurrentDirectory,
                 ref STARTUPINFO lpStartupInfo,
                 out PROCESS_INFORMATION lpProcessInformation);
