@@ -210,6 +210,7 @@
     <Compile Include="Windows\OS.cs" />
     <Compile Include="Windows\Cpu.cs" />
     <Compile Include="Windows\Ram.cs" />
+    <Compile Include="Windows\WMI.cs" />
     <Compile Include="ZipUtil.cs" />
   </ItemGroup>
   <ItemGroup>
