@@ -39,9 +39,7 @@ namespace NTMiner {
                         else {
                             Logger.InfoDebugLine("创建管道型进程");
                             // 如果内核不支持日志文件
-                            string cmdLine = $"\"{kernelExeFileFullName}\" {arguments}";
-                            Logger.InfoDebugLine(cmdLine);
-                            CreatePipProcess(mineContext, cmdLine);
+                            CreatePipProcess(mineContext, kernelExeFileFullName, arguments);
                         }
                         VirtualRoot.Happened(new MineStartedEvent(mineContext));
                     }
@@ -120,7 +118,7 @@ namespace NTMiner {
                 ProcessStartInfo startInfo = new ProcessStartInfo(kernelExeFileFullName, arguments) {
                     UseShellExecute = false,
                     CreateNoWindow = true,
-                    WorkingDirectory = SpecialPath.KernelsDirFullName
+                    WorkingDirectory = Path.GetDirectoryName(kernelExeFileFullName)
                 };
                 Process process = new Process {
                     StartInfo = startInfo
@@ -195,7 +193,7 @@ namespace NTMiner {
 
             #region CreatePipProcess
             // 创建管道，将输出通过管道转送到日志文件，然后读取日志文件内容打印到控制台
-            private static void CreatePipProcess(IMineContext mineContext, string cmdLine) {
+            private static void CreatePipProcess(IMineContext mineContext, string kernelExeFileFullName, string arguments) {
                 SECURITY_ATTRIBUTES saAttr = new SECURITY_ATTRIBUTES
                 {
                     bInheritHandle = true,
@@ -222,6 +220,8 @@ namespace NTMiner {
                     hStdError = hWriteOut,
                     hStdInput = IntPtr.Zero
                 };
+                string cmdLine = $"\"{kernelExeFileFullName}\" {arguments}";
+                Logger.InfoDebugLine(cmdLine);
                 if (CreateProcess(
                     lpApplicationName: null,
                     lpCommandLine: new StringBuilder(cmdLine),
@@ -230,7 +230,7 @@ namespace NTMiner {
                     bInheritHandles: true,
                     dwCreationFlags: NORMAL_PRIORITY_CLASS,
                     lpEnvironment: IntPtr.Zero,
-                    lpCurrentDirectory: SpecialPath.KernelsDirFullName,
+                    lpCurrentDirectory: Path.GetDirectoryName(kernelExeFileFullName),
                     lpStartupInfo: ref lpStartupInfo,
                     lpProcessInformation: out _)) {
                     if (bret == false) {
