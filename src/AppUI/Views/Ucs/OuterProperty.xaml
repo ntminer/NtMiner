@@ -10,7 +10,7 @@
         xmlns:vm="clr-namespace:NTMiner.Vms"
         DataContext="{x:Static vm:OuterPropertyViewModel.Current}"
         Background="White"
-        mc:Ignorable="d" d:DesignHeight="520" d:DesignWidth="860">
+        mc:Ignorable="d" d:DesignHeight="520" d:DesignWidth="460">
     <UserControl.Resources>
         <Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
             <Setter Property="Width" Value="100"></Setter>
@@ -21,12 +21,7 @@
         </Style>
     </UserControl.Resources>
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="390"></ColumnDefinition>
-            <ColumnDefinition Width="10"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <StackPanel Grid.Column="0">
+        <StackPanel>
             <WrapPanel>
                 <TextBlock Style="{StaticResource LblTb}" Text="机器名"></TextBlock>
                 <TextBlock Text="{Binding MachineName}"></TextBlock>
@@ -108,31 +103,30 @@
                     </WrapPanel>
                 </StackPanel>
             </GroupBox>
+            <DataGrid 
+                ItemsSource="{Binding GpuSetProperties}" 
+                Background="Transparent" 
+                GridLinesVisibility="None"
+                HeadersVisibility="None"
+                VerticalScrollBarVisibility="Auto"
+                BorderThickness="0">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Name}"></TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="*" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Value}"></TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
         </StackPanel>
-        <DataGrid 
-            Grid.Column="2"
-            ItemsSource="{Binding GpuSetProperties}" 
-            Background="Transparent" 
-            GridLinesVisibility="None"
-            HeadersVisibility="None"
-            VerticalScrollBarVisibility="Auto"
-            BorderThickness="0">
-            <DataGrid.Columns>
-                <DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Name}"></TextBlock>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="*" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Value}"></TextBlock>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>
-        </DataGrid>
     </Grid>
 </UserControl>
