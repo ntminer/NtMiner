@@ -141,7 +141,9 @@ namespace NTMiner.Views {
 
         private void BtnLeftTriangle_Click(object sender, RoutedEventArgs e) {
             BtnRightTriangle.Visibility = Visibility.Visible;
+            BtnLayoutLeftRight.Visibility = Visibility.Visible;
             BtnLeftTriangle.Visibility = Visibility.Collapsed;
+            BtnLayoutMain.Visibility = Visibility.Collapsed;
             MinerProfileContainerLeft.Visibility = Visibility.Collapsed;
             TabItemStart.Visibility = Visibility.Hidden;
             MinerProfileContainerLeft.Child = null;
@@ -151,7 +153,9 @@ namespace NTMiner.Views {
 
         private void BtnRightTriangle_Click(object sender, RoutedEventArgs e) {
             BtnRightTriangle.Visibility = Visibility.Collapsed;
+            BtnLayoutMain.Visibility = Visibility.Visible;
             BtnLeftTriangle.Visibility = Visibility.Visible;
+            BtnLayoutLeftRight.Visibility = Visibility.Collapsed;
             MinerProfileContainerLeft.Visibility = Visibility.Visible;
             TabItemStart.Visibility = Visibility.Visible;
             MinerProfileContainerRight.Child = null;

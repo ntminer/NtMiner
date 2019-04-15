@@ -129,6 +129,35 @@
 						Cursor="Hand"
 						Foreground="{StaticResource ThemeForeground}"
 						IsChecked="{Binding IsUseDevConsole}" />
+					<controls:KbButton 
+						x:Name="BtnLayoutMain"
+						Click="BtnLeftTriangle_Click"
+						ToolTip="展开"
+						Background="Transparent" BorderThickness="0">
+						<WrapPanel>
+							<Path 
+								Height="18"
+								Width="22"
+								Data="{StaticResource Icon_MainLayout}"
+								Fill="{StaticResource ThemeForeground}"
+								Stretch="Fill" />
+						</WrapPanel>
+					</controls:KbButton>
+					<controls:KbButton 
+						x:Name="BtnLayoutLeftRight"
+						Click="BtnRightTriangle_Click"
+						Visibility="Collapsed"
+						ToolTip="左右结构"
+						Background="Transparent" BorderThickness="0">
+						<WrapPanel>
+							<Path 
+								Height="18"
+								Width="22"
+								Data="{StaticResource Icon_LeftRightLayout}"
+								Fill="{StaticResource ThemeForeground}"
+								Stretch="Fill" />
+						</WrapPanel>
+					</controls:KbButton>
 					<Border Style="{StaticResource IconButtonBg}" Margin="8 0 0 0">
 						<controls:KbButton 
 							ToolTip="算力图"
