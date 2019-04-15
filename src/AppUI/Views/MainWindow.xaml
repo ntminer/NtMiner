@@ -383,7 +383,7 @@
 						BorderThickness="0" Grid.ColumnSpan="2">
 						<TabItem x:Name="TabItemMinerProfile" Visibility="Collapsed">
 							<TabItem.Header>
-								<Border Padding="2 0">
+								<Border Padding="8 0">
 									<WrapPanel>
 										<TextBlock Text="开始"></TextBlock>
 									</WrapPanel>
