@@ -4,7 +4,12 @@ using System.Reflection;
 
 namespace NTMiner.Common {
     public static class CommonUtil {
-        public static void ExtractResource() {
+        private static bool _isFirstCall = true;
+        public static void SetCommonDirectory() {
+            if (!_isFirstCall) {
+                return;
+            }
+            _isFirstCall = false;
             try {
                 Type type = typeof(CommonUtil);
                 Assembly assembly = type.Assembly;
@@ -27,6 +32,16 @@ namespace NTMiner.Common {
                         File.WriteAllBytes(Path.Combine(SpecialPath.CommonDirFullName, fileName), data);
                     }
                 }
+                // Set working directory to exe
+                var path = Path.GetDirectoryName(SpecialPath.CommonDirFullName);
+                if (path != null) {
+                    Environment.CurrentDirectory = path;
+                }
+                // Add common folder to path for launched processes
+                var pathVar = Environment.GetEnvironmentVariable("PATH");
+                pathVar += ";" + Path.Combine(Environment.CurrentDirectory, "Common");
+                Environment.SetEnvironmentVariable("PATH", pathVar);
+                Write.DevDebug(pathVar);
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);

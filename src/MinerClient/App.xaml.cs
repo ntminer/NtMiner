@@ -15,7 +15,7 @@ using System.Windows.Threading;
 namespace NTMiner {
     public partial class App : Application, IDisposable {
         public App() {
-            Logging.LogDir.SetDir(System.IO.Path.Combine(VirtualRoot.GlobalDirFullName, "Logs"));
+            Logging.LogDir.SetDir(Path.Combine(VirtualRoot.GlobalDirFullName, "Logs"));
             AppHelper.Init(this);
             InitializeComponent();
         }
@@ -51,22 +51,7 @@ namespace NTMiner {
                         Shutdown();
                         Environment.Exit(0);
                     }
-                    try {
-                        CommonUtil.ExtractResource();
-                        // Set working directory to exe
-                        var path = Path.GetDirectoryName(SpecialPath.CommonDirFullName);
-                        if (path != null) {
-                            Environment.CurrentDirectory = path;
-                        }
-                    }
-                    catch (Exception ex) {
-                        Logger.ErrorDebugLine(ex.Message, ex);
-                    }
-
-                    // Add common folder to path for launched processes
-                    var pathVar = Environment.GetEnvironmentVariable("PATH");
-                    pathVar += ";" + Path.Combine(Environment.CurrentDirectory, "common");
-                    Environment.SetEnvironmentVariable("PATH", pathVar);
+                    CommonUtil.SetCommonDirectory();
 
                     Vms.AppStatic.IsMinerClient = true;
                     SplashWindow splashWindow = new SplashWindow();
@@ -101,38 +86,7 @@ namespace NTMiner {
                             });
                         });
                     });
-                    VirtualRoot.Window<CloseNTMinerCommand>("处理关闭NTMiner客户端命令", LogEnum.UserConsole,
-                        action: message => {
-                            UIThread.Execute(() => {
-                                if (MainWindow != null) {
-                                    MainWindow.Close();
-                                }
-                                Shutdown();
-                                Environment.Exit(0);
-                            });
-                        });
-                    #region 周期确保守护进程在运行
-                    Daemon.DaemonUtil.RunNTMinerDaemon();
-                    VirtualRoot.On<Per20SecondEvent>("周期确保守护进程在运行", LogEnum.None,
-                        action: message => {
-                            Daemon.DaemonUtil.RunNTMinerDaemon();
-                        });
-                    #endregion
-                    VirtualRoot.On<MineStartedEvent>("开始挖矿后启动1080ti小药丸、挖矿开始后如果需要启动DevConsole则启动DevConsole", LogEnum.DevConsole,
-                        action: message => {
-                            // 启动DevConsole
-                            if (NTMinerRoot.IsUseDevConsole) {
-                                var mineContext = message.MineContext;
-                                string poolIp = mineContext.MainCoinPool.GetIp();
-                                string consoleTitle = mineContext.MainCoinPool.Server;
-                                Daemon.DaemonUtil.RunDevConsoleAsync(poolIp, consoleTitle);
-                            }
-                            OhGodAnETHlargementPill.OhGodAnETHlargementPillUtil.Start();
-                        });
-                    VirtualRoot.On<MineStopedEvent>("停止挖矿后停止1080ti小药丸", LogEnum.DevConsole,
-                        action: message => {
-                            OhGodAnETHlargementPill.OhGodAnETHlargementPillUtil.Stop();
-                        });
+                    Link();
                     NTMinerOverClockUtil.ExtractResource();
                 }
                 else {
@@ -147,6 +101,43 @@ namespace NTMiner {
                 }
             }
             base.OnStartup(e);
+        }
+
+        private void Link() {
+            VirtualRoot.Window<CloseNTMinerCommand>("处理关闭NTMiner客户端命令", LogEnum.UserConsole,
+                action: message => {
+                    UIThread.Execute(() => {
+                        if (MainWindow != null) {
+                            MainWindow.Close();
+                        }
+                        Shutdown();
+                        Environment.Exit(0);
+                    });
+                });
+            #region 周期确保守护进程在运行
+            Daemon.DaemonUtil.RunNTMinerDaemon();
+            VirtualRoot.On<Per20SecondEvent>("周期确保守护进程在运行", LogEnum.None,
+                action: message => {
+                    Daemon.DaemonUtil.RunNTMinerDaemon();
+                });
+            #endregion
+            #region 1080小药丸
+            VirtualRoot.On<MineStartedEvent>("开始挖矿后启动1080ti小药丸、挖矿开始后如果需要启动DevConsole则启动DevConsole", LogEnum.DevConsole,
+                action: message => {
+                    // 启动DevConsole
+                    if (NTMinerRoot.IsUseDevConsole) {
+                        var mineContext = message.MineContext;
+                        string poolIp = mineContext.MainCoinPool.GetIp();
+                        string consoleTitle = mineContext.MainCoinPool.Server;
+                        Daemon.DaemonUtil.RunDevConsoleAsync(poolIp, consoleTitle);
+                    }
+                    OhGodAnETHlargementPill.OhGodAnETHlargementPillUtil.Start();
+                });
+            VirtualRoot.On<MineStopedEvent>("停止挖矿后停止1080ti小药丸", LogEnum.DevConsole,
+                action: message => {
+                    OhGodAnETHlargementPill.OhGodAnETHlargementPillUtil.Stop();
+                });
+            #endregion
         }
 
         public void Dispose() {

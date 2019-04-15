@@ -655,34 +655,39 @@ namespace NTMiner {
         }
 
         private IGpuSet _gpuSet;
+        private object _gpuSetLocker = new object();
         public IGpuSet GpuSet {
             get {
                 if (_gpuSet == null) {
-                    if (VirtualRoot.IsMinerStudio) {
-                        _gpuSet = EmptyGpuSet.Instance;
-                    }
-                    else {
-                        try {
-                            if (IsNCard) {
-                                _gpuSet = new NVIDIAGpuSet(this);
+                    lock (_gpuSetLocker) {
+                        if (_gpuSet == null) {
+                            if (VirtualRoot.IsMinerStudio) {
+                                _gpuSet = EmptyGpuSet.Instance;
                             }
                             else {
-                                _gpuSet = new AMDGpuSet(this);
+                                try {
+                                    if (IsNCard) {
+                                        _gpuSet = new NVIDIAGpuSet(this);
+                                    }
+                                    else {
+                                        _gpuSet = new AMDGpuSet(this);
+                                    }
+                                }
+                                catch (Exception ex) {
+                                    _gpuSet = EmptyGpuSet.Instance;
+                                    Logger.ErrorDebugLine(ex);
+                                }
+                            }
+                            if (_gpuSet == null) {
+                                _gpuSet = EmptyGpuSet.Instance;
+                            }
+                            if (_gpuSet != EmptyGpuSet.Instance) {
+                                VirtualRoot.On<Per5SecondEvent>("周期刷新显卡状态", LogEnum.None,
+                                    action: message => {
+                                        _gpuSet.LoadGpuState();
+                                    });
                             }
                         }
-                        catch (Exception ex) {
-                            _gpuSet = EmptyGpuSet.Instance;
-                            Logger.ErrorDebugLine(ex);
-                        }
-                    }
-                    if (_gpuSet == null) {
-                        _gpuSet = EmptyGpuSet.Instance;
-                    }
-                    if (_gpuSet != EmptyGpuSet.Instance) {
-                        VirtualRoot.On<Per5SecondEvent>("周期刷新显卡状态", LogEnum.None,
-                            action: message => {
-                                _gpuSet.LoadGpuState();
-                            });
                     }
                 }
                 return _gpuSet;
