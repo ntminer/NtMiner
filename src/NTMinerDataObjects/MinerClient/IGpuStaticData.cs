@@ -6,7 +6,7 @@
         /// <summary>
         /// 单位Mb
         /// </summary>
-        int TotalMemory { get; set; }
+        ulong TotalMemory { get; set; }
 
         int CoreClockDeltaMin { get; set; }
 

@@ -4,7 +4,7 @@
 
         public int Index { get; set; }
         public string Name { get; set; }
-        public int TotalMemory { get; set; }
+        public ulong TotalMemory { get; set; }
 
         public int CoreClockDeltaMin { get; set; }
 

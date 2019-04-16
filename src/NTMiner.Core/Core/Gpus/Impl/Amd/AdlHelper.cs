@@ -77,6 +77,17 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
             }
         }
 
+        public ulong GetTotalMemory(int adapterIndex) {
+            ADLMemoryInfo adlt = new ADLMemoryInfo();
+            if (ADL.ADL_Adapter_MemoryInfo_Get(adapterIndex, ref adlt) == ADL.ADL_OK) {
+                Write.DevDebug($"MemorySize:{adlt.MemorySize},MemoryType:{adlt.MemoryType},MemoryBandwidth:{adlt.MemoryBandwidth}");
+                return adlt.MemorySize;
+            }
+            else {
+                return 0;
+            }
+        }
+
         public int GetTemperatureByIndex(int adapterIndex) {
             ADLTemperature adlt = new ADLTemperature();
             if (ADL.ADL_Overdrive5_Temperature_Get(adapterIndex, 0, ref adlt)

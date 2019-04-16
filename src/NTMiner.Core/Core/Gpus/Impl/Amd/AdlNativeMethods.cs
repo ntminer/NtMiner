@@ -66,6 +66,14 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
         public int MaxRPM;
     }
 
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct ADLMemoryInfo {
+        public ulong MemorySize;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = ADL.ADL_MAX_PATH)]
+        public string MemoryType;
+        public long MemoryBandwidth;
+    }
+
     internal class ADL {
         public const int ADL_MAX_PATH = 256;
         public const int ADL_MAX_ADAPTERS = 40;
@@ -118,6 +126,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
         public delegate int ADL_Overdrive5_FanSpeed_SetDelegate(int adapterIndex,
           int thermalControllerIndex, ref ADLFanSpeedValue fanSpeedValue);
         internal delegate int ADL2_Overdrive6_CurrentPower_GetDelegate(IntPtr context, int iAdapterIndex, int iPowerType, ref int lpCurrentValue);
+        internal delegate int ADL_Adapter_MemoryInfo_GetDelegate(int iAdapterIndex, ref ADLMemoryInfo lpMemoryInfo);
 
         private static ADL_Main_Control_CreateDelegate
           _ADL_Main_Control_Create;
@@ -149,7 +158,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
         public static ADL_Overdrive5_FanSpeed_SetDelegate
           ADL_Overdrive5_FanSpeed_Set;
         public static ADL2_Overdrive6_CurrentPower_GetDelegate ADL2_Overdrive6_CurrentPower_Get;
-
+        public static ADL_Adapter_MemoryInfo_GetDelegate ADL_Adapter_MemoryInfo_Get;
         private static string dllName;
 
         private static void GetDelegate<T>(string entryPoint, out T newDelegate)
@@ -194,6 +203,8 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
               out ADL_Overdrive5_FanSpeed_Set);
             GetDelegate("ADL2_Overdrive6_CurrentPower_Get",
               out ADL2_Overdrive6_CurrentPower_Get);
+            GetDelegate("ADL_Adapter_MemoryInfo_Get",
+              out ADL_Adapter_MemoryInfo_Get);
         }
 
         static ADL() {

@@ -46,7 +46,7 @@ namespace NTMiner.Core.Gpus.Impl {
                             name = name.Replace("GeForce ", string.Empty);
                         }
                         Gpu gpu = Gpu.Create(i, name);
-                        gpu.TotalMemory = (int)(memory.total / 1024 / 1024);
+                        gpu.TotalMemory = memory.total;
                         _gpus.Add(i, gpu);
                     }
                     if (deviceCount > 0) {

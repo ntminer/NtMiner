@@ -26,7 +26,7 @@ namespace NTMiner.Vms {
         private int _tempLimitDefault;
         private int _tempLimitMax;
         private int _tempLimit;
-        private int _totalMemory;
+        private ulong _totalMemory;
 
         public GpuViewModel(IGpu data) {
             _index = data.Index;
@@ -116,7 +116,7 @@ namespace NTMiner.Vms {
             }
         }
 
-        public int TotalMemory {
+        public ulong TotalMemory {
             get => _totalMemory;
             set {
                 _totalMemory = value;
@@ -127,7 +127,7 @@ namespace NTMiner.Vms {
 
         public string TotalMemoryGbText {
             get {
-                return Math.Round((this.TotalMemory / 1024.0), 1) + "G";
+                return Math.Round((this.TotalMemory / (double)(1024 * 1024 * 1024)), 1) + "G";
             }
         }
 

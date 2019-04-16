@@ -37,7 +37,9 @@ namespace NTMiner.Core.Gpus.Impl {
             deviceCount = adlHelper.GpuCount;
             for (int i = 0; i < deviceCount; i++) {
                 string name = adlHelper.GetGpuName(i);
-                _gpus.Add(i, Gpu.Create(i, name));
+                var gpu = Gpu.Create(i, name);
+                gpu.TotalMemory = adlHelper.GetTotalMemory(i);
+                _gpus.Add(i, gpu);
             }
             if (deviceCount > 0) {
                 this.Properties.Add(new GpuSetProperty("DriverVersion", "driver version", GetDriverVersion()));
