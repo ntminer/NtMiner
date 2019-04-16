@@ -162,11 +162,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
         }
 
         private static void CreateDelegates(string name) {
-            int p = (int)Environment.OSVersion.Platform;
-            if ((p == 4) || (p == 128))
-                dllName = name + ".so";
-            else
-                dllName = name + ".dll";
+            dllName = name + ".dll";
 
             GetDelegate("ADL_Main_Control_Create",
               out _ADL_Main_Control_Create);

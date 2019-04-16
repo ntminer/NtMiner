@@ -121,6 +121,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ThisSystemDir\System32\System32Util.cs" />
+    <Compile Include="ThisSystemDir\SysWOW64\SysWOW64Util.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Brand\BrandUtil.cs" />
@@ -220,8 +221,10 @@
   <ItemGroup>
     <EmbeddedResource Include="ThisSystemDir\System32\atiadlxx.dll" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="ThisSystemDir\SysWOW64\" />
+    <EmbeddedResource Include="ThisSystemDir\SysWOW64\atiadlxx.dll" />
+    <EmbeddedResource Include="ThisSystemDir\SysWOW64\atiadlxy.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\Fody.2.0.0\build\portable-net+sl+win+wpa+wp\Fody.targets" Condition="Exists('..\..\packages\Fody.2.0.0\build\portable-net+sl+win+wpa+wp\Fody.targets')" />
