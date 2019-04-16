@@ -46,7 +46,7 @@ namespace NTMiner.Views {
                     }).Queue();
             }
             if (NTMinerRoot.Current.GpuSet.Count == 0) {
-                NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage("没有检测到矿卡。");
+                NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage("没有矿卡或矿卡未驱动。");
             }
             NTMinerRoot.RegHotKey = (key) => {
                 string message;

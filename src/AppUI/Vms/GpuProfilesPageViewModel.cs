@@ -80,7 +80,7 @@ namespace NTMiner.Vms {
                         default:
                             iconName = "Icon_GpuEmpty";
                             GpuIconFill = "Gray";
-                            RedText = "挖矿端没有显卡";
+                            RedText = "没有矿卡或矿卡未驱动";
                             IsEnabled = false;
                             break;
                     }

@@ -23,7 +23,7 @@ namespace NTMiner.Views.Ucs {
                     break;
                 case GpuType.Empty:
                 default:
-                    this.TbRedText.Text = "没有显卡";
+                    this.TbRedText.Text = "没有矿卡或矿卡未驱动";
                     break;
             }
         }
