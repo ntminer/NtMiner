@@ -4,6 +4,10 @@ using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 
+/// <summary>
+/// 注意不要挪动这里的命名空间也不要挪动该代码文件所处的程序集
+/// 嵌入的资源的位置和命名空间有关契约关系
+/// </summary>
 namespace NTMiner.NTMinerServices {
     public static class NTMinerServicesUtil {
         public static void RunNTMinerServices() {
@@ -47,11 +51,7 @@ namespace NTMiner.NTMinerServices {
                 Type type = typeof(NTMinerServicesUtil);
                 Assembly assembly = type.Assembly;
                 string dir = Path.GetDirectoryName(SpecialPath.NTMinerServicesFileFullName);
-                using (var stream = assembly.GetManifestResourceStream(type, name)) {
-                    byte[] data = new byte[stream.Length];
-                    stream.Read(data, 0, data.Length);
-                    File.WriteAllBytes(Path.Combine(dir, name), data);
-                }
+                assembly.ExtractManifestResource(type, name, Path.Combine(dir, name));
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
