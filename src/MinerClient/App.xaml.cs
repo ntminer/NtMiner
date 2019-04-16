@@ -1,6 +1,7 @@
 ﻿using NTMiner.Common;
 using NTMiner.Core;
 using NTMiner.OverClock;
+using NTMiner.ThisSystemDir.System32;
 using NTMiner.Views;
 using System;
 using System.Diagnostics;
@@ -52,6 +53,10 @@ namespace NTMiner {
                         Environment.Exit(0);
                     }
                     CommonUtil.SetCommonDirectory();
+                    Task.Factory.StartNew(() => {
+                        System32Util.ExtractResource();
+                        NTMinerOverClockUtil.ExtractResource();
+                    });
 
                     Vms.AppStatic.IsMinerClient = true;
                     SplashWindow splashWindow = new SplashWindow();
@@ -87,7 +92,6 @@ namespace NTMiner {
                         });
                     });
                     Link();
-                    NTMinerOverClockUtil.ExtractResource();
                 }
                 else {
                     try {

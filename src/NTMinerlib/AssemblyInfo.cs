@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Reflection;
 
 namespace NTMiner {
     public static class AssemblyInfo {
@@ -10,5 +12,13 @@ namespace NTMiner {
         public static string ServerVersionJsonFileFullName = Path.Combine(VirtualRoot.GlobalDirFullName, ServerJsonFileName);
         public static string OfficialServerHost = "server.ntminer.com";
         public static readonly string MinerJsonBucket = "https://minerjson.oss-cn-beijing.aliyuncs.com/";
+
+        public static void ExtractManifestResource(this Assembly assembly, Type type, string name, string saveFileFuleName) {
+            using (var stream = assembly.GetManifestResourceStream(type, name)) {
+                byte[] data = new byte[stream.Length];
+                stream.Read(data, 0, data.Length);
+                File.WriteAllBytes(saveFileFuleName, data);
+            }
+        }
     }
 }

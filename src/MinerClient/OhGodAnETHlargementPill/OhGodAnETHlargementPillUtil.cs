@@ -61,11 +61,7 @@ namespace NTMiner.OhGodAnETHlargementPill {
                 }
                 Type type = typeof(OhGodAnETHlargementPillUtil);
                 Assembly assembly = type.Assembly;
-                using (var stream = assembly.GetManifestResourceStream(type, s_processName + ".exe")) {
-                    byte[] data = new byte[stream.Length];
-                    stream.Read(data, 0, data.Length);
-                    File.WriteAllBytes(s_fileFullName, data);
-                }
+                assembly.ExtractManifestResource(type, s_processName + ".exe", s_fileFullName);
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);

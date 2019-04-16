@@ -77,11 +77,7 @@ namespace NTMiner.Daemon {
                 Type type = typeof(DaemonUtil);
                 Assembly assembly = type.Assembly;
                 string daemonDir = Path.GetDirectoryName(SpecialPath.DaemonFileFullName);
-                using (var stream = assembly.GetManifestResourceStream(type, name)) {
-                    byte[] data = new byte[stream.Length];
-                    stream.Read(data, 0, data.Length);
-                    File.WriteAllBytes(Path.Combine(daemonDir, name), data);
-                }
+                assembly.ExtractManifestResource(type, name, Path.Combine(daemonDir, name));
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);

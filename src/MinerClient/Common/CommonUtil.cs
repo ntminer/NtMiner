@@ -26,11 +26,7 @@ namespace NTMiner.Common {
                     "vcruntime140.dll"
                 };
                 foreach (var fileName in fileNames) {
-                    using (var stream = assembly.GetManifestResourceStream(type, fileName)) {
-                        byte[] data = new byte[stream.Length];
-                        stream.Read(data, 0, data.Length);
-                        File.WriteAllBytes(Path.Combine(SpecialPath.CommonDirFullName, fileName), data);
-                    }
+                    assembly.ExtractManifestResource(type, fileName, Path.Combine(SpecialPath.CommonDirFullName, fileName));
                 }
                 // Set working directory to exe
                 var path = Path.GetDirectoryName(SpecialPath.CommonDirFullName);
