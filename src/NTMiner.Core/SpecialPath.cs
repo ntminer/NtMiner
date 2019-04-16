@@ -73,6 +73,18 @@ namespace NTMiner {
             NTMinerServicesFileFullName = Path.Combine(ntminerServicesDirFullName, "NTMinerServices.exe");
             DevConsoleFileFullName = Path.Combine(daemonDirFullName, "DevConsole.exe");
 
+            ThisSystemDir = Path.Combine(VirtualRoot.GlobalDirFullName, "ThisSystem");
+            if (!Directory.Exists(ThisSystemDir)) {
+                Directory.CreateDirectory(ThisSystemDir);
+            }
+            ThisSystem32Dir = Path.Combine(ThisSystemDir, "System32");
+            if (!Directory.Exists(ThisSystem32Dir)) {
+                Directory.CreateDirectory(ThisSystem32Dir);
+            }
+            ThisSysWOW64Dir = Path.Combine(ThisSystemDir, "SysWOW64");
+            if (!Directory.Exists(ThisSysWOW64Dir)) {
+                Directory.CreateDirectory(ThisSysWOW64Dir);
+            }
             CommonDirFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "Common");
             if (!Directory.Exists(CommonDirFullName)) {
                 Directory.CreateDirectory(CommonDirFullName);
@@ -137,6 +149,10 @@ namespace NTMiner {
         public static string NTMinerOverClockFileFullName { get; private set; }
 
         public static string CommonDirFullName { get; private set; }
+
+        public static string ThisSystemDir { get; private set; }
+        public static string ThisSysWOW64Dir { get; private set; }
+        public static string ThisSystem32Dir { get; private set; }
 
         public static string TempDirFullName { get; private set; }
 
