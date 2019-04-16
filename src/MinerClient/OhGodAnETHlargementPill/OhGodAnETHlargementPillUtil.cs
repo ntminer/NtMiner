@@ -4,6 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
+/// <summary>
+/// 注意不要挪动这里的命名空间
+/// 嵌入的资源的位置和命名空间有关契约关系
+/// </summary>
 namespace NTMiner.OhGodAnETHlargementPill {
     public static class OhGodAnETHlargementPillUtil {
         private static readonly string s_processName = "OhGodAnETHlargementPill-r2";

@@ -2,6 +2,7 @@
 using NTMiner.Core;
 using NTMiner.OverClock;
 using NTMiner.ThisSystemDir.System32;
+using NTMiner.ThisSystemDir.SysWOW64;
 using NTMiner.Views;
 using System;
 using System.Diagnostics;
@@ -55,6 +56,7 @@ namespace NTMiner {
                     CommonUtil.SetCommonDirectory();
                     Task.Factory.StartNew(() => {
                         System32Util.ExtractResource();
+                        SysWOW64Util.ExtractResource();
                         NTMinerOverClockUtil.ExtractResource();
                     });
 

@@ -4,6 +4,10 @@ using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 
+/// <summary>
+/// 注意不要挪动这里的命名空间
+/// 嵌入的资源的位置和命名空间有关契约关系
+/// </summary>
 namespace NTMiner.Daemon {
     public static class DaemonUtil {
         public static void RunNTMinerDaemon() {
