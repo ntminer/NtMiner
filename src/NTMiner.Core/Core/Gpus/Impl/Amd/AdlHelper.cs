@@ -10,7 +10,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
             public string AdapterName { get; set; }
         }
 
-        private System.IntPtr hHandle;
+        private System.IntPtr context;
         private List<ATIGPU> _gpuNames = new List<ATIGPU>();
         public bool Init() {
             try {
@@ -19,7 +19,6 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
                 Write.DevDebug("Status: " + (status == ADL.ADL_OK ? "OK" : status.ToString(CultureInfo.InvariantCulture)));
                 if (status == ADL.ADL_OK) {
                     int numberOfAdapters = 0;
-                    ADL.ADL2_Main_Control_Create(ADL.Main_Memory_Alloc, 1, ref hHandle);
                     ADL.ADL_Adapter_NumberOfAdapters_Get(ref numberOfAdapters);
                     if (numberOfAdapters > 0) {
                         ADLAdapterInfo[] adapterInfo = new ADLAdapterInfo[numberOfAdapters];
@@ -29,12 +28,12 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
                                 ADL.ADL_Adapter_Active_Get(adapterInfo[i].AdapterIndex, out isActive);
                                 if (!string.IsNullOrEmpty(adapterInfo[i].UDID) && adapterInfo[i].VendorID == ADL.ATI_VENDOR_ID) {
                                     bool found = false;
-                                    foreach (ATIGPU gpu in _gpuNames)
-                                        if (gpu.BusNumber == adapterInfo[i].BusNumber &&
-                                          gpu.DeviceNumber == adapterInfo[i].DeviceNumber) {
+                                    foreach (ATIGPU gpu in _gpuNames) {
+                                        if (gpu.BusNumber == adapterInfo[i].BusNumber && gpu.DeviceNumber == adapterInfo[i].DeviceNumber) {
                                             found = true;
                                             break;
                                         }
+                                    }
                                     if (!found)
                                         _gpuNames.Add(new ATIGPU {
                                             AdapterName = adapterInfo[i].AdapterName.Trim(),
@@ -46,6 +45,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
                             }
                         }
                     }
+                    ADL.ADL2_Main_Control_Create(ADL.Main_Memory_Alloc, 1, ref context);
                 }
             }
             catch {
@@ -97,7 +97,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
         public uint GetPowerUsageByIndex(int gpu) {
             int power = 0;
             try {
-                if (ADL.ADL2_Overdrive6_CurrentPower_Get(hHandle, gpu, 0, ref power) == 0) {
+                if (ADL.ADL2_Overdrive6_CurrentPower_Get(context, gpu, 0, ref power) == 0) {
                     return (uint)(power / 256.0);
                 }
             }
