@@ -9,11 +9,7 @@ namespace NTMiner {
         private static readonly string ServerJsonFileUrl = AssemblyInfo.MinerJsonBucket + AssemblyInfo.ServerJsonFileName;
 
         public static void GetAliyunServerJson(Action<byte[]> callback) {
-            GetFileAsync(ServerJsonFileUrl + "?t=" + DateTime.Now.Ticks, callback);
-        }
-
-        #region GetFileAsync
-        private static void GetFileAsync(string fileUrl, Action<byte[]> callback) {
+            string fileUrl = ServerJsonFileUrl + "?t=" + DateTime.Now.Ticks;
             Task.Factory.StartNew(() => {
                 try {
                     var webRequest = WebRequest.Create(fileUrl);
@@ -42,7 +38,6 @@ namespace NTMiner {
                 }
             });
         }
-        #endregion
 
         private static byte[] ZipDecompress(byte[] zippedData) {
             MemoryStream ms = new MemoryStream(zippedData);
