@@ -422,12 +422,12 @@
 					</controls:KbButton>
 					<TabControl
 						Grid.Column="2" Grid.Row="0" 
-						Margin="0 -24 0 0" 
+						Margin="0 -40 0 0" 
 						Padding="0"
 						BorderThickness="0" Grid.ColumnSpan="2">
 						<TabItem x:Name="TabItemMinerProfile" Visibility="Collapsed">
 							<TabItem.Header>
-								<Border Padding="8 0">
+								<Border Padding="8">
 									<WrapPanel>
 										<TextBlock Text="开始"></TextBlock>
 									</WrapPanel>
@@ -438,7 +438,7 @@
 						</TabItem>
 						<TabItem x:Name="TabItemLog" IsSelected="True">
 							<TabItem.Header>
-								<Border Padding="8 0">
+								<Border Padding="8">
 									<WrapPanel>
 										<TextBlock Text="日志"></TextBlock>
 									</WrapPanel>
@@ -449,7 +449,7 @@
 						</TabItem>
 						<TabItem>
 							<TabItem.Header>
-								<Border Padding="8 0">
+								<Border Padding="8">
 									<WrapPanel>
 										<TextBlock Text="算力"></TextBlock>
 									</WrapPanel>
@@ -460,7 +460,7 @@
 						</TabItem>
 						<TabItem Visibility="{Binding IsOverClockVisible}">
 							<TabItem.Header>
-								<Border Padding="8 0">
+								<Border Padding="8">
 									<WrapPanel>
 										<TextBlock Text="{Binding MinerProfile.CoinVm.Code}"></TextBlock>
 										<TextBlock Text="超频"></TextBlock>
@@ -476,7 +476,7 @@
 						</TabItem>
 						<TabItem>
 							<TabItem.Header>
-								<Border Padding="8 0">
+								<Border Padding="8">
 									<WrapPanel>
 										<TextBlock Text="选项"></TextBlock>
 									</WrapPanel>
@@ -487,7 +487,7 @@
 						</TabItem>
 						<TabItem>
 							<TabItem.Header>
-								<Border Padding="8 0">
+								<Border Padding="8">
 									<WrapPanel>
 										<TextBlock Text="属性"></TextBlock>
 									</WrapPanel>
