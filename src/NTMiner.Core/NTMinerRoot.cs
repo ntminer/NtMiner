@@ -139,40 +139,6 @@ namespace NTMiner {
 
             ContextInit(isWork);
 
-            // 打码支持内核品牌
-            if (!string.IsNullOrEmpty(CommandLineArgs.KernelBrand)) {
-                if (SysDicItemSet.TryGetDicItem("KernelBrand", CommandLineArgs.KernelBrand, out ISysDicItem brandItem)) {
-                    #region KernelBrandId
-                    string brand = $"KernelBrandId{brandItem.GetId()}KernelBrandId";
-                    byte[] data = Encoding.UTF8.GetBytes(brand);
-                    if (data.Length != KernelBrandRaw.Length) {
-                        throw new InvalidProgramException();
-                    }
-                    byte[] source = File.ReadAllBytes(ClientId.AppFileFullName);
-                    int index = 0;
-                    for (int i = 0; i < source.Length - KernelBrandRaw.Length; i++) {
-                        int j = 0;
-                        for (; j < KernelBrandRaw.Length; j++) {
-                            if (source[i + j] != KernelBrandRaw[j]) {
-                                break;
-                            }
-                        }
-                        if (j == KernelBrandRaw.Length) {
-                            index = i;
-                            break;
-                        }
-                    }
-                    for (int i = index; i < index + data.Length; i++) {
-                        source[i] = data[i - index];
-                    }
-                    string brandExeFullName = Path.Combine(Path.GetDirectoryName(ClientId.AppFileFullName), Path.GetFileNameWithoutExtension(ClientId.AppFileFullName) + $"_{CommandLineArgs.KernelBrand}.exe");
-                    File.WriteAllBytes(brandExeFullName, source);
-                    #endregion
-                    Environment.Exit(0);
-                    return;
-                }
-            }
-
             this.UserSet = new UserSet();
             this.KernelProfileSet = new KernelProfileSet(this);
             this.GpusSpeed = new GpusSpeed(this);

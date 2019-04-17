@@ -36,6 +36,32 @@ namespace NTMiner {
             CurrentVersionTag = ((AssemblyDescriptionAttribute)mainAssembly.GetCustomAttributes(typeof(AssemblyDescriptionAttribute), inherit: false).First()).Description;
         }
 
+        public static void TagKernelBrandId(Guid kernelBrandId, string inputFileFullName, string outFileFullName) {
+            string brand = $"KernelBrandId{kernelBrandId}KernelBrandId";
+            byte[] data = Encoding.UTF8.GetBytes(brand);
+            if (data.Length != KernelBrandRaw.Length) {
+                throw new InvalidProgramException();
+            }
+            byte[] source = File.ReadAllBytes(inputFileFullName);
+            int index = 0;
+            for (int i = 0; i < source.Length - KernelBrandRaw.Length; i++) {
+                int j = 0;
+                for (; j < KernelBrandRaw.Length; j++) {
+                    if (source[i + j] != KernelBrandRaw[j]) {
+                        break;
+                    }
+                }
+                if (j == KernelBrandRaw.Length) {
+                    index = i;
+                    break;
+                }
+            }
+            for (int i = index; i < index + data.Length; i++) {
+                source[i] = data[i - index];
+            }
+            File.WriteAllBytes(outFileFullName, source);
+        }
+
         private static readonly NTMinerRoot SCurrent = new NTMinerRoot();
         public static readonly INTMinerRoot Current = SCurrent;
         public static readonly Version CurrentVersion;

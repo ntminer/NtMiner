@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
@@ -29,6 +31,8 @@ namespace NTMiner.Vms {
         public ICommand PageAdd { get; private set; }
 
         public ICommand Search { get; private set; }
+
+        public ICommand TagKernelBrand { get; private set; }
 
         private readonly KernelMenu _repositoryKernelMenu = new KernelMenu("宝库", "Icon_Kernel");
         private readonly KernelMenu _uninstallKernelMenu = new KernelMenu("卸载", "Icon_Delete");
@@ -59,6 +63,14 @@ namespace NTMiner.Vms {
             });
             this.PageAdd = new DelegateCommand(() => {
                 this.PageNumber = this.PageNumber + 1;
+            });
+            this.TagKernelBrand = new DelegateCommand<SysDicItemViewModel>(brandItem => {
+                string outFileName = Path.GetFileNameWithoutExtension(ClientId.AppFileFullName) + $"_{brandItem.Value}.exe";
+                string outDir = Path.GetDirectoryName(ClientId.AppFileFullName);
+                string outFileFullName = Path.Combine(outDir, outFileName);
+                NTMinerRoot.TagKernelBrandId(brandItem.GetId(), ClientId.AppFileFullName, outFileFullName);
+                NotiCenterWindowViewModel.Current.Manager.ShowSuccessMessage($"打码成功:{outFileName}");
+                Process.Start(outDir);
             });
             this.Home.Execute(null);
         }
