@@ -24,7 +24,12 @@ namespace NTMiner.Vms {
                     Logger.ErrorDebugLine(e.Message, e);
                 }
             });
-            _fileName = "NTMinerUpdater.exe";
+            if (NTMinerRoot.Current.ServerAppSettingSet.TryGetAppSetting("ntminerUpdaterFileName", out IAppSetting appSetting) && appSetting.Value != null) {
+                _fileName = appSetting.Value.ToString();
+            }
+            else {
+                _fileName = "NTMinerUpdater.exe";
+            }
         }
 
         private string _fileName;
