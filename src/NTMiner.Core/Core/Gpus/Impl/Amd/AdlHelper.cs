@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 
 namespace NTMiner.Core.Gpus.Impl.Amd {
     public class AdlHelper {
@@ -53,6 +54,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
                     }
                     ADL.ADL2_Main_Control_Create(ADL.Main_Memory_Alloc, 1, ref context);
                 }
+                Write.DevDebug(string.Join(",", _gpuNames.Select(a => a.AdapterIndex)));
             }
             catch {
                 return false;
@@ -65,22 +67,29 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
             get { return _gpuNames.Count; }
         }
 
-        public string GetGpuName(int gpu) {
+        private static int GpuIndexToAdapterIndex(List<ATIGPU> gpuNames, int gpuIndex) {
+            if (gpuIndex >= gpuNames.Count) {
+                return 0;
+            }
+            return gpuNames[gpuIndex].AdapterIndex;
+        }
+
+        public string GetGpuName(int gpuIndex) {
             try {
-                if (gpu >= _gpuNames.Count) {
+                if (gpuIndex >= _gpuNames.Count) {
                     return string.Empty;
                 }
-                return _gpuNames[gpu].AdapterName;
+                return _gpuNames[gpuIndex].AdapterName;
             }
             catch {
                 return string.Empty;
             }
         }
 
-        public ulong GetTotalMemory(int adapterIndex) {
+        public ulong GetTotalMemory(int gpuIndex) {
+            int adapterIndex = GpuIndexToAdapterIndex(_gpuNames, gpuIndex);
             ADLMemoryInfo adlt = new ADLMemoryInfo();
             if (ADL.ADL_Adapter_MemoryInfo_Get(adapterIndex, ref adlt) == ADL.ADL_OK) {
-                Write.DevDebug($"MemorySize:{adlt.MemorySize},MemoryType:{adlt.MemoryType},MemoryBandwidth:{adlt.MemoryBandwidth}");
                 return adlt.MemorySize;
             }
             else {
@@ -88,7 +97,8 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
             }
         }
 
-        public int GetTemperatureByIndex(int adapterIndex) {
+        public int GetTemperatureByIndex(int gpuIndex) {
+            int adapterIndex = GpuIndexToAdapterIndex(_gpuNames, gpuIndex);
             ADLTemperature adlt = new ADLTemperature();
             if (ADL.ADL_Overdrive5_Temperature_Get(adapterIndex, 0, ref adlt)
               == ADL.ADL_OK) {
@@ -99,7 +109,8 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
             }
         }
 
-        public uint GetFanSpeedByIndex(int adapterIndex) {
+        public uint GetFanSpeedByIndex(int gpuIndex) {
+            int adapterIndex = GpuIndexToAdapterIndex(_gpuNames, gpuIndex);
             ADLFanSpeedValue adlf = new ADLFanSpeedValue();
             adlf.SpeedType = ADL.ADL_DL_FANCTRL_SPEED_TYPE_PERCENT;
             if (ADL.ADL_Overdrive5_FanSpeed_Get(adapterIndex, 0, ref adlf)
@@ -111,10 +122,11 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
             }
         }
 
-        public uint GetPowerUsageByIndex(int gpu) {
+        public uint GetPowerUsageByIndex(int gpuIndex) {
+            int adapterIndex = GpuIndexToAdapterIndex(_gpuNames, gpuIndex);
             int power = 0;
             try {
-                if (ADL.ADL2_Overdrive6_CurrentPower_Get(context, gpu, 0, ref power) == 0) {
+                if (ADL.ADL2_Overdrive6_CurrentPower_Get(context, adapterIndex, 0, ref power) == 0) {
                     return (uint)(power / 256.0);
                 }
             }
