@@ -67,6 +67,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
             get { return _gpuNames.Count; }
         }
 
+        // 将GPUIndex转换为AdapterIndex
         private static int GpuIndexToAdapterIndex(List<ATIGPU> gpuNames, int gpuIndex) {
             if (gpuIndex >= gpuNames.Count) {
                 return 0;
