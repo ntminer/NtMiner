@@ -11,19 +11,22 @@
 		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="360">
 	<Grid Margin="20 0">
 		<Grid.RowDefinitions>
-			<RowDefinition Height="30"></RowDefinition>
+			<RowDefinition Height="Auto"></RowDefinition>
 			<RowDefinition Height="*"></RowDefinition>
 			<RowDefinition Height="Auto"></RowDefinition>
 		</Grid.RowDefinitions>
-		<WrapPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-			<TextBlock VerticalAlignment="Center">共设置了</TextBlock>
-			<TextBlock FontSize="16" Margin="4 0" VerticalAlignment="Center" Text="{Binding VirtualMemorySet.TotalVirtualMemoryGbText}"></TextBlock>
-			<TextBlock VerticalAlignment="Center">虚拟内存</TextBlock>            
-		</WrapPanel>
+		<StackPanel>
+			<WrapPanel HorizontalAlignment="Center">
+				<TextBlock VerticalAlignment="Center">共设置了</TextBlock>
+				<TextBlock FontSize="16" Margin="4 0" VerticalAlignment="Center" Text="{Binding VirtualMemorySet.TotalVirtualMemoryGbText}"></TextBlock>
+				<TextBlock VerticalAlignment="Center">虚拟内存</TextBlock>
+			</WrapPanel>
+			<TextBlock Foreground="Red" Text="每张显卡至少对应4G虚拟内存，建议按照虚拟内存和显存比例1:1进行设置。比如6张8G显存的580卡建议虚拟内存为6 x 8 = 48G。"></TextBlock>
+		</StackPanel>
 		<ScrollViewer 
-		    Grid.Row="1" 
-		    VerticalScrollBarVisibility="Auto" 
-		    PreviewMouseDown="ScrollViewer_PreviewMouseDown">
+			Grid.Row="1" 
+			VerticalScrollBarVisibility="Auto" 
+			PreviewMouseDown="ScrollViewer_PreviewMouseDown">
 			<ItemsControl 
 				ItemsSource="{Binding Drives}"
 				BorderThickness="0"
@@ -59,8 +62,8 @@
 										<Border x:Name="BorderTotalSpace" Background="#E6E6E6" BorderBrush="{StaticResource LineColor}" BorderThickness="1">
 											<WrapPanel>
 												<Rectangle 
-												    Height="16" Width="{Binding HasUsedSpacePercent, ConverterParameter=250, Converter={StaticResource PercentToLengthConverter}}" 
-												    HorizontalAlignment="Left" Fill="{StaticResource IconFillColor}"></Rectangle>
+													Height="16" Width="{Binding HasUsedSpacePercent, ConverterParameter=250, Converter={StaticResource PercentToLengthConverter}}" 
+													HorizontalAlignment="Left" Fill="{StaticResource IconFillColor}"></Rectangle>
 											</WrapPanel>
 										</Border>
 										<WrapPanel>
@@ -107,31 +110,34 @@
 				</ItemsControl.ItemTemplate>
 			</ItemsControl>
 		</ScrollViewer>
-		<WrapPanel Grid.Row="2" HorizontalAlignment="Center" Visibility="{Binding VirtualMemorySet.IsStateChanged, Converter={StaticResource BoolToVisibilityConverter}}">
-			<TextBlock VerticalAlignment="Center" Foreground="Red">虚拟内存已更改，重启电脑后生效</TextBlock>
-			<controls:KbButton 
-				Margin="8 0 0 0"
-				Width="80"
-				Background="{StaticResource ThemeBackground}"
-				Command="{x:Static vm:AppStatic.ShowRestartWindows}"
-				VerticalAlignment="Center"
-				CornerRadius="2">
-				<WrapPanel>
-					<Path
-						Width="14"
-						Height="14"
-						Data="{StaticResource Icon_Restart}"
-						Fill="{StaticResource ThemeForeground}"
-						Stretch="Fill" />
-					<Label 
-						Width="60"
-						Background="{StaticResource ThemeBackground}"
-						Foreground="{StaticResource ThemeForeground}"
-						VerticalAlignment="Center"
-						Content="立即重启" />
-				</WrapPanel>
-			</controls:KbButton>
-		</WrapPanel>
+		<StackPanel Grid.Row="2">
+			<WrapPanel HorizontalAlignment="Center" Visibility="{Binding VirtualMemorySet.IsStateChanged, Converter={StaticResource BoolToVisibilityConverter}}">
+				<TextBlock VerticalAlignment="Center" Foreground="Red">虚拟内存已更改，重启电脑后生效</TextBlock>
+				<controls:KbButton 
+					Margin="8 0 0 0"
+					Width="80"
+					Background="{StaticResource ThemeBackground}"
+					Command="{x:Static vm:AppStatic.ShowRestartWindows}"
+					VerticalAlignment="Center"
+					CornerRadius="2">
+					<WrapPanel>
+						<Path
+							Width="12"
+							Height="12"
+							Data="{StaticResource Icon_Restart}"
+							Fill="{StaticResource ThemeForeground}"
+							Stretch="Fill" />
+						<Label 
+							Width="60"
+							Padding="4"
+							Background="{StaticResource ThemeBackground}"
+							Foreground="{StaticResource ThemeForeground}"
+							VerticalAlignment="Center"
+							Content="立即重启" />
+					</WrapPanel>
+				</controls:KbButton>
+			</WrapPanel>
+		</StackPanel>
 		<controls:KbButton
 			Grid.Row="2"
 			HorizontalAlignment="Right"

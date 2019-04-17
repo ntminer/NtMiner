@@ -1,5 +1,6 @@
 ﻿using NTMiner.Vms;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace NTMiner.Views.Ucs {
     public partial class StateBar : UserControl {
@@ -13,6 +14,9 @@ namespace NTMiner.Views.Ucs {
 
         public StateBar() {
             InitializeComponent();
+            if (NTMinerRoot.OSVirtualMemoryMb < NTMinerRoot.Current.GpuSet.Count * 4) {
+                BtnShowVirtualMemory.Foreground = new SolidColorBrush(Colors.Red);
+            }
         }
     }
 }

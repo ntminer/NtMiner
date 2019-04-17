@@ -274,6 +274,7 @@
 					<TextBlock Text="{x:Static vm:AppStatic.WindowsEdition}" ToolTip="操作系统" Foreground="{StaticResource LableColor}"></TextBlock>
 					<TextBlock Text=" / " Foreground="{StaticResource LableColor}"></TextBlock>
 					<controls:KbButton 
+						x:Name="BtnShowVirtualMemory"
 						Command="{x:Static vm:AppStatic.ShowVirtualMemory}"
 						Content="{x:Static vm:AppStatic.TotalVirtualMemoryGbText}" 
 						Background="Transparent" 

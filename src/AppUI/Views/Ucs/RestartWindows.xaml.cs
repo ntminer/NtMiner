@@ -56,7 +56,7 @@ namespace NTMiner.Views.Ucs {
     }
 
     public class RestartWindowsViewModel : ViewModelBase {
-        private int _seconds = 9;
+        private int _seconds = 4;
 
         public int Seconds {
             get => _seconds;
