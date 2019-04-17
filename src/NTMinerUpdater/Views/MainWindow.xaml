@@ -201,11 +201,11 @@
 						<WrapPanel HorizontalAlignment="Center">
 							<TextBlock
 								FontSize="22" 
+								Foreground="Black"
 								Text="{Binding DownloadMessage}" 
 								VerticalAlignment="Center">
 							</TextBlock>
 							<controls:KbButton 
-								Visibility="{Binding BtnCancelVisible}"
 								HorizontalAlignment="Right"
 								Margin="4 0 0 0"
 								Command="{Binding CancelDownload}"

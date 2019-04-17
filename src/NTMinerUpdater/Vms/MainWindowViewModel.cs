@@ -26,7 +26,6 @@ namespace NTMiner.Vms {
         private Visibility _isHistoryVisible = Visibility.Collapsed;
 
         private string _downloadMessage;
-        private Visibility _btnCancelVisible = Visibility.Visible;
 
         private Action _cancel;
         public ICommand Install { get; private set; }
@@ -42,12 +41,8 @@ namespace NTMiner.Vms {
             this.Refresh();
             this.CancelDownload = new DelegateCommand(() => {
                 this._cancel?.Invoke();
-                this.IsDownloading = false;
             });
             this.Install = new DelegateCommand(() => {
-                if (this.IsDownloading) {
-                    return;
-                }
                 this.IsDownloading = true;
                 string ntMinerFile = string.Empty;
                 string version = string.Empty;
@@ -67,7 +62,6 @@ namespace NTMiner.Vms {
                 }, downloadComplete: (isSuccess, message, saveFileFullName) => {
                     this.DownloadMessage = message;
                     this.DownloadPercent = 0;
-                    this.BtnCancelVisible = Visibility.Collapsed;
                     if (isSuccess) {
                         this.DownloadMessage = "更新成功，正在重启";
                         if (VirtualRoot.IsMinerStudio) {
@@ -80,6 +74,19 @@ namespace NTMiner.Vms {
                             string location = NTMinerRegistry.GetLocation();
                             if (string.IsNullOrEmpty(location) || !File.Exists(location)) {
                                 location = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ntMinerFile);
+                            }
+                            try {
+                                if (File.Exists(location)) {
+                                    Guid kernelBrandId = ClientId.GetKernelBrandId(location);
+                                    if (kernelBrandId != Guid.Empty) {
+                                        Logger.InfoDebugLine("打码开始");
+                                        ClientId.TagKernelBrandId(kernelBrandId, saveFileFullName, saveFileFullName);
+                                        Logger.OkDebugLine("打码成功");
+                                    }
+                                }
+                            }
+                            catch (Exception e) {
+                                Logger.ErrorDebugLine(e.Message, e);
                             }
                             Logger.InfoDebugLine("复制开始");
                             File.Copy(saveFileFullName, location, overwrite: true);
@@ -101,7 +108,7 @@ namespace NTMiner.Vms {
                         });
                     }
                 }, cancel: out _cancel);
-            });
+            }, () => !IsDownloading);
             this.ShowHistory = new DelegateCommand(() => {
                 if (IsHistoryVisible == Visibility.Visible) {
                     IsHistoryVisible = Visibility.Collapsed;
@@ -259,14 +266,6 @@ namespace NTMiner.Vms {
         public string LocalNTMinerVersionTag {
             get {
                 return NTMinerRegistry.GetCurrentVersionTag();
-            }
-        }
-
-        public Visibility BtnCancelVisible {
-            get => _btnCancelVisible;
-            set {
-                _btnCancelVisible = value;
-                OnPropertyChanged(nameof(BtnCancelVisible));
             }
         }
 
