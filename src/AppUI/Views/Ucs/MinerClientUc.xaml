@@ -360,13 +360,13 @@
 		<Border Style="{StaticResource RowLine}"></Border>
 		<WrapPanel Style="{StaticResource Row}">
 			<WrapPanel Width="{StaticResource OneColWidth}">
-				<TextBlock Style="{StaticResource LblTb}">开机自动启动</TextBlock>
+				<TextBlock Style="{StaticResource LblTb}">开机启动</TextBlock>
 				<TextBlock 
 				Visibility="{Binding IsAutoBoot,Converter={StaticResource BoolToVisibilityConverter}}"
 				Text="是"></TextBlock>
 			</WrapPanel>
 			<WrapPanel>
-				<TextBlock Style="{StaticResource LblTb}">启动后自动开始挖矿</TextBlock>
+				<TextBlock Style="{StaticResource LblTb}">自动挖矿</TextBlock>
 				<TextBlock 
 				Visibility="{Binding IsAutoStart,Converter={StaticResource BoolToVisibilityConverter}}"
 				Text="是"></TextBlock>

@@ -47,7 +47,7 @@
 				IsChecked="{Binding IsAutoBoot}" />
 			<controls:KbCheckBox
 				Margin="0 2 0 0"
-				Content="启动后自动开始挖矿"
+				Content="自动挖矿"
 				IconColor="{StaticResource IconFillColor}"
 				IsChecked="{Binding IsAutoStart}" />
 		</StackPanel>

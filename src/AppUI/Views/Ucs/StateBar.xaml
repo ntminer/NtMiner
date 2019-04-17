@@ -31,7 +31,7 @@
 					IsChecked="{Binding MinerProfile.IsAutoBoot}" />
 					<controls:KbCheckBox
 					Margin="10 0 0 0"
-					Content="自动开始挖矿"
+					Content="自动挖矿"
 					IconColor="{StaticResource IconFillColor}"
 					IsChecked="{Binding MinerProfile.IsAutoStart}" />
 				</WrapPanel>
