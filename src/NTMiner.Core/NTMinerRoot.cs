@@ -59,29 +59,24 @@ namespace NTMiner {
                     DoInit(isWork: false, callback: callback);
                     return;
                 }
-                if (File.Exists(SpecialPath.ServerJsonFileFullName)) {
+                Logger.InfoDebugLine("开始下载server.json");
+                SpecialPath.GetAliyunServerJson((data) => {
+                    // 如果server.json未下载成功则不覆写本地server.json
+                    if (data != null && data.Length != 0) {
+                        Logger.InfoDebugLine("GetAliyunServerJson下载成功");
+                        var serverJson = Encoding.UTF8.GetString(data);
+                        if (!string.IsNullOrEmpty(serverJson)) {
+                            SpecialPath.WriteServerJsonFile(serverJson);
+                        }
+                        OfficialServer.GetJsonFileVersionAsync(AssemblyInfo.ServerJsonFileName, (jsonFileVersion) => {
+                            SetServerJsonVersion(jsonFileVersion);
+                        });
+                    }
+                    else {
+                        Logger.InfoDebugLine("GetAliyunServerJson下载失败");
+                    }
                     DoInit(isWork, callback);
-                }
-                else {
-                    Logger.InfoDebugLine("开始下载server.json");
-                    SpecialPath.GetAliyunServerJson((data) => {
-                        // 如果server.json未下载成功则不覆写本地server.json
-                        if (data != null && data.Length != 0) {
-                            Logger.InfoDebugLine("GetAliyunServerJson下载成功");
-                            var serverJson = Encoding.UTF8.GetString(data);
-                            if (!string.IsNullOrEmpty(serverJson)) {
-                                SpecialPath.WriteServerJsonFile(serverJson);
-                            }
-                            OfficialServer.GetJsonFileVersionAsync(AssemblyInfo.ServerJsonFileName, (jsonFileVersion) => {
-                                SetServerJsonVersion(jsonFileVersion);
-                            });
-                        }
-                        else {
-                            Logger.InfoDebugLine("GetAliyunServerJson下载失败");
-                        }
-                        DoInit(isWork, callback);
-                    });
-                }
+                });
                 #region 发生了用户活动时检查serverJson是否有新版本
                 VirtualRoot.On<UserActionEvent>("发生了用户活动时检查serverJson是否有新版本", LogEnum.DevConsole,
                     action: message => {
