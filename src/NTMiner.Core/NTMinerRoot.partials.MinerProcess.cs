@@ -21,7 +21,11 @@ namespace NTMiner {
                         Thread.Sleep(1000);
                         Logger.InfoDebugLine("解压内核包");
                         // 解压内核包
-                        mineContext.Kernel.ExtractPackage();
+                        if (!mineContext.Kernel.ExtractPackage()) {
+                            File.Delete(mineContext.Kernel.GetPackageFileFullName());
+                            VirtualRoot.Happened(new StartingMineFailedEvent("内核解压失败。"));
+                            return;
+                        }
 
                         Logger.InfoDebugLine("组装命令");
                         // 组装命令

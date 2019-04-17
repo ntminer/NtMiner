@@ -36,7 +36,7 @@ namespace NTMiner {
                 foreach (string file in Directory.GetFiles(SpecialPath.PackagesDirFullName)) {
                     FileInfo fileInfo = new FileInfo(file);
                     string fileName = Path.GetFileName(file);
-                    if (fileInfo.LastWriteTime.AddDays(2) < DateTime.Now && !packageFileNames.Contains(fileName)) {
+                    if (fileInfo.LastWriteTime.AddDays(30) < DateTime.Now && !packageFileNames.Contains(fileName)) {
                         File.Delete(file);
                         n++;
                     }

@@ -101,25 +101,27 @@ namespace NTMiner.Core.Kernels {
             return Path.Combine(SpecialPath.DownloadDirFullName, kernel.Package);
         }
 
-        public static void ExtractPackage(this IKernel kernel) {
+        public static bool ExtractPackage(this IKernel kernel) {
             try {
                 string kernelDir = GetKernelDirFullName(kernel);
                 if (string.IsNullOrEmpty(kernelDir)) {
-                    return;
+                    return false;
                 }
                 if (!Directory.Exists(kernelDir)) {
                     Directory.CreateDirectory(kernelDir);
                 }
                 string packageZipFileFullName = GetPackageFileFullName(kernel);
                 if (string.IsNullOrEmpty(packageZipFileFullName)) {
-                    return;
+                    return false;
                 }
                 if (File.Exists(packageZipFileFullName)) {
                     ZipUtil.DecompressZipFile(packageZipFileFullName, kernelDir);
                 }
+                return true;
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
+                return false;
             }
         }
     }
