@@ -3,42 +3,11 @@ using NTMiner.Bus.DirectBus;
 using NTMiner.Serialization;
 using System;
 using System.Diagnostics;
-using System.IO;
-using System.Text;
 using System.Timers;
 
 namespace NTMiner {
     public static partial class VirtualRoot {
         private static bool _sIsMinerStudio;
-
-        public static Guid KernelBrandId;
-
-        public static void TagKernelBrandId(Guid kernelBrandId, string inputFileFullName, string outFileFullName) {
-            string brand = $"KernelBrandId{kernelBrandId}KernelBrandId";
-            byte[] data = Encoding.UTF8.GetBytes(brand);
-            byte[] rawData = Encoding.UTF8.GetBytes($"KernelBrandId{KernelBrandId}KernelBrandId");
-            if (data.Length != rawData.Length) {
-                throw new InvalidProgramException();
-            }
-            byte[] source = File.ReadAllBytes(inputFileFullName);
-            int index = 0;
-            for (int i = 0; i < source.Length - rawData.Length; i++) {
-                int j = 0;
-                for (; j < rawData.Length; j++) {
-                    if (source[i + j] != rawData[j]) {
-                        break;
-                    }
-                }
-                if (j == rawData.Length) {
-                    index = i;
-                    break;
-                }
-            }
-            for (int i = index; i < index + data.Length; i++) {
-                source[i] = data[i - index];
-            }
-            File.WriteAllBytes(outFileFullName, source);
-        }
 
         public static string GlobalDirFullName { get; set; } = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "NTMiner");
         

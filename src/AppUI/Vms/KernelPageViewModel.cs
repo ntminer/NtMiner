@@ -68,7 +68,7 @@ namespace NTMiner.Vms {
                 string outFileName = Path.GetFileNameWithoutExtension(ClientId.AppFileFullName) + $"_{brandItem.Value}.exe";
                 string outDir = Path.GetDirectoryName(ClientId.AppFileFullName);
                 string outFileFullName = Path.Combine(outDir, outFileName);
-                VirtualRoot.TagKernelBrandId(brandItem.GetId(), ClientId.AppFileFullName, outFileFullName);
+                ClientId.TagKernelBrandId(brandItem.GetId(), ClientId.AppFileFullName, outFileFullName);
                 NotiCenterWindowViewModel.Current.Manager.ShowSuccessMessage($"打码成功:{outFileName}");
                 Process.Start(outDir);
             });
@@ -106,7 +106,7 @@ namespace NTMiner.Vms {
 
         public Visibility IsBrandVisible {
             get {
-                if (VirtualRoot.KernelBrandId != Guid.Empty) {
+                if (ClientId.KernelBrandId != Guid.Empty) {
                     return Visibility.Collapsed;
                 }
                 return Visibility.Visible;

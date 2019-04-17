@@ -122,7 +122,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Brand\BrandUtil.cs" />
     <Compile Include="Common\CommonUtil.cs" />
     <Compile Include="Daemon\DaemonUtil.cs" />
     <Compile Include="OhGodAnETHlargementPill\OhGodAnETHlargementPillUtil.cs" />
