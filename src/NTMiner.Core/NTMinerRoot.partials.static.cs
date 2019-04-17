@@ -18,8 +18,6 @@ namespace NTMiner {
     public partial class NTMinerRoot {
         public static IKernelDownloader KernelDownloader;
         public static Action RefreshArgsAssembly = () => { };
-        public static Guid KernelBrandId;
-        public static byte[] KernelBrandRaw = new byte[0];
 
         public static Func<System.Windows.Forms.Keys, bool> RegHotKey;
         public static string AppName;
@@ -34,32 +32,6 @@ namespace NTMiner {
             Assembly mainAssembly = Assembly.GetEntryAssembly();
             CurrentVersion = mainAssembly.GetName().Version;
             CurrentVersionTag = ((AssemblyDescriptionAttribute)mainAssembly.GetCustomAttributes(typeof(AssemblyDescriptionAttribute), inherit: false).First()).Description;
-        }
-
-        public static void TagKernelBrandId(Guid kernelBrandId, string inputFileFullName, string outFileFullName) {
-            string brand = $"KernelBrandId{kernelBrandId}KernelBrandId";
-            byte[] data = Encoding.UTF8.GetBytes(brand);
-            if (data.Length != KernelBrandRaw.Length) {
-                throw new InvalidProgramException();
-            }
-            byte[] source = File.ReadAllBytes(inputFileFullName);
-            int index = 0;
-            for (int i = 0; i < source.Length - KernelBrandRaw.Length; i++) {
-                int j = 0;
-                for (; j < KernelBrandRaw.Length; j++) {
-                    if (source[i + j] != KernelBrandRaw[j]) {
-                        break;
-                    }
-                }
-                if (j == KernelBrandRaw.Length) {
-                    index = i;
-                    break;
-                }
-            }
-            for (int i = index; i < index + data.Length; i++) {
-                source[i] = data[i - index];
-            }
-            File.WriteAllBytes(outFileFullName, source);
         }
 
         private static readonly NTMinerRoot SCurrent = new NTMinerRoot();
@@ -150,8 +122,8 @@ namespace NTMiner {
                             try {
                                 ServerJsonDb data = VirtualRoot.JsonSerializer.Deserialize<ServerJsonDb>(serverJson);
                                 _serverJson = data;
-                                if (KernelBrandId != Guid.Empty) {
-                                    var kernelToRemoves = data.Kernels.Where(a => a.BrandId != NTMinerRoot.KernelBrandId).ToArray();
+                                if (VirtualRoot.KernelBrandId != Guid.Empty) {
+                                    var kernelToRemoves = data.Kernels.Where(a => a.BrandId != VirtualRoot.KernelBrandId).ToArray();
                                     foreach (var item in kernelToRemoves) {
                                         data.Kernels.Remove(item);
                                     }
