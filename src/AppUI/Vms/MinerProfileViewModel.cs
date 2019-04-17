@@ -236,8 +236,8 @@ namespace NTMiner.Vms {
 
         public CoinViewModel CoinVm {
             get {
-                if (!CoinViewModels.Current.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
-                    coinVm = CoinViewModels.Current.AllCoins.FirstOrDefault();
+                if (!CoinViewModels.Current.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm) || !coinVm.IsSupported) {
+                    coinVm = CoinViewModels.Current.MainCoins.Where(a => a.IsSupported).FirstOrDefault();
                     if (coinVm != null) {
                         CoinId = coinVm.Id;
                     }
@@ -246,7 +246,7 @@ namespace NTMiner.Vms {
             }
             set {
                 if (value == null) {
-                    value = CoinViewModels.Current.MainCoins.OrderBy(a => a.SortNumber).FirstOrDefault();
+                    value = CoinViewModels.Current.MainCoins.Where(a => a.IsSupported).OrderBy(a => a.SortNumber).FirstOrDefault();
                 }
                 if (value != null) {
                     this.CoinId = value.Id;

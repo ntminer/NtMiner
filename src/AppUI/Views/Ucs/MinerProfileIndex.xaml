@@ -346,8 +346,7 @@
 					</WrapPanel>
 				</WrapPanel>
 
-				<WrapPanel                    
-					IsEnabled="{Binding MinerProfile.CoinVm.CoinKernel.IsSupportDualMine}"
+				<WrapPanel
 					Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
 					<StackPanel
 						Visibility="{Binding MinerProfile.CoinVm.CoinKernel.IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}">
