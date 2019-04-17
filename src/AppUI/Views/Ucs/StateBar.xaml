@@ -288,7 +288,7 @@
 					</WrapPanel>
 					<TextBlock Text="{x:Static vm:AppStatic.GpuSetInfo}" MaxWidth="260" ToolTip="{x:Static vm:AppStatic.GpuSetInfo}" Foreground="{StaticResource LableColor}"></TextBlock>
 					<Path
-						Margin="2 0 0 3"
+						Margin="2 0 2 3"
 						Width="16"
 						Height="14"
 						ToolTip="{Binding GpuStatusBarVm.GpuSetName}"
@@ -296,7 +296,6 @@
 						Fill="{Binding GpuStatusBarVm.IconFill}"
 						Stretch="Fill">
 					</Path>
-					<TextBlock Margin="0 0 2 0" Text="{Binding GpuStatusBarVm.GpuCountText}" Foreground="{StaticResource LableColor}"></TextBlock>
 				</WrapPanel>
 			</Grid>
 		</StackPanel>
