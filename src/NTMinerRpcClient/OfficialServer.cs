@@ -188,7 +188,7 @@ namespace NTMiner {
             #region GetNTMinerUpdaterUrlAsync
             // ReSharper disable once InconsistentNaming
             public void GetNTMinerUpdaterUrlAsync(Action<string, Exception> callback) {
-                PostAsync(SControllerName, nameof(IFileUrlController.NTMinerUpdaterUrl), null, callback);
+                PostAsync(SControllerName, nameof(IFileUrlController.NTMinerUpdaterUrl), null, callback, timeountMilliseconds: 2000);
             }
             #endregion
 

@@ -186,10 +186,7 @@ namespace NTMiner.Vms {
                 }
                 OfficialServer.FileUrlService.GetNTMinerUpdaterUrlAsync((downloadFileUrl, e) => {
                     try {
-                        if (string.IsNullOrEmpty(downloadFileUrl)) {
-                            callback?.Invoke();
-                            return;
-                        }
+                        string ntMinerUpdaterFileFullName = Path.Combine(updaterDirFullName, "NTMinerUpdater.exe");
                         string argument = string.Empty;
                         if (!string.IsNullOrEmpty(ntminerFileName)) {
                             argument = "ntminerFileName=" + ntminerFileName;
@@ -197,7 +194,13 @@ namespace NTMiner.Vms {
                         if (VirtualRoot.IsMinerStudio) {
                             argument += " --minerstudio";
                         }
-                        string ntMinerUpdaterFileFullName = Path.Combine(updaterDirFullName, "NTMinerUpdater.exe");
+                        if (string.IsNullOrEmpty(downloadFileUrl)) {
+                            if (File.Exists(ntMinerUpdaterFileFullName)) {
+                                Windows.Cmd.RunClose(ntMinerUpdaterFileFullName, argument);
+                            }                            
+                            callback?.Invoke();
+                            return;
+                        }
                         Uri uri = new Uri(downloadFileUrl);
                         string updaterVersion = string.Empty;
                         if (NTMinerRoot.Current.LocalAppSettingSet.TryGetAppSetting("UpdaterVersion", out IAppSetting appSetting) && appSetting.Value != null) {
