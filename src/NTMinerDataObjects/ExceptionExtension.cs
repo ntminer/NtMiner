@@ -9,7 +9,7 @@ namespace NTMiner {
             return GetInnerException(e).Message;
         }
 
-        private static Exception GetInnerException(Exception e) {
+        public static Exception GetInnerException(this Exception e) {
             if (e == null) {
                 return null;
             }

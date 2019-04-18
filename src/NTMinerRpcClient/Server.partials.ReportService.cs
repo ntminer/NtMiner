@@ -15,25 +15,33 @@ namespace NTMiner {
 
             public void ReportSpeedAsync(string host, SpeedData data) {
                 Task.Factory.StartNew(() => {
+                    TimeSpan timeSpan = TimeSpan.FromSeconds(3);
                     try {
                         using (HttpClient client = new HttpClient()) {
                             // TODO:可能超过3秒钟，查查原因。因为我的网络不稳经常断线。
-                            client.Timeout = TimeSpan.FromSeconds(3);
+                            client.Timeout = timeSpan;
                             Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{host}:{WebApiConst.ControlCenterPort}/api/{SControllerName}/{nameof(IReportController.ReportSpeed)}", data);
                             Write.DevDebug($"{nameof(ReportSpeedAsync)} {message.Result.ReasonPhrase}");
                         }
                     }
                     catch (Exception e) {
-                        Logger.ErrorDebugLine(e.GetInnerMessage(), e);
+                        e = e.GetInnerException();
+                        if (e is TaskCanceledException) {
+                            Write.DevError($"本次ReportSpeedAsync已取消，因为耗时超过{timeSpan.TotalSeconds}秒");
+                        }
+                        else {
+                            Logger.ErrorDebugLine(e.Message, e);
+                        }
                     }
                 });
             }
 
             public void ReportStateAsync(string host, Guid clientId, bool isMining) {
                 Task.Factory.StartNew(() => {
+                    TimeSpan timeSpan = TimeSpan.FromSeconds(3);
                     try {
                         using (HttpClient client = new HttpClient()) {
-                            client.Timeout = TimeSpan.FromSeconds(3);
+                            client.Timeout = timeSpan;
                             ReportState request = new ReportState {
                                 ClientId = clientId,
                                 IsMining = isMining
@@ -43,7 +51,13 @@ namespace NTMiner {
                         }
                     }
                     catch (Exception e) {
-                        Logger.ErrorDebugLine(e.GetInnerMessage(), e);
+                        e = e.GetInnerException();
+                        if (e is TaskCanceledException) {
+                            Write.DevError($"本次ReportStateAsync已取消，因为耗时超过{timeSpan.TotalSeconds}秒");
+                        }
+                        else {
+                            Logger.ErrorDebugLine(e.Message, e);
+                        }
                     }
                 });
             }
