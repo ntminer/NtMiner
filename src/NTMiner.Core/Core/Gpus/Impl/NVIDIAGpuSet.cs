@@ -43,8 +43,10 @@ namespace NTMiner.Core.Gpus.Impl {
                         NvmlNativeMethods.nvmlDeviceGetName(nvmlDevice, out string name);
                         nvmlMemory memory = new nvmlMemory();
                         NvmlNativeMethods.nvmlDeviceGetMemoryInfo(nvmlDevice, ref memory);
+                        // short gpu name
                         if (!string.IsNullOrEmpty(name)) {
                             name = name.Replace("GeForce GTX ", string.Empty);
+                            name = name.Replace("GeForce ", string.Empty);
                         }
                         Gpu gpu = Gpu.Create(i, name);
                         gpu.TotalMemory = memory.total;

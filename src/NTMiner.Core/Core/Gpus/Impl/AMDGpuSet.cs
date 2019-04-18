@@ -37,6 +37,7 @@ namespace NTMiner.Core.Gpus.Impl {
             deviceCount = adlHelper.GpuCount;
             for (int i = 0; i < deviceCount; i++) {
                 string name = adlHelper.GetGpuName(i);
+                // short gpu name
                 if (!string.IsNullOrEmpty(name)) {
                     name = name.Replace("Radeon (TM) RX ", string.Empty);
                     name = name.Replace("Radeon RX ", string.Empty);

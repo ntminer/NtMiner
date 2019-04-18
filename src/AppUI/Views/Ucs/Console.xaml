@@ -22,7 +22,7 @@
 			</Grid.RowDefinitions>
 			<TextBox 
 				FontFamily="Courier New"
-				Text="做好用的集成挖矿客户端。QQ群863725136"
+				Text="做好用的集成挖矿客户端。QQ群863725136 https://github.com/ntminer/ntminer"
 				ToolTip="简介"
 				BorderThickness="0" AcceptsReturn="True" 
 				TextWrapping="Wrap" IsReadOnly="True" 
