@@ -82,7 +82,7 @@
 					TextWrapping="Wrap"
 					AcceptsReturn="True"
 					BorderThickness="0"
-					Padding="4 2 16 2"
+					Padding="0 2 16 2"
 					Foreground="Yellow"
 					IsReadOnly="True" 
 					Text="{Binding MinerProfile.CoinVm.Notice, Mode=OneWay}"></TextBox>
@@ -102,7 +102,7 @@
 					TextWrapping="Wrap"
 					AcceptsReturn="True"
 					BorderThickness="0"
-					Padding="4 2 16 2"
+					Padding="0 2 16 2"
 					Foreground="Yellow"
 					IsReadOnly="True" 
 					Text="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.Notice, Mode=OneWay}"></TextBox>
@@ -124,7 +124,7 @@
 							TextWrapping="Wrap"
 							AcceptsReturn="True"
 							BorderThickness="0"
-							Padding="4 2 16 2"
+							Padding="0 2 16 2"
 							Foreground="Yellow"
 							IsReadOnly="True" 
 							Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.Notice, Mode=OneWay}"></TextBox>
@@ -149,7 +149,7 @@
 						Visibility="{Binding MinerProfile.CoinVm.CoinKernel.Notice,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
 						BorderThickness="0" AcceptsReturn="True" 
 						TextWrapping="Wrap" IsReadOnly="True" 
-						Padding="4 2 0 2" Foreground="Yellow">
+						Padding="0 2 0 2" Foreground="Yellow">
 					</TextBox>
 					<TextBox 
 						FontFamily="Courier New"
