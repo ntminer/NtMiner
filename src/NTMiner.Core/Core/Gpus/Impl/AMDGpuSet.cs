@@ -37,12 +37,16 @@ namespace NTMiner.Core.Gpus.Impl {
             deviceCount = adlHelper.GpuCount;
             for (int i = 0; i < deviceCount; i++) {
                 string name = adlHelper.GetGpuName(i);
+                if (!string.IsNullOrEmpty(name)) {
+                    name = name.Replace("Radeon (TM) RX ", string.Empty);
+                    name = name.Replace("Radeon RX ", string.Empty);
+                }
                 var gpu = Gpu.Create(i, name);
                 gpu.TotalMemory = adlHelper.GetTotalMemory(i);
                 _gpus.Add(i, gpu);
             }
             if (deviceCount > 0) {
-                this.Properties.Add(new GpuSetProperty("DriverVersion", "driver version", GetDriverVersion()));
+                this.Properties.Add(new GpuSetProperty(GpuSetProperty.DRIVER_VERSION, "驱动版本", DriverVersion));
                 Dictionary<string, string> kvs = new Dictionary<string, string> {
                     {"GPU_FORCE_64BIT_PTR","0" },
                     {"GPU_MAX_ALLOC_PERCENT","100" },
@@ -60,19 +64,6 @@ namespace NTMiner.Core.Gpus.Impl {
                     }
                 });
             }
-        }
-
-        public string GetDriverVersion() {
-            try {
-                ManagementObjectSearcher videos = new ManagementObjectSearcher("select DriverVersion from Win32_VideoController");
-                foreach (var obj in videos.Get()) {
-                    return obj["DriverVersion"]?.ToString();
-                }
-            }
-            catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
-            }
-            return "0.0";
         }
 
         public void LoadGpuState() {
@@ -97,6 +88,21 @@ namespace NTMiner.Core.Gpus.Impl {
             get {
                 return GpuType.AMD;
             }
+        }
+
+        public string DriverVersion { get; private set; } = GetDriverVersion();
+
+        private static string GetDriverVersion() {
+            try {
+                ManagementObjectSearcher videos = new ManagementObjectSearcher("select DriverVersion from Win32_VideoController");
+                foreach (var obj in videos.Get()) {
+                    return obj[GpuSetProperty.DRIVER_VERSION]?.ToString();
+                }
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+            }
+            return "0.0";
         }
 
         public bool TryGetGpu(int index, out IGpu gpu) {

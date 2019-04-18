@@ -41,6 +41,10 @@ namespace NTMiner.Core.Gpus {
 
         public IOverClock OverClock { get; private set; } = new EmptyOverClock();
 
+        public string DriverVersion {
+            get { return "0.0"; }
+        }
+
         public string GetProperty(string key) {
             return string.Empty;
         }

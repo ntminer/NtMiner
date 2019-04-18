@@ -15,6 +15,7 @@ namespace NTMiner.Core.Gpus.Impl {
         };
 
         private readonly INTMinerRoot _root;
+        private readonly string _driverVersion;
 
         public int Count {
             get {
@@ -43,19 +44,19 @@ namespace NTMiner.Core.Gpus.Impl {
                         nvmlMemory memory = new nvmlMemory();
                         NvmlNativeMethods.nvmlDeviceGetMemoryInfo(nvmlDevice, ref memory);
                         if (!string.IsNullOrEmpty(name)) {
-                            name = name.Replace("GeForce ", string.Empty);
+                            name = name.Replace("GeForce GTX ", string.Empty);
                         }
                         Gpu gpu = Gpu.Create(i, name);
                         gpu.TotalMemory = memory.total;
                         _gpus.Add(i, gpu);
                     }
                     if (deviceCount > 0) {
-                        NvmlNativeMethods.nvmlSystemGetDriverVersion(out string driverVersion);
+                        NvmlNativeMethods.nvmlSystemGetDriverVersion(out _driverVersion);
                         NvmlNativeMethods.nvmlSystemGetNVMLVersion(out string nvmlVersion);
-                        this.Properties.Add(new GpuSetProperty("DriverVersion", "驱动版本", driverVersion));
+                        this.Properties.Add(new GpuSetProperty(GpuSetProperty.DRIVER_VERSION, "驱动版本", _driverVersion));
                         try {
                             double driverVersionNum;
-                            if (double.TryParse(driverVersion, out driverVersionNum)) {
+                            if (double.TryParse(_driverVersion, out driverVersionNum)) {
                                 var item = root.SysDicItemSet.GetSysDicItems("CudaVersion")
                                     .Select(a => new { Version = double.Parse(a.Value), a })
                                     .OrderByDescending(a => a.Version)
@@ -145,6 +146,10 @@ namespace NTMiner.Core.Gpus.Impl {
             get {
                 return GpuType.NVIDIA;
             }
+        }
+
+        public string DriverVersion {
+            get { return _driverVersion; }
         }
 
         public bool TryGetGpu(int index, out IGpu gpu) {
