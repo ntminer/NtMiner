@@ -17,7 +17,8 @@ namespace NTMiner {
                 Task.Factory.StartNew(() => {
                     try {
                         using (HttpClient client = new HttpClient()) {
-                            client.Timeout = TimeSpan.FromSeconds(3);
+                            // TODO:可能超过3秒钟，查查原因
+                            client.Timeout = TimeSpan.FromSeconds(10);
                             Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{host}:{WebApiConst.ControlCenterPort}/api/{SControllerName}/{nameof(IReportController.ReportSpeed)}", data);
                             Write.DevDebug($"{nameof(ReportSpeedAsync)} {message.Result.ReasonPhrase}");
                         }
@@ -32,7 +33,7 @@ namespace NTMiner {
                 Task.Factory.StartNew(() => {
                     try {
                         using (HttpClient client = new HttpClient()) {
-                            client.Timeout = TimeSpan.FromSeconds(3);
+                            client.Timeout = TimeSpan.FromSeconds(10);
                             ReportState request = new ReportState {
                                 ClientId = clientId,
                                 IsMining = isMining
