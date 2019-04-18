@@ -216,6 +216,16 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
+				<MenuItem Header="虚拟内存" Command="{x:Static vm:AppStatic.ShowVirtualMemory}">
+					<MenuItem.Icon>
+						<Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_VirtualMemory}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
 				<MenuItem Header="在线更新" Command="{x:Static vm:AppStatic.ShowOnlineUpdate}">
 					<MenuItem.Icon>
 						<Path

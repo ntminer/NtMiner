@@ -112,6 +112,15 @@
 							<TextBlock Text="{Binding GpuStatusBarVm.GpuAllVm.PowerUsageWText}" Padding="0" HorizontalAlignment="Left" />
 						</WrapPanel>
 					</WrapPanel>
+					<Path
+						Margin="2 0 2 3"
+						Width="16"
+						Height="14"
+						ToolTip="{Binding GpuStatusBarVm.GpuSetName}"
+						Data="{Binding GpuStatusBarVm.Icon}"
+						Fill="{Binding GpuStatusBarVm.IconFill}"
+						Stretch="Fill">
+					</Path>
 				</WrapPanel>
 			</Grid>
 			<StackPanel HorizontalAlignment="Right">
@@ -296,15 +305,6 @@
 						<TextBlock Text=" / " Foreground="{StaticResource LableColor}"></TextBlock>
 					</WrapPanel>
 					<TextBlock Text="{x:Static vm:AppStatic.GpuSetInfo}" MaxWidth="260" ToolTip="{x:Static vm:AppStatic.GpuSetInfo}" Foreground="{StaticResource LableColor}"></TextBlock>
-					<Path
-						Margin="2 0 2 3"
-						Width="16"
-						Height="14"
-						ToolTip="{Binding GpuStatusBarVm.GpuSetName}"
-						Data="{Binding GpuStatusBarVm.Icon}"
-						Fill="{Binding GpuStatusBarVm.IconFill}"
-						Stretch="Fill">
-					</Path>
 				</WrapPanel>
 			</Grid>
 		</StackPanel>
