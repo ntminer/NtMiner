@@ -7,7 +7,6 @@ namespace NTMiner.Core {
         Guid KernelId { get; }
         int SortNumber { get; }
         string Args { get; }
-        string Description { get; }
         Guid DualCoinGroupId { get; }
         SupportedGpu SupportedGpu { get; }
         string Notice { get; }

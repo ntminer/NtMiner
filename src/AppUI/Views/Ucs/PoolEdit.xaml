@@ -57,17 +57,18 @@
 						</WrapPanel>
 
 						<WrapPanel Margin="0 2">
-							<TextBlock Style="{StaticResource LblTb}">简介:</TextBlock>
+							<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top">通知:</TextBlock>
 							<TextBox 
 								Width="420" Background="Transparent" Padding="0 4"
 								IsReadOnly="{Binding IsReadOnly}"
 								AcceptsReturn="True" TextWrapping="Wrap" 
 								VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
-								Text="{Binding Description, Mode=TwoWay}" Height="100">
+								Text="{Binding Notice, Mode=TwoWay}" Height="100">
 							</TextBox>
 						</WrapPanel>
 						<WrapPanel Margin="0 2" HorizontalAlignment="Right" Height="26">
 							<controls:KbCheckBox
+								VerticalAlignment="Center"
 								Content="用户名密码模式"
 								IsEnabled="{Binding IsReadOnly, Converter={StaticResource BoolInvertConverter}}"
 								IconColor="{StaticResource IconFillColor}"

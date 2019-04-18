@@ -26,8 +26,6 @@ namespace NTMiner.Core {
 
         public string Args { get; set; }
 
-        public string Description { get; set; }
-
         public string Notice { get; set; }
 
         public List<EnvironmentVariable> EnvironmentVariables { get; set; }

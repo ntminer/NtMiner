@@ -69,7 +69,6 @@
     <Compile Include="Converters\BoolToBrushConverter.cs" />
     <Compile Include="Converters\BoolToHiddenInvertConverter.cs" />
     <Compile Include="Converters\NoRecordInvertVisibilityConverter.cs" />
-    <Compile Include="Converters\TextIndentConverter.cs" />
     <Compile Include="Converters\BoolInvertConverter.cs" />
     <Compile Include="Converters\BoolToHiddenConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />

@@ -16,7 +16,5 @@ namespace NTMiner.Core {
         public Guid KernelId { get; set; }
 
         public string Args { get; set; }
-
-        public string Description { get; set; }
     }
 }

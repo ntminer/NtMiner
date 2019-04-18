@@ -64,7 +64,6 @@ namespace NTMiner.Views.Ucs {
                         VirtualRoot.Execute(new AddCoinKernelCommand(new CoinKernelViewModel(Guid.NewGuid()) {
                             Args = string.Empty,
                             CoinId = coinVm.Id,
-                            Description = string.Empty,
                             KernelId = selectedResult.Id,
                             SortNumber = sortNumber
                         }));

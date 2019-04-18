@@ -10,7 +10,6 @@ namespace NTMiner.Vms {
         private Guid _poolId;
         private Guid _kernelId;
         private string _args;
-        private string _description;
         public ICommand Edit { get; private set; }
         public ICommand Save { get; private set; }
 
@@ -20,7 +19,6 @@ namespace NTMiner.Vms {
             _poolId = data.PoolId;
             _kernelId = data.KernelId;
             _args = data.Args;
-            _description = data.Description;
         }
 
         public PoolKernelViewModel(Guid id) {
@@ -126,16 +124,6 @@ namespace NTMiner.Vms {
                     if (MinerProfileViewModel.Current.CoinId == this.PoolVm.CoinId) {
                         NTMinerRoot.RefreshArgsAssembly.Invoke();
                     }
-                }
-            }
-        }
-
-        public string Description {
-            get => _description;
-            set {
-                if (_description != value) {
-                    _description = value;
-                    OnPropertyChanged(nameof(Description));
                 }
             }
         }

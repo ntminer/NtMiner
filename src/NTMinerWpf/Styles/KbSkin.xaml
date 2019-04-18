@@ -5,7 +5,6 @@
 	<converters:TrueTransparentElseWhiteConverter x:Key="TrueTransparentElseWhiteConverter"></converters:TrueTransparentElseWhiteConverter>
 	<converters:NoRecordVisibilityConverter x:Key="NoRecordVisibilityConverter" />
 	<converters:NoRecordInvertVisibilityConverter x:Key="NoRecordInvertVisibilityConverter"></converters:NoRecordInvertVisibilityConverter>
-	<converters:TextIndentConverter x:Key="TextIndentConverter" />
 	<converters:NotNullOrEmptyVisibilityConverter x:Key="NotNullOrEmptyVisibilityConverter" />
 	<converters:NotNullOrEmptyVisibilityInvertConverter x:Key="NotNullOrEmptyVisibilityInvertConverter" />
 	<converters:NotNullOrEmptyBooleanConverter x:Key="NotNullOrEmptyBooleanConverter" />

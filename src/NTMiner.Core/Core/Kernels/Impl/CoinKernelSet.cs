@@ -42,7 +42,6 @@ namespace NTMiner.Core.Kernels.Impl {
                             var poolKernel = new PoolKernelData() {
                                 Id = poolKernelId,
                                 Args = string.Empty,
-                                Description = string.Empty,
                                 KernelId = message.Input.KernelId,
                                 PoolId = pool.GetId()
                             };

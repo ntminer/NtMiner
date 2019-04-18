@@ -14,7 +14,6 @@ namespace NTMiner.Core {
             this.Server = data.Server;
             this.Url = data.Url;
             this.SortNumber = data.SortNumber;
-            this.Description = data.Description;
             this.IsUserMode = data.IsUserMode;
             this.UserName = data.UserName;
             this.Password = data.Password;
@@ -44,8 +43,6 @@ namespace NTMiner.Core {
 
         public int SortNumber { get; set; }
 
-        public string Description { get; set; }
-
         public bool IsUserMode { get; set; }
 
         public string UserName { get; set; }
@@ -63,7 +60,6 @@ namespace NTMiner.Core {
                 .Append(nameof(Server)).Append(Server)
                 .Append(nameof(Url)).Append(Url)
                 .Append(nameof(SortNumber)).Append(SortNumber)
-                .Append(nameof(Description)).Append(Description)
                 .Append(nameof(IsUserMode)).Append(IsUserMode)
                 .Append(nameof(UserName)).Append(UserName)
                 .Append(nameof(Password)).Append(Password)

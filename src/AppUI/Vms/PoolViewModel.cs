@@ -24,7 +24,6 @@ namespace NTMiner.Vms {
         private string _server;
         private string _url;
         private int _sortNumber;
-        private string _description;
         private string _notice;
         private string _userName;
         private string _passWord;
@@ -59,7 +58,6 @@ namespace NTMiner.Vms {
             _server = data.Server;
             _url = data.Url;
             _sortNumber = data.SortNumber;
-            _description = data.Description;
             _notice = data.Notice;
             _userName = data.UserName;
             _passWord = data.Password;
@@ -272,16 +270,6 @@ namespace NTMiner.Vms {
                 if (_sortNumber != value) {
                     _sortNumber = value;
                     OnPropertyChanged(nameof(SortNumber));
-                }
-            }
-        }
-
-        public string Description {
-            get => _description;
-            set {
-                if (_description != value) {
-                    _description = value;
-                    OnPropertyChanged(nameof(Description));
                 }
             }
         }

@@ -228,7 +228,6 @@
 							Height="30"
 							Width="136"
 							Background="{Binding StateBarVm.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
-							ToolTip="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.Description}"
 							IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}"
 							VerticalContentAlignment="Center" 
 							Text="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.PoolProfileVm.UserName}">
@@ -251,7 +250,6 @@
 							Height="30"
 							Width="114"
 							Background="{Binding StateBarVm.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
-							ToolTip="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.Description}"
 							IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}"
 							VerticalContentAlignment="Center" 
 							Text="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.PoolProfileVm.Password}">

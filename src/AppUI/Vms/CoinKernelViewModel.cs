@@ -15,7 +15,6 @@ namespace NTMiner.Vms {
         private int _sortNumber;
         private Guid _dualCoinGroupId;
         private string _args;
-        private string _description;
         private string _notice;
         private SupportedGpu _supportedGpu;
         private GroupViewModel _selectedDualCoinGroup;
@@ -55,7 +54,6 @@ namespace NTMiner.Vms {
             _sortNumber = data.SortNumber;
             _dualCoinGroupId = data.DualCoinGroupId;
             _args = data.Args;
-            _description = data.Description;
             _notice = data.Notice;
             _supportedGpu = data.SupportedGpu;
             // 复制，视为值对象，防止直接修改引用
@@ -277,16 +275,6 @@ namespace NTMiner.Vms {
                 if (_args != value) {
                     _args = value;
                     OnPropertyChanged(nameof(Args));
-                }
-            }
-        }
-
-        public string Description {
-            get => _description;
-            set {
-                if (_description != value) {
-                    _description = value;
-                    OnPropertyChanged(nameof(Description));
                 }
             }
         }

@@ -146,7 +146,6 @@ namespace NTMiner.Vms {
                 VirtualRoot.Execute(new AddCoinKernelCommand(new CoinKernelViewModel(Guid.NewGuid()) {
                     Args = string.Empty,
                     CoinId = coinVm.Id,
-                    Description = string.Empty,
                     KernelId = this.Id,
                     SortNumber = sortNumber
                 }));
@@ -333,7 +332,6 @@ namespace NTMiner.Vms {
                     _code = value;
                     OnPropertyChanged(nameof(Code));
                     OnPropertyChanged(nameof(FullName));
-                    OnPropertyChanged(nameof(KernelNotice));
                     if (this == Empty) {
                         return;
                     }
@@ -385,7 +383,6 @@ namespace NTMiner.Vms {
                     _version = value;
                     OnPropertyChanged(nameof(Version));
                     OnPropertyChanged(nameof(FullName));
-                    OnPropertyChanged(nameof(KernelNotice));
                     if (this == Empty) {
                         return;
                     }
@@ -538,17 +535,7 @@ namespace NTMiner.Vms {
                 if (_notice != value) {
                     _notice = value;
                     OnPropertyChanged(nameof(Notice));
-                    OnPropertyChanged(nameof(KernelNotice));
                 }
-            }
-        }
-
-        public string KernelNotice {
-            get {
-                if (string.IsNullOrEmpty(this.Notice)) {
-                    return this.FullName;
-                }
-                return $"{this.FullName}：{this.Notice}";
             }
         }
 

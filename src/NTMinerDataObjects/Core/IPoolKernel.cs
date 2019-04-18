@@ -5,6 +5,5 @@ namespace NTMiner.Core {
         Guid PoolId { get; }
         Guid KernelId { get; }
         string Args { get; }
-        string Description { get; }
     }
 }

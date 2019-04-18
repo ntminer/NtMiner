@@ -52,17 +52,8 @@
 						Stretch="Fill" />
 				</controls:KbButton>
 			</WrapPanel>
-			<StackPanel Grid.Row="1">
-				<TextBox 
-					FontFamily="Courier New"
-					Padding="4 2"
-					TextWrapping="Wrap"
-					AcceptsReturn="True"
-					BorderThickness="0"
-					Foreground="Yellow"
-					Visibility="{Binding MinerProfile.CoinVm.Notice, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
-					IsReadOnly="True" 
-					Text="{Binding MinerProfile.CoinVm.Notice, Mode=OneWay}"></TextBox>
+			<WrapPanel Grid.Row="1" Visibility="{Binding MinerProfile.IsShowCommandLine, Converter={StaticResource BoolToVisibilityConverter}}">
+				<TextBlock Foreground="LightGray" VerticalAlignment="Top">></TextBlock>
 				<TextBox 
 					FontFamily="Courier New"
 					Padding="4 2"
@@ -70,37 +61,66 @@
 					TextWrapping="Wrap"
 					AcceptsReturn="True"
 					BorderThickness="0"
-					Foreground="LightGray"
-					Visibility="{Binding MinerProfile.IsShowCommandLine, Converter={StaticResource BoolToVisibilityConverter}}"
+					Foreground="LightGray"						
 					IsReadOnly="True" 
 					Text="{Binding MinerProfile.ArgsAssembly, Mode=OneWay}"></TextBox>
-			</StackPanel>
+			</WrapPanel>
 		</Grid>
-		<Path
-			Grid.Row="1"
-			Margin="4 2 0 0"
-			HorizontalAlignment="Left"
-			VerticalAlignment="Top"
-			Width="14"
-			Height="14"
-			Data="{StaticResource Icon_Notice}"
-			Fill="Yellow"
-			Stretch="Fill" />
-		<TextBox 
-			Grid.Row="1"
-			FontFamily="Courier New"
-			ToolTip="内核公告"
-			Text="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.KernelNotice, Mode=OneWay, Converter={StaticResource TextIndentConverter}}"
-			BorderThickness="0" AcceptsReturn="True" 
-			TextWrapping="Wrap" IsReadOnly="True" 
-			Padding="4 2 16 2" Foreground="Yellow">
-		</TextBox>
+		<StackPanel Grid.Row="1">
+			<WrapPanel Visibility="{Binding MinerProfile.CoinVm.Notice, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
+				<Path
+					Margin="2 2 2 0"
+					VerticalAlignment="Top"
+					Width="14"
+					Height="14"
+					Data="{StaticResource Icon_Notice}"
+					Fill="LightGray"
+					Stretch="Fill" />
+				<TextBlock Foreground="LightGray" VerticalAlignment="Top" Text="{Binding MinerProfile.CoinVm.Code}"></TextBlock>
+				<TextBox 
+					FontFamily="Courier New"
+					TextWrapping="Wrap"
+					AcceptsReturn="True"
+					BorderThickness="0"
+					Padding="4 2 16 2"
+					Foreground="Yellow"
+					IsReadOnly="True" 
+					Text="{Binding MinerProfile.CoinVm.Notice, Mode=OneWay}"></TextBox>
+			</WrapPanel>
+			<WrapPanel>
+				<Path
+					Margin="2 2 2 0"
+					VerticalAlignment="Top"
+					Width="14"
+					Height="14"
+					Data="{StaticResource Icon_Notice}"
+					Fill="LightGray"
+					Stretch="Fill" />
+				<TextBlock Foreground="LightGray" VerticalAlignment="Top" Text="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.FullName, Mode=OneWay}"></TextBlock>
+				<TextBox 
+					FontFamily="Courier New"
+					ToolTip="内核公告"
+					Text="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.Notice, Mode=OneWay}"
+					BorderThickness="0" AcceptsReturn="True" 
+					TextWrapping="Wrap" IsReadOnly="True" 
+					Padding="4 2 0 2" Foreground="Yellow">
+				</TextBox>
+				<TextBox 
+					FontFamily="Courier New"
+					ToolTip="币种内核公告"
+					Text="{Binding MinerProfile.CoinVm.CoinKernel.Notice, Mode=OneWay}"
+					BorderThickness="0" AcceptsReturn="True" 
+					TextWrapping="Wrap" IsReadOnly="True" 
+					Padding="0 2 16 2" Foreground="Yellow">
+				</TextBox>
+			</WrapPanel>
+		</StackPanel>
 		<controls:KbCheckBox 
+			x:Name="ChkbIsConsoleAutoScrollToEnd"
 			Grid.Row="1"
 			Width="16"
 			HorizontalAlignment="Right"
 			VerticalAlignment="Bottom"
-			x:Name="ChkbIsConsoleAutoScrollToEnd"
 			ToolTip="自动滚屏"
 			IconColor="{StaticResource IconFillColor}"
 			IsChecked="True" />

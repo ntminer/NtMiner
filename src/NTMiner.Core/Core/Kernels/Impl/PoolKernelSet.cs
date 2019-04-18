@@ -89,7 +89,6 @@ namespace NTMiner.Core.Kernels.Impl {
                                 _dicById.Add(poolKernelId, new PoolKernelData() {
                                     Id = poolKernelId,
                                     Args = string.Empty,
-                                    Description = string.Empty,
                                     KernelId = coinKernel.KernelId,
                                     PoolId = pool.GetId()
                                 });

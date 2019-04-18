@@ -115,13 +115,13 @@
 		</WrapPanel>
 
 		<WrapPanel Margin="0 2">
-			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="备注"></TextBlock>
+			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="通知"></TextBlock>
 			<TextBox 
 				Width="436" Background="Transparent"
 				IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
 				AcceptsReturn="True" TextWrapping="Wrap" 
 				VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
-				Text="{Binding Description, Mode=TwoWay}" Height="60">                
+				Text="{Binding Notice, Mode=TwoWay}" Height="60">                
 			</TextBox>
 		</WrapPanel>
 		<WrapPanel Margin="0 2" Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
