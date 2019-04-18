@@ -11,5 +11,6 @@ namespace NTMiner.Core {
         bool IsUserMode { get; }
         string UserName { get; }
         string Password { get; }
+        string Notice { get; }
     }
 }

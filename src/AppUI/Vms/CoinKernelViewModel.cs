@@ -16,6 +16,7 @@ namespace NTMiner.Vms {
         private Guid _dualCoinGroupId;
         private string _args;
         private string _description;
+        private string _notice;
         private SupportedGpu _supportedGpu;
         private GroupViewModel _selectedDualCoinGroup;
         private List<EnvironmentVariable> _environmentVariables = new List<EnvironmentVariable>();
@@ -55,6 +56,7 @@ namespace NTMiner.Vms {
             _dualCoinGroupId = data.DualCoinGroupId;
             _args = data.Args;
             _description = data.Description;
+            _notice = data.Notice;
             _supportedGpu = data.SupportedGpu;
             // 复制，视为值对象，防止直接修改引用
             _environmentVariables.AddRange(data.EnvironmentVariables.Select(a => new EnvironmentVariable(a)));
@@ -285,6 +287,16 @@ namespace NTMiner.Vms {
                 if (_description != value) {
                     _description = value;
                     OnPropertyChanged(nameof(Description));
+                }
+            }
+        }
+
+        public string Notice {
+            get { return _notice; }
+            set {
+                if (_notice != value) {
+                    _notice = value;
+                    OnPropertyChanged(nameof(Notice));
                 }
             }
         }

@@ -10,6 +10,7 @@ namespace NTMiner.Core {
         string Description { get; }
         Guid DualCoinGroupId { get; }
         SupportedGpu SupportedGpu { get; }
+        string Notice { get; }
         List<EnvironmentVariable> EnvironmentVariables { get; }
         List<InputSegment> InputSegments { get; }
     }

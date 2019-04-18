@@ -28,6 +28,8 @@ namespace NTMiner.Core {
 
         public string Description { get; set; }
 
+        public string Notice { get; set; }
+
         public List<EnvironmentVariable> EnvironmentVariables { get; set; }
 
         public List<InputSegment> InputSegments { get; set; }

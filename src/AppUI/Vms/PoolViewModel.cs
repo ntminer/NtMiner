@@ -25,6 +25,7 @@ namespace NTMiner.Vms {
         private string _url;
         private int _sortNumber;
         private string _description;
+        private string _notice;
         private string _userName;
         private string _passWord;
         private bool _isUserMode;
@@ -59,6 +60,7 @@ namespace NTMiner.Vms {
             _url = data.Url;
             _sortNumber = data.SortNumber;
             _description = data.Description;
+            _notice = data.Notice;
             _userName = data.UserName;
             _passWord = data.Password;
             _isUserMode = data.IsUserMode;
@@ -280,6 +282,16 @@ namespace NTMiner.Vms {
                 if (_description != value) {
                     _description = value;
                     OnPropertyChanged(nameof(Description));
+                }
+            }
+        }
+
+        public string Notice {
+            get { return _notice; }
+            set {
+                if (_notice != value) {
+                    _notice = value;
+                    OnPropertyChanged(nameof(Notice));
                 }
             }
         }
