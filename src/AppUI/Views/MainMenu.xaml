@@ -17,7 +17,7 @@
 					<Path
 						Width="14"
 						Height="14"
-						Data="{StaticResource Icon_Logo}"
+						Data="{StaticResource Icon_Developer}"
 						Fill="{StaticResource ThemeForeground}"
 						Stretch="Fill" />
 				</MenuItem.Icon>

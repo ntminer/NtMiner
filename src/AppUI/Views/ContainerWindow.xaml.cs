@@ -45,18 +45,21 @@ namespace NTMiner.Views {
             if (ucFactory == null) {
                 throw new ArgumentNullException(nameof(ucFactory));
             }
-            ContainerWindow window;
+            ContainerWindow window = new ContainerWindow(vm, ucFactory, fixedSize) {
+                WindowStartupLocation = WindowStartupLocation.Manual,
+                Owner = null
+            };
+            if (vm.IsDialogWindow) {
+                window.ShowWindow(beforeShow);
+                return window;
+            }
             Type ucType = typeof(TUc);
             if (s_windowDicByType.ContainsKey(ucType)) {
                 window = s_windowDicByType[ucType];
             }
             else {
-                window = new ContainerWindow(vm, ucFactory, fixedSize) {
-                    WindowStartupLocation = WindowStartupLocation.Manual,
-                    Owner = null
-                };
                 s_windowDic.Add(vm, window);
-                if (!vm.IsDialogWindow && vm.HeaderVisible != Visibility.Collapsed) {
+                if (vm.HeaderVisible != Visibility.Collapsed) {
                     Windows.Add(vm);
                 }
                 window.Closed += (object sender, EventArgs e) => {
