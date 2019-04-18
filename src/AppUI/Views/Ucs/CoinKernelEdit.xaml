@@ -201,7 +201,7 @@
 		<WrapPanel Margin="0 2" Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
 			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="片段"></TextBlock>
 			<DataGrid 
-				Width="450"
+				Width="436"
 				ItemsSource="{Binding InputSegments}" 
 				Background="Transparent" 
 				MouseDoubleClick="DataGridSegments_MouseDoubleClick"

@@ -11,5 +11,6 @@ namespace NTMiner.Core {
         string TestWallet { get; }
         string WalletRegexPattern { get; }
         bool JustAsDualCoin { get; }
+        string Notice { get; }
     }
 }

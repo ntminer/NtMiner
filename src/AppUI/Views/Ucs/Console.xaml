@@ -52,18 +52,29 @@
 						Stretch="Fill" />
 				</controls:KbButton>
 			</WrapPanel>
-			<TextBox 
-				Grid.Row="1"
-				FontFamily="Courier New"
-				Padding="4 2"
-				ToolTip="参数总成。这是高级用户的工具，通常我们无需关心这一块。"
-				TextWrapping="Wrap"
-				AcceptsReturn="True"
-				BorderThickness="0"
-				Foreground="LightGray"
-				Visibility="{Binding MinerProfile.IsShowCommandLine, Converter={StaticResource BoolToVisibilityConverter}}"
-				IsReadOnly="True" 
-				Text="{Binding MinerProfile.ArgsAssembly, Mode=OneWay}"></TextBox>
+			<StackPanel Grid.Row="1">
+				<TextBox 
+					FontFamily="Courier New"
+					Padding="4 2"
+					TextWrapping="Wrap"
+					AcceptsReturn="True"
+					BorderThickness="0"
+					Foreground="Yellow"
+					Visibility="{Binding MinerProfile.CoinVm.Notice, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
+					IsReadOnly="True" 
+					Text="{Binding MinerProfile.CoinVm.Notice, Mode=OneWay}"></TextBox>
+				<TextBox 
+					FontFamily="Courier New"
+					Padding="4 2"
+					ToolTip="参数总成。这是高级用户的工具，通常我们无需关心这一块。"
+					TextWrapping="Wrap"
+					AcceptsReturn="True"
+					BorderThickness="0"
+					Foreground="LightGray"
+					Visibility="{Binding MinerProfile.IsShowCommandLine, Converter={StaticResource BoolToVisibilityConverter}}"
+					IsReadOnly="True" 
+					Text="{Binding MinerProfile.ArgsAssembly, Mode=OneWay}"></TextBox>
+			</StackPanel>
 		</Grid>
 		<Path
 			Grid.Row="1"

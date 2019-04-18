@@ -25,7 +25,8 @@ namespace NTMiner.Vms {
             _testWallet = string.Empty,
             _sortNumber = 0,
             _justAsDualCoin = false,
-            _walletRegexPattern = string.Empty
+            _walletRegexPattern = string.Empty,
+            _notice = string.Empty
         };
         public static readonly CoinViewModel PleaseSelect = new CoinViewModel(Guid.Empty) {
             _code = "不指定"
@@ -44,6 +45,7 @@ namespace NTMiner.Vms {
         private string _icon;
         private string _walletRegexPattern;
         private bool _justAsDualCoin;
+        private string _notice;
 
         public Guid GetId() {
             return this.Id;
@@ -84,6 +86,7 @@ namespace NTMiner.Vms {
             _icon = data.Icon;
             _walletRegexPattern = data.WalletRegexPattern;
             _justAsDualCoin = data.JustAsDualCoin;
+            _notice = data.Notice;
         }
 
         public CoinViewModel(CoinViewModel vm) : this((ICoin)vm) {
@@ -473,6 +476,16 @@ namespace NTMiner.Vms {
                 if (_justAsDualCoin != value) {
                     _justAsDualCoin = value;
                     OnPropertyChanged(nameof(JustAsDualCoin));
+                }
+            }
+        }
+
+        public string Notice {
+            get { return _notice; }
+            set {
+                if (_notice != value) {
+                    _notice = value;
+                    OnPropertyChanged(nameof(Notice));
                 }
             }
         }
