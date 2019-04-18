@@ -1,5 +1,4 @@
 ﻿using NTMiner.Views.Ucs;
-using System.Windows;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
@@ -11,23 +10,6 @@ namespace NTMiner.Vms {
             this.CustomTheme = new DelegateCommand(() => {
                 LogColor.ShowWindow();
             });
-            VirtualRoot.On<MineStartedEvent>("挖矿开始后因此日志窗口的水印", LogEnum.DevConsole,
-                action: message => {
-                    this.IsWatermarkVisible = Visibility.Collapsed;
-                });
-        }
-
-        private Visibility _isWatermarkVisible = Visibility.Visible;
-        public Visibility IsWatermarkVisible {
-            get {
-                return _isWatermarkVisible;
-            }
-            set {
-                if (_isWatermarkVisible != value) {
-                    _isWatermarkVisible = value;
-                    OnPropertyChanged(nameof(IsWatermarkVisible));
-                }
-            }
         }
 
         public MinerProfileViewModel MinerProfile {
