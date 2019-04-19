@@ -3,6 +3,7 @@ using NTMiner.Bus.DirectBus;
 using NTMiner.Serialization;
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Timers;
 
 namespace NTMiner {
@@ -25,6 +26,9 @@ namespace NTMiner {
         public static IEventBus EventBus { get; private set; }
 
         static VirtualRoot() {
+            if (!Directory.Exists(GlobalDirFullName)) {
+                Directory.CreateDirectory(GlobalDirFullName);
+            }
             JsonSerializer = new ObjectJsonSerializer();
             MessageDispatcher = new MessageDispatcher();
             CommandBus = new DirectCommandBus(MessageDispatcher);

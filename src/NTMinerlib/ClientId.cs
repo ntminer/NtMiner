@@ -9,9 +9,6 @@ namespace NTMiner {
         public static Guid Id { get; private set; }
 
         static ClientId() {
-            if (!Directory.Exists(VirtualRoot.GlobalDirFullName)) {
-                Directory.CreateDirectory(VirtualRoot.GlobalDirFullName);
-            }
             Id = NTMinerRegistry.GetClientId();
         }
 
