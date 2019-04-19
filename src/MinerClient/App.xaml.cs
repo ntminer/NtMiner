@@ -106,11 +106,16 @@ namespace NTMiner {
             VirtualRoot.Window<CloseNTMinerCommand>("处理关闭NTMiner客户端命令", LogEnum.UserConsole,
                 action: message => {
                     UIThread.Execute(() => {
-                        if (MainWindow != null) {
-                            MainWindow.Close();
+                        try {
+                            if (MainWindow != null) {
+                                MainWindow.Close();
+                            }
+                            Shutdown();
                         }
-                        Shutdown();
-                        Environment.Exit(0);
+                        catch (Exception e) {
+                            Logger.ErrorDebugLine(e.Message, e);
+                            Environment.Exit(0);
+                        }
                     });
                 });
             #region 周期确保守护进程在运行

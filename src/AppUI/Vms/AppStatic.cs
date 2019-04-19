@@ -142,8 +142,7 @@ namespace NTMiner.Vms {
         public static ICommand ShowNotificationSample { get; private set; } = new DelegateCommand(NotificationSample.ShowWindow);
 
         public static ICommand AppExit { get; private set; } = new DelegateCommand(() => {
-            Application.Current.MainWindow?.Close();
-            Application.Current.Shutdown();
+            VirtualRoot.Execute(new CloseNTMinerCommand());
         });
 
         public static ICommand ShowRestartWindows { get; private set; } = new DelegateCommand(RestartWindows.ShowDialog);
