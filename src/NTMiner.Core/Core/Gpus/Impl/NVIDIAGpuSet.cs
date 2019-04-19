@@ -112,12 +112,6 @@ namespace NTMiner.Core.Gpus.Impl {
             return false;
         }
 
-        ~NVIDIAGpuSet() {
-            if (_isNvmlInited) {
-                NvmlNativeMethods.nvmlShutdown();
-            }
-        }
-
         public void LoadGpuState() {
             if (NvmlInit()) {
                 for (int i = 0; i < deviceCount; i++) {
