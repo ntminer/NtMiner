@@ -62,7 +62,7 @@
 				<WrapPanel 
 					Margin="10 0 0 0" 
 					Visibility="{Binding IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}">
-					<TextBlock Style="{StaticResource LblTb}" Width="Auto" Text="双挖权重"></TextBlock>
+					<TextBlock Style="{StaticResource LblTb}" Width="Auto" Text="双挖权重参数名"></TextBlock>
 					<TextBox 
 						Height="26"
 						Width="120"
