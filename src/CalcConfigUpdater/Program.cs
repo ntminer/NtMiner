@@ -181,7 +181,7 @@ namespace NTMiner {
                     incomeItem.SpeedUnit = "h/s";
                 }
                 else if (incomeItem.DataCode == "grin-31") {
-                    incomeItem.CoinCode = "grin2";
+                    incomeItem.CoinCode = "grin31";
                     incomeItem.SpeedUnit = "h/s";
                 }
                 double.TryParse(match.Groups["speed"].Value, out double speed);
