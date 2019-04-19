@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace NTMiner.Views.Ucs {
     public partial class MinerProfileIndex : UserControl {
@@ -15,6 +16,60 @@ namespace NTMiner.Views.Ucs {
 
         public MinerProfileIndex() {
             InitializeComponent();
+            this.PopupKernel.Closed += (object sender, System.EventArgs e) => {
+                this.PopupKernel.Child = null;
+            };
+            this.PopupMainCoinPool.Closed += (object sender, System.EventArgs e) => {
+                this.PopupMainCoinPool.Child = null;
+            };
+            this.PopupDualCoinPool.Closed += (object sender, System.EventArgs e) => {
+                this.PopupDualCoinPool.Child = null;
+            };
+            this.PopupMainCoin.Closed += (object sender, System.EventArgs e) => {
+                this.PopupMainCoin.Child = null;
+            };
+            this.PopupDualCoin.Closed += (object sender, System.EventArgs e) => {
+                this.PopupDualCoin.Child = null;
+            };
+            this.PopupMainCoinWallet.Closed += (object sender, System.EventArgs e) => {
+                this.PopupMainCoinWallet.Child = null;
+            };
+            this.PopupDualCoinWallet.Closed += (object sender, System.EventArgs e) => {
+                this.PopupDualCoinWallet.Child = null;
+            };
+            NTMinerRoot.Current.OnReRendMinerProfile += Current_OnReRendMinerProfile;
+        }
+
+        protected override void OnRender(DrawingContext drawingContext) {
+            Window.GetWindow(this).Closing += (object sender, System.ComponentModel.CancelEventArgs e) => {
+                // 对于挖矿端来说MinerProfileIndex实例是唯一的，但对于群控客户端的作业来说不是，所以这里需要-=
+                NTMinerRoot.Current.OnReRendMinerProfile -= Current_OnReRendMinerProfile;
+            };
+            base.OnRender(drawingContext);
+        }
+
+        private void Current_OnReRendMinerProfile() {
+            if (this.PopupKernel.Child != null) {
+                OpenKernelPopup();
+            }
+            if (this.PopupMainCoinPool.Child != null) {
+                OpenMainCoinPoolPopup();
+            }
+            if (this.PopupDualCoinPool != null) {
+                OpenDualCoinPoolPopup();
+            }
+            if (this.PopupMainCoin != null) {
+                OpenMainCoinPopup();
+            }
+            if (this.PopupDualCoin != null) {
+                OpenDualCoinPopup();
+            }
+            if (this.PopupMainCoinWallet != null) {
+                OpenMainCoinWalletPopup();
+            }
+            if (this.PopupDualCoinWallet != null) {
+                OpenDualCoinWalletPopup();
+            }
         }
 
         private void DualCoinWeightSlider_LostFocus(object sender, System.Windows.RoutedEventArgs e) {
@@ -28,7 +83,9 @@ namespace NTMiner.Views.Ucs {
             NTMinerRoot.RefreshArgsAssembly.Invoke();
         }
 
-        private void KbButtonKernel_Clicked(object sender, RoutedEventArgs e) {
+        #region OpenPopup
+
+        private void OpenKernelPopup() {
             var coinVm = Vm.MinerProfile.CoinVm;
             if (coinVm == null) {
                 return;
@@ -47,10 +104,9 @@ namespace NTMiner.Views.Ucs {
                         popup.IsOpen = false;
                     })
                 });
-            VirtualRoot.Happened(new UserActionEvent());
         }
 
-        private void KbButtonMainCoinPool_Clicked(object sender, RoutedEventArgs e) {
+        private void OpenMainCoinPoolPopup() {
             var coinVm = Vm.MinerProfile.CoinVm;
             if (coinVm == null) {
                 return;
@@ -69,10 +125,9 @@ namespace NTMiner.Views.Ucs {
                         popup.IsOpen = false;
                     })
                 });
-            VirtualRoot.Happened(new UserActionEvent());
         }
 
-        private void KbButtonDualCoinPool_Clicked(object sender, RoutedEventArgs e) {
+        private void OpenDualCoinPoolPopup() {
             var coinVm = Vm.MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin;
             if (coinVm == null) {
                 return;
@@ -91,10 +146,9 @@ namespace NTMiner.Views.Ucs {
                         popup.IsOpen = false;
                     })
                 });
-            VirtualRoot.Happened(new UserActionEvent());
         }
 
-        private void KbButtonMainCoin_Clicked(object sender, RoutedEventArgs e) {
+        private void OpenMainCoinPopup() {
             var popup = PopupMainCoin;
             popup.IsOpen = true;
             var selected = Vm.MinerProfile.CoinVm;
@@ -109,10 +163,9 @@ namespace NTMiner.Views.Ucs {
                         popup.IsOpen = false;
                     })
                 });
-            VirtualRoot.Happened(new UserActionEvent());
         }
 
-        private void KbButtonDualCoin_Clicked(object sender, RoutedEventArgs e) {
+        private void OpenDualCoinPopup() {
             if (Vm.MinerProfile.CoinVm == null || Vm.MinerProfile.CoinVm.CoinKernel == null) {
                 return;
             }
@@ -130,10 +183,9 @@ namespace NTMiner.Views.Ucs {
                         popup.IsOpen = false;
                     })
                 });
-            VirtualRoot.Happened(new UserActionEvent());
         }
 
-        private void KbButtonMainCoinWallet_Clicked(object sender, RoutedEventArgs e) {
+        private void OpenMainCoinWalletPopup() {
             var coinVm = Vm.MinerProfile.CoinVm;
             if (coinVm == null) {
                 return;
@@ -153,10 +205,9 @@ namespace NTMiner.Views.Ucs {
                         popup.IsOpen = false;
                     })
                 });
-            VirtualRoot.Happened(new UserActionEvent());
         }
 
-        private void KbButtonDualCoinWallet_Clicked(object sender, RoutedEventArgs e) {
+        private void OpenDualCoinWalletPopup() {
             var coinVm = Vm.MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin;
             if (coinVm == null) {
                 return;
@@ -176,6 +227,42 @@ namespace NTMiner.Views.Ucs {
                         popup.IsOpen = false;
                     })
                 });
+        }
+
+        #endregion
+
+        private void KbButtonKernel_Clicked(object sender, RoutedEventArgs e) {
+            OpenKernelPopup();
+            VirtualRoot.Happened(new UserActionEvent());
+        }
+
+        private void KbButtonMainCoinPool_Clicked(object sender, RoutedEventArgs e) {
+            OpenMainCoinPoolPopup();
+            VirtualRoot.Happened(new UserActionEvent());
+        }
+
+        private void KbButtonDualCoinPool_Clicked(object sender, RoutedEventArgs e) {
+            OpenDualCoinPoolPopup();
+            VirtualRoot.Happened(new UserActionEvent());
+        }
+
+        private void KbButtonMainCoin_Clicked(object sender, RoutedEventArgs e) {
+            OpenMainCoinPopup();
+            VirtualRoot.Happened(new UserActionEvent());
+        }
+
+        private void KbButtonDualCoin_Clicked(object sender, RoutedEventArgs e) {
+            OpenDualCoinPopup();
+            VirtualRoot.Happened(new UserActionEvent());
+        }
+
+        private void KbButtonMainCoinWallet_Clicked(object sender, RoutedEventArgs e) {
+            OpenMainCoinWalletPopup();
+            VirtualRoot.Happened(new UserActionEvent());
+        }
+
+        private void KbButtonDualCoinWallet_Clicked(object sender, RoutedEventArgs e) {
+            OpenDualCoinWalletPopup();
             VirtualRoot.Happened(new UserActionEvent());
         }
     }
