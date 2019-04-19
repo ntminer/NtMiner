@@ -60,10 +60,10 @@ namespace NTMiner.Vms {
 
         public string BrandTitle {
             get {
-                if (ClientId.KernelBrandId == Guid.Empty) {
+                if (VirtualRoot.KernelBrandId == Guid.Empty) {
                     return string.Empty;
                 }
-                if (NTMinerRoot.Current.SysDicItemSet.TryGetDicItem(ClientId.KernelBrandId, out ISysDicItem dicItem)) {
+                if (NTMinerRoot.Current.SysDicItemSet.TryGetDicItem(VirtualRoot.KernelBrandId, out ISysDicItem dicItem)) {
                     if (!string.IsNullOrEmpty(dicItem.Value)) {
                         return dicItem.Value + "专版";
                     }

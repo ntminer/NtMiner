@@ -4,18 +4,28 @@ using NTMiner.Serialization;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Text;
 using System.Timers;
 
 namespace NTMiner {
     public static partial class VirtualRoot {
-        private static bool _sIsMinerStudio;
-
+        public static readonly string AppFileFullName = Process.GetCurrentProcess().MainModule.FileName;
+        public static Guid Id { get; private set; }
         public static string GlobalDirFullName { get; set; } = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "NTMiner");
-        
-        public static bool IsMinerStudio {
-            get => _sIsMinerStudio;
-            set {
-                _sIsMinerStudio = value;
+
+        public static bool IsMinerStudio { get; private set; }
+
+        public static void SetIsMinerStudio(bool value) {
+            IsMinerStudio = value;
+        }
+
+        private static Guid? kernelBrandId = null;
+        public static Guid KernelBrandId {
+            get {
+                if (!kernelBrandId.HasValue) {
+                    kernelBrandId = GetKernelBrandId(AppFileFullName);
+                }
+                return kernelBrandId.Value;
             }
         }
 
@@ -26,6 +36,7 @@ namespace NTMiner {
         public static IEventBus EventBus { get; private set; }
 
         static VirtualRoot() {
+            Id = NTMinerRegistry.GetClientId();
             if (!Directory.Exists(GlobalDirFullName)) {
                 Directory.CreateDirectory(GlobalDirFullName);
             }
@@ -180,6 +191,59 @@ namespace NTMiner {
         // 拆除消息（命令或事件）的运动路径
         public static void UnPath(IDelegateHandler handler) {
             MessageDispatcher.UnRegister(handler);
+        }
+
+        public static void TagKernelBrandId(Guid kernelBrandId, string inputFileFullName, string outFileFullName) {
+            string brand = $"KernelBrandId{kernelBrandId}KernelBrandId";
+            string rawBrand = $"KernelBrandId{KernelBrandId}KernelBrandId";
+            byte[] data = Encoding.UTF8.GetBytes(brand);
+            byte[] rawData = Encoding.UTF8.GetBytes(rawBrand);
+            if (data.Length != rawData.Length) {
+                throw new InvalidProgramException();
+            }
+            byte[] source = File.ReadAllBytes(inputFileFullName);
+            int index = 0;
+            for (int i = 0; i < source.Length - rawData.Length; i++) {
+                int j = 0;
+                for (; j < rawData.Length; j++) {
+                    if (source[i + j] != rawData[j]) {
+                        break;
+                    }
+                }
+                if (j == rawData.Length) {
+                    index = i;
+                    break;
+                }
+            }
+            for (int i = index; i < index + data.Length; i++) {
+                source[i] = data[i - index];
+            }
+            File.WriteAllBytes(outFileFullName, source);
+        }
+
+        public static Guid GetKernelBrandId(string fileFullName) {
+            int LEN = "KernelBrandId".Length;
+            string rawBrand = $"KernelBrandId{Guid.Empty}KernelBrandId";
+            byte[] rawData = Encoding.UTF8.GetBytes(rawBrand);
+            int len = rawData.Length;
+            byte[] source = File.ReadAllBytes(fileFullName);
+            int index = 0;
+            for (int i = 0; i < source.Length - len; i++) {
+                int j = 0;
+                for (; j < len; j++) {
+                    if ((j < LEN || j > len - LEN) && source[i + j] != rawData[j]) {
+                        break;
+                    }
+                }
+                if (j == rawData.Length) {
+                    index = i;
+                    break;
+                }
+            }
+            string guidString = Encoding.UTF8.GetString(source, index + LEN, len - 2 * LEN);
+            Guid guid;
+            Guid.TryParse(guidString, out guid);
+            return guid;
         }
     }
 }

@@ -13,7 +13,7 @@ namespace NTMiner {
 
         public static void RunAsAdministrator() {
             ProcessStartInfo startInfo = new ProcessStartInfo {
-                FileName = ClientId.AppFileFullName,
+                FileName = VirtualRoot.AppFileFullName,
                 Arguments = string.Join(" ", CommandLineArgs.Args),
                 Verb = "runas"
             };
@@ -76,7 +76,7 @@ namespace NTMiner {
         private static void RestartNTMiner() {
             Process thisProcess = Process.GetCurrentProcess();
             Windows.TaskKill.KillOtherProcess(thisProcess);
-            Windows.Cmd.RunClose(ClientId.AppFileFullName, string.Join(" ", CommandLineArgs.Args));
+            Windows.Cmd.RunClose(VirtualRoot.AppFileFullName, string.Join(" ", CommandLineArgs.Args));
         }
         #endregion
 

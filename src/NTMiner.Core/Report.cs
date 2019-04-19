@@ -30,7 +30,7 @@ namespace NTMiner {
 
             VirtualRoot.On<MineStopedEvent>("停止挖矿后报告状态", LogEnum.DevConsole,
                 action: message => {
-                    Server.ReportService.ReportStateAsync(AssemblyInfo.OfficialServerHost, ClientId.Id, isMining: false);
+                    Server.ReportService.ReportStateAsync(AssemblyInfo.OfficialServerHost, VirtualRoot.Id, isMining: false);
                 });
         }
 
@@ -48,7 +48,7 @@ namespace NTMiner {
                 MineWorkId = root.MinerProfile.MineWork != null ? root.MinerProfile.MineWork.GetId() : Guid.Empty,
                 MinerName = root.MinerProfile.MinerName,
                 GpuInfo = root.GpuSetInfo,
-                ClientId = ClientId.Id,
+                ClientId = VirtualRoot.Id,
                 MainCoinCode = string.Empty,
                 MainCoinWallet = string.Empty,
                 MainCoinTotalShare = 0,

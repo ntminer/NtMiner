@@ -77,7 +77,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                     if (!_isInited) {
                         Guid? clientId = null;
                         if (!VirtualRoot.IsMinerStudio) {
-                            clientId = ClientId.Id;
+                            clientId = VirtualRoot.Id;
                         }
                         var result = Server.ControlCenterService.GetUsers(clientId);
                         _dicByLoginName = result.ToDictionary(a => a.LoginName, a => a);

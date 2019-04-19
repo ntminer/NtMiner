@@ -65,10 +65,10 @@ namespace NTMiner.Vms {
                 this.PageNumber = this.PageNumber + 1;
             });
             this.TagKernelBrand = new DelegateCommand<SysDicItemViewModel>(brandItem => {
-                string outFileName = Path.GetFileNameWithoutExtension(ClientId.AppFileFullName) + $"_{brandItem.Value}.exe";
-                string outDir = Path.GetDirectoryName(ClientId.AppFileFullName);
+                string outFileName = Path.GetFileNameWithoutExtension(VirtualRoot.AppFileFullName) + $"_{brandItem.Value}.exe";
+                string outDir = Path.GetDirectoryName(VirtualRoot.AppFileFullName);
                 string outFileFullName = Path.Combine(outDir, outFileName);
-                ClientId.TagKernelBrandId(brandItem.GetId(), ClientId.AppFileFullName, outFileFullName);
+                VirtualRoot.TagKernelBrandId(brandItem.GetId(), VirtualRoot.AppFileFullName, outFileFullName);
                 NotiCenterWindowViewModel.Current.Manager.ShowSuccessMessage($"打码成功:{outFileName}");
                 Process.Start(outDir);
             });
@@ -106,7 +106,7 @@ namespace NTMiner.Vms {
 
         public Visibility IsBrandVisible {
             get {
-                if (ClientId.KernelBrandId != Guid.Empty) {
+                if (VirtualRoot.KernelBrandId != Guid.Empty) {
                     return Visibility.Collapsed;
                 }
                 return Visibility.Visible;

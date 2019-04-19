@@ -146,7 +146,7 @@ namespace NTMiner.Vms {
                         this.Password = HashUtil.Sha1(value);
                     }
                     else {
-                        this.Password = HashUtil.Sha1($"{HashUtil.Sha1(HashUtil.Sha1(value))}{ClientId.Id}");
+                        this.Password = HashUtil.Sha1($"{HashUtil.Sha1(HashUtil.Sha1(value))}{VirtualRoot.Id}");
                     }
                 }
             }

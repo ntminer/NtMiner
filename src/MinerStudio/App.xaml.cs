@@ -10,7 +10,7 @@ using System.Windows.Threading;
 namespace NTMiner {
     public partial class App : Application, IDisposable {
         public App() {
-            VirtualRoot.IsMinerStudio = true;
+            VirtualRoot.SetIsMinerStudio(true);
             VirtualRoot.GlobalDirFullName = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NTMiner");
             Logging.LogDir.SetDir(System.IO.Path.Combine(VirtualRoot.GlobalDirFullName, "Logs"));
             AppHelper.Init(this);

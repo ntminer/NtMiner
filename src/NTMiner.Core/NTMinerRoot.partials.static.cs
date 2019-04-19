@@ -122,8 +122,8 @@ namespace NTMiner {
                             try {
                                 ServerJsonDb data = VirtualRoot.JsonSerializer.Deserialize<ServerJsonDb>(serverJson);
                                 _serverJson = data;
-                                if (ClientId.KernelBrandId != Guid.Empty) {
-                                    var kernelToRemoves = data.Kernels.Where(a => a.BrandId != ClientId.KernelBrandId).ToArray();
+                                if (VirtualRoot.KernelBrandId != Guid.Empty) {
+                                    var kernelToRemoves = data.Kernels.Where(a => a.BrandId != VirtualRoot.KernelBrandId).ToArray();
                                     foreach (var item in kernelToRemoves) {
                                         data.Kernels.Remove(item);
                                     }

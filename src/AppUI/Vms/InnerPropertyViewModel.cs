@@ -9,7 +9,7 @@ namespace NTMiner.Vms {
             get => NTMinerRoot.AppName;
         }
         public Guid Id {
-            get { return ClientId.Id; }
+            get { return VirtualRoot.Id; }
         }
         public DateTime BootOn {
             get => NTMinerRoot.Current.CreatedOn;

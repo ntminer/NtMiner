@@ -69,7 +69,6 @@
     <Compile Include="Bus\IMessage.cs" />
     <Compile Include="Bus\IMessageDispatcher.cs" />
     <Compile Include="IHandlerId.cs" />
-    <Compile Include="ClientId.cs" />
     <Compile Include="LogEnum.cs" />
     <Compile Include="Bus\MessageDispatcher.cs" />
     <Compile Include="Bus\MessageDispatcherExtensions.cs" />
