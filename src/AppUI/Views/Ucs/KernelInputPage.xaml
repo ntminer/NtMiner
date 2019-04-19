@@ -32,11 +32,19 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTextColumn Width="*" Binding="{Binding Args}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-					<DataGridTextColumn.Header>
+				<DataGridTemplateColumn Width="*" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
 						<TextBlock Text="形参"></TextBlock>
-					</DataGridTextColumn.Header>
-				</DataGridTextColumn>
+					</DataGridTemplateColumn.Header>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<StackPanel>
+								<TextBox IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding Args,Mode=OneWay}" BorderThickness="0" FontWeight="Bold"></TextBox>
+								<TextBox IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding KernelFullNames,Mode=OneWay}" ToolTip="使用该输入的内核" BorderThickness="0" Foreground="{StaticResource LableColor}"></TextBox>
+							</StackPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
 				<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
 						<TextBlock Text="支持双挖"></TextBlock>

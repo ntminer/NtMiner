@@ -343,5 +343,15 @@ namespace NTMiner.Vms {
                 }
             }
         }
+
+        public string KernelFullNames {
+            get {
+                string names = string.Join(";", KernelViewModels.Current.AllKernels.Where(a => a.KernelOutputId == this.Id).Select(a => a.FullName));
+                if (string.IsNullOrEmpty(names)) {
+                    return "无";
+                }
+                return names;
+            }
+        }
     }
 }

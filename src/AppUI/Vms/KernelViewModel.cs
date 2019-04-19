@@ -392,10 +392,7 @@ namespace NTMiner.Vms {
 
         public string FullName {
             get {
-                if (this == Empty) {
-                    return "空";
-                }
-                return $"{this.Code}(v{this.Version})";
+                return this.GetFullName();
             }
         }
 

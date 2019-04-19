@@ -11,7 +11,7 @@
 			 Background="White"
 			 TextOptions.TextFormattingMode="Display" 
 			 DataContext="{x:Static vm:KernelOutputPageViewModel.Current}"
-			 d:DesignHeight="720" d:DesignWidth="960">
+			 d:DesignHeight="720" d:DesignWidth="1360">
 	<Grid Margin="0 2 0 0">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -84,13 +84,16 @@
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-					<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTemplateColumn Width="400" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<TextBlock Text="名称"></TextBlock>
 						</DataGridTemplateColumn.Header>
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
-								<TextBlock Text="{Binding Name}" Padding="0 0 4 0"></TextBlock>
+								<StackPanel>
+									<TextBox IsReadOnly="True" Text="{Binding Name,Mode=OneWay}" FontWeight="Bold" Padding="0 0 4 0" BorderThickness="0"></TextBox>
+									<TextBox IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding KernelFullNames,Mode=OneWay}" Padding="0 0 4 0" BorderThickness="0"></TextBox>
+								</StackPanel>
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
@@ -201,7 +204,7 @@
 								<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
 							</DataGrid.Resources>
 							<DataGrid.Columns>
-								<DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" Binding="{Binding RegexPattern}"  IsReadOnly="True">
+								<DataGridTextColumn Width="*" CanUserResize="True" CanUserReorder="False" CanUserSort="False" Binding="{Binding RegexPattern}"  IsReadOnly="True">
 									<DataGridTextColumn.Header>
 										<WrapPanel>
 											<TextBlock Text="正则表达式"></TextBlock>
@@ -209,7 +212,7 @@
 										</WrapPanel>
 									</DataGridTextColumn.Header>
 								</DataGridTextColumn>
-								<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+								<DataGridTemplateColumn Width="*" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 									<DataGridTemplateColumn.Header>
 										<TextBlock Text="替换为"></TextBlock>
 									</DataGridTemplateColumn.Header>
@@ -244,7 +247,7 @@
 										<TextBlock Text="排序"></TextBlock>
 									</DataGridTextColumn.Header>
 								</DataGridTextColumn>
-								<DataGridTemplateColumn MinWidth="100" Width="*" CanUserResize="True" CanUserSort="False" IsReadOnly="True">
+								<DataGridTemplateColumn MinWidth="100" CanUserResize="True" CanUserSort="False" IsReadOnly="True">
 									<DataGridTemplateColumn.Header>
 										<controls:KbButton 
 											Command="{Binding Data.CurrentKernelOutputVm.AddKernelOutputTranslater, Source={StaticResource proxy}}" 

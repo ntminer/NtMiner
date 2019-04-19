@@ -2,6 +2,7 @@
 using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 
@@ -220,6 +221,16 @@ namespace NTMiner.Vms {
                     _dualFullArgs = value;
                     OnPropertyChanged(nameof(DualFullArgs));
                 }
+            }
+        }
+
+        public string KernelFullNames {
+            get {
+                string names = string.Join(";", KernelViewModels.Current.AllKernels.Where(a => a.KernelInputId == this.Id).Select(a => a.FullName));
+                if (string.IsNullOrEmpty(names)) {
+                    return "无";
+                }
+                return names;
             }
         }
     }

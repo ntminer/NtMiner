@@ -12,7 +12,7 @@ namespace NTMiner.Views.Ucs {
                 IconName = "Icon_KernelOutput",
                 CloseVisible = System.Windows.Visibility.Visible,
                 FooterVisible = System.Windows.Visibility.Collapsed,
-                Width = 960,
+                Width = 1360,
                 Height = 720
             }, 
             ucFactory: (window) => new KernelOutputPage(selectedKernelOutputVm));
