@@ -31,9 +31,9 @@ namespace NTMiner {
 
         public static IObjectSerializer JsonSerializer { get; private set; }
 
-        public static IMessageDispatcher MessageDispatcher { get; private set; }
-        public static ICmdBus CommandBus { get; private set; }
-        public static IEventBus EventBus { get; private set; }
+        private static readonly IMessageDispatcher SMessageDispatcher;
+        private static readonly ICmdBus SCommandBus;
+        private static readonly IEventBus SEventBus;
 
         static VirtualRoot() {
             Id = NTMinerRegistry.GetClientId();
@@ -41,9 +41,9 @@ namespace NTMiner {
                 Directory.CreateDirectory(GlobalDirFullName);
             }
             JsonSerializer = new ObjectJsonSerializer();
-            MessageDispatcher = new MessageDispatcher();
-            CommandBus = new DirectCommandBus(MessageDispatcher);
-            EventBus = new DirectEventBus(MessageDispatcher);
+            SMessageDispatcher = new MessageDispatcher();
+            SCommandBus = new DirectCommandBus(SMessageDispatcher);
+            SEventBus = new DirectEventBus(SMessageDispatcher);
             StartTimer();
         }
 
@@ -150,8 +150,8 @@ namespace NTMiner {
         /// <typeparam name="TEvent"></typeparam>
         /// <param name="evnt"></param>
         public static void Happened<TEvent>(TEvent evnt) where TEvent : class, IEvent {
-            EventBus.Publish(evnt);
-            EventBus.Commit();
+            SEventBus.Publish(evnt);
+            SEventBus.Commit();
         }
 
         /// <summary>
@@ -159,8 +159,8 @@ namespace NTMiner {
         /// </summary>
         /// <param name="command"></param>
         public static void Execute(ICmd command) {
-            CommandBus.Publish(command);
-            CommandBus.Commit();
+            SCommandBus.Publish(command);
+            SCommandBus.Commit();
         }
 
         // 修建消息（命令或事件）的运动路径
@@ -169,7 +169,7 @@ namespace NTMiner {
             // 0是Path，1是Accpt或On，2是当地
             Type location = ss.GetFrame(2).GetMethod().DeclaringType;
             IHandlerId handlerId = HandlerId.Create(typeof(TMessage), location, description, logType);
-            return MessageDispatcher.Register(handlerId, action);
+            return SMessageDispatcher.Register(handlerId, action);
         }
 
         /// <summary>
@@ -190,7 +190,7 @@ namespace NTMiner {
 
         // 拆除消息（命令或事件）的运动路径
         public static void UnPath(IDelegateHandler handler) {
-            MessageDispatcher.UnRegister(handler);
+            SMessageDispatcher.UnRegister(handler);
         }
 
         public static void TagKernelBrandId(Guid kernelBrandId, string inputFileFullName, string outFileFullName) {
