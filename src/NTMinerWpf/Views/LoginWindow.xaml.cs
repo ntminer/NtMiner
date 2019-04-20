@@ -6,8 +6,6 @@ using System.Windows;
 
 namespace NTMiner.Views {
     public partial class LoginWindow : MetroWindow {
-        public static string ViewId = nameof(LoginWindow);
-
         private readonly LoginWindowViewModel _vm;
         public LoginWindow() {
             _vm = new LoginWindowViewModel();

@@ -3,8 +3,6 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class KernelInputEdit : UserControl {
-        public static string ViewId = nameof(KernelInputEdit);
-
         public static void ShowWindow(FormType formType, KernelInputViewModel source) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "内核输入",

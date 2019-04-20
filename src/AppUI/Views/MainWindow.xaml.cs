@@ -8,8 +8,6 @@ using System.Windows.Interop;
 
 namespace NTMiner.Views {
     public partial class MainWindow : MetroWindow, IMainWindow {
-        public static string ViewId = nameof(MainWindow);
-
         private MainWindowViewModel Vm {
             get {
                 return (MainWindowViewModel)this.DataContext;

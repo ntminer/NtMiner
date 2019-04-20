@@ -3,8 +3,6 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class Calc : UserControl {
-        public static string ViewId = nameof(Calc);
-
         public static void ShowWindow(CoinViewModel coin) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "收益计算器",

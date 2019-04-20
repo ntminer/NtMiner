@@ -3,8 +3,6 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class MinerProfileOption : UserControl {
-        public static string ViewId = nameof(MinerProfileOption);
-
         public static void ShowWindow() {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "选项",

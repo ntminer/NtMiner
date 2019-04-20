@@ -3,8 +3,6 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class KernelGrid : UserControl {
-        public static string ViewId = nameof(KernelGrid);
-
         public KernelPageViewModel Vm {
             get {
                 return (KernelPageViewModel)this.DataContext;

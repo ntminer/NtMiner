@@ -9,8 +9,6 @@ using System.Windows.Media;
 
 namespace NTMiner.Views.Ucs {
     public partial class MessageCenter : UserControl {
-        public static string ViewId = nameof(MessageCenter);
-
         private MessageCenterViewModel Vm {
             get {
                 return (MessageCenterViewModel)this.DataContext;

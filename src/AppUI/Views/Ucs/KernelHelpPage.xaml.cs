@@ -3,8 +3,6 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class KernelHelpPage : UserControl {
-        public static string ViewId = nameof(KernelHelpPage);
-
         public static void ShowWindow(string title, string helpText) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "内核帮助",

@@ -3,8 +3,6 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class PoolKernelEdit : UserControl {
-        public static string ViewId = nameof(PoolKernelEdit);
-
         public static void ShowWindow(FormType formType, PoolKernelViewModel source) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "矿池级参数",

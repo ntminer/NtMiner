@@ -3,8 +3,6 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class Toolbox : UserControl {
-        public static string ViewId = nameof(Toolbox);
-
         public static void ShowWindow() {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "工具箱",

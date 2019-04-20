@@ -6,8 +6,6 @@ using System.Windows.Input;
 
 namespace NTMiner.Views {
     public partial class DialogWindow : MetroWindow {
-        public static readonly string ViewId = nameof(DialogWindow);
-
         public static void ShowDialog(string icon = null,
             string title = null,
             string message = null,

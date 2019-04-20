@@ -4,8 +4,6 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class FileDownloader : UserControl {
-        public static string ViewId = nameof(FileDownloader);
-
         public static void ShowWindow(
             string downloadFileUrl, string fileTitle,
             // window, isSuccess, message, saveFileFullName, etagValue

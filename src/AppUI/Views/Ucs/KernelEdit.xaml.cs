@@ -4,8 +4,6 @@ using System.Windows.Input;
 
 namespace NTMiner.Views.Ucs {
     public partial class KernelEdit : UserControl {
-        public static string ViewId = nameof(KernelEdit);
-
         public static void ShowWindow(FormType formType, KernelViewModel source) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "内核",

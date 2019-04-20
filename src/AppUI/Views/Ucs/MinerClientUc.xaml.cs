@@ -5,8 +5,6 @@ using System.Windows.Input;
 
 namespace NTMiner.Views.Ucs {
     public partial class MinerClientUc : UserControl {
-        public static readonly string ViewId = nameof(MinerClientUc);
-
         public MinerClientViewModel Vm {
             get {
                 return (MinerClientViewModel)this.DataContext;

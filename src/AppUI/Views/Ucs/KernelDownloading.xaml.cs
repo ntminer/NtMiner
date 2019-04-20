@@ -3,8 +3,6 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class KernelDownloading : UserControl {
-        public static string ViewId = nameof(KernelDownloading);
-
         public KernelPageViewModel Vm {
             get {
                 return (KernelPageViewModel)this.DataContext;
