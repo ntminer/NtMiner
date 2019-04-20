@@ -99,6 +99,23 @@
 							Text=")" />
 					</WrapPanel>
 				</controls:KbLinkButton>
+				<controls:KbLinkButton
+					Margin="8 0 0 0"
+					Command="{x:Static vm:AppStatic.DownloadMinerStudio}"
+					KbDisplayLine="False"
+					Foreground="{StaticResource ThemeForeground}"
+					KbSystemButtonHoverBackground="Transparent"
+					Background="Transparent">
+					<WrapPanel>
+						<Path 
+							Width="14"
+							Height="13"
+							Data="{StaticResource Icon_ControlCenter}"
+							Fill="{StaticResource ThemeForeground}"
+							Stretch="Fill" />
+						<TextBlock>下载群控</TextBlock>
+					</WrapPanel>
+				</controls:KbLinkButton>
 				<controls:KbButton 
 					Margin="4 0 0 0" Height="20" BorderThickness="0" 
 					Content="点击以管理员身份运行"

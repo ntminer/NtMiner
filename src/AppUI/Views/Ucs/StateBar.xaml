@@ -267,25 +267,19 @@
 				<WrapPanel>
 					<controls:KbButton 
 						Cursor="Hand"
-						ToolTip="检查更新"
 						Background="Transparent" 
 						BorderThickness="0"
 						Command="{x:Static vm:AppStatic.ShowOnlineUpdate}">
-						<Path 
-							Width="14"
-							Height="13"
-							Data="{StaticResource Icon_Update}"
-							Fill="{StaticResource IconFillColor}"
-							Stretch="Fill" />
+						<WrapPanel>
+							<Path 
+								Width="14"
+								Height="13"
+								Data="{StaticResource Icon_Update}"
+								Fill="{StaticResource IconFillColor}"
+								Stretch="Fill" />
+							<TextBlock>检查更新</TextBlock>
+						</WrapPanel>
 					</controls:KbButton>
-					<controls:KbLinkButton
-						Padding="0"
-						Foreground="#0072C1"
-						Command="{x:Static vm:AppStatic.DownloadMinerStudio}"
-						Content="下载群控"
-						KbDisplayLine="False"
-						KbSystemButtonHoverBackground="Transparent"
-						Background="Transparent" />
 				</WrapPanel>
 				<WrapPanel Grid.Column="1" HorizontalAlignment="Right">
 					<TextBlock Text="{x:Static vm:AppStatic.WindowsEdition}" ToolTip="操作系统" Foreground="{StaticResource LableColor}"></TextBlock>
