@@ -439,13 +439,19 @@
 					</controls:KbButton>
 					<TabControl
 						Grid.Column="2" Grid.Row="0" 
-						Margin="0 -40 0 0" 
+						Margin="0 -35 0 0" 
 						Padding="0"
 						BorderThickness="0" Grid.ColumnSpan="2">
 						<TabItem x:Name="TabItemMinerProfile" Visibility="Collapsed">
 							<TabItem.Header>
-								<Border Padding="8 6">
+								<Border Padding="8 4">
 									<WrapPanel>
+										<Path 
+											Width="14"
+											Height="13"
+											Data="{StaticResource Icon_Mining1}"
+											Fill="{StaticResource IconFillColor}"
+											Stretch="Fill" />
 										<TextBlock Text="开始" FontSize="14"></TextBlock>
 									</WrapPanel>
 								</Border>
@@ -455,8 +461,14 @@
 						</TabItem>
 						<TabItem x:Name="TabItemLog" IsSelected="True">
 							<TabItem.Header>
-								<Border Padding="8 6">
+								<Border Padding="8 4">
 									<WrapPanel>
+										<Path 
+											Width="14"
+											Height="13"
+											Data="{StaticResource Icon_Log}"
+											Fill="{StaticResource IconFillColor}"
+											Stretch="Fill" />
 										<TextBlock Text="日志" FontSize="14"></TextBlock>
 									</WrapPanel>
 								</Border>
@@ -466,8 +478,14 @@
 						</TabItem>
 						<TabItem>
 							<TabItem.Header>
-								<Border Padding="8 6">
+								<Border Padding="8 4">
 									<WrapPanel>
+										<Path 
+											Width="14"
+											Height="13"
+											Data="{StaticResource Icon_Table}"
+											Fill="{StaticResource IconFillColor}"
+											Stretch="Fill" />
 										<TextBlock Text="算力" FontSize="14"></TextBlock>
 									</WrapPanel>
 								</Border>
@@ -477,8 +495,14 @@
 						</TabItem>
 						<TabItem Visibility="{Binding IsOverClockVisible}">
 							<TabItem.Header>
-								<Border Padding="8 6">
+								<Border Padding="8 4">
 									<WrapPanel>
+										<Path 
+											Width="14"
+											Height="13"
+											Data="{StaticResource Icon_OverClock}"
+											Fill="{StaticResource IconFillColor}"
+											Stretch="Fill" />
 										<TextBlock VerticalAlignment="Center" Text="{Binding MinerProfile.CoinVm.Code}"></TextBlock>
 										<TextBlock VerticalAlignment="Center" Text="超频" FontSize="14"></TextBlock>
 										<CheckBox 
@@ -494,8 +518,14 @@
 						</TabItem>
 						<TabItem>
 							<TabItem.Header>
-								<Border Padding="8 6">
+								<Border Padding="8 4">
 									<WrapPanel>
+										<Path 
+											Width="14"
+											Height="13"
+											Data="{StaticResource Icon_Setting}"
+											Fill="{StaticResource IconFillColor}"
+											Stretch="Fill" />
 										<TextBlock Text="选项" FontSize="14"></TextBlock>
 									</WrapPanel>
 								</Border>
@@ -505,8 +535,14 @@
 						</TabItem>
 						<TabItem>
 							<TabItem.Header>
-								<Border Padding="8 6">
+								<Border Padding="8 4">
 									<WrapPanel>
+										<Path 
+											Width="14"
+											Height="13"
+											Data="{StaticResource Icon_Toolbox}"
+											Fill="{StaticResource IconFillColor}"
+											Stretch="Fill" />
 										<TextBlock Text="工具箱" FontSize="14"></TextBlock>
 									</WrapPanel>
 								</Border>
@@ -516,8 +552,14 @@
 						</TabItem>
 						<TabItem>
 							<TabItem.Header>
-								<Border Padding="8 6">
+								<Border Padding="8 4">
 									<WrapPanel>
+										<Path 
+											Width="14"
+											Height="13"
+											Data="{StaticResource Icon_Property}"
+											Fill="{StaticResource IconFillColor}"
+											Stretch="Fill" />
 										<TextBlock Text="属性" FontSize="14"></TextBlock>
 									</WrapPanel>
 								</Border>
