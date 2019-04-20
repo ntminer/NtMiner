@@ -507,6 +507,17 @@
 							<TabItem.Header>
 								<Border Padding="8 6">
 									<WrapPanel>
+										<TextBlock Text="工具箱" FontSize="14"></TextBlock>
+									</WrapPanel>
+								</Border>
+							</TabItem.Header>
+							<uc:Toolbox Margin="4 0">
+							</uc:Toolbox>
+						</TabItem>
+						<TabItem>
+							<TabItem.Header>
+								<Border Padding="8 6">
+									<WrapPanel>
 										<TextBlock Text="属性" FontSize="14"></TextBlock>
 									</WrapPanel>
 								</Border>
