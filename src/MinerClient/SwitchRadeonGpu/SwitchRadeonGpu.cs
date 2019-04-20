@@ -16,7 +16,6 @@ namespace NTMiner.SwitchRadeonGpu {
                 string fileFullName = Path.Combine(SpecialPath.TempDirFullName, name);
                 assembly.ExtractManifestResource(type, name, fileFullName);
                 Windows.Cmd.RunClose(fileFullName, "--compute=on --admin --restart", waitForExit: true);
-                File.Delete(fileFullName);
                 callback?.Invoke(true, null);
             }
             catch (Exception e) {

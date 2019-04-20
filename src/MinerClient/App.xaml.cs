@@ -164,7 +164,7 @@ namespace NTMiner {
         private static void SwitchRadeonGpuMode() {
             SwitchRadeonGpu.SwitchRadeonGpu.Run((isSuccess, e) => {
                 if (isSuccess) {
-                    NotiCenterWindowViewModel.Current.Manager.ShowSuccessMessage("开机A卡计算模式成功");
+                    NotiCenterWindowViewModel.Current.Manager.ShowSuccessMessage("开启A卡计算模式成功");
                 }
                 else if (e != null) {
                     NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage(e.Message, delaySeconds: 4);
