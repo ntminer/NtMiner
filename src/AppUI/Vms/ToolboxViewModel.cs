@@ -8,7 +8,7 @@ namespace NTMiner.Vms {
 
         public ToolboxViewModel() {
             this.SwitchRadeonGpu = new DelegateCommand(() => {
-                DialogWindow.ShowDialog(message: $"确定运行吗？运行可能花费几秒钟时间", title: "确认", onYes: () => {
+                DialogWindow.ShowDialog(message: $"确定运行吗？大概需要花费5到10秒钟时间看到结果", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new SwitchRadeonGpuCommand());
                 }, icon: IconConst.IconConfirm);
             }, () => NTMinerRoot.Current.GpuSet.GpuType == GpuType.AMD);
