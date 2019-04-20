@@ -162,7 +162,11 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem x:Name="MenuItemUpgrade" Header="升级" Padding="4" Margin="0 0 6 0" Click="MenuItemUpgrade_Click">
+				<MenuItem 
+					x:Name="MenuItemUpgrade" 
+					Header="升级" Padding="4" Margin="0 0 6 0" 
+					IsEnabled="{Binding ElementName=MenuItemRefresh, Path=IsEnabled}" 
+					Click="MenuItemUpgrade_Click">
 					<MenuItem.Icon>
 						<Path
 							Width="16"

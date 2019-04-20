@@ -35,5 +35,16 @@ namespace NTMiner.MinerServer {
                 .Append(nameof(PublishOn)).Append(PublishOn.ToUlong());
             return sb;
         }
+
+        public Version GetVersion() {
+            if (string.IsNullOrEmpty(Version)) {
+                return new Version(1, 0);
+            }
+            Version v;
+            if (System.Version.TryParse(this.Version, out v)) {
+                return v;
+            }
+            return new Version(1, 0);
+        }
     }
 }
