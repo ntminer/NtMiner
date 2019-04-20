@@ -1,4 +1,5 @@
 ﻿using NTMiner.Core;
+using NTMiner.Views;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
@@ -7,7 +8,9 @@ namespace NTMiner.Vms {
 
         public ToolboxViewModel() {
             this.SwitchRadeonGpu = new DelegateCommand(() => {
-                VirtualRoot.Execute(new SwitchRadeonGpuCommand());
+                DialogWindow.ShowDialog(message: $"确定运行吗？运行可能花费几秒钟时间", title: "确认", onYes: () => {
+                    VirtualRoot.Execute(new SwitchRadeonGpuCommand());
+                }, icon: IconConst.IconConfirm);
             }, () => NTMinerRoot.Current.GpuSet.GpuType == GpuType.AMD);
         }
     }
