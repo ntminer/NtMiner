@@ -294,6 +294,12 @@ namespace NTMiner.Core {
     }
     #endregion
 
+    [MessageType(messageType: typeof(SwitchRadeonGpuCommand), description: "开机A卡计算模式")]
+    public class SwitchRadeonGpuCommand : Cmd {
+        public SwitchRadeonGpuCommand() {
+        }
+    }
+
     #region SysDic Messages
     [MessageType(messageType: typeof(AddSysDicCommand), description: "添加系统字典")]
     public class AddSysDicCommand : AddEntityCommand<ISysDic> {

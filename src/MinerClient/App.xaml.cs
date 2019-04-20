@@ -2,6 +2,7 @@
 using NTMiner.Core;
 using NTMiner.OverClock;
 using NTMiner.Views;
+using NTMiner.Vms;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -142,6 +143,36 @@ namespace NTMiner {
                     OhGodAnETHlargementPill.OhGodAnETHlargementPillUtil.Stop();
                 });
             #endregion
+            #region 处理开启A卡计算模式
+            VirtualRoot.Window<SwitchRadeonGpuCommand>("处理开启A卡计算模式命令", LogEnum.DevConsole,
+                action: message => {
+                    if (NTMinerRoot.Current.GpuSet.GpuType == GpuType.AMD) {
+                        if (NTMinerRoot.Current.IsMining) {
+                            NTMinerRoot.Current.StopMineAsync(() => {
+                                SwitchRadeonGpuMode();
+                                NTMinerRoot.Current.StartMine();
+                            });
+                        }
+                        else {
+                            SwitchRadeonGpuMode();
+                        }
+                    }
+                });
+            #endregion
+        }
+
+        private static void SwitchRadeonGpuMode() {
+            SwitchRadeonGpu.SwitchRadeonGpu.Run((isSuccess, e) => {
+                if (isSuccess) {
+                    NotiCenterWindowViewModel.Current.Manager.ShowSuccessMessage("开机A卡计算模式成功");
+                }
+                else if (e != null) {
+                    NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage(e.Message, delaySeconds: 4);
+                }
+                else {
+                    NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage("开启A卡计算模式失败", delaySeconds: 4);
+                }
+            });
         }
 
         public void Dispose() {

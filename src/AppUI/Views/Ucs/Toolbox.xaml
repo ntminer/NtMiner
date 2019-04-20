@@ -15,7 +15,27 @@
 		<ScrollViewer
 			VerticalScrollBarVisibility="Auto" 
 			PreviewMouseDown="ScrollViewer_PreviewMouseDown">
-			
+			<WrapPanel>
+				<controls:KbButton 
+					Height="50" 
+					Width="200"
+					Command="{Binding SwitchRadeonGpu}"
+					Cursor="Hand"
+					Background="Transparent">
+					<WrapPanel VerticalAlignment="Center">
+						<Path 
+							Width="30"
+							Height="30"
+							Data="{StaticResource Icon_AMD}"
+							Fill="Red"
+							Stretch="Fill" />
+						<StackPanel Margin="8 0 0 0">
+							<TextBlock FontWeight="Bold" FontSize="14">A卡计算模式</TextBlock>
+							<TextBlock Foreground="{StaticResource LableColor}">一键开启所有A卡的计算模式</TextBlock>
+						</StackPanel>
+					</WrapPanel>
+				</controls:KbButton>
+			</WrapPanel>
 		</ScrollViewer>
 	</Grid>
 </UserControl>
