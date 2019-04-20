@@ -17,7 +17,7 @@ namespace NTMiner {
             public static void CreateProcessAsync(IMineContext mineContext) {
                 Task.Factory.StartNew(() => {
                     try {
-                        Windows.TaskKill.Kill(mineContext.Kernel.GetProcessName());
+                        Windows.TaskKill.Kill(mineContext.Kernel.GetProcessName(), waitForExit: true);
                         Thread.Sleep(1000);
                         Logger.InfoDebugLine("解压内核包");
                         // 解压内核包

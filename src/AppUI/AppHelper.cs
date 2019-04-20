@@ -76,7 +76,7 @@ namespace NTMiner {
         private static void RestartNTMiner() {
             Process thisProcess = Process.GetCurrentProcess();
             Windows.TaskKill.KillOtherProcess(thisProcess);
-            Windows.Cmd.RunClose(VirtualRoot.AppFileFullName, string.Join(" ", CommandLineArgs.Args));
+            Windows.Cmd.RunClose(VirtualRoot.AppFileFullName, string.Join(" ", CommandLineArgs.Args), waitForExit: true);
         }
         #endregion
 

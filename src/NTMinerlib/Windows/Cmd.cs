@@ -4,7 +4,7 @@ using System.IO;
 
 namespace NTMiner.Windows {
     public static class Cmd {
-        public static void RunClose(string filePullName, string args) {
+        public static void RunClose(string filePullName, string args, bool waitForExit = false) {
             if (string.IsNullOrEmpty(filePullName)) {
                 return;
             }
@@ -23,6 +23,9 @@ namespace NTMiner.Windows {
                         Logger.ErrorDebugLine(ex.Message, ex);
                     }
                     proc.Start();
+                    if (waitForExit) {
+                        proc.WaitForExit(10 * 1000);
+                    }
                 }
             }
             catch (Exception e) {

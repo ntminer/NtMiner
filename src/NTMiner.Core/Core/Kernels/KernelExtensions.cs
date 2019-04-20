@@ -114,9 +114,11 @@ namespace NTMiner.Core.Kernels {
                 if (string.IsNullOrEmpty(packageZipFileFullName)) {
                     return false;
                 }
-                if (File.Exists(packageZipFileFullName)) {
-                    ZipUtil.DecompressZipFile(packageZipFileFullName, kernelDir);
+                if (!File.Exists(packageZipFileFullName)) {
+                    Write.DevDebug($"试图解压的{packageZipFileFullName}文件不存在");
+                    return false;
                 }
+                ZipUtil.DecompressZipFile(packageZipFileFullName, kernelDir);
                 return true;
             }
             catch (Exception e) {

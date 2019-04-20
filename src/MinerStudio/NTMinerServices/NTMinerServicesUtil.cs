@@ -21,7 +21,7 @@ namespace NTMiner.NTMinerServices {
                             Logger.InfoDebugLine($"发现新版NTMinerServices：{thatVersion}->{thisVersion}");
                             Server.ControlCenterService.CloseServices();
                             System.Threading.Thread.Sleep(1000);
-                            Windows.TaskKill.Kill(processName);
+                            Windows.TaskKill.Kill(processName, waitForExit: true);
                             ExtractRunNTMinerServicesAsync();
                         }
                     }
@@ -41,7 +41,7 @@ namespace NTMiner.NTMinerServices {
                 foreach (var name in names) {
                     ExtractResource(name);
                 }
-                Windows.Cmd.RunClose(SpecialPath.NTMinerServicesFileFullName, "--enableInnerIp --notofficial");
+                Windows.Cmd.RunClose(SpecialPath.NTMinerServicesFileFullName, "--enableInnerIp --notofficial", waitForExit: true);
                 Logger.OkDebugLine("群控服务进程启动成功");
             });
         }

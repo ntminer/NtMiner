@@ -24,7 +24,7 @@ namespace NTMiner.Daemon {
                             Logger.InfoDebugLine($"发现新版Daemon：{thatVersion}->{thisVersion}");
                             Client.NTMinerDaemonService.CloseDaemon();
                             System.Threading.Thread.Sleep(1000);
-                            Windows.TaskKill.Kill(processName);
+                            Windows.TaskKill.Kill(processName, waitForExit: true);
                             ExtractRunNTMinerDaemonAsync();
                         }
                     }
@@ -44,7 +44,7 @@ namespace NTMiner.Daemon {
                 foreach (var name in names) {
                     ExtractResource(name);
                 }
-                Windows.Cmd.RunClose(SpecialPath.DaemonFileFullName, string.Empty);
+                Windows.Cmd.RunClose(SpecialPath.DaemonFileFullName, string.Empty, waitForExit: true);
                 Logger.OkDebugLine("守护进程启动成功");
             });
         }
@@ -61,7 +61,7 @@ namespace NTMiner.Daemon {
                 }
                 else if (HashUtil.Sha1(File.ReadAllBytes(SpecialPath.DevConsoleFileFullName)) != ThisDevConsoleFileVersion) {
                     try {
-                        Windows.TaskKill.Kill("DevConsole");
+                        Windows.TaskKill.Kill("DevConsole", waitForExit: true);
                     }
                     catch (Exception e) {
                         Logger.ErrorDebugLine(e.Message, e);
