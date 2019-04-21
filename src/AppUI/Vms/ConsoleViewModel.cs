@@ -12,6 +12,15 @@ namespace NTMiner.Vms {
             });
         }
 
+        public bool IsTranslate {
+            get {
+                return NTMinerRoot.IsTranslate;
+            }
+            set {
+                NTMinerRoot.IsTranslate = value;
+            }
+        }
+
         public MinerProfileViewModel MinerProfile {
             get {
                 return MinerProfileViewModel.Current;
