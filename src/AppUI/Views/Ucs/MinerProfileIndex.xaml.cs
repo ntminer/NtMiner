@@ -47,27 +47,29 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void Current_OnReRendMinerProfile() {
-            if (this.PopupKernel.Child != null) {
-                OpenKernelPopup();
-            }
-            if (this.PopupMainCoinPool.Child != null) {
-                OpenMainCoinPoolPopup();
-            }
-            if (this.PopupDualCoinPool != null) {
-                OpenDualCoinPoolPopup();
-            }
-            if (this.PopupMainCoin != null) {
-                OpenMainCoinPopup();
-            }
-            if (this.PopupDualCoin != null) {
-                OpenDualCoinPopup();
-            }
-            if (this.PopupMainCoinWallet != null) {
-                OpenMainCoinWalletPopup();
-            }
-            if (this.PopupDualCoinWallet != null) {
-                OpenDualCoinWalletPopup();
-            }
+            UIThread.Execute(() => {
+                if (this.PopupKernel.Child != null) {
+                    OpenKernelPopup();
+                }
+                if (this.PopupMainCoinPool.Child != null) {
+                    OpenMainCoinPoolPopup();
+                }
+                if (this.PopupDualCoinPool != null) {
+                    OpenDualCoinPoolPopup();
+                }
+                if (this.PopupMainCoin != null) {
+                    OpenMainCoinPopup();
+                }
+                if (this.PopupDualCoin != null) {
+                    OpenDualCoinPopup();
+                }
+                if (this.PopupMainCoinWallet != null) {
+                    OpenMainCoinWalletPopup();
+                }
+                if (this.PopupDualCoinWallet != null) {
+                    OpenDualCoinWalletPopup();
+                }
+            });
         }
 
         private void DualCoinWeightSlider_LostFocus(object sender, System.Windows.RoutedEventArgs e) {
