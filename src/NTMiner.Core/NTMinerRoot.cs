@@ -639,7 +639,7 @@ namespace NTMiner {
                                     Logger.ErrorDebugLine(ex);
                                 }
                             }
-                            if (_gpuSet == null) {
+                            if (_gpuSet == null || (_gpuSet != EmptyGpuSet.Instance && _gpuSet.Count == 0)) {
                                 _gpuSet = EmptyGpuSet.Instance;
                             }
                             if (_gpuSet != EmptyGpuSet.Instance) {
