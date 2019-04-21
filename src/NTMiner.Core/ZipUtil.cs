@@ -49,22 +49,8 @@ namespace NTMiner {
                             StreamUtils.Copy(zipInputStream, streamWriter, data);
                             streamWriter.Close();
                         }
-                        catch {
-                            if (File.Exists(path)) {
-                                string sha1 = HashUtil.Sha1(File.ReadAllBytes(path));
-                                zipInputStream.Position = 0;
-                                byte[] data = new byte[zipInputStream.Length];
-                                zipInputStream.Read(data, 0, data.Length);
-                                string sha2 = HashUtil.Sha1(data);
-                                if (sha1 != sha2) {
-                                    // 个别文件可能会由于正在被使用导致解压失败，此时判断一下目标文件是否和源文件sha1相同，
-                                    // 如果相同视为无需解压视为解压成功无需记录异常
-                                    throw;
-                                }
-                            }
-                            else {
-                                throw;
-                            }
+                        catch(Exception e) {
+                            Logger.ErrorDebugLine(e.Message, e);
                         }
                     }
                 }

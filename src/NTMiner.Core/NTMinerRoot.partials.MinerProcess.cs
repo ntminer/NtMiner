@@ -14,17 +14,19 @@ namespace NTMiner {
     public partial class NTMinerRoot : INTMinerRoot {
         private static class MinerProcess {
             #region CreateProcess
+            private static string _preExtractPackage = string.Empty;
             public static void CreateProcessAsync(IMineContext mineContext) {
                 Task.Factory.StartNew(() => {
                     try {
                         Windows.TaskKill.Kill(mineContext.Kernel.GetProcessName(), waitForExit: true);
                         Thread.Sleep(1000);
-                        Logger.InfoDebugLine("解压内核包");
-                        // 解压内核包
-                        if (!mineContext.Kernel.ExtractPackage()) {
-                            File.Delete(mineContext.Kernel.GetPackageFileFullName());
-                            VirtualRoot.Happened(new StartingMineFailedEvent("内核解压失败。"));
-                            return;
+                        if (_preExtractPackage != mineContext.Kernel.Package) {
+                            _preExtractPackage = mineContext.Kernel.Package;
+                            Logger.InfoDebugLine("解压内核包");
+                            // 解压内核包
+                            if (!mineContext.Kernel.ExtractPackage()) {
+                                VirtualRoot.Happened(new StartingMineFailedEvent("内核解压失败。"));
+                            }
                         }
 
                         Logger.InfoDebugLine("组装命令");
