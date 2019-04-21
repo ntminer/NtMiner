@@ -456,7 +456,7 @@
 									</WrapPanel>
 								</Border>
 							</TabItem.Header>
-							<Border x:Name="MinerProfileContainerRight" Margin="4 0">
+							<Border x:Name="MinerProfileContainerRight" Background="{StaticResource MinerProfileBackground}" Padding="4 0">
 							</Border>
 						</TabItem>
 						<TabItem x:Name="TabItemLog" IsSelected="True">
