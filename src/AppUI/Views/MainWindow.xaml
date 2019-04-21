@@ -268,7 +268,7 @@
 										FontSize="12"
 										Foreground="{StaticResource LableColor}"
 										Padding="0 0 4 0"
-										Width="54"
+										Width="50"
 										VerticalAlignment="Center"
 										TextAlignment="Right"
 										TextWrapping="Wrap"

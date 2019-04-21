@@ -263,5 +263,9 @@ namespace NTMiner.Views.Ucs {
             OpenDualCoinWalletPopup();
             VirtualRoot.Happened(new UserActionEvent());
         }
+
+        private void ScrollViewer_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+            Wpf.Util.ScrollViewer_PreviewMouseDown(sender, e);
+        }
     }
 }

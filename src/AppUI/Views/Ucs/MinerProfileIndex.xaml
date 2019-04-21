@@ -12,16 +12,23 @@
 			 BorderBrush="{StaticResource LineColor}"
 			 TextOptions.TextFormattingMode="Display"  
 			 DataContext="{x:Static vm:MinerProfileIndexViewModel.Current}"
-			 d:DesignWidth="330">
+			 d:DesignWidth="330" d:DesignHeight="310">
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
-				<Setter Property="Width" Value="54"></Setter>
+				<Setter Property="Width" Value="50"></Setter>
+				<Setter Property="FontSize" Value="11"></Setter>
 			</Style>
 		</ResourceDictionary>
 	</UserControl.Resources>
 	<Grid>
-		<StackPanel>
+		<ScrollViewer 
+			VerticalScrollBarVisibility="Auto" 
+			PreviewMouseDown="ScrollViewer_PreviewMouseDown">
+			<ScrollViewer.Resources>
+				<sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">4</sys:Double>
+				<sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarButtonHeightKey}">0</sys:Double>
+			</ScrollViewer.Resources>
 			<StackPanel>
 				<WrapPanel Margin="0 2">
 					<TextBlock
@@ -688,6 +695,6 @@
 					</ItemsControl.ItemTemplate>
 				</ItemsControl>
 			</StackPanel>
-		</StackPanel>
+		</ScrollViewer>
 	</Grid>
 </UserControl>
