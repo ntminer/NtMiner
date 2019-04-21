@@ -48,6 +48,9 @@ namespace NTMiner.Views.Ucs {
 
         private void Current_OnReRendMinerProfile() {
             UIThread.Execute(() => {
+                if (Vm.MinerProfile.MineWork != null) {
+                    return;
+                }
                 if (this.PopupKernel.Child != null) {
                     OpenKernelPopup();
                 }
