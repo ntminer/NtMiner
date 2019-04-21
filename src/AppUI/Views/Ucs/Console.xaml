@@ -163,19 +163,15 @@
 				</WrapPanel>
 			</WrapPanel>
 		</StackPanel>
-		<StackPanel Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-			<controls:KbCheckBox 
-				Width="16"
-				ToolTip="翻译成中文"
-				IconColor="{StaticResource IconFillColor}"
-				IsChecked="{Binding IsTranslate}" />
-			<controls:KbCheckBox 
-				x:Name="ChkbIsConsoleAutoScrollToEnd"
-				Width="16"
-				ToolTip="自动滚屏"
-				IconColor="{StaticResource IconFillColor}"
-				IsChecked="True" />
-		</StackPanel>
+		<controls:KbCheckBox 
+			x:Name="ChkbIsConsoleAutoScrollToEnd"
+			Grid.Row="1"
+			Width="16"
+			HorizontalAlignment="Right"
+			VerticalAlignment="Bottom"
+			ToolTip="自动滚屏"
+			IconColor="{StaticResource IconFillColor}"
+			IsChecked="True" />
 		<FlowDocumentScrollViewer 
 			Grid.Row="2"			
 			VerticalScrollBarVisibility="Auto"

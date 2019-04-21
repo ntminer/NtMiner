@@ -22,7 +22,6 @@ namespace NTMiner {
         public static Func<System.Windows.Forms.Keys, bool> RegHotKey;
         public static string AppName;
         public static bool IsUseDevConsole = false;
-        public static bool IsTranslate = true;
         // ReSharper disable once InconsistentNaming
         public static int OSVirtualMemoryMb;
         public static string UserKernelCommandLine;

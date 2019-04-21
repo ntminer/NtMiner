@@ -179,9 +179,7 @@ namespace NTMiner {
                                         }
                                     }
                                     Current.KernelOutputSet.Pick(kernelOutputId, ref input, mineContext);
-                                    if (IsTranslate) {
-                                        Current.KernelOutputTranslaterSet.Translate(kernelOutputId, ref input, ref color, isPre: false);
-                                    }
+                                    Current.KernelOutputTranslaterSet.Translate(kernelOutputId, ref input, ref color);
                                     if (!string.IsNullOrEmpty(input)) {
                                         if (Current.KernelOutputSet.TryGetKernelOutput(kernelOutputId, out IKernelOutput kernelOutput)) {
                                             if (kernelOutput.PrependDateTime) {
