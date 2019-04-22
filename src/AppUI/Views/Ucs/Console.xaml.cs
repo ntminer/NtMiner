@@ -2,6 +2,7 @@
 using NTMiner.Wpf;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
@@ -29,11 +30,45 @@ namespace NTMiner.Views.Ucs {
             }
         }
 
+        private List<string> _buffer = new List<string>();
+        private List<ConsoleColor> _colors = new List<ConsoleColor>();
+        private bool _isBuffer = false;
+        public bool IsBuffer {
+            get {
+                return _isBuffer;
+            }
+            set {
+                _isBuffer = value;
+                if (!_isBuffer) {
+                    Flush();
+                }
+            }
+        }
+
+        private void Flush() {
+            if (_buffer.Count == 0) {
+                return;
+            }
+            Dispatcher.Invoke((Action)(() => {
+                for (int i = 0; i < _buffer.Count; i++) {
+                    string text = _buffer[i];
+                    ConsoleColor foreground = ConsoleColor.White;
+                    if (_colors.Count > i) {
+                        foreground = _colors[i];
+                    }
+                    InnerWrite(text, foreground, isNotice: false);
+                }
+                _buffer.Clear();
+                _colors.Clear();
+            }));
+        }
+
+        private const int MAXLINE = 1000;
+        private const int HALFLINE = MAXLINE / 2;
         private void InnerWrite(string text, ConsoleColor foreground, bool isNotice) {
             InlineCollection list = this.ConsoleParagraph.Inlines;
-            // 满1000行删除500行
-            if (list.Count > 1000) {
-                int delLines = 500;
+            if (list.Count > MAXLINE) {
+                int delLines = HALFLINE;
                 while (delLines-- > 0) {
                     ((IList)list).RemoveAt(0);
                 }
@@ -50,10 +85,27 @@ namespace NTMiner.Views.Ucs {
 
         public void WriteLine(string text, ConsoleColor foreground, bool isNotice) {
             Dispatcher.Invoke((Action)(() => {
-                if (this.ConsoleParagraph.Inlines.Count > 0) {
-                    text = "\n" + text;
+                InlineCollection list = this.ConsoleParagraph.Inlines;
+                string line = text;
+                if (list.Count != 0) {
+                    line = "\n" + text;
                 }
-                InnerWrite(text, foreground, isNotice);
+                if (IsBuffer) {
+                    _buffer.Add(line);
+                    _colors.Add(foreground);
+                    if (list.Count + _buffer.Count > MAXLINE) {
+                        if (list.Count != 0) {
+                            ((IList)list).RemoveAt(0);
+                        }
+                        else {
+                            _buffer.RemoveAt(0);
+                            _colors.RemoveAt(0);
+                        }
+                    }
+                }
+                else {
+                    InnerWrite(line, foreground, isNotice);
+                }
             }));
         }
     }

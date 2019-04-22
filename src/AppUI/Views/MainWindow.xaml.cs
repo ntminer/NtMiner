@@ -3,6 +3,7 @@ using NTMiner.Notifications;
 using NTMiner.Vms;
 using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
 
@@ -162,6 +163,13 @@ namespace NTMiner.Views {
             if (TabItemMinerProfile.IsSelected) {
                 TabItemLog.IsSelected = true;
             }
+        }
+
+        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            if (ConsoleUc == null) {
+                return;
+            }
+            ConsoleUc.IsBuffer = ((TabControl)sender).SelectedItem != TabItemLog;
         }
     }
 }
