@@ -26,7 +26,7 @@
 					<Path
 						Width="36"
 						Height="36"
-						Data="{StaticResource Icon_Logo}"
+						Data="{StaticResource Icon_Kernel}"
 						Fill="#EEECEF"
 						Stretch="Fill">
 					</Path>
