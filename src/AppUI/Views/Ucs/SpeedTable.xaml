@@ -59,7 +59,10 @@
                 <DataGridTemplateColumn MinWidth="90" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
                     <DataGridTemplateColumn.Header>
                         <StackPanel>
-                            <TextBlock Text="{Binding Data.MinerProfile.CoinVm.Code, Source={StaticResource proxy}}" FontSize="12"></TextBlock>
+                            <WrapPanel>
+                                <TextBlock Text="{Binding Data.MinerProfile.CoinVm.Code, Source={StaticResource proxy}}" FontSize="12"></TextBlock>
+                                <TextBlock FontWeight="Normal" FontSize="12" Margin="4 0 0 0" Text="{Binding Data.TotalSpeedVm.MainCoinSpeed.LastSpeedOnText, Source={StaticResource proxy}}"></TextBlock>
+                            </WrapPanel>
                             <TextBlock Text="{Binding Data.TotalSpeedVm.MainCoinSpeed.SpeedText, Source={StaticResource proxy}}" FontSize="11"></TextBlock>
                         </StackPanel>
                     </DataGridTemplateColumn.Header>
@@ -73,7 +76,10 @@
                     Visibility="{Binding Data.MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled, Source={StaticResource proxy}, Converter={StaticResource BoolToHiddenConverter}}">
                     <DataGridTemplateColumn.Header>
                         <StackPanel>
-                            <TextBlock Text="{Binding Data.MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.Code, Source={StaticResource proxy}}" FontSize="12"></TextBlock>
+                            <WrapPanel>
+                                <TextBlock Text="{Binding Data.MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.Code, Source={StaticResource proxy}}" FontSize="12"></TextBlock>
+                                <TextBlock FontWeight="Normal" FontSize="12" Margin="4 0 0 0" Text="{Binding Data.TotalSpeedVm.DualCoinSpeed.LastSpeedOnText, Source={StaticResource proxy}}"></TextBlock>
+                            </WrapPanel>
                             <TextBlock Text="{Binding Data.TotalSpeedVm.DualCoinSpeed.SpeedText, Source={StaticResource proxy}}" FontSize="11"></TextBlock>
                         </StackPanel>
                     </DataGridTemplateColumn.Header>

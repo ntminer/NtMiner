@@ -40,7 +40,27 @@ namespace NTMiner.Vms {
                 if (_speedOn != value) {
                     _speedOn = value;
                     OnPropertyChanged(nameof(SpeedOn));
+                    OnPropertyChanged(nameof(LastSpeedOnText));
                 }
+            }
+        }
+
+        public string LastSpeedOnText {
+            get {
+                if (!NTMinerRoot.Current.IsMining || SpeedOn <= Timestamp.UnixBaseTime) {
+                    return string.Empty;
+                }
+                TimeSpan timeSpan = DateTime.Now - SpeedOn;
+                if (timeSpan.Days >= 1) {
+                    return timeSpan.Days + "天前";
+                }
+                if (timeSpan.Hours > 0) {
+                    return timeSpan.Hours + " 小时前";
+                }
+                if (timeSpan.Minutes > 2) {
+                    return timeSpan.Minutes + "分前";
+                }
+                return (int)timeSpan.TotalSeconds + "秒前";
             }
         }
     }
