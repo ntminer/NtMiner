@@ -87,7 +87,7 @@ namespace NTMiner.Views.Ucs {
             Dispatcher.Invoke((Action)(() => {
                 InlineCollection list = this.ConsoleParagraph.Inlines;
                 string line = text;
-                if (list.Count != 0) {
+                if (list.Count != 0 || _buffer.Count != 0) {
                     line = "\n" + text;
                 }
                 if (IsBuffer) {

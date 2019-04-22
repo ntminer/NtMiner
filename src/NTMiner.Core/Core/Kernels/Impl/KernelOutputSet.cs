@@ -170,7 +170,7 @@ namespace NTMiner.Core.Kernels.Impl {
             if (string.IsNullOrEmpty(totalSpeedPattern)) {
                 return;
             }
-            Match match = Regex.Match(input, totalSpeedPattern);
+            Match match = Regex.Match(input, totalSpeedPattern, RegexOptions.Compiled);
             if (match.Success) {
                 string totalSpeedText = match.Groups["totalSpeed"].Value;
                 string totalSpeedUnit = match.Groups["totalSpeedUnit"].Value;
@@ -252,7 +252,7 @@ namespace NTMiner.Core.Kernels.Impl {
             if (string.IsNullOrEmpty(totalSharePattern)) {
                 return;
             }
-            var match = Regex.Match(input, totalSharePattern);
+            var match = Regex.Match(input, totalSharePattern, RegexOptions.Compiled);
             if (match.Success) {
                 string totalShareText = match.Groups["totalShare"].Value;
                 int totalShare;
@@ -271,7 +271,7 @@ namespace NTMiner.Core.Kernels.Impl {
             if (string.IsNullOrEmpty(acceptSharePattern)) {
                 return;
             }
-            var match = Regex.Match(input, acceptSharePattern);
+            var match = Regex.Match(input, acceptSharePattern, RegexOptions.Compiled);
             if (match.Success) {
                 string acceptShareText = match.Groups["acceptShare"].Value;
                 int acceptShare;
@@ -289,7 +289,7 @@ namespace NTMiner.Core.Kernels.Impl {
             if (string.IsNullOrEmpty(acceptOneShare)) {
                 return;
             }
-            var match = Regex.Match(input, acceptOneShare);
+            var match = Regex.Match(input, acceptOneShare, RegexOptions.Compiled);
             if (match.Success) {
                 ICoinShare share = root.CoinShareSet.GetOrCreate(coin.GetId());
                 root.CoinShareSet.UpdateShare(coin.GetId(), acceptShareCount: share.AcceptShareCount + 1, rejectShareCount: null, now: DateTime.Now);
@@ -304,7 +304,7 @@ namespace NTMiner.Core.Kernels.Impl {
             if (string.IsNullOrEmpty(rejectSharePattern)) {
                 return;
             }
-            var match = Regex.Match(input, rejectSharePattern);
+            var match = Regex.Match(input, rejectSharePattern, RegexOptions.Compiled);
             if (match.Success) {
                 string rejectShareText = match.Groups["rejectShare"].Value;
 
@@ -323,7 +323,7 @@ namespace NTMiner.Core.Kernels.Impl {
             if (string.IsNullOrEmpty(rejectOneShare)) {
                 return;
             }
-            var match = Regex.Match(input, rejectOneShare);
+            var match = Regex.Match(input, rejectOneShare, RegexOptions.Compiled);
             if (match.Success) {
                 ICoinShare share = root.CoinShareSet.GetOrCreate(coin.GetId());
                 root.CoinShareSet.UpdateShare(coin.GetId(), null, share.RejectShareCount + 1, DateTime.Now);
@@ -338,7 +338,7 @@ namespace NTMiner.Core.Kernels.Impl {
             if (string.IsNullOrEmpty(rejectPercentPattern)) {
                 return;
             }
-            var match = Regex.Match(input, rejectPercentPattern);
+            var match = Regex.Match(input, rejectPercentPattern, RegexOptions.Compiled);
             string rejectPercentText = match.Groups["rejectPercent"].Value;
             double rejectPercent;
             if (double.TryParse(rejectPercentText, out rejectPercent)) {

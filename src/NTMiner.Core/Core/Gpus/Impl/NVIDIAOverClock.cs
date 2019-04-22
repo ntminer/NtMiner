@@ -134,14 +134,14 @@ namespace NTMiner.Core.Gpus.Impl {
             double tempLimitDefault = 0;
             double tempLimit = 0;
             if (exitCode == 0) {
-                Match match = Regex.Match(output, coreClockDeltaMinMaxPattern);
+                Match match = Regex.Match(output, coreClockDeltaMinMaxPattern, RegexOptions.Compiled);
                 if (match.Success) {
                     int.TryParse(match.Groups[1].Value, out int coreClockDelta);
                     gpu.CoreClockDelta = coreClockDelta;
                     int.TryParse(match.Groups[2].Value, out coreClockDeltaMin);
                     int.TryParse(match.Groups[3].Value, out coreClockDeltaMax);
                 }
-                match = Regex.Match(output, memoryClockDeltaMinMaxPattern);
+                match = Regex.Match(output, memoryClockDeltaMinMaxPattern, RegexOptions.Compiled);
                 if (match.Success) {
                     int.TryParse(match.Groups[1].Value, out int memoryClockDelta);
                     gpu.MemoryClockDelta = memoryClockDelta;
@@ -155,7 +155,7 @@ namespace NTMiner.Core.Gpus.Impl {
             }
             Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{gpu.Index} coolers", ref exitCode, out output);
             if (exitCode == 0) {
-                Match match = Regex.Match(output, coolSpeedMinMaxPattern);
+                Match match = Regex.Match(output, coolSpeedMinMaxPattern, RegexOptions.Compiled);
                 if (match.Success) {
                     int.TryParse(match.Groups[1].Value, out cool);
                     int.TryParse(match.Groups[2].Value, out coolMin);
@@ -167,15 +167,15 @@ namespace NTMiner.Core.Gpus.Impl {
             }
             Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{gpu.Index} pwrinfo", ref exitCode, out output);
             if (exitCode == 0) {
-                Match match = Regex.Match(output, powerMinPattern);
+                Match match = Regex.Match(output, powerMinPattern, RegexOptions.Compiled);
                 if (match.Success) {
                     double.TryParse(match.Groups[1].Value, out powerMin);
                 }
-                match = Regex.Match(output, powerMaxPattern);
+                match = Regex.Match(output, powerMaxPattern, RegexOptions.Compiled);
                 if (match.Success) {
                     double.TryParse(match.Groups[1].Value, out powerMax);
                 }
-                match = Regex.Match(output, powerLimitCurrentPattern);
+                match = Regex.Match(output, powerLimitCurrentPattern, RegexOptions.Compiled);
                 if (match.Success) {
                     double.TryParse(match.Groups[1].Value, out power);
                 }
@@ -185,19 +185,19 @@ namespace NTMiner.Core.Gpus.Impl {
             }
             Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{gpu.Index} therminfo", ref exitCode, out output);
             if (exitCode == 0) {
-                Match match = Regex.Match(output, tempLimitMinPattern);
+                Match match = Regex.Match(output, tempLimitMinPattern, RegexOptions.Compiled);
                 if (match.Success) {
                     double.TryParse(match.Groups[1].Value, out tempLimitMin);
                 }
-                match = Regex.Match(output, tempLimitMaxPattern);
+                match = Regex.Match(output, tempLimitMaxPattern, RegexOptions.Compiled);
                 if (match.Success) {
                     double.TryParse(match.Groups[1].Value, out tempLimitMax);
                 }
-                match = Regex.Match(output, tempLimitDefaultPattern);
+                match = Regex.Match(output, tempLimitDefaultPattern, RegexOptions.Compiled);
                 if (match.Success) {
                     double.TryParse(match.Groups[1].Value, out tempLimitDefault);
                 }
-                match = Regex.Match(output, tempLimitPattern);
+                match = Regex.Match(output, tempLimitPattern, RegexOptions.Compiled);
                 if (match.Success) {
                     double.TryParse(match.Groups[1].Value, out tempLimit);
                 }
