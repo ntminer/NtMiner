@@ -199,7 +199,7 @@
 								<Path 
 									Height="14"
 									Width="14"
-									Data="{StaticResource Icon_Logo}"
+									Data="{StaticResource Icon_Kernel}"
 									Fill="{StaticResource IconFillColor}"
 									Stretch="Fill" />
 							</WrapPanel>
