@@ -300,16 +300,24 @@
 								</DataGridTemplateColumn.Header>
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate>
-										<StackPanel>
-											<TextBlock 
-												Text="{Binding Name}" 
-												ToolTip="{Binding Name}"
-												VerticalAlignment="Center"></TextBlock>
-											<TextBlock 
+										<WrapPanel>
+											<Path
+												Width="14"
+												Height="14"
+												ToolTip="用户名密码模式"
 												Visibility="{Binding IsUserMode, Converter={StaticResource BoolToVisibilityConverter}}"
-												Text="用户名密码模式" 
-												VerticalAlignment="Center"></TextBlock>
-										</StackPanel>
+												Data="{StaticResource Icon_User}"
+												Fill="{StaticResource IconFillColor}"
+												Stretch="Fill" />
+											<controls:KbLinkButton
+												Padding="0"
+												Foreground="#0072C1"
+												Command="{Binding OpenWebsite}"
+												Content="{Binding Name}"
+												KbDisplayLine="False"
+												KbSystemButtonHoverBackground="Transparent"
+												Background="Transparent" />
+										</WrapPanel>
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>

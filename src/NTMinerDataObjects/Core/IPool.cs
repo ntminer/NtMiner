@@ -6,6 +6,7 @@ namespace NTMiner.Core {
         string Name { get; }
         string Server { get; }
         string Url { get; }
+        string Website { get; }
         int SortNumber { get; }
         bool IsUserMode { get; }
         string UserName { get; }

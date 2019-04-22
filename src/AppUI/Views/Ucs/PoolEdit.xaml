@@ -57,6 +57,12 @@
 						</WrapPanel>
 
 						<WrapPanel Margin="0 2">
+							<TextBlock Style="{StaticResource LblTb}">矿池官网:</TextBlock>
+							<TextBox Width="420" IsReadOnly="{Binding IsReadOnly}" VerticalContentAlignment="Center" Text="{Binding Website}">
+							</TextBox>
+						</WrapPanel>
+
+						<WrapPanel Margin="0 2">
 							<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top">通知:</TextBlock>
 							<TextBox 
 								Width="420" Background="Transparent" Padding="0 4"

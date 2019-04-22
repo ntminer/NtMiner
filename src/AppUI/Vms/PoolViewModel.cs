@@ -23,6 +23,7 @@ namespace NTMiner.Vms {
         private Guid _coinId;
         private string _server;
         private string _url;
+        private string _website;
         private int _sortNumber;
         private string _notice;
         private string _userName;
@@ -41,6 +42,7 @@ namespace NTMiner.Vms {
         public ICommand SortDown { get; private set; }
 
         public ICommand ViewPoolIncome { get; private set; }
+        public ICommand OpenWebsite { get; private set; }
         public ICommand Save { get; private set; }
 
         public Action CloseWindow { get; set; }
@@ -57,6 +59,7 @@ namespace NTMiner.Vms {
             _coinId = data.CoinId;
             _server = data.Server;
             _url = data.Url;
+            _website = data.Website;
             _sortNumber = data.SortNumber;
             _notice = data.Notice;
             _userName = data.UserName;
@@ -121,6 +124,12 @@ namespace NTMiner.Vms {
                 }
             });
             this.ViewPoolIncome = new DelegateCommand<WalletViewModel>((wallet) => {
+                if (wallet == null) {
+                    if (!string.IsNullOrEmpty(Website)) {
+                        Process.Start(Website);
+                    }
+                    return;
+                }
                 if (!string.IsNullOrEmpty(this.Url)) {
                     string url = this.Url;
                     if (this.IsUserMode) {
@@ -132,6 +141,12 @@ namespace NTMiner.Vms {
                     url = url.Replace("{worker}", NTMinerRoot.Current.MinerProfile.MinerName);
                     Process.Start(url);
                 }
+            });
+            this.OpenWebsite = new DelegateCommand(() => {
+                if (string.IsNullOrEmpty(Website)) {
+                    return;
+                }
+                Process.Start(Website);
             });
         }
 
@@ -261,6 +276,14 @@ namespace NTMiner.Vms {
                     _url = value;
                     OnPropertyChanged(nameof(Url));
                 }
+            }
+        }
+
+        public string Website {
+            get { return _website; }
+            set {
+                _website = value;
+                OnPropertyChanged(nameof(Website));
             }
         }
 
