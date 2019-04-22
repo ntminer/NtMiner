@@ -72,7 +72,7 @@ namespace NTMiner.Views.Ucs {
             });
         }
 
-        private void DualCoinWeightSlider_LostFocus(object sender, System.Windows.RoutedEventArgs e) {
+        private void DualCoinWeightSlider_LostFocus(object sender, RoutedEventArgs e) {
             if (Vm.MinerProfile.CoinVm == null
                 || Vm.MinerProfile.CoinVm.CoinKernel == null
                 || Vm.MinerProfile.CoinVm.CoinKernel.CoinKernelProfile == null) {
@@ -153,7 +153,7 @@ namespace NTMiner.Views.Ucs {
             popup.IsOpen = true;
             var selected = Vm.MinerProfile.CoinVm;
             popup.Child = new CoinSelect(
-                new CoinSelectViewModel(Vm.CoinVms.MainCoins.Where(a => a.IsSupported), selected, onSelectedChanged: selectedResult => {
+                new CoinSelectViewModel(CoinViewModels.Current.MainCoins.Where(a => a.IsSupported), selected, onSelectedChanged: selectedResult => {
                     if (selectedResult != null) {
                         Vm.MinerProfile.CoinVm = selectedResult;
                         popup.IsOpen = false;

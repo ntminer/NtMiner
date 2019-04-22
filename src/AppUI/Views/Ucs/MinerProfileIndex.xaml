@@ -11,8 +11,10 @@
 			 mc:Ignorable="d" 
 			 BorderBrush="{StaticResource LineColor}"
 			 TextOptions.TextFormattingMode="Display"  
-			 DataContext="{x:Static vm:MinerProfileIndexViewModel.Current}"
 			 d:DesignWidth="330" d:DesignHeight="310">
+	<UserControl.DataContext>
+		<vm:MinerProfileIndexViewModel></vm:MinerProfileIndexViewModel>
+	</UserControl.DataContext>
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
