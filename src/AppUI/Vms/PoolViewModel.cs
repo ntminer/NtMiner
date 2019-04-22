@@ -124,7 +124,8 @@ namespace NTMiner.Vms {
                 }
             });
             this.ViewPoolIncome = new DelegateCommand<WalletViewModel>((wallet) => {
-                if (wallet == null) {
+                if ((!this.IsUserMode && (wallet == null || string.IsNullOrEmpty(wallet.Address)))  || 
+                    (this.IsUserMode && string.IsNullOrEmpty(this.PoolProfileVm.UserName))) {
                     if (!string.IsNullOrEmpty(Website)) {
                         Process.Start(Website);
                     }
