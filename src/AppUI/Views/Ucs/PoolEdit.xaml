@@ -118,7 +118,7 @@
 			<!--start矿池级参数-->
 			<TabItem>
 				<TabItem.Header>
-					<TextBlock Padding="10 0" Text="内核"></TextBlock>
+					<TextBlock Padding="10 0" Text="矿池级参数"></TextBlock>
 				</TabItem.Header>
 				<Grid>
 					<DataGrid 
