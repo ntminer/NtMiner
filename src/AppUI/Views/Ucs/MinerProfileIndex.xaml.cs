@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 
 namespace NTMiner.Views.Ucs {
     public partial class MinerProfileIndex : UserControl {
@@ -36,14 +35,12 @@ namespace NTMiner.Views.Ucs {
                 this.PopupDualCoinWallet.Child = null;
             };
             NTMinerRoot.Current.OnReRendMinerProfile += Current_OnReRendMinerProfile;
+            this.Unloaded += MinerProfileIndex_Unloaded;
         }
 
-        protected override void OnRender(DrawingContext drawingContext) {
-            Window.GetWindow(this).Closing += (object sender, System.ComponentModel.CancelEventArgs e) => {
-                // 对于挖矿端来说MinerProfileIndex实例是唯一的，但对于群控客户端的作业来说不是，所以这里需要-=
-                NTMinerRoot.Current.OnReRendMinerProfile -= Current_OnReRendMinerProfile;
-            };
-            base.OnRender(drawingContext);
+        private void MinerProfileIndex_Unloaded(object sender, RoutedEventArgs e) {
+            // 对于挖矿端来说MinerProfileIndex实例是唯一的，但对于群控客户端的作业来说不是，所以这里需要-=
+            NTMinerRoot.Current.OnReRendMinerProfile -= Current_OnReRendMinerProfile;
         }
 
         private void Current_OnReRendMinerProfile() {

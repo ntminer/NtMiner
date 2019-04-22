@@ -120,15 +120,6 @@ namespace NTMiner.Views.Ucs {
                 foreach (var handler in _handlers) {
                     VirtualRoot.UnPath(handler);
                 }
-                foreach (var item in Vm.SpeedChartVms) {
-                    item.Series = null;
-                    item.SeriesShadow = null;
-                    item.AxisX = null;
-                    item.AxisY = null;
-                    item.AxisXShadow = null;
-                    item.AxisYShadow = null;
-                }
-                _chartDic.Clear();
             };
             SolidColorBrush White = new SolidColorBrush(Colors.White);
             Vm.PropertyChanged += (object sender, System.ComponentModel.PropertyChangedEventArgs e) => {

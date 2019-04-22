@@ -8,9 +8,12 @@ namespace NTMiner {
         public static void InitializeWithDispatcher() {
             var dispatcher = Dispatcher.CurrentDispatcher;
             s_executor = action => {
-                if (dispatcher.CheckAccess())
+                if (dispatcher.CheckAccess()) {
                     action();
-                else dispatcher.BeginInvoke(action);
+                }
+                else {
+                    dispatcher.BeginInvoke(action);
+                }
             };
         }
 
