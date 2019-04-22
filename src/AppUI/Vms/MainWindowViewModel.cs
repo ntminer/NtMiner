@@ -1,5 +1,6 @@
 ﻿using NTMiner.Core;
 using NTMiner.Views;
+using NTMiner.Views.Ucs;
 using System;
 using System.Collections.Generic;
 using System.Windows;
@@ -12,6 +13,7 @@ namespace NTMiner.Vms {
         private Visibility _isBtnRunAsAdministratorVisible = Visibility.Collapsed;
         private string _serverJsonVersion;
 
+        public ICommand CustomTheme { get; private set; }
         public ICommand StartMine { get; private set; }
         public ICommand StopMine { get; private set; }
         public ICommand UseThisPcName { get; private set; }
@@ -20,6 +22,9 @@ namespace NTMiner.Vms {
             if (Design.IsInDesignMode) {
                 return;
             }
+            this.CustomTheme = new DelegateCommand(() => {
+                LogColor.ShowWindow();
+            });
             this.StartMine = new DelegateCommand(() => {
                 this.StateBarVm.IsMining = true;
                 NTMinerRoot.Current.StartMine();
