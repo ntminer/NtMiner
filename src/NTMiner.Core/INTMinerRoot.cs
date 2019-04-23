@@ -67,6 +67,7 @@ namespace NTMiner {
 
         bool GetIsUseDevice(int gpuIndex);
         void SetIsUseDevice(int gpuIndex, bool isUse);
+        List<int> GetUseDevices();
 
         ISysDicSet SysDicSet { get; }
 

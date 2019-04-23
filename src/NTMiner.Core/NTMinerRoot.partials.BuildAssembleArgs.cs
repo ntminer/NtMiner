@@ -112,7 +112,7 @@ namespace NTMiner {
             string devicesArgs = string.Empty;
             if (!string.IsNullOrWhiteSpace(kernelInput.DevicesArg)) {
                 List<int> useDevices = GetUseDevices();
-                if (useDevices.Count != 0) {
+                if (useDevices.Count != 0 && useDevices.Count != GpuSet.Count) {
                     string separator = kernelInput.DevicesSeparator;
                     if (kernelInput.DevicesSeparator == "space") {
                         separator = " ";
@@ -134,7 +134,7 @@ namespace NTMiner {
                     }
                 }
             }
-            return $"{kernelArgs} {coinKernelArgs} {poolKernelArgs} {customArgs} {devicesArgs}";
+            return $"{kernelArgs} {coinKernelArgs} {poolKernelArgs} {customArgs.Trim()} {devicesArgs.Trim()}";
         }
 
         private static void AssembleArgs(Dictionary<string, string> prms, ref string args, bool isDual) {

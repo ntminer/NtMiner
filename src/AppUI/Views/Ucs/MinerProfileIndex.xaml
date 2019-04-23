@@ -680,6 +680,7 @@
 				<WrapPanel Margin="0 2 0 0" Visibility="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.KernelInputVm.IsSupportDevicesArg, Converter={StaticResource BoolToVisibilityConverter}}">
 					<TextBlock
 						Style="{StaticResource LblTb}"
+						ToolTip="全不选等于全选"
 						Text="显卡" />
 					<ItemsControl
 						IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}"

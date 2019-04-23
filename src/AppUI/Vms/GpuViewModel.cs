@@ -532,8 +532,20 @@ namespace NTMiner.Vms {
         public bool IsDeviceArgInclude {
             get => NTMinerRoot.Current.GetIsUseDevice(this.Index);
             set {
+                List<int> old = NTMinerRoot.Current.GetUseDevices();
+                bool refreshAllGpu = !value && old.Count <= 1;
                 NTMinerRoot.Current.SetIsUseDevice(this.Index, value);
-                OnPropertyChanged(nameof(IsDeviceArgInclude));
+                if (refreshAllGpu) {
+                    foreach (var gpuVm in GpuViewModels.Current) {
+                        if (gpuVm.Index == NTMinerRoot.GpuAllId) {
+                            continue;
+                        }
+                        gpuVm.OnPropertyChanged(nameof(IsDeviceArgInclude));
+                    }
+                }
+                else {
+                    OnPropertyChanged(nameof(IsDeviceArgInclude));
+                }
                 NTMinerRoot.RefreshArgsAssembly();
             }
         }

@@ -676,10 +676,16 @@ namespace NTMiner {
             SetUseDevices(devices);
         }
 
-        private List<int> GetUseDevices() {
+        public List<int> GetUseDevices() {
             List<int> list = new List<int>();
-            if (LocalAppSettingSet.TryGetAppSetting("UseDevices", out IAppSetting setting) && setting.Value != null && setting.Value is IEnumerable<object> items) {
-                list.AddRange(items.Cast<int>());
+            if (LocalAppSettingSet.TryGetAppSetting("UseDevices", out IAppSetting setting) && setting.Value != null) {
+                string[] parts = setting.Value.ToString().Split(',');
+                foreach (var part in parts) {
+                    int index;
+                    if (int.TryParse(part, out index)) {
+                        list.Add(index);
+                    }
+                }
             }
             if (list.Count == 0) {
                 foreach (var gpu in GpuSet) {
@@ -698,7 +704,7 @@ namespace NTMiner {
             }
             AppSettingData appSettingData = new AppSettingData() {
                 Key = "UseDevices",
-                Value = gpuIndexes
+                Value = string.Join(",", gpuIndexes)// 存逗号分隔的字符串，因为litedb处理List、Array有问题
             };
             VirtualRoot.Execute(new ChangeLocalAppSettingCommand(appSettingData));
         }
