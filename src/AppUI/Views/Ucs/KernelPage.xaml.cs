@@ -44,6 +44,18 @@ namespace NTMiner.Views.Ucs {
 
         public KernelPage() {
             InitializeComponent();
+            KernelViewModels.Current.PropertyChanged += Current_PropertyChanged;
+            this.Unloaded += KernelPage_Unloaded;
+        }
+
+        private void KernelPage_Unloaded(object sender, RoutedEventArgs e) {
+            KernelViewModels.Current.PropertyChanged -= Current_PropertyChanged;
+        }
+
+        private void Current_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) {
+            if (e.PropertyName == nameof(KernelViewModels.AllKernels)) {
+                Vm.OnPropertyChanged(nameof(Vm.QueryResults));
+            }
         }
 
         private void BtnDownloadMenu_Click(object sender, RoutedEventArgs e) {

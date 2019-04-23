@@ -61,7 +61,6 @@ namespace NTMiner.Vms {
                         }
                     }
                     Refresh();
-                    KernelPageViewModel.Current.OnPropertyChanged(nameof(KernelPageViewModel.QueryResults));
                 }, icon: IconConst.IconConfirm);
             });
         }

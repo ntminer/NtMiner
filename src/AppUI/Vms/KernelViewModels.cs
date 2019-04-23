@@ -25,7 +25,6 @@ namespace NTMiner.Vms {
                 action: (message) => {
                     _dicById.Add(message.Source.GetId(), new KernelViewModel(message.Source));
                     OnPropertyChanged(nameof(AllKernels));
-                    KernelPageViewModel.Current.OnPropertyChanged(nameof(KernelPageViewModel.QueryResults));
                     foreach (var coinKernelVm in CoinKernelViewModels.Current.AllCoinKernels.Where(a => a.KernelId == message.Source.GetId())) {
                         coinKernelVm.OnPropertyChanged(nameof(coinKernelVm.IsSupportDualMine));
                     }
@@ -34,7 +33,6 @@ namespace NTMiner.Vms {
                 action: message => {
                     _dicById.Remove(message.Source.GetId());
                     OnPropertyChanged(nameof(AllKernels));
-                    KernelPageViewModel.Current.OnPropertyChanged(nameof(KernelPageViewModel.QueryResults));
                     foreach (var coinKernelVm in CoinKernelViewModels.Current.AllCoinKernels.Where(a => a.KernelId == message.Source.GetId())) {
                         coinKernelVm.OnPropertyChanged(nameof(coinKernelVm.IsSupportDualMine));
                     }
