@@ -7,6 +7,7 @@ using System.Linq;
 
 namespace NTMiner {
     public partial class NTMinerRoot : INTMinerRoot {
+        private static readonly string[] gpuIndexChars = new string[] { "a", "b", "c", "d", "e", "f", "g", "h" };
         public string BuildAssembleArgs() {
             if (!CoinSet.TryGetCoin(this.MinerProfile.CoinId, out ICoin mainCoin)) {
                 return string.Empty;
@@ -108,8 +109,32 @@ namespace NTMiner {
             AssembleArgs(argsDic, ref coinKernelArgs, isDual: false);
             AssembleArgs(argsDic, ref poolKernelArgs, isDual: false);
             AssembleArgs(argsDic, ref customArgs, isDual: false);
-
-            return $"{kernelArgs} {coinKernelArgs} {poolKernelArgs} {customArgs}";
+            string devicesArgs = string.Empty;
+            if (!string.IsNullOrWhiteSpace(kernelInput.DevicesArg)) {
+                List<int> useDevices = GetUseDevices();
+                if (useDevices.Count != 0) {
+                    string separator = kernelInput.DevicesSeparator;
+                    if (kernelInput.DevicesSeparator == "space") {
+                        separator = " ";
+                    }
+                    if (string.IsNullOrEmpty(separator)) {
+                        List<string> gpuIndexes = new List<string>();
+                        foreach (var index in useDevices) {
+                            if (index > 9) {
+                                gpuIndexes.Add(gpuIndexChars[index - 10]);
+                            }
+                            else {
+                                gpuIndexes.Add(index.ToString());
+                            }
+                        }
+                        devicesArgs = $"{kernelInput.DevicesArg} {string.Join(separator, gpuIndexes)}";
+                    }
+                    else {
+                        devicesArgs = $"{kernelInput.DevicesArg} {string.Join(separator, useDevices)}";
+                    }
+                }
+            }
+            return $"{kernelArgs} {coinKernelArgs} {poolKernelArgs} {customArgs} {devicesArgs}";
         }
 
         private static void AssembleArgs(Dictionary<string, string> prms, ref string args, bool isDual) {

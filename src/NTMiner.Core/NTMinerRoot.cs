@@ -655,6 +655,54 @@ namespace NTMiner {
             }
         }
 
+
+        public bool GetIsUseDevice(int gpuIndex) {
+            if (gpuIndex < 0 || gpuIndex >= GpuSet.Count) {
+                return false;
+            }
+            List<int> devices = GetUseDevices();
+            return devices.Contains(gpuIndex);
+        }
+
+        public void SetIsUseDevice(int gpuIndex, bool isUse) {
+            List<int> devices = GetUseDevices();
+            if (!isUse) {
+                devices.Remove(gpuIndex);
+            }
+            else if (!devices.Contains(gpuIndex)) {
+                devices.Add(gpuIndex);
+            }
+            devices = devices.OrderBy(a => a).ToList();
+            SetUseDevices(devices);
+        }
+
+        private List<int> GetUseDevices() {
+            List<int> list = new List<int>();
+            if (LocalAppSettingSet.TryGetAppSetting("UseDevices", out IAppSetting setting) && setting.Value != null && setting.Value is IEnumerable<object> items) {
+                list.AddRange(items.Cast<int>());
+            }
+            if (list.Count == 0) {
+                foreach (var gpu in GpuSet) {
+                    if (gpu.Index == GpuAllId) {
+                        continue;
+                    }
+                    list.Add(gpu.Index);
+                }
+            }
+            return list;
+        }
+
+        private void SetUseDevices(List<int> gpuIndexes) {
+            if (gpuIndexes.Count != 0 && gpuIndexes.Count == GpuSet.Count) {
+                gpuIndexes = new List<int>();
+            }
+            AppSettingData appSettingData = new AppSettingData() {
+                Key = "UseDevices",
+                Value = gpuIndexes
+            };
+            VirtualRoot.Execute(new ChangeLocalAppSettingCommand(appSettingData));
+        }
+
         public ISysDicSet SysDicSet { get; private set; }
 
         public ISysDicItemSet SysDicItemSet { get; private set; }

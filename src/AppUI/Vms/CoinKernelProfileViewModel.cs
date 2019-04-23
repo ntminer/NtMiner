@@ -78,6 +78,12 @@ namespace NTMiner.Vms {
                         foreach (var inputSegmentVm in coinKernelVm.InputSegmentVms) {
                             inputSegmentVm.OnPropertyChanged(nameof(inputSegmentVm.IsChecked));
                         }
+                        foreach (var gpuVm in GpuViewModels.Current) {
+                            if (gpuVm.Index == NTMinerRoot.GpuAllId) {
+                                continue;
+                            }
+                            gpuVm.OnPropertyChanged(nameof(gpuVm.IsDeviceArgInclude));
+                        }
                     }
                 }
             }
