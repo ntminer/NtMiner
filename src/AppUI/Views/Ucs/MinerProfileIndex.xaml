@@ -11,7 +11,7 @@
 			 mc:Ignorable="d" 
 			 BorderBrush="{StaticResource LineColor}"
 			 TextOptions.TextFormattingMode="Display"  
-			 d:DesignWidth="330" d:DesignHeight="310">
+			 d:DesignWidth="330" d:DesignHeight="330">
 	<UserControl.DataContext>
 		<vm:MinerProfileIndexViewModel></vm:MinerProfileIndexViewModel>
 	</UserControl.DataContext>
@@ -676,6 +676,29 @@
 							<TextBlock Foreground="Red" Width="300" TextWrapping="Wrap" Text="这是高级用户的工具，通常我们无需关心这一块。"></TextBlock>
 						</TextBox.ToolTip>
 					</TextBox>
+				</WrapPanel>
+				<WrapPanel Margin="0 2 0 0" Visibility="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.KernelInputVm.IsSupportDevicesArg, Converter={StaticResource BoolToVisibilityConverter}}">
+					<TextBlock
+						Style="{StaticResource LblTb}"
+						Text="显卡" />
+					<ItemsControl
+						IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}"
+						ItemsSource="{Binding GpuVms}"
+						BorderThickness="0"
+						VerticalAlignment="Center"
+						ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+						<ItemsControl.ItemsPanel>
+							<ItemsPanelTemplate>
+								<WrapPanel>
+								</WrapPanel>
+							</ItemsPanelTemplate>
+						</ItemsControl.ItemsPanel>
+						<ItemsControl.ItemTemplate>
+							<DataTemplate>
+								<CheckBox Padding="0 0 4 0" Content="{Binding Index}"></CheckBox>
+							</DataTemplate>
+						</ItemsControl.ItemTemplate>
+					</ItemsControl>
 				</WrapPanel>
 				<ItemsControl
 					Margin="50 0 0 0"

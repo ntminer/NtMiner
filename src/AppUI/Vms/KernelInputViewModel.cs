@@ -247,6 +247,7 @@ namespace NTMiner.Vms {
                 _devicesArg = value;
                 OnPropertyChanged(nameof(DevicesArg));
                 OnPropertyChanged(nameof(DevicesArgShape));
+                OnPropertyChanged(nameof(IsSupportDevicesArg));
             }
         }
 
@@ -278,6 +279,12 @@ namespace NTMiner.Vms {
                     list.Add(i + DeviceBaseIndex);
                 }
                 return $"{DevicesArg} {string.Join(DevicesSeparator, list)}";
+            }
+        }
+
+        public bool IsSupportDevicesArg {
+            get {
+                return !string.IsNullOrWhiteSpace(DevicesArg);
             }
         }
     }
