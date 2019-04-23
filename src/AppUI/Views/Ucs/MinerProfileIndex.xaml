@@ -678,7 +678,7 @@
 					</TextBox>
 				</WrapPanel>
 				<ItemsControl
-					Margin="58 0 0 0"
+					Margin="50 0 0 0"
 					IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}"
 					ItemsSource="{Binding MinerProfile.CoinVm.CoinKernel.InputSegmentVms}"
 					BorderThickness="0"
