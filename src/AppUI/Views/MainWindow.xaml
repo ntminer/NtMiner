@@ -423,7 +423,7 @@
 				Padding="0"
 				Margin="-2 -2 0 0"
 				SelectionChanged="TabControl_SelectionChanged"
-				BorderThickness="1 1 0 0" 
+				BorderThickness="1 0 0 0" 
 				BorderBrush="{StaticResource LineColor}"
 				Grid.ColumnSpan="2">
 				<TabItem x:Name="TabItemMinerProfile" Visibility="Collapsed">
