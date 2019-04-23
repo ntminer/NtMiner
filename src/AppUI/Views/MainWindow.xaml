@@ -644,7 +644,7 @@
 								IsChecked="{Binding MinerProfile.CoinVm.IsOverClockEnabled}"></CheckBox>
 						</WrapPanel>
 					</TabItem.Header>
-					<uc:GpuOverClock Margin="4 0 0 0">
+					<uc:GpuOverClock Padding="4 0 0 0">
 					</uc:GpuOverClock>
 				</TabItem>
 				<TabItem>
@@ -659,7 +659,7 @@
 							<TextBlock Text="选项" Padding="4 0 0 0" FontSize="14"></TextBlock>
 						</WrapPanel>
 					</TabItem.Header>
-					<uc:MinerProfileOption Margin="4 0">
+					<uc:MinerProfileOption Padding="4 0 0 0">
 					</uc:MinerProfileOption>
 				</TabItem>
 				<TabItem>
@@ -674,7 +674,7 @@
 							<TextBlock Text="工具箱" Padding="4 0 0 0" FontSize="14"></TextBlock>
 						</WrapPanel>
 					</TabItem.Header>
-					<uc:Toolbox Margin="4 0">
+					<uc:Toolbox Padding="4 0 0 0">
 					</uc:Toolbox>
 				</TabItem>
 				<TabItem>
@@ -689,7 +689,7 @@
 							<TextBlock Text="属性" Padding="4 0 0 0" FontSize="14"></TextBlock>
 						</WrapPanel>
 					</TabItem.Header>
-					<uc:OuterProperty Margin="4 0" />
+					<uc:OuterProperty Padding="4 0 0 0" />
 				</TabItem>
 			</TabControl>
 
