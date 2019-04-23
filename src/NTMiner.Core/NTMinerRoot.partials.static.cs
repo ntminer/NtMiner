@@ -38,7 +38,7 @@ namespace NTMiner {
         public static readonly INTMinerRoot Current = SCurrent;
         public static readonly Version CurrentVersion;
         public static readonly string CurrentVersionTag;
-        public bool IsNCard {
+        public static bool IsNCard {
             get {
                 try {
                     foreach (ManagementBaseObject item in new ManagementObjectSearcher("SELECT Caption FROM Win32_VideoController").Get()) {

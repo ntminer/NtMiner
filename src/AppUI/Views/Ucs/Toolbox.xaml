@@ -21,6 +21,7 @@
 				<controls:KbButton 
 					Height="50" 
 					Width="200"
+					Margin="4"
 					Command="{Binding SwitchRadeonGpu}"
 					Cursor="Hand"
 					Background="Transparent">
@@ -31,9 +32,65 @@
 							Data="{StaticResource Icon_AMD}"
 							Fill="Red"
 							Stretch="Fill" />
-						<StackPanel Margin="8 0 0 0">
+						<StackPanel Margin="8 0 0 0" Width="152">
 							<TextBlock FontWeight="Bold" FontSize="14">A卡计算模式</TextBlock>
 							<TextBlock Foreground="{StaticResource LableColor}">一键开启所有A卡的计算模式</TextBlock>
+						</StackPanel>
+					</WrapPanel>
+				</controls:KbButton>
+				<controls:KbButton 
+					Height="50" 
+					Width="200"
+					Margin="4"
+					Cursor="Hand"
+					ToolTip="如果没有20系列的卡，挖矿建议使用3xx驱动。"
+					Background="Transparent">
+					<WrapPanel VerticalAlignment="Center">
+						<Path 
+							Width="30"
+							Height="30"
+							Data="{StaticResource Icon_Nvidia}"
+							Fill="Green"
+							Stretch="Fill" />
+						<StackPanel Margin="8 0 0 0" Width="152">
+							<controls:KbLinkButton
+								Command="{Binding NavigateToNvidiaDriverWin10}"
+								Padding="0"
+								HorizontalAlignment="Left"
+								KbDisplayLine="False"
+								KbSystemButtonHoverBackground="Transparent"
+								Background="Transparent"
+								Foreground="#0072C1" 
+								FontSize="14">N卡驱动399.24_win10</controls:KbLinkButton>
+							<controls:KbLinkButton 
+								Command="{Binding NavigateToNvidiaDriverWin7}"
+								Padding="0"
+								HorizontalAlignment="Left"
+								KbDisplayLine="False"
+								KbSystemButtonHoverBackground="Transparent"
+								Background="Transparent"
+								Foreground="#0072C1" 
+								FontSize="14">N卡驱动399.24_win7</controls:KbLinkButton>
+						</StackPanel>
+					</WrapPanel>
+				</controls:KbButton>
+				<controls:KbButton 
+					Height="50" 
+					Width="200"
+					Margin="4"
+					Cursor="Hand"
+					Command="{Binding NavigateToAmdDriver}"
+					Background="Transparent">
+					<WrapPanel VerticalAlignment="Center">
+						<Path 
+							Width="30"
+							Height="30"
+							Data="{StaticResource Icon_AMD}"
+							Fill="Red"
+							Stretch="Fill" />
+						<StackPanel Margin="8 0 0 0" Width="152">
+							<TextBlock FontWeight="Bold" FontSize="14">A卡驱动下载</TextBlock>
+							<TextBlock Foreground="{StaticResource LableColor}">打开AMD官网下载A卡驱动</TextBlock>
 						</StackPanel>
 					</WrapPanel>
 				</controls:KbButton>
