@@ -144,7 +144,6 @@ namespace NTMiner.Views {
             BtnLeftTriangle.Visibility = Visibility.Collapsed;
             BtnLayoutMain.Visibility = Visibility.Collapsed;
             MinerProfileContainerLeft.Visibility = Visibility.Collapsed;
-            TabItemStart.Visibility = Visibility.Hidden;
             MinerProfileContainerLeft.Child = null;
             MinerProfileContainerRight.Child = GridMineStart;
             TabItemMinerProfile.Visibility = Visibility.Visible;
@@ -156,7 +155,6 @@ namespace NTMiner.Views {
             BtnLeftTriangle.Visibility = Visibility.Visible;
             BtnLayoutLeftRight.Visibility = Visibility.Collapsed;
             MinerProfileContainerLeft.Visibility = Visibility.Visible;
-            TabItemStart.Visibility = Visibility.Visible;
             MinerProfileContainerRight.Child = null;
             MinerProfileContainerLeft.Child = GridMineStart;
             TabItemMinerProfile.Visibility = Visibility.Collapsed;

@@ -24,11 +24,11 @@
 	<converters:ProfitToBrushConverter x:Key="ProfitToBrushConverter"></converters:ProfitToBrushConverter>
 	<converters:AutoNumberValueConverter x:Key="AutoNumberValueConverter"></converters:AutoNumberValueConverter>
 
-	<SolidColorBrush x:Key="IconFillColor">#005098</SolidColorBrush>
+	<SolidColorBrush x:Key="IconFillColor">#278CDE</SolidColorBrush>
 	<SolidColorBrush x:Key="TransparentColor" Color="#00FFFFFF" />
 	<SolidColorBrush x:Key="LableColor" Color="#99000000"></SolidColorBrush>
 	<SolidColorBrush x:Key="LineColor">#D9D9D9</SolidColorBrush>
-	<SolidColorBrush x:Key="ThemeBackground">#3CA4FE</SolidColorBrush>
+	<SolidColorBrush x:Key="ThemeBackground">#007ACC</SolidColorBrush>
 	<SolidColorBrush x:Key="ThemeForeground">White</SolidColorBrush>
 	<SolidColorBrush x:Key="StateBarBackground">#007ACC</SolidColorBrush>
 	<SolidColorBrush x:Key="StateBarForeground">White</SolidColorBrush>
@@ -92,10 +92,10 @@
 		</Setter>
 		<Style.Triggers>
 			<Trigger Property="IsMouseOver" Value="true">
-				<Setter Property="Foreground" Value="#836258"/>
+				<Setter Property="Foreground" Value="#2DA4FF"/>
 			</Trigger>
 			<Trigger Property="IsSelected" Value="true">
-				<Setter Property="Background" Value="#836258"/>
+				<Setter Property="Background" Value="#2DA4FF"/>
 				<Setter Property="Foreground" Value="White"/>
 			</Trigger>
 		</Style.Triggers>

@@ -46,7 +46,7 @@
 								Margin="4 4 6 0" 
 								Width="50" Height="50"
 								Data="{StaticResource Icon_Windows}"
-								Fill="{StaticResource IconFillColor}"
+								Fill="{StaticResource ThemeBackground}"
 								Stretch="Fill"
 								Visibility="{Binding IsSystemDisk, Converter={StaticResource BoolToHiddenConverter}}">
 							</Path>
@@ -63,7 +63,7 @@
 											<WrapPanel>
 												<Rectangle 
 													Height="16" Width="{Binding HasUsedSpacePercent, ConverterParameter=250, Converter={StaticResource PercentToLengthConverter}}" 
-													HorizontalAlignment="Left" Fill="{StaticResource IconFillColor}"></Rectangle>
+													HorizontalAlignment="Left" Fill="{StaticResource ThemeBackground}"></Rectangle>
 											</WrapPanel>
 										</Border>
 										<WrapPanel>

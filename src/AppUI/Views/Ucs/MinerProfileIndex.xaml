@@ -42,7 +42,7 @@
 							Padding="4 0"
 							BorderThickness="1"
 							BorderBrush="{StaticResource LineColor}"
-							Height="30"							
+							Height="26"							
 							IsEnabled="{Binding ElementName=PopupMainCoin,Path=IsOpen,Converter={StaticResource BoolInvertConverter}}"
 							Background="{Binding StateBarVm.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
 							Click="KbButtonMainCoin_Clicked">
@@ -86,7 +86,7 @@
 							Padding="4 0"
 							BorderThickness="1"
 							BorderBrush="{StaticResource LineColor}"
-							Height="30"							
+							Height="26"							
 							IsEnabled="{Binding ElementName=PopupMainCoinPool,Path=IsOpen,Converter={StaticResource BoolInvertConverter}}"
 							Background="{Binding StateBarVm.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
 							Click="KbButtonMainCoinPool_Clicked">
@@ -134,7 +134,7 @@
 								Padding="4 0"
 								BorderThickness="1"
 								BorderBrush="{StaticResource LineColor}"
-								Height="40"							
+								Height="36"							
 								IsEnabled="{Binding ElementName=PopupMainCoinWallet,Path=IsOpen,Converter={StaticResource BoolInvertConverter}}"
 								Background="{Binding StateBarVm.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
 								Click="KbButtonMainCoinWallet_Clicked">
@@ -155,7 +155,7 @@
 										<TextBlock FontSize="11" Foreground="Black" Text="{Binding MinerProfile.CoinVm.CoinProfile.SelectedWallet.Address}"></TextBlock>
 									</StackPanel>
 									<Path
-										Margin="-12 0 0 0"
+										Margin="-12 0 0 6"
 										Width="12"
 										Height="8"
 										Data="{StaticResource Icon_ComboBoxToogle}"
@@ -173,13 +173,13 @@
 						<Path
 							Width="269"
 							Height="14"
-							Margin="56 -18 0 0" 
+							Margin="52 -18 0 0" 
 							Data="M98 480.86h829.99v63.79H98z"
 							Fill="{StaticResource ThemeBackground}"
 							Stretch="Fill"
 							Visibility="{Binding MinerProfile.CoinVm.CoinProfile.IsHideWallet, Converter={StaticResource BoolToVisibilityConverter}}" />
 					</WrapPanel>
-					<WrapPanel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="260 4 0 0">
+					<WrapPanel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="260 2 0 0">
 						<controls:KbButton 
 							Padding="2"
 							Margin="0 -1 -4 2"
@@ -233,7 +233,7 @@
 					<TextBlock Style="{StaticResource LblTb}" Text="用户名"></TextBlock>
 					<Grid>
 						<TextBox 
-							Height="30"
+							Height="26"
 							Width="136"
 							Background="{Binding StateBarVm.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
 							IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}"
@@ -255,7 +255,7 @@
 						Style="{StaticResource LblTb}" Text="密码"></TextBlock>
 					<Grid>
 						<TextBox 
-							Height="30"
+							Height="26"
 							Width="114"
 							Background="{Binding StateBarVm.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
 							IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}"
@@ -312,7 +312,7 @@
 							Padding="4 0"
 							BorderThickness="1"
 							BorderBrush="{StaticResource LineColor}"
-							Height="30"
+							Height="26"
 							IsEnabled="{Binding ElementName=PopupKernel,Path=IsOpen,Converter={StaticResource BoolInvertConverter}}"
 							Background="{Binding StateBarVm.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
 							Click="KbButtonKernel_Clicked">
@@ -398,7 +398,7 @@
 									Padding="4 0"
 									BorderThickness="1"
 									BorderBrush="{StaticResource LineColor}"
-									Height="30"							
+									Height="26"							
 									IsEnabled="{Binding ElementName=PopupDualCoin,Path=IsOpen,Converter={StaticResource BoolInvertConverter}}"
 									Background="{Binding StateBarVm.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
 									Click="KbButtonDualCoin_Clicked">
@@ -442,7 +442,7 @@
 									Padding="4 0"
 									BorderThickness="1"
 									BorderBrush="{StaticResource LineColor}"
-									Height="30"							
+									Height="26"							
 									IsEnabled="{Binding ElementName=PopupDualCoinPool,Path=IsOpen,Converter={StaticResource BoolInvertConverter}}"
 									Background="{Binding StateBarVm.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
 									Click="KbButtonDualCoinPool_Clicked">
@@ -489,7 +489,7 @@
 											Padding="4 0"
 											BorderThickness="1"
 											BorderBrush="{StaticResource LineColor}"
-											Height="40"							
+											Height="36"							
 											IsEnabled="{Binding ElementName=PopupDualCoinWallet,Path=IsOpen,Converter={StaticResource BoolInvertConverter}}"
 											Background="{Binding StateBarVm.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
 											Click="KbButtonDualCoinWallet_Clicked">
@@ -510,7 +510,7 @@
 													<TextBlock FontSize="11" Foreground="Black" Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.SelectedDualCoinWallet.Address}"></TextBlock>
 												</StackPanel>
 												<Path
-													Margin="-12 0 0 0"
+													Margin="-12 0 0 6"
 													Width="12"
 													Height="8"
 													Data="{StaticResource Icon_ComboBoxToogle}"
@@ -529,13 +529,13 @@
 								<Path
 									Width="269"
 									Height="14"
-									Margin="56 -18 0 0" 
+									Margin="52 -18 0 0" 
 									Data="M98 480.86h829.99v63.79H98z"
 									Fill="{StaticResource ThemeBackground}"
 									Stretch="Fill"
 									Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.IsDualCoinHideWallet, Converter={StaticResource BoolToVisibilityConverter}}" />
 							</WrapPanel>
-							<WrapPanel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="260 4 0 0">
+							<WrapPanel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="260 2 0 0">
 								<controls:KbButton 
 									Padding="2"
 									Margin="0 -1 -4 2"
@@ -665,7 +665,7 @@
 						Style="{StaticResource LblTb}"
 						Text="高级参数" />
 					<TextBox 
-						Height="30"
+						Height="26"
 						Width="274"
 						VerticalContentAlignment="Center"
 						Background="{Binding StateBarVm.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
