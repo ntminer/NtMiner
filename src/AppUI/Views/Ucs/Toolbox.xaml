@@ -94,6 +94,26 @@
 						</StackPanel>
 					</WrapPanel>
 				</controls:KbButton>
+				<controls:KbButton 
+					Height="50" 
+					Width="200"
+					Margin="4"
+					Command="{x:Static vm:AppStatic.ShowVirtualMemory}"
+					Cursor="Hand"
+					Background="Transparent">
+					<WrapPanel VerticalAlignment="Center">
+						<Path 
+							Width="30"
+							Height="30"
+							Data="{StaticResource Icon_VirtualMemory}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+						<StackPanel Margin="8 0 0 0" Width="152">
+							<TextBlock FontWeight="Bold" FontSize="14">管理虚拟内存</TextBlock>
+							<TextBlock Foreground="{StaticResource LableColor}">打开虚拟内存管理页面</TextBlock>
+						</StackPanel>
+					</WrapPanel>
+				</controls:KbButton>
 			</WrapPanel>
 		</ScrollViewer>
 	</Grid>
