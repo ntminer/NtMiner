@@ -7,8 +7,10 @@
         xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
         xmlns:local="clr-namespace:NTMiner.Views.Ucs"
         xmlns:vm="clr-namespace:NTMiner.Vms"
-        DataContext="{x:Static vm:ColumnsShowPageViewModel.Current}"
         mc:Ignorable="d" d:DesignHeight="400" d:DesignWidth="300">
+    <UserControl.DataContext>
+        <vm:ColumnsShowPageViewModel></vm:ColumnsShowPageViewModel>
+    </UserControl.DataContext>
     <Grid>
         <DataGrid 
             Margin="0" ItemsSource="{Binding ColumnsShowVms.List}" 
@@ -18,10 +20,10 @@
                 <controls:BindingProxy x:Key="proxy" Data="{Binding ColumnsShowVms}" />
             </DataGrid.Resources>
             <DataGrid.Columns>
-                <DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="名称" Binding="{Binding ColumnsShowName}">
+                <DataGridTextColumn Width="*" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="名称" Binding="{Binding ColumnsShowName}">
                 </DataGridTextColumn>
                 <DataGridTemplateColumn 
-                    MinWidth="100" Width="*" CanUserResize="True" IsReadOnly="True">
+                    CanUserResize="True" IsReadOnly="True">
                     <DataGridTemplateColumn.Header>
                         <controls:KbButton  
                             Command="{Binding Data.Add, Source={StaticResource proxy}}" 

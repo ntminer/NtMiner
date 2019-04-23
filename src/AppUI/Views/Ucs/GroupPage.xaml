@@ -9,8 +9,10 @@
 			 xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 			 Background="White"
 			 TextOptions.TextFormattingMode="Display" 
-			 DataContext="{x:Static vm:GroupPageViewModel.Current}"
 			 mc:Ignorable="d" d:DesignHeight="420" d:DesignWidth="660">
+	<UserControl.DataContext>
+		<vm:GroupPageViewModel></vm:GroupPageViewModel>
+	</UserControl.DataContext>
 	<Grid>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -127,9 +129,9 @@
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn 
-						CanUserResize="True" CanUserReorder="False" 
-						Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-						CanUserSort="False" IsReadOnly="True" >
+					CanUserResize="True" CanUserReorder="False" 
+					Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+					CanUserSort="False" IsReadOnly="True" >
 					<DataGridTemplateColumn.Header>
 						<TextBlock Text="排序"></TextBlock>
 					</DataGridTemplateColumn.Header>
@@ -145,10 +147,10 @@
 		<WrapPanel Grid.Row="0" Grid.Column="2" Margin="0 2" VerticalAlignment="Center" Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
 			<Label Width="40" Content="币种"></Label>
 			<controls:KbComboBox 
-						x:Name="CbCoins"
-						BorderThickness="0"
-						Width="132" ItemsSource="{Binding CurrentGroup.CoinVms}" 
-						DisplayMemberPath="CodeAlgo">
+				x:Name="CbCoins"
+				BorderThickness="0"
+				Width="132" ItemsSource="{Binding CurrentGroup.CoinVms}" 
+				DisplayMemberPath="CodeAlgo">
 				<controls:KbComboBox.ItemContainerStyle>
 					<Style TargetType="ComboBoxItem">
 						<Setter Property="Height" Value="30"></Setter>
@@ -156,12 +158,12 @@
 				</controls:KbComboBox.ItemContainerStyle>
 			</controls:KbComboBox>
 			<controls:KbButton 
-						Command="{Binding CurrentGroup.AddCoinGroup}" 
-						CommandParameter="{Binding ElementName=CbCoins, Path=SelectedItem}"
-						Background="Transparent" BorderThickness="0"
-						Margin="2 0"
-						CornerRadius="2" 
-						Content="添加">
+				Command="{Binding CurrentGroup.AddCoinGroup}" 
+				CommandParameter="{Binding ElementName=CbCoins, Path=SelectedItem}"
+				Background="Transparent" BorderThickness="0"
+				Margin="2 0"
+				CornerRadius="2" 
+				Content="添加">
 			</controls:KbButton>
 		</WrapPanel>
 		<Grid Grid.Row="1" Grid.Column="2">
@@ -172,7 +174,7 @@
 					<controls:BindingProxy x:Key="proxy" Data="{Binding CurrentGroup}" />
 				</DataGrid.Resources>
 				<DataGrid.Columns>
-					<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTemplateColumn Width="*" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<TextBlock Text="币种"></TextBlock>
 						</DataGridTemplateColumn.Header>
@@ -196,7 +198,7 @@
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
 					<DataGridTemplateColumn 
-						MinWidth="100" Width="*" CanUserResize="True" CanUserSort="False" IsReadOnly="True">
+						MinWidth="100" CanUserResize="True" CanUserSort="False" IsReadOnly="True">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel 
