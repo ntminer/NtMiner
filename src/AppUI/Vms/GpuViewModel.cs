@@ -527,5 +527,61 @@ namespace NTMiner.Vms {
                 return this.TempLimit.ToString() + "℃";
             }
         }
+
+        private static readonly string[] chars = new string[] { "a", "b", "c", "d", "e", "f", "g", "h" };
+        public bool IsDeviceArgInclude {
+            get {
+                if (Index == NTMinerRoot.GpuAllId) {
+                    return false;
+                }
+                var coinVm = MinerProfileViewModel.Current.CoinVm;
+                if (coinVm == null || coinVm.CoinKernel == null || coinVm.CoinKernel.Kernel == null || coinVm.CoinKernel.Kernel.KernelInputVm == null) {
+                    return false;
+                }
+                var kernelVm = coinVm.CoinKernel.Kernel;
+                string devicesArg = kernelVm.KernelInputVm.DevicesArg;
+                if (string.IsNullOrWhiteSpace(devicesArg)) {
+                    return false;
+                }
+                var coinKernelProfile = coinVm.CoinKernel.CoinKernelProfile;
+                if (coinKernelProfile == null) {
+                    return false;
+                }
+                string customArgs = coinKernelProfile.CustomArgs;
+                if (string.IsNullOrEmpty(customArgs)) {
+                    return true;
+                }
+                int index = customArgs.IndexOf(devicesArg);
+                if (index == -1) {
+                    return true;
+                }
+                else {
+                    int leftIndex = index + devicesArg.Length;
+                    int rightIndex = leftIndex;
+                    for (int i = index + devicesArg.Length; i < customArgs.Length; i++) {
+                        if (customArgs[i] != '-') {
+                            rightIndex = i;
+                        }
+                        else {
+                            break;
+                        }
+                    }
+                    string values = customArgs.Substring(leftIndex, rightIndex - leftIndex);
+                    string separator = kernelVm.KernelInputVm.DevicesSeparator;
+                    if (kernelVm.KernelInputVm.IsDevicesSpaceSeparator) {
+                        separator = " ";
+                    }
+                    string[] parts = values.Split(new string[] { separator }, StringSplitOptions.RemoveEmptyEntries);
+                    string gpuIndex = this.Index.ToString();
+                    if (string.IsNullOrEmpty(separator) && Index > 9) {
+                        gpuIndex = chars[Index - 10];
+                    }
+                    return parts.Contains(gpuIndex);
+                }
+            }
+            set {
+
+            }
+        }
     }
 }

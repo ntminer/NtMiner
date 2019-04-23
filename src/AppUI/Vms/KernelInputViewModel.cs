@@ -266,6 +266,13 @@ namespace NTMiner.Vms {
                 _devicesSeparator = value;
                 OnPropertyChanged(nameof(DevicesSeparator));
                 OnPropertyChanged(nameof(DevicesArgShape));
+                OnPropertyChanged(nameof(IsDevicesSpaceSeparator));
+            }
+        }
+
+        public bool IsDevicesSpaceSeparator {
+            get {
+                return DevicesSeparator == "space";
             }
         }
 
@@ -278,7 +285,11 @@ namespace NTMiner.Vms {
                 for (int i = 0; i < 6; i++) {
                     list.Add(i + DeviceBaseIndex);
                 }
-                return $"{DevicesArg} {string.Join(DevicesSeparator, list)}";
+                string separator = DevicesSeparator;
+                if (IsDevicesSpaceSeparator) {
+                    separator = " ";
+                }
+                return $"{DevicesArg} {string.Join(separator, list)}";
             }
         }
 

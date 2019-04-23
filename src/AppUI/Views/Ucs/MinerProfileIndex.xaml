@@ -695,7 +695,7 @@
 						</ItemsControl.ItemsPanel>
 						<ItemsControl.ItemTemplate>
 							<DataTemplate>
-								<CheckBox Padding="0 0 4 0" Content="{Binding Index}"></CheckBox>
+								<CheckBox Padding="0 0 4 0" IsChecked="{Binding IsDeviceArgInclude}" Content="{Binding Index}"></CheckBox>
 							</DataTemplate>
 						</ItemsControl.ItemTemplate>
 					</ItemsControl>
