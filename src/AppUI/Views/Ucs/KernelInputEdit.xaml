@@ -167,7 +167,7 @@
 		<StackPanel Grid.Column="1" Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}" HorizontalAlignment="Left">
 			<TextBox 
 				Width="100" Margin="0 6 0 0" BorderThickness="0" IsReadOnly="True" 
-				AcceptsReturn="True" TextWrapping="Wrap">mainCoin、mainAlgo、wallet、userName、password、host、port、pool、worker</TextBox>
+				AcceptsReturn="True" TextWrapping="Wrap">mainCoin、wallet、userName、password、host、port、pool、worker</TextBox>
 			<TextBox 
 				Margin="0"
 				Visibility="{Binding IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}"

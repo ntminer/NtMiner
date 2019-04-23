@@ -48,7 +48,6 @@ namespace NTMiner {
             string customArgs = coinKernelProfile.CustomArgs;
             var argsDic = new Dictionary<string, string> {
                 {"mainCoin", mainCoin.Code },
-                {"mainAlgo", mainCoin.Algo },
                 {"wallet", wallet },
                 {"userName", userName },
                 {"password", password },
@@ -121,11 +120,15 @@ namespace NTMiner {
                     if (string.IsNullOrEmpty(separator)) {
                         List<string> gpuIndexes = new List<string>();
                         foreach (var index in useDevices) {
-                            if (index > 9) {
-                                gpuIndexes.Add(gpuIndexChars[index - 10]);
+                            int i = index;
+                            if (kernelInput.DeviceBaseIndex != 0) {
+                                i = index + kernelInput.DeviceBaseIndex;
+                            }
+                            if (i > 9) {
+                                gpuIndexes.Add(gpuIndexChars[i - 10]);
                             }
                             else {
-                                gpuIndexes.Add(index.ToString());
+                                gpuIndexes.Add(i.ToString());
                             }
                         }
                         devicesArgs = $"{kernelInput.DevicesArg} {string.Join(separator, gpuIndexes)}";
@@ -143,11 +146,11 @@ namespace NTMiner {
             if (!string.IsNullOrEmpty(poolKernelArgs)) {
                 sb.Append(" ").Append(poolKernelArgs);
             }
-            if (!string.IsNullOrEmpty(customArgs)) {
-                sb.Append(" ").Append(customArgs);
-            }
             if (!string.IsNullOrEmpty(devicesArgs)) {
                 sb.Append(" ").Append(devicesArgs);
+            }
+            if (!string.IsNullOrEmpty(customArgs)) {
+                sb.Append(" ").Append(customArgs);
             }
             return sb.ToString();
         }
@@ -158,7 +161,6 @@ namespace NTMiner {
                 return;
             }
             args = args.Replace("{mainCoin}", prms["mainCoin"]);
-            args = args.Replace("{mainAlgo}", prms["mainAlgo"]);
             args = args.Replace("{wallet}", prms["wallet"]);
             args = args.Replace("{userName}", prms["userName"]);
             args = args.Replace("{password}", prms["password"]);
