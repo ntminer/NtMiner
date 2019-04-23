@@ -14,9 +14,6 @@ namespace NTMiner.Vms {
                 _listByGroupId.Clear();
                 Init();
             };
-            NTMinerRoot.Current.OnReRendContext += () => {
-                AllPropertyChanged();
-            };
             Init();
         }
 

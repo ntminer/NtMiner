@@ -19,7 +19,7 @@ namespace NTMiner.Vms {
                 Init();
             };
             NTMinerRoot.Current.OnReRendContext += () => {
-                AllPropertyChanged();
+                OnPropertyChangeds();
             };
             this.Add = new DelegateCommand(() => {
                 new SysDicViewModel(Guid.NewGuid()).Edit.Execute(null);
@@ -36,8 +36,7 @@ namespace NTMiner.Vms {
                         if (!_dicByCode.ContainsKey(message.Source.Code)) {
                             _dicByCode.Add(message.Source.Code, sysDicVm);
                         }
-                        OnPropertyChanged(nameof(List));
-                        OnPropertyChanged(nameof(Count));
+                        OnPropertyChangeds();
                     }
                 }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             VirtualRoot.On<SysDicUpdatedEvent>("更新了系统字典后调整VM内存", LogEnum.DevConsole,
@@ -55,14 +54,18 @@ namespace NTMiner.Vms {
                 action: (message) => {
                     _dicById.Remove(message.Source.GetId());
                     _dicByCode.Remove(message.Source.Code);
-                    OnPropertyChanged(nameof(List));
-                    OnPropertyChanged(nameof(Count));
+                    OnPropertyChangeds();
                 }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             foreach (var item in NTMinerRoot.Current.SysDicSet) {
                 SysDicViewModel sysDicVm = new SysDicViewModel(item);
                 _dicById.Add(item.GetId(), sysDicVm);
                 _dicByCode.Add(item.Code, sysDicVm);
             }
+        }
+
+        private void OnPropertyChangeds() {
+            OnPropertyChanged(nameof(List));
+            OnPropertyChanged(nameof(Count));
         }
 
         public bool TryGetSysDicVm(Guid dicId, out SysDicViewModel sysDicVm) {

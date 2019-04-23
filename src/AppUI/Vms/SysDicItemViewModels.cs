@@ -15,7 +15,7 @@ namespace NTMiner.Vms {
                 Init();
             };
             NTMinerRoot.Current.OnReRendContext += () => {
-                AllPropertyChanged();
+                OnPropertyChangeds();
             };
             Init();
         }
@@ -25,9 +25,7 @@ namespace NTMiner.Vms {
                 action: (message) => {
                     if (!_dicById.ContainsKey(message.Source.GetId())) {
                         _dicById.Add(message.Source.GetId(), new SysDicItemViewModel(message.Source));
-                        OnPropertyChanged(nameof(List));
-                        OnPropertyChanged(nameof(Count));
-                        OnPropertyChanged(nameof(KernelBrandItems));
+                        OnPropertyChangeds();
                         SysDicViewModel sysDicVm;
                         if (SysDicViewModels.Current.TryGetSysDicVm(message.Source.DicId, out sysDicVm)) {
                             sysDicVm.OnPropertyChanged(nameof(sysDicVm.SysDicItems));
@@ -53,9 +51,7 @@ namespace NTMiner.Vms {
             VirtualRoot.On<SysDicItemRemovedEvent>("删除了系统字典项后调整VM内存", LogEnum.DevConsole,
                 action: (message) => {
                     _dicById.Remove(message.Source.GetId());
-                    OnPropertyChanged(nameof(List));
-                    OnPropertyChanged(nameof(Count));
-                    OnPropertyChanged(nameof(KernelBrandItems));
+                    OnPropertyChangeds();
                     SysDicViewModel sysDicVm;
                     if (SysDicViewModels.Current.TryGetSysDicVm(message.Source.DicId, out sysDicVm)) {
                         sysDicVm.OnPropertyChanged(nameof(sysDicVm.SysDicItems));
@@ -65,6 +61,12 @@ namespace NTMiner.Vms {
             foreach (var item in NTMinerRoot.Current.SysDicItemSet) {
                 _dicById.Add(item.GetId(), new SysDicItemViewModel(item));
             }
+        }
+
+        private void OnPropertyChangeds() {
+            OnPropertyChanged(nameof(List));
+            OnPropertyChanged(nameof(Count));
+            OnPropertyChanged(nameof(KernelBrandItems));
         }
 
         public List<SysDicItemViewModel> KernelBrandItems {

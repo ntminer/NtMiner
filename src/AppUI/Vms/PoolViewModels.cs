@@ -13,7 +13,7 @@ namespace NTMiner.Vms {
                 Init();
             };
             NTMinerRoot.Current.OnReRendContext += () => {
-                AllPropertyChanged();
+                OnPropertyChanged(nameof(AllPools));
             };
             Init();
         }

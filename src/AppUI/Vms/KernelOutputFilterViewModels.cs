@@ -15,9 +15,6 @@ namespace NTMiner.Vms {
                 _dicByKernelOutputId.Clear();
                 Init();
             };
-            NTMinerRoot.Current.OnReRendContext += () => {
-                AllPropertyChanged();
-            };
             Init();
         }
 
