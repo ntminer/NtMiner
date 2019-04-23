@@ -107,6 +107,15 @@ namespace NTMiner.Vms {
             }
         }
 
+        public string SharpIndexText {
+            get {
+                if (Index == NTMinerRoot.GpuAllId) {
+                    return "All";
+                }
+                return $"#{Index}";
+            }
+        }
+
         public string Name {
             get => _name;
             set {
