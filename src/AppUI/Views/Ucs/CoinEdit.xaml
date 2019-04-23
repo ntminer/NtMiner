@@ -20,19 +20,21 @@
 			<TextBox 
 				IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
 				Width="150"
+				Height="26"
 				VerticalContentAlignment="Center" Text="{Binding Code, ValidatesOnExceptions=True}">
 			</TextBox>
 			<controls:KbButton 
 				Background="Transparent"
 				Command="{Binding BrowseIcon}" 
 				BorderThickness="0">
-				<Image Width="30" Height="30" Source="{Binding IconImageSource}">
+				<Image Width="26" Height="26" Source="{Binding IconImageSource}">
 				</Image>
 			</controls:KbButton>
 			<TextBlock Style="{StaticResource LblTb}" Width="40" Text="算法"></TextBlock>
 			<TextBox 
 				IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
 				Width="160"
+				Height="26"
 				VerticalContentAlignment="Center" Text="{Binding Algo}">
 			</TextBox>
 		</WrapPanel>

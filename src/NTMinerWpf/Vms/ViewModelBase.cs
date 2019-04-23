@@ -10,7 +10,7 @@ namespace NTMiner.Vms {
 
         protected void AllPropertyChanged() {
             Type type = this.GetType();
-            foreach (var propertyInfo in type.GetProperties(System.Reflection.BindingFlags.Public)) {
+            foreach (var propertyInfo in type.GetProperties()) {
                 this.OnPropertyChanged(propertyInfo.Name);
             }
         }
