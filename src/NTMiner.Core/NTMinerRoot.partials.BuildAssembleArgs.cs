@@ -4,6 +4,7 @@ using NTMiner.Profile;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace NTMiner {
     public partial class NTMinerRoot : INTMinerRoot {
@@ -134,7 +135,21 @@ namespace NTMiner {
                     }
                 }
             }
-            return $"{kernelArgs} {coinKernelArgs} {poolKernelArgs} {customArgs.Trim()} {devicesArgs.Trim()}";
+            StringBuilder sb = new StringBuilder();
+            sb.Append(kernelArgs);
+            if (!string.IsNullOrEmpty(coinKernelArgs)) {
+                sb.Append(" ").Append(coinKernelArgs);
+            }
+            if (!string.IsNullOrEmpty(poolKernelArgs)) {
+                sb.Append(" ").Append(poolKernelArgs);
+            }
+            if (!string.IsNullOrEmpty(customArgs)) {
+                sb.Append(" ").Append(customArgs);
+            }
+            if (!string.IsNullOrEmpty(devicesArgs)) {
+                sb.Append(" ").Append(devicesArgs);
+            }
+            return sb.ToString();
         }
 
         private static void AssembleArgs(Dictionary<string, string> prms, ref string args, bool isDual) {
