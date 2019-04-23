@@ -22,6 +22,9 @@ namespace NTMiner.Vms {
         private double _dualWeightMax;
         private bool _isAutoDualWeight;
         private string _dualWeightArg;
+        private string _devicesArg;
+        private int _deviceBaseIndex;
+        private string _devicesSeparator;
 
         private GroupViewModel _dualCoinGroup;
 
@@ -47,6 +50,9 @@ namespace NTMiner.Vms {
             _dualWeightMax = data.DualWeightMax;
             _isAutoDualWeight = data.IsAutoDualWeight;
             _dualWeightArg = data.DualWeightArg;
+            _deviceBaseIndex = data.DeviceBaseIndex;
+            _devicesArg = data.DevicesArg;
+            _devicesSeparator = data.DevicesSeparator;
         }
 
         public KernelInputViewModel(Guid id) {
@@ -231,6 +237,30 @@ namespace NTMiner.Vms {
                     return "无";
                 }
                 return names;
+            }
+        }
+
+        public string DevicesArg {
+            get => _devicesArg;
+            set {
+                _devicesArg = value;
+                OnPropertyChanged(nameof(DevicesArg));
+            }
+        }
+
+        public int DeviceBaseIndex {
+            get => _deviceBaseIndex;
+            set {
+                _deviceBaseIndex = value;
+                OnPropertyChanged(nameof(DeviceBaseIndex));
+            }
+        }
+
+        public string DevicesSeparator {
+            get => _devicesSeparator;
+            set {
+                _devicesSeparator = value;
+                OnPropertyChanged(nameof(DevicesSeparator));
             }
         }
     }

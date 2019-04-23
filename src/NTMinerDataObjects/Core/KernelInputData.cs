@@ -20,5 +20,8 @@ namespace NTMiner.Core {
         public bool IsAutoDualWeight { get; set; }
         public string DualWeightArg { get; set; }
         public string DualFullArgs { get; set; }
+        public string DevicesArg { get; set; }
+        public int DeviceBaseIndex { get; set; }
+        public string DevicesSeparator { get; set; }
     }
 }
