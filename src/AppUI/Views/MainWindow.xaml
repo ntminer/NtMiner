@@ -248,6 +248,8 @@
 				Background="{StaticResource MinerProfileBackground}"
 				Grid.Row="0" 
 				Padding="0 4 0 0"
+				BorderThickness="0 1 0 0"
+				BorderBrush="{StaticResource LineColor}"
 				Width="328">
 				<Grid x:Name="GridMineStart">
 					<Grid.RowDefinitions>
@@ -424,57 +426,6 @@
 				BorderThickness="1 1 0 0" 
 				BorderBrush="{StaticResource LineColor}"
 				Grid.ColumnSpan="2">
-				<TabControl.Resources>
-					<Style x:Key="TabItemFocusVisual">
-						<Setter Property="Control.Template">
-							<Setter.Value>
-								<ControlTemplate>
-									<Rectangle Margin="3,3,3,1" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
-								</ControlTemplate>
-							</Setter.Value>
-						</Setter>
-					</Style>
-					<Style TargetType="{x:Type TabItem}">
-						<Setter Property="FocusVisualStyle" Value="{StaticResource TabItemFocusVisual}"/>
-						<Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-						<Setter Property="VerticalContentAlignment" Value="Stretch"/>
-						<Setter Property="Template">
-							<Setter.Value>
-								<ControlTemplate TargetType="{x:Type TabItem}">
-									<Border 
-										x:Name="Border" 
-										Background="#EAEAEA"
-										HorizontalAlignment="Center" 
-										BorderThickness="1 1 1 0" 
-										BorderBrush="{StaticResource LineColor}" 
-										Padding="8 4">
-										<ContentPresenter 
-											x:Name="header" 
-											d:LayoutOverrides="Height" 
-											Content="{TemplateBinding Header}" 
-											Opacity="0.8"/>
-									</Border>
-									<ControlTemplate.Triggers>
-										<Trigger Property="IsMouseOver" Value="true">
-											<Setter Property="Opacity" TargetName="header" Value="1"></Setter>
-										</Trigger>
-										<Trigger Property="IsSelected" Value="true">
-											<Setter Property="Background" TargetName="Border" Value="White"/>
-											<Setter Property="Opacity" TargetName="header" Value="1"></Setter>
-										</Trigger>
-										<MultiTrigger>
-											<MultiTrigger.Conditions>
-												<Condition Property="IsSelected" Value="false"/>
-												<Condition Property="IsMouseOver" Value="true"/>
-											</MultiTrigger.Conditions>
-										</MultiTrigger>
-										<Trigger Property="IsEnabled" Value="false"/>
-									</ControlTemplate.Triggers>
-								</ControlTemplate>
-							</Setter.Value>
-						</Setter>
-					</Style>
-				</TabControl.Resources>
 				<TabItem x:Name="TabItemMinerProfile" Visibility="Collapsed">
 					<TabItem.Header>
 						<WrapPanel>
