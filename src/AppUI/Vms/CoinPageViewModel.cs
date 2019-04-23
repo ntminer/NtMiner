@@ -5,8 +5,6 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class CoinPageViewModel : ViewModelBase {
-        public static readonly CoinPageViewModel Current = new CoinPageViewModel();
-
         private string _coinKeyword;
         private bool _isPoolTabSelected;
         private bool _isWalletTabSelected;
@@ -15,7 +13,7 @@ namespace NTMiner.Vms {
         public ICommand Add { get; private set; }
         public ICommand ClearKeyword { get; private set; }
 
-        private CoinPageViewModel() {
+        public CoinPageViewModel() {
             if (Design.IsInDesignMode) {
                 return;
             }

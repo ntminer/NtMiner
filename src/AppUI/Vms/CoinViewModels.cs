@@ -31,14 +31,12 @@ namespace NTMiner.Vms {
                     _dicById.Add(message.Source.GetId(), new CoinViewModel(message.Source));
                     MinerProfileViewModel.Current.OnPropertyChanged(nameof(MinerProfileViewModel.Current.CoinVm));
                     AllPropertyChanged();
-                    CoinPageViewModel.Current.OnPropertyChanged(nameof(CoinPageViewModel.List));
                 }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             VirtualRoot.On<CoinRemovedEvent>("移除了币种后刷新VM内存", LogEnum.DevConsole,
                 action: message => {
                     _dicById.Remove(message.Source.GetId());
                     MinerProfileViewModel.Current.OnPropertyChanged(nameof(MinerProfileViewModel.Current.CoinVm));
                     AllPropertyChanged();
-                    CoinPageViewModel.Current.OnPropertyChanged(nameof(CoinPageViewModel.List));
                 }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             VirtualRoot.On<CoinUpdatedEvent>("更新了币种后刷新VM内存", LogEnum.DevConsole,
                 action: message => {

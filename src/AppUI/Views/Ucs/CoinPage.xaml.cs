@@ -6,7 +6,7 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class CoinPage : UserControl {
-        public static void ShowWindow(CoinViewModel currentCoin) {
+        public static void ShowWindow(CoinViewModel currentCoin, string tabType) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "币种",
                 IconName = "Icon_Coin",
@@ -19,6 +19,16 @@ namespace NTMiner.Views.Ucs {
             beforeShow: uc => {
                 if (currentCoin != null) {
                     CoinPageViewModel vm = (CoinPageViewModel)uc.DataContext;
+                    switch (tabType) {
+                        case "pool":
+                            vm.IsPoolTabSelected = true;
+                            break;
+                        case "wallet":
+                            vm.IsWalletTabSelected = true;
+                            break;
+                        default:
+                            break;
+                    }
                     vm.CurrentCoin = currentCoin;
                 }
             });
@@ -32,6 +42,18 @@ namespace NTMiner.Views.Ucs {
 
         public CoinPage() {
             InitializeComponent();
+            CoinViewModels.Current.PropertyChanged += Current_PropertyChanged;
+            this.Unloaded += CoinPage_Unloaded;
+        }
+
+        private void CoinPage_Unloaded(object sender, System.Windows.RoutedEventArgs e) {
+            CoinViewModels.Current.PropertyChanged -= Current_PropertyChanged;
+        }
+
+        private void Current_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) {
+            if (e.PropertyName == nameof(CoinViewModels.Current.AllCoins)) {
+                Vm.OnPropertyChanged(nameof(Vm.List));
+            }
         }
 
         private void DataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {

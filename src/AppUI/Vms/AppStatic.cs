@@ -151,15 +151,15 @@ namespace NTMiner.Vms {
 
         public static ICommand ShowSysDic { get; private set; } = new DelegateCommand(SysDicPage.ShowWindow);
         public static ICommand ShowGroups { get; private set; } = new DelegateCommand(GroupPage.ShowWindow);
-        public static ICommand ShowCoins { get; private set; } = new DelegateCommand<CoinViewModel>(CoinPage.ShowWindow);
+        public static ICommand ShowCoins { get; private set; } = new DelegateCommand<CoinViewModel>((currentCoin)=> {
+            CoinPage.ShowWindow(currentCoin, "coin");
+        });
         public static ICommand ManageColumnsShows { get; private set; } = new DelegateCommand(ColumnsShowPage.ShowWindow);
         public static ICommand ManagePools { get; private set; } = new DelegateCommand<CoinViewModel>(coinVm => {
-            CoinPageViewModel.Current.IsPoolTabSelected = true;
-            CoinPage.ShowWindow(coinVm);
+            CoinPage.ShowWindow(coinVm, "pool");
         });
         public static ICommand ManageWallet { get; private set; } = new DelegateCommand<CoinViewModel>(coinVm => {
-            CoinPageViewModel.Current.IsWalletTabSelected = true;
-            CoinPage.ShowWindow(coinVm);
+            CoinPage.ShowWindow(coinVm, "wallet");
         });
         public static ICommand ShowKernelInputs { get; private set; } = new DelegateCommand(KernelInputPage.ShowWindow);
         public static ICommand ShowKernelOutputs { get; private set; } = new DelegateCommand<KernelOutputViewModel>(KernelOutputPage.ShowWindow);

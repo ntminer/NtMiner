@@ -195,7 +195,6 @@ namespace NTMiner.Vms {
                     VirtualRoot.Execute(new UpdateCoinCommand(upOne));
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdateCoinCommand(this));
-                    CoinPageViewModel.Current.OnPropertyChanged(nameof(CoinPageViewModel.List));
                     CoinViewModels.Current.OnPropertyChanged(nameof(CoinViewModels.MainCoins));
                     CoinViewModels.Current.OnPropertyChanged(nameof(CoinViewModels.AllCoins));
                 }
@@ -208,7 +207,6 @@ namespace NTMiner.Vms {
                     VirtualRoot.Execute(new UpdateCoinCommand(nextOne));
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdateCoinCommand(this));
-                    CoinPageViewModel.Current.OnPropertyChanged(nameof(CoinPageViewModel.List));
                     CoinViewModels.Current.OnPropertyChanged(nameof(CoinViewModels.MainCoins));
                     CoinViewModels.Current.OnPropertyChanged(nameof(CoinViewModels.AllCoins));
                 }
