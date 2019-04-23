@@ -49,6 +49,26 @@
 					Text="{Binding Args, Mode=TwoWay}" Height="60">
 				</TextBox>
 			</WrapPanel>
+			<WrapPanel Margin="0 2">
+				<TextBlock Style="{StaticResource LblTb}" Text="显卡指定参数名"></TextBlock>
+				<TextBox 
+					Height="26"
+					Width="160"
+					IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
+					VerticalContentAlignment="Center" Text="{Binding DevicesArg}"></TextBox>
+				<TextBlock Style="{StaticResource LblTb}" Width="40" Text="基序"></TextBlock>
+				<TextBox 
+					Height="26"
+					Width="100"
+					IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
+					VerticalContentAlignment="Center" Text="{Binding DeviceBaseIndex,ValidatesOnExceptions=True}"></TextBox>
+				<TextBlock Style="{StaticResource LblTb}" Width="50" Text="分割符"></TextBlock>
+				<TextBox 
+					Height="26"
+					Width="100"
+					IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
+					VerticalContentAlignment="Center" Text="{Binding DevicesSeparator}"></TextBox>
+			</WrapPanel>
 
 			<WrapPanel Margin="0 2" Visibility="{Binding IsSupportDualMineVisible}">
 				<TextBlock Style="{StaticResource LblTb}"></TextBlock>

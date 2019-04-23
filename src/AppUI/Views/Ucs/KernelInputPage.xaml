@@ -11,7 +11,7 @@
 			 Background="White"
 			 TextOptions.TextFormattingMode="Display" 
 			 DataContext="{x:Static vm:KernelInputPageViewModel.Current}"
-			 d:DesignHeight="520" d:DesignWidth="1000">
+			 d:DesignHeight="520" d:DesignWidth="1200">
 	<Grid>
 		<DataGrid 
 			Margin="0" ItemsSource="{Binding KernelInputVms.AllKernelInputVms}" 
@@ -22,39 +22,6 @@
 				<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
 			</DataGrid.Resources>
 			<DataGrid.Columns>
-				<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<TextBlock Text="名称"></TextBlock>
-					</DataGridTemplateColumn.Header>
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding Name}"></TextBlock>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Width="*" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<TextBlock Text="形参"></TextBlock>
-					</DataGridTemplateColumn.Header>
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<StackPanel>
-								<TextBox IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding Args,Mode=OneWay}" BorderThickness="0" FontWeight="Bold"></TextBox>
-								<TextBox IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding KernelFullNames,Mode=OneWay}" ToolTip="使用该输入的内核" BorderThickness="0" Foreground="{StaticResource LableColor}"></TextBox>
-							</StackPanel>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<TextBlock Text="支持双挖"></TextBlock>
-					</DataGridTemplateColumn.Header>
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<TextBlock Text="双挖" Visibility="{Binding IsSupportDualMine,Converter={StaticResource BoolToVisibilityConverter}}"></TextBlock>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
 				<DataGridTemplateColumn 
 					MinWidth="50" CanUserResize="True" IsReadOnly="True"
 					Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
@@ -104,6 +71,49 @@
 									</WrapPanel>
 								</controls:KbButton>
 							</StackPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<TextBlock Text="名称"></TextBlock>
+					</DataGridTemplateColumn.Header>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding Name}"></TextBlock>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn Width="*" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<TextBlock Text="形参"></TextBlock>
+					</DataGridTemplateColumn.Header>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<StackPanel>
+								<TextBox IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding Args,Mode=OneWay}" BorderThickness="0" FontWeight="Bold"></TextBox>
+								<TextBox IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding KernelFullNames,Mode=OneWay}" ToolTip="使用该输入的内核" BorderThickness="0" Foreground="{StaticResource LableColor}"></TextBox>
+							</StackPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn Width="130" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<TextBlock Text="显卡指定参数形如"></TextBlock>
+					</DataGridTemplateColumn.Header>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<TextBox IsReadOnly="True" BorderThickness="0" Text="{Binding DevicesArgShape, Mode=OneWay}"></TextBox>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<TextBlock Text="支持双挖"></TextBlock>
+					</DataGridTemplateColumn.Header>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<TextBlock Text="双挖" Visibility="{Binding IsSupportDualMine,Converter={StaticResource BoolToVisibilityConverter}}"></TextBlock>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>

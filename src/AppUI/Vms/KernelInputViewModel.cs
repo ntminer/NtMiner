@@ -2,6 +2,7 @@
 using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
@@ -245,6 +246,7 @@ namespace NTMiner.Vms {
             set {
                 _devicesArg = value;
                 OnPropertyChanged(nameof(DevicesArg));
+                OnPropertyChanged(nameof(DevicesArgShape));
             }
         }
 
@@ -253,6 +255,7 @@ namespace NTMiner.Vms {
             set {
                 _deviceBaseIndex = value;
                 OnPropertyChanged(nameof(DeviceBaseIndex));
+                OnPropertyChanged(nameof(DevicesArgShape));
             }
         }
 
@@ -261,6 +264,20 @@ namespace NTMiner.Vms {
             set {
                 _devicesSeparator = value;
                 OnPropertyChanged(nameof(DevicesSeparator));
+                OnPropertyChanged(nameof(DevicesArgShape));
+            }
+        }
+
+        public string DevicesArgShape {
+            get {
+                if (string.IsNullOrEmpty(DevicesArg)) {
+                    return string.Empty;
+                }
+                List<int> list = new List<int>();
+                for (int i = 0; i < 6; i++) {
+                    list.Add(i + DeviceBaseIndex);
+                }
+                return $"{DevicesArg} {string.Join(DevicesSeparator, list)}";
             }
         }
     }
