@@ -46,10 +46,16 @@ namespace NTMiner.Views.Ucs {
             InitializeComponent();
             KernelViewModels.Current.PropertyChanged += Current_PropertyChanged;
             this.Unloaded += KernelPage_Unloaded;
+            KernelViewModels.Current.IsDownloadingChanged += Current_IsDownloadingChanged;
+        }
+
+        private void Current_IsDownloadingChanged(KernelViewModel obj) {
+            Vm.OnPropertyChanged(nameof(Vm.DownloadingVms));
         }
 
         private void KernelPage_Unloaded(object sender, RoutedEventArgs e) {
             KernelViewModels.Current.PropertyChanged -= Current_PropertyChanged;
+            KernelViewModels.Current.IsDownloadingChanged -= Current_IsDownloadingChanged;
         }
 
         private void Current_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) {

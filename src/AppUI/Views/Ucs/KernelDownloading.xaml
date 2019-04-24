@@ -9,9 +9,9 @@
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:vm="clr-namespace:NTMiner.Vms"
+	    d:DataContext="{d:DesignData Source=Design/KernelPageViewModel.xaml}"
 		Background="#DCEAF4"
 		BorderThickness="0 0 1 0"
-		DataContext="{x:Static vm:KernelPageViewModel.Current}"
 		mc:Ignorable="d" d:DesignHeight="520" Width="294">
 	<UserControl.Effect>
 		<DropShadowEffect Color="LightGray" BlurRadius="16" ShadowDepth="0" Opacity="1" />

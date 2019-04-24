@@ -16,7 +16,7 @@ using System.Text;
 
 namespace NTMiner {
     public partial class NTMinerRoot {
-        public static IKernelDownloader KernelDownloader;
+        public static IKernelDownloader KernelDownloader = new EmptyKernelDownloader();
         public static Action RefreshArgsAssembly = () => { };
 
         public static Func<System.Windows.Forms.Keys, bool> RegHotKey;

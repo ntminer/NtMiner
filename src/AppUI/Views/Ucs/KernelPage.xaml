@@ -11,8 +11,10 @@
 	mc:Ignorable="d"
 	Background="#EEECEF"
 	TextOptions.TextFormattingMode="Display" 
-	DataContext="{x:Static vm:KernelPageViewModel.Current}"
 	d:DesignHeight="520" d:DesignWidth="860">
+	<UserControl.DataContext>
+		<vm:KernelPageViewModel></vm:KernelPageViewModel>
+	</UserControl.DataContext>
 	<Grid>
 		<DockPanel>
 			<StackPanel DockPanel.Dock="Left" Background="{StaticResource IconFillColor}" Margin="0 0 10 0">
@@ -313,9 +315,9 @@
 						</Button.Template>
 					</Button>
 				</WrapPanel>
-				<uc:KernelGrid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"></uc:KernelGrid>
+				<uc:KernelGrid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" DataContext="{Binding}"></uc:KernelGrid>
 			</Grid>
 		</DockPanel>
-		<uc:KernelDownloading Margin="57 0 0 0" HorizontalAlignment="Left" Visibility="{Binding KernelDownloadingVisible}"></uc:KernelDownloading>
+		<uc:KernelDownloading Margin="57 0 0 0" HorizontalAlignment="Left" Visibility="{Binding KernelDownloadingVisible}" DataContext="{Binding}"></uc:KernelDownloading>
 	</Grid>
 </UserControl>

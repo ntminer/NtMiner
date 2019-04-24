@@ -8,6 +8,11 @@ namespace NTMiner.Vms {
         public static readonly KernelViewModels Current = new KernelViewModels();
 
         private readonly Dictionary<Guid, KernelViewModel> _dicById = new Dictionary<Guid, KernelViewModel>();
+        public event Action<KernelViewModel> IsDownloadingChanged;
+
+        public void OnIsDownloadingChanged(KernelViewModel kernelVm) {
+            IsDownloadingChanged?.Invoke(kernelVm);
+        }
 
         private KernelViewModels() {
             NTMinerRoot.Current.OnContextReInited += () => {

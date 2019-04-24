@@ -10,8 +10,6 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class KernelPageViewModel : ViewModelBase {
-        public static readonly KernelPageViewModel Current = new KernelPageViewModel();
-
         private string _keyword;
         private List<KernelMenu> _kernelMenus = new List<KernelMenu>();
         private KernelMenu _currentKernelMenu;
@@ -37,7 +35,10 @@ namespace NTMiner.Vms {
         private readonly KernelMenu _repositoryKernelMenu = new KernelMenu("宝库", "Icon_Kernel");
         private readonly KernelMenu _uninstallKernelMenu = new KernelMenu("卸载", "Icon_Delete");
 
-        private KernelPageViewModel() {
+        public KernelPageViewModel() {
+            if (Design.IsInDesignMode) {
+                return;
+            }
             this.ChangeCurrentKernelMenu = new DelegateCommand<KernelMenu>((kernelMenu) => {
                 SetCurrentKernelMenu(kernelMenu);
                 this.PageNumber = 1;

@@ -111,7 +111,7 @@ namespace NTMiner.Vms {
                     _isDownloading = value;
                     OnPropertyChanged(nameof(IsDownloading));
                     Refresh();
-                    KernelPageViewModel.Current.OnPropertyChanged(nameof(KernelPageViewModel.DownloadingVms));
+                    KernelViewModels.Current.OnIsDownloadingChanged(_kernelVm);
                 }
             }
         }

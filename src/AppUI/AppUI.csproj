@@ -474,6 +474,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\Ucs\Design\KernelPageViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\Ucs\Toolbox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
