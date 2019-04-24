@@ -39,7 +39,12 @@ namespace NTMiner.Common {
                 }
                 // Add common folder to path for launched processes
                 var pathVar = Environment.GetEnvironmentVariable("PATH");
-                pathVar += ";" + Path.Combine(Environment.CurrentDirectory, "Common");
+                if (!pathVar.EndsWith(";")) {
+                    pathVar += ";" + Path.Combine(Environment.CurrentDirectory, "Common");
+                }
+                else {
+                    pathVar += Path.Combine(Environment.CurrentDirectory, "Common");
+                }
                 Environment.SetEnvironmentVariable("PATH", pathVar);
                 Write.DevDebug(pathVar);
             }
