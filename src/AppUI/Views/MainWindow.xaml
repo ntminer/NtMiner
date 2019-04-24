@@ -16,7 +16,7 @@
 		Height="{Binding Height}"
 		MinHeight="430"
 		MinWidth="640"
-		ResizeBorderThickness="2"
+		ResizeBorderThickness="4"
 		TitlebarHeight="40"
 		d:DesignHeight="700"
 		d:DesignWidth="900"
