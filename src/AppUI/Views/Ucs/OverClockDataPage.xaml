@@ -7,8 +7,10 @@
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:vm="clr-namespace:NTMiner.Vms"
-		DataContext="{x:Static vm:OverClockDataPageViewModel.Current}"
 		mc:Ignorable="d" d:DesignHeight="200" d:DesignWidth="600">
+	<UserControl.DataContext>
+		<vm:OverClockDataPageViewModel></vm:OverClockDataPageViewModel>
+	</UserControl.DataContext>
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"></RowDefinition>

@@ -6,9 +6,7 @@ using System.Windows.Media;
 
 namespace NTMiner.Vms {
     public class LogColorViewModel : ViewModelBase {
-        public readonly static LogColorViewModel Current = new LogColorViewModel();
-
-        private LogColorViewModel() {
+        public LogColorViewModel() {
 
         }
 

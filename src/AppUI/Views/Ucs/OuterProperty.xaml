@@ -8,9 +8,11 @@
 		xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:vm="clr-namespace:NTMiner.Vms"
-		DataContext="{x:Static vm:OuterPropertyViewModel.Current}"
 		Background="White"
 		mc:Ignorable="d" d:DesignHeight="520" d:DesignWidth="460">
+	<UserControl.DataContext>
+		<vm:OuterPropertyViewModel></vm:OuterPropertyViewModel>
+	</UserControl.DataContext>
 	<UserControl.Resources>
 		<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
 			<Setter Property="Width" Value="100"></Setter>

@@ -5,9 +5,7 @@ using System.Linq;
 
 namespace NTMiner.Vms {
     public class OuterPropertyViewModel : ViewModelBase {
-        public static readonly OuterPropertyViewModel Current = new OuterPropertyViewModel();
-
-        private OuterPropertyViewModel() {
+        public OuterPropertyViewModel() {
 
         }
 

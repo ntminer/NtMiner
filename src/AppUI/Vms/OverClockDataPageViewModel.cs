@@ -2,10 +2,9 @@
 
 namespace NTMiner.Vms {
     public class OverClockDataPageViewModel : ViewModelBase {
-        public static readonly OverClockDataPageViewModel Current = new OverClockDataPageViewModel();
         private CoinViewModel _currentCoin;
 
-        private OverClockDataPageViewModel() {
+        public OverClockDataPageViewModel() {
             if (Design.IsInDesignMode) {
                 return;
             }
