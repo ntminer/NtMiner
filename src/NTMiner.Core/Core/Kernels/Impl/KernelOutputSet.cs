@@ -155,6 +155,18 @@ namespace NTMiner.Core.Kernels.Impl {
                 PickRejectPattern(_root, input, kernelOutput, coin, isDual);
                 PickRejectOneShare(_root, input, kernelOutput, coin, isDual);
                 PickRejectPercent(_root, input, kernelOutput, coin, isDual);
+                if (isDual && kernelOutput.IsDualInSameLine) {
+                    coin = mineContext.MainCoin;
+                    isDual = false;
+                    PickTotalSpeed(_root, input, kernelOutput, coin, isDual);
+                    PickGpuSpeed(_root, input, kernelOutput, coin, isDual);
+                    PickTotalShare(_root, input, kernelOutput, coin, isDual);
+                    PickAcceptShare(_root, input, kernelOutput, coin, isDual);
+                    PickAcceptOneShare(_root, input, kernelOutput, coin, isDual);
+                    PickRejectPattern(_root, input, kernelOutput, coin, isDual);
+                    PickRejectOneShare(_root, input, kernelOutput, coin, isDual);
+                    PickRejectPercent(_root, input, kernelOutput, coin, isDual);
+                }
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);

@@ -89,7 +89,14 @@
 				</StackPanel>
 			</GroupBox>
 
-			<GroupBox Header="双挖币">
+			<GroupBox>
+				<GroupBox.Header>
+					<WrapPanel>
+						<TextBlock VerticalAlignment="Center">双挖币</TextBlock>
+						<CheckBox Margin="10 2 0 0" IsChecked="{Binding IsDualInSameLine}" Content="双挖币的输出和主币在同一行上">
+						</CheckBox>
+					</WrapPanel>
+				</GroupBox.Header>
 				<StackPanel>
 					<WrapPanel Margin="0 2">
 						<TextBlock Style="{StaticResource LblTb}" Text="总算力正则"></TextBlock>

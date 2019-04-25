@@ -4,6 +4,8 @@ namespace NTMiner.Core {
     public interface IKernelOutput : IEntity<Guid> {
         string Name { get; }
         bool PrependDateTime { get; }
+        bool IsDualInSameLine { get; }
+
         string TotalSpeedPattern { get; }
         string TotalSharePattern { get; }
         string AcceptSharePattern { get; }
