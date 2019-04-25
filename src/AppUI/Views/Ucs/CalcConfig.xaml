@@ -9,6 +9,8 @@
 	xmlns:sys="clr-namespace:System;assembly=mscorlib"
 	xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 	xmlns:vm="clr-namespace:NTMiner.Vms"
+	Width="600"
+	Height="600"
 	mc:Ignorable="d">
 	<UserControl.DataContext>
 		<vm:CalcConfigViewModels></vm:CalcConfigViewModels>
@@ -24,8 +26,6 @@
 			PreviewMouseDown="ScrollViewer_PreviewMouseDown">
 			<ItemsControl 
 				Padding="70 0 0 0"
-				Width="600"
-				Height="600"
 				HorizontalContentAlignment="Center"
 				x:Name="ItemsControl"
 				Background="White"
