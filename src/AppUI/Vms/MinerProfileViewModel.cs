@@ -13,6 +13,21 @@ namespace NTMiner.Vms {
                 return;
             }
             NTMinerRoot.RefreshArgsAssembly = () => {
+                if (CoinVm != null && CoinVm.CoinKernel != null && CoinVm.CoinKernel.Kernel != null) {
+                    var coinKernelProfile = CoinVm.CoinKernel.CoinKernelProfile;
+                    var kernelInput = CoinVm.CoinKernel.Kernel.KernelInputVm;
+                    if (coinKernelProfile != null && kernelInput != null) {
+                        if (coinKernelProfile.IsDualCoinEnabled && !kernelInput.IsAutoDualWeight) {
+                            if (coinKernelProfile.DualCoinWeight > kernelInput.DualWeightMax) {
+                                coinKernelProfile.DualCoinWeight = kernelInput.DualWeightMax;
+                            }
+                            else if (coinKernelProfile.DualCoinWeight < kernelInput.DualWeightMin) {
+                                coinKernelProfile.DualCoinWeight = kernelInput.DualWeightMin;
+                            }
+                            NTMinerRoot.Current.MinerProfile.SetCoinKernelProfileProperty(coinKernelProfile.CoinKernelId, nameof(coinKernelProfile.DualCoinWeight), coinKernelProfile.DualCoinWeight);
+                        }
+                    }
+                }
                 this.ArgsAssembly = NTMinerRoot.Current.BuildAssembleArgs();
             };
             NTMinerRoot.Current.OnReRendContext += () => {
