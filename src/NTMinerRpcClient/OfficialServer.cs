@@ -91,7 +91,7 @@ namespace NTMiner {
                         else {
                             callback?.Invoke(new List<CalcConfigData>());
                         }
-                    }, timeountMilliseconds: 2000);
+                    }, timeountMilliseconds: 10 * 1000);
                 }
                 catch (Exception e) {
                     Logger.ErrorDebugLine(e.GetInnerMessage(), e);
@@ -128,7 +128,7 @@ namespace NTMiner {
                 if (e != null) {
                     Logger.ErrorDebugLine($"GetJsonFileVersionAsync({AssemblyInfo.ServerJsonFileName})失败 {e.GetInnerMessage()}");
                 }
-            }, timeountMilliseconds: 3000);
+            }, timeountMilliseconds: 10 * 1000);
         }
 
         public class FileUrlServiceFace {
