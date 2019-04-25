@@ -1,4 +1,5 @@
-﻿using NTMiner.Profile;
+﻿using NTMiner.Core;
+using NTMiner.Profile;
 using System;
 using System.Linq;
 
@@ -57,7 +58,21 @@ namespace NTMiner.Vms {
         }
 
         public bool IsAutoDualWeight {
-            get => _inner.IsAutoDualWeight;
+            get {
+                ICoinKernel coinKernel;
+                if (NTMinerRoot.Current.CoinKernelSet.TryGetCoinKernel(this.CoinKernelId, out coinKernel)) {
+                    IKernel kernel;
+                    if (NTMinerRoot.Current.KernelSet.TryGetKernel(coinKernel.KernelId, out kernel)) {
+                        IKernelInput kernelInput;
+                        if (NTMinerRoot.Current.KernelInputSet.TryGetKernelInput(kernel.KernelInputId, out kernelInput)) {
+                            if (!kernelInput.IsAutoDualWeight) {
+                                return false;
+                            }
+                        }
+                    }
+                }
+                return _inner.IsAutoDualWeight;
+            }
             set {
                 if (_inner.IsAutoDualWeight != value) {
                     NTMinerRoot.Current.MinerProfile.SetCoinKernelProfileProperty(this.CoinKernelId, nameof(IsAutoDualWeight), value);
