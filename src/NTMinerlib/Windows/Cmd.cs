@@ -14,14 +14,7 @@ namespace NTMiner.Windows {
                     proc.StartInfo.UseShellExecute = false;
                     proc.StartInfo.FileName = "cmd.exe";
                     proc.StartInfo.Arguments = $"/C \"{filePullName}\" {args}";
-                    try {
-                        if (Path.IsPathRooted(filePullName)) {
-                            proc.StartInfo.WorkingDirectory = Path.GetDirectoryName(filePullName);
-                        }
-                    }
-                    catch (Exception ex) {
-                        Logger.ErrorDebugLine(ex.Message, ex);
-                    }
+                    proc.StartInfo.WorkingDirectory = VirtualRoot.GlobalDirFullName;
                     proc.Start();
                     if (waitForExit) {
                         proc.WaitForExit(10 * 1000);
@@ -43,14 +36,7 @@ namespace NTMiner.Windows {
                     proc.StartInfo.UseShellExecute = false;
                     proc.StartInfo.FileName = "cmd.exe";
                     proc.StartInfo.Arguments = $"/C \"{filePullName}\" {args}";
-                    try {
-                        if (Path.IsPathRooted(filePullName)) {
-                            proc.StartInfo.WorkingDirectory = Path.GetDirectoryName(filePullName);
-                        }
-                    }
-                    catch (Exception ex) {
-                        Logger.ErrorDebugLine(ex.Message, ex);
-                    }
+                    proc.StartInfo.WorkingDirectory = VirtualRoot.GlobalDirFullName;
                     proc.Start();
                     proc.WaitForExit(10 * 1000);
                     exitCode = proc.ExitCode;
@@ -75,14 +61,7 @@ namespace NTMiner.Windows {
                     proc.StartInfo.RedirectStandardError = true;
                     proc.StartInfo.FileName = "cmd.exe";
                     proc.StartInfo.Arguments = $"/C \"{filePullName}\" {args}";
-                    try {
-                        if (Path.IsPathRooted(filePullName)) {
-                            proc.StartInfo.WorkingDirectory = Path.GetDirectoryName(filePullName);
-                        }
-                    }
-                    catch (Exception ex) {
-                        Logger.ErrorDebugLine(ex.Message, ex);
-                    }
+                    proc.StartInfo.WorkingDirectory = VirtualRoot.GlobalDirFullName;
                     proc.Start();
 
                     output = proc.StandardOutput.ReadToEnd();// 注意：读取输出可能被阻塞
