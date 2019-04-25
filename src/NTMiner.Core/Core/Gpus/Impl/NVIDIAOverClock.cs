@@ -13,10 +13,17 @@ namespace NTMiner.Core.Gpus.Impl {
                     if (gpu.Index == NTMinerRoot.GpuAllId) {
                         continue;
                     }
+                    if (gpu.CoreClockDelta == value) {
+                        continue;
+                    }
                     Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{gpu.Index} gclk:{value}");
                 }
             }
             else {
+                IGpu gpu;
+                if (NTMinerRoot.Current.GpuSet.TryGetGpu(gpuIndex, out gpu) && gpu.CoreClockDelta == value) {
+                    return;
+                }
                 Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{gpuIndex} gclk:{value}");
             }
         }
@@ -28,10 +35,17 @@ namespace NTMiner.Core.Gpus.Impl {
                     if (gpu.Index == NTMinerRoot.GpuAllId) {
                         continue;
                     }
+                    if (gpu.MemoryClockDelta == value) {
+                        continue;
+                    }
                     Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{gpu.Index} mclk:{value}");
                 }
             }
             else {
+                IGpu gpu;
+                if (NTMinerRoot.Current.GpuSet.TryGetGpu(gpuIndex, out gpu) && gpu.MemoryClockDelta == value) {
+                    return;
+                }
                 Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{gpuIndex} mclk:{value}");
             }
         }
@@ -45,10 +59,17 @@ namespace NTMiner.Core.Gpus.Impl {
                     if (gpu.Index == NTMinerRoot.GpuAllId) {
                         continue;
                     }
+                    if (gpu.PowerCapacity == value) {
+                        continue;
+                    }
                     Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{gpu.Index} pcap:{value}");
                 }
             }
             else {
+                IGpu gpu;
+                if (NTMinerRoot.Current.GpuSet.TryGetGpu(gpuIndex, out gpu) && gpu.PowerCapacity == value) {
+                    return;
+                }
                 Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{gpuIndex} pcap:{value}");
             }
         }
@@ -62,10 +83,17 @@ namespace NTMiner.Core.Gpus.Impl {
                     if (gpu.Index == NTMinerRoot.GpuAllId) {
                         continue;
                     }
+                    if (gpu.TempLimit == value) {
+                        continue;
+                    }
                     Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{gpu.Index} tcap:{value}");
                 }
             }
             else {
+                IGpu gpu;
+                if (NTMinerRoot.Current.GpuSet.TryGetGpu(gpuIndex, out gpu) && gpu.TempLimit == value) {
+                    return;
+                }
                 Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{gpuIndex} tcap:{value}");
             }
         }
@@ -79,10 +107,17 @@ namespace NTMiner.Core.Gpus.Impl {
                     if (gpu.Index == NTMinerRoot.GpuAllId) {
                         continue;
                     }
+                    if (gpu.Cool == value) {
+                        continue;
+                    }
                     Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{gpu.Index} cool:{value}");
                 }
             }
             else {
+                IGpu gpu;
+                if (NTMinerRoot.Current.GpuSet.TryGetGpu(gpuIndex, out gpu) && gpu.Cool == value) {
+                    return;
+                }
                 Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{gpuIndex} cool:{value}");
             }
         }
@@ -128,7 +163,7 @@ namespace NTMiner.Core.Gpus.Impl {
             int coolMax = 0;
             double powerMin = 0;
             double powerMax = 0;
-            double power = 0;
+            double powerCapacity = 0;
             double tempLimitMin = 0;
             double tempLimitMax = 0;
             double tempLimitDefault = 0;
@@ -177,11 +212,11 @@ namespace NTMiner.Core.Gpus.Impl {
                 }
                 match = Regex.Match(output, powerLimitCurrentPattern, RegexOptions.Compiled);
                 if (match.Success) {
-                    double.TryParse(match.Groups[1].Value, out power);
+                    double.TryParse(match.Groups[1].Value, out powerCapacity);
                 }
                 gpu.PowerMin = powerMin;
                 gpu.PowerMax = powerMax;
-                gpu.PowerCapacity = (int)power;
+                gpu.PowerCapacity = (int)powerCapacity;
             }
             Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{gpu.Index} therminfo", ref exitCode, out output);
             if (exitCode == 0) {

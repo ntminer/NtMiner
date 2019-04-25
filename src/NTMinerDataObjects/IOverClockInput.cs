@@ -4,6 +4,9 @@
 
         int MemoryClockDelta { get; set; }
 
+        /// <summary>
+        /// 又名PowerLimit
+        /// </summary>
         int PowerCapacity { get; set; }
 
         int TempLimit { get; set; }
