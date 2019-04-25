@@ -4,6 +4,7 @@ using NTMiner.MinerClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace NTMiner.Core.Profiles {
     public class GpuProfileSet {
@@ -62,19 +63,21 @@ namespace NTMiner.Core.Profiles {
                 });
             VirtualRoot.Window<CoinOverClockCommand>("处理币种超频命令", LogEnum.DevConsole,
                 action: message => {
-                    if (IsOverClockGpuAll(message.CoinId)) {
-                        GpuProfileData overClockData = _data.GpuProfiles.FirstOrDefault(a => a.CoinId == message.CoinId && a.Index == NTMinerRoot.GpuAllId);
-                        if (overClockData != null) {
-                            OverClock(root, overClockData);
-                        }
-                    }
-                    else {
-                        foreach (var overClockData in _data.GpuProfiles.Where(a => a.CoinId == message.CoinId)) {
-                            if (overClockData.Index != NTMinerRoot.GpuAllId) {
+                    Task.Factory.StartNew(() => {
+                        if (IsOverClockGpuAll(message.CoinId)) {
+                            GpuProfileData overClockData = _data.GpuProfiles.FirstOrDefault(a => a.CoinId == message.CoinId && a.Index == NTMinerRoot.GpuAllId);
+                            if (overClockData != null) {
                                 OverClock(root, overClockData);
                             }
                         }
-                    }
+                        else {
+                            foreach (var overClockData in _data.GpuProfiles.Where(a => a.CoinId == message.CoinId)) {
+                                if (overClockData.Index != NTMinerRoot.GpuAllId) {
+                                    OverClock(root, overClockData);
+                                }
+                            }
+                        }
+                    });
                 });
         }
 

@@ -226,16 +226,14 @@ namespace NTMiner {
                     // 将无份额内核重启份额计数置0
                     shareCount = 0;
                     shareOn = DateTime.Now;
-                    Task.Factory.StartNew(() => {
-                        try {
-                            if (GpuProfileSet.Instance.IsOverClockEnabled(message.MineContext.MainCoin.GetId())) {
-                                VirtualRoot.Execute(new CoinOverClockCommand(message.MineContext.MainCoin.GetId()));
-                            }
+                    try {
+                        if (GpuProfileSet.Instance.IsOverClockEnabled(message.MineContext.MainCoin.GetId())) {
+                            VirtualRoot.Execute(new CoinOverClockCommand(message.MineContext.MainCoin.GetId()));
                         }
-                        catch (Exception e) {
-                            Logger.ErrorDebugLine(e.Message, e);
-                        }
-                    });
+                    }
+                    catch (Exception e) {
+                        Logger.ErrorDebugLine(e.Message, e);
+                    }
                     StartNoDevFeeAsync();
                     // 清理除当前外的Temp/Kernel
                     Cleaner.CleanKernels();
