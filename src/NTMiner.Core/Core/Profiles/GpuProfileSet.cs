@@ -60,10 +60,6 @@ namespace NTMiner.Core.Profiles {
                     }
                     VirtualRoot.Happened(new GpuProfileAddedOrUpdatedEvent(data));
                 });
-            VirtualRoot.Window<OverClockCommand>("处理超频命令", LogEnum.DevConsole,
-                action: message => {
-                    OverClock(root, message.Input);
-                });
             VirtualRoot.Window<CoinOverClockCommand>("处理币种超频命令", LogEnum.DevConsole,
                 action: message => {
                     if (IsOverClockGpuAll(message.CoinId)) {

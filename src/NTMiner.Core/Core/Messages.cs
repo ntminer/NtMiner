@@ -244,15 +244,6 @@ namespace NTMiner.Core {
         public IGpuProfile Input { get; private set; }
     }
 
-    [MessageType(description: "超频")]
-    public class OverClockCommand : Cmd {
-        public OverClockCommand(IGpuProfile input) {
-            this.Input = input;
-        }
-
-        public IGpuProfile Input { get; private set; }
-    }
-
     [MessageType(description: "币种超频")]
     public class CoinOverClockCommand : Cmd {
         public CoinOverClockCommand(Guid coinId) {
