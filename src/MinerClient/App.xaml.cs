@@ -1,5 +1,4 @@
-﻿using NTMiner.Common;
-using NTMiner.Core;
+﻿using NTMiner.Core;
 using NTMiner.OverClock;
 using NTMiner.Views;
 using NTMiner.Vms;
@@ -52,7 +51,6 @@ namespace NTMiner {
                         Shutdown();
                         Environment.Exit(0);
                     }
-                    CommonUtil.SetCommonDirectory();
                     NTMinerOverClockUtil.ExtractResource();
 
                     Vms.AppStatic.IsMinerClient = true;

@@ -123,7 +123,6 @@
     <Compile Include="SwitchRadeonGpu\SwitchRadeonGpu.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common\CommonUtil.cs" />
     <Compile Include="Daemon\DaemonUtil.cs" />
     <Compile Include="OhGodAnETHlargementPill\OhGodAnETHlargementPillUtil.cs" />
     <Compile Include="OverClock\NTMinerOverClockUtil.cs" />
@@ -203,18 +202,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Daemon\DevConsole.exe" />
     <EmbeddedResource Include="Daemon\NTMinerDaemon.exe" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Common\cudart32_80.dll" />
-    <EmbeddedResource Include="Common\cudart64_80.dll" />
-    <EmbeddedResource Include="Common\cudart64_91.dll" />
-    <EmbeddedResource Include="Common\libcurl.dll" />
-    <EmbeddedResource Include="Common\msvcp120.dll" />
-    <EmbeddedResource Include="Common\msvcp140.dll" />
-    <EmbeddedResource Include="Common\msvcr110.dll" />
-    <EmbeddedResource Include="Common\msvcr120.dll" />
-    <EmbeddedResource Include="Common\OpenCL.dll" />
-    <EmbeddedResource Include="Common\vcruntime140.dll" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="SwitchRadeonGpu\switch-radeon-gpu.exe" />
