@@ -2,12 +2,14 @@
 using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using System;
-using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class MainWindowViewModel : ViewModelBase {
+        /// <summary>
+        /// UI层应只有这一个静态成员
+        /// </summary>
         public static readonly MainWindowViewModel Current = new MainWindowViewModel();
 
         private Visibility _isBtnRunAsAdministratorVisible = Visibility.Collapsed;
@@ -120,9 +122,7 @@ namespace NTMiner.Vms {
             }
         }
 
-        public List<GpuSpeedViewModel> GpuSpeedVms {
-            get { return GpuSpeedViewModels.Current.GpuSpeedVms; }
-        }
+        public GpuSpeedViewModels GpuSpeedVms { get; private set; } = new GpuSpeedViewModels();
 
         public string ServerJsonVersion {
             get => _serverJsonVersion;

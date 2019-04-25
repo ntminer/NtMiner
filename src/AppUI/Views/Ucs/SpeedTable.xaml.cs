@@ -6,11 +6,12 @@ namespace NTMiner.Views.Ucs {
     public partial class SpeedTable : UserControl {
         private GpuSpeedViewModels Vm {
             get {
-                return (GpuSpeedViewModels)this.DataContext;
+                return MainWindowViewModel.Current.GpuSpeedVms;
             }
         }
 
         public SpeedTable() {
+            this.DataContext = MainWindowViewModel.Current.GpuSpeedVms;
             InitializeComponent();
         }
 
