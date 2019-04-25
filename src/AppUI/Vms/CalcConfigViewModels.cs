@@ -19,6 +19,15 @@ namespace NTMiner.Vms {
                 NTMinerRoot.Current.CalcConfigSet.SaveCalcConfigs(this.CalcConfigVms.Select(a => new CalcConfigData(a)).ToList());
                 CloseWindow?.Invoke();
             });
+            Refresh();
+        }
+
+        public void Refresh() {
+            var list = new List<CalcConfigViewModel>();
+            foreach (var item in NTMinerRoot.Current.CalcConfigSet) {
+                list.Add(new CalcConfigViewModel(item));
+            }
+            CalcConfigVms = list;
         }
 
         public List<CalcConfigViewModel> CalcConfigVms {

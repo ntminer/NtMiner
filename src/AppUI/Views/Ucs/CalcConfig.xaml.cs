@@ -15,8 +15,8 @@ namespace NTMiner.Views.Ucs {
                 var uc = new CalcConfig();
                 CalcConfigViewModels vm = (CalcConfigViewModels)uc.DataContext;
                 vm.CloseWindow = () => window.Close();
-                uc.ItemsControl.MouseDown += (object sender, System.Windows.Input.MouseButtonEventArgs e)=> {
-                    if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed) {
+                uc.ItemsControl.MouseDown += (object sender, MouseButtonEventArgs e)=> {
+                    if (e.LeftButton == MouseButtonState.Pressed) {
                         window.DragMove();
                     }
                 };
@@ -35,12 +35,8 @@ namespace NTMiner.Views.Ucs {
             InitializeComponent();
             VirtualRoot.On<CalcConfigSetInitedEvent>("收益计算器数据集刷新后刷新VM", LogEnum.DevConsole,
                 action: message => {
-                    var list = new List<CalcConfigViewModel>();
-                    foreach (var item in NTMinerRoot.Current.CalcConfigSet) {
-                        list.Add(new CalcConfigViewModel(item));
-                    }
                     UIThread.Execute(() => {
-                        Vm.CalcConfigVms = list;
+                        Vm.Refresh();
                     });
                 }).AddToCollection(_handlers);
             this.Unloaded += CalcConfig_Unloaded;
