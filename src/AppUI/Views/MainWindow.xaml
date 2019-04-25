@@ -257,7 +257,7 @@
 						<RowDefinition Height="*"></RowDefinition>
 					</Grid.RowDefinitions>
 					<WrapPanel>
-						<WrapPanel VerticalAlignment="Center" IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}">
+						<WrapPanel VerticalAlignment="Center" IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}">
 							<TextBlock 
 								FontSize="12"
 								Foreground="{StaticResource LableColor}"
@@ -271,7 +271,7 @@
 								Height="26"
 								Width="106" 
 								Padding="3 0 0 0"
-								Background="{Binding StateBarVm.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
+								Background="{Binding MinerProfile.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
 								Text="{Binding MinerProfile.MinerName, UpdateSourceTrigger=LostFocus}" 
 								VerticalContentAlignment="Center">
 								<TextBox.ToolTip>
@@ -314,7 +314,7 @@
 								Width="100"
 								Height="28"
 								Command="{Binding StartMine}" 
-								Visibility="{Binding StateBarVm.IsMining, Converter={StaticResource BoolToVisibilityInvertConverter}}" 
+								Visibility="{Binding MinerProfile.IsMining, Converter={StaticResource BoolToVisibilityInvertConverter}}" 
 								Background="{StaticResource ThemeBackground}">
 								<WrapPanel>
 									<Path
@@ -337,7 +337,7 @@
 							</controls:KbButton>
 							<Button                        
 								Command="{Binding StopMine}" 
-								Visibility="{Binding StateBarVm.IsMining, Converter={StaticResource BoolToVisibilityConverter}}">
+								Visibility="{Binding MinerProfile.IsMining, Converter={StaticResource BoolToVisibilityConverter}}">
 								<Button.Template>
 									<ControlTemplate>
 										<Border 

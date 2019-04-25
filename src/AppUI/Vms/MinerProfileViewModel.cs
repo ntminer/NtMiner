@@ -116,6 +116,8 @@ namespace NTMiner.Vms {
         }
 
         private string _argsAssembly;
+        private bool _isMining;
+
         public string ArgsAssembly {
             get {
                 return _argsAssembly;
@@ -258,6 +260,14 @@ namespace NTMiner.Vms {
         public bool IsWorker {
             get {
                 return MineWork != null && !VirtualRoot.IsMinerStudio;
+            }
+        }
+
+        public bool IsMining {
+            get => _isMining;
+            set {
+                _isMining = value;
+                OnPropertyChanged(nameof(IsMining));
             }
         }
     }

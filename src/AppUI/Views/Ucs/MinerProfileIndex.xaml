@@ -36,7 +36,7 @@
 					<TextBlock
 						Style="{StaticResource LblTb}"
 						Text="主币" />
-					<WrapPanel IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}">
+					<WrapPanel IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}">
 						<controls:KbButton 
 							x:Name="ButtonMainCoin"
 							Padding="4 0"
@@ -44,7 +44,7 @@
 							BorderBrush="{StaticResource LineColor}"
 							Height="26"							
 							IsEnabled="{Binding ElementName=PopupMainCoin,Path=IsOpen,Converter={StaticResource BoolInvertConverter}}"
-							Background="{Binding StateBarVm.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
+							Background="{Binding MinerProfile.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
 							Click="KbButtonMainCoin_Clicked">
 							<controls:KbButton.ContextMenu>
 								<ContextMenu>
@@ -80,7 +80,7 @@
 						Width="32"
 						Style="{StaticResource LblTb}"
 						Text="矿池" />
-					<WrapPanel IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}">
+					<WrapPanel IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}">
 						<controls:KbButton 
 							x:Name="ButtonMainCoinPool"
 							Padding="4 0"
@@ -88,7 +88,7 @@
 							BorderBrush="{StaticResource LineColor}"
 							Height="26"							
 							IsEnabled="{Binding ElementName=PopupMainCoinPool,Path=IsOpen,Converter={StaticResource BoolInvertConverter}}"
-							Background="{Binding StateBarVm.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
+							Background="{Binding MinerProfile.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
 							Click="KbButtonMainCoinPool_Clicked">
 							<controls:KbButton.ContextMenu>
 								<ContextMenu>
@@ -127,7 +127,7 @@
 						<TextBlock
 							Style="{StaticResource LblTb}"
 							Text="钱包" />
-						<WrapPanel IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}">
+						<WrapPanel IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}">
 							<controls:KbButton 
 								x:Name="ButtonMainCoinWallet"
 								Width="274"
@@ -136,7 +136,7 @@
 								BorderBrush="{StaticResource LineColor}"
 								Height="36"							
 								IsEnabled="{Binding ElementName=PopupMainCoinWallet,Path=IsOpen,Converter={StaticResource BoolInvertConverter}}"
-								Background="{Binding StateBarVm.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
+								Background="{Binding MinerProfile.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
 								Click="KbButtonMainCoinWallet_Clicked">
 								<controls:KbButton.ContextMenu>
 									<ContextMenu>
@@ -235,8 +235,8 @@
 						<TextBox 
 							Height="26"
 							Width="136"
-							Background="{Binding StateBarVm.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
-							IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}"
+							Background="{Binding MinerProfile.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
+							IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}"
 							VerticalContentAlignment="Center" 
 							Text="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.PoolProfileVm.UserName}">
 						</TextBox>
@@ -284,7 +284,7 @@
 					<TextBlock
 						Style="{StaticResource LblTb}"
 						Text="内核" />
-					<WrapPanel IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}">
+					<WrapPanel IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}">
 						<controls:KbButton 
 							x:Name="ButtonKernel"
 							Padding="4 0"
@@ -292,7 +292,7 @@
 							BorderBrush="{StaticResource LineColor}"
 							Height="26"
 							IsEnabled="{Binding ElementName=PopupKernel,Path=IsOpen,Converter={StaticResource BoolInvertConverter}}"
-							Background="{Binding StateBarVm.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
+							Background="{Binding MinerProfile.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
 							Click="KbButtonKernel_Clicked">
 							<controls:KbButton.ContextMenu>
 								<ContextMenu>
@@ -321,7 +321,7 @@
 					<WrapPanel 
 						Margin="4 0 0 0"
 						VerticalAlignment="Center"
-						IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}" 
+						IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}" 
 						Visibility="{Binding MinerProfile.CoinVm.CoinKernel.IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}">
 						<controls:KbCheckBox
 							Content="启用双挖"
@@ -343,7 +343,7 @@
 								Content="自动权重"
 								VerticalContentAlignment="Center"
 								IconColor="{StaticResource IconFillColor}"
-								IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}"
+								IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}"
 								Visibility="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.KernelInputVm.IsAutoDualWeight, Converter={StaticResource BoolToVisibilityConverter}}"
 								IsChecked="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsAutoDualWeight}" />
 							<WrapPanel 
@@ -359,7 +359,7 @@
 									ToolTip="注意：调整双挖权重可能导致挖矿失败，请注意观察。"
 									LostFocus="DualCoinWeightSlider_LostFocus"
 									Value="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.DualCoinWeight}"
-									IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}"></Slider>
+									IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}"></Slider>
 								<TextBox 
 									Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.DualCoinWeight, UpdateSourceTrigger=PropertyChanged}"
 									LostFocus="DualCoinWeightSlider_LostFocus"></TextBox>
@@ -370,7 +370,7 @@
 							<TextBlock
 								Style="{StaticResource LblTb}"
 								Text="双挖币" />
-							<WrapPanel IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}">
+							<WrapPanel IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}">
 								<controls:KbButton 
 									x:Name="ButtonDualCoin"
 									Padding="4 0"
@@ -378,7 +378,7 @@
 									BorderBrush="{StaticResource LineColor}"
 									Height="26"							
 									IsEnabled="{Binding ElementName=PopupDualCoin,Path=IsOpen,Converter={StaticResource BoolInvertConverter}}"
-									Background="{Binding StateBarVm.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
+									Background="{Binding MinerProfile.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
 									Click="KbButtonDualCoin_Clicked">
 									<controls:KbButton.ContextMenu>
 										<ContextMenu>
@@ -414,7 +414,7 @@
 								Width="32"
 								Style="{StaticResource LblTb}"
 								Text="矿池" />
-							<WrapPanel IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}">
+							<WrapPanel IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}">
 								<controls:KbButton 
 									x:Name="ButtonDualCoinPool"
 									Padding="4 0"
@@ -422,7 +422,7 @@
 									BorderBrush="{StaticResource LineColor}"
 									Height="26"							
 									IsEnabled="{Binding ElementName=PopupDualCoinPool,Path=IsOpen,Converter={StaticResource BoolInvertConverter}}"
-									Background="{Binding StateBarVm.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
+									Background="{Binding MinerProfile.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
 									Click="KbButtonDualCoinPool_Clicked">
 									<controls:KbButton.ContextMenu>
 										<ContextMenu>
@@ -460,7 +460,7 @@
 									<TextBlock
 										Style="{StaticResource LblTb}"
 										Text="钱包" />
-									<WrapPanel IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}">
+									<WrapPanel IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}">
 										<controls:KbButton 
 											x:Name="ButtonDualCoinWallet"
 											Width="274"
@@ -469,7 +469,7 @@
 											BorderBrush="{StaticResource LineColor}"
 											Height="36"							
 											IsEnabled="{Binding ElementName=PopupDualCoinWallet,Path=IsOpen,Converter={StaticResource BoolInvertConverter}}"
-											Background="{Binding StateBarVm.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
+											Background="{Binding MinerProfile.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
 											Click="KbButtonDualCoinWallet_Clicked">
 											<controls:KbButton.ContextMenu>
 												<ContextMenu>
@@ -569,8 +569,8 @@
 								<TextBox 
 									Height="26"
 									Width="136"
-									Background="{Binding StateBarVm.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
-									IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}"
+									Background="{Binding MinerProfile.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
+									IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}"
 									VerticalContentAlignment="Center" 
 									Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.PoolProfileVm.UserName}">
 								</TextBox>
@@ -624,8 +624,8 @@
 						Height="26"
 						Width="274"
 						VerticalContentAlignment="Center"
-						Background="{Binding StateBarVm.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
-						IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}"
+						Background="{Binding MinerProfile.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
+						IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}"
 						VerticalScrollBarVisibility="Auto"
 						Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.CustomArgs, Mode=TwoWay}">
 						<TextBox.ToolTip>
@@ -645,7 +645,7 @@
 						Text="显卡" />
 					<ItemsControl
 						Grid.Column="1"
-						IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}"
+						IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}"
 						ItemsSource="{Binding GpuVms}"
 						BorderThickness="0"
 						VerticalAlignment="Center"
@@ -665,7 +665,7 @@
 				</Grid>
 				<ItemsControl
 					Margin="50 0 0 0"
-					IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}"
+					IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}"
 					ItemsSource="{Binding MinerProfile.CoinVm.CoinKernel.InputSegmentVms}"
 					BorderThickness="0"
 					VerticalAlignment="Center"

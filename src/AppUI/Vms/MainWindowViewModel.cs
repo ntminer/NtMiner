@@ -28,12 +28,12 @@ namespace NTMiner.Vms {
                 LogColor.ShowWindow();
             });
             this.StartMine = new DelegateCommand(() => {
-                this.StateBarVm.IsMining = true;
+                this.MinerProfile.IsMining = true;
                 NTMinerRoot.Current.StartMine();
             });
             this.StopMine = new DelegateCommand(() => {
                 if (!NTMinerRoot.Current.IsMining) {
-                    this.StateBarVm.IsMining = false;
+                    this.MinerProfile.IsMining = false;
                 }
                 NTMinerRoot.Current.StopMineAsync();
             });
@@ -45,7 +45,7 @@ namespace NTMiner.Vms {
             });
             VirtualRoot.On<StartingMineFailedEvent>("开始挖矿失败", LogEnum.DevConsole,
                 action: message => {
-                    this.StateBarVm.IsMining = false;
+                    this.MinerProfile.IsMining = false;
                     Write.UserFail(message.Message);
                 });
             if (DevMode.IsDevMode) {
@@ -113,12 +113,6 @@ namespace NTMiner.Vms {
         public MinerProfileViewModel MinerProfile {
             get {
                 return MinerProfileViewModel.Current;
-            }
-        }
-
-        public StateBarViewModel StateBarVm {
-            get {
-                return StateBarViewModel.Current;
             }
         }
 

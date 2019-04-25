@@ -12,12 +12,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        public StateBarViewModel StateBarVm {
-            get {
-                return StateBarViewModel.Current;
-            }
-        }
-
         public List<GpuViewModel> GpuVms {
             get {
                 return GpuViewModels.Current.Where(a => a.Index != NTMinerRoot.GpuAllId).OrderBy(a => a.Index).ToList();

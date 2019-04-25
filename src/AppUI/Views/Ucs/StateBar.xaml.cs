@@ -1,6 +1,5 @@
 ﻿using NTMiner.Core.Gpus;
 using NTMiner.Vms;
-using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Media;
 

@@ -163,7 +163,7 @@ namespace NTMiner {
                         using (StreamReader sreader = new StreamReader(stream, Encoding.Default)) {
                             while (mineContext == Current.CurrentMineContext) {
                                 string outline = sreader.ReadLine();
-                                if (string.IsNullOrEmpty(outline)) {
+                                if (string.IsNullOrEmpty(outline) && sreader.EndOfStream) {
                                     Thread.Sleep(1000);
                                 }
                                 else {

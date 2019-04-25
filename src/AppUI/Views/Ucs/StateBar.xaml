@@ -7,8 +7,10 @@
 			 xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 			 xmlns:vm="clr-namespace:NTMiner.Vms"
 			 xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
-			 DataContext="{x:Static vm:StateBarViewModel.Current}"
 			 mc:Ignorable="d" d:DesignWidth="800">
+	<UserControl.DataContext>
+		<vm:StateBarViewModel></vm:StateBarViewModel>
+	</UserControl.DataContext>
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<Style x:Key="Lbl" TargetType="Label">
@@ -47,7 +49,7 @@
 						<Path
 							Width="16"
 							Height="16"
-							Visibility="{Binding IsMining, Converter={StaticResource BoolToVisibilityInvertConverter}}" 
+							Visibility="{Binding MinerProfile.IsMining, Converter={StaticResource BoolToVisibilityInvertConverter}}" 
 							Data="{StaticResource Icon_Mining1}"
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill">
@@ -55,7 +57,7 @@
 								<RotateTransform Angle="-45" CenterX="8" CenterY="8"></RotateTransform>
 							</Path.RenderTransform>
 						</Path>
-						<WrapPanel Visibility="{Binding IsMining, Converter={StaticResource BoolToVisibilityConverter}}">
+						<WrapPanel Visibility="{Binding MinerProfile.IsMining, Converter={StaticResource BoolToVisibilityConverter}}">
 							<Path
 								Width="16"
 								Height="16"

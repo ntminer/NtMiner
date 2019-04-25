@@ -4,8 +4,6 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class StateBarViewModel : ViewModelBase {
-        public static readonly StateBarViewModel Current = new StateBarViewModel();
-
         private TimeSpan _mineTimeSpan = TimeSpan.Zero;
         private TimeSpan _bootTimeSpan = TimeSpan.Zero;
         private bool _isShovelEmpty = true;
@@ -13,7 +11,10 @@ namespace NTMiner.Vms {
 
         public ICommand ConfigControlCenterHost { get; private set; }
 
-        private StateBarViewModel() {
+        public StateBarViewModel() {
+            if (Design.IsInDesignMode) {
+                return;
+            }
             this.ConfigControlCenterHost = new DelegateCommand(() => {
                 ControlCenterHostConfig.ShowWindow();
             });
@@ -25,17 +26,17 @@ namespace NTMiner.Vms {
                     var mineContext = NTMinerRoot.Current.CurrentMineContext;
                     if (mineContext != null) {
                         this.MineTimeSpan = now - mineContext.CreatedOn;
-                        if (!this.IsMining) {
-                            this.IsMining = true;
+                        if (!this.MinerProfile.IsMining) {
+                            this.MinerProfile.IsMining = true;
                         }
                     }
                     else {
-                        if (this.IsMining) {
-                            this.IsMining = false;
+                        if (this.MinerProfile.IsMining) {
+                            this.MinerProfile.IsMining = false;
                         }
                     }
                     // 周期性挥动铲子表示在挖矿中
-                    if (IsMining) {
+                    if (this.MinerProfile.IsMining) {
                         IsShovelEmpty = !IsShovelEmpty;
                     }
                 });
@@ -48,14 +49,6 @@ namespace NTMiner.Vms {
                     _isShovelEmpty = value;
                     OnPropertyChanged(nameof(IsShovelEmpty));
                 }
-            }
-        }
-
-        public bool IsMining {
-            get => _isMining;
-            set {
-                _isMining = value;
-                OnPropertyChanged(nameof(IsMining));
             }
         }
 

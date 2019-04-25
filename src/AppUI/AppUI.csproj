@@ -474,6 +474,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\Ucs\Design\StateBarViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\Ucs\Design\GpuSpeedViewModels.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
