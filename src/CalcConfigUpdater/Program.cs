@@ -54,43 +54,44 @@ namespace NTMiner {
                         NeatenSpeedUnit(incomeItems);
                         if (incomeItems != null && incomeItems.Count != 0) {
                             Login();
-                            DataResponse<List<CalcConfigData>> response = OfficialServer.GetCalcConfigs();
-                            Write.UserInfo($"NTMiner有{response.Data.Count}个币种");
-                            HashSet<string> coinCodes = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-                            foreach (CalcConfigData calcConfigData in response.Data) {
-                                IncomeItem incomeItem = incomeItems.FirstOrDefault(a => string.Equals(a.CoinCode, calcConfigData.CoinCode, StringComparison.OrdinalIgnoreCase));
-                                if (incomeItem != null) {
-                                    coinCodes.Add(calcConfigData.CoinCode);
-                                    calcConfigData.Speed = incomeItem.Speed;
-                                    calcConfigData.SpeedUnit = incomeItem.SpeedUnit;
-                                    calcConfigData.IncomePerDay = incomeItem.IncomeCoin;
-                                    calcConfigData.IncomeUsdPerDay = incomeItem.IncomeUsd;
-                                    calcConfigData.IncomeCnyPerDay = incomeItem.IncomeCny;
-                                    calcConfigData.ModifiedOn = DateTime.Now;
+                            OfficialServer.GetCalcConfigsAsync(data=> {
+                                Write.UserInfo($"NTMiner有{data.Count}个币种");
+                                HashSet<string> coinCodes = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+                                foreach (CalcConfigData calcConfigData in data) {
+                                    IncomeItem incomeItem = incomeItems.FirstOrDefault(a => string.Equals(a.CoinCode, calcConfigData.CoinCode, StringComparison.OrdinalIgnoreCase));
+                                    if (incomeItem != null) {
+                                        coinCodes.Add(calcConfigData.CoinCode);
+                                        calcConfigData.Speed = incomeItem.Speed;
+                                        calcConfigData.SpeedUnit = incomeItem.SpeedUnit;
+                                        calcConfigData.IncomePerDay = incomeItem.IncomeCoin;
+                                        calcConfigData.IncomeUsdPerDay = incomeItem.IncomeUsd;
+                                        calcConfigData.IncomeCnyPerDay = incomeItem.IncomeCny;
+                                        calcConfigData.ModifiedOn = DateTime.Now;
+                                    }
                                 }
-                            }
-                            OfficialServer.SaveCalcConfigsAsync(response.Data, callback: (res, e)=> {
-                                if (!res.IsSuccess()) {
-                                    Write.UserFail(res.ReadMessage(e));
+                                OfficialServer.SaveCalcConfigsAsync(data, callback: (res, e) => {
+                                    if (!res.IsSuccess()) {
+                                        Write.UserFail(res.ReadMessage(e));
+                                    }
+                                });
+                                foreach (IncomeItem incomeItem in incomeItems) {
+                                    if (coinCodes.Contains(incomeItem.CoinCode)) {
+                                        continue;
+                                    }
+                                    Write.UserInfo(incomeItem.ToString());
                                 }
+
+                                foreach (var incomeItem in incomeItems) {
+                                    if (!coinCodes.Contains(incomeItem.CoinCode)) {
+                                        continue;
+                                    }
+                                    Write.UserOk(incomeItem.ToString());
+                                }
+
+                                Write.UserOk($"更新了{coinCodes.Count}个币种：{string.Join(",", coinCodes)}");
+                                int unUpdatedCount = data.Count - coinCodes.Count;
+                                Write.UserWarn($"{unUpdatedCount}个币种未更新{(unUpdatedCount == 0 ? string.Empty : "：" + string.Join(",", data.Select(a => a.CoinCode).Except(coinCodes)))}");
                             });
-                            foreach (IncomeItem incomeItem in incomeItems) {
-                                if (coinCodes.Contains(incomeItem.CoinCode)) {
-                                    continue;
-                                }
-                                Write.UserInfo(incomeItem.ToString());
-                            }
-
-                            foreach (var incomeItem in incomeItems) {
-                                if (!coinCodes.Contains(incomeItem.CoinCode)) {
-                                    continue;
-                                }
-                                Write.UserOk(incomeItem.ToString());
-                            }
-
-                            Write.UserOk($"更新了{coinCodes.Count}个币种：{string.Join(",", coinCodes)}");
-                            int unUpdatedCount = response.Data.Count - coinCodes.Count;
-                            Write.UserWarn($"{unUpdatedCount}个币种未更新{(unUpdatedCount == 0 ? string.Empty: "：" + string.Join(",", response.Data.Select(a => a.CoinCode).Except(coinCodes)))}");
                         }
                     }
                 }

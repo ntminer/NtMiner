@@ -6,7 +6,7 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class CalcConfigViewModels : ViewModelBase {
-        private List<CalcConfigViewModel> _calcConfigVms;
+        private List<CalcConfigViewModel> _calcConfigVms = new List<CalcConfigViewModel>();
         public ICommand Save { get; private set; }
 
         public Action CloseWindow { get; set; }
@@ -19,10 +19,6 @@ namespace NTMiner.Vms {
                 NTMinerRoot.Current.CalcConfigSet.SaveCalcConfigs(this.CalcConfigVms.Select(a => new CalcConfigData(a)).ToList());
                 CloseWindow?.Invoke();
             });
-            _calcConfigVms = new List<CalcConfigViewModel>();
-            foreach (var item in NTMinerRoot.Current.CalcConfigSet) {
-                _calcConfigVms.Add(new CalcConfigViewModel(item));
-            }
         }
 
         public List<CalcConfigViewModel> CalcConfigVms {

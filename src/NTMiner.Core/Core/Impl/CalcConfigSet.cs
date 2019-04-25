@@ -14,37 +14,32 @@ namespace NTMiner.Core.Impl {
         }
 
         private DateTime _initedOn = DateTime.MinValue;
-        private readonly object _locker = new object();
 
         private void Init() {
             DateTime now = DateTime.Now;
             if (_initedOn.AddMinutes(10) < now) {
-                lock (_locker) {
-                    if (_initedOn.AddMinutes(10) < now) {
-                        var list = _root.CoinSet.OrderBy(a => a.SortNumber).Select(a => new CalcConfigData {
-                            CoinCode = a.Code,
-                            CreatedOn = DateTime.Now,
-                            IncomePerDay = 0,
-                            ModifiedOn = DateTime.Now,
-                            Speed = 0,
-                            SpeedUnit = "H/s"
-                        }).ToList();
-                        var response = OfficialServer.GetCalcConfigs();
-                        if (response != null) {
-                            foreach (var item in response.Data) {
-                                var exist = list.FirstOrDefault(a => string.Equals(a.CoinCode, item.CoinCode, StringComparison.OrdinalIgnoreCase));
-                                if (exist != null) {
-                                    exist.Update(item);
-                                }
-                                else {
-                                    list.Add(item);
-                                }
-                            }
+                var list = _root.CoinSet.OrderBy(a => a.SortNumber).Select(a => new CalcConfigData {
+                    CoinCode = a.Code,
+                    CreatedOn = DateTime.Now,
+                    IncomePerDay = 0,
+                    ModifiedOn = DateTime.Now,
+                    Speed = 0,
+                    SpeedUnit = "H/s"
+                }).ToList();
+                OfficialServer.GetCalcConfigsAsync(data => {
+                    foreach (var item in data) {
+                        var exist = list.FirstOrDefault(a => string.Equals(a.CoinCode, item.CoinCode, StringComparison.OrdinalIgnoreCase));
+                        if (exist != null) {
+                            exist.Update(item);
                         }
-                        _dicByCoinCode = list.ToDictionary(a => a.CoinCode, a => a, StringComparer.OrdinalIgnoreCase);
-                        _initedOn = now;
+                        else {
+                            list.Add(item);
+                        }
                     }
-                }
+                    _dicByCoinCode = list.ToDictionary(a => a.CoinCode, a => a, StringComparer.OrdinalIgnoreCase);
+                    VirtualRoot.Happened(new CalcConfigSetInitedEvent());
+                });
+                _initedOn = now;
             }
         }
 
@@ -72,10 +67,8 @@ namespace NTMiner.Core.Impl {
         }
 
         public void SaveCalcConfigs(List<CalcConfigData> data) {
-            lock (_locker) {
-                _dicByCoinCode = data.ToDictionary(a => a.CoinCode, a => a, StringComparer.OrdinalIgnoreCase);
-                OfficialServer.SaveCalcConfigsAsync(data, null);
-            }
+            _dicByCoinCode = data.ToDictionary(a => a.CoinCode, a => a, StringComparer.OrdinalIgnoreCase);
+            OfficialServer.SaveCalcConfigsAsync(data, null);
         }
 
         public IEnumerator<CalcConfigData> GetEnumerator() {

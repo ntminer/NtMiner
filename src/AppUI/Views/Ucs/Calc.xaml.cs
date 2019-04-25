@@ -1,4 +1,6 @@
-﻿using NTMiner.Vms;
+﻿using NTMiner.Core;
+using NTMiner.Vms;
+using System.Collections.Generic;
 using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
@@ -23,9 +25,23 @@ namespace NTMiner.Views.Ucs {
             }
         }
 
+        private readonly List<Bus.IDelegateHandler> _handlers = new List<Bus.IDelegateHandler>();
         private Calc(CoinViewModel coin) {
             InitializeComponent();
             Vm.SelectedCoinVm = coin;
+            VirtualRoot.On<CalcConfigSetInitedEvent>("收益计算器数据集刷新后刷新VM", LogEnum.DevConsole,
+                action: message => {
+                    UIThread.Execute(()=> {
+                        Vm.ReRender();
+                    });
+                }).AddToCollection(_handlers);
+            this.Unloaded += CalcConfig_Unloaded;
+        }
+
+        private void CalcConfig_Unloaded(object sender, System.Windows.RoutedEventArgs e) {
+            foreach (var handler in _handlers) {
+                VirtualRoot.UnPath(handler);
+            }
         }
     }
 }

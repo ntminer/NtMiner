@@ -31,11 +31,11 @@ namespace NTMiner {
             });
         }
 
-        private static T Post<T>(string controller, string action, object param, int? timeout = null) where T : class {
+        private static T Post<T>(string controller, string action, object param, int? timeountMilliseconds = null) where T : class {
             try {
                 using (HttpClient client = new HttpClient()) {
-                    if (timeout.HasValue) {
-                        client.Timeout = TimeSpan.FromMilliseconds(timeout.Value);
+                    if (timeountMilliseconds.HasValue) {
+                        client.Timeout = TimeSpan.FromMilliseconds(timeountMilliseconds.Value);
                     }
                     Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{AssemblyInfo.OfficialServerHost}:{WebApiConst.ControlCenterPort}/api/{controller}/{action}", param);
                     T response = message.Result.Content.ReadAsAsync<T>().Result;
@@ -79,21 +79,25 @@ namespace NTMiner {
         }
 
         #region GetCalcConfigs
-        /// <summary>
-        /// 同步方法
-        /// </summary>
-        /// <returns></returns>
-        public static DataResponse<List<CalcConfigData>> GetCalcConfigs() {
-            try {
-                CalcConfigsRequest request = new CalcConfigsRequest {
-                };
-                DataResponse<List<CalcConfigData>> response = Post<DataResponse<List<CalcConfigData>>>("ControlCenter", nameof(IControlCenterController.CalcConfigs), request, timeout: 2000);
-                return response;
-            }
-            catch (Exception e) {
-                Logger.ErrorDebugLine(e.GetInnerMessage(), e);
-                return null;
-            }
+        public static void GetCalcConfigsAsync(Action<List<CalcConfigData>> callback) {
+            Task.Factory.StartNew(() => {
+                try {
+                    CalcConfigsRequest request = new CalcConfigsRequest {
+                    };
+                    PostAsync("ControlCenter", nameof(IControlCenterController.CalcConfigs), request, (DataResponse<List<CalcConfigData>> response, Exception e) => {
+                        if (response.IsSuccess()) {
+                            callback?.Invoke(response.Data);
+                        }
+                        else {
+                            callback?.Invoke(new List<CalcConfigData>());
+                        }
+                    }, timeountMilliseconds: 2000);
+                }
+                catch (Exception e) {
+                    Logger.ErrorDebugLine(e.GetInnerMessage(), e);
+                    callback?.Invoke(new List<CalcConfigData>());
+                }
+            });
         }
         #endregion
 
