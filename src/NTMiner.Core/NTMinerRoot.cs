@@ -340,8 +340,12 @@ namespace NTMiner {
             // 清理Temp/Download目录下的下载文件
             Cleaner.ClearDownload();
             // 自动挖矿
-            if ((NTMinerRegistry.GetIsAutoStart() || CommandLineArgs.IsAutoStart) && !IsMining) {
-                StartMine();
+            if (IsAutoStart && !IsMining) {
+                TimeSpan.FromSeconds(10 - VirtualRoot.SecondCount).Delay().ContinueWith((t) => {
+                    if (!IsAutoStartCanceled) {
+                        StartMine();
+                    }
+                });
             }
         }
 

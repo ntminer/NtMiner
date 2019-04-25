@@ -27,6 +27,8 @@ namespace NTMiner {
         public static string UserKernelCommandLine;
 
         public static readonly int GpuAllId = -1;
+        public static bool IsAutoStart = (NTMinerRegistry.GetIsAutoStart() || CommandLineArgs.IsAutoStart);
+        public static bool IsAutoStartCanceled = false;
 
         static NTMinerRoot() {
             Assembly mainAssembly = Assembly.GetEntryAssembly();

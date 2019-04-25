@@ -362,7 +362,7 @@
 													VerticalAlignment="Center"
 													Foreground="{StaticResource IconFillColor}"
 													FontSize="14"
-													Content="正在挖矿" />
+													Content="{Binding BtnStopText}" />
 											</WrapPanel>
 										</Border>
 										<ControlTemplate.Triggers>

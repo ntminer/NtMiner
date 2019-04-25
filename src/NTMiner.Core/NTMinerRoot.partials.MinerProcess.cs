@@ -48,10 +48,12 @@ namespace NTMiner {
                             // 如果内核不支持日志文件
                             CreatePipProcess(mineContext, kernelExeFileFullName, arguments);
                         }
+                        Write.UserOk("开始挖矿");
                         VirtualRoot.Happened(new MineStartedEvent(mineContext));
                     }
                     catch (Exception e) {
                         Logger.ErrorDebugLine(e.Message, e);
+                        Write.UserFail("挖矿内核启动失败，请联系开发人员解决");
                     }
                 });
             }
@@ -149,16 +151,20 @@ namespace NTMiner {
                         if (n >= 10) {
                             // 10秒钟都没有建立日志文件，不可能
                             isLogFileCreated = false;
+                            Write.UserFail("呃！竟然10秒钟未产生内核输出文件，请联系开发人员解决。");
                             break;
                         }
+                        Write.UserInfo("等待内核输出");
                         Thread.Sleep(1000);
                         if (mineContext != Current.CurrentMineContext) {
+                            Write.UserInfo("挖矿上下文变更，结束内核输出等待。");
                             isLogFileCreated = false;
                             break;
                         }
                         n++;
                     }
                     if (isLogFileCreated) {
+                        Write.UserOk("成功得到内核输出。");
                         FileStream stream = File.Open(logFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                         using (StreamReader sreader = new StreamReader(stream, Encoding.Default)) {
                             while (mineContext == Current.CurrentMineContext) {
@@ -196,7 +202,7 @@ namespace NTMiner {
                                 }
                             }
                         }
-                        Logger.WarnWriteLine("日志输出结束");
+                        Logger.WarnWriteLine("内核输出结束");
                     }
                 });
             }

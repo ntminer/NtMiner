@@ -22,7 +22,9 @@ namespace NTMiner.Vms {
                 action: message => {
                     DateTime now = DateTime.Now;
                     this.BootTimeSpan = now - NTMinerRoot.Current.CreatedOn;
-
+                    if (NTMinerRoot.IsAutoStart && BootTimeSpan.TotalSeconds <= 10 && !NTMinerRoot.IsAutoStartCanceled) {
+                        return;
+                    }
                     var mineContext = NTMinerRoot.Current.CurrentMineContext;
                     if (mineContext != null) {
                         this.MineTimeSpan = now - mineContext.CreatedOn;
