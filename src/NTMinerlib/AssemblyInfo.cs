@@ -5,7 +5,7 @@ using System.Reflection;
 namespace NTMiner {
     public static class AssemblyInfo {
         public const string Version = "2.0.0";
-        public const string Build = "60000";
+        public const string Build = "60100";
         public const string Copyright = "Copyright ©  2019";
         public const string Tag = "蛮吉";
         public static readonly string ServerJsonFileName = $"server{Version}.json";
