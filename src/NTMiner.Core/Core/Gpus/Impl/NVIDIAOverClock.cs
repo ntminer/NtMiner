@@ -139,8 +139,8 @@ namespace NTMiner.Core.Gpus.Impl {
         }
 
         public static void RefreshGpuState(IGpu gpu) {
-            const string coreClockDeltaMinMaxPattern = @"c\[0\]\.freqDelta     = (\d+) kHz \[(-?\d+) .. (\d+)\]";
-            const string memoryClockDeltaMinMaxPattern = @"c\[1\]\.freqDelta     = (\d+) kHz \[(-?\d+) .. (\d+)\]";
+            const string coreClockDeltaMinMaxPattern = @"c\[0\]\.freqDelta     = (-?\d+) kHz \[(-?\d+) .. (\d+)\]";
+            const string memoryClockDeltaMinMaxPattern = @"c\[1\]\.freqDelta     = (-?\d+) kHz \[(-?\d+) .. (\d+)\]";
             const string coolSpeedMinMaxPattern = @"cooler\[0\]\.speed   = (\d+) % \[(-?\d+) .. (\d+)\]";
             const string powerMinPattern = @"policy\[0\]\.pwrLimitMin     = (\d+\.?\d*) %";
             const string powerMaxPattern = @"policy\[0\]\.pwrLimitMax     = (\d+\.?\d*) %";
