@@ -83,21 +83,18 @@ namespace NTMiner.Core.Profiles {
 
         private void OverClock(INTMinerRoot root, IGpuProfile data) {
             if (root.GpuSet.TryGetGpu(data.Index, out IGpu gpu)) {
-                OverClock(data, root.GpuSet.OverClock);
+                IOverClock overClock = root.GpuSet.OverClock;
+                overClock.SetCoreClock(data.Index, data.CoreClockDelta);
+                overClock.SetMemoryClock(data.Index, data.MemoryClockDelta);
+                overClock.SetPowerCapacity(data.Index, data.PowerCapacity);
+                overClock.SetThermCapacity(data.Index, data.TempLimit);
+                if (!data.IsAutoFanSpeed) {
+                    overClock.SetCool(data.Index, data.Cool);
+                }
+                TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
+                    overClock.RefreshGpuState(data.Index);
+                });
             }
-        }
-
-        public static void OverClock(IGpuProfile data, IOverClock overClock) {
-            overClock.SetCoreClock(data.Index, data.CoreClockDelta);
-            overClock.SetMemoryClock(data.Index, data.MemoryClockDelta);
-            overClock.SetPowerCapacity(data.Index, data.PowerCapacity);
-            overClock.SetThermCapacity(data.Index, data.TempLimit);
-            if (!data.IsAutoFanSpeed) {
-                overClock.SetCool(data.Index, data.Cool);
-            }
-            TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
-                overClock.RefreshGpuState(data.Index);
-            });
         }
 
         private void Save() {
