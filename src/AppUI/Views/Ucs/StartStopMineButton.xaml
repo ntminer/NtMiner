@@ -7,7 +7,7 @@
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:vm="clr-namespace:NTMiner.Vms">
-	<WrapPanel Width="100">
+	<WrapPanel Width="100" Height="28">
 		<controls:KbButton 
 			IsDefault="True"
 			Width="100"

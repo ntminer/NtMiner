@@ -38,20 +38,21 @@
 					IsChecked="{Binding MinerProfile.IsAutoStart}" />
 				</WrapPanel>
 				<WrapPanel Grid.Column="1" HorizontalAlignment="Right">
-					<WrapPanel>
-						<local:StartStopMineButton>
-						</local:StartStopMineButton>
-						<StackPanel Width="100" Margin="4 0" VerticalAlignment="Center">
-							<TextBlock 
-								ToolTip="运行时长"
-								Text="{Binding BootTimeSpanText}"
-								Background="Transparent"></TextBlock>
-							<TextBlock 
-								ToolTip="挖矿时长"
-								Text="{Binding MineTimeSpanText}"
-								Background="Transparent"></TextBlock>
-						</StackPanel>
-					</WrapPanel>
+					<local:StartStopMineButton>
+					</local:StartStopMineButton>
+					<StackPanel Width="100" Height="28" Margin="4 -2 4 0" VerticalAlignment="Top">
+						<TextBlock 
+							Padding="0"
+							ToolTip="运行时长"
+							Text="{Binding BootTimeSpanText}"
+							Background="Transparent"></TextBlock>
+						<TextBlock 
+							Margin="0 -4 0 0"
+							Padding="0"
+							ToolTip="挖矿时长"
+							Text="{Binding MineTimeSpanText}"
+							Background="Transparent"></TextBlock>
+					</StackPanel>
 					<WrapPanel VerticalAlignment="Center">
 						<Path
 							Margin="0 0 2 0"
