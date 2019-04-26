@@ -134,6 +134,9 @@
     <Compile Include="Views\Ucs\CoinSelect.xaml.cs">
       <DependentUpon>CoinSelect.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Ucs\StartStopMineButton.xaml.cs">
+      <DependentUpon>StartStopMineButton.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Ucs\Toolbox.xaml.cs">
       <DependentUpon>Toolbox.xaml</DependentUpon>
     </Compile>
@@ -377,6 +380,7 @@
     <Compile Include="Vms\SpeedChartsViewModel.cs" />
     <Compile Include="Vms\SpeedChartViewModels.cs" />
     <Compile Include="Vms\SpeedUnitViewModel.cs" />
+    <Compile Include="Vms\StartStopMineButtonViewModel.cs" />
     <Compile Include="Vms\StateBarViewModel.cs" />
     <Compile Include="Vms\SysDicItemViewModels.cs" />
     <Compile Include="Vms\GroupPageViewModel.cs" />
@@ -471,6 +475,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Ucs\CoinSelect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Ucs\StartStopMineButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

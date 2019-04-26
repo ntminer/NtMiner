@@ -14,11 +14,8 @@ namespace NTMiner.Vms {
 
         private Visibility _isBtnRunAsAdministratorVisible = Visibility.Collapsed;
         private string _serverJsonVersion;
-        private string _btnStopText = "正在挖矿";
 
         public ICommand CustomTheme { get; private set; }
-        public ICommand StartMine { get; private set; }
-        public ICommand StopMine { get; private set; }
         public ICommand UseThisPcName { get; private set; }
 
         private MainWindowViewModel() {
@@ -27,18 +24,6 @@ namespace NTMiner.Vms {
             }
             this.CustomTheme = new DelegateCommand(() => {
                 LogColor.ShowWindow();
-            });
-            this.StartMine = new DelegateCommand(() => {
-                this.MinerProfile.IsMining = true;
-                NTMinerRoot.Current.StartMine();
-                BtnStopText = "正在挖矿";
-            });
-            this.StopMine = new DelegateCommand(() => {
-                if (!NTMinerRoot.Current.IsMining) {
-                    this.MinerProfile.IsMining = false;
-                }
-                NTMinerRoot.IsAutoStartCanceled = true;
-                NTMinerRoot.Current.StopMineAsync();
             });
             this.UseThisPcName = new DelegateCommand(() => {
                 string thisPcName = NTMinerRoot.GetThisPcName();
@@ -58,19 +43,6 @@ namespace NTMiner.Vms {
                     });
                 _serverJsonVersion = GetServerJsonVersion();
             }
-            if (NTMinerRoot.IsAutoStart && !this.MinerProfile.IsMining) {
-                this.MinerProfile.IsMining = true;
-                int n = 10;
-                Bus.IDelegateHandler handler = null;
-                handler = VirtualRoot.On<Per1SecondEvent>("挖矿倒计时", LogEnum.None,
-                action: message => {
-                    BtnStopText = $"倒计时({--n})";
-                    if (n <= 0) {
-                        BtnStopText = "正在挖矿";
-                        VirtualRoot.UnPath(handler);
-                    }
-                });
-            }
         }
 
         private string GetServerJsonVersion() {
@@ -79,14 +51,6 @@ namespace NTMiner.Vms {
                 serverJsonVersion = setting.Value.ToString();
             }
             return serverJsonVersion;
-        }
-
-        public string BtnStopText {
-            get => _btnStopText;
-            set {
-                _btnStopText = value;
-                OnPropertyChanged(nameof(BtnStopText));
-            }
         }
 
         public string BrandTitle {
@@ -163,5 +127,9 @@ namespace NTMiner.Vms {
                 return Visibility.Collapsed;
             }
         }
+
+        public StartStopMineButtonViewModel StartStopMineButtonVm {
+            get; private set;
+        } = new StartStopMineButtonViewModel();
     }
 }

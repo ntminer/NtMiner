@@ -295,7 +295,7 @@
 							</controls:KbButton>
 						</WrapPanel>
 						<Border
-							Margin="12 0 0 0"
+							Margin="16 0 0 0"
 							Width="26"
 							Height="26"
 							Background="Red"
@@ -308,76 +308,8 @@
 								FontWeight="Bold"
 								Text="群控"></TextBlock>
 						</Border>
-						<WrapPanel Margin="8 0 0 0" Width="100" Height="30">
-							<controls:KbButton 
-								IsDefault="True"
-								Width="100"
-								Height="28"
-								Command="{Binding StartMine}" 
-								Visibility="{Binding MinerProfile.IsMining, Converter={StaticResource BoolToVisibilityInvertConverter}}" 
-								Background="{StaticResource ThemeBackground}">
-								<WrapPanel>
-									<Path
-										Width="14"
-										Height="14"
-										Data="{StaticResource Icon_Mining1}"
-										Fill="{StaticResource ThemeForeground}"
-										Stretch="Fill">
-										<Path.RenderTransform>
-											<RotateTransform Angle="-45" CenterX="7" CenterY="7"></RotateTransform>
-										</Path.RenderTransform>
-									</Path>
-									<Label
-										Padding="4 2 4 4"
-										VerticalAlignment="Center"
-										Foreground="{StaticResource ThemeForeground}"
-										FontSize="14"
-										Content="开始挖矿" />
-								</WrapPanel>
-							</controls:KbButton>
-							<Button                        
-								Command="{Binding StopMine}" 
-								Visibility="{Binding MinerProfile.IsMining, Converter={StaticResource BoolToVisibilityConverter}}">
-								<Button.Template>
-									<ControlTemplate>
-										<Border 
-											x:Name="Content"
-											Width="100"
-											Height="28"
-											Background="Transparent"
-											BorderThickness="1" 
-											BorderBrush="{StaticResource LineColor}">
-											<WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-												<Path
-													x:Name="Icon2"
-													Width="14"
-													Height="14"
-													Data="{StaticResource Icon_Mining2}"
-													Fill="{StaticResource IconFillColor}"
-													Stretch="Fill">
-												</Path>
-												<Label
-													Padding="4 2 4 4"
-													x:Name="Text"
-													VerticalAlignment="Center"
-													Foreground="{StaticResource IconFillColor}"
-													FontSize="14"
-													Content="{Binding BtnStopText}" />
-											</WrapPanel>
-										</Border>
-										<ControlTemplate.Triggers>
-											<Trigger Property="IsMouseOver" Value="True">
-												<Setter TargetName="Icon2" Property="Fill" Value="White"></Setter>
-												<Setter TargetName="Content" Property="Background" Value="Red"></Setter>
-												<Setter TargetName="Content" Property="BorderBrush" Value="Red"></Setter>
-												<Setter TargetName="Text" Property="Foreground" Value="White"></Setter>
-												<Setter TargetName="Text" Property="Content" Value="停止挖矿"></Setter>
-											</Trigger>
-										</ControlTemplate.Triggers>
-									</ControlTemplate>
-								</Button.Template>
-							</Button>
-						</WrapPanel>
+						<uc:StartStopMineButton Margin="8 0 0 0">
+						</uc:StartStopMineButton>
 					</WrapPanel>
 					<uc:MinerProfileIndex 
 						Grid.Row="1" 
