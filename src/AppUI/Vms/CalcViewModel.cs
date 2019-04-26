@@ -4,7 +4,7 @@ namespace NTMiner.Vms {
     public class CalcViewModel : ViewModelBase {
         private CoinViewModel _selectedCoinVm;
         private double _speed;
-        private SpeedUnitViewModel _speedUnitVm;
+        private SpeedUnitViewModel _speedUnitVm = SpeedUnitViewModel.HPerSecond;
 
         public void ReRender() {
             if (SelectedCoinVm == null) {
@@ -12,8 +12,6 @@ namespace NTMiner.Vms {
             }
             ICalcConfig calcConfig;
             if (NTMinerRoot.Current.CalcConfigSet.TryGetCalcConfig(SelectedCoinVm, out calcConfig)) {
-                this.SpeedUnitVm = SpeedUnitViewModel.GetSpeedUnitVm(calcConfig.SpeedUnit);
-                this.Speed = 1;
                 var incomePerDay = NTMinerRoot.Current.CalcConfigSet.GetIncomePerHashPerDay(SelectedCoinVm.Code);
                 IncomePerDayText = (this.Speed.FromUnitSpeed(this.SpeedUnitVm.Unit) * incomePerDay.IncomeCoin).ToString("f7");
                 IncomeUsdPerDayText = (this.Speed.FromUnitSpeed(this.SpeedUnitVm.Unit) * incomePerDay.IncomeUsd).ToString("f7");
@@ -31,7 +29,11 @@ namespace NTMiner.Vms {
             set {
                 if (_selectedCoinVm != value) {
                     _selectedCoinVm = value;
-                    ReRender();
+                    this.Speed = 1;
+                    ICalcConfig calcConfig;
+                    if (NTMinerRoot.Current.CalcConfigSet.TryGetCalcConfig(SelectedCoinVm, out calcConfig)) {
+                        this.SpeedUnitVm = SpeedUnitViewModel.GetSpeedUnitVm(calcConfig.SpeedUnit);
+                    }
                     OnPropertyChanged(nameof(SelectedCoinVm));
                 }
             }
@@ -42,6 +44,7 @@ namespace NTMiner.Vms {
             set {
                 if (_speed != value) {
                     _speed = value;
+                    ReRender();
                     OnPropertyChanged(nameof(Speed));
                 }
             }
@@ -53,6 +56,7 @@ namespace NTMiner.Vms {
             set {
                 if (_speedUnitVm != value) {
                     _speedUnitVm = value;
+                    ReRender();
                     OnPropertyChanged(nameof(SpeedUnitVm));
                 }
             }
