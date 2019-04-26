@@ -161,19 +161,7 @@ namespace NTMiner.Vms {
                     return "0℃";
                 }
                 if (this.Index == NTMinerRoot.GpuAllId && NTMinerRoot.Current.GpuSet.Count != 0) {
-                    int min = int.MaxValue, max = int.MinValue;
-                    foreach (var item in GpuViewModels.Current) {
-                        if (item.Index == NTMinerRoot.GpuAllId) {
-                            continue;
-                        }
-                        if (item.Temperature > max) {
-                            max = item.Temperature;
-                        }
-                        if (item.Temperature < min) {
-                            min = item.Temperature;
-                        }
-                    }
-                    return $"{min} - {max}℃";
+                    return $"{GpuViewModels.Current.TemperatureMinText} - {GpuViewModels.Current.TemperatureMaxText}";
                 }
                 return this.Temperature.ToString() + "℃";
             }
@@ -199,19 +187,7 @@ namespace NTMiner.Vms {
                     return "0%";
                 }
                 if (this.Index == NTMinerRoot.GpuAllId && NTMinerRoot.Current.GpuSet.Count != 0) {
-                    uint min = uint.MaxValue, max = uint.MinValue;
-                    foreach (var item in GpuViewModels.Current) {
-                        if (item.Index == NTMinerRoot.GpuAllId) {
-                            continue;
-                        }
-                        if (item.FanSpeed > max) {
-                            max = item.FanSpeed;
-                        }
-                        if (item.FanSpeed < min) {
-                            min = item.FanSpeed;
-                        }
-                    }
-                    return $"{min} - {max}%";
+                    return $"{GpuViewModels.Current.FanSpeedMinText} - {GpuViewModels.Current.FanSpeedMaxText}";
                 }
                 return this.FanSpeed.ToString() + "%";
             }

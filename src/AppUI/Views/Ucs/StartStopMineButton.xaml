@@ -48,9 +48,9 @@
 									<RotateTransform Angle="-40" CenterX="7" CenterY="7"></RotateTransform>
 								</Setter.Value>
 							</Setter>
-							<Setter TargetName="Content" Property="Background" Value="{StaticResource ThemeBackground}"></Setter>
-							<Setter TargetName="Content" Property="BorderBrush" Value="{StaticResource ThemeBackground}"></Setter>
-							<Setter TargetName="Text" Property="Foreground" Value="{StaticResource ThemeForeground}"></Setter>
+							<Setter TargetName="Content" Property="Background" Value="Green"></Setter>
+							<Setter TargetName="Content" Property="BorderBrush" Value="Green"></Setter>
+							<Setter TargetName="Text" Property="Foreground" Value="White"></Setter>
 							<Setter TargetName="Text" Property="Content" Value="开始挖矿"></Setter>
 						</Trigger>
 					</ControlTemplate.Triggers>

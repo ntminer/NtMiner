@@ -99,5 +99,11 @@ namespace NTMiner.Vms {
                 return GpuStatusBarViewModel.Current;
             }
         }
+
+        public GpuViewModels GpuVms {
+            get {
+                return GpuViewModels.Current;
+            }
+        }
     }
 }
