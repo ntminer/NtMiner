@@ -6,8 +6,6 @@ namespace NTMiner.Vms {
     public class StateBarViewModel : ViewModelBase {
         private TimeSpan _mineTimeSpan = TimeSpan.Zero;
         private TimeSpan _bootTimeSpan = TimeSpan.Zero;
-        private bool _isShovelEmpty = true;
-        private bool _isMining;
 
         public ICommand ConfigControlCenterHost { get; private set; }
 
@@ -37,21 +35,7 @@ namespace NTMiner.Vms {
                             this.MinerProfile.IsMining = false;
                         }
                     }
-                    // 周期性挥动铲子表示在挖矿中
-                    if (this.MinerProfile.IsMining) {
-                        IsShovelEmpty = !IsShovelEmpty;
-                    }
                 });
-        }
-
-        public bool IsShovelEmpty {
-            get => _isShovelEmpty;
-            set {
-                if (_isShovelEmpty != value) {
-                    _isShovelEmpty = value;
-                    OnPropertyChanged(nameof(IsShovelEmpty));
-                }
-            }
         }
 
         public GpuSpeedViewModels GpuSpeedVms { get; private set; } = MainWindowViewModel.Current.GpuSpeedVms;

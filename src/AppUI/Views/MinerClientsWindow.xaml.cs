@@ -36,19 +36,13 @@ namespace NTMiner.Views {
             Width = SystemParameters.FullPrimaryScreenWidth * 0.95;
             Height = SystemParameters.FullPrimaryScreenHeight * 0.95;
             InitializeComponent();
-            VirtualRoot.On<Per1SecondEvent>("刷新倒计时秒表，周期性挥动铲子表示在挖矿中", LogEnum.None,
+            VirtualRoot.On<Per1SecondEvent>("刷新倒计时秒表", LogEnum.None,
                 action: message => {
                     var minerClients = Vm.MinerClients.ToArray();
                     if (Vm.CountDown > 0) {
                         Vm.CountDown = Vm.CountDown - 1;
                         foreach (var item in minerClients) {
                             item.OnPropertyChanged(nameof(item.LastActivedOnText));
-                        }
-                    }
-                    // 周期性挥动铲子表示在挖矿中
-                    foreach (var item in minerClients) {
-                        if (item.IsMining) {
-                            item.IsShovelEmpty = !item.IsShovelEmpty;
                         }
                     }
                 }).AddToCollection(_handlers);

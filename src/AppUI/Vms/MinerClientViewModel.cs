@@ -148,18 +148,6 @@ namespace NTMiner.Vms {
             get { return MinerGroupViewModels.Current; }
         }
 
-        private bool _isShovelEmpty = true;
-        [IgnoreReflectionSet]
-        public bool IsShovelEmpty {
-            get => _isShovelEmpty;
-            set {
-                if (_isShovelEmpty != value) {
-                    _isShovelEmpty = value;
-                    OnPropertyChanged(nameof(IsShovelEmpty));
-                }
-            }
-        }
-
         #region IClientData
 
         public string GetId() {
