@@ -308,7 +308,7 @@
 								FontWeight="Bold"
 								Text="群控"></TextBlock>
 						</Border>
-						<uc:StartStopMineButton Margin="8 0 0 0">
+						<uc:StartStopMineButton Margin="8 0 0 0" StartButtonBackground="{StaticResource ThemeBackground}" StartButtonForeground="{StaticResource ThemeForeground}">
 						</uc:StartStopMineButton>
 					</WrapPanel>
 					<uc:MinerProfileIndex 

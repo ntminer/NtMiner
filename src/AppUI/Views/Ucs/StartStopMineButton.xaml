@@ -6,35 +6,57 @@
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
+		x:Name="Self"
 		xmlns:vm="clr-namespace:NTMiner.Vms">
 	<WrapPanel Width="100" Height="28">
-		<controls:KbButton 
+		<Button
 			IsDefault="True"
-			Width="100"
-			Height="28"
-			BorderThickness="0"
 			Command="{Binding StartMine}" 
-			Visibility="{Binding MinerProfile.IsMining, Converter={StaticResource BoolToVisibilityInvertConverter}}" 
-			Background="{StaticResource ThemeBackground}">
-			<WrapPanel>
-				<Path
-					Width="14"
-					Height="14"
-					Data="{StaticResource Icon_Mining1}"
-					Fill="{StaticResource ThemeForeground}"
-					Stretch="Fill">
-					<Path.RenderTransform>
-						<RotateTransform Angle="-45" CenterX="7" CenterY="7"></RotateTransform>
-					</Path.RenderTransform>
-				</Path>
-				<Label
-					Padding="4 2 4 4"
-					VerticalAlignment="Center"
-					Foreground="{StaticResource ThemeForeground}"
-					FontSize="14"
-					Content="开始挖矿" />
-			</WrapPanel>
-		</controls:KbButton>
+			Visibility="{Binding MinerProfile.IsMining, Converter={StaticResource BoolToVisibilityInvertConverter}}">
+			<Button.Template>
+				<ControlTemplate>
+					<Border 
+						x:Name="Content"
+						Width="100"
+						Height="28"
+						Background="{Binding ElementName=Self,Path=StartButtonBackground}"
+						BorderThickness="0" 
+						BorderBrush="{StaticResource LineColor}">
+						<WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+							<Path
+								x:Name="Icon2"
+								Width="14"
+								Height="14"
+								Data="{StaticResource Icon_Mining1}"
+								Fill="{Binding ElementName=Self,Path=StartButtonForeground}"
+								Stretch="Fill">
+							</Path>
+							<Label
+								Padding="4 2 4 4"
+								x:Name="Text"
+								VerticalAlignment="Center"
+								Foreground="{Binding ElementName=Self,Path=StartButtonForeground}"
+								FontSize="14"
+								Content="尚未开始" />
+						</WrapPanel>
+					</Border>
+					<ControlTemplate.Triggers>
+						<Trigger Property="IsMouseOver" Value="True">
+							<Setter TargetName="Icon2" Property="Fill" Value="{StaticResource ThemeForeground}"></Setter>
+							<Setter TargetName="Icon2" Property="RenderTransform">
+								<Setter.Value>
+									<RotateTransform Angle="-40" CenterX="7" CenterY="7"></RotateTransform>
+								</Setter.Value>
+							</Setter>
+							<Setter TargetName="Content" Property="Background" Value="{StaticResource ThemeBackground}"></Setter>
+							<Setter TargetName="Content" Property="BorderBrush" Value="{StaticResource ThemeBackground}"></Setter>
+							<Setter TargetName="Text" Property="Foreground" Value="{StaticResource ThemeForeground}"></Setter>
+							<Setter TargetName="Text" Property="Content" Value="开始挖矿"></Setter>
+						</Trigger>
+					</ControlTemplate.Triggers>
+				</ControlTemplate>
+			</Button.Template>
+		</Button>
 		<Button                        
 			Command="{Binding StopMine}" 
 			Visibility="{Binding MinerProfile.IsMining, Converter={StaticResource BoolToVisibilityConverter}}">
