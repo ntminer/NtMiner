@@ -57,38 +57,40 @@ namespace NTMiner.Vms {
                             _totalGpuVm.OnPropertyChanged(nameof(_totalGpuVm.PowerMinMaxText));
                             _totalGpuVm.OnPropertyChanged(nameof(_totalGpuVm.TempLimitMinMaxText));
                         }
-                        if (vm.Index == NTMinerRoot.GpuAllId && NTMinerRoot.Current.GpuSet.Count != 0) {
-                            uint minFan = uint.MaxValue, maxFan = uint.MinValue;
-                            foreach (var item in _gpuVms.Values) {
-                                if (item.Index == NTMinerRoot.GpuAllId) {
-                                    continue;
-                                }
-                                if (item.FanSpeed > maxFan) {
-                                    maxFan = item.FanSpeed;
-                                }
-                                if (item.FanSpeed < minFan) {
-                                    minFan = item.FanSpeed;
-                                }
-                            }
-                            this.FanSpeedMaxText = maxFan + " %";
-                            this.FanSpeedMinText = minFan + " %";
-                            int minTemp = int.MaxValue, maxTemp = int.MinValue;
-                            foreach (var item in _gpuVms.Values) {
-                                if (item.Index == NTMinerRoot.GpuAllId) {
-                                    continue;
-                                }
-                                if (item.Temperature > maxTemp) {
-                                    maxTemp = item.Temperature;
-                                }
-                                if (item.Temperature < minTemp) {
-                                    minTemp = item.Temperature;
-                                }
-                            }
-                            this.TemperatureMaxText = maxTemp + " ℃";
-                            this.TemperatureMinText = minTemp + " ℃";
-                        }
+                        UpdateMinMax();
                     }
                 });
+        }
+
+        private void UpdateMinMax() {
+            uint minFan = uint.MaxValue, maxFan = uint.MinValue;
+            foreach (var item in _gpuVms.Values) {
+                if (item.Index == NTMinerRoot.GpuAllId) {
+                    continue;
+                }
+                if (item.FanSpeed > maxFan) {
+                    maxFan = item.FanSpeed;
+                }
+                if (item.FanSpeed < minFan) {
+                    minFan = item.FanSpeed;
+                }
+            }
+            this.FanSpeedMaxText = maxFan + " %";
+            this.FanSpeedMinText = minFan + " %";
+            int minTemp = int.MaxValue, maxTemp = int.MinValue;
+            foreach (var item in _gpuVms.Values) {
+                if (item.Index == NTMinerRoot.GpuAllId) {
+                    continue;
+                }
+                if (item.Temperature > maxTemp) {
+                    maxTemp = item.Temperature;
+                }
+                if (item.Temperature < minTemp) {
+                    minTemp = item.Temperature;
+                }
+            }
+            this.TemperatureMaxText = maxTemp + " ℃";
+            this.TemperatureMinText = minTemp + " ℃";
         }
 
         public int Count {
