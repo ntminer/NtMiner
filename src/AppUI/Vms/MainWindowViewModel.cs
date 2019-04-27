@@ -131,5 +131,19 @@ namespace NTMiner.Vms {
         public StartStopMineButtonViewModel StartStopMineButtonVm {
             get; private set;
         } = new StartStopMineButtonViewModel();
+
+        private PoolKernelViewModels _poolKernelVms;
+        public PoolKernelViewModels PoolKernelVms {
+            get {
+                return _poolKernelVms ?? (_poolKernelVms = new PoolKernelViewModels());
+            }
+        }
+
+        private CoinGroupViewModels _coinGroupVms;
+        public CoinGroupViewModels CoinGroupVms {
+            get {
+                return _coinGroupVms ?? (_coinGroupVms = new CoinGroupViewModels());
+            }
+        }
     }
 }

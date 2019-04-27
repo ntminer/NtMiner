@@ -5,9 +5,8 @@ using System.Linq;
 
 namespace NTMiner.Vms {
     public class PoolKernelViewModels : ViewModelBase {
-        public static readonly PoolKernelViewModels Current = new PoolKernelViewModels();
         private readonly Dictionary<Guid, PoolKernelViewModel> _dicById = new Dictionary<Guid, PoolKernelViewModel>();
-        private PoolKernelViewModels() {
+        public PoolKernelViewModels() {
             VirtualRoot.On<PoolKernelAddedEvent>("新添了矿池内核后刷新矿池内核VM内存", LogEnum.DevConsole,
                 action: (message) => {
                     if (!_dicById.ContainsKey(message.Source.GetId())) {

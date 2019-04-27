@@ -159,7 +159,7 @@ namespace NTMiner.Vms {
 
         public List<PoolKernelViewModel> PoolKernels {
             get {
-                return PoolKernelViewModels.Current.AllPoolKernels.Where(a => a.PoolId == this.Id).OrderBy(a => a.Kernel.Code + a.Kernel.Version).ToList();
+                return MainWindowViewModel.Current.PoolKernelVms.AllPoolKernels.Where(a => a.PoolId == this.Id).OrderBy(a => a.Kernel.Code + a.Kernel.Version).ToList();
             }
         }
 
