@@ -119,11 +119,23 @@ namespace NTMiner {
             return iconFileFullName;
         }
 
-        public string CurrentVersion => NTMinerRoot.CurrentVersion.ToString();
+        public string CurrentVersion {
+            get {
+                return NTMinerRoot.CurrentVersion.ToString();
+            }
+        }
 
-        public string VersionTag => NTMinerRoot.CurrentVersionTag;
+        public string VersionTag {
+            get {
+                return NTMinerRoot.CurrentVersionTag;
+            }
+        }
 
-        public string QQGroup => NTMinerRoot.Current.QQGroup;
+        public string QQGroup {
+            get {
+                return NTMinerRoot.Current.QQGroup;
+            }
+        }
 
         private readonly string _windowsEdition = Windows.OS.Current.WindowsEdition?.Replace("Windows ", "Win");
         public string WindowsEdition {
@@ -132,9 +144,17 @@ namespace NTMiner {
             }
         }
 
-        public string TotalVirtualMemoryGbText => AppContext.Current.DriveSet.VirtualMemorySet.TotalVirtualMemoryGbText;
+        public string TotalVirtualMemoryGbText {
+            get {
+                return VirtualMemorySet.TotalVirtualMemoryGbText;
+            }
+        }
 
-        public string GpuSetInfo => NTMinerRoot.Current.GpuSetInfo;
+        public string GpuSetInfo {
+            get {
+                return NTMinerRoot.Current.GpuSetInfo;
+            }
+        }
 
         public string DriverVersion {
             get {
@@ -197,7 +217,7 @@ namespace NTMiner {
             }
         });
 
-        public string ServerJsonFileName = AssemblyInfo.ServerJsonFileName;
+        public string ServerJsonFileName { get; private set; } = AssemblyInfo.ServerJsonFileName;
 
         public ICommand SetServerJsonVersion { get; private set; } = new DelegateCommand(() => {
             try {

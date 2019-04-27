@@ -461,7 +461,7 @@
 							</ListBox.ItemsPanel>
 							<ListBox.ItemTemplate>
 								<DataTemplate>
-									<TextBlock Padding="10 2" Text="{Binding Name}" ToolTip="{Binding Description}"></TextBlock>
+									<TextBlock Padding="10 2" Text="{Binding Name}"></TextBlock>
 								</DataTemplate>
 							</ListBox.ItemTemplate>
 						</ListBox>
