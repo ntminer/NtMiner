@@ -20,7 +20,7 @@
         </WrapPanel>
         <controls:KbButton
             Command="{Binding Save}" 
-            Visibility="{Binding IsDebugModeVisible}"
+            Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
             HorizontalAlignment="Center"
             Margin="0 10 0 0"
             Padding="10 0"

@@ -135,6 +135,7 @@
     <Compile Include="Views\Ucs\CoinSelect.xaml.cs">
       <DependentUpon>CoinSelect.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Vms\AppStatic.cs" />
     <Compile Include="Vms\SplashWindowViewModel.cs" />
     <Compile Include="Views\Ucs\StartStopMineButton.xaml.cs">
       <DependentUpon>StartStopMineButton.xaml</DependentUpon>

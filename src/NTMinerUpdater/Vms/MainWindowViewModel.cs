@@ -194,9 +194,19 @@ namespace NTMiner.Vms {
                 }
             });
         }
+
         public BitmapImage BigLogoImageSource {
             get {
                 return IconConst.BigLogoImageSource;
+            }
+        }
+
+        public Visibility IsDebugModeVisible {
+            get {
+                if (DevMode.IsDebugMode) {
+                    return Visibility.Visible;
+                }
+                return Visibility.Collapsed;
             }
         }
 

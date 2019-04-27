@@ -34,7 +34,7 @@
 			<DataGrid.Columns>
 				<DataGridTemplateColumn 
 					CanUserResize="True" IsReadOnly="True"
-					Visibility="{Binding Data.IsDebugModeVisible,Source={StaticResource proxy}}">
+					Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
 					<DataGridTemplateColumn.Header>
 						<controls:KbButton  
 							Command="{Binding Data.GroupVms.Add, Source={StaticResource proxy}}" 
@@ -130,7 +130,7 @@
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn 
 					CanUserResize="True" CanUserReorder="False" 
-					Visibility="{Binding Data.IsDebugModeVisible,Source={StaticResource proxy}}"
+					Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
 					CanUserSort="False" IsReadOnly="True" >
 					<DataGridTemplateColumn.Header>
 						<TextBlock Text="排序"></TextBlock>
@@ -144,7 +144,7 @@
 			</DataGrid.Columns>
 		</DataGrid>
 		<TextBlock Grid.Row="1" Grid.Column="0" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding GroupVms, Converter={StaticResource NoRecordVisibilityConverter}}" Text="沒有记录"></TextBlock>
-		<WrapPanel Grid.Row="0" Grid.Column="2" Margin="0 2" VerticalAlignment="Center" Visibility="{Binding IsDebugModeVisible}">
+		<WrapPanel Grid.Row="0" Grid.Column="2" Margin="0 2" VerticalAlignment="Center" Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
 			<Label Width="40" Content="币种"></Label>
 			<controls:KbComboBox 
 				x:Name="CbCoins"
@@ -186,7 +186,7 @@
 					</DataGridTemplateColumn>
 					<DataGridTemplateColumn 
 						CanUserResize="True" CanUserReorder="False" 
-						Visibility="{Binding Data.IsDebugModeVisible,Source={StaticResource proxy}}"
+						Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
 						CanUserSort="False" IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<TextBlock Text="排序"></TextBlock>
@@ -202,7 +202,7 @@
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel 
-									Visibility="{Binding Data.IsDebugModeVisible,Source={StaticResource proxy}}"
+									Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
 									HorizontalAlignment="Right" 
 									Background="Transparent" 
 									VerticalAlignment="Center" 

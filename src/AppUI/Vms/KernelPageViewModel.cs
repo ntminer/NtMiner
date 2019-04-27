@@ -217,7 +217,7 @@ namespace NTMiner.Vms {
         public List<KernelViewModel> QueryResults {
             get {
                 IQueryable<KernelViewModel> query = KernelViewModels.Current.AllKernels.AsQueryable();
-                if (!IsDebugMode) {
+                if (!AppStatic.IsDebugMode) {
                     query = query.Where(a => a.PublishState == PublishStatus.Published);
                 }
                 if (!string.IsNullOrEmpty(Keyword)) {

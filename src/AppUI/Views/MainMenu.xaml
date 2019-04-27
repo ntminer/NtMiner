@@ -15,7 +15,7 @@
 	</UserControl.DataContext>
 	<WrapPanel>
 		<Menu Background="Transparent" VerticalAlignment="Center">
-			<MenuItem Width="26" Height="30" Visibility="{Binding IsDebugModeVisible}">
+			<MenuItem Width="26" Height="30" Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
 				<MenuItem.Icon>
 					<Path
 						Width="14"

@@ -39,7 +39,7 @@
 			<WrapPanel Width="180" VerticalAlignment="Center">
 				<controls:KbComboBox 
 					Width="130" ItemsSource="{Binding AppContext.SupportedGpuEnumItems}"
-					IsEnabled="{Binding IsDebugMode}"
+					IsEnabled="{x:Static vm:AppStatic.IsDebugMode}"
 					DisplayMemberPath="Description" Height="26"
 					SelectedItem="{Binding SupportedGpuEnumItem}">
 				</controls:KbComboBox>
@@ -67,7 +67,7 @@
 				<controls:KbComboBox 
 					BorderThickness="0"
 					Width="166" ItemsSource="{Binding GroupVms.SelectionOptions}"
-					IsEnabled="{Binding IsDebugMode}"
+					IsEnabled="{x:Static vm:AppStatic.IsDebugMode}"
 					DisplayMemberPath="Name"
 					SelectedItem="{Binding SelectedDualCoinGroup}">
 				</controls:KbComboBox>
@@ -109,7 +109,7 @@
 				VerticalContentAlignment="Center"
 				Height="30"
 				Width="436" Background="Transparent"
-				IsReadOnly="{Binding IsNotDebugMode}"
+				IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
 				Text="{Binding Args, Mode=TwoWay}">
 			</TextBox>
 		</WrapPanel>
@@ -118,13 +118,13 @@
 			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="通知"></TextBlock>
 			<TextBox 
 				Width="436" Background="Transparent"
-				IsReadOnly="{Binding IsNotDebugMode}"
+				IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
 				AcceptsReturn="True" TextWrapping="Wrap" 
 				VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
 				Text="{Binding Notice, Mode=TwoWay}" Height="60">                
 			</TextBox>
 		</WrapPanel>
-		<WrapPanel Margin="0 2" Visibility="{Binding IsDebugModeVisible}">
+		<WrapPanel Margin="0 2" Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
 			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="环境变量"></TextBlock>
 			<DataGrid 
 				Width="436"				
@@ -198,7 +198,7 @@
 				</DataGrid.Columns>
 			</DataGrid>
 		</WrapPanel>
-		<WrapPanel Margin="0 2" Visibility="{Binding IsDebugModeVisible}">
+		<WrapPanel Margin="0 2" Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
 			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="片段"></TextBlock>
 			<DataGrid 
 				Width="436"
@@ -281,7 +281,7 @@
 		</WrapPanel>
 		<controls:KbButton
 			Command="{Binding Save}" 
-			Visibility="{Binding IsDebugModeVisible}"
+			Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
 			HorizontalAlignment="Center"
 			Margin="0 10 0 0"
 			Padding="10 0"
