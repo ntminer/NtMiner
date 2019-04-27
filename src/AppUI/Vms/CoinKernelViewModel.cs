@@ -390,7 +390,7 @@ namespace NTMiner.Vms {
 
         public EnumItem<SupportedGpu> SupportedGpuEnumItem {
             get {
-                return AppContext.Current.SupportedGpuEnumItems.FirstOrDefault(a => a.Value == SupportedGpu);
+                return AppStatic.SupportedGpuEnumItems.FirstOrDefault(a => a.Value == SupportedGpu);
             }
             set {
                 if (SupportedGpu != value.Value) {

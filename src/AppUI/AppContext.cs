@@ -1,10 +1,8 @@
-﻿using NTMiner.Core;
-using NTMiner.MinerServer;
+﻿using NTMiner.MinerServer;
 using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using NTMiner.Vms;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -154,36 +152,6 @@ namespace NTMiner {
         public ICommand ConfigControlCenterHost { get; private set; } = new DelegateCommand(ControlCenterHostConfig.ShowWindow);
 
         public BitmapImage BigLogoImageSource { get; private set; } = IconConst.BigLogoImageSource;
-
-        public IEnumerable<EnumItem<SupportedGpu>> SupportedGpuEnumItems {
-            get {
-                return SupportedGpu.AMD.GetEnumItems();
-            }
-        }
-
-        public IEnumerable<EnumItem<GpuType>> GpuTypeEnumItems {
-            get {
-                return GpuType.AMD.GetEnumItems();
-            }
-        }
-
-        public IEnumerable<EnumItem<LogEnum>> LogTypeItems {
-            get {
-                return LogEnum.DevConsole.GetEnumItems();
-            }
-        }
-
-        public IEnumerable<EnumItem<PublishStatus>> PublishStatusEnumItems {
-            get {
-                return PublishStatus.Published.GetEnumItems();
-            }
-        }
-
-        public IEnumerable<EnumItem<MineStatus>> MineStatusEnumItems {
-            get {
-                return MineStatus.All.GetEnumItems();
-            }
-        }
 
         public double MainWindowHeight {
             get {

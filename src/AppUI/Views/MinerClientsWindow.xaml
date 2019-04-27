@@ -423,7 +423,7 @@
 				<GroupBox Header="状态">
 					<ListBox 
 						Background="Transparent"
-						ItemsSource="{Binding AppContext.MineStatusEnumItems}"
+						ItemsSource="{x:Static vm:AppStatic.MineStatusEnumItems}"
 						SelectedItem="{Binding MineStatusEnumItem}"
 						ScrollViewer.HorizontalScrollBarVisibility="Disabled"
 						ScrollViewer.VerticalScrollBarVisibility="Disabled"

@@ -1,4 +1,5 @@
 ﻿using NTMiner.Core;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows;
 
@@ -40,6 +41,30 @@ namespace NTMiner.Vms {
                     return Visibility.Visible;
                 }
                 return Visibility.Collapsed;
+            }
+        }
+
+        public static IEnumerable<EnumItem<SupportedGpu>> SupportedGpuEnumItems {
+            get {
+                return SupportedGpu.AMD.GetEnumItems();
+            }
+        }
+
+        public static IEnumerable<EnumItem<GpuType>> GpuTypeEnumItems {
+            get {
+                return GpuType.AMD.GetEnumItems();
+            }
+        }
+
+        public static IEnumerable<EnumItem<PublishStatus>> PublishStatusEnumItems {
+            get {
+                return PublishStatus.Published.GetEnumItems();
+            }
+        }
+
+        public static IEnumerable<EnumItem<MineStatus>> MineStatusEnumItems {
+            get {
+                return MineStatus.All.GetEnumItems();
             }
         }
 
