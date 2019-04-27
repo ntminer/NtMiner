@@ -11,7 +11,7 @@ namespace NTMiner.Vms {
             _currentCoin = CoinVms.MainCoins.FirstOrDefault();
         }
 
-        public CoinViewModels CoinVms {
+        public AppContext.CoinViewModels CoinVms {
             get {
                 return AppContext.Current.CoinVms;
             }

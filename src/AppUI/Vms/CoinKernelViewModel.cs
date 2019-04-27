@@ -120,7 +120,7 @@ namespace NTMiner.Vms {
                         coinVm.OnPropertyChanged(nameof(coinVm.CoinKernels));
                     }
                     this.Kernel.OnPropertyChanged(nameof(this.Kernel.CoinKernels));
-                    AppContext.Current.CoinVms.OnPropertyChanged(nameof(CoinViewModels.MainCoins));
+                    AppContext.Current.CoinVms.OnPropertyChanged(nameof(AppContext.CoinViewModels.MainCoins));
                 }
             });
             this.SortDown = new DelegateCommand(() => {
@@ -136,7 +136,7 @@ namespace NTMiner.Vms {
                         coinVm.OnPropertyChanged(nameof(coinVm.CoinKernels));
                     }
                     this.Kernel.OnPropertyChanged(nameof(this.Kernel.CoinKernels));
-                    AppContext.Current.CoinVms.OnPropertyChanged(nameof(CoinViewModels.MainCoins));
+                    AppContext.Current.CoinVms.OnPropertyChanged(nameof(AppContext.CoinViewModels.MainCoins));
                 }
             });
         }

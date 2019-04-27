@@ -16,6 +16,7 @@ namespace NTMiner.Views {
         }
 
         public MainWindow() {
+            InitializeComponent();
             this.StateChanged += (s, e) => {
                 if (Vm.MinerProfile.IsShowInTaskbar) {
                     ShowInTaskbar = true;
@@ -29,7 +30,6 @@ namespace NTMiner.Views {
                     }
                 }
             };
-            InitializeComponent();
             EventHandler changeNotiCenterWindowLocation = Wpf.Util.ChangeNotiCenterWindowLocation(this);
             this.Activated += changeNotiCenterWindowLocation;
             this.LocationChanged += changeNotiCenterWindowLocation;

@@ -12,8 +12,8 @@ namespace NTMiner.Views.Ucs {
                 CloseVisible = Visibility.Visible,
                 HeaderVisible = Visibility.Collapsed,
                 FooterVisible = Visibility.Collapsed,
-                Width = DevMode.IsDebugMode ? 1200 : AppContext.Current.MainWindowWidth,
-                Height = AppContext.Current.MainWindowHeight
+                Width = DevMode.IsDebugMode ? 1200 : AppStatic.MainWindowWidth,
+                Height = AppStatic.MainWindowHeight
             },
             ucFactory: (window) => {
                 var uc = new KernelPage {

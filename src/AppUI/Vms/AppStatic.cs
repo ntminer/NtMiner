@@ -47,6 +47,33 @@ namespace NTMiner.Vms {
             }
         }
 
+        public static double MainWindowHeight {
+            get {
+                if (SystemParameters.WorkArea.Size.Height >= 600) {
+                    return 600;
+                }
+                else if (SystemParameters.WorkArea.Size.Height >= 520) {
+                    return 520;
+                }
+                return 480;
+            }
+        }
+
+        public static double MainWindowWidth {
+            get {
+                if (SystemParameters.WorkArea.Size.Width >= 1000) {
+                    return 1000;
+                }
+                else if (SystemParameters.WorkArea.Size.Width >= 860) {
+                    return 860;
+                }
+                else if (SystemParameters.WorkArea.Size.Width >= 800) {
+                    return 800;
+                }
+                return 640;
+            }
+        }
+
         public static IEnumerable<EnumItem<SupportedGpu>> SupportedGpuEnumItems {
             get {
                 return SupportedGpu.AMD.GetEnumItems();

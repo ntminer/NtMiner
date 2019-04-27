@@ -631,7 +631,7 @@ namespace NTMiner.Vms {
             }
         }
 
-        public CoinViewModels MineCoinVms {
+        public AppContext.CoinViewModels MineCoinVms {
             get {
                 return AppContext.Current.CoinVms;
             }

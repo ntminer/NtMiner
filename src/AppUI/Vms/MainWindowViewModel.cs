@@ -77,18 +77,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        public double Height {
-            get {
-                return AppContext.Current.MainWindowHeight;
-            }
-        }
-
-        public double Width {
-            get {
-                return AppContext.Current.MainWindowWidth;
-            }
-        }
-
         public Visibility IsBtnRunAsAdministratorVisible {
             get => _isBtnRunAsAdministratorVisible;
             set {

@@ -195,8 +195,8 @@ namespace NTMiner.Vms {
                     VirtualRoot.Execute(new UpdateCoinCommand(upOne));
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdateCoinCommand(this));
-                    AppContext.Current.CoinVms.OnPropertyChanged(nameof(CoinViewModels.MainCoins));
-                    AppContext.Current.CoinVms.OnPropertyChanged(nameof(CoinViewModels.AllCoins));
+                    AppContext.Current.CoinVms.OnPropertyChanged(nameof(AppContext.CoinViewModels.MainCoins));
+                    AppContext.Current.CoinVms.OnPropertyChanged(nameof(AppContext.CoinViewModels.AllCoins));
                 }
             });
             this.SortDown = new DelegateCommand(() => {
@@ -207,8 +207,8 @@ namespace NTMiner.Vms {
                     VirtualRoot.Execute(new UpdateCoinCommand(nextOne));
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdateCoinCommand(this));
-                    AppContext.Current.CoinVms.OnPropertyChanged(nameof(CoinViewModels.MainCoins));
-                    AppContext.Current.CoinVms.OnPropertyChanged(nameof(CoinViewModels.AllCoins));
+                    AppContext.Current.CoinVms.OnPropertyChanged(nameof(AppContext.CoinViewModels.MainCoins));
+                    AppContext.Current.CoinVms.OnPropertyChanged(nameof(AppContext.CoinViewModels.AllCoins));
                 }
             });
 

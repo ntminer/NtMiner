@@ -11,7 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 
 namespace NTMiner {
-    public class AppContext {
+    public partial class AppContext {
         /// <summary>
         /// 这个可以在关闭界面的时候释放
         /// </summary>
@@ -284,30 +284,6 @@ namespace NTMiner {
         public ICommand ConfigControlCenterHost { get; private set; } = new DelegateCommand(ControlCenterHostConfig.ShowWindow);
 
         public BitmapImage BigLogoImageSource { get; private set; } = IconConst.BigLogoImageSource;
-
-        public double MainWindowHeight {
-            get {
-                if (SystemParameters.WorkArea.Size.Height >= 600) {
-                    return 600;
-                }
-                else if (SystemParameters.WorkArea.Size.Height >= 520) {
-                    return 520;
-                }
-                return 480;
-            }
-        }
-
-        public double MainWindowWidth {
-            get {
-                if (SystemParameters.WorkArea.Size.Width > 1000) {
-                    return 1000;
-                }
-                else if (SystemParameters.WorkArea.Size.Width >= 860) {
-                    return 860;
-                }
-                return 800;
-            }
-        }
 
         public ICommand ExportServerJson { get; private set; } = new DelegateCommand(() => {
             try {
