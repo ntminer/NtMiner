@@ -11,6 +11,9 @@
 		AllowsTransparency="True"
 		MouseDown="MetroWindow_MouseDown"
 		Title="{x:Static local:SplashWindow.WindowTitle}" Height="260" Width="520">
+	<Window.DataContext>
+		<vm:SplashWindowViewModel></vm:SplashWindowViewModel>
+	</Window.DataContext>
 	<Grid Background="{StaticResource IconFillColor}">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*"></RowDefinition>

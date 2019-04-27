@@ -20,7 +20,7 @@
 			Background="Transparent"
 			KbSystemButtonHoverBackground="Transparent"
 			KbDisplayLine="False"
-			Command="{Binding AppContext.JoinQQGroup}">
+			Command="{Binding AppContext.JoinQQGroup, Mode=OneWay}">
 			<WrapPanel>
 				<Path 
 					Margin="0 -2 2 0"
@@ -36,7 +36,7 @@
 			Margin="0 0 8 0"
 			Foreground="{StaticResource ThemeForeground}"
 			Background="Transparent" 
-			BorderThickness="0" Text="{Binding AppContext.QQGroup}">
+			BorderThickness="0" Text="{Binding AppContext.QQGroup,Mode=OneWay}">
 		</TextBox>
 		<controls:KbButton 
 			Margin="2 -1 8 0"
@@ -99,7 +99,7 @@
 			Foreground="{StaticResource ThemeForeground}"
 			HorizontalAlignment="Left"
 			VerticalAlignment="Center"
-			Text="{Binding AppContext.CurrentVersion}" />
+			Text="{Binding AppContext.CurrentVersion,Mode=OneWay}" />
 		<TextBlock
 			Margin="2 0 0 0"
 			Foreground="{StaticResource ThemeForeground}"
@@ -111,7 +111,7 @@
 			Foreground="{StaticResource ThemeForeground}"
 			HorizontalAlignment="Left"
 			VerticalAlignment="Center"
-			Text="{Binding AppContext.VersionTag}" />
+			Text="{Binding AppContext.VersionTag,Mode=OneWay}" />
 		<TextBlock
 			Foreground="{StaticResource ThemeForeground}"
 			HorizontalAlignment="Left"

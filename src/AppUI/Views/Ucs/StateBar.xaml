@@ -261,7 +261,7 @@
 					</controls:KbButton>
 				</WrapPanel>
 				<WrapPanel Grid.Column="1" HorizontalAlignment="Right">
-					<TextBlock Text="{Binding AppContext.WindowsEdition}" ToolTip="操作系统" Foreground="{StaticResource LableColor}"></TextBlock>
+					<TextBlock Text="{Binding AppContext.WindowsEdition,Mode=OneWay}" ToolTip="操作系统" Foreground="{StaticResource LableColor}"></TextBlock>
 					<TextBlock Text=" / " Foreground="{StaticResource LableColor}"></TextBlock>
 					<controls:KbButton 
 						x:Name="BtnShowVirtualMemory"
@@ -274,10 +274,10 @@
 						Foreground="{StaticResource LableColor}"></controls:KbButton>
 					<TextBlock Text=" / " Foreground="{StaticResource LableColor}"></TextBlock>
 					<WrapPanel>
-						<TextBlock x:Name="TextBlockDriverVersion" Text="{Binding AppContext.DriverVersion}" ToolTip="显卡驱动版本" Foreground="{StaticResource LableColor}"></TextBlock>
+						<TextBlock x:Name="TextBlockDriverVersion" Text="{Binding AppContext.DriverVersion,Mode=OneWay}" ToolTip="显卡驱动版本" Foreground="{StaticResource LableColor}"></TextBlock>
 						<TextBlock Text=" / " Foreground="{StaticResource LableColor}"></TextBlock>
 					</WrapPanel>
-					<TextBlock Text="{Binding AppContext.GpuSetInfo}" MaxWidth="260" ToolTip="{Binding AppContext.GpuSetInfo}" Foreground="{StaticResource LableColor}"></TextBlock>
+					<TextBlock Text="{Binding AppContext.GpuSetInfo,Mode=OneWay}" MaxWidth="260" ToolTip="{Binding AppContext.GpuSetInfo}" Foreground="{StaticResource LableColor}"></TextBlock>
 				</WrapPanel>
 			</Grid>
 		</StackPanel>

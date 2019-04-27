@@ -80,7 +80,7 @@
 							Margin="0"
 							HorizontalAlignment="Left"
 							VerticalAlignment="Center"
-							Text="{Binding AppContext.CurrentVersion}" />
+							Text="{Binding AppContext.CurrentVersion,Mode=OneWay}" />
 						<TextBlock
 							Margin="2 0 0 0"
 							HorizontalAlignment="Left"
@@ -90,7 +90,7 @@
 							Margin="0"
 							HorizontalAlignment="Left"
 							VerticalAlignment="Center"
-							Text="{Binding AppContext.VersionTag}" />
+							Text="{Binding AppContext.VersionTag,Mode=OneWay}" />
 						<TextBlock
 							HorizontalAlignment="Left"
 							VerticalAlignment="Center"
