@@ -10,7 +10,7 @@ namespace NTMiner.Vms {
                 return;
             }
             if (MinerProfileViewModel.Current.CoinVm != null) {
-                foreach (var item in MinerClientAppContext.Current.GpuSpeedVms.All) {
+                foreach (var item in AppContext.Current.GpuSpeedVms.All) {
                     _dicByGpuIndex.Add(item.GpuVm.Index, new SpeedChartViewModel(item));
                 }
             }

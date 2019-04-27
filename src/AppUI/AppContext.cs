@@ -1,13 +1,13 @@
 ﻿using NTMiner.Vms;
 
 namespace NTMiner {
-    public class MinerClientAppContext {
+    public class AppContext {
         /// <summary>
         /// 这个可以在关闭界面的时候释放
         /// </summary>
-        public static readonly MinerClientAppContext Current = new MinerClientAppContext();
+        public static readonly AppContext Current = new AppContext();
 
-        private MinerClientAppContext() {
+        private AppContext() {
         }
 
         public GpuSpeedViewModels GpuSpeedVms { get; private set; } = new GpuSpeedViewModels();
@@ -41,6 +41,13 @@ namespace NTMiner {
         public CoinProfileViewModels CoinProfileVms {
             get {
                 return _coinProfileVms ?? (_coinProfileVms = new CoinProfileViewModels());
+            }
+        }
+
+        private CoinSnapshotDataViewModels _coinSnapshotDataVms;
+        public CoinSnapshotDataViewModels CoinSnapshotDataVms {
+            get {
+                return _coinSnapshotDataVms ?? (_coinSnapshotDataVms = new CoinSnapshotDataViewModels());
             }
         }
     }

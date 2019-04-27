@@ -23,7 +23,7 @@ namespace NTMiner.Vms {
 
         public bool IsDualCoinEnabled {
             get {
-                if (MinerClientAppContext.Current.CoinKernelVms.TryGetCoinKernelVm(this.CoinKernelId, out CoinKernelViewModel coinKernelVm) && !coinKernelVm.IsSupportDualMine) {
+                if (AppContext.Current.CoinKernelVms.TryGetCoinKernelVm(this.CoinKernelId, out CoinKernelViewModel coinKernelVm) && !coinKernelVm.IsSupportDualMine) {
                     return false;
                 }
                 return _inner.IsDualCoinEnabled;
@@ -86,7 +86,7 @@ namespace NTMiner.Vms {
             get => _inner.CustomArgs;
             set {
                 if (_inner.CustomArgs != value) {
-                    if (MinerClientAppContext.Current.CoinKernelVms.TryGetCoinKernelVm(this.CoinKernelId, out CoinKernelViewModel coinKernelVm)) {
+                    if (AppContext.Current.CoinKernelVms.TryGetCoinKernelVm(this.CoinKernelId, out CoinKernelViewModel coinKernelVm)) {
                         NTMinerRoot.Current.MinerProfile.SetCoinKernelProfileProperty(this.CoinKernelId, nameof(CustomArgs), value);
                         OnPropertyChanged(nameof(CustomArgs));
                         NTMinerRoot.RefreshArgsAssembly.Invoke();
@@ -107,7 +107,7 @@ namespace NTMiner.Vms {
         public CoinViewModel SelectedDualCoin {
             get {
                 if (!CoinViewModels.Current.TryGetCoinVm(this.DualCoinId, out CoinViewModel coin)) {
-                    if (MinerClientAppContext.Current.CoinKernelVms.TryGetCoinKernelVm(this.CoinKernelId, out CoinKernelViewModel coinKernelVm)) {
+                    if (AppContext.Current.CoinKernelVms.TryGetCoinKernelVm(this.CoinKernelId, out CoinKernelViewModel coinKernelVm)) {
                         coin = coinKernelVm.DualCoinGroup.DualCoinVms.FirstOrDefault();
                     }
                     if (coin != null) {

@@ -493,7 +493,7 @@ namespace NTMiner.Vms {
                 if (!NTMinerRoot.Current.CoinSet.Contains(this.Id)) {
                     return null;
                 }
-                return MinerClientAppContext.Current.CoinProfileVms.GetOrCreateCoinProfile(this.Id);
+                return AppContext.Current.CoinProfileVms.GetOrCreateCoinProfile(this.Id);
             }
         }
 
@@ -580,7 +580,7 @@ namespace NTMiner.Vms {
 
         public List<CoinKernelViewModel> CoinKernels {
             get {
-                return MinerClientAppContext.Current.CoinKernelVms.AllCoinKernels.Where(a => a.CoinId == this.Id && a.Kernel.PublishState == PublishStatus.Published).OrderBy(a => a.SortNumber).ToList();
+                return AppContext.Current.CoinKernelVms.AllCoinKernels.Where(a => a.CoinId == this.Id && a.Kernel.PublishState == PublishStatus.Published).OrderBy(a => a.SortNumber).ToList();
             }
         }
 
