@@ -6,12 +6,11 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class ColumnsShowViewModels : ViewModelBase {
-        public static readonly ColumnsShowViewModels Current = new ColumnsShowViewModels();
         private readonly Dictionary<Guid, ColumnsShowViewModel> _dicById = new Dictionary<Guid, ColumnsShowViewModel>();
 
         public ICommand Add { get; private set; }
 
-        private ColumnsShowViewModels() {
+        public ColumnsShowViewModels() {
             this.Add = new DelegateCommand(() => {
                 new ColumnsShowViewModel(Guid.NewGuid()).Edit.Execute(FormType.Add);
             });

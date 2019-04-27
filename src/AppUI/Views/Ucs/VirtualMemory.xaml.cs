@@ -10,7 +10,7 @@ namespace NTMiner.Views.Ucs {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "虚拟内存",
                 IconName = "Icon_VirtualMemory",
-                CloseVisible = System.Windows.Visibility.Visible,
+                CloseVisible = Visibility.Visible,
                 Width = 800,
                 MinWidth = 450,
                 Height = 360,
@@ -20,11 +20,12 @@ namespace NTMiner.Views.Ucs {
 
         private DriveSet Vm {
             get {
-                return (DriveSet)this.DataContext;
+                return AppContext.Current.DriveSet;
             }
         }
 
         public VirtualMemory() {
+            this.DataContext = AppContext.Current.DriveSet;
             InitializeComponent();
         }
 

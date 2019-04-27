@@ -5,8 +5,6 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class DriveSet : ViewModelBase {
-        public static readonly DriveSet Current = new DriveSet();
-
         private readonly List<Drive> _drives = new List<Drive>();
 
         public ICommand Apply { get; private set; }

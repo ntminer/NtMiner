@@ -14,7 +14,7 @@ namespace NTMiner.Vms {
             foreach (var item in GetPagingFiles()) {
                 _initialVms.Add(item.DriveName, item);
             }
-            foreach (var drive in DriveSet.Current.Drives) {
+            foreach (var drive in AppContext.Current.DriveSet.Drives) {
                 _dic.Add(drive.Name, new VirtualMemory(drive.Name, 0));
             }
             foreach (var item in _initialVms.Values) {

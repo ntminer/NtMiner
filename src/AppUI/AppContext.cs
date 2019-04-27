@@ -65,5 +65,19 @@ namespace NTMiner {
                 return _coinSnapshotDataVms ?? (_coinSnapshotDataVms = new CoinSnapshotDataViewModels());
             }
         }
+
+        private ColumnsShowViewModels _columnsShowVms;
+        public ColumnsShowViewModels ColumnsShowVms {
+            get {
+                return _columnsShowVms ?? (_columnsShowVms = new ColumnsShowViewModels());
+            }
+        }
+
+        private DriveSet _driveSet;
+        public DriveSet DriveSet {
+            get {
+                return _driveSet ?? (_driveSet = new DriveSet());
+            }
+        }
     }
 }

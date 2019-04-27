@@ -37,7 +37,7 @@ namespace NTMiner.Vms {
             }
         }
 
-        public static string TotalVirtualMemoryGbText => DriveSet.Current.VirtualMemorySet.TotalVirtualMemoryGbText;
+        public static string TotalVirtualMemoryGbText => AppContext.Current.DriveSet.VirtualMemorySet.TotalVirtualMemoryGbText;
 
         public static string GpuSetInfo => NTMinerRoot.Current.GpuSetInfo;
 

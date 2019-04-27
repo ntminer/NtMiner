@@ -431,7 +431,7 @@ namespace NTMiner.Vms {
 
         public ColumnsShowViewModels ColumnsShows {
             get {
-                return ColumnsShowViewModels.Current;
+                return AppContext.Current.ColumnsShowVms;
             }
         }
 
