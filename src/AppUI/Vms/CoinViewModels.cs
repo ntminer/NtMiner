@@ -63,7 +63,7 @@ namespace NTMiner.Vms {
                         if (string.IsNullOrEmpty(message.Source.Icon)) {
                             return;
                         }
-                        string iconFileFullName = message.Source.GetIconFileFullName();
+                        string iconFileFullName = AppContext.Current.GetIconFileFullName(message.Source);
                         if (string.IsNullOrEmpty(iconFileFullName) || !File.Exists(iconFileFullName)) {
                             return;
                         }

@@ -389,7 +389,7 @@ namespace NTMiner.Vms {
         }
 
         public void RefreshIcon() {
-            string iconFileFullName = this.GetIconFileFullName();
+            string iconFileFullName = AppContext.Current.GetIconFileFullName(this);
             // 如果磁盘上存在则不再下载，所以如果要更新币种图标则需重命名Icon文件
             if (string.IsNullOrEmpty(iconFileFullName)) {
                 return;

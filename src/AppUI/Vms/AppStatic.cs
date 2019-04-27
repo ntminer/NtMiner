@@ -13,14 +13,6 @@ using System.Windows.Media.Imaging;
 
 namespace NTMiner.Vms {
     public static class AppStatic {
-        public static string GetIconFileFullName(this ICoin coin) {
-            if (coin == null || string.IsNullOrEmpty(coin.Icon)) {
-                return string.Empty;
-            }
-            string iconFileFullName = Path.Combine(SpecialPath.CoinIconsDirFullName, coin.Icon);
-            return iconFileFullName;
-        }
-
         public static string CurrentVersion => NTMinerRoot.CurrentVersion.ToString();
 
         public static string VersionTag => NTMinerRoot.CurrentVersionTag;
