@@ -6,12 +6,10 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class MineWorkViewModels : ViewModelBase {
-        public static readonly MineWorkViewModels Current = new MineWorkViewModels();
-
         private readonly Dictionary<Guid, MineWorkViewModel> _dicById = new Dictionary<Guid, MineWorkViewModel>();
         public ICommand Add { get; private set; }
 
-        private MineWorkViewModels() {
+        public MineWorkViewModels() {
             if (Design.IsInDesignMode) {
                 return;
             }

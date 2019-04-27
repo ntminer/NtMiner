@@ -50,8 +50,7 @@ namespace NTMiner.Vms {
                     NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage("作业名称是必须的");
                 }
                 bool isMinerProfileChanged = false;
-                IMineWork entity;
-                if (NTMinerRoot.Current.MineWorkSet.TryGetMineWork(this.Id, out entity)) {
+                if (NTMinerRoot.Current.MineWorkSet.TryGetMineWork(this.Id, out IMineWork entity)) {
                     string sha1 = NTMinerRoot.Current.MinerProfile.GetSha1();
                     if (this.Sha1 != sha1) {
                         isMinerProfileChanged = true;
@@ -69,9 +68,7 @@ namespace NTMiner.Vms {
                 }
                 if (isMinerProfileChanged) {
                     Write.DevDebug("检测到MinerProfile状态变更");
-                    string localJson;
-                    string serverJson;
-                    NTMinerRoot.ExportWorkJson(new MineWorkData(this), out localJson, out serverJson);
+                    NTMinerRoot.ExportWorkJson(new MineWorkData(this), out string localJson, out string serverJson);
                     if (!string.IsNullOrEmpty(localJson) && !string.IsNullOrEmpty(serverJson)) {
                         Server.ControlCenterService.ExportMineWorkAsync(this.Id, localJson, serverJson, callback: null);
                     }
@@ -81,8 +78,7 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                MineWorkViewModel mineWorkVm;
-                if (!MineWorkViewModels.Current.TryGetMineWorkVm(this.Id, out mineWorkVm)) {
+                if (!AppContext.Current.MineWorkVms.TryGetMineWorkVm(this.Id, out MineWorkViewModel mineWorkVm)) {
                     InputWindow.ShowDialog("作业名称", string.Empty, workName => {
                         if (string.IsNullOrEmpty(workName)) {
                             return "作业名称是必须的";
@@ -153,7 +149,7 @@ namespace NTMiner.Vms {
                     if (string.IsNullOrEmpty(value)) {
                         throw new ValidationException("名称是必须的");
                     }
-                    if (MineWorkViewModels.Current.List.Any(a => a.Name == value && a.Id != this.Id)) {
+                    if (AppContext.Current.MineWorkVms.List.Any(a => a.Name == value && a.Id != this.Id)) {
                         throw new ValidationException("名称重复");
                     }
                 }

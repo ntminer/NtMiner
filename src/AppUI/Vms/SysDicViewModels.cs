@@ -6,13 +6,11 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class SysDicViewModels : ViewModelBase {
-        public static readonly SysDicViewModels Current = new SysDicViewModels();
-
         private readonly Dictionary<Guid, SysDicViewModel> _dicById = new Dictionary<Guid, SysDicViewModel>();
         private readonly Dictionary<string, SysDicViewModel> _dicByCode = new Dictionary<string, SysDicViewModel>(StringComparer.OrdinalIgnoreCase);
 
         public ICommand Add { get; private set; }
-        private SysDicViewModels() {
+        public SysDicViewModels() {
             NTMinerRoot.Current.OnContextReInited += () => {
                 _dicByCode.Clear();
                 _dicById.Clear();

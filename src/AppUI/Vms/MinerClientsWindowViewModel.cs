@@ -760,13 +760,13 @@ namespace NTMiner.Vms {
 
         public MineWorkViewModels MineWorkVms {
             get {
-                return MineWorkViewModels.Current;
+                return AppContext.Current.MineWorkVms;
             }
         }
 
         public MinerGroupViewModels MinerGroupVms {
             get {
-                return MinerGroupViewModels.Current;
+                return AppContext.Current.MinerGroupVms;
             }
         }
 

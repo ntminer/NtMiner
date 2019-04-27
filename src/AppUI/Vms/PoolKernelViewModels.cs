@@ -11,7 +11,7 @@ namespace NTMiner.Vms {
                 action: (message) => {
                     if (!_dicById.ContainsKey(message.Source.GetId())) {
                         PoolViewModel poolVm;
-                        if (PoolViewModels.Current.TryGetPoolVm(message.Source.PoolId, out poolVm)) {
+                        if (AppContext.Current.PoolVms.TryGetPoolVm(message.Source.PoolId, out poolVm)) {
                             _dicById.Add(message.Source.GetId(), new PoolKernelViewModel(message.Source));
                             poolVm.OnPropertyChanged(nameof(poolVm.PoolKernels));
                         }
@@ -23,7 +23,7 @@ namespace NTMiner.Vms {
                         var vm = _dicById[message.Source.GetId()];
                         _dicById.Remove(message.Source.GetId());
                         PoolViewModel poolVm;
-                        if (PoolViewModels.Current.TryGetPoolVm(vm.PoolId, out poolVm)) {
+                        if (AppContext.Current.PoolVms.TryGetPoolVm(vm.PoolId, out poolVm)) {
                             poolVm.OnPropertyChanged(nameof(poolVm.PoolKernels));
                         }
                     }

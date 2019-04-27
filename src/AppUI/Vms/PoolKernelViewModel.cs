@@ -70,7 +70,7 @@ namespace NTMiner.Vms {
         public PoolViewModel PoolVm {
             get {
                 if (_poolVm == null || this.PoolId != _poolVm.Id) {
-                    PoolViewModels.Current.TryGetPoolVm(this.PoolId, out _poolVm);
+                    AppContext.Current.PoolVms.TryGetPoolVm(this.PoolId, out _poolVm);
                     if (_poolVm == null) {
                         _poolVm = PoolViewModel.Empty;
                     }
@@ -108,7 +108,7 @@ namespace NTMiner.Vms {
         public KernelViewModel Kernel {
             get {
                 KernelViewModel kernel;
-                if (KernelViewModels.Current.TryGetKernelVm(this.KernelId, out kernel)) {
+                if (AppContext.Current.KernelVms.TryGetKernelVm(this.KernelId, out kernel)) {
                     return kernel;
                 }
                 return KernelViewModel.Empty;

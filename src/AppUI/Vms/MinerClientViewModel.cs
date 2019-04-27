@@ -141,11 +141,11 @@ namespace NTMiner.Vms {
         #endregion
 
         public MineWorkViewModels MineWorkVms {
-            get { return MineWorkViewModels.Current; }
+            get { return AppContext.Current.MineWorkVms; }
         }
 
         public MinerGroupViewModels MinerGroupVms {
-            get { return MinerGroupViewModels.Current; }
+            get { return AppContext.Current.MinerGroupVms; }
         }
 
         #region IClientData
@@ -207,7 +207,7 @@ namespace NTMiner.Vms {
                     return MineWorkViewModel.PleaseSelect;
                 }
                 if (_selectedMineWork == null || _selectedMineWork.Id != WorkId) {
-                    if (MineWorkViewModels.Current.TryGetMineWorkVm(WorkId, out _selectedMineWork)) {
+                    if (AppContext.Current.MineWorkVms.TryGetMineWorkVm(WorkId, out _selectedMineWork)) {
                         return _selectedMineWork;
                     }
                 }
@@ -401,7 +401,7 @@ namespace NTMiner.Vms {
         public MinerGroupViewModel SelectedMinerGroup {
             get {
                 if (_selectedMinerGroup == null || _selectedMinerGroup.Id != GroupId) {
-                    MinerGroupViewModels.Current.TryGetMineWorkVm(GroupId, out _selectedMinerGroup);
+                    AppContext.Current.MinerGroupVms.TryGetMineWorkVm(GroupId, out _selectedMinerGroup);
                     if (_selectedMinerGroup == null) {
                         _selectedMinerGroup = MinerGroupViewModel.PleaseSelect;
                     }

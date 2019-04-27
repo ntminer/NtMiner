@@ -51,7 +51,7 @@ namespace NTMiner.Vms {
                         SortNumber = sortNumber
                     }.Edit.Execute(FormType.Add);
                     if (NTMinerRoot.Current.MinerProfile.TryGetWallet(id, out IWallet wallet)) {
-                        this.SelectedWallet = WalletViewModels.Current.WalletList.FirstOrDefault(a => a.Id == id);
+                        this.SelectedWallet = AppContext.Current.WalletVms.WalletList.FirstOrDefault(a => a.Id == id);
                     }
                 }
             });
@@ -65,7 +65,7 @@ namespace NTMiner.Vms {
                         SortNumber = sortNumber
                     }.Edit.Execute(FormType.Add);
                     if (NTMinerRoot.Current.MinerProfile.TryGetWallet(id, out IWallet wallet)) {
-                        this.SelectedDualCoinWallet = WalletViewModels.Current.WalletList.FirstOrDefault(a => a.Id == id);
+                        this.SelectedDualCoinWallet = AppContext.Current.WalletVms.WalletList.FirstOrDefault(a => a.Id == id);
                     }
                 }
             });
@@ -160,7 +160,7 @@ namespace NTMiner.Vms {
                 if (!AppContext.Current.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
                     return null;
                 }
-                if (!PoolViewModels.Current.TryGetPoolVm(this.PoolId, out PoolViewModel pool)) {
+                if (!AppContext.Current.PoolVms.TryGetPoolVm(this.PoolId, out PoolViewModel pool)) {
                     pool = coinVm.Pools.OrderBy(a => a.SortNumber).FirstOrDefault();
                     if (pool != null) {
                         PoolId = pool.Id;
@@ -252,7 +252,7 @@ namespace NTMiner.Vms {
                 if (!AppContext.Current.CoinVms.TryGetCoinVm(CoinId, out CoinViewModel coinVm)) {
                     return null;
                 }
-                if (!PoolViewModels.Current.TryGetPoolVm(this.DualCoinPoolId, out PoolViewModel pool)) {
+                if (!AppContext.Current.PoolVms.TryGetPoolVm(this.DualCoinPoolId, out PoolViewModel pool)) {
                     pool = coinVm.Pools.OrderBy(a => a.SortNumber).FirstOrDefault();
                     if (pool != null) {
                         DualCoinPoolId = pool.Id;

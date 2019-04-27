@@ -192,7 +192,7 @@ namespace NTMiner.Vms {
 
         public KernelViewModel KernelVmSingleInstance {
             get {
-                if (KernelViewModels.Current.TryGetKernelVm(this.Id, out KernelViewModel kernelVm)) {
+                if (AppContext.Current.KernelVms.TryGetKernelVm(this.Id, out KernelViewModel kernelVm)) {
                     return kernelVm;
                 }
                 return null;
@@ -203,7 +203,7 @@ namespace NTMiner.Vms {
         public KernelOutputViewModel KernelOutputVm {
             get {
                 if (_kernelOutputVm == null || _kernelOutputVm.Id != this.KernelOutputId) {
-                    KernelOutputViewModels.Current.TryGetKernelOutputVm(this.KernelOutputId, out _kernelOutputVm);
+                    AppContext.Current.KernelOutputVms.TryGetKernelOutputVm(this.KernelOutputId, out _kernelOutputVm);
                     if (_kernelOutputVm == null) {
                         _kernelOutputVm = KernelOutputViewModel.PleaseSelect;
                     }
@@ -221,7 +221,7 @@ namespace NTMiner.Vms {
 
         public KernelOutputViewModels KernelOutputVms {
             get {
-                return KernelOutputViewModels.Current;
+                return AppContext.Current.KernelOutputVms;
             }
         }
 
@@ -259,7 +259,7 @@ namespace NTMiner.Vms {
 
         public List<KernelViewModel> OtherVersionKernelVms {
             get {
-                return KernelViewModels.Current.AllKernels.Where(a => a.Code == this.Code && a.Id != this.Id).OrderBy(a => a.Code + a.Version).ToList();
+                return AppContext.Current.KernelVms.AllKernels.Where(a => a.Code == this.Code && a.Id != this.Id).OrderBy(a => a.Code + a.Version).ToList();
             }
         }
 
@@ -362,7 +362,7 @@ namespace NTMiner.Vms {
                     return SysDicItemViewModel.PleaseSelect;
                 }
                 SysDicItemViewModel item;
-                if (SysDicItemViewModels.Current.TryGetValue(this.BrandId, out item)) {
+                if (AppContext.Current.SysDicItemVms.TryGetValue(this.BrandId, out item)) {
                     return item;
                 }
                 return SysDicItemViewModel.PleaseSelect;
@@ -378,7 +378,7 @@ namespace NTMiner.Vms {
 
         public SysDicItemViewModels SysDicItemVms {
             get {
-                return SysDicItemViewModels.Current;
+                return AppContext.Current.SysDicItemVms;
             }
         }
 

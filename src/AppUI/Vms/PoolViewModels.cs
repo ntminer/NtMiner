@@ -5,9 +5,8 @@ using System.Linq;
 
 namespace NTMiner.Vms {
     public class PoolViewModels : ViewModelBase {
-        public static readonly PoolViewModels Current = new PoolViewModels();
         private readonly Dictionary<Guid, PoolViewModel> _dicById = new Dictionary<Guid, PoolViewModel>();
-        private PoolViewModels() {
+        public PoolViewModels() {
             NTMinerRoot.Current.OnContextReInited += () => {
                 _dicById.Clear();
                 Init();

@@ -239,7 +239,7 @@ namespace NTMiner.Vms {
 
         public string KernelFullNames {
             get {
-                string names = string.Join(";", KernelViewModels.Current.AllKernels.Where(a => a.KernelInputId == this.Id).Select(a => a.FullName));
+                string names = string.Join(";", AppContext.Current.KernelVms.AllKernels.Where(a => a.KernelInputId == this.Id).Select(a => a.FullName));
                 if (string.IsNullOrEmpty(names)) {
                     return "无";
                 }

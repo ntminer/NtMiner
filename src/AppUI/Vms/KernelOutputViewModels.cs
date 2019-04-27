@@ -5,11 +5,9 @@ using System.Linq;
 
 namespace NTMiner.Vms {
     public class KernelOutputViewModels : ViewModelBase {
-        public static readonly KernelOutputViewModels Current = new KernelOutputViewModels();
-
         private readonly Dictionary<Guid, KernelOutputViewModel> _dicById = new Dictionary<Guid, KernelOutputViewModel>();
 
-        private KernelOutputViewModels() {
+        public KernelOutputViewModels() {
             NTMinerRoot.Current.OnContextReInited += () => {
                 _dicById.Clear();
                 Init();

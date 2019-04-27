@@ -4,10 +4,9 @@ using System.Collections.Generic;
 
 namespace NTMiner.Vms {
     public class PoolProfileViewModels : ViewModelBase {
-        public static readonly PoolProfileViewModels Current = new PoolProfileViewModels();
         private readonly Dictionary<Guid, PoolProfileViewModel> _dicById = new Dictionary<Guid, PoolProfileViewModel>();
 
-        private PoolProfileViewModels() {
+        public PoolProfileViewModels() {
             VirtualRoot.On<PoolProfilePropertyChangedEvent>("矿池设置变更后刷新VM内存", LogEnum.DevConsole,
                 action: message => {
                     if (_dicById.TryGetValue(message.PoolId, out PoolProfileViewModel vm)) {

@@ -139,6 +139,90 @@ namespace NTMiner {
             }
         }
 
+        private KernelOutputViewModels _kernelOutputVms;
+        public KernelOutputViewModels KernelOutputVms {
+            get {
+                return _kernelOutputVms ?? (_kernelOutputVms = new KernelOutputViewModels());
+            }
+        }
+
+        private KernelViewModels _kernelVms;
+        public KernelViewModels KernelVms {
+            get {
+                return _kernelVms ?? (_kernelVms = new KernelViewModels());
+            }
+        }
+
+        private MinerGroupViewModels _minerGroupVms;
+        public MinerGroupViewModels MinerGroupVms {
+            get {
+                return _minerGroupVms ?? (_minerGroupVms = new MinerGroupViewModels());
+            }
+        }
+
+        private MineWorkViewModels _mineWorkVms;
+        public MineWorkViewModels MineWorkVms {
+            get {
+                return _mineWorkVms ?? (_mineWorkVms = new MineWorkViewModels());
+            }
+        }
+
+        private OverClockDataViewModels _overClockDataVms;
+        public OverClockDataViewModels OverClockDataVms {
+            get {
+                return _overClockDataVms ?? (_overClockDataVms = new OverClockDataViewModels());
+            }
+        }
+
+        private PoolProfileViewModels _poolProfileVms;
+        public PoolProfileViewModels PoolProfileVms {
+            get {
+                return _poolProfileVms ?? (_poolProfileVms = new PoolProfileViewModels());
+            }
+        }
+
+        private PoolViewModels _poolVms;
+        public PoolViewModels PoolVms {
+            get {
+                return _poolVms ?? (_poolVms = new PoolViewModels());
+            }
+        }
+
+        private ShareViewModels _shareVms;
+        public ShareViewModels ShareVms {
+            get {
+                return _shareVms ?? (_shareVms = new ShareViewModels());
+            }
+        }
+
+        private WalletViewModels _walletVms;
+        public WalletViewModels WalletVms {
+            get {
+                return _walletVms ?? (_walletVms = new WalletViewModels());
+            }
+        }
+
+        private UserViewModels _userVms;
+        public UserViewModels UserVms {
+            get {
+                return _userVms ?? (_userVms = new UserViewModels());
+            }
+        }
+
+        private SysDicViewModels _sysDicVms;
+        public SysDicViewModels SysDicVms {
+            get {
+                return _sysDicVms ?? (_sysDicVms = new SysDicViewModels());
+            }
+        }
+
+        private SysDicItemViewModels _sysDicItemVms;
+        public SysDicItemViewModels SysDicItemVms {
+            get {
+                return _sysDicItemVms ?? (_sysDicItemVms = new SysDicItemViewModels());
+            }
+        }
+
         #region Commands
         public string CurrentVersion {
             get {

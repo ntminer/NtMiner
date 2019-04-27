@@ -207,7 +207,7 @@ namespace NTMiner.Vms {
         public KernelViewModel Kernel {
             get {
                 KernelViewModel kernel;
-                if (KernelViewModels.Current.TryGetKernelVm(this.KernelId, out kernel)) {
+                if (AppContext.Current.KernelVms.TryGetKernelVm(this.KernelId, out kernel)) {
                     return kernel;
                 }
                 return KernelViewModel.Empty;

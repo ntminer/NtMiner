@@ -6,11 +6,9 @@ using System.Linq;
 
 namespace NTMiner.Vms {
     public class OverClockDataViewModels : ViewModelBase, IEnumerable<OverClockDataViewModel> {
-        public static readonly OverClockDataViewModels Current = new OverClockDataViewModels();
-
         private readonly Dictionary<Guid, OverClockDataViewModel> _dicById = new Dictionary<Guid, OverClockDataViewModel>();
 
-        private OverClockDataViewModels() {
+        public OverClockDataViewModels() {
             if (Design.IsInDesignMode) {
                 return;
             }

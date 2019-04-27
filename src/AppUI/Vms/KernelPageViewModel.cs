@@ -79,7 +79,7 @@ namespace NTMiner.Vms {
         public void Download(Guid kernelId, Action<bool, string> downloadComplete) {
             KernelDownloadingVisible = Visibility.Visible;
             KernelViewModel kernelVm;
-            if (KernelViewModels.Current.TryGetKernelVm(kernelId, out kernelVm)) {
+            if (AppContext.Current.KernelVms.TryGetKernelVm(kernelId, out kernelVm)) {
                 kernelVm.KernelProfileVm.Download(downloadComplete);
             }
         }
@@ -101,7 +101,7 @@ namespace NTMiner.Vms {
 
         public SysDicItemViewModels SysDicItemVms {
             get {
-                return SysDicItemViewModels.Current;
+                return AppContext.Current.SysDicItemVms;
             }
         }
 
@@ -216,7 +216,7 @@ namespace NTMiner.Vms {
 
         public List<KernelViewModel> QueryResults {
             get {
-                IQueryable<KernelViewModel> query = KernelViewModels.Current.AllKernels.AsQueryable();
+                IQueryable<KernelViewModel> query = AppContext.Current.KernelVms.AllKernels.AsQueryable();
                 if (!AppStatic.IsDebugMode) {
                     query = query.Where(a => a.PublishState == PublishStatus.Published);
                 }
@@ -276,7 +276,7 @@ namespace NTMiner.Vms {
 
         public List<KernelViewModel> DownloadingVms {
             get {
-                return KernelViewModels.Current.AllKernels.Where(a => a.KernelProfileVm.IsDownloading).OrderBy(a => a.Code + a.Version).ToList();
+                return AppContext.Current.KernelVms.AllKernels.Where(a => a.KernelProfileVm.IsDownloading).OrderBy(a => a.Code + a.Version).ToList();
             }
         }
 

@@ -96,7 +96,7 @@ namespace NTMiner.Vms {
                 }, icon: IconConst.IconConfirm);
             });
             this.SortUp = new DelegateCommand(() => {
-                PoolViewModel upOne = PoolViewModels.Current.AllPools.OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.CoinId == this.CoinId && a.SortNumber < this.SortNumber);
+                PoolViewModel upOne = AppContext.Current.PoolVms.AllPools.OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.CoinId == this.CoinId && a.SortNumber < this.SortNumber);
                 if (upOne != null) {
                     int sortNumber = upOne.SortNumber;
                     upOne.SortNumber = this.SortNumber;
@@ -110,7 +110,7 @@ namespace NTMiner.Vms {
                 }
             });
             this.SortDown = new DelegateCommand(() => {
-                PoolViewModel nextOne = PoolViewModels.Current.AllPools.OrderBy(a => a.SortNumber).FirstOrDefault(a => a.CoinId == this.CoinId && a.SortNumber > this.SortNumber);
+                PoolViewModel nextOne = AppContext.Current.PoolVms.AllPools.OrderBy(a => a.SortNumber).FirstOrDefault(a => a.CoinId == this.CoinId && a.SortNumber > this.SortNumber);
                 if (nextOne != null) {
                     int sortNumber = nextOne.SortNumber;
                     nextOne.SortNumber = this.SortNumber;
@@ -216,7 +216,7 @@ namespace NTMiner.Vms {
                     if (string.IsNullOrEmpty(value)) {
                         throw new ValidationException("名称是必须的");
                     }
-                    if (PoolViewModels.Current.AllPools.Any(a => a.Name == value && a.Id != this.Id && a.CoinId == this.CoinId)) {
+                    if (AppContext.Current.PoolVms.AllPools.Any(a => a.Name == value && a.Id != this.Id && a.CoinId == this.CoinId)) {
                         throw new ValidationException("名称重复");
                     }
                 }
@@ -340,7 +340,7 @@ namespace NTMiner.Vms {
 
         public PoolProfileViewModel PoolProfileVm {
             get {
-                return PoolProfileViewModels.Current.GetOrCreatePoolProfile(this.Id);
+                return AppContext.Current.PoolProfileVms.GetOrCreatePoolProfile(this.Id);
             }
         }
     }

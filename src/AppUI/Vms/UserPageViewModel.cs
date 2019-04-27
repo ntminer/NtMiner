@@ -5,7 +5,7 @@
 
         public UserViewModels UserVms {
             get {
-                return UserViewModels.Current;
+                return AppContext.Current.UserVms;
             }
         }
 

@@ -285,7 +285,7 @@ namespace NTMiner.Vms {
 
         public ShareViewModel ShareVm {
             get {
-                return ShareViewModels.Current.GetOrCreate(this.Id);
+                return AppContext.Current.ShareVms.GetOrCreate(this.Id);
             }
         }
 
@@ -499,7 +499,7 @@ namespace NTMiner.Vms {
 
         public List<PoolViewModel> Pools {
             get {
-                return PoolViewModels.Current.AllPools.Where(a => a.CoinId == this.Id).OrderBy(a => a.SortNumber).ToList();
+                return AppContext.Current.PoolVms.AllPools.Where(a => a.CoinId == this.Id).OrderBy(a => a.SortNumber).ToList();
             }
         }
 
@@ -541,7 +541,7 @@ namespace NTMiner.Vms {
 
         public List<OverClockDataViewModel> OverClockDatas {
             get {
-                return OverClockDataViewModels.Current.Where(a => a.CoinId == this.Id).ToList();
+                return AppContext.Current.OverClockDataVms.Where(a => a.CoinId == this.Id).ToList();
             }
         }
 
@@ -552,7 +552,7 @@ namespace NTMiner.Vms {
                     yield return TestWalletVm;
                 }
             }
-            foreach (var item in WalletViewModels.Current.WalletList.Where(a => a.CoinId == this.Id).OrderBy(a => a.SortNumber).ToList()) {
+            foreach (var item in AppContext.Current.WalletVms.WalletList.Where(a => a.CoinId == this.Id).OrderBy(a => a.SortNumber).ToList()) {
                 yield return item;
             }
         }

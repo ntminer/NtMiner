@@ -4,11 +4,9 @@ using System.Collections.Generic;
 
 namespace NTMiner.Vms {
     public class ShareViewModels {
-        public static readonly ShareViewModels Current = new ShareViewModels();
-
         private readonly Dictionary<Guid, ShareViewModel> _dicByCoinId = new Dictionary<Guid, ShareViewModel>();
 
-        private ShareViewModels() {
+        public ShareViewModels() {
             VirtualRoot.On<ShareChangedEvent>("收益变更后调整VM内存", LogEnum.DevConsole,
                 action: message => {
                     ShareViewModel shareVm;

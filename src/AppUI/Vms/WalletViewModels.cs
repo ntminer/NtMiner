@@ -5,9 +5,8 @@ using System.Linq;
 
 namespace NTMiner.Vms {
     public class WalletViewModels : ViewModelBase {
-        public static readonly WalletViewModels Current = new WalletViewModels();
         private readonly Dictionary<Guid, WalletViewModel> _dicById = new Dictionary<Guid, WalletViewModel>();
-        private WalletViewModels() {
+        public WalletViewModels() {
             VirtualRoot.On<WalletAddedEvent>("添加了钱包后调整VM内存", LogEnum.DevConsole,
                 action: (message) => {
                     _dicById.Add(message.Source.GetId(), new WalletViewModel(message.Source));
