@@ -42,7 +42,7 @@ namespace NTMiner {
             }
 
             if (createdNew) {
-                Vms.AppStatic.IsMinerClient = false;
+                AppContext.Current.SetIsMinerClient(false);
                 SplashWindow splashWindow = new SplashWindow();
                 splashWindow.Show();
                 NotiCenterWindow.Instance.Show();

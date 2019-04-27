@@ -21,8 +21,6 @@ namespace NTMiner.Vms {
             return iconFileFullName;
         }
 
-        private static bool _sIsMinerClient;
-
         public static string CurrentVersion => NTMinerRoot.CurrentVersion.ToString();
 
         public static string VersionTag => NTMinerRoot.CurrentVersionTag;
@@ -297,49 +295,5 @@ namespace NTMiner.Vms {
         });
 
         public static ICommand ShowQQGroupQrCode { get; private set; } = new DelegateCommand(QQGroupQrCode.ShowWindow);
-
-        public static bool IsMinerClient {
-            get => _sIsMinerClient;
-            set {
-                _sIsMinerClient = value;
-                if (value) {
-                    IsMinerClientVisible = Visibility.Visible;
-                    IsMinerClientNotVisible = Visibility.Collapsed;
-                }
-                else {
-                    IsMinerClientVisible = Visibility.Collapsed;
-                    IsMinerClientNotVisible = Visibility.Visible;
-                }
-            }
-        }
-
-        public static Visibility IsMinerClientVisible {
-            get; private set;
-        }
-
-        public static Visibility IsMinerClientNotVisible {
-            get; private set;
-        }
-
-        public static Visibility IsMinerStudioDevVisible {
-            get {
-                if (!DevMode.IsDevMode) {
-                    return Visibility.Collapsed;
-                }
-                if (VirtualRoot.IsMinerStudio) {
-                    return Visibility.Visible;
-                }
-                return Visibility.Collapsed;
-            }
-        }
-
-        public static Visibility IsMinerStudioCollapsed {
-            get {
-                if (VirtualRoot.IsMinerStudio) {
-                    return Visibility.Collapsed;
-                }
-                return Visibility.Visible;
-            }
-        }
     }
 }

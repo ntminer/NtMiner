@@ -102,7 +102,7 @@
 					</MenuItem.Icon>
 				</MenuItem>
 			</MenuItem>
-			<MenuItem Width="26" Height="30" Visibility="{x:Static vm:AppStatic.IsMinerStudioDevVisible}">
+			<MenuItem x:Name="MenuItemMinerStudioGroup" Width="26" Height="30">
 				<MenuItem.Icon>
 					<Path
 						Width="14"
@@ -157,7 +157,7 @@
 					</MenuItem.Icon>
 				</MenuItem>
 			</MenuItem>
-			<MenuItem Width="26" Height="30" Visibility="{x:Static vm:AppStatic.IsMinerClientVisible}">
+			<MenuItem x:Name="MenuItemMinerClientGroup" Width="26" Height="30">
 				<MenuItem.Icon>
 					<Path
 						Width="14"
@@ -267,7 +267,7 @@
 					</MenuItem.Icon>
 				</MenuItem>
 			</MenuItem>
-			<MenuItem Width="26" Height="30" Visibility="{x:Static vm:AppStatic.IsMinerClientNotVisible}">
+			<MenuItem Width="26" Height="30" Visibility="{Binding ElementName=MenuItemMinerClientGroup,Path=Visibility,Converter={StaticResource VisibilityInvertConverter}}">
 				<MenuItem.Icon>
 					<Path
 						Width="14"

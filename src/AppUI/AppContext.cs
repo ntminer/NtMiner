@@ -1,4 +1,5 @@
 ﻿using NTMiner.Vms;
+using System.Windows;
 
 namespace NTMiner {
     public class AppContext {
@@ -8,6 +9,16 @@ namespace NTMiner {
         public static readonly AppContext Current = new AppContext();
 
         private AppContext() {
+        }
+
+        private bool _isMinerClient;
+
+        public bool IsMinerClient {
+            get => _isMinerClient;
+        }
+
+        public void SetIsMinerClient(bool value) {
+            _isMinerClient = value;
         }
 
         private CoinViewModels _coinVms;

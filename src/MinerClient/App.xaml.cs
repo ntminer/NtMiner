@@ -53,7 +53,7 @@ namespace NTMiner {
                     }
                     NTMinerOverClockUtil.ExtractResource();
 
-                    Vms.AppStatic.IsMinerClient = true;
+                    AppContext.Current.SetIsMinerClient(true);
                     SplashWindow splashWindow = new SplashWindow();
                     splashWindow.Show();
                     NotiCenterWindow.Instance.Show();
