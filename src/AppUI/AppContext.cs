@@ -97,6 +97,19 @@ namespace NTMiner {
             }
         }
 
+        private GpuProfileViewModels _gpuProfileVms;
+        public GpuProfileViewModels GpuProfileVms {
+            get {
+                return _gpuProfileVms ?? (_gpuProfileVms = new GpuProfileViewModels());
+            }
+        }
+
+        private GpuViewModels _gpuVms;
+        public GpuViewModels GpuVms {
+            get {
+                return _gpuVms ?? (_gpuVms = new GpuViewModels());
+            }
+        }
 
         #region Commands
         public string CurrentVersion {

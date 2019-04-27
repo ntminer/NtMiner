@@ -257,7 +257,7 @@ namespace NTMiner.Vms {
         public GpuProfileViewModel GpuAllProfileVm {
             get {
                 if (_gpuAllProfileVm == null) {
-                    _gpuAllProfileVm = GpuProfileViewModels.Current.GpuAllVm(this.Id);
+                    _gpuAllProfileVm = AppContext.Current.GpuProfileVms.GpuAllVm(this.Id);
                 }
                 return _gpuAllProfileVm;
             }
@@ -273,7 +273,7 @@ namespace NTMiner.Vms {
         public List<GpuProfileViewModel> GpuProfileVms {
             get {
                 if (_gpuProfileVms == null) {
-                    _gpuProfileVms = GpuProfileViewModels.Current.List(this.Id);
+                    _gpuProfileVms = AppContext.Current.GpuProfileVms.List(this.Id);
                 }
                 return _gpuProfileVms;
             }

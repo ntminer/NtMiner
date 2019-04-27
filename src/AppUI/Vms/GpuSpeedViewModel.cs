@@ -11,7 +11,7 @@ namespace NTMiner.Vms {
 
         public GpuSpeedViewModel(IGpuSpeed gpuSpeed) {
             GpuViewModel gpuVm;
-            GpuViewModels.Current.TryGetGpuVm(gpuSpeed.Gpu.Index, out gpuVm);
+            AppContext.Current.GpuVms.TryGetGpuVm(gpuSpeed.Gpu.Index, out gpuVm);
             _gpuVm = gpuVm;
             this._mainCoinSpeed = new SpeedViewModel(gpuSpeed.MainCoinSpeed);
             this._dualCoinSpeed = new SpeedViewModel(gpuSpeed.DualCoinSpeed);

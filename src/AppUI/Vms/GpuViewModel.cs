@@ -161,7 +161,7 @@ namespace NTMiner.Vms {
                     return "0℃";
                 }
                 if (this.Index == NTMinerRoot.GpuAllId && NTMinerRoot.Current.GpuSet.Count != 0) {
-                    return $"{GpuViewModels.Current.TemperatureMinText} - {GpuViewModels.Current.TemperatureMaxText}";
+                    return $"{AppContext.Current.GpuVms.TemperatureMinText} - {AppContext.Current.GpuVms.TemperatureMaxText}";
                 }
                 return this.Temperature.ToString() + "℃";
             }
@@ -187,7 +187,7 @@ namespace NTMiner.Vms {
                     return "0%";
                 }
                 if (this.Index == NTMinerRoot.GpuAllId && NTMinerRoot.Current.GpuSet.Count != 0) {
-                    return $"{GpuViewModels.Current.FanSpeedMinText} - {GpuViewModels.Current.FanSpeedMaxText}";
+                    return $"{AppContext.Current.GpuVms.FanSpeedMinText} - {AppContext.Current.GpuVms.FanSpeedMaxText}";
                 }
                 return this.FanSpeed.ToString() + "%";
             }
@@ -220,7 +220,7 @@ namespace NTMiner.Vms {
                     return "0W";
                 }
                 if (this.Index == NTMinerRoot.GpuAllId && NTMinerRoot.Current.GpuSet.Count != 0) {
-                    return $"{(GpuViewModels.Current.Sum(a => a.PowerUsage)).ToString("f0")}W";
+                    return $"{(AppContext.Current.GpuVms.Sum(a => a.PowerUsage)).ToString("f0")}W";
                 }
                 return PowerUsageW.ToString("f0") + "W";
             }
@@ -247,7 +247,7 @@ namespace NTMiner.Vms {
                 }
                 if (this.Index == NTMinerRoot.GpuAllId && NTMinerRoot.Current.GpuSet.Count != 0) {
                     int min = int.MaxValue, max = int.MinValue;
-                    foreach (var item in GpuViewModels.Current) {
+                    foreach (var item in AppContext.Current.GpuVms) {
                         if (item.Index == NTMinerRoot.GpuAllId) {
                             continue;
                         }
@@ -285,7 +285,7 @@ namespace NTMiner.Vms {
                 }
                 if (this.Index == NTMinerRoot.GpuAllId && NTMinerRoot.Current.GpuSet.Count != 0) {
                     int min = int.MaxValue, max = int.MinValue;
-                    foreach (var item in GpuViewModels.Current) {
+                    foreach (var item in AppContext.Current.GpuVms) {
                         if (item.Index == NTMinerRoot.GpuAllId) {
                             continue;
                         }
@@ -521,7 +521,7 @@ namespace NTMiner.Vms {
                 bool refreshAllGpu = !value && old.Count <= 1;
                 NTMinerRoot.Current.SetIsUseDevice(this.Index, value);
                 if (refreshAllGpu) {
-                    foreach (var gpuVm in GpuViewModels.Current) {
+                    foreach (var gpuVm in AppContext.Current.GpuVms) {
                         if (gpuVm.Index == NTMinerRoot.GpuAllId) {
                             continue;
                         }

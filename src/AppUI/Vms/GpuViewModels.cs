@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 namespace NTMiner.Vms {
     public class GpuViewModels : ViewModelBase, IEnumerable<GpuViewModel> {
-        public static readonly GpuViewModels Current = new GpuViewModels();
         private Dictionary<int, GpuViewModel> _gpuVms = new Dictionary<int, GpuViewModel>();
 
         private string _fanSpeedMinText = "0 %";
@@ -12,7 +11,7 @@ namespace NTMiner.Vms {
         private string _temperatureMinText = "0 ℃";
         private string _temperatureMaxText = "0 ℃";
         private readonly GpuViewModel _totalGpuVm;
-        private GpuViewModels() {
+        public GpuViewModels() {
             if (Design.IsInDesignMode) {
                 return;
             }

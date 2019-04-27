@@ -6,7 +6,7 @@ namespace NTMiner.Vms {
         public static readonly GpuStatusBarViewModel Current = new GpuStatusBarViewModel();
 
         public GpuStatusBarViewModel() {
-            this.GpuAllVm = GpuViewModels.Current.FirstOrDefault(a => a.Index == NTMinerRoot.GpuAllId);
+            this.GpuAllVm = AppContext.Current.GpuVms.FirstOrDefault(a => a.Index == NTMinerRoot.GpuAllId);
         }
 
         public GpuViewModel GpuAllVm {
