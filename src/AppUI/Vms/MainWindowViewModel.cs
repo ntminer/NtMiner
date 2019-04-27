@@ -7,9 +7,6 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class MainWindowViewModel : ViewModelBase {
-        /// <summary>
-        /// UI层应只有这一个静态成员
-        /// </summary>
         public static readonly MainWindowViewModel Current = new MainWindowViewModel();
 
         private Visibility _isBtnRunAsAdministratorVisible = Visibility.Collapsed;
@@ -104,8 +101,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        public GpuSpeedViewModels GpuSpeedVms { get; private set; } = new GpuSpeedViewModels();
-
         public string ServerJsonVersion {
             get => _serverJsonVersion;
             set {
@@ -125,31 +120,6 @@ namespace NTMiner.Vms {
                     return Visibility.Visible;
                 }
                 return Visibility.Collapsed;
-            }
-        }
-
-        public StartStopMineButtonViewModel StartStopMineButtonVm {
-            get; private set;
-        } = new StartStopMineButtonViewModel();
-
-        private PoolKernelViewModels _poolKernelVms;
-        public PoolKernelViewModels PoolKernelVms {
-            get {
-                return _poolKernelVms ?? (_poolKernelVms = new PoolKernelViewModels());
-            }
-        }
-
-        private CoinGroupViewModels _coinGroupVms;
-        public CoinGroupViewModels CoinGroupVms {
-            get {
-                return _coinGroupVms ?? (_coinGroupVms = new CoinGroupViewModels());
-            }
-        }
-
-        private CoinKernelViewModels _coinKernelVms;
-        public CoinKernelViewModels CoinKernelVms {
-            get {
-                return _coinKernelVms ?? (_coinKernelVms = new CoinKernelViewModels());
             }
         }
     }

@@ -156,7 +156,7 @@ namespace NTMiner.Vms {
         public CoinSnapshotDataViewModel SnapshotDataVm {
             get {
                 if (_snapshotDataVm == null) {
-                    CoinSnapshotDataViewModels.Current.TryGetSnapshotDataVm(CoinVm.Code, out _snapshotDataVm);
+                    MinerStudioAppContext.Current.CoinSnapshotDataVms.TryGetSnapshotDataVm(CoinVm.Code, out _snapshotDataVm);
                 }
                 return _snapshotDataVm;
             }

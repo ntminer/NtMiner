@@ -85,7 +85,7 @@ namespace NTMiner.Vms {
                 if (coinVm == null) {
                     return;
                 }
-                var coinGroupVms = MainWindowViewModel.Current.CoinGroupVms.GetCoinGroupsByGroupId(this.Id);
+                var coinGroupVms = MinerClientAppContext.Current.CoinGroupVms.GetCoinGroupsByGroupId(this.Id);
                 int sortNumber = coinGroupVms.Count == 0 ? 1 : coinGroupVms.Count + 1;
                 CoinGroupViewModel coinGroupVm = new CoinGroupViewModel(Guid.NewGuid()) {
                     CoinId = coinVm.Id,
@@ -98,14 +98,14 @@ namespace NTMiner.Vms {
 
         public List<CoinGroupViewModel> CoinGroupVms {
             get {
-                return MainWindowViewModel.Current.CoinGroupVms.GetCoinGroupsByGroupId(this.Id).OrderBy(a => a.SortNumber).ToList();
+                return MinerClientAppContext.Current.CoinGroupVms.GetCoinGroupsByGroupId(this.Id).OrderBy(a => a.SortNumber).ToList();
             }
         }
 
         public List<CoinViewModel> CoinVms {
             get {
                 List<CoinViewModel> list = new List<CoinViewModel>();
-                var coinGroupVms = MainWindowViewModel.Current.CoinGroupVms.GetCoinGroupsByGroupId(this.Id);
+                var coinGroupVms = MinerClientAppContext.Current.CoinGroupVms.GetCoinGroupsByGroupId(this.Id);
                 foreach (var item in CoinViewModels.Current.AllCoins) {
                     if (coinGroupVms.All(a => a.CoinId != item.Id)) {
                         list.Add(item);
@@ -117,7 +117,7 @@ namespace NTMiner.Vms {
 
         public List<CoinViewModel> DualCoinVms {
             get {
-                var coinGroupVms = MainWindowViewModel.Current.CoinGroupVms.GetCoinGroupsByGroupId(this.Id);
+                var coinGroupVms = MinerClientAppContext.Current.CoinGroupVms.GetCoinGroupsByGroupId(this.Id);
                 return coinGroupVms.Where(a => a.CoinVm != CoinViewModel.Empty).Select(a => a.CoinVm).OrderBy(a => a.SortNumber).ToList();
             }
         }

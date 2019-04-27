@@ -30,7 +30,7 @@ namespace NTMiner.Vms {
                 action: (message) => {
                     _dicById.Add(message.Source.GetId(), new KernelViewModel(message.Source));
                     OnPropertyChanged(nameof(AllKernels));
-                    foreach (var coinKernelVm in MainWindowViewModel.Current.CoinKernelVms.AllCoinKernels.Where(a => a.KernelId == message.Source.GetId())) {
+                    foreach (var coinKernelVm in MinerClientAppContext.Current.CoinKernelVms.AllCoinKernels.Where(a => a.KernelId == message.Source.GetId())) {
                         coinKernelVm.OnPropertyChanged(nameof(coinKernelVm.IsSupportDualMine));
                     }
                 }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
@@ -38,7 +38,7 @@ namespace NTMiner.Vms {
                 action: message => {
                     _dicById.Remove(message.Source.GetId());
                     OnPropertyChanged(nameof(AllKernels));
-                    foreach (var coinKernelVm in MainWindowViewModel.Current.CoinKernelVms.AllCoinKernels.Where(a => a.KernelId == message.Source.GetId())) {
+                    foreach (var coinKernelVm in MinerClientAppContext.Current.CoinKernelVms.AllCoinKernels.Where(a => a.KernelId == message.Source.GetId())) {
                         coinKernelVm.OnPropertyChanged(nameof(coinKernelVm.IsSupportDualMine));
                     }
                 }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
@@ -49,7 +49,7 @@ namespace NTMiner.Vms {
                     Guid kernelInputId = entity.KernelInputId;
                     entity.Update(message.Source);
                     if (publishStatus != entity.PublishState) {
-                        foreach (var coinKernelVm in MainWindowViewModel.Current.CoinKernelVms.AllCoinKernels.Where(a => a.KernelId == entity.Id)) {
+                        foreach (var coinKernelVm in MinerClientAppContext.Current.CoinKernelVms.AllCoinKernels.Where(a => a.KernelId == entity.Id)) {
                             foreach (var coinVm in CoinViewModels.Current.AllCoins.Where(a => a.Id == coinKernelVm.CoinId)) {
                                 coinVm.OnPropertyChanged(nameof(coinVm.CoinKernels));
                             }

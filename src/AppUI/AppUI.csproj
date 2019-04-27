@@ -110,6 +110,8 @@
     <Compile Include="AppHelper.cs" />
     <Compile Include="IMainWindow.cs" />
     <Compile Include="KernelDownloader.cs" />
+    <Compile Include="MinerClientAppContext.cs" />
+    <Compile Include="MinerStudioAppContext.cs" />
     <Compile Include="RemoteDesktopInput.cs" />
     <Compile Include="SystemHotKey.cs" />
     <Compile Include="Views\ContainerWindow.xaml.cs">

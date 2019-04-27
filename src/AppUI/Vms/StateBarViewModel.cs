@@ -38,7 +38,7 @@ namespace NTMiner.Vms {
                 });
         }
 
-        public GpuSpeedViewModels GpuSpeedVms { get; private set; } = MainWindowViewModel.Current.GpuSpeedVms;
+        public GpuSpeedViewModels GpuSpeedVms { get; private set; } = MinerClientAppContext.Current.GpuSpeedVms;
 
         public TimeSpan BootTimeSpan {
             get { return _bootTimeSpan; }

@@ -4,12 +4,10 @@ using System.Collections.Generic;
 
 namespace NTMiner.Vms {
     public class CoinProfileViewModels : ViewModelBase {
-        public static readonly CoinProfileViewModels Current = new CoinProfileViewModels();
-
         private readonly Dictionary<Guid, CoinKernelProfileViewModel> _coinKernelProfileDicById = new Dictionary<Guid, CoinKernelProfileViewModel>();
         private readonly Dictionary<Guid, CoinProfileViewModel> _coinProfileDicById = new Dictionary<Guid, CoinProfileViewModel>();
 
-        private CoinProfileViewModels() {
+        public CoinProfileViewModels() {
             VirtualRoot.On<CoinKernelProfilePropertyChangedEvent>("币种内核设置变更后刷新VM内存", LogEnum.DevConsole,
                 action: message => {
                     if (_coinKernelProfileDicById.ContainsKey(message.CoinKernelId)) {

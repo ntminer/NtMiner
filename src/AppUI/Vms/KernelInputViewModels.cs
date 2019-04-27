@@ -43,7 +43,7 @@ namespace NTMiner.Vms {
                                 }
                             }
                             if (isSupportDualMine != item.IsSupportDualMine) {
-                                foreach (var coinKernelVm in MainWindowViewModel.Current.CoinKernelVms.AllCoinKernels.Where(a => a.KernelId == message.Source.GetId())) {
+                                foreach (var coinKernelVm in MinerClientAppContext.Current.CoinKernelVms.AllCoinKernels.Where(a => a.KernelId == message.Source.GetId())) {
                                     coinKernelVm.OnPropertyChanged(nameof(coinKernelVm.IsSupportDualMine));
                                     coinKernelVm.OnPropertyChanged(nameof(coinKernelVm.DualCoinGroup));
                                 }
