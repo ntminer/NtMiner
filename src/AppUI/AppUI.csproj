@@ -304,6 +304,7 @@
       <DependentUpon>MinerProfileOption.xaml</DependentUpon>
     </Compile>
     <Compile Include="Vms\CoinSelectViewModel.cs" />
+    <Compile Include="Vms\MainMenuViewModel.cs" />
     <Compile Include="Vms\PoolSelectViewModel.cs" />
     <Compile Include="Vms\CoinKernelSelectViewModel.cs" />
     <Compile Include="Vms\InputSegmentEditViewModel.cs" />
@@ -440,7 +441,6 @@
     <Compile Include="Vms\MainWindowViewModel.cs" />
     <Compile Include="Vms\PoolViewModel.cs" />
     <Compile Include="Vms\GpuSpeedViewModels.cs" />
-    <Compile Include="Vms\AppStatic.cs" />
     <Compile Include="Views\Ucs\AboutPage.xaml.cs">
       <DependentUpon>AboutPage.xaml</DependentUpon>
     </Compile>

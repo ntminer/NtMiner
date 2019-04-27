@@ -38,7 +38,7 @@
 			<TextBlock Style="{StaticResource LblTb}" Text="支持显卡"></TextBlock>
 			<WrapPanel Width="180" VerticalAlignment="Center">
 				<controls:KbComboBox 
-					Width="130" ItemsSource="{x:Static vm:AppStatic.SupportedGpuEnumItems}"
+					Width="130" ItemsSource="{Binding AppContext.SupportedGpuEnumItems}"
 					IsEnabled="{Binding IsDebugMode}"
 					DisplayMemberPath="Description" Height="26"
 					SelectedItem="{Binding SupportedGpuEnumItem}">

@@ -26,6 +26,12 @@ namespace NTMiner.Vms {
             }
         }
 
+        public AppContext AppContext {
+            get {
+                return AppContext.Current;
+            }
+        }
+
         public WalletViewModel SelectedResult {
             get => _selectedResult;
             set {

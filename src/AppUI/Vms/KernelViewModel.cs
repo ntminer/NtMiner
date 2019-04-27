@@ -184,6 +184,12 @@ namespace NTMiner.Vms {
         }
         #endregion
 
+        public AppContext AppContext {
+            get {
+                return AppContext.Current;
+            }
+        }
+
         public KernelViewModel KernelVmSingleInstance {
             get {
                 if (KernelViewModels.Current.TryGetKernelVm(this.Id, out KernelViewModel kernelVm)) {
@@ -500,7 +506,7 @@ namespace NTMiner.Vms {
 
         public EnumItem<PublishStatus> PublishStateEnumItem {
             get {
-                return AppStatic.PublishStatusEnumItems.FirstOrDefault(a => a.Value == PublishState);
+                return AppContext.Current.PublishStatusEnumItems.FirstOrDefault(a => a.Value == PublishState);
             }
             set {
                 if (PublishState != value.Value) {

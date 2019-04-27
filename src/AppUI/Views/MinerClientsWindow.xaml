@@ -62,7 +62,7 @@
 				<controls:KbButton 
 					Margin="10 0 4 0"
 					ToolTip="算力图"
-					Command="{x:Static vm:AppStatic.ShowChartsWindow}" Background="Transparent" BorderThickness="0"
+					Command="{Binding AppContext.ShowChartsWindow}" Background="Transparent" BorderThickness="0"
 					CornerRadius="2">
 					<Image Width="18" Height="18" Source="/NTMinerWpf;component/Styles/Images/cc32.png">
 					</Image>
@@ -423,7 +423,7 @@
 				<GroupBox Header="状态">
 					<ListBox 
 						Background="Transparent"
-						ItemsSource="{x:Static vm:AppStatic.MineStatusEnumItems}"
+						ItemsSource="{Binding AppContext.MineStatusEnumItems}"
 						SelectedItem="{Binding MineStatusEnumItem}"
 						ScrollViewer.HorizontalScrollBarVisibility="Disabled"
 						ScrollViewer.VerticalScrollBarVisibility="Disabled"

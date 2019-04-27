@@ -50,7 +50,7 @@
 								<ContextMenu>
 									<MenuItem 
 										Header="管理" 
-										Command="{x:Static vm:AppStatic.ShowCoins}"
+										Command="{Binding AppContext.ShowCoins}"
 										CommandParameter="{Binding MinerProfile.CoinVm}">
 									</MenuItem>
 								</ContextMenu>
@@ -96,7 +96,7 @@
 									</MenuItem>
 									<MenuItem 
 										Header="管理" 
-										Command="{x:Static vm:AppStatic.ManagePools}"
+										Command="{Binding AppContext.ManagePools}"
 										CommandParameter="{Binding MinerProfile.CoinVm}">
 									</MenuItem>
 								</ContextMenu>
@@ -144,7 +144,7 @@
 										</MenuItem>
 										<MenuItem 
 											Header="管理" 
-											Command="{x:Static vm:AppStatic.ManageWallet}"
+											Command="{Binding AppContext.ManageWallet}"
 											CommandParameter="{Binding MinerProfile.CoinVm}">
 										</MenuItem>
 									</ContextMenu>
@@ -384,7 +384,7 @@
 										<ContextMenu>
 											<MenuItem 
 												Header="管理" 
-												Command="{x:Static vm:AppStatic.ShowCoins}"
+												Command="{Binding AppContext.ShowCoins}"
 												CommandParameter="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin}">
 											</MenuItem>
 										</ContextMenu>
@@ -429,7 +429,7 @@
 											<MenuItem Header="添加" Command="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.AddPool}">
 											</MenuItem>
 											<MenuItem 
-												Header="管理" Command="{x:Static vm:AppStatic.ManagePools}"
+												Header="管理" Command="{Binding AppContext.ManagePools}"
 												CommandParameter="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin}">
 											</MenuItem>
 										</ContextMenu>
@@ -477,7 +477,7 @@
 													</MenuItem>
 													<MenuItem 
 														Header="管理" 
-														Command="{x:Static vm:AppStatic.ManageWallet}"
+														Command="{Binding AppContext.ManageWallet}"
 														CommandParameter="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin}">
 													</MenuItem>
 												</ContextMenu>

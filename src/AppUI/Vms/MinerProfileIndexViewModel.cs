@@ -6,6 +6,12 @@ namespace NTMiner.Vms {
         public MinerProfileIndexViewModel() {
         }
 
+        public AppContext AppContext {
+            get {
+                return AppContext.Current;
+            }
+        }
+
         public MinerProfileViewModel MinerProfile {
             get {
                 return MinerProfileViewModel.Current;

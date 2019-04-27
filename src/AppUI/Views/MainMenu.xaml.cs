@@ -1,8 +1,15 @@
-﻿using System.Windows;
+﻿using NTMiner.Vms;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace NTMiner.Views {
     public partial class MainMenu : UserControl {
+        public MainMenuViewModel Vm {
+            get {
+                return (MainMenuViewModel)this.DataContext;
+            }
+        }
+
         public MainMenu() {
             InitializeComponent();
             MenuItemMinerStudioGroup.Visibility = IsMinerStudioDevVisible;

@@ -74,6 +74,12 @@ namespace NTMiner.Vms {
             _cool = data.Cool;
         }
 
+        public AppContext AppContext {
+            get {
+                return AppContext.Current;
+            }
+        }
+
         public Guid GetId() {
             return this.Id;
         }
@@ -132,7 +138,7 @@ namespace NTMiner.Vms {
 
         public EnumItem<GpuType> GpuTypeEnumItem {
             get {
-                return AppStatic.GpuTypeEnumItems.FirstOrDefault(a => a.Value == GpuType);
+                return AppContext.Current.GpuTypeEnumItems.FirstOrDefault(a => a.Value == GpuType);
             }
             set {
                 if (GpuType != value.Value) {

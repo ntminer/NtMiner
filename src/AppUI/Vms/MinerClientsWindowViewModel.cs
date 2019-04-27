@@ -98,7 +98,7 @@ namespace NTMiner.Vms {
             if (this._columnsShow == null) {
                 this._columnsShow = this.ColumnsShows.List.FirstOrDefault();
             }
-            this._mineStatusEnumItem = AppStatic.MineStatusEnumItems.FirstOrDefault(a => a.Value == MineStatus.All);
+            this._mineStatusEnumItem = AppContext.Current.MineStatusEnumItems.FirstOrDefault(a => a.Value == MineStatus.All);
             this._coinVm = CoinViewModel.PleaseSelect;
             this._selectedMineWork = MineWorkViewModel.PleaseSelect;
             this._selectedMinerGroup = MinerGroupViewModel.PleaseSelect;
@@ -319,6 +319,12 @@ namespace NTMiner.Vms {
         private bool OnlySelectedOne() {
             return this.SelectedMinerClients != null
                     && this.SelectedMinerClients.Length == 1;
+        }
+
+        public AppContext AppContext {
+            get {
+                return AppContext.Current;
+            }
         }
 
         public List<NTMinerFileData> NTMinerFileList {

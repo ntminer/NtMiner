@@ -86,6 +86,12 @@ namespace NTMiner.Vms {
             });
         }
 
+        public AppContext AppContext {
+            get {
+                return AppContext.Current;
+            }
+        }
+
         public GroupViewModels GroupVms {
             get {
                 return GroupViewModels.Current;

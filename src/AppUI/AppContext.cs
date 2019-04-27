@@ -151,7 +151,7 @@ namespace NTMiner {
 
         public ICommand ConfigControlCenterHost { get; private set; } = new DelegateCommand(ControlCenterHostConfig.ShowWindow);
 
-        public readonly BitmapImage BigLogoImageSource = IconConst.BigLogoImageSource;
+        public BitmapImage BigLogoImageSource { get; private set; } = IconConst.BigLogoImageSource;
 
         public IEnumerable<EnumItem<SupportedGpu>> SupportedGpuEnumItems => SupportedGpu.AMD.GetEnumItems();
 

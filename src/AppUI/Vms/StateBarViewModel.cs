@@ -38,6 +38,12 @@ namespace NTMiner.Vms {
                 });
         }
 
+        public AppContext AppContext {
+            get {
+                return AppContext.Current;
+            }
+        }
+
         public GpuSpeedViewModels GpuSpeedVms { get; private set; } = AppContext.Current.GpuSpeedVms;
 
         public TimeSpan BootTimeSpan {

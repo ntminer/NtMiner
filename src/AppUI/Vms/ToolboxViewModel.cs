@@ -10,6 +10,12 @@ namespace NTMiner.Vms {
         public ICommand NavigateToNvidiaDriverWin7 { get; private set; }
         public ICommand NavigateToAmdDriver { get; private set; }
 
+        public AppContext AppContext {
+            get {
+                return AppContext.Current;
+            }
+        }
+
         public ToolboxViewModel() {
             this.SwitchRadeonGpu = new DelegateCommand(() => {
                 DialogWindow.ShowDialog(message: $"确定运行吗？大概需要花费5到10秒钟时间看到结果", title: "确认", onYes: () => {

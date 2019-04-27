@@ -18,6 +18,12 @@ namespace NTMiner.Vms {
             });
         }
 
+        public AppContext AppContext {
+            get {
+                return AppContext.Current;
+            }
+        }
+
         public List<Drive> Drives {
             get {
                 return _drives;

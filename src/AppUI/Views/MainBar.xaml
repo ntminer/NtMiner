@@ -8,9 +8,11 @@
 	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 	xmlns:local="clr-namespace:NTMiner.Views"
 	xmlns:vm="clr-namespace:NTMiner.Vms"
-	DataContext="{x:Static vm:MainBarViewModel.Current}"
 	Background="{StaticResource ThemeBackground}"
 	mc:Ignorable="d">
+	<UserControl.DataContext>
+		<vm:MainBarViewModel></vm:MainBarViewModel>
+	</UserControl.DataContext>
 	<WrapPanel>
 		<controls:KbLinkButton
 			Foreground="{StaticResource ThemeForeground}"
@@ -18,7 +20,7 @@
 			Background="Transparent"
 			KbSystemButtonHoverBackground="Transparent"
 			KbDisplayLine="False"
-			Command="{x:Static vm:AppStatic.JoinQQGroup}">
+			Command="{Binding AppContext.JoinQQGroup}">
 			<WrapPanel>
 				<Path 
 					Margin="0 -2 2 0"
@@ -34,7 +36,7 @@
 			Margin="0 0 8 0"
 			Foreground="{StaticResource ThemeForeground}"
 			Background="Transparent" 
-			BorderThickness="0" Text="{x:Static vm:AppStatic.QQGroup}">
+			BorderThickness="0" Text="{Binding AppContext.QQGroup}">
 		</TextBox>
 		<controls:KbButton 
 			Margin="2 -1 8 0"
@@ -43,7 +45,7 @@
 			Background="Transparent" 
 			Foreground="{StaticResource ThemeForeground}"
 			BorderThickness="0"
-			Command="{x:Static vm:AppStatic.ShowQQGroupQrCode}">
+			Command="{Binding AppContext.ShowQQGroupQrCode}">
 			<Path 
 				Width="14"
 				Height="14"
@@ -53,7 +55,7 @@
 		</controls:KbButton>
 		<controls:KbLinkButton
 			Margin="0 0 8 0"
-			Command="{x:Static vm:AppStatic.OpenOfficialSite}"
+			Command="{Binding AppContext.OpenOfficialSite}"
 			Background="Transparent"
 			Foreground="{StaticResource ThemeForeground}"
 			KbSystemButtonHoverBackground="Transparent"
@@ -71,7 +73,7 @@
 		<controls:KbLinkButton
 			Margin="0 0 8 0"
 			Foreground="{StaticResource ThemeForeground}"
-			Command="{x:Static vm:AppStatic.OpenDiscussSite}"
+			Command="{Binding AppContext.OpenDiscussSite}"
 			Background="Transparent"
 			KbSystemButtonHoverBackground="Transparent"
 			KbDisplayLine="False">
@@ -97,7 +99,7 @@
 			Foreground="{StaticResource ThemeForeground}"
 			HorizontalAlignment="Left"
 			VerticalAlignment="Center"
-			Text="{x:Static vm:AppStatic.CurrentVersion}" />
+			Text="{Binding AppContext.CurrentVersion}" />
 		<TextBlock
 			Margin="2 0 0 0"
 			Foreground="{StaticResource ThemeForeground}"
@@ -109,7 +111,7 @@
 			Foreground="{StaticResource ThemeForeground}"
 			HorizontalAlignment="Left"
 			VerticalAlignment="Center"
-			Text="{x:Static vm:AppStatic.VersionTag}" />
+			Text="{Binding AppContext.VersionTag}" />
 		<TextBlock
 			Foreground="{StaticResource ThemeForeground}"
 			HorizontalAlignment="Left"
@@ -121,7 +123,7 @@
 			ToolTip="检查更新"
 			Background="Transparent" 
 			BorderThickness="0"
-			Command="{x:Static vm:AppStatic.ShowOnlineUpdate}">
+			Command="{Binding AppContext.ShowOnlineUpdate}">
 			<Path 
 				Width="14"
 				Height="13"
@@ -132,7 +134,7 @@
 		<controls:KbButton
 			Margin="0 0 4 0"
 			ToolTip="群控服务器"
-			Command="{x:Static vm:AppStatic.ConfigControlCenterHost}"
+			Command="{Binding AppContext.ConfigControlCenterHost}"
 			Background="Transparent">
 			<Path 
 				Width="16"

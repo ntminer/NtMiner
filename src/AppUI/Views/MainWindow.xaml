@@ -53,7 +53,7 @@
 				<Image Width="18" Height="18" Source="/NTMinerWpf;component/Styles/Images/logo32.png"></Image>
 				<controls:KbLinkButton
 					ToolTip="点击打开官网"
-					Command="{x:Static vm:AppStatic.OpenOfficialSite}"
+					Command="{Binding AppContext.OpenOfficialSite}"
 					KbDisplayLine="False"
 					KbSystemButtonHoverBackground="Transparent"
 					Background="Transparent"
@@ -80,7 +80,7 @@
 							Margin="0"
 							HorizontalAlignment="Left"
 							VerticalAlignment="Center"
-							Text="{x:Static vm:AppStatic.CurrentVersion}" />
+							Text="{Binding AppContext.CurrentVersion}" />
 						<TextBlock
 							Margin="2 0 0 0"
 							HorizontalAlignment="Left"
@@ -90,7 +90,7 @@
 							Margin="0"
 							HorizontalAlignment="Left"
 							VerticalAlignment="Center"
-							Text="{x:Static vm:AppStatic.VersionTag}" />
+							Text="{Binding AppContext.VersionTag}" />
 						<TextBlock
 							HorizontalAlignment="Left"
 							VerticalAlignment="Center"
@@ -99,7 +99,7 @@
 				</controls:KbLinkButton>
 				<controls:KbLinkButton
 					Margin="8 0 0 0"
-					Command="{x:Static vm:AppStatic.DownloadMinerStudio}"
+					Command="{Binding AppContext.DownloadMinerStudio}"
 					KbDisplayLine="False"
 					Foreground="{StaticResource ThemeForeground}"
 					KbSystemButtonHoverBackground="Transparent"
@@ -120,7 +120,7 @@
 					Foreground="White"
 					Visibility="{Binding IsBtnRunAsAdministratorVisible}" 
 					Background="Red"
-					Command="{x:Static vm:AppStatic.RunAsAdministrator}">
+					Command="{Binding AppContext.RunAsAdministrator}">
 				</controls:KbButton>
 				<WrapPanel Margin="4 0 0 0" VerticalAlignment="Center" Visibility="{Binding MinerProfile.MineWork,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
 					<TextBlock Foreground="{StaticResource ThemeForeground}">作业：</TextBlock>
@@ -177,7 +177,7 @@
 						<controls:KbButton 
 							ToolTip="算力图"
 							Background="Transparent" BorderThickness="0"
-							Command="{x:Static vm:AppStatic.ShowSpeedChart}">
+							Command="{Binding AppContext.ShowSpeedChart}">
 							<WrapPanel>
 								<Path 
 									Height="14"
@@ -192,7 +192,7 @@
 						<controls:KbButton 
 							ToolTip="内核"
 							Background="Transparent" BorderThickness="0"
-							Command="{x:Static vm:AppStatic.ShowKernels}">
+							Command="{Binding AppContext.ShowKernels}">
 							<WrapPanel>
 								<Path 
 									Height="14"
@@ -207,7 +207,7 @@
 						<controls:KbButton 
 							ToolTip="帮助"
 							Background="Transparent" BorderThickness="0"
-							Command="{x:Static vm:AppStatic.ShowHelp}">
+							Command="{Binding AppContext.ShowHelp}">
 							<WrapPanel>
 								<Path 
 									Height="14"

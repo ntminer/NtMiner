@@ -50,6 +50,12 @@ namespace NTMiner.Vms {
             return serverJsonVersion;
         }
 
+        public AppContext AppContext {
+            get {
+                return AppContext.Current;
+            }
+        }
+
         public string BrandTitle {
             get {
                 if (VirtualRoot.KernelBrandId == Guid.Empty) {
@@ -75,13 +81,13 @@ namespace NTMiner.Vms {
 
         public double Height {
             get {
-                return AppStatic.MainWindowHeight;
+                return AppContext.Current.MainWindowHeight;
             }
         }
 
         public double Width {
             get {
-                return AppStatic.MainWindowWidth;
+                return AppContext.Current.MainWindowWidth;
             }
         }
 

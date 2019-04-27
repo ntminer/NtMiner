@@ -141,6 +141,12 @@ namespace NTMiner.Vms {
             });
         }
 
+        public AppContext AppContext {
+            get {
+                return AppContext.Current;
+            }
+        }
+
         public Guid Id {
             get => _id;
             private set {
@@ -384,7 +390,7 @@ namespace NTMiner.Vms {
 
         public EnumItem<SupportedGpu> SupportedGpuEnumItem {
             get {
-                return AppStatic.SupportedGpuEnumItems.FirstOrDefault(a => a.Value == SupportedGpu);
+                return AppContext.Current.SupportedGpuEnumItems.FirstOrDefault(a => a.Value == SupportedGpu);
             }
             set {
                 if (SupportedGpu != value.Value) {

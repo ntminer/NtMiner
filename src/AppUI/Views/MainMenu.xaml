@@ -10,6 +10,9 @@
 	xmlns:vm="clr-namespace:NTMiner.Vms"
 	Background="{StaticResource ThemeBackground}"
 	mc:Ignorable="d">
+	<UserControl.DataContext>
+		<vm:MainMenuViewModel></vm:MainMenuViewModel>
+	</UserControl.DataContext>
 	<WrapPanel>
 		<Menu Background="Transparent" VerticalAlignment="Center">
 			<MenuItem Width="26" Height="30" Visibility="{Binding IsDebugModeVisible}">
@@ -21,7 +24,7 @@
 						Fill="{StaticResource ThemeForeground}"
 						Stretch="Fill" />
 				</MenuItem.Icon>
-				<MenuItem Header="global dir" Command="{x:Static vm:AppStatic.ShowGlobalDir}">
+				<MenuItem Header="global dir" Command="{Binding AppContext.ShowGlobalDir}">
 					<MenuItem.Icon>
 						<Path
 							Width="14"
@@ -31,7 +34,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="server db" Command="{x:Static vm:AppStatic.OpenServerLiteDb}">
+				<MenuItem Header="server db" Command="{Binding AppContext.OpenServerLiteDb}">
 					<MenuItem.Icon>
 						<Path
 							Width="14"
@@ -41,7 +44,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="serverJson export" Command="{x:Static vm:AppStatic.ExportServerJson}">
+				<MenuItem Header="serverJson export" Command="{Binding AppContext.ExportServerJson}">
 					<MenuItem.Icon>
 						<Path
 							Width="14"
@@ -51,7 +54,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="local db" Command="{x:Static vm:AppStatic.OpenLocalLiteDb}">
+				<MenuItem Header="local db" Command="{Binding AppContext.OpenLocalLiteDb}">
 					<MenuItem.Icon>
 						<Path
 							Width="14"
@@ -61,7 +64,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="内属性" Command="{x:Static vm:AppStatic.ShowInnerProperty}">
+				<MenuItem Header="内属性" Command="{Binding AppContext.ShowInnerProperty}">
 					<MenuItem.Icon>
 						<Path
 							Width="14"
@@ -71,7 +74,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="内核输入" Command="{x:Static vm:AppStatic.ShowKernelInputs}">
+				<MenuItem Header="内核输入" Command="{Binding AppContext.ShowKernelInputs}">
 					<MenuItem.Icon>
 						<Path
 							Width="14"
@@ -81,7 +84,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="内核输出" Command="{x:Static vm:AppStatic.ShowKernelOutputs}">
+				<MenuItem Header="内核输出" Command="{Binding AppContext.ShowKernelOutputs}">
 					<MenuItem.Icon>
 						<Path
 							Width="14"
@@ -91,7 +94,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="通知中心Demo" Command="{x:Static vm:AppStatic.ShowNotificationSample}">
+				<MenuItem Header="通知中心Demo" Command="{Binding AppContext.ShowNotificationSample}">
 					<MenuItem.Icon>
 						<Path
 							Width="14"
@@ -111,7 +114,7 @@
 						Fill="{StaticResource ThemeForeground}"
 						Stretch="Fill" />
 				</MenuItem.Icon>
-				<MenuItem Header="超频建议" Command="{x:Static vm:AppStatic.ShowOverClockDatas}">
+				<MenuItem Header="超频建议" Command="{Binding AppContext.ShowOverClockDatas}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -121,7 +124,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="收益计算器设置" Command="{x:Static vm:AppStatic.ShowCalcConfig}">
+				<MenuItem Header="收益计算器设置" Command="{Binding AppContext.ShowCalcConfig}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -133,8 +136,8 @@
 				</MenuItem>
 				<MenuItem 
 					Header="刷新server.json版本" 
-					ToolTip="{x:Static vm:AppStatic.ServerJsonFileName}"
-					Command="{x:Static vm:AppStatic.SetServerJsonVersion}">
+					ToolTip="{Binding AppContext.ServerJsonFileName}"
+					Command="{Binding AppContext.SetServerJsonVersion}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -146,7 +149,7 @@
 				</MenuItem>
 				<MenuItem 
 					Header="升级器版本" 
-					Command="{x:Static vm:AppStatic.ShowNTMinerUpdaterConfig}">
+					Command="{Binding AppContext.ShowNTMinerUpdaterConfig}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -166,7 +169,7 @@
 						Fill="{StaticResource ThemeForeground}"
 						Stretch="Fill" />
 				</MenuItem.Icon>
-				<MenuItem Header="币种" Command="{x:Static vm:AppStatic.ShowCoins}">
+				<MenuItem Header="币种" Command="{Binding AppContext.ShowCoins}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -176,7 +179,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="币组" Command="{x:Static vm:AppStatic.ShowGroups}">
+				<MenuItem Header="币组" Command="{Binding AppContext.ShowGroups}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -186,7 +189,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="系统字典" Command="{x:Static vm:AppStatic.ShowSysDic}">
+				<MenuItem Header="系统字典" Command="{Binding AppContext.ShowSysDic}">
 					<MenuItem.Icon>
 						<Path
 							Width="14"
@@ -196,7 +199,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="内核" Command="{x:Static vm:AppStatic.ShowKernels}">
+				<MenuItem Header="内核" Command="{Binding AppContext.ShowKernels}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -206,7 +209,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="算力图" Command="{x:Static vm:AppStatic.ShowSpeedChart}">
+				<MenuItem Header="算力图" Command="{Binding AppContext.ShowSpeedChart}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -216,7 +219,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="虚拟内存" Command="{x:Static vm:AppStatic.ShowVirtualMemory}">
+				<MenuItem Header="虚拟内存" Command="{Binding AppContext.ShowVirtualMemory}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -226,7 +229,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="在线更新" Command="{x:Static vm:AppStatic.ShowOnlineUpdate}">
+				<MenuItem Header="在线更新" Command="{Binding AppContext.ShowOnlineUpdate}">
 					<MenuItem.Icon>
 						<Path
 							Width="14"
@@ -236,7 +239,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="帮助" Command="{x:Static vm:AppStatic.ShowHelp}">
+				<MenuItem Header="帮助" Command="{Binding AppContext.ShowHelp}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -246,7 +249,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="关于" Command="{x:Static vm:AppStatic.ShowAbout}">
+				<MenuItem Header="关于" Command="{Binding AppContext.ShowAbout}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -256,7 +259,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="退出" Command="{x:Static vm:AppStatic.AppExit}">
+				<MenuItem Header="退出" Command="{Binding AppContext.AppExit}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -276,7 +279,7 @@
 						Fill="{StaticResource ThemeForeground}"
 						Stretch="Fill" />
 				</MenuItem.Icon>
-				<MenuItem Header="矿工列表" Command="{x:Static vm:AppStatic.ShowMinerClients}">
+				<MenuItem Header="矿工列表" Command="{Binding AppContext.ShowMinerClients}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -286,13 +289,13 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="算力图" Command="{x:Static vm:AppStatic.ShowChartsWindow}">
+				<MenuItem Header="算力图" Command="{Binding AppContext.ShowChartsWindow}">
 					<MenuItem.Icon>
 						<Image Width="18" Height="18" Source="/NTMinerWpf;component/Styles/Images/cc32.png">
 						</Image>
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="币种" Command="{x:Static vm:AppStatic.ShowCoins}">
+				<MenuItem Header="币种" Command="{Binding AppContext.ShowCoins}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -302,7 +305,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="币组" Command="{x:Static vm:AppStatic.ShowGroups}">
+				<MenuItem Header="币组" Command="{Binding AppContext.ShowGroups}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -312,7 +315,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="内核" Command="{x:Static vm:AppStatic.ShowKernels}">
+				<MenuItem Header="内核" Command="{Binding AppContext.ShowKernels}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -322,7 +325,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="在线升级" Command="{x:Static vm:AppStatic.ShowOnlineUpdate}">
+				<MenuItem Header="在线升级" Command="{Binding AppContext.ShowOnlineUpdate}">
 					<MenuItem.Icon>
 						<Path
 							Width="14"
@@ -332,7 +335,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="帮助" Command="{x:Static vm:AppStatic.ShowHelp}">
+				<MenuItem Header="帮助" Command="{Binding AppContext.ShowHelp}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -342,7 +345,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="关于" Command="{x:Static vm:AppStatic.ShowAbout}" CommandParameter="ControlCenter">
+				<MenuItem Header="关于" Command="{Binding AppContext.ShowAbout}" CommandParameter="ControlCenter">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -352,7 +355,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="用户" Command="{x:Static vm:AppStatic.ShowUsers}">
+				<MenuItem Header="用户" Command="{Binding AppContext.ShowUsers}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -362,7 +365,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="退出" Command="{x:Static vm:AppStatic.AppExit}">
+				<MenuItem Header="退出" Command="{Binding AppContext.AppExit}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"

@@ -62,7 +62,7 @@
 				Padding="4 0"
 				Click="KbButtonManageCoins_Click"
 				Background="{StaticResource ThemeBackground}"
-				Command="{x:Static vm:AppStatic.ShowCoins}"
+				Command="{Binding AppContext.ShowCoins}"
 				CommandParameter="{Binding SelectedResult}"
 				CornerRadius="2">
 				<WrapPanel>

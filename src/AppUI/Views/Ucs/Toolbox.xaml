@@ -98,7 +98,7 @@
 					Height="50" 
 					Width="200"
 					Margin="4"
-					Command="{x:Static vm:AppStatic.ShowVirtualMemory}"
+					Command="{Binding AppContext.ShowVirtualMemory}"
 					Cursor="Hand"
 					Background="Transparent">
 					<WrapPanel VerticalAlignment="Center">
