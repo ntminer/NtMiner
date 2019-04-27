@@ -22,16 +22,6 @@ namespace NTMiner {
         private AppContext() {
         }
 
-        private bool _isMinerClient;
-
-        public bool IsMinerClient {
-            get => _isMinerClient;
-        }
-
-        public void SetIsMinerClient(bool value) {
-            _isMinerClient = value;
-        }
-
         private CoinViewModels _coinVms;
         public CoinViewModels CoinVms {
             get {

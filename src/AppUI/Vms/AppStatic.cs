@@ -4,6 +4,16 @@ using System.Windows;
 
 namespace NTMiner.Vms {
     public static class AppStatic {
+        private static bool _isMinerClient;
+
+        public static bool IsMinerClient {
+            get => _isMinerClient;
+        }
+
+        public static void SetIsMinerClient(bool value) {
+            _isMinerClient = value;
+        }
+
         public static bool IsDebugMode {
             get {
                 if (Design.IsInDesignMode) {

@@ -1,4 +1,5 @@
 ﻿using NTMiner.Views;
+using NTMiner.Vms;
 using System;
 using System.Diagnostics;
 using System.Threading;
@@ -42,7 +43,7 @@ namespace NTMiner {
             }
 
             if (createdNew) {
-                AppContext.Current.SetIsMinerClient(false);
+                AppStatic.SetIsMinerClient(false);
                 SplashWindow splashWindow = new SplashWindow();
                 splashWindow.Show();
                 NotiCenterWindow.Instance.Show();
