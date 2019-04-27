@@ -7,15 +7,13 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class MainWindowViewModel : ViewModelBase {
-        public static readonly MainWindowViewModel Current = new MainWindowViewModel();
-
         private Visibility _isBtnRunAsAdministratorVisible = Visibility.Collapsed;
         private string _serverJsonVersion;
 
         public ICommand CustomTheme { get; private set; }
         public ICommand UseThisPcName { get; private set; }
 
-        private MainWindowViewModel() {
+        public MainWindowViewModel() {
             if (Design.IsInDesignMode) {
                 return;
             }

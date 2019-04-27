@@ -3,8 +3,6 @@ using System.Windows.Media;
 
 namespace NTMiner.Vms {
     public class GpuStatusBarViewModel : ViewModelBase {
-        public static readonly GpuStatusBarViewModel Current = new GpuStatusBarViewModel();
-
         public GpuStatusBarViewModel() {
             this.GpuAllVm = AppContext.Current.GpuVms.FirstOrDefault(a => a.Index == NTMinerRoot.GpuAllId);
         }

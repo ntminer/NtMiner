@@ -223,6 +223,13 @@ namespace NTMiner {
             }
         }
 
+        private GpuStatusBarViewModel _gpuStatusBarVms;
+        public GpuStatusBarViewModel GpuStatusBarVms {
+            get {
+                return _gpuStatusBarVms ?? (_gpuStatusBarVms = new GpuStatusBarViewModel());
+            }
+        }
+
         #region Commands
         public string CurrentVersion {
             get {

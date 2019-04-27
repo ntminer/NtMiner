@@ -102,7 +102,7 @@ namespace NTMiner.Vms {
 
         public GpuStatusBarViewModel GpuStatusBarVm {
             get {
-                return GpuStatusBarViewModel.Current;
+                return AppContext.Current.GpuStatusBarVms;
             }
         }
 
