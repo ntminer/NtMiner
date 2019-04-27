@@ -111,14 +111,6 @@ namespace NTMiner {
 
 
         #region Commands
-        public string GetIconFileFullName(ICoin coin) {
-            if (coin == null || string.IsNullOrEmpty(coin.Icon)) {
-                return string.Empty;
-            }
-            string iconFileFullName = Path.Combine(SpecialPath.CoinIconsDirFullName, coin.Icon);
-            return iconFileFullName;
-        }
-
         public string CurrentVersion {
             get {
                 return NTMinerRoot.CurrentVersion.ToString();
@@ -173,26 +165,46 @@ namespace NTMiner {
 
         public BitmapImage BigLogoImageSource { get; private set; } = IconConst.BigLogoImageSource;
 
-        public IEnumerable<EnumItem<SupportedGpu>> SupportedGpuEnumItems => SupportedGpu.AMD.GetEnumItems();
-
-        public IEnumerable<EnumItem<GpuType>> GpuTypeEnumItems => GpuType.AMD.GetEnumItems();
-
-        public IEnumerable<EnumItem<LogEnum>> LogTypeItems => LogEnum.DevConsole.GetEnumItems();
-
-        public IEnumerable<EnumItem<PublishStatus>> PublishStatusEnumItems => PublishStatus.Published.GetEnumItems();
-
-        public IEnumerable<EnumItem<MineStatus>> MineStatusEnumItems => MineStatus.All.GetEnumItems();
-
-        public double MainWindowHeight => GetMainWindowHeight(DevMode.IsDevMode);
-
-        public double GetMainWindowHeight(bool isDevMode) {
-            if (SystemParameters.WorkArea.Size.Height >= 600) {
-                return 600;
+        public IEnumerable<EnumItem<SupportedGpu>> SupportedGpuEnumItems {
+            get {
+                return SupportedGpu.AMD.GetEnumItems();
             }
-            else if (SystemParameters.WorkArea.Size.Height >= 520) {
-                return 520;
+        }
+
+        public IEnumerable<EnumItem<GpuType>> GpuTypeEnumItems {
+            get {
+                return GpuType.AMD.GetEnumItems();
             }
-            return 480;
+        }
+
+        public IEnumerable<EnumItem<LogEnum>> LogTypeItems {
+            get {
+                return LogEnum.DevConsole.GetEnumItems();
+            }
+        }
+
+        public IEnumerable<EnumItem<PublishStatus>> PublishStatusEnumItems {
+            get {
+                return PublishStatus.Published.GetEnumItems();
+            }
+        }
+
+        public IEnumerable<EnumItem<MineStatus>> MineStatusEnumItems {
+            get {
+                return MineStatus.All.GetEnumItems();
+            }
+        }
+
+        public double MainWindowHeight {
+            get {
+                if (SystemParameters.WorkArea.Size.Height >= 600) {
+                    return 600;
+                }
+                else if (SystemParameters.WorkArea.Size.Height >= 520) {
+                    return 520;
+                }
+                return 480;
+            }
         }
 
         public double MainWindowWidth {

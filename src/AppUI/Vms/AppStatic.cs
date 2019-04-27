@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using NTMiner.Core;
+using System.IO;
+using System.Windows;
 
 namespace NTMiner.Vms {
     public static class AppStatic {
@@ -29,6 +31,14 @@ namespace NTMiner.Vms {
                 }
                 return Visibility.Collapsed;
             }
+        }
+
+        public static string GetIconFileFullName(ICoin coin) {
+            if (coin == null || string.IsNullOrEmpty(coin.Icon)) {
+                return string.Empty;
+            }
+            string iconFileFullName = Path.Combine(SpecialPath.CoinIconsDirFullName, coin.Icon);
+            return iconFileFullName;
         }
     }
 }
