@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppContext.partials.CoinViewModels.cs" />
+    <Compile Include="AppContext.partials.GpuSpeedViewModels.cs" />
     <Compile Include="AppHelper.cs" />
     <Compile Include="IMainWindow.cs" />
     <Compile Include="KernelDownloader.cs" />
@@ -442,7 +443,6 @@
     <Compile Include="Vms\CoinKernelViewModel.cs" />
     <Compile Include="Vms\MainWindowViewModel.cs" />
     <Compile Include="Vms\PoolViewModel.cs" />
-    <Compile Include="Vms\GpuSpeedViewModels.cs" />
     <Compile Include="Views\Ucs\AboutPage.xaml.cs">
       <DependentUpon>AboutPage.xaml</DependentUpon>
     </Compile>
@@ -486,10 +486,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Ucs\Design\StateBarViewModel.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Ucs\Design\GpuSpeedViewModels.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

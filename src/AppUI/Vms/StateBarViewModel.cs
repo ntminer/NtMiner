@@ -44,7 +44,7 @@ namespace NTMiner.Vms {
             }
         }
 
-        public GpuSpeedViewModels GpuSpeedVms { get; private set; } = AppContext.Current.GpuSpeedVms;
+        public AppContext.GpuSpeedViewModels GpuSpeedVms { get; private set; } = AppContext.Current.GpuSpeedVms;
 
         public TimeSpan BootTimeSpan {
             get { return _bootTimeSpan; }
