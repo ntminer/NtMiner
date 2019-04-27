@@ -83,7 +83,7 @@ namespace NTMiner.Vms {
         public CoinKernelViewModel CoinKernelVm {
             get {
                 if (_coinKernelVm == null) {
-                    _coinKernelVm = CoinKernelViewModels.Current.AllCoinKernels.FirstOrDefault(a => a.KernelId == this.KernelId && a.CoinId == this.PoolVm.CoinId);
+                    _coinKernelVm = MainWindowViewModel.Current.CoinKernelVms.AllCoinKernels.FirstOrDefault(a => a.KernelId == this.KernelId && a.CoinId == this.PoolVm.CoinId);
                 }
                 return _coinKernelVm;
             }

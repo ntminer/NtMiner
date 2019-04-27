@@ -145,5 +145,12 @@ namespace NTMiner.Vms {
                 return _coinGroupVms ?? (_coinGroupVms = new CoinGroupViewModels());
             }
         }
+
+        private CoinKernelViewModels _coinKernelVms;
+        public CoinKernelViewModels CoinKernelVms {
+            get {
+                return _coinKernelVms ?? (_coinKernelVms = new CoinKernelViewModels());
+            }
+        }
     }
 }

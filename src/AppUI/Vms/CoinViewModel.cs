@@ -580,7 +580,7 @@ namespace NTMiner.Vms {
 
         public List<CoinKernelViewModel> CoinKernels {
             get {
-                return CoinKernelViewModels.Current.AllCoinKernels.Where(a => a.CoinId == this.Id && a.Kernel.PublishState == PublishStatus.Published).OrderBy(a => a.SortNumber).ToList();
+                return MainWindowViewModel.Current.CoinKernelVms.AllCoinKernels.Where(a => a.CoinId == this.Id && a.Kernel.PublishState == PublishStatus.Published).OrderBy(a => a.SortNumber).ToList();
             }
         }
 

@@ -5,9 +5,8 @@ using System.Linq;
 
 namespace NTMiner.Vms {
     public class CoinKernelViewModels : ViewModelBase {
-        public static readonly CoinKernelViewModels Current = new CoinKernelViewModels();
         private readonly Dictionary<Guid, CoinKernelViewModel> _dicById = new Dictionary<Guid, CoinKernelViewModel>();
-        private CoinKernelViewModels() {
+        public CoinKernelViewModels() {
             NTMinerRoot.Current.OnContextReInited += () => {
                 _dicById.Clear();
                 Init();
