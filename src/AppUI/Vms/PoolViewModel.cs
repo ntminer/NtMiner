@@ -103,7 +103,7 @@ namespace NTMiner.Vms {
                     VirtualRoot.Execute(new UpdatePoolCommand(upOne));
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdatePoolCommand(this));
-                    if (CoinViewModels.Current.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
+                    if (AppContext.Current.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
                         coinVm.OnPropertyChanged(nameof(coinVm.Pools));
                         coinVm.OnPropertyChanged(nameof(coinVm.OptionPools));
                     }
@@ -117,7 +117,7 @@ namespace NTMiner.Vms {
                     VirtualRoot.Execute(new UpdatePoolCommand(nextOne));
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdatePoolCommand(this));
-                    if (CoinViewModels.Current.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
+                    if (AppContext.Current.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
                         coinVm.OnPropertyChanged(nameof(coinVm.Pools));
                         coinVm.OnPropertyChanged(nameof(coinVm.OptionPools));
                     }
@@ -239,7 +239,7 @@ namespace NTMiner.Vms {
         public CoinViewModel CoinVm {
             get {
                 if (_coinVm == null || _coinVm.Id != this.CoinId) {
-                    CoinViewModels.Current.TryGetCoinVm(this.CoinId, out _coinVm);
+                    AppContext.Current.CoinVms.TryGetCoinVm(this.CoinId, out _coinVm);
                     if (_coinVm == null) {
                         _coinVm = CoinViewModel.PleaseSelect;
                     }

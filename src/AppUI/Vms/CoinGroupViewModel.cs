@@ -98,7 +98,7 @@ namespace NTMiner.Vms {
         public CoinViewModel CoinVm {
             get {
                 CoinViewModel vm;
-                if (CoinViewModels.Current.TryGetCoinVm(this.CoinId, out vm)) {
+                if (AppContext.Current.CoinVms.TryGetCoinVm(this.CoinId, out vm)) {
                     return vm;
                 }
                 return CoinViewModel.Empty;

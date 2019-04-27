@@ -42,7 +42,7 @@ namespace NTMiner.Vms {
                 this.IsDualCoinHideWallet = false;
             });
             this.AddWallet = new DelegateCommand(() => {
-                if (CoinViewModels.Current.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
+                if (AppContext.Current.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
                     Guid id = Guid.NewGuid();
                     var wallets = coinVm.Wallets.Where(a => a.IsTestWallet).ToArray();
                     int sortNumber = wallets.Length == 0 ? 1 : wallets.Max(a => a.SortNumber) + 1;
@@ -56,7 +56,7 @@ namespace NTMiner.Vms {
                 }
             });
             this.AddDualCoinWallet = new DelegateCommand(() => {
-                if (CoinViewModels.Current.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
+                if (AppContext.Current.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
                     Guid id = Guid.NewGuid();
                     var wallets = coinVm.Wallets.Where(a => a.IsTestWallet).ToArray();
                     int sortNumber = wallets.Length == 0 ? 1 : wallets.Max(a => a.SortNumber) + 1;
@@ -99,7 +99,7 @@ namespace NTMiner.Vms {
 
         public WalletViewModel SelectedWallet {
             get {
-                if (!CoinViewModels.Current.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
+                if (!AppContext.Current.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
                     return null;
                 }
                 WalletViewModel walletVm = coinVm.Wallets.FirstOrDefault(a => a.Address == this.Wallet);
@@ -113,7 +113,7 @@ namespace NTMiner.Vms {
             }
             set {
                 if (value == null) {
-                    if (CoinViewModels.Current.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
+                    if (AppContext.Current.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
                         value = coinVm.Wallets.FirstOrDefault();
                     }
                 }
@@ -157,7 +157,7 @@ namespace NTMiner.Vms {
                     return null;
                 }
 
-                if (!CoinViewModels.Current.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
+                if (!AppContext.Current.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
                     return null;
                 }
                 if (!PoolViewModels.Current.TryGetPoolVm(this.PoolId, out PoolViewModel pool)) {
@@ -170,7 +170,7 @@ namespace NTMiner.Vms {
             }
             set {
                 if (value == null) {
-                    if (CoinViewModels.Current.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
+                    if (AppContext.Current.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
                         value = coinVm.Pools.OrderBy(a => a.SortNumber).FirstOrDefault();
                     }
                 }
@@ -205,7 +205,7 @@ namespace NTMiner.Vms {
 
         public WalletViewModel SelectedDualCoinWallet {
             get {
-                if (!CoinViewModels.Current.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
+                if (!AppContext.Current.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
                     return null;
                 }
                 WalletViewModel walletVm = coinVm.Wallets.FirstOrDefault(a => a.Address == this.DualCoinWallet);
@@ -219,7 +219,7 @@ namespace NTMiner.Vms {
             }
             set {
                 if (value == null) {
-                    if (CoinViewModels.Current.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
+                    if (AppContext.Current.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
                         value = coinVm.Wallets.FirstOrDefault();
                     }
                 }
@@ -249,7 +249,7 @@ namespace NTMiner.Vms {
 
         public PoolViewModel DualCoinPool {
             get {
-                if (!CoinViewModels.Current.TryGetCoinVm(CoinId, out CoinViewModel coinVm)) {
+                if (!AppContext.Current.CoinVms.TryGetCoinVm(CoinId, out CoinViewModel coinVm)) {
                     return null;
                 }
                 if (!PoolViewModels.Current.TryGetPoolVm(this.DualCoinPoolId, out PoolViewModel pool)) {
@@ -262,7 +262,7 @@ namespace NTMiner.Vms {
             }
             set {
                 if (value == null) {
-                    if (CoinViewModels.Current.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
+                    if (AppContext.Current.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
                         value = coinVm.Pools.OrderBy(a => a.SortNumber).FirstOrDefault();
                     }
                 }

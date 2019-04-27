@@ -106,7 +106,7 @@ namespace NTMiner.Vms {
             get {
                 List<CoinViewModel> list = new List<CoinViewModel>();
                 var coinGroupVms = AppContext.Current.CoinGroupVms.GetCoinGroupsByGroupId(this.Id);
-                foreach (var item in CoinViewModels.Current.AllCoins) {
+                foreach (var item in AppContext.Current.CoinVms.AllCoins) {
                     if (coinGroupVms.All(a => a.CoinId != item.Id)) {
                         list.Add(item);
                     }

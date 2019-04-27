@@ -50,7 +50,7 @@ namespace NTMiner.Vms {
                     entity.Update(message.Source);
                     if (publishStatus != entity.PublishState) {
                         foreach (var coinKernelVm in AppContext.Current.CoinKernelVms.AllCoinKernels.Where(a => a.KernelId == entity.Id)) {
-                            foreach (var coinVm in CoinViewModels.Current.AllCoins.Where(a => a.Id == coinKernelVm.CoinId)) {
+                            foreach (var coinVm in AppContext.Current.CoinVms.AllCoins.Where(a => a.Id == coinKernelVm.CoinId)) {
                                 coinVm.OnPropertyChanged(nameof(coinVm.CoinKernels));
                             }
                         }

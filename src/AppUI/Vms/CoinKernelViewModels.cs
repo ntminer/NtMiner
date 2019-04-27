@@ -24,7 +24,7 @@ namespace NTMiner.Vms {
                     _dicById.Add(message.Source.GetId(), coinKernelVm);
                     OnPropertyChanged(nameof(AllCoinKernels));
                     CoinViewModel coinVm;
-                    if (CoinViewModels.Current.TryGetCoinVm(message.Source.CoinId, out coinVm)) {
+                    if (AppContext.Current.CoinVms.TryGetCoinVm(message.Source.CoinId, out coinVm)) {
                         coinVm.OnPropertyChanged(nameof(CoinViewModel.CoinKernel));
                         coinVm.OnPropertyChanged(nameof(CoinViewModel.CoinKernels));
                         coinVm.OnPropertyChanged(nameof(CoinViewModel.IsSupported));
@@ -50,7 +50,7 @@ namespace NTMiner.Vms {
                         var coinKernels = AllCoinKernels.Where(a => a.KernelId == entity.Id);
                         foreach (var coinKernel in coinKernels) {
                             CoinViewModel coinVm;
-                            if (CoinViewModels.Current.TryGetCoinVm(coinKernel.CoinId, out coinVm)) {
+                            if (AppContext.Current.CoinVms.TryGetCoinVm(coinKernel.CoinId, out coinVm)) {
                                 coinVm.OnPropertyChanged(nameof(coinVm.IsSupported));
                                 coinVm.OnPropertyChanged(nameof(coinVm.CoinKernels));
                             }
@@ -65,7 +65,7 @@ namespace NTMiner.Vms {
                     }
                     if (sortNumber != entity.SortNumber) {
                         CoinViewModel coinVm;
-                        if (CoinViewModels.Current.TryGetCoinVm(entity.CoinId, out coinVm)) {
+                        if (AppContext.Current.CoinVms.TryGetCoinVm(entity.CoinId, out coinVm)) {
                             coinVm.OnPropertyChanged(nameof(coinVm.CoinKernels));
                         }
                     }
@@ -77,7 +77,7 @@ namespace NTMiner.Vms {
                         _dicById.Remove(message.Source.GetId());
                         OnPropertyChanged(nameof(AllCoinKernels));
                         CoinViewModel coinVm;
-                        if (CoinViewModels.Current.TryGetCoinVm(message.Source.CoinId, out coinVm)) {
+                        if (AppContext.Current.CoinVms.TryGetCoinVm(message.Source.CoinId, out coinVm)) {
                             coinVm.OnPropertyChanged(nameof(CoinViewModel.CoinKernel));
                             coinVm.OnPropertyChanged(nameof(CoinViewModel.CoinKernels));
                             coinVm.OnPropertyChanged(nameof(CoinViewModel.IsSupported));

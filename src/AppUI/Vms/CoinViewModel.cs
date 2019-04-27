@@ -132,7 +132,7 @@ namespace NTMiner.Vms {
                         string iconFileFullName = openFileDialog.FileName;
                         this.IconImageSource = new BitmapImage(new Uri(iconFileFullName, UriKind.Absolute));
                         string pngFileName = Path.GetFileName(iconFileFullName);
-                        if (CoinViewModels.Current.AllCoins.Any(a => a.Icon == pngFileName && a.Id != this.Id)) {
+                        if (AppContext.Current.CoinVms.AllCoins.Any(a => a.Icon == pngFileName && a.Id != this.Id)) {
                             throw new ValidationException("币种图标不能重名");
                         }
                         this.Icon = pngFileName;
@@ -188,27 +188,27 @@ namespace NTMiner.Vms {
                 }, icon: IconConst.IconConfirm);
             });
             this.SortUp = new DelegateCommand(() => {
-                CoinViewModel upOne = CoinViewModels.Current.AllCoins.OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.SortNumber < this.SortNumber);
+                CoinViewModel upOne = AppContext.Current.CoinVms.AllCoins.OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.SortNumber < this.SortNumber);
                 if (upOne != null) {
                     int sortNumber = upOne.SortNumber;
                     upOne.SortNumber = this.SortNumber;
                     VirtualRoot.Execute(new UpdateCoinCommand(upOne));
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdateCoinCommand(this));
-                    CoinViewModels.Current.OnPropertyChanged(nameof(CoinViewModels.MainCoins));
-                    CoinViewModels.Current.OnPropertyChanged(nameof(CoinViewModels.AllCoins));
+                    AppContext.Current.CoinVms.OnPropertyChanged(nameof(CoinViewModels.MainCoins));
+                    AppContext.Current.CoinVms.OnPropertyChanged(nameof(CoinViewModels.AllCoins));
                 }
             });
             this.SortDown = new DelegateCommand(() => {
-                CoinViewModel nextOne = CoinViewModels.Current.AllCoins.OrderBy(a => a.SortNumber).FirstOrDefault(a => a.SortNumber > this.SortNumber);
+                CoinViewModel nextOne = AppContext.Current.CoinVms.AllCoins.OrderBy(a => a.SortNumber).FirstOrDefault(a => a.SortNumber > this.SortNumber);
                 if (nextOne != null) {
                     int sortNumber = nextOne.SortNumber;
                     nextOne.SortNumber = this.SortNumber;
                     VirtualRoot.Execute(new UpdateCoinCommand(nextOne));
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdateCoinCommand(this));
-                    CoinViewModels.Current.OnPropertyChanged(nameof(CoinViewModels.MainCoins));
-                    CoinViewModels.Current.OnPropertyChanged(nameof(CoinViewModels.AllCoins));
+                    AppContext.Current.CoinVms.OnPropertyChanged(nameof(CoinViewModels.MainCoins));
+                    AppContext.Current.CoinVms.OnPropertyChanged(nameof(CoinViewModels.AllCoins));
                 }
             });
 
@@ -333,7 +333,7 @@ namespace NTMiner.Vms {
                     if (string.IsNullOrEmpty(value)) {
                         throw new ValidationException("编码是必须的");
                     }
-                    if (CoinViewModels.Current.TryGetCoinVm(value, out CoinViewModel coinVm) && coinVm.Id != this.Id) {
+                    if (AppContext.Current.CoinVms.TryGetCoinVm(value, out CoinViewModel coinVm) && coinVm.Id != this.Id) {
                         throw new ValidationException("重复的币种编码");
                     }
                 }

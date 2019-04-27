@@ -627,14 +627,14 @@ namespace NTMiner.Vms {
 
         public CoinViewModels MineCoinVms {
             get {
-                return CoinViewModels.Current;
+                return AppContext.Current.CoinVms;
             }
         }
 
         private IEnumerable<CoinViewModel> GetDualCoinVmItems() {
             yield return CoinViewModel.PleaseSelect;
             yield return CoinViewModel.DualCoinEnabled;
-            foreach (var item in CoinViewModels.Current.AllCoins) {
+            foreach (var item in AppContext.Current.CoinVms.AllCoins) {
                 yield return item;
             }
         }

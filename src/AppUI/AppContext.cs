@@ -10,11 +10,26 @@ namespace NTMiner {
         private AppContext() {
         }
 
-        public GpuSpeedViewModels GpuSpeedVms { get; private set; } = new GpuSpeedViewModels();
+        private CoinViewModels _coinVms;
+        public CoinViewModels CoinVms {
+            get {
+                return _coinVms ?? (_coinVms = new CoinViewModels());
+            }
+        }
 
+        private GpuSpeedViewModels _gpuSpeedVms;
+        public GpuSpeedViewModels GpuSpeedVms {
+            get {
+                return _gpuSpeedVms ?? (_gpuSpeedVms = new GpuSpeedViewModels());
+            }
+        }
+
+        private StartStopMineButtonViewModel _startStopMineButtonVm;
         public StartStopMineButtonViewModel StartStopMineButtonVm {
-            get; private set;
-        } = new StartStopMineButtonViewModel();
+            get {
+                return _startStopMineButtonVm ?? (_startStopMineButtonVm = new StartStopMineButtonViewModel());
+            }
+        }
 
         private PoolKernelViewModels _poolKernelVms;
         public PoolKernelViewModels PoolKernelVms {

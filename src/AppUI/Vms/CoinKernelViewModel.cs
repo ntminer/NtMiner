@@ -116,11 +116,11 @@ namespace NTMiner.Vms {
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdateCoinKernelCommand(this));
                     CoinViewModel coinVm;
-                    if (CoinViewModels.Current.TryGetCoinVm(this.CoinId, out coinVm)) {
+                    if (AppContext.Current.CoinVms.TryGetCoinVm(this.CoinId, out coinVm)) {
                         coinVm.OnPropertyChanged(nameof(coinVm.CoinKernels));
                     }
                     this.Kernel.OnPropertyChanged(nameof(this.Kernel.CoinKernels));
-                    CoinViewModels.Current.OnPropertyChanged(nameof(CoinViewModels.MainCoins));
+                    AppContext.Current.CoinVms.OnPropertyChanged(nameof(CoinViewModels.MainCoins));
                 }
             });
             this.SortDown = new DelegateCommand(() => {
@@ -132,11 +132,11 @@ namespace NTMiner.Vms {
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdateCoinKernelCommand(this));
                     CoinViewModel coinVm;
-                    if (CoinViewModels.Current.TryGetCoinVm(this.CoinId, out coinVm)) {
+                    if (AppContext.Current.CoinVms.TryGetCoinVm(this.CoinId, out coinVm)) {
                         coinVm.OnPropertyChanged(nameof(coinVm.CoinKernels));
                     }
                     this.Kernel.OnPropertyChanged(nameof(this.Kernel.CoinKernels));
-                    CoinViewModels.Current.OnPropertyChanged(nameof(CoinViewModels.MainCoins));
+                    AppContext.Current.CoinVms.OnPropertyChanged(nameof(CoinViewModels.MainCoins));
                 }
             });
         }
@@ -173,7 +173,7 @@ namespace NTMiner.Vms {
         public CoinViewModel CoinVm {
             get {
                 if (_coinVm == null || this.CoinId != _coinVm.Id) {
-                    CoinViewModels.Current.TryGetCoinVm(this.CoinId, out _coinVm);
+                    AppContext.Current.CoinVms.TryGetCoinVm(this.CoinId, out _coinVm);
                     if (_coinVm == null) {
                         _coinVm = CoinViewModel.Empty;
                     }

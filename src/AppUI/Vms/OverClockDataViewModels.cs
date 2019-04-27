@@ -25,7 +25,7 @@ namespace NTMiner.Vms {
                         _dicById.Add(message.Source.GetId(), new OverClockDataViewModel(message.Source));
                         OnPropertyChanged(nameof(List));
                         CoinViewModel coinVm;
-                        if (CoinViewModels.Current.TryGetCoinVm(message.Source.CoinId, out coinVm)) {
+                        if (AppContext.Current.CoinVms.TryGetCoinVm(message.Source.CoinId, out coinVm)) {
                             coinVm.OnPropertyChanged(nameof(coinVm.OverClockDatas));
                         }
                     }
@@ -39,7 +39,7 @@ namespace NTMiner.Vms {
                     _dicById.Remove(message.Source.GetId());
                     OnPropertyChanged(nameof(List));
                     CoinViewModel coinVm;
-                    if (CoinViewModels.Current.TryGetCoinVm(message.Source.CoinId, out coinVm)) {
+                    if (AppContext.Current.CoinVms.TryGetCoinVm(message.Source.CoinId, out coinVm)) {
                         coinVm.OnPropertyChanged(nameof(coinVm.OverClockDatas));
                     }
                 });
@@ -52,7 +52,7 @@ namespace NTMiner.Vms {
             }
             if (refresh) {
                 OnPropertyChanged(nameof(List));
-                foreach (var coinVm in CoinViewModels.Current.AllCoins) {
+                foreach (var coinVm in AppContext.Current.CoinVms.AllCoins) {
                     coinVm.OnPropertyChanged(nameof(coinVm.OverClockDatas));
                 }
             }

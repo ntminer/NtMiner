@@ -13,7 +13,7 @@ namespace NTMiner.Vms {
                     _dicById.Add(message.Source.GetId(), new WalletViewModel(message.Source));
                     OnPropertyChanged(nameof(WalletList));
                     CoinViewModel coin;
-                    if (CoinViewModels.Current.TryGetCoinVm(message.Source.CoinId, out coin)) {
+                    if (AppContext.Current.CoinVms.TryGetCoinVm(message.Source.CoinId, out coin)) {
                         coin.OnPropertyChanged(nameof(CoinViewModel.Wallets));
                         coin.OnPropertyChanged(nameof(CoinViewModel.WalletItems));
                         coin.CoinKernel?.CoinKernelProfile?.SelectedDualCoin?.OnPropertyChanged(nameof(CoinViewModel.Wallets));
@@ -24,7 +24,7 @@ namespace NTMiner.Vms {
                     _dicById.Remove(message.Source.GetId());
                     OnPropertyChanged(nameof(WalletList));
                     CoinViewModel coin;
-                    if (CoinViewModels.Current.TryGetCoinVm(message.Source.CoinId, out coin)) {
+                    if (AppContext.Current.CoinVms.TryGetCoinVm(message.Source.CoinId, out coin)) {
                         coin.OnPropertyChanged(nameof(CoinViewModel.Wallets));
                         coin.OnPropertyChanged(nameof(CoinViewModel.WalletItems));
                         coin.CoinProfile?.OnPropertyChanged(nameof(CoinProfileViewModel.SelectedWallet));

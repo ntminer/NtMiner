@@ -7,11 +7,9 @@ using System.Windows.Media.Imaging;
 
 namespace NTMiner.Vms {
     public class CoinViewModels : ViewModelBase {
-        public static readonly CoinViewModels Current = new CoinViewModels();
-
         private readonly Dictionary<Guid, CoinViewModel> _dicById = new Dictionary<Guid, CoinViewModel>();
 
-        private CoinViewModels() {
+        public CoinViewModels() {
             if (Design.IsInDesignMode) {
                 return;
             }

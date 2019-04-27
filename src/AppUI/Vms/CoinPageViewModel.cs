@@ -27,7 +27,7 @@ namespace NTMiner.Vms {
                 this.CoinKeyword = string.Empty;
             });
             CoinViewModel coinVm;
-            if (CoinViewModels.Current.TryGetCoinVm(MinerProfile.CoinId, out coinVm)) {
+            if (AppContext.Current.CoinVms.TryGetCoinVm(MinerProfile.CoinId, out coinVm)) {
                 _currentCoin = coinVm;
             }
         }
@@ -67,13 +67,13 @@ namespace NTMiner.Vms {
                 List<CoinViewModel> list;
                 if (!string.IsNullOrEmpty(CoinKeyword)) {
                     string keyword = this.CoinKeyword.ToLower();
-                    list = CoinViewModels.Current.AllCoins.
+                    list = AppContext.Current.CoinVms.AllCoins.
                         Where(a => (!string.IsNullOrEmpty(a.Code) && a.Code.ToLower().Contains(keyword))
                             || (!string.IsNullOrEmpty(a.Algo) && a.Algo.ToLower().Contains(keyword))
                             || (!string.IsNullOrEmpty(a.EnName) && a.EnName.ToLower().Contains(keyword))).OrderBy(a => a.SortNumber).ToList();
                 }
                 else {
-                    list = CoinViewModels.Current.AllCoins.OrderBy(a => a.SortNumber).ToList();
+                    list = AppContext.Current.CoinVms.AllCoins.OrderBy(a => a.SortNumber).ToList();
                 }
                 if (list.Count == 1) {
                     CurrentCoin = list.FirstOrDefault();

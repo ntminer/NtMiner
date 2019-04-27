@@ -13,7 +13,7 @@ namespace NTMiner.Vms {
 
         public CoinViewModels CoinVms {
             get {
-                return CoinViewModels.Current;
+                return AppContext.Current.CoinVms;
             }
         }
 

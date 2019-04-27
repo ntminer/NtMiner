@@ -24,7 +24,7 @@ namespace NTMiner.Vms {
                     _dicById.Add(message.Source.GetId(), new PoolViewModel(message.Source));
                     OnPropertyChanged(nameof(AllPools));
                     CoinViewModel coinVm;
-                    if (CoinViewModels.Current.TryGetCoinVm(message.Source.CoinId, out coinVm)) {
+                    if (AppContext.Current.CoinVms.TryGetCoinVm(message.Source.CoinId, out coinVm)) {
                         coinVm.CoinProfile.OnPropertyChanged(nameof(CoinProfileViewModel.MainCoinPool));
                         coinVm.CoinProfile.OnPropertyChanged(nameof(CoinProfileViewModel.DualCoinPool));
                         coinVm.OnPropertyChanged(nameof(CoinViewModel.Pools));
@@ -36,7 +36,7 @@ namespace NTMiner.Vms {
                     _dicById.Remove(message.Source.GetId());
                     OnPropertyChanged(nameof(AllPools));
                     CoinViewModel coinVm;
-                    if (CoinViewModels.Current.TryGetCoinVm(message.Source.CoinId, out coinVm)) {
+                    if (AppContext.Current.CoinVms.TryGetCoinVm(message.Source.CoinId, out coinVm)) {
                         coinVm.CoinProfile.OnPropertyChanged(nameof(CoinProfileViewModel.MainCoinPool));
                         coinVm.CoinProfile.OnPropertyChanged(nameof(CoinProfileViewModel.DualCoinPool));
                         coinVm.OnPropertyChanged(nameof(CoinViewModel.Pools));
