@@ -60,25 +60,25 @@ namespace NTMiner.Vms {
                 }, icon: IconConst.IconConfirm);
             });
             this.SortUp = new DelegateCommand(() => {
-                GroupViewModel upOne = GroupViewModels.Current.List.OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.SortNumber < this.SortNumber);
+                GroupViewModel upOne = AppContext.Current.GroupVms.List.OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.SortNumber < this.SortNumber);
                 if (upOne != null) {
                     int sortNumber = upOne.SortNumber;
                     upOne.SortNumber = this.SortNumber;
                     VirtualRoot.Execute(new UpdateGroupCommand(upOne));
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdateGroupCommand(this));
-                    GroupViewModels.Current.OnPropertyChanged(nameof(GroupViewModels.List));
+                    AppContext.Current.GroupVms.OnPropertyChanged(nameof(GroupViewModels.List));
                 }
             });
             this.SortDown = new DelegateCommand(() => {
-                GroupViewModel nextOne = GroupViewModels.Current.List.OrderBy(a => a.SortNumber).FirstOrDefault(a => a.SortNumber > this.SortNumber);
+                GroupViewModel nextOne = AppContext.Current.GroupVms.List.OrderBy(a => a.SortNumber).FirstOrDefault(a => a.SortNumber > this.SortNumber);
                 if (nextOne != null) {
                     int sortNumber = nextOne.SortNumber;
                     nextOne.SortNumber = this.SortNumber;
                     VirtualRoot.Execute(new UpdateGroupCommand(nextOne));
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdateGroupCommand(this));
-                    GroupViewModels.Current.OnPropertyChanged(nameof(GroupViewModels.List));
+                    AppContext.Current.GroupVms.OnPropertyChanged(nameof(GroupViewModels.List));
                 }
             });
             this.AddCoinGroup = new DelegateCommand<CoinViewModel>((coinVm) => {

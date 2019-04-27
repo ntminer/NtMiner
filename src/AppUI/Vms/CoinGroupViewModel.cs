@@ -40,7 +40,7 @@ namespace NTMiner.Vms {
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdateCoinGroupCommand(this));
                     GroupViewModel groupVm;
-                    if (GroupViewModels.Current.TryGetGroupVm(this.GroupId, out groupVm)) {
+                    if (AppContext.Current.GroupVms.TryGetGroupVm(this.GroupId, out groupVm)) {
                         groupVm.OnPropertyChanged(nameof(groupVm.CoinGroupVms));
                     }
                 }
@@ -54,7 +54,7 @@ namespace NTMiner.Vms {
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdateCoinGroupCommand(this));
                     GroupViewModel groupVm;
-                    if (GroupViewModels.Current.TryGetGroupVm(this.GroupId, out groupVm)) {
+                    if (AppContext.Current.GroupVms.TryGetGroupVm(this.GroupId, out groupVm)) {
                         groupVm.OnPropertyChanged(nameof(groupVm.CoinGroupVms));
                     }
                 }

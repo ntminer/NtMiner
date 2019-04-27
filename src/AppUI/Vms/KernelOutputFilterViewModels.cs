@@ -4,12 +4,10 @@ using System.Collections.Generic;
 
 namespace NTMiner.Vms {
     public class KernelOutputFilterViewModels : ViewModelBase {
-        public static readonly KernelOutputFilterViewModels Current = new KernelOutputFilterViewModels();
-
         private readonly Dictionary<Guid, List<KernelOutputFilterViewModel>> _dicByKernelOutputId = new Dictionary<Guid, List<KernelOutputFilterViewModel>>();
         private readonly Dictionary<Guid, KernelOutputFilterViewModel> _dicById = new Dictionary<Guid, KernelOutputFilterViewModel>();
 
-        private KernelOutputFilterViewModels() {
+        public KernelOutputFilterViewModels() {
             NTMinerRoot.Current.OnContextReInited += () => {
                 _dicById.Clear();
                 _dicByKernelOutputId.Clear();

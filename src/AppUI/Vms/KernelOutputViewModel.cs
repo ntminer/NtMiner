@@ -123,7 +123,7 @@ namespace NTMiner.Vms {
 
         public List<KernelOutputFilterViewModel> KernelOutputFilters {
             get {
-                return KernelOutputFilterViewModels.Current.GetListByKernelId(this.Id).ToList();
+                return AppContext.Current.KernelOutputFilterVms.GetListByKernelId(this.Id).ToList();
             }
         }
 
@@ -140,7 +140,7 @@ namespace NTMiner.Vms {
 
         public List<KernelOutputTranslaterViewModel> KernelOutputTranslaters {
             get {
-                var query = KernelOutputTranslaterViewModels.Current.GetListByKernelId(this.Id).AsQueryable();
+                var query = AppContext.Current.KernelOutputTranslaterVms.GetListByKernelId(this.Id).AsQueryable();
                 if (!string.IsNullOrEmpty(TranslaterKeyword)) {
                     query = query.Where(a => (a.RegexPattern != null && a.RegexPattern.Contains(TranslaterKeyword))
                         || (a.Replacement != null && a.Replacement.Contains(TranslaterKeyword)));

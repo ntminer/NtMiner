@@ -18,7 +18,7 @@ namespace NTMiner.Vms {
 
         public KernelInputViewModels KernelInputVms {
             get {
-                return KernelInputViewModels.Current;
+                return AppContext.Current.KernelInputVms;
             }
         }
     }

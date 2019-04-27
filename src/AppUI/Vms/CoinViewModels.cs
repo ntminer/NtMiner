@@ -142,7 +142,7 @@ namespace NTMiner.Vms {
         private IEnumerable<CoinViewModel> GetDualPleaseSelect() {
             yield return CoinViewModel.PleaseSelect;
             yield return CoinViewModel.DualCoinEnabled;
-            foreach (var group in GroupViewModels.Current.List) {
+            foreach (var group in AppContext.Current.GroupVms.List) {
                 foreach (var item in group.DualCoinVms) {
                     yield return item;
                 }

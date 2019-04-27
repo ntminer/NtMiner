@@ -229,7 +229,7 @@ namespace NTMiner.Vms {
         public KernelInputViewModel KernelInputVm {
             get {
                 if (_kernelInputVm == null || _kernelInputVm.Id != this.KernelInputId) {
-                    KernelInputViewModels.Current.TryGetKernelInputVm(this.KernelInputId, out _kernelInputVm);
+                    AppContext.Current.KernelInputVms.TryGetKernelInputVm(this.KernelInputId, out _kernelInputVm);
                     if (_kernelInputVm == null) {
                         _kernelInputVm = KernelInputViewModel.PleaseSelect;
                     }
@@ -247,13 +247,13 @@ namespace NTMiner.Vms {
 
         public KernelInputViewModels KernelInputVms {
             get {
-                return KernelInputViewModels.Current;
+                return AppContext.Current.KernelInputVms;
             }
         }
 
         public GroupViewModels GroupVms {
             get {
-                return GroupViewModels.Current;
+                return AppContext.Current.GroupVms;
             }
         }
 

@@ -6,11 +6,9 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class GroupViewModels : ViewModelBase {
-        public static readonly GroupViewModels Current = new GroupViewModels();
-
         private readonly Dictionary<Guid, GroupViewModel> _dicById = new Dictionary<Guid, GroupViewModel>();
         public ICommand Add { get; private set; }
-        private GroupViewModels() {            
+        public GroupViewModels() {            
             this.Add = new DelegateCommand(() => {
                 new GroupViewModel(Guid.NewGuid()) {
                     SortNumber = Count + 1

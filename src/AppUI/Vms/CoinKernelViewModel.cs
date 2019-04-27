@@ -240,7 +240,7 @@ namespace NTMiner.Vms {
                     return GroupViewModel.PleaseSelect;
                 }
                 if (_selectedDualCoinGroup == null || _selectedDualCoinGroup.Id != this.DualCoinGroupId) {
-                    GroupViewModels.Current.TryGetGroupVm(DualCoinGroupId, out _selectedDualCoinGroup);
+                    AppContext.Current.GroupVms.TryGetGroupVm(DualCoinGroupId, out _selectedDualCoinGroup);
                     if (_selectedDualCoinGroup == null) {
                         _selectedDualCoinGroup = GroupViewModel.PleaseSelect;
                     }
@@ -271,7 +271,7 @@ namespace NTMiner.Vms {
 
         public GroupViewModels GroupVms {
             get {
-                return GroupViewModels.Current;
+                return AppContext.Current.GroupVms;
             }
         }
 

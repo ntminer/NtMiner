@@ -111,6 +111,34 @@ namespace NTMiner {
             }
         }
 
+        private GroupViewModels _groupVms;
+        public GroupViewModels GroupVms {
+            get {
+                return _groupVms ?? (_groupVms = new GroupViewModels());
+            }
+        }
+
+        private KernelInputViewModels _kernelInputVms;
+        public KernelInputViewModels KernelInputVms {
+            get {
+                return _kernelInputVms ?? (_kernelInputVms = new KernelInputViewModels());
+            }
+        }
+
+        private KernelOutputFilterViewModels _kernelOutputFilterVms;
+        public KernelOutputFilterViewModels KernelOutputFilterVms {
+            get {
+                return _kernelOutputFilterVms ?? (_kernelOutputFilterVms = new KernelOutputFilterViewModels());
+            }
+        }
+
+        private KernelOutputTranslaterViewModels _kernelOutputTranslaterVms;
+        public KernelOutputTranslaterViewModels KernelOutputTranslaterVms {
+            get {
+                return _kernelOutputTranslaterVms ?? (_kernelOutputTranslaterVms = new KernelOutputTranslaterViewModels());
+            }
+        }
+
         #region Commands
         public string CurrentVersion {
             get {
