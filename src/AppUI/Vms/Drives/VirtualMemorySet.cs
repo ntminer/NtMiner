@@ -5,12 +5,10 @@ using System.Linq;
 
 namespace NTMiner.Vms {
     public class VirtualMemorySet : ViewModelBase, IEnumerable<VirtualMemory> {
-        public static readonly VirtualMemorySet Instance = new VirtualMemorySet();
-
         private readonly Dictionary<string, VirtualMemory> _dic = new Dictionary<string, VirtualMemory>(StringComparer.OrdinalIgnoreCase);
 
         private readonly Dictionary<string, VirtualMemory> _initialVms = new Dictionary<string, VirtualMemory>(StringComparer.OrdinalIgnoreCase);
-        private VirtualMemorySet() {
+        public VirtualMemorySet() {
             foreach (var item in GetPagingFiles()) {
                 _initialVms.Add(item.DriveName, item);
             }

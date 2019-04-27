@@ -79,5 +79,12 @@ namespace NTMiner {
                 return _driveSet ?? (_driveSet = new DriveSet());
             }
         }
+
+        private VirtualMemorySet _virtualMemorySet;
+        public VirtualMemorySet VirtualMemorySet {
+            get {
+                return _virtualMemorySet ?? (_virtualMemorySet = new VirtualMemorySet());
+            }
+        }
     }
 }
