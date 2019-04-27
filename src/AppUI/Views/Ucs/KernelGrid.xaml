@@ -7,7 +7,7 @@
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
-	    d:DataContext="{d:DesignData Source=Design/KernelPageViewModel.xaml}"
+		d:DataContext="{d:DesignData Source=Design/KernelPageViewModel.xaml}"
 		xmlns:vm="clr-namespace:NTMiner.Vms"
 		mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="800">
 	<Grid>
@@ -72,7 +72,7 @@
 							<StackPanel>
 								<WrapPanel>
 									<TextBlock Text="{Binding Code}" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"></TextBlock>
-									<WrapPanel Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
+									<WrapPanel Visibility="{Binding Data.IsDebugModeVisible,Source={StaticResource proxy}}">
 										<Path
 											Margin="4 0 0 0"
 											Visibility="{Binding Notice, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
@@ -123,7 +123,7 @@
 									<TextBlock Text="{Binding PublishOnText}"></TextBlock>
 								</WrapPanel>
 								<TextBlock Text="未发布" Visibility="{Binding IsPublished, Converter={StaticResource BoolToVisibilityInvertConverter}}"></TextBlock>
-								<TextBlock Text="{Binding Package}" Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"></TextBlock>
+								<TextBlock Text="{Binding Package}" Visibility="{Binding Data.IsDebugModeVisible,Source={StaticResource proxy}}"></TextBlock>
 							</StackPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
@@ -135,7 +135,7 @@
 				</DataGridTextColumn>
 				<DataGridTemplateColumn 
 					MinWidth="100" CanUserResize="True" CanUserReorder="False" 
-					Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+					Visibility="{Binding Data.IsDebugModeVisible,Source={StaticResource proxy}}"
 					CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
 						<TextBlock Text="输入" HorizontalAlignment="Center"></TextBlock>
@@ -149,7 +149,7 @@
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn 
 					MinWidth="100" CanUserResize="True" CanUserReorder="False" 
-					Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+					Visibility="{Binding Data.IsDebugModeVisible,Source={StaticResource proxy}}"
 					CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
 						<TextBlock Text="输出" HorizontalAlignment="Center"></TextBlock>
@@ -163,7 +163,7 @@
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn 
 					MinWidth="70" CanUserResize="True" CanUserReorder="False" 
-					Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+					Visibility="{Binding Data.IsDebugModeVisible,Source={StaticResource proxy}}"
 					CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
 						<TextBlock Text="支持双挖" HorizontalAlignment="Center"></TextBlock>
@@ -225,7 +225,7 @@
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn 
 					MinWidth="100" CanUserResize="True" IsReadOnly="True"
-					Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
+					Visibility="{Binding Data.IsDebugModeVisible,Source={StaticResource proxy}}">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel>

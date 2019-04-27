@@ -29,7 +29,7 @@
             <DataGrid.Columns>
                 <DataGridTemplateColumn 
                     MinWidth="100" CanUserResize="True" IsReadOnly="True"
-                    Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
+                    Visibility="{Binding Data.IsDebugModeVisible,Source={StaticResource proxy}}">
                     <DataGridTemplateColumn.Header>
                         <controls:KbButton  
                             Command="{Binding Data.SysDicVms.Add, Source={StaticResource proxy}}" 
@@ -119,7 +119,7 @@
                 </DataGridTextColumn>
                 <DataGridTextColumn 
                         CanUserResize="True" CanUserReorder="False" 
-                        Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+                        Visibility="{Binding Data.IsDebugModeVisible,Source={StaticResource proxy}}"
                         CanUserSort="False" IsReadOnly="True" Header="排序" Binding="{Binding SortNumber}">
                 </DataGridTextColumn>
             </DataGrid.Columns>
@@ -139,7 +139,7 @@
                     Width="Auto" CanUserResize="True" CanUserSort="False" IsReadOnly="True">
                     <DataGridTemplateColumn.Header>
                         <controls:KbButton 
-                            Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+                            Visibility="{Binding Data.IsDebugModeVisible,Source={StaticResource proxy}}"
                             Command="{Binding Data.AddSysDicItem, Source={StaticResource proxy}}" 
                             Background="Transparent" BorderThickness="0"
                             Margin="10 0"
@@ -157,7 +157,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel 
-                                Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+                                Visibility="{Binding Data.IsDebugModeVisible,Source={StaticResource proxy}}"
                                 HorizontalAlignment="Right" 
                                 Background="Transparent" 
                                 VerticalAlignment="Center" 
@@ -230,7 +230,7 @@
                 </DataGridTextColumn>
                 <DataGridTextColumn 
                     CanUserResize="True" CanUserReorder="False" 
-                    Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+                    Visibility="{Binding Data.IsDebugModeVisible,Source={StaticResource proxy}}"
                     CanUserSort="False" IsReadOnly="True" Header="排序" Binding="{Binding SortNumber}">
                 </DataGridTextColumn>
             </DataGrid.Columns>

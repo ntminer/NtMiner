@@ -155,7 +155,7 @@
 							</DataGridTemplateColumn>
 							<DataGridTemplateColumn 
 								CanUserResize="True" CanUserSort="False" IsReadOnly="True"
-								Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
+								Visibility="{Binding Data.IsDebugModeVisible,Source={StaticResource proxy}}">
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate>
 										<StackPanel HorizontalAlignment="Right" Background="Transparent" VerticalAlignment="Center" Orientation="Horizontal">

@@ -133,12 +133,12 @@
 				<WrapPanel Margin="0" HorizontalAlignment="Right" VerticalAlignment="Top">
 					<TextBlock 
 						VerticalAlignment="Center"
-						Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+						Visibility="{Binding IsDevModeVisible}"
 						ToolTip="ServerJsonVersion"
 						Text="{Binding ServerJsonVersion}" 
 						Foreground="{StaticResource ThemeForeground}"></TextBlock>
 					<CheckBox 
-						Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+						Visibility="{Binding IsDevModeVisible}"
 						Content="DevConsole"
 						VerticalAlignment="Center"
 						Cursor="Hand"
@@ -415,7 +415,7 @@
 									IsChecked="{Binding MinerProfile.IsShowCommandLine}" />
 								<controls:KbButton 
 									Margin="2 0 1 0"
-									Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+									Visibility="{Binding IsDebugModeVisible}"
 									ToolTip="自定义主题"
 									Background="Transparent" 
 									BorderThickness="0"

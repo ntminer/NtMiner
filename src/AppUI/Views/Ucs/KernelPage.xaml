@@ -148,7 +148,7 @@
 					</controls:KbButton>
 					<Button IsDefault="True" Command="{Binding Search}" Background="Transparent" BorderThickness="0"></Button>
 					<controls:KbButton  
-						Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+						Visibility="{Binding IsDebugModeVisible}"
 						Command="{Binding Add}" 
 						Background="Transparent" BorderThickness="0"
 						Margin="20 0 0 0"

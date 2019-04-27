@@ -99,13 +99,13 @@
 				VerticalContentAlignment="Center"
 				Height="30"
 				Width="436" Background="Transparent"
-				IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
+				IsReadOnly="{Binding IsNotDebugMode}"
 				Text="{Binding Args, Mode=TwoWay}">
 			</TextBox>
 		</WrapPanel>
 		<controls:KbButton
 			Command="{Binding Save}" 
-			Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+			Visibility="{Binding IsDebugModeVisible}"
 			Margin="0 10 0 0"
 			Padding="10 0"
 			HorizontalAlignment="Center"

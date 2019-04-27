@@ -43,7 +43,7 @@
 				<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="形参"></TextBlock>
 				<TextBox 
 					Width="450" Background="Transparent" Padding="0 4"
-					IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
+					IsReadOnly="{Binding IsNotDebugMode}"
 					AcceptsReturn="True" TextWrapping="Wrap" 
 					VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
 					Text="{Binding Args, Mode=TwoWay}" Height="60">
@@ -54,19 +54,19 @@
 				<TextBox 
 					Height="26"
 					Width="160"
-					IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
+					IsReadOnly="{Binding IsNotDebugMode}"
 					VerticalContentAlignment="Center" Text="{Binding DevicesArg}"></TextBox>
 				<TextBlock Style="{StaticResource LblTb}" Width="40" Text="基序"></TextBlock>
 				<TextBox 
 					Height="26"
 					Width="100"
-					IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
+					IsReadOnly="{Binding IsNotDebugMode}"
 					VerticalContentAlignment="Center" Text="{Binding DeviceBaseIndex,ValidatesOnExceptions=True}"></TextBox>
 				<TextBlock Style="{StaticResource LblTb}" Width="50" Text="分割符"></TextBlock>
 				<TextBox 
 					Height="26"
 					Width="100"
-					IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
+					IsReadOnly="{Binding IsNotDebugMode}"
 					VerticalContentAlignment="Center" Text="{Binding DevicesSeparator}"></TextBox>
 			</WrapPanel>
 
@@ -75,7 +75,7 @@
 				<controls:KbCheckBox 
 					VerticalContentAlignment="Center"
 					Height="26"
-					IsEnabled="{x:Static vm:AppStatic.IsDebugMode}"
+					IsEnabled="{Binding IsDebugMode}"
 					Content="支持双挖"
 					IconColor="{StaticResource IconFillColor}"
 					IsChecked="{Binding IsSupportDualMine}" />
@@ -86,7 +86,7 @@
 					<TextBox 
 						Height="26"
 						Width="120"
-						IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
+						IsReadOnly="{Binding IsNotDebugMode}"
 						VerticalContentAlignment="Center" Text="{Binding DualWeightArg}">
 					</TextBox>
 				</WrapPanel>
@@ -97,7 +97,7 @@
 					<TextBlock Style="{StaticResource LblTb}"></TextBlock>
 					<controls:KbCheckBox 
 						VerticalContentAlignment="Center"
-						IsEnabled="{x:Static vm:AppStatic.IsDebugMode}"
+						IsEnabled="{Binding IsDebugMode}"
 						Content="自动双挖权重"
 						IconColor="{StaticResource IconFillColor}"
 						IsChecked="{Binding IsAutoDualWeight}" />
@@ -105,14 +105,14 @@
 					<TextBox 
 						Height="26"
 						Width="50"
-						IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
+						IsReadOnly="{Binding IsNotDebugMode}"
 						VerticalContentAlignment="Center" Text="{Binding DualWeightMin}">
 					</TextBox>
 					<TextBlock Margin="8 0 0 0" Text="双挖权重上限" VerticalAlignment="Center"></TextBlock>
 					<TextBox 
 						Height="26"
 						Width="50"
-						IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
+						IsReadOnly="{Binding IsNotDebugMode}"
 						VerticalContentAlignment="Center" Text="{Binding DualWeightMax}">
 					</TextBox>
 				</WrapPanel>
@@ -121,7 +121,7 @@
 					<TextBlock Style="{StaticResource LblTb}" Text="双挖币组"></TextBlock>
 					<controls:KbComboBox 
 						BorderThickness="0"
-						IsEnabled="{x:Static vm:AppStatic.IsDebugMode}"
+						IsEnabled="{Binding IsDebugMode}"
 						Width="200" 
 						Height="26"
 						ItemsSource="{Binding GroupVms.SelectionOptions}"
@@ -156,7 +156,7 @@
 					<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="双挖全参"></TextBlock>
 					<TextBox 
 						Width="450" Background="Transparent"
-						IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
+						IsReadOnly="{Binding IsNotDebugMode}"
 						AcceptsReturn="True" TextWrapping="Wrap" 
 						VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
 						Text="{Binding DualFullArgs, Mode=TwoWay}" Height="80">
@@ -164,7 +164,7 @@
 				</WrapPanel>
 			</StackPanel>
 		</StackPanel>
-		<StackPanel Grid.Column="1" Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}" HorizontalAlignment="Left">
+		<StackPanel Grid.Column="1" Visibility="{Binding IsDebugModeVisible}" HorizontalAlignment="Left">
 			<TextBox 
 				Width="100" Margin="0 6 0 0" BorderThickness="0" IsReadOnly="True" 
 				AcceptsReturn="True" TextWrapping="Wrap">mainCoin、wallet、userName、password、host、port、pool、worker</TextBox>
@@ -179,7 +179,7 @@
 			Grid.Row="1"
 			VerticalAlignment="Bottom"
 			Command="{Binding Save}" 
-			Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+			Visibility="{Binding IsDebugModeVisible}"
 			Margin="0 10 0 0"
 			Padding="10 0"
 			HorizontalAlignment="Center"

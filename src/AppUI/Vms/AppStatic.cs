@@ -1,5 +1,4 @@
 ﻿using NTMiner.Core;
-using NTMiner.Core.Gpus;
 using NTMiner.MinerServer;
 using NTMiner.Views;
 using NTMiner.Views.Ucs;
@@ -298,35 +297,6 @@ namespace NTMiner.Vms {
         });
 
         public static ICommand ShowQQGroupQrCode { get; private set; } = new DelegateCommand(QQGroupQrCode.ShowWindow);
-
-        public static bool IsDebugMode {
-            get {
-                if (Design.IsInDesignMode) {
-                    return true;
-                }
-                return DevMode.IsDebugMode;
-            }
-        }
-
-        public static bool IsNotDebugMode => !IsDebugMode;
-
-        public static Visibility IsDebugModeVisible {
-            get {
-                if (IsDebugMode) {
-                    return Visibility.Visible;
-                }
-                return Visibility.Collapsed;
-            }
-        }
-
-        public static Visibility IsDevModeVisible {
-            get {
-                if (DevMode.IsDevMode) {
-                    return Visibility.Visible;
-                }
-                return Visibility.Collapsed;
-            }
-        }
 
         public static bool IsMinerClient {
             get => _sIsMinerClient;
