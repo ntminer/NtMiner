@@ -251,7 +251,7 @@ namespace NTMiner.Vms {
             }
         }
 
-        public GroupViewModels GroupVms {
+        public AppContext.GroupViewModels GroupVms {
             get {
                 return AppContext.Current.GroupVms;
             }

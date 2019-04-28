@@ -116,6 +116,7 @@
     <Compile Include="AppContext.partials.GpuProfileViewModels.cs" />
     <Compile Include="AppContext.partials.GpuSpeedViewModels.cs" />
     <Compile Include="AppContext.partials.GpuViewModels.cs" />
+    <Compile Include="AppContext.partials.GroupViewModels.cs" />
     <Compile Include="AppContext.partials.PoolKernelViewModels.cs" />
     <Compile Include="AppContext.partials.StartStopMineButtonViewModel.cs" />
     <Compile Include="AppContext.partials.VirtualMemorySetViewModel.cs" />
@@ -340,7 +341,6 @@
     <Compile Include="Vms\GpuSpeedDataViewModel.cs" />
     <Compile Include="Vms\GpuSpeedDataViewModels.cs" />
     <Compile Include="Vms\GroupViewModel.cs" />
-    <Compile Include="Vms\GroupViewModels.cs" />
     <Compile Include="Vms\InnerPropertyViewModel.cs" />
     <Compile Include="Vms\KernelInputViewModel.cs" />
     <Compile Include="Vms\KernelInputViewModels.cs" />

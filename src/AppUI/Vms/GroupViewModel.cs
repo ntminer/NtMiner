@@ -67,7 +67,7 @@ namespace NTMiner.Vms {
                     VirtualRoot.Execute(new UpdateGroupCommand(upOne));
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdateGroupCommand(this));
-                    AppContext.Current.GroupVms.OnPropertyChanged(nameof(GroupViewModels.List));
+                    AppContext.Current.GroupVms.OnPropertyChanged(nameof(AppContext.GroupViewModels.List));
                 }
             });
             this.SortDown = new DelegateCommand(() => {
@@ -78,7 +78,7 @@ namespace NTMiner.Vms {
                     VirtualRoot.Execute(new UpdateGroupCommand(nextOne));
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdateGroupCommand(this));
-                    AppContext.Current.GroupVms.OnPropertyChanged(nameof(GroupViewModels.List));
+                    AppContext.Current.GroupVms.OnPropertyChanged(nameof(AppContext.GroupViewModels.List));
                 }
             });
             this.AddCoinGroup = new DelegateCommand<CoinViewModel>((coinVm) => {
