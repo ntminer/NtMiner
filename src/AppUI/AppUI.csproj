@@ -117,6 +117,11 @@
     <Compile Include="AppContext.partials.GpuSpeedViewModels.cs" />
     <Compile Include="AppContext.partials.GpuViewModels.cs" />
     <Compile Include="AppContext.partials.GroupViewModels.cs" />
+    <Compile Include="AppContext.partials.KernelInputViewModels.cs" />
+    <Compile Include="AppContext.partials.KernelOutputFilterViewModels.cs" />
+    <Compile Include="AppContext.partials.KernelOutputTranslaterViewModels.cs" />
+    <Compile Include="AppContext.partials.KernelOutputViewModels.cs" />
+    <Compile Include="AppContext.partials.KernelViewModels.cs" />
     <Compile Include="AppContext.partials.PoolKernelViewModels.cs" />
     <Compile Include="AppContext.partials.StartStopMineButtonViewModel.cs" />
     <Compile Include="AppContext.partials.VirtualMemorySetViewModel.cs" />
@@ -343,11 +348,9 @@
     <Compile Include="Vms\GroupViewModel.cs" />
     <Compile Include="Vms\InnerPropertyViewModel.cs" />
     <Compile Include="Vms\KernelInputViewModel.cs" />
-    <Compile Include="Vms\KernelInputViewModels.cs" />
     <Compile Include="Vms\KernelInputPageViewModel.cs" />
     <Compile Include="Vms\KernelOutputPageViewModel.cs" />
     <Compile Include="Vms\KernelOutputViewModel.cs" />
-    <Compile Include="Vms\KernelOutputViewModels.cs" />
     <Compile Include="Vms\LogColorViewModel.cs" />
     <Compile Include="Vms\MessageCenterViewModel.cs" />
     <Compile Include="Vms\MinerClientAddViewModel.cs" />
@@ -358,11 +361,8 @@
     <Compile Include="Vms\KernelHelpPageViewModel.cs" />
     <Compile Include="Vms\KernelMenu.cs" />
     <Compile Include="Vms\KernelOutputFilterViewModel.cs" />
-    <Compile Include="Vms\KernelOutputFilterViewModels.cs" />
     <Compile Include="Vms\KernelOutputTranslaterViewModel.cs" />
-    <Compile Include="Vms\KernelOutputTranslaterViewModels.cs" />
     <Compile Include="Vms\KernelProfileViewModel.cs" />
-    <Compile Include="Vms\KernelViewModels.cs" />
     <Compile Include="Vms\MeasureModel.cs" />
     <Compile Include="Vms\MinerClientViewModel.cs" />
     <Compile Include="Vms\ChartViewModel.cs" />

@@ -219,7 +219,7 @@ namespace NTMiner.Vms {
             }
         }
 
-        public KernelOutputViewModels KernelOutputVms {
+        public AppContext.KernelOutputViewModels KernelOutputVms {
             get {
                 return AppContext.Current.KernelOutputVms;
             }
@@ -245,7 +245,7 @@ namespace NTMiner.Vms {
             }
         }
 
-        public KernelInputViewModels KernelInputVms {
+        public AppContext.KernelInputViewModels KernelInputVms {
             get {
                 return AppContext.Current.KernelInputVms;
             }

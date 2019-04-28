@@ -79,7 +79,7 @@ namespace NTMiner.Vms {
                     VirtualRoot.Execute(new UpdateKernelOutputTranslaterCommand(upOne));
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdateKernelOutputTranslaterCommand(this));
-                    AppContext.Current.KernelOutputTranslaterVms.OnPropertyChanged(nameof(KernelOutputTranslaterViewModels.AllKernelOutputTranslaterVms));
+                    AppContext.Current.KernelOutputTranslaterVms.OnPropertyChanged(nameof(AppContext.KernelOutputTranslaterViewModels.AllKernelOutputTranslaterVms));
                     if (AppContext.Current.KernelOutputVms.TryGetKernelOutputVm(this.KernelOutputId, out KernelOutputViewModel kernelOutputVm)) {
                         kernelOutputVm.OnPropertyChanged(nameof(kernelOutputVm.KernelOutputTranslaters));
                     }
@@ -93,7 +93,7 @@ namespace NTMiner.Vms {
                     VirtualRoot.Execute(new UpdateKernelOutputTranslaterCommand(nextOne));
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdateKernelOutputTranslaterCommand(this));
-                    AppContext.Current.KernelOutputTranslaterVms.OnPropertyChanged(nameof(KernelOutputTranslaterViewModels.AllKernelOutputTranslaterVms));
+                    AppContext.Current.KernelOutputTranslaterVms.OnPropertyChanged(nameof(AppContext.KernelOutputTranslaterViewModels.AllKernelOutputTranslaterVms));
                     if (AppContext.Current.KernelOutputVms.TryGetKernelOutputVm(this.KernelOutputId, out KernelOutputViewModel kernelOutputVm)) {
                         kernelOutputVm.OnPropertyChanged(nameof(kernelOutputVm.KernelOutputTranslaters));
                     }
