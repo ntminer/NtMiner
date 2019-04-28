@@ -6,7 +6,6 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 
@@ -90,10 +89,10 @@ namespace NTMiner {
             }
         }
 
-        private VirtualMemorySet _virtualMemorySet;
-        public VirtualMemorySet VirtualMemorySet {
+        private VirtualMemorySetViewModel _virtualMemorySet;
+        public VirtualMemorySetViewModel VirtualMemorySet {
             get {
-                return _virtualMemorySet ?? (_virtualMemorySet = new VirtualMemorySet());
+                return _virtualMemorySet ?? (_virtualMemorySet = new VirtualMemorySetViewModel());
             }
         }
 

@@ -32,7 +32,7 @@ namespace NTMiner {
                 }
             }
 
-            public VirtualMemorySet VirtualMemorySet {
+            public VirtualMemorySetViewModel VirtualMemorySet {
                 get {
                     return Current.VirtualMemorySet;
                 }

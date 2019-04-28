@@ -116,6 +116,7 @@
     <Compile Include="AppContext.partials.GpuSpeedViewModels.cs" />
     <Compile Include="AppContext.partials.PoolKernelViewModels.cs" />
     <Compile Include="AppContext.partials.StartStopMineButtonViewModel.cs" />
+    <Compile Include="AppContext.partials.VirtualMemorySetViewModel.cs" />
     <Compile Include="AppHelper.cs" />
     <Compile Include="IMainWindow.cs" />
     <Compile Include="KernelDownloader.cs" />
@@ -331,7 +332,6 @@
     <Compile Include="Vms\ColumnsShowViewModel.cs" />
     <Compile Include="Vms\ConsoleViewModel.cs" />
     <Compile Include="Vms\ContainerWindowViewModel.cs" />
-    <Compile Include="Vms\Drives\VirtualMemorySet.cs" />
     <Compile Include="Vms\EnvironmentVariableEditViewModel.cs" />
     <Compile Include="Vms\GpuProfilesPageViewModel.cs" />
     <Compile Include="Vms\GpuProfileViewModel.cs" />
