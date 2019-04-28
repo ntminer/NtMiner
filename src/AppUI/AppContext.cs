@@ -19,6 +19,7 @@ namespace NTMiner {
         private AppContext() {
         }
 
+        #region context
         private CoinViewModels _coinVms;
         public CoinViewModels CoinVms {
             get {
@@ -228,6 +229,7 @@ namespace NTMiner {
                 return _gpuStatusBarVms ?? (_gpuStatusBarVms = new GpuStatusBarViewModel());
             }
         }
+        #endregion
 
         #region Commands
         public string CurrentVersion {

@@ -376,7 +376,7 @@ namespace NTMiner.Vms {
             }
         }
 
-        public SysDicItemViewModels SysDicItemVms {
+        public AppContext.SysDicItemViewModels SysDicItemVms {
             get {
                 return AppContext.Current.SysDicItemVms;
             }

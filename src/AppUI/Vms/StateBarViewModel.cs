@@ -100,7 +100,7 @@ namespace NTMiner.Vms {
             }
         }
 
-        public GpuStatusBarViewModel GpuStatusBarVm {
+        public AppContext.GpuStatusBarViewModel GpuStatusBarVm {
             get {
                 return AppContext.Current.GpuStatusBarVms;
             }

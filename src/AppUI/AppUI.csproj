@@ -115,6 +115,7 @@
     <Compile Include="AppContext.partials.DriveSetViewModel.cs" />
     <Compile Include="AppContext.partials.GpuProfileViewModels.cs" />
     <Compile Include="AppContext.partials.GpuSpeedViewModels.cs" />
+    <Compile Include="AppContext.partials.GpuStatusBarViewModel.cs" />
     <Compile Include="AppContext.partials.GpuViewModels.cs" />
     <Compile Include="AppContext.partials.GroupViewModels.cs" />
     <Compile Include="AppContext.partials.KernelInputViewModels.cs" />
@@ -130,6 +131,8 @@
     <Compile Include="AppContext.partials.PoolViewModels.cs" />
     <Compile Include="AppContext.partials.ShareViewModels.cs" />
     <Compile Include="AppContext.partials.StartStopMineButtonViewModel.cs" />
+    <Compile Include="AppContext.partials.SysDicItemViewModels.cs" />
+    <Compile Include="AppContext.partials.SysDicViewModels.cs" />
     <Compile Include="AppContext.partials.UserViewModels.cs" />
     <Compile Include="AppContext.partials.VirtualMemorySetViewModel.cs" />
     <Compile Include="AppContext.partials.WalletViewModels.cs" />
@@ -365,7 +368,6 @@
     <Compile Include="Vms\MinerClientsWindowViewModel.cs" />
     <Compile Include="Vms\KernelSelectViewModel.cs" />
     <Compile Include="Vms\FileDownloaderViewModel.cs" />
-    <Compile Include="Vms\GpuStatusBarViewModel.cs" />
     <Compile Include="Vms\KernelHelpPageViewModel.cs" />
     <Compile Include="Vms\KernelMenu.cs" />
     <Compile Include="Vms\KernelOutputFilterViewModel.cs" />
@@ -392,9 +394,7 @@
     <Compile Include="Vms\SpeedChartViewModels.cs" />
     <Compile Include="Vms\SpeedUnitViewModel.cs" />
     <Compile Include="Vms\StateBarViewModel.cs" />
-    <Compile Include="Vms\SysDicItemViewModels.cs" />
     <Compile Include="Vms\GroupPageViewModel.cs" />
-    <Compile Include="Vms\SysDicViewModels.cs" />
     <Compile Include="Vms\Drives\VirtualMemory.cs" />
     <Compile Include="Views\Ucs\KernelPage.xaml.cs">
       <DependentUpon>KernelPage.xaml</DependentUpon>

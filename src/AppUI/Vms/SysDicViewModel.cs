@@ -69,7 +69,7 @@ namespace NTMiner.Vms {
                     VirtualRoot.Execute(new UpdateSysDicCommand(upOne));
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdateSysDicCommand(this));
-                    AppContext.Current.SysDicVms.OnPropertyChanged(nameof(SysDicViewModels.List));
+                    AppContext.Current.SysDicVms.OnPropertyChanged(nameof(AppContext.SysDicViewModels.List));
                 }
             });
             this.SortDown = new DelegateCommand(() => {
@@ -80,7 +80,7 @@ namespace NTMiner.Vms {
                     VirtualRoot.Execute(new UpdateSysDicCommand(nextOne));
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdateSysDicCommand(this));
-                    AppContext.Current.SysDicVms.OnPropertyChanged(nameof(SysDicViewModels.List));
+                    AppContext.Current.SysDicVms.OnPropertyChanged(nameof(AppContext.SysDicViewModels.List));
                 }
             });
         }
