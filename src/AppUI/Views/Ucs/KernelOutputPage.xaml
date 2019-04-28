@@ -10,8 +10,10 @@
 			 mc:Ignorable="d"
 			 Background="White"
 			 TextOptions.TextFormattingMode="Display" 
-			 DataContext="{x:Static vm:KernelOutputPageViewModel.Current}"
 			 d:DesignHeight="720" d:DesignWidth="1360">
+	<UserControl.DataContext>
+		<vm:KernelOutputPageViewModel></vm:KernelOutputPageViewModel>
+	</UserControl.DataContext>
 	<Grid Margin="0 2 0 0">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="Auto"></ColumnDefinition>
