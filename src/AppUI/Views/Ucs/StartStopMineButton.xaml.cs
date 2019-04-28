@@ -23,7 +23,7 @@ namespace NTMiner.Views.Ucs {
         public static readonly DependencyProperty StartButtonForegroundProperty =
             DependencyProperty.Register("StartButtonForeground", typeof(SolidColorBrush), typeof(StartStopMineButton), new PropertyMetadata(new SolidColorBrush(Colors.Transparent)));
 
-        private StartStopMineButtonViewModel Vm {
+        private AppContext.StartStopMineButtonViewModel Vm {
             get {
                 return AppContext.Current.StartStopMineButtonVm;
             }
