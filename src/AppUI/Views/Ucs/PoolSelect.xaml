@@ -45,7 +45,7 @@
 				Padding="4 0"
 				Click="KbButtonManagePools_Click"
 				Background="{StaticResource ThemeBackground}"
-				Command="{x:Static vm:AppStatic.ManagePools}"
+				Command="{Binding AppContext.ManagePools}"
 				CommandParameter="{Binding Coin}"
 				CornerRadius="2">
 				<WrapPanel>

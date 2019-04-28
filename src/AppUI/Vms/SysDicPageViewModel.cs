@@ -20,9 +20,9 @@ namespace NTMiner.Vms {
             }
         }
 
-        public SysDicViewModels SysDicVms {
+        public AppContext.SysDicViewModels SysDicVms {
             get {
-                return SysDicViewModels.Current;
+                return AppContext.Current.SysDicVms;
             }
         }
     }

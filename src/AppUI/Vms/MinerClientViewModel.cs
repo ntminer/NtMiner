@@ -63,7 +63,7 @@ namespace NTMiner.Vms {
                             Write.UserFail(response.ReadMessage(e));
                         }
                         else {
-                            MinerClientsWindowViewModel.Current.QueryMinerClients();
+                            AppContext.Current.MinerClientsWindowVms.QueryMinerClients();
                         }
                     });
                 }, icon: IconConst.IconConfirm);
@@ -83,11 +83,11 @@ namespace NTMiner.Vms {
             });
             this.RemoteDesktop = new DelegateCommand(() => {
                 if (string.IsNullOrEmpty(this.WindowsLoginName) || string.IsNullOrEmpty(this.WindowsPassword)) {
-                    NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage("没有填写远程桌面用户名密码", 4);
+                    NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage("没有填写远程桌面用户名密码", 4);
                     return;
                 }
                 AppHelper.RemoteDesktop?.Invoke(new RemoteDesktopInput(this.MinerIp, this.WindowsLoginName, this.WindowsPassword, this.MinerName, message => {
-                    NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage(message, 4);
+                    NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage(message, 4);
                 }));
             });
             this.RestartWindows = new DelegateCommand(() => {
@@ -140,12 +140,12 @@ namespace NTMiner.Vms {
         }
         #endregion
 
-        public MineWorkViewModels MineWorkVms {
-            get { return MineWorkViewModels.Current; }
+        public AppContext.MineWorkViewModels MineWorkVms {
+            get { return AppContext.Current.MineWorkVms; }
         }
 
-        public MinerGroupViewModels MinerGroupVms {
-            get { return MinerGroupViewModels.Current; }
+        public AppContext.MinerGroupViewModels MinerGroupVms {
+            get { return AppContext.Current.MinerGroupVms; }
         }
 
         #region IClientData
@@ -207,7 +207,7 @@ namespace NTMiner.Vms {
                     return MineWorkViewModel.PleaseSelect;
                 }
                 if (_selectedMineWork == null || _selectedMineWork.Id != WorkId) {
-                    if (MineWorkViewModels.Current.TryGetMineWorkVm(WorkId, out _selectedMineWork)) {
+                    if (AppContext.Current.MineWorkVms.TryGetMineWorkVm(WorkId, out _selectedMineWork)) {
                         return _selectedMineWork;
                     }
                 }
@@ -401,7 +401,7 @@ namespace NTMiner.Vms {
         public MinerGroupViewModel SelectedMinerGroup {
             get {
                 if (_selectedMinerGroup == null || _selectedMinerGroup.Id != GroupId) {
-                    MinerGroupViewModels.Current.TryGetMineWorkVm(GroupId, out _selectedMinerGroup);
+                    AppContext.Current.MinerGroupVms.TryGetMineWorkVm(GroupId, out _selectedMinerGroup);
                     if (_selectedMinerGroup == null) {
                         _selectedMinerGroup = MinerGroupViewModel.PleaseSelect;
                     }
@@ -523,7 +523,7 @@ namespace NTMiner.Vms {
         }
 
         private void RefreshMainCoinIncome() {
-            IncomePerDay incomePerDay = NTMinerRoot.Current.CalcConfigSet.GetIncomePerHashPerDay(this.MainCoinCode);
+            IncomePerDay incomePerDay = NTMinerRoot.Instance.CalcConfigSet.GetIncomePerHashPerDay(this.MainCoinCode);
             IncomeMainCoinPerDay = MainCoinSpeed * incomePerDay.IncomeCoin;
             IncomeMainCoinUsdPerDay = MainCoinSpeed * incomePerDay.IncomeUsd;
             IncomeMainCoinCnyPerDay = MainCoinSpeed * incomePerDay.IncomeCny;
@@ -724,7 +724,7 @@ namespace NTMiner.Vms {
         }
 
         private void RefreshDualCoinIncome() {
-            IncomePerDay incomePerDay = NTMinerRoot.Current.CalcConfigSet.GetIncomePerHashPerDay(this.DualCoinCode);
+            IncomePerDay incomePerDay = NTMinerRoot.Instance.CalcConfigSet.GetIncomePerHashPerDay(this.DualCoinCode);
             IncomeDualCoinPerDay = DualCoinSpeed * incomePerDay.IncomeCoin;
             IncomeDualCoinUsdPerDay = DualCoinSpeed * incomePerDay.IncomeUsd;
             IncomeDualCoinCnyPerDay = DualCoinSpeed * incomePerDay.IncomeCny;

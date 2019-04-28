@@ -21,13 +21,13 @@ namespace NTMiner.Views.Ucs {
                 WriteLine(this.FlowDocumentScrollViewer, this.ConsoleParagraph, text, foreground);
                 if (isNotice) {
                     if (foreground == ConsoleColor.Red) {
-                        NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage(text, 4);
+                        NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage(text, 4);
                     }
                     else if (foreground == ConsoleColor.Green) {
-                        NotiCenterWindowViewModel.Current.Manager.ShowSuccessMessage(text);
+                        NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage(text);
                     }
                     else {
-                        NotiCenterWindowViewModel.Current.Manager.ShowInfo(text);
+                        NotiCenterWindowViewModel.Instance.Manager.ShowInfo(text);
                     }
                 }
             };

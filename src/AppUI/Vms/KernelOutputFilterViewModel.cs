@@ -28,7 +28,7 @@ namespace NTMiner.Vms {
         public KernelOutputFilterViewModel(Guid id) {
             _id = id;
             this.Save = new DelegateCommand(() => {
-                if (NTMinerRoot.Current.KernelOutputFilterSet.Contains(this.Id)) {
+                if (NTMinerRoot.Instance.KernelOutputFilterSet.Contains(this.Id)) {
                     VirtualRoot.Execute(new UpdateKernelOutputFilterCommand(this));
                 }
                 else {

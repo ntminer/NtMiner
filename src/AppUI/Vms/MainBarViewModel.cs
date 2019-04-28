@@ -1,8 +1,12 @@
 ﻿namespace NTMiner.Vms {
     public class MainBarViewModel : ViewModelBase {
-        public static readonly MainBarViewModel Current = new MainBarViewModel();
+        public MainBarViewModel() { }
 
-        private MainBarViewModel() { }
+        public AppContext AppContext {
+            get {
+                return AppContext.Current;
+            }
+        }
 
         public bool IsAutoCloseServices {
             get => NTMinerRegistry.GetIsAutoCloseServices();

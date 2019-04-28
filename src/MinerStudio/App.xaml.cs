@@ -1,4 +1,5 @@
 ﻿using NTMiner.Views;
+using NTMiner.Vms;
 using System;
 using System.Diagnostics;
 using System.Threading;
@@ -23,7 +24,7 @@ namespace NTMiner {
 
         protected override void OnExit(ExitEventArgs e) {
             AppHelper.NotifyIcon?.Dispose();
-            NTMinerRoot.Current.Exit();
+            NTMinerRoot.Instance.Exit();
             HttpServer.Stop();
             if (NTMinerRegistry.GetIsAutoCloseServices()) {
                 Server.ControlCenterService.CloseServices();
@@ -42,7 +43,7 @@ namespace NTMiner {
             }
 
             if (createdNew) {
-                Vms.AppStatic.IsMinerClient = false;
+                AppStatic.SetIsMinerClient(false);
                 SplashWindow splashWindow = new SplashWindow();
                 splashWindow.Show();
                 NotiCenterWindow.Instance.Show();
@@ -51,7 +52,7 @@ namespace NTMiner {
                 if (isInnerIp) {
                     NTMinerServices.NTMinerServicesUtil.RunNTMinerServices();
                 }
-                NTMinerRoot.Current.Init(() => {
+                NTMinerRoot.Instance.Init(() => {
                     NTMinerRoot.KernelDownloader = new KernelDownloader();
                     UIThread.Execute(() => {
                         splashWindow?.Close();

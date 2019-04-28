@@ -22,6 +22,12 @@ namespace NTMiner.Vms {
             });
         }
 
+        public AppContext AppContext {
+            get {
+                return AppContext.Current;
+            }
+        }
+
         public string Keyword {
             get => _keyword;
             set {

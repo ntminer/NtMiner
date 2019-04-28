@@ -8,7 +8,7 @@
 		xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:vm="clr-namespace:NTMiner.Vms" Background="White"
-		DataContext="{x:Static vm:MinerProfileViewModel.Current}"
+		d:DataContext="{d:DesignData Source=Design/MinerProfileViewModel.xaml}"
 		mc:Ignorable="d" d:DesignHeight="450" d:DesignWidth="600">
 	<Grid>
 		<Grid.RowDefinitions>
@@ -70,7 +70,7 @@
 				FontWeight="Bold"
 				Text="群控"></TextBlock>
 		</Border>
-		<GroupBox Grid.Row="1" Header="系统设置" Visibility="{x:Static vm:AppStatic.IsMinerStudioCollapsed}">
+		<GroupBox x:Name="GroupSystemSetting" Grid.Row="1" Header="系统设置">
 			<StackPanel>
 				<WrapPanel Margin="0 2">
 					<controls:KbCheckBox 

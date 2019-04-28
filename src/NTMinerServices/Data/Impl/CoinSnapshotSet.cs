@@ -66,7 +66,7 @@ namespace NTMiner.Data.Impl {
                 int miningCount = 0;
                 Dictionary<string, CoinSnapshotData> dicByCoinCode = new Dictionary<string, CoinSnapshotData>();
                 foreach (var clientData in _root.ClientSet) {
-                    if (HostRoot.Current.HostConfig.IsPull) {
+                    if (HostRoot.Instance.HostConfig.IsPull) {
                         if (clientData.ModifiedOn.AddSeconds(15) < now) {
                             continue;
                         }
@@ -96,8 +96,8 @@ namespace NTMiner.Data.Impl {
                         miningCount++;
                         mainCoinSnapshotData.MainCoinMiningCount += 1;
                         mainCoinSnapshotData.Speed += clientData.MainCoinSpeed;
-                        mainCoinSnapshotData.ShareDelta += clientData.GetMainCoinShareDelta(HostRoot.Current.HostConfig.IsPull);
-                        mainCoinSnapshotData.RejectShareDelta += clientData.GetMainCoinRejectShareDelta(HostRoot.Current.HostConfig.IsPull);
+                        mainCoinSnapshotData.ShareDelta += clientData.GetMainCoinShareDelta(HostRoot.Instance.HostConfig.IsPull);
+                        mainCoinSnapshotData.RejectShareDelta += clientData.GetMainCoinRejectShareDelta(HostRoot.Instance.HostConfig.IsPull);
                     }
 
                     mainCoinSnapshotData.MainCoinOnlineCount += 1;
@@ -115,8 +115,8 @@ namespace NTMiner.Data.Impl {
                         if (clientData.IsMining) {
                             dualCoinSnapshotData.DualCoinMiningCount += 1;
                             dualCoinSnapshotData.Speed += clientData.DualCoinSpeed;
-                            dualCoinSnapshotData.ShareDelta += clientData.GetDualCoinShareDelta(HostRoot.Current.HostConfig.IsPull);
-                            dualCoinSnapshotData.RejectShareDelta += clientData.GetDualCoinRejectShareDelta(HostRoot.Current.HostConfig.IsPull);
+                            dualCoinSnapshotData.ShareDelta += clientData.GetDualCoinShareDelta(HostRoot.Instance.HostConfig.IsPull);
+                            dualCoinSnapshotData.RejectShareDelta += clientData.GetDualCoinRejectShareDelta(HostRoot.Instance.HostConfig.IsPull);
                         }
 
                         dualCoinSnapshotData.DualCoinOnlineCount += 1;

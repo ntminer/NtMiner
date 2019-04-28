@@ -10,6 +10,12 @@ namespace NTMiner.Vms {
         public ChartsWindowViewModel() {
         }
 
+        public AppContext AppContext {
+            get {
+                return AppContext.Current;
+            }
+        }
+
         public int TotalMiningCount {
             get => _totalMiningCount;
             set {
@@ -34,7 +40,7 @@ namespace NTMiner.Vms {
             get {
                 if (_chartVms == null) {
                     _chartVms = new List<ChartViewModel>();
-                    foreach (var coinVm in MinerClientsWindowViewModel.Current.MineCoinVms.AllCoins.OrderBy(a => a.SortNumber)) {
+                    foreach (var coinVm in AppContext.Current.MinerClientsWindowVms.MineCoinVms.AllCoins.OrderBy(a => a.SortNumber)) {
                         _chartVms.Add(new ChartViewModel(coinVm));
                     }
                 }

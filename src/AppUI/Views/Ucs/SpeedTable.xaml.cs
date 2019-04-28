@@ -4,14 +4,14 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class SpeedTable : UserControl {
-        private GpuSpeedViewModels Vm {
+        private AppContext.GpuSpeedViewModels Vm {
             get {
-                return MainWindowViewModel.Current.GpuSpeedVms;
+                return AppContext.Current.GpuSpeedVms;
             }
         }
 
         public SpeedTable() {
-            this.DataContext = MainWindowViewModel.Current.GpuSpeedVms;
+            this.DataContext = AppContext.Current.GpuSpeedVms;
             InitializeComponent();
         }
 

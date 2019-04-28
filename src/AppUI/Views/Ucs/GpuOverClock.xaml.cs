@@ -13,8 +13,9 @@ namespace NTMiner.Views.Ucs {
         }
 
         public GpuOverClock() {
+            this.DataContext = AppContext.Current.MinerProfileVms;
             InitializeComponent();
-            switch (NTMinerRoot.Current.GpuSet.GpuType) {
+            switch (NTMinerRoot.Instance.GpuSet.GpuType) {
                 case GpuType.NVIDIA:
                     this.TbRedText.Text = "超频有风险，操作需谨慎";
                     break;

@@ -12,7 +12,7 @@ namespace NTMiner.Vms {
 
         public MinerProfileViewModel MinerProfile {
             get {
-                return MinerProfileViewModel.Current;
+                return AppContext.Current.MinerProfileVms;
             }
         }
 
@@ -34,7 +34,7 @@ namespace NTMiner.Vms {
             get {
                 ConsoleColor color = ConsoleColor.White;
                 ISysDicItem dicItem;
-                if (NTMinerRoot.Current.SysDicItemSet.TryGetDicItem("LogColor", nameof(SpeedColor), out dicItem)) {
+                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("LogColor", nameof(SpeedColor), out dicItem)) {
                     if (!dicItem.Value.TryParse(out color)) {
                         color = ConsoleColor.White;
                     }
@@ -43,7 +43,7 @@ namespace NTMiner.Vms {
             }
             set {
                 ISysDicItem dicItem;
-                if (NTMinerRoot.Current.SysDicItemSet.TryGetDicItem("LogColor", nameof(SpeedColor), out dicItem)) {
+                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("LogColor", nameof(SpeedColor), out dicItem)) {
                     if (dicItem.Value != value.GetName()) {
                         VirtualRoot.Execute(new UpdateSysDicItemCommand(new SysDicItemViewModel(dicItem) { Value = value.GetName() }));
                         OnPropertyChanged(nameof(SpeedColor));
@@ -59,7 +59,7 @@ namespace NTMiner.Vms {
             get {
                 ConsoleColor color = ConsoleColor.White;
                 ISysDicItem dicItem;
-                if (NTMinerRoot.Current.SysDicItemSet.TryGetDicItem("LogColor", nameof(TFPColor), out dicItem)) {
+                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("LogColor", nameof(TFPColor), out dicItem)) {
                     if (!dicItem.Value.TryParse(out color)) {
                         color = ConsoleColor.White;
                     }
@@ -68,7 +68,7 @@ namespace NTMiner.Vms {
             }
             set {
                 ISysDicItem dicItem;
-                if (NTMinerRoot.Current.SysDicItemSet.TryGetDicItem("LogColor", nameof(TFPColor), out dicItem)) {
+                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("LogColor", nameof(TFPColor), out dicItem)) {
                     if (dicItem.Value != value.GetName()) {
                         VirtualRoot.Execute(new UpdateSysDicItemCommand(new SysDicItemViewModel(dicItem) { Value = value.GetName() }));
                         OnPropertyChanged(nameof(TFPColor));
@@ -81,7 +81,7 @@ namespace NTMiner.Vms {
             get {
                 ConsoleColor color = ConsoleColor.White;
                 ISysDicItem dicItem;
-                if (NTMinerRoot.Current.SysDicItemSet.TryGetDicItem("LogColor", nameof(SuccessColor), out dicItem)) {
+                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("LogColor", nameof(SuccessColor), out dicItem)) {
                     if (!dicItem.Value.TryParse(out color)) {
                         color = ConsoleColor.White;
                     }
@@ -90,7 +90,7 @@ namespace NTMiner.Vms {
             }
             set {
                 ISysDicItem dicItem;
-                if (NTMinerRoot.Current.SysDicItemSet.TryGetDicItem("LogColor", nameof(SuccessColor), out dicItem)) {
+                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("LogColor", nameof(SuccessColor), out dicItem)) {
                     if (dicItem.Value != value.GetName()) {
                         VirtualRoot.Execute(new UpdateSysDicItemCommand(new SysDicItemViewModel(dicItem) { Value = value.GetName() }));
                         OnPropertyChanged(nameof(SuccessColor));
@@ -102,7 +102,7 @@ namespace NTMiner.Vms {
             get {
                 ConsoleColor color = ConsoleColor.White;
                 ISysDicItem dicItem;
-                if (NTMinerRoot.Current.SysDicItemSet.TryGetDicItem("LogColor", nameof(FailColor), out dicItem)) {
+                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("LogColor", nameof(FailColor), out dicItem)) {
                     if (!dicItem.Value.TryParse(out color)) {
                         color = ConsoleColor.White;
                     }
@@ -111,7 +111,7 @@ namespace NTMiner.Vms {
             }
             set {
                 ISysDicItem dicItem;
-                if (NTMinerRoot.Current.SysDicItemSet.TryGetDicItem("LogColor", nameof(FailColor), out dicItem)) {
+                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("LogColor", nameof(FailColor), out dicItem)) {
                     if (dicItem.Value != value.GetName()) {
                         VirtualRoot.Execute(new UpdateSysDicItemCommand(new SysDicItemViewModel(dicItem) { Value = value.GetName() }));
                         OnPropertyChanged(nameof(FailColor));
@@ -123,7 +123,7 @@ namespace NTMiner.Vms {
             get {
                 ConsoleColor color = ConsoleColor.White;
                 ISysDicItem dicItem;
-                if (NTMinerRoot.Current.SysDicItemSet.TryGetDicItem("LogColor", nameof(ErrorColor), out dicItem)) {
+                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("LogColor", nameof(ErrorColor), out dicItem)) {
                     if (!dicItem.Value.TryParse(out color)) {
                         color = ConsoleColor.White;
                     }
@@ -132,7 +132,7 @@ namespace NTMiner.Vms {
             }
             set {
                 ISysDicItem dicItem;
-                if (NTMinerRoot.Current.SysDicItemSet.TryGetDicItem("LogColor", nameof(ErrorColor), out dicItem)) {
+                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("LogColor", nameof(ErrorColor), out dicItem)) {
                     if (dicItem.Value != value.GetName()) {
                         VirtualRoot.Execute(new UpdateSysDicItemCommand(new SysDicItemViewModel(dicItem) { Value = value.GetName() }));
                         OnPropertyChanged(nameof(ErrorColor));
@@ -144,7 +144,7 @@ namespace NTMiner.Vms {
             get {
                 ConsoleColor color = ConsoleColor.White;
                 ISysDicItem dicItem;
-                if (NTMinerRoot.Current.SysDicItemSet.TryGetDicItem("LogColor", nameof(InfoColor), out dicItem)) {
+                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("LogColor", nameof(InfoColor), out dicItem)) {
                     if (!dicItem.Value.TryParse(out color)) {
                         color = ConsoleColor.White;
                     }
@@ -153,7 +153,7 @@ namespace NTMiner.Vms {
             }
             set {
                 ISysDicItem dicItem;
-                if (NTMinerRoot.Current.SysDicItemSet.TryGetDicItem("LogColor", nameof(InfoColor), out dicItem)) {
+                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("LogColor", nameof(InfoColor), out dicItem)) {
                     if (dicItem.Value != value.GetName()) {
                         VirtualRoot.Execute(new UpdateSysDicItemCommand(new SysDicItemViewModel(dicItem) { Value = value.GetName() }));
                         OnPropertyChanged(nameof(InfoColor));

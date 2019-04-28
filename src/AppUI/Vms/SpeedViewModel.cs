@@ -47,7 +47,7 @@ namespace NTMiner.Vms {
 
         public string LastSpeedOnText {
             get {
-                if (!NTMinerRoot.Current.IsMining || SpeedOn <= Timestamp.UnixBaseTime) {
+                if (!NTMinerRoot.Instance.IsMining || SpeedOn <= Timestamp.UnixBaseTime) {
                     return string.Empty;
                 }
                 TimeSpan timeSpan = DateTime.Now - SpeedOn;

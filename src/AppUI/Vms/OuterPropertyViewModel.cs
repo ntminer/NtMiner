@@ -9,6 +9,12 @@ namespace NTMiner.Vms {
 
         }
 
+        public AppContext AppContext {
+            get {
+                return AppContext.Current;
+            }
+        }
+
         public string MachineName {
             get {
                 return System.Environment.MachineName;
@@ -17,43 +23,43 @@ namespace NTMiner.Vms {
 
         public OS OS {
             get {
-                return OS.Current;
+                return OS.Instance;
             }
         }
 
         public Cpu Cpu {
             get {
-                return Cpu.Current;
+                return Cpu.Instance;
             }
         }
 
         public Bios Bios {
             get {
-                return Bios.Current;
+                return Bios.Instance;
             }
         }
 
         public Ram Ram {
             get {
-                return Ram.Current;
+                return Ram.Instance;
             }
         }
 
-        public DriveSet DriveSet {
+        public AppContext.DriveSetViewModel DriveSet {
             get {
-                return DriveSet.Current;
+                return AppContext.Current.DriveSet;
             }
         }
 
         public List<GpuViewModel> GpuVms {
             get {
-                return GpuViewModels.Current.Where(a => a.Index != NTMinerRoot.GpuAllId).ToList();
+                return AppContext.Current.GpuVms.Where(a => a.Index != NTMinerRoot.GpuAllId).ToList();
             }
         }
 
         public List<GpuSetProperty> GpuSetProperties {
             get {
-                return NTMinerRoot.Current.GpuSet.Properties;
+                return NTMinerRoot.Instance.GpuSet.Properties;
             }
         }
     }

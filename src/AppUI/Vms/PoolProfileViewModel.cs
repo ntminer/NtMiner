@@ -17,7 +17,7 @@ namespace NTMiner.Vms {
             get => _inner.UserName;
             set {
                 if (_inner.UserName != value) {
-                    NTMinerRoot.Current.MinerProfile.SetPoolProfileProperty(this.PoolId, nameof(UserName), value ?? string.Empty);
+                    NTMinerRoot.Instance.MinerProfile.SetPoolProfileProperty(this.PoolId, nameof(UserName), value ?? string.Empty);
                     OnPropertyChanged(nameof(UserName));
                     NTMinerRoot.RefreshArgsAssembly.Invoke();
                 }
@@ -28,7 +28,7 @@ namespace NTMiner.Vms {
             get => _inner.Password;
             set {
                 if (_inner.Password != value) {
-                    NTMinerRoot.Current.MinerProfile.SetPoolProfileProperty(this.PoolId, nameof(Password), value ?? string.Empty);
+                    NTMinerRoot.Instance.MinerProfile.SetPoolProfileProperty(this.PoolId, nameof(Password), value ?? string.Empty);
                     OnPropertyChanged(nameof(Password));
                     NTMinerRoot.RefreshArgsAssembly.Invoke();
                 }

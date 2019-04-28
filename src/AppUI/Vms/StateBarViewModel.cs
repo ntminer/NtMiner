@@ -19,11 +19,11 @@ namespace NTMiner.Vms {
             VirtualRoot.On<Per1SecondEvent>("挖矿计时秒表，周期性挥动铲子表示在挖矿中", LogEnum.None,
                 action: message => {
                     DateTime now = DateTime.Now;
-                    this.BootTimeSpan = now - NTMinerRoot.Current.CreatedOn;
+                    this.BootTimeSpan = now - NTMinerRoot.Instance.CreatedOn;
                     if (NTMinerRoot.IsAutoStart && VirtualRoot.SecondCount <= 10 && !NTMinerRoot.IsAutoStartCanceled) {
                         return;
                     }
-                    var mineContext = NTMinerRoot.Current.CurrentMineContext;
+                    var mineContext = NTMinerRoot.Instance.CurrentMineContext;
                     if (mineContext != null) {
                         this.MineTimeSpan = now - mineContext.CreatedOn;
                         if (!this.MinerProfile.IsMining) {
@@ -38,7 +38,13 @@ namespace NTMiner.Vms {
                 });
         }
 
-        public GpuSpeedViewModels GpuSpeedVms { get; private set; } = MainWindowViewModel.Current.GpuSpeedVms;
+        public AppContext AppContext {
+            get {
+                return AppContext.Current;
+            }
+        }
+
+        public AppContext.GpuSpeedViewModels GpuSpeedVms { get; private set; } = AppContext.Current.GpuSpeedVms;
 
         public TimeSpan BootTimeSpan {
             get { return _bootTimeSpan; }
@@ -90,19 +96,19 @@ namespace NTMiner.Vms {
 
         public MinerProfileViewModel MinerProfile {
             get {
-                return MinerProfileViewModel.Current;
+                return AppContext.Current.MinerProfileVms;
             }
         }
 
-        public GpuStatusBarViewModel GpuStatusBarVm {
+        public AppContext.GpuStatusBarViewModel GpuStatusBarVm {
             get {
-                return GpuStatusBarViewModel.Current;
+                return AppContext.Current.GpuStatusBarVms;
             }
         }
 
-        public GpuViewModels GpuVms {
+        public AppContext.GpuViewModels GpuVms {
             get {
-                return GpuViewModels.Current;
+                return AppContext.GpuVms;
             }
         }
     }

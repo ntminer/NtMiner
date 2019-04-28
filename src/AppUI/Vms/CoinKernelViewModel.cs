@@ -90,7 +90,7 @@ namespace NTMiner.Vms {
                 }, icon: IconConst.IconConfirm);
             });
             this.Save = new DelegateCommand(() => {
-                if (NTMinerRoot.Current.CoinKernelSet.Contains(this.Id)) {
+                if (NTMinerRoot.Instance.CoinKernelSet.Contains(this.Id)) {
                     VirtualRoot.Execute(new UpdateCoinKernelCommand(this));
                 }
                 CloseWindow?.Invoke();
@@ -108,7 +108,7 @@ namespace NTMiner.Vms {
                 }, icon: IconConst.IconConfirm);
             });
             this.SortUp = new DelegateCommand(() => {
-                CoinKernelViewModel upOne = CoinKernelViewModels.Current.AllCoinKernels.OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.CoinId == this.CoinId && a.SortNumber < this.SortNumber);
+                CoinKernelViewModel upOne = AppContext.Current.CoinKernelVms.AllCoinKernels.OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.CoinId == this.CoinId && a.SortNumber < this.SortNumber);
                 if (upOne != null) {
                     int sortNumber = upOne.SortNumber;
                     upOne.SortNumber = this.SortNumber;
@@ -116,15 +116,15 @@ namespace NTMiner.Vms {
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdateCoinKernelCommand(this));
                     CoinViewModel coinVm;
-                    if (CoinViewModels.Current.TryGetCoinVm(this.CoinId, out coinVm)) {
+                    if (AppContext.Current.CoinVms.TryGetCoinVm(this.CoinId, out coinVm)) {
                         coinVm.OnPropertyChanged(nameof(coinVm.CoinKernels));
                     }
                     this.Kernel.OnPropertyChanged(nameof(this.Kernel.CoinKernels));
-                    CoinViewModels.Current.OnPropertyChanged(nameof(CoinViewModels.MainCoins));
+                    AppContext.Current.CoinVms.OnPropertyChanged(nameof(AppContext.CoinViewModels.MainCoins));
                 }
             });
             this.SortDown = new DelegateCommand(() => {
-                CoinKernelViewModel nextOne = CoinKernelViewModels.Current.AllCoinKernels.OrderBy(a => a.SortNumber).FirstOrDefault(a => a.CoinId == this.CoinId && a.SortNumber > this.SortNumber);
+                CoinKernelViewModel nextOne = AppContext.Current.CoinKernelVms.AllCoinKernels.OrderBy(a => a.SortNumber).FirstOrDefault(a => a.CoinId == this.CoinId && a.SortNumber > this.SortNumber);
                 if (nextOne != null) {
                     int sortNumber = nextOne.SortNumber;
                     nextOne.SortNumber = this.SortNumber;
@@ -132,13 +132,19 @@ namespace NTMiner.Vms {
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdateCoinKernelCommand(this));
                     CoinViewModel coinVm;
-                    if (CoinViewModels.Current.TryGetCoinVm(this.CoinId, out coinVm)) {
+                    if (AppContext.Current.CoinVms.TryGetCoinVm(this.CoinId, out coinVm)) {
                         coinVm.OnPropertyChanged(nameof(coinVm.CoinKernels));
                     }
                     this.Kernel.OnPropertyChanged(nameof(this.Kernel.CoinKernels));
-                    CoinViewModels.Current.OnPropertyChanged(nameof(CoinViewModels.MainCoins));
+                    AppContext.Current.CoinVms.OnPropertyChanged(nameof(AppContext.CoinViewModels.MainCoins));
                 }
             });
+        }
+
+        public AppContext AppContext {
+            get {
+                return AppContext.Current;
+            }
         }
 
         public Guid Id {
@@ -173,7 +179,7 @@ namespace NTMiner.Vms {
         public CoinViewModel CoinVm {
             get {
                 if (_coinVm == null || this.CoinId != _coinVm.Id) {
-                    CoinViewModels.Current.TryGetCoinVm(this.CoinId, out _coinVm);
+                    AppContext.Current.CoinVms.TryGetCoinVm(this.CoinId, out _coinVm);
                     if (_coinVm == null) {
                         _coinVm = CoinViewModel.Empty;
                     }
@@ -201,7 +207,7 @@ namespace NTMiner.Vms {
         public KernelViewModel Kernel {
             get {
                 KernelViewModel kernel;
-                if (KernelViewModels.Current.TryGetKernelVm(this.KernelId, out kernel)) {
+                if (AppContext.Current.KernelVms.TryGetKernelVm(this.KernelId, out kernel)) {
                     return kernel;
                 }
                 return KernelViewModel.Empty;
@@ -234,7 +240,7 @@ namespace NTMiner.Vms {
                     return GroupViewModel.PleaseSelect;
                 }
                 if (_selectedDualCoinGroup == null || _selectedDualCoinGroup.Id != this.DualCoinGroupId) {
-                    GroupViewModels.Current.TryGetGroupVm(DualCoinGroupId, out _selectedDualCoinGroup);
+                    AppContext.Current.GroupVms.TryGetGroupVm(DualCoinGroupId, out _selectedDualCoinGroup);
                     if (_selectedDualCoinGroup == null) {
                         _selectedDualCoinGroup = GroupViewModel.PleaseSelect;
                     }
@@ -263,9 +269,9 @@ namespace NTMiner.Vms {
             }
         }
 
-        public GroupViewModels GroupVms {
+        public AppContext.GroupViewModels GroupVms {
             get {
-                return GroupViewModels.Current;
+                return AppContext.Current.GroupVms;
             }
         }
 
@@ -348,16 +354,16 @@ namespace NTMiner.Vms {
 
         public bool IsSupported {
             get {
-                if (NTMinerRoot.Current.GpuSet.GpuType == GpuType.Empty) {
+                if (NTMinerRoot.Instance.GpuSet.GpuType == GpuType.Empty) {
                     return true;
                 }
                 if (this.SupportedGpu == SupportedGpu.Both) {
                     return true;
                 }
-                if (this.SupportedGpu == SupportedGpu.NVIDIA && NTMinerRoot.Current.GpuSet.GpuType == GpuType.NVIDIA) {
+                if (this.SupportedGpu == SupportedGpu.NVIDIA && NTMinerRoot.Instance.GpuSet.GpuType == GpuType.NVIDIA) {
                     return true;
                 }
-                if (this.SupportedGpu == SupportedGpu.AMD && NTMinerRoot.Current.GpuSet.GpuType == GpuType.AMD) {
+                if (this.SupportedGpu == SupportedGpu.AMD && NTMinerRoot.Instance.GpuSet.GpuType == GpuType.AMD) {
                     return true;
                 }
                 return false;
@@ -396,7 +402,7 @@ namespace NTMiner.Vms {
 
         public CoinKernelProfileViewModel CoinKernelProfile {
             get {
-                return CoinProfileViewModels.Current.GetOrCreateCoinKernelProfileVm(this.Id);
+                return AppContext.Current.CoinProfileVms.GetOrCreateCoinKernelProfileVm(this.Id);
             }
         }
     }

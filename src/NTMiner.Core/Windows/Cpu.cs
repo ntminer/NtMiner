@@ -8,7 +8,7 @@ namespace NTMiner.Windows {
     /// Class for retrieving information related to the processor
     /// </summary>
     public sealed class Cpu {
-        public static readonly Cpu Current = new Cpu();
+        public static readonly Cpu Instance = new Cpu();
 
         // This stores the total number of logical cores in the processor
         private readonly int numberOfProcessors = Environment.ProcessorCount;

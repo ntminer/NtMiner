@@ -9,8 +9,6 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class MinerClientsWindowViewModel : ViewModelBase {
-        public static readonly MinerClientsWindowViewModel Current = new MinerClientsWindowViewModel();
-
         private ColumnsShowViewModel _columnsShow;
         private int _countDown;
         private List<NTMinerFileData> _ntminerFileList;
@@ -63,11 +61,11 @@ namespace NTMiner.Vms {
         public ICommand OneKeySetting { get; private set; }
 
         #region ctor
-        private MinerClientsWindowViewModel() {
+        public MinerClientsWindowViewModel() {
             if (Design.IsInDesignMode) {
                 return;
             }
-            var appSettings = NTMinerRoot.Current.ServerAppSettingSet;
+            var appSettings = NTMinerRoot.Instance.ServerAppSettingSet;
             Guid columnsShowId = ColumnsShowData.PleaseSelect.Id;
             if (appSettings.TryGetAppSetting("ColumnsShowId", out IAppSetting columnsShowAppSetting) && columnsShowAppSetting.Value != null) {
                 if (Guid.TryParse(columnsShowAppSetting.Value.ToString(), out Guid guid)) {
@@ -113,7 +111,7 @@ namespace NTMiner.Vms {
                     var selectedMinerClient = this.SelectedMinerClients[0];
                     InputWindow.ShowDialog("作业矿工名 注意：重新开始挖矿时生效", selectedMinerClient.MinerName, null, minerName => {
                         selectedMinerClient.MinerName = minerName;
-                        NotiCenterWindowViewModel.Current.Manager.ShowSuccessMessage("设置作业矿工名成功，重新开始挖矿时生效。");
+                        NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage("设置作业矿工名成功，重新开始挖矿时生效。");
                     });
                     return;
                 }
@@ -321,6 +319,12 @@ namespace NTMiner.Vms {
                     && this.SelectedMinerClients.Length == 1;
         }
 
+        public AppContext AppContext {
+            get {
+                return AppContext.Current;
+            }
+        }
+
         public List<NTMinerFileData> NTMinerFileList {
             get {
                 return _ntminerFileList;
@@ -410,7 +414,7 @@ namespace NTMiner.Vms {
         }
 
         private void ShowNoRecordSelected() {
-            NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage("没有选中记录", 2);
+            NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage("没有选中记录", 2);
         }
 
         public ColumnsShowViewModel ColumnsShow {
@@ -429,9 +433,9 @@ namespace NTMiner.Vms {
             }
         }
 
-        public ColumnsShowViewModels ColumnsShows {
+        public AppContext.ColumnsShowViewModels ColumnsShows {
             get {
-                return ColumnsShowViewModels.Current;
+                return AppContext.Current.ColumnsShowVms;
             }
         }
 
@@ -625,16 +629,16 @@ namespace NTMiner.Vms {
             }
         }
 
-        public CoinViewModels MineCoinVms {
+        public AppContext.CoinViewModels MineCoinVms {
             get {
-                return CoinViewModels.Current;
+                return AppContext.Current.CoinVms;
             }
         }
 
         private IEnumerable<CoinViewModel> GetDualCoinVmItems() {
             yield return CoinViewModel.PleaseSelect;
             yield return CoinViewModel.DualCoinEnabled;
-            foreach (var item in CoinViewModels.Current.AllCoins) {
+            foreach (var item in AppContext.Current.CoinVms.AllCoins) {
                 yield return item;
             }
         }
@@ -752,15 +756,15 @@ namespace NTMiner.Vms {
             }
         }
 
-        public MineWorkViewModels MineWorkVms {
+        public AppContext.MineWorkViewModels MineWorkVms {
             get {
-                return MineWorkViewModels.Current;
+                return AppContext.Current.MineWorkVms;
             }
         }
 
-        public MinerGroupViewModels MinerGroupVms {
+        public AppContext.MinerGroupViewModels MinerGroupVms {
             get {
-                return MinerGroupViewModels.Current;
+                return AppContext.Current.MinerGroupVms;
             }
         }
 

@@ -26,7 +26,7 @@ namespace NTMiner.Views {
 
 
         private void ButtonBaseErrorOnClick(object sender, RoutedEventArgs e) {
-            NotiCenterWindowViewModel.Current.Manager
+            NotiCenterWindowViewModel.Instance.Manager
                 .CreateMessage()
                 .Accent("#F15B19")
                 .Background("#F15B19")
@@ -47,7 +47,7 @@ namespace NTMiner.Views {
         }
 
         private void ButtonBaseWarningOnClick(object sender, RoutedEventArgs e) {
-            NotiCenterWindowViewModel.Current.Manager
+            NotiCenterWindowViewModel.Instance.Manager
                 .CreateMessage()
                 .Accent("#E0A030")
                 .Background("#333")
@@ -60,7 +60,7 @@ namespace NTMiner.Views {
         }
 
         private void ButtonBaseInfoOnClick(object sender, RoutedEventArgs e) {
-            NotiCenterWindowViewModel.Current.Manager
+            NotiCenterWindowViewModel.Instance.Manager
                 .CreateMessage()
                 .Accent("#1751C3")
                 .Background("#333")
@@ -73,7 +73,7 @@ namespace NTMiner.Views {
         }
 
         private void ButtonBaseInfoDelayOnClick(object sender, RoutedEventArgs e) {
-            NotiCenterWindowViewModel.Current.Manager
+            NotiCenterWindowViewModel.Instance.Manager
                 .CreateMessage()
                 .Accent("#1751C3")
                 .Animates(true)
@@ -89,7 +89,7 @@ namespace NTMiner.Views {
         }
 
         private void ButtonBaseAdditionalContentOnClick(object sender, RoutedEventArgs e) {
-            NotiCenterWindowViewModel.Current.Manager
+            NotiCenterWindowViewModel.Instance.Manager
                 .CreateMessage()
                 .Accent("#1751C3")
                 .Background("#333")

@@ -62,7 +62,7 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                if (NTMinerRoot.Current.KernelInputSet.Contains(this.Id)) {
+                if (NTMinerRoot.Instance.KernelInputSet.Contains(this.Id)) {
                     VirtualRoot.Execute(new UpdateKernelInputCommand(this));
                 }
                 else {
@@ -86,9 +86,15 @@ namespace NTMiner.Vms {
             });
         }
 
-        public GroupViewModels GroupVms {
+        public AppContext AppContext {
             get {
-                return GroupViewModels.Current;
+                return AppContext.Current;
+            }
+        }
+
+        public AppContext.GroupViewModels GroupVms {
+            get {
+                return AppContext.Current.GroupVms;
             }
         }
 
@@ -132,7 +138,7 @@ namespace NTMiner.Vms {
                     return GroupViewModel.PleaseSelect;
                 }
                 if (_dualCoinGroup == null || _dualCoinGroup.Id != this.DualCoinGroupId) {
-                    GroupViewModels.Current.TryGetGroupVm(DualCoinGroupId, out _dualCoinGroup);
+                    AppContext.Current.GroupVms.TryGetGroupVm(DualCoinGroupId, out _dualCoinGroup);
                     if (_dualCoinGroup == null) {
                         _dualCoinGroup = GroupViewModel.PleaseSelect;
                     }
@@ -233,7 +239,7 @@ namespace NTMiner.Vms {
 
         public string KernelFullNames {
             get {
-                string names = string.Join(";", KernelViewModels.Current.AllKernels.Where(a => a.KernelInputId == this.Id).Select(a => a.FullName));
+                string names = string.Join(";", AppContext.Current.KernelVms.AllKernels.Where(a => a.KernelInputId == this.Id).Select(a => a.FullName));
                 if (string.IsNullOrEmpty(names)) {
                     return "无";
                 }

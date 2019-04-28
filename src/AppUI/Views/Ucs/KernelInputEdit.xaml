@@ -135,7 +135,7 @@
 									Height="24"
 									Padding="4 0"
 									Background="{StaticResource ThemeBackground}"
-									Command="{x:Static vm:AppStatic.ShowGroups}"
+									Command="{Binding AppContext.ShowGroups}"
 									CornerRadius="2">
 									<WrapPanel>
 										<Path

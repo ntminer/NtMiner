@@ -49,7 +49,7 @@
 						Margin="8 0 0 0"
 						Padding="6 0"
 						Height="20"
-						Command="{x:Static vm:AppStatic.ShowVirtualMemory}"
+						Command="{Binding AppContext.ShowVirtualMemory}"
 						Background="{StaticResource ThemeBackground}"
 						CornerRadius="2">
 						<WrapPanel>

@@ -1,4 +1,5 @@
 ﻿using NTMiner.Vms;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
@@ -9,7 +10,7 @@ namespace NTMiner.Views.Ucs {
                 IconName = "Icon_MinerProfile",
                 Width = 450,
                 Height = 360,
-                CloseVisible = System.Windows.Visibility.Visible
+                CloseVisible = Visibility.Visible
             }, ucFactory: (window) => new MinerProfileOption(), fixedSize: true);
         }
 
@@ -20,7 +21,14 @@ namespace NTMiner.Views.Ucs {
         }
 
         public MinerProfileOption() {
+            this.DataContext = AppContext.Current.MinerProfileVms;
             InitializeComponent();
+            if (VirtualRoot.IsMinerStudio) {
+                this.GroupSystemSetting.Visibility = Visibility.Collapsed;
+            }
+            else {
+                this.GroupSystemSetting.Visibility = Visibility.Visible;
+            }
         }
 
         private void ButtonHotKey_KeyDown(object sender, System.Windows.Input.KeyEventArgs e) {

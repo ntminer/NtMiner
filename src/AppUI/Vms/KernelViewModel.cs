@@ -90,7 +90,7 @@ namespace NTMiner.Vms {
         public KernelViewModel(Guid id) {
             _id = id;
             this.Save = new DelegateCommand(() => {
-                if (NTMinerRoot.Current.KernelSet.Contains(this.Id)) {
+                if (NTMinerRoot.Instance.KernelSet.Contains(this.Id)) {
                     VirtualRoot.Execute(new UpdateKernelCommand(this));
                 }
                 else {
@@ -161,7 +161,7 @@ namespace NTMiner.Vms {
                 string helpArg = this.HelpArg.Trim();
                 string asFileFullName = Path.Combine(kernelDirFullName, helpArg);
                 // 如果当前内核不处在挖矿中则可以解压缩，否则不能解压缩因为内核文件处在使用中无法覆盖
-                if (!NTMinerRoot.Current.IsMining || NTMinerRoot.Current.CurrentMineContext.Kernel.GetId() != this.GetId()) {
+                if (!NTMinerRoot.Instance.IsMining || NTMinerRoot.Instance.CurrentMineContext.Kernel.GetId() != this.GetId()) {
                     if (!this.IsPackageFileExist()) {
                         DialogWindow.ShowDialog(icon: "Icon_Info", title: "提示", message: "内核未安装");
                         return;
@@ -184,9 +184,15 @@ namespace NTMiner.Vms {
         }
         #endregion
 
+        public AppContext AppContext {
+            get {
+                return AppContext.Current;
+            }
+        }
+
         public KernelViewModel KernelVmSingleInstance {
             get {
-                if (KernelViewModels.Current.TryGetKernelVm(this.Id, out KernelViewModel kernelVm)) {
+                if (AppContext.Current.KernelVms.TryGetKernelVm(this.Id, out KernelViewModel kernelVm)) {
                     return kernelVm;
                 }
                 return null;
@@ -197,7 +203,7 @@ namespace NTMiner.Vms {
         public KernelOutputViewModel KernelOutputVm {
             get {
                 if (_kernelOutputVm == null || _kernelOutputVm.Id != this.KernelOutputId) {
-                    KernelOutputViewModels.Current.TryGetKernelOutputVm(this.KernelOutputId, out _kernelOutputVm);
+                    AppContext.Current.KernelOutputVms.TryGetKernelOutputVm(this.KernelOutputId, out _kernelOutputVm);
                     if (_kernelOutputVm == null) {
                         _kernelOutputVm = KernelOutputViewModel.PleaseSelect;
                     }
@@ -213,9 +219,9 @@ namespace NTMiner.Vms {
             }
         }
 
-        public KernelOutputViewModels KernelOutputVms {
+        public AppContext.KernelOutputViewModels KernelOutputVms {
             get {
-                return KernelOutputViewModels.Current;
+                return AppContext.Current.KernelOutputVms;
             }
         }
 
@@ -223,7 +229,7 @@ namespace NTMiner.Vms {
         public KernelInputViewModel KernelInputVm {
             get {
                 if (_kernelInputVm == null || _kernelInputVm.Id != this.KernelInputId) {
-                    KernelInputViewModels.Current.TryGetKernelInputVm(this.KernelInputId, out _kernelInputVm);
+                    AppContext.Current.KernelInputVms.TryGetKernelInputVm(this.KernelInputId, out _kernelInputVm);
                     if (_kernelInputVm == null) {
                         _kernelInputVm = KernelInputViewModel.PleaseSelect;
                     }
@@ -239,27 +245,27 @@ namespace NTMiner.Vms {
             }
         }
 
-        public KernelInputViewModels KernelInputVms {
+        public AppContext.KernelInputViewModels KernelInputVms {
             get {
-                return KernelInputViewModels.Current;
+                return AppContext.Current.KernelInputVms;
             }
         }
 
-        public GroupViewModels GroupVms {
+        public AppContext.GroupViewModels GroupVms {
             get {
-                return GroupViewModels.Current;
+                return AppContext.Current.GroupVms;
             }
         }
 
         public List<KernelViewModel> OtherVersionKernelVms {
             get {
-                return KernelViewModels.Current.AllKernels.Where(a => a.Code == this.Code && a.Id != this.Id).OrderBy(a => a.Code + a.Version).ToList();
+                return AppContext.Current.KernelVms.AllKernels.Where(a => a.Code == this.Code && a.Id != this.Id).OrderBy(a => a.Code + a.Version).ToList();
             }
         }
 
         public List<CoinKernelViewModel> CoinKernels {
             get {
-                return CoinKernelViewModels.Current.AllCoinKernels.Where(a => a.KernelId == this.Id).OrderBy(a => a.SortNumber).ToList();
+                return AppContext.Current.CoinKernelVms.AllCoinKernels.Where(a => a.KernelId == this.Id).OrderBy(a => a.SortNumber).ToList();
             }
         }
 
@@ -268,8 +274,8 @@ namespace NTMiner.Vms {
                 List<CoinViewModel> list = new List<CoinViewModel>() {
                     CoinViewModel.PleaseSelect
                 };
-                var coinKernelVms = CoinKernelViewModels.Current.AllCoinKernels.Where(a => a.KernelId == this.Id).ToList();
-                foreach (var item in CoinViewModels.Current.AllCoins) {
+                var coinKernelVms = AppContext.Current.CoinKernelVms.AllCoinKernels.Where(a => a.KernelId == this.Id).ToList();
+                foreach (var item in AppContext.Current.CoinVms.AllCoins) {
                     if (coinKernelVms.All(a => a.CoinId != item.Id)) {
                         list.Add(item);
                     }
@@ -280,7 +286,7 @@ namespace NTMiner.Vms {
 
         public Visibility IsNvidiaIconVisible {
             get {
-                foreach (var item in NTMinerRoot.Current.CoinKernelSet.Where(a => a.KernelId == this.Id)) {
+                foreach (var item in NTMinerRoot.Instance.CoinKernelSet.Where(a => a.KernelId == this.Id)) {
                     if (item.SupportedGpu == SupportedGpu.Both) {
                         return Visibility.Visible;
                     }
@@ -294,7 +300,7 @@ namespace NTMiner.Vms {
 
         public Visibility IsAMDIconVisible {
             get {
-                foreach (var item in NTMinerRoot.Current.CoinKernelSet.Where(a => a.KernelId == this.Id)) {
+                foreach (var item in NTMinerRoot.Instance.CoinKernelSet.Where(a => a.KernelId == this.Id)) {
                     if (item.SupportedGpu == SupportedGpu.Both) {
                         return Visibility.Visible;
                     }
@@ -319,7 +325,7 @@ namespace NTMiner.Vms {
         public KernelProfileViewModel KernelProfileVm {
             get {
                 if (_kernelProfileVm == null) {
-                    _kernelProfileVm = new KernelProfileViewModel(this, NTMinerRoot.Current.KernelProfileSet.GetKernelProfile(this.Id));
+                    _kernelProfileVm = new KernelProfileViewModel(this, NTMinerRoot.Instance.KernelProfileSet.GetKernelProfile(this.Id));
                 }
                 return _kernelProfileVm;
             }
@@ -356,7 +362,7 @@ namespace NTMiner.Vms {
                     return SysDicItemViewModel.PleaseSelect;
                 }
                 SysDicItemViewModel item;
-                if (SysDicItemViewModels.Current.TryGetValue(this.BrandId, out item)) {
+                if (AppContext.Current.SysDicItemVms.TryGetValue(this.BrandId, out item)) {
                     return item;
                 }
                 return SysDicItemViewModel.PleaseSelect;
@@ -370,9 +376,9 @@ namespace NTMiner.Vms {
             }
         }
 
-        public SysDicItemViewModels SysDicItemVms {
+        public AppContext.SysDicItemViewModels SysDicItemVms {
             get {
-                return SysDicItemViewModels.Current;
+                return AppContext.Current.SysDicItemVms;
             }
         }
 
@@ -426,8 +432,8 @@ namespace NTMiner.Vms {
         public List<CoinViewModel> SupportedCoinVms {
             get {
                 List<CoinViewModel> list = new List<CoinViewModel>();
-                foreach (var item in NTMinerRoot.Current.CoinKernelSet.Where(a => a.KernelId == this.Id)) {
-                    if (CoinViewModels.Current.TryGetCoinVm(item.CoinId, out CoinViewModel coin)) {
+                foreach (var item in NTMinerRoot.Instance.CoinKernelSet.Where(a => a.KernelId == this.Id)) {
+                    if (AppContext.Current.CoinVms.TryGetCoinVm(item.CoinId, out CoinViewModel coin)) {
                         list.Add(coin);
                     }
                 }

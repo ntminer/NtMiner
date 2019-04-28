@@ -15,7 +15,7 @@
 		BorderBrush="Black"
 		WindowStartupLocation="CenterScreen"
 		MouseDown="MetroWindow_MouseDown"
-		DataContext="{x:Static vm:MainWindowViewModel.Current}"
+		DataContext="{x:Static vm:MainWindowViewModel.Instance}"
 		Title="NTMinerUpdater" Height="492" Width="333">
 	<Grid>
 		<Grid.RowDefinitions>
@@ -93,7 +93,7 @@
 						<DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="时间" Binding="{Binding PublishOnText}"></DataGridTextColumn>
 						<DataGridTemplateColumn 
 							CanUserResize="True" IsReadOnly="True"
-							Visibility="{Binding Data.IsDebugModeVisible, Source={StaticResource proxy}}">
+							Visibility="{Binding Data.IsDebugModeVisible,Source={StaticResource proxy}}">
 							<DataGridTemplateColumn.Header>
 								<controls:KbButton  
 									Command="{Binding Data.AddNTMinerFile, Source={StaticResource proxy}}" 

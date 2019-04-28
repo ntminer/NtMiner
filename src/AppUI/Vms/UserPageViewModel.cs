@@ -3,14 +3,14 @@
         public UserPageViewModel() {
         }
 
-        public UserViewModels UserVms {
+        public AppContext.UserViewModels UserVms {
             get {
-                return UserViewModels.Current;
+                return AppContext.Current.UserVms;
             }
         }
 
         public MinerProfileViewModel MinerProfile {
-            get { return MinerProfileViewModel.Current; }
+            get { return AppContext.Current.MinerProfileVms; }
         }
 
         public bool IsMinerStudio {

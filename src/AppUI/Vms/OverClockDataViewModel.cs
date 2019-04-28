@@ -39,7 +39,7 @@ namespace NTMiner.Vms {
                     return;
                 }
                 IOverClockData group;
-                if (NTMinerRoot.Current.OverClockDataSet.TryGetOverClockData(this.Id, out group)) {
+                if (NTMinerRoot.Instance.OverClockDataSet.TryGetOverClockData(this.Id, out group)) {
                     VirtualRoot.Execute(new UpdateOverClockDataCommand(this));
                 }
                 else {
@@ -72,6 +72,12 @@ namespace NTMiner.Vms {
             _powerCapacity = data.PowerCapacity;
             _tempLimit = data.TempLimit;
             _cool = data.Cool;
+        }
+
+        public AppContext AppContext {
+            get {
+                return AppContext.Current;
+            }
         }
 
         public Guid GetId() {
@@ -198,7 +204,7 @@ namespace NTMiner.Vms {
         public CoinViewModel CoinVm {
             get {
                 if (_coinVm == null) {
-                    if (!CoinViewModels.Current.TryGetCoinVm(this.CoinId, out _coinVm)) {
+                    if (!AppContext.Current.CoinVms.TryGetCoinVm(this.CoinId, out _coinVm)) {
                         _coinVm = CoinViewModel.Empty;
                     }
                 }
@@ -208,7 +214,7 @@ namespace NTMiner.Vms {
 
         public string Tooltip {
             get {
-                return $"核心{CoreClockDelta}M, 显存{MemoryClockDelta}M, 功耗{PowerCapacity}%, 风扇{(IsAutoFanSpeed ? "自动" : Cool + "%")}, 最高温度{TempLimit}";
+                return $"核心{CoreClockDelta}M, 显存{MemoryClockDelta}M, 功耗{PowerCapacity}%, 风扇{(IsAutoFanSpeed ? "自动" : Cool + "%")}, 最高温度{TempLimit}℃";
             }
         }
     }

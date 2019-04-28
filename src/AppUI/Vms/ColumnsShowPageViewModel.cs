@@ -2,9 +2,9 @@
     public class ColumnsShowPageViewModel : ViewModelBase {
         public ColumnsShowPageViewModel() { }
 
-        public ColumnsShowViewModels ColumnsShowVms {
+        public AppContext.ColumnsShowViewModels ColumnsShowVms {
             get {
-                return ColumnsShowViewModels.Current;
+                return AppContext.Current.ColumnsShowVms;
             }
         }
     }

@@ -19,7 +19,7 @@ namespace NTMiner.Controllers {
         [HttpPost]
         public DataResponse<AppSettingData> AppSetting([FromBody]AppSettingRequest request) {
             try {
-                if (!HostRoot.Current.AppSettingSet.TryGetAppSetting(request.Key, out IAppSetting data)) {
+                if (!HostRoot.Instance.AppSettingSet.TryGetAppSetting(request.Key, out IAppSetting data)) {
                     data = null;
                 }
                 return DataResponse<AppSettingData>.Ok(AppSettingData.Create(data));
@@ -33,7 +33,7 @@ namespace NTMiner.Controllers {
         [HttpPost]
         public DataResponse<List<AppSettingData>> AppSettings([FromBody]AppSettingsRequest request) {
             try {
-                var data = HostRoot.Current.AppSettingSet;
+                var data = HostRoot.Instance.AppSettingSet;
                 return DataResponse<List<AppSettingData>>.Ok(data.Select(a => AppSettingData.Create(a)).ToList());
             }
             catch (Exception e) {
@@ -48,7 +48,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
+                if (!request.IsValid(HostRoot.Instance.UserSet.GetUser, ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 VirtualRoot.Execute(new ChangeLocalAppSettingCommand(request.Data));
@@ -67,7 +67,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
+                if (!request.IsValid(HostRoot.Instance.UserSet.GetUser, ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 foreach (var item in request.Data) {

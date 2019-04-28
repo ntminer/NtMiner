@@ -58,6 +58,7 @@ namespace NTMiner {
                         }
                     }
                     catch (Exception e) {
+                        e = e.GetInnerException();
                         callback?.Invoke(null, e);
                         return null;
                     }

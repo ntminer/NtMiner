@@ -60,7 +60,7 @@ namespace NTMiner.Data.Impl {
                 while (true) {
                     DateTime now = DateTime.Now;
                     if (_getSpeedOn.AddSeconds(10) <= now) {
-                        if (HostRoot.Current.HostConfig.IsPull) {
+                        if (HostRoot.Instance.HostConfig.IsPull) {
                             Write.DevDebug("周期拉取数据更新拍照源数据");
                             Task.Factory.StartNew(() => {
                                 ClientData[] clientDatas = _dicByObjectId.Values.ToArray();

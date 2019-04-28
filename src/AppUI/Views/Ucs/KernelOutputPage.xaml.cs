@@ -24,7 +24,7 @@ namespace NTMiner.Views.Ucs {
 
         public KernelOutputPage(KernelOutputViewModel selectedKernelOutputVm) {
             if (selectedKernelOutputVm != null) {
-                KernelOutputPageViewModel.Current.CurrentKernelOutputVm = selectedKernelOutputVm;
+                Vm.CurrentKernelOutputVm = selectedKernelOutputVm;
             }
             InitializeComponent();
         }

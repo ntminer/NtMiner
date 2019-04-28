@@ -77,7 +77,7 @@ namespace NTMiner.Views {
         #region 刷新总算力图表
         private void RefreshTotalSpeedChart(int limit) {
             //NTMinerRoot.Current.DebugLine($"获取总算力数据，范围{leftTime} - {rightTime}");
-            var coinCodes = NTMinerRoot.Current.CoinSet.Select(a => a.Code).ToList();
+            var coinCodes = NTMinerRoot.Instance.CoinSet.Select(a => a.Code).ToList();
             Server.ControlCenterService.GetLatestSnapshotsAsync(
                 limit,
                 coinCodes,
@@ -205,7 +205,7 @@ namespace NTMiner.Views {
                             DateTime now = DateTime.Now.AddSeconds(10);
                             foreach (var riser in chartVm.Series) {
                                 IChartValues valuesTotal = riser.Values;
-                                if (valuesTotal.Count > 0 && ((MeasureModel)valuesTotal[0]).DateTime.AddMinutes(NTMinerRoot.Current.SpeedHistoryLengthByMinute) < now) {
+                                if (valuesTotal.Count > 0 && ((MeasureModel)valuesTotal[0]).DateTime.AddMinutes(NTMinerRoot.Instance.SpeedHistoryLengthByMinute) < now) {
                                     valuesTotal.RemoveAt(0);
                                 }
                             }

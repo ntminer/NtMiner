@@ -35,7 +35,7 @@ namespace NTMiner.Vms {
                     return;
                 }
                 IMinerGroup group;
-                if (NTMinerRoot.Current.MinerGroupSet.TryGetMinerGroup(this.Id, out group)) {
+                if (NTMinerRoot.Instance.MinerGroupSet.TryGetMinerGroup(this.Id, out group)) {
                     VirtualRoot.Execute(new UpdateMinerGroupCommand(this));
                 }
                 else {
@@ -94,7 +94,7 @@ namespace NTMiner.Vms {
                     if (string.IsNullOrEmpty(value)) {
                         throw new ValidationException("名称是必须的");
                     }
-                    if (MinerGroupViewModels.Current.List.Any(a => a.Name == value && a.Id != this.Id)) {
+                    if (AppContext.Current.MinerGroupVms.List.Any(a => a.Name == value && a.Id != this.Id)) {
                         throw new ValidationException("名称重复");
                     }
                 }

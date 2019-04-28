@@ -20,7 +20,7 @@
 		</Grid.RowDefinitions>
 		<StackPanel Grid.Row="0">
 			<WrapPanel HorizontalAlignment="Center">
-				<Image Width="120" Height="120" Margin="0 10 0 0" Source="{x:Static vm:AppStatic.BigLogoImageSource}">
+				<Image Width="120" Height="120" Margin="0 10 0 0" Source="{Binding AppContext.BigLogoImageSource}">
 				</Image>
 			</WrapPanel>
 		</StackPanel>
@@ -32,7 +32,7 @@
 			<controls:KbLinkButton
 				Margin="0 2 8 2"
 				Foreground="#0072C1"
-				Command="{x:Static vm:AppStatic.OpenOfficialSite}"
+				Command="{Binding AppContext.OpenOfficialSite}"
 				Content="http://ntminer.com/"
 				KbDisplayLine="False"
 				KbSystemButtonHoverBackground="Transparent"

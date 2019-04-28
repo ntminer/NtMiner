@@ -1,7 +1,14 @@
-﻿using System.Windows.Controls;
+﻿using NTMiner.Vms;
+using System.Windows.Controls;
 
 namespace NTMiner.Views {
     public partial class MainBar : UserControl {
+        public MainBarViewModel Vm {
+            get {
+                return (MainBarViewModel)this.DataContext;
+            }
+        }
+
         public MainBar() {
             InitializeComponent();
         }

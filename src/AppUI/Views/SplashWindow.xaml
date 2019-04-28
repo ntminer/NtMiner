@@ -10,18 +10,21 @@
 		WindowStyle="None"
 		AllowsTransparency="True"
 		MouseDown="MetroWindow_MouseDown"
-		Title="{x:Static local:SplashWindow.WindowTitle}" Height="260" Width="520">
+		Title="{Binding WindowTitle}" Height="260" Width="520">
+	<Window.DataContext>
+		<vm:SplashWindowViewModel></vm:SplashWindowViewModel>
+	</Window.DataContext>
 	<Grid Background="{StaticResource IconFillColor}">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*"></RowDefinition>
 			<RowDefinition Height="20"></RowDefinition>
 		</Grid.RowDefinitions>
 		<WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-			<Image Width="120" Height="120" Source="{x:Static vm:AppStatic.BigLogoImageSource}">
+			<Image Width="120" Height="120" Source="{Binding AppContext.BigLogoImageSource}">
 			</Image>
-			<TextBlock Margin="10 0 0 0" VerticalAlignment="Center" FontSize="50" Foreground="{StaticResource ThemeForeground}" Text="{x:Static local:SplashWindow.WindowTitle}"></TextBlock>
+			<TextBlock Margin="10 0 0 0" VerticalAlignment="Center" FontSize="50" Foreground="{StaticResource ThemeForeground}" Text="{Binding WindowTitle}"></TextBlock>
 		</WrapPanel>
-		<TextBlock Margin="4 2 0 0" Text="{x:Static local:SplashWindow.Version}" VerticalAlignment="Top" FontSize="14" Foreground="{StaticResource ThemeForeground}"></TextBlock>
+		<TextBlock Margin="4 2 0 0" Text="{Binding Version}" VerticalAlignment="Top" FontSize="14" Foreground="{StaticResource ThemeForeground}"></TextBlock>
 		<WrapPanel Grid.Row="1" Background="{StaticResource StateBarBackground}">
 		</WrapPanel>
 	</Grid>

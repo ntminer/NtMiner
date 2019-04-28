@@ -24,7 +24,7 @@ namespace NTMiner.Vms {
         public PoolKernelViewModel(Guid id) {
             _id = id;
             this.Save = new DelegateCommand(() => {
-                if (NTMinerRoot.Current.PoolKernelSet.Contains(this.Id)) {
+                if (NTMinerRoot.Instance.PoolKernelSet.Contains(this.Id)) {
                     VirtualRoot.Execute(new UpdatePoolKernelCommand(this));
                 }
                 CloseWindow?.Invoke();
@@ -70,7 +70,7 @@ namespace NTMiner.Vms {
         public PoolViewModel PoolVm {
             get {
                 if (_poolVm == null || this.PoolId != _poolVm.Id) {
-                    PoolViewModels.Current.TryGetPoolVm(this.PoolId, out _poolVm);
+                    AppContext.Current.PoolVms.TryGetPoolVm(this.PoolId, out _poolVm);
                     if (_poolVm == null) {
                         _poolVm = PoolViewModel.Empty;
                     }
@@ -83,7 +83,7 @@ namespace NTMiner.Vms {
         public CoinKernelViewModel CoinKernelVm {
             get {
                 if (_coinKernelVm == null) {
-                    _coinKernelVm = CoinKernelViewModels.Current.AllCoinKernels.FirstOrDefault(a => a.KernelId == this.KernelId && a.CoinId == this.PoolVm.CoinId);
+                    _coinKernelVm = AppContext.Current.CoinKernelVms.AllCoinKernels.FirstOrDefault(a => a.KernelId == this.KernelId && a.CoinId == this.PoolVm.CoinId);
                 }
                 return _coinKernelVm;
             }
@@ -108,7 +108,7 @@ namespace NTMiner.Vms {
         public KernelViewModel Kernel {
             get {
                 KernelViewModel kernel;
-                if (KernelViewModels.Current.TryGetKernelVm(this.KernelId, out kernel)) {
+                if (AppContext.Current.KernelVms.TryGetKernelVm(this.KernelId, out kernel)) {
                     return kernel;
                 }
                 return KernelViewModel.Empty;
@@ -121,7 +121,7 @@ namespace NTMiner.Vms {
                 if (_args != value) {
                     _args = value;
                     OnPropertyChanged(nameof(Args));
-                    if (MinerProfileViewModel.Current.CoinId == this.PoolVm.CoinId) {
+                    if (AppContext.Current.MinerProfileVms.CoinId == this.PoolVm.CoinId) {
                         NTMinerRoot.RefreshArgsAssembly.Invoke();
                     }
                 }

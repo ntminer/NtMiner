@@ -3,11 +3,9 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class KernelInputPageViewModel : ViewModelBase {
-        public static readonly KernelInputPageViewModel Current = new KernelInputPageViewModel();
-
         public ICommand Add { get; private set; }
 
-        private KernelInputPageViewModel() {
+        public KernelInputPageViewModel() {
             if (Design.IsInDesignMode) {
                 return;
             }
@@ -16,9 +14,9 @@ namespace NTMiner.Vms {
             });
         }
 
-        public KernelInputViewModels KernelInputVms {
+        public AppContext.KernelInputViewModels KernelInputVms {
             get {
-                return KernelInputViewModels.Current;
+                return AppContext.Current.KernelInputVms;
             }
         }
     }

@@ -4,18 +4,16 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class KernelOutputPageViewModel : ViewModelBase {
-        public static readonly KernelOutputPageViewModel Current = new KernelOutputPageViewModel();
-
         public ICommand Add { get; private set; }
 
-        private KernelOutputPageViewModel() {
+        public KernelOutputPageViewModel() {
             if (Design.IsInDesignMode) {
                 return;
             }
             this.Add = new DelegateCommand(() => {
                 new KernelOutputViewModel(Guid.NewGuid()).Edit.Execute(FormType.Add);
             });
-            _currentKernelOutputVm = KernelOutputViewModels.Current.AllKernelOutputVms.FirstOrDefault();
+            _currentKernelOutputVm = AppContext.Current.KernelOutputVms.AllKernelOutputVms.FirstOrDefault();
         }
 
         private KernelOutputViewModel _currentKernelOutputVm;
@@ -32,9 +30,9 @@ namespace NTMiner.Vms {
             }
         }
 
-        public KernelOutputViewModels KernelOutputVms {
+        public AppContext.KernelOutputViewModels KernelOutputVms {
             get {
-                return KernelOutputViewModels.Current;
+                return AppContext.Current.KernelOutputVms;
             }
         }
     }

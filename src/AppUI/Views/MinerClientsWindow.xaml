@@ -15,10 +15,10 @@
 		BorderBrush="Black"
 		Background="{StaticResource ThemeBackground}"
 		WindowState="Maximized"
+		d:DataContext="{d:DesignData Source=Design/MinerClientsWindowViewModel.xaml}"
 		WindowStartupLocation="CenterScreen"
 		MouseDown="MetroWindow_MouseDown"
 		Title="矿机列表"
-		DataContext="{x:Static vm:MinerClientsWindowViewModel.Current}"
 		mc:Ignorable="d" d:DesignHeight="1000" d:DesignWidth="3600">
 	<metro:MetroWindow.Resources>
 		<ResourceDictionary>
@@ -62,7 +62,7 @@
 				<controls:KbButton 
 					Margin="10 0 4 0"
 					ToolTip="算力图"
-					Command="{x:Static vm:AppStatic.ShowChartsWindow}" Background="Transparent" BorderThickness="0"
+					Command="{Binding AppContext.ShowChartsWindow}" Background="Transparent" BorderThickness="0"
 					CornerRadius="2">
 					<Image Width="18" Height="18" Source="/NTMinerWpf;component/Styles/Images/cc32.png">
 					</Image>
@@ -461,7 +461,7 @@
 							</ListBox.ItemsPanel>
 							<ListBox.ItemTemplate>
 								<DataTemplate>
-									<TextBlock Padding="10 2" Text="{Binding Name}" ToolTip="{Binding Description}"></TextBlock>
+									<TextBlock Padding="10 2" Text="{Binding Name}"></TextBlock>
 								</DataTemplate>
 							</ListBox.ItemTemplate>
 						</ListBox>

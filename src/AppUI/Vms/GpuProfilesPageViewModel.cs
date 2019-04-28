@@ -53,7 +53,7 @@ namespace NTMiner.Vms {
                 foreach (var client in minerClientsWindowVm.SelectedMinerClients) {
                     Client.NTMinerDaemonService.SaveGpuProfilesJsonAsync(client.MinerIp, json);
                 }
-                NotiCenterWindowViewModel.Current.Manager.ShowSuccessMessage("应用成功，请观察效果");
+                NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage("应用成功，请观察效果");
                 CloseWindow?.Invoke();
             });
             Client.NTMinerDaemonService.GetGpuProfilesJsonAsync(_minerClientVm.MinerIp, (data, e) => {
@@ -85,7 +85,7 @@ namespace NTMiner.Vms {
                             break;
                     }
                     GpuIcon = (Geometry)System.Windows.Application.Current.Resources[iconName];
-                    foreach (var coinVm in CoinViewModels.Current.MainCoins) {
+                    foreach (var coinVm in AppContext.Current.CoinVms.MainCoins) {
                         var coinOverClock = data.CoinOverClocks.FirstOrDefault(a => a.CoinId == coinVm.Id);
                         var gpuProfiles = data.GpuProfiles.Where(a => a.CoinId == coinVm.Id).ToArray();
                         if (coinOverClock == null) {
@@ -160,9 +160,9 @@ namespace NTMiner.Vms {
             }
         }
 
-        public CoinViewModels CoinVms {
+        public AppContext.CoinViewModels CoinVms {
             get {
-                return CoinViewModels.Current;
+                return AppContext.Current.CoinVms;
             }
         }
 

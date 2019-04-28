@@ -24,7 +24,7 @@ namespace NTMiner.Vms {
                     Logger.ErrorDebugLine(e.Message, e);
                 }
             });
-            if (NTMinerRoot.Current.ServerAppSettingSet.TryGetAppSetting("ntminerUpdaterFileName", out IAppSetting appSetting) && appSetting.Value != null) {
+            if (NTMinerRoot.Instance.ServerAppSettingSet.TryGetAppSetting("ntminerUpdaterFileName", out IAppSetting appSetting) && appSetting.Value != null) {
                 _fileName = appSetting.Value.ToString();
             }
             else {

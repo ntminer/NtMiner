@@ -36,7 +36,7 @@ namespace NTMiner.Vms {
         public SysDicViewModel(Guid id) {
             _id = id;
             this.Save = new DelegateCommand(() => {
-                if (NTMinerRoot.Current.SysDicSet.ContainsKey(this.Id)) {
+                if (NTMinerRoot.Instance.SysDicSet.ContainsKey(this.Id)) {
                     VirtualRoot.Execute(new UpdateSysDicCommand(this));
                 }
                 else {
@@ -62,25 +62,25 @@ namespace NTMiner.Vms {
                 }, icon: IconConst.IconConfirm);
             });
             this.SortUp = new DelegateCommand(() => {
-                SysDicViewModel upOne = SysDicViewModels.Current.List.OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.SortNumber < this.SortNumber);
+                SysDicViewModel upOne = AppContext.Current.SysDicVms.List.OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.SortNumber < this.SortNumber);
                 if (upOne != null) {
                     int sortNumber = upOne.SortNumber;
                     upOne.SortNumber = this.SortNumber;
                     VirtualRoot.Execute(new UpdateSysDicCommand(upOne));
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdateSysDicCommand(this));
-                    SysDicViewModels.Current.OnPropertyChanged(nameof(SysDicViewModels.List));
+                    AppContext.Current.SysDicVms.OnPropertyChanged(nameof(AppContext.SysDicViewModels.List));
                 }
             });
             this.SortDown = new DelegateCommand(() => {
-                SysDicViewModel nextOne = SysDicViewModels.Current.List.OrderBy(a => a.SortNumber).FirstOrDefault(a => a.SortNumber > this.SortNumber);
+                SysDicViewModel nextOne = AppContext.Current.SysDicVms.List.OrderBy(a => a.SortNumber).FirstOrDefault(a => a.SortNumber > this.SortNumber);
                 if (nextOne != null) {
                     int sortNumber = nextOne.SortNumber;
                     nextOne.SortNumber = this.SortNumber;
                     VirtualRoot.Execute(new UpdateSysDicCommand(nextOne));
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdateSysDicCommand(this));
-                    SysDicViewModels.Current.OnPropertyChanged(nameof(SysDicViewModels.List));
+                    AppContext.Current.SysDicVms.OnPropertyChanged(nameof(AppContext.SysDicViewModels.List));
                 }
             });
         }
@@ -104,7 +104,7 @@ namespace NTMiner.Vms {
                     if (string.IsNullOrEmpty(value)) {
                         throw new ValidationException("编码是必须的");
                     }
-                    if (SysDicViewModels.Current.List.Any(a => a.Code == value && a.Id != this.Id)) {
+                    if (AppContext.Current.SysDicVms.List.Any(a => a.Code == value && a.Id != this.Id)) {
                         throw new ValidationException("编码重复");
                     }
                 }
@@ -120,7 +120,7 @@ namespace NTMiner.Vms {
                     if (string.IsNullOrEmpty(value)) {
                         throw new ValidationException("名称是必须的");
                     }
-                    if (SysDicViewModels.Current.List.Any(a => a.Name == value && a.Id != this.Id)) {
+                    if (AppContext.Current.SysDicVms.List.Any(a => a.Name == value && a.Id != this.Id)) {
                         throw new ValidationException("名称重复");
                     }
                 }
@@ -149,13 +149,13 @@ namespace NTMiner.Vms {
 
         public List<SysDicItemViewModel> SysDicItems {
             get {
-                return SysDicItemViewModels.Current.List.Where(a => a.DicId == this.Id).OrderBy(a => a.SortNumber).ToList();
+                return AppContext.Current.SysDicItemVms.List.Where(a => a.DicId == this.Id).OrderBy(a => a.SortNumber).ToList();
             }
         }
 
         private IEnumerable<SysDicItemViewModel> GetSysDicItemsSelect() {
             yield return SysDicItemViewModel.PleaseSelect;
-            foreach (var item in SysDicItemViewModels.Current.List.Where(a => a.DicId == this.Id)) {
+            foreach (var item in AppContext.Current.SysDicItemVms.List.Where(a => a.DicId == this.Id)) {
                 yield return item;
             }
         }

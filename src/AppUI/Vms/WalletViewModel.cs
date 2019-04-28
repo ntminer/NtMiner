@@ -55,7 +55,7 @@ namespace NTMiner.Vms {
                 }
                 if (!this.IsTestWallet) {
                     IWallet wallet;
-                    if (NTMinerRoot.Current.MinerProfile.TryGetWallet(this.Id, out wallet)) {
+                    if (NTMinerRoot.Instance.MinerProfile.TryGetWallet(this.Id, out wallet)) {
                         VirtualRoot.Execute(new UpdateWalletCommand(this));
                     }
                     else {
@@ -82,7 +82,7 @@ namespace NTMiner.Vms {
                 }, icon: IconConst.IconConfirm);
             });
             this.SortUp = new DelegateCommand(() => {
-                WalletViewModel upOne = WalletViewModels.Current.WalletList.OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.CoinId == this.CoinId && a.SortNumber < this.SortNumber);
+                WalletViewModel upOne = AppContext.Current.WalletVms.WalletList.OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.CoinId == this.CoinId && a.SortNumber < this.SortNumber);
                 if (upOne != null) {
                     int sortNumber = upOne.SortNumber;
                     upOne.SortNumber = this.SortNumber;
@@ -90,14 +90,14 @@ namespace NTMiner.Vms {
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdateWalletCommand(this));
                     CoinViewModel coinVm;
-                    if (CoinViewModels.Current.TryGetCoinVm(this.CoinId, out coinVm)) {
+                    if (AppContext.Current.CoinVms.TryGetCoinVm(this.CoinId, out coinVm)) {
                         coinVm.OnPropertyChanged(nameof(coinVm.Wallets));
                         coinVm.OnPropertyChanged(nameof(coinVm.WalletItems));
                     }
                 }
             });
             this.SortDown = new DelegateCommand(() => {
-                WalletViewModel nextOne = WalletViewModels.Current.WalletList.OrderBy(a => a.SortNumber).FirstOrDefault(a => a.CoinId == this.CoinId && a.SortNumber > this.SortNumber);
+                WalletViewModel nextOne = AppContext.Current.WalletVms.WalletList.OrderBy(a => a.SortNumber).FirstOrDefault(a => a.CoinId == this.CoinId && a.SortNumber > this.SortNumber);
                 if (nextOne != null) {
                     int sortNumber = nextOne.SortNumber;
                     nextOne.SortNumber = this.SortNumber;
@@ -105,7 +105,7 @@ namespace NTMiner.Vms {
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdateWalletCommand(this));
                     CoinViewModel coinVm;
-                    if (CoinViewModels.Current.TryGetCoinVm(this.CoinId, out coinVm)) {
+                    if (AppContext.Current.CoinVms.TryGetCoinVm(this.CoinId, out coinVm)) {
                         coinVm.OnPropertyChanged(nameof(coinVm.Wallets));
                         coinVm.OnPropertyChanged(nameof(coinVm.WalletItems));
                     }
@@ -160,7 +160,7 @@ namespace NTMiner.Vms {
         public string CoinCode {
             get {
                 ICoin coin;
-                if (NTMinerRoot.Current.CoinSet.TryGetCoin(this.CoinId, out coin)) {
+                if (NTMinerRoot.Instance.CoinSet.TryGetCoin(this.CoinId, out coin)) {
                     return coin.Code;
                 }
                 return string.Empty;
@@ -170,7 +170,7 @@ namespace NTMiner.Vms {
         public ICoin Coin {
             get {
                 ICoin coin;
-                if (NTMinerRoot.Current.CoinSet.TryGetCoin(this.CoinId, out coin)) {
+                if (NTMinerRoot.Instance.CoinSet.TryGetCoin(this.CoinId, out coin)) {
                     return coin;
                 }
                 return CoinViewModel.Empty;
@@ -211,7 +211,7 @@ namespace NTMiner.Vms {
                     return false;
                 }
                 IWallet wallet;
-                if (NTMinerRoot.Current.MinerProfile.TryGetWallet(this.Id, out wallet)) {
+                if (NTMinerRoot.Instance.MinerProfile.TryGetWallet(this.Id, out wallet)) {
                     return false;
                 }
                 return true;

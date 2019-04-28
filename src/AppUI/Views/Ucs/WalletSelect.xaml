@@ -45,7 +45,7 @@
 				Padding="4 0"
 				Click="KbButtonManageWallets_Click"
 				Background="{StaticResource ThemeBackground}"
-				Command="{x:Static vm:AppStatic.ManageWallet}"
+				Command="{Binding AppContext.ManageWallet}"
 				CommandParameter="{Binding Coin}"
 				CornerRadius="2">
 				<WrapPanel>

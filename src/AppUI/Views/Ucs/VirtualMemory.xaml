@@ -7,7 +7,6 @@
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 		xmlns:vm="clr-namespace:NTMiner.Vms" Background="White"
-		DataContext="{x:Static vm:DriveSet.Current}"
 		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="360">
 	<Grid Margin="20 0">
 		<Grid.RowDefinitions>
@@ -117,7 +116,7 @@
 					Margin="8 0 0 0"
 					Width="80"
 					Background="{StaticResource ThemeBackground}"
-					Command="{x:Static vm:AppStatic.ShowRestartWindows}"
+					Command="{Binding AppContext.ShowRestartWindows}"
 					VerticalAlignment="Center"
 					CornerRadius="2">
 					<WrapPanel>

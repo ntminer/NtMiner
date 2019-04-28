@@ -11,8 +11,8 @@ namespace NTMiner.Vms {
                 return;
             }
             ICalcConfig calcConfig;
-            if (NTMinerRoot.Current.CalcConfigSet.TryGetCalcConfig(SelectedCoinVm, out calcConfig)) {
-                var incomePerDay = NTMinerRoot.Current.CalcConfigSet.GetIncomePerHashPerDay(SelectedCoinVm.Code);
+            if (NTMinerRoot.Instance.CalcConfigSet.TryGetCalcConfig(SelectedCoinVm, out calcConfig)) {
+                var incomePerDay = NTMinerRoot.Instance.CalcConfigSet.GetIncomePerHashPerDay(SelectedCoinVm.Code);
                 IncomePerDayText = (this.Speed.FromUnitSpeed(this.SpeedUnitVm.Unit) * incomePerDay.IncomeCoin).ToString("f7");
                 IncomeUsdPerDayText = (this.Speed.FromUnitSpeed(this.SpeedUnitVm.Unit) * incomePerDay.IncomeUsd).ToString("f7");
                 IncomeCnyPerDayText = (this.Speed.FromUnitSpeed(this.SpeedUnitVm.Unit) * incomePerDay.IncomeCny).ToString("f7");
@@ -31,7 +31,7 @@ namespace NTMiner.Vms {
                     _selectedCoinVm = value;
                     this.Speed = 1;
                     ICalcConfig calcConfig;
-                    if (NTMinerRoot.Current.CalcConfigSet.TryGetCalcConfig(SelectedCoinVm, out calcConfig)) {
+                    if (NTMinerRoot.Instance.CalcConfigSet.TryGetCalcConfig(SelectedCoinVm, out calcConfig)) {
                         this.SpeedUnitVm = SpeedUnitViewModel.GetSpeedUnitVm(calcConfig.SpeedUnit);
                     }
                     OnPropertyChanged(nameof(SelectedCoinVm));
@@ -95,9 +95,9 @@ namespace NTMiner.Vms {
             }
         }
 
-        public CoinViewModels CoinVms {
+        public AppContext.CoinViewModels CoinVms {
             get {
-                return CoinViewModels.Current;
+                return AppContext.Current.CoinVms;
             }
         }
     }

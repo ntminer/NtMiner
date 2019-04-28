@@ -25,7 +25,7 @@ namespace NTMiner {
         private static string s_appPipName = "ntminerclient";
         protected override void OnExit(ExitEventArgs e) {
             AppHelper.NotifyIcon?.Dispose();
-            NTMinerRoot.Current.Exit();
+            NTMinerRoot.Instance.Exit();
             HttpServer.Stop();
             base.OnExit(e);
             ConsoleManager.Hide();
@@ -34,7 +34,7 @@ namespace NTMiner {
         protected override void OnStartup(StartupEventArgs e) {
             RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
             if (!string.IsNullOrEmpty(CommandLineArgs.Upgrade)) {
-                Vms.AppStatic.Upgrade(CommandLineArgs.Upgrade, () => {
+                AppStatic.Upgrade(CommandLineArgs.Upgrade, () => {
                     Environment.Exit(0);
                 });
             }
@@ -53,12 +53,12 @@ namespace NTMiner {
                     }
                     NTMinerOverClockUtil.ExtractResource();
 
-                    Vms.AppStatic.IsMinerClient = true;
+                    AppStatic.SetIsMinerClient(true);
                     SplashWindow splashWindow = new SplashWindow();
                     splashWindow.Show();
                     NotiCenterWindow.Instance.Show();
                     NTMinerRoot.AppName = "开源矿工挖矿客户端";
-                    NTMinerRoot.Current.Init(() => {
+                    NTMinerRoot.Instance.Init(() => {
                         NTMinerRoot.KernelDownloader = new KernelDownloader();
                         UIThread.Execute(() => {
                             MainWindow window = new MainWindow();
@@ -77,7 +77,7 @@ namespace NTMiner {
                             Task.Factory.StartNew(() => {
                                 try {
                                     HttpServer.Start($"http://localhost:{WebApiConst.MinerClientPort}");
-                                    NTMinerRoot.Current.Start();
+                                    NTMinerRoot.Instance.Start();
                                 }
                                 catch (Exception ex) {
                                     Logger.ErrorDebugLine(ex.Message, ex);
@@ -144,11 +144,11 @@ namespace NTMiner {
             #region 处理开启A卡计算模式
             VirtualRoot.Window<SwitchRadeonGpuCommand>("处理开启A卡计算模式命令", LogEnum.DevConsole,
                 action: message => {
-                    if (NTMinerRoot.Current.GpuSet.GpuType == GpuType.AMD) {
-                        if (NTMinerRoot.Current.IsMining) {
-                            NTMinerRoot.Current.StopMineAsync(() => {
+                    if (NTMinerRoot.Instance.GpuSet.GpuType == GpuType.AMD) {
+                        if (NTMinerRoot.Instance.IsMining) {
+                            NTMinerRoot.Instance.StopMineAsync(() => {
                                 SwitchRadeonGpuMode();
-                                NTMinerRoot.Current.StartMine();
+                                NTMinerRoot.Instance.StartMine();
                             });
                         }
                         else {
@@ -162,13 +162,13 @@ namespace NTMiner {
         private static void SwitchRadeonGpuMode() {
             SwitchRadeonGpu.SwitchRadeonGpu.Run((isSuccess, e) => {
                 if (isSuccess) {
-                    NotiCenterWindowViewModel.Current.Manager.ShowSuccessMessage("开启A卡计算模式成功");
+                    NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage("开启A卡计算模式成功");
                 }
                 else if (e != null) {
-                    NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage(e.Message, delaySeconds: 4);
+                    NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage(e.Message, delaySeconds: 4);
                 }
                 else {
-                    NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage("开启A卡计算模式失败", delaySeconds: 4);
+                    NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage("开启A卡计算模式失败", delaySeconds: 4);
                 }
             });
         }

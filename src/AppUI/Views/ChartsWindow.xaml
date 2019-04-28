@@ -55,7 +55,7 @@
 					VerticalAlignment="Top">
 					<controls:KbButton 
 						ToolTip="矿机列表"
-						Command="{x:Static vm:AppStatic.ShowMinerClients}" 
+						Command="{Binding AppContext.ShowMinerClients}" 
 						Background="Transparent" 
 						BorderThickness="0"
 						Margin="8 0 0 0"

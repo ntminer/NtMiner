@@ -7,18 +7,13 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class MainWindowViewModel : ViewModelBase {
-        /// <summary>
-        /// UI层应只有这一个静态成员
-        /// </summary>
-        public static readonly MainWindowViewModel Current = new MainWindowViewModel();
-
         private Visibility _isBtnRunAsAdministratorVisible = Visibility.Collapsed;
         private string _serverJsonVersion;
 
         public ICommand CustomTheme { get; private set; }
         public ICommand UseThisPcName { get; private set; }
 
-        private MainWindowViewModel() {
+        public MainWindowViewModel() {
             if (Design.IsInDesignMode) {
                 return;
             }
@@ -47,10 +42,16 @@ namespace NTMiner.Vms {
 
         private string GetServerJsonVersion() {
             string serverJsonVersion = string.Empty;
-            if (NTMinerRoot.Current.LocalAppSettingSet.TryGetAppSetting("ServerJsonVersion", out IAppSetting setting) && setting.Value != null) {
+            if (NTMinerRoot.Instance.LocalAppSettingSet.TryGetAppSetting("ServerJsonVersion", out IAppSetting setting) && setting.Value != null) {
                 serverJsonVersion = setting.Value.ToString();
             }
             return serverJsonVersion;
+        }
+
+        public AppContext AppContext {
+            get {
+                return AppContext.Current;
+            }
         }
 
         public string BrandTitle {
@@ -58,7 +59,7 @@ namespace NTMiner.Vms {
                 if (VirtualRoot.KernelBrandId == Guid.Empty) {
                     return string.Empty;
                 }
-                if (NTMinerRoot.Current.SysDicItemSet.TryGetDicItem(VirtualRoot.KernelBrandId, out ISysDicItem dicItem)) {
+                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(VirtualRoot.KernelBrandId, out ISysDicItem dicItem)) {
                     if (!string.IsNullOrEmpty(dicItem.Value)) {
                         return dicItem.Value + "专版";
                     }
@@ -76,18 +77,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        public double Height {
-            get {
-                return AppStatic.MainWindowHeight;
-            }
-        }
-
-        public double Width {
-            get {
-                return AppStatic.MainWindowWidth;
-            }
-        }
-
         public Visibility IsBtnRunAsAdministratorVisible {
             get => _isBtnRunAsAdministratorVisible;
             set {
@@ -100,11 +89,9 @@ namespace NTMiner.Vms {
 
         public MinerProfileViewModel MinerProfile {
             get {
-                return MinerProfileViewModel.Current;
+                return AppContext.Current.MinerProfileVms;
             }
         }
-
-        public GpuSpeedViewModels GpuSpeedVms { get; private set; } = new GpuSpeedViewModels();
 
         public string ServerJsonVersion {
             get => _serverJsonVersion;
@@ -121,28 +108,10 @@ namespace NTMiner.Vms {
                 if (Design.IsInDesignMode) {
                     return Visibility.Visible;
                 }
-                if (NTMinerRoot.Current.GpuSet.GpuType == GpuType.NVIDIA) {
+                if (NTMinerRoot.Instance.GpuSet.GpuType == GpuType.NVIDIA) {
                     return Visibility.Visible;
                 }
                 return Visibility.Collapsed;
-            }
-        }
-
-        public StartStopMineButtonViewModel StartStopMineButtonVm {
-            get; private set;
-        } = new StartStopMineButtonViewModel();
-
-        private PoolKernelViewModels _poolKernelVms;
-        public PoolKernelViewModels PoolKernelVms {
-            get {
-                return _poolKernelVms ?? (_poolKernelVms = new PoolKernelViewModels());
-            }
-        }
-
-        private CoinGroupViewModels _coinGroupVms;
-        public CoinGroupViewModels CoinGroupVms {
-            get {
-                return _coinGroupVms ?? (_coinGroupVms = new CoinGroupViewModels());
             }
         }
     }
