@@ -106,7 +106,7 @@ namespace NTMiner.Vms {
             }
         }
 
-        public GpuViewModels GpuVms {
+        public AppContext.GpuViewModels GpuVms {
             get {
                 return AppContext.GpuVms;
             }

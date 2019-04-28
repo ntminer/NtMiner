@@ -115,6 +115,7 @@
     <Compile Include="AppContext.partials.DriveSetViewModel.cs" />
     <Compile Include="AppContext.partials.GpuProfileViewModels.cs" />
     <Compile Include="AppContext.partials.GpuSpeedViewModels.cs" />
+    <Compile Include="AppContext.partials.GpuViewModels.cs" />
     <Compile Include="AppContext.partials.PoolKernelViewModels.cs" />
     <Compile Include="AppContext.partials.StartStopMineButtonViewModel.cs" />
     <Compile Include="AppContext.partials.VirtualMemorySetViewModel.cs" />
@@ -359,7 +360,6 @@
     <Compile Include="Vms\KernelOutputFilterViewModel.cs" />
     <Compile Include="Vms\KernelOutputFilterViewModels.cs" />
     <Compile Include="Vms\KernelOutputTranslaterViewModel.cs" />
-    <Compile Include="Vms\GpuViewModels.cs" />
     <Compile Include="Vms\KernelOutputTranslaterViewModels.cs" />
     <Compile Include="Vms\KernelProfileViewModel.cs" />
     <Compile Include="Vms\KernelViewModels.cs" />
