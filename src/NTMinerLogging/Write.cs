@@ -2,18 +2,24 @@
 
 namespace NTMiner {
     public static class Write {
+        private static readonly Action<string, ConsoleColor, bool> _writeUserLineMethod;
         public static Action<string, ConsoleColor, bool> WriteUserLineMethod;
 
         static Write() {
             if (DevMode.IsDevMode && !System.Diagnostics.Debugger.IsAttached) {
                 ConsoleManager.Show();
             }
-            WriteUserLineMethod = (line, color, isNotice) => {
+            _writeUserLineMethod = (line, color, isNotice) => {
                 ConsoleColor oldColor = Console.ForegroundColor;
                 Console.ForegroundColor = color;
                 Console.WriteLine(line, isNotice);
                 Console.ForegroundColor = oldColor;
             };
+            WriteUserLineMethod = _writeUserLineMethod;
+        }
+
+        public static void ResetWriteUserLineMethod() {
+            WriteUserLineMethod = _writeUserLineMethod;
         }
 
         public static void UserLine(string text, MessageType messageType = MessageType.Default) {

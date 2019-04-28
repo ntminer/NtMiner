@@ -31,6 +31,11 @@ namespace NTMiner.Views.Ucs {
                     }
                 }
             };
+            this.Unloaded += Console_Unloaded;
+        }
+
+        private void Console_Unloaded(object sender, System.Windows.RoutedEventArgs e) {
+            Write.ResetWriteUserLineMethod();
         }
 
         private readonly Dictionary<string, ScrollViewer> _scrollView = new Dictionary<string, ScrollViewer>();
