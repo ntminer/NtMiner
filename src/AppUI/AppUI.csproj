@@ -113,6 +113,7 @@
     <Compile Include="AppContext.partials.CoinViewModels.cs" />
     <Compile Include="AppContext.partials.ColumnsShowViewModels.cs" />
     <Compile Include="AppContext.partials.DriveSetViewModel.cs" />
+    <Compile Include="AppContext.partials.GpuProfileViewModels.cs" />
     <Compile Include="AppContext.partials.GpuSpeedViewModels.cs" />
     <Compile Include="AppContext.partials.PoolKernelViewModels.cs" />
     <Compile Include="AppContext.partials.StartStopMineButtonViewModel.cs" />
@@ -335,7 +336,6 @@
     <Compile Include="Vms\EnvironmentVariableEditViewModel.cs" />
     <Compile Include="Vms\GpuProfilesPageViewModel.cs" />
     <Compile Include="Vms\GpuProfileViewModel.cs" />
-    <Compile Include="Vms\GpuProfileViewModels.cs" />
     <Compile Include="Vms\GpuSpeedDataViewModel.cs" />
     <Compile Include="Vms\GpuSpeedDataViewModels.cs" />
     <Compile Include="Vms\GroupViewModel.cs" />
