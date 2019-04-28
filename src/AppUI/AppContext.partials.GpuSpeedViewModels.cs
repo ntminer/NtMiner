@@ -23,7 +23,7 @@ namespace NTMiner {
                 if (Design.IsInDesignMode) {
                     return;
                 }
-                this.GpuAllVm = AppContext.Current.GpuVms.FirstOrDefault(a => a.Index == NTMinerRoot.GpuAllId);
+                this.GpuAllVm = Current.GpuVms.FirstOrDefault(a => a.Index == NTMinerRoot.GpuAllId);
                 IGpusSpeed gpuSpeeds = NTMinerRoot.Current.GpusSpeed;
                 foreach (var item in gpuSpeeds) {
                     this._list.Add(new GpuSpeedViewModel(item));
