@@ -3,6 +3,7 @@ using NTMiner.Notifications;
 using NTMiner.Views.Ucs;
 using NTMiner.Vms;
 using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -59,6 +60,11 @@ namespace NTMiner.Views {
                     return true;
                 }
             };
+        }
+
+        protected override void OnClosing(CancelEventArgs e) {
+            Write.ResetWriteUserLineMethod();
+            base.OnClosing(e);
         }
 
         private bool RegHotKey(System.Windows.Forms.Keys key, out string message) {

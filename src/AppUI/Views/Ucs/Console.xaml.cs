@@ -18,11 +18,6 @@ namespace NTMiner.Views.Ucs {
         public Console() {
             InitializeComponent();
             Write.WriteUserLineMethod = WriteLine;
-            this.Unloaded += Console_Unloaded;
-        }
-
-        private void Console_Unloaded(object sender, System.Windows.RoutedEventArgs e) {
-            Write.ResetWriteUserLineMethod();
         }
 
         private ScrollViewer _scrollView;
