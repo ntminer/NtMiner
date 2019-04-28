@@ -1,5 +1,6 @@
 ﻿using MahApps.Metro.Controls;
 using NTMiner.Notifications;
+using NTMiner.Views.Ucs;
 using NTMiner.Vms;
 using System;
 using System.Windows;
@@ -167,7 +168,33 @@ namespace NTMiner.Views {
             if (ConsoleUc == null) {
                 return;
             }
-            ConsoleUc.IsBuffer = ((TabControl)sender).SelectedItem != TabItemLog;
+            var selectedItem = ((TabControl)sender).SelectedItem;
+            ConsoleUc.IsBuffer = selectedItem != TabItemLog;
+            if (selectedItem == TabItemOuterProperty) {
+                if (OuterPropertyContainer.Child == null) {
+                    OuterPropertyContainer.Child = new OuterProperty();
+                }
+            }
+            else if (selectedItem == TabItemToolbox) {
+                if (ToolboxContainer.Child == null) {
+                    ToolboxContainer.Child = new Toolbox();
+                }
+            }
+            else if (selectedItem == TabItemMinerProfileOption) {
+                if (MinerProfileOptionContainer.Child == null) {
+                    MinerProfileOptionContainer.Child = new MinerProfileOption();
+                }
+            }
+            else if (selectedItem == TabItemGpuOverClock) {
+                if (GpuOverClockContainer.Child == null) {
+                    GpuOverClockContainer.Child = new GpuOverClock();
+                }
+            }
+            else if (selectedItem == TabItemSpeedTable) {
+                if (SpeedTableContainer.Child == null) {
+                    SpeedTableContainer.Child = new SpeedTable();
+                }
+            }
         }
     }
 }

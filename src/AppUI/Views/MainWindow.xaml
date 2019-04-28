@@ -545,7 +545,7 @@
 						</uc:Console>
 					</Grid>
 				</TabItem>
-				<TabItem>
+				<TabItem x:Name="TabItemSpeedTable">
 					<TabItem.Header>
 						<WrapPanel>
 							<Path 
@@ -557,10 +557,10 @@
 							<TextBlock Text="算力" Padding="4 0 0 0" FontSize="14"></TextBlock>
 						</WrapPanel>
 					</TabItem.Header>
-					<uc:SpeedTable>
-					</uc:SpeedTable>
+					<Border x:Name="SpeedTableContainer">
+					</Border>
 				</TabItem>
-				<TabItem Visibility="{Binding IsOverClockVisible}">
+				<TabItem x:Name="TabItemGpuOverClock" Visibility="{Binding IsOverClockVisible}">
 					<TabItem.Header>
 						<WrapPanel>
 							<Path 
@@ -578,10 +578,10 @@
 								IsChecked="{Binding MinerProfile.CoinVm.IsOverClockEnabled}"></CheckBox>
 						</WrapPanel>
 					</TabItem.Header>
-					<uc:GpuOverClock Padding="4 0 0 0">
-					</uc:GpuOverClock>
+					<Border x:Name="GpuOverClockContainer" Padding="4 0 0 0">
+					</Border>
 				</TabItem>
-				<TabItem>
+				<TabItem x:Name="TabItemMinerProfileOption">
 					<TabItem.Header>
 						<WrapPanel>
 							<Path 
@@ -593,10 +593,9 @@
 							<TextBlock Text="选项" Padding="4 0 0 0" FontSize="14"></TextBlock>
 						</WrapPanel>
 					</TabItem.Header>
-					<uc:MinerProfileOption Padding="4 0 0 0">
-					</uc:MinerProfileOption>
+					<Border x:Name="MinerProfileOptionContainer" Padding="4 0 0 0"></Border>
 				</TabItem>
-				<TabItem>
+				<TabItem x:Name="TabItemToolbox">
 					<TabItem.Header>
 						<WrapPanel>
 							<Path 
@@ -608,10 +607,9 @@
 							<TextBlock Text="工具箱" Padding="4 0 0 0" FontSize="14"></TextBlock>
 						</WrapPanel>
 					</TabItem.Header>
-					<uc:Toolbox Padding="4 0 0 0">
-					</uc:Toolbox>
+					<Border x:Name="ToolboxContainer" Padding="4 0 0 0"></Border>
 				</TabItem>
-				<TabItem>
+				<TabItem x:Name="TabItemOuterProperty">
 					<TabItem.Header>
 						<WrapPanel>
 							<Path 
@@ -623,7 +621,7 @@
 							<TextBlock Text="属性" Padding="4 0 0 0" FontSize="14"></TextBlock>
 						</WrapPanel>
 					</TabItem.Header>
-					<uc:OuterProperty Padding="4 0 0 0" />
+					<Border x:Name="OuterPropertyContainer" Padding="4 0 0 0"></Border>
 				</TabItem>
 			</TabControl>
 
