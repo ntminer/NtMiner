@@ -127,8 +127,12 @@
     <Compile Include="AppContext.partials.OverClockDataViewModels.cs" />
     <Compile Include="AppContext.partials.PoolKernelViewModels.cs" />
     <Compile Include="AppContext.partials.PoolProfileViewModels.cs" />
+    <Compile Include="AppContext.partials.PoolViewModels.cs" />
+    <Compile Include="AppContext.partials.ShareViewModels.cs" />
     <Compile Include="AppContext.partials.StartStopMineButtonViewModel.cs" />
+    <Compile Include="AppContext.partials.UserViewModels.cs" />
     <Compile Include="AppContext.partials.VirtualMemorySetViewModel.cs" />
+    <Compile Include="AppContext.partials.WalletViewModels.cs" />
     <Compile Include="AppHelper.cs" />
     <Compile Include="IMainWindow.cs" />
     <Compile Include="KernelDownloader.cs" />
@@ -383,7 +387,6 @@
     <Compile Include="Vms\PoolKernelViewModel.cs" />
     <Compile Include="Vms\PoolProfileViewModel.cs" />
     <Compile Include="Vms\ShareViewModel.cs" />
-    <Compile Include="Vms\ShareViewModels.cs" />
     <Compile Include="Vms\CoinSnapshotDataViewModel.cs" />
     <Compile Include="Vms\SpeedChartsViewModel.cs" />
     <Compile Include="Vms\SpeedChartViewModels.cs" />
@@ -420,7 +423,6 @@
     <Compile Include="Vms\OuterPropertyViewModel.cs" />
     <Compile Include="Vms\KernelViewModel.cs" />
     <Compile Include="Vms\CoinProfileViewModel.cs" />
-    <Compile Include="Vms\PoolViewModels.cs" />
     <Compile Include="Vms\MinerProfileViewModel.cs" />
     <Compile Include="Vms\SpeedChartViewModel.cs" />
     <Compile Include="Vms\SysDicItemViewModel.cs" />
@@ -430,9 +432,7 @@
     <Compile Include="Vms\ToolboxViewModel.cs" />
     <Compile Include="Vms\UserPageViewModel.cs" />
     <Compile Include="Vms\UserViewModel.cs" />
-    <Compile Include="Vms\UserViewModels.cs" />
     <Compile Include="Vms\WalletSelectViewModel.cs" />
-    <Compile Include="Vms\WalletViewModels.cs" />
     <Compile Include="Vms\WalletViewModel.cs" />
     <Compile Include="Vms\SpeedViewModel.cs" />
     <Compile Include="Vms\CoinViewModel.cs" />

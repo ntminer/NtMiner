@@ -3,7 +3,7 @@
         public UserPageViewModel() {
         }
 
-        public UserViewModels UserVms {
+        public AppContext.UserViewModels UserVms {
             get {
                 return AppContext.Current.UserVms;
             }
