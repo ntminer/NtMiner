@@ -12,6 +12,7 @@ using System.Timers;
 namespace NTMiner {
     class Program {
         static void Main(string[] args) {
+            VirtualRoot.StartTimer();
             try {
                 // 将服务器地址设为localhost从而使用内网ip访问免于验证用户名密码
                 AssemblyInfo.OfficialServerHost = "localhost";

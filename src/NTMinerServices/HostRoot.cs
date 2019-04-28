@@ -18,6 +18,7 @@ namespace NTMiner {
         // 该程序编译为控制台程序，如果不启用内网支持则默认设置为开机自动启动
         [STAThread]
         static void Main(string[] args) {
+            VirtualRoot.StartTimer();
             try {
                 Console.Title = "NTMinerServices";
                 bool mutexCreated;

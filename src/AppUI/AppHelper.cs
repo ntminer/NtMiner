@@ -35,6 +35,7 @@ namespace NTMiner {
             };
 
             UIThread.InitializeWithDispatcher();
+            UIThread.StartTimer();
             Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("zh-CN");
         }
         #endregion

@@ -20,5 +20,11 @@ namespace NTMiner {
         public static void Execute(this Action action) {
             s_executor(action);
         }
+
+        public static void StartTimer() {
+            DispatcherTimer t = new DispatcherTimer(TimeSpan.FromSeconds(1), DispatcherPriority.Normal, (sender, e)=> {
+                VirtualRoot.Happened(new Per1SecondEvent());
+            }, Dispatcher.CurrentDispatcher);
+        }
     }
 }
