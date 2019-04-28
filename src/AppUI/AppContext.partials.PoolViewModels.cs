@@ -9,11 +9,11 @@ namespace NTMiner {
         public class PoolViewModels : ViewModelBase {
             private readonly Dictionary<Guid, PoolViewModel> _dicById = new Dictionary<Guid, PoolViewModel>();
             public PoolViewModels() {
-                NTMinerRoot.Current.OnContextReInited += () => {
+                NTMinerRoot.Instance.OnContextReInited += () => {
                     _dicById.Clear();
                     Init();
                 };
-                NTMinerRoot.Current.OnReRendContext += () => {
+                NTMinerRoot.Instance.OnReRendContext += () => {
                     OnPropertyChanged(nameof(AllPools));
                 };
                 Init();
@@ -31,7 +31,7 @@ namespace NTMiner {
                             coinVm.OnPropertyChanged(nameof(CoinViewModel.Pools));
                             coinVm.OnPropertyChanged(nameof(CoinViewModel.OptionPools));
                         }
-                    }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
+                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers);
                 VirtualRoot.On<PoolRemovedEvent>("删除矿池后刷新VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         _dicById.Remove(message.Source.GetId());
@@ -43,12 +43,12 @@ namespace NTMiner {
                             coinVm.OnPropertyChanged(nameof(CoinViewModel.Pools));
                             coinVm.OnPropertyChanged(nameof(CoinViewModel.OptionPools));
                         }
-                    }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
+                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers);
                 VirtualRoot.On<PoolUpdatedEvent>("更新矿池后刷新VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         _dicById[message.Source.GetId()].Update(message.Source);
-                    }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
-                foreach (var item in NTMinerRoot.Current.PoolSet) {
+                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers);
+                foreach (var item in NTMinerRoot.Instance.PoolSet) {
                     _dicById.Add(item.GetId(), new PoolViewModel(item));
                 }
             }

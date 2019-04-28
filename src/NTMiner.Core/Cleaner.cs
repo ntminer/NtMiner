@@ -26,7 +26,7 @@ namespace NTMiner {
 
         public static void ClearPackages() {
             HashSet<string> packageFileNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-            foreach (var kernel in NTMinerRoot.Current.KernelSet) {
+            foreach (var kernel in NTMinerRoot.Instance.KernelSet) {
                 if (!string.IsNullOrEmpty(kernel.Package)) {
                     packageFileNames.Add(kernel.Package);
                 }
@@ -56,7 +56,7 @@ namespace NTMiner {
         public static void CleanKernels() {
             try {
                 string currentKernelDir = string.Empty;
-                var currentMineContext = NTMinerRoot.Current.CurrentMineContext;
+                var currentMineContext = NTMinerRoot.Instance.CurrentMineContext;
                 if (currentMineContext != null && currentMineContext.Kernel != null) {
                     currentKernelDir = currentMineContext.Kernel.GetKernelDirFullName();
                 }

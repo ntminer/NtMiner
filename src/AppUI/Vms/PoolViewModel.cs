@@ -73,7 +73,7 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                if (NTMinerRoot.Current.PoolSet.Contains(this.Id)) {
+                if (NTMinerRoot.Instance.PoolSet.Contains(this.Id)) {
                     VirtualRoot.Execute(new UpdatePoolCommand(this));
                 }
                 else {
@@ -139,7 +139,7 @@ namespace NTMiner.Vms {
                     else {
                         url = url.Replace("{wallet}", wallet.Address);
                     }
-                    url = url.Replace("{worker}", NTMinerRoot.Current.MinerProfile.MinerName);
+                    url = url.Replace("{worker}", NTMinerRoot.Instance.MinerProfile.MinerName);
                     Process.Start(url);
                 }
             });
@@ -153,7 +153,7 @@ namespace NTMiner.Vms {
 
         public bool IsNew {
             get {
-                return !NTMinerRoot.Current.PoolSet.Contains(this.Id);
+                return !NTMinerRoot.Instance.PoolSet.Contains(this.Id);
             }
         }
 
@@ -250,7 +250,7 @@ namespace NTMiner.Vms {
 
         public string CoinCode {
             get {
-                if (NTMinerRoot.Current.CoinSet.TryGetCoin(this.CoinId, out ICoin coin)) {
+                if (NTMinerRoot.Instance.CoinSet.TryGetCoin(this.CoinId, out ICoin coin)) {
                     return coin.Code;
                 }
                 return string.Empty;

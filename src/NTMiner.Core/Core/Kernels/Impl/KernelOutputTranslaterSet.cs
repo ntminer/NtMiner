@@ -170,7 +170,7 @@ namespace NTMiner.Core.Kernels.Impl {
         private Dictionary<IKernelOutputTranslater, ConsoleColor> _colorDic = new Dictionary<IKernelOutputTranslater, ConsoleColor>();
         private ConsoleColor GetColor(IKernelOutputTranslater consoleTranslater) {
             if (!_colorDic.ContainsKey(consoleTranslater)) {
-                if (NTMinerRoot.Current.SysDicItemSet.TryGetDicItem("LogColor", consoleTranslater.Color, out ISysDicItem dicItem)) {
+                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("LogColor", consoleTranslater.Color, out ISysDicItem dicItem)) {
                     _colorDic.Add(consoleTranslater, GetColor(dicItem.Value));
                 }
                 else {

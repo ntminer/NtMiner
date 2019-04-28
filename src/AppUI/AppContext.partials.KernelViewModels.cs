@@ -15,11 +15,11 @@ namespace NTMiner {
             }
 
             public KernelViewModels() {
-                NTMinerRoot.Current.OnContextReInited += () => {
+                NTMinerRoot.Instance.OnContextReInited += () => {
                     _dicById.Clear();
                     Init();
                 };
-                NTMinerRoot.Current.OnReRendContext += () => {
+                NTMinerRoot.Instance.OnReRendContext += () => {
                     OnPropertyChanged(nameof(AllKernels));
                 };
                 Init();
@@ -33,7 +33,7 @@ namespace NTMiner {
                         foreach (var coinKernelVm in Current.CoinKernelVms.AllCoinKernels.Where(a => a.KernelId == message.Source.GetId())) {
                             coinKernelVm.OnPropertyChanged(nameof(coinKernelVm.IsSupportDualMine));
                         }
-                    }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
+                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers);
                 VirtualRoot.On<KernelRemovedEvent>("删除了内核后调整VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById.Remove(message.Source.GetId());
@@ -41,7 +41,7 @@ namespace NTMiner {
                         foreach (var coinKernelVm in Current.CoinKernelVms.AllCoinKernels.Where(a => a.KernelId == message.Source.GetId())) {
                             coinKernelVm.OnPropertyChanged(nameof(coinKernelVm.IsSupportDualMine));
                         }
-                    }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
+                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers);
                 VirtualRoot.On<KernelUpdatedEvent>("更新了内核后调整VM内存", LogEnum.DevConsole,
                     action: message => {
                         var entity = _dicById[message.Source.GetId()];
@@ -58,8 +58,8 @@ namespace NTMiner {
                         if (kernelInputId != entity.KernelInputId) {
                             NTMinerRoot.RefreshArgsAssembly.Invoke();
                         }
-                    }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
-                foreach (var item in NTMinerRoot.Current.KernelSet) {
+                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers);
+                foreach (var item in NTMinerRoot.Instance.KernelSet) {
                     _dicById.Add(item.GetId(), new KernelViewModel(item));
                 }
             }

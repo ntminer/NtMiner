@@ -9,7 +9,7 @@ namespace NTMiner {
             private readonly Dictionary<Guid, CoinGroupViewModel> _dicById = new Dictionary<Guid, CoinGroupViewModel>();
             private readonly Dictionary<Guid, List<CoinGroupViewModel>> _listByGroupId = new Dictionary<Guid, List<CoinGroupViewModel>>();
             public CoinGroupViewModels() {
-                NTMinerRoot.Current.OnContextReInited += () => {
+                NTMinerRoot.Instance.OnContextReInited += () => {
                     _dicById.Clear();
                     _listByGroupId.Clear();
                     Init();
@@ -29,7 +29,7 @@ namespace NTMiner {
                             _listByGroupId[coinGroupVm.GroupId].Add(coinGroupVm);
                             OnGroupPropertyChanged(coinGroupVm.GroupId);
                         }
-                    }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
+                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers);
                 VirtualRoot.On<CoinGroupUpdatedEvent>("更新了币组后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         if (_dicById.ContainsKey(message.Source.GetId())) {
@@ -43,7 +43,7 @@ namespace NTMiner {
                                 }
                             }
                         }
-                    }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
+                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers);
                 VirtualRoot.On<CoinGroupRemovedEvent>("删除了币组后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         if (_dicById.ContainsKey(message.Source.GetId())) {
@@ -54,8 +54,8 @@ namespace NTMiner {
                             }
                             OnGroupPropertyChanged(entity.GroupId);
                         }
-                    }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
-                foreach (var item in NTMinerRoot.Current.CoinGroupSet) {
+                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers);
+                foreach (var item in NTMinerRoot.Instance.CoinGroupSet) {
                     CoinGroupViewModel groupVm = new CoinGroupViewModel(item);
                     _dicById.Add(item.GetId(), groupVm);
                     if (!_listByGroupId.ContainsKey(item.GroupId)) {

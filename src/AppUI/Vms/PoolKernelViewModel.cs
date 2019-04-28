@@ -24,7 +24,7 @@ namespace NTMiner.Vms {
         public PoolKernelViewModel(Guid id) {
             _id = id;
             this.Save = new DelegateCommand(() => {
-                if (NTMinerRoot.Current.PoolKernelSet.Contains(this.Id)) {
+                if (NTMinerRoot.Instance.PoolKernelSet.Contains(this.Id)) {
                     VirtualRoot.Execute(new UpdatePoolKernelCommand(this));
                 }
                 CloseWindow?.Invoke();

@@ -18,7 +18,7 @@ namespace NTMiner.Vms {
                 return;
             }
             this.Add = new DelegateCommand(() => {
-                int sortNumber = NTMinerRoot.Current.CoinSet.Count == 0 ? 1 : NTMinerRoot.Current.CoinSet.Max(a => a.SortNumber) + 1;
+                int sortNumber = NTMinerRoot.Instance.CoinSet.Count == 0 ? 1 : NTMinerRoot.Instance.CoinSet.Max(a => a.SortNumber) + 1;
                 new CoinViewModel(Guid.NewGuid()) {
                     SortNumber = sortNumber
                 }.Edit.Execute(FormType.Add);

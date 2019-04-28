@@ -15,7 +15,7 @@ namespace NTMiner {
                             vm.OnPropertyChanged(message.PropertyName);
                         }
                     });
-                NTMinerRoot.Current.OnMinerProfileReInited += () => {
+                NTMinerRoot.Instance.OnMinerProfileReInited += () => {
                     _dicById.Clear();
                 };
             }
@@ -26,7 +26,7 @@ namespace NTMiner {
                 if (!_dicById.TryGetValue(poolId, out poolProfile)) {
                     lock (_locker) {
                         if (!_dicById.TryGetValue(poolId, out poolProfile)) {
-                            poolProfile = new PoolProfileViewModel(NTMinerRoot.Current.MinerProfile.GetPoolProfile(poolId));
+                            poolProfile = new PoolProfileViewModel(NTMinerRoot.Instance.MinerProfile.GetPoolProfile(poolId));
                             _dicById.Add(poolId, poolProfile);
                         }
                     }

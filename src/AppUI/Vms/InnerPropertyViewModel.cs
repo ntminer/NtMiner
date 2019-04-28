@@ -12,7 +12,7 @@ namespace NTMiner.Vms {
             get { return VirtualRoot.Id; }
         }
         public DateTime BootOn {
-            get => NTMinerRoot.Current.CreatedOn;
+            get => NTMinerRoot.Instance.CreatedOn;
         }
         public string GlobalDir {
             get => VirtualRoot.GlobalDirFullName;

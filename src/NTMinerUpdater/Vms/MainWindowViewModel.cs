@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 
 namespace NTMiner.Vms {
     public class MainWindowViewModel : ViewModelBase {
-        public static readonly MainWindowViewModel Current = new MainWindowViewModel();
+        public static readonly MainWindowViewModel Instance = new MainWindowViewModel();
 
         private double _downloadPercent;
         private bool _isDownloading = false;
@@ -152,10 +152,10 @@ namespace NTMiner.Vms {
                         message = "下载取消";
                     }
                     if (isSuccess) {
-                        NotiCenterWindowViewModel.Current.Manager.ShowSuccessMessage(App.AppType.ToString() + version + "下载成功");
+                        NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage(App.AppType.ToString() + version + "下载成功");
                     }
                     else {
-                        NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage(message, 4);
+                        NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage(message, 4);
                     }
                     downloadComplete?.Invoke(isSuccess, message, saveFileFullName);
                 };

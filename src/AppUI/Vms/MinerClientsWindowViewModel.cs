@@ -65,7 +65,7 @@ namespace NTMiner.Vms {
             if (Design.IsInDesignMode) {
                 return;
             }
-            var appSettings = NTMinerRoot.Current.ServerAppSettingSet;
+            var appSettings = NTMinerRoot.Instance.ServerAppSettingSet;
             Guid columnsShowId = ColumnsShowData.PleaseSelect.Id;
             if (appSettings.TryGetAppSetting("ColumnsShowId", out IAppSetting columnsShowAppSetting) && columnsShowAppSetting.Value != null) {
                 if (Guid.TryParse(columnsShowAppSetting.Value.ToString(), out Guid guid)) {
@@ -111,7 +111,7 @@ namespace NTMiner.Vms {
                     var selectedMinerClient = this.SelectedMinerClients[0];
                     InputWindow.ShowDialog("作业矿工名 注意：重新开始挖矿时生效", selectedMinerClient.MinerName, null, minerName => {
                         selectedMinerClient.MinerName = minerName;
-                        NotiCenterWindowViewModel.Current.Manager.ShowSuccessMessage("设置作业矿工名成功，重新开始挖矿时生效。");
+                        NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage("设置作业矿工名成功，重新开始挖矿时生效。");
                     });
                     return;
                 }
@@ -414,7 +414,7 @@ namespace NTMiner.Vms {
         }
 
         private void ShowNoRecordSelected() {
-            NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage("没有选中记录", 2);
+            NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage("没有选中记录", 2);
         }
 
         public ColumnsShowViewModel ColumnsShow {

@@ -15,11 +15,11 @@ namespace NTMiner {
                 if (Design.IsInDesignMode) {
                     return;
                 }
-                NTMinerRoot.Current.OnContextReInited += () => {
+                NTMinerRoot.Instance.OnContextReInited += () => {
                     _dicById.Clear();
                     Init();
                 };
-                NTMinerRoot.Current.OnReRendContext += () => {
+                NTMinerRoot.Instance.OnReRendContext += () => {
                     AllPropertyChanged();
                 };
                 Init();
@@ -31,13 +31,13 @@ namespace NTMiner {
                         _dicById.Add(message.Source.GetId(), new CoinViewModel(message.Source));
                         Current.MinerProfileVms.OnPropertyChanged(nameof(Current.MinerProfileVms.CoinVm));
                         AllPropertyChanged();
-                    }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
+                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers);
                 VirtualRoot.On<CoinRemovedEvent>("移除了币种后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById.Remove(message.Source.GetId());
                         Current.MinerProfileVms.OnPropertyChanged(nameof(Current.MinerProfileVms.CoinVm));
                         AllPropertyChanged();
-                    }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
+                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers);
                 VirtualRoot.On<CoinUpdatedEvent>("更新了币种后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         CoinViewModel coinVm = _dicById[message.Source.GetId()];
@@ -58,7 +58,7 @@ namespace NTMiner {
                         if (justAsDualCoin != coinVm.JustAsDualCoin) {
                             OnPropertyChanged(nameof(MainCoins));
                         }
-                    }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
+                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers);
                 VirtualRoot.On<CoinIconDownloadedEvent>("下载了币种钱包后", LogEnum.DevConsole,
                     action: message => {
                         try {
@@ -83,8 +83,8 @@ namespace NTMiner {
                         catch (Exception e) {
                             Logger.ErrorDebugLine(e.Message, e);
                         }
-                    }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
-                foreach (var item in NTMinerRoot.Current.CoinSet) {
+                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers);
+                foreach (var item in NTMinerRoot.Instance.CoinSet) {
                     _dicById.Add(item.GetId(), new CoinViewModel(item));
                 }
                 foreach (var coinVm in _dicById.Values) {
@@ -98,7 +98,7 @@ namespace NTMiner {
 
             public bool TryGetCoinVm(string coinCode, out CoinViewModel coinVm) {
                 ICoin coin;
-                if (NTMinerRoot.Current.CoinSet.TryGetCoin(coinCode, out coin)) {
+                if (NTMinerRoot.Instance.CoinSet.TryGetCoin(coinCode, out coin)) {
                     return TryGetCoinVm(coin.GetId(), out coinVm);
                 }
                 coinVm = CoinViewModel.Empty;

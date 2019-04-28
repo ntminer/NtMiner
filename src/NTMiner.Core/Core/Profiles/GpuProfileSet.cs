@@ -23,7 +23,7 @@ namespace NTMiner.Core.Profiles {
 
         private GpuData[] CreateGpus() {
             List<GpuData> list = new List<GpuData>();
-            foreach (var gpu in NTMinerRoot.Current.GpuSet) {
+            foreach (var gpu in NTMinerRoot.Instance.GpuSet) {
                 list.Add(new GpuData {
                     Index = gpu.Index,
                     Name = gpu.Name,

@@ -90,7 +90,7 @@ namespace NTMiner.Vms {
         public KernelViewModel(Guid id) {
             _id = id;
             this.Save = new DelegateCommand(() => {
-                if (NTMinerRoot.Current.KernelSet.Contains(this.Id)) {
+                if (NTMinerRoot.Instance.KernelSet.Contains(this.Id)) {
                     VirtualRoot.Execute(new UpdateKernelCommand(this));
                 }
                 else {
@@ -161,7 +161,7 @@ namespace NTMiner.Vms {
                 string helpArg = this.HelpArg.Trim();
                 string asFileFullName = Path.Combine(kernelDirFullName, helpArg);
                 // 如果当前内核不处在挖矿中则可以解压缩，否则不能解压缩因为内核文件处在使用中无法覆盖
-                if (!NTMinerRoot.Current.IsMining || NTMinerRoot.Current.CurrentMineContext.Kernel.GetId() != this.GetId()) {
+                if (!NTMinerRoot.Instance.IsMining || NTMinerRoot.Instance.CurrentMineContext.Kernel.GetId() != this.GetId()) {
                     if (!this.IsPackageFileExist()) {
                         DialogWindow.ShowDialog(icon: "Icon_Info", title: "提示", message: "内核未安装");
                         return;
@@ -286,7 +286,7 @@ namespace NTMiner.Vms {
 
         public Visibility IsNvidiaIconVisible {
             get {
-                foreach (var item in NTMinerRoot.Current.CoinKernelSet.Where(a => a.KernelId == this.Id)) {
+                foreach (var item in NTMinerRoot.Instance.CoinKernelSet.Where(a => a.KernelId == this.Id)) {
                     if (item.SupportedGpu == SupportedGpu.Both) {
                         return Visibility.Visible;
                     }
@@ -300,7 +300,7 @@ namespace NTMiner.Vms {
 
         public Visibility IsAMDIconVisible {
             get {
-                foreach (var item in NTMinerRoot.Current.CoinKernelSet.Where(a => a.KernelId == this.Id)) {
+                foreach (var item in NTMinerRoot.Instance.CoinKernelSet.Where(a => a.KernelId == this.Id)) {
                     if (item.SupportedGpu == SupportedGpu.Both) {
                         return Visibility.Visible;
                     }
@@ -325,7 +325,7 @@ namespace NTMiner.Vms {
         public KernelProfileViewModel KernelProfileVm {
             get {
                 if (_kernelProfileVm == null) {
-                    _kernelProfileVm = new KernelProfileViewModel(this, NTMinerRoot.Current.KernelProfileSet.GetKernelProfile(this.Id));
+                    _kernelProfileVm = new KernelProfileViewModel(this, NTMinerRoot.Instance.KernelProfileSet.GetKernelProfile(this.Id));
                 }
                 return _kernelProfileVm;
             }
@@ -432,7 +432,7 @@ namespace NTMiner.Vms {
         public List<CoinViewModel> SupportedCoinVms {
             get {
                 List<CoinViewModel> list = new List<CoinViewModel>();
-                foreach (var item in NTMinerRoot.Current.CoinKernelSet.Where(a => a.KernelId == this.Id)) {
+                foreach (var item in NTMinerRoot.Instance.CoinKernelSet.Where(a => a.KernelId == this.Id)) {
                     if (AppContext.Current.CoinVms.TryGetCoinVm(item.CoinId, out CoinViewModel coin)) {
                         list.Add(coin);
                     }

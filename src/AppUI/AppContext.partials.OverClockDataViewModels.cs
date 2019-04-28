@@ -47,7 +47,7 @@ namespace NTMiner {
 
             private void Init(bool refresh) {
                 _dicById.Clear();
-                foreach (var item in NTMinerRoot.Current.OverClockDataSet) {
+                foreach (var item in NTMinerRoot.Instance.OverClockDataSet) {
                     _dicById.Add(item.GetId(), new OverClockDataViewModel(item));
                 }
                 if (refresh) {

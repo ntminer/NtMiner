@@ -34,7 +34,7 @@ namespace NTMiner.Views {
             this.Activated += changeNotiCenterWindowLocation;
             this.LocationChanged += changeNotiCenterWindowLocation;
             if (!Windows.Role.IsAdministrator) {
-                NotiCenterWindowViewModel.Current.Manager
+                NotiCenterWindowViewModel.Instance.Manager
                     .CreateMessage()
                     .Warning("请以管理员身份运行。")
                     .WithButton("点击以管理员身份运行", button => {
@@ -44,17 +44,17 @@ namespace NTMiner.Views {
                         Vm.IsBtnRunAsAdministratorVisible = Visibility.Visible;
                     }).Queue();
             }
-            if (NTMinerRoot.Current.GpuSet.Count == 0) {
-                NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage("没有矿卡或矿卡未驱动。");
+            if (NTMinerRoot.Instance.GpuSet.Count == 0) {
+                NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage("没有矿卡或矿卡未驱动。");
             }
             NTMinerRoot.RegHotKey = (key) => {
                 string message;
                 if (!RegHotKey(key, out message)) {
-                    NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage(message, 4);
+                    NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage(message, 4);
                     return false;
                 }
                 else {
-                    NotiCenterWindowViewModel.Current.Manager.ShowSuccessMessage($"热键Ctrl + Alt + {key.ToString()} 设置成功");
+                    NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage($"热键Ctrl + Alt + {key.ToString()} 设置成功");
                     return true;
                 }
             };
@@ -84,7 +84,7 @@ namespace NTMiner.Views {
             Enum.TryParse(NTMinerRoot.GetHotKey(), out hotKey);
             string message;
             if (!RegHotKey(hotKey, out message)) {
-                NotiCenterWindowViewModel.Current.Manager
+                NotiCenterWindowViewModel.Instance.Manager
                     .CreateMessage()
                     .Error(message)
                     .Dismiss().WithButton("忽略", null)

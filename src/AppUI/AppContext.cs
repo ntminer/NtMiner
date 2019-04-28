@@ -260,11 +260,11 @@ namespace NTMiner {
 
         public string QQGroup {
             get {
-                return NTMinerRoot.Current.QQGroup;
+                return NTMinerRoot.Instance.QQGroup;
             }
         }
 
-        private readonly string _windowsEdition = Windows.OS.Current.WindowsEdition?.Replace("Windows ", "Win");
+        private readonly string _windowsEdition = Windows.OS.Instance.WindowsEdition?.Replace("Windows ", "Win");
         public string WindowsEdition {
             get {
                 return _windowsEdition;
@@ -279,13 +279,13 @@ namespace NTMiner {
 
         public string GpuSetInfo {
             get {
-                return NTMinerRoot.Current.GpuSetInfo;
+                return NTMinerRoot.Instance.GpuSetInfo;
             }
         }
 
         public string DriverVersion {
             get {
-                var gpuSet = NTMinerRoot.Current.GpuSet;
+                var gpuSet = NTMinerRoot.Instance.GpuSet;
                 if (gpuSet.GpuType == GpuType.NVIDIA) {
                     var cudaVersion = gpuSet.Properties.FirstOrDefault(a => a.Code == "CudaVersion");
                     if (cudaVersion != null) {
@@ -303,7 +303,7 @@ namespace NTMiner {
         public ICommand ExportServerJson { get; private set; } = new DelegateCommand(() => {
             try {
                 string fileName = NTMinerRoot.ExportServerVersionJson();
-                NotiCenterWindowViewModel.Current.Manager.ShowSuccessMessage($"导出成功：{fileName}");
+                NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage($"导出成功：{fileName}");
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
@@ -320,11 +320,11 @@ namespace NTMiner {
                             Key = Current.ServerJsonFileName,
                             Value = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss fff")
                         }));
-                        NotiCenterWindowViewModel.Current.Manager.ShowSuccessMessage($"刷新成功");
+                        NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage($"刷新成功");
                     }
                     catch (Exception e) {
                         Logger.ErrorDebugLine(e.Message, e);
-                        NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage($"刷新失败");
+                        NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage($"刷新失败");
                     }
                 }, icon: IconConst.IconConfirm);
             }

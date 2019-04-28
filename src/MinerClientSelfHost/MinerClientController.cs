@@ -42,7 +42,7 @@ namespace NTMiner {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                NTMinerRoot.Current.RestartMine(isWork: request.WorkId != Guid.Empty);
+                NTMinerRoot.Instance.RestartMine(isWork: request.WorkId != Guid.Empty);
                 return ResponseBase.Ok();
             }
             catch (Exception e) {
@@ -57,7 +57,7 @@ namespace NTMiner {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                NTMinerRoot.Current.StopMineAsync();
+                NTMinerRoot.Instance.StopMineAsync();
                 return ResponseBase.Ok();
             }
             catch (Exception e) {
@@ -72,7 +72,7 @@ namespace NTMiner {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                NTMinerRoot.Current.MinerProfile.SetMinerProfileProperty(request.PropertyName, request.Value);
+                NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(request.PropertyName, request.Value);
                 return ResponseBase.Ok();
             }
             catch (Exception e) {

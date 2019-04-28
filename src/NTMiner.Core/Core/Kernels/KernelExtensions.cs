@@ -18,7 +18,7 @@ namespace NTMiner.Core.Kernels {
                     return string.Empty;
                 }
                 IKernelInput kernelInput;
-                if (kernel.KernelInputId == Guid.Empty || !NTMinerRoot.Current.KernelInputSet.TryGetKernelInput(kernel.KernelInputId, out kernelInput)) {
+                if (kernel.KernelInputId == Guid.Empty || !NTMinerRoot.Instance.KernelInputSet.TryGetKernelInput(kernel.KernelInputId, out kernelInput)) {
                     return string.Empty;
                 }
                 string args = kernelInput.Args;
@@ -55,17 +55,17 @@ namespace NTMiner.Core.Kernels {
 
         public static bool IsSupported(this IKernel kernel, ICoin coin) {
             // 群控客户端和无显卡的电脑的GpuSet类型都是空
-            if (NTMinerRoot.Current.GpuSet.GpuType == GpuType.Empty) {
+            if (NTMinerRoot.Instance.GpuSet.GpuType == GpuType.Empty) {
                 return true;
             }
-            foreach (var item in NTMinerRoot.Current.CoinKernelSet.Where(a => a.CoinId == coin.GetId() && a.KernelId == kernel.GetId())) {
+            foreach (var item in NTMinerRoot.Instance.CoinKernelSet.Where(a => a.CoinId == coin.GetId() && a.KernelId == kernel.GetId())) {
                 if (item.SupportedGpu == SupportedGpu.Both) {
                     return true;
                 }
-                if (item.SupportedGpu == SupportedGpu.NVIDIA && NTMinerRoot.Current.GpuSet.GpuType == GpuType.NVIDIA) {
+                if (item.SupportedGpu == SupportedGpu.NVIDIA && NTMinerRoot.Instance.GpuSet.GpuType == GpuType.NVIDIA) {
                     return true;
                 }
-                if (item.SupportedGpu == SupportedGpu.AMD && NTMinerRoot.Current.GpuSet.GpuType == GpuType.AMD) {
+                if (item.SupportedGpu == SupportedGpu.AMD && NTMinerRoot.Instance.GpuSet.GpuType == GpuType.AMD) {
                     return true;
                 }
             }

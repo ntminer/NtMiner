@@ -18,7 +18,7 @@ namespace NTMiner {
                 get {
                     if (_icon == null) {
                         string iconName;
-                        switch (NTMinerRoot.Current.GpuSet.GpuType) {
+                        switch (NTMinerRoot.Instance.GpuSet.GpuType) {
                             case GpuType.NVIDIA:
                                 iconName = "Icon_Nvidia";
                                 break;
@@ -38,7 +38,7 @@ namespace NTMiner {
             public string IconFill {
                 get {
                     string iconFill;
-                    switch (NTMinerRoot.Current.GpuSet.GpuType) {
+                    switch (NTMinerRoot.Instance.GpuSet.GpuType) {
                         case GpuType.NVIDIA:
                             iconFill = "Green";
                             break;
@@ -56,19 +56,19 @@ namespace NTMiner {
 
             public string GpuSetName {
                 get {
-                    return NTMinerRoot.Current.GpuSet.GpuType.GetDescription();
+                    return NTMinerRoot.Instance.GpuSet.GpuType.GetDescription();
                 }
             }
 
             public string GpuSetInfo {
                 get {
-                    return NTMinerRoot.Current.GpuSetInfo;
+                    return NTMinerRoot.Instance.GpuSetInfo;
                 }
             }
 
             public string GpuCountText {
                 get {
-                    return $"x{NTMinerRoot.Current.GpuSet.Count}";
+                    return $"x{NTMinerRoot.Instance.GpuSet.Count}";
                 }
             }
         }

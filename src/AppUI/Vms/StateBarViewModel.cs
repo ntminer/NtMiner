@@ -19,11 +19,11 @@ namespace NTMiner.Vms {
             VirtualRoot.On<Per1SecondEvent>("挖矿计时秒表，周期性挥动铲子表示在挖矿中", LogEnum.None,
                 action: message => {
                     DateTime now = DateTime.Now;
-                    this.BootTimeSpan = now - NTMinerRoot.Current.CreatedOn;
+                    this.BootTimeSpan = now - NTMinerRoot.Instance.CreatedOn;
                     if (NTMinerRoot.IsAutoStart && VirtualRoot.SecondCount <= 10 && !NTMinerRoot.IsAutoStartCanceled) {
                         return;
                     }
-                    var mineContext = NTMinerRoot.Current.CurrentMineContext;
+                    var mineContext = NTMinerRoot.Instance.CurrentMineContext;
                     if (mineContext != null) {
                         this.MineTimeSpan = now - mineContext.CreatedOn;
                         if (!this.MinerProfile.IsMining) {

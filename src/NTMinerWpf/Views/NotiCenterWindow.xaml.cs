@@ -7,7 +7,7 @@ namespace NTMiner.Views {
         public static readonly NotiCenterWindow Instance = new NotiCenterWindow();
 
         public NotiCenterWindowViewModel Vm {
-            get { return NotiCenterWindowViewModel.Current; }
+            get { return NotiCenterWindowViewModel.Instance; }
         }
 
         private NotiCenterWindow() {

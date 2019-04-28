@@ -6,7 +6,7 @@ namespace NTMiner.Windows {
     /// Class for getting information related to RAM
     /// </summary>
     public sealed class Ram {
-        public static readonly Ram Current = new Ram();
+        public static readonly Ram Instance = new Ram();
 
         #region Properties
 

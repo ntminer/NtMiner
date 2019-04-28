@@ -23,25 +23,25 @@ namespace NTMiner.Vms {
 
         public OS OS {
             get {
-                return OS.Current;
+                return OS.Instance;
             }
         }
 
         public Cpu Cpu {
             get {
-                return Cpu.Current;
+                return Cpu.Instance;
             }
         }
 
         public Bios Bios {
             get {
-                return Bios.Current;
+                return Bios.Instance;
             }
         }
 
         public Ram Ram {
             get {
-                return Ram.Current;
+                return Ram.Instance;
             }
         }
 
@@ -59,7 +59,7 @@ namespace NTMiner.Vms {
 
         public List<GpuSetProperty> GpuSetProperties {
             get {
-                return NTMinerRoot.Current.GpuSet.Properties;
+                return NTMinerRoot.Instance.GpuSet.Properties;
             }
         }
     }

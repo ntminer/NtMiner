@@ -37,7 +37,7 @@ namespace NTMiner {
         private static ICoin _sLastSpeedMainCoin;
         private static ICoin _sLastSpeedDualCoin;
         public static SpeedData CreateSpeedData() {
-            INTMinerRoot root = NTMinerRoot.Current;
+            INTMinerRoot root = NTMinerRoot.Instance;
             SpeedData data = new SpeedData {
                 IsAutoBoot = NTMinerRegistry.GetIsAutoBoot(),
                 IsAutoStart = NTMinerRegistry.GetIsAutoStart(),
@@ -63,7 +63,7 @@ namespace NTMiner {
                 IsDualCoinEnabled = false,
                 Kernel = string.Empty,
                 MainCoinPool = string.Empty,
-                OSName = Windows.OS.Current.WindowsEdition,
+                OSName = Windows.OS.Instance.WindowsEdition,
                 GpuDriver = root.GpuSet.DriverVersion,
                 GpuType = root.GpuSet.GpuType,
                 OSVirtualMemoryMb = NTMinerRoot.OSVirtualMemoryMb,
@@ -142,7 +142,7 @@ namespace NTMiner {
                 if (_sLastSpeedMainCoin == null || _sLastSpeedMainCoin == root.CurrentMineContext.MainCoin) {
                     _sLastSpeedMainCoin = root.CurrentMineContext.MainCoin;
                     Guid coinId = root.CurrentMineContext.MainCoin.GetId();
-                    IGpusSpeed gpuSpeeds = NTMinerRoot.Current.GpusSpeed;
+                    IGpusSpeed gpuSpeeds = NTMinerRoot.Instance.GpusSpeed;
                     IGpuSpeed totalSpeed = gpuSpeeds.CurrentSpeed(NTMinerRoot.GpuAllId);
                     data.MainCoinSpeed = totalSpeed.MainCoinSpeed.Value;
                     ICoinShare share = root.CoinShareSet.GetOrCreate(coinId);
@@ -157,7 +157,7 @@ namespace NTMiner {
                     if (_sLastSpeedDualCoin == null || _sLastSpeedDualCoin == dualMineContext.DualCoin) {
                         _sLastSpeedDualCoin = dualMineContext.DualCoin;
                         Guid coinId = dualMineContext.DualCoin.GetId();
-                        IGpusSpeed gpuSpeeds = NTMinerRoot.Current.GpusSpeed;
+                        IGpusSpeed gpuSpeeds = NTMinerRoot.Instance.GpusSpeed;
                         IGpuSpeed totalSpeed = gpuSpeeds.CurrentSpeed(NTMinerRoot.GpuAllId);
                         data.DualCoinSpeed = totalSpeed.DualCoinSpeed.Value;
                         ICoinShare share = root.CoinShareSet.GetOrCreate(coinId);

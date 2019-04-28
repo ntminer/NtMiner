@@ -2,7 +2,7 @@
 
 namespace NTMiner.Vms {
     public class NotiCenterWindowViewModel : ViewModelBase {
-        public static readonly NotiCenterWindowViewModel Current = new NotiCenterWindowViewModel();
+        public static readonly NotiCenterWindowViewModel Instance = new NotiCenterWindowViewModel();
 
         private NotiCenterWindowViewModel() { }
 

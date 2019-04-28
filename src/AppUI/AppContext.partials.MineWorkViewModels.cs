@@ -15,7 +15,7 @@ namespace NTMiner {
                 if (Design.IsInDesignMode) {
                     return;
                 }
-                foreach (var item in NTMinerRoot.Current.MineWorkSet) {
+                foreach (var item in NTMinerRoot.Instance.MineWorkSet) {
                     _dicById.Add(item.GetId(), new MineWorkViewModel(item));
                 }
                 this.Add = new DelegateCommand(() => {

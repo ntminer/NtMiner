@@ -83,11 +83,11 @@ namespace NTMiner.Vms {
             });
             this.RemoteDesktop = new DelegateCommand(() => {
                 if (string.IsNullOrEmpty(this.WindowsLoginName) || string.IsNullOrEmpty(this.WindowsPassword)) {
-                    NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage("没有填写远程桌面用户名密码", 4);
+                    NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage("没有填写远程桌面用户名密码", 4);
                     return;
                 }
                 AppHelper.RemoteDesktop?.Invoke(new RemoteDesktopInput(this.MinerIp, this.WindowsLoginName, this.WindowsPassword, this.MinerName, message => {
-                    NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage(message, 4);
+                    NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage(message, 4);
                 }));
             });
             this.RestartWindows = new DelegateCommand(() => {
@@ -523,7 +523,7 @@ namespace NTMiner.Vms {
         }
 
         private void RefreshMainCoinIncome() {
-            IncomePerDay incomePerDay = NTMinerRoot.Current.CalcConfigSet.GetIncomePerHashPerDay(this.MainCoinCode);
+            IncomePerDay incomePerDay = NTMinerRoot.Instance.CalcConfigSet.GetIncomePerHashPerDay(this.MainCoinCode);
             IncomeMainCoinPerDay = MainCoinSpeed * incomePerDay.IncomeCoin;
             IncomeMainCoinUsdPerDay = MainCoinSpeed * incomePerDay.IncomeUsd;
             IncomeMainCoinCnyPerDay = MainCoinSpeed * incomePerDay.IncomeCny;
@@ -724,7 +724,7 @@ namespace NTMiner.Vms {
         }
 
         private void RefreshDualCoinIncome() {
-            IncomePerDay incomePerDay = NTMinerRoot.Current.CalcConfigSet.GetIncomePerHashPerDay(this.DualCoinCode);
+            IncomePerDay incomePerDay = NTMinerRoot.Instance.CalcConfigSet.GetIncomePerHashPerDay(this.DualCoinCode);
             IncomeDualCoinPerDay = DualCoinSpeed * incomePerDay.IncomeCoin;
             IncomeDualCoinUsdPerDay = DualCoinSpeed * incomePerDay.IncomeUsd;
             IncomeDualCoinCnyPerDay = DualCoinSpeed * incomePerDay.IncomeCny;

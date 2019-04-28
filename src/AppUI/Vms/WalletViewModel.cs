@@ -55,7 +55,7 @@ namespace NTMiner.Vms {
                 }
                 if (!this.IsTestWallet) {
                     IWallet wallet;
-                    if (NTMinerRoot.Current.MinerProfile.TryGetWallet(this.Id, out wallet)) {
+                    if (NTMinerRoot.Instance.MinerProfile.TryGetWallet(this.Id, out wallet)) {
                         VirtualRoot.Execute(new UpdateWalletCommand(this));
                     }
                     else {
@@ -160,7 +160,7 @@ namespace NTMiner.Vms {
         public string CoinCode {
             get {
                 ICoin coin;
-                if (NTMinerRoot.Current.CoinSet.TryGetCoin(this.CoinId, out coin)) {
+                if (NTMinerRoot.Instance.CoinSet.TryGetCoin(this.CoinId, out coin)) {
                     return coin.Code;
                 }
                 return string.Empty;
@@ -170,7 +170,7 @@ namespace NTMiner.Vms {
         public ICoin Coin {
             get {
                 ICoin coin;
-                if (NTMinerRoot.Current.CoinSet.TryGetCoin(this.CoinId, out coin)) {
+                if (NTMinerRoot.Instance.CoinSet.TryGetCoin(this.CoinId, out coin)) {
                     return coin;
                 }
                 return CoinViewModel.Empty;
@@ -211,7 +211,7 @@ namespace NTMiner.Vms {
                     return false;
                 }
                 IWallet wallet;
-                if (NTMinerRoot.Current.MinerProfile.TryGetWallet(this.Id, out wallet)) {
+                if (NTMinerRoot.Instance.MinerProfile.TryGetWallet(this.Id, out wallet)) {
                     return false;
                 }
                 return true;

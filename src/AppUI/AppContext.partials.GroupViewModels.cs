@@ -16,11 +16,11 @@ namespace NTMiner {
                         SortNumber = Count + 1
                     }.Edit.Execute(FormType.Add);
                 });
-                NTMinerRoot.Current.OnContextReInited += () => {
+                NTMinerRoot.Instance.OnContextReInited += () => {
                     _dicById.Clear();
                     Init();
                 };
-                NTMinerRoot.Current.OnReRendContext += () => {
+                NTMinerRoot.Instance.OnReRendContext += () => {
                     OnPropertyChangeds();
                 };
                 Init();
@@ -34,7 +34,7 @@ namespace NTMiner {
                             _dicById.Add(message.Source.GetId(), groupVm);
                             OnPropertyChangeds();
                         }
-                    }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
+                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers);
                 VirtualRoot.On<GroupUpdatedEvent>("更新了组后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         if (_dicById.ContainsKey(message.Source.GetId())) {
@@ -46,13 +46,13 @@ namespace NTMiner {
                                 OnPropertyChanged(nameof(SelectionOptions));
                             }
                         }
-                    }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
+                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers);
                 VirtualRoot.On<GroupRemovedEvent>("删除了组后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         _dicById.Remove(message.Source.GetId());
                         OnPropertyChangeds();
-                    }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
-                foreach (var item in NTMinerRoot.Current.GroupSet) {
+                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers);
+                foreach (var item in NTMinerRoot.Instance.GroupSet) {
                     GroupViewModel groupVm = new GroupViewModel(item);
                     _dicById.Add(item.GetId(), groupVm);
                 }

@@ -10,15 +10,15 @@ namespace NTMiner {
             public StartStopMineButtonViewModel() {
                 this.StartMine = new DelegateCommand(() => {
                     this.MinerProfile.IsMining = true;
-                    NTMinerRoot.Current.StartMine();
+                    NTMinerRoot.Instance.StartMine();
                     BtnStopText = "正在挖矿";
                 });
                 this.StopMine = new DelegateCommand(() => {
-                    if (!NTMinerRoot.Current.IsMining) {
+                    if (!NTMinerRoot.Instance.IsMining) {
                         this.MinerProfile.IsMining = false;
                     }
                     NTMinerRoot.IsAutoStartCanceled = true;
-                    NTMinerRoot.Current.StopMineAsync();
+                    NTMinerRoot.Instance.StopMineAsync();
                 });
                 if (NTMinerRoot.IsAutoStart && !this.MinerProfile.IsMining) {
                     this.MinerProfile.IsMining = true;

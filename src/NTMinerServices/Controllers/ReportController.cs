@@ -17,10 +17,10 @@ namespace NTMiner.Controllers {
                 if (speedData == null) {
                     return;
                 }
-                ClientData clientData = HostRoot.Current.ClientSet.GetByClientId(speedData.ClientId);
+                ClientData clientData = HostRoot.Instance.ClientSet.GetByClientId(speedData.ClientId);
                 if (clientData == null) {
                     clientData = ClientData.Create(speedData, ClientIp);
-                    HostRoot.Current.ClientSet.Add(clientData);
+                    HostRoot.Instance.ClientSet.Add(clientData);
                 }
                 else {
                     clientData.Update(speedData, ClientIp);
@@ -34,7 +34,7 @@ namespace NTMiner.Controllers {
         [HttpPost]
         public void ReportState([FromBody]ReportState request) {
             try {
-                ClientData clientData = HostRoot.Current.ClientSet.GetByClientId(request.ClientId);
+                ClientData clientData = HostRoot.Instance.ClientSet.GetByClientId(request.ClientId);
                 if (clientData == null) {
                     clientData = new ClientData {
                         ClientId = request.ClientId,
@@ -43,7 +43,7 @@ namespace NTMiner.Controllers {
                         ModifiedOn = DateTime.Now,
                         MinerIp = ClientIp
                     };
-                    HostRoot.Current.ClientSet.Add(clientData);
+                    HostRoot.Instance.ClientSet.Add(clientData);
                 }
                 else {
                     clientData.IsMining = request.IsMining;

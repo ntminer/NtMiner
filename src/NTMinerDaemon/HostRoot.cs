@@ -6,7 +6,7 @@ using System.Threading;
 
 namespace NTMiner {
     public class HostRoot : IHostRoot {
-        public static readonly IHostRoot Current = new HostRoot();
+        public static readonly IHostRoot Instance = new HostRoot();
 
         public DateTime StartedOn { get; private set; } = DateTime.Now;
 

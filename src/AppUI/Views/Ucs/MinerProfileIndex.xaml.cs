@@ -34,13 +34,13 @@ namespace NTMiner.Views.Ucs {
             this.PopupDualCoinWallet.Closed += (object sender, System.EventArgs e) => {
                 this.PopupDualCoinWallet.Child = null;
             };
-            NTMinerRoot.Current.OnReRendMinerProfile += Current_OnReRendMinerProfile;
+            NTMinerRoot.Instance.OnReRendMinerProfile += Current_OnReRendMinerProfile;
             this.Unloaded += MinerProfileIndex_Unloaded;
         }
 
         private void MinerProfileIndex_Unloaded(object sender, RoutedEventArgs e) {
             // 对于挖矿端来说MinerProfileIndex实例是唯一的，但对于群控客户端的作业来说不是，所以这里需要-=
-            NTMinerRoot.Current.OnReRendMinerProfile -= Current_OnReRendMinerProfile;
+            NTMinerRoot.Instance.OnReRendMinerProfile -= Current_OnReRendMinerProfile;
         }
 
         private void Current_OnReRendMinerProfile() {
@@ -79,7 +79,7 @@ namespace NTMiner.Views.Ucs {
                 return;
             }
             CoinKernelProfileViewModel coinKernelProfileVm = Vm.MinerProfile.CoinVm.CoinKernel.CoinKernelProfile;
-            NTMinerRoot.Current.MinerProfile.SetCoinKernelProfileProperty(coinKernelProfileVm.CoinKernelId, nameof(coinKernelProfileVm.DualCoinWeight), coinKernelProfileVm.DualCoinWeight);
+            NTMinerRoot.Instance.MinerProfile.SetCoinKernelProfileProperty(coinKernelProfileVm.CoinKernelId, nameof(coinKernelProfileVm.DualCoinWeight), coinKernelProfileVm.DualCoinWeight);
             NTMinerRoot.RefreshArgsAssembly.Invoke();
         }
 

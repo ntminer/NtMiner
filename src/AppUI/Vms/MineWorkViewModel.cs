@@ -47,11 +47,11 @@ namespace NTMiner.Vms {
                     return;
                 }
                 if (string.IsNullOrEmpty(this.Name)) {
-                    NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage("作业名称是必须的");
+                    NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage("作业名称是必须的");
                 }
                 bool isMinerProfileChanged = false;
-                if (NTMinerRoot.Current.MineWorkSet.TryGetMineWork(this.Id, out IMineWork entity)) {
-                    string sha1 = NTMinerRoot.Current.MinerProfile.GetSha1();
+                if (NTMinerRoot.Instance.MineWorkSet.TryGetMineWork(this.Id, out IMineWork entity)) {
+                    string sha1 = NTMinerRoot.Instance.MinerProfile.GetSha1();
                     if (this.Sha1 != sha1) {
                         isMinerProfileChanged = true;
                     }
@@ -98,8 +98,8 @@ namespace NTMiner.Vms {
                     else {
                         File.Delete(SpecialPath.LocalJsonFileFullName);
                     }
-                    NTMinerRoot.Current.ReInitMinerProfile();
-                    this.Sha1 = NTMinerRoot.Current.MinerProfile.GetSha1();
+                    NTMinerRoot.Instance.ReInitMinerProfile();
+                    this.Sha1 = NTMinerRoot.Instance.MinerProfile.GetSha1();
                     MineWorkEdit.ShowWindow(formType ?? FormType.Edit, new MineWorkViewModel(this));
                 }
             }, formType => {

@@ -42,7 +42,7 @@ namespace NTMiner.Vms {
 
         private string GetServerJsonVersion() {
             string serverJsonVersion = string.Empty;
-            if (NTMinerRoot.Current.LocalAppSettingSet.TryGetAppSetting("ServerJsonVersion", out IAppSetting setting) && setting.Value != null) {
+            if (NTMinerRoot.Instance.LocalAppSettingSet.TryGetAppSetting("ServerJsonVersion", out IAppSetting setting) && setting.Value != null) {
                 serverJsonVersion = setting.Value.ToString();
             }
             return serverJsonVersion;
@@ -59,7 +59,7 @@ namespace NTMiner.Vms {
                 if (VirtualRoot.KernelBrandId == Guid.Empty) {
                     return string.Empty;
                 }
-                if (NTMinerRoot.Current.SysDicItemSet.TryGetDicItem(VirtualRoot.KernelBrandId, out ISysDicItem dicItem)) {
+                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(VirtualRoot.KernelBrandId, out ISysDicItem dicItem)) {
                     if (!string.IsNullOrEmpty(dicItem.Value)) {
                         return dicItem.Value + "专版";
                     }
@@ -108,7 +108,7 @@ namespace NTMiner.Vms {
                 if (Design.IsInDesignMode) {
                     return Visibility.Visible;
                 }
-                if (NTMinerRoot.Current.GpuSet.GpuType == GpuType.NVIDIA) {
+                if (NTMinerRoot.Instance.GpuSet.GpuType == GpuType.NVIDIA) {
                     return Visibility.Visible;
                 }
                 return Visibility.Collapsed;

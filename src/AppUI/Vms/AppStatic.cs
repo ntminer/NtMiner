@@ -131,7 +131,7 @@ namespace NTMiner.Vms {
                         }
                         Uri uri = new Uri(downloadFileUrl);
                         string updaterVersion = string.Empty;
-                        if (NTMinerRoot.Current.LocalAppSettingSet.TryGetAppSetting("UpdaterVersion", out IAppSetting appSetting) && appSetting.Value != null) {
+                        if (NTMinerRoot.Instance.LocalAppSettingSet.TryGetAppSetting("UpdaterVersion", out IAppSetting appSetting) && appSetting.Value != null) {
                             updaterVersion = appSetting.Value.ToString();
                         }
                         if (string.IsNullOrEmpty(updaterVersion) || !File.Exists(ntMinerUpdaterFileFullName) || uri.AbsolutePath != updaterVersion) {
@@ -149,7 +149,7 @@ namespace NTMiner.Vms {
                                         callback?.Invoke();
                                     }
                                     else {
-                                        NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage(message);
+                                        NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage(message);
                                         callback?.Invoke();
                                     }
                                 }

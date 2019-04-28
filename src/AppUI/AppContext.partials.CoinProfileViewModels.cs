@@ -22,7 +22,7 @@ namespace NTMiner {
                             _coinProfileDicById[message.CoinId].OnPropertyChanged(message.PropertyName);
                         }
                     });
-                NTMinerRoot.Current.OnMinerProfileReInited += () => {
+                NTMinerRoot.Instance.OnMinerProfileReInited += () => {
                     _coinKernelProfileDicById.Clear();
                     _coinProfileDicById.Clear();
                 };
@@ -34,7 +34,7 @@ namespace NTMiner {
                 if (!_coinProfileDicById.TryGetValue(coinId, out coinProfile)) {
                     lock (_coinProfileDicLocker) {
                         if (!_coinProfileDicById.TryGetValue(coinId, out coinProfile)) {
-                            coinProfile = new CoinProfileViewModel(NTMinerRoot.Current.MinerProfile.GetCoinProfile(coinId));
+                            coinProfile = new CoinProfileViewModel(NTMinerRoot.Instance.MinerProfile.GetCoinProfile(coinId));
                             _coinProfileDicById.Add(coinId, coinProfile);
                         }
                     }
@@ -48,7 +48,7 @@ namespace NTMiner {
                 if (!_coinKernelProfileDicById.TryGetValue(coinKernelId, out coinKernelProfileVm)) {
                     lock (_coinKernelProfileLocker) {
                         if (!_coinKernelProfileDicById.TryGetValue(coinKernelId, out coinKernelProfileVm)) {
-                            coinKernelProfileVm = new CoinKernelProfileViewModel(NTMinerRoot.Current.MinerProfile.GetCoinKernelProfile(coinKernelId));
+                            coinKernelProfileVm = new CoinKernelProfileViewModel(NTMinerRoot.Instance.MinerProfile.GetCoinKernelProfile(coinKernelId));
                             _coinKernelProfileDicById.Add(coinKernelId, coinKernelProfileVm);
                         }
                     }

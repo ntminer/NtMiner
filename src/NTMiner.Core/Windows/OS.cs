@@ -6,7 +6,7 @@ namespace NTMiner.Windows {
     /// Class for getting information related to the OS.
     /// </summary>
     public sealed class OS {
-        public static readonly OS Current = new OS();
+        public static readonly OS Instance = new OS();
 
         #region Properties
 

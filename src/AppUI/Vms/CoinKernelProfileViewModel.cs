@@ -15,7 +15,7 @@ namespace NTMiner.Vms {
             get => _inner.CoinKernelId;
             set {
                 if (_inner.CoinKernelId != value) {
-                    NTMinerRoot.Current.MinerProfile.SetCoinKernelProfileProperty(this.CoinKernelId, nameof(CoinKernelId), value);
+                    NTMinerRoot.Instance.MinerProfile.SetCoinKernelProfileProperty(this.CoinKernelId, nameof(CoinKernelId), value);
                     OnPropertyChanged(nameof(CoinKernelId));
                 }
             }
@@ -30,7 +30,7 @@ namespace NTMiner.Vms {
             }
             set {
                 if (_inner.IsDualCoinEnabled != value) {
-                    NTMinerRoot.Current.MinerProfile.SetCoinKernelProfileProperty(this.CoinKernelId, nameof(IsDualCoinEnabled), value);
+                    NTMinerRoot.Instance.MinerProfile.SetCoinKernelProfileProperty(this.CoinKernelId, nameof(IsDualCoinEnabled), value);
                     OnPropertyChanged(nameof(IsDualCoinEnabled));
                     NTMinerRoot.RefreshArgsAssembly.Invoke();
                 }
@@ -40,7 +40,7 @@ namespace NTMiner.Vms {
             get => _inner.DualCoinId;
             set {
                 if (_inner.DualCoinId != value) {
-                    NTMinerRoot.Current.MinerProfile.SetCoinKernelProfileProperty(this.CoinKernelId, nameof(DualCoinId), value);
+                    NTMinerRoot.Instance.MinerProfile.SetCoinKernelProfileProperty(this.CoinKernelId, nameof(DualCoinId), value);
                     OnPropertyChanged(nameof(DualCoinId));
                 }
             }
@@ -60,11 +60,11 @@ namespace NTMiner.Vms {
         public bool IsAutoDualWeight {
             get {
                 ICoinKernel coinKernel;
-                if (NTMinerRoot.Current.CoinKernelSet.TryGetCoinKernel(this.CoinKernelId, out coinKernel)) {
+                if (NTMinerRoot.Instance.CoinKernelSet.TryGetCoinKernel(this.CoinKernelId, out coinKernel)) {
                     IKernel kernel;
-                    if (NTMinerRoot.Current.KernelSet.TryGetKernel(coinKernel.KernelId, out kernel)) {
+                    if (NTMinerRoot.Instance.KernelSet.TryGetKernel(coinKernel.KernelId, out kernel)) {
                         IKernelInput kernelInput;
-                        if (NTMinerRoot.Current.KernelInputSet.TryGetKernelInput(kernel.KernelInputId, out kernelInput)) {
+                        if (NTMinerRoot.Instance.KernelInputSet.TryGetKernelInput(kernel.KernelInputId, out kernelInput)) {
                             if (!kernelInput.IsAutoDualWeight) {
                                 return false;
                             }
@@ -75,7 +75,7 @@ namespace NTMiner.Vms {
             }
             set {
                 if (_inner.IsAutoDualWeight != value) {
-                    NTMinerRoot.Current.MinerProfile.SetCoinKernelProfileProperty(this.CoinKernelId, nameof(IsAutoDualWeight), value);
+                    NTMinerRoot.Instance.MinerProfile.SetCoinKernelProfileProperty(this.CoinKernelId, nameof(IsAutoDualWeight), value);
                     OnPropertyChanged(nameof(IsAutoDualWeight));
                     NTMinerRoot.RefreshArgsAssembly.Invoke();
                 }
@@ -87,7 +87,7 @@ namespace NTMiner.Vms {
             set {
                 if (_inner.CustomArgs != value) {
                     if (AppContext.Current.CoinKernelVms.TryGetCoinKernelVm(this.CoinKernelId, out CoinKernelViewModel coinKernelVm)) {
-                        NTMinerRoot.Current.MinerProfile.SetCoinKernelProfileProperty(this.CoinKernelId, nameof(CustomArgs), value);
+                        NTMinerRoot.Instance.MinerProfile.SetCoinKernelProfileProperty(this.CoinKernelId, nameof(CustomArgs), value);
                         OnPropertyChanged(nameof(CustomArgs));
                         NTMinerRoot.RefreshArgsAssembly.Invoke();
                         foreach (var inputSegmentVm in coinKernelVm.InputSegmentVms) {

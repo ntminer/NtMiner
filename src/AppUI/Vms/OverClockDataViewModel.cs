@@ -39,7 +39,7 @@ namespace NTMiner.Vms {
                     return;
                 }
                 IOverClockData group;
-                if (NTMinerRoot.Current.OverClockDataSet.TryGetOverClockData(this.Id, out group)) {
+                if (NTMinerRoot.Instance.OverClockDataSet.TryGetOverClockData(this.Id, out group)) {
                     VirtualRoot.Execute(new UpdateOverClockDataCommand(this));
                 }
                 else {

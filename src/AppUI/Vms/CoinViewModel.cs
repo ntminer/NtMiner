@@ -165,7 +165,7 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                if (NTMinerRoot.Current.CoinSet.Contains(this.Id)) {
+                if (NTMinerRoot.Instance.CoinSet.Contains(this.Id)) {
                     VirtualRoot.Execute(new UpdateCoinCommand(this));
                 }
                 else {
@@ -301,17 +301,17 @@ namespace NTMiner.Vms {
 
         public bool IsSupported {
             get {
-                if (this == PleaseSelect || NTMinerRoot.Current.GpuSet.GpuType == GpuType.Empty) {
+                if (this == PleaseSelect || NTMinerRoot.Instance.GpuSet.GpuType == GpuType.Empty) {
                     return true;
                 }
-                foreach (var coinKernel in NTMinerRoot.Current.CoinKernelSet.Where(a => a.CoinId == this.Id)) {
+                foreach (var coinKernel in NTMinerRoot.Instance.CoinKernelSet.Where(a => a.CoinId == this.Id)) {
                     if (coinKernel.SupportedGpu == SupportedGpu.Both) {
                         return true;
                     }
-                    if (coinKernel.SupportedGpu == SupportedGpu.NVIDIA && NTMinerRoot.Current.GpuSet.GpuType == GpuType.NVIDIA) {
+                    if (coinKernel.SupportedGpu == SupportedGpu.NVIDIA && NTMinerRoot.Instance.GpuSet.GpuType == GpuType.NVIDIA) {
                         return true;
                     }
-                    if (coinKernel.SupportedGpu == SupportedGpu.AMD && NTMinerRoot.Current.GpuSet.GpuType == GpuType.AMD) {
+                    if (coinKernel.SupportedGpu == SupportedGpu.AMD && NTMinerRoot.Instance.GpuSet.GpuType == GpuType.AMD) {
                         return true;
                     }
                 }
@@ -490,7 +490,7 @@ namespace NTMiner.Vms {
 
         public CoinProfileViewModel CoinProfile {
             get {
-                if (!NTMinerRoot.Current.CoinSet.Contains(this.Id)) {
+                if (!NTMinerRoot.Instance.CoinSet.Contains(this.Id)) {
                     return null;
                 }
                 return AppContext.Current.CoinProfileVms.GetOrCreateCoinProfile(this.Id);

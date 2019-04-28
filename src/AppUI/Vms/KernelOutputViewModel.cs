@@ -82,7 +82,7 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                if (NTMinerRoot.Current.KernelOutputSet.Contains(this.Id)) {
+                if (NTMinerRoot.Instance.KernelOutputSet.Contains(this.Id)) {
                     VirtualRoot.Execute(new UpdateKernelOutputCommand(this));
                 }
                 else {

@@ -20,7 +20,7 @@ namespace NTMiner {
 
             private readonly object _locker = new object();
             public ShareViewModel GetOrCreate(Guid coinId) {
-                if (!NTMinerRoot.Current.CoinSet.Contains(coinId)) {
+                if (!NTMinerRoot.Instance.CoinSet.Contains(coinId)) {
                     return new ShareViewModel(coinId);
                 }
                 ShareViewModel shareVm;

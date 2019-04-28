@@ -87,19 +87,19 @@ namespace NTMiner {
                 string processName = mineContext.Kernel.GetProcessName();
                 _sDaemon = VirtualRoot.On<Per1MinuteEvent>("周期性检查挖矿内核是否消失，如果消失尝试重启", LogEnum.DevConsole,
                     action: message => {
-                        if (mineContext == Current.CurrentMineContext) {
+                        if (mineContext == Instance.CurrentMineContext) {
                             if (!string.IsNullOrEmpty(processName)) {
                                 Process[] processes = Process.GetProcessesByName(processName);
                                 if (processes.Length == 0) {
                                     mineContext.ProcessDisappearedCound = mineContext.ProcessDisappearedCound + 1;
                                     Logger.ErrorWriteLine(processName + $"挖矿内核进程消失");
-                                    if (Current.MinerProfile.IsAutoRestartKernel && mineContext.ProcessDisappearedCound <= 3) {
+                                    if (Instance.MinerProfile.IsAutoRestartKernel && mineContext.ProcessDisappearedCound <= 3) {
                                         Logger.WarnWriteLine($"尝试第{mineContext.ProcessDisappearedCound}次重启，共3次");
-                                        Current.RestartMine();
-                                        Current.CurrentMineContext.ProcessDisappearedCound = mineContext.ProcessDisappearedCound;
+                                        Instance.RestartMine();
+                                        Instance.CurrentMineContext.ProcessDisappearedCound = mineContext.ProcessDisappearedCound;
                                     }
                                     else {
-                                        Current.StopMineAsync();
+                                        Instance.StopMineAsync();
                                     }
                                     if (_sDaemon != null) {
                                         VirtualRoot.UnPath(_sDaemon);
@@ -156,7 +156,7 @@ namespace NTMiner {
                         }
                         Write.UserInfo("等待内核输出");
                         Thread.Sleep(1000);
-                        if (mineContext != Current.CurrentMineContext) {
+                        if (mineContext != Instance.CurrentMineContext) {
                             Write.UserInfo("挖矿上下文变更，结束内核输出等待。");
                             isLogFileCreated = false;
                             break;
@@ -167,7 +167,7 @@ namespace NTMiner {
                         Write.UserOk("成功得到内核输出。");
                         FileStream stream = File.Open(logFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                         using (StreamReader sreader = new StreamReader(stream, Encoding.Default)) {
-                            while (mineContext == Current.CurrentMineContext) {
+                            while (mineContext == Instance.CurrentMineContext) {
                                 string outline = sreader.ReadLine();
                                 if (string.IsNullOrEmpty(outline) && sreader.EndOfStream) {
                                     Thread.Sleep(1000);
@@ -175,19 +175,19 @@ namespace NTMiner {
                                 else {
                                     string input = outline;
                                     Guid kernelOutputId = mineContext.Kernel.KernelOutputId;
-                                    Current.KernelOutputFilterSet.Filter(kernelOutputId, ref input);
+                                    Instance.KernelOutputFilterSet.Filter(kernelOutputId, ref input);
                                     ConsoleColor color = ConsoleColor.White;
-                                    Current.KernelOutputTranslaterSet.Translate(kernelOutputId, ref input, ref color, isPre: true);
+                                    Instance.KernelOutputTranslaterSet.Translate(kernelOutputId, ref input, ref color, isPre: true);
                                     // 使用Claymore挖其非ETH币种时它也打印ETH，所以这里需要纠正它
                                     if ("Claymore".Equals(mineContext.Kernel.Code, StringComparison.OrdinalIgnoreCase)) {
                                         if (mineContext.MainCoin.Code != "ETH" && input.Contains("ETH")) {
                                             input = input.Replace("ETH", mineContext.MainCoin.Code);
                                         }
                                     }
-                                    Current.KernelOutputSet.Pick(kernelOutputId, ref input, mineContext);
-                                    Current.KernelOutputTranslaterSet.Translate(kernelOutputId, ref input, ref color);
+                                    Instance.KernelOutputSet.Pick(kernelOutputId, ref input, mineContext);
+                                    Instance.KernelOutputTranslaterSet.Translate(kernelOutputId, ref input, ref color);
                                     if (!string.IsNullOrEmpty(input)) {
-                                        if (Current.KernelOutputSet.TryGetKernelOutput(kernelOutputId, out IKernelOutput kernelOutput)) {
+                                        if (Instance.KernelOutputSet.TryGetKernelOutput(kernelOutputId, out IKernelOutput kernelOutput)) {
                                             if (kernelOutput.PrependDateTime) {
                                                 Write.UserLine($"{DateTime.Now}    {input}", color);
                                             }

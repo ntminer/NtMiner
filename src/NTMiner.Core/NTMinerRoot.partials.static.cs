@@ -37,7 +37,7 @@ namespace NTMiner {
         }
 
         private static readonly NTMinerRoot S_Instance = new NTMinerRoot();
-        public static readonly INTMinerRoot Current = S_Instance;
+        public static readonly INTMinerRoot Instance = S_Instance;
         public static readonly Version CurrentVersion;
         public static readonly string CurrentVersionTag;
         public static bool IsNCard {
@@ -154,7 +154,7 @@ namespace NTMiner {
 
         // 将当前的系统状态导出为serverVersion.json
         public static string ExportServerVersionJson() {
-            var root = Current;
+            var root = Instance;
             ServerJsonDb serverJsonObj = new ServerJsonDb {
                 Coins = root.CoinSet.Cast<CoinData>().ToArray(),
                 Groups = root.GroupSet.Cast<GroupData>().ToArray(),
@@ -179,7 +179,7 @@ namespace NTMiner {
             localJson = string.Empty;
             serverJson = string.Empty;
             try {
-                var root = Current;
+                var root = Instance;
                 var minerProfile = root.MinerProfile;
                 CoinProfileData mainCoinProfile = new CoinProfileData(minerProfile.GetCoinProfile(minerProfile.CoinId));
                 List<CoinProfileData> coinProfiles = new List<CoinProfileData> { mainCoinProfile };

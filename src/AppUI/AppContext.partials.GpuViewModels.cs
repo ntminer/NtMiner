@@ -17,7 +17,7 @@ namespace NTMiner {
                 if (Design.IsInDesignMode) {
                     return;
                 }
-                foreach (var gpu in NTMinerRoot.Current.GpuSet) {
+                foreach (var gpu in NTMinerRoot.Instance.GpuSet) {
                     _gpuVms.Add(gpu.Index, new GpuViewModel(gpu));
                 }
                 if (_gpuVms.ContainsKey(NTMinerRoot.GpuAllId)) {

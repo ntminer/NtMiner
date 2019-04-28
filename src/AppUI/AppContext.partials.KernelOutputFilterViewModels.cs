@@ -10,7 +10,7 @@ namespace NTMiner {
             private readonly Dictionary<Guid, KernelOutputFilterViewModel> _dicById = new Dictionary<Guid, KernelOutputFilterViewModel>();
 
             public KernelOutputFilterViewModels() {
-                NTMinerRoot.Current.OnContextReInited += () => {
+                NTMinerRoot.Instance.OnContextReInited += () => {
                     _dicById.Clear();
                     _dicByKernelOutputId.Clear();
                     Init();
@@ -32,13 +32,13 @@ namespace NTMiner {
                                 kernelOutputVm.OnPropertyChanged(nameof(kernelOutputVm.KernelOutputFilters));
                             }
                         }
-                    }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
+                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers);
                 VirtualRoot.On<KernelOutputFilterUpdatedEvent>("更新了内核输出过滤器后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         if (_dicById.TryGetValue(message.Source.GetId(), out KernelOutputFilterViewModel vm)) {
                             vm.Update(message.Source);
                         }
-                    }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
+                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers);
                 VirtualRoot.On<KernelOutputFilterRemovedEvent>("删除了内核输出过滤器后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         if (_dicById.TryGetValue(message.Source.GetId(), out KernelOutputFilterViewModel vm)) {
@@ -49,8 +49,8 @@ namespace NTMiner {
                                 kernelOutputVm.OnPropertyChanged(nameof(kernelOutputVm.KernelOutputFilters));
                             }
                         }
-                    }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
-                foreach (var item in NTMinerRoot.Current.KernelOutputFilterSet) {
+                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers);
+                foreach (var item in NTMinerRoot.Instance.KernelOutputFilterSet) {
                     if (!_dicByKernelOutputId.ContainsKey(item.KernelOutputId)) {
                         _dicByKernelOutputId.Add(item.KernelOutputId, new List<KernelOutputFilterViewModel>());
                     }

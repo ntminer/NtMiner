@@ -10,11 +10,11 @@ namespace NTMiner {
             private readonly Dictionary<Guid, KernelOutputViewModel> _dicById = new Dictionary<Guid, KernelOutputViewModel>();
 
             public KernelOutputViewModels() {
-                NTMinerRoot.Current.OnContextReInited += () => {
+                NTMinerRoot.Instance.OnContextReInited += () => {
                     _dicById.Clear();
                     Init();
                 };
-                NTMinerRoot.Current.OnReRendContext += () => {
+                NTMinerRoot.Instance.OnReRendContext += () => {
                     AllPropertyChanged();
                 };
                 Init();
@@ -27,7 +27,7 @@ namespace NTMiner {
                         _dicById.Add(message.Source.GetId(), vm);
                         OnPropertyChanged(nameof(AllKernelOutputVms));
                         OnPropertyChanged(nameof(PleaseSelectVms));
-                    }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
+                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers);
                 VirtualRoot.On<KernelOutputUpdatedEvent>("更新了内核输出组后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         if (_dicById.ContainsKey(message.Source.GetId())) {
@@ -36,7 +36,7 @@ namespace NTMiner {
                                 item.Update(message.Source);
                             }
                         }
-                    }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
+                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers);
                 VirtualRoot.On<KernelOutputRemovedEvent>("移除了内核输出组后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         if (_dicById.ContainsKey(message.Source.GetId())) {
@@ -44,8 +44,8 @@ namespace NTMiner {
                             OnPropertyChanged(nameof(AllKernelOutputVms));
                             OnPropertyChanged(nameof(PleaseSelectVms));
                         }
-                    }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
-                foreach (var item in NTMinerRoot.Current.KernelOutputSet) {
+                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers);
+                foreach (var item in NTMinerRoot.Instance.KernelOutputSet) {
                     _dicById.Add(item.GetId(), new KernelOutputViewModel(item));
                 }
             }

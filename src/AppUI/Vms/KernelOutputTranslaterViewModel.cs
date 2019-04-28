@@ -47,7 +47,7 @@ namespace NTMiner.Vms {
             _id = id;
             this.Save = new DelegateCommand(() => {
                 int sortNumber = this.SortNumber;
-                if (NTMinerRoot.Current.KernelOutputTranslaterSet.Contains(this.Id)) {
+                if (NTMinerRoot.Instance.KernelOutputTranslaterSet.Contains(this.Id)) {
                     VirtualRoot.Execute(new UpdateKernelOutputTranslaterCommand(this));
                 }
                 else {

@@ -9,7 +9,7 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class KernelProfileViewModel : ViewModelBase, IKernelProfile {
-        public static readonly KernelProfileViewModel Empty = new KernelProfileViewModel(KernelViewModel.Empty, NTMinerRoot.Current.KernelProfileSet.EmptyKernelProfile) {
+        public static readonly KernelProfileViewModel Empty = new KernelProfileViewModel(KernelViewModel.Empty, NTMinerRoot.Instance.KernelProfileSet.EmptyKernelProfile) {
             _cancelDownload = null,
             _downloadMessage = string.Empty,
             _downloadPercent = 0,
@@ -151,7 +151,7 @@ namespace NTMiner.Vms {
                 kernelVm.KernelProfileVm.IsDownloading = true;
             }
             string package = _kernelVm.Package;
-            NTMinerRoot.Current.PackageDownloader.Download(package, progressChanged: (percent) => {
+            NTMinerRoot.Instance.PackageDownloader.Download(package, progressChanged: (percent) => {
                 this.DownloadMessage = percent + "%";
                 this.DownloadPercent = (double)percent / 100;
             }, downloadComplete: (isSuccess, message, saveFileFullName) => {

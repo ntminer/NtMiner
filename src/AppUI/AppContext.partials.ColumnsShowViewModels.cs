@@ -38,7 +38,7 @@ namespace NTMiner {
                         _dicById.Remove(message.Source.GetId());
                         OnPropertyChanged(nameof(List));
                     });
-                foreach (var item in NTMinerRoot.Current.ColumnsShowSet) {
+                foreach (var item in NTMinerRoot.Instance.ColumnsShowSet) {
                     _dicById.Add(item.GetId(), new ColumnsShowViewModel(item));
                 }
             }

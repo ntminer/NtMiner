@@ -90,7 +90,7 @@ namespace NTMiner.Vms {
                 }, icon: IconConst.IconConfirm);
             });
             this.Save = new DelegateCommand(() => {
-                if (NTMinerRoot.Current.CoinKernelSet.Contains(this.Id)) {
+                if (NTMinerRoot.Instance.CoinKernelSet.Contains(this.Id)) {
                     VirtualRoot.Execute(new UpdateCoinKernelCommand(this));
                 }
                 CloseWindow?.Invoke();
@@ -354,16 +354,16 @@ namespace NTMiner.Vms {
 
         public bool IsSupported {
             get {
-                if (NTMinerRoot.Current.GpuSet.GpuType == GpuType.Empty) {
+                if (NTMinerRoot.Instance.GpuSet.GpuType == GpuType.Empty) {
                     return true;
                 }
                 if (this.SupportedGpu == SupportedGpu.Both) {
                     return true;
                 }
-                if (this.SupportedGpu == SupportedGpu.NVIDIA && NTMinerRoot.Current.GpuSet.GpuType == GpuType.NVIDIA) {
+                if (this.SupportedGpu == SupportedGpu.NVIDIA && NTMinerRoot.Instance.GpuSet.GpuType == GpuType.NVIDIA) {
                     return true;
                 }
-                if (this.SupportedGpu == SupportedGpu.AMD && NTMinerRoot.Current.GpuSet.GpuType == GpuType.AMD) {
+                if (this.SupportedGpu == SupportedGpu.AMD && NTMinerRoot.Instance.GpuSet.GpuType == GpuType.AMD) {
                     return true;
                 }
                 return false;

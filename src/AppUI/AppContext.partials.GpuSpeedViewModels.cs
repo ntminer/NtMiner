@@ -24,14 +24,14 @@ namespace NTMiner {
                     return;
                 }
                 this.GpuAllVm = Current.GpuVms.FirstOrDefault(a => a.Index == NTMinerRoot.GpuAllId);
-                IGpusSpeed gpuSpeeds = NTMinerRoot.Current.GpusSpeed;
+                IGpusSpeed gpuSpeeds = NTMinerRoot.Instance.GpusSpeed;
                 foreach (var item in gpuSpeeds) {
                     this._list.Add(new GpuSpeedViewModel(item));
                 }
                 _totalSpeedVm = this._list.FirstOrDefault(a => a.GpuVm.Index == NTMinerRoot.GpuAllId);
                 VirtualRoot.On<GpuSpeedChangedEvent>("显卡算力变更后刷新VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        Guid mainCoinId = NTMinerRoot.Current.MinerProfile.CoinId;
+                        Guid mainCoinId = NTMinerRoot.Instance.MinerProfile.CoinId;
                         if (_mainCoinId != mainCoinId) {
                             _mainCoinId = mainCoinId;
                             DateTime now = DateTime.Now;
@@ -59,7 +59,7 @@ namespace NTMiner {
                             }
                         }
                         if (index == _totalSpeedVm.GpuVm.Index) {
-                            IMineContext mineContext = NTMinerRoot.Current.CurrentMineContext;
+                            IMineContext mineContext = NTMinerRoot.Instance.CurrentMineContext;
                             if (mineContext == null) {
                                 IncomeMainCoinPerDay = 0;
                                 IncomeMainCoinUsdPerDay = 0;
@@ -71,14 +71,14 @@ namespace NTMiner {
                             else {
                                 if (message.IsDualSpeed) {
                                     if (mineContext is IDualMineContext dualMineContext) {
-                                        IncomePerDay incomePerDay = NTMinerRoot.Current.CalcConfigSet.GetIncomePerHashPerDay(dualMineContext.DualCoin.Code);
+                                        IncomePerDay incomePerDay = NTMinerRoot.Instance.CalcConfigSet.GetIncomePerHashPerDay(dualMineContext.DualCoin.Code);
                                         IncomeDualCoinPerDay = _totalSpeedVm.DualCoinSpeed.Value * incomePerDay.IncomeCoin;
                                         IncomeDualCoinUsdPerDay = _totalSpeedVm.DualCoinSpeed.Value * incomePerDay.IncomeUsd;
                                         IncomeDualCoinCnyPerDay = _totalSpeedVm.DualCoinSpeed.Value * incomePerDay.IncomeCny;
                                     }
                                 }
                                 else {
-                                    IncomePerDay incomePerDay = NTMinerRoot.Current.CalcConfigSet.GetIncomePerHashPerDay(mineContext.MainCoin.Code);
+                                    IncomePerDay incomePerDay = NTMinerRoot.Instance.CalcConfigSet.GetIncomePerHashPerDay(mineContext.MainCoin.Code);
                                     IncomeMainCoinPerDay = _totalSpeedVm.MainCoinSpeed.Value * incomePerDay.IncomeCoin;
                                     IncomeMainCoinUsdPerDay = _totalSpeedVm.MainCoinSpeed.Value * incomePerDay.IncomeUsd;
                                     IncomeMainCoinCnyPerDay = _totalSpeedVm.MainCoinSpeed.Value * incomePerDay.IncomeCny;

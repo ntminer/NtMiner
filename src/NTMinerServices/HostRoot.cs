@@ -74,7 +74,7 @@ namespace NTMiner {
 
         public DateTime StartedOn { get; private set; } = DateTime.Now;
 
-        public static readonly IHostRoot Current = new HostRoot();
+        public static readonly IHostRoot Instance = new HostRoot();
         public static readonly ClientCount ClientCount = new ClientCount();
 
         private OssClient _ossClient = null;
