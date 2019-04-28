@@ -50,105 +50,106 @@ namespace NTMiner {
             SMessageDispatcher = new MessageDispatcher();
             SCommandBus = new DirectCommandBus(SMessageDispatcher);
             SEventBus = new DirectEventBus(SMessageDispatcher);
-            On<Per1SecondEvent>("每秒", LogEnum.None,
-                action: message => {
-                    _secondCount++;
-                    const int daySecond = 24 * 60 * 60;
-                    #region one
-                    if (_secondCount <= 20) {
-                        if (_secondCount == 1) {
-                            Happened(new HasBoot1SecondEvent());
-                        }
-                        if (_secondCount == 2) {
-                            Happened(new HasBoot2SecondEvent());
-                        }
-                        if (_secondCount == 5) {
-                            Happened(new HasBoot5SecondEvent());
-                        }
-                        if (_secondCount == 10) {
-                            Happened(new HasBoot10SecondEvent());
-                        }
-                        if (_secondCount == 20) {
-                            Happened(new HasBoot20SecondEvent());
-                        }
-                    }
-                    else if (_secondCount <= 6000) {
-                        if (_secondCount == 60) {
-                            Happened(new HasBoot1MinuteEvent());
-                        }
-                        if (_secondCount == 120) {
-                            Happened(new HasBoot2MinuteEvent());
-                        }
-                        if (_secondCount == 300) {
-                            Happened(new HasBoot5MinuteEvent());
-                        }
-                        if (_secondCount == 600) {
-                            Happened(new HasBoot10MinuteEvent());
-                        }
-                        if (_secondCount == 1200) {
-                            Happened(new HasBoot20MinuteEvent());
-                        }
-                        if (_secondCount == 3000) {
-                            Happened(new HasBoot50MinuteEvent());
-                        }
-                        if (_secondCount == 6000) {
-                            Happened(new HasBoot100MinuteEvent());
-                        }
-                    }
-                    else if (_secondCount <= daySecond) {
-                        if (_secondCount == daySecond) {
-                            Happened(new HasBoot24HourEvent());
-                        }
-                    }
-                    #endregion
-
-                    #region per
-                    if (_secondCount % 2 == 0) {
-                        Happened(new Per2SecondEvent());
-                    }
-                    if (_secondCount % 5 == 0) {
-                        Happened(new Per5SecondEvent());
-                    }
-                    if (_secondCount % 10 == 0) {
-                        Happened(new Per10SecondEvent());
-                    }
-                    if (_secondCount % 20 == 0) {
-                        Happened(new Per20SecondEvent());
-                    }
-                    if (_secondCount % 60 == 0) {
-                        Happened(new Per1MinuteEvent());
-                    }
-                    if (_secondCount % 120 == 0) {
-                        Happened(new Per2MinuteEvent());
-                    }
-                    if (_secondCount % 300 == 0) {
-                        Happened(new Per5MinuteEvent());
-                    }
-                    if (_secondCount % 600 == 0) {
-                        Happened(new Per10MinuteEvent());
-                    }
-                    if (_secondCount % 1200 == 0) {
-                        Happened(new Per20MinuteEvent());
-                    }
-                    if (_secondCount % 3000 == 0) {
-                        Happened(new Per50MinuteEvent());
-                    }
-                    if (_secondCount % 6000 == 0) {
-                        Happened(new Per100MinuteEvent());
-                    }
-                    if (_secondCount % daySecond == 0) {
-                        Happened(new Per24HourEvent());
-                    }
-                    #endregion
-                });
         }
 
         public static void StartTimer() {
             Timer t = new Timer(1000);
             t.Elapsed += (object sender, ElapsedEventArgs e) => {
-                Happened(new Per1SecondEvent());
+                Elapsed();
             };
             t.Start();
+        }
+
+        public static void Elapsed() {
+            _secondCount++;
+            const int daySecond = 24 * 60 * 60;
+            #region one
+            if (_secondCount <= 20) {
+                if (_secondCount == 1) {
+                    Happened(new HasBoot1SecondEvent());
+                }
+                if (_secondCount == 2) {
+                    Happened(new HasBoot2SecondEvent());
+                }
+                if (_secondCount == 5) {
+                    Happened(new HasBoot5SecondEvent());
+                }
+                if (_secondCount == 10) {
+                    Happened(new HasBoot10SecondEvent());
+                }
+                if (_secondCount == 20) {
+                    Happened(new HasBoot20SecondEvent());
+                }
+            }
+            else if (_secondCount <= 6000) {
+                if (_secondCount == 60) {
+                    Happened(new HasBoot1MinuteEvent());
+                }
+                if (_secondCount == 120) {
+                    Happened(new HasBoot2MinuteEvent());
+                }
+                if (_secondCount == 300) {
+                    Happened(new HasBoot5MinuteEvent());
+                }
+                if (_secondCount == 600) {
+                    Happened(new HasBoot10MinuteEvent());
+                }
+                if (_secondCount == 1200) {
+                    Happened(new HasBoot20MinuteEvent());
+                }
+                if (_secondCount == 3000) {
+                    Happened(new HasBoot50MinuteEvent());
+                }
+                if (_secondCount == 6000) {
+                    Happened(new HasBoot100MinuteEvent());
+                }
+            }
+            else if (_secondCount <= daySecond) {
+                if (_secondCount == daySecond) {
+                    Happened(new HasBoot24HourEvent());
+                }
+            }
+            #endregion
+
+            #region per
+            Happened(new Per1SecondEvent());
+            if (_secondCount % 2 == 0) {
+                Happened(new Per2SecondEvent());
+            }
+            if (_secondCount % 5 == 0) {
+                Happened(new Per5SecondEvent());
+            }
+            if (_secondCount % 10 == 0) {
+                Happened(new Per10SecondEvent());
+            }
+            if (_secondCount % 20 == 0) {
+                Happened(new Per20SecondEvent());
+            }
+            if (_secondCount % 60 == 0) {
+                Happened(new Per1MinuteEvent());
+            }
+            if (_secondCount % 120 == 0) {
+                Happened(new Per2MinuteEvent());
+            }
+            if (_secondCount % 300 == 0) {
+                Happened(new Per5MinuteEvent());
+            }
+            if (_secondCount % 600 == 0) {
+                Happened(new Per10MinuteEvent());
+            }
+            if (_secondCount % 1200 == 0) {
+                Happened(new Per20MinuteEvent());
+            }
+            if (_secondCount % 3000 == 0) {
+                Happened(new Per50MinuteEvent());
+            }
+            if (_secondCount % 6000 == 0) {
+                Happened(new Per100MinuteEvent());
+            }
+            if (_secondCount % daySecond == 0) {
+                Happened(new Per24HourEvent());
+            }
+            #endregion
         }
 
         /// <summary>

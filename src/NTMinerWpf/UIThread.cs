@@ -23,7 +23,7 @@ namespace NTMiner {
 
         public static void StartTimer() {
             DispatcherTimer t = new DispatcherTimer(TimeSpan.FromSeconds(1), DispatcherPriority.Normal, (sender, e)=> {
-                VirtualRoot.Happened(new Per1SecondEvent());
+                VirtualRoot.Elapsed();
             }, Dispatcher.CurrentDispatcher);
         }
     }
