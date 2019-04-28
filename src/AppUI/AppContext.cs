@@ -83,10 +83,10 @@ namespace NTMiner {
             }
         }
 
-        private DriveSet _driveSet;
-        public DriveSet DriveSet {
+        private DriveSetViewModel _driveSet;
+        public DriveSetViewModel DriveSet {
             get {
-                return _driveSet ?? (_driveSet = new DriveSet());
+                return _driveSet ?? (_driveSet = new DriveSetViewModel());
             }
         }
 

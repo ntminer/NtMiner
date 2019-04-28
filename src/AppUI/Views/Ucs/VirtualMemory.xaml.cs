@@ -18,7 +18,7 @@ namespace NTMiner.Views.Ucs {
             }, ucFactory: (window) => new VirtualMemory(), fixedSize: false);
         }
 
-        private DriveSet Vm {
+        private AppContext.DriveSetViewModel Vm {
             get {
                 return AppContext.Current.DriveSet;
             }
