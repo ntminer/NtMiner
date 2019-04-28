@@ -145,7 +145,7 @@
 		<ScrollViewer 
 			Grid.Row="2" 
 			Background="White"
-			VerticalScrollBarVisibility="Auto"
+			VerticalScrollBarVisibility="Visible"
 			PreviewMouseDown="ScrollViewer_PreviewMouseDown"
 			xmlns:sys="clr-namespace:System;assembly=mscorlib">
 			<ScrollViewer.Resources>

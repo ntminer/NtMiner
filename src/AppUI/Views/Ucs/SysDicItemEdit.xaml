@@ -15,7 +15,7 @@
     <StackPanel Margin="10">
         <WrapPanel Margin="0 2">
             <TextBlock Style="{StaticResource LblTb}">所属字典:</TextBlock>
-            <Label Content="{Binding SysDicVm.Name}" Width="300" HorizontalContentAlignment="Left"></Label>
+            <TextBlock Text="{Binding SysDicVm.Name}" Width="300" VerticalAlignment="Center"></TextBlock>
             <TextBlock Style="{StaticResource LblTb}">排序:</TextBlock>
             <TextBox Width="60" VerticalContentAlignment="Center" Text="{Binding SortNumber, ValidatesOnExceptions=True}">
             </TextBox>
