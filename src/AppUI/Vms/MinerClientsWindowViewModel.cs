@@ -9,8 +9,6 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class MinerClientsWindowViewModel : ViewModelBase {
-        public static readonly MinerClientsWindowViewModel Current = new MinerClientsWindowViewModel();
-
         private ColumnsShowViewModel _columnsShow;
         private int _countDown;
         private List<NTMinerFileData> _ntminerFileList;
@@ -63,7 +61,7 @@ namespace NTMiner.Vms {
         public ICommand OneKeySetting { get; private set; }
 
         #region ctor
-        private MinerClientsWindowViewModel() {
+        public MinerClientsWindowViewModel() {
             if (Design.IsInDesignMode) {
                 return;
             }

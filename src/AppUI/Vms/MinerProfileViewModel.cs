@@ -6,9 +6,7 @@ using System.Linq;
 
 namespace NTMiner.Vms {
     public class MinerProfileViewModel : ViewModelBase, IMinerProfile {
-        public static readonly MinerProfileViewModel Current = new MinerProfileViewModel();
-
-        private MinerProfileViewModel() {
+        public MinerProfileViewModel() {
             if (Design.IsInDesignMode) {
                 return;
             }

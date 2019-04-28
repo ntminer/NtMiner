@@ -155,8 +155,8 @@ namespace NTMiner.Views.Ucs {
 
             Vm.SetCurrentSpeedChartVm(Vm.SpeedChartVms.FirstOrDefault());
 
-            if (MinerProfileViewModel.Current.CoinVm != null) {
-                Guid coinId = MinerProfileViewModel.Current.CoinId;
+            if (AppContext.Current.MinerProfileVms.CoinVm != null) {
+                Guid coinId = AppContext.Current.MinerProfileVms.CoinId;
                 foreach (var item in NTMinerRoot.Current.GpuSet) {
                     List<IGpuSpeed> gpuSpeedHistory = item.GetGpuSpeedHistory();
                     SpeedChartViewModel speedChartVm = Vm.SpeedChartVms[item.Index];

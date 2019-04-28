@@ -36,8 +36,8 @@ namespace NTMiner {
             CurrentVersionTag = ((AssemblyDescriptionAttribute)mainAssembly.GetCustomAttributes(typeof(AssemblyDescriptionAttribute), inherit: false).First()).Description;
         }
 
-        private static readonly NTMinerRoot SCurrent = new NTMinerRoot();
-        public static readonly INTMinerRoot Current = SCurrent;
+        private static readonly NTMinerRoot S_Instance = new NTMinerRoot();
+        public static readonly INTMinerRoot Current = S_Instance;
         public static readonly Version CurrentVersion;
         public static readonly string CurrentVersionTag;
         public static bool IsNCard {

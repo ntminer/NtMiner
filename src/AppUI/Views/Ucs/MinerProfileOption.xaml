@@ -8,7 +8,7 @@
 		xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:vm="clr-namespace:NTMiner.Vms" Background="White"
-		DataContext="{x:Static vm:MinerProfileViewModel.Current}"
+		d:DataContext="{d:DesignData Source=Design/MinerProfileViewModel.xaml}"
 		mc:Ignorable="d" d:DesignHeight="450" d:DesignWidth="600">
 	<Grid>
 		<Grid.RowDefinitions>

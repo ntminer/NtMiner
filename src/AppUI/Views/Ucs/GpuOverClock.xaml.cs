@@ -13,6 +13,7 @@ namespace NTMiner.Views.Ucs {
         }
 
         public GpuOverClock() {
+            this.DataContext = AppContext.Current.MinerProfileVms;
             InitializeComponent();
             switch (NTMinerRoot.Current.GpuSet.GpuType) {
                 case GpuType.NVIDIA:

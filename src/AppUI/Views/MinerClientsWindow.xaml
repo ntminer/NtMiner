@@ -15,10 +15,10 @@
 		BorderBrush="Black"
 		Background="{StaticResource ThemeBackground}"
 		WindowState="Maximized"
+		d:DataContext="{d:DesignData Source=Design/MinerClientsWindowViewModel.xaml}"
 		WindowStartupLocation="CenterScreen"
 		MouseDown="MetroWindow_MouseDown"
 		Title="矿机列表"
-		DataContext="{x:Static vm:MinerClientsWindowViewModel.Current}"
 		mc:Ignorable="d" d:DesignHeight="1000" d:DesignWidth="3600">
 	<metro:MetroWindow.Resources>
 		<ResourceDictionary>

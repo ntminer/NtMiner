@@ -28,7 +28,7 @@ namespace NTMiner {
                             _dicById.Add(message.Source.GetId(), new MinerGroupViewModel(message.Source));
                             OnPropertyChanged(nameof(List));
                             OnPropertyChanged(nameof(MinerGroupItems));
-                            MinerClientsWindowViewModel.Current.OnPropertyChanged(nameof(MinerClientsWindowViewModel.SelectedMinerGroup));
+                            Current.MinerClientsWindowVms.OnPropertyChanged(nameof(MinerClientsWindowViewModel.SelectedMinerGroup));
                         }
                     });
                 VirtualRoot.On<MinerGroupUpdatedEvent>("更新矿机分组后刷新VM内存", LogEnum.DevConsole,
@@ -40,7 +40,7 @@ namespace NTMiner {
                         _dicById.Remove(message.Source.GetId());
                         OnPropertyChanged(nameof(List));
                         OnPropertyChanged(nameof(MinerGroupItems));
-                        MinerClientsWindowViewModel.Current.OnPropertyChanged(nameof(MinerClientsWindowViewModel.SelectedMinerGroup));
+                        Current.MinerClientsWindowVms.OnPropertyChanged(nameof(MinerClientsWindowViewModel.SelectedMinerGroup));
                     });
             }
 

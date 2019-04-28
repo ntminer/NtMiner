@@ -19,6 +19,20 @@ namespace NTMiner {
         private AppContext() {
         }
 
+        private MinerClientsWindowViewModel _minerClientsWindowVms;
+        public MinerClientsWindowViewModel MinerClientsWindowVms {
+            get {
+                return _minerClientsWindowVms ?? (_minerClientsWindowVms = new MinerClientsWindowViewModel());
+            }
+        }
+
+        private MinerProfileViewModel _minerProfileVms;
+        public MinerProfileViewModel MinerProfileVms {
+            get {
+                return _minerProfileVms ?? (_minerProfileVms = new MinerProfileViewModel());
+            }
+        }
+
         #region context
         private CoinViewModels _coinVms;
         public CoinViewModels CoinVms {

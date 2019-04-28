@@ -10,7 +10,7 @@
         }
 
         public MinerProfileViewModel MinerProfile {
-            get { return MinerProfileViewModel.Current; }
+            get { return AppContext.Current.MinerProfileVms; }
         }
 
         public bool IsMinerStudio {

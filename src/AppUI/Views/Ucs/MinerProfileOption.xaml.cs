@@ -21,6 +21,7 @@ namespace NTMiner.Views.Ucs {
         }
 
         public MinerProfileOption() {
+            this.DataContext = AppContext.Current.MinerProfileVms;
             InitializeComponent();
             if (VirtualRoot.IsMinerStudio) {
                 this.GroupSystemSetting.Visibility = Visibility.Collapsed;

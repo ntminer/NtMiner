@@ -40,13 +40,13 @@ namespace NTMiner.Vms {
 
         public bool IsChecked {
             get {
-                if (MinerProfileViewModel.Current.CoinVm?.CoinKernel?.CoinKernelProfile?.CustomArgs?.Contains(this.Segment) ?? false) {
+                if (AppContext.Current.MinerProfileVms.CoinVm?.CoinKernel?.CoinKernelProfile?.CustomArgs?.Contains(this.Segment) ?? false) {
                     return true;
                 }
                 return false;
             }
             set {
-                CoinKernelProfileViewModel coinKernelProfileVm = MinerProfileViewModel.Current.CoinVm?.CoinKernel?.CoinKernelProfile;
+                CoinKernelProfileViewModel coinKernelProfileVm = AppContext.Current.MinerProfileVms.CoinVm?.CoinKernel?.CoinKernelProfile;
                 string customArgs = coinKernelProfileVm?.CustomArgs ?? string.Empty;
                 bool b = customArgs.Contains(this.Segment);
                 if (value) {
