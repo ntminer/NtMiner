@@ -118,7 +118,7 @@ namespace NTMiner.Views {
                             this.WindowState = WindowState.Minimized;
                         }
                         else {
-                            this.ShowThisWindow();
+                            this.ShowThisWindow(isToggle: false);
                         }
                     }
                     break;
@@ -128,17 +128,27 @@ namespace NTMiner.Views {
             return IntPtr.Zero;
         }
 
-        public void ShowThisWindow() {
+        public void ShowThisWindow(bool isToggle) {
+            if (!isToggle) {
+                this.Show();
+            }
             ShowInTaskbar = true;
             if (WindowState == WindowState.Minimized) {
                 WindowState = WindowState.Normal;
             }
             else {
-                var oldState = WindowState;
-                this.WindowState = WindowState.Minimized;
-                this.WindowState = oldState;
+                if (isToggle) {
+                    WindowState = WindowState.Minimized;
+                }
+                else {
+                    var oldState = WindowState;
+                    this.WindowState = WindowState.Minimized;
+                    this.WindowState = oldState;
+                }
             }
-            this.Activate();
+            if (!isToggle) {
+                this.Activate();
+            }
         }
 
         private void MetroWindow_MouseDown(object sender, MouseButtonEventArgs e) {

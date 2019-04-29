@@ -76,7 +76,9 @@ namespace NTMiner {
                                             this.MainWindow = mainWindow = new MainWindow();
                                             this.MainWindow.Show();
                                         }
-                                        mainWindow.ShowThisWindow();
+                                        else {
+                                            mainWindow.ShowThisWindow(message.IsToggle);
+                                        }
                                     });
                                 });
                             #endregion

@@ -81,17 +81,26 @@ namespace NTMiner.Views {
             base.OnClosing(e);
         }
 
-        public void ShowThisWindow() {
-            this.Show();
+        public void ShowThisWindow(bool isToggle) {
+            if (!isToggle) {
+                this.Show();
+            }
             if (WindowState == WindowState.Minimized) {
                 this.WindowState = WindowState.Normal;
             }
             else {
-                var oldState = WindowState;
-                this.WindowState = WindowState.Minimized;
-                this.WindowState = oldState;
+                if (isToggle) {
+                    this.WindowState = WindowState.Minimized;
+                }
+                else {
+                    var oldState = WindowState;
+                    this.WindowState = WindowState.Minimized;
+                    this.WindowState = oldState;
+                }
             }
-            this.Activate();
+            if (!isToggle) {
+                this.Activate();
+            }
         }
 
         protected override void OnClosed(EventArgs e) {

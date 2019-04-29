@@ -29,7 +29,11 @@ namespace NTMiner {
 
     [MessageType(description: "显式主界面")]
     public class ShowMainWindowCommand : Cmd {
-        public ShowMainWindowCommand() { }
+        public ShowMainWindowCommand(bool isToggle) {
+            this.IsToggle = isToggle;
+        }
+
+        public bool IsToggle { get; private set; }
     }
 
     [MessageType(description: "关闭NTMiner客户端")]
