@@ -71,9 +71,10 @@ namespace NTMiner {
                             VirtualRoot.Window<ShowMainWindowCommand>("处理显示主界面命令", LogEnum.None,
                                 action: message => {
                                     UIThread.Execute(() => {
-                                        IMainWindow mainWindow = MainWindow as IMainWindow;
+                                        MainWindow mainWindow = this.MainWindow as MainWindow;
                                         if (mainWindow == null) {
-                                            mainWindow = new MainWindow();
+                                            this.MainWindow = mainWindow = new MainWindow();
+                                            this.MainWindow.Show();
                                         }
                                         mainWindow.ShowThisWindow();
                                     });
