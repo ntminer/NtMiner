@@ -52,12 +52,23 @@ namespace NTMiner {
             SEventBus = new DirectEventBus(SMessageDispatcher);
         }
 
+        private static Timer _timer;
         public static void StartTimer() {
-            Timer t = new Timer(1000);
-            t.Elapsed += (object sender, ElapsedEventArgs e) => {
+            if (_timer != null) {
+                return;
+            }
+            _timer = new Timer(1000);
+            _timer.Elapsed += (object sender, ElapsedEventArgs e) => {
                 Elapsed();
             };
-            t.Start();
+            _timer.Start();
+        }
+
+        public static void StopTimer() {
+            if (_timer != null) {
+                _timer.Stop();
+                _timer = null;
+            }
         }
 
         public static void Elapsed() {

@@ -32,9 +32,12 @@ namespace NTMiner {
         }
 
         public static void StopTimer() {
-            _dispatcherTimer.Stop();
-            _dispatcherTimer.IsEnabled = false;
-            _dispatcherTimer = null;
+            if (_dispatcherTimer != null) {
+                _dispatcherTimer.Stop();
+                _dispatcherTimer.IsEnabled = false;
+                _dispatcherTimer = null;
+                VirtualRoot.StartTimer();
+            }
         }
     }
 }

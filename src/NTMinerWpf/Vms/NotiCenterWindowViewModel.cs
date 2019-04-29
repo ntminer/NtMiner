@@ -3,6 +3,7 @@
 namespace NTMiner.Vms {
     public class NotiCenterWindowViewModel : ViewModelBase {
         public static readonly NotiCenterWindowViewModel Instance = new NotiCenterWindowViewModel();
+        public static bool IsHotKeyEnabled = false;
 
         private NotiCenterWindowViewModel() { }
 

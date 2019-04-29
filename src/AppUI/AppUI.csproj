@@ -141,7 +141,6 @@
     <Compile Include="KernelDownloader.cs" />
     <Compile Include="AppContext.cs" />
     <Compile Include="RemoteDesktopInput.cs" />
-    <Compile Include="SystemHotKey.cs" />
     <Compile Include="Views\ContainerWindow.xaml.cs">
       <DependentUpon>ContainerWindow.xaml</DependentUpon>
     </Compile>

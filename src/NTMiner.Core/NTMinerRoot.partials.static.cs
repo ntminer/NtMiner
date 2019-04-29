@@ -19,7 +19,6 @@ namespace NTMiner {
         public static IKernelDownloader KernelDownloader = new EmptyKernelDownloader();
         public static Action RefreshArgsAssembly = () => { };
 
-        public static Func<System.Windows.Forms.Keys, bool> RegHotKey;
         public static string AppName;
         public static bool IsUseDevConsole = false;
         // ReSharper disable once InconsistentNaming
@@ -279,32 +278,6 @@ namespace NTMiner {
                 return _diskSpace;
             }
         }
-
-        #region HotKey
-        public static string GetHotKey() {
-            object value = Windows.Registry.GetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "HotKey");
-            if (value == null) {
-                return "X";
-            }
-            return value.ToString();
-        }
-
-        public static bool SetHotKey(string value) {
-            if (RegHotKey == null) {
-                return false;
-            }
-            if (string.IsNullOrEmpty(value)) {
-                return false;
-            }
-            if (Enum.TryParse(value, out System.Windows.Forms.Keys key) && key >= System.Windows.Forms.Keys.A && key <= System.Windows.Forms.Keys.Z) {
-                if (RegHotKey.Invoke(key)) {
-                    Windows.Registry.SetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "HotKey", value);
-                    return true;
-                }
-            }
-            return false;
-        }
-        #endregion
 
         #region IsShowCommandLine
         public static bool GetIsShowCommandLine() {

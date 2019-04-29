@@ -128,10 +128,10 @@ namespace NTMiner.Vms {
         }
 
         public string HotKey {
-            get { return NTMinerRoot.GetHotKey(); }
+            get { return HotKeyUtil.GetHotKey(); }
             set {
-                if (NTMinerRoot.GetHotKey() != value) {
-                    if (NTMinerRoot.SetHotKey(value)) {
+                if (HotKeyUtil.GetHotKey() != value) {
+                    if (HotKeyUtil.SetHotKey(value)) {
                         OnPropertyChanged(nameof(HotKey));
                     }
                 }
