@@ -35,7 +35,7 @@ namespace NTMiner {
         #region IsNoUi
         public static bool GetIsNoUi() {
             object isNoUiValue = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, "IsNoUi");
-            return isNoUiValue != null || isNoUiValue.ToString() == "True";
+            return isNoUiValue != null && isNoUiValue.ToString() == "True";
         }
 
         public static void SetIsNoUi(bool value) {

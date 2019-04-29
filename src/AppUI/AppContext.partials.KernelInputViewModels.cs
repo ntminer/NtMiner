@@ -37,7 +37,7 @@ namespace NTMiner {
                                 string dualFullArgs = item.DualFullArgs;
                                 item.Update(message.Source);
                                 if (args != item.Args || dualFullArgs != item.DualFullArgs) {
-                                    CoinViewModel coinVm = Current.MinerProfileVms.CoinVm;
+                                    CoinViewModel coinVm = Current.MinerProfileVm.CoinVm;
                                     if (coinVm != null && coinVm.CoinKernel != null && coinVm.CoinKernel.Kernel.KernelInputId == item.Id) {
                                         NTMinerRoot.RefreshArgsAssembly.Invoke();
                                     }

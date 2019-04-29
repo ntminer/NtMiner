@@ -63,7 +63,7 @@ namespace NTMiner.Vms {
                             Write.UserFail(response.ReadMessage(e));
                         }
                         else {
-                            AppContext.Current.MinerClientsWindowVms.QueryMinerClients();
+                            AppContext.Current.MinerClientsWindowVm.QueryMinerClients();
                         }
                     });
                 }, icon: IconConst.IconConfirm);

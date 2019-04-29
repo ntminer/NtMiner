@@ -29,13 +29,13 @@ namespace NTMiner {
                 VirtualRoot.On<CoinAddedEvent>("添加了币种后刷新VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         _dicById.Add(message.Source.GetId(), new CoinViewModel(message.Source));
-                        Current.MinerProfileVms.OnPropertyChanged(nameof(Current.MinerProfileVms.CoinVm));
+                        Current.MinerProfileVm.OnPropertyChanged(nameof(Current.MinerProfileVm.CoinVm));
                         AllPropertyChanged();
                     }).AddToCollection(NTMinerRoot.Instance.ContextHandlers);
                 VirtualRoot.On<CoinRemovedEvent>("移除了币种后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById.Remove(message.Source.GetId());
-                        Current.MinerProfileVms.OnPropertyChanged(nameof(Current.MinerProfileVms.CoinVm));
+                        Current.MinerProfileVm.OnPropertyChanged(nameof(Current.MinerProfileVm.CoinVm));
                         AllPropertyChanged();
                     }).AddToCollection(NTMinerRoot.Instance.ContextHandlers);
                 VirtualRoot.On<CoinUpdatedEvent>("更新了币种后刷新VM内存", LogEnum.DevConsole,
@@ -46,10 +46,10 @@ namespace NTMiner {
                         coinVm.TestWalletVm.Address = message.Source.TestWallet;
                         coinVm.OnPropertyChanged(nameof(coinVm.Wallets));
                         coinVm.OnPropertyChanged(nameof(coinVm.WalletItems));
-                        if (Current.MinerProfileVms.CoinId == message.Source.GetId()) {
-                            Current.MinerProfileVms.OnPropertyChanged(nameof(Current.MinerProfileVms.CoinVm));
+                        if (Current.MinerProfileVm.CoinId == message.Source.GetId()) {
+                            Current.MinerProfileVm.OnPropertyChanged(nameof(Current.MinerProfileVm.CoinVm));
                         }
-                        CoinKernelViewModel coinKernelVm = Current.MinerProfileVms.CoinVm.CoinKernel;
+                        CoinKernelViewModel coinKernelVm = Current.MinerProfileVm.CoinVm.CoinKernel;
                         if (coinKernelVm != null
                             && coinKernelVm.CoinKernelProfile.SelectedDualCoin != null
                             && coinKernelVm.CoinKernelProfile.SelectedDualCoin.GetId() == message.Source.GetId()) {

@@ -47,7 +47,7 @@ namespace NTMiner.Vms {
 
         public AppContext.DriveSetViewModel DriveSet {
             get {
-                return AppContext.Current.DriveSet;
+                return AppContext.Current.DriveSetVm;
             }
         }
 

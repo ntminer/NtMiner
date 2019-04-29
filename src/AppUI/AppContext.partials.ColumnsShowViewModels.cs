@@ -22,7 +22,7 @@ namespace NTMiner {
                             ColumnsShowViewModel vm = new ColumnsShowViewModel(message.Source);
                             _dicById.Add(message.Source.GetId(), vm);
                             OnPropertyChanged(nameof(List));
-                            Current.MinerClientsWindowVms.ColumnsShow = vm;
+                            Current.MinerClientsWindowVm.ColumnsShow = vm;
                         }
                     });
                 VirtualRoot.On<ColumnsShowUpdatedEvent>("更新了列显后刷新VM内存", LogEnum.DevConsole,
@@ -34,7 +34,7 @@ namespace NTMiner {
                     });
                 VirtualRoot.On<ColumnsShowRemovedEvent>("移除了列显后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        Current.MinerClientsWindowVms.ColumnsShow = _dicById.Values.FirstOrDefault();
+                        Current.MinerClientsWindowVm.ColumnsShow = _dicById.Values.FirstOrDefault();
                         _dicById.Remove(message.Source.GetId());
                         OnPropertyChanged(nameof(List));
                     });

@@ -19,7 +19,7 @@ namespace NTMiner {
                             _listByCoinId.Clear();
                             _gpuAllVmDicByCoinId.Clear();
                         }
-                        var coinVm = Current.MinerProfileVms.CoinVm;
+                        var coinVm = Current.MinerProfileVm.CoinVm;
                         if (coinVm != null) {
                             coinVm.OnOverClockPropertiesChanges();
                             VirtualRoot.Execute(new CoinOverClockCommand(coinVm.Id));

@@ -19,17 +19,17 @@ namespace NTMiner {
         private AppContext() {
         }
 
-        private MinerClientsWindowViewModel _minerClientsWindowVms;
-        public MinerClientsWindowViewModel MinerClientsWindowVms {
+        private MinerClientsWindowViewModel _minerClientsWindowVm;
+        public MinerClientsWindowViewModel MinerClientsWindowVm {
             get {
-                return _minerClientsWindowVms ?? (_minerClientsWindowVms = new MinerClientsWindowViewModel());
+                return _minerClientsWindowVm ?? (_minerClientsWindowVm = new MinerClientsWindowViewModel());
             }
         }
 
-        private MinerProfileViewModel _minerProfileVms;
-        public MinerProfileViewModel MinerProfileVms {
+        private MinerProfileViewModel _minerProfileVm;
+        public MinerProfileViewModel MinerProfileVm {
             get {
-                return _minerProfileVms ?? (_minerProfileVms = new MinerProfileViewModel());
+                return _minerProfileVm ?? (_minerProfileVm = new MinerProfileViewModel());
             }
         }
 
@@ -97,17 +97,17 @@ namespace NTMiner {
             }
         }
 
-        private DriveSetViewModel _driveSet;
-        public DriveSetViewModel DriveSet {
+        private DriveSetViewModel _driveSetVm;
+        public DriveSetViewModel DriveSetVm {
             get {
-                return _driveSet ?? (_driveSet = new DriveSetViewModel());
+                return _driveSetVm ?? (_driveSetVm = new DriveSetViewModel());
             }
         }
 
-        private VirtualMemorySetViewModel _virtualMemorySet;
-        public VirtualMemorySetViewModel VirtualMemorySet {
+        private VirtualMemorySetViewModel _virtualMemorySetVm;
+        public VirtualMemorySetViewModel VirtualMemorySetVm {
             get {
-                return _virtualMemorySet ?? (_virtualMemorySet = new VirtualMemorySetViewModel());
+                return _virtualMemorySetVm ?? (_virtualMemorySetVm = new VirtualMemorySetViewModel());
             }
         }
 
@@ -237,10 +237,10 @@ namespace NTMiner {
             }
         }
 
-        private GpuStatusBarViewModel _gpuStatusBarVms;
-        public GpuStatusBarViewModel GpuStatusBarVms {
+        private GpuStatusBarViewModel _gpuStatusBarVm;
+        public GpuStatusBarViewModel GpuStatusBarVm {
             get {
-                return _gpuStatusBarVms ?? (_gpuStatusBarVms = new GpuStatusBarViewModel());
+                return _gpuStatusBarVm ?? (_gpuStatusBarVm = new GpuStatusBarViewModel());
             }
         }
         #endregion
@@ -273,7 +273,7 @@ namespace NTMiner {
 
         public string TotalVirtualMemoryGbText {
             get {
-                return VirtualMemorySet.TotalVirtualMemoryGbText;
+                return VirtualMemorySetVm.TotalVirtualMemoryGbText;
             }
         }
 

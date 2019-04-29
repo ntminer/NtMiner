@@ -99,7 +99,7 @@ namespace NTMiner {
 
             public MinerProfileViewModel MinerProfile {
                 get {
-                    return Current.MinerProfileVms;
+                    return Current.MinerProfileVm;
                 }
             }
 
