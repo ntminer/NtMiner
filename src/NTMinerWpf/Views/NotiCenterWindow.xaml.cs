@@ -47,27 +47,35 @@ namespace NTMiner.Views {
         private IntPtr _thisWindowHandle;
         protected override void OnSourceInitialized(EventArgs e) {
             base.OnSourceInitialized(e);
-            _thisWindowHandle = new WindowInteropHelper(this).Handle;
-            HwndSource hWndSource = HwndSource.FromHwnd(_thisWindowHandle);
-            if (hWndSource != null) hWndSource.AddHook(WndProc);
+            if (NotiCenterWindowViewModel.IsHotKeyEnabled) {
+                _thisWindowHandle = new WindowInteropHelper(this).Handle;
+                HwndSource hWndSource = HwndSource.FromHwnd(_thisWindowHandle);
+                if (hWndSource != null) {
+                    hWndSource.AddHook(WndProc);
+                }
+            }
         }
 
         protected override void OnContentRendered(EventArgs e) {
             base.OnContentRendered(e);
-            System.Windows.Forms.Keys hotKey = System.Windows.Forms.Keys.X;
-            Enum.TryParse(HotKeyUtil.GetHotKey(), out hotKey);
-            string message;
-            if (!RegHotKey(hotKey, out message)) {
-                NotiCenterWindowViewModel.Instance.Manager
-                    .CreateMessage()
-                    .Error(message)
-                    .Dismiss().WithButton("忽略", null)
-                    .Queue();
+            if (NotiCenterWindowViewModel.IsHotKeyEnabled) {
+                System.Windows.Forms.Keys hotKey = System.Windows.Forms.Keys.X;
+                Enum.TryParse(HotKeyUtil.GetHotKey(), out hotKey);
+                string message;
+                if (!RegHotKey(hotKey, out message)) {
+                    NotiCenterWindowViewModel.Instance.Manager
+                        .CreateMessage()
+                        .Error(message)
+                        .Dismiss().WithButton("忽略", null)
+                        .Queue();
+                }
             }
         }
 
         protected override void OnClosed(EventArgs e) {
-            SystemHotKey.UnRegHotKey(_thisWindowHandle, c_hotKeyId);
+            if (NotiCenterWindowViewModel.IsHotKeyEnabled) {
+                SystemHotKey.UnRegHotKey(_thisWindowHandle, c_hotKeyId);
+            }
             base.OnClosed(e);
         }
 
