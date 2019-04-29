@@ -114,12 +114,7 @@ namespace NTMiner.Views {
                 case WM_HOTKEY:
                     int tmpWParam = wParam.ToInt32();
                     if (tmpWParam == c_hotKeyId) {
-                        if (this.WindowState != WindowState.Minimized) {
-                            this.WindowState = WindowState.Minimized;
-                        }
-                        else {
-                            this.ShowThisWindow(isToggle: false);
-                        }
+                        VirtualRoot.Execute(new ShowMainWindowCommand(isToggle: true));
                     }
                     break;
                 default:
