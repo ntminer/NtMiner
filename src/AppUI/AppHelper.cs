@@ -74,6 +74,29 @@ namespace NTMiner {
             }
         }
 
+        public static void ShowWindow(Window window, bool isToggle) {
+            if (!isToggle) {
+                window.Show();
+            }
+            window.ShowInTaskbar = true;
+            if (window.WindowState == WindowState.Minimized) {
+                window.WindowState = WindowState.Normal;
+            }
+            else {
+                if (isToggle) {
+                    window.WindowState = WindowState.Minimized;
+                }
+                else {
+                    var oldState = window.WindowState;
+                    window.WindowState = WindowState.Minimized;
+                    window.WindowState = oldState;
+                }
+            }
+            if (!isToggle) {
+                window.Activate();
+            }
+        }
+
         private static void RestartNTMiner() {
             Process thisProcess = Process.GetCurrentProcess();
             Windows.TaskKill.KillOtherProcess(thisProcess);

@@ -82,25 +82,7 @@ namespace NTMiner.Views {
         }
 
         public void ShowThisWindow(bool isToggle) {
-            if (!isToggle) {
-                this.Show();
-            }
-            if (WindowState == WindowState.Minimized) {
-                this.WindowState = WindowState.Normal;
-            }
-            else {
-                if (isToggle) {
-                    this.WindowState = WindowState.Minimized;
-                }
-                else {
-                    var oldState = WindowState;
-                    this.WindowState = WindowState.Minimized;
-                    this.WindowState = oldState;
-                }
-            }
-            if (!isToggle) {
-                this.Activate();
-            }
+            AppHelper.ShowWindow(this, isToggle);
         }
 
         protected override void OnClosed(EventArgs e) {

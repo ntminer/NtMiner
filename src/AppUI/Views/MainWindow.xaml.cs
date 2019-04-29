@@ -124,26 +124,7 @@ namespace NTMiner.Views {
         }
 
         public void ShowThisWindow(bool isToggle) {
-            if (!isToggle) {
-                this.Show();
-            }
-            ShowInTaskbar = true;
-            if (WindowState == WindowState.Minimized) {
-                WindowState = WindowState.Normal;
-            }
-            else {
-                if (isToggle) {
-                    WindowState = WindowState.Minimized;
-                }
-                else {
-                    var oldState = WindowState;
-                    this.WindowState = WindowState.Minimized;
-                    this.WindowState = oldState;
-                }
-            }
-            if (!isToggle) {
-                this.Activate();
-            }
+            AppHelper.ShowWindow(this, isToggle);
         }
 
         private void MetroWindow_MouseDown(object sender, MouseButtonEventArgs e) {
