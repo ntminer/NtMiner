@@ -106,6 +106,16 @@ namespace NTMiner.Vms {
             }
         }
 
+        public bool IsNoUi {
+            get { return NTMinerRegistry.GetIsNoUi(); }
+            set {
+                if (NTMinerRegistry.GetIsNoUi() != value) {
+                    NTMinerRegistry.SetIsNoUi(value);
+                    OnPropertyChanged(nameof(IsNoUi));
+                }
+            }
+        }
+
         public bool IsShowNotifyIcon {
             get => NTMinerRegistry.GetIsShowNotifyIcon();
             set {

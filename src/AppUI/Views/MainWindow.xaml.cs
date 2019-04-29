@@ -18,6 +18,7 @@ namespace NTMiner.Views {
         }
 
         public MainWindow() {
+            UIThread.StartTimer();
             InitializeComponent();
             this.StateChanged += (s, e) => {
                 if (Vm.MinerProfile.IsShowInTaskbar) {
@@ -64,6 +65,7 @@ namespace NTMiner.Views {
 
         protected override void OnClosing(CancelEventArgs e) {
             Write.ResetWriteUserLineMethod();
+            UIThread.StopTimer();
             base.OnClosing(e);
         }
 

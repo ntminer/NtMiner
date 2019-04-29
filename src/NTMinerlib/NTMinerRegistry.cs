@@ -32,6 +32,17 @@ namespace NTMiner {
         }
         #endregion
 
+        #region IsNoUi
+        public static bool GetIsNoUi() {
+            object isNoUiValue = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, "IsNoUi");
+            return isNoUiValue != null || isNoUiValue.ToString() == "True";
+        }
+
+        public static void SetIsNoUi(bool value) {
+            Windows.Registry.SetValue(Registry.Users, NTMinerRegistrySubKey, "IsNoUi", value);
+        }
+        #endregion
+
         #region IsShowNotifyIcon
         public static bool GetIsShowNotifyIcon() {
             object isAutoBootValue = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, "IsShowNotifyIcon");

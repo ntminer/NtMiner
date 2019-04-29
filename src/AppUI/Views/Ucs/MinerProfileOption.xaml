@@ -79,6 +79,14 @@
 						Content="最小化开源矿工主窗口时隐藏任务栏图标">
 					</controls:KbCheckBox>
 				</WrapPanel>
+				
+				<WrapPanel Margin="0 2">
+					<controls:KbCheckBox 
+						IsChecked="{Binding IsNoUi}"
+						IconColor="{StaticResource IconFillColor}"
+						Content="关闭主窗口时以无界面模式运行">
+					</controls:KbCheckBox>
+				</WrapPanel>
 
 				<WrapPanel Margin="0 2">
 					<controls:KbCheckBox 

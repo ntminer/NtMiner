@@ -21,10 +21,20 @@ namespace NTMiner {
             s_executor(action);
         }
 
+        private static DispatcherTimer _dispatcherTimer;
         public static void StartTimer() {
-            DispatcherTimer t = new DispatcherTimer(TimeSpan.FromSeconds(1), DispatcherPriority.Normal, (sender, e)=> {
+            if (_dispatcherTimer != null) {
+                return;
+            }
+            _dispatcherTimer = new DispatcherTimer(TimeSpan.FromSeconds(1), DispatcherPriority.Normal, (sender, e)=> {
                 VirtualRoot.Elapsed();
             }, Dispatcher.CurrentDispatcher);
+        }
+
+        public static void StopTimer() {
+            _dispatcherTimer.Stop();
+            _dispatcherTimer.IsEnabled = false;
+            _dispatcherTimer = null;
         }
     }
 }
