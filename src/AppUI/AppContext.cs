@@ -11,12 +11,15 @@ using System.Windows.Media.Imaging;
 
 namespace NTMiner {
     public partial class AppContext {
-        /// <summary>
-        /// 这个可以在关闭界面的时候释放
-        /// </summary>
-        public static readonly AppContext Current = new AppContext();
+        private static AppContext _current = null;
+        public static AppContext Current {
+            get {
+                return _current ?? (_current = new AppContext());
+            }
+        }
 
         private AppContext() {
+            Logger.InfoDebugLine("AppContext.ctor");
         }
 
         private MinerClientsWindowViewModel _minerClientsWindowVm;
