@@ -33,6 +33,11 @@ namespace NTMiner {
         public CloseNTMinerCommand() { }
     }
 
+    [MessageType(description: "关闭主界面")]
+    public class CloseMainWindowCommand : Cmd {
+        public CloseMainWindowCommand() { }
+    }
+
     [MessageType(description: "刷新开机启动和自动挖矿")]
     public class RefreshAutoBootStartCommand : Cmd {
         public RefreshAutoBootStartCommand() { }

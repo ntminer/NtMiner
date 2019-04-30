@@ -229,6 +229,7 @@
 						Height="34"
 						KbSystemButtonSize="40" />
 					<controls:KbSystemCloseButton
+						Command="{Binding CloseMainWindow}"
 						Height="34"
 						KbSystemButtonSize="40" />
 				</WrapPanel>

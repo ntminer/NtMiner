@@ -126,6 +126,16 @@ namespace NTMiner {
                         }
                     });
                 });
+            VirtualRoot.Window<CloseMainWindowCommand>("处理关闭主界面命令", LogEnum.DevConsole,
+                action: message => {
+                    UIThread.Execute(() => {
+                        MainWindow mainWindow = MainWindow as MainWindow;
+                        if (mainWindow != null) {
+                            MainWindow = NotiCenterWindow.Instance;
+                            mainWindow.Close();
+                        }
+                    });
+                });
             #region 周期确保守护进程在运行
             Daemon.DaemonUtil.RunNTMinerDaemon();
             VirtualRoot.On<Per20SecondEvent>("周期确保守护进程在运行", LogEnum.None,

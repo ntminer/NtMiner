@@ -12,11 +12,20 @@ namespace NTMiner.Vms {
 
         public ICommand CustomTheme { get; private set; }
         public ICommand UseThisPcName { get; private set; }
+        public ICommand CloseMainWindow { get; private set; }
 
         public MainWindowViewModel() {
             if (Design.IsInDesignMode) {
                 return;
             }
+            this.CloseMainWindow = new DelegateCommand(() => {
+                if (MinerProfile.IsNoUi) {
+                    VirtualRoot.Execute(new CloseMainWindowCommand());
+                }
+                else {
+                    VirtualRoot.Execute(new CloseNTMinerCommand());
+                }
+            });
             this.CustomTheme = new DelegateCommand(() => {
                 LogColor.ShowWindow();
             });
