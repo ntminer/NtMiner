@@ -35,7 +35,7 @@ namespace NTMiner.Vms {
                             this.MinerProfile.IsMining = false;
                         }
                     }
-                });
+                }).AddToCollection(AppContext.ContextHandlers);
         }
 
         public AppContext AppContext {

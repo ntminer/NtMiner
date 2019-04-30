@@ -113,7 +113,7 @@ namespace NTMiner.Views.Ucs {
                             speedChartVm.SetAxisLimits(now);
                         }
                     });
-                }).AddToCollection(_handlers);
+                }).AddToCollection(_handlers).AddToCollection(AppContext.ContextHandlers);
 
             Vm.ItemsPanelColumns = 1;
             this.Unloaded += (object sender, RoutedEventArgs e) => {

@@ -22,6 +22,14 @@ namespace NTMiner {
             }
         }
 
+        public static void Close() {
+            _current = null;
+            foreach (var handler in ContextHandlers) {
+                VirtualRoot.UnPath(handler);
+            }
+            ContextHandlers.Clear();
+        }
+
         private AppContext() {
             Logger.InfoDebugLine("AppContext.ctor");
         }

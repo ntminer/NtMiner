@@ -39,12 +39,12 @@ namespace NTMiner.Vms {
                 action: message => {
                     this.MinerProfile.IsMining = false;
                     Write.UserFail(message.Message);
-                });
+                }).AddToCollection(AppContext.ContextHandlers);
             if (DevMode.IsDevMode) {
                 VirtualRoot.On<ServerJsonVersionChangedEvent>("开发者模式展示ServerJsonVersion", LogEnum.DevConsole,
                     action: message => {
                         this.ServerJsonVersion = GetServerJsonVersion();
-                    });
+                    }).AddToCollection(AppContext.ContextHandlers);
                 _serverJsonVersion = GetServerJsonVersion();
             }
         }

@@ -31,7 +31,7 @@ namespace NTMiner {
                             BtnStopText = "正在挖矿";
                             VirtualRoot.UnPath(handler);
                         }
-                    });
+                    }).AddToCollection(AppContext.ContextHandlers);
                 }
             }
 

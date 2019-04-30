@@ -46,11 +46,11 @@ namespace NTMiner.Views {
                             item.OnPropertyChanged(nameof(item.LastActivedOnText));
                         }
                     }
-                }).AddToCollection(_handlers);
+                }).AddToCollection(_handlers).AddToCollection(AppContext.ContextHandlers);
             VirtualRoot.On<Per10SecondEvent>("周期刷新在线客户端列表", LogEnum.DevConsole,
                 action: message => {
                     AppContext.Current.MinerClientsWindowVm.QueryMinerClients();
-                }).AddToCollection(_handlers);
+                }).AddToCollection(_handlers).AddToCollection(AppContext.ContextHandlers);
             EventHandler changeNotiCenterWindowLocation = Wpf.Util.ChangeNotiCenterWindowLocation(this);
             this.Activated += changeNotiCenterWindowLocation;
             this.LocationChanged += changeNotiCenterWindowLocation;

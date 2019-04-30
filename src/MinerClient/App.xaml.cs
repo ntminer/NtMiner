@@ -135,6 +135,7 @@ namespace NTMiner {
                             UIThread.StopTimer();
                             MainWindow = NotiCenterWindow.Instance;
                             mainWindow.Close();
+                            AppContext.Close();
                         }
                     });
                 });

@@ -34,7 +34,7 @@ namespace NTMiner.Views.Ucs {
                     UIThread.Execute(()=> {
                         Vm.ReRender();
                     });
-                }).AddToCollection(_handlers);
+                }).AddToCollection(_handlers).AddToCollection(AppContext.ContextHandlers);
             this.Unloaded += CalcConfig_Unloaded;
         }
 
