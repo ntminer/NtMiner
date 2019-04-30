@@ -3,7 +3,6 @@ using NTMiner.Notifications;
 using NTMiner.Views.Ucs;
 using NTMiner.Vms;
 using System;
-using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -49,12 +48,6 @@ namespace NTMiner.Views {
             if (NTMinerRoot.Instance.GpuSet.Count == 0) {
                 NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage("没有矿卡或矿卡未驱动。");
             }
-        }
-
-        protected override void OnClosing(CancelEventArgs e) {
-            Write.ResetWriteUserLineMethod();
-            UIThread.StopTimer();
-            base.OnClosing(e);
         }
 
         public void ShowThisWindow(bool isToggle) {

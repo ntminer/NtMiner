@@ -131,6 +131,8 @@ namespace NTMiner {
                     UIThread.Execute(() => {
                         MainWindow mainWindow = MainWindow as MainWindow;
                         if (mainWindow != null) {
+                            Write.ResetWriteUserLineMethod();
+                            UIThread.StopTimer();
                             MainWindow = NotiCenterWindow.Instance;
                             mainWindow.Close();
                         }
