@@ -22,10 +22,11 @@ namespace NTMiner.Bus {
             }
         }
 
-        public void AddToCollection(List<IDelegateHandler> handlers) {
+        public DelegateHandler<TMessage> AddToCollection(List<IDelegateHandler> handlers) {
             if (!handlers.Contains(this)) {
                 handlers.Add(this);
             }
+            return this;
         }
     }
 }

@@ -85,12 +85,12 @@ namespace NTMiner {
                                 }
                             }
                         }
-                    });
+                    }).AddToCollection(ContextHandlers);
                 VirtualRoot.On<Per1SecondEvent>("每秒钟更新算力活动时间", LogEnum.None,
                     action: message => {
                         TotalSpeedVm.MainCoinSpeed.OnPropertyChanged(nameof(SpeedViewModel.LastSpeedOnText));
                         TotalSpeedVm.DualCoinSpeed.OnPropertyChanged(nameof(SpeedViewModel.LastSpeedOnText));
-                    });
+                    }).AddToCollection(ContextHandlers);
             }
 
             public GpuViewModel GpuAllVm {

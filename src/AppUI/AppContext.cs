@@ -1,8 +1,10 @@
-﻿using NTMiner.MinerServer;
+﻿using NTMiner.Bus;
+using NTMiner.MinerServer;
 using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using NTMiner.Vms;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -11,6 +13,8 @@ using System.Windows.Media.Imaging;
 
 namespace NTMiner {
     public partial class AppContext {
+        public static List<IDelegateHandler> ContextHandlers { get; private set; } = new List<IDelegateHandler>();
+
         private static AppContext _current = null;
         public static AppContext Current {
             get {

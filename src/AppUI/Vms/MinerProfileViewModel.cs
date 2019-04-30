@@ -35,32 +35,19 @@ namespace NTMiner.Vms {
                 action: message => {
                     OnPropertyChanged(nameof(IsAutoBoot));
                     OnPropertyChanged(nameof(IsAutoStart));
-                });
+                }).AddToCollection(AppContext.ContextHandlers);
             VirtualRoot.On<MinerProfilePropertyChangedEvent>("MinerProfile设置变更后刷新VM内存", LogEnum.DevConsole,
                 action: message => {
                     OnPropertyChanged(message.PropertyName);
-                });
+                }).AddToCollection(AppContext.ContextHandlers);
             VirtualRoot.On<MineWorkPropertyChangedEvent>("MineWork设置变更后刷新VM内存", LogEnum.DevConsole,
                 action: message => {
                     OnPropertyChanged(message.PropertyName);
-                });
+                }).AddToCollection(AppContext.ContextHandlers);
 
             NTMinerRoot.Instance.OnReRendMinerProfile += () => {
                 this.CoinVm.CoinKernel?.OnPropertyChanged(nameof(CoinKernelViewModel.CoinKernelProfile));
-                OnPropertyChanged(nameof(CoinVm));
-                OnPropertyChanged(nameof(MinerName));
-                OnPropertyChanged(nameof(IsFreeClient));
-                OnPropertyChanged(nameof(MineWork));
-                OnPropertyChanged(nameof(IsWorker));
-                OnPropertyChanged(nameof(IsAutoBoot));
-                OnPropertyChanged(nameof(IsNoShareRestartKernel));
-                OnPropertyChanged(nameof(NoShareRestartKernelMinutes));
-                OnPropertyChanged(nameof(IsPeriodicRestartKernel));
-                OnPropertyChanged(nameof(PeriodicRestartKernelHours));
-                OnPropertyChanged(nameof(IsPeriodicRestartComputer));
-                OnPropertyChanged(nameof(PeriodicRestartComputerHours));
-                OnPropertyChanged(nameof(IsAutoStart));
-                OnPropertyChanged(nameof(IsAutoRestartKernel));
+                AllPropertyChanged();
             };
             NTMinerRoot.RefreshArgsAssembly.Invoke();
         }

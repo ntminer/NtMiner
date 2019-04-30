@@ -60,7 +60,7 @@ namespace NTMiner {
                             }
                             UpdateMinMax();
                         }
-                    });
+                    }).AddToCollection(ContextHandlers);
             }
 
             private void UpdateMinMax() {

@@ -34,7 +34,7 @@ namespace NTMiner {
                             _dicById.Add(message.Source.GetId(), groupVm);
                             OnPropertyChangeds();
                         }
-                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers);
+                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers).AddToCollection(ContextHandlers);
                 VirtualRoot.On<GroupUpdatedEvent>("更新了组后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         if (_dicById.ContainsKey(message.Source.GetId())) {
@@ -46,12 +46,12 @@ namespace NTMiner {
                                 OnPropertyChanged(nameof(SelectionOptions));
                             }
                         }
-                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers);
+                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers).AddToCollection(ContextHandlers);
                 VirtualRoot.On<GroupRemovedEvent>("删除了组后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         _dicById.Remove(message.Source.GetId());
                         OnPropertyChangeds();
-                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers);
+                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers).AddToCollection(ContextHandlers);
                 foreach (var item in NTMinerRoot.Instance.GroupSet) {
                     GroupViewModel groupVm = new GroupViewModel(item);
                     _dicById.Add(item.GetId(), groupVm);

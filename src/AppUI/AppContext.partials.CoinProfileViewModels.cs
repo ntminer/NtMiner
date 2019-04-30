@@ -15,13 +15,13 @@ namespace NTMiner {
                         if (_coinKernelProfileDicById.ContainsKey(message.CoinKernelId)) {
                             _coinKernelProfileDicById[message.CoinKernelId].OnPropertyChanged(message.PropertyName);
                         }
-                    });
+                    }).AddToCollection(ContextHandlers);
                 VirtualRoot.On<CoinProfilePropertyChangedEvent>("币种设置变更后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         if (_coinProfileDicById.ContainsKey(message.CoinId)) {
                             _coinProfileDicById[message.CoinId].OnPropertyChanged(message.PropertyName);
                         }
-                    });
+                    }).AddToCollection(ContextHandlers);
                 NTMinerRoot.Instance.OnMinerProfileReInited += () => {
                     _coinKernelProfileDicById.Clear();
                     _coinProfileDicById.Clear();

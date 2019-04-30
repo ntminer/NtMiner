@@ -27,19 +27,19 @@ namespace NTMiner {
                             _dicByLoginName.Add(message.Source.LoginName, new UserViewModel(message.Source));
                             OnPropertyChanged(nameof(List));
                         }
-                    });
+                    }).AddToCollection(ContextHandlers);
                 VirtualRoot.On<UserUpdatedEvent>("更新了用户后", LogEnum.DevConsole,
                     action: message => {
                         UserViewModel vm;
                         if (_dicByLoginName.TryGetValue(message.Source.LoginName, out vm)) {
                             vm.Update(message.Source);
                         }
-                    });
+                    }).AddToCollection(ContextHandlers);
                 VirtualRoot.On<UserRemovedEvent>("移除了用户后", LogEnum.DevConsole,
                     action: message => {
                         _dicByLoginName.Remove(message.Source.LoginName);
                         OnPropertyChanged(nameof(List));
-                    });
+                    }).AddToCollection(ContextHandlers);
                 foreach (var item in NTMinerRoot.Instance.UserSet) {
                     _dicByLoginName.Add(item.LoginName, new UserViewModel(item));
                 }

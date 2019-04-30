@@ -31,11 +31,11 @@ namespace NTMiner {
                                 Current.MinerClientsWindowVm.SelectedMineWork = MineWorkViewModel.PleaseSelect;
                             }
                         }
-                    });
+                    }).AddToCollection(ContextHandlers);
                 VirtualRoot.On<MineWorkUpdatedEvent>("更新作业后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById[message.Source.GetId()].Update(message.Source);
-                    });
+                    }).AddToCollection(ContextHandlers);
                 VirtualRoot.On<MineWorkRemovedEvent>("删除作业后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById.Remove(message.Source.GetId());
@@ -44,7 +44,7 @@ namespace NTMiner {
                         if (message.Source.GetId() == Current.MinerClientsWindowVm.SelectedMineWork.GetId()) {
                             Current.MinerClientsWindowVm.SelectedMineWork = MineWorkViewModel.PleaseSelect;
                         }
-                    });
+                    }).AddToCollection(ContextHandlers);
             }
 
             public List<MineWorkViewModel> List {

@@ -32,7 +32,7 @@ namespace NTMiner {
                                 sysDicVm.OnPropertyChanged(nameof(sysDicVm.SysDicItemsSelect));
                             }
                         }
-                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers);
+                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers).AddToCollection(ContextHandlers);
                 VirtualRoot.On<SysDicItemUpdatedEvent>("更新了系统字典项后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         if (_dicById.ContainsKey(message.Source.GetId())) {
@@ -47,7 +47,7 @@ namespace NTMiner {
                                 }
                             }
                         }
-                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers);
+                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers).AddToCollection(ContextHandlers);
                 VirtualRoot.On<SysDicItemRemovedEvent>("删除了系统字典项后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         _dicById.Remove(message.Source.GetId());
@@ -57,7 +57,7 @@ namespace NTMiner {
                             sysDicVm.OnPropertyChanged(nameof(sysDicVm.SysDicItems));
                             sysDicVm.OnPropertyChanged(nameof(sysDicVm.SysDicItemsSelect));
                         }
-                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers);
+                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers).AddToCollection(ContextHandlers);
                 foreach (var item in NTMinerRoot.Instance.SysDicItemSet) {
                     _dicById.Add(item.GetId(), new SysDicItemViewModel(item));
                 }

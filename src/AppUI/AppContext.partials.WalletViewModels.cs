@@ -19,7 +19,7 @@ namespace NTMiner {
                             coin.OnPropertyChanged(nameof(CoinViewModel.WalletItems));
                             coin.CoinKernel?.CoinKernelProfile?.SelectedDualCoin?.OnPropertyChanged(nameof(CoinViewModel.Wallets));
                         }
-                    });
+                    }).AddToCollection(ContextHandlers);
                 VirtualRoot.On<WalletRemovedEvent>("删除了钱包后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         _dicById.Remove(message.Source.GetId());
@@ -31,11 +31,11 @@ namespace NTMiner {
                             coin.CoinProfile?.OnPropertyChanged(nameof(CoinProfileViewModel.SelectedWallet));
                             coin.CoinKernel?.CoinKernelProfile?.SelectedDualCoin?.OnPropertyChanged(nameof(CoinViewModel.Wallets));
                         }
-                    });
+                    }).AddToCollection(ContextHandlers);
                 VirtualRoot.On<WalletUpdatedEvent>("更新了钱包后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         _dicById[message.Source.GetId()].Update(message.Source);
-                    });
+                    }).AddToCollection(ContextHandlers);
                 foreach (var item in NTMinerRoot.Instance.MinerProfile.GetWallets()) {
                     _dicById.Add(item.GetId(), new WalletViewModel(item));
                 }

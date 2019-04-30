@@ -31,13 +31,13 @@ namespace NTMiner {
                         _dicById.Add(message.Source.GetId(), new CoinViewModel(message.Source));
                         Current.MinerProfileVm.OnPropertyChanged(nameof(Current.MinerProfileVm.CoinVm));
                         AllPropertyChanged();
-                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers);
+                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers).AddToCollection(ContextHandlers);
                 VirtualRoot.On<CoinRemovedEvent>("移除了币种后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById.Remove(message.Source.GetId());
                         Current.MinerProfileVm.OnPropertyChanged(nameof(Current.MinerProfileVm.CoinVm));
                         AllPropertyChanged();
-                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers);
+                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers).AddToCollection(ContextHandlers);
                 VirtualRoot.On<CoinUpdatedEvent>("更新了币种后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         CoinViewModel coinVm = _dicById[message.Source.GetId()];
@@ -58,7 +58,7 @@ namespace NTMiner {
                         if (justAsDualCoin != coinVm.JustAsDualCoin) {
                             OnPropertyChanged(nameof(MainCoins));
                         }
-                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers);
+                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers).AddToCollection(ContextHandlers);
                 VirtualRoot.On<CoinIconDownloadedEvent>("下载了币种钱包后", LogEnum.DevConsole,
                     action: message => {
                         try {
@@ -83,7 +83,7 @@ namespace NTMiner {
                         catch (Exception e) {
                             Logger.ErrorDebugLine(e.Message, e);
                         }
-                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers);
+                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers).AddToCollection(ContextHandlers);
                 foreach (var item in NTMinerRoot.Instance.CoinSet) {
                     _dicById.Add(item.GetId(), new CoinViewModel(item));
                 }

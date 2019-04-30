@@ -15,7 +15,7 @@ namespace NTMiner {
                         if (_dicByCoinId.TryGetValue(message.Source.CoinId, out shareVm)) {
                             shareVm.Update(message.Source);
                         }
-                    });
+                    }).AddToCollection(ContextHandlers);
             }
 
             private readonly object _locker = new object();

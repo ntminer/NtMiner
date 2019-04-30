@@ -14,7 +14,7 @@ namespace NTMiner {
                         if (_dicById.TryGetValue(message.PoolId, out PoolProfileViewModel vm)) {
                             vm.OnPropertyChanged(message.PropertyName);
                         }
-                    });
+                    }).AddToCollection(ContextHandlers);
                 NTMinerRoot.Instance.OnMinerProfileReInited += () => {
                     _dicById.Clear();
                 };
