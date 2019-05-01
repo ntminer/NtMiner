@@ -73,6 +73,7 @@ namespace NTMiner {
                                     UIThread.Execute(() => {
                                         MainWindow mainWindow = this.MainWindow as MainWindow;
                                         if (mainWindow == null) {
+                                            AppContext.Open();
                                             this.MainWindow = mainWindow = new MainWindow();
                                             this.MainWindow.Show();
                                         }

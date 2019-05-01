@@ -7,6 +7,8 @@ namespace NTMiner.Bus {
 
         public IHandlerId HandlerId { get; private set; }
 
+        public bool IsPaused { get; set; }
+
         public DelegateHandler(IHandlerId handlerId, Action<TMessage> action) {
             this.HandlerId = handlerId;
             _action = action;

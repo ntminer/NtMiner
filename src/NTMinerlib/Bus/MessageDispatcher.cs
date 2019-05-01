@@ -19,6 +19,9 @@ namespace NTMiner.Bus {
                 var messageHandlers = _handlers[messageType].ToArray();
                 foreach (var messageHandler in messageHandlers) {
                     var tMessageHandler = (DelegateHandler<TMessage>)messageHandler;
+                    if (tMessageHandler.IsPaused) {
+                        continue;
+                    }
                     var evtArgs = new MessageDispatchEventArgs(message, messageHandler.GetType(), messageHandler);
                     switch (tMessageHandler.HandlerId.LogType) {
                         case LogEnum.DevConsole:

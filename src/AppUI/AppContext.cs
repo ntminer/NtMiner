@@ -37,12 +37,16 @@ namespace NTMiner {
             }
         }
 
-        public static void Close() {
-            _current = null;
+        public static void Open() {
             foreach (var handler in _contextHandlers) {
-                VirtualRoot.UnPath(handler);
+                handler.IsPaused = false;
             }
-            _contextHandlers.Clear();
+        }
+
+        public static void Close() {
+            foreach (var handler in _contextHandlers) {
+                handler.IsPaused = true;
+            }
         }
 
         private AppContext() {
