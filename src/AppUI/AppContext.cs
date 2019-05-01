@@ -9,7 +9,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Input;
-using System.Windows.Media.Imaging;
 
 namespace NTMiner {
     public partial class AppContext {
