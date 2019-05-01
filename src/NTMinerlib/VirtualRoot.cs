@@ -35,8 +35,8 @@ namespace NTMiner {
         private static readonly ICmdBus SCommandBus;
         private static readonly IEventBus SEventBus;
 
-        public static uint _secondCount = 0;
-        public static uint SecondCount {
+        public static int _secondCount = 0;
+        public static int SecondCount {
             get {
                 return _secondCount;
             }

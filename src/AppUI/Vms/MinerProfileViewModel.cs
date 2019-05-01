@@ -126,7 +126,7 @@ namespace NTMiner.Vms {
         }
 
         private string _argsAssembly;
-        private bool _isMining;
+        private bool _isMining = NTMinerRoot.Instance.IsMining;
 
         public string ArgsAssembly {
             get {
