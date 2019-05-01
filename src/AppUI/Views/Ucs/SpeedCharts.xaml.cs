@@ -50,7 +50,7 @@ namespace NTMiner.Views.Ucs {
                 return;
             }
             Guid mainCoinId = NTMinerRoot.Instance.MinerProfile.CoinId;
-            VirtualRoot.On<GpuSpeedChangedEvent>("显卡算力变更后刷新算力图界面", LogEnum.DevConsole,
+            AppContext.On<GpuSpeedChangedEvent>("显卡算力变更后刷新算力图界面", LogEnum.DevConsole,
                 action: (message) => {
                     UIThread.Execute(() => {
                         if (mainCoinId != NTMinerRoot.Instance.MinerProfile.CoinId) {
@@ -113,7 +113,7 @@ namespace NTMiner.Views.Ucs {
                             speedChartVm.SetAxisLimits(now);
                         }
                     });
-                }).AddToCollection(_handlers).AddToCollection(AppContext.ContextHandlers);
+                }).AddToCollection(_handlers);
 
             Vm.ItemsPanelColumns = 1;
             this.Unloaded += (object sender, RoutedEventArgs e) => {

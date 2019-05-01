@@ -12,7 +12,6 @@ using System.Collections.Generic;
 
 namespace NTMiner {
     public interface INTMinerRoot {
-        List<IDelegateHandler> ContextHandlers { get; }
         DelegateHandler<TCmd> Window<TCmd>(string description, LogEnum logType, Action<TCmd> action) where TCmd : ICmd;
         DelegateHandler<TEvent> On<TEvent>(string description, LogEnum logType, Action<TEvent> action) where TEvent : IEvent;
         event Action OnContextReInited;

@@ -9,13 +9,13 @@ namespace NTMiner {
             private readonly Dictionary<Guid, ShareViewModel> _dicByCoinId = new Dictionary<Guid, ShareViewModel>();
 
             public ShareViewModels() {
-                VirtualRoot.On<ShareChangedEvent>("收益变更后调整VM内存", LogEnum.DevConsole,
+                AppContext.On<ShareChangedEvent>("收益变更后调整VM内存", LogEnum.DevConsole,
                     action: message => {
                         ShareViewModel shareVm;
                         if (_dicByCoinId.TryGetValue(message.Source.CoinId, out shareVm)) {
                             shareVm.Update(message.Source);
                         }
-                    }).AddToCollection(ContextHandlers);
+                    });
             }
 
             private readonly object _locker = new object();

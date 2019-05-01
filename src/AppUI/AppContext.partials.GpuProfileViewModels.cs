@@ -13,7 +13,7 @@ namespace NTMiner {
             private readonly Dictionary<Guid, GpuProfileViewModel> _gpuAllVmDicByCoinId = new Dictionary<Guid, GpuProfileViewModel>();
 
             public GpuProfileViewModels() {
-                VirtualRoot.On<GpuProfileSetRefreshedEvent>("Gpu超频集合刷新后刷新附着在当前币种上的超频数据", LogEnum.DevConsole,
+                On<GpuProfileSetRefreshedEvent>("Gpu超频集合刷新后刷新附着在当前币种上的超频数据", LogEnum.DevConsole,
                     action: message => {
                         lock (_locker) {
                             _listByCoinId.Clear();
@@ -24,8 +24,8 @@ namespace NTMiner {
                             coinVm.OnOverClockPropertiesChanges();
                             VirtualRoot.Execute(new CoinOverClockCommand(coinVm.Id));
                         }
-                    }).AddToCollection(ContextHandlers);
-                VirtualRoot.On<GpuProfileAddedOrUpdatedEvent>("添加或更新了Gpu超频数据后刷新VM内存", LogEnum.DevConsole,
+                    });
+                On<GpuProfileAddedOrUpdatedEvent>("添加或更新了Gpu超频数据后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         lock (_locker) {
                             List<GpuProfileViewModel> list;
@@ -58,7 +58,7 @@ namespace NTMiner {
                                 _listByCoinId.Add(message.Source.CoinId, list);
                             }
                         }
-                    }).AddToCollection(ContextHandlers);
+                    });
             }
 
             private readonly object _locker = new object();

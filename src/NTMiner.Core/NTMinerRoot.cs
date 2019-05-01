@@ -25,14 +25,14 @@ using System.Threading.Tasks;
 
 namespace NTMiner {
     public partial class NTMinerRoot : INTMinerRoot {
-        public List<IDelegateHandler> ContextHandlers { get; private set; } = new List<IDelegateHandler>();
+        private readonly List<IDelegateHandler> _contextHandlers = new List<IDelegateHandler>();
 
         /// <summary>
         /// 命令窗口。使用该方法的代码行应将前两个参数放在第一行以方便vs查找引用时展示出参数信息
         /// </summary>
         public DelegateHandler<TCmd> Window<TCmd>(string description, LogEnum logType, Action<TCmd> action)
             where TCmd : ICmd {
-            return VirtualRoot.Path(description, logType, action).AddToCollection(ContextHandlers);
+            return VirtualRoot.Path(description, logType, action).AddToCollection(_contextHandlers);
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace NTMiner {
         /// </summary>
         public DelegateHandler<TEvent> On<TEvent>(string description, LogEnum logType, Action<TEvent> action)
             where TEvent : IEvent {
-            return VirtualRoot.Path(description, logType, action);
+            return VirtualRoot.Path(description, logType, action).AddToCollection(_contextHandlers);
         }
 
         public event Action OnContextReInited;
@@ -179,10 +179,10 @@ namespace NTMiner {
         }
 
         private void ContextReInit(bool isWork) {
-            foreach (var handler in ContextHandlers) {
+            foreach (var handler in _contextHandlers) {
                 VirtualRoot.UnPath(handler);
             }
-            ContextHandlers.Clear();
+            _contextHandlers.Clear();
             if (isWork) {
                 ReInitServerJson();
             }

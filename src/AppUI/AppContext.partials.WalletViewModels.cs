@@ -9,7 +9,7 @@ namespace NTMiner {
         public class WalletViewModels : ViewModelBase {
             private readonly Dictionary<Guid, WalletViewModel> _dicById = new Dictionary<Guid, WalletViewModel>();
             public WalletViewModels() {
-                VirtualRoot.On<WalletAddedEvent>("添加了钱包后调整VM内存", LogEnum.DevConsole,
+                On<WalletAddedEvent>("添加了钱包后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         _dicById.Add(message.Source.GetId(), new WalletViewModel(message.Source));
                         OnPropertyChanged(nameof(WalletList));
@@ -19,8 +19,8 @@ namespace NTMiner {
                             coin.OnPropertyChanged(nameof(CoinViewModel.WalletItems));
                             coin.CoinKernel?.CoinKernelProfile?.SelectedDualCoin?.OnPropertyChanged(nameof(CoinViewModel.Wallets));
                         }
-                    }).AddToCollection(ContextHandlers);
-                VirtualRoot.On<WalletRemovedEvent>("删除了钱包后调整VM内存", LogEnum.DevConsole,
+                    });
+                On<WalletRemovedEvent>("删除了钱包后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         _dicById.Remove(message.Source.GetId());
                         OnPropertyChanged(nameof(WalletList));
@@ -31,11 +31,11 @@ namespace NTMiner {
                             coin.CoinProfile?.OnPropertyChanged(nameof(CoinProfileViewModel.SelectedWallet));
                             coin.CoinKernel?.CoinKernelProfile?.SelectedDualCoin?.OnPropertyChanged(nameof(CoinViewModel.Wallets));
                         }
-                    }).AddToCollection(ContextHandlers);
-                VirtualRoot.On<WalletUpdatedEvent>("更新了钱包后调整VM内存", LogEnum.DevConsole,
+                    });
+                On<WalletUpdatedEvent>("更新了钱包后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         _dicById[message.Source.GetId()].Update(message.Source);
-                    }).AddToCollection(ContextHandlers);
+                    });
                 foreach (var item in NTMinerRoot.Instance.MinerProfile.GetWallets()) {
                     _dicById.Add(item.GetId(), new WalletViewModel(item));
                 }

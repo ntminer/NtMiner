@@ -22,7 +22,7 @@ namespace NTMiner {
                 this.Add = new DelegateCommand(() => {
                     new MinerGroupViewModel(Guid.NewGuid()).Edit.Execute(FormType.Add);
                 });
-                VirtualRoot.On<MinerGroupAddedEvent>("添加矿机分组后刷新VM内存", LogEnum.DevConsole,
+                AppContext.On<MinerGroupAddedEvent>("添加矿机分组后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         if (!_dicById.ContainsKey(message.Source.GetId())) {
                             _dicById.Add(message.Source.GetId(), new MinerGroupViewModel(message.Source));
@@ -30,18 +30,18 @@ namespace NTMiner {
                             OnPropertyChanged(nameof(MinerGroupItems));
                             Current.MinerClientsWindowVm.OnPropertyChanged(nameof(MinerClientsWindowViewModel.SelectedMinerGroup));
                         }
-                    }).AddToCollection(ContextHandlers);
-                VirtualRoot.On<MinerGroupUpdatedEvent>("更新矿机分组后刷新VM内存", LogEnum.DevConsole,
+                    });
+                AppContext.On<MinerGroupUpdatedEvent>("更新矿机分组后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById[message.Source.GetId()].Update(message.Source);
-                    }).AddToCollection(ContextHandlers);
-                VirtualRoot.On<MinerGroupRemovedEvent>("删除矿机分组后刷新VM内存", LogEnum.DevConsole,
+                    });
+                AppContext.On<MinerGroupRemovedEvent>("删除矿机分组后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById.Remove(message.Source.GetId());
                         OnPropertyChanged(nameof(List));
                         OnPropertyChanged(nameof(MinerGroupItems));
                         Current.MinerClientsWindowVm.OnPropertyChanged(nameof(MinerClientsWindowViewModel.SelectedMinerGroup));
-                    }).AddToCollection(ContextHandlers);
+                    });
             }
 
             public List<MinerGroupViewModel> List {

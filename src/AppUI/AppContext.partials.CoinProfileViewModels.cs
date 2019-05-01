@@ -10,18 +10,18 @@ namespace NTMiner {
             private readonly Dictionary<Guid, CoinProfileViewModel> _coinProfileDicById = new Dictionary<Guid, CoinProfileViewModel>();
 
             public CoinProfileViewModels() {
-                VirtualRoot.On<CoinKernelProfilePropertyChangedEvent>("币种内核设置变更后刷新VM内存", LogEnum.DevConsole,
+                On<CoinKernelProfilePropertyChangedEvent>("币种内核设置变更后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         if (_coinKernelProfileDicById.ContainsKey(message.CoinKernelId)) {
                             _coinKernelProfileDicById[message.CoinKernelId].OnPropertyChanged(message.PropertyName);
                         }
-                    }).AddToCollection(ContextHandlers);
-                VirtualRoot.On<CoinProfilePropertyChangedEvent>("币种设置变更后刷新VM内存", LogEnum.DevConsole,
+                    });
+                On<CoinProfilePropertyChangedEvent>("币种设置变更后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         if (_coinProfileDicById.ContainsKey(message.CoinId)) {
                             _coinProfileDicById[message.CoinId].OnPropertyChanged(message.PropertyName);
                         }
-                    }).AddToCollection(ContextHandlers);
+                    });
                 NTMinerRoot.Instance.OnMinerProfileReInited += () => {
                     _coinKernelProfileDicById.Clear();
                     _coinProfileDicById.Clear();

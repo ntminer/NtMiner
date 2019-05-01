@@ -15,11 +15,11 @@ namespace NTMiner {
                     return;
                 }
                 Init(refresh: false);
-                VirtualRoot.On<OverClockDataSetInitedEvent>("超频建议集初始化后", LogEnum.DevConsole,
+                On<OverClockDataSetInitedEvent>("超频建议集初始化后", LogEnum.DevConsole,
                     action: message => {
                         Init(refresh: true);
-                    }).AddToCollection(ContextHandlers);
-                VirtualRoot.On<OverClockDataAddedEvent>("添加超频建议后刷新VM内存", LogEnum.DevConsole,
+                    });
+                On<OverClockDataAddedEvent>("添加超频建议后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         if (!_dicById.ContainsKey(message.Source.GetId())) {
                             _dicById.Add(message.Source.GetId(), new OverClockDataViewModel(message.Source));
@@ -29,12 +29,12 @@ namespace NTMiner {
                                 coinVm.OnPropertyChanged(nameof(coinVm.OverClockDatas));
                             }
                         }
-                    }).AddToCollection(ContextHandlers);
-                VirtualRoot.On<OverClockDataUpdatedEvent>("更新超频建议后刷新VM内存", LogEnum.DevConsole,
+                    });
+                On<OverClockDataUpdatedEvent>("更新超频建议后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById[message.Source.GetId()].Update(message.Source);
-                    }).AddToCollection(ContextHandlers);
-                VirtualRoot.On<OverClockDataRemovedEvent>("删除超频建议后刷新VM内存", LogEnum.DevConsole,
+                    });
+                On<OverClockDataRemovedEvent>("删除超频建议后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById.Remove(message.Source.GetId());
                         OnPropertyChanged(nameof(List));
@@ -42,7 +42,7 @@ namespace NTMiner {
                         if (Current.CoinVms.TryGetCoinVm(message.Source.CoinId, out coinVm)) {
                             coinVm.OnPropertyChanged(nameof(coinVm.OverClockDatas));
                         }
-                    }).AddToCollection(ContextHandlers);
+                    });
             }
 
             private void Init(bool refresh) {

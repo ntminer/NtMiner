@@ -24,14 +24,14 @@ namespace NTMiner {
                     this.MinerProfile.IsMining = true;
                     int n = 10;
                     Bus.IDelegateHandler handler = null;
-                    handler = VirtualRoot.On<Per1SecondEvent>("挖矿倒计时", LogEnum.None,
+                    handler = On<Per1SecondEvent>("挖矿倒计时", LogEnum.None,
                     action: message => {
                         BtnStopText = $"倒计时({--n})";
                         if (n <= 0) {
                             BtnStopText = "正在挖矿";
                             VirtualRoot.UnPath(handler);
                         }
-                    }).AddToCollection(AppContext.ContextHandlers);
+                    });
                 }
             }
 

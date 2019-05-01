@@ -31,19 +31,19 @@ namespace NTMiner.Vms {
             NTMinerRoot.Instance.OnReRendContext += () => {
                 OnPropertyChanged(nameof(CoinVm));
             };
-            VirtualRoot.Window<RefreshAutoBootStartCommand>("刷新开机启动和自动挖矿的展示", LogEnum.UserConsole,
+            AppContext.Window<RefreshAutoBootStartCommand>("刷新开机启动和自动挖矿的展示", LogEnum.UserConsole,
                 action: message => {
                     OnPropertyChanged(nameof(IsAutoBoot));
                     OnPropertyChanged(nameof(IsAutoStart));
-                }).AddToCollection(AppContext.ContextHandlers);
-            VirtualRoot.On<MinerProfilePropertyChangedEvent>("MinerProfile设置变更后刷新VM内存", LogEnum.DevConsole,
+                });
+            AppContext.On<MinerProfilePropertyChangedEvent>("MinerProfile设置变更后刷新VM内存", LogEnum.DevConsole,
                 action: message => {
                     OnPropertyChanged(message.PropertyName);
-                }).AddToCollection(AppContext.ContextHandlers);
-            VirtualRoot.On<MineWorkPropertyChangedEvent>("MineWork设置变更后刷新VM内存", LogEnum.DevConsole,
+                });
+            AppContext.On<MineWorkPropertyChangedEvent>("MineWork设置变更后刷新VM内存", LogEnum.DevConsole,
                 action: message => {
                     OnPropertyChanged(message.PropertyName);
-                }).AddToCollection(AppContext.ContextHandlers);
+                });
 
             NTMinerRoot.Instance.OnReRendMinerProfile += () => {
                 this.CoinVm.CoinKernel?.OnPropertyChanged(nameof(CoinKernelViewModel.CoinKernelProfile));

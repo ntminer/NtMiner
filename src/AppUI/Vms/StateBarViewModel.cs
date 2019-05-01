@@ -16,7 +16,7 @@ namespace NTMiner.Vms {
             this.ConfigControlCenterHost = new DelegateCommand(() => {
                 ControlCenterHostConfig.ShowWindow();
             });
-            VirtualRoot.On<Per1SecondEvent>("挖矿计时秒表，周期性挥动铲子表示在挖矿中", LogEnum.None,
+            AppContext.On<Per1SecondEvent>("挖矿计时秒表，周期性挥动铲子表示在挖矿中", LogEnum.None,
                 action: message => {
                     DateTime now = DateTime.Now;
                     this.BootTimeSpan = now - NTMinerRoot.Instance.CreatedOn;
@@ -35,7 +35,7 @@ namespace NTMiner.Vms {
                             this.MinerProfile.IsMining = false;
                         }
                     }
-                }).AddToCollection(AppContext.ContextHandlers);
+                });
         }
 
         public AppContext AppContext {

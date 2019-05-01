@@ -35,16 +35,16 @@ namespace NTMiner.Vms {
                     MinerProfile.MinerName = thisPcName;
                 }, icon: IconConst.IconConfirm);
             });
-            VirtualRoot.On<StartingMineFailedEvent>("开始挖矿失败", LogEnum.DevConsole,
+            AppContext.On<StartingMineFailedEvent>("开始挖矿失败", LogEnum.DevConsole,
                 action: message => {
                     this.MinerProfile.IsMining = false;
                     Write.UserFail(message.Message);
-                }).AddToCollection(AppContext.ContextHandlers);
+                });
             if (DevMode.IsDevMode) {
-                VirtualRoot.On<ServerJsonVersionChangedEvent>("开发者模式展示ServerJsonVersion", LogEnum.DevConsole,
+                AppContext.On<ServerJsonVersionChangedEvent>("开发者模式展示ServerJsonVersion", LogEnum.DevConsole,
                     action: message => {
                         this.ServerJsonVersion = GetServerJsonVersion();
-                    }).AddToCollection(AppContext.ContextHandlers);
+                    });
                 _serverJsonVersion = GetServerJsonVersion();
             }
         }
