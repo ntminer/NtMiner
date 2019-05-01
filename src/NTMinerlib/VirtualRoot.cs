@@ -182,6 +182,10 @@ namespace NTMiner {
             SCommandBus.Commit();
         }
 
+        public static bool HasSubscriber<TMessage>() {
+            return SMessageDispatcher.HasSubscriber<TMessage>();
+        }
+
         // 修建消息（命令或事件）的运动路径
         public static DelegateHandler<TMessage> Path<TMessage>(string description, LogEnum logType, Action<TMessage> action) {
             StackTrace ss = new StackTrace(false);
