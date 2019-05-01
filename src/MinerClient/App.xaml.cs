@@ -76,6 +76,15 @@ namespace NTMiner {
                                             AppContext.Open();
                                             this.MainWindow = mainWindow = new MainWindow();
                                             this.MainWindow.Show();
+                                            if (NTMinerRoot.Instance.IsMining) {
+                                                var coinShare = NTMinerRoot.Instance.CoinShareSet.GetOrCreate(NTMinerRoot.Instance.CurrentMineContext.MainCoin.GetId());
+                                                VirtualRoot.Happened(new ShareChangedEvent(coinShare));
+                                                if (NTMinerRoot.Instance.CurrentMineContext is IDualMineContext dualMineContext) {
+                                                    coinShare = NTMinerRoot.Instance.CoinShareSet.GetOrCreate(dualMineContext.DualCoin.GetId());
+                                                    VirtualRoot.Happened(new ShareChangedEvent(coinShare));
+                                                }
+                                                AppContext.Current.GpuSpeedVms.Refresh();
+                                            }
                                         }
                                         else {
                                             mainWindow.ShowThisWindow(message.IsToggle);

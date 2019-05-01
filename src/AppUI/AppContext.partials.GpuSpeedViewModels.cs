@@ -93,6 +93,16 @@ namespace NTMiner {
                     });
             }
 
+            public void Refresh() {
+                foreach (var item in this._list) {
+                    var data = NTMinerRoot.Instance.GpusSpeed.FirstOrDefault(a => a.Gpu.Index == item.GpuVm.Index);
+                    if (data != null) {
+                        item.MainCoinSpeed.Update(data.MainCoinSpeed);
+                        item.DualCoinSpeed.Update(data.DualCoinSpeed);
+                    }
+                }
+            }
+
             public GpuViewModel GpuAllVm {
                 get; set;
             }
