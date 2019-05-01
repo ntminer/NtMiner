@@ -19,7 +19,7 @@ namespace NTMiner {
             }
 
             private void Init() {
-                VirtualRoot.On<KernelOutputFilterAddedEvent>("添加了内核输出过滤器后刷新VM内存", LogEnum.DevConsole,
+                NTMinerRoot.Instance.On<KernelOutputFilterAddedEvent>("添加了内核输出过滤器后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         if (!_dicById.ContainsKey(message.Source.GetId())) {
                             KernelOutputFilterViewModel vm = new KernelOutputFilterViewModel(message.Source);
@@ -32,14 +32,14 @@ namespace NTMiner {
                                 kernelOutputVm.OnPropertyChanged(nameof(kernelOutputVm.KernelOutputFilters));
                             }
                         }
-                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers).AddToCollection(ContextHandlers);
-                VirtualRoot.On<KernelOutputFilterUpdatedEvent>("更新了内核输出过滤器后刷新VM内存", LogEnum.DevConsole,
+                    }).AddToCollection(ContextHandlers);
+                NTMinerRoot.Instance.On<KernelOutputFilterUpdatedEvent>("更新了内核输出过滤器后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         if (_dicById.TryGetValue(message.Source.GetId(), out KernelOutputFilterViewModel vm)) {
                             vm.Update(message.Source);
                         }
-                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers).AddToCollection(ContextHandlers);
-                VirtualRoot.On<KernelOutputFilterRemovedEvent>("删除了内核输出过滤器后刷新VM内存", LogEnum.DevConsole,
+                    }).AddToCollection(ContextHandlers);
+                NTMinerRoot.Instance.On<KernelOutputFilterRemovedEvent>("删除了内核输出过滤器后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         if (_dicById.TryGetValue(message.Source.GetId(), out KernelOutputFilterViewModel vm)) {
                             _dicById.Remove(vm.Id);
@@ -49,7 +49,7 @@ namespace NTMiner {
                                 kernelOutputVm.OnPropertyChanged(nameof(kernelOutputVm.KernelOutputFilters));
                             }
                         }
-                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers).AddToCollection(ContextHandlers);
+                    }).AddToCollection(ContextHandlers);
                 foreach (var item in NTMinerRoot.Instance.KernelOutputFilterSet) {
                     if (!_dicByKernelOutputId.ContainsKey(item.KernelOutputId)) {
                         _dicByKernelOutputId.Add(item.KernelOutputId, new List<KernelOutputFilterViewModel>());

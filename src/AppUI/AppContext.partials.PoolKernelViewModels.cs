@@ -9,7 +9,7 @@ namespace NTMiner {
         public class PoolKernelViewModels : ViewModelBase {
             private readonly Dictionary<Guid, PoolKernelViewModel> _dicById = new Dictionary<Guid, PoolKernelViewModel>();
             public PoolKernelViewModels() {
-                VirtualRoot.On<PoolKernelAddedEvent>("新添了矿池内核后刷新矿池内核VM内存", LogEnum.DevConsole,
+                NTMinerRoot.Instance.On<PoolKernelAddedEvent>("新添了矿池内核后刷新矿池内核VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         if (!_dicById.ContainsKey(message.Source.GetId())) {
                             PoolViewModel poolVm;
@@ -18,8 +18,8 @@ namespace NTMiner {
                                 poolVm.OnPropertyChanged(nameof(poolVm.PoolKernels));
                             }
                         }
-                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers).AddToCollection(ContextHandlers);
-                VirtualRoot.On<PoolKernelRemovedEvent>("移除了币种内核后刷新矿池内核VM内存", LogEnum.DevConsole,
+                    }).AddToCollection(ContextHandlers);
+                NTMinerRoot.Instance.On<PoolKernelRemovedEvent>("移除了币种内核后刷新矿池内核VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         if (_dicById.ContainsKey(message.Source.GetId())) {
                             var vm = _dicById[message.Source.GetId()];
@@ -29,13 +29,13 @@ namespace NTMiner {
                                 poolVm.OnPropertyChanged(nameof(poolVm.PoolKernels));
                             }
                         }
-                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers).AddToCollection(ContextHandlers);
-                VirtualRoot.On<PoolKernelUpdatedEvent>("更新了矿池内核后刷新VM内存", LogEnum.DevConsole,
+                    }).AddToCollection(ContextHandlers);
+                NTMinerRoot.Instance.On<PoolKernelUpdatedEvent>("更新了矿池内核后刷新VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         if (_dicById.ContainsKey(message.Source.GetId())) {
                             _dicById[message.Source.GetId()].Update(message.Source);
                         }
-                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers).AddToCollection(ContextHandlers);
+                    }).AddToCollection(ContextHandlers);
                 Init();
             }
 

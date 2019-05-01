@@ -12,7 +12,7 @@ namespace NTMiner.Core.Kernels.Impl {
         public CoinKernelSet(INTMinerRoot root, bool isUseJson) {
             _root = root;
             _isUseJson = isUseJson;
-            VirtualRoot.Window<AddCoinKernelCommand>("添加币种内核", LogEnum.DevConsole,
+            _root.Window<AddCoinKernelCommand>("添加币种内核", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -48,8 +48,8 @@ namespace NTMiner.Core.Kernels.Impl {
                             VirtualRoot.Execute(new AddPoolKernelCommand(poolKernel));
                         }
                     }
-                }).AddToCollection(root.ContextHandlers);
-            VirtualRoot.Window<UpdateCoinKernelCommand>("更新币种内核", LogEnum.DevConsole,
+                });
+            _root.Window<UpdateCoinKernelCommand>("更新币种内核", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -70,8 +70,8 @@ namespace NTMiner.Core.Kernels.Impl {
                     repository.Update(entity);
 
                     VirtualRoot.Happened(new CoinKernelUpdatedEvent(entity));
-                }).AddToCollection(root.ContextHandlers);
-            VirtualRoot.Window<RemoveCoinKernelCommand>("移除币种内核", LogEnum.DevConsole,
+                });
+            _root.Window<RemoveCoinKernelCommand>("移除币种内核", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {
@@ -99,7 +99,7 @@ namespace NTMiner.Core.Kernels.Impl {
                             VirtualRoot.Execute(new RemovePoolKernelCommand(poolKernelId));
                         }
                     }
-                }).AddToCollection(root.ContextHandlers);
+                });
         }
 
         private bool _isInited = false;

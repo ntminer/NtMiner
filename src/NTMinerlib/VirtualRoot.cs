@@ -183,7 +183,7 @@ namespace NTMiner {
         }
 
         // 修建消息（命令或事件）的运动路径
-        private static DelegateHandler<TMessage> Path<TMessage>(string description, LogEnum logType, Action<TMessage> action) {
+        public static DelegateHandler<TMessage> Path<TMessage>(string description, LogEnum logType, Action<TMessage> action) {
             StackTrace ss = new StackTrace(false);
             // 0是Path，1是Accpt或On，2是当地
             Type location = ss.GetFrame(2).GetMethod().DeclaringType;
