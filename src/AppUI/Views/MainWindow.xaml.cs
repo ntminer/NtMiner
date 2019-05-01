@@ -16,6 +16,7 @@ namespace NTMiner.Views {
         }
 
         public MainWindow() {
+            NTMinerRoot.IsUiVisible = true;
             UIThread.StartTimer();
             InitializeComponent();
             this.StateChanged += (s, e) => {

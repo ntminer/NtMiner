@@ -184,19 +184,21 @@ namespace NTMiner {
                                             input = input.Replace("ETH", mineContext.MainCoin.Code);
                                         }
                                     }
-                                    Instance.KernelOutputSet.Pick(kernelOutputId, ref input, mineContext);
-                                    Instance.KernelOutputTranslaterSet.Translate(kernelOutputId, ref input, ref color);
-                                    if (!string.IsNullOrEmpty(input)) {
-                                        if (Instance.KernelOutputSet.TryGetKernelOutput(kernelOutputId, out IKernelOutput kernelOutput)) {
-                                            if (kernelOutput.PrependDateTime) {
-                                                Write.UserLine($"{DateTime.Now}    {input}", color);
+                                    if (IsUiVisible) {
+                                        Instance.KernelOutputSet.Pick(kernelOutputId, ref input, mineContext);
+                                        Instance.KernelOutputTranslaterSet.Translate(kernelOutputId, ref input, ref color);
+                                        if (!string.IsNullOrEmpty(input)) {
+                                            if (Instance.KernelOutputSet.TryGetKernelOutput(kernelOutputId, out IKernelOutput kernelOutput)) {
+                                                if (kernelOutput.PrependDateTime) {
+                                                    Write.UserLine($"{DateTime.Now}    {input}", color);
+                                                }
+                                                else {
+                                                    Write.UserLine(input, color);
+                                                }
                                             }
                                             else {
                                                 Write.UserLine(input, color);
                                             }
-                                        }
-                                        else {
-                                            Write.UserLine(input, color);
                                         }
                                     }
                                 }

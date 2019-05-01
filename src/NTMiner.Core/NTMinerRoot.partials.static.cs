@@ -18,6 +18,7 @@ namespace NTMiner {
     public partial class NTMinerRoot {
         public static IKernelDownloader KernelDownloader = new EmptyKernelDownloader();
         public static Action RefreshArgsAssembly = () => { };
+        public static bool IsUiVisible;
 
         public static string AppName;
         public static bool IsUseDevConsole = false;
