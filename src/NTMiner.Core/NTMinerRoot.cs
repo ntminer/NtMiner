@@ -663,7 +663,9 @@ namespace NTMiner {
                             if (_gpuSet != EmptyGpuSet.Instance) {
                                 VirtualRoot.On<Per5SecondEvent>("周期刷新显卡状态", LogEnum.None,
                                     action: message => {
-                                        _gpuSet.LoadGpuState();
+                                        if (IsUiVisible) {
+                                            _gpuSet.LoadGpuState();
+                                        }
                                     });
                             }
                         }

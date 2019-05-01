@@ -38,6 +38,9 @@ namespace NTMiner {
         private static ICoin _sLastSpeedDualCoin;
         public static SpeedData CreateSpeedData() {
             INTMinerRoot root = NTMinerRoot.Instance;
+            if (!NTMinerRoot.IsUiVisible) {
+                root.GpuSet.LoadGpuState();
+            }
             SpeedData data = new SpeedData {
                 IsAutoBoot = NTMinerRegistry.GetIsAutoBoot(),
                 IsAutoStart = NTMinerRegistry.GetIsAutoStart(),
