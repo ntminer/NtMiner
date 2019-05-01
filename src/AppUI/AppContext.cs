@@ -329,8 +329,6 @@ namespace NTMiner {
 
         public ICommand ConfigControlCenterHost { get; private set; } = new DelegateCommand(ControlCenterHostConfig.ShowWindow);
 
-        public BitmapImage BigLogoImageSource { get; private set; } = IconConst.BigLogoImageSource;
-
         public ICommand ExportServerJson { get; private set; } = new DelegateCommand(() => {
             try {
                 string fileName = NTMinerRoot.ExportServerVersionJson();
