@@ -24,11 +24,7 @@ namespace NTMiner {
                 this.Add = new DelegateCommand(() => {
                     new SysDicViewModel(Guid.NewGuid()).Edit.Execute(null);
                 });
-                Init();
-            }
-
-            private void Init() {
-                NTMinerRoot.Instance.On<SysDicAddedEvent>("添加了系统字典后调整VM内存", LogEnum.DevConsole,
+                On<SysDicAddedEvent>("添加了系统字典后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         if (!_dicById.ContainsKey(message.Source.GetId())) {
                             SysDicViewModel sysDicVm = new SysDicViewModel(message.Source);
@@ -38,8 +34,8 @@ namespace NTMiner {
                             }
                             OnPropertyChangeds();
                         }
-                    }).AddToCollection(ContextHandlers);
-                NTMinerRoot.Instance.On<SysDicUpdatedEvent>("更新了系统字典后调整VM内存", LogEnum.DevConsole,
+                    });
+                On<SysDicUpdatedEvent>("更新了系统字典后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         if (_dicById.ContainsKey(message.Source.GetId())) {
                             SysDicViewModel entity = _dicById[message.Source.GetId()];
@@ -49,13 +45,17 @@ namespace NTMiner {
                                 this.OnPropertyChanged(nameof(List));
                             }
                         }
-                    }).AddToCollection(ContextHandlers);
-                NTMinerRoot.Instance.On<SysDicRemovedEvent>("删除了系统字典后调整VM内存", LogEnum.DevConsole,
+                    });
+                On<SysDicRemovedEvent>("删除了系统字典后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         _dicById.Remove(message.Source.GetId());
                         _dicByCode.Remove(message.Source.Code);
                         OnPropertyChangeds();
-                    }).AddToCollection(ContextHandlers);
+                    });
+                Init();
+            }
+
+            private void Init() {
                 foreach (var item in NTMinerRoot.Instance.SysDicSet) {
                     SysDicViewModel sysDicVm = new SysDicViewModel(item);
                     _dicById.Add(item.GetId(), sysDicVm);

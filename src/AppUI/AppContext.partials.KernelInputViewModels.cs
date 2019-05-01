@@ -17,17 +17,13 @@ namespace NTMiner {
                 NTMinerRoot.Instance.OnReRendContext += () => {
                     OnPropertyChangeds();
                 };
-                Init();
-            }
-
-            private void Init() {
-                NTMinerRoot.Instance.On<KernelInputAddedEvent>("添加了内核输入后刷新VM内存", LogEnum.DevConsole,
+                On<KernelInputAddedEvent>("添加了内核输入后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         var vm = new KernelInputViewModel(message.Source);
                         _dicById.Add(message.Source.GetId(), vm);
                         OnPropertyChangeds();
-                    }).AddToCollection(ContextHandlers);
-                NTMinerRoot.Instance.On<KernelInputUpdatedEvent>("更新了内核输入后刷新VM内存", LogEnum.DevConsole,
+                    });
+                On<KernelInputUpdatedEvent>("更新了内核输入后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         if (_dicById.ContainsKey(message.Source.GetId())) {
                             var item = _dicById[message.Source.GetId()];
@@ -50,14 +46,18 @@ namespace NTMiner {
                                 }
                             }
                         }
-                    }).AddToCollection(ContextHandlers);
-                NTMinerRoot.Instance.On<KernelInputRemovedEvent>("移除了内核输入后刷新VM内存", LogEnum.DevConsole,
+                    });
+                On<KernelInputRemovedEvent>("移除了内核输入后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         if (_dicById.ContainsKey(message.Source.GetId())) {
                             _dicById.Remove(message.Source.GetId());
                             OnPropertyChangeds();
                         }
-                    }).AddToCollection(ContextHandlers);
+                    });
+                Init();
+            }
+
+            private void Init() {
                 foreach (var item in NTMinerRoot.Instance.KernelInputSet) {
                     _dicById.Add(item.GetId(), new KernelInputViewModel(item));
                 }
