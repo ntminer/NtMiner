@@ -2,24 +2,22 @@
 
 namespace NTMiner {
     public static class Write {
-        private static readonly Action<string, ConsoleColor, bool> _writeUserLineMethod;
-        public static Action<string, ConsoleColor, bool> WriteUserLineMethod;
+        private static readonly Action<string, ConsoleColor, bool> _consoleUserLineMethod = (line, color, isNotice) => {
+            ConsoleColor oldColor = Console.ForegroundColor;
+            Console.ForegroundColor = color;
+            Console.WriteLine(line, isNotice);
+            Console.ForegroundColor = oldColor;
+        };
+        public static Action<string, ConsoleColor, bool> UserLineMethod = _consoleUserLineMethod;
 
         static Write() {
             if (DevMode.IsDevMode && !System.Diagnostics.Debugger.IsAttached) {
                 ConsoleManager.Show();
             }
-            _writeUserLineMethod = (line, color, isNotice) => {
-                ConsoleColor oldColor = Console.ForegroundColor;
-                Console.ForegroundColor = color;
-                Console.WriteLine(line, isNotice);
-                Console.ForegroundColor = oldColor;
-            };
-            WriteUserLineMethod = _writeUserLineMethod;
         }
 
-        public static void ResetWriteUserLineMethod() {
-            WriteUserLineMethod = _writeUserLineMethod;
+        public static void SetConsoleUserLineMethod() {
+            UserLineMethod = _consoleUserLineMethod;
         }
 
         public static void UserLine(string text, MessageType messageType = MessageType.Default) {
@@ -51,7 +49,7 @@ namespace NTMiner {
         }
 
         public static void UserLine(string text, ConsoleColor foreground, bool isNotice = true) {
-            WriteUserLineMethod?.Invoke(text, foreground, isNotice);
+            UserLineMethod?.Invoke(text, foreground, isNotice);
         }
 
         public static void DevLine(string text, MessageType messageType = MessageType.Default) {

@@ -79,6 +79,7 @@ namespace NTMiner {
                                             AppContext.Open();
                                             this.MainWindow = mainWindow = new MainWindow();
                                             this.MainWindow.Show();
+                                            // 使状态栏显示显示最新状态
                                             if (NTMinerRoot.Instance.IsMining) {
                                                 var coinShare = NTMinerRoot.Instance.CoinShareSet.GetOrCreate(NTMinerRoot.Instance.CurrentMineContext.MainCoin.GetId());
                                                 VirtualRoot.Happened(new ShareChangedEvent(coinShare));
@@ -142,7 +143,7 @@ namespace NTMiner {
             VirtualRoot.Window<CloseMainWindowCommand>("处理关闭主界面命令", LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
-                        Write.ResetWriteUserLineMethod();
+                        Write.SetConsoleUserLineMethod();
                         UIThread.StopTimer();
                         MainWindow = NotiCenterWindow.Instance;
                         foreach (Window window in Windows) {
