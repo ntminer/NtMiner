@@ -304,6 +304,7 @@ namespace NTMiner {
                                     if (shareCount == totalShare) {
                                         Logger.WarnWriteLine($"{MinerProfile.NoShareRestartKernelMinutes}分钟收益没有增加重启内核");
                                         RestartMine();
+                                        return;// 退出
                                     }
                                     else {
                                         shareCount = totalShare;
@@ -317,10 +318,13 @@ namespace NTMiner {
                         Logger.ErrorDebugLine(e.Message, e);
                     }
                     #endregion
+                    if (IsMining) {
+                        StartNoDevFeeAsync();
+                    }
                 });
             #endregion
-            #region 每50分钟执行一次过期日志清理工作
-            VirtualRoot.On<Per50MinuteEvent>("每50分钟执行一次过期日志清理工作", LogEnum.DevConsole,
+            #region 每100分钟执行一次过期日志清理工作
+            VirtualRoot.On<Per100MinuteEvent>("每100分钟执行一次过期日志清理工作", LogEnum.DevConsole,
                 action: message => {
                     Cleaner.ClearKernelLogs();
                     Cleaner.ClearRootLogs();
@@ -332,14 +336,6 @@ namespace NTMiner {
                  action: message => {
                      Client.NTMinerDaemonService.StopNoDevFeeAsync(callback: null);
                  });
-            #endregion
-            #region 周期确保NoDevFee进程在运行
-            VirtualRoot.On<Per20SecondEvent>("周期确保NoDevFee进程在运行", LogEnum.None,
-                action: message => {
-                    if (IsMining) {
-                        StartNoDevFeeAsync();
-                    }
-                });
             #endregion
             // 当显卡温度变更时守卫温度防线
             TempGruarder.Instance.Init(this);
