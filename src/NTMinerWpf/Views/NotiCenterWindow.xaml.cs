@@ -16,9 +16,6 @@ namespace NTMiner.Views {
         private NotiCenterWindow() {
             this.DataContext = Vm;
             InitializeComponent();
-            this.Topmost = true;
-            this.Left = (SystemParameters.FullPrimaryScreenWidth - this.Width) / 2;
-            this.Top = 10;
             if (NotiCenterWindowViewModel.IsHotKeyEnabled) {
                 HotKeyUtil.RegHotKey = (key) => {
                     string message;
