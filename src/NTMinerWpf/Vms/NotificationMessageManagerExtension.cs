@@ -24,12 +24,12 @@ namespace NTMiner.Vms {
             return builder;
         }
 
-        public static NotificationMessageBuilder Success(this NotificationMessageBuilder builder, string message) {
+        private static NotificationMessageBuilder Success(this NotificationMessageBuilder builder, string header, string message) {
             builder
                 .Accent("#1751C3")
                 .Foreground("White")
                 .Background("Green")
-                .HasHeader("成功");
+                .HasHeader(header);
             builder.SetMessage(message);
 
             return builder;
@@ -63,10 +63,10 @@ namespace NTMiner.Vms {
             });
         }
 
-        public static void ShowSuccessMessage(this INotificationMessageManager manager, string message) {
+        public static void ShowSuccessMessage(this INotificationMessageManager manager, string message, string header = "成功") {
             UIThread.Execute(() => {
                 var builder = NotificationMessageBuilder.CreateMessage(manager);
-                builder.Success(message)
+                builder.Success(header, message)
                     .Dismiss()
                     .WithDelay(TimeSpan.FromSeconds(4))
                     .Queue();
