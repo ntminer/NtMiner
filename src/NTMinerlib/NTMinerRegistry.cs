@@ -215,6 +215,25 @@ namespace NTMiner {
         }
         #endregion
 
+        #region DaemonVersion
+        public static DateTime GetDaemonActiveOn() {
+            object value = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, "DaemonActiveOn");
+            if (value == null) {
+                return DateTime.MinValue;
+            }
+            string str = value.ToString();
+            DateTime dateTime;
+            if (!DateTime.TryParse(str, out dateTime)) {
+                return DateTime.MinValue;
+            }
+            return dateTime;
+        }
+
+        public static void SetDaemonActiveOn(DateTime version) {
+            Windows.Registry.SetValue(Registry.Users, NTMinerRegistrySubKey, "DaemonActiveOn", version.ToString());
+        }
+        #endregion
+
         #region GetClientId
         public static Guid GetClientId() {
             Guid id;

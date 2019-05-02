@@ -159,7 +159,9 @@ namespace NTMiner {
             Daemon.DaemonUtil.RunNTMinerDaemon();
             VirtualRoot.On<Per20SecondEvent>("周期确保守护进程在运行", LogEnum.None,
                 action: message => {
-                    Daemon.DaemonUtil.RunNTMinerDaemon();
+                    if (NTMinerRegistry.GetDaemonActiveOn().AddSeconds(20) < DateTime.Now) {
+                        Daemon.DaemonUtil.RunNTMinerDaemon();
+                    }
                 });
             #endregion
             #region 1080小药丸
