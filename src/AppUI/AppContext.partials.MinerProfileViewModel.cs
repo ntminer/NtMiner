@@ -230,6 +230,9 @@ namespace NTMiner {
             public int AutoRestartKernelTimes {
                 get => NTMinerRoot.Instance.MinerProfile.AutoRestartKernelTimes;
                 set {
+                    if (value < 3) {
+                        value = 3;
+                    }
                     if (NTMinerRoot.Instance.MinerProfile.AutoRestartKernelTimes != value) {
                         NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(AutoRestartKernelTimes), value);
                         OnPropertyChanged(nameof(AutoRestartKernelTimes));

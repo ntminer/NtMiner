@@ -173,7 +173,12 @@ namespace NTMiner.Core.Profiles {
         }
 
         public int AutoRestartKernelTimes {
-            get => _data.AutoRestartKernelTimes;
+            get {
+                if (_data.AutoRestartKernelTimes < 3) {
+                    return 3;
+                }
+                return _data.AutoRestartKernelTimes;
+            }
             private set {
                 _data.AutoRestartKernelTimes = value;
             }
