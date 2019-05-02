@@ -16,7 +16,7 @@
 		AllowsTransparency="True"
 		Background="Transparent"
 		StateChanged="Window_StateChanged"
-		Width="600"
+		Width="400"
 		Title="通知中心"
 		MouseDown="MetroWindow_MouseDown">
 	<Grid>
