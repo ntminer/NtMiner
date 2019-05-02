@@ -15,5 +15,6 @@ namespace NTMiner.Profile {
         int PeriodicRestartComputerHours { get; }
 
         bool IsAutoRestartKernel { get; }
+        int AutoRestartKernelTimes { get; }
     }
 }

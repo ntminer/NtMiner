@@ -9,6 +9,7 @@ namespace NTMiner.Profile {
                 MinerName = string.Empty,
                 CoinId = coinId,
                 IsAutoRestartKernel = true,
+                AutoRestartKernelTimes = 10,
                 IsNoShareRestartKernel = false,
                 NoShareRestartKernelMinutes = 30,
                 IsPeriodicRestartKernel = false,
@@ -25,6 +26,7 @@ namespace NTMiner.Profile {
             this.MinerName = data.MinerName;
             this.CoinId = data.CoinId;
             this.IsAutoRestartKernel = data.IsAutoRestartKernel;
+            this.AutoRestartKernelTimes = data.AutoRestartKernelTimes;
             this.IsNoShareRestartKernel = data.IsNoShareRestartKernel;
             this.NoShareRestartKernelMinutes = data.NoShareRestartKernelMinutes;
             this.IsPeriodicRestartKernel = data.IsPeriodicRestartKernel;
@@ -39,6 +41,7 @@ namespace NTMiner.Profile {
         public Guid Id { get; set; }
         public string MinerName { get; set; }
         public bool IsAutoRestartKernel { get; set; }
+        public int AutoRestartKernelTimes { get; set; }
         public Guid CoinId { get; set; }
         public bool IsNoShareRestartKernel { get; set; }
         public int NoShareRestartKernelMinutes { get; set; }

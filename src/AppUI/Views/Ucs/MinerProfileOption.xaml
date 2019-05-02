@@ -21,8 +21,13 @@
 				<WrapPanel Margin="0 2">
 					<CheckBox
 						Padding="0"
-						Content="如果内核进程意外消失，尝试重启内核3次"
-						IsChecked="{Binding IsAutoRestartKernel}" />
+						IsChecked="{Binding IsAutoRestartKernel}">
+						<WrapPanel>
+							<TextBlock>如果内核进程意外消失，尝试重启内核</TextBlock>
+							<TextBox Width="40" Margin="2 0" Background="White" Text="{Binding AutoRestartKernelTimes}" HorizontalAlignment="Left"></TextBox>
+							<TextBlock>次</TextBlock>
+						</WrapPanel>
+					</CheckBox>
 				</WrapPanel>
 				<WrapPanel Margin="0 2">
 					<CheckBox

@@ -227,6 +227,16 @@ namespace NTMiner {
                 }
             }
 
+            public int AutoRestartKernelTimes {
+                get => NTMinerRoot.Instance.MinerProfile.AutoRestartKernelTimes;
+                set {
+                    if (NTMinerRoot.Instance.MinerProfile.AutoRestartKernelTimes != value) {
+                        NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(AutoRestartKernelTimes), value);
+                        OnPropertyChanged(nameof(AutoRestartKernelTimes));
+                    }
+                }
+            }
+
             public bool IsShowCommandLine {
                 get { return NTMinerRoot.GetIsShowCommandLine(); }
                 set {

@@ -171,30 +171,42 @@ namespace NTMiner.Core.Profiles {
                 _data.IsNoShareRestartKernel = value;
             }
         }
+
+        public int AutoRestartKernelTimes {
+            get => _data.AutoRestartKernelTimes;
+            private set {
+                _data.AutoRestartKernelTimes = value;
+            }
+        }
+
         public int NoShareRestartKernelMinutes {
             get => _data.NoShareRestartKernelMinutes;
             private set {
                 _data.NoShareRestartKernelMinutes = value;
             }
         }
+
         public bool IsPeriodicRestartKernel {
             get => _data.IsPeriodicRestartKernel;
             private set {
                 _data.IsPeriodicRestartKernel = value;
             }
         }
+
         public int PeriodicRestartKernelHours {
             get => _data.PeriodicRestartKernelHours;
             private set {
                 _data.PeriodicRestartKernelHours = value;
             }
         }
+
         public bool IsPeriodicRestartComputer {
             get => _data.IsPeriodicRestartComputer;
             private set {
                 _data.IsPeriodicRestartComputer = value;
             }
         }
+
         public int PeriodicRestartComputerHours {
             get => _data.PeriodicRestartComputerHours;
             private set {
