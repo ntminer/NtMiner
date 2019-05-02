@@ -14,14 +14,14 @@ namespace NTMiner.Views.Ucs {
             }, ucFactory: (window) => new MinerProfileOption(), fixedSize: true);
         }
 
-        public MinerProfileViewModel Vm {
+        public AppContext.MinerProfileViewModel Vm {
             get {
-                return (MinerProfileViewModel)this.DataContext;
+                return (AppContext.MinerProfileViewModel)this.DataContext;
             }
         }
 
         public MinerProfileOption() {
-            this.DataContext = AppContext.Current.MinerProfileVms;
+            this.DataContext = AppContext.Current.MinerProfileVm;
             InitializeComponent();
             if (VirtualRoot.IsMinerStudio) {
                 this.GroupSystemSetting.Visibility = Visibility.Collapsed;

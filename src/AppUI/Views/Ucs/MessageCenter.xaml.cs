@@ -17,7 +17,7 @@ namespace NTMiner.Views.Ucs {
 
         public MessageCenter() {
             InitializeComponent();
-            Write.WriteUserLineMethod = (text, foreground, isNotice) => {
+            Write.UserLineMethod = (text, foreground, isNotice) => {
                 WriteLine(this.FlowDocumentScrollViewer, this.ConsoleParagraph, text, foreground);
                 if (isNotice) {
                     if (foreground == ConsoleColor.Red) {

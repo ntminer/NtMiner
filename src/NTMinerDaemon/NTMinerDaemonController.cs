@@ -9,21 +9,6 @@ using System.Web.Http;
 
 namespace NTMiner {
     public class NTMinerDaemonController : ApiController, INTMinerDaemonController {
-        private static string s_sha1 = null;
-        public static string Sha1 {
-            get {
-                if (s_sha1 == null) {
-                    s_sha1 = HashUtil.Sha1(File.ReadAllBytes(Process.GetCurrentProcess().MainModule.FileName));
-                }
-                return s_sha1;
-            }
-        }
-
-        [HttpPost]
-        public string GetDaemonVersion() {
-            return Sha1;
-        }
-
         [HttpPost]
         public void CloseDaemon() {
             // 延迟100毫秒再退出从而避免当前的CloseDaemon请求尚未收到响应

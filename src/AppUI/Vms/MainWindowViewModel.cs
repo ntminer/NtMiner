@@ -12,11 +12,20 @@ namespace NTMiner.Vms {
 
         public ICommand CustomTheme { get; private set; }
         public ICommand UseThisPcName { get; private set; }
+        public ICommand CloseMainWindow { get; private set; }
 
         public MainWindowViewModel() {
             if (Design.IsInDesignMode) {
                 return;
             }
+            this.CloseMainWindow = new DelegateCommand(() => {
+                if (MinerProfile.IsNoUi) {
+                    VirtualRoot.Execute(new CloseMainWindowCommand());
+                }
+                else {
+                    VirtualRoot.Execute(new CloseNTMinerCommand());
+                }
+            });
             this.CustomTheme = new DelegateCommand(() => {
                 LogColor.ShowWindow();
             });
@@ -26,21 +35,12 @@ namespace NTMiner.Vms {
                     MinerProfile.MinerName = thisPcName;
                 }, icon: IconConst.IconConfirm);
             });
-            VirtualRoot.On<StartingMineFailedEvent>("开始挖矿失败", LogEnum.DevConsole,
-                action: message => {
-                    this.MinerProfile.IsMining = false;
-                    Write.UserFail(message.Message);
-                });
             if (DevMode.IsDevMode) {
-                VirtualRoot.On<ServerJsonVersionChangedEvent>("开发者模式展示ServerJsonVersion", LogEnum.DevConsole,
-                    action: message => {
-                        this.ServerJsonVersion = GetServerJsonVersion();
-                    });
                 _serverJsonVersion = GetServerJsonVersion();
             }
         }
 
-        private string GetServerJsonVersion() {
+        public string GetServerJsonVersion() {
             string serverJsonVersion = string.Empty;
             if (NTMinerRoot.Instance.LocalAppSettingSet.TryGetAppSetting("ServerJsonVersion", out IAppSetting setting) && setting.Value != null) {
                 serverJsonVersion = setting.Value.ToString();
@@ -87,9 +87,9 @@ namespace NTMiner.Vms {
             }
         }
 
-        public MinerProfileViewModel MinerProfile {
+        public AppContext.MinerProfileViewModel MinerProfile {
             get {
-                return AppContext.Current.MinerProfileVms;
+                return AppContext.Current.MinerProfileVm;
             }
         }
 

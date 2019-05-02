@@ -1,8 +1,10 @@
-﻿namespace NTMiner.Vms {
+﻿using System.Windows.Media.Imaging;
+
+namespace NTMiner.Vms {
     public class SplashWindowViewModel : ViewModelBase {
-        public AppContext AppContext {
+        public BitmapImage BigLogoImageSource {
             get {
-                return AppContext.Current;
+                return IconConst.BigLogoImageSource;
             }
         }
 

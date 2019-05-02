@@ -63,7 +63,7 @@ namespace NTMiner.Vms {
                             Write.UserFail(response.ReadMessage(e));
                         }
                         else {
-                            AppContext.Current.MinerClientsWindowVms.QueryMinerClients();
+                            AppContext.Current.MinerClientsWindowVm.QueryMinerClients();
                         }
                     });
                 }, icon: IconConst.IconConfirm);
@@ -127,7 +127,7 @@ namespace NTMiner.Vms {
                 Server.ControlCenterService.UpdateClientAsync(this.Id, nameof(IsMining), IsMining, null);
             });
             this.StopMine = new DelegateCommand(() => {
-                DialogWindow.ShowDialog(message: $"确定停止挖矿{this.MinerName}({this.MinerIp})挖矿端吗？", title: "确认", onYes: () => {
+                DialogWindow.ShowDialog(message: $"{this.MinerName}({this.MinerIp})：确定停止挖矿吗？", title: "确认", onYes: () => {
                     IsMining = false;
                     Server.MinerClientService.StopMineAsync(this, (response, e) => {
                         if (!response.IsSuccess()) {

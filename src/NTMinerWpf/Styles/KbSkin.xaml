@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
 	xmlns:converters="clr-namespace:NTMiner.Converters">
 	<converters:TrueTransparentElseWhiteConverter x:Key="TrueTransparentElseWhiteConverter"></converters:TrueTransparentElseWhiteConverter>
 	<converters:NoRecordVisibilityConverter x:Key="NoRecordVisibilityConverter" />
@@ -33,7 +34,9 @@
 	<SolidColorBrush x:Key="StateBarBackground">#007ACC</SolidColorBrush>
 	<SolidColorBrush x:Key="StateBarForeground">White</SolidColorBrush>
 	<SolidColorBrush x:Key="MinerProfileBackground">#F0F0F1</SolidColorBrush>
-	
+	<sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">4</sys:Double>
+	<sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarButtonHeightKey}">0</sys:Double>
+
 	<ControlTemplate x:Key="ErrorTemplate">
 		<DockPanel LastChildFill="true">
 			<Border Background="Red" DockPanel.Dock="right" Margin="-20,0,0,0" Width="16" Height="16" CornerRadius="8"
@@ -68,6 +71,9 @@
 		</Style.Triggers>
 	</Style>
 	<Style TargetType="ScrollViewer">
+		<Setter Property="FocusVisualStyle" Value="{x:Null}"></Setter>
+	</Style>
+	<Style TargetType="TabItem">
 		<Setter Property="FocusVisualStyle" Value="{x:Null}"></Setter>
 	</Style>
 	<Style x:Key="ListBoxBarItem" TargetType="ListBoxItem">

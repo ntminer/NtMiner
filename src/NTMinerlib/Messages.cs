@@ -45,6 +45,15 @@ namespace NTMiner {
     }
     #endregion
 
+    [MessageType(description: "显式主界面")]
+    public class ShowMainWindowCommand : Cmd {
+        public ShowMainWindowCommand(bool isToggle) {
+            this.IsToggle = isToggle;
+        }
+
+        public bool IsToggle { get; private set; }
+    }
+
     [MessageType(description: "设置ServerAppSetting")]
     public class ChangeServerAppSettingCommand : Cmd {
         public ChangeServerAppSettingCommand(IAppSetting appSetting) {

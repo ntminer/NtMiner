@@ -2251,7 +2251,7 @@
 					Grid.Column="1" 
 					Background="#EEEEF2"
 					PreviewMouseDown="ScrollViewer_PreviewMouseDown"
-					VerticalScrollBarVisibility="Auto"
+					VerticalScrollBarVisibility="Visible"
 					Visibility="{Binding CurrentMinerClient,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
 					<uc:MinerClientUc DataContext="{Binding CurrentMinerClient}"></uc:MinerClientUc>
 				</ScrollViewer>

@@ -1,11 +1,13 @@
 ﻿using MahApps.Metro.Controls;
+using NTMiner.Core;
 using NTMiner.Notifications;
+using NTMiner.Views.Ucs;
 using NTMiner.Vms;
 using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Interop;
 
 namespace NTMiner.Views {
     public partial class MainWindow : MetroWindow, IMainWindow {
@@ -15,7 +17,10 @@ namespace NTMiner.Views {
             }
         }
 
+        private readonly List<Bus.IDelegateHandler> _handlers = new List<Bus.IDelegateHandler>();
         public MainWindow() {
+            NTMinerRoot.IsUiVisible = true;
+            UIThread.StartTimer();
             InitializeComponent();
             this.StateChanged += (s, e) => {
                 if (Vm.MinerProfile.IsShowInTaskbar) {
@@ -47,89 +52,28 @@ namespace NTMiner.Views {
             if (NTMinerRoot.Instance.GpuSet.Count == 0) {
                 NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage("没有矿卡或矿卡未驱动。");
             }
-            NTMinerRoot.RegHotKey = (key) => {
-                string message;
-                if (!RegHotKey(key, out message)) {
-                    NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage(message, 4);
-                    return false;
-                }
-                else {
-                    NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage($"热键Ctrl + Alt + {key.ToString()} 设置成功");
-                    return true;
-                }
-            };
-        }
-
-        private bool RegHotKey(System.Windows.Forms.Keys key, out string message) {
-            if (!SystemHotKey.RegHotKey(_thisWindowHandle, c_hotKeyId, SystemHotKey.KeyModifiers.Alt | SystemHotKey.KeyModifiers.Ctrl, key, out message)) {
-                message = $"Ctrl + Alt + {key.ToString()} " + message;
-                return false;
-            }
-            else {
-                return true;
-            }
-        }
-
-        private IntPtr _thisWindowHandle;
-        protected override void OnSourceInitialized(EventArgs e) {
-            base.OnSourceInitialized(e);
-            _thisWindowHandle = new WindowInteropHelper(this).Handle;
-            HwndSource hWndSource = HwndSource.FromHwnd(_thisWindowHandle);
-            if (hWndSource != null) hWndSource.AddHook(WndProc);
-        }
-
-        protected override void OnContentRendered(EventArgs e) {
-            base.OnContentRendered(e);
-            System.Windows.Forms.Keys hotKey = System.Windows.Forms.Keys.X;
-            Enum.TryParse(NTMinerRoot.GetHotKey(), out hotKey);
-            string message;
-            if (!RegHotKey(hotKey, out message)) {
-                NotiCenterWindowViewModel.Instance.Manager
-                    .CreateMessage()
-                    .Error(message)
-                    .Dismiss().WithButton("忽略", null)
-                    .Queue();
+            VirtualRoot.On<StartingMineFailedEvent>("开始挖矿失败", LogEnum.DevConsole,
+                action: message => {
+                    Vm.MinerProfile.IsMining = false;
+                    Write.UserFail(message.Message);
+                }).AddToCollection(_handlers);
+            if (DevMode.IsDevMode) {
+                VirtualRoot.On<ServerJsonVersionChangedEvent>("开发者模式展示ServerJsonVersion", LogEnum.DevConsole,
+                    action: message => {
+                        Vm.ServerJsonVersion = Vm.GetServerJsonVersion();
+                    }).AddToCollection(_handlers);
             }
         }
 
         protected override void OnClosed(EventArgs e) {
-            SystemHotKey.UnRegHotKey(_thisWindowHandle, c_hotKeyId);
+            foreach (var handler in _handlers) {
+                VirtualRoot.UnPath(handler);
+            }
             base.OnClosed(e);
         }
 
-        private const int WM_HOTKEY = 0x312;
-
-        private const int c_hotKeyId = 1; //热键ID（自定义）
-        private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled) {
-            switch (msg) {
-                case WM_HOTKEY:
-                    int tmpWParam = wParam.ToInt32();
-                    if (tmpWParam == c_hotKeyId) {
-                        if (this.WindowState != WindowState.Minimized) {
-                            this.WindowState = WindowState.Minimized;
-                        }
-                        else {
-                            this.ShowThisWindow();
-                        }
-                    }
-                    break;
-                default:
-                    break;
-            }
-            return IntPtr.Zero;
-        }
-
-        public void ShowThisWindow() {
-            ShowInTaskbar = true;
-            if (WindowState == WindowState.Minimized) {
-                WindowState = WindowState.Normal;
-            }
-            else {
-                var oldState = WindowState;
-                this.WindowState = WindowState.Minimized;
-                this.WindowState = oldState;
-            }
-            this.Activate();
+        public void ShowThisWindow(bool isToggle) {
+            AppHelper.ShowWindow(this, isToggle);
         }
 
         private void MetroWindow_MouseDown(object sender, MouseButtonEventArgs e) {
@@ -167,7 +111,33 @@ namespace NTMiner.Views {
             if (ConsoleUc == null) {
                 return;
             }
-            ConsoleUc.IsBuffer = ((TabControl)sender).SelectedItem != TabItemLog;
+            var selectedItem = ((TabControl)sender).SelectedItem;
+            ConsoleUc.IsBuffer = selectedItem != TabItemLog;
+            if (selectedItem == TabItemOuterProperty) {
+                if (OuterPropertyContainer.Child == null) {
+                    OuterPropertyContainer.Child = new OuterProperty();
+                }
+            }
+            else if (selectedItem == TabItemToolbox) {
+                if (ToolboxContainer.Child == null) {
+                    ToolboxContainer.Child = new Toolbox();
+                }
+            }
+            else if (selectedItem == TabItemMinerProfileOption) {
+                if (MinerProfileOptionContainer.Child == null) {
+                    MinerProfileOptionContainer.Child = new MinerProfileOption();
+                }
+            }
+            else if (selectedItem == TabItemGpuOverClock) {
+                if (GpuOverClockContainer.Child == null) {
+                    GpuOverClockContainer.Child = new GpuOverClock();
+                }
+            }
+            else if (selectedItem == TabItemSpeedTable) {
+                if (SpeedTableContainer.Child == null) {
+                    SpeedTableContainer.Child = new SpeedTable();
+                }
+            }
         }
     }
 }

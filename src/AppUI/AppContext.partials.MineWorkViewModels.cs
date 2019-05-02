@@ -21,28 +21,28 @@ namespace NTMiner {
                 this.Add = new DelegateCommand(() => {
                     new MineWorkViewModel(Guid.NewGuid()).Edit.Execute(FormType.Add);
                 });
-                VirtualRoot.On<MineWorkAddedEvent>("添加作业后刷新VM内存", LogEnum.DevConsole,
+                On<MineWorkAddedEvent>("添加作业后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         if (!_dicById.ContainsKey(message.Source.GetId())) {
                             _dicById.Add(message.Source.GetId(), new MineWorkViewModel(message.Source));
                             OnPropertyChanged(nameof(List));
                             OnPropertyChanged(nameof(MineWorkVmItems));
-                            if (message.Source.GetId() == Current.MinerClientsWindowVms.SelectedMineWork.GetId()) {
-                                Current.MinerClientsWindowVms.SelectedMineWork = MineWorkViewModel.PleaseSelect;
+                            if (message.Source.GetId() == Current.MinerClientsWindowVm.SelectedMineWork.GetId()) {
+                                Current.MinerClientsWindowVm.SelectedMineWork = MineWorkViewModel.PleaseSelect;
                             }
                         }
                     });
-                VirtualRoot.On<MineWorkUpdatedEvent>("更新作业后刷新VM内存", LogEnum.DevConsole,
+                On<MineWorkUpdatedEvent>("更新作业后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById[message.Source.GetId()].Update(message.Source);
                     });
-                VirtualRoot.On<MineWorkRemovedEvent>("删除作业后刷新VM内存", LogEnum.DevConsole,
+                On<MineWorkRemovedEvent>("删除作业后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById.Remove(message.Source.GetId());
                         OnPropertyChanged(nameof(List));
                         OnPropertyChanged(nameof(MineWorkVmItems));
-                        if (message.Source.GetId() == Current.MinerClientsWindowVms.SelectedMineWork.GetId()) {
-                            Current.MinerClientsWindowVms.SelectedMineWork = MineWorkViewModel.PleaseSelect;
+                        if (message.Source.GetId() == Current.MinerClientsWindowVm.SelectedMineWork.GetId()) {
+                            Current.MinerClientsWindowVm.SelectedMineWork = MineWorkViewModel.PleaseSelect;
                         }
                     });
             }

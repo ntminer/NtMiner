@@ -7,12 +7,12 @@ namespace NTMiner.Controls {
         public KbSystemCloseButton() {
             KbSystemButtonHoverBackground = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));
 
-            Click += delegate {
+            this.Command = new DelegateCommand(()=> {
                 if (targetWindow == null) {
                     targetWindow = Window.GetWindow(this);
                 }
                 targetWindow.Close();
-            };
+            });
         }
     }
 }

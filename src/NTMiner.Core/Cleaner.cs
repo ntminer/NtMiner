@@ -24,6 +24,9 @@ namespace NTMiner {
             }
         }
 
+        /// <summary>
+        /// 清理掉下载时间超过7天且服务器已经删除的内核包
+        /// </summary>
         public static void ClearPackages() {
             HashSet<string> packageFileNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             foreach (var kernel in NTMinerRoot.Instance.KernelSet) {
@@ -35,8 +38,11 @@ namespace NTMiner {
                 int n = 0;
                 foreach (string file in Directory.GetFiles(SpecialPath.PackagesDirFullName)) {
                     FileInfo fileInfo = new FileInfo(file);
-                    string fileName = Path.GetFileName(file);
-                    if (fileInfo.LastWriteTime.AddDays(30) < DateTime.Now && !packageFileNames.Contains(fileName)) {
+                    bool isPackageExitInServer = packageFileNames.Contains(fileInfo.Name);
+                    if (isPackageExitInServer) {
+                        continue;
+                    }
+                    if (fileInfo.LastWriteTime.AddDays(7) < DateTime.Now) {
                         File.Delete(file);
                         n++;
                     }
@@ -53,6 +59,9 @@ namespace NTMiner {
             }
         }
 
+        /// <summary>
+        /// 删除除当前正在挖矿的内核外的包解压目录
+        /// </summary>
         public static void CleanKernels() {
             try {
                 string currentKernelDir = string.Empty;
@@ -76,6 +85,9 @@ namespace NTMiner {
             }
         }
 
+        /// <summary>
+        /// 清理7天前的RootLog
+        /// </summary>
         public static void ClearRootLogs() {
             try {
                 string logDir = Logging.LogDir.Dir;
@@ -85,7 +97,7 @@ namespace NTMiner {
                 List<string> toRemoves = new List<string>();
                 foreach (var file in Directory.GetFiles(logDir)) {
                     FileInfo fileInfo = new FileInfo(file);
-                    if (fileInfo.LastWriteTime.AddDays(2) < DateTime.Now) {
+                    if (fileInfo.LastWriteTime.AddDays(7) < DateTime.Now) {
                         toRemoves.Add(file);
                     }
                 }
@@ -104,6 +116,9 @@ namespace NTMiner {
             }
         }
 
+        /// <summary>
+        /// 清理7天前的内核日志
+        /// </summary>
         public static void ClearKernelLogs() {
             try {
                 List<string> toRemoves = new List<string>();

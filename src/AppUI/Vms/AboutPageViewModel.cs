@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Media.Imaging;
 
 namespace NTMiner.Vms {
     public class AboutPageViewModel : ViewModelBase {
@@ -8,6 +9,12 @@ namespace NTMiner.Vms {
         public AppContext AppContext {
             get {
                 return AppContext.Current;
+            }
+        }
+
+        public BitmapImage BigLogoImageSource {
+            get {
+                return IconConst.BigLogoImageSource;
             }
         }
 

@@ -1,4 +1,5 @@
 ﻿using NTMiner.Core;
+using NTMiner.Core.Gpus;
 using NTMiner.Vms;
 using System.Collections;
 using System.Collections.Generic;
@@ -23,7 +24,11 @@ namespace NTMiner {
                 if (_gpuVms.ContainsKey(NTMinerRoot.GpuAllId)) {
                     _totalGpuVm = _gpuVms[NTMinerRoot.GpuAllId];
                 }
-                VirtualRoot.On<GpuStateChangedEvent>("显卡状态变更后刷新VM内存", LogEnum.None,
+                On<Per5SecondEvent>("周期刷新显卡状态", LogEnum.None,
+                    action: message => {
+                        NTMinerRoot.Instance.GpuSet.LoadGpuState();
+                    });
+                On<GpuStateChangedEvent>("显卡状态变更后刷新VM内存", LogEnum.None,
                     action: message => {
                         if (_gpuVms.ContainsKey(message.Source.Index)) {
                             GpuViewModel vm = _gpuVms[message.Source.Index];

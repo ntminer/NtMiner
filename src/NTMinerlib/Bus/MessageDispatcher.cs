@@ -9,6 +9,10 @@ namespace NTMiner.Bus {
         private readonly object _locker = new object();
 
         #region IMessageDispatcher Members
+        public bool HasSubscriber<TMessage>() {
+            return _handlers.ContainsKey(typeof(TMessage));
+        }
+
         public void DispatchMessage<TMessage>(TMessage message) {
             if (message == null) {
                 throw new ArgumentNullException(nameof(message));
@@ -19,6 +23,9 @@ namespace NTMiner.Bus {
                 var messageHandlers = _handlers[messageType].ToArray();
                 foreach (var messageHandler in messageHandlers) {
                     var tMessageHandler = (DelegateHandler<TMessage>)messageHandler;
+                    if (tMessageHandler.IsPaused) {
+                        continue;
+                    }
                     var evtArgs = new MessageDispatchEventArgs(message, messageHandler.GetType(), messageHandler);
                     switch (tMessageHandler.HandlerId.LogType) {
                         case LogEnum.DevConsole:

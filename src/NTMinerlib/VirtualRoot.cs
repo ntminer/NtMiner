@@ -35,6 +35,12 @@ namespace NTMiner {
         private static readonly ICmdBus SCommandBus;
         private static readonly IEventBus SEventBus;
 
+        public static int _secondCount = 0;
+        public static int SecondCount {
+            get {
+                return _secondCount;
+            }
+        }
         static VirtualRoot() {
             Id = NTMinerRegistry.GetClientId();
             if (!Directory.Exists(GlobalDirFullName)) {
@@ -44,109 +50,117 @@ namespace NTMiner {
             SMessageDispatcher = new MessageDispatcher();
             SCommandBus = new DirectCommandBus(SMessageDispatcher);
             SEventBus = new DirectEventBus(SMessageDispatcher);
-            StartTimer();
         }
 
-        public static uint _secondCount = 0;
-        public static uint SecondCount {
-            get {
-                return _secondCount;
+        private static Timer _timer;
+        public static void StartTimer() {
+            if (_timer != null) {
+                return;
+            }
+            _timer = new Timer(1000);
+            _timer.Elapsed += (object sender, ElapsedEventArgs e) => {
+                Elapsed();
+            };
+            _timer.Start();
+        }
+
+        public static void StopTimer() {
+            if (_timer != null) {
+                _timer.Stop();
+                _timer = null;
             }
         }
-        private static void StartTimer() {
-            Timer t = new Timer(1000);
-            t.Elapsed += (object sender, ElapsedEventArgs e) => {
-                _secondCount++;
-                const int daySecond = 24 * 60 * 60;
-                #region one
-                if (_secondCount <= 20) {
-                    if (_secondCount == 1) {
-                        Happened(new HasBoot1SecondEvent());
-                    }
-                    if (_secondCount == 2) {
-                        Happened(new HasBoot2SecondEvent());
-                    }
-                    if (_secondCount == 5) {
-                        Happened(new HasBoot5SecondEvent());
-                    }
-                    if (_secondCount == 10) {
-                        Happened(new HasBoot10SecondEvent());
-                    }
-                    if (_secondCount == 20) {
-                        Happened(new HasBoot20SecondEvent());
-                    }
-                }
-                else if (_secondCount <= 6000) {
-                    if (_secondCount == 60) {
-                        Happened(new HasBoot1MinuteEvent());
-                    }
-                    if (_secondCount == 120) {
-                        Happened(new HasBoot2MinuteEvent());
-                    }
-                    if (_secondCount == 300) {
-                        Happened(new HasBoot5MinuteEvent());
-                    }
-                    if (_secondCount == 600) {
-                        Happened(new HasBoot10MinuteEvent());
-                    }
-                    if (_secondCount == 1200) {
-                        Happened(new HasBoot20MinuteEvent());
-                    }
-                    if (_secondCount == 3000) {
-                        Happened(new HasBoot50MinuteEvent());
-                    }
-                    if (_secondCount == 6000) {
-                        Happened(new HasBoot100MinuteEvent());
-                    }
-                }
-                else if (_secondCount <= daySecond) {
-                    if (_secondCount == daySecond) {
-                        Happened(new HasBoot24HourEvent());
-                    }
-                }
-                #endregion
 
-                #region per
-                Happened(new Per1SecondEvent());
-                if (_secondCount % 2 == 0) {
-                    Happened(new Per2SecondEvent());
+        public static void Elapsed() {
+            _secondCount++;
+            const int daySecond = 24 * 60 * 60;
+            #region one
+            if (_secondCount <= 20) {
+                if (_secondCount == 1) {
+                    Happened(new HasBoot1SecondEvent());
                 }
-                if (_secondCount % 5 == 0) {
-                    Happened(new Per5SecondEvent());
+                if (_secondCount == 2) {
+                    Happened(new HasBoot2SecondEvent());
                 }
-                if (_secondCount % 10 == 0) {
-                    Happened(new Per10SecondEvent());
+                if (_secondCount == 5) {
+                    Happened(new HasBoot5SecondEvent());
                 }
-                if (_secondCount % 20 == 0) {
-                    Happened(new Per20SecondEvent());
+                if (_secondCount == 10) {
+                    Happened(new HasBoot10SecondEvent());
                 }
-                if (_secondCount % 60 == 0) {
-                    Happened(new Per1MinuteEvent());
+                if (_secondCount == 20) {
+                    Happened(new HasBoot20SecondEvent());
                 }
-                if (_secondCount % 120 == 0) {
-                    Happened(new Per2MinuteEvent());
+            }
+            else if (_secondCount <= 6000) {
+                if (_secondCount == 60) {
+                    Happened(new HasBoot1MinuteEvent());
                 }
-                if (_secondCount % 300 == 0) {
-                    Happened(new Per5MinuteEvent());
+                if (_secondCount == 120) {
+                    Happened(new HasBoot2MinuteEvent());
                 }
-                if (_secondCount % 600 == 0) {
-                    Happened(new Per10MinuteEvent());
+                if (_secondCount == 300) {
+                    Happened(new HasBoot5MinuteEvent());
                 }
-                if (_secondCount % 1200 == 0) {
-                    Happened(new Per20MinuteEvent());
+                if (_secondCount == 600) {
+                    Happened(new HasBoot10MinuteEvent());
                 }
-                if (_secondCount % 3000 == 0) {
-                    Happened(new Per50MinuteEvent());
+                if (_secondCount == 1200) {
+                    Happened(new HasBoot20MinuteEvent());
                 }
-                if (_secondCount % 6000 == 0) {
-                    Happened(new Per100MinuteEvent());
+                if (_secondCount == 3000) {
+                    Happened(new HasBoot50MinuteEvent());
                 }
-                if (_secondCount % daySecond == 0) {
-                    Happened(new Per24HourEvent());
+                if (_secondCount == 6000) {
+                    Happened(new HasBoot100MinuteEvent());
                 }
-                #endregion
-            };
-            t.Start();
+            }
+            else if (_secondCount <= daySecond) {
+                if (_secondCount == daySecond) {
+                    Happened(new HasBoot24HourEvent());
+                }
+            }
+            #endregion
+
+            #region per
+            Happened(new Per1SecondEvent());
+            if (_secondCount % 2 == 0) {
+                Happened(new Per2SecondEvent());
+            }
+            if (_secondCount % 5 == 0) {
+                Happened(new Per5SecondEvent());
+            }
+            if (_secondCount % 10 == 0) {
+                Happened(new Per10SecondEvent());
+            }
+            if (_secondCount % 20 == 0) {
+                Happened(new Per20SecondEvent());
+            }
+            if (_secondCount % 60 == 0) {
+                Happened(new Per1MinuteEvent());
+            }
+            if (_secondCount % 120 == 0) {
+                Happened(new Per2MinuteEvent());
+            }
+            if (_secondCount % 300 == 0) {
+                Happened(new Per5MinuteEvent());
+            }
+            if (_secondCount % 600 == 0) {
+                Happened(new Per10MinuteEvent());
+            }
+            if (_secondCount % 1200 == 0) {
+                Happened(new Per20MinuteEvent());
+            }
+            if (_secondCount % 3000 == 0) {
+                Happened(new Per50MinuteEvent());
+            }
+            if (_secondCount % 6000 == 0) {
+                Happened(new Per100MinuteEvent());
+            }
+            if (_secondCount % daySecond == 0) {
+                Happened(new Per24HourEvent());
+            }
+            #endregion
         }
 
         /// <summary>
@@ -168,8 +182,12 @@ namespace NTMiner {
             SCommandBus.Commit();
         }
 
+        public static bool HasSubscriber<TMessage>() {
+            return SMessageDispatcher.HasSubscriber<TMessage>();
+        }
+
         // 修建消息（命令或事件）的运动路径
-        private static DelegateHandler<TMessage> Path<TMessage>(string description, LogEnum logType, Action<TMessage> action) {
+        public static DelegateHandler<TMessage> Path<TMessage>(string description, LogEnum logType, Action<TMessage> action) {
             StackTrace ss = new StackTrace(false);
             // 0是Path，1是Accpt或On，2是当地
             Type location = ss.GetFrame(2).GetMethod().DeclaringType;

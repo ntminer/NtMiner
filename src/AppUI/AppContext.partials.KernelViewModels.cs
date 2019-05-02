@@ -22,27 +22,23 @@ namespace NTMiner {
                 NTMinerRoot.Instance.OnReRendContext += () => {
                     OnPropertyChanged(nameof(AllKernels));
                 };
-                Init();
-            }
-
-            private void Init() {
-                VirtualRoot.On<KernelAddedEvent>("添加了内核后调整VM内存", LogEnum.DevConsole,
+                On<KernelAddedEvent>("添加了内核后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         _dicById.Add(message.Source.GetId(), new KernelViewModel(message.Source));
                         OnPropertyChanged(nameof(AllKernels));
                         foreach (var coinKernelVm in Current.CoinKernelVms.AllCoinKernels.Where(a => a.KernelId == message.Source.GetId())) {
                             coinKernelVm.OnPropertyChanged(nameof(coinKernelVm.IsSupportDualMine));
                         }
-                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers);
-                VirtualRoot.On<KernelRemovedEvent>("删除了内核后调整VM内存", LogEnum.DevConsole,
+                    });
+                On<KernelRemovedEvent>("删除了内核后调整VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById.Remove(message.Source.GetId());
                         OnPropertyChanged(nameof(AllKernels));
                         foreach (var coinKernelVm in Current.CoinKernelVms.AllCoinKernels.Where(a => a.KernelId == message.Source.GetId())) {
                             coinKernelVm.OnPropertyChanged(nameof(coinKernelVm.IsSupportDualMine));
                         }
-                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers);
-                VirtualRoot.On<KernelUpdatedEvent>("更新了内核后调整VM内存", LogEnum.DevConsole,
+                    });
+                On<KernelUpdatedEvent>("更新了内核后调整VM内存", LogEnum.DevConsole,
                     action: message => {
                         var entity = _dicById[message.Source.GetId()];
                         PublishStatus publishStatus = entity.PublishState;
@@ -58,7 +54,11 @@ namespace NTMiner {
                         if (kernelInputId != entity.KernelInputId) {
                             NTMinerRoot.RefreshArgsAssembly.Invoke();
                         }
-                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers);
+                    });
+                Init();
+            }
+
+            private void Init() {
                 foreach (var item in NTMinerRoot.Instance.KernelSet) {
                     _dicById.Add(item.GetId(), new KernelViewModel(item));
                 }

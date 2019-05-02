@@ -6,7 +6,7 @@ namespace NTMiner {
         [HttpPost]
         public bool ShowMainWindow() {
             try {
-                VirtualRoot.Execute(new ShowMainWindowCommand());
+                VirtualRoot.Execute(new ShowMainWindowCommand(isToggle: false));
                 return true;
             }
             catch (Exception e) {

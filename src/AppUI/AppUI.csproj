@@ -124,6 +124,7 @@
     <Compile Include="AppContext.partials.KernelOutputViewModels.cs" />
     <Compile Include="AppContext.partials.KernelViewModels.cs" />
     <Compile Include="AppContext.partials.MinerGroupViewModels.cs" />
+    <Compile Include="AppContext.partials.MinerProfileViewModel.cs" />
     <Compile Include="AppContext.partials.MineWorkViewModels.cs" />
     <Compile Include="AppContext.partials.OverClockDataViewModels.cs" />
     <Compile Include="AppContext.partials.PoolKernelViewModels.cs" />
@@ -141,7 +142,6 @@
     <Compile Include="KernelDownloader.cs" />
     <Compile Include="AppContext.cs" />
     <Compile Include="RemoteDesktopInput.cs" />
-    <Compile Include="SystemHotKey.cs" />
     <Compile Include="Views\ContainerWindow.xaml.cs">
       <DependentUpon>ContainerWindow.xaml</DependentUpon>
     </Compile>
@@ -423,7 +423,6 @@
     <Compile Include="Vms\OuterPropertyViewModel.cs" />
     <Compile Include="Vms\KernelViewModel.cs" />
     <Compile Include="Vms\CoinProfileViewModel.cs" />
-    <Compile Include="Vms\MinerProfileViewModel.cs" />
     <Compile Include="Vms\SpeedChartViewModel.cs" />
     <Compile Include="Vms\SysDicItemViewModel.cs" />
     <Compile Include="Vms\SysDicPageViewModel.cs" />
@@ -482,10 +481,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Ucs\CoinSelect.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Ucs\Design\MinerProfileViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

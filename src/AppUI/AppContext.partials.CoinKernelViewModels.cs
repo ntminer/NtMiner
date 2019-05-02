@@ -16,11 +16,7 @@ namespace NTMiner {
                 NTMinerRoot.Instance.OnReRendContext += () => {
                     OnPropertyChanged(nameof(AllCoinKernels));
                 };
-                Init();
-            }
-
-            private void Init() {
-                VirtualRoot.On<CoinKernelAddedEvent>("添加了币种内核后刷新VM内存", LogEnum.DevConsole,
+                On<CoinKernelAddedEvent>("添加了币种内核后刷新VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         var coinKernelVm = new CoinKernelViewModel(message.Source);
                         _dicById.Add(message.Source.GetId(), coinKernelVm);
@@ -40,8 +36,8 @@ namespace NTMiner {
                             kernelVm.OnPropertyChanged(nameof(kernelVm.SupportedCoinVms));
                             kernelVm.OnPropertyChanged(nameof(kernelVm.SupportedCoins));
                         }
-                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers);
-                VirtualRoot.On<CoinKernelUpdatedEvent>("更新了币种内核后刷新VM内存", LogEnum.DevConsole,
+                    });
+                On<CoinKernelUpdatedEvent>("更新了币种内核后刷新VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         CoinKernelViewModel entity = _dicById[message.Source.GetId()];
                         var supportedGpu = entity.SupportedGpu;
@@ -71,8 +67,8 @@ namespace NTMiner {
                                 coinVm.OnPropertyChanged(nameof(coinVm.CoinKernels));
                             }
                         }
-                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers);
-                VirtualRoot.On<CoinKernelRemovedEvent>("移除了币种内核后刷新VM内存", LogEnum.DevConsole,
+                    });
+                On<CoinKernelRemovedEvent>("移除了币种内核后刷新VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         CoinKernelViewModel coinKernelVm;
                         if (_dicById.TryGetValue(message.Source.GetId(), out coinKernelVm)) {
@@ -92,7 +88,11 @@ namespace NTMiner {
                             kernelVm.OnPropertyChanged(nameof(kernelVm.SupportedCoinVms));
                             kernelVm.OnPropertyChanged(nameof(kernelVm.SupportedCoins));
                         }
-                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers);
+                    });
+                Init();
+            }
+
+            private void Init() {
                 foreach (var item in NTMinerRoot.Instance.CoinKernelSet) {
                     _dicById.Add(item.GetId(), new CoinKernelViewModel(item));
                 }

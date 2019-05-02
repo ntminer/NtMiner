@@ -29,7 +29,7 @@ namespace NTMiner {
                     this._list.Add(new GpuSpeedViewModel(item));
                 }
                 _totalSpeedVm = this._list.FirstOrDefault(a => a.GpuVm.Index == NTMinerRoot.GpuAllId);
-                VirtualRoot.On<GpuSpeedChangedEvent>("显卡算力变更后刷新VM内存", LogEnum.DevConsole,
+                On<GpuSpeedChangedEvent>("显卡算力变更后刷新VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         Guid mainCoinId = NTMinerRoot.Instance.MinerProfile.CoinId;
                         if (_mainCoinId != mainCoinId) {
@@ -86,11 +86,21 @@ namespace NTMiner {
                             }
                         }
                     });
-                VirtualRoot.On<Per1SecondEvent>("每秒钟更新算力活动时间", LogEnum.None,
+                On<Per1SecondEvent>("每秒钟更新算力活动时间", LogEnum.None,
                     action: message => {
                         TotalSpeedVm.MainCoinSpeed.OnPropertyChanged(nameof(SpeedViewModel.LastSpeedOnText));
                         TotalSpeedVm.DualCoinSpeed.OnPropertyChanged(nameof(SpeedViewModel.LastSpeedOnText));
                     });
+            }
+
+            public void Refresh() {
+                foreach (var item in this._list) {
+                    var data = NTMinerRoot.Instance.GpusSpeed.FirstOrDefault(a => a.Gpu.Index == item.GpuVm.Index);
+                    if (data != null) {
+                        item.MainCoinSpeed.Update(data.MainCoinSpeed);
+                        item.DualCoinSpeed.Update(data.DualCoinSpeed);
+                    }
+                }
             }
 
             public GpuViewModel GpuAllVm {
@@ -99,7 +109,7 @@ namespace NTMiner {
 
             public MinerProfileViewModel MinerProfile {
                 get {
-                    return Current.MinerProfileVms;
+                    return Current.MinerProfileVm;
                 }
             }
 

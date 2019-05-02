@@ -20,12 +20,12 @@ namespace NTMiner.Views.Ucs {
 
         private AppContext.DriveSetViewModel Vm {
             get {
-                return AppContext.Current.DriveSet;
+                return AppContext.Current.DriveSetVm;
             }
         }
 
         public VirtualMemory() {
-            this.DataContext = AppContext.Current.DriveSet;
+            this.DataContext = AppContext.Current.DriveSetVm;
             InitializeComponent();
         }
 

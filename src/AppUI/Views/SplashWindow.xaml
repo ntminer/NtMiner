@@ -20,7 +20,7 @@
 			<RowDefinition Height="20"></RowDefinition>
 		</Grid.RowDefinitions>
 		<WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-			<Image Width="120" Height="120" Source="{Binding AppContext.BigLogoImageSource}">
+			<Image Width="120" Height="120" Source="{Binding BigLogoImageSource}">
 			</Image>
 			<TextBlock Margin="10 0 0 0" VerticalAlignment="Center" FontSize="50" Foreground="{StaticResource ThemeForeground}" Text="{Binding WindowTitle}"></TextBlock>
 		</WrapPanel>

@@ -2,7 +2,6 @@
 
 namespace NTMiner.Controllers {
     public interface INTMinerDaemonController {
-        string GetDaemonVersion();
         void CloseDaemon();
         string GetGpuProfilesJson();
         void SaveGpuProfilesJson();

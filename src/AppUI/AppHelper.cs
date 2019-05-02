@@ -35,6 +35,7 @@ namespace NTMiner {
             };
 
             UIThread.InitializeWithDispatcher();
+            UIThread.StartTimer();
             Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("zh-CN");
         }
         #endregion
@@ -70,6 +71,29 @@ namespace NTMiner {
             catch (Exception ex) {
                 RestartNTMiner();
                 Logger.ErrorDebugLine(ex.Message, ex);
+            }
+        }
+
+        public static void ShowWindow(Window window, bool isToggle) {
+            if (!isToggle) {
+                window.Show();
+            }
+            window.ShowInTaskbar = true;
+            if (window.WindowState == WindowState.Minimized) {
+                window.WindowState = WindowState.Normal;
+            }
+            else {
+                if (isToggle) {
+                    window.WindowState = WindowState.Minimized;
+                }
+                else {
+                    var oldState = window.WindowState;
+                    window.WindowState = WindowState.Minimized;
+                    window.WindowState = oldState;
+                }
+            }
+            if (!isToggle) {
+                window.Activate();
             }
         }
 

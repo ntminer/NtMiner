@@ -20,11 +20,11 @@ namespace NTMiner {
                     NTMinerRoot.IsAutoStartCanceled = true;
                     NTMinerRoot.Instance.StopMineAsync();
                 });
-                if (NTMinerRoot.IsAutoStart && !this.MinerProfile.IsMining) {
+                if (NTMinerRoot.IsAutoStart && !this.MinerProfile.IsMining && VirtualRoot.SecondCount < 10) {
                     this.MinerProfile.IsMining = true;
-                    int n = 10;
+                    int n = 10 - VirtualRoot.SecondCount;
                     Bus.IDelegateHandler handler = null;
-                    handler = VirtualRoot.On<Per1SecondEvent>("挖矿倒计时", LogEnum.None,
+                    handler = On<Per1SecondEvent>("挖矿倒计时", LogEnum.None,
                     action: message => {
                         BtnStopText = $"倒计时({--n})";
                         if (n <= 0) {
@@ -46,7 +46,7 @@ namespace NTMiner {
 
             public MinerProfileViewModel MinerProfile {
                 get {
-                    return Current.MinerProfileVms;
+                    return Current.MinerProfileVm;
                 }
             }
         }

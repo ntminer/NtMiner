@@ -9,7 +9,7 @@ namespace NTMiner {
         public class WalletViewModels : ViewModelBase {
             private readonly Dictionary<Guid, WalletViewModel> _dicById = new Dictionary<Guid, WalletViewModel>();
             public WalletViewModels() {
-                VirtualRoot.On<WalletAddedEvent>("添加了钱包后调整VM内存", LogEnum.DevConsole,
+                On<WalletAddedEvent>("添加了钱包后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         _dicById.Add(message.Source.GetId(), new WalletViewModel(message.Source));
                         OnPropertyChanged(nameof(WalletList));
@@ -20,7 +20,7 @@ namespace NTMiner {
                             coin.CoinKernel?.CoinKernelProfile?.SelectedDualCoin?.OnPropertyChanged(nameof(CoinViewModel.Wallets));
                         }
                     });
-                VirtualRoot.On<WalletRemovedEvent>("删除了钱包后调整VM内存", LogEnum.DevConsole,
+                On<WalletRemovedEvent>("删除了钱包后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         _dicById.Remove(message.Source.GetId());
                         OnPropertyChanged(nameof(WalletList));
@@ -32,7 +32,7 @@ namespace NTMiner {
                             coin.CoinKernel?.CoinKernelProfile?.SelectedDualCoin?.OnPropertyChanged(nameof(CoinViewModel.Wallets));
                         }
                     });
-                VirtualRoot.On<WalletUpdatedEvent>("更新了钱包后调整VM内存", LogEnum.DevConsole,
+                On<WalletUpdatedEvent>("更新了钱包后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         _dicById[message.Source.GetId()].Update(message.Source);
                     });

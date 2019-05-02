@@ -1,12 +1,21 @@
 ﻿using NTMiner.Profile;
 using System;
+using System.Windows;
+using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class PoolProfileViewModel : ViewModelBase, IPoolProfile {
         private readonly IPoolProfile _inner;
 
+        public ICommand CopyWallet { get; private set; }
+
         public PoolProfileViewModel(IPoolProfile innerProfile) {
             _inner = innerProfile;
+            this.CopyWallet = new DelegateCommand(() => {
+                string wallet = this.UserName ?? "无";
+                Clipboard.SetDataObject(wallet);
+                NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage(wallet, "复制成功");
+            });
         }
 
         public Guid PoolId {

@@ -132,9 +132,9 @@ namespace NTMiner.Vms {
             }
         }
 
-        public MinerProfileViewModel MinerProfile {
+        public AppContext.MinerProfileViewModel MinerProfile {
             get {
-                return AppContext.Current.MinerProfileVms;
+                return AppContext.Current.MinerProfileVm;
             }
         }
 

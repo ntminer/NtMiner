@@ -7,7 +7,8 @@
 		xmlns:local="clr-namespace:NTMiner.Views"
 		xmlns:vm="clr-namespace:NTMiner.Vms"
 		mc:Ignorable="d"
-		WindowStartupLocation="Manual" 
+		WindowStartupLocation="CenterScreen" 
+		Topmost="True"
 		ShowInTaskbar="False" 
 		WindowStyle="None" 
 		WindowState="Normal"
@@ -16,7 +17,7 @@
 		AllowsTransparency="True"
 		Background="Transparent"
 		StateChanged="Window_StateChanged"
-		Width="600"
+		Width="400"
 		Title="通知中心"
 		MouseDown="MetroWindow_MouseDown">
 	<Grid>

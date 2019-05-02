@@ -25,7 +25,23 @@ using System.Threading.Tasks;
 
 namespace NTMiner {
     public partial class NTMinerRoot : INTMinerRoot {
-        public List<IDelegateHandler> ContextHandlers { get; private set; } = new List<IDelegateHandler>();
+        private readonly List<IDelegateHandler> _contextHandlers = new List<IDelegateHandler>();
+
+        /// <summary>
+        /// 命令窗口。使用该方法的代码行应将前两个参数放在第一行以方便vs查找引用时展示出参数信息
+        /// </summary>
+        public DelegateHandler<TCmd> Window<TCmd>(string description, LogEnum logType, Action<TCmd> action)
+            where TCmd : ICmd {
+            return VirtualRoot.Path(description, logType, action).AddToCollection(_contextHandlers);
+        }
+
+        /// <summary>
+        /// 事件响应
+        /// </summary>
+        public DelegateHandler<TEvent> On<TEvent>(string description, LogEnum logType, Action<TEvent> action)
+            where TEvent : IEvent {
+            return VirtualRoot.Path(description, logType, action).AddToCollection(_contextHandlers);
+        }
 
         public event Action OnContextReInited;
         public event Action OnReRendContext;
@@ -163,10 +179,10 @@ namespace NTMiner {
         }
 
         private void ContextReInit(bool isWork) {
-            foreach (var handler in ContextHandlers) {
+            foreach (var handler in _contextHandlers) {
                 VirtualRoot.UnPath(handler);
             }
-            ContextHandlers.Clear();
+            _contextHandlers.Clear();
             if (isWork) {
                 ReInitServerJson();
             }
@@ -239,9 +255,11 @@ namespace NTMiner {
                     Cleaner.CleanKernels();
                 });
             #endregion
-            #region 每10秒钟检查是否需要重启
-            VirtualRoot.On<Per10SecondEvent>("每10秒钟检查是否需要重启", LogEnum.None,
+            #region 每20秒钟检查是否需要重启
+            VirtualRoot.On<Per20SecondEvent>("每20秒钟阻止windows系统休眠、检查是否需要重启", LogEnum.None,
                 action: message => {
+                    // 阻止windows休眠
+                    Windows.Power.PreventWindowsSleep();
                     #region 重启电脑
                     try {
                         if (MinerProfile.IsPeriodicRestartComputer) {
@@ -286,6 +304,7 @@ namespace NTMiner {
                                     if (shareCount == totalShare) {
                                         Logger.WarnWriteLine($"{MinerProfile.NoShareRestartKernelMinutes}分钟收益没有增加重启内核");
                                         RestartMine();
+                                        return;// 退出
                                     }
                                     else {
                                         shareCount = totalShare;
@@ -299,10 +318,13 @@ namespace NTMiner {
                         Logger.ErrorDebugLine(e.Message, e);
                     }
                     #endregion
+                    if (IsMining) {
+                        StartNoDevFeeAsync();
+                    }
                 });
             #endregion
-            #region 每50分钟执行一次过期日志清理工作
-            VirtualRoot.On<Per50MinuteEvent>("每50分钟执行一次过期日志清理工作", LogEnum.DevConsole,
+            #region 每100分钟执行一次过期日志清理工作
+            VirtualRoot.On<Per100MinuteEvent>("每100分钟执行一次过期日志清理工作", LogEnum.DevConsole,
                 action: message => {
                     Cleaner.ClearKernelLogs();
                     Cleaner.ClearRootLogs();
@@ -314,14 +336,6 @@ namespace NTMiner {
                  action: message => {
                      Client.NTMinerDaemonService.StopNoDevFeeAsync(callback: null);
                  });
-            #endregion
-            #region 周期确保NoDevFee进程在运行
-            VirtualRoot.On<Per20SecondEvent>("周期确保NoDevFee进程在运行", LogEnum.None,
-                action: message => {
-                    if (IsMining) {
-                        StartNoDevFeeAsync();
-                    }
-                });
             #endregion
             // 当显卡温度变更时守卫温度防线
             TempGruarder.Instance.Init(this);
@@ -524,10 +538,12 @@ namespace NTMiner {
                 }
                 else {
                     string commandLine = BuildAssembleArgs();
-                    if (commandLine != UserKernelCommandLine) {
-                        Logger.WarnDebugLine("意外：MineContext.CommandLine和UserKernelCommandLine不等了");
-                        Logger.WarnDebugLine("UserKernelCommandLine  :" + UserKernelCommandLine);
-                        Logger.WarnDebugLine("MineContext.CommandLine:" + commandLine);
+                    if (IsUiVisible) {
+                        if (commandLine != UserKernelCommandLine) {
+                            Logger.WarnDebugLine("意外：MineContext.CommandLine和UserKernelCommandLine不等了");
+                            Logger.WarnDebugLine("UserKernelCommandLine  :" + UserKernelCommandLine);
+                            Logger.WarnDebugLine("MineContext.CommandLine:" + commandLine);
+                        }
                     }
                     IMineContext mineContext = new MineContext(this.MinerProfile.MinerName, mainCoin, mainCoinPool, kernel, coinKernel, coinProfile.Wallet, commandLine);
                     if (coinKernelProfile.IsDualCoinEnabled) {
@@ -643,12 +659,6 @@ namespace NTMiner {
                             }
                             if (_gpuSet == null || (_gpuSet != EmptyGpuSet.Instance && _gpuSet.Count == 0)) {
                                 _gpuSet = EmptyGpuSet.Instance;
-                            }
-                            if (_gpuSet != EmptyGpuSet.Instance) {
-                                VirtualRoot.On<Per5SecondEvent>("周期刷新显卡状态", LogEnum.None,
-                                    action: message => {
-                                        _gpuSet.LoadGpuState();
-                                    });
                             }
                         }
                     }

@@ -32,6 +32,17 @@ namespace NTMiner {
         }
         #endregion
 
+        #region IsNoUi
+        public static bool GetIsNoUi() {
+            object isNoUiValue = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, "IsNoUi");
+            return isNoUiValue != null && isNoUiValue.ToString() == "True";
+        }
+
+        public static void SetIsNoUi(bool value) {
+            Windows.Registry.SetValue(Registry.Users, NTMinerRegistrySubKey, "IsNoUi", value);
+        }
+        #endregion
+
         #region IsShowNotifyIcon
         public static bool GetIsShowNotifyIcon() {
             object isAutoBootValue = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, "IsShowNotifyIcon");
@@ -184,6 +195,42 @@ namespace NTMiner {
                 host = DefaultControlCenterHost;
             }
             Windows.Registry.SetValue(Registry.Users, NTMinerRegistrySubKey, "ControlCenterHost", host);
+        }
+        #endregion
+
+        #region DaemonVersion
+        public static string GetDaemonVersion() {
+            object value = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, "DaemonVersion");
+            if (value == null) {
+                return string.Empty;
+            }
+            return (string)value;
+        }
+
+        public static void SetDaemonVersion(string version) {
+            if (version == null) {
+                version = string.Empty;
+            }
+            Windows.Registry.SetValue(Registry.Users, NTMinerRegistrySubKey, "DaemonVersion", version);
+        }
+        #endregion
+
+        #region DaemonVersion
+        public static DateTime GetDaemonActiveOn() {
+            object value = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, "DaemonActiveOn");
+            if (value == null) {
+                return DateTime.MinValue;
+            }
+            string str = value.ToString();
+            DateTime dateTime;
+            if (!DateTime.TryParse(str, out dateTime)) {
+                return DateTime.MinValue;
+            }
+            return dateTime;
+        }
+
+        public static void SetDaemonActiveOn(DateTime version) {
+            Windows.Registry.SetValue(Registry.Users, NTMinerRegistrySubKey, "DaemonActiveOn", version.ToString());
         }
         #endregion
 

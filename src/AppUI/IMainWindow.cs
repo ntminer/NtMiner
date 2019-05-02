@@ -1,5 +1,5 @@
 ﻿namespace NTMiner {
     public interface IMainWindow {
-        void ShowThisWindow();
+        void ShowThisWindow(bool isToggle);
     }
 }

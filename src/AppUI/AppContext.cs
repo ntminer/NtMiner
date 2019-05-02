@@ -1,35 +1,68 @@
-﻿using NTMiner.MinerServer;
+﻿using NTMiner.Bus;
+using NTMiner.MinerServer;
 using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using NTMiner.Vms;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Input;
-using System.Windows.Media.Imaging;
 
 namespace NTMiner {
     public partial class AppContext {
+        private static readonly List<IDelegateHandler> _contextHandlers = new List<IDelegateHandler>();
+
         /// <summary>
-        /// 这个可以在关闭界面的时候释放
+        /// 命令窗口。使用该方法的代码行应将前两个参数放在第一行以方便vs查找引用时展示出参数信息
         /// </summary>
-        public static readonly AppContext Current = new AppContext();
+        private static DelegateHandler<TCmd> Window<TCmd>(string description, LogEnum logType, Action<TCmd> action)
+            where TCmd : ICmd {
+            return VirtualRoot.Path(description, logType, action).AddToCollection(_contextHandlers);
+        }
+
+        /// <summary>
+        /// 事件响应
+        /// </summary>
+        private static DelegateHandler<TEvent> On<TEvent>(string description, LogEnum logType, Action<TEvent> action)
+            where TEvent : IEvent {
+            return VirtualRoot.Path(description, logType, action).AddToCollection(_contextHandlers);
+        }
+
+        private static AppContext _current = null;
+        public static AppContext Current {
+            get {
+                return _current ?? (_current = new AppContext());
+            }
+        }
+
+        public static void Open() {
+            foreach (var handler in _contextHandlers) {
+                handler.IsPaused = false;
+            }
+        }
+
+        public static void Close() {
+            foreach (var handler in _contextHandlers) {
+                handler.IsPaused = true;
+            }
+        }
 
         private AppContext() {
         }
 
-        private MinerClientsWindowViewModel _minerClientsWindowVms;
-        public MinerClientsWindowViewModel MinerClientsWindowVms {
+        private MinerClientsWindowViewModel _minerClientsWindowVm;
+        public MinerClientsWindowViewModel MinerClientsWindowVm {
             get {
-                return _minerClientsWindowVms ?? (_minerClientsWindowVms = new MinerClientsWindowViewModel());
+                return _minerClientsWindowVm ?? (_minerClientsWindowVm = new MinerClientsWindowViewModel());
             }
         }
 
-        private MinerProfileViewModel _minerProfileVms;
-        public MinerProfileViewModel MinerProfileVms {
+        private MinerProfileViewModel _minerProfileVm;
+        public MinerProfileViewModel MinerProfileVm {
             get {
-                return _minerProfileVms ?? (_minerProfileVms = new MinerProfileViewModel());
+                return _minerProfileVm ?? (_minerProfileVm = new MinerProfileViewModel());
             }
         }
 
@@ -97,17 +130,17 @@ namespace NTMiner {
             }
         }
 
-        private DriveSetViewModel _driveSet;
-        public DriveSetViewModel DriveSet {
+        private DriveSetViewModel _driveSetVm;
+        public DriveSetViewModel DriveSetVm {
             get {
-                return _driveSet ?? (_driveSet = new DriveSetViewModel());
+                return _driveSetVm ?? (_driveSetVm = new DriveSetViewModel());
             }
         }
 
-        private VirtualMemorySetViewModel _virtualMemorySet;
-        public VirtualMemorySetViewModel VirtualMemorySet {
+        private VirtualMemorySetViewModel _virtualMemorySetVm;
+        public VirtualMemorySetViewModel VirtualMemorySetVm {
             get {
-                return _virtualMemorySet ?? (_virtualMemorySet = new VirtualMemorySetViewModel());
+                return _virtualMemorySetVm ?? (_virtualMemorySetVm = new VirtualMemorySetViewModel());
             }
         }
 
@@ -237,10 +270,10 @@ namespace NTMiner {
             }
         }
 
-        private GpuStatusBarViewModel _gpuStatusBarVms;
-        public GpuStatusBarViewModel GpuStatusBarVms {
+        private GpuStatusBarViewModel _gpuStatusBarVm;
+        public GpuStatusBarViewModel GpuStatusBarVm {
             get {
-                return _gpuStatusBarVms ?? (_gpuStatusBarVms = new GpuStatusBarViewModel());
+                return _gpuStatusBarVm ?? (_gpuStatusBarVm = new GpuStatusBarViewModel());
             }
         }
         #endregion
@@ -273,7 +306,7 @@ namespace NTMiner {
 
         public string TotalVirtualMemoryGbText {
             get {
-                return VirtualMemorySet.TotalVirtualMemoryGbText;
+                return VirtualMemorySetVm.TotalVirtualMemoryGbText;
             }
         }
 
@@ -297,8 +330,6 @@ namespace NTMiner {
         }
 
         public ICommand ConfigControlCenterHost { get; private set; } = new DelegateCommand(ControlCenterHostConfig.ShowWindow);
-
-        public BitmapImage BigLogoImageSource { get; private set; } = IconConst.BigLogoImageSource;
 
         public ICommand ExportServerJson { get; private set; } = new DelegateCommand(() => {
             try {

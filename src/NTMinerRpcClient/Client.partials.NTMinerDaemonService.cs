@@ -2,7 +2,6 @@
 using NTMiner.Daemon;
 using NTMiner.JsonDb;
 using System;
-using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -13,25 +12,6 @@ namespace NTMiner {
             private static readonly string s_controllerName = ControllerUtil.GetControllerName<INTMinerDaemonController>();
 
             private NTMinerDaemonServiceFace() { }
-
-            public void GetDaemonVersionAsync(Action<string, Exception> callback) {
-                Process[] processes = Process.GetProcessesByName("NTMinerDaemon");
-                if (processes.Length == 0) {
-                    callback?.Invoke(string.Empty, null);
-                }
-                Task.Factory.StartNew(() => {
-                    try {
-                        using (HttpClient client = new HttpClient()) {
-                            Task<HttpResponseMessage> message = client.PostAsync($"http://localhost:{WebApiConst.NTMinerDaemonPort}/api/{s_controllerName}/{nameof(INTMinerDaemonController.GetDaemonVersion)}", null);
-                            string response = message.Result.Content.ReadAsAsync<string>().Result;
-                            callback?.Invoke(response, null);
-                        }
-                    }
-                    catch (Exception e) {
-                        callback?.Invoke(string.Empty, e);
-                    }
-                });
-            }
 
             public void CloseDaemon() {
                 try {

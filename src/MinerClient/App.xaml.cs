@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
-using System.Windows.Threading;
 
 namespace NTMiner {
     public partial class App : Application, IDisposable {
@@ -54,6 +53,7 @@ namespace NTMiner {
                     NTMinerOverClockUtil.ExtractResource();
 
                     AppStatic.SetIsMinerClient(true);
+                    NotiCenterWindowViewModel.IsHotKeyEnabled = true;
                     SplashWindow splashWindow = new SplashWindow();
                     splashWindow.Show();
                     NotiCenterWindow.Instance.Show();
@@ -61,16 +61,39 @@ namespace NTMiner {
                     NTMinerRoot.Instance.Init(() => {
                         NTMinerRoot.KernelDownloader = new KernelDownloader();
                         UIThread.Execute(() => {
-                            MainWindow window = new MainWindow();
-                            IMainWindow mainWindow = window;
-                            this.MainWindow = window;
-                            this.MainWindow.Show();
+                            if (!NTMinerRegistry.GetIsNoUi()) {
+                                this.MainWindow = new MainWindow();
+                                this.MainWindow.Show();
+                            }
+                            else {
+                                NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage("开源矿工已切换为以无界面模式运行");
+                            }
                             System.Drawing.Icon icon = new System.Drawing.Icon(GetResourceStream(new Uri("pack://application:,,,/NTMiner;component/logo.ico")).Stream);
-                            AppHelper.NotifyIcon = ExtendedNotifyIcon.Create(icon, "挖矿端", isMinerStudio: false);
+                            AppHelper.NotifyIcon = ExtendedNotifyIcon.Create(icon, "开源矿工挖矿端", isMinerStudio: false);
                             #region 处理显示主界面命令
                             VirtualRoot.Window<ShowMainWindowCommand>("处理显示主界面命令", LogEnum.None,
                                 action: message => {
-                                    Dispatcher.Invoke((ThreadStart)mainWindow.ShowThisWindow);
+                                    UIThread.Execute(() => {
+                                        MainWindow mainWindow = this.MainWindow as MainWindow;
+                                        if (mainWindow == null) {
+                                            AppContext.Open();
+                                            this.MainWindow = mainWindow = new MainWindow();
+                                            this.MainWindow.Show();
+                                            // 使状态栏显示显示最新状态
+                                            if (NTMinerRoot.Instance.IsMining) {
+                                                var coinShare = NTMinerRoot.Instance.CoinShareSet.GetOrCreate(NTMinerRoot.Instance.CurrentMineContext.MainCoin.GetId());
+                                                VirtualRoot.Happened(new ShareChangedEvent(coinShare));
+                                                if (NTMinerRoot.Instance.CurrentMineContext is IDualMineContext dualMineContext) {
+                                                    coinShare = NTMinerRoot.Instance.CoinShareSet.GetOrCreate(dualMineContext.DualCoin.GetId());
+                                                    VirtualRoot.Happened(new ShareChangedEvent(coinShare));
+                                                }
+                                                AppContext.Current.GpuSpeedVms.Refresh();
+                                            }
+                                        }
+                                        else {
+                                            mainWindow.ShowThisWindow(message.IsToggle);
+                                        }
+                                    });
                                 });
                             #endregion
                             splashWindow?.Close();
@@ -117,11 +140,28 @@ namespace NTMiner {
                         }
                     });
                 });
+            VirtualRoot.Window<CloseMainWindowCommand>("处理关闭主界面命令", LogEnum.DevConsole,
+                action: message => {
+                    UIThread.Execute(() => {
+                        Write.SetConsoleUserLineMethod();
+                        MainWindow = NotiCenterWindow.Instance;
+                        foreach (Window window in Windows) {
+                            if (window != NotiCenterWindow.Instance) {
+                                window.Close();
+                            }
+                        }
+                        NTMinerRoot.IsUiVisible = false;
+                        AppContext.Close();
+                        NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage("开源矿工已切换为以无界面模式运行");
+                    });
+                });
             #region 周期确保守护进程在运行
             Daemon.DaemonUtil.RunNTMinerDaemon();
             VirtualRoot.On<Per20SecondEvent>("周期确保守护进程在运行", LogEnum.None,
                 action: message => {
-                    Daemon.DaemonUtil.RunNTMinerDaemon();
+                    if (NTMinerRegistry.GetDaemonActiveOn().AddSeconds(20) < DateTime.Now) {
+                        Daemon.DaemonUtil.RunNTMinerDaemon();
+                    }
                 });
             #endregion
             #region 1080小药丸

@@ -22,7 +22,7 @@
 			IconColor="{StaticResource IconFillColor}"
 			IsChecked="True" />
 		<FlowDocumentScrollViewer 
-			VerticalScrollBarVisibility="Auto"
+			VerticalScrollBarVisibility="Visible"
 			x:Name="FlowDocumentScrollViewer" 
 			BorderThickness="0" 
 			Padding="0 0 0 4" Background="Transparent" Foreground="White">

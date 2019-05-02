@@ -22,23 +22,19 @@ namespace NTMiner {
                 NTMinerRoot.Instance.OnReRendContext += () => {
                     AllPropertyChanged();
                 };
-                Init();
-            }
-
-            private void Init() {
-                VirtualRoot.On<CoinAddedEvent>("添加了币种后刷新VM内存", LogEnum.DevConsole,
+                On<CoinAddedEvent>("添加了币种后刷新VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         _dicById.Add(message.Source.GetId(), new CoinViewModel(message.Source));
-                        Current.MinerProfileVms.OnPropertyChanged(nameof(Current.MinerProfileVms.CoinVm));
+                        Current.MinerProfileVm.OnPropertyChanged(nameof(Current.MinerProfileVm.CoinVm));
                         AllPropertyChanged();
-                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers);
-                VirtualRoot.On<CoinRemovedEvent>("移除了币种后刷新VM内存", LogEnum.DevConsole,
+                    });
+                On<CoinRemovedEvent>("移除了币种后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById.Remove(message.Source.GetId());
-                        Current.MinerProfileVms.OnPropertyChanged(nameof(Current.MinerProfileVms.CoinVm));
+                        Current.MinerProfileVm.OnPropertyChanged(nameof(Current.MinerProfileVm.CoinVm));
                         AllPropertyChanged();
-                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers);
-                VirtualRoot.On<CoinUpdatedEvent>("更新了币种后刷新VM内存", LogEnum.DevConsole,
+                    });
+                On<CoinUpdatedEvent>("更新了币种后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         CoinViewModel coinVm = _dicById[message.Source.GetId()];
                         bool justAsDualCoin = coinVm.JustAsDualCoin;
@@ -46,10 +42,10 @@ namespace NTMiner {
                         coinVm.TestWalletVm.Address = message.Source.TestWallet;
                         coinVm.OnPropertyChanged(nameof(coinVm.Wallets));
                         coinVm.OnPropertyChanged(nameof(coinVm.WalletItems));
-                        if (Current.MinerProfileVms.CoinId == message.Source.GetId()) {
-                            Current.MinerProfileVms.OnPropertyChanged(nameof(Current.MinerProfileVms.CoinVm));
+                        if (Current.MinerProfileVm.CoinId == message.Source.GetId()) {
+                            Current.MinerProfileVm.OnPropertyChanged(nameof(Current.MinerProfileVm.CoinVm));
                         }
-                        CoinKernelViewModel coinKernelVm = Current.MinerProfileVms.CoinVm.CoinKernel;
+                        CoinKernelViewModel coinKernelVm = Current.MinerProfileVm.CoinVm.CoinKernel;
                         if (coinKernelVm != null
                             && coinKernelVm.CoinKernelProfile.SelectedDualCoin != null
                             && coinKernelVm.CoinKernelProfile.SelectedDualCoin.GetId() == message.Source.GetId()) {
@@ -58,8 +54,8 @@ namespace NTMiner {
                         if (justAsDualCoin != coinVm.JustAsDualCoin) {
                             OnPropertyChanged(nameof(MainCoins));
                         }
-                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers);
-                VirtualRoot.On<CoinIconDownloadedEvent>("下载了币种钱包后", LogEnum.DevConsole,
+                    });
+                On<CoinIconDownloadedEvent>("下载了币种钱包后", LogEnum.DevConsole,
                     action: message => {
                         try {
                             if (string.IsNullOrEmpty(message.Source.Icon)) {
@@ -83,7 +79,11 @@ namespace NTMiner {
                         catch (Exception e) {
                             Logger.ErrorDebugLine(e.Message, e);
                         }
-                    }).AddToCollection(NTMinerRoot.Instance.ContextHandlers);
+                    });
+                Init();
+            }
+
+            private void Init() {
                 foreach (var item in NTMinerRoot.Instance.CoinSet) {
                     _dicById.Add(item.GetId(), new CoinViewModel(item));
                 }

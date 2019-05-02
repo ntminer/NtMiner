@@ -27,16 +27,19 @@ namespace NTMiner {
         public IMineContext MineContext { get; private set; }
     }
 
-    [MessageType(description: "显式主界面")]
-    public class ShowMainWindowCommand : Cmd {
-    }
-
     [MessageType(description: "关闭NTMiner客户端")]
     // ReSharper disable once InconsistentNaming
     public class CloseNTMinerCommand : Cmd {
+        public CloseNTMinerCommand() { }
+    }
+
+    [MessageType(description: "关闭主界面")]
+    public class CloseMainWindowCommand : Cmd {
+        public CloseMainWindowCommand() { }
     }
 
     [MessageType(description: "刷新开机启动和自动挖矿")]
     public class RefreshAutoBootStartCommand : Cmd {
+        public RefreshAutoBootStartCommand() { }
     }
 }

@@ -2,11 +2,21 @@
 using NTMiner.User.Impl;
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Threading;
 
 namespace NTMiner {
     public class HostRoot : IHostRoot {
         public static readonly IHostRoot Instance = new HostRoot();
+        private static string s_sha1 = null;
+        public static string Sha1 {
+            get {
+                if (s_sha1 == null) {
+                    s_sha1 = HashUtil.Sha1(File.ReadAllBytes(Process.GetCurrentProcess().MainModule.FileName));
+                }
+                return s_sha1;
+            }
+        }
 
         public DateTime StartedOn { get; private set; } = DateTime.Now;
 
@@ -20,6 +30,15 @@ namespace NTMiner {
         private HostRoot() {
             _userSet = new UserSet();
             this.UserSet = _userSet;
+        }
+
+        public static void StartTimer() {
+            NTMinerRegistry.SetDaemonActiveOn(DateTime.Now);
+            var timer = new System.Timers.Timer(10 * 1000);
+            timer.Elapsed += (object sender, System.Timers.ElapsedEventArgs e) => {
+                NTMinerRegistry.SetDaemonActiveOn(DateTime.Now);
+            };
+            timer.Start();
         }
 
         public static EventWaitHandle WaitHandle = new AutoResetEvent(false);
@@ -36,6 +55,8 @@ namespace NTMiner {
                     mutexCreated = false;
                 }
                 if (mutexCreated) {
+                    StartTimer();
+                    NTMinerRegistry.SetDaemonVersion(Sha1);
                     NTMinerRegistry.SetAutoBoot("NTMinerDaemon", true);
                     bool isAutoBoot = NTMinerRegistry.GetIsAutoBoot();
                     if (isAutoBoot) {

@@ -27,7 +27,7 @@ namespace NTMiner.Views {
 
         public MinerClientsWindowViewModel Vm {
             get {
-                return AppContext.Current.MinerClientsWindowVms;
+                return AppContext.Current.MinerClientsWindowVm;
             }
         }
 
@@ -35,7 +35,7 @@ namespace NTMiner.Views {
         private MinerClientsWindow() {
             Width = SystemParameters.FullPrimaryScreenWidth * 0.95;
             Height = SystemParameters.FullPrimaryScreenHeight * 0.95;
-            this.DataContext = AppContext.Current.MinerClientsWindowVms;
+            this.DataContext = AppContext.Current.MinerClientsWindowVm;
             InitializeComponent();
             VirtualRoot.On<Per1SecondEvent>("刷新倒计时秒表", LogEnum.None,
                 action: message => {
@@ -49,12 +49,12 @@ namespace NTMiner.Views {
                 }).AddToCollection(_handlers);
             VirtualRoot.On<Per10SecondEvent>("周期刷新在线客户端列表", LogEnum.DevConsole,
                 action: message => {
-                    AppContext.Current.MinerClientsWindowVms.QueryMinerClients();
+                    AppContext.Current.MinerClientsWindowVm.QueryMinerClients();
                 }).AddToCollection(_handlers);
             EventHandler changeNotiCenterWindowLocation = Wpf.Util.ChangeNotiCenterWindowLocation(this);
             this.Activated += changeNotiCenterWindowLocation;
             this.LocationChanged += changeNotiCenterWindowLocation;
-            AppContext.Current.MinerClientsWindowVms.QueryMinerClients();
+            AppContext.Current.MinerClientsWindowVm.QueryMinerClients();
             Write.UserLine("小提示：鼠标配合ctrl和shift可以多选矿机", ConsoleColor.Yellow, isNotice: false);
         }
 
@@ -81,17 +81,8 @@ namespace NTMiner.Views {
             base.OnClosing(e);
         }
 
-        public void ShowThisWindow() {
-            this.Show();
-            if (WindowState == WindowState.Minimized) {
-                this.WindowState = WindowState.Normal;
-            }
-            else {
-                var oldState = WindowState;
-                this.WindowState = WindowState.Minimized;
-                this.WindowState = oldState;
-            }
-            this.Activate();
+        public void ShowThisWindow(bool isToggle) {
+            AppHelper.ShowWindow(this, isToggle);
         }
 
         protected override void OnClosed(EventArgs e) {

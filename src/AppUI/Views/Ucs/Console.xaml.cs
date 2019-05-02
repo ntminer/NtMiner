@@ -17,7 +17,7 @@ namespace NTMiner.Views.Ucs {
 
         public Console() {
             InitializeComponent();
-            Write.WriteUserLineMethod = WriteLine;
+            Write.UserLineMethod = WriteLine;
         }
 
         private ScrollViewer _scrollView;

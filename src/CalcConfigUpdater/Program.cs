@@ -7,23 +7,19 @@ using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Timers;
 
 namespace NTMiner {
     class Program {
         static void Main(string[] args) {
+            VirtualRoot.StartTimer();
             try {
                 // 将服务器地址设为localhost从而使用内网ip访问免于验证用户名密码
                 AssemblyInfo.OfficialServerHost = "localhost";
                 NTMinerRegistry.SetAutoBoot("NTMiner.CalcConfigUpdater", true);
-                const int minutes = 60 * 1000;
-                Timer t = new Timer(10 * minutes) {
-                    Enabled = true
-                };
-                t.Elapsed += (object sender, ElapsedEventArgs e) => {
-                    UpdateAsync();
-                };
-                t.Start();
+                VirtualRoot.On<Per10MinuteEvent>("每10分钟更新收益计算器", LogEnum.DevConsole,
+                    action: message => {
+                        UpdateAsync();
+                    });
                 UpdateAsync();
                 Write.UserInfo("输入exit并回车可以停止服务！");
 

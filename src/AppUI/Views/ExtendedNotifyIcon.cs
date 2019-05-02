@@ -35,17 +35,7 @@ namespace NTMiner.Views {
         }
 
         public void ToggleWindow() {
-            Window mainWindow = System.Windows.Application.Current.MainWindow;
-            if (mainWindow == null) {
-                VirtualRoot.Execute(new ShowMainWindowCommand());
-                return;
-            }
-            if (mainWindow.WindowState == WindowState.Minimized) {
-                mainWindow.WindowState = WindowState.Normal;
-            }
-            else {
-                mainWindow.WindowState = WindowState.Minimized;
-            }
+            VirtualRoot.Execute(new ShowMainWindowCommand(isToggle: true));
         }
 
         #region IDisposable Members

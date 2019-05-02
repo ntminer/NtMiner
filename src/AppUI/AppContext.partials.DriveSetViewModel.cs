@@ -16,7 +16,7 @@ namespace NTMiner {
                     _drives.Add(new Drive(item));
                 }
                 this.Apply = new DelegateCommand(() => {
-                    Current.VirtualMemorySet.SetVirtualMemoryOfDrive();
+                    Current.VirtualMemorySetVm.SetVirtualMemoryOfDrive();
                 });
             }
 
@@ -34,7 +34,7 @@ namespace NTMiner {
 
             public VirtualMemorySetViewModel VirtualMemorySet {
                 get {
-                    return Current.VirtualMemorySet;
+                    return Current.VirtualMemorySetVm;
                 }
             }
         }
