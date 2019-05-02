@@ -139,15 +139,16 @@ namespace NTMiner {
             VirtualRoot.Window<CloseMainWindowCommand>("处理关闭主界面命令", LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
-                        MainWindow mainWindow = MainWindow as MainWindow;
-                        if (mainWindow != null) {
-                            Write.ResetWriteUserLineMethod();
-                            UIThread.StopTimer();
-                            MainWindow = NotiCenterWindow.Instance;
-                            mainWindow.Close();
-                            NTMinerRoot.IsUiVisible = false;
-                            AppContext.Close();
+                        Write.ResetWriteUserLineMethod();
+                        UIThread.StopTimer();
+                        MainWindow = NotiCenterWindow.Instance;
+                        foreach (Window window in Windows) {
+                            if (window != NotiCenterWindow.Instance) {
+                                window.Close();
+                            }
                         }
+                        NTMinerRoot.IsUiVisible = false;
+                        AppContext.Close();
                     });
                 });
             #region 周期确保守护进程在运行
