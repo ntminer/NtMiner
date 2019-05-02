@@ -144,7 +144,6 @@ namespace NTMiner {
                 action: message => {
                     UIThread.Execute(() => {
                         Write.SetConsoleUserLineMethod();
-                        UIThread.StopTimer();
                         MainWindow = NotiCenterWindow.Instance;
                         foreach (Window window in Windows) {
                             if (window != NotiCenterWindow.Instance) {

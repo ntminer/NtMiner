@@ -30,14 +30,5 @@ namespace NTMiner {
                 VirtualRoot.Elapsed();
             }, Dispatcher.CurrentDispatcher);
         }
-
-        public static void StopTimer() {
-            if (_dispatcherTimer != null) {
-                _dispatcherTimer.Stop();
-                _dispatcherTimer.IsEnabled = false;
-                _dispatcherTimer = null;
-                VirtualRoot.StartTimer();
-            }
-        }
     }
 }
