@@ -6,9 +6,9 @@ using System.Windows.Input;
 
 namespace NTMiner.Views.Ucs {
     public partial class GpuOverClock : UserControl {
-        public MinerProfileViewModel Vm {
+        public AppContext.MinerProfileViewModel Vm {
             get {
-                return (MinerProfileViewModel)this.DataContext;
+                return (AppContext.MinerProfileViewModel)this.DataContext;
             }
         }
 

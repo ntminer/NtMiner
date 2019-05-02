@@ -3,7 +3,7 @@
         public ConsoleViewModel() {
         }
 
-        public MinerProfileViewModel MinerProfile {
+        public AppContext.MinerProfileViewModel MinerProfile {
             get {
                 return AppContext.Current.MinerProfileVm;
             }

@@ -29,7 +29,7 @@ namespace NTMiner.Views.Ucs {
         private Calc(CoinViewModel coin) {
             InitializeComponent();
             Vm.SelectedCoinVm = coin;
-            AppContext.On<CalcConfigSetInitedEvent>("收益计算器数据集刷新后刷新VM", LogEnum.DevConsole,
+            VirtualRoot.On<CalcConfigSetInitedEvent>("收益计算器数据集刷新后刷新VM", LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(()=> {
                         Vm.ReRender();

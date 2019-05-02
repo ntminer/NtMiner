@@ -16,26 +16,6 @@ namespace NTMiner.Vms {
             this.ConfigControlCenterHost = new DelegateCommand(() => {
                 ControlCenterHostConfig.ShowWindow();
             });
-            AppContext.On<Per1SecondEvent>("挖矿计时秒表", LogEnum.None,
-                action: message => {
-                    DateTime now = DateTime.Now;
-                    this.BootTimeSpan = now - NTMinerRoot.Instance.CreatedOn;
-                    if (NTMinerRoot.IsAutoStart && VirtualRoot.SecondCount <= 10 && !NTMinerRoot.IsAutoStartCanceled) {
-                        return;
-                    }
-                    var mineContext = NTMinerRoot.Instance.CurrentMineContext;
-                    if (mineContext != null) {
-                        this.MineTimeSpan = now - mineContext.CreatedOn;
-                        if (!this.MinerProfile.IsMining) {
-                            this.MinerProfile.IsMining = true;
-                        }
-                    }
-                    else {
-                        if (this.MinerProfile.IsMining) {
-                            this.MinerProfile.IsMining = false;
-                        }
-                    }
-                });
         }
 
         public AppContext AppContext {
@@ -94,7 +74,7 @@ namespace NTMiner.Vms {
             }
         }
 
-        public MinerProfileViewModel MinerProfile {
+        public AppContext.MinerProfileViewModel MinerProfile {
             get {
                 return AppContext.Current.MinerProfileVm;
             }

@@ -35,21 +35,12 @@ namespace NTMiner.Vms {
                     MinerProfile.MinerName = thisPcName;
                 }, icon: IconConst.IconConfirm);
             });
-            AppContext.On<StartingMineFailedEvent>("开始挖矿失败", LogEnum.DevConsole,
-                action: message => {
-                    this.MinerProfile.IsMining = false;
-                    Write.UserFail(message.Message);
-                });
             if (DevMode.IsDevMode) {
-                AppContext.On<ServerJsonVersionChangedEvent>("开发者模式展示ServerJsonVersion", LogEnum.DevConsole,
-                    action: message => {
-                        this.ServerJsonVersion = GetServerJsonVersion();
-                    });
                 _serverJsonVersion = GetServerJsonVersion();
             }
         }
 
-        private string GetServerJsonVersion() {
+        public string GetServerJsonVersion() {
             string serverJsonVersion = string.Empty;
             if (NTMinerRoot.Instance.LocalAppSettingSet.TryGetAppSetting("ServerJsonVersion", out IAppSetting setting) && setting.Value != null) {
                 serverJsonVersion = setting.Value.ToString();
@@ -96,7 +87,7 @@ namespace NTMiner.Vms {
             }
         }
 
-        public MinerProfileViewModel MinerProfile {
+        public AppContext.MinerProfileViewModel MinerProfile {
             get {
                 return AppContext.Current.MinerProfileVm;
             }

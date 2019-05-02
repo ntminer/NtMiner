@@ -33,7 +33,7 @@ namespace NTMiner.Views.Ucs {
         private readonly List<Bus.IDelegateHandler> _handlers = new List<Bus.IDelegateHandler>();
         private CalcConfig() {
             InitializeComponent();
-            AppContext.On<CalcConfigSetInitedEvent>("收益计算器数据集刷新后刷新VM", LogEnum.DevConsole,
+            VirtualRoot.On<CalcConfigSetInitedEvent>("收益计算器数据集刷新后刷新VM", LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
                         Vm.Refresh();

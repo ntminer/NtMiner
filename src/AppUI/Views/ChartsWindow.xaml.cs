@@ -40,7 +40,7 @@ namespace NTMiner.Views {
             this.Activated += changeNotiCenterWindowLocation;
             this.LocationChanged += changeNotiCenterWindowLocation;
             #region 总算力
-            AppContext.On<Per10SecondEvent>("周期刷新总算力图", LogEnum.DevConsole,
+            VirtualRoot.On<Per10SecondEvent>("周期刷新总算力图", LogEnum.DevConsole,
                 action: message => {
                     RefreshTotalSpeedChart(limit: 1);
                 }).AddToCollection(_handlers);

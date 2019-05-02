@@ -37,7 +37,7 @@ namespace NTMiner.Views {
             Height = SystemParameters.FullPrimaryScreenHeight * 0.95;
             this.DataContext = AppContext.Current.MinerClientsWindowVm;
             InitializeComponent();
-            AppContext.On<Per1SecondEvent>("刷新倒计时秒表", LogEnum.None,
+            VirtualRoot.On<Per1SecondEvent>("刷新倒计时秒表", LogEnum.None,
                 action: message => {
                     var minerClients = Vm.MinerClients.ToArray();
                     if (Vm.CountDown > 0) {
@@ -47,7 +47,7 @@ namespace NTMiner.Views {
                         }
                     }
                 }).AddToCollection(_handlers);
-            AppContext.On<Per10SecondEvent>("周期刷新在线客户端列表", LogEnum.DevConsole,
+            VirtualRoot.On<Per10SecondEvent>("周期刷新在线客户端列表", LogEnum.DevConsole,
                 action: message => {
                     AppContext.Current.MinerClientsWindowVm.QueryMinerClients();
                 }).AddToCollection(_handlers);

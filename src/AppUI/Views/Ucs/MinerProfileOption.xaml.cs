@@ -14,9 +14,9 @@ namespace NTMiner.Views.Ucs {
             }, ucFactory: (window) => new MinerProfileOption(), fixedSize: true);
         }
 
-        public MinerProfileViewModel Vm {
+        public AppContext.MinerProfileViewModel Vm {
             get {
-                return (MinerProfileViewModel)this.DataContext;
+                return (AppContext.MinerProfileViewModel)this.DataContext;
             }
         }
 
