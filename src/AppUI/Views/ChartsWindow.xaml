@@ -148,10 +148,6 @@
 			VerticalScrollBarVisibility="Visible"
 			PreviewMouseDown="ScrollViewer_PreviewMouseDown"
 			xmlns:sys="clr-namespace:System;assembly=mscorlib">
-			<ScrollViewer.Resources>
-				<sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">10</sys:Double>
-				<sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarButtonHeightKey}">0</sys:Double>
-			</ScrollViewer.Resources>
 			<Viewbox Stretch="Uniform" VerticalAlignment="Top">
 				<ItemsControl
 					Width="1440"
