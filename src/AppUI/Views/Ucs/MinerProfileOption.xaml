@@ -97,7 +97,7 @@
 						IsChecked="{Binding IsNoUi}"
 						Content="关闭主窗口时切换为无界面模式运行">
 					</CheckBox>
-					<TextBlock Foreground="Red">（可以减少一点CPU使用率增加稳定性）</TextBlock>
+					<TextBlock Foreground="Red">（关闭界面可以减少一点CPU使用率增加稳定性）</TextBlock>
 				</WrapPanel>
 
 				<WrapPanel Margin="0 2">
@@ -116,12 +116,11 @@
 		</GroupBox>
 		<GroupBox Grid.Row="2" Header="小知识" Foreground="{StaticResource LableColor}">
 			<StackPanel>
-				<TextBlock>■ 挖ETH至少需要4G显存，每张显卡对应设置4G虚拟内存，比如6张显卡虚拟内存应设置为24G或更多</TextBlock>
-				<TextBlock>■ 显卡机的功耗主要在显卡，矿机的其它组件合计功耗不超过50瓦</TextBlock>
-				<TextBlock>■ 挖矿对内存没有要求，主流内存功耗在1瓦左右</TextBlock>
-				<TextBlock>■ 矿机的CPU功耗约在15瓦左右</TextBlock>
-				<TextBlock>■ 开源矿工永远不会破解国人开发的内核</TextBlock>
-				<TextBlock>■ 开源矿工是靠拦截老外的且只拦截老外的内核开发费支撑的永远不会额外增加矿工支出</TextBlock>
+				<TextBlock TextWrapping="Wrap">■ 显卡机的功耗主要在显卡，矿机的其它组件合计功耗不超过50瓦</TextBlock>
+				<TextBlock TextWrapping="Wrap">■ 挖矿对内存没有要求，主流内存功耗在1瓦左右</TextBlock>
+				<TextBlock TextWrapping="Wrap">■ 矿机的CPU功耗约在15瓦左右</TextBlock>
+				<TextBlock TextWrapping="Wrap">■ 开源矿工永远不会破解国人开发的内核</TextBlock>
+				<TextBlock TextWrapping="Wrap">■ 开源矿工是靠拦截老外的且只拦截老外的内核开发费支撑的永远不会增加矿工支出</TextBlock>
 			</StackPanel>
 		</GroupBox>
 	</Grid>
