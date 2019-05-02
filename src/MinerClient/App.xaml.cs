@@ -69,7 +69,7 @@ namespace NTMiner {
                                 NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage("开源矿工已切换为以无界面模式运行");
                             }
                             System.Drawing.Icon icon = new System.Drawing.Icon(GetResourceStream(new Uri("pack://application:,,,/NTMiner;component/logo.ico")).Stream);
-                            AppHelper.NotifyIcon = ExtendedNotifyIcon.Create(icon, "挖矿端", isMinerStudio: false);
+                            AppHelper.NotifyIcon = ExtendedNotifyIcon.Create(icon, "开源矿工挖矿端", isMinerStudio: false);
                             #region 处理显示主界面命令
                             VirtualRoot.Window<ShowMainWindowCommand>("处理显示主界面命令", LogEnum.None,
                                 action: message => {
