@@ -50,7 +50,6 @@ namespace NTMiner {
         }
 
         private AppContext() {
-            Logger.InfoDebugLine("AppContext.ctor");
         }
 
         private MinerClientsWindowViewModel _minerClientsWindowVm;

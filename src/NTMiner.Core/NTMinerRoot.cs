@@ -255,8 +255,8 @@ namespace NTMiner {
                     Cleaner.CleanKernels();
                 });
             #endregion
-            #region 每10秒钟检查是否需要重启
-            VirtualRoot.On<Per10SecondEvent>("每10秒钟阻止windows系统休眠、检查是否需要重启", LogEnum.None,
+            #region 每20秒钟检查是否需要重启
+            VirtualRoot.On<Per20SecondEvent>("每20秒钟阻止windows系统休眠、检查是否需要重启", LogEnum.None,
                 action: message => {
                     // 阻止windows休眠
                     Windows.Power.PreventWindowsSleep();
@@ -661,14 +661,6 @@ namespace NTMiner {
                             }
                             if (_gpuSet == null || (_gpuSet != EmptyGpuSet.Instance && _gpuSet.Count == 0)) {
                                 _gpuSet = EmptyGpuSet.Instance;
-                            }
-                            if (_gpuSet != EmptyGpuSet.Instance) {
-                                VirtualRoot.On<Per5SecondEvent>("周期刷新显卡状态", LogEnum.None,
-                                    action: message => {
-                                        if (IsUiVisible) {
-                                            _gpuSet.LoadGpuState();
-                                        }
-                                    });
                             }
                         }
                     }
