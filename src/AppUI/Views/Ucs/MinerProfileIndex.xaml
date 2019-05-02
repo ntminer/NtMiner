@@ -207,7 +207,6 @@
 						<controls:KbButton 
 							Margin="4 0 0 0"
 							Padding="2"
-							Visibility="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.IsUserMode, Converter={StaticResource BoolToVisibilityInvertConverter}}"
 							ToolTip="复制钱包"
 							Background="Transparent" BorderThickness="0"
 							Command="{Binding MinerProfile.CoinVm.CoinProfile.CopyWallet}"
@@ -273,6 +272,20 @@
 								Stretch="Fill" />
 						</controls:KbButton>
 					</Grid>
+					<controls:KbButton 
+						Margin="4 0 0 0"
+						Padding="2"
+						ToolTip="复制钱包"
+						Background="Transparent" BorderThickness="0"
+						Command="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.PoolProfileVm.CopyWallet}"
+						HorizontalAlignment="Left">
+						<Path
+							Width="14"
+							Height="14"
+							Data="{StaticResource Icon_Copy}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</controls:KbButton>
 				</WrapPanel>
 				
 				<WrapPanel Margin="0 2">
@@ -542,7 +555,6 @@
 								<controls:KbButton
 									Margin="4 0 0 0"
 									Padding="2" 
-									Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.IsUserMode, Converter={StaticResource BoolToVisibilityInvertConverter}}"
 									ToolTip="复制钱包地址"
 									Background="Transparent" BorderThickness="0"
 									Command="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.CopyDualCoinWallet}"
@@ -607,6 +619,20 @@
 										Stretch="Fill" />
 								</controls:KbButton>
 							</Grid>
+							<controls:KbButton
+								Margin="4 0 0 0"
+								Padding="2" 
+								ToolTip="复制钱包地址"
+								Background="Transparent" BorderThickness="0"
+								Command="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.PoolProfileVm.CopyWallet}"
+								HorizontalAlignment="Left">
+								<Path
+									Width="14"
+									Height="14"
+									Data="{StaticResource Icon_Copy}"
+									Fill="{StaticResource IconFillColor}"
+									Stretch="Fill" />
+							</controls:KbButton>
 						</WrapPanel>
 					</StackPanel>
 				</WrapPanel>
