@@ -20,7 +20,7 @@ namespace NTMiner {
                 this.Kernel = kernel;
                 this.CoinKernel = coinKernel;
                 this.MainCoinWallet = mainCoinWallet;
-                this.ProcessDisappearedCound = 0;
+                this.AutoRestartKernelCount = 0;
                 this.CommandLine = commandLine;
                 this.CreatedOn = DateTime.Now;
                 this.PipeFileName = "pip_" + DateTime.Now.Ticks.ToString() + ".log";
@@ -40,7 +40,7 @@ namespace NTMiner {
 
             public string MainCoinWallet { get; private set; }
 
-            public int ProcessDisappearedCound { get; set; }
+            public int AutoRestartKernelCount { get; set; }
 
             public string PipeFileName { get; private set; }
 

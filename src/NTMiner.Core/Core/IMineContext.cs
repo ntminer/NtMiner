@@ -9,7 +9,7 @@ namespace NTMiner.Core {
         IKernel Kernel { get; }
         ICoinKernel CoinKernel { get; }
         string MainCoinWallet { get; }
-        int ProcessDisappearedCound { get; set; }
+        int AutoRestartKernelCount { get; set; }
         string PipeFileName { get; }
 
         string CommandLine { get; }
