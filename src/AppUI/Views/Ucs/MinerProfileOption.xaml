@@ -20,17 +20,19 @@
 				<WrapPanel Margin="0 2">
 					<CheckBox
 						Padding="0"
-						Content="当内核意外退出，尝试重启内核3次"
+						Content="如果内核进程意外消失，尝试重启内核3次"
 						IsChecked="{Binding IsAutoRestartKernel}" />
 				</WrapPanel>
 				<WrapPanel Margin="0 2">
 					<CheckBox
 						Padding="0"
-						Content="当？分钟收益没有增加重启内核："
 						IsChecked="{Binding IsNoShareRestartKernel}">
-					</CheckBox>
-					<TextBox Width="46" Margin="2 0" Background="White" Text="{Binding NoShareRestartKernelMinutes}" HorizontalAlignment="Left"></TextBox>
-					<TextBlock VerticalAlignment="Center" Text="分钟"></TextBlock>
+						<WrapPanel>
+							<TextBlock>如果</TextBlock>
+							<TextBox Width="46" Margin="2 0" Background="White" Text="{Binding NoShareRestartKernelMinutes}" HorizontalAlignment="Left"></TextBox>
+							<TextBlock>分钟收益没有增加重启内核</TextBlock>
+						</WrapPanel>
+					</CheckBox>                    
 				</WrapPanel>
 				<WrapPanel Margin="0 2">
 					<CheckBox
