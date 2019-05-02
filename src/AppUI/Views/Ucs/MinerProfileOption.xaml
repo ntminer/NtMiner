@@ -18,35 +18,35 @@
 		<GroupBox Header="全局" IsEnabled="{Binding IsFreeClient}">
 			<StackPanel>
 				<WrapPanel Margin="0 2">
-					<controls:KbCheckBox
-							IconColor="{StaticResource IconFillColor}"
-							IsChecked="{Binding IsAutoRestartKernel}" />
-					<TextBlock Text="当内核意外退出，尝试重启内核3次"></TextBlock>
+					<CheckBox
+						Padding="0"
+						Content="当内核意外退出，尝试重启内核3次"
+						IsChecked="{Binding IsAutoRestartKernel}" />
 				</WrapPanel>
 				<WrapPanel Margin="0 2">
-					<controls:KbCheckBox
-							IconColor="{StaticResource IconFillColor}"
-							IsChecked="{Binding IsNoShareRestartKernel}">
-					</controls:KbCheckBox>
-					<TextBlock VerticalAlignment="Center" Text="当？分钟收益没有增加重启内核："></TextBlock>
+					<CheckBox
+						Padding="0"
+						Content="当？分钟收益没有增加重启内核："
+						IsChecked="{Binding IsNoShareRestartKernel}">
+					</CheckBox>
 					<TextBox Width="46" Margin="2 0" Background="White" Text="{Binding NoShareRestartKernelMinutes}" HorizontalAlignment="Left"></TextBox>
 					<TextBlock VerticalAlignment="Center" Text="分钟"></TextBlock>
 				</WrapPanel>
 				<WrapPanel Margin="0 2">
-					<controls:KbCheckBox
-						IconColor="{StaticResource IconFillColor}"
+					<CheckBox
+						Padding="0"
+						Content="每运行？小时重启内核："
 						IsChecked="{Binding IsPeriodicRestartKernel}">
-					</controls:KbCheckBox>
-					<TextBlock VerticalAlignment="Center" Text="每运行？小时重启内核："></TextBlock>
+					</CheckBox>
 					<TextBox Width="46" Margin="2 0" Background="White" Text="{Binding PeriodicRestartKernelHours}" HorizontalAlignment="Left"></TextBox>
 					<TextBlock VerticalAlignment="Center" Text="小时"></TextBlock>
 				</WrapPanel>
 				<WrapPanel Margin="0 2">
-					<controls:KbCheckBox
-						IconColor="{StaticResource IconFillColor}"
+					<CheckBox
+						Padding="0"
+						Content="每运行？小时重启电脑："
 						IsChecked="{Binding IsPeriodicRestartComputer}">
-					</controls:KbCheckBox>
-					<TextBlock VerticalAlignment="Center" Text="每运行？小时重启电脑："></TextBlock>
+					</CheckBox>
 					<TextBox Width="46" Margin="2 0" Background="White" Text="{Binding PeriodicRestartComputerHours}" HorizontalAlignment="Left"></TextBox>
 					<TextBlock VerticalAlignment="Center" Text="小时"></TextBlock>
 				</WrapPanel>
@@ -72,27 +72,27 @@
 		<GroupBox x:Name="GroupSystemSetting" Grid.Row="1" Header="系统设置">
 			<StackPanel>
 				<WrapPanel Margin="0 2">
-					<controls:KbCheckBox 
+					<CheckBox 
+						Padding="0"
 						IsChecked="{Binding IsShowInTaskbar, Converter={StaticResource BoolInvertConverter}}"
-						IconColor="{StaticResource IconFillColor}"
 						Content="最小化开源矿工主窗口时隐藏任务栏图标">
-					</controls:KbCheckBox>
+					</CheckBox>
 				</WrapPanel>
 				
 				<WrapPanel Margin="0 2">
-					<controls:KbCheckBox 
+					<CheckBox 
+						Padding="0"
 						IsChecked="{Binding IsNoUi}"
-						IconColor="{StaticResource IconFillColor}"
-						Content="关闭主窗口时以无界面模式运行">
-					</controls:KbCheckBox>
+						Content="关闭主窗口时切换为无界面模式运行">
+					</CheckBox>
 				</WrapPanel>
 
 				<WrapPanel Margin="0 2">
-					<controls:KbCheckBox 
+					<CheckBox 
+						Padding="0"
 						IsChecked="{Binding IsShowNotifyIcon}"
-						IconColor="{StaticResource IconFillColor}"
 						Content="显示挖矿端系统托盘图标">
-					</controls:KbCheckBox>
+					</CheckBox>
 				</WrapPanel>
 
 				<WrapPanel Margin="0 2">
