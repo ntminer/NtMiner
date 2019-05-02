@@ -27,15 +27,13 @@
 					<ColumnDefinition Width="*"></ColumnDefinition>
 				</Grid.ColumnDefinitions>
 				<WrapPanel>
-					<controls:KbCheckBox
+					<CheckBox
 						Content="开机启动"
-						IconColor="{StaticResource IconFillColor}"
 						IsChecked="{Binding MinerProfile.IsAutoBoot}" />
-					<controls:KbCheckBox
+					<CheckBox
 						Margin="10 0 0 0"
 						Content="自动挖矿"
 						VerticalAlignment="Top"
-						IconColor="{StaticResource IconFillColor}"
 						IsChecked="{Binding MinerProfile.IsAutoStart}" />
 				</WrapPanel>
 				<WrapPanel Grid.Column="1" HorizontalAlignment="Right">

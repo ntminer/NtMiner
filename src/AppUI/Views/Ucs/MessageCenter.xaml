@@ -22,12 +22,11 @@
 				</Paragraph>
 			</FlowDocument>
 		</FlowDocumentScrollViewer>
-		<controls:KbCheckBox 
+		<CheckBox 
 			Margin="0 2 14 0"
 			HorizontalAlignment="Right"
 			VerticalAlignment="Top"
 			x:Name="ChkbIsConsoleAutoScrollToEnd"
-			IconColor="{StaticResource IconFillColor}"
 			IsChecked="True" />
 	</Grid>
 </UserControl>

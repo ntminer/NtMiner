@@ -25,9 +25,9 @@
 
 		<WrapPanel Margin="0 2">
 			<TextBlock Style="{StaticResource LblTb}"></TextBlock>
-			<controls:KbCheckBox 
+			<CheckBox 
+				VerticalAlignment="Center"
 				Content="启用"
-				IconColor="{StaticResource IconFillColor}"
 				IsChecked="{Binding IsEnabled}" />
 		</WrapPanel>
 		

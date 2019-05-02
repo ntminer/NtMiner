@@ -72,12 +72,11 @@
 
 			<WrapPanel Margin="0 2" Visibility="{Binding IsSupportDualMineVisible}">
 				<TextBlock Style="{StaticResource LblTb}"></TextBlock>
-				<controls:KbCheckBox 
+				<CheckBox 
 					VerticalContentAlignment="Center"
 					Height="26"
 					IsEnabled="{x:Static vm:AppStatic.IsDebugMode}"
 					Content="支持双挖"
-					IconColor="{StaticResource IconFillColor}"
 					IsChecked="{Binding IsSupportDualMine}" />
 				<WrapPanel 
 					Margin="10 0 0 0" 
@@ -95,11 +94,10 @@
 			<StackPanel Visibility="{Binding IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}">
 				<WrapPanel Margin="0 2">
 					<TextBlock Style="{StaticResource LblTb}"></TextBlock>
-					<controls:KbCheckBox 
+					<CheckBox 
 						VerticalContentAlignment="Center"
 						IsEnabled="{x:Static vm:AppStatic.IsDebugMode}"
 						Content="自动双挖权重"
-						IconColor="{StaticResource IconFillColor}"
 						IsChecked="{Binding IsAutoDualWeight}" />
 					<TextBlock Margin="8 0 0 0" Text="双挖权重下限" VerticalAlignment="Center"></TextBlock>
 					<TextBox 

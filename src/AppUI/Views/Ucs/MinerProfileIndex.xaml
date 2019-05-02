@@ -331,9 +331,8 @@
 						VerticalAlignment="Center"
 						IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}" 
 						Visibility="{Binding MinerProfile.CoinVm.CoinKernel.IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}">
-						<controls:KbCheckBox
+						<CheckBox
 							Content="启用双挖"
-							IconColor="{StaticResource IconFillColor}"
 							IsChecked="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled}" />
 					</WrapPanel>
 				</WrapPanel>
@@ -347,10 +346,9 @@
 							<TextBlock
 								Style="{StaticResource LblTb}"
 								Text="双挖权重" />
-							<controls:KbCheckBox
+							<CheckBox
 								Content="自动权重"
 								VerticalContentAlignment="Center"
-								IconColor="{StaticResource IconFillColor}"
 								IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}"
 								Visibility="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.KernelInputVm.IsAutoDualWeight, Converter={StaticResource BoolToVisibilityConverter}}"
 								IsChecked="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsAutoDualWeight}" />

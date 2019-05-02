@@ -8,7 +8,6 @@
                 <ResourceDictionary Source="pack://application:,,,/NTMinerWpf;Component/Styles/KbSkin.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/NTMinerWpf;component/Styles/KbIcon.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/NTMinerWpf;component/Styles/KbButton.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/NTMinerWpf;component/Styles/KbCheckBox.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/NTMinerWpf;component/Styles/KbTextBox.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/NTMinerWpf;component/Styles/KbComboBox.xaml" />
 

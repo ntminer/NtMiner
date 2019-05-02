@@ -53,7 +53,6 @@
   <ItemGroup>
     <Compile Include="ColorMapper.cs" />
     <Compile Include="Controls\KbButton.cs" />
-    <Compile Include="Controls\KbCheckBox.cs" />
     <Compile Include="Controls\KbComboBox.cs" />
     <Compile Include="Controls\KbLinkButton.cs" />
     <Compile Include="Controls\KbRadioButton.cs" />
@@ -141,10 +140,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Styles\KbButton.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Styles\KbCheckBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -12,14 +12,13 @@
 		<vm:ConsoleViewModel></vm:ConsoleViewModel>
 	</UserControl.DataContext>
 	<Grid Background="Black">
-		<controls:KbCheckBox 
+		<CheckBox 
 			x:Name="ChkbIsConsoleAutoScrollToEnd"
 			Margin="0 -16 0 0"
 			Width="16"
 			HorizontalAlignment="Right"
 			VerticalAlignment="Top"
 			ToolTip="自动滚屏"
-			IconColor="{StaticResource IconFillColor}"
 			IsChecked="True" />
 		<FlowDocumentScrollViewer 
 			VerticalScrollBarVisibility="Visible"
