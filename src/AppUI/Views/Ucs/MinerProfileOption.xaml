@@ -29,7 +29,7 @@
 						IsChecked="{Binding IsNoShareRestartKernel}">
 						<WrapPanel>
 							<TextBlock>如果</TextBlock>
-							<TextBox Width="46" Margin="2 0" Background="White" Text="{Binding NoShareRestartKernelMinutes}" HorizontalAlignment="Left"></TextBox>
+							<TextBox Width="40" Margin="2 0" Background="White" Text="{Binding NoShareRestartKernelMinutes}" HorizontalAlignment="Left"></TextBox>
 							<TextBlock>分钟收益没有增加重启内核</TextBlock>
 						</WrapPanel>
 					</CheckBox>                    
@@ -37,20 +37,24 @@
 				<WrapPanel Margin="0 2">
 					<CheckBox
 						Padding="0"
-						Content="每运行？小时重启内核："
 						IsChecked="{Binding IsPeriodicRestartKernel}">
+						<WrapPanel>
+							<TextBlock>每运行</TextBlock>
+							<TextBox Width="40" Margin="2 0" Background="White" Text="{Binding PeriodicRestartKernelHours}" HorizontalAlignment="Left"></TextBox>
+							<TextBlock>小时重启内核</TextBlock>
+						</WrapPanel>
 					</CheckBox>
-					<TextBox Width="46" Margin="2 0" Background="White" Text="{Binding PeriodicRestartKernelHours}" HorizontalAlignment="Left"></TextBox>
-					<TextBlock VerticalAlignment="Center" Text="小时"></TextBlock>
 				</WrapPanel>
 				<WrapPanel Margin="0 2">
 					<CheckBox
 						Padding="0"
-						Content="每运行？小时重启电脑："
 						IsChecked="{Binding IsPeriodicRestartComputer}">
+						<WrapPanel>
+							<TextBlock>每运行</TextBlock>
+							<TextBox Width="40" Margin="2 0" Background="White" Text="{Binding PeriodicRestartComputerHours}" HorizontalAlignment="Left"></TextBox>
+							<TextBlock>小时重启电脑</TextBlock>
+						</WrapPanel>
 					</CheckBox>
-					<TextBox Width="46" Margin="2 0" Background="White" Text="{Binding PeriodicRestartComputerHours}" HorizontalAlignment="Left"></TextBox>
-					<TextBlock VerticalAlignment="Center" Text="小时"></TextBlock>
 				</WrapPanel>
 			</StackPanel>
 		</GroupBox>
