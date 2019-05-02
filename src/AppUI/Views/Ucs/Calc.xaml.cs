@@ -6,6 +6,9 @@ using System.Windows.Controls;
 namespace NTMiner.Views.Ucs {
     public partial class Calc : UserControl {
         public static void ShowWindow(CoinViewModel coin) {
+            if (coin == null) {
+                coin = AppContext.Current.MinerProfileVm.CoinVm;
+            }
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "收益计算器",
                 IconName = "Icon_Calc",
