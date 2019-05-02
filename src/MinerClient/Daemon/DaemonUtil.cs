@@ -17,21 +17,20 @@ namespace NTMiner.Daemon {
             string processName = "NTMinerDaemon";
             Process[] processes = Process.GetProcessesByName(processName);
             if (processes.Length != 0) {
-                Client.NTMinerDaemonService.GetDaemonVersionAsync((thatVersion, exception) => {
-                    try {
-                        string thisVersion = ThisNTMinerDaemonFileVersion;
-                        if (thatVersion != thisVersion) {
-                            Logger.InfoDebugLine($"发现新版Daemon：{thatVersion}->{thisVersion}");
-                            Client.NTMinerDaemonService.CloseDaemon();
-                            System.Threading.Thread.Sleep(1000);
-                            Windows.TaskKill.Kill(processName, waitForExit: true);
-                            ExtractRunNTMinerDaemonAsync();
-                        }
+                string thatVersion = NTMinerRegistry.GetDaemonVersion();
+                try {
+                    string thisVersion = ThisNTMinerDaemonFileVersion;
+                    if (thatVersion != thisVersion) {
+                        Logger.InfoDebugLine($"发现新版Daemon：{thatVersion}->{thisVersion}");
+                        Client.NTMinerDaemonService.CloseDaemon();
+                        System.Threading.Thread.Sleep(1000);
+                        Windows.TaskKill.Kill(processName, waitForExit: true);
+                        ExtractRunNTMinerDaemonAsync();
                     }
-                    catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
-                    }
-                });
+                }
+                catch (Exception e) {
+                    Logger.ErrorDebugLine(e.Message, e);
+                }
             }
             else {
                 ExtractRunNTMinerDaemonAsync();

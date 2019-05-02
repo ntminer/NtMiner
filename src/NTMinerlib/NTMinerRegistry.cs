@@ -198,6 +198,23 @@ namespace NTMiner {
         }
         #endregion
 
+        #region DaemonVersion
+        public static string GetDaemonVersion() {
+            object value = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, "DaemonVersion");
+            if (value == null) {
+                return string.Empty;
+            }
+            return (string)value;
+        }
+
+        public static void SetDaemonVersion(string version) {
+            if (version == null) {
+                version = string.Empty;
+            }
+            Windows.Registry.SetValue(Registry.Users, NTMinerRegistrySubKey, "DaemonVersion", version);
+        }
+        #endregion
+
         #region GetClientId
         public static Guid GetClientId() {
             Guid id;
