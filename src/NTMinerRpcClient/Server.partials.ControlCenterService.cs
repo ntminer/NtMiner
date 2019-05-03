@@ -68,6 +68,7 @@ namespace NTMiner {
             #endregion
 
             #region GetUsers
+            // TODO:异步化
             /// <summary>
             /// 同步方法
             /// </summary>
@@ -234,6 +235,7 @@ namespace NTMiner {
             #endregion
 
             #region GetMinerGroups
+            // TODO:异步化
             /// <summary>
             /// 同步方法
             /// </summary>
@@ -319,6 +321,7 @@ namespace NTMiner {
             #endregion
 
             #region GetMineWorks
+            // TODO:异步化
             /// <summary>
             /// 同步方法
             /// </summary>
@@ -374,6 +377,7 @@ namespace NTMiner {
             }
 
             #region GetWallets
+            // TODO:异步化
             /// <summary>
             /// 同步方法
             /// </summary>
@@ -417,6 +421,7 @@ namespace NTMiner {
             #endregion
 
             #region GetPools
+            // TODO:异步化
             /// <summary>
             /// 同步方法
             /// </summary>
@@ -463,6 +468,7 @@ namespace NTMiner {
             #endregion
 
             #region GetColumnsShows
+            // TODO:异步化
             /// <summary>
             /// 同步方法
             /// </summary>

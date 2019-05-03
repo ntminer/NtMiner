@@ -213,10 +213,6 @@ namespace NTMiner {
             private OverClockDataServiceFace() { }
 
             #region GetOverClockDatas
-            /// <summary>
-            /// 同步方法
-            /// </summary>
-            /// <returns></returns>
             public void GetOverClockDatasAsync(Action<DataResponse<List<OverClockData>>, Exception> callback) {
                 try {
                     OverClockDatasRequest request = new OverClockDatasRequest {

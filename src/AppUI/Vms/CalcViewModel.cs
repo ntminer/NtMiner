@@ -6,7 +6,7 @@ namespace NTMiner.Vms {
         private double _speed;
         private SpeedUnitViewModel _speedUnitVm = SpeedUnitViewModel.HPerSecond;
 
-        public void ReRender() {
+        private void ReRender() {
             if (SelectedCoinVm == null) {
                 return;
             }
@@ -27,15 +27,18 @@ namespace NTMiner.Vms {
         public CoinViewModel SelectedCoinVm {
             get => _selectedCoinVm;
             set {
-                if (_selectedCoinVm != value) {
-                    _selectedCoinVm = value;
-                    this.Speed = 1;
-                    ICalcConfig calcConfig;
-                    if (NTMinerRoot.Instance.CalcConfigSet.TryGetCalcConfig(SelectedCoinVm, out calcConfig)) {
-                        this.SpeedUnitVm = SpeedUnitViewModel.GetSpeedUnitVm(calcConfig.SpeedUnit);
-                    }
-                    OnPropertyChanged(nameof(SelectedCoinVm));
+                _selectedCoinVm = value;
+                if (_selectedCoinVm != value || this._speed == 0) {
+                    this._speed = 1;
+                    OnPropertyChanged(nameof(Speed));
                 }
+                ICalcConfig calcConfig;
+                if (NTMinerRoot.Instance.CalcConfigSet.TryGetCalcConfig(SelectedCoinVm, out calcConfig)) {
+                    this._speedUnitVm = SpeedUnitViewModel.GetSpeedUnitVm(calcConfig.SpeedUnit);
+                    OnPropertyChanged(nameof(SpeedUnitVm));
+                }
+                ReRender();
+                OnPropertyChanged(nameof(SelectedCoinVm));
             }
         }
 
