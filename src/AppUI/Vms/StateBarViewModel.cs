@@ -1,11 +1,13 @@
 ﻿using NTMiner.Views.Ucs;
 using System;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace NTMiner.Vms {
     public class StateBarViewModel : ViewModelBase {
         private TimeSpan _mineTimeSpan = TimeSpan.Zero;
         private TimeSpan _bootTimeSpan = TimeSpan.Zero;
+        private SolidColorBrush _checkUpdateForeground;
 
         public ICommand ConfigControlCenterHost { get; private set; }
 
@@ -16,11 +18,25 @@ namespace NTMiner.Vms {
             this.ConfigControlCenterHost = new DelegateCommand(() => {
                 ControlCenterHostConfig.ShowWindow();
             });
+            if (NTMinerRoot.CurrentVersion.ToString() != NTMinerRoot.ServerVersion) {
+                _checkUpdateForeground = new SolidColorBrush(Colors.Red);
+            }
+            else {
+                _checkUpdateForeground = new SolidColorBrush(Colors.Black);
+            }
         }
 
         public AppContext AppContext {
             get {
                 return AppContext.Current;
+            }
+        }
+
+        public SolidColorBrush CheckUpdateForeground {
+            get => _checkUpdateForeground;
+            set {
+                _checkUpdateForeground = value;
+                OnPropertyChanged(nameof(CheckUpdateForeground));
             }
         }
 

@@ -36,6 +36,17 @@ namespace NTMiner.Views.Ucs {
                         }
                     }
                 }).AddToCollection(_handlers);
+            VirtualRoot.On<ServerVersionChangedEvent>("发现了服务端新版本", LogEnum.DevConsole,
+                action: message => {
+                    UIThread.Execute(() => {
+                        if (NTMinerRoot.CurrentVersion.ToString() != NTMinerRoot.ServerVersion) {
+                            Vm.CheckUpdateForeground = new SolidColorBrush(Colors.Red);
+                        }
+                        else {
+                            Vm.CheckUpdateForeground = new SolidColorBrush(Colors.Black);
+                        }
+                    });
+                }).AddToCollection(_handlers);
             this.Unloaded += StateBar_Unloaded;
             var gpuSet = NTMinerRoot.Instance.GpuSet;
             // 建议每张显卡至少对应4G虚拟内存，否则标红

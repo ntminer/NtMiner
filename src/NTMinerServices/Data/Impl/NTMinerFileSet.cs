@@ -32,9 +32,16 @@ namespace NTMiner.Data.Impl {
                             _dicById.Add(item.Id, item);
                         }
                     }
+                    RefreshLatest();
                     _isInited = true;
                 }
             }
+        }
+
+        public NTMinerFileData LatestMinerClientFile { get; private set; }
+
+        private void RefreshLatest() {
+            LatestMinerClientFile = _dicById.Values.Where(a => a.AppType == NTMinerAppType.MinerClient).OrderByDescending(a => a.GetVersion()).FirstOrDefault();
         }
 
         public void AddOrUpdate(NTMinerFileData data) {
@@ -51,6 +58,7 @@ namespace NTMiner.Data.Impl {
                         _dicById.Add(data.Id, data);
                         col.Insert(data);
                     }
+                    RefreshLatest();
                 }
             }
         }
@@ -69,6 +77,7 @@ namespace NTMiner.Data.Impl {
                         var col = db.GetCollection<NTMinerFileData>();
                         col.Delete(id);
                     }
+                    RefreshLatest();
                 }
             }
         }

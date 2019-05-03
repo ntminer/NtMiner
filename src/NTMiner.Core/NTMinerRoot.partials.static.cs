@@ -34,12 +34,14 @@ namespace NTMiner {
         static NTMinerRoot() {
             Assembly mainAssembly = Assembly.GetEntryAssembly();
             CurrentVersion = mainAssembly.GetName().Version;
+            ServerVersion = CurrentVersion.ToString();
             CurrentVersionTag = ((AssemblyDescriptionAttribute)mainAssembly.GetCustomAttributes(typeof(AssemblyDescriptionAttribute), inherit: false).First()).Description;
         }
 
         private static readonly NTMinerRoot S_Instance = new NTMinerRoot();
         public static readonly INTMinerRoot Instance = S_Instance;
         public static readonly Version CurrentVersion;
+        public static string ServerVersion;
         public static readonly string CurrentVersionTag;
         public static bool IsNCard {
             get {

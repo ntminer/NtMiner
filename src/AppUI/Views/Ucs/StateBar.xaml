@@ -254,7 +254,7 @@
 								Data="{StaticResource Icon_Update}"
 								Fill="{StaticResource IconFillColor}"
 								Stretch="Fill" />
-							<TextBlock>检查更新</TextBlock>
+							<TextBlock Foreground="{Binding CheckUpdateForeground}">检查更新</TextBlock>
 						</WrapPanel>
 					</controls:KbButton>
 				</WrapPanel>

@@ -7,6 +7,11 @@ namespace NTMiner {
         public MainWindowShowedEvent() { }
     }
 
+    [MessageType(description: "发现了服务端新版本")]
+    public class ServerVersionChangedEvent : EventBase {
+        public ServerVersionChangedEvent() { }
+    }
+
     [MessageType(description: "开始挖矿不成功")]
     public class StartingMineFailedEvent : EventBase {
         public StartingMineFailedEvent(string message) {

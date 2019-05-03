@@ -98,16 +98,23 @@ namespace NTMiner {
         }
         #endregion
 
-        public static void GetJsonFileVersionAsync(string key, Action<string> callback) {
+        public static void GetJsonFileVersionAsync(string key, Action<string, string> callback) {
             AppSettingRequest request = new AppSettingRequest {
                 Key = key
             };
-            PostAsync("AppSetting", nameof(IAppSettingController.AppSetting), request, (DataResponse<AppSettingData> response, Exception e) => {
+            PostAsync("AppSetting", nameof(IAppSettingController.GetJsonFileVersion), request, (string text, Exception e) => {
                 string jsonFileVersion = string.Empty;
-                if (response != null && response.Data != null && response.Data.Value != null) {
-                    jsonFileVersion = response.Data.Value.ToString();
+                string minerClientVersion = string.Empty;
+                if (!string.IsNullOrEmpty(text)) {
+                    string[] parts = text.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (parts.Length > 0) {
+                        jsonFileVersion = parts[0];
+                    }
+                    if (parts.Length > 1) {
+                        minerClientVersion = parts[1];
+                    }
                 }
-                callback?.Invoke(jsonFileVersion);
+                callback?.Invoke(jsonFileVersion, minerClientVersion);
             }, timeountMilliseconds: 10 * 1000);
         }
 
