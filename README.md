@@ -5,7 +5,7 @@
 3. 开源矿工永远不会去破解国人开发的内核；
 
 # 下载地址
-##. 阿里云：[点击下载最新版](https://minerjson.oss-cn-beijing.aliyuncs.com/NTMiner.exe)
+## 阿里云：[点击下载最新版](https://minerjson.oss-cn-beijing.aliyuncs.com/NTMiner.exe)
 
 
 ![视图](https://minerjson.oss-cn-beijing.aliyuncs.com/view.png?2 "NTMiner视图")
