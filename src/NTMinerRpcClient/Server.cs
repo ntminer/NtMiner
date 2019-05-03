@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -29,6 +30,10 @@ namespace NTMiner {
                     }
                 }
                 catch (Exception e) {
+                    e = e.GetInnerException();
+                    if (e is WebException webError) {
+                        Write.DevError("WebException.Status:" + webError.Status.ToString());
+                    }
                     callback?.Invoke(null, e);
                 }
             });
@@ -45,7 +50,11 @@ namespace NTMiner {
                     return response;
                 }
             }
-            catch {
+            catch (Exception e) {
+                e = e.GetInnerException();
+                if (e is WebException webError) {
+                    Write.DevError("WebException.Status:" + webError.Status.ToString());
+                }
                 return null;
             }
         }
@@ -66,6 +75,10 @@ namespace NTMiner {
                     }
                 }
                 catch (Exception e) {
+                    e = e.GetInnerException();
+                    if (e is WebException webError) {
+                        Write.DevError("WebException.Status:" + webError.Status.ToString());
+                    }
                     callback?.Invoke(default(T), e);
                 }
             });

@@ -44,7 +44,8 @@ namespace NTMiner {
                 }
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.GetInnerMessage(), e);
+                e = e.GetInnerException();
+                Logger.ErrorDebugLine(e.Message, e);
             }
         }
         #endregion
@@ -163,7 +164,8 @@ namespace NTMiner {
                     }
                 }
                 catch (Exception e) {
-                    Logger.ErrorDebugLine(e.GetInnerMessage(), e);
+                    e = e.GetInnerException();
+                    Logger.ErrorDebugLine(e.Message, e);
                 }
                 return ResponseBase.Ok();
             }
@@ -214,7 +216,8 @@ namespace NTMiner {
                 }
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.GetInnerMessage(), e);
+                e = e.GetInnerException();
+                Logger.ErrorDebugLine(e.Message, e);
             }
             if (!isClosed) {
                 try {

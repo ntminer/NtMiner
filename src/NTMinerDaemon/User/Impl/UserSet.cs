@@ -56,7 +56,8 @@ namespace NTMiner.User.Impl {
                 }
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.GetInnerMessage(), e);
+                e = e.GetInnerException();
+                Logger.ErrorDebugLine(e.Message, e);
             }
             return new List<UserData>();
         }

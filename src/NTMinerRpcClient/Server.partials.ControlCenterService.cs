@@ -4,6 +4,7 @@ using NTMiner.MinerServer;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -30,6 +31,10 @@ namespace NTMiner {
                         }
                     }
                     catch (Exception e) {
+                        e = e.GetInnerException();
+                        if (e is WebException webError) {
+                            Write.DevError("WebException.Status:" + webError.Status.ToString());
+                        }
                         callback?.Invoke(string.Empty, e);
                     }
                 });
@@ -47,7 +52,11 @@ namespace NTMiner {
                     }
                 }
                 catch (Exception e) {
-                    Logger.ErrorDebugLine(e.GetInnerMessage(), e);
+                    e = e.GetInnerException();
+                    if (e is WebException webError) {
+                        Write.DevError("WebException.Status:" + webError.Status.ToString());
+                    }
+                    Logger.ErrorDebugLine(e.Message, e);
                 }
             }
 
@@ -88,7 +97,11 @@ namespace NTMiner {
                     return new List<UserData>();
                 }
                 catch (Exception e) {
-                    Logger.ErrorDebugLine(e.GetInnerMessage(), e);
+                    e = e.GetInnerException();
+                    if (e is WebException webError) {
+                        Write.DevError("WebException.Status:" + webError.Status.ToString());
+                    }
+                    Logger.ErrorDebugLine(e.Message, e);
                     return new List<UserData>();
                 }
             }
@@ -253,7 +266,11 @@ namespace NTMiner {
                     return new List<MinerGroupData>();
                 }
                 catch (Exception e) {
-                    Logger.ErrorDebugLine(e.GetInnerMessage(), e);
+                    e = e.GetInnerException();
+                    if (e is WebException webError) {
+                        Write.DevError("WebException.Status:" + webError.Status.ToString());
+                    }
+                    Logger.ErrorDebugLine(e.Message, e);
                     return new List<MinerGroupData>();
                 }
             }
@@ -290,6 +307,10 @@ namespace NTMiner {
                         callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
+                        e = e.GetInnerException();
+                        if (e is WebException webError) {
+                            Write.DevError("WebException.Status:" + webError.Status.ToString());
+                        }
                         callback?.Invoke(null, e);
                     }
                 });
@@ -339,7 +360,11 @@ namespace NTMiner {
                     return new List<MineWorkData>();
                 }
                 catch (Exception e) {
-                    Logger.ErrorDebugLine(e.GetInnerMessage(), e);
+                    e = e.GetInnerException();
+                    if (e is WebException webError) {
+                        Write.DevError("WebException.Status:" + webError.Status.ToString());
+                    }
+                    Logger.ErrorDebugLine(e.Message, e);
                     return new List<MineWorkData>();
                 }
             }
@@ -371,7 +396,11 @@ namespace NTMiner {
                     }
                 }
                 catch (Exception e) {
-                    Logger.ErrorDebugLine(e.GetInnerMessage(), e);
+                    e = e.GetInnerException();
+                    if (e is WebException webError) {
+                        Write.DevError("WebException.Status:" + webError.Status.ToString());
+                    }
+                    Logger.ErrorDebugLine(e.Message, e);
                 }
                 return string.Empty;
             }
@@ -392,7 +421,8 @@ namespace NTMiner {
                     return response;
                 }
                 catch (Exception e) {
-                    Logger.ErrorDebugLine(e.GetInnerMessage(), e);
+                    e = e.GetInnerException();
+                    Logger.ErrorDebugLine(e.Message, e);
                     return null;
                 }
             }
@@ -439,7 +469,8 @@ namespace NTMiner {
                     return new List<PoolData>();
                 }
                 catch (Exception e) {
-                    Logger.ErrorDebugLine(e.GetInnerMessage(), e);
+                    e = e.GetInnerException();
+                    Logger.ErrorDebugLine(e.Message, e);
                     return new List<PoolData>();
                 }
             }
@@ -486,7 +517,8 @@ namespace NTMiner {
                     return new List<ColumnsShowData>();
                 }
                 catch (Exception e) {
-                    Logger.ErrorDebugLine(e.GetInnerMessage(), e);
+                    e = e.GetInnerException();
+                    Logger.ErrorDebugLine(e.Message, e);
                     return new List<ColumnsShowData>();
                 }
             }

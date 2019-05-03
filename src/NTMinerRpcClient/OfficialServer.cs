@@ -3,6 +3,7 @@ using NTMiner.MinerServer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -26,25 +27,13 @@ namespace NTMiner {
                     }
                 }
                 catch (Exception e) {
+                    e = e.GetInnerException();
+                    if (e is WebException webError) {
+                        Write.DevError("WebException.Status:" + webError.Status.ToString());
+                    }
                     callback?.Invoke(null, e);
                 }
             });
-        }
-
-        private static T Post<T>(string controller, string action, object param, int? timeountMilliseconds = null) where T : class {
-            try {
-                using (HttpClient client = new HttpClient()) {
-                    if (timeountMilliseconds.HasValue) {
-                        client.Timeout = TimeSpan.FromMilliseconds(timeountMilliseconds.Value);
-                    }
-                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{AssemblyInfo.OfficialServerHost}:{WebApiConst.ControlCenterPort}/api/{controller}/{action}", param);
-                    T response = message.Result.Content.ReadAsAsync<T>().Result;
-                    return response;
-                }
-            }
-            catch {
-                return null;
-            }
         }
 
         private static void GetAsync<T>(string controller, string action, Dictionary<string, string> param, Action<T, Exception> callback) {
@@ -63,6 +52,10 @@ namespace NTMiner {
                     }
                 }
                 catch (Exception e) {
+                    e = e.GetInnerException();
+                    if (e is WebException webError) {
+                        Write.DevError("WebException.Status:" + webError.Status.ToString());
+                    }
                     callback?.Invoke(default(T), e);
                 }
             });
@@ -72,9 +65,6 @@ namespace NTMiner {
         public static void GetTimeAsync(Action<DateTime> callback) {
             GetAsync("AppSetting", nameof(IAppSettingController.GetTime), null, callback: (DateTime datetime, Exception e) => {
                 callback?.Invoke(datetime);
-                if (e != null) {
-                    Logger.ErrorDebugLine($"GetTimeAsync失败 {e.GetInnerMessage()}");
-                }
             });
         }
 
@@ -94,7 +84,6 @@ namespace NTMiner {
                     }, timeountMilliseconds: 10 * 1000);
                 }
                 catch (Exception e) {
-                    Logger.ErrorDebugLine(e.GetInnerMessage(), e);
                     callback?.Invoke(new List<CalcConfigData>());
                 }
             });
@@ -125,9 +114,6 @@ namespace NTMiner {
                     jsonFileVersion = response.Data.Value.ToString();
                 }
                 callback?.Invoke(jsonFileVersion);
-                if (e != null) {
-                    Logger.ErrorDebugLine($"GetJsonFileVersionAsync({AssemblyInfo.ServerJsonFileName})失败 {e.GetInnerMessage()}");
-                }
             }, timeountMilliseconds: 10 * 1000);
         }
 
@@ -220,7 +206,8 @@ namespace NTMiner {
                     PostAsync(SControllerName, nameof(IOverClockDataController.OverClockDatas), request, callback);
                 }
                 catch (Exception e) {
-                    Logger.ErrorDebugLine(e.GetInnerMessage(), e);
+                    e = e.GetInnerException();
+                    Logger.ErrorDebugLine(e.Message, e);
                     callback?.Invoke(null, e);
                 }
             }
