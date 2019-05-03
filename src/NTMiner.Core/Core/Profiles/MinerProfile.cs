@@ -228,6 +228,15 @@ namespace NTMiner.Core.Profiles {
             }
         }
 
+        public bool IsNoUi {
+            get {
+                return _data.IsNoUi;
+            }
+            private set {
+                _data.IsNoUi = value;
+            }
+        }
+
         public Guid CoinId {
             get => _data.CoinId;
             private set {

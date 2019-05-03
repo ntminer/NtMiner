@@ -105,6 +105,26 @@ namespace NTMiner {
                 }
             }
 
+            public bool IsAutoNoUi {
+                get { return NTMinerRegistry.GetIsAutoNoUi(); }
+                set {
+                    if (NTMinerRegistry.GetIsAutoNoUi() != value) {
+                        NTMinerRegistry.SetIsAutoNoUi(value);
+                        OnPropertyChanged(nameof(IsAutoNoUi));
+                    }
+                }
+            }
+
+            public int IsAutoNoUiMinutes {
+                get { return NTMinerRegistry.GetAutoNoUiMinutes(); }
+                set {
+                    if (NTMinerRegistry.GetAutoNoUiMinutes() != value) {
+                        NTMinerRegistry.SetAutoNoUiMinutes(value);
+                        OnPropertyChanged(nameof(IsAutoNoUiMinutes));
+                    }
+                }
+            }
+
             public bool IsShowNotifyIcon {
                 get => NTMinerRegistry.GetIsShowNotifyIcon();
                 set {

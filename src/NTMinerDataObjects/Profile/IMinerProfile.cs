@@ -16,5 +16,7 @@ namespace NTMiner.Profile {
 
         bool IsAutoRestartKernel { get; }
         int AutoRestartKernelTimes { get; }
+
+        bool IsNoUi { get; }
     }
 }

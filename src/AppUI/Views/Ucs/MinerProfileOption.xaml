@@ -83,26 +83,38 @@
 				<StackPanel>
 					<WrapPanel Margin="0 2">
 						<CheckBox 
-						Padding="0"
-						IsChecked="{Binding IsShowInTaskbar, Converter={StaticResource BoolInvertConverter}}"
-						Content="最小化开源矿工主窗口时隐藏任务栏图标">
+							Padding="0"
+							IsChecked="{Binding IsShowInTaskbar, Converter={StaticResource BoolInvertConverter}}"
+							Content="最小化开源矿工主窗口时隐藏任务栏图标">
 						</CheckBox>
 					</WrapPanel>
 
 					<WrapPanel Margin="0 2">
 						<CheckBox 
-						Padding="0"
-						IsChecked="{Binding IsNoUi}"
-						Content="关闭主窗口时切换为无界面模式运行">
+							Padding="0"
+							IsChecked="{Binding IsNoUi}"
+							Content="关闭主窗口时切换为无界面模式运行">
 						</CheckBox>
 						<TextBlock Foreground="Red">（关闭界面可以减少一点CPU使用率增加稳定性）</TextBlock>
 					</WrapPanel>
 
 					<WrapPanel Margin="0 2">
 						<CheckBox 
-						Padding="0"
-						IsChecked="{Binding IsShowNotifyIcon}"
-						Content="显示挖矿端系统托盘图标">
+							Padding="0"
+							IsChecked="{Binding IsAutoNoUi}">
+							<WrapPanel>
+								<TextBlock>挖矿开始</TextBlock>
+								<TextBox Width="40" Margin="2 0" Background="White" Text="{Binding AutoNoUiMinutes}" HorizontalAlignment="Left"></TextBox>
+								<TextBlock>分钟后自动切换为无界面模式运行</TextBlock>
+							</WrapPanel>
+						</CheckBox>
+					</WrapPanel>
+
+					<WrapPanel Margin="0 2">
+						<CheckBox 
+							Padding="0"
+							IsChecked="{Binding IsShowNotifyIcon}"
+							Content="显示挖矿端系统托盘图标">
 						</CheckBox>
 					</WrapPanel>
 
