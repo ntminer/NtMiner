@@ -31,9 +31,17 @@ namespace NTMiner {
         }
 
         private static AppContext _current = null;
+        private static readonly object _currentLocker = new object();
         public static AppContext Current {
             get {
-                return _current ?? (_current = new AppContext());
+                if (_current == null) {
+                    lock (_currentLocker) {
+                        if (_current == null) {
+                            _current = new AppContext();
+                        }
+                    }
+                }
+                return _current;
             }
         }
 
@@ -53,227 +61,483 @@ namespace NTMiner {
         }
 
         private MinerClientsWindowViewModel _minerClientsWindowVm;
+        private readonly object _minerClientsWindowVmLocker = new object();
         public MinerClientsWindowViewModel MinerClientsWindowVm {
             get {
-                return _minerClientsWindowVm ?? (_minerClientsWindowVm = new MinerClientsWindowViewModel());
+                if (_minerClientsWindowVm == null) {
+                    lock (_minerClientsWindowVmLocker) {
+                        if (_minerClientsWindowVm == null) {
+                            _minerClientsWindowVm = new MinerClientsWindowViewModel();
+                        }
+                    }
+                }
+                return _minerClientsWindowVm;
             }
         }
 
         private MinerProfileViewModel _minerProfileVm;
+        private readonly object _minerProfileVmLocker = new object();
         public MinerProfileViewModel MinerProfileVm {
             get {
-                return _minerProfileVm ?? (_minerProfileVm = new MinerProfileViewModel());
+                if (_minerProfileVm == null) {
+                    lock (_minerProfileVmLocker) {
+                        if (_minerProfileVm == null) {
+                            _minerProfileVm = new MinerProfileViewModel();
+                        }
+                    }
+                }
+                return _minerProfileVm;
             }
         }
 
         #region context
         private CoinViewModels _coinVms;
+        private readonly object _coinVmsLocker = new object();
         public CoinViewModels CoinVms {
             get {
-                return _coinVms ?? (_coinVms = new CoinViewModels());
+                if (_coinVms == null) {
+                    lock (_coinVmsLocker) {
+                        if (_coinVms == null) {
+                            _coinVms = new CoinViewModels();
+                        }
+                    }
+                }
+                return _coinVms;
             }
         }
 
         private GpuSpeedViewModels _gpuSpeedVms;
+        private readonly object _gpuSpeedVmsLocker = new object();
         public GpuSpeedViewModels GpuSpeedVms {
             get {
-                return _gpuSpeedVms ?? (_gpuSpeedVms = new GpuSpeedViewModels());
+                if (_gpuSpeedVms == null) {
+                    lock (_gpuSpeedVmsLocker) {
+                        if (_gpuSpeedVms == null) {
+                            _gpuSpeedVms = new GpuSpeedViewModels();
+                        }
+                    }
+                }
+                return _gpuSpeedVms;
             }
         }
 
         private StartStopMineButtonViewModel _startStopMineButtonVm;
+        private readonly object _startStopMineButtonVmLocker = new object();
         public StartStopMineButtonViewModel StartStopMineButtonVm {
             get {
-                return _startStopMineButtonVm ?? (_startStopMineButtonVm = new StartStopMineButtonViewModel());
+                if (_startStopMineButtonVm == null) {
+                    lock (_startStopMineButtonVmLocker) {
+                        if (_startStopMineButtonVm == null) {
+                            _startStopMineButtonVm = new StartStopMineButtonViewModel();
+                        }
+                    }
+                }
+                return _startStopMineButtonVm;
             }
         }
 
         private PoolKernelViewModels _poolKernelVms;
+        private readonly object _poolKernelVmsLocker = new object();
         public PoolKernelViewModels PoolKernelVms {
             get {
-                return _poolKernelVms ?? (_poolKernelVms = new PoolKernelViewModels());
+                if (_poolKernelVms == null) {
+                    lock (_poolKernelVmsLocker) {
+                        if (_poolKernelVms == null) {
+                            _poolKernelVms = new PoolKernelViewModels();
+                        }
+                    }
+                }
+                return _poolKernelVms;
             }
         }
 
         private CoinGroupViewModels _coinGroupVms;
+        private readonly object _coinGroupVmsLocker = new object();
         public CoinGroupViewModels CoinGroupVms {
             get {
-                return _coinGroupVms ?? (_coinGroupVms = new CoinGroupViewModels());
+                if (_coinGroupVms == null) {
+                    lock (_coinGroupVmsLocker) {
+                        if (_coinGroupVms == null) {
+                            _coinGroupVms = new CoinGroupViewModels();
+                        }
+                    }
+                }
+                return _coinGroupVms;
             }
         }
 
         private CoinKernelViewModels _coinKernelVms;
+        private readonly object _coinKernelVmsLocker = new object();
         public CoinKernelViewModels CoinKernelVms {
             get {
-                return _coinKernelVms ?? (_coinKernelVms = new CoinKernelViewModels());
+                if (_coinKernelVms == null) {
+                    lock (_coinKernelVmsLocker) {
+                        if (_coinKernelVms == null) {
+                            _coinKernelVms = new CoinKernelViewModels();
+                        }
+                    }
+                }
+                return _coinKernelVms;
             }
         }
 
         private CoinProfileViewModels _coinProfileVms;
+        private readonly object _coinProfileVmsLocker = new object();
         public CoinProfileViewModels CoinProfileVms {
             get {
-                return _coinProfileVms ?? (_coinProfileVms = new CoinProfileViewModels());
+                if (_coinProfileVms == null) {
+                    lock (_coinProfileVmsLocker) {
+                        if (_coinProfileVms == null) {
+                            _coinProfileVms = new CoinProfileViewModels();
+                        }
+                    }
+                }
+                return _coinProfileVms;
             }
         }
 
         private CoinSnapshotDataViewModels _coinSnapshotDataVms;
+        private readonly object _coinSnapshotDataVmsLocker = new object();
         public CoinSnapshotDataViewModels CoinSnapshotDataVms {
             get {
-                return _coinSnapshotDataVms ?? (_coinSnapshotDataVms = new CoinSnapshotDataViewModels());
+                if (_coinSnapshotDataVms == null) {
+                    lock (_coinSnapshotDataVmsLocker) {
+                        if (_coinSnapshotDataVms == null) {
+                            _coinSnapshotDataVms = new CoinSnapshotDataViewModels();
+                        }
+                    }
+                }
+                return _coinSnapshotDataVms;
             }
         }
 
         private ColumnsShowViewModels _columnsShowVms;
+        private readonly object _columnsShowVmsLocker = new object();
         public ColumnsShowViewModels ColumnsShowVms {
             get {
-                return _columnsShowVms ?? (_columnsShowVms = new ColumnsShowViewModels());
+                if (_columnsShowVms == null) {
+                    lock (_columnsShowVmsLocker) {
+                        if (_columnsShowVms == null) {
+                            _columnsShowVms = new ColumnsShowViewModels();
+                        }
+                    }
+                }
+                return _columnsShowVms;
             }
         }
 
         private DriveSetViewModel _driveSetVm;
+        private readonly object _driveSetVmLocker = new object();
         public DriveSetViewModel DriveSetVm {
             get {
-                return _driveSetVm ?? (_driveSetVm = new DriveSetViewModel());
+                if (_driveSetVm == null) {
+                    lock (_driveSetVmLocker) {
+                        if (_driveSetVm == null) {
+                            _driveSetVm = new DriveSetViewModel();
+                        }
+                    }
+                }
+                return _driveSetVm;
             }
         }
 
         private VirtualMemorySetViewModel _virtualMemorySetVm;
+        private readonly object _virtualMemorySetVmLocker = new object();
         public VirtualMemorySetViewModel VirtualMemorySetVm {
             get {
-                return _virtualMemorySetVm ?? (_virtualMemorySetVm = new VirtualMemorySetViewModel());
+                if (_virtualMemorySetVm == null) {
+                    lock (_virtualMemorySetVmLocker) {
+                        if (_virtualMemorySetVm == null) {
+                            _virtualMemorySetVm = new VirtualMemorySetViewModel();
+                        }
+                    }
+                }
+                return _virtualMemorySetVm;
             }
         }
 
         private GpuProfileViewModels _gpuProfileVms;
+        private readonly object _gpuProfileVmsLocker = new object();
         public GpuProfileViewModels GpuProfileVms {
             get {
-                return _gpuProfileVms ?? (_gpuProfileVms = new GpuProfileViewModels());
+                if (_gpuProfileVms == null) {
+                    lock (_gpuProfileVmsLocker) {
+                        if (_gpuProfileVms == null) {
+                            _gpuProfileVms = new GpuProfileViewModels();
+                        }
+                    }
+                }
+                return _gpuProfileVms;
             }
         }
 
         private GpuViewModels _gpuVms;
+        private readonly object _gpuVmsLocker = new object();
         public GpuViewModels GpuVms {
             get {
-                return _gpuVms ?? (_gpuVms = new GpuViewModels());
+                if (_gpuVms == null) {
+                    lock (_gpuVmsLocker) {
+                        if (_gpuVms == null) {
+                            _gpuVms = new GpuViewModels();
+                        }
+                    }
+                }
+                return _gpuVms;
             }
         }
 
         private GroupViewModels _groupVms;
+        private readonly object _groupVmsLocker = new object();
         public GroupViewModels GroupVms {
             get {
-                return _groupVms ?? (_groupVms = new GroupViewModels());
+                if (_groupVms == null) {
+                    lock (_groupVmsLocker) {
+                        if (_groupVms == null) {
+                            _groupVms = new GroupViewModels();
+                        }
+                    }
+                }
+                return _groupVms;
             }
         }
 
         private KernelInputViewModels _kernelInputVms;
+        private readonly object _kernelInputVmsLocker = new object();
         public KernelInputViewModels KernelInputVms {
             get {
-                return _kernelInputVms ?? (_kernelInputVms = new KernelInputViewModels());
+                if (_kernelInputVms == null) {
+                    lock (_kernelInputVmsLocker) {
+                        if (_kernelInputVms == null) {
+                            _kernelInputVms = new KernelInputViewModels();
+                        }
+                    }
+                }
+                return _kernelInputVms;
             }
         }
 
         private KernelOutputFilterViewModels _kernelOutputFilterVms;
+        private readonly object _kernelOutputFilterVmsLocker = new object();
         public KernelOutputFilterViewModels KernelOutputFilterVms {
             get {
-                return _kernelOutputFilterVms ?? (_kernelOutputFilterVms = new KernelOutputFilterViewModels());
+                if (_kernelOutputFilterVms == null) {
+                    lock (_kernelOutputFilterVmsLocker) {
+                        if (_kernelOutputFilterVms == null) {
+                            _kernelOutputFilterVms = new KernelOutputFilterViewModels();
+                        }
+                    }
+                }
+                return _kernelOutputFilterVms;
             }
         }
 
         private KernelOutputTranslaterViewModels _kernelOutputTranslaterVms;
+        private readonly object _kernelOutputTranslaterVmsLocker = new object();
         public KernelOutputTranslaterViewModels KernelOutputTranslaterVms {
             get {
-                return _kernelOutputTranslaterVms ?? (_kernelOutputTranslaterVms = new KernelOutputTranslaterViewModels());
+                if (_kernelOutputTranslaterVms == null) {
+                    lock (_kernelOutputTranslaterVmsLocker) {
+                        if (_kernelOutputTranslaterVms == null) {
+                            _kernelOutputTranslaterVms = new KernelOutputTranslaterViewModels();
+                        }
+                    }
+                }
+                return _kernelOutputTranslaterVms;
             }
         }
 
         private KernelOutputViewModels _kernelOutputVms;
+        private readonly object _kernelOutputVmsLocker = new object();
         public KernelOutputViewModels KernelOutputVms {
             get {
-                return _kernelOutputVms ?? (_kernelOutputVms = new KernelOutputViewModels());
+                if (_kernelOutputVms == null) {
+                    lock (_kernelOutputVmsLocker) {
+                        if (_kernelOutputVms == null) {
+                            _kernelOutputVms = new KernelOutputViewModels();
+                        }
+                    }
+                }
+                return _kernelOutputVms;
             }
         }
 
         private KernelViewModels _kernelVms;
+        private readonly object _kernelVmsLocker = new object();
         public KernelViewModels KernelVms {
             get {
-                return _kernelVms ?? (_kernelVms = new KernelViewModels());
+                if (_kernelVms == null) {
+                    lock (_kernelVmsLocker) {
+                        if (_kernelVms == null) {
+                            _kernelVms = new KernelViewModels();
+                        }
+                    }
+                }
+                return _kernelVms;
             }
         }
 
         private MinerGroupViewModels _minerGroupVms;
+        private readonly object _minerGroupVmsLocker = new object();
         public MinerGroupViewModels MinerGroupVms {
             get {
-                return _minerGroupVms ?? (_minerGroupVms = new MinerGroupViewModels());
+                if (_minerGroupVms == null) {
+                    lock (_minerGroupVmsLocker) {
+                        if (_minerGroupVms == null) {
+                            _minerGroupVms = new MinerGroupViewModels();
+                        }
+                    }
+                }
+                return _minerGroupVms;
             }
         }
 
         private MineWorkViewModels _mineWorkVms;
+        private readonly object _mineWorkVmsLocker = new object();
         public MineWorkViewModels MineWorkVms {
             get {
-                return _mineWorkVms ?? (_mineWorkVms = new MineWorkViewModels());
+                if (_mineWorkVms == null) {
+                    lock (_mineWorkVmsLocker) {
+                        if (_mineWorkVms == null) {
+                            _mineWorkVms = new MineWorkViewModels();
+                        }
+                    }
+                }
+                return _mineWorkVms;
             }
         }
 
         private OverClockDataViewModels _overClockDataVms;
+        private readonly object _overClockDataVmsLocker = new object();
         public OverClockDataViewModels OverClockDataVms {
             get {
-                return _overClockDataVms ?? (_overClockDataVms = new OverClockDataViewModels());
+                if (_overClockDataVms == null) {
+                    lock (_overClockDataVmsLocker) {
+                        if (_overClockDataVms == null) {
+                            _overClockDataVms = new OverClockDataViewModels();
+                        }
+                    }
+                }
+                return _overClockDataVms;
             }
         }
 
         private PoolProfileViewModels _poolProfileVms;
+        private readonly object _poolProfileVmsLocker = new object();
         public PoolProfileViewModels PoolProfileVms {
             get {
-                return _poolProfileVms ?? (_poolProfileVms = new PoolProfileViewModels());
+                if (_poolProfileVms == null) {
+                    lock (_poolProfileVmsLocker) {
+                        if (_poolProfileVms == null) {
+                            _poolProfileVms = new PoolProfileViewModels();
+                        }
+                    }
+                }
+                return _poolProfileVms;
             }
         }
 
         private PoolViewModels _poolVms;
+        private readonly object _poolVmsLocker = new object();
         public PoolViewModels PoolVms {
             get {
-                return _poolVms ?? (_poolVms = new PoolViewModels());
+                if (_poolVms == null) {
+                    lock (_poolVmsLocker) {
+                        if (_poolVms == null) {
+                            _poolVms = new PoolViewModels();
+                        }
+                    }
+                }
+                return _poolVms;
             }
         }
 
         private ShareViewModels _shareVms;
+        private readonly object _shareVmsLocker = new object();
         public ShareViewModels ShareVms {
             get {
-                return _shareVms ?? (_shareVms = new ShareViewModels());
+                if (_shareVms == null) {
+                    lock (_shareVmsLocker) {
+                        if (_shareVms == null) {
+                            _shareVms = new ShareViewModels();
+                        }
+                    }
+                }
+                return _shareVms;
             }
         }
 
         private WalletViewModels _walletVms;
+        private readonly object _walletVmsLocker = new object();
         public WalletViewModels WalletVms {
             get {
-                return _walletVms ?? (_walletVms = new WalletViewModels());
+                if (_walletVms == null) {
+                    lock (_walletVmsLocker) {
+                        if (_walletVms == null) {
+                            _walletVms = new WalletViewModels();
+                        }
+                    }
+                }
+                return _walletVms;
             }
         }
 
         private UserViewModels _userVms;
+        private readonly object _userVmsLocker = new object();
         public UserViewModels UserVms {
             get {
-                return _userVms ?? (_userVms = new UserViewModels());
+                if (_userVms == null) {
+                    lock (_userVmsLocker) {
+                        if (_userVms == null) {
+                            _userVms = new UserViewModels();
+                        }
+                    }
+                }
+                return _userVms;
             }
         }
 
         private SysDicViewModels _sysDicVms;
+        private readonly object _sysDicVmsLocker = new object();
         public SysDicViewModels SysDicVms {
             get {
-                return _sysDicVms ?? (_sysDicVms = new SysDicViewModels());
+                if (_sysDicVms == null) {
+                    lock (_sysDicVmsLocker) {
+                        if (_sysDicVms == null) {
+                            _sysDicVms = new SysDicViewModels();
+                        }
+                    }
+                }
+                return _sysDicVms;
             }
         }
 
         private SysDicItemViewModels _sysDicItemVms;
+        private readonly object _sysDicItemVmsLocker = new object();
         public SysDicItemViewModels SysDicItemVms {
             get {
-                return _sysDicItemVms ?? (_sysDicItemVms = new SysDicItemViewModels());
+                if (_sysDicItemVms == null) {
+                    lock (_sysDicItemVmsLocker) {
+                        if (_sysDicItemVms == null) {
+                            _sysDicItemVms = new SysDicItemViewModels();
+                        }
+                    }
+                }
+                return _sysDicItemVms;
             }
         }
 
         private GpuStatusBarViewModel _gpuStatusBarVm;
+        private readonly object _gpuStatusBarVmLocker = new object();
         public GpuStatusBarViewModel GpuStatusBarVm {
             get {
-                return _gpuStatusBarVm ?? (_gpuStatusBarVm = new GpuStatusBarViewModel());
+                if (_gpuStatusBarVm == null) {
+                    lock (_gpuStatusBarVmLocker) {
+                        if (_gpuStatusBarVm == null) {
+                            _gpuStatusBarVm = new GpuStatusBarViewModel();
+                        }
+                    }
+                }
+                return _gpuStatusBarVm;
             }
         }
         #endregion
