@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace NTMiner.Core.Impl {
@@ -16,31 +17,48 @@ namespace NTMiner.Core.Impl {
         private DateTime _initedOn = DateTime.MinValue;
 
         private void Init() {
+            if (_initedOn == DateTime.MinValue) {
+                if (File.Exists(SpecialPath.CalcJsonFileFullName)) {
+                    try {
+                        List<CalcConfigData> data = VirtualRoot.JsonSerializer.Deserialize<List<CalcConfigData>>(File.ReadAllText(SpecialPath.CalcJsonFileFullName));
+                        Init(data);
+                    }
+                    catch (Exception e) {
+                        Logger.ErrorDebugLine(e.Message, e);
+                    }
+                }
+            }
             DateTime now = DateTime.Now;
             if (_initedOn.AddMinutes(10) < now) {
-                var list = _root.CoinSet.OrderBy(a => a.SortNumber).Select(a => new CalcConfigData {
-                    CoinCode = a.Code,
-                    CreatedOn = DateTime.Now,
-                    IncomePerDay = 0,
-                    ModifiedOn = DateTime.Now,
-                    Speed = 0,
-                    SpeedUnit = "H/s"
-                }).ToList();
-                OfficialServer.GetCalcConfigsAsync(data => {
-                    foreach (var item in data) {
-                        var exist = list.FirstOrDefault(a => string.Equals(a.CoinCode, item.CoinCode, StringComparison.OrdinalIgnoreCase));
-                        if (exist != null) {
-                            exist.Update(item);
-                        }
-                        else {
-                            list.Add(item);
-                        }
-                    }
-                    _dicByCoinCode = list.ToDictionary(a => a.CoinCode, a => a, StringComparer.OrdinalIgnoreCase);
-                    VirtualRoot.Happened(new CalcConfigSetInitedEvent());
-                });
                 _initedOn = now;
+                OfficialServer.GetCalcConfigsAsync(data => {
+                    Init(data);
+                    VirtualRoot.Happened(new CalcConfigSetInitedEvent());
+                    string json = VirtualRoot.JsonSerializer.Serialize(data);
+                    File.WriteAllText(SpecialPath.CalcJsonFileFullName, json);
+                });
             }
+        }
+
+        private void Init(List<CalcConfigData> data) {
+            var list = _root.CoinSet.OrderBy(a => a.SortNumber).Select(a => new CalcConfigData {
+                CoinCode = a.Code,
+                CreatedOn = DateTime.Now,
+                IncomePerDay = 0,
+                ModifiedOn = DateTime.Now,
+                Speed = 0,
+                SpeedUnit = "H/s"
+            }).ToList();
+            foreach (var item in data) {
+                var exist = list.FirstOrDefault(a => string.Equals(a.CoinCode, item.CoinCode, StringComparison.OrdinalIgnoreCase));
+                if (exist != null) {
+                    exist.Update(item);
+                }
+                else {
+                    list.Add(item);
+                }
+            }
+            _dicByCoinCode = list.ToDictionary(a => a.CoinCode, a => a, StringComparer.OrdinalIgnoreCase);
         }
 
         public bool TryGetCalcConfig(ICoin coin, out ICalcConfig calcConfig) {
