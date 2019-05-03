@@ -2,6 +2,7 @@
 using NTMiner.MinerClient;
 using NTMiner.MinerServer;
 using System;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -25,11 +26,11 @@ namespace NTMiner {
                         }
                     }
                     catch (Exception e) {
-                        e = e.GetInnerException();
                         if (e is TaskCanceledException) {
                             Write.DevError($"本次ReportSpeedAsync已取消，因为耗时超过{timeSpan.TotalSeconds}秒");
                         }
                         else {
+                            e = e.GetInnerException();
                             Logger.ErrorDebugLine(e.Message, e);
                         }
                     }
@@ -51,11 +52,11 @@ namespace NTMiner {
                         }
                     }
                     catch (Exception e) {
-                        e = e.GetInnerException();
                         if (e is TaskCanceledException) {
                             Write.DevError($"本次ReportStateAsync已取消，因为耗时超过{timeSpan.TotalSeconds}秒");
                         }
                         else {
+                            e = e.GetInnerException();
                             Logger.ErrorDebugLine(e.Message, e);
                         }
                     }

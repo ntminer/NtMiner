@@ -28,9 +28,6 @@ namespace NTMiner {
                 }
                 catch (Exception e) {
                     e = e.GetInnerException();
-                    if (e is WebException webError) {
-                        Write.DevError(webError.Message + "，WebException.Status：" + webError.Status.ToString());
-                    }
                     callback?.Invoke(null, e);
                 }
             });
@@ -53,9 +50,6 @@ namespace NTMiner {
                 }
                 catch (Exception e) {
                     e = e.GetInnerException();
-                    if (e is WebException webError) {
-                        Write.DevError(webError.Message + "，WebException.Status：" + webError.Status.ToString());
-                    }
                     callback?.Invoke(default(T), e);
                 }
             });
