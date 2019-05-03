@@ -115,12 +115,12 @@ namespace NTMiner {
                 }
             }
 
-            public int IsAutoNoUiMinutes {
+            public int AutoNoUiMinutes {
                 get { return NTMinerRegistry.GetAutoNoUiMinutes(); }
                 set {
                     if (NTMinerRegistry.GetAutoNoUiMinutes() != value) {
                         NTMinerRegistry.SetAutoNoUiMinutes(value);
-                        OnPropertyChanged(nameof(IsAutoNoUiMinutes));
+                        OnPropertyChanged(nameof(AutoNoUiMinutes));
                     }
                 }
             }
