@@ -17,6 +17,7 @@
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"></RowDefinition>
 			<RowDefinition Height="*"></RowDefinition>
+			<RowDefinition Height="Auto"></RowDefinition>
 		</Grid.RowDefinitions>
 		<ListBox 
 			Background="Transparent"
@@ -67,5 +68,6 @@
 				<TextBlock Text="CNY/天"></TextBlock>
 			</WrapPanel>
 		</WrapPanel>
+		<TextBlock Grid.Row="2" HorizontalAlignment="Center" Foreground="Red">因为数据来自矿池，单位算力收益的币数一定是准确的，误差约10分钟。</TextBlock>
 	</Grid>
 </UserControl>
