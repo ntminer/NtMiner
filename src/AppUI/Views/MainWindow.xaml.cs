@@ -91,6 +91,7 @@ namespace NTMiner.Views {
                 VirtualRoot.UnPath(handler);
             }
             base.OnClosed(e);
+            NTMinerRoot.IsUiVisible = false;
             _instance = null;
         }
 

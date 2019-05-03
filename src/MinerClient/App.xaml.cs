@@ -150,7 +150,6 @@ namespace NTMiner {
                                 window.Close();
                             }
                         }
-                        NTMinerRoot.IsUiVisible = false;
                         AppContext.Close();
                         NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage("已切换为无界面模式运行", "开源矿工");
                     });
