@@ -245,6 +245,39 @@
 				<RowDefinition Height="*"></RowDefinition>
 				<RowDefinition Height="Auto"></RowDefinition>
 			</Grid.RowDefinitions>
+			<Grid Grid.Column="1" Background="{StaticResource MinerProfileBackground}">
+				<controls:KbButton 
+					x:Name="BtnLeftTriangle"
+					Click="BtnLeftTriangle_Click"
+					Grid.Column="1"
+					VerticalAlignment="Center"
+					BorderThickness="0"
+					Background="Transparent"
+					CornerRadius="2">
+					<Path
+						Width="8"
+						Height="18"
+						Data="{StaticResource Icon_LeftTriangle1}"
+						Fill="Black"
+						Stretch="Fill" />
+				</controls:KbButton>
+				<controls:KbButton 
+					x:Name="BtnRightTriangle"
+					Click="BtnRightTriangle_Click"
+					Grid.Column="1"
+					Visibility="Collapsed"
+					VerticalAlignment="Center"
+					BorderThickness="0"
+					Background="Transparent"
+					CornerRadius="2">
+					<Path
+						Width="8"
+						Height="18"
+						Data="{StaticResource Icon_RightTriangle1}"
+						Fill="Black"
+						Stretch="Fill" />
+				</controls:KbButton>
+			</Grid>
 			<Border 
 				x:Name="MinerProfileContainerLeft" 
 				Grid.Column="0" 
@@ -316,43 +349,11 @@
 					</WrapPanel>
 					<uc:MinerProfileIndex 
 						Grid.Row="1" 
+						Margin="0 0 -4 0"
 						IsEnabled="{Binding MinerProfile.IsWorker,Converter={StaticResource BoolInvertConverter}}"/>
 				</Grid>
 			</Border>
 
-			<Grid Grid.Column="1" Background="{StaticResource MinerProfileBackground}">
-				<controls:KbButton 
-					x:Name="BtnLeftTriangle"
-					Click="BtnLeftTriangle_Click"
-					Grid.Column="1"
-					VerticalAlignment="Center"
-					BorderThickness="0"
-					Background="Transparent"
-					CornerRadius="2">
-					<Path
-						Width="8"
-						Height="18"
-						Data="{StaticResource Icon_LeftTriangle1}"
-						Fill="Black"
-						Stretch="Fill" />
-				</controls:KbButton>
-				<controls:KbButton 
-					x:Name="BtnRightTriangle"
-					Click="BtnRightTriangle_Click"
-					Grid.Column="1"
-					Visibility="Collapsed"
-					VerticalAlignment="Center"
-					BorderThickness="0"
-					Background="Transparent"
-					CornerRadius="2">
-					<Path
-						Width="8"
-						Height="18"
-						Data="{StaticResource Icon_RightTriangle1}"
-						Fill="Black"
-						Stretch="Fill" />
-				</controls:KbButton>
-			</Grid>
 			<TabControl
 				Grid.Column="2" Grid.Row="0" 
 				Padding="0"
