@@ -18,6 +18,7 @@
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"></RowDefinition>
 			<RowDefinition Height="*"></RowDefinition>
+			<RowDefinition Height="Auto"></RowDefinition>
 		</Grid.RowDefinitions>
 		<Border Grid.Row="0" BorderThickness="0 0 0 1" BorderBrush="{StaticResource LineColor}">
 			<WrapPanel>
@@ -137,5 +138,6 @@
 			</DataGrid.Columns>
 		</DataGrid>
 		<TextBlock Grid.Row="1" Visibility="{Binding QueryResults, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center">没有记录</TextBlock>
+		<TextBox Grid.Row="2" IsReadOnly="True" FontSize="12" Foreground="{StaticResource LableColor}" BorderThickness="0">什么？有更高算力的内核？Q群2362120103报小编</TextBox>
 	</Grid>
 </UserControl>
