@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace NTMiner.Views {
     public partial class MainWindow : MetroWindow, IMainWindow {
@@ -17,9 +18,29 @@ namespace NTMiner.Views {
             }
         }
 
+        private static readonly object _locker = new object();
+        private static MainWindow _instance = null;
+        public static MainWindow Create() {
+            if (_instance == null) {
+                lock (_locker) {
+                    if (_instance == null) {
+                        _instance = new MainWindow();
+                        NTMinerRoot.IsUiVisible = true;
+                        NTMinerRoot.MainWindowRendedOn = DateTime.Now;
+                        return _instance;
+                    }
+                    else {
+                        return _instance;
+                    }
+                }
+            }
+            else {
+                return _instance;
+            }
+        }
+
         private readonly List<Bus.IDelegateHandler> _handlers = new List<Bus.IDelegateHandler>();
-        public MainWindow() {
-            NTMinerRoot.IsUiVisible = true;
+        private MainWindow() {
             UIThread.StartTimer();
             InitializeComponent();
             this.StateChanged += (s, e) => {
@@ -70,6 +91,7 @@ namespace NTMiner.Views {
                 VirtualRoot.UnPath(handler);
             }
             base.OnClosed(e);
+            _instance = null;
         }
 
         public void ShowThisWindow(bool isToggle) {

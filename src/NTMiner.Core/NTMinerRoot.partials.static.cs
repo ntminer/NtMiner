@@ -19,6 +19,7 @@ namespace NTMiner {
         public static IKernelDownloader KernelDownloader = new EmptyKernelDownloader();
         public static Action RefreshArgsAssembly = () => { };
         public static bool IsUiVisible;
+        public static DateTime MainWindowRendedOn = DateTime.MinValue;
 
         public static string AppName;
         public static bool IsUseDevConsole = false;

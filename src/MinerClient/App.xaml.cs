@@ -62,14 +62,14 @@ namespace NTMiner {
                         NTMinerRoot.KernelDownloader = new KernelDownloader();
                         UIThread.Execute(() => {
                             if (!NTMinerRegistry.GetIsNoUi() || !NTMinerRegistry.GetIsAutoStart()) {
-                                this.MainWindow = new MainWindow();
+                                this.MainWindow = Views.MainWindow.Create();
                                 this.MainWindow.Show();
                             }
                             else {
-                                NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage("开源矿工已切换为无界面模式运行");
+                                NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage("已切换为无界面模式运行", "开源矿工");
                             }
                             System.Drawing.Icon icon = new System.Drawing.Icon(GetResourceStream(new Uri("pack://application:,,,/NTMiner;component/logo.ico")).Stream);
-                            AppHelper.NotifyIcon = ExtendedNotifyIcon.Create(icon, "开源矿工挖矿端", isMinerStudio: false);
+                            AppHelper.NotifyIcon = ExtendedNotifyIcon.Create(icon, "开源矿工", isMinerStudio: false);
                             #region 处理显示主界面命令
                             VirtualRoot.Window<ShowMainWindowCommand>("处理显示主界面命令", LogEnum.None,
                                 action: message => {
@@ -77,7 +77,7 @@ namespace NTMiner {
                                         MainWindow mainWindow = this.MainWindow as MainWindow;
                                         if (mainWindow == null) {
                                             AppContext.Open();
-                                            this.MainWindow = mainWindow = new MainWindow();
+                                            this.MainWindow = mainWindow = Views.MainWindow.Create();
                                             this.MainWindow.Show();
                                             // 使状态栏显示显示最新状态
                                             if (NTMinerRoot.Instance.IsMining) {
@@ -152,7 +152,7 @@ namespace NTMiner {
                         }
                         NTMinerRoot.IsUiVisible = false;
                         AppContext.Close();
-                        NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage("开源矿工已切换为无界面模式运行");
+                        NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage("已切换为无界面模式运行", "开源矿工");
                     });
                 });
             #region 周期确保守护进程在运行
