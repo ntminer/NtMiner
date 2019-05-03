@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace NTMiner.Bus {
+    [AttributeUsage(AttributeTargets.Class)]
     public class MessageTypeAttribute : Attribute {
         private static readonly Dictionary<Type, MessageTypeAttribute> SMessageTypeDescriptionDic = new Dictionary<Type, MessageTypeAttribute>();
         public static MessageTypeAttribute GetMessageTypeDescription(Type messageType) {

@@ -20,22 +20,18 @@ namespace NTMiner.Views {
 
         private static readonly object _locker = new object();
         private static MainWindow _instance = null;
-        public static MainWindow Create() {
+        public static void ShowMainWindow() {
             if (_instance == null) {
                 lock (_locker) {
                     if (_instance == null) {
                         _instance = new MainWindow();
+                        Application.Current.MainWindow = _instance;
+                        _instance.Show();
                         NTMinerRoot.IsUiVisible = true;
                         NTMinerRoot.MainWindowRendedOn = DateTime.Now;
-                        return _instance;
-                    }
-                    else {
-                        return _instance;
+                        VirtualRoot.Happened(new MainWindowShowedEvent());                        
                     }
                 }
-            }
-            else {
-                return _instance;
             }
         }
 

@@ -2,8 +2,13 @@
 using NTMiner.Core;
 
 namespace NTMiner {
+    [MessageType(description: "主界面显示后")]
+    public class MainWindowShowedEvent : EventBase {
+        public MainWindowShowedEvent() { }
+    }
+
+    [MessageType(description: "开始挖矿不成功")]
     public class StartingMineFailedEvent : EventBase {
-        [MessageType(description: "开始挖矿不成功")]
         public StartingMineFailedEvent(string message) {
             this.Message = message;
         }

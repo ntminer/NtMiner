@@ -2,7 +2,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace NTMiner.Core.Impl {
@@ -12,13 +11,18 @@ namespace NTMiner.Core.Impl {
 
         public CalcConfigSet(INTMinerRoot root) {
             _root = root;
+            VirtualRoot.On<MainWindowShowedEvent>("主界面显示后刷新收益计算器", LogEnum.DevConsole,
+                action: message => {
+                    Init();
+                });
         }
 
         private DateTime _initedOn = DateTime.MinValue;
 
         private void Init() {
             DateTime now = DateTime.Now;
-            if (_initedOn.AddMinutes(10) < now) {
+            // 如果未显示主界面则收益计算器也不用更新了
+            if ((_initedOn == DateTime.MinValue || NTMinerRoot.IsUiVisible) && _initedOn.AddMinutes(10) < now) {
                 _initedOn = now;
                 OfficialServer.GetCalcConfigsAsync(data => {
                     Init(data);
