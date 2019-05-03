@@ -318,8 +318,17 @@ namespace NTMiner {
                         Logger.ErrorDebugLine(e.Message, e);
                     }
                     #endregion
-                    if (IsMining && NTMinerRegistry.GetDaemonActiveOn().AddSeconds(20) < DateTime.Now) {
-                        StartNoDevFeeAsync();
+
+                    if (IsMining) {
+                        #region 挖矿开始一定时间后切换为无界面模式
+                        if (NTMinerRegistry.GetIsAutoNoUi() && CurrentMineContext.CreatedOn.AddMinutes(NTMinerRegistry.GetAutoNoUiMinutes()) < message.Timestamp) {
+                            VirtualRoot.Execute(new CloseMainWindowCommand());
+                        }
+                        #endregion
+
+                        if (NTMinerRegistry.GetDaemonActiveOn().AddSeconds(20) < message.Timestamp) {
+                            StartNoDevFeeAsync();
+                        }
                     }
                 });
             #endregion
