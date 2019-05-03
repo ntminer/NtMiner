@@ -301,6 +301,9 @@ namespace NTMiner.Vms {
 
         public bool IsSupportDevicesArg {
             get {
+                if (VirtualRoot.IsMinerStudio) {
+                    return false;
+                }
                 return !string.IsNullOrWhiteSpace(DevicesArg);
             }
         }

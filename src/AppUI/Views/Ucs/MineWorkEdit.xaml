@@ -17,7 +17,7 @@
 	</UserControl.Resources>
 	<Grid Background="{StaticResource MinerProfileBackground}">
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="400"></ColumnDefinition>
+			<ColumnDefinition Width="330"></ColumnDefinition>
 			<ColumnDefinition Width="500"></ColumnDefinition>
 		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
@@ -27,10 +27,10 @@
 		</Grid.RowDefinitions>
 		<WrapPanel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Margin="0 2">
 			<TextBlock Style="{StaticResource LblTb}">作业名称:</TextBlock>
-			<TextBox Width="320" VerticalContentAlignment="Center" Background="White" Text="{Binding Name, ValidatesOnExceptions=True}">
+			<TextBox Width="220" VerticalContentAlignment="Center" Background="White" Text="{Binding Name, ValidatesOnExceptions=True}">
 			</TextBox>
 			<TextBlock Style="{StaticResource LblTb}">作业备注:</TextBlock>
-			<TextBox Width="420" Background="White" Padding="0 4"
+			<TextBox Width="320" Background="White" Padding="0 4"
 					 AcceptsReturn="True" TextWrapping="Wrap" 
 					 VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
 					 Text="{Binding Description, Mode=TwoWay}">
