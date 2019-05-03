@@ -114,7 +114,7 @@
 						<CheckBox 
 							Padding="0"
 							IsChecked="{Binding IsShowNotifyIcon}"
-							Content="显示挖矿端系统托盘图标">
+							Content="显示托盘图标">
 						</CheckBox>
 					</WrapPanel>
 
