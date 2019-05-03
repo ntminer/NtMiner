@@ -3,7 +3,7 @@
 namespace NTMiner.Vms {
     public class CalcViewModel : ViewModelBase {
         private CoinViewModel _selectedCoinVm;
-        private double _speed;
+        private double _speed = 1;
         private SpeedUnitViewModel _speedUnitVm = SpeedUnitViewModel.HPerSecond;
 
         private void ReRender() {
@@ -28,7 +28,7 @@ namespace NTMiner.Vms {
             get => _selectedCoinVm;
             set {
                 _selectedCoinVm = value;
-                if (_selectedCoinVm != value || this._speed == 0) {
+                if (_selectedCoinVm != value) {
                     this._speed = 1;
                     OnPropertyChanged(nameof(Speed));
                 }

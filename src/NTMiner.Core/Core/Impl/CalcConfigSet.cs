@@ -17,28 +17,12 @@ namespace NTMiner.Core.Impl {
         private DateTime _initedOn = DateTime.MinValue;
 
         private void Init() {
-            if (_initedOn == DateTime.MinValue) {
-                // 第一次访问时从磁盘初始化收益计算器设置，如果磁盘上有的话
-                _initedOn = DateTime.MinValue.AddMinutes(10);
-                if (File.Exists(SpecialPath.CalcJsonFileFullName)) {
-                    try {
-                        List<CalcConfigData> data = VirtualRoot.JsonSerializer.Deserialize<List<CalcConfigData>>(File.ReadAllText(SpecialPath.CalcJsonFileFullName));
-                        Init(data);
-                    }
-                    catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
-                    }
-                }
-            }
             DateTime now = DateTime.Now;
             if (_initedOn.AddMinutes(10) < now) {
                 _initedOn = now;
                 OfficialServer.GetCalcConfigsAsync(data => {
                     Init(data);
                     VirtualRoot.Happened(new CalcConfigSetInitedEvent());
-                    string json = VirtualRoot.JsonSerializer.Serialize(data);
-                    // 缓存在磁盘
-                    File.WriteAllText(SpecialPath.CalcJsonFileFullName, json);
                 });
             }
         }
