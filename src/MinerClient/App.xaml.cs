@@ -66,7 +66,7 @@ namespace NTMiner {
                                 this.MainWindow.Show();
                             }
                             else {
-                                NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage("开源矿工已切换为以无界面模式运行");
+                                NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage("开源矿工已切换为无界面模式运行");
                             }
                             System.Drawing.Icon icon = new System.Drawing.Icon(GetResourceStream(new Uri("pack://application:,,,/NTMiner;component/logo.ico")).Stream);
                             AppHelper.NotifyIcon = ExtendedNotifyIcon.Create(icon, "开源矿工挖矿端", isMinerStudio: false);
@@ -152,7 +152,7 @@ namespace NTMiner {
                         }
                         NTMinerRoot.IsUiVisible = false;
                         AppContext.Close();
-                        NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage("开源矿工已切换为以无界面模式运行");
+                        NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage("开源矿工已切换为无界面模式运行");
                     });
                 });
             #region 周期确保守护进程在运行
