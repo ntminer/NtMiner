@@ -61,7 +61,7 @@ namespace NTMiner {
                     NTMinerRoot.Instance.Init(() => {
                         NTMinerRoot.KernelDownloader = new KernelDownloader();
                         UIThread.Execute(() => {
-                            if (!NTMinerRegistry.GetIsNoUi()) {
+                            if (!NTMinerRegistry.GetIsNoUi() || !NTMinerRegistry.GetIsAutoStart()) {
                                 this.MainWindow = new MainWindow();
                                 this.MainWindow.Show();
                             }
