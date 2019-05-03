@@ -15,10 +15,7 @@ namespace NTMiner.Profile {
                 IsPeriodicRestartKernel = false,
                 PeriodicRestartKernelHours = 12,
                 IsPeriodicRestartComputer = false,
-                PeriodicRestartComputerHours = 24,
-                IsNoUi = true,
-                IsAutoNoUi = true,
-                AutoNoUiMinutes = 10
+                PeriodicRestartComputerHours = 24
             };
         }
 
@@ -36,9 +33,6 @@ namespace NTMiner.Profile {
             this.PeriodicRestartKernelHours = data.PeriodicRestartKernelHours;
             this.IsPeriodicRestartComputer = data.IsPeriodicRestartComputer;
             this.PeriodicRestartComputerHours = data.PeriodicRestartComputerHours;
-            this.IsNoUi = data.IsNoUi;
-            this.IsAutoNoUi = data.IsAutoNoUi;
-            this.AutoNoUiMinutes = data.AutoNoUiMinutes;
         }
 
         public Guid GetId() {
@@ -55,14 +49,9 @@ namespace NTMiner.Profile {
         public int PeriodicRestartKernelHours { get; set; }
         public bool IsPeriodicRestartComputer { get; set; }
         public int PeriodicRestartComputerHours { get; set; }
-        public bool IsNoUi { get; set; }
-
-        public bool IsAutoNoUi { get; set; }
-
-        public int AutoNoUiMinutes { get; set; }
 
         public override string ToString() {
-            return $"{Id}{MinerName}{IsAutoRestartKernel}{CoinId}{IsNoShareRestartKernel}{NoShareRestartKernelMinutes}{IsPeriodicRestartKernel}{PeriodicRestartKernelHours}{IsPeriodicRestartComputer}{PeriodicRestartComputerHours}{IsNoUi}{IsAutoNoUi}{AutoNoUiMinutes}";
+            return $"{Id}{MinerName}{IsAutoRestartKernel}{CoinId}{IsNoShareRestartKernel}{NoShareRestartKernelMinutes}{IsPeriodicRestartKernel}{PeriodicRestartKernelHours}{IsPeriodicRestartComputer}{PeriodicRestartComputerHours}";
         }
 
         public StringBuilder GetSignData() {

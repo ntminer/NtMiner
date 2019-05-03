@@ -35,7 +35,7 @@ namespace NTMiner {
         #region IsNoUi
         public static bool GetIsNoUi() {
             object value = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, "IsNoUi");
-            return value != null && value.ToString() == "True";
+            return value == null || value.ToString() == "True";
         }
 
         public static void SetIsNoUi(bool value) {
@@ -46,7 +46,7 @@ namespace NTMiner {
         #region AutoNoUi
         public static bool GetIsAutoNoUi() {
             object value = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, "IsAutoNoUi");
-            return value != null && value.ToString() == "True";
+            return value == null || value.ToString() == "True";
         }
 
         public static void SetIsAutoNoUi(bool value) {
@@ -58,7 +58,7 @@ namespace NTMiner {
         public static int GetAutoNoUiMinutes() {
             object value = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, "AutoNoUiMinutes");
             if (value == null) {
-                return -1;
+                return 10;
             }
             int v;
             int.TryParse(value.ToString(), out v);
