@@ -334,7 +334,7 @@ namespace NTMiner {
         public ICommand ExportServerJson { get; private set; } = new DelegateCommand(() => {
             try {
                 string fileName = NTMinerRoot.ExportServerVersionJson();
-                NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage($"导出成功：{fileName}");
+                NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage($"{fileName}", "导出成功");
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
