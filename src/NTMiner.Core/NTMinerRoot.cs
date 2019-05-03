@@ -318,7 +318,7 @@ namespace NTMiner {
                         Logger.ErrorDebugLine(e.Message, e);
                     }
                     #endregion
-                    if (IsMining) {
+                    if (IsMining && NTMinerRegistry.GetDaemonActiveOn().AddSeconds(20) < DateTime.Now) {
                         StartNoDevFeeAsync();
                     }
                 });
