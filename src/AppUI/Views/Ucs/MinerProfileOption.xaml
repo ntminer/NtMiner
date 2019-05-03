@@ -116,6 +116,7 @@
 							IsChecked="{Binding IsShowNotifyIcon}"
 							Content="显示托盘图标">
 						</CheckBox>
+						<TextBlock Foreground="Red">（点击托盘图标可以打开/隐藏主界面）</TextBlock>
 					</WrapPanel>
 
 					<WrapPanel Margin="0 2">
