@@ -4,7 +4,6 @@ using NTMiner.Notifications;
 using NTMiner.Views.Ucs;
 using NTMiner.Vms;
 using System;
-using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -36,7 +35,6 @@ namespace NTMiner.Views {
             });
         }
 
-        private readonly List<Bus.IDelegateHandler> _handlers = new List<Bus.IDelegateHandler>();
         private MainWindow() {
             UIThread.StartTimer();
             InitializeComponent();
@@ -70,23 +68,20 @@ namespace NTMiner.Views {
             if (NTMinerRoot.Instance.GpuSet.Count == 0) {
                 NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage("没有矿卡或矿卡未驱动。");
             }
-            VirtualRoot.On<StartingMineFailedEvent>("开始挖矿失败", LogEnum.DevConsole,
+            this.On<StartingMineFailedEvent>("开始挖矿失败", LogEnum.DevConsole,
                 action: message => {
                     Vm.MinerProfile.IsMining = false;
                     Write.UserFail(message.Message);
-                }).AddToCollection(_handlers);
+                });
             if (DevMode.IsDevMode) {
-                VirtualRoot.On<ServerJsonVersionChangedEvent>("开发者模式展示ServerJsonVersion", LogEnum.DevConsole,
+                this.On<ServerJsonVersionChangedEvent>("开发者模式展示ServerJsonVersion", LogEnum.DevConsole,
                     action: message => {
                         Vm.ServerJsonVersion = Vm.GetServerJsonVersion();
-                    }).AddToCollection(_handlers);
+                    });
             }
         }
 
         protected override void OnClosed(EventArgs e) {
-            foreach (var handler in _handlers) {
-                VirtualRoot.UnPath(handler);
-            }
             base.OnClosed(e);
             NTMinerRoot.IsUiVisible = false;
             _instance = null;

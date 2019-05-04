@@ -1,5 +1,4 @@
 ﻿using MahApps.Metro.Controls;
-using NTMiner.Bus;
 using NTMiner.MinerServer;
 using NTMiner.Vms;
 using System;
@@ -31,13 +30,12 @@ namespace NTMiner.Views {
             }
         }
 
-        private readonly List<IDelegateHandler> _handlers = new List<IDelegateHandler>();
         private MinerClientsWindow() {
             Width = SystemParameters.FullPrimaryScreenWidth * 0.95;
             Height = SystemParameters.FullPrimaryScreenHeight * 0.95;
             this.DataContext = AppContext.Instance.MinerClientsWindowVm;
             InitializeComponent();
-            VirtualRoot.On<Per1SecondEvent>("刷新倒计时秒表", LogEnum.None,
+            this.On<Per1SecondEvent>("刷新倒计时秒表", LogEnum.None,
                 action: message => {
                     var minerClients = Vm.MinerClients.ToArray();
                     if (Vm.CountDown > 0) {
@@ -46,22 +44,19 @@ namespace NTMiner.Views {
                             item.OnPropertyChanged(nameof(item.LastActivedOnText));
                         }
                     }
-                }).AddToCollection(_handlers);
-            VirtualRoot.On<Per10SecondEvent>("周期刷新在线客户端列表", LogEnum.DevConsole,
+                });
+            this.On<Per10SecondEvent>("周期刷新在线客户端列表", LogEnum.DevConsole,
                 action: message => {
                     AppContext.Instance.MinerClientsWindowVm.QueryMinerClients();
-                }).AddToCollection(_handlers);
+                });
             EventHandler changeNotiCenterWindowLocation = Wpf.Util.ChangeNotiCenterWindowLocation(this);
             this.Activated += changeNotiCenterWindowLocation;
             this.LocationChanged += changeNotiCenterWindowLocation;
             AppContext.Instance.MinerClientsWindowVm.QueryMinerClients();
-            Write.UserLine("小提示：鼠标配合ctrl和shift可以多选矿机", ConsoleColor.Yellow, isNotice: false);
+            Write.UserLine("小提示：鼠标配合ctrl和shift可以多选矿机", ConsoleColor.Yellow);
         }
 
         protected override void OnClosing(CancelEventArgs e) {
-            foreach (var handler in _handlers) {
-                VirtualRoot.UnPath(handler);
-            }
             VirtualRoot.Execute(new ChangeServerAppSettingsCommand(
                 new AppSettingData[]{
                         new AppSettingData {

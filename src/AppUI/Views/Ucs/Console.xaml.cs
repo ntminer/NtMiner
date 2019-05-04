@@ -56,7 +56,7 @@ namespace NTMiner.Views.Ucs {
                     if (_colors.Count > i) {
                         foreground = _colors[i];
                     }
-                    InnerWrite(text, foreground, isNotice: false);
+                    InnerWrite(text, foreground);
                 }
                 _buffer.Clear();
                 _colors.Clear();
@@ -65,7 +65,7 @@ namespace NTMiner.Views.Ucs {
 
         private const int MAXLINE = 1000;
         private const int HALFLINE = MAXLINE / 2;
-        private void InnerWrite(string text, ConsoleColor foreground, bool isNotice) {
+        private void InnerWrite(string text, ConsoleColor foreground) {
             InlineCollection list = this.ConsoleParagraph.Inlines;
             if (list.Count > MAXLINE) {
                 int delLines = HALFLINE;
@@ -83,7 +83,7 @@ namespace NTMiner.Views.Ucs {
             }
         }
 
-        public void WriteLine(string text, ConsoleColor foreground, bool isNotice) {
+        public void WriteLine(string text, ConsoleColor foreground) {
             Dispatcher.Invoke((Action)(() => {
                 InlineCollection list = this.ConsoleParagraph.Inlines;
                 string line = text;
@@ -104,7 +104,7 @@ namespace NTMiner.Views.Ucs {
                     }
                 }
                 else {
-                    InnerWrite(line, foreground, isNotice);
+                    InnerWrite(line, foreground);
                 }
             }));
         }

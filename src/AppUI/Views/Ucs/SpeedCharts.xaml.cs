@@ -1,6 +1,5 @@
 ﻿using LiveCharts;
 using LiveCharts.Wpf;
-using NTMiner.Bus;
 using NTMiner.Core;
 using NTMiner.Core.Gpus;
 using NTMiner.Vms;
@@ -42,7 +41,6 @@ namespace NTMiner.Views.Ucs {
             }
         }
 
-        private readonly List<IDelegateHandler> _handlers = new List<IDelegateHandler>();
         private readonly Dictionary<SpeedChartViewModel, CartesianChart> _chartDic = new Dictionary<SpeedChartViewModel, CartesianChart>();
         public SpeedCharts() {
             InitializeComponent();
@@ -50,7 +48,7 @@ namespace NTMiner.Views.Ucs {
                 return;
             }
             Guid mainCoinId = NTMinerRoot.Instance.MinerProfile.CoinId;
-            VirtualRoot.On<GpuSpeedChangedEvent>("显卡算力变更后刷新算力图界面", LogEnum.DevConsole,
+            this.On<GpuSpeedChangedEvent>("显卡算力变更后刷新算力图界面", LogEnum.DevConsole,
                 action: (message) => {
                     UIThread.Execute(() => {
                         if (mainCoinId != NTMinerRoot.Instance.MinerProfile.CoinId) {
@@ -113,14 +111,9 @@ namespace NTMiner.Views.Ucs {
                             speedChartVm.SetAxisLimits(now);
                         }
                     });
-                }).AddToCollection(_handlers);
+                });
 
             Vm.ItemsPanelColumns = 1;
-            this.Unloaded += (object sender, RoutedEventArgs e) => {
-                foreach (var handler in _handlers) {
-                    VirtualRoot.UnPath(handler);
-                }
-            };
             SolidColorBrush White = new SolidColorBrush(Colors.White);
             Vm.PropertyChanged += (object sender, System.ComponentModel.PropertyChangedEventArgs e) => {
                 if (e.PropertyName == nameof(Vm.CurrentSpeedChartVm)) {

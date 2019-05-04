@@ -1,11 +1,8 @@
 ﻿using LiveCharts;
 using MahApps.Metro.Controls;
-using NTMiner.Bus;
 using NTMiner.MinerServer;
 using NTMiner.Vms;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
@@ -31,7 +28,6 @@ namespace NTMiner.Views {
             }
         }
 
-        private readonly List<IDelegateHandler> _handlers = new List<IDelegateHandler>();
         private ChartsWindow() {
             Width = SystemParameters.FullPrimaryScreenWidth * 0.95;
             Height = SystemParameters.FullPrimaryScreenHeight * 0.95;
@@ -40,19 +36,12 @@ namespace NTMiner.Views {
             this.Activated += changeNotiCenterWindowLocation;
             this.LocationChanged += changeNotiCenterWindowLocation;
             #region 总算力
-            VirtualRoot.On<Per10SecondEvent>("周期刷新总算力图", LogEnum.DevConsole,
+            this.On<Per10SecondEvent>("周期刷新总算力图", LogEnum.DevConsole,
                 action: message => {
                     RefreshTotalSpeedChart(limit: 1);
-                }).AddToCollection(_handlers);
+                });
             RefreshTotalSpeedChart(limit: 60);
             #endregion
-        }
-
-        protected override void OnClosing(CancelEventArgs e) {
-            foreach (var handler in _handlers) {
-                VirtualRoot.UnPath(handler);
-            }
-            base.OnClosing(e);
         }
 
         public void ShowThisWindow(bool isToggle) {
