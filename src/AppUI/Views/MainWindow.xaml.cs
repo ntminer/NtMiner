@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 
 namespace NTMiner.Views {
     public partial class MainWindow : MetroWindow, IMainWindow {

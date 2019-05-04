@@ -165,8 +165,9 @@ namespace NTMiner {
                     }
                     if (isLogFileCreated) {
                         Write.UserOk("成功得到内核输出。");
-                        FileStream stream = File.Open(logFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-                        using (StreamReader sreader = new StreamReader(stream, Encoding.Default)) {
+                        StreamReader sreader = null;
+                        try {
+                            sreader = new StreamReader(File.Open(logFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite), Encoding.Default);
                             while (mineContext == Instance.CurrentMineContext) {
                                 string outline = sreader.ReadLine();
                                 if (string.IsNullOrEmpty(outline) && sreader.EndOfStream) {
@@ -203,6 +204,13 @@ namespace NTMiner {
                                     }
                                 }
                             }
+                        }
+                        catch (Exception e) {
+                            Logger.ErrorDebugLine(e.Message, e);
+                        }
+                        finally {
+                            sreader?.Close();
+                            sreader?.Dispose();
                         }
                         Logger.WarnWriteLine("内核输出结束");
                     }
