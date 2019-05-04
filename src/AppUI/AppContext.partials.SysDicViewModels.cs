@@ -8,11 +8,12 @@ using System.Windows.Input;
 namespace NTMiner {
     public partial class AppContext {
         public class SysDicViewModels : ViewModelBase {
+            public static readonly SysDicViewModels Instance = new SysDicViewModels();
             private readonly Dictionary<Guid, SysDicViewModel> _dicById = new Dictionary<Guid, SysDicViewModel>();
             private readonly Dictionary<string, SysDicViewModel> _dicByCode = new Dictionary<string, SysDicViewModel>(StringComparer.OrdinalIgnoreCase);
 
             public ICommand Add { get; private set; }
-            public SysDicViewModels() {
+            private SysDicViewModels() {
                 NTMinerRoot.Instance.OnContextReInited += () => {
                     _dicByCode.Clear();
                     _dicById.Clear();

@@ -7,14 +7,15 @@ using System.Linq;
 namespace NTMiner {
     public partial class AppContext {
         public class WalletViewModels : ViewModelBase {
+            public static readonly WalletViewModels Instance = new WalletViewModels();
             private readonly Dictionary<Guid, WalletViewModel> _dicById = new Dictionary<Guid, WalletViewModel>();
-            public WalletViewModels() {
+            private WalletViewModels() {
                 On<WalletAddedEvent>("添加了钱包后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         _dicById.Add(message.Source.GetId(), new WalletViewModel(message.Source));
                         OnPropertyChanged(nameof(WalletList));
                         CoinViewModel coin;
-                        if (AppContext.Current.CoinVms.TryGetCoinVm(message.Source.CoinId, out coin)) {
+                        if (Current.CoinVms.TryGetCoinVm(message.Source.CoinId, out coin)) {
                             coin.OnPropertyChanged(nameof(CoinViewModel.Wallets));
                             coin.OnPropertyChanged(nameof(CoinViewModel.WalletItems));
                             coin.CoinKernel?.CoinKernelProfile?.SelectedDualCoin?.OnPropertyChanged(nameof(CoinViewModel.Wallets));
@@ -25,7 +26,7 @@ namespace NTMiner {
                         _dicById.Remove(message.Source.GetId());
                         OnPropertyChanged(nameof(WalletList));
                         CoinViewModel coin;
-                        if (AppContext.Current.CoinVms.TryGetCoinVm(message.Source.CoinId, out coin)) {
+                        if (Current.CoinVms.TryGetCoinVm(message.Source.CoinId, out coin)) {
                             coin.OnPropertyChanged(nameof(CoinViewModel.Wallets));
                             coin.OnPropertyChanged(nameof(CoinViewModel.WalletItems));
                             coin.CoinProfile?.OnPropertyChanged(nameof(CoinProfileViewModel.SelectedWallet));

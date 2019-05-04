@@ -7,11 +7,13 @@ using System.Windows.Input;
 namespace NTMiner {
     public partial class AppContext {
         public class DriveSetViewModel : ViewModelBase {
+            public static readonly DriveSetViewModel Instance = new DriveSetViewModel();
+
             private readonly List<Drive> _drives = new List<Drive>();
 
             public ICommand Apply { get; private set; }
 
-            public DriveSetViewModel() {
+            private DriveSetViewModel() {
                 foreach (var item in DriveInfo.GetDrives().Where(a => a.DriveType == DriveType.Fixed)) {
                     _drives.Add(new Drive(item));
                 }

@@ -6,9 +6,11 @@ using System.Collections.Generic;
 namespace NTMiner {
     public partial class AppContext {
         public class CoinGroupViewModels : ViewModelBase {
+            public static readonly CoinGroupViewModels Instance = new CoinGroupViewModels();
+
             private readonly Dictionary<Guid, CoinGroupViewModel> _dicById = new Dictionary<Guid, CoinGroupViewModel>();
             private readonly Dictionary<Guid, List<CoinGroupViewModel>> _listByGroupId = new Dictionary<Guid, List<CoinGroupViewModel>>();
-            public CoinGroupViewModels() {
+            private CoinGroupViewModels() {
                 NTMinerRoot.Instance.OnContextReInited += () => {
                     _dicById.Clear();
                     _listByGroupId.Clear();

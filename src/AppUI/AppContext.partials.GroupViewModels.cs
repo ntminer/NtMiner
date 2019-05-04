@@ -8,9 +8,10 @@ using System.Windows.Input;
 namespace NTMiner {
     public partial class AppContext {
         public class GroupViewModels : ViewModelBase {
+            public static readonly GroupViewModels Instance = new GroupViewModels();
             private readonly Dictionary<Guid, GroupViewModel> _dicById = new Dictionary<Guid, GroupViewModel>();
             public ICommand Add { get; private set; }
-            public GroupViewModels() {
+            private GroupViewModels() {
                 this.Add = new DelegateCommand(() => {
                     new GroupViewModel(Guid.NewGuid()) {
                         SortNumber = Count + 1

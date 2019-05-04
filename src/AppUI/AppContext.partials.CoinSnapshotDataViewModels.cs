@@ -6,9 +6,11 @@ using System.Linq;
 namespace NTMiner {
     public partial class AppContext {
         public class CoinSnapshotDataViewModels : ViewModelBase {
+            public static readonly CoinSnapshotDataViewModels Instance = new CoinSnapshotDataViewModels();
+
             private readonly Dictionary<string, CoinSnapshotDataViewModel> _dicByCoinCode = new Dictionary<string, CoinSnapshotDataViewModel>(StringComparer.OrdinalIgnoreCase);
 
-            public CoinSnapshotDataViewModels() {
+            private CoinSnapshotDataViewModels() {
                 foreach (var coinVm in Current.CoinVms.AllCoins) {
                     _dicByCoinCode.Add(coinVm.Code, new CoinSnapshotDataViewModel(new MinerServer.CoinSnapshotData {
                         CoinCode = coinVm.Code,

@@ -6,10 +6,11 @@ using System.Collections.Generic;
 namespace NTMiner {
     public partial class AppContext {
         public class KernelOutputFilterViewModels : ViewModelBase {
+            public static readonly KernelOutputFilterViewModels Instance = new KernelOutputFilterViewModels();
             private readonly Dictionary<Guid, List<KernelOutputFilterViewModel>> _dicByKernelOutputId = new Dictionary<Guid, List<KernelOutputFilterViewModel>>();
             private readonly Dictionary<Guid, KernelOutputFilterViewModel> _dicById = new Dictionary<Guid, KernelOutputFilterViewModel>();
 
-            public KernelOutputFilterViewModels() {
+            private KernelOutputFilterViewModels() {
                 NTMinerRoot.Instance.OnContextReInited += () => {
                     _dicById.Clear();
                     _dicByKernelOutputId.Clear();

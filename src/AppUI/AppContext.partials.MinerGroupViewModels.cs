@@ -8,11 +8,12 @@ using System.Windows.Input;
 namespace NTMiner {
     public partial class AppContext {
         public class MinerGroupViewModels : ViewModelBase {
+            public static readonly MinerGroupViewModels Instance = new MinerGroupViewModels();
             private readonly Dictionary<Guid, MinerGroupViewModel> _dicById = new Dictionary<Guid, MinerGroupViewModel>();
 
             public ICommand Add { get; private set; }
 
-            public MinerGroupViewModels() {
+            private MinerGroupViewModels() {
                 if (Design.IsInDesignMode) {
                     return;
                 }

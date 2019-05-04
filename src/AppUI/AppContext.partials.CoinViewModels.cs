@@ -9,9 +9,11 @@ using System.Windows.Media.Imaging;
 namespace NTMiner {
     public partial class AppContext {
         public class CoinViewModels : ViewModelBase {
+            public static readonly CoinViewModels Instance = new CoinViewModels();
+
             private readonly Dictionary<Guid, CoinViewModel> _dicById = new Dictionary<Guid, CoinViewModel>();
 
-            public CoinViewModels() {
+            private CoinViewModels() {
                 if (Design.IsInDesignMode) {
                     return;
                 }

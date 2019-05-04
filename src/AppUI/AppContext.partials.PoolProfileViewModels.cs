@@ -6,9 +6,10 @@ using System.Collections.Generic;
 namespace NTMiner {
     public partial class AppContext {
         public class PoolProfileViewModels : ViewModelBase {
+            public static readonly PoolProfileViewModels Instance = new PoolProfileViewModels();
             private readonly Dictionary<Guid, PoolProfileViewModel> _dicById = new Dictionary<Guid, PoolProfileViewModel>();
 
-            public PoolProfileViewModels() {
+            private PoolProfileViewModels() {
                 On<PoolProfilePropertyChangedEvent>("矿池设置变更后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         if (_dicById.TryGetValue(message.PoolId, out PoolProfileViewModel vm)) {

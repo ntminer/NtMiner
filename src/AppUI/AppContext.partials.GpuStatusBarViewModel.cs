@@ -5,7 +5,9 @@ using System.Windows.Media;
 namespace NTMiner {
     public partial class AppContext {
         public class GpuStatusBarViewModel : ViewModelBase {
-            public GpuStatusBarViewModel() {
+            public static readonly GpuStatusBarViewModel Instance = new GpuStatusBarViewModel();
+
+            private GpuStatusBarViewModel() {
                 this.GpuAllVm = Current.GpuVms.FirstOrDefault(a => a.Index == NTMinerRoot.GpuAllId);
             }
 

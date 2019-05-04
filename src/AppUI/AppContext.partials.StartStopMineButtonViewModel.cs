@@ -4,10 +4,12 @@ using System.Windows.Input;
 namespace NTMiner {
     public partial class AppContext {
         public class StartStopMineButtonViewModel : ViewModelBase {
+            public static readonly StartStopMineButtonViewModel Instance = new StartStopMineButtonViewModel();
+
             public ICommand StartMine { get; private set; }
             public ICommand StopMine { get; private set; }
 
-            public StartStopMineButtonViewModel() {
+            private StartStopMineButtonViewModel() {
                 this.StartMine = new DelegateCommand(() => {
                     this.MinerProfile.IsMining = true;
                     NTMinerRoot.Instance.StartMine();

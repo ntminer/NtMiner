@@ -7,9 +7,10 @@ using System.Linq;
 namespace NTMiner {
     public partial class AppContext {
         public class SysDicItemViewModels : ViewModelBase {
+            public static readonly SysDicItemViewModels Instance = new SysDicItemViewModels();
             private readonly Dictionary<Guid, SysDicItemViewModel> _dicById = new Dictionary<Guid, SysDicItemViewModel>();
 
-            public SysDicItemViewModels() {
+            private SysDicItemViewModels() {
                 NTMinerRoot.Instance.OnContextReInited += () => {
                     _dicById.Clear();
                     Init();

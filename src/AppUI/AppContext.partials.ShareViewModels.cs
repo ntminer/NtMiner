@@ -6,10 +6,11 @@ using System.Collections.Generic;
 namespace NTMiner {
     public partial class AppContext {
         public class ShareViewModels {
+            public static readonly ShareViewModels Instance = new ShareViewModels();
             private readonly Dictionary<Guid, ShareViewModel> _dicByCoinId = new Dictionary<Guid, ShareViewModel>();
 
-            public ShareViewModels() {
-                AppContext.On<ShareChangedEvent>("收益变更后调整VM内存", LogEnum.DevConsole,
+            private ShareViewModels() {
+                On<ShareChangedEvent>("收益变更后调整VM内存", LogEnum.DevConsole,
                     action: message => {
                         ShareViewModel shareVm;
                         if (_dicByCoinId.TryGetValue(message.Source.CoinId, out shareVm)) {

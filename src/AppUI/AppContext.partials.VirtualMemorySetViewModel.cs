@@ -7,10 +7,12 @@ using System.Linq;
 namespace NTMiner {
     public partial class AppContext {
         public class VirtualMemorySetViewModel : ViewModelBase, IEnumerable<VirtualMemory> {
+            public static readonly VirtualMemorySetViewModel Instance = new VirtualMemorySetViewModel();
+
             private readonly Dictionary<string, VirtualMemory> _dic = new Dictionary<string, VirtualMemory>(StringComparer.OrdinalIgnoreCase);
 
             private readonly Dictionary<string, VirtualMemory> _initialVms = new Dictionary<string, VirtualMemory>(StringComparer.OrdinalIgnoreCase);
-            public VirtualMemorySetViewModel() {
+            private VirtualMemorySetViewModel() {
                 foreach (var item in GetPagingFiles()) {
                     _initialVms.Add(item.DriveName, item);
                 }

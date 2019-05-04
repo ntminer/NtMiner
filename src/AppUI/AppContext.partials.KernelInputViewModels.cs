@@ -7,9 +7,10 @@ using System.Linq;
 namespace NTMiner {
     public partial class AppContext {
         public class KernelInputViewModels : ViewModelBase {
+            public static readonly KernelInputViewModels Instance = new KernelInputViewModels();
             private readonly Dictionary<Guid, KernelInputViewModel> _dicById = new Dictionary<Guid, KernelInputViewModel>();
 
-            public KernelInputViewModels() {
+            private KernelInputViewModels() {
                 NTMinerRoot.Instance.OnContextReInited += () => {
                     _dicById.Clear();
                     Init();

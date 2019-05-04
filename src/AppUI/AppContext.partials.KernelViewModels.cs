@@ -7,6 +7,7 @@ using System.Linq;
 namespace NTMiner {
     public partial class AppContext {
         public class KernelViewModels : ViewModelBase {
+            public static readonly KernelViewModels Instance = new KernelViewModels();
             private readonly Dictionary<Guid, KernelViewModel> _dicById = new Dictionary<Guid, KernelViewModel>();
             public event Action<KernelViewModel> IsDownloadingChanged;
 
@@ -14,7 +15,7 @@ namespace NTMiner {
                 IsDownloadingChanged?.Invoke(kernelVm);
             }
 
-            public KernelViewModels() {
+            private KernelViewModels() {
                 NTMinerRoot.Instance.OnContextReInited += () => {
                     _dicById.Clear();
                     Init();

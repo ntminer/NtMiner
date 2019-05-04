@@ -7,10 +7,11 @@ using System.Linq;
 namespace NTMiner {
     public partial class AppContext {
         public class KernelOutputTranslaterViewModels : ViewModelBase {
+            public static readonly KernelOutputTranslaterViewModels Instance = new KernelOutputTranslaterViewModels();
             private readonly Dictionary<Guid, List<KernelOutputTranslaterViewModel>> _dicByKernelOutputId = new Dictionary<Guid, List<KernelOutputTranslaterViewModel>>();
             private readonly Dictionary<Guid, KernelOutputTranslaterViewModel> _dicById = new Dictionary<Guid, KernelOutputTranslaterViewModel>();
 
-            public KernelOutputTranslaterViewModels() {
+            private KernelOutputTranslaterViewModels() {
                 NTMinerRoot.Instance.OnContextReInited += () => {
                     _dicById.Clear();
                     _dicByKernelOutputId.Clear();

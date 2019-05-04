@@ -9,10 +9,12 @@ using System.Linq;
 namespace NTMiner {
     public partial class AppContext {
         public class GpuProfileViewModels : ViewModelBase {
+            public static readonly GpuProfileViewModels Instance = new GpuProfileViewModels();
+
             private readonly Dictionary<Guid, List<GpuProfileViewModel>> _listByCoinId = new Dictionary<Guid, List<GpuProfileViewModel>>();
             private readonly Dictionary<Guid, GpuProfileViewModel> _gpuAllVmDicByCoinId = new Dictionary<Guid, GpuProfileViewModel>();
 
-            public GpuProfileViewModels() {
+            private GpuProfileViewModels() {
                 On<GpuProfileSetRefreshedEvent>("Gpu超频集合刷新后刷新附着在当前币种上的超频数据", LogEnum.DevConsole,
                     action: message => {
                         lock (_locker) {

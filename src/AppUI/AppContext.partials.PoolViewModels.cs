@@ -7,8 +7,9 @@ using System.Linq;
 namespace NTMiner {
     public partial class AppContext {
         public class PoolViewModels : ViewModelBase {
+            public static readonly PoolViewModels Instance = new PoolViewModels();
             private readonly Dictionary<Guid, PoolViewModel> _dicById = new Dictionary<Guid, PoolViewModel>();
-            public PoolViewModels() {
+            private PoolViewModels() {
                 NTMinerRoot.Instance.OnContextReInited += () => {
                     _dicById.Clear();
                     Init();

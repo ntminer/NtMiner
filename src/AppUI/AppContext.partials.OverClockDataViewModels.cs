@@ -8,9 +8,10 @@ using System.Linq;
 namespace NTMiner {
     public partial class AppContext {
         public class OverClockDataViewModels : ViewModelBase, IEnumerable<OverClockDataViewModel> {
+            public static readonly OverClockDataViewModels Instance = new OverClockDataViewModels();
             private readonly Dictionary<Guid, OverClockDataViewModel> _dicById = new Dictionary<Guid, OverClockDataViewModel>();
 
-            public OverClockDataViewModels() {
+            private OverClockDataViewModels() {
                 if (Design.IsInDesignMode) {
                     return;
                 }

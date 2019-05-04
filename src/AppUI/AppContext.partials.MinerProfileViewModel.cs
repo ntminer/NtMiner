@@ -8,7 +8,9 @@ using System.Linq;
 namespace NTMiner {
     public partial class AppContext {
         public class MinerProfileViewModel : ViewModelBase, IMinerProfile {
-            public MinerProfileViewModel() {
+            public static readonly MinerProfileViewModel Instance = new MinerProfileViewModel();
+
+            private MinerProfileViewModel() {
                 if (Design.IsInDesignMode) {
                     return;
                 }

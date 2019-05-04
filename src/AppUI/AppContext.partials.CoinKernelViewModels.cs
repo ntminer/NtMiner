@@ -7,8 +7,10 @@ using System.Linq;
 namespace NTMiner {
     public partial class AppContext {
         public class CoinKernelViewModels : ViewModelBase {
+            public static readonly CoinKernelViewModels Instance = new CoinKernelViewModels();
+
             private readonly Dictionary<Guid, CoinKernelViewModel> _dicById = new Dictionary<Guid, CoinKernelViewModel>();
-            public CoinKernelViewModels() {
+            private CoinKernelViewModels() {
                 NTMinerRoot.Instance.OnContextReInited += () => {
                     _dicById.Clear();
                     Init();
