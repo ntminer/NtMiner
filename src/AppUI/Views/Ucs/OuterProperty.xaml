@@ -24,6 +24,7 @@
 	</UserControl.Resources>
 	<Grid>
 		<ScrollViewer
+			Padding="4 0 0 0"
 			VerticalScrollBarVisibility="Auto" 
 			PreviewMouseDown="ScrollViewer_PreviewMouseDown">
 			<StackPanel>

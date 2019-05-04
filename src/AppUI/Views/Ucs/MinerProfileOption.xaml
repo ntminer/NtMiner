@@ -10,6 +10,7 @@
 		xmlns:vm="clr-namespace:NTMiner.Vms" Background="White"
 		mc:Ignorable="d" d:DesignHeight="450" d:DesignWidth="600">
 	<ScrollViewer 
+		Padding="4 0 0 0"
 		VerticalScrollBarVisibility="Auto" 
 		PreviewMouseDown="ScrollViewer_PreviewMouseDown">
 		<StackPanel>

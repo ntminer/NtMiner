@@ -594,7 +594,7 @@
 							<TextBlock Text="选项" Padding="4 0 0 0" FontSize="14"></TextBlock>
 						</WrapPanel>
 					</TabItem.Header>
-					<Border x:Name="MinerProfileOptionContainer" Padding="4 0 0 0"></Border>
+					<Border x:Name="MinerProfileOptionContainer"></Border>
 				</TabItem>
 				<TabItem x:Name="TabItemToolbox">
 					<TabItem.Header>
@@ -608,7 +608,7 @@
 							<TextBlock Text="工具箱" Padding="4 0 0 0" FontSize="14"></TextBlock>
 						</WrapPanel>
 					</TabItem.Header>
-					<Border x:Name="ToolboxContainer" Padding="4 0 0 0"></Border>
+					<Border x:Name="ToolboxContainer"></Border>
 				</TabItem>
 				<TabItem x:Name="TabItemOuterProperty">
 					<TabItem.Header>
@@ -622,7 +622,7 @@
 							<TextBlock Text="属性" Padding="4 0 0 0" FontSize="14"></TextBlock>
 						</WrapPanel>
 					</TabItem.Header>
-					<Border x:Name="OuterPropertyContainer" Padding="4 0 0 0"></Border>
+					<Border x:Name="OuterPropertyContainer"></Border>
 				</TabItem>
 			</TabControl>
 
