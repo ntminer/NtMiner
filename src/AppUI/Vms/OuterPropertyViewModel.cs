@@ -11,7 +11,7 @@ namespace NTMiner.Vms {
 
         public AppContext AppContext {
             get {
-                return AppContext.Current;
+                return AppContext.Instance;
             }
         }
 
@@ -47,13 +47,13 @@ namespace NTMiner.Vms {
 
         public AppContext.DriveSetViewModel DriveSet {
             get {
-                return AppContext.Current.DriveSetVm;
+                return AppContext.Instance.DriveSetVm;
             }
         }
 
         public List<GpuViewModel> GpuVms {
             get {
-                return AppContext.Current.GpuVms.Where(a => a.Index != NTMinerRoot.GpuAllId).ToList();
+                return AppContext.Instance.GpuVms.Where(a => a.Index != NTMinerRoot.GpuAllId).ToList();
             }
         }
 

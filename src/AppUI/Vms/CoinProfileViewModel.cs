@@ -42,7 +42,7 @@ namespace NTMiner.Vms {
                 this.IsDualCoinHideWallet = false;
             });
             this.AddWallet = new DelegateCommand(() => {
-                if (AppContext.Current.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
+                if (AppContext.Instance.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
                     Guid id = Guid.NewGuid();
                     var wallets = coinVm.Wallets.Where(a => a.IsTestWallet).ToArray();
                     int sortNumber = wallets.Length == 0 ? 1 : wallets.Max(a => a.SortNumber) + 1;
@@ -51,12 +51,12 @@ namespace NTMiner.Vms {
                         SortNumber = sortNumber
                     }.Edit.Execute(FormType.Add);
                     if (NTMinerRoot.Instance.MinerProfile.TryGetWallet(id, out IWallet wallet)) {
-                        this.SelectedWallet = AppContext.Current.WalletVms.WalletList.FirstOrDefault(a => a.Id == id);
+                        this.SelectedWallet = AppContext.Instance.WalletVms.WalletList.FirstOrDefault(a => a.Id == id);
                     }
                 }
             });
             this.AddDualCoinWallet = new DelegateCommand(() => {
-                if (AppContext.Current.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
+                if (AppContext.Instance.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
                     Guid id = Guid.NewGuid();
                     var wallets = coinVm.Wallets.Where(a => a.IsTestWallet).ToArray();
                     int sortNumber = wallets.Length == 0 ? 1 : wallets.Max(a => a.SortNumber) + 1;
@@ -65,7 +65,7 @@ namespace NTMiner.Vms {
                         SortNumber = sortNumber
                     }.Edit.Execute(FormType.Add);
                     if (NTMinerRoot.Instance.MinerProfile.TryGetWallet(id, out IWallet wallet)) {
-                        this.SelectedDualCoinWallet = AppContext.Current.WalletVms.WalletList.FirstOrDefault(a => a.Id == id);
+                        this.SelectedDualCoinWallet = AppContext.Instance.WalletVms.WalletList.FirstOrDefault(a => a.Id == id);
                     }
                 }
             });
@@ -99,7 +99,7 @@ namespace NTMiner.Vms {
 
         public WalletViewModel SelectedWallet {
             get {
-                if (!AppContext.Current.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
+                if (!AppContext.Instance.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
                     return null;
                 }
                 WalletViewModel walletVm = coinVm.Wallets.FirstOrDefault(a => a.Address == this.Wallet);
@@ -113,7 +113,7 @@ namespace NTMiner.Vms {
             }
             set {
                 if (value == null) {
-                    if (AppContext.Current.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
+                    if (AppContext.Instance.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
                         value = coinVm.Wallets.FirstOrDefault();
                     }
                 }
@@ -157,10 +157,10 @@ namespace NTMiner.Vms {
                     return null;
                 }
 
-                if (!AppContext.Current.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
+                if (!AppContext.Instance.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
                     return null;
                 }
-                if (!AppContext.Current.PoolVms.TryGetPoolVm(this.PoolId, out PoolViewModel pool)) {
+                if (!AppContext.Instance.PoolVms.TryGetPoolVm(this.PoolId, out PoolViewModel pool)) {
                     pool = coinVm.Pools.OrderBy(a => a.SortNumber).FirstOrDefault();
                     if (pool != null) {
                         PoolId = pool.Id;
@@ -170,7 +170,7 @@ namespace NTMiner.Vms {
             }
             set {
                 if (value == null) {
-                    if (AppContext.Current.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
+                    if (AppContext.Instance.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
                         value = coinVm.Pools.OrderBy(a => a.SortNumber).FirstOrDefault();
                     }
                 }
@@ -205,7 +205,7 @@ namespace NTMiner.Vms {
 
         public WalletViewModel SelectedDualCoinWallet {
             get {
-                if (!AppContext.Current.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
+                if (!AppContext.Instance.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
                     return null;
                 }
                 WalletViewModel walletVm = coinVm.Wallets.FirstOrDefault(a => a.Address == this.DualCoinWallet);
@@ -219,7 +219,7 @@ namespace NTMiner.Vms {
             }
             set {
                 if (value == null) {
-                    if (AppContext.Current.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
+                    if (AppContext.Instance.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
                         value = coinVm.Wallets.FirstOrDefault();
                     }
                 }
@@ -249,10 +249,10 @@ namespace NTMiner.Vms {
 
         public PoolViewModel DualCoinPool {
             get {
-                if (!AppContext.Current.CoinVms.TryGetCoinVm(CoinId, out CoinViewModel coinVm)) {
+                if (!AppContext.Instance.CoinVms.TryGetCoinVm(CoinId, out CoinViewModel coinVm)) {
                     return null;
                 }
-                if (!AppContext.Current.PoolVms.TryGetPoolVm(this.DualCoinPoolId, out PoolViewModel pool)) {
+                if (!AppContext.Instance.PoolVms.TryGetPoolVm(this.DualCoinPoolId, out PoolViewModel pool)) {
                     pool = coinVm.Pools.OrderBy(a => a.SortNumber).FirstOrDefault();
                     if (pool != null) {
                         DualCoinPoolId = pool.Id;
@@ -262,7 +262,7 @@ namespace NTMiner.Vms {
             }
             set {
                 if (value == null) {
-                    if (AppContext.Current.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
+                    if (AppContext.Instance.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
                         value = coinVm.Pools.OrderBy(a => a.SortNumber).FirstOrDefault();
                     }
                 }

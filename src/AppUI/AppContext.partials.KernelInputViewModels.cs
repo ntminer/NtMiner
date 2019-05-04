@@ -34,13 +34,13 @@ namespace NTMiner {
                                 string dualFullArgs = item.DualFullArgs;
                                 item.Update(message.Source);
                                 if (args != item.Args || dualFullArgs != item.DualFullArgs) {
-                                    CoinViewModel coinVm = Current.MinerProfileVm.CoinVm;
+                                    CoinViewModel coinVm = AppContext.Instance.MinerProfileVm.CoinVm;
                                     if (coinVm != null && coinVm.CoinKernel != null && coinVm.CoinKernel.Kernel.KernelInputId == item.Id) {
                                         NTMinerRoot.RefreshArgsAssembly.Invoke();
                                     }
                                 }
                                 if (isSupportDualMine != item.IsSupportDualMine) {
-                                    foreach (var coinKernelVm in Current.CoinKernelVms.AllCoinKernels.Where(a => a.KernelId == message.Source.GetId())) {
+                                    foreach (var coinKernelVm in AppContext.Instance.CoinKernelVms.AllCoinKernels.Where(a => a.KernelId == message.Source.GetId())) {
                                         coinKernelVm.OnPropertyChanged(nameof(coinKernelVm.IsSupportDualMine));
                                         coinKernelVm.OnPropertyChanged(nameof(coinKernelVm.DualCoinGroup));
                                     }

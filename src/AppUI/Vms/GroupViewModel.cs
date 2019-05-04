@@ -60,32 +60,32 @@ namespace NTMiner.Vms {
                 }, icon: IconConst.IconConfirm);
             });
             this.SortUp = new DelegateCommand(() => {
-                GroupViewModel upOne = AppContext.Current.GroupVms.List.OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.SortNumber < this.SortNumber);
+                GroupViewModel upOne = AppContext.Instance.GroupVms.List.OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.SortNumber < this.SortNumber);
                 if (upOne != null) {
                     int sortNumber = upOne.SortNumber;
                     upOne.SortNumber = this.SortNumber;
                     VirtualRoot.Execute(new UpdateGroupCommand(upOne));
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdateGroupCommand(this));
-                    AppContext.Current.GroupVms.OnPropertyChanged(nameof(AppContext.GroupViewModels.List));
+                    AppContext.Instance.GroupVms.OnPropertyChanged(nameof(AppContext.GroupViewModels.List));
                 }
             });
             this.SortDown = new DelegateCommand(() => {
-                GroupViewModel nextOne = AppContext.Current.GroupVms.List.OrderBy(a => a.SortNumber).FirstOrDefault(a => a.SortNumber > this.SortNumber);
+                GroupViewModel nextOne = AppContext.Instance.GroupVms.List.OrderBy(a => a.SortNumber).FirstOrDefault(a => a.SortNumber > this.SortNumber);
                 if (nextOne != null) {
                     int sortNumber = nextOne.SortNumber;
                     nextOne.SortNumber = this.SortNumber;
                     VirtualRoot.Execute(new UpdateGroupCommand(nextOne));
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdateGroupCommand(this));
-                    AppContext.Current.GroupVms.OnPropertyChanged(nameof(AppContext.GroupViewModels.List));
+                    AppContext.Instance.GroupVms.OnPropertyChanged(nameof(AppContext.GroupViewModels.List));
                 }
             });
             this.AddCoinGroup = new DelegateCommand<CoinViewModel>((coinVm) => {
                 if (coinVm == null) {
                     return;
                 }
-                var coinGroupVms = AppContext.Current.CoinGroupVms.GetCoinGroupsByGroupId(this.Id);
+                var coinGroupVms = AppContext.Instance.CoinGroupVms.GetCoinGroupsByGroupId(this.Id);
                 int sortNumber = coinGroupVms.Count == 0 ? 1 : coinGroupVms.Count + 1;
                 CoinGroupViewModel coinGroupVm = new CoinGroupViewModel(Guid.NewGuid()) {
                     CoinId = coinVm.Id,
@@ -98,15 +98,15 @@ namespace NTMiner.Vms {
 
         public List<CoinGroupViewModel> CoinGroupVms {
             get {
-                return AppContext.Current.CoinGroupVms.GetCoinGroupsByGroupId(this.Id).OrderBy(a => a.SortNumber).ToList();
+                return AppContext.Instance.CoinGroupVms.GetCoinGroupsByGroupId(this.Id).OrderBy(a => a.SortNumber).ToList();
             }
         }
 
         public List<CoinViewModel> CoinVms {
             get {
                 List<CoinViewModel> list = new List<CoinViewModel>();
-                var coinGroupVms = AppContext.Current.CoinGroupVms.GetCoinGroupsByGroupId(this.Id);
-                foreach (var item in AppContext.Current.CoinVms.AllCoins) {
+                var coinGroupVms = AppContext.Instance.CoinGroupVms.GetCoinGroupsByGroupId(this.Id);
+                foreach (var item in AppContext.Instance.CoinVms.AllCoins) {
                     if (coinGroupVms.All(a => a.CoinId != item.Id)) {
                         list.Add(item);
                     }
@@ -117,7 +117,7 @@ namespace NTMiner.Vms {
 
         public List<CoinViewModel> DualCoinVms {
             get {
-                var coinGroupVms = AppContext.Current.CoinGroupVms.GetCoinGroupsByGroupId(this.Id);
+                var coinGroupVms = AppContext.Instance.CoinGroupVms.GetCoinGroupsByGroupId(this.Id);
                 return coinGroupVms.Where(a => a.CoinVm != CoinViewModel.Empty).Select(a => a.CoinVm).OrderBy(a => a.SortNumber).ToList();
             }
         }

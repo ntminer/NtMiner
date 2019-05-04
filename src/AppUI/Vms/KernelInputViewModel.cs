@@ -88,13 +88,13 @@ namespace NTMiner.Vms {
 
         public AppContext AppContext {
             get {
-                return AppContext.Current;
+                return AppContext.Instance;
             }
         }
 
         public AppContext.GroupViewModels GroupVms {
             get {
-                return AppContext.Current.GroupVms;
+                return AppContext.Instance.GroupVms;
             }
         }
 
@@ -138,7 +138,7 @@ namespace NTMiner.Vms {
                     return GroupViewModel.PleaseSelect;
                 }
                 if (_dualCoinGroup == null || _dualCoinGroup.Id != this.DualCoinGroupId) {
-                    AppContext.Current.GroupVms.TryGetGroupVm(DualCoinGroupId, out _dualCoinGroup);
+                    AppContext.Instance.GroupVms.TryGetGroupVm(DualCoinGroupId, out _dualCoinGroup);
                     if (_dualCoinGroup == null) {
                         _dualCoinGroup = GroupViewModel.PleaseSelect;
                     }
@@ -239,7 +239,7 @@ namespace NTMiner.Vms {
 
         public string KernelFullNames {
             get {
-                string names = string.Join(";", AppContext.Current.KernelVms.AllKernels.Where(a => a.KernelInputId == this.Id).Select(a => a.FullName));
+                string names = string.Join(";", AppContext.Instance.KernelVms.AllKernels.Where(a => a.KernelInputId == this.Id).Select(a => a.FullName));
                 if (string.IsNullOrEmpty(names)) {
                     return "无";
                 }

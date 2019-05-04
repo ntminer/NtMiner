@@ -5,12 +5,12 @@
 
         public AppContext.UserViewModels UserVms {
             get {
-                return AppContext.Current.UserVms;
+                return AppContext.Instance.UserVms;
             }
         }
 
         public AppContext.MinerProfileViewModel MinerProfile {
-            get { return AppContext.Current.MinerProfileVm; }
+            get { return AppContext.Instance.MinerProfileVm; }
         }
 
         public bool IsMinerStudio {

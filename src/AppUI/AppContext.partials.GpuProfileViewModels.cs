@@ -21,7 +21,7 @@ namespace NTMiner {
                             _listByCoinId.Clear();
                             _gpuAllVmDicByCoinId.Clear();
                         }
-                        var coinVm = Current.MinerProfileVm.CoinVm;
+                        var coinVm = AppContext.Instance.MinerProfileVm.CoinVm;
                         if (coinVm != null) {
                             coinVm.OnOverClockPropertiesChanges();
                             VirtualRoot.Execute(new CoinOverClockCommand(coinVm.Id));
@@ -37,7 +37,7 @@ namespace NTMiner {
                                     vm.Update(message.Source);
                                 }
                                 else {
-                                    if (Current.GpuVms.TryGetGpuVm(message.Source.Index, out GpuViewModel gpuVm)) {
+                                    if (AppContext.Instance.GpuVms.TryGetGpuVm(message.Source.Index, out GpuViewModel gpuVm)) {
                                         var item = new GpuProfileViewModel(message.Source, gpuVm);
                                         list.Add(item);
                                         list.Sort(new CompareByGpuIndex());
@@ -49,7 +49,7 @@ namespace NTMiner {
                             }
                             else {
                                 list = new List<GpuProfileViewModel>();
-                                if (Current.GpuVms.TryGetGpuVm(message.Source.Index, out GpuViewModel gpuVm)) {
+                                if (AppContext.Instance.GpuVms.TryGetGpuVm(message.Source.Index, out GpuViewModel gpuVm)) {
                                     var item = new GpuProfileViewModel(message.Source, gpuVm);
                                     list.Add(item);
                                     list.Sort(new CompareByGpuIndex());
@@ -70,7 +70,7 @@ namespace NTMiner {
                     lock (_locker) {
                         if (!_gpuAllVmDicByCoinId.TryGetValue(coinId, out result)) {
                             GpuViewModel gpuVm;
-                            Current.GpuVms.TryGetGpuVm(NTMinerRoot.GpuAllId, out gpuVm);
+                            AppContext.Instance.GpuVms.TryGetGpuVm(NTMinerRoot.GpuAllId, out gpuVm);
                             result = GetGpuProfileVm(coinId, gpuVm);
                             _gpuAllVmDicByCoinId.Add(coinId, result);
                         }
@@ -85,7 +85,7 @@ namespace NTMiner {
                     lock (_locker) {
                         if (!_listByCoinId.TryGetValue(coinId, out list)) {
                             list = new List<GpuProfileViewModel>();
-                            foreach (var gpu in Current.GpuVms) {
+                            foreach (var gpu in AppContext.Instance.GpuVms) {
                                 GpuProfileViewModel gpuProfileVm = GetGpuProfileVm(coinId, gpu);
                                 list.Add(gpuProfileVm);
                             }

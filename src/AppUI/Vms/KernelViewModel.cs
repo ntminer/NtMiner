@@ -186,13 +186,13 @@ namespace NTMiner.Vms {
 
         public AppContext AppContext {
             get {
-                return AppContext.Current;
+                return AppContext.Instance;
             }
         }
 
         public KernelViewModel KernelVmSingleInstance {
             get {
-                if (AppContext.Current.KernelVms.TryGetKernelVm(this.Id, out KernelViewModel kernelVm)) {
+                if (AppContext.Instance.KernelVms.TryGetKernelVm(this.Id, out KernelViewModel kernelVm)) {
                     return kernelVm;
                 }
                 return null;
@@ -203,7 +203,7 @@ namespace NTMiner.Vms {
         public KernelOutputViewModel KernelOutputVm {
             get {
                 if (_kernelOutputVm == null || _kernelOutputVm.Id != this.KernelOutputId) {
-                    AppContext.Current.KernelOutputVms.TryGetKernelOutputVm(this.KernelOutputId, out _kernelOutputVm);
+                    AppContext.Instance.KernelOutputVms.TryGetKernelOutputVm(this.KernelOutputId, out _kernelOutputVm);
                     if (_kernelOutputVm == null) {
                         _kernelOutputVm = KernelOutputViewModel.PleaseSelect;
                     }
@@ -221,7 +221,7 @@ namespace NTMiner.Vms {
 
         public AppContext.KernelOutputViewModels KernelOutputVms {
             get {
-                return AppContext.Current.KernelOutputVms;
+                return AppContext.Instance.KernelOutputVms;
             }
         }
 
@@ -229,7 +229,7 @@ namespace NTMiner.Vms {
         public KernelInputViewModel KernelInputVm {
             get {
                 if (_kernelInputVm == null || _kernelInputVm.Id != this.KernelInputId) {
-                    AppContext.Current.KernelInputVms.TryGetKernelInputVm(this.KernelInputId, out _kernelInputVm);
+                    AppContext.Instance.KernelInputVms.TryGetKernelInputVm(this.KernelInputId, out _kernelInputVm);
                     if (_kernelInputVm == null) {
                         _kernelInputVm = KernelInputViewModel.PleaseSelect;
                     }
@@ -247,25 +247,25 @@ namespace NTMiner.Vms {
 
         public AppContext.KernelInputViewModels KernelInputVms {
             get {
-                return AppContext.Current.KernelInputVms;
+                return AppContext.Instance.KernelInputVms;
             }
         }
 
         public AppContext.GroupViewModels GroupVms {
             get {
-                return AppContext.Current.GroupVms;
+                return AppContext.Instance.GroupVms;
             }
         }
 
         public List<KernelViewModel> OtherVersionKernelVms {
             get {
-                return AppContext.Current.KernelVms.AllKernels.Where(a => a.Code == this.Code && a.Id != this.Id).OrderBy(a => a.Code + a.Version).ToList();
+                return AppContext.Instance.KernelVms.AllKernels.Where(a => a.Code == this.Code && a.Id != this.Id).OrderBy(a => a.Code + a.Version).ToList();
             }
         }
 
         public List<CoinKernelViewModel> CoinKernels {
             get {
-                return AppContext.Current.CoinKernelVms.AllCoinKernels.Where(a => a.KernelId == this.Id).OrderBy(a => a.SortNumber).ToList();
+                return AppContext.Instance.CoinKernelVms.AllCoinKernels.Where(a => a.KernelId == this.Id).OrderBy(a => a.SortNumber).ToList();
             }
         }
 
@@ -274,8 +274,8 @@ namespace NTMiner.Vms {
                 List<CoinViewModel> list = new List<CoinViewModel>() {
                     CoinViewModel.PleaseSelect
                 };
-                var coinKernelVms = AppContext.Current.CoinKernelVms.AllCoinKernels.Where(a => a.KernelId == this.Id).ToList();
-                foreach (var item in AppContext.Current.CoinVms.AllCoins) {
+                var coinKernelVms = AppContext.Instance.CoinKernelVms.AllCoinKernels.Where(a => a.KernelId == this.Id).ToList();
+                foreach (var item in AppContext.Instance.CoinVms.AllCoins) {
                     if (coinKernelVms.All(a => a.CoinId != item.Id)) {
                         list.Add(item);
                     }
@@ -362,7 +362,7 @@ namespace NTMiner.Vms {
                     return SysDicItemViewModel.PleaseSelect;
                 }
                 SysDicItemViewModel item;
-                if (AppContext.Current.SysDicItemVms.TryGetValue(this.BrandId, out item)) {
+                if (AppContext.Instance.SysDicItemVms.TryGetValue(this.BrandId, out item)) {
                     return item;
                 }
                 return SysDicItemViewModel.PleaseSelect;
@@ -378,7 +378,7 @@ namespace NTMiner.Vms {
 
         public AppContext.SysDicItemViewModels SysDicItemVms {
             get {
-                return AppContext.Current.SysDicItemVms;
+                return AppContext.Instance.SysDicItemVms;
             }
         }
 
@@ -433,7 +433,7 @@ namespace NTMiner.Vms {
             get {
                 List<CoinViewModel> list = new List<CoinViewModel>();
                 foreach (var item in NTMinerRoot.Instance.CoinKernelSet.Where(a => a.KernelId == this.Id)) {
-                    if (AppContext.Current.CoinVms.TryGetCoinVm(item.CoinId, out CoinViewModel coin)) {
+                    if (AppContext.Instance.CoinVms.TryGetCoinVm(item.CoinId, out CoinViewModel coin)) {
                         list.Add(coin);
                     }
                 }

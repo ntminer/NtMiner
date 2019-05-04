@@ -28,8 +28,8 @@ namespace NTMiner {
                             _dicById.Add(message.Source.GetId(), new MineWorkViewModel(message.Source));
                             OnPropertyChanged(nameof(List));
                             OnPropertyChanged(nameof(MineWorkVmItems));
-                            if (message.Source.GetId() == Current.MinerClientsWindowVm.SelectedMineWork.GetId()) {
-                                Current.MinerClientsWindowVm.SelectedMineWork = MineWorkViewModel.PleaseSelect;
+                            if (message.Source.GetId() == AppContext.Instance.MinerClientsWindowVm.SelectedMineWork.GetId()) {
+                                AppContext.Instance.MinerClientsWindowVm.SelectedMineWork = MineWorkViewModel.PleaseSelect;
                             }
                         }
                     });
@@ -42,8 +42,8 @@ namespace NTMiner {
                         _dicById.Remove(message.Source.GetId());
                         OnPropertyChanged(nameof(List));
                         OnPropertyChanged(nameof(MineWorkVmItems));
-                        if (message.Source.GetId() == Current.MinerClientsWindowVm.SelectedMineWork.GetId()) {
-                            Current.MinerClientsWindowVm.SelectedMineWork = MineWorkViewModel.PleaseSelect;
+                        if (message.Source.GetId() == AppContext.Instance.MinerClientsWindowVm.SelectedMineWork.GetId()) {
+                            AppContext.Instance.MinerClientsWindowVm.SelectedMineWork = MineWorkViewModel.PleaseSelect;
                         }
                     });
             }

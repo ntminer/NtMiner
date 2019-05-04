@@ -27,7 +27,7 @@ namespace NTMiner.Views {
 
         public MinerClientsWindowViewModel Vm {
             get {
-                return AppContext.Current.MinerClientsWindowVm;
+                return AppContext.Instance.MinerClientsWindowVm;
             }
         }
 
@@ -35,7 +35,7 @@ namespace NTMiner.Views {
         private MinerClientsWindow() {
             Width = SystemParameters.FullPrimaryScreenWidth * 0.95;
             Height = SystemParameters.FullPrimaryScreenHeight * 0.95;
-            this.DataContext = AppContext.Current.MinerClientsWindowVm;
+            this.DataContext = AppContext.Instance.MinerClientsWindowVm;
             InitializeComponent();
             VirtualRoot.On<Per1SecondEvent>("刷新倒计时秒表", LogEnum.None,
                 action: message => {
@@ -49,12 +49,12 @@ namespace NTMiner.Views {
                 }).AddToCollection(_handlers);
             VirtualRoot.On<Per10SecondEvent>("周期刷新在线客户端列表", LogEnum.DevConsole,
                 action: message => {
-                    AppContext.Current.MinerClientsWindowVm.QueryMinerClients();
+                    AppContext.Instance.MinerClientsWindowVm.QueryMinerClients();
                 }).AddToCollection(_handlers);
             EventHandler changeNotiCenterWindowLocation = Wpf.Util.ChangeNotiCenterWindowLocation(this);
             this.Activated += changeNotiCenterWindowLocation;
             this.LocationChanged += changeNotiCenterWindowLocation;
-            AppContext.Current.MinerClientsWindowVm.QueryMinerClients();
+            AppContext.Instance.MinerClientsWindowVm.QueryMinerClients();
             Write.UserLine("小提示：鼠标配合ctrl和shift可以多选矿机", ConsoleColor.Yellow, isNotice: false);
         }
 

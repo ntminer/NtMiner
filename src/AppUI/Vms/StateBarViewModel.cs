@@ -28,7 +28,7 @@ namespace NTMiner.Vms {
 
         public AppContext AppContext {
             get {
-                return AppContext.Current;
+                return AppContext.Instance;
             }
         }
 
@@ -40,7 +40,7 @@ namespace NTMiner.Vms {
             }
         }
 
-        public AppContext.GpuSpeedViewModels GpuSpeedVms { get; private set; } = AppContext.Current.GpuSpeedVms;
+        public AppContext.GpuSpeedViewModels GpuSpeedVms { get; private set; } = AppContext.Instance.GpuSpeedVms;
 
         public TimeSpan BootTimeSpan {
             get { return _bootTimeSpan; }
@@ -92,13 +92,13 @@ namespace NTMiner.Vms {
 
         public AppContext.MinerProfileViewModel MinerProfile {
             get {
-                return AppContext.Current.MinerProfileVm;
+                return AppContext.Instance.MinerProfileVm;
             }
         }
 
         public AppContext.GpuStatusBarViewModel GpuStatusBarVm {
             get {
-                return AppContext.Current.GpuStatusBarVm;
+                return AppContext.Instance.GpuStatusBarVm;
             }
         }
 

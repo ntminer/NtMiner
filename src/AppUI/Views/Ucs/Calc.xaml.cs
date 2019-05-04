@@ -7,7 +7,7 @@ namespace NTMiner.Views.Ucs {
     public partial class Calc : UserControl {
         public static void ShowWindow(CoinViewModel coin) {
             if (coin == null) {
-                coin = AppContext.Current.MinerProfileVm.CoinVm;
+                coin = AppContext.Instance.MinerProfileVm.CoinVm;
             }
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "收益计算器",

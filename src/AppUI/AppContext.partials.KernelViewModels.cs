@@ -27,7 +27,7 @@ namespace NTMiner {
                     action: (message) => {
                         _dicById.Add(message.Source.GetId(), new KernelViewModel(message.Source));
                         OnPropertyChanged(nameof(AllKernels));
-                        foreach (var coinKernelVm in Current.CoinKernelVms.AllCoinKernels.Where(a => a.KernelId == message.Source.GetId())) {
+                        foreach (var coinKernelVm in AppContext.Instance.CoinKernelVms.AllCoinKernels.Where(a => a.KernelId == message.Source.GetId())) {
                             coinKernelVm.OnPropertyChanged(nameof(coinKernelVm.IsSupportDualMine));
                         }
                     });
@@ -35,7 +35,7 @@ namespace NTMiner {
                     action: message => {
                         _dicById.Remove(message.Source.GetId());
                         OnPropertyChanged(nameof(AllKernels));
-                        foreach (var coinKernelVm in Current.CoinKernelVms.AllCoinKernels.Where(a => a.KernelId == message.Source.GetId())) {
+                        foreach (var coinKernelVm in AppContext.Instance.CoinKernelVms.AllCoinKernels.Where(a => a.KernelId == message.Source.GetId())) {
                             coinKernelVm.OnPropertyChanged(nameof(coinKernelVm.IsSupportDualMine));
                         }
                     });
@@ -46,8 +46,8 @@ namespace NTMiner {
                         Guid kernelInputId = entity.KernelInputId;
                         entity.Update(message.Source);
                         if (publishStatus != entity.PublishState) {
-                            foreach (var coinKernelVm in Current.CoinKernelVms.AllCoinKernels.Where(a => a.KernelId == entity.Id)) {
-                                foreach (var coinVm in Current.CoinVms.AllCoins.Where(a => a.Id == coinKernelVm.CoinId)) {
+                            foreach (var coinKernelVm in AppContext.Instance.CoinKernelVms.AllCoinKernels.Where(a => a.KernelId == entity.Id)) {
+                                foreach (var coinVm in AppContext.Instance.CoinVms.AllCoins.Where(a => a.Id == coinKernelVm.CoinId)) {
                                     coinVm.OnPropertyChanged(nameof(coinVm.CoinKernels));
                                 }
                             }

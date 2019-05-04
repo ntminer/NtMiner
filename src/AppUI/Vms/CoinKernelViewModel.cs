@@ -108,7 +108,7 @@ namespace NTMiner.Vms {
                 }, icon: IconConst.IconConfirm);
             });
             this.SortUp = new DelegateCommand(() => {
-                CoinKernelViewModel upOne = AppContext.Current.CoinKernelVms.AllCoinKernels.OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.CoinId == this.CoinId && a.SortNumber < this.SortNumber);
+                CoinKernelViewModel upOne = AppContext.Instance.CoinKernelVms.AllCoinKernels.OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.CoinId == this.CoinId && a.SortNumber < this.SortNumber);
                 if (upOne != null) {
                     int sortNumber = upOne.SortNumber;
                     upOne.SortNumber = this.SortNumber;
@@ -116,15 +116,15 @@ namespace NTMiner.Vms {
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdateCoinKernelCommand(this));
                     CoinViewModel coinVm;
-                    if (AppContext.Current.CoinVms.TryGetCoinVm(this.CoinId, out coinVm)) {
+                    if (AppContext.Instance.CoinVms.TryGetCoinVm(this.CoinId, out coinVm)) {
                         coinVm.OnPropertyChanged(nameof(coinVm.CoinKernels));
                     }
                     this.Kernel.OnPropertyChanged(nameof(this.Kernel.CoinKernels));
-                    AppContext.Current.CoinVms.OnPropertyChanged(nameof(AppContext.CoinViewModels.MainCoins));
+                    AppContext.Instance.CoinVms.OnPropertyChanged(nameof(AppContext.CoinViewModels.MainCoins));
                 }
             });
             this.SortDown = new DelegateCommand(() => {
-                CoinKernelViewModel nextOne = AppContext.Current.CoinKernelVms.AllCoinKernels.OrderBy(a => a.SortNumber).FirstOrDefault(a => a.CoinId == this.CoinId && a.SortNumber > this.SortNumber);
+                CoinKernelViewModel nextOne = AppContext.Instance.CoinKernelVms.AllCoinKernels.OrderBy(a => a.SortNumber).FirstOrDefault(a => a.CoinId == this.CoinId && a.SortNumber > this.SortNumber);
                 if (nextOne != null) {
                     int sortNumber = nextOne.SortNumber;
                     nextOne.SortNumber = this.SortNumber;
@@ -132,18 +132,18 @@ namespace NTMiner.Vms {
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdateCoinKernelCommand(this));
                     CoinViewModel coinVm;
-                    if (AppContext.Current.CoinVms.TryGetCoinVm(this.CoinId, out coinVm)) {
+                    if (AppContext.Instance.CoinVms.TryGetCoinVm(this.CoinId, out coinVm)) {
                         coinVm.OnPropertyChanged(nameof(coinVm.CoinKernels));
                     }
                     this.Kernel.OnPropertyChanged(nameof(this.Kernel.CoinKernels));
-                    AppContext.Current.CoinVms.OnPropertyChanged(nameof(AppContext.CoinViewModels.MainCoins));
+                    AppContext.Instance.CoinVms.OnPropertyChanged(nameof(AppContext.CoinViewModels.MainCoins));
                 }
             });
         }
 
         public AppContext AppContext {
             get {
-                return AppContext.Current;
+                return AppContext.Instance;
             }
         }
 
@@ -179,7 +179,7 @@ namespace NTMiner.Vms {
         public CoinViewModel CoinVm {
             get {
                 if (_coinVm == null || this.CoinId != _coinVm.Id) {
-                    AppContext.Current.CoinVms.TryGetCoinVm(this.CoinId, out _coinVm);
+                    AppContext.Instance.CoinVms.TryGetCoinVm(this.CoinId, out _coinVm);
                     if (_coinVm == null) {
                         _coinVm = CoinViewModel.Empty;
                     }
@@ -207,7 +207,7 @@ namespace NTMiner.Vms {
         public KernelViewModel Kernel {
             get {
                 KernelViewModel kernel;
-                if (AppContext.Current.KernelVms.TryGetKernelVm(this.KernelId, out kernel)) {
+                if (AppContext.Instance.KernelVms.TryGetKernelVm(this.KernelId, out kernel)) {
                     return kernel;
                 }
                 return KernelViewModel.Empty;
@@ -240,7 +240,7 @@ namespace NTMiner.Vms {
                     return GroupViewModel.PleaseSelect;
                 }
                 if (_selectedDualCoinGroup == null || _selectedDualCoinGroup.Id != this.DualCoinGroupId) {
-                    AppContext.Current.GroupVms.TryGetGroupVm(DualCoinGroupId, out _selectedDualCoinGroup);
+                    AppContext.Instance.GroupVms.TryGetGroupVm(DualCoinGroupId, out _selectedDualCoinGroup);
                     if (_selectedDualCoinGroup == null) {
                         _selectedDualCoinGroup = GroupViewModel.PleaseSelect;
                     }
@@ -271,7 +271,7 @@ namespace NTMiner.Vms {
 
         public AppContext.GroupViewModels GroupVms {
             get {
-                return AppContext.Current.GroupVms;
+                return AppContext.Instance.GroupVms;
             }
         }
 
@@ -402,7 +402,7 @@ namespace NTMiner.Vms {
 
         public CoinKernelProfileViewModel CoinKernelProfile {
             get {
-                return AppContext.Current.CoinProfileVms.GetOrCreateCoinKernelProfileVm(this.Id);
+                return AppContext.Instance.CoinProfileVms.GetOrCreateCoinKernelProfileVm(this.Id);
             }
         }
     }

@@ -54,7 +54,7 @@ namespace NTMiner.Vms {
                     VirtualRoot.Execute(new AddKernelOutputTranslaterCommand(this));
                 }
                 if (sortNumber != this.SortNumber) {
-                    if (AppContext.Current.KernelOutputVms.TryGetKernelOutputVm(this.KernelOutputId, out KernelOutputViewModel kernelOutputVm)) {
+                    if (AppContext.Instance.KernelOutputVms.TryGetKernelOutputVm(this.KernelOutputId, out KernelOutputViewModel kernelOutputVm)) {
                         kernelOutputVm.OnPropertyChanged(nameof(kernelOutputVm.KernelOutputTranslaters));
                     }
                 }
@@ -72,29 +72,29 @@ namespace NTMiner.Vms {
                 }, icon: IconConst.IconConfirm);
             });
             this.SortUp = new DelegateCommand(() => {
-                KernelOutputTranslaterViewModel upOne = AppContext.Current.KernelOutputTranslaterVms.GetListByKernelId(this.KernelOutputId).OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.SortNumber < this.SortNumber);
+                KernelOutputTranslaterViewModel upOne = AppContext.Instance.KernelOutputTranslaterVms.GetListByKernelId(this.KernelOutputId).OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.SortNumber < this.SortNumber);
                 if (upOne != null) {
                     int sortNumber = upOne.SortNumber;
                     upOne.SortNumber = this.SortNumber;
                     VirtualRoot.Execute(new UpdateKernelOutputTranslaterCommand(upOne));
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdateKernelOutputTranslaterCommand(this));
-                    AppContext.Current.KernelOutputTranslaterVms.OnPropertyChanged(nameof(AppContext.KernelOutputTranslaterViewModels.AllKernelOutputTranslaterVms));
-                    if (AppContext.Current.KernelOutputVms.TryGetKernelOutputVm(this.KernelOutputId, out KernelOutputViewModel kernelOutputVm)) {
+                    AppContext.Instance.KernelOutputTranslaterVms.OnPropertyChanged(nameof(AppContext.KernelOutputTranslaterViewModels.AllKernelOutputTranslaterVms));
+                    if (AppContext.Instance.KernelOutputVms.TryGetKernelOutputVm(this.KernelOutputId, out KernelOutputViewModel kernelOutputVm)) {
                         kernelOutputVm.OnPropertyChanged(nameof(kernelOutputVm.KernelOutputTranslaters));
                     }
                 }
             });
             this.SortDown = new DelegateCommand(() => {
-                KernelOutputTranslaterViewModel nextOne = AppContext.Current.KernelOutputTranslaterVms.GetListByKernelId(this.KernelOutputId).OrderBy(a => a.SortNumber).FirstOrDefault(a => a.SortNumber > this.SortNumber);
+                KernelOutputTranslaterViewModel nextOne = AppContext.Instance.KernelOutputTranslaterVms.GetListByKernelId(this.KernelOutputId).OrderBy(a => a.SortNumber).FirstOrDefault(a => a.SortNumber > this.SortNumber);
                 if (nextOne != null) {
                     int sortNumber = nextOne.SortNumber;
                     nextOne.SortNumber = this.SortNumber;
                     VirtualRoot.Execute(new UpdateKernelOutputTranslaterCommand(nextOne));
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdateKernelOutputTranslaterCommand(this));
-                    AppContext.Current.KernelOutputTranslaterVms.OnPropertyChanged(nameof(AppContext.KernelOutputTranslaterViewModels.AllKernelOutputTranslaterVms));
-                    if (AppContext.Current.KernelOutputVms.TryGetKernelOutputVm(this.KernelOutputId, out KernelOutputViewModel kernelOutputVm)) {
+                    AppContext.Instance.KernelOutputTranslaterVms.OnPropertyChanged(nameof(AppContext.KernelOutputTranslaterViewModels.AllKernelOutputTranslaterVms));
+                    if (AppContext.Instance.KernelOutputVms.TryGetKernelOutputVm(this.KernelOutputId, out KernelOutputViewModel kernelOutputVm)) {
                         kernelOutputVm.OnPropertyChanged(nameof(kernelOutputVm.KernelOutputTranslaters));
                     }
                 }
@@ -195,7 +195,7 @@ namespace NTMiner.Vms {
         public SysDicViewModel LogColorDicVm {
             get {
                 if (_clorDic == null) {
-                    AppContext.Current.SysDicVms.TryGetSysDicVm("LogColor", out _clorDic);
+                    AppContext.Instance.SysDicVms.TryGetSysDicVm("LogColor", out _clorDic);
                 }
                 return _clorDic;
             }

@@ -323,7 +323,7 @@ namespace NTMiner.Vms {
 
         public AppContext AppContext {
             get {
-                return AppContext.Current;
+                return AppContext.Instance;
             }
         }
 
@@ -437,7 +437,7 @@ namespace NTMiner.Vms {
 
         public AppContext.ColumnsShowViewModels ColumnsShows {
             get {
-                return AppContext.Current.ColumnsShowVms;
+                return AppContext.Instance.ColumnsShowVms;
             }
         }
 
@@ -633,14 +633,14 @@ namespace NTMiner.Vms {
 
         public AppContext.CoinViewModels MineCoinVms {
             get {
-                return AppContext.Current.CoinVms;
+                return AppContext.Instance.CoinVms;
             }
         }
 
         private IEnumerable<CoinViewModel> GetDualCoinVmItems() {
             yield return CoinViewModel.PleaseSelect;
             yield return CoinViewModel.DualCoinEnabled;
-            foreach (var item in AppContext.Current.CoinVms.AllCoins) {
+            foreach (var item in AppContext.Instance.CoinVms.AllCoins) {
                 yield return item;
             }
         }
@@ -760,13 +760,13 @@ namespace NTMiner.Vms {
 
         public AppContext.MineWorkViewModels MineWorkVms {
             get {
-                return AppContext.Current.MineWorkVms;
+                return AppContext.Instance.MineWorkVms;
             }
         }
 
         public AppContext.MinerGroupViewModels MinerGroupVms {
             get {
-                return AppContext.Current.MinerGroupVms;
+                return AppContext.Instance.MinerGroupVms;
             }
         }
 

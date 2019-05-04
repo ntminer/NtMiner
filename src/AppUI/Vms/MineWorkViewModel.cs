@@ -78,7 +78,7 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                if (!AppContext.Current.MineWorkVms.TryGetMineWorkVm(this.Id, out MineWorkViewModel mineWorkVm)) {
+                if (!AppContext.Instance.MineWorkVms.TryGetMineWorkVm(this.Id, out MineWorkViewModel mineWorkVm)) {
                     InputWindow.ShowDialog("作业名称", string.Empty, workName => {
                         if (string.IsNullOrEmpty(workName)) {
                             return "作业名称是必须的";
@@ -149,7 +149,7 @@ namespace NTMiner.Vms {
                     if (string.IsNullOrEmpty(value)) {
                         throw new ValidationException("名称是必须的");
                     }
-                    if (AppContext.Current.MineWorkVms.List.Any(a => a.Name == value && a.Id != this.Id)) {
+                    if (AppContext.Instance.MineWorkVms.List.Any(a => a.Name == value && a.Id != this.Id)) {
                         throw new ValidationException("名称重复");
                     }
                 }
@@ -158,7 +158,7 @@ namespace NTMiner.Vms {
 
         public AppContext.MinerProfileViewModel MinerProfile {
             get {
-                return AppContext.Current.MinerProfileVm;
+                return AppContext.Instance.MinerProfileVm;
             }
         }
 

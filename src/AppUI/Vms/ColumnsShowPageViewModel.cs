@@ -4,7 +4,7 @@
 
         public AppContext.ColumnsShowViewModels ColumnsShowVms {
             get {
-                return AppContext.Current.ColumnsShowVms;
+                return AppContext.Instance.ColumnsShowVms;
             }
         }
     }

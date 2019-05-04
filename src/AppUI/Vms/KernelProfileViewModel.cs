@@ -111,7 +111,7 @@ namespace NTMiner.Vms {
                     _isDownloading = value;
                     OnPropertyChanged(nameof(IsDownloading));
                     Refresh();
-                    AppContext.Current.KernelVms.OnIsDownloadingChanged(_kernelVm);
+                    AppContext.Instance.KernelVms.OnIsDownloadingChanged(_kernelVm);
                 }
             }
         }
@@ -146,7 +146,7 @@ namespace NTMiner.Vms {
                 return;
             }
             this.IsDownloading = true;
-            var otherSamePackageKernelVms = AppContext.Current.KernelVms.AllKernels.Where(a => a.Package == this._kernelVm.Package && a != this._kernelVm).ToList();
+            var otherSamePackageKernelVms = AppContext.Instance.KernelVms.AllKernels.Where(a => a.Package == this._kernelVm.Package && a != this._kernelVm).ToList();
             foreach (var kernelVm in otherSamePackageKernelVms) {
                 kernelVm.KernelProfileVm.IsDownloading = true;
             }

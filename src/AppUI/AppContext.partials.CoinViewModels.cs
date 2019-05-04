@@ -27,13 +27,13 @@ namespace NTMiner {
                 On<CoinAddedEvent>("添加了币种后刷新VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         _dicById.Add(message.Source.GetId(), new CoinViewModel(message.Source));
-                        Current.MinerProfileVm.OnPropertyChanged(nameof(Current.MinerProfileVm.CoinVm));
+                        AppContext.Instance.MinerProfileVm.OnPropertyChanged(nameof(NTMiner.AppContext.Instance.MinerProfileVm.CoinVm));
                         AllPropertyChanged();
                     });
                 On<CoinRemovedEvent>("移除了币种后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById.Remove(message.Source.GetId());
-                        Current.MinerProfileVm.OnPropertyChanged(nameof(Current.MinerProfileVm.CoinVm));
+                        AppContext.Instance.MinerProfileVm.OnPropertyChanged(nameof(NTMiner.AppContext.Instance.MinerProfileVm.CoinVm));
                         AllPropertyChanged();
                     });
                 On<CoinUpdatedEvent>("更新了币种后刷新VM内存", LogEnum.DevConsole,
@@ -44,10 +44,10 @@ namespace NTMiner {
                         coinVm.TestWalletVm.Address = message.Source.TestWallet;
                         coinVm.OnPropertyChanged(nameof(coinVm.Wallets));
                         coinVm.OnPropertyChanged(nameof(coinVm.WalletItems));
-                        if (Current.MinerProfileVm.CoinId == message.Source.GetId()) {
-                            Current.MinerProfileVm.OnPropertyChanged(nameof(Current.MinerProfileVm.CoinVm));
+                        if (AppContext.Instance.MinerProfileVm.CoinId == message.Source.GetId()) {
+                            AppContext.Instance.MinerProfileVm.OnPropertyChanged(nameof(NTMiner.AppContext.Instance.MinerProfileVm.CoinVm));
                         }
-                        CoinKernelViewModel coinKernelVm = Current.MinerProfileVm.CoinVm.CoinKernel;
+                        CoinKernelViewModel coinKernelVm = AppContext.Instance.MinerProfileVm.CoinVm.CoinKernel;
                         if (coinKernelVm != null
                             && coinKernelVm.CoinKernelProfile.SelectedDualCoin != null
                             && coinKernelVm.CoinKernelProfile.SelectedDualCoin.GetId() == message.Source.GetId()) {
@@ -146,7 +146,7 @@ namespace NTMiner {
             private IEnumerable<CoinViewModel> GetDualPleaseSelect() {
                 yield return CoinViewModel.PleaseSelect;
                 yield return CoinViewModel.DualCoinEnabled;
-                foreach (var group in AppContext.Current.GroupVms.List) {
+                foreach (var group in AppContext.Instance.GroupVms.List) {
                     foreach (var item in group.DualCoinVms) {
                         yield return item;
                     }

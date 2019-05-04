@@ -24,10 +24,10 @@ namespace NTMiner {
                         _dicById.Add(message.Source.GetId(), coinKernelVm);
                         OnPropertyChanged(nameof(AllCoinKernels));
                         CoinViewModel coinVm;
-                        if (Current.CoinVms.TryGetCoinVm(message.Source.CoinId, out coinVm)) {
+                        if (AppContext.Instance.CoinVms.TryGetCoinVm((Guid)message.Source.CoinId, out coinVm)) {
                             coinVm.OnPropertyChanged(nameof(CoinViewModel.CoinKernel));
                             coinVm.OnPropertyChanged(nameof(CoinViewModel.CoinKernels));
-                            coinVm.OnPropertyChanged(nameof(CoinViewModel.IsSupported));
+                            coinVm.OnPropertyChanged(nameof(NTMiner.Vms.CoinViewModel.IsSupported));
                         }
                         var kernelVm = coinKernelVm.Kernel;
                         if (kernelVm != null) {
@@ -50,7 +50,7 @@ namespace NTMiner {
                             var coinKernels = AllCoinKernels.Where(a => a.KernelId == entity.Id);
                             foreach (var coinKernel in coinKernels) {
                                 CoinViewModel coinVm;
-                                if (Current.CoinVms.TryGetCoinVm(coinKernel.CoinId, out coinVm)) {
+                                if (AppContext.Instance.CoinVms.TryGetCoinVm(coinKernel.CoinId, out coinVm)) {
                                     coinVm.OnPropertyChanged(nameof(coinVm.IsSupported));
                                     coinVm.OnPropertyChanged(nameof(coinVm.CoinKernels));
                                 }
@@ -65,7 +65,7 @@ namespace NTMiner {
                         }
                         if (sortNumber != entity.SortNumber) {
                             CoinViewModel coinVm;
-                            if (Current.CoinVms.TryGetCoinVm(entity.CoinId, out coinVm)) {
+                            if (AppContext.Instance.CoinVms.TryGetCoinVm(entity.CoinId, out coinVm)) {
                                 coinVm.OnPropertyChanged(nameof(coinVm.CoinKernels));
                             }
                         }
@@ -77,10 +77,10 @@ namespace NTMiner {
                             _dicById.Remove(message.Source.GetId());
                             OnPropertyChanged(nameof(AllCoinKernels));
                             CoinViewModel coinVm;
-                            if (Current.CoinVms.TryGetCoinVm(message.Source.CoinId, out coinVm)) {
+                            if (AppContext.Instance.CoinVms.TryGetCoinVm((Guid)message.Source.CoinId, out coinVm)) {
                                 coinVm.OnPropertyChanged(nameof(CoinViewModel.CoinKernel));
                                 coinVm.OnPropertyChanged(nameof(CoinViewModel.CoinKernels));
-                                coinVm.OnPropertyChanged(nameof(CoinViewModel.IsSupported));
+                                coinVm.OnPropertyChanged(nameof(NTMiner.Vms.CoinViewModel.IsSupported));
                             }
                             var kernelVm = coinKernelVm.Kernel;
                             kernelVm.OnPropertyChanged(nameof(kernelVm.IsNvidiaIconVisible));

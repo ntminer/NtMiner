@@ -21,7 +21,7 @@ namespace NTMiner {
                         if (!_dicById.ContainsKey(message.Source.GetId())) {
                             KernelOutputFilterViewModel vm = new KernelOutputFilterViewModel(message.Source);
                             _dicById.Add(vm.Id, vm);
-                            if (Current.KernelOutputVms.TryGetKernelOutputVm(vm.KernelOutputId, out KernelOutputViewModel kernelOutputVm)) {
+                            if (AppContext.Instance.KernelOutputVms.TryGetKernelOutputVm(vm.KernelOutputId, out KernelOutputViewModel kernelOutputVm)) {
                                 if (!_dicByKernelOutputId.ContainsKey(vm.KernelOutputId)) {
                                     _dicByKernelOutputId.Add(vm.KernelOutputId, new List<KernelOutputFilterViewModel>());
                                 }
@@ -42,7 +42,7 @@ namespace NTMiner {
                             _dicById.Remove(vm.Id);
                             _dicByKernelOutputId[vm.KernelOutputId].Remove(vm);
                             KernelOutputViewModel kernelOutputVm;
-                            if (Current.KernelOutputVms.TryGetKernelOutputVm(vm.KernelOutputId, out kernelOutputVm)) {
+                            if (AppContext.Instance.KernelOutputVms.TryGetKernelOutputVm(vm.KernelOutputId, out kernelOutputVm)) {
                                 kernelOutputVm.OnPropertyChanged(nameof(kernelOutputVm.KernelOutputFilters));
                             }
                         }

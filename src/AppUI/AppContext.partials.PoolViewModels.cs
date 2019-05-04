@@ -22,11 +22,11 @@ namespace NTMiner {
                         _dicById.Add(message.Source.GetId(), new PoolViewModel(message.Source));
                         OnPropertyChanged(nameof(AllPools));
                         CoinViewModel coinVm;
-                        if (Current.CoinVms.TryGetCoinVm(message.Source.CoinId, out coinVm)) {
+                        if (AppContext.Instance.CoinVms.TryGetCoinVm((Guid)message.Source.CoinId, out coinVm)) {
                             coinVm.CoinProfile.OnPropertyChanged(nameof(CoinProfileViewModel.MainCoinPool));
                             coinVm.CoinProfile.OnPropertyChanged(nameof(CoinProfileViewModel.DualCoinPool));
                             coinVm.OnPropertyChanged(nameof(CoinViewModel.Pools));
-                            coinVm.OnPropertyChanged(nameof(CoinViewModel.OptionPools));
+                            coinVm.OnPropertyChanged(nameof(NTMiner.Vms.CoinViewModel.OptionPools));
                         }
                     });
                 On<PoolRemovedEvent>("删除矿池后刷新VM内存", LogEnum.DevConsole,
@@ -34,7 +34,7 @@ namespace NTMiner {
                         _dicById.Remove(message.Source.GetId());
                         OnPropertyChanged(nameof(AllPools));
                         CoinViewModel coinVm;
-                        if (AppContext.Current.CoinVms.TryGetCoinVm(message.Source.CoinId, out coinVm)) {
+                        if (AppContext.Instance.CoinVms.TryGetCoinVm(message.Source.CoinId, out coinVm)) {
                             coinVm.CoinProfile.OnPropertyChanged(nameof(CoinProfileViewModel.MainCoinPool));
                             coinVm.CoinProfile.OnPropertyChanged(nameof(CoinProfileViewModel.DualCoinPool));
                             coinVm.OnPropertyChanged(nameof(CoinViewModel.Pools));

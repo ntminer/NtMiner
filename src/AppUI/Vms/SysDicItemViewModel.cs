@@ -69,7 +69,7 @@ namespace NTMiner.Vms {
                 }, icon: IconConst.IconConfirm);
             });
             this.SortUp = new DelegateCommand(() => {
-                SysDicItemViewModel upOne = AppContext.Current.SysDicItemVms.List.OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.SortNumber < this.SortNumber);
+                SysDicItemViewModel upOne = AppContext.Instance.SysDicItemVms.List.OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.SortNumber < this.SortNumber);
                 if (upOne != null) {
                     int sortNumber = upOne.SortNumber;
                     upOne.SortNumber = this.SortNumber;
@@ -77,14 +77,14 @@ namespace NTMiner.Vms {
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdateSysDicItemCommand(this));
                     SysDicViewModel sysDicVm;
-                    if (AppContext.Current.SysDicVms.TryGetSysDicVm(this.DicId, out sysDicVm)) {
+                    if (AppContext.Instance.SysDicVms.TryGetSysDicVm(this.DicId, out sysDicVm)) {
                         sysDicVm.OnPropertyChanged(nameof(sysDicVm.SysDicItems));
                         sysDicVm.OnPropertyChanged(nameof(sysDicVm.SysDicItemsSelect));
                     }
                 }
             });
             this.SortDown = new DelegateCommand(() => {
-                SysDicItemViewModel nextOne = AppContext.Current.SysDicItemVms.List.OrderBy(a => a.SortNumber).FirstOrDefault(a => a.SortNumber > this.SortNumber);
+                SysDicItemViewModel nextOne = AppContext.Instance.SysDicItemVms.List.OrderBy(a => a.SortNumber).FirstOrDefault(a => a.SortNumber > this.SortNumber);
                 if (nextOne != null) {
                     int sortNumber = nextOne.SortNumber;
                     nextOne.SortNumber = this.SortNumber;
@@ -92,7 +92,7 @@ namespace NTMiner.Vms {
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdateSysDicItemCommand(this));
                     SysDicViewModel sysDicVm;
-                    if (AppContext.Current.SysDicVms.TryGetSysDicVm(this.DicId, out sysDicVm)) {
+                    if (AppContext.Instance.SysDicVms.TryGetSysDicVm(this.DicId, out sysDicVm)) {
                         sysDicVm.OnPropertyChanged(nameof(sysDicVm.SysDicItems));
                         sysDicVm.OnPropertyChanged(nameof(sysDicVm.SysDicItemsSelect));
                     }
@@ -132,7 +132,7 @@ namespace NTMiner.Vms {
                     if (string.IsNullOrEmpty(value)) {
                         throw new ValidationException("编码是必须的");
                     }
-                    if (AppContext.Current.SysDicItemVms.List.Any(a => a.DicId == this.DicId && a.Code == value && a.Id != this.Id)) {
+                    if (AppContext.Instance.SysDicItemVms.List.Any(a => a.DicId == this.DicId && a.Code == value && a.Id != this.Id)) {
                         throw new ValidationException("编码重复");
                     }
                 }
@@ -172,7 +172,7 @@ namespace NTMiner.Vms {
         public SysDicViewModel SysDicVm {
             get {
                 SysDicViewModel sysDicVm;
-                AppContext.Current.SysDicVms.TryGetSysDicVm(this.DicId, out sysDicVm);
+                AppContext.Instance.SysDicVms.TryGetSysDicVm(this.DicId, out sysDicVm);
                 return sysDicVm;
             }
         }

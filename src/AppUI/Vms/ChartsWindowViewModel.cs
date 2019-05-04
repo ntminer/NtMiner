@@ -12,7 +12,7 @@ namespace NTMiner.Vms {
 
         public AppContext AppContext {
             get {
-                return AppContext.Current;
+                return AppContext.Instance;
             }
         }
 
@@ -40,7 +40,7 @@ namespace NTMiner.Vms {
             get {
                 if (_chartVms == null) {
                     _chartVms = new List<ChartViewModel>();
-                    foreach (var coinVm in AppContext.Current.MinerClientsWindowVm.MineCoinVms.AllCoins.OrderBy(a => a.SortNumber)) {
+                    foreach (var coinVm in AppContext.Instance.MinerClientsWindowVm.MineCoinVms.AllCoins.OrderBy(a => a.SortNumber)) {
                         _chartVms.Add(new ChartViewModel(coinVm));
                     }
                 }

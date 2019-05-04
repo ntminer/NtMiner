@@ -76,7 +76,7 @@ namespace NTMiner.Vms {
 
         public AppContext AppContext {
             get {
-                return AppContext.Current;
+                return AppContext.Instance;
             }
         }
 
@@ -204,7 +204,7 @@ namespace NTMiner.Vms {
         public CoinViewModel CoinVm {
             get {
                 if (_coinVm == null) {
-                    if (!AppContext.Current.CoinVms.TryGetCoinVm(this.CoinId, out _coinVm)) {
+                    if (!AppContext.Instance.CoinVms.TryGetCoinVm(this.CoinId, out _coinVm)) {
                         _coinVm = CoinViewModel.Empty;
                     }
                 }

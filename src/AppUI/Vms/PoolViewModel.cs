@@ -96,28 +96,28 @@ namespace NTMiner.Vms {
                 }, icon: IconConst.IconConfirm);
             });
             this.SortUp = new DelegateCommand(() => {
-                PoolViewModel upOne = AppContext.Current.PoolVms.AllPools.OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.CoinId == this.CoinId && a.SortNumber < this.SortNumber);
+                PoolViewModel upOne = AppContext.Instance.PoolVms.AllPools.OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.CoinId == this.CoinId && a.SortNumber < this.SortNumber);
                 if (upOne != null) {
                     int sortNumber = upOne.SortNumber;
                     upOne.SortNumber = this.SortNumber;
                     VirtualRoot.Execute(new UpdatePoolCommand(upOne));
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdatePoolCommand(this));
-                    if (AppContext.Current.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
+                    if (AppContext.Instance.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
                         coinVm.OnPropertyChanged(nameof(coinVm.Pools));
                         coinVm.OnPropertyChanged(nameof(coinVm.OptionPools));
                     }
                 }
             });
             this.SortDown = new DelegateCommand(() => {
-                PoolViewModel nextOne = AppContext.Current.PoolVms.AllPools.OrderBy(a => a.SortNumber).FirstOrDefault(a => a.CoinId == this.CoinId && a.SortNumber > this.SortNumber);
+                PoolViewModel nextOne = AppContext.Instance.PoolVms.AllPools.OrderBy(a => a.SortNumber).FirstOrDefault(a => a.CoinId == this.CoinId && a.SortNumber > this.SortNumber);
                 if (nextOne != null) {
                     int sortNumber = nextOne.SortNumber;
                     nextOne.SortNumber = this.SortNumber;
                     VirtualRoot.Execute(new UpdatePoolCommand(nextOne));
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdatePoolCommand(this));
-                    if (AppContext.Current.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
+                    if (AppContext.Instance.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
                         coinVm.OnPropertyChanged(nameof(coinVm.Pools));
                         coinVm.OnPropertyChanged(nameof(coinVm.OptionPools));
                     }
@@ -159,7 +159,7 @@ namespace NTMiner.Vms {
 
         public List<PoolKernelViewModel> PoolKernels {
             get {
-                return AppContext.Current.PoolKernelVms.AllPoolKernels.Where(a => a.PoolId == this.Id).OrderBy(a => a.Kernel.Code + a.Kernel.Version).ToList();
+                return AppContext.Instance.PoolKernelVms.AllPoolKernels.Where(a => a.PoolId == this.Id).OrderBy(a => a.Kernel.Code + a.Kernel.Version).ToList();
             }
         }
 
@@ -216,7 +216,7 @@ namespace NTMiner.Vms {
                     if (string.IsNullOrEmpty(value)) {
                         throw new ValidationException("名称是必须的");
                     }
-                    if (AppContext.Current.PoolVms.AllPools.Any(a => a.Name == value && a.Id != this.Id && a.CoinId == this.CoinId)) {
+                    if (AppContext.Instance.PoolVms.AllPools.Any(a => a.Name == value && a.Id != this.Id && a.CoinId == this.CoinId)) {
                         throw new ValidationException("名称重复");
                     }
                 }
@@ -239,7 +239,7 @@ namespace NTMiner.Vms {
         public CoinViewModel CoinVm {
             get {
                 if (_coinVm == null || _coinVm.Id != this.CoinId) {
-                    AppContext.Current.CoinVms.TryGetCoinVm(this.CoinId, out _coinVm);
+                    AppContext.Instance.CoinVms.TryGetCoinVm(this.CoinId, out _coinVm);
                     if (_coinVm == null) {
                         _coinVm = CoinViewModel.PleaseSelect;
                     }
@@ -340,7 +340,7 @@ namespace NTMiner.Vms {
 
         public PoolProfileViewModel PoolProfileVm {
             get {
-                return AppContext.Current.PoolProfileVms.GetOrCreatePoolProfile(this.Id);
+                return AppContext.Instance.PoolProfileVms.GetOrCreatePoolProfile(this.Id);
             }
         }
     }

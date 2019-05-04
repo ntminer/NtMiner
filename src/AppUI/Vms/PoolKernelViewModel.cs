@@ -70,7 +70,7 @@ namespace NTMiner.Vms {
         public PoolViewModel PoolVm {
             get {
                 if (_poolVm == null || this.PoolId != _poolVm.Id) {
-                    AppContext.Current.PoolVms.TryGetPoolVm(this.PoolId, out _poolVm);
+                    AppContext.Instance.PoolVms.TryGetPoolVm(this.PoolId, out _poolVm);
                     if (_poolVm == null) {
                         _poolVm = PoolViewModel.Empty;
                     }
@@ -83,7 +83,7 @@ namespace NTMiner.Vms {
         public CoinKernelViewModel CoinKernelVm {
             get {
                 if (_coinKernelVm == null) {
-                    _coinKernelVm = AppContext.Current.CoinKernelVms.AllCoinKernels.FirstOrDefault(a => a.KernelId == this.KernelId && a.CoinId == this.PoolVm.CoinId);
+                    _coinKernelVm = AppContext.Instance.CoinKernelVms.AllCoinKernels.FirstOrDefault(a => a.KernelId == this.KernelId && a.CoinId == this.PoolVm.CoinId);
                 }
                 return _coinKernelVm;
             }
@@ -108,7 +108,7 @@ namespace NTMiner.Vms {
         public KernelViewModel Kernel {
             get {
                 KernelViewModel kernel;
-                if (AppContext.Current.KernelVms.TryGetKernelVm(this.KernelId, out kernel)) {
+                if (AppContext.Instance.KernelVms.TryGetKernelVm(this.KernelId, out kernel)) {
                     return kernel;
                 }
                 return KernelViewModel.Empty;
@@ -121,7 +121,7 @@ namespace NTMiner.Vms {
                 if (_args != value) {
                     _args = value;
                     OnPropertyChanged(nameof(Args));
-                    if (AppContext.Current.MinerProfileVm.CoinId == this.PoolVm.CoinId) {
+                    if (AppContext.Instance.MinerProfileVm.CoinId == this.PoolVm.CoinId) {
                         NTMinerRoot.RefreshArgsAssembly.Invoke();
                     }
                 }

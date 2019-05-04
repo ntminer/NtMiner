@@ -30,8 +30,8 @@ namespace NTMiner.Vms {
 
         public VirtualMemory VirtualMemory {
             get {
-                if (AppContext.Current.VirtualMemorySetVm.Contains(this.Name)) {
-                    return AppContext.Current.VirtualMemorySetVm[this.Name];
+                if (AppContext.Instance.VirtualMemorySetVm.Contains(this.Name)) {
+                    return AppContext.Instance.VirtualMemorySetVm[this.Name];
                 }
                 return VirtualMemory.Empty;
             }

@@ -158,7 +158,7 @@ namespace NTMiner.Vms {
         public GpuViewModel GpuVm {
             get {
                 if (_gpuVm == null) {
-                    AppContext.Current.GpuVms.TryGetGpuVm(Index, out _gpuVm);
+                    AppContext.Instance.GpuVms.TryGetGpuVm(Index, out _gpuVm);
                 }
                 return _gpuVm;
             }

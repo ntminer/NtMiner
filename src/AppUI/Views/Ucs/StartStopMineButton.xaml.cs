@@ -25,12 +25,12 @@ namespace NTMiner.Views.Ucs {
 
         private AppContext.StartStopMineButtonViewModel Vm {
             get {
-                return AppContext.Current.StartStopMineButtonVm;
+                return AppContext.Instance.StartStopMineButtonVm;
             }
         }
 
         public StartStopMineButton() {
-            this.DataContext = AppContext.Current.StartStopMineButtonVm;
+            this.DataContext = AppContext.Instance.StartStopMineButtonVm;
             InitializeComponent();
         }
     }

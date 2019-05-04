@@ -12,7 +12,7 @@ using System.Windows.Input;
 
 namespace NTMiner {
     public partial class AppContext {
-        public static readonly AppContext Current = new AppContext();
+        public static readonly AppContext Instance = new AppContext();
 
         private static readonly List<IDelegateHandler> _contextHandlers = new List<IDelegateHandler>();
 
@@ -313,7 +313,7 @@ namespace NTMiner {
                 DialogWindow.ShowDialog(message: $"您确定刷新{AssemblyInfo.ServerJsonFileName}吗？", title: "确认", onYes: () => {
                     try {
                         VirtualRoot.Execute(new ChangeServerAppSettingCommand(new AppSettingData {
-                            Key = Current.ServerJsonFileName,
+                            Key = Instance.ServerJsonFileName,
                             Value = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss fff")
                         }));
                         NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage($"刷新成功");

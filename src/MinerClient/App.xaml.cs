@@ -85,7 +85,7 @@ namespace NTMiner {
                                                     coinShare = NTMinerRoot.Instance.CoinShareSet.GetOrCreate(dualMineContext.DualCoin.GetId());
                                                     VirtualRoot.Happened(new ShareChangedEvent(coinShare));
                                                 }
-                                                AppContext.Current.GpuSpeedVms.Refresh();
+                                                AppContext.Instance.GpuSpeedVms.Refresh();
                                             }
                                         }
                                         else {

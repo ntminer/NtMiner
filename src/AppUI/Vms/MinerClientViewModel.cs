@@ -63,7 +63,7 @@ namespace NTMiner.Vms {
                             Write.UserFail(response.ReadMessage(e));
                         }
                         else {
-                            AppContext.Current.MinerClientsWindowVm.QueryMinerClients();
+                            AppContext.Instance.MinerClientsWindowVm.QueryMinerClients();
                         }
                     });
                 }, icon: IconConst.IconConfirm);
@@ -141,11 +141,11 @@ namespace NTMiner.Vms {
         #endregion
 
         public AppContext.MineWorkViewModels MineWorkVms {
-            get { return AppContext.Current.MineWorkVms; }
+            get { return AppContext.Instance.MineWorkVms; }
         }
 
         public AppContext.MinerGroupViewModels MinerGroupVms {
-            get { return AppContext.Current.MinerGroupVms; }
+            get { return AppContext.Instance.MinerGroupVms; }
         }
 
         #region IClientData
@@ -207,7 +207,7 @@ namespace NTMiner.Vms {
                     return MineWorkViewModel.PleaseSelect;
                 }
                 if (_selectedMineWork == null || _selectedMineWork.Id != WorkId) {
-                    if (AppContext.Current.MineWorkVms.TryGetMineWorkVm(WorkId, out _selectedMineWork)) {
+                    if (AppContext.Instance.MineWorkVms.TryGetMineWorkVm(WorkId, out _selectedMineWork)) {
                         return _selectedMineWork;
                     }
                 }
@@ -401,7 +401,7 @@ namespace NTMiner.Vms {
         public MinerGroupViewModel SelectedMinerGroup {
             get {
                 if (_selectedMinerGroup == null || _selectedMinerGroup.Id != GroupId) {
-                    AppContext.Current.MinerGroupVms.TryGetMineWorkVm(GroupId, out _selectedMinerGroup);
+                    AppContext.Instance.MinerGroupVms.TryGetMineWorkVm(GroupId, out _selectedMinerGroup);
                     if (_selectedMinerGroup == null) {
                         _selectedMinerGroup = MinerGroupViewModel.PleaseSelect;
                     }

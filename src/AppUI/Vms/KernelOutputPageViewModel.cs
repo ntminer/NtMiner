@@ -13,7 +13,7 @@ namespace NTMiner.Vms {
             this.Add = new DelegateCommand(() => {
                 new KernelOutputViewModel(Guid.NewGuid()).Edit.Execute(FormType.Add);
             });
-            _currentKernelOutputVm = AppContext.Current.KernelOutputVms.AllKernelOutputVms.FirstOrDefault();
+            _currentKernelOutputVm = AppContext.Instance.KernelOutputVms.AllKernelOutputVms.FirstOrDefault();
         }
 
         private KernelOutputViewModel _currentKernelOutputVm;
@@ -32,7 +32,7 @@ namespace NTMiner.Vms {
 
         public AppContext.KernelOutputViewModels KernelOutputVms {
             get {
-                return AppContext.Current.KernelOutputVms;
+                return AppContext.Instance.KernelOutputVms;
             }
         }
     }

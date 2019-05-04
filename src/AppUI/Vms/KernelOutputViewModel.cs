@@ -123,7 +123,7 @@ namespace NTMiner.Vms {
 
         public List<KernelOutputFilterViewModel> KernelOutputFilters {
             get {
-                return AppContext.Current.KernelOutputFilterVms.GetListByKernelId(this.Id).ToList();
+                return AppContext.Instance.KernelOutputFilterVms.GetListByKernelId(this.Id).ToList();
             }
         }
 
@@ -140,7 +140,7 @@ namespace NTMiner.Vms {
 
         public List<KernelOutputTranslaterViewModel> KernelOutputTranslaters {
             get {
-                var query = AppContext.Current.KernelOutputTranslaterVms.GetListByKernelId(this.Id).AsQueryable();
+                var query = AppContext.Instance.KernelOutputTranslaterVms.GetListByKernelId(this.Id).AsQueryable();
                 if (!string.IsNullOrEmpty(TranslaterKeyword)) {
                     query = query.Where(a => (a.RegexPattern != null && a.RegexPattern.Contains(TranslaterKeyword))
                         || (a.Replacement != null && a.Replacement.Contains(TranslaterKeyword)));
@@ -356,7 +356,7 @@ namespace NTMiner.Vms {
 
         public string KernelFullNames {
             get {
-                string names = string.Join(";", AppContext.Current.KernelVms.AllKernels.Where(a => a.KernelOutputId == this.Id).Select(a => a.FullName));
+                string names = string.Join(";", AppContext.Instance.KernelVms.AllKernels.Where(a => a.KernelOutputId == this.Id).Select(a => a.FullName));
                 if (string.IsNullOrEmpty(names)) {
                     return "无";
                 }

@@ -36,7 +36,7 @@ namespace NTMiner {
                             entity.Update(message.Source);
                             if (sortNumber != entity.SortNumber) {
                                 GroupViewModel groupVm;
-                                if (Current.GroupVms.TryGetGroupVm(entity.GroupId, out groupVm)) {
+                                if (AppContext.Instance.GroupVms.TryGetGroupVm(entity.GroupId, out groupVm)) {
                                     groupVm.OnPropertyChanged(nameof(groupVm.CoinGroupVms));
                                 }
                             }
@@ -69,7 +69,7 @@ namespace NTMiner {
 
             private void OnGroupPropertyChanged(Guid groupId) {
                 GroupViewModel groupVm;
-                if (Current.GroupVms.TryGetGroupVm(groupId, out groupVm)) {
+                if (AppContext.Instance.GroupVms.TryGetGroupVm(groupId, out groupVm)) {
                     groupVm.OnPropertyChanged(nameof(groupVm.CoinVms));
                     groupVm.OnPropertyChanged(nameof(groupVm.DualCoinVms));
                     groupVm.OnPropertyChanged(nameof(groupVm.CoinGroupVms));

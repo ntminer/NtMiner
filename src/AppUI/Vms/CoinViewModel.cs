@@ -132,7 +132,7 @@ namespace NTMiner.Vms {
                         string iconFileFullName = openFileDialog.FileName;
                         this.IconImageSource = new BitmapImage(new Uri(iconFileFullName, UriKind.Absolute));
                         string pngFileName = Path.GetFileName(iconFileFullName);
-                        if (AppContext.Current.CoinVms.AllCoins.Any(a => a.Icon == pngFileName && a.Id != this.Id)) {
+                        if (AppContext.Instance.CoinVms.AllCoins.Any(a => a.Icon == pngFileName && a.Id != this.Id)) {
                             throw new ValidationException("币种图标不能重名");
                         }
                         this.Icon = pngFileName;
@@ -188,27 +188,27 @@ namespace NTMiner.Vms {
                 }, icon: IconConst.IconConfirm);
             });
             this.SortUp = new DelegateCommand(() => {
-                CoinViewModel upOne = AppContext.Current.CoinVms.AllCoins.OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.SortNumber < this.SortNumber);
+                CoinViewModel upOne = AppContext.Instance.CoinVms.AllCoins.OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.SortNumber < this.SortNumber);
                 if (upOne != null) {
                     int sortNumber = upOne.SortNumber;
                     upOne.SortNumber = this.SortNumber;
                     VirtualRoot.Execute(new UpdateCoinCommand(upOne));
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdateCoinCommand(this));
-                    AppContext.Current.CoinVms.OnPropertyChanged(nameof(AppContext.CoinViewModels.MainCoins));
-                    AppContext.Current.CoinVms.OnPropertyChanged(nameof(AppContext.CoinViewModels.AllCoins));
+                    AppContext.Instance.CoinVms.OnPropertyChanged(nameof(AppContext.CoinViewModels.MainCoins));
+                    AppContext.Instance.CoinVms.OnPropertyChanged(nameof(AppContext.CoinViewModels.AllCoins));
                 }
             });
             this.SortDown = new DelegateCommand(() => {
-                CoinViewModel nextOne = AppContext.Current.CoinVms.AllCoins.OrderBy(a => a.SortNumber).FirstOrDefault(a => a.SortNumber > this.SortNumber);
+                CoinViewModel nextOne = AppContext.Instance.CoinVms.AllCoins.OrderBy(a => a.SortNumber).FirstOrDefault(a => a.SortNumber > this.SortNumber);
                 if (nextOne != null) {
                     int sortNumber = nextOne.SortNumber;
                     nextOne.SortNumber = this.SortNumber;
                     VirtualRoot.Execute(new UpdateCoinCommand(nextOne));
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdateCoinCommand(this));
-                    AppContext.Current.CoinVms.OnPropertyChanged(nameof(AppContext.CoinViewModels.MainCoins));
-                    AppContext.Current.CoinVms.OnPropertyChanged(nameof(AppContext.CoinViewModels.AllCoins));
+                    AppContext.Instance.CoinVms.OnPropertyChanged(nameof(AppContext.CoinViewModels.MainCoins));
+                    AppContext.Instance.CoinVms.OnPropertyChanged(nameof(AppContext.CoinViewModels.AllCoins));
                 }
             });
 
@@ -257,7 +257,7 @@ namespace NTMiner.Vms {
         public GpuProfileViewModel GpuAllProfileVm {
             get {
                 if (_gpuAllProfileVm == null) {
-                    _gpuAllProfileVm = AppContext.Current.GpuProfileVms.GpuAllVm(this.Id);
+                    _gpuAllProfileVm = AppContext.Instance.GpuProfileVms.GpuAllVm(this.Id);
                 }
                 return _gpuAllProfileVm;
             }
@@ -273,7 +273,7 @@ namespace NTMiner.Vms {
         public List<GpuProfileViewModel> GpuProfileVms {
             get {
                 if (_gpuProfileVms == null) {
-                    _gpuProfileVms = AppContext.Current.GpuProfileVms.List(this.Id);
+                    _gpuProfileVms = AppContext.Instance.GpuProfileVms.List(this.Id);
                 }
                 return _gpuProfileVms;
             }
@@ -285,7 +285,7 @@ namespace NTMiner.Vms {
 
         public ShareViewModel ShareVm {
             get {
-                return AppContext.Current.ShareVms.GetOrCreate(this.Id);
+                return AppContext.Instance.ShareVms.GetOrCreate(this.Id);
             }
         }
 
@@ -333,7 +333,7 @@ namespace NTMiner.Vms {
                     if (string.IsNullOrEmpty(value)) {
                         throw new ValidationException("编码是必须的");
                     }
-                    if (AppContext.Current.CoinVms.TryGetCoinVm(value, out CoinViewModel coinVm) && coinVm.Id != this.Id) {
+                    if (AppContext.Instance.CoinVms.TryGetCoinVm(value, out CoinViewModel coinVm) && coinVm.Id != this.Id) {
                         throw new ValidationException("重复的币种编码");
                     }
                 }
@@ -493,13 +493,13 @@ namespace NTMiner.Vms {
                 if (!NTMinerRoot.Instance.CoinSet.Contains(this.Id)) {
                     return null;
                 }
-                return AppContext.Current.CoinProfileVms.GetOrCreateCoinProfile(this.Id);
+                return AppContext.Instance.CoinProfileVms.GetOrCreateCoinProfile(this.Id);
             }
         }
 
         public List<PoolViewModel> Pools {
             get {
-                return AppContext.Current.PoolVms.AllPools.Where(a => a.CoinId == this.Id).OrderBy(a => a.SortNumber).ToList();
+                return AppContext.Instance.PoolVms.AllPools.Where(a => a.CoinId == this.Id).OrderBy(a => a.SortNumber).ToList();
             }
         }
 
@@ -541,7 +541,7 @@ namespace NTMiner.Vms {
 
         public List<OverClockDataViewModel> OverClockDatas {
             get {
-                return AppContext.Current.OverClockDataVms.Where(a => a.CoinId == this.Id).ToList();
+                return AppContext.Instance.OverClockDataVms.Where(a => a.CoinId == this.Id).ToList();
             }
         }
 
@@ -552,7 +552,7 @@ namespace NTMiner.Vms {
                     yield return TestWalletVm;
                 }
             }
-            foreach (var item in AppContext.Current.WalletVms.WalletList.Where(a => a.CoinId == this.Id).OrderBy(a => a.SortNumber).ToList()) {
+            foreach (var item in AppContext.Instance.WalletVms.WalletList.Where(a => a.CoinId == this.Id).OrderBy(a => a.SortNumber).ToList()) {
                 yield return item;
             }
         }
@@ -580,7 +580,7 @@ namespace NTMiner.Vms {
 
         public List<CoinKernelViewModel> CoinKernels {
             get {
-                return AppContext.Current.CoinKernelVms.AllCoinKernels.Where(a => a.CoinId == this.Id && a.Kernel.PublishState == PublishStatus.Published).OrderBy(a => a.SortNumber).ToList();
+                return AppContext.Instance.CoinKernelVms.AllCoinKernels.Where(a => a.CoinId == this.Id && a.Kernel.PublishState == PublishStatus.Published).OrderBy(a => a.SortNumber).ToList();
             }
         }
 

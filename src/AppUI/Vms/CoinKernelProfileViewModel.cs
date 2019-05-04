@@ -23,7 +23,7 @@ namespace NTMiner.Vms {
 
         public bool IsDualCoinEnabled {
             get {
-                if (AppContext.Current.CoinKernelVms.TryGetCoinKernelVm(this.CoinKernelId, out CoinKernelViewModel coinKernelVm) && !coinKernelVm.IsSupportDualMine) {
+                if (AppContext.Instance.CoinKernelVms.TryGetCoinKernelVm(this.CoinKernelId, out CoinKernelViewModel coinKernelVm) && !coinKernelVm.IsSupportDualMine) {
                     return false;
                 }
                 return _inner.IsDualCoinEnabled;
@@ -86,14 +86,14 @@ namespace NTMiner.Vms {
             get => _inner.CustomArgs;
             set {
                 if (_inner.CustomArgs != value) {
-                    if (AppContext.Current.CoinKernelVms.TryGetCoinKernelVm(this.CoinKernelId, out CoinKernelViewModel coinKernelVm)) {
+                    if (AppContext.Instance.CoinKernelVms.TryGetCoinKernelVm(this.CoinKernelId, out CoinKernelViewModel coinKernelVm)) {
                         NTMinerRoot.Instance.MinerProfile.SetCoinKernelProfileProperty(this.CoinKernelId, nameof(CustomArgs), value);
                         OnPropertyChanged(nameof(CustomArgs));
                         NTMinerRoot.RefreshArgsAssembly.Invoke();
                         foreach (var inputSegmentVm in coinKernelVm.InputSegmentVms) {
                             inputSegmentVm.OnPropertyChanged(nameof(inputSegmentVm.IsChecked));
                         }
-                        foreach (var gpuVm in AppContext.Current.GpuVms) {
+                        foreach (var gpuVm in AppContext.Instance.GpuVms) {
                             if (gpuVm.Index == NTMinerRoot.GpuAllId) {
                                 continue;
                             }
@@ -106,8 +106,8 @@ namespace NTMiner.Vms {
 
         public CoinViewModel SelectedDualCoin {
             get {
-                if (!AppContext.Current.CoinVms.TryGetCoinVm(this.DualCoinId, out CoinViewModel coin)) {
-                    if (AppContext.Current.CoinKernelVms.TryGetCoinKernelVm(this.CoinKernelId, out CoinKernelViewModel coinKernelVm)) {
+                if (!AppContext.Instance.CoinVms.TryGetCoinVm(this.DualCoinId, out CoinViewModel coin)) {
+                    if (AppContext.Instance.CoinKernelVms.TryGetCoinKernelVm(this.CoinKernelId, out CoinKernelViewModel coinKernelVm)) {
                         coin = coinKernelVm.DualCoinGroup.DualCoinVms.FirstOrDefault();
                     }
                     if (coin != null) {

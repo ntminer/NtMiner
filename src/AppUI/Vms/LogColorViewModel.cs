@@ -12,7 +12,7 @@ namespace NTMiner.Vms {
 
         public AppContext.MinerProfileViewModel MinerProfile {
             get {
-                return AppContext.Current.MinerProfileVm;
+                return AppContext.Instance.MinerProfileVm;
             }
         }
 

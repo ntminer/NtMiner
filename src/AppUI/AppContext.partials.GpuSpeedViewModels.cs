@@ -25,7 +25,7 @@ namespace NTMiner {
                 if (Design.IsInDesignMode) {
                     return;
                 }
-                this.GpuAllVm = Current.GpuVms.FirstOrDefault(a => a.Index == NTMinerRoot.GpuAllId);
+                this.GpuAllVm = AppContext.Instance.GpuVms.FirstOrDefault(a => a.Index == NTMinerRoot.GpuAllId);
                 IGpusSpeed gpuSpeeds = NTMinerRoot.Instance.GpusSpeed;
                 foreach (var item in gpuSpeeds) {
                     this._list.Add(new GpuSpeedViewModel(item));
@@ -111,7 +111,7 @@ namespace NTMiner {
 
             public MinerProfileViewModel MinerProfile {
                 get {
-                    return Current.MinerProfileVm;
+                    return AppContext.Instance.MinerProfileVm;
                 }
             }
 

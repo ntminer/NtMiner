@@ -15,10 +15,10 @@ namespace NTMiner {
                         _dicById.Add(message.Source.GetId(), new WalletViewModel(message.Source));
                         OnPropertyChanged(nameof(WalletList));
                         CoinViewModel coin;
-                        if (Current.CoinVms.TryGetCoinVm(message.Source.CoinId, out coin)) {
+                        if (AppContext.Instance.CoinVms.TryGetCoinVm((Guid)message.Source.CoinId, out coin)) {
                             coin.OnPropertyChanged(nameof(CoinViewModel.Wallets));
                             coin.OnPropertyChanged(nameof(CoinViewModel.WalletItems));
-                            coin.CoinKernel?.CoinKernelProfile?.SelectedDualCoin?.OnPropertyChanged(nameof(CoinViewModel.Wallets));
+                            coin.CoinKernel?.CoinKernelProfile?.SelectedDualCoin?.OnPropertyChanged(nameof(NTMiner.Vms.CoinViewModel.Wallets));
                         }
                     });
                 On<WalletRemovedEvent>("删除了钱包后调整VM内存", LogEnum.DevConsole,
@@ -26,11 +26,11 @@ namespace NTMiner {
                         _dicById.Remove(message.Source.GetId());
                         OnPropertyChanged(nameof(WalletList));
                         CoinViewModel coin;
-                        if (Current.CoinVms.TryGetCoinVm(message.Source.CoinId, out coin)) {
+                        if (AppContext.Instance.CoinVms.TryGetCoinVm((Guid)message.Source.CoinId, out coin)) {
                             coin.OnPropertyChanged(nameof(CoinViewModel.Wallets));
                             coin.OnPropertyChanged(nameof(CoinViewModel.WalletItems));
                             coin.CoinProfile?.OnPropertyChanged(nameof(CoinProfileViewModel.SelectedWallet));
-                            coin.CoinKernel?.CoinKernelProfile?.SelectedDualCoin?.OnPropertyChanged(nameof(CoinViewModel.Wallets));
+                            coin.CoinKernel?.CoinKernelProfile?.SelectedDualCoin?.OnPropertyChanged(nameof(NTMiner.Vms.CoinViewModel.Wallets));
                         }
                     });
                 On<WalletUpdatedEvent>("更新了钱包后调整VM内存", LogEnum.DevConsole,

@@ -94,7 +94,7 @@ namespace NTMiner.Vms {
                     if (string.IsNullOrEmpty(value)) {
                         throw new ValidationException("名称是必须的");
                     }
-                    if (AppContext.Current.MinerGroupVms.List.Any(a => a.Name == value && a.Id != this.Id)) {
+                    if (AppContext.Instance.MinerGroupVms.List.Any(a => a.Name == value && a.Id != this.Id)) {
                         throw new ValidationException("名称重复");
                     }
                 }

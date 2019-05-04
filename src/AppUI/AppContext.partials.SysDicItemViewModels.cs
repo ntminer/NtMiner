@@ -24,7 +24,7 @@ namespace NTMiner {
                             _dicById.Add(message.Source.GetId(), new SysDicItemViewModel(message.Source));
                             OnPropertyChangeds();
                             SysDicViewModel sysDicVm;
-                            if (Current.SysDicVms.TryGetSysDicVm(message.Source.DicId, out sysDicVm)) {
+                            if (AppContext.Instance.SysDicVms.TryGetSysDicVm(message.Source.DicId, out sysDicVm)) {
                                 sysDicVm.OnPropertyChanged(nameof(sysDicVm.SysDicItems));
                                 sysDicVm.OnPropertyChanged(nameof(sysDicVm.SysDicItemsSelect));
                             }
@@ -38,7 +38,7 @@ namespace NTMiner {
                             entity.Update(message.Source);
                             if (sortNumber != entity.SortNumber) {
                                 SysDicViewModel sysDicVm;
-                                if (Current.SysDicVms.TryGetSysDicVm(entity.DicId, out sysDicVm)) {
+                                if (AppContext.Instance.SysDicVms.TryGetSysDicVm(entity.DicId, out sysDicVm)) {
                                     sysDicVm.OnPropertyChanged(nameof(sysDicVm.SysDicItems));
                                     sysDicVm.OnPropertyChanged(nameof(sysDicVm.SysDicItemsSelect));
                                 }
@@ -50,7 +50,7 @@ namespace NTMiner {
                         _dicById.Remove(message.Source.GetId());
                         OnPropertyChangeds();
                         SysDicViewModel sysDicVm;
-                        if (Current.SysDicVms.TryGetSysDicVm(message.Source.DicId, out sysDicVm)) {
+                        if (AppContext.Instance.SysDicVms.TryGetSysDicVm(message.Source.DicId, out sysDicVm)) {
                             sysDicVm.OnPropertyChanged(nameof(sysDicVm.SysDicItems));
                             sysDicVm.OnPropertyChanged(nameof(sysDicVm.SysDicItemsSelect));
                         }
@@ -76,7 +76,7 @@ namespace NTMiner {
                     SysDicItemViewModel.PleaseSelect
                 };
                     SysDicViewModel sysDic;
-                    if (Current.SysDicVms.TryGetSysDicVm("KernelBrand", out sysDic)) {
+                    if (AppContext.Instance.SysDicVms.TryGetSysDicVm("KernelBrand", out sysDic)) {
                         list.AddRange(List.Where(a => a.DicId == sysDic.Id).OrderBy(a => a.SortNumber));
                     }
                     return list;

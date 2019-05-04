@@ -79,7 +79,7 @@ namespace NTMiner.Vms {
         public void Download(Guid kernelId, Action<bool, string> downloadComplete) {
             KernelDownloadingVisible = Visibility.Visible;
             KernelViewModel kernelVm;
-            if (AppContext.Current.KernelVms.TryGetKernelVm(kernelId, out kernelVm)) {
+            if (AppContext.Instance.KernelVms.TryGetKernelVm(kernelId, out kernelVm)) {
                 kernelVm.KernelProfileVm.Download(downloadComplete);
             }
         }
@@ -101,7 +101,7 @@ namespace NTMiner.Vms {
 
         public AppContext.SysDicItemViewModels SysDicItemVms {
             get {
-                return AppContext.Current.SysDicItemVms;
+                return AppContext.Instance.SysDicItemVms;
             }
         }
 
@@ -128,13 +128,13 @@ namespace NTMiner.Vms {
 
         public AppContext.CoinViewModels CoinVms {
             get {
-                return AppContext.Current.CoinVms;
+                return AppContext.Instance.CoinVms;
             }
         }
 
         public AppContext.MinerProfileViewModel MinerProfile {
             get {
-                return AppContext.Current.MinerProfileVm;
+                return AppContext.Instance.MinerProfileVm;
             }
         }
 
@@ -216,7 +216,7 @@ namespace NTMiner.Vms {
 
         public List<KernelViewModel> QueryResults {
             get {
-                IQueryable<KernelViewModel> query = AppContext.Current.KernelVms.AllKernels.AsQueryable();
+                IQueryable<KernelViewModel> query = AppContext.Instance.KernelVms.AllKernels.AsQueryable();
                 if (!AppStatic.IsDebugMode) {
                     query = query.Where(a => a.PublishState == PublishStatus.Published);
                 }
@@ -276,7 +276,7 @@ namespace NTMiner.Vms {
 
         public List<KernelViewModel> DownloadingVms {
             get {
-                return AppContext.Current.KernelVms.AllKernels.Where(a => a.KernelProfileVm.IsDownloading).OrderBy(a => a.Code + a.Version).ToList();
+                return AppContext.Instance.KernelVms.AllKernels.Where(a => a.KernelProfileVm.IsDownloading).OrderBy(a => a.Code + a.Version).ToList();
             }
         }
 

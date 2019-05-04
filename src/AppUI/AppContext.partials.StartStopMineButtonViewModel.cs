@@ -48,7 +48,7 @@ namespace NTMiner {
 
             public MinerProfileViewModel MinerProfile {
                 get {
-                    return Current.MinerProfileVm;
+                    return AppContext.Instance.MinerProfileVm;
                 }
             }
         }

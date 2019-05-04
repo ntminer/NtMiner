@@ -11,7 +11,7 @@ namespace NTMiner {
             private readonly Dictionary<string, CoinSnapshotDataViewModel> _dicByCoinCode = new Dictionary<string, CoinSnapshotDataViewModel>(StringComparer.OrdinalIgnoreCase);
 
             private CoinSnapshotDataViewModels() {
-                foreach (var coinVm in Current.CoinVms.AllCoins) {
+                foreach (var coinVm in AppContext.Instance.CoinVms.AllCoins) {
                     _dicByCoinCode.Add(coinVm.Code, new CoinSnapshotDataViewModel(new MinerServer.CoinSnapshotData {
                         CoinCode = coinVm.Code,
                         MainCoinMiningCount = 0,

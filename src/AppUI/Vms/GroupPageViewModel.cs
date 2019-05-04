@@ -22,7 +22,7 @@ namespace NTMiner.Vms {
 
         public AppContext.GroupViewModels GroupVms {
             get {
-                return AppContext.Current.GroupVms;
+                return AppContext.Instance.GroupVms;
             }
         }
     }

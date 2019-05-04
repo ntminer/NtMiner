@@ -23,7 +23,7 @@ namespace NTMiner {
                 On<KernelOutputTranslaterAddedEvent>("添加了内核输出翻译器后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         KernelOutputViewModel kernelOutputVm;
-                        if (Current.KernelOutputVms.TryGetKernelOutputVm(message.Source.KernelOutputId, out kernelOutputVm)) {
+                        if (AppContext.Instance.KernelOutputVms.TryGetKernelOutputVm(message.Source.KernelOutputId, out kernelOutputVm)) {
                             if (!_dicByKernelOutputId.ContainsKey(message.Source.KernelOutputId)) {
                                 _dicByKernelOutputId.Add(message.Source.KernelOutputId, new List<KernelOutputTranslaterViewModel>());
                             }
@@ -54,7 +54,7 @@ namespace NTMiner {
                             _dicById.Remove(message.Source.GetId());
                         }
                         KernelOutputViewModel kernelOutputVm;
-                        if (Current.KernelOutputVms.TryGetKernelOutputVm(message.Source.KernelOutputId, out kernelOutputVm)) {
+                        if (AppContext.Instance.KernelOutputVms.TryGetKernelOutputVm(message.Source.KernelOutputId, out kernelOutputVm)) {
                             kernelOutputVm.OnPropertyChanged(nameof(kernelOutputVm.KernelOutputTranslaters));
                         }
                     });
