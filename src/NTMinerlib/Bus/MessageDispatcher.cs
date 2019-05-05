@@ -23,7 +23,7 @@ namespace NTMiner.Bus {
                 var messageHandlers = _handlers[messageType].ToArray();
                 foreach (var messageHandler in messageHandlers) {
                     var tMessageHandler = (DelegateHandler<TMessage>)messageHandler;
-                    if (tMessageHandler.IsPaused) {
+                    if (!tMessageHandler.IsEnabled) {
                         continue;
                     }
                     var evtArgs = new MessageDispatchEventArgs(message, messageHandler.GetType(), messageHandler);

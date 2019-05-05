@@ -36,15 +36,15 @@ namespace NTMiner {
             return VirtualRoot.Path(description, logType, action).AddToCollection(_contextHandlers);
         }
 
-        public static void Open() {
+        public static void Enable() {
             foreach (var handler in _contextHandlers) {
-                handler.IsPaused = false;
+                handler.IsEnabled = true;
             }
         }
 
-        public static void Close() {
+        public static void Disable() {
             foreach (var handler in _contextHandlers) {
-                handler.IsPaused = true;
+                handler.IsEnabled = false;
             }
         }
         #endregion
