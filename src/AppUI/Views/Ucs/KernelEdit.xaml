@@ -149,7 +149,7 @@
 											Height="24"
 											Padding="4 0"
 											Background="{StaticResource ThemeBackground}"
-											Command="{Binding AppContext.ShowKernelInputs}"
+											Command="{x:Static vm:AppStatic.ShowKernelInputs}"
 											CornerRadius="2">
 											<WrapPanel>
 												<Path
@@ -170,7 +170,7 @@
 									<controls:KbButton
 										Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
 										Background="Transparent"
-										Command="{Binding AppContext.ShowKernelOutputs}"
+										Command="{x:Static vm:AppStatic.ShowKernelOutputs}"
 										CommandParameter="{Binding KernelOutputVm}">
 										<WrapPanel>
 											<Path
@@ -198,7 +198,7 @@
 											Height="24"
 											Padding="4 0"
 											Background="{StaticResource ThemeBackground}"
-											Command="{Binding AppContext.ShowKernelOutputs}"
+											Command="{x:Static vm:AppStatic.ShowKernelOutputs}"
 											CornerRadius="2">
 											<WrapPanel>
 												<Path

@@ -116,7 +116,7 @@
 					Margin="8 0 0 0"
 					Width="80"
 					Background="{StaticResource ThemeBackground}"
-					Command="{Binding AppContext.ShowRestartWindows}"
+					Command="{x:Static vm:AppStatic.ShowRestartWindows}"
 					VerticalAlignment="Center"
 					CornerRadius="2">
 					<WrapPanel>

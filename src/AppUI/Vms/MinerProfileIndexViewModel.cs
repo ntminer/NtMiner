@@ -6,12 +6,6 @@ namespace NTMiner.Vms {
         public MinerProfileIndexViewModel() {
         }
 
-        public AppContext AppContext {
-            get {
-                return AppContext.Instance;
-            }
-        }
-
         public AppContext.MinerProfileViewModel MinerProfile {
             get {
                 return AppContext.Instance.MinerProfileVm;
@@ -20,7 +14,7 @@ namespace NTMiner.Vms {
 
         public List<GpuViewModel> GpuVms {
             get {
-                return AppContext.GpuVms.Where(a => a.Index != NTMinerRoot.GpuAllId).OrderBy(a => a.Index).ToList();
+                return AppContext.Instance.GpuVms.Where(a => a.Index != NTMinerRoot.GpuAllId).OrderBy(a => a.Index).ToList();
             }
         }
     }

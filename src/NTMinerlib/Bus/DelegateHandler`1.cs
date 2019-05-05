@@ -11,6 +11,7 @@ namespace NTMiner.Bus {
 
         public DelegateHandler(IHandlerId handlerId, Action<TMessage> action) {
             this.HandlerId = handlerId;
+            this.IsEnabled = true;
             _action = action;
         }
 

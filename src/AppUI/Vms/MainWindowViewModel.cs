@@ -48,12 +48,6 @@ namespace NTMiner.Vms {
             return serverJsonVersion;
         }
 
-        public AppContext AppContext {
-            get {
-                return AppContext.Instance;
-            }
-        }
-
         public string BrandTitle {
             get {
                 if (VirtualRoot.KernelBrandId == Guid.Empty) {

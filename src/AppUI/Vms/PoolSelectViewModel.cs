@@ -17,12 +17,6 @@ namespace NTMiner.Vms {
             _onSelectedChanged = onSelectedChanged;
         }
 
-        public AppContext AppContext {
-            get {
-                return AppContext.Instance;
-            }
-        }
-
         public PoolViewModel SelectedResult {
             get => _selectedResult;
             set {

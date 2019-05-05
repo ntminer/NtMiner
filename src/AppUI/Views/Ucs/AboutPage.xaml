@@ -32,7 +32,7 @@
 			<controls:KbLinkButton
 				Margin="0 2 8 2"
 				Foreground="#0072C1"
-				Command="{Binding AppContext.OpenOfficialSite}"
+				Command="{x:Static vm:AppStatic.OpenOfficialSite}"
 				Content="http://ntminer.com/"
 				KbDisplayLine="False"
 				KbSystemButtonHoverBackground="Transparent"

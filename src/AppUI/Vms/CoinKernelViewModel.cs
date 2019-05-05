@@ -141,12 +141,6 @@ namespace NTMiner.Vms {
             });
         }
 
-        public AppContext AppContext {
-            get {
-                return AppContext.Instance;
-            }
-        }
-
         public Guid Id {
             get => _id;
             private set {

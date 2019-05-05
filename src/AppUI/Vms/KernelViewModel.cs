@@ -184,12 +184,6 @@ namespace NTMiner.Vms {
         }
         #endregion
 
-        public AppContext AppContext {
-            get {
-                return AppContext.Instance;
-            }
-        }
-
         public KernelViewModel KernelVmSingleInstance {
             get {
                 if (AppContext.Instance.KernelVms.TryGetKernelVm(this.Id, out KernelViewModel kernelVm)) {

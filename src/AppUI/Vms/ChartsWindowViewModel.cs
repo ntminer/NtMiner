@@ -10,12 +10,6 @@ namespace NTMiner.Vms {
         public ChartsWindowViewModel() {
         }
 
-        public AppContext AppContext {
-            get {
-                return AppContext.Instance;
-            }
-        }
-
         public int TotalMiningCount {
             get => _totalMiningCount;
             set {

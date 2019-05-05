@@ -9,12 +9,6 @@ namespace NTMiner.Vms {
 
         }
 
-        public AppContext AppContext {
-            get {
-                return AppContext.Instance;
-            }
-        }
-
         public string MachineName {
             get {
                 return System.Environment.MachineName;

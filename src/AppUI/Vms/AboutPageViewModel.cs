@@ -6,12 +6,6 @@ namespace NTMiner.Vms {
         public AboutPageViewModel() {
         }
 
-        public AppContext AppContext {
-            get {
-                return AppContext.Instance;
-            }
-        }
-
         public BitmapImage BigLogoImageSource {
             get {
                 return IconConst.BigLogoImageSource;

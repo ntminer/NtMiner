@@ -74,12 +74,6 @@ namespace NTMiner.Vms {
             _cool = data.Cool;
         }
 
-        public AppContext AppContext {
-            get {
-                return AppContext.Instance;
-            }
-        }
-
         public Guid GetId() {
             return this.Id;
         }

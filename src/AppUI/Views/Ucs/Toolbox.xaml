@@ -99,7 +99,7 @@
 					Height="50" 
 					Width="200"
 					Margin="4"
-					Command="{Binding AppContext.ShowVirtualMemory}"
+					Command="{x:Static vm:AppStatic.ShowVirtualMemory}"
 					Cursor="Hand"
 					Background="Transparent">
 					<WrapPanel VerticalAlignment="Center">
@@ -119,7 +119,7 @@
 					Height="50" 
 					Width="200"
 					Margin="4"
-					Command="{Binding AppContext.ShowCalc}"
+					Command="{x:Static vm:AppStatic.ShowCalc}"
 					Cursor="Hand"
 					Background="Transparent">
 					<WrapPanel VerticalAlignment="Center">

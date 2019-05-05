@@ -26,12 +26,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        public AppContext AppContext {
-            get {
-                return AppContext.Instance;
-            }
-        }
-
         public SolidColorBrush CheckUpdateForeground {
             get => _checkUpdateForeground;
             set {
@@ -104,7 +98,7 @@ namespace NTMiner.Vms {
 
         public AppContext.GpuViewModels GpuVms {
             get {
-                return AppContext.GpuVms;
+                return AppContext.Instance.GpuVms;
             }
         }
     }

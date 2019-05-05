@@ -22,12 +22,6 @@ namespace NTMiner {
                 });
             }
 
-            public AppContext AppContext {
-                get {
-                    return AppContext.Instance;
-                }
-            }
-
             public List<Drive> Drives {
                 get {
                     return _drives;

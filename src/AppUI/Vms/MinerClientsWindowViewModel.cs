@@ -321,12 +321,6 @@ namespace NTMiner.Vms {
                     && this.SelectedMinerClients.Length == 1;
         }
 
-        public AppContext AppContext {
-            get {
-                return AppContext.Instance;
-            }
-        }
-
         public List<NTMinerFileData> NTMinerFileList {
             get {
                 return _ntminerFileList;

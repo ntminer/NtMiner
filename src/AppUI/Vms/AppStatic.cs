@@ -1,10 +1,14 @@
 ﻿using NTMiner.Core;
 using NTMiner.MinerServer;
+using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Windows;
+using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public static class AppStatic {
@@ -172,5 +176,198 @@ namespace NTMiner.Vms {
                 callback?.Invoke();
             }
         }
+
+        public static string CurrentVersion {
+            get {
+                return NTMinerRoot.CurrentVersion.ToString();
+            }
+        }
+
+        public static string VersionTag {
+            get {
+                return NTMinerRoot.CurrentVersionTag;
+            }
+        }
+
+        public static string QQGroup {
+            get {
+                return NTMinerRoot.Instance.QQGroup;
+            }
+        }
+
+        private static readonly string _windowsEdition = Windows.OS.Instance.WindowsEdition?.Replace("Windows ", "Win");
+        public static string WindowsEdition {
+            get {
+                return _windowsEdition;
+            }
+        }
+
+        public static string TotalVirtualMemoryGbText {
+            get {
+                return AppContext.Instance.VirtualMemorySetVm.TotalVirtualMemoryGbText;
+            }
+        }
+
+        public static string GpuSetInfo {
+            get {
+                return NTMinerRoot.Instance.GpuSetInfo;
+            }
+        }
+
+        public static string DriverVersion {
+            get {
+                var gpuSet = NTMinerRoot.Instance.GpuSet;
+                if (gpuSet.GpuType == GpuType.NVIDIA) {
+                    var cudaVersion = gpuSet.Properties.FirstOrDefault(a => a.Code == "CudaVersion");
+                    if (cudaVersion != null) {
+                        return $"{gpuSet.DriverVersion} / {cudaVersion.Value}";
+                    }
+                }
+                return gpuSet.DriverVersion;
+            }
+        }
+
+        public static ICommand ConfigControlCenterHost { get; private set; } = new DelegateCommand(ControlCenterHostConfig.ShowWindow);
+
+        public static ICommand ExportServerJson { get; private set; } = new DelegateCommand(() => {
+            try {
+                string fileName = NTMinerRoot.ExportServerVersionJson();
+                NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage($"{fileName}", "导出成功");
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+            }
+        });
+
+        public static string ServerJsonFileName { get; private set; } = AssemblyInfo.ServerJsonFileName;
+
+        public static ICommand SetServerJsonVersion { get; private set; } = new DelegateCommand(() => {
+            try {
+                DialogWindow.ShowDialog(message: $"您确定刷新{AssemblyInfo.ServerJsonFileName}吗？", title: "确认", onYes: () => {
+                    try {
+                        VirtualRoot.Execute(new ChangeServerAppSettingCommand(new AppSettingData {
+                            Key = ServerJsonFileName,
+                            Value = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss fff")
+                        }));
+                        NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage($"刷新成功");
+                    }
+                    catch (Exception e) {
+                        Logger.ErrorDebugLine(e.Message, e);
+                        NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage($"刷新失败");
+                    }
+                }, icon: IconConst.IconConfirm);
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+            }
+        });
+
+        public static ICommand ShowUsers { get; private set; } = new DelegateCommand(UserPage.ShowWindow);
+
+        public static ICommand ShowOverClockDatas { get; private set; } = new DelegateCommand(OverClockDataPage.ShowWindow);
+
+        public static ICommand ShowChartsWindow { get; private set; } = new DelegateCommand(ChartsWindow.ShowWindow);
+
+        public static ICommand ShowInnerProperty { get; private set; } = new DelegateCommand(InnerProperty.ShowWindow);
+
+        public static ICommand JoinQQGroup { get; private set; } = new DelegateCommand(() => {
+            Process.Start("https://jq.qq.com/?_wv=1027&k=5ZPsuCk");
+        });
+
+        public static ICommand RunAsAdministrator { get; private set; } = new DelegateCommand(AppHelper.RunAsAdministrator);
+
+        public static ICommand ShowNotificationSample { get; private set; } = new DelegateCommand(NotificationSample.ShowWindow);
+
+        public static ICommand AppExit { get; private set; } = new DelegateCommand(() => {
+            VirtualRoot.Execute(new CloseNTMinerCommand());
+        });
+
+        public static ICommand ShowRestartWindows { get; private set; } = new DelegateCommand(RestartWindows.ShowDialog);
+
+        public static ICommand ShowVirtualMemory { get; private set; } = new DelegateCommand(Views.Ucs.VirtualMemory.ShowWindow);
+
+        public static ICommand ShowSysDic { get; private set; } = new DelegateCommand(SysDicPage.ShowWindow);
+        public static ICommand ShowGroups { get; private set; } = new DelegateCommand(GroupPage.ShowWindow);
+        public static ICommand ShowCoins { get; private set; } = new DelegateCommand<CoinViewModel>((currentCoin) => {
+            CoinPage.ShowWindow(currentCoin, "coin");
+        });
+        public static ICommand ManageColumnsShows { get; private set; } = new DelegateCommand(ColumnsShowPage.ShowWindow);
+        public static ICommand ManagePools { get; private set; } = new DelegateCommand<CoinViewModel>(coinVm => {
+            CoinPage.ShowWindow(coinVm, "pool");
+        });
+        public static ICommand ManageWallet { get; private set; } = new DelegateCommand<CoinViewModel>(coinVm => {
+            CoinPage.ShowWindow(coinVm, "wallet");
+        });
+        public static ICommand ShowKernelInputs { get; private set; } = new DelegateCommand(KernelInputPage.ShowWindow);
+        public static ICommand ShowKernelOutputs { get; private set; } = new DelegateCommand<KernelOutputViewModel>(KernelOutputPage.ShowWindow);
+        public static ICommand ShowKernels { get; private set; } = new DelegateCommand(() => {
+            KernelPage.ShowWindow(Guid.Empty);
+        });
+        public static ICommand ShowAbout { get; private set; } = new DelegateCommand<string>(AboutPage.ShowWindow);
+        public static ICommand ShowSpeedChart { get; private set; } = new DelegateCommand(() => {
+            SpeedCharts.ShowWindow();
+        });
+        public static ICommand ShowNTMinerUpdaterConfig { get; private set; } = new DelegateCommand(NTMinerUpdaterConfig.ShowWindow);
+        public static ICommand ShowOnlineUpdate { get; private set; } = new DelegateCommand(() => {
+            Upgrade(string.Empty, null);
+        });
+        public static ICommand ShowHelp { get; private set; } = new DelegateCommand(() => {
+            Process.Start("https://github.com/ntminer/ntminer");
+        });
+        public static ICommand ShowMinerClients { get; private set; } = new DelegateCommand(() => {
+            MinerClientsWindow.ShowWindow();
+        });
+        public static ICommand ShowCalcConfig { get; private set; } = new DelegateCommand(CalcConfig.ShowWindow);
+        public static ICommand ShowGlobalDir { get; private set; } = new DelegateCommand(() => {
+            Process.Start(VirtualRoot.GlobalDirFullName);
+        });
+        public static ICommand OpenLocalLiteDb { get; private set; } = new DelegateCommand(() => {
+            OpenLiteDb(SpecialPath.LocalDbFileFullName);
+        });
+        public static ICommand OpenServerLiteDb { get; private set; } = new DelegateCommand(() => {
+            OpenLiteDb(SpecialPath.ServerDbFileFullName);
+        });
+
+        private static void OpenLiteDb(string dbFileFullName) {
+            string liteDbExplorerDir = Path.Combine(VirtualRoot.GlobalDirFullName, "LiteDBExplorerPortable");
+            string liteDbExplorerFileFullName = Path.Combine(liteDbExplorerDir, "LiteDbExplorer.exe");
+            if (!Directory.Exists(liteDbExplorerDir)) {
+                Directory.CreateDirectory(liteDbExplorerDir);
+            }
+            if (!File.Exists(liteDbExplorerFileFullName)) {
+                OfficialServer.FileUrlService.GetLiteDbExplorerUrlAsync((downloadFileUrl, e) => {
+                    if (string.IsNullOrEmpty(downloadFileUrl)) {
+                        return;
+                    }
+                    FileDownloader.ShowWindow(downloadFileUrl, "LiteDB数据库管理工具", (window, isSuccess, message, saveFileFullName) => {
+                        if (isSuccess) {
+                            ZipUtil.DecompressZipFile(saveFileFullName, liteDbExplorerDir);
+                            File.Delete(saveFileFullName);
+                            window?.Close();
+                            Windows.Cmd.RunClose(liteDbExplorerFileFullName, dbFileFullName);
+                        }
+                    });
+                });
+            }
+            else {
+                Windows.Cmd.RunClose(liteDbExplorerFileFullName, dbFileFullName);
+            }
+        }
+
+        public static ICommand ShowCalc { get; private set; } = new DelegateCommand<CoinViewModel>(Calc.ShowWindow);
+
+        public static ICommand OpenOfficialSite { get; private set; } = new DelegateCommand(() => {
+            Process.Start("https://github.com/ntminer/ntminer");
+        });
+
+        public static ICommand OpenDiscussSite { get; private set; } = new DelegateCommand(() => {
+            Process.Start("https://github.com/ntminer/ntminer/issues");
+        });
+
+        public static ICommand DownloadMinerStudio { get; private set; } = new DelegateCommand(() => {
+            Process.Start(AssemblyInfo.MinerJsonBucket + "MinerStudio.exe");
+        });
+
+        public static ICommand ShowQQGroupQrCode { get; private set; } = new DelegateCommand(QQGroupQrCode.ShowWindow);
     }
 }
