@@ -14,7 +14,7 @@ namespace NTMiner.Core.Kernels.Impl {
         public KernelOutputTranslaterSet(INTMinerRoot root, bool isUseJson) {
             _root = root;
             _isUseJson = isUseJson;
-            _root.Window<AddKernelOutputTranslaterCommand>("添加内核输出翻译器", LogEnum.DevConsole,
+            _root.ServerContextWindow<AddKernelOutputTranslaterCommand>("添加内核输出翻译器", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -37,7 +37,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.Happened(new KernelOutputTranslaterAddedEvent(entity));
                 });
-            _root.Window<UpdateKernelOutputTranslaterCommand>("更新内核输出翻译器", LogEnum.DevConsole,
+            _root.ServerContextWindow<UpdateKernelOutputTranslaterCommand>("更新内核输出翻译器", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -68,7 +68,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.Happened(new KernelOutputTranslaterUpdatedEvent(entity));
                 });
-            _root.Window<RemoveKernelOutputTranslaterCommand>("移除内核输出翻译器", LogEnum.DevConsole,
+            _root.ServerContextWindow<RemoveKernelOutputTranslaterCommand>("移除内核输出翻译器", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {
@@ -88,7 +88,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.Happened(new KernelOutputTranslaterRemovedEvent(entity));
                 });
-            _root.On<SysDicItemUpdatedEvent>("LogColor字典项更新后刷新翻译器内存", LogEnum.DevConsole,
+            _root.ServerContextOn<SysDicItemUpdatedEvent>("LogColor字典项更新后刷新翻译器内存", LogEnum.DevConsole,
                 action: message => {
                     if (!_root.SysDicSet.TryGetSysDic("LogColor", out ISysDic dic)) {
                         return;

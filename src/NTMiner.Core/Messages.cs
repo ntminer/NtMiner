@@ -12,9 +12,14 @@ namespace NTMiner {
         public ServerContextVmsReInitedEvent() { }
     }
 
-    [MessageType(description: "MinerProfile刷新后")]
-    public class MinerProfileReInitedEvent : EventBase {
-        public MinerProfileReInitedEvent() { }
+    [MessageType(description: "LocalContext刷新后")]
+    public class LocalContextReInitedEvent : EventBase {
+        public LocalContextReInitedEvent() { }
+    }
+
+    [MessageType(description: "LocalContext的视图层刷新完毕后")]
+    public class LocalContextVmsReInitedEvent : EventBase {
+        public LocalContextVmsReInitedEvent() { }
     }
 
     [MessageType(description: "主界面显示后")]

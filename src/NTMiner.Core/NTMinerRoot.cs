@@ -30,7 +30,7 @@ namespace NTMiner {
         /// <summary>
         /// 命令窗口。使用该方法的代码行应将前两个参数放在第一行以方便vs查找引用时展示出参数信息
         /// </summary>
-        public DelegateHandler<TCmd> Window<TCmd>(string description, LogEnum logType, Action<TCmd> action)
+        public DelegateHandler<TCmd> ServerContextWindow<TCmd>(string description, LogEnum logType, Action<TCmd> action)
             where TCmd : ICmd {
             return VirtualRoot.Path(description, logType, action).AddToCollection(_contextHandlers);
         }
@@ -38,12 +38,10 @@ namespace NTMiner {
         /// <summary>
         /// 事件响应
         /// </summary>
-        public DelegateHandler<TEvent> On<TEvent>(string description, LogEnum logType, Action<TEvent> action)
+        public DelegateHandler<TEvent> ServerContextOn<TEvent>(string description, LogEnum logType, Action<TEvent> action)
             where TEvent : IEvent {
             return VirtualRoot.Path(description, logType, action).AddToCollection(_contextHandlers);
         }
-
-        public event Action OnReRendMinerProfile;
 
         public IUserSet UserSet { get; private set; }
 
@@ -222,8 +220,8 @@ namespace NTMiner {
             ReInitLocalJson();
             this._minerProfile.ReInit(this, LocalJson.MineWork);
             // 本地数据集已刷新，此时刷新来自本地数据集的视图模型集
-            VirtualRoot.Happened(new MinerProfileReInitedEvent());
-            OnReRendMinerProfile?.Invoke();
+            VirtualRoot.Happened(new LocalContextReInitedEvent());
+            VirtualRoot.Happened(new LocalContextVmsReInitedEvent());
             RefreshArgsAssembly();
         }
 

@@ -50,10 +50,10 @@ namespace NTMiner {
                         OnPropertyChanged(message.PropertyName);
                     });
 
-                NTMinerRoot.Instance.OnReRendMinerProfile += () => {
-                    this.CoinVm.CoinKernel?.OnPropertyChanged(nameof(CoinKernelViewModel.CoinKernelProfile));
-                    AllPropertyChanged();
-                };
+                On<LocalContextVmsReInitedEvent>("本地上下文视图模型集刷新后刷新界面", LogEnum.DevConsole,
+                    action: message => {
+                        AllPropertyChanged();
+                    });
                 NTMinerRoot.RefreshArgsAssembly.Invoke();
             }
 

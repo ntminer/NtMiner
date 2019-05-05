@@ -24,7 +24,7 @@ namespace NTMiner {
                             _coinProfileDicById[message.CoinId].OnPropertyChanged(message.PropertyName);
                         }
                     });
-                On<MinerProfileReInitedEvent>("MinerProfile刷新后刷新VM内存", LogEnum.DevConsole,
+                On<LocalContextReInitedEvent>("MinerProfile刷新后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         _coinKernelProfileDicById.Clear();
                         _coinProfileDicById.Clear();

@@ -12,11 +12,9 @@ using System.Collections.Generic;
 
 namespace NTMiner {
     public interface INTMinerRoot {
-        DelegateHandler<TCmd> Window<TCmd>(string description, LogEnum logType, Action<TCmd> action) where TCmd : ICmd;
-        DelegateHandler<TEvent> On<TEvent>(string description, LogEnum logType, Action<TEvent> action) where TEvent : IEvent;
+        DelegateHandler<TCmd> ServerContextWindow<TCmd>(string description, LogEnum logType, Action<TCmd> action) where TCmd : ICmd;
+        DelegateHandler<TEvent> ServerContextOn<TEvent>(string description, LogEnum logType, Action<TEvent> action) where TEvent : IEvent;
         
-        event Action OnReRendMinerProfile;
-
         void ReInitMinerProfile();
 
         IUserSet UserSet { get; }

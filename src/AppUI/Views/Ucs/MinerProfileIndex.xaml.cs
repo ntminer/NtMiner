@@ -21,53 +21,46 @@ namespace NTMiner.Views.Ucs {
             this.PopupDualCoin.Closed += Popup_Closed;
             this.PopupMainCoinWallet.Closed += Popup_Closed;
             this.PopupDualCoinWallet.Closed += Popup_Closed;
-            NTMinerRoot.Instance.OnReRendMinerProfile += Current_OnReRendMinerProfile;
-            this.Unloaded += MinerProfileIndex_Unloaded;
+            this.On<LocalContextVmsReInitedEvent>("本地上下文视图模型集刷新后刷新界面上的popup", LogEnum.DevConsole,
+                action: message => {
+                    UIThread.Execute(() => {
+                        if (Vm.MinerProfile.MineWork != null) {
+                            return;
+                        }
+                        if (this.PopupKernel.Child != null) {
+                            this.PopupKernel.IsOpen = false;
+                            OpenKernelPopup();
+                        }
+                        if (this.PopupMainCoinPool.Child != null) {
+                            this.PopupMainCoinPool.IsOpen = false;
+                            OpenMainCoinPoolPopup();
+                        }
+                        if (this.PopupDualCoinPool != null) {
+                            this.PopupDualCoinPool.IsOpen = false;
+                            OpenDualCoinPoolPopup();
+                        }
+                        if (this.PopupMainCoin != null) {
+                            this.PopupMainCoin.IsOpen = false;
+                            OpenMainCoinPopup();
+                        }
+                        if (this.PopupDualCoin != null) {
+                            this.PopupDualCoin.IsOpen = false;
+                            OpenDualCoinPopup();
+                        }
+                        if (this.PopupMainCoinWallet != null) {
+                            this.PopupMainCoinWallet.IsOpen = false;
+                            OpenMainCoinWalletPopup();
+                        }
+                        if (this.PopupDualCoinWallet != null) {
+                            this.PopupDualCoinWallet.IsOpen = false;
+                            OpenDualCoinWalletPopup();
+                        }
+                    });
+                });
         }
 
         private void Popup_Closed(object sender, System.EventArgs e) {
             ((Popup)sender).Child = null;
-        }
-
-        private void MinerProfileIndex_Unloaded(object sender, RoutedEventArgs e) {
-            // 对于挖矿端来说MinerProfileIndex实例是唯一的，但对于群控客户端的作业来说不是，所以这里需要-=
-            NTMinerRoot.Instance.OnReRendMinerProfile -= Current_OnReRendMinerProfile;
-        }
-
-        private void Current_OnReRendMinerProfile() {
-            UIThread.Execute(() => {
-                if (Vm.MinerProfile.MineWork != null) {
-                    return;
-                }
-                if (this.PopupKernel.Child != null) {
-                    this.PopupKernel.IsOpen = false;
-                    OpenKernelPopup();
-                }
-                if (this.PopupMainCoinPool.Child != null) {
-                    this.PopupMainCoinPool.IsOpen = false;
-                    OpenMainCoinPoolPopup();
-                }
-                if (this.PopupDualCoinPool != null) {
-                    this.PopupDualCoinPool.IsOpen = false;
-                    OpenDualCoinPoolPopup();
-                }
-                if (this.PopupMainCoin != null) {
-                    this.PopupMainCoin.IsOpen = false;
-                    OpenMainCoinPopup();
-                }
-                if (this.PopupDualCoin != null) {
-                    this.PopupDualCoin.IsOpen = false;
-                    OpenDualCoinPopup();
-                }
-                if (this.PopupMainCoinWallet != null) {
-                    this.PopupMainCoinWallet.IsOpen = false;
-                    OpenMainCoinWalletPopup();
-                }
-                if (this.PopupDualCoinWallet != null) {
-                    this.PopupDualCoinWallet.IsOpen = false;
-                    OpenDualCoinWalletPopup();
-                }
-            });
         }
 
         private void DualCoinWeightSlider_LostFocus(object sender, RoutedEventArgs e) {
