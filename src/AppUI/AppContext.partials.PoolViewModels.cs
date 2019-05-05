@@ -15,9 +15,10 @@ namespace NTMiner {
                         _dicById.Clear();
                         Init();
                     });
-                NTMinerRoot.Instance.OnReRendContext += () => {
-                    OnPropertyChanged(nameof(AllPools));
-                };
+                On<CoreContextVmsReInitedEvent>("VM集内存刷新后刷新视图界面", LogEnum.DevConsole,
+                    action: message => {
+                        OnPropertyChanged(nameof(AllPools));
+                    });
                 On<PoolAddedEvent>("添加矿池后刷新VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         _dicById.Add(message.Source.GetId(), new PoolViewModel(message.Source));

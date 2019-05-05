@@ -21,9 +21,10 @@ namespace NTMiner {
                         _dicById.Clear();
                         Init();
                     });
-                NTMinerRoot.Instance.OnReRendContext += () => {
-                    OnPropertyChanged(nameof(AllKernels));
-                };
+                On<CoreContextVmsReInitedEvent>("VM集内存刷新后刷新视图界面", LogEnum.DevConsole,
+                    action: message => {
+                        OnPropertyChanged(nameof(AllKernels));
+                    });
                 On<KernelAddedEvent>("添加了内核后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         _dicById.Add(message.Source.GetId(), new KernelViewModel(message.Source));

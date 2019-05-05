@@ -7,6 +7,11 @@ namespace NTMiner {
         public CoreContextReInitedEvent() { }
     }
 
+    [MessageType(description: "CoreContext的视图层刷新完毕后")]
+    public class CoreContextVmsReInitedEvent : EventBase {
+        public CoreContextVmsReInitedEvent() { }
+    }
+
     [MessageType(description: "主界面显示后")]
     public class MainWindowShowedEvent : EventBase {
         public MainWindowShowedEvent() { }

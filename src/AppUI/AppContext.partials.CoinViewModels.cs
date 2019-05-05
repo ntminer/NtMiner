@@ -22,9 +22,10 @@ namespace NTMiner {
                         _dicById.Clear();
                         Init();
                     });
-                NTMinerRoot.Instance.OnReRendContext += () => {
-                    AllPropertyChanged();
-                };
+                On<CoreContextVmsReInitedEvent>("VM集内存刷新后刷新视图界面", LogEnum.DevConsole,
+                    action: message => {
+                        AllPropertyChanged();
+                    });
                 On<CoinAddedEvent>("添加了币种后刷新VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         _dicById.Add(message.Source.GetId(), new CoinViewModel(message.Source));

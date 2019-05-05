@@ -18,9 +18,10 @@ namespace NTMiner {
                         _dicByKernelOutputId.Clear();
                         Init();
                     });
-                NTMinerRoot.Instance.OnReRendContext += () => {
-                    OnPropertyChanged(nameof(AllKernelOutputTranslaterVms));
-                };
+                On<CoreContextVmsReInitedEvent>("VM集内存刷新后刷新视图界面", LogEnum.DevConsole,
+                    action: message => {
+                        OnPropertyChanged(nameof(AllKernelOutputTranslaterVms));
+                    });
                 On<KernelOutputTranslaterAddedEvent>("添加了内核输出翻译器后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         KernelOutputViewModel kernelOutputVm;

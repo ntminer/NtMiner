@@ -32,9 +32,10 @@ namespace NTMiner {
                     }
                     this.ArgsAssembly = NTMinerRoot.Instance.BuildAssembleArgs();
                 };
-                NTMinerRoot.Instance.OnReRendContext += () => {
-                    OnPropertyChanged(nameof(CoinVm));
-                };
+                On<CoreContextVmsReInitedEvent>("VM集内存刷新后刷新视图界面", LogEnum.DevConsole,
+                    action: message => {
+                        OnPropertyChanged(nameof(CoinVm));
+                    });
                 Window<RefreshAutoBootStartCommand>("刷新开机启动和自动挖矿的展示", LogEnum.UserConsole,
                     action: message => {
                         OnPropertyChanged(nameof(IsAutoBoot));

@@ -43,7 +43,6 @@ namespace NTMiner {
             return VirtualRoot.Path(description, logType, action).AddToCollection(_contextHandlers);
         }
 
-        public event Action OnReRendContext;
         public event Action OnMinerProfileReInited;
         public event Action OnReRendMinerProfile;
 
@@ -194,8 +193,10 @@ namespace NTMiner {
                 ReInitServerJson();
             }
             CoreContextInit(isWork);
+            // CoreContext的视图模型集此时刷新
             VirtualRoot.Happened(new CoreContextReInitedEvent());
-            OnReRendContext?.Invoke();
+            // CoreContext的视图模型集已全部刷新，此时刷新视图界面
+            VirtualRoot.Happened(new CoreContextVmsReInitedEvent());
             if (isWork) {
                 ReInitMinerProfile();
             }

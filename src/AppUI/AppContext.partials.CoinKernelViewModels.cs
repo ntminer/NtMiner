@@ -16,9 +16,10 @@ namespace NTMiner {
                         _dicById.Clear();
                         Init();
                     });
-                NTMinerRoot.Instance.OnReRendContext += () => {
-                    OnPropertyChanged(nameof(AllCoinKernels));
-                };
+                On<CoreContextVmsReInitedEvent>("VM集内存刷新后刷新视图界面", LogEnum.DevConsole,
+                    action: message => {
+                        OnPropertyChanged(nameof(AllCoinKernels));
+                    });
                 On<CoinKernelAddedEvent>("添加了币种内核后刷新VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         var coinKernelVm = new CoinKernelViewModel(message.Source);
