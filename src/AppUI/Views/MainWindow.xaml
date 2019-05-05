@@ -10,7 +10,7 @@
 		xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:vm="clr-namespace:NTMiner.Vms"
 		mc:Ignorable="d"
-		Title="开源矿工"
+		Title="{x:Static vm:AppStatic.AppName}"
 		WindowTransitionsEnabled="False"
 		Width="{x:Static vm:AppStatic.MainWindowWidth}"
 		Height="{x:Static vm:AppStatic.MainWindowHeight}"

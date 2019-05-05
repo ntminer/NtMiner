@@ -47,7 +47,6 @@ namespace NTMiner {
                 SplashWindow splashWindow = new SplashWindow();
                 splashWindow.Show();
                 NotiCenterWindow.Instance.Show();
-                NTMinerRoot.AppName = "开源矿工群控客户端";
                 bool isInnerIp = Ip.Util.IsInnerIp(NTMinerRegistry.GetControlCenterHost());
                 if (isInnerIp) {
                     NTMinerServices.NTMinerServicesUtil.RunNTMinerServices();

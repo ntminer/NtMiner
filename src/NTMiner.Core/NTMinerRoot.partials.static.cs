@@ -14,20 +14,24 @@ using System.Text;
 namespace NTMiner {
     public partial class NTMinerRoot {
         public const int SpeedHistoryLengthByMinute = 10;
+        public const int GpuAllId = -1;
+        public static readonly bool IsAutoStart = (NTMinerRegistry.GetIsAutoStart() || CommandLineArgs.IsAutoStart);
+        private static readonly NTMinerRoot S_Instance = new NTMinerRoot();
+        public static readonly INTMinerRoot Instance = S_Instance;
+        public static readonly Version CurrentVersion;
+        public static readonly string CurrentVersionTag;
 
+        public static string ServerVersion;
         public static IKernelDownloader KernelDownloader = new EmptyKernelDownloader();
         public static Action RefreshArgsAssembly = () => { };
         public static bool IsUiVisible;
         public static DateTime MainWindowRendedOn = DateTime.MinValue;
 
-        public static string AppName;
         public static bool IsUseDevConsole = false;
         // ReSharper disable once InconsistentNaming
         public static int OSVirtualMemoryMb;
         public static string UserKernelCommandLine;
 
-        public static readonly int GpuAllId = -1;
-        public static bool IsAutoStart = (NTMinerRegistry.GetIsAutoStart() || CommandLineArgs.IsAutoStart);
         public static bool IsAutoStartCanceled = false;
 
         static NTMinerRoot() {
@@ -37,11 +41,6 @@ namespace NTMiner {
             CurrentVersionTag = ((AssemblyDescriptionAttribute)mainAssembly.GetCustomAttributes(typeof(AssemblyDescriptionAttribute), inherit: false).First()).Description;
         }
 
-        private static readonly NTMinerRoot S_Instance = new NTMinerRoot();
-        public static readonly INTMinerRoot Instance = S_Instance;
-        public static readonly Version CurrentVersion;
-        public static string ServerVersion;
-        public static readonly string CurrentVersionTag;
         public static bool IsNCard {
             get {
                 try {

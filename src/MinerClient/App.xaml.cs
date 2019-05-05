@@ -57,7 +57,6 @@ namespace NTMiner {
                     SplashWindow splashWindow = new SplashWindow();
                     splashWindow.Show();
                     NotiCenterWindow.Instance.Show();
-                    NTMinerRoot.AppName = "开源矿工挖矿客户端";
                     NTMinerRoot.Instance.Init(() => {
                         NTMinerRoot.KernelDownloader = new KernelDownloader();
                         UIThread.Execute(() => {

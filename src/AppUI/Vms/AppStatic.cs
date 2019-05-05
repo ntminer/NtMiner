@@ -24,6 +24,17 @@ namespace NTMiner.Vms {
             _isMinerClient = value;
         }
 
+        public static string AppName {
+            get {
+                if (IsMinerClient) {
+                    return "开源矿工挖矿客户端";
+                }
+                else {
+                    return "开源矿工群控客户端";
+                }
+            }
+        }
+
         public static bool IsDebugMode {
             get {
                 if (Design.IsInDesignMode) {

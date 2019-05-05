@@ -5,9 +5,6 @@ namespace NTMiner.Vms {
         public InnerPropertyViewModel() {
         }
 
-        public string AppName {
-            get => NTMinerRoot.AppName;
-        }
         public Guid Id {
             get { return VirtualRoot.Id; }
         }
