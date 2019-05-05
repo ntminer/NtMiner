@@ -11,11 +11,12 @@ namespace NTMiner {
             private readonly Dictionary<Guid, KernelOutputFilterViewModel> _dicById = new Dictionary<Guid, KernelOutputFilterViewModel>();
 
             private KernelOutputFilterViewModels() {
-                NTMinerRoot.Instance.OnContextReInited += () => {
-                    _dicById.Clear();
-                    _dicByKernelOutputId.Clear();
-                    Init();
-                };
+                On<CoreContextReInitedEvent>("CoreContext刷新后刷新VM内存", LogEnum.DevConsole,
+                    action: message => {
+                        _dicById.Clear();
+                        _dicByKernelOutputId.Clear();
+                        Init();
+                    });
                 On<KernelOutputFilterAddedEvent>("添加了内核输出过滤器后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         if (!_dicById.ContainsKey(message.Source.GetId())) {

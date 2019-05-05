@@ -11,10 +11,11 @@ namespace NTMiner {
             private readonly Dictionary<Guid, KernelOutputViewModel> _dicById = new Dictionary<Guid, KernelOutputViewModel>();
 
             private KernelOutputViewModels() {
-                NTMinerRoot.Instance.OnContextReInited += () => {
-                    _dicById.Clear();
-                    Init();
-                };
+                On<CoreContextReInitedEvent>("CoreContext刷新后刷新VM内存", LogEnum.DevConsole,
+                    action: message => {
+                        _dicById.Clear();
+                        Init();
+                    });
                 NTMinerRoot.Instance.OnReRendContext += () => {
                     AllPropertyChanged();
                 };

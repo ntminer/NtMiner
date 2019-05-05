@@ -14,11 +14,12 @@ namespace NTMiner {
 
             public ICommand Add { get; private set; }
             private SysDicViewModels() {
-                NTMinerRoot.Instance.OnContextReInited += () => {
-                    _dicByCode.Clear();
-                    _dicById.Clear();
-                    Init();
-                };
+                On<CoreContextReInitedEvent>("CoreContext刷新后刷新VM内存", LogEnum.DevConsole,
+                    action: message => {
+                        _dicByCode.Clear();
+                        _dicById.Clear();
+                        Init();
+                    });
                 NTMinerRoot.Instance.OnReRendContext += () => {
                     OnPropertyChangeds();
                 };

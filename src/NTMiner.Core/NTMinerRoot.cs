@@ -43,7 +43,6 @@ namespace NTMiner {
             return VirtualRoot.Path(description, logType, action).AddToCollection(_contextHandlers);
         }
 
-        public event Action OnContextReInited;
         public event Action OnReRendContext;
         public event Action OnMinerProfileReInited;
         public event Action OnReRendMinerProfile;
@@ -161,7 +160,7 @@ namespace NTMiner {
             this.ServerAppSettingSet = new ServerAppSettingSet(this);
             this.CalcConfigSet = new CalcConfigSet(this);
 
-            ContextInit(isWork);
+            CoreContextInit(isWork);
 
             this.UserSet = new UserSet();
             this.KernelProfileSet = new KernelProfileSet(this);
@@ -194,15 +193,15 @@ namespace NTMiner {
             if (isWork) {
                 ReInitServerJson();
             }
-            ContextInit(isWork);
-            OnContextReInited?.Invoke();
+            CoreContextInit(isWork);
+            VirtualRoot.Happened(new CoreContextReInitedEvent());
             OnReRendContext?.Invoke();
             if (isWork) {
                 ReInitMinerProfile();
             }
         }
 
-        private void ContextInit(bool isWork) {
+        private void CoreContextInit(bool isWork) {
             bool isUseJson = !DevMode.IsDebugMode || VirtualRoot.IsMinerStudio || isWork;
             this.SysDicSet = new SysDicSet(this, isUseJson);
             this.SysDicItemSet = new SysDicItemSet(this, isUseJson);

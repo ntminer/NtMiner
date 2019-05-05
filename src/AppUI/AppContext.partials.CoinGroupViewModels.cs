@@ -11,11 +11,12 @@ namespace NTMiner {
             private readonly Dictionary<Guid, CoinGroupViewModel> _dicById = new Dictionary<Guid, CoinGroupViewModel>();
             private readonly Dictionary<Guid, List<CoinGroupViewModel>> _listByGroupId = new Dictionary<Guid, List<CoinGroupViewModel>>();
             private CoinGroupViewModels() {
-                NTMinerRoot.Instance.OnContextReInited += () => {
-                    _dicById.Clear();
-                    _listByGroupId.Clear();
-                    Init();
-                };
+                On<CoreContextReInitedEvent>("CoreContext刷新后刷新VM内存", LogEnum.DevConsole,
+                    action: message => {
+                        _dicById.Clear();
+                        _listByGroupId.Clear();
+                        Init();
+                    });
                 On<CoinGroupAddedEvent>("添加了币组后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         if (!_dicById.ContainsKey(message.Source.GetId())) {

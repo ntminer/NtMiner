@@ -11,10 +11,11 @@ namespace NTMiner {
             private readonly Dictionary<Guid, SysDicItemViewModel> _dicById = new Dictionary<Guid, SysDicItemViewModel>();
 
             private SysDicItemViewModels() {
-                NTMinerRoot.Instance.OnContextReInited += () => {
-                    _dicById.Clear();
-                    Init();
-                };
+                On<CoreContextReInitedEvent>("CoreContext刷新后刷新VM内存", LogEnum.DevConsole,
+                    action: message => {
+                        _dicById.Clear();
+                        Init();
+                    });
                 NTMinerRoot.Instance.OnReRendContext += () => {
                     OnPropertyChangeds();
                 };

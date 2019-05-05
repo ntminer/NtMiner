@@ -2,6 +2,11 @@
 using NTMiner.Core;
 
 namespace NTMiner {
+    [MessageType(description: "CoreContext刷新后")]
+    public class CoreContextReInitedEvent : EventBase {
+        public CoreContextReInitedEvent() { }
+    }
+
     [MessageType(description: "主界面显示后")]
     public class MainWindowShowedEvent : EventBase {
         public MainWindowShowedEvent() { }

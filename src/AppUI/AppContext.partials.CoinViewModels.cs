@@ -17,10 +17,11 @@ namespace NTMiner {
                 if (Design.IsInDesignMode) {
                     return;
                 }
-                NTMinerRoot.Instance.OnContextReInited += () => {
-                    _dicById.Clear();
-                    Init();
-                };
+                On<CoreContextReInitedEvent>("CoreContext刷新后刷新VM内存", LogEnum.DevConsole,
+                    action: message => {
+                        _dicById.Clear();
+                        Init();
+                    });
                 NTMinerRoot.Instance.OnReRendContext += () => {
                     AllPropertyChanged();
                 };
