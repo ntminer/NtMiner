@@ -25,14 +25,14 @@ using System.Threading.Tasks;
 
 namespace NTMiner {
     public partial class NTMinerRoot : INTMinerRoot {
-        private readonly List<IDelegateHandler> _contextHandlers = new List<IDelegateHandler>();
+        private readonly List<IDelegateHandler> _serverContextHandlers = new List<IDelegateHandler>();
 
         /// <summary>
         /// 命令窗口。使用该方法的代码行应将前两个参数放在第一行以方便vs查找引用时展示出参数信息
         /// </summary>
         public DelegateHandler<TCmd> ServerContextWindow<TCmd>(string description, LogEnum logType, Action<TCmd> action)
             where TCmd : ICmd {
-            return VirtualRoot.Path(description, logType, action).AddToCollection(_contextHandlers);
+            return VirtualRoot.Path(description, logType, action).AddToCollection(_serverContextHandlers);
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace NTMiner {
         /// </summary>
         public DelegateHandler<TEvent> ServerContextOn<TEvent>(string description, LogEnum logType, Action<TEvent> action)
             where TEvent : IEvent {
-            return VirtualRoot.Path(description, logType, action).AddToCollection(_contextHandlers);
+            return VirtualRoot.Path(description, logType, action).AddToCollection(_serverContextHandlers);
         }
 
         public IUserSet UserSet { get; private set; }
@@ -185,10 +185,10 @@ namespace NTMiner {
         }
 
         private void ContextReInit(bool isWork) {
-            foreach (var handler in _contextHandlers) {
+            foreach (var handler in _serverContextHandlers) {
                 VirtualRoot.UnPath(handler);
             }
-            _contextHandlers.Clear();
+            _serverContextHandlers.Clear();
             if (isWork) {
                 ReInitServerJson();
             }
@@ -202,6 +202,7 @@ namespace NTMiner {
             }
         }
 
+        // ServerContext对应server.json
         private void ServerContextInit(bool isWork) {
             bool isUseJson = !DevMode.IsDebugMode || VirtualRoot.IsMinerStudio || isWork;
             this.SysDicSet = new SysDicSet(this, isUseJson);
@@ -219,11 +220,13 @@ namespace NTMiner {
             this.KernelOutputTranslaterSet = new KernelOutputTranslaterSet(this, isUseJson);
         }
 
+        // MinerProfile对应local.litedb或local.json
         public void ReInitMinerProfile() {
             ReInitLocalJson();
             this._minerProfile.ReInit(this, LocalJson.MineWork);
-            // 本地数据集已刷新，此时刷新来自本地数据集的视图模型集
+            // 本地数据集已刷新，此时刷新本地数据集的视图模型集
             VirtualRoot.Happened(new LocalContextReInitedEvent());
+            // 本地数据集的视图模型已刷新，此时刷新本地数据集的视图界面
             VirtualRoot.Happened(new LocalContextVmsReInitedEvent());
             RefreshArgsAssembly();
         }
@@ -605,15 +608,6 @@ namespace NTMiner {
         public IColumnsShowSet ColumnsShowSet { get; private set; }
 
         public IOverClockDataSet OverClockDataSet { get; private set; }
-
-        public string QQGroup {
-            get {
-                if (this.SysDicItemSet.TryGetDicItem("ThisSystem", "QQGroup", out ISysDicItem dicItem)) {
-                    return dicItem.Value;
-                }
-                return "863725136";
-            }
-        }
 
         public ICoinSet CoinSet { get; private set; }
 

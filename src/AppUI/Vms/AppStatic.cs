@@ -193,7 +193,10 @@ namespace NTMiner.Vms {
 
         public static string QQGroup {
             get {
-                return NTMinerRoot.Instance.QQGroup;
+                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("ThisSystem", "QQGroup", out ISysDicItem dicItem)) {
+                    return dicItem.Value;
+                }
+                return "863725136";
             }
         }
 
