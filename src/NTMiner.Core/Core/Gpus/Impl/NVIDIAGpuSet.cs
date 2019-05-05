@@ -27,9 +27,7 @@ namespace NTMiner.Core.Gpus.Impl {
 #endif
                         Windows.NativeMethods.SetDllDirectory(_nvsmiDir);
                         var nvmlReturn = NvmlNativeMethods.nvmlInit();
-                        if (nvmlReturn != nvmlReturn.Success) {
-                            Logger.ErrorDebugLine("nvmlInit不成功:" + nvmlReturn.ToString());
-                        }
+                        IfPrint(nvmlReturn, nameof(NvmlNativeMethods.nvmlInit));
                         _isNvmlInited = nvmlReturn == nvmlReturn.Success;
 #if DEBUG
                         Write.DevWarn($"耗时{VirtualRoot.Stopwatch.ElapsedMilliseconds}毫秒 {nameof(NVIDIAGpuSet)}.{nameof(NvmlInit)}()");
@@ -44,6 +42,12 @@ namespace NTMiner.Core.Gpus.Impl {
             }
         }
         #endregion
+
+        private static void IfPrint(nvmlReturn nvmlReturn, string nvmlMethodName) {
+            if (nvmlReturn != nvmlReturn.Success && nvmlReturn != nvmlReturn.NotSupported) {
+                Logger.ErrorDebugLine(nvmlMethodName + "不成功:" + nvmlReturn.ToString());
+            }
+        }
 
         private readonly Dictionary<int, IGpu> _gpus = new Dictionary<int, IGpu>() {
             {
@@ -69,24 +73,16 @@ namespace NTMiner.Core.Gpus.Impl {
             }
             if (NvmlInit()) {
                 var nvmlReturn = NvmlNativeMethods.nvmlDeviceGetCount(ref deviceCount);
-                if (nvmlReturn != nvmlReturn.Success) {
-                    Logger.ErrorDebugLine("nvmlDeviceGetCount不成功:" + nvmlReturn.ToString());
-                }
+                IfPrint(nvmlReturn, nameof(NvmlNativeMethods.nvmlDeviceGetCount));
                 for (int i = 0; i < deviceCount; i++) {
                     nvmlDevice nvmlDevice = new nvmlDevice();
                     nvmlReturn = NvmlNativeMethods.nvmlDeviceGetHandleByIndex((uint)i, ref nvmlDevice);
-                    if (nvmlReturn != nvmlReturn.Success) {
-                        Logger.ErrorDebugLine("nvmlDeviceGetHandleByIndex不成功:" + nvmlReturn.ToString());
-                    }
+                    IfPrint(nvmlReturn, nameof(NvmlNativeMethods.nvmlDeviceGetHandleByIndex));
                     nvmlReturn = NvmlNativeMethods.nvmlDeviceGetName(nvmlDevice, out string name);
-                    if (nvmlReturn != nvmlReturn.Success) {
-                        Logger.ErrorDebugLine("nvmlDeviceGetName不成功:" + nvmlReturn.ToString());
-                    }
+                    IfPrint(nvmlReturn, nameof(NvmlNativeMethods.nvmlDeviceGetName));
                     nvmlMemory memory = new nvmlMemory();
                     nvmlReturn = NvmlNativeMethods.nvmlDeviceGetMemoryInfo(nvmlDevice, ref memory);
-                    if (nvmlReturn != nvmlReturn.Success) {
-                        Logger.ErrorDebugLine("nvmlDeviceGetMemoryInfo不成功:" + nvmlReturn.ToString());
-                    }
+                    IfPrint(nvmlReturn, nameof(NvmlNativeMethods.nvmlDeviceGetMemoryInfo));
                     // short gpu name
                     if (!string.IsNullOrEmpty(name)) {
                         name = name.Replace("GeForce GTX ", string.Empty);
@@ -98,13 +94,9 @@ namespace NTMiner.Core.Gpus.Impl {
                 }
                 if (deviceCount > 0) {
                     nvmlReturn = NvmlNativeMethods.nvmlSystemGetDriverVersion(out _driverVersion);
-                    if (nvmlReturn != nvmlReturn.Success) {
-                        Logger.ErrorDebugLine("nvmlSystemGetDriverVersion不成功:" + nvmlReturn.ToString());
-                    }
+                    IfPrint(nvmlReturn, nameof(NvmlNativeMethods.nvmlSystemGetDriverVersion));
                     nvmlReturn = NvmlNativeMethods.nvmlSystemGetNVMLVersion(out string nvmlVersion);
-                    if (nvmlReturn != nvmlReturn.Success) {
-                        Logger.ErrorDebugLine("nvmlSystemGetNVMLVersion不成功:" + nvmlReturn.ToString());
-                    }
+                    IfPrint(nvmlReturn, nameof(NvmlNativeMethods.nvmlSystemGetNVMLVersion));
                     this.Properties.Add(new GpuSetProperty(GpuSetProperty.DRIVER_VERSION, "驱动版本", _driverVersion));
                     try {
                         double driverVersionNum;
@@ -147,24 +139,17 @@ namespace NTMiner.Core.Gpus.Impl {
                 for (int i = 0; i < deviceCount; i++) {
                     nvmlDevice nvmlDevice = new nvmlDevice();
                     var nvmlReturn = NvmlNativeMethods.nvmlDeviceGetHandleByIndex((uint)i, ref nvmlDevice);
-                    if (nvmlReturn != nvmlReturn.Success) {
-                        Logger.ErrorDebugLine("nvmlDeviceGetHandleByIndex不成功:" + nvmlReturn.ToString());
-                    }
+                    IfPrint(nvmlReturn, nameof(NvmlNativeMethods.nvmlDeviceGetHandleByIndex));
                     uint power = 0;
-                    nvmlReturn = NvmlNativeMethods.nvmlDeviceGetPowerUsage(nvmlDevice, ref power); if (nvmlReturn != nvmlReturn.Success) {
-                        Logger.ErrorDebugLine("nvmlDeviceGetPowerUsage不成功:" + nvmlReturn.ToString());
-                    }
+                    nvmlReturn = NvmlNativeMethods.nvmlDeviceGetPowerUsage(nvmlDevice, ref power);
+                    IfPrint(nvmlReturn, nameof(NvmlNativeMethods.nvmlDeviceGetPowerUsage));
                     power = (uint)(power / 1000.0);
                     uint temp = 0;
                     nvmlReturn = NvmlNativeMethods.nvmlDeviceGetTemperature(nvmlDevice, nvmlTemperatureSensors.Gpu, ref temp);
-                    if (nvmlReturn != nvmlReturn.Success) {
-                        Logger.ErrorDebugLine("nvmlDeviceGetTemperature不成功:" + nvmlReturn.ToString());
-                    }
+                    IfPrint(nvmlReturn, nameof(NvmlNativeMethods.nvmlDeviceGetTemperature));
                     uint speed = 0;
                     nvmlReturn = NvmlNativeMethods.nvmlDeviceGetFanSpeed(nvmlDevice, ref speed);
-                    if (nvmlReturn != nvmlReturn.Success) {
-                        Logger.ErrorDebugLine("nvmlDeviceGetFanSpeed不成功:" + nvmlReturn.ToString());
-                    }
+                    IfPrint(nvmlReturn, nameof(NvmlNativeMethods.nvmlDeviceGetFanSpeed));
                     Gpu gpu = (Gpu)_gpus[i];
                     bool isChanged = gpu.Temperature != temp || gpu.PowerUsage != power || gpu.FanSpeed != speed;
                     gpu.Temperature = (int)temp;
