@@ -32,7 +32,7 @@ namespace NTMiner {
                     }
                     this.ArgsAssembly = NTMinerRoot.Instance.BuildAssembleArgs();
                 };
-                On<CoreContextVmsReInitedEvent>("VM集内存刷新后刷新视图界面", LogEnum.DevConsole,
+                On<ServerContextVmsReInitedEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
                     action: message => {
                         OnPropertyChanged(nameof(CoinVm));
                     });

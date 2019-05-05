@@ -158,7 +158,7 @@ namespace NTMiner {
             this.ServerAppSettingSet = new ServerAppSettingSet(this);
             this.CalcConfigSet = new CalcConfigSet(this);
 
-            CoreContextInit(isWork);
+            ServerContextInit(isWork);
 
             this.UserSet = new UserSet();
             this.KernelProfileSet = new KernelProfileSet(this);
@@ -191,17 +191,17 @@ namespace NTMiner {
             if (isWork) {
                 ReInitServerJson();
             }
-            CoreContextInit(isWork);
+            ServerContextInit(isWork);
             // CoreContext的视图模型集此时刷新
-            VirtualRoot.Happened(new CoreContextReInitedEvent());
+            VirtualRoot.Happened(new ServerContextReInitedEvent());
             // CoreContext的视图模型集已全部刷新，此时刷新视图界面
-            VirtualRoot.Happened(new CoreContextVmsReInitedEvent());
+            VirtualRoot.Happened(new ServerContextVmsReInitedEvent());
             if (isWork) {
                 ReInitMinerProfile();
             }
         }
 
-        private void CoreContextInit(bool isWork) {
+        private void ServerContextInit(bool isWork) {
             bool isUseJson = !DevMode.IsDebugMode || VirtualRoot.IsMinerStudio || isWork;
             this.SysDicSet = new SysDicSet(this, isUseJson);
             this.SysDicItemSet = new SysDicItemSet(this, isUseJson);

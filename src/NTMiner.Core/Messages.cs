@@ -2,14 +2,14 @@
 using NTMiner.Core;
 
 namespace NTMiner {
-    [MessageType(description: "CoreContext刷新后")]
-    public class CoreContextReInitedEvent : EventBase {
-        public CoreContextReInitedEvent() { }
+    [MessageType(description: "ServerContext刷新后")]
+    public class ServerContextReInitedEvent : EventBase {
+        public ServerContextReInitedEvent() { }
     }
 
-    [MessageType(description: "CoreContext的视图层刷新完毕后")]
-    public class CoreContextVmsReInitedEvent : EventBase {
-        public CoreContextVmsReInitedEvent() { }
+    [MessageType(description: "ServerContext的视图层刷新完毕后")]
+    public class ServerContextVmsReInitedEvent : EventBase {
+        public ServerContextVmsReInitedEvent() { }
     }
 
     [MessageType(description: "MinerProfile刷新后")]
