@@ -1,13 +1,10 @@
 ﻿using Microsoft.Win32;
-using NTMiner.Core;
 using NTMiner.Core.Impl;
 using NTMiner.Core.Kernels;
 using NTMiner.JsonDb;
 using NTMiner.MinerServer;
-using NTMiner.Profile;
 using NTMiner.Repositories;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Management;
@@ -157,81 +154,23 @@ namespace NTMiner {
             }
         }
 
-        // 将当前的系统状态导出为serverVersion.json
-        public static string ExportServerVersionJson() {
-            var root = Instance;
-            ServerJsonDb serverJsonObj = new ServerJsonDb {
-                Coins = root.CoinSet.Cast<CoinData>().ToArray(),
-                Groups = root.GroupSet.Cast<GroupData>().ToArray(),
-                CoinGroups = root.CoinGroupSet.Cast<CoinGroupData>().ToArray(),
-                KernelInputs = root.KernelInputSet.Cast<KernelInputData>().ToArray(),
-                KernelOutputs = root.KernelOutputSet.Cast<KernelOutputData>().ToArray(),
-                KernelOutputFilters = root.KernelOutputFilterSet.Cast<KernelOutputFilterData>().ToArray(),
-                KernelOutputTranslaters = root.KernelOutputTranslaterSet.Cast<KernelOutputTranslaterData>().ToArray(),
-                Kernels = root.KernelSet.Cast<KernelData>().ToList(),
-                CoinKernels = root.CoinKernelSet.Cast<CoinKernelData>().ToList(),
-                PoolKernels = root.PoolKernelSet.Cast<PoolKernelData>().Where(a => !string.IsNullOrEmpty(a.Args)).ToList(),
-                Pools = root.PoolSet.Cast<PoolData>().ToArray(),
-                SysDicItems = root.SysDicItemSet.Cast<SysDicItemData>().ToArray(),
-                SysDics = root.SysDicSet.Cast<SysDicData>().ToArray()
-            };
+        /// <summary>
+        /// 将当前的系统状态导出到给定的json文件
+        /// </summary>
+        /// <returns></returns>
+        public static void ExportServerVersionJson(string jsonFileFullName) {
+            ServerJsonDb serverJsonObj = new ServerJsonDb(Instance);
             string json = VirtualRoot.JsonSerializer.Serialize(serverJsonObj);
-            File.WriteAllText(AssemblyInfo.ServerVersionJsonFileFullName, json);
-            return Path.GetFileName(AssemblyInfo.ServerVersionJsonFileFullName);
+            File.WriteAllText(jsonFileFullName, json);
         }
 
         public static void ExportWorkJson(MineWorkData mineWorkData, out string localJson, out string serverJson) {
             localJson = string.Empty;
             serverJson = string.Empty;
             try {
-                var root = Instance;
-                var minerProfile = root.MinerProfile;
-                CoinProfileData mainCoinProfile = new CoinProfileData(minerProfile.GetCoinProfile(minerProfile.CoinId));
-                List<CoinProfileData> coinProfiles = new List<CoinProfileData> { mainCoinProfile };
-                List<PoolProfileData> poolProfiles = new List<PoolProfileData>();
-                CoinKernelProfileData coinKernelProfile = new CoinKernelProfileData(minerProfile.GetCoinKernelProfile(mainCoinProfile.CoinKernelId));
-                PoolProfileData mainCoinPoolProfile = new PoolProfileData(minerProfile.GetPoolProfile(mainCoinProfile.PoolId));
-                poolProfiles.Add(mainCoinPoolProfile);
-                if (coinKernelProfile.IsDualCoinEnabled) {
-                    CoinProfileData dualCoinProfile = new CoinProfileData(minerProfile.GetCoinProfile(coinKernelProfile.DualCoinId));
-                    coinProfiles.Add(dualCoinProfile);
-                    PoolProfileData dualCoinPoolProfile = new PoolProfileData(minerProfile.GetPoolProfile(dualCoinProfile.DualCoinPoolId));
-                    poolProfiles.Add(dualCoinPoolProfile);
-                }
-                LocalJsonDb localJsonObj = new LocalJsonDb {
-                    MinerProfile = new MinerProfileData(minerProfile) {
-                        MinerName = "{{MinerName}}"
-                    },
-                    MineWork = mineWorkData,
-                    CoinProfiles = coinProfiles.ToArray(),
-                    CoinKernelProfiles = new CoinKernelProfileData[] { coinKernelProfile },
-                    PoolProfiles = poolProfiles.ToArray(),
-                    TimeStamp = Timestamp.GetTimestamp(),
-                    Pools = root.PoolSet.Where(a => poolProfiles.Any(b => b.PoolId == a.GetId())).Select(a => new PoolData(a)).ToArray(),
-                    Wallets = minerProfile.GetWallets().Select(a => new WalletData(a)).ToArray()
-                };
+                LocalJsonDb localJsonObj = new LocalJsonDb(Instance, mineWorkData);             
+                ServerJsonDb serverJsonObj = new ServerJsonDb(Instance, localJsonObj);
                 localJson = VirtualRoot.JsonSerializer.Serialize(localJsonObj);
-                root.CoinKernelSet.TryGetCoinKernel(coinKernelProfile.CoinKernelId, out ICoinKernel coinKernel);
-                root.KernelSet.TryGetKernel(coinKernel.KernelId, out IKernel kernel);
-                var coins = root.CoinSet.Cast<CoinData>().Where(a => localJsonObj.CoinProfiles.Any(b => b.CoinId == a.Id)).ToArray();
-                var coinGroups = root.CoinGroupSet.Cast<CoinGroupData>().Where(a => coins.Any(b => b.Id == a.CoinId)).ToArray();
-                var pools = root.PoolSet.Cast<PoolData>().Where(a => localJsonObj.PoolProfiles.Any(b => b.PoolId == a.Id)).ToArray();
-                ServerJsonDb serverJsonObj = new ServerJsonDb {
-                    Coins = coins,
-                    CoinGroups = coinGroups,
-                    Pools = pools,
-                    TimeStamp = Timestamp.GetTimestamp(),
-                    Groups = root.GroupSet.Cast<GroupData>().Where(a => coinGroups.Any(b => b.GroupId == a.Id)).ToArray(),
-                    KernelInputs = root.KernelInputSet.Cast<KernelInputData>().Where(a => a.Id == kernel.KernelInputId).ToArray(),
-                    KernelOutputs = root.KernelOutputSet.Cast<KernelOutputData>().Where(a => a.Id == kernel.KernelOutputId).ToArray(),
-                    KernelOutputFilters = root.KernelOutputFilterSet.Cast<KernelOutputFilterData>().Where(a => a.KernelOutputId == kernel.KernelOutputId).ToArray(),
-                    KernelOutputTranslaters = root.KernelOutputTranslaterSet.Cast<KernelOutputTranslaterData>().Where(a => a.KernelOutputId == kernel.KernelOutputId).ToArray(),
-                    Kernels = new List<KernelData> { (KernelData)kernel },
-                    CoinKernels = root.CoinKernelSet.Cast<CoinKernelData>().Where(a => localJsonObj.CoinKernelProfiles.Any(b => b.CoinKernelId == a.Id)).ToList(),
-                    PoolKernels = root.PoolKernelSet.Cast<PoolKernelData>().Where(a => !string.IsNullOrEmpty(a.Args) && pools.Any(b => b.Id == a.PoolId)).ToList(),
-                    SysDicItems = root.SysDicItemSet.Cast<SysDicItemData>().ToArray(),
-                    SysDics = root.SysDicSet.Cast<SysDicData>().ToArray()
-                };
                 serverJson = VirtualRoot.JsonSerializer.Serialize(serverJsonObj);
             }
             catch (Exception e) {
@@ -267,7 +206,7 @@ namespace NTMiner {
         private static string _diskSpace = string.Empty;
         public static string DiskSpace {
             get {
-                if (_diskSpaceOn.AddMinutes(10) < DateTime.Now) {
+                if (_diskSpaceOn.AddMinutes(20) < DateTime.Now) {
                     _diskSpaceOn = DateTime.Now;
                     StringBuilder sb = new StringBuilder();
                     int len = sb.Length;

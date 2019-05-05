@@ -236,8 +236,8 @@ namespace NTMiner.Vms {
 
         public static ICommand ExportServerJson { get; private set; } = new DelegateCommand(() => {
             try {
-                string fileName = NTMinerRoot.ExportServerVersionJson();
-                NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage($"{fileName}", "导出成功");
+                NTMinerRoot.ExportServerVersionJson(AssemblyInfo.ServerVersionJsonFileFullName);
+                NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage($"{AssemblyInfo.ServerJsonFileName}", "导出成功");
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);

@@ -18,6 +18,33 @@ namespace NTMiner.JsonDb {
             this.TimeStamp = Timestamp.GetTimestamp();
         }
 
+        public LocalJsonDb(INTMinerRoot root, MineWorkData mineWorkData) {
+            var minerProfile = root.MinerProfile;
+            CoinProfileData mainCoinProfile = new CoinProfileData(minerProfile.GetCoinProfile(minerProfile.CoinId));
+            List<CoinProfileData> coinProfiles = new List<CoinProfileData> { mainCoinProfile };
+            List<PoolProfileData> poolProfiles = new List<PoolProfileData>();
+            CoinKernelProfileData coinKernelProfile = new CoinKernelProfileData(minerProfile.GetCoinKernelProfile(mainCoinProfile.CoinKernelId));
+            PoolProfileData mainCoinPoolProfile = new PoolProfileData(minerProfile.GetPoolProfile(mainCoinProfile.PoolId));
+            poolProfiles.Add(mainCoinPoolProfile);
+            if (coinKernelProfile.IsDualCoinEnabled) {
+                CoinProfileData dualCoinProfile = new CoinProfileData(minerProfile.GetCoinProfile(coinKernelProfile.DualCoinId));
+                coinProfiles.Add(dualCoinProfile);
+                PoolProfileData dualCoinPoolProfile = new PoolProfileData(minerProfile.GetPoolProfile(dualCoinProfile.DualCoinPoolId));
+                poolProfiles.Add(dualCoinPoolProfile);
+            }
+
+            MinerProfile = new MinerProfileData(minerProfile) {
+                MinerName = "{{MinerName}}"
+            };
+            MineWork = mineWorkData;
+            CoinProfiles = coinProfiles.ToArray();
+            CoinKernelProfiles = new CoinKernelProfileData[] { coinKernelProfile };
+            PoolProfiles = poolProfiles.ToArray();
+            Pools = root.PoolSet.Where(a => poolProfiles.Any(b => b.PoolId == a.GetId())).Select(a => new PoolData(a)).ToArray();
+            Wallets = minerProfile.GetWallets().Select(a => new WalletData(a)).ToArray();
+            TimeStamp = Timestamp.GetTimestamp();
+        }
+
         public bool Exists<T>(Guid key) where T : IDbEntity<Guid> {
             return GetAll<T>().Any(a => a.GetId() == key);
         }
