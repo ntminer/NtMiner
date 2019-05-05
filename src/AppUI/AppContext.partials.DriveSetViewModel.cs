@@ -15,7 +15,7 @@ namespace NTMiner {
 
             private DriveSetViewModel() {
 #if DEBUG
-                _stopwatch.Restart();
+                VirtualRoot.Stopwatch.Restart();
 #endif
                 foreach (var item in DriveInfo.GetDrives().Where(a => a.DriveType == DriveType.Fixed)) {
                     _drives.Add(new Drive(item));
@@ -24,7 +24,7 @@ namespace NTMiner {
                     AppContext.Instance.VirtualMemorySetVm.SetVirtualMemoryOfDrive();
                 });
 #if DEBUG
-                Write.DevWarn($"耗时{_stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+                Write.DevWarn($"耗时{VirtualRoot.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
 #endif
             }
 

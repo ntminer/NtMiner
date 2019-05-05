@@ -23,7 +23,7 @@ namespace NTMiner {
 
             private GpuSpeedViewModels() {
 #if DEBUG
-                _stopwatch.Restart();
+                VirtualRoot.Stopwatch.Restart();
 #endif
                 if (Design.IsInDesignMode) {
                     return;
@@ -97,7 +97,7 @@ namespace NTMiner {
                         TotalSpeedVm.DualCoinSpeed.OnPropertyChanged(nameof(SpeedViewModel.LastSpeedOnText));
                     });
 #if DEBUG
-                Write.DevWarn($"耗时{_stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+                Write.DevWarn($"耗时{VirtualRoot.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
 #endif
             }
 

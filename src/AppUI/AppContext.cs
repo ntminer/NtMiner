@@ -9,10 +9,6 @@ namespace NTMiner {
 
         private static readonly List<IDelegateHandler> _contextHandlers = new List<IDelegateHandler>();
 
-#if DEBUG
-        private static readonly System.Diagnostics.Stopwatch _stopwatch = new System.Diagnostics.Stopwatch();
-#endif
-
         private AppContext() {
         }
 

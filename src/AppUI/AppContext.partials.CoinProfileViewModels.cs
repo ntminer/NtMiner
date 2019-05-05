@@ -13,7 +13,7 @@ namespace NTMiner {
 
             private CoinProfileViewModels() {
 #if DEBUG
-                _stopwatch.Restart();
+                VirtualRoot.Stopwatch.Restart();
 #endif
                 On<CoinKernelProfilePropertyChangedEvent>("币种内核设置变更后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
@@ -33,7 +33,7 @@ namespace NTMiner {
                         _coinProfileDicById.Clear();
                     });
 #if DEBUG
-                Write.DevWarn($"耗时{_stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+                Write.DevWarn($"耗时{VirtualRoot.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
 #endif
             }
 

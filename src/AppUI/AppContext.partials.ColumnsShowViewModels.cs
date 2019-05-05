@@ -16,7 +16,7 @@ namespace NTMiner {
 
             private ColumnsShowViewModels() {
 #if DEBUG
-                _stopwatch.Restart();
+                VirtualRoot.Stopwatch.Restart();
 #endif
                 this.Add = new DelegateCommand(() => {
                     new ColumnsShowViewModel(Guid.NewGuid()).Edit.Execute(FormType.Add);
@@ -47,7 +47,7 @@ namespace NTMiner {
                     _dicById.Add(item.GetId(), new ColumnsShowViewModel(item));
                 }
 #if DEBUG
-                Write.DevWarn($"耗时{_stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+                Write.DevWarn($"耗时{VirtualRoot.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
 #endif
             }
 

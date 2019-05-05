@@ -9,6 +9,10 @@ using System.Timers;
 
 namespace NTMiner {
     public static partial class VirtualRoot {
+#if DEBUG
+        public static readonly Stopwatch Stopwatch = new Stopwatch();
+#endif
+
         public static readonly string AppFileFullName = Process.GetCurrentProcess().MainModule.FileName;
         public static Guid Id { get; private set; }
         public static string GlobalDirFullName { get; set; } = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "NTMiner");

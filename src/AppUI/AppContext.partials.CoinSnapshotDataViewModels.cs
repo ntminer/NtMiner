@@ -12,7 +12,7 @@ namespace NTMiner {
 
             private CoinSnapshotDataViewModels() {
 #if DEBUG
-                _stopwatch.Restart();
+                VirtualRoot.Stopwatch.Restart();
 #endif
                 foreach (var coinVm in AppContext.Instance.CoinVms.AllCoins) {
                     _dicByCoinCode.Add(coinVm.Code, new CoinSnapshotDataViewModel(new MinerServer.CoinSnapshotData {
@@ -28,7 +28,7 @@ namespace NTMiner {
                     }));
                 }
 #if DEBUG
-                Write.DevWarn($"耗时{_stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+                Write.DevWarn($"耗时{VirtualRoot.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
 #endif
             }
 
