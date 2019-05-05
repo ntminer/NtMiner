@@ -1,25 +1,27 @@
-﻿namespace NTMiner.Core.Gpus.Impl {
+﻿using System.Collections.Generic;
+
+namespace NTMiner.Core.Gpus.Impl {
     public class AMDOverClock : IOverClock {
         public AMDOverClock() {
         }
 
-        public void SetCoreClock(int gpuIndex, int value) {
+        public void SetCoreClock(int gpuIndex, int value, ref HashSet<int> effectGpus) {
             // 暂不支持A卡超频
         }
 
-        public void SetMemoryClock(int gpuIndex, int value) {
+        public void SetMemoryClock(int gpuIndex, int value, ref HashSet<int> effectGpus) {
             // 暂不支持A卡超频
         }
 
-        public void SetPowerCapacity(int gpuIndex, int value) {
+        public void SetPowerCapacity(int gpuIndex, int value, ref HashSet<int> effectGpus) {
             // 暂不支持A卡超频
         }
 
-        public void SetThermCapacity(int gpuIndex, int value) {
+        public void SetThermCapacity(int gpuIndex, int value, ref HashSet<int> effectGpus) {
             // 暂不支持A卡超频
         }
 
-        public void SetCool(int gpuIndex, int value) {
+        public void SetCool(int gpuIndex, int value, ref HashSet<int> effectGpus) {
             // 暂不支持A卡超频
         }
 

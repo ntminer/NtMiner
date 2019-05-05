@@ -66,7 +66,8 @@ namespace NTMiner.Core.Gpus.Impl {
                             }
                             if (cool >= gpu.CoolMin) {
                                 _fightedOnDic[gpu.Index] = DateTime.Now;
-                                root.GpuSet.OverClock.SetCool(gpu.Index, cool);
+                                HashSet<int> effectGpus = new HashSet<int>();
+                                root.GpuSet.OverClock.SetCool(gpu.Index, cool, ref effectGpus);
                                 Write.DevDebug($"GPU{gpu.Index} 风扇转速由{gpu.FanSpeed}%调低至{cool}%");
                             }
                         }
@@ -87,7 +88,8 @@ namespace NTMiner.Core.Gpus.Impl {
                             cool = 100;
                         }
                         if (cool <= 100) {
-                            root.GpuSet.OverClock.SetCool(gpu.Index, (int)cool);
+                            HashSet<int> effectGpus = new HashSet<int>();
+                            root.GpuSet.OverClock.SetCool(gpu.Index, (int)cool, ref effectGpus);
                             Write.DevDebug($"GPU{gpu.Index} 风扇转速由{gpu.FanSpeed}%调高至{cool}%");
                         }
                     }

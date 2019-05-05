@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace NTMiner.Core.Gpus.Impl {
@@ -6,7 +7,7 @@ namespace NTMiner.Core.Gpus.Impl {
         public NVIDIAOverClock() {
         }
 
-        public void SetCoreClock(int gpuIndex, int value) {
+        public void SetCoreClock(int gpuIndex, int value, ref HashSet<int> effectGpus) {
             value = 1000 * value;
             if (gpuIndex == NTMinerRoot.GpuAllId) {
                 foreach (var gpu in NTMinerRoot.Instance.GpuSet) {
@@ -16,6 +17,7 @@ namespace NTMiner.Core.Gpus.Impl {
                     if (gpu.CoreClockDelta == value) {
                         continue;
                     }
+                    effectGpus.Add(gpu.Index);
                     Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{gpu.Index} gclk:{value}");
                 }
             }
@@ -24,11 +26,12 @@ namespace NTMiner.Core.Gpus.Impl {
                 if (NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out gpu) && gpu.CoreClockDelta == value) {
                     return;
                 }
+                effectGpus.Add(gpu.Index);
                 Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{gpuIndex} gclk:{value}");
             }
         }
 
-        public void SetMemoryClock(int gpuIndex, int value) {
+        public void SetMemoryClock(int gpuIndex, int value, ref HashSet<int> effectGpus) {
             value = 1000 * value;
             if (gpuIndex == NTMinerRoot.GpuAllId) {
                 foreach (var gpu in NTMinerRoot.Instance.GpuSet) {
@@ -38,6 +41,7 @@ namespace NTMiner.Core.Gpus.Impl {
                     if (gpu.MemoryClockDelta == value) {
                         continue;
                     }
+                    effectGpus.Add(gpu.Index);
                     Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{gpu.Index} mclk:{value}");
                 }
             }
@@ -46,11 +50,12 @@ namespace NTMiner.Core.Gpus.Impl {
                 if (NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out gpu) && gpu.MemoryClockDelta == value) {
                     return;
                 }
+                effectGpus.Add(gpu.Index);
                 Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{gpuIndex} mclk:{value}");
             }
         }
 
-        public void SetPowerCapacity(int gpuIndex, int value) {
+        public void SetPowerCapacity(int gpuIndex, int value, ref HashSet<int> effectGpus) {
             if (value == 0) {
                 return;
             }
@@ -62,6 +67,7 @@ namespace NTMiner.Core.Gpus.Impl {
                     if (gpu.PowerCapacity == value) {
                         continue;
                     }
+                    effectGpus.Add(gpu.Index);
                     Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{gpu.Index} pcap:{value}");
                 }
             }
@@ -70,11 +76,12 @@ namespace NTMiner.Core.Gpus.Impl {
                 if (NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out gpu) && gpu.PowerCapacity == value) {
                     return;
                 }
+                effectGpus.Add(gpu.Index);
                 Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{gpuIndex} pcap:{value}");
             }
         }
 
-        public void SetThermCapacity(int gpuIndex, int value) {
+        public void SetThermCapacity(int gpuIndex, int value, ref HashSet<int> effectGpus) {
             if (value == 0) {
                 return;
             }
@@ -86,6 +93,7 @@ namespace NTMiner.Core.Gpus.Impl {
                     if (gpu.TempLimit == value) {
                         continue;
                     }
+                    effectGpus.Add(gpu.Index);
                     Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{gpu.Index} tcap:{value}");
                 }
             }
@@ -94,11 +102,12 @@ namespace NTMiner.Core.Gpus.Impl {
                 if (NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out gpu) && gpu.TempLimit == value) {
                     return;
                 }
+                effectGpus.Add(gpu.Index);
                 Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{gpuIndex} tcap:{value}");
             }
         }
 
-        public void SetCool(int gpuIndex, int value) {
+        public void SetCool(int gpuIndex, int value, ref HashSet<int> effectGpus) {
             if (value == 0) {
                 return;
             }
@@ -110,6 +119,7 @@ namespace NTMiner.Core.Gpus.Impl {
                     if (gpu.Cool == value) {
                         continue;
                     }
+                    effectGpus.Add(gpu.Index);
                     Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{gpu.Index} cool:{value}");
                 }
             }
@@ -118,18 +128,14 @@ namespace NTMiner.Core.Gpus.Impl {
                 if (NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out gpu) && gpu.Cool == value) {
                     return;
                 }
+                effectGpus.Add(gpu.Index);
                 Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{gpuIndex} cool:{value}");
             }
         }
 
         public void RefreshGpuState(int gpuIndex) {
             if (gpuIndex == NTMinerRoot.GpuAllId) {
-                foreach (var gpu in NTMinerRoot.Instance.GpuSet) {
-                    if (gpu.Index == NTMinerRoot.GpuAllId) {
-                        continue;
-                    }
-                    RefreshGpuState(gpu);
-                }
+                return;
             }
             else {
                 if (NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu)) {
