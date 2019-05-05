@@ -53,8 +53,6 @@ namespace NTMiner {
 
         IOverClockDataSet OverClockDataSet { get; }
 
-        int SpeedHistoryLengthByMinute { get; }
-
         string GpuSetInfo { get; }
 
         IGpuSet GpuSet { get; }

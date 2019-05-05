@@ -77,7 +77,7 @@ namespace NTMiner.Views.Ucs {
                                     DateTime = gpuSpeed.MainCoinSpeed.SpeedOn,
                                     Value = gpuSpeed.MainCoinSpeed.Value
                                 });
-                                if (((MeasureModel)chartValues[0]).DateTime.AddMinutes(NTMinerRoot.Instance.SpeedHistoryLengthByMinute) < now) {
+                                if (((MeasureModel)chartValues[0]).DateTime.AddMinutes(NTMinerRoot.SpeedHistoryLengthByMinute) < now) {
                                     chartValues.RemoveAt(0);
                                 }
                                 chartValues = seriesShadow[0].Values;
@@ -85,7 +85,7 @@ namespace NTMiner.Views.Ucs {
                                     DateTime = gpuSpeed.MainCoinSpeed.SpeedOn,
                                     Value = gpuSpeed.MainCoinSpeed.Value
                                 });
-                                if (((MeasureModel)chartValues[0]).DateTime.AddMinutes(NTMinerRoot.Instance.SpeedHistoryLengthByMinute) < now) {
+                                if (((MeasureModel)chartValues[0]).DateTime.AddMinutes(NTMinerRoot.SpeedHistoryLengthByMinute) < now) {
                                     chartValues.RemoveAt(0);
                                 }
                             }
@@ -95,7 +95,7 @@ namespace NTMiner.Views.Ucs {
                                     DateTime = gpuSpeed.DualCoinSpeed.SpeedOn,
                                     Value = gpuSpeed.DualCoinSpeed.Value
                                 });
-                                if (((MeasureModel)chartValues[0]).DateTime.AddMinutes(NTMinerRoot.Instance.SpeedHistoryLengthByMinute) < now) {
+                                if (((MeasureModel)chartValues[0]).DateTime.AddMinutes(NTMinerRoot.SpeedHistoryLengthByMinute) < now) {
                                     chartValues.RemoveAt(0);
                                 }
                                 chartValues = seriesShadow[1].Values;
@@ -103,7 +103,7 @@ namespace NTMiner.Views.Ucs {
                                     DateTime = gpuSpeed.DualCoinSpeed.SpeedOn,
                                     Value = gpuSpeed.DualCoinSpeed.Value
                                 });
-                                if (((MeasureModel)chartValues[0]).DateTime.AddMinutes(NTMinerRoot.Instance.SpeedHistoryLengthByMinute) < now) {
+                                if (((MeasureModel)chartValues[0]).DateTime.AddMinutes(NTMinerRoot.SpeedHistoryLengthByMinute) < now) {
                                     chartValues.RemoveAt(0);
                                 }
                             }
@@ -179,11 +179,11 @@ namespace NTMiner.Views.Ucs {
                         }
                     }
                     IChartValues values = series[0].Values;
-                    if (values.Count > 0 && ((MeasureModel)values[0]).DateTime.AddMinutes(NTMinerRoot.Instance.SpeedHistoryLengthByMinute) < now) {
+                    if (values.Count > 0 && ((MeasureModel)values[0]).DateTime.AddMinutes(NTMinerRoot.SpeedHistoryLengthByMinute) < now) {
                         series[0].Values.RemoveAt(0);
                     }
                     values = seriesShadow[0].Values;
-                    if (values.Count > 0 && ((MeasureModel)values[0]).DateTime.AddMinutes(NTMinerRoot.Instance.SpeedHistoryLengthByMinute) < now) {
+                    if (values.Count > 0 && ((MeasureModel)values[0]).DateTime.AddMinutes(NTMinerRoot.SpeedHistoryLengthByMinute) < now) {
                         seriesShadow[0].Values.RemoveAt(0);
                     }
                     speedChartVm.SetAxisLimits(now);

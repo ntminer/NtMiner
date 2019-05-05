@@ -617,12 +617,6 @@ namespace NTMiner {
 
         public ICalcConfigSet CalcConfigSet { get; private set; }
 
-        public int SpeedHistoryLengthByMinute {
-            get {
-                return 10;
-            }
-        }
-
         private string _gpuSetInfo = null;
         public string GpuSetInfo {
             get {

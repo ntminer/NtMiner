@@ -16,6 +16,8 @@ using System.Text;
 
 namespace NTMiner {
     public partial class NTMinerRoot {
+        public const int SpeedHistoryLengthByMinute = 10;
+
         public static IKernelDownloader KernelDownloader = new EmptyKernelDownloader();
         public static Action RefreshArgsAssembly = () => { };
         public static bool IsUiVisible;

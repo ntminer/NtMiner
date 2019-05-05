@@ -71,7 +71,7 @@ namespace NTMiner.Core.Gpus.Impl {
             InitOnece();
             DateTime now = DateTime.Now;
             foreach (var historyList in _gpuSpeedHistory.Values) {
-                var toRemoves = historyList.Where(a => a.MainCoinSpeed.SpeedOn.AddMinutes(_root.SpeedHistoryLengthByMinute) < now).ToArray();
+                var toRemoves = historyList.Where(a => a.MainCoinSpeed.SpeedOn.AddMinutes(NTMinerRoot.SpeedHistoryLengthByMinute) < now).ToArray();
                 foreach (var item in toRemoves) {
                     historyList.Remove(item);
                 }

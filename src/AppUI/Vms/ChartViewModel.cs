@@ -73,7 +73,7 @@ namespace NTMiner.Vms {
                 new Axis() {
                     LabelFormatter = DateTimeFormatter,
                     MaxValue = now.Ticks,
-                    MinValue = now.Ticks - TimeSpan.FromMinutes(NTMinerRoot.Instance.SpeedHistoryLengthByMinute).Ticks,
+                    MinValue = now.Ticks - TimeSpan.FromMinutes(NTMinerRoot.SpeedHistoryLengthByMinute).Ticks,
                     Unit=axisUnit,
                     Separator = new Separator() {
                         Step = axisStep
@@ -214,7 +214,7 @@ namespace NTMiner.Vms {
 
         public void SetAxisLimits(DateTime now) {
             AxisX[0].MaxValue = now.Ticks;
-            AxisX[0].MinValue = now.Ticks - TimeSpan.FromMinutes(NTMinerRoot.Instance.SpeedHistoryLengthByMinute).Ticks;
+            AxisX[0].MinValue = now.Ticks - TimeSpan.FromMinutes(NTMinerRoot.SpeedHistoryLengthByMinute).Ticks;
             double maxAcceptValue = 0;
             double maxRejectValue = 0;
             if (_acceptValues != null && _acceptValues.Count != 0) {
