@@ -12,6 +12,9 @@ namespace NTMiner {
             private readonly Dictionary<Guid, OverClockDataViewModel> _dicById = new Dictionary<Guid, OverClockDataViewModel>();
 
             private OverClockDataViewModels() {
+#if DEBUG
+                _stopwatch.Restart();
+#endif
                 if (Design.IsInDesignMode) {
                     return;
                 }
@@ -44,6 +47,9 @@ namespace NTMiner {
                             coinVm.OnPropertyChanged(nameof(coinVm.OverClockDatas));
                         }
                     });
+#if DEBUG
+                Write.DevWarn($"耗时{_stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+#endif
             }
 
             private void Init(bool refresh) {

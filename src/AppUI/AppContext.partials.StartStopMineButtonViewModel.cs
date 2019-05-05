@@ -10,6 +10,9 @@ namespace NTMiner {
             public ICommand StopMine { get; private set; }
 
             private StartStopMineButtonViewModel() {
+#if DEBUG
+                _stopwatch.Restart();
+#endif
                 this.StartMine = new DelegateCommand(() => {
                     this.MinerProfile.IsMining = true;
                     NTMinerRoot.Instance.StartMine();
@@ -35,6 +38,9 @@ namespace NTMiner {
                         }
                     });
                 }
+#if DEBUG
+                Write.DevWarn($"耗时{_stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+#endif
             }
 
             private string _btnStopText = "正在挖矿";

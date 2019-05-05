@@ -14,6 +14,9 @@ namespace NTMiner {
             private readonly Dictionary<Guid, CoinViewModel> _dicById = new Dictionary<Guid, CoinViewModel>();
 
             private CoinViewModels() {
+#if DEBUG
+                _stopwatch.Restart();
+#endif
                 if (Design.IsInDesignMode) {
                     return;
                 }
@@ -85,6 +88,9 @@ namespace NTMiner {
                         }
                     });
                 Init();
+#if DEBUG
+                Write.DevWarn($"耗时{_stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+#endif
             }
 
             private void Init() {

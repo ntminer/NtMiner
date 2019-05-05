@@ -12,6 +12,9 @@ namespace NTMiner {
             private readonly Dictionary<Guid, CoinProfileViewModel> _coinProfileDicById = new Dictionary<Guid, CoinProfileViewModel>();
 
             private CoinProfileViewModels() {
+#if DEBUG
+                _stopwatch.Restart();
+#endif
                 On<CoinKernelProfilePropertyChangedEvent>("币种内核设置变更后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         if (_coinKernelProfileDicById.ContainsKey(message.CoinKernelId)) {
@@ -29,6 +32,9 @@ namespace NTMiner {
                         _coinKernelProfileDicById.Clear();
                         _coinProfileDicById.Clear();
                     });
+#if DEBUG
+                Write.DevWarn($"耗时{_stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+#endif
             }
 
             private readonly object _coinProfileDicLocker = new object();

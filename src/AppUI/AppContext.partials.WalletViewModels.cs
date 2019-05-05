@@ -10,6 +10,9 @@ namespace NTMiner {
             public static readonly WalletViewModels Instance = new WalletViewModels();
             private readonly Dictionary<Guid, WalletViewModel> _dicById = new Dictionary<Guid, WalletViewModel>();
             private WalletViewModels() {
+#if DEBUG
+                _stopwatch.Restart();
+#endif
                 On<WalletAddedEvent>("添加了钱包后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         _dicById.Add(message.Source.GetId(), new WalletViewModel(message.Source));
@@ -40,6 +43,9 @@ namespace NTMiner {
                 foreach (var item in NTMinerRoot.Instance.MinerProfile.GetWallets()) {
                     _dicById.Add(item.GetId(), new WalletViewModel(item));
                 }
+#if DEBUG
+                Write.DevWarn($"耗时{_stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+#endif
             }
 
             public List<WalletViewModel> WalletList {

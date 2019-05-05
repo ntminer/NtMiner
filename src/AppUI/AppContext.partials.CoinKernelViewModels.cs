@@ -11,6 +11,9 @@ namespace NTMiner {
 
             private readonly Dictionary<Guid, CoinKernelViewModel> _dicById = new Dictionary<Guid, CoinKernelViewModel>();
             private CoinKernelViewModels() {
+#if DEBUG
+                _stopwatch.Restart();
+#endif
                 On<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById.Clear();
@@ -94,6 +97,9 @@ namespace NTMiner {
                         }
                     });
                 Init();
+#if DEBUG
+                Write.DevWarn($"耗时{_stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+#endif
             }
 
             private void Init() {

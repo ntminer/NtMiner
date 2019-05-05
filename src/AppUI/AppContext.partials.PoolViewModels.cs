@@ -10,6 +10,9 @@ namespace NTMiner {
             public static readonly PoolViewModels Instance = new PoolViewModels();
             private readonly Dictionary<Guid, PoolViewModel> _dicById = new Dictionary<Guid, PoolViewModel>();
             private PoolViewModels() {
+#if DEBUG
+                _stopwatch.Restart();
+#endif
                 On<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById.Clear();
@@ -48,6 +51,9 @@ namespace NTMiner {
                         _dicById[message.Source.GetId()].Update(message.Source);
                     });
                 Init();
+#if DEBUG
+                Write.DevWarn($"耗时{_stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+#endif
             }
 
             private void Init() {

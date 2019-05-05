@@ -13,6 +13,9 @@ namespace NTMiner {
             public ICommand Add { get; private set; }
 
             private UserViewModels() {
+#if DEBUG
+                _stopwatch.Restart();
+#endif
                 if (Design.IsInDesignMode) {
                     return;
                 }
@@ -44,6 +47,9 @@ namespace NTMiner {
                 foreach (var item in NTMinerRoot.Instance.UserSet) {
                     _dicByLoginName.Add(item.LoginName, new UserViewModel(item));
                 }
+#if DEBUG
+                Write.DevWarn($"耗时{_stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+#endif
             }
 
             public List<UserViewModel> List {

@@ -13,6 +13,9 @@ namespace NTMiner {
             public ICommand Add { get; private set; }
 
             private MineWorkViewModels() {
+#if DEBUG
+                _stopwatch.Restart();
+#endif
                 if (Design.IsInDesignMode) {
                     return;
                 }
@@ -46,6 +49,9 @@ namespace NTMiner {
                             AppContext.Instance.MinerClientsWindowVm.SelectedMineWork = MineWorkViewModel.PleaseSelect;
                         }
                     });
+#if DEBUG
+                Write.DevWarn($"耗时{_stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+#endif
             }
 
             public List<MineWorkViewModel> List {

@@ -15,6 +15,9 @@ namespace NTMiner {
             public ICommand Add { get; private set; }
 
             private ColumnsShowViewModels() {
+#if DEBUG
+                _stopwatch.Restart();
+#endif
                 this.Add = new DelegateCommand(() => {
                     new ColumnsShowViewModel(Guid.NewGuid()).Edit.Execute(FormType.Add);
                 });
@@ -43,6 +46,9 @@ namespace NTMiner {
                 foreach (var item in NTMinerRoot.Instance.ColumnsShowSet) {
                     _dicById.Add(item.GetId(), new ColumnsShowViewModel(item));
                 }
+#if DEBUG
+                Write.DevWarn($"耗时{_stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+#endif
             }
 
             public List<ColumnsShowViewModel> List {

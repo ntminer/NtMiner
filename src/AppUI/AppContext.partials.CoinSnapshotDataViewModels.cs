@@ -11,6 +11,9 @@ namespace NTMiner {
             private readonly Dictionary<string, CoinSnapshotDataViewModel> _dicByCoinCode = new Dictionary<string, CoinSnapshotDataViewModel>(StringComparer.OrdinalIgnoreCase);
 
             private CoinSnapshotDataViewModels() {
+#if DEBUG
+                _stopwatch.Restart();
+#endif
                 foreach (var coinVm in AppContext.Instance.CoinVms.AllCoins) {
                     _dicByCoinCode.Add(coinVm.Code, new CoinSnapshotDataViewModel(new MinerServer.CoinSnapshotData {
                         CoinCode = coinVm.Code,
@@ -24,6 +27,9 @@ namespace NTMiner {
                         Timestamp = DateTime.MinValue
                     }));
                 }
+#if DEBUG
+                Write.DevWarn($"耗时{_stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+#endif
             }
 
             public bool TryGetSnapshotDataVm(string coinCode, out CoinSnapshotDataViewModel vm) {

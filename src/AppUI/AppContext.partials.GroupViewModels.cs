@@ -12,6 +12,9 @@ namespace NTMiner {
             private readonly Dictionary<Guid, GroupViewModel> _dicById = new Dictionary<Guid, GroupViewModel>();
             public ICommand Add { get; private set; }
             private GroupViewModels() {
+#if DEBUG
+                _stopwatch.Restart();
+#endif
                 this.Add = new DelegateCommand(() => {
                     new GroupViewModel(Guid.NewGuid()) {
                         SortNumber = Count + 1
@@ -52,6 +55,9 @@ namespace NTMiner {
                         OnPropertyChangeds();
                     });
                 Init();
+#if DEBUG
+                Write.DevWarn($"耗时{_stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+#endif
             }
 
             private void Init() {

@@ -22,6 +22,9 @@ namespace NTMiner {
             private double _incomeDualCoinCnyPerDay;
 
             private GpuSpeedViewModels() {
+#if DEBUG
+                _stopwatch.Restart();
+#endif
                 if (Design.IsInDesignMode) {
                     return;
                 }
@@ -93,6 +96,9 @@ namespace NTMiner {
                         TotalSpeedVm.MainCoinSpeed.OnPropertyChanged(nameof(SpeedViewModel.LastSpeedOnText));
                         TotalSpeedVm.DualCoinSpeed.OnPropertyChanged(nameof(SpeedViewModel.LastSpeedOnText));
                     });
+#if DEBUG
+                Write.DevWarn($"耗时{_stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+#endif
             }
 
             public void Refresh() {

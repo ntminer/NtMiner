@@ -15,6 +15,9 @@ namespace NTMiner {
             private readonly Dictionary<Guid, GpuProfileViewModel> _gpuAllVmDicByCoinId = new Dictionary<Guid, GpuProfileViewModel>();
 
             private GpuProfileViewModels() {
+#if DEBUG
+                _stopwatch.Restart();
+#endif
                 On<GpuProfileSetRefreshedEvent>("Gpu超频集合刷新后刷新附着在当前币种上的超频数据", LogEnum.DevConsole,
                     action: message => {
                         lock (_locker) {
@@ -61,6 +64,9 @@ namespace NTMiner {
                             }
                         }
                     });
+#if DEBUG
+                Write.DevWarn($"耗时{_stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+#endif
             }
 
             private readonly object _locker = new object();

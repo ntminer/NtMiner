@@ -14,12 +14,18 @@ namespace NTMiner {
             public ICommand Apply { get; private set; }
 
             private DriveSetViewModel() {
+#if DEBUG
+                _stopwatch.Restart();
+#endif
                 foreach (var item in DriveInfo.GetDrives().Where(a => a.DriveType == DriveType.Fixed)) {
                     _drives.Add(new Drive(item));
                 }
                 this.Apply = new DelegateCommand(() => {
                     AppContext.Instance.VirtualMemorySetVm.SetVirtualMemoryOfDrive();
                 });
+#if DEBUG
+                Write.DevWarn($"耗时{_stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+#endif
             }
 
             public List<Drive> Drives {

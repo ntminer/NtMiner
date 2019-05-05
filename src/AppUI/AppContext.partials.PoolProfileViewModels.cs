@@ -10,6 +10,9 @@ namespace NTMiner {
             private readonly Dictionary<Guid, PoolProfileViewModel> _dicById = new Dictionary<Guid, PoolProfileViewModel>();
 
             private PoolProfileViewModels() {
+#if DEBUG
+                _stopwatch.Restart();
+#endif
                 On<PoolProfilePropertyChangedEvent>("矿池设置变更后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         if (_dicById.TryGetValue(message.PoolId, out PoolProfileViewModel vm)) {
@@ -20,6 +23,9 @@ namespace NTMiner {
                     action: message => {
                         _dicById.Clear();
                     });
+#if DEBUG
+                Write.DevWarn($"耗时{_stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+#endif
             }
 
             private readonly object _locker = new object();

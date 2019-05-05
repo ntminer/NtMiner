@@ -10,6 +10,9 @@ namespace NTMiner {
             private readonly Dictionary<Guid, ShareViewModel> _dicByCoinId = new Dictionary<Guid, ShareViewModel>();
 
             private ShareViewModels() {
+#if DEBUG
+                _stopwatch.Restart();
+#endif
                 On<ShareChangedEvent>("收益变更后调整VM内存", LogEnum.DevConsole,
                     action: message => {
                         ShareViewModel shareVm;
@@ -17,6 +20,9 @@ namespace NTMiner {
                             shareVm.Update(message.Source);
                         }
                     });
+#if DEBUG
+                Write.DevWarn($"耗时{_stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+#endif
             }
 
             private readonly object _locker = new object();

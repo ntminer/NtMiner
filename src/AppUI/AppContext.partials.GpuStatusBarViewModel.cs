@@ -8,7 +8,13 @@ namespace NTMiner {
             public static readonly GpuStatusBarViewModel Instance = new GpuStatusBarViewModel();
 
             private GpuStatusBarViewModel() {
+#if DEBUG
+                _stopwatch.Restart();
+#endif
                 this.GpuAllVm = AppContext.Instance.GpuVms.FirstOrDefault(a => a.Index == NTMinerRoot.GpuAllId);
+#if DEBUG
+                Write.DevWarn($"耗时{_stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+#endif
             }
 
             public GpuViewModel GpuAllVm {

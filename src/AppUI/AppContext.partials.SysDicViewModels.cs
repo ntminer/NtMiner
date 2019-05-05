@@ -14,6 +14,9 @@ namespace NTMiner {
 
             public ICommand Add { get; private set; }
             private SysDicViewModels() {
+#if DEBUG
+                _stopwatch.Restart();
+#endif
                 On<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicByCode.Clear();
@@ -56,6 +59,9 @@ namespace NTMiner {
                         OnPropertyChangeds();
                     });
                 Init();
+#if DEBUG
+                Write.DevWarn($"耗时{_stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+#endif
             }
 
             private void Init() {

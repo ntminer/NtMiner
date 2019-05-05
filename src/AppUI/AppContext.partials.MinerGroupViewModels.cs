@@ -14,6 +14,9 @@ namespace NTMiner {
             public ICommand Add { get; private set; }
 
             private MinerGroupViewModels() {
+#if DEBUG
+                _stopwatch.Restart();
+#endif
                 if (Design.IsInDesignMode) {
                     return;
                 }
@@ -43,6 +46,9 @@ namespace NTMiner {
                         OnPropertyChanged(nameof(MinerGroupItems));
                         AppContext.Instance.MinerClientsWindowVm.OnPropertyChanged(nameof(MinerClientsWindowViewModel.SelectedMinerGroup));
                     });
+#if DEBUG
+                Write.DevWarn($"耗时{_stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+#endif
             }
 
             public List<MinerGroupViewModel> List {
