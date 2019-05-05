@@ -28,6 +28,9 @@ namespace NTMiner.Core.Gpus.Impl {
 
         private AdlHelper adlHelper = new AdlHelper();
         public AMDGpuSet(INTMinerRoot root) : this() {
+#if DEBUG
+            VirtualRoot.Stopwatch.Restart();
+#endif
             _root = root;
             if (Design.IsInDesignMode) {
                 return;
@@ -65,6 +68,9 @@ namespace NTMiner.Core.Gpus.Impl {
                     }
                 });
             }
+#if DEBUG
+            Write.DevWarn($"耗时{VirtualRoot.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+#endif
         }
 
         public void LoadGpuState() {

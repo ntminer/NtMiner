@@ -30,6 +30,9 @@ namespace NTMiner.Core.Gpus.Impl {
         private readonly uint deviceCount = 0;
         private readonly string _nvsmiDir = Path.Combine(Environment.GetFolderPath(System.Environment.SpecialFolder.ProgramFiles), "NVIDIA Corporation", "NVSMI");
         public NVIDIAGpuSet(INTMinerRoot root) : this() {
+#if DEBUG
+            VirtualRoot.Stopwatch.Restart();
+#endif
             _root = root;
             if (Design.IsInDesignMode) {
                 return;
@@ -91,6 +94,9 @@ namespace NTMiner.Core.Gpus.Impl {
                     }
                 }
             }
+#if DEBUG
+            Write.DevWarn($"耗时{VirtualRoot.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+#endif
         }
 
         private bool _isNvmlInited = false;
