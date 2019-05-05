@@ -11,6 +11,7 @@ namespace NTMiner.Vms {
         private int _temperature;
         private uint _fanSpeed;
         private uint _powerUsage;
+        private GpuStatus _state;
         private int _coreClockDelta;
         private int _memoryClockDelta;
         private int _coreClockDeltaMin;
@@ -36,6 +37,7 @@ namespace NTMiner.Vms {
             _temperature = data.Temperature;
             _fanSpeed = data.FanSpeed;
             _powerUsage = data.PowerUsage;
+            _state = data.State;
             _coreClockDelta = data.CoreClockDelta;
             _memoryClockDelta = data.MemoryClockDelta;
             _coreClockDeltaMin = data.CoreClockDeltaMin;
@@ -71,6 +73,7 @@ namespace NTMiner.Vms {
             _temperature = 0;
             _fanSpeed = 0;
             _powerUsage = 0;
+            _state = GpuStatus.Unknown;
             _coreClockDelta = 0;
             _memoryClockDelta = 0;
             _coreClockDeltaMin = gpuData.CoreClockDeltaMin;
@@ -223,6 +226,14 @@ namespace NTMiner.Vms {
                     return $"{(AppContext.Instance.GpuVms.Sum(a => a.PowerUsage)).ToString("f0")}W";
                 }
                 return PowerUsageW.ToString("f0") + "W";
+            }
+        }
+
+        public GpuStatus State {
+            get { return _state; }
+            set {
+                _state = value;
+                OnPropertyChanged(nameof(State));
             }
         }
 

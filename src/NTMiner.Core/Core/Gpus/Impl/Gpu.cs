@@ -26,6 +26,8 @@
 
         public uint FanSpeed { get; set; }
 
+        public GpuStatus State { get; set; }
+
         public uint PowerUsage { get; set; }
         public int CoreClockDelta { get; set; }
         public int MemoryClockDelta { get; set; }

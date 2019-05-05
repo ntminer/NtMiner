@@ -96,6 +96,7 @@
     <Compile Include="CommandLineArgs.cs" />
     <Compile Include="CommandLineArgs.partial.cs" />
     <Compile Include="Core\Gpus\GpuSetExtension.cs" />
+    <Compile Include="Core\Gpus\GpuStatus.cs" />
     <Compile Include="Core\Gpus\Impl\Amd\AdlHelper.cs" />
     <Compile Include="Core\Gpus\Impl\Amd\AdlNativeMethods.cs" />
     <Compile Include="Core\Gpus\EmptyGpuSet.cs" />

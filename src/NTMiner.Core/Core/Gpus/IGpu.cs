@@ -5,5 +5,6 @@ namespace NTMiner.Core.Gpus {
         int Temperature { get; set; }
         uint FanSpeed { get; set; }
         uint PowerUsage { get; set; }
+        GpuStatus State { get; set; }
     }
 }

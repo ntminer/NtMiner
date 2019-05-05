@@ -27,7 +27,7 @@ namespace NTMiner.Core.Gpus.Impl {
 #endif
                         Windows.NativeMethods.SetDllDirectory(_nvsmiDir);
                         var nvmlReturn = NvmlNativeMethods.nvmlInit();
-                        CheckGpuStatus(Gpu.GpuAll, nvmlReturn, nameof(NvmlNativeMethods.nvmlInit));
+                        SetGpuStatus(Gpu.GpuAll, nvmlReturn);
                         _isNvmlInited = nvmlReturn == nvmlReturn.Success;
 #if DEBUG
                         Write.DevWarn($"耗时{VirtualRoot.Stopwatch.ElapsedMilliseconds}毫秒 {nameof(NVIDIAGpuSet)}.{nameof(NvmlInit)}()");
@@ -43,10 +43,53 @@ namespace NTMiner.Core.Gpus.Impl {
         }
         #endregion
 
-        private static void CheckGpuStatus(Gpu gpu, nvmlReturn nvmlReturn, string nvmlMethodName) {
-            if (nvmlReturn != nvmlReturn.Success) {
-                string errorString = NvmlNativeMethods.nvmlErrorString(nvmlReturn);
-                Logger.ErrorDebugLine($"gpu{gpu.Index}:{nvmlMethodName} {errorString} {nvmlReturn.ToString()}");
+        private static void SetGpuStatus(Gpu gpu, nvmlReturn nvmlReturn) {
+            switch (nvmlReturn) {
+                case nvmlReturn.Success:
+                    gpu.State = GpuStatus.Ok;
+                    break;
+                case nvmlReturn.Uninitialized:
+                    break;
+                case nvmlReturn.InvalidArgument:
+                    break;
+                case nvmlReturn.NotSupported:
+                    break;
+                case nvmlReturn.NoPermission:
+                    break;
+                case nvmlReturn.NotFound:
+                    break;
+                case nvmlReturn.InsufficientSize:
+                    break;
+                case nvmlReturn.InsufficientPower:
+                    break;
+                case nvmlReturn.DriverNotLoaded:
+                    break;
+                case nvmlReturn.TimeOut:
+                    break;
+                case nvmlReturn.IRQIssue:
+                    break;
+                case nvmlReturn.LibraryNotFound:
+                    break;
+                case nvmlReturn.FunctionNotFound:
+                    break;
+                case nvmlReturn.CorruptedInfoROM:
+                    break;
+                case nvmlReturn.GPUIsLost:
+                    gpu.State = GpuStatus.GpuIsLost;
+                    break;
+                case nvmlReturn.ResetRequired:
+                    break;
+                case nvmlReturn.OperatingSystem:
+                    break;
+                case nvmlReturn.LibRMVersionMismatch:
+                    break;
+                case nvmlReturn.InUse:
+                    break;
+                case nvmlReturn.Unknown:
+                    gpu.State = GpuStatus.Unknown;
+                    break;
+                default:
+                    break;
             }
         }
 
@@ -73,14 +116,15 @@ namespace NTMiner.Core.Gpus.Impl {
                 return;
             }
             if (NvmlInit()) {
-                var nvmlReturn = NvmlNativeMethods.nvmlDeviceGetCount(ref deviceCount);
+                NvmlNativeMethods.nvmlDeviceGetCount(ref deviceCount);
                 for (int i = 0; i < deviceCount; i++) {
                     Gpu gpu = Gpu.Create(i, string.Empty);
                     nvmlDevice nvmlDevice = new nvmlDevice();
-                    nvmlReturn = NvmlNativeMethods.nvmlDeviceGetHandleByIndex((uint)i, ref nvmlDevice);
-                    nvmlReturn = NvmlNativeMethods.nvmlDeviceGetName(nvmlDevice, out string name);
+                    var nvmlReturn = NvmlNativeMethods.nvmlDeviceGetHandleByIndex((uint)i, ref nvmlDevice);
+                    SetGpuStatus(gpu, nvmlReturn);
+                    NvmlNativeMethods.nvmlDeviceGetName(nvmlDevice, out string name);
                     nvmlMemory memory = new nvmlMemory();
-                    nvmlReturn = NvmlNativeMethods.nvmlDeviceGetMemoryInfo(nvmlDevice, ref memory);
+                    NvmlNativeMethods.nvmlDeviceGetMemoryInfo(nvmlDevice, ref memory);
                     // short gpu name
                     if (!string.IsNullOrEmpty(name)) {
                         name = name.Replace("GeForce GTX ", string.Empty);
@@ -91,8 +135,8 @@ namespace NTMiner.Core.Gpus.Impl {
                     _gpus.Add(i, gpu);
                 }
                 if (deviceCount > 0) {
-                    nvmlReturn = NvmlNativeMethods.nvmlSystemGetDriverVersion(out _driverVersion);
-                    nvmlReturn = NvmlNativeMethods.nvmlSystemGetNVMLVersion(out string nvmlVersion);
+                    NvmlNativeMethods.nvmlSystemGetDriverVersion(out _driverVersion);
+                    NvmlNativeMethods.nvmlSystemGetNVMLVersion(out string nvmlVersion);
                     this.Properties.Add(new GpuSetProperty(GpuSetProperty.DRIVER_VERSION, "驱动版本", _driverVersion));
                     try {
                         double driverVersionNum;
@@ -135,13 +179,14 @@ namespace NTMiner.Core.Gpus.Impl {
                 int i = gpu.Index;
                 nvmlDevice nvmlDevice = new nvmlDevice();
                 var nvmlReturn = NvmlNativeMethods.nvmlDeviceGetHandleByIndex((uint)i, ref nvmlDevice);
+                SetGpuStatus(gpu, nvmlReturn);
                 uint power = 0;
-                nvmlReturn = NvmlNativeMethods.nvmlDeviceGetPowerUsage(nvmlDevice, ref power);
+                NvmlNativeMethods.nvmlDeviceGetPowerUsage(nvmlDevice, ref power);
                 power = (uint)(power / 1000.0);
                 uint temp = 0;
-                nvmlReturn = NvmlNativeMethods.nvmlDeviceGetTemperature(nvmlDevice, nvmlTemperatureSensors.Gpu, ref temp);
+                NvmlNativeMethods.nvmlDeviceGetTemperature(nvmlDevice, nvmlTemperatureSensors.Gpu, ref temp);
                 uint speed = 0;
-                nvmlReturn = NvmlNativeMethods.nvmlDeviceGetFanSpeed(nvmlDevice, ref speed);
+                NvmlNativeMethods.nvmlDeviceGetFanSpeed(nvmlDevice, ref speed);
                 bool isChanged = gpu.Temperature != temp || gpu.PowerUsage != power || gpu.FanSpeed != speed;
                 gpu.Temperature = (int)temp;
                 gpu.PowerUsage = power;
