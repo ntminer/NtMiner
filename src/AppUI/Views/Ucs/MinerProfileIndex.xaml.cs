@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 
 namespace NTMiner.Views.Ucs {
     public partial class MinerProfileIndex : UserControl {
@@ -13,29 +14,19 @@ namespace NTMiner.Views.Ucs {
 
         public MinerProfileIndex() {
             InitializeComponent();
-            this.PopupKernel.Closed += (object sender, System.EventArgs e) => {
-                this.PopupKernel.Child = null;
-            };
-            this.PopupMainCoinPool.Closed += (object sender, System.EventArgs e) => {
-                this.PopupMainCoinPool.Child = null;
-            };
-            this.PopupDualCoinPool.Closed += (object sender, System.EventArgs e) => {
-                this.PopupDualCoinPool.Child = null;
-            };
-            this.PopupMainCoin.Closed += (object sender, System.EventArgs e) => {
-                this.PopupMainCoin.Child = null;
-            };
-            this.PopupDualCoin.Closed += (object sender, System.EventArgs e) => {
-                this.PopupDualCoin.Child = null;
-            };
-            this.PopupMainCoinWallet.Closed += (object sender, System.EventArgs e) => {
-                this.PopupMainCoinWallet.Child = null;
-            };
-            this.PopupDualCoinWallet.Closed += (object sender, System.EventArgs e) => {
-                this.PopupDualCoinWallet.Child = null;
-            };
+            this.PopupKernel.Closed += Popup_Closed;
+            this.PopupMainCoinPool.Closed += Popup_Closed;
+            this.PopupDualCoinPool.Closed += Popup_Closed;
+            this.PopupMainCoin.Closed += Popup_Closed;
+            this.PopupDualCoin.Closed += Popup_Closed;
+            this.PopupMainCoinWallet.Closed += Popup_Closed;
+            this.PopupDualCoinWallet.Closed += Popup_Closed;
             NTMinerRoot.Instance.OnReRendMinerProfile += Current_OnReRendMinerProfile;
             this.Unloaded += MinerProfileIndex_Unloaded;
+        }
+
+        private void Popup_Closed(object sender, System.EventArgs e) {
+            ((Popup)sender).Child = null;
         }
 
         private void MinerProfileIndex_Unloaded(object sender, RoutedEventArgs e) {
@@ -49,24 +40,31 @@ namespace NTMiner.Views.Ucs {
                     return;
                 }
                 if (this.PopupKernel.Child != null) {
+                    this.PopupKernel.IsOpen = false;
                     OpenKernelPopup();
                 }
                 if (this.PopupMainCoinPool.Child != null) {
+                    this.PopupMainCoinPool.IsOpen = false;
                     OpenMainCoinPoolPopup();
                 }
                 if (this.PopupDualCoinPool != null) {
+                    this.PopupDualCoinPool.IsOpen = false;
                     OpenDualCoinPoolPopup();
                 }
                 if (this.PopupMainCoin != null) {
+                    this.PopupMainCoin.IsOpen = false;
                     OpenMainCoinPopup();
                 }
                 if (this.PopupDualCoin != null) {
+                    this.PopupDualCoin.IsOpen = false;
                     OpenDualCoinPopup();
                 }
                 if (this.PopupMainCoinWallet != null) {
+                    this.PopupMainCoinWallet.IsOpen = false;
                     OpenMainCoinWalletPopup();
                 }
                 if (this.PopupDualCoinWallet != null) {
+                    this.PopupDualCoinWallet.IsOpen = false;
                     OpenDualCoinWalletPopup();
                 }
             });
