@@ -72,7 +72,7 @@ namespace NTMiner {
                             CoinViewModel coinVm;
                             if (_dicById.TryGetValue(message.Source.GetId(), out coinVm)) {
                                 try {
-                                    coinVm.IconImageSource = new BitmapImage(new Uri(iconFileFullName, UriKind.Absolute));
+                                    coinVm.IconImageSource = new Uri(iconFileFullName, UriKind.Absolute).ToString();
                                 }
                                 catch (Exception e) {
                                     File.Delete(iconFileFullName);

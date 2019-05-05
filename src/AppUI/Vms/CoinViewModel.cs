@@ -11,7 +11,6 @@ using System.Net;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Windows.Input;
-using System.Windows.Media.Imaging;
 
 namespace NTMiner.Vms {
     public class CoinViewModel : ViewModelBase, ICoin, IEditableViewModel {
@@ -130,7 +129,7 @@ namespace NTMiner.Vms {
                 if (openFileDialog.ShowDialog() == DialogResult.OK) {
                     try {
                         string iconFileFullName = openFileDialog.FileName;
-                        this.IconImageSource = new BitmapImage(new Uri(iconFileFullName, UriKind.Absolute));
+                        this.IconImageSource = new Uri(iconFileFullName, UriKind.Absolute).ToString();
                         string pngFileName = Path.GetFileName(iconFileFullName);
                         if (AppContext.Instance.CoinVms.AllCoins.Any(a => a.Icon == pngFileName && a.Id != this.Id)) {
                             throw new ValidationException("币种图标不能重名");
@@ -268,7 +267,7 @@ namespace NTMiner.Vms {
         }
 
         private List<GpuProfileViewModel> _gpuProfileVms;
-        private BitmapImage _iconImageSource;
+        private string _iconImageSource;
 
         public List<GpuProfileViewModel> GpuProfileVms {
             get {
@@ -412,7 +411,7 @@ namespace NTMiner.Vms {
             }
         }
 
-        public BitmapImage IconImageSource {
+        public string IconImageSource {
             get => _iconImageSource;
             set {
                 _iconImageSource = value;
