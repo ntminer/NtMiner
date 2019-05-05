@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
@@ -26,12 +27,8 @@ namespace NTMiner.Vms {
 
         public static string AppName {
             get {
-                if (IsMinerClient) {
-                    return "开源矿工挖矿客户端";
-                }
-                else {
-                    return "开源矿工群控客户端";
-                }
+                Assembly mainAssembly = Assembly.GetEntryAssembly();
+                return ((AssemblyTitleAttribute)mainAssembly.GetCustomAttributes(typeof(AssemblyTitleAttribute), inherit: false).First()).Title;
             }
         }
 

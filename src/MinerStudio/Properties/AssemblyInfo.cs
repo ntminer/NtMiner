@@ -6,7 +6,7 @@ using System.Windows;
 // 有关程序集的常规信息通过以下
 // 特性集控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("MinerStudio")]
+[assembly: AssemblyTitle("开源矿工群控客户端")]
 // 程序集的版本信息由下面四个值组成:
 //
 //      主版本
