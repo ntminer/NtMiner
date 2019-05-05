@@ -86,6 +86,10 @@ namespace NTMiner.Vms {
             _walletRegexPattern = data.WalletRegexPattern;
             _justAsDualCoin = data.JustAsDualCoin;
             _notice = data.Notice;
+            string iconFileFullName = AppStatic.GetIconFileFullName(data);
+            if (!string.IsNullOrEmpty(iconFileFullName) && File.Exists(iconFileFullName)) {
+                _iconImageSource = iconFileFullName;
+            }
         }
 
         public CoinViewModel(CoinViewModel vm) : this((ICoin)vm) {
@@ -394,8 +398,6 @@ namespace NTMiner.Vms {
                 return;
             }
             if (File.Exists(iconFileFullName)) {
-                // Icon文件已存在，直接下载完成
-                VirtualRoot.Happened(new CoinIconDownloadedEvent(this));
                 return;
             }
             using (WebClient client = new WebClient()) {

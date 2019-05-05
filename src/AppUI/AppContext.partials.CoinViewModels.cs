@@ -62,7 +62,7 @@ namespace NTMiner {
                             OnPropertyChanged(nameof(MainCoins));
                         }
                     });
-                On<CoinIconDownloadedEvent>("下载了币种钱包后", LogEnum.DevConsole,
+                On<CoinIconDownloadedEvent>("下载了币种图标后", LogEnum.DevConsole,
                     action: message => {
                         try {
                             if (string.IsNullOrEmpty(message.Source.Icon)) {

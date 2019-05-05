@@ -36,6 +36,9 @@ namespace NTMiner.Views {
         }
 
         private MainWindow() {
+#if DEBUG
+            VirtualRoot.Stopwatch.Restart();
+#endif
             UIThread.StartTimer();
             InitializeComponent();
             this.StateChanged += (s, e) => {
@@ -79,6 +82,9 @@ namespace NTMiner.Views {
                         Vm.ServerJsonVersion = Vm.GetServerJsonVersion();
                     });
             }
+#if DEBUG
+            Write.DevWarn($"耗时{VirtualRoot.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+#endif
         }
 
         protected override void OnClosed(EventArgs e) {

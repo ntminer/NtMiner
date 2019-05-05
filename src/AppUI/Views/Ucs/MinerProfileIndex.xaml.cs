@@ -224,37 +224,43 @@ namespace NTMiner.Views.Ucs {
 
         private void KbButtonKernel_Clicked(object sender, RoutedEventArgs e) {
             OpenKernelPopup();
-            VirtualRoot.Happened(new UserActionEvent());
+            UserActionHappend();
         }
 
         private void KbButtonMainCoinPool_Clicked(object sender, RoutedEventArgs e) {
             OpenMainCoinPoolPopup();
-            VirtualRoot.Happened(new UserActionEvent());
+            UserActionHappend();
         }
 
         private void KbButtonDualCoinPool_Clicked(object sender, RoutedEventArgs e) {
             OpenDualCoinPoolPopup();
-            VirtualRoot.Happened(new UserActionEvent());
+            UserActionHappend();
         }
 
         private void KbButtonMainCoin_Clicked(object sender, RoutedEventArgs e) {
             OpenMainCoinPopup();
-            VirtualRoot.Happened(new UserActionEvent());
+            UserActionHappend();
         }
 
         private void KbButtonDualCoin_Clicked(object sender, RoutedEventArgs e) {
             OpenDualCoinPopup();
-            VirtualRoot.Happened(new UserActionEvent());
+            UserActionHappend();
         }
 
         private void KbButtonMainCoinWallet_Clicked(object sender, RoutedEventArgs e) {
             OpenMainCoinWalletPopup();
-            VirtualRoot.Happened(new UserActionEvent());
+            UserActionHappend();
         }
 
         private void KbButtonDualCoinWallet_Clicked(object sender, RoutedEventArgs e) {
             OpenDualCoinWalletPopup();
-            VirtualRoot.Happened(new UserActionEvent());
+            UserActionHappend();
+        }
+
+        private static void UserActionHappend() {
+            if (!DevMode.IsDebugMode) {
+                VirtualRoot.Happened(new UserActionEvent());
+            }
         }
 
         private void ScrollViewer_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
