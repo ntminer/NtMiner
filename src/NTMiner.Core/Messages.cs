@@ -12,6 +12,11 @@ namespace NTMiner {
         public CoreContextVmsReInitedEvent() { }
     }
 
+    [MessageType(description: "MinerProfile刷新后")]
+    public class MinerProfileReInitedEvent : EventBase {
+        public MinerProfileReInitedEvent() { }
+    }
+
     [MessageType(description: "主界面显示后")]
     public class MainWindowShowedEvent : EventBase {
         public MainWindowShowedEvent() { }

@@ -16,9 +16,10 @@ namespace NTMiner {
                             vm.OnPropertyChanged(message.PropertyName);
                         }
                     });
-                NTMinerRoot.Instance.OnMinerProfileReInited += () => {
-                    _dicById.Clear();
-                };
+                On<MinerProfileReInitedEvent>("MinerProfile刷新后刷新VM内存", LogEnum.DevConsole,
+                    action: message => {
+                        _dicById.Clear();
+                    });
             }
 
             private readonly object _locker = new object();

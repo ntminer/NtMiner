@@ -24,10 +24,11 @@ namespace NTMiner {
                             _coinProfileDicById[message.CoinId].OnPropertyChanged(message.PropertyName);
                         }
                     });
-                NTMinerRoot.Instance.OnMinerProfileReInited += () => {
-                    _coinKernelProfileDicById.Clear();
-                    _coinProfileDicById.Clear();
-                };
+                On<MinerProfileReInitedEvent>("MinerProfile刷新后刷新VM内存", LogEnum.DevConsole,
+                    action: message => {
+                        _coinKernelProfileDicById.Clear();
+                        _coinProfileDicById.Clear();
+                    });
             }
 
             private readonly object _coinProfileDicLocker = new object();

@@ -43,7 +43,6 @@ namespace NTMiner {
             return VirtualRoot.Path(description, logType, action).AddToCollection(_contextHandlers);
         }
 
-        public event Action OnMinerProfileReInited;
         public event Action OnReRendMinerProfile;
 
         public IUserSet UserSet { get; private set; }
@@ -222,7 +221,8 @@ namespace NTMiner {
         public void ReInitMinerProfile() {
             ReInitLocalJson();
             this._minerProfile.ReInit(this, LocalJson.MineWork);
-            OnMinerProfileReInited?.Invoke();
+            // 本地数据集已刷新，此时刷新来自本地数据集的视图模型集
+            VirtualRoot.Happened(new MinerProfileReInitedEvent());
             OnReRendMinerProfile?.Invoke();
             RefreshArgsAssembly();
         }
