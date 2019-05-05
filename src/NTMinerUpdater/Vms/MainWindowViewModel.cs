@@ -197,7 +197,7 @@ namespace NTMiner.Vms {
 
         public BitmapImage BigLogoImageSource {
             get {
-                return IconConst.BigLogoImageSource;
+                return new BitmapImage(new Uri((VirtualRoot.IsMinerStudio ? "/NTMinerWpf;component/Styles/Images/cc128.png" : "/NTMinerWpf;component/Styles/Images/logo128.png"), UriKind.RelativeOrAbsolute));
             }
         }
 

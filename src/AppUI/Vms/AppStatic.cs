@@ -9,9 +9,11 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 
 namespace NTMiner.Vms {
     public static class AppStatic {
+        public static readonly BitmapImage BigLogoImageSource = new BitmapImage(new Uri((VirtualRoot.IsMinerStudio ? "/NTMinerWpf;component/Styles/Images/cc128.png" : "/NTMinerWpf;component/Styles/Images/logo128.png"), UriKind.RelativeOrAbsolute));
         private static bool _isMinerClient;
 
         public static bool IsMinerClient {
