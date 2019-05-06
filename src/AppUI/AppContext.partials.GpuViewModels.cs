@@ -73,6 +73,7 @@ namespace NTMiner {
                                 _totalGpuVm.OnPropertyChanged(nameof(_totalGpuVm.CoolMinMaxText));
                                 _totalGpuVm.OnPropertyChanged(nameof(_totalGpuVm.PowerMinMaxText));
                                 _totalGpuVm.OnPropertyChanged(nameof(_totalGpuVm.TempLimitMinMaxText));
+                                _totalGpuVm.OnPropertyChanged(nameof(_totalGpuVm.EChargeText));
                             }
                             UpdateMinMax();
                         }
