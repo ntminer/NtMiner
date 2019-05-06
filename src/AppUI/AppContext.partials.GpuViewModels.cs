@@ -37,6 +37,7 @@ namespace NTMiner {
                         foreach (var gpuVm in _gpuVms.Values) {
                             gpuVm.OnPropertyChanged(nameof(GpuViewModel.EChargeText));
                         }
+                        AppContext.Instance.GpuSpeedVms.OnPropertyChanged(nameof(GpuSpeedViewModels.ProfitCnyPerDayText));
                     });
                 On<Per5SecondEvent>("周期刷新显卡状态", LogEnum.None,
                     action: message => {
