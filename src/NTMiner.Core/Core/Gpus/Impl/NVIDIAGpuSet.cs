@@ -174,11 +174,23 @@ namespace NTMiner.Core.Gpus.Impl {
             }
         }
 
+        private int nvmlShutdownRestartCount = 0;
         public void LoadGpuState() {
             foreach (Gpu gpu in _gpus.Values) {
                 int i = gpu.Index;
+                if (i == NTMinerRoot.GpuAllId) {
+                    continue;
+                }
                 nvmlDevice nvmlDevice = new nvmlDevice();
                 var nvmlReturn = NvmlNativeMethods.nvmlDeviceGetHandleByIndex((uint)i, ref nvmlDevice);
+                // 显卡重启了，此时nvmlReturn是Unknown
+                if (nvmlReturn == nvmlReturn.Unknown && nvmlShutdownRestartCount < 20) {
+                    nvmlShutdownRestartCount++;
+                    NvmlNativeMethods.nvmlShutdown();
+                    _isNvmlInited = false;
+                    NvmlInit();
+                }
+                nvmlReturn = NvmlNativeMethods.nvmlDeviceGetHandleByIndex((uint)i, ref nvmlDevice);
                 SetGpuStatus(gpu, nvmlReturn);
                 uint power = 0;
                 NvmlNativeMethods.nvmlDeviceGetPowerUsage(nvmlDevice, ref power);
