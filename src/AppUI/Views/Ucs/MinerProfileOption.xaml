@@ -73,7 +73,7 @@
 							<TextBlock Margin="10 0 0 0">电价</TextBlock>
 							<TextBox Width="40" Margin="2 0" Background="White" Text="{Binding EPrice}" HorizontalAlignment="Left"></TextBox>
 							<TextBlock>￥/度</TextBlock>
-							<TextBlock Foreground="Red">（1Kw/时=1度）</TextBlock>
+							<TextBlock Foreground="Red">（1Kw时=1度）</TextBlock>
 						</WrapPanel>
 					</StackPanel>
 				</GroupBox>
