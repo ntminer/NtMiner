@@ -331,7 +331,7 @@
 							</controls:KbButton>
 						</WrapPanel>
 						<Border
-							Margin="16 0 0 0"
+							Margin="21 0 13 0"
 							Width="26"
 							Height="26"
 							Background="Red"
@@ -344,7 +344,7 @@
 								FontWeight="Bold"
 								Text="群控"></TextBlock>
 						</Border>
-						<uc:StartStopMineButton Margin="8 -2 0 0" StartButtonBackground="{StaticResource ThemeBackground}" StartButtonForeground="{StaticResource ThemeForeground}">
+						<uc:StartStopMineButton Margin="0 -2 0 0" StartButtonBackground="{StaticResource ThemeBackground}" StartButtonForeground="{StaticResource ThemeForeground}">
 						</uc:StartStopMineButton>
 					</WrapPanel>
 					<uc:MinerProfileIndex 

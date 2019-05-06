@@ -8,7 +8,7 @@
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 		x:Name="Self"
 		xmlns:vm="clr-namespace:NTMiner.Vms">
-	<WrapPanel Width="100" Height="28">
+	<WrapPanel Width="90" Height="28">
 		<Button
 			IsDefault="True"
 			Command="{Binding StartMine}" 
@@ -17,7 +17,7 @@
 				<ControlTemplate>
 					<Border 
 						x:Name="Content"
-						Width="100"
+						Width="90"
 						Height="28"
 						Background="{Binding ElementName=Self,Path=StartButtonBackground}"
 						BorderThickness="0" 
@@ -64,7 +64,7 @@
 				<ControlTemplate>
 					<Border 
 						x:Name="Content"
-						Width="100"
+						Width="90"
 						Height="28"
 						Background="Transparent"
 						BorderThickness="0" 
