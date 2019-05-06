@@ -54,6 +54,16 @@ namespace NTMiner.Views {
                     }
                 }
             };
+            this.SizeChanged += (object sender, SizeChangedEventArgs e)=> {
+                if (e.WidthChanged) {
+                    if (e.NewSize.Width < 800) {
+                        Collapse();
+                    }
+                    else if (e.NewSize.Width >= 800) {
+                        Expand();
+                    }
+                }
+            };
             EventHandler changeNotiCenterWindowLocation = Wpf.Util.ChangeNotiCenterWindowLocation(this);
             this.Activated += changeNotiCenterWindowLocation;
             this.LocationChanged += changeNotiCenterWindowLocation;
@@ -104,6 +114,14 @@ namespace NTMiner.Views {
         }
 
         private void BtnLeftTriangle_Click(object sender, RoutedEventArgs e) {
+            Collapse();
+        }
+
+        private void BtnRightTriangle_Click(object sender, RoutedEventArgs e) {
+            Expand();
+        }
+
+        private void Collapse() {
             BtnRightTriangle.Visibility = Visibility.Visible;
             BtnLayoutLeftRight.Visibility = Visibility.Visible;
             BtnLeftTriangle.Visibility = Visibility.Collapsed;
@@ -114,7 +132,7 @@ namespace NTMiner.Views {
             TabItemMinerProfile.Visibility = Visibility.Visible;
         }
 
-        private void BtnRightTriangle_Click(object sender, RoutedEventArgs e) {
+        private void Expand() {
             BtnRightTriangle.Visibility = Visibility.Collapsed;
             BtnLayoutMain.Visibility = Visibility.Visible;
             BtnLeftTriangle.Visibility = Visibility.Visible;

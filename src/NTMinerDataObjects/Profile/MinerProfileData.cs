@@ -16,8 +16,8 @@ namespace NTMiner.Profile {
                 PeriodicRestartKernelHours = 12,
                 IsPeriodicRestartComputer = false,
                 PeriodicRestartComputerHours = 24,
-                IsEChargeEnabled = false,
-                EPrice = 0
+                IsEChargeEnabled = true,
+                EPrice = 0.3
             };
         }
 

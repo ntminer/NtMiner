@@ -239,9 +239,9 @@ namespace NTMiner.Vms {
                     return "0￥/天";
                 }
                 if (this.Index == NTMinerRoot.GpuAllId && NTMinerRoot.Instance.GpuSet.Count != 0) {
-                    return $"{(AppContext.Instance.GpuVms.Sum(a => a.PowerUsage) * NTMinerRoot.Instance.MinerProfile.EPrice * 24).ToString("f2")}￥/天";
+                    return $"{(AppContext.Instance.GpuVms.Sum(a => a.PowerUsage) * NTMinerRoot.Instance.MinerProfile.EPrice / 1000 *24).ToString("f2")}￥/天";
                 }
-                return (PowerUsageW * NTMinerRoot.Instance.MinerProfile.EPrice * 24).ToString("f2") + "￥/天";
+                return (PowerUsageW * NTMinerRoot.Instance.MinerProfile.EPrice / 1000 * 24).ToString("f2") + "￥/天";
             }
         }
 

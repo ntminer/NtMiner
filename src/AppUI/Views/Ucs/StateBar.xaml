@@ -64,8 +64,8 @@
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
 						<StackPanel Width="50" Margin="4 -2 0 0">
-							<TextBlock Text="{Binding GpuVms.TemperatureMinText}" Padding="0" HorizontalAlignment="Left" />
-							<TextBlock Text="{Binding GpuVms.TemperatureMaxText}" Margin="0 -4 0 0" Padding="0" HorizontalAlignment="Left" />
+							<TextBlock Text="{Binding GpuVms.TemperatureMinText}" ToolTip="最低" Padding="0" HorizontalAlignment="Left" />
+							<TextBlock Text="{Binding GpuVms.TemperatureMaxText}" ToolTip="最高" Margin="0 -4 0 0" Padding="0" HorizontalAlignment="Left" />
 						</StackPanel>
 						<Path
 							Margin="0 0 2 0"
@@ -76,8 +76,8 @@
 							Stretch="Fill">
 						</Path>
 						<StackPanel Width="50" Margin="4 -2 0 0">
-							<TextBlock Text="{Binding GpuVms.FanSpeedMinText}" Padding="0" HorizontalAlignment="Left" />
-							<TextBlock Text="{Binding GpuVms.FanSpeedMaxText}" Margin="0 -4 0 0" Padding="0" HorizontalAlignment="Left" />
+							<TextBlock Text="{Binding GpuVms.FanSpeedMinText}" ToolTip="最低" Padding="0" HorizontalAlignment="Left" />
+							<TextBlock Text="{Binding GpuVms.FanSpeedMaxText}" ToolTip="最高" Margin="0 -4 0 0" Padding="0" HorizontalAlignment="Left" />
 						</StackPanel>
 						<Path
 							Margin="0 0 2 0"
@@ -95,7 +95,7 @@
 							Data="{StaticResource Icon_ECharge}"
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
-						<StackPanel Width="60" Margin="4 -2 0 0" VerticalAlignment="Center">
+						<StackPanel Width="60" Margin="4 -2 0 0" VerticalAlignment="Center" ToolTip="可在'选项'页调整电价">
 							<TextBlock Text="{Binding GpuStatusBarVm.GpuAllVm.PowerUsageWText}" Padding="0" HorizontalAlignment="Left" />
 							<TextBlock 
 								Text="{Binding GpuStatusBarVm.GpuAllVm.EChargeText}" 
