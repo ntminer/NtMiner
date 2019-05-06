@@ -212,11 +212,5 @@ namespace UnitTestProject1 {
             Console.WriteLine(uri.ToString());
             Console.WriteLine(SignatureSafeUrl(uri));
         }
-
-        [TestMethod]
-        public void TempTest() {
-            double value = (double)612L * 0.56 / 1000 * 24;
-            Console.WriteLine(value);
-        }
     }
 }
