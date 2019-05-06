@@ -204,6 +204,7 @@ namespace NTMiner.Vms {
                     OnPropertyChanged(nameof(PowerUsage));
                     OnPropertyChanged(nameof(PowerUsageW));
                     OnPropertyChanged(nameof(PowerUsageWText));
+                    OnPropertyChanged(nameof(EChargeText));
                 }
             }
         }
@@ -226,6 +227,21 @@ namespace NTMiner.Vms {
                     return $"{(AppContext.Instance.GpuVms.Sum(a => a.PowerUsage)).ToString("f0")}W";
                 }
                 return PowerUsageW.ToString("f0") + "W";
+            }
+        }
+
+        public string EChargeText {
+            get {
+                if (_isGpuData) {
+                    return "0￥/天";
+                }
+                if (NTMinerRoot.Instance.GpuSet == EmptyGpuSet.Instance) {
+                    return "0￥/天";
+                }
+                if (this.Index == NTMinerRoot.GpuAllId && NTMinerRoot.Instance.GpuSet.Count != 0) {
+                    return $"{(AppContext.Instance.GpuVms.Sum(a => a.PowerUsage) * NTMinerRoot.Instance.MinerProfile.EPrice * 24).ToString("f2")}￥/天";
+                }
+                return (PowerUsageW * NTMinerRoot.Instance.MinerProfile.EPrice * 24).ToString("f2") + "￥/天";
             }
         }
 

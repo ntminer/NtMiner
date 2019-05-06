@@ -64,8 +64,8 @@
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
 						<StackPanel Width="50" Margin="4 -2 0 0">
-							<TextBlock Text="{Binding GpuVms.TemperatureMinText}" Padding="0" VerticalAlignment="Center" HorizontalAlignment="Left" />
-							<TextBlock Text="{Binding GpuVms.TemperatureMaxText}" Margin="0 -4 0 0" Padding="0" VerticalAlignment="Center" HorizontalAlignment="Left" />
+							<TextBlock Text="{Binding GpuVms.TemperatureMinText}" Padding="0" HorizontalAlignment="Left" />
+							<TextBlock Text="{Binding GpuVms.TemperatureMaxText}" Margin="0 -4 0 0" Padding="0" HorizontalAlignment="Left" />
 						</StackPanel>
 						<Path
 							Margin="0 0 2 0"
@@ -76,18 +76,34 @@
 							Stretch="Fill">
 						</Path>
 						<StackPanel Width="50" Margin="4 -2 0 0">
-							<TextBlock Text="{Binding GpuVms.FanSpeedMinText}" Padding="0" VerticalAlignment="Center" HorizontalAlignment="Left" />
-							<TextBlock Text="{Binding GpuVms.FanSpeedMaxText}" Margin="0 -4 0 0" Padding="0" VerticalAlignment="Center" HorizontalAlignment="Left" />
+							<TextBlock Text="{Binding GpuVms.FanSpeedMinText}" Padding="0" HorizontalAlignment="Left" />
+							<TextBlock Text="{Binding GpuVms.FanSpeedMaxText}" Margin="0 -4 0 0" Padding="0" HorizontalAlignment="Left" />
 						</StackPanel>
-						<WrapPanel VerticalAlignment="Center">
-							<Path
-								Width="13"
-								Height="18"
-								Data="{StaticResource Icon_Power}"
-								Fill="{StaticResource IconFillColor}"
-								Stretch="Fill" />
-							<TextBlock Width="50" Text="{Binding GpuStatusBarVm.GpuAllVm.PowerUsageWText}" Padding="0" VerticalAlignment="Center" HorizontalAlignment="Left" />
-						</WrapPanel>
+						<Path
+							Margin="0 0 2 0"
+							Width="13"
+							Height="18"
+							Visibility="{Binding MinerProfile.IsEChargeEnabled,Converter={StaticResource BoolToVisibilityInvertConverter}}"
+							Data="{StaticResource Icon_Power}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+						<Path
+							Margin="0 0 2 0"
+							Width="13"
+							Height="18"
+							Visibility="{Binding MinerProfile.IsEChargeEnabled,Converter={StaticResource BoolToVisibilityConverter}}"
+							Data="{StaticResource Icon_ECharge}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+						<StackPanel Width="60" Margin="4 -2 0 0" VerticalAlignment="Center">
+							<TextBlock Text="{Binding GpuStatusBarVm.GpuAllVm.PowerUsageWText}" Padding="0" HorizontalAlignment="Left" />
+							<TextBlock 
+								Text="{Binding GpuStatusBarVm.GpuAllVm.EChargeText}" 
+								Visibility="{Binding MinerProfile.IsEChargeEnabled,Converter={StaticResource BoolToVisibilityConverter}}"
+								Margin="0 -4 0 0" 
+								Padding="0" 
+								HorizontalAlignment="Left" />
+						</StackPanel>
 					</WrapPanel>
 					<Path
 						Margin="2 0 2 3"
