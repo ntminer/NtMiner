@@ -283,6 +283,11 @@
 						<TextBlock Text=" / " Foreground="{StaticResource LableColor}"></TextBlock>
 					</WrapPanel>
 					<TextBlock Text="{x:Static vm:AppStatic.GpuSetInfo}" MaxWidth="260" ToolTip="{x:Static vm:AppStatic.GpuSetInfo}" Foreground="{StaticResource LableColor}"></TextBlock>
+					<WrapPanel Visibility="{Binding MinerProfile.IsEChargeEnabled,Converter={StaticResource BoolToVisibilityConverter}}">
+						<TextBlock Text=" / " Foreground="{StaticResource LableColor}"></TextBlock>
+						<TextBlock Text="{Binding MinerProfile.EPrice}" ToolTip="电价" Foreground="{StaticResource LableColor}"></TextBlock>
+						<TextBlock Text="￥每度" Foreground="{StaticResource LableColor}"></TextBlock>
+					</WrapPanel>
 				</WrapPanel>
 			</Grid>
 		</StackPanel>
