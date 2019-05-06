@@ -242,7 +242,10 @@ namespace NTMiner.Core.Profiles {
                 return _data.EPrice;
             }
             private set {
-                _data.EPrice = value;
+                if (_data.EPrice != value) {
+                    _data.EPrice = value;
+                    VirtualRoot.Happened(new EPriceChangedEvent());
+                }
             }
         }
 

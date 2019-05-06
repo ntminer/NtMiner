@@ -15,6 +15,12 @@ namespace NTMiner.Core {
         public string NewVersion { get; private set; }
     }
 
+    [MessageType(description: "电价变更后")]
+    public class EPriceChangedEvent : EventBase {
+        public EPriceChangedEvent() {
+        }
+    }
+
     [MessageType(description: "收益计算器数据集初始化后")]
     public class CalcConfigSetInitedEvent : EventBase {
         public CalcConfigSetInitedEvent() {
