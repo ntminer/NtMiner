@@ -56,7 +56,7 @@ namespace NTMiner {
                 {"pool", pool },
                 {"worker", this.MinerProfile.MinerName }
             };// 这里不要考虑{logfile}，{logfile}往后推迟
-            if (coinKernelProfile.IsDualCoinEnabled) {
+            if (coinKernelProfile.IsDualCoinEnabled && kernelInput.IsSupportDualMine) {
                 Guid dualCoinGroupId = coinKernel.DualCoinGroupId;
                 if (dualCoinGroupId == Guid.Empty) {
                     dualCoinGroupId = kernelInput.DualCoinGroupId;
