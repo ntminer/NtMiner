@@ -269,6 +269,26 @@ namespace NTMiner {
                 }
             }
 
+            public bool IsEChargeEnabled {
+                get => NTMinerRoot.Instance.MinerProfile.IsEChargeEnabled;
+                set {
+                    if (NTMinerRoot.Instance.MinerProfile.IsEChargeEnabled != value) {
+                        NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsEChargeEnabled), value);
+                        OnPropertyChanged(nameof(IsEChargeEnabled));
+                    }
+                }
+            }
+
+            public double EPrice {
+                get => NTMinerRoot.Instance.MinerProfile.EPrice;
+                set {
+                    if (NTMinerRoot.Instance.MinerProfile.EPrice != value) {
+                        NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(EPrice), value);
+                        OnPropertyChanged(nameof(EPrice));
+                    }
+                }
+            }
+
             public bool IsShowCommandLine {
                 get { return NTMinerRoot.GetIsShowCommandLine(); }
                 set {

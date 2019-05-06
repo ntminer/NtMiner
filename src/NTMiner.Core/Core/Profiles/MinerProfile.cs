@@ -228,6 +228,24 @@ namespace NTMiner.Core.Profiles {
             }
         }
 
+        public bool IsEChargeEnabled {
+            get {
+                return _data.IsEChargeEnabled;
+            }
+            private set {
+                _data.IsEChargeEnabled = value;
+            }
+        }
+
+        public double EPrice {
+            get {
+                return _data.EPrice;
+            }
+            private set {
+                _data.EPrice = value;
+            }
+        }
+
         public Guid CoinId {
             get => _data.CoinId;
             private set {
