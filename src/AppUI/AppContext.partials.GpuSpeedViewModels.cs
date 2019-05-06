@@ -130,6 +130,12 @@ namespace NTMiner {
                 }
             }
 
+            public string ProfitCnyPerDayText {
+                get {
+                    return (this.IncomeMainCoinCnyPerDay + this.IncomeDualCoinCnyPerDay - AppContext.Instance.GpuVms.GpuAllVm.ECharge).ToString("f2");
+                }
+            }
+
             public double IncomeMainCoinPerDay {
                 get => _incomeMainCoinPerDay;
                 set {
@@ -166,6 +172,7 @@ namespace NTMiner {
                     _incomeMainCoinCnyPerDay = value;
                     OnPropertyChanged(nameof(IncomeMainCoinCnyPerDay));
                     OnPropertyChanged(nameof(IncomeMainCoinCnyPerDayText));
+                    OnPropertyChanged(nameof(ProfitCnyPerDayText));
                 }
             }
 
@@ -211,6 +218,7 @@ namespace NTMiner {
                     _incomeDualCoinCnyPerDay = value;
                     OnPropertyChanged(nameof(IncomeDualCoinCnyPerDay));
                     OnPropertyChanged(nameof(IncomeDualCoinCnyPerDayText));
+                    OnPropertyChanged(nameof(ProfitCnyPerDayText));
                 }
             }
 

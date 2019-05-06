@@ -230,18 +230,24 @@ namespace NTMiner.Vms {
             }
         }
 
-        public string EChargeText {
+        public double ECharge {
             get {
                 if (_isGpuData) {
-                    return "0￥/天";
+                    return 0;
                 }
                 if (NTMinerRoot.Instance.GpuSet == EmptyGpuSet.Instance) {
-                    return "0￥/天";
+                    return 0;
                 }
                 if (this.Index == NTMinerRoot.GpuAllId && NTMinerRoot.Instance.GpuSet.Count != 0) {
-                    return $"{((double)AppContext.Instance.GpuVms.Sum(a => a.PowerUsage) * NTMinerRoot.Instance.MinerProfile.EPrice / 1000 * 24).ToString("f2")}￥/天";
+                    return (double)AppContext.Instance.GpuVms.Sum(a => a.PowerUsage) * NTMinerRoot.Instance.MinerProfile.EPrice / 1000 * 24;
                 }
-                return ((double)PowerUsageW * NTMinerRoot.Instance.MinerProfile.EPrice / 1000 * 24).ToString("f2") + "￥/天";
+                return (double)PowerUsageW * NTMinerRoot.Instance.MinerProfile.EPrice / 1000 * 24;
+            }
+        }
+
+        public string EChargeText {
+            get {
+                return ECharge.ToString("f2") + "￥/天";
             }
         }
 

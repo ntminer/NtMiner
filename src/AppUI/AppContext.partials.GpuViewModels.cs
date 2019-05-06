@@ -1,5 +1,5 @@
 ﻿using NTMiner.Core;
-using NTMiner.Core.Gpus;
+using NTMiner.Core.Gpus.Impl;
 using NTMiner.Vms;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,7 +15,7 @@ namespace NTMiner {
             private string _fanSpeedMaxText = "0 %";
             private string _temperatureMinText = "0 ℃";
             private string _temperatureMaxText = "0 ℃";
-            private readonly GpuViewModel _totalGpuVm;
+            private readonly GpuViewModel _gpuAllVm;
             private GpuViewModels() {
 #if DEBUG
                 VirtualRoot.Stopwatch.Restart();
@@ -27,7 +27,10 @@ namespace NTMiner {
                     _gpuVms.Add(gpu.Index, new GpuViewModel(gpu));
                 }
                 if (_gpuVms.ContainsKey(NTMinerRoot.GpuAllId)) {
-                    _totalGpuVm = _gpuVms[NTMinerRoot.GpuAllId];
+                    _gpuAllVm = _gpuVms[NTMinerRoot.GpuAllId];
+                }
+                else {
+                    _gpuAllVm = new GpuViewModel(Gpu.GpuAll);
                 }
                 On<EPriceChangedEvent>("电价变更后更新电费显示", LogEnum.DevConsole,
                     action: message => {
@@ -62,18 +65,19 @@ namespace NTMiner {
                             vm.TempLimitDefault = message.Source.TempLimitDefault;
                             vm.TempLimitMax = message.Source.TempLimitMax;
                             vm.TempLimitMin = message.Source.TempLimitMin;
-                            if (_totalGpuVm != null) {
-                                _totalGpuVm.OnPropertyChanged(nameof(_totalGpuVm.TemperatureText));
-                                _totalGpuVm.OnPropertyChanged(nameof(_totalGpuVm.FanSpeedText));
-                                _totalGpuVm.OnPropertyChanged(nameof(_totalGpuVm.PowerUsageWText));
-                                _totalGpuVm.OnPropertyChanged(nameof(_totalGpuVm.CoreClockDeltaMText));
-                                _totalGpuVm.OnPropertyChanged(nameof(_totalGpuVm.MemoryClockDeltaMText));
-                                _totalGpuVm.OnPropertyChanged(nameof(_totalGpuVm.CoreClockDeltaMinMaxMText));
-                                _totalGpuVm.OnPropertyChanged(nameof(_totalGpuVm.MemoryClockDeltaMinMaxMText));
-                                _totalGpuVm.OnPropertyChanged(nameof(_totalGpuVm.CoolMinMaxText));
-                                _totalGpuVm.OnPropertyChanged(nameof(_totalGpuVm.PowerMinMaxText));
-                                _totalGpuVm.OnPropertyChanged(nameof(_totalGpuVm.TempLimitMinMaxText));
-                                _totalGpuVm.OnPropertyChanged(nameof(_totalGpuVm.EChargeText));
+                            if (_gpuAllVm != null) {
+                                _gpuAllVm.OnPropertyChanged(nameof(_gpuAllVm.TemperatureText));
+                                _gpuAllVm.OnPropertyChanged(nameof(_gpuAllVm.FanSpeedText));
+                                _gpuAllVm.OnPropertyChanged(nameof(_gpuAllVm.PowerUsageWText));
+                                _gpuAllVm.OnPropertyChanged(nameof(_gpuAllVm.CoreClockDeltaMText));
+                                _gpuAllVm.OnPropertyChanged(nameof(_gpuAllVm.MemoryClockDeltaMText));
+                                _gpuAllVm.OnPropertyChanged(nameof(_gpuAllVm.CoreClockDeltaMinMaxMText));
+                                _gpuAllVm.OnPropertyChanged(nameof(_gpuAllVm.MemoryClockDeltaMinMaxMText));
+                                _gpuAllVm.OnPropertyChanged(nameof(_gpuAllVm.CoolMinMaxText));
+                                _gpuAllVm.OnPropertyChanged(nameof(_gpuAllVm.PowerMinMaxText));
+                                _gpuAllVm.OnPropertyChanged(nameof(_gpuAllVm.TempLimitMinMaxText));
+                                _gpuAllVm.OnPropertyChanged(nameof(_gpuAllVm.EChargeText));
+                                AppContext.Instance.GpuSpeedVms.OnPropertyChanged(nameof(GpuSpeedViewModels.ProfitCnyPerDayText));
                             }
                             UpdateMinMax();
                         }
@@ -114,9 +118,15 @@ namespace NTMiner {
                 this.TemperatureMinText = minTemp + " ℃";
             }
 
+            public GpuViewModel GpuAllVm {
+                get {
+                    return _gpuAllVm;
+                }
+            }
+
             public int Count {
                 get {
-                    if (_totalGpuVm != null) {
+                    if (_gpuAllVm != null) {
                         return _gpuVms.Count - 1;
                     }
                     return _gpuVms.Count;
