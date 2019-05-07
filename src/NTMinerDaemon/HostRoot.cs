@@ -3,6 +3,7 @@ using NTMiner.User.Impl;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading;
 
 namespace NTMiner {
@@ -41,12 +42,19 @@ namespace NTMiner {
             timer.Start();
         }
 
-        public static EventWaitHandle WaitHandle = new AutoResetEvent(false);
+        public static EventWaitHandle _waitHandle;
         private static Mutex _sMutexApp;
         // 注意：该程序编译成无界面的windows应用程序而不是控制台程序，从而随机自动启动时无界面
         [STAThread]
         static void Main(string[] args) {
+            if (args.Length != 0) {
+                if (args.Contains("--sha1")) {
+                    File.WriteAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "sha1"), Sha1);
+                    return;
+                }
+            }
             try {
+                _waitHandle = new AutoResetEvent(false);
                 bool mutexCreated;
                 try {
                     _sMutexApp = new Mutex(true, "NTMinerDaemonAppMutex", out mutexCreated);
@@ -97,7 +105,7 @@ namespace NTMiner {
             try {
                 HttpServer.Start($"http://localhost:{WebApiConst.NTMinerDaemonPort}");
                 Windows.ConsoleHandler.Register(Close);
-                WaitHandle.WaitOne();
+                _waitHandle.WaitOne();
                 Close();
             }
             catch (Exception e) {
