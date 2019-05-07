@@ -13,7 +13,7 @@
 		Background="White"
 		mc:Ignorable="d" 
 		d:DesignHeight="300"
-		MaxHeight="320" Width="330">
+		MaxHeight="320">
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"></RowDefinition>
@@ -95,13 +95,11 @@
 			Margin="0" 
 			ItemsSource="{Binding QueryResults}" 
 			SelectedItem="{Binding SelectedResult}"
-			ColumnHeaderHeight="0"
+			MouseUp="DataGrid_MouseUp"
+			PreviewKeyDown="DataGrid_PreviewKeyDown"
 			BorderThickness="0">
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Width="40" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<TextBlock Text="图标"></TextBlock>
-					</DataGridTemplateColumn.Header>
+				<DataGridTemplateColumn Width="40" Header="图标" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<Image Width="30" Height="30" Source="{Binding IconImageSource}">
@@ -109,7 +107,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="60" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn Width="70" Header="编码" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock 
@@ -118,7 +116,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Width="*" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn Width="100" Header="中文名" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock 
@@ -127,7 +125,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn Width="100" Header="算法" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock 

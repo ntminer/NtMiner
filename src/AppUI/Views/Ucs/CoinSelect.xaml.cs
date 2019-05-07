@@ -9,13 +9,26 @@ namespace NTMiner.Views.Ucs {
             }
         }
 
+        private CoinViewModel _selectedCoin;
         public CoinSelect(CoinSelectViewModel vm) {
+            _selectedCoin = vm.SelectedResult;
             this.DataContext = vm;
             InitializeComponent();
         }
 
         private void KbButtonManageCoins_Click(object sender, System.Windows.RoutedEventArgs e) {
             Vm.HideView?.Execute(null);
+        }
+
+        private void DataGrid_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+            Vm.OnOk?.Invoke(Vm.SelectedResult);
+        }
+
+        private void DataGrid_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e) {
+            if (e.Key == System.Windows.Input.Key.Enter) {
+                Vm.OnOk?.Invoke(Vm.SelectedResult);
+                e.Handled = true;
+            }
         }
     }
 }

@@ -7,16 +7,16 @@ namespace NTMiner.Vms {
     public class CoinSelectViewModel : ViewModelBase {
         private string _keyword;
         private CoinViewModel _selectedResult;
-        private readonly Action<CoinViewModel> _onSelectedChanged;
+        public readonly Action<CoinViewModel> OnOk;
         private readonly IEnumerable<CoinViewModel> _coins;
 
         public ICommand ClearKeyword { get; private set; }
         public ICommand HideView { get; set; }
 
-        public CoinSelectViewModel(IEnumerable<CoinViewModel> coins, CoinViewModel selected, Action<CoinViewModel> onSelectedChanged) {
+        public CoinSelectViewModel(IEnumerable<CoinViewModel> coins, CoinViewModel selected, Action<CoinViewModel> onOk) {
             _coins = coins;
             _selectedResult = selected;
-            _onSelectedChanged = onSelectedChanged;
+            OnOk = onOk;
             this.ClearKeyword = new DelegateCommand(() => {
                 this.Keyword = string.Empty;
             });
@@ -39,7 +39,6 @@ namespace NTMiner.Vms {
                 if (_selectedResult != value) {
                     _selectedResult = value;
                     OnPropertyChanged(nameof(SelectedResult));
-                    _onSelectedChanged?.Invoke(value);
                 }
             }
         }

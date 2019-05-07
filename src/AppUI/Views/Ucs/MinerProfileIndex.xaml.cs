@@ -144,8 +144,8 @@ namespace NTMiner.Views.Ucs {
             popup.IsOpen = true;
             var selected = Vm.MinerProfile.CoinVm;
             popup.Child = new CoinSelect(
-                new CoinSelectViewModel(AppContext.Instance.CoinVms.MainCoins.Where(a => a.IsSupported), selected, onSelectedChanged: selectedResult => {
-                    if (selectedResult != null) {
+                new CoinSelectViewModel(AppContext.Instance.CoinVms.MainCoins.Where(a => a.IsSupported), selected, onOk: selectedResult => {
+                    if (selectedResult != null && selectedResult != Vm.MinerProfile.CoinVm) {
                         Vm.MinerProfile.CoinVm = selectedResult;
                         popup.IsOpen = false;
                     }
@@ -164,8 +164,8 @@ namespace NTMiner.Views.Ucs {
             popup.IsOpen = true;
             var selected = Vm.MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin;
             popup.Child = new CoinSelect(
-                new CoinSelectViewModel(Vm.MinerProfile.CoinVm.CoinKernel.DualCoinGroup.DualCoinVms, selected, onSelectedChanged: selectedResult => {
-                    if (selectedResult != null) {
+                new CoinSelectViewModel(Vm.MinerProfile.CoinVm.CoinKernel.DualCoinGroup.DualCoinVms, selected, onOk: selectedResult => {
+                    if (selectedResult != null && Vm.MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin != selectedResult) {
                         Vm.MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin = selectedResult;
                         popup.IsOpen = false;
                     }
