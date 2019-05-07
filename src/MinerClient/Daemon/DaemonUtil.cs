@@ -115,13 +115,13 @@ namespace NTMiner.Daemon {
             get {
                 if (s_thisNTMinerDaemonFileVersion == null) {
                     try {
-                        string name = "NTMinerDaemon.exe";
+                        string name = "sha1";
                         Type type = typeof(DaemonUtil);
                         Assembly assembly = type.Assembly;
                         using (var stream = assembly.GetManifestResourceStream(type, name)) {
                             byte[] data = new byte[stream.Length];
                             stream.Read(data, 0, data.Length);
-                            s_thisNTMinerDaemonFileVersion = HashUtil.Sha1(data);
+                            s_thisNTMinerDaemonFileVersion = System.Text.Encoding.UTF8.GetString(data);
                         }
                     }
                     catch (Exception e) {
