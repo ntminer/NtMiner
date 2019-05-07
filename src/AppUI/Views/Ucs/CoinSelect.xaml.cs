@@ -9,9 +9,7 @@ namespace NTMiner.Views.Ucs {
             }
         }
 
-        private CoinViewModel _selectedCoin;
         public CoinSelect(CoinSelectViewModel vm) {
-            _selectedCoin = vm.SelectedResult;
             this.DataContext = vm;
             InitializeComponent();
         }

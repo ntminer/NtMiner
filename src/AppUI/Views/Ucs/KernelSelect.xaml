@@ -70,6 +70,8 @@
 			Margin="0" 
 			ItemsSource="{Binding QueryResults}" 
 			SelectedItem="{Binding SelectedResult}"
+			MouseUp="DataGrid_MouseUp"
+			PreviewKeyDown="DataGrid_PreviewKeyDown"
 			ColumnHeaderHeight="0"
 			BorderThickness="0">
 			<DataGrid.Resources>

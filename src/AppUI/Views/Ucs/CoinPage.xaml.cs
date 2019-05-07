@@ -78,7 +78,7 @@ namespace NTMiner.Views.Ucs {
                 return;
             }
             PopupKernel.Child = new KernelSelect(
-                new KernelSelectViewModel(coinVm, null, onSelectedKernelChanged: selectedResult => {
+                new KernelSelectViewModel(coinVm, null, onOk: selectedResult => {
                     if (selectedResult != null) {
                         int sortNumber = coinVm.CoinKernels.Count == 0 ? 1 : coinVm.CoinKernels.Max(a => a.SortNumber) + 1;
                         VirtualRoot.Execute(new AddCoinKernelCommand(new CoinKernelViewModel(Guid.NewGuid()) {

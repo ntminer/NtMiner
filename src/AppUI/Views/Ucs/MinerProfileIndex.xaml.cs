@@ -85,9 +85,11 @@ namespace NTMiner.Views.Ucs {
             popup.IsOpen = true;
             var selected = coinVm.CoinKernel;
             popup.Child = new CoinKernelSelect(
-                new CoinKernelSelectViewModel(coinVm, selected, onSelectedChanged: selectedResult => {
+                new CoinKernelSelectViewModel(coinVm, selected, onOk: selectedResult => {
                     if (selectedResult != null) {
-                        coinVm.CoinKernel = selectedResult;
+                        if (selectedResult != coinVm.CoinKernel) {
+                            coinVm.CoinKernel = selectedResult;
+                        }
                         popup.IsOpen = false;
                     }
                 }) {
@@ -106,9 +108,11 @@ namespace NTMiner.Views.Ucs {
             popup.IsOpen = true;
             var selected = coinVm.CoinProfile.MainCoinPool;
             popup.Child = new PoolSelect(
-                new PoolSelectViewModel(coinVm, selected, onSelectedChanged: selectedResult => {
+                new PoolSelectViewModel(coinVm, selected, onOk: selectedResult => {
                     if (selectedResult != null) {
-                        coinVm.CoinProfile.MainCoinPool = selectedResult;
+                        if (coinVm.CoinProfile.MainCoinPool != selectedResult) {
+                            coinVm.CoinProfile.MainCoinPool = selectedResult;
+                        }
                         popup.IsOpen = false;
                     }
                 }) {
@@ -127,9 +131,11 @@ namespace NTMiner.Views.Ucs {
             popup.IsOpen = true;
             var selected = coinVm.CoinProfile.DualCoinPool;
             popup.Child = new PoolSelect(
-                new PoolSelectViewModel(coinVm, selected, onSelectedChanged: selectedResult => {
+                new PoolSelectViewModel(coinVm, selected, onOk: selectedResult => {
                     if (selectedResult != null) {
-                        coinVm.CoinProfile.DualCoinPool = selectedResult;
+                        if (coinVm.CoinProfile.DualCoinPool != selectedResult) {
+                            coinVm.CoinProfile.DualCoinPool = selectedResult;
+                        }
                         popup.IsOpen = false;
                     }
                 }) {
@@ -186,9 +192,11 @@ namespace NTMiner.Views.Ucs {
             var selected = coinVm.CoinProfile.SelectedWallet;
             bool isDualCoin = false;
             popup.Child = new WalletSelect(
-                new WalletSelectViewModel(coinVm, isDualCoin, selected, onSelectedChanged: selectedResult => {
+                new WalletSelectViewModel(coinVm, isDualCoin, selected, onOk: selectedResult => {
                     if (selectedResult != null) {
-                        coinVm.CoinProfile.SelectedWallet = selectedResult;
+                        if (coinVm.CoinProfile.SelectedWallet != selectedResult) {
+                            coinVm.CoinProfile.SelectedWallet = selectedResult;
+                        }
                         popup.IsOpen = false;
                     }
                 }) {
@@ -208,9 +216,11 @@ namespace NTMiner.Views.Ucs {
             var selected = coinVm.CoinProfile.SelectedDualCoinWallet;
             bool isDualCoin = true;
             popup.Child = new WalletSelect(
-                new WalletSelectViewModel(coinVm, isDualCoin, selected, onSelectedChanged: selectedResult => {
+                new WalletSelectViewModel(coinVm, isDualCoin, selected, onOk: selectedResult => {
                     if (selectedResult != null) {
-                        coinVm.CoinProfile.SelectedDualCoinWallet = selectedResult;
+                        if (coinVm.CoinProfile.SelectedDualCoinWallet != selectedResult) {
+                            coinVm.CoinProfile.SelectedDualCoinWallet = selectedResult;
+                        }
                         popup.IsOpen = false;
                     }
                 }) {

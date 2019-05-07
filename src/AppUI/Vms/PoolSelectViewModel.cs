@@ -7,14 +7,14 @@ namespace NTMiner.Vms {
     public class PoolSelectViewModel : ViewModelBase {
         private CoinViewModel _coin;
         private PoolViewModel _selectedResult;
-        private readonly Action<PoolViewModel> _onSelectedChanged;
+        public readonly Action<PoolViewModel> OnOk;
 
         public ICommand HideView { get; set; }
 
-        public PoolSelectViewModel(CoinViewModel coin, PoolViewModel selected, Action<PoolViewModel> onSelectedChanged) {
+        public PoolSelectViewModel(CoinViewModel coin, PoolViewModel selected, Action<PoolViewModel> onOk) {
             _coin = coin;
             _selectedResult = selected;
-            _onSelectedChanged = onSelectedChanged;
+            OnOk = onOk;
         }
 
         public PoolViewModel SelectedResult {
@@ -23,7 +23,6 @@ namespace NTMiner.Vms {
                 if (_selectedResult != value) {
                     _selectedResult = value;
                     OnPropertyChanged(nameof(SelectedResult));
-                    _onSelectedChanged?.Invoke(value);
                 }
             }
         }

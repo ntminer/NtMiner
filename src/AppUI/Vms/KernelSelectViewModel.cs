@@ -8,15 +8,15 @@ namespace NTMiner.Vms {
         private string _keyword;
         private CoinViewModel _coin;
         private KernelViewModel _selectedResult;
-        private readonly Action<KernelViewModel> _onSelectedKernelChanged;
+        public readonly Action<KernelViewModel> OnOk;
 
         public ICommand ClearKeyword { get; private set; }
         public ICommand HideView { get; set; }
 
-        public KernelSelectViewModel(CoinViewModel coin, KernelViewModel selectedKernel, Action<KernelViewModel> onSelectedKernelChanged) {
+        public KernelSelectViewModel(CoinViewModel coin, KernelViewModel selectedKernel, Action<KernelViewModel> onOk) {
             _coin = coin;
             _selectedResult = selectedKernel;
-            _onSelectedKernelChanged = onSelectedKernelChanged;
+            OnOk = onOk;
             this.ClearKeyword = new DelegateCommand(() => {
                 this.Keyword = string.Empty;
             });
@@ -28,7 +28,6 @@ namespace NTMiner.Vms {
                 if (_selectedResult != value) {
                     _selectedResult = value;
                     OnPropertyChanged(nameof(SelectedResult));
-                    _onSelectedKernelChanged?.Invoke(value);
                 }
             }
         }

@@ -8,16 +8,16 @@ namespace NTMiner.Vms {
         private CoinViewModel _coin;
         private readonly bool _isDualCoin;
         private WalletViewModel _selectedResult;
-        private readonly Action<WalletViewModel> _onSelectedChanged;
+        public readonly Action<WalletViewModel> OnOk;
 
         public ICommand AddWallet { get; private set; }
         public ICommand HideView { get; set; }
 
-        public WalletSelectViewModel(CoinViewModel coin, bool isDualCoin, WalletViewModel selected, Action<WalletViewModel> onSelectedChanged) {
+        public WalletSelectViewModel(CoinViewModel coin, bool isDualCoin, WalletViewModel selected, Action<WalletViewModel> onOk) {
             _coin = coin;
             _isDualCoin = isDualCoin;
             _selectedResult = selected;
-            _onSelectedChanged = onSelectedChanged;
+            OnOk = onOk;
             if (_isDualCoin) {
                 this.AddWallet = _coin.CoinProfile.AddDualCoinWallet;
             }
@@ -32,7 +32,6 @@ namespace NTMiner.Vms {
                 if (_selectedResult != value) {
                     _selectedResult = value;
                     OnPropertyChanged(nameof(SelectedResult));
-                    _onSelectedChanged?.Invoke(value);
                 }
             }
         }
