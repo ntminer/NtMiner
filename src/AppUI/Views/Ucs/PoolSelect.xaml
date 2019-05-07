@@ -13,7 +13,7 @@
 		Background="White"
 		mc:Ignorable="d" 
 		d:DesignHeight="300"
-		MaxHeight="320" Width="300">
+		MaxHeight="320">
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"></RowDefinition>
@@ -83,7 +83,7 @@
 			ColumnHeaderHeight="0"
 			BorderThickness="0">
 			<DataGrid.Columns>
-				<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn Width="130" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel>
@@ -103,7 +103,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Width="*" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn Width="200" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
 						<TextBlock Text="地址"></TextBlock>
 					</DataGridTemplateColumn.Header>
