@@ -10,7 +10,7 @@
 			 mc:Ignorable="d" 
 			 BorderBrush="{StaticResource LineColor}"
 			 TextOptions.TextFormattingMode="Display"  
-			 d:DesignWidth="330" d:DesignHeight="350">
+			 d:DesignWidth="330">
 	<UserControl.DataContext>
 		<vm:MinerProfileIndexViewModel></vm:MinerProfileIndexViewModel>
 	</UserControl.DataContext>
@@ -326,52 +326,52 @@
 							Placement="Bottom" 
 							StaysOpen="False"></Popup>
 					</WrapPanel>
-					<WrapPanel 
-						Margin="4 0 0 0"
+				</WrapPanel>
+				<WrapPanel 
+					Margin="0 2"
+					IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}" 
+					Visibility="{Binding MinerProfile.CoinVm.CoinKernel.IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}">
+					<TextBlock Style="{StaticResource LblTb}" />
+					<CheckBox
 						VerticalAlignment="Center"
-						IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}" 
-						Visibility="{Binding MinerProfile.CoinVm.CoinKernel.IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}">
+						Content="双挖"
+						IsChecked="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled}" />
+					<WrapPanel
+						Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
+						<TextBlock
+							Style="{StaticResource LblTb}"
+							Width="Auto"
+							Text="权重" />
 						<CheckBox
-							Content="启用双挖"
-							IsChecked="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled}" />
+							Content="自动权重"
+							VerticalContentAlignment="Center"
+							IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}"
+							Visibility="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.KernelInputVm.IsAutoDualWeight, Converter={StaticResource BoolToVisibilityConverter}}"
+							IsChecked="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsAutoDualWeight}" />
+						<WrapPanel 
+							Margin="4 0 0 0"
+							VerticalAlignment="Center"
+							Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsAutoDualWeight, Converter={StaticResource BoolToVisibilityInvertConverter}}">
+							<Slider 
+								x:Name="dualCoinWeightSlider" 
+								Minimum="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.KernelInputVm.DualWeightMin}" 
+								Maximum="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.KernelInputVm.DualWeightMax}" 
+								Width="100"
+								IsSnapToTickEnabled="True"
+								ToolTip="注意：调整双挖权重可能导致挖矿失败，请注意观察。"
+								LostFocus="DualCoinWeightSlider_LostFocus"
+								Value="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.DualCoinWeight}"
+								IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}"></Slider>
+							<TextBox 
+								Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.DualCoinWeight, UpdateSourceTrigger=PropertyChanged}"
+								LostFocus="DualCoinWeightSlider_LostFocus"></TextBox>
+							<TextBlock Text="%"></TextBlock>
+						</WrapPanel>
 					</WrapPanel>
 				</WrapPanel>
-
 				<WrapPanel
 					Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
 					<StackPanel Visibility="{Binding MinerProfile.CoinVm.CoinKernel.IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}">
-						<WrapPanel 
-							Margin="0 2"
-							VerticalAlignment="Center">
-							<TextBlock
-								Style="{StaticResource LblTb}"
-								Text="双挖权重" />
-							<CheckBox
-								Content="自动权重"
-								VerticalContentAlignment="Center"
-								IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}"
-								Visibility="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.KernelInputVm.IsAutoDualWeight, Converter={StaticResource BoolToVisibilityConverter}}"
-								IsChecked="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsAutoDualWeight}" />
-							<WrapPanel 
-								Margin="4 0 0 0"
-								VerticalAlignment="Center"
-								Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsAutoDualWeight, Converter={StaticResource BoolToVisibilityInvertConverter}}">
-								<Slider 
-									x:Name="dualCoinWeightSlider" 
-									Minimum="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.KernelInputVm.DualWeightMin}" 
-									Maximum="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.KernelInputVm.DualWeightMax}" 
-									Width="100"
-									IsSnapToTickEnabled="True"
-									ToolTip="注意：调整双挖权重可能导致挖矿失败，请注意观察。"
-									LostFocus="DualCoinWeightSlider_LostFocus"
-									Value="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.DualCoinWeight}"
-									IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}"></Slider>
-								<TextBox 
-									Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.DualCoinWeight, UpdateSourceTrigger=PropertyChanged}"
-									LostFocus="DualCoinWeightSlider_LostFocus"></TextBox>
-								<TextBlock Text="%"></TextBlock>
-							</WrapPanel>
-						</WrapPanel>
 						<WrapPanel Margin="0 2">
 							<TextBlock
 								Style="{StaticResource LblTb}"
