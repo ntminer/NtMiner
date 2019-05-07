@@ -20,7 +20,7 @@
 	</UserControl.Resources>
 	<Grid>
 		<TabControl 
-			Padding="0" BorderThickness="0" 
+			Padding="0" BorderThickness="0" Background="White"
 			BorderBrush="{StaticResource LineColor}">
 			<TabItem>
 				<TabItem.Header>
