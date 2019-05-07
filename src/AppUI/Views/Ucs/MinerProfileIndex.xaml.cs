@@ -87,7 +87,7 @@ namespace NTMiner.Views.Ucs {
             popup.Child = new CoinKernelSelect(
                 new CoinKernelSelectViewModel(coinVm, selected, onOk: selectedResult => {
                     if (selectedResult != null) {
-                        if (selectedResult != coinVm.CoinKernel) {
+                        if (coinVm.CoinKernel != selectedResult) {
                             coinVm.CoinKernel = selectedResult;
                         }
                         popup.IsOpen = false;
@@ -152,7 +152,9 @@ namespace NTMiner.Views.Ucs {
             popup.Child = new CoinSelect(
                 new CoinSelectViewModel(AppContext.Instance.CoinVms.MainCoins.Where(a => a.IsSupported), selected, onOk: selectedResult => {
                     if (selectedResult != null) {
-                        Vm.MinerProfile.CoinVm = selectedResult;
+                        if (Vm.MinerProfile.CoinVm != selectedResult) {
+                            Vm.MinerProfile.CoinVm = selectedResult;
+                        }
                         popup.IsOpen = false;
                     }
                 }) {
