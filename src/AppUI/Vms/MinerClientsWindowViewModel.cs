@@ -471,11 +471,9 @@ namespace NTMiner.Vms {
         public int MinerClientPageIndex {
             get => _minerClientPageIndex;
             set {
-                if (_minerClientPageIndex != value) {
-                    _minerClientPageIndex = value;
-                    OnPropertyChanged(nameof(MinerClientPageIndex));
-                    QueryMinerClients();
-                }
+                _minerClientPageIndex = value;
+                OnPropertyChanged(nameof(MinerClientPageIndex));
+                QueryMinerClients();
             }
         }
 
