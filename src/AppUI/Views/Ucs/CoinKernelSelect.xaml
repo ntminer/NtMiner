@@ -13,7 +13,7 @@
 		Background="White"
 		mc:Ignorable="d" 
 		d:DesignHeight="300"
-		MaxHeight="320" Width="300">
+		MaxHeight="320">
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"></RowDefinition>
@@ -75,25 +75,16 @@
 			SelectedItem="{Binding SelectedResult}"
 			MouseUp="DataGrid_MouseUp"
 			PreviewKeyDown="DataGrid_PreviewKeyDown"
-			ColumnHeaderHeight="0"
 			BorderThickness="0">
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Width="*" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<WrapPanel>
-							<TextBlock>编码</TextBlock>
-						</WrapPanel>
-					</DataGridTemplateColumn.Header>
+				<DataGridTemplateColumn Width="200" Header="名称" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding Kernel.FullName}" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"></TextBlock>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Width="54" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<TextBlock>显卡</TextBlock>
-					</DataGridTemplateColumn.Header>
+				<DataGridTemplateColumn Width="54" Header="显卡" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel>
@@ -119,10 +110,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<TextBlock>双挖</TextBlock>
-					</DataGridTemplateColumn.Header>
+				<DataGridTemplateColumn Width="40" Header="双挖" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<Path

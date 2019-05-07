@@ -80,10 +80,9 @@
 			SelectedItem="{Binding SelectedResult}"
 			MouseUp="DataGrid_MouseUp"
 			PreviewKeyDown="DataGrid_PreviewKeyDown"
-			ColumnHeaderHeight="0"
 			BorderThickness="0">
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Width="130" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn Width="130" Header="名称" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel>
