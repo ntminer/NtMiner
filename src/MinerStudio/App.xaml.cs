@@ -75,7 +75,7 @@ namespace NTMiner {
                                     Dispatcher.Invoke((ThreadStart)ChartsWindow.ShowWindow);
                                 });
                             #endregion
-                            HttpServer.Start($"http://localhost:{WebApiConst.MinerStudioPort}");
+                            HttpServer.Start($"http://localhost:{Consts.MinerStudioPort}");
                             AppHelper.RemoteDesktop = MsRdpRemoteDesktop.OpenRemoteDesktop;
                         }
                     });

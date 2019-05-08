@@ -45,7 +45,7 @@ namespace NTMiner {
             try {
                 switch (appType) {
                     case NTMinerAppType.MinerClient:
-                        Client.MinerClientService.ShowMainWindowAsync(WebApiConst.MinerClientPort, (isSuccess, exception) => {
+                        Client.MinerClientService.ShowMainWindowAsync(Consts.MinerClientPort, (isSuccess, exception) => {
                             if (!isSuccess) {
                                 RestartNTMiner();
                             }
@@ -55,7 +55,7 @@ namespace NTMiner {
                         });
                         break;
                     case NTMinerAppType.MinerStudio:
-                        Client.MinerStudioService.ShowMainWindowAsync(WebApiConst.MinerStudioPort, (isSuccess, exception) => {
+                        Client.MinerStudioService.ShowMainWindowAsync(Consts.MinerStudioPort, (isSuccess, exception) => {
                             if (!isSuccess) {
                                 RestartNTMiner();
                             }

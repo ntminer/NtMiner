@@ -77,10 +77,10 @@ namespace NTMiner.Vms {
                             }
                             try {
                                 if (File.Exists(location)) {
-                                    Guid kernelBrandId = VirtualRoot.GetBrandId(location, "KernelBrandId");
+                                    Guid kernelBrandId = VirtualRoot.GetBrandId(location, Consts.KernelBrandId);
                                     if (kernelBrandId != Guid.Empty) {
                                         Logger.InfoDebugLine("打码开始");
-                                        VirtualRoot.TagKernelBrandId(kernelBrandId, saveFileFullName, saveFileFullName);
+                                        VirtualRoot.TagKernelBrandId(Consts.KernelBrandId, kernelBrandId, saveFileFullName, saveFileFullName);
                                         Logger.OkDebugLine("打码成功");
                                     }
                                 }

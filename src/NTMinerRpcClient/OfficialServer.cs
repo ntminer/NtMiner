@@ -21,7 +21,7 @@ namespace NTMiner {
                             client.Timeout = TimeSpan.FromMilliseconds(timeountMilliseconds);
                         }
                         Task<HttpResponseMessage> message =
-                            client.PostAsJsonAsync($"http://{AssemblyInfo.OfficialServerHost}:{WebApiConst.ControlCenterPort}/api/{controller}/{action}", param);
+                            client.PostAsJsonAsync($"http://{AssemblyInfo.OfficialServerHost}:{Consts.ControlCenterPort}/api/{controller}/{action}", param);
                         T response = message.Result.Content.ReadAsAsync<T>().Result;
                         callback?.Invoke(response, null);
                     }
@@ -43,7 +43,7 @@ namespace NTMiner {
                         }
 
                         Task<HttpResponseMessage> message =
-                            client.GetAsync($"http://{AssemblyInfo.OfficialServerHost}:{WebApiConst.ControlCenterPort}/api/{controller}/{action}{queryString}");
+                            client.GetAsync($"http://{AssemblyInfo.OfficialServerHost}:{Consts.ControlCenterPort}/api/{controller}/{action}{queryString}");
                         T response = message.Result.Content.ReadAsAsync<T>().Result;
                         callback?.Invoke(response, null);
                     }

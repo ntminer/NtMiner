@@ -90,7 +90,7 @@ namespace NTMiner {
                             splashWindow?.Close();
                             Task.Factory.StartNew(() => {
                                 try {
-                                    HttpServer.Start($"http://localhost:{WebApiConst.MinerClientPort}");
+                                    HttpServer.Start($"http://localhost:{Consts.MinerClientPort}");
                                     NTMinerRoot.Instance.Start();
                                 }
                                 catch (Exception ex) {

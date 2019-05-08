@@ -38,7 +38,7 @@ namespace NTMiner.Vms {
 
         public int ControlCenterPort {
             get {
-                return WebApiConst.ControlCenterPort;
+                return Consts.ControlCenterPort;
             }
         }
     }

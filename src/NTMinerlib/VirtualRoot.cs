@@ -27,7 +27,7 @@ namespace NTMiner {
         public static Guid KernelBrandId {
             get {
                 if (!kernelBrandId.HasValue) {
-                    kernelBrandId = GetBrandId(AppFileFullName, "KernelBrandId");
+                    kernelBrandId = GetBrandId(AppFileFullName, Consts.KernelBrandId);
                 }
                 return kernelBrandId.Value;
             }
@@ -37,7 +37,7 @@ namespace NTMiner {
         public static Guid PoolBrandId {
             get {
                 if (!poolBrandId.HasValue) {
-                    poolBrandId = GetBrandId(AppFileFullName, "PoolBrandId");
+                    poolBrandId = GetBrandId(AppFileFullName, Consts.PoolBrandId);
                 }
                 return poolBrandId.Value;
             }
@@ -229,9 +229,9 @@ namespace NTMiner {
             SMessageDispatcher.UnRegister(handler);
         }
 
-        public static void TagKernelBrandId(Guid kernelBrandId, string inputFileFullName, string outFileFullName) {
-            string brand = $"KernelBrandId{kernelBrandId}KernelBrandId";
-            string rawBrand = $"KernelBrandId{KernelBrandId}KernelBrandId";
+        public static void TagKernelBrandId(string brandKeyword, Guid brandId, string inputFileFullName, string outFileFullName) {
+            string brand = $"{brandKeyword}{brandId}{brandKeyword}";
+            string rawBrand = $"{brandKeyword}{KernelBrandId}{brandKeyword}";
             byte[] data = Encoding.UTF8.GetBytes(brand);
             byte[] rawData = Encoding.UTF8.GetBytes(rawBrand);
             if (data.Length != rawData.Length) {

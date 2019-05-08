@@ -69,7 +69,7 @@ namespace NTMiner.Vms {
                 string outFileName = Path.GetFileNameWithoutExtension(VirtualRoot.AppFileFullName) + $"_{brandItem.Value}.exe";
                 string outDir = Path.GetDirectoryName(VirtualRoot.AppFileFullName);
                 string outFileFullName = Path.Combine(outDir, outFileName);
-                VirtualRoot.TagKernelBrandId(brandItem.GetId(), VirtualRoot.AppFileFullName, outFileFullName);
+                VirtualRoot.TagKernelBrandId(Consts.KernelBrandId, brandItem.GetId(), VirtualRoot.AppFileFullName, outFileFullName);
                 NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage($"打码成功:{outFileName}");
                 Process.Start(outDir);
             });

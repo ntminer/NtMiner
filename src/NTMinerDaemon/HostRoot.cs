@@ -103,7 +103,7 @@ namespace NTMiner {
 
         private static void Run() {
             try {
-                HttpServer.Start($"http://localhost:{WebApiConst.NTMinerDaemonPort}");
+                HttpServer.Start($"http://localhost:{Consts.NTMinerDaemonPort}");
                 Windows.ConsoleHandler.Register(Close);
                 _waitHandle.WaitOne();
                 Close();
