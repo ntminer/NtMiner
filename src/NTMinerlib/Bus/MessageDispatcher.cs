@@ -9,10 +9,6 @@ namespace NTMiner.Bus {
         private readonly object _locker = new object();
 
         #region IMessageDispatcher Members
-        public bool HasSubscriber<TMessage>() {
-            return _handlers.ContainsKey(typeof(TMessage));
-        }
-
         public void DispatchMessage<TMessage>(TMessage message) {
             if (message == null) {
                 throw new ArgumentNullException(nameof(message));

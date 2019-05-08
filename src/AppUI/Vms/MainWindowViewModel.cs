@@ -50,10 +50,17 @@ namespace NTMiner.Vms {
 
         public string BrandTitle {
             get {
-                if (VirtualRoot.KernelBrandId == Guid.Empty) {
+                if (VirtualRoot.KernelBrandId == Guid.Empty && VirtualRoot.PoolBrandId == Guid.Empty) {
                     return string.Empty;
                 }
-                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(VirtualRoot.KernelBrandId, out ISysDicItem dicItem)) {
+                ISysDicItem dicItem;
+                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(VirtualRoot.KernelBrandId, out dicItem)) {
+                    if (!string.IsNullOrEmpty(dicItem.Value)) {
+                        return dicItem.Value + "专版";
+                    }
+                    return dicItem.Code + "专版";
+                }
+                else if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(VirtualRoot.PoolBrandId, out dicItem)) {
                     if (!string.IsNullOrEmpty(dicItem.Value)) {
                         return dicItem.Value + "专版";
                     }

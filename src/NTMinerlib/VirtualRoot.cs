@@ -27,9 +27,19 @@ namespace NTMiner {
         public static Guid KernelBrandId {
             get {
                 if (!kernelBrandId.HasValue) {
-                    kernelBrandId = GetKernelBrandId(AppFileFullName);
+                    kernelBrandId = GetBrandId(AppFileFullName, "KernelBrandId");
                 }
                 return kernelBrandId.Value;
+            }
+        }
+
+        private static Guid? poolBrandId = null;
+        public static Guid PoolBrandId {
+            get {
+                if (!poolBrandId.HasValue) {
+                    poolBrandId = GetBrandId(AppFileFullName, "PoolBrandId");
+                }
+                return poolBrandId.Value;
             }
         }
 
@@ -186,10 +196,6 @@ namespace NTMiner {
             SCommandBus.Commit();
         }
 
-        public static bool HasSubscriber<TMessage>() {
-            return SMessageDispatcher.HasSubscriber<TMessage>();
-        }
-
         // 修建消息（命令或事件）的运动路径
         public static DelegateHandler<TMessage> Path<TMessage>(string description, LogEnum logType, Action<TMessage> action) {
             StackTrace ss = new StackTrace(false);
@@ -251,9 +257,10 @@ namespace NTMiner {
             File.WriteAllBytes(outFileFullName, source);
         }
 
-        public static Guid GetKernelBrandId(string fileFullName) {
-            int LEN = "KernelBrandId".Length;
-            string rawBrand = $"KernelBrandId{Guid.Empty}KernelBrandId";
+        public static Guid GetBrandId(string fileFullName, string keyword) {
+            // TODO:优化，如果fileFullName和当前AppFileFullName一样的话直接从嵌入的资源文件读取
+            int LEN = keyword.Length;
+            string rawBrand = $"{keyword}{Guid.Empty}{keyword}";
             byte[] rawData = Encoding.UTF8.GetBytes(rawBrand);
             int len = rawData.Length;
             byte[] source = File.ReadAllBytes(fileFullName);

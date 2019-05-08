@@ -148,6 +148,7 @@
     <None Include="app.manifest" />
     <EmbeddedResource Include="Brand\KernelBrand.id" />
     <EmbeddedResource Include="Daemon\sha1" />
+    <EmbeddedResource Include="Brand\PoolBrand.id" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
