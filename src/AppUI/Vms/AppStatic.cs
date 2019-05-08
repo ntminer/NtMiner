@@ -314,7 +314,7 @@ namespace NTMiner.Vms {
         public static ICommand ShowKernelInputs { get; private set; } = new DelegateCommand(KernelInputPage.ShowWindow);
         public static ICommand ShowKernelOutputs { get; private set; } = new DelegateCommand<KernelOutputViewModel>(KernelOutputPage.ShowWindow);
         public static ICommand ShowKernels { get; private set; } = new DelegateCommand(() => {
-            KernelPage.ShowWindow(Guid.Empty);
+            KernelsWindow.ShowWindow(Guid.Empty);
         });
         public static ICommand ShowAbout { get; private set; } = new DelegateCommand<string>(AboutPage.ShowWindow);
         public static ICommand ShowSpeedChart { get; private set; } = new DelegateCommand(() => {

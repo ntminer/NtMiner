@@ -9,7 +9,7 @@ using System.Windows;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class KernelPageViewModel : ViewModelBase {
+    public class KernelsWindowViewModel : ViewModelBase {
         private string _keyword;
         private List<KernelMenu> _kernelMenus = new List<KernelMenu>();
         private KernelMenu _currentKernelMenu;
@@ -35,7 +35,7 @@ namespace NTMiner.Vms {
         private readonly KernelMenu _repositoryKernelMenu = new KernelMenu("宝库", "Icon_Kernel");
         private readonly KernelMenu _uninstallKernelMenu = new KernelMenu("卸载", "Icon_Delete");
 
-        public KernelPageViewModel() {
+        public KernelsWindowViewModel() {
             if (Design.IsInDesignMode) {
                 return;
             }

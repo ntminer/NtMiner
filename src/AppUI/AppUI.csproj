@@ -400,8 +400,8 @@
     <Compile Include="Vms\StateBarViewModel.cs" />
     <Compile Include="Vms\GroupPageViewModel.cs" />
     <Compile Include="Vms\Drives\VirtualMemory.cs" />
-    <Compile Include="Views\Ucs\KernelPage.xaml.cs">
-      <DependentUpon>KernelPage.xaml</DependentUpon>
+    <Compile Include="Views\KernelsWindow.xaml.cs">
+      <DependentUpon>KernelsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Ucs\WalletEdit.xaml.cs">
       <DependentUpon>WalletEdit.xaml</DependentUpon>
@@ -442,7 +442,7 @@
     <Compile Include="Vms\GpuSpeedViewModel.cs" />
     <Compile Include="Vms\GpuViewModel.cs" />
     <Compile Include="Vms\MinerProfileIndexViewModel.cs" />
-    <Compile Include="Vms\KernelPageViewModel.cs" />
+    <Compile Include="Vms\KernelsWindowViewModel.cs" />
     <Compile Include="Vms\CoinKernelViewModel.cs" />
     <Compile Include="Vms\MainWindowViewModel.cs" />
     <Compile Include="Vms\PoolViewModel.cs" />
@@ -500,7 +500,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Ucs\Design\KernelPageViewModel.xaml">
+    <Page Include="Views\Design\KernelsWindowViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -776,7 +776,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Ucs\KernelPage.xaml">
+    <Page Include="Views\KernelsWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

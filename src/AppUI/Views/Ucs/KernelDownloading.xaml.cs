@@ -3,9 +3,9 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class KernelDownloading : UserControl {
-        public KernelPageViewModel Vm {
+        public KernelsWindowViewModel Vm {
             get {
-                return (KernelPageViewModel)this.DataContext;
+                return (KernelsWindowViewModel)this.DataContext;
             }
         }
 

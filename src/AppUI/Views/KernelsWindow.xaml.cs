@@ -3,8 +3,8 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace NTMiner.Views.Ucs {
-    public partial class KernelPage : UserControl {
+namespace NTMiner.Views {
+    public partial class KernelsWindow : UserControl {
         public static void ShowWindow(Guid kernelId, Action<bool, string> downloadComplete = null) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "内核",
@@ -16,17 +16,17 @@ namespace NTMiner.Views.Ucs {
                 Height = AppStatic.MainWindowHeight
             },
             ucFactory: (window) => {
-                var uc = new KernelPage {
+                var uc = new KernelsWindow {
                     CloseWindow = () => window.Close()
                 };
                 return uc;
             },
             beforeShow: uc => {
                 if (kernelId != Guid.Empty) {
-                    KernelPageViewModel vm = (KernelPageViewModel)uc.DataContext;
+                    KernelsWindowViewModel vm = (KernelsWindowViewModel)uc.DataContext;
                     vm.Download(kernelId, (isSuccess, message) => {
                         if (isSuccess) {
-                            ((KernelPage)uc).CloseWindow();
+                            ((KernelsWindow)uc).CloseWindow();
                         }
                         downloadComplete(isSuccess, message);
                     });
@@ -36,13 +36,13 @@ namespace NTMiner.Views.Ucs {
 
         public Action CloseWindow { get; set; }
 
-        public KernelPageViewModel Vm {
+        public KernelsWindowViewModel Vm {
             get {
-                return (KernelPageViewModel)this.DataContext;
+                return (KernelsWindowViewModel)this.DataContext;
             }
         }
 
-        public KernelPage() {
+        public KernelsWindow() {
             InitializeComponent();
             AppContext.Instance.KernelVms.PropertyChanged += Current_PropertyChanged;
             this.Unloaded += KernelPage_Unloaded;

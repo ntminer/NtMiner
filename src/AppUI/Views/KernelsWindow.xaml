@@ -1,5 +1,5 @@
 ﻿<UserControl
-	x:Class="NTMiner.Views.Ucs.KernelPage"
+	x:Class="NTMiner.Views.KernelsWindow"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -13,7 +13,7 @@
 	TextOptions.TextFormattingMode="Display" 
 	d:DesignHeight="520" d:DesignWidth="1200">
 	<UserControl.DataContext>
-		<vm:KernelPageViewModel></vm:KernelPageViewModel>
+		<vm:KernelsWindowViewModel></vm:KernelsWindowViewModel>
 	</UserControl.DataContext>
 	<Grid>
 		<DockPanel>
