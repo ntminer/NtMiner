@@ -74,7 +74,7 @@
 						<Path 
 							Width="12"
 							Height="12"
-							Data="{StaticResource Icon_Kernel}"
+							Data="{StaticResource Icon_Coin}"
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
 						<TextBlock
