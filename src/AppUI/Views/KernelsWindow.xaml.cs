@@ -1,40 +1,40 @@
-﻿using NTMiner.Vms;
+﻿using MahApps.Metro.Controls;
+using NTMiner.Vms;
 using System;
 using System.Windows;
-using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace NTMiner.Views {
-    public partial class KernelsWindow : UserControl {
+    public partial class KernelsWindow : MetroWindow {
+        private static readonly object _locker = new object();
+        private static KernelsWindow _instance = null;
         public static void ShowWindow(Guid kernelId, Action<bool, string> downloadComplete = null) {
-            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                Title = "内核",
-                IconName = "Icon_Logo",
-                CloseVisible = Visibility.Visible,
-                HeaderVisible = Visibility.Collapsed,
-                FooterVisible = Visibility.Collapsed,
-                Width = DevMode.IsDebugMode ? 1200 : AppStatic.MainWindowWidth,
-                Height = AppStatic.MainWindowHeight
-            },
-            ucFactory: (window) => {
-                var uc = new KernelsWindow {
-                    CloseWindow = () => window.Close()
-                };
-                return uc;
-            },
-            beforeShow: uc => {
-                if (kernelId != Guid.Empty) {
-                    KernelsWindowViewModel vm = (KernelsWindowViewModel)uc.DataContext;
-                    vm.Download(kernelId, (isSuccess, message) => {
-                        if (isSuccess) {
-                            ((KernelsWindow)uc).CloseWindow();
+            UIThread.Execute(() => {
+                if (_instance == null) {
+                    lock (_locker) {
+                        if (_instance == null) {
+                            _instance = new KernelsWindow();
+                            _instance.Show();
                         }
-                        downloadComplete(isSuccess, message);
-                    });
+                    }
                 }
-            }, fixedSize: false);
+                else {
+                    AppHelper.ShowWindow(_instance, false);
+                }
+                AutoDownload(kernelId, downloadComplete);
+            });
         }
 
-        public Action CloseWindow { get; set; }
+        private static void AutoDownload(Guid kernelId, Action<bool, string> downloadComplete) {
+            if (kernelId != Guid.Empty) {
+                _instance.Vm.Download(kernelId, (isSuccess, message) => {
+                    if (isSuccess) {
+                        _instance.Close();
+                    }
+                    downloadComplete(isSuccess, message);
+                });
+            }
+        }
 
         public KernelsWindowViewModel Vm {
             get {
@@ -44,18 +44,22 @@ namespace NTMiner.Views {
 
         public KernelsWindow() {
             InitializeComponent();
+            if (DevMode.IsDevMode) {
+                this.Width += 300;
+            }
             AppContext.Instance.KernelVms.PropertyChanged += Current_PropertyChanged;
-            this.Unloaded += KernelPage_Unloaded;
             AppContext.Instance.KernelVms.IsDownloadingChanged += Current_IsDownloadingChanged;
+        }
+
+        protected override void OnClosed(EventArgs e) {
+            AppContext.Instance.KernelVms.PropertyChanged -= Current_PropertyChanged;
+            AppContext.Instance.KernelVms.IsDownloadingChanged -= Current_IsDownloadingChanged;
+            base.OnClosed(e);
+            _instance = null;
         }
 
         private void Current_IsDownloadingChanged(KernelViewModel obj) {
             Vm.OnPropertyChanged(nameof(Vm.DownloadingVms));
-        }
-
-        private void KernelPage_Unloaded(object sender, RoutedEventArgs e) {
-            AppContext.Instance.KernelVms.PropertyChanged -= Current_PropertyChanged;
-            AppContext.Instance.KernelVms.IsDownloadingChanged -= Current_IsDownloadingChanged;
         }
 
         private void Current_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) {
@@ -100,6 +104,12 @@ namespace NTMiner.Views {
 
         private void TbKeyword_LostFocus(object sender, RoutedEventArgs e) {
             Vm.Search.Execute(null);
+        }
+
+        private void MetroWindow_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+            if (e.LeftButton == MouseButtonState.Pressed) {
+                this.DragMove();
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using NTMiner.Vms;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
@@ -15,23 +16,18 @@ namespace NTMiner.Views.Ucs {
 
         private void DataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
             DataGrid dg = (DataGrid)sender;
+            Point p = e.GetPosition(dg);
+            if (p.Y < 30) {
+                return;
+            }
             if (dg.SelectedItem != null) {
                 ((KernelViewModel)dg.SelectedItem).Edit.Execute(FormType.Edit);
             }
+            e.Handled = true;
         }
 
         private void DataGrid_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
             Vm.KernelDownloadingVisible = System.Windows.Visibility.Collapsed;
-        }
-
-        private void ButtonLeftCoin_Click(object sender, System.Windows.RoutedEventArgs e) {
-            ButtonLeft.IsEnabled = Vm.PageNumber != 1;
-            ButtonRight.IsEnabled = Vm.PageNumber != Vm.PageNumbers.Count;
-        }
-
-        private void ButtonRightCoin_Click(object sender, System.Windows.RoutedEventArgs e) {
-            ButtonLeft.IsEnabled = Vm.PageNumber != 1;
-            ButtonRight.IsEnabled = Vm.PageNumber != Vm.PageNumbers.Count;
         }
     }
 }
