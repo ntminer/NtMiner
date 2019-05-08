@@ -323,6 +323,8 @@
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
+							<DataGridTextColumn MinWidth="100" Header="品牌" Binding="{Binding BrandItem.Value}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+							</DataGridTextColumn>
 							<DataGridTemplateColumn Width="*" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 								<DataGridTemplateColumn.Header>
 									<TextBlock Text="地址"></TextBlock>

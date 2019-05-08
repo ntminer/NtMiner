@@ -347,6 +347,7 @@ namespace NTMiner.Vms {
             set {
                 _brandId = value;
                 OnPropertyChanged(nameof(BrandId));
+                OnPropertyChanged(nameof(BrandItem));
             }
         }
 
@@ -366,7 +367,6 @@ namespace NTMiner.Vms {
                     value = SysDicItemViewModel.PleaseSelect;
                 }
                 this.BrandId = value.Id;
-                OnPropertyChanged(nameof(BrandItem));
             }
         }
 
