@@ -16,6 +16,7 @@ namespace NTMiner.Views.Ucs {
         }
 
         public Console() {
+            NTMinerRoot.RefreshArgsAssembly.Invoke();
             InitializeComponent();
             Write.UserLineMethod = WriteLine;
         }

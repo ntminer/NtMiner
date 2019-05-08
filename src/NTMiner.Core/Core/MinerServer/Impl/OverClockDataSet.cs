@@ -75,10 +75,14 @@ namespace NTMiner.Core.MinerServer.Impl {
                         }
                     });
                 });
-            Init();
         }
 
+        private bool _isInited = false;
         private void Init() {
+            if (_isInited) {
+                return;
+            }
+            _isInited = true;
             OfficialServer.OverClockDataService.GetOverClockDatasAsync((response, e) => {
                 if (response.IsSuccess()) {
                     IEnumerable<OverClockData> query;
@@ -98,17 +102,20 @@ namespace NTMiner.Core.MinerServer.Impl {
             });
         }
 
-        public bool TryGetOverClockData(Guid id, out IOverClockData group) {
-            var r = _dicById.TryGetValue(id, out OverClockData g);
-            group = g;
+        public bool TryGetOverClockData(Guid id, out IOverClockData data) {
+            Init();
+            var r = _dicById.TryGetValue(id, out OverClockData temp);
+            data = temp;
             return r;
         }
 
         public IEnumerator<IOverClockData> GetEnumerator() {
+            Init();
             return _dicById.Values.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator() {
+            Init();
             return _dicById.Values.GetEnumerator();
         }
     }

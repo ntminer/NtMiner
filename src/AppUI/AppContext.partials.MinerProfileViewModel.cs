@@ -57,7 +57,6 @@ namespace NTMiner {
                     action: message => {
                         AllPropertyChanged();
                     });
-                NTMinerRoot.RefreshArgsAssembly.Invoke();
 #if DEBUG
                 Write.DevWarn($"耗时{VirtualRoot.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
 #endif
