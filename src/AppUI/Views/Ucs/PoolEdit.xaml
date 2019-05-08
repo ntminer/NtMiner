@@ -34,8 +34,18 @@
 					<StackPanel>
 						<WrapPanel Margin="0 2">
 							<TextBlock Style="{StaticResource LblTb}">所属币种:</TextBlock>
-							<TextBlock VerticalAlignment="Center" Text="{Binding CoinCode}">
+							<TextBlock Width="180" VerticalAlignment="Center" Text="{Binding CoinCode}">
 							</TextBlock>
+							<WrapPanel Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
+								<TextBlock Style="{StaticResource LblTb}" Width="Auto" Text="品牌"></TextBlock>
+								<controls:KbComboBox 
+									BorderThickness="0"
+									Width="120" 
+									Height="26"
+									ItemsSource="{Binding SysDicItemVms.PoolBrandItems}"
+									DisplayMemberPath="Value" SelectedItem="{Binding BrandItem}">
+								</controls:KbComboBox>
+							</WrapPanel>
 						</WrapPanel>
 
 						<WrapPanel Margin="0 2">

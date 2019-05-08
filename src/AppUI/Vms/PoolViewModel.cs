@@ -236,6 +236,12 @@ namespace NTMiner.Vms {
             }
         }
 
+        public AppContext.SysDicItemViewModels SysDicItemVms {
+            get {
+                return AppContext.Instance.SysDicItemVms;
+            }
+        }
+
         public string Name {
             get => _name;
             set {
