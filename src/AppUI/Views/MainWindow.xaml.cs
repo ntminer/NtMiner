@@ -10,7 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace NTMiner.Views {
-    public partial class MainWindow : MetroWindow, IMainWindow {
+    public partial class MainWindow : MetroWindow {
         private MainWindowViewModel Vm {
             get {
                 return (MainWindowViewModel)this.DataContext;
@@ -35,7 +35,7 @@ namespace NTMiner.Views {
                     }
                 }
                 else {
-                    _instance.ShowThisWindow(isToggle: true);
+                    AppHelper.ShowWindow(_instance, true);
                 }
             });
         }
@@ -112,10 +112,6 @@ namespace NTMiner.Views {
             base.OnClosed(e);
             NTMinerRoot.IsUiVisible = false;
             _instance = null;
-        }
-
-        public void ShowThisWindow(bool isToggle) {
-            AppHelper.ShowWindow(this, isToggle);
         }
 
         private void MetroWindow_MouseDown(object sender, MouseButtonEventArgs e) {

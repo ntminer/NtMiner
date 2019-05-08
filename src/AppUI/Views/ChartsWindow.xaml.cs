@@ -8,7 +8,7 @@ using System.Windows;
 using System.Windows.Input;
 
 namespace NTMiner.Views {
-    public partial class ChartsWindow : MetroWindow, IMainWindow {
+    public partial class ChartsWindow : MetroWindow {
         private static ChartsWindow _sWindow = null;
         public static void ShowWindow() {
             if (_sWindow == null) {
@@ -42,10 +42,6 @@ namespace NTMiner.Views {
                 });
             RefreshTotalSpeedChart(limit: 60);
             #endregion
-        }
-
-        public void ShowThisWindow(bool isToggle) {
-            AppHelper.ShowWindow(this, isToggle);
         }
 
         protected override void OnClosed(EventArgs e) {

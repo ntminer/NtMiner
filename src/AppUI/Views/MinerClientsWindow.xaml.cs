@@ -10,7 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace NTMiner.Views {
-    public partial class MinerClientsWindow : MetroWindow, IMainWindow {
+    public partial class MinerClientsWindow : MetroWindow {
         private static MinerClientsWindow _instance = null;
         public static MinerClientsWindow ShowWindow() {
             if (_instance == null) {
@@ -74,10 +74,6 @@ namespace NTMiner.Views {
                         }
             }));
             base.OnClosing(e);
-        }
-
-        public void ShowThisWindow(bool isToggle) {
-            AppHelper.ShowWindow(this, isToggle);
         }
 
         protected override void OnClosed(EventArgs e) {

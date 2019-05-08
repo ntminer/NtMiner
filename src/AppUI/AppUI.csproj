@@ -139,7 +139,6 @@
     <Compile Include="AppContext.partials.VirtualMemorySetViewModel.cs" />
     <Compile Include="AppContext.partials.WalletViewModels.cs" />
     <Compile Include="AppHelper.cs" />
-    <Compile Include="IMainWindow.cs" />
     <Compile Include="KernelDownloader.cs" />
     <Compile Include="AppContext.cs" />
     <Compile Include="RemoteDesktopInput.cs" />
