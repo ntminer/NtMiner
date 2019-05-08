@@ -343,7 +343,7 @@
 							Width="Auto"
 							Text="权重" />
 						<CheckBox
-							Content="自动权重"
+							Content="自动"
 							VerticalContentAlignment="Center"
 							IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}"
 							Visibility="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.KernelInputVm.IsAutoDualWeight, Converter={StaticResource BoolToVisibilityConverter}}"
