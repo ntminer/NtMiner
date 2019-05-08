@@ -9,7 +9,7 @@
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		d:DataContext="{d:DesignData Source=Design/KernelPageViewModel.xaml}"
 		xmlns:vm="clr-namespace:NTMiner.Vms"
-		mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="800">
+		mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="1200">
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*"></RowDefinition>
@@ -53,7 +53,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="100" Header="内核编码" Width="*" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn MinWidth="100" Width="*" Header="内核编码" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel>

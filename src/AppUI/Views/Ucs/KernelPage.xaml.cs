@@ -31,7 +31,7 @@ namespace NTMiner.Views.Ucs {
                         downloadComplete(isSuccess, message);
                     });
                 }
-            }, fixedSize: true);
+            }, fixedSize: false);
         }
 
         public Action CloseWindow { get; set; }
