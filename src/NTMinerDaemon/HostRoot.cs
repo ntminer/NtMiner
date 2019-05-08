@@ -69,7 +69,7 @@ namespace NTMiner {
                     bool isAutoBoot = NTMinerRegistry.GetIsAutoBoot();
                     if (isAutoBoot) {
                         string location = NTMinerRegistry.GetLocation();
-                        if (!string.IsNullOrEmpty(location)) {
+                        if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
                             string arguments = NTMinerRegistry.GetArguments();
                             try {
                                 Process.Start(location, arguments);
