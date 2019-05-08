@@ -9,6 +9,7 @@ namespace NTMiner.Core {
         public PoolData(IPool data) {
             this.DataLevel = data.DataLevel;
             this.Id = data.CoinId;
+            this.BrandId = data.BrandId;
             this.CoinId = data.CoinId;
             this.Name = data.Name;
             this.Server = data.Server;
@@ -34,6 +35,8 @@ namespace NTMiner.Core {
 
         public Guid Id { get; set; }
 
+        public Guid BrandId { get; set; }
+
         public Guid CoinId { get; set; }
 
         public string Name { get; set; }
@@ -57,6 +60,7 @@ namespace NTMiner.Core {
         public StringBuilder GetSignData() {
             StringBuilder sb = new StringBuilder();
             sb.Append(nameof(Id)).Append(Id)
+                .Append(nameof(BrandId)).Append(BrandId)
                 .Append(nameof(DataLevel)).Append(DataLevel)
                 .Append(nameof(CoinId)).Append(CoinId)
                 .Append(nameof(Name)).Append(Name)
