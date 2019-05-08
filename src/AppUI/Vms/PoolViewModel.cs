@@ -216,6 +216,26 @@ namespace NTMiner.Vms {
             }
         }
 
+        public SysDicItemViewModel BrandItem {
+            get {
+                if (this.BrandId == Guid.Empty) {
+                    return SysDicItemViewModel.PleaseSelect;
+                }
+                SysDicItemViewModel item;
+                if (AppContext.Instance.SysDicItemVms.TryGetValue(this.BrandId, out item)) {
+                    return item;
+                }
+                return SysDicItemViewModel.PleaseSelect;
+            }
+            set {
+                if (value == null) {
+                    value = SysDicItemViewModel.PleaseSelect;
+                }
+                this.BrandId = value.Id;
+                OnPropertyChanged(nameof(BrandItem));
+            }
+        }
+
         public string Name {
             get => _name;
             set {
