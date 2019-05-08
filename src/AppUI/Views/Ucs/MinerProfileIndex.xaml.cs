@@ -16,11 +16,8 @@ namespace NTMiner.Views.Ucs {
             InitializeComponent();
             this.PopupKernel.Closed += Popup_Closed;
             this.PopupMainCoinPool.Closed += Popup_Closed;
-            this.PopupDualCoinPool.Closed += Popup_Closed;
             this.PopupMainCoin.Closed += Popup_Closed;
-            this.PopupDualCoin.Closed += Popup_Closed;
             this.PopupMainCoinWallet.Closed += Popup_Closed;
-            this.PopupDualCoinWallet.Closed += Popup_Closed;
             this.On<LocalContextVmsReInitedEvent>("本地上下文视图模型集刷新后刷新界面上的popup", LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
@@ -35,25 +32,13 @@ namespace NTMiner.Views.Ucs {
                             this.PopupMainCoinPool.IsOpen = false;
                             OpenMainCoinPoolPopup();
                         }
-                        if (this.PopupDualCoinPool != null) {
-                            this.PopupDualCoinPool.IsOpen = false;
-                            OpenDualCoinPoolPopup();
-                        }
                         if (this.PopupMainCoin != null) {
                             this.PopupMainCoin.IsOpen = false;
                             OpenMainCoinPopup();
                         }
-                        if (this.PopupDualCoin != null) {
-                            this.PopupDualCoin.IsOpen = false;
-                            OpenDualCoinPopup();
-                        }
                         if (this.PopupMainCoinWallet != null) {
                             this.PopupMainCoinWallet.IsOpen = false;
                             OpenMainCoinWalletPopup();
-                        }
-                        if (this.PopupDualCoinWallet != null) {
-                            this.PopupDualCoinWallet.IsOpen = false;
-                            OpenDualCoinWalletPopup();
                         }
                     });
                 });
@@ -122,29 +107,6 @@ namespace NTMiner.Views.Ucs {
                 });
         }
 
-        private void OpenDualCoinPoolPopup() {
-            var coinVm = Vm.MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin;
-            if (coinVm == null) {
-                return;
-            }
-            var popup = PopupDualCoinPool;
-            popup.IsOpen = true;
-            var selected = coinVm.CoinProfile.DualCoinPool;
-            popup.Child = new PoolSelect(
-                new PoolSelectViewModel(coinVm, selected, onOk: selectedResult => {
-                    if (selectedResult != null) {
-                        if (coinVm.CoinProfile.DualCoinPool != selectedResult) {
-                            coinVm.CoinProfile.DualCoinPool = selectedResult;
-                        }
-                        popup.IsOpen = false;
-                    }
-                }) {
-                    HideView = new DelegateCommand(() => {
-                        popup.IsOpen = false;
-                    })
-                });
-        }
-
         private void OpenMainCoinPopup() {
             var popup = PopupMainCoin;
             popup.IsOpen = true;
@@ -154,28 +116,6 @@ namespace NTMiner.Views.Ucs {
                     if (selectedResult != null) {
                         if (Vm.MinerProfile.CoinVm != selectedResult) {
                             Vm.MinerProfile.CoinVm = selectedResult;
-                        }
-                        popup.IsOpen = false;
-                    }
-                }) {
-                    HideView = new DelegateCommand(() => {
-                        popup.IsOpen = false;
-                    })
-                });
-        }
-
-        private void OpenDualCoinPopup() {
-            if (Vm.MinerProfile.CoinVm == null || Vm.MinerProfile.CoinVm.CoinKernel == null) {
-                return;
-            }
-            var popup = PopupDualCoin;
-            popup.IsOpen = true;
-            var selected = Vm.MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin;
-            popup.Child = new CoinSelect(
-                new CoinSelectViewModel(Vm.MinerProfile.CoinVm.CoinKernel.DualCoinGroup.DualCoinVms, selected, onOk: selectedResult => {
-                    if (selectedResult != null) {
-                        if (Vm.MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin != selectedResult) {
-                            Vm.MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin = selectedResult;
                         }
                         popup.IsOpen = false;
                     }
@@ -210,30 +150,6 @@ namespace NTMiner.Views.Ucs {
                 });
         }
 
-        private void OpenDualCoinWalletPopup() {
-            var coinVm = Vm.MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin;
-            if (coinVm == null) {
-                return;
-            }
-            var popup = PopupDualCoinWallet;
-            popup.IsOpen = true;
-            var selected = coinVm.CoinProfile.SelectedDualCoinWallet;
-            bool isDualCoin = true;
-            popup.Child = new WalletSelect(
-                new WalletSelectViewModel(coinVm, isDualCoin, selected, onOk: selectedResult => {
-                    if (selectedResult != null) {
-                        if (coinVm.CoinProfile.SelectedDualCoinWallet != selectedResult) {
-                            coinVm.CoinProfile.SelectedDualCoinWallet = selectedResult;
-                        }
-                        popup.IsOpen = false;
-                    }
-                }) {
-                    HideView = new DelegateCommand(() => {
-                        popup.IsOpen = false;
-                    })
-                });
-        }
-
         #endregion
 
         private void KbButtonKernel_Clicked(object sender, RoutedEventArgs e) {
@@ -246,28 +162,13 @@ namespace NTMiner.Views.Ucs {
             UserActionHappend();
         }
 
-        private void KbButtonDualCoinPool_Clicked(object sender, RoutedEventArgs e) {
-            OpenDualCoinPoolPopup();
-            UserActionHappend();
-        }
-
         private void KbButtonMainCoin_Clicked(object sender, RoutedEventArgs e) {
             OpenMainCoinPopup();
             UserActionHappend();
         }
 
-        private void KbButtonDualCoin_Clicked(object sender, RoutedEventArgs e) {
-            OpenDualCoinPopup();
-            UserActionHappend();
-        }
-
         private void KbButtonMainCoinWallet_Clicked(object sender, RoutedEventArgs e) {
             OpenMainCoinWalletPopup();
-            UserActionHappend();
-        }
-
-        private void KbButtonDualCoinWallet_Clicked(object sender, RoutedEventArgs e) {
-            OpenDualCoinWalletPopup();
             UserActionHappend();
         }
 
@@ -279,6 +180,13 @@ namespace NTMiner.Views.Ucs {
 
         private void ScrollViewer_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
             Wpf.Util.ScrollViewer_PreviewMouseDown(sender, e);
+        }
+
+        private void DualContainer_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e) {
+            if (DualContainer.Visibility == Visibility.Visible && (DualContainer.Children == null || DualContainer.Children.Count == 0)) {
+                MinerProfileDual child = new MinerProfileDual();
+                DualContainer.Children.Add(child);
+            }
         }
     }
 }

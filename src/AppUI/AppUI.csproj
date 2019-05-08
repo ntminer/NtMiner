@@ -167,6 +167,9 @@
       <DependentUpon>CoinSelect.xaml</DependentUpon>
     </Compile>
     <Compile Include="AppContext.partials.CoinSnapshotDataViewModels.cs" />
+    <Compile Include="Views\Ucs\MinerProfileDual.xaml.cs">
+      <DependentUpon>MinerProfileDual.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Vms\AppStatic.cs" />
     <Compile Include="Vms\SplashWindowViewModel.cs" />
     <Compile Include="Views\Ucs\StartStopMineButton.xaml.cs">
@@ -483,6 +486,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Ucs\CoinSelect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Ucs\MinerProfileDual.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
