@@ -72,23 +72,17 @@ namespace NTMiner {
                             VirtualRoot.Window<ShowMainWindowCommand>("处理显示主界面命令", LogEnum.None,
                                 action: message => {
                                     UIThread.Execute(() => {
-                                        MainWindow mainWindow = this.MainWindow as MainWindow;
-                                        if (mainWindow == null) {
-                                            AppContext.Enable();
-                                            Views.MainWindow.ShowMainWindow();
-                                            // 使状态栏显示显示最新状态
-                                            if (NTMinerRoot.Instance.IsMining) {
-                                                var coinShare = NTMinerRoot.Instance.CoinShareSet.GetOrCreate(NTMinerRoot.Instance.CurrentMineContext.MainCoin.GetId());
+                                        Views.MainWindow.ShowMainWindow();
+                                        // 使状态栏显示显示最新状态
+                                        if (NTMinerRoot.Instance.IsMining) {
+                                            var coinShare = NTMinerRoot.Instance.CoinShareSet.GetOrCreate(NTMinerRoot.Instance.CurrentMineContext.MainCoin.GetId());
+                                            VirtualRoot.Happened(new ShareChangedEvent(coinShare));
+                                            if (NTMinerRoot.Instance.CurrentMineContext is IDualMineContext dualMineContext) {
+                                                coinShare = NTMinerRoot.Instance.CoinShareSet.GetOrCreate(dualMineContext.DualCoin.GetId());
                                                 VirtualRoot.Happened(new ShareChangedEvent(coinShare));
-                                                if (NTMinerRoot.Instance.CurrentMineContext is IDualMineContext dualMineContext) {
-                                                    coinShare = NTMinerRoot.Instance.CoinShareSet.GetOrCreate(dualMineContext.DualCoin.GetId());
-                                                    VirtualRoot.Happened(new ShareChangedEvent(coinShare));
-                                                }
-                                                AppContext.Instance.GpuSpeedVms.Refresh();
                                             }
-                                        }
-                                        else {
-                                            mainWindow.ShowThisWindow(message.IsToggle);
+                                            AppContext.Instance.GpuSpeedVms.Refresh();
+                                            // TODO:刷新收益和盈
                                         }
                                     });
                                 });
@@ -140,14 +134,12 @@ namespace NTMiner {
             VirtualRoot.Window<CloseMainWindowCommand>("处理关闭主界面命令", LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
-                        Write.SetConsoleUserLineMethod();
                         MainWindow = NotiCenterWindow.Instance;
                         foreach (Window window in Windows) {
-                            if (window != NotiCenterWindow.Instance) {
+                            if (window != MainWindow) {
                                 window.Close();
                             }
                         }
-                        AppContext.Disable();
                         NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage("已切换为无界面模式运行", "开源矿工");
                     });
                 });

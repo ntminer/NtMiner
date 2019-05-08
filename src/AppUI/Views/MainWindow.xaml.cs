@@ -4,6 +4,7 @@ using NTMiner.Notifications;
 using NTMiner.Views.Ucs;
 using NTMiner.Vms;
 using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -26,11 +27,15 @@ namespace NTMiner.Views {
                             _instance = new MainWindow();
                             Application.Current.MainWindow = _instance;
                             _instance.Show();
+                            AppContext.Enable();
                             NTMinerRoot.IsUiVisible = true;
                             NTMinerRoot.MainWindowRendedOn = DateTime.Now;
                             VirtualRoot.Happened(new MainWindowShowedEvent());
                         }
                     }
+                }
+                else {
+                    _instance.ShowThisWindow(isToggle: true);
                 }
             });
         }
@@ -95,6 +100,12 @@ namespace NTMiner.Views {
 #if DEBUG
             Write.DevWarn($"耗时{VirtualRoot.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
 #endif
+        }
+
+        protected override void OnClosing(CancelEventArgs e) {
+            AppContext.Disable();
+            Write.SetConsoleUserLineMethod();
+            base.OnClosing(e);
         }
 
         protected override void OnClosed(EventArgs e) {
