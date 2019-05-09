@@ -52,7 +52,7 @@
 		<!--上标题栏-->
 		<Grid>
 			<WrapPanel VerticalAlignment="Center">
-				<Image Width="18" Height="18" Source="/NTMinerWpf;component/Styles/Images/logo32.png"></Image>
+				<Image Width="18" Height="18" Source="/NTMinerWpf;component/Styles/Images/logo32.png" MouseDown="NTMinerLogo_MouseDown"></Image>
 				<controls:KbLinkButton
 					ToolTip="点击打开官网"
 					Command="{x:Static vm:AppStatic.OpenOfficialSite}"

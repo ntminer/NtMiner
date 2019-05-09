@@ -185,5 +185,11 @@ namespace NTMiner.Views {
                 }
             }
         }
+
+        private void NTMinerLogo_MouseDown(object sender, MouseButtonEventArgs e) {
+            if (e.ClickCount == 2) {
+
+            }
+        }
     }
 }
