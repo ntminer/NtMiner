@@ -44,7 +44,7 @@
 					Foreground="{StaticResource ThemeForeground}"
 					Text="开源矿工群控客户端">
 				</TextBlock>
-				<local:MainBar></local:MainBar>
+				<uc:MainBar></uc:MainBar>
 			</WrapPanel>
 			<WrapPanel Grid.Column="1" Margin="8 0 0 0" VerticalAlignment="Center">
 				<uc:OpenedWindows>
@@ -67,8 +67,8 @@
 							Fill="{StaticResource ThemeForeground}"
 							Stretch="Fill" />
 					</controls:KbButton>
-					<local:MainMenu>
-					</local:MainMenu>
+					<uc:MainMenu>
+					</uc:MainMenu>
 					<controls:KbSystemMinButton
 						Height="30"
 						KbSystemButtonSize="40" />

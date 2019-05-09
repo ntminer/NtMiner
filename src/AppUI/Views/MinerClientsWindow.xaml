@@ -56,7 +56,7 @@
 					Foreground="{StaticResource ThemeForeground}"
 					Text="开源矿工群控 - 矿机列表">
 				</TextBlock>
-				<local:MainBar></local:MainBar>
+				<uc:MainBar></uc:MainBar>
 			</WrapPanel>
 			<WrapPanel Grid.Column="1">
 				<controls:KbButton 
@@ -67,8 +67,8 @@
 					<Image Width="18" Height="18" Source="/NTMinerWpf;component/Styles/Images/cc32.png">
 					</Image>
 				</controls:KbButton>
-				<local:MainMenu Background="Transparent">
-				</local:MainMenu>
+				<uc:MainMenu Background="Transparent">
+				</uc:MainMenu>
 				<controls:KbSystemMinButton
 					Height="30"
 					KbSystemButtonSize="40" />

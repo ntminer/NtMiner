@@ -149,10 +149,10 @@
       <DependentUpon>ChartsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\FrameworkElementExtensions.cs" />
-    <Compile Include="Views\MainBar.xaml.cs">
+    <Compile Include="Views\Ucs\MainBar.xaml.cs">
       <DependentUpon>MainBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MainMenu.xaml.cs">
+    <Compile Include="Views\Ucs\MainMenu.xaml.cs">
       <DependentUpon>MainMenu.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\NotificationSample.xaml.cs">
@@ -468,11 +468,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\MainBar.xaml">
+    <Page Include="Views\Ucs\MainBar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\MainMenu.xaml">
+    <Page Include="Views\Ucs\MainMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

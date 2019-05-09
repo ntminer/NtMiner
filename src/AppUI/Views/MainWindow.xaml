@@ -220,8 +220,8 @@
 							</WrapPanel>
 						</controls:KbButton>
 					</Border>
-					<local:MainMenu VerticalAlignment="Center">
-					</local:MainMenu>
+					<uc:MainMenu VerticalAlignment="Center">
+					</uc:MainMenu>
 					<controls:KbSystemMinButton
 						Height="34"
 						KbSystemButtonSize="40" />
