@@ -80,7 +80,7 @@ namespace NTMiner.Vms {
                                     Guid kernelBrandId = VirtualRoot.GetBrandId(location, Consts.KernelBrandId);
                                     if (kernelBrandId != Guid.Empty) {
                                         Logger.InfoDebugLine("打码开始");
-                                        VirtualRoot.TagKernelBrandId(Consts.KernelBrandId, kernelBrandId, saveFileFullName, saveFileFullName);
+                                        VirtualRoot.TagBrandId(Consts.KernelBrandId, kernelBrandId, saveFileFullName, saveFileFullName);
                                         Logger.OkDebugLine("打码成功");
                                     }
                                 }

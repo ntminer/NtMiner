@@ -43,6 +43,12 @@ namespace NTMiner {
             }
         }
 
+        public static bool IsBrandSpecified {
+            get {
+                return KernelBrandId != Guid.Empty || PoolBrandId != Guid.Empty;
+            }
+        }
+
         public static IObjectSerializer JsonSerializer { get; private set; }
 
         private static readonly IMessageDispatcher SMessageDispatcher;
@@ -229,7 +235,7 @@ namespace NTMiner {
             SMessageDispatcher.UnRegister(handler);
         }
 
-        public static void TagKernelBrandId(string brandKeyword, Guid brandId, string inputFileFullName, string outFileFullName) {
+        public static void TagBrandId(string brandKeyword, Guid brandId, string inputFileFullName, string outFileFullName) {
             string brand = $"{brandKeyword}{brandId}{brandKeyword}";
             string rawBrand = $"{brandKeyword}{KernelBrandId}{brandKeyword}";
             byte[] data = Encoding.UTF8.GetBytes(brand);

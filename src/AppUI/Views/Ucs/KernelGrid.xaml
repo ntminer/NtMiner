@@ -282,23 +282,6 @@
 				<ListBox.ItemTemplate>
 					<DataTemplate>
 						<TextBlock Padding="10 2" Text="{Binding Value}" ToolTip="{Binding Description}">
-							<TextBlock.ContextMenu>
-								<ContextMenu>
-									<MenuItem 
-										Header="品牌打码" Padding="4" Margin="0 0 6 0" 
-										Command="{Binding Data.TagKernelBrand,Source={StaticResource proxy}}"
-										CommandParameter="{Binding}">
-										<MenuItem.Icon>
-											<Path
-												Width="16"
-												Height="16"
-												Data="{StaticResource Icon_Kernel}"
-												Fill="{StaticResource IconFillColor}"
-												Stretch="Fill" />
-										</MenuItem.Icon>
-									</MenuItem>
-								</ContextMenu>
-							</TextBlock.ContextMenu>
 						</TextBlock>
 					</DataTemplate>
 				</ListBox.ItemTemplate>

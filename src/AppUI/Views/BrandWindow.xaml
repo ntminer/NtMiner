@@ -12,6 +12,7 @@
 	xmlns:vm="clr-namespace:NTMiner.Vms"
 	mc:Ignorable="d"
 	Title="品牌推广计划"
+	Topmost="True"
 	WindowTransitionsEnabled="False"
 	Width="800"
 	Height="200"
@@ -27,6 +28,108 @@
 		<vm:BrandWindowViewModel></vm:BrandWindowViewModel>
 	</metro:MetroWindow.DataContext>
 	<Grid>
-		
+		<Grid.RowDefinitions>
+			<RowDefinition Height="36"></RowDefinition>
+			<RowDefinition Height="Auto"></RowDefinition>
+			<RowDefinition Height="Auto"></RowDefinition>
+			<RowDefinition Height="*"></RowDefinition>
+		</Grid.RowDefinitions>
+		<TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14" Padding="4" FontWeight="Bold">品牌推广计划 - 在品牌上右键生成品牌专版</TextBlock>
+		<WrapPanel HorizontalAlignment="Right">
+			<controls:KbSystemMaxButton
+				Height="36"
+				KbSystemButtonSize="40"
+				KbSystemButtonForeground="#385263" />
+			<controls:KbSystemCloseButton 
+				Height="36"
+				KbSystemButtonSize="40"
+				KbSystemButtonForeground="#385263" />
+		</WrapPanel>
+		<GroupBox Grid.Row="1" Header="内核">
+			<ListBox 
+				VerticalAlignment="Center"
+				Background="Transparent"				
+				ItemsSource="{Binding SysDicItemVms.KernelBrandItems}"
+				ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+				ScrollViewer.VerticalScrollBarVisibility="Disabled"
+				ItemContainerStyle="{StaticResource ListBoxBarItem}"
+				BorderThickness="0">
+				<ListBox.Resources>
+					<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
+				</ListBox.Resources>
+				<ListBox.ItemsPanel>
+					<ItemsPanelTemplate>
+						<WrapPanel>
+						</WrapPanel>
+					</ItemsPanelTemplate>
+				</ListBox.ItemsPanel>
+				<ListBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Padding="10 2" Text="{Binding Value}" ToolTip="{Binding Description}">
+							<TextBlock.ContextMenu>
+								<ContextMenu>
+									<MenuItem 
+										Header="品牌打码" Padding="4" Margin="0 0 6 0" 
+										Command="{Binding Data.TagKernelBrand,Source={StaticResource proxy}}"
+										CommandParameter="{Binding}">
+										<MenuItem.Icon>
+											<Path
+												Width="16"
+												Height="16"
+												Data="{StaticResource Icon_Kernel}"
+												Fill="{StaticResource IconFillColor}"
+												Stretch="Fill" />
+										</MenuItem.Icon>
+									</MenuItem>
+								</ContextMenu>
+							</TextBlock.ContextMenu>
+						</TextBlock>
+					</DataTemplate>
+				</ListBox.ItemTemplate>
+			</ListBox>
+		</GroupBox>
+		<GroupBox Grid.Row="2" Header="矿池">
+			<ListBox 
+				VerticalAlignment="Center"
+				Background="Transparent"				
+				ItemsSource="{Binding SysDicItemVms.PoolBrandItems}"
+				ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+				ScrollViewer.VerticalScrollBarVisibility="Disabled"
+				ItemContainerStyle="{StaticResource ListBoxBarItem}"
+				BorderThickness="0">
+				<ListBox.Resources>
+					<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
+				</ListBox.Resources>
+				<ListBox.ItemsPanel>
+					<ItemsPanelTemplate>
+						<WrapPanel>
+						</WrapPanel>
+					</ItemsPanelTemplate>
+				</ListBox.ItemsPanel>
+				<ListBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Padding="10 2" Text="{Binding Value}" ToolTip="{Binding Description}">
+							<TextBlock.ContextMenu>
+								<ContextMenu>
+									<MenuItem 
+										Header="品牌打码" Padding="4" Margin="0 0 6 0" 
+										Command="{Binding Data.TagPoolBrand,Source={StaticResource proxy}}"
+										CommandParameter="{Binding}">
+										<MenuItem.Icon>
+											<Path
+												Width="16"
+												Height="16"
+												Data="{StaticResource Icon_Pool}"
+												Fill="{StaticResource IconFillColor}"
+												Stretch="Fill" />
+										</MenuItem.Icon>
+									</MenuItem>
+								</ContextMenu>
+							</TextBlock.ContextMenu>
+						</TextBlock>
+					</DataTemplate>
+				</ListBox.ItemTemplate>
+			</ListBox>
+		</GroupBox>
 	</Grid>
 </metro:MetroWindow>

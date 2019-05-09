@@ -19,7 +19,7 @@ namespace NTMiner.Views {
 
         private static readonly object _locker = new object();
         private static MainWindow _instance = null;
-        public static void ShowMainWindow() {
+        public static void ShowMainWindow(bool isToggle) {
             UIThread.Execute(() => {
                 if (_instance == null) {
                     lock (_locker) {
@@ -35,7 +35,7 @@ namespace NTMiner.Views {
                     }
                 }
                 else {
-                    AppHelper.ShowWindow(_instance, true);
+                    AppHelper.ShowWindow(_instance, isToggle);
                 }
             });
         }
@@ -188,7 +188,12 @@ namespace NTMiner.Views {
 
         private void NTMinerLogo_MouseDown(object sender, MouseButtonEventArgs e) {
             if (e.ClickCount == 2) {
-
+                if (VirtualRoot.IsBrandSpecified) {
+                    return;
+                }
+                BrandWindow brandWindow = new BrandWindow();
+                brandWindow.ShowDialog();
+                e.Handled = true;
             }
         }
     }
