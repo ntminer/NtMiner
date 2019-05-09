@@ -71,20 +71,7 @@ namespace NTMiner {
                             #region 处理显示主界面命令
                             VirtualRoot.Window<ShowMainWindowCommand>("处理显示主界面命令", LogEnum.None,
                                 action: message => {
-                                    UIThread.Execute(() => {
-                                        Views.MainWindow.ShowMainWindow();
-                                        // 使状态栏显示显示最新状态
-                                        if (NTMinerRoot.Instance.IsMining) {
-                                            var coinShare = NTMinerRoot.Instance.CoinShareSet.GetOrCreate(NTMinerRoot.Instance.CurrentMineContext.MainCoin.GetId());
-                                            VirtualRoot.Happened(new ShareChangedEvent(coinShare));
-                                            if (NTMinerRoot.Instance.CurrentMineContext is IDualMineContext dualMineContext) {
-                                                coinShare = NTMinerRoot.Instance.CoinShareSet.GetOrCreate(dualMineContext.DualCoin.GetId());
-                                                VirtualRoot.Happened(new ShareChangedEvent(coinShare));
-                                            }
-                                            AppContext.Instance.GpuSpeedVms.Refresh();
-                                            // TODO:刷新收益和盈
-                                        }
-                                    });
+                                    ShowMainWindow();
                                 });
                             #endregion
                             splashWindow?.Close();
@@ -113,6 +100,27 @@ namespace NTMiner {
                 }
             }
             base.OnStartup(e);
+        }
+
+        private void ShowMainWindow() {
+            UIThread.Execute(() => {
+                Views.MainWindow.ShowMainWindow();
+                // 使状态栏显示显示最新状态
+                if (NTMinerRoot.Instance.IsMining) {
+                    var mainCoin = NTMinerRoot.Instance.CurrentMineContext.MainCoin;
+                    if (mainCoin == null) {
+                        return;
+                    }
+                    var coinShare = NTMinerRoot.Instance.CoinShareSet.GetOrCreate(mainCoin.GetId());
+                    VirtualRoot.Happened(new ShareChangedEvent(coinShare));
+                    if ((NTMinerRoot.Instance.CurrentMineContext is IDualMineContext dualMineContext) && dualMineContext.DualCoin != null) {
+                        coinShare = NTMinerRoot.Instance.CoinShareSet.GetOrCreate(dualMineContext.DualCoin.GetId());
+                        VirtualRoot.Happened(new ShareChangedEvent(coinShare));
+                    }
+                    AppContext.Instance.GpuSpeedVms.Refresh();
+                    // TODO:刷新收益和盈
+                }
+            });
         }
 
         private void Link() {
