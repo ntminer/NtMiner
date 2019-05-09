@@ -247,6 +247,9 @@ namespace NTMiner {
             if (fileFullName == AppFileFullName) {
                 Assembly assembly = Assembly.GetEntryAssembly();
                 using (var stream = assembly.GetManifestResourceStream($"NTMiner.Brand.{keyword}")) {
+                    if (stream == null) {
+                        return guid;
+                    }
                     byte[] data = new byte[stream.Length];
                     stream.Read(data, 0, data.Length);
                     string rawBrand = Encoding.UTF8.GetString(data);
