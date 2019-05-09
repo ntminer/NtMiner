@@ -34,6 +34,32 @@ namespace NTMiner {
 
         public static bool IsAutoStartCanceled = false;
 
+        private static Guid? kernelBrandId = null;
+        public static Guid KernelBrandId {
+            get {
+                if (!kernelBrandId.HasValue) {
+                    kernelBrandId = VirtualRoot.GetBrandId(VirtualRoot.AppFileFullName, Consts.KernelBrandId);
+                }
+                return kernelBrandId.Value;
+            }
+        }
+
+        private static Guid? poolBrandId = null;
+        public static Guid PoolBrandId {
+            get {
+                if (!poolBrandId.HasValue) {
+                    poolBrandId = VirtualRoot.GetBrandId(VirtualRoot.AppFileFullName, Consts.PoolBrandId);
+                }
+                return poolBrandId.Value;
+            }
+        }
+
+        public static bool IsBrandSpecified {
+            get {
+                return KernelBrandId != Guid.Empty || PoolBrandId != Guid.Empty;
+            }
+        }
+
         static NTMinerRoot() {
             Assembly mainAssembly = Assembly.GetEntryAssembly();
             CurrentVersion = mainAssembly.GetName().Version;
@@ -125,8 +151,8 @@ namespace NTMiner {
                             try {
                                 ServerJsonDb data = VirtualRoot.JsonSerializer.Deserialize<ServerJsonDb>(serverJson);
                                 _serverJson = data;
-                                if (VirtualRoot.KernelBrandId != Guid.Empty) {
-                                    var kernelToRemoves = data.Kernels.Where(a => a.BrandId != VirtualRoot.KernelBrandId).ToArray();
+                                if (KernelBrandId != Guid.Empty) {
+                                    var kernelToRemoves = data.Kernels.Where(a => a.BrandId != KernelBrandId).ToArray();
                                     foreach (var item in kernelToRemoves) {
                                         data.Kernels.Remove(item);
                                     }
@@ -139,12 +165,12 @@ namespace NTMiner {
                                         data.PoolKernels.Remove(item);
                                     }
                                 }
-                                if (VirtualRoot.PoolBrandId != Guid.Empty) {
-                                    var poolToRemoves = data.Pools.Where(a => a.BrandId != VirtualRoot.PoolBrandId).ToArray();
+                                if (PoolBrandId != Guid.Empty) {
+                                    var poolToRemoves = data.Pools.Where(a => a.BrandId != PoolBrandId).ToArray();
                                     foreach (var item in poolToRemoves) {
                                         data.Pools.Remove(item);
                                     }
-                                    var poolKernelToRemoves = data.PoolKernels.Where(a => a.PoolId != VirtualRoot.PoolBrandId).ToArray();
+                                    var poolKernelToRemoves = data.PoolKernels.Where(a => a.PoolId != PoolBrandId).ToArray();
                                     foreach (var item in poolKernelToRemoves) {
                                         data.PoolKernels.Remove(item);
                                     }

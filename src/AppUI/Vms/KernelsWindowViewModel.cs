@@ -95,7 +95,7 @@ namespace NTMiner.Vms {
 
         public Visibility IsBrandVisible {
             get {
-                if (VirtualRoot.KernelBrandId != Guid.Empty) {
+                if (NTMinerRoot.KernelBrandId != Guid.Empty) {
                     return Visibility.Collapsed;
                 }
                 return Visibility.Visible;

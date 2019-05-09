@@ -188,7 +188,7 @@ namespace NTMiner.Views {
 
         private void NTMinerLogo_MouseDown(object sender, MouseButtonEventArgs e) {
             if (e.ClickCount == 2) {
-                if (VirtualRoot.IsBrandSpecified) {
+                if (NTMinerRoot.IsBrandSpecified) {
                     return;
                 }
                 BrandWindow brandWindow = new BrandWindow();
