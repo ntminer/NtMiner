@@ -149,6 +149,9 @@
       <DependentUpon>ChartsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\FrameworkElementExtensions.cs" />
+    <Compile Include="Views\BrandWindow.xaml.cs">
+      <DependentUpon>BrandWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Ucs\MainBar.xaml.cs">
       <DependentUpon>MainBar.xaml</DependentUpon>
     </Compile>
@@ -170,6 +173,7 @@
       <DependentUpon>MinerProfileDual.xaml</DependentUpon>
     </Compile>
     <Compile Include="Vms\AppStatic.cs" />
+    <Compile Include="Vms\BrandWindowViewModel.cs" />
     <Compile Include="Vms\SplashWindowViewModel.cs" />
     <Compile Include="Views\Ucs\StartStopMineButton.xaml.cs">
       <DependentUpon>StartStopMineButton.xaml</DependentUpon>
@@ -465,6 +469,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Design\ContainerWindowViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\BrandWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
