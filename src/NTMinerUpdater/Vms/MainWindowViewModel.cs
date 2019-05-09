@@ -86,7 +86,7 @@ namespace NTMiner.Vms {
                                     Guid poolBrandId = VirtualRoot.GetBrandId(location, Consts.PoolBrandId);
                                     if (poolBrandId != Guid.Empty) {
                                         Logger.InfoDebugLine("矿池打码开始");
-                                        VirtualRoot.TagBrandId(Consts.PoolBrandId, kernelBrandId, saveFileFullName, saveFileFullName);
+                                        VirtualRoot.TagBrandId(Consts.PoolBrandId, poolBrandId, saveFileFullName, saveFileFullName);
                                         Logger.OkDebugLine("矿池打码成功");
                                     }
                                 }
