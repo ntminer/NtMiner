@@ -17,7 +17,7 @@
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"></RowDefinition>
-			<RowDefinition Height="*"></RowDefinition>
+			<RowDefinition Height="*" MinHeight="100"></RowDefinition>
 		</Grid.RowDefinitions>
 		<WrapPanel HorizontalAlignment="Left">
 			<controls:KbButton
