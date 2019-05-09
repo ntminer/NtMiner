@@ -15,7 +15,7 @@ namespace NTMiner.JsonDb {
             this.KernelOutputs = new KernelOutputData[0];
             this.KernelOutputFilters = new KernelOutputFilterData[0];
             this.KernelOutputTranslaters = new KernelOutputTranslaterData[0];
-            this.Pools = new PoolData[0];
+            this.Pools = new List<PoolData>();
             this.PoolKernels = new List<PoolKernelData>();
             this.SysDics = new SysDicData[0];
             this.SysDicItems = new SysDicItemData[0];
@@ -33,7 +33,7 @@ namespace NTMiner.JsonDb {
             Kernels = root.KernelSet.Cast<KernelData>().ToList();
             CoinKernels = root.CoinKernelSet.Cast<CoinKernelData>().ToList();
             PoolKernels = root.PoolKernelSet.Cast<PoolKernelData>().Where(a => !string.IsNullOrEmpty(a.Args)).ToList();
-            Pools = root.PoolSet.Cast<PoolData>().ToArray();
+            Pools = root.PoolSet.Cast<PoolData>().ToList();
             SysDicItems = root.SysDicItemSet.Cast<SysDicItemData>().ToArray();
             SysDics = root.SysDicSet.Cast<SysDicData>().ToArray();
             this.TimeStamp = Timestamp.GetTimestamp();
@@ -46,7 +46,7 @@ namespace NTMiner.JsonDb {
             root.KernelSet.TryGetKernel(coinKernel.KernelId, out IKernel kernel);
             var coins = root.CoinSet.Cast<CoinData>().Where(a => localJsonObj.CoinProfiles.Any(b => b.CoinId == a.Id)).ToArray();
             var coinGroups = root.CoinGroupSet.Cast<CoinGroupData>().Where(a => coins.Any(b => b.Id == a.CoinId)).ToArray();
-            var pools = root.PoolSet.Cast<PoolData>().Where(a => localJsonObj.PoolProfiles.Any(b => b.PoolId == a.Id)).ToArray();
+            var pools = root.PoolSet.Cast<PoolData>().Where(a => localJsonObj.PoolProfiles.Any(b => b.PoolId == a.Id)).ToList();
 
             Coins = coins;
             CoinGroups = coinGroups;
@@ -128,7 +128,7 @@ namespace NTMiner.JsonDb {
 
         public List<PoolKernelData> PoolKernels { get; set; }
 
-        public PoolData[] Pools { get; set; }
+        public List<PoolData> Pools { get; set; }
 
         public SysDicData[] SysDics { get; set; }
 

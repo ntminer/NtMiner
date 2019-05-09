@@ -139,6 +139,16 @@ namespace NTMiner {
                                         data.PoolKernels.Remove(item);
                                     }
                                 }
+                                if (VirtualRoot.PoolBrandId != Guid.Empty) {
+                                    var poolToRemoves = data.Pools.Where(a => a.BrandId != VirtualRoot.PoolBrandId).ToArray();
+                                    foreach (var item in poolToRemoves) {
+                                        data.Pools.Remove(item);
+                                    }
+                                    var poolKernelToRemoves = data.PoolKernels.Where(a => a.PoolId != VirtualRoot.PoolBrandId).ToArray();
+                                    foreach (var item in poolKernelToRemoves) {
+                                        data.PoolKernels.Remove(item);
+                                    }
+                                }
                             }
                             catch (Exception e) {
                                 Logger.ErrorDebugLine(e.Message, e);
@@ -167,7 +177,7 @@ namespace NTMiner {
             localJson = string.Empty;
             serverJson = string.Empty;
             try {
-                LocalJsonDb localJsonObj = new LocalJsonDb(Instance, mineWorkData);             
+                LocalJsonDb localJsonObj = new LocalJsonDb(Instance, mineWorkData);
                 ServerJsonDb serverJsonObj = new ServerJsonDb(Instance, localJsonObj);
                 localJson = VirtualRoot.JsonSerializer.Serialize(localJsonObj);
                 serverJson = VirtualRoot.JsonSerializer.Serialize(serverJsonObj);

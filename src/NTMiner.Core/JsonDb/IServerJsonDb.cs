@@ -13,7 +13,7 @@ namespace NTMiner.JsonDb {
         KernelOutputTranslaterData[] KernelOutputTranslaters { get; }
         List<KernelData> Kernels { get; }
         List<PoolKernelData> PoolKernels { get; }
-        PoolData[] Pools { get; }
+        List<PoolData> Pools { get; }
         SysDicItemData[] SysDicItems { get; }
         SysDicData[] SysDics { get; }
     }
