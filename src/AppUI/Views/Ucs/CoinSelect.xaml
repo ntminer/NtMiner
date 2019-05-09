@@ -17,7 +17,7 @@
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"></RowDefinition>
-			<RowDefinition Height="*"></RowDefinition>
+			<RowDefinition Height="*" MinHeight="100"></RowDefinition>
 			<RowDefinition Height="Auto"></RowDefinition>
 		</Grid.RowDefinitions>
 		<WrapPanel HorizontalAlignment="Left">
@@ -137,6 +137,6 @@
 			</DataGrid.Columns>
 		</DataGrid>
 		<TextBlock Grid.Row="1" Visibility="{Binding QueryResults, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center">没有记录</TextBlock>
-		<TextBox Grid.Row="2" IsReadOnly="True" BorderThickness="0" Foreground="{StaticResource LableColor}" FontSize="12">支持所有适合显卡挖的币，少币种？Q群2362120103报小编</TextBox>
+		<TextBox Grid.Row="2" Visibility="{x:Static vm:AppStatic.IsBrandSpecifiedCollapsed}" IsReadOnly="True" BorderThickness="0" Foreground="{StaticResource LableColor}" FontSize="12">支持所有适合显卡挖的币，少币种？Q群2362120103报小编</TextBox>
 	</Grid>
 </UserControl>

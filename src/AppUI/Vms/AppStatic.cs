@@ -61,6 +61,52 @@ namespace NTMiner.Vms {
             }
         }
 
+        public static bool IsPoolBrand {
+            get {
+                return NTMinerRoot.PoolBrandId != Guid.Empty;
+            }
+        }
+
+        public static Visibility IsPoolBrandVisible {
+            get {
+                return IsPoolBrand ? Visibility.Visible : Visibility.Collapsed;
+            }
+        }
+
+        public static Visibility IsPoolBrandCollapsed {
+            get { return IsPoolBrand ? Visibility.Collapsed : Visibility.Visible; }
+        }
+
+        public static bool IsKernelBrand {
+            get {
+                return NTMinerRoot.KernelBrandId != Guid.Empty;
+            }
+        }
+
+        public static Visibility IsKernelBrandVisible {
+            get {
+                return IsKernelBrand ? Visibility.Visible : Visibility.Collapsed;
+            }
+        }
+
+        public static Visibility IsKernelBrandCollapsed {
+            get { return IsKernelBrand ? Visibility.Collapsed : Visibility.Visible; }
+        }
+
+        public static bool IsBrandSpecified {
+            get { return NTMinerRoot.IsBrandSpecified; }
+        }
+
+        public static Visibility IsBrandSpecifiedVisible {
+            get {
+                return IsBrandSpecified ? Visibility.Visible : Visibility.Collapsed;
+            }
+        }
+
+        public static Visibility IsBrandSpecifiedCollapsed {
+            get { return IsBrandSpecified ? Visibility.Collapsed : Visibility.Visible; }
+        }
+
         public static double MainWindowHeight {
             get {
                 if (SystemParameters.WorkArea.Size.Height >= 600) {
