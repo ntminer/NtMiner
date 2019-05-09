@@ -4,6 +4,7 @@ using NTMiner.Serialization;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Timers;
 
@@ -241,26 +242,39 @@ namespace NTMiner {
 #if DEBUG
             Stopwatch.Restart();
 #endif
+            Guid guid = Guid.Empty;
             int LEN = keyword.Length;
-            string rawBrand = $"{keyword}{Guid.Empty}{keyword}";
-            byte[] rawData = Encoding.UTF8.GetBytes(rawBrand);
-            int len = rawData.Length;
-            byte[] source = File.ReadAllBytes(fileFullName);
-            int index = 0;
-            for (int i = 0; i < source.Length - len; i++) {
-                int j = 0;
-                for (; j < len; j++) {
-                    if ((j < LEN || j > len - LEN) && source[i + j] != rawData[j]) {
+            if (fileFullName == AppFileFullName) {
+                Assembly assembly = Assembly.GetEntryAssembly();
+                using (var stream = assembly.GetManifestResourceStream($"NTMiner.Brand.{keyword}")) {
+                    byte[] data = new byte[stream.Length];
+                    stream.Read(data, 0, data.Length);
+                    string rawBrand = Encoding.UTF8.GetString(data);
+                    string guidString = rawBrand.Substring(LEN, rawBrand.Length - 2 * LEN);
+                    Guid.TryParse(guidString, out guid);
+                }
+            }
+            else {
+                string rawBrand = $"{keyword}{Guid.Empty}{keyword}";
+                byte[] rawData = Encoding.UTF8.GetBytes(rawBrand);
+                int len = rawData.Length;
+                byte[] source = File.ReadAllBytes(fileFullName);
+                int index = 0;
+                for (int i = 0; i < source.Length - len; i++) {
+                    int j = 0;
+                    for (; j < len; j++) {
+                        if ((j < LEN || j > len - LEN) && source[i + j] != rawData[j]) {
+                            break;
+                        }
+                    }
+                    if (j == rawData.Length) {
+                        index = i;
                         break;
                     }
                 }
-                if (j == rawData.Length) {
-                    index = i;
-                    break;
-                }
+                string guidString = Encoding.UTF8.GetString(source, index + LEN, len - 2 * LEN);
+                Guid.TryParse(guidString, out guid);
             }
-            string guidString = Encoding.UTF8.GetString(source, index + LEN, len - 2 * LEN);
-            Guid.TryParse(guidString, out Guid guid);
 #if DEBUG
             Write.DevWarn($"耗时{Stopwatch.ElapsedMilliseconds}毫秒 {typeof(VirtualRoot).Name}.GetBrandId");
 #endif
