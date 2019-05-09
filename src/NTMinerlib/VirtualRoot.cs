@@ -264,7 +264,9 @@ namespace NTMiner {
         }
 
         public static Guid GetBrandId(string fileFullName, string keyword) {
-            // TODO:优化，如果fileFullName和当前AppFileFullName一样的话直接从嵌入的资源文件读取
+#if DEBUG
+            Stopwatch.Restart();
+#endif
             int LEN = keyword.Length;
             string rawBrand = $"{keyword}{Guid.Empty}{keyword}";
             byte[] rawData = Encoding.UTF8.GetBytes(rawBrand);
@@ -284,8 +286,10 @@ namespace NTMiner {
                 }
             }
             string guidString = Encoding.UTF8.GetString(source, index + LEN, len - 2 * LEN);
-            Guid guid;
-            Guid.TryParse(guidString, out guid);
+            Guid.TryParse(guidString, out Guid guid);
+#if DEBUG
+            Write.DevWarn($"耗时{Stopwatch.ElapsedMilliseconds}毫秒 {typeof(VirtualRoot).Name}.GetBrandId");
+#endif
             return guid;
         }
     }
