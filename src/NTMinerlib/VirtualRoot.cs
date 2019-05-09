@@ -246,7 +246,8 @@ namespace NTMiner {
             int LEN = keyword.Length;
             if (fileFullName == AppFileFullName) {
                 Assembly assembly = Assembly.GetEntryAssembly();
-                using (var stream = assembly.GetManifestResourceStream($"NTMiner.Brand.{keyword}")) {
+                string name = $"NTMiner.Brand.{keyword}";
+                using (var stream = assembly.GetManifestResourceStream(name)) {
                     if (stream == null) {
                         return guid;
                     }
