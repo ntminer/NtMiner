@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace NTMiner.Core {
     public interface IKernel : IEntity<Guid> {
@@ -14,5 +15,6 @@ namespace NTMiner.Core {
         string Notice { get; }
         Guid KernelInputId { get; }
         Guid KernelOutputId { get; }
+        List<Guid> AlgoIds { get; }
     }
 }

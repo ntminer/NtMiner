@@ -26,7 +26,8 @@ namespace NTMiner.Vms {
             _version = string.Empty,
             _package = string.Empty,
             _kernelOutputId = Guid.Empty,
-            _kernelInputId = Guid.Empty
+            _kernelInputId = Guid.Empty,
+            _algoIds = new List<Guid>()
         };
 
         private Guid _id;
@@ -85,6 +86,7 @@ namespace NTMiner.Vms {
             _package = data.Package;
             _kernelOutputId = data.KernelOutputId;
             _kernelInputId = data.KernelInputId;
+            _algoIds = data.AlgoIds;
         }
 
         public KernelViewModel(Guid id) {
@@ -220,6 +222,8 @@ namespace NTMiner.Vms {
         }
 
         private KernelInputViewModel _kernelInputVm;
+        private List<Guid> _algoIds;
+
         public KernelInputViewModel KernelInputVm {
             get {
                 if (_kernelInputVm == null || _kernelInputVm.Id != this.KernelInputId) {
@@ -555,6 +559,14 @@ namespace NTMiner.Vms {
                     OnPropertyChanged(nameof(KernelOutputId));
                     OnPropertyChanged(nameof(KernelOutputVm));
                 }
+            }
+        }
+
+        public List<Guid> AlgoIds {
+            get => _algoIds;
+            set {
+                _algoIds = value;
+                OnPropertyChanged(nameof(AlgoIds));
             }
         }
     }
