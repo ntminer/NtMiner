@@ -130,16 +130,19 @@ namespace NTMiner.Views.Ucs {
         private void KbButtonDualCoinPool_Clicked(object sender, RoutedEventArgs e) {
             OpenDualCoinPoolPopup();
             UserActionHappend();
+            e.Handled = true;
         }
 
         private void KbButtonDualCoin_Clicked(object sender, RoutedEventArgs e) {
             OpenDualCoinPopup();
             UserActionHappend();
+            e.Handled = true;
         }
 
         private void KbButtonDualCoinWallet_Clicked(object sender, RoutedEventArgs e) {
             OpenDualCoinWalletPopup();
             UserActionHappend();
+            e.Handled = true;
         }
 
         private static void UserActionHappend() {

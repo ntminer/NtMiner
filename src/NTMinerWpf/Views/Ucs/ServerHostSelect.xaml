@@ -22,7 +22,7 @@
 		<Button 
 			Background="Transparent" 
 			BorderThickness="0" 
-			Padding="0 0 4 0"
+			Padding="2"
 			Command="{Binding HideView}"
 			HorizontalAlignment="Right">
 			<Path

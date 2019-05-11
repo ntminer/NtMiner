@@ -79,8 +79,9 @@ namespace NTMiner.Views {
                 });
         }
 
-        private void TextBoxServerHost_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+        private void ButtonServerHost_Click(object sender, RoutedEventArgs e) {
             OpenServerHostsPopup();
+            e.Handled = true;
         }
     }
 }

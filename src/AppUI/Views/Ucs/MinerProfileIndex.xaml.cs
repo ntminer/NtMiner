@@ -155,21 +155,25 @@ namespace NTMiner.Views.Ucs {
         private void KbButtonKernel_Clicked(object sender, RoutedEventArgs e) {
             OpenKernelPopup();
             UserActionHappend();
+            e.Handled = true;
         }
 
         private void KbButtonMainCoinPool_Clicked(object sender, RoutedEventArgs e) {
             OpenMainCoinPoolPopup();
             UserActionHappend();
+            e.Handled = true;
         }
 
         private void KbButtonMainCoin_Clicked(object sender, RoutedEventArgs e) {
             OpenMainCoinPopup();
             UserActionHappend();
+            e.Handled = true;
         }
 
         private void KbButtonMainCoinWallet_Clicked(object sender, RoutedEventArgs e) {
             OpenMainCoinWalletPopup();
             UserActionHappend();
+            e.Handled = true;
         }
 
         private static void UserActionHappend() {

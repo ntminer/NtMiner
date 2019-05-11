@@ -55,20 +55,31 @@
 					<RowDefinition Height="Auto"></RowDefinition>
 				</Grid.RowDefinitions>
 				<Label Grid.Row="0" Grid.Column="0" Margin="0 2" Content="服务器" HorizontalContentAlignment="Right" Foreground="{StaticResource LableColor}"></Label>
-				
+
 				<WrapPanel Grid.Row="0" Grid.Column="1" Margin="0 2">
-					<TextBox x:Name="TextBoxServerHost" ToolTip="IP或域名" Width="166" Height="26" VerticalContentAlignment="Center" MouseDown="TextBoxServerHost_MouseDown" Text="{Binding ServerHost}">
+					<TextBox x:Name="TextBoxServerHost" ToolTip="IP或域名" Padding="0 0 20 0" Width="166" Height="26" VerticalContentAlignment="Center" Text="{Binding ServerHost}">
 					</TextBox>
+					<Button 
+						Margin="-20 0 0 0" BorderThickness="0"
+						Click="ButtonServerHost_Click"
+						IsEnabled="{Binding ElementName=PopupServerHosts,Path=IsOpen,Converter={StaticResource BoolInvertConverter}}">
+						<Path
+							Width="12"
+							Height="8"
+							Data="{StaticResource Icon_ComboBoxToogle}"
+							Fill="Black"
+							Stretch="Fill" />
+					</Button>
 					<TextBlock Padding="0" Text=":" VerticalAlignment="Center"></TextBlock>
 					<TextBlock Padding="0" Text="{Binding Port}" ToolTip="端口" VerticalAlignment="Center"></TextBlock>
-					<Popup 
-						x:Name="PopupServerHosts" 
-						PopupAnimation="Slide" 
-						PlacementTarget="{Binding ElementName=TextBoxServerHost}" 
-						Placement="Bottom" 
-						StaysOpen="False"></Popup>
 				</WrapPanel>
-				
+				<Popup 
+					x:Name="PopupServerHosts" 
+					PopupAnimation="Slide" 
+					PlacementTarget="{Binding ElementName=TextBoxServerHost}" 
+					Placement="Bottom" 
+					StaysOpen="False"></Popup>
+
 				<Label Grid.Row="1" Grid.Column="0" Margin="0 2" Content="登录名" HorizontalContentAlignment="Right" Foreground="{StaticResource LableColor}"></Label>
 				<TextBox Grid.Row="1" Grid.Column="1" Margin="0 2" Text="{Binding LoginName}" Background="White" VerticalContentAlignment="Center"></TextBox>
 
