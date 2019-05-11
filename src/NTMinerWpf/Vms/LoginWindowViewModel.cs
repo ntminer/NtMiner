@@ -16,6 +16,7 @@ namespace NTMiner.Vms {
         public LoginWindowViewModel() {
             this._loginName = "admin";
             this._serverHost = NTMinerRegistry.GetControlCenterHost();
+            this.IsInnerIp = Ip.Util.IsInnerIp(_serverHost);
             this.ActiveAdmin = new DelegateCommand(() => {
                 if (string.IsNullOrEmpty(this.Password)) {
                     this.ShowMessage("密码不能为空");
