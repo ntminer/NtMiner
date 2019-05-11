@@ -12,6 +12,7 @@ namespace NTMiner.Views {
                 return (LoginWindowViewModel)this.DataContext;
             }
         }
+
         public LoginWindow() {
             EventHandler changeNotiCenterWindowLocation = Util.ChangeNotiCenterWindowLocation(this);
             this.Activated += changeNotiCenterWindowLocation;
@@ -35,6 +36,12 @@ namespace NTMiner.Views {
 
         private void BtnLogin_OnClick(object sender, RoutedEventArgs e) {
             string passwordSha1 = HashUtil.Sha1(Vm.Password);
+            NTMinerRegistry.SetControlCenterHost(Vm.ServerHost);
+            if (Ip.Util.IsInnerIp(Vm.ServerHost)) {
+                this.DialogResult = true;
+                this.Close();
+                return;
+            }
             Server.ControlCenterService.LoginAsync(Vm.LoginName, passwordSha1, (response, exception) => {
                 UIThread.Execute(() => {
                     if (response == null) {

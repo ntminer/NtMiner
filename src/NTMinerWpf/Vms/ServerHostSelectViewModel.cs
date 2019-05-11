@@ -15,7 +15,13 @@ namespace NTMiner.Vms {
         }
 
         public List<string> ServerHosts {
-            get => NTMinerRegistry.GetControlCenterHosts().ToList();
+            get {
+                var list = NTMinerRegistry.GetControlCenterHosts().ToList();
+                if (!list.Contains("127.0.0.1") && !list.Contains("localhost")) {
+                    list.Add("127.0.0.1");
+                }
+                return list;
+            }
             set {
                 NTMinerRegistry.SetControlCenterHosts(value.ToArray());
                 OnPropertyChanged(nameof(ServerHosts));

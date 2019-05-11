@@ -55,16 +55,8 @@ namespace NTMiner {
                     NTMinerRoot.KernelDownloader = new KernelDownloader();
                     UIThread.Execute(() => {
                         splashWindow?.Close();
-                        bool? result = true;
-                        if (isInnerIp) {
-                            SingleUser.LoginName = "innerip";
-                            SingleUser.SetPasswordSha1("123");
-                            result = true;
-                        }
-                        else if (string.IsNullOrEmpty(SingleUser.LoginName) || string.IsNullOrEmpty(SingleUser.PasswordSha1)) {
-                            LoginWindow loginWindow = new LoginWindow();
-                            result = loginWindow.ShowDialog();
-                        }
+                        LoginWindow loginWindow = new LoginWindow();
+                        var result = loginWindow.ShowDialog();
                         if (result.HasValue && result.Value) {
                             ChartsWindow.ShowWindow();
                             System.Drawing.Icon icon = new System.Drawing.Icon(GetResourceStream(new Uri("pack://application:,,,/MinerStudio;component/logo.ico")).Stream);
