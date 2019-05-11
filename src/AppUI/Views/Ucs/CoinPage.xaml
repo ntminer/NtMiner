@@ -151,7 +151,10 @@
 					</DataGridTemplateColumn>
 					<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
-							<TextBlock Text="中文名"></TextBlock>
+							<WrapPanel>
+								<TextBlock Text="中文名"></TextBlock>
+								<TextBlock Margin="4 0 0 0" Text="{Binding Data.List.Count, Source={StaticResource proxy}}"></TextBlock>
+							</WrapPanel>
 						</DataGridTemplateColumn.Header>
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
