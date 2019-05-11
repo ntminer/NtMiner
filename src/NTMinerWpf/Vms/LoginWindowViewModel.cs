@@ -1,21 +1,25 @@
 ﻿using NTMiner.Notifications;
 using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class LoginWindowViewModel : ViewModelBase {
-        private string _hostAndPort;
+        private string _serverHost;
+        private int _port = Consts.ControlCenterPort;
         private string _loginName;
         private string _password;
         private Visibility _isPasswordAgainVisible = Visibility.Collapsed;
         private string _passwordAgain;
+        private List<string> _serverHosts = new List<string>();
 
         public ICommand ActiveAdmin { get; private set; }
 
         public LoginWindowViewModel() {
-            this._hostAndPort = $"{Server.ControlCenterHost}:{Consts.ControlCenterPort}";
             this._loginName = "admin";
+            _serverHost = Server.ControlCenterHost;
+            _serverHosts.Add(Server.ControlCenterHost);
             this.ActiveAdmin = new DelegateCommand(() => {
                 if (string.IsNullOrEmpty(this.Password)) {
                     this.ShowMessage("密码不能为空");
@@ -53,21 +57,33 @@ namespace NTMiner.Vms {
             });
         }
 
+        public List<string> ServerHosts {
+            get => _serverHosts;
+            set {
+                _serverHosts = value;
+                OnPropertyChanged(nameof(ServerHosts));
+            }
+        }
+
+        public string ServerHost {
+            get => _serverHost;
+            set {
+                if (_serverHost != value) {
+                    _serverHost = value;
+                    OnPropertyChanged(nameof(ServerHost));
+                }
+            }
+        }
+
+        public int Port {
+            get { return _port; }
+        }
+
         public Visibility IsPasswordAgainVisible {
             get => _isPasswordAgainVisible;
             set {
                 _isPasswordAgainVisible = value;
                 OnPropertyChanged(nameof(IsPasswordAgainVisible));
-            }
-        }
-
-        public string HostAndPort {
-            get => _hostAndPort;
-            set {
-                if (_hostAndPort != value) {
-                    _hostAndPort = value;
-                    OnPropertyChanged(nameof(HostAndPort));
-                }
             }
         }
 
