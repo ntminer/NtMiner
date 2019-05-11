@@ -92,7 +92,7 @@ namespace NTMiner.Vms {
             _package = data.Package;
             _kernelOutputId = data.KernelOutputId;
             _kernelInputId = data.KernelInputId;
-            _algoIds = data.AlgoIds;
+            AlgoIds = data.AlgoIds;
         }
 
         public KernelViewModel(Guid id) {
