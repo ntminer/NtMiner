@@ -6,7 +6,6 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class LoginWindowViewModel : ViewModelBase {
-        private string _serverHost;
         private int _port = Consts.ControlCenterPort;
         private string _loginName;
         private string _password;
@@ -18,8 +17,7 @@ namespace NTMiner.Vms {
 
         public LoginWindowViewModel() {
             this._loginName = "admin";
-            _serverHost = Server.ControlCenterHost;
-            _serverHosts.Add(Server.ControlCenterHost);
+            _serverHosts.Add(ServerHost);
             this.ActiveAdmin = new DelegateCommand(() => {
                 if (string.IsNullOrEmpty(this.Password)) {
                     this.ShowMessage("密码不能为空");
@@ -66,10 +64,10 @@ namespace NTMiner.Vms {
         }
 
         public string ServerHost {
-            get => _serverHost;
+            get => NTMinerRegistry.GetControlCenterHost();
             set {
-                if (_serverHost != value) {
-                    _serverHost = value;
+                if (NTMinerRegistry.GetControlCenterHost() != value) {
+                    NTMinerRegistry.SetControlCenterHost(value);
                     OnPropertyChanged(nameof(ServerHost));
                 }
             }

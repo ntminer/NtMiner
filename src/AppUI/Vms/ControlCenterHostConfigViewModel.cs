@@ -13,24 +13,21 @@ namespace NTMiner.Vms {
                     if (string.IsNullOrEmpty(this.ControlCenterHost)) {
                         this.ControlCenterHost = NTMinerRegistry.DefaultControlCenterHost;
                     }
-                    Server.ControlCenterHost = this.ControlCenterHost;
                     CloseWindow?.Invoke();
                 }
                 catch (Exception e) {
                     Logger.ErrorDebugLine(e.Message, e);
                 }
             });
-            _controlCenterHost = Server.ControlCenterHost;
         }
 
-        private string _controlCenterHost;
         public string ControlCenterHost {
             get {
-                return _controlCenterHost;
+                return NTMinerRegistry.GetControlCenterHost();
             }
             set {
-                if (_controlCenterHost != value) {
-                    _controlCenterHost = value;
+                if (NTMinerRegistry.GetControlCenterHost() != value) {
+                    NTMinerRegistry.SetControlCenterHost(value);
                     OnPropertyChanged(nameof(ControlCenterHost));
                 }
             }
