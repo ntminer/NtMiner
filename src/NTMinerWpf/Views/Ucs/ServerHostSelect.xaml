@@ -5,7 +5,7 @@
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+		xmlns:controls="clr-namespace:NTMiner.Controls"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:vm="clr-namespace:NTMiner.Vms"
 		BorderBrush="Black"
@@ -40,13 +40,37 @@
 			MouseUp="DataGrid_MouseUp"
 			PreviewKeyDown="DataGrid_PreviewKeyDown"
 			BorderThickness="0">
+			<DataGrid.Resources>
+				<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
+			</DataGrid.Resources>
 			<DataGrid.Columns>
 				<DataGridTemplateColumn Width="*" Header="IP或域名" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock 
-								Text="{Binding}" 
+								Text="{Binding IpOrHost}" 
 								VerticalAlignment="Center"></TextBlock>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn Width="30" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<Button 
+								Background="Transparent" 
+								BorderThickness="0" 
+								Padding="2"
+								Visibility="{Binding IsInnerIp,Converter={StaticResource BoolToVisibilityInvertConverter}}"
+								Command="{Binding Data.Remove,Source={StaticResource proxy}}"
+								CommandParameter="{Binding}"
+								HorizontalAlignment="Right">
+								<Path
+									Width="14"
+									Height="14"
+									Data="{StaticResource Icon_Close}"
+									Fill="Black"
+									Stretch="Fill" />
+							</Button>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>

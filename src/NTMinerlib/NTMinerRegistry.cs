@@ -1,6 +1,8 @@
 ﻿using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace NTMiner {
     public static class NTMinerRegistry {
@@ -226,15 +228,15 @@ namespace NTMiner {
         #endregion
 
         #region ControlCenterHosts
-        public static string[] GetControlCenterHosts() {
+        public static List<string> GetControlCenterHosts() {
             object value = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, "ControlCenterHosts");
             if (value == null) {
-                return new string[0];
+                return new List<string>();
             }
-            return value.ToString().Split(',');
+            return value.ToString().Split(',').ToList();
         }
 
-        public static void SetControlCenterHosts(string[] hosts) {
+        public static void SetControlCenterHosts(List<string> hosts) {
             string value = string.Empty;
             if (hosts != null) {
                 value = string.Join(",", hosts);

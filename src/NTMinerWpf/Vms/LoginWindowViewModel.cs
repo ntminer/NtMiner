@@ -9,7 +9,7 @@ namespace NTMiner.Vms {
         private string _password;
         private Visibility _isPasswordAgainVisible = Visibility.Collapsed;
         private string _passwordAgain;
-        private string _serverHost;
+        private String _serverHost;
 
         public ICommand ActiveAdmin { get; private set; }
 
@@ -57,8 +57,8 @@ namespace NTMiner.Vms {
             get => _serverHost;
             set {
                 _serverHost = value;
-                this.IsInnerIp = Ip.Util.IsInnerIp(value);
                 OnPropertyChanged(nameof(ServerHost));
+                this.IsInnerIp = Ip.Util.IsInnerIp(value);
                 OnPropertyChanged(nameof(IsInnerIp));
             }
         }

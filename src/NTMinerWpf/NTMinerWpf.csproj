@@ -113,6 +113,7 @@
       <DependentUpon>ServerHostSelect.xaml</DependentUpon>
     </Compile>
     <Compile Include="Vms\ServerHostSelectViewModel.cs" />
+    <Compile Include="Vms\ServerHostItem.cs" />
     <Compile Include="Wpf\NativeMethods.cs" />
     <Compile Include="Wpf\TopWindow.cs" />
     <Compile Include="Views\NotiCenterWindow.xaml.cs">

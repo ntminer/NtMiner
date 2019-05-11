@@ -3,6 +3,7 @@ using NTMiner;
 using NTMiner.Controllers;
 using NTMiner.Profile;
 using NTMiner.Serialization;
+using NTMiner.Vms;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -195,6 +196,20 @@ namespace UnitTestProject1 {
         [TestMethod]
         public void ZipTest() {
             ZipUtil.DecompressZipFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "lolminer0.7Alpha5.zip"), Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "temp"));
+        }
+
+        [TestMethod]
+        public void OperatorTest() {
+            ServerHostItem v1 = new ServerHostItem("localhost");
+            ServerHostItem v2 = new ServerHostItem("localhost");
+            Assert.AreEqual(v1, v2);
+            Assert.IsTrue(v1 == v2);
+            Assert.IsFalse(v1 != v2);
+            Assert.IsFalse(v1 == null);
+            Assert.IsFalse(null == v1);
+            v1 = null;
+            v2 = null;
+            Assert.IsTrue(v1 == v2);
         }
 
         private string SignatureSafeUrl(Uri uri) {

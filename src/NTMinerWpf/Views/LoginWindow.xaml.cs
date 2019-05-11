@@ -3,6 +3,7 @@ using NTMiner.Views.Ucs;
 using NTMiner.Vms;
 using NTMiner.Wpf;
 using System;
+using System.Linq;
 using System.Windows;
 
 namespace NTMiner.Views {
@@ -41,6 +42,11 @@ namespace NTMiner.Views {
             }
             string passwordSha1 = HashUtil.Sha1(Vm.Password);
             NTMinerRegistry.SetControlCenterHost(Vm.ServerHost);
+            var list = NTMinerRegistry.GetControlCenterHosts();
+            if (!list.Contains(Vm.ServerHost)) {
+                list.Insert(0, Vm.ServerHost);
+            }
+            NTMinerRegistry.SetControlCenterHosts(list);
             if (Ip.Util.IsInnerIp(Vm.ServerHost)) {
                 this.DialogResult = true;
                 this.Close();
@@ -75,19 +81,19 @@ namespace NTMiner.Views {
             var popup = PopupServerHosts;
             popup.IsOpen = true;
             var selected = Vm.ServerHost;
-            popup.Child = new ServerHostSelect(
-                new ServerHostSelectViewModel(selected, onOk: selectedResult => {
-                    if (selectedResult != null) {
-                        if (Vm.ServerHost != selectedResult) {
-                            Vm.ServerHost = selectedResult;
-                        }
-                        popup.IsOpen = false;
+            var vm = new ServerHostSelectViewModel(selected, onOk: selectedResult => {
+                if (selectedResult != null) {
+                    if (Vm.ServerHost != selectedResult.IpOrHost) {
+                        Vm.ServerHost = selectedResult.IpOrHost;
                     }
-                }) {
-                    HideView = new DelegateCommand(() => {
-                        popup.IsOpen = false;
-                    })
-                });
+                    popup.IsOpen = false;
+                }
+            }) {
+                HideView = new DelegateCommand(() => {
+                    popup.IsOpen = false;
+                })
+            };
+            popup.Child = new ServerHostSelect(vm);
         }
 
         private void ButtonServerHost_Click(object sender, RoutedEventArgs e) {
