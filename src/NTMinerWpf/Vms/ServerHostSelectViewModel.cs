@@ -20,9 +20,11 @@ namespace NTMiner.Vms {
             _selectedResult = _serverHosts.FirstOrDefault(a => a.IpOrHost == selected);
             OnOk = onOk;
             this.Remove = new DelegateCommand<ServerHostItem>((serverHost) => {
-                var list = this.ServerHosts;
-                if (list.Remove(serverHost)) {
-                    this.ServerHosts = list.ToList();
+                if (this.ServerHosts.Remove(serverHost)) {
+                    if (NTMinerRegistry.GetControlCenterHost() == serverHost.IpOrHost) {
+                        NTMinerRegistry.SetControlCenterHost(string.Empty);
+                    }
+                    this.ServerHosts = this.ServerHosts.ToList();
                 }
             });
         }
