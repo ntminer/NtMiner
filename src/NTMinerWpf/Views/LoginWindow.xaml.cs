@@ -35,6 +35,10 @@ namespace NTMiner.Views {
         }
 
         private void BtnLogin_OnClick(object sender, RoutedEventArgs e) {
+            if (string.IsNullOrEmpty(Vm.ServerHost)) {
+                Vm.ShowMessage("服务器地址不能为空");
+                return;
+            }
             string passwordSha1 = HashUtil.Sha1(Vm.Password);
             NTMinerRegistry.SetControlCenterHost(Vm.ServerHost);
             if (Ip.Util.IsInnerIp(Vm.ServerHost)) {

@@ -80,11 +80,28 @@
 					Placement="Bottom" 
 					StaysOpen="False"></Popup>
 
-				<Label Grid.Row="1" Grid.Column="0" Margin="0 2" Content="登录名" HorizontalContentAlignment="Right" Foreground="{StaticResource LableColor}"></Label>
-				<TextBox Grid.Row="1" Grid.Column="1" Margin="0 2" Text="{Binding LoginName}" Background="White" VerticalContentAlignment="Center"></TextBox>
+				<Label 
+					Grid.Row="1" Grid.Column="0" Margin="0 2" 
+					Visibility="{Binding IsInnerIp,Converter={StaticResource BoolToHiddenInvertConverter}}"
+					Content="登录名" HorizontalContentAlignment="Right" 
+					Foreground="{StaticResource LableColor}"></Label>
+				<TextBox 
+					Grid.Row="1" Grid.Column="1" Margin="0 2" 
+					Visibility="{Binding IsInnerIp,Converter={StaticResource BoolToHiddenInvertConverter}}"
+					Text="{Binding LoginName}" Background="White" 
+					VerticalContentAlignment="Center"></TextBox>
+				<TextBlock 
+					Grid.Row="1" Grid.Column="1" Margin="0 2"
+					Visibility="{Binding IsInnerIp,Converter={StaticResource BoolToHiddenConverter}}">内网免登录</TextBlock>
 
-				<Label Grid.Row="2" Grid.Column="0" Margin="0 2" Content="密码" HorizontalContentAlignment="Right" Foreground="{StaticResource LableColor}"></Label>
-				<PasswordBox Grid.Row="2" Grid.Column="1" Margin="0 2" x:Name="PbPassword" VerticalContentAlignment="Center" Background="White" controls:PasswordBoxHelper.Attach="true" controls:PasswordBoxHelper.Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+				<Label 
+					Grid.Row="2" Grid.Column="0" Margin="0 2" 
+					Visibility="{Binding IsInnerIp,Converter={StaticResource BoolToHiddenInvertConverter}}"
+					Content="密码" HorizontalContentAlignment="Right" Foreground="{StaticResource LableColor}"></Label>
+				<PasswordBox 
+					Visibility="{Binding IsInnerIp,Converter={StaticResource BoolToHiddenInvertConverter}}"
+					Grid.Row="2" Grid.Column="1" Margin="0 2" 
+					x:Name="PbPassword" VerticalContentAlignment="Center" Background="White" controls:PasswordBoxHelper.Attach="true" controls:PasswordBoxHelper.Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
 				<Label 
 					Grid.Row="3" Grid.Column="0" 

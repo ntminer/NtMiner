@@ -57,8 +57,14 @@ namespace NTMiner.Vms {
             get => _serverHost;
             set {
                 _serverHost = value;
+                this.IsInnerIp = Ip.Util.IsInnerIp(value);
                 OnPropertyChanged(nameof(ServerHost));
+                OnPropertyChanged(nameof(IsInnerIp));
             }
+        }
+
+        public bool IsInnerIp {
+            get;set;
         }
 
         public int Port {
