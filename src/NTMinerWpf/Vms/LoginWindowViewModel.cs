@@ -1,23 +1,21 @@
 ﻿using NTMiner.Notifications;
 using System;
-using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class LoginWindowViewModel : ViewModelBase {
-        private int _port = Consts.ControlCenterPort;
         private string _loginName;
         private string _password;
         private Visibility _isPasswordAgainVisible = Visibility.Collapsed;
         private string _passwordAgain;
-        private List<string> _serverHosts = new List<string>();
+        private string _serverHost;
 
         public ICommand ActiveAdmin { get; private set; }
 
         public LoginWindowViewModel() {
             this._loginName = "admin";
-            _serverHosts.Add(ServerHost);
+            this._serverHost = NTMinerRegistry.GetControlCenterHost();
             this.ActiveAdmin = new DelegateCommand(() => {
                 if (string.IsNullOrEmpty(this.Password)) {
                     this.ShowMessage("密码不能为空");
@@ -55,26 +53,16 @@ namespace NTMiner.Vms {
             });
         }
 
-        public List<string> ServerHosts {
-            get => _serverHosts;
-            set {
-                _serverHosts = value;
-                OnPropertyChanged(nameof(ServerHosts));
-            }
-        }
-
         public string ServerHost {
-            get => NTMinerRegistry.GetControlCenterHost();
+            get => _serverHost;
             set {
-                if (NTMinerRegistry.GetControlCenterHost() != value) {
-                    NTMinerRegistry.SetControlCenterHost(value);
-                    OnPropertyChanged(nameof(ServerHost));
-                }
+                _serverHost = value;
+                OnPropertyChanged(nameof(ServerHost));
             }
         }
 
         public int Port {
-            get { return _port; }
+            get { return Consts.ControlCenterPort; }
         }
 
         public Visibility IsPasswordAgainVisible {

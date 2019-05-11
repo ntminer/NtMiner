@@ -18,6 +18,9 @@
 		WindowStartupLocation="CenterScreen"
 		MouseDown="MetroWindow_MouseDown"
 		Title="NTMinerFileEdit" SizeToContent="WidthAndHeight">
+	<metro:MetroWindow.DataContext>
+		<vm:LoginWindowViewModel></vm:LoginWindowViewModel>
+	</metro:MetroWindow.DataContext>
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="30"></RowDefinition>
@@ -54,10 +57,16 @@
 				<Label Grid.Row="0" Grid.Column="0" Margin="0 2" Content="服务器" HorizontalContentAlignment="Right" Foreground="{StaticResource LableColor}"></Label>
 				
 				<WrapPanel Grid.Row="0" Grid.Column="1" Margin="0 2">
-					<controls:KbComboBox ToolTip="IP或域名" Width="160" Height="30" ItemsSource="{Binding ServerHosts}" SelectedItem="{Binding ServerHost}">
-					</controls:KbComboBox>
+					<TextBox x:Name="TextBoxServerHost" ToolTip="IP或域名" Width="166" Height="26" VerticalContentAlignment="Center" MouseDown="TextBoxServerHost_MouseDown" Text="{Binding ServerHost}">
+					</TextBox>
 					<TextBlock Padding="0" Text=":" VerticalAlignment="Center"></TextBlock>
 					<TextBlock Padding="0" Text="{Binding Port}" ToolTip="端口" VerticalAlignment="Center"></TextBlock>
+					<Popup 
+						x:Name="PopupServerHosts" 
+						PopupAnimation="Slide" 
+						PlacementTarget="{Binding ElementName=TextBoxServerHost}" 
+						Placement="Bottom" 
+						StaysOpen="False"></Popup>
 				</WrapPanel>
 				
 				<Label Grid.Row="1" Grid.Column="0" Margin="0 2" Content="登录名" HorizontalContentAlignment="Right" Foreground="{StaticResource LableColor}"></Label>

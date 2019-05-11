@@ -225,6 +225,24 @@ namespace NTMiner {
         }
         #endregion
 
+        #region ControlCenterHosts
+        public static string[] GetControlCenterHosts() {
+            object value = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, "ControlCenterHosts");
+            if (value == null) {
+                return new string[0];
+            }
+            return value.ToString().Split(',');
+        }
+
+        public static void SetControlCenterHosts(string[] hosts) {
+            string value = string.Empty;
+            if (hosts != null) {
+                value = string.Join(",", hosts);
+            }
+            Windows.Registry.SetValue(Registry.Users, NTMinerRegistrySubKey, "ControlCenterHosts", value);
+        }
+        #endregion
+
         #region DaemonVersion
         public static string GetDaemonVersion() {
             object value = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, "DaemonVersion");
