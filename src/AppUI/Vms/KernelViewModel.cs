@@ -42,6 +42,12 @@ namespace NTMiner.Vms {
         private string _notice;
         private Guid _kernelInputId;
         private Guid _kernelOutputId;
+        private List<Guid> _algoIds;
+        private KernelInputViewModel _kernelInputVm;
+        private KernelOutputViewModel _kernelOutputVm;
+        private List<AlgoSelectItem> _algoSelectItems;
+
+
 
         private KernelProfileViewModel _kernelProfileVm;
 
@@ -92,6 +98,7 @@ namespace NTMiner.Vms {
         public KernelViewModel(Guid id) {
             _id = id;
             this.Save = new DelegateCommand(() => {
+                _algoIds = this.AlgoSelectItems.Where(a=>a.IsChecked).Select(a => a.SysDicItemVm.Id).ToList();
                 if (NTMinerRoot.Instance.KernelSet.Contains(this.Id)) {
                     VirtualRoot.Execute(new UpdateKernelCommand(this));
                 }
@@ -195,7 +202,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        private KernelOutputViewModel _kernelOutputVm;
         public KernelOutputViewModel KernelOutputVm {
             get {
                 if (_kernelOutputVm == null || _kernelOutputVm.Id != this.KernelOutputId) {
@@ -220,9 +226,6 @@ namespace NTMiner.Vms {
                 return AppContext.Instance.KernelOutputVms;
             }
         }
-
-        private KernelInputViewModel _kernelInputVm;
-        private List<Guid> _algoIds;
 
         public KernelInputViewModel KernelInputVm {
             get {
@@ -567,6 +570,19 @@ namespace NTMiner.Vms {
             set {
                 _algoIds = value;
                 OnPropertyChanged(nameof(AlgoIds));
+                var list = new List<AlgoSelectItem>();
+                foreach (var item in AppContext.Instance.SysDicItemVms.AlgoItems) {
+                    list.Add(new AlgoSelectItem(item, value.Contains(item.Id)));
+                }
+                AlgoSelectItems = list;
+            }
+        }
+
+        public List<AlgoSelectItem> AlgoSelectItems {
+            get => _algoSelectItems;
+            private set {
+                _algoSelectItems = value;
+                OnPropertyChanged(nameof(AlgoSelectItems));
             }
         }
     }

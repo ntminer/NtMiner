@@ -172,6 +172,7 @@
     <Compile Include="Views\Ucs\MinerProfileDual.xaml.cs">
       <DependentUpon>MinerProfileDual.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Vms\AlgoSelectItem.cs" />
     <Compile Include="Vms\AppStatic.cs" />
     <Compile Include="Vms\BrandWindowViewModel.cs" />
     <Compile Include="Vms\SplashWindowViewModel.cs" />
