@@ -15,7 +15,7 @@ using System.Windows.Input;
 namespace NTMiner.Vms {
     public class CoinViewModel : ViewModelBase, ICoin, IEditableViewModel {
         public static readonly CoinViewModel Empty = new CoinViewModel(Guid.Empty) {
-            _algo = string.Empty,
+            _algoId = Guid.Empty,
             _code = string.Empty,
             _enName = string.Empty,
             _cnName = string.Empty,
@@ -37,7 +37,7 @@ namespace NTMiner.Vms {
         private Guid _id;
         private string _code;
         private int _sortNumber;
-        private string _algo;
+        private Guid _algoId;
         private string _testWallet;
         private string _enName;
         private string _cnName;
@@ -78,7 +78,7 @@ namespace NTMiner.Vms {
         public CoinViewModel(ICoin data) : this(data.GetId()) {
             _code = data.Code;
             _sortNumber = data.SortNumber;
-            _algo = data.Algo;
+            _algoId = data.AlgoId;
             _testWallet = data.TestWallet;
             _enName = data.EnName;
             _cnName = data.CnName;
@@ -411,13 +411,39 @@ namespace NTMiner.Vms {
             }
         }
 
-        public string Algo {
-            get => _algo;
+        public Guid AlgoId {
+            get => _algoId;
             set {
-                if (_algo != value) {
-                    _algo = value;
-                    OnPropertyChanged(nameof(Algo));
+                if (_algoId != value) {
+                    _algoId = value;
+                    OnPropertyChanged(nameof(AlgoId));
+                    OnPropertyChanged(nameof(AlgoItem));
                 }
+            }
+        }
+
+        public SysDicItemViewModel AlgoItem {
+            get {
+                if (this.AlgoId == Guid.Empty) {
+                    return SysDicItemViewModel.PleaseSelect;
+                }
+                SysDicItemViewModel item;
+                if (AppContext.Instance.SysDicItemVms.TryGetValue(this.AlgoId, out item)) {
+                    return item;
+                }
+                return SysDicItemViewModel.PleaseSelect;
+            }
+            set {
+                if (value == null) {
+                    value = SysDicItemViewModel.PleaseSelect;
+                }
+                this.AlgoId = value.Id;
+            }
+        }
+
+        public AppContext.SysDicItemViewModels SysDicItemVms {
+            get {
+                return AppContext.Instance.SysDicItemVms;
             }
         }
 

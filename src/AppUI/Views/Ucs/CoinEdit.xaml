@@ -30,13 +30,15 @@
 				<Image Width="26" Height="26" Source="{Binding IconImageSource}">
 				</Image>
 			</controls:KbButton>
-			<TextBlock Style="{StaticResource LblTb}" Width="40" Text="算法"></TextBlock>
-			<TextBox 
-				IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
-				Width="160"
+			<TextBlock Style="{StaticResource LblTb}" Text="算法"></TextBlock>
+			<controls:KbComboBox 
+				BorderThickness="0"
+				IsEnabled="{x:Static vm:AppStatic.IsDebugMode}"
+				Width="120" 
 				Height="26"
-				VerticalContentAlignment="Center" Text="{Binding Algo}">
-			</TextBox>
+				ItemsSource="{Binding SysDicItemVms.AlgoItems}"
+				DisplayMemberPath="Value" SelectedItem="{Binding AlgoItem}">
+			</controls:KbComboBox>
 		</WrapPanel>
 
 		<WrapPanel Margin="0 2">
