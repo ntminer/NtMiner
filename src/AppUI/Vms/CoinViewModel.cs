@@ -329,7 +329,6 @@ namespace NTMiner.Vms {
                 if (_code != value) {
                     _code = value;
                     OnPropertyChanged(nameof(Code));
-                    OnPropertyChanged(nameof(CodeAlgo));
                     if (this == Empty || this == PleaseSelect || this == DualCoinEnabled) {
                         return;
                     }
@@ -340,15 +339,6 @@ namespace NTMiner.Vms {
                         throw new ValidationException("重复的币种编码");
                     }
                 }
-            }
-        }
-
-        public string CodeAlgo {
-            get {
-                if (this.Id == Guid.Empty) {
-                    return this.Code;
-                }
-                return $"{this.Code}-{this.Algo}";
             }
         }
 
@@ -427,7 +417,6 @@ namespace NTMiner.Vms {
                 if (_algo != value) {
                     _algo = value;
                     OnPropertyChanged(nameof(Algo));
-                    OnPropertyChanged(nameof(CodeAlgo));
                 }
             }
         }

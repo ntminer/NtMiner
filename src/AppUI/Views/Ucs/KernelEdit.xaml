@@ -261,7 +261,7 @@
 							BorderThickness="0"
 							Width="132" 
 							ItemsSource="{Binding KernelVmSingleInstance.CoinVms}" 
-							DisplayMemberPath="CodeAlgo">
+							DisplayMemberPath="Code">
 						</controls:KbComboBox>
 						<controls:KbButton 
 							Command="{Binding KernelVmSingleInstance.AddCoinKernel}" 

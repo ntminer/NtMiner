@@ -49,8 +49,7 @@ namespace NTMiner.Vms {
                     return _coins.Where(a => 
                         (a.Code != null && a.Code.Contains(Keyword)) || 
                         (a.CnName != null && a.CnName.Contains(Keyword)) || 
-                        (a.EnName != null && a.EnName.Contains(Keyword)) || 
-                        (a.Algo != null && a.Algo.Contains(Keyword))).OrderBy(a => a.SortNumber).ToList();
+                        (a.EnName != null && a.EnName.Contains(Keyword))).OrderBy(a => a.SortNumber).ToList();
                 }
                 return _coins.OrderBy(a => a.SortNumber).ToList();
             }

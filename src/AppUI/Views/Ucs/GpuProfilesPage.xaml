@@ -46,7 +46,7 @@
 				<DataTemplate>
 					<Border Padding="8 0">
 						<WrapPanel>
-							<TextBlock Padding="10 2" Text="{Binding Code}" ToolTip="{Binding CodeAlgo}"></TextBlock>
+							<TextBlock Padding="10 2" Text="{Binding Code}"></TextBlock>
 							<CheckBox IsChecked="{Binding IsOverClockEnabled}" VerticalAlignment="Center"></CheckBox>
 						</WrapPanel>
 					</Border>

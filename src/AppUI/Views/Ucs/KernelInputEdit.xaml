@@ -170,7 +170,7 @@
 				Margin="0"
 				Visibility="{Binding IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}"
 				Width="100" BorderThickness="0" IsReadOnly="True" AcceptsReturn="True" 
-				TextWrapping="Wrap">dualCoin、dualAlgo、dualWallet、dualUserName、dualPassword、dualHost、dualPort、dualPool</TextBox>
+				TextWrapping="Wrap">dualCoin、dualWallet、dualUserName、dualPassword、dualHost、dualPort、dualPool</TextBox>
 		</StackPanel>
 
 		<controls:KbButton

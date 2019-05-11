@@ -267,7 +267,7 @@
 						</ListBox.ItemsPanel>
 						<ListBox.ItemTemplate>
 							<DataTemplate>
-								<TextBlock Padding="10 2" Text="{Binding Code}" ToolTip="{Binding CodeAlgo}"></TextBlock>
+								<TextBlock Padding="10 2" Text="{Binding Code}"></TextBlock>
 							</DataTemplate>
 						</ListBox.ItemTemplate>
 					</ListBox>

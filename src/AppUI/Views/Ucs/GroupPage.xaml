@@ -150,7 +150,7 @@
 				x:Name="CbCoins"
 				BorderThickness="0"
 				Width="132" ItemsSource="{Binding CurrentGroup.CoinVms}" 
-				DisplayMemberPath="CodeAlgo">
+				DisplayMemberPath="Code">
 				<controls:KbComboBox.ItemContainerStyle>
 					<Style TargetType="ComboBoxItem">
 						<Setter Property="Height" Value="30"></Setter>

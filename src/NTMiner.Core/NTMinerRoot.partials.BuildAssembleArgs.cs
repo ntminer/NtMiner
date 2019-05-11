@@ -74,7 +74,6 @@ namespace NTMiner {
                                 dualPassword = "x";
                             }
                             argsDic.Add("dualCoin", dualCoin.Code);
-                            argsDic.Add("dualAlgo", dualCoin.Algo);
                             argsDic.Add("dualWallet", dualWallet);
                             argsDic.Add("dualUserName", dualUserName);
                             argsDic.Add("dualPassword", dualPassword);
@@ -171,7 +170,6 @@ namespace NTMiner {
             args = args.Replace("{wallet}", prms["wallet"]);
             if (isDual) {
                 args = args.Replace("{dualCoin}", prms["dualCoin"]);
-                args = args.Replace("{dualAlgo}", prms["dualAlgo"]);
                 args = args.Replace("{dualWallet}", prms["dualWallet"]);
                 args = args.Replace("{dualUserName}", prms["dualUserName"]);
                 args = args.Replace("{dualPassword}", prms["dualPassword"]);
