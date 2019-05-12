@@ -375,12 +375,12 @@
 							<TextBlock Text="日志" Padding="4 0 0 0" FontSize="14"></TextBlock>
 						</WrapPanel>
 					</TabItem.Header>
-					<Grid Margin="-1 0 0 0">
+					<Grid Margin="-1 0 0 0" Background="Black">
 						<Grid.RowDefinitions>
 							<RowDefinition Height="Auto"></RowDefinition>
 							<RowDefinition Height="*"></RowDefinition>
 						</Grid.RowDefinitions>
-						<Grid Background="Black">
+						<Grid>
 							<Grid.RowDefinitions>
 								<RowDefinition Height="Auto"></RowDefinition>
 								<RowDefinition Height="Auto"></RowDefinition>
@@ -528,7 +528,7 @@
 								</WrapPanel>
 							</StackPanel>
 						</Grid>
-						<uc:Console x:Name="ConsoleUc" Grid.Row="1">
+						<uc:Console Grid.Row="1" x:Name="ConsoleUc">
 						</uc:Console>
 					</Grid>
 				</TabItem>

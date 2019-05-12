@@ -22,12 +22,19 @@
 				</Paragraph>
 			</FlowDocument>
 		</FlowDocumentScrollViewer>
+		<WrapPanel HorizontalAlignment="Right" Margin="0 -1 10 0">
+			<Button Content="事件">
+			</Button>
+			<Button Content="错误">
+			</Button>
+			<Button Content="警告">
+			</Button>
+		</WrapPanel>
 		<CheckBox 
 			x:Name="ChkbIsConsoleAutoScrollToEnd"
-			Margin="0 -1 10 0"
-			Width="16"
+			Width="16" Margin="0 -1 10 0"
 			HorizontalAlignment="Right"
-			VerticalAlignment="Top"
+			VerticalAlignment="Bottom"
 			ToolTip="自动滚屏"
 			IsChecked="True" />
 	</Grid>
