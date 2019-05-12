@@ -56,7 +56,7 @@ namespace NTMiner {
 
             public List<PackageViewModel> AllPackages {
                 get {
-                    return _dicById.Values.ToList();
+                    return _dicById.Values.OrderBy(a => a.Name).ToList();
                 }
             }
         }
