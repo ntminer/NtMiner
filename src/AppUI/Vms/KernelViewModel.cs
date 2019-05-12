@@ -369,7 +369,18 @@ namespace NTMiner.Vms {
                 if (_package != value) {
                     _package = value;
                     OnPropertyChanged(nameof(Package));
+                    OnPropertyChanged(nameof(IsPackageValid));
                 }
+            }
+        }
+
+        public bool IsPackageValid {
+            get {
+                if (string.IsNullOrEmpty(this.Package)) {
+                    return false;
+                }
+                PackageViewModel packageVm = AppContext.Instance.PackageVms.AllPackages.FirstOrDefault(a => a.Name == this.Package);
+                return packageVm != null;
             }
         }
 

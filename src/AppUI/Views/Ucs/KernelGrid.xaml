@@ -105,12 +105,17 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTextColumn 
+				<DataGridTemplateColumn 
 					MinWidth="100" Header="包" CanUserResize="True" 
 					CanUserReorder="False" CanUserSort="False" 
 					Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
-					IsReadOnly="True" Binding="{Binding Package}">
-				</DataGridTextColumn>
+					IsReadOnly="True">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding Package}" Foreground="{Binding IsPackageValid,Converter={StaticResource BoolToBrushConverter}}"></TextBlock>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
 				<DataGridTextColumn MinWidth="80" Header="尺寸" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Binding="{Binding SizeMbText}">
 				</DataGridTextColumn>
 				<DataGridTemplateColumn MinWidth="100" Header="输入" CanUserResize="True" CanUserReorder="False" 

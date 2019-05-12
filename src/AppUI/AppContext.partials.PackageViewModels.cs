@@ -27,16 +27,25 @@ namespace NTMiner {
                     action: (message) => {
                         _dicById.Add(message.Source.GetId(), new PackageViewModel(message.Source));
                         OnPropertyChanged(nameof(AllPackages));
+                        foreach (var item in AppContext.Instance.KernelVms.AllKernels) {
+                            item.OnPropertyChanged(nameof(item.IsPackageValid));
+                        }
                     });
                 On<PackageRemovedEvent>("删除了包后调整VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById.Remove(message.Source.GetId());
                         OnPropertyChanged(nameof(AllPackages));
+                        foreach (var item in AppContext.Instance.KernelVms.AllKernels) {
+                            item.OnPropertyChanged(nameof(item.IsPackageValid));
+                        }
                     });
                 On<PackageUpdatedEvent>("更新了包后调整VM内存", LogEnum.DevConsole,
                     action: message => {
                         var entity = _dicById[message.Source.GetId()];
                         entity.Update(message.Source);
+                        foreach (var item in AppContext.Instance.KernelVms.AllKernels) {
+                            item.OnPropertyChanged(nameof(item.IsPackageValid));
+                        }
                     });
                 Init();
 #if DEBUG
