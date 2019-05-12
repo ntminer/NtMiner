@@ -43,5 +43,9 @@ namespace NTMiner.Views {
                 this.DragMove();
             }
         }
+
+        private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
+
+        }
     }
 }

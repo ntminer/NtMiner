@@ -49,5 +49,87 @@
 				KbSystemButtonSize="40"
 				KbSystemButtonForeground="#385263" />
 		</WrapPanel>
+		<DataGrid 
+			Grid.Row="1"
+			Margin="0" ItemsSource="{Binding PackageVms.AllPackages}" 
+			BorderThickness="0 0 1 0" BorderBrush="{StaticResource LineColor}"
+			AutoGenerateColumns="False"
+			MouseDoubleClick="DataGrid_MouseDoubleClick">
+			<DataGrid.Resources>
+				<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
+			</DataGrid.Resources>
+			<DataGrid.Columns>
+				<DataGridTemplateColumn 
+					MinWidth="50" CanUserResize="True" IsReadOnly="True"
+					Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
+					<DataGridTemplateColumn.Header>
+						<controls:KbButton  
+							Command="{Binding Data.Add, Source={StaticResource proxy}}" 
+							Background="Transparent" BorderThickness="0"
+							Margin="2 0"
+							CornerRadius="2" ToolTip="添加">
+							<WrapPanel>
+								<Path
+									Width="18"
+									Height="18"
+									Data="{StaticResource Icon_Add}"
+									Fill="{StaticResource IconFillColor}"
+									Stretch="Fill" />
+							</WrapPanel>
+						</controls:KbButton>
+					</DataGridTemplateColumn.Header>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<StackPanel HorizontalAlignment="Right" Background="Transparent" VerticalAlignment="Center" Orientation="Horizontal">
+								<controls:KbButton 
+									Margin="2 0"
+									Command="{Binding Edit}" Background="Transparent" BorderThickness="0"
+									CornerRadius="2" ToolTip="编辑">
+									<WrapPanel>
+										<Path
+											Width="18"
+											Height="18"
+											Data="{StaticResource Icon_Edit}"
+											Fill="{StaticResource IconFillColor}"
+											Stretch="Fill" />
+									</WrapPanel>
+								</controls:KbButton>
+								<controls:KbButton 
+									Margin="2 0"
+									Command="{Binding Remove}" Background="Transparent" BorderThickness="0"
+									CornerRadius="2" ToolTip="删除">
+									<WrapPanel>
+										<Path
+											Width="18"
+											Height="18"
+											Data="{StaticResource Icon_Delete}"
+											Fill="{StaticResource IconFillColor}"
+											Stretch="Fill" />
+									</WrapPanel>
+								</controls:KbButton>
+							</StackPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn Header="名称" Width="140" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding Name}"></TextBlock>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn Width="*" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<TextBlock Text="支持算法"></TextBlock>
+					</DataGridTemplateColumn.Header>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+			</DataGrid.Columns>
+		</DataGrid>
+		<TextBlock Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding PackageVms.AllPackages, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" Text="沒有记录"></TextBlock>
 	</Grid>
 </metro:MetroWindow>
