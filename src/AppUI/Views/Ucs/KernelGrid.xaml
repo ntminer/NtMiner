@@ -9,7 +9,7 @@
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		d:DataContext="{d:DesignData Source=../Design/KernelsWindowViewModel.xaml}"
 		xmlns:vm="clr-namespace:NTMiner.Vms"
-		mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="1200">
+		mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="1300">
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*"></RowDefinition>
@@ -101,11 +101,16 @@
 									<TextBlock Text="{Binding PublishOnText}"></TextBlock>
 								</WrapPanel>
 								<TextBlock Text="未发布" Visibility="{Binding IsPublished, Converter={StaticResource BoolToVisibilityInvertConverter}}"></TextBlock>
-								<TextBlock Text="{Binding Package}" Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"></TextBlock>
 							</StackPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
+				<DataGridTextColumn 
+					MinWidth="100" Header="包" CanUserResize="True" 
+					CanUserReorder="False" CanUserSort="False" 
+					Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+					IsReadOnly="True" Binding="{Binding Package}">
+				</DataGridTextColumn>
 				<DataGridTextColumn MinWidth="80" Header="尺寸" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Binding="{Binding SizeMbText}">
 				</DataGridTextColumn>
 				<DataGridTemplateColumn MinWidth="100" Header="输入" CanUserResize="True" CanUserReorder="False" 

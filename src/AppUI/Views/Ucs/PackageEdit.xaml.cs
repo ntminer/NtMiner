@@ -10,7 +10,7 @@ namespace NTMiner.Views.Ucs {
                 IconName = "Icon_Package",
                 IsDialogWindow = true,
                 Width = 620,
-                Height = 200,
+                Height = 300,
                 CloseVisible = System.Windows.Visibility.Visible
             }, ucFactory: (window) => {
                 PackageViewModel vm = new PackageViewModel(source) {

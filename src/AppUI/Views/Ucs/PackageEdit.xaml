@@ -10,7 +10,7 @@
 		mc:Ignorable="d"
 		d:DataContext="{d:DesignData Source=Design/PackageViewModel.xaml}"
 		Background="White"
-		d:DesignWidth="580" d:DesignHeight="200">
+		d:DesignWidth="580" d:DesignHeight="300">
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
