@@ -106,7 +106,6 @@ namespace NTMiner.Vms {
                     list.Add(new AlgoSelectItem(item, value != null && value.Contains(item.Id)));
                 }
                 AlgoSelectItems = list;
-                OnPropertyChanged(nameof(AlgoIds));
             }
         }
 
@@ -115,6 +114,7 @@ namespace NTMiner.Vms {
             private set {
                 _algoSelectItems = value;
                 OnPropertyChanged(nameof(AlgoSelectItems));
+                OnPropertyChanged(nameof(AlgosText));
             }
         }
 
