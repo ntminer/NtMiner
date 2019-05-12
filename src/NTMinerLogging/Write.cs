@@ -21,7 +21,7 @@ namespace NTMiner {
         }
 
         public static void UserLine(string text, MessageType messageType = MessageType.Default) {
-            UserLine($"{messageType.ToString()} {text}", messageType.ToConsoleColor());
+            UserLine($"NTMiner {messageType.ToString().PadLeft(10)}  {text}", messageType.ToConsoleColor());
         }
 
         public static void UserError(string text) {
