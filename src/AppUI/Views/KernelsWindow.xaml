@@ -177,6 +177,21 @@
 								Stretch="Fill" />
 						</WrapPanel>
 					</controls:KbButton>
+					<controls:KbButton  
+						Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+						Command="{Binding ShowPackages}" 
+						Background="Transparent" BorderThickness="0"
+						Margin="20 0 0 0"
+						CornerRadius="2" ToolTip="打开包列表">
+						<WrapPanel>
+							<Path
+								Width="18"
+								Height="18"
+								Data="{StaticResource Icon_Package}"
+								Fill="{StaticResource IconFillColor}"
+								Stretch="Fill" />
+						</WrapPanel>
+					</controls:KbButton>
 				</WrapPanel>
 				<WrapPanel Grid.Column="1" HorizontalAlignment="Right">
 					<controls:KbSystemMinButton 

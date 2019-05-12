@@ -153,6 +153,9 @@
     <Compile Include="Views\BrandWindow.xaml.cs">
       <DependentUpon>BrandWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\PackagesWindow.xaml.cs">
+      <DependentUpon>PackagesWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Ucs\MainBar.xaml.cs">
       <DependentUpon>MainBar.xaml</DependentUpon>
     </Compile>
@@ -176,6 +179,7 @@
     <Compile Include="Vms\AlgoSelectItem.cs" />
     <Compile Include="Vms\AppStatic.cs" />
     <Compile Include="Vms\BrandWindowViewModel.cs" />
+    <Compile Include="Vms\PackagesWindowViewModel.cs" />
     <Compile Include="Vms\PackageViewModel.cs" />
     <Compile Include="Vms\SplashWindowViewModel.cs" />
     <Compile Include="Views\Ucs\StartStopMineButton.xaml.cs">
@@ -476,6 +480,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\BrandWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\PackagesWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

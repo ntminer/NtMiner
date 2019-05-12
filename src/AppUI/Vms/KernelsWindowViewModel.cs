@@ -1,4 +1,5 @@
 ﻿using NTMiner.Core.Kernels;
+using NTMiner.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -27,6 +28,8 @@ namespace NTMiner.Vms {
         public ICommand PageAdd { get; private set; }
 
         public ICommand Search { get; private set; }
+
+        public ICommand ShowPackages { get; private set; }
 
         private readonly KernelMenu _repositoryKernelMenu = new KernelMenu("宝库", "Icon_Kernel");
         private readonly KernelMenu _uninstallKernelMenu = new KernelMenu("卸载", "Icon_Delete");
@@ -60,6 +63,9 @@ namespace NTMiner.Vms {
             });
             this.PageAdd = new DelegateCommand(() => {
                 this.PageNumber = this.PageNumber + 1;
+            });
+            this.ShowPackages = new DelegateCommand(() => {
+                PackagesWindow.ShowWindow();
             });
             this.Home.Execute(null);
         }

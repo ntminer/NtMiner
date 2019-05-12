@@ -1,0 +1,53 @@
+﻿<metro:MetroWindow
+	x:Class="NTMiner.Views.PackagesWindow"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
+	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+	xmlns:local="clr-namespace:NTMiner.Views"
+	xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
+	xmlns:vm="clr-namespace:NTMiner.Vms"
+	mc:Ignorable="d"
+	Title="内核包"
+	WindowTransitionsEnabled="False"
+	Width="{x:Static vm:AppStatic.MainWindowWidth}"
+	Height="{x:Static vm:AppStatic.MainWindowHeight}"
+	MinHeight="430"
+	MinWidth="640"
+	ResizeBorderThickness="4"
+	TitlebarHeight="40"
+	d:DesignHeight="520" 
+	d:DesignWidth="1200"
+	UseNoneWindowStyle="True"
+	BorderBrush="Black"
+	Background="#EEECEF"
+	WindowStartupLocation="CenterScreen"
+	MouseDown="MetroWindow_MouseDown"
+	TextOptions.TextFormattingMode="Display">
+	<metro:MetroWindow.DataContext>
+		<vm:PackagesWindowViewModel></vm:PackagesWindowViewModel>
+	</metro:MetroWindow.DataContext>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="40"></RowDefinition>
+			<RowDefinition Height="*"></RowDefinition>
+		</Grid.RowDefinitions>
+		<WrapPanel HorizontalAlignment="Right">
+			<controls:KbSystemMinButton 
+				Height="36"
+				KbSystemButtonSize="40"
+				KbSystemButtonForeground="#385263" />
+			<controls:KbSystemMaxButton
+				Height="36"
+				KbSystemButtonSize="40"
+				KbSystemButtonForeground="#385263" />
+			<controls:KbSystemCloseButton 
+				Height="36"
+				KbSystemButtonSize="40"
+				KbSystemButtonForeground="#385263" />
+		</WrapPanel>
+	</Grid>
+</metro:MetroWindow>
