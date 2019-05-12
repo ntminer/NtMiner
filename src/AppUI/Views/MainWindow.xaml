@@ -101,6 +101,7 @@
 				</controls:KbLinkButton>
 				<controls:KbLinkButton
 					Margin="8 0 0 0"
+					VerticalAlignment="Bottom"
 					Command="{x:Static vm:AppStatic.DownloadMinerStudio}"
 					KbDisplayLine="False"
 					Foreground="{StaticResource ThemeForeground}"
@@ -147,20 +148,22 @@
 						Foreground="{StaticResource ThemeForeground}"
 						IsChecked="{Binding IsUseDevConsole}" />
 					<controls:KbButton 
+						Margin="0 0 8 0"
 						x:Name="BtnLayoutMain"
 						Click="BtnLeftTriangle_Click"
 						ToolTip="展开"
 						Background="Transparent" BorderThickness="0">
 						<WrapPanel>
 							<Path 
-								Height="18"
-								Width="22"
+								Height="14"
+								Width="18"
 								Data="{StaticResource Icon_MainLayout}"
 								Fill="{StaticResource ThemeForeground}"
 								Stretch="Fill" />
 						</WrapPanel>
 					</controls:KbButton>
 					<controls:KbButton 
+						Margin="0 0 8 0"
 						x:Name="BtnLayoutLeftRight"
 						Click="BtnRightTriangle_Click"
 						Visibility="Collapsed"
@@ -168,58 +171,41 @@
 						Background="Transparent" BorderThickness="0">
 						<WrapPanel>
 							<Path 
-								Height="18"
-								Width="22"
+								Height="14"
+								Width="18"
 								Data="{StaticResource Icon_LeftRightLayout}"
 								Fill="{StaticResource ThemeForeground}"
 								Stretch="Fill" />
 						</WrapPanel>
 					</controls:KbButton>
-					<Border Style="{StaticResource IconButtonBg}" Margin="8 0 0 0">
-						<controls:KbButton 
-							ToolTip="算力图"
-							Background="Transparent" BorderThickness="0"
-							Command="{x:Static vm:AppStatic.ShowSpeedChart}">
-							<WrapPanel>
-								<Path 
-									Height="14"
-									Width="14"
-									Data="{StaticResource Icon_Speed}"
-									Fill="{StaticResource IconFillColor}"
-									Stretch="Fill" />
-							</WrapPanel>
-						</controls:KbButton>
-					</Border>
-					<Border Style="{StaticResource IconButtonBg}" Margin="8 0 0 0">
-						<controls:KbButton 
-							ToolTip="内核"
-							Background="Transparent" BorderThickness="0"
-							Command="{x:Static vm:AppStatic.ShowKernels}">
-							<WrapPanel>
-								<Path 
-									Height="14"
-									Width="14"
-									Data="{StaticResource Icon_Kernel}"
-									Fill="{StaticResource IconFillColor}"
-									Stretch="Fill" />
-							</WrapPanel>
-						</controls:KbButton>
-					</Border>
-					<Border Style="{StaticResource IconButtonBg}" Margin="8 0 4 0">
-						<controls:KbButton 
-							ToolTip="帮助"
-							Background="Transparent" BorderThickness="0"
-							Command="{x:Static vm:AppStatic.ShowHelp}">
-							<WrapPanel>
-								<Path 
-									Height="14"
-									Width="14"
-									Data="{StaticResource Icon_Help}"
-									Fill="{StaticResource IconFillColor}"
-									Stretch="Fill" />
-							</WrapPanel>
-						</controls:KbButton>
-					</Border>
+					<controls:KbButton 
+						Margin="0 0 8 0"
+						ToolTip="算力图"
+						Background="Transparent" BorderThickness="0"
+						Command="{x:Static vm:AppStatic.ShowSpeedChart}">
+						<WrapPanel>
+							<Path 
+								Height="14"
+								Width="14"
+								Data="{StaticResource Icon_Speed}"
+								Fill="{StaticResource ThemeForeground}"
+								Stretch="Fill" />
+						</WrapPanel>
+					</controls:KbButton>
+					<controls:KbButton 
+						Margin="0 0 8 0"
+						ToolTip="内核"
+						Background="Transparent" BorderThickness="0"
+						Command="{x:Static vm:AppStatic.ShowKernels}">
+						<WrapPanel>
+							<Path 
+								Height="14"
+								Width="14"
+								Data="{StaticResource Icon_Kernel}"
+								Fill="{StaticResource ThemeForeground}"
+								Stretch="Fill" />
+						</WrapPanel>
+					</controls:KbButton>
 					<uc:MainMenu VerticalAlignment="Center">
 					</uc:MainMenu>
 					<controls:KbSystemMinButton
