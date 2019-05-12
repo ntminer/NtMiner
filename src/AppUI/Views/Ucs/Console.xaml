@@ -32,9 +32,9 @@
 						Width="14"
 						Height="14"
 						Data="{StaticResource Icon_Event}"
-						Fill="{StaticResource IconFillColor}"
+						Fill="Cyan"
 						Stretch="Fill" />
-					<TextBlock Text="5" Foreground="{StaticResource IconFillColor}" FontSize="14"></TextBlock>
+					<TextBlock Text="5" Foreground="Cyan" FontSize="14"></TextBlock>
 				</WrapPanel>
 			</controls:KbButton>
 			<controls:KbButton 

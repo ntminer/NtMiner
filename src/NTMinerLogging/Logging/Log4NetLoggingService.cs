@@ -94,6 +94,11 @@ $@"<log4net>
             _log.Warn(message);
         }
 
+        public void EventWriteLine(object message) {
+            Write.UserEvent(message?.ToString());
+            _log.Info(message);
+        }
+
         public void ErrorWriteLine(object message) {
             Write.UserError(message?.ToString());
             _log.Warn(message);

@@ -426,7 +426,7 @@ namespace NTMiner {
                     string processName = _currentMineContext.Kernel.GetProcessName();
                     Windows.TaskKill.Kill(processName);
                 }
-                Logger.WarnWriteLine("挖矿停止");
+                Logger.EventWriteLine("挖矿停止");
                 var mineContext = _currentMineContext;
                 _currentMineContext = null;
                 VirtualRoot.Happened(new MineStopedEvent(mineContext));
@@ -447,7 +447,7 @@ namespace NTMiner {
             }
             else {
                 this.StopMineAsync(() => {
-                    Logger.WarnWriteLine("正在重启内核");
+                    Logger.EventWriteLine("正在重启内核");
                     if (isWork) {
                         ContextReInit(true);
                     }

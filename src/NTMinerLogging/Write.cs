@@ -40,6 +40,10 @@ namespace NTMiner {
             UserLine(text, MessageType.Warn);
         }
 
+        public static void UserEvent(string text) {
+            UserLine(text, MessageType.Event);
+        }
+
         public static void UserFail(string text) {
             UserLine(text, MessageType.Fail);
         }

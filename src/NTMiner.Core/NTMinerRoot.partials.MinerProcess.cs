@@ -215,7 +215,7 @@ namespace NTMiner {
                             sreader?.Close();
                             sreader?.Dispose();
                         }
-                        Logger.WarnWriteLine("内核输出结束");
+                        Logger.EventWriteLine("内核输出结束");
                     }
                 });
             }
