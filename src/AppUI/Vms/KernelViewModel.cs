@@ -369,6 +369,7 @@ namespace NTMiner.Vms {
                 if (_package != value) {
                     _package = value;
                     OnPropertyChanged(nameof(Package));
+                    OnPropertyChanged(nameof(PackageVm));
                     OnPropertyChanged(nameof(IsPackageValid));
                 }
             }
@@ -381,6 +382,16 @@ namespace NTMiner.Vms {
                 }
                 PackageViewModel packageVm = AppContext.Instance.PackageVms.AllPackages.FirstOrDefault(a => a.Name == this.Package);
                 return packageVm != null;
+            }
+        }
+
+        private PackageViewModel _packageVm;
+        public PackageViewModel PackageVm {
+            get {
+                if (_packageVm == null || this.Package != _packageVm.Name) {
+                    _packageVm = AppContext.Instance.PackageVms.AllPackages.FirstOrDefault(a => a.Name == this.Package);
+                }
+                return _packageVm;
             }
         }
 
