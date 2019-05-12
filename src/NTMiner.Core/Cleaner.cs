@@ -5,11 +5,22 @@ using System.IO;
 
 namespace NTMiner {
     public static class Cleaner {
+        // 启动时清理一次即可
+        public static void Clear() {
+            ClearKernelLogs();
+            ClearRootLogs();
+            ClearPackages();
+            // 清理除当前外的Temp/Kernel
+            CleanKernels();
+            // 清理Temp/Download目录下的下载文件
+            ClearDownload();
+        }
+
         private static bool _clearedDownload = false;
         /// <summary>
         /// 启动时删除Temp/Download目录下的下载文件，启动时调一次即可
         /// </summary>
-        public static void ClearDownload() {
+        private static void ClearDownload() {
             if (_clearedDownload) {
                 return;
             }
@@ -27,7 +38,7 @@ namespace NTMiner {
         /// <summary>
         /// 清理掉下载时间超过7天且服务器已经删除的内核包
         /// </summary>
-        public static void ClearPackages() {
+        private static void ClearPackages() {
             HashSet<string> packageFileNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             foreach (var kernel in NTMinerRoot.Instance.KernelSet) {
                 if (!string.IsNullOrEmpty(kernel.Package)) {
@@ -62,7 +73,7 @@ namespace NTMiner {
         /// <summary>
         /// 删除除当前正在挖矿的内核外的包解压目录
         /// </summary>
-        public static void CleanKernels() {
+        private static void CleanKernels() {
             try {
                 string currentKernelDir = string.Empty;
                 var currentMineContext = NTMinerRoot.Instance.CurrentMineContext;
@@ -88,7 +99,7 @@ namespace NTMiner {
         /// <summary>
         /// 清理7天前的RootLog
         /// </summary>
-        public static void ClearRootLogs() {
+        private static void ClearRootLogs() {
             try {
                 string logDir = Logging.LogDir.Dir;
                 if (string.IsNullOrEmpty(logDir)) {
@@ -119,7 +130,7 @@ namespace NTMiner {
         /// <summary>
         /// 清理7天前的内核日志
         /// </summary>
-        public static void ClearKernelLogs() {
+        private static void ClearKernelLogs() {
             try {
                 List<string> toRemoves = new List<string>();
                 foreach (var file in Directory.GetFiles(SpecialPath.LogsDirFullName)) {

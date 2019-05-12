@@ -264,8 +264,6 @@ namespace NTMiner {
                         Logger.ErrorDebugLine(e.Message, e);
                     }
                     StartNoDevFeeAsync();
-                    // 清理除当前外的Temp/Kernel
-                    Cleaner.CleanKernels();
                 });
             #endregion
             #region 每20秒钟检查是否需要重启
@@ -347,14 +345,6 @@ namespace NTMiner {
                     }
                 });
             #endregion
-            #region 每100分钟执行一次过期日志清理工作
-            VirtualRoot.On<Per100MinuteEvent>("每100分钟执行一次过期日志清理工作", LogEnum.DevConsole,
-                action: message => {
-                    Cleaner.ClearKernelLogs();
-                    Cleaner.ClearRootLogs();
-                    Cleaner.ClearPackages();
-                });
-            #endregion
             #region 停止挖矿后停止NoDevFee
             VirtualRoot.On<MineStopedEvent>("停止挖矿后停止NoDevFee", LogEnum.DevConsole,
                  action: message => {
@@ -365,6 +355,7 @@ namespace NTMiner {
             TempGruarder.Instance.Init(this);
             // 因为这里耗时500毫秒左右
             Task.Factory.StartNew(() => {
+                Cleaner.Clear();
                 Windows.Error.DisableWindowsErrorUI();
                 Windows.Firewall.DisableFirewall();
                 Windows.UAC.DisableUAC();
@@ -375,8 +366,6 @@ namespace NTMiner {
             });
 
             RefreshArgsAssembly.Invoke();
-            // 清理Temp/Download目录下的下载文件
-            Cleaner.ClearDownload();
             // 自动挖矿
             if (IsAutoStart && !IsMining) {
                 TimeSpan.FromSeconds(10 - VirtualRoot.SecondCount).Delay().ContinueWith((t) => {

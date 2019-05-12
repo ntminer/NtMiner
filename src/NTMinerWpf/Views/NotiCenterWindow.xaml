@@ -18,6 +18,7 @@
 		Background="Transparent"
 		StateChanged="Window_StateChanged"
 		Width="400"
+		SizeToContent="Height"
 		Title="通知中心"
 		MouseDown="MetroWindow_MouseDown">
 	<Grid>
