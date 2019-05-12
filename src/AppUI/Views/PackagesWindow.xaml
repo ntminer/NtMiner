@@ -35,7 +35,7 @@
 			<RowDefinition Height="40"></RowDefinition>
 			<RowDefinition Height="*"></RowDefinition>
 		</Grid.RowDefinitions>
-		<TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14" FontWeight="Bold">内核包</TextBlock>
+		<TextBlock Padding="4 0 0 0" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14" FontWeight="Bold">内核包</TextBlock>
 		<WrapPanel HorizontalAlignment="Right">
 			<controls:KbSystemMinButton 
 				Height="36"
