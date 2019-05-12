@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace NTMiner.Core {
     public class KernelData : IKernel, IDbEntity<Guid> {
         public KernelData() {
-            this.AlgoIds = new List<Guid>();
         }
 
         public Guid GetId() {
@@ -33,6 +31,5 @@ namespace NTMiner.Core {
 
         public Guid KernelInputId { get; set; }
         public Guid KernelOutputId { get; set; }
-        public List<Guid> AlgoIds { get; set; }
     }
 }

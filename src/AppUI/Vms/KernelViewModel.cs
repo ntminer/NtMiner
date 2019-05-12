@@ -26,8 +26,7 @@ namespace NTMiner.Vms {
             _version = string.Empty,
             _package = string.Empty,
             _kernelOutputId = Guid.Empty,
-            _kernelInputId = Guid.Empty,
-            _algoIds = new List<Guid>()
+            _kernelInputId = Guid.Empty
         };
 
         private Guid _id;
@@ -42,10 +41,8 @@ namespace NTMiner.Vms {
         private string _notice;
         private Guid _kernelInputId;
         private Guid _kernelOutputId;
-        private List<Guid> _algoIds;
         private KernelInputViewModel _kernelInputVm;
         private KernelOutputViewModel _kernelOutputVm;
-        private List<AlgoSelectItem> _algoSelectItems;
 
 
 
@@ -92,13 +89,11 @@ namespace NTMiner.Vms {
             _package = data.Package;
             _kernelOutputId = data.KernelOutputId;
             _kernelInputId = data.KernelInputId;
-            AlgoIds = data.AlgoIds;
         }
 
         public KernelViewModel(Guid id) {
             _id = id;
             this.Save = new DelegateCommand(() => {
-                _algoIds = this.AlgoSelectItems.Where(a=>a.IsChecked).Select(a => a.SysDicItemVm.Id).ToList();
                 if (NTMinerRoot.Instance.KernelSet.Contains(this.Id)) {
                     VirtualRoot.Execute(new UpdateKernelCommand(this));
                 }
@@ -562,27 +557,6 @@ namespace NTMiner.Vms {
                     OnPropertyChanged(nameof(KernelOutputId));
                     OnPropertyChanged(nameof(KernelOutputVm));
                 }
-            }
-        }
-
-        public List<Guid> AlgoIds {
-            get => _algoIds;
-            set {
-                _algoIds = value;
-                OnPropertyChanged(nameof(AlgoIds));
-                var list = new List<AlgoSelectItem>();
-                foreach (var item in AppContext.Instance.SysDicItemVms.AlgoItems) {
-                    list.Add(new AlgoSelectItem(item, value.Contains(item.Id)));
-                }
-                AlgoSelectItems = list;
-            }
-        }
-
-        public List<AlgoSelectItem> AlgoSelectItems {
-            get => _algoSelectItems;
-            private set {
-                _algoSelectItems = value;
-                OnPropertyChanged(nameof(AlgoSelectItems));
             }
         }
     }

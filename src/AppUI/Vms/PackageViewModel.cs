@@ -1,13 +1,27 @@
 ﻿using NTMiner.Core;
+using NTMiner.Views;
+using NTMiner.Views.Ucs;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Windows.Forms;
+using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class PackageViewModel : ViewModelBase, IPackage {
+    public class PackageViewModel : ViewModelBase, IEditableViewModel, IPackage {
         private Guid _id;
         private string _name;
         private List<Guid> _algoIds;
-        private List<AlgoSelectItem> _algoSelectItems;
+        private List<AlgoSelectItem> _algoSelectItems = new List<AlgoSelectItem>();
+
+        public ICommand Remove { get; private set; }
+        public ICommand Edit { get; private set; }
+        public ICommand Save { get; private set; }
+
+        public Action CloseWindow { get; set; }
+
+        public ICommand BrowsePackage { get; private set; }
 
         public PackageViewModel() {
             if (!Design.IsInDesignMode) {
@@ -22,6 +36,44 @@ namespace NTMiner.Vms {
 
         public PackageViewModel(Guid id) {
             _id = id;
+            this.Save = new DelegateCommand(() => {
+                if (this.Id == Guid.Empty) {
+                    return;
+                }
+                _algoIds = this.AlgoSelectItems.Where(a => a.IsChecked).Select(a => a.SysDicItemVm.Id).ToList();
+                if (NTMinerRoot.Instance.PackageSet.Contains(this.Id)) {
+                    VirtualRoot.Execute(new UpdatePackageCommand(this));
+                }
+                else {
+                    VirtualRoot.Execute(new AddPackageCommand(this));
+                }
+                CloseWindow?.Invoke();
+            });
+            this.Edit = new DelegateCommand<FormType?>((formType) => {
+                if (this.Id == Guid.Empty) {
+                    return;
+                }
+                PackageEdit.ShowWindow(formType ?? FormType.Edit, this);
+            });
+            this.Remove = new DelegateCommand(() => {
+                if (this.Id == Guid.Empty) {
+                    return;
+                }
+                DialogWindow.ShowDialog(message: $"您确定删除{this.Name}内核包吗？", title: "确认", onYes: () => {
+                    VirtualRoot.Execute(new RemovePackageCommand(this.Id));
+                }, icon: IconConst.IconConfirm);
+            });
+            this.BrowsePackage = new DelegateCommand(() => {
+                OpenFileDialog openFileDialog = new OpenFileDialog {
+                    InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+                    Filter = "zip (*.zip)|*.zip",
+                    FilterIndex = 1
+                };
+                if (openFileDialog.ShowDialog() == DialogResult.OK) {
+                    string package = Path.GetFileName(openFileDialog.FileName);
+                    this.Name = package;
+                }
+            });
         }
 
         public Guid GetId() {
@@ -51,9 +103,10 @@ namespace NTMiner.Vms {
                 OnPropertyChanged(nameof(AlgoIds));
                 var list = new List<AlgoSelectItem>();
                 foreach (var item in AppContext.Instance.SysDicItemVms.AlgoItems) {
-                    list.Add(new AlgoSelectItem(item, value.Contains(item.Id)));
+                    list.Add(new AlgoSelectItem(item, value != null && value.Contains(item.Id)));
                 }
                 AlgoSelectItems = list;
+                OnPropertyChanged(nameof(AlgoIds));
             }
         }
 
@@ -62,6 +115,12 @@ namespace NTMiner.Vms {
             private set {
                 _algoSelectItems = value;
                 OnPropertyChanged(nameof(AlgoSelectItems));
+            }
+        }
+
+        public string AlgosText {
+            get {
+                return string.Join(",", AlgoSelectItems.Where(a => a.IsChecked).Select(a => a.SysDicItemVm.Value));
             }
         }
     }

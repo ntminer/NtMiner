@@ -3,6 +3,10 @@ using System.Collections.Generic;
 
 namespace NTMiner.Core {
     public class PackageData : IPackage, IDbEntity<Guid> {
+        public PackageData() {
+            this.AlgoIds = new List<Guid>();
+        }
+
         public Guid GetId() {
             return this.Id;
         }

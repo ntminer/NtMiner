@@ -35,6 +35,7 @@
 			<RowDefinition Height="40"></RowDefinition>
 			<RowDefinition Height="*"></RowDefinition>
 		</Grid.RowDefinitions>
+		<TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14" FontWeight="Bold">内核包</TextBlock>
 		<WrapPanel HorizontalAlignment="Right">
 			<controls:KbSystemMinButton 
 				Height="36"
@@ -118,16 +119,8 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Width="*" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<TextBlock Text="支持算法"></TextBlock>
-					</DataGridTemplateColumn.Header>
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
+				<DataGridTextColumn Width="*" Header="支持算法" Binding="{Binding AlgosText}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				</DataGridTextColumn>
 			</DataGrid.Columns>
 		</DataGrid>
 		<TextBlock Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding PackageVms.AllPackages, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" Text="沒有记录"></TextBlock>
