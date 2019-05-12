@@ -428,7 +428,7 @@ namespace NTMiner.Vms {
             get {
                 StringBuilder sb = new StringBuilder();
                 int len = sb.Length;
-                foreach (var coinVm in SupportedCoinVms) {
+                foreach (var coinVm in SupportedCoinVms.OrderBy(a => a.SortNumber)) {
                     if (len != sb.Length) {
                         sb.Append(",");
                     }
