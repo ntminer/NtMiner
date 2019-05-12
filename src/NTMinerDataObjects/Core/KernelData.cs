@@ -25,8 +25,6 @@ namespace NTMiner.Core {
 
         public PublishStatus PublishState { get; set; }
 
-        public string HelpArg { get; set; }
-
         public string Notice { get; set; }
 
         public Guid KernelInputId { get; set; }

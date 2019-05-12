@@ -1,5 +1,4 @@
 ﻿using NTMiner.Core;
-using NTMiner.Core.Kernels;
 using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using System;
@@ -15,7 +14,6 @@ namespace NTMiner.Vms {
     public class KernelViewModel : ViewModelBase, IKernel {
         public static readonly KernelViewModel Empty = new KernelViewModel(Guid.Empty) {
             _kernelProfileVm = KernelProfileViewModel.Empty,
-            _helpArg = string.Empty,
             _code = string.Empty,
             _brandId = Guid.Empty,
             _notice = string.Empty,
@@ -33,7 +31,6 @@ namespace NTMiner.Vms {
         private string _code;
         private Guid _brandId;
         private string _version;
-        private string _helpArg;
         private ulong _publishOn;
         private string _package;
         private long _size;
@@ -78,7 +75,6 @@ namespace NTMiner.Vms {
         }
 
         public KernelViewModel(IKernel data) : this(data.GetId()) {
-            _helpArg = data.HelpArg;
             _code = data.Code;
             _brandId = data.BrandId;
             _notice = data.Notice;
@@ -153,37 +149,6 @@ namespace NTMiner.Vms {
                     KernelId = this.Id,
                     SortNumber = sortNumber
                 }));
-            });
-            this.ShowKernelHelp = new DelegateCommand(() => {
-                if (string.IsNullOrEmpty(HelpArg)) {
-                    return;
-                }
-                string kernelDirFullName = this.GetKernelDirFullName();
-                if (string.IsNullOrEmpty(kernelDirFullName)) {
-                    return;
-                }
-                string helpArg = this.HelpArg.Trim();
-                string asFileFullName = Path.Combine(kernelDirFullName, helpArg);
-                // 如果当前内核不处在挖矿中则可以解压缩，否则不能解压缩因为内核文件处在使用中无法覆盖
-                if (!NTMinerRoot.Instance.IsMining || NTMinerRoot.Instance.CurrentMineContext.Kernel.GetId() != this.GetId()) {
-                    if (!this.IsPackageFileExist()) {
-                        DialogWindow.ShowDialog(icon: "Icon_Info", title: "提示", message: "内核未安装");
-                        return;
-                    }
-                    this.ExtractPackage();
-                }
-                string helpText;
-                if (File.Exists(asFileFullName)) {
-                    helpText = File.ReadAllText(asFileFullName);
-                    KernelHelpPage.ShowWindow("内核帮助 - " + this.FullName, helpText);
-                }
-                else {
-                    string commandName = this.GetCommandName(fromHelpArg: true);
-                    string kernelExeFileFullName = Path.Combine(kernelDirFullName, commandName);
-                    int exitCode = -1;
-                    Windows.Cmd.RunClose(kernelExeFileFullName, helpArg.Substring(commandName.Length), ref exitCode, out helpText);
-                }
-                KernelHelpPage.ShowWindow("内核帮助 - " + this.FullName, helpText);
             });
         }
         #endregion
@@ -515,16 +480,6 @@ namespace NTMiner.Vms {
         public string PublishStateDescription {
             get {
                 return PublishState.GetDescription();
-            }
-        }
-
-        public string HelpArg {
-            get { return _helpArg; }
-            set {
-                if (_helpArg != value) {
-                    _helpArg = value;
-                    OnPropertyChanged(nameof(HelpArg));
-                }
             }
         }
 

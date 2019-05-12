@@ -12,7 +12,7 @@ namespace NTMiner.Core.Kernels {
             return Path.GetFileNameWithoutExtension(commandName);
         }
 
-        public static string GetCommandName(this IKernel kernel, bool fromHelpArg = false) {
+        public static string GetCommandName(this IKernel kernel) {
             try {
                 if (kernel == null) {
                     return string.Empty;
@@ -22,9 +22,6 @@ namespace NTMiner.Core.Kernels {
                     return string.Empty;
                 }
                 string args = kernelInput.Args;
-                if (fromHelpArg) {
-                    args = kernel.HelpArg;
-                }
                 if (!string.IsNullOrEmpty(args)) {
                     args = args.Trim();
                 }
