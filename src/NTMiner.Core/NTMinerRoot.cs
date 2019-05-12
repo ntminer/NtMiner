@@ -214,6 +214,7 @@ namespace NTMiner {
             this.CoinKernelSet = new CoinKernelSet(this, isUseJson);
             this.PoolKernelSet = new PoolKernelSet(this, isUseJson);
             this.KernelSet = new KernelSet(this, isUseJson);
+            this.PackageSet = new PackageSet(this, isUseJson);
             this.KernelInputSet = new KernelInputSet(this, isUseJson);
             this.KernelOutputSet = new KernelOutputSet(this, isUseJson);
             this.KernelOutputFilterSet = new KernelOutputFilterSet(this, isUseJson);
@@ -740,6 +741,8 @@ namespace NTMiner {
         public IPoolKernelSet PoolKernelSet { get; private set; }
 
         public IKernelSet KernelSet { get; private set; }
+
+        public IPackageSet PackageSet { get; private set; }
 
         public IKernelProfileSet KernelProfileSet { get; private set; }
 

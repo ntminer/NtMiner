@@ -128,6 +128,7 @@
     <Compile Include="AppContext.partials.MinerProfileViewModel.cs" />
     <Compile Include="AppContext.partials.MineWorkViewModels.cs" />
     <Compile Include="AppContext.partials.OverClockDataViewModels.cs" />
+    <Compile Include="AppContext.partials.PackageViewModels.cs" />
     <Compile Include="AppContext.partials.PoolKernelViewModels.cs" />
     <Compile Include="AppContext.partials.PoolProfileViewModels.cs" />
     <Compile Include="AppContext.partials.PoolViewModels.cs" />
@@ -175,6 +176,7 @@
     <Compile Include="Vms\AlgoSelectItem.cs" />
     <Compile Include="Vms\AppStatic.cs" />
     <Compile Include="Vms\BrandWindowViewModel.cs" />
+    <Compile Include="Vms\PackageViewModel.cs" />
     <Compile Include="Vms\SplashWindowViewModel.cs" />
     <Compile Include="Views\Ucs\StartStopMineButton.xaml.cs">
       <DependentUpon>StartStopMineButton.xaml</DependentUpon>
