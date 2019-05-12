@@ -61,7 +61,10 @@
 						<WrapPanel Margin="0 2">
 							<TextBlock Style="{StaticResource LblTb}" Text="压缩包"></TextBlock>
 							<WrapPanel VerticalAlignment="Center">
-								<TextBox IsReadOnly="True" BorderThickness="0" VerticalAlignment="Center" Text="{Binding Package, Mode=OneWay}">
+								<TextBox 
+									IsReadOnly="True" BorderThickness="0" VerticalAlignment="Center" 
+									Foreground="{Binding IsPackageValid,Converter={StaticResource BoolToBrushConverter}}"
+									Text="{Binding Package, Mode=OneWay}">
 								</TextBox>
 								<Button 
 									Margin="4 0 0 0"
