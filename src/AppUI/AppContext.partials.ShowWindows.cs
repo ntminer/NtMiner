@@ -36,6 +36,18 @@ namespace NTMiner {
             public static void GroupEdit(FormType formType, GroupViewModel source) {
                 Views.Ucs.GroupEdit.ShowWindow(formType, source);
             }
+
+            public static void KernelInputEdit(FormType formType, KernelInputViewModel source) {
+                Views.Ucs.KernelInputEdit.ShowWindow(formType, source);
+            }
+
+            public static void KernelOutputFilterEdit(FormType formType, KernelOutputFilterViewModel source) {
+                Views.Ucs.KernelOutputFilterEdit.ShowWindow(formType, source);
+            }
+
+            public static void KernelOutputTranslaterEdit(FormType formType, KernelOutputTranslaterViewModel source) {
+                Views.Ucs.KernelOutputTranslaterEdit.ShowWindow(formType, source);
+            }
         }
     }
 }

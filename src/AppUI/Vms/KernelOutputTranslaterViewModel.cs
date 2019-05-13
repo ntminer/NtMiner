@@ -1,5 +1,4 @@
 ﻿using NTMiner.Core;
-using NTMiner.Views.Ucs;
 using System;
 using System.Linq;
 using System.Windows.Input;
@@ -60,7 +59,7 @@ namespace NTMiner.Vms {
                 CloseWindow?.Invoke();
             });
             this.Edit = new DelegateCommand<FormType?>((formType) => {
-                KernelOutputTranslaterEdit.ShowWindow(formType ?? FormType.Edit, this);
+                AppContext.ShowWindow.KernelOutputTranslaterEdit(formType ?? FormType.Edit, this);
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {

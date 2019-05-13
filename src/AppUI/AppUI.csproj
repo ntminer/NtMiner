@@ -414,7 +414,7 @@
     <Compile Include="Vms\SpeedUnitViewModel.cs" />
     <Compile Include="Vms\StateBarViewModel.cs" />
     <Compile Include="Vms\GroupPageViewModel.cs" />
-    <Compile Include="Vms\Drives\VirtualMemory.cs" />
+    <Compile Include="Vms\VirtualMemory.cs" />
     <Compile Include="Views\KernelsWindow.xaml.cs">
       <DependentUpon>KernelsWindow.xaml</DependentUpon>
     </Compile>
@@ -438,7 +438,7 @@
     </Compile>
     <Compile Include="Vms\AboutPageViewModel.cs" />
     <Compile Include="Vms\CoinKernelProfileViewModel.cs" />
-    <Compile Include="Vms\Drives\Drive.cs" />
+    <Compile Include="Vms\Drive.cs" />
     <Compile Include="Vms\OuterPropertyViewModel.cs" />
     <Compile Include="Vms\KernelViewModel.cs" />
     <Compile Include="Vms\CoinProfileViewModel.cs" />
