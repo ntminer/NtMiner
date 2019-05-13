@@ -21,13 +21,15 @@ namespace NTMiner {
                         Views.Ucs.CoinKernelEdit.ShowWindow(message.FormType, message.Source);
                     });
                 });
+            VirtualRoot.Window<CoinEditCommand>(LogEnum.DevConsole,
+                action: message => {
+                    UIThread.Execute(() => {
+                        Views.Ucs.CoinEdit.ShowWindow(message.FormType, message.Source);
+                    });
+                });
         }
 
         public static class ShowWindow {
-            public static void CoinEdit(FormType formType, CoinViewModel source) {
-                Views.Ucs.CoinEdit.ShowWindow(formType, source);
-            }
-
             public static void ColumnsShowEdit(FormType formType, ColumnsShowViewModel source) {
                 Views.Ucs.ColumnsShowEdit.ShowWindow(formType, source);
             }
