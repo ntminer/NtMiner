@@ -15,7 +15,7 @@ namespace NTMiner.Vms {
             this._mainCoinSpeed = new SpeedViewModel(gpuSpeed.MainCoinSpeed);
             this._dualCoinSpeed = new SpeedViewModel(gpuSpeed.DualCoinSpeed);
             this.OpenChart = new DelegateCommand(() => {
-                AppContext.ShowWindow.SpeedCharts(this);
+                VirtualRoot.Execute(new ShowSpeedChartsCommand(this));
             });
         }
 

@@ -68,8 +68,8 @@ namespace NTMiner {
     }
 
     [MessageType(description: "打开算力图界面")]
-    public class SpeedChartsCommand : Cmd {
-        public SpeedChartsCommand(GpuSpeedViewModel gpuSpeedVm = null) {
+    public class ShowSpeedChartsCommand : Cmd {
+        public ShowSpeedChartsCommand(GpuSpeedViewModel gpuSpeedVm = null) {
             this.GpuSpeedVm = gpuSpeedVm;
         }
 

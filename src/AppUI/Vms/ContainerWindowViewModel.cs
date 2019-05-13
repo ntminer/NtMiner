@@ -32,7 +32,7 @@ namespace NTMiner.Vms {
 
         public ContainerWindowViewModel() {
             this.ShowWindow = new DelegateCommand(() => {
-                AppContext.ShowWindow.ContainerWindow(this);
+                VirtualRoot.Execute(new ShowContainerWindowCommand(this));
             });
         }
 

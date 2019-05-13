@@ -27,26 +27,34 @@ namespace NTMiner {
                         Views.Ucs.CoinEdit.ShowWindow(message.FormType, message.Source);
                     });
                 });
+            VirtualRoot.Window<ColumnsShowEditCommand>(LogEnum.DevConsole,
+                action: message => {
+                    UIThread.Execute(() => {
+                        Views.Ucs.ColumnsShowEdit.ShowWindow(message.FormType, message.Source);
+                    });
+                });
+            VirtualRoot.Window<ShowContainerWindowCommand>(LogEnum.DevConsole,
+                action: message => {
+                    UIThread.Execute(() => {
+                        Views.ContainerWindow window = Views.ContainerWindow.GetWindow(message.Vm);
+                        window?.ShowWindow();
+                    });
+                });
+            VirtualRoot.Window<ShowSpeedChartsCommand>(LogEnum.DevConsole,
+                action: message => {
+                    UIThread.Execute(() => {
+                        Views.Ucs.SpeedCharts.ShowWindow(message.GpuSpeedVm);
+                    });
+                });
+            VirtualRoot.Window<GroupEditCommand>(LogEnum.DevConsole,
+                action: message => {
+                    UIThread.Execute(() => {
+                        Views.Ucs.GroupEdit.ShowWindow(message.FormType, message.Source);
+                    });
+                });
         }
 
         public static class ShowWindow {
-            public static void ColumnsShowEdit(FormType formType, ColumnsShowViewModel source) {
-                Views.Ucs.ColumnsShowEdit.ShowWindow(formType, source);
-            }
-
-            public static void ContainerWindow(ContainerWindowViewModel vm) {
-                Views.ContainerWindow window = Views.ContainerWindow.GetWindow(vm);
-                window?.ShowWindow();
-            }
-
-            public static void SpeedCharts(GpuSpeedViewModel gpuSpeedVm = null) {
-                Views.Ucs.SpeedCharts.ShowWindow(gpuSpeedVm);
-            }
-
-            public static void GroupEdit(FormType formType, GroupViewModel source) {
-                Views.Ucs.GroupEdit.ShowWindow(formType, source);
-            }
-
             public static void KernelInputEdit(FormType formType, KernelInputViewModel source) {
                 Views.Ucs.KernelInputEdit.ShowWindow(formType, source);
             }
