@@ -151,7 +151,10 @@
 					</DataGridTemplateColumn>
 					<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
-							<TextBlock Text="中文名"></TextBlock>
+							<WrapPanel>
+								<TextBlock Text="中文名"></TextBlock>
+								<TextBlock Margin="4 0 0 0" Text="{Binding Data.List.Count, Source={StaticResource proxy}}"></TextBlock>
+							</WrapPanel>
 						</DataGridTemplateColumn.Header>
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
@@ -169,13 +172,7 @@
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-					<DataGridTextColumn Binding="{Binding Algo}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-						<DataGridTextColumn.Header>
-							<WrapPanel>
-								<TextBlock Text="算法"></TextBlock>
-								<TextBlock Margin="4 0 0 0" Text="{Binding Data.List.Count, Source={StaticResource proxy}}"></TextBlock>
-							</WrapPanel>
-						</DataGridTextColumn.Header>
+					<DataGridTextColumn Header="算法" Binding="{Binding AlgoItem.Value}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					</DataGridTextColumn>
 				</DataGrid.Columns>
 			</DataGrid>

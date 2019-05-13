@@ -81,6 +81,8 @@ namespace NTMiner {
 
         IKernelSet KernelSet { get; }
 
+        IPackageSet PackageSet { get; }
+
         IKernelProfileSet KernelProfileSet { get; }
 
         IGpusSpeed GpusSpeed { get; }

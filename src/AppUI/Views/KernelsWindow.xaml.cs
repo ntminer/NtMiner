@@ -45,7 +45,7 @@ namespace NTMiner.Views {
         public KernelsWindow() {
             InitializeComponent();
             if (DevMode.IsDevMode) {
-                this.Width += 300;
+                this.Width += 600;
             }
             AppContext.Instance.KernelVms.PropertyChanged += Current_PropertyChanged;
             AppContext.Instance.KernelVms.IsDownloadingChanged += Current_IsDownloadingChanged;

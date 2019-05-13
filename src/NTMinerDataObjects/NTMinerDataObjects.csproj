@@ -55,6 +55,7 @@
     <Compile Include="Core\IKernelOutput.cs" />
     <Compile Include="Core\IKernelOutputFilter.cs" />
     <Compile Include="Core\IKernelOutputTranslater.cs" />
+    <Compile Include="Core\IPackage.cs" />
     <Compile Include="Core\IPoolKernel.cs" />
     <Compile Include="Core\ISysDic.cs" />
     <Compile Include="Core\ISysDicItem.cs" />
@@ -65,6 +66,7 @@
     <Compile Include="Core\KernelOutputData.cs" />
     <Compile Include="Core\KernelOutputFilterData.cs" />
     <Compile Include="Core\KernelOutputTranslaterData.cs" />
+    <Compile Include="Core\PackageData.cs" />
     <Compile Include="Core\PoolKernelData.cs" />
     <Compile Include="Core\SupportedGpu.cs" />
     <Compile Include="Core\SysDicData.cs" />

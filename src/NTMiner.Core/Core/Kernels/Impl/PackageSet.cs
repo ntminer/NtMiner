@@ -5,56 +5,62 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace NTMiner.Core.Kernels.Impl {
-    internal class KernelSet : IKernelSet {
+    public class PackageSet : IPackageSet {
         private readonly INTMinerRoot _root;
-        private readonly Dictionary<Guid, KernelData> _dicById = new Dictionary<Guid, KernelData>();
+        private readonly Dictionary<Guid, PackageData> _dicById = new Dictionary<Guid, PackageData>();
 
         private readonly bool _isUseJson;
-        public KernelSet(INTMinerRoot root, bool isUseJson) {
+        public PackageSet(INTMinerRoot root, bool isUseJson) {
             _root = root;
             _isUseJson = isUseJson;
-            _root.ServerContextWindow<AddKernelCommand>("添加内核", LogEnum.DevConsole,
+            _root.ServerContextWindow<AddPackageCommand>("添加包", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
                         throw new ArgumentNullException();
                     }
-                    if (string.IsNullOrEmpty(message.Input.Code)) {
-                        throw new ValidationException("Kernel code can't be null or empty");
+                    if (string.IsNullOrEmpty(message.Input.Name)) {
+                        throw new ValidationException("package can't be null or empty");
+                    }
+                    if (_dicById.Values.Any(a => string.Equals(message.Input.Name, a.Name, StringComparison.OrdinalIgnoreCase))) {
+                        throw new ValidationException("包名重复");
                     }
                     if (_dicById.ContainsKey(message.Input.GetId())) {
                         return;
                     }
-                    KernelData entity = new KernelData().Update(message.Input);
+                    PackageData entity = new PackageData().Update(message.Input);
                     _dicById.Add(entity.Id, entity);
-                    IRepository<KernelData> repository = NTMinerRoot.CreateServerRepository<KernelData>(isUseJson);
+                    IRepository<PackageData> repository = NTMinerRoot.CreateServerRepository<PackageData>(isUseJson);
                     repository.Add(entity);
 
-                    VirtualRoot.Happened(new KernelAddedEvent(entity));
+                    VirtualRoot.Happened(new PackageAddedEvent(entity));
                 });
-            _root.ServerContextWindow<UpdateKernelCommand>("更新内核", LogEnum.DevConsole,
+            _root.ServerContextWindow<UpdatePackageCommand>("更新包", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
                         throw new ArgumentNullException();
                     }
-                    if (string.IsNullOrEmpty(message.Input.Code)) {
-                        throw new ValidationException("Kernel code can't be null or empty");
+                    if (string.IsNullOrEmpty(message.Input.Name)) {
+                        throw new ValidationException("package can't be null or empty");
                     }
                     if (!_dicById.ContainsKey(message.Input.GetId())) {
                         return;
                     }
-                    KernelData entity = _dicById[message.Input.GetId()];
+                    if (_dicById.Values.Any(a => a.Id != message.Input.Id && string.Equals(message.Input.Name, a.Name, StringComparison.OrdinalIgnoreCase))) {
+                        throw new ValidationException("包名重复");
+                    }
+                    PackageData entity = _dicById[message.Input.GetId()];
                     if (ReferenceEquals(entity, message.Input)) {
                         return;
                     }
                     entity.Update(message.Input);
-                    IRepository<KernelData> repository = NTMinerRoot.CreateServerRepository<KernelData>(isUseJson);
+                    IRepository<PackageData> repository = NTMinerRoot.CreateServerRepository<PackageData>(isUseJson);
                     repository.Update(entity);
 
-                    VirtualRoot.Happened(new KernelUpdatedEvent(entity));
+                    VirtualRoot.Happened(new PackageUpdatedEvent(entity));
                 });
-            _root.ServerContextWindow<RemoveKernelCommand>("移除内核", LogEnum.DevConsole,
+            _root.ServerContextWindow<RemovePackageCommand>("移除包", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {
@@ -63,16 +69,12 @@ namespace NTMiner.Core.Kernels.Impl {
                     if (!_dicById.ContainsKey(message.EntityId)) {
                         return;
                     }
-                    KernelData entity = _dicById[message.EntityId];
-                    List<Guid> coinKernelIds = root.CoinKernelSet.Where(a => a.KernelId == entity.Id).Select(a => a.GetId()).ToList();
-                    foreach (var coinKernelId in coinKernelIds) {
-                        VirtualRoot.Execute(new RemoveCoinKernelCommand(coinKernelId));
-                    }
+                    PackageData entity = _dicById[message.EntityId];
                     _dicById.Remove(entity.Id);
-                    IRepository<KernelData> repository = NTMinerRoot.CreateServerRepository<KernelData>(isUseJson);
+                    IRepository<PackageData> repository = NTMinerRoot.CreateServerRepository<PackageData>(isUseJson);
                     repository.Remove(entity.Id);
 
-                    VirtualRoot.Happened(new KernelRemovedEvent(entity));
+                    VirtualRoot.Happened(new PackageRemovedEvent(entity));
                 });
         }
 
@@ -96,7 +98,7 @@ namespace NTMiner.Core.Kernels.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    IRepository<KernelData> repository = NTMinerRoot.CreateServerRepository<KernelData>(_isUseJson);
+                    IRepository<PackageData> repository = NTMinerRoot.CreateServerRepository<PackageData>(_isUseJson);
                     foreach (var item in repository.GetAll()) {
                         if (!_dicById.ContainsKey(item.GetId())) {
                             _dicById.Add(item.GetId(), item);
@@ -107,20 +109,20 @@ namespace NTMiner.Core.Kernels.Impl {
             }
         }
 
-        public bool Contains(Guid kernelId) {
+        public bool Contains(Guid packageId) {
             InitOnece();
-            return _dicById.ContainsKey(kernelId);
+            return _dicById.ContainsKey(packageId);
         }
 
-        public bool TryGetKernel(Guid kernelId, out IKernel package) {
+        public bool TryGetPackage(Guid packageId, out IPackage package) {
             InitOnece();
-            KernelData pkg;
-            var r = _dicById.TryGetValue(kernelId, out pkg);
+            PackageData pkg;
+            var r = _dicById.TryGetValue(packageId, out pkg);
             package = pkg;
             return r;
         }
 
-        public IEnumerator<IKernel> GetEnumerator() {
+        public IEnumerator<IPackage> GetEnumerator() {
             InitOnece();
             return _dicById.Values.GetEnumerator();
         }

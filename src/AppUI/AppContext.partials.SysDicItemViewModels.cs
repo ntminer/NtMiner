@@ -77,13 +77,14 @@ namespace NTMiner {
                 OnPropertyChanged(nameof(Count));
                 OnPropertyChanged(nameof(KernelBrandItems));
                 OnPropertyChanged(nameof(PoolBrandItems));
+                OnPropertyChanged(nameof(AlgoItems));
             }
 
             public List<SysDicItemViewModel> KernelBrandItems {
                 get {
                     List<SysDicItemViewModel> list = new List<SysDicItemViewModel> {
-                    SysDicItemViewModel.PleaseSelect
-                };
+                        SysDicItemViewModel.PleaseSelect
+                    };
                     SysDicViewModel sysDic;
                     if (AppContext.Instance.SysDicVms.TryGetSysDicVm("KernelBrand", out sysDic)) {
                         list.AddRange(List.Where(a => a.DicId == sysDic.Id).OrderBy(a => a.SortNumber));
@@ -95,10 +96,21 @@ namespace NTMiner {
             public List<SysDicItemViewModel> PoolBrandItems {
                 get {
                     List<SysDicItemViewModel> list = new List<SysDicItemViewModel> {
-                    SysDicItemViewModel.PleaseSelect
-                };
+                        SysDicItemViewModel.PleaseSelect
+                    };
                     SysDicViewModel sysDic;
                     if (AppContext.Instance.SysDicVms.TryGetSysDicVm("PoolBrand", out sysDic)) {
+                        list.AddRange(List.Where(a => a.DicId == sysDic.Id).OrderBy(a => a.SortNumber));
+                    }
+                    return list;
+                }
+            }
+
+            public List<SysDicItemViewModel> AlgoItems {
+                get {
+                    List<SysDicItemViewModel> list = new List<SysDicItemViewModel>();
+                    SysDicViewModel sysDic;
+                    if (AppContext.Instance.SysDicVms.TryGetSysDicVm("Algo", out sysDic)) {
                         list.AddRange(List.Where(a => a.DicId == sysDic.Id).OrderBy(a => a.SortNumber));
                     }
                     return list;

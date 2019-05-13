@@ -128,6 +128,7 @@
     <Compile Include="AppContext.partials.MinerProfileViewModel.cs" />
     <Compile Include="AppContext.partials.MineWorkViewModels.cs" />
     <Compile Include="AppContext.partials.OverClockDataViewModels.cs" />
+    <Compile Include="AppContext.partials.PackageViewModels.cs" />
     <Compile Include="AppContext.partials.PoolKernelViewModels.cs" />
     <Compile Include="AppContext.partials.PoolProfileViewModels.cs" />
     <Compile Include="AppContext.partials.PoolViewModels.cs" />
@@ -152,6 +153,12 @@
     <Compile Include="Views\BrandWindow.xaml.cs">
       <DependentUpon>BrandWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\PackagesWindow.xaml.cs">
+      <DependentUpon>PackagesWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\PackageEdit.xaml.cs">
+      <DependentUpon>PackageEdit.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Ucs\MainBar.xaml.cs">
       <DependentUpon>MainBar.xaml</DependentUpon>
     </Compile>
@@ -172,8 +179,11 @@
     <Compile Include="Views\Ucs\MinerProfileDual.xaml.cs">
       <DependentUpon>MinerProfileDual.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Vms\AlgoSelectItem.cs" />
     <Compile Include="Vms\AppStatic.cs" />
     <Compile Include="Vms\BrandWindowViewModel.cs" />
+    <Compile Include="Vms\PackagesWindowViewModel.cs" />
+    <Compile Include="Vms\PackageViewModel.cs" />
     <Compile Include="Vms\SplashWindowViewModel.cs" />
     <Compile Include="Views\Ucs\StartStopMineButton.xaml.cs">
       <DependentUpon>StartStopMineButton.xaml</DependentUpon>
@@ -473,6 +483,18 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\BrandWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\PackagesWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Ucs\Design\PackageViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Ucs\PackageEdit.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

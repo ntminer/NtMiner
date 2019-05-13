@@ -61,7 +61,10 @@
 						<WrapPanel Margin="0 2">
 							<TextBlock Style="{StaticResource LblTb}" Text="压缩包"></TextBlock>
 							<WrapPanel VerticalAlignment="Center">
-								<TextBox IsReadOnly="True" BorderThickness="0" VerticalAlignment="Center" Text="{Binding Package, Mode=OneWay}">
+								<TextBox 
+									IsReadOnly="True" BorderThickness="0" VerticalAlignment="Center" 
+									Foreground="{Binding IsPackageValid,Converter={StaticResource BoolToBrushConverter}}"
+									Text="{Binding Package, Mode=OneWay}">
 								</TextBox>
 								<Button 
 									Margin="4 0 0 0"
@@ -87,34 +90,6 @@
 							</TextBox>
 						</WrapPanel>
 
-						<WrapPanel Margin="0 2">
-							<TextBlock Style="{StaticResource LblTb}">
-								<WrapPanel>
-									<TextBlock Text="帮助"></TextBlock>
-									<controls:KbButton
-										Margin="4 0 0 0"
-										Visibility="{Binding HelpArg, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
-										HorizontalAlignment="Right"
-										Background="Transparent"
-										Command="{Binding ShowKernelHelp}">
-										<WrapPanel>
-											<Path
-												Width="14"
-												Height="14"
-												Data="{StaticResource Icon_Help}"
-												Fill="{StaticResource IconFillColor}"
-												Stretch="Fill" />
-										</WrapPanel>
-									</controls:KbButton>
-								</WrapPanel>
-							</TextBlock>
-							<TextBox 
-								Height="26"
-								Width="180"
-								IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
-								VerticalContentAlignment="Center" Text="{Binding HelpArg}">
-							</TextBox>
-						</WrapPanel>
 						<WrapPanel Margin="0 2">
 							<TextBlock Style="{StaticResource LblTb}">
 								<WrapPanel>
@@ -281,22 +256,11 @@
 							<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
 						</DataGrid.Resources>
 						<DataGrid.Columns>
-							<DataGridTemplateColumn 
+							<DataGridTextColumn 
+								Header="币种" Binding="{Binding CoinCode}"
 								CanUserResize="True" CanUserReorder="False"
 								CanUserSort="False" IsReadOnly="True">
-								<DataGridTemplateColumn.Header>
-									<TextBlock Text="币种"></TextBlock>
-								</DataGridTemplateColumn.Header>
-								<DataGridTemplateColumn.CellTemplate>
-									<DataTemplate>
-										<WrapPanel>
-											<TextBlock Text="{Binding CoinCode}"></TextBlock>
-											<TextBlock Text="-"></TextBlock>
-											<TextBlock Text="{Binding CoinVm.Algo}"></TextBlock>
-										</WrapPanel>
-									</DataTemplate>
-								</DataGridTemplateColumn.CellTemplate>
-							</DataGridTemplateColumn>
+							</DataGridTextColumn>
 							<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 								<DataGridTemplateColumn.Header>
 									<TextBlock Text="支持显卡"></TextBlock>

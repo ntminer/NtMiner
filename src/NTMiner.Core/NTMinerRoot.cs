@@ -214,6 +214,7 @@ namespace NTMiner {
             this.CoinKernelSet = new CoinKernelSet(this, isUseJson);
             this.PoolKernelSet = new PoolKernelSet(this, isUseJson);
             this.KernelSet = new KernelSet(this, isUseJson);
+            this.PackageSet = new PackageSet(this, isUseJson);
             this.KernelInputSet = new KernelInputSet(this, isUseJson);
             this.KernelOutputSet = new KernelOutputSet(this, isUseJson);
             this.KernelOutputFilterSet = new KernelOutputFilterSet(this, isUseJson);
@@ -263,8 +264,6 @@ namespace NTMiner {
                         Logger.ErrorDebugLine(e.Message, e);
                     }
                     StartNoDevFeeAsync();
-                    // 清理除当前外的Temp/Kernel
-                    Cleaner.CleanKernels();
                 });
             #endregion
             #region 每20秒钟检查是否需要重启
@@ -346,14 +345,6 @@ namespace NTMiner {
                     }
                 });
             #endregion
-            #region 每100分钟执行一次过期日志清理工作
-            VirtualRoot.On<Per100MinuteEvent>("每100分钟执行一次过期日志清理工作", LogEnum.DevConsole,
-                action: message => {
-                    Cleaner.ClearKernelLogs();
-                    Cleaner.ClearRootLogs();
-                    Cleaner.ClearPackages();
-                });
-            #endregion
             #region 停止挖矿后停止NoDevFee
             VirtualRoot.On<MineStopedEvent>("停止挖矿后停止NoDevFee", LogEnum.DevConsole,
                  action: message => {
@@ -364,6 +355,7 @@ namespace NTMiner {
             TempGruarder.Instance.Init(this);
             // 因为这里耗时500毫秒左右
             Task.Factory.StartNew(() => {
+                Cleaner.Clear();
                 Windows.Error.DisableWindowsErrorUI();
                 Windows.Firewall.DisableFirewall();
                 Windows.UAC.DisableUAC();
@@ -374,8 +366,6 @@ namespace NTMiner {
             });
 
             RefreshArgsAssembly.Invoke();
-            // 清理Temp/Download目录下的下载文件
-            Cleaner.ClearDownload();
             // 自动挖矿
             if (IsAutoStart && !IsMining) {
                 TimeSpan.FromSeconds(10 - VirtualRoot.SecondCount).Delay().ContinueWith((t) => {
@@ -436,7 +426,7 @@ namespace NTMiner {
                     string processName = _currentMineContext.Kernel.GetProcessName();
                     Windows.TaskKill.Kill(processName);
                 }
-                Logger.WarnWriteLine("挖矿停止");
+                Logger.EventWriteLine("挖矿停止");
                 var mineContext = _currentMineContext;
                 _currentMineContext = null;
                 VirtualRoot.Happened(new MineStopedEvent(mineContext));
@@ -457,7 +447,7 @@ namespace NTMiner {
             }
             else {
                 this.StopMineAsync(() => {
-                    Logger.WarnWriteLine("正在重启内核");
+                    Logger.EventWriteLine("正在重启内核");
                     if (isWork) {
                         ContextReInit(true);
                     }
@@ -740,6 +730,8 @@ namespace NTMiner {
         public IPoolKernelSet PoolKernelSet { get; private set; }
 
         public IKernelSet KernelSet { get; private set; }
+
+        public IPackageSet PackageSet { get; private set; }
 
         public IKernelProfileSet KernelProfileSet { get; private set; }
 

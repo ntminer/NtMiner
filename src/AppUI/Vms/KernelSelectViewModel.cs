@@ -56,7 +56,8 @@ namespace NTMiner.Vms {
 
         public List<KernelViewModel> QueryResults {
             get {
-                IQueryable<KernelViewModel> query = AppContext.Instance.KernelVms.AllKernels.Where(a => !a.SupportedCoinVms.Contains(Coin)).AsQueryable();
+                IQueryable<KernelViewModel> query = AppContext.Instance.KernelVms.AllKernels.Where(a => !a.SupportedCoinVms.Contains(Coin))
+                    .Where(a => a.PackageVm.AlgoIds.Contains(this.Coin.AlgoId)).AsQueryable();
                 if (!AppStatic.IsDebugMode) {
                     query = query.Where(a => a.PublishState == PublishStatus.Published);
                 }

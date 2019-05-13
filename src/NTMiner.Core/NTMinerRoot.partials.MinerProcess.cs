@@ -15,17 +15,20 @@ namespace NTMiner {
         private static class MinerProcess {
             #region CreateProcess
             private static string _preExtractPackage = string.Empty;
+            private static readonly object _locker = new object();
             public static void CreateProcessAsync(IMineContext mineContext) {
                 Task.Factory.StartNew(() => {
                     try {
                         Windows.TaskKill.Kill(mineContext.Kernel.GetProcessName(), waitForExit: true);
                         Thread.Sleep(1000);
-                        if (_preExtractPackage != mineContext.Kernel.Package) {
-                            _preExtractPackage = mineContext.Kernel.Package;
-                            Logger.InfoDebugLine("解压内核包");
-                            // 解压内核包
-                            if (!mineContext.Kernel.ExtractPackage()) {
-                                VirtualRoot.Happened(new StartingMineFailedEvent("内核解压失败。"));
+                        lock (_locker) {
+                            if (_preExtractPackage != mineContext.Kernel.Package) {
+                                _preExtractPackage = mineContext.Kernel.Package;
+                                Logger.InfoDebugLine("解压内核包");
+                                // 解压内核包
+                                if (!mineContext.Kernel.ExtractPackage()) {
+                                    VirtualRoot.Happened(new StartingMineFailedEvent("内核解压失败。"));
+                                }
                             }
                         }
 
@@ -48,7 +51,7 @@ namespace NTMiner {
                             // 如果内核不支持日志文件
                             CreatePipProcess(mineContext, kernelExeFileFullName, arguments);
                         }
-                        Write.UserOk("开始挖矿");
+                        Write.UserEvent("开始挖矿");
                         VirtualRoot.Happened(new MineStartedEvent(mineContext));
                     }
                     catch (Exception e) {
@@ -154,8 +157,10 @@ namespace NTMiner {
                             Write.UserFail("呃！竟然10秒钟未产生内核输出文件，请联系开发人员解决。");
                             break;
                         }
-                        Write.UserInfo("等待内核输出");
                         Thread.Sleep(1000);
+                        if (n == 0) {
+                            Write.UserInfo("等待内核输出");
+                        }
                         if (mineContext != Instance.CurrentMineContext) {
                             Write.UserInfo("挖矿上下文变更，结束内核输出等待。");
                             isLogFileCreated = false;
@@ -212,7 +217,7 @@ namespace NTMiner {
                             sreader?.Close();
                             sreader?.Dispose();
                         }
-                        Logger.WarnWriteLine("内核输出结束");
+                        Write.UserInfo("内核输出结束");
                     }
                 });
             }

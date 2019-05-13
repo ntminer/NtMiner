@@ -651,6 +651,44 @@ namespace NTMiner.Core {
     }
     #endregion
 
+    #region Package Messages
+    [MessageType(description: "添加包")]
+    public class AddPackageCommand : AddEntityCommand<IPackage> {
+        public AddPackageCommand(IPackage input) : base(input) {
+        }
+    }
+
+    [MessageType(description: "更新包")]
+    public class UpdatePackageCommand : UpdateEntityCommand<IPackage> {
+        public UpdatePackageCommand(IPackage input) : base(input) {
+        }
+    }
+
+    [MessageType(description: "删除包")]
+    public class RemovePackageCommand : RemoveEntityCommand {
+        public RemovePackageCommand(Guid entityId) : base(entityId) {
+        }
+    }
+
+    [MessageType(description: "添加了包后")]
+    public class PackageAddedEvent : DomainEvent<IPackage> {
+        public PackageAddedEvent(IPackage source) : base(source) {
+        }
+    }
+
+    [MessageType(description: "更新了包后")]
+    public class PackageUpdatedEvent : DomainEvent<IPackage> {
+        public PackageUpdatedEvent(IPackage source) : base(source) {
+        }
+    }
+
+    [MessageType(description: "删除了包后")]
+    public class PackageRemovedEvent : DomainEvent<IPackage> {
+        public PackageRemovedEvent(IPackage source) : base(source) {
+        }
+    }
+    #endregion
+
     #region Kernel Messages
     [MessageType(description: "添加内核")]
     public class AddKernelCommand : AddEntityCommand<IKernel> {

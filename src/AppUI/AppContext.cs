@@ -79,6 +79,12 @@ namespace NTMiner {
             }
         }
 
+        public PackageViewModels PackageVms {
+            get {
+                return PackageViewModels.Instance;
+            }
+        }
+
         public CoinGroupViewModels CoinGroupVms {
             get {
                 return CoinGroupViewModels.Instance;
