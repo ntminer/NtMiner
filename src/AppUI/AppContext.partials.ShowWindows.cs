@@ -1,5 +1,4 @@
-﻿using NTMiner.Core;
-using NTMiner.Vms;
+﻿using NTMiner.Vms;
 
 namespace NTMiner {
     public partial class AppContext {
@@ -10,17 +9,21 @@ namespace NTMiner {
                         Views.Ucs.EnvironmentVariableEdit.ShowWindow(message.CoinKernelVm, message.EnvironmentVariable);
                     });
                 });
+            VirtualRoot.Window<InputSegmentEditCommand>(LogEnum.DevConsole,
+                action: message => {
+                    UIThread.Execute(() => {
+                        Views.Ucs.InputSegmentEdit.ShowWindow(message.CoinKernelVm, message.Segment);
+                    });
+                });
+            VirtualRoot.Window<CoinKernelEditCommand>(LogEnum.DevConsole,
+                action: message => {
+                    UIThread.Execute(() => {
+                        Views.Ucs.CoinKernelEdit.ShowWindow(message.FormType, message.Source);
+                    });
+                });
         }
 
         public static class ShowWindow {
-            public static void InputSegmentEdit(CoinKernelViewModel coinKernelVm, InputSegment segment) {
-                Views.Ucs.InputSegmentEdit.ShowWindow(coinKernelVm, segment);
-            }
-
-            public static void CoinKernelEdit(FormType formType, CoinKernelViewModel source) {
-                Views.Ucs.CoinKernelEdit.ShowWindow(formType, source);
-            }
-
             public static void CoinEdit(FormType formType, CoinViewModel source) {
                 Views.Ucs.CoinEdit.ShowWindow(formType, source);
             }

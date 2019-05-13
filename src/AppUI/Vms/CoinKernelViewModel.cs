@@ -76,10 +76,10 @@ namespace NTMiner.Vms {
                 }, icon: IconConst.IconConfirm);
             });
             this.AddSegment = new DelegateCommand(() => {
-                AppContext.ShowWindow.InputSegmentEdit(this, new InputSegment());
+                VirtualRoot.Execute(new InputSegmentEditCommand(this, new InputSegment()));
             });
             this.EditSegment = new DelegateCommand<InputSegment>((segment) => {
-                AppContext.ShowWindow.InputSegmentEdit(this, segment);
+                VirtualRoot.Execute(new InputSegmentEditCommand(this, segment));
             });
             this.RemoveSegment = new DelegateCommand<InputSegment>((segment) => {
                 this.ShowDialog(message: $"您确定删除片段{segment.Name}吗？", title: "确认", onYes: () => {
@@ -94,7 +94,7 @@ namespace NTMiner.Vms {
                 CloseWindow?.Invoke();
             });
             this.Edit = new DelegateCommand<FormType?>((formType) => {
-                AppContext.ShowWindow.CoinKernelEdit(formType ?? FormType.Edit, this);
+                VirtualRoot.Execute(new CoinKernelEditCommand(formType ?? FormType.Edit, this));
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {
