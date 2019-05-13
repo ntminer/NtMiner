@@ -22,57 +22,11 @@
 				</Paragraph>
 			</FlowDocument>
 		</FlowDocumentScrollViewer>
-		<WrapPanel HorizontalAlignment="Right" VerticalAlignment="Top" Background="Black" Margin="0 0 10 0">
-			<controls:KbButton 
-				ToolTip="事件"
-				Background="Transparent" 
-				BorderThickness="0">
-				<WrapPanel>
-					<Path
-						Width="14"
-						Height="14"
-						Data="{StaticResource Icon_Event}"
-						Fill="Cyan"
-						Stretch="Fill" />
-					<TextBlock Text="5" Foreground="Cyan" FontSize="14"></TextBlock>
-				</WrapPanel>
-			</controls:KbButton>
-			<controls:KbButton 
-				Margin="4 0 0 0"
-				ToolTip="错误"
-				Background="Transparent" 
-				BorderThickness="0">
-				<WrapPanel>
-					<Path
-						Width="14"
-						Height="14"
-						Data="{StaticResource Icon_Error}"
-						Fill="Red"
-						Stretch="Fill" />
-					<TextBlock Text="2" Foreground="Red" FontSize="14"></TextBlock>
-				</WrapPanel>
-			</controls:KbButton>
-			<controls:KbButton 
-				Margin="4 0 0 0"
-				ToolTip="警告"
-				Background="Transparent" 
-				BorderThickness="0">
-				<WrapPanel>
-					<Path
-						Width="14"
-						Height="14"
-						Data="{StaticResource Icon_Waring}"
-						Fill="Yellow"
-						Stretch="Fill" />
-					<TextBlock Text="2" Foreground="Yellow" FontSize="14"></TextBlock>
-				</WrapPanel>
-			</controls:KbButton>
-		</WrapPanel>
 		<CheckBox 
 			x:Name="ChkbIsConsoleAutoScrollToEnd"
-			Width="16" Margin="0 0 10 0"
+			Width="16" Margin="0 -1 10 0"
 			HorizontalAlignment="Right"
-			VerticalAlignment="Bottom"
+			VerticalAlignment="Top"
 			ToolTip="自动滚屏"
 			IsChecked="True" />
 	</Grid>
