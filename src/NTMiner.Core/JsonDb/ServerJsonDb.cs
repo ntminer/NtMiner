@@ -24,6 +24,12 @@ namespace NTMiner.JsonDb {
 
         public ServerJsonDb(INTMinerRoot root) {
             Coins = root.CoinSet.Cast<CoinData>().ToArray();
+            // json向后兼容
+            foreach (var coin in Coins) {
+                if (root.SysDicItemSet.TryGetDicItem(coin.AlgoId, out ISysDicItem dicItem)) {
+                    coin.Algo = dicItem.Value;
+                }
+            }
             Groups = root.GroupSet.Cast<GroupData>().ToArray();
             CoinGroups = root.CoinGroupSet.Cast<CoinGroupData>().ToArray();
             KernelInputs = root.KernelInputSet.Cast<KernelInputData>().ToArray();
@@ -49,6 +55,12 @@ namespace NTMiner.JsonDb {
             var pools = root.PoolSet.Cast<PoolData>().Where(a => localJsonObj.PoolProfiles.Any(b => b.PoolId == a.Id)).ToList();
 
             Coins = coins;
+            // json向后兼容
+            foreach (var coin in Coins) {
+                if (root.SysDicItemSet.TryGetDicItem(coin.AlgoId, out ISysDicItem dicItem)) {
+                    coin.Algo = dicItem.Value;
+                }
+            }
             CoinGroups = coinGroups;
             Pools = pools;
             Groups = root.GroupSet.Cast<GroupData>().Where(a => coinGroups.Any(b => b.GroupId == a.Id)).ToArray();

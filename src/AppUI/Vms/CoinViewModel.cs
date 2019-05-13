@@ -420,6 +420,12 @@ namespace NTMiner.Vms {
             }
         }
 
+        public string Algo {
+            get {
+                return AlgoItem.Value;
+            }
+        }
+
         public SysDicItemViewModel AlgoItem {
             get {
                 if (this.AlgoId == Guid.Empty) {
