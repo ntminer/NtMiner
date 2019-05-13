@@ -23,6 +23,11 @@ namespace NTMiner {
             public static void ColumnsShowEdit(FormType formType, ColumnsShowViewModel source) {
                 Views.Ucs.ColumnsShowEdit.ShowWindow(formType, source);
             }
+
+            public static void ContainerWindow(ContainerWindowViewModel vm) {
+                Views.ContainerWindow window = Views.ContainerWindow.GetWindow(vm);
+                window?.ShowWindow();
+            }
         }
     }
 }
