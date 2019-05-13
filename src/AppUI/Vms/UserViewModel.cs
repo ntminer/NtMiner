@@ -1,5 +1,4 @@
 ﻿using NTMiner.User;
-using NTMiner.Views.Ucs;
 using System;
 using System.Windows.Input;
 
@@ -40,7 +39,7 @@ namespace NTMiner.Vms {
                 CloseWindow?.Invoke();
             });
             this.Edit = new DelegateCommand<FormType?>((formType) => {
-                UserEdit.ShowWindow(formType ?? FormType.Edit, this);
+                AppContext.ShowWindow.UserEdit(formType ?? FormType.Edit, this);
             });
             this.Remove = new DelegateCommand(() => {
                 if (!VirtualRoot.IsMinerStudio) {

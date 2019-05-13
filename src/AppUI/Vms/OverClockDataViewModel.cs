@@ -1,6 +1,5 @@
 ﻿using NTMiner.Core;
 using NTMiner.MinerServer;
-using NTMiner.Views.Ucs;
 using System;
 using System.Linq;
 using System.Windows;
@@ -50,7 +49,7 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                OverClockDataEdit.ShowWindow(formType ?? FormType.Edit, this);
+                AppContext.ShowWindow.OverClockDataEdit(formType ?? FormType.Edit, this);
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {

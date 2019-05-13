@@ -48,6 +48,82 @@ namespace NTMiner {
             public static void KernelOutputTranslaterEdit(FormType formType, KernelOutputTranslaterViewModel source) {
                 Views.Ucs.KernelOutputTranslaterEdit.ShowWindow(formType, source);
             }
+
+            public static void KernelOutputEdit(FormType formType, KernelOutputViewModel source) {
+                Views.Ucs.KernelOutputEdit.ShowWindow(formType, source);
+            }
+
+            public static void PackagesWindow() {
+                Views.PackagesWindow.ShowWindow();
+            }
+
+            public static void KernelEdit(FormType formType, KernelViewModel source) {
+                Views.Ucs.KernelEdit.ShowWindow(formType, source);
+            }
+
+            public static void LogColor() {
+                Views.Ucs.LogColor.ShowWindow();
+            }
+
+            public static void MinerClientSetting(MinerClientSettingViewModel vm) {
+                Views.Ucs.MinerClientSetting.ShowWindow(vm);
+            }
+
+            public static void MinerNamesSeter(MinerNamesSeterViewModel vm) {
+                Views.Ucs.MinerNamesSeter.ShowWindow(vm);
+            }
+
+            public static void GpuProfilesPage(MinerClientsWindowViewModel minerClientsWindowVm) {
+                Views.Ucs.GpuProfilesPage.ShowWindow(minerClientsWindowVm);
+            }
+
+            public static void MinerClientAdd() {
+                Views.Ucs.MinerClientAdd.ShowWindow();
+            }
+
+            public static void MinerGroupEdit(FormType formType, MinerGroupViewModel source) {
+                Views.Ucs.MinerGroupEdit.ShowWindow(formType, source);
+            }
+
+            public static void MineWorkEdit(FormType formType, MineWorkViewModel source) {
+                Views.Ucs.MineWorkEdit.ShowWindow(formType, source);
+            }
+
+            public static void OverClockDataEdit(FormType formType, OverClockDataViewModel source) {
+                Views.Ucs.OverClockDataEdit.ShowWindow(formType, source);
+            }
+
+            public static void PackageEdit(FormType formType, PackageViewModel source) {
+                Views.Ucs.PackageEdit.ShowWindow(formType, source);
+            }
+
+            public static void PoolKernelEdit(FormType formType, PoolKernelViewModel source) {
+                Views.Ucs.PoolKernelEdit.ShowWindow(formType, source);
+            }
+
+            public static void PoolEdit(FormType formType, PoolViewModel source) {
+                Views.Ucs.PoolEdit.ShowWindow(formType, source);
+            }
+
+            public static void ControlCenterHostConfig() {
+                Views.Ucs.ControlCenterHostConfig.ShowWindow();
+            }
+
+            public static void SysDicItemEdit(FormType formType, SysDicItemViewModel source) {
+                Views.Ucs.SysDicItemEdit.ShowWindow(formType, source);
+            }
+
+            public static void SysDicEdit(FormType formType, SysDicViewModel source) {
+                Views.Ucs.SysDicEdit.ShowWindow(formType, source);
+            }
+
+            public static void UserEdit(FormType formType, UserViewModel source) {
+                Views.Ucs.UserEdit.ShowWindow(formType, source);
+            }
+
+            public static void WalletEdit(FormType formType, WalletViewModel source) {
+                Views.Ucs.WalletEdit.ShowWindow(formType, source);
+            }
         }
     }
 }

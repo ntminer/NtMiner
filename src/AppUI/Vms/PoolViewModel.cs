@@ -1,5 +1,4 @@
 ﻿using NTMiner.Core;
-using NTMiner.Views.Ucs;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -86,7 +85,7 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                PoolEdit.ShowWindow(formType ?? FormType.Edit, this);
+                AppContext.ShowWindow.PoolEdit(formType ?? FormType.Edit, this);
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {

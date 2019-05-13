@@ -1,5 +1,4 @@
-﻿using NTMiner.Views.Ucs;
-using System;
+﻿using System;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -16,7 +15,7 @@ namespace NTMiner.Vms {
                 return;
             }
             this.ConfigControlCenterHost = new DelegateCommand(() => {
-                ControlCenterHostConfig.ShowWindow();
+                AppContext.ShowWindow.ControlCenterHostConfig();
             });
             if (NTMinerRoot.CurrentVersion.ToString() != NTMinerRoot.ServerVersion) {
                 _checkUpdateForeground = new SolidColorBrush(Colors.Red);

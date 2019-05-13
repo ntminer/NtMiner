@@ -1,6 +1,5 @@
 ﻿using NTMiner.Core;
 using NTMiner.MinerServer;
-using NTMiner.Views.Ucs;
 using System;
 using System.Linq;
 using System.Windows.Input;
@@ -46,7 +45,7 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                MinerGroupEdit.ShowWindow(formType ?? FormType.Edit, this);
+                AppContext.ShowWindow.MinerGroupEdit(formType ?? FormType.Edit, this);
             }, (formType) => {
                 return this != PleaseSelect;
             });

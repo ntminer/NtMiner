@@ -1,5 +1,4 @@
 ﻿using NTMiner.Core;
-using NTMiner.Views.Ucs;
 using System;
 using System.Windows;
 using System.Windows.Input;
@@ -26,7 +25,7 @@ namespace NTMiner.Vms {
                 }
             });
             this.CustomTheme = new DelegateCommand(() => {
-                LogColor.ShowWindow();
+                AppContext.ShowWindow.LogColor();
             });
             this.UseThisPcName = new DelegateCommand(() => {
                 string thisPcName = NTMinerRoot.GetThisPcName();

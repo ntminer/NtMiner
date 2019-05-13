@@ -1,5 +1,4 @@
 ﻿using NTMiner.Core.Kernels;
-using NTMiner.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -65,7 +64,7 @@ namespace NTMiner.Vms {
                 this.PageNumber = this.PageNumber + 1;
             });
             this.ShowPackages = new DelegateCommand(() => {
-                PackagesWindow.ShowWindow();
+                AppContext.ShowWindow.PackagesWindow();
             });
             this.Home.Execute(null);
         }

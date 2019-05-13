@@ -1,7 +1,6 @@
 ﻿using NTMiner.Core;
 using NTMiner.MinerServer;
 using NTMiner.Views;
-using NTMiner.Views.Ucs;
 using System;
 using System.IO;
 using System.Linq;
@@ -100,7 +99,7 @@ namespace NTMiner.Vms {
                     }
                     NTMinerRoot.Instance.ReInitMinerProfile();
                     this.Sha1 = NTMinerRoot.Instance.MinerProfile.GetSha1();
-                    MineWorkEdit.ShowWindow(formType ?? FormType.Edit, new MineWorkViewModel(this));
+                    AppContext.ShowWindow.MineWorkEdit(formType ?? FormType.Edit, new MineWorkViewModel(this));
                 }
             }, formType => {
                 if (this == PleaseSelect) {

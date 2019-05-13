@@ -1,5 +1,4 @@
 ﻿using NTMiner.Core;
-using NTMiner.Views.Ucs;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -101,7 +100,7 @@ namespace NTMiner.Vms {
                 if (this == Empty) {
                     return;
                 }
-                KernelEdit.ShowWindow(formType ?? FormType.Edit, this);
+                AppContext.ShowWindow.KernelEdit(formType ?? FormType.Edit, this);
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {
