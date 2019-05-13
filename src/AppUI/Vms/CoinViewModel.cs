@@ -1,7 +1,6 @@
 ﻿using NTMiner.Core;
 using NTMiner.Core.Kernels;
 using NTMiner.Core.Profiles;
-using NTMiner.Views.Ucs;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -179,7 +178,7 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                CoinEdit.ShowWindow(formType ?? FormType.Edit, this);
+                AppContext.ShowWindow.CoinEdit(formType ?? FormType.Edit, this);
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {

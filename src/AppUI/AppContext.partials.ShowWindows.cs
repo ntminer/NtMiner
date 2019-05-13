@@ -15,6 +15,14 @@ namespace NTMiner {
             public static void CoinKernelEdit(FormType formType, CoinKernelViewModel source) {
                 Views.Ucs.CoinKernelEdit.ShowWindow(formType, source);
             }
+
+            public static void CoinEdit(FormType formType, CoinViewModel source) {
+                Views.Ucs.CoinEdit.ShowWindow(formType, source);
+            }
+
+            public static void ColumnsShowEdit(FormType formType, ColumnsShowViewModel source) {
+                Views.Ucs.ColumnsShowEdit.ShowWindow(formType, source);
+            }
         }
     }
 }

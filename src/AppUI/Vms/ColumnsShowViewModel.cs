@@ -1,6 +1,5 @@
 ﻿using NTMiner.Core;
 using NTMiner.MinerServer;
-using NTMiner.Views.Ucs;
 using System;
 using System.Reflection;
 using System.Windows.Input;
@@ -82,7 +81,7 @@ namespace NTMiner.Vms {
                 CloseWindow?.Invoke();
             });
             this.Edit = new DelegateCommand<FormType?>((formType) => {
-                ColumnsShowEdit.ShowWindow(formType ?? FormType.Edit, this);
+                AppContext.ShowWindow.ColumnsShowEdit(formType ?? FormType.Edit, this);
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {
