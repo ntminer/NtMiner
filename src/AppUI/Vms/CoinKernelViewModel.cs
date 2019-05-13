@@ -1,5 +1,4 @@
 ﻿using NTMiner.Core;
-using NTMiner.Views.Ucs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -65,10 +64,10 @@ namespace NTMiner.Vms {
         public CoinKernelViewModel(Guid id) {
             _id = id;
             this.AddEnvironmentVariable = new DelegateCommand(() => {
-                EnvironmentVariableEdit.ShowWindow(this, new EnvironmentVariable());
+                AppContext.ShowWindow.EnvironmentVariableEdit(this, new EnvironmentVariable());
             });
             this.EditEnvironmentVariable = new DelegateCommand<EnvironmentVariable>(environmentVariable => {
-                EnvironmentVariableEdit.ShowWindow(this, environmentVariable);
+                AppContext.ShowWindow.EnvironmentVariableEdit(this, environmentVariable);
             });
             this.RemoveEnvironmentVariable = new DelegateCommand<EnvironmentVariable>(environmentVariable => {
                 this.ShowDialog(message: $"您确定删除环境变量{environmentVariable.Key}吗？", title: "确认", onYes: () => {
@@ -77,10 +76,10 @@ namespace NTMiner.Vms {
                 }, icon: IconConst.IconConfirm);
             });
             this.AddSegment = new DelegateCommand(() => {
-                InputSegmentEdit.ShowWindow(this, new InputSegment());
+                AppContext.ShowWindow.InputSegmentEdit(this, new InputSegment());
             });
             this.EditSegment = new DelegateCommand<InputSegment>((segment) => {
-                InputSegmentEdit.ShowWindow(this, segment);
+                AppContext.ShowWindow.InputSegmentEdit(this, segment);
             });
             this.RemoveSegment = new DelegateCommand<InputSegment>((segment) => {
                 this.ShowDialog(message: $"您确定删除片段{segment.Name}吗？", title: "确认", onYes: () => {
@@ -95,7 +94,7 @@ namespace NTMiner.Vms {
                 CloseWindow?.Invoke();
             });
             this.Edit = new DelegateCommand<FormType?>((formType) => {
-                CoinKernelEdit.ShowWindow(formType ?? FormType.Edit, this);
+                AppContext.ShowWindow.CoinKernelEdit(formType ?? FormType.Edit, this);
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {
