@@ -47,7 +47,7 @@ namespace NTMiner.NTMinerServices {
                 foreach (var name in names) {
                     ExtractResource(name);
                 }
-                Windows.Cmd.RunClose(SpecialPath.NTMinerServicesFileFullName, "--enableInnerIp --notofficial", waitForExit: false);
+                Windows.Cmd.RunClose(SpecialPath.NTMinerServicesFileFullName, "--enableInnerIp --notofficial");
                 Logger.OkDebugLine("群控服务进程启动成功");
                 callback?.Invoke();
             });
