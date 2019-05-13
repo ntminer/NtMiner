@@ -11,6 +11,7 @@ namespace NTMiner.JsonDb {
             this.CoinGroups = new CoinGroupData[0];
             this.CoinKernels = new List<CoinKernelData>();
             this.Kernels = new List<KernelData>();
+            this.Packages = new List<PackageData>();
             this.KernelInputs = new KernelInputData[0];
             this.KernelOutputs = new KernelOutputData[0];
             this.KernelOutputFilters = new KernelOutputFilterData[0];
@@ -24,6 +25,12 @@ namespace NTMiner.JsonDb {
 
         public ServerJsonDb(INTMinerRoot root) {
             Coins = root.CoinSet.Cast<CoinData>().ToArray();
+            // json向后兼容
+            foreach (var coin in Coins) {
+                if (root.SysDicItemSet.TryGetDicItem(coin.AlgoId, out ISysDicItem dicItem)) {
+                    coin.Algo = dicItem.Value;
+                }
+            }
             Groups = root.GroupSet.Cast<GroupData>().ToArray();
             CoinGroups = root.CoinGroupSet.Cast<CoinGroupData>().ToArray();
             KernelInputs = root.KernelInputSet.Cast<KernelInputData>().ToArray();
@@ -31,6 +38,7 @@ namespace NTMiner.JsonDb {
             KernelOutputFilters = root.KernelOutputFilterSet.Cast<KernelOutputFilterData>().ToArray();
             KernelOutputTranslaters = root.KernelOutputTranslaterSet.Cast<KernelOutputTranslaterData>().ToArray();
             Kernels = root.KernelSet.Cast<KernelData>().ToList();
+            Packages = root.PackageSet.Cast<PackageData>().ToList();
             CoinKernels = root.CoinKernelSet.Cast<CoinKernelData>().ToList();
             PoolKernels = root.PoolKernelSet.Cast<PoolKernelData>().Where(a => !string.IsNullOrEmpty(a.Args)).ToList();
             Pools = root.PoolSet.Cast<PoolData>().ToList();
@@ -49,6 +57,12 @@ namespace NTMiner.JsonDb {
             var pools = root.PoolSet.Cast<PoolData>().Where(a => localJsonObj.PoolProfiles.Any(b => b.PoolId == a.Id)).ToList();
 
             Coins = coins;
+            // json向后兼容
+            foreach (var coin in Coins) {
+                if (root.SysDicItemSet.TryGetDicItem(coin.AlgoId, out ISysDicItem dicItem)) {
+                    coin.Algo = dicItem.Value;
+                }
+            }
             CoinGroups = coinGroups;
             Pools = pools;
             Groups = root.GroupSet.Cast<GroupData>().Where(a => coinGroups.Any(b => b.GroupId == a.Id)).ToArray();
@@ -57,6 +71,7 @@ namespace NTMiner.JsonDb {
             KernelOutputFilters = root.KernelOutputFilterSet.Cast<KernelOutputFilterData>().Where(a => a.KernelOutputId == kernel.KernelOutputId).ToArray();
             KernelOutputTranslaters = root.KernelOutputTranslaterSet.Cast<KernelOutputTranslaterData>().Where(a => a.KernelOutputId == kernel.KernelOutputId).ToArray();
             Kernels = new List<KernelData> { (KernelData)kernel };
+            Packages = root.PackageSet.Cast<PackageData>().Where(a => a.Name == kernel.Package).ToList();
             CoinKernels = root.CoinKernelSet.Cast<CoinKernelData>().Where(a => localJsonObj.CoinKernelProfiles.Any(b => b.CoinKernelId == a.Id)).ToList();
             PoolKernels = root.PoolKernelSet.Cast<PoolKernelData>().Where(a => !string.IsNullOrEmpty(a.Args) && pools.Any(b => b.Id == a.PoolId)).ToList();
             SysDicItems = root.SysDicItemSet.Cast<SysDicItemData>().ToArray();
@@ -85,6 +100,8 @@ namespace NTMiner.JsonDb {
                     return this.CoinKernels.Cast<T>();
                 case nameof(KernelData):
                     return this.Kernels.Cast<T>();
+                case nameof(PackageData):
+                    return this.Packages.Cast<T>();
                 case nameof(KernelInputData):
                     return this.KernelInputs.Cast<T>();
                 case nameof(KernelOutputData):
@@ -123,6 +140,8 @@ namespace NTMiner.JsonDb {
         public KernelOutputFilterData[] KernelOutputFilters { get; set; }
 
         public List<KernelData> Kernels { get; set; }
+
+        public List<PackageData> Packages { get; set; }
 
         public List<CoinKernelData> CoinKernels { get; set; }
 

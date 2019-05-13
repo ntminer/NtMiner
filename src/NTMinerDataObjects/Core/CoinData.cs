@@ -9,6 +9,7 @@ namespace NTMiner.Core {
             CnName = string.Empty,
             Icon = string.Empty,
             AlgoId = Guid.Empty,
+            Algo = string.Empty,
             SortNumber = 0,
             TestWallet = string.Empty,
             WalletRegexPattern = string.Empty,
@@ -34,6 +35,8 @@ namespace NTMiner.Core {
         public string Icon { get; set; }
 
         public Guid AlgoId { get; set; }
+
+        public string Algo { get; set; }
 
         public int SortNumber { get; set; }
 

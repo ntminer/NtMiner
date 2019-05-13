@@ -1,6 +1,4 @@
 ﻿using NTMiner.Core;
-using NTMiner.Views;
-using NTMiner.Views.Ucs;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -102,25 +100,25 @@ namespace NTMiner.Vms {
                 if (this == Empty) {
                     return;
                 }
-                KernelEdit.ShowWindow(formType ?? FormType.Edit, this);
+                AppContext.ShowWindow.KernelEdit(formType ?? FormType.Edit, this);
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                DialogWindow.ShowDialog(message: $"您确定删除{this.FullName}内核吗？", title: "确认", onYes: () => {
+                this.ShowDialog(message: $"您确定删除{this.FullName}内核吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveKernelCommand(this.Id));
                 }, icon: IconConst.IconConfirm);
             });
             this.Publish = new DelegateCommand(() => {
-                DialogWindow.ShowDialog(message: $"您确定发布{this.Code} (v{this.Version})吗？", title: "确认", onYes: () => {
+                this.ShowDialog(message: $"您确定发布{this.Code} (v{this.Version})吗？", title: "确认", onYes: () => {
                     this.PublishState = PublishStatus.Published;
                     this.PublishOn = Timestamp.GetTimestamp();
                     VirtualRoot.Execute(new UpdateKernelCommand(this));
                 }, icon: IconConst.IconConfirm);
             });
             this.UnPublish = new DelegateCommand(() => {
-                DialogWindow.ShowDialog(message: $"您确定取消发布{this.Code} (v{this.Version})吗？", title: "确认", onYes: () => {
+                this.ShowDialog(message: $"您确定取消发布{this.Code} (v{this.Version})吗？", title: "确认", onYes: () => {
                     this.PublishState = PublishStatus.UnPublished;
                     VirtualRoot.Execute(new UpdateKernelCommand(this));
                 }, icon: IconConst.IconConfirm);

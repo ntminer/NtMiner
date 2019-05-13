@@ -1,8 +1,6 @@
 ﻿using NTMiner.Core;
 using NTMiner.Core.Kernels;
 using NTMiner.Core.Profiles;
-using NTMiner.Views;
-using NTMiner.Views.Ucs;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -146,13 +144,13 @@ namespace NTMiner.Vms {
                 }
             });
             this.ApplyTemplateOverClock = new DelegateCommand<OverClockDataViewModel>((data) => {
-                DialogWindow.ShowDialog(message: data.Tooltip, title: "确定应用该超频设置吗？", onYes: () => {
+                this.ShowDialog(message: data.Tooltip, title: "确定应用该超频设置吗？", onYes: () => {
                     FillOverClock(data);
                     ApplyOverClock();
                 }, icon: IconConst.IconConfirm);
             });
             this.ApplyCustomOverClock = new DelegateCommand(() => {
-                DialogWindow.ShowDialog(message: $"确定应用您的自定义超频吗？", title: "确认自定义超频", onYes: () => {
+                this.ShowDialog(message: $"确定应用您的自定义超频吗？", title: "确认自定义超频", onYes: () => {
                     ApplyOverClock();
                 }, icon: IconConst.IconConfirm);
             });
@@ -180,13 +178,13 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                CoinEdit.ShowWindow(formType ?? FormType.Edit, this);
+                AppContext.ShowWindow.CoinEdit(formType ?? FormType.Edit, this);
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                DialogWindow.ShowDialog(message: $"您确定删除{this.Code}币种吗？", title: "确认", onYes: () => {
+                this.ShowDialog(message: $"您确定删除{this.Code}币种吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveCoinCommand(this.Id));
                 }, icon: IconConst.IconConfirm);
             });
@@ -419,6 +417,12 @@ namespace NTMiner.Vms {
                     OnPropertyChanged(nameof(AlgoId));
                     OnPropertyChanged(nameof(AlgoItem));
                 }
+            }
+        }
+
+        public string Algo {
+            get {
+                return AlgoItem.Value;
             }
         }
 

@@ -49,29 +49,13 @@ namespace NTMiner {
                 NotiCenterWindow.Instance.Show();
                 bool isInnerIp = Ip.Util.IsInnerIp(NTMinerRegistry.GetControlCenterHost());
                 if (isInnerIp) {
-                    NTMinerServices.NTMinerServicesUtil.RunNTMinerServices();
-                }
-                NTMinerRoot.Instance.Init(() => {
-                    NTMinerRoot.KernelDownloader = new KernelDownloader();
-                    UIThread.Execute(() => {
-                        splashWindow?.Close();
-                        LoginWindow loginWindow = new LoginWindow();
-                        var result = loginWindow.ShowDialog();
-                        if (result.HasValue && result.Value) {
-                            ChartsWindow.ShowWindow();
-                            System.Drawing.Icon icon = new System.Drawing.Icon(GetResourceStream(new Uri("pack://application:,,,/MinerStudio;component/logo.ico")).Stream);
-                            AppHelper.NotifyIcon = ExtendedNotifyIcon.Create(icon, "群控客户端", isMinerStudio: true);
-                            #region 处理显示主界面命令
-                            VirtualRoot.Window<ShowMainWindowCommand>("处理显示主界面命令", LogEnum.None,
-                                action: message => {
-                                    Dispatcher.Invoke((ThreadStart)ChartsWindow.ShowWindow);
-                                });
-                            #endregion
-                            HttpServer.Start($"http://localhost:{Consts.MinerStudioPort}");
-                            AppHelper.RemoteDesktop = MsRdpRemoteDesktop.OpenRemoteDesktop;
-                        }
+                    NTMinerServices.NTMinerServicesUtil.RunNTMinerServices(()=> {
+                        Init(splashWindow);
                     });
-                });
+                }
+                else {
+                    Init(splashWindow);
+                }
                 VirtualRoot.Window<CloseNTMinerCommand>("处理关闭群控客户端命令", LogEnum.UserConsole,
                     action: message => {
                         UIThread.Execute(() => {
@@ -99,6 +83,30 @@ namespace NTMiner {
                 }
             }
             base.OnStartup(e);
+        }
+
+        private void Init(SplashWindow splashWindow) {
+            NTMinerRoot.Instance.Init(() => {
+                NTMinerRoot.KernelDownloader = new KernelDownloader();
+                UIThread.Execute(() => {
+                    splashWindow?.Close();
+                    LoginWindow loginWindow = new LoginWindow();
+                    var result = loginWindow.ShowDialog();
+                    if (result.HasValue && result.Value) {
+                        ChartsWindow.ShowWindow();
+                        System.Drawing.Icon icon = new System.Drawing.Icon(GetResourceStream(new Uri("pack://application:,,,/MinerStudio;component/logo.ico")).Stream);
+                        AppHelper.NotifyIcon = ExtendedNotifyIcon.Create(icon, "群控客户端", isMinerStudio: true);
+                        #region 处理显示主界面命令
+                        VirtualRoot.Window<ShowMainWindowCommand>("处理显示主界面命令", LogEnum.None,
+                            action: message => {
+                                Dispatcher.Invoke((ThreadStart)ChartsWindow.ShowWindow);
+                            });
+                        #endregion
+                        HttpServer.Start($"http://localhost:{Consts.MinerStudioPort}");
+                        AppHelper.RemoteDesktop = MsRdpRemoteDesktop.OpenRemoteDesktop;
+                    }
+                });
+            });
         }
 
         public void Dispose() {

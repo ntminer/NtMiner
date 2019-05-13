@@ -1,5 +1,4 @@
-﻿using NTMiner.Views;
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -33,8 +32,7 @@ namespace NTMiner.Vms {
 
         public ContainerWindowViewModel() {
             this.ShowWindow = new DelegateCommand(() => {
-                ContainerWindow window = ContainerWindow.GetWindow(this);
-                window?.ShowWindow();
+                AppContext.ShowWindow.ContainerWindow(this);
             });
         }
 

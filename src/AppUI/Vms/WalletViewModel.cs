@@ -1,6 +1,4 @@
 ﻿using NTMiner.Core;
-using NTMiner.Views;
-using NTMiner.Views.Ucs;
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -68,7 +66,7 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                WalletEdit.ShowWindow(formType ?? FormType.Edit, this);
+                AppContext.ShowWindow.WalletEdit(formType ?? FormType.Edit, this);
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {
@@ -77,7 +75,7 @@ namespace NTMiner.Vms {
                 if (this.IsTestWallet) {
                     return;
                 }
-                DialogWindow.ShowDialog(message: $"您确定删除{this.Name}钱包吗？", title: "确认", onYes: () => {
+                this.ShowDialog(message: $"您确定删除{this.Name}钱包吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveWalletCommand(this.Id));
                 }, icon: IconConst.IconConfirm);
             });

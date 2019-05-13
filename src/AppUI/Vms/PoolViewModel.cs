@@ -1,6 +1,4 @@
 ﻿using NTMiner.Core;
-using NTMiner.Views;
-using NTMiner.Views.Ucs;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -87,13 +85,13 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                PoolEdit.ShowWindow(formType ?? FormType.Edit, this);
+                AppContext.ShowWindow.PoolEdit(formType ?? FormType.Edit, this);
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                DialogWindow.ShowDialog(message: $"您确定删除{this.Name}矿池吗？", title: "确认", onYes: () => {
+                this.ShowDialog(message: $"您确定删除{this.Name}矿池吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemovePoolCommand(this.Id));
                 }, icon: IconConst.IconConfirm);
             });

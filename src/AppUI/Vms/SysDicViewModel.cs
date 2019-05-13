@@ -1,6 +1,4 @@
 ﻿using NTMiner.Core;
-using NTMiner.Views;
-using NTMiner.Views.Ucs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,13 +49,13 @@ namespace NTMiner.Vms {
                 }.Edit.Execute(FormType.Add);
             });
             this.Edit = new DelegateCommand<FormType?>((formType) => {
-                SysDicEdit.ShowWindow(formType ?? FormType.Edit, this);
+                AppContext.ShowWindow.SysDicEdit(formType ?? FormType.Edit, this);
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                DialogWindow.ShowDialog(message: $"您确定删除{this.Code}系统字典吗？", title: "确认", onYes: () => {
+                this.ShowDialog(message: $"您确定删除{this.Code}系统字典吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveSysDicCommand(this.Id));
                 }, icon: IconConst.IconConfirm);
             });

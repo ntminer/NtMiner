@@ -1,5 +1,4 @@
 ﻿using NTMiner.Core;
-using NTMiner.Views.Ucs;
 using System;
 using System.Linq;
 using System.Windows.Input;
@@ -30,7 +29,7 @@ namespace NTMiner.Vms {
                 CloseWindow?.Invoke();
             });
             this.Edit = new DelegateCommand<FormType?>((formType) => {
-                PoolKernelEdit.ShowWindow(formType ?? FormType.Edit, this);
+                AppContext.ShowWindow.PoolKernelEdit(formType ?? FormType.Edit, this);
             });
         }
 

@@ -1,6 +1,5 @@
 ﻿using NTMiner.MinerServer;
 using NTMiner.Views;
-using NTMiner.Views.Ucs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -106,7 +105,7 @@ namespace NTMiner.Vms {
             this._poolVm = _coinVm.OptionPools.First();
             this._wallet = string.Empty;
             this.OneKeySetting = new DelegateCommand(() => {
-                MinerClientSetting.ShowWindow(new MinerClientSettingViewModel(this.SelectedMinerClients));
+                AppContext.ShowWindow.MinerClientSetting(new MinerClientSettingViewModel(this.SelectedMinerClients));
             }, CanCommand);
             this.OneKeyMinerNames = new DelegateCommand(() => {
                 if (this.SelectedMinerClients.Length == 1) {
@@ -121,7 +120,7 @@ namespace NTMiner.Vms {
                     prefix: "miner",
                     suffix: "01",
                     namesByObjectId: this.SelectedMinerClients.Select(a => new Tuple<string, string>(a.Id, string.Empty)).ToList());
-                MinerNamesSeter.ShowWindow(vm);
+                AppContext.ShowWindow.MinerNamesSeter(vm);
                 if (vm.IsOk) {
                     this.CountDown = 10;
                     Server.ControlCenterService.UpdateClientsAsync(nameof(MinerClientViewModel.MinerName), vm.NamesByObjectId.ToDictionary(a => a.Item1, a => (object)a.Item2), callback: (response, e) => {
@@ -161,11 +160,11 @@ namespace NTMiner.Vms {
             });
             this.OneKeyOverClock = new DelegateCommand(() => {
                 if (this.SelectedMinerClients.Length == 1) {
-                    GpuProfilesPage.ShowWindow(this);
+                    AppContext.ShowWindow.GpuProfilesPage(this);
                 }
             }, OnlySelectedOne);
             this.OneKeyUpgrade = new DelegateCommand<NTMinerFileData>((ntminerFileData) => {
-                DialogWindow.ShowDialog(message: "确定升级到该版本吗？", title: "确认", onYes: () => {
+                this.ShowDialog(message: "确定升级到该版本吗？", title: "确认", onYes: () => {
                     foreach (var item in SelectedMinerClients) {
                         Server.MinerClientService.UpgradeNTMinerAsync(item, ntminerFileData.FileName, (response, e) => {
                             if (!response.IsSuccess()) {
@@ -175,13 +174,13 @@ namespace NTMiner.Vms {
                     }
                 }, icon: IconConst.IconConfirm);
             }, (ntminerFileData) => this.SelectedMinerClients != null && this.SelectedMinerClients.Length != 0);
-            this.AddMinerClient = new DelegateCommand(MinerClientAdd.ShowWindow);
+            this.AddMinerClient = new DelegateCommand(AppContext.ShowWindow.MinerClientAdd);
             this.RemoveMinerClients = new DelegateCommand(() => {
                 if (SelectedMinerClients.Length == 0) {
                     ShowNoRecordSelected();
                 }
                 else {
-                    DialogWindow.ShowDialog(message: $"确定删除选中的矿机吗？", title: "确认", onYes: () => {
+                    this.ShowDialog(message: $"确定删除选中的矿机吗？", title: "确认", onYes: () => {
                         this.CountDown = 10;
                         Server.ControlCenterService.RemoveClientsAsync(SelectedMinerClients.Select(a => a.Id).ToList(), (response, e) => {
                             if (!response.IsSuccess()) {
@@ -219,7 +218,7 @@ namespace NTMiner.Vms {
                     ShowNoRecordSelected();
                 }
                 else {
-                    DialogWindow.ShowDialog(message: $"确定重启选中的电脑吗？", title: "确认", onYes: () => {
+                    this.ShowDialog(message: $"确定重启选中的电脑吗？", title: "确认", onYes: () => {
                         foreach (var item in SelectedMinerClients) {
                             Server.MinerClientService.RestartWindowsAsync(item, (response, e) => {
                                 if (!response.IsSuccess()) {
@@ -235,7 +234,7 @@ namespace NTMiner.Vms {
                     ShowNoRecordSelected();
                 }
                 else {
-                    DialogWindow.ShowDialog(message: $"确定关闭选中的电脑吗？", title: "确认", onYes: () => {
+                    this.ShowDialog(message: $"确定关闭选中的电脑吗？", title: "确认", onYes: () => {
                         foreach (var item in SelectedMinerClients) {
                             Server.MinerClientService.ShutdownWindowsAsync(item, (response, e) => {
                                 if (!response.IsSuccess()) {
@@ -251,7 +250,7 @@ namespace NTMiner.Vms {
                     ShowNoRecordSelected();
                 }
                 else {
-                    DialogWindow.ShowDialog(message: $"确定重启选中的挖矿客户端吗？", title: "确认", onYes: () => {
+                    this.ShowDialog(message: $"确定重启选中的挖矿客户端吗？", title: "确认", onYes: () => {
                         foreach (var item in SelectedMinerClients) {
                             Server.MinerClientService.RestartNTMinerAsync(item, (response, e) => {
                                 if (!response.IsSuccess()) {
@@ -283,7 +282,7 @@ namespace NTMiner.Vms {
                     ShowNoRecordSelected();
                 }
                 else {
-                    DialogWindow.ShowDialog(message: $"确定将选中的矿机停止挖矿吗？", title: "确认", onYes: () => {
+                    this.ShowDialog(message: $"确定将选中的矿机停止挖矿吗？", title: "确认", onYes: () => {
                         foreach (var item in SelectedMinerClients) {
                             item.IsMining = false;
                             Server.MinerClientService.StopMineAsync(item, (response, e) => {

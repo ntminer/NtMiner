@@ -1,5 +1,4 @@
 ﻿using NTMiner.Core.Gpus;
-using NTMiner.Views.Ucs;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
@@ -16,7 +15,7 @@ namespace NTMiner.Vms {
             this._mainCoinSpeed = new SpeedViewModel(gpuSpeed.MainCoinSpeed);
             this._dualCoinSpeed = new SpeedViewModel(gpuSpeed.DualCoinSpeed);
             this.OpenChart = new DelegateCommand(() => {
-                SpeedCharts.ShowWindow(this);
+                AppContext.ShowWindow.SpeedCharts(this);
             });
         }
 

@@ -7,6 +7,8 @@ namespace NTMiner.Core {
         string CnName { get; }
         string Icon { get; }
         Guid AlgoId { get; }
+        // json向后兼容
+        string Algo { get; }
         int SortNumber { get; }
         string TestWallet { get; }
         string WalletRegexPattern { get; }

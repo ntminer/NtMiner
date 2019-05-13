@@ -133,6 +133,7 @@
     <Compile Include="AppContext.partials.PoolProfileViewModels.cs" />
     <Compile Include="AppContext.partials.PoolViewModels.cs" />
     <Compile Include="AppContext.partials.ShareViewModels.cs" />
+    <Compile Include="AppContext.partials.ShowWindows.cs" />
     <Compile Include="AppContext.partials.StartStopMineButtonViewModel.cs" />
     <Compile Include="AppContext.partials.SysDicItemViewModels.cs" />
     <Compile Include="AppContext.partials.SysDicViewModels.cs" />
@@ -142,6 +143,7 @@
     <Compile Include="AppHelper.cs" />
     <Compile Include="KernelDownloader.cs" />
     <Compile Include="AppContext.cs" />
+    <Compile Include="Messages.cs" />
     <Compile Include="RemoteDesktopInput.cs" />
     <Compile Include="Views\ContainerWindow.xaml.cs">
       <DependentUpon>ContainerWindow.xaml</DependentUpon>
@@ -413,7 +415,7 @@
     <Compile Include="Vms\SpeedUnitViewModel.cs" />
     <Compile Include="Vms\StateBarViewModel.cs" />
     <Compile Include="Vms\GroupPageViewModel.cs" />
-    <Compile Include="Vms\Drives\VirtualMemory.cs" />
+    <Compile Include="Vms\VirtualMemory.cs" />
     <Compile Include="Views\KernelsWindow.xaml.cs">
       <DependentUpon>KernelsWindow.xaml</DependentUpon>
     </Compile>
@@ -437,7 +439,7 @@
     </Compile>
     <Compile Include="Vms\AboutPageViewModel.cs" />
     <Compile Include="Vms\CoinKernelProfileViewModel.cs" />
-    <Compile Include="Vms\Drives\Drive.cs" />
+    <Compile Include="Vms\Drive.cs" />
     <Compile Include="Vms\OuterPropertyViewModel.cs" />
     <Compile Include="Vms\KernelViewModel.cs" />
     <Compile Include="Vms\CoinProfileViewModel.cs" />

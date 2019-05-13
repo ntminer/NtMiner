@@ -1,7 +1,5 @@
 ﻿using NTMiner.Core;
 using NTMiner.MinerServer;
-using NTMiner.Views;
-using NTMiner.Views.Ucs;
 using System;
 using System.Linq;
 using System.Windows.Input;
@@ -47,7 +45,7 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                MinerGroupEdit.ShowWindow(formType ?? FormType.Edit, this);
+                AppContext.ShowWindow.MinerGroupEdit(formType ?? FormType.Edit, this);
             }, (formType) => {
                 return this != PleaseSelect;
             });
@@ -55,7 +53,7 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                DialogWindow.ShowDialog(message: $"您确定删除{this.Name}吗？", title: "确认", onYes: () => {
+                this.ShowDialog(message: $"您确定删除{this.Name}吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveMinerGroupCommand(this.Id));
                 }, icon: IconConst.IconConfirm);
             }, () => {

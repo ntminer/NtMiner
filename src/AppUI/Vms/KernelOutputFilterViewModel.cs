@@ -1,6 +1,4 @@
 ﻿using NTMiner.Core;
-using NTMiner.Views;
-using NTMiner.Views.Ucs;
 using System;
 using System.Windows.Input;
 
@@ -37,13 +35,13 @@ namespace NTMiner.Vms {
                 CloseWindow?.Invoke();
             });
             this.Edit = new DelegateCommand<FormType?>((formType) => {
-                KernelOutputFilterEdit.ShowWindow(formType ?? FormType.Edit, this);
+                AppContext.ShowWindow.KernelOutputFilterEdit(formType ?? FormType.Edit, this);
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                DialogWindow.ShowDialog(message: $"您确定删除{this.RegexPattern}内核输出过滤器吗？", title: "确认", onYes: () => {
+                this.ShowDialog(message: $"您确定删除{this.RegexPattern}内核输出过滤器吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveKernelOutputFilterCommand(this.Id));
                 }, icon: IconConst.IconConfirm);
             });

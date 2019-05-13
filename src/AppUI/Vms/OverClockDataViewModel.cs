@@ -1,7 +1,5 @@
 ﻿using NTMiner.Core;
 using NTMiner.MinerServer;
-using NTMiner.Views;
-using NTMiner.Views.Ucs;
 using System;
 using System.Linq;
 using System.Windows;
@@ -51,13 +49,13 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                OverClockDataEdit.ShowWindow(formType ?? FormType.Edit, this);
+                AppContext.ShowWindow.OverClockDataEdit(formType ?? FormType.Edit, this);
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                DialogWindow.ShowDialog(message: $"您确定删除{this.Name}吗？", title: "确认", onYes: () => {
+                this.ShowDialog(message: $"您确定删除{this.Name}吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveOverClockDataCommand(this.Id));
                 }, icon: IconConst.IconConfirm);
             });

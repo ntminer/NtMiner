@@ -17,7 +17,10 @@ namespace NTMiner {
                     AppSettingsRequest request = new AppSettingsRequest {
                     };
                     DataResponse<List<AppSettingData>> response = Post<DataResponse<List<AppSettingData>>>(SControllerName, nameof(IAppSettingController.AppSettings), request);
-                    return response.Data;
+                    if (response.IsSuccess()) {
+                        return response.Data;
+                    }
+                    return new List<AppSettingData>();
                 }
                 catch (Exception e) {
                     e = e.GetInnerException();

@@ -1,7 +1,6 @@
 ﻿using NTMiner.Core;
 using NTMiner.MinerClient;
 using NTMiner.MinerServer;
-using NTMiner.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -57,7 +56,7 @@ namespace NTMiner.Vms {
 
             });
             this.Remove = new DelegateCommand(() => {
-                DialogWindow.ShowDialog(message: $"确定删除该矿机吗？", title: "确认", onYes: () => {
+                this.ShowDialog(message: $"确定删除该矿机吗？", title: "确认", onYes: () => {
                     Server.ControlCenterService.RemoveClientsAsync(new List<string> { this.Id }, (response, e) => {
                         if (!response.IsSuccess()) {
                             Write.UserFail(response.ReadMessage(e));
@@ -91,7 +90,7 @@ namespace NTMiner.Vms {
                 }));
             });
             this.RestartWindows = new DelegateCommand(() => {
-                DialogWindow.ShowDialog(message: $"您确定重启{this.MinerName}({this.MinerIp})电脑吗？", title: "确认", onYes: () => {
+                this.ShowDialog(message: $"您确定重启{this.MinerName}({this.MinerIp})电脑吗？", title: "确认", onYes: () => {
                     Server.MinerClientService.RestartWindowsAsync(this, (response, e) => {
                         if (!response.IsSuccess()) {
                             Write.UserFail(response.ReadMessage(e));
@@ -100,7 +99,7 @@ namespace NTMiner.Vms {
                 }, icon: IconConst.IconConfirm);
             });
             this.ShutdownWindows = new DelegateCommand(() => {
-                DialogWindow.ShowDialog(message: $"确定关闭{this.MinerName}({this.MinerIp})电脑吗？", title: "确认", onYes: () => {
+                this.ShowDialog(message: $"确定关闭{this.MinerName}({this.MinerIp})电脑吗？", title: "确认", onYes: () => {
                     Server.MinerClientService.ShutdownWindowsAsync(this, (response, e) => {
                         if (!response.IsSuccess()) {
                             Write.UserFail(response.ReadMessage(e));
@@ -109,7 +108,7 @@ namespace NTMiner.Vms {
                 }, icon: IconConst.IconConfirm);
             });
             this.RestartNTMiner = new DelegateCommand(() => {
-                DialogWindow.ShowDialog(message: $"确定重启{this.MinerName}({this.MinerIp})挖矿客户端吗？", title: "确认", onYes: () => {
+                this.ShowDialog(message: $"确定重启{this.MinerName}({this.MinerIp})挖矿客户端吗？", title: "确认", onYes: () => {
                     Server.MinerClientService.RestartNTMinerAsync(this, (response, e) => {
                         if (!response.IsSuccess()) {
                             Write.UserFail(response.ReadMessage(e));
@@ -127,7 +126,7 @@ namespace NTMiner.Vms {
                 Server.ControlCenterService.UpdateClientAsync(this.Id, nameof(IsMining), IsMining, null);
             });
             this.StopMine = new DelegateCommand(() => {
-                DialogWindow.ShowDialog(message: $"{this.MinerName}({this.MinerIp})：确定停止挖矿吗？", title: "确认", onYes: () => {
+                this.ShowDialog(message: $"{this.MinerName}({this.MinerIp})：确定停止挖矿吗？", title: "确认", onYes: () => {
                     IsMining = false;
                     Server.MinerClientService.StopMineAsync(this, (response, e) => {
                         if (!response.IsSuccess()) {
