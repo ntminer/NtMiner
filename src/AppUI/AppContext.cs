@@ -10,6 +10,7 @@ namespace NTMiner {
         private static readonly List<IDelegateHandler> _contextHandlers = new List<IDelegateHandler>();
 
         private AppContext() {
+            Link();
         }
 
         #region static methods

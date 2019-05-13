@@ -64,10 +64,10 @@ namespace NTMiner.Vms {
         public CoinKernelViewModel(Guid id) {
             _id = id;
             this.AddEnvironmentVariable = new DelegateCommand(() => {
-                AppContext.ShowWindow.EnvironmentVariableEdit(this, new EnvironmentVariable());
+                VirtualRoot.Execute(new EnvironmentVariableEditCommand(this, new EnvironmentVariable()));
             });
             this.EditEnvironmentVariable = new DelegateCommand<EnvironmentVariable>(environmentVariable => {
-                AppContext.ShowWindow.EnvironmentVariableEdit(this, environmentVariable);
+                VirtualRoot.Execute(new EnvironmentVariableEditCommand(this, environmentVariable));
             });
             this.RemoveEnvironmentVariable = new DelegateCommand<EnvironmentVariable>(environmentVariable => {
                 this.ShowDialog(message: $"您确定删除环境变量{environmentVariable.Key}吗？", title: "确认", onYes: () => {
