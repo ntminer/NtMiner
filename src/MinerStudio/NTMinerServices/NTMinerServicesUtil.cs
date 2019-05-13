@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NTMiner.Vms;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 /// </summary>
 namespace NTMiner.NTMinerServices {
     public static class NTMinerServicesUtil {
-        public static void RunNTMinerServices() {
+        public static void RunNTMinerServices(Action callback) {
             string processName = "NTMinerServices";
             Process[] processes = Process.GetProcessesByName(processName);
             if (processes.Length != 0) {
@@ -22,28 +23,33 @@ namespace NTMiner.NTMinerServices {
                             Server.ControlCenterService.CloseServices();
                             System.Threading.Thread.Sleep(1000);
                             Windows.TaskKill.Kill(processName, waitForExit: true);
-                            ExtractRunNTMinerServicesAsync();
+                            ExtractRunNTMinerServicesAsync(callback);
+                        }
+                        else {
+                            callback?.Invoke();
                         }
                     }
                     catch (Exception e) {
                         e = e.GetInnerException();
                         Logger.ErrorDebugLine(e.Message, e);
+                        NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage("启动失败，请重试，如果问题一直持续请联系开发者解决问题");
                     }
                 });
             }
             else {
-                ExtractRunNTMinerServicesAsync();
+                ExtractRunNTMinerServicesAsync(callback);
             }
         }
 
-        private static void ExtractRunNTMinerServicesAsync() {
+        private static void ExtractRunNTMinerServicesAsync(Action callback) {
             Task.Factory.StartNew(() => {
                 string[] names = new string[] { "NTMinerServices.exe" };
                 foreach (var name in names) {
                     ExtractResource(name);
                 }
-                Windows.Cmd.RunClose(SpecialPath.NTMinerServicesFileFullName, "--enableInnerIp --notofficial", waitForExit: true);
+                Windows.Cmd.RunClose(SpecialPath.NTMinerServicesFileFullName, "--enableInnerIp --notofficial", waitForExit: false);
                 Logger.OkDebugLine("群控服务进程启动成功");
+                callback?.Invoke();
             });
         }
 
