@@ -46,4 +46,33 @@ namespace NTMiner {
         public FormType FormType { get; private set; }
         public CoinViewModel Source { get; private set; }
     }
+
+    [MessageType(description: "打开列显编辑界面")]
+    public class ColumnsShowEditCommand : Cmd {
+        public ColumnsShowEditCommand(FormType formType, ColumnsShowViewModel source) {
+            this.FormType = formType;
+            this.Source = source;
+        }
+
+        public FormType FormType { get; private set; }
+        public ColumnsShowViewModel Source { get; private set; }
+    }
+
+    [MessageType(description: "打开装饰器窗口")]
+    public class ShowContainerWindowCommand : Cmd {
+        public ShowContainerWindowCommand(ContainerWindowViewModel vm) {
+            this.Vm = vm;
+        }
+
+        public ContainerWindowViewModel Vm { get; private set; }
+    }
+
+    [MessageType(description: "打开算力图界面")]
+    public class SpeedChartsCommand : Cmd {
+        public SpeedChartsCommand(GpuSpeedViewModel gpuSpeedVm = null) {
+            this.GpuSpeedVm = gpuSpeedVm;
+        }
+
+        public GpuSpeedViewModel GpuSpeedVm { get; private set; }
+    }
 }
