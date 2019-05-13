@@ -1,6 +1,5 @@
 ﻿using NTMiner.Core;
 using NTMiner.MinerServer;
-using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using System;
 using System.Reflection;
@@ -87,10 +86,10 @@ namespace NTMiner.Vms {
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {
-                    DialogWindow.ShowDialog(message: "该项不能删除", title: "警告", icon: "Icon_Error");
+                    this.ShowDialog(message: "该项不能删除", title: "警告", icon: "Icon_Error");
                     return;
                 }
-                DialogWindow.ShowDialog(message: $"您确定删除{this.ColumnsShowName}吗？", title: "确认", onYes: () => {
+                this.ShowDialog(message: $"您确定删除{this.ColumnsShowName}吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveColumnsShowCommand(this.Id));
                 }, icon: IconConst.IconConfirm);
             });

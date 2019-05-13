@@ -1,6 +1,5 @@
 ﻿using NTMiner.Core;
 using NTMiner.MinerServer;
-using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using System;
 using System.Linq;
@@ -57,7 +56,7 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                DialogWindow.ShowDialog(message: $"您确定删除{this.Name}吗？", title: "确认", onYes: () => {
+                this.ShowDialog(message: $"您确定删除{this.Name}吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveOverClockDataCommand(this.Id));
                 }, icon: IconConst.IconConfirm);
             });

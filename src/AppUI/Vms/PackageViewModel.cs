@@ -1,5 +1,4 @@
 ﻿using NTMiner.Core;
-using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using System;
 using System.Collections.Generic;
@@ -59,7 +58,7 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                DialogWindow.ShowDialog(message: $"您确定删除{this.Name}内核包吗？", title: "确认", onYes: () => {
+                this.ShowDialog(message: $"您确定删除{this.Name}内核包吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemovePackageCommand(this.Id));
                 }, icon: IconConst.IconConfirm);
             });

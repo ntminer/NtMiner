@@ -1,5 +1,4 @@
 ﻿using NTMiner.Core;
-using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using System;
 using System.Collections.Generic;
@@ -72,7 +71,7 @@ namespace NTMiner.Vms {
                 EnvironmentVariableEdit.ShowWindow(this, environmentVariable);
             });
             this.RemoveEnvironmentVariable = new DelegateCommand<EnvironmentVariable>(environmentVariable => {
-                DialogWindow.ShowDialog(message: $"您确定删除环境变量{environmentVariable.Key}吗？", title: "确认", onYes: () => {
+                this.ShowDialog(message: $"您确定删除环境变量{environmentVariable.Key}吗？", title: "确认", onYes: () => {
                     this.EnvironmentVariables.Remove(environmentVariable);
                     EnvironmentVariables = EnvironmentVariables.ToList();
                 }, icon: IconConst.IconConfirm);
@@ -84,7 +83,7 @@ namespace NTMiner.Vms {
                 InputSegmentEdit.ShowWindow(this, segment);
             });
             this.RemoveSegment = new DelegateCommand<InputSegment>((segment) => {
-                DialogWindow.ShowDialog(message: $"您确定删除片段{segment.Name}吗？", title: "确认", onYes: () => {
+                this.ShowDialog(message: $"您确定删除片段{segment.Name}吗？", title: "确认", onYes: () => {
                     this.InputSegments.Remove(segment);
                     InputSegments = InputSegments.ToList();
                 }, icon: IconConst.IconConfirm);
@@ -102,7 +101,7 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                DialogWindow.ShowDialog(message: $"您确定删除{Kernel.Code}币种内核吗？", title: "确认", onYes: () => {
+                this.ShowDialog(message: $"您确定删除{Kernel.Code}币种内核吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveCoinKernelCommand(this.Id));
                     Kernel.OnPropertyChanged(nameof(Kernel.SupportedCoins));
                 }, icon: IconConst.IconConfirm);

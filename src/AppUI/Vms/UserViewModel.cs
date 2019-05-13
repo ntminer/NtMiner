@@ -1,5 +1,4 @@
 ﻿using NTMiner.User;
-using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using System;
 using System.Windows.Input;
@@ -53,7 +52,7 @@ namespace NTMiner.Vms {
                 if (VirtualRoot.IsMinerStudio && this.LoginName == SingleUser.LoginName) {
                     throw new ValidationException("不能删除自己");
                 }
-                DialogWindow.ShowDialog(message: $"您确定删除{this.LoginName}吗？", title: "确认", onYes: () => {
+                this.ShowDialog(message: $"您确定删除{this.LoginName}吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveUserCommand(this.LoginName));
                 }, icon: IconConst.IconConfirm);
             });
@@ -64,7 +63,7 @@ namespace NTMiner.Vms {
                 if (this.IsEnabled) {
                     return;
                 }
-                DialogWindow.ShowDialog(message: $"您确定启用{this.LoginName}吗？", title: "确认", onYes: () => {
+                this.ShowDialog(message: $"您确定启用{this.LoginName}吗？", title: "确认", onYes: () => {
                     this.IsEnabled = true;
                     VirtualRoot.Execute(new UpdateUserCommand(this));
                 }, icon: IconConst.IconConfirm);
@@ -76,7 +75,7 @@ namespace NTMiner.Vms {
                 if (!this.IsEnabled) {
                     return;
                 }
-                DialogWindow.ShowDialog(message: $"您确定禁用{this.LoginName}吗？", title: "确认", onYes: () => {
+                this.ShowDialog(message: $"您确定禁用{this.LoginName}吗？", title: "确认", onYes: () => {
                     this.IsEnabled = false;
                     VirtualRoot.Execute(new UpdateUserCommand(this));
                 }, icon: IconConst.IconConfirm);

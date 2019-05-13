@@ -1,6 +1,5 @@
 ﻿using NTMiner.Core.Kernels;
 using NTMiner.Core.Profiles;
-using NTMiner.Views;
 using System;
 using System.IO;
 using System.Linq;
@@ -38,7 +37,7 @@ namespace NTMiner.Vms {
                 this.Download();
             });
             this.UnInstall = new DelegateCommand(() => {
-                DialogWindow.ShowDialog(message: $"您确定卸载{_kernelVm.FullName}内核吗？", title: "确认", onYes: () => {
+                this.ShowDialog(message: $"您确定卸载{_kernelVm.FullName}内核吗？", title: "确认", onYes: () => {
                     string processName = _kernelVm.GetProcessName();
                     if (!string.IsNullOrEmpty(processName)) {
                         Windows.TaskKill.Kill(processName, waitForExit: true);

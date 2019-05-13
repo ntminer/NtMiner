@@ -112,7 +112,7 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                DialogWindow.ShowDialog(message: $"您确定删除吗？", title: "确认", onYes: () => {
+                this.ShowDialog(message: $"您确定删除吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveMineWorkCommand(this.Id));
                 }, icon: IconConst.IconConfirm);
             }, () => {

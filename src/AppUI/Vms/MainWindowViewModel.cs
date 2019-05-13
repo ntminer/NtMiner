@@ -1,5 +1,4 @@
 ﻿using NTMiner.Core;
-using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using System;
 using System.Windows;
@@ -31,7 +30,7 @@ namespace NTMiner.Vms {
             });
             this.UseThisPcName = new DelegateCommand(() => {
                 string thisPcName = NTMinerRoot.GetThisPcName();
-                DialogWindow.ShowDialog(message: $"确定使用本机名{thisPcName}作为矿机名吗？", title: "确认", onYes: () => {
+                this.ShowDialog(message: $"确定使用本机名{thisPcName}作为矿机名吗？", title: "确认", onYes: () => {
                     MinerProfile.MinerName = thisPcName;
                 }, icon: IconConst.IconConfirm);
             });

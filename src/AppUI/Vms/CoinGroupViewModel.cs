@@ -1,5 +1,4 @@
 ﻿using NTMiner.Core;
-using NTMiner.Views;
 using System;
 using System.Linq;
 using System.Windows.Input;
@@ -27,7 +26,7 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                DialogWindow.ShowDialog(message: $"您确定删除{CoinVm.Code}吗？", title: "确认", onYes: () => {
+                this.ShowDialog(message: $"您确定删除{CoinVm.Code}吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveCoinGroupCommand(this.Id));
                 }, icon: IconConst.IconConfirm);
             });

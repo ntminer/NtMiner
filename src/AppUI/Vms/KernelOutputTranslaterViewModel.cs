@@ -1,5 +1,4 @@
 ﻿using NTMiner.Core;
-using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using System;
 using System.Linq;
@@ -67,7 +66,7 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                DialogWindow.ShowDialog(message: $"您确定删除{this.RegexPattern}内核输出翻译器吗？", title: "确认", onYes: () => {
+                this.ShowDialog(message: $"您确定删除{this.RegexPattern}内核输出翻译器吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveKernelOutputTranslaterCommand(this.Id));
                 }, icon: IconConst.IconConfirm);
             });
