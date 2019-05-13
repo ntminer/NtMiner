@@ -28,6 +28,14 @@ namespace NTMiner {
                 Views.ContainerWindow window = Views.ContainerWindow.GetWindow(vm);
                 window?.ShowWindow();
             }
+
+            public static void SpeedCharts(GpuSpeedViewModel gpuSpeedVm = null) {
+                Views.Ucs.SpeedCharts.ShowWindow(gpuSpeedVm);
+            }
+
+            public static void GroupEdit(FormType formType, GroupViewModel source) {
+                Views.Ucs.GroupEdit.ShowWindow(formType, source);
+            }
         }
     }
 }
