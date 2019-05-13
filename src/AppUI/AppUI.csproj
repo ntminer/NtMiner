@@ -143,6 +143,7 @@
     <Compile Include="AppHelper.cs" />
     <Compile Include="KernelDownloader.cs" />
     <Compile Include="AppContext.cs" />
+    <Compile Include="Messages.cs" />
     <Compile Include="RemoteDesktopInput.cs" />
     <Compile Include="Views\ContainerWindow.xaml.cs">
       <DependentUpon>ContainerWindow.xaml</DependentUpon>
