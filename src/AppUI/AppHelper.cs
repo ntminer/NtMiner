@@ -11,16 +11,6 @@ namespace NTMiner {
         public static ExtendedNotifyIcon NotifyIcon;
         public static Action<RemoteDesktopInput> RemoteDesktop;
 
-        public static void RunAsAdministrator() {
-            ProcessStartInfo startInfo = new ProcessStartInfo {
-                FileName = VirtualRoot.AppFileFullName,
-                Arguments = string.Join(" ", CommandLineArgs.Args),
-                Verb = "runas"
-            };
-            Process.Start(startInfo);
-            Application.Current.Shutdown();
-        }
-
         #region Init
         public static void Init(Application app) {
             AppDomain.CurrentDomain.UnhandledException += (object sender, UnhandledExceptionEventArgs e) => {

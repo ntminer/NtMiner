@@ -326,7 +326,7 @@ namespace NTMiner.Vms {
             Process.Start("https://jq.qq.com/?_wv=1027&k=5ZPsuCk");
         });
 
-        public static ICommand RunAsAdministrator { get; private set; } = new DelegateCommand(AppHelper.RunAsAdministrator);
+        public static ICommand RunAsAdministrator { get; private set; } = new DelegateCommand(Wpf.Util.RunAsAdministrator);
 
         public static ICommand ShowNotificationSample { get; private set; } = new DelegateCommand(NotificationSample.ShowWindow);
 
