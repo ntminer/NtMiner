@@ -119,7 +119,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MsRdpRemoteDesktop.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="NTMinerServices\NTMinerServicesUtil.cs" />
