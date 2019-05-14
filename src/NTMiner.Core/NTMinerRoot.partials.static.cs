@@ -34,6 +34,15 @@ namespace NTMiner {
 
         public static bool IsAutoStartCanceled = false;
 
+        private static bool _isMinerClient;
+        public static bool IsMinerClient {
+            get => _isMinerClient;
+        }
+
+        public static void SetIsMinerClient(bool value) {
+            _isMinerClient = value;
+        }
+
         private static Guid? kernelBrandId = null;
         public static Guid KernelBrandId {
             get {

@@ -13,16 +13,12 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 
 namespace NTMiner.Vms {
+    // 注意：这里的成员只应用于绑定，不应在.cs中使用
     public static class AppStatic {
         public static readonly BitmapImage BigLogoImageSource = new BitmapImage(new Uri((VirtualRoot.IsMinerStudio ? "/NTMinerWpf;component/Styles/Images/cc128.png" : "/NTMinerWpf;component/Styles/Images/logo128.png"), UriKind.RelativeOrAbsolute));
-        private static bool _isMinerClient;
-
+        
         public static bool IsMinerClient {
-            get => _isMinerClient;
-        }
-
-        public static void SetIsMinerClient(bool value) {
-            _isMinerClient = value;
+            get => NTMinerRoot.IsMinerClient;
         }
 
         public static string AppName {

@@ -18,7 +18,7 @@ namespace NTMiner.Views.Ucs {
 
         private Visibility IsMinerClientVisible {
             get {
-                if (AppStatic.IsMinerClient) {
+                if (NTMinerRoot.IsMinerClient) {
                     return Visibility.Visible;
                 }
                 else {

@@ -52,7 +52,7 @@ namespace NTMiner {
                     }
                     NTMinerOverClockUtil.ExtractResource();
 
-                    AppStatic.SetIsMinerClient(true);
+                    NTMinerRoot.SetIsMinerClient(true);
                     NotiCenterWindowViewModel.IsHotKeyEnabled = true;
                     SplashWindow splashWindow = new SplashWindow();
                     splashWindow.Show();
