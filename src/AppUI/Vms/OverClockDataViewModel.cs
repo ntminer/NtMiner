@@ -130,7 +130,7 @@ namespace NTMiner.Vms {
 
         public EnumItem<GpuType> GpuTypeEnumItem {
             get {
-                return AppStatic.GpuTypeEnumItems.FirstOrDefault(a => a.Value == GpuType);
+                return EnumSet.GpuTypeEnumItems.FirstOrDefault(a => a.Value == GpuType);
             }
             set {
                 if (GpuType != value.Value) {

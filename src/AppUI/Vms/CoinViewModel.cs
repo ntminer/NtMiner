@@ -84,7 +84,7 @@ namespace NTMiner.Vms {
             _walletRegexPattern = data.WalletRegexPattern;
             _justAsDualCoin = data.JustAsDualCoin;
             _notice = data.Notice;
-            string iconFileFullName = AppStatic.GetIconFileFullName(data);
+            string iconFileFullName = SpecialPath.GetIconFileFullName(data);
             if (!string.IsNullOrEmpty(iconFileFullName) && File.Exists(iconFileFullName)) {
                 _iconImageSource = iconFileFullName;
             }
@@ -380,7 +380,7 @@ namespace NTMiner.Vms {
         }
 
         public void RefreshIcon() {
-            string iconFileFullName = AppStatic.GetIconFileFullName(this);
+            string iconFileFullName = SpecialPath.GetIconFileFullName(this);
             // 如果磁盘上存在则不再下载，所以如果要更新币种图标则需重命名Icon文件
             if (string.IsNullOrEmpty(iconFileFullName)) {
                 return;

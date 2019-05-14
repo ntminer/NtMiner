@@ -129,34 +129,26 @@ namespace NTMiner.Vms {
 
         public static IEnumerable<EnumItem<SupportedGpu>> SupportedGpuEnumItems {
             get {
-                return SupportedGpu.AMD.GetEnumItems();
+                return EnumSet.SupportedGpuEnumItems;
             }
         }
 
         public static IEnumerable<EnumItem<GpuType>> GpuTypeEnumItems {
             get {
-                return GpuType.AMD.GetEnumItems();
+                return EnumSet.GpuTypeEnumItems;
             }
         }
 
         public static IEnumerable<EnumItem<PublishStatus>> PublishStatusEnumItems {
             get {
-                return PublishStatus.Published.GetEnumItems();
+                return EnumSet.PublishStatusEnumItems;
             }
         }
 
         public static IEnumerable<EnumItem<MineStatus>> MineStatusEnumItems {
             get {
-                return MineStatus.All.GetEnumItems();
+                return EnumSet.MineStatusEnumItems;
             }
-        }
-
-        public static string GetIconFileFullName(ICoin coin) {
-            if (coin == null || string.IsNullOrEmpty(coin.Icon)) {
-                return string.Empty;
-            }
-            string iconFileFullName = Path.Combine(SpecialPath.CoinIconsDirFullName, coin.Icon);
-            return iconFileFullName;
         }
 
         public static void Upgrade(string ntminerFileName, Action callback) {

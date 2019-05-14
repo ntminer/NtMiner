@@ -68,7 +68,7 @@ namespace NTMiner {
                             if (string.IsNullOrEmpty(message.Source.Icon)) {
                                 return;
                             }
-                            string iconFileFullName = AppStatic.GetIconFileFullName(message.Source);
+                            string iconFileFullName = SpecialPath.GetIconFileFullName(message.Source);
                             if (string.IsNullOrEmpty(iconFileFullName) || !File.Exists(iconFileFullName)) {
                                 return;
                             }

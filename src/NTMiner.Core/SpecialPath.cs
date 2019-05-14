@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NTMiner.Core;
+using System;
 using System.IO;
 using System.IO.Compression;
 using System.Net;
@@ -97,6 +98,14 @@ namespace NTMiner {
             LocalDbFileFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "local.litedb");
             LocalJsonFileFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "local.json");
             GpuProfilesJsonFileFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "gpuProfiles.json");
+        }
+
+        public static string GetIconFileFullName(ICoin coin) {
+            if (coin == null || string.IsNullOrEmpty(coin.Icon)) {
+                return string.Empty;
+            }
+            string iconFileFullName = Path.Combine(CoinIconsDirFullName, coin.Icon);
+            return iconFileFullName;
         }
 
         public static string ReadServerJsonFile() {

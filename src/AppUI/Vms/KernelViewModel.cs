@@ -487,7 +487,7 @@ namespace NTMiner.Vms {
 
         public EnumItem<PublishStatus> PublishStateEnumItem {
             get {
-                return AppStatic.PublishStatusEnumItems.FirstOrDefault(a => a.Value == PublishState);
+                return EnumSet.PublishStatusEnumItems.FirstOrDefault(a => a.Value == PublishState);
             }
             set {
                 if (PublishState != value.Value) {
