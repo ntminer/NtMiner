@@ -286,7 +286,7 @@ namespace NTMiner.Vms {
         });
         public static ICommand ShowNTMinerUpdaterConfig { get; private set; } = new DelegateCommand(NTMinerUpdaterConfig.ShowWindow);
         public static ICommand ShowOnlineUpdate { get; private set; } = new DelegateCommand(() => {
-            AppHelper.Upgrade(string.Empty, null);
+            VirtualRoot.Execute(new UpgradeCommand(string.Empty, null));
         });
         public static ICommand ShowHelp { get; private set; } = new DelegateCommand(() => {
             Process.Start("https://github.com/ntminer/ntminer");

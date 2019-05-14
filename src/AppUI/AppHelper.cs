@@ -216,10 +216,16 @@ namespace NTMiner {
                         WalletEdit.ShowWindow(message.FormType, message.Source);
                     });
                 });
+            VirtualRoot.Window<UpgradeCommand>(LogEnum.DevConsole,
+                action: message => {
+                    UIThread.Execute(() => {
+                        Upgrade(message.FileName, message.Callback);
+                    });
+                });
         }
 
         #region Upgrade
-        public static void Upgrade(string ntminerFileName, Action callback) {
+        private static void Upgrade(string fileName, Action callback) {
             try {
                 string updaterDirFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "Updater");
                 if (!Directory.Exists(updaterDirFullName)) {
@@ -229,8 +235,8 @@ namespace NTMiner {
                     try {
                         string ntMinerUpdaterFileFullName = Path.Combine(updaterDirFullName, "NTMinerUpdater.exe");
                         string argument = string.Empty;
-                        if (!string.IsNullOrEmpty(ntminerFileName)) {
-                            argument = "ntminerFileName=" + ntminerFileName;
+                        if (!string.IsNullOrEmpty(fileName)) {
+                            argument = "ntminerFileName=" + fileName;
                         }
                         if (VirtualRoot.IsMinerStudio) {
                             argument += " --minerstudio";

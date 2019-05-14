@@ -1,8 +1,20 @@
 ﻿using NTMiner.Bus;
 using NTMiner.Core;
 using NTMiner.Vms;
+using System;
 
 namespace NTMiner {
+    [MessageType(description: "升级")]
+    public class UpgradeCommand : Cmd {
+        public UpgradeCommand(string fileName, Action callback) {
+            this.FileName = fileName;
+            this.Callback = callback;
+        }
+
+        public string FileName { get; private set; }
+        public Action Callback { get; private set; }
+    }
+
     [MessageType(description: "打开环境变量编辑界面")]
     public class EnvironmentVariableEditCommand : Cmd {
         public EnvironmentVariableEditCommand(CoinKernelViewModel coinKernelVm, EnvironmentVariable environmentVariable) {
