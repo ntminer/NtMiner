@@ -1,10 +1,8 @@
-﻿using NTMiner.Vms;
-using System;
+﻿using System;
 using System.Drawing;
-using System.Windows;
 using System.Windows.Forms;
 
-namespace NTMiner.Views {
+namespace NTMiner {
     public class ExtendedNotifyIcon : IDisposable {
         public static ExtendedNotifyIcon Create(Icon icon, string text, bool isMinerStudio) {
             return new ExtendedNotifyIcon(icon, text, isMinerStudio);

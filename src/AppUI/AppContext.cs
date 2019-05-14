@@ -7,6 +7,9 @@ namespace NTMiner {
     public partial class AppContext {
         public static readonly AppContext Instance = new AppContext();
 
+        public static ExtendedNotifyIcon NotifyIcon;
+        public static Action<RemoteDesktopInput> RemoteDesktop;
+
         private static readonly List<IDelegateHandler> _contextHandlers = new List<IDelegateHandler>();
 
         private AppContext() {

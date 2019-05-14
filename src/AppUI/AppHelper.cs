@@ -11,9 +11,6 @@ using System.Windows.Threading;
 
 namespace NTMiner {
     public static class AppHelper {
-        public static ExtendedNotifyIcon NotifyIcon;
-        public static Action<RemoteDesktopInput> RemoteDesktop;
-
         #region Init
         public static void Init(Application app) {
             AppDomain.CurrentDomain.UnhandledException += (object sender, UnhandledExceptionEventArgs e) => {

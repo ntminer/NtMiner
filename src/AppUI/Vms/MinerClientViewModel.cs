@@ -85,7 +85,7 @@ namespace NTMiner.Vms {
                     NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage("没有填写远程桌面用户名密码", 4);
                     return;
                 }
-                AppHelper.RemoteDesktop?.Invoke(new RemoteDesktopInput(this.MinerIp, this.WindowsLoginName, this.WindowsPassword, this.MinerName, message => {
+                AppContext.RemoteDesktop?.Invoke(new RemoteDesktopInput(this.MinerIp, this.WindowsLoginName, this.WindowsPassword, this.MinerName, message => {
                     NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage(message, 4);
                 }));
             });

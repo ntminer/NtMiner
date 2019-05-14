@@ -140,6 +140,7 @@
     <Compile Include="AppContext.partials.VirtualMemorySetViewModel.cs" />
     <Compile Include="AppContext.partials.WalletViewModels.cs" />
     <Compile Include="AppHelper.cs" />
+    <Compile Include="ExtendedNotifyIcon.cs" />
     <Compile Include="KernelDownloader.cs" />
     <Compile Include="AppContext.cs" />
     <Compile Include="Messages.cs" />
@@ -172,7 +173,6 @@
     <Compile Include="Views\SplashWindow.xaml.cs">
       <DependentUpon>SplashWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ExtendedNotifyIcon.cs" />
     <Compile Include="Views\Ucs\CoinSelect.xaml.cs">
       <DependentUpon>CoinSelect.xaml</DependentUpon>
     </Compile>

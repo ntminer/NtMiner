@@ -139,7 +139,7 @@ namespace NTMiner {
                     if (NTMinerRegistry.GetIsShowNotifyIcon() != value) {
                         NTMinerRegistry.SetIsShowNotifyIcon(value);
                         OnPropertyChanged(nameof(IsShowNotifyIcon));
-                        AppHelper.NotifyIcon.RefreshIcon();
+                        NotifyIcon?.RefreshIcon();
                     }
                 }
             }
