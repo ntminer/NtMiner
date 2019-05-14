@@ -15,7 +15,7 @@ namespace NTMiner.Vms {
                 return;
             }
             this.ConfigControlCenterHost = new DelegateCommand(() => {
-                AppContext.ShowWindow.ControlCenterHostConfig();
+                VirtualRoot.Execute(new ShowControlCenterHostConfigCommand());
             });
             if (NTMinerRoot.CurrentVersion.ToString() != NTMinerRoot.ServerVersion) {
                 _checkUpdateForeground = new SolidColorBrush(Colors.Red);

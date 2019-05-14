@@ -105,7 +105,7 @@ namespace NTMiner.Vms {
             this._poolVm = _coinVm.OptionPools.First();
             this._wallet = string.Empty;
             this.OneKeySetting = new DelegateCommand(() => {
-                AppContext.ShowWindow.MinerClientSetting(new MinerClientSettingViewModel(this.SelectedMinerClients));
+                VirtualRoot.Execute(new ShowMinerClientSettingCommand(new MinerClientSettingViewModel(this.SelectedMinerClients)));
             }, CanCommand);
             this.OneKeyMinerNames = new DelegateCommand(() => {
                 if (this.SelectedMinerClients.Length == 1) {
@@ -120,7 +120,7 @@ namespace NTMiner.Vms {
                     prefix: "miner",
                     suffix: "01",
                     namesByObjectId: this.SelectedMinerClients.Select(a => new Tuple<string, string>(a.Id, string.Empty)).ToList());
-                AppContext.ShowWindow.MinerNamesSeter(vm);
+                VirtualRoot.Execute(new ShowMinerNamesSeterCommand(vm));
                 if (vm.IsOk) {
                     this.CountDown = 10;
                     Server.ControlCenterService.UpdateClientsAsync(nameof(MinerClientViewModel.MinerName), vm.NamesByObjectId.ToDictionary(a => a.Item1, a => (object)a.Item2), callback: (response, e) => {
@@ -160,7 +160,7 @@ namespace NTMiner.Vms {
             });
             this.OneKeyOverClock = new DelegateCommand(() => {
                 if (this.SelectedMinerClients.Length == 1) {
-                    AppContext.ShowWindow.GpuProfilesPage(this);
+                    VirtualRoot.Execute(new ShowGpuProfilesPageCommand(this));
                 }
             }, OnlySelectedOne);
             this.OneKeyUpgrade = new DelegateCommand<NTMinerFileData>((ntminerFileData) => {
@@ -174,7 +174,9 @@ namespace NTMiner.Vms {
                     }
                 }, icon: IconConst.IconConfirm);
             }, (ntminerFileData) => this.SelectedMinerClients != null && this.SelectedMinerClients.Length != 0);
-            this.AddMinerClient = new DelegateCommand(AppContext.ShowWindow.MinerClientAdd);
+            this.AddMinerClient = new DelegateCommand(()=> {
+                VirtualRoot.Execute(new ShowMinerClientAddCommand());
+            });
             this.RemoveMinerClients = new DelegateCommand(() => {
                 if (SelectedMinerClients.Length == 0) {
                     ShowNoRecordSelected();

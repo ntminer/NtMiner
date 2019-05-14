@@ -25,7 +25,7 @@ namespace NTMiner.Vms {
                 }
             });
             this.CustomTheme = new DelegateCommand(() => {
-                AppContext.ShowWindow.LogColor();
+                VirtualRoot.Execute(new ShowLogColorCommand());
             });
             this.UseThisPcName = new DelegateCommand(() => {
                 string thisPcName = NTMinerRoot.GetThisPcName();

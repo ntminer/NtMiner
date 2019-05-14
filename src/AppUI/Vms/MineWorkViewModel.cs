@@ -99,7 +99,7 @@ namespace NTMiner.Vms {
                     }
                     NTMinerRoot.Instance.ReInitMinerProfile();
                     this.Sha1 = NTMinerRoot.Instance.MinerProfile.GetSha1();
-                    AppContext.ShowWindow.MineWorkEdit(formType ?? FormType.Edit, new MineWorkViewModel(this));
+                    VirtualRoot.Execute(new MineWorkEditCommand(formType ?? FormType.Edit, new MineWorkViewModel(this)));
                 }
             }, formType => {
                 if (this == PleaseSelect) {

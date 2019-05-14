@@ -133,7 +133,6 @@
     <Compile Include="AppContext.partials.PoolProfileViewModels.cs" />
     <Compile Include="AppContext.partials.PoolViewModels.cs" />
     <Compile Include="AppContext.partials.ShareViewModels.cs" />
-    <Compile Include="AppContext.partials.ShowWindows.cs" />
     <Compile Include="AppContext.partials.StartStopMineButtonViewModel.cs" />
     <Compile Include="AppContext.partials.SysDicItemViewModels.cs" />
     <Compile Include="AppContext.partials.SysDicViewModels.cs" />

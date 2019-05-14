@@ -45,7 +45,7 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                AppContext.ShowWindow.MinerGroupEdit(formType ?? FormType.Edit, this);
+                VirtualRoot.Execute(new MinerGroupEditCommand(formType ?? FormType.Edit, this));
             }, (formType) => {
                 return this != PleaseSelect;
             });

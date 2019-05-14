@@ -64,7 +64,7 @@ namespace NTMiner.Vms {
                 this.PageNumber = this.PageNumber + 1;
             });
             this.ShowPackages = new DelegateCommand(() => {
-                AppContext.ShowWindow.PackagesWindow();
+                VirtualRoot.Execute(new ShowPackagesWindowCommand());
             });
             this.Home.Execute(null);
         }

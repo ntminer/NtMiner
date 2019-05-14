@@ -56,7 +56,7 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                AppContext.ShowWindow.SysDicItemEdit(formType ?? FormType.Edit, this);
+                VirtualRoot.Execute(new SysDicItemEditCommand(formType ?? FormType.Edit, this));
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {

@@ -35,7 +35,7 @@ namespace NTMiner.Vms {
                 CloseWindow?.Invoke();
             });
             this.Edit = new DelegateCommand<FormType?>((formType) => {
-                AppContext.ShowWindow.KernelOutputFilterEdit(formType ?? FormType.Edit, this);
+                VirtualRoot.Execute(new KernelOutputFilterEditCommand(formType ?? FormType.Edit, this));
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {

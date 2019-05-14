@@ -49,7 +49,7 @@ namespace NTMiner.Vms {
                 }.Edit.Execute(FormType.Add);
             });
             this.Edit = new DelegateCommand<FormType?>((formType) => {
-                AppContext.ShowWindow.SysDicEdit(formType ?? FormType.Edit, this);
+                VirtualRoot.Execute(new SysDicEditCommand(formType ?? FormType.Edit, this));
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {

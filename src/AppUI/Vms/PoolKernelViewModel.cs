@@ -29,7 +29,7 @@ namespace NTMiner.Vms {
                 CloseWindow?.Invoke();
             });
             this.Edit = new DelegateCommand<FormType?>((formType) => {
-                AppContext.ShowWindow.PoolKernelEdit(formType ?? FormType.Edit, this);
+                VirtualRoot.Execute(new PoolKernelEditCommand(formType ?? FormType.Edit, this));
             });
         }
 

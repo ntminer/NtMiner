@@ -39,7 +39,7 @@ namespace NTMiner.Vms {
                 CloseWindow?.Invoke();
             });
             this.Edit = new DelegateCommand<FormType?>((formType) => {
-                AppContext.ShowWindow.UserEdit(formType ?? FormType.Edit, this);
+                VirtualRoot.Execute(new UserEditCommand(formType ?? FormType.Edit, this));
             });
             this.Remove = new DelegateCommand(() => {
                 if (!VirtualRoot.IsMinerStudio) {

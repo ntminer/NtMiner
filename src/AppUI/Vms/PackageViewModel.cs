@@ -51,7 +51,7 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                AppContext.ShowWindow.PackageEdit(formType ?? FormType.Edit, this);
+                VirtualRoot.Execute(new PackageEditCommand(formType ?? FormType.Edit, this));
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {

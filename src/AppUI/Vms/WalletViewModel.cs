@@ -66,7 +66,7 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                AppContext.ShowWindow.WalletEdit(formType ?? FormType.Edit, this);
+                VirtualRoot.Execute(new WalletEditCommand(formType ?? FormType.Edit, this));
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {

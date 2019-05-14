@@ -92,7 +92,7 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                AppContext.ShowWindow.KernelOutputEdit(formType ?? FormType.Edit, this);
+                VirtualRoot.Execute(new KernelOutputEditCommand(formType ?? FormType.Edit, this));
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {

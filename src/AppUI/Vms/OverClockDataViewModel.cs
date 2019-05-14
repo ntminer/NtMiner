@@ -49,7 +49,7 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                AppContext.ShowWindow.OverClockDataEdit(formType ?? FormType.Edit, this);
+                VirtualRoot.Execute(new OverClockDataEditCommand(formType ?? FormType.Edit, this));
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {

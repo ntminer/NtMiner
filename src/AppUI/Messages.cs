@@ -261,24 +261,24 @@ namespace NTMiner {
 
     [MessageType(description: "打开字典项编辑界面")]
     public class SysDicItemEditCommand : Cmd {
-        public SysDicItemEditCommand(FormType formType, SysDicItemEditCommand source) {
+        public SysDicItemEditCommand(FormType formType, SysDicItemViewModel source) {
             this.FormType = formType;
             this.Source = source;
         }
 
         public FormType FormType { get; private set; }
-        public SysDicItemEditCommand Source { get; private set; }
+        public SysDicItemViewModel Source { get; private set; }
     }
 
     [MessageType(description: "打开字典编辑界面")]
     public class SysDicEditCommand : Cmd {
-        public SysDicEditCommand(FormType formType, SysDicEditCommand source) {
+        public SysDicEditCommand(FormType formType, SysDicViewModel source) {
             this.FormType = formType;
             this.Source = source;
         }
 
         public FormType FormType { get; private set; }
-        public SysDicEditCommand Source { get; private set; }
+        public SysDicViewModel Source { get; private set; }
     }
 
     [MessageType(description: "打开用户编辑界面")]
