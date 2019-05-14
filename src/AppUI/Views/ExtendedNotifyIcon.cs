@@ -21,7 +21,7 @@ namespace NTMiner.Views {
                 ContextMenu = new ContextMenu()
             };
             _targetNotifyIcon.ContextMenu.MenuItems.Add(new MenuItem("退出" + text, (sender, e) => {
-                AppStatic.AppExit.Execute(null);
+                VirtualRoot.Execute(new CloseNTMinerCommand());
             }));
             _targetNotifyIcon.MouseDown += (object sender, MouseEventArgs e) => {
                 if (e.Button == MouseButtons.Left) {

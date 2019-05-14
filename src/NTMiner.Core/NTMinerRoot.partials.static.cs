@@ -43,6 +43,12 @@ namespace NTMiner {
             _isMinerClient = value;
         }
 
+        public static bool IsKernelBrand {
+            get {
+                return KernelBrandId != Guid.Empty;
+            }
+        }
+
         private static Guid? kernelBrandId = null;
         public static Guid KernelBrandId {
             get {
@@ -50,6 +56,12 @@ namespace NTMiner {
                     kernelBrandId = VirtualRoot.GetBrandId(VirtualRoot.AppFileFullName, Consts.KernelBrandId);
                 }
                 return kernelBrandId.Value;
+            }
+        }
+
+        public static bool IsPoolBrand {
+            get {
+                return PoolBrandId != Guid.Empty;
             }
         }
 

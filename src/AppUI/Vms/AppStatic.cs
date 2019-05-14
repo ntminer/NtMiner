@@ -13,7 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 
 namespace NTMiner.Vms {
-    // 注意：这里的成员只应用于绑定，不应在.cs中使用
+    // 注意：这里的成员只应用于绑定，不应在.cs中使用，在IDE中看到的静态源代码应用计数应为0
     public static class AppStatic {
         public static readonly BitmapImage BigLogoImageSource = new BitmapImage(new Uri((VirtualRoot.IsMinerStudio ? "/NTMinerWpf;component/Styles/Images/cc128.png" : "/NTMinerWpf;component/Styles/Images/logo128.png"), UriKind.RelativeOrAbsolute));
         
@@ -30,18 +30,15 @@ namespace NTMiner.Vms {
 
         public static bool IsDebugMode {
             get {
-                if (Design.IsInDesignMode) {
-                    return true;
-                }
-                return DevMode.IsDebugMode;
+                return Design.IsDebugMode;
             }
         }
 
-        public static bool IsNotDebugMode => !IsDebugMode;
+        public static bool IsNotDebugMode => !Design.IsDebugMode;
 
         public static Visibility IsDebugModeVisible {
             get {
-                if (IsDebugMode) {
+                if (Design.IsDebugMode) {
                     return Visibility.Visible;
                 }
                 return Visibility.Collapsed;
@@ -59,34 +56,34 @@ namespace NTMiner.Vms {
 
         public static bool IsPoolBrand {
             get {
-                return NTMinerRoot.PoolBrandId != Guid.Empty;
+                return NTMinerRoot.IsPoolBrand;
             }
         }
 
         public static Visibility IsPoolBrandVisible {
             get {
-                return IsPoolBrand ? Visibility.Visible : Visibility.Collapsed;
+                return NTMinerRoot.IsPoolBrand ? Visibility.Visible : Visibility.Collapsed;
             }
         }
 
         public static Visibility IsPoolBrandCollapsed {
-            get { return IsPoolBrand ? Visibility.Collapsed : Visibility.Visible; }
+            get { return NTMinerRoot.IsPoolBrand ? Visibility.Collapsed : Visibility.Visible; }
         }
 
         public static bool IsKernelBrand {
             get {
-                return NTMinerRoot.KernelBrandId != Guid.Empty;
+                return NTMinerRoot.IsKernelBrand;
             }
         }
 
         public static Visibility IsKernelBrandVisible {
             get {
-                return IsKernelBrand ? Visibility.Visible : Visibility.Collapsed;
+                return NTMinerRoot.IsKernelBrand ? Visibility.Visible : Visibility.Collapsed;
             }
         }
 
         public static Visibility IsKernelBrandCollapsed {
-            get { return IsKernelBrand ? Visibility.Collapsed : Visibility.Visible; }
+            get { return NTMinerRoot.IsKernelBrand ? Visibility.Collapsed : Visibility.Visible; }
         }
 
         public static bool IsBrandSpecified {
@@ -95,12 +92,12 @@ namespace NTMiner.Vms {
 
         public static Visibility IsBrandSpecifiedVisible {
             get {
-                return IsBrandSpecified ? Visibility.Visible : Visibility.Collapsed;
+                return NTMinerRoot.IsBrandSpecified ? Visibility.Visible : Visibility.Collapsed;
             }
         }
 
         public static Visibility IsBrandSpecifiedCollapsed {
-            get { return IsBrandSpecified ? Visibility.Collapsed : Visibility.Visible; }
+            get { return NTMinerRoot.IsBrandSpecified ? Visibility.Collapsed : Visibility.Visible; }
         }
 
         public static double MainWindowHeight {
