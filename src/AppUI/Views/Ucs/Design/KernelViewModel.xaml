@@ -1,2 +1,2 @@
-﻿<vm:KernelViewModel xmlns:vm="clr-namespace:NTMiner.Vms">
+﻿<vm:KernelViewModel xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels">
 </vm:KernelViewModel>

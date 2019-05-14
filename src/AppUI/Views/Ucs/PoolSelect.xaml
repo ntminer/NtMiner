@@ -7,7 +7,8 @@
 		xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
-		xmlns:vm="clr-namespace:NTMiner.Vms"
+		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
+		xmlns:app="clr-namespace:NTMiner"
 		BorderBrush="Black"
 		BorderThickness="1"
 		Background="White"
@@ -46,7 +47,7 @@
 				Padding="4 0"
 				Click="KbButtonManagePools_Click"
 				Background="{StaticResource ThemeBackground}"
-				Command="{x:Static vm:AppStatic.ManagePools}"
+				Command="{x:Static app:AppStatic.ManagePools}"
 				CommandParameter="{Binding Coin}"
 				CornerRadius="2">
 				<WrapPanel>
@@ -115,6 +116,6 @@
 			</DataGrid.Columns>
 		</DataGrid>
 		<TextBlock Grid.Row="1" Visibility="{Binding QueryResults, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center">没有记录</TextBlock>
-		<TextBox Grid.Row="2" Visibility="{x:Static vm:AppStatic.IsBrandSpecifiedCollapsed}" IsReadOnly="True" FontSize="12" Foreground="{StaticResource LableColor}" BorderThickness="0">没有你喜欢的矿池？Q群2362120103报小编</TextBox>
+		<TextBox Grid.Row="2" Visibility="{x:Static app:AppStatic.IsBrandSpecifiedCollapsed}" IsReadOnly="True" FontSize="12" Foreground="{StaticResource LableColor}" BorderThickness="0">没有你喜欢的矿池？Q群2362120103报小编</TextBox>
 	</Grid>
 </UserControl>

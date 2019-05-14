@@ -6,7 +6,8 @@
 			 xmlns:sys="clr-namespace:System;assembly=mscorlib"
 			 xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 			 xmlns:local="clr-namespace:NTMiner.Views.Ucs"
-			 xmlns:vm="clr-namespace:NTMiner.Vms"
+			 xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
+			 xmlns:app="clr-namespace:NTMiner"
 			 mc:Ignorable="d"
 			 Background="{StaticResource ThemeBackground}"
 			 TextOptions.TextFormattingMode="Display" 
@@ -71,7 +72,7 @@
 				<DataGrid.Columns>
 					<DataGridTemplateColumn 
 						CanUserResize="True" IsReadOnly="True"
-						Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
+						Visibility="{x:Static app:AppStatic.IsDebugModeVisible}">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel HorizontalAlignment="Right" Background="Transparent" VerticalAlignment="Center" Orientation="Horizontal">
@@ -180,7 +181,7 @@
 			<controls:KbButton  
 				Grid.Row="1"
 				Margin="4"
-				Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+				Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
 				HorizontalAlignment="Left"
 				VerticalAlignment="Top"
 				Command="{Binding Add}" 
@@ -320,7 +321,7 @@
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
-							<DataGridTextColumn MinWidth="60" Header="品牌" Visibility="{x:Static vm:AppStatic.IsDevModeVisible}" Binding="{Binding BrandItem.Value}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+							<DataGridTextColumn MinWidth="60" Header="品牌" Visibility="{x:Static app:AppStatic.IsDevModeVisible}" Binding="{Binding BrandItem.Value}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 							</DataGridTextColumn>
 							<DataGridTemplateColumn Width="*" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 								<DataGridTemplateColumn.Header>
@@ -337,7 +338,7 @@
 							</DataGridTemplateColumn>
 							<DataGridTemplateColumn 
 								CanUserResize="True" CanUserReorder="False" 
-								Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+								Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
 								CanUserSort="False" IsReadOnly="True">
 								<DataGridTemplateColumn.Header>
 									<TextBlock Text="排序"></TextBlock>
@@ -480,7 +481,7 @@
 							</DataGridTemplateColumn>
 							<DataGridTemplateColumn 
 								CanUserResize="True" CanUserReorder="False" 
-								Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+								Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
 								CanUserSort="False" IsReadOnly="True">
 								<DataGridTemplateColumn.Header>
 									<TextBlock Text="排序"></TextBlock>
@@ -538,7 +539,7 @@
 						</DataGrid.Resources>
 						<DataGrid.Columns>
 							<DataGridTemplateColumn 
-								Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+								Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
 								MinWidth="100" CanUserResize="True" CanUserSort="False" IsReadOnly="True">
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate>
@@ -649,7 +650,7 @@
 							</DataGridTemplateColumn>
 							<DataGridTemplateColumn 
 								CanUserResize="True" CanUserReorder="False" 
-								Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+								Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
 								CanUserSort="False" IsReadOnly="True">
 								<DataGridTemplateColumn.Header>
 									<TextBlock Text="排序"></TextBlock>
@@ -678,7 +679,7 @@
 						HorizontalAlignment="Left"
 						VerticalAlignment="Top"
 						IsEnabled="{Binding ElementName=PopupKernel,Path=IsOpen, Converter={StaticResource BoolInvertConverter}}"
-						Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+						Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
 						Click="ButtonAddCoinKernel_Click"
 						Background="Transparent" BorderThickness="0"
 						Margin="4"

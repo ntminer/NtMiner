@@ -2,6 +2,7 @@
 using NTMiner.MinerServer;
 using NTMiner.Views;
 using NTMiner.Views.Ucs;
+using NTMiner.Vms;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,7 +13,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 
-namespace NTMiner.Vms {
+namespace NTMiner {
     // 注意：这里的成员只应用于绑定，不应在.cs中使用，在IDE中看到的静态源代码应用计数应为0
     public static class AppStatic {
         public static readonly BitmapImage BigLogoImageSource = new BitmapImage(new Uri((VirtualRoot.IsMinerStudio ? "/NTMinerWpf;component/Styles/Images/cc128.png" : "/NTMinerWpf;component/Styles/Images/logo128.png"), UriKind.RelativeOrAbsolute));

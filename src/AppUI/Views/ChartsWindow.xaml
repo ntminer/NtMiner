@@ -9,7 +9,8 @@
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:local="clr-namespace:NTMiner.Views"
 		xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
-		xmlns:vm="clr-namespace:NTMiner.Vms"
+		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
+		xmlns:app="clr-namespace:NTMiner"
 		WindowTransitionsEnabled="False"
 		UseNoneWindowStyle="True"
 		BorderBrush="Black"
@@ -18,7 +19,7 @@
 		WindowStartupLocation="CenterScreen"
 		MouseDown="MetroWindow_MouseDown"
 		mc:Ignorable="d"
-		Title="{x:Static vm:AppStatic.AppName}" d:DesignHeight="900" d:DesignWidth="1720">
+		Title="{x:Static app:AppStatic.AppName}" d:DesignHeight="900" d:DesignWidth="1720">
 	<metro:MetroWindow.DataContext>
 		<vm:ChartsWindowViewModel></vm:ChartsWindowViewModel>
 	</metro:MetroWindow.DataContext>
@@ -51,7 +52,7 @@
 					VerticalAlignment="Top">
 					<controls:KbButton 
 						ToolTip="矿机列表"
-						Command="{x:Static vm:AppStatic.ShowMinerClients}" 
+						Command="{x:Static app:AppStatic.ShowMinerClients}" 
 						Background="Transparent" 
 						BorderThickness="0"
 						Margin="8 0 0 0"

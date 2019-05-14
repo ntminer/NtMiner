@@ -7,7 +7,7 @@
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
-		xmlns:vm="clr-namespace:NTMiner.Vms"
+		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
 		mc:Ignorable="d" Height="220" Width="320">
 	<UserControl.DataContext>
 		<vm:LogColorViewModel></vm:LogColorViewModel>

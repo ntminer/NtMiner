@@ -5,7 +5,8 @@
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
 			 xmlns:sys="clr-namespace:System;assembly=mscorlib"
 			 xmlns:local="clr-namespace:NTMiner.Views.Ucs"
-			 xmlns:vm="clr-namespace:NTMiner.Vms"
+			 xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
+			 xmlns:app="clr-namespace:NTMiner"
 			 xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 			 mc:Ignorable="d" d:DesignWidth="800">
 	<UserControl.DataContext>
@@ -134,7 +135,7 @@
 						HorizontalContentAlignment="Left"
 						Width="260" ToolTip="收益计算器"
 						Padding="2 0" Cursor="Hand" Background="Transparent" BorderThickness="0"
-						Command="{x:Static vm:AppStatic.ShowCalc}"
+						Command="{x:Static app:AppStatic.ShowCalc}"
 						CommandParameter="{Binding MinerProfile.CoinVm}">
 						<WrapPanel>
 							<Label Padding="0 0 2 0" Content="≈" Style="{StaticResource Lbl}" />
@@ -205,7 +206,7 @@
 							HorizontalContentAlignment="Left"
 							Width="260" ToolTip="数据来自鱼池首页"
 							Padding="2 0" Cursor="Hand" Background="Transparent" BorderThickness="0"
-							Command="{x:Static vm:AppStatic.ShowCalc}"
+							Command="{x:Static app:AppStatic.ShowCalc}"
 							CommandParameter="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin}">
 							<WrapPanel>
 								<Label Padding="0 0 2 0" Content="≈" Style="{StaticResource Lbl}" />
@@ -258,7 +259,7 @@
 						Cursor="Hand"
 						Background="Transparent" 
 						BorderThickness="0"
-						Command="{x:Static vm:AppStatic.ShowOnlineUpdate}">
+						Command="{x:Static app:AppStatic.ShowOnlineUpdate}">
 						<WrapPanel>
 							<Path 
 								Width="14"
@@ -271,12 +272,12 @@
 					</controls:KbButton>
 				</WrapPanel>
 				<WrapPanel Grid.Column="1" HorizontalAlignment="Right">
-					<TextBlock Text="{x:Static vm:AppStatic.WindowsEdition}" ToolTip="操作系统" Foreground="{StaticResource LableColor}"></TextBlock>
+					<TextBlock Text="{x:Static app:AppStatic.WindowsEdition}" ToolTip="操作系统" Foreground="{StaticResource LableColor}"></TextBlock>
 					<TextBlock Text=" / " Foreground="{StaticResource LableColor}"></TextBlock>
 					<controls:KbButton 
 						x:Name="BtnShowVirtualMemory"
-						Command="{x:Static vm:AppStatic.ShowVirtualMemory}"
-						Content="{x:Static vm:AppStatic.TotalVirtualMemoryGbText}" 
+						Command="{x:Static app:AppStatic.ShowVirtualMemory}"
+						Content="{x:Static app:AppStatic.TotalVirtualMemoryGbText}" 
 						Background="Transparent" 
 						Cursor="Hand"
 						BorderThickness="0" 
@@ -284,10 +285,10 @@
 						Foreground="{StaticResource LableColor}"></controls:KbButton>
 					<TextBlock Text=" / " Foreground="{StaticResource LableColor}"></TextBlock>
 					<WrapPanel>
-						<TextBlock x:Name="TextBlockDriverVersion" Text="{x:Static vm:AppStatic.DriverVersion}" ToolTip="显卡驱动版本" Foreground="{StaticResource LableColor}"></TextBlock>
+						<TextBlock x:Name="TextBlockDriverVersion" Text="{x:Static app:AppStatic.DriverVersion}" ToolTip="显卡驱动版本" Foreground="{StaticResource LableColor}"></TextBlock>
 						<TextBlock Text=" / " Foreground="{StaticResource LableColor}"></TextBlock>
 					</WrapPanel>
-					<TextBlock Text="{x:Static vm:AppStatic.GpuSetInfo}" MaxWidth="260" ToolTip="{x:Static vm:AppStatic.GpuSetInfo}" Foreground="{StaticResource LableColor}"></TextBlock>
+					<TextBlock Text="{x:Static app:AppStatic.GpuSetInfo}" MaxWidth="260" ToolTip="{x:Static app:AppStatic.GpuSetInfo}" Foreground="{StaticResource LableColor}"></TextBlock>
 					<WrapPanel 
 						Visibility="{Binding MinerProfile.IsEChargeEnabled,Converter={StaticResource BoolToVisibilityConverter}}"
 						ToolTip="可在'选项'页调整电价">

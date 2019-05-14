@@ -6,7 +6,8 @@
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
-		xmlns:vm="clr-namespace:NTMiner.Vms"
+		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
+		xmlns:app="clr-namespace:NTMiner"
 		mc:Ignorable="d"
 		d:DataContext="{d:DesignData Source=Design/KernelViewModel.xaml}"
 		Background="White"
@@ -37,20 +38,20 @@
 							<TextBox 
 								Height="26"
 								Width="120"
-								IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
+								IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
 								VerticalContentAlignment="Center" Text="{Binding Code, ValidatesOnExceptions=True}">
 							</TextBox>
 							<TextBlock Style="{StaticResource LblTb}" Width="Auto" Text="版本"></TextBlock>
 							<TextBox 
 								Width="100"
-								IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
+								IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
 								VerticalContentAlignment="Center" 
 								Text="{Binding Version}">
 							</TextBox>
 							<TextBlock Style="{StaticResource LblTb}" Width="Auto" Text="品牌"></TextBlock>
 							<controls:KbComboBox 
 								BorderThickness="0"
-								IsEnabled="{x:Static vm:AppStatic.IsDebugMode}"
+								IsEnabled="{x:Static app:AppStatic.IsDebugMode}"
 								Width="120" 
 								Height="26"
 								ItemsSource="{Binding SysDicItemVms.KernelBrandItems}"
@@ -69,7 +70,7 @@
 								<Button 
 									Margin="4 0 0 0"
 									Padding="4 0"
-									IsEnabled="{x:Static vm:AppStatic.IsDebugMode}"
+									IsEnabled="{x:Static app:AppStatic.IsDebugMode}"
 									VerticalAlignment="Center"
 									Command="{Binding BrowsePackage}"
 									Content="浏览">
@@ -83,7 +84,7 @@
 							<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="通知"></TextBlock>
 							<TextBox 
 								Width="450" Background="Transparent" Padding="0 4"
-								IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
+								IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
 								AcceptsReturn="True" TextWrapping="Wrap" 
 								VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
 								Text="{Binding Notice, Mode=TwoWay}" Height="150">
@@ -95,7 +96,7 @@
 								<WrapPanel>
 									<TextBlock Text="输入"></TextBlock>
 									<controls:KbButton
-										Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+										Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
 										Background="Transparent"
 										Command="{Binding KernelInputVm.Edit}">
 										<WrapPanel>
@@ -111,7 +112,7 @@
 							</TextBlock>
 							<controls:KbComboBox 
 								BorderThickness="0"
-								IsEnabled="{x:Static vm:AppStatic.IsDebugMode}"
+								IsEnabled="{x:Static app:AppStatic.IsDebugMode}"
 								Width="180" 
 								Height="26"
 								ItemsSource="{Binding KernelInputVms.PleaseSelectVms}"
@@ -124,7 +125,7 @@
 											Height="24"
 											Padding="4 0"
 											Background="{StaticResource ThemeBackground}"
-											Command="{x:Static vm:AppStatic.ShowKernelInputs}"
+											Command="{x:Static app:AppStatic.ShowKernelInputs}"
 											CornerRadius="2">
 											<WrapPanel>
 												<Path
@@ -143,9 +144,9 @@
 								<WrapPanel>
 									<TextBlock Text="输出"></TextBlock>
 									<controls:KbButton
-										Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+										Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
 										Background="Transparent"
-										Command="{x:Static vm:AppStatic.ShowKernelOutputs}"
+										Command="{x:Static app:AppStatic.ShowKernelOutputs}"
 										CommandParameter="{Binding KernelOutputVm}">
 										<WrapPanel>
 											<Path
@@ -160,7 +161,7 @@
 							</TextBlock>
 							<controls:KbComboBox 
 								BorderThickness="0"
-								IsEnabled="{x:Static vm:AppStatic.IsDebugMode}"
+								IsEnabled="{x:Static app:AppStatic.IsDebugMode}"
 								Width="180" 
 								Height="26"
 								ItemsSource="{Binding KernelOutputVms.PleaseSelectVms}"
@@ -173,7 +174,7 @@
 											Height="24"
 											Padding="4 0"
 											Background="{StaticResource ThemeBackground}"
-											Command="{x:Static vm:AppStatic.ShowKernelOutputs}"
+											Command="{x:Static app:AppStatic.ShowKernelOutputs}"
 											CornerRadius="2">
 											<WrapPanel>
 												<Path
@@ -192,10 +193,10 @@
 					</StackPanel>
 
 					<StackPanel Grid.Row="1">
-						<TextBlock Visibility="{x:Static vm:AppStatic.IsDevModeVisible}" Foreground="Red" HorizontalAlignment="Center">不要覆盖OSS上已有的文件，防止OSS缓存文件</TextBlock>
+						<TextBlock Visibility="{x:Static app:AppStatic.IsDevModeVisible}" Foreground="Red" HorizontalAlignment="Center">不要覆盖OSS上已有的文件，防止OSS缓存文件</TextBlock>
 						<controls:KbButton
 							Command="{Binding Save}" 
-							Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+							Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
 							Padding="10 0"
 							HorizontalAlignment="Center"
 							Background="{StaticResource ThemeBackground}"
@@ -229,7 +230,7 @@
 						<RowDefinition Height="Auto"></RowDefinition>
 						<RowDefinition Height="*"></RowDefinition>
 					</Grid.RowDefinitions>
-					<WrapPanel Grid.Row="0" Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}" Margin="0 4">
+					<WrapPanel Grid.Row="0" Visibility="{x:Static app:AppStatic.IsDebugModeVisible}" Margin="0 4">
 						<Label Width="Auto" Content="币种"></Label>
 						<controls:KbComboBox 
 							x:Name="CbCoins"
@@ -312,7 +313,7 @@
 							</DataGridTemplateColumn>
 							<DataGridTemplateColumn 
 								MinWidth="100" Width="*" CanUserResize="True" CanUserSort="False" IsReadOnly="True"
-								Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
+								Visibility="{x:Static app:AppStatic.IsDebugModeVisible}">
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate>
 										<StackPanel HorizontalAlignment="Right" Background="Transparent" VerticalAlignment="Center" Orientation="Horizontal">

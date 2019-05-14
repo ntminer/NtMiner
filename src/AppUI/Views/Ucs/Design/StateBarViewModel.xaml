@@ -1,2 +1,2 @@
-﻿<vm:StateBarViewModel xmlns:vm="clr-namespace:NTMiner.Vms">
+﻿<vm:StateBarViewModel xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels">
 </vm:StateBarViewModel>

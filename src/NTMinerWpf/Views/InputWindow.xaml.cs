@@ -6,28 +6,10 @@ using System.Windows.Input;
 
 namespace NTMiner.Views {
     public partial class InputWindow : MetroWindow {
-        public static void ShowDialog(
-            string title,
-            string text,
-            Func<string, string> check,
-            Action<string> onOk) {
-            Window window = new InputWindow(title, text, check, onOk);
-            if (window.Owner != null) {
-                window.MouseBottom();
-                double ownerOpacity = window.Owner.Opacity;
-                window.Owner.Opacity = 0.6;
-                window.ShowDialog();
-                window.Owner.Opacity = ownerOpacity;
-            }
-            else {
-                window.ShowDialog();
-            }
-        }
-
         private readonly Func<string, string> _check;
         private readonly Action<string> _onOk;
 
-        private InputWindow(
+        public InputWindow(
             string title, 
             string text, 
             Func<string, string> check,

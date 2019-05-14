@@ -112,6 +112,7 @@
     <Compile Include="Views\Ucs\ServerHostSelect.xaml.cs">
       <DependentUpon>ServerHostSelect.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ViewUtil.cs" />
     <Compile Include="Vms\ServerHostSelectViewModel.cs" />
     <Compile Include="Vms\ServerHostItem.cs" />
     <Compile Include="ViewModelExtension.cs" />

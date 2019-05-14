@@ -5,7 +5,8 @@
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
 			 xmlns:sys="clr-namespace:System;assembly=mscorlib"
 			 xmlns:local="clr-namespace:NTMiner.Views.Ucs"
-			 xmlns:vm="clr-namespace:NTMiner.Vms"
+			 xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
+			 xmlns:app="clr-namespace:NTMiner"
 			 xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 			 Background="White"
 			 TextOptions.TextFormattingMode="Display" 
@@ -34,7 +35,7 @@
 			<DataGrid.Columns>
 				<DataGridTemplateColumn 
 					CanUserResize="True" IsReadOnly="True"
-					Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
+					Visibility="{x:Static app:AppStatic.IsDebugModeVisible}">
 					<DataGridTemplateColumn.Header>
 						<controls:KbButton  
 							Command="{Binding Data.GroupVms.Add, Source={StaticResource proxy}}" 
@@ -130,7 +131,7 @@
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn 
 					CanUserResize="True" CanUserReorder="False" 
-					Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+					Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
 					CanUserSort="False" IsReadOnly="True" >
 					<DataGridTemplateColumn.Header>
 						<TextBlock Text="排序"></TextBlock>
@@ -144,7 +145,7 @@
 			</DataGrid.Columns>
 		</DataGrid>
 		<TextBlock Grid.Row="1" Grid.Column="0" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding GroupVms, Converter={StaticResource NoRecordVisibilityConverter}}" Text="沒有记录"></TextBlock>
-		<WrapPanel Grid.Row="0" Grid.Column="2" Margin="0 2" VerticalAlignment="Center" Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
+		<WrapPanel Grid.Row="0" Grid.Column="2" Margin="0 2" VerticalAlignment="Center" Visibility="{x:Static app:AppStatic.IsDebugModeVisible}">
 			<Label Width="40" Content="币种"></Label>
 			<controls:KbComboBox 
 				x:Name="CbCoins"
@@ -186,7 +187,7 @@
 					</DataGridTemplateColumn>
 					<DataGridTemplateColumn 
 						CanUserResize="True" CanUserReorder="False" 
-						Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+						Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
 						CanUserSort="False" IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<TextBlock Text="排序"></TextBlock>
@@ -202,7 +203,7 @@
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel 
-									Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+									Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
 									HorizontalAlignment="Right" 
 									Background="Transparent" 
 									VerticalAlignment="Center" 
