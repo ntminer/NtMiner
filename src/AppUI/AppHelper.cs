@@ -354,6 +354,10 @@ namespace NTMiner {
         }
         #endregion
 
+        public static Window CreateSplashWindow() {
+            return new SplashWindow();
+        }
+
         #region private methods
         private static void Handle(Exception e) {
             if (e == null) {
