@@ -102,6 +102,7 @@ namespace NTMiner.Vms {
             this._selectedMineWork = MineWorkViewModel.PleaseSelect;
             this._selectedMinerGroup = MinerGroupViewModel.PleaseSelect;
             this._pool = string.Empty;
+            // 至少会有一个PleaseSelect所以可以First
             this._poolVm = _coinVm.OptionPools.First();
             this._wallet = string.Empty;
             this.OneKeySetting = new DelegateCommand(() => {
