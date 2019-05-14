@@ -4,7 +4,15 @@ using System.Windows.Forms;
 
 namespace NTMiner {
     public class ExtendedNotifyIcon : IDisposable {
-        public static ExtendedNotifyIcon Create(Icon icon, string text, bool isMinerStudio) {
+        public static ExtendedNotifyIcon Create(string text, bool isMinerStudio) {
+            string url;
+            if (isMinerStudio) {
+                url = "pack://application:,,,/MinerStudio;component/logo.ico";
+            }
+            else {
+                url = "pack://application:,,,/NTMiner;component/logo.ico";
+            }
+            Icon icon = new Icon(System.Windows.Application.GetResourceStream(new Uri(url)).Stream);
             return new ExtendedNotifyIcon(icon, text, isMinerStudio);
         }
 
