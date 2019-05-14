@@ -61,7 +61,7 @@ namespace NTMiner {
                         NTMinerRoot.KernelDownloader = new KernelDownloader();
                         UIThread.Execute(() => {
                             if (!NTMinerRegistry.GetIsNoUi() || !NTMinerRegistry.GetIsAutoStart()) {
-                                Views.MainWindow.ShowMainWindow(isToggle: false);
+                                AppHelper.ShowMainWindow(isToggle: false);
                             }
                             else {
                                 NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage("已切换为无界面模式运行", "开源矿工");
@@ -103,7 +103,7 @@ namespace NTMiner {
 
         private void ShowMainWindow(bool isToggle) {
             UIThread.Execute(() => {
-                Views.MainWindow.ShowMainWindow(isToggle);
+                AppHelper.ShowMainWindow(isToggle);
                 // 使状态栏显示显示最新状态
                 if (NTMinerRoot.Instance.IsMining) {
                     var mainCoin = NTMinerRoot.Instance.CurrentMineContext.MainCoin;

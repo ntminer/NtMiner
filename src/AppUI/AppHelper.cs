@@ -354,9 +354,38 @@ namespace NTMiner {
         }
         #endregion
 
+        #region WindowFactory
+        private static readonly object _locker = new object();
+        private static Window _instance = null;
+        public static void ShowMainWindow(bool isToggle) {
+            UIThread.Execute(() => {
+                if (_instance == null) {
+                    lock (_locker) {
+                        if (_instance == null) {
+                            _instance = new MainWindow();
+                            Application.Current.MainWindow = _instance;
+                            _instance.Show();
+                            AppContext.Enable();
+                            NTMinerRoot.IsUiVisible = true;
+                            NTMinerRoot.MainWindowRendedOn = DateTime.Now;
+                            VirtualRoot.Happened(new MainWindowShowedEvent());
+                            _instance.Closed += (object sender, EventArgs e)=> {
+                                NTMinerRoot.IsUiVisible = false;
+                                _instance = null;
+                            };
+                        }
+                    }
+                }
+                else {
+                    ShowWindow(_instance, isToggle);
+                }
+            });
+        }
+
         public static Window CreateSplashWindow() {
             return new SplashWindow();
         }
+        #endregion
 
         #region private methods
         private static void Handle(Exception e) {

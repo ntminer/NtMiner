@@ -17,30 +17,7 @@ namespace NTMiner.Views {
             }
         }
 
-        private static readonly object _locker = new object();
-        private static MainWindow _instance = null;
-        public static void ShowMainWindow(bool isToggle) {
-            UIThread.Execute(() => {
-                if (_instance == null) {
-                    lock (_locker) {
-                        if (_instance == null) {
-                            _instance = new MainWindow();
-                            Application.Current.MainWindow = _instance;
-                            _instance.Show();
-                            AppContext.Enable();
-                            NTMinerRoot.IsUiVisible = true;
-                            NTMinerRoot.MainWindowRendedOn = DateTime.Now;
-                            VirtualRoot.Happened(new MainWindowShowedEvent());
-                        }
-                    }
-                }
-                else {
-                    AppHelper.ShowWindow(_instance, isToggle);
-                }
-            });
-        }
-
-        private MainWindow() {
+        public MainWindow() {
 #if DEBUG
             VirtualRoot.Stopwatch.Restart();
 #endif
@@ -106,12 +83,6 @@ namespace NTMiner.Views {
             AppContext.Disable();
             Write.SetConsoleUserLineMethod();
             base.OnClosing(e);
-        }
-
-        protected override void OnClosed(EventArgs e) {
-            base.OnClosed(e);
-            NTMinerRoot.IsUiVisible = false;
-            _instance = null;
         }
 
         private void MetroWindow_MouseDown(object sender, MouseButtonEventArgs e) {
