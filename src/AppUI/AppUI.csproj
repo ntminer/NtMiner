@@ -276,9 +276,6 @@
     <Compile Include="Views\MinerClientsWindow.xaml.cs">
       <DependentUpon>MinerClientsWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Ucs\OpenedWindows.xaml.cs">
-      <DependentUpon>OpenedWindows.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Ucs\CalcConfig.xaml.cs">
       <DependentUpon>CalcConfig.xaml</DependentUpon>
     </Compile>
@@ -402,7 +399,6 @@
     <Compile Include="Vms\MineWorkViewModel.cs" />
     <Compile Include="Vms\MinuteItem.cs" />
     <Compile Include="Vms\NTMinerUpdaterConfigViewModel.cs" />
-    <Compile Include="Vms\OpenedWindowsViewModel.cs" />
     <Compile Include="Vms\OverClockDataPageViewModel.cs" />
     <Compile Include="Vms\OverClockDataViewModel.cs" />
     <Compile Include="Vms\PoolKernelViewModel.cs" />
@@ -692,10 +688,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\MinerClientsWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Ucs\OpenedWindows.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

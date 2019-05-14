@@ -46,10 +46,6 @@
 				</TextBlock>
 				<uc:MainBar></uc:MainBar>
 			</WrapPanel>
-			<WrapPanel Grid.Column="1" Margin="8 0 0 0" VerticalAlignment="Center">
-				<uc:OpenedWindows>
-				</uc:OpenedWindows>
-			</WrapPanel>
 			<WrapPanel Grid.Column="2">
 				<WrapPanel Margin="0"
 					VerticalAlignment="Top">

@@ -129,8 +129,6 @@
 					<TextBlock Foreground="{StaticResource ThemeForeground}">作业：</TextBlock>
 					<TextBlock Foreground="{StaticResource ThemeForeground}" Text="{Binding MinerProfile.MineWork.Name}" ToolTip="{Binding MinerProfile.MineWork.Description}"></TextBlock>
 				</WrapPanel>
-				<uc:OpenedWindows VerticalAlignment="Top" Margin="8 0 0 0">
-				</uc:OpenedWindows>
 			</WrapPanel>
 			<WrapPanel HorizontalAlignment="Right">
 				<WrapPanel Margin="0" HorizontalAlignment="Right" VerticalAlignment="Top">
