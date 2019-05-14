@@ -70,7 +70,7 @@ namespace NTMiner.Core.Gpus.Impl {
         public void ClearOutOfDateHistory() {
             InitOnece();
             DateTime now = DateTime.Now;
-            foreach (var historyList in _gpuSpeedHistory.Values) {
+            foreach (var historyList in _gpuSpeedHistory.Values.ToArray()) {
                 var toRemoves = historyList.Where(a => a.MainCoinSpeed.SpeedOn.AddMinutes(NTMinerRoot.SpeedHistoryLengthByMinute) < now).ToArray();
                 foreach (var item in toRemoves) {
                     historyList.Remove(item);
