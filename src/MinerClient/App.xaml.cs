@@ -33,7 +33,7 @@ namespace NTMiner {
         protected override void OnStartup(StartupEventArgs e) {
             RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
             if (!string.IsNullOrEmpty(CommandLineArgs.Upgrade)) {
-                AppStatic.Upgrade(CommandLineArgs.Upgrade, () => {
+                AppHelper.Upgrade(CommandLineArgs.Upgrade, () => {
                     Environment.Exit(0);
                 });
             }

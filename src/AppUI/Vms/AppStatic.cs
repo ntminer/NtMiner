@@ -151,73 +151,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        public static void Upgrade(string ntminerFileName, Action callback) {
-            try {
-                string updaterDirFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "Updater");
-                if (!Directory.Exists(updaterDirFullName)) {
-                    Directory.CreateDirectory(updaterDirFullName);
-                }
-                OfficialServer.FileUrlService.GetNTMinerUpdaterUrlAsync((downloadFileUrl, e) => {
-                    try {
-                        string ntMinerUpdaterFileFullName = Path.Combine(updaterDirFullName, "NTMinerUpdater.exe");
-                        string argument = string.Empty;
-                        if (!string.IsNullOrEmpty(ntminerFileName)) {
-                            argument = "ntminerFileName=" + ntminerFileName;
-                        }
-                        if (VirtualRoot.IsMinerStudio) {
-                            argument += " --minerstudio";
-                        }
-                        if (string.IsNullOrEmpty(downloadFileUrl)) {
-                            if (File.Exists(ntMinerUpdaterFileFullName)) {
-                                Windows.Cmd.RunClose(ntMinerUpdaterFileFullName, argument);
-                            }
-                            callback?.Invoke();
-                            return;
-                        }
-                        Uri uri = new Uri(downloadFileUrl);
-                        string updaterVersion = string.Empty;
-                        if (NTMinerRoot.Instance.LocalAppSettingSet.TryGetAppSetting("UpdaterVersion", out IAppSetting appSetting) && appSetting.Value != null) {
-                            updaterVersion = appSetting.Value.ToString();
-                        }
-                        if (string.IsNullOrEmpty(updaterVersion) || !File.Exists(ntMinerUpdaterFileFullName) || uri.AbsolutePath != updaterVersion) {
-                            FileDownloader.ShowWindow(downloadFileUrl, "开源矿工更新器", (window, isSuccess, message, saveFileFullName) => {
-                                try {
-                                    if (isSuccess) {
-                                        File.Copy(saveFileFullName, ntMinerUpdaterFileFullName, overwrite: true);
-                                        File.Delete(saveFileFullName);
-                                        VirtualRoot.Execute(new ChangeLocalAppSettingCommand(new AppSettingData {
-                                            Key = "UpdaterVersion",
-                                            Value = uri.AbsolutePath
-                                        }));
-                                        window?.Close();
-                                        Windows.Cmd.RunClose(ntMinerUpdaterFileFullName, argument);
-                                        callback?.Invoke();
-                                    }
-                                    else {
-                                        NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage(message);
-                                        callback?.Invoke();
-                                    }
-                                }
-                                catch {
-                                    callback?.Invoke();
-                                }
-                            });
-                        }
-                        else {
-                            Windows.Cmd.RunClose(ntMinerUpdaterFileFullName, argument);
-                            callback?.Invoke();
-                        }
-                    }
-                    catch {
-                        callback?.Invoke();
-                    }
-                });
-            }
-            catch {
-                callback?.Invoke();
-            }
-        }
-
         public static string CurrentVersion {
             get {
                 return NTMinerRoot.CurrentVersion.ToString();
@@ -290,7 +223,7 @@ namespace NTMiner.Vms {
                 DialogWindow.ShowDialog(message: $"您确定刷新{AssemblyInfo.ServerJsonFileName}吗？", title: "确认", onYes: () => {
                     try {
                         VirtualRoot.Execute(new ChangeServerAppSettingCommand(new AppSettingData {
-                            Key = ServerJsonFileName,
+                            Key = AssemblyInfo.ServerJsonFileName,
                             Value = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss fff")
                         }));
                         NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage($"刷新成功");
@@ -353,7 +286,7 @@ namespace NTMiner.Vms {
         });
         public static ICommand ShowNTMinerUpdaterConfig { get; private set; } = new DelegateCommand(NTMinerUpdaterConfig.ShowWindow);
         public static ICommand ShowOnlineUpdate { get; private set; } = new DelegateCommand(() => {
-            Upgrade(string.Empty, null);
+            AppHelper.Upgrade(string.Empty, null);
         });
         public static ICommand ShowHelp { get; private set; } = new DelegateCommand(() => {
             Process.Start("https://github.com/ntminer/ntminer");
