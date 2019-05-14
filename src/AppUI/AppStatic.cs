@@ -2,6 +2,7 @@
 using NTMiner.MinerServer;
 using NTMiner.Views;
 using NTMiner.Views.Ucs;
+using NTMiner.Vms;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,17 +13,13 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 
-namespace NTMiner.Vms {
+namespace NTMiner {
+    // 注意：这里的成员只应用于绑定，不应在.cs中使用，在IDE中看到的静态源代码应用计数应为0
     public static class AppStatic {
         public static readonly BitmapImage BigLogoImageSource = new BitmapImage(new Uri((VirtualRoot.IsMinerStudio ? "/NTMinerWpf;component/Styles/Images/cc128.png" : "/NTMinerWpf;component/Styles/Images/logo128.png"), UriKind.RelativeOrAbsolute));
-        private static bool _isMinerClient;
-
+        
         public static bool IsMinerClient {
-            get => _isMinerClient;
-        }
-
-        public static void SetIsMinerClient(bool value) {
-            _isMinerClient = value;
+            get => NTMinerRoot.IsMinerClient;
         }
 
         public static string AppName {
@@ -34,18 +31,15 @@ namespace NTMiner.Vms {
 
         public static bool IsDebugMode {
             get {
-                if (Design.IsInDesignMode) {
-                    return true;
-                }
-                return DevMode.IsDebugMode;
+                return Design.IsDebugMode;
             }
         }
 
-        public static bool IsNotDebugMode => !IsDebugMode;
+        public static bool IsNotDebugMode => !Design.IsDebugMode;
 
         public static Visibility IsDebugModeVisible {
             get {
-                if (IsDebugMode) {
+                if (Design.IsDebugMode) {
                     return Visibility.Visible;
                 }
                 return Visibility.Collapsed;
@@ -63,34 +57,34 @@ namespace NTMiner.Vms {
 
         public static bool IsPoolBrand {
             get {
-                return NTMinerRoot.PoolBrandId != Guid.Empty;
+                return NTMinerRoot.IsPoolBrand;
             }
         }
 
         public static Visibility IsPoolBrandVisible {
             get {
-                return IsPoolBrand ? Visibility.Visible : Visibility.Collapsed;
+                return NTMinerRoot.IsPoolBrand ? Visibility.Visible : Visibility.Collapsed;
             }
         }
 
         public static Visibility IsPoolBrandCollapsed {
-            get { return IsPoolBrand ? Visibility.Collapsed : Visibility.Visible; }
+            get { return NTMinerRoot.IsPoolBrand ? Visibility.Collapsed : Visibility.Visible; }
         }
 
         public static bool IsKernelBrand {
             get {
-                return NTMinerRoot.KernelBrandId != Guid.Empty;
+                return NTMinerRoot.IsKernelBrand;
             }
         }
 
         public static Visibility IsKernelBrandVisible {
             get {
-                return IsKernelBrand ? Visibility.Visible : Visibility.Collapsed;
+                return NTMinerRoot.IsKernelBrand ? Visibility.Visible : Visibility.Collapsed;
             }
         }
 
         public static Visibility IsKernelBrandCollapsed {
-            get { return IsKernelBrand ? Visibility.Collapsed : Visibility.Visible; }
+            get { return NTMinerRoot.IsKernelBrand ? Visibility.Collapsed : Visibility.Visible; }
         }
 
         public static bool IsBrandSpecified {
@@ -99,12 +93,12 @@ namespace NTMiner.Vms {
 
         public static Visibility IsBrandSpecifiedVisible {
             get {
-                return IsBrandSpecified ? Visibility.Visible : Visibility.Collapsed;
+                return NTMinerRoot.IsBrandSpecified ? Visibility.Visible : Visibility.Collapsed;
             }
         }
 
         public static Visibility IsBrandSpecifiedCollapsed {
-            get { return IsBrandSpecified ? Visibility.Collapsed : Visibility.Visible; }
+            get { return NTMinerRoot.IsBrandSpecified ? Visibility.Collapsed : Visibility.Visible; }
         }
 
         public static double MainWindowHeight {
@@ -136,100 +130,25 @@ namespace NTMiner.Vms {
 
         public static IEnumerable<EnumItem<SupportedGpu>> SupportedGpuEnumItems {
             get {
-                return SupportedGpu.AMD.GetEnumItems();
+                return EnumSet.SupportedGpuEnumItems;
             }
         }
 
         public static IEnumerable<EnumItem<GpuType>> GpuTypeEnumItems {
             get {
-                return GpuType.AMD.GetEnumItems();
+                return EnumSet.GpuTypeEnumItems;
             }
         }
 
         public static IEnumerable<EnumItem<PublishStatus>> PublishStatusEnumItems {
             get {
-                return PublishStatus.Published.GetEnumItems();
+                return EnumSet.PublishStatusEnumItems;
             }
         }
 
         public static IEnumerable<EnumItem<MineStatus>> MineStatusEnumItems {
             get {
-                return MineStatus.All.GetEnumItems();
-            }
-        }
-
-        public static string GetIconFileFullName(ICoin coin) {
-            if (coin == null || string.IsNullOrEmpty(coin.Icon)) {
-                return string.Empty;
-            }
-            string iconFileFullName = Path.Combine(SpecialPath.CoinIconsDirFullName, coin.Icon);
-            return iconFileFullName;
-        }
-
-        public static void Upgrade(string ntminerFileName, Action callback) {
-            try {
-                string updaterDirFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "Updater");
-                if (!Directory.Exists(updaterDirFullName)) {
-                    Directory.CreateDirectory(updaterDirFullName);
-                }
-                OfficialServer.FileUrlService.GetNTMinerUpdaterUrlAsync((downloadFileUrl, e) => {
-                    try {
-                        string ntMinerUpdaterFileFullName = Path.Combine(updaterDirFullName, "NTMinerUpdater.exe");
-                        string argument = string.Empty;
-                        if (!string.IsNullOrEmpty(ntminerFileName)) {
-                            argument = "ntminerFileName=" + ntminerFileName;
-                        }
-                        if (VirtualRoot.IsMinerStudio) {
-                            argument += " --minerstudio";
-                        }
-                        if (string.IsNullOrEmpty(downloadFileUrl)) {
-                            if (File.Exists(ntMinerUpdaterFileFullName)) {
-                                Windows.Cmd.RunClose(ntMinerUpdaterFileFullName, argument);
-                            }
-                            callback?.Invoke();
-                            return;
-                        }
-                        Uri uri = new Uri(downloadFileUrl);
-                        string updaterVersion = string.Empty;
-                        if (NTMinerRoot.Instance.LocalAppSettingSet.TryGetAppSetting("UpdaterVersion", out IAppSetting appSetting) && appSetting.Value != null) {
-                            updaterVersion = appSetting.Value.ToString();
-                        }
-                        if (string.IsNullOrEmpty(updaterVersion) || !File.Exists(ntMinerUpdaterFileFullName) || uri.AbsolutePath != updaterVersion) {
-                            FileDownloader.ShowWindow(downloadFileUrl, "开源矿工更新器", (window, isSuccess, message, saveFileFullName) => {
-                                try {
-                                    if (isSuccess) {
-                                        File.Copy(saveFileFullName, ntMinerUpdaterFileFullName, overwrite: true);
-                                        File.Delete(saveFileFullName);
-                                        VirtualRoot.Execute(new ChangeLocalAppSettingCommand(new AppSettingData {
-                                            Key = "UpdaterVersion",
-                                            Value = uri.AbsolutePath
-                                        }));
-                                        window?.Close();
-                                        Windows.Cmd.RunClose(ntMinerUpdaterFileFullName, argument);
-                                        callback?.Invoke();
-                                    }
-                                    else {
-                                        NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage(message);
-                                        callback?.Invoke();
-                                    }
-                                }
-                                catch {
-                                    callback?.Invoke();
-                                }
-                            });
-                        }
-                        else {
-                            Windows.Cmd.RunClose(ntMinerUpdaterFileFullName, argument);
-                            callback?.Invoke();
-                        }
-                    }
-                    catch {
-                        callback?.Invoke();
-                    }
-                });
-            }
-            catch {
-                callback?.Invoke();
+                return EnumSet.MineStatusEnumItems;
             }
         }
 
@@ -305,7 +224,7 @@ namespace NTMiner.Vms {
                 DialogWindow.ShowDialog(message: $"您确定刷新{AssemblyInfo.ServerJsonFileName}吗？", title: "确认", onYes: () => {
                     try {
                         VirtualRoot.Execute(new ChangeServerAppSettingCommand(new AppSettingData {
-                            Key = ServerJsonFileName,
+                            Key = AssemblyInfo.ServerJsonFileName,
                             Value = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss fff")
                         }));
                         NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage($"刷新成功");
@@ -333,7 +252,7 @@ namespace NTMiner.Vms {
             Process.Start("https://jq.qq.com/?_wv=1027&k=5ZPsuCk");
         });
 
-        public static ICommand RunAsAdministrator { get; private set; } = new DelegateCommand(AppHelper.RunAsAdministrator);
+        public static ICommand RunAsAdministrator { get; private set; } = new DelegateCommand(Wpf.Util.RunAsAdministrator);
 
         public static ICommand ShowNotificationSample { get; private set; } = new DelegateCommand(NotificationSample.ShowWindow);
 
@@ -368,7 +287,7 @@ namespace NTMiner.Vms {
         });
         public static ICommand ShowNTMinerUpdaterConfig { get; private set; } = new DelegateCommand(NTMinerUpdaterConfig.ShowWindow);
         public static ICommand ShowOnlineUpdate { get; private set; } = new DelegateCommand(() => {
-            Upgrade(string.Empty, null);
+            VirtualRoot.Execute(new UpgradeCommand(string.Empty, null));
         });
         public static ICommand ShowHelp { get; private set; } = new DelegateCommand(() => {
             Process.Start("https://github.com/ntminer/ntminer");

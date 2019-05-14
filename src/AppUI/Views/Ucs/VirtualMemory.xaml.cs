@@ -31,7 +31,7 @@ namespace NTMiner.Views.Ucs {
 
         private void OpenDrive_MouseDown(object sender, MouseButtonEventArgs e) {
             if (e.ClickCount == 2) {
-                Drive drive = (Drive)((FrameworkElement)sender).Tag;
+                DriveViewModel drive = (DriveViewModel)((FrameworkElement)sender).Tag;
                 Process.Start(drive.Name);
             }
         }

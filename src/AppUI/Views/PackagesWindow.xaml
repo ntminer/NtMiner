@@ -8,13 +8,14 @@
 	xmlns:sys="clr-namespace:System;assembly=mscorlib"
 	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 	xmlns:local="clr-namespace:NTMiner.Views"
-	xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
-	xmlns:vm="clr-namespace:NTMiner.Vms"
+	xmlns:uc="clr-namespace:NTMiner.Views.Ucs"	
+	xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
+	xmlns:app="clr-namespace:NTMiner"
 	mc:Ignorable="d"
 	Title="内核包"
 	WindowTransitionsEnabled="False"
-	Width="{x:Static vm:AppStatic.MainWindowWidth}"
-	Height="{x:Static vm:AppStatic.MainWindowHeight}"
+	Width="{x:Static app:AppStatic.MainWindowWidth}"
+	Height="{x:Static app:AppStatic.MainWindowHeight}"
 	MinHeight="430"
 	MinWidth="640"
 	ResizeBorderThickness="4"
@@ -62,7 +63,7 @@
 			<DataGrid.Columns>
 				<DataGridTemplateColumn 
 					MinWidth="50" CanUserResize="True" IsReadOnly="True"
-					Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
+					Visibility="{x:Static app:AppStatic.IsDebugModeVisible}">
 					<DataGridTemplateColumn.Header>
 						<controls:KbButton  
 							Command="{Binding Data.Add, Source={StaticResource proxy}}" 

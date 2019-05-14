@@ -1,12 +1,24 @@
 ﻿using NTMiner.Views;
 using NTMiner.Vms;
 using System;
+using System.Diagnostics;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace NTMiner.Wpf {
     public static class Util {
+        public static void RunAsAdministrator() {
+            ProcessStartInfo startInfo = new ProcessStartInfo {
+                FileName = VirtualRoot.AppFileFullName,
+                Arguments = string.Join(" ", Environment.GetCommandLineArgs().Skip(1)),
+                Verb = "runas"
+            };
+            Process.Start(startInfo);
+            Application.Current.Shutdown();
+        }
+
         public static ScrollViewer GetScrollViewer(this FlowDocumentScrollViewer element) {
             if (element == null) {
                 throw new ArgumentNullException(nameof(element));

@@ -7,7 +7,8 @@
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 		xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
-		xmlns:vm="clr-namespace:NTMiner.Vms"
+		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
+		xmlns:app="clr-namespace:NTMiner"
 		Background="White"
 		mc:Ignorable="d" d:DesignHeight="420" d:DesignWidth="460">
 	<UserControl.DataContext>
@@ -99,7 +100,7 @@
 					Height="50" 
 					Width="200"
 					Margin="4"
-					Command="{x:Static vm:AppStatic.ShowVirtualMemory}"
+					Command="{x:Static app:AppStatic.ShowVirtualMemory}"
 					Cursor="Hand"
 					Background="Transparent">
 					<WrapPanel VerticalAlignment="Center">
@@ -119,7 +120,7 @@
 					Height="50" 
 					Width="200"
 					Margin="4"
-					Command="{x:Static vm:AppStatic.ShowCalc}"
+					Command="{x:Static app:AppStatic.ShowCalc}"
 					Cursor="Hand"
 					Background="Transparent">
 					<WrapPanel VerticalAlignment="Center">

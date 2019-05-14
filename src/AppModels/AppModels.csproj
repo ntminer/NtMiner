@@ -1,0 +1,214 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3426F677-5026-4BB1-A0B2-DD5D9BD70D07}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AppModels</RootNamespace>
+    <AssemblyName>AppModels</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="LiveCharts, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\LiveCharts.0.9.7\lib\net40\LiveCharts.dll</HintPath>
+    </Reference>
+    <Reference Include="LiveCharts.Wpf, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\LiveCharts.Wpf.0.9.7\lib\net40\LiveCharts.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AppContext.cs" />
+    <Compile Include="AppContext.partials.CoinGroupViewModels.cs" />
+    <Compile Include="AppContext.partials.CoinKernelViewModels.cs" />
+    <Compile Include="AppContext.partials.CoinProfileViewModels.cs" />
+    <Compile Include="AppContext.partials.CoinSnapshotDataViewModels.cs" />
+    <Compile Include="AppContext.partials.CoinViewModels.cs" />
+    <Compile Include="AppContext.partials.ColumnsShowViewModels.cs" />
+    <Compile Include="AppContext.partials.DriveSetViewModel.cs" />
+    <Compile Include="AppContext.partials.GpuProfileViewModels.cs" />
+    <Compile Include="AppContext.partials.GpuSpeedViewModels.cs" />
+    <Compile Include="AppContext.partials.GpuStatusBarViewModel.cs" />
+    <Compile Include="AppContext.partials.GpuViewModels.cs" />
+    <Compile Include="AppContext.partials.GroupViewModels.cs" />
+    <Compile Include="AppContext.partials.KernelInputViewModels.cs" />
+    <Compile Include="AppContext.partials.KernelOutputFilterViewModels.cs" />
+    <Compile Include="AppContext.partials.KernelOutputTranslaterViewModels.cs" />
+    <Compile Include="AppContext.partials.KernelOutputViewModels.cs" />
+    <Compile Include="AppContext.partials.KernelViewModels.cs" />
+    <Compile Include="AppContext.partials.MinerGroupViewModels.cs" />
+    <Compile Include="AppContext.partials.MinerProfileViewModel.cs" />
+    <Compile Include="AppContext.partials.MineWorkViewModels.cs" />
+    <Compile Include="AppContext.partials.OverClockDataViewModels.cs" />
+    <Compile Include="AppContext.partials.PackageViewModels.cs" />
+    <Compile Include="AppContext.partials.PoolKernelViewModels.cs" />
+    <Compile Include="AppContext.partials.PoolProfileViewModels.cs" />
+    <Compile Include="AppContext.partials.PoolViewModels.cs" />
+    <Compile Include="AppContext.partials.ShareViewModels.cs" />
+    <Compile Include="AppContext.partials.StartStopMineButtonViewModel.cs" />
+    <Compile Include="AppContext.partials.SysDicItemViewModels.cs" />
+    <Compile Include="AppContext.partials.SysDicViewModels.cs" />
+    <Compile Include="AppContext.partials.UserViewModels.cs" />
+    <Compile Include="AppContext.partials.VirtualMemorySetViewModel.cs" />
+    <Compile Include="AppContext.partials.WalletViewModels.cs" />
+    <Compile Include="ExtendedNotifyIcon.cs" />
+    <Compile Include="Messages.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RemoteDesktopInput.cs" />
+    <Compile Include="Vms\AboutPageViewModel.cs" />
+    <Compile Include="Vms\AlgoSelectItem.cs" />
+    <Compile Include="Vms\BrandWindowViewModel.cs" />
+    <Compile Include="Vms\CalcConfigViewModel.cs" />
+    <Compile Include="Vms\CalcConfigViewModels.cs" />
+    <Compile Include="Vms\CalcViewModel.cs" />
+    <Compile Include="Vms\ChartsWindowViewModel.cs" />
+    <Compile Include="Vms\ChartViewModel.cs" />
+    <Compile Include="Vms\CoinGroupViewModel.cs" />
+    <Compile Include="Vms\CoinKernelProfileViewModel.cs" />
+    <Compile Include="Vms\CoinKernelSelectViewModel.cs" />
+    <Compile Include="Vms\CoinKernelViewModel.cs" />
+    <Compile Include="Vms\CoinPageViewModel.cs" />
+    <Compile Include="Vms\CoinProfileViewModel.cs" />
+    <Compile Include="Vms\CoinSelectViewModel.cs" />
+    <Compile Include="Vms\CoinSnapshotDataViewModel.cs" />
+    <Compile Include="Vms\CoinViewModel.cs" />
+    <Compile Include="Vms\ColumnsShowPageViewModel.cs" />
+    <Compile Include="Vms\ColumnsShowViewModel.cs" />
+    <Compile Include="Vms\ConsoleViewModel.cs" />
+    <Compile Include="Vms\ContainerWindowViewModel.cs" />
+    <Compile Include="Vms\ControlCenterHostConfigViewModel.cs" />
+    <Compile Include="Vms\DriveViewModel.cs" />
+    <Compile Include="Vms\EnvironmentVariableEditViewModel.cs" />
+    <Compile Include="Vms\FileDownloaderViewModel.cs" />
+    <Compile Include="Vms\GpuProfilesPageViewModel.cs" />
+    <Compile Include="Vms\GpuProfileViewModel.cs" />
+    <Compile Include="Vms\GpuSpeedDataViewModel.cs" />
+    <Compile Include="Vms\GpuSpeedDataViewModels.cs" />
+    <Compile Include="Vms\GpuSpeedViewModel.cs" />
+    <Compile Include="Vms\GpuViewModel.cs" />
+    <Compile Include="Vms\GroupPageViewModel.cs" />
+    <Compile Include="Vms\GroupViewModel.cs" />
+    <Compile Include="Vms\InnerPropertyViewModel.cs" />
+    <Compile Include="Vms\InputSegmentEditViewModel.cs" />
+    <Compile Include="Vms\InputSegmentViewModel.cs" />
+    <Compile Include="Vms\KernelHelpPageViewModel.cs" />
+    <Compile Include="Vms\KernelInputPageViewModel.cs" />
+    <Compile Include="Vms\KernelInputViewModel.cs" />
+    <Compile Include="Vms\KernelMenu.cs" />
+    <Compile Include="Vms\KernelOutputFilterViewModel.cs" />
+    <Compile Include="Vms\KernelOutputPageViewModel.cs" />
+    <Compile Include="Vms\KernelOutputTranslaterViewModel.cs" />
+    <Compile Include="Vms\KernelOutputViewModel.cs" />
+    <Compile Include="Vms\KernelProfileViewModel.cs" />
+    <Compile Include="Vms\KernelSelectViewModel.cs" />
+    <Compile Include="Vms\KernelsWindowViewModel.cs" />
+    <Compile Include="Vms\KernelViewModel.cs" />
+    <Compile Include="Vms\LogColorViewModel.cs" />
+    <Compile Include="Vms\MainBarViewModel.cs" />
+    <Compile Include="Vms\MainMenuViewModel.cs" />
+    <Compile Include="Vms\MainWindowViewModel.cs" />
+    <Compile Include="Vms\MeasureModel.cs" />
+    <Compile Include="Vms\MessageCenterViewModel.cs" />
+    <Compile Include="Vms\MinerClientAddViewModel.cs" />
+    <Compile Include="Vms\MinerClientSettingViewModel.cs" />
+    <Compile Include="Vms\MinerClientsWindowViewModel.cs" />
+    <Compile Include="Vms\MinerClientViewModel.cs" />
+    <Compile Include="Vms\MinerGroupViewModel.cs" />
+    <Compile Include="Vms\MinerNamesSeterViewModel.cs" />
+    <Compile Include="Vms\MinerProfileIndexViewModel.cs" />
+    <Compile Include="Vms\MineWorkViewModel.cs" />
+    <Compile Include="Vms\MinuteItem.cs" />
+    <Compile Include="Vms\NTMinerUpdaterConfigViewModel.cs" />
+    <Compile Include="Vms\OuterPropertyViewModel.cs" />
+    <Compile Include="Vms\OverClockDataPageViewModel.cs" />
+    <Compile Include="Vms\OverClockDataViewModel.cs" />
+    <Compile Include="Vms\PackagesWindowViewModel.cs" />
+    <Compile Include="Vms\PackageViewModel.cs" />
+    <Compile Include="Vms\PoolKernelViewModel.cs" />
+    <Compile Include="Vms\PoolProfileViewModel.cs" />
+    <Compile Include="Vms\PoolSelectViewModel.cs" />
+    <Compile Include="Vms\PoolViewModel.cs" />
+    <Compile Include="Vms\ShareViewModel.cs" />
+    <Compile Include="Vms\SpeedChartsViewModel.cs" />
+    <Compile Include="Vms\SpeedChartViewModel.cs" />
+    <Compile Include="Vms\SpeedChartViewModels.cs" />
+    <Compile Include="Vms\SpeedUnitViewModel.cs" />
+    <Compile Include="Vms\SpeedViewModel.cs" />
+    <Compile Include="Vms\SplashWindowViewModel.cs" />
+    <Compile Include="Vms\StateBarViewModel.cs" />
+    <Compile Include="Vms\SysDicItemViewModel.cs" />
+    <Compile Include="Vms\SysDicPageViewModel.cs" />
+    <Compile Include="Vms\SysDicViewModel.cs" />
+    <Compile Include="Vms\ToolboxViewModel.cs" />
+    <Compile Include="Vms\UserPageViewModel.cs" />
+    <Compile Include="Vms\UserViewModel.cs" />
+    <Compile Include="Vms\VirtualMemoryViewModel.cs" />
+    <Compile Include="Vms\WalletSelectViewModel.cs" />
+    <Compile Include="Vms\WalletViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NTMiner.Core\NTMiner.Core.csproj">
+      <Project>{85d052ab-44b8-46f3-9d7b-f624c24fd8ba}</Project>
+      <Name>NTMiner.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NTMinerDataObjects\NTMinerDataObjects.csproj">
+      <Project>{defc7387-f9fa-4651-a281-6612efb7fbb6}</Project>
+      <Name>NTMinerDataObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NTMinerlib\NTMinerlib.csproj">
+      <Project>{5d0f2719-83fd-40fc-8f65-85ebb891bc13}</Project>
+      <Name>NTMinerlib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NTMinerLogging\NTMinerLogging.csproj">
+      <Project>{f5091b28-5bb6-4446-9b97-02b37125e340}</Project>
+      <Name>NTMinerLogging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NTMinerRpcClient\NTMinerRpcClient.csproj">
+      <Project>{c7108d8f-eb73-4ae3-916f-be817ede37af}</Project>
+      <Name>NTMinerRpcClient</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NTMinerWpf\NTMinerWpf.csproj">
+      <Project>{dd8e010e-d5e9-47cf-9cb4-8dc6e13d483d}</Project>
+      <Name>NTMinerWpf</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

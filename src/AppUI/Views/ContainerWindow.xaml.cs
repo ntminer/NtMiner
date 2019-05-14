@@ -3,7 +3,6 @@ using NTMiner.Vms;
 using NTMiner.Wpf;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -15,8 +14,6 @@ namespace NTMiner.Views {
         private static readonly Dictionary<Type, double> s_windowLeftDic = new Dictionary<Type, double>();
         private static readonly Dictionary<Type, double> s_windowTopDic = new Dictionary<Type, double>();
         private static readonly Dictionary<ContainerWindowViewModel, ContainerWindow> s_windowDic = new Dictionary<ContainerWindowViewModel, ContainerWindow>();
-
-        public static readonly ObservableCollection<ContainerWindowViewModel> Windows = new ObservableCollection<ContainerWindowViewModel>();
 
         public static ICommand CloseWindow { get; private set; }
 
@@ -59,12 +56,8 @@ namespace NTMiner.Views {
             }
             else {
                 s_windowDic.Add(vm, window);
-                if (vm.HeaderVisible != Visibility.Collapsed) {
-                    Windows.Add(vm);
-                }
                 window.Closed += (object sender, EventArgs e) => {
                     s_windowDic.Remove(vm);
-                    Windows.Remove(vm);
                 };
                 s_windowDicByType.Add(ucType, window);
                 if (s_windowLeftDic.ContainsKey(ucType)) {

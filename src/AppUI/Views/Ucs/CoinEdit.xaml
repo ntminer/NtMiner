@@ -4,7 +4,8 @@
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-		xmlns:vm="clr-namespace:NTMiner.Vms"
+		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
+		xmlns:app="clr-namespace:NTMiner"
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 		mc:Ignorable="d"
 		d:DataContext="{d:DesignData Source=Design/CoinViewModel.xaml}"
@@ -18,7 +19,7 @@
 		<WrapPanel Margin="0 2">
 			<TextBlock Style="{StaticResource LblTb}" Text="编码"></TextBlock>
 			<TextBox 
-				IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
+				IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
 				Width="150"
 				Height="26"
 				VerticalContentAlignment="Center" Text="{Binding Code, ValidatesOnExceptions=True}">
@@ -33,7 +34,7 @@
 			<TextBlock Style="{StaticResource LblTb}" Text="算法"></TextBlock>
 			<controls:KbComboBox 
 				BorderThickness="0"
-				IsEnabled="{x:Static vm:AppStatic.IsDebugMode}"
+				IsEnabled="{x:Static app:AppStatic.IsDebugMode}"
 				Width="120" 
 				Height="26"
 				ItemsSource="{Binding SysDicItemVms.AlgoItems}"
@@ -44,33 +45,33 @@
 		<WrapPanel Margin="0 2">
 			<TextBlock Style="{StaticResource LblTb}" Text="英文名"></TextBlock>
 			<TextBox 
-				IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
+				IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
 				Width="150"
 				VerticalContentAlignment="Center" Text="{Binding EnName}">
 			</TextBox>
 			<TextBlock Style="{StaticResource LblTb}" Text="中文名"></TextBlock>
 			<TextBox 
-				IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
+				IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
 				Width="160"
 				VerticalContentAlignment="Center" Text="{Binding CnName}">
 			</TextBox>
 		</WrapPanel>
 
-		<WrapPanel Margin="0 2" Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
+		<WrapPanel Margin="0 2" Visibility="{x:Static app:AppStatic.IsDebugModeVisible}">
 			<TextBlock Style="{StaticResource LblTb}" Text="钱包正则"></TextBlock>
 			<TextBox 
 				Width="380"
-				IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
+				IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
 				VerticalContentAlignment="Center" Text="{Binding WalletRegexPattern}">
 			</TextBox>
 		</WrapPanel>
 
-		<WrapPanel Margin="0 2" Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
+		<WrapPanel Margin="0 2" Visibility="{x:Static app:AppStatic.IsDebugModeVisible}">
 			<TextBlock Style="{StaticResource LblTb}" Text="测试钱包"></TextBlock>
 			<TextBox 
 				x:Name="TbTestWallet" 
 				Width="380" 
-				IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
+				IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
 				VerticalContentAlignment="Center" Text="{Binding TestWallet, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}">
 			</TextBox>
 			<TextBlock VerticalAlignment="Center">(</TextBlock>
@@ -78,7 +79,7 @@
 			<TextBlock VerticalAlignment="Center">)</TextBlock>
 		</WrapPanel>
 
-		<WrapPanel Margin="0 2" Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
+		<WrapPanel Margin="0 2" Visibility="{x:Static app:AppStatic.IsDebugModeVisible}">
 			<TextBlock Style="{StaticResource LblTb}"></TextBlock>
 			<CheckBox
 				Content="仅作为双挖币"
@@ -90,7 +91,7 @@
 			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="通知"></TextBlock>
 			<TextBox 
 				Width="380" Background="Transparent"
-				IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
+				IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
 				AcceptsReturn="True" TextWrapping="Wrap" 
 				VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
 				Text="{Binding Notice, Mode=TwoWay}" Height="60">
@@ -98,7 +99,7 @@
 		</WrapPanel>
 		<controls:KbButton
 			Command="{Binding Save}" 
-			Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+			Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
 			HorizontalAlignment="Center"
 			Margin="0 10 0 0"
 			Padding="10 0"

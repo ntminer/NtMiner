@@ -6,7 +6,8 @@
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
-		xmlns:vm="clr-namespace:NTMiner.Vms"
+		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
+	    xmlns:app="clr-namespace:NTMiner"
 		mc:Ignorable="d"
 		d:DataContext="{d:DesignData Source=Design/PackageViewModel.xaml}"
 		Background="White"
@@ -31,7 +32,7 @@
 				<Button 
 					Margin="4 0 0 0"
 					Padding="4 0"
-					IsEnabled="{x:Static vm:AppStatic.IsDebugMode}"
+					IsEnabled="{x:Static app:AppStatic.IsDebugMode}"
 					VerticalAlignment="Center"
 					Command="{Binding BrowsePackage}"
 					Content="浏览">
@@ -41,7 +42,7 @@
 				<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="支持算法"></TextBlock>
 				<ItemsControl
 					Width="480"
-					IsEnabled="{x:Static vm:AppStatic.IsDebugMode}"
+					IsEnabled="{x:Static app:AppStatic.IsDebugMode}"
 					ItemsSource="{Binding AlgoSelectItems}"
 					BorderThickness="0"
 					VerticalAlignment="Center"
@@ -64,7 +65,7 @@
 		<StackPanel Grid.Row="1">
 			<controls:KbButton
 				Command="{Binding Save}" 
-				Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+				Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
 				Padding="10 0"
 				HorizontalAlignment="Center"
 				Background="{StaticResource ThemeBackground}"

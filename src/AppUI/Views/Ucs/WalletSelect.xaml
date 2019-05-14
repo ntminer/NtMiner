@@ -7,7 +7,8 @@
 		xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
-		xmlns:vm="clr-namespace:NTMiner.Vms"
+		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
+		xmlns:app="clr-namespace:NTMiner"
 		BorderBrush="Black"
 		BorderThickness="1"
 		Background="White"
@@ -45,7 +46,7 @@
 				Padding="4 0"
 				Click="KbButtonManageWallets_Click"
 				Background="{StaticResource ThemeBackground}"
-				Command="{x:Static vm:AppStatic.ManageWallet}"
+				Command="{x:Static app:AppStatic.ManageWallet}"
 				CommandParameter="{Binding Coin}"
 				CornerRadius="2">
 				<WrapPanel>

@@ -8,12 +8,13 @@
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:local="clr-namespace:NTMiner.Views"
 		xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
-		xmlns:vm="clr-namespace:NTMiner.Vms"
+		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
+	    xmlns:app="clr-namespace:NTMiner"
 		mc:Ignorable="d"
-		Title="{x:Static vm:AppStatic.AppName}"
+		Title="{x:Static app:AppStatic.AppName}"
 		WindowTransitionsEnabled="False"
-		Width="{x:Static vm:AppStatic.MainWindowWidth}"
-		Height="{x:Static vm:AppStatic.MainWindowHeight}"
+		Width="{x:Static app:AppStatic.MainWindowWidth}"
+		Height="{x:Static app:AppStatic.MainWindowHeight}"
 		MinHeight="430"
 		MinWidth="640"
 		ResizeBorderThickness="4"
@@ -53,7 +54,7 @@
 				<Image Width="18" Height="18" Source="/NTMinerWpf;component/Styles/Images/logo32.png" MouseDown="NTMinerLogo_MouseDown"></Image>
 				<controls:KbLinkButton
 					ToolTip="点击打开官网"
-					Command="{x:Static vm:AppStatic.OpenOfficialSite}"
+					Command="{x:Static app:AppStatic.OpenOfficialSite}"
 					KbDisplayLine="False"
 					KbSystemButtonHoverBackground="Transparent"
 					Background="Transparent"
@@ -81,7 +82,7 @@
 								Margin="0"
 								HorizontalAlignment="Left"
 								VerticalAlignment="Center"
-								Text="{x:Static vm:AppStatic.CurrentVersion}" />
+								Text="{x:Static app:AppStatic.CurrentVersion}" />
 							<TextBlock
 								Margin="2 0 0 0"
 								HorizontalAlignment="Left"
@@ -91,7 +92,7 @@
 								Margin="0"
 								HorizontalAlignment="Left"
 								VerticalAlignment="Center"
-								Text="{x:Static vm:AppStatic.VersionTag}" />
+								Text="{x:Static app:AppStatic.VersionTag}" />
 							<TextBlock
 								HorizontalAlignment="Left"
 								VerticalAlignment="Center"
@@ -102,7 +103,7 @@
 				<controls:KbLinkButton
 					Margin="8 0 0 0"
 					VerticalAlignment="Bottom"
-					Command="{x:Static vm:AppStatic.DownloadMinerStudio}"
+					Command="{x:Static app:AppStatic.DownloadMinerStudio}"
 					KbDisplayLine="False"
 					Foreground="{StaticResource ThemeForeground}"
 					KbSystemButtonHoverBackground="Transparent"
@@ -123,25 +124,23 @@
 					Foreground="White"
 					Visibility="{Binding IsBtnRunAsAdministratorVisible}" 
 					Background="Red"
-					Command="{x:Static vm:AppStatic.RunAsAdministrator}">
+					Command="{x:Static app:AppStatic.RunAsAdministrator}">
 				</controls:KbButton>
 				<WrapPanel Margin="4 0 0 0" VerticalAlignment="Center" Visibility="{Binding MinerProfile.MineWork,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
 					<TextBlock Foreground="{StaticResource ThemeForeground}">作业：</TextBlock>
 					<TextBlock Foreground="{StaticResource ThemeForeground}" Text="{Binding MinerProfile.MineWork.Name}" ToolTip="{Binding MinerProfile.MineWork.Description}"></TextBlock>
 				</WrapPanel>
-				<uc:OpenedWindows VerticalAlignment="Top" Margin="8 0 0 0">
-				</uc:OpenedWindows>
 			</WrapPanel>
 			<WrapPanel HorizontalAlignment="Right">
 				<WrapPanel Margin="0" HorizontalAlignment="Right" VerticalAlignment="Top">
 					<TextBlock 
 						VerticalAlignment="Center"
-						Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+						Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
 						ToolTip="ServerJsonVersion"
 						Text="{Binding ServerJsonVersion}" 
 						Foreground="{StaticResource ThemeForeground}"></TextBlock>
 					<CheckBox 
-						Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+						Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
 						Content="DevConsole"
 						VerticalAlignment="Center"
 						Cursor="Hand"
@@ -182,7 +181,7 @@
 						Margin="0 0 8 0"
 						ToolTip="算力图"
 						Background="Transparent" BorderThickness="0"
-						Command="{x:Static vm:AppStatic.ShowSpeedChart}">
+						Command="{x:Static app:AppStatic.ShowSpeedChart}">
 						<WrapPanel>
 							<Path 
 								Height="14"
@@ -196,7 +195,7 @@
 						Margin="0 0 8 0"
 						ToolTip="内核"
 						Background="Transparent" BorderThickness="0"
-						Command="{x:Static vm:AppStatic.ShowKernels}">
+						Command="{x:Static app:AppStatic.ShowKernels}">
 						<WrapPanel>
 							<Path 
 								Height="14"
@@ -404,7 +403,7 @@
 									IsChecked="{Binding MinerProfile.IsShowCommandLine}" />
 								<controls:KbButton 
 									Margin="2 0 1 0"
-									Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+									Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
 									ToolTip="自定义主题"
 									Background="Transparent" 
 									BorderThickness="0"

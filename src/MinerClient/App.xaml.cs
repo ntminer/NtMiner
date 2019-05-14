@@ -23,7 +23,7 @@ namespace NTMiner {
         private Mutex appMutex;
         private static string s_appPipName = "ntminerclient";
         protected override void OnExit(ExitEventArgs e) {
-            AppHelper.NotifyIcon?.Dispose();
+            AppContext.NotifyIcon?.Dispose();
             NTMinerRoot.Instance.Exit();
             HttpServer.Stop();
             base.OnExit(e);
@@ -33,9 +33,9 @@ namespace NTMiner {
         protected override void OnStartup(StartupEventArgs e) {
             RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
             if (!string.IsNullOrEmpty(CommandLineArgs.Upgrade)) {
-                AppStatic.Upgrade(CommandLineArgs.Upgrade, () => {
+                VirtualRoot.Execute(new UpgradeCommand(CommandLineArgs.Upgrade, () => {
                     Environment.Exit(0);
-                });
+                }));
             }
             else {
                 try {
@@ -52,7 +52,7 @@ namespace NTMiner {
                     }
                     NTMinerOverClockUtil.ExtractResource();
 
-                    AppStatic.SetIsMinerClient(true);
+                    NTMinerRoot.SetIsMinerClient(true);
                     NotiCenterWindowViewModel.IsHotKeyEnabled = true;
                     SplashWindow splashWindow = new SplashWindow();
                     splashWindow.Show();
@@ -66,8 +66,7 @@ namespace NTMiner {
                             else {
                                 NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage("已切换为无界面模式运行", "开源矿工");
                             }
-                            System.Drawing.Icon icon = new System.Drawing.Icon(GetResourceStream(new Uri("pack://application:,,,/NTMiner;component/logo.ico")).Stream);
-                            AppHelper.NotifyIcon = ExtendedNotifyIcon.Create(icon, "开源矿工", isMinerStudio: false);
+                            AppContext.NotifyIcon = ExtendedNotifyIcon.Create("开源矿工", isMinerStudio: false);
                             #region 处理显示主界面命令
                             VirtualRoot.Window<ShowMainWindowCommand>("处理显示主界面命令", LogEnum.None,
                                 action: message => {

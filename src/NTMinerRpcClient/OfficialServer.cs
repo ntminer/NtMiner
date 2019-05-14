@@ -79,6 +79,7 @@ namespace NTMiner {
                 }
                 catch (Exception e) {
                     callback?.Invoke(new List<CalcConfigData>());
+                    Logger.ErrorDebugLine(e.Message, e);
                 }
             });
         }

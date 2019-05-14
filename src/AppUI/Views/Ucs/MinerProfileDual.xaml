@@ -6,7 +6,8 @@
 			 xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 			 xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
 			 xmlns:local="clr-namespace:NTMiner.Views.Ucs"
-			 xmlns:vm="clr-namespace:NTMiner.Vms"
+			 xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
+	         xmlns:app="clr-namespace:NTMiner"
 			 mc:Ignorable="d" 
 			 BorderBrush="{StaticResource LineColor}"
 			 TextOptions.TextFormattingMode="Display"  
@@ -38,7 +39,7 @@
 						<ContextMenu>
 							<MenuItem 
 								Header="管理" 
-								Command="{x:Static vm:AppStatic.ShowCoins}"
+								Command="{x:Static app:AppStatic.ShowCoins}"
 								CommandParameter="{Binding CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin}">
 							</MenuItem>
 						</ContextMenu>
@@ -83,7 +84,7 @@
 							<MenuItem Header="添加" Command="{Binding CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.AddPool}">
 							</MenuItem>
 							<MenuItem 
-								Header="管理" Command="{x:Static vm:AppStatic.ManagePools}"
+								Header="管理" Command="{x:Static app:AppStatic.ManagePools}"
 								CommandParameter="{Binding CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin}">
 							</MenuItem>
 						</ContextMenu>
@@ -131,7 +132,7 @@
 									</MenuItem>
 									<MenuItem 
 										Header="管理" 
-										Command="{x:Static vm:AppStatic.ManageWallet}"
+										Command="{x:Static app:AppStatic.ManageWallet}"
 										CommandParameter="{Binding CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin}">
 									</MenuItem>
 								</ContextMenu>

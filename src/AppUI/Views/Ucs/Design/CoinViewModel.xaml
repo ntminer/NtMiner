@@ -1,2 +1,2 @@
-﻿<vm:CoinViewModel xmlns:vm="clr-namespace:NTMiner.Vms">
+﻿<vm:CoinViewModel xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels">
 </vm:CoinViewModel>

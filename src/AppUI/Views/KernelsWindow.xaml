@@ -9,12 +9,13 @@
 	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 	xmlns:local="clr-namespace:NTMiner.Views"
 	xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
-	xmlns:vm="clr-namespace:NTMiner.Vms"
+	xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
+	xmlns:app="clr-namespace:NTMiner"
 	mc:Ignorable="d"
 	Title="内核宝库"
 	WindowTransitionsEnabled="False"
-	Width="{x:Static vm:AppStatic.MainWindowWidth}"
-	Height="{x:Static vm:AppStatic.MainWindowHeight}"
+	Width="{x:Static app:AppStatic.MainWindowWidth}"
+	Height="{x:Static app:AppStatic.MainWindowHeight}"
 	MinHeight="430"
 	MinWidth="640"
 	ResizeBorderThickness="4"
@@ -163,7 +164,7 @@
 					</controls:KbButton>
 					<Button IsDefault="True" Command="{Binding Search}" Background="Transparent" BorderThickness="0"></Button>
 					<controls:KbButton  
-						Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+						Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
 						Command="{Binding Add}" 
 						Background="Transparent" BorderThickness="0"
 						Margin="20 0 0 0"
@@ -178,7 +179,7 @@
 						</WrapPanel>
 					</controls:KbButton>
 					<controls:KbButton  
-						Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+						Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
 						Command="{Binding ShowPackages}" 
 						Background="Transparent" BorderThickness="0"
 						Margin="20 0 0 0"

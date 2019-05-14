@@ -23,7 +23,7 @@ namespace NTMiner {
         private static string s_appPipName = "ntminercontrol";
 
         protected override void OnExit(ExitEventArgs e) {
-            AppHelper.NotifyIcon?.Dispose();
+            AppContext.NotifyIcon?.Dispose();
             NTMinerRoot.Instance.Exit();
             HttpServer.Stop();
             if (NTMinerRegistry.GetIsAutoCloseServices()) {
@@ -43,7 +43,7 @@ namespace NTMiner {
             }
 
             if (createdNew) {
-                AppStatic.SetIsMinerClient(false);
+                NTMinerRoot.SetIsMinerClient(false);
                 SplashWindow splashWindow = new SplashWindow();
                 splashWindow.Show();
                 NotiCenterWindow.Instance.Show();
@@ -94,8 +94,7 @@ namespace NTMiner {
                     var result = loginWindow.ShowDialog();
                     if (result.HasValue && result.Value) {
                         ChartsWindow.ShowWindow();
-                        System.Drawing.Icon icon = new System.Drawing.Icon(GetResourceStream(new Uri("pack://application:,,,/MinerStudio;component/logo.ico")).Stream);
-                        AppHelper.NotifyIcon = ExtendedNotifyIcon.Create(icon, "群控客户端", isMinerStudio: true);
+                        AppContext.NotifyIcon = ExtendedNotifyIcon.Create("群控客户端", isMinerStudio: true);
                         #region 处理显示主界面命令
                         VirtualRoot.Window<ShowMainWindowCommand>("处理显示主界面命令", LogEnum.None,
                             action: message => {
@@ -103,7 +102,7 @@ namespace NTMiner {
                             });
                         #endregion
                         HttpServer.Start($"http://localhost:{Consts.MinerStudioPort}");
-                        AppHelper.RemoteDesktop = MsRdpRemoteDesktop.OpenRemoteDesktop;
+                        AppContext.RemoteDesktop = MsRdpRemoteDesktop.OpenRemoteDesktop;
                     }
                 });
             });

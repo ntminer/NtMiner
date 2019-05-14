@@ -4,7 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
-             xmlns:vm="clr-namespace:NTMiner.Vms"
+             xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
+             xmlns:app="clr-namespace:NTMiner"
              xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
              Background="{StaticResource ThemeBackground}"
              TextOptions.TextFormattingMode="Display" 
@@ -29,7 +30,7 @@
             <DataGrid.Columns>
                 <DataGridTemplateColumn 
                     MinWidth="100" CanUserResize="True" IsReadOnly="True"
-                    Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
+                    Visibility="{x:Static app:AppStatic.IsDebugModeVisible}">
                     <DataGridTemplateColumn.Header>
                         <controls:KbButton  
                             Command="{Binding Data.SysDicVms.Add, Source={StaticResource proxy}}" 
@@ -119,7 +120,7 @@
                 </DataGridTextColumn>
                 <DataGridTextColumn 
                         CanUserResize="True" CanUserReorder="False" 
-                        Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+                        Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
                         CanUserSort="False" IsReadOnly="True" Header="排序" Binding="{Binding SortNumber}">
                 </DataGridTextColumn>
             </DataGrid.Columns>
@@ -139,7 +140,7 @@
                     Width="Auto" CanUserResize="True" CanUserSort="False" IsReadOnly="True">
                     <DataGridTemplateColumn.Header>
                         <controls:KbButton 
-                            Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+                            Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
                             Command="{Binding Data.AddSysDicItem, Source={StaticResource proxy}}" 
                             Background="Transparent" BorderThickness="0"
                             Margin="10 0"
@@ -157,7 +158,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel 
-                                Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+                                Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
                                 HorizontalAlignment="Right" 
                                 Background="Transparent" 
                                 VerticalAlignment="Center" 
@@ -230,7 +231,7 @@
                 </DataGridTextColumn>
                 <DataGridTextColumn 
                     CanUserResize="True" CanUserReorder="False" 
-                    Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+                    Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
                     CanUserSort="False" IsReadOnly="True" Header="排序" Binding="{Binding SortNumber}">
                 </DataGridTextColumn>
             </DataGrid.Columns>

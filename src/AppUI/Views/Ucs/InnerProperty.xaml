@@ -7,7 +7,8 @@
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 		xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
-		xmlns:vm="clr-namespace:NTMiner.Vms"
+		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
+		xmlns:app="clr-namespace:NTMiner"
 		Background="White"
 		mc:Ignorable="d">
 	<UserControl.DataContext>
@@ -25,7 +26,7 @@
 	<StackPanel Margin="0 0 20 0">
 		<WrapPanel>
 			<TextBlock Style="{StaticResource LblTb}" Text="AppName"></TextBlock>
-			<TextBlock Text="{x:Static vm:AppStatic.AppName}"></TextBlock>
+			<TextBlock Text="{x:Static app:AppStatic.AppName}"></TextBlock>
 		</WrapPanel>
 		
 		<WrapPanel>

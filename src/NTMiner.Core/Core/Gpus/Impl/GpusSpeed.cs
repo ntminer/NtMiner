@@ -89,7 +89,7 @@ namespace NTMiner.Core.Gpus.Impl {
         private Guid _mainCoinId;
         public void SetCurrentSpeed(int gpuIndex, double speed, bool isDual, DateTime now) {
             InitOnece();
-            GpuSpeed gpuSpeed = _currentGpuSpeed.Values.First(a => a.Gpu.Index == gpuIndex);
+            GpuSpeed gpuSpeed = _currentGpuSpeed.Values.FirstOrDefault(a => a.Gpu.Index == gpuIndex);
             if (gpuSpeed == null) {
                 return;
             }

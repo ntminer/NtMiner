@@ -7,7 +7,8 @@
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
-		xmlns:vm="clr-namespace:NTMiner.Vms"
+		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
+		xmlns:app="clr-namespace:NTMiner"
 		mc:Ignorable="d" Height="320" Width="520">
 	<UserControl.DataContext>
 		<vm:AboutPageViewModel></vm:AboutPageViewModel>
@@ -20,7 +21,7 @@
 		</Grid.RowDefinitions>
 		<StackPanel Grid.Row="0">
 			<WrapPanel HorizontalAlignment="Center">
-				<Image Width="120" Height="120" Margin="0 10 0 0" Source="{x:Static vm:AppStatic.BigLogoImageSource}">
+				<Image Width="120" Height="120" Margin="0 10 0 0" Source="{x:Static app:AppStatic.BigLogoImageSource}">
 				</Image>
 			</WrapPanel>
 		</StackPanel>
@@ -32,7 +33,7 @@
 			<controls:KbLinkButton
 				Margin="0 2 8 2"
 				Foreground="#0072C1"
-				Command="{x:Static vm:AppStatic.OpenOfficialSite}"
+				Command="{x:Static app:AppStatic.OpenOfficialSite}"
 				Content="http://ntminer.com/"
 				KbDisplayLine="False"
 				KbSystemButtonHoverBackground="Transparent"

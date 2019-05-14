@@ -77,7 +77,7 @@ namespace NTMiner.Views {
                     .CreateMessage()
                     .Warning("请以管理员身份运行。")
                     .WithButton("点击以管理员身份运行", button => {
-                        AppStatic.RunAsAdministrator.Execute(null);
+                        Wpf.Util.RunAsAdministrator();
                     })
                     .Dismiss().WithButton("忽略", button => {
                         Vm.IsBtnRunAsAdministratorVisible = Visibility.Visible;

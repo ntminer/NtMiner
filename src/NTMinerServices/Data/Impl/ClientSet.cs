@@ -107,6 +107,9 @@ namespace NTMiner.Data.Impl {
 
         public void Add(ClientData clientData) {
             InitOnece();
+            if (clientData == null || clientData.Id == null) {
+                return;
+            }
             if (!_dicByObjectId.ContainsKey(clientData.Id)) {
                 _dicByObjectId.Add(clientData.Id, clientData);
             }
@@ -136,6 +139,9 @@ namespace NTMiner.Data.Impl {
         }
 
         public void Remove(string objectId) {
+            if (objectId == null) {
+                return;
+            }
             if (_dicByObjectId.TryGetValue(objectId, out ClientData clientData)) {
                 _dicByObjectId.Remove(objectId);
                 _dicByClientId.Remove(clientData.ClientId);
@@ -239,12 +245,18 @@ namespace NTMiner.Data.Impl {
 
         public ClientData GetByObjectId(string objectId) {
             InitOnece();
+            if (objectId == null) {
+                return null;
+            }
             _dicByObjectId.TryGetValue(objectId, out ClientData clientData);
             return clientData;
         }
 
         public void UpdateClient(string objectId, string propertyName, object value) {
             InitOnece();
+            if (objectId == null) {
+                return;
+            }
             if (_dicByObjectId.TryGetValue(objectId, out ClientData clientData)) {
                 PropertyInfo propertyInfo = typeof(ClientData).GetProperty(propertyName);
                 if (propertyInfo != null) {
