@@ -1,11 +1,11 @@
 ﻿using System;
 
 namespace NTMiner.Vms {
-    public class VirtualMemory : ViewModelBase {
-        public static readonly VirtualMemory Empty = new VirtualMemory(string.Empty, 0);
+    public class VirtualMemoryViewModel : ViewModelBase {
+        public static readonly VirtualMemoryViewModel Empty = new VirtualMemoryViewModel(string.Empty, 0);
         private int _maxSizeMb;
 
-        public VirtualMemory(string driveName, int maxSizeMb) {
+        public VirtualMemoryViewModel(string driveName, int maxSizeMb) {
             this.DriveName = driveName;
             _maxSizeMb = maxSizeMb;
         }

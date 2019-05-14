@@ -6,12 +6,12 @@ using System.Linq;
 
 namespace NTMiner {
     public partial class AppContext {
-        public class VirtualMemorySetViewModel : ViewModelBase, IEnumerable<VirtualMemory> {
+        public class VirtualMemorySetViewModel : ViewModelBase, IEnumerable<VirtualMemoryViewModel> {
             public static readonly VirtualMemorySetViewModel Instance = new VirtualMemorySetViewModel();
 
-            private readonly Dictionary<string, VirtualMemory> _dic = new Dictionary<string, VirtualMemory>(StringComparer.OrdinalIgnoreCase);
+            private readonly Dictionary<string, VirtualMemoryViewModel> _dic = new Dictionary<string, VirtualMemoryViewModel>(StringComparer.OrdinalIgnoreCase);
 
-            private readonly Dictionary<string, VirtualMemory> _initialVms = new Dictionary<string, VirtualMemory>(StringComparer.OrdinalIgnoreCase);
+            private readonly Dictionary<string, VirtualMemoryViewModel> _initialVms = new Dictionary<string, VirtualMemoryViewModel>(StringComparer.OrdinalIgnoreCase);
             private VirtualMemorySetViewModel() {
 #if DEBUG
                 VirtualRoot.Stopwatch.Restart();
@@ -20,10 +20,10 @@ namespace NTMiner {
                     _initialVms.Add(item.DriveName, item);
                 }
                 foreach (var drive in AppContext.Instance.DriveSetVm.Drives) {
-                    _dic.Add(drive.Name, new VirtualMemory(drive.Name, 0));
+                    _dic.Add(drive.Name, new VirtualMemoryViewModel(drive.Name, 0));
                 }
                 foreach (var item in _initialVms.Values) {
-                    if (_dic.TryGetValue(item.DriveName, out VirtualMemory vm)) {
+                    if (_dic.TryGetValue(item.DriveName, out VirtualMemoryViewModel vm)) {
                         vm.MaxSizeMb = item.MaxSizeMb;
                     }
                 }
@@ -64,7 +64,7 @@ namespace NTMiner {
 
             private const string MemoryManagementSubKey = @"SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management";
             public void SetVirtualMemoryOfDrive() {
-                List<VirtualMemory> virtualMemories = _dic.Values.Where(a => a.MaxSizeMb != 0).ToList();
+                List<VirtualMemoryViewModel> virtualMemories = _dic.Values.Where(a => a.MaxSizeMb != 0).ToList();
                 string[] value = virtualMemories.Select(a => a.ToString()).ToArray();
 
                 Windows.Registry.SetValue(Microsoft.Win32.Registry.LocalMachine, MemoryManagementSubKey, "PagingFiles", value);
@@ -74,20 +74,20 @@ namespace NTMiner {
                 NTMinerRoot.OSVirtualMemoryMb = _dic.Values.Sum(a => a.MaxSizeMb);
             }
 
-            private List<VirtualMemory> GetPagingFiles() {
+            private List<VirtualMemoryViewModel> GetPagingFiles() {
                 object value = Windows.Registry.GetValue(Microsoft.Win32.Registry.LocalMachine, MemoryManagementSubKey, "PagingFiles");
                 // REG_SZ or REG_MULTI_SZ
-                List<VirtualMemory> list;
+                List<VirtualMemoryViewModel> list;
                 if (value is string[]) {
                     list = Parse((string[])value);
                 }
                 else {
-                    list = new List<VirtualMemory>();
+                    list = new List<VirtualMemoryViewModel>();
                 }
                 return list;
             }
 
-            private VirtualMemory Parse(string vmReg) {
+            private VirtualMemoryViewModel Parse(string vmReg) {
                 string driveName;
                 int minsize = 0;
                 int maxsize = 0;
@@ -97,7 +97,7 @@ namespace NTMiner {
                         driveName = strarr[0].Substring(0, 3);
                         minsize = Convert.ToInt32(strarr[1]);
                         maxsize = Convert.ToInt32(strarr[2]);
-                        return new VirtualMemory(driveName, maxsize);
+                        return new VirtualMemoryViewModel(driveName, maxsize);
                     }
                     return null;
                 }
@@ -107,11 +107,11 @@ namespace NTMiner {
                 }
             }
 
-            private List<VirtualMemory> Parse(string[] vmReg) {
-                List<VirtualMemory> list = new List<VirtualMemory>();
+            private List<VirtualMemoryViewModel> Parse(string[] vmReg) {
+                List<VirtualMemoryViewModel> list = new List<VirtualMemoryViewModel>();
                 try {
                     foreach (string item in vmReg) {
-                        VirtualMemory vm = Parse(item);
+                        VirtualMemoryViewModel vm = Parse(item);
                         if (vm != null) {
                             list.Add(vm);
                         }
@@ -123,7 +123,7 @@ namespace NTMiner {
                 return list;
             }
 
-            public VirtualMemory this[string driveName] {
+            public VirtualMemoryViewModel this[string driveName] {
                 get {
                     return _dic[driveName];
                 }
@@ -133,7 +133,7 @@ namespace NTMiner {
                 return _dic.ContainsKey(driveName);
             }
 
-            public IEnumerator<VirtualMemory> GetEnumerator() {
+            public IEnumerator<VirtualMemoryViewModel> GetEnumerator() {
                 return _dic.Values.GetEnumerator();
             }
 

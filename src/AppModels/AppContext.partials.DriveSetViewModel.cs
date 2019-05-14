@@ -9,7 +9,7 @@ namespace NTMiner {
         public class DriveSetViewModel : ViewModelBase {
             public static readonly DriveSetViewModel Instance = new DriveSetViewModel();
 
-            private readonly List<Drive> _drives = new List<Drive>();
+            private readonly List<DriveViewModel> _drives = new List<DriveViewModel>();
 
             public ICommand Apply { get; private set; }
 
@@ -18,7 +18,7 @@ namespace NTMiner {
                 VirtualRoot.Stopwatch.Restart();
 #endif
                 foreach (var item in DriveInfo.GetDrives().Where(a => a.DriveType == DriveType.Fixed)) {
-                    _drives.Add(new Drive(item));
+                    _drives.Add(new DriveViewModel(item));
                 }
                 this.Apply = new DelegateCommand(() => {
                     AppContext.Instance.VirtualMemorySetVm.SetVirtualMemoryOfDrive();
@@ -28,7 +28,7 @@ namespace NTMiner {
 #endif
             }
 
-            public List<Drive> Drives {
+            public List<DriveViewModel> Drives {
                 get {
                     return _drives;
                 }

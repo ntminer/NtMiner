@@ -111,7 +111,7 @@
     <Compile Include="Vms\ConsoleViewModel.cs" />
     <Compile Include="Vms\ContainerWindowViewModel.cs" />
     <Compile Include="Vms\ControlCenterHostConfigViewModel.cs" />
-    <Compile Include="Vms\Drive.cs" />
+    <Compile Include="Vms\DriveViewModel.cs" />
     <Compile Include="Vms\EnvironmentVariableEditViewModel.cs" />
     <Compile Include="Vms\FileDownloaderViewModel.cs" />
     <Compile Include="Vms\GpuProfilesPageViewModel.cs" />
@@ -176,7 +176,7 @@
     <Compile Include="Vms\ToolboxViewModel.cs" />
     <Compile Include="Vms\UserPageViewModel.cs" />
     <Compile Include="Vms\UserViewModel.cs" />
-    <Compile Include="Vms\VirtualMemory.cs" />
+    <Compile Include="Vms\VirtualMemoryViewModel.cs" />
     <Compile Include="Vms\WalletSelectViewModel.cs" />
     <Compile Include="Vms\WalletViewModel.cs" />
   </ItemGroup>

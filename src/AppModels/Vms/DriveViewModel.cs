@@ -3,12 +3,12 @@ using System.IO;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class Drive : ViewModelBase {
+    public class DriveViewModel : ViewModelBase {
         private DriveInfo _driveInfo;
 
         public ICommand Set { get; private set; }
 
-        public Drive(DriveInfo driveInfo) {
+        public DriveViewModel(DriveInfo driveInfo) {
             _driveInfo = driveInfo;
             if (driveInfo.DriveType != DriveType.Fixed) {
                 throw new InvalidProgramException();
@@ -28,12 +28,12 @@ namespace NTMiner.Vms {
             get { return _driveInfo.Name; }
         }
 
-        public VirtualMemory VirtualMemory {
+        public VirtualMemoryViewModel VirtualMemory {
             get {
                 if (AppContext.Instance.VirtualMemorySetVm.Contains(this.Name)) {
                     return AppContext.Instance.VirtualMemorySetVm[this.Name];
                 }
-                return VirtualMemory.Empty;
+                return VirtualMemoryViewModel.Empty;
             }
         }
 
