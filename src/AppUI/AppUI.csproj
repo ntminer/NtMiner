@@ -105,7 +105,6 @@
     <Compile Include="Views\ChartsWindow.xaml.cs">
       <DependentUpon>ChartsWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\FrameworkElementExtensions.cs" />
     <Compile Include="Views\BrandWindow.xaml.cs">
       <DependentUpon>BrandWindow.xaml</DependentUpon>
     </Compile>
