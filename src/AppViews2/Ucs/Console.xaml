@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="NTMiner.Views.Ucs.Console"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+		xmlns:sys="clr-namespace:System;assembly=mscorlib"
+		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
+		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
+		mc:Ignorable="d" d:DesignHeight="408" d:DesignWidth="408">
+	<UserControl.DataContext>
+		<vm:ConsoleViewModel></vm:ConsoleViewModel>
+	</UserControl.DataContext>
+	<Grid Background="Black">
+		<FlowDocumentScrollViewer 
+			VerticalScrollBarVisibility="Visible"
+			x:Name="FlowDocumentScrollViewer" 
+			BorderThickness="0" 
+			Background="Transparent" Foreground="White">
+			<FlowDocument PagePadding="4">
+				<Paragraph x:Name="ConsoleParagraph" FontFamily="Courier New" FontSize="12">
+				</Paragraph>
+			</FlowDocument>
+		</FlowDocumentScrollViewer>
+		<CheckBox 
+			x:Name="ChkbIsConsoleAutoScrollToEnd"
+			Width="16" Margin="0 -1 10 0"
+			HorizontalAlignment="Right"
+			VerticalAlignment="Top"
+			ToolTip="自动滚屏"
+			IsChecked="True" />
+	</Grid>
+</UserControl>

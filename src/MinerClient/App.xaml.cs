@@ -54,14 +54,14 @@ namespace NTMiner {
 
                     NTMinerRoot.SetIsMinerClient(true);
                     NotiCenterWindowViewModel.IsHotKeyEnabled = true;
-                    Window splashWindow = AppViewFactory.CreateSplashWindow();
+                    Window splashWindow = ViewFactory.Instance.CreateSplashWindow();
                     splashWindow.Show();
                     NotiCenterWindow.Instance.Show();
                     NTMinerRoot.Instance.Init(() => {
-                        AppViewFactory.Link();
+                        ViewFactory.Instance.Link();
                         UIThread.Execute(() => {
                             if (!NTMinerRegistry.GetIsNoUi() || !NTMinerRegistry.GetIsAutoStart()) {
-                                AppViewFactory.ShowMainWindow(isToggle: false);
+                                ViewFactory.Instance.ShowMainWindow(isToggle: false);
                             }
                             else {
                                 NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage("已切换为无界面模式运行", "开源矿工");
@@ -89,7 +89,7 @@ namespace NTMiner {
                 }
                 else {
                     try {
-                        AppViewFactory.ShowMainWindow(this, MinerServer.NTMinerAppType.MinerClient);
+                        ViewFactory.Instance.ShowMainWindow(this, MinerServer.NTMinerAppType.MinerClient);
                     }
                     catch (Exception) {
                         DialogWindow.ShowDialog(message: "另一个NTMiner正在运行，请手动结束正在运行的NTMiner进程后再次尝试。", title: "提醒", icon: "Icon_Error");
@@ -103,7 +103,7 @@ namespace NTMiner {
 
         private void ShowMainWindow(bool isToggle) {
             UIThread.Execute(() => {
-                AppViewFactory.ShowMainWindow(isToggle);
+                ViewFactory.Instance.ShowMainWindow(isToggle);
                 // 使状态栏显示显示最新状态
                 if (NTMinerRoot.Instance.IsMining) {
                     var mainCoin = NTMinerRoot.Instance.CurrentMineContext.MainCoin;
