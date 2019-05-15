@@ -268,3 +268,5 @@ NTMinerServices.exe
 NTMinerDaemon.exe
 DevConsole.exe
 sha1
+/src/AppModels/View/AppViews2.dll
+/src/AppModels/View/AppViews1.dll
