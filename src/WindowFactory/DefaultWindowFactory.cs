@@ -277,8 +277,8 @@ namespace NTMiner {
                 });
         }
 
-        #region private method
-        private void Upgrade(string fileName, Action callback) {
+        #region private or protected method
+        protected void Upgrade(string fileName, Action callback) {
             try {
                 string updaterDirFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "Updater");
                 if (!Directory.Exists(updaterDirFullName)) {

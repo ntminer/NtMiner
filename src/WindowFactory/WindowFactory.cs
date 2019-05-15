@@ -3,7 +3,7 @@ using System.Windows;
 
 namespace NTMiner {
     public static class WindowFactory {
-        private static readonly IWindowFactory _factory = new DefaultWindowFactory();
+        private static readonly IWindowFactory _factory = new AnotherWindowFactory();
 
         public static Window CreateSplashWindow() {
             return _factory.CreateSplashWindow();
