@@ -89,7 +89,6 @@
     <Compile Include="Design.cs" />
     <Compile Include="FrameworkElementExtensions.cs" />
     <Compile Include="HotKeyUtil.cs" />
-    <Compile Include="IAppViewFactory.cs" />
     <Compile Include="IconConst.cs" />
     <Compile Include="SystemHotKey.cs" />
     <Compile Include="UIThread.cs" />
