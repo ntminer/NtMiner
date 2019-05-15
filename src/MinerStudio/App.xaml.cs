@@ -5,7 +5,6 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
-using System.Windows.Threading;
 
 namespace NTMiner {
     public partial class App : Application, IDisposable {
@@ -43,7 +42,7 @@ namespace NTMiner {
 
             if (createdNew) {
                 NTMinerRoot.SetIsMinerClient(false);
-                SplashWindow splashWindow = new SplashWindow();
+                Window splashWindow = WindowFactory.CreateSplashWindow();
                 splashWindow.Show();
                 NotiCenterWindow.Instance.Show();
                 bool isInnerIp = Ip.Util.IsInnerIp(NTMinerRegistry.GetControlCenterHost());
@@ -84,7 +83,7 @@ namespace NTMiner {
             base.OnStartup(e);
         }
 
-        private void Init(SplashWindow splashWindow) {
+        private void Init(Window splashWindow) {
             NTMinerRoot.Instance.Init(() => {
                 WindowFactory.Link();
                 UIThread.Execute(() => {
@@ -92,12 +91,12 @@ namespace NTMiner {
                     LoginWindow loginWindow = new LoginWindow();
                     var result = loginWindow.ShowDialog();
                     if (result.HasValue && result.Value) {
-                        ChartsWindow.ShowWindow();
+                        VirtualRoot.Execute(new ShowChartsWindowCommand());
                         AppContext.NotifyIcon = ExtendedNotifyIcon.Create("群控客户端", isMinerStudio: true);
                         #region 处理显示主界面命令
                         VirtualRoot.Window<ShowMainWindowCommand>("处理显示主界面命令", LogEnum.None,
                             action: message => {
-                                Dispatcher.Invoke((ThreadStart)ChartsWindow.ShowWindow);
+                                VirtualRoot.Execute(new ShowChartsWindowCommand());
                             });
                         #endregion
                         HttpServer.Start($"http://localhost:{Consts.MinerStudioPort}");
