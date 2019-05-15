@@ -123,12 +123,26 @@
 			</Style>
 		</ResourceDictionary>
 	</metro:MetroWindow.Resources>
-	<TabControl 
-		Name="tab" Grid.Row="1" Grid.RowSpan="2" BorderThickness="0"
-		Margin="0" Style="{StaticResource TabControlStyle}">
-		<TabItem Margin="3 0 8 0" Header="开始" Height="47" Style="{StaticResource TabItemStyle}">
-		</TabItem>
-		<TabItem Margin="3 0 8 0" Header="属性" Height="47" Style="{StaticResource TabItemStyle}">
-		</TabItem>
-	</TabControl>
+	<Grid>
+		<WrapPanel HorizontalAlignment="Right" VerticalAlignment="Top">
+			<controls:KbSystemMinButton
+				Height="34"
+				KbSystemButtonSize="40" />
+			<controls:KbSystemMaxButton
+				Height="34"
+				KbSystemButtonSize="40" />
+			<controls:KbSystemCloseButton
+				Command="{Binding CloseMainWindow}"
+				Height="34"
+				KbSystemButtonSize="40" />
+		</WrapPanel>
+		<TabControl 
+			Name="tab" Grid.Row="1" Grid.RowSpan="2" BorderThickness="0"
+			Margin="0" Style="{StaticResource TabControlStyle}">
+			<TabItem Margin="3 0 8 0" Header="开始" Height="47" Style="{StaticResource TabItemStyle}">
+			</TabItem>
+			<TabItem Margin="3 0 8 0" Header="属性" Height="47" Style="{StaticResource TabItemStyle}">
+			</TabItem>
+		</TabControl>
+	</Grid>
 </metro:MetroWindow>

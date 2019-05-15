@@ -68,9 +68,6 @@ namespace NTMiner {
                                 
                             }).Queue();
                     }
-                    if (NTMinerRoot.Instance.GpuSet.Count == 0) {
-                        NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage("没有矿卡或矿卡未驱动。");
-                    }
                     VirtualRoot.On<StartingMineFailedEvent>("开始挖矿失败", LogEnum.DevConsole,
                         action: message => {
                             AppContext.Instance.MinerProfileVm.IsMining = false;
@@ -80,6 +77,9 @@ namespace NTMiner {
                     NTMinerRoot.Instance.Init(() => {
                         AppViewFactory.Instance.Link();
                         UIThread.Execute(() => {
+                            if (NTMinerRoot.Instance.GpuSet.Count == 0) {
+                                NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage("没有矿卡或矿卡未驱动。");
+                            }
                             if (!NTMinerRegistry.GetIsNoUi() || !NTMinerRegistry.GetIsAutoStart()) {
                                 AppViewFactory.Instance.ShowMainWindow(isToggle: false);
                             }

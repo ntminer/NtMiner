@@ -32,9 +32,6 @@ namespace NTMiner.Core.Gpus.Impl {
             VirtualRoot.Stopwatch.Restart();
 #endif
             _root = root;
-            if (Design.IsInDesignMode) {
-                return;
-            }
             adlHelper.Init();
             int deviceCount = 0;
             deviceCount = adlHelper.GpuCount;
