@@ -3,7 +3,7 @@ using NTMiner.Views.Ucs;
 using System.Windows;
 
 namespace NTMiner {
-    public class AnotherWindowFactory : DefaultWindowFactory {
+    public class AppView2Factory : AppView1Factory {
         protected override Window CreateMainWindow() {
             return new MainWindow();
         }

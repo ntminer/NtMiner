@@ -42,7 +42,7 @@ namespace NTMiner {
 
             if (createdNew) {
                 NTMinerRoot.SetIsMinerClient(false);
-                Window splashWindow = WindowFactory.CreateSplashWindow();
+                Window splashWindow = AppViewFactory.CreateSplashWindow();
                 splashWindow.Show();
                 NotiCenterWindow.Instance.Show();
                 bool isInnerIp = Ip.Util.IsInnerIp(NTMinerRegistry.GetControlCenterHost());
@@ -72,7 +72,7 @@ namespace NTMiner {
             }
             else {
                 try {
-                    WindowFactory.ShowMainWindow(this, MinerServer.NTMinerAppType.MinerStudio);
+                    AppViewFactory.ShowMainWindow(this, MinerServer.NTMinerAppType.MinerStudio);
                 }
                 catch (Exception) {
                     DialogWindow.ShowDialog(message: "另一个NTMiner正在运行，请手动结束正在运行的NTMiner进程后再次尝试。", title: "alert", icon: "Icon_Error");
@@ -85,7 +85,7 @@ namespace NTMiner {
 
         private void Init(Window splashWindow) {
             NTMinerRoot.Instance.Init(() => {
-                WindowFactory.Link();
+                AppViewFactory.Link();
                 UIThread.Execute(() => {
                     splashWindow?.Close();
                     LoginWindow loginWindow = new LoginWindow();

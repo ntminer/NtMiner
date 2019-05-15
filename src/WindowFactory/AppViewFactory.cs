@@ -2,8 +2,8 @@
 using System.Windows;
 
 namespace NTMiner {
-    public static class WindowFactory {
-        private static readonly IWindowFactory _factory = new AnotherWindowFactory();
+    public static class AppViewFactory {
+        private static readonly IAppViewFactory _factory = new AppView2Factory();
 
         public static Window CreateSplashWindow() {
             return _factory.CreateSplashWindow();

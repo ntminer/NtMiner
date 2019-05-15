@@ -47,7 +47,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinerClientSelfHost", "src\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppModels", "src\AppModels\AppModels.csproj", "{3426F677-5026-4BB1-A0B2-DD5D9BD70D07}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowFactory", "src\WindowFactory\WindowFactory.csproj", "{062A69A0-A158-4E9D-923E-295C10D5D4E2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppViewFactory", "src\WindowFactory\AppViewFactory.csproj", "{062A69A0-A158-4E9D-923E-295C10D5D4E2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppViews1", "src\AppViews1\AppViews1.csproj", "{B3667589-D9B1-489E-AB4F-D1EC06A40A9D}"
 EndProject

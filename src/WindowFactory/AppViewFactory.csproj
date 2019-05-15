@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NTMiner</RootNamespace>
-    <AssemblyName>WindowFactory</AssemblyName>
+    <AssemblyName>AppViewFactory</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -54,11 +54,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppUtil.cs" />
-    <Compile Include="DefaultWindowFactory.cs" />
-    <Compile Include="IWindowFactory.cs" />
+    <Compile Include="AppView1Factory.cs" />
+    <Compile Include="IAppViewFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="AnotherWindowFactory.cs" />
-    <Compile Include="WindowFactory.cs" />
+    <Compile Include="AppView2Factory.cs" />
+    <Compile Include="AppViewFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AppModels\AppModels.csproj">

@@ -8,7 +8,7 @@ using System.IO;
 using System.Windows;
 
 namespace NTMiner {
-    public class DefaultWindowFactory : IWindowFactory {
+    public class AppView1Factory : IAppViewFactory {
         private static readonly object _locker = new object();
         private static Window _instance = null;
         public void ShowMainWindow(bool isToggle) {

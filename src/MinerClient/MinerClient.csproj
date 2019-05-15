@@ -183,9 +183,9 @@
       <Project>{dd8e010e-d5e9-47cf-9cb4-8dc6e13d483d}</Project>
       <Name>NTMinerWpf</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WindowFactory\WindowFactory.csproj">
+    <ProjectReference Include="..\WindowFactory\AppViewFactory.csproj">
       <Project>{062a69a0-a158-4e9d-923e-295c10d5d4e2}</Project>
-      <Name>WindowFactory</Name>
+      <Name>AppViewFactory</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
