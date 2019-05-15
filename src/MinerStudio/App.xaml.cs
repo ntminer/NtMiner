@@ -1,5 +1,4 @@
 ﻿using NTMiner.Views;
-using NTMiner.Vms;
 using System;
 using System.Diagnostics;
 using System.Threading;
@@ -14,7 +13,7 @@ namespace NTMiner {
             VirtualRoot.SetIsMinerStudio(true);
             VirtualRoot.GlobalDirFullName = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NTMiner");
             Logging.LogDir.SetDir(System.IO.Path.Combine(VirtualRoot.GlobalDirFullName, "Logs"));
-            AppHelper.Init(this);
+            AppUtil.Init(this);
             InitializeComponent();
         }
 

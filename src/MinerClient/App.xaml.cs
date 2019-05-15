@@ -15,7 +15,7 @@ namespace NTMiner {
     public partial class App : Application, IDisposable {
         public App() {
             Logging.LogDir.SetDir(Path.Combine(VirtualRoot.GlobalDirFullName, "Logs"));
-            AppHelper.Init(this);
+            AppUtil.Init(this);
             InitializeComponent();
         }
 

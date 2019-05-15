@@ -5,7 +5,7 @@ using System.Windows;
 using System.Windows.Threading;
 
 namespace NTMiner {
-    public static class AppHelper {
+    public static class AppUtil {
         #region Init
         public static void Init(Application app) {
             AppDomain.CurrentDomain.UnhandledException += (object sender, UnhandledExceptionEventArgs e) => {
