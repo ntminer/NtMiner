@@ -19,7 +19,7 @@ namespace NTMiner.Views {
                     }
                 }
                 else {
-                    AppHelper.ShowWindow(_instance, false);
+                    _instance.ShowWindow(false);
                 }
                 AutoDownload(kernelId, downloadComplete);
             });

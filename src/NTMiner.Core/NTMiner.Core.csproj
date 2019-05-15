@@ -118,7 +118,6 @@
     <Compile Include="Core\ICoinShareSet.cs" />
     <Compile Include="Core\Impl\CoinGroupSet.cs" />
     <Compile Include="Core\Impl\CoinShareSet.cs" />
-    <Compile Include="Core\Kernels\EmptyKernelDownloader.cs" />
     <Compile Include="Core\Kernels\Impl\PackageSet.cs" />
     <Compile Include="Core\Kernels\IPackageSet.cs" />
     <Compile Include="Core\MinerServer\Impl\UserSet.cs" />
@@ -130,7 +129,6 @@
     <Compile Include="Core\MinerServer\Impl\MinerGroupSet.cs" />
     <Compile Include="Core\Impl\ReadOnlyRepository`1.cs" />
     <Compile Include="Core\IncomePerDay.cs" />
-    <Compile Include="Core\Kernels\IKernelDownloader.cs" />
     <Compile Include="Core\Kernels\IKernelInputSet.cs" />
     <Compile Include="Core\Kernels\IKernelOutputSet.cs" />
     <Compile Include="Core\MinerServer\Impl\OverClockDataSet.cs" />

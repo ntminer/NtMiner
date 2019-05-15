@@ -99,8 +99,6 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppHelper.cs" />
-    <Compile Include="KernelDownloader.cs" />
     <Compile Include="Views\ContainerWindow.xaml.cs">
       <DependentUpon>ContainerWindow.xaml</DependentUpon>
     </Compile>
@@ -328,6 +326,7 @@
       <DependentUpon>CoinPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="AppStatic.cs" />
+    <Compile Include="WindowExtension.cs" />
     <Page Include="Views\ContainerWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

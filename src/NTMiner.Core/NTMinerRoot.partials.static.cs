@@ -22,7 +22,6 @@ namespace NTMiner {
         public static readonly string CurrentVersionTag;
 
         public static string ServerVersion;
-        public static IKernelDownloader KernelDownloader = new EmptyKernelDownloader();
         public static Action RefreshArgsAssembly = () => { };
         public static bool IsUiVisible;
         public static DateTime MainWindowRendedOn = DateTime.MinValue;

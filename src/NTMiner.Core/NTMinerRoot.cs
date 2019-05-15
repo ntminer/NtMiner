@@ -536,18 +536,14 @@ namespace NTMiner {
                 string packageZipFileFullName = Path.Combine(SpecialPath.PackagesDirFullName, kernel.Package);
                 if (!File.Exists(packageZipFileFullName)) {
                     Logger.WarnWriteLine(kernel.GetFullName() + "本地内核包不存在，触发自动下载");
-                    if (KernelDownloader == null) {
-                        throw new InvalidProgramException("为赋值NTMinerRoot.KernelDownloader");
-                    }
-
-                    KernelDownloader.Download(kernel.GetId(), downloadComplete: (isSuccess, message) => {
+                    VirtualRoot.Execute(new ShowKernelDownloaderCommand(kernel.GetId(), downloadComplete: (isSuccess, message) => {
                         if (isSuccess) {
                             StartMine();
                         }
                         else {
                             VirtualRoot.Happened(new StartingMineFailedEvent("内核下载失败" + message));
                         }
-                    });
+                    }));
                 }
                 else {
                     string commandLine = BuildAssembleArgs();

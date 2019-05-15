@@ -5,33 +5,89 @@ using NTMiner.Vms;
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Threading;
 using System.Windows;
-using System.Windows.Threading;
 
 namespace NTMiner {
-    public static class AppHelper {
-        #region Init
-        public static void Init(Application app) {
-            AppDomain.CurrentDomain.UnhandledException += (object sender, UnhandledExceptionEventArgs e) => {
-                if (e.ExceptionObject is Exception exception) {
-                    Handle(exception);
+    public static class WindowFactory {
+        #region WindowFactory
+        private static readonly object _locker = new object();
+        private static Window _instance = null;
+        public static void ShowMainWindow(bool isToggle) {
+            UIThread.Execute(() => {
+                if (_instance == null) {
+                    lock (_locker) {
+                        if (_instance == null) {
+                            _instance = new MainWindow();
+                            Application.Current.MainWindow = _instance;
+                            _instance.Show();
+                            AppContext.Enable();
+                            NTMinerRoot.IsUiVisible = true;
+                            NTMinerRoot.MainWindowRendedOn = DateTime.Now;
+                            VirtualRoot.Happened(new MainWindowShowedEvent());
+                            _instance.Closed += (object sender, EventArgs e) => {
+                                NTMinerRoot.IsUiVisible = false;
+                                _instance = null;
+                            };
+                        }
+                    }
                 }
-            };
+                else {
+                    _instance.ShowWindow(isToggle);
+                }
+            });
+        }
 
-            app.DispatcherUnhandledException += (object sender, DispatcherUnhandledExceptionEventArgs e) => {
-                Handle(e.Exception);
-                e.Handled = true;
-            };
+        public static void ShowMainWindow(Application app, NTMinerAppType appType) {
+            try {
+                switch (appType) {
+                    case NTMinerAppType.MinerClient:
+                        Client.MinerClientService.ShowMainWindowAsync(Consts.MinerClientPort, (isSuccess, exception) => {
+                            if (!isSuccess) {
+                                RestartNTMiner();
+                            }
+                            UIThread.Execute(() => {
+                                app.Shutdown();
+                            });
+                        });
+                        break;
+                    case NTMinerAppType.MinerStudio:
+                        Client.MinerStudioService.ShowMainWindowAsync(Consts.MinerStudioPort, (isSuccess, exception) => {
+                            if (!isSuccess) {
+                                RestartNTMiner();
+                            }
+                            UIThread.Execute(() => {
+                                app.Shutdown();
+                            });
+                        });
+                        break;
+                    default:
+                        break;
+                }
+            }
+            catch (Exception ex) {
+                RestartNTMiner();
+                Logger.ErrorDebugLine(ex.Message, ex);
+            }
+        }
 
-            UIThread.InitializeWithDispatcher();
-            UIThread.StartTimer();
-            Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("zh-CN");
-            Link();
+        private static void RestartNTMiner() {
+            Process thisProcess = Process.GetCurrentProcess();
+            Windows.TaskKill.KillOtherProcess(thisProcess);
+            Windows.Cmd.RunClose(VirtualRoot.AppFileFullName, string.Join(" ", CommandLineArgs.Args));
+        }
+
+        public static Window CreateSplashWindow() {
+            return new SplashWindow();
         }
         #endregion
 
-        private static void Link() {
+        public static void Link() {
+            VirtualRoot.Window<ShowKernelDownloaderCommand>(LogEnum.DevConsole,
+                action: message => {
+                    UIThread.Execute(() => {
+                        KernelsWindow.ShowWindow(message.KernelId, message.DownloadComplete);
+                    });
+                });
             VirtualRoot.Window<EnvironmentVariableEditCommand>(LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
@@ -215,9 +271,7 @@ namespace NTMiner {
                 });
             VirtualRoot.Window<UpgradeCommand>(LogEnum.DevConsole,
                 action: message => {
-                    UIThread.Execute(() => {
-                        Upgrade(message.FileName, message.Callback);
-                    });
+                    Upgrade(message.FileName, message.Callback);
                 });
         }
 
@@ -286,117 +340,6 @@ namespace NTMiner {
             }
             catch {
                 callback?.Invoke();
-            }
-        }
-        #endregion
-
-        #region ShowMainWindow
-        public static void ShowMainWindow(Application app, NTMinerAppType appType) {
-            try {
-                switch (appType) {
-                    case NTMinerAppType.MinerClient:
-                        Client.MinerClientService.ShowMainWindowAsync(Consts.MinerClientPort, (isSuccess, exception) => {
-                            if (!isSuccess) {
-                                RestartNTMiner();
-                            }
-                            UIThread.Execute(() => {
-                                app.Shutdown();
-                            });
-                        });
-                        break;
-                    case NTMinerAppType.MinerStudio:
-                        Client.MinerStudioService.ShowMainWindowAsync(Consts.MinerStudioPort, (isSuccess, exception) => {
-                            if (!isSuccess) {
-                                RestartNTMiner();
-                            }
-                            UIThread.Execute(() => {
-                                app.Shutdown();
-                            });
-                        });
-                        break;
-                    default:
-                        break;
-                }
-            }
-            catch (Exception ex) {
-                RestartNTMiner();
-                Logger.ErrorDebugLine(ex.Message, ex);
-            }
-        }
-
-        public static void ShowWindow(Window window, bool isToggle) {
-            if (!isToggle) {
-                window.Show();
-            }
-            window.ShowInTaskbar = true;
-            if (window.WindowState == WindowState.Minimized) {
-                window.WindowState = WindowState.Normal;
-            }
-            else {
-                if (isToggle) {
-                    window.WindowState = WindowState.Minimized;
-                }
-                else {
-                    var oldState = window.WindowState;
-                    window.WindowState = WindowState.Minimized;
-                    window.WindowState = oldState;
-                }
-            }
-            if (!isToggle) {
-                window.Activate();
-            }
-        }
-
-        private static void RestartNTMiner() {
-            Process thisProcess = Process.GetCurrentProcess();
-            Windows.TaskKill.KillOtherProcess(thisProcess);
-            Windows.Cmd.RunClose(VirtualRoot.AppFileFullName, string.Join(" ", CommandLineArgs.Args));
-        }
-        #endregion
-
-        #region WindowFactory
-        private static readonly object _locker = new object();
-        private static Window _instance = null;
-        public static void ShowMainWindow(bool isToggle) {
-            UIThread.Execute(() => {
-                if (_instance == null) {
-                    lock (_locker) {
-                        if (_instance == null) {
-                            _instance = new MainWindow();
-                            Application.Current.MainWindow = _instance;
-                            _instance.Show();
-                            AppContext.Enable();
-                            NTMinerRoot.IsUiVisible = true;
-                            NTMinerRoot.MainWindowRendedOn = DateTime.Now;
-                            VirtualRoot.Happened(new MainWindowShowedEvent());
-                            _instance.Closed += (object sender, EventArgs e)=> {
-                                NTMinerRoot.IsUiVisible = false;
-                                _instance = null;
-                            };
-                        }
-                    }
-                }
-                else {
-                    ShowWindow(_instance, isToggle);
-                }
-            });
-        }
-
-        public static Window CreateSplashWindow() {
-            return new SplashWindow();
-        }
-        #endregion
-
-        #region private methods
-        private static void Handle(Exception e) {
-            if (e == null) {
-                return;
-            }
-            if (e is ValidationException) {
-                DialogWindow.ShowDialog(title: "验证失败", message: e.Message, icon: "Icon_Error");
-            }
-            else {
-                Logger.ErrorDebugLine(e);
             }
         }
         #endregion

@@ -74,7 +74,7 @@ namespace NTMiner {
             }
             else {
                 try {
-                    AppHelper.ShowMainWindow(this, MinerServer.NTMinerAppType.MinerStudio);
+                    WindowFactory.ShowMainWindow(this, MinerServer.NTMinerAppType.MinerStudio);
                 }
                 catch (Exception) {
                     DialogWindow.ShowDialog(message: "另一个NTMiner正在运行，请手动结束正在运行的NTMiner进程后再次尝试。", title: "alert", icon: "Icon_Error");
@@ -87,7 +87,7 @@ namespace NTMiner {
 
         private void Init(SplashWindow splashWindow) {
             NTMinerRoot.Instance.Init(() => {
-                NTMinerRoot.KernelDownloader = new KernelDownloader();
+                WindowFactory.Link();
                 UIThread.Execute(() => {
                     splashWindow?.Close();
                     LoginWindow loginWindow = new LoginWindow();
