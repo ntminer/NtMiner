@@ -6,7 +6,7 @@ namespace NTMiner.Views.Ucs {
     public partial class OverClockDataPage : UserControl {
         public static void ShowWindow() {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                Title = "超频背包",
+                Title = "超频菜谱",
                 IconName = "Icon_OverClock",
                 Width = 600,
                 Height = 400,

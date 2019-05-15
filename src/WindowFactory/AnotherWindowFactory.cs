@@ -13,6 +13,132 @@ namespace NTMiner {
         }
 
         public override void Link() {
+            VirtualRoot.Window<ShowDialogWindowCommand>(LogEnum.DevConsole,
+                action: message => {
+                    UIThread.Execute(() => {
+                        DialogWindow.ShowDialog(message: message.Message, title: message.Title, onYes: message.OnYes, icon: message.Icon);
+                    });
+                });
+            VirtualRoot.Window<ShowQQGroupQrCodeCommand>(LogEnum.DevConsole,
+                action: message => {
+                    UIThread.Execute(() => {
+                        QQGroupQrCode.ShowWindow();
+                    });
+                });
+            VirtualRoot.Window<ShowCalcCommand>(LogEnum.DevConsole,
+                action: message => {
+                    UIThread.Execute(() => {
+                        Calc.ShowWindow(message.CoinVm);
+                    });
+                });
+            VirtualRoot.Window<ShowFileDownloaderCommand>(LogEnum.DevConsole,
+                action: message => {
+                    UIThread.Execute(() => {
+                        FileDownloader.ShowWindow(message.DownloadFileUrl, message.FileTitle, message.DownloadComplete);
+                    });
+                });
+            VirtualRoot.Window<ShowCalcConfigCommand>(LogEnum.DevConsole,
+                action: message => {
+                    UIThread.Execute(() => {
+                        CalcConfig.ShowWindow();
+                    });
+                });
+            VirtualRoot.Window<ShowMinerClientsWindowCommand>(LogEnum.DevConsole,
+                action: message => {
+                    UIThread.Execute(() => {
+                        MinerClientsWindow.ShowWindow();
+                    });
+                });
+            VirtualRoot.Window<ShowNTMinerUpdaterConfigCommand>(LogEnum.DevConsole,
+                action: message => {
+                    UIThread.Execute(() => {
+                        NTMinerUpdaterConfig.ShowWindow();
+                    });
+                });
+            VirtualRoot.Window<ShowAboutPageCommand>(LogEnum.DevConsole,
+                action: message => {
+                    UIThread.Execute(() => {
+                        AboutPage.ShowWindow();
+                    });
+                });
+            VirtualRoot.Window<ShowKernelOutputPageCommand>(LogEnum.DevConsole,
+                action: message => {
+                    UIThread.Execute(() => {
+                        KernelOutputPage.ShowWindow(message.SelectedKernelOutputVm);
+                    });
+                });
+            VirtualRoot.Window<ShowKernelInputPageCommand>(LogEnum.DevConsole,
+                action: message => {
+                    UIThread.Execute(() => {
+                        KernelInputPage.ShowWindow();
+                    });
+                });
+            VirtualRoot.Window<ShowColumnsShowPageCommand>(LogEnum.DevConsole,
+                action: message => {
+                    UIThread.Execute(() => {
+                        ColumnsShowPage.ShowWindow();
+                    });
+                });
+            VirtualRoot.Window<ShowCoinPageCommand>(LogEnum.DevConsole,
+                action: message => {
+                    UIThread.Execute(() => {
+                        CoinPage.ShowWindow(message.CurrentCoin, message.TabType);
+                    });
+                });
+            VirtualRoot.Window<ShowGroupPageCommand>(LogEnum.DevConsole,
+                action: message => {
+                    UIThread.Execute(() => {
+                        GroupPage.ShowWindow();
+                    });
+                });
+            VirtualRoot.Window<ShowSysDicPageCommand>(LogEnum.DevConsole,
+                action: message => {
+                    UIThread.Execute(() => {
+                        SysDicPage.ShowWindow();
+                    });
+                });
+            VirtualRoot.Window<ShowVirtualMemoryCommand>(LogEnum.DevConsole,
+                action: message => {
+                    UIThread.Execute(() => {
+                        VirtualMemory.ShowWindow();
+                    });
+                });
+            VirtualRoot.Window<ShowRestartWindowsCommand>(LogEnum.DevConsole,
+                action: message => {
+                    UIThread.Execute(() => {
+                        RestartWindows.ShowDialog();
+                    });
+                });
+            VirtualRoot.Window<ShowNotificationSampleCommand>(LogEnum.DevConsole,
+                action: message => {
+                    UIThread.Execute(() => {
+                        NotificationSample.ShowWindow();
+                    });
+                });
+            VirtualRoot.Window<ShowInnerPropertyCommand>(LogEnum.DevConsole,
+                action: message => {
+                    UIThread.Execute(() => {
+                        InnerProperty.ShowWindow();
+                    });
+                });
+            VirtualRoot.Window<ShowChartsWindowCommand>(LogEnum.DevConsole,
+                action: message => {
+                    UIThread.Execute(() => {
+                        ChartsWindow.ShowWindow();
+                    });
+                });
+            VirtualRoot.Window<ShowOverClockDataPageCommand>(LogEnum.DevConsole,
+                action: message => {
+                    UIThread.Execute(() => {
+                        OverClockDataPage.ShowWindow();
+                    });
+                });
+            VirtualRoot.Window<ShowUserPageCommand>(LogEnum.DevConsole,
+                action: message => {
+                    UIThread.Execute(() => {
+                        UserPage.ShowWindow();
+                    });
+                });
             VirtualRoot.Window<ShowKernelDownloaderCommand>(LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {

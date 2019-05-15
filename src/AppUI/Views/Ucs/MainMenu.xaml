@@ -346,7 +346,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="关于" Command="{x:Static app:AppStatic.ShowAbout}" CommandParameter="ControlCenter">
+				<MenuItem Header="关于" Command="{x:Static app:AppStatic.ShowAbout}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"

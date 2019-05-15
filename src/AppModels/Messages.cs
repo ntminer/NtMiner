@@ -2,6 +2,7 @@
 using NTMiner.Core;
 using NTMiner.Vms;
 using System;
+using System.Windows;
 
 namespace NTMiner {
     [MessageType(description: "升级")]
@@ -13,6 +14,104 @@ namespace NTMiner {
 
         public string FileName { get; private set; }
         public Action Callback { get; private set; }
+    }
+
+    [MessageType(description: "打开用户列表页")]
+    public class ShowUserPageCommand : Cmd {
+        public ShowUserPageCommand() {
+        }
+    }
+
+    [MessageType(description: "打开超频菜谱列表页")]
+    public class ShowOverClockDataPageCommand : Cmd {
+        public ShowOverClockDataPageCommand() {
+        }
+    }
+
+    [MessageType(description: "打开群控算力图表窗口")]
+    public class ShowChartsWindowCommand : Cmd {
+        public ShowChartsWindowCommand() {
+        }
+    }
+
+    [MessageType(description: "打开内属性页")]
+    public class ShowInnerPropertyCommand : Cmd {
+        public ShowInnerPropertyCommand() {
+        }
+    }
+
+    [MessageType(description: "打开通知样例页")]
+    public class ShowNotificationSampleCommand : Cmd {
+        public ShowNotificationSampleCommand() {
+        }
+    }
+
+    [MessageType(description: "打开windows重启倒计时界面")]
+    public class ShowRestartWindowsCommand : Cmd {
+        public ShowRestartWindowsCommand() {
+        }
+    }
+
+    [MessageType(description: "打开虚拟内存管理界面")]
+    public class ShowVirtualMemoryCommand : Cmd {
+        public ShowVirtualMemoryCommand() {
+        }
+    }
+
+    [MessageType(description: "打开系统字典界面")]
+    public class ShowSysDicPageCommand : Cmd {
+        public ShowSysDicPageCommand() {
+        }
+    }
+
+    [MessageType(description: "打开组界面")]
+    public class ShowGroupPageCommand : Cmd {
+        public ShowGroupPageCommand() {
+        }
+    }
+
+    [MessageType(description: "打开币种页面")]
+    public class ShowCoinPageCommand : Cmd {
+        public ShowCoinPageCommand(CoinViewModel currentCoin, string tabType) {
+            this.CurrentCoin = currentCoin;
+            this.TabType = tabType;
+        }
+
+        public CoinViewModel CurrentCoin { get; private set; }
+        public string TabType { get; private set; }
+    }
+
+    [MessageType(description: "打开列显页面")]
+    public class ShowColumnsShowPageCommand : Cmd {
+        public ShowColumnsShowPageCommand() {
+        }
+    }
+
+    [MessageType(description: "打开关于页面")]
+    public class ShowAboutPageCommand : Cmd {
+        public ShowAboutPageCommand() {
+        }
+    }
+
+    [MessageType(description: "打开升级器设置页面")]
+    public class ShowNTMinerUpdaterConfigCommand : Cmd {
+        public ShowNTMinerUpdaterConfigCommand() {
+        }
+    }
+
+    [MessageType(description: "打开内核输入页面")]
+    public class ShowKernelInputPageCommand : Cmd {
+        public ShowKernelInputPageCommand() {
+        }
+    }
+
+    [MessageType(description: "打开内核输出页面")]
+    public class ShowKernelOutputPageCommand : Cmd {
+        public ShowKernelOutputPageCommand(KernelOutputViewModel selectedKernelOutputVm) {
+            this.SelectedKernelOutputVm = selectedKernelOutputVm;
+        }
+
+        public KernelOutputViewModel SelectedKernelOutputVm { get; private set; }
     }
 
     [MessageType(description: "打开环境变量编辑界面")]
@@ -173,6 +272,69 @@ namespace NTMiner {
         }
 
         public MinerClientSettingViewModel Vm { get; private set; }
+    }
+
+    [MessageType(description: "打开群控矿机列表页")]
+    public class ShowMinerClientsWindowCommand : Cmd {
+        public ShowMinerClientsWindowCommand() {
+        }
+    }
+
+    public class ShowFileDownloaderCommand : Cmd {
+        public ShowFileDownloaderCommand(
+            string downloadFileUrl, 
+            string fileTitle,
+            // window, isSuccess, message, saveFileFullName, etagValue
+            Action<Window, bool, string, string> downloadComplete) {
+            this.DownloadFileUrl = downloadFileUrl;
+            this.FileTitle = fileTitle;
+            this.DownloadComplete = downloadComplete;
+        }
+
+        public string DownloadFileUrl { get; private set; }
+        public string FileTitle { get; private set; }
+        public Action<Window, bool, string, string> DownloadComplete { get; private set; }
+    }
+
+    [MessageType(description: "打开收益计算器设置页")]
+    public class ShowCalcConfigCommand : Cmd {
+        public ShowCalcConfigCommand() {
+        }
+    }
+
+    [MessageType(description: "打开收益计算器")]
+    public class ShowCalcCommand : Cmd {
+        public ShowCalcCommand(CoinViewModel coinVm) {
+            this.CoinVm = coinVm;
+        }
+
+        public CoinViewModel CoinVm { get; private set; }
+    }
+
+    [MessageType(description: "打开QQ群二维码")]
+    public class ShowQQGroupQrCodeCommand : Cmd {
+        public ShowQQGroupQrCodeCommand() {
+        }
+    }
+
+    [MessageType(description: "打开对话界面")]
+    public class ShowDialogWindowCommand : Cmd {
+        public ShowDialogWindowCommand(string icon = null,
+            string title = null,
+            string message = null,
+            Action onYes = null,
+            Action onNo = null) {
+            this.Icon = icon;
+            this.Title = title;
+            this.Message = message;
+            this.OnYes = onYes;
+            this.OnNo = onNo;
+        }
+        public string Icon { get; private set; }
+        public string Title { get; private set; }
+        public string Message { get; private set; }
+        public Action OnYes { get; private set; }
+        public Action OnNo { get; private set; }
     }
 
     [MessageType(description: "打开作业矿机名设置界面")]
