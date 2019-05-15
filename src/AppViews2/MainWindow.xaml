@@ -53,7 +53,7 @@
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate TargetType="{x:Type TabControl}">
-							<Grid Background="{StaticResource MainColor}" ClipToBounds="true" SnapsToDevicePixels="true" KeyboardNavigation.TabNavigation="Local">
+							<Grid Background="{StaticResource ThemeBackground}" ClipToBounds="true" SnapsToDevicePixels="true" KeyboardNavigation.TabNavigation="Local">
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition/>
 									<ColumnDefinition Width="0"/>

@@ -159,9 +159,9 @@
       <Project>{3426f677-5026-4bb1-a0b2-dd5d9bd70d07}</Project>
       <Name>AppModels</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AppViews1\AppViews1.csproj">
-      <Project>{b3667589-d9b1-489e-ab4f-d1ec06a40a9d}</Project>
-      <Name>AppViews1</Name>
+    <ProjectReference Include="..\AppViews2\AppViews2.csproj">
+      <Project>{ed13ab01-27b5-4e37-b986-5e4f86d5f11e}</Project>
+      <Name>AppViews2</Name>
     </ProjectReference>
     <ProjectReference Include="..\MinerStudioSelfHost\MinerStudioSelfHost.csproj">
       <Project>{526c022a-3c86-4998-a8f1-f5860f183c7c}</Project>
