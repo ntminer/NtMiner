@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace NTMiner.View {
+namespace NTMiner {
     public static class AppViewFactory {
         private static IAppViewFactory _instance = null;
         private static readonly object _locker = new object();
@@ -10,13 +10,12 @@ namespace NTMiner.View {
                 if (_instance == null) {
                     lock (_locker) {
                         if (_instance == null) {
-                            Type type = typeof(AppViewFactory);
-                            var assembly = type.Assembly;
-                            using (var stream = assembly.GetManifestResourceStream(type, "AppViews2.dll")) {
+                            var assembly = Assembly.GetEntryAssembly();
+                            using (var stream = assembly.GetManifestResourceStream("NTMiner.Views.AppViews2.dll")) {
                                 byte[] data = new byte[stream.Length];
                                 stream.Read(data, 0, data.Length);
                                 assembly = Assembly.Load(data);
-                                _instance = (IAppViewFactory)assembly.CreateInstance("NTMiner.AppViewFactory");
+                                _instance = (IAppViewFactory)assembly.CreateInstance("NTMiner.Views.AppViewFactory");
                             }
                         }
                     }

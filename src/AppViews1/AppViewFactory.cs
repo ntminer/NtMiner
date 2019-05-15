@@ -1,5 +1,4 @@
 ﻿using NTMiner.MinerServer;
-using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using NTMiner.Vms;
 using System;
@@ -7,7 +6,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows;
 
-namespace NTMiner {
+namespace NTMiner.Views {
     public class AppViewFactory : IAppViewFactory {
         public AppViewFactory() { }
 
