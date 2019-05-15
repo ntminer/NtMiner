@@ -8,7 +8,7 @@
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 		xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
 		mc:Ignorable="d"
-		d:DataContext="{d:DesignData Source=Design/MineWorkViewModel.xaml}"
+		d:DataContext="{d:DesignData Source=/Design/MineWorkViewModel.xaml}"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs" Background="White" d:DesignHeight="500">
 	<UserControl.Resources>
 		<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">

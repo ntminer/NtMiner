@@ -8,7 +8,7 @@
 		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
 		xmlns:app="clr-namespace:NTMiner"
 		mc:Ignorable="d"
-		d:DataContext="{d:DesignData Source=Design/UserViewModel.xaml}"
+		d:DataContext="{d:DesignData Source=/Design/UserViewModel.xaml}"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs" Background="White">
 	<UserControl.Resources>
 		<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">

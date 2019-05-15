@@ -6,7 +6,7 @@
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 		mc:Ignorable="d"
-		d:DataContext="{d:DesignData Source=Design/KernelOutputTranslaterViewModel.xaml}"
+		d:DataContext="{d:DesignData Source=/Design/KernelOutputTranslaterViewModel.xaml}"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs" Background="White">
 	<UserControl.Resources>
 		<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">

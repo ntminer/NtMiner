@@ -16,7 +16,7 @@
 		BorderBrush="Black"
 		Background="{StaticResource ThemeBackground}"
 		WindowState="Maximized"
-		d:DataContext="{d:DesignData Source=Design/MinerClientsWindowViewModel.xaml}"
+		d:DataContext="{d:DesignData Source=/Design/MinerClientsWindowViewModel.xaml}"
 		WindowStartupLocation="CenterScreen"
 		MouseDown="MetroWindow_MouseDown"
 		Title="矿机列表"

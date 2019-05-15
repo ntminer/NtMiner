@@ -334,11 +334,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Design\MinerClientsWindowViewModel.xaml">
+    <Page Include="Design\MinerClientsWindowViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Design\ContainerWindowViewModel.xaml">
+    <Page Include="Design\ContainerWindowViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -350,7 +350,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Ucs\Design\PackageViewModel.xaml">
+    <Page Include="Design\PackageViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -386,11 +386,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Ucs\Design\StateBarViewModel.xaml">
+    <Page Include="Design\StateBarViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Design\KernelsWindowViewModel.xaml">
+    <Page Include="Design\KernelsWindowViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -418,11 +418,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Ucs\Design\CoinKernelViewModel.xaml">
+    <Page Include="Design\CoinKernelViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Ucs\Design\MinerClientViewModel.xaml">
+    <Page Include="Design\MinerClientViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -438,11 +438,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Ucs\Design\UserViewModel.xaml">
+    <Page Include="Design\UserViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Ucs\Design\OverClockDataViewModel.xaml">
+    <Page Include="Design\OverClockDataViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -458,11 +458,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Ucs\Design\MineWorkViewModel.xaml">
+    <Page Include="Design\MineWorkViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Ucs\Design\ColumnsShowViewModel.xaml">
+    <Page Include="Design\ColumnsShowViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -510,7 +510,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Ucs\Design\KernelInputViewModel.xaml">
+    <Page Include="Design\KernelInputViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -526,11 +526,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Ucs\Design\KernelOutputViewModel.xaml">
+    <Page Include="Design\KernelOutputViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Ucs\Design\PoolViewModel.xaml">
+    <Page Include="Design\PoolViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -542,11 +542,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Ucs\Design\MinerGroupViewModel.xaml">
+    <Page Include="Design\MinerGroupViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Ucs\Design\CoinViewModel.xaml">
+    <Page Include="Design\CoinViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -558,7 +558,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Ucs\Design\KernelOutputTranslaterViewModel.xaml">
+    <Page Include="Design\KernelOutputTranslaterViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -598,7 +598,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Ucs\Design\KernelViewModel.xaml">
+    <Page Include="Design\KernelViewModel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

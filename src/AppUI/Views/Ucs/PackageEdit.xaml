@@ -9,7 +9,7 @@
 		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
 	    xmlns:app="clr-namespace:NTMiner"
 		mc:Ignorable="d"
-		d:DataContext="{d:DesignData Source=Design/PackageViewModel.xaml}"
+		d:DataContext="{d:DesignData Source=/Design/PackageViewModel.xaml}"
 		Background="White"
 		d:DesignWidth="580" d:DesignHeight="300">
 	<UserControl.Resources>

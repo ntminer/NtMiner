@@ -8,7 +8,7 @@
 	    xmlns:app="clr-namespace:NTMiner"
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 		mc:Ignorable="d"
-		d:DataContext="{d:DesignData Source=Design/OverClockDataViewModel.xaml}"
+		d:DataContext="{d:DesignData Source=/Design/OverClockDataViewModel.xaml}"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs" Background="White">
 	<UserControl.Resources>
 		<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">

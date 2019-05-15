@@ -9,7 +9,7 @@
 		xmlns:app="clr-namespace:NTMiner"
 		mc:Ignorable="d"
 		Width="600"
-		d:DataContext="{d:DesignData Source=Design/CoinKernelViewModel.xaml}"
+		d:DataContext="{d:DesignData Source=/Design/CoinKernelViewModel.xaml}"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs" Background="White">
 	<UserControl.Resources>
 		<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">

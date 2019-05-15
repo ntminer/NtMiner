@@ -8,7 +8,7 @@
 			 xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
 			 xmlns:app="clr-namespace:NTMiner"
 			 mc:Ignorable="d"
-			 d:DataContext="{d:DesignData Source=Design/PoolViewModel.xaml}"
+			 d:DataContext="{d:DesignData Source=/Design/PoolViewModel.xaml}"
 			 xmlns:local="clr-namespace:NTMiner.Views.Ucs" 
 			 d:DesignWidth="540" d:DesignHeight="400"
 			 Background="White">

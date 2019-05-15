@@ -10,7 +10,7 @@
 		WindowTransitionsEnabled="False"
 		UseNoneWindowStyle="True"
 		BorderBrush="Black"
-		d:DataContext="{d:DesignData Source=Design/ContainerWindowViewModel.xaml}"
+		d:DataContext="{d:DesignData Source=/Design/ContainerWindowViewModel.xaml}"
 		Background="{StaticResource ThemeBackground}"
 		WindowStartupLocation="CenterScreen"
 		TextOptions.TextFormattingMode="Display"
