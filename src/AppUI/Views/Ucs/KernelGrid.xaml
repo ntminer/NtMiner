@@ -9,7 +9,7 @@
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		d:DataContext="{d:DesignData Source=/Design/KernelsWindowViewModel.xaml}"
 		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
-		xmlns:app="clr-namespace:NTMiner"
+		xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 		mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="1300">
 	<Grid>
 		<Grid.RowDefinitions>

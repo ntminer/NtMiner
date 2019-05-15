@@ -6,7 +6,7 @@
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
-		xmlns:app="clr-namespace:NTMiner"
+		xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 		mc:Ignorable="d"
 		Width="600"
 		d:DataContext="{d:DesignData Source=/Design/CoinKernelViewModel.xaml}"

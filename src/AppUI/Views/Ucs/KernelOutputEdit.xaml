@@ -5,7 +5,7 @@
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
-		xmlns:app="clr-namespace:NTMiner"
+		xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 		mc:Ignorable="d"
 		d:DataContext="{d:DesignData Source=/Design/KernelOutputViewModel.xaml}"
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"

@@ -6,7 +6,7 @@
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
-		xmlns:app="clr-namespace:NTMiner"
+		xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs" Background="White">
 	<UserControl.Resources>
 		<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">

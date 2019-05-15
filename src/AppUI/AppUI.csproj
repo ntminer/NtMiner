@@ -324,7 +324,6 @@
     <Compile Include="Views\Ucs\CoinPage.xaml.cs">
       <DependentUpon>CoinPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AppStatic.cs" />
     <Page Include="Views\ContainerWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -8,7 +8,7 @@
 		xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
-		xmlns:app="clr-namespace:NTMiner"
+		xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 		Background="White"
 		mc:Ignorable="d" d:DesignHeight="420" d:DesignWidth="460">
 	<UserControl.DataContext>

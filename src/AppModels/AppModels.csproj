@@ -85,6 +85,7 @@
     <Compile Include="AppContext.partials.UserViewModels.cs" />
     <Compile Include="AppContext.partials.VirtualMemorySetViewModel.cs" />
     <Compile Include="AppContext.partials.WalletViewModels.cs" />
+    <Compile Include="AppStatic.cs" />
     <Compile Include="ExtendedNotifyIcon.cs" />
     <Compile Include="Messages.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

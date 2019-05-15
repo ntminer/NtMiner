@@ -7,7 +7,7 @@
 			 xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
 			 xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 			 xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
-	         xmlns:app="clr-namespace:NTMiner"
+	         xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 			 mc:Ignorable="d" 
 			 BorderBrush="{StaticResource LineColor}"
 			 TextOptions.TextFormattingMode="Display"  

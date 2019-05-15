@@ -6,7 +6,7 @@
 			 xmlns:sys="clr-namespace:System;assembly=mscorlib"
 			 xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 			 xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
-			 xmlns:app="clr-namespace:NTMiner"
+			 xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 			 xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 			 Background="White"
 			 TextOptions.TextFormattingMode="Display" 
