@@ -6,7 +6,7 @@ using System.Windows;
 // 有关程序集的常规信息通过以下
 // 特性集控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("AppUI")]
+[assembly: AssemblyTitle("AppViews1")]
 // 程序集的版本信息由下面四个值组成:
 //
 //      主版本
@@ -22,7 +22,7 @@ using System.Windows;
 [assembly: AssemblyFileVersion("1.0.0.0")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("AppUI")]
+[assembly: AssemblyProduct("AppViews1")]
 [assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
