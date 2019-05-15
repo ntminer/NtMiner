@@ -1,4 +1,5 @@
 ﻿using NTMiner.Core;
+using NTMiner.Notifications;
 using NTMiner.OverClock;
 using NTMiner.Views;
 using NTMiner.Vms;
@@ -56,6 +57,25 @@ namespace NTMiner {
                     NotiCenterWindowViewModel.IsHotKeyEnabled = true;
                     Window splashWindow = AppViewFactory.Instance.CreateSplashWindow();
                     splashWindow.Show();
+                    if (!NTMiner.Windows.Role.IsAdministrator) {
+                        NotiCenterWindowViewModel.Instance.Manager
+                            .CreateMessage()
+                            .Warning("请以管理员身份运行。")
+                            .WithButton("点击以管理员身份运行", button => {
+                                Wpf.Util.RunAsAdministrator();
+                            })
+                            .Dismiss().WithButton("忽略", button => {
+                                
+                            }).Queue();
+                    }
+                    if (NTMinerRoot.Instance.GpuSet.Count == 0) {
+                        NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage("没有矿卡或矿卡未驱动。");
+                    }
+                    VirtualRoot.On<StartingMineFailedEvent>("开始挖矿失败", LogEnum.DevConsole,
+                        action: message => {
+                            AppContext.Instance.MinerProfileVm.IsMining = false;
+                            Write.UserFail(message.Message);
+                        });
                     NotiCenterWindow.Instance.Show();
                     NTMinerRoot.Instance.Init(() => {
                         AppViewFactory.Instance.Link();

@@ -118,14 +118,6 @@
 						<TextBlock>下载群控</TextBlock>
 					</WrapPanel>
 				</controls:KbLinkButton>
-				<controls:KbButton 
-					Margin="4 0 0 0" Height="20" BorderThickness="0" 
-					Content="点击以管理员身份运行"
-					Foreground="White"
-					Visibility="{Binding IsBtnRunAsAdministratorVisible}" 
-					Background="Red"
-					Command="{x:Static app:AppStatic.RunAsAdministrator}">
-				</controls:KbButton>
 				<WrapPanel Margin="4 0 0 0" VerticalAlignment="Center" Visibility="{Binding MinerProfile.MineWork,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
 					<TextBlock Foreground="{StaticResource ThemeForeground}">作业：</TextBlock>
 					<TextBlock Foreground="{StaticResource ThemeForeground}" Text="{Binding MinerProfile.MineWork.Name}" ToolTip="{Binding MinerProfile.MineWork.Description}"></TextBlock>

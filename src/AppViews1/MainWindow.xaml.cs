@@ -1,6 +1,5 @@
 ﻿using MahApps.Metro.Controls;
 using NTMiner.Core;
-using NTMiner.Notifications;
 using NTMiner.Views.Ucs;
 using NTMiner.Vms;
 using System;
@@ -49,25 +48,6 @@ namespace NTMiner.Views {
             EventHandler changeNotiCenterWindowLocation = Wpf.Util.ChangeNotiCenterWindowLocation(this);
             this.Activated += changeNotiCenterWindowLocation;
             this.LocationChanged += changeNotiCenterWindowLocation;
-            if (!Windows.Role.IsAdministrator) {
-                NotiCenterWindowViewModel.Instance.Manager
-                    .CreateMessage()
-                    .Warning("请以管理员身份运行。")
-                    .WithButton("点击以管理员身份运行", button => {
-                        Wpf.Util.RunAsAdministrator();
-                    })
-                    .Dismiss().WithButton("忽略", button => {
-                        Vm.IsBtnRunAsAdministratorVisible = Visibility.Visible;
-                    }).Queue();
-            }
-            if (NTMinerRoot.Instance.GpuSet.Count == 0) {
-                NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage("没有矿卡或矿卡未驱动。");
-            }
-            this.On<StartingMineFailedEvent>("开始挖矿失败", LogEnum.DevConsole,
-                action: message => {
-                    Vm.MinerProfile.IsMining = false;
-                    Write.UserFail(message.Message);
-                });
             if (DevMode.IsDevMode) {
                 this.On<ServerJsonVersionChangedEvent>("开发者模式展示ServerJsonVersion", LogEnum.DevConsole,
                     action: message => {
