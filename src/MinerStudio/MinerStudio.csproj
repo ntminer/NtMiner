@@ -159,6 +159,10 @@
       <Project>{3426f677-5026-4bb1-a0b2-dd5d9bd70d07}</Project>
       <Name>AppModels</Name>
     </ProjectReference>
+    <ProjectReference Include="..\AppViewFactory\AppViewFactory.csproj">
+      <Project>{062a69a0-a158-4e9d-923e-295c10d5d4e2}</Project>
+      <Name>AppViewFactory</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MinerStudioSelfHost\MinerStudioSelfHost.csproj">
       <Project>{526c022a-3c86-4998-a8f1-f5860f183c7c}</Project>
       <Name>MinerStudioSelfHost</Name>
@@ -186,10 +190,6 @@
     <ProjectReference Include="..\NTMinerWpf\NTMinerWpf.csproj">
       <Project>{dd8e010e-d5e9-47cf-9cb4-8dc6e13d483d}</Project>
       <Name>NTMinerWpf</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WindowFactory\AppViewFactory.csproj">
-      <Project>{062a69a0-a158-4e9d-923e-295c10d5d4e2}</Project>
-      <Name>AppViewFactory</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
