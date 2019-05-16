@@ -58,6 +58,7 @@ namespace NTMiner {
                     NotiCenterWindowViewModel.IsHotKeyEnabled = true;
                     Window splashWindow = AppViewFactory.CreateSplashWindow();
                     splashWindow.Show();
+                    NotiCenterWindow.Instance.Show();
                     if (!NTMiner.Windows.Role.IsAdministrator) {
                         NotiCenterWindowViewModel.Instance.Manager
                             .CreateMessage()
@@ -74,19 +75,13 @@ namespace NTMiner {
                             AppContext.Instance.MinerProfileVm.IsMining = false;
                             Write.UserFail(message.Message);
                         });
-                    NotiCenterWindow.Instance.Show();
                     NTMinerRoot.Instance.Init(() => {
                         AppViewFactory.Link();
                         UIThread.Execute(() => {
                             if (NTMinerRoot.Instance.GpuSet.Count == 0) {
                                 NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage("没有矿卡或矿卡未驱动。");
                             }
-                            if (!NTMinerRegistry.GetIsNoUi() || !NTMinerRegistry.GetIsAutoStart()) {
-                                AppViewFactory.ShowMainWindow(isToggle: false);
-                            }
-                            else {
-                                NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage("已切换为无界面模式运行", "开源矿工");
-                            }
+                            AppViewFactory.ShowMainWindow(isToggle: false);
                             AppContext.NotifyIcon = ExtendedNotifyIcon.Create("开源矿工", isMinerStudio: false);
                             #region 处理显示主界面命令
                             VirtualRoot.Window<ShowMainWindowCommand>("处理显示主界面命令", LogEnum.None,
