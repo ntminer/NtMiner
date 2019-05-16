@@ -110,11 +110,9 @@ namespace NTMiner {
                                     ReInitServerJson();
                                     bool isUseJson = !DevMode.IsDebugMode || VirtualRoot.IsMinerStudio;
                                     if (isUseJson) {
-                                        UIThread.Execute(() => {
-                                            // 作业模式下界面是禁用的，所以这里的初始化isWork必然是false
-                                            ContextReInit(isWork: VirtualRoot.IsMinerStudio);
-                                            Write.UserInfo("刷新完成");
-                                        });
+                                        // 作业模式下界面是禁用的，所以这里的初始化isWork必然是false
+                                        ContextReInit(isWork: VirtualRoot.IsMinerStudio);
+                                        Write.UserInfo("刷新完成");
                                     }
                                     else {
                                         Write.UserInfo("不是使用的server.json，无需刷新");
@@ -155,7 +153,6 @@ namespace NTMiner {
         private MinerProfile _minerProfile;
         private void DoInit(bool isWork, Action callback) {
             GpuProfileSet.Instance.Register(this);
-            this.PackageDownloader = new PackageDownloader(this);
             this.ServerAppSettingSet = new ServerAppSettingSet(this);
             this.CalcConfigSet = new CalcConfigSet(this);
 
@@ -536,18 +533,14 @@ namespace NTMiner {
                 string packageZipFileFullName = Path.Combine(SpecialPath.PackagesDirFullName, kernel.Package);
                 if (!File.Exists(packageZipFileFullName)) {
                     Logger.WarnWriteLine(kernel.GetFullName() + "本地内核包不存在，触发自动下载");
-                    if (KernelDownloader == null) {
-                        throw new InvalidProgramException("为赋值NTMinerRoot.KernelDownloader");
-                    }
-
-                    KernelDownloader.Download(kernel.GetId(), downloadComplete: (isSuccess, message) => {
+                    VirtualRoot.Execute(new ShowKernelDownloaderCommand(kernel.GetId(), downloadComplete: (isSuccess, message) => {
                         if (isSuccess) {
                             StartMine();
                         }
                         else {
                             VirtualRoot.Happened(new StartingMineFailedEvent("内核下载失败" + message));
                         }
-                    });
+                    }));
                 }
                 else {
                     string commandLine = BuildAssembleArgs();
@@ -571,8 +564,6 @@ namespace NTMiner {
             }
         }
         #endregion
-
-        public IPackageDownloader PackageDownloader { get; private set; }
 
         private IMineContext _currentMineContext;
         public IMineContext CurrentMineContext {
@@ -691,8 +682,7 @@ namespace NTMiner {
             if (LocalAppSettingSet.TryGetAppSetting("UseDevices", out IAppSetting setting) && setting.Value != null) {
                 string[] parts = setting.Value.ToString().Split(',');
                 foreach (var part in parts) {
-                    int index;
-                    if (int.TryParse(part, out index)) {
+                    if (int.TryParse(part, out int index)) {
                         list.Add(index);
                     }
                 }

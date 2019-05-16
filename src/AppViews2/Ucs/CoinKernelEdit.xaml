@@ -1,0 +1,307 @@
+﻿<UserControl x:Class="NTMiner.Views.Ucs.CoinKernelEdit"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:sys="clr-namespace:System;assembly=mscorlib"
+		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
+		xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
+		mc:Ignorable="d"
+		Width="600"
+		d:DataContext="{d:DesignData Source=/Design/CoinKernelViewModel.xaml}"
+		xmlns:local="clr-namespace:NTMiner.Views.Ucs" Background="White">
+	<UserControl.Resources>
+		<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
+			<Setter Property="Foreground" Value="{StaticResource LableColor}"></Setter>
+			<Setter Property="FontSize" Value="12"></Setter>
+			<Setter Property="Padding" Value="0 0 2 0"></Setter>
+			<Setter Property="Width" Value="90"></Setter>
+			<Setter Property="VerticalAlignment" Value="Center"></Setter>
+			<Setter Property="TextAlignment" Value="Right"></Setter>
+			<Setter Property="TextWrapping" Value="Wrap"></Setter>
+		</Style>
+	</UserControl.Resources>
+	<StackPanel Margin="10">
+		<WrapPanel Margin="0 2">
+			<TextBlock Style="{StaticResource LblTb}" Text="币种"></TextBlock>
+			<WrapPanel Width="180" VerticalAlignment="Center">
+				<TextBlock Text="{Binding CoinCode}">
+				</TextBlock>
+			</WrapPanel>
+			<TextBlock Style="{StaticResource LblTb}" Text="内核"></TextBlock>
+			<TextBlock VerticalAlignment="Center"
+					   Text="{Binding Kernel.FullName, Mode=OneWay}">
+			</TextBlock>
+		</WrapPanel>
+
+		<WrapPanel Margin="0 2">
+			<TextBlock Style="{StaticResource LblTb}" Text="支持显卡"></TextBlock>
+			<WrapPanel Width="180" VerticalAlignment="Center">
+				<controls:KbComboBox 
+					Width="130" ItemsSource="{x:Static app:AppStatic.SupportedGpuEnumItems}"
+					IsEnabled="{x:Static app:AppStatic.IsDebugMode}"
+					DisplayMemberPath="Description" Height="26"
+					SelectedItem="{Binding SupportedGpuEnumItem}">
+				</controls:KbComboBox>
+				<Path
+					Margin="4 0 0 0"
+					Width="18"
+					Height="14"
+					ToolTip="NVIDIA"
+					Visibility="{Binding IsNvidiaIconVisible}"
+					Data="{StaticResource Icon_Nvidia}"
+					Fill="Green"
+					Stretch="Fill" />
+				<Path
+					Margin="4 0 0 0"
+					Width="16"
+					Height="14"
+					ToolTip="AMD"
+					Visibility="{Binding IsAMDIconVisible}"
+					Data="{StaticResource Icon_AMD}"
+					Fill="Red"
+					Stretch="Fill" />
+			</WrapPanel>
+			<WrapPanel Visibility="{Binding Kernel.KernelInputVm.IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}">
+				<TextBlock Style="{StaticResource LblTb}" Text="双挖币组"></TextBlock>
+				<controls:KbComboBox 
+					BorderThickness="0"
+					Width="166" ItemsSource="{Binding GroupVms.SelectionOptions}"
+					IsEnabled="{x:Static app:AppStatic.IsDebugMode}"
+					DisplayMemberPath="Name"
+					SelectedItem="{Binding SelectedDualCoinGroup}">
+				</controls:KbComboBox>
+			</WrapPanel>
+		</WrapPanel>
+
+		<WrapPanel Margin="0 2">
+			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top">
+				<controls:KbLinkButton 
+					KbDisplayLine="False"
+					KbSystemButtonHoverBackground="Transparent" 
+					Background="Transparent"
+					Margin="0" 
+					Command="{Binding Kernel.Edit}">
+					<WrapPanel>
+						<Path 
+							Width="12"
+							Height="12"
+							Data="{StaticResource Icon_Kernel}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+						<Label
+							Padding="0 4"
+							VerticalAlignment="Center"
+							Content="内核参级数"
+							Foreground="{StaticResource LableColor}" />
+					</WrapPanel>
+				</controls:KbLinkButton>
+			</TextBlock>
+			<TextBox IsReadOnly="True" BorderThickness="0" 
+					 Background="Transparent" TextWrapping="Wrap" Padding="0 4" Width="420"
+					 Text="{Binding Kernel.KernelInputVm.Args, Mode=OneWay}">
+			</TextBox>
+		</WrapPanel>
+
+		<WrapPanel Margin="0 2">
+			<TextBlock Style="{StaticResource LblTb}" Text="币种级参数"></TextBlock>
+			<TextBox 
+				VerticalContentAlignment="Center"
+				Height="30"
+				Width="436" Background="Transparent"
+				IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
+				Text="{Binding Args, Mode=TwoWay}">
+			</TextBox>
+		</WrapPanel>
+
+		<WrapPanel Margin="0 2">
+			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="通知"></TextBlock>
+			<TextBox 
+				Width="436" Background="Transparent"
+				IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
+				AcceptsReturn="True" TextWrapping="Wrap" 
+				VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
+				Text="{Binding Notice, Mode=TwoWay}" Height="60">                
+			</TextBox>
+		</WrapPanel>
+		<WrapPanel Margin="0 2" Visibility="{x:Static app:AppStatic.IsDebugModeVisible}">
+			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="环境变量"></TextBlock>
+			<DataGrid 
+				Width="436"				
+				ItemsSource="{Binding EnvironmentVariables}" 
+				Background="Transparent" 
+				MouseDoubleClick="DataGrid_MouseDoubleClick"
+				VerticalScrollBarVisibility="Auto"
+				BorderThickness="0">
+				<DataGrid.Resources>
+					<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
+				</DataGrid.Resources>
+				<DataGrid.Columns>
+					<DataGridTemplateColumn CanUserResize="True" IsReadOnly="True">
+						<DataGridTemplateColumn.Header>
+							<controls:KbButton  
+								Command="{Binding Data.AddEnvironmentVariable, Source={StaticResource proxy}}" 
+								Background="Transparent" BorderThickness="0"
+								Margin="2 0"
+								CornerRadius="2" ToolTip="添加">
+								<WrapPanel>
+									<Path
+										Width="18"
+										Height="18"
+										Data="{StaticResource Icon_Add}"
+										Fill="{StaticResource IconFillColor}"
+										Stretch="Fill" />
+								</WrapPanel>
+							</controls:KbButton>
+						</DataGridTemplateColumn.Header>
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<StackPanel HorizontalAlignment="Right" Background="Transparent" VerticalAlignment="Center" Orientation="Horizontal">
+									<controls:KbButton 
+										Margin="2 0"
+										Command="{Binding Data.EditEnvironmentVariable, Source={StaticResource proxy}}" 
+										CommandParameter="{Binding}"
+										Background="Transparent" BorderThickness="0"
+										CornerRadius="2" ToolTip="编辑">
+										<WrapPanel>
+											<Path
+												Width="18"
+												Height="18"
+												Data="{StaticResource Icon_Edit}"
+												Fill="{StaticResource IconFillColor}"
+												Stretch="Fill" />
+										</WrapPanel>
+									</controls:KbButton>
+									<controls:KbButton 
+										Margin="2 0"
+										Command="{Binding Data.RemoveEnvironmentVariable, Source={StaticResource proxy}}" 
+										CommandParameter="{Binding}"
+										Background="Transparent" BorderThickness="0"
+										CornerRadius="2" ToolTip="删除">
+										<WrapPanel>
+											<Path
+												Width="18"
+												Height="18"
+												Data="{StaticResource Icon_Delete}"
+												Fill="{StaticResource IconFillColor}"
+												Stretch="Fill" />
+										</WrapPanel>
+									</controls:KbButton>
+								</StackPanel>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+					<DataGridTextColumn Header="变量" Binding="{Binding Key}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					</DataGridTextColumn>
+					<DataGridTextColumn Width="*" Header="值" Binding="{Binding Value}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					</DataGridTextColumn>
+				</DataGrid.Columns>
+			</DataGrid>
+		</WrapPanel>
+		<WrapPanel Margin="0 2" Visibility="{x:Static app:AppStatic.IsDebugModeVisible}">
+			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="片段"></TextBlock>
+			<DataGrid 
+				Width="436"
+				ItemsSource="{Binding InputSegments}" 
+				Background="Transparent" 
+				MouseDoubleClick="DataGridSegments_MouseDoubleClick"
+				VerticalScrollBarVisibility="Auto"
+				BorderThickness="0">
+				<DataGrid.Resources>
+					<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
+				</DataGrid.Resources>
+				<DataGrid.Columns>
+					<DataGridTemplateColumn CanUserResize="True" IsReadOnly="True">
+						<DataGridTemplateColumn.Header>
+							<controls:KbButton  
+								Command="{Binding Data.AddSegment, Source={StaticResource proxy}}" 
+								Background="Transparent" BorderThickness="0"
+								Margin="2 0"
+								CornerRadius="2" ToolTip="添加">
+								<WrapPanel>
+									<Path
+										Width="18"
+										Height="18"
+										Data="{StaticResource Icon_Add}"
+										Fill="{StaticResource IconFillColor}"
+										Stretch="Fill" />
+								</WrapPanel>
+							</controls:KbButton>
+						</DataGridTemplateColumn.Header>
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<StackPanel HorizontalAlignment="Right" Background="Transparent" VerticalAlignment="Center" Orientation="Horizontal">
+									<controls:KbButton 
+										Margin="2 0"
+										Command="{Binding Data.EditSegment, Source={StaticResource proxy}}" 
+										CommandParameter="{Binding}"
+										Background="Transparent" BorderThickness="0"
+										CornerRadius="2" ToolTip="编辑">
+										<WrapPanel>
+											<Path
+												Width="18"
+												Height="18"
+												Data="{StaticResource Icon_Edit}"
+												Fill="{StaticResource IconFillColor}"
+												Stretch="Fill" />
+										</WrapPanel>
+									</controls:KbButton>
+									<controls:KbButton 
+										Margin="2 0"
+										Command="{Binding Data.RemoveSegment, Source={StaticResource proxy}}" 
+										CommandParameter="{Binding}"
+										Background="Transparent" BorderThickness="0"
+										CornerRadius="2" ToolTip="删除">
+										<WrapPanel>
+											<Path
+												Width="18"
+												Height="18"
+												Data="{StaticResource Icon_Delete}"
+												Fill="{StaticResource IconFillColor}"
+												Stretch="Fill" />
+										</WrapPanel>
+									</controls:KbButton>
+								</StackPanel>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+					<DataGridTextColumn Header="名称" Binding="{Binding Name}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					</DataGridTextColumn>
+					<DataGridTextColumn Width="Auto" Header="片段" Binding="{Binding Segment}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					</DataGridTextColumn>
+					<DataGridTemplateColumn Width="*" Header="描述" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding Description}" ToolTip="{Binding Description}"></TextBlock>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+				</DataGrid.Columns>
+			</DataGrid>
+		</WrapPanel>
+		<controls:KbButton
+			Command="{Binding Save}" 
+			Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
+			HorizontalAlignment="Center"
+			Margin="0 10 0 0"
+			Padding="10 0"
+			Background="{StaticResource ThemeBackground}"
+			Foreground="{StaticResource ThemeForeground}"
+			CornerRadius="2">
+			<WrapPanel>
+				<Path
+					Width="12"
+					Height="12"
+					Data="{StaticResource Icon_Ok}"
+					Fill="{StaticResource ThemeForeground}"
+					Stretch="Fill" />
+				<TextBlock
+					Padding="4"
+					VerticalAlignment="Center"
+					Foreground="{StaticResource ThemeForeground}"
+					Text="确定" />
+			</WrapPanel>
+		</controls:KbButton>
+	</StackPanel>
+</UserControl>

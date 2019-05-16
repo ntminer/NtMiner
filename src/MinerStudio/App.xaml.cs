@@ -1,12 +1,11 @@
-﻿using NTMiner.Views;
-using NTMiner.Vms;
+﻿using NTMiner.View;
+using NTMiner.Views;
 using System;
 using System.Diagnostics;
 using System.Threading;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
-using System.Windows.Threading;
 
 namespace NTMiner {
     public partial class App : Application, IDisposable {
@@ -14,7 +13,7 @@ namespace NTMiner {
             VirtualRoot.SetIsMinerStudio(true);
             VirtualRoot.GlobalDirFullName = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NTMiner");
             Logging.LogDir.SetDir(System.IO.Path.Combine(VirtualRoot.GlobalDirFullName, "Logs"));
-            AppHelper.Init(this);
+            AppUtil.Init(this);
             InitializeComponent();
         }
 
@@ -44,7 +43,7 @@ namespace NTMiner {
 
             if (createdNew) {
                 NTMinerRoot.SetIsMinerClient(false);
-                SplashWindow splashWindow = new SplashWindow();
+                Window splashWindow = AppViewFactory.CreateSplashWindow();
                 splashWindow.Show();
                 NotiCenterWindow.Instance.Show();
                 bool isInnerIp = Ip.Util.IsInnerIp(NTMinerRegistry.GetControlCenterHost());
@@ -74,7 +73,7 @@ namespace NTMiner {
             }
             else {
                 try {
-                    AppHelper.ShowMainWindow(this, MinerServer.NTMinerAppType.MinerStudio);
+                    AppViewFactory.ShowMainWindow(this, MinerServer.NTMinerAppType.MinerStudio);
                 }
                 catch (Exception) {
                     DialogWindow.ShowDialog(message: "另一个NTMiner正在运行，请手动结束正在运行的NTMiner进程后再次尝试。", title: "alert", icon: "Icon_Error");
@@ -85,20 +84,20 @@ namespace NTMiner {
             base.OnStartup(e);
         }
 
-        private void Init(SplashWindow splashWindow) {
+        private void Init(Window splashWindow) {
             NTMinerRoot.Instance.Init(() => {
-                NTMinerRoot.KernelDownloader = new KernelDownloader();
+                AppViewFactory.Link();
                 UIThread.Execute(() => {
                     splashWindow?.Close();
                     LoginWindow loginWindow = new LoginWindow();
                     var result = loginWindow.ShowDialog();
                     if (result.HasValue && result.Value) {
-                        ChartsWindow.ShowWindow();
+                        VirtualRoot.Execute(new ShowChartsWindowCommand());
                         AppContext.NotifyIcon = ExtendedNotifyIcon.Create("群控客户端", isMinerStudio: true);
                         #region 处理显示主界面命令
                         VirtualRoot.Window<ShowMainWindowCommand>("处理显示主界面命令", LogEnum.None,
                             action: message => {
-                                Dispatcher.Invoke((ThreadStart)ChartsWindow.ShowWindow);
+                                VirtualRoot.Execute(new ShowChartsWindowCommand());
                             });
                         #endregion
                         HttpServer.Start($"http://localhost:{Consts.MinerStudioPort}");

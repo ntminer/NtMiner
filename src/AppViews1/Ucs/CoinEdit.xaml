@@ -1,0 +1,124 @@
+﻿<UserControl x:Class="NTMiner.Views.Ucs.CoinEdit"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:sys="clr-namespace:System;assembly=mscorlib"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
+		xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
+		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+		mc:Ignorable="d"
+		d:DataContext="{d:DesignData Source=/Design/CoinViewModel.xaml}"
+		xmlns:local="clr-namespace:NTMiner.Views.Ucs" Background="White">
+	<UserControl.Resources>
+		<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
+			<Setter Property="Width" Value="70"></Setter>
+		</Style>
+	</UserControl.Resources>
+	<StackPanel Margin="10">
+		<WrapPanel Margin="0 2">
+			<TextBlock Style="{StaticResource LblTb}" Text="编码"></TextBlock>
+			<TextBox 
+				IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
+				Width="150"
+				Height="26"
+				VerticalContentAlignment="Center" Text="{Binding Code, ValidatesOnExceptions=True}">
+			</TextBox>
+			<controls:KbButton 
+				Background="Transparent"
+				Command="{Binding BrowseIcon}" 
+				BorderThickness="0">
+				<Image Width="26" Height="26" Source="{Binding IconImageSource}">
+				</Image>
+			</controls:KbButton>
+			<TextBlock Style="{StaticResource LblTb}" Text="算法"></TextBlock>
+			<controls:KbComboBox 
+				BorderThickness="0"
+				IsEnabled="{x:Static app:AppStatic.IsDebugMode}"
+				Width="120" 
+				Height="26"
+				ItemsSource="{Binding SysDicItemVms.AlgoItems}"
+				DisplayMemberPath="Value" SelectedItem="{Binding AlgoItem}">
+			</controls:KbComboBox>
+		</WrapPanel>
+
+		<WrapPanel Margin="0 2">
+			<TextBlock Style="{StaticResource LblTb}" Text="英文名"></TextBlock>
+			<TextBox 
+				IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
+				Width="150"
+				VerticalContentAlignment="Center" Text="{Binding EnName}">
+			</TextBox>
+			<TextBlock Style="{StaticResource LblTb}" Text="中文名"></TextBlock>
+			<TextBox 
+				IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
+				Width="160"
+				VerticalContentAlignment="Center" Text="{Binding CnName}">
+			</TextBox>
+		</WrapPanel>
+
+		<WrapPanel Margin="0 2" Visibility="{x:Static app:AppStatic.IsDebugModeVisible}">
+			<TextBlock Style="{StaticResource LblTb}" Text="钱包正则"></TextBlock>
+			<TextBox 
+				Width="380"
+				IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
+				VerticalContentAlignment="Center" Text="{Binding WalletRegexPattern}">
+			</TextBox>
+		</WrapPanel>
+
+		<WrapPanel Margin="0 2" Visibility="{x:Static app:AppStatic.IsDebugModeVisible}">
+			<TextBlock Style="{StaticResource LblTb}" Text="测试钱包"></TextBlock>
+			<TextBox 
+				x:Name="TbTestWallet" 
+				Width="380" 
+				IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
+				VerticalContentAlignment="Center" Text="{Binding TestWallet, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}">
+			</TextBox>
+			<TextBlock VerticalAlignment="Center">(</TextBlock>
+			<TextBlock VerticalAlignment="Center" Text="{Binding ElementName=TbTestWallet, Path=Text, Converter={StaticResource StringLenConverter}}"></TextBlock>
+			<TextBlock VerticalAlignment="Center">)</TextBlock>
+		</WrapPanel>
+
+		<WrapPanel Margin="0 2" Visibility="{x:Static app:AppStatic.IsDebugModeVisible}">
+			<TextBlock Style="{StaticResource LblTb}"></TextBlock>
+			<CheckBox
+				Content="仅作为双挖币"
+				VerticalContentAlignment="Center" IsChecked="{Binding JustAsDualCoin}">
+			</CheckBox>
+		</WrapPanel>
+
+		<WrapPanel Margin="0 2">
+			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="通知"></TextBlock>
+			<TextBox 
+				Width="380" Background="Transparent"
+				IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
+				AcceptsReturn="True" TextWrapping="Wrap" 
+				VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
+				Text="{Binding Notice, Mode=TwoWay}" Height="60">
+			</TextBox>
+		</WrapPanel>
+		<controls:KbButton
+			Command="{Binding Save}" 
+			Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
+			HorizontalAlignment="Center"
+			Margin="0 10 0 0"
+			Padding="10 0"
+			Background="{StaticResource ThemeBackground}"
+			Foreground="{StaticResource ThemeForeground}"
+			CornerRadius="2">
+			<WrapPanel>
+				<Path
+					Width="12"
+					Height="12"
+					Data="{StaticResource Icon_Ok}"
+					Fill="{StaticResource ThemeForeground}"
+					Stretch="Fill" />
+				<TextBlock
+					Padding="4"
+					VerticalAlignment="Center"
+					Foreground="{StaticResource ThemeForeground}"
+					Text="确定" />
+			</WrapPanel>
+		</controls:KbButton>
+	</StackPanel>
+</UserControl>

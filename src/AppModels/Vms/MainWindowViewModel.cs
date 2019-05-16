@@ -5,7 +5,6 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class MainWindowViewModel : ViewModelBase {
-        private Visibility _isBtnRunAsAdministratorVisible = Visibility.Collapsed;
         private string _serverJsonVersion;
 
         public ICommand CustomTheme { get; private set; }
@@ -73,16 +72,6 @@ namespace NTMiner.Vms {
             set {
                 NTMinerRoot.IsUseDevConsole = value;
                 OnPropertyChanged(nameof(IsUseDevConsole));
-            }
-        }
-
-        public Visibility IsBtnRunAsAdministratorVisible {
-            get => _isBtnRunAsAdministratorVisible;
-            set {
-                if (_isBtnRunAsAdministratorVisible != value) {
-                    _isBtnRunAsAdministratorVisible = value;
-                    OnPropertyChanged(nameof(IsBtnRunAsAdministratorVisible));
-                }
             }
         }
 

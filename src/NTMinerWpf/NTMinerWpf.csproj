@@ -51,6 +51,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppUtil.cs" />
     <Compile Include="ColorMapper.cs" />
     <Compile Include="Controls\KbButton.cs" />
     <Compile Include="Controls\KbComboBox.cs" />
@@ -86,6 +87,7 @@
     <Compile Include="DelegateCommand.cs" />
     <Compile Include="DelegateCommand`1.cs" />
     <Compile Include="Design.cs" />
+    <Compile Include="FrameworkElementExtensions.cs" />
     <Compile Include="HotKeyUtil.cs" />
     <Compile Include="IconConst.cs" />
     <Compile Include="SystemHotKey.cs" />
@@ -116,6 +118,7 @@
     <Compile Include="Vms\ServerHostSelectViewModel.cs" />
     <Compile Include="Vms\ServerHostItem.cs" />
     <Compile Include="ViewModelExtension.cs" />
+    <Compile Include="WindowExtension.cs" />
     <Compile Include="Wpf\NativeMethods.cs" />
     <Compile Include="Wpf\TopWindow.cs" />
     <Compile Include="Views\NotiCenterWindow.xaml.cs">

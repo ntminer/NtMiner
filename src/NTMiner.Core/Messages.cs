@@ -1,7 +1,19 @@
 ﻿using NTMiner.Bus;
 using NTMiner.Core;
+using System;
 
 namespace NTMiner {
+    [MessageType(description: "打开内核下载界面")]
+    public class ShowKernelDownloaderCommand : Cmd {
+        public ShowKernelDownloaderCommand(Guid kernelId, Action<bool, string> downloadComplete) {
+            this.KernelId = kernelId;
+            this.DownloadComplete = downloadComplete;
+        }
+
+        public Guid KernelId { get; private set; }
+        public Action<bool, string> DownloadComplete { get; private set; }
+    }
+
     [MessageType(description: "ServerContext刷新后")]
     public class ServerContextReInitedEvent : EventBase {
         public ServerContextReInitedEvent() { }

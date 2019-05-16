@@ -112,9 +112,6 @@ namespace NTMiner.Core.Gpus.Impl {
         public NVIDIAGpuSet(INTMinerRoot root) {
             _root = root;
             this.Properties = new List<GpuSetProperty>();
-            if (Design.IsInDesignMode) {
-                return;
-            }
             if (NvmlInit()) {
                 NvmlNativeMethods.nvmlDeviceGetCount(ref deviceCount);
                 for (int i = 0; i < deviceCount; i++) {

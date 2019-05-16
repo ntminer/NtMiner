@@ -7,7 +7,7 @@
     <ProjectGuid>{3426F677-5026-4BB1-A0B2-DD5D9BD70D07}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AppModels</RootNamespace>
+    <RootNamespace>NTMiner</RootNamespace>
     <AssemblyName>AppModels</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -85,10 +85,14 @@
     <Compile Include="AppContext.partials.UserViewModels.cs" />
     <Compile Include="AppContext.partials.VirtualMemorySetViewModel.cs" />
     <Compile Include="AppContext.partials.WalletViewModels.cs" />
+    <Compile Include="AppStatic.cs" />
     <Compile Include="ExtendedNotifyIcon.cs" />
     <Compile Include="Messages.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RemoteDesktopInput.cs" />
+    <Compile Include="View\AbstractAppViewFactory.cs" />
+    <Compile Include="View\AppViewFactory.cs" />
+    <Compile Include="View\IAppViewFactory.cs" />
     <Compile Include="Vms\AboutPageViewModel.cs" />
     <Compile Include="Vms\AlgoSelectItem.cs" />
     <Compile Include="Vms\BrandWindowViewModel.cs" />
@@ -209,6 +213,7 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="View\AppViewsName=" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

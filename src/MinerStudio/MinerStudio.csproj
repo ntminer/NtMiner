@@ -113,16 +113,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
+    <Compile Include="App.xaml.cs" />
     <Compile Include="MsRdpRemoteDesktop.cs" />
     <Compile Include="NTMinerServices\NTMinerServicesUtil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -142,6 +133,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="..\AppModels\View\AppViewsName=">
+      <Link>Views\AppViewsName=</Link>
+    </EmbeddedResource>
     <None Include="app.config" />
     <None Include="app.manifest" />
     <None Include="packages.config" />
@@ -158,10 +152,6 @@
     <ProjectReference Include="..\AppModels\AppModels.csproj">
       <Project>{3426f677-5026-4bb1-a0b2-dd5d9bd70d07}</Project>
       <Name>AppModels</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\AppUI\AppUI.csproj">
-      <Project>{b3667589-d9b1-489e-ab4f-d1ec06a40a9d}</Project>
-      <Name>AppUI</Name>
     </ProjectReference>
     <ProjectReference Include="..\MinerStudioSelfHost\MinerStudioSelfHost.csproj">
       <Project>{526c022a-3c86-4998-a8f1-f5860f183c7c}</Project>
@@ -195,9 +185,20 @@
   <ItemGroup>
     <Resource Include="logo.ico" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ApplicationDefinition Include="..\AppViews1\App.xaml">
+      <Link>App.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="NTMinerServices\NTMinerServices.exe" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Views\AppViews1.dll" />
+    <EmbeddedResource Include="Views\AppViews2.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\Fody.2.0.0\build\portable-net+sl+win+wpa+wp\Fody.targets" Condition="Exists('..\..\packages\Fody.2.0.0\build\portable-net+sl+win+wpa+wp\Fody.targets')" />

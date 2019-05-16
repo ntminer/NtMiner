@@ -37,8 +37,6 @@ namespace NTMiner {
 
         void StopMineAsync(Action callback = null);
 
-        IPackageDownloader PackageDownloader { get; }
-
         IMineContext CurrentMineContext { get; }
 
         bool IsMining { get; }
