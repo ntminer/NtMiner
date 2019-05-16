@@ -111,14 +111,14 @@
 				</DataGridTemplateColumn>
 				<DataGridTextColumn Header="算法" Width="100" Binding="{Binding AlgoItem.Value}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 				</DataGridTextColumn>
-				<DataGridTemplateColumn Width="*" Header="钱包" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn Width="*" Header="钱包地址" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Padding="4 0 10 0" Text="{Binding CoinProfile.Wallet}" ToolTip="{Binding CoinProfile.Wallet}" />
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn CanUserResize="True" IsReadOnly="True">
+				<DataGridTemplateColumn Header="管理" CanUserResize="True" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel HorizontalAlignment="Right" Background="Transparent" VerticalAlignment="Center" Orientation="Horizontal">
