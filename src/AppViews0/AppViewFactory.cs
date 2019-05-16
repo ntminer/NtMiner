@@ -81,12 +81,6 @@ namespace NTMiner.Views {
                         ColumnsShowPage.ShowWindow();
                     });
                 });
-            VirtualRoot.Window<ShowCoinPageCommand>(LogEnum.DevConsole,
-                action: message => {
-                    UIThread.Execute(() => {
-                        CoinPage.ShowWindow(message.CurrentCoin, message.TabType);
-                    });
-                });
             VirtualRoot.Window<ShowGroupPageCommand>(LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {

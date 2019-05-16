@@ -19,7 +19,7 @@
 		MinWidth="640"
 		ResizeBorderThickness="4"
 		UseNoneWindowStyle="True"
-		BorderBrush="Black"
+		BorderThickness="0"
 		Background="{StaticResource ThemeBackground}"
 		WindowStartupLocation="CenterScreen"
 		MouseDown="MetroWindow_MouseDown"
@@ -35,6 +35,7 @@
 				<Setter Property="Padding" Value="4,4,4,4"/>
 				<Setter Property="BorderThickness" Value="1"/>
 				<Setter Property="BorderBrush" Value="{StaticResource TabControlNormalBorderBrush}"/>
+				<Setter Property="Background" Value="#F1F1F1"></Setter>
 				<Setter Property="HorizontalContentAlignment" Value="Center"/>
 				<Setter Property="VerticalContentAlignment" Value="Center"/>
 				<Setter Property="Template">
@@ -159,6 +160,7 @@
 			<local:MainTabItem Header="软件设置" Icon="{StaticResource Icon_Setting}">
 			</local:MainTabItem>
 			<local:MainTabItem Header="币种管理" Icon="{StaticResource Icon_Coin}">
+				<uc:CoinPage Margin="12"></uc:CoinPage>
 			</local:MainTabItem>
 			<local:MainTabItem Header="矿池管理" Icon="{StaticResource Icon_Pool}">
 			</local:MainTabItem>
