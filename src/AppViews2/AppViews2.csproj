@@ -99,7 +99,9 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppViewFactory.cs" />
+    <Compile Include="..\AppViews1\AppViewFactory.cs">
+      <Link>AppViewFactory.cs</Link>
+    </Compile>
     <Compile Include="ContainerWindow.xaml.cs">
       <DependentUpon>ContainerWindow.xaml</DependentUpon>
     </Compile>
