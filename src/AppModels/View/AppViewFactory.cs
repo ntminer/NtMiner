@@ -26,10 +26,12 @@ namespace NTMiner.View {
                                 stream.Read(data, 0, data.Length);
                                 assembly = Assembly.Load(data);
                                 _innerFactory = (IAppViewFactory)assembly.CreateInstance("NTMiner.Views.AppViewFactory");
-                                using (var skinStream = assembly.GetManifestResourceStream("NTMiner.Views.Styles.KbSkin.xaml")) {
-                                    if (skinStream != null) {
-                                        ResourceDictionary resourceDictionary = (ResourceDictionary)XamlReader.Load(skinStream);
-                                        Application.Current.Resources.MergedDictionaries.Add(resourceDictionary);
+                                foreach (var name in assembly.GetManifestResourceNames()) {
+                                    if (name.StartsWith("NTMiner.Views.Styles.")) {
+                                        using (var skinStream = assembly.GetManifestResourceStream(name)) {
+                                            ResourceDictionary resourceDictionary = (ResourceDictionary)XamlReader.Load(skinStream);
+                                            Application.Current.Resources.MergedDictionaries.Add(resourceDictionary);
+                                        }
                                     }
                                 }
                             }
