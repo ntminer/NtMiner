@@ -84,16 +84,17 @@
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate TargetType="{x:Type local:MainTabItem}">
-							<Border x:Name="BorderBg" BorderThickness="0" Width="80" Height="80" Margin="8 0">
+							<Border BorderThickness="0" Width="80" Height="80" Margin="8 0" Background="Transparent">
 								<StackPanel VerticalAlignment="Center">
 									<Path 
+										x:Name="Icon"
 										Width="36"
 										Height="36"
 										Data="{TemplateBinding Icon}"
 										Fill="{StaticResource TabControlNormalForeground}"
 										Stretch="Fill" />
 									<TextBlock 
-										x:Name="HeaderText" 
+										x:Name="Text" 
 										HorizontalAlignment="Center" 
 										Foreground="{StaticResource TabControlNormalForeground}" 
 										FontSize="16"
@@ -102,10 +103,12 @@
 							</Border>
 							<ControlTemplate.Triggers>
 								<Trigger Property="IsMouseOver" Value="true">
-									<Setter Property="Background" TargetName="BorderBg" Value="Transparent"/>
+									<Setter Property="Fill" TargetName="Icon" Value="White"/>
+									<Setter Property="Foreground" TargetName="Text" Value="White"/>
 								</Trigger>
 								<Trigger Property="IsSelected" Value="true">
-									<Setter Property="Background" TargetName="BorderBg" Value="Transparent"/>
+									<Setter Property="Fill" TargetName="Icon" Value="White"/>
+									<Setter Property="Foreground" TargetName="Text" Value="White"/>
 								</Trigger>
 								<MultiTrigger>
 									<MultiTrigger.Conditions>
