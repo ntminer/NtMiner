@@ -37,10 +37,11 @@ namespace NTMiner.Views {
             };
             this.SizeChanged += (object sender, SizeChangedEventArgs e)=> {
                 if (e.WidthChanged) {
-                    if (e.NewSize.Width < 800) {
+                    const double width = 800;
+                    if (e.NewSize.Width < width) {
                         Collapse();
                     }
-                    else if (e.NewSize.Width >= 800) {
+                    else if (e.NewSize.Width >= width) {
                         Expand();
                     }
                 }
