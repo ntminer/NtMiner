@@ -197,7 +197,7 @@
     <EmbeddedResource Include="SwitchRadeonGpu\switch-radeon-gpu.exe" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="..\AppViews1\App.xaml">
+    <ApplicationDefinition Include="..\AppViews0\App.xaml">
       <Link>App.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -186,7 +186,7 @@
     <Resource Include="logo.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="..\AppViews1\App.xaml">
+    <ApplicationDefinition Include="..\AppViews0\App.xaml">
       <Link>App.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

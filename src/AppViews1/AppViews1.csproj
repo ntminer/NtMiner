@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NTMiner.Views</RootNamespace>
-    <AssemblyName>AppViews1</AssemblyName>
+    <AssemblyName>AppViews0</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -99,7 +99,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\AppViews1\AppViewFactory.cs">
+    <Compile Include="..\AppViews0\AppViewFactory.cs">
       <Link>AppViewFactory.cs</Link>
     </Compile>
     <Compile Include="ContainerWindow.xaml.cs">
@@ -327,97 +327,97 @@
     <Compile Include="Ucs\CoinPage.xaml.cs">
       <DependentUpon>CoinPage.xaml</DependentUpon>
     </Compile>
-    <Page Include="..\AppViews1\App.xaml">
+    <Page Include="..\AppViews0\App.xaml">
       <Link>App.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="..\AppViews1\Design\CoinKernelViewModel.xaml">
+    <Page Include="..\AppViews0\Design\CoinKernelViewModel.xaml">
       <Link>Design\CoinKernelViewModel.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="..\AppViews1\Design\CoinViewModel.xaml">
+    <Page Include="..\AppViews0\Design\CoinViewModel.xaml">
       <Link>Design\CoinViewModel.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="..\AppViews1\Design\ColumnsShowViewModel.xaml">
+    <Page Include="..\AppViews0\Design\ColumnsShowViewModel.xaml">
       <Link>Design\ColumnsShowViewModel.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="..\AppViews1\Design\ContainerWindowViewModel.xaml">
+    <Page Include="..\AppViews0\Design\ContainerWindowViewModel.xaml">
       <Link>Design\ContainerWindowViewModel.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="..\AppViews1\Design\KernelInputViewModel.xaml">
+    <Page Include="..\AppViews0\Design\KernelInputViewModel.xaml">
       <Link>Design\KernelInputViewModel.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="..\AppViews1\Design\KernelOutputTranslaterViewModel.xaml">
+    <Page Include="..\AppViews0\Design\KernelOutputTranslaterViewModel.xaml">
       <Link>Design\KernelOutputTranslaterViewModel.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="..\AppViews1\Design\KernelOutputViewModel.xaml">
+    <Page Include="..\AppViews0\Design\KernelOutputViewModel.xaml">
       <Link>Design\KernelOutputViewModel.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="..\AppViews1\Design\KernelsWindowViewModel.xaml">
+    <Page Include="..\AppViews0\Design\KernelsWindowViewModel.xaml">
       <Link>Design\KernelsWindowViewModel.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="..\AppViews1\Design\KernelViewModel.xaml">
+    <Page Include="..\AppViews0\Design\KernelViewModel.xaml">
       <Link>Design\KernelViewModel.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="..\AppViews1\Design\MinerClientsWindowViewModel.xaml">
+    <Page Include="..\AppViews0\Design\MinerClientsWindowViewModel.xaml">
       <Link>Design\MinerClientsWindowViewModel.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="..\AppViews1\Design\MinerClientViewModel.xaml">
+    <Page Include="..\AppViews0\Design\MinerClientViewModel.xaml">
       <Link>Design\MinerClientViewModel.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="..\AppViews1\Design\MinerGroupViewModel.xaml">
+    <Page Include="..\AppViews0\Design\MinerGroupViewModel.xaml">
       <Link>Design\MinerGroupViewModel.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="..\AppViews1\Design\MineWorkViewModel.xaml">
+    <Page Include="..\AppViews0\Design\MineWorkViewModel.xaml">
       <Link>Design\MineWorkViewModel.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="..\AppViews1\Design\OverClockDataViewModel.xaml">
+    <Page Include="..\AppViews0\Design\OverClockDataViewModel.xaml">
       <Link>Design\OverClockDataViewModel.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="..\AppViews1\Design\PackageViewModel.xaml">
+    <Page Include="..\AppViews0\Design\PackageViewModel.xaml">
       <Link>Design\PackageViewModel.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="..\AppViews1\Design\PoolViewModel.xaml">
+    <Page Include="..\AppViews0\Design\PoolViewModel.xaml">
       <Link>Design\PoolViewModel.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="..\AppViews1\Design\StateBarViewModel.xaml">
+    <Page Include="..\AppViews0\Design\StateBarViewModel.xaml">
       <Link>Design\StateBarViewModel.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="..\AppViews1\Design\UserViewModel.xaml">
+    <Page Include="..\AppViews0\Design\UserViewModel.xaml">
       <Link>Design\UserViewModel.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
