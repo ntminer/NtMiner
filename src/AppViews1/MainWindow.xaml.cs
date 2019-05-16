@@ -4,7 +4,9 @@ using NTMiner.Vms;
 using System;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace NTMiner.Views {
     public partial class MainWindow : MetroWindow {
@@ -58,5 +60,15 @@ namespace NTMiner.Views {
                 this.DragMove();
             }
         }
+    }
+
+    public class MainTabItem : TabItem {
+        [Description("图标"), Category("KbSkin")]
+        public Geometry Icon {
+            get { return (Geometry)GetValue(IconProperty); }
+            set { SetValue(IconProperty, value); }
+        }
+        public static readonly DependencyProperty IconProperty =
+            DependencyProperty.Register("Icon", typeof(Geometry), typeof(MainTabItem), new PropertyMetadata(null));
     }
 }

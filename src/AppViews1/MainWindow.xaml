@@ -13,8 +13,8 @@
 		mc:Ignorable="d"
 		Title="{x:Static app:AppStatic.AppName}"
 		WindowTransitionsEnabled="False"
-		Width="{x:Static app:AppStatic.MainWindowWidth}"
-		Height="{x:Static app:AppStatic.MainWindowHeight}"
+		Width="920"
+		Height="562"
 		MinHeight="430"
 		MinWidth="640"
 		ResizeBorderThickness="4"
@@ -41,10 +41,9 @@
 					</Trigger>
 				</Style.Triggers>
 			</Style>
-			<SolidColorBrush x:Key="TabControlNormalBorderBrush" Color="#8C8E94"/>
-			<!-- 应该在此定义资源字典条目。-->
+			<SolidColorBrush x:Key="TabControlNormalBorderBrush" Color="#8C8E94"></SolidColorBrush>
+			<SolidColorBrush x:Key="TabControlNormalForeground" Color="#C9CDCA"></SolidColorBrush>
 			<Style x:Key="TabControlStyle" TargetType="{x:Type TabControl}">
-				<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
 				<Setter Property="Padding" Value="4,4,4,4"/>
 				<Setter Property="BorderThickness" Value="1"/>
 				<Setter Property="BorderBrush" Value="{StaticResource TabControlNormalBorderBrush}"/>
@@ -85,29 +84,39 @@
 					</Setter.Value>
 				</Setter>
 			</Style>
-			<Style x:Key="TabItemStyle" TargetType="{x:Type TabItem}">
+			<Style x:Key="TabItemStyle" TargetType="{x:Type local:MainTabItem}">
 				<Setter Property="FocusVisualStyle" Value="{StaticResource TabItemFocusVisual}"/>
 				<Setter Property="Foreground" Value="Black"/>
+				<Setter Property="Background" Value="White"/>
 				<Setter Property="Padding" Value="6,1,6,1"/>
 				<Setter Property="BorderBrush" Value="{StaticResource TabControlNormalBorderBrush}"/>
 				<Setter Property="HorizontalContentAlignment" Value="Stretch"/>
 				<Setter Property="VerticalContentAlignment" Value="Stretch"/>
 				<Setter Property="Template">
 					<Setter.Value>
-						<ControlTemplate TargetType="{x:Type TabItem}">
-							<Border x:Name="Border" BorderThickness="0 0 0 2" VerticalAlignment="Bottom" HorizontalAlignment="Center" BorderBrush="Transparent">
-								<TextBlock x:Name="header" TextWrapping="Wrap" 
-								   d:LayoutOverrides="Height" 
-								   Padding="4 0 4 6"
-								   Text="{TemplateBinding Header}" Foreground="#99000000" FontSize="18"/>
+						<ControlTemplate TargetType="{x:Type local:MainTabItem}">
+							<Border x:Name="BorderBg" BorderThickness="0" Width="60" Height="80">
+								<StackPanel VerticalAlignment="Center">
+									<Path 
+										Width="36"
+										Height="36"
+										Data="{TemplateBinding Icon}"
+										Fill="{StaticResource TabControlNormalForeground}"
+										Stretch="Fill" />
+									<TextBlock 
+										x:Name="HeaderText" 
+										HorizontalAlignment="Center" 
+										Foreground="{StaticResource TabControlNormalForeground}" 
+										FontSize="16"
+										Text="{TemplateBinding Header}"></TextBlock>
+								</StackPanel>
 							</Border>
 							<ControlTemplate.Triggers>
 								<Trigger Property="IsMouseOver" Value="true">
-									<Setter Property="Foreground" TargetName="header" Value="Black"/>
+									<Setter Property="Background" TargetName="BorderBg" Value="Transparent"/>
 								</Trigger>
 								<Trigger Property="IsSelected" Value="true">
-									<Setter Property="BorderBrush" TargetName="Border" Value="Black"/>
-									<Setter Property="Foreground" TargetName="header" Value="Black"/>
+									<Setter Property="Background" TargetName="BorderBg" Value="Transparent"/>
 								</Trigger>
 								<MultiTrigger>
 									<MultiTrigger.Conditions>
@@ -124,25 +133,31 @@
 		</ResourceDictionary>
 	</metro:MetroWindow.Resources>
 	<Grid>
-		<TabControl 
-			Name="tab" Grid.Row="1" Grid.RowSpan="2" BorderThickness="0"
-			Margin="0" Style="{StaticResource TabControlStyle}">
-			<TabItem Margin="3 0 8 0" Header="开始" Height="47" Style="{StaticResource TabItemStyle}">
-			</TabItem>
-			<TabItem Margin="3 0 8 0" Header="属性" Height="47" Style="{StaticResource TabItemStyle}">
-			</TabItem>
-		</TabControl>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="30"></RowDefinition>
+			<RowDefinition Height="80"></RowDefinition>
+			<RowDefinition Height="*"></RowDefinition>
+		</Grid.RowDefinitions>
+		<TextBlock Text="新矿工软件" VerticalAlignment="Center" FontSize="16" Foreground="{StaticResource TabControlNormalForeground}"></TextBlock>
 		<WrapPanel HorizontalAlignment="Right" VerticalAlignment="Top">
 			<controls:KbSystemMinButton
-				Height="34"
+				Height="30"
 				KbSystemButtonSize="40" />
 			<controls:KbSystemMaxButton
-				Height="34"
+				Height="30"
 				KbSystemButtonSize="40" />
 			<controls:KbSystemCloseButton
 				Command="{Binding CloseMainWindow}"
-				Height="34"
+				Height="30"
 				KbSystemButtonSize="40" />
 		</WrapPanel>
+		<TabControl 
+			Name="tab" Grid.Row="1" Grid.RowSpan="2" BorderThickness="0"
+			Margin="0" Style="{StaticResource TabControlStyle}">
+			<local:MainTabItem Header="开始" Icon="{StaticResource Icon_Start}" Style="{StaticResource TabItemStyle}">
+			</local:MainTabItem>
+			<local:MainTabItem Header="属性" Icon="{StaticResource Icon_Stop}" Style="{StaticResource TabItemStyle}">
+			</local:MainTabItem>
+		</TabControl>
 	</Grid>
 </metro:MetroWindow>
