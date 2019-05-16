@@ -1,92 +1,20 @@
-﻿using NTMiner.MinerServer;
+﻿using NTMiner.View;
 using NTMiner.Views.Ucs;
-using NTMiner.Vms;
-using System;
-using System.Diagnostics;
-using System.IO;
 using System.Windows;
 
 namespace NTMiner.Views {
-    public class AppViewFactory {
-        public static readonly AppViewFactory Instance = new AppViewFactory();
+    public class AppViewFactory : AbstractAppViewFactory {
+        public AppViewFactory() { }
 
-        private AppViewFactory() { }
-
-        private static readonly object _locker = new object();
-        private static Window _instance = null;
-        public void ShowMainWindow(bool isToggle) {
-            UIThread.Execute(() => {
-                if (_instance == null) {
-                    lock (_locker) {
-                        if (_instance == null) {
-                            _instance = CreateMainWindow();
-                            Application.Current.MainWindow = _instance;
-                            _instance.Show();
-                            AppContext.Enable();
-                            NTMinerRoot.IsUiVisible = true;
-                            NTMinerRoot.MainWindowRendedOn = DateTime.Now;
-                            VirtualRoot.Happened(new MainWindowShowedEvent());
-                            _instance.Closed += (object sender, EventArgs e) => {
-                                NTMinerRoot.IsUiVisible = false;
-                                _instance = null;
-                            };
-                        }
-                    }
-                }
-                else {
-                    _instance.ShowWindow(isToggle);
-                }
-            });
-        }
-
-        protected virtual Window CreateMainWindow() {
+        public override Window CreateMainWindow() {
             return new MainWindow();
         }
 
-        public void ShowMainWindow(Application app, NTMinerAppType appType) {
-            try {
-                switch (appType) {
-                    case NTMinerAppType.MinerClient:
-                        Client.MinerClientService.ShowMainWindowAsync(Consts.MinerClientPort, (isSuccess, exception) => {
-                            if (!isSuccess) {
-                                RestartNTMiner();
-                            }
-                            UIThread.Execute(() => {
-                                app.Shutdown();
-                            });
-                        });
-                        break;
-                    case NTMinerAppType.MinerStudio:
-                        Client.MinerStudioService.ShowMainWindowAsync(Consts.MinerStudioPort, (isSuccess, exception) => {
-                            if (!isSuccess) {
-                                RestartNTMiner();
-                            }
-                            UIThread.Execute(() => {
-                                app.Shutdown();
-                            });
-                        });
-                        break;
-                    default:
-                        break;
-                }
-            }
-            catch (Exception ex) {
-                RestartNTMiner();
-                Logger.ErrorDebugLine(ex.Message, ex);
-            }
-        }
-
-        private void RestartNTMiner() {
-            Process thisProcess = Process.GetCurrentProcess();
-            Windows.TaskKill.KillOtherProcess(thisProcess);
-            Windows.Cmd.RunClose(VirtualRoot.AppFileFullName, string.Join(" ", CommandLineArgs.Args));
-        }
-
-        public virtual Window CreateSplashWindow() {
+        public override Window CreateSplashWindow() {
             return new SplashWindow();
         }
 
-        public virtual void Link() {
+        public override void Link() {
             VirtualRoot.Window<ShowDialogWindowCommand>(LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
@@ -405,74 +333,5 @@ namespace NTMiner.Views {
                     Upgrade(message.FileName, message.Callback);
                 });
         }
-
-        #region private or protected method
-        protected void Upgrade(string fileName, Action callback) {
-            try {
-                string updaterDirFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "Updater");
-                if (!Directory.Exists(updaterDirFullName)) {
-                    Directory.CreateDirectory(updaterDirFullName);
-                }
-                OfficialServer.FileUrlService.GetNTMinerUpdaterUrlAsync((downloadFileUrl, e) => {
-                    try {
-                        string ntMinerUpdaterFileFullName = Path.Combine(updaterDirFullName, "NTMinerUpdater.exe");
-                        string argument = string.Empty;
-                        if (!string.IsNullOrEmpty(fileName)) {
-                            argument = "ntminerFileName=" + fileName;
-                        }
-                        if (VirtualRoot.IsMinerStudio) {
-                            argument += " --minerstudio";
-                        }
-                        if (string.IsNullOrEmpty(downloadFileUrl)) {
-                            if (File.Exists(ntMinerUpdaterFileFullName)) {
-                                Windows.Cmd.RunClose(ntMinerUpdaterFileFullName, argument);
-                            }
-                            callback?.Invoke();
-                            return;
-                        }
-                        Uri uri = new Uri(downloadFileUrl);
-                        string updaterVersion = string.Empty;
-                        if (NTMinerRoot.Instance.LocalAppSettingSet.TryGetAppSetting("UpdaterVersion", out IAppSetting appSetting) && appSetting.Value != null) {
-                            updaterVersion = appSetting.Value.ToString();
-                        }
-                        if (string.IsNullOrEmpty(updaterVersion) || !File.Exists(ntMinerUpdaterFileFullName) || uri.AbsolutePath != updaterVersion) {
-                            FileDownloader.ShowWindow(downloadFileUrl, "开源矿工更新器", (window, isSuccess, message, saveFileFullName) => {
-                                try {
-                                    if (isSuccess) {
-                                        File.Copy(saveFileFullName, ntMinerUpdaterFileFullName, overwrite: true);
-                                        File.Delete(saveFileFullName);
-                                        VirtualRoot.Execute(new ChangeLocalAppSettingCommand(new AppSettingData {
-                                            Key = "UpdaterVersion",
-                                            Value = uri.AbsolutePath
-                                        }));
-                                        window?.Close();
-                                        Windows.Cmd.RunClose(ntMinerUpdaterFileFullName, argument);
-                                        callback?.Invoke();
-                                    }
-                                    else {
-                                        NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage(message);
-                                        callback?.Invoke();
-                                    }
-                                }
-                                catch {
-                                    callback?.Invoke();
-                                }
-                            });
-                        }
-                        else {
-                            Windows.Cmd.RunClose(ntMinerUpdaterFileFullName, argument);
-                            callback?.Invoke();
-                        }
-                    }
-                    catch {
-                        callback?.Invoke();
-                    }
-                });
-            }
-            catch {
-                callback?.Invoke();
-            }
-        }
-        #endregion
     }
 }

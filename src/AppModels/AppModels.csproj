@@ -90,6 +90,9 @@
     <Compile Include="Messages.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RemoteDesktopInput.cs" />
+    <Compile Include="View\AbstractAppViewFactory.cs" />
+    <Compile Include="View\AppViewFactory.cs" />
+    <Compile Include="View\IAppViewFactory.cs" />
     <Compile Include="Vms\AboutPageViewModel.cs" />
     <Compile Include="Vms\AlgoSelectItem.cs" />
     <Compile Include="Vms\BrandWindowViewModel.cs" />

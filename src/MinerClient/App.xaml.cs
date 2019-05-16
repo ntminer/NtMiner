@@ -1,6 +1,7 @@
 ﻿using NTMiner.Core;
 using NTMiner.Notifications;
 using NTMiner.OverClock;
+using NTMiner.View;
 using NTMiner.Views;
 using NTMiner.Vms;
 using System;
@@ -55,7 +56,7 @@ namespace NTMiner {
 
                     NTMinerRoot.SetIsMinerClient(true);
                     NotiCenterWindowViewModel.IsHotKeyEnabled = true;
-                    Window splashWindow = AppViewFactory.Instance.CreateSplashWindow();
+                    Window splashWindow = AppViewFactory.CreateSplashWindow();
                     splashWindow.Show();
                     if (!NTMiner.Windows.Role.IsAdministrator) {
                         NotiCenterWindowViewModel.Instance.Manager
@@ -75,13 +76,13 @@ namespace NTMiner {
                         });
                     NotiCenterWindow.Instance.Show();
                     NTMinerRoot.Instance.Init(() => {
-                        AppViewFactory.Instance.Link();
+                        AppViewFactory.Link();
                         UIThread.Execute(() => {
                             if (NTMinerRoot.Instance.GpuSet.Count == 0) {
                                 NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage("没有矿卡或矿卡未驱动。");
                             }
                             if (!NTMinerRegistry.GetIsNoUi() || !NTMinerRegistry.GetIsAutoStart()) {
-                                AppViewFactory.Instance.ShowMainWindow(isToggle: false);
+                                AppViewFactory.ShowMainWindow(isToggle: false);
                             }
                             else {
                                 NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage("已切换为无界面模式运行", "开源矿工");
@@ -109,7 +110,7 @@ namespace NTMiner {
                 }
                 else {
                     try {
-                        AppViewFactory.Instance.ShowMainWindow(this, MinerServer.NTMinerAppType.MinerClient);
+                        AppViewFactory.ShowMainWindow(this, MinerServer.NTMinerAppType.MinerClient);
                     }
                     catch (Exception) {
                         DialogWindow.ShowDialog(message: "另一个NTMiner正在运行，请手动结束正在运行的NTMiner进程后再次尝试。", title: "提醒", icon: "Icon_Error");
@@ -123,7 +124,7 @@ namespace NTMiner {
 
         private void ShowMainWindow(bool isToggle) {
             UIThread.Execute(() => {
-                AppViewFactory.Instance.ShowMainWindow(isToggle);
+                AppViewFactory.ShowMainWindow(isToggle);
                 // 使状态栏显示显示最新状态
                 if (NTMinerRoot.Instance.IsMining) {
                     var mainCoin = NTMinerRoot.Instance.CurrentMineContext.MainCoin;
