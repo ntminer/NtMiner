@@ -77,7 +77,6 @@
 				<Setter Property="FocusVisualStyle" Value="{StaticResource TabItemFocusVisual}"/>
 				<Setter Property="Foreground" Value="Black"/>
 				<Setter Property="Background" Value="White"/>
-				<Setter Property="Cursor" Value="Hand"/>
 				<Setter Property="Padding" Value="6,1,6,1"/>
 				<Setter Property="BorderBrush" Value="{StaticResource TabControlNormalBorderBrush}"/>
 				<Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -85,7 +84,7 @@
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate TargetType="{x:Type local:MainTabItem}">
-							<Border BorderThickness="0" Width="80" Height="80" Margin="8 0" Background="Transparent">
+							<Border BorderThickness="0" Width="80" Height="80" Margin="8 0" Cursor="Hand" Background="Transparent">
 								<StackPanel VerticalAlignment="Center">
 									<Path 
 										x:Name="Icon"
@@ -163,6 +162,7 @@
 				<uc:CoinPage Margin="12"></uc:CoinPage>
 			</local:MainTabItem>
 			<local:MainTabItem Header="矿池管理" Icon="{StaticResource Icon_Pool}">
+				<uc:PoolPage Margin="12"></uc:PoolPage>
 			</local:MainTabItem>
 			<local:MainTabItem Header="应用市场" Icon="{StaticResource Icon_AppStore}">
 			</local:MainTabItem>

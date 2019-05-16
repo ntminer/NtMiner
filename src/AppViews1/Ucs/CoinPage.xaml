@@ -79,7 +79,7 @@
 		<DataGrid 
 			Grid.Row="1" Margin="0" 
 			ItemsSource="{Binding List}" 
-			BorderThickness="0 0 1 0" 
+			BorderThickness="0" 
 			BorderBrush="Gray"
 			RowHeight="50"
 			ColumnHeaderHeight="40"
