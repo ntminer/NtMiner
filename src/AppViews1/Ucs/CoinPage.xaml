@@ -69,8 +69,7 @@
 				Height="30"
 				BorderThickness="1"
 				BorderBrush="{StaticResource LineColor}"
-				Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
-				Command="{Binding Add}" 
+				Command="{Binding AddHidedCoin}" 
 				Background="#F6F7FB"
 				Foreground="Gray"
 				CornerRadius="2">
@@ -119,14 +118,13 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn 
-					CanUserResize="True" IsReadOnly="True"
-					Visibility="{x:Static app:AppStatic.IsDebugModeVisible}">
+				<DataGridTemplateColumn CanUserResize="True" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel HorizontalAlignment="Right" Background="Transparent" VerticalAlignment="Center" Orientation="Horizontal">
 								<controls:KbButton 
 									Margin="2 0"
+									Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
 									Command="{Binding Edit}" Background="Transparent" BorderThickness="0"
 									CornerRadius="2" ToolTip="编辑">
 									<WrapPanel>
@@ -140,6 +138,7 @@
 								</controls:KbButton>
 								<controls:KbButton 
 									Margin="2 0"
+									Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
 									Command="{Binding Remove}" Background="Transparent" BorderThickness="0"
 									CornerRadius="2" ToolTip="删除">
 									<WrapPanel>
