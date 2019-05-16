@@ -31,17 +31,13 @@ namespace NTMiner {
             }));
             _targetNotifyIcon.MouseDown += (object sender, MouseEventArgs e) => {
                 if (e.Button == MouseButtons.Left) {
-                    ToggleWindow();
+                    VirtualRoot.Execute(new ShowMainWindowCommand(isToggle: true));
                 }
             };
         }
 
         public void RefreshIcon() {
             _targetNotifyIcon.Visible = _isMinerStudio || NTMinerRegistry.GetIsShowNotifyIcon();
-        }
-
-        public void ToggleWindow() {
-            VirtualRoot.Execute(new ShowMainWindowCommand(isToggle: true));
         }
 
         #region IDisposable Members
