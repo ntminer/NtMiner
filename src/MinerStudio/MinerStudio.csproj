@@ -113,16 +113,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
+    <Compile Include="App.xaml.cs" />
     <Compile Include="MsRdpRemoteDesktop.cs" />
     <Compile Include="NTMinerServices\NTMinerServicesUtil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -195,7 +186,13 @@
   <ItemGroup>
     <Resource Include="logo.ico" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ApplicationDefinition Include="..\AppViews1\App.xaml">
+      <Link>App.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="NTMinerServices\NTMinerServices.exe" />
   </ItemGroup>
