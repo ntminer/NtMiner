@@ -169,7 +169,7 @@
 			<local:MainTabItem Header="日志消息" Icon="{StaticResource Icon_Log}">
 			</local:MainTabItem>
 		</TabControl>
-		<uc:StartStopMineButton Grid.Row="1" HorizontalAlignment="Right" StartButtonBackground="{StaticResource TabControlNormalForeground}" StartButtonForeground="Black">
+		<uc:StartStopMineButton Grid.Row="1" Margin="0 0 30 0" HorizontalAlignment="Right" StartButtonBackground="{StaticResource TabControlNormalForeground}" StartButtonForeground="#585A59">
 		</uc:StartStopMineButton>
 	</Grid>
 </metro:MetroWindow>

@@ -17,41 +17,25 @@
 				<ControlTemplate>
 					<Border 
 						x:Name="Content"
-						Width="90"
-						Height="28"
+						Width="120"
+						Height="46"
 						Background="{Binding ElementName=Self,Path=StartButtonBackground}"
 						BorderThickness="0" 
 						BorderBrush="{StaticResource LineColor}">
-						<WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-							<Path
-								x:Name="Icon2"
-								Width="14"
-								Height="14"
-								Data="{StaticResource Icon_Mining1}"
-								Fill="{Binding ElementName=Self,Path=StartButtonForeground}"
-								Stretch="Fill">
-							</Path>
-							<Label
-								Padding="4 2 4 4"
-								x:Name="Text"
-								VerticalAlignment="Center"
-								Foreground="{Binding ElementName=Self,Path=StartButtonForeground}"
-								FontSize="14"
-								Content="尚未开始" />
-						</WrapPanel>
+						<TextBlock
+							x:Name="Text"
+							VerticalAlignment="Center"
+							HorizontalAlignment="Center"
+							Foreground="{Binding ElementName=Self,Path=StartButtonForeground}"
+							FontSize="24"
+							Text="尚未开始" />
 					</Border>
 					<ControlTemplate.Triggers>
 						<Trigger Property="IsMouseOver" Value="True">
-							<Setter TargetName="Icon2" Property="Fill" Value="{StaticResource ThemeForeground}"></Setter>
-							<Setter TargetName="Icon2" Property="RenderTransform">
-								<Setter.Value>
-									<RotateTransform Angle="-40" CenterX="7" CenterY="7"></RotateTransform>
-								</Setter.Value>
-							</Setter>
 							<Setter TargetName="Content" Property="Background" Value="Green"></Setter>
 							<Setter TargetName="Content" Property="BorderBrush" Value="Green"></Setter>
 							<Setter TargetName="Text" Property="Foreground" Value="White"></Setter>
-							<Setter TargetName="Text" Property="Content" Value="开始挖矿"></Setter>
+							<Setter TargetName="Text" Property="Text" Value="开始挖矿"></Setter>
 						</Trigger>
 					</ControlTemplate.Triggers>
 				</ControlTemplate>
@@ -64,36 +48,25 @@
 				<ControlTemplate>
 					<Border 
 						x:Name="Content"
-						Width="90"
-						Height="28"
+						Width="120"
+						Height="46"
 						Background="Transparent"
 						BorderThickness="0" 
 						BorderBrush="{StaticResource LineColor}">
-						<WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-							<Path
-								x:Name="Icon2"
-								Width="14"
-								Height="14"
-								Data="{StaticResource Icon_Mining2}"
-								Fill="{StaticResource IconFillColor}"
-								Stretch="Fill">
-							</Path>
-							<Label
-								Padding="4 2 4 4"
-								x:Name="Text"
-								VerticalAlignment="Center"
-								Foreground="{StaticResource IconFillColor}"
-								FontSize="14"
-								Content="{Binding BtnStopText}" />
-						</WrapPanel>
+						<TextBlock
+							x:Name="Text"
+							VerticalAlignment="Center"
+							HorizontalAlignment="Center"
+							Foreground="{StaticResource IconFillColor}"
+							FontSize="24"
+							Text="{Binding BtnStopText}" />
 					</Border>
 					<ControlTemplate.Triggers>
 						<Trigger Property="IsMouseOver" Value="True">
-							<Setter TargetName="Icon2" Property="Fill" Value="White"></Setter>
 							<Setter TargetName="Content" Property="Background" Value="Red"></Setter>
 							<Setter TargetName="Content" Property="BorderBrush" Value="Red"></Setter>
 							<Setter TargetName="Text" Property="Foreground" Value="White"></Setter>
-							<Setter TargetName="Text" Property="Content" Value="停止挖矿"></Setter>
+							<Setter TargetName="Text" Property="Text" Value="停止挖矿"></Setter>
 						</Trigger>
 					</ControlTemplate.Triggers>
 				</ControlTemplate>
