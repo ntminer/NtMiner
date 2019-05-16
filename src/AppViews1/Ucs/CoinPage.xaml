@@ -23,7 +23,7 @@
 		<WrapPanel Grid.Row="0" VerticalAlignment="Center">
 			<WrapPanel Margin="10 0 0 0">
 				<controls:KbTextBox 
-					x:Name="TbKeyword" Width="134" Height="30"
+					x:Name="TbKeyword" Width="200" Height="30"
 					Text="{Binding CoinKeyword, UpdateSourceTrigger=PropertyChanged}" 
 					VerticalContentAlignment="Center"
 					Hint="请输入关键字"
