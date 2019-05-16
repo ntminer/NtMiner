@@ -327,11 +327,6 @@
     <Compile Include="Ucs\CoinPage.xaml.cs">
       <DependentUpon>CoinPage.xaml</DependentUpon>
     </Compile>
-    <Page Include="..\AppViews0\App.xaml">
-      <Link>App.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="..\AppViews0\Design\CoinKernelViewModel.xaml">
       <Link>Design\CoinKernelViewModel.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
@@ -422,6 +417,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="ContainerWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -438,6 +437,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <EmbeddedResource Include="Styles\KbSkin.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <Page Include="Ucs\PackageEdit.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
