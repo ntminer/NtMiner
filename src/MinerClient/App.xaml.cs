@@ -84,7 +84,7 @@ namespace NTMiner {
                             AppViewFactory.ShowMainWindow(isToggle: false);
                             AppContext.NotifyIcon = ExtendedNotifyIcon.Create("开源矿工", isMinerStudio: false);
                             #region 处理显示主界面命令
-                            VirtualRoot.Window<ShowMainWindowCommand>("处理显示主界面命令", LogEnum.None,
+                            VirtualRoot.Window<ShowMainWindowCommand>("处理显示主界面命令", LogEnum.DevConsole,
                                 action: message => {
                                     ShowMainWindow(message.IsToggle);
                                 });
@@ -168,7 +168,7 @@ namespace NTMiner {
                 });
             #region 周期确保守护进程在运行
             Daemon.DaemonUtil.RunNTMinerDaemon();
-            VirtualRoot.On<Per20SecondEvent>("周期确保守护进程在运行", LogEnum.None,
+            VirtualRoot.On<Per20SecondEvent>("周期确保守护进程在运行", LogEnum.DevConsole,
                 action: message => {
                     if (NTMinerRegistry.GetDaemonActiveOn().AddSeconds(20) < DateTime.Now) {
                         Daemon.DaemonUtil.RunNTMinerDaemon();

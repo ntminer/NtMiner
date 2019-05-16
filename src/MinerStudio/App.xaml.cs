@@ -95,7 +95,7 @@ namespace NTMiner {
                         VirtualRoot.Execute(new ShowChartsWindowCommand());
                         AppContext.NotifyIcon = ExtendedNotifyIcon.Create("群控客户端", isMinerStudio: true);
                         #region 处理显示主界面命令
-                        VirtualRoot.Window<ShowMainWindowCommand>("处理显示主界面命令", LogEnum.None,
+                        VirtualRoot.Window<ShowMainWindowCommand>("处理显示主界面命令", LogEnum.DevConsole,
                             action: message => {
                                 VirtualRoot.Execute(new ShowChartsWindowCommand());
                             });
