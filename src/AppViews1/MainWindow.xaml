@@ -18,7 +18,6 @@
 		MinHeight="430"
 		MinWidth="640"
 		ResizeBorderThickness="4"
-		TitlebarHeight="40"
 		UseNoneWindowStyle="True"
 		BorderBrush="Black"
 		Background="{StaticResource ThemeBackground}"
@@ -30,17 +29,6 @@
 	</metro:MetroWindow.DataContext>
 	<metro:MetroWindow.Resources>
 		<ResourceDictionary>
-			<Style x:Key="IconButtonBg" TargetType="Border">
-				<Setter Property="Height" Value="24"></Setter>
-				<Setter Property="Width" Value="24"></Setter>
-				<Setter Property="CornerRadius" Value="12"></Setter>
-				<Setter Property="Background" Value="#E4EFF5"></Setter>
-				<Style.Triggers>
-					<Trigger Property="IsMouseOver" Value="True">
-						<Setter Property="Background" Value="#CCE1ED"></Setter>
-					</Trigger>
-				</Style.Triggers>
-			</Style>
 			<SolidColorBrush x:Key="TabControlNormalBorderBrush" Color="#8C8E94"></SolidColorBrush>
 			<SolidColorBrush x:Key="TabControlNormalForeground" Color="#C9CDCA"></SolidColorBrush>
 			<Style x:Key="TabControlStyle" TargetType="{x:Type TabControl}">
@@ -137,20 +125,28 @@
 			<RowDefinition Height="30"></RowDefinition>
 			<RowDefinition Height="80"></RowDefinition>
 			<RowDefinition Height="*"></RowDefinition>
+			<RowDefinition Height="30"></RowDefinition>
 		</Grid.RowDefinitions>
-		<TextBlock Text="新矿工软件" VerticalAlignment="Center" FontSize="16" Foreground="{StaticResource TabControlNormalForeground}"></TextBlock>
-		<WrapPanel HorizontalAlignment="Right" VerticalAlignment="Top">
-			<controls:KbSystemMinButton
-				Height="30"
-				KbSystemButtonSize="40" />
-			<controls:KbSystemMaxButton
-				Height="30"
-				KbSystemButtonSize="40" />
-			<controls:KbSystemCloseButton
-				Command="{Binding CloseMainWindow}"
-				Height="30"
-				KbSystemButtonSize="40" />
-		</WrapPanel>
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto"></ColumnDefinition>
+				<ColumnDefinition Width="*"></ColumnDefinition>
+				<ColumnDefinition Width="Auto"></ColumnDefinition>
+			</Grid.ColumnDefinitions>
+			<TextBlock Grid.Column="0" Margin="10 0 0 0" Text="新矿工软件" VerticalAlignment="Center" FontSize="16" Foreground="{StaticResource TabControlNormalForeground}"></TextBlock>
+			<WrapPanel Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Top">
+				<controls:KbSystemMinButton
+					Height="30"
+					KbSystemButtonSize="40" />
+				<controls:KbSystemMaxButton
+					Height="30"
+					KbSystemButtonSize="40" />
+				<controls:KbSystemCloseButton
+					Command="{Binding CloseMainWindow}"
+					Height="30"
+					KbSystemButtonSize="40" />
+			</WrapPanel>
+		</Grid>
 		<TabControl 
 			Name="tab" Grid.Row="1" Grid.RowSpan="2" BorderThickness="0"
 			Margin="0" Style="{StaticResource TabControlStyle}">
