@@ -72,10 +72,11 @@
 					</Setter.Value>
 				</Setter>
 			</Style>
-			<Style x:Key="TabItemStyle" TargetType="{x:Type local:MainTabItem}">
+			<Style TargetType="{x:Type local:MainTabItem}">
 				<Setter Property="FocusVisualStyle" Value="{StaticResource TabItemFocusVisual}"/>
 				<Setter Property="Foreground" Value="Black"/>
 				<Setter Property="Background" Value="White"/>
+				<Setter Property="Cursor" Value="Hand"/>
 				<Setter Property="Padding" Value="6,1,6,1"/>
 				<Setter Property="BorderBrush" Value="{StaticResource TabControlNormalBorderBrush}"/>
 				<Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -83,7 +84,7 @@
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate TargetType="{x:Type local:MainTabItem}">
-							<Border x:Name="BorderBg" BorderThickness="0" Width="60" Height="80">
+							<Border x:Name="BorderBg" BorderThickness="0" Width="80" Height="80" Margin="8 0">
 								<StackPanel VerticalAlignment="Center">
 									<Path 
 										Width="36"
@@ -142,7 +143,7 @@
 					Height="30"
 					KbSystemButtonSize="40" />
 				<controls:KbSystemCloseButton
-					Command="{Binding CloseMainWindow}"
+					Command="{x:Static app:AppStatic.AppExit}"
 					Height="30"
 					KbSystemButtonSize="40" />
 			</WrapPanel>
@@ -150,9 +151,17 @@
 		<TabControl 
 			Name="tab" Grid.Row="1" Grid.RowSpan="2" BorderThickness="0"
 			Margin="0" Style="{StaticResource TabControlStyle}">
-			<local:MainTabItem Header="开始" Icon="{StaticResource Icon_Start}" Style="{StaticResource TabItemStyle}">
+			<local:MainTabItem Header="挖矿监控" Icon="{StaticResource Icon_Monitor}">
 			</local:MainTabItem>
-			<local:MainTabItem Header="属性" Icon="{StaticResource Icon_Stop}" Style="{StaticResource TabItemStyle}">
+			<local:MainTabItem Header="软件设置" Icon="{StaticResource Icon_Setting}">
+			</local:MainTabItem>
+			<local:MainTabItem Header="币种管理" Icon="{StaticResource Icon_Coin}">
+			</local:MainTabItem>
+			<local:MainTabItem Header="矿池管理" Icon="{StaticResource Icon_Pool}">
+			</local:MainTabItem>
+			<local:MainTabItem Header="应用市场" Icon="{StaticResource Icon_AppStore}">
+			</local:MainTabItem>
+			<local:MainTabItem Header="日志消息" Icon="{StaticResource Icon_Log}">
 			</local:MainTabItem>
 		</TabControl>
 	</Grid>
