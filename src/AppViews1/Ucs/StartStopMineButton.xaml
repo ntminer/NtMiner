@@ -57,7 +57,7 @@
 							x:Name="Text"
 							VerticalAlignment="Center"
 							HorizontalAlignment="Center"
-							Foreground="{StaticResource IconFillColor}"
+							Foreground="{StaticResource LineColor}"
 							FontSize="24"
 							Text="{Binding BtnStopText}" />
 					</Border>
