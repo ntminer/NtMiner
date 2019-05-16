@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
-        xmlns:vm="clr-namespace:NTMiner.Vms"
+        xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
         mc:Ignorable="d" d:DesignHeight="320" d:DesignWidth="280">
     <Grid>
         <Image Source="https://minerjson.oss-cn-beijing.aliyuncs.com/NTMiner_QQGroupQrCode.png"></Image>

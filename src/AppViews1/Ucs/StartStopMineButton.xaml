@@ -7,8 +7,8 @@
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 		x:Name="Self"
-		xmlns:vm="clr-namespace:NTMiner.Vms">
-	<WrapPanel Width="90" Height="28">
+		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels">
+	<WrapPanel Width="120" Height="46">
 		<Button
 			IsDefault="True"
 			Command="{Binding StartMine}" 
