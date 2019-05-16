@@ -13,7 +13,7 @@ namespace NTMiner.View {
                 if (_innerFactory == null) {
                     lock (_locker) {
                         if (_innerFactory == null) {
-                            string appViewsName = "AppViews1";
+                            string appViewsName = "AppViews0";
                             var assembly = Assembly.GetEntryAssembly();
                             using (var stream = assembly.GetManifestResourceStream("NTMiner.Views.AppViewsName=")) {
                                 byte[] data = new byte[stream.Length];

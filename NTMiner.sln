@@ -47,9 +47,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinerClientSelfHost", "src\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppModels", "src\AppModels\AppModels.csproj", "{3426F677-5026-4BB1-A0B2-DD5D9BD70D07}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppViews1", "src\AppViews1\AppViews1.csproj", "{B3667589-D9B1-489E-AB4F-D1EC06A40A9D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppViews0", "src\AppViews1\AppViews0.csproj", "{B3667589-D9B1-489E-AB4F-D1EC06A40A9D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppViews2", "src\AppViews2\AppViews2.csproj", "{ED13AB01-27B5-4E37-B986-5E4F86D5F11E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppViews1", "src\AppViews2\AppViews1.csproj", "{ED13AB01-27B5-4E37-B986-5E4F86D5F11E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
