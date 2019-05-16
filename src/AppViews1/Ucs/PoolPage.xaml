@@ -195,8 +195,8 @@
 										CornerRadius="2" ToolTip="编辑">
 										<WrapPanel>
 											<Path
-												Width="18"
-												Height="18"
+												Width="22"
+												Height="22"
 												Data="{StaticResource Icon_Edit}"
 												Fill="{StaticResource IconFillColor}"
 												Stretch="Fill" />
@@ -207,8 +207,8 @@
 										CornerRadius="2" ToolTip="删除">
 										<WrapPanel>
 											<Path
-												Width="18"
-												Height="18"
+												Width="22"
+												Height="22"
 												Data="{StaticResource Icon_Delete}"
 												Fill="{StaticResource IconFillColor}"
 												Stretch="Fill" />
@@ -221,8 +221,8 @@
 										CornerRadius="2">
 										<WrapPanel>
 											<Path
-												Width="8"
-												Height="18"
+												Width="10"
+												Height="22"
 												Data="{StaticResource Icon_SortDown}"
 												Fill="{StaticResource IconFillColor}"
 												Stretch="Fill" />
@@ -235,8 +235,8 @@
 										CornerRadius="2">
 										<WrapPanel>
 											<Path
-												Width="8"
-												Height="18"
+												Width="10"
+												Height="22"
 												Data="{StaticResource Icon_SortUp}"
 												Fill="{StaticResource IconFillColor}"
 												Stretch="Fill" />
