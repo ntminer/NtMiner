@@ -2,6 +2,7 @@
 using System.Reflection;
 using System.Text;
 using System.Windows;
+using System.Windows.Markup;
 
 namespace NTMiner.View {
     public static class AppViewFactory {
@@ -25,6 +26,14 @@ namespace NTMiner.View {
                                 stream.Read(data, 0, data.Length);
                                 assembly = Assembly.Load(data);
                                 _innerFactory = (IAppViewFactory)assembly.CreateInstance("NTMiner.Views.AppViewFactory");
+                                foreach (var name in assembly.GetManifestResourceNames()) {
+                                    if (name.StartsWith("NTMiner.Views.Styles.")) {
+                                        using (var skinStream = assembly.GetManifestResourceStream(name)) {
+                                            ResourceDictionary resourceDictionary = (ResourceDictionary)XamlReader.Load(skinStream);
+                                            Application.Current.Resources.MergedDictionaries.Add(resourceDictionary);
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
