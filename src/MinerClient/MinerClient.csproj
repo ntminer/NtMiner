@@ -128,6 +128,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="..\AppModels\View\AppViewsName=">
+      <Link>Views\AppViewsName=</Link>
+    </EmbeddedResource>
     <None Include="app.config" />
     <None Include="app.manifest" />
     <EmbeddedResource Include="Brand\KernelBrandId" />
