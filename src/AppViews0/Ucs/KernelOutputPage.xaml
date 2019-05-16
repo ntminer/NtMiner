@@ -7,7 +7,7 @@
 			 xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 			 xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 			 xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
-		     xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
+			 xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 			 mc:Ignorable="d"
 			 Background="White"
 			 TextOptions.TextFormattingMode="Display" 
@@ -299,26 +299,28 @@
 												<WrapPanel Visibility="{Binding Data.CurrentKernelOutputVm.TranslaterKeyword, Source={StaticResource proxy}, Converter={StaticResource NotNullOrEmptyVisibilityInvertConverter}}">
 													<controls:KbButton 
 														Margin="2 0"
-														Command="{Binding SortUp}" Background="Transparent" BorderThickness="0"
-														CornerRadius="2" ToolTip="上移">
+														Command="{Binding SortDown}" ToolTip="下移" 
+														Background="Transparent" BorderThickness="0"
+														CornerRadius="2">
 														<WrapPanel>
 															<Path
-																Width="18"
+																Width="8"
 																Height="18"
-																Data="{StaticResource Icon_SortUp}"
+																Data="{StaticResource Icon_SortDown}"
 																Fill="{StaticResource IconFillColor}"
 																Stretch="Fill" />
 														</WrapPanel>
 													</controls:KbButton>
 													<controls:KbButton 
 														Margin="2 0"
-														Command="{Binding SortDown}" Background="Transparent" BorderThickness="0"
-														CornerRadius="2" ToolTip="下移">
+														Command="{Binding SortUp}" ToolTip="上移" 
+														Background="Transparent" BorderThickness="0"
+														CornerRadius="2">
 														<WrapPanel>
 															<Path
-																Width="18"
+																Width="8"
 																Height="18"
-																Data="{StaticResource Icon_SortDown}"
+																Data="{StaticResource Icon_SortUp}"
 																Fill="{StaticResource IconFillColor}"
 																Stretch="Fill" />
 														</WrapPanel>
