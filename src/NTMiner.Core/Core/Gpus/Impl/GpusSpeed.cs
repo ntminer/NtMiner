@@ -8,6 +8,7 @@ namespace NTMiner.Core.Gpus.Impl {
     internal class GpusSpeed : IGpusSpeed {
         private readonly Dictionary<int, GpuSpeed> _currentGpuSpeed = new Dictionary<int, GpuSpeed>();
         private Dictionary<int, List<IGpuSpeed>> _gpuSpeedHistory = new Dictionary<int, List<IGpuSpeed>>();
+        private readonly object _gpuSpeedHistoryValuesLocker = new object();
 
         private readonly INTMinerRoot _root;
         public GpusSpeed(INTMinerRoot root) {
@@ -70,10 +71,12 @@ namespace NTMiner.Core.Gpus.Impl {
         public void ClearOutOfDateHistory() {
             InitOnece();
             DateTime now = DateTime.Now;
-            foreach (var historyList in _gpuSpeedHistory.Values.ToArray()) {
-                var toRemoves = historyList.Where(a => a.MainCoinSpeed.SpeedOn.AddMinutes(NTMinerRoot.SpeedHistoryLengthByMinute) < now).ToArray();
-                foreach (var item in toRemoves) {
-                    historyList.Remove(item);
+            lock (_gpuSpeedHistoryValuesLocker) {
+                foreach (var historyList in _gpuSpeedHistory.Values.ToArray()) {
+                    var toRemoves = historyList.Where(a => a.MainCoinSpeed.SpeedOn.AddMinutes(NTMinerRoot.SpeedHistoryLengthByMinute) < now).ToArray();
+                    foreach (var item in toRemoves) {
+                        historyList.Remove(item);
+                    }
                 }
             }
         }
@@ -96,16 +99,20 @@ namespace NTMiner.Core.Gpus.Impl {
             Guid mainCoinId = _root.MinerProfile.CoinId;
             if (_mainCoinId != mainCoinId) {
                 _mainCoinId = mainCoinId;
-                foreach (var item in _gpuSpeedHistory) {
-                    item.Value.Clear();
+                lock (_gpuSpeedHistoryValuesLocker) {
+                    foreach (var item in _gpuSpeedHistory) {
+                        item.Value.Clear();
+                    }
                 }
                 foreach (var item in _currentGpuSpeed.Values) {
                     item.UpdateMainCoinSpeed(0, now);
                     item.UpdateDualCoinSpeed(0, now);
                 }
             }
-            if (_gpuSpeedHistory.ContainsKey(gpuSpeed.Gpu.Index)) {
-                _gpuSpeedHistory[gpuSpeed.Gpu.Index].Add(gpuSpeed.Clone());
+            lock (_gpuSpeedHistoryValuesLocker) {
+                if (_gpuSpeedHistory.ContainsKey(gpuSpeed.Gpu.Index)) {
+                    _gpuSpeedHistory[gpuSpeed.Gpu.Index].Add(gpuSpeed.Clone());
+                }
             }
             bool isChanged = false;
             // 如果变化幅度大于等于百分之一
