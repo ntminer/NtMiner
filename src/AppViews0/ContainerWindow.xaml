@@ -5,7 +5,7 @@
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
-		xmlns:vm="clr-namespace:NTMiner.Vms"
+		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
 		Title="{Binding Title}"
 		WindowTransitionsEnabled="False"
 		UseNoneWindowStyle="True"

@@ -23,7 +23,11 @@ namespace NTMiner {
                         this.MinerProfile.IsMining = false;
                     }
                     NTMinerRoot.IsAutoStartCanceled = true;
-                    NTMinerRoot.Instance.StopMineAsync();
+                    NTMinerRoot.Instance.StopMineAsync(()=> {
+                        if (!NTMinerRoot.Instance.IsMining) {
+                            this.MinerProfile.IsMining = false;
+                        }
+                    });
                 });
                 if (NTMinerRoot.IsAutoStart && !this.MinerProfile.IsMining && VirtualRoot.SecondCount < 10) {
                     this.MinerProfile.IsMining = true;

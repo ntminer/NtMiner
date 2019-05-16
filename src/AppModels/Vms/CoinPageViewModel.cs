@@ -11,6 +11,7 @@ namespace NTMiner.Vms {
         private bool _isKernelTabSelected;
 
         public ICommand Add { get; private set; }
+        public ICommand AddHidedCoin { get; private set; }
         public ICommand ClearKeyword { get; private set; }
 
         public CoinPageViewModel() {
@@ -22,6 +23,9 @@ namespace NTMiner.Vms {
                 new CoinViewModel(Guid.NewGuid()) {
                     SortNumber = sortNumber
                 }.Edit.Execute(FormType.Add);
+            });
+            this.AddHidedCoin = new DelegateCommand(() => {
+
             });
             this.ClearKeyword = new DelegateCommand(() => {
                 this.CoinKeyword = string.Empty;

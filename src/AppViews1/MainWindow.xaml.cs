@@ -35,6 +35,21 @@ namespace NTMiner.Views {
                     }
                 }
             };
+            this.SizeChanged += (object sender, SizeChangedEventArgs e) => {
+                if (e.WidthChanged) {
+                    const double width = 720;
+                    if (e.NewSize.Width < width) {
+                        foreach (var tabItem in this.tab.FindChildren<MainTabItem>()) {
+                            tabItem.Margin = new Thickness(0);
+                        }
+                    }
+                    else if (e.NewSize.Width >= width) {
+                        foreach (var tabItem in this.tab.FindChildren<MainTabItem>()) {
+                            tabItem.Margin = new Thickness(8, 0, 8,  0);
+                        }
+                    }
+                }
+            };
             EventHandler changeNotiCenterWindowLocation = Wpf.Util.ChangeNotiCenterWindowLocation(this);
             this.Activated += changeNotiCenterWindowLocation;
             this.LocationChanged += changeNotiCenterWindowLocation;

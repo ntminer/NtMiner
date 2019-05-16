@@ -7,7 +7,7 @@
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 		x:Name="Self"
-		xmlns:vm="clr-namespace:NTMiner.Vms">
+		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels">
 	<WrapPanel Width="90" Height="28">
 		<Button
 			IsDefault="True"

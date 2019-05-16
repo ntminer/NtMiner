@@ -112,6 +112,9 @@
     <Compile Include="PackagesWindow.xaml.cs">
       <DependentUpon>PackagesWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Ucs\PoolPage.xaml.cs">
+      <DependentUpon>PoolPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Ucs\PackageEdit.xaml.cs">
       <DependentUpon>PackageEdit.xaml</DependentUpon>
     </Compile>
@@ -439,6 +442,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <Page Include="Ucs\PoolPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Ucs\PackageEdit.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

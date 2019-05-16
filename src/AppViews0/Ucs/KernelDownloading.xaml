@@ -8,7 +8,7 @@
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
-		xmlns:vm="clr-namespace:NTMiner.Vms"
+		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
 	    d:DataContext="{d:DesignData Source=/Design/KernelsWindowViewModel.xaml}"
 		Background="#DCEAF4"
 		BorderThickness="0 0 1 0"

@@ -6,7 +6,7 @@
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
-		xmlns:vm="clr-namespace:NTMiner.Vms"
+		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
 		mc:Ignorable="d" d:DesignHeight="200" d:DesignWidth="500">
 	<Grid>
 		<TextBox 
