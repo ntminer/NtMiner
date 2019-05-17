@@ -228,6 +228,51 @@ namespace NTMiner.Core.Profiles {
             }
         }
 
+        public bool IsSpeedDownRestartComputer {
+            get {
+                return _data.IsSpeedDownRestartComputer;
+            }
+            private set {
+                _data.IsSpeedDownRestartComputer = value;
+            }
+        }
+
+        public int RestartComputerSpeedDownPercent {
+            get {
+                return _data.RestartComputerSpeedDownPercent;
+            }
+            private set {
+                _data.RestartComputerSpeedDownPercent = value;
+            }
+        }
+
+        public bool IsTempHighStopMine {
+            get {
+                return _data.IsTempHighStopMine;
+            }
+            private set {
+                _data.IsTempHighStopMine = value;
+            }
+        }
+
+        public int StopMineTempHigh {
+            get {
+                return _data.StopMineTempHigh;
+            }
+            private set {
+                _data.StopMineTempHigh = value;
+            }
+        }
+
+        public int StartMineTempLow {
+            get {
+                return _data.StartMineTempLow;
+            }
+            private set {
+                _data.StartMineTempLow = value;
+            }
+        }
+
         public bool IsEChargeEnabled {
             get {
                 return _data.IsEChargeEnabled;

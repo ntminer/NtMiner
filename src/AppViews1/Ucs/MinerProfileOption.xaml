@@ -83,6 +83,7 @@
 									<TextBlock>算力降低</TextBlock>
 									<TextBox Width="40" Margin="2 0" Background="White" Text="{Binding RestartComputerSpeedDownPercent}" HorizontalAlignment="Left"></TextBox>
 									<TextBlock>%时重启矿机 //TODO</TextBlock>
+									<TextBlock Foreground="Red">（算力基准来自于本机稳定挖矿时的均值）</TextBlock>
 								</WrapPanel>
 							</CheckBox>
 						</WrapPanel>

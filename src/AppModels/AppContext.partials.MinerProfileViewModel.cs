@@ -268,6 +268,56 @@ namespace NTMiner {
                 }
             }
 
+            public bool IsSpeedDownRestartComputer {
+                get => NTMinerRoot.Instance.MinerProfile.IsSpeedDownRestartComputer;
+                set {
+                    if (NTMinerRoot.Instance.MinerProfile.IsSpeedDownRestartComputer != value) {
+                        NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsSpeedDownRestartComputer), value);
+                        OnPropertyChanged(nameof(IsSpeedDownRestartComputer));
+                    }
+                }
+            }
+
+            public int RestartComputerSpeedDownPercent {
+                get => NTMinerRoot.Instance.MinerProfile.RestartComputerSpeedDownPercent;
+                set {
+                    if (NTMinerRoot.Instance.MinerProfile.RestartComputerSpeedDownPercent != value) {
+                        NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(RestartComputerSpeedDownPercent), value);
+                        OnPropertyChanged(nameof(RestartComputerSpeedDownPercent));
+                    }
+                }
+            }
+
+            public bool IsTempHighStopMine {
+                get => NTMinerRoot.Instance.MinerProfile.IsTempHighStopMine;
+                set {
+                    if (NTMinerRoot.Instance.MinerProfile.IsTempHighStopMine != value) {
+                        NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsTempHighStopMine), value);
+                        OnPropertyChanged(nameof(IsTempHighStopMine));
+                    }
+                }
+            }
+
+            public int StopMineTempHigh {
+                get => NTMinerRoot.Instance.MinerProfile.StopMineTempHigh;
+                set {
+                    if (NTMinerRoot.Instance.MinerProfile.StopMineTempHigh != value) {
+                        NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(StopMineTempHigh), value);
+                        OnPropertyChanged(nameof(StopMineTempHigh));
+                    }
+                }
+            }
+
+            public int StartMineTempLow {
+                get => NTMinerRoot.Instance.MinerProfile.StartMineTempLow;
+                set {
+                    if (NTMinerRoot.Instance.MinerProfile.StartMineTempLow != value) {
+                        NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(StartMineTempLow), value);
+                        OnPropertyChanged(nameof(StartMineTempLow));
+                    }
+                }
+            }
+
             public bool IsEChargeEnabled {
                 get => NTMinerRoot.Instance.MinerProfile.IsEChargeEnabled;
                 set {

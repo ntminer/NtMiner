@@ -16,6 +16,11 @@ namespace NTMiner.Profile {
                 PeriodicRestartKernelHours = 12,
                 IsPeriodicRestartComputer = false,
                 PeriodicRestartComputerHours = 24,
+                IsSpeedDownRestartComputer = false,
+                IsTempHighStopMine = false,
+                RestartComputerSpeedDownPercent = 0,
+                StartMineTempLow = 50,
+                StopMineTempHigh = 88,
                 IsEChargeEnabled = true,
                 EPrice = 0.3
             };
@@ -35,6 +40,11 @@ namespace NTMiner.Profile {
             this.PeriodicRestartKernelHours = data.PeriodicRestartKernelHours;
             this.IsPeriodicRestartComputer = data.IsPeriodicRestartComputer;
             this.PeriodicRestartComputerHours = data.PeriodicRestartComputerHours;
+            this.IsSpeedDownRestartComputer = data.IsSpeedDownRestartComputer;
+            this.IsTempHighStopMine = data.IsTempHighStopMine;
+            this.RestartComputerSpeedDownPercent = data.RestartComputerSpeedDownPercent;
+            this.StartMineTempLow = data.StartMineTempLow;
+            this.StopMineTempHigh = data.StopMineTempHigh;
             this.IsEChargeEnabled = data.IsEChargeEnabled;
             this.EPrice = data.EPrice;
         }
@@ -53,6 +63,16 @@ namespace NTMiner.Profile {
         public int PeriodicRestartKernelHours { get; set; }
         public bool IsPeriodicRestartComputer { get; set; }
         public int PeriodicRestartComputerHours { get; set; }
+
+        public bool IsSpeedDownRestartComputer { get; set; }
+
+        public int RestartComputerSpeedDownPercent { get; set; }
+
+        public bool IsTempHighStopMine { get; set; }
+
+        public int StopMineTempHigh { get; set; }
+
+        public int StartMineTempLow { get; set; }
 
         public bool IsEChargeEnabled { get; set; }
 

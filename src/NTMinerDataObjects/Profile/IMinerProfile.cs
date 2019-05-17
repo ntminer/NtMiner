@@ -17,6 +17,13 @@ namespace NTMiner.Profile {
         bool IsAutoRestartKernel { get; }
         int AutoRestartKernelTimes { get; }
 
+        bool IsSpeedDownRestartComputer { get; }
+        int RestartComputerSpeedDownPercent { get; }
+
+        bool IsTempHighStopMine { get; }
+        int StopMineTempHigh { get; }
+        int StartMineTempLow { get; }
+
         bool IsEChargeEnabled { get; }
 
         double EPrice { get; }
