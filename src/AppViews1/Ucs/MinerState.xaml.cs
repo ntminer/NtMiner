@@ -11,6 +11,15 @@ namespace NTMiner.Views.Ucs {
 
         public MinerState() {
             InitializeComponent();
+            this.SizeChanged += (object sender, System.Windows.SizeChangedEventArgs e)=> {
+                const double width = 720;
+                if (e.NewSize.Width < width) {
+                    Vm.SideWidth = 160;
+                }
+                else if (e.NewSize.Width >= width) {
+                    Vm.SideWidth = MinerStateViewModel.DefaultSideWidth;
+                }
+            };
         }
     }
 }

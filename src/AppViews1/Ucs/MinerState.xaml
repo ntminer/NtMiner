@@ -14,10 +14,10 @@
 	</UserControl.DataContext>
 	<Grid>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="220"></ColumnDefinition>
+			<ColumnDefinition Width="{Binding SideWidth}"></ColumnDefinition>
 			<ColumnDefinition Width="*"></ColumnDefinition>
 			<ColumnDefinition Width="*"></ColumnDefinition>
-			<ColumnDefinition Width="220"></ColumnDefinition>
+			<ColumnDefinition Width="{Binding SideWidth}"></ColumnDefinition>
 		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="110"></RowDefinition>
