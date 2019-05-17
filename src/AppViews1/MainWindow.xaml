@@ -179,8 +179,27 @@
 				<uc:PoolPage Margin="12"></uc:PoolPage>
 			</local:MainTabItem>
 			<local:MainTabItem Header="应用市场" Icon="{StaticResource Icon_AppStore}" Margin="8 0">
+				<TabControl Margin="10" BorderThickness="0" Background="#F1F1F1">
+					<TabItem Header="插件市场">
+						
+					</TabItem>
+					<TabItem Header="工具市场">
+						
+					</TabItem>
+				</TabControl>
 			</local:MainTabItem>
 			<local:MainTabItem Header="日志消息" Icon="{StaticResource Icon_Log}" Margin="8 0">
+				<TabControl Margin="10" BorderThickness="0" Background="#F1F1F1">
+					<TabItem Header="事件">
+
+					</TabItem>
+					<TabItem Header="通知">
+
+					</TabItem>
+					<TabItem Header="异常">
+
+					</TabItem>
+				</TabControl>
 			</local:MainTabItem>
 		</TabControl>
 		<uc:StartStopMineButton Grid.Row="1" Margin="0 0 30 0" HorizontalAlignment="Right" StartButtonBackground="{StaticResource TabControlNormalForeground}" StartButtonForeground="#585A59">
