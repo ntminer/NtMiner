@@ -156,7 +156,7 @@
 			<local:MainTabItem Header="挖矿监控" Icon="{StaticResource Icon_Monitor}" Margin="8 0">
 				<TabControl Margin="10" BorderThickness="0" Background="#F1F1F1">
 					<TabItem Header="矿机监控">
-
+						<uc:MinerState></uc:MinerState>
 					</TabItem>
 					<TabItem Header="显卡监控">
 						<uc:SpeedTable></uc:SpeedTable>
