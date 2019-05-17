@@ -14,8 +14,22 @@
 		VerticalScrollBarVisibility="Auto" 
 		PreviewMouseDown="ScrollViewer_PreviewMouseDown">
 		<StackPanel>
+			<GroupBox Header="启动">
+				<StackPanel>
+					<WrapPanel Margin="0 2">
+						<CheckBox
+							Content="随系统启动"
+							IsChecked="{Binding MinerProfile.IsAutoBoot}" />
+						<CheckBox
+							Margin="10 0 0 0"
+							Content="启动后自动使用上次的挖矿设置开始挖矿"
+							VerticalAlignment="Top"
+							IsChecked="{Binding MinerProfile.IsAutoStart}" />
+					</WrapPanel>
+				</StackPanel>
+			</GroupBox>
 			<Grid>
-				<GroupBox Header="自动控制" IsEnabled="{Binding IsFreeClient}">
+				<GroupBox Header="自动化" IsEnabled="{Binding IsFreeClient}">
 					<StackPanel>
 						<WrapPanel Margin="0 2">
 							<CheckBox
@@ -57,7 +71,32 @@
 								<WrapPanel>
 									<TextBlock>每运行</TextBlock>
 									<TextBox Width="40" Margin="2 0" Background="White" Text="{Binding PeriodicRestartComputerHours}" HorizontalAlignment="Left"></TextBox>
-									<TextBlock>小时重启电脑</TextBlock>
+									<TextBlock>小时重启矿机</TextBlock>
+								</WrapPanel>
+							</CheckBox>
+						</WrapPanel>
+						<WrapPanel Margin="0 2">
+							<CheckBox
+								Padding="0"
+								IsChecked="{Binding IsSpeedDownRestartComputer}">
+								<WrapPanel>
+									<TextBlock>算力降低</TextBlock>
+									<TextBox Width="40" Margin="2 0" Background="White" Text="{Binding RestartComputerSpeedDownPercent}" HorizontalAlignment="Left"></TextBox>
+									<TextBlock>%时重启矿机 //TODO</TextBlock>
+									<TextBlock Foreground="Red">（算力基准来自于本机稳定挖矿时的均值）</TextBlock>
+								</WrapPanel>
+							</CheckBox>
+						</WrapPanel>
+						<WrapPanel Margin="0 2">
+							<CheckBox
+								Padding="0"
+								IsChecked="{Binding IsTempHighStopMine}">
+								<WrapPanel>
+									<TextBlock>显卡温度超过</TextBlock>
+									<TextBox Width="40" Margin="2 0" Background="White" Text="{Binding StopMineTempHigh}" HorizontalAlignment="Left"></TextBox>
+									<TextBlock>℃时暂停矿机，低于</TextBlock>
+									<TextBox Width="40" Margin="2 0" Background="White" Text="{Binding StartMineTempLow}" HorizontalAlignment="Left"></TextBox>
+									<TextBlock>℃时启动矿机 //TODO</TextBlock>
 								</WrapPanel>
 							</CheckBox>
 						</WrapPanel>
@@ -80,7 +119,7 @@
 						Text="群控"></TextBlock>
 				</Border>
 			</Grid>
-			<GroupBox x:Name="GroupSystemSetting" Header="软件设置">
+			<GroupBox x:Name="GroupSystemSetting" Header="显示">
 				<StackPanel>
 					<WrapPanel Margin="0 2">
 						<CheckBox

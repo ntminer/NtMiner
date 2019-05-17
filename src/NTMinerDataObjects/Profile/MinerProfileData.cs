@@ -6,22 +6,28 @@ namespace NTMiner.Profile {
         public static MinerProfileData CreateDefaultData(Guid coinId) {
             return new MinerProfileData {
                 Id = Guid.Parse("7d9eec49-2d1f-44fa-881e-571a78661ca0"),
-                MinerName = string.Empty,
-                CoinId = coinId,
-                IsAutoRestartKernel = true,
-                AutoRestartKernelTimes = 10,
-                IsNoShareRestartKernel = false,
-                NoShareRestartKernelMinutes = 30,
-                IsPeriodicRestartKernel = false,
-                PeriodicRestartKernelHours = 12,
-                IsPeriodicRestartComputer = false,
-                PeriodicRestartComputerHours = 24,
-                IsEChargeEnabled = true,
-                EPrice = 0.3
+                CoinId = coinId
             };
         }
 
-        public MinerProfileData() { }
+        public MinerProfileData() {
+            this.MinerName = string.Empty;
+            this.IsAutoRestartKernel = true;
+            this.AutoRestartKernelTimes = 10;
+            this.IsNoShareRestartKernel = false;
+            this.NoShareRestartKernelMinutes = 30;
+            this.IsPeriodicRestartKernel = false;
+            this.PeriodicRestartKernelHours = 12;
+            this.IsPeriodicRestartComputer = false;
+            this.PeriodicRestartComputerHours = 24;
+            this.IsSpeedDownRestartComputer = false;
+            this.IsTempHighStopMine = false;
+            this.RestartComputerSpeedDownPercent = 0;
+            this.StartMineTempLow = 50;
+            this.StopMineTempHigh = 88;
+            this.IsEChargeEnabled = true;
+            this.EPrice = 0.3;
+        }
 
         public MinerProfileData(IMinerProfile data) {
             this.Id = data.CoinId;
@@ -35,6 +41,11 @@ namespace NTMiner.Profile {
             this.PeriodicRestartKernelHours = data.PeriodicRestartKernelHours;
             this.IsPeriodicRestartComputer = data.IsPeriodicRestartComputer;
             this.PeriodicRestartComputerHours = data.PeriodicRestartComputerHours;
+            this.IsSpeedDownRestartComputer = data.IsSpeedDownRestartComputer;
+            this.IsTempHighStopMine = data.IsTempHighStopMine;
+            this.RestartComputerSpeedDownPercent = data.RestartComputerSpeedDownPercent;
+            this.StartMineTempLow = data.StartMineTempLow;
+            this.StopMineTempHigh = data.StopMineTempHigh;
             this.IsEChargeEnabled = data.IsEChargeEnabled;
             this.EPrice = data.EPrice;
         }
@@ -54,12 +65,22 @@ namespace NTMiner.Profile {
         public bool IsPeriodicRestartComputer { get; set; }
         public int PeriodicRestartComputerHours { get; set; }
 
+        public bool IsSpeedDownRestartComputer { get; set; }
+
+        public int RestartComputerSpeedDownPercent { get; set; }
+
+        public bool IsTempHighStopMine { get; set; }
+
+        public int StopMineTempHigh { get; set; }
+
+        public int StartMineTempLow { get; set; }
+
         public bool IsEChargeEnabled { get; set; }
 
         public double EPrice { get; set; }
 
         public override string ToString() {
-            return $"{Id}{MinerName}{IsAutoRestartKernel}{CoinId}{IsNoShareRestartKernel}{NoShareRestartKernelMinutes}{IsPeriodicRestartKernel}{PeriodicRestartKernelHours}{IsPeriodicRestartComputer}{PeriodicRestartComputerHours}{IsEChargeEnabled}{EPrice}";
+            return $"{Id}{MinerName}{IsAutoRestartKernel}{CoinId}{IsNoShareRestartKernel}{NoShareRestartKernelMinutes}{IsPeriodicRestartKernel}{PeriodicRestartKernelHours}{IsPeriodicRestartComputer}{PeriodicRestartComputerHours}{IsSpeedDownRestartComputer}{RestartComputerSpeedDownPercent}{IsTempHighStopMine}{StopMineTempHigh}{StartMineTempLow}{IsEChargeEnabled}{EPrice}";
         }
 
         public StringBuilder GetSignData() {
