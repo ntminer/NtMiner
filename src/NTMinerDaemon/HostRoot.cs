@@ -73,14 +73,25 @@ namespace NTMiner {
                     if (isAutoBoot) {
                         string location = NTMinerRegistry.GetLocation();
                         if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
-                            string arguments = NTMinerRegistry.GetArguments();
-                            try {
-                                Process.Start(location, arguments);
+                            string processName = Path.GetFileName(location);
+                            Process[] processes = Process.GetProcessesByName(processName);
+                            if (processes.Length == 0) {
+                                string arguments = NTMinerRegistry.GetArguments();
+                                try {
+                                    Process.Start(location, arguments);
+                                    Write.DevOk($"启动挖矿端 {location} {arguments}");
+                                }
+                                catch (Exception e) {
+                                    Logger.ErrorDebugLine($"启动挖矿端失败因为异常 {location} {arguments}", e);
+                                }
                             }
-                            catch (Exception e) {
-                                Logger.ErrorDebugLine(e.Message, e);
+                            else {
+                                Write.DevDebug($"挖矿端已经在运行中无需启动");
                             }
                         }
+                    }
+                    else {
+                        Write.DevDebug($"挖矿端未设置为自动启动");
                     }
                     Run();
                 }
