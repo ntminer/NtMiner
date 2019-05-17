@@ -54,6 +54,9 @@ namespace NTMiner {
                 }
             }
             try {
+                if (DevMode.IsDevMode && !Debugger.IsAttached) {
+                    Write.Init();
+                }
                 _waitHandle = new AutoResetEvent(false);
                 bool mutexCreated;
                 try {
