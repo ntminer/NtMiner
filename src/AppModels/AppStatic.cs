@@ -164,6 +164,9 @@ namespace NTMiner {
 
         public static string QQGroup {
             get {
+                if (Design.IsInDesignMode) {
+                    return string.Empty;
+                }
                 if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("ThisSystem", "QQGroup", out ISysDicItem dicItem)) {
                     return dicItem.Value;
                 }
