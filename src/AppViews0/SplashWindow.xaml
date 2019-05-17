@@ -26,7 +26,7 @@
 			<TextBlock Margin="10 0 0 0" VerticalAlignment="Center" FontSize="50" Foreground="{StaticResource ThemeForeground}" Text="{Binding WindowTitle}"></TextBlock>
 		</WrapPanel>
 		<TextBlock Margin="4 2 0 0" Text="{Binding Version}" VerticalAlignment="Top" FontSize="14" Foreground="{StaticResource ThemeForeground}"></TextBlock>
-		<WrapPanel Grid.Row="1" Background="{StaticResource StateBarBackground}">
+		<WrapPanel Grid.Row="1" Background="{StaticResource ThemeBackground}">
 		</WrapPanel>
 	</Grid>
 </Window>

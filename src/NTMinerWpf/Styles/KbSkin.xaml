@@ -31,7 +31,6 @@
 	<SolidColorBrush x:Key="LineColor">#D9D9D9</SolidColorBrush>
 	<SolidColorBrush x:Key="ThemeBackground">#007ACC</SolidColorBrush>
 	<SolidColorBrush x:Key="ThemeForeground">White</SolidColorBrush>
-	<SolidColorBrush x:Key="StateBarBackground">#007ACC</SolidColorBrush>
 	<SolidColorBrush x:Key="StateBarForeground">White</SolidColorBrush>
 	<SolidColorBrush x:Key="MinerProfileBackground">#F0F0F1</SolidColorBrush>
 	<sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">8</sys:Double>
