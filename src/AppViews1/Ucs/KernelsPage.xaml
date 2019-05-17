@@ -20,6 +20,7 @@
 	<DockPanel>
 		<Grid DockPanel.Dock="Top" Height="36">
 			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto"></ColumnDefinition>
 				<ColumnDefinition Width="*"></ColumnDefinition>
 				<ColumnDefinition Width="Auto"></ColumnDefinition>
 			</Grid.ColumnDefinitions>
@@ -86,17 +87,9 @@
 					</WrapPanel>
 				</controls:KbButton>
 			</WrapPanel>
-		</Grid>
-		<Grid Margin="0 0 10 0" Background="Transparent">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="*"></ColumnDefinition>
-				<ColumnDefinition Width="Auto"></ColumnDefinition>
-			</Grid.ColumnDefinitions>
-			<Grid.RowDefinitions>
-				<RowDefinition Height="Auto"></RowDefinition>
-				<RowDefinition Height="*"></RowDefinition>
-			</Grid.RowDefinitions>
 			<ScrollViewer 
+				Grid.Column="1"
+				VerticalAlignment="Bottom"
 				x:Name="CoinsScrollView" 
 				PreviewMouseDown="CoinsScrollView_PreviewMouseDown" 
 				HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
@@ -165,7 +158,7 @@
 					</ListBox.ItemTemplate>
 				</ListBox>
 			</ScrollViewer>
-			<WrapPanel Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Visibility="{Binding ElementName=CoinsScrollView,Path=ComputedHorizontalScrollBarVisibility}">
+			<WrapPanel Grid.Column="2" VerticalAlignment="Center" Visibility="{Binding ElementName=CoinsScrollView,Path=ComputedHorizontalScrollBarVisibility}">
 				<Button x:Name="ButtonLeft" IsEnabled="False" Click="ButtonLeftCoin_Click">
 					<Button.Template>
 						<ControlTemplate>
@@ -227,7 +220,9 @@
 					</Button.Template>
 				</Button>
 			</WrapPanel>
-			<uc:KernelGrid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" DataContext="{Binding}"></uc:KernelGrid>
+		</Grid>
+		<Grid Margin="0 0 10 0" Background="Transparent">
+			<uc:KernelGrid DataContext="{Binding}"></uc:KernelGrid>
 		</Grid>
 	</DockPanel>
 </UserControl>
