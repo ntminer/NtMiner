@@ -10,9 +10,16 @@ namespace NTMiner {
         };
         public static Action<string, ConsoleColor> UserLineMethod = _consoleUserLineMethod;
 
-        static Write() {
-            if (DevMode.IsDevMode && !System.Diagnostics.Debugger.IsAttached) {
-                ConsoleManager.Show();
+        private static readonly object _locker = new object();
+        private static bool _isInited = false;
+        public static void  Init() {
+            if (!_isInited) {
+                lock (_locker) {
+                    if (!_isInited) {
+                        _isInited = true;
+                        ConsoleManager.Show();
+                    }
+                }
             }
         }
 

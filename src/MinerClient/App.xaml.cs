@@ -16,6 +16,9 @@ using System.Windows.Media;
 namespace NTMiner {
     public partial class App : Application, IDisposable {
         public App() {
+            if (DevMode.IsDevMode && !Debugger.IsAttached && !Design.IsInDesignMode) {
+                Write.Init();
+            }
             Logging.LogDir.SetDir(Path.Combine(VirtualRoot.GlobalDirFullName, "Logs"));
             AppUtil.Init(this);
             InitializeComponent();

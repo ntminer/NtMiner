@@ -10,6 +10,9 @@ using System.Windows.Media;
 namespace NTMiner {
     public partial class App : Application, IDisposable {
         public App() {
+            if (DevMode.IsDevMode && !Debugger.IsAttached && !Design.IsInDesignMode) {
+                Write.Init();
+            }
             VirtualRoot.SetIsMinerStudio(true);
             VirtualRoot.GlobalDirFullName = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NTMiner");
             Logging.LogDir.SetDir(System.IO.Path.Combine(VirtualRoot.GlobalDirFullName, "Logs"));

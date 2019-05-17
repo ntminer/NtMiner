@@ -139,6 +139,9 @@
     <Compile Include="Ucs\StartStopMineButton.xaml.cs">
       <DependentUpon>StartStopMineButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Ucs\MinerState.xaml.cs">
+      <DependentUpon>MinerState.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Ucs\Toolbox.xaml.cs">
       <DependentUpon>Toolbox.xaml</DependentUpon>
     </Compile>
@@ -403,11 +406,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="..\AppViews0\Design\StateBarViewModel.xaml">
-      <Link>Design\StateBarViewModel.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="..\AppViews0\Design\UserViewModel.xaml">
       <Link>Design\UserViewModel.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
@@ -470,6 +468,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Ucs\StartStopMineButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ucs\MinerState.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

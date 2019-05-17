@@ -69,6 +69,7 @@
 
     <!--  单元格样式触发  -->
     <Style TargetType="DataGridCell">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"></Setter>
         <Setter Property="VerticalAlignment" Value="Stretch" />
         <Setter Property="Foreground" Value="#FF5A5A5A" />
         <Setter Property="Background" Value="Transparent"></Setter>

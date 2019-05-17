@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -7,6 +8,7 @@ namespace NTMiner.Vms {
         private TimeSpan _mineTimeSpan = TimeSpan.Zero;
         private TimeSpan _bootTimeSpan = TimeSpan.Zero;
         private SolidColorBrush _checkUpdateForeground;
+        private Visibility _isNoticeVisible = Visibility.Collapsed;
 
         public ICommand ConfigControlCenterHost { get; private set; }
 
@@ -80,6 +82,14 @@ namespace NTMiner.Vms {
                 else {
                     return time.ToString();
                 }
+            }
+        }
+
+        public Visibility IsNoticeVisible {
+            get => _isNoticeVisible;
+            set {
+                _isNoticeVisible = value;
+                OnPropertyChanged(nameof(IsNoticeVisible));
             }
         }
 
