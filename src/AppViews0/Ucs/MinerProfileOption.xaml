@@ -15,7 +15,7 @@
 		PreviewMouseDown="ScrollViewer_PreviewMouseDown">
 		<StackPanel>
 			<Grid>
-				<GroupBox Header="控制" IsEnabled="{Binding IsFreeClient}">
+				<GroupBox Header="自动化" IsEnabled="{Binding IsFreeClient}">
 					<StackPanel>
 						<WrapPanel Margin="0 2">
 							<CheckBox
