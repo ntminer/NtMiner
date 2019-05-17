@@ -6,27 +6,28 @@ namespace NTMiner.Profile {
         public static MinerProfileData CreateDefaultData(Guid coinId) {
             return new MinerProfileData {
                 Id = Guid.Parse("7d9eec49-2d1f-44fa-881e-571a78661ca0"),
-                MinerName = string.Empty,
-                CoinId = coinId,
-                IsAutoRestartKernel = true,
-                AutoRestartKernelTimes = 10,
-                IsNoShareRestartKernel = false,
-                NoShareRestartKernelMinutes = 30,
-                IsPeriodicRestartKernel = false,
-                PeriodicRestartKernelHours = 12,
-                IsPeriodicRestartComputer = false,
-                PeriodicRestartComputerHours = 24,
-                IsSpeedDownRestartComputer = false,
-                IsTempHighStopMine = false,
-                RestartComputerSpeedDownPercent = 0,
-                StartMineTempLow = 50,
-                StopMineTempHigh = 88,
-                IsEChargeEnabled = true,
-                EPrice = 0.3
+                CoinId = coinId
             };
         }
 
-        public MinerProfileData() { }
+        public MinerProfileData() {
+            this.MinerName = string.Empty;
+            this.IsAutoRestartKernel = true;
+            this.AutoRestartKernelTimes = 10;
+            this.IsNoShareRestartKernel = false;
+            this.NoShareRestartKernelMinutes = 30;
+            this.IsPeriodicRestartKernel = false;
+            this.PeriodicRestartKernelHours = 12;
+            this.IsPeriodicRestartComputer = false;
+            this.PeriodicRestartComputerHours = 24;
+            this.IsSpeedDownRestartComputer = false;
+            this.IsTempHighStopMine = false;
+            this.RestartComputerSpeedDownPercent = 0;
+            this.StartMineTempLow = 50;
+            this.StopMineTempHigh = 88;
+            this.IsEChargeEnabled = true;
+            this.EPrice = 0.3;
+        }
 
         public MinerProfileData(IMinerProfile data) {
             this.Id = data.CoinId;

@@ -11,7 +11,7 @@
 			 mc:Ignorable="d" 
 			 BorderBrush="{StaticResource LineColor}"
 			 TextOptions.TextFormattingMode="Display"  
-			 d:DesignWidth="330">
+			 Width="332">
 	<UserControl.DataContext>
 		<vm:MinerProfileIndexViewModel></vm:MinerProfileIndexViewModel>
 	</UserControl.DataContext>
