@@ -79,7 +79,7 @@ namespace NTMiner.Profile {
         public double EPrice { get; set; }
 
         public override string ToString() {
-            return $"{Id}{MinerName}{IsAutoRestartKernel}{CoinId}{IsNoShareRestartKernel}{NoShareRestartKernelMinutes}{IsPeriodicRestartKernel}{PeriodicRestartKernelHours}{IsPeriodicRestartComputer}{PeriodicRestartComputerHours}{IsEChargeEnabled}{EPrice}";
+            return $"{Id}{MinerName}{IsAutoRestartKernel}{CoinId}{IsNoShareRestartKernel}{NoShareRestartKernelMinutes}{IsPeriodicRestartKernel}{PeriodicRestartKernelHours}{IsPeriodicRestartComputer}{PeriodicRestartComputerHours}{IsSpeedDownRestartComputer}{RestartComputerSpeedDownPercent}{IsTempHighStopMine}{StopMineTempHigh}{StartMineTempLow}{IsEChargeEnabled}{EPrice}";
         }
 
         public StringBuilder GetSignData() {
