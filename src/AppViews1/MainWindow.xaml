@@ -19,7 +19,8 @@
 		MinWidth="640"
 		ResizeBorderThickness="4"
 		UseNoneWindowStyle="True"
-		BorderThickness="0"
+		BorderThickness="1"
+		BorderBrush="{StaticResource WindowBorderBrush}"
 		Background="{StaticResource ThemeBackground}"
 		WindowStartupLocation="CenterScreen"
 		MouseDown="MetroWindow_MouseDown"
@@ -157,6 +158,7 @@
 			<local:MainTabItem Header="挖矿监控" Icon="{StaticResource Icon_Monitor}" Margin="8 0">
 			</local:MainTabItem>
 			<local:MainTabItem Header="软件设置" Icon="{StaticResource Icon_Setting}" Margin="8 0">
+				<uc:MinerProfileOption Margin="12"></uc:MinerProfileOption>
 			</local:MainTabItem>
 			<local:MainTabItem Header="币种管理" Icon="{StaticResource Icon_Coin}" Margin="8 0">
 				<uc:CoinPage Margin="12"></uc:CoinPage>

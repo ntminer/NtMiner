@@ -140,15 +140,6 @@
 					</WrapPanel>
 				</StackPanel>
 			</GroupBox>
-			<GroupBox Header="小知识" Foreground="{StaticResource LableColor}">
-				<StackPanel>
-					<TextBlock TextWrapping="Wrap">■ 显卡机的功耗主要在显卡，矿机的其它组件合计功耗不超过50瓦</TextBlock>
-					<TextBlock TextWrapping="Wrap">■ 挖矿对内存没有要求，主流内存功耗在1瓦左右</TextBlock>
-					<TextBlock TextWrapping="Wrap">■ 矿机的CPU功耗约在15瓦左右</TextBlock>
-					<TextBlock TextWrapping="Wrap">■ 开源矿工永远不会破解国人开发的内核</TextBlock>
-					<TextBlock TextWrapping="Wrap">■ 开源矿工是靠拦截老外的且只拦截老外的内核开发费支撑的永远不会增加矿工支出</TextBlock>
-				</StackPanel>
-			</GroupBox>
 		</StackPanel>
 	</ScrollViewer>
 </UserControl>

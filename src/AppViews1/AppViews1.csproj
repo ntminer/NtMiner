@@ -373,11 +373,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="..\AppViews0\Design\MinerClientsWindowViewModel.xaml">
-      <Link>Design\MinerClientsWindowViewModel.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="..\AppViews0\Design\MinerClientViewModel.xaml">
       <Link>Design\MinerClientViewModel.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
