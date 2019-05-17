@@ -14,8 +14,22 @@
 		VerticalScrollBarVisibility="Auto" 
 		PreviewMouseDown="ScrollViewer_PreviewMouseDown">
 		<StackPanel>
+			<GroupBox Header="启动">
+				<StackPanel>
+					<WrapPanel Margin="0 2">
+						<CheckBox
+							Content="随系统启动"
+							IsChecked="{Binding MinerProfile.IsAutoBoot}" />
+						<CheckBox
+							Margin="10 0 0 0"
+							Content="启动后自动使用上次的挖矿设置开始挖矿"
+							VerticalAlignment="Top"
+							IsChecked="{Binding MinerProfile.IsAutoStart}" />
+					</WrapPanel>
+				</StackPanel>
+			</GroupBox>
 			<Grid>
-				<GroupBox Header="自动控制" IsEnabled="{Binding IsFreeClient}">
+				<GroupBox Header="控制" IsEnabled="{Binding IsFreeClient}">
 					<StackPanel>
 						<WrapPanel Margin="0 2">
 							<CheckBox
@@ -80,7 +94,7 @@
 						Text="群控"></TextBlock>
 				</Border>
 			</Grid>
-			<GroupBox x:Name="GroupSystemSetting" Header="软件设置">
+			<GroupBox x:Name="GroupSystemSetting" Header="显示">
 				<StackPanel>
 					<WrapPanel Margin="0 2">
 						<CheckBox
