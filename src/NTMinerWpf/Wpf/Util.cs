@@ -50,7 +50,7 @@ namespace NTMiner.Wpf {
         public static void DataGrid_MouseDoubleClick<T>(object sender, MouseButtonEventArgs e) where T : IEditableViewModel {
             DataGrid dg = (DataGrid)sender;
             Point p = e.GetPosition(dg);
-            if (p.Y < 30) {
+            if (p.Y < dg.ColumnHeaderHeight) {
                 return;
             }
             if (dg.SelectedItem != null) {
