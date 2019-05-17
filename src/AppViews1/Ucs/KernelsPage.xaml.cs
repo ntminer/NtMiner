@@ -5,6 +5,7 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class KernelsPage : UserControl {
+        // TODO:单独一个弹窗下载
         public static void ShowWindow(Guid kernelId, Action<bool, string> downloadComplete = null) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "插件",
