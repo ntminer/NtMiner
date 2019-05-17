@@ -8,11 +8,43 @@
 			 xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
 			 xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 			 xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
-			 mc:Ignorable="d" d:DesignWidth="800">
+			 mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="400">
 	<UserControl.DataContext>
 		<vm:MinerStateViewModel></vm:MinerStateViewModel>
 	</UserControl.DataContext>
 	<Grid>
-		
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="220"></ColumnDefinition>
+			<ColumnDefinition Width="*"></ColumnDefinition>
+			<ColumnDefinition Width="*"></ColumnDefinition>
+			<ColumnDefinition Width="220"></ColumnDefinition>
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="110"></RowDefinition>
+			<RowDefinition Height="*"></RowDefinition>
+		</Grid.RowDefinitions>
+		<StackPanel Margin="0 4 4 0" Background="White">
+			<TextBlock>挖矿时长</TextBlock>
+		</StackPanel>
+		<StackPanel Margin="4 4 4 0" Grid.Column="1" Background="White">
+			<TextBlock>矿池接受率（确认/拒绝）</TextBlock>
+		</StackPanel>
+		<StackPanel Margin="4 4 4 0" Grid.Column="2" Background="White">
+			<TextBlock>矿池24小时算力</TextBlock>
+		</StackPanel>
+		<StackPanel Margin="4 4 0 0" Grid.Column="3" Background="White">
+			<TextBlock>矿池收益</TextBlock>
+		</StackPanel>
+
+		<StackPanel Margin="0 6 4 0" Grid.Row="1" Background="White">
+			<TextBlock>GPU状态</TextBlock>
+		</StackPanel>
+		<StackPanel Margin="4 6 4 0" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Background="White">
+			<TextBlock>GPU监控</TextBlock>
+		</StackPanel>
+		<StackPanel Margin="4 6 0 0" Grid.Row="1" Grid.Column="3" Background="White">
+			<TextBlock>主币算力</TextBlock>
+			<TextBlock>辅币算力</TextBlock>
+		</StackPanel>
 	</Grid>
 </UserControl>

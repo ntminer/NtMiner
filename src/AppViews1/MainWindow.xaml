@@ -185,5 +185,8 @@
 		</TabControl>
 		<uc:StartStopMineButton Grid.Row="1" Margin="0 0 30 0" HorizontalAlignment="Right" StartButtonBackground="{StaticResource TabControlNormalForeground}" StartButtonForeground="#585A59">
 		</uc:StartStopMineButton>
+		<Border Grid.Row="3" Background="White" Padding="12 0">
+			<uc:StateBar VerticalAlignment="Center"></uc:StateBar>
+		</Border>
 	</Grid>
 </metro:MetroWindow>

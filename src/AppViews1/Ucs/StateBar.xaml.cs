@@ -1,5 +1,4 @@
-﻿using NTMiner.Core.Gpus;
-using NTMiner.Vms;
+﻿using NTMiner.Vms;
 using System;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -34,6 +33,15 @@ namespace NTMiner.Views.Ucs {
                         }
                     }
                 });
+            this.On<Per10SecondEvent>("周期轮播挖状态栏的矿信息和公告信息", LogEnum.None,
+                action: message => {
+                    if (Vm.IsNoticeVisible == System.Windows.Visibility.Visible) {
+                        Vm.IsNoticeVisible = System.Windows.Visibility.Collapsed;
+                    }
+                    else {
+                        Vm.IsNoticeVisible = System.Windows.Visibility.Visible;
+                    }
+                });
             this.On<ServerVersionChangedEvent>("发现了服务端新版本", LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
@@ -45,19 +53,6 @@ namespace NTMiner.Views.Ucs {
                         }
                     });
                 });
-            var gpuSet = NTMinerRoot.Instance.GpuSet;
-            // 建议每张显卡至少对应4G虚拟内存，否则标红
-            if (NTMinerRoot.OSVirtualMemoryMb < gpuSet.Count * 4) {
-                BtnShowVirtualMemory.Foreground = new SolidColorBrush(Colors.Red);
-            }
-            if (!gpuSet.Has20NCard()) {
-                string nvDriverVersion = gpuSet.DriverVersion;
-                double driverNum;
-                if (double.TryParse(nvDriverVersion, out driverNum) && driverNum >= 400) {
-                    TextBlockDriverVersion.Foreground = new SolidColorBrush(Colors.Red);
-                    TextBlockDriverVersion.ToolTip = "如果没有20系列的N卡，挖矿建议使用3xx驱动。";
-                }
-            }
         }
     }
 }

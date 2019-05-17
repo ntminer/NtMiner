@@ -406,11 +406,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="..\AppViews0\Design\StateBarViewModel.xaml">
-      <Link>Design\StateBarViewModel.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="..\AppViews0\Design\UserViewModel.xaml">
       <Link>Design\UserViewModel.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
