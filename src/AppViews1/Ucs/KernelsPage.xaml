@@ -12,55 +12,53 @@
 	mc:Ignorable="d"
 	d:DesignHeight="520" 
 	d:DesignWidth="1200"
-	BorderBrush="Black"
-	Background="#EEECEF">
+	Background="White">
 	<UserControl.DataContext>
 		<vm:KernelsWindowViewModel></vm:KernelsWindowViewModel>
 	</UserControl.DataContext>
 	<DockPanel>
-		<Grid DockPanel.Dock="Top" Height="36">
+		<Grid DockPanel.Dock="Top" Height="50">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto"></ColumnDefinition>
 				<ColumnDefinition Width="*"></ColumnDefinition>
 				<ColumnDefinition Width="Auto"></ColumnDefinition>
 			</Grid.ColumnDefinitions>
-			<WrapPanel Margin="0 4 0 0">
-				<Path Margin="4 0 0 0"
-					Width="12"
-					Height="12"
-					Fill="{StaticResource IconFillColor}"
-					Stretch="Fill"
-					Data="{StaticResource Icon_Serach}"></Path>
-				<Label Padding="2 6">搜索</Label>
+			<WrapPanel Margin="10 0 0 0" VerticalAlignment="Center">
 				<controls:KbTextBox 
-					x:Name="TbKeyword" Width="154" Height="20"
+					x:Name="TbKeyword" Width="200" Height="30"
 					Text="{Binding Keyword, UpdateSourceTrigger=PropertyChanged}" 
-					LostFocus="TbKeyword_LostFocus"
 					VerticalContentAlignment="Center"
-					Hint="请输入想搜索的内核"
+					Hint="请输入关键字"
 					BorderBrush="{StaticResource LineColor}"
 					BorderThickness="1"
-					Background="White"
-					SelectedColor="#409EFF" />
-				<controls:KbButton 
-					Height="20"
-					Background="Transparent" BorderThickness="0"
-					Command="{Binding ClearKeyword}"
-					Visibility="{Binding ElementName=TbKeyword,Path=Text, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
-					Margin="-14 0 0 0" HorizontalAlignment="Left">
+					Background="White" />
+				<WrapPanel Margin="-30 0 0 0" VerticalAlignment="Center">
 					<Path
-						Width="8"
-						Height="8"
-						Data="{StaticResource Icon_Close}"
-						Fill="{StaticResource IconFillColor}"
-						Stretch="Fill" />
-				</controls:KbButton>
+						Width="20"
+						Height="20"
+						Fill="Gray"
+						Stretch="Fill"
+						Visibility="{Binding ElementName=TbKeyword,Path=Text, Converter={StaticResource NotNullOrEmptyVisibilityInvertConverter}}"
+						Data="{StaticResource Icon_Serach}"></Path>
+					<controls:KbButton 
+						Background="Transparent" BorderThickness="0"
+						Command="{Binding ClearKeyword}"
+						Visibility="{Binding ElementName=TbKeyword,Path=Text, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
+						HorizontalAlignment="Left">
+						<Path
+							Width="20"
+							Height="20"
+							Data="{StaticResource Icon_Close}"
+							Fill="Gray"
+							Stretch="Fill" />
+					</controls:KbButton>
+				</WrapPanel>
 				<Button IsDefault="True" Command="{Binding Search}" Background="Transparent" BorderThickness="0"></Button>
 				<controls:KbButton  
 					Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
 					Command="{Binding Add}" 
 					Background="Transparent" BorderThickness="0"
-					Margin="20 0 0 0"
+					Margin="10 0 0 0"
 					CornerRadius="2" ToolTip="添加">
 					<WrapPanel>
 						<Path
@@ -75,7 +73,7 @@
 					Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
 					Command="{Binding ShowPackages}" 
 					Background="Transparent" BorderThickness="0"
-					Margin="20 0 0 0"
+					Margin="10 0 0 0"
 					CornerRadius="2" ToolTip="打开包列表">
 					<WrapPanel>
 						<Path
@@ -89,7 +87,8 @@
 			</WrapPanel>
 			<ScrollViewer 
 				Grid.Column="1"
-				VerticalAlignment="Bottom"
+				Margin="10 0 0 0"
+				VerticalAlignment="Center"
 				x:Name="CoinsScrollView" 
 				PreviewMouseDown="CoinsScrollView_PreviewMouseDown" 
 				HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
@@ -102,49 +101,8 @@
 					Background="Transparent"
 					ItemsSource="{Binding CoinVms.MainCoinPleaseSelect}"
 					SelectedItem="{Binding SelectedCoinVm}"
+					ItemContainerStyle="{StaticResource ListBoxBarItem}"
 					BorderThickness="0">
-					<ListBox.ItemContainerStyle>
-						<Style TargetType="ListBoxItem">
-							<Setter Property="Template">
-								<Setter.Value>
-									<ControlTemplate TargetType="ListBoxItem">
-										<Grid>
-											<Grid.ColumnDefinitions>
-												<ColumnDefinition Width="*"></ColumnDefinition>
-												<ColumnDefinition Width="1"></ColumnDefinition>
-											</Grid.ColumnDefinitions>
-											<Grid.RowDefinitions>
-												<RowDefinition Height="*"></RowDefinition>
-												<RowDefinition Height="Auto"></RowDefinition>
-											</Grid.RowDefinitions>
-											<Border Background="{TemplateBinding Background}">
-												<ContentPresenter 
-													HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-													VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-													TextBlock.Foreground="{TemplateBinding Foreground}"/>
-											</Border>
-											<Path 
-												Grid.Row="1"
-												Grid.Column="0"
-												HorizontalAlignment="Center"
-												Fill="{TemplateBinding Background}"
-												Data="M 0,0 6,0 3,3 Z" />
-											<Border Grid.Row="0" Grid.Column="1" Margin="0 5" BorderThickness="1 0 0 0" BorderBrush="{StaticResource LineColor}"></Border>
-										</Grid>
-									</ControlTemplate>
-								</Setter.Value>
-							</Setter>
-							<Style.Triggers>
-								<Trigger Property="IsMouseOver" Value="true">
-									<Setter Property="Foreground" Value="#2DA4FF"/>
-								</Trigger>
-								<Trigger Property="IsSelected" Value="true">
-									<Setter Property="Background" Value="#2DA4FF"/>
-									<Setter Property="Foreground" Value="White"/>
-								</Trigger>
-							</Style.Triggers>
-						</Style>
-					</ListBox.ItemContainerStyle>
 					<ListBox.ItemsPanel>
 						<ItemsPanelTemplate>
 							<WrapPanel>
@@ -153,7 +111,8 @@
 					</ListBox.ItemsPanel>
 					<ListBox.ItemTemplate>
 						<DataTemplate>
-							<TextBlock Padding="10 2" Text="{Binding Code}"></TextBlock>
+							<TextBlock Padding="10 2" Text="{Binding Code}">
+							</TextBlock>
 						</DataTemplate>
 					</ListBox.ItemTemplate>
 				</ListBox>

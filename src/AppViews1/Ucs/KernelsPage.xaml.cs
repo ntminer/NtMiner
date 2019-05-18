@@ -90,9 +90,5 @@ namespace NTMiner.Views.Ucs {
         private void CoinsScrollView_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
             Wpf.Util.ScrollViewer_PreviewMouseDown(sender, e);
         }
-
-        private void TbKeyword_LostFocus(object sender, RoutedEventArgs e) {
-            Vm.Search.Execute(null);
-        }
     }
 }

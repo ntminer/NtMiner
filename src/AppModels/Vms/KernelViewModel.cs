@@ -459,7 +459,7 @@ namespace NTMiner.Vms {
 
         public string PublishOnText {
             get {
-                return Timestamp.UnixBaseTime.AddSeconds(this.PublishOn).ToString("yyyy-MM-dd HH:mm");
+                return Timestamp.UnixBaseTime.AddSeconds(this.PublishOn).ToString("yyyy-MM-dd");
             }
         }
 

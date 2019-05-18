@@ -58,20 +58,14 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel>
+								<TextBlock Text="{Binding Code}" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"></TextBlock>
 								<WrapPanel>
-									<TextBlock Text="{Binding Code}" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"></TextBlock>
-									<WrapPanel Visibility="{x:Static app:AppStatic.IsDebugModeVisible}">
-										<Path
-											Margin="4 0 0 0"
-											Visibility="{Binding Notice, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
-											Width="14"
-											Height="14"
-											Data="{StaticResource Icon_Notice}"
-											Fill="{StaticResource IconFillColor}"
-											Stretch="Fill" />
-									</WrapPanel>
+									<TextBlock Text="{Binding Notice}" ToolTip="{Binding Notice}"></TextBlock>
+									<TextBlock 
+										Foreground="Green" 
+										Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
+										Text="{Binding SupportedCoins}"></TextBlock>
 								</WrapPanel>
-								<TextBlock Text="{Binding SupportedCoins}"></TextBlock>
 							</StackPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>

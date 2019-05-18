@@ -84,11 +84,11 @@
 											Data="{Binding Icon}"
 											Fill="{Binding ItemForeground}"
 											Stretch="Fill" />
-										<Label
+										<TextBlock
 											Padding="0"
 											VerticalAlignment="Center"
 											Foreground="{Binding ItemForeground}"
-											Content="{Binding Name}" />
+											Text="{Binding Name}" />
 									</StackPanel>
 								</Border>
 							</controls:KbButton>
@@ -233,49 +233,8 @@
 						ItemsSource="{Binding CoinVms.MainCoinPleaseSelect}"
 						SelectedItem="{Binding SelectedCoinVm}"
 						MouseDown="ListBox_MouseDown"
+						ItemContainerStyle="{StaticResource ListBoxBarItem}"
 						BorderThickness="0">
-						<ListBox.ItemContainerStyle>
-							<Style TargetType="ListBoxItem">
-								<Setter Property="Template">
-									<Setter.Value>
-										<ControlTemplate TargetType="ListBoxItem">
-											<Grid>
-												<Grid.ColumnDefinitions>
-													<ColumnDefinition Width="*"></ColumnDefinition>
-													<ColumnDefinition Width="1"></ColumnDefinition>
-												</Grid.ColumnDefinitions>
-												<Grid.RowDefinitions>
-													<RowDefinition Height="*"></RowDefinition>
-													<RowDefinition Height="Auto"></RowDefinition>
-												</Grid.RowDefinitions>
-												<Border Background="{TemplateBinding Background}">
-													<ContentPresenter 
-														HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-														VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-														TextBlock.Foreground="{TemplateBinding Foreground}"/>
-												</Border>
-												<Path 
-													Grid.Row="1"
-													Grid.Column="0"
-													HorizontalAlignment="Center"
-													Fill="{TemplateBinding Background}"
-													Data="M 0,0 6,0 3,3 Z" />
-												<Border Grid.Row="0" Grid.Column="1" Margin="0 5" BorderThickness="1 0 0 0" BorderBrush="{StaticResource LineColor}"></Border>
-											</Grid>
-										</ControlTemplate>
-									</Setter.Value>
-								</Setter>
-								<Style.Triggers>
-									<Trigger Property="IsMouseOver" Value="true">
-										<Setter Property="Foreground" Value="#2DA4FF"/>
-									</Trigger>
-									<Trigger Property="IsSelected" Value="true">
-										<Setter Property="Background" Value="#2DA4FF"/>
-										<Setter Property="Foreground" Value="White"/>
-									</Trigger>
-								</Style.Triggers>
-							</Style>
-						</ListBox.ItemContainerStyle>
 						<ListBox.ItemsPanel>
 							<ItemsPanelTemplate>
 								<WrapPanel>
@@ -284,7 +243,8 @@
 						</ListBox.ItemsPanel>
 						<ListBox.ItemTemplate>
 							<DataTemplate>
-								<TextBlock Padding="10 2" Text="{Binding Code}"></TextBlock>
+								<TextBlock Padding="10 2" Text="{Binding Code}">
+								</TextBlock>
 							</DataTemplate>
 						</ListBox.ItemTemplate>
 					</ListBox>
