@@ -95,7 +95,7 @@
 				<DataGridTemplateColumn Width="330" Header="地址" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<TextBlock Text="{Binding Address}" FontWeight="Bold" ToolTip="钱包地址"></TextBlock>
+							<TextBlock Text="{Binding Address}" ToolTip="钱包地址"></TextBlock>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>

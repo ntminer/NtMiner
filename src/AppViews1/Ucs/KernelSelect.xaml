@@ -87,7 +87,7 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel>
-								<TextBlock Text="{Binding FullName}" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"></TextBlock>
+								<TextBlock Text="{Binding FullName}" VerticalAlignment="Center" FontSize="14"></TextBlock>
 								<Path
 									Margin="4 0 0 0"
 									Width="12"
