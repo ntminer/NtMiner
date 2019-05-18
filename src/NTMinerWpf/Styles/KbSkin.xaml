@@ -25,6 +25,13 @@
 	<converters:ProfitToBrushConverter x:Key="ProfitToBrushConverter"></converters:ProfitToBrushConverter>
 	<converters:AutoNumberValueConverter x:Key="AutoNumberValueConverter"></converters:AutoNumberValueConverter>
 
+	<SolidColorBrush x:Key="TextForeground">#343A40</SolidColorBrush>
+	<Style TargetType="{x:Type TextElement }">
+		<Setter Property="Foreground" Value="{StaticResource TextForeground}"></Setter>
+	</Style>
+	<Style TargetType="{x:Type TextBlock }">
+		<Setter Property="Foreground" Value="{StaticResource TextForeground}"></Setter>
+	</Style>
 	<SolidColorBrush x:Key="IconFillColor">#278CDE</SolidColorBrush>
 	<SolidColorBrush x:Key="TransparentColor" Color="#00FFFFFF" />
 	<SolidColorBrush x:Key="LableColor" Color="#99000000"></SolidColorBrush>
@@ -85,11 +92,10 @@
 							<ColumnDefinition Width="*"></ColumnDefinition>
 							<ColumnDefinition Width="1"></ColumnDefinition>
 						</Grid.ColumnDefinitions>
-						<Border Background="{TemplateBinding Background}">
+						<Border Background="{TemplateBinding Background}" BorderThickness="0 0 0 2" BorderBrush="{TemplateBinding BorderBrush}">
 							<ContentPresenter 
 								HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-								VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-								TextBlock.Foreground="{TemplateBinding Foreground}"/>
+								VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
 						</Border>
 						<Border Grid.Column="1" Margin="0 5" BorderThickness="1 0 0 0" BorderBrush="{StaticResource LineColor}"></Border>
 					</Grid>
@@ -98,11 +104,10 @@
 		</Setter>
 		<Style.Triggers>
 			<Trigger Property="IsMouseOver" Value="true">
-				<Setter Property="Foreground" Value="#2DA4FF"/>
+				<Setter Property="BorderBrush" Value="{DynamicResource LineColor}"/>
 			</Trigger>
 			<Trigger Property="IsSelected" Value="true">
-				<Setter Property="Background" Value="{StaticResource ThemeBackground}"/>
-				<Setter Property="Foreground" Value="{StaticResource ThemeForeground}"/>
+				<Setter Property="BorderBrush" Value="{DynamicResource ThemeBackground}"/>
 			</Trigger>
 		</Style.Triggers>
 	</Style>

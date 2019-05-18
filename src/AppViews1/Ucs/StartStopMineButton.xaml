@@ -28,14 +28,13 @@
 							HorizontalAlignment="Center"
 							Foreground="{Binding ElementName=Self,Path=StartButtonForeground}"
 							FontSize="24"
-							Text="尚未开始" />
+							Text="开始挖矿" />
 					</Border>
 					<ControlTemplate.Triggers>
 						<Trigger Property="IsMouseOver" Value="True">
 							<Setter TargetName="Content" Property="Background" Value="Green"></Setter>
 							<Setter TargetName="Content" Property="BorderBrush" Value="Green"></Setter>
 							<Setter TargetName="Text" Property="Foreground" Value="White"></Setter>
-							<Setter TargetName="Text" Property="Text" Value="开始挖矿"></Setter>
 						</Trigger>
 					</ControlTemplate.Triggers>
 				</ControlTemplate>
