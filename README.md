@@ -15,3 +15,6 @@
 
 # 授权协议
 The LGPL license。
+
+# 友情链接
+[蜜蜂矿池](https://www.beepool.org/)
