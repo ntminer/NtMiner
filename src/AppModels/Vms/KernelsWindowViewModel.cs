@@ -160,6 +160,7 @@ namespace NTMiner.Vms {
                 if (_keyword != value) {
                     _keyword = value;
                     OnPropertyChanged(nameof(Keyword));
+                    OnPropertyChanged(nameof(QueryResults));
                 }
             }
         }

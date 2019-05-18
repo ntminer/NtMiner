@@ -18,7 +18,9 @@
 		</Grid.RowDefinitions>
 		<DataGrid 
 			Margin="0" ItemsSource="{Binding QueryResults}" 
-			BorderThickness="0" RowHeight="40"
+			BorderThickness="0" RowHeight="60"
+			GridLinesVisibility="Horizontal"
+			ColumnHeaderHeight="0"
 			PreviewMouseDown="DataGrid_PreviewMouseDown"
 			MouseDoubleClick="DataGrid_MouseDoubleClick">
 			<DataGrid.Resources>
@@ -58,20 +60,14 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel>
-								<WrapPanel>
-									<TextBlock Text="{Binding Code}" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"></TextBlock>
-									<WrapPanel Visibility="{x:Static app:AppStatic.IsDebugModeVisible}">
-										<Path
-											Margin="4 0 0 0"
-											Visibility="{Binding Notice, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
-											Width="14"
-											Height="14"
-											Data="{StaticResource Icon_Notice}"
-											Fill="{StaticResource IconFillColor}"
-											Stretch="Fill" />
-									</WrapPanel>
+								<TextBlock Text="{Binding Code}" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"></TextBlock>
+								<WrapPanel Margin="0 8 0 0">
+									<TextBlock Text="{Binding Notice}"></TextBlock>
+									<TextBlock 
+										Foreground="Green" 
+										Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
+										Text="{Binding SupportedCoins}"></TextBlock>
 								</WrapPanel>
-								<TextBlock Text="{Binding SupportedCoins}"></TextBlock>
 							</StackPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
@@ -86,20 +82,25 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="100"  Header="品牌" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn 
+					MinWidth="100"  Header="品牌" CanUserResize="True" 
+					Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
+					CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding BrandItem.Value}"></TextBlock>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="170" Header="发布时间" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTextColumn MinWidth="80" Header="尺寸" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Binding="{Binding SizeMbText}">
+				</DataGridTextColumn>
+				<DataGridTemplateColumn MinWidth="140" Header="发布时间" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel HorizontalAlignment="Center">
 								<WrapPanel Visibility="{Binding IsPublished, Converter={StaticResource BoolToVisibilityConverter}}">
-									<TextBlock Text="发布于" Margin="0 0 4 0"></TextBlock>
 									<TextBlock Text="{Binding PublishOnText}"></TextBlock>
+									<TextBlock Text="发布" Margin="4 0 0 0"></TextBlock>
 								</WrapPanel>
 								<TextBlock Text="未发布" Visibility="{Binding IsPublished, Converter={StaticResource BoolToVisibilityInvertConverter}}"></TextBlock>
 							</StackPanel>
@@ -117,8 +118,6 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTextColumn MinWidth="80" Header="尺寸" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Binding="{Binding SizeMbText}">
-				</DataGridTextColumn>
 				<DataGridTemplateColumn MinWidth="100" Header="输入" CanUserResize="True" CanUserReorder="False" 
 					Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
 					CanUserSort="False" IsReadOnly="True">
