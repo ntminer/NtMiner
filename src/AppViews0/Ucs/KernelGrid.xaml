@@ -313,7 +313,7 @@
 									<Setter Property="Opacity" Value="0.5"></Setter>
 								</Trigger>
 								<Trigger Property="IsMouseOver" Value="true">
-									<Setter TargetName="Icon" Property="Fill" Value="#2DA4FF"/>
+									<Setter TargetName="Icon" Property="Fill" Value="{StaticResource ThemeBackground}"/>
 								</Trigger>
 							</ControlTemplate.Triggers>
 						</ControlTemplate>
@@ -387,7 +387,7 @@
 									<Setter Property="Opacity" Value="0.5"></Setter>
 								</Trigger>
 								<Trigger Property="IsMouseOver" Value="true">
-									<Setter TargetName="Icon" Property="Fill" Value="#2DA4FF"/>
+									<Setter TargetName="Icon" Property="Fill" Value="{StaticResource ThemeBackground}"/>
 								</Trigger>
 							</ControlTemplate.Triggers>
 						</ControlTemplate>
