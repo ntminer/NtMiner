@@ -10,9 +10,7 @@ using System.Timers;
 
 namespace NTMiner {
     public static partial class VirtualRoot {
-#if DEBUG
         public static readonly Stopwatch Stopwatch = new Stopwatch();
-#endif
 
         public static readonly string AppFileFullName = Process.GetCurrentProcess().MainModule.FileName;
         public static Guid Id { get; private set; }
