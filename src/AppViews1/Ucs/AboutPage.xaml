@@ -32,12 +32,11 @@
 			</WrapPanel>
 			<controls:KbLinkButton
 				Margin="0 2 8 2"
-				Foreground="#0072C1"
 				Command="{x:Static app:AppStatic.OpenOfficialSite}"
 				KbDisplayLine="False"
 				KbSystemButtonHoverBackground="Transparent"
 				Background="Transparent">
-				<TextBlock Text="http://ntminer.com/" Foreground="#0072C1"></TextBlock>
+				<TextBlock Text="http://ntminer.com/" Foreground="{StaticResource LinkForeground}"></TextBlock>
 			</controls:KbLinkButton>
 			<TextBox 
 				Background="Transparent"

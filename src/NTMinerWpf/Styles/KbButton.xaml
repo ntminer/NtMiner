@@ -202,6 +202,7 @@
     <!--  超链接 按钮  -->
     <Style TargetType="{x:Type controls:KbLinkButton}">
         <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Foreground" Value="{StaticResource LinkForeground}"></Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:KbLinkButton}">

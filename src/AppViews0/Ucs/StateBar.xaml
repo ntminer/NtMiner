@@ -124,13 +124,12 @@
 				<WrapPanel>
 					<controls:KbLinkButton
 						Padding="0"
-						Foreground="#0072C1"
 						Command="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.ViewPoolIncome}"
 						CommandParameter="{Binding MinerProfile.CoinVm.CoinProfile.SelectedWallet}"
 						KbDisplayLine="False"
 						KbSystemButtonHoverBackground="Transparent"
 						Background="Transparent">
-						<TextBlock Text="矿池收益" Foreground="#0072C1"></TextBlock>
+						<TextBlock Text="矿池收益" Foreground="{StaticResource LinkForeground}"></TextBlock>
 					</controls:KbLinkButton>
 					<controls:KbButton 
 						HorizontalContentAlignment="Left"
@@ -196,13 +195,12 @@
 					<WrapPanel Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
 						<controls:KbLinkButton
 							Padding="0"
-							Foreground="#0072C1"
 							Command="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.ViewPoolIncome}"
 							CommandParameter="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.SelectedDualCoinWallet}"
 							KbDisplayLine="False"
 							KbSystemButtonHoverBackground="Transparent"
 							Background="Transparent">
-							<TextBlock Text="矿池收益" Foreground="#0072C1"></TextBlock>
+							<TextBlock Text="矿池收益" Foreground="{StaticResource LinkForeground}"></TextBlock>
 						</controls:KbLinkButton>
 						<controls:KbButton 
 							HorizontalContentAlignment="Left"
