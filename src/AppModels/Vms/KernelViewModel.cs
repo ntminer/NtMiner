@@ -9,7 +9,7 @@ using System.Windows.Forms;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class KernelViewModel : ViewModelBase, IKernel {
+    public class KernelViewModel : ViewModelBase, IEditableViewModel, IKernel {
         public static readonly KernelViewModel Empty = new KernelViewModel(Guid.Empty) {
             _kernelProfileVm = KernelProfileViewModel.Empty,
             _code = string.Empty,
