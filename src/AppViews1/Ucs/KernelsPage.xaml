@@ -101,57 +101,20 @@
 					Background="Transparent"
 					ItemsSource="{Binding CoinVms.MainCoinPleaseSelect}"
 					SelectedItem="{Binding SelectedCoinVm}"
+					ItemContainerStyle="{StaticResource ListBoxBarItem}"
 					BorderThickness="0">
-					<ListBox.ItemContainerStyle>
-						<Style TargetType="ListBoxItem">
-							<Setter Property="Template">
-								<Setter.Value>
-									<ControlTemplate TargetType="ListBoxItem">
-										<Grid>
-											<Grid.ColumnDefinitions>
-												<ColumnDefinition Width="*"></ColumnDefinition>
-												<ColumnDefinition Width="1"></ColumnDefinition>
-											</Grid.ColumnDefinitions>
-											<Grid.RowDefinitions>
-												<RowDefinition Height="*"></RowDefinition>
-												<RowDefinition Height="Auto"></RowDefinition>
-											</Grid.RowDefinitions>
-											<Border Background="{TemplateBinding Background}">
-												<TextBlock 
-													x:Name="Text"
-													Padding="10 2"
-													HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-													VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-													Text="{Binding Code}"/>
-											</Border>
-											<Path 
-												Grid.Row="1"
-												Grid.Column="0"
-												HorizontalAlignment="Center"
-												Fill="{TemplateBinding Background}"
-												Data="M 0,0 6,0 3,3 Z" />
-											<Border Grid.Row="0" Grid.Column="1" Margin="0 5" BorderThickness="1 0 0 0" BorderBrush="{StaticResource LineColor}"></Border>
-										</Grid>
-										<ControlTemplate.Triggers>
-											<Trigger Property="IsMouseOver" Value="true">
-												<Setter Property="Foreground" TargetName="Text" Value="#2DA4FF"/>
-											</Trigger>
-											<Trigger Property="IsSelected" Value="true">
-												<Setter Property="Background" Value="{StaticResource ThemeBackground}"/>
-												<Setter Property="Foreground" TargetName="Text" Value="{StaticResource ThemeForeground}"/>
-											</Trigger>
-										</ControlTemplate.Triggers>
-									</ControlTemplate>
-								</Setter.Value>
-							</Setter>
-						</Style>
-					</ListBox.ItemContainerStyle>
 					<ListBox.ItemsPanel>
 						<ItemsPanelTemplate>
 							<WrapPanel>
 							</WrapPanel>
 						</ItemsPanelTemplate>
 					</ListBox.ItemsPanel>
+					<ListBox.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Padding="10 2" Text="{Binding Code}">
+							</TextBlock>
+						</DataTemplate>
+					</ListBox.ItemTemplate>
 				</ListBox>
 			</ScrollViewer>
 			<WrapPanel Grid.Column="2" VerticalAlignment="Center" Visibility="{Binding ElementName=CoinsScrollView,Path=ComputedHorizontalScrollBarVisibility}">
