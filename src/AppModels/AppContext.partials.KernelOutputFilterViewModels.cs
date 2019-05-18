@@ -14,7 +14,7 @@ namespace NTMiner {
 #if DEBUG
                 VirtualRoot.Stopwatch.Restart();
 #endif
-                On<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
+                VirtualRoot.On<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById.Clear();
                         _dicByKernelOutputId.Clear();
