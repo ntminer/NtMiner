@@ -17,4 +17,4 @@
 The LGPL license。
 
 # 友情链接
-[蜜蜂矿池](https://www.beepool.org/) [BMiner](https://www.bminer.me/)
+[蜜蜂矿池](https://www.beepool.org/)    [BMiner](https://www.bminer.me/)
