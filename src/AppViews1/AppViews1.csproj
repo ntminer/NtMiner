@@ -112,6 +112,9 @@
     <Compile Include="PackagesWindow.xaml.cs">
       <DependentUpon>PackagesWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Ucs\KernelsPage.xaml.cs">
+      <DependentUpon>KernelsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Ucs\PoolPage.xaml.cs">
       <DependentUpon>PoolPage.xaml</DependentUpon>
     </Compile>
@@ -304,9 +307,6 @@
     <Compile Include="Ucs\MinerProfileOption.xaml.cs">
       <DependentUpon>MinerProfileOption.xaml</DependentUpon>
     </Compile>
-    <Compile Include="KernelsWindow.xaml.cs">
-      <DependentUpon>KernelsWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Ucs\WalletEdit.xaml.cs">
       <DependentUpon>WalletEdit.xaml</DependentUpon>
     </Compile>
@@ -435,6 +435,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <Page Include="Ucs\KernelsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Ucs\PoolPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -688,10 +692,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Ucs\MinerProfileOption.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="KernelsWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

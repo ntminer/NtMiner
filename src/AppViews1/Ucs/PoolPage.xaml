@@ -65,8 +65,8 @@
 				ColumnHeaderHeight="0"
 				RowHeight="50"
 				BorderBrush="{StaticResource LineColor}"
-				SelectedItem="{Binding CurrentCoin}" AutoGenerateColumns="False"
-				MouseDoubleClick="DataGrid_MouseDoubleClick">
+				SelectedItem="{Binding CurrentCoin}" 
+				AutoGenerateColumns="False">
 				<DataGrid.Resources>
 					<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
 				</DataGrid.Resources>

@@ -1,36 +1,33 @@
-﻿using MahApps.Metro.Controls;
-using NTMiner.Vms;
+﻿using NTMiner.Vms;
 using System;
 using System.Windows;
-using System.Windows.Input;
+using System.Windows.Controls;
 
-namespace NTMiner.Views {
-    public partial class KernelsWindow : MetroWindow {
-        private static readonly object _locker = new object();
-        private static KernelsWindow _instance = null;
+namespace NTMiner.Views.Ucs {
+    public partial class KernelsPage : UserControl {
+        // TODO:单独一个弹窗下载
         public static void ShowWindow(Guid kernelId, Action<bool, string> downloadComplete = null) {
-            UIThread.Execute(() => {
-                if (_instance == null) {
-                    lock (_locker) {
-                        if (_instance == null) {
-                            _instance = new KernelsWindow();
-                            _instance.Show();
-                        }
-                    }
-                }
-                else {
-                    _instance.ShowWindow(false);
-                }
-                AutoDownload(kernelId, downloadComplete);
+            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+                Title = "插件",
+                IconName = "Icon_Kernel",
+                CloseVisible = System.Windows.Visibility.Visible,
+                FooterVisible = System.Windows.Visibility.Collapsed,
+                Width = DevMode.IsDebugMode ? 960 : 860,
+                Height = 520
+            },
+            ucFactory: (window) => {
+                var uc = new KernelsPage(); 
+                uc.AutoDownload(kernelId, (isSuccess, message)=> {
+                    downloadComplete(isSuccess, message);
+                    window.Close();
+                });
+                return uc;
             });
         }
 
-        private static void AutoDownload(Guid kernelId, Action<bool, string> downloadComplete) {
+        private void AutoDownload(Guid kernelId, Action<bool, string> downloadComplete) {
             if (kernelId != Guid.Empty) {
-                _instance.Vm.Download(kernelId, (isSuccess, message) => {
-                    if (isSuccess) {
-                        _instance.Close();
-                    }
+                this.Vm.Download(kernelId, (isSuccess, message) => {
                     downloadComplete(isSuccess, message);
                 });
             }
@@ -42,20 +39,19 @@ namespace NTMiner.Views {
             }
         }
 
-        public KernelsWindow() {
+        public KernelsPage() {
             InitializeComponent();
-            if (DevMode.IsDevMode) {
-                this.Width += 600;
+            if (Design.IsInDesignMode) {
+                return;
             }
             AppContext.Instance.KernelVms.PropertyChanged += Current_PropertyChanged;
             AppContext.Instance.KernelVms.IsDownloadingChanged += Current_IsDownloadingChanged;
+            this.Unloaded += KernelsPage_Unloaded;
         }
 
-        protected override void OnClosed(EventArgs e) {
+        private void KernelsPage_Unloaded(object sender, RoutedEventArgs e) {
             AppContext.Instance.KernelVms.PropertyChanged -= Current_PropertyChanged;
             AppContext.Instance.KernelVms.IsDownloadingChanged -= Current_IsDownloadingChanged;
-            base.OnClosed(e);
-            _instance = null;
         }
 
         private void Current_IsDownloadingChanged(KernelViewModel obj) {
@@ -95,21 +91,8 @@ namespace NTMiner.Views {
             Wpf.Util.ScrollViewer_PreviewMouseDown(sender, e);
         }
 
-        private void ListBox_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed) {
-                Window window = Window.GetWindow(this);
-                window.DragMove();
-            }
-        }
-
         private void TbKeyword_LostFocus(object sender, RoutedEventArgs e) {
             Vm.Search.Execute(null);
-        }
-
-        private void MetroWindow_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            if (e.LeftButton == MouseButtonState.Pressed) {
-                this.DragMove();
-            }
         }
     }
 }
