@@ -137,8 +137,8 @@
 												<Setter Property="Foreground" TargetName="Text" Value="#2DA4FF"/>
 											</Trigger>
 											<Trigger Property="IsSelected" Value="true">
-												<Setter Property="Background" Value="#2DA4FF"/>
-												<Setter Property="Foreground" TargetName="Text" Value="White"/>
+												<Setter Property="Background" Value="{StaticResource ThemeBackground}"/>
+												<Setter Property="Foreground" TargetName="Text" Value="{StaticResource ThemeForeground}"/>
 											</Trigger>
 										</ControlTemplate.Triggers>
 									</ControlTemplate>

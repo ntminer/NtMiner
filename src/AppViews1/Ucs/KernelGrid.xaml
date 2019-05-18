@@ -352,8 +352,8 @@
 							</Setter>
 							<Style.Triggers>
 								<Trigger Property="IsSelected" Value="true">
-									<Setter Property="Background" Value="#2DA4FF"/>
-									<Setter Property="Foreground" Value="White"/>
+									<Setter Property="Background" Value="{StaticResource ThemeBackground}"/>
+									<Setter Property="Foreground" Value="{StaticResource ThemeForeground}"/>
 								</Trigger>
 								<Trigger Property="IsMouseOver" Value="true">
 									<Setter Property="Background" Value="#2DA4FF"/>

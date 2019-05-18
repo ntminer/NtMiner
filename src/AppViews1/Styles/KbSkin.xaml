@@ -10,4 +10,34 @@
 	<SolidColorBrush x:Key="ThemeForeground">White</SolidColorBrush>
 	<SolidColorBrush x:Key="StateBarForeground">White</SolidColorBrush>
 	<SolidColorBrush x:Key="MinerProfileBackground">#F0F0F1</SolidColorBrush>
+	<Style x:Key="ListBoxBarItem" TargetType="ListBoxItem">
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="ListBoxItem">
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*"></ColumnDefinition>
+							<ColumnDefinition Width="1"></ColumnDefinition>
+						</Grid.ColumnDefinitions>
+						<Border Background="{TemplateBinding Background}">
+							<ContentPresenter 
+								HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+								VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+								TextBlock.Foreground="{TemplateBinding Foreground}"/>
+						</Border>
+						<Border Grid.Column="1" Margin="0 5" BorderThickness="1 0 0 0" BorderBrush="{StaticResource LineColor}"></Border>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+		<Style.Triggers>
+			<Trigger Property="IsMouseOver" Value="true">
+				<Setter Property="Foreground" Value="#2DA4FF"/>
+			</Trigger>
+			<Trigger Property="IsSelected" Value="true">
+				<Setter Property="Background" Value="{StaticResource ThemeBackground}"/>
+				<Setter Property="Foreground" Value="{StaticResource ThemeForeground}"/>
+			</Trigger>
+		</Style.Triggers>
+	</Style>
 </ResourceDictionary>
