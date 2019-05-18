@@ -29,7 +29,11 @@ namespace NTMiner.View {
                     }
                 }
                 else {
+                    bool needActive = _mainWindow.WindowState != WindowState.Minimized;
                     _mainWindow.ShowWindow(isToggle);
+                    if (needActive) {
+                        _mainWindow.Activate();
+                    }
                 }
             });
         }
