@@ -25,7 +25,7 @@
 	<converters:ProfitToBrushConverter x:Key="ProfitToBrushConverter"></converters:ProfitToBrushConverter>
 	<converters:AutoNumberValueConverter x:Key="AutoNumberValueConverter"></converters:AutoNumberValueConverter>
 
-	<SolidColorBrush x:Key="TextForeground">Black</SolidColorBrush>
+	<SolidColorBrush x:Key="TextForeground">#343A40</SolidColorBrush>
 	<Style TargetType="{x:Type TextElement }">
 		<Setter Property="Foreground" Value="{StaticResource TextForeground}"></Setter>
 	</Style>
