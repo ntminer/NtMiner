@@ -62,7 +62,7 @@
 			KbSystemButtonHoverBackground="Transparent"
 			KbDisplayLine="False">
 			<WrapPanel>
-				<TextBlock Text="Github"></TextBlock>
+				<TextBlock Text="Github" Foreground="{StaticResource ThemeForeground}"></TextBlock>
 				<Path 
 					Width="14"
 					Height="14"
@@ -79,7 +79,7 @@
 			KbSystemButtonHoverBackground="Transparent"
 			KbDisplayLine="False">
 			<WrapPanel>
-				<TextBlock Text="Discuss"></TextBlock>
+				<TextBlock Text="Discuss" Foreground="{StaticResource ThemeForeground}"></TextBlock>
 				<Path 
 					Width="14"
 					Height="14"

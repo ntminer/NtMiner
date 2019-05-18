@@ -63,7 +63,9 @@
 								KbSystemButtonHoverBackground="Transparent"
 								Background="Transparent"
 								Foreground="#0072C1" 
-								FontSize="14">N卡驱动399.24_win10</controls:KbLinkButton>
+								FontSize="14">
+								<TextBlock Text="N卡驱动399.24_win10" Foreground="#0072C1"></TextBlock>
+							</controls:KbLinkButton>
 							<controls:KbLinkButton 
 								Command="{Binding NavigateToNvidiaDriverWin7}"
 								Padding="0"
@@ -72,7 +74,9 @@
 								KbSystemButtonHoverBackground="Transparent"
 								Background="Transparent"
 								Foreground="#0072C1" 
-								FontSize="14">N卡驱动399.24_win7</controls:KbLinkButton>
+								FontSize="14">
+								<TextBlock Text="N卡驱动399.24_win7" Foreground="#0072C1"></TextBlock>
+							</controls:KbLinkButton>
 						</StackPanel>
 					</WrapPanel>
 				</controls:KbButton>

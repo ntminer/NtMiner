@@ -315,10 +315,11 @@
 												Padding="0"
 												Foreground="#0072C1"
 												Command="{Binding OpenWebsite}"
-												Content="{Binding Name}"
 												KbDisplayLine="False"
 												KbSystemButtonHoverBackground="Transparent"
-												Background="Transparent" />
+												Background="Transparent">
+												<TextBlock Text="{Binding Name}" Foreground="#0072C1"></TextBlock>
+											</controls:KbLinkButton>
 										</WrapPanel>
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>

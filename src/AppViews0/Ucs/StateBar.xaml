@@ -127,10 +127,11 @@
 						Foreground="#0072C1"
 						Command="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.ViewPoolIncome}"
 						CommandParameter="{Binding MinerProfile.CoinVm.CoinProfile.SelectedWallet}"
-						Content="矿池收益"
 						KbDisplayLine="False"
 						KbSystemButtonHoverBackground="Transparent"
-						Background="Transparent" />
+						Background="Transparent">
+						<TextBlock Text="矿池收益" Foreground="#0072C1"></TextBlock>
+					</controls:KbLinkButton>
 					<controls:KbButton 
 						HorizontalContentAlignment="Left"
 						Width="260" ToolTip="收益计算器"
@@ -198,10 +199,11 @@
 							Foreground="#0072C1"
 							Command="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.ViewPoolIncome}"
 							CommandParameter="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.SelectedDualCoinWallet}"
-							Content="矿池收益"
 							KbDisplayLine="False"
 							KbSystemButtonHoverBackground="Transparent"
-							Background="Transparent" />
+							Background="Transparent">
+							<TextBlock Text="矿池收益" Foreground="#0072C1"></TextBlock>
+						</controls:KbLinkButton>
 						<controls:KbButton 
 							HorizontalContentAlignment="Left"
 							Width="260" ToolTip="数据来自鱼池首页"
