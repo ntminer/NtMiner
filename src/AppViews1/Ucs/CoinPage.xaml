@@ -83,7 +83,6 @@
 			BorderBrush="Gray"
 			RowHeight="50"
 			ColumnHeaderHeight="40"
-			GridLinesVisibility="Horizontal"
 			SelectedItem="{Binding CurrentCoin}" AutoGenerateColumns="False"
 			MouseDoubleClick="DataGrid_MouseDoubleClick">
 			<DataGrid.Resources>

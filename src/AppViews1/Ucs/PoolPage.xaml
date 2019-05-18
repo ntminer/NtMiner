@@ -61,7 +61,6 @@
 				Grid.Row="1" Margin="0" 
 				ItemsSource="{Binding List}" 
 				BorderThickness="0" 
-				GridLinesVisibility="Horizontal"
 				ColumnHeaderHeight="0"
 				RowHeight="50"
 				BorderBrush="{StaticResource LineColor}"
