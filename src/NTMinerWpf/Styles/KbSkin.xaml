@@ -25,7 +25,6 @@
 	<converters:ProfitToBrushConverter x:Key="ProfitToBrushConverter"></converters:ProfitToBrushConverter>
 	<converters:AutoNumberValueConverter x:Key="AutoNumberValueConverter"></converters:AutoNumberValueConverter>
 
-	<SolidColorBrush x:Key="TextForeground">#343A40</SolidColorBrush>
 	<SolidColorBrush x:Key="LinkForeground">#0072C1</SolidColorBrush>
 	<SolidColorBrush x:Key="IconFillColor">#278CDE</SolidColorBrush>
 	<SolidColorBrush x:Key="TransparentColor" Color="#00FFFFFF" />
