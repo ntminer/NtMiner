@@ -117,7 +117,7 @@
 									Margin="10 0"
 									Padding="6 2"
 									CornerRadius="2">
-									<TextBlock Text="{Binding Name}"></TextBlock>
+									<TextBlock Text="{Binding Name}" Foreground="{StaticResource ThemeForeground}"></TextBlock>
 								</controls:KbButton>
 							</DataTemplate>
 						</ItemsControl.ItemTemplate>
@@ -143,7 +143,7 @@
 								Data="{StaticResource Icon_OverClock}"
 								Fill="{StaticResource ThemeForeground}"
 								Stretch="Fill" />
-							<TextBlock>应用</TextBlock>
+							<TextBlock Foreground="{StaticResource ThemeForeground}">应用</TextBlock>
 						</WrapPanel>
 					</controls:KbButton>
 					<TextBlock x:Name="TbRedText" Margin="10 0 0 0" Foreground="Red" VerticalAlignment="Center"></TextBlock>

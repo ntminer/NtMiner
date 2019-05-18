@@ -31,13 +31,13 @@
 								Fill="{Binding ElementName=Self,Path=StartButtonForeground}"
 								Stretch="Fill">
 							</Path>
-							<Label
+							<TextBlock
 								Padding="4 2 4 4"
 								x:Name="Text"
 								VerticalAlignment="Center"
 								Foreground="{Binding ElementName=Self,Path=StartButtonForeground}"
 								FontSize="14"
-								Content="尚未开始" />
+								Text="尚未开始" />
 						</WrapPanel>
 					</Border>
 					<ControlTemplate.Triggers>
@@ -51,7 +51,7 @@
 							<Setter TargetName="Content" Property="Background" Value="Green"></Setter>
 							<Setter TargetName="Content" Property="BorderBrush" Value="Green"></Setter>
 							<Setter TargetName="Text" Property="Foreground" Value="White"></Setter>
-							<Setter TargetName="Text" Property="Content" Value="开始挖矿"></Setter>
+							<Setter TargetName="Text" Property="Text" Value="开始挖矿"></Setter>
 						</Trigger>
 					</ControlTemplate.Triggers>
 				</ControlTemplate>
@@ -78,13 +78,13 @@
 								Fill="{StaticResource IconFillColor}"
 								Stretch="Fill">
 							</Path>
-							<Label
+							<TextBlock
 								Padding="4 2 4 4"
 								x:Name="Text"
 								VerticalAlignment="Center"
 								Foreground="{StaticResource IconFillColor}"
 								FontSize="14"
-								Content="{Binding BtnStopText}" />
+								Text="{Binding BtnStopText}" />
 						</WrapPanel>
 					</Border>
 					<ControlTemplate.Triggers>
@@ -93,7 +93,7 @@
 							<Setter TargetName="Content" Property="Background" Value="Red"></Setter>
 							<Setter TargetName="Content" Property="BorderBrush" Value="Red"></Setter>
 							<Setter TargetName="Text" Property="Foreground" Value="White"></Setter>
-							<Setter TargetName="Text" Property="Content" Value="停止挖矿"></Setter>
+							<Setter TargetName="Text" Property="Text" Value="停止挖矿"></Setter>
 						</Trigger>
 					</ControlTemplate.Triggers>
 				</ControlTemplate>

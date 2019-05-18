@@ -84,11 +84,11 @@
 											Data="{Binding Icon}"
 											Fill="{Binding ItemForeground}"
 											Stretch="Fill" />
-										<Label
+										<TextBlock
 											Padding="0"
 											VerticalAlignment="Center"
 											Foreground="{Binding ItemForeground}"
-											Content="{Binding Name}" />
+											Text="{Binding Name}" />
 									</StackPanel>
 								</Border>
 							</controls:KbButton>

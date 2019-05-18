@@ -26,35 +26,33 @@
 				<RowDefinition Height="27"></RowDefinition>
 				<RowDefinition Height="*"></RowDefinition>
 			</Grid.RowDefinitions>
-			<WrapPanel Grid.Row="0" VerticalAlignment="Center">
-				<WrapPanel>
-					<Path Margin="4 0 0 0"
-						Width="12"
-						Height="12"
-						Fill="{StaticResource ThemeForeground}"
+			<WrapPanel Margin="10 0 0 0">
+				<controls:KbTextBox 
+					x:Name="TbKeyword" Width="160" Height="27"
+					Text="{Binding CoinKeyword, UpdateSourceTrigger=PropertyChanged}" 
+					VerticalContentAlignment="Center"
+					Hint="请输入关键字"
+					BorderBrush="{StaticResource LineColor}"
+					BorderThickness="1"
+					Background="White" />
+				<WrapPanel Margin="-30 0 0 0" VerticalAlignment="Center">
+					<Path
+						Width="20"
+						Height="20"
+						Fill="Gray"
 						Stretch="Fill"
+						Visibility="{Binding ElementName=TbKeyword,Path=Text, Converter={StaticResource NotNullOrEmptyVisibilityInvertConverter}}"
 						Data="{StaticResource Icon_Serach}"></Path>
-					<Label Padding="2 6" Foreground="{StaticResource ThemeForeground}" Content="搜索"></Label>
-					<controls:KbTextBox 
-						x:Name="TbKeyword" Width="134" Height="22"
-						Text="{Binding CoinKeyword, UpdateSourceTrigger=PropertyChanged}" 
-						VerticalContentAlignment="Center"
-						Hint="请输入关键字"
-						BorderBrush="{StaticResource LineColor}"
-						BorderThickness="1"
-						Background="White"
-						SelectedColor="#409EFF" />
 					<controls:KbButton 
 						Background="Transparent" BorderThickness="0"
-						Height="22"
 						Command="{Binding ClearKeyword}"
 						Visibility="{Binding ElementName=TbKeyword,Path=Text, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
-						Margin="-14 0 0 0" HorizontalAlignment="Left">
+						HorizontalAlignment="Left">
 						<Path
-							Width="8"
-							Height="8"
+							Width="20"
+							Height="20"
 							Data="{StaticResource Icon_Close}"
-							Fill="{StaticResource IconFillColor}"
+							Fill="Gray"
 							Stretch="Fill" />
 					</controls:KbButton>
 				</WrapPanel>
