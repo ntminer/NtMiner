@@ -183,9 +183,9 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void DualContainer_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e) {
-            if (DualContainer.Visibility == Visibility.Visible && (DualContainer.Children == null || DualContainer.Children.Count == 0)) {
+            if (DualContainer.Visibility == Visibility.Visible && (DualContainer.Child == null)) {
                 MinerProfileDual child = new MinerProfileDual();
-                DualContainer.Children.Add(child);
+                DualContainer.Child = child;
             }
         }
     }

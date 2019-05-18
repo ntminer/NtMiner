@@ -169,11 +169,52 @@
 			<local:MainTabItem Header="软件设置" Icon="{StaticResource Icon_Setting}" Margin="8 0">
 				<ScrollViewer 
 					Margin="12"
-					VerticalScrollBarVisibility="Auto" 
+					VerticalScrollBarVisibility="Auto" Background="White"
 					PreviewMouseDown="ScrollViewer_PreviewMouseDown">
 					<StackPanel>
-						<uc:MinerProfileIndex></uc:MinerProfileIndex>
-						<uc:MinerProfileOption></uc:MinerProfileOption>
+						<WrapPanel IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}">
+							<TextBlock 
+								FontSize="12"
+								Foreground="{StaticResource LableColor}"
+								Padding="0 0 4 0"
+								Width="70"
+								VerticalAlignment="Center"
+								TextAlignment="Right"
+								TextWrapping="Wrap"
+								Text="矿机名"></TextBlock>
+							<TextBox 
+								Height="30"
+								Width="144" 
+								Padding="3 0 0 0"
+								Background="{Binding MinerProfile.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
+								Text="{Binding MinerProfile.MinerName, UpdateSourceTrigger=LostFocus}" 
+								VerticalContentAlignment="Center">
+								<TextBox.ToolTip>
+									<StackPanel>
+										<TextBlock Text="点号、空格、减号、下划线将被去除。"></TextBlock>
+									</StackPanel>
+								</TextBox.ToolTip>
+							</TextBox>
+							<controls:KbButton 
+								Margin="10 0 0 0"
+								BorderThickness="0"
+								ToolTip="使用本机名作为矿工名"
+								Command="{Binding UseThisPcName}"
+								Background="Transparent"
+								CornerRadius="2">
+								<WrapPanel>
+									<Path
+										Width="16"
+										Height="14"
+										Data="{StaticResource Icon_WindowsOS}"
+										Fill="{StaticResource IconFillColor}"
+										Stretch="Fill" />
+									<TextBlock Text="自动本机名"></TextBlock>
+								</WrapPanel>
+							</controls:KbButton>
+						</WrapPanel>
+						<uc:MinerProfileIndex Margin="0 4 0 0" HorizontalAlignment="Stretch"></uc:MinerProfileIndex>
+						<uc:MinerProfileOption HorizontalAlignment="Left"></uc:MinerProfileOption>
 					</StackPanel>
 				</ScrollViewer>
 			</local:MainTabItem>
