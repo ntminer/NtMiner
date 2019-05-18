@@ -167,56 +167,68 @@
 				</TabControl>
 			</local:MainTabItem>
 			<local:MainTabItem Header="软件设置" Icon="{StaticResource Icon_Setting}" Margin="8 0">
-				<ScrollViewer 
-					Margin="12"
-					VerticalScrollBarVisibility="Auto" Background="White"
-					PreviewMouseDown="ScrollViewer_PreviewMouseDown">
-					<StackPanel>
-						<WrapPanel IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}">
-							<TextBlock 
-								FontSize="12"
-								Foreground="{StaticResource LableColor}"
-								Padding="0 0 4 0"
-								Width="70"
-								VerticalAlignment="Center"
-								TextAlignment="Right"
-								TextWrapping="Wrap"
-								Text="矿机名"></TextBlock>
-							<TextBox 
-								Height="30"
-								Width="144" 
-								Padding="3 0 0 0"
-								Background="{Binding MinerProfile.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
-								Text="{Binding MinerProfile.MinerName, UpdateSourceTrigger=LostFocus}" 
-								VerticalContentAlignment="Center">
-								<TextBox.ToolTip>
-									<StackPanel>
-										<TextBlock Text="点号、空格、减号、下划线将被去除。"></TextBlock>
-									</StackPanel>
-								</TextBox.ToolTip>
-							</TextBox>
-							<controls:KbButton 
-								Margin="10 0 0 0"
-								BorderThickness="0"
-								ToolTip="使用本机名作为矿工名"
-								Command="{Binding UseThisPcName}"
-								Background="Transparent"
-								CornerRadius="2">
-								<WrapPanel>
-									<Path
-										Width="16"
-										Height="14"
-										Data="{StaticResource Icon_WindowsOS}"
-										Fill="{StaticResource IconFillColor}"
-										Stretch="Fill" />
-									<TextBlock Text="自动本机名"></TextBlock>
-								</WrapPanel>
-							</controls:KbButton>
-						</WrapPanel>
-						<uc:MinerProfileIndex Margin="0 4 0 0" HorizontalAlignment="Stretch"></uc:MinerProfileIndex>
-						<uc:MinerProfileOption HorizontalAlignment="Left"></uc:MinerProfileOption>
+				<Grid Margin="12" Background="White">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="120"></ColumnDefinition>
+						<ColumnDefinition Width="*"></ColumnDefinition>
+					</Grid.ColumnDefinitions>
+					<StackPanel HorizontalAlignment="Right" Margin="0 0 10 0">
+						<TextBlock Text="挖矿参数"></TextBlock>
+						<TextBlock Text="自动控制"></TextBlock>
+						<TextBlock Text="显卡控制"></TextBlock>
+						<TextBlock Text="软件设置"></TextBlock>
 					</StackPanel>
-				</ScrollViewer>
+					<ScrollViewer
+						Grid.Column="1"
+						VerticalScrollBarVisibility="Auto"
+						PreviewMouseDown="ScrollViewer_PreviewMouseDown">
+						<StackPanel>
+							<WrapPanel IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}">
+								<TextBlock 
+									FontSize="12"
+									Foreground="{StaticResource LableColor}"
+									Padding="0 0 4 0"
+									Width="70"
+									VerticalAlignment="Center"
+									TextAlignment="Right"
+									TextWrapping="Wrap"
+									Text="矿机名"></TextBlock>
+								<TextBox 
+									Height="30"
+									Width="144" 
+									Padding="3 0 0 0"
+									Background="{Binding MinerProfile.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
+									Text="{Binding MinerProfile.MinerName, UpdateSourceTrigger=LostFocus}" 
+									VerticalContentAlignment="Center">
+									<TextBox.ToolTip>
+										<StackPanel>
+											<TextBlock Text="点号、空格、减号、下划线将被去除。"></TextBlock>
+										</StackPanel>
+									</TextBox.ToolTip>
+								</TextBox>
+								<controls:KbButton 
+									Margin="10 0 0 0"
+									BorderThickness="0"
+									ToolTip="使用本机名作为矿工名"
+									Command="{Binding UseThisPcName}"
+									Background="Transparent"
+									CornerRadius="2">
+									<WrapPanel>
+										<Path
+											Width="16"
+											Height="14"
+											Data="{StaticResource Icon_WindowsOS}"
+											Fill="{StaticResource IconFillColor}"
+											Stretch="Fill" />
+										<TextBlock Text="自动本机名"></TextBlock>
+									</WrapPanel>
+								</controls:KbButton>
+							</WrapPanel>
+							<uc:MinerProfileIndex Margin="0 4 0 0" HorizontalAlignment="Stretch"></uc:MinerProfileIndex>
+							<uc:MinerProfileOption Margin="50 0 0 0" HorizontalAlignment="Left"></uc:MinerProfileOption>
+						</StackPanel>
+					</ScrollViewer>
+				</Grid>
 			</local:MainTabItem>
 			<local:MainTabItem Header="币种管理" Icon="{StaticResource Icon_Coin}" Margin="8 0">
 				<uc:CoinPage Margin="12"></uc:CoinPage>

@@ -10,7 +10,10 @@
 		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
 		mc:Ignorable="d" d:DesignHeight="450" d:DesignWidth="600">
 	<StackPanel>
-		<GroupBox Header="启动">
+		<GroupBox BorderThickness="0" Padding="14 0">
+			<GroupBox.Header>
+				<TextBlock FontWeight="Bold">启动</TextBlock>
+			</GroupBox.Header>
 			<StackPanel>
 				<WrapPanel Margin="0 2">
 					<CheckBox
@@ -25,7 +28,10 @@
 			</StackPanel>
 		</GroupBox>
 		<Grid>
-			<GroupBox Header="自动化" IsEnabled="{Binding IsFreeClient}">
+			<GroupBox IsEnabled="{Binding IsFreeClient}" BorderThickness="0" Padding="14 0">
+				<GroupBox.Header>
+					<TextBlock FontWeight="Bold">自动化</TextBlock>
+				</GroupBox.Header>
 				<StackPanel>
 					<WrapPanel Margin="0 2">
 						<CheckBox
@@ -115,7 +121,10 @@
 					Text="群控"></TextBlock>
 			</Border>
 		</Grid>
-		<GroupBox x:Name="GroupSystemSetting" Header="显示">
+		<GroupBox x:Name="GroupSystemSetting" BorderThickness="0" Padding="14 0">
+			<GroupBox.Header>
+				<TextBlock FontWeight="Bold">显示</TextBlock>
+			</GroupBox.Header>
 			<StackPanel>
 				<WrapPanel Margin="0 2">
 					<CheckBox
