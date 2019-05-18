@@ -264,7 +264,7 @@
 			</DataGrid.Columns>
 		</DataGrid>
 		<TextBlock Visibility="{Binding QueryResults, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center" Text="沒有记录"></TextBlock>
-		<Grid Grid.Row="1">
+		<Grid Grid.Row="1" Height="36">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="*"></ColumnDefinition>
 				<ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -295,7 +295,7 @@
 					</DataTemplate>
 				</ListBox.ItemTemplate>
 			</ListBox>
-			<WrapPanel Grid.Column="1" HorizontalAlignment="Right" Visibility="{Binding IsPageNumbersEmpty,Converter={StaticResource BoolToVisibilityInvertConverter}}">
+			<WrapPanel Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="{Binding IsPageNumbersEmpty,Converter={StaticResource BoolToVisibilityInvertConverter}}">
 				<Button x:Name="ButtonLeft" IsEnabled="{Binding CanPageSub}" Command="{Binding PageSub}">
 					<Button.Template>
 						<ControlTemplate>
