@@ -62,7 +62,7 @@
 							<StackPanel>
 								<TextBlock Text="{Binding Code}" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"></TextBlock>
 								<WrapPanel Margin="0 8 0 0">
-									<TextBlock Text="{Binding Notice}"></TextBlock>
+									<TextBlock Text="{Binding Notice}" ToolTip="{Binding Notice}"></TextBlock>
 									<TextBlock 
 										Foreground="Green" 
 										Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
