@@ -10,4 +10,11 @@
 	<SolidColorBrush x:Key="ThemeForeground">White</SolidColorBrush>
 	<SolidColorBrush x:Key="StateBarForeground">White</SolidColorBrush>
 	<SolidColorBrush x:Key="MinerProfileBackground">#F0F0F1</SolidColorBrush>
+	<SolidColorBrush x:Key="TextForeground">Red</SolidColorBrush>
+	<Style TargetType="{x:Type TextElement }">
+		<Setter Property="Foreground" Value="{StaticResource TextForeground}"/>
+	</Style>
+	<Style TargetType="{x:Type TextBlock }">
+		<Setter Property="Foreground" Value="{StaticResource TextForeground}"/>
+	</Style>
 </ResourceDictionary>
