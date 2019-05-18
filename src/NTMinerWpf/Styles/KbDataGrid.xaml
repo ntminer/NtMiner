@@ -72,7 +72,7 @@
     <Style TargetType="DataGridCell">
         <Setter Property="FocusVisualStyle" Value="{x:Null}"></Setter>
         <Setter Property="VerticalAlignment" Value="Stretch" />
-        <Setter Property="Foreground" Value="{StaticResource TextForeground}" />
+        <Setter Property="Foreground" Value="{x:Static SystemColors.ActiveCaptionTextBrush}" />
         <Setter Property="Background" Value="Transparent"></Setter>
         <Setter Property="FontSize" Value="12" />
         <Setter Property="Template">
