@@ -25,13 +25,6 @@
 	<converters:ProfitToBrushConverter x:Key="ProfitToBrushConverter"></converters:ProfitToBrushConverter>
 	<converters:AutoNumberValueConverter x:Key="AutoNumberValueConverter"></converters:AutoNumberValueConverter>
 
-	<SolidColorBrush x:Key="TextForeground">#1E1E1E</SolidColorBrush>
-	<Style TargetType="{x:Type TextElement }">
-		<Setter Property="Foreground" Value="{StaticResource TextForeground}"/>
-	</Style>
-	<Style TargetType="{x:Type TextBlock }">
-		<Setter Property="Foreground" Value="{StaticResource TextForeground}"/>
-	</Style>
 	<SolidColorBrush x:Key="IconFillColor">#278CDE</SolidColorBrush>
 	<SolidColorBrush x:Key="TransparentColor" Color="#00FFFFFF" />
 	<SolidColorBrush x:Key="LableColor" Color="#99000000"></SolidColorBrush>

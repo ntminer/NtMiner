@@ -249,10 +249,12 @@
 													<RowDefinition Height="Auto"></RowDefinition>
 												</Grid.RowDefinitions>
 												<Border Background="{TemplateBinding Background}">
-													<ContentPresenter 
+													<TextBlock 
+														x:Name="Text"
+														Padding="10 2"
 														HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
 														VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-														TextBlock.Foreground="{TemplateBinding Foreground}"/>
+														Text="{Binding Code}"/>
 												</Border>
 												<Path 
 													Grid.Row="1"
@@ -262,18 +264,18 @@
 													Data="M 0,0 6,0 3,3 Z" />
 												<Border Grid.Row="0" Grid.Column="1" Margin="0 5" BorderThickness="1 0 0 0" BorderBrush="{StaticResource LineColor}"></Border>
 											</Grid>
+											<ControlTemplate.Triggers>
+												<Trigger Property="IsMouseOver" Value="true">
+													<Setter Property="Foreground" TargetName="Text" Value="#2DA4FF"/>
+												</Trigger>
+												<Trigger Property="IsSelected" Value="true">
+													<Setter Property="Background" Value="#2DA4FF"/>
+													<Setter Property="Foreground" TargetName="Text" Value="White"/>
+												</Trigger>
+											</ControlTemplate.Triggers>
 										</ControlTemplate>
 									</Setter.Value>
 								</Setter>
-								<Style.Triggers>
-									<Trigger Property="IsMouseOver" Value="true">
-										<Setter Property="Foreground" Value="#2DA4FF"/>
-									</Trigger>
-									<Trigger Property="IsSelected" Value="true">
-										<Setter Property="Background" Value="#2DA4FF"/>
-										<Setter Property="Foreground" Value="White"/>
-									</Trigger>
-								</Style.Triggers>
 							</Style>
 						</ListBox.ItemContainerStyle>
 						<ListBox.ItemsPanel>
@@ -282,11 +284,6 @@
 								</WrapPanel>
 							</ItemsPanelTemplate>
 						</ListBox.ItemsPanel>
-						<ListBox.ItemTemplate>
-							<DataTemplate>
-								<TextBlock Padding="10 2" Text="{Binding Code}"></TextBlock>
-							</DataTemplate>
-						</ListBox.ItemTemplate>
 					</ListBox>
 				</ScrollViewer>
 				<WrapPanel Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Visibility="{Binding ElementName=CoinsScrollView,Path=ComputedHorizontalScrollBarVisibility}">

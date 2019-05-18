@@ -2,13 +2,6 @@
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:sys="clr-namespace:System;assembly=mscorlib">
-	<SolidColorBrush x:Key="TextForeground">#464646</SolidColorBrush>
-	<Style TargetType="{x:Type TextElement }">
-		<Setter Property="Foreground" Value="{StaticResource TextForeground}"/>
-	</Style>
-	<Style TargetType="{x:Type TextBlock }">
-		<Setter Property="Foreground" Value="{StaticResource TextForeground}"/>
-	</Style>
 	<SolidColorBrush x:Key="IconFillColor">#464646</SolidColorBrush>
 	<SolidColorBrush x:Key="TransparentColor" Color="#00FFFFFF" />
 	<SolidColorBrush x:Key="LableColor" Color="#99000000"></SolidColorBrush>
