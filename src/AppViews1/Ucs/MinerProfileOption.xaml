@@ -9,175 +9,170 @@
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels" Background="White"
 		mc:Ignorable="d" d:DesignHeight="450" d:DesignWidth="600">
-	<ScrollViewer 
-		Padding="4 0 0 0"
-		VerticalScrollBarVisibility="Auto" 
-		PreviewMouseDown="ScrollViewer_PreviewMouseDown">
-		<StackPanel>
-			<GroupBox Header="启动">
+	<StackPanel>
+		<GroupBox Header="启动">
+			<StackPanel>
+				<WrapPanel Margin="0 2">
+					<CheckBox
+						Content="随系统启动"
+						IsChecked="{Binding MinerProfile.IsAutoBoot}" />
+					<CheckBox
+						Margin="10 0 0 0"
+						Content="启动后自动使用上次的挖矿设置开始挖矿"
+						VerticalAlignment="Top"
+						IsChecked="{Binding MinerProfile.IsAutoStart}" />
+				</WrapPanel>
+			</StackPanel>
+		</GroupBox>
+		<Grid>
+			<GroupBox Header="自动化" IsEnabled="{Binding IsFreeClient}">
 				<StackPanel>
 					<WrapPanel Margin="0 2">
 						<CheckBox
-							Content="随系统启动"
-							IsChecked="{Binding MinerProfile.IsAutoBoot}" />
-						<CheckBox
-							Margin="10 0 0 0"
-							Content="启动后自动使用上次的挖矿设置开始挖矿"
-							VerticalAlignment="Top"
-							IsChecked="{Binding MinerProfile.IsAutoStart}" />
-					</WrapPanel>
-				</StackPanel>
-			</GroupBox>
-			<Grid>
-				<GroupBox Header="自动化" IsEnabled="{Binding IsFreeClient}">
-					<StackPanel>
-						<WrapPanel Margin="0 2">
-							<CheckBox
-								Padding="0"
-								IsChecked="{Binding IsAutoRestartKernel}">
-								<WrapPanel>
-									<TextBlock>如果内核进程意外消失，尝试重启内核</TextBlock>
-									<TextBox Width="40" Margin="2 0" Background="White" Text="{Binding AutoRestartKernelTimes}" HorizontalAlignment="Left"></TextBox>
-									<TextBlock>次</TextBlock>
-								</WrapPanel>
-							</CheckBox>
-						</WrapPanel>
-						<WrapPanel Margin="0 2">
-							<CheckBox
-								Padding="0"
-								IsChecked="{Binding IsNoShareRestartKernel}">
-								<WrapPanel>
-									<TextBlock>如果</TextBlock>
-									<TextBox Width="40" Margin="2 0" Background="White" Text="{Binding NoShareRestartKernelMinutes}" HorizontalAlignment="Left"></TextBox>
-									<TextBlock>分钟收益没有增加重启内核</TextBlock>
-								</WrapPanel>
-							</CheckBox>
-						</WrapPanel>
-						<WrapPanel Margin="0 2">
-							<CheckBox
-								Padding="0"
-								IsChecked="{Binding IsPeriodicRestartKernel}">
-								<WrapPanel>
-									<TextBlock>每运行</TextBlock>
-									<TextBox Width="40" Margin="2 0" Background="White" Text="{Binding PeriodicRestartKernelHours}" HorizontalAlignment="Left"></TextBox>
-									<TextBlock>小时重启内核</TextBlock>
-								</WrapPanel>
-							</CheckBox>
-						</WrapPanel>
-						<WrapPanel Margin="0 2">
-							<CheckBox
-								Padding="0"
-								IsChecked="{Binding IsPeriodicRestartComputer}">
-								<WrapPanel>
-									<TextBlock>每运行</TextBlock>
-									<TextBox Width="40" Margin="2 0" Background="White" Text="{Binding PeriodicRestartComputerHours}" HorizontalAlignment="Left"></TextBox>
-									<TextBlock>小时重启矿机</TextBlock>
-								</WrapPanel>
-							</CheckBox>
-						</WrapPanel>
-						<WrapPanel Margin="0 2">
-							<CheckBox
-								Padding="0"
-								IsChecked="{Binding IsSpeedDownRestartComputer}">
-								<WrapPanel>
-									<TextBlock>算力降低</TextBlock>
-									<TextBox Width="40" Margin="2 0" Background="White" Text="{Binding RestartComputerSpeedDownPercent}" HorizontalAlignment="Left"></TextBox>
-									<TextBlock>%时重启矿机 //TODO</TextBlock>
-									<TextBlock Foreground="Red">（算力基准来自于本机稳定挖矿时的均值）</TextBlock>
-								</WrapPanel>
-							</CheckBox>
-						</WrapPanel>
-						<WrapPanel Margin="0 2">
-							<CheckBox
-								Padding="0"
-								IsChecked="{Binding IsTempHighStopMine}">
-								<WrapPanel>
-									<TextBlock>显卡温度超过</TextBlock>
-									<TextBox Width="40" Margin="2 0" Background="White" Text="{Binding StopMineTempHigh}" HorizontalAlignment="Left"></TextBox>
-									<TextBlock>℃时暂停矿机，低于</TextBlock>
-									<TextBox Width="40" Margin="2 0" Background="White" Text="{Binding StartMineTempLow}" HorizontalAlignment="Left"></TextBox>
-									<TextBlock>℃时启动矿机 //TODO</TextBlock>
-								</WrapPanel>
-							</CheckBox>
-						</WrapPanel>
-					</StackPanel>
-				</GroupBox>
-				<Border
-					Margin="0 10 10 0"
-					Width="30"
-					Height="30"
-					Background="Red"
-					HorizontalAlignment="Right" 
-					VerticalAlignment="Top" 
-					CornerRadius="15"
-					Visibility="{Binding IsWorker,Converter={StaticResource BoolToVisibilityConverter}}">
-					<TextBlock 
-						HorizontalAlignment="Center"
-						VerticalAlignment="Center"
-						Foreground="White" 
-						FontWeight="Bold"
-						Text="群控"></TextBlock>
-				</Border>
-			</Grid>
-			<GroupBox x:Name="GroupSystemSetting" Header="显示">
-				<StackPanel>
-					<WrapPanel Margin="0 2">
-						<CheckBox
-								Padding="0"
-								IsChecked="{Binding IsEChargeEnabled}">
+							Padding="0"
+							IsChecked="{Binding IsAutoRestartKernel}">
 							<WrapPanel>
-								<TextBlock>在状态栏展示电费</TextBlock>
-							</WrapPanel>
-						</CheckBox>
-						<TextBlock Margin="10 0 0 0">电价</TextBlock>
-						<TextBox Width="40" Margin="2 0" Background="White" Text="{Binding EPrice}" HorizontalAlignment="Left"></TextBox>
-						<TextBlock>￥/度</TextBlock>
-						<TextBlock Foreground="Red">（1Kw时=1度）</TextBlock>
-					</WrapPanel>
-					<WrapPanel Margin="0 2">
-						<CheckBox 
-							Padding="0"
-							IsChecked="{Binding IsShowInTaskbar, Converter={StaticResource BoolInvertConverter}}"
-							Content="最小化开源矿工主窗口时隐藏任务栏图标">
-						</CheckBox>
-					</WrapPanel>
-
-					<WrapPanel Margin="0 2">
-						<CheckBox 
-							Padding="0"
-							IsChecked="{Binding IsNoUi}"
-							Content="关闭主窗口时切换为无界面模式运行">
-						</CheckBox>
-						<TextBlock Foreground="Red">（关闭界面可以减少一点CPU使用率增加稳定性）</TextBlock>
-					</WrapPanel>
-
-					<WrapPanel Margin="0 2">
-						<CheckBox 
-							Padding="0"
-							IsChecked="{Binding IsAutoNoUi}">
-							<WrapPanel>
-								<TextBlock>界面展示</TextBlock>
-								<TextBox Width="40" Margin="2 0" Background="White" Text="{Binding AutoNoUiMinutes}" HorizontalAlignment="Left"></TextBox>
-								<TextBlock>分钟后自动切换为无界面模式运行</TextBlock>
+								<TextBlock>如果内核进程意外消失，尝试重启内核</TextBlock>
+								<TextBox Width="40" Margin="2 0" Background="White" Text="{Binding AutoRestartKernelTimes}" HorizontalAlignment="Left"></TextBox>
+								<TextBlock>次</TextBlock>
 							</WrapPanel>
 						</CheckBox>
 					</WrapPanel>
-
 					<WrapPanel Margin="0 2">
-						<CheckBox 
+						<CheckBox
 							Padding="0"
-							IsChecked="{Binding IsShowNotifyIcon}"
-							Content="显示托盘图标">
+							IsChecked="{Binding IsNoShareRestartKernel}">
+							<WrapPanel>
+								<TextBlock>如果</TextBlock>
+								<TextBox Width="40" Margin="2 0" Background="White" Text="{Binding NoShareRestartKernelMinutes}" HorizontalAlignment="Left"></TextBox>
+								<TextBlock>分钟收益没有增加重启内核</TextBlock>
+							</WrapPanel>
 						</CheckBox>
-						<TextBlock Foreground="Red">（点击托盘图标可以打开/隐藏主界面）</TextBlock>
 					</WrapPanel>
-
 					<WrapPanel Margin="0 2">
-						<TextBlock>打开/隐藏主界面快捷键 Ctrl + Alt +</TextBlock>
-						<TextBox Margin="4 0 0 0" Padding="4 0" IsReadOnly="True" Text="{Binding HotKey}" ToolTip="可选范围A-Z" KeyDown="ButtonHotKey_KeyDown"></TextBox>
+						<CheckBox
+							Padding="0"
+							IsChecked="{Binding IsPeriodicRestartKernel}">
+							<WrapPanel>
+								<TextBlock>每运行</TextBlock>
+								<TextBox Width="40" Margin="2 0" Background="White" Text="{Binding PeriodicRestartKernelHours}" HorizontalAlignment="Left"></TextBox>
+								<TextBlock>小时重启内核</TextBlock>
+							</WrapPanel>
+						</CheckBox>
+					</WrapPanel>
+					<WrapPanel Margin="0 2">
+						<CheckBox
+							Padding="0"
+							IsChecked="{Binding IsPeriodicRestartComputer}">
+							<WrapPanel>
+								<TextBlock>每运行</TextBlock>
+								<TextBox Width="40" Margin="2 0" Background="White" Text="{Binding PeriodicRestartComputerHours}" HorizontalAlignment="Left"></TextBox>
+								<TextBlock>小时重启矿机</TextBlock>
+							</WrapPanel>
+						</CheckBox>
+					</WrapPanel>
+					<WrapPanel Margin="0 2">
+						<CheckBox
+							Padding="0"
+							IsChecked="{Binding IsSpeedDownRestartComputer}">
+							<WrapPanel>
+								<TextBlock>算力降低</TextBlock>
+								<TextBox Width="40" Margin="2 0" Background="White" Text="{Binding RestartComputerSpeedDownPercent}" HorizontalAlignment="Left"></TextBox>
+								<TextBlock>%时重启矿机 //TODO</TextBlock>
+								<TextBlock Foreground="Red">（算力基准来自于本机稳定挖矿时的均值）</TextBlock>
+							</WrapPanel>
+						</CheckBox>
+					</WrapPanel>
+					<WrapPanel Margin="0 2">
+						<CheckBox
+							Padding="0"
+							IsChecked="{Binding IsTempHighStopMine}">
+							<WrapPanel>
+								<TextBlock>显卡温度超过</TextBlock>
+								<TextBox Width="40" Margin="2 0" Background="White" Text="{Binding StopMineTempHigh}" HorizontalAlignment="Left"></TextBox>
+								<TextBlock>℃时暂停矿机，低于</TextBlock>
+								<TextBox Width="40" Margin="2 0" Background="White" Text="{Binding StartMineTempLow}" HorizontalAlignment="Left"></TextBox>
+								<TextBlock>℃时启动矿机 //TODO</TextBlock>
+							</WrapPanel>
+						</CheckBox>
 					</WrapPanel>
 				</StackPanel>
 			</GroupBox>
-		</StackPanel>
-	</ScrollViewer>
+			<Border
+				Margin="0 10 10 0"
+				Width="30"
+				Height="30"
+				Background="Red"
+				HorizontalAlignment="Right" 
+				VerticalAlignment="Top" 
+				CornerRadius="15"
+				Visibility="{Binding IsWorker,Converter={StaticResource BoolToVisibilityConverter}}">
+				<TextBlock 
+					HorizontalAlignment="Center"
+					VerticalAlignment="Center"
+					Foreground="White" 
+					FontWeight="Bold"
+					Text="群控"></TextBlock>
+			</Border>
+		</Grid>
+		<GroupBox x:Name="GroupSystemSetting" Header="显示">
+			<StackPanel>
+				<WrapPanel Margin="0 2">
+					<CheckBox
+						Padding="0"
+						IsChecked="{Binding IsEChargeEnabled}">
+						<WrapPanel>
+							<TextBlock>在状态栏展示电费</TextBlock>
+						</WrapPanel>
+					</CheckBox>
+					<TextBlock Margin="10 0 0 0">电价</TextBlock>
+					<TextBox Width="40" Margin="2 0" Background="White" Text="{Binding EPrice}" HorizontalAlignment="Left"></TextBox>
+					<TextBlock>￥/度</TextBlock>
+					<TextBlock Foreground="Red">（1Kw时=1度）</TextBlock>
+				</WrapPanel>
+				<WrapPanel Margin="0 2">
+					<CheckBox 
+						Padding="0"
+						IsChecked="{Binding IsShowInTaskbar, Converter={StaticResource BoolInvertConverter}}"
+						Content="最小化开源矿工主窗口时隐藏任务栏图标">
+					</CheckBox>
+				</WrapPanel>
+
+				<WrapPanel Margin="0 2">
+					<CheckBox 
+						Padding="0"
+						IsChecked="{Binding IsNoUi}"
+						Content="关闭主窗口时切换为无界面模式运行">
+					</CheckBox>
+					<TextBlock Foreground="Red">（关闭界面可以减少一点CPU使用率增加稳定性）</TextBlock>
+				</WrapPanel>
+
+				<WrapPanel Margin="0 2">
+					<CheckBox 
+						Padding="0"
+						IsChecked="{Binding IsAutoNoUi}">
+						<WrapPanel>
+							<TextBlock>界面展示</TextBlock>
+							<TextBox Width="40" Margin="2 0" Background="White" Text="{Binding AutoNoUiMinutes}" HorizontalAlignment="Left"></TextBox>
+							<TextBlock>分钟后自动切换为无界面模式运行</TextBlock>
+						</WrapPanel>
+					</CheckBox>
+				</WrapPanel>
+
+				<WrapPanel Margin="0 2">
+					<CheckBox 
+						Padding="0"
+						IsChecked="{Binding IsShowNotifyIcon}"
+						Content="显示托盘图标">
+					</CheckBox>
+					<TextBlock Foreground="Red">（点击托盘图标可以打开/隐藏主界面）</TextBlock>
+				</WrapPanel>
+
+				<WrapPanel Margin="0 2">
+					<TextBlock>打开/隐藏主界面快捷键 Ctrl + Alt +</TextBlock>
+					<TextBox Margin="4 0 0 0" Padding="4 0" IsReadOnly="True" Text="{Binding HotKey}" ToolTip="可选范围A-Z" KeyDown="ButtonHotKey_KeyDown"></TextBox>
+				</WrapPanel>
+			</StackPanel>
+		</GroupBox>
+	</StackPanel>
 </UserControl>
