@@ -338,23 +338,25 @@
 											Width="24" 
 											Height="24" 
 											CornerRadius="12">
-											<ContentPresenter 
+											<TextBlock 
 												HorizontalAlignment="Center"
 												VerticalAlignment="Center"
-												TextBlock.Foreground="{TemplateBinding Foreground}"/>
+												Foreground="{TemplateBinding Foreground}"
+												Text="{Binding}"/>
 										</Border>
+										<ControlTemplate.Triggers>
+											<Trigger Property="IsSelected" Value="true">
+												<Setter Property="Background" Value="{StaticResource ThemeBackground}"/>
+												<Setter Property="Foreground" Value="{StaticResource ThemeForeground}"/>
+											</Trigger>
+											<Trigger Property="IsMouseOver" Value="true">
+												<Setter Property="Background" Value="{StaticResource ThemeBackground}"/>
+												<Setter Property="Foreground" Value="{StaticResource ThemeForeground}"/>
+											</Trigger>
+										</ControlTemplate.Triggers>
 									</ControlTemplate>
 								</Setter.Value>
 							</Setter>
-							<Style.Triggers>
-								<Trigger Property="IsSelected" Value="true">
-									<Setter Property="Background" Value="#2DA4FF"/>
-									<Setter Property="Foreground" Value="White"/>
-								</Trigger>
-								<Trigger Property="IsMouseOver" Value="true">
-									<Setter Property="Background" Value="#2DA4FF"/>
-								</Trigger>
-							</Style.Triggers>
 						</Style>
 					</ListBox.ItemContainerStyle>
 					<ListBox.ItemsPanel>
@@ -363,11 +365,6 @@
 							</WrapPanel>
 						</ItemsPanelTemplate>
 					</ListBox.ItemsPanel>
-					<ListBox.ItemTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding}"></TextBlock>
-						</DataTemplate>
-					</ListBox.ItemTemplate>
 				</ListBox>
 				<Button x:Name="ButtonRight" Margin="2 0 0 0" IsEnabled="{Binding CanPageAdd}" Command="{Binding PageAdd}">
 					<Button.Template>
