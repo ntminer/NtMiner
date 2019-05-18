@@ -167,10 +167,15 @@
 				</TabControl>
 			</local:MainTabItem>
 			<local:MainTabItem Header="软件设置" Icon="{StaticResource Icon_Setting}" Margin="8 0">
-				<StackPanel Margin="12">
-					<uc:MinerProfileIndex></uc:MinerProfileIndex>
-					<uc:MinerProfileOption></uc:MinerProfileOption>
-				</StackPanel>
+				<ScrollViewer 
+					Margin="12"
+					VerticalScrollBarVisibility="Auto" 
+					PreviewMouseDown="ScrollViewer_PreviewMouseDown">
+					<StackPanel>
+						<uc:MinerProfileIndex></uc:MinerProfileIndex>
+						<uc:MinerProfileOption></uc:MinerProfileOption>
+					</StackPanel>
+				</ScrollViewer>
 			</local:MainTabItem>
 			<local:MainTabItem Header="币种管理" Icon="{StaticResource Icon_Coin}" Margin="8 0">
 				<uc:CoinPage Margin="12"></uc:CoinPage>
