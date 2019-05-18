@@ -19,7 +19,7 @@
 	ResizeBorderThickness="4"
 	TitlebarHeight="40"
 	UseNoneWindowStyle="True"
-	BorderBrush="Black"
+	BorderBrush="{StaticResource WindowBorderBrush}"
 	Background="#EEECEF"
 	WindowStartupLocation="CenterScreen"
 	MouseDown="MetroWindow_MouseDown"

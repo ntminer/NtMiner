@@ -9,7 +9,7 @@
 		Title="{Binding Title}"
 		WindowTransitionsEnabled="False"
 		UseNoneWindowStyle="True"
-		BorderBrush="Black"
+		BorderBrush="{StaticResource WindowBorderBrush}"
 		d:DataContext="{d:DesignData Source=/Design/ContainerWindowViewModel.xaml}"
 		Background="{StaticResource ThemeBackground}"
 		WindowStartupLocation="CenterScreen"

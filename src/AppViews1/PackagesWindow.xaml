@@ -23,7 +23,7 @@
 	d:DesignHeight="520" 
 	d:DesignWidth="1200"
 	UseNoneWindowStyle="True"
-	BorderBrush="Black"
+	BorderBrush="{StaticResource WindowBorderBrush}"
 	Background="#EEECEF"
 	WindowStartupLocation="CenterScreen"
 	MouseDown="MetroWindow_MouseDown"

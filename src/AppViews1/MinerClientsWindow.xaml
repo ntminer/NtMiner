@@ -13,7 +13,7 @@
 		xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 		UseNoneWindowStyle="True"
 		WindowTransitionsEnabled="False"
-		BorderBrush="Black"
+		BorderBrush="{StaticResource WindowBorderBrush}"
 		Background="{StaticResource ThemeBackground}"
 		WindowState="Maximized"
 		DataContext="{x:Static vm:MinerClientsWindowViewModel.Instance}"

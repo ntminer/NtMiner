@@ -9,7 +9,7 @@
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
 		xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
-		BorderBrush="Black"
+		BorderBrush="{StaticResource WindowBorderBrush}"
 		BorderThickness="1"
 		Background="White"
 		mc:Ignorable="d" 

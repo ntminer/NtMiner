@@ -12,7 +12,7 @@
 		ResizeMode="NoResize"
 		Background="{StaticResource ThemeBackground}"
 		Foreground="{StaticResource ThemeForeground}"
-		BorderBrush="Black"
+		BorderBrush="{StaticResource WindowBorderBrush}"
 		WindowStartupLocation="CenterScreen"
 		MouseDown="MetroWindow_MouseDown"
 		DataContext="{x:Static vm:MainWindowViewModel.Instance}"
