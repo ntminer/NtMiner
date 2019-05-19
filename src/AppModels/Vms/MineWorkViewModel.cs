@@ -1,6 +1,5 @@
 ﻿using NTMiner.Core;
 using NTMiner.MinerServer;
-using NTMiner.Views;
 using System;
 using System.IO;
 using System.Linq;
@@ -78,7 +77,7 @@ namespace NTMiner.Vms {
                     return;
                 }
                 if (!AppContext.Instance.MineWorkVms.TryGetMineWorkVm(this.Id, out MineWorkViewModel mineWorkVm)) {
-                    ViewUtil.ShowInputDialog("作业名称", string.Empty, workName => {
+                    Wpf.Util.ShowInputDialog("作业名称", string.Empty, workName => {
                         if (string.IsNullOrEmpty(workName)) {
                             return "作业名称是必须的";
                         }

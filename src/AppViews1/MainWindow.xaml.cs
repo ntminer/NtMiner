@@ -50,7 +50,7 @@ namespace NTMiner.Views {
                     }
                 }
             };
-            EventHandler changeNotiCenterWindowLocation = Wpf.Util.ChangeNotiCenterWindowLocation(this);
+            EventHandler changeNotiCenterWindowLocation = NotiCenterWindow.CreateNotiCenterWindowLocationManager(this);
             this.Activated += changeNotiCenterWindowLocation;
             this.LocationChanged += changeNotiCenterWindowLocation;
             if (DevMode.IsDevMode) {

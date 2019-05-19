@@ -9,6 +9,13 @@ namespace NTMiner.Views {
     public partial class NotiCenterWindow : Window {
         public static readonly NotiCenterWindow Instance = new NotiCenterWindow();
 
+        public static EventHandler CreateNotiCenterWindowLocationManager(Window window) {
+            return (sender, e) => {
+                Instance.Left = window.Left + (window.Width - Instance.Width) / 2;
+                Instance.Top = window.Top + 10;
+            };
+        }
+
         public NotiCenterWindowViewModel Vm {
             get { return NotiCenterWindowViewModel.Instance; }
         }
@@ -18,8 +25,7 @@ namespace NTMiner.Views {
             InitializeComponent();
             if (NotiCenterWindowViewModel.IsHotKeyEnabled) {
                 HotKeyUtil.RegHotKey = (key) => {
-                    string message;
-                    if (!RegHotKey(key, out message)) {
+                    if (!RegHotKey(key, out string message)) {
                         NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage(message, 4);
                         return false;
                     }
@@ -58,8 +64,7 @@ namespace NTMiner.Views {
             if (NotiCenterWindowViewModel.IsHotKeyEnabled) {
                 System.Windows.Forms.Keys hotKey = System.Windows.Forms.Keys.X;
                 Enum.TryParse(HotKeyUtil.GetHotKey(), out hotKey);
-                string message;
-                if (!RegHotKey(hotKey, out message)) {
+                if (!RegHotKey(hotKey, out string message)) {
                     NotiCenterWindowViewModel.Instance.Manager
                         .CreateMessage()
                         .Error(message)

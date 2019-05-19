@@ -1,5 +1,4 @@
-﻿using NTMiner.Core.Gpus;
-using NTMiner.Core.Gpus.Impl;
+﻿using NTMiner.Core.Gpus.Impl;
 using System;
 using System.Collections;
 using System.Collections.Generic;

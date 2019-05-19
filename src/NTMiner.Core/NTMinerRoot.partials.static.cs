@@ -1,6 +1,5 @@
 ﻿using Microsoft.Win32;
 using NTMiner.Core.Impl;
-using NTMiner.Core.Kernels;
 using NTMiner.JsonDb;
 using NTMiner.MinerServer;
 using NTMiner.Repositories;

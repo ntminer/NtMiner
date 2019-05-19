@@ -3,7 +3,6 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
-using System.Threading.Tasks;
 
 /// <summary>
 /// 注意不要挪动这里的命名空间也不要挪动该代码文件所处的程序集
