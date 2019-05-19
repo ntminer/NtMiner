@@ -147,7 +147,7 @@ namespace NTMiner {
         }
 
         private static ServerJsonDb _serverJson;
-        private static IServerJsonDb ServerJson {
+        public static IServerJsonDb ServerJson {
             get {
                 ServerJsonInit();
                 return _serverJson;
@@ -226,6 +226,7 @@ namespace NTMiner {
                 ServerJsonDb serverJsonObj = new ServerJsonDb(Instance, localJsonObj);
                 localJson = VirtualRoot.JsonSerializer.Serialize(localJsonObj);
                 serverJson = VirtualRoot.JsonSerializer.Serialize(serverJsonObj);
+                mineWorkData.ServerJsonSha1 = HashUtil.Sha1(serverJson);
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);

@@ -76,7 +76,7 @@ namespace NTMiner.JsonDb {
             PoolKernels = root.PoolKernelSet.Cast<PoolKernelData>().Where(a => !string.IsNullOrEmpty(a.Args) && pools.Any(b => b.Id == a.PoolId)).ToList();
             SysDicItems = root.SysDicItemSet.Cast<SysDicItemData>().ToArray();
             SysDics = root.SysDicSet.Cast<SysDicData>().ToArray();
-            TimeStamp = Timestamp.GetTimestamp();
+            TimeStamp = NTMinerRoot.ServerJson.TimeStamp;
         }
 
         public bool Exists<T>(Guid key) where T : IDbEntity<Guid> {

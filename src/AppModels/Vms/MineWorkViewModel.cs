@@ -1,4 +1,5 @@
 ﻿using NTMiner.Core;
+using NTMiner.JsonDb;
 using NTMiner.MinerServer;
 using System;
 using System.IO;
@@ -14,6 +15,7 @@ namespace NTMiner.Vms {
         private Guid _id;
         private string _name;
         private string _description;
+        private string _serverJsonSha1;
 
         public string Sha1 { get; private set; }
 
@@ -32,6 +34,7 @@ namespace NTMiner.Vms {
         public MineWorkViewModel(IMineWork mineWork) : this(mineWork.GetId()) {
             _name = mineWork.Name;
             _description = mineWork.Description;
+            _serverJsonSha1 = mineWork.ServerJsonSha1;
         }
 
         public MineWorkViewModel(MineWorkViewModel vm) : this((IMineWork)vm) {
@@ -47,14 +50,27 @@ namespace NTMiner.Vms {
                 if (string.IsNullOrEmpty(this.Name)) {
                     NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage("作业名称是必须的");
                 }
+                bool isMineWorkChanged = false;
                 bool isMinerProfileChanged = false;
+                MineWorkData mineWorkData = new MineWorkData(this);
                 if (NTMinerRoot.Instance.MineWorkSet.TryGetMineWork(this.Id, out IMineWork entity)) {
                     string sha1 = NTMinerRoot.Instance.MinerProfile.GetSha1();
+                    // 如果作业设置变更了则一定变更了
                     if (this.Sha1 != sha1) {
                         isMinerProfileChanged = true;
                     }
+                    else {
+                        // 如果作业设置没变更但作业引用的服务器数据库记录状态变更了则变更了
+                        LocalJsonDb localJsonObj = new LocalJsonDb(NTMinerRoot.Instance, mineWorkData);
+                        ServerJsonDb serverJsonObj = new ServerJsonDb(NTMinerRoot.Instance, localJsonObj);
+                        var serverJson = VirtualRoot.JsonSerializer.Serialize(serverJsonObj);
+                        sha1 = HashUtil.Sha1(serverJson);
+                        if (sha1 != this.ServerJsonSha1) {
+                            isMinerProfileChanged = true;
+                        }
+                    }
                     if (entity.Name != this.Name || entity.Description != this.Description) {
-                        VirtualRoot.Execute(new UpdateMineWorkCommand(this));
+                        isMineWorkChanged = true;
                     }
                     CloseWindow?.Invoke();
                 }
@@ -66,10 +82,17 @@ namespace NTMiner.Vms {
                 }
                 if (isMinerProfileChanged) {
                     Write.DevDebug("检测到MinerProfile状态变更");
-                    NTMinerRoot.ExportWorkJson(new MineWorkData(this), out string localJson, out string serverJson);
+                    NTMinerRoot.ExportWorkJson(mineWorkData, out string localJson, out string serverJson);
                     if (!string.IsNullOrEmpty(localJson) && !string.IsNullOrEmpty(serverJson)) {
                         Server.ControlCenterService.ExportMineWorkAsync(this.Id, localJson, serverJson, callback: null);
                     }
+                    if (mineWorkData.ServerJsonSha1 != this.ServerJsonSha1) {
+                        this.ServerJsonSha1 = mineWorkData.ServerJsonSha1;
+                        isMineWorkChanged = true;
+                    }
+                }
+                if (isMineWorkChanged) {
+                    VirtualRoot.Execute(new UpdateMineWorkCommand(mineWorkData));
                 }
             });
             this.Edit = new DelegateCommand<FormType?>((formType) => {
@@ -166,6 +189,16 @@ namespace NTMiner.Vms {
                 if (_description != value) {
                     _description = value;
                     OnPropertyChanged(nameof(Description));
+                }
+            }
+        }
+
+        public string ServerJsonSha1 {
+            get => _serverJsonSha1;
+            set {
+                if (_serverJsonSha1 != value) {
+                    _serverJsonSha1 = value;
+                    OnPropertyChanged(nameof(ServerJsonSha1));
                 }
             }
         }

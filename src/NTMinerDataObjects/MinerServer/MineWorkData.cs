@@ -11,6 +11,7 @@ namespace NTMiner.MinerServer {
             this.Id = data.GetId();
             this.Name = data.Name;
             this.Description = data.Description;
+            this.ServerJsonSha1 = data.ServerJsonSha1;
         }
 
         public Guid GetId() {
@@ -27,10 +28,13 @@ namespace NTMiner.MinerServer {
 
         public DateTime ModifiedOn { get; set; }
 
+        public string ServerJsonSha1 { get; set; }
+
         public StringBuilder GetSignData() {
             StringBuilder sb = new StringBuilder();
             sb.Append(nameof(Id)).Append(Id)
                 .Append(nameof(Name)).Append(Name)
+                .Append(nameof(ServerJsonSha1)).Append(ServerJsonSha1)
                 .Append(nameof(Description)).Append(Description)
                 .Append(nameof(CreatedOn)).Append(CreatedOn.ToUlong())
                 .Append(nameof(ModifiedOn)).Append(ModifiedOn.ToUlong());
