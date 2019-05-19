@@ -47,17 +47,19 @@ namespace NTMiner {
             if (createdNew) {
                 this.ShutdownMode = ShutdownMode.OnExplicitShutdown;
                 NTMinerRoot.SetIsMinerClient(false);
-                Window splashWindow = AppViewFactory.CreateSplashWindow();
-                splashWindow.Show();
                 NotiCenterWindow.Instance.Show();
-                bool isInnerIp = Ip.Util.IsInnerIp(NTMinerRegistry.GetControlCenterHost());
-                if (isInnerIp) {
-                    NTMinerServices.NTMinerServicesUtil.RunNTMinerServices(()=> {
-                        Init(splashWindow);
-                    });
-                }
-                else {
-                    Init(splashWindow);
+                LoginWindow loginWindow = new LoginWindow();
+                var result = loginWindow.ShowDialog();
+                if (result.HasValue && result.Value) {
+                    bool isInnerIp = Ip.Util.IsInnerIp(NTMinerRegistry.GetControlCenterHost());
+                    if (isInnerIp) {
+                        NTMinerServices.NTMinerServicesUtil.RunNTMinerServices(() => {
+                            Init();
+                        });
+                    }
+                    else {
+                        Init();
+                    }
                 }
                 VirtualRoot.Window<CloseNTMinerCommand>("处理关闭群控客户端命令", LogEnum.UserConsole,
                     action: message => {
@@ -88,25 +90,20 @@ namespace NTMiner {
             base.OnStartup(e);
         }
 
-        private void Init(Window splashWindow) {
+        private void Init() {
             NTMinerRoot.Instance.Init(() => {
                 AppViewFactory.Link();
                 UIThread.Execute(() => {
-                    splashWindow?.Close();
-                    LoginWindow loginWindow = new LoginWindow();
-                    var result = loginWindow.ShowDialog();
-                    if (result.HasValue && result.Value) {
-                        VirtualRoot.Execute(new ShowChartsWindowCommand());
-                        AppContext.NotifyIcon = ExtendedNotifyIcon.Create("群控客户端", isMinerStudio: true);
-                        #region 处理显示主界面命令
-                        VirtualRoot.Window<ShowMainWindowCommand>("处理显示主界面命令", LogEnum.DevConsole,
-                            action: message => {
-                                VirtualRoot.Execute(new ShowChartsWindowCommand());
-                            });
-                        #endregion
-                        HttpServer.Start($"http://localhost:{Consts.MinerStudioPort}");
-                        AppContext.RemoteDesktop = MsRdpRemoteDesktop.OpenRemoteDesktop;
-                    }
+                    VirtualRoot.Execute(new ShowChartsWindowCommand());
+                    AppContext.NotifyIcon = ExtendedNotifyIcon.Create("群控客户端", isMinerStudio: true);
+                    #region 处理显示主界面命令
+                    VirtualRoot.Window<ShowMainWindowCommand>("处理显示主界面命令", LogEnum.DevConsole,
+                        action: message => {
+                            VirtualRoot.Execute(new ShowChartsWindowCommand());
+                        });
+                    #endregion
+                    HttpServer.Start($"http://localhost:{Consts.MinerStudioPort}");
+                    AppContext.RemoteDesktop = MsRdpRemoteDesktop.OpenRemoteDesktop;
                 });
             });
         }
