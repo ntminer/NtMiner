@@ -23,8 +23,7 @@ namespace NTMiner {
                     return new List<AppSettingData>();
                 }
                 catch (Exception e) {
-                    e = e.GetInnerException();
-                    Logger.ErrorDebugLine(e.Message, e);
+                    Logger.ErrorDebugLine(e.GetInnerMessage(), e);
                     return new List<AppSettingData>();
                 }
             }

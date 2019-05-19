@@ -30,8 +30,7 @@ namespace NTMiner.NTMinerServices {
                         }
                     }
                     catch (Exception e) {
-                        e = e.GetInnerException();
-                        Logger.ErrorDebugLine(e.Message, e);
+                        Logger.ErrorDebugLine(e.GetInnerMessage(), e);
                         NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage("启动失败，请重试，如果问题一直持续请联系开发者解决问题");
                     }
                 });

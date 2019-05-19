@@ -30,8 +30,7 @@ namespace NTMiner {
                             Write.DevError($"本次ReportSpeedAsync已取消，因为耗时超过{timeSpan.TotalSeconds}秒");
                         }
                         else {
-                            e = e.GetInnerException();
-                            Logger.ErrorDebugLine(e.Message, e);
+                            Logger.ErrorDebugLine(e.GetInnerMessage(), e);
                         }
                     }
                 });
@@ -56,8 +55,7 @@ namespace NTMiner {
                             Write.DevError($"本次ReportStateAsync已取消，因为耗时超过{timeSpan.TotalSeconds}秒");
                         }
                         else {
-                            e = e.GetInnerException();
-                            Logger.ErrorDebugLine(e.Message, e);
+                            Logger.ErrorDebugLine(e.GetInnerMessage(), e);
                         }
                     }
                 });
