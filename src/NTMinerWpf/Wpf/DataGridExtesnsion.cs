@@ -19,7 +19,6 @@ namespace NTMiner.Wpf {
             return posBounds.Contains(theMousePos);
         }
 
-
         /// <summary>
         /// Returns the selected DataGridRow
         /// </summary>
@@ -32,7 +31,6 @@ namespace NTMiner.Wpf {
 
             return dg.ItemContainerGenerator.ContainerFromIndex(index) as DataGridRow;
         }
-
 
         /// <summary>
         /// Returns the Index of the Current Row.
