@@ -21,7 +21,7 @@
 			</DataGrid.Resources>
 			<DataGrid.Columns>
 				<DataGridTemplateColumn 
-					MinWidth="100" CanUserResize="True" IsReadOnly="True">
+					MinWidth="100" IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
 						<controls:KbButton
 							IsEnabled="{Binding Data.IsMinerStudio,Source={StaticResource proxy}}"
@@ -104,18 +104,18 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="登录名" Binding="{Binding LoginName}">
+				<DataGridTextColumn IsReadOnly="True" Header="登录名" Binding="{Binding LoginName}">
 				</DataGridTextColumn>
-				<DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="密码" Binding="{Binding PasswordStar}">
+				<DataGridTextColumn IsReadOnly="True" Header="密码" Binding="{Binding PasswordStar}">
 				</DataGridTextColumn>
-				<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="状态">
+				<DataGridTemplateColumn IsReadOnly="True" Header="状态">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Foreground="{Binding IsEnabled,Converter={StaticResource BoolToBrushConverter}}" Text="{Binding IsEnabledText}"></TextBlock>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTextColumn Width="*" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="备注" Binding="{Binding Description}">
+				<DataGridTextColumn Width="*" IsReadOnly="True" Header="备注" Binding="{Binding Description}">
 				</DataGridTextColumn>
 			</DataGrid.Columns>
 		</DataGrid>

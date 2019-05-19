@@ -36,7 +36,7 @@
 				</DataGrid.Resources>
 				<DataGrid.Columns>
 					<DataGridTemplateColumn 
-						CanUserResize="True" IsReadOnly="True"
+						IsReadOnly="True"
 						Visibility="{x:Static app:AppStatic.IsDebugModeVisible}">
 						<DataGridTemplateColumn.Header>
 							<controls:KbButton  
@@ -87,7 +87,7 @@
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-					<DataGridTemplateColumn Width="400" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTemplateColumn Width="400" IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<TextBlock Text="名称"></TextBlock>
 						</DataGridTemplateColumn.Header>
@@ -207,7 +207,7 @@
 								<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
 							</DataGrid.Resources>
 							<DataGrid.Columns>
-								<DataGridTextColumn Width="*" CanUserResize="True" CanUserReorder="False" CanUserSort="False" Binding="{Binding RegexPattern}"  IsReadOnly="True">
+								<DataGridTextColumn Width="*" Binding="{Binding RegexPattern}"  IsReadOnly="True">
 									<DataGridTextColumn.Header>
 										<WrapPanel>
 											<TextBlock Text="正则表达式"></TextBlock>
@@ -215,7 +215,7 @@
 										</WrapPanel>
 									</DataGridTextColumn.Header>
 								</DataGridTextColumn>
-								<DataGridTemplateColumn Width="*" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+								<DataGridTemplateColumn Width="*" IsReadOnly="True">
 									<DataGridTemplateColumn.Header>
 										<TextBlock Text="替换为"></TextBlock>
 									</DataGridTemplateColumn.Header>
@@ -225,7 +225,7 @@
 										</DataTemplate>
 									</DataGridTemplateColumn.CellTemplate>
 								</DataGridTemplateColumn>
-								<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+								<DataGridTemplateColumn IsReadOnly="True">
 									<DataGridTemplateColumn.Header>
 										<TextBlock Text="前景色"></TextBlock>
 									</DataGridTemplateColumn.Header>
@@ -235,7 +235,7 @@
 										</DataTemplate>
 									</DataGridTemplateColumn.CellTemplate>
 								</DataGridTemplateColumn>
-								<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+								<DataGridTemplateColumn IsReadOnly="True">
 									<DataGridTemplateColumn.Header>
 										<TextBlock Text="是前译"></TextBlock>
 									</DataGridTemplateColumn.Header>
@@ -245,12 +245,12 @@
 										</DataTemplate>
 									</DataGridTemplateColumn.CellTemplate>
 								</DataGridTemplateColumn>
-								<DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" Binding="{Binding SortNumber}" IsReadOnly="True">
+								<DataGridTextColumn Binding="{Binding SortNumber}" IsReadOnly="True">
 									<DataGridTextColumn.Header>
 										<TextBlock Text="排序"></TextBlock>
 									</DataGridTextColumn.Header>
 								</DataGridTextColumn>
-								<DataGridTemplateColumn MinWidth="100" CanUserResize="True" CanUserSort="False" IsReadOnly="True">
+								<DataGridTemplateColumn MinWidth="100" IsReadOnly="True">
 									<DataGridTemplateColumn.Header>
 										<controls:KbButton 
 											Command="{Binding Data.CurrentKernelOutputVm.AddKernelOutputTranslater, Source={StaticResource proxy}}" 
@@ -351,7 +351,7 @@
 								<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
 							</DataGrid.Resources>
 							<DataGrid.Columns>
-								<DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" Binding="{Binding RegexPattern}"  IsReadOnly="True">
+								<DataGridTextColumn Binding="{Binding RegexPattern}"  IsReadOnly="True">
 									<DataGridTextColumn.Header>
 										<WrapPanel>
 											<TextBlock Text="正则表达式"></TextBlock>
@@ -359,7 +359,7 @@
 										</WrapPanel>
 									</DataGridTextColumn.Header>
 								</DataGridTextColumn>
-								<DataGridTemplateColumn MinWidth="100" Width="*" CanUserResize="True" CanUserSort="False" IsReadOnly="True">
+								<DataGridTemplateColumn MinWidth="100" Width="*" IsReadOnly="True">
 									<DataGridTemplateColumn.Header>
 										<controls:KbButton 
 											Command="{Binding Data.CurrentKernelOutputVm.AddKernelOutputFilter, Source={StaticResource proxy}}" 

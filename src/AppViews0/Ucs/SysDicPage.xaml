@@ -29,7 +29,7 @@
             </DataGrid.Resources>
             <DataGrid.Columns>
                 <DataGridTemplateColumn 
-                    MinWidth="100" CanUserResize="True" IsReadOnly="True"
+                    MinWidth="100" IsReadOnly="True"
                     Visibility="{x:Static app:AppStatic.IsDebugModeVisible}">
                     <DataGridTemplateColumn.Header>
                         <controls:KbButton  
@@ -116,14 +116,13 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="编码" Binding="{Binding Code}">
+                <DataGridTextColumn IsReadOnly="True" Header="编码" Binding="{Binding Code}">
                 </DataGridTextColumn>
-                <DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="名称" Binding="{Binding Name}">
+                <DataGridTextColumn IsReadOnly="True" Header="名称" Binding="{Binding Name}">
                 </DataGridTextColumn>
                 <DataGridTextColumn 
-                        CanUserResize="True" CanUserReorder="False" 
                         Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
-                        CanUserSort="False" IsReadOnly="True" Header="排序" Binding="{Binding SortNumber}">
+                        IsReadOnly="True" Header="排序" Binding="{Binding SortNumber}">
                 </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
@@ -139,7 +138,7 @@
             </DataGrid.Resources>
             <DataGrid.Columns>
                 <DataGridTemplateColumn 
-                    Width="Auto" CanUserResize="True" CanUserSort="False" IsReadOnly="True">
+                    Width="Auto" IsReadOnly="True">
                     <DataGridTemplateColumn.Header>
                         <controls:KbButton 
                             Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
@@ -227,16 +226,15 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="编码" Binding="{Binding Code}">
+                <DataGridTextColumn IsReadOnly="True" Header="编码" Binding="{Binding Code}">
                 </DataGridTextColumn>
-                <DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="值" Binding="{Binding Value}">
+                <DataGridTextColumn IsReadOnly="True" Header="值" Binding="{Binding Value}">
                 </DataGridTextColumn>
-                <DataGridTextColumn Width="*" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="备注" Binding="{Binding Description}">
+                <DataGridTextColumn Width="*" IsReadOnly="True" Header="备注" Binding="{Binding Description}">
                 </DataGridTextColumn>
                 <DataGridTextColumn 
-                    CanUserResize="True" CanUserReorder="False" 
                     Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
-                    CanUserSort="False" IsReadOnly="True" Header="排序" Binding="{Binding SortNumber}">
+                    IsReadOnly="True" Header="排序" Binding="{Binding SortNumber}">
                 </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>

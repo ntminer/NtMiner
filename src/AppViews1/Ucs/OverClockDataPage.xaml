@@ -45,7 +45,7 @@
 				<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
 			</DataGrid.Resources>
 			<DataGrid.Columns>
-				<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
 						<TextBlock Text="显卡类型"></TextBlock>
 					</DataGridTemplateColumn.Header>
@@ -74,20 +74,20 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="名称" Binding="{Binding Name}">
+				<DataGridTextColumn IsReadOnly="True" Header="名称" Binding="{Binding Name}">
 				</DataGridTextColumn>
-				<DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="主频" Binding="{Binding CoreClockDelta}">
+				<DataGridTextColumn IsReadOnly="True" Header="主频" Binding="{Binding CoreClockDelta}">
 				</DataGridTextColumn>
-				<DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="显存" Binding="{Binding MemoryClockDelta}">
+				<DataGridTextColumn IsReadOnly="True" Header="显存" Binding="{Binding MemoryClockDelta}">
 				</DataGridTextColumn>
-				<DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="功耗" Binding="{Binding PowerCapacity}">
+				<DataGridTextColumn IsReadOnly="True" Header="功耗" Binding="{Binding PowerCapacity}">
 				</DataGridTextColumn>
-				<DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="最高温度" Binding="{Binding TempLimit}">
+				<DataGridTextColumn IsReadOnly="True" Header="最高温度" Binding="{Binding TempLimit}">
 				</DataGridTextColumn>
-				<DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="风扇" Binding="{Binding Cool}">
+				<DataGridTextColumn IsReadOnly="True" Header="风扇" Binding="{Binding Cool}">
 				</DataGridTextColumn>
 				<DataGridTemplateColumn 
-					MinWidth="100" Width="*" CanUserResize="True" IsReadOnly="True">
+					MinWidth="100" Width="*" IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
 						<controls:KbButton  
 							Command="{Binding Data.CurrentCoin.AddOverClockData, Source={StaticResource proxy}}" 

@@ -146,14 +146,14 @@
 							<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
 						</DataGrid.Resources>
 						<DataGrid.Columns>
-							<DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Binding="{Binding Kernel.FullName}">
+							<DataGridTextColumn IsReadOnly="True" Binding="{Binding Kernel.FullName}">
 								<DataGridTextColumn.Header>
 									<WrapPanel>
 										<TextBlock Text="内核"></TextBlock>
 									</WrapPanel>
 								</DataGridTextColumn.Header>
 							</DataGridTextColumn>
-							<DataGridTemplateColumn Width="*" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+							<DataGridTemplateColumn Width="*" IsReadOnly="True">
 								<DataGridTemplateColumn.Header>
 									<TextBlock Text="矿池级参数"></TextBlock>
 								</DataGridTemplateColumn.Header>
@@ -164,7 +164,7 @@
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
 							<DataGridTemplateColumn 
-								CanUserResize="True" CanUserSort="False" IsReadOnly="True"
+								IsReadOnly="True"
 								Visibility="{x:Static app:AppStatic.IsDebugModeVisible}">
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate>

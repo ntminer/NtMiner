@@ -26,7 +26,7 @@
 			</DataGrid.Resources>
 			<DataGrid.Columns>
 				<DataGridTemplateColumn 
-					MinWidth="50" CanUserResize="True" IsReadOnly="True"
+					MinWidth="50" IsReadOnly="True"
 					Visibility="{x:Static app:AppStatic.IsDebugModeVisible}">
 					<DataGridTemplateColumn.Header>
 						<controls:KbButton  
@@ -77,7 +77,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
 						<TextBlock Text="名称"></TextBlock>
 					</DataGridTemplateColumn.Header>
@@ -87,7 +87,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Width="*" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn Width="*" IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
 						<TextBlock Text="形参"></TextBlock>
 					</DataGridTemplateColumn.Header>
@@ -100,7 +100,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Width="130" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn Width="130" IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
 						<TextBlock Text="显卡指定参数形如"></TextBlock>
 					</DataGridTemplateColumn.Header>
@@ -110,7 +110,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
 						<TextBlock Text="支持双挖"></TextBlock>
 					</DataGridTemplateColumn.Header>

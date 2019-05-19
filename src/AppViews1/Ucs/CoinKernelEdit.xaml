@@ -138,7 +138,7 @@
 					<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
 				</DataGrid.Resources>
 				<DataGrid.Columns>
-					<DataGridTemplateColumn CanUserResize="True" IsReadOnly="True">
+					<DataGridTemplateColumn IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<controls:KbButton  
 								Command="{Binding Data.AddEnvironmentVariable, Source={StaticResource proxy}}" 
@@ -192,9 +192,9 @@
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-					<DataGridTextColumn Header="变量" Binding="{Binding Key}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTextColumn Header="变量" Binding="{Binding Key}" IsReadOnly="True">
 					</DataGridTextColumn>
-					<DataGridTextColumn Width="*" Header="值" Binding="{Binding Value}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTextColumn Width="*" Header="值" Binding="{Binding Value}" IsReadOnly="True">
 					</DataGridTextColumn>
 				</DataGrid.Columns>
 			</DataGrid>
@@ -212,7 +212,7 @@
 					<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
 				</DataGrid.Resources>
 				<DataGrid.Columns>
-					<DataGridTemplateColumn CanUserResize="True" IsReadOnly="True">
+					<DataGridTemplateColumn IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<controls:KbButton  
 								Command="{Binding Data.AddSegment, Source={StaticResource proxy}}" 
@@ -266,11 +266,11 @@
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-					<DataGridTextColumn Header="名称" Binding="{Binding Name}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTextColumn Header="名称" Binding="{Binding Name}" IsReadOnly="True">
 					</DataGridTextColumn>
-					<DataGridTextColumn Width="Auto" Header="片段" Binding="{Binding Segment}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTextColumn Width="Auto" Header="片段" Binding="{Binding Segment}" IsReadOnly="True">
 					</DataGridTextColumn>
-					<DataGridTemplateColumn Width="*" Header="描述" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTemplateColumn Width="*" Header="描述" IsReadOnly="True">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<TextBlock Text="{Binding Description}" ToolTip="{Binding Description}"></TextBlock>

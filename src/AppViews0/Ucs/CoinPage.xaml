@@ -69,7 +69,7 @@
 				</DataGrid.Resources>
 				<DataGrid.Columns>
 					<DataGridTemplateColumn 
-						CanUserResize="True" IsReadOnly="True"
+						IsReadOnly="True"
 						Visibility="{x:Static app:AppStatic.IsDebugModeVisible}">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
@@ -132,7 +132,7 @@
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-					<DataGridTemplateColumn Width="40" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTemplateColumn Width="40" IsReadOnly="True">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<Image Width="30" Height="30" Source="{Binding IconImageSource}">
@@ -140,7 +140,7 @@
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-					<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTemplateColumn IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<TextBlock Text="编码"></TextBlock>
 						</DataGridTemplateColumn.Header>
@@ -150,7 +150,7 @@
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-					<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTemplateColumn IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
 								<TextBlock Text="中文名"></TextBlock>
@@ -173,7 +173,7 @@
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-					<DataGridTextColumn Header="算法" Binding="{Binding AlgoItem.Value}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTextColumn Header="算法" Binding="{Binding AlgoItem.Value}" IsReadOnly="True">
 					</DataGridTextColumn>
 				</DataGrid.Columns>
 			</DataGrid>
@@ -228,7 +228,7 @@
 							<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
 						</DataGrid.Resources>
 						<DataGrid.Columns>
-							<DataGridTemplateColumn MinWidth="100" CanUserResize="True" CanUserSort="False" IsReadOnly="True">
+							<DataGridTemplateColumn MinWidth="100" IsReadOnly="True">
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate>
 										<StackPanel 
@@ -293,7 +293,7 @@
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
-							<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+							<DataGridTemplateColumn IsReadOnly="True">
 								<DataGridTemplateColumn.Header>
 									<WrapPanel>
 										<TextBlock Text="名称"></TextBlock>
@@ -323,9 +323,9 @@
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
-							<DataGridTextColumn MinWidth="60" Header="品牌" Visibility="{x:Static app:AppStatic.IsDevModeVisible}" Binding="{Binding BrandItem.Value}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+							<DataGridTextColumn MinWidth="60" Header="品牌" Visibility="{x:Static app:AppStatic.IsDevModeVisible}" Binding="{Binding BrandItem.Value}" IsReadOnly="True">
 							</DataGridTextColumn>
-							<DataGridTemplateColumn Width="*" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+							<DataGridTemplateColumn Width="*" IsReadOnly="True">
 								<DataGridTemplateColumn.Header>
 									<TextBlock Text="地址"></TextBlock>
 								</DataGridTemplateColumn.Header>
@@ -339,9 +339,8 @@
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
 							<DataGridTemplateColumn 
-								CanUserResize="True" CanUserReorder="False" 
 								Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
-								CanUserSort="False" IsReadOnly="True">
+								IsReadOnly="True">
 								<DataGridTemplateColumn.Header>
 									<TextBlock Text="排序"></TextBlock>
 								</DataGridTemplateColumn.Header>
@@ -396,7 +395,7 @@
 							<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
 						</DataGrid.Resources>
 						<DataGrid.Columns>
-							<DataGridTemplateColumn MinWidth="100" CanUserResize="True" IsReadOnly="True">
+							<DataGridTemplateColumn MinWidth="100" IsReadOnly="True">
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate>
 										<StackPanel 
@@ -463,7 +462,7 @@
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
-							<DataGridTemplateColumn Width="*" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+							<DataGridTemplateColumn Width="*" IsReadOnly="True">
 								<DataGridTemplateColumn.Header>
 									<WrapPanel>
 										<TextBlock Text="钱包"></TextBlock>
@@ -484,9 +483,8 @@
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
 							<DataGridTemplateColumn 
-								CanUserResize="True" CanUserReorder="False" 
 								Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
-								CanUserSort="False" IsReadOnly="True">
+								IsReadOnly="True">
 								<DataGridTemplateColumn.Header>
 									<TextBlock Text="排序"></TextBlock>
 								</DataGridTemplateColumn.Header>
@@ -544,7 +542,7 @@
 						<DataGrid.Columns>
 							<DataGridTemplateColumn 
 								Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
-								MinWidth="100" CanUserResize="True" CanUserSort="False" IsReadOnly="True">
+								MinWidth="100" IsReadOnly="True">
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate>
 										<StackPanel
@@ -607,7 +605,7 @@
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
-							<DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Binding="{Binding Kernel.FullName}">
+							<DataGridTextColumn IsReadOnly="True" Binding="{Binding Kernel.FullName}">
 								<DataGridTextColumn.Header>
 									<WrapPanel>
 										<TextBlock Text="名称"></TextBlock>
@@ -615,7 +613,7 @@
 									</WrapPanel>
 								</DataGridTextColumn.Header>
 							</DataGridTextColumn>
-							<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+							<DataGridTemplateColumn IsReadOnly="True">
 								<DataGridTemplateColumn.Header>
 									<TextBlock Text="支持显卡"></TextBlock>
 								</DataGridTemplateColumn.Header>
@@ -644,7 +642,7 @@
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
-							<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+							<DataGridTemplateColumn IsReadOnly="True">
 								<DataGridTemplateColumn.Header>
 									<TextBlock Text="双挖币组"></TextBlock>
 								</DataGridTemplateColumn.Header>
@@ -655,9 +653,8 @@
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
 							<DataGridTemplateColumn 
-								CanUserResize="True" CanUserReorder="False" 
 								Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
-								CanUserSort="False" IsReadOnly="True">
+								IsReadOnly="True">
 								<DataGridTemplateColumn.Header>
 									<TextBlock Text="排序"></TextBlock>
 								</DataGridTemplateColumn.Header>
@@ -667,7 +664,7 @@
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
-							<DataGridTemplateColumn Width="*" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+							<DataGridTemplateColumn Width="*" IsReadOnly="True">
 								<DataGridTemplateColumn.Header>
 									<TextBlock Text="币种级参数"></TextBlock>
 								</DataGridTemplateColumn.Header>
