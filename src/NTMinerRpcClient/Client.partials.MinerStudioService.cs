@@ -46,14 +46,14 @@ namespace NTMiner {
                     }
                 }
                 catch (Exception e) {
-                    Logger.ErrorDebugLine(e.GetInnerMessage(), e);
+                    Logger.ErrorDebugLine(e);
                 }
                 if (!isClosed) {
                     try {
                         Windows.TaskKill.Kill(processName);
                     }
                     catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
+                        Logger.ErrorDebugLine(e);
                     }
                 }
             }

@@ -48,7 +48,7 @@ namespace NTMiner {
                     }
                 }
                 catch (Exception e) {
-                    Logger.ErrorDebugLine(e.GetInnerMessage(), e);
+                    Logger.ErrorDebugLine(e);
                 }
             }
 
@@ -89,7 +89,7 @@ namespace NTMiner {
                     return new List<UserData>();
                 }
                 catch (Exception e) {
-                    Logger.ErrorDebugLine(e.GetInnerMessage(), e);
+                    Logger.ErrorDebugLine(e);
                     return new List<UserData>();
                 }
             }
@@ -254,7 +254,7 @@ namespace NTMiner {
                     return new List<MinerGroupData>();
                 }
                 catch (Exception e) {
-                    Logger.ErrorDebugLine(e.GetInnerMessage(), e);
+                    Logger.ErrorDebugLine(e);
                     return new List<MinerGroupData>();
                 }
             }
@@ -340,7 +340,7 @@ namespace NTMiner {
                     return new List<MineWorkData>();
                 }
                 catch (Exception e) {
-                    Logger.ErrorDebugLine(e.GetInnerMessage(), e);
+                    Logger.ErrorDebugLine(e);
                     return new List<MineWorkData>();
                 }
             }
@@ -372,7 +372,7 @@ namespace NTMiner {
                     }
                 }
                 catch (Exception e) {
-                    Logger.ErrorDebugLine(e.GetInnerMessage(), e);
+                    Logger.ErrorDebugLine(e);
                 }
                 return string.Empty;
             }
@@ -393,7 +393,7 @@ namespace NTMiner {
                     return response;
                 }
                 catch (Exception e) {
-                    Logger.ErrorDebugLine(e.GetInnerMessage(), e);
+                    Logger.ErrorDebugLine(e);
                     return null;
                 }
             }
@@ -440,7 +440,7 @@ namespace NTMiner {
                     return new List<PoolData>();
                 }
                 catch (Exception e) {
-                    Logger.ErrorDebugLine(e.GetInnerMessage(), e);
+                    Logger.ErrorDebugLine(e);
                     return new List<PoolData>();
                 }
             }
@@ -487,7 +487,7 @@ namespace NTMiner {
                     return new List<ColumnsShowData>();
                 }
                 catch (Exception e) {
-                    Logger.ErrorDebugLine(e.GetInnerMessage(), e);
+                    Logger.ErrorDebugLine(e);
                     return new List<ColumnsShowData>();
                 }
             }

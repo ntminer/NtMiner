@@ -26,7 +26,7 @@ namespace NTMiner.NoDevFee {
                 }
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
             }
         }
     }

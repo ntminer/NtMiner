@@ -18,7 +18,7 @@ namespace NTMiner.OverClock {
                 assembly.ExtractManifestResource(type, Path.GetFileName(SpecialPath.NTMinerOverClockFileFullName), SpecialPath.NTMinerOverClockFileFullName);
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
             }
         }
     }

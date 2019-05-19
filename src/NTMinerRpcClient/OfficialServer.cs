@@ -77,7 +77,7 @@ namespace NTMiner {
                 }
                 catch (Exception e) {
                     callback?.Invoke(new List<CalcConfigData>());
-                    Logger.ErrorDebugLine(e.Message, e);
+                    Logger.ErrorDebugLine(e);
                 }
             });
         }
@@ -206,7 +206,7 @@ namespace NTMiner {
                     PostAsync(SControllerName, nameof(IOverClockDataController.OverClockDatas), request, callback);
                 }
                 catch (Exception e) {
-                    Logger.ErrorDebugLine(e.GetInnerMessage(), e);
+                    Logger.ErrorDebugLine(e);
                     callback?.Invoke(null, e);
                 }
             }

@@ -16,7 +16,7 @@ namespace NTMiner.Vms {
                     CloseWindow?.Invoke();
                 }
                 catch (Exception e) {
-                    Logger.ErrorDebugLine(e.Message, e);
+                    Logger.ErrorDebugLine(e);
                 }
             });
         }

@@ -252,7 +252,7 @@ namespace NTMiner.Core.Kernels.Impl {
                 }
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
             }
         }
     }

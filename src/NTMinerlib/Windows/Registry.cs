@@ -14,7 +14,7 @@ namespace NTMiner.Windows {
                 return registData;
             }
             catch (System.Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
                 return registData;
             }
         }
@@ -25,7 +25,7 @@ namespace NTMiner.Windows {
                 registryKey.SetValue(valueName, value);
             }
             catch (System.Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
             }
         }
 
@@ -35,7 +35,7 @@ namespace NTMiner.Windows {
                 myKey?.DeleteValue(valueName, throwOnMissingValue: false);
             }
             catch (System.Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
             }
         }
         #endregion

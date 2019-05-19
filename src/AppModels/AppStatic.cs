@@ -216,7 +216,7 @@ namespace NTMiner {
                 NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage($"{AssemblyInfo.ServerJsonFileName}", "导出成功");
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
             }
         });
 
@@ -232,7 +232,7 @@ namespace NTMiner {
                     NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage($"刷新成功");
                 }
                 catch (Exception e) {
-                    Logger.ErrorDebugLine(e.Message, e);
+                    Logger.ErrorDebugLine(e);
                     NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage($"刷新失败");
                 }
             }, icon: IconConst.IconConfirm));

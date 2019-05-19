@@ -59,11 +59,6 @@ $@"<log4net>
             _log.Warn(message);
         }
 
-        public void WarnDebugLine(object message, Exception exception) {
-            Write.DevWarn(message?.ToString() + exception.StackTrace);
-            _log.Warn(message, exception);
-        }
-
         public void ErrorDebugLine(object message) {
             Write.DevError(message?.ToString());
             _log.Error(message);
@@ -72,16 +67,6 @@ $@"<log4net>
         public void ErrorDebugLine(object message, Exception exception) {
             Write.DevError(message?.ToString() + exception.StackTrace);
             _log.Error(message, exception);
-        }
-
-        public void FatalDebugLine(object message) {
-            Write.DevFatal(message?.ToString());
-            _log.Fatal(message);
-        }
-
-        public void FatalDebugLine(object message, Exception exception) {
-            Write.DevFatal(message?.ToString() + exception.StackTrace);
-            _log.Fatal(message, exception);
         }
 
         public void OkWriteLine(object message) {

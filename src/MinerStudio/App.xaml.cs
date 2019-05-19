@@ -68,7 +68,7 @@ namespace NTMiner {
                                 Shutdown();
                             }
                             catch (Exception ex) {
-                                Logger.ErrorDebugLine(ex.Message, ex);
+                                Logger.ErrorDebugLine(ex);
                                 Environment.Exit(0);
                             }
                         });

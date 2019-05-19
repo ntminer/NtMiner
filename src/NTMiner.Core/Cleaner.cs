@@ -31,7 +31,7 @@ namespace NTMiner {
                 }
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
             }
         }
 
@@ -66,7 +66,7 @@ namespace NTMiner {
                 }
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
             }
         }
 
@@ -86,13 +86,13 @@ namespace NTMiner {
                             Directory.Delete(dir, recursive: true);
                         }
                         catch (Exception e) {
-                            Logger.ErrorDebugLine(e.Message, e);
+                            Logger.ErrorDebugLine(e);
                         }
                     }
                 }
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
             }
         }
 
@@ -123,7 +123,7 @@ namespace NTMiner {
                 }
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
             }
         }
 
@@ -150,7 +150,7 @@ namespace NTMiner {
                 }
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
             }
         }
     }

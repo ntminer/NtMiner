@@ -42,7 +42,7 @@ namespace NTMiner {
                 }
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.GetInnerMessage(), e);
+                Logger.ErrorDebugLine(e);
                 return null;
             }
         }

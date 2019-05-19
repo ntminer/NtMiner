@@ -99,7 +99,7 @@ namespace NTMiner {
                     }
                 }
                 catch (Exception e) {
-                    Logger.ErrorDebugLine(e.Message, e);
+                    Logger.ErrorDebugLine(e);
                 }
                 return false;
             }
@@ -135,7 +135,7 @@ namespace NTMiner {
                                 _localJson = data;
                             }
                             catch (Exception e) {
-                                Logger.ErrorDebugLine(e.Message, e);
+                                Logger.ErrorDebugLine(e);
                             }
                         }
                         else {
@@ -197,7 +197,7 @@ namespace NTMiner {
                                 }
                             }
                             catch (Exception e) {
-                                Logger.ErrorDebugLine(e.Message, e);
+                                Logger.ErrorDebugLine(e);
                             }
                         }
                         else {
@@ -229,7 +229,7 @@ namespace NTMiner {
                 serverJson = VirtualRoot.JsonSerializer.Serialize(serverJsonObj);
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
             }
         }
 

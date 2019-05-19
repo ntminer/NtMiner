@@ -22,7 +22,7 @@ namespace NTMiner.SwitchRadeonGpu {
                 });
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
                 callback?.Invoke(false, e);
             }
         }

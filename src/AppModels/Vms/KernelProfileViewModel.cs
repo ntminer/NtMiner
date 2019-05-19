@@ -52,7 +52,7 @@ namespace NTMiner.Vms {
                                 Directory.Delete(kernelDirFullName, recursive: true);
                             }
                             catch (Exception e) {
-                                Logger.ErrorDebugLine(e.Message, e);
+                                Logger.ErrorDebugLine(e);
                             }
                         }
                         string downloadFileFullName = _kernelVm.GetDownloadFileFullName();

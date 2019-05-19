@@ -232,7 +232,7 @@ namespace NTMiner.Vms {
                             });
                     }
                     catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
+                        Logger.ErrorDebugLine(e);
                     }
                 }
             }
@@ -426,7 +426,7 @@ namespace NTMiner.Vms {
                         });
                     }
                     catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
+                        Logger.ErrorDebugLine(e);
                     }
                 }
             }

@@ -21,7 +21,7 @@ namespace NTMiner.Vms {
                     CloseWindow?.Invoke();
                 }
                 catch (Exception e) {
-                    Logger.ErrorDebugLine(e.Message, e);
+                    Logger.ErrorDebugLine(e);
                 }
             });
             if (NTMinerRoot.Instance.ServerAppSettingSet.TryGetAppSetting("ntminerUpdaterFileName", out IAppSetting appSetting) && appSetting.Value != null) {

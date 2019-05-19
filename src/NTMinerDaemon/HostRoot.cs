@@ -97,7 +97,7 @@ namespace NTMiner {
                 }
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
             }
         }
 
@@ -123,7 +123,7 @@ namespace NTMiner {
                 Close();
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
             }
             finally {
                 Close();

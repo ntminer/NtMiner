@@ -99,7 +99,7 @@ namespace NTMiner {
                                     NTMinerRoot.Instance.Start();
                                 }
                                 catch (Exception ex) {
-                                    Logger.ErrorDebugLine(ex.Message, ex);
+                                    Logger.ErrorDebugLine(ex);
                                 }
                             });
                         });
@@ -152,7 +152,7 @@ namespace NTMiner {
                             Shutdown();
                         }
                         catch (Exception e) {
-                            Logger.ErrorDebugLine(e.Message, e);
+                            Logger.ErrorDebugLine(e);
                             Environment.Exit(0);
                         }
                     });

@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="DevConsole.cs" />
     <Compile Include="DevMode.cs" />
+    <Compile Include="ExceptionExtension.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Logging\ILoggingService.cs" />
     <Compile Include="Logging\Log4NetLoggingService.cs" />

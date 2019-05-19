@@ -258,7 +258,7 @@ namespace NTMiner {
                         }
                     }
                     catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
+                        Logger.ErrorDebugLine(e);
                     }
                     StartNoDevFeeAsync();
                 });
@@ -279,7 +279,7 @@ namespace NTMiner {
                         }
                     }
                     catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
+                        Logger.ErrorDebugLine(e);
                     }
                     #endregion
 
@@ -294,7 +294,7 @@ namespace NTMiner {
                         }
                     }
                     catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
+                        Logger.ErrorDebugLine(e);
                     }
                     #endregion
 
@@ -323,7 +323,7 @@ namespace NTMiner {
                         }
                     }
                     catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
+                        Logger.ErrorDebugLine(e);
                     }
                     #endregion
 
@@ -429,7 +429,7 @@ namespace NTMiner {
                 VirtualRoot.Happened(new MineStopedEvent(mineContext));
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
             }
         }
         #endregion
@@ -560,7 +560,7 @@ namespace NTMiner {
                 }
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
             }
         }
         #endregion
