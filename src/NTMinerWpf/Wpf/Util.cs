@@ -1,5 +1,4 @@
-﻿using NTMiner.Views;
-using NTMiner.Vms;
+﻿using NTMiner.Vms;
 using System;
 using System.Diagnostics;
 using System.Linq;
@@ -24,13 +23,6 @@ namespace NTMiner.Wpf {
                 throw new ArgumentNullException(nameof(element));
             }
             return element.Template?.FindName("PART_ContentHost", element) as ScrollViewer;
-        }
-
-        public static EventHandler ChangeNotiCenterWindowLocation(Window window) {
-            return (sender, e) => {
-                NotiCenterWindow.Instance.Left = window.Left + (window.Width - NotiCenterWindow.Instance.Width) / 2;
-                NotiCenterWindow.Instance.Top = window.Top + 10;
-            };
         }
 
         public static void ScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {

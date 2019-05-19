@@ -15,7 +15,7 @@ namespace NTMiner.Views {
         }
 
         public LoginWindow() {
-            EventHandler changeNotiCenterWindowLocation = Util.ChangeNotiCenterWindowLocation(this);
+            EventHandler changeNotiCenterWindowLocation = NotiCenterWindow.CreateNotiCenterWindowLocationManager(this);
             this.Activated += changeNotiCenterWindowLocation;
             this.LocationChanged += changeNotiCenterWindowLocation;
             InitializeComponent();
