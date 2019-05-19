@@ -7,21 +7,20 @@
 			 xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
 			 xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 			 xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
-	         xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
+			 xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 			 mc:Ignorable="d" 
 			 BorderBrush="{StaticResource LineColor}"
-			 TextOptions.TextFormattingMode="Display"  
-			 Width="328">
+			 TextOptions.TextFormattingMode="Display">
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
-				<Setter Property="Width" Value="50"></Setter>
+				<Setter Property="Width" Value="70"></Setter>
 				<Setter Property="FontSize" Value="11"></Setter>
 			</Style>
 		</ResourceDictionary>
 	</UserControl.Resources>
 	<StackPanel Visibility="{Binding CoinVm.CoinKernel.IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}">
-		<WrapPanel Margin="0 2">
+		<WrapPanel Margin="0 6">
 			<TextBlock
 				Style="{StaticResource LblTb}"
 				Text="双挖币" />
@@ -31,7 +30,7 @@
 					Padding="4 0"
 					BorderThickness="1"
 					BorderBrush="{StaticResource LineColor}"
-					Height="26"							
+					Height="30"							
 					IsEnabled="{Binding ElementName=PopupDualCoin,Path=IsOpen,Converter={StaticResource BoolInvertConverter}}"
 					Background="{Binding IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
 					Click="KbButtonDualCoin_Clicked">
@@ -45,7 +44,7 @@
 						</ContextMenu>
 					</controls:KbButton.ContextMenu>
 					<WrapPanel>
-						<TextBlock Width="54" Padding="0 0 10 0" Foreground="Black" Text="{Binding CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.Code}"></TextBlock>
+						<TextBlock Width="122" Padding="0 0 10 0" Foreground="Black" Text="{Binding CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.Code}"></TextBlock>
 						<Path
 							Margin="0 2 0 0"
 							Width="12"
@@ -75,7 +74,7 @@
 					Padding="4 0"
 					BorderThickness="1"
 					BorderBrush="{StaticResource LineColor}"
-					Height="26"							
+					Height="30"							
 					IsEnabled="{Binding ElementName=PopupDualCoinPool,Path=IsOpen,Converter={StaticResource BoolInvertConverter}}"
 					Background="{Binding IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
 					Click="KbButtonDualCoinPool_Clicked">
@@ -90,7 +89,7 @@
 						</ContextMenu>
 					</controls:KbButton.ContextMenu>
 					<WrapPanel>
-						<TextBlock Width="116" Padding="0 0 10 0" Foreground="Black" Text="{Binding CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.Name}"></TextBlock>
+						<TextBlock Width="122" Padding="0 0 10 0" Foreground="Black" Text="{Binding CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.Name}"></TextBlock>
 						<Path
 							Margin="0 2 0 0"
 							Width="12"
@@ -108,21 +107,23 @@
 					StaysOpen="False"></Popup>
 			</WrapPanel>
 		</WrapPanel>
-		<Grid Margin="0 2"
+		<Grid 
+			Margin="0 6"
+			HorizontalAlignment="Left"
 			Visibility="{Binding CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.IsUserMode, Converter={StaticResource BoolToVisibilityInvertConverter}}">
-			<WrapPanel>
+			<WrapPanel Width="430">
 				<WrapPanel>
 					<TextBlock
-					Style="{StaticResource LblTb}"
-					Text="钱包" />
+						Style="{StaticResource LblTb}"
+						Text="钱包" />
 					<WrapPanel IsEnabled="{Binding IsMining, Converter={StaticResource BoolInvertConverter}}">
 						<controls:KbButton 
 							x:Name="ButtonDualCoinWallet"
-							Width="274"
+							Width="348"
 							Padding="4 0"
 							BorderThickness="1"
 							BorderBrush="{StaticResource LineColor}"
-							Height="36"							
+							Height="42"							
 							IsEnabled="{Binding ElementName=PopupDualCoinWallet,Path=IsOpen,Converter={StaticResource BoolInvertConverter}}"
 							Background="{Binding IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
 							Click="KbButtonDualCoinWallet_Clicked">
@@ -138,7 +139,7 @@
 								</ContextMenu>
 							</controls:KbButton.ContextMenu>
 							<WrapPanel>
-								<StackPanel Width="266">
+								<StackPanel Width="340">
 									<TextBlock Foreground="Black" Text="{Binding CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.SelectedDualCoinWallet.Name}"></TextBlock>
 									<TextBlock FontSize="11" Foreground="Black" Text="{Binding CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.SelectedDualCoinWallet.Address}"></TextBlock>
 								</StackPanel>
@@ -160,15 +161,15 @@
 					</WrapPanel>
 				</WrapPanel>
 				<Path
-					Width="269"
+					Width="343"
 					Height="14"
-					Margin="52 -18 0 0" 
+					Margin="72 -18 0 0" 
 					Data="M98 480.86h829.99v63.79H98z"
 					Fill="{StaticResource ThemeBackground}"
 					Stretch="Fill"
 					Visibility="{Binding CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.IsDualCoinHideWallet, Converter={StaticResource BoolToVisibilityConverter}}" />
 			</WrapPanel>
-			<WrapPanel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="260 2 0 0">
+			<WrapPanel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="340 2 0 0">
 				<controls:KbButton 
 					Padding="2"
 					Margin="0 -1 -4 2"
@@ -216,13 +217,13 @@
 			</WrapPanel>
 		</Grid>
 		<WrapPanel 
-			Margin="0 2" 
+			Margin="0 6" 
 			Visibility="{Binding CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.IsUserMode, Converter={StaticResource BoolToVisibilityConverter}}">
 			<TextBlock Style="{StaticResource LblTb}" Text="用户名"></TextBlock>
 			<Grid>
 				<TextBox 
-					Height="26"
-					Width="136"
+					Height="30"
+					Width="144"
 					Background="{Binding IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
 					IsEnabled="{Binding IsMining, Converter={StaticResource BoolInvertConverter}}"
 					VerticalContentAlignment="Center" 
@@ -230,7 +231,7 @@
 				</TextBox>
 				<Path
 					Margin="1 0"
-					Width="134"
+					Width="142"
 					Height="16"
 					HorizontalAlignment="Left"
 					Data="M98 480.86h829.99v63.79H98z"
