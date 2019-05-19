@@ -14,9 +14,6 @@ namespace NTMiner.Views {
             string text, 
             Func<string, string> check,
             Action<string> onOk) {
-            if (onOk == null) {
-                throw new ArgumentNullException(nameof(onOk));
-            }
             InitializeComponent();
             TbTitle.Text = title;
             TbText.Text = text;
@@ -26,7 +23,7 @@ namespace NTMiner.Views {
                 this.Owner = owner;
             }
             _check = check;
-            _onOk = onOk;
+            _onOk = onOk ?? throw new ArgumentNullException(nameof(onOk));
         }
 
         private void KbOkButton_Click(object sender, RoutedEventArgs e) {

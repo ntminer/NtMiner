@@ -1,4 +1,5 @@
-﻿using NTMiner.Vms;
+﻿using NTMiner.Views;
+using NTMiner.Vms;
 using System;
 using System.Diagnostics;
 using System.Linq;
@@ -8,6 +9,25 @@ using System.Windows.Input;
 
 namespace NTMiner.Wpf {
     public static class Util {
+        // 这个方法没有放在InputWindow类型中是为了去除编译时对MahaApps.Metro的依赖供AppModels使用
+        public static void ShowInputDialog(
+            string title,
+            string text,
+            Func<string, string> check,
+            Action<string> onOk) {
+            Window window = new InputWindow(title, text, check, onOk);
+            if (window.Owner != null) {
+                window.MouseBottom();
+                double ownerOpacity = window.Owner.Opacity;
+                window.Owner.Opacity = 0.6;
+                window.ShowDialog();
+                window.Owner.Opacity = ownerOpacity;
+            }
+            else {
+                window.ShowDialog();
+            }
+        }
+
         public static void RunAsAdministrator() {
             ProcessStartInfo startInfo = new ProcessStartInfo {
                 FileName = VirtualRoot.AppFileFullName,
