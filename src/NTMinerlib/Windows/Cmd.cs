@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.IO;
 
 namespace NTMiner.Windows {
     public static class Cmd {

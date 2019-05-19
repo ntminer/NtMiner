@@ -1,9 +1,7 @@
 ﻿using MahApps.Metro.Controls;
 using NTMiner.Views.Ucs;
 using NTMiner.Vms;
-using NTMiner.Wpf;
 using System;
-using System.Linq;
 using System.Windows;
 
 namespace NTMiner.Views {
