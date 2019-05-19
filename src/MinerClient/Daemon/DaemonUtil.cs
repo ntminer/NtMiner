@@ -29,7 +29,7 @@ namespace NTMiner.Daemon {
                     }
                 }
                 catch (Exception e) {
-                    Logger.ErrorDebugLine(e.Message, e);
+                    Logger.ErrorDebugLine(e);
                 }
             }
             else {
@@ -63,7 +63,7 @@ namespace NTMiner.Daemon {
                         Windows.TaskKill.Kill("DevConsole", waitForExit: true);
                     }
                     catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
+                        Logger.ErrorDebugLine(e);
                     }
                     string name = "DevConsole.exe";
                     ExtractResource(name);
@@ -83,7 +83,7 @@ namespace NTMiner.Daemon {
                 assembly.ExtractManifestResource(type, name, Path.Combine(daemonDir, name));
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
             }
         }
 
@@ -102,7 +102,7 @@ namespace NTMiner.Daemon {
                         }
                     }
                     catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
+                        Logger.ErrorDebugLine(e);
                         s_thisDevConsoleFileVersion = string.Empty;
                     }
                 }
@@ -125,7 +125,7 @@ namespace NTMiner.Daemon {
                         }
                     }
                     catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
+                        Logger.ErrorDebugLine(e);
                         s_thisNTMinerDaemonFileVersion = string.Empty;
                     }
                 }

@@ -10,7 +10,7 @@ using System.Threading;
 
 namespace NTMiner {
     public class HostRoot : IHostRoot {
-        public static EventWaitHandle WaitHandle = new AutoResetEvent(false);
+        private static EventWaitHandle WaitHandle = new AutoResetEvent(false);
         private static readonly bool IsNotOfficial = Environment.CommandLine.IndexOf("--notofficial", StringComparison.OrdinalIgnoreCase) != -1;
         private static readonly bool EnableInnerIp = Environment.CommandLine.IndexOf("--enableInnerIp", StringComparison.OrdinalIgnoreCase) != -1;
         public static ExtendedNotifyIcon NotifyIcon;
@@ -38,7 +38,7 @@ namespace NTMiner {
                 }
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
             }
         }
 
@@ -66,7 +66,7 @@ namespace NTMiner {
                 Close();
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
             }
             finally {
                 Close();

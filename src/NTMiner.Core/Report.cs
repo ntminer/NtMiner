@@ -177,7 +177,7 @@ namespace NTMiner {
                 Server.ReportService.ReportSpeedAsync(AssemblyInfo.OfficialServerHost, data);
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
             }
         }
     }

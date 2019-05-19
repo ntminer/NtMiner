@@ -24,7 +24,6 @@ namespace NTMiner {
                     }
                 }
                 catch (Exception e) {
-                    e = e.GetInnerException();
                     callback?.Invoke(null, e);
                 }
             });
@@ -43,10 +42,7 @@ namespace NTMiner {
                 }
             }
             catch (Exception e) {
-                e = e.GetInnerException();
-                if (e is WebException webError) {
-                    Write.DevError(webError.Message + "，WebException.Status：" + webError.Status.ToString());
-                }
+                Logger.ErrorDebugLine(e);
                 return null;
             }
         }
@@ -68,7 +64,6 @@ namespace NTMiner {
                     }
                 }
                 catch (Exception e) {
-                    e = e.GetInnerException();
                     callback?.Invoke(default(T), e);
                 }
             });

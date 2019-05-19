@@ -55,7 +55,7 @@ namespace NTMiner {
                         VirtualRoot.Happened(new MineStartedEvent(mineContext));
                     }
                     catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
+                        Logger.ErrorDebugLine(e);
                         Write.UserFail("挖矿内核启动失败，请联系开发人员解决");
                     }
                 });
@@ -211,7 +211,7 @@ namespace NTMiner {
                             }
                         }
                         catch (Exception e) {
-                            Logger.ErrorDebugLine(e.Message, e);
+                            Logger.ErrorDebugLine(e);
                         }
                         finally {
                             sreader?.Close();

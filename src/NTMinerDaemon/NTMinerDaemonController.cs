@@ -24,7 +24,7 @@ namespace NTMiner {
                 return SpecialPath.ReadGpuProfilesJsonFile();
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
                 return string.Empty;
             }
         }
@@ -44,8 +44,7 @@ namespace NTMiner {
                 }
             }
             catch (Exception e) {
-                e = e.GetInnerException();
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
             }
         }
         #endregion
@@ -74,7 +73,7 @@ namespace NTMiner {
                 return ResponseBase.Ok();
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
                 return ResponseBase.ServerError(e.Message);
             }
         }
@@ -91,7 +90,7 @@ namespace NTMiner {
                 return ResponseBase.Ok();
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
                 return ResponseBase.ServerError(e.Message);
             }
         }
@@ -141,7 +140,7 @@ namespace NTMiner {
                 }
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
                 return ResponseBase.ServerError(e.Message);
             }
         }
@@ -164,13 +163,12 @@ namespace NTMiner {
                     }
                 }
                 catch (Exception e) {
-                    e = e.GetInnerException();
-                    Logger.ErrorDebugLine(e.Message, e);
+                    Logger.ErrorDebugLine(e);
                 }
                 return ResponseBase.Ok();
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
                 return ResponseBase.ServerError(e.Message);
             }
         }
@@ -200,7 +198,7 @@ namespace NTMiner {
                     }
                 }
                 catch (Exception e) {
-                    Logger.ErrorDebugLine(e.Message, e);
+                    Logger.ErrorDebugLine(e);
                 }
             });
             return ResponseBase.Ok();
@@ -216,8 +214,7 @@ namespace NTMiner {
                 }
             }
             catch (Exception e) {
-                e = e.GetInnerException();
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
             }
             if (!isClosed) {
                 try {
@@ -228,7 +225,7 @@ namespace NTMiner {
                     }
                 }
                 catch (Exception e) {
-                    Logger.ErrorDebugLine(e.Message, e);
+                    Logger.ErrorDebugLine(e);
                 }
             }
         }
@@ -247,7 +244,7 @@ namespace NTMiner {
                     }
                 }
                 catch (Exception e) {
-                    Logger.ErrorDebugLine(e.Message, e);
+                    Logger.ErrorDebugLine(e);
                 }
             });
             return ResponseBase.Ok();

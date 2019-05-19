@@ -148,7 +148,7 @@ namespace NTMiner.Vms {
                             IconImageSource = new BitmapImage(new Uri(IconImage, UriKind.RelativeOrAbsolute));
                         }
                         catch (Exception e) {
-                            Logger.ErrorDebugLine(e.Message, e);
+                            Logger.ErrorDebugLine(e);
                         }
                     }
                     OnPropertyChanged(nameof(IconImage));

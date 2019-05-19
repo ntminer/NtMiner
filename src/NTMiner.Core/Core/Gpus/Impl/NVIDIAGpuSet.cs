@@ -35,7 +35,7 @@ namespace NTMiner.Core.Gpus.Impl {
                         return _isNvmlInited;
                     }
                     catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
+                        Logger.ErrorDebugLine(e);
                     }
                 }
                 return false;
@@ -148,7 +148,7 @@ namespace NTMiner.Core.Gpus.Impl {
                         }
                     }
                     catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
+                        Logger.ErrorDebugLine(e);
                     }
                     this.Properties.Add(new GpuSetProperty("NVMLVersion", "NVML版本", nvmlVersion));
                     Dictionary<string, string> kvs = new Dictionary<string, string> {

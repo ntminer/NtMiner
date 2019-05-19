@@ -92,7 +92,7 @@ namespace NTMiner.Vms {
                                 }
                             }
                             catch (Exception e) {
-                                Logger.ErrorDebugLine(e.Message, e);
+                                Logger.ErrorDebugLine(e);
                             }
                             Logger.InfoDebugLine("复制开始");
                             File.Copy(saveFileFullName, location, overwrite: true);

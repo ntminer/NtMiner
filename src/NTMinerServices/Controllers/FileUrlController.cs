@@ -33,7 +33,7 @@ namespace NTMiner.Controllers {
                 return SignatureSafeUrl(uri);
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
                 return string.Empty;
             }
         }
@@ -69,7 +69,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.Ok();
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
                 return ResponseBase.ServerError(e.Message);
             }
         }
@@ -87,7 +87,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.Ok();
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
                 return ResponseBase.ServerError(e.Message);
             }
         }
@@ -107,7 +107,7 @@ namespace NTMiner.Controllers {
                 return SignatureSafeUrl(uri);
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
                 return string.Empty;
             }
         }
@@ -120,7 +120,7 @@ namespace NTMiner.Controllers {
                 return SignatureSafeUrl(uri);
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
                 return string.Empty;
             }
         }
@@ -138,7 +138,7 @@ namespace NTMiner.Controllers {
                 return SignatureSafeUrl(uri);
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
                 return string.Empty;
             }
         }

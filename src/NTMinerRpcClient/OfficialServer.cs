@@ -27,7 +27,6 @@ namespace NTMiner {
                     }
                 }
                 catch (Exception e) {
-                    e = e.GetInnerException();
                     callback?.Invoke(null, e);
                 }
             });
@@ -49,7 +48,6 @@ namespace NTMiner {
                     }
                 }
                 catch (Exception e) {
-                    e = e.GetInnerException();
                     callback?.Invoke(default(T), e);
                 }
             });
@@ -79,7 +77,7 @@ namespace NTMiner {
                 }
                 catch (Exception e) {
                     callback?.Invoke(new List<CalcConfigData>());
-                    Logger.ErrorDebugLine(e.Message, e);
+                    Logger.ErrorDebugLine(e);
                 }
             });
         }
@@ -208,8 +206,7 @@ namespace NTMiner {
                     PostAsync(SControllerName, nameof(IOverClockDataController.OverClockDatas), request, callback);
                 }
                 catch (Exception e) {
-                    e = e.GetInnerException();
-                    Logger.ErrorDebugLine(e.Message, e);
+                    Logger.ErrorDebugLine(e);
                     callback?.Invoke(null, e);
                 }
             }

@@ -35,8 +35,7 @@ namespace NTMiner {
                     Logger.InfoDebugLine($"下载完成：{fileUrl}");
                 }
                 catch (Exception e) {
-                    e = e.GetInnerException();
-                    Logger.ErrorDebugLine(e.Message, e);
+                    Logger.ErrorDebugLine(e);
                     callback?.Invoke(new byte[0]);
                 }
             });

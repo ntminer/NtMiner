@@ -79,12 +79,12 @@ namespace NTMiner {
                                 }
                                 catch (Exception e) {
                                     File.Delete(iconFileFullName);
-                                    Logger.ErrorDebugLine(e.Message, e);
+                                    Logger.ErrorDebugLine(e);
                                 }
                             }
                         }
                         catch (Exception e) {
-                            Logger.ErrorDebugLine(e.Message, e);
+                            Logger.ErrorDebugLine(e);
                         }
                     });
                 Init();

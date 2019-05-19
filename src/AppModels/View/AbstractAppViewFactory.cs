@@ -69,9 +69,9 @@ namespace NTMiner.View {
                         break;
                 }
             }
-            catch (Exception ex) {
+            catch (Exception e) {
                 RestartNTMiner();
-                Logger.ErrorDebugLine(ex.Message, ex);
+                Logger.ErrorDebugLine(e);
             }
         }
 

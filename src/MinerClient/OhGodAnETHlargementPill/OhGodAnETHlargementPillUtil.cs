@@ -29,7 +29,7 @@ namespace NTMiner.OhGodAnETHlargementPill {
                             }
                         }
                         catch (Exception e) {
-                            Logger.ErrorDebugLine(e.Message, e);
+                            Logger.ErrorDebugLine(e);
                         }
                         Logger.OkWriteLine("小药丸启动成功");
                     }
@@ -39,7 +39,7 @@ namespace NTMiner.OhGodAnETHlargementPill {
                 }
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
             }
         }
 
@@ -54,7 +54,7 @@ namespace NTMiner.OhGodAnETHlargementPill {
                 }
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
             }
         }
 
@@ -68,7 +68,7 @@ namespace NTMiner.OhGodAnETHlargementPill {
                 assembly.ExtractManifestResource(type, s_processName + ".exe", s_fileFullName);
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
             }
         }
     }

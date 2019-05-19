@@ -29,7 +29,7 @@ namespace NTMiner {
                 Write.UserOk($"服务停止成功: {DateTime.Now}.");
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
             }
 
             System.Threading.Thread.Sleep(1000);
@@ -92,7 +92,7 @@ namespace NTMiner {
                     }
                 }
                 catch (Exception e) {
-                    Logger.ErrorDebugLine(e.Message, e);
+                    Logger.ErrorDebugLine(e);
                 }
             });
         }
@@ -160,7 +160,7 @@ namespace NTMiner {
                 return results;
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
                 return new List<IncomeItem>();
             }
         }
@@ -203,7 +203,7 @@ namespace NTMiner {
                 return result;
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
                 return 0;
             }
         }
@@ -215,7 +215,7 @@ namespace NTMiner {
                 }
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
                 return new byte[0];
             }
         }

@@ -104,7 +104,7 @@ namespace NTMiner.Core.Gpus.Impl {
                 }
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
             }
             return "0.0";
         }

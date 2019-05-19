@@ -50,7 +50,7 @@ namespace NTMiner {
                             streamWriter.Close();
                         }
                         catch(Exception e) {
-                            Logger.ErrorDebugLine(e.Message, e);
+                            Logger.ErrorDebugLine(e);
                         }
                     }
                 }

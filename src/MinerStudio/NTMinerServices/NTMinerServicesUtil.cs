@@ -30,8 +30,7 @@ namespace NTMiner.NTMinerServices {
                         }
                     }
                     catch (Exception e) {
-                        e = e.GetInnerException();
-                        Logger.ErrorDebugLine(e.Message, e);
+                        Logger.ErrorDebugLine(e);
                         NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage("启动失败，请重试，如果问题一直持续请联系开发者解决问题");
                     }
                 });
@@ -42,15 +41,13 @@ namespace NTMiner.NTMinerServices {
         }
 
         private static void ExtractRunNTMinerServicesAsync(Action callback) {
-            Task.Factory.StartNew(() => {
-                string[] names = new string[] { "NTMinerServices.exe" };
-                foreach (var name in names) {
-                    ExtractResource(name);
-                }
-                Windows.Cmd.RunClose(SpecialPath.NTMinerServicesFileFullName, "--enableInnerIp --notofficial");
-                Logger.OkDebugLine("群控服务进程启动成功");
-                callback?.Invoke();
-            });
+            string[] names = new string[] { "NTMinerServices.exe" };
+            foreach (var name in names) {
+                ExtractResource(name);
+            }
+            Windows.Cmd.RunClose(SpecialPath.NTMinerServicesFileFullName, "--enableInnerIp --notofficial");
+            Logger.OkDebugLine("群控服务进程启动成功");
+            callback?.Invoke();
         }
 
         private static void ExtractResource(string name) {
@@ -61,7 +58,7 @@ namespace NTMiner.NTMinerServices {
                 assembly.ExtractManifestResource(type, name, Path.Combine(dir, name));
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
             }
         }
 
@@ -80,7 +77,7 @@ namespace NTMiner.NTMinerServices {
                         }
                     }
                     catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
+                        Logger.ErrorDebugLine(e);
                         s_thisNTMinerServicesFileVersion = string.Empty;
                     }
                 }

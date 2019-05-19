@@ -56,8 +56,7 @@ namespace NTMiner.User.Impl {
                 }
             }
             catch (Exception e) {
-                e = e.GetInnerException();
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
             }
             return new List<UserData>();
         }
@@ -69,8 +68,7 @@ namespace NTMiner.User.Impl {
 
         public IUser GetUser(string loginName) {
             InitOnece();
-            UserData userData;
-            if (_dicByLoginName.TryGetValue(loginName, out userData)) {
+            if (_dicByLoginName.TryGetValue(loginName, out UserData userData)) {
                 return userData;
             }
             return null;

@@ -126,7 +126,7 @@ namespace NTMiner.Core.Profiles {
                             _data = data;
                         }
                         catch (Exception e) {
-                            Logger.ErrorDebugLine(e.Message, e);
+                            Logger.ErrorDebugLine(e);
                         }
                     }
                     else {
