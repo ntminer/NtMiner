@@ -20,10 +20,10 @@
                 <controls:BindingProxy x:Key="proxy" Data="{Binding ColumnsShowVms}" />
             </DataGrid.Resources>
             <DataGrid.Columns>
-                <DataGridTextColumn Width="*" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="名称" Binding="{Binding ColumnsShowName}">
+                <DataGridTextColumn Width="*" IsReadOnly="True" Header="名称" Binding="{Binding ColumnsShowName}">
                 </DataGridTextColumn>
                 <DataGridTemplateColumn 
-                    CanUserResize="True" IsReadOnly="True">
+                    IsReadOnly="True">
                     <DataGridTemplateColumn.Header>
                         <controls:KbButton  
                             Command="{Binding Data.Add, Source={StaticResource proxy}}" 

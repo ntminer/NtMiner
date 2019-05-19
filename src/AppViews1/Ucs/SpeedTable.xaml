@@ -23,7 +23,7 @@
 				<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
 			</DataGrid.Resources>
 			<DataGrid.Columns>
-				<DataGridTemplateColumn MinWidth="50" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn MinWidth="50" IsReadOnly="True">
 					<DataGridTemplateColumn.HeaderTemplate>
 						<DataTemplate>
 							<TextBlock Text="序号"></TextBlock>
@@ -35,7 +35,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="80" Width="*" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn MinWidth="80" Width="*" IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
 						<TextBlock Text="名称"></TextBlock>
 					</DataGridTemplateColumn.Header>
@@ -45,7 +45,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
 						<TextBlock Text="显存"></TextBlock>
 					</DataGridTemplateColumn.Header>
@@ -55,7 +55,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="90" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn MinWidth="90" IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
 						<StackPanel>
 							<WrapPanel>
@@ -71,7 +71,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="90" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"
+				<DataGridTemplateColumn MinWidth="90" IsReadOnly="True"
 					Visibility="{Binding Data.MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled, Source={StaticResource proxy}, Converter={StaticResource BoolToHiddenConverter}}">
 					<DataGridTemplateColumn.Header>
 						<StackPanel>
@@ -88,7 +88,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="50" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn MinWidth="50" IsReadOnly="True">
 					<DataGridTemplateColumn.HeaderTemplate>
 						<DataTemplate>
 							<TextBlock Text="温度"></TextBlock>
@@ -100,7 +100,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="50" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn MinWidth="50" IsReadOnly="True">
 					<DataGridTemplateColumn.HeaderTemplate>
 						<DataTemplate>
 							<TextBlock Text="风扇"></TextBlock>
@@ -112,7 +112,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="60" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn MinWidth="60" IsReadOnly="True">
 					<DataGridTemplateColumn.HeaderTemplate>
 						<DataTemplate>
 							<StackPanel>
@@ -127,7 +127,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="40" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn MinWidth="40" IsReadOnly="True">
 					<DataGridTemplateColumn.HeaderTemplate>
 						<DataTemplate>
 							<TextBlock Text="功耗" FontSize="12"></TextBlock>
@@ -139,14 +139,14 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="40" Header="核心" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn MinWidth="40" Header="核心" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding GpuVm.CoreClockDeltaMText}"></TextBlock>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="40" Header="显存" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn MinWidth="40" Header="显存" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding GpuVm.MemoryClockDeltaMText}"></TextBlock>

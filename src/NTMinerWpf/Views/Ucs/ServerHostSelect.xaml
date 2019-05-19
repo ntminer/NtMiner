@@ -44,7 +44,7 @@
 				<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
 			</DataGrid.Resources>
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Width="*" Header="IP或域名" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn Width="*" Header="IP或域名" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock 
@@ -53,7 +53,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Width="30" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn Width="30" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<Button 

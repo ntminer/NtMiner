@@ -70,7 +70,7 @@
 					<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
 				</DataGrid.Resources>
 				<DataGrid.Columns>
-					<DataGridTemplateColumn Width="46" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTemplateColumn Width="46" IsReadOnly="True">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<Image Margin="8 0 0 0" Width="30" Height="30" Source="{Binding IconImageSource}">
@@ -78,7 +78,7 @@
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-					<DataGridTemplateColumn Header="币名" Width="*" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTemplateColumn Header="币名" Width="*" IsReadOnly="True">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<WrapPanel>
@@ -122,7 +122,7 @@
 					<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
 				</DataGrid.Resources>
 				<DataGrid.Columns>
-					<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTemplateColumn IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
 								<TextBlock Text="名称"></TextBlock>
@@ -152,9 +152,9 @@
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-					<DataGridTextColumn MinWidth="60" Header="品牌" Visibility="{x:Static app:AppStatic.IsDevModeVisible}" Binding="{Binding BrandItem.Value}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTextColumn MinWidth="60" Header="品牌" Visibility="{x:Static app:AppStatic.IsDevModeVisible}" Binding="{Binding BrandItem.Value}" IsReadOnly="True">
 					</DataGridTextColumn>
-					<DataGridTemplateColumn Width="*" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTemplateColumn Width="*" IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<TextBlock Text="地址"></TextBlock>
 						</DataGridTemplateColumn.Header>
@@ -168,9 +168,8 @@
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
 					<DataGridTemplateColumn 
-						CanUserResize="True" CanUserReorder="False" 
 						Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
-						CanUserSort="False" IsReadOnly="True">
+						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<TextBlock Text="排序"></TextBlock>
 						</DataGridTemplateColumn.Header>
@@ -180,7 +179,7 @@
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-					<DataGridTemplateColumn MinWidth="100" CanUserResize="True" CanUserSort="False" IsReadOnly="True">
+					<DataGridTemplateColumn MinWidth="100" IsReadOnly="True">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel 

@@ -259,10 +259,9 @@
 						<DataGrid.Columns>
 							<DataGridTextColumn 
 								Header="币种" Binding="{Binding CoinCode}"
-								CanUserResize="True" CanUserReorder="False"
-								CanUserSort="False" IsReadOnly="True">
+								IsReadOnly="True">
 							</DataGridTextColumn>
-							<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+							<DataGridTemplateColumn IsReadOnly="True">
 								<DataGridTemplateColumn.Header>
 									<TextBlock Text="支持显卡"></TextBlock>
 								</DataGridTemplateColumn.Header>
@@ -291,7 +290,7 @@
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
-							<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+							<DataGridTemplateColumn IsReadOnly="True">
 								<DataGridTemplateColumn.Header>
 									<TextBlock Text="双挖币组"></TextBlock>
 								</DataGridTemplateColumn.Header>
@@ -301,7 +300,7 @@
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
-							<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+							<DataGridTemplateColumn IsReadOnly="True">
 								<DataGridTemplateColumn.Header>
 									<TextBlock Text="币种级参数"></TextBlock>
 								</DataGridTemplateColumn.Header>
@@ -312,7 +311,7 @@
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
 							<DataGridTemplateColumn 
-								MinWidth="100" Width="*" CanUserResize="True" CanUserSort="False" IsReadOnly="True"
+								MinWidth="100" Width="*" IsReadOnly="True"
 								Visibility="{x:Static app:AppStatic.IsDebugModeVisible}">
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate>

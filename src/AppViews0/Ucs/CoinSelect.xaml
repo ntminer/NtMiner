@@ -100,7 +100,7 @@
 			PreviewKeyDown="DataGrid_PreviewKeyDown"
 			BorderThickness="0">
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Width="40" Header="图标" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn Width="40" Header="图标" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<Image Width="30" Height="30" Source="{Binding IconImageSource}">
@@ -108,11 +108,11 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTextColumn Width="100" Header="编码" Binding="{Binding Code}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTextColumn Width="100" Header="编码" Binding="{Binding Code}" IsReadOnly="True">
 				</DataGridTextColumn>
-				<DataGridTextColumn Width="140" Header="中文名" Binding="{Binding CnName}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTextColumn Width="140" Header="中文名" Binding="{Binding CnName}" IsReadOnly="True">
 				</DataGridTextColumn>
-				<DataGridTextColumn Width="140" Header="算法" Binding="{Binding AlgoItem.Value}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTextColumn Width="140" Header="算法" Binding="{Binding AlgoItem.Value}" IsReadOnly="True">
 				</DataGridTextColumn>
 			</DataGrid.Columns>
 		</DataGrid>

@@ -34,7 +34,7 @@
 			</DataGrid.Resources>
 			<DataGrid.Columns>
 				<DataGridTemplateColumn 
-					CanUserResize="True" IsReadOnly="True"
+					IsReadOnly="True"
 					Visibility="{x:Static app:AppStatic.IsDebugModeVisible}">
 					<DataGridTemplateColumn.Header>
 						<controls:KbButton  
@@ -121,7 +121,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
 						<TextBlock Text="名称"></TextBlock>
 					</DataGridTemplateColumn.Header>
@@ -132,9 +132,8 @@
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn 
-					CanUserResize="True" CanUserReorder="False" 
 					Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
-					CanUserSort="False" IsReadOnly="True" >
+					IsReadOnly="True" >
 					<DataGridTemplateColumn.Header>
 						<TextBlock Text="排序"></TextBlock>
 					</DataGridTemplateColumn.Header>
@@ -177,7 +176,7 @@
 					<controls:BindingProxy x:Key="proxy" Data="{Binding CurrentGroup}" />
 				</DataGrid.Resources>
 				<DataGrid.Columns>
-					<DataGridTemplateColumn Width="*" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTemplateColumn Width="*" IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<TextBlock Text="币种"></TextBlock>
 						</DataGridTemplateColumn.Header>
@@ -188,9 +187,8 @@
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
 					<DataGridTemplateColumn 
-						CanUserResize="True" CanUserReorder="False" 
 						Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
-						CanUserSort="False" IsReadOnly="True">
+						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<TextBlock Text="排序"></TextBlock>
 						</DataGridTemplateColumn.Header>
@@ -201,7 +199,7 @@
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
 					<DataGridTemplateColumn 
-						MinWidth="100" CanUserResize="True" CanUserSort="False" IsReadOnly="True">
+						MinWidth="100" IsReadOnly="True">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel 

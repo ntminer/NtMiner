@@ -36,7 +36,7 @@
 			</Style>
 		</DataGrid.Resources>
 		<DataGrid.Columns>
-			<DataGridTemplateColumn Header="编号" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+			<DataGridTemplateColumn Header="编号" IsReadOnly="True">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<WrapPanel>
@@ -46,14 +46,14 @@
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
-			<DataGridTemplateColumn MinWidth="80" Width="Auto" Header="名称" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+			<DataGridTemplateColumn MinWidth="80" Width="Auto" Header="名称" IsReadOnly="True">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<TextBlock Text="{Binding Name}"></TextBlock>
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
-			<DataGridTemplateColumn Width="90" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+			<DataGridTemplateColumn Width="90" IsReadOnly="True">
 				<DataGridTemplateColumn.Header>
 					<StackPanel>
 						<TextBlock Text="{Binding Data.MainCoinCode, Source={StaticResource proxy2}}" FontSize="12"></TextBlock>
@@ -66,8 +66,9 @@
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
-			<DataGridTemplateColumn Width="90" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"
-													Visibility="{Binding Data.DualCoinCode, Source={StaticResource proxy2}, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
+			<DataGridTemplateColumn 
+				Width="90" IsReadOnly="True"
+				Visibility="{Binding Data.DualCoinCode, Source={StaticResource proxy2}, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
 				<DataGridTemplateColumn.Header>
 					<StackPanel>
 						<TextBlock Text="{Binding Data.DualCoinCode, Source={StaticResource proxy2}}" FontSize="12"></TextBlock>
@@ -80,21 +81,21 @@
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
-			<DataGridTemplateColumn Header="温度" Width="50" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+			<DataGridTemplateColumn Header="温度" Width="50" IsReadOnly="True">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<TextBlock Foreground="{Binding TemperatureForeground}" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding TemperatureText}"></TextBlock>
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
-			<DataGridTemplateColumn Header="风扇" Width="50" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+			<DataGridTemplateColumn Header="风扇" Width="50" IsReadOnly="True">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding FanSpeedText}"></TextBlock>
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
-			<DataGridTemplateColumn Width="60" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+			<DataGridTemplateColumn Width="60" IsReadOnly="True">
 				<DataGridTemplateColumn.HeaderTemplate>
 					<DataTemplate>
 						<StackPanel>
@@ -109,21 +110,21 @@
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
-			<DataGridTemplateColumn Header="功耗" Width="60" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+			<DataGridTemplateColumn Header="功耗" Width="60" IsReadOnly="True">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding PowerCapacityText}"></TextBlock>
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
-			<DataGridTemplateColumn Header="核心" Width="60" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+			<DataGridTemplateColumn Header="核心" Width="60" IsReadOnly="True">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding CoreClockDeltaMText}"></TextBlock>
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
-			<DataGridTemplateColumn Header="显存" Width="60" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+			<DataGridTemplateColumn Header="显存" Width="60" IsReadOnly="True">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding MemoryClockDeltaMText}"></TextBlock>

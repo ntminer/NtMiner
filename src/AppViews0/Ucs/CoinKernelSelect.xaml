@@ -77,14 +77,14 @@
 			PreviewKeyDown="DataGrid_PreviewKeyDown"
 			BorderThickness="0">
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Width="200" Header="名称" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn Width="200" Header="名称" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding Kernel.FullName}" VerticalAlignment="Center" FontSize="14"></TextBlock>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Width="54" Header="显卡" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn Width="54" Header="显卡" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel>
@@ -110,7 +110,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Width="40" Header="双挖" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn Width="40" Header="双挖" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<Path

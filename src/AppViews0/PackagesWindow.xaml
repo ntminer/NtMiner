@@ -62,7 +62,7 @@
 			</DataGrid.Resources>
 			<DataGrid.Columns>
 				<DataGridTemplateColumn 
-					MinWidth="50" CanUserResize="True" IsReadOnly="True"
+					MinWidth="50" IsReadOnly="True"
 					Visibility="{x:Static app:AppStatic.IsDebugModeVisible}">
 					<DataGridTemplateColumn.Header>
 						<controls:KbButton  
@@ -113,14 +113,14 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="名称" Width="140" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn Header="名称" Width="140" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding Name}"></TextBlock>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTextColumn Width="*" Header="支持算法" Binding="{Binding AlgosText}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTextColumn Width="*" Header="支持算法" Binding="{Binding AlgosText}" IsReadOnly="True">
 				</DataGridTextColumn>
 			</DataGrid.Columns>
 		</DataGrid>

@@ -118,14 +118,14 @@
 					VerticalScrollBarVisibility="Auto"
 					BorderThickness="0">
 					<DataGrid.Columns>
-						<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+						<DataGridTemplateColumn IsReadOnly="True">
 							<DataGridTemplateColumn.CellTemplate>
 								<DataTemplate>
 									<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Name}"></TextBlock>
 								</DataTemplate>
 							</DataGridTemplateColumn.CellTemplate>
 						</DataGridTemplateColumn>
-						<DataGridTemplateColumn Width="*" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+						<DataGridTemplateColumn Width="*" IsReadOnly="True">
 							<DataGridTemplateColumn.CellTemplate>
 								<DataTemplate>
 									<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Value}"></TextBlock>
