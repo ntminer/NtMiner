@@ -42,15 +42,13 @@ namespace NTMiner.NTMinerServices {
         }
 
         private static void ExtractRunNTMinerServicesAsync(Action callback) {
-            Task.Factory.StartNew(() => {
-                string[] names = new string[] { "NTMinerServices.exe" };
-                foreach (var name in names) {
-                    ExtractResource(name);
-                }
-                Windows.Cmd.RunClose(SpecialPath.NTMinerServicesFileFullName, "--enableInnerIp --notofficial");
-                Logger.OkDebugLine("群控服务进程启动成功");
-                callback?.Invoke();
-            });
+            string[] names = new string[] { "NTMinerServices.exe" };
+            foreach (var name in names) {
+                ExtractResource(name);
+            }
+            Windows.Cmd.RunClose(SpecialPath.NTMinerServicesFileFullName, "--enableInnerIp --notofficial");
+            Logger.OkDebugLine("群控服务进程启动成功");
+            callback?.Invoke();
         }
 
         private static void ExtractResource(string name) {
