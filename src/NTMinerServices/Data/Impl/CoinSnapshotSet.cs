@@ -134,7 +134,7 @@ namespace NTMiner.Data.Impl {
                 }
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
             }
         }
 

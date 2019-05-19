@@ -25,7 +25,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.Ok();
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
                 return ResponseBase.ServerError(e.Message);
             }
         }
@@ -45,7 +45,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.Ok();
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
                 return ResponseBase.ServerError(e.Message);
             }
         }
@@ -59,7 +59,7 @@ namespace NTMiner.Controllers {
                 return DataResponse<List<OverClockData>>.Ok(data);
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
                 return ResponseBase.ServerError<DataResponse<List<OverClockData>>>(e.Message);
             }
         }

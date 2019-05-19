@@ -82,7 +82,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.Ok();
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
                 return ResponseBase.ServerError(e.Message);
             }
         }
@@ -112,7 +112,7 @@ namespace NTMiner.Controllers {
                 return DataResponse<List<UserData>>.Ok(data);
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
                 return ResponseBase.ServerError<DataResponse<List<UserData>>>(e.Message);
             }
         }
@@ -132,7 +132,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.Ok();
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
                 return ResponseBase.ServerError(e.Message);
             }
         }
@@ -152,7 +152,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.Ok();
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
                 return ResponseBase.ServerError(e.Message);
             }
         }
@@ -172,7 +172,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.Ok();
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
                 return ResponseBase.ServerError(e.Message);
             }
         }
@@ -201,7 +201,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.Ok();
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
                 return ResponseBase.ServerError(e.Message);
             }
         }
@@ -235,7 +235,7 @@ namespace NTMiner.Controllers {
                 return QueryClientsResponse.Ok(data, total, miningCount);
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
                 return ResponseBase.ServerError<QueryClientsResponse>(e.Message);
             }
         }
@@ -258,7 +258,7 @@ namespace NTMiner.Controllers {
                 return GetCoinSnapshotsResponse.Ok(data, totalMiningCount, totalOnlineCount);
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
                 return ResponseBase.ServerError<GetCoinSnapshotsResponse>(e.Message);
             }
         }
@@ -294,7 +294,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.Ok();
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
                 return ResponseBase.ServerError(e.Message);
             }
         }
@@ -318,7 +318,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.Ok();
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
                 return ResponseBase.ServerError(e.Message);
             }
         }
@@ -338,7 +338,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.Ok();
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
                 return ResponseBase.ServerError(e.Message);
             }
         }
@@ -362,7 +362,7 @@ namespace NTMiner.Controllers {
                 return DataResponse<List<ClientData>>.Ok(data);
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
                 return ResponseBase.ServerError<DataResponse<List<ClientData>>>(e.Message);
             }
         }
@@ -382,7 +382,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.Ok();
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
                 return ResponseBase.ServerError(e.Message);
             }
         }
@@ -402,7 +402,7 @@ namespace NTMiner.Controllers {
                 return DataResponse<List<MinerGroupData>>.Ok(data);
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
                 return ResponseBase.ServerError<DataResponse<List<MinerGroupData>>>(e.Message);
             }
         }
@@ -422,7 +422,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.Ok();
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
                 return ResponseBase.ServerError(e.Message);
             }
         }
@@ -449,7 +449,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.Ok();
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
                 return ResponseBase.ServerError(e.Message);
             }
         }
@@ -469,7 +469,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.Ok();
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
                 return ResponseBase.ServerError(e.Message);
             }
         }
@@ -496,7 +496,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.Ok();
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
                 return ResponseBase.ServerError(e.Message);
             }
         }
@@ -516,7 +516,7 @@ namespace NTMiner.Controllers {
                 return DataResponse<List<MineWorkData>>.Ok(data);
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
                 return ResponseBase.ServerError<DataResponse<List<MineWorkData>>>(e.Message);
             }
         }
@@ -539,7 +539,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.Ok();
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
                 return ResponseBase.ServerError<ResponseBase>(e.Message);
             }
         }
@@ -563,7 +563,7 @@ namespace NTMiner.Controllers {
                 return DataResponse<string>.Ok(data);
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
                 return ResponseBase.ServerError<DataResponse<string>>(e.Message);
             }
         }
@@ -583,7 +583,7 @@ namespace NTMiner.Controllers {
                 return DataResponse<List<PoolData>>.Ok(data);
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
                 return ResponseBase.ServerError<DataResponse<List<PoolData>>>(e.Message);
             }
         }
@@ -603,7 +603,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.Ok();
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
                 return ResponseBase.ServerError(e.Message);
             }
         }
@@ -623,7 +623,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.Ok();
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
                 return ResponseBase.ServerError(e.Message);
             }
         }
@@ -643,7 +643,7 @@ namespace NTMiner.Controllers {
                 return DataResponse<List<WalletData>>.Ok(data);
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
                 return ResponseBase.ServerError<DataResponse<List<WalletData>>>(e.Message);
             }
         }
@@ -663,7 +663,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.Ok();
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
                 return ResponseBase.ServerError(e.Message);
             }
         }
@@ -683,7 +683,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.Ok();
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
                 return ResponseBase.ServerError(e.Message);
             }
         }
@@ -698,7 +698,7 @@ namespace NTMiner.Controllers {
                 return DataResponse<List<CalcConfigData>>.Ok(data);
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
                 return ResponseBase.ServerError<DataResponse<List<CalcConfigData>>>(e.Message);
             }
         }
@@ -718,7 +718,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.Ok();
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
                 return ResponseBase.ServerError(e.Message);
             }
         }
@@ -738,7 +738,7 @@ namespace NTMiner.Controllers {
                 return DataResponse<List<ColumnsShowData>>.Ok(data);
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
                 return ResponseBase.ServerError<DataResponse<List<ColumnsShowData>>>(e.Message);
             }
         }
@@ -758,7 +758,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.Ok();
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
                 return ResponseBase.ServerError(e.Message);
             }
         }
@@ -778,7 +778,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.Ok();
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
                 return ResponseBase.ServerError(e.Message);
             }
         }

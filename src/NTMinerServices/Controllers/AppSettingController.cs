@@ -31,7 +31,7 @@ namespace NTMiner.Controllers {
                 }
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
             }
             return $"{jsonVersion}|{minerClientVersion}";
         }
@@ -45,7 +45,7 @@ namespace NTMiner.Controllers {
                 return DataResponse<AppSettingData>.Ok(AppSettingData.Create(data));
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
                 return ResponseBase.ServerError<DataResponse<AppSettingData>>(e.Message);
             }
         }
@@ -57,7 +57,7 @@ namespace NTMiner.Controllers {
                 return DataResponse<List<AppSettingData>>.Ok(data.Select(a => AppSettingData.Create(a)).ToList());
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
                 return ResponseBase.ServerError<DataResponse<List<AppSettingData>>>(e.Message);
             }
         }
@@ -76,7 +76,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.Ok();
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
                 return ResponseBase.ServerError(e.Message);
             }
         }
@@ -97,7 +97,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.Ok();
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e);
                 return ResponseBase.ServerError(e.Message);
             }
         }
