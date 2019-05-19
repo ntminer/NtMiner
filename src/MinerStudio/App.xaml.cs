@@ -28,7 +28,7 @@ namespace NTMiner {
             AppContext.NotifyIcon?.Dispose();
             NTMinerRoot.Instance.Exit();
             HttpServer.Stop();
-            if (NTMinerRegistry.GetIsAutoCloseServices()) {
+            if (createdNew && NTMinerRegistry.GetIsAutoCloseServices()) {
                 Server.ControlCenterService.CloseServices();
             }
             base.OnExit(e);
@@ -45,6 +45,7 @@ namespace NTMiner {
             }
 
             if (createdNew) {
+                this.ShutdownMode = ShutdownMode.OnExplicitShutdown;
                 NTMinerRoot.SetIsMinerClient(false);
                 Window splashWindow = AppViewFactory.CreateSplashWindow();
                 splashWindow.Show();
