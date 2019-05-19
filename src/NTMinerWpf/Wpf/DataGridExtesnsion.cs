@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
@@ -13,7 +14,7 @@ namespace NTMiner.Wpf {
         /// <param name="target"></param>
         /// <param name="getPos"></param>
         /// <returns>The "Rect" Information for specific Position</returns>
-        private static bool IsTheMouseOnTargetRow(Visual target, GetDragDropPosition getPos) {
+        private static bool IsTheMouseOnTargetRow(Visual target, Func<IInputElement, Point> getPos) {
             Rect posBounds = VisualTreeHelper.GetDescendantBounds(target);
             Point theMousePos = getPos((IInputElement)target);
             return posBounds.Contains(theMousePos);
@@ -37,7 +38,7 @@ namespace NTMiner.Wpf {
         /// </summary>
         /// <param name="pos"></param>
         /// <returns></returns>
-        public static int GetDataGridRowIndex(this DataGrid dg, GetDragDropPosition pos) {
+        public static int GetDataGridRowIndex(this DataGrid dg, Func<IInputElement, Point> pos) {
             int curIndex = -1;
             for (int i = 0; i < dg.Items.Count; i++) {
                 DataGridRow item = GetDataGridRowItem(i, dg);

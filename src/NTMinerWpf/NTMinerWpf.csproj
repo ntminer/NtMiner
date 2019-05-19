@@ -119,7 +119,6 @@
     <Compile Include="ViewModelExtension.cs" />
     <Compile Include="WindowExtension.cs" />
     <Compile Include="Wpf\DataGridExtesnsion.cs" />
-    <Compile Include="Wpf\GetDragDropPosition.cs" />
     <Compile Include="Wpf\NativeMethods.cs" />
     <Compile Include="Wpf\TopWindow.cs" />
     <Compile Include="Views\NotiCenterWindow.xaml.cs">
