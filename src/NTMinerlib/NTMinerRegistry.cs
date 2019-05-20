@@ -152,7 +152,8 @@ namespace NTMiner {
         #region IsAutoStart
         public static bool GetIsAutoStart() {
             object value = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, "IsAutoStart");
-            return value == null || value.ToString() == "True";
+            // 如果是新装的机器，显卡还没驱动，不要自动开始挖矿
+            return value != null && value.ToString() == "True";
         }
 
         public static void SetIsAutoStart(bool value) {
