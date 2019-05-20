@@ -81,9 +81,7 @@ namespace NTMiner.Views {
 
         private void Collapse() {
             BtnRightTriangle.Visibility = Visibility.Visible;
-            BtnLayoutLeftRight.Visibility = Visibility.Visible;
             BtnLeftTriangle.Visibility = Visibility.Collapsed;
-            BtnLayoutMain.Visibility = Visibility.Collapsed;
             MinerProfileContainerLeft.Visibility = Visibility.Collapsed;
             MinerProfileContainerLeft.Child = null;
             MinerProfileContainerRight.Child = GridMineStart;
@@ -92,9 +90,7 @@ namespace NTMiner.Views {
 
         private void Expand() {
             BtnRightTriangle.Visibility = Visibility.Collapsed;
-            BtnLayoutMain.Visibility = Visibility.Visible;
             BtnLeftTriangle.Visibility = Visibility.Visible;
-            BtnLayoutLeftRight.Visibility = Visibility.Collapsed;
             MinerProfileContainerLeft.Visibility = Visibility.Visible;
             MinerProfileContainerRight.Child = null;
             MinerProfileContainerLeft.Child = GridMineStart;

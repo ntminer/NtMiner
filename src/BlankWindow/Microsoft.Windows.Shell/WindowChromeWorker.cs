@@ -609,10 +609,9 @@ namespace NTMiner.Microsoft.Windows.Shell {
 
             // It's not opted out, so offer up the hittest to DWM, then to our custom non-client area logic.
             if (_chromeInfo.UseAeroCaptionButtons) {
-                IntPtr lRet;
                 if (Utility.IsOSVistaOrNewer && _chromeInfo.GlassFrameThickness != default(Thickness) && _isGlassEnabled) {
                     // If we're on Vista, give the DWM a chance to handle the message first.
-                    handled = NativeMethods.DwmDefWindowProc(_hwnd, uMsg, wParam, lParam, out lRet);
+                    handled = NativeMethods.DwmDefWindowProc(_hwnd, uMsg, wParam, lParam, out IntPtr lRet);
 
                     if (IntPtr.Zero != lRet) {
                         // If DWM claims to have handled this, then respect their call.
