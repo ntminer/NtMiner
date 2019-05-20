@@ -19,6 +19,12 @@ namespace NTMiner.Views {
             this.PbPassword.Focus();
         }
 
+        private void MetroWindow_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+            if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed) {
+                this.DragMove();
+            }
+        }
+
         protected override void OnClosed(EventArgs e) {
             base.OnClosed(e);
             if ((!this.DialogResult.HasValue || !this.DialogResult.Value) && Application.Current.ShutdownMode != ShutdownMode.OnMainWindowClose) {

@@ -71,13 +71,6 @@ namespace NTMiner {
             if (e.ChangedButton == MouseButton.Left) {
                 var mPoint = Mouse.GetPosition(this);
 
-                IntPtr windowHandle = new WindowInteropHelper(this).Handle;
-                UnsafeNativeMethods.ReleaseCapture();
-                var wpfPoint = PointToScreen(mPoint);
-                var x = Convert.ToInt16(wpfPoint.X);
-                var y = Convert.ToInt16(wpfPoint.Y);
-                var lParam = (int)(uint)x | (y << 16);
-                UnsafeNativeMethods.SendMessage(windowHandle, Constants.WM_NCLBUTTONDOWN, Constants.HT_CAPTION, lParam);
                 var canResize = ResizeMode == ResizeMode.CanResizeWithGrip || ResizeMode == ResizeMode.CanResize;
                 // we can maximize or restore the window if the title bar height is set (also if title bar is hidden)
                 var isMouseOnTitlebar = mPoint.Y <= TitleBarHeight && TitleBarHeight > 0;

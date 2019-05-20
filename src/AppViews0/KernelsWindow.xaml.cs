@@ -1,6 +1,7 @@
 ﻿using NTMiner.Vms;
 using System;
 using System.Windows;
+using System.Windows.Input;
 
 namespace NTMiner.Views {
     public partial class KernelsWindow : BlankWindow {
@@ -102,6 +103,12 @@ namespace NTMiner.Views {
 
         private void TbKeyword_LostFocus(object sender, RoutedEventArgs e) {
             Vm.Search.Execute(null);
+        }
+
+        private void MetroWindow_MouseDown(object sender, MouseButtonEventArgs e) {
+            if (e.LeftButton == MouseButtonState.Pressed) {
+                this.DragMove();
+            }
         }
     }
 }

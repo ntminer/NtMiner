@@ -13,6 +13,7 @@
         FontSize="20"
         BorderBrush="{StaticResource IconFillColor}"
         WindowStartupLocation="CenterOwner"
+        MouseDown="Window_MouseDown"
         Background="White"
         mc:Ignorable="d" Width="400" MinHeight="200">
     <blankWindow:BlankWindow.Resources>

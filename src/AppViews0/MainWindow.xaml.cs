@@ -65,6 +65,12 @@ namespace NTMiner.Views {
             base.OnClosing(e);
         }
 
+        private void MetroWindow_MouseDown(object sender, MouseButtonEventArgs e) {
+            if (e.LeftButton == MouseButtonState.Pressed) {
+                this.DragMove();
+            }
+        }
+
         private void BtnLeftTriangle_Click(object sender, RoutedEventArgs e) {
             Collapse();
         }

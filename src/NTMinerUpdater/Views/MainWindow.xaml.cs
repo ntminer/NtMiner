@@ -21,6 +21,12 @@ namespace NTMiner.Views {
             this.Close();
         }
 
+        private void MetroWindow_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+            if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed) {
+                this.DragMove();
+            }
+        }
+
         private void DataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
             Wpf.Util.DataGrid_MouseDoubleClick<NTMinerFileViewModel>(sender, e);
         }
