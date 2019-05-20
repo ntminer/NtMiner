@@ -2,6 +2,7 @@
 using NTMiner.Core.Kernels;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -19,26 +20,42 @@ namespace NTMiner {
             public static void CreateProcessAsync(IMineContext mineContext) {
                 Task.Factory.StartNew(() => {
                     try {
-                        Windows.TaskKill.Kill(mineContext.Kernel.GetProcessName(), waitForExit: true);
+                        Write.UserInfo("清理内核进程");
+                        HashSet<string> allKernelProcessNames = Instance.KernelSet.GetAllKernelProcessNames();
+#if DEBUG
+                        VirtualRoot.Stopwatch.Restart();
+#endif
+                        foreach (var processName in allKernelProcessNames) {
+                            Windows.TaskKill.Kill(processName, waitForExit: true);
+                        }
+#if DEBUG
+                        Write.DevWarn($"耗时{VirtualRoot.Stopwatch.ElapsedMilliseconds}毫秒 {nameof(MinerProcess)}.{nameof(CreateProcessAsync)}[{nameof(allKernelProcessNames)}]");
+#endif
+                        Write.UserOk("内核进程清理完毕");
                         Thread.Sleep(1000);
                         lock (_locker) {
                             if (_preExtractPackage != mineContext.Kernel.Package) {
                                 _preExtractPackage = mineContext.Kernel.Package;
-                                Logger.InfoDebugLine("解压内核包");
+                                Write.UserInfo($"解压内核包{_preExtractPackage}");
                                 // 解压内核包
                                 if (!mineContext.Kernel.ExtractPackage()) {
+                                    Write.UserFail("内核解压失败");
                                     VirtualRoot.Happened(new StartingMineFailedEvent("内核解压失败。"));
                                 }
+                                Write.UserOk("内核包解压成功");
+                            }
+                            else {
+                                Write.UserOk("没有切换内核，无需重复解压，直接跳过。");
                             }
                         }
 
-                        Logger.InfoDebugLine("组装命令");
+                        Write.UserInfo("总成命令");
                         // 组装命令
                         BuildCmdLine(mineContext, out var kernelExeFileFullName, out var arguments);
                         bool isLogFile = arguments.Contains("{logfile}");
                         // 这是不应该发生的，如果发生很可能是填写命令的时候拼写错误了
                         if (!File.Exists(kernelExeFileFullName)) {
-                            Logger.ErrorDebugLine(kernelExeFileFullName + "文件不存在，请检查是否有拼写错误");
+                            Write.UserError(kernelExeFileFullName + "文件不存在，可能是小编拼写错误导致，请QQ群联系小编。");
                         }
                         if (isLogFile) {
                             Logger.InfoDebugLine("创建日志文件型进程");
@@ -51,7 +68,6 @@ namespace NTMiner {
                             // 如果内核不支持日志文件
                             CreatePipProcess(mineContext, kernelExeFileFullName, arguments);
                         }
-                        Write.UserEvent("开始挖矿");
                         VirtualRoot.Happened(new MineStartedEvent(mineContext));
                     }
                     catch (Exception e) {
@@ -126,7 +142,8 @@ namespace NTMiner {
                 string logFile = Path.Combine(SpecialPath.LogsDirFullName, "logfile_" + DateTime.Now.Ticks.ToString() + ".log");
                 arguments = arguments.Replace("{logfile}", logFile);
                 string cmdLine = $"\"{kernelExeFileFullName}\" {arguments}";
-                Logger.InfoDebugLine(cmdLine);
+                Write.UserOk($"命令总成：{cmdLine}");
+                Write.UserInfo("有请内核上场");
                 ProcessStartInfo startInfo = new ProcessStartInfo(kernelExeFileFullName, arguments) {
                     UseShellExecute = false,
                     CreateNoWindow = true,
@@ -159,7 +176,7 @@ namespace NTMiner {
                         }
                         Thread.Sleep(1000);
                         if (n == 0) {
-                            Write.UserInfo("等待内核输出");
+                            Write.UserInfo("等待内核出场");
                         }
                         if (mineContext != Instance.CurrentMineContext) {
                             Write.UserInfo("挖矿上下文变更，结束内核输出等待。");
@@ -169,7 +186,7 @@ namespace NTMiner {
                         n++;
                     }
                     if (isLogFileCreated) {
-                        Write.UserOk("成功得到内核输出。");
+                        Write.UserOk("内核已上场，下面把舞台交给内核。");
                         StreamReader sreader = null;
                         try {
                             sreader = new StreamReader(File.Open(logFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite), Encoding.Default);
@@ -217,7 +234,7 @@ namespace NTMiner {
                             sreader?.Close();
                             sreader?.Dispose();
                         }
-                        Write.UserInfo("内核输出结束");
+                        Write.UserInfo("内核表演结束");
                     }
                 });
             }
@@ -253,7 +270,8 @@ namespace NTMiner {
                     hStdInput = IntPtr.Zero
                 };
                 string cmdLine = $"\"{kernelExeFileFullName}\" {arguments}";
-                Logger.InfoDebugLine(cmdLine);
+                Write.UserOk($"命令总成：{cmdLine}");
+                Write.UserInfo("有请内核上场");
                 StringBuilder lpEnvironment = new StringBuilder();
                 // 复制父进程的环境变量
                 IDictionary dic = Environment.GetEnvironmentVariables();
