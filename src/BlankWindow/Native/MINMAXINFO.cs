@@ -1,10 +1,8 @@
 using System.Runtime.InteropServices;
 
-namespace NTMiner.Native
-{
+namespace NTMiner.Native {
     [StructLayout(LayoutKind.Sequential)]
-    internal struct MINMAXINFO
-    {
+    internal struct MINMAXINFO {
         public POINT ptReserved;
         public POINT ptMaxSize;
         public POINT ptMaxPosition;

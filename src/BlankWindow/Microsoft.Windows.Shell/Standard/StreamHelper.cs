@@ -11,8 +11,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 
-namespace NTMiner.Microsoft.Windows.Shell.Standard
-{
+namespace NTMiner.Microsoft.Windows.Shell.Standard {
     // disambiguate with System.Runtime.InteropServices.STATSTG
     using STATSTG = System.Runtime.InteropServices.ComTypes.STATSTG;
 
@@ -25,16 +24,13 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     /// stream can be changed in another context.
     /// </remarks>
     [SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses")]
-    internal sealed class ComStream : Stream
-    {
+    internal sealed class ComStream : Stream {
         private const int STATFLAG_NONAME = 1;
 
         private IStream _source;
 
-        private void _Validate()
-        {
-            if (null == _source)
-            {
+        private void _Validate() {
+            if (null == _source) {
                 throw new ObjectDisposedException("this");
             }
         }
@@ -50,8 +46,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         /// zeroed out to the caller.  This object becomes responsible for the lifetime
         /// management of the wrapped IStream.
         /// </remarks>
-        public ComStream(ref IStream stream)
-        {
+        public ComStream(ref IStream stream) {
             Verify.IsNotNull(stream, "stream");
             _source = stream;
             // Zero out caller's reference to this.  The object now owns the memory.
@@ -62,10 +57,8 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
 
         // Experimentally, the base class seems to deal with the IDisposable pattern.
         // Overridden implementations aren't called, but Close is as part of the Dispose call.
-        public override void Close()
-        {
-            if (null != _source)
-            {
+        public override void Close() {
+            if (null != _source) {
 #if FEATURE_MUTABLE_COM_STREAMS
                 Flush();
 #endif
@@ -73,28 +66,22 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
             }
         }
 
-        public override bool CanRead
-        {
-            get
-            {
+        public override bool CanRead {
+            get {
                 // For the context of this class, this should be true...
                 return true;
             }
         }
 
-        public override bool CanSeek
-        {
-            get
-            {
+        public override bool CanSeek {
+            get {
                 // This should be true...
                 return true;
             }
         }
 
-        public override bool CanWrite
-        {
-            get
-            {
+        public override bool CanWrite {
+            get {
 #if FEATURE_MUTABLE_COM_STREAMS
                 // Really don't know that this is true...
                 return true;
@@ -103,8 +90,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
             }
         }
 
-        public override void Flush()
-        {
+        public override void Flush() {
 #if FEATURE_MUTABLE_COM_STREAMS
             _Validate();
             // Don't have enough context of the underlying object to reliably do anything here.
@@ -116,10 +102,8 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
 #endif
         }
 
-        public override long Length
-        {
-            get
-            {
+        public override long Length {
+            get {
                 _Validate();
 
                 STATSTG statstg;
@@ -128,20 +112,17 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
             }
         }
 
-        public override long Position
-        {
+        public override long Position {
             get { return Seek(0, SeekOrigin.Current); }
             set { Seek(value, SeekOrigin.Begin); }
         }
 
-        public override int Read(byte[] buffer, int offset, int count)
-        {
+        public override int Read(byte[] buffer, int offset, int count) {
             _Validate();
 
             IntPtr pcbRead = IntPtr.Zero;
 
-            try
-            {
+            try {
                 pcbRead = Marshal.AllocHGlobal(sizeof(Int32));
 
                 // PERFORMANCE NOTE: This buffer doesn't need to be allocated if offset == 0
@@ -151,33 +132,28 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
 
                 return Marshal.ReadInt32(pcbRead);
             }
-            finally
-            {
+            finally {
                 Utility.SafeFreeHGlobal(ref pcbRead);
             }
         }
 
-        public override long Seek(long offset, SeekOrigin origin)
-        {
+        public override long Seek(long offset, SeekOrigin origin) {
             _Validate();
 
             IntPtr plibNewPosition = IntPtr.Zero;
 
-            try
-            {
+            try {
                 plibNewPosition = Marshal.AllocHGlobal(sizeof(Int64));
                 _source.Seek(offset, (int)origin, plibNewPosition);
 
                 return Marshal.ReadInt64(plibNewPosition);
             }
-            finally
-            {
+            finally {
                 Utility.SafeFreeHGlobal(ref plibNewPosition);
             }
         }
 
-        public override void SetLength(long value)
-        {
+        public override void SetLength(long value) {
             throw new NotSupportedException();
 #if FEATURE_MUTABLE_COM_STREAMS
             _Validate();
@@ -185,8 +161,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
 #endif
         }
 
-        public override void Write(byte[] buffer, int offset, int count)
-        {
+        public override void Write(byte[] buffer, int offset, int count) {
             throw new NotSupportedException();
 #if FEATURE_MUTABLE_COM_STREAMS
             _Validate();
@@ -206,8 +181,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     /// Wraps a managed stream instance into an interface pointer consumable by COM.
     /// </summary>
     [SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses")]
-    internal sealed class ManagedIStream : IStream, IDisposable
-    {
+    internal sealed class ManagedIStream : IStream, IDisposable {
         private const int STGTY_STREAM = 2;
         private const int STGM_READWRITE = 2;
         private const int LOCK_EXCLUSIVE = 2;
@@ -221,16 +195,13 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         /// The stream that this IStream reference is wrapping.
         /// </param>
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public ManagedIStream(Stream source)
-        {
+        public ManagedIStream(Stream source) {
             Verify.IsNotNull(source, "source");
             _source = source;
         }
 
-        private void _Validate()
-        {
-            if (null == _source)
-            {
+        private void _Validate() {
+            if (null == _source) {
                 throw new ObjectDisposedException("this");
             }
         }
@@ -251,8 +222,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         /// </remarks>
         [SuppressMessage("Microsoft.Globalization", "CA1303:Do not pass literals as localized parameters", MessageId = "Standard.HRESULT.ThrowIfFailed(System.String)")]
         [Obsolete("The method is not implemented", true)]
-        public void Clone(out IStream ppstm)
-        {
+        public void Clone(out IStream ppstm) {
             ppstm = null;
             HRESULT.STG_E_INVALIDFUNCTION.ThrowIfFailed("The method is not implemented.");
         }
@@ -267,8 +237,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         /// <remarks>
         /// For more information, see the existing documentation for IStream::Commit in the MSDN library.
         /// </remarks>
-        public void Commit(int grfCommitFlags)
-        {
+        public void Commit(int grfCommitFlags) {
             _Validate();
             _source.Flush();
         }
@@ -295,8 +264,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         /// </param>
         [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0")]
         [SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands")]
-        public void CopyTo(IStream pstm, long cb, IntPtr pcbRead, IntPtr pcbWritten)
-        {
+        public void CopyTo(IStream pstm, long cb, IntPtr pcbRead, IntPtr pcbWritten) {
             Verify.IsNotNull(pstm, "pstm");
 
             _Validate();
@@ -304,12 +272,10 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
             // Reasonbly sized buffer, don't try to copy large streams in bulk.
             var buffer = new byte[4096];
             long cbWritten = 0;
-            
-            while (cbWritten < cb)
-            {
+
+            while (cbWritten < cb) {
                 int cbRead = _source.Read(buffer, 0, buffer.Length);
-                if (0 == cbRead)
-                {
+                if (0 == cbRead) {
                     break;
                 }
 
@@ -320,13 +286,11 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
                 cbWritten += cbRead;
             }
 
-            if (IntPtr.Zero != pcbRead)
-            {
+            if (IntPtr.Zero != pcbRead) {
                 Marshal.WriteInt64(pcbRead, cbWritten);
             }
 
-            if (IntPtr.Zero != pcbWritten)
-            {
+            if (IntPtr.Zero != pcbWritten) {
                 Marshal.WriteInt64(pcbWritten, cbWritten);
             }
         }
@@ -348,8 +312,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         /// This class doesn't implement LockRegion.  A COMException is thrown if it is used.
         /// </remarks>
         [SuppressMessage("Microsoft.Globalization", "CA1303:Do not pass literals as localized parameters", MessageId = "Standard.HRESULT.ThrowIfFailed(System.String)"), Obsolete("The method is not implemented", true)]
-        public void LockRegion(long libOffset, long cb, int dwLockType)
-        {
+        public void LockRegion(long libOffset, long cb, int dwLockType) {
             HRESULT.STG_E_INVALIDFUNCTION.ThrowIfFailed("The method is not implemented.");
         }
 
@@ -369,14 +332,12 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         /// For more information, see the existing documentation for ISequentialStream::Read in the MSDN library.
         /// </remarks>
         [SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands")]
-        public void Read(byte[] pv, int cb, IntPtr pcbRead)
-        {
+        public void Read(byte[] pv, int cb, IntPtr pcbRead) {
             _Validate();
 
             int cbRead = _source.Read(pv, 0, cb);
 
-            if (IntPtr.Zero != pcbRead)
-            {
+            if (IntPtr.Zero != pcbRead) {
                 Marshal.WriteInt32(pcbRead, cbRead);
             }
         }
@@ -389,8 +350,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         /// This class doesn't implement Revert.  A COMException is thrown if it is used.
         /// </remarks>
         [SuppressMessage("Microsoft.Globalization", "CA1303:Do not pass literals as localized parameters", MessageId = "Standard.HRESULT.ThrowIfFailed(System.String)"), Obsolete("The method is not implemented", true)]
-        public void Revert()
-        {
+        public void Revert() {
             HRESULT.STG_E_INVALIDFUNCTION.ThrowIfFailed("The method is not implemented.");
         }
 
@@ -413,14 +373,12 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         /// For more information, see the existing documentation for IStream::Seek in the MSDN library.
         /// </remarks>
         [SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands")]
-        public void Seek(long dlibMove, int dwOrigin, IntPtr plibNewPosition)
-        {
+        public void Seek(long dlibMove, int dwOrigin, IntPtr plibNewPosition) {
             _Validate();
 
             long position = _source.Seek(dlibMove, (SeekOrigin)dwOrigin);
 
-            if (IntPtr.Zero != plibNewPosition)
-            {
+            if (IntPtr.Zero != plibNewPosition) {
                 Marshal.WriteInt64(plibNewPosition, position);
             }
         }
@@ -434,8 +392,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         /// <remarks>
         /// For more information, see the existing documentation for IStream::SetSize in the MSDN library.
         /// </remarks>
-        public void SetSize(long libNewSize)
-        {
+        public void SetSize(long libNewSize) {
             _Validate();
             _source.SetLength(libNewSize);
         }
@@ -450,8 +407,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         /// <param name="grfStatFlag">
         /// Members in the STATSTG structure that this method does not return, thus saving some memory allocation operations. 
         /// </param>
-        public void Stat(out STATSTG pstatstg, int grfStatFlag)
-        {
+        public void Stat(out STATSTG pstatstg, int grfStatFlag) {
             pstatstg = default(STATSTG);
             _Validate();
 
@@ -478,8 +434,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         /// </remarks>
         [SuppressMessage("Microsoft.Globalization", "CA1303:Do not pass literals as localized parameters", MessageId = "Standard.HRESULT.ThrowIfFailed(System.String)")]
         [Obsolete("The method is not implemented", true)]
-        public void UnlockRegion(long libOffset, long cb, int dwLockType)
-        {
+        public void UnlockRegion(long libOffset, long cb, int dwLockType) {
             HRESULT.STG_E_INVALIDFUNCTION.ThrowIfFailed("The method is not implemented.");
         }
 
@@ -498,14 +453,12 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         /// of bytes written.
         /// </param>
         [SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands")]
-        public void Write(byte[] pv, int cb, IntPtr pcbWritten)
-        {
+        public void Write(byte[] pv, int cb, IntPtr pcbWritten) {
             _Validate();
 
             _source.Write(pv, 0, cb);
 
-            if (IntPtr.Zero != pcbWritten)
-            {
+            if (IntPtr.Zero != pcbWritten) {
                 Marshal.WriteInt32(pcbWritten, cb);
             }
         }
@@ -521,8 +474,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         /// Dispose can be called multiple times, but trying to use the object
         /// after it has been disposed will generally throw ObjectDisposedExceptions.
         /// </remarks>
-        public void Dispose()
-        {
+        public void Dispose() {
             _source = null;
         }
 

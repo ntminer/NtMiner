@@ -15,42 +15,34 @@ using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace NTMiner.Microsoft.Windows.Shell.Standard
-{
-    internal enum SafeCopyFileOptions
-    {
+namespace NTMiner.Microsoft.Windows.Shell.Standard {
+    internal enum SafeCopyFileOptions {
         PreserveOriginal,
         Overwrite,
         FindBetterName,
     }
 
-    internal static partial class Utility
-    {
+    internal static partial class Utility {
         private static readonly Random _randomNumberGenerator = new Random();
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        private static bool _MemCmp(IntPtr left, IntPtr right, long cb)
-        {
+        private static bool _MemCmp(IntPtr left, IntPtr right, long cb) {
             int offset = 0;
 
-            for (; offset < (cb - sizeof(Int64)); offset += sizeof(Int64))
-            {
+            for (; offset < (cb - sizeof(Int64)); offset += sizeof(Int64)) {
                 Int64 left64 = Marshal.ReadInt64(left, offset);
                 Int64 right64 = Marshal.ReadInt64(right, offset);
 
-                if (left64 != right64)
-                {
+                if (left64 != right64) {
                     return false;
                 }
             }
 
-            for (; offset < cb; offset += sizeof(byte))
-            {
+            for (; offset < cb; offset += sizeof(byte)) {
                 byte left8 = Marshal.ReadByte(left, offset);
                 byte right8 = Marshal.ReadByte(right, offset);
 
-                if (left8 != right8)
-                {
+                if (left8 != right8) {
                     return false;
                 }
             }
@@ -59,30 +51,25 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static Exception FailableFunction<T>(Func<T> function, out T result)
-        {
+        public static Exception FailableFunction<T>(Func<T> function, out T result) {
             return FailableFunction(5, function, out result);
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static T FailableFunction<T>(Func<T> function)
-        {
+        public static T FailableFunction<T>(Func<T> function) {
             T result;
             Exception e = FailableFunction(function, out result);
-            if (e != null)
-            {
+            if (e != null) {
                 throw e;
             }
             return result;
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static T FailableFunction<T>(int maxRetries, Func<T> function)
-        {
+        public static T FailableFunction<T>(int maxRetries, Func<T> function) {
             T result;
             Exception e = FailableFunction(maxRetries, function, out result);
-            if (e != null)
-            {
+            if (e != null) {
                 throw e;
             }
             return result;
@@ -90,22 +77,17 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
 
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static Exception FailableFunction<T>(int maxRetries, Func<T> function, out T result)
-        {
+        public static Exception FailableFunction<T>(int maxRetries, Func<T> function, out T result) {
             Assert.IsNotNull(function);
             Assert.BoundedInteger(1, maxRetries, 100);
             int i = 0;
-            while (true)
-            {
-                try
-                {
+            while (true) {
+                try {
                     result = function();
                     return null;
                 }
-                catch (Exception e)
-                {
-                    if (i == maxRetries)
-                    {
+                catch (Exception e) {
+                    if (i == maxRetries) {
                         result = default(T);
                         return e;
                     }
@@ -115,10 +97,8 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static string GetHashString(string value)
-        {
-            using (MD5 md5 = MD5.Create())
-            {
+        public static string GetHashString(string value) {
+            using (MD5 md5 = MD5.Create()) {
                 byte[] signatureHash = md5.ComputeHash(Encoding.UTF8.GetBytes(value));
                 string signature = signatureHash.Aggregate(
                     new StringBuilder(),
@@ -128,49 +108,40 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static int GET_X_LPARAM(IntPtr lParam)
-        {
+        public static int GET_X_LPARAM(IntPtr lParam) {
             return LOWORD(lParam.ToInt32());
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static int GET_Y_LPARAM(IntPtr lParam)
-        {
+        public static int GET_Y_LPARAM(IntPtr lParam) {
             return HIWORD(lParam.ToInt32());
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static int HIWORD(int i)
-        {
+        public static int HIWORD(int i) {
             return (short)(i >> 16);
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static int LOWORD(int i)
-        {
+        public static int LOWORD(int i) {
             return (short)(i & 0xFFFF);
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         [SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands")]
-        public static bool AreStreamsEqual(Stream left, Stream right)
-        {
-            if (null == left)
-            {
+        public static bool AreStreamsEqual(Stream left, Stream right) {
+            if (null == left) {
                 return right == null;
             }
-            if (null == right)
-            {
+            if (null == right) {
                 return false;
             }
 
-            if (!left.CanRead || !right.CanRead)
-            {
+            if (!left.CanRead || !right.CanRead) {
                 throw new NotSupportedException("The streams can't be read for comparison");
             }
 
-            if (left.Length != right.Length)
-            {
+            if (left.Length != right.Length) {
                 return false;
             }
 
@@ -200,23 +171,19 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
             GCHandle handleRight = GCHandle.Alloc(rightBuffer, GCHandleType.Pinned);
             IntPtr ptrRight = handleRight.AddrOfPinnedObject();
 
-            try
-            {
-                while (totalReadLeft < length)
-                {
+            try {
+                while (totalReadLeft < length) {
                     Assert.AreEqual(totalReadLeft, totalReadRight);
 
                     cbReadLeft = left.Read(leftBuffer, 0, leftBuffer.Length);
                     cbReadRight = right.Read(rightBuffer, 0, rightBuffer.Length);
 
                     // verify the contents are an exact match
-                    if (cbReadLeft != cbReadRight)
-                    {
+                    if (cbReadLeft != cbReadRight) {
                         return false;
                     }
 
-                    if (!_MemCmp(ptrLeft, ptrRight, cbReadLeft))
-                    {
+                    if (!_MemCmp(ptrLeft, ptrRight, cbReadLeft)) {
                         return false;
                     }
 
@@ -230,28 +197,23 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
 
                 return true;
             }
-            finally
-            {
+            finally {
                 handleLeft.Free();
                 handleRight.Free();
             }
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static bool GuidTryParse(string guidString, out Guid guid)
-        {
+        public static bool GuidTryParse(string guidString, out Guid guid) {
             Verify.IsNeitherNullNorEmpty(guidString, "guidString");
 
-            try
-            {
+            try {
                 guid = new Guid(guidString);
                 return true;
             }
-            catch (FormatException)
-            {
+            catch (FormatException) {
             }
-            catch (OverflowException)
-            {
+            catch (OverflowException) {
             }
             // Doesn't seem to be a valid guid.
             guid = default(Guid);
@@ -259,32 +221,27 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static bool IsFlagSet(int value, int mask)
-        {
+        public static bool IsFlagSet(int value, int mask) {
             return 0 != (value & mask);
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static bool IsFlagSet(uint value, uint mask)
-        {
+        public static bool IsFlagSet(uint value, uint mask) {
             return 0 != (value & mask);
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static bool IsFlagSet(long value, long mask)
-        {
+        public static bool IsFlagSet(long value, long mask) {
             return 0 != (value & mask);
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static bool IsFlagSet(ulong value, ulong mask)
-        {
+        public static bool IsFlagSet(ulong value, ulong mask) {
             return 0 != (value & mask);
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static bool IsInterfaceImplemented(Type objectType, Type interfaceType)
-        {
+        public static bool IsInterfaceImplemented(Type objectType, Type interfaceType) {
             Assert.IsNotNull(objectType);
             Assert.IsNotNull(interfaceType);
             Assert.IsTrue(interfaceType.IsInterface);
@@ -297,13 +254,10 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         /// </summary>
         /// <returns></returns>
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static string SafeCopyFile(string sourceFileName, string destFileName, SafeCopyFileOptions options)
-        {
-            switch (options)
-            {
+        public static string SafeCopyFile(string sourceFileName, string destFileName, SafeCopyFileOptions options) {
+            switch (options) {
                 case SafeCopyFileOptions.PreserveOriginal:
-                    if (!File.Exists(destFileName))
-                    {
+                    if (!File.Exists(destFileName)) {
                         File.Copy(sourceFileName, destFileName);
                         return destFileName;
                     }
@@ -315,10 +269,8 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
                     string directoryPart = Path.GetDirectoryName(destFileName);
                     string fileNamePart = Path.GetFileNameWithoutExtension(destFileName);
                     string extensionPart = Path.GetExtension(destFileName);
-                    foreach (string path in GenerateFileNames(directoryPart, fileNamePart, extensionPart))
-                    {
-                        if (!File.Exists(path))
-                        {
+                    foreach (string path in GenerateFileNames(directoryPart, fileNamePart, extensionPart)) {
+                        if (!File.Exists(path)) {
                             File.Copy(sourceFileName, path);
                             return path;
                         }
@@ -337,23 +289,19 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         /// if the file does not exist.
         /// </remarks>
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static void SafeDeleteFile(string path)
-        {
-            if (!string.IsNullOrEmpty(path))
-            {
+        public static void SafeDeleteFile(string path) {
+            if (!string.IsNullOrEmpty(path)) {
                 File.Delete(path);
             }
         }
 
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static void SafeDispose<T>(ref T disposable) where T : IDisposable
-        {
+        public static void SafeDispose<T>(ref T disposable) where T : IDisposable {
             // Dispose can safely be called on an object multiple times.
             IDisposable t = disposable;
             disposable = default(T);
-            if (null != t)
-            {
+            if (null != t) {
                 t.Dispose();
             }
         }
@@ -365,24 +313,20 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         /// <param name="propertyName">The name of the property to be catenated.</param>
         /// <param name="value">The value of the property to be catenated.</param>
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static void GeneratePropertyString(StringBuilder source, string propertyName, string value)
-        {
+        public static void GeneratePropertyString(StringBuilder source, string propertyName, string value) {
             Assert.IsNotNull(source);
             Assert.IsFalse(string.IsNullOrEmpty(propertyName));
 
-            if (0 != source.Length)
-            {
+            if (0 != source.Length) {
                 source.Append(' ');
             }
 
             source.Append(propertyName);
             source.Append(": ");
-            if (string.IsNullOrEmpty(value))
-            {
+            if (string.IsNullOrEmpty(value)) {
                 source.Append("<null>");
             }
-            else
-            {
+            else {
                 source.Append('\"');
                 source.Append(value);
                 source.Append('\"');
@@ -400,13 +344,10 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         /// <returns></returns>
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         [Obsolete]
-        public static string GenerateToString<T>(T @object) where T : struct
-        {
+        public static string GenerateToString<T>(T @object) where T : struct {
             var sbRet = new StringBuilder();
-            foreach (PropertyInfo property in typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance))
-            {
-                if (0 != sbRet.Length)
-                {
+            foreach (PropertyInfo property in typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance)) {
+                if (0 != sbRet.Length) {
                     sbRet.Append(", ");
                 }
                 Assert.AreEqual(0, property.GetIndexParameters().Length);
@@ -418,16 +359,14 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static void CopyStream(Stream destination, Stream source)
-        {
+        public static void CopyStream(Stream destination, Stream source) {
             Assert.IsNotNull(source);
             Assert.IsNotNull(destination);
 
             destination.Position = 0;
 
             // If we're copying from, say, a web stream, don't fail because of this.
-            if (source.CanSeek)
-            {
+            if (source.CanSeek) {
                 source.Position = 0;
 
                 // Consider that this could throw because 
@@ -438,11 +377,9 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
             var buffer = new byte[4096];
             int cbRead;
 
-            do
-            {
+            do {
                 cbRead = source.Read(buffer, 0, buffer.Length);
-                if (0 != cbRead)
-                {
+                if (0 != cbRead) {
                     destination.Write(buffer, 0, cbRead);
                 }
             }
@@ -453,14 +390,11 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static string HashStreamMD5(Stream stm)
-        {
+        public static string HashStreamMD5(Stream stm) {
             stm.Position = 0;
             var hashBuilder = new StringBuilder();
-            using (MD5 md5 = MD5.Create())
-            {
-                foreach (byte b in md5.ComputeHash(stm))
-                {
+            using (MD5 md5 = MD5.Create()) {
+                foreach (byte b in md5.ComputeHash(stm)) {
                     hashBuilder.Append(b.ToString("x2", CultureInfo.InvariantCulture));
                 }
             }
@@ -469,24 +403,20 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static void EnsureDirectory(string path)
-        {
-            if (!path.EndsWith(@"\", StringComparison.Ordinal))
-            {
+        public static void EnsureDirectory(string path) {
+            if (!path.EndsWith(@"\", StringComparison.Ordinal)) {
                 path += @"\";
             }
 
             path = Path.GetDirectoryName(path);
 
-            if (!Directory.Exists(path))
-            {
+            if (!Directory.Exists(path)) {
                 Directory.CreateDirectory(path);
             }
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static bool MemCmp(byte[] left, byte[] right, int cb)
-        {
+        public static bool MemCmp(byte[] left, byte[] right, int cb) {
             Assert.IsNotNull(left);
             Assert.IsNotNull(right);
 
@@ -508,8 +438,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
             return fRet;
         }
 
-        private class _UrlDecoder
-        {
+        private class _UrlDecoder {
             private readonly Encoding _encoding;
             private readonly char[] _charBuffer;
             private readonly byte[] _byteBuffer;
@@ -517,42 +446,35 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
             private int _charCount;
 
             [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-            public _UrlDecoder(int size, Encoding encoding)
-            {
+            public _UrlDecoder(int size, Encoding encoding) {
                 _encoding = encoding;
                 _charBuffer = new char[size];
                 _byteBuffer = new byte[size];
             }
 
             [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-            public void AddByte(byte b)
-            {
+            public void AddByte(byte b) {
                 _byteBuffer[_byteCount++] = b;
             }
 
             [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-            public void AddChar(char ch)
-            {
+            public void AddChar(char ch) {
                 _FlushBytes();
                 _charBuffer[_charCount++] = ch;
             }
 
             [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-            private void _FlushBytes()
-            {
-                if (_byteCount > 0)
-                {
+            private void _FlushBytes() {
+                if (_byteCount > 0) {
                     _charCount += _encoding.GetChars(_byteBuffer, 0, _byteCount, _charBuffer, _charCount);
                     _byteCount = 0;
                 }
             }
 
             [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-            public string GetString()
-            {
+            public string GetString() {
                 _FlushBytes();
-                if (_charCount > 0)
-                {
+                if (_charCount > 0) {
                     return new string(_charBuffer, 0, _charCount);
                 }
                 return "";
@@ -560,50 +482,41 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static string UrlDecode(string url)
-        {
-            if (url == null)
-            {
+        public static string UrlDecode(string url) {
+            if (url == null) {
                 return null;
             }
 
             var decoder = new _UrlDecoder(url.Length, Encoding.UTF8);
             int length = url.Length;
-            for (int i = 0; i < length; ++i)
-            {
+            for (int i = 0; i < length; ++i) {
                 char ch = url[i];
 
-                if (ch == '+')
-                {
+                if (ch == '+') {
                     decoder.AddByte((byte)' ');
                     continue;
                 }
 
-                if (ch == '%' && i < length - 2)
-                {
+                if (ch == '%' && i < length - 2) {
                     // decode %uXXXX into a Unicode character.
-                    if (url[i + 1] == 'u' && i < length - 5)
-                    {
+                    if (url[i + 1] == 'u' && i < length - 5) {
                         int a = _HexToInt(url[i + 2]);
                         int b = _HexToInt(url[i + 3]);
                         int c = _HexToInt(url[i + 4]);
                         int d = _HexToInt(url[i + 5]);
-                        if (a >= 0 && b >= 0 && c >= 0 && d >= 0)
-                        {
+                        if (a >= 0 && b >= 0 && c >= 0 && d >= 0) {
                             decoder.AddChar((char)((a << 12) | (b << 8) | (c << 4) | d));
                             i += 5;
 
                             continue;
                         }
                     }
-                    else
-                    {
+                    else {
                         // decode %XX into a Unicode character.
                         int a = _HexToInt(url[i + 1]);
                         int b = _HexToInt(url[i + 2]);
 
-                        if (a >= 0 && b >= 0)
-                        {
+                        if (a >= 0 && b >= 0) {
                             decoder.AddByte((byte)((a << 4) | b));
                             i += 2;
 
@@ -613,12 +526,10 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
                 }
 
                 // Add any 7bit character as a byte.
-                if ((ch & 0xFF80) == 0)
-                {
+                if ((ch & 0xFF80) == 0) {
                     decoder.AddByte((byte)ch);
                 }
-                else
-                {
+                else {
                     decoder.AddChar(ch);
                 }
             }
@@ -639,10 +550,8 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         /// This implementation does not treat '~' as a safe character to be consistent with the System.Web version.
         /// </remarks>
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static string UrlEncode(string url)
-        {
-            if (url == null)
-            {
+        public static string UrlEncode(string url) {
+            if (url == null) {
                 return null;
             }
 
@@ -650,35 +559,27 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
 
             bool needsEncoding = false;
             int unsafeCharCount = 0;
-            foreach (byte b in bytes)
-            {
-                if (b == ' ')
-                {
+            foreach (byte b in bytes) {
+                if (b == ' ') {
                     needsEncoding = true;
                 }
-                else if (!_UrlEncodeIsSafe(b))
-                {
+                else if (!_UrlEncodeIsSafe(b)) {
                     ++unsafeCharCount;
                     needsEncoding = true;
                 }
             }
 
-            if (needsEncoding)
-            {
+            if (needsEncoding) {
                 var buffer = new byte[bytes.Length + (unsafeCharCount * 2)];
                 int writeIndex = 0;
-                foreach (byte b in bytes)
-                {
-                    if (_UrlEncodeIsSafe(b))
-                    {
+                foreach (byte b in bytes) {
+                    if (_UrlEncodeIsSafe(b)) {
                         buffer[writeIndex++] = b;
                     }
-                    else if (b == ' ')
-                    {
+                    else if (b == ' ') {
                         buffer[writeIndex++] = (byte)'+';
                     }
-                    else
-                    {
+                    else {
                         buffer[writeIndex++] = (byte)'%';
                         buffer[writeIndex++] = _IntToHex((b >> 4) & 0xF);
                         buffer[writeIndex++] = _IntToHex(b & 0xF);
@@ -697,15 +598,12 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         // The System.Web version unnecessarily escapes '~', which should be okay...
         // Keeping that same pattern here just to be consistent.
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        private static bool _UrlEncodeIsSafe(byte b)
-        {
-            if (_IsAsciiAlphaNumeric(b))
-            {
+        private static bool _UrlEncodeIsSafe(byte b) {
+            if (_IsAsciiAlphaNumeric(b)) {
                 return true;
             }
 
-            switch ((char)b)
-            {
+            switch ((char)b) {
                 case '-':
                 case '_':
                 case '.':
@@ -722,39 +620,32 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        private static bool _IsAsciiAlphaNumeric(byte b)
-        {
+        private static bool _IsAsciiAlphaNumeric(byte b) {
             return (b >= 'a' && b <= 'z')
                 || (b >= 'A' && b <= 'Z')
                 || (b >= '0' && b <= '9');
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        private static byte _IntToHex(int n)
-        {
+        private static byte _IntToHex(int n) {
             Assert.BoundedInteger(0, n, 16);
-            if (n <= 9)
-            {
+            if (n <= 9) {
                 return (byte)(n + '0');
             }
             return (byte)(n - 10 + 'A');
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        private static int _HexToInt(char h)
-        {
-            if (h >= '0' && h <= '9')
-            {
+        private static int _HexToInt(char h) {
+            if (h >= '0' && h <= '9') {
                 return h - '0';
             }
 
-            if (h >= 'a' && h <= 'f')
-            {
+            if (h >= 'a' && h <= 'f') {
                 return h - 'a' + 10;
             }
 
-            if (h >= 'A' && h <= 'F')
-            {
+            if (h >= 'A' && h <= 'F') {
                 return h - 'A' + 10;
             }
 
@@ -763,8 +654,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static string MakeValidFileName(string invalidPath)
-        {
+        public static string MakeValidFileName(string invalidPath) {
             return invalidPath
                 .Replace('\\', '_')
                 .Replace('/', '_')
@@ -778,25 +668,20 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static IEnumerable<string> GenerateFileNames(string directory, string primaryFileName, string extension)
-        {
+        public static IEnumerable<string> GenerateFileNames(string directory, string primaryFileName, string extension) {
             Verify.IsNeitherNullNorEmpty(directory, "directory");
             Verify.IsNeitherNullNorEmpty(primaryFileName, "primaryFileName");
 
             primaryFileName = MakeValidFileName(primaryFileName);
 
-            for (int i = 0; i <= 50; ++i)
-            {
-                if (0 == i)
-                {
+            for (int i = 0; i <= 50; ++i) {
+                if (0 == i) {
                     yield return Path.Combine(directory, primaryFileName) + extension;
                 }
-                else if (40 >= i)
-                {
+                else if (40 >= i) {
                     yield return Path.Combine(directory, primaryFileName) + " (" + i.ToString((IFormatProvider)null) + ")" + extension;
                 }
-                else
-                {
+                else {
                     // At this point we're hitting pathological cases.  This should stir things up enough that it works.
                     // If this fails because of naming conflicts after an extra 10 tries, then I don't care.
                     yield return Path.Combine(directory, primaryFileName) + " (" + _randomNumberGenerator.Next(41, 9999) + ")" + extension;
@@ -805,16 +690,12 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static bool TryFileMove(string sourceFileName, string destFileName)
-        {
-            if (!File.Exists(destFileName))
-            {
-                try
-                {
+        public static bool TryFileMove(string sourceFileName, string destFileName) {
+            if (!File.Exists(destFileName)) {
+                try {
                     File.Move(sourceFileName, destFileName);
                 }
-                catch (IOException)
-                {
+                catch (IOException) {
                     return false;
                 }
                 return true;

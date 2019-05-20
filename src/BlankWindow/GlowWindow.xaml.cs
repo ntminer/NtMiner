@@ -1,18 +1,15 @@
-﻿using System;
+﻿using NTMiner.Models.Win32;
+using NTMiner.Native;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Interop;
-using System.Windows.Media.Animation;
-using NTMiner.Models.Win32;
-using NTMiner.Native;
 using RECT = NTMiner.Native.RECT;
 
-namespace NTMiner
-{
-    partial class GlowWindow : Window
-    {
+namespace NTMiner {
+    partial class GlowWindow : Window {
         private readonly Func<Point, Cursor> getCursor;
         private readonly Func<Point, HitTestValues> getHitTestValue;
         private readonly Func<RECT, double> getLeft;
@@ -27,8 +24,7 @@ namespace NTMiner
         private HwndSource hwndSource;
         private PropertyChangeNotifier resizeModeChangeNotifier;
 
-        public GlowWindow(Window owner, GlowDirection direction)
-        {
+        public GlowWindow(Window owner, GlowDirection direction) {
             InitializeComponent();
 
             this.IsGlowing = true;
@@ -52,8 +48,7 @@ namespace NTMiner
 
             glow.Direction = direction;
 
-            switch (direction)
-            {
+            switch (direction) {
                 case GlowDirection.Left:
                     glow.Orientation = Orientation.Vertical;
                     glow.HorizontalAlignment = HorizontalAlignment.Right;
@@ -66,8 +61,7 @@ namespace NTMiner
                                                : new Rect(0, ActualHeight - edgeSize, ActualWidth, edgeSize).Contains(p)
                                                      ? HitTestValues.HTBOTTOMLEFT
                                                      : HitTestValues.HTLEFT;
-                    getCursor = p =>
-                    {
+                    getCursor = p => {
                         return (owner.ResizeMode == ResizeMode.NoResize || owner.ResizeMode == ResizeMode.CanMinimize)
                                     ? owner.Cursor
                                     : new Rect(0, 0, ActualWidth, edgeSize).Contains(p)
@@ -89,8 +83,7 @@ namespace NTMiner
                                                : new Rect(0, ActualHeight - edgeSize, ActualWidth, edgeSize).Contains(p)
                                                      ? HitTestValues.HTBOTTOMRIGHT
                                                      : HitTestValues.HTRIGHT;
-                    getCursor = p =>
-                    {
+                    getCursor = p => {
                         return (owner.ResizeMode == ResizeMode.NoResize || owner.ResizeMode == ResizeMode.CanMinimize)
                                     ? owner.Cursor
                                     : new Rect(0, 0, ActualWidth, edgeSize).Contains(p)
@@ -113,8 +106,7 @@ namespace NTMiner
                                                           ActualHeight).Contains(p)
                                                      ? HitTestValues.HTTOPRIGHT
                                                      : HitTestValues.HTTOP;
-                    getCursor = p =>
-                    {
+                    getCursor = p => {
                         return (owner.ResizeMode == ResizeMode.NoResize || owner.ResizeMode == ResizeMode.CanMinimize)
                                     ? owner.Cursor
                                     : new Rect(0, 0, edgeSize - glowSize, ActualHeight).Contains(p)
@@ -138,8 +130,7 @@ namespace NTMiner
                                                           ActualHeight).Contains(p)
                                                      ? HitTestValues.HTBOTTOMRIGHT
                                                      : HitTestValues.HTBOTTOM;
-                    getCursor = p =>
-                    {
+                    getCursor = p => {
                         return (owner.ResizeMode == ResizeMode.NoResize || owner.ResizeMode == ResizeMode.CanMinimize)
                                     ? owner.Cursor
                                     : new Rect(0, 0, edgeSize - glowSize, ActualHeight).Contains(p)
@@ -153,45 +144,32 @@ namespace NTMiner
             }
 
             owner.ContentRendered += (sender, e) => glow.Visibility = Visibility.Visible;
-            owner.Activated += (sender, e) =>
-            {
+            owner.Activated += (sender, e) => {
                 Update();
                 glow.IsGlow = true;
             };
             owner.Deactivated += (sender, e) => glow.IsGlow = false;
             owner.StateChanged += (sender, e) => Update();
             owner.IsVisibleChanged += (sender, e) => Update();
-            owner.Closed += (sender, e) =>
-            {
+            owner.Closed += (sender, e) => {
                 closing = true;
                 Close();
             };
         }
 
-        public Storyboard OpacityStoryboard { get; set; }
-
-        public override void OnApplyTemplate()
-        {
-            base.OnApplyTemplate();
-
-            this.OpacityStoryboard = this.TryFindResource("OpacityStoryboard") as Storyboard;
-        }
-
-        protected override void OnSourceInitialized(EventArgs e)
-        {
+        protected override void OnSourceInitialized(EventArgs e) {
             base.OnSourceInitialized(e);
 
             this.hwndSource = (HwndSource)PresentationSource.FromVisual(this);
             if (hwndSource == null) return;
-            
+
             var ws = hwndSource.Handle.GetWindowLong();
             var wsex = hwndSource.Handle.GetWindowLongEx();
 
             //ws |= WS.POPUP;
             wsex ^= WSEX.APPWINDOW;
             wsex |= WSEX.NOACTIVATE;
-            if (this.Owner.ResizeMode == ResizeMode.NoResize || this.Owner.ResizeMode == ResizeMode.CanMinimize)
-            {
+            if (this.Owner.ResizeMode == ResizeMode.NoResize || this.Owner.ResizeMode == ResizeMode.CanMinimize) {
                 wsex |= WSEX.TRANSPARENT;
             }
 
@@ -206,59 +184,48 @@ namespace NTMiner
             this.resizeModeChangeNotifier.ValueChanged += ResizeModeChanged;
         }
 
-        private void ResizeModeChanged(object sender, EventArgs e)
-        {
+        private void ResizeModeChanged(object sender, EventArgs e) {
             var wsex = hwndSource.Handle.GetWindowLongEx();
-            if (this.Owner.ResizeMode == ResizeMode.NoResize || this.Owner.ResizeMode == ResizeMode.CanMinimize)
-            {
+            if (this.Owner.ResizeMode == ResizeMode.NoResize || this.Owner.ResizeMode == ResizeMode.CanMinimize) {
                 wsex |= WSEX.TRANSPARENT;
             }
-            else
-            {
+            else {
                 wsex ^= WSEX.TRANSPARENT;
             }
             hwndSource.Handle.SetWindowLongEx(wsex);
         }
 
-        public void Update()
-        {
+        public void Update() {
             RECT rect;
             if (Owner.Visibility == Visibility.Hidden
-                || Owner.Visibility == Visibility.Collapsed)
-            {
+                || Owner.Visibility == Visibility.Collapsed) {
                 Visibility = Owner.Visibility;
 
-                if (ownerHandle != IntPtr.Zero && UnsafeNativeMethods.GetWindowRect(ownerHandle, out rect))
-                {
+                if (ownerHandle != IntPtr.Zero && UnsafeNativeMethods.GetWindowRect(ownerHandle, out rect)) {
                     UpdateCore(rect);
                 }
             }
-            else if (Owner.WindowState == WindowState.Normal)
-            {
+            else if (Owner.WindowState == WindowState.Normal) {
                 if (this.closing) return;
 
                 Visibility = IsGlowing ? Visibility.Visible : Visibility.Collapsed;
                 glow.Visibility = IsGlowing ? Visibility.Visible : Visibility.Collapsed;
 
-                if (ownerHandle != IntPtr.Zero && UnsafeNativeMethods.GetWindowRect(ownerHandle, out rect))
-                {
+                if (ownerHandle != IntPtr.Zero && UnsafeNativeMethods.GetWindowRect(ownerHandle, out rect)) {
                     UpdateCore(rect);
                 }
             }
-            else
-            {
+            else {
                 Visibility = Visibility.Collapsed;
             }
         }
 
-        public bool IsGlowing
-        {
+        public bool IsGlowing {
             set;
             get;
         }
 
-        internal void UpdateCore(RECT rect)
-        {
+        internal void UpdateCore(RECT rect) {
             NativeMethods.SetWindowPos(handle, ownerHandle,
                                        (int)(getLeft(rect)),
                                        (int)(getTop(rect)),
@@ -267,28 +234,23 @@ namespace NTMiner
                                        SWP.NOACTIVATE | SWP.NOZORDER);
         }
 
-        private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
-        {
-            if (msg == (int)WM.SHOWWINDOW)
-            {
-                if((int)lParam == 3 && this.Visibility != Visibility.Visible) // 3 == SW_PARENTOPENING
+        private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled) {
+            if (msg == (int)WM.SHOWWINDOW) {
+                if ((int)lParam == 3 && this.Visibility != Visibility.Visible) // 3 == SW_PARENTOPENING
                 {
                     handled = true; //handle this message so window isn't shown until we want it to                   
                 }
-            }            
-            if (msg == (int)WM.MOUSEACTIVATE)
-            {
+            }
+            if (msg == (int)WM.MOUSEACTIVATE) {
                 handled = true;
                 return new IntPtr(3);
             }
 
-            if (msg == (int)WM.LBUTTONDOWN)
-            {
+            if (msg == (int)WM.LBUTTONDOWN) {
                 var pt = new Point((int)lParam & 0xFFFF, ((int)lParam >> 16) & 0xFFFF);
                 NativeMethods.PostMessage(ownerHandle, (uint)WM.NCLBUTTONDOWN, (IntPtr)getHitTestValue(pt), IntPtr.Zero);
             }
-            if (msg == (int)WM.NCHITTEST)
-            {
+            if (msg == (int)WM.NCHITTEST) {
                 var ptScreen = new Point((int)lParam & 0xFFFF, ((int)lParam >> 16) & 0xFFFF);
                 Point ptClient = PointFromScreen(ptScreen);
                 Cursor cursor = getCursor(ptClient);

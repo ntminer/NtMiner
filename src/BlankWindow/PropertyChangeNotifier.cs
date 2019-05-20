@@ -3,8 +3,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Data;
 
-namespace NTMiner
-{
+namespace NTMiner {
     /// <summary>
     /// AddValueChanged of dependency property descriptor results in memory leak as you already know.
     /// So, as described here, you can create custom class PropertyChangeNotifier to listen
@@ -18,28 +17,22 @@ namespace NTMiner
     /// 
     /// Complete implementation can be found here: http://agsmith.wordpress.com/2008/04/07/propertydescriptor-addvaluechanged-alternative/
     /// </summary>
-    internal sealed class PropertyChangeNotifier : DependencyObject, IDisposable
-    {
+    internal sealed class PropertyChangeNotifier : DependencyObject, IDisposable {
         private WeakReference _propertySource;
 
         public PropertyChangeNotifier(DependencyObject propertySource, string path)
-            : this(propertySource, new PropertyPath(path))
-        {
+            : this(propertySource, new PropertyPath(path)) {
         }
 
         public PropertyChangeNotifier(DependencyObject propertySource, DependencyProperty property)
-            : this(propertySource, new PropertyPath(property))
-        {
+            : this(propertySource, new PropertyPath(property)) {
         }
 
-        public PropertyChangeNotifier(DependencyObject propertySource, PropertyPath property)
-        {
-            if (null == propertySource)
-            {
+        public PropertyChangeNotifier(DependencyObject propertySource, PropertyPath property) {
+            if (null == propertySource) {
                 throw new ArgumentNullException("propertySource");
             }
-            if (null == property)
-            {
+            if (null == property) {
                 throw new ArgumentNullException("property");
             }
             this._propertySource = new WeakReference(propertySource);
@@ -50,12 +43,9 @@ namespace NTMiner
             BindingOperations.SetBinding(this, ValueProperty, binding);
         }
 
-        public DependencyObject PropertySource
-        {
-            get
-            {
-                try
-                {
+        public DependencyObject PropertySource {
+            get {
+                try {
                     // note, it is possible that accessing the target property
                     // will result in an exception so i’ve wrapped this check
                     // in a try catch
@@ -63,8 +53,7 @@ namespace NTMiner
                         ? this._propertySource.Target as DependencyObject
                         : null;
                 }
-                catch
-                {
+                catch {
                     return null;
                 }
             }
@@ -84,25 +73,21 @@ namespace NTMiner
         [Description("Returns/sets the value of the property")]
         [Category("Behavior")]
         [Bindable(true)]
-        public object Value
-        {
+        public object Value {
             get { return (object)this.GetValue(ValueProperty); }
             set { this.SetValue(ValueProperty, value); }
         }
 
-        private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
+        private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
             var notifier = (PropertyChangeNotifier)d;
-            if (null != notifier.ValueChanged)
-            {
+            if (null != notifier.ValueChanged) {
                 notifier.ValueChanged(notifier.PropertySource, EventArgs.Empty);
             }
         }
 
         public event EventHandler ValueChanged;
 
-        public void Dispose()
-        {
+        public void Dispose() {
             BindingOperations.ClearBinding(this, ValueProperty);
         }
     }

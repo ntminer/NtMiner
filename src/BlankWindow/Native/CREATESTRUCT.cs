@@ -1,11 +1,9 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace NTMiner.Native
-{
-    [StructLayout(LayoutKind.Sequential, CharSet=CharSet.Auto)]
-    internal struct CREATESTRUCT
-    {
+namespace NTMiner.Native {
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
+    internal struct CREATESTRUCT {
         public IntPtr lpCreateParams;
         public IntPtr hInstance;
         public IntPtr hMenu;

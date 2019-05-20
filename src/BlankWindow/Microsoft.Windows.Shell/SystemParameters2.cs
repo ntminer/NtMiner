@@ -11,11 +11,9 @@ using System.Windows;
 using System.Windows.Media;
 using NTMiner.Microsoft.Windows.Shell.Standard;
 
-namespace NTMiner.Microsoft.Windows.Shell
-{
+namespace NTMiner.Microsoft.Windows.Shell {
     [SuppressMessage("Microsoft.Design", "CA1001:TypesThatOwnDisposableFieldsShouldBeDisposable")]
-    internal class SystemParameters2 : INotifyPropertyChanged
-    {
+    internal class SystemParameters2 : INotifyPropertyChanged {
         private delegate void _SystemMetricUpdate(IntPtr wParam, IntPtr lParam);
 
         [ThreadStatic]
@@ -44,19 +42,16 @@ namespace NTMiner.Microsoft.Windows.Shell
         // and a way of being notified of updates via a window message.
         // This region is a grouping of both, for each of the exposed properties.
 
-        private void _InitializeIsGlassEnabled()
-        {
+        private void _InitializeIsGlassEnabled() {
             IsGlassEnabled = NativeMethods.DwmIsCompositionEnabled();
         }
 
-        private void _UpdateIsGlassEnabled(IntPtr wParam, IntPtr lParam)
-        {
+        private void _UpdateIsGlassEnabled(IntPtr wParam, IntPtr lParam) {
             // Neither the wParam or lParam are used in this case.
             _InitializeIsGlassEnabled();
         }
 
-        private void _InitializeGlassColor()
-        {
+        private void _InitializeGlassColor() {
             bool isOpaque;
             uint color;
             NativeMethods.DwmGetColorizationColor(out color, out isOpaque);
@@ -70,8 +65,7 @@ namespace NTMiner.Microsoft.Windows.Shell
             WindowGlassBrush = glassBrush;
         }
 
-        private void _UpdateGlassColor(IntPtr wParam, IntPtr lParam)
-        {
+        private void _UpdateGlassColor(IntPtr wParam, IntPtr lParam) {
             bool isOpaque = lParam != IntPtr.Zero;
             uint color = unchecked((uint)(int)wParam.ToInt64());
             color |= isOpaque ? 0xFF000000 : 0;
@@ -81,19 +75,16 @@ namespace NTMiner.Microsoft.Windows.Shell
             WindowGlassBrush = glassBrush;
         }
 
-        private void _InitializeCaptionHeight()
-        {
+        private void _InitializeCaptionHeight() {
             Point ptCaption = new Point(0, NativeMethods.GetSystemMetrics(SM.CYCAPTION));
             WindowCaptionHeight = DpiHelper.DevicePixelsToLogical(ptCaption).Y;
         }
 
-        private void _UpdateCaptionHeight(IntPtr wParam, IntPtr lParam)
-        {
+        private void _UpdateCaptionHeight(IntPtr wParam, IntPtr lParam) {
             _InitializeCaptionHeight();
         }
 
-        private void _InitializeWindowResizeBorderThickness()
-        {
+        private void _InitializeWindowResizeBorderThickness() {
             Size frameSize = new Size(
                 NativeMethods.GetSystemMetrics(SM.CXSIZEFRAME),
                 NativeMethods.GetSystemMetrics(SM.CYSIZEFRAME));
@@ -101,13 +92,11 @@ namespace NTMiner.Microsoft.Windows.Shell
             WindowResizeBorderThickness = new Thickness(frameSizeInDips.Width, frameSizeInDips.Height, frameSizeInDips.Width, frameSizeInDips.Height);
         }
 
-        private void _UpdateWindowResizeBorderThickness(IntPtr wParam, IntPtr lParam)
-        {
+        private void _UpdateWindowResizeBorderThickness(IntPtr wParam, IntPtr lParam) {
             _InitializeWindowResizeBorderThickness();
         }
 
-        private void _InitializeWindowNonClientFrameThickness()
-        {
+        private void _InitializeWindowNonClientFrameThickness() {
             Size frameSize = new Size(
                 NativeMethods.GetSystemMetrics(SM.CXSIZEFRAME),
                 NativeMethods.GetSystemMetrics(SM.CYSIZEFRAME));
@@ -117,25 +106,21 @@ namespace NTMiner.Microsoft.Windows.Shell
             WindowNonClientFrameThickness = new Thickness(frameSizeInDips.Width, frameSizeInDips.Height + captionHeightInDips, frameSizeInDips.Width, frameSizeInDips.Height);
         }
 
-        private void _UpdateWindowNonClientFrameThickness(IntPtr wParam, IntPtr lParam)
-        {
+        private void _UpdateWindowNonClientFrameThickness(IntPtr wParam, IntPtr lParam) {
             _InitializeWindowNonClientFrameThickness();
         }
 
-        private void _InitializeSmallIconSize()
-        {
+        private void _InitializeSmallIconSize() {
             SmallIconSize = new Size(
                 NativeMethods.GetSystemMetrics(SM.CXSMICON),
                 NativeMethods.GetSystemMetrics(SM.CYSMICON));
         }
 
-        private void _UpdateSmallIconSize(IntPtr wParam, IntPtr lParam)
-        {
+        private void _UpdateSmallIconSize(IntPtr wParam, IntPtr lParam) {
             _InitializeSmallIconSize();
         }
 
-        private void _LegacyInitializeCaptionButtonLocation()
-        {
+        private void _LegacyInitializeCaptionButtonLocation() {
             // This calculation isn't quite right, but it's pretty close.
             // I expect this is good enough for the scenarios where this is expected to be used.
             int captionX = NativeMethods.GetSystemMetrics(SM.CXSIZE);
@@ -151,19 +136,16 @@ namespace NTMiner.Microsoft.Windows.Shell
         }
 
         [SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands")]
-        private void _InitializeCaptionButtonLocation()
-        {
+        private void _InitializeCaptionButtonLocation() {
             // There is a completely different way to do this on XP.
-            if (!Utility.IsOSVistaOrNewer || !NativeMethods.IsThemeActive())
-            {
+            if (!Utility.IsOSVistaOrNewer || !NativeMethods.IsThemeActive()) {
                 _LegacyInitializeCaptionButtonLocation();
                 return;
             }
 
             var tbix = new TITLEBARINFOEX { cbSize = Marshal.SizeOf(typeof(TITLEBARINFOEX)) };
             IntPtr lParam = Marshal.AllocHGlobal(tbix.cbSize);
-            try
-            {
+            try {
                 Marshal.StructureToPtr(tbix, lParam, false);
                 // This might flash a window in the taskbar while being calculated.
                 // WM_GETTITLEBARINFOEX doesn't work correctly unless the window is visible while processing.
@@ -171,8 +153,7 @@ namespace NTMiner.Microsoft.Windows.Shell
                 NativeMethods.SendMessage(_messageHwnd.Handle, WM.GETTITLEBARINFOEX, IntPtr.Zero, lParam);
                 tbix = (TITLEBARINFOEX)Marshal.PtrToStructure(lParam, typeof(TITLEBARINFOEX));
             }
-            finally
-            {
+            finally {
                 NativeMethods.ShowWindow(_messageHwnd.Handle, SW.HIDE);
                 Utility.SafeFreeHGlobal(ref lParam);
             }
@@ -197,26 +178,21 @@ namespace NTMiner.Microsoft.Windows.Shell
             WindowCaptionButtonsLocation = logicalCaptionLocation;
         }
 
-        private void _UpdateCaptionButtonLocation(IntPtr wParam, IntPtr lParam)
-        {
+        private void _UpdateCaptionButtonLocation(IntPtr wParam, IntPtr lParam) {
             _InitializeCaptionButtonLocation();
         }
 
-        private void _InitializeHighContrast()
-        {
+        private void _InitializeHighContrast() {
             HIGHCONTRAST hc = NativeMethods.SystemParameterInfo_GetHIGHCONTRAST();
             HighContrast = (hc.dwFlags & HCF.HIGHCONTRASTON) != 0;
         }
 
-        private void _UpdateHighContrast(IntPtr wParam, IntPtr lParam)
-        {
+        private void _UpdateHighContrast(IntPtr wParam, IntPtr lParam) {
             _InitializeHighContrast();
         }
 
-        private void _InitializeThemeInfo()
-        {
-            if (!NativeMethods.IsThemeActive())
-            {
+        private void _InitializeThemeInfo() {
+            if (!NativeMethods.IsThemeActive()) {
                 UxThemeName = "Classic";
                 UxThemeColor = "";
                 return;
@@ -232,13 +208,11 @@ namespace NTMiner.Microsoft.Windows.Shell
             UxThemeColor = color;
         }
 
-        private void _UpdateThemeInfo(IntPtr wParam, IntPtr lParam)
-        {
+        private void _UpdateThemeInfo(IntPtr wParam, IntPtr lParam) {
             _InitializeThemeInfo();
         }
 
-        private void _InitializeWindowCornerRadius()
-        {
+        private void _InitializeWindowCornerRadius() {
             // The radius of window corners isn't exposed as a true system parameter.
             // It instead is a logical size that we're approximating based on the current theme.
             // There aren't any known variations based on theme color.
@@ -255,19 +229,16 @@ namespace NTMiner.Microsoft.Windows.Shell
             // "Zune" and "Royale", but WPF doesn't know about these either.
             // If a new theme was to replace Aero, then this will fall back on "classic" behaviors.
             // This isn't ideal, but it's not the end of the world.  WPF will generally have problems anyways.
-            switch (UxThemeName.ToUpperInvariant())
-            {
+            switch (UxThemeName.ToUpperInvariant()) {
                 case "LUNA":
                     cornerRadius = new CornerRadius(6, 6, 0, 0);
                     break;
                 case "AERO":
                     // Aero has two cases.  One with glass and one without...
-                    if (NativeMethods.DwmIsCompositionEnabled())
-                    {
+                    if (NativeMethods.DwmIsCompositionEnabled()) {
                         cornerRadius = new CornerRadius(8);
                     }
-                    else
-                    {
+                    else {
                         cornerRadius = new CornerRadius(6, 6, 0, 0);
                     }
                     break;
@@ -282,8 +253,7 @@ namespace NTMiner.Microsoft.Windows.Shell
             WindowCornerRadius = cornerRadius;
         }
 
-        private void _UpdateWindowCornerRadius(IntPtr wParam, IntPtr lParam)
-        {
+        private void _UpdateWindowCornerRadius(IntPtr wParam, IntPtr lParam) {
             // Neither the wParam or lParam are used in this case.
             _InitializeWindowCornerRadius();
         }
@@ -294,8 +264,7 @@ namespace NTMiner.Microsoft.Windows.Shell
         /// <summary>
         /// Private constructor.  The public way to access this class is through the static Current property.
         /// </summary>
-        private SystemParameters2()
-        {
+        private SystemParameters2() {
             // This window gets used for calculations about standard caption button locations
             // so it has WS_OVERLAPPEDWINDOW as a style to give it normal caption buttons.
             // This window may be shown during calculations of caption bar information, so create it at a location that's likely offscreen.
@@ -320,8 +289,8 @@ namespace NTMiner.Microsoft.Windows.Shell
                 { WM.THEMECHANGED,
                     new List<_SystemMetricUpdate>
                     {
-                        _UpdateThemeInfo, 
-                        _UpdateHighContrast, 
+                        _UpdateThemeInfo,
+                        _UpdateHighContrast,
                         _UpdateWindowCornerRadius,
                         _UpdateCaptionButtonLocation, } },
                 { WM.SETTINGCHANGE,
@@ -339,29 +308,22 @@ namespace NTMiner.Microsoft.Windows.Shell
             };
         }
 
-        public static SystemParameters2 Current
-        {
-            get
-            {
-                if (_threadLocalSingleton == null)
-                {
+        public static SystemParameters2 Current {
+            get {
+                if (_threadLocalSingleton == null) {
                     _threadLocalSingleton = new SystemParameters2();
                 }
                 return _threadLocalSingleton;
             }
         }
 
-        private IntPtr _WndProc(IntPtr hwnd, WM msg, IntPtr wParam, IntPtr lParam)
-        {
+        private IntPtr _WndProc(IntPtr hwnd, WM msg, IntPtr wParam, IntPtr lParam) {
             // Don't do this if called within the SystemParameters2 constructor
-            if (_UpdateTable != null)
-            {
+            if (_UpdateTable != null) {
                 List<_SystemMetricUpdate> handlers;
-                if (_UpdateTable.TryGetValue(msg, out handlers))
-                {
+                if (_UpdateTable.TryGetValue(msg, out handlers)) {
                     Assert.IsNotNull(handlers);
-                    foreach (var handler in handlers)
-                    {
+                    foreach (var handler in handlers) {
                         handler(wParam, lParam);
                     }
                 }
@@ -370,99 +332,77 @@ namespace NTMiner.Microsoft.Windows.Shell
             return NativeMethods.DefWindowProc(hwnd, msg, wParam, lParam);
         }
 
-        public bool IsGlassEnabled
-        {
-            get
-            {
+        public bool IsGlassEnabled {
+            get {
                 // return _isGlassEnabled;
                 // It turns out there may be some lag between someone asking this
                 // and the window getting updated.  It's not too expensive, just always do the check.
                 return NativeMethods.DwmIsCompositionEnabled();
             }
-            private set
-            {
-                if (value != _isGlassEnabled)
-                {
+            private set {
+                if (value != _isGlassEnabled) {
                     _isGlassEnabled = value;
                     _NotifyPropertyChanged("IsGlassEnabled");
                 }
             }
         }
 
-        public Color WindowGlassColor
-        {
+        public Color WindowGlassColor {
             get { return _glassColor; }
-            private set
-            {
-                if (value != _glassColor)
-                {
+            private set {
+                if (value != _glassColor) {
                     _glassColor = value;
                     _NotifyPropertyChanged("WindowGlassColor");
                 }
             }
         }
 
-        public SolidColorBrush WindowGlassBrush
-        {
+        public SolidColorBrush WindowGlassBrush {
             get { return _glassColorBrush; }
-            private set
-            {
+            private set {
                 Assert.IsNotNull(value);
                 Assert.IsTrue(value.IsFrozen);
-                if (_glassColorBrush == null || value.Color != _glassColorBrush.Color)
-                {
+                if (_glassColorBrush == null || value.Color != _glassColorBrush.Color) {
                     _glassColorBrush = value;
                     _NotifyPropertyChanged("WindowGlassBrush");
                 }
             }
         }
 
-        public Thickness WindowResizeBorderThickness
-        {
+        public Thickness WindowResizeBorderThickness {
             get { return _windowResizeBorderThickness; }
-            private set
-            {
-                if (value != _windowResizeBorderThickness)
-                {
+            private set {
+                if (value != _windowResizeBorderThickness) {
                     _windowResizeBorderThickness = value;
                     _NotifyPropertyChanged("WindowResizeBorderThickness");
                 }
             }
         }
 
-        public Thickness WindowNonClientFrameThickness
-        {
+        public Thickness WindowNonClientFrameThickness {
             get { return _windowNonClientFrameThickness; }
-            private set
-            {
-                if (value != _windowNonClientFrameThickness)
-                {
+            private set {
+                if (value != _windowNonClientFrameThickness) {
                     _windowNonClientFrameThickness = value;
                     _NotifyPropertyChanged("WindowNonClientFrameThickness");
                 }
             }
         }
 
-        public double WindowCaptionHeight
-        {
+        public double WindowCaptionHeight {
             get { return _captionHeight; }
-            private set
-            {
-                if (value != _captionHeight)
-                {
+            private set {
+                if (value != _captionHeight) {
                     _captionHeight = value;
                     _NotifyPropertyChanged("WindowCaptionHeight");
                 }
             }
         }
 
-        public Size SmallIconSize
-        {
+        public Size SmallIconSize {
             get { return new Size(_smallIconSize.Width, _smallIconSize.Height); }
-            private set
-            {
-                if (value != _smallIconSize)
-                {
+            private set {
+                if (value != _smallIconSize) {
                     _smallIconSize = value;
                     _NotifyPropertyChanged("SmallIconSize");
                 }
@@ -471,13 +411,10 @@ namespace NTMiner.Microsoft.Windows.Shell
 
         [SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Ux")]
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Ux")]
-        public string UxThemeName
-        {
+        public string UxThemeName {
             get { return _uxThemeName; }
-            private set
-            {
-                if (value != _uxThemeName)
-                {
+            private set {
+                if (value != _uxThemeName) {
                     _uxThemeName = value;
                     _NotifyPropertyChanged("UxThemeName");
                 }
@@ -486,52 +423,40 @@ namespace NTMiner.Microsoft.Windows.Shell
 
         [SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Ux")]
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Ux")]
-        public string UxThemeColor
-        {
+        public string UxThemeColor {
             get { return _uxThemeColor; }
-            private set
-            {
-                if (value != _uxThemeColor)
-                {
+            private set {
+                if (value != _uxThemeColor) {
                     _uxThemeColor = value;
                     _NotifyPropertyChanged("UxThemeColor");
                 }
             }
         }
 
-        public bool HighContrast
-        {
+        public bool HighContrast {
             get { return _isHighContrast; }
-            private set
-            {
-                if (value != _isHighContrast)
-                {
+            private set {
+                if (value != _isHighContrast) {
                     _isHighContrast = value;
                     _NotifyPropertyChanged("HighContrast");
                 }
             }
         }
 
-        public CornerRadius WindowCornerRadius
-        {
+        public CornerRadius WindowCornerRadius {
             get { return _windowCornerRadius; }
-            private set
-            {
-                if (value != _windowCornerRadius)
-                {
+            private set {
+                if (value != _windowCornerRadius) {
                     _windowCornerRadius = value;
                     _NotifyPropertyChanged("WindowCornerRadius");
                 }
             }
         }
 
-        public Rect WindowCaptionButtonsLocation
-        {
+        public Rect WindowCaptionButtonsLocation {
             get { return _captionButtonLocation; }
-            private set
-            {
-                if (value != _captionButtonLocation)
-                {
+            private set {
+                if (value != _captionButtonLocation) {
                     _captionButtonLocation = value;
                     _NotifyPropertyChanged("WindowCaptionButtonsLocation");
                 }
@@ -540,12 +465,10 @@ namespace NTMiner.Microsoft.Windows.Shell
 
         #region INotifyPropertyChanged Members
 
-        private void _NotifyPropertyChanged(string propertyName)
-        {
+        private void _NotifyPropertyChanged(string propertyName) {
             Assert.IsNeitherNullNorEmpty(propertyName);
             var handler = PropertyChanged;
-            if (handler != null)
-            {
+            if (handler != null) {
                 handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }

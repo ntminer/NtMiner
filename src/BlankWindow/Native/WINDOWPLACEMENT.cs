@@ -1,12 +1,10 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace NTMiner.Native
-{
+namespace NTMiner.Native {
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
-    public struct WINDOWPLACEMENT
-    {
+    public struct WINDOWPLACEMENT {
         public int length;
         public int flags;
         public int showCmd;

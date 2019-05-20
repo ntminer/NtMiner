@@ -6,22 +6,18 @@ using System.Windows.Interop;
 using NTMiner.Microsoft.Windows.Shell;
 using NTMiner.Native;
 
-namespace NTMiner.Behaviours
-{
+namespace NTMiner.Behaviours {
     /// <summary>
     /// With this class we can make custom window styles.
     /// </summary>
-    public class BorderlessWindowBehavior : Behavior<Window>
-    {
+    public class BorderlessWindowBehavior : Behavior<Window> {
         private IntPtr handle;
         private HwndSource hwndSource;
         private WindowChrome windowChrome;
         private Thickness? savedBorderThickness;
 
-        protected override void OnAttached()
-        {
-            windowChrome = new WindowChrome
-            {
+        protected override void OnAttached() {
+            windowChrome = new WindowChrome {
                 ResizeBorderThickness = SystemParameters2.Current.WindowResizeBorderThickness,
                 CaptionHeight = 0,
                 CornerRadius = new CornerRadius(0),
@@ -30,8 +26,7 @@ namespace NTMiner.Behaviours
             };
 
             var customWindow = AssociatedObject as BlankWindow;
-            if (customWindow != null)
-            {
+            if (customWindow != null) {
                 windowChrome.IgnoreTaskbarOnMaximize = customWindow.IgnoreTaskbarOnMaximize;
                 windowChrome.UseNoneWindowStyle = true;//metroWindow.UseNoneWindowStyle;
                 System.ComponentModel.DependencyPropertyDescriptor.FromProperty(BlankWindow.IgnoreTaskbarOnMaximizeProperty, typeof(BlankWindow))
@@ -44,14 +39,11 @@ namespace NTMiner.Behaviours
 
             // no transparany, because it hase more then one unwanted issues
             var windowHandle = new WindowInteropHelper(AssociatedObject).Handle;
-            if (!AssociatedObject.IsLoaded && windowHandle == IntPtr.Zero)
-            {
-                try
-                {
+            if (!AssociatedObject.IsLoaded && windowHandle == IntPtr.Zero) {
+                try {
                     AssociatedObject.AllowsTransparency = false;
                 }
-                catch (Exception)
-                {
+                catch (Exception) {
                     //For some reason, we can't determine if the window has loaded or not, so we swallow the exception.
                 }
             }
@@ -66,11 +58,9 @@ namespace NTMiner.Behaviours
             base.OnAttached();
         }
 
-        private void UseNoneWindowStylePropertyChangedCallback(object sender, EventArgs e)
-        {
+        private void UseNoneWindowStylePropertyChangedCallback(object sender, EventArgs e) {
             var blankWindow = sender as BlankWindow;
-            if (blankWindow != null && windowChrome != null)
-            {
+            if (blankWindow != null && windowChrome != null) {
                 //if (!Equals(windowChrome.UseNoneWindowStyle, metroWindow.UseNoneWindowStyle))
                 //{
                 //    windowChrome.UseNoneWindowStyle = metroWindow.UseNoneWindowStyle;
@@ -79,39 +69,31 @@ namespace NTMiner.Behaviours
             }
         }
 
-        private void IgnoreTaskbarOnMaximizePropertyChangedCallback(object sender, EventArgs e)
-        {
+        private void IgnoreTaskbarOnMaximizePropertyChangedCallback(object sender, EventArgs e) {
             var blankWindow = sender as BlankWindow;
-            if (blankWindow != null && windowChrome != null)
-            {
-                if (!Equals(windowChrome.IgnoreTaskbarOnMaximize, blankWindow.IgnoreTaskbarOnMaximize))
-                {
+            if (blankWindow != null && windowChrome != null) {
+                if (!Equals(windowChrome.IgnoreTaskbarOnMaximize, blankWindow.IgnoreTaskbarOnMaximize)) {
                     windowChrome.IgnoreTaskbarOnMaximize = blankWindow.IgnoreTaskbarOnMaximize;
                     this.ForceRedrawWindowFromPropertyChanged();
                 }
             }
         }
 
-        private void ForceRedrawWindowFromPropertyChanged()
-        {
+        private void ForceRedrawWindowFromPropertyChanged() {
             this.HandleMaximize();
-            if (this.handle != IntPtr.Zero)
-            {
+            if (this.handle != IntPtr.Zero) {
                 UnsafeNativeMethods.RedrawWindow(this.handle, IntPtr.Zero, IntPtr.Zero, Constants.RedrawWindowFlags.Invalidate | Constants.RedrawWindowFlags.Frame);
             }
         }
 
         private bool isCleanedUp;
 
-        private void Cleanup()
-        {
-            if (!isCleanedUp)
-            {
+        private void Cleanup() {
+            if (!isCleanedUp) {
                 isCleanedUp = true;
 
                 // clean up events
-                if (AssociatedObject is BlankWindow)
-                {
+                if (AssociatedObject is BlankWindow) {
                     System.ComponentModel.DependencyPropertyDescriptor.FromProperty(BlankWindow.IgnoreTaskbarOnMaximizeProperty, typeof(BlankWindow))
                           .RemoveValueChanged(AssociatedObject, IgnoreTaskbarOnMaximizePropertyChangedCallback);
                     //System.ComponentModel.DependencyPropertyDescriptor.FromProperty(MetroWindow.UseNoneWindowStyleProperty, typeof(MetroWindow))
@@ -121,41 +103,34 @@ namespace NTMiner.Behaviours
                 AssociatedObject.Unloaded -= AssociatedObject_Unloaded;
                 AssociatedObject.SourceInitialized -= AssociatedObject_SourceInitialized;
                 AssociatedObject.StateChanged -= OnAssociatedObjectHandleMaximize;
-                if (hwndSource != null)
-                {
+                if (hwndSource != null) {
                     hwndSource.RemoveHook(WindowProc);
                 }
                 windowChrome = null;
             }
         }
 
-        protected override void OnDetaching()
-        {
+        protected override void OnDetaching() {
             Cleanup();
             base.OnDetaching();
         }
 
-        private void AssociatedObject_Unloaded(object sender, RoutedEventArgs e)
-        {
+        private void AssociatedObject_Unloaded(object sender, RoutedEventArgs e) {
             Cleanup();
         }
 
-        private IntPtr WindowProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
-        {
+        private IntPtr WindowProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled) {
             var returnval = IntPtr.Zero;
             var metroWindow = AssociatedObject as BlankWindow;
 
-            switch (msg)
-            {
+            switch (msg) {
                 case Constants.WM_NCPAINT:
                     var enableDWMDropShadow = EnableDWMDropShadow;
 
-                    if (metroWindow != null)
-                    {
+                    if (metroWindow != null) {
                         enableDWMDropShadow = metroWindow.GlowBrush == null && EnableDWMDropShadow;
                     }
-                    if (enableDWMDropShadow)
-                    {
+                    if (enableDWMDropShadow) {
                         var val = 2;
                         UnsafeNativeMethods.DwmSetWindowAttribute(hwnd, 2, ref val, 4);
                         var m = new MARGINS { bottomHeight = 1, leftWidth = 1, rightWidth = 1, topHeight = 1 };
@@ -173,28 +148,23 @@ namespace NTMiner.Behaviours
             return returnval;
         }
 
-        private void OnAssociatedObjectHandleMaximize(object sender, EventArgs e)
-        {
+        private void OnAssociatedObjectHandleMaximize(object sender, EventArgs e) {
             HandleMaximize();
         }
 
-        private void HandleMaximize()
-        {
-            if (AssociatedObject.WindowState == WindowState.Maximized)
-            {
+        private void HandleMaximize() {
+            if (AssociatedObject.WindowState == WindowState.Maximized) {
                 // remove resize border and window border, so we can move the window from top monitor position
                 windowChrome.ResizeBorderThickness = new Thickness(0);
                 AssociatedObject.BorderThickness = new Thickness(0);
 
                 var customWindow = AssociatedObject as BlankWindow;
                 var ignoreTaskBar = customWindow != null && customWindow.IgnoreTaskbarOnMaximize;
-                if (ignoreTaskBar)
-                {
+                if (ignoreTaskBar) {
                     // WindowChrome handles the size false if the main monitor is lesser the monitor where the window is maximized
                     // so set the window pos/size twice
                     IntPtr monitor = UnsafeNativeMethods.MonitorFromWindow(handle, Constants.MONITOR_DEFAULTTONEAREST);
-                    if (monitor != IntPtr.Zero)
-                    {
+                    if (monitor != IntPtr.Zero) {
                         var monitorInfo = new MONITORINFO();
                         UnsafeNativeMethods.GetMonitorInfo(monitor, monitorInfo);
 
@@ -207,8 +177,7 @@ namespace NTMiner.Behaviours
                     }
                 }
             }
-            else
-            {
+            else {
                 windowChrome.ResizeBorderThickness = SystemParameters2.Current.WindowResizeBorderThickness;
                 AssociatedObject.BorderThickness = savedBorderThickness.GetValueOrDefault(new Thickness(0));
 
@@ -224,12 +193,10 @@ namespace NTMiner.Behaviours
             }
         }
 
-        private void AssociatedObject_SourceInitialized(object sender, EventArgs e)
-        {
+        private void AssociatedObject_SourceInitialized(object sender, EventArgs e) {
             handle = new WindowInteropHelper(AssociatedObject).Handle;
             hwndSource = HwndSource.FromHwnd(handle);
-            if (hwndSource != null)
-            {
+            if (hwndSource != null) {
                 hwndSource.AddHook(WindowProc);
             }
 
@@ -242,11 +209,9 @@ namespace NTMiner.Behaviours
             AssociatedObject.SnapsToDevicePixels = snapsToDevicePixels;
         }
 
-        private void AssociatedObject_Loaded(object sender, RoutedEventArgs e)
-        {
+        private void AssociatedObject_Loaded(object sender, RoutedEventArgs e) {
             var window = sender as BlankWindow;
-            if (window == null)
-            {
+            if (window == null) {
                 return;
             }
 
@@ -259,8 +224,7 @@ namespace NTMiner.Behaviours
 
         public static readonly DependencyProperty EnableDWMDropShadowProperty = DependencyProperty.Register("EnableDWMDropShadow", typeof(bool), typeof(BorderlessWindowBehavior), new PropertyMetadata(false));
 
-        public bool EnableDWMDropShadow
-        {
+        public bool EnableDWMDropShadow {
             get { return (bool)GetValue(EnableDWMDropShadowProperty); }
             set { SetValue(EnableDWMDropShadowProperty, value); }
         }

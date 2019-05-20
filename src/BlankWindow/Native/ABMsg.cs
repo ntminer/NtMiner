@@ -1,10 +1,8 @@
 ﻿using System;
 
-namespace NTMiner.Native
-{
+namespace NTMiner.Native {
     [Obsolete("Use Standard.ABMsg instead.")]
-    internal enum ABMsg
-    {
+    internal enum ABMsg {
         ABM_NEW = 0,
         ABM_REMOVE = 1,
         ABM_QUERYPOS = 2,

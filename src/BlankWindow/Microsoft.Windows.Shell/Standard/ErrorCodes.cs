@@ -5,14 +5,12 @@ using System.Globalization;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-namespace NTMiner.Microsoft.Windows.Shell.Standard
-{
+namespace NTMiner.Microsoft.Windows.Shell.Standard {
     /// <summary>
     /// Wrapper for common Win32 status codes.
     /// </summary>
     [StructLayout(LayoutKind.Explicit)]
-    internal struct Win32Error
-    {
+    internal struct Win32Error {
         [FieldOffset(0)]
         private readonly int _value;
 
@@ -87,20 +85,17 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         /// Create a new Win32 error.
         /// </summary>
         /// <param name="i">The integer value of the error.</param>
-        public Win32Error(int i)
-        {
+        public Win32Error(int i) {
             _value = i;
         }
 
         /// <summary>Performs HRESULT_FROM_WIN32 conversion.</summary>
         /// <param name="error">The Win32 error being converted to an HRESULT.</param>
         /// <returns>The equivilent HRESULT value.</returns>
-        public static explicit operator HRESULT(Win32Error error)
-        {
+        public static explicit operator HRESULT(Win32Error error) {
             // #define __HRESULT_FROM_WIN32(x) 
             //     ((HRESULT)(x) <= 0 ? ((HRESULT)(x)) : ((HRESULT) (((x) & 0x0000FFFF) | (FACILITY_WIN32 << 16) | 0x80000000)))
-            if (error._value <= 0)
-            {
+            if (error._value <= 0) {
                 return new HRESULT((uint)error._value);
             }
             return HRESULT.Make(true, Facility.Win32, error._value & 0x0000FFFF);
@@ -109,32 +104,26 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         // Method version of the cast operation
         /// <summary>Performs HRESULT_FROM_WIN32 conversion.</summary>
         /// <returns>The equivilent HRESULT value.</returns>
-        public HRESULT ToHRESULT()
-        {
-            return (HRESULT)this; 
+        public HRESULT ToHRESULT() {
+            return (HRESULT)this;
         }
 
         /// <summary>Performs the equivalent of Win32's GetLastError()</summary>
         /// <returns>A Win32Error instance with the result of the native GetLastError</returns>
-        public static Win32Error GetLastError()
-        {
+        public static Win32Error GetLastError() {
             return new Win32Error(Marshal.GetLastWin32Error());
         }
 
-        public override bool Equals(object obj)
-        {
-            try
-            {
+        public override bool Equals(object obj) {
+            try {
                 return ((Win32Error)obj)._value == _value;
             }
-            catch (InvalidCastException)
-            {
+            catch (InvalidCastException) {
                 return false;
             }
         }
 
-        public override int GetHashCode()
-        {
+        public override int GetHashCode() {
             return _value.GetHashCode();
         }
 
@@ -144,8 +133,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         /// <param name="errLeft">The first error code to compare.</param>
         /// <param name="errRight">The second error code to compare.</param>
         /// <returns>Whether the two error codes are the same.</returns>
-        public static bool operator ==(Win32Error errLeft, Win32Error errRight)
-        {
+        public static bool operator ==(Win32Error errLeft, Win32Error errRight) {
             return errLeft._value == errRight._value;
         }
 
@@ -155,14 +143,12 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         /// <param name="errLeft">The first error code to compare.</param>
         /// <param name="errRight">The second error code to compare.</param>
         /// <returns>Whether the two error codes are not the same.</returns>
-        public static bool operator !=(Win32Error errLeft, Win32Error errRight)
-        {
+        public static bool operator !=(Win32Error errLeft, Win32Error errRight) {
             return !(errLeft == errRight);
         }
     }
 
-    internal enum Facility
-    {
+    internal enum Facility {
         /// <summary>FACILITY_NULL</summary>
         Null = 0,
         /// <summary>FACILITY_RPC</summary>
@@ -187,8 +173,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
 
     /// <summary>Wrapper for HRESULT status codes.</summary>
     [StructLayout(LayoutKind.Explicit)]
-    internal struct HRESULT
-    {
+    internal struct HRESULT {
         [FieldOffset(0)]
         private readonly uint _value;
 
@@ -379,29 +364,24 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         /// Create an HRESULT from an integer value.
         /// </summary>
         /// <param name="i"></param>
-        public HRESULT(uint i)
-        {
+        public HRESULT(uint i) {
             _value = i;
         }
 
-        public HRESULT(int i)
-        {
+        public HRESULT(int i) {
             _value = unchecked((uint)i);
         }
 
         /// <summary>
         /// Convert an HRESULT to an int.  Used for COM interface declarations out of our control.
         /// </summary>
-        public static explicit operator int(HRESULT hr)
-        {
-            unchecked
-            {
+        public static explicit operator int(HRESULT hr) {
+            unchecked {
                 return (int)hr._value;
             }
         }
 
-        public static HRESULT Make(bool severe, Facility facility, int code)
-        {
+        public static HRESULT Make(bool severe, Facility facility, int code) {
             //#define MAKE_HRESULT(sev,fac,code) \
             //    ((HRESULT) (((unsigned long)(sev)<<31) | ((unsigned long)(fac)<<16) | ((unsigned long)(code))) )
 
@@ -421,16 +401,13 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         /// <summary>
         /// retrieve HRESULT_FACILITY
         /// </summary>
-        public Facility Facility
-        {
-            get
-            {
+        public Facility Facility {
+            get {
                 return GetFacility((int)_value);
             }
         }
 
-        public static Facility GetFacility(int errorCode)
-        {
+        public static Facility GetFacility(int errorCode) {
             // #define HRESULT_FACILITY(hr)  (((hr) >> 16) & 0x1fff)
             return (Facility)((errorCode >> 16) & 0x1fff);
         }
@@ -438,16 +415,13 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         /// <summary>
         /// retrieve HRESULT_CODE
         /// </summary>
-        public int Code
-        {
-            get
-            {
+        public int Code {
+            get {
                 return GetCode((int)_value);
             }
         }
 
-        public static int GetCode(int error)
-        {
+        public static int GetCode(int error) {
             // #define HRESULT_CODE(hr)    ((hr) & 0xFFFF)
             return (int)(error & 0xFFFF);
         }
@@ -458,8 +432,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         /// Get a string representation of this HRESULT.
         /// </summary>
         /// <returns></returns>
-        public override string ToString()
-        {
+        public override string ToString() {
             // Use reflection to try to name this HRESULT.
             // This is expensive, but if someone's ever printing HRESULT strings then
             // I think it's a fair guess that they're not in a performance critical area
@@ -471,28 +444,21 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
             // CONSIDER: This data is static.  It could be cached 
             // after first usage for fast lookup since the keys are unique.
             //
-            foreach (FieldInfo publicStaticField in typeof(HRESULT).GetFields(BindingFlags.Static | BindingFlags.Public))
-            {
-                if (publicStaticField.FieldType == typeof(HRESULT))
-                {
+            foreach (FieldInfo publicStaticField in typeof(HRESULT).GetFields(BindingFlags.Static | BindingFlags.Public)) {
+                if (publicStaticField.FieldType == typeof(HRESULT)) {
                     var hr = (HRESULT)publicStaticField.GetValue(null);
-                    if (hr == this)
-                    {
+                    if (hr == this) {
                         return publicStaticField.Name;
                     }
                 }
             }
 
             // Try Win32 error codes also
-            if (Facility == Facility.Win32)
-            {
-                foreach (FieldInfo publicStaticField in typeof(Win32Error).GetFields(BindingFlags.Static | BindingFlags.Public))
-                {
-                    if (publicStaticField.FieldType == typeof(Win32Error))
-                    {
+            if (Facility == Facility.Win32) {
+                foreach (FieldInfo publicStaticField in typeof(Win32Error).GetFields(BindingFlags.Static | BindingFlags.Public)) {
+                    if (publicStaticField.FieldType == typeof(Win32Error)) {
                         var error = (Win32Error)publicStaticField.GetValue(null);
-                        if ((HRESULT)error == this)
-                        {
+                        if ((HRESULT)error == this) {
                             return "HRESULT_FROM_WIN32(" + publicStaticField.Name + ")";
                         }
                     }
@@ -504,47 +470,38 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
             return string.Format(CultureInfo.InvariantCulture, "0x{0:X8}", _value);
         }
 
-        public override bool Equals(object obj)
-        {
-            try
-            {
+        public override bool Equals(object obj) {
+            try {
                 return ((HRESULT)obj)._value == _value;
             }
-            catch (InvalidCastException)
-            {
+            catch (InvalidCastException) {
                 return false;
             }
         }
 
-        public override int GetHashCode()
-        {
+        public override int GetHashCode() {
             return _value.GetHashCode();
         }
 
         #endregion
 
-        public static bool operator ==(HRESULT hrLeft, HRESULT hrRight)
-        {
+        public static bool operator ==(HRESULT hrLeft, HRESULT hrRight) {
             return hrLeft._value == hrRight._value;
         }
 
-        public static bool operator !=(HRESULT hrLeft, HRESULT hrRight)
-        {
+        public static bool operator !=(HRESULT hrLeft, HRESULT hrRight) {
             return !(hrLeft == hrRight);
         }
 
-        public bool Succeeded
-        {
+        public bool Succeeded {
             get { return (int)_value >= 0; }
         }
 
-        public bool Failed
-        {
+        public bool Failed {
             get { return (int)_value < 0; }
         }
 
-        public void ThrowIfFailed()
-        {
+        public void ThrowIfFailed() {
             ThrowIfFailed(null);
         }
 
@@ -552,17 +509,14 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
             SuppressMessage(
                 "Microsoft.Usage",
                 "CA2201:DoNotRaiseReservedExceptionTypes",
-                Justification="Only recreating Exceptions that were already raised."),
+                Justification = "Only recreating Exceptions that were already raised."),
             SuppressMessage(
                 "Microsoft.Security",
                 "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands")
         ]
-        public void ThrowIfFailed(string message)
-        {
-            if (Failed)
-            {
-                if (string.IsNullOrEmpty(message))
-                {
+        public void ThrowIfFailed(string message) {
+            if (Failed) {
+                if (string.IsNullOrEmpty(message)) {
                     message = ToString();
                 }
 #if DEBUG
@@ -592,10 +546,8 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
 
                 // If we're not getting anything better than a COMException from Marshal,
                 // then at least check the facility and attempt to do better ourselves.
-                if (e.GetType() == typeof(COMException))
-                {
-                    switch (Facility)
-                    {
+                if (e.GetType() == typeof(COMException)) {
+                    switch (Facility) {
                         case Facility.Win32:
                             e = new Win32Exception(Code, message);
                             break;
@@ -604,11 +556,9 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
                             break;
                     }
                 }
-                else
-                {
+                else {
                     ConstructorInfo cons = e.GetType().GetConstructor(new[] { typeof(string) });
-                    if (null != cons)
-                    {
+                    if (null != cons) {
                         e = cons.Invoke(new object[] { message }) as Exception;
                         Assert.IsNotNull(e);
                     }
@@ -620,8 +570,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         /// <summary>
         /// Convert the result of Win32 GetLastError() into a raised exception.
         /// </summary>
-        public static void ThrowLastError()
-        {
+        public static void ThrowLastError() {
             ((HRESULT)Win32Error.GetLastError()).ThrowIfFailed();
             // Only expecting to call this when we're expecting a failed GetLastError()
             Assert.Fail();

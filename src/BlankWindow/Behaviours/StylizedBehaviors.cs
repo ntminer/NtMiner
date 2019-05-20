@@ -1,10 +1,8 @@
 using System.Windows;
 using System.Windows.Interactivity;
 
-namespace NTMiner.Behaviours
-{
-    public class StylizedBehaviors
-    {
+namespace NTMiner.Behaviours {
+    public class StylizedBehaviors {
         private static readonly DependencyProperty OriginalBehaviorProperty = DependencyProperty.RegisterAttached(@"OriginalBehaviorInternal", typeof(Behavior), typeof(StylizedBehaviors), new UIPropertyMetadata(null));
 
         public static readonly DependencyProperty BehaviorsProperty = DependencyProperty.RegisterAttached(
@@ -12,33 +10,27 @@ namespace NTMiner.Behaviours
             typeof(StylizedBehaviorCollection),
             typeof(StylizedBehaviors),
             new FrameworkPropertyMetadata(null, OnPropertyChanged));
-        public static StylizedBehaviorCollection GetBehaviors(DependencyObject uie)
-        {
+        public static StylizedBehaviorCollection GetBehaviors(DependencyObject uie) {
             return (StylizedBehaviorCollection)uie.GetValue(BehaviorsProperty);
         }
 
-        public static void SetBehaviors(DependencyObject uie, StylizedBehaviorCollection value)
-        {
+        public static void SetBehaviors(DependencyObject uie, StylizedBehaviorCollection value) {
             uie.SetValue(BehaviorsProperty, value);
         }
-        private static Behavior GetOriginalBehavior(DependencyObject obj)
-        {
+        private static Behavior GetOriginalBehavior(DependencyObject obj) {
             return obj.GetValue(OriginalBehaviorProperty) as Behavior;
         }
 
-        private static int GetIndexOf(BehaviorCollection itemBehaviors, Behavior behavior)
-        {
+        private static int GetIndexOf(BehaviorCollection itemBehaviors, Behavior behavior) {
             int index = -1;
 
             Behavior orignalBehavior = GetOriginalBehavior(behavior);
 
-            for (int i = 0; i < itemBehaviors.Count; i++)
-            {
+            for (int i = 0; i < itemBehaviors.Count; i++) {
                 Behavior currentBehavior = itemBehaviors[i];
 
                 if (Equals(currentBehavior, behavior)
-                    || Equals(currentBehavior, orignalBehavior))
-                {
+                    || Equals(currentBehavior, orignalBehavior)) {
                     index = i;
                     break;
                 }
@@ -46,8 +38,7 @@ namespace NTMiner.Behaviours
                 Behavior currentOrignalBehavior = GetOriginalBehavior(currentBehavior);
 
                 if (Equals(currentOrignalBehavior, behavior)
-                    || Equals(currentOrignalBehavior, orignalBehavior))
-                {
+                    || Equals(currentOrignalBehavior, orignalBehavior)) {
                     index = i;
                     break;
                 }
@@ -56,12 +47,10 @@ namespace NTMiner.Behaviours
             return index;
         }
 
-        private static void OnPropertyChanged(DependencyObject dpo, DependencyPropertyChangedEventArgs e)
-        {
+        private static void OnPropertyChanged(DependencyObject dpo, DependencyPropertyChangedEventArgs e) {
             var uie = dpo as UIElement;
 
-            if (uie == null)
-            {
+            if (uie == null) {
                 return;
             }
 
@@ -70,32 +59,25 @@ namespace NTMiner.Behaviours
             var newBehaviors = e.NewValue as StylizedBehaviorCollection;
             var oldBehaviors = e.OldValue as StylizedBehaviorCollection;
 
-            if (Equals(newBehaviors, oldBehaviors))
-            {
+            if (Equals(newBehaviors, oldBehaviors)) {
                 return;
             }
 
-            if (oldBehaviors != null)
-            {
-                foreach (var behavior in oldBehaviors)
-                {
+            if (oldBehaviors != null) {
+                foreach (var behavior in oldBehaviors) {
                     int index = GetIndexOf(itemBehaviors, behavior);
 
-                    if (index >= 0)
-                    {
+                    if (index >= 0) {
                         itemBehaviors.RemoveAt(index);
                     }
                 }
             }
 
-            if (newBehaviors != null)
-            {
-                foreach (var behavior in newBehaviors)
-                {
+            if (newBehaviors != null) {
+                foreach (var behavior in newBehaviors) {
                     int index = GetIndexOf(itemBehaviors, behavior);
 
-                    if (index < 0)
-                    {
+                    if (index < 0) {
                         var clone = (Behavior)behavior.Clone();
                         SetOriginalBehavior(clone, behavior);
                         itemBehaviors.Add(clone);
@@ -104,8 +86,7 @@ namespace NTMiner.Behaviours
             }
         }
 
-        private static void SetOriginalBehavior(DependencyObject obj, Behavior value)
-        {
+        private static void SetOriginalBehavior(DependencyObject obj, Behavior value) {
             obj.SetValue(OriginalBehaviorProperty, value);
         }
     }
