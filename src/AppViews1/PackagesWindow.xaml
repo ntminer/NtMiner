@@ -20,14 +20,13 @@
 	TitleBarHeight="40"
 	d:DesignHeight="520" 
 	d:DesignWidth="1200"
-	BorderBrush="{StaticResource WindowBorderBrush}"
 	Background="#EEECEF"
 	WindowStartupLocation="CenterScreen"
 	TextOptions.TextFormattingMode="Display">
 	<blankWindow:BlankWindow.DataContext>
 		<vm:PackagesWindowViewModel></vm:PackagesWindowViewModel>
 	</blankWindow:BlankWindow.DataContext>
-	<Grid>
+	<Grid blankWindow:BlankWindow.Draggable="True">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="40"></RowDefinition>
 			<RowDefinition Height="*"></RowDefinition>

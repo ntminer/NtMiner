@@ -16,8 +16,6 @@
 		Height="562"
 		MinHeight="430"
 		MinWidth="640"
-		BorderThickness="1"
-		BorderBrush="{StaticResource WindowBorderBrush}"
 		Background="{StaticResource ThemeBackground}"
 		WindowStartupLocation="CenterScreen"
 		TextOptions.TextFormattingMode="Display">
@@ -119,7 +117,7 @@
 			</Style>
 		</ResourceDictionary>
 	</blankWindow:BlankWindow.Resources>
-	<Grid>
+	<Grid blankWindow:BlankWindow.Draggable="True">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="30"></RowDefinition>
 			<RowDefinition Height="80"></RowDefinition>

@@ -20,8 +20,6 @@
 	TitleBarHeight="40"
 	d:DesignHeight="520" 
 	d:DesignWidth="1200"
-	BorderThickness="1"
-	BorderBrush="{StaticResource WindowBorderBrush}"
 	Background="#EEECEF"
 	WindowStartupLocation="CenterScreen"
 	TextOptions.TextFormattingMode="Display">

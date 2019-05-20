@@ -11,7 +11,6 @@
 		xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
 		xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
-		BorderBrush="{StaticResource WindowBorderBrush}"
 		Background="{StaticResource ThemeBackground}"
 		WindowState="Maximized"
 		WindowStartupLocation="CenterScreen"
@@ -20,7 +19,7 @@
 	<blankWindow:BlankWindow.DataContext>
 		<vm:ChartsWindowViewModel></vm:ChartsWindowViewModel>
 	</blankWindow:BlankWindow.DataContext>
-	<Grid>
+	<Grid blankWindow:BlankWindow.Draggable="True">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="30"></RowDefinition>
 			<RowDefinition Height="Auto" MinHeight="30"></RowDefinition>

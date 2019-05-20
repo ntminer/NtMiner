@@ -11,8 +11,6 @@
 		xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
 		xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
-		BorderThickness="1"
-		BorderBrush="{StaticResource WindowBorderBrush}"
 		Background="{StaticResource ThemeBackground}"
 		WindowState="Maximized"
 		WindowStartupLocation="CenterScreen"

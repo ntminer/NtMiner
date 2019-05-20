@@ -10,11 +10,10 @@
 		ResizeMode="NoResize"
 		Background="{StaticResource ThemeBackground}"
 		Foreground="{StaticResource ThemeForeground}"
-		BorderBrush="{StaticResource WindowBorderBrush}"
 		WindowStartupLocation="CenterScreen"
 		DataContext="{x:Static vm:MainWindowViewModel.Instance}"
 		Title="NTMinerUpdater" Height="492" Width="333">
-	<Grid>
+	<Grid blankWindow:BlankWindow.Draggable="True">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="30"></RowDefinition>
 			<RowDefinition Height="*"></RowDefinition>

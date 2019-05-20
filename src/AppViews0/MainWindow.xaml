@@ -17,8 +17,6 @@
 		MinHeight="430"
 		MinWidth="640"
 		TitleBarHeight="40"
-		BorderThickness="1"
-		BorderBrush="{StaticResource WindowBorderBrush}"
 		Background="{StaticResource ThemeBackground}"
 		WindowStartupLocation="CenterScreen"
 		TextOptions.TextFormattingMode="Display">
@@ -40,7 +38,7 @@
 			</Style>
 		</ResourceDictionary>
 	</blankWindow:BlankWindow.Resources>
-	<Grid>
+	<Grid blankWindow:BlankWindow.Draggable="True">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="40"/>
 			<RowDefinition Height="*" MinHeight="390" />
@@ -226,39 +224,6 @@
 				<RowDefinition Height="*"></RowDefinition>
 				<RowDefinition Height="Auto"></RowDefinition>
 			</Grid.RowDefinitions>
-			<Grid Grid.Column="1" Background="{StaticResource MinerProfileBackground}">
-				<controls:KbButton 
-					x:Name="BtnLeftTriangle"
-					Click="BtnLeftTriangle_Click"
-					Grid.Column="1"
-					VerticalAlignment="Center"
-					BorderThickness="0"
-					Background="Transparent"
-					CornerRadius="2">
-					<Path
-						Width="8"
-						Height="18"
-						Data="{StaticResource Icon_LeftTriangle1}"
-						Fill="Black"
-						Stretch="Fill" />
-				</controls:KbButton>
-				<controls:KbButton 
-					x:Name="BtnRightTriangle"
-					Click="BtnRightTriangle_Click"
-					Grid.Column="1"
-					Visibility="Collapsed"
-					VerticalAlignment="Center"
-					BorderThickness="0"
-					Background="Transparent"
-					CornerRadius="2">
-					<Path
-						Width="8"
-						Height="18"
-						Data="{StaticResource Icon_RightTriangle1}"
-						Fill="Black"
-						Stretch="Fill" />
-				</controls:KbButton>
-			</Grid>
 			<Border 
 				x:Name="MinerProfileContainerLeft" 
 				Grid.Column="0" 
@@ -606,7 +571,40 @@
 					<Border x:Name="OuterPropertyContainer"></Border>
 				</TabItem>
 			</TabControl>
-
+			<StackPanel Grid.Column="1" Background="{StaticResource MinerProfileBackground}"></StackPanel>
+			<Grid Grid.Column="2" HorizontalAlignment="Left" Background="Transparent">
+				<controls:KbButton 
+					x:Name="BtnLeftTriangle"
+					Click="BtnLeftTriangle_Click"
+					Grid.Column="1"
+					VerticalAlignment="Center"
+					BorderThickness="0"
+					Background="Transparent"
+					CornerRadius="2">
+					<Path
+						Width="16"
+						Height="36"
+						Data="{StaticResource Icon_LeftTriangle1}"
+						Fill="{StaticResource ThemeBackground}"
+						Stretch="Fill" />
+				</controls:KbButton>
+				<controls:KbButton 
+					x:Name="BtnRightTriangle"
+					Click="BtnRightTriangle_Click"
+					Grid.Column="1"
+					Visibility="Collapsed"
+					VerticalAlignment="Center"
+					BorderThickness="0"
+					Background="Transparent"
+					CornerRadius="2">
+					<Path
+						Width="16"
+						Height="36"
+						Data="{StaticResource Icon_RightTriangle1}"
+						Fill="{StaticResource ThemeBackground}"
+						Stretch="Fill" />
+				</controls:KbButton>
+			</Grid>
 			<!--下状态栏-->
 			<uc:StateBar 
 				Grid.Row="1" 

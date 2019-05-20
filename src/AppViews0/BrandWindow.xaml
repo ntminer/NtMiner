@@ -16,8 +16,6 @@
 	Width="800"
 	Height="200"
 	TitleBarHeight="40"
-	BorderThickness="1"
-	BorderBrush="{StaticResource WindowBorderBrush}"
 	Background="#EEECEF"
 	WindowStartupLocation="CenterScreen"
 	MouseDown="MetroWindow_MouseDown"
