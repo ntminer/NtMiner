@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace NTMiner.Core.Kernels {
     public static class KernelExtensions {
-        public class CommandName {
+        public sealed class CommandName {
             public string Name { get; internal set; }
             // 根据这个判断是否换成过期
             public string KernelInputArgs { get; internal set; }
@@ -22,12 +22,12 @@ namespace NTMiner.Core.Kernels {
         private static readonly Dictionary<Guid, CommandName> _commandNames = new Dictionary<Guid, CommandName>();
         public static string GetCommandName(this IKernel kernel) {
             try {
-                if (kernel == null) {
+                if (kernel == null || kernel.KernelInputId == Guid.Empty) {
                     return string.Empty;
                 }
-                IKernelInput kernelInput;
-                NTMinerRoot.Instance.KernelInputSet.TryGetKernelInput(kernel.KernelInputId, out kernelInput);
+                NTMinerRoot.Instance.KernelInputSet.TryGetKernelInput(kernel.KernelInputId, out IKernelInput kernelInput);
                 if (kernelInput == null) {
+                    Write.UserError("意外！没有正确配置内核输入，请QQ群联系小编解决。");
                     return string.Empty;
                 }
                 if (_commandNames.TryGetValue(kernel.GetId(), out CommandName commandName)) {
