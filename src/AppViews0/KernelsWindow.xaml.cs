@@ -1,6 +1,7 @@
 ﻿using NTMiner.Vms;
 using System;
 using System.Windows;
+using System.Windows.Input;
 
 namespace NTMiner.Views {
     public partial class KernelsWindow : BlankWindow {
@@ -104,7 +105,7 @@ namespace NTMiner.Views {
             Vm.Search.Execute(null);
         }
 
-        private void MetroWindow_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+        private void MetroWindow_MouseDown(object sender, MouseButtonEventArgs e) {
             if (e.LeftButton == MouseButtonState.Pressed) {
                 this.DragMove();
             }

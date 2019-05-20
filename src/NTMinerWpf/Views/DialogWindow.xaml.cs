@@ -1,6 +1,7 @@
 ﻿using NTMiner.Wpf;
 using System;
 using System.Windows;
+using System.Windows.Input;
 
 namespace NTMiner.Views {
     public partial class DialogWindow : BlankWindow {

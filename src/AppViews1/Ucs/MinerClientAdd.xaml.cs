@@ -1,6 +1,7 @@
 ﻿using NTMiner.Vms;
 using NTMiner.Wpf;
 using System.Windows;
+using System.Windows.Input;
 
 namespace NTMiner.Views.Ucs {
     public partial class MinerClientAdd : BlankWindow {
