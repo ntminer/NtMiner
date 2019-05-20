@@ -1,10 +1,8 @@
 ﻿using System;
 
-namespace NTMiner.Native
-{
+namespace NTMiner.Native {
     [Obsolete("Use Standard.ABEdge instead.")]
-    internal enum ABEdge
-    {
+    internal enum ABEdge {
         ABE_LEFT = 0,
         ABE_TOP = 1,
         ABE_RIGHT = 2,

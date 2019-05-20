@@ -7,10 +7,8 @@ using System.Windows;
 using System.Windows.Interop;
 using NTMiner.Native;
 
-namespace NTMiner
-{
-    public interface IWindowPlacementSettings
-    {
+namespace NTMiner {
+    public interface IWindowPlacementSettings {
         WINDOWPLACEMENT? Placement { get; set; }
         void Reload();
         void Save();
@@ -19,8 +17,7 @@ namespace NTMiner
     /// <summary>
     /// this settings class is the default way to save the placement of the window
     /// </summary>
-    internal class WindowApplicationSettings : ApplicationSettingsBase, IWindowPlacementSettings
-    {
+    internal class WindowApplicationSettings : ApplicationSettingsBase, IWindowPlacementSettings {
         public WindowApplicationSettings(Window window)
             : base(window.GetType().FullName) {
         }
@@ -38,13 +35,11 @@ namespace NTMiner
             }
         }
     }
-    
-    public class WindowSettings
-    {
+
+    public class WindowSettings {
         public static readonly DependencyProperty WindowPlacementSettingsProperty = DependencyProperty.RegisterAttached("WindowPlacementSettings", typeof(IWindowPlacementSettings), typeof(WindowSettings), new FrameworkPropertyMetadata(OnWindowPlacementSettingsInvalidated));
 
-        public static void SetSave(DependencyObject dependencyObject, IWindowPlacementSettings windowPlacementSettings)
-        {
+        public static void SetSave(DependencyObject dependencyObject, IWindowPlacementSettings windowPlacementSettings) {
             dependencyObject.SetValue(WindowPlacementSettingsProperty, windowPlacementSettings);
         }
 
@@ -60,22 +55,19 @@ namespace NTMiner
         private Window _window;
         private IWindowPlacementSettings _settings;
 
-        public WindowSettings(Window window, IWindowPlacementSettings windowPlacementSettings)
-        {
+        public WindowSettings(Window window, IWindowPlacementSettings windowPlacementSettings) {
             _window = window;
             _settings = windowPlacementSettings;
         }
 
-        protected virtual void LoadWindowState()
-        {
+        protected virtual void LoadWindowState() {
             if (_settings == null) return;
             _settings.Reload();
 
             // check for existing placement and prevent empty bounds
             if (_settings.Placement == null || _settings.Placement.Value.normalPosition.IsEmpty) return;
 
-            try
-            {
+            try {
                 var wp = _settings.Placement.Value;
 
                 wp.length = Marshal.SizeOf(typeof(WINDOWPLACEMENT));
@@ -84,60 +76,50 @@ namespace NTMiner
                 var hwnd = new WindowInteropHelper(_window).Handle;
                 UnsafeNativeMethods.SetWindowPlacement(hwnd, ref wp);
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 Debug.WriteLine("Failed to load window state:\r\n{0}", ex);
             }
         }
 
-        protected virtual void SaveWindowState()
-        {
+        protected virtual void SaveWindowState() {
             if (_settings == null) return;
             var hwnd = new WindowInteropHelper(_window).Handle;
             var wp = new WINDOWPLACEMENT();
             wp.length = Marshal.SizeOf(wp);
             UnsafeNativeMethods.GetWindowPlacement(hwnd, ref wp);
             // check for saveable values
-            if (wp.showCmd != (int)Constants.ShowWindowCommands.SW_HIDE && wp.length > 0 && !wp.normalPosition.IsEmpty)
-            {
+            if (wp.showCmd != (int)Constants.ShowWindowCommands.SW_HIDE && wp.length > 0 && !wp.normalPosition.IsEmpty) {
                 _settings.Placement = wp;
             }
             _settings.Save();
         }
 
-        private void Attach()
-        {
-            if (_window != null)
-            {
+        private void Attach() {
+            if (_window != null) {
                 _window.SourceInitialized += WindowSourceInitialized;
                 _window.Closed += WindowClosed;
             }
         }
 
-        void WindowSourceInitialized(object sender, EventArgs e)
-        {
+        void WindowSourceInitialized(object sender, EventArgs e) {
             LoadWindowState();
             _window.StateChanged += WindowStateChanged;
             _window.Closing += WindowClosing;
         }
 
-        private void WindowStateChanged(object sender, EventArgs e)
-        {
+        private void WindowStateChanged(object sender, EventArgs e) {
             // save the settings on this state change, because hidden windows gets no window placements
             // all the saving stuff could be so much easier with ReactiveUI :-D 
-            if (_window.WindowState == WindowState.Minimized)
-            {
+            if (_window.WindowState == WindowState.Minimized) {
                 SaveWindowState();
             }
         }
 
-        private void WindowClosing(object sender, CancelEventArgs e)
-        {
+        private void WindowClosing(object sender, CancelEventArgs e) {
             SaveWindowState();
         }
 
-        private void WindowClosed(object sender, EventArgs e)
-        {
+        private void WindowClosed(object sender, EventArgs e) {
             SaveWindowState();
             _window.StateChanged -= WindowStateChanged;
             _window.Closing -= WindowClosing;

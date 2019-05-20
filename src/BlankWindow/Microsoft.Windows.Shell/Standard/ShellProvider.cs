@@ -4,23 +4,20 @@ using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 
-namespace NTMiner.Microsoft.Windows.Shell.Standard
-{
+namespace NTMiner.Microsoft.Windows.Shell.Standard {
     using FILETIME = System.Runtime.InteropServices.ComTypes.FILETIME;
 
     #region Enums and Static Property Classes
 
     /// <summary>ASSOCIATIONLEVEL, AL_*</summary>
-    internal enum AL
-    {
+    internal enum AL {
         MACHINE,
         EFFECTIVE,
         USER,
     }
 
     /// <summary>ASSOCIATIONTYPE, AT_*</summary>
-    internal enum AT
-    {
+    internal enum AT {
         FILEEXTENSION,
         URLPROTOCOL,
         STARTMENUCLIENT,
@@ -28,16 +25,14 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     }
 
     /// <summary>FileDialog AddPlace options.  FDAP_*</summary>
-    internal enum FDAP : uint
-    {
+    internal enum FDAP : uint {
         BOTTOM = 0x00000000,
         TOP = 0x00000001,
     }
 
     /// <summary>IFileDialog options.  FOS_*</summary>
     [Flags]
-    internal enum FOS : uint
-    {
+    internal enum FOS : uint {
         OVERWRITEPROMPT = 0x00000002,
         STRICTFILETYPES = 0x00000004,
         NOCHANGEDIR = 0x00000008,
@@ -62,31 +57,27 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     }
 
     /// <summary>FDE_OVERWRITE_RESPONSE.  FDEOR_*</summary>
-    internal enum FDEOR
-    {
+    internal enum FDEOR {
         DEFAULT = 0x00000000,
         ACCEPT = 0x00000001,
         REFUSE = 0x00000002,
     }
 
     /// <summary>FDE_SHAREVIOLATION_RESPONSE.  FDESVR_*</summary>
-    internal enum FDESVR
-    {
+    internal enum FDESVR {
         DEFAULT = 0x00000000,
         ACCEPT = 0x00000001,
         REFUSE = 0x00000002,
     }
 
     /// <summary>ShellItem attribute flags.  SIATTRIBFLAGS_*</summary>
-    internal enum SIATTRIBFLAGS
-    {
+    internal enum SIATTRIBFLAGS {
         AND = 0x00000001,
         OR = 0x00000002,
         APPCOMPAT = 0x00000003,
     }
 
-    internal enum APPDOCLISTTYPE
-    {
+    internal enum APPDOCLISTTYPE {
         ADLT_RECENT = 0,   // The recently used documents list
         ADLT_FREQUENT,     // The frequently used documents list
     }
@@ -96,8 +87,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     /// </summary>
     /// <remarks>The native enum was called STPFLAG.</remarks>
     [Flags]
-    internal enum STPF
-    {
+    internal enum STPF {
         NONE = 0x00000000,
         USEAPPTHUMBNAILALWAYS = 0x00000001,
         USEAPPTHUMBNAILWHENACTIVE = 0x00000002,
@@ -111,8 +101,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     /// <remarks>
     /// The native enum was called TBPFLAG.
     /// </remarks>
-    internal enum TBPF
-    {
+    internal enum TBPF {
         NOPROGRESS = 0x00000000,
         INDETERMINATE = 0x00000001,
         NORMAL = 0x00000002,
@@ -124,8 +113,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     /// THUMBBUTTON mask.  THB_*
     /// </summary>
     [Flags]
-    internal enum THB : uint
-    {
+    internal enum THB : uint {
         BITMAP = 0x0001,
         ICON = 0x0002,
         TOOLTIP = 0x0004,
@@ -136,8 +124,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     /// THUMBBUTTON flags.  THBF_*
     /// </summary>
     [Flags]
-    internal enum THBF : uint
-    {
+    internal enum THBF : uint {
         ENABLED = 0x0000,
         DISABLED = 0x0001,
         DISMISSONCLICK = 0x0002,
@@ -153,8 +140,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     /// <remarks>
     /// These are new for Vista, but are used in downlevel components
     /// </remarks>
-    internal enum GPS
-    {
+    internal enum GPS {
         // If no flags are specified (GPS_DEFAULT), a read-only property store is returned that includes properties for the file or item.
         // In the case that the shell item is a file, the property store contains:
         //     1. properties about the file from the file system
@@ -181,16 +167,14 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     /// <summary>
     /// KNOWNDESTCATEGORY.  KDC_*
     /// </summary>
-    internal enum KDC
-    {
+    internal enum KDC {
         FREQUENT = 1,
         RECENT,
     }
 
     // IShellFolder::GetAttributesOf flags
     [Flags]
-    internal enum SFGAO : uint
-    {
+    internal enum SFGAO : uint {
         /// <summary>Objects can be copied</summary>
         /// <remarks>DROPEFFECT_COPY</remarks>
         CANCOPY = 0x1,
@@ -286,8 +270,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     /// <summary>
     /// IShellFolder::EnumObjects grfFlags bits.  Also called SHCONT
     /// </summary>
-    internal enum SHCONTF
-    {
+    internal enum SHCONTF {
         CHECKING_FOR_CHILDREN = 0x0010,   // hint that client is checking if (what) child items the folder contains - not all details (e.g. short file name) are needed
         FOLDERS = 0x0020,   // only want folders enumerated (SFGAO_FOLDER)
         NONFOLDERS = 0x0040,   // include non folders (items without SFGAO_FOLDER)
@@ -309,8 +292,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     /// For compatibility with SIGDN, these bits must all sit in the LOW word.
     /// </remarks>
     [Flags]
-    internal enum SHGDN
-    {
+    internal enum SHGDN {
         SHGDN_NORMAL = 0x0000,  // default (display purpose)
         SHGDN_INFOLDER = 0x0001,  // displayed under a folder (relative)
         SHGDN_FOREDITING = 0x1000,  // for in-place editing
@@ -321,8 +303,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     /// <summary>
     /// SHELLITEMCOMPAREHINTF.  SICHINT_*.
     /// </summary>
-    internal enum SICHINT : uint
-    {
+    internal enum SICHINT : uint {
         /// <summary>iOrder based on display in a folder view</summary>
         DISPLAY = 0x00000000,
         /// <summary>exact instance compare</summary>
@@ -335,8 +316,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     /// <summary>
     /// ShellItem enum.  SIGDN_*.
     /// </summary>
-    internal enum SIGDN : uint
-    {                                             // lower word (& with 0xFFFF)
+    internal enum SIGDN : uint {                                             // lower word (& with 0xFFFF)
         NORMALDISPLAY = 0x00000000, // SHGDN_NORMAL
         PARENTRELATIVEPARSING = 0x80018001, // SHGDN_INFOLDER | SHGDN_FORPARSING
         DESKTOPABSOLUTEPARSING = 0x80028000, // SHGDN_FORPARSING
@@ -366,8 +346,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     /// There is no STR_ equivalent for GPS_TEMPORARY because temporary property stores
     /// are provided by IShellItem2 only -- not by the underlying IShellFolder.
     /// </remarks>
-    internal static class STR_GPS
-    {
+    internal static class STR_GPS {
         public const string HANDLERPROPERTIESONLY = "GPS_HANDLERPROPERTIESONLY";
         public const string FASTPROPERTIESONLY = "GPS_FASTPROPERTIESONLY";
         public const string OPENSLOWITEM = "GPS_OPENSLOWITEM";
@@ -381,8 +360,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     #region Structs
 
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-    internal struct COMDLG_FILTERSPEC
-    {
+    internal struct COMDLG_FILTERSPEC {
         [MarshalAs(UnmanagedType.LPWStr)]
         public string pszName;
         [MarshalAs(UnmanagedType.LPWStr)]
@@ -391,8 +369,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
 
 
     [StructLayout(LayoutKind.Sequential, Pack = 8, CharSet = CharSet.Unicode)]
-    internal struct THUMBBUTTON
-    {
+    internal struct THUMBBUTTON {
         /// <summary>
         /// WPARAM value for a THUMBBUTTON being clicked.
         /// </summary>
@@ -409,15 +386,13 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
 
 
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
-    internal struct PKEY
-    {
+    internal struct PKEY {
         /// <summary>fmtid</summary>
         private readonly Guid _fmtid;
         /// <summary>pid</summary>
         private readonly uint _pid;
 
-        public PKEY(Guid fmtid, uint pid)
-        {
+        public PKEY(Guid fmtid, uint pid) {
             _fmtid = fmtid;
             _pid = pid;
         }
@@ -446,8 +421,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         InterfaceType(ComInterfaceType.InterfaceIsIUnknown),
         Guid(IID.ApplicationAssociationRegistration),
     ]
-    internal interface IApplicationAssociationRegistration
-    {
+    internal interface IApplicationAssociationRegistration {
         [return: MarshalAs(UnmanagedType.LPWStr)]
         string QueryCurrentDefault(
             [MarshalAs(UnmanagedType.LPWStr)] string pszQuery,
@@ -481,8 +455,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         InterfaceType(ComInterfaceType.InterfaceIsIUnknown),
         Guid(IID.EnumIdList),
     ]
-    internal interface IEnumIDList
-    {
+    internal interface IEnumIDList {
         [PreserveSig()]
         HRESULT Next(uint celt, out IntPtr rgelt, out int pceltFetched);
         [PreserveSig()]
@@ -496,8 +469,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         InterfaceType(ComInterfaceType.InterfaceIsIUnknown),
         Guid(IID.EnumObjects),
     ]
-    internal interface IEnumObjects
-    {
+    internal interface IEnumObjects {
         //[local]
         // This signature might not work... Hopefully don't need this interface though.
         void Next(uint celt, [In] ref Guid riid, [Out, MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.IUnknown, IidParameterIndex = 1, SizeParamIndex = 0)] object[] rgelt, [Out] out uint pceltFetched);
@@ -523,8 +495,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         InterfaceType(ComInterfaceType.InterfaceIsIUnknown),
         Guid(IID.ObjectArray),
     ]
-    internal interface IObjectArray
-    {
+    internal interface IObjectArray {
         uint GetCount();
         [return: MarshalAs(UnmanagedType.IUnknown)]
         object GetAt([In] uint uiIndex, [In] ref Guid riid);
@@ -535,8 +506,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         InterfaceType(ComInterfaceType.InterfaceIsIUnknown),
         Guid(IID.ObjectArray),
     ]
-    interface IObjectCollection : IObjectArray
-    {
+    interface IObjectCollection : IObjectArray {
         #region IObjectArray redeclarations
         new uint GetCount();
         [return: MarshalAs(UnmanagedType.IUnknown)]
@@ -554,8 +524,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         InterfaceType(ComInterfaceType.InterfaceIsIUnknown),
         Guid(IID.PropertyStore)
     ]
-    internal interface IPropertyStore
-    {
+    internal interface IPropertyStore {
         uint GetCount();
         PKEY GetAt(uint iProp);
         void GetValue([In] ref PKEY pkey, [In, Out] PROPVARIANT pv);
@@ -568,8 +537,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         InterfaceType(ComInterfaceType.InterfaceIsIUnknown),
         Guid(IID.ShellFolder),
     ]
-    internal interface IShellFolder
-    {
+    internal interface IShellFolder {
         void ParseDisplayName(
             [In] IntPtr hwnd,
             [In] IBindCtx pbc,
@@ -665,8 +633,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         InterfaceType(ComInterfaceType.InterfaceIsIUnknown),
         Guid(IID.ShellItem),
     ]
-    internal interface IShellItem
-    {
+    internal interface IShellItem {
         [return: MarshalAs(UnmanagedType.Interface)]
         object BindToHandler(IBindCtx pbc, [In] ref Guid bhid, [In] ref Guid riid);
 
@@ -685,8 +652,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         InterfaceType(ComInterfaceType.InterfaceIsIUnknown),
         Guid(IID.ShellItemArray),
     ]
-    internal interface IShellItemArray
-    {
+    internal interface IShellItemArray {
         [return: MarshalAs(UnmanagedType.Interface)]
         object BindToHandler(IBindCtx pbc, [In] ref Guid rbhid, [In] ref Guid riid);
 
@@ -714,8 +680,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         InterfaceType(ComInterfaceType.InterfaceIsIUnknown),
         Guid(IID.ShellItem2),
     ]
-    interface IShellItem2 : IShellItem
-    {
+    interface IShellItem2 : IShellItem {
         #region IShellItem redeclarations
         [return: MarshalAs(UnmanagedType.Interface)]
         new object BindToHandler([In] IBindCtx pbc, [In] ref Guid bhid, [In] ref Guid riid);
@@ -776,8 +741,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         InterfaceType(ComInterfaceType.InterfaceIsIUnknown),
         Guid(IID.ShellLink),
     ]
-    internal interface IShellLinkW
-    {
+    internal interface IShellLinkW {
         void GetPath([Out, MarshalAs(UnmanagedType.LPWStr)] StringBuilder pszFile, int cchMaxPath, [In, Out] WIN32_FIND_DATAW pfd, SLGP fFlags);
         void GetIDList(out IntPtr ppidl);
         void SetIDList(IntPtr pidl);
@@ -803,8 +767,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         InterfaceType(ComInterfaceType.InterfaceIsIUnknown),
         Guid(IID.TaskbarList),
     ]
-    internal interface ITaskbarList
-    {
+    internal interface ITaskbarList {
         /// <summary>
         /// This function must be called first to validate use of other members.
         /// </summary>
@@ -840,8 +803,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         InterfaceType(ComInterfaceType.InterfaceIsIUnknown),
         Guid(IID.TaskbarList2),
     ]
-    internal interface ITaskbarList2 : ITaskbarList
-    {
+    internal interface ITaskbarList2 : ITaskbarList {
         #region ITaskbarList redeclaration
         new void HrInit();
         new void AddTab(IntPtr hwnd);
@@ -871,8 +833,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         InterfaceType(ComInterfaceType.InterfaceIsIUnknown),
         Guid(IID.ApplicationDestinations)
     ]
-    internal interface IApplicationDestinations
-    {
+    internal interface IApplicationDestinations {
         // Set the App User Model ID for the application removing destinations from its list.  If an AppID is not provided 
         // via this method, the system will use a heuristically determined ID.  This method must be called before
         // RemoveDestination or RemoveAllDestinations.
@@ -893,8 +854,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         InterfaceType(ComInterfaceType.InterfaceIsIUnknown),
         Guid(IID.ApplicationDocumentLists)
     ]
-    internal interface IApplicationDocumentLists
-    {
+    internal interface IApplicationDocumentLists {
         /// <summary>
         /// Set the App User Model ID for the application retrieving this list.  If an AppID is not provided via this method,
         /// the system will use a heuristically determined ID.  This method must be called before GetList. 
@@ -917,8 +877,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         InterfaceType(ComInterfaceType.InterfaceIsIUnknown),
         Guid(IID.CustomDestinationList)
     ]
-    internal interface ICustomDestinationList
-    {
+    internal interface ICustomDestinationList {
         void SetAppID([In, MarshalAs(UnmanagedType.LPWStr)] string pszAppID);
 
         // Retrieve IObjectArray of IShellItems or IShellLinks that represent removed destinations
@@ -949,8 +908,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         InterfaceType(ComInterfaceType.InterfaceIsIUnknown),
         Guid(IID.ObjectWithAppUserModelId)
     ]
-    internal interface IObjectWithAppUserModelId
-    {
+    internal interface IObjectWithAppUserModelId {
         void SetAppID([MarshalAs(UnmanagedType.LPWStr)] string pszAppID);
         [return: MarshalAs(UnmanagedType.LPWStr)]
         string GetAppID();
@@ -964,8 +922,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         InterfaceType(ComInterfaceType.InterfaceIsIUnknown),
         Guid(IID.ObjectWithProgId)
     ]
-    internal interface IObjectWithProgId
-    {
+    internal interface IObjectWithProgId {
         void SetProgID([MarshalAs(UnmanagedType.LPWStr)] string pszProgID);
         [return: MarshalAs(UnmanagedType.LPWStr)]
         string GetProgID();
@@ -976,8 +933,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         InterfaceType(ComInterfaceType.InterfaceIsIUnknown),
         Guid(IID.TaskbarList3),
     ]
-    internal interface ITaskbarList3 : ITaskbarList2
-    {
+    internal interface ITaskbarList3 : ITaskbarList2 {
         #region ITaskbarList2 redeclaration
 
         #region ITaskbarList redeclaration
@@ -1035,8 +991,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         InterfaceType(ComInterfaceType.InterfaceIsIUnknown),
         Guid(IID.TaskbarList3),
     ]
-    internal interface ITaskbarList4 : ITaskbarList3
-    {
+    internal interface ITaskbarList4 : ITaskbarList3 {
         #region ITaskbarList3 redeclaration
 
         #region ITaskbarList2 redeclaration
@@ -1053,7 +1008,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
 
         #endregion
 
-        [PreserveSig] new  HRESULT SetProgressValue(IntPtr hwnd, ulong ullCompleted, ulong ullTotal);
+        [PreserveSig] new HRESULT SetProgressValue(IntPtr hwnd, ulong ullCompleted, ulong ullTotal);
         [PreserveSig] new HRESULT SetProgressState(IntPtr hwnd, TBPF tbpFlags);
         [PreserveSig] new HRESULT RegisterTab(IntPtr hwndTab, IntPtr hwndMDI);
         [PreserveSig] new HRESULT UnregisterTab(IntPtr hwndTab);
@@ -1077,8 +1032,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     InterfaceType(ComInterfaceType.InterfaceIsIUnknown),
     Guid(IID.FileDialogEvents),
 ]
-    internal interface IFileDialogEvents
-    {
+    internal interface IFileDialogEvents {
         [PreserveSig]
         HRESULT OnFileOk(IFileDialog pfd);
 
@@ -1106,8 +1060,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         InterfaceType(ComInterfaceType.InterfaceIsIUnknown),
         Guid(IID.ModalWindow),
     ]
-    internal interface IModalWindow
-    {
+    internal interface IModalWindow {
         [PreserveSig]
         HRESULT Show(IntPtr parent);
     }
@@ -1117,8 +1070,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         InterfaceType(ComInterfaceType.InterfaceIsIUnknown),
         Guid(IID.FileDialog),
     ]
-    internal interface IFileDialog : IModalWindow
-    {
+    internal interface IFileDialog : IModalWindow {
         #region IModalWindow redeclarations
         [PreserveSig]
         new HRESULT Show(IntPtr parent);
@@ -1177,8 +1129,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         InterfaceType(ComInterfaceType.InterfaceIsIUnknown),
         Guid(IID.FileOpenDialog),
     ]
-    internal interface IFileOpenDialog : IFileDialog
-    {
+    internal interface IFileOpenDialog : IFileDialog {
         #region IFileDialog redeclarations
 
         #region IModalDialog redeclarations
@@ -1223,8 +1174,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         InterfaceType(ComInterfaceType.InterfaceIsIUnknown),
         Guid(IID.FileSaveDialog),
     ]
-    internal interface IFileSaveDialog : IFileDialog
-    {
+    internal interface IFileSaveDialog : IFileDialog {
         #region IFileDialog redeclarations
 
         #region IModalDialog redeclarations
@@ -1271,19 +1221,15 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         void ApplyProperties(IShellItem psi, [MarshalAs(UnmanagedType.Interface)] object pStore, [In] ref IntPtr hwnd, [MarshalAs(UnmanagedType.Interface)] object pSink);
     }
 
-    internal static class ShellUtil
-    {
+    internal static class ShellUtil {
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static string GetPathFromShellItem(IShellItem item)
-        {
+        public static string GetPathFromShellItem(IShellItem item) {
             return item.GetDisplayName(SIGDN.DESKTOPABSOLUTEPARSING);
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static IShellItem2 GetShellItemForPath(string path)
-        {
-            if (string.IsNullOrEmpty(path))
-            {
+        public static IShellItem2 GetShellItemForPath(string path) {
+            if (string.IsNullOrEmpty(path)) {
                 // Internal function.  Should have verified this before calling if we cared.
                 return null;
             }
@@ -1294,8 +1240,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
 
             // Silently absorb errors such as ERROR_FILE_NOT_FOUND, ERROR_PATH_NOT_FOUND.
             // Let others pass through
-            if (hr == (HRESULT)Win32Error.ERROR_FILE_NOT_FOUND || hr == (HRESULT)Win32Error.ERROR_PATH_NOT_FOUND)
-            {
+            if (hr == (HRESULT)Win32Error.ERROR_FILE_NOT_FOUND || hr == (HRESULT)Win32Error.ERROR_PATH_NOT_FOUND) {
                 hr = HRESULT.S_OK;
                 unk = null;
             }

@@ -9,16 +9,14 @@ using System.Security;
 using System.Text;
 using Microsoft.Win32.SafeHandles;
 
-namespace NTMiner.Microsoft.Windows.Shell.Standard
-{
+namespace NTMiner.Microsoft.Windows.Shell.Standard {
     // Some COM interfaces and Win32 structures are already declared in the framework.
     // Interesting ones to remember in System.Runtime.InteropServices.ComTypes are:
     using IStream = System.Runtime.InteropServices.ComTypes.IStream;
 
     #region Native Values
 
-    internal static class Win32Value
-    {
+    internal static class Win32Value {
         public const uint MAX_PATH = 260;
         public const uint INFOTIPSIZE = 1024;
         public const int TRUE = 1;
@@ -32,8 +30,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     /// HIGHCONTRAST flags
     /// </summary>
     [Flags]
-    internal enum HCF
-    {
+    internal enum HCF {
         HIGHCONTRASTON = 0x00000001,
         AVAILABLE = 0x00000002,
         HOTKEYACTIVE = 0x00000004,
@@ -43,8 +40,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         HOTKEYAVAILABLE = 0x00000040,
     }
 
-    internal enum DROPEFFECT
-    {
+    internal enum DROPEFFECT {
         NONE = 0,
         COPY = 1,
         MOVE = 2,
@@ -55,8 +51,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     /// <summary>
     /// DROPIMAGE_*
     /// </summary>
-    internal enum DROPIMAGETYPE
-    {
+    internal enum DROPIMAGETYPE {
         INVALID = -1,
         NONE = 0,
         COPY = DROPEFFECT.COPY,
@@ -71,16 +66,14 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     /// <summary>
     /// BITMAPINFOHEADER Compression type.  BI_*.
     /// </summary>
-    internal enum BI
-    {
+    internal enum BI {
         RGB = 0,
     }
 
     /// <summary>
     /// CombingRgn flags.  RGN_*
     /// </summary>
-    internal enum RGN
-    {
+    internal enum RGN {
         /// <summary>
         /// Creates the intersection of the two combined regions.
         /// </summary>
@@ -103,8 +96,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         COPY = 5,
     }
 
-    internal enum CombineRgnResult
-    {
+    internal enum CombineRgnResult {
         ERROR = 0,
         NULLREGION = 1,
         SIMPLEREGION = 2,
@@ -114,8 +106,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     /// <summary>
     /// For IWebBrowser2.  OLECMDEXECOPT_*
     /// </summary>
-    internal enum OLECMDEXECOPT
-    {
+    internal enum OLECMDEXECOPT {
         DODEFAULT = 0,
         PROMPTUSER = 1,
         DONTPROMPTUSER = 2,
@@ -125,8 +116,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     /// <summary>
     /// For IWebBrowser2.  OLECMDF_*
     /// </summary>
-    internal enum OLECMDF
-    {
+    internal enum OLECMDF {
         SUPPORTED = 1,
         ENABLED = 2,
         LATCHED = 4,
@@ -138,8 +128,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     /// <summary>
     /// For IWebBrowser2.  OLECMDID_*
     /// </summary>
-    internal enum OLECMDID
-    {
+    internal enum OLECMDID {
         OPEN = 1,
         NEW = 2,
         SAVE = 3,
@@ -202,8 +191,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     /// <summary>
     /// For IWebBrowser2.  READYSTATE_*
     /// </summary>
-    enum READYSTATE
-    {
+    enum READYSTATE {
         UNINITIALIZED = 0,
         LOADING = 1,
         LOADED = 2,
@@ -214,8 +202,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     /// <summary>
     /// DATAOBJ_GET_ITEM_FLAGS.  DOGIF_*.
     /// </summary>
-    internal enum DOGIF
-    {
+    internal enum DOGIF {
         DEFAULT = 0x0000,
         TRAVERSE_LINK = 0x0001,    // if the item is a link get the target
         NO_HDROP = 0x0002,    // don't fallback and use CF_HDROP clipboard format
@@ -223,15 +210,13 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         ONLY_IF_ONE = 0x0008,    // only return the item if there is one item in the array
     }
 
-    internal enum DWM_SIT
-    {
+    internal enum DWM_SIT {
         None,
         DISPLAYFRAME = 1,
     }
 
     [Flags]
-    internal enum ErrorModes
-    {
+    internal enum ErrorModes {
         /// <summary>Use the system default, which is to display all error dialog boxes.</summary>
         Default = 0x0,
         /// <summary>
@@ -261,8 +246,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     /// <summary>
     /// Non-client hit test values, HT*
     /// </summary>
-    internal enum HT
-    {
+    internal enum HT {
         ERROR = -2,
         TRANSPARENT = -1,
         NOWHERE = 0,
@@ -292,16 +276,14 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     /// <summary>
     /// GetClassLongPtr values, GCLP_*
     /// </summary>
-    internal enum GCLP
-    {
+    internal enum GCLP {
         HBRBACKGROUND = -10,
     }
 
     /// <summary>
     /// GetWindowLongPtr values, GWL_*
     /// </summary>
-    internal enum GWL
-    {
+    internal enum GWL {
         WNDPROC = (-4),
         HINSTANCE = (-6),
         HWNDPARENT = (-8),
@@ -314,8 +296,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     /// <summary>
     /// SystemMetrics.  SM_*
     /// </summary>
-    internal enum SM
-    {
+    internal enum SM {
         CXSCREEN = 0,
         CYSCREEN = 1,
         CXVSCROLL = 2,
@@ -405,8 +386,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     /// <summary>
     /// SystemParameterInfo values, SPI_*
     /// </summary>
-    internal enum SPI
-    {
+    internal enum SPI {
         GETBEEP = 0x0001,
         SETBEEP = 0x0002,
         GETMOUSE = 0x0003,
@@ -645,16 +625,14 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     /// SystemParameterInfo flag values, SPIF_*
     /// </summary>
     [Flags]
-    internal enum SPIF
-    {
+    internal enum SPIF {
         None = 0,
         UPDATEINIFILE = 0x01,
         SENDWININICHANGE = 0x02,
     }
 
     [Flags]
-    internal enum STATE_SYSTEM
-    {
+    internal enum STATE_SYSTEM {
         UNAVAILABLE = 0x00000001, // Disabled
         SELECTED = 0x00000002,
         FOCUSED = 0x00000004,
@@ -689,8 +667,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         VALID = 0x3FFFFFFF,
     }
 
-    internal enum StockObject : int
-    {
+    internal enum StockObject : int {
         WHITE_BRUSH = 0,
         LTGRAY_BRUSH = 1,
         GRAY_BRUSH = 2,
@@ -709,8 +686,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     /// CS_*
     /// </summary>
     [Flags]
-    internal enum CS : uint
-    {
+    internal enum CS : uint {
         VREDRAW = 0x0001,
         HREDRAW = 0x0002,
         DBLCLKS = 0x0008,
@@ -730,8 +706,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     /// WindowStyle values, WS_*
     /// </summary>
     [Flags]
-    internal enum WS : uint
-    {
+    internal enum WS : uint {
         OVERLAPPED = 0x00000000,
         POPUP = 0x80000000,
         CHILD = 0x40000000,
@@ -767,8 +742,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     /// <summary>
     /// Window message values, WM_*
     /// </summary>
-    internal enum WM
-    {
+    internal enum WM {
         NULL = 0x0000,
         CREATE = 0x0001,
         DESTROY = 0x0002,
@@ -927,8 +901,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     /// Window style extended values, WS_EX_*
     /// </summary>
     [Flags]
-    internal enum WS_EX : uint
-    {
+    internal enum WS_EX : uint {
         None = 0,
         DLGMODALFRAME = 0x00000001,
         NOPARENTNOTIFY = 0x00000004,
@@ -961,8 +934,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     /// <summary>
     /// GetDeviceCaps nIndex values.
     /// </summary>
-    internal enum DeviceCap
-    {
+    internal enum DeviceCap {
         /// <summary>Number of bits per pixel
         /// </summary>
         BITSPIXEL = 12,
@@ -980,8 +952,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         LOGPIXELSY = 90,
     }
 
-    internal enum FO : int
-    {
+    internal enum FO : int {
         MOVE = 0x0001,
         COPY = 0x0002,
         DELETE = 0x0003,
@@ -991,8 +962,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     /// <summary>
     /// "FILEOP_FLAGS", FOF_*.
     /// </summary>
-    internal enum FOF : ushort
-    {
+    internal enum FOF : ushort {
         MULTIDESTFILES = 0x0001,
         CONFIRMMOUSE = 0x0002,
         SILENT = 0x0004,
@@ -1015,8 +985,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     /// EnableMenuItem uEnable values, MF_*
     /// </summary>
     [Flags]
-    internal enum MF : uint
-    {
+    internal enum MF : uint {
         /// <summary>
         /// Possible return value for EnableMenuItem
         /// </summary>
@@ -1028,8 +997,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     }
 
     /// <summary>Specifies the type of visual style attribute to set on a window.</summary>
-    internal enum WINDOWTHEMEATTRIBUTETYPE : uint
-    {
+    internal enum WINDOWTHEMEATTRIBUTETYPE : uint {
         /// <summary>Non-client area window attributes will be set.</summary>
         WTA_NONCLIENT = 1,
     }
@@ -1037,8 +1005,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     /// <summary>
     /// DWMFLIP3DWINDOWPOLICY.  DWMFLIP3D_*
     /// </summary>
-    internal enum DWMFLIP3D 
-    {
+    internal enum DWMFLIP3D {
         DEFAULT,
         EXCLUDEBELOW,
         EXCLUDEABOVE,
@@ -1048,8 +1015,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     /// <summary>
     /// DWMNCRENDERINGPOLICY. DWMNCRP_*
     /// </summary>
-    internal enum DWMNCRP
-    {
+    internal enum DWMNCRP {
         USEWINDOWSTYLE,
         DISABLED,
         ENABLED,
@@ -1059,8 +1025,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     /// <summary>
     /// DWMWINDOWATTRIBUTE.  DWMWA_*
     /// </summary>
-    internal enum DWMWA
-    {
+    internal enum DWMWA {
         NCRENDERING_ENABLED = 1,
         NCRENDERING_POLICY,
         TRANSITIONS_FORCEDISABLED,
@@ -1084,8 +1049,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     /// WindowThemeNonClientAttributes
     /// </summary>
     [Flags]
-    internal enum WTNCA : uint
-    {
+    internal enum WTNCA : uint {
         /// <summary>Prevents the window caption from being drawn.</summary>
         NODRAWCAPTION = 0x00000001,
         /// <summary>Prevents the system icon from being drawn.</summary>
@@ -1102,8 +1066,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     /// SetWindowPos options
     /// </summary>
     [Flags]
-    internal enum SWP
-    {
+    internal enum SWP {
         ASYNCWINDOWPOS = 0x4000,
         DEFERERASE = 0x2000,
         DRAWFRAME = 0x0020,
@@ -1124,8 +1087,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     /// <summary>
     /// ShowWindow options
     /// </summary>
-    internal enum SW
-    {
+    internal enum SW {
         HIDE = 0,
         SHOWNORMAL = 1,
         NORMAL = 1,
@@ -1142,8 +1104,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         FORCEMINIMIZE = 11,
     }
 
-    internal enum SC
-    {
+    internal enum SC {
         SIZE = 0xF000,
         MOVE = 0xF010,
         MINIMIZE = 0xF020,
@@ -1175,8 +1136,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     /// <summary>
     /// GDI+ Status codes
     /// </summary>
-    internal enum Status
-    {
+    internal enum Status {
         Ok = 0,
         GenericError = 1,
         InvalidParameter = 2,
@@ -1201,8 +1161,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         ProfileNotFound = 21,
     }
 
-    internal enum MOUSEEVENTF : int
-    {
+    internal enum MOUSEEVENTF : int {
         //mouse event constants
         LEFTDOWN = 2,
         LEFTUP = 4
@@ -1211,8 +1170,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     /// <summary>
     /// MSGFLT_*.  New in Vista.  Realiased in Windows 7.
     /// </summary>
-    internal enum MSGFLT
-    {
+    internal enum MSGFLT {
         // Win7 versions of this enum:
         RESET = 0,
         ALLOW = 1,
@@ -1223,24 +1181,21 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         // REMOVE = 2,
     }
 
-    internal enum MSGFLTINFO
-    {
+    internal enum MSGFLTINFO {
         NONE = 0,
         ALREADYALLOWED_FORWND = 1,
         ALREADYDISALLOWED_FORWND = 2,
         ALLOWED_HIGHER = 3,
     }
 
-    internal enum INPUT_TYPE : uint
-    {
+    internal enum INPUT_TYPE : uint {
         MOUSE = 0,
     }
 
     /// <summary>
     /// Shell_NotifyIcon messages.  NIM_*
     /// </summary>
-    internal enum NIM : uint
-    {
+    internal enum NIM : uint {
         ADD = 0,
         MODIFY = 1,
         DELETE = 2,
@@ -1251,8 +1206,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     /// <summary>
     /// SHAddToRecentDocuments flags.  SHARD_*
     /// </summary>
-    internal enum SHARD
-    {
+    internal enum SHARD {
         PIDL = 0x00000001,
         PATHA = 0x00000002,
         PATHW = 0x00000003,
@@ -1263,8 +1217,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     }
 
     [Flags]
-    enum SLGP
-    {
+    enum SLGP {
         SHORTPATH = 0x1,
         UNCPRIORITY = 0x2,
         RAWPATH = 0x4
@@ -1274,8 +1227,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     /// Shell_NotifyIcon flags.  NIF_*
     /// </summary>
     [Flags]
-    internal enum NIF : uint
-    {
+    internal enum NIF : uint {
         MESSAGE = 0x0001,
         ICON = 0x0002,
         TIP = 0x0004,
@@ -1299,8 +1251,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     /// <summary>
     /// Shell_NotifyIcon info flags.  NIIF_*
     /// </summary>
-    internal enum NIIF
-    {
+    internal enum NIIF {
         NONE = 0x00000000,
         INFO = 0x00000001,
         WARNING = 0x00000002,
@@ -1320,21 +1271,18 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     /// <summary>
     /// AC_*
     /// </summary>
-    internal enum AC : byte
-    {
+    internal enum AC : byte {
         SRC_OVER = 0,
         SRC_ALPHA = 1,
     }
 
-    internal enum ULW
-    {
+    internal enum ULW {
         ALPHA = 2,
         COLORKEY = 1,
         OPAQUE = 4,
     }
 
-    internal enum WVR
-    {
+    internal enum WVR {
         ALIGNTOP = 0x0010,
         ALIGNLEFT = 0x0020,
         ALIGNBOTTOM = 0x0040,
@@ -1345,28 +1293,24 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         REDRAW = HREDRAW | VREDRAW,
     }
 
-    internal enum DSH
-    {
+    internal enum DSH {
         ALLOWDROPDESCRIPTIONTEXT = 1,
     }
 
-    internal enum MonitorOptions : uint
-    {
+    internal enum MonitorOptions : uint {
         MONITOR_DEFAULTTONULL = 0x00000000,
         MONITOR_DEFAULTTOPRIMARY = 0x00000001,
         MONITOR_DEFAULTTONEAREST = 0x00000002
     }
 
-    internal enum ABEdge
-    {
+    internal enum ABEdge {
         ABE_LEFT = 0,
         ABE_TOP = 1,
         ABE_RIGHT = 2,
         ABE_BOTTOM = 3
     }
 
-    internal enum ABMsg
-    {
+    internal enum ABMsg {
         ABM_NEW = 0,
         ABM_REMOVE = 1,
         ABM_QUERYPOS = 2,
@@ -1384,21 +1328,17 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
 
     #region SafeHandles
 
-    internal sealed class SafeFindHandle : SafeHandleZeroOrMinusOneIsInvalid
-    {
+    internal sealed class SafeFindHandle : SafeHandleZeroOrMinusOneIsInvalid {
         [SecurityCritical]
         private SafeFindHandle() : base(true) { }
 
-        protected override bool ReleaseHandle()
-        {
+        protected override bool ReleaseHandle() {
             return NativeMethods.FindClose(handle);
         }
     }
 
-    internal sealed class SafeDC : SafeHandleZeroOrMinusOneIsInvalid
-    {
-        private static class NativeMethods
-        {
+    internal sealed class SafeDC : SafeHandleZeroOrMinusOneIsInvalid {
+        private static class NativeMethods {
             [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
             [DllImport("user32.dll")]
             public static extern int ReleaseDC(IntPtr hWnd, IntPtr hDC);
@@ -1426,10 +1366,8 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         private bool _created;
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public IntPtr Hwnd
-        {
-            set
-            {
+        public IntPtr Hwnd {
+            set {
                 Assert.NullableIsNull(_hwnd);
                 _hwnd = value;
             }
@@ -1438,15 +1376,12 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         private SafeDC() : base(true) { }
 
         [ReliabilityContract(Consistency.WillNotCorruptState, Cer.MayFail)]
-        protected override bool ReleaseHandle()
-        {
-            if (_created)
-            {
+        protected override bool ReleaseHandle() {
+            if (_created) {
                 return NativeMethods.DeleteDC(handle);
             }
 
-            if (!_hwnd.HasValue || _hwnd.Value == IntPtr.Zero)
-            {
+            if (!_hwnd.HasValue || _hwnd.Value == IntPtr.Zero) {
                 return true;
             }
 
@@ -1454,24 +1389,19 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         }
 
         [SuppressMessage("Microsoft.Usage", "CA2201:DoNotRaiseReservedExceptionTypes"), SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static SafeDC CreateDC(string deviceName)
-        {
+        public static SafeDC CreateDC(string deviceName) {
             SafeDC dc = null;
-            try
-            {
+            try {
                 // Should this really be on the driver parameter?
                 dc = NativeMethods.CreateDC(deviceName, null, IntPtr.Zero, IntPtr.Zero);
             }
-            finally
-            {
-                if (dc != null)
-                {
+            finally {
+                if (dc != null) {
                     dc._created = true;
                 }
             }
 
-            if (dc.IsInvalid)
-            {
+            if (dc.IsInvalid) {
                 dc.Dispose();
                 throw new SystemException("Unable to create a device context from the specified device information.");
             }
@@ -1480,32 +1410,25 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         }
 
         [SuppressMessage("Microsoft.Usage", "CA2201:DoNotRaiseReservedExceptionTypes"), SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static SafeDC CreateCompatibleDC(SafeDC hdc)
-        {
+        public static SafeDC CreateCompatibleDC(SafeDC hdc) {
             SafeDC dc = null;
-            try
-            {
+            try {
                 IntPtr hPtr = IntPtr.Zero;
-                if (hdc != null)
-                {
+                if (hdc != null) {
                     hPtr = hdc.handle;
                 }
                 dc = NativeMethods.CreateCompatibleDC(hPtr);
-                if (dc == null)
-                {
+                if (dc == null) {
                     HRESULT.ThrowLastError();
                 }
             }
-            finally
-            {
-                if (dc != null)
-                {
+            finally {
+                if (dc != null) {
                     dc._created = true;
                 }
             }
 
-            if (dc.IsInvalid)
-            {
+            if (dc.IsInvalid) {
                 dc.Dispose();
                 throw new SystemException("Unable to create a device context from the specified device information.");
             }
@@ -1514,23 +1437,18 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static SafeDC GetDC(IntPtr hwnd)
-        {
+        public static SafeDC GetDC(IntPtr hwnd) {
             SafeDC dc = null;
-            try
-            {
+            try {
                 dc = NativeMethods.GetDC(hwnd);
             }
-            finally
-            {
-                if (dc != null)
-                {
+            finally {
+                if (dc != null) {
                     dc.Hwnd = hwnd;
                 }
             }
 
-            if (dc.IsInvalid)
-            {
+            if (dc.IsInvalid) {
                 // GetDC does not set the last error...
                 HRESULT.E_FAIL.ThrowIfFailed();
             }
@@ -1539,8 +1457,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static SafeDC GetDesktop()
-        {
+        public static SafeDC GetDesktop() {
             return GetDC(IntPtr.Zero);
         }
 
@@ -1549,11 +1466,9 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         // Sure...
         [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static SafeDC WrapDC(IntPtr hdc)
-        {
+        public static SafeDC WrapDC(IntPtr hdc) {
             // This won't actually get released by the class, but it allows an IntPtr to be converted for signatures.
-            return new SafeDC
-            {
+            return new SafeDC {
                 handle = hdc,
                 _created = false,
                 _hwnd = IntPtr.Zero,
@@ -1561,40 +1476,34 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         }
     }
 
-    internal sealed class SafeHBITMAP : SafeHandleZeroOrMinusOneIsInvalid
-    {
+    internal sealed class SafeHBITMAP : SafeHandleZeroOrMinusOneIsInvalid {
         private SafeHBITMAP() : base(true) { }
 
         [ReliabilityContract(Consistency.WillNotCorruptState, Cer.MayFail)]
-        protected override bool ReleaseHandle()
-        {
+        protected override bool ReleaseHandle() {
             return NativeMethods.DeleteObject(handle);
         }
     }
 
-    internal sealed class SafeGdiplusStartupToken : SafeHandleZeroOrMinusOneIsInvalid
-    {
+    internal sealed class SafeGdiplusStartupToken : SafeHandleZeroOrMinusOneIsInvalid {
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         private SafeGdiplusStartupToken(IntPtr ptr) : base(true) {
             handle = ptr;
         }
 
         [ReliabilityContract(Consistency.WillNotCorruptState, Cer.MayFail)]
-        protected override bool ReleaseHandle()
-        {
+        protected override bool ReleaseHandle() {
             Status s = NativeMethods.GdiplusShutdown(this.handle);
             return s == Status.Ok;
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         [SuppressMessage("Microsoft.Usage", "CA2201:DoNotRaiseReservedExceptionTypes")]
-        public static SafeGdiplusStartupToken Startup()
-        {
+        public static SafeGdiplusStartupToken Startup() {
             IntPtr unsafeHandle;
             StartupOutput output;
             Status s = NativeMethods.GdiplusStartup(out unsafeHandle, new StartupInput(), out output);
-            if (s == Status.Ok)
-            {
+            if (s == Status.Ok) {
                 SafeGdiplusStartupToken safeHandle = new SafeGdiplusStartupToken(unsafeHandle);
                 return safeHandle;
             }
@@ -1602,16 +1511,14 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         }
     }
 
-    internal sealed class SafeConnectionPointCookie : SafeHandleZeroOrMinusOneIsInvalid
-    {
+    internal sealed class SafeConnectionPointCookie : SafeHandleZeroOrMinusOneIsInvalid {
         private IConnectionPoint _cp;
         // handle holds the cookie value.
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         [SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "IConnectionPoint")]
         public SafeConnectionPointCookie(IConnectionPointContainer target, object sink, Guid eventId)
-            : base(true)
-        {
+            : base(true) {
             Verify.IsNotNull(target, "target");
             Verify.IsNotNull(sink, "sink");
             Verify.IsNotDefault(eventId, "eventId");
@@ -1619,56 +1526,46 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
             handle = IntPtr.Zero;
 
             IConnectionPoint cp = null;
-            try
-            {
+            try {
                 int dwCookie;
                 target.FindConnectionPoint(ref eventId, out cp);
                 cp.Advise(sink, out dwCookie);
-                if (dwCookie == 0)
-                {
+                if (dwCookie == 0) {
                     throw new InvalidOperationException("IConnectionPoint::Advise returned an invalid cookie.");
                 }
                 handle = new IntPtr(dwCookie);
                 _cp = cp;
                 cp = null;
             }
-            finally
-            {
+            finally {
                 Utility.SafeRelease(ref cp);
             }
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public void Disconnect()
-        {
+        public void Disconnect() {
             ReleaseHandle();
         }
 
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
         [ReliabilityContract(Consistency.WillNotCorruptState, Cer.MayFail)]
-        protected override bool ReleaseHandle()
-        {
-            try
-            {
-                if (!this.IsInvalid)
-                {
+        protected override bool ReleaseHandle() {
+            try {
+                if (!this.IsInvalid) {
                     int dwCookie = handle.ToInt32();
                     handle = IntPtr.Zero;
 
                     Assert.IsNotNull(_cp);
-                    try
-                    {
+                    try {
                         _cp.Unadvise(dwCookie);
                     }
-                    finally
-                    {
+                    finally {
                         Utility.SafeRelease(ref _cp);
                     }
                 }
                 return true;
             }
-            catch
-            {
+            catch {
                 return false;
             }
         }
@@ -1679,8 +1576,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     #region Native Types
 
     [StructLayout(LayoutKind.Sequential)]
-    internal struct BLENDFUNCTION
-    {
+    internal struct BLENDFUNCTION {
         // Must be AC_SRC_OVER
         public AC BlendOp;
         // Must be 0.
@@ -1692,8 +1588,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    internal struct HIGHCONTRAST
-    {
+    internal struct HIGHCONTRAST {
         public int cbSize;
         public HCF dwFlags;
         //[MarshalAs(UnmanagedType.LPWStr, SizeConst=80)]
@@ -1702,17 +1597,15 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    internal struct RGBQUAD
-    {
+    internal struct RGBQUAD {
         public byte rgbBlue;
         public byte rgbGreen;
         public byte rgbRed;
         public byte rgbReserved;
     }
 
-    [StructLayout(LayoutKind.Sequential, Pack=2)]
-    internal struct BITMAPINFOHEADER 
-    { 
+    [StructLayout(LayoutKind.Sequential, Pack = 2)]
+    internal struct BITMAPINFOHEADER {
         public int biSize;
         public int biWidth;
         public int biHeight;
@@ -1727,23 +1620,20 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    internal struct BITMAPINFO
-    { 
-        public BITMAPINFOHEADER bmiHeader; 
+    internal struct BITMAPINFO {
+        public BITMAPINFOHEADER bmiHeader;
         public RGBQUAD bmiColors;
     }
 
     // Win7 only.
     [StructLayout(LayoutKind.Sequential)]
-    internal struct CHANGEFILTERSTRUCT
-    {
+    internal struct CHANGEFILTERSTRUCT {
         public uint cbSize;
         public MSGFLTINFO ExtStatus;
     }
 
-    [StructLayout(LayoutKind.Sequential, CharSet=CharSet.Unicode)]
-    internal struct CREATESTRUCT
-    {
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+    internal struct CREATESTRUCT {
         public IntPtr lpCreateParams;
         public IntPtr hInstance;
         public IntPtr hMenu;
@@ -1759,8 +1649,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     }
 
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode, Pack = 1)]
-    internal struct SHFILEOPSTRUCT
-    {
+    internal struct SHFILEOPSTRUCT {
         public IntPtr hwnd;
         [MarshalAs(UnmanagedType.U4)]
         public FO wFunc;
@@ -1776,8 +1665,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    internal struct TITLEBARINFO
-    {
+    internal struct TITLEBARINFO {
         public int cbSize;
         public RECT rcTitleBar;
         public STATE_SYSTEM rgstate_TitleBar;
@@ -1790,8 +1678,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
 
     // New to Vista.
     [StructLayout(LayoutKind.Sequential)]
-    internal struct TITLEBARINFOEX
-    {
+    internal struct TITLEBARINFOEX {
         public int cbSize;
         public RECT rcTitleBar;
         public STATE_SYSTEM rgstate_TitleBar;
@@ -1810,8 +1697,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
 
     [SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses")]
     [StructLayout(LayoutKind.Sequential)]
-    internal class NOTIFYICONDATA
-    {
+    internal class NOTIFYICONDATA {
         public int cbSize;
         public IntPtr hWnd;
         public int uID;
@@ -1841,10 +1727,8 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
 
     [SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses")]
     [StructLayout(LayoutKind.Explicit)]
-    internal class PROPVARIANT : IDisposable
-    {
-        private static class NativeMethods
-        {
+    internal class PROPVARIANT : IDisposable {
+        private static class NativeMethods {
             [DllImport("ole32.dll")]
             internal static extern HRESULT PropVariantClear(PROPVARIANT pvar);
         }
@@ -1867,60 +1751,51 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         private short boolVal;
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public VarEnum VarType
-        {
+        public VarEnum VarType {
             get { return (VarEnum)vt; }
         }
 
         // Right now only using this for strings.
         [SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands")]
-        public string GetValue()
-        {
-            if (vt == (ushort)VarEnum.VT_LPWSTR)
-            {
+        public string GetValue() {
+            if (vt == (ushort)VarEnum.VT_LPWSTR) {
                 return Marshal.PtrToStringUni(pointerVal);
             }
 
             return null;
         }
 
-        public void SetValue(bool f)
-        {
+        public void SetValue(bool f) {
             Clear();
             vt = (ushort)VarEnum.VT_BOOL;
             boolVal = (short)(f ? -1 : 0);
         }
 
         [SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands")]
-        public void SetValue(string val)
-        {
+        public void SetValue(string val) {
             Clear();
             vt = (ushort)VarEnum.VT_LPWSTR;
             pointerVal = Marshal.StringToCoTaskMemUni(val);
         }
 
-        public void Clear()
-        {
+        public void Clear() {
             HRESULT hr = NativeMethods.PropVariantClear(this);
             Assert.IsTrue(hr.Succeeded);
         }
 
         #region IDisposable Pattern
 
-        public void Dispose()
-        {
+        public void Dispose() {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
 
-        ~PROPVARIANT()
-        {
+        ~PROPVARIANT() {
             Dispose(false);
         }
 
         [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "disposing")]
-        private void Dispose(bool disposing)
-        {
+        private void Dispose(bool disposing) {
             Clear();
         }
 
@@ -1929,8 +1804,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
 
     [SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses")]
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
-    internal class SHARDAPPIDINFO
-    {
+    internal class SHARDAPPIDINFO {
         [MarshalAs(UnmanagedType.Interface)]
         object psi;    // The namespace location of the the item that should be added to the recent docs folder.
         [MarshalAs(UnmanagedType.LPWStr)]
@@ -1939,8 +1813,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
 
     [SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses")]
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
-    internal class SHARDAPPIDINFOIDLIST
-    {
+    internal class SHARDAPPIDINFOIDLIST {
         /// <summary>The idlist for the shell item that should be added to the recent docs folder.</summary>
         IntPtr pidl;
         /// <summary>The id of the application that should be associated with this recent doc.</summary>
@@ -1950,8 +1823,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
 
     [SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses")]
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
-    internal class SHARDAPPIDINFOLINK
-    {
+    internal class SHARDAPPIDINFOLINK {
         IntPtr psl;     // An IShellLink instance that when launched opens a recently used item in the specified 
         // application. This link is not added to the recent docs folder, but will be added to the
         // specified application's destination list.
@@ -1961,8 +1833,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
 
 
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
-    internal struct LOGFONT
-    {
+    internal struct LOGFONT {
         public int lfHeight;
         public int lfWidth;
         public int lfEscapement;
@@ -1981,8 +1852,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    internal struct MINMAXINFO
-    {
+    internal struct MINMAXINFO {
         public POINT ptReserved;
         public POINT ptMaxSize;
         public POINT ptMaxPosition;
@@ -1991,8 +1861,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    internal struct NONCLIENTMETRICS
-    {
+    internal struct NONCLIENTMETRICS {
         public int cbSize;
         public int iBorderWidth;
         public int iScrollWidth;
@@ -2011,20 +1880,16 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         // Vista only
         public int iPaddedBorderWidth;
 
-        public static NONCLIENTMETRICS VistaMetricsStruct
-        {
-            get
-            {
+        public static NONCLIENTMETRICS VistaMetricsStruct {
+            get {
                 var ncm = new NONCLIENTMETRICS();
                 ncm.cbSize = Marshal.SizeOf(typeof(NONCLIENTMETRICS));
                 return ncm;
             }
         }
 
-        public static NONCLIENTMETRICS XPMetricsStruct
-        {
-            get
-            {
+        public static NONCLIENTMETRICS XPMetricsStruct {
+            get {
                 var ncm = new NONCLIENTMETRICS();
                 // Account for the missing iPaddedBorderWidth
                 ncm.cbSize = Marshal.SizeOf(typeof(NONCLIENTMETRICS)) - sizeof(int);
@@ -2035,8 +1900,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
 
     /// <summary>Defines options that are used to set window visual style attributes.</summary>
     [StructLayout(LayoutKind.Explicit)]
-    internal struct WTA_OPTIONS
-    {
+    internal struct WTA_OPTIONS {
         // public static readonly uint Size = (uint)Marshal.SizeOf(typeof(WTA_OPTIONS));
         public const uint Size = 8;
 
@@ -2059,8 +1923,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    internal struct MARGINS
-    {
+    internal struct MARGINS {
         /// <summary>Width of left border that retains its size.</summary>
         public int cxLeftWidth;
         /// <summary>Width of right border that retains its size.</summary>
@@ -2072,8 +1935,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     };
 
     [StructLayout(LayoutKind.Sequential)]
-    internal class MONITORINFO
-    {
+    internal class MONITORINFO {
         public int cbSize = Marshal.SizeOf(typeof(MONITORINFO));
         public RECT rcMonitor;
         public RECT rcWork;
@@ -2081,31 +1943,27 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    internal struct POINT
-    {
+    internal struct POINT {
         public int x;
         public int y;
     }
 
     [SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses")]
     [StructLayout(LayoutKind.Sequential)]
-    internal class RefPOINT
-    {
+    internal class RefPOINT {
         public int x;
         public int y;
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    internal struct RECT
-    {
+    internal struct RECT {
         private int _left;
         private int _top;
         private int _right;
         private int _bottom;
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public void Offset(int dx, int dy)
-        {
+        public void Offset(int dx, int dy) {
             _left += dx;
             _top += dy;
             _right += dx;
@@ -2113,62 +1971,52 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public int Left
-        {
+        public int Left {
             get { return _left; }
             set { _left = value; }
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public int Right
-        {
+        public int Right {
             get { return _right; }
             set { _right = value; }
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public int Top
-        {
+        public int Top {
             get { return _top; }
             set { _top = value; }
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public int Bottom
-        {
+        public int Bottom {
             get { return _bottom; }
             set { _bottom = value; }
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public int Width
-        {
+        public int Width {
             get { return _right - _left; }
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public int Height
-        {
+        public int Height {
             get { return _bottom - _top; }
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public POINT Position
-        {
+        public POINT Position {
             get { return new POINT { x = _left, y = _top }; }
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public SIZE Size
-        {
+        public SIZE Size {
             get { return new SIZE { cx = Width, cy = Height }; }
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static RECT Union(RECT rect1, RECT rect2)
-        {
-            return new RECT
-            {
+        public static RECT Union(RECT rect1, RECT rect2) {
+            return new RECT {
                 Left = Math.Min(rect1.Left, rect2.Left),
                 Top = Math.Min(rect1.Top, rect2.Top),
                 Right = Math.Max(rect1.Right, rect2.Right),
@@ -2176,40 +2024,34 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
             };
         }
 
-        public override bool Equals(object obj)
-        {
-            try
-            {
+        public override bool Equals(object obj) {
+            try {
                 var rc = (RECT)obj;
                 return rc._bottom == _bottom
                     && rc._left == _left
                     && rc._right == _right
                     && rc._top == _top;
             }
-            catch (InvalidCastException)
-            {
+            catch (InvalidCastException) {
                 return false;
             }
         }
 
-        public override int GetHashCode()
-        {
+        public override int GetHashCode() {
             return (_left << 16 | Utility.LOWORD(_right)) ^ (_top << 16 | Utility.LOWORD(_bottom));
         }
     }
 
     [SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses")]
     [StructLayout(LayoutKind.Sequential)]
-    internal class RefRECT
-    {
+    internal class RefRECT {
         private int _left;
         private int _top;
         private int _right;
         private int _bottom;
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public RefRECT(int left, int top, int right, int bottom)
-        {
+        public RefRECT(int left, int top, int right, int bottom) {
             _left = left;
             _top = top;
             _right = right;
@@ -2217,48 +2059,41 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public int Width
-        {
+        public int Width {
             get { return _right - _left; }
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public int Height
-        {
+        public int Height {
             get { return _bottom - _top; }
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public int Left
-        {
+        public int Left {
             get { return _left; }
             set { _left = value; }
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public int Right
-        {
+        public int Right {
             get { return _right; }
             set { _right = value; }
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public int Top
-        {
+        public int Top {
             get { return _top; }
             set { _top = value; }
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public int Bottom
-        {
+        public int Bottom {
             get { return _bottom; }
             set { _bottom = value; }
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public void Offset(int dx, int dy)
-        {
+        public void Offset(int dx, int dy) {
             _left += dx;
             _top += dy;
             _right += dx;
@@ -2267,22 +2102,19 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    internal struct SIZE
-    {
+    internal struct SIZE {
         public int cx;
         public int cy;
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    internal struct StartupOutput
-    {
+    internal struct StartupOutput {
         public IntPtr hook;
         public IntPtr unhook;
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    internal class StartupInput
-    {
+    internal class StartupInput {
         public int GdiplusVersion = 1;
         public IntPtr DebugEventCallback;
         public bool SuppressBackgroundThread;
@@ -2292,8 +2124,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     [SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses")]
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     [BestFitMapping(false)]
-    internal class WIN32_FIND_DATAW
-    {
+    internal class WIN32_FIND_DATAW {
         public FileAttributes dwFileAttributes;
         public System.Runtime.InteropServices.ComTypes.FILETIME ftCreationTime;
         public System.Runtime.InteropServices.ComTypes.FILETIME ftLastAccessTime;
@@ -2309,8 +2140,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    internal class WINDOWPLACEMENT
-    {
+    internal class WINDOWPLACEMENT {
         public int length = Marshal.SizeOf(typeof(WINDOWPLACEMENT));
         public int flags;
         public SW showCmd;
@@ -2320,8 +2150,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    internal struct WINDOWPOS
-    {
+    internal struct WINDOWPOS {
         public IntPtr hwnd;
         public IntPtr hwndInsertAfter;
         public int x;
@@ -2331,9 +2160,8 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         public int flags;
     }
 
-    [StructLayout(LayoutKind.Sequential, CharSet=CharSet.Unicode)]
-    internal struct WNDCLASSEX
-    {
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+    internal struct WNDCLASSEX {
         public int cbSize;
         public CS style;
         public WndProc lpfnWndProc;
@@ -2351,8 +2179,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    internal struct WINDOWINFO
-    {
+    internal struct WINDOWINFO {
         public int cbSize;
         public RECT rcWindow;
         public RECT rcClient;
@@ -2366,8 +2193,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    internal struct MOUSEINPUT
-    {
+    internal struct MOUSEINPUT {
         public int dx;
         public int dy;
         public int mouseData;
@@ -2377,22 +2203,19 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    internal struct INPUT
-    {
+    internal struct INPUT {
         public uint type;
         public MOUSEINPUT mi;
     };
 
     [StructLayout(LayoutKind.Sequential)]
-    internal struct UNSIGNED_RATIO
-    {
+    internal struct UNSIGNED_RATIO {
         public uint uiNumerator;
         public uint uiDenominator;
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    internal struct DWM_TIMING_INFO
-    {
+    internal struct DWM_TIMING_INFO {
         public int cbSize;
         public UNSIGNED_RATIO rateRefresh;
         public ulong qpcRefreshPeriod;
@@ -2436,8 +2259,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    internal struct SHDRAGIMAGE
-    {
+    internal struct SHDRAGIMAGE {
         public SIZE sizeDragImage;
         public POINT ptOffset;
         public IntPtr hbmpDragImage;
@@ -2445,8 +2267,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     }
 
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode, Size = 1044)]
-    internal struct DROPDESCRIPTION
-    {
+    internal struct DROPDESCRIPTION {
         public DROPIMAGETYPE type;
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)]
         public string szMessage;
@@ -2455,8 +2276,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    internal struct APPBARDATA
-    {
+    internal struct APPBARDATA {
         /// <summary>
         /// initialize this field using: Marshal.SizeOf(typeof(APPBARDATA));
         /// </summary>
@@ -2477,8 +2297,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         InterfaceType(ComInterfaceType.InterfaceIsIUnknown),
         Guid(IID.ServiceProvider)
     ]
-    internal interface IServiceProvider
-    {
+    internal interface IServiceProvider {
         [return: MarshalAs(UnmanagedType.IUnknown)]
         object QueryService(ref Guid guidService, ref Guid riid);
     }
@@ -2488,8 +2307,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         Guid(IID.DragSourceHelper),
         InterfaceType(ComInterfaceType.InterfaceIsIUnknown)
     ]
-    internal interface IDragSourceHelper
-    {
+    internal interface IDragSourceHelper {
         void InitializeFromBitmap([In] ref SHDRAGIMAGE pshdi, [In] IDataObject pDataObject);
         void InitializeFromWindow(IntPtr hwnd, [In] ref POINT ppt, [In] IDataObject pDataObject);
     }
@@ -2499,8 +2317,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         Guid(IID.DragSourceHelper2),
         InterfaceType(ComInterfaceType.InterfaceIsIUnknown)
     ]
-    internal interface IDragSourceHelper2 : IDragSourceHelper
-    {
+    internal interface IDragSourceHelper2 : IDragSourceHelper {
         #region IDragSourceHelper redeclaration
         new void InitializeFromBitmap([In] ref SHDRAGIMAGE pshdi, [In] IDataObject pDataObject);
         new void InitializeFromWindow(IntPtr hwnd, [In] ref POINT ppt, [In] IDataObject pDataObject);
@@ -2514,8 +2331,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         Guid(IID.DropTargetHelper),
         InterfaceType(ComInterfaceType.InterfaceIsIUnknown)
     ]
-    internal interface IDropTargetHelper
-    {
+    internal interface IDropTargetHelper {
         void DragEnter(IntPtr hwndTarget, IDataObject pDataObject, ref POINT ppt, int effect);
         void DragLeave();
         void DragOver(ref POINT ppt, int effect);
@@ -2532,19 +2348,16 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
     internal delegate IntPtr MessageHandler(WM uMsg, IntPtr wParam, IntPtr lParam, out bool handled);
 
     // Some native methods are shimmed through public versions that handle converting failures into thrown exceptions.
-    internal static class NativeMethods
-    {
+    internal static class NativeMethods {
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         [DllImport("user32.dll", EntryPoint = "AdjustWindowRectEx", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool _AdjustWindowRectEx(ref RECT lpRect, WS dwStyle, [MarshalAs(UnmanagedType.Bool)] bool bMenu, WS_EX dwExStyle);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static RECT AdjustWindowRectEx(RECT lpRect, WS dwStyle, bool bMenu, WS_EX dwExStyle)
-        {
+        public static RECT AdjustWindowRectEx(RECT lpRect, WS dwStyle, bool bMenu, WS_EX dwExStyle) {
             // Native version modifies the parameter in place.
-            if (!_AdjustWindowRectEx(ref lpRect, dwStyle, bMenu, dwExStyle))
-            {
+            if (!_AdjustWindowRectEx(ref lpRect, dwStyle, bMenu, dwExStyle)) {
                 HRESULT.ThrowLastError();
             }
 
@@ -2557,17 +2370,14 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         private static extern bool _AllowSetForegroundWindow(int dwProcessId);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static void AllowSetForegroundWindow()
-        {
+        public static void AllowSetForegroundWindow() {
             int ASFW_ANY = -1;
             AllowSetForegroundWindow(ASFW_ANY);
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static void AllowSetForegroundWindow(int dwProcessId)
-        {
-            if (!_AllowSetForegroundWindow(dwProcessId))
-            {
+        public static void AllowSetForegroundWindow(int dwProcessId) {
+            if (!_AllowSetForegroundWindow(dwProcessId)) {
                 HRESULT.ThrowLastError();
             }
         }
@@ -2585,28 +2395,24 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         // Note that processes at or below SECURITY_MANDATORY_LOW_RID are not allowed to change the message filter.
         // If those processes call this function, it will fail and generate the extended error code, ERROR_ACCESS_DENIED.
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static HRESULT ChangeWindowMessageFilterEx(IntPtr hwnd, WM message, MSGFLT action, out MSGFLTINFO filterInfo)
-        {
+        public static HRESULT ChangeWindowMessageFilterEx(IntPtr hwnd, WM message, MSGFLT action, out MSGFLTINFO filterInfo) {
             filterInfo = MSGFLTINFO.NONE;
 
             bool ret;
 
             // This origins of this API were added for Vista.  The Ex version was added for Windows 7.
             // If we're not on either, then this message filter isolation doesn't exist.
-            if (!Utility.IsOSVistaOrNewer)
-            {
+            if (!Utility.IsOSVistaOrNewer) {
                 return HRESULT.S_FALSE;
             }
 
             // If we're on Vista rather than Win7 then we can't use the Ex version of this function.
             // The Ex version is preferred if possible because this results in process-wide modifications of the filter
             // and is deprecated as of Win7.
-            if (!Utility.IsOSWindows7OrNewer)
-            {
+            if (!Utility.IsOSWindows7OrNewer) {
                 // Note that the Win7 MSGFLT_ALLOW/DISALLOW enum values map to the Vista MSGFLT_ADD/REMOVE
                 ret = _ChangeWindowMessageFilter(message, action);
-                if (!ret)
-                {
+                if (!ret) {
                     return (HRESULT)Win32Error.GetLastError();
                 }
                 return HRESULT.S_OK;
@@ -2614,8 +2420,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
 
             var filterstruct = new CHANGEFILTERSTRUCT { cbSize = (uint)Marshal.SizeOf(typeof(CHANGEFILTERSTRUCT)) };
             ret = _ChangeWindowMessageFilterEx(hwnd, message, action, ref filterstruct);
-            if (!ret)
-            {
+            if (!ret) {
                 return (HRESULT)Win32Error.GetLastError();
             }
 
@@ -2636,30 +2441,25 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         private static extern IntPtr _CommandLineToArgvW([MarshalAs(UnmanagedType.LPWStr)] string cmdLine, out int numArgs);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static string[] CommandLineToArgvW(string cmdLine)
-        {
+        public static string[] CommandLineToArgvW(string cmdLine) {
             IntPtr argv = IntPtr.Zero;
-            try
-            {
+            try {
                 int numArgs = 0;
 
                 argv = _CommandLineToArgvW(cmdLine, out numArgs);
-                if (argv == IntPtr.Zero)
-                {
+                if (argv == IntPtr.Zero) {
                     throw new Win32Exception();
                 }
                 var result = new string[numArgs];
 
-                for (int i = 0; i < numArgs; i++)
-                {
+                for (int i = 0; i < numArgs; i++) {
                     IntPtr currArg = Marshal.ReadIntPtr(argv, i * Marshal.SizeOf(typeof(IntPtr)));
                     result[i] = Marshal.PtrToStringUni(currArg);
                 }
 
                 return result;
             }
-            finally
-            {
+            finally {
 
                 IntPtr p = _LocalFree(argv);
                 // Otherwise LocalFree failed.
@@ -2676,21 +2476,17 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         private static extern SafeHBITMAP _CreateDIBSectionIntPtr(IntPtr hdc, [In] ref BITMAPINFO bitmapInfo, int iUsage, [Out] out IntPtr ppvBits, IntPtr hSection, int dwOffset);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static SafeHBITMAP CreateDIBSection(SafeDC hdc, ref BITMAPINFO bitmapInfo, out IntPtr ppvBits, IntPtr hSection, int dwOffset)
-        {
+        public static SafeHBITMAP CreateDIBSection(SafeDC hdc, ref BITMAPINFO bitmapInfo, out IntPtr ppvBits, IntPtr hSection, int dwOffset) {
             const int DIB_RGB_COLORS = 0;
             SafeHBITMAP hBitmap = null;
-            if (hdc == null)
-            {
+            if (hdc == null) {
                 hBitmap = _CreateDIBSectionIntPtr(IntPtr.Zero, ref bitmapInfo, DIB_RGB_COLORS, out ppvBits, hSection, dwOffset);
             }
-            else
-            {
+            else {
                 hBitmap = _CreateDIBSection(hdc, ref bitmapInfo, DIB_RGB_COLORS, out ppvBits, hSection, dwOffset);
             }
 
-            if (hBitmap.IsInvalid)
-            {
+            if (hBitmap.IsInvalid) {
                 HRESULT.ThrowLastError();
             }
 
@@ -2702,11 +2498,9 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         private static extern IntPtr _CreateRoundRectRgn(int nLeftRect, int nTopRect, int nRightRect, int nBottomRect, int nWidthEllipse, int nHeightEllipse);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static IntPtr CreateRoundRectRgn(int nLeftRect, int nTopRect, int nRightRect, int nBottomRect, int nWidthEllipse, int nHeightEllipse)
-        {
+        public static IntPtr CreateRoundRectRgn(int nLeftRect, int nTopRect, int nRightRect, int nBottomRect, int nWidthEllipse, int nHeightEllipse) {
             IntPtr ret = _CreateRoundRectRgn(nLeftRect, nTopRect, nRightRect, nBottomRect, nWidthEllipse, nHeightEllipse);
-            if (IntPtr.Zero == ret)
-            {
+            if (IntPtr.Zero == ret) {
                 throw new Win32Exception();
             }
             return ret;
@@ -2717,11 +2511,9 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         private static extern IntPtr _CreateRectRgn(int nLeftRect, int nTopRect, int nRightRect, int nBottomRect);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static IntPtr CreateRectRgn(int nLeftRect, int nTopRect, int nRightRect, int nBottomRect)
-        {
+        public static IntPtr CreateRectRgn(int nLeftRect, int nTopRect, int nRightRect, int nBottomRect) {
             IntPtr ret = _CreateRectRgn(nLeftRect, nTopRect, nRightRect, nBottomRect);
-            if (IntPtr.Zero == ret)
-            {
+            if (IntPtr.Zero == ret) {
                 throw new Win32Exception();
             }
             return ret;
@@ -2732,11 +2524,9 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         private static extern IntPtr _CreateRectRgnIndirect([In] ref RECT lprc);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static IntPtr CreateRectRgnIndirect(RECT lprc)
-        {
+        public static IntPtr CreateRectRgnIndirect(RECT lprc) {
             IntPtr ret = _CreateRectRgnIndirect(ref lprc);
-            if (IntPtr.Zero == ret)
-            {
+            if (IntPtr.Zero == ret) {
                 throw new Win32Exception();
             }
             return ret;
@@ -2775,11 +2565,9 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
             IntPtr hWndParent,
             IntPtr hMenu,
             IntPtr hInstance,
-            IntPtr lpParam)
-        {
+            IntPtr lpParam) {
             IntPtr ret = _CreateWindowEx(dwExStyle, lpClassName, lpWindowName, dwStyle, x, y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
-            if (IntPtr.Zero == ret)
-            {
+            if (IntPtr.Zero == ret) {
                 HRESULT.ThrowLastError();
             }
 
@@ -2819,14 +2607,11 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         private static extern HRESULT _DwmGetColorizationColor(out uint pcrColorization, [Out, MarshalAs(UnmanagedType.Bool)] out bool pfOpaqueBlend);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static bool DwmGetColorizationColor(out uint pcrColorization, out bool pfOpaqueBlend)
-        {
+        public static bool DwmGetColorizationColor(out uint pcrColorization, out bool pfOpaqueBlend) {
             // Make this call safe to make on downlevel OSes...
-            if (Utility.IsOSVistaOrNewer && IsThemeActive())
-            {
+            if (Utility.IsOSVistaOrNewer && IsThemeActive()) {
                 HRESULT hr = _DwmGetColorizationColor(out pcrColorization, out pfOpaqueBlend);
-                if (hr.Succeeded)
-                {
+                if (hr.Succeeded) {
                     return true;
                 }
             }
@@ -2847,18 +2632,15 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         private static extern HRESULT _DwmGetCompositionTimingInfo(IntPtr hwnd, ref DWM_TIMING_INFO pTimingInfo);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static DWM_TIMING_INFO? DwmGetCompositionTimingInfo(IntPtr hwnd)
-        {
-            if (!Utility.IsOSVistaOrNewer)
-            {
+        public static DWM_TIMING_INFO? DwmGetCompositionTimingInfo(IntPtr hwnd) {
+            if (!Utility.IsOSVistaOrNewer) {
                 // API was new to Vista.
                 return null;
             }
 
             var dti = new DWM_TIMING_INFO { cbSize = Marshal.SizeOf(typeof(DWM_TIMING_INFO)) };
             HRESULT hr = _DwmGetCompositionTimingInfo(hwnd, ref dti);
-            if (hr == HRESULT.E_PENDING)
-            {
+            if (hr == HRESULT.E_PENDING) {
                 // The system isn't yet ready to respond.  Return null rather than throw.
                 return null;
             }
@@ -2873,11 +2655,9 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         private static extern bool _DwmIsCompositionEnabled();
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static bool DwmIsCompositionEnabled()
-        {
+        public static bool DwmIsCompositionEnabled() {
             // Make this call safe to make on downlevel OSes...
-            if (!Utility.IsOSVistaOrNewer)
-            {
+            if (!Utility.IsOSVistaOrNewer) {
                 return false;
             }
             return _DwmIsCompositionEnabled();
@@ -2893,16 +2673,14 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         private static extern void _DwmSetWindowAttribute(IntPtr hwnd, DWMWA dwAttribute, ref int pvAttribute, int cbAttribute);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static void DwmSetWindowAttributeFlip3DPolicy(IntPtr hwnd, DWMFLIP3D flip3dPolicy)
-        {
+        public static void DwmSetWindowAttributeFlip3DPolicy(IntPtr hwnd, DWMFLIP3D flip3dPolicy) {
             Assert.IsTrue(Utility.IsOSVistaOrNewer);
             var dwPolicy = (int)flip3dPolicy;
-            _DwmSetWindowAttribute(hwnd, DWMWA.FLIP3D_POLICY, ref dwPolicy, sizeof(int)); 
+            _DwmSetWindowAttribute(hwnd, DWMWA.FLIP3D_POLICY, ref dwPolicy, sizeof(int));
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static void DwmSetWindowAttributeDisallowPeek(IntPtr hwnd, bool disallowPeek)
-        {
+        public static void DwmSetWindowAttributeDisallowPeek(IntPtr hwnd, bool disallowPeek) {
             Assert.IsTrue(Utility.IsOSWindows7OrNewer);
             int dwDisallow = (int)(disallowPeek ? Win32Value.TRUE : Win32Value.FALSE);
             _DwmSetWindowAttribute(hwnd, DWMWA.DISALLOW_PEEK, ref dwDisallow, sizeof(int));
@@ -2913,8 +2691,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         private static extern int _EnableMenuItem(IntPtr hMenu, SC uIDEnableItem, MF uEnable);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static MF EnableMenuItem(IntPtr hMenu, SC uIDEnableItem, MF uEnable)
-        {
+        public static MF EnableMenuItem(IntPtr hMenu, SC uIDEnableItem, MF uEnable) {
             // Returns the previous state of the menu item, or -1 if the menu item does not exist.
             int iRet = _EnableMenuItem(hMenu, uIDEnableItem, uEnable);
             return (MF)iRet;
@@ -2926,10 +2703,8 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         private static extern bool _RemoveMenu(IntPtr hMenu, uint uPosition, uint uFlags);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static void RemoveMenu(IntPtr hMenu, SC uPosition, MF uFlags)
-        {
-            if (!_RemoveMenu(hMenu, (uint)uPosition, (uint)uFlags))
-            {
+        public static void RemoveMenu(IntPtr hMenu, SC uPosition, MF uFlags) {
+            if (!_RemoveMenu(hMenu, (uint)uPosition, (uint)uFlags)) {
                 throw new Win32Exception();
             }
         }
@@ -2940,10 +2715,8 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         private static extern bool _DrawMenuBar(IntPtr hWnd);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static void DrawMenuBar(IntPtr hWnd)
-        {
-            if (!_DrawMenuBar(hWnd))
-            {
+        public static void DrawMenuBar(IntPtr hWnd) {
+            if (!_DrawMenuBar(hWnd)) {
                 throw new Win32Exception();
             }
         }
@@ -2971,11 +2744,9 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         private static extern bool _GetClientRect(IntPtr hwnd, [Out] out RECT lpRect);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static RECT GetClientRect(IntPtr hwnd)
-        {
+        public static RECT GetClientRect(IntPtr hwnd) {
             RECT rc;
-            if (!_GetClientRect(hwnd, out rc))
-            {
+            if (!_GetClientRect(hwnd, out rc)) {
                 HRESULT.ThrowLastError();
             }
             return rc;
@@ -2987,11 +2758,9 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         private static extern bool _GetCursorPos(out POINT lpPoint);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static POINT GetCursorPos()
-        {
+        public static POINT GetCursorPos() {
             POINT pt;
-            if (!_GetCursorPos(out pt))
-            {
+            if (!_GetCursorPos(out pt)) {
                 HRESULT.ThrowLastError();
             }
 
@@ -3009,8 +2778,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
             int cchMaxSizeChars);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static void GetCurrentThemeName(out string themeFileName, out string color, out string size)
-        {
+        public static void GetCurrentThemeName(out string themeFileName, out string color, out string size) {
             // Not expecting strings longer than MAX_PATH.  We will return the error 
             var fileNameBuilder = new StringBuilder((int)Win32Value.MAX_PATH);
             var colorBuilder = new StringBuilder((int)Win32Value.MAX_PATH);
@@ -3045,21 +2813,17 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         private static extern int _GetModuleFileName(IntPtr hModule, StringBuilder lpFilename, int nSize);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static string GetModuleFileName(IntPtr hModule)
-        {
+        public static string GetModuleFileName(IntPtr hModule) {
             var buffer = new StringBuilder((int)Win32Value.MAX_PATH);
-            while (true)
-            {
+            while (true) {
                 int size = _GetModuleFileName(hModule, buffer, buffer.Capacity);
-                if (size == 0)
-                {
+                if (size == 0) {
                     HRESULT.ThrowLastError();
                 }
 
                 // GetModuleFileName returns nSize when it's truncated but does NOT set the last error.
                 // MSDN documentation says this has changed in Windows 2000+.
-                if (size == buffer.Capacity)
-                {
+                if (size == buffer.Capacity) {
                     // Enlarge the buffer and try again.
                     buffer.EnsureCapacity(buffer.Capacity * 2);
                     continue;
@@ -3074,11 +2838,9 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         private static extern IntPtr _GetModuleHandle([MarshalAs(UnmanagedType.LPWStr)] string lpModuleName);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static IntPtr GetModuleHandle(string lpModuleName)
-        {
+        public static IntPtr GetModuleHandle(string lpModuleName) {
             IntPtr retPtr = _GetModuleHandle(lpModuleName);
-            if (retPtr == IntPtr.Zero)
-            {
+            if (retPtr == IntPtr.Zero) {
                 HRESULT.ThrowLastError();
             }
             return retPtr;
@@ -3090,11 +2852,9 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         private static extern bool _GetMonitorInfo(IntPtr hMonitor, [In, Out] MONITORINFO lpmi);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static MONITORINFO GetMonitorInfo(IntPtr hMonitor)
-        {
+        public static MONITORINFO GetMonitorInfo(IntPtr hMonitor) {
             var mi = new MONITORINFO();
-            if (!_GetMonitorInfo(hMonitor, mi))
-            {
+            if (!_GetMonitorInfo(hMonitor, mi)) {
                 throw new Win32Exception();
             }
             return mi;
@@ -3106,11 +2866,9 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         private static extern bool _GetMonitorInfoW([In] IntPtr hMonitor, [Out] MONITORINFO lpmi);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static MONITORINFO GetMonitorInfoW(IntPtr hMonitor)
-        {
+        public static MONITORINFO GetMonitorInfoW(IntPtr hMonitor) {
             var mi = new MONITORINFO();
-            if (!_GetMonitorInfoW(hMonitor, mi))
-            {
+            if (!_GetMonitorInfoW(hMonitor, mi)) {
                 throw new Win32Exception();
             }
             return mi;
@@ -3121,11 +2879,9 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         private static extern IntPtr _GetStockObject(StockObject fnObject);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static IntPtr GetStockObject(StockObject fnObject)
-        {
+        public static IntPtr GetStockObject(StockObject fnObject) {
             IntPtr retPtr = _GetStockObject(fnObject);
-            if (retPtr == null)
-            {
+            if (retPtr == null) {
                 HRESULT.ThrowLastError();
             }
             return retPtr;
@@ -3143,14 +2899,11 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         [DllImport("user32.dll", CharSet = CharSet.None, SetLastError = true, EntryPoint = "GetWindowInfo")]
         private static extern bool _GetWindowInfo(IntPtr hWnd, ref WINDOWINFO pwi);
 
-        public static WINDOWINFO GetWindowInfo(IntPtr hWnd)
-        {
-            WINDOWINFO info = new WINDOWINFO()
-            {
-                 cbSize = Marshal.SizeOf(typeof(WINDOWINFO))
+        public static WINDOWINFO GetWindowInfo(IntPtr hWnd) {
+            WINDOWINFO info = new WINDOWINFO() {
+                cbSize = Marshal.SizeOf(typeof(WINDOWINFO))
             };
-            if (!_GetWindowInfo(hWnd, ref info))
-            {
+            if (!_GetWindowInfo(hWnd, ref info)) {
                 HRESULT.ThrowLastError();
             }
             return info;
@@ -3158,34 +2911,28 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
 
         // This is aliased as a macro in 32bit Windows.
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static IntPtr GetWindowLongPtr(IntPtr hwnd, GWL nIndex)
-        {
+        public static IntPtr GetWindowLongPtr(IntPtr hwnd, GWL nIndex) {
             IntPtr ret = IntPtr.Zero;
-            if (8 == IntPtr.Size)
-            {
+            if (8 == IntPtr.Size) {
                 ret = GetWindowLongPtr64(hwnd, nIndex);
             }
-            else
-            {
+            else {
                 ret = new IntPtr(GetWindowLongPtr32(hwnd, nIndex));
             }
-            if (IntPtr.Zero == ret)
-            {
+            if (IntPtr.Zero == ret) {
                 throw new Win32Exception();
             }
             return ret;
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DllImport("user32.dll", EntryPoint="SetProp", CharSet=CharSet.Unicode, SetLastError=true)]
+        [DllImport("user32.dll", EntryPoint = "SetProp", CharSet = CharSet.Unicode, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool _SetProp(IntPtr hWnd, [MarshalAs(UnmanagedType.LPWStr)] string lpString, IntPtr hData);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static void SetProp(IntPtr hwnd, string lpString, IntPtr hData)
-        {
-            if (!_SetProp(hwnd, lpString, hData))
-            {
+        public static void SetProp(IntPtr hwnd, string lpString, IntPtr hData) {
+            if (!_SetProp(hwnd, lpString, hData)) {
                 HRESULT.ThrowLastError();
             }
         }
@@ -3229,11 +2976,9 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         private static extern bool GetWindowPlacement(IntPtr hwnd, WINDOWPLACEMENT lpwndpl);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static WINDOWPLACEMENT GetWindowPlacement(IntPtr hwnd)
-        {
+        public static WINDOWPLACEMENT GetWindowPlacement(IntPtr hwnd) {
             WINDOWPLACEMENT wndpl = new WINDOWPLACEMENT();
-            if (GetWindowPlacement(hwnd, wndpl))
-            {
+            if (GetWindowPlacement(hwnd, wndpl)) {
                 return wndpl;
             }
             throw new Win32Exception();
@@ -3245,11 +2990,9 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         private static extern bool _GetWindowRect(IntPtr hWnd, out RECT lpRect);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static RECT GetWindowRect(IntPtr hwnd)
-        {
+        public static RECT GetWindowRect(IntPtr hwnd) {
             RECT rc;
-            if (!_GetWindowRect(hwnd, out rc))
-            {
+            if (!_GetWindowRect(hwnd, out rc)) {
                 HRESULT.ThrowLastError();
             }
             return rc;
@@ -3306,10 +3049,8 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         private static extern bool _PostMessage(IntPtr hWnd, WM Msg, IntPtr wParam, IntPtr lParam);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static void PostMessage(IntPtr hWnd, WM Msg, IntPtr wParam, IntPtr lParam)
-        {
-            if (!_PostMessage(hWnd, Msg, wParam, lParam))
-            {
+        public static void PostMessage(IntPtr hWnd, WM Msg, IntPtr wParam, IntPtr lParam) {
+            if (!_PostMessage(hWnd, Msg, wParam, lParam)) {
                 throw new Win32Exception();
             }
         }
@@ -3322,11 +3063,9 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         // If needed, consider adding a Try* version of this function that returns the error code since that
         // may be ignorable.
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static short RegisterClassEx(ref WNDCLASSEX lpwcx)
-        {
+        public static short RegisterClassEx(ref WNDCLASSEX lpwcx) {
             short ret = _RegisterClassEx(ref lpwcx);
-            if (ret == 0)
-            {
+            if (ret == 0) {
                 HRESULT.ThrowLastError();
             }
 
@@ -3338,11 +3077,9 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         private static extern uint _RegisterWindowMessage([MarshalAs(UnmanagedType.LPWStr)] string lpString);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static WM RegisterWindowMessage(string lpString)
-        {
+        public static WM RegisterWindowMessage(string lpString) {
             uint iRet = _RegisterWindowMessage(lpString);
-            if (iRet == 0)
-            {
+            if (iRet == 0) {
                 HRESULT.ThrowLastError();
             }
             return (WM)iRet;
@@ -3353,12 +3090,10 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         private static extern IntPtr _SetActiveWindow(IntPtr hWnd);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static IntPtr SetActiveWindow(IntPtr hwnd)
-        {
+        public static IntPtr SetActiveWindow(IntPtr hwnd) {
             Verify.IsNotDefault(hwnd, "hwnd");
             IntPtr ret = _SetActiveWindow(hwnd);
-            if (ret == IntPtr.Zero)
-            {
+            if (ret == IntPtr.Zero) {
                 HRESULT.ThrowLastError();
             }
 
@@ -3367,10 +3102,8 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
 
         // This is aliased as a macro in 32bit Windows.
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static IntPtr SetClassLongPtr(IntPtr hwnd, GCLP nIndex, IntPtr dwNewLong)
-        {
-            if (8 == IntPtr.Size)
-            {
+        public static IntPtr SetClassLongPtr(IntPtr hwnd, GCLP nIndex, IntPtr dwNewLong) {
+            if (8 == IntPtr.Size) {
                 return SetClassLongPtr64(hwnd, nIndex, dwNewLong);
             }
             return new IntPtr(SetClassLongPtr32(hwnd, nIndex, dwNewLong.ToInt32()));
@@ -3396,20 +3129,16 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         private static extern bool _SetProcessWorkingSetSize(IntPtr hProcess, IntPtr dwMinimiumWorkingSetSize, IntPtr dwMaximumWorkingSetSize);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static void SetProcessWorkingSetSize(IntPtr hProcess, int dwMinimumWorkingSetSize, int dwMaximumWorkingSetSize)
-        {
-            if (!_SetProcessWorkingSetSize(hProcess, new IntPtr(dwMinimumWorkingSetSize), new IntPtr(dwMaximumWorkingSetSize)))
-            {
+        public static void SetProcessWorkingSetSize(IntPtr hProcess, int dwMinimumWorkingSetSize, int dwMaximumWorkingSetSize) {
+            if (!_SetProcessWorkingSetSize(hProcess, new IntPtr(dwMinimumWorkingSetSize), new IntPtr(dwMaximumWorkingSetSize))) {
                 throw new Win32Exception();
             }
         }
 
         // This is aliased as a macro in 32bit Windows.
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static IntPtr SetWindowLongPtr(IntPtr hwnd, GWL nIndex, IntPtr dwNewLong)
-        {
-            if (8 == IntPtr.Size)
-            {
+        public static IntPtr SetWindowLongPtr(IntPtr hwnd, GWL nIndex, IntPtr dwNewLong) {
+            if (8 == IntPtr.Size) {
                 return SetWindowLongPtr64(hwnd, nIndex, dwNewLong);
             }
             return new IntPtr(SetWindowLongPtr32(hwnd, nIndex, dwNewLong.ToInt32()));
@@ -3430,11 +3159,9 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         private static extern int _SetWindowRgn(IntPtr hWnd, IntPtr hRgn, [MarshalAs(UnmanagedType.Bool)] bool bRedraw);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static void SetWindowRgn(IntPtr hWnd, IntPtr hRgn, bool bRedraw)
-        {
+        public static void SetWindowRgn(IntPtr hWnd, IntPtr hRgn, bool bRedraw) {
             int err = _SetWindowRgn(hWnd, hRgn, bRedraw);
-            if (0 == err)
-            {
+            if (0 == err) {
                 throw new Win32Exception();
             }
         }
@@ -3445,10 +3172,8 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         private static extern bool _SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int x, int y, int cx, int cy, SWP uFlags);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static void SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int x, int y, int cx, int cy, SWP uFlags)
-        {
-            if (!_SetWindowPos(hWnd, hWndInsertAfter, x, y, cx, cy, uFlags))
-            {
+        public static void SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int x, int y, int cx, int cy, SWP uFlags) {
+            if (!_SetWindowPos(hWnd, hWndInsertAfter, x, y, cx, cy, uFlags)) {
                 throw new Win32Exception();
             }
         }
@@ -3475,23 +3200,19 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         private static extern bool _SystemParametersInfo_HIGHCONTRAST(SPI uiAction, int uiParam, [In, Out] ref HIGHCONTRAST pvParam, SPIF fWinIni);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static void SystemParametersInfo(SPI uiAction, int uiParam, string pvParam, SPIF fWinIni)
-        {
-            if (!_SystemParametersInfo_String(uiAction, uiParam, pvParam, fWinIni))
-            {
+        public static void SystemParametersInfo(SPI uiAction, int uiParam, string pvParam, SPIF fWinIni) {
+            if (!_SystemParametersInfo_String(uiAction, uiParam, pvParam, fWinIni)) {
                 HRESULT.ThrowLastError();
             }
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static NONCLIENTMETRICS SystemParameterInfo_GetNONCLIENTMETRICS()
-        {
+        public static NONCLIENTMETRICS SystemParameterInfo_GetNONCLIENTMETRICS() {
             var metrics = Utility.IsOSVistaOrNewer
                 ? NONCLIENTMETRICS.VistaMetricsStruct
                 : NONCLIENTMETRICS.XPMetricsStruct;
 
-            if (!_SystemParametersInfo_NONCLIENTMETRICS(SPI.GETNONCLIENTMETRICS, metrics.cbSize, ref metrics, SPIF.None))
-            {
+            if (!_SystemParametersInfo_NONCLIENTMETRICS(SPI.GETNONCLIENTMETRICS, metrics.cbSize, ref metrics, SPIF.None)) {
                 HRESULT.ThrowLastError();
             }
 
@@ -3500,12 +3221,10 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         [SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands")]
-        public static HIGHCONTRAST SystemParameterInfo_GetHIGHCONTRAST()
-        {
+        public static HIGHCONTRAST SystemParameterInfo_GetHIGHCONTRAST() {
             var hc = new HIGHCONTRAST { cbSize = Marshal.SizeOf(typeof(HIGHCONTRAST)) };
 
-            if (!_SystemParametersInfo_HIGHCONTRAST(SPI.GETHIGHCONTRAST, hc.cbSize, ref hc, SPIF.None))
-            {
+            if (!_SystemParametersInfo_HIGHCONTRAST(SPI.GETHIGHCONTRAST, hc.cbSize, ref hc, SPIF.None)) {
                 HRESULT.ThrowLastError();
             }
 
@@ -3523,11 +3242,9 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         private static extern IntPtr _SelectObject(SafeDC hdc, IntPtr hgdiobj);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static IntPtr SelectObject(SafeDC hdc, IntPtr hgdiobj)
-        {
+        public static IntPtr SelectObject(SafeDC hdc, IntPtr hgdiobj) {
             IntPtr ret = _SelectObject(hdc, hgdiobj);
-            if (ret == IntPtr.Zero)
-            {
+            if (ret == IntPtr.Zero) {
                 HRESULT.ThrowLastError();
             }
             return ret;
@@ -3538,11 +3255,9 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         private static extern IntPtr _SelectObjectSafeHBITMAP(SafeDC hdc, SafeHBITMAP hgdiobj);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static IntPtr SelectObject(SafeDC hdc, SafeHBITMAP hgdiobj)
-        {
+        public static IntPtr SelectObject(SafeDC hdc, SafeHBITMAP hgdiobj) {
             IntPtr ret = _SelectObjectSafeHBITMAP(hdc, hgdiobj);
-            if (ret == IntPtr.Zero)
-            {
+            if (ret == IntPtr.Zero) {
                 HRESULT.ThrowLastError();
             }
             return ret;
@@ -3573,19 +3288,15 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         private static extern bool _UnregisterClassName(string lpClassName, IntPtr hInstance);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static void UnregisterClass(short atom, IntPtr hinstance)
-        {
-            if (!_UnregisterClassAtom(new IntPtr(atom), hinstance))
-            {
+        public static void UnregisterClass(short atom, IntPtr hinstance) {
+            if (!_UnregisterClassAtom(new IntPtr(atom), hinstance)) {
                 HRESULT.ThrowLastError();
             }
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static void UnregisterClass(string lpClassName, IntPtr hInstance)
-        {
-            if (!_UnregisterClassName(lpClassName, hInstance))
-            {
+        public static void UnregisterClass(string lpClassName, IntPtr hInstance) {
+            if (!_UnregisterClassName(lpClassName, hInstance)) {
                 HRESULT.ThrowLastError();
             }
         }
@@ -3594,11 +3305,11 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         [DllImport("user32.dll", SetLastError = true, EntryPoint = "UpdateLayeredWindow")]
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool _UpdateLayeredWindow(
-            IntPtr hwnd, 
-            SafeDC hdcDst, 
-            [In] ref POINT pptDst, 
-            [In] ref SIZE psize, 
-            SafeDC hdcSrc, 
+            IntPtr hwnd,
+            SafeDC hdcDst,
+            [In] ref POINT pptDst,
+            [In] ref SIZE psize,
+            SafeDC hdcSrc,
             [In] ref POINT pptSrc,
             int crKey,
             ref BLENDFUNCTION pblend,
@@ -3628,10 +3339,8 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
             ref POINT pptSrc,
             int crKey,
             ref BLENDFUNCTION pblend,
-            ULW dwFlags)
-        {
-            if (!_UpdateLayeredWindow(hwnd, hdcDst, ref pptDst, ref psize, hdcSrc, ref pptSrc, crKey, ref pblend, dwFlags))
-            {
+            ULW dwFlags) {
+            if (!_UpdateLayeredWindow(hwnd, hdcDst, ref pptDst, ref psize, hdcSrc, ref pptSrc, crKey, ref pblend, dwFlags)) {
                 HRESULT.ThrowLastError();
             }
         }
@@ -3641,10 +3350,8 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
             IntPtr hwnd,
             int crKey,
             ref BLENDFUNCTION pblend,
-            ULW dwFlags)
-        {
-            if (!_UpdateLayeredWindowIntPtr(hwnd, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, crKey, ref pblend, dwFlags))
-            {
+            ULW dwFlags) {
+            if (!_UpdateLayeredWindowIntPtr(hwnd, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, crKey, ref pblend, dwFlags)) {
                 HRESULT.ThrowLastError();
             }
         }
@@ -3654,11 +3361,9 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         private static extern uint _RegisterClipboardFormat(string lpszFormatName);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static uint RegisterClipboardFormat(string formatName)
-        {
+        public static uint RegisterClipboardFormat(string formatName) {
             uint ret = _RegisterClipboardFormat(formatName);
-            if (ret == 0)
-            {
+            if (ret == 0) {
                 HRESULT.ThrowLastError();
             }
 
@@ -3720,27 +3425,23 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         private static extern void _SHAddToRecentDocs_ShellLink(SHARD uFlags, IShellLinkW pv);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static void SHAddToRecentDocs(string path)
-        {
+        public static void SHAddToRecentDocs(string path) {
             _SHAddToRecentDocs_String(SHARD.PATHW, path);
         }
 
         // Win7 only.
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static void SHAddToRecentDocs(IShellLinkW shellLink)
-        {
+        public static void SHAddToRecentDocs(IShellLinkW shellLink) {
             _SHAddToRecentDocs_ShellLink(SHARD.LINK, shellLink);
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static void SHAddToRecentDocs(SHARDAPPIDINFO info)
-        {
+        public static void SHAddToRecentDocs(SHARDAPPIDINFO info) {
             _SHAddToRecentDocsObj(SHARD.APPIDINFO, info);
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static void SHAddToRecentDocs(SHARDAPPIDINFOIDLIST infodIdList)
-        {
+        public static void SHAddToRecentDocs(SHARDAPPIDINFOIDLIST infodIdList) {
             _SHAddToRecentDocsObj(SHARD.APPIDINFOIDLIST, infodIdList);
         }
 

@@ -1,11 +1,8 @@
 ﻿using System;
 
-namespace NTMiner.Native
-{
-    internal static class Constants
-    {
-        public enum ShowWindowCommands
-        {
+namespace NTMiner.Native {
+    internal static class Constants {
+        public enum ShowWindowCommands {
             /// <summary>
             ///        Hides the window and activates another window.
             /// </summary>
@@ -68,8 +65,7 @@ namespace NTMiner.Native
         }
 
         [Flags()]
-        public enum RedrawWindowFlags : uint
-        {
+        public enum RedrawWindowFlags : uint {
             /// <summary>
             /// Invalidates the rectangle or region that you specify in lprcUpdate or hrgnUpdate.
             /// You can set only one of these parameters to a non-NULL value. If both are NULL, RDW_INVALIDATE invalidates the entire window.

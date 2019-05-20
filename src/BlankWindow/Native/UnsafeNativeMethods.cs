@@ -6,12 +6,10 @@ using System.Security;
 using System.Text;
 using System.Windows;
 
-namespace NTMiner.Native
-{
+namespace NTMiner.Native {
     /// <devdoc>http://msdn.microsoft.com/en-us/library/ms182161.aspx</devdoc>
     [SuppressUnmanagedCodeSecurity]
-    internal static class UnsafeNativeMethods 
-    {
+    internal static class UnsafeNativeMethods {
         /// <devdoc>http://msdn.microsoft.com/en-us/library/windows/desktop/aa969518%28v=vs.85%29.aspx</devdoc>
         [DllImport("dwmapi", PreserveSig = false, CallingConvention = CallingConvention.Winapi)]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -156,24 +154,20 @@ namespace NTMiner.Native
         [DllImport("user32.dll")]
         public static extern bool ReleaseCapture();
 
-        internal static void PostMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam)
-        {
-            if (!_PostMessage(hWnd, Msg, wParam, lParam))
-            {
+        internal static void PostMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam) {
+            if (!_PostMessage(hWnd, Msg, wParam, lParam)) {
                 throw new Win32Exception();
             }
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        internal struct Win32Point
-        {
+        internal struct Win32Point {
             public readonly Int32 X;
             public readonly Int32 Y;
         };
 
         // See: http://stackoverflow.com/questions/7913325/win-api-in-c-get-hi-and-low-word-from-intptr/7913393#7913393
-        internal static Point GetPoint(IntPtr ptr)
-        {
+        internal static Point GetPoint(IntPtr ptr) {
             uint xy = unchecked(IntPtr.Size == 8 ? (uint)ptr.ToInt64() : (uint)ptr.ToInt32());
             int x = unchecked((short)xy);
             int y = unchecked((short)(xy >> 16));
@@ -225,6 +219,6 @@ namespace NTMiner.Native
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         [DllImport("user32.dll", SetLastError = true)]
-        internal static extern bool RedrawWindow(IntPtr hWnd, IntPtr lprcUpdate, IntPtr hrgnUpdate, Constants.RedrawWindowFlags flags); 
+        internal static extern bool RedrawWindow(IntPtr hWnd, IntPtr lprcUpdate, IntPtr hrgnUpdate, Constants.RedrawWindowFlags flags);
     }
 }

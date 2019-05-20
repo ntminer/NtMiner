@@ -11,16 +11,13 @@ using System.Threading;
 // they're not particular to any library functionality.
 // Because the classes here are internal, it's likely this file
 // might be included in multiple assemblies.
-namespace NTMiner.Microsoft.Windows.Shell.Standard
-{
+namespace NTMiner.Microsoft.Windows.Shell.Standard {
     /// <summary>A static class for verifying assumptions.</summary>
-    internal static class Assert
-    {
+    internal static class Assert {
         // Blend and VS don't like Debugger.Break being called on their design surfaces.  Badness will happen.
         //private static readonly bool _isNotAtRuntime = (bool)System.ComponentModel.DesignerProperties.IsInDesignModeProperty.GetMetadata(typeof(System.Windows.DependencyObject)).DefaultValue;
 
-        private static void _Break()
-        {
+        private static void _Break() {
             //if (!_isNotAtRuntime)
             {
 #if DEV_DEBUG
@@ -43,8 +40,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         /// </summary>
         /// <param name="argument">The function to execute.</param>
         [Conditional("DEBUG")]
-        public static void Evaluate(EvaluateFunction argument)
-        {
+        public static void Evaluate(EvaluateFunction argument) {
             IsNotNull(argument);
             argument();
         }
@@ -57,8 +53,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
             Obsolete("Use Assert.AreEqual instead of Assert.Equals", false),
             Conditional("DEBUG")
         ]
-        public static void Equals<T>(T expected, T actual)
-        {
+        public static void Equals<T>(T expected, T actual) {
             AreEqual(expected, actual);
         }
 
@@ -70,41 +65,33 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         /// <param name="actual">The second generic type data to compare.  This is the actual value.</param>
         /// <remarks>This breaks into the debugger in the case of a failed assertion.</remarks>
         [Conditional("DEBUG")]
-        public static void AreEqual<T>(T expected, T actual)
-        {
-            if (null == expected)
-            {
+        public static void AreEqual<T>(T expected, T actual) {
+            if (null == expected) {
                 // Two nulls are considered equal, regardless of type semantics.
-                if (null != actual && !actual.Equals(expected))
-                {
+                if (null != actual && !actual.Equals(expected)) {
                     _Break();
                 }
             }
-            else if (!expected.Equals(actual))
-            {
+            else if (!expected.Equals(actual)) {
                 _Break();
             }
         }
 
         [Conditional("DEBUG")]
-        public static void LazyAreEqual<T>(Func<T> expectedResult, Func<T> actualResult)
-        {
+        public static void LazyAreEqual<T>(Func<T> expectedResult, Func<T> actualResult) {
             Assert.IsNotNull(expectedResult);
             Assert.IsNotNull(actualResult);
 
             T actual = actualResult();
             T expected = expectedResult();
 
-            if (null == expected)
-            {
+            if (null == expected) {
                 // Two nulls are considered equal, regardless of type semantics.
-                if (null != actual && !actual.Equals(expected))
-                {
+                if (null != actual && !actual.Equals(expected)) {
                     _Break();
                 }
             }
-            else if (!expected.Equals(actual))
-            {
+            else if (!expected.Equals(actual)) {
                 _Break();
             }
         }
@@ -117,18 +104,14 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         /// <param name="actual">The second generic type data to compare.  This is the actual value.</param>
         /// <remarks>This breaks into the debugger in the case of a failed assertion.</remarks>
         [Conditional("DEBUG")]
-        public static void AreNotEqual<T>(T notExpected, T actual)
-        {
-            if (null == notExpected)
-            {
+        public static void AreNotEqual<T>(T notExpected, T actual) {
+            if (null == notExpected) {
                 // Two nulls are considered equal, regardless of type semantics.
-                if (null == actual || actual.Equals(notExpected))
-                {
+                if (null == actual || actual.Equals(notExpected)) {
                     _Break();
                 }
             }
-            else if (notExpected.Equals(actual))
-            {
+            else if (notExpected.Equals(actual)) {
                 _Break();
             }
         }
@@ -144,10 +127,8 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         /// </param>
         /// <remarks>This breaks into the debugger in the case of a failed assertion.</remarks>
         [Conditional("DEBUG")]
-        public static void Implies(bool condition, bool result)
-        {
-            if (condition && !result)
-            {
+        public static void Implies(bool condition, bool result) {
+            if (condition && !result) {
                 _Break();
             }
         }
@@ -161,10 +142,8 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         /// This overload only evaluates the result if the first condition is true.
         /// </remarks>
         [Conditional("DEBUG")]
-        public static void Implies(bool condition, ImplicationFunction result)
-        {
-            if (condition && !result())
-            {
+        public static void Implies(bool condition, ImplicationFunction result) {
+            if (condition && !result()) {
                 _Break();
             }
         }
@@ -174,8 +153,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         /// </summary>
         /// <param name="value">The string to verify.</param>
         [Conditional("DEBUG")]
-        public static void IsNeitherNullNorEmpty(string value)
-        {
+        public static void IsNeitherNullNorEmpty(string value) {
             IsFalse(string.IsNullOrEmpty(value));
         }
 
@@ -184,15 +162,12 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         /// </summary>
         /// <param name="value">The string to verify.</param>
         [Conditional("DEBUG")]
-        public static void IsNeitherNullNorWhitespace(string value)
-        {
-            if (string.IsNullOrEmpty(value))
-            {
+        public static void IsNeitherNullNorWhitespace(string value) {
+            if (string.IsNullOrEmpty(value)) {
                 _Break();
             }
 
-            if (value.Trim().Length == 0)
-            {
+            if (value.Trim().Length == 0) {
                 _Break();
             }
         }
@@ -204,28 +179,22 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         /// <param name="value">The value to check for nullness.</param>
         /// <remarks>This breaks into the debugger in the case of a failed assertion.</remarks>
         [Conditional("DEBUG")]
-        public static void IsNotNull<T>(T value) where T : class
-        {
-            if (null == value)
-            {
+        public static void IsNotNull<T>(T value) where T : class {
+            if (null == value) {
                 _Break();
             }
         }
 
         [Conditional("DEBUG")]
-        public static void IsDefault<T>(T value) where T : struct
-        {
-            if (!value.Equals(default(T)))
-            {
+        public static void IsDefault<T>(T value) where T : struct {
+            if (!value.Equals(default(T))) {
                 Assert.Fail();
             }
         }
 
         [Conditional("DEBUG")]
-        public static void IsNotDefault<T>(T value) where T : struct
-        {
-            if (value.Equals(default(T)))
-            {
+        public static void IsNotDefault<T>(T value) where T : struct {
+            if (value.Equals(default(T))) {
                 Assert.Fail();
             }
         }
@@ -236,10 +205,8 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         /// <param name="condition">The expression that should be <c>false</c>.</param>
         /// <remarks>This breaks into the debugger in the case of a failed assertion.</remarks>
         [Conditional("DEBUG")]
-        public static void IsFalse(bool condition)
-        {
-            if (condition)
-            {
+        public static void IsFalse(bool condition) {
+            if (condition) {
                 _Break();
             }
         }
@@ -251,10 +218,8 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         /// <param name="message">The message to display if the condition is <c>true</c>.</param>
         /// <remarks>This breaks into the debugger in the case of a failed assertion.</remarks>
         [Conditional("DEBUG")]
-        public static void IsFalse(bool condition, string message)
-        {
-            if (condition)
-            {
+        public static void IsFalse(bool condition, string message) {
+            if (condition) {
                 _Break();
             }
         }
@@ -265,19 +230,15 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         /// <param name="condition">A condition that is expected to be <c>true</c>.</param>
         /// <remarks>This breaks into the debugger in the case of a failed assertion.</remarks>
         [Conditional("DEBUG")]
-        public static void IsTrue(bool condition)
-        {
-            if (!condition)
-            {
+        public static void IsTrue(bool condition) {
+            if (!condition) {
                 _Break();
             }
         }
 
         [Conditional("DEBUG")]
-        public static void IsTrue<T>(Predicate<T> predicate, T arg)
-        {
-            if (!predicate(arg))
-            {
+        public static void IsTrue<T>(Predicate<T> predicate, T arg) {
+            if (!predicate(arg)) {
                 _Break();
             }
         }
@@ -289,10 +250,8 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         /// <param name="message">The message to write in case the condition is <c>false</c>.</param>
         /// <remarks>This breaks into the debugger in the case of a failed assertion.</remarks>
         [Conditional("DEBUG")]
-        public static void IsTrue(bool condition, string message)
-        {
-            if (!condition)
-            {
+        public static void IsTrue(bool condition, string message) {
+            if (!condition) {
                 _Break();
             }
         }
@@ -302,8 +261,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         /// </summary>
         /// <remarks>This breaks into the debugger in the case of a failed assertion.</remarks>
         [Conditional("DEBUG")]
-        public static void Fail()
-        {
+        public static void Fail() {
             _Break();
         }
 
@@ -313,8 +271,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         /// <param name="message">The message to display if this function is executed.</param>
         /// <remarks>This breaks into the debugger in the case of a failed assertion.</remarks>
         [Conditional("DEBUG")]
-        public static void Fail(string message)
-        {
+        public static void Fail(string message) {
             _Break();
         }
 
@@ -323,10 +280,8 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         /// </summary>
         /// <param name="item">The item to verify is null.</param>
         [Conditional("DEBUG")]
-        public static void IsNull<T>(T item) where T : class
-        {
-            if (null != item)
-            {
+        public static void IsNull<T>(T item) where T : class {
+            if (null != item) {
                 _Break();
             }
         }
@@ -338,10 +293,8 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         /// <param name="value">The value to verify.</param>
         /// <param name="upperBoundInclusive">The upper bound inclusive value.</param>
         [Conditional("DEBUG")]
-        public static void BoundedDoubleInc(double lowerBoundInclusive, double value, double upperBoundInclusive)
-        {
-            if (value < lowerBoundInclusive || value > upperBoundInclusive)
-            {
+        public static void BoundedDoubleInc(double lowerBoundInclusive, double value, double upperBoundInclusive) {
+            if (value < lowerBoundInclusive || value > upperBoundInclusive) {
                 _Break();
             }
         }
@@ -353,10 +306,8 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         /// <param name="value">The value to verify.</param>
         /// <param name="upperBoundExclusive">The upper bound exclusive value.</param>
         [Conditional("DEBUG")]
-        public static void BoundedInteger(int lowerBoundInclusive, int value, int upperBoundExclusive)
-        {
-            if (value < lowerBoundInclusive || value >= upperBoundExclusive)
-            {
+        public static void BoundedInteger(int lowerBoundInclusive, int value, int upperBoundExclusive) {
+            if (value < lowerBoundInclusive || value >= upperBoundExclusive) {
                 _Break();
             }
         }
@@ -369,28 +320,22 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard
         /// </param>
         /// <remarks>This breaks into the debugger in the case of a failed assertion.</remarks>
         [Conditional("DEBUG")]
-        public static void IsApartmentState(ApartmentState expectedState)
-        {
-            if (Thread.CurrentThread.GetApartmentState() != expectedState)
-            {
+        public static void IsApartmentState(ApartmentState expectedState) {
+            if (Thread.CurrentThread.GetApartmentState() != expectedState) {
                 _Break();
             }
         }
 
         [Conditional("DEBUG")]
-        public static void NullableIsNotNull<T>(T? value) where T : struct
-        {
-            if (null == value)
-            {
+        public static void NullableIsNotNull<T>(T? value) where T : struct {
+            if (null == value) {
                 _Break();
             }
         }
 
         [Conditional("DEBUG")]
-        public static void NullableIsNull<T>(T? value) where T : struct
-        {
-            if (null != value)
-            {
+        public static void NullableIsNull<T>(T? value) where T : struct {
+            if (null != value) {
                 _Break();
             }
         }

@@ -1,7 +1,5 @@
-﻿namespace NTMiner
-{
-	public enum GlowDirection
-	{
-		Left, Right, Top, Bottom,
-	}
+﻿namespace NTMiner {
+    public enum GlowDirection {
+        Left, Right, Top, Bottom,
+    }
 }

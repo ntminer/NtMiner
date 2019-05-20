@@ -1,10 +1,8 @@
 using System.Runtime.InteropServices;
 
-namespace NTMiner.Native
-{
+namespace NTMiner.Native {
     [StructLayout(LayoutKind.Sequential)]
-    internal struct MARGINS
-    {
+    internal struct MARGINS {
         public int leftWidth;
         public int rightWidth;
         public int topHeight;
