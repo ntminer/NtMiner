@@ -13,7 +13,6 @@
         FontSize="20"
         BorderBrush="{StaticResource IconFillColor}"
         WindowStartupLocation="CenterOwner"
-        blankWindow:BlankWindow.Draggable="True"
         Background="White"
         mc:Ignorable="d" Width="400" MinHeight="200">
     <blankWindow:BlankWindow.Resources>
@@ -22,7 +21,7 @@
             </PathGeometry>
         </ResourceDictionary>
     </blankWindow:BlankWindow.Resources>
-    <Grid blankWindow:BlankWindow.Draggable="True"> 
+    <Grid> 
         <Grid.RowDefinitions>
             <RowDefinition Height="30"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>

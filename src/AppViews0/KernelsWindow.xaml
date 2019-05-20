@@ -26,7 +26,7 @@
 	<blankWindow:BlankWindow.DataContext>
 		<vm:KernelsWindowViewModel></vm:KernelsWindowViewModel>
 	</blankWindow:BlankWindow.DataContext>
-	<Grid blankWindow:BlankWindow.Draggable="True">
+	<Grid>
 		<DockPanel>
 			<StackPanel DockPanel.Dock="Left" Background="{StaticResource IconFillColor}" Margin="0 0 10 0">
 				<controls:KbButton 

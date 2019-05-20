@@ -18,7 +18,7 @@
 	<blankWindow:BlankWindow.DataContext>
 		<vm:LoginWindowViewModel></vm:LoginWindowViewModel>
 	</blankWindow:BlankWindow.DataContext>
-	<Grid blankWindow:BlankWindow.Draggable="True">
+	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="30"></RowDefinition>
 			<RowDefinition Height="*"></RowDefinition>

@@ -13,7 +13,7 @@
 		TextOptions.TextFormattingMode="Display"
 		MaxWidth="{Binding MaxWidth}" MaxHeight="{Binding MaxHeight}"
 		mc:Ignorable="d" d:DesignHeight="360" d:DesignWidth="600">
-	<Grid blankWindow:BlankWindow.Draggable="True">
+	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="*"/>

@@ -23,7 +23,7 @@
 	<blankWindow:BlankWindow.DataContext>
 		<vm:BrandWindowViewModel></vm:BrandWindowViewModel>
 	</blankWindow:BlankWindow.DataContext>
-	<Grid blankWindow:BlankWindow.Draggable="True">
+	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="36"></RowDefinition>
 			<RowDefinition Height="Auto"></RowDefinition>

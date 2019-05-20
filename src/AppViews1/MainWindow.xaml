@@ -117,7 +117,7 @@
 			</Style>
 		</ResourceDictionary>
 	</blankWindow:BlankWindow.Resources>
-	<Grid blankWindow:BlankWindow.Draggable="True">
+	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="30"></RowDefinition>
 			<RowDefinition Height="80"></RowDefinition>

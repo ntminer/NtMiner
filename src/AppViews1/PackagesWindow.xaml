@@ -26,7 +26,7 @@
 	<blankWindow:BlankWindow.DataContext>
 		<vm:PackagesWindowViewModel></vm:PackagesWindowViewModel>
 	</blankWindow:BlankWindow.DataContext>
-	<Grid blankWindow:BlankWindow.Draggable="True">
+	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="40"></RowDefinition>
 			<RowDefinition Height="*"></RowDefinition>

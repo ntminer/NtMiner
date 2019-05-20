@@ -38,7 +38,7 @@
 			</Style>
 		</ResourceDictionary>
 	</blankWindow:BlankWindow.Resources>
-	<Grid blankWindow:BlankWindow.Draggable="True">
+	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="40"/>
 			<RowDefinition Height="*" MinHeight="390" />

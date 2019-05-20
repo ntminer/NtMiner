@@ -11,7 +11,7 @@
 		WindowStartupLocation="CenterOwner"
 		Background="White"
 		mc:Ignorable="d" Width="400" MinHeight="130">
-	<Grid blankWindow:BlankWindow.Draggable="True"> 
+	<Grid> 
 		<Grid.RowDefinitions>
 			<RowDefinition Height="30"></RowDefinition>
 			<RowDefinition Height="*"></RowDefinition>
