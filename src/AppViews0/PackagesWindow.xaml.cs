@@ -1,10 +1,9 @@
-﻿using MahApps.Metro.Controls;
-using NTMiner.Vms;
+﻿using NTMiner.Vms;
 using System;
 using System.Windows.Input;
 
 namespace NTMiner.Views {
-    public partial class PackagesWindow : MetroWindow {
+    public partial class PackagesWindow : BlankWindow {
         private static readonly object _locker = new object();
         private static PackagesWindow _instance = null;
         public static void ShowWindow() {
@@ -36,12 +35,6 @@ namespace NTMiner.Views {
         protected override void OnClosed(EventArgs e) {
             base.OnClosed(e);
             _instance = null;
-        }
-
-        private void MetroWindow_MouseDown(object sender, MouseButtonEventArgs e) {
-            if (e.LeftButton == MouseButtonState.Pressed) {
-                this.DragMove();
-            }
         }
 
         private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e) {

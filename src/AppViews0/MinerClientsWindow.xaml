@@ -1,9 +1,9 @@
-﻿<metro:MetroWindow x:Class="NTMiner.Views.MinerClientsWindow"
+﻿<blankWindow:BlankWindow x:Class="NTMiner.Views.MinerClientsWindow"
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-		xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+		xmlns:blankWindow="http://NTMiner.com"
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 		xmlns:local="clr-namespace:NTMiner.Views"
@@ -11,23 +11,20 @@
 		xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
 		xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
-		UseNoneWindowStyle="True"
-		WindowTransitionsEnabled="False"
 		BorderThickness="1"
 		BorderBrush="{StaticResource WindowBorderBrush}"
 		Background="{StaticResource ThemeBackground}"
 		WindowState="Maximized"
 		DataContext="{x:Static vm:MinerClientsWindowViewModel.Instance}"
 		WindowStartupLocation="CenterScreen"
-		MouseDown="MetroWindow_MouseDown"
 		Title="矿机列表"
 		mc:Ignorable="d" d:DesignHeight="1000" d:DesignWidth="3600">
-	<metro:MetroWindow.Resources>
+	<blankWindow:BlankWindow.Resources>
 		<ResourceDictionary>
 			<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
 			</Style>
 		</ResourceDictionary>
-	</metro:MetroWindow.Resources>
+	</blankWindow:BlankWindow.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"></RowDefinition>
@@ -2188,4 +2185,4 @@
 			</WrapPanel>
 		</WrapPanel>
 	</Grid>
-</metro:MetroWindow>
+</blankWindow:BlankWindow>

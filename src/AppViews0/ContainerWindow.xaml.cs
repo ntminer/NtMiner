@@ -1,5 +1,4 @@
-﻿using MahApps.Metro.Controls;
-using NTMiner.Vms;
+﻿using NTMiner.Vms;
 using NTMiner.Wpf;
 using System;
 using System.Collections.Generic;
@@ -8,7 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace NTMiner.Views {
-    public partial class ContainerWindow : MetroWindow {
+    public partial class ContainerWindow : BlankWindow {
         #region static
         private static readonly Dictionary<Type, ContainerWindow> s_windowDicByType = new Dictionary<Type, ContainerWindow>();
         private static readonly Dictionary<Type, double> s_windowLeftDic = new Dictionary<Type, double>();

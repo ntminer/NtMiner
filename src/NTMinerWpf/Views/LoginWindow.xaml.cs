@@ -1,11 +1,10 @@
-﻿using MahApps.Metro.Controls;
-using NTMiner.Views.Ucs;
+﻿using NTMiner.Views.Ucs;
 using NTMiner.Vms;
 using System;
 using System.Windows;
 
 namespace NTMiner.Views {
-    public partial class LoginWindow : MetroWindow {
+    public partial class LoginWindow : BlankWindow {
         private LoginWindowViewModel Vm {
             get {
                 return (LoginWindowViewModel)this.DataContext;
@@ -18,12 +17,6 @@ namespace NTMiner.Views {
             this.LocationChanged += changeNotiCenterWindowLocation;
             InitializeComponent();
             this.PbPassword.Focus();
-        }
-
-        private void MetroWindow_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed) {
-                this.DragMove();
-            }
         }
 
         protected override void OnClosed(EventArgs e) {

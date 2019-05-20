@@ -1,21 +1,17 @@
-﻿<metro:MetroWindow x:Class="NTMiner.Views.InputWindow"
+﻿<blankWindow:BlankWindow x:Class="NTMiner.Views.InputWindow"
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-		xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+		xmlns:blankWindow="http://NTMiner.com"
 		xmlns:controls="clr-namespace:NTMiner.Controls"
-		UseNoneWindowStyle="True"
-		WindowTransitionsEnabled="False"
 		ResizeMode="NoResize"
-		WindowStyle="None"
 		SizeToContent="Height"
 		BorderBrush="{StaticResource IconFillColor}"
 		WindowStartupLocation="CenterOwner"
-		MouseDown="Window_MouseDown"
 		Background="White"
 		mc:Ignorable="d" Width="400" MinHeight="130">
-	<Grid> 
+	<Grid blankWindow:BlankWindow.Draggable="True"> 
 		<Grid.RowDefinitions>
 			<RowDefinition Height="30"></RowDefinition>
 			<RowDefinition Height="*"></RowDefinition>
@@ -67,4 +63,4 @@
 			</controls:KbButton>
 		</StackPanel>
 	</Grid>
-</metro:MetroWindow>
+</blankWindow:BlankWindow>

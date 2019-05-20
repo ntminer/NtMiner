@@ -1,5 +1,4 @@
-﻿using MahApps.Metro.Controls;
-using NTMiner.Core;
+﻿using NTMiner.Core;
 using NTMiner.Views.Ucs;
 using NTMiner.Vms;
 using System;
@@ -9,7 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace NTMiner.Views {
-    public partial class MainWindow : MetroWindow {
+    public partial class MainWindow : BlankWindow {
         private MainWindowViewModel Vm {
             get {
                 return (MainWindowViewModel)this.DataContext;
@@ -64,12 +63,6 @@ namespace NTMiner.Views {
             AppContext.Disable();
             Write.SetConsoleUserLineMethod();
             base.OnClosing(e);
-        }
-
-        private void MetroWindow_MouseDown(object sender, MouseButtonEventArgs e) {
-            if (e.LeftButton == MouseButtonState.Pressed) {
-                this.DragMove();
-            }
         }
 
         private void BtnLeftTriangle_Click(object sender, RoutedEventArgs e) {

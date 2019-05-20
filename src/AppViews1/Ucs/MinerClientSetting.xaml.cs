@@ -1,11 +1,10 @@
-﻿using MahApps.Metro.Controls;
-using NTMiner.Vms;
+﻿using NTMiner.Vms;
 using NTMiner.Wpf;
 using System.Windows;
 using System.Windows.Input;
 
 namespace NTMiner.Views.Ucs {
-    public partial class MinerClientSetting : MetroWindow {
+    public partial class MinerClientSetting : BlankWindow {
         public static void ShowWindow(MinerClientSettingViewModel vm) {
             Window window = new MinerClientSetting(vm);
             vm.CloseWindow = () => window.Close();

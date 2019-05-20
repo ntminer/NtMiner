@@ -1,9 +1,9 @@
-﻿<metro:MetroWindow x:Class="NTMiner.Views.ChartsWindow"
+﻿<blankWindow:BlankWindow x:Class="NTMiner.Views.ChartsWindow"
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-		xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+		xmlns:blankWindow="http://NTMiner.com"
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 		xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
@@ -11,18 +11,15 @@
 		xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
 		xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
-		WindowTransitionsEnabled="False"
-		UseNoneWindowStyle="True"
 		BorderBrush="{StaticResource WindowBorderBrush}"
 		Background="{StaticResource ThemeBackground}"
 		WindowState="Maximized"
 		WindowStartupLocation="CenterScreen"
-		MouseDown="MetroWindow_MouseDown"
 		mc:Ignorable="d"
 		Title="{x:Static app:AppStatic.AppName}" d:DesignHeight="900" d:DesignWidth="1720">
-	<metro:MetroWindow.DataContext>
+	<blankWindow:BlankWindow.DataContext>
 		<vm:ChartsWindowViewModel></vm:ChartsWindowViewModel>
-	</metro:MetroWindow.DataContext>
+	</blankWindow:BlankWindow.DataContext>
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="30"></RowDefinition>
@@ -150,7 +147,6 @@
 					Width="1440"
 					ItemsSource="{Binding ChartVms}"
 					BorderThickness="0"
-					MouseDown="MetroWindow_MouseDown"
 					ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 					<ItemsControl.ItemsPanel>
 						<ItemsPanelTemplate>
@@ -217,4 +213,4 @@
 			</Viewbox>
 		</ScrollViewer>
 	</Grid>
-</metro:MetroWindow>
+</blankWindow:BlankWindow>

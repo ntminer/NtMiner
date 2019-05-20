@@ -1,11 +1,9 @@
-﻿using MahApps.Metro.Controls;
-using NTMiner.Vms;
+﻿using NTMiner.Vms;
 using System;
 using System.Windows;
-using System.Windows.Input;
 
 namespace NTMiner.Views {
-    public partial class KernelsWindow : MetroWindow {
+    public partial class KernelsWindow : BlankWindow {
         private static readonly object _locker = new object();
         private static KernelsWindow _instance = null;
         public static void ShowWindow(Guid kernelId, Action<bool, string> downloadComplete = null) {
@@ -104,12 +102,6 @@ namespace NTMiner.Views {
 
         private void TbKeyword_LostFocus(object sender, RoutedEventArgs e) {
             Vm.Search.Execute(null);
-        }
-
-        private void MetroWindow_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            if (e.LeftButton == MouseButtonState.Pressed) {
-                this.DragMove();
-            }
         }
     }
 }

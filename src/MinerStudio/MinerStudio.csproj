@@ -80,9 +80,6 @@
     <Reference Include="AxMSTSCLib">
       <HintPath>..\ThirdPartyDlls\AxMSTSCLib.dll</HintPath>
     </Reference>
-    <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\ControlzEx.3.0.2.4\lib\net40\ControlzEx.dll</HintPath>
-    </Reference>
     <Reference Include="Costura, Version=1.6.2.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Costura.Fody.1.6.2\lib\portable-net+sl+win+wpa+wp\Costura.dll</HintPath>
       <Private>False</Private>
@@ -92,9 +89,6 @@
     </Reference>
     <Reference Include="LiveCharts.Wpf, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
       <HintPath>..\..\packages\LiveCharts.Wpf.0.9.7\lib\net40\LiveCharts.Wpf.dll</HintPath>
-    </Reference>
-    <Reference Include="MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\MahApps.Metro.1.6.5\lib\net40\MahApps.Metro.dll</HintPath>
     </Reference>
     <Reference Include="MSTSCLib">
       <HintPath>..\ThirdPartyDlls\MSTSCLib.dll</HintPath>
@@ -152,6 +146,10 @@
     <ProjectReference Include="..\AppModels\AppModels.csproj">
       <Project>{3426f677-5026-4bb1-a0b2-dd5d9bd70d07}</Project>
       <Name>AppModels</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlankWindow\BlankWindow.csproj">
+      <Project>{b7107a67-a76e-4313-8c5b-3265dde238b6}</Project>
+      <Name>BlankWindow</Name>
     </ProjectReference>
     <ProjectReference Include="..\MinerStudioSelfHost\MinerStudioSelfHost.csproj">
       <Project>{526c022a-3c86-4998-a8f1-f5860f183c7c}</Project>
