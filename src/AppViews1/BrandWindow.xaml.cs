@@ -11,5 +11,11 @@ namespace NTMiner.Views {
         public BrandWindow() {
             InitializeComponent();
         }
+
+        private void MetroWindow_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+            if (e.LeftButton == MouseButtonState.Pressed) {
+                this.DragMove();
+            }
+        }
     }
 }

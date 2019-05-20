@@ -33,5 +33,11 @@ namespace NTMiner.Views.Ucs {
                 this.Owner = owner;
             }
         }
+
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e) {
+            if (e.ButtonState == MouseButtonState.Pressed) {
+                this.DragMove();
+            }
+        }
     }
 }

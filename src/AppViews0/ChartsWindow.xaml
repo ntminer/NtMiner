@@ -14,6 +14,7 @@
 		Background="{StaticResource ThemeBackground}"
 		WindowState="Maximized"
 		WindowStartupLocation="CenterScreen"
+		MouseDown="MetroWindow_MouseDown"
 		mc:Ignorable="d"
 		Title="{x:Static app:AppStatic.AppName}" d:DesignHeight="900" d:DesignWidth="1720">
 	<blankWindow:BlankWindow.DataContext>
@@ -146,6 +147,7 @@
 					Width="1440"
 					ItemsSource="{Binding ChartVms}"
 					BorderThickness="0"
+					MouseDown="MetroWindow_MouseDown"
 					ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 					<ItemsControl.ItemsPanel>
 						<ItemsPanelTemplate>

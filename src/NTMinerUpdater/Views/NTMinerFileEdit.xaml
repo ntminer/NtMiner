@@ -13,6 +13,7 @@
 		BorderThickness="0.8"
 		BorderBrush="{StaticResource IconFillColor}"
 		WindowStartupLocation="CenterOwner"
+		MouseDown="MetroWindow_MouseDown"
 		Title="NTMinerFileEdit" Height="230" Width="300">
 	<Grid>
 		<Grid.RowDefinitions>

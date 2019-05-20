@@ -69,6 +69,11 @@ namespace NTMiner.Views {
             base.OnClosing(e);
         }
 
+        private void MetroWindow_MouseDown(object sender, MouseButtonEventArgs e) {
+            if (e.LeftButton == MouseButtonState.Pressed) {
+                this.DragMove();
+            }
+        }
         private void ScrollViewer_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
             Wpf.Util.ScrollViewer_PreviewMouseDown(sender, e);
         }

@@ -11,6 +11,7 @@
 		Background="{StaticResource ThemeBackground}"
 		Foreground="{StaticResource ThemeForeground}"
 		WindowStartupLocation="CenterScreen"
+		MouseDown="MetroWindow_MouseDown"
 		DataContext="{x:Static vm:MainWindowViewModel.Instance}"
 		Title="NTMinerUpdater" Height="492" Width="333">
 	<Grid>

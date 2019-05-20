@@ -103,5 +103,11 @@ namespace NTMiner.Views {
         private void TbKeyword_LostFocus(object sender, RoutedEventArgs e) {
             Vm.Search.Execute(null);
         }
+
+        private void MetroWindow_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+            if (e.LeftButton == MouseButtonState.Pressed) {
+                this.DragMove();
+            }
+        }
     }
 }

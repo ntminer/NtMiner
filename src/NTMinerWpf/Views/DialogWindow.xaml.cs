@@ -66,5 +66,11 @@ namespace NTMiner.Views {
         private void KbOkButton_Click(object sender, RoutedEventArgs e) {
             this.Close();
         }
+
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e) {
+            if (e.ButtonState == MouseButtonState.Pressed) {
+                this.DragMove();
+            }
+        }
     }
 }

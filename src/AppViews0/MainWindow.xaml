@@ -19,6 +19,7 @@
 		TitleBarHeight="40"
 		Background="{StaticResource ThemeBackground}"
 		WindowStartupLocation="CenterScreen"
+		MouseDown="MetroWindow_MouseDown"
 		TextOptions.TextFormattingMode="Display">
 	<blankWindow:BlankWindow.DataContext>
 		<vm:MainWindowViewModel></vm:MainWindowViewModel>

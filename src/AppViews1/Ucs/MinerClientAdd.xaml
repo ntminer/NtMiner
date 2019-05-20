@@ -9,6 +9,7 @@
 		SizeToContent="Height"
 		BorderBrush="{StaticResource IconFillColor}"
 		WindowStartupLocation="CenterOwner"
+		MouseDown="Window_MouseDown"
 		Background="White"
 		mc:Ignorable="d" Width="300" MinHeight="120">
 	<blankWindow:BlankWindow.Resources>
