@@ -1,9 +1,7 @@
-﻿using MahApps.Metro.Controls;
-using NTMiner.Vms;
-using System.Windows.Input;
+﻿using NTMiner.Vms;
 
 namespace NTMiner.Views {
-    public partial class BrandWindow : MetroWindow {
+    public partial class BrandWindow : BlankWindow {
         public BrandWindowViewModel Vm {
             get {
                 return (BrandWindowViewModel)this.DataContext;
@@ -12,12 +10,6 @@ namespace NTMiner.Views {
 
         public BrandWindow() {
             InitializeComponent();
-        }
-
-        private void MetroWindow_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            if (e.LeftButton == MouseButtonState.Pressed) {
-                this.DragMove();
-            }
         }
     }
 }

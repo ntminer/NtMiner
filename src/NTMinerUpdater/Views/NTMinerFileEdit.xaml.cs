@@ -1,11 +1,10 @@
-﻿using MahApps.Metro.Controls;
-using NTMiner.Vms;
+﻿using NTMiner.Vms;
 using NTMiner.Wpf;
 using System.Windows;
 using System.Windows.Media;
 
 namespace NTMiner.Views {
-    public partial class NTMinerFileEdit : MetroWindow {
+    public partial class NTMinerFileEdit : BlankWindow {
         public NTMinerFileViewModel Vm {
             get {
                 return (NTMinerFileViewModel)this.DataContext;
@@ -18,12 +17,6 @@ namespace NTMiner.Views {
             this.TbTitle.Text = title;
             this.PathIcon.Data = (Geometry)Application.Current.Resources[iconName];
             this.Owner = TopWindow.GetTopWindow();
-        }
-
-        private void MetroWindow_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed) {
-                this.DragMove();
-            }
         }
     }
 }

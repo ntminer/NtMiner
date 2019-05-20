@@ -1,7 +1,7 @@
-﻿<metro:MetroWindow x:Class="NTMiner.Views.MainWindow"
+﻿<blankWindow:BlankWindow x:Class="NTMiner.Views.MainWindow"
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+		xmlns:blankWindow="http://NTMiner.com"
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -12,23 +12,17 @@
 		xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 		mc:Ignorable="d"
 		Title="{x:Static app:AppStatic.AppName}"
-		WindowTransitionsEnabled="False"
 		Width="920"
 		Height="562"
 		MinHeight="430"
 		MinWidth="640"
-		ResizeBorderThickness="4"
-		UseNoneWindowStyle="True"
-		BorderThickness="1"
-		BorderBrush="{StaticResource WindowBorderBrush}"
 		Background="{StaticResource ThemeBackground}"
 		WindowStartupLocation="CenterScreen"
-		MouseDown="MetroWindow_MouseDown"
 		TextOptions.TextFormattingMode="Display">
-	<metro:MetroWindow.DataContext>
+	<blankWindow:BlankWindow.DataContext>
 		<vm:MainWindowViewModel></vm:MainWindowViewModel>
-	</metro:MetroWindow.DataContext>
-	<metro:MetroWindow.Resources>
+	</blankWindow:BlankWindow.DataContext>
+	<blankWindow:BlankWindow.Resources>
 		<ResourceDictionary>
 			<SolidColorBrush x:Key="TabControlNormalBorderBrush" Color="#8C8E94"></SolidColorBrush>
 			<SolidColorBrush x:Key="TabControlNormalForeground" Color="#C9CDCA"></SolidColorBrush>
@@ -122,7 +116,7 @@
 				</Setter>
 			</Style>
 		</ResourceDictionary>
-	</metro:MetroWindow.Resources>
+	</blankWindow:BlankWindow.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="30"></RowDefinition>
@@ -151,7 +145,7 @@
 			</WrapPanel>
 		</Grid>
 		<TabControl 
-			Name="tab" Grid.Row="1" Grid.RowSpan="2"
+			Name="MainTab" Grid.Row="1" Grid.RowSpan="2"
 			Margin="0" Style="{StaticResource TabControlStyle}">
 			<local:MainTabItem Header="挖矿监控" Icon="{StaticResource Icon_Monitor}" Margin="8 0">
 				<TabControl Margin="10" BorderThickness="0" Background="#F1F1F1">
@@ -269,4 +263,4 @@
 			<uc:StateBar VerticalAlignment="Center"></uc:StateBar>
 		</Border>
 	</Grid>
-</metro:MetroWindow>
+</blankWindow:BlankWindow>

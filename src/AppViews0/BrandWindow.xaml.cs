@@ -1,9 +1,8 @@
-﻿using MahApps.Metro.Controls;
-using NTMiner.Vms;
+﻿using NTMiner.Vms;
 using System.Windows.Input;
 
 namespace NTMiner.Views {
-    public partial class BrandWindow : MetroWindow {
+    public partial class BrandWindow : BlankWindow {
         public BrandWindowViewModel Vm {
             get {
                 return (BrandWindowViewModel)this.DataContext;

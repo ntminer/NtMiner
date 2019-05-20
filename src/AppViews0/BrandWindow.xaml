@@ -1,8 +1,8 @@
-﻿<metro:MetroWindow
+﻿<blankWindow:BlankWindow
 	x:Class="NTMiner.Views.BrandWindow"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+	xmlns:blankWindow="http://NTMiner.com"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
 	xmlns:sys="clr-namespace:System;assembly=mscorlib"
@@ -13,21 +13,16 @@
 	mc:Ignorable="d"
 	Title="品牌推广计划"
 	Topmost="True"
-	WindowTransitionsEnabled="False"
 	Width="800"
 	Height="200"
-	ResizeBorderThickness="4"
-	TitlebarHeight="40"
-	UseNoneWindowStyle="True"
-	BorderThickness="1"
-	BorderBrush="{StaticResource WindowBorderBrush}"
+	TitleBarHeight="40"
 	Background="#EEECEF"
 	WindowStartupLocation="CenterScreen"
 	MouseDown="MetroWindow_MouseDown"
 	TextOptions.TextFormattingMode="Display">
-	<metro:MetroWindow.DataContext>
+	<blankWindow:BlankWindow.DataContext>
 		<vm:BrandWindowViewModel></vm:BrandWindowViewModel>
-	</metro:MetroWindow.DataContext>
+	</blankWindow:BlankWindow.DataContext>
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="36"></RowDefinition>
@@ -133,4 +128,4 @@
 			</ListBox>
 		</GroupBox>
 	</Grid>
-</metro:MetroWindow>
+</blankWindow:BlankWindow>

@@ -1,5 +1,4 @@
 ﻿using LiveCharts;
-using MahApps.Metro.Controls;
 using NTMiner.MinerServer;
 using NTMiner.Vms;
 using System;
@@ -8,7 +7,7 @@ using System.Windows;
 using System.Windows.Input;
 
 namespace NTMiner.Views {
-    public partial class ChartsWindow : MetroWindow {
+    public partial class ChartsWindow : BlankWindow {
         private static ChartsWindow _sWindow = null;
         public static void ShowWindow() {
             if (_sWindow == null) {
@@ -191,12 +190,6 @@ namespace NTMiner.Views {
                 });
         }
         #endregion
-
-        private void MetroWindow_MouseDown(object sender, MouseButtonEventArgs e) {
-            if (e.LeftButton == MouseButtonState.Pressed) {
-                this.DragMove();
-            }
-        }
 
         private void ScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
             Wpf.Util.ScrollViewer_PreviewMouseDown(sender, e);

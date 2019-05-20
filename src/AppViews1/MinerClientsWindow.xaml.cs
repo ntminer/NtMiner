@@ -1,5 +1,4 @@
-﻿using MahApps.Metro.Controls;
-using NTMiner.MinerServer;
+﻿using NTMiner.MinerServer;
 using NTMiner.Vms;
 using System;
 using System.Collections.Generic;
@@ -10,7 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace NTMiner.Views {
-    public partial class MinerClientsWindow : MetroWindow {
+    public partial class MinerClientsWindow : BlankWindow {
         private static MinerClientsWindow _instance = null;
         public static MinerClientsWindow ShowWindow() {
             if (_instance == null) {
@@ -79,12 +78,6 @@ namespace NTMiner.Views {
         protected override void OnClosed(EventArgs e) {
             _instance = null;
             base.OnClosed(e);
-        }
-
-        private void MetroWindow_MouseDown(object sender, MouseButtonEventArgs e) {
-            if (e.LeftButton == MouseButtonState.Pressed) {
-                this.DragMove();
-            }
         }
 
         private void MinerClientsGrid_OnSelectionChanged(object sender, SelectionChangedEventArgs e) {

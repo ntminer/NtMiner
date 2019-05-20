@@ -1,15 +1,14 @@
-﻿using MahApps.Metro.Controls;
-using NTMiner.Core;
+﻿using NTMiner.Core;
 using NTMiner.Vms;
 using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Media;
 
 namespace NTMiner.Views {
-    public partial class MainWindow : MetroWindow {
+    public partial class MainWindow : BlankWindow {
         private MainWindowViewModel Vm {
             get {
                 return (MainWindowViewModel)this.DataContext;
@@ -39,12 +38,12 @@ namespace NTMiner.Views {
                 if (e.WidthChanged) {
                     const double width = 720;
                     if (e.NewSize.Width < width) {
-                        foreach (var tabItem in this.tab.FindChildren<MainTabItem>()) {
+                        foreach (var tabItem in this.MainTab.Items.OfType<MainTabItem>()) {
                             tabItem.Margin = new Thickness(0);
                         }
                     }
                     else if (e.NewSize.Width >= width) {
-                        foreach (var tabItem in this.tab.FindChildren<MainTabItem>()) {
+                        foreach (var tabItem in this.MainTab.Items.OfType<MainTabItem>()) {
                             tabItem.Margin = new Thickness(8, 0, 8,  0);
                         }
                     }
@@ -70,11 +69,6 @@ namespace NTMiner.Views {
             base.OnClosing(e);
         }
 
-        private void MetroWindow_MouseDown(object sender, MouseButtonEventArgs e) {
-            if (e.LeftButton == MouseButtonState.Pressed) {
-                this.DragMove();
-            }
-        }
         private void ScrollViewer_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
             Wpf.Util.ScrollViewer_PreviewMouseDown(sender, e);
         }

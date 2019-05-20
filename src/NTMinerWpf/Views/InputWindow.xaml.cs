@@ -1,11 +1,9 @@
-﻿using MahApps.Metro.Controls;
-using NTMiner.Wpf;
+﻿using NTMiner.Wpf;
 using System;
 using System.Windows;
-using System.Windows.Input;
 
 namespace NTMiner.Views {
-    public partial class InputWindow : MetroWindow {
+    public partial class InputWindow : BlankWindow {
         private readonly Func<string, string> _check;
         private readonly Action<string> _onOk;
 
@@ -47,12 +45,6 @@ namespace NTMiner.Views {
             else {
                 this.Close();
                 _onOk.Invoke(this.TbText.Text);
-            }
-        }
-
-        private void Window_MouseDown(object sender, MouseButtonEventArgs e) {
-            if (e.ButtonState == MouseButtonState.Pressed) {
-                this.DragMove();
             }
         }
     }
