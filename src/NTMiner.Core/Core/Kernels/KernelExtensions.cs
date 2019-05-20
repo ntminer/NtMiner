@@ -1,9 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
 namespace NTMiner.Core.Kernels {
     public static class KernelExtensions {
+        public class CommandName {
+            public string Name { get; internal set; }
+            // 根据这个判断是否换成过期
+            public string KernelInputArgs { get; internal set; }
+        }
+
         public static string GetProcessName(this IKernel kernel) {
             string commandName = GetCommandName(kernel);
             if (string.IsNullOrEmpty(commandName)) {
@@ -12,14 +19,22 @@ namespace NTMiner.Core.Kernels {
             return Path.GetFileNameWithoutExtension(commandName);
         }
 
+        private static readonly Dictionary<Guid, CommandName> _commandNames = new Dictionary<Guid, CommandName>();
         public static string GetCommandName(this IKernel kernel) {
             try {
                 if (kernel == null) {
                     return string.Empty;
                 }
                 IKernelInput kernelInput;
-                if (kernel.KernelInputId == Guid.Empty || !NTMinerRoot.Instance.KernelInputSet.TryGetKernelInput(kernel.KernelInputId, out kernelInput)) {
+                NTMinerRoot.Instance.KernelInputSet.TryGetKernelInput(kernel.KernelInputId, out kernelInput);
+                if (kernelInput == null) {
                     return string.Empty;
+                }
+                if (_commandNames.TryGetValue(kernel.GetId(), out CommandName commandName)) {
+                    // 如果KernelInput.Args没有变那么命令名就没有变
+                    if (kernelInput.Args == commandName.KernelInputArgs) {
+                        return commandName.Name;
+                    }
                 }
                 string args = kernelInput.Args;
                 if (!string.IsNullOrEmpty(args)) {
@@ -28,21 +43,31 @@ namespace NTMiner.Core.Kernels {
                 else {
                     return string.Empty;
                 }
-                string commandName;
+                string cmdName;
                 if (args[0] == '"') {
                     int index = args.IndexOf('"', 1);
-                    commandName = args.Substring(1, index - 1);
+                    cmdName = args.Substring(1, index - 1);
                 }
                 else {
                     int firstSpaceIndex = args.IndexOf(' ');
                     if (firstSpaceIndex != -1) {
-                        commandName = args.Substring(0, args.IndexOf(' '));
+                        cmdName = args.Substring(0, args.IndexOf(' '));
                     }
                     else {
-                        commandName = args;
+                        cmdName = args;
                     }
                 }
-                return commandName;
+                if (commandName != null) {
+                    commandName.Name = cmdName;
+                    commandName.KernelInputArgs = kernelInput.Args;
+                }
+                else {
+                    _commandNames.Add(kernel.GetId(), new CommandName {
+                        Name = cmdName,
+                        KernelInputArgs = kernelInput.Args
+                    });
+                }
+                return cmdName;
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
