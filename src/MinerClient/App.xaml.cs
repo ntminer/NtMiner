@@ -80,28 +80,28 @@ namespace NTMiner {
                         });
                     NTMinerRoot.Instance.Init(() => {
                         AppViewFactory.Link();
+                        if (NTMinerRoot.Instance.GpuSet.Count == 0) {
+                            NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage("没有矿卡或矿卡未驱动。");
+                        }
                         UIThread.Execute(() => {
-                            if (NTMinerRoot.Instance.GpuSet.Count == 0) {
-                                NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage("没有矿卡或矿卡未驱动。");
-                            }
                             AppViewFactory.ShowMainWindow(isToggle: false);
                             AppContext.NotifyIcon = ExtendedNotifyIcon.Create("开源矿工", isMinerStudio: false);
-                            #region 处理显示主界面命令
-                            VirtualRoot.Window<ShowMainWindowCommand>("处理显示主界面命令", LogEnum.DevConsole,
-                                action: message => {
-                                    ShowMainWindow(message.IsToggle);
-                                });
-                            #endregion
                             splashWindow?.Close();
-                            Task.Factory.StartNew(() => {
-                                try {
-                                    HttpServer.Start($"http://localhost:{Consts.MinerClientPort}");
-                                    NTMinerRoot.Instance.Start();
-                                }
-                                catch (Exception ex) {
-                                    Logger.ErrorDebugLine(ex);
-                                }
+                        });
+                        #region 处理显示主界面命令
+                        VirtualRoot.Window<ShowMainWindowCommand>("处理显示主界面命令", LogEnum.DevConsole,
+                            action: message => {
+                                ShowMainWindow(message.IsToggle);
                             });
+                        #endregion
+                        Task.Factory.StartNew(() => {
+                            try {
+                                HttpServer.Start($"http://localhost:{Consts.MinerClientPort}");
+                                NTMinerRoot.Instance.Start();
+                            }
+                            catch (Exception ex) {
+                                Logger.ErrorDebugLine(ex);
+                            }
                         });
                     });
                     Link();

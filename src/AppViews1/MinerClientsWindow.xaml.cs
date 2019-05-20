@@ -115,6 +115,11 @@ namespace NTMiner.Views {
         }
 
         private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
+            DataGrid dg = (DataGrid)sender;
+            Point p = e.GetPosition(dg);
+            if (p.Y < dg.ColumnHeaderHeight) {
+                return;
+            }
             if (Vm.SelectedMinerClients != null && Vm.SelectedMinerClients.Length != 0) {
                 Vm.SelectedMinerClients[0].RemoteDesktop.Execute(null);
             }

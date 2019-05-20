@@ -457,6 +457,7 @@ namespace NTMiner {
         #region StartMine
         public void StartMine() {
             try {
+                Logger.EventWriteLine("开始挖矿");
                 IWorkProfile minerProfile = this.MinerProfile;
                 if (!this.CoinSet.TryGetCoin(minerProfile.CoinId, out ICoin mainCoin)) {
                     VirtualRoot.Happened(new StartingMineFailedEvent("没有选择主挖币种。"));
