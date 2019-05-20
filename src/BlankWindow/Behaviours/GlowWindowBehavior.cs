@@ -7,47 +7,38 @@ using System.Windows.Threading;
 using NTMiner.Microsoft.Windows.Shell.Standard;
 using WM = NTMiner.Models.Win32.WM;
 
-namespace NTMiner.Behaviours
-{
-    public class GlowWindowBehavior : Behavior<Window>
-    {
+namespace NTMiner.Behaviours {
+    public class GlowWindowBehavior : Behavior<Window> {
         private static readonly TimeSpan GlowTimerDelay = TimeSpan.FromMilliseconds(200); //200 ms delay, the same as VS2013
         private GlowWindow left, right, top, bottom;
         private DispatcherTimer makeGlowVisibleTimer;
         private IntPtr handle;
 
-        private bool IsGlowDisabled
-        {
-            get
-            {
+        private bool IsGlowDisabled {
+            get {
                 var blankWindow = this.AssociatedObject as BlankWindow;
-                return blankWindow != null &&  blankWindow.GlowBrush == null;
+                return blankWindow != null && blankWindow.GlowBrush == null;
             }
         }
 
-        private bool IsWindowTransitionsEnabled
-        {
-            get
-            {
+        private bool IsWindowTransitionsEnabled {
+            get {
                 var blankWindow = this.AssociatedObject as BlankWindow;
                 return blankWindow != null;
             }
         }
-        
-        protected override void OnAttached()
-        {
+
+        protected override void OnAttached() {
             base.OnAttached();
 
             this.AssociatedObject.SourceInitialized += (o, args) => {
                 // No glow effect if UseNoneWindowStyle is true or GlowBrush not set.
-                if (this.IsGlowDisabled)
-                {
+                if (this.IsGlowDisabled) {
                     return;
                 }
                 handle = new WindowInteropHelper(this.AssociatedObject).Handle;
                 var hwndSource = HwndSource.FromHwnd(handle);
-                if (hwndSource != null)
-                {
+                if (hwndSource != null) {
                     hwndSource.AddHook(AssociatedObjectWindowProc);
                 }
             };
@@ -55,52 +46,41 @@ namespace NTMiner.Behaviours
             this.AssociatedObject.Unloaded += AssociatedObjectUnloaded;
         }
 
-        void AssociatedObjectStateChanged(object sender, EventArgs e)
-        {
-            if (makeGlowVisibleTimer != null)
-            {
+        void AssociatedObjectStateChanged(object sender, EventArgs e) {
+            if (makeGlowVisibleTimer != null) {
                 makeGlowVisibleTimer.Stop();
             }
-            if(AssociatedObject.WindowState == WindowState.Normal)
-            {
+            if (AssociatedObject.WindowState == WindowState.Normal) {
                 var metroWindow = this.AssociatedObject as BlankWindow;
                 var ignoreTaskBar = metroWindow != null && metroWindow.IgnoreTaskbarOnMaximize;
-                if (makeGlowVisibleTimer != null && SystemParameters.MinimizeAnimation && !ignoreTaskBar)
-                {
+                if (makeGlowVisibleTimer != null && SystemParameters.MinimizeAnimation && !ignoreTaskBar) {
                     makeGlowVisibleTimer.Start();
                 }
-                else
-                {
+                else {
                     RestoreGlow();
                 }
             }
-            else
-            {
+            else {
                 HideGlow();
             }
         }
 
-        void AssociatedObjectUnloaded(object sender, RoutedEventArgs e)
-        {
-            if(makeGlowVisibleTimer != null)
-            {
+        void AssociatedObjectUnloaded(object sender, RoutedEventArgs e) {
+            if (makeGlowVisibleTimer != null) {
                 makeGlowVisibleTimer.Stop();
                 makeGlowVisibleTimer.Tick -= makeGlowVisibleTimer_Tick;
                 makeGlowVisibleTimer = null;
             }
         }
 
-        private void makeGlowVisibleTimer_Tick(object sender, EventArgs e)
-        {
-            if(makeGlowVisibleTimer != null)
-            {
+        private void makeGlowVisibleTimer_Tick(object sender, EventArgs e) {
+            if (makeGlowVisibleTimer != null) {
                 makeGlowVisibleTimer.Stop();
             }
             RestoreGlow();
         }
 
-        private void RestoreGlow()
-        {
+        private void RestoreGlow() {
             if (left != null) left.IsGlowing = true;
             if (top != null) top.IsGlowing = true;
             if (right != null) right.IsGlowing = true;
@@ -108,8 +88,7 @@ namespace NTMiner.Behaviours
             Update();
         }
 
-        private void HideGlow()
-        {
+        private void HideGlow() {
             if (left != null) left.IsGlowing = false;
             if (top != null) top.IsGlowing = false;
             if (right != null) right.IsGlowing = false;
@@ -117,19 +96,16 @@ namespace NTMiner.Behaviours
             Update();
         }
 
-        private void AssociatedObjectOnLoaded(object sender, RoutedEventArgs routedEventArgs)
-        {
+        private void AssociatedObjectOnLoaded(object sender, RoutedEventArgs routedEventArgs) {
             // No glow effect if UseNoneWindowStyle is true or GlowBrush not set.
-            if (this.IsGlowDisabled)
-            {
+            if (this.IsGlowDisabled) {
                 return;
             }
 
             this.AssociatedObject.StateChanged -= AssociatedObjectStateChanged;
             this.AssociatedObject.StateChanged += AssociatedObjectStateChanged;
 
-            if (makeGlowVisibleTimer == null)
-            {
+            if (makeGlowVisibleTimer == null) {
                 makeGlowVisibleTimer = new DispatcherTimer { Interval = GlowTimerDelay };
                 makeGlowVisibleTimer.Tick += makeGlowVisibleTimer_Tick;
             }
@@ -142,22 +118,16 @@ namespace NTMiner.Behaviours
             this.Show();
             this.Update();
 
-            if (!this.IsWindowTransitionsEnabled)
-            {
+            if (!this.IsWindowTransitionsEnabled) {
                 // no storyboard so set opacity to 1
                 this.AssociatedObject.Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(() => this.SetOpacityTo(1)));
             }
-            else
-            {
-                // start the opacity storyboard 0->1
-                this.StartOpacityStoryboard();
+            else {
                 // hide the glows if window get invisible state
                 this.AssociatedObject.IsVisibleChanged += this.AssociatedObjectIsVisibleChanged;
                 // closing always handled
-                this.AssociatedObject.Closing += (o, args) =>
-                {
-                    if (!args.Cancel)
-                    {
+                this.AssociatedObject.Closing += (o, args) => {
+                    if (!args.Cancel) {
                         this.AssociatedObject.IsVisibleChanged -= this.AssociatedObjectIsVisibleChanged;
                     }
                 };
@@ -166,16 +136,13 @@ namespace NTMiner.Behaviours
 
         private WINDOWPOS _previousWP;
 
-        private IntPtr AssociatedObjectWindowProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
-        {
-            switch ((WM)msg)
-            {
+        private IntPtr AssociatedObjectWindowProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled) {
+            switch ((WM)msg) {
                 case WM.WINDOWPOSCHANGED:
                 case WM.WINDOWPOSCHANGING:
                     Assert.IsNotDefault(lParam);
                     var wp = (WINDOWPOS)Marshal.PtrToStructure(lParam, typeof(WINDOWPOS));
-                    if (!wp.Equals(_previousWP))
-                    {
+                    if (!wp.Equals(_previousWP)) {
                         this.UpdateCore();
                     }
                     _previousWP = wp;
@@ -188,35 +155,26 @@ namespace NTMiner.Behaviours
             return IntPtr.Zero;
         }
 
-        private void AssociatedObjectIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            if (!this.AssociatedObject.IsVisible)
-            {
+        private void AssociatedObjectIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e) {
+            if (!this.AssociatedObject.IsVisible) {
                 // the associated owner got invisible so set opacity to 0 to start the storyboard by 0 for the next visible state
                 this.SetOpacityTo(0);
-            }
-            else
-            {
-                this.StartOpacityStoryboard();
             }
         }
 
         /// <summary>
         /// Updates all glow windows (visible, hidden, collapsed)
         /// </summary>
-        private void Update()
-        {
+        private void Update() {
             if (left != null) left.Update();
             if (right != null) right.Update();
             if (top != null) top.Update();
             if (bottom != null) bottom.Update();
         }
 
-        private void UpdateCore()
-        {
+        private void UpdateCore() {
             Native.RECT rect;
-            if (handle != IntPtr.Zero && Native.UnsafeNativeMethods.GetWindowRect(handle, out rect))
-            {
+            if (handle != IntPtr.Zero && Native.UnsafeNativeMethods.GetWindowRect(handle, out rect)) {
                 if (left != null) left.UpdateCore(rect);
                 if (right != null) right.UpdateCore(rect);
                 if (top != null) top.UpdateCore(rect);
@@ -227,8 +185,7 @@ namespace NTMiner.Behaviours
         /// <summary>
         /// Sets the opacity to all glow windows
         /// </summary>
-        private void SetOpacityTo(double newOpacity)
-        {
+        private void SetOpacityTo(double newOpacity) {
             if (left != null) left.Opacity = newOpacity;
             if (right != null) right.Opacity = newOpacity;
             if (top != null) top.Opacity = newOpacity;
@@ -236,21 +193,9 @@ namespace NTMiner.Behaviours
         }
 
         /// <summary>
-        /// Starts the opacity storyboard 0 -> 1
-        /// </summary>
-        private void StartOpacityStoryboard()
-        {
-            if (left != null && this.left.OpacityStoryboard != null) left.BeginStoryboard(this.left.OpacityStoryboard);
-            if (right != null && this.right.OpacityStoryboard != null) right.BeginStoryboard(this.right.OpacityStoryboard);
-            if (top != null && this.top.OpacityStoryboard != null) top.BeginStoryboard(this.top.OpacityStoryboard);
-            if (bottom != null && this.bottom.OpacityStoryboard != null) bottom.BeginStoryboard(this.bottom.OpacityStoryboard);
-        }
-
-        /// <summary>
         /// Shows all glow windows
         /// </summary>
-        private void Show()
-        {
+        private void Show() {
             if (left != null) left.Show();
             if (right != null) right.Show();
             if (top != null) top.Show();
