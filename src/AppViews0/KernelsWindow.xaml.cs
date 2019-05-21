@@ -67,15 +67,6 @@ namespace NTMiner.Views {
             }
         }
 
-        private void BtnDownloadMenu_Click(object sender, RoutedEventArgs e) {
-            if (Vm.KernelDownloadingVisible == Visibility.Visible) {
-                Vm.KernelDownloadingVisible = Visibility.Collapsed;
-            }
-            else {
-                Vm.KernelDownloadingVisible = Visibility.Visible;
-            }
-        }
-
         private void ButtonLeftCoin_Click(object sender, RoutedEventArgs e) {
             double offset = CoinsScrollView.ContentHorizontalOffset - CoinsScrollView.ViewportWidth;
             CoinsScrollView.ScrollToHorizontalOffset(offset);

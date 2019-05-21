@@ -20,7 +20,6 @@
 			Margin="0" ItemsSource="{Binding QueryResults}" 
 			BorderThickness="0" RowHeight="60"
 			ColumnHeaderHeight="0"
-			PreviewMouseDown="DataGrid_PreviewMouseDown"
 			MouseDoubleClick="DataGrid_MouseDoubleClick">
 			<DataGrid.Resources>
 				<controls:BindingProxy x:Key="proxy" Data="{Binding}" />

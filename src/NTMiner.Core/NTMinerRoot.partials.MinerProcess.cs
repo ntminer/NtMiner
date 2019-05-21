@@ -35,12 +35,14 @@ namespace NTMiner {
                         Thread.Sleep(1000);
                         lock (_locker) {
                             if (_preExtractPackage != mineContext.Kernel.Package) {
-                                _preExtractPackage = mineContext.Kernel.Package;
                                 Write.UserInfo($"解压内核包{_preExtractPackage}");
                                 // 解压内核包
                                 if (!mineContext.Kernel.ExtractPackage()) {
                                     Write.UserFail("内核解压失败");
                                     VirtualRoot.Happened(new StartingMineFailedEvent("内核解压失败。"));
+                                }
+                                else {
+                                    _preExtractPackage = mineContext.Kernel.Package;
                                 }
                                 Write.UserOk("内核包解压成功");
                             }

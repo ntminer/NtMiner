@@ -90,37 +90,6 @@
 						</DataTemplate>
 					</ItemsControl.ItemTemplate>
 				</ItemsControl>
-				<controls:KbButton 
-					Click="BtnDownloadMenu_Click"
-					Height="52"
-					KbButtonHoverBackground="#0A548C" Background="Transparent" BorderThickness="0">
-					<WrapPanel>
-						<Path 
-							x:Name="DownloadingCount"
-							Visibility="{Binding DownloadingVms, Converter={StaticResource NoRecordVisibilityConverter}}"
-							Width="24"
-							Height="24"
-							Data="{StaticResource Icon_Download}"
-							Fill="White"
-							Stretch="Fill" />
-						<Border
-							Visibility="{Binding ElementName=DownloadingCount, Path=Visibility,Converter={StaticResource VisibilityInvertConverter}}"
-							BorderThickness="1"
-							BorderBrush="White"
-							Width="20"
-							Height="20">
-							<TextBlock Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding DownloadingVms.Count}"></TextBlock>
-						</Border>
-						<Path 
-							Visibility="{Binding KernelDownloadingVisible}"
-							Width="16"
-							Margin="0 -5 -20 0"
-							Stroke="White"
-							Fill="White"
-							StrokeThickness="1" 
-							Data="M 6,4 14,12 14,4 Z" />
-					</WrapPanel>
-				</controls:KbButton>
 			</StackPanel>
 			<Grid DockPanel.Dock="Top" Height="36">
 				<Grid.ColumnDefinitions>
@@ -309,6 +278,5 @@
 				<uc:KernelGrid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" DataContext="{Binding}"></uc:KernelGrid>
 			</Grid>
 		</DockPanel>
-		<uc:KernelDownloading Margin="57 0 0 0" HorizontalAlignment="Left" Visibility="{Binding KernelDownloadingVisible}" DataContext="{Binding}"></uc:KernelDownloading>
 	</Grid>
 </blankWindow:BlankWindow>

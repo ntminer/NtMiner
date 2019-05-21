@@ -16,9 +16,5 @@ namespace NTMiner.Views.Ucs {
         private void DataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
             Wpf.Util.DataGrid_MouseDoubleClick<KernelViewModel>(sender, e);
         }
-
-        private void DataGrid_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            Vm.KernelDownloadingVisible = System.Windows.Visibility.Collapsed;
-        }
     }
 }

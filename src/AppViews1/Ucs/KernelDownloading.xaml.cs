@@ -14,7 +14,7 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void BtnHide_Click(object sender, System.Windows.RoutedEventArgs e) {
-            Vm.KernelDownloadingVisible = System.Windows.Visibility.Collapsed;
+            
         }
     }
 }

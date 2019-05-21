@@ -11,7 +11,6 @@ namespace NTMiner.Vms {
         private string _keyword;
         private List<KernelMenu> _kernelMenus = new List<KernelMenu>();
         private KernelMenu _currentKernelMenu;
-        private Visibility _kernelDownloadingVisible = Visibility.Collapsed;
         private CoinViewModel _selectedCoinVm = CoinViewModel.PleaseSelect;
         private int _pageIndex;
         private int _pageSize = 15;
@@ -40,7 +39,6 @@ namespace NTMiner.Vms {
             this.ChangeCurrentKernelMenu = new DelegateCommand<KernelMenu>((kernelMenu) => {
                 SetCurrentKernelMenu(kernelMenu);
                 this.PageNumber = 1;
-                KernelDownloadingVisible = Visibility.Collapsed;
             });
             this.Home = new DelegateCommand(() => {
                 ChangeCurrentKernelMenu.Execute(_repositoryKernelMenu);
@@ -70,9 +68,7 @@ namespace NTMiner.Vms {
         }
 
         public void Download(Guid kernelId, Action<bool, string> downloadComplete) {
-            KernelDownloadingVisible = Visibility.Visible;
-            KernelViewModel kernelVm;
-            if (AppContext.Instance.KernelVms.TryGetKernelVm(kernelId, out kernelVm)) {
+            if (AppContext.Instance.KernelVms.TryGetKernelVm(kernelId, out KernelViewModel kernelVm)) {
                 kernelVm.KernelProfileVm.Download(downloadComplete);
             }
         }
@@ -140,16 +136,6 @@ namespace NTMiner.Vms {
                     _selectedCoinVm = value;
                     OnPropertyChanged(nameof(SelectedCoinVm));
                     this.PageNumber = 1;
-                }
-            }
-        }
-
-        public Visibility KernelDownloadingVisible {
-            get => _kernelDownloadingVisible;
-            set {
-                if (_kernelDownloadingVisible != value) {
-                    _kernelDownloadingVisible = value;
-                    OnPropertyChanged(nameof(KernelDownloadingVisible));
                 }
             }
         }
