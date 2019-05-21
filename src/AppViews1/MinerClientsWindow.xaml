@@ -1112,6 +1112,77 @@
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
+					<!--GpuInfo-->
+					<DataGridTemplateColumn 
+						Visibility="{Binding Data.ColumnsShow.GpuInfo,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+						IsReadOnly="True">
+						<DataGridTemplateColumn.Header>
+							<WrapPanel>
+								<TextBlock>显卡</TextBlock>
+								<controls:KbButton
+									ToolTip="不展示"
+									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+									CommandParameter="GpuInfo"
+									Background="Transparent">
+									<WrapPanel>
+										<Path
+											Width="14"
+											Height="8"
+											Data="{StaticResource Icon_Hide}"
+											Fill="#FF5A5A5A"
+											Stretch="Fill" />
+									</WrapPanel>
+								</controls:KbButton>
+							</WrapPanel>
+						</DataGridTemplateColumn.Header>
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<WrapPanel>
+									<TextBox 
+										BorderThickness="0"
+										Background="Transparent"
+										IsReadOnly="True"
+										ToolTip="{Binding GpuInfo}"
+										Text="{Binding GpuInfo, Mode=OneWay}"></TextBox>
+								</WrapPanel>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+					<!--GpuDriver-->
+					<DataGridTemplateColumn 
+						Visibility="{Binding Data.ColumnsShow.GpuDriver,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+						IsReadOnly="True">
+						<DataGridTemplateColumn.Header>
+							<WrapPanel>
+								<TextBlock>显卡驱动</TextBlock>
+								<controls:KbButton
+									ToolTip="不展示"
+									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+									CommandParameter="GpuDriver"
+									Background="Transparent">
+									<WrapPanel>
+										<Path
+											Width="14"
+											Height="8"
+											Data="{StaticResource Icon_Hide}"
+											Fill="#FF5A5A5A"
+											Stretch="Fill" />
+									</WrapPanel>
+								</controls:KbButton>
+							</WrapPanel>
+						</DataGridTemplateColumn.Header>
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<WrapPanel>
+									<TextBox 
+										BorderThickness="0"
+										Background="Transparent"
+										IsReadOnly="True"
+										Text="{Binding GpuDriver, Mode=OneWay}"></TextBox>
+								</WrapPanel>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
 					<!--MainCoinCode-->
 					<DataGridTemplateColumn 
 						Visibility="{Binding Data.ColumnsShow.MainCoinCode, Source={StaticResource proxy}, Converter={StaticResource BoolToVisibilityConverter}}"
@@ -1887,77 +1958,6 @@
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-					<!--GpuDriver-->
-					<DataGridTemplateColumn 
-						Visibility="{Binding Data.ColumnsShow.GpuDriver,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-						IsReadOnly="True">
-						<DataGridTemplateColumn.Header>
-							<WrapPanel>
-								<TextBlock>显卡驱动</TextBlock>
-								<controls:KbButton
-									ToolTip="不展示"
-									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
-									CommandParameter="GpuDriver"
-									Background="Transparent">
-									<WrapPanel>
-										<Path
-											Width="14"
-											Height="8"
-											Data="{StaticResource Icon_Hide}"
-											Fill="#FF5A5A5A"
-											Stretch="Fill" />
-									</WrapPanel>
-								</controls:KbButton>
-							</WrapPanel>
-						</DataGridTemplateColumn.Header>
-						<DataGridTemplateColumn.CellTemplate>
-							<DataTemplate>
-								<WrapPanel>
-									<TextBox 
-										BorderThickness="0"
-										Background="Transparent"
-										IsReadOnly="True"
-										Text="{Binding GpuDriver, Mode=OneWay}"></TextBox>
-								</WrapPanel>
-							</DataTemplate>
-						</DataGridTemplateColumn.CellTemplate>
-					</DataGridTemplateColumn>
-					<!--GpuInfo-->
-					<DataGridTemplateColumn 
-						Visibility="{Binding Data.ColumnsShow.GpuInfo,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-						IsReadOnly="True">
-						<DataGridTemplateColumn.Header>
-							<WrapPanel>
-								<TextBlock>显卡</TextBlock>
-								<controls:KbButton
-									ToolTip="不展示"
-									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
-									CommandParameter="GpuInfo"
-									Background="Transparent">
-									<WrapPanel>
-										<Path
-											Width="14"
-											Height="8"
-											Data="{StaticResource Icon_Hide}"
-											Fill="#FF5A5A5A"
-											Stretch="Fill" />
-									</WrapPanel>
-								</controls:KbButton>
-							</WrapPanel>
-						</DataGridTemplateColumn.Header>
-						<DataGridTemplateColumn.CellTemplate>
-							<DataTemplate>
-								<WrapPanel>
-									<TextBox 
-										BorderThickness="0"
-										Background="Transparent"
-										IsReadOnly="True"
-										ToolTip="{Binding GpuInfo}"
-										Text="{Binding GpuInfo, Mode=OneWay}"></TextBox>
-								</WrapPanel>
-							</DataTemplate>
-						</DataGridTemplateColumn.CellTemplate>
-					</DataGridTemplateColumn>
 					<!--KernelCommandLine-->
 					<DataGridTemplateColumn 
 						Visibility="{Binding Data.ColumnsShow.KernelCommandLine,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
@@ -2105,6 +2105,8 @@
 					<CheckBox Visibility="{Binding ColumnsShow.MinerIp, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MinerIp}" Margin="0 0 6 0">IP</CheckBox>
 					<CheckBox Visibility="{Binding ColumnsShow.WindowsLoginNameAndPassword, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.WindowsLoginNameAndPassword}" Margin="0 0 6 0">远程桌面用户名密码</CheckBox>
 					<CheckBox Visibility="{Binding ColumnsShow.GpuType, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.GpuType}" Margin="0 0 6 0">显卡类型</CheckBox>
+					<CheckBox Visibility="{Binding ColumnsShow.GpuInfo, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.GpuInfo}" Margin="0 0 6 0">显卡</CheckBox>
+					<CheckBox Visibility="{Binding ColumnsShow.GpuDriver, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.GpuDriver}" Margin="0 0 6 0">显卡驱动</CheckBox>
 					<CheckBox Visibility="{Binding ColumnsShow.MainCoinCode, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MainCoinCode}" Margin="0 0 6 0">主挖币种</CheckBox>
 					<CheckBox Visibility="{Binding ColumnsShow.MainCoinSpeedText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MainCoinSpeedText}" Margin="0 0 6 0">主币算力</CheckBox>
 					<CheckBox Visibility="{Binding ColumnsShow.MainCoinRejectPercentText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MainCoinRejectPercentText}" Margin="0 0 6 0">主币拒绝</CheckBox>
@@ -2126,8 +2128,6 @@
 					<CheckBox Visibility="{Binding ColumnsShow.DiskSpace, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.DiskSpace}" Margin="0 0 6 0">剩余磁盘</CheckBox>
 					<CheckBox Visibility="{Binding ColumnsShow.IsAutoBoot, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.IsAutoBoot}" Margin="0 0 6 0">开机启动</CheckBox>
 					<CheckBox Visibility="{Binding ColumnsShow.IsAutoStart, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.IsAutoStart}" Margin="0 0 6 0">自动挖矿</CheckBox>
-					<CheckBox Visibility="{Binding ColumnsShow.GpuDriver, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.GpuDriver}" Margin="0 0 6 0">显卡驱动</CheckBox>
-					<CheckBox Visibility="{Binding ColumnsShow.GpuInfo, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.GpuInfo}" Margin="0 0 6 0">显卡</CheckBox>
 					<CheckBox Visibility="{Binding ColumnsShow.KernelCommandLine, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.KernelCommandLine}" Margin="0 0 6 0">内核命令行</CheckBox>
 				</WrapPanel>
 			</Grid>

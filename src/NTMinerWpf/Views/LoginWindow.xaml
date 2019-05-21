@@ -11,7 +11,6 @@
 		mc:Ignorable="d"
 		ResizeMode="NoResize"
 		Background="White"
-		BorderThickness="0.8"
 		BorderBrush="{StaticResource IconFillColor}"
 		WindowStartupLocation="CenterScreen"
 		MouseDown="MetroWindow_MouseDown"
