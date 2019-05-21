@@ -96,7 +96,7 @@ namespace NTMiner.Vms {
                         Logger.ErrorDebugLine(e.Error.Message, e.Error);
                     }
                     if (e.Cancelled) {
-                        message = "文件下载已取消";
+                        message = "已取消";
                     }
                     this.DownloadMessage = message;
                     this.DownloadPercent = 0;
