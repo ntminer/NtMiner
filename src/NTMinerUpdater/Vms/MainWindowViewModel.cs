@@ -155,7 +155,7 @@ namespace NTMiner.Vms {
                         Logger.ErrorDebugLine(e.Error.Message, e.Error);
                     }
                     if (e.Cancelled) {
-                        message = "下载取消";
+                        message = "下载已取消";
                     }
                     if (isSuccess) {
                         NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage(App.AppType.ToString() + version + "下载成功");

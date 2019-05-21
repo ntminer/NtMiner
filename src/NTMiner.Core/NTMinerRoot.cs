@@ -539,7 +539,7 @@ namespace NTMiner {
                             StartMine();
                         }
                         else {
-                            VirtualRoot.Happened(new StartingMineFailedEvent("内核下载失败" + message));
+                            VirtualRoot.Happened(new StartingMineFailedEvent(message));
                         }
                     }));
                 }
