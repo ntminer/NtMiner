@@ -18,12 +18,12 @@
 				<WrapPanel Margin="0 2">
 					<CheckBox
 						Content="随系统启动"
-						IsChecked="{Binding MinerProfile.IsAutoBoot}" />
+						IsChecked="{Binding IsAutoBoot}" />
 					<CheckBox
 						Margin="10 0 0 0"
 						Content="启动后自动使用上次的挖矿设置开始挖矿"
 						VerticalAlignment="Top"
-						IsChecked="{Binding MinerProfile.IsAutoStart}" />
+						IsChecked="{Binding IsAutoStart}" />
 				</WrapPanel>
 			</StackPanel>
 		</GroupBox>
