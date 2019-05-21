@@ -16,12 +16,7 @@ namespace NTMiner.Vms {
                 return;
             }
             this.CloseMainWindow = new DelegateCommand(() => {
-                if (MinerProfile.IsNoUi) {
-                    VirtualRoot.Execute(new CloseMainWindowCommand());
-                }
-                else {
-                    VirtualRoot.Execute(new CloseNTMinerCommand());
-                }
+                VirtualRoot.Execute(new CloseMainWindowCommand());
             });
             this.CustomTheme = new DelegateCommand(() => {
                 VirtualRoot.Execute(new ShowLogColorCommand());

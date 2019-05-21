@@ -151,7 +151,7 @@
 					<CheckBox 
 						Padding="0"
 						IsChecked="{Binding IsNoUi}"
-						Content="以无界面模式运行">
+						Content="以无界面模式启动（同时勾选了自动挖矿时生效）">
 					</CheckBox>
 					<TextBlock Foreground="Red">（无界面模式可以减少一点CPU使用率增加稳定性）</TextBlock>
 				</WrapPanel>
