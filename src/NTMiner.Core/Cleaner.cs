@@ -75,6 +75,11 @@ namespace NTMiner {
         /// </summary>
         private static void CleanKernels() {
             try {
+                foreach (var kernelProcessName in NTMinerRoot.Instance.KernelSet.GetAllKernelProcessNames()) {
+                    if (NTMinerRoot.Instance.CurrentMineContext == null || NTMinerRoot.Instance.CurrentMineContext.Kernel.GetProcessName() != kernelProcessName) {
+                        Windows.TaskKill.Kill(kernelProcessName, waitForExit: true);
+                    }
+                }
                 string currentKernelDir = string.Empty;
                 var currentMineContext = NTMinerRoot.Instance.CurrentMineContext;
                 if (currentMineContext != null && currentMineContext.Kernel != null) {
