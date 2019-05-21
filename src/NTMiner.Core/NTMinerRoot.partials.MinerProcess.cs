@@ -15,66 +15,59 @@ namespace NTMiner {
     public partial class NTMinerRoot : INTMinerRoot {
         private static class MinerProcess {
             #region CreateProcess
-            private static string _preExtractPackage = string.Empty;
             private static readonly object _locker = new object();
             public static void CreateProcessAsync(IMineContext mineContext) {
                 Task.Factory.StartNew(() => {
-                    try {
-                        Write.UserInfo("清理内核进程");
-                        HashSet<string> allKernelProcessNames = Instance.KernelSet.GetAllKernelProcessNames();
+                    lock (_locker) {
+                        try {
+                            Write.UserInfo("清理内核进程");
+                            HashSet<string> allKernelProcessNames = Instance.KernelSet.GetAllKernelProcessNames();
 #if DEBUG
-                        VirtualRoot.Stopwatch.Restart();
+                            VirtualRoot.Stopwatch.Restart();
 #endif
-                        foreach (var processName in allKernelProcessNames) {
-                            Windows.TaskKill.Kill(processName, waitForExit: true);
-                        }
+                            foreach (var processName in allKernelProcessNames) {
+                                Windows.TaskKill.Kill(processName, waitForExit: true);
+                            }
 #if DEBUG
-                        Write.DevWarn($"耗时{VirtualRoot.Stopwatch.ElapsedMilliseconds}毫秒 {nameof(MinerProcess)}.{nameof(CreateProcessAsync)}[{nameof(allKernelProcessNames)}]");
+                            Write.DevWarn($"耗时{VirtualRoot.Stopwatch.ElapsedMilliseconds}毫秒 {nameof(MinerProcess)}.{nameof(CreateProcessAsync)}[{nameof(allKernelProcessNames)}]");
 #endif
-                        Write.UserOk("内核进程清理完毕");
-                        Thread.Sleep(1000);
-                        lock (_locker) {
-                            if (_preExtractPackage != mineContext.Kernel.Package) {
-                                Write.UserInfo($"解压内核包{_preExtractPackage}");
-                                // 解压内核包
-                                if (!mineContext.Kernel.ExtractPackage()) {
-                                    Write.UserFail("内核解压失败");
-                                    VirtualRoot.Happened(new StartingMineFailedEvent("内核解压失败。"));
-                                }
-                                else {
-                                    _preExtractPackage = mineContext.Kernel.Package;
-                                }
-                                Write.UserOk("内核包解压成功");
+                            Write.UserOk("内核进程清理完毕");
+                            Thread.Sleep(1000);
+                            Write.UserInfo($"解压内核包{mineContext.Kernel.Package}");
+                            // 解压内核包
+                            if (!mineContext.Kernel.ExtractPackage()) {
+                                Write.UserFail("内核解压失败");
+                                VirtualRoot.Happened(new StartingMineFailedEvent("内核解压失败。"));
                             }
                             else {
-                                Write.UserOk("没有切换内核，无需重复解压，直接跳过。");
+                                Write.UserOk("内核包解压成功");
                             }
-                        }
 
-                        Write.UserInfo("总成命令");
-                        // 组装命令
-                        BuildCmdLine(mineContext, out var kernelExeFileFullName, out var arguments);
-                        bool isLogFile = arguments.Contains("{logfile}");
-                        // 这是不应该发生的，如果发生很可能是填写命令的时候拼写错误了
-                        if (!File.Exists(kernelExeFileFullName)) {
-                            Write.UserError(kernelExeFileFullName + "文件不存在，可能是小编拼写错误导致，请QQ群联系小编。");
+                            Write.UserInfo("总成命令");
+                            // 组装命令
+                            BuildCmdLine(mineContext, out var kernelExeFileFullName, out var arguments);
+                            bool isLogFile = arguments.Contains("{logfile}");
+                            // 这是不应该发生的，如果发生很可能是填写命令的时候拼写错误了
+                            if (!File.Exists(kernelExeFileFullName)) {
+                                Write.UserError(kernelExeFileFullName + "文件不存在，可能是小编拼写错误导致，请QQ群联系小编。");
+                            }
+                            if (isLogFile) {
+                                Logger.InfoDebugLine("创建日志文件型进程");
+                                // 如果内核支持日志文件
+                                // 推迟打印cmdLine，因为{logfile}变量尚未求值
+                                CreateLogfileProcess(mineContext, kernelExeFileFullName, arguments);
+                            }
+                            else {
+                                Logger.InfoDebugLine("创建管道型进程");
+                                // 如果内核不支持日志文件
+                                CreatePipProcess(mineContext, kernelExeFileFullName, arguments);
+                            }
+                            VirtualRoot.Happened(new MineStartedEvent(mineContext));
                         }
-                        if (isLogFile) {
-                            Logger.InfoDebugLine("创建日志文件型进程");
-                            // 如果内核支持日志文件
-                            // 推迟打印cmdLine，因为{logfile}变量尚未求值
-                            CreateLogfileProcess(mineContext, kernelExeFileFullName, arguments);
+                        catch (Exception e) {
+                            Logger.ErrorDebugLine(e);
+                            Write.UserFail("挖矿内核启动失败，请联系开发人员解决");
                         }
-                        else {
-                            Logger.InfoDebugLine("创建管道型进程");
-                            // 如果内核不支持日志文件
-                            CreatePipProcess(mineContext, kernelExeFileFullName, arguments);
-                        }
-                        VirtualRoot.Happened(new MineStartedEvent(mineContext));
-                    }
-                    catch (Exception e) {
-                        Logger.ErrorDebugLine(e);
-                        Write.UserFail("挖矿内核启动失败，请联系开发人员解决");
                     }
                 });
             }
@@ -245,8 +238,7 @@ namespace NTMiner {
             #region CreatePipProcess
             // 创建管道，将输出通过管道转送到日志文件，然后读取日志文件内容打印到控制台
             private static void CreatePipProcess(IMineContext mineContext, string kernelExeFileFullName, string arguments) {
-                SECURITY_ATTRIBUTES saAttr = new SECURITY_ATTRIBUTES
-                {
+                SECURITY_ATTRIBUTES saAttr = new SECURITY_ATTRIBUTES {
                     bInheritHandle = true,
                     lpSecurityDescriptor = IntPtr.Zero,
                     length = Marshal.SizeOf(typeof(SECURITY_ATTRIBUTES))
