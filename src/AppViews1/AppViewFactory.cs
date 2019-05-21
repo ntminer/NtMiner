@@ -138,7 +138,7 @@ namespace NTMiner.Views {
             VirtualRoot.Window<ShowKernelDownloaderCommand>(LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
-                        KernelsPage.ShowWindow(message.KernelId, message.DownloadComplete);
+                        KernelDownloading.ShowWindow(message.KernelId, message.DownloadComplete);
                     });
                 });
             VirtualRoot.Window<EnvironmentVariableEditCommand>(LogEnum.DevConsole,

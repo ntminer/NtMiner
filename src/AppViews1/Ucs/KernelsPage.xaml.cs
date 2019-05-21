@@ -1,38 +1,9 @@
 ﻿using NTMiner.Vms;
-using System;
 using System.Windows;
 using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class KernelsPage : UserControl {
-        // TODO:单独一个弹窗下载
-        public static void ShowWindow(Guid kernelId, Action<bool, string> downloadComplete = null) {
-            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                Title = "插件",
-                IconName = "Icon_Kernel",
-                CloseVisible = System.Windows.Visibility.Visible,
-                FooterVisible = System.Windows.Visibility.Collapsed,
-                Width = DevMode.IsDebugMode ? 960 : 860,
-                Height = 520
-            },
-            ucFactory: (window) => {
-                var uc = new KernelsPage(); 
-                uc.AutoDownload(kernelId, (isSuccess, message)=> {
-                    downloadComplete(isSuccess, message);
-                    window.Close();
-                });
-                return uc;
-            });
-        }
-
-        private void AutoDownload(Guid kernelId, Action<bool, string> downloadComplete) {
-            if (kernelId != Guid.Empty) {
-                this.Vm.Download(kernelId, (isSuccess, message) => {
-                    downloadComplete(isSuccess, message);
-                });
-            }
-        }
-
         public KernelsWindowViewModel Vm {
             get {
                 return (KernelsWindowViewModel)this.DataContext;

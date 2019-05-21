@@ -9,36 +9,18 @@
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
-	    d:DataContext="{d:DesignData Source=/Design/KernelsWindowViewModel.xaml}"
+		d:DataContext="{d:DesignData Source=/Design/KernelsWindowViewModel.xaml}"
 		Background="#DCEAF4"
 		BorderThickness="0 0 1 0"
-		mc:Ignorable="d" d:DesignHeight="520" Width="294">
+		mc:Ignorable="d" Height="120" Width="294">
+	<UserControl.DataContext>
+		<vm:KernelDownloadingViewModel></vm:KernelDownloadingViewModel>
+	</UserControl.DataContext>
 	<UserControl.Effect>
 		<DropShadowEffect Color="LightGray" BlurRadius="16" ShadowDepth="0" Opacity="1" />
 	</UserControl.Effect>
 	<Grid>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="30"></RowDefinition>
-			<RowDefinition Height="*"></RowDefinition>
-		</Grid.RowDefinitions>
-		<Grid>
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="*"></ColumnDefinition>
-				<ColumnDefinition Width="Auto"></ColumnDefinition>
-			</Grid.ColumnDefinitions>
-			<TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="下载中"></TextBlock>
-			<controls:KbSystemButton
-				Grid.Column="1"
-				Click="BtnHide_Click"
-				KbSystemButtonForeground="#385263"
-				KbSystemButtonHoverBackground="Red"
-				Icon="{StaticResource Icon_Close}"
-				IconHeight="12"
-				IconWidth="12">
-			</controls:KbSystemButton>
-		</Grid>
 		<ItemsControl 
-			Grid.Row="1"
 			Margin="4 0 4 0"
 			ItemsSource="{Binding DownloadingVms}" 
 			ScrollViewer.HorizontalScrollBarVisibility="Disabled">
