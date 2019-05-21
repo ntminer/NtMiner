@@ -35,8 +35,6 @@
 	<SolidColorBrush x:Key="StateBarForeground">White</SolidColorBrush>
 	<SolidColorBrush x:Key="MinerProfileBackground">#F0F0F1</SolidColorBrush>
 	<SolidColorBrush x:Key="WindowBorderBrush">#9B9FB9</SolidColorBrush>
-	<sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">8</sys:Double>
-	<sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarButtonHeightKey}">0</sys:Double>
 
 	<ControlTemplate x:Key="ErrorTemplate">
 		<DockPanel LastChildFill="true">
