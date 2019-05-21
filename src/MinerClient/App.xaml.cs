@@ -84,7 +84,12 @@ namespace NTMiner {
                             NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage("没有矿卡或矿卡未驱动。");
                         }
                         UIThread.Execute(() => {
-                            AppViewFactory.ShowMainWindow(isToggle: false);
+                            if (NTMinerRegistry.GetIsNoUi() && NTMinerRegistry.GetIsAutoStart()) {
+                                NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage("已切换为无界面模式运行", "开源矿工");
+                            }
+                            else {
+                                AppViewFactory.ShowMainWindow(isToggle: false);
+                            }
                             AppContext.NotifyIcon = ExtendedNotifyIcon.Create("开源矿工", isMinerStudio: false);
                             splashWindow?.Close();
                         });

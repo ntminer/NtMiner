@@ -151,9 +151,9 @@
 					<CheckBox 
 						Padding="0"
 						IsChecked="{Binding IsNoUi}"
-						Content="关闭主窗口时切换为无界面模式运行">
+						Content="以无界面模式运行">
 					</CheckBox>
-					<TextBlock Foreground="Red">（关闭界面可以减少一点CPU使用率增加稳定性）</TextBlock>
+					<TextBlock Foreground="Red">（无界面模式可以减少一点CPU使用率增加稳定性）</TextBlock>
 				</WrapPanel>
 
 				<WrapPanel Margin="0 2">
