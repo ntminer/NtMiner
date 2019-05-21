@@ -205,7 +205,7 @@ namespace NTMiner.Vms {
                             Logger.ErrorDebugLine(e.Error.Message, e.Error);
                         }
                         if (e.Cancelled) {
-                            message = "下载取消";
+                            message = "已取消";
                         }
                         downloadComplete?.Invoke(isSuccess, message, saveFileFullName);
                     });

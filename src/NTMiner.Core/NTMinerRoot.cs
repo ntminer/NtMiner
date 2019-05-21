@@ -533,13 +533,13 @@ namespace NTMiner {
                 }
                 string packageZipFileFullName = Path.Combine(SpecialPath.PackagesDirFullName, kernel.Package);
                 if (!File.Exists(packageZipFileFullName)) {
-                    Logger.WarnWriteLine(kernel.GetFullName() + "本地内核包不存在，触发自动下载");
+                    Logger.WarnWriteLine(kernel.GetFullName() + "本地内核包不存在，开始自动下载");
                     VirtualRoot.Execute(new ShowKernelDownloaderCommand(kernel.GetId(), downloadComplete: (isSuccess, message) => {
                         if (isSuccess) {
                             StartMine();
                         }
                         else {
-                            VirtualRoot.Happened(new StartingMineFailedEvent("内核下载失败" + message));
+                            VirtualRoot.Happened(new StartingMineFailedEvent("内核下载：" + message));
                         }
                     }));
                 }
