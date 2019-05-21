@@ -3,6 +3,12 @@ using NTMiner.Core;
 using System;
 
 namespace NTMiner {
+    [MessageType(description: "打开内核列表窗口")]
+    public class ShowKernelsWindowCommand : Cmd {
+        public ShowKernelsWindowCommand() {
+        }
+    }
+
     [MessageType(description: "打开内核下载界面")]
     public class ShowKernelDownloaderCommand : Cmd {
         public ShowKernelDownloaderCommand(Guid kernelId, Action<bool, string> downloadComplete) {

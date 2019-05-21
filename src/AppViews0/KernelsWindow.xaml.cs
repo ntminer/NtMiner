@@ -7,7 +7,7 @@ namespace NTMiner.Views {
     public partial class KernelsWindow : BlankWindow {
         private static readonly object _locker = new object();
         private static KernelsWindow _instance = null;
-        public static void ShowWindow(Guid kernelId, Action<bool, string> downloadComplete = null) {
+        public static void ShowWindow() {
             UIThread.Execute(() => {
                 if (_instance == null) {
                     lock (_locker) {
@@ -20,19 +20,7 @@ namespace NTMiner.Views {
                 else {
                     _instance.ShowWindow(false);
                 }
-                AutoDownload(kernelId, downloadComplete);
             });
-        }
-
-        private static void AutoDownload(Guid kernelId, Action<bool, string> downloadComplete) {
-            if (kernelId != Guid.Empty) {
-                _instance.Vm.Download(kernelId, (isSuccess, message) => {
-                    if (isSuccess) {
-                        _instance.Close();
-                    }
-                    downloadComplete(isSuccess, message);
-                });
-            }
         }
 
         public KernelsWindowViewModel Vm {
