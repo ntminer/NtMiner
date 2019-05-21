@@ -238,10 +238,23 @@
 									<TextBlock
 										TextAlignment="Center"
 										Height="26"
-										Width="78"
+										Width="64"
 										Padding="8 4"
 										Text="{Binding KernelProfileVm.DownloadMessage}"
+										ToolTip="{Binding KernelProfileVm.DownloadMessage}"
 										Visibility="{Binding KernelProfileVm.IsDownloading, Converter={StaticResource BoolToVisibilityConverter}}"></TextBlock>
+									<controls:KbButton 
+										Command="{Binding KernelProfileVm.CancelDownload}"
+										ToolTip="取消下载"
+										Visibility="{Binding KernelProfileVm.IsDownloading, Converter={StaticResource BoolToVisibilityConverter}}"
+										Background="Transparent" BorderThickness="0">
+										<Path
+											Width="14"
+											Height="14"
+											Data="{StaticResource Icon_Cancel}"
+											Fill="{StaticResource IconFillColor}"
+											Stretch="Fill" />
+									</controls:KbButton>
 									<controls:KbButton HorizontalAlignment="Center"
 										Visibility="{Binding KernelProfileVm.BtnInstalledVisible}"
 										Command="{Binding KernelProfileVm.UnInstall}"
