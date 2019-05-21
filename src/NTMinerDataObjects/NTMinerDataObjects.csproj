@@ -48,6 +48,7 @@
     <Compile Include="Core\ICoin.cs" />
     <Compile Include="Core\ICoinGroup.cs" />
     <Compile Include="Core\ICoinKernel.cs" />
+    <Compile Include="Core\IFileWriter.cs" />
     <Compile Include="Core\IGroup.cs" />
     <Compile Include="Core\IKernel.cs" />
     <Compile Include="Core\IKernelInput.cs" />
