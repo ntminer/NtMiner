@@ -301,7 +301,7 @@ namespace NTMiner {
             VirtualRoot.Execute(new ShowKernelOutputPageCommand(selectedKernelOutputVm));
         });
         public static ICommand ShowKernels { get; private set; } = new DelegateCommand(() => {
-            VirtualRoot.Execute(new ShowKernelDownloaderCommand(Guid.Empty, downloadComplete: null));
+            VirtualRoot.Execute(new ShowKernelsWindowCommand());
         });
         public static ICommand ShowAbout { get; private set; } = new DelegateCommand(()=> {
             VirtualRoot.Execute(new ShowAboutPageCommand());

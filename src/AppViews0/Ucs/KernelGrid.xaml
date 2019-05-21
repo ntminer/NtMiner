@@ -19,7 +19,6 @@
 		<DataGrid 
 			Margin="0" ItemsSource="{Binding QueryResults}" 
 			BorderThickness="0" RowHeight="40"
-			PreviewMouseDown="DataGrid_PreviewMouseDown"
 			MouseDoubleClick="DataGrid_MouseDoubleClick">
 			<DataGrid.Resources>
 				<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
@@ -213,7 +212,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Width="100" Header="安装" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn Width="100" MinWidth="100" Header="安装" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<Grid>

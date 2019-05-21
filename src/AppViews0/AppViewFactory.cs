@@ -141,10 +141,16 @@ namespace NTMiner.Views {
                         UserPage.ShowWindow();
                     });
                 });
+            VirtualRoot.Window<ShowKernelsWindowCommand>(LogEnum.DevConsole,
+                action: message => {
+                    UIThread.Execute(() => {
+                        KernelsWindow.ShowWindow();
+                    });
+                });
             VirtualRoot.Window<ShowKernelDownloaderCommand>(LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
-                        KernelsWindow.ShowWindow(message.KernelId, message.DownloadComplete);
+                        KernelDownloading.ShowWindow(message.KernelId, message.DownloadComplete);
                     });
                 });
             VirtualRoot.Window<EnvironmentVariableEditCommand>(LogEnum.DevConsole,
