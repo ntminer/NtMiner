@@ -45,17 +45,11 @@ namespace NTMiner.Views.Ucs {
                 return;
             }
             AppContext.Instance.KernelVms.PropertyChanged += Current_PropertyChanged;
-            AppContext.Instance.KernelVms.IsDownloadingChanged += Current_IsDownloadingChanged;
             this.Unloaded += KernelsPage_Unloaded;
         }
 
         private void KernelsPage_Unloaded(object sender, RoutedEventArgs e) {
             AppContext.Instance.KernelVms.PropertyChanged -= Current_PropertyChanged;
-            AppContext.Instance.KernelVms.IsDownloadingChanged -= Current_IsDownloadingChanged;
-        }
-
-        private void Current_IsDownloadingChanged(KernelViewModel obj) {
-            Vm.OnPropertyChanged(nameof(Vm.DownloadingVms));
         }
 
         private void Current_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) {

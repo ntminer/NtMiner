@@ -20,22 +20,23 @@ namespace NTMiner.Views.Ucs {
             },
             beforeShow: uc=> {
                 if (kernelId != Guid.Empty) {
-                    var vm = (KernelsWindowViewModel)uc.DataContext;
+                    var vm = (KernelDownloadingViewModel)uc.DataContext;
                     vm.Download(kernelId, (isSuccess, message) => {
                         if (isSuccess) {
                             ((KernelDownloading)uc).CloseWindow();
                         }
                         downloadComplete(isSuccess, message);
                     });
+                    vm.OnPropertyChanged(nameof(vm.DownloadingVms));
                 }
             }, fixedSize: true);
         }
 
         private Action CloseWindow;
 
-        public KernelsWindowViewModel Vm {
+        public KernelDownloadingViewModel Vm {
             get {
-                return (KernelsWindowViewModel)this.DataContext;
+                return (KernelDownloadingViewModel)this.DataContext;
             }
         }
 

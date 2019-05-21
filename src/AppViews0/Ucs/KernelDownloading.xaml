@@ -14,7 +14,7 @@
 		BorderThickness="0 0 1 0"
 		mc:Ignorable="d" Height="120" Width="294">
 	<UserControl.DataContext>
-		<vm:KernelsWindowViewModel></vm:KernelsWindowViewModel>
+		<vm:KernelDownloadingViewModel></vm:KernelDownloadingViewModel>
 	</UserControl.DataContext>
 	<UserControl.Effect>
 		<DropShadowEffect Color="LightGray" BlurRadius="16" ShadowDepth="0" Opacity="1" />

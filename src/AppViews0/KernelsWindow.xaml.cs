@@ -35,18 +35,12 @@ namespace NTMiner.Views {
                 this.Width += 600;
             }
             AppContext.Instance.KernelVms.PropertyChanged += Current_PropertyChanged;
-            AppContext.Instance.KernelVms.IsDownloadingChanged += Current_IsDownloadingChanged;
         }
 
         protected override void OnClosed(EventArgs e) {
             AppContext.Instance.KernelVms.PropertyChanged -= Current_PropertyChanged;
-            AppContext.Instance.KernelVms.IsDownloadingChanged -= Current_IsDownloadingChanged;
             base.OnClosed(e);
             _instance = null;
-        }
-
-        private void Current_IsDownloadingChanged(KernelViewModel obj) {
-            Vm.OnPropertyChanged(nameof(Vm.DownloadingVms));
         }
 
         private void Current_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) {
@@ -69,13 +63,13 @@ namespace NTMiner.Views {
             ButtonRight.IsEnabled = offset < CoinsScrollView.ScrollableWidth;
         }
 
-        private void CoinsScrollView_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+        private void CoinsScrollView_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
             Wpf.Util.ScrollViewer_PreviewMouseDown(sender, e);
         }
 
-        private void ListBox_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed) {
-                Window window = Window.GetWindow(this);
+        private void ListBox_MouseDown(object sender, MouseButtonEventArgs e) {
+            if (e.LeftButton == MouseButtonState.Pressed) {
+                Window window = GetWindow(this);
                 window.DragMove();
             }
         }

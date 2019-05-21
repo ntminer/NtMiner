@@ -254,12 +254,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        public List<KernelViewModel> DownloadingVms {
-            get {
-                return AppContext.Instance.KernelVms.AllKernels.Where(a => a.KernelProfileVm.IsDownloading).OrderBy(a => a.Code + a.Version).ToList();
-            }
-        }
-
         public List<KernelMenu> KernelMenus {
             get { return _kernelMenus; }
             set {
