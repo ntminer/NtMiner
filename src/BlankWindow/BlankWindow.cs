@@ -70,7 +70,15 @@ namespace NTMiner {
             // if UseNoneWindowStyle = true no movement, no maximize please
             if (e.ChangedButton == MouseButton.Left) {
                 var mPoint = Mouse.GetPosition(this);
-
+                #region 这一段是用来窗口最大化后拖动标题可以还原为普通状态的
+                IntPtr windowHandle = new WindowInteropHelper(this).Handle;
+                UnsafeNativeMethods.ReleaseCapture();
+                var wpfPoint = PointToScreen(mPoint);
+                var x = Convert.ToInt16(wpfPoint.X);
+                var y = Convert.ToInt16(wpfPoint.Y);
+                var lParam = (int)x | (y << 16);
+                #endregion
+                UnsafeNativeMethods.SendMessage(windowHandle, Constants.WM_NCLBUTTONDOWN, Constants.HT_CAPTION, lParam);
                 var canResize = ResizeMode == ResizeMode.CanResizeWithGrip || ResizeMode == ResizeMode.CanResize;
                 // we can maximize or restore the window if the title bar height is set (also if title bar is hidden)
                 var isMouseOnTitlebar = mPoint.Y <= TitleBarHeight && TitleBarHeight > 0;

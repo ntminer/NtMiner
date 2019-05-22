@@ -17,7 +17,6 @@
 	Height="{x:Static app:AppStatic.MainWindowHeight}"
 	MinHeight="430"
 	MinWidth="640"
-	TitleBarHeight="40"
 	d:DesignHeight="520" 
 	d:DesignWidth="1200"
 	Background="#EEECEF"

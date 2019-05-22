@@ -118,6 +118,7 @@
     <Compile Include="Vms\DriveViewModel.cs" />
     <Compile Include="Vms\EnvironmentVariableEditViewModel.cs" />
     <Compile Include="Vms\FileDownloaderViewModel.cs" />
+    <Compile Include="Vms\FileWriterViewModel.cs" />
     <Compile Include="Vms\GpuProfilesPageViewModel.cs" />
     <Compile Include="Vms\GpuProfileViewModel.cs" />
     <Compile Include="Vms\GpuSpeedDataViewModel.cs" />
