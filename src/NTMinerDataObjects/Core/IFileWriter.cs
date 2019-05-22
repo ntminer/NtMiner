@@ -1,6 +1,9 @@
 ﻿using System;
 
 namespace NTMiner.Core {
+    /// <summary>
+    /// 运行时根据上下文和该对象往指定的位置写文件
+    /// </summary>
     public interface IFileWriter : IEntity<Guid> {
         /// <summary>
         /// 相对路径。
