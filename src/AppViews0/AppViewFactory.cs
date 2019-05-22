@@ -196,6 +196,12 @@ namespace NTMiner.Views {
                         SpeedCharts.ShowWindow(message.GpuSpeedVm);
                     });
                 });
+            VirtualRoot.Window<ShowFileWriterPageCommand>(LogEnum.DevConsole,
+                action: message => {
+                    UIThread.Execute(() => {
+                        FileWriterPage.ShowWindow();
+                    });
+                });
             VirtualRoot.Window<FileWriterEditCommand>(LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {

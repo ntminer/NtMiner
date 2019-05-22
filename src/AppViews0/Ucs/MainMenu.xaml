@@ -105,6 +105,16 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
+				<MenuItem Header="文件书写器" Command="{x:Static app:AppStatic.ShowFileWriters}">
+					<MenuItem.Icon>
+						<Path
+							Width="14"
+							Height="14"
+							Data="{StaticResource Icon_FileWriter}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
 				<MenuItem Header="通知中心Demo" Command="{x:Static app:AppStatic.ShowNotificationSample}">
 					<MenuItem.Icon>
 						<Path

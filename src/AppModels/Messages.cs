@@ -198,6 +198,12 @@ namespace NTMiner {
         public GroupViewModel Source { get; private set; }
     }
 
+    [MessageType(description: "打开文件书写器列表页")]
+    public class ShowFileWriterPageCommand : Cmd {
+        public ShowFileWriterPageCommand() {
+        }
+    }
+
     [MessageType(description: "打开文件书写器编辑界面")]
     public class FileWriterEditCommand : Cmd {
         public FileWriterEditCommand(FormType formType, FileWriterViewModel source) {

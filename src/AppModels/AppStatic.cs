@@ -297,6 +297,9 @@ namespace NTMiner {
         public static ICommand ShowKernelInputs { get; private set; } = new DelegateCommand(()=> {
             VirtualRoot.Execute(new ShowKernelInputPageCommand());
         });
+        public static ICommand ShowFileWriters { get; private set; } = new DelegateCommand(() => {
+            VirtualRoot.Execute(new ShowFileWriterPageCommand());
+        });
         public static ICommand ShowKernelOutputs { get; private set; } = new DelegateCommand<KernelOutputViewModel>((selectedKernelOutputVm) => {
             VirtualRoot.Execute(new ShowKernelOutputPageCommand(selectedKernelOutputVm));
         });
