@@ -8,10 +8,8 @@
 			 xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
 			 xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 			 xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+			 d:DataContext="{d:DesignData Source=/Design/MinerStateViewModel.xaml}"
 			 mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="400">
-	<UserControl.DataContext>
-		<vm:MinerStateViewModel></vm:MinerStateViewModel>
-	</UserControl.DataContext>
 	<Grid>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="{Binding SideWidth}"></ColumnDefinition>
@@ -23,28 +21,79 @@
 			<RowDefinition Height="110"></RowDefinition>
 			<RowDefinition Height="*"></RowDefinition>
 		</Grid.RowDefinitions>
-		<StackPanel Margin="0 4 4 0" Background="White">
-			<TextBlock>挖矿时长</TextBlock>
-		</StackPanel>
-		<StackPanel Margin="4 4 4 0" Grid.Column="1" Background="White">
-			<TextBlock>矿池接受率（确认/拒绝）</TextBlock>
-		</StackPanel>
-		<StackPanel Margin="4 4 4 0" Grid.Column="2" Background="White">
-			<TextBlock>矿池24小时算力</TextBlock>
-		</StackPanel>
-		<StackPanel Margin="4 4 0 0" Grid.Column="3" Background="White">
-			<TextBlock>矿池收益</TextBlock>
-		</StackPanel>
-
-		<StackPanel Margin="0 6 4 0" Grid.Row="1" Background="White">
-			<TextBlock>GPU状态</TextBlock>
-		</StackPanel>
-		<StackPanel Margin="4 6 4 0" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Background="White">
-			<TextBlock>GPU监控</TextBlock>
-		</StackPanel>
-		<StackPanel Margin="4 6 0 0" Grid.Row="1" Grid.Column="3" Background="White">
-			<TextBlock>主币算力</TextBlock>
-			<TextBlock>辅币算力</TextBlock>
-		</StackPanel>
+		<Border Margin="0 4 4 0" Padding="10" Background="White">
+			<StackPanel>
+				<TextBlock FontSize="14" FontWeight="Bold">挖矿时长</TextBlock>
+				<TextBlock 
+					Padding="0 8"
+					FontSize="22"
+					Text="{Binding StateBarVm.MineTimeSpanText}"></TextBlock>
+				<WrapPanel>
+					<TextBlock>挖矿时长</TextBlock>
+					<TextBlock Margin="4 0 0 0" Text="{Binding StateBarVm.BootTimeSpanText}"></TextBlock>
+				</WrapPanel>
+			</StackPanel>
+		</Border>
+		<Border Margin="4 4 4 0" Grid.Column="1" Padding="10" Background="White">
+			<StackPanel>
+				<TextBlock FontSize="14" FontWeight="Bold">矿池接受率（确认/拒绝）</TextBlock>
+				<WrapPanel Margin="0 8">
+					<TextBlock FontSize="22" Text="{Binding MinerProfile.CoinVm.ShareVm.AcceptShareCount}"></TextBlock>
+					<TextBlock FontSize="22">/</TextBlock>
+					<TextBlock FontSize="22" Text="{Binding MinerProfile.CoinVm.ShareVm.RejectShareCount}"></TextBlock>
+				</WrapPanel>
+				<WrapPanel>
+					<TextBlock>矿池延迟</TextBlock>
+					<TextBlock Margin="4 0 0 0">TODO:</TextBlock>
+				</WrapPanel>
+			</StackPanel>
+		</Border>
+		<Border Margin="4 4 4 0" Grid.Column="2" Padding="10" Background="White">
+			<StackPanel>
+				<TextBlock>矿池24小时算力</TextBlock>
+			</StackPanel>
+		</Border>
+		<Border Margin="4 4 0 0" Grid.Column="3" Padding="10" Background="White">
+			<StackPanel>
+				<TextBlock>矿池收益</TextBlock>
+			</StackPanel>
+		</Border>
+		<Border Margin="0 6 4 0" Grid.Row="1" Padding="10" Background="White">
+			<Grid>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto"></RowDefinition>
+					<RowDefinition Height="*"></RowDefinition>
+					<RowDefinition Height="Auto"></RowDefinition>
+				</Grid.RowDefinitions>
+				<TextBlock FontSize="14" FontWeight="Bold">GPU状态</TextBlock>
+				<Ellipse Grid.Row="1" Width="100" Height="100" Stroke="Green" StrokeThickness="10"></Ellipse>
+				<StackPanel Grid.Row="2" HorizontalAlignment="Left">
+					<TextBlock>异常GPU数</TextBlock>
+					<WrapPanel Margin="0 8">
+						<TextBlock FontSize="22">0</TextBlock>
+						<TextBlock FontSize="22">/</TextBlock>
+						<TextBlock FontSize="22">0</TextBlock>
+					</WrapPanel>
+				</StackPanel>
+				<StackPanel Grid.Row="2" HorizontalAlignment="Right">
+					<TextBlock>显卡最高温度</TextBlock>
+					<WrapPanel Margin="0 8">
+						<TextBlock FontSize="22">0</TextBlock>
+						<TextBlock FontSize="22">℃</TextBlock>
+					</WrapPanel>
+				</StackPanel>
+			</Grid>
+		</Border>
+		<Border Margin="4 6 4 0" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Padding="10" Background="White">
+			<StackPanel>
+				<TextBlock>GPU监控</TextBlock>
+			</StackPanel>
+		</Border>
+		<Border Margin="4 6 0 0" Grid.Row="1" Grid.Column="3" Padding="10" Background="White">
+			<StackPanel>
+				<TextBlock>主币算力</TextBlock>
+				<TextBlock>辅币算力</TextBlock>
+			</StackPanel>
+		</Border>
 	</Grid>
 </UserControl>

@@ -22,6 +22,9 @@ namespace NTMiner.Views {
 #endif
             UIThread.StartTimer();
             InitializeComponent();
+            if (Design.IsInDesignMode) {
+                return;
+            }
             this.StateChanged += (s, e) => {
                 if (Vm.MinerProfile.IsShowInTaskbar) {
                     ShowInTaskbar = true;

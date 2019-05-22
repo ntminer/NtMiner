@@ -6,6 +6,16 @@ using System.Windows.Input;
 namespace NTMiner.Vms {
     public class MainWindowViewModel : ViewModelBase {
         private string _serverJsonVersion;
+        private StateBarViewModel _stateBarVm = new StateBarViewModel();
+        private MinerStateViewModel _minerStateVm;
+        public MinerStateViewModel MinerStateVm {
+            get {
+                if (_minerStateVm == null) {
+                    _minerStateVm = new MinerStateViewModel(_stateBarVm);
+                }
+                return _minerStateVm;
+            }
+        }
 
         public ICommand CustomTheme { get; private set; }
         public ICommand UseThisPcName { get; private set; }
@@ -45,8 +55,7 @@ namespace NTMiner.Vms {
                 if (NTMinerRoot.KernelBrandId == Guid.Empty && NTMinerRoot.PoolBrandId == Guid.Empty) {
                     return string.Empty;
                 }
-                ISysDicItem dicItem;
-                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(NTMinerRoot.KernelBrandId, out dicItem)) {
+                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(NTMinerRoot.KernelBrandId, out ISysDicItem dicItem)) {
                     if (!string.IsNullOrEmpty(dicItem.Value)) {
                         return dicItem.Value + "专版";
                     }
@@ -59,6 +68,14 @@ namespace NTMiner.Vms {
                     return dicItem.Code + "专版";
                 }
                 return string.Empty;
+            }
+        }
+
+        public StateBarViewModel StateBarVm {
+            get => _stateBarVm;
+            set {
+                _stateBarVm = value;
+                OnPropertyChanged(nameof(StateBarVm));
             }
         }
 
