@@ -62,26 +62,6 @@ namespace NTMiner.Views {
                         Vm.ServerJsonVersion = Vm.GetServerJsonVersion();
                     });
             }
-            this.On<Per1SecondEvent>("挖矿计时秒表", LogEnum.None,
-                action: message => {
-                    DateTime now = DateTime.Now;
-                    Vm.StateBarVm.BootTimeSpan = now - NTMinerRoot.Instance.CreatedOn;
-                    if (NTMinerRoot.IsAutoStart && VirtualRoot.SecondCount <= 10 && !NTMinerRoot.IsAutoStartCanceled) {
-                        return;
-                    }
-                    var mineContext = NTMinerRoot.Instance.CurrentMineContext;
-                    if (mineContext != null) {
-                        Vm.StateBarVm.MineTimeSpan = now - mineContext.CreatedOn;
-                        if (!Vm.MinerProfile.IsMining) {
-                            Vm.MinerProfile.IsMining = true;
-                        }
-                    }
-                    else {
-                        if (Vm.MinerProfile.IsMining) {
-                            Vm.MinerProfile.IsMining = false;
-                        }
-                    }
-                });
 #if DEBUG
             Write.DevWarn($"耗时{VirtualRoot.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
 #endif
