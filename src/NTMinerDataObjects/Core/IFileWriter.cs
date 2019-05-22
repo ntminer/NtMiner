@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace NTMiner.Core {
-    public interface IFileWriter {
+    public interface IFileWriter : IEntity<Guid> {
         /// <summary>
         /// 相对路径。
         /// </summary>
