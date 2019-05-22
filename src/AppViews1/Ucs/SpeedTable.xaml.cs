@@ -11,7 +11,9 @@ namespace NTMiner.Views.Ucs {
         }
 
         public SpeedTable() {
-            this.DataContext = AppContext.Instance.GpuSpeedVms;
+            if (!Design.IsInDesignMode) {
+                this.DataContext = AppContext.Instance.GpuSpeedVms;
+            }
             InitializeComponent();
         }
 

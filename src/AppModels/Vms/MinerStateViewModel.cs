@@ -3,8 +3,8 @@
         public const double DefaultSideWidth = 220;
         private double _sideWidth = DefaultSideWidth;
 
-        public MinerStateViewModel() {
-            this.StateBarVm = new StateBarViewModel();
+        public MinerStateViewModel(StateBarViewModel stateBarVm) {
+            this.StateBarVm = stateBarVm;
         }
 
         public StateBarViewModel StateBarVm {

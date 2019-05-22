@@ -8,10 +8,8 @@
 			 xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
 			 xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 			 xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+		     d:DataContext="{d:DesignData Source=/Design/StateBarViewModel.xaml}"
 			 mc:Ignorable="d" d:DesignWidth="800">
-	<UserControl.DataContext>
-		<vm:StateBarViewModel></vm:StateBarViewModel>
-	</UserControl.DataContext>
 	<WrapPanel>
 		<WrapPanel Visibility="{Binding IsNoticeVisible}">
 			<TextBlock>挖矿币种：</TextBlock>

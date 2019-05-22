@@ -8,10 +8,8 @@
 			 xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
 			 xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 			 xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+		     d:DataContext="{d:DesignData Source=/Design/MinerStateViewModel.xaml}"
 			 mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="400">
-	<UserControl.DataContext>
-		<vm:MinerStateViewModel></vm:MinerStateViewModel>
-	</UserControl.DataContext>
 	<Grid>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="{Binding SideWidth}"></ColumnDefinition>
@@ -23,9 +21,19 @@
 			<RowDefinition Height="110"></RowDefinition>
 			<RowDefinition Height="*"></RowDefinition>
 		</Grid.RowDefinitions>
-		<StackPanel Margin="0 4 4 0" Background="White">
-			<TextBlock>挖矿时长</TextBlock>
-		</StackPanel>
+		<Border Margin="0 4 4 0" Padding="10" Background="White">
+			<StackPanel>
+				<TextBlock FontSize="14" FontWeight="Bold">挖矿时长</TextBlock>
+				<TextBlock 
+					Padding="0 8"
+					FontSize="22"
+					Text="{Binding StateBarVm.MineTimeSpanText}"></TextBlock>
+				<WrapPanel>
+					<TextBlock>挖矿时长</TextBlock>
+					<TextBlock Text="{Binding StateBarVm.BootTimeSpanText}"></TextBlock>
+				</WrapPanel>
+			</StackPanel>
+		</Border>
 		<StackPanel Margin="4 4 4 0" Grid.Column="1" Background="White">
 			<TextBlock>矿池接受率（确认/拒绝）</TextBlock>
 		</StackPanel>

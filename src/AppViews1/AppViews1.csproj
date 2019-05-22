@@ -380,6 +380,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="..\AppViews0\Design\MinerStateViewModel.xaml">
+      <Link>Design\MinerStateViewModel.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="..\AppViews0\Design\MineWorkViewModel.xaml">
       <Link>Design\MineWorkViewModel.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
@@ -397,6 +402,11 @@
     </Page>
     <Page Include="..\AppViews0\Design\PoolViewModel.xaml">
       <Link>Design\PoolViewModel.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\AppViews0\Design\StateBarViewModel.xaml">
+      <Link>Design\StateBarViewModel.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

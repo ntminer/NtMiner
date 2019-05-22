@@ -579,6 +579,7 @@
 				Grid.Row="1" 
 				Grid.ColumnSpan="3" 
 				Padding="0 0 0 2"
+				DataContext="{Binding StateBarVm}"
 				Background="{StaticResource MinerProfileBackground}" 
 				BorderBrush="{StaticResource LineColor}" 
 				BorderThickness="0 1 0 0">
