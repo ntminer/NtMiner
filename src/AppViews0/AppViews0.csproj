@@ -106,6 +106,9 @@
     <Compile Include="PackagesWindow.xaml.cs">
       <DependentUpon>PackagesWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Ucs\FileWriterEdit.xaml.cs">
+      <DependentUpon>FileWriterEdit.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Ucs\PackageEdit.xaml.cs">
       <DependentUpon>PackageEdit.xaml</DependentUpon>
     </Compile>
@@ -344,6 +347,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Design\PackageViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ucs\FileWriterEdit.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
