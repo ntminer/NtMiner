@@ -63,12 +63,18 @@ namespace NTMiner.Vms {
 
         public string FileUrl {
             get => _fileUrl;
-            set => _fileUrl = value;
+            set {
+                _fileUrl = value;
+                OnPropertyChanged(nameof(FileUrl));
+            }
         }
 
         public string Body {
             get => _body;
-            set => _body = value;
+            set {
+                _body = value;
+                OnPropertyChanged(nameof(Body));
+            }
         }
     }
 }
