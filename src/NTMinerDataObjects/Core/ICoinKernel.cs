@@ -12,5 +12,6 @@ namespace NTMiner.Core {
         string Notice { get; }
         List<EnvironmentVariable> EnvironmentVariables { get; }
         List<InputSegment> InputSegments { get; }
+        List<Guid> FileWriterIds { get; }
     }
 }
