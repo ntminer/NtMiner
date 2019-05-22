@@ -59,9 +59,30 @@
 			</StackPanel>
 		</Border>
 		<Border Margin="0 6 4 0" Grid.Row="1" Padding="10" Background="White">
-			<StackPanel>
-				<TextBlock>GPU状态</TextBlock>
-			</StackPanel>
+			<Grid>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto"></RowDefinition>
+					<RowDefinition Height="*"></RowDefinition>
+					<RowDefinition Height="Auto"></RowDefinition>
+				</Grid.RowDefinitions>
+				<TextBlock FontSize="14" FontWeight="Bold">GPU状态</TextBlock>
+				<Ellipse Grid.Row="1" Width="100" Height="100" Stroke="Green" StrokeThickness="10"></Ellipse>
+				<StackPanel Grid.Row="2" HorizontalAlignment="Left">
+					<TextBlock>异常GPU数</TextBlock>
+					<WrapPanel Margin="0 8">
+						<TextBlock FontSize="22">0</TextBlock>
+						<TextBlock FontSize="22">/</TextBlock>
+						<TextBlock FontSize="22">0</TextBlock>
+					</WrapPanel>
+				</StackPanel>
+				<StackPanel Grid.Row="2" HorizontalAlignment="Right">
+					<TextBlock>显卡最高温度</TextBlock>
+					<WrapPanel Margin="0 8">
+						<TextBlock FontSize="22">0</TextBlock>
+						<TextBlock FontSize="22">℃</TextBlock>
+					</WrapPanel>
+				</StackPanel>
+			</Grid>
 		</Border>
 		<Border Margin="4 6 4 0" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Padding="10" Background="White">
 			<StackPanel>
