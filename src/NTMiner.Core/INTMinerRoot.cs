@@ -79,6 +79,8 @@ namespace NTMiner {
 
         IKernelSet KernelSet { get; }
 
+        IFileWriterSet FileWriterSet { get; }
+
         IPackageSet PackageSet { get; }
 
         IKernelProfileSet KernelProfileSet { get; }
