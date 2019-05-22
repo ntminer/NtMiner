@@ -10,6 +10,8 @@ namespace NTMiner.Core {
 
         public Guid Id { get; set; }
 
+        public string Name { get; set; }
+
         public string FileUrl { get; set; }
 
         public string Body { get; set; }

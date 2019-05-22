@@ -3,9 +3,10 @@ using System;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class FileWriterViewModel : ViewModelBase, IFileWriter {
+    public class FileWriterViewModel : ViewModelBase, IEditableViewModel, IFileWriter {
         private string _fileUrl;
         private Guid _id;
+        private string _name;
         private string _body;
 
         public ICommand Remove { get; private set; }
@@ -15,6 +16,7 @@ namespace NTMiner.Vms {
         public Action CloseWindow { get; set; }
 
         public FileWriterViewModel(IFileWriter data) : this(data.GetId()) {
+            _name = data.Name;
             _fileUrl = data.FileUrl;
             _body = data.Body;
         }
@@ -58,6 +60,14 @@ namespace NTMiner.Vms {
             set {
                 _id = value;
                 OnPropertyChanged(nameof(Id));
+            }
+        }
+
+        public string Name {
+            get { return _name; }
+            set {
+                _name = value;
+                OnPropertyChanged(nameof(Name));
             }
         }
 
