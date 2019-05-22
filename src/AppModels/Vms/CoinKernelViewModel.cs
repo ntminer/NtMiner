@@ -20,6 +20,7 @@ namespace NTMiner.Vms {
         private List<InputSegment> _inputSegments = new List<InputSegment>();
         private List<InputSegmentViewModel> _inputSegmentVms = new List<InputSegmentViewModel>();
         private List<Guid> _fileWriterIds = new List<Guid>();
+        private List<FileWriterViewModel> _fileWriterVms = new List<FileWriterViewModel>();
         private CoinViewModel _coinVm;
 
         public Guid GetId() {
@@ -61,6 +62,11 @@ namespace NTMiner.Vms {
             _inputSegments.AddRange(data.InputSegments.Select(a => new InputSegment(a)));
             _inputSegmentVms.AddRange(_inputSegments.Select(a => new InputSegmentViewModel(a)));
             _fileWriterIds = data.FileWriterIds;
+            foreach (var fileWriterId in _fileWriterIds) {
+                if (AppContext.Instance.FileWriterVms.TryGetFileWriterVm(fileWriterId, out FileWriterViewModel fileWriterVm)) {
+                    _fileWriterVms.Add(fileWriterVm);
+                }
+            }
         }
 
         public CoinKernelViewModel(Guid id) {
@@ -323,6 +329,22 @@ namespace NTMiner.Vms {
             set {
                 _fileWriterIds = value;
                 OnPropertyChanged(nameof(FileWriterIds));
+                if (value != null) {
+                    this.FileWriterVms = AppContext.Instance.FileWriterVms.List.Where(a => value.Contains(a.Id)).ToList();
+                }
+                else {
+                    this.FileWriterVms = new List<FileWriterViewModel>();
+                }
+            }
+        }
+
+        public List<FileWriterViewModel> FileWriterVms {
+            get {
+                return _fileWriterVms;
+            }
+            set {
+                _fileWriterVms = value;
+                OnPropertyChanged(nameof(FileWriterVms));
             }
         }
 
