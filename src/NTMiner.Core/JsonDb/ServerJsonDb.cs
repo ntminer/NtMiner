@@ -47,6 +47,20 @@ namespace NTMiner.JsonDb {
             this.TimeStamp = Timestamp.GetTimestamp();
         }
 
+        /// <summary>
+        /// 序列化前消减json的体积，但也不比过分担心json的体积，因为会压缩。但是反序列化json时会耗费cpu，或许这个地方应该优化为某种更节省cpu的数据格式。
+        /// </summary>
+        public void CutJsonSize() {
+            foreach (var coinKernel in this.CoinKernels) {
+                if (coinKernel.EnvironmentVariables.Count == 0) {
+                    coinKernel.EnvironmentVariables = null;
+                }
+                if (coinKernel.InputSegments.Count == 0) {
+                    coinKernel.InputSegments = null;
+                }
+            }
+        }
+
         public ServerJsonDb(INTMinerRoot root, LocalJsonDb localJsonObj) {
             var minerProfile = root.MinerProfile;
             var mainCoinProfile = minerProfile.GetCoinProfile(minerProfile.CoinId);
