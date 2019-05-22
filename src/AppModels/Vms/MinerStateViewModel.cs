@@ -20,6 +20,12 @@ namespace NTMiner.Vms {
             get; private set;
         }
 
+        public AppContext.MinerProfileViewModel MinerProfile {
+            get {
+                return AppContext.Instance.MinerProfileVm;
+            }
+        }
+
         public double SideWidth {
             get => _sideWidth;
             set {

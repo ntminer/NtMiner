@@ -30,13 +30,22 @@
 					Text="{Binding StateBarVm.MineTimeSpanText}"></TextBlock>
 				<WrapPanel>
 					<TextBlock>挖矿时长</TextBlock>
-					<TextBlock Text="{Binding StateBarVm.BootTimeSpanText}"></TextBlock>
+					<TextBlock Margin="4 0 0 0" Text="{Binding StateBarVm.BootTimeSpanText}"></TextBlock>
 				</WrapPanel>
 			</StackPanel>
 		</Border>
 		<Border Margin="4 4 4 0" Grid.Column="1" Padding="10" Background="White">
 			<StackPanel>
-				<TextBlock>矿池接受率（确认/拒绝）</TextBlock>
+				<TextBlock FontSize="14" FontWeight="Bold">矿池接受率（确认/拒绝）</TextBlock>
+				<WrapPanel Margin="0 8">
+					<TextBlock FontSize="22" Text="{Binding MinerProfile.CoinVm.ShareVm.AcceptShareCount}"></TextBlock>
+					<TextBlock FontSize="22">/</TextBlock>
+					<TextBlock FontSize="22" Text="{Binding MinerProfile.CoinVm.ShareVm.RejectShareCount}"></TextBlock>
+				</WrapPanel>
+				<WrapPanel>
+					<TextBlock>矿池延迟</TextBlock>
+					<TextBlock Margin="4 0 0 0">TODO:</TextBlock>
+				</WrapPanel>
 			</StackPanel>
 		</Border>
 		<Border Margin="4 4 4 0" Grid.Column="2" Padding="10" Background="White">
