@@ -39,6 +39,8 @@ namespace NTMiner.Vms {
         public ICommand AddSegment { get; private set; }
         public ICommand EditSegment { get; private set; }
         public ICommand RemoveSegment { get; private set; }
+        public ICommand AddFileWriter { get; private set; }
+        public ICommand RemoveFileWriter { get; private set; }
 
         public Action CloseWindow { get; set; }
 
@@ -94,6 +96,12 @@ namespace NTMiner.Vms {
                     this.InputSegments.Remove(segment);
                     InputSegments = InputSegments.ToList();
                 }, icon: IconConst.IconConfirm);
+            });
+            this.AddFileWriter = new DelegateCommand(() => {
+                // TODO:
+            });
+            this.RemoveFileWriter = new DelegateCommand(() => {
+                // TODO:
             });
             this.Save = new DelegateCommand(() => {
                 if (NTMinerRoot.Instance.CoinKernelSet.Contains(this.Id)) {
