@@ -60,6 +60,7 @@
     <Compile Include="AppContext.partials.CoinViewModels.cs" />
     <Compile Include="AppContext.partials.ColumnsShowViewModels.cs" />
     <Compile Include="AppContext.partials.DriveSetViewModel.cs" />
+    <Compile Include="AppContext.partials.FileWriterViewModels.cs" />
     <Compile Include="AppContext.partials.GpuProfileViewModels.cs" />
     <Compile Include="AppContext.partials.GpuSpeedViewModels.cs" />
     <Compile Include="AppContext.partials.GpuStatusBarViewModel.cs" />
