@@ -94,6 +94,12 @@ namespace NTMiner {
             }
         }
 
+        public FileWriterViewModels FileWriterVms {
+            get {
+                return FileWriterViewModels.Instance;
+            }
+        }
+
         public CoinKernelViewModels CoinKernelVms {
             get {
                 return CoinKernelViewModels.Instance;

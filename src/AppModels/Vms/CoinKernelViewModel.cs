@@ -19,6 +19,8 @@ namespace NTMiner.Vms {
         private List<EnvironmentVariable> _environmentVariables = new List<EnvironmentVariable>();
         private List<InputSegment> _inputSegments = new List<InputSegment>();
         private List<InputSegmentViewModel> _inputSegmentVms = new List<InputSegmentViewModel>();
+        private List<Guid> _fileWriterIds = new List<Guid>();
+        private List<FileWriterViewModel> _fileWriterVms = new List<FileWriterViewModel>();
         private CoinViewModel _coinVm;
 
         public Guid GetId() {
@@ -37,6 +39,8 @@ namespace NTMiner.Vms {
         public ICommand AddSegment { get; private set; }
         public ICommand EditSegment { get; private set; }
         public ICommand RemoveSegment { get; private set; }
+        public ICommand AddFileWriter { get; private set; }
+        public ICommand RemoveFileWriter { get; private set; }
 
         public Action CloseWindow { get; set; }
 
@@ -59,6 +63,12 @@ namespace NTMiner.Vms {
             // 复制，视为值对象，防止直接修改引用
             _inputSegments.AddRange(data.InputSegments.Select(a => new InputSegment(a)));
             _inputSegmentVms.AddRange(_inputSegments.Select(a => new InputSegmentViewModel(a)));
+            _fileWriterIds = data.FileWriterIds;
+            foreach (var fileWriterId in _fileWriterIds) {
+                if (AppContext.Instance.FileWriterVms.TryGetFileWriterVm(fileWriterId, out FileWriterViewModel fileWriterVm)) {
+                    _fileWriterVms.Add(fileWriterVm);
+                }
+            }
         }
 
         public CoinKernelViewModel(Guid id) {
@@ -87,6 +97,12 @@ namespace NTMiner.Vms {
                     InputSegments = InputSegments.ToList();
                 }, icon: IconConst.IconConfirm);
             });
+            this.AddFileWriter = new DelegateCommand(() => {
+                // TODO:
+            });
+            this.RemoveFileWriter = new DelegateCommand(() => {
+                // TODO:
+            });
             this.Save = new DelegateCommand(() => {
                 if (NTMinerRoot.Instance.CoinKernelSet.Contains(this.Id)) {
                     VirtualRoot.Execute(new UpdateCoinKernelCommand(this));
@@ -113,8 +129,7 @@ namespace NTMiner.Vms {
                     VirtualRoot.Execute(new UpdateCoinKernelCommand(upOne));
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdateCoinKernelCommand(this));
-                    CoinViewModel coinVm;
-                    if (AppContext.Instance.CoinVms.TryGetCoinVm(this.CoinId, out coinVm)) {
+                    if (AppContext.Instance.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
                         coinVm.OnPropertyChanged(nameof(coinVm.CoinKernels));
                     }
                     this.Kernel.OnPropertyChanged(nameof(this.Kernel.CoinKernels));
@@ -129,8 +144,7 @@ namespace NTMiner.Vms {
                     VirtualRoot.Execute(new UpdateCoinKernelCommand(nextOne));
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdateCoinKernelCommand(this));
-                    CoinViewModel coinVm;
-                    if (AppContext.Instance.CoinVms.TryGetCoinVm(this.CoinId, out coinVm)) {
+                    if (AppContext.Instance.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
                         coinVm.OnPropertyChanged(nameof(coinVm.CoinKernels));
                     }
                     this.Kernel.OnPropertyChanged(nameof(this.Kernel.CoinKernels));
@@ -198,8 +212,7 @@ namespace NTMiner.Vms {
 
         public KernelViewModel Kernel {
             get {
-                KernelViewModel kernel;
-                if (AppContext.Instance.KernelVms.TryGetKernelVm(this.KernelId, out kernel)) {
+                if (AppContext.Instance.KernelVms.TryGetKernelVm(this.KernelId, out KernelViewModel kernel)) {
                     return kernel;
                 }
                 return KernelViewModel.Empty;
@@ -316,6 +329,30 @@ namespace NTMiner.Vms {
             set {
                 _inputSegmentVms = value;
                 OnPropertyChanged(nameof(InputSegmentVms));
+            }
+        }
+
+        public List<Guid> FileWriterIds {
+            get => _fileWriterIds;
+            set {
+                _fileWriterIds = value;
+                OnPropertyChanged(nameof(FileWriterIds));
+                if (value != null) {
+                    this.FileWriterVms = AppContext.Instance.FileWriterVms.List.Where(a => value.Contains(a.Id)).ToList();
+                }
+                else {
+                    this.FileWriterVms = new List<FileWriterViewModel>();
+                }
+            }
+        }
+
+        public List<FileWriterViewModel> FileWriterVms {
+            get {
+                return _fileWriterVms;
+            }
+            set {
+                _fileWriterVms = value;
+                OnPropertyChanged(nameof(FileWriterVms));
             }
         }
 

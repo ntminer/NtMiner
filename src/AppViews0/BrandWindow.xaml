@@ -15,7 +15,6 @@
 	Topmost="True"
 	Width="800"
 	Height="200"
-	TitleBarHeight="40"
 	Background="#EEECEF"
 	WindowStartupLocation="CenterScreen"
 	MouseDown="MetroWindow_MouseDown"
@@ -30,7 +29,9 @@
 			<RowDefinition Height="Auto"></RowDefinition>
 			<RowDefinition Height="*"></RowDefinition>
 		</Grid.RowDefinitions>
-		<TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14" Padding="4" FontWeight="Bold">品牌推广计划 - 在品牌上右键生成品牌专版</TextBlock>
+		<WrapPanel>
+			<TextBlock FontSize="14" Padding="4" FontWeight="Bold">品牌推广计划 - 在品牌上右键生成品牌专版</TextBlock>
+		</WrapPanel>
 		<WrapPanel HorizontalAlignment="Right">
 			<controls:KbSystemMaxButton
 				Height="36"

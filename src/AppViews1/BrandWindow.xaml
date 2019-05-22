@@ -15,7 +15,6 @@
 	Topmost="True"
 	Width="800"
 	Height="200"
-	TitleBarHeight="40"
 	BorderBrush="{StaticResource WindowBorderBrush}"
 	Background="#EEECEF"
 	WindowStartupLocation="CenterScreen"

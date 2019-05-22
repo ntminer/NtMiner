@@ -214,6 +214,7 @@ namespace NTMiner {
         /// <returns></returns>
         public static void ExportServerVersionJson(string jsonFileFullName) {
             ServerJsonDb serverJsonObj = new ServerJsonDb(Instance);
+            serverJsonObj.CutJsonSize();
             string json = VirtualRoot.JsonSerializer.Serialize(serverJsonObj);
             File.WriteAllText(jsonFileFullName, json);
         }

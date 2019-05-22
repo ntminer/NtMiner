@@ -499,6 +499,44 @@ namespace NTMiner.Core {
     }
     #endregion
 
+    #region FileWriter Messages
+    [MessageType(description: "添加文件书写器")]
+    public class AddFileWriterCommand : AddEntityCommand<IFileWriter> {
+        public AddFileWriterCommand(IFileWriter input) : base(input) {
+        }
+    }
+
+    [MessageType(description: "更新书写器")]
+    public class UpdateFileWriterCommand : UpdateEntityCommand<IFileWriter> {
+        public UpdateFileWriterCommand(IFileWriter input) : base(input) {
+        }
+    }
+
+    [MessageType(description: "移除书写器")]
+    public class RemoveFileWriterCommand : RemoveEntityCommand {
+        public RemoveFileWriterCommand(Guid entityId) : base(entityId) {
+        }
+    }
+
+    [MessageType(description: "添加了书写器后")]
+    public class FileWriterAddedEvent : DomainEvent<IFileWriter> {
+        public FileWriterAddedEvent(IFileWriter source) : base(source) {
+        }
+    }
+
+    [MessageType(description: "更新了书写器后")]
+    public class FileWriterUpdatedEvent : DomainEvent<IFileWriter> {
+        public FileWriterUpdatedEvent(IFileWriter source) : base(source) {
+        }
+    }
+
+    [MessageType(description: "移除了书写器后")]
+    public class FileWriterRemovedEvent : DomainEvent<IFileWriter> {
+        public FileWriterRemovedEvent(IFileWriter source) : base(source) {
+        }
+    }
+    #endregion
+
     #region Wallet Messages
     [MessageType(description: "添加钱包")]
     public class AddWalletCommand : AddEntityCommand<IWallet> {

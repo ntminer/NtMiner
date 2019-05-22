@@ -16,7 +16,6 @@
 		Height="{x:Static app:AppStatic.MainWindowHeight}"
 		MinHeight="430"
 		MinWidth="640"
-		TitleBarHeight="40"
 		Background="{StaticResource ThemeBackground}"
 		WindowStartupLocation="CenterScreen"
 		MouseDown="MetroWindow_MouseDown"

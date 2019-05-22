@@ -3,15 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 
 namespace NTMiner.Core.Impl {
-    public class GroupSet : IGroupSet {
-        private readonly Dictionary<Guid, GroupData> _dicById = new Dictionary<Guid, GroupData>();
+    public class FileWriterSet : IFileWriterSet {
+        private readonly Dictionary<Guid, FileWriterData> _dicById = new Dictionary<Guid, FileWriterData>();
 
         private readonly INTMinerRoot _root;
         private readonly bool _isUseJson;
-        public GroupSet(INTMinerRoot root, bool isUseJson) {
+
+        public FileWriterSet(INTMinerRoot root, bool isUseJson) {
             _isUseJson = isUseJson;
             _root = root;
-            _root.ServerContextWindow<AddGroupCommand>("添加组", LogEnum.DevConsole,
+            _root.ServerContextWindow<AddFileWriterCommand>("添加文件书写器", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -20,39 +21,39 @@ namespace NTMiner.Core.Impl {
                     if (_dicById.ContainsKey(message.Input.GetId())) {
                         return;
                     }
-                    if (string.IsNullOrEmpty(message.Input.Name)) {
-                        throw new ValidationException("Group name can't be null or empty");
+                    if (string.IsNullOrEmpty(message.Input.FileUrl) || string.IsNullOrEmpty(message.Input.Body)) {
+                        throw new ValidationException("FileWriter name and body can't be null or empty");
                     }
-                    GroupData entity = new GroupData().Update(message.Input);
+                    FileWriterData entity = new FileWriterData().Update(message.Input);
                     _dicById.Add(entity.Id, entity);
-                    var repository = NTMinerRoot.CreateServerRepository<GroupData>(isUseJson);
+                    var repository = NTMinerRoot.CreateServerRepository<FileWriterData>(isUseJson);
                     repository.Add(entity);
 
-                    VirtualRoot.Happened(new GroupAddedEvent(entity));
+                    VirtualRoot.Happened(new FileWriterAddedEvent(entity));
                 });
-            _root.ServerContextWindow<UpdateGroupCommand>("更新组", LogEnum.DevConsole,
+            _root.ServerContextWindow<UpdateFileWriterCommand>("更新文件书写器", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
                         throw new ArgumentNullException();
                     }
-                    if (string.IsNullOrEmpty(message.Input.Name)) {
-                        throw new ValidationException("Group name can't be null or empty");
+                    if (string.IsNullOrEmpty(message.Input.FileUrl) || string.IsNullOrEmpty(message.Input.Body)) {
+                        throw new ValidationException("FileWriter name and body can't be null or empty");
                     }
                     if (!_dicById.ContainsKey(message.Input.GetId())) {
                         return;
                     }
-                    GroupData entity = _dicById[message.Input.GetId()];
+                    FileWriterData entity = _dicById[message.Input.GetId()];
                     if (ReferenceEquals(entity, message.Input)) {
                         return;
                     }
                     entity.Update(message.Input);
-                    var repository = NTMinerRoot.CreateServerRepository<GroupData>(isUseJson);
+                    var repository = NTMinerRoot.CreateServerRepository<FileWriterData>(isUseJson);
                     repository.Update(entity);
 
-                    VirtualRoot.Happened(new GroupUpdatedEvent(entity));
+                    VirtualRoot.Happened(new FileWriterUpdatedEvent(entity));
                 });
-            _root.ServerContextWindow<RemoveGroupCommand>("移除组", LogEnum.DevConsole,
+            _root.ServerContextWindow<RemoveFileWriterCommand>("移除组", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {
@@ -61,16 +62,13 @@ namespace NTMiner.Core.Impl {
                     if (!_dicById.ContainsKey(message.EntityId)) {
                         return;
                     }
-                    GroupData entity = _dicById[message.EntityId];
-                    Guid[] toRemoves = root.CoinGroupSet.GetGroupCoinIds(entity.Id).ToArray();
-                    foreach (var id in toRemoves) {
-                        VirtualRoot.Execute(new RemoveCoinGroupCommand(id));
-                    }
+                    FileWriterData entity = _dicById[message.EntityId];
+                    // TODO:移除内核对文件书写器的引用关系
                     _dicById.Remove(entity.GetId());
-                    var repository = NTMinerRoot.CreateServerRepository<GroupData>(isUseJson);
+                    var repository = NTMinerRoot.CreateServerRepository<FileWriterData>(isUseJson);
                     repository.Remove(message.EntityId);
 
-                    VirtualRoot.Happened(new GroupRemovedEvent(entity));
+                    VirtualRoot.Happened(new FileWriterRemovedEvent(entity));
                 });
         }
 
@@ -87,7 +85,7 @@ namespace NTMiner.Core.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    var repository = NTMinerRoot.CreateServerRepository<GroupData>(_isUseJson);
+                    var repository = NTMinerRoot.CreateServerRepository<FileWriterData>(_isUseJson);
                     foreach (var item in repository.GetAll()) {
                         if (!_dicById.ContainsKey(item.GetId())) {
                             _dicById.Add(item.GetId(), item);
@@ -98,27 +96,15 @@ namespace NTMiner.Core.Impl {
             }
         }
 
-        public int Count {
-            get {
-                InitOnece();
-                return _dicById.Count;
-            }
-        }
-
-        public bool Contains(Guid groupId) {
+        public bool TryGetFileWriter(Guid fileWriterId, out IFileWriter fileWriter) {
             InitOnece();
-            return _dicById.ContainsKey(groupId);
-        }
-
-        public bool TryGetGroup(Guid groupId, out IGroup group) {
-            InitOnece();
-            GroupData g;
-            bool r = _dicById.TryGetValue(groupId, out g);
-            group = g;
+            FileWriterData g;
+            bool r = _dicById.TryGetValue(fileWriterId, out g);
+            fileWriter = g;
             return r;
         }
 
-        public IEnumerator<IGroup> GetEnumerator() {
+        public IEnumerator<IFileWriter> GetEnumerator() {
             InitOnece();
             return _dicById.Values.GetEnumerator();
         }
