@@ -6,7 +6,7 @@ namespace NTMiner.Core {
     /// </summary>
     public interface IFileWriter : IEntity<Guid> {
         /// <summary>
-        /// 相对路径。
+        /// 相对路径，路径的根由上下文确定。
         /// </summary>
         string FileUrl { get; }
 
