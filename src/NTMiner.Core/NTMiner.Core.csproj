@@ -119,6 +119,7 @@
     <Compile Include="Core\ICoinShareSet.cs" />
     <Compile Include="Core\Impl\CoinGroupSet.cs" />
     <Compile Include="Core\Impl\CoinShareSet.cs" />
+    <Compile Include="Core\Impl\FileWriterSet.cs" />
     <Compile Include="Core\Kernels\Impl\PackageSet.cs" />
     <Compile Include="Core\Kernels\IPackageSet.cs" />
     <Compile Include="Core\Kernels\KernelSetExtension.cs" />

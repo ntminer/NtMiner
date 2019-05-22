@@ -3,6 +3,6 @@ using System.Collections.Generic;
 
 namespace NTMiner.Core {
     public interface IFileWriterSet : IEnumerable<IFileWriter> {
-        bool TryGetGroup(Guid fileWriterId, out IFileWriter fileWriter);
+        bool TryGetFileWriter(Guid fileWriterId, out IFileWriter fileWriter);
     }
 }
