@@ -14,14 +14,19 @@
     </UserControl.Resources>
     <StackPanel Margin="10">
         <WrapPanel Margin="0 2">
+            <TextBlock Text="名称" Width="100" Style="{StaticResource LblTb}"></TextBlock>
+            <TextBox Width="400" VerticalContentAlignment="Center" Text="{Binding Name, ValidatesOnExceptions=True}">
+            </TextBox>
+        </WrapPanel>
+        <WrapPanel Margin="0 2">
             <TextBlock Text="写入位置" Width="100" Style="{StaticResource LblTb}"></TextBlock>
-            <TextBox Width="200" VerticalContentAlignment="Center" Text="{Binding FileUrl, ValidatesOnExceptions=True}">
+            <TextBox Width="400" VerticalContentAlignment="Center" Text="{Binding FileUrl, ValidatesOnExceptions=True}">
             </TextBox>
             <TextBlock Foreground="Red" VerticalAlignment="Center">（相对路径）</TextBlock>
         </WrapPanel>
         <WrapPanel Margin="0 2">
             <TextBlock Text="写入的内容" Width="100" Style="{StaticResource LblTb}" VerticalAlignment="Top"></TextBlock>
-            <TextBox Width="400" Height="50" AcceptsReturn="True" TextWrapping="Wrap" Text="{Binding Body, ValidatesOnExceptions=True}">
+            <TextBox Width="800" Height="100" AcceptsReturn="True" TextWrapping="Wrap" Text="{Binding Body, ValidatesOnExceptions=True}">
             </TextBox>
         </WrapPanel>
         <WrapPanel Margin="0 10 0 0" HorizontalAlignment="Center" VerticalAlignment="Center">
