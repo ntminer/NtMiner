@@ -1,5 +1,7 @@
 ﻿using NTMiner.Core;
 using NTMiner.Vms;
+using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -52,6 +54,24 @@ namespace NTMiner.Views.Ucs {
             if (dg.SelectedItem != null) {
                 Vm.EditSegment.Execute((InputSegment)dg.SelectedItem);
             }
+        }
+
+        private void ButtonAddFileWriter_Click(object sender, RoutedEventArgs e) {
+            PopupFileWriter.Child = new FileWriterSelect(
+                new FileWriterSelectViewModel( onOk: selectedResult => {
+                    if (selectedResult != null) {
+                        var fileWriterIds = new List<Guid>(this.Vm.FileWriterIds) {
+                            selectedResult.Id
+                        };
+                        this.Vm.FileWriterIds = fileWriterIds;
+                        PopupFileWriter.IsOpen = false;
+                    }
+                }) {
+                    HideView = new DelegateCommand(() => {
+                        PopupFileWriter.IsOpen = false;
+                    })
+                });
+            PopupFileWriter.IsOpen = true;
         }
     }
 }
