@@ -45,7 +45,7 @@
 					Background="Transparent"
 					Click="KbButtonLogColor_Clicked">
 					<WrapPanel>
-						<TextBlock Width="138" Padding="0 0 10 0" Foreground="Black" Text="{Binding SelectedColor.Value}"></TextBlock>
+						<TextBlock Width="138" Padding="0 0 10 0" Foreground="Black" Text="{Binding SelectedColor.Description}"></TextBlock>
 						<Path
 							Margin="0 2 0 0"
 							Width="12"
