@@ -56,7 +56,7 @@ namespace NTMiner.Views.Ucs {
 
         private void ButtonAddFileWriter_Click(object sender, RoutedEventArgs e) {
             PopupFileWriter.Child = new FileWriterSelect(
-                new FileWriterSelectViewModel(null, onOk: selectedResult => {
+                new FileWriterSelectViewModel( onOk: selectedResult => {
                     if (selectedResult != null) {
 
                         PopupFileWriter.IsOpen = false;

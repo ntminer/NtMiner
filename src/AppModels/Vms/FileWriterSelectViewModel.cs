@@ -9,8 +9,7 @@ namespace NTMiner.Vms {
 
         public ICommand HideView { get; set; }
 
-        public FileWriterSelectViewModel(FileWriterViewModel selected, Action<FileWriterViewModel> onOk) {
-            _selectedResult = selected;
+        public FileWriterSelectViewModel(Action<FileWriterViewModel> onOk) {
             OnOk = onOk;
         }
 
