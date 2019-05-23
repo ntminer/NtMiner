@@ -58,7 +58,6 @@ namespace NTMiner.Vms {
 
         public ICommand ShowKernelHelp { get; private set; }
 
-        public ICommand AddCoinKernel { get; private set; }
         public ICommand Save { get; private set; }
 
         public Action CloseWindow { get; set; }
@@ -138,18 +137,6 @@ namespace NTMiner.Vms {
                     this.Size = new FileInfo(openFileDialog.FileName).Length;
                     this.KernelProfileVm.Refresh();
                 }
-            });
-            this.AddCoinKernel = new DelegateCommand<CoinViewModel>((coinVm) => {
-                if (coinVm == null || coinVm.Id == Guid.Empty) {
-                    return;
-                }
-                int sortNumber = coinVm.CoinKernels.Count == 0 ? 1 : coinVm.CoinKernels.Max(a => a.SortNumber) + 1;
-                VirtualRoot.Execute(new AddCoinKernelCommand(new CoinKernelViewModel(Guid.NewGuid()) {
-                    Args = string.Empty,
-                    CoinId = coinVm.Id,
-                    KernelId = this.Id,
-                    SortNumber = sortNumber
-                }));
             });
         }
         #endregion
