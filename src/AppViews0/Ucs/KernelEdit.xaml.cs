@@ -86,5 +86,29 @@ namespace NTMiner.Views.Ucs {
                 });
             PopupKernel.IsOpen = true;
         }
+
+        private void KbButtonKernelInput_Clicked(object sender, RoutedEventArgs e) {
+            OpenKernelInputPopup();
+            e.Handled = true;
+        }
+
+        private void OpenKernelInputPopup() {
+            var popup = PopupKernelInput;
+            popup.IsOpen = true;
+            var selected = Vm.KernelInputVm;
+            popup.Child = new KernelInputSelect(
+                new KernelInputSelectViewModel(selected, onOk: selectedResult => {
+                    if (selectedResult != null) {
+                        if (Vm.KernelInputVm != selectedResult) {
+                            Vm.KernelInputVm = selectedResult;
+                        }
+                        popup.IsOpen = false;
+                    }
+                }) {
+                    HideView = new DelegateCommand(() => {
+                        popup.IsOpen = false;
+                    })
+                });
+        }
     }
 }

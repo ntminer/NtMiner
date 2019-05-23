@@ -14,6 +14,7 @@
 		Background="White"
 		mc:Ignorable="d" 
 		d:DesignHeight="300"
+		MaxHeight="400"
 		Width="1000">
 	<Grid>
 		<Grid.RowDefinitions>
@@ -34,9 +35,12 @@
 				Stretch="Fill" />
 		</controls:KbButton>
 		<DataGrid 
+			Grid.Row="1"
 			Margin="0" ItemsSource="{Binding PleaseSelectVms}" 
 			BorderThickness="0 0 1 0" BorderBrush="{StaticResource LineColor}"
 			AutoGenerateColumns="False"
+			SelectedItem="{Binding SelectedResult}"
+			VerticalScrollBarVisibility="Auto"
 			MouseUp="DataGrid_MouseUp"
 			PreviewKeyDown="DataGrid_PreviewKeyDown">
 			<DataGrid.Resources>
@@ -59,10 +63,7 @@
 					</DataGridTemplateColumn.Header>
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<StackPanel>
-								<TextBox IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding Args,Mode=OneWay}" BorderThickness="0" FontWeight="Bold"></TextBox>
-								<TextBox IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding KernelFullNames,Mode=OneWay}" ToolTip="使用该输入的内核" BorderThickness="0" Foreground="{StaticResource LableColor}"></TextBox>
-							</StackPanel>
+							<TextBlock TextWrapping="Wrap" Text="{Binding Args,Mode=OneWay}" FontWeight="Bold"></TextBlock>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
@@ -72,7 +73,7 @@
 					</DataGridTemplateColumn.Header>
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<TextBox IsReadOnly="True" BorderThickness="0" Text="{Binding DevicesArgShape, Mode=OneWay}"></TextBox>
+							<TextBlock Text="{Binding DevicesArgShape, Mode=OneWay}"></TextBlock>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
