@@ -22,41 +22,40 @@
 			<RowDefinition Height="Auto"></RowDefinition>
 		</Grid.RowDefinitions>
 		<WrapPanel HorizontalAlignment="Left">
-			<Border Grid.Row="0" BorderThickness="0 0 0 1" BorderBrush="{StaticResource LineColor}">
-				<WrapPanel>
-					<Path Margin="4 0 0 0"
-						Width="12"
-						Height="12"
+			<WrapPanel>
+				<Path 
+					Margin="4 0 0 0"
+					Width="12"
+					Height="12"
+					Fill="{StaticResource IconFillColor}"
+					Stretch="Fill"
+					Data="{StaticResource Icon_Serach}"></Path>
+				<Label Padding="2 6">搜索</Label>
+				<controls:KbTextBox 
+					x:Name="TbKeyword" Width="154" Height="20"
+					Text="{Binding Keyword, UpdateSourceTrigger=PropertyChanged}" 
+					VerticalContentAlignment="Center"
+					Hint="请输入想搜索的币种"
+					BorderBrush="{StaticResource LineColor}"
+					BorderThickness="1"
+					Background="White"
+					SelectedColor="#409EFF" />
+				<controls:KbButton 
+					Height="20"
+					Background="Transparent" 
+					BorderThickness="0"
+					Command="{Binding ClearKeyword}"
+					Visibility="{Binding ElementName=TbKeyword,Path=Text, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
+					Margin="-14 0 0 0" 
+					HorizontalAlignment="Left">
+					<Path
+						Width="8"
+						Height="8"
+						Data="{StaticResource Icon_Close}"
 						Fill="{StaticResource IconFillColor}"
-						Stretch="Fill"
-						Data="{StaticResource Icon_Serach}"></Path>
-					<Label Padding="2 6">搜索</Label>
-					<controls:KbTextBox 
-						x:Name="TbKeyword" Width="154" Height="20"
-						Text="{Binding Keyword, UpdateSourceTrigger=PropertyChanged}" 
-						VerticalContentAlignment="Center"
-						Hint="请输入想搜索的币种"
-						BorderBrush="{StaticResource LineColor}"
-						BorderThickness="1"
-						Background="White"
-						SelectedColor="#409EFF" />
-					<controls:KbButton 
-						Height="20"
-						Background="Transparent" 
-						BorderThickness="0"
-						Command="{Binding ClearKeyword}"
-						Visibility="{Binding ElementName=TbKeyword,Path=Text, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
-						Margin="-14 0 0 0" 
-						HorizontalAlignment="Left">
-						<Path
-							Width="8"
-							Height="8"
-							Data="{StaticResource Icon_Close}"
-							Fill="{StaticResource IconFillColor}"
-							Stretch="Fill" />
-					</controls:KbButton>
-				</WrapPanel>
-			</Border>
+						Stretch="Fill" />
+				</controls:KbButton>
+			</WrapPanel>
 			<controls:KbButton
 				Margin="4 2"
 				BorderThickness="0"
