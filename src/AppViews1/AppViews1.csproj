@@ -109,6 +109,9 @@
     <Compile Include="Ucs\KernelInputSelect.xaml.cs">
       <DependentUpon>KernelInputSelect.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Ucs\KernelOutputSelect.xaml.cs">
+      <DependentUpon>KernelOutputSelect.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Ucs\KernelsPage.xaml.cs">
       <DependentUpon>KernelsPage.xaml</DependentUpon>
     </Compile>
@@ -446,6 +449,10 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <Page Include="Ucs\KernelInputSelect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ucs\KernelOutputSelect.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
