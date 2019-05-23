@@ -87,6 +87,9 @@ namespace NTMiner.Vms {
 
         public KernelViewModel(Guid id) {
             _id = id;
+            if (Design.IsInDesignMode) {
+                return;
+            }
             this.Save = new DelegateCommand(() => {
                 if (NTMinerRoot.Instance.KernelSet.Contains(this.Id)) {
                     VirtualRoot.Execute(new UpdateKernelCommand(this));

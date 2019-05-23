@@ -49,14 +49,35 @@
 								Text="{Binding Version}">
 							</TextBox>
 							<TextBlock Style="{StaticResource LblTb}" Width="Auto" Text="品牌"></TextBlock>
-							<controls:KbComboBox 
-								BorderThickness="0"
-								IsEnabled="{x:Static app:AppStatic.IsDebugMode}"
-								Width="120" 
-								Height="26"
-								ItemsSource="{Binding SysDicItemVms.KernelBrandItems}"
-								DisplayMemberPath="Value" SelectedItem="{Binding BrandItem}">
-							</controls:KbComboBox>
+							<WrapPanel IsEnabled="{x:Static app:AppStatic.IsDebugMode}">
+								<controls:KbButton 
+									x:Name="ButtonBrand"
+									Padding="4 0"
+									BorderThickness="1"
+									BorderBrush="{StaticResource LineColor}"
+									Height="26"
+									IsEnabled="{Binding ElementName=PopupBrand,Path=IsOpen,Converter={StaticResource BoolInvertConverter}}"
+									Background="Transparent"
+									Click="KbButtonBrand_Clicked">
+									<WrapPanel>
+										<TextBlock Width="138" Padding="0 0 10 0" Foreground="Black" Text="{Binding BrandItem.Value}"></TextBlock>
+										<Path
+											Margin="0 2 0 0"
+											Width="12"
+											Height="8"
+											Data="{StaticResource Icon_ComboBoxToogle}"
+											Fill="Black"
+											Stretch="Fill" />
+									</WrapPanel>
+								</controls:KbButton>
+							</WrapPanel>
+							<Popup 
+									x:Name="PopupBrand" 
+									PopupAnimation="Slide" 
+									IsEnabled="{x:Static app:AppStatic.IsDebugMode}"
+									PlacementTarget="{Binding ElementName=ButtonBrand}" 
+									Placement="Bottom" 
+									StaysOpen="False"></Popup>
 						</WrapPanel>
 
 						<WrapPanel Margin="0 2">

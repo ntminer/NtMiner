@@ -9,7 +9,7 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class KernelProfileViewModel : ViewModelBase, IKernelProfile {
-        public static readonly KernelProfileViewModel Empty = new KernelProfileViewModel(KernelViewModel.Empty, NTMinerRoot.Instance.KernelProfileSet.EmptyKernelProfile) {
+        public static readonly KernelProfileViewModel Empty = new KernelProfileViewModel(KernelViewModel.Empty, NTMinerRoot.Instance.KernelProfileSet?.EmptyKernelProfile/*设计视图才可能为null*/) {
             _cancelDownload = null,
             _downloadMessage = string.Empty,
             _downloadPercent = 0,
@@ -31,6 +31,9 @@ namespace NTMiner.Vms {
         public KernelProfileViewModel(KernelViewModel kernelVm, IKernelProfile kernelProfile) {
             _kernelVm = kernelVm;
             _kernelProfile = kernelProfile;
+            if (Design.IsInDesignMode) {
+                return;
+            }
             this.CancelDownload = new DelegateCommand(() => {
                 _cancelDownload?.Invoke();
             });
