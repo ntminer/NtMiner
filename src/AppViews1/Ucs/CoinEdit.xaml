@@ -34,26 +34,28 @@
 				</Image>
 			</controls:KbButton>
 			<TextBlock Style="{StaticResource LblTb}" Width="42" Text="算法"></TextBlock>
-			<controls:KbButton 
-				x:Name="ButtonAlgo"
-				Padding="4 0"
-				BorderThickness="1"
-				BorderBrush="{StaticResource LineColor}"
-				Height="26"
-				IsEnabled="{Binding ElementName=PopupAlgo,Path=IsOpen,Converter={StaticResource BoolInvertConverter}}"
-				Background="Transparent"
-				Click="KbButtonAlgo_Clicked">
-				<WrapPanel>
-					<TextBlock Width="138" Padding="0 0 10 0" Foreground="Black" Text="{Binding AlgoItem.Value}"></TextBlock>
-					<Path
-						Margin="0 2 0 0"
-						Width="12"
-						Height="8"
-						Data="{StaticResource Icon_ComboBoxToogle}"
-						Fill="Black"
-						Stretch="Fill" />
-				</WrapPanel>
-			</controls:KbButton>
+			<WrapPanel IsEnabled="{x:Static app:AppStatic.IsDebugMode}">
+				<controls:KbButton 
+				    x:Name="ButtonAlgo"
+				    Padding="4 0"
+				    BorderThickness="1"
+				    BorderBrush="{StaticResource LineColor}"
+				    Height="26"
+				    IsEnabled="{Binding ElementName=PopupAlgo,Path=IsOpen,Converter={StaticResource BoolInvertConverter}}"
+				    Background="Transparent"
+				    Click="KbButtonAlgo_Clicked">
+					<WrapPanel>
+						<TextBlock Width="138" Padding="0 0 10 0" Foreground="Black" Text="{Binding AlgoItem.Value}"></TextBlock>
+						<Path
+						    Margin="0 2 0 0"
+						    Width="12"
+						    Height="8"
+						    Data="{StaticResource Icon_ComboBoxToogle}"
+						    Fill="Black"
+						    Stretch="Fill" />
+					</WrapPanel>
+				</controls:KbButton>
+			</WrapPanel>
 			<Popup 
 				x:Name="PopupAlgo" 
 				PopupAnimation="Slide" 
