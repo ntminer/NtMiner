@@ -53,5 +53,20 @@ namespace NTMiner.Views.Ucs {
                 Vm.EditSegment.Execute((InputSegment)dg.SelectedItem);
             }
         }
+
+        private void ButtonAddFileWriter_Click(object sender, RoutedEventArgs e) {
+            PopupFileWriter.Child = new FileWriterSelect(
+                new FileWriterSelectViewModel(null, onOk: selectedResult => {
+                    if (selectedResult != null) {
+
+                        PopupFileWriter.IsOpen = false;
+                    }
+                }) {
+                    HideView = new DelegateCommand(() => {
+                        PopupFileWriter.IsOpen = false;
+                    })
+                });
+            PopupFileWriter.IsOpen = true;
+        }
     }
 }
