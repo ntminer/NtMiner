@@ -74,7 +74,6 @@
 							<Popup 
 								x:Name="PopupBrand" 
 								PopupAnimation="Slide" 
-								IsEnabled="{x:Static app:AppStatic.IsDebugMode}"
 								PlacementTarget="{Binding ElementName=ButtonBrand}" 
 								Placement="Bottom" 
 								StaysOpen="False"></Popup>

@@ -34,12 +34,34 @@
 		</WrapPanel>
 		<WrapPanel Margin="0 2">
 			<TextBlock Style="{StaticResource LblTb}">颜色:</TextBlock>
-			<controls:KbComboBox 
-				ItemsSource="{Binding LogColorDicVm.SysDicItemsSelect}"
-				Width="420"
-				DisplayMemberPath="Description"
-				SelectedItem="{Binding SelectedColor}">
-			</controls:KbComboBox>
+			<WrapPanel>
+				<controls:KbButton 
+					x:Name="ButtonLogColor"
+					Padding="4 0"
+					BorderThickness="1"
+					BorderBrush="{StaticResource LineColor}"
+					Height="26"
+					IsEnabled="{Binding ElementName=PopupLogColor,Path=IsOpen,Converter={StaticResource BoolInvertConverter}}"
+					Background="Transparent"
+					Click="KbButtonLogColor_Clicked">
+					<WrapPanel>
+						<TextBlock Width="138" Padding="0 0 10 0" Foreground="Black" Text="{Binding SelectedColor.Value}"></TextBlock>
+						<Path
+							Margin="0 2 0 0"
+							Width="12"
+							Height="8"
+							Data="{StaticResource Icon_ComboBoxToogle}"
+							Fill="Black"
+							Stretch="Fill" />
+					</WrapPanel>
+				</controls:KbButton>
+			</WrapPanel>
+			<Popup 
+				x:Name="PopupLogColor" 
+				PopupAnimation="Slide" 
+				PlacementTarget="{Binding ElementName=ButtonLogColor}" 
+				Placement="Bottom" 
+				StaysOpen="False"></Popup>
 		</WrapPanel>
 		<controls:KbButton
 			Command="{Binding Save}" 
