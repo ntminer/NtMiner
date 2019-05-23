@@ -139,6 +139,9 @@
     <Compile Include="Ucs\MinerState.xaml.cs">
       <DependentUpon>MinerState.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Ucs\SysDicItemSelect.xaml.cs">
+      <DependentUpon>SysDicItemSelect.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Ucs\Toolbox.xaml.cs">
       <DependentUpon>Toolbox.xaml</DependentUpon>
     </Compile>
@@ -480,6 +483,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Ucs\MinerState.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ucs\SysDicItemSelect.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
