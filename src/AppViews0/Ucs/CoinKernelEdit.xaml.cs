@@ -1,5 +1,7 @@
 ﻿using NTMiner.Core;
 using NTMiner.Vms;
+using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -58,7 +60,10 @@ namespace NTMiner.Views.Ucs {
             PopupFileWriter.Child = new FileWriterSelect(
                 new FileWriterSelectViewModel( onOk: selectedResult => {
                     if (selectedResult != null) {
-
+                        var fileWriterIds = new List<Guid>(this.Vm.FileWriterIds) {
+                            selectedResult.Id
+                        };
+                        this.Vm.FileWriterIds = fileWriterIds;
                         PopupFileWriter.IsOpen = false;
                     }
                 }) {
