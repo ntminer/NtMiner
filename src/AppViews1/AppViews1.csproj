@@ -106,6 +106,12 @@
     <Compile Include="PackagesWindow.xaml.cs">
       <DependentUpon>PackagesWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Ucs\KernelInputSelect.xaml.cs">
+      <DependentUpon>KernelInputSelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ucs\KernelOutputSelect.xaml.cs">
+      <DependentUpon>KernelOutputSelect.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Ucs\KernelsPage.xaml.cs">
       <DependentUpon>KernelsPage.xaml</DependentUpon>
     </Compile>
@@ -138,6 +144,9 @@
     </Compile>
     <Compile Include="Ucs\MinerState.xaml.cs">
       <DependentUpon>MinerState.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ucs\SysDicItemSelect.xaml.cs">
+      <DependentUpon>SysDicItemSelect.xaml</DependentUpon>
     </Compile>
     <Compile Include="Ucs\Toolbox.xaml.cs">
       <DependentUpon>Toolbox.xaml</DependentUpon>
@@ -439,6 +448,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <Page Include="Ucs\KernelInputSelect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ucs\KernelOutputSelect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Ucs\KernelsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -480,6 +497,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Ucs\MinerState.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ucs\SysDicItemSelect.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -49,14 +49,34 @@
 								Text="{Binding Version}">
 							</TextBox>
 							<TextBlock Style="{StaticResource LblTb}" Width="Auto" Text="品牌"></TextBlock>
-							<controls:KbComboBox 
-								BorderThickness="0"
-								IsEnabled="{x:Static app:AppStatic.IsDebugMode}"
-								Width="120" 
-								Height="26"
-								ItemsSource="{Binding SysDicItemVms.KernelBrandItems}"
-								DisplayMemberPath="Value" SelectedItem="{Binding BrandItem}">
-							</controls:KbComboBox>
+							<WrapPanel IsEnabled="{x:Static app:AppStatic.IsDebugMode}">
+								<controls:KbButton 
+									x:Name="ButtonBrand"
+									Padding="4 0"
+									BorderThickness="1"
+									BorderBrush="{StaticResource LineColor}"
+									Height="26"
+									IsEnabled="{Binding ElementName=PopupBrand,Path=IsOpen,Converter={StaticResource BoolInvertConverter}}"
+									Background="Transparent"
+									Click="KbButtonBrand_Clicked">
+									<WrapPanel>
+										<TextBlock Width="138" Padding="0 0 10 0" Foreground="Black" Text="{Binding BrandItem.Value}"></TextBlock>
+										<Path
+											Margin="0 2 0 0"
+											Width="12"
+											Height="8"
+											Data="{StaticResource Icon_ComboBoxToogle}"
+											Fill="Black"
+											Stretch="Fill" />
+									</WrapPanel>
+								</controls:KbButton>
+							</WrapPanel>
+							<Popup 
+								x:Name="PopupBrand" 
+								PopupAnimation="Slide" 
+								PlacementTarget="{Binding ElementName=ButtonBrand}" 
+								Placement="Bottom" 
+								StaysOpen="False"></Popup>
 						</WrapPanel>
 
 						<WrapPanel Margin="0 2">
@@ -110,36 +130,34 @@
 									</controls:KbButton>
 								</WrapPanel>
 							</TextBlock>
-							<controls:KbComboBox 
-								BorderThickness="0"
-								IsEnabled="{x:Static app:AppStatic.IsDebugMode}"
-								Width="180" 
-								Height="26"
-								ItemsSource="{Binding KernelInputVms.PleaseSelectVms}"
-								DisplayMemberPath="Name" SelectedItem="{Binding KernelInputVm}">
-								<controls:KbComboBox.Toolbar>
-									<WrapPanel HorizontalAlignment="Right">
-										<controls:KbButton
-											Margin="4 2"
-											BorderThickness="0"
-											Height="24"
-											Padding="4 0"
-											Background="{StaticResource ThemeBackground}"
-											Command="{x:Static app:AppStatic.ShowKernelInputs}"
-											CornerRadius="2">
-											<WrapPanel>
-												<Path
-													Width="14"
-													Height="14"
-													Data="{StaticResource Icon_KernelInput}"
-													Fill="{StaticResource ThemeForeground}"
-													Stretch="Fill" />
-												<TextBlock Margin="4 0 0 0" Text="管理" Foreground="{StaticResource ThemeForeground}"></TextBlock>
-											</WrapPanel>
-										</controls:KbButton>
+							<WrapPanel IsEnabled="{x:Static app:AppStatic.IsDebugMode}">
+								<controls:KbButton 
+									x:Name="ButtonKernelInput"
+									Padding="4 0"
+									BorderThickness="1"
+									BorderBrush="{StaticResource LineColor}"
+									Height="26"
+									IsEnabled="{Binding ElementName=PopupKernelInput,Path=IsOpen,Converter={StaticResource BoolInvertConverter}}"
+									Background="Transparent"
+									Click="KbButtonKernelInput_Clicked">
+									<WrapPanel>
+										<TextBlock Width="158" Padding="0 0 10 0" Foreground="Black" Text="{Binding KernelInputVm.Name}"></TextBlock>
+										<Path
+											Margin="0 2 0 0"
+											Width="12"
+											Height="8"
+											Data="{StaticResource Icon_ComboBoxToogle}"
+											Fill="Black"
+											Stretch="Fill" />
 									</WrapPanel>
-								</controls:KbComboBox.Toolbar>
-							</controls:KbComboBox>
+								</controls:KbButton>
+							</WrapPanel>
+							<Popup 
+								x:Name="PopupKernelInput" 
+								PopupAnimation="Slide" 
+								PlacementTarget="{Binding ElementName=ButtonKernelInput}" 
+								Placement="Bottom" 
+								StaysOpen="False"></Popup>
 							<TextBlock Style="{StaticResource LblTb}">
 								<WrapPanel>
 									<TextBlock Text="输出"></TextBlock>
@@ -159,36 +177,34 @@
 									</controls:KbButton>
 								</WrapPanel>
 							</TextBlock>
-							<controls:KbComboBox 
-								BorderThickness="0"
-								IsEnabled="{x:Static app:AppStatic.IsDebugMode}"
-								Width="180" 
-								Height="26"
-								ItemsSource="{Binding KernelOutputVms.PleaseSelectVms}"
-								DisplayMemberPath="Name" SelectedItem="{Binding KernelOutputVm}">
-								<controls:KbComboBox.Toolbar>
-									<WrapPanel HorizontalAlignment="Right">
-										<controls:KbButton
-											Margin="4 2"
-											BorderThickness="0"
-											Height="24"
-											Padding="4 0"
-											Background="{StaticResource ThemeBackground}"
-											Command="{x:Static app:AppStatic.ShowKernelOutputs}"
-											CornerRadius="2">
-											<WrapPanel>
-												<Path
-													Width="14"
-													Height="14"
-													Data="{StaticResource Icon_KernelOutput}"
-													Fill="{StaticResource ThemeForeground}"
-													Stretch="Fill" />
-												<TextBlock Margin="4 0 0 0" Text="管理" Foreground="{StaticResource ThemeForeground}"></TextBlock>
-											</WrapPanel>
-										</controls:KbButton>
+							<WrapPanel IsEnabled="{x:Static app:AppStatic.IsDebugMode}">
+								<controls:KbButton 
+									x:Name="ButtonKernelOutput"
+									Padding="4 0"
+									BorderThickness="1"
+									BorderBrush="{StaticResource LineColor}"
+									Height="26"
+									IsEnabled="{Binding ElementName=PopupKernelOutput,Path=IsOpen,Converter={StaticResource BoolInvertConverter}}"
+									Background="Transparent"
+									Click="KbButtonKernelOutput_Clicked">
+									<WrapPanel>
+										<TextBlock Width="158" Padding="0 0 10 0" Foreground="Black" Text="{Binding KernelOutputVm.Name}"></TextBlock>
+										<Path
+											Margin="0 2 0 0"
+											Width="12"
+											Height="8"
+											Data="{StaticResource Icon_ComboBoxToogle}"
+											Fill="Black"
+											Stretch="Fill" />
 									</WrapPanel>
-								</controls:KbComboBox.Toolbar>
-							</controls:KbComboBox>
+								</controls:KbButton>
+							</WrapPanel>
+							<Popup 
+								x:Name="PopupKernelOutput" 
+								PopupAnimation="Slide" 
+								PlacementTarget="{Binding ElementName=ButtonKernelOutput}" 
+								Placement="Bottom" 
+								StaysOpen="False"></Popup>
 						</WrapPanel>
 					</StackPanel>
 
@@ -226,30 +242,7 @@
 					<TextBlock Padding="10 0" Text="币种"></TextBlock>
 				</TabItem.Header>
 				<Grid>
-					<Grid.RowDefinitions>
-						<RowDefinition Height="Auto"></RowDefinition>
-						<RowDefinition Height="*"></RowDefinition>
-					</Grid.RowDefinitions>
-					<WrapPanel Grid.Row="0" Visibility="{x:Static app:AppStatic.IsDebugModeVisible}" Margin="0 4">
-						<Label Width="Auto" Content="币种"></Label>
-						<controls:KbComboBox 
-							x:Name="CbCoins"
-							BorderThickness="0"
-							Width="132" 
-							ItemsSource="{Binding KernelVmSingleInstance.CoinVms}" 
-							DisplayMemberPath="Code">
-						</controls:KbComboBox>
-						<controls:KbButton 
-							Command="{Binding KernelVmSingleInstance.AddCoinKernel}" 
-							CommandParameter="{Binding ElementName=CbCoins, Path=SelectedItem}"
-							Background="Transparent" BorderThickness="0"
-							Margin="2 0"
-							CornerRadius="2" 
-							Content="添加">
-						</controls:KbButton>
-					</WrapPanel>
 					<DataGrid
-						Grid.Row="1"
 						ItemsSource="{Binding KernelVmSingleInstance.CoinKernels}" 
 						BorderThickness="0" BorderBrush="{StaticResource LineColor}"
 						MouseDoubleClick="CoinKernelDataGrid_MouseDoubleClick">
@@ -257,8 +250,8 @@
 							<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
 						</DataGrid.Resources>
 						<DataGrid.Columns>
-							<DataGridTextColumn 
-								Header="币种" Binding="{Binding CoinCode}"
+							<DataGridTextColumn
+								Binding="{Binding CoinCode}"
 								IsReadOnly="True">
 							</DataGridTextColumn>
 							<DataGridTemplateColumn IsReadOnly="True">
@@ -346,7 +339,34 @@
 							</DataGridTemplateColumn>
 						</DataGrid.Columns>
 					</DataGrid>
-					<TextBlock Grid.Row="1" Visibility="{Binding KernelVmSingleInstance.CoinKernels, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Text="沒有记录" Grid.Column="1" Margin="271,209,293,246"></TextBlock>
+					<TextBlock Visibility="{Binding KernelVmSingleInstance.CoinKernels, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Text="沒有记录"></TextBlock>
+					<WrapPanel Visibility="{x:Static app:AppStatic.IsDebugModeVisible}">
+						<controls:KbButton 
+							x:Name="ButtonAddCoinKernel"
+							HorizontalAlignment="Left"
+							VerticalAlignment="Top"
+							IsEnabled="{Binding ElementName=PopupKernel,Path=IsOpen, Converter={StaticResource BoolInvertConverter}}"
+							Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
+							Click="ButtonAddCoinKernel_Click"
+							Background="Transparent" BorderThickness="0"
+							Margin="4"
+							CornerRadius="2" ToolTip="添加">
+							<WrapPanel>
+								<Path
+									Width="18"
+									Height="18"
+									Data="{StaticResource Icon_Add}"
+									Fill="{StaticResource IconFillColor}"
+									Stretch="Fill" />
+							</WrapPanel>
+						</controls:KbButton>
+						<Popup 
+							x:Name="PopupKernel" 
+							PopupAnimation="Slide" 
+							PlacementTarget="{Binding ElementName=ButtonAddCoinKernel}" 
+							Placement="Bottom" 
+							StaysOpen="False"></Popup>
+					</WrapPanel>
 				</Grid>
 			</TabItem>
 			<!--end支持币种-->

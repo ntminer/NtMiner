@@ -106,6 +106,15 @@
     <Compile Include="PackagesWindow.xaml.cs">
       <DependentUpon>PackagesWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Ucs\KernelOutputSelect.xaml.cs">
+      <DependentUpon>KernelOutputSelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ucs\KernelInputSelect.xaml.cs">
+      <DependentUpon>KernelInputSelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ucs\SysDicItemSelect.xaml.cs">
+      <DependentUpon>SysDicItemSelect.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Ucs\FileWriterEdit.xaml.cs">
       <DependentUpon>FileWriterEdit.xaml</DependentUpon>
     </Compile>
@@ -358,6 +367,18 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Design\PackageViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ucs\KernelOutputSelect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ucs\KernelInputSelect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ucs\SysDicItemSelect.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

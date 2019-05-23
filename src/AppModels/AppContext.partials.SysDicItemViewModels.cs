@@ -82,9 +82,7 @@ namespace NTMiner {
 
             public List<SysDicItemViewModel> KernelBrandItems {
                 get {
-                    List<SysDicItemViewModel> list = new List<SysDicItemViewModel> {
-                        SysDicItemViewModel.PleaseSelect
-                    };
+                    List<SysDicItemViewModel> list = new List<SysDicItemViewModel>();
                     SysDicViewModel sysDic;
                     if (AppContext.Instance.SysDicVms.TryGetSysDicVm("KernelBrand", out sysDic)) {
                         list.AddRange(List.Where(a => a.DicId == sysDic.Id).OrderBy(a => a.SortNumber));
@@ -95,9 +93,7 @@ namespace NTMiner {
 
             public List<SysDicItemViewModel> PoolBrandItems {
                 get {
-                    List<SysDicItemViewModel> list = new List<SysDicItemViewModel> {
-                        SysDicItemViewModel.PleaseSelect
-                    };
+                    List<SysDicItemViewModel> list = new List<SysDicItemViewModel>();
                     SysDicViewModel sysDic;
                     if (AppContext.Instance.SysDicVms.TryGetSysDicVm("PoolBrand", out sysDic)) {
                         list.AddRange(List.Where(a => a.DicId == sysDic.Id).OrderBy(a => a.SortNumber));

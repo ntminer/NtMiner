@@ -73,10 +73,6 @@ namespace NTMiner.Vms {
 
         public StateBarViewModel StateBarVm {
             get => _stateBarVm;
-            set {
-                _stateBarVm = value;
-                OnPropertyChanged(nameof(StateBarVm));
-            }
         }
 
         public bool IsUseDevConsole {
