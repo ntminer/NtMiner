@@ -108,6 +108,7 @@
     <Compile Include="Vms\CoinKernelViewModel.cs" />
     <Compile Include="Vms\CoinPageViewModel.cs" />
     <Compile Include="Vms\CoinProfileViewModel.cs" />
+    <Compile Include="Vms\SysDicItemSelectViewModel.cs" />
     <Compile Include="Vms\CoinSelectViewModel.cs" />
     <Compile Include="Vms\CoinSnapshotDataViewModel.cs" />
     <Compile Include="Vms\CoinViewModel.cs" />
