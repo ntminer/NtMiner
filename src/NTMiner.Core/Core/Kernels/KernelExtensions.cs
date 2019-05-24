@@ -6,9 +6,9 @@ using System.Linq;
 namespace NTMiner.Core.Kernels {
     public static class KernelExtensions {
         public sealed class CommandName {
-            public string Name { get; internal set; }
+            internal string Name;
             // 根据这个判断是否换成过期
-            public string KernelInputArgs { get; internal set; }
+            internal string KernelInputArgs;
         }
 
         public static string GetProcessName(this IKernel kernel) {

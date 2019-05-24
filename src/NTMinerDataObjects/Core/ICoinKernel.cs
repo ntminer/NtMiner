@@ -9,6 +9,10 @@ namespace NTMiner.Core {
         string Args { get; }
         Guid DualCoinGroupId { get; }
         SupportedGpu SupportedGpu { get; }
+        /// <summary>
+        /// 表示是否支持备用矿池1
+        /// </summary>
+        bool IsSupportPool1 { get; }
         string Notice { get; }
         List<EnvironmentVariable> EnvironmentVariables { get; }
         List<InputSegment> InputSegments { get; }

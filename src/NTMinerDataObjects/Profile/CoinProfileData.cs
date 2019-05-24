@@ -10,6 +10,7 @@ namespace NTMiner.Profile {
         public static CoinProfileData CreateDefaultData(Guid coinId, Guid poolId, string wallet, Guid coinKernelId) {
             return new CoinProfileData() {
                 PoolId = poolId,
+                PoolId1 = Guid.Empty,
                 Wallet = wallet,
                 CoinId = coinId,
                 CoinKernelId = coinKernelId,
@@ -22,6 +23,7 @@ namespace NTMiner.Profile {
 
         public CoinProfileData(ICoinProfile data) {
             this.PoolId = data.PoolId;
+            this.PoolId1 = data.PoolId1;
             this.Wallet = data.Wallet;
             this.CoinId = data.CoinId;
             this.CoinKernelId = data.CoinKernelId;
@@ -39,6 +41,7 @@ namespace NTMiner.Profile {
         public Guid CoinId { get; set; }
 
         public Guid PoolId { get; set; }
+        public Guid PoolId1 { get; set; }
         public string Wallet { get; set; }
         public bool IsHideWallet { get; set; }
         public Guid CoinKernelId { get; set; }
@@ -47,7 +50,7 @@ namespace NTMiner.Profile {
         public bool IsDualCoinHideWallet { get; set; }
 
         public override string ToString() {
-            return $"{CoinId}{PoolId}{Wallet}{IsHideWallet}{CoinKernelId}{DualCoinPoolId}{DualCoinWallet}{IsDualCoinHideWallet}";
+            return $"{CoinId}{PoolId}{PoolId1}{Wallet}{IsHideWallet}{CoinKernelId}{DualCoinPoolId}{DualCoinWallet}{IsDualCoinHideWallet}";
         }
 
         public StringBuilder GetSignData() {

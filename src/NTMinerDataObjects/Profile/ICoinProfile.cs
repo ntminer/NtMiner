@@ -4,6 +4,7 @@ namespace NTMiner.Profile {
     public interface ICoinProfile {
         Guid CoinId { get; }
         Guid PoolId { get; }
+        Guid PoolId1 { get; }
         string Wallet { get; }
         bool IsHideWallet { get; }
         Guid CoinKernelId { get; }

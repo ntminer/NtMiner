@@ -86,6 +86,16 @@ namespace NTMiner.Vms {
             }
         }
 
+        public Guid PoolId1 {
+            get => _inner.PoolId1;
+            set {
+                if (_inner.PoolId1 != value) {
+                    NTMinerRoot.Instance.MinerProfile.SetCoinProfileProperty(this.CoinId, nameof(PoolId1), value);
+                    OnPropertyChanged(nameof(PoolId1));
+                }
+            }
+        }
+
         public string Wallet {
             get => _inner.Wallet;
             set {
@@ -177,6 +187,37 @@ namespace NTMiner.Vms {
                 if (value != null) {
                     PoolId = value.Id;
                     OnPropertyChanged(nameof(MainCoinPool));
+                    NTMinerRoot.RefreshArgsAssembly.Invoke();
+                }
+            }
+        }
+
+        public PoolViewModel MainCoinPool1 {
+            get {
+                if (this.CoinId == Guid.Empty) {
+                    return null;
+                }
+
+                if (!AppContext.Instance.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
+                    return null;
+                }
+                if (!AppContext.Instance.PoolVms.TryGetPoolVm(this.PoolId1, out PoolViewModel pool)) {
+                    pool = coinVm.Pools.OrderBy(a => a.SortNumber).FirstOrDefault();
+                    if (pool != null) {
+                        PoolId1 = pool.Id;
+                    }
+                }
+                return pool;
+            }
+            set {
+                if (value == null) {
+                    if (AppContext.Instance.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
+                        value = coinVm.Pools.OrderBy(a => a.SortNumber).FirstOrDefault();
+                    }
+                }
+                if (value != null) {
+                    PoolId1 = value.Id;
+                    OnPropertyChanged(nameof(MainCoinPool1));
                     NTMinerRoot.RefreshArgsAssembly.Invoke();
                 }
             }

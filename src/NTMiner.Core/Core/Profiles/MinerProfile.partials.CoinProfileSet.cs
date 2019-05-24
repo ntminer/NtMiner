@@ -105,6 +105,13 @@ namespace NTMiner.Core.Profiles {
                     }
                 }
 
+                public Guid PoolId1 {
+                    get => _data.PoolId1;
+                    private set {
+                        _data.PoolId1 = value;
+                    }
+                }
+
                 public string Wallet {
                     get => _data.Wallet;
                     private set {

@@ -1,5 +1,6 @@
 ﻿using NTMiner.Core;
 using System;
+using System.Collections.Generic;
 
 namespace NTMiner {
     public partial class NTMinerRoot : INTMinerRoot {
@@ -11,8 +12,8 @@ namespace NTMiner {
                 IKernel kernel,
                 ICoinKernel coinKernel,
                 string mainCoinWallet,
-                string commandLine) {
-
+                string commandLine,
+                Dictionary<string, string> parameters) {
                 this.Id = Guid.NewGuid();
                 this.MinerName = minerName;
                 this.MainCoin = mainCoin;
@@ -24,6 +25,7 @@ namespace NTMiner {
                 this.CommandLine = commandLine;
                 this.CreatedOn = DateTime.Now;
                 this.PipeFileName = "pip_" + DateTime.Now.Ticks.ToString() + ".log";
+                this.Parameters = parameters;
             }
 
             public Guid Id { get; private set; }
@@ -47,6 +49,8 @@ namespace NTMiner {
             public string CommandLine { get; private set; }
 
             public DateTime CreatedOn { get; private set; }
+
+            public Dictionary<string, string> Parameters { get; private set; }
         }
 
         private class DualMineContext : MineContext, IDualMineContext {
@@ -55,14 +59,16 @@ namespace NTMiner {
                 ICoin dualCoin,
                 IPool dualCoinPool,
                 string dualCoinWallet,
-                double dualCoinWeight) : base(
+                double dualCoinWeight,
+                Dictionary<string, string> parameters) : base(
                     mineContext.MinerName,
                     mineContext.MainCoin,
                     mineContext.MainCoinPool,
                     mineContext.Kernel,
                     mineContext.CoinKernel,
                     mineContext.MainCoinWallet,
-                    mineContext.CommandLine) {
+                    mineContext.CommandLine,
+                    parameters) {
                 this.DualCoin = dualCoin;
                 this.DualCoinPool = dualCoinPool;
                 this.DualCoinWallet = dualCoinWallet;

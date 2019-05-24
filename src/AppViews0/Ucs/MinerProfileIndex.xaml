@@ -7,7 +7,7 @@
 			 xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
 			 xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 			 xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
-	         xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
+			 xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 			 mc:Ignorable="d" 
 			 BorderBrush="{StaticResource LineColor}"
 			 TextOptions.TextFormattingMode="Display"  
@@ -71,34 +71,28 @@
 					</WrapPanel>
 					<Image Margin="2 0 0 0" Width="24" Height="24" Source="{Binding MinerProfile.CoinVm.IconImageSource}">
 					</Image>
-					<TextBlock 
-						Margin="2 0 0 0"
-						Width="32"
+					<TextBlock
 						Style="{StaticResource LblTb}"
-						Text="矿池" />
+						Width="32"
+						Text="内核" />
 					<WrapPanel IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}">
 						<controls:KbButton 
-							x:Name="ButtonMainCoinPool"
+							x:Name="ButtonKernel"
 							Padding="4 0"
 							BorderThickness="1"
 							BorderBrush="{StaticResource LineColor}"
-							Height="26"							
-							IsEnabled="{Binding ElementName=PopupMainCoinPool,Path=IsOpen,Converter={StaticResource BoolInvertConverter}}"
+							Height="26"
+							IsEnabled="{Binding ElementName=PopupKernel,Path=IsOpen,Converter={StaticResource BoolInvertConverter}}"
 							Background="{Binding MinerProfile.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
-							Click="KbButtonMainCoinPool_Clicked">
+							Click="KbButtonKernel_Clicked">
 							<controls:KbButton.ContextMenu>
 								<ContextMenu>
-									<MenuItem Header="添加" Command="{Binding MinerProfile.CoinVm.AddPool}">
-									</MenuItem>
-									<MenuItem 
-										Header="管理" 
-										Command="{x:Static app:AppStatic.ManagePools}"
-										CommandParameter="{Binding MinerProfile.CoinVm}">
+									<MenuItem Header="编辑" Command="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.Edit}">
 									</MenuItem>
 								</ContextMenu>
 							</controls:KbButton.ContextMenu>
 							<WrapPanel>
-								<TextBlock Width="116" Padding="0 0 10 0" Foreground="Black" Text="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.Name}"></TextBlock>
+								<TextBlock Width="116" Padding="0 0 10 0" Foreground="Black" Text="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.FullName}"></TextBlock>
 								<Path
 									Margin="0 2 0 0"
 									Width="12"
@@ -109,9 +103,9 @@
 							</WrapPanel>
 						</controls:KbButton>
 						<Popup 
-							x:Name="PopupMainCoinPool" 
+							x:Name="PopupKernel" 
 							PopupAnimation="Slide" 
-							PlacementTarget="{Binding ElementName=ButtonMainCoinPool}" 
+							PlacementTarget="{Binding ElementName=ButtonKernel}" 
 							Placement="Bottom" 
 							StaysOpen="False"></Popup>
 					</WrapPanel>
@@ -290,27 +284,32 @@
 				</WrapPanel>
 				
 				<WrapPanel Margin="0 2">
-					<TextBlock
+					<TextBlock 
 						Style="{StaticResource LblTb}"
-						Text="内核" />
+						Text="主矿池" />
 					<WrapPanel IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}">
 						<controls:KbButton 
-							x:Name="ButtonKernel"
+							x:Name="ButtonMainCoinPool"
 							Padding="4 0"
 							BorderThickness="1"
 							BorderBrush="{StaticResource LineColor}"
-							Height="26"
-							IsEnabled="{Binding ElementName=PopupKernel,Path=IsOpen,Converter={StaticResource BoolInvertConverter}}"
+							Height="26"							
+							IsEnabled="{Binding ElementName=PopupMainCoinPool,Path=IsOpen,Converter={StaticResource BoolInvertConverter}}"
 							Background="{Binding MinerProfile.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
-							Click="KbButtonKernel_Clicked">
+							Click="KbButtonMainCoinPool_Clicked">
 							<controls:KbButton.ContextMenu>
 								<ContextMenu>
-									<MenuItem Header="编辑" Command="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.Edit}">
+									<MenuItem Header="添加" Command="{Binding MinerProfile.CoinVm.AddPool}">
+									</MenuItem>
+									<MenuItem 
+										Header="管理" 
+										Command="{x:Static app:AppStatic.ManagePools}"
+										CommandParameter="{Binding MinerProfile.CoinVm}">
 									</MenuItem>
 								</ContextMenu>
 							</controls:KbButton.ContextMenu>
 							<WrapPanel>
-								<TextBlock Padding="0 0 10 0" Foreground="Black" Text="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.FullName}"></TextBlock>
+								<TextBlock Width="100" Padding="0 0 10 0" Foreground="Black" Text="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.Name}"></TextBlock>
 								<Path
 									Margin="0 2 0 0"
 									Width="12"
@@ -321,11 +320,54 @@
 							</WrapPanel>
 						</controls:KbButton>
 						<Popup 
-							x:Name="PopupKernel" 
+							x:Name="PopupMainCoinPool" 
 							PopupAnimation="Slide" 
-							PlacementTarget="{Binding ElementName=ButtonKernel}" 
+							PlacementTarget="{Binding ElementName=ButtonMainCoinPool}" 
 							Placement="Bottom" 
 							StaysOpen="False"></Popup>
+						<WrapPanel Visibility="{Binding MinerProfile.CoinVm.CoinKernel.IsSupportPool1, Converter={StaticResource BoolToVisibilityConverter}}">
+							<TextBlock 
+								Style="{StaticResource LblTb}"
+								Width="30"
+								Text="备池" />
+							<controls:KbButton 
+								x:Name="ButtonMainCoinPool1"
+								Padding="4 0"
+								BorderThickness="1"
+								BorderBrush="{StaticResource LineColor}"
+								Height="26"							
+								IsEnabled="{Binding ElementName=PopupMainCoinPool1,Path=IsOpen,Converter={StaticResource BoolInvertConverter}}"
+								Background="{Binding MinerProfile.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
+								Click="KbButtonMainCoinPool1_Clicked">
+								<controls:KbButton.ContextMenu>
+									<ContextMenu>
+										<MenuItem Header="添加" Command="{Binding MinerProfile.CoinVm.AddPool}">
+										</MenuItem>
+										<MenuItem 
+											Header="管理" 
+											Command="{x:Static app:AppStatic.ManagePools}"
+											CommandParameter="{Binding MinerProfile.CoinVm}">
+										</MenuItem>
+									</ContextMenu>
+								</controls:KbButton.ContextMenu>
+								<WrapPanel>
+									<TextBlock Width="100" Padding="0 0 10 0" Foreground="Black" Text="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool1.Name}"></TextBlock>
+									<Path
+										Margin="0 2 0 0"
+										Width="12"
+										Height="8"
+										Data="{StaticResource Icon_ComboBoxToogle}"
+										Fill="Black"
+										Stretch="Fill" />
+								</WrapPanel>
+							</controls:KbButton>
+							<Popup 
+								x:Name="PopupMainCoinPool1" 
+								PopupAnimation="Slide" 
+								PlacementTarget="{Binding ElementName=ButtonMainCoinPool1}" 
+								Placement="Bottom" 
+								StaysOpen="False"></Popup>
+						</WrapPanel>
 					</WrapPanel>
 				</WrapPanel>
 				<WrapPanel 

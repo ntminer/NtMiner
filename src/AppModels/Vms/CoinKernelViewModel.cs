@@ -12,6 +12,7 @@ namespace NTMiner.Vms {
         private Guid _kernelId;
         private int _sortNumber;
         private Guid _dualCoinGroupId;
+        private bool _isSupportPool1;
         private string _args;
         private string _notice;
         private SupportedGpu _supportedGpu;
@@ -57,6 +58,7 @@ namespace NTMiner.Vms {
             _args = data.Args;
             _notice = data.Notice;
             _supportedGpu = data.SupportedGpu;
+            _isSupportPool1 = data.IsSupportPool1;
             // 复制，视为值对象，防止直接修改引用
             _environmentVariables.AddRange(data.EnvironmentVariables.Select(a => new EnvironmentVariable(a)));
             // 复制，视为值对象，防止直接修改引用
@@ -96,8 +98,13 @@ namespace NTMiner.Vms {
                     InputSegments = InputSegments.ToList();
                 }, icon: IconConst.IconConfirm);
             });
-            this.RemoveFileWriter = new DelegateCommand(() => {
-                // TODO:
+            this.RemoveFileWriter = new DelegateCommand<FileWriterViewModel>((fileWriter) => {
+                this.ShowDialog(message: $"您确定删除文件书写器{fileWriter.Name}吗？", title: "确认", onYes: () => {
+                    this.FileWriterVms.Remove(fileWriter);
+                    List<Guid> fileWriterIds = new List<Guid>(this.FileWriterIds);
+                    fileWriterIds.Remove(fileWriter.Id);
+                    this.FileWriterIds = fileWriterIds;
+                }, icon: IconConst.IconConfirm);
             });
             this.Save = new DelegateCommand(() => {
                 if (NTMinerRoot.Instance.CoinKernelSet.Contains(this.Id)) {
@@ -361,6 +368,16 @@ namespace NTMiner.Vms {
                     return true;
                 }
                 return this.Kernel.KernelInputVm.DualCoinGroupId != Guid.Empty;
+            }
+        }
+
+        public bool IsSupportPool1 {
+            get { return _isSupportPool1; }
+            set {
+                if (_isSupportPool1 != value) {
+                    _isSupportPool1 = value;
+                    OnPropertyChanged(nameof(IsSupportPool1));
+                }
             }
         }
 

@@ -9,7 +9,8 @@ using System.Text;
 namespace NTMiner {
     public partial class NTMinerRoot : INTMinerRoot {
         private static readonly string[] gpuIndexChars = new string[] { "a", "b", "c", "d", "e", "f", "g", "h" };
-        public string BuildAssembleArgs() {
+        public string BuildAssembleArgs(out Dictionary<string, string> parameters) {
+            parameters = new Dictionary<string, string>();
             if (!CoinSet.TryGetCoin(this.MinerProfile.CoinId, out ICoin mainCoin)) {
                 return string.Empty;
             }
@@ -30,15 +31,12 @@ namespace NTMiner {
                 return string.Empty;
             }
             ICoinKernelProfile coinKernelProfile = this.MinerProfile.GetCoinKernelProfile(coinProfile.CoinKernelId);
-            string wallet = coinProfile.Wallet;
-            string pool = mainCoinPool.Server;
             string poolKernelArgs = string.Empty;
             IPoolKernel poolKernel = PoolKernelSet.FirstOrDefault(a => a.PoolId == mainCoinPool.GetId() && a.KernelId == kernel.GetId());
             if (poolKernel != null) {
                 poolKernelArgs = poolKernel.Args;
             }
             IPoolProfile poolProfile = MinerProfile.GetPoolProfile(mainCoinPool.GetId());
-            string userName = poolProfile.UserName;
             string password = poolProfile.Password;
             if (string.IsNullOrEmpty(password)) {
                 password = "x";
@@ -46,16 +44,31 @@ namespace NTMiner {
             string kernelArgs = kernelInput.Args;
             string coinKernelArgs = coinKernel.Args;
             string customArgs = coinKernelProfile.CustomArgs;
-            var argsDic = new Dictionary<string, string> {
-                {"mainCoin", mainCoin.Code },
-                {"wallet", wallet },
-                {"userName", userName },
-                {"password", password },
-                {"host", mainCoinPool.GetHost() },
-                {"port", mainCoinPool.GetPort().ToString() },
-                {"pool", pool },
-                {"worker", this.MinerProfile.MinerName }
-            };// 这里不要考虑{logfile}，{logfile}往后推迟
+            parameters.Add("mainCoin", mainCoin.Code);
+            parameters.Add("wallet", coinProfile.Wallet);
+            parameters.Add("userName", poolProfile.UserName);
+            parameters.Add("password", password);
+            parameters.Add("host", mainCoinPool.GetHost());
+            parameters.Add("port", mainCoinPool.GetPort().ToString());
+            parameters.Add("pool", mainCoinPool.Server);
+            parameters.Add("worker", this.MinerProfile.MinerName);
+            if (coinKernel.IsSupportPool1) {
+                parameters.Add("wallet1", coinProfile.Wallet);
+                parameters.Add("worker1", this.MinerProfile.MinerName);
+                if (PoolSet.TryGetPool(coinProfile.PoolId1, out IPool mainCoinPool1)) {
+                    parameters.Add("host1", mainCoinPool1.GetHost());
+                    parameters.Add("port1", mainCoinPool1.GetPort().ToString());
+                    parameters.Add("pool1", mainCoinPool1.Server);
+                    IPoolProfile poolProfile1 = MinerProfile.GetPoolProfile(mainCoinPool1.GetId());
+                    string password1 = poolProfile1.Password;
+                    if (string.IsNullOrEmpty(password1)) {
+                        password1 = "x";
+                    }
+                    parameters.Add("userName1", poolProfile.UserName);
+                    parameters.Add("password1", password);
+                }
+            }
+            // 这里不要考虑{logfile}，{logfile}往后推迟
             if (coinKernelProfile.IsDualCoinEnabled && kernelInput.IsSupportDualMine) {
                 Guid dualCoinGroupId = coinKernel.DualCoinGroupId;
                 if (dualCoinGroupId == Guid.Empty) {
@@ -65,26 +78,23 @@ namespace NTMiner {
                     if (this.CoinSet.TryGetCoin(coinKernelProfile.DualCoinId, out ICoin dualCoin)) {
                         ICoinProfile dualCoinProfile = this.MinerProfile.GetCoinProfile(dualCoin.GetId());
                         if (PoolSet.TryGetPool(dualCoinProfile.DualCoinPoolId, out IPool dualCoinPool)) {
-                            string dualWallet = dualCoinProfile.DualCoinWallet;
-                            string dualPool = dualCoinPool.Server;
                             IPoolProfile dualPoolProfile = MinerProfile.GetPoolProfile(dualCoinPool.GetId());
-                            string dualUserName = dualPoolProfile.UserName;
                             string dualPassword = dualPoolProfile.Password;
                             if (string.IsNullOrEmpty(dualPassword)) {
                                 dualPassword = "x";
                             }
-                            argsDic.Add("dualCoin", dualCoin.Code);
-                            argsDic.Add("dualWallet", dualWallet);
-                            argsDic.Add("dualUserName", dualUserName);
-                            argsDic.Add("dualPassword", dualPassword);
-                            argsDic.Add("dualHost", dualCoinPool.GetHost());
-                            argsDic.Add("dualPort", dualCoinPool.GetPort().ToString());
-                            argsDic.Add("dualPool", dualPool);
+                            parameters.Add("dualCoin", dualCoin.Code);
+                            parameters.Add("dualWallet", dualCoinProfile.DualCoinWallet);
+                            parameters.Add("dualUserName", dualPoolProfile.UserName);
+                            parameters.Add("dualPassword", dualPassword);
+                            parameters.Add("dualHost", dualCoinPool.GetHost());
+                            parameters.Add("dualPort", dualCoinPool.GetPort().ToString());
+                            parameters.Add("dualPool", dualCoinPool.Server);
 
                             kernelArgs = kernelInput.DualFullArgs;
-                            AssembleArgs(argsDic, ref kernelArgs, isDual: true);
-                            AssembleArgs(argsDic, ref poolKernelArgs, isDual: true);
-                            AssembleArgs(argsDic, ref customArgs, isDual: true);
+                            AssembleArgs(parameters, ref kernelArgs, isDual: true);
+                            AssembleArgs(parameters, ref poolKernelArgs, isDual: true);
+                            AssembleArgs(parameters, ref customArgs, isDual: true);
 
                             string dualWeightArg;
                             if (!string.IsNullOrEmpty(kernelInput.DualWeightArg)) {
@@ -104,10 +114,10 @@ namespace NTMiner {
                     }
                 }
             }
-            AssembleArgs(argsDic, ref kernelArgs, isDual: false);
-            AssembleArgs(argsDic, ref coinKernelArgs, isDual: false);
-            AssembleArgs(argsDic, ref poolKernelArgs, isDual: false);
-            AssembleArgs(argsDic, ref customArgs, isDual: false);
+            AssembleArgs(parameters, ref kernelArgs, isDual: false);
+            AssembleArgs(parameters, ref coinKernelArgs, isDual: false);
+            AssembleArgs(parameters, ref poolKernelArgs, isDual: false);
+            AssembleArgs(parameters, ref customArgs, isDual: false);
             string devicesArgs = string.Empty;
             if (!string.IsNullOrWhiteSpace(kernelInput.DevicesArg)) {
                 List<int> useDevices = GetUseDevices();
