@@ -553,9 +553,17 @@ namespace NTMiner {
                             Logger.WarnDebugLine("MineContext.CommandLine:" + commandLine);
                         }
                     }
-                    IMineContext mineContext = new MineContext(this.MinerProfile.MinerName, mainCoin, mainCoinPool, kernel, coinKernel, coinProfile.Wallet, commandLine);
+                    IMineContext mineContext = new MineContext(
+                        this.MinerProfile.MinerName, mainCoin, 
+                        mainCoinPool, kernel, coinKernel, 
+                        coinProfile.Wallet, commandLine,
+                        parameters);
                     if (coinKernelProfile.IsDualCoinEnabled) {
-                        mineContext = new DualMineContext(mineContext, dualCoin, dualCoinPool, coinProfile.DualCoinWallet, coinKernelProfile.DualCoinWeight);
+                        mineContext = new DualMineContext(
+                            mineContext, dualCoin, dualCoinPool, 
+                            coinProfile.DualCoinWallet, 
+                            coinKernelProfile.DualCoinWeight,
+                            parameters);
                     }
                     _currentMineContext = mineContext;
                     MinerProcess.CreateProcessAsync(mineContext);

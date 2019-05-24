@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace NTMiner.Core {
     public interface IMineContext {
@@ -15,5 +16,6 @@ namespace NTMiner.Core {
         string CommandLine { get; }
 
         DateTime CreatedOn { get; }
+        Dictionary<string, string> Parameters { get; }
     }
 }
