@@ -545,7 +545,7 @@ namespace NTMiner {
                     }));
                 }
                 else {
-                    string commandLine = BuildAssembleArgs();
+                    string commandLine = BuildAssembleArgs(out Dictionary<string, string> parameters);
                     if (IsUiVisible) {
                         if (commandLine != UserKernelCommandLine) {
                             Logger.WarnDebugLine("意外：MineContext.CommandLine和UserKernelCommandLine不等了");

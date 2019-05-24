@@ -3,6 +3,7 @@ using NTMiner.MinerServer;
 using NTMiner.Profile;
 using NTMiner.Vms;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace NTMiner {
@@ -33,7 +34,7 @@ namespace NTMiner {
                             }
                         }
                     }
-                    this.ArgsAssembly = NTMinerRoot.Instance.BuildAssembleArgs();
+                    this.ArgsAssembly = NTMinerRoot.Instance.BuildAssembleArgs(out Dictionary<string, string> parameters);
                 };
                 VirtualRoot.On<ServerContextVmsReInitedEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
                     action: message => {
