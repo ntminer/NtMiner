@@ -40,5 +40,21 @@ namespace NTMiner.Core {
                 return parameterNames;
             }
         }
+
+        public static bool IsMatch(this IFileWriter fileWriter, IMineContext mineContext) {
+            if (string.IsNullOrEmpty(fileWriter.Body)) {
+                return false;
+            }
+            ParameterNames parameterNames = GetParameterNames(fileWriter);
+            if (parameterNames.Names.Count == 0) {
+                return true;
+            }
+            foreach (var name in parameterNames.Names) {
+                if (!mineContext.Parameters.ContainsKey(name)) {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 }
