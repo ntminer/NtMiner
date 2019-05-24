@@ -15,12 +15,13 @@ namespace NTMiner.Core {
         private static readonly Dictionary<Guid, ParameterNames> _parameterNameDic = new Dictionary<Guid, ParameterNames>();
 
         public static ParameterNames GetParameterNames(this IFileWriter fileWriter) {
-            if (!_parameterNameDic.TryGetValue(fileWriter.GetId(), out ParameterNames parameterNames) || string.IsNullOrEmpty(fileWriter.Body)) {
+            if (string.IsNullOrEmpty(fileWriter.Body)) {
                 return new ParameterNames {
                     Body = fileWriter.Body
                 };
             }
-            if (parameterNames.Body == fileWriter.Body) {
+            if (_parameterNameDic.TryGetValue(fileWriter.GetId(), out ParameterNames parameterNames) 
+                && parameterNames.Body == fileWriter.Body) {
                 return parameterNames;
             }
             else {
@@ -37,7 +38,7 @@ namespace NTMiner.Core {
                 const string pattern = @"\{(\w+)\}";
                 var matches = Regex.Matches(fileWriter.Body, pattern);
                 foreach (Match match in matches) {
-                    parameterNames.Names.Add(match.Value);
+                    parameterNames.Names.Add(match.Groups[1].Value);
                 }
                 return parameterNames;
             }
