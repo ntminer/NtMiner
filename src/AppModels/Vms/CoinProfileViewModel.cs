@@ -86,6 +86,16 @@ namespace NTMiner.Vms {
             }
         }
 
+        public Guid PoolId1 {
+            get => _inner.PoolId1;
+            set {
+                if (_inner.PoolId1 != value) {
+                    NTMinerRoot.Instance.MinerProfile.SetCoinProfileProperty(this.CoinId, nameof(PoolId1), value);
+                    OnPropertyChanged(nameof(PoolId1));
+                }
+            }
+        }
+
         public string Wallet {
             get => _inner.Wallet;
             set {
