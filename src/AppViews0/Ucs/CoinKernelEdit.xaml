@@ -37,9 +37,9 @@
 
 		<WrapPanel Margin="0 2">
 			<TextBlock Style="{StaticResource LblTb}" Text="支持显卡"></TextBlock>
-			<WrapPanel Width="180" VerticalAlignment="Center">
+			<WrapPanel VerticalAlignment="Center">
 				<controls:KbComboBox 
-					Width="130" ItemsSource="{x:Static app:AppStatic.SupportedGpuEnumItems}"
+					Width="80" ItemsSource="{x:Static app:AppStatic.SupportedGpuEnumItems}"
 					IsEnabled="{x:Static app:AppStatic.IsDebugMode}"
 					DisplayMemberPath="Description" Height="26"
 					SelectedItem="{Binding SupportedGpuEnumItem}">
@@ -63,6 +63,7 @@
 					Fill="Red"
 					Stretch="Fill" />
 			</WrapPanel>
+			<CheckBox Margin="4 0 0 0" IsChecked="{Binding IsSupportPool1}" VerticalContentAlignment="Center">支持备池1</CheckBox>
 			<WrapPanel Visibility="{Binding Kernel.KernelInputVm.IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}">
 				<TextBlock Style="{StaticResource LblTb}" Text="双挖币组"></TextBlock>
 				<controls:KbComboBox 
