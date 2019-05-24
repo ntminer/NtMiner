@@ -7,7 +7,15 @@ using System.Windows.Interop;
 
 namespace NTMiner.Views {
     public partial class NotiCenterWindow : Window {
-        public static readonly NotiCenterWindow Instance = new NotiCenterWindow();
+        private static NotiCenterWindow _instance;
+        public static NotiCenterWindow Instance {
+            get {
+                if (_instance == null) {
+                    _instance = new NotiCenterWindow();
+                }
+                return _instance;
+            }
+        }
 
         public static EventHandler CreateNotiCenterWindowLocationManager(Window window) {
             return (sender, e) => {
