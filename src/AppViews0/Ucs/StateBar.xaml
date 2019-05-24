@@ -8,7 +8,7 @@
 			 xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
 			 xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 			 xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
-		     d:DataContext="{d:DesignData Source=/Design/StateBarViewModel.xaml}"
+			 d:DataContext="{d:DesignData Source=/Design/StateBarViewModel.xaml}"
 			 mc:Ignorable="d" d:DesignWidth="800">
 	<UserControl.Resources>
 		<ResourceDictionary>
@@ -120,15 +120,26 @@
 			</Grid>
 			<StackPanel HorizontalAlignment="Right">
 				<WrapPanel>
-					<controls:KbLinkButton
-						Padding="0"
-						Command="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.ViewPoolIncome}"
-						CommandParameter="{Binding MinerProfile.CoinVm.CoinProfile.SelectedWallet}"
-						KbDisplayLine="False"
-						KbSystemButtonHoverBackground="Transparent"
-						Background="Transparent">
-						<TextBlock Text="矿池收益" Foreground="{StaticResource LinkForeground}"></TextBlock>
-					</controls:KbLinkButton>
+					<StackPanel Margin="0 -14 0 0">
+						<controls:KbLinkButton
+							Padding="0"
+							Command="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool1.ViewPoolIncome}"
+							CommandParameter="{Binding MinerProfile.CoinVm.CoinProfile.SelectedWallet}"
+							KbDisplayLine="False"
+							KbSystemButtonHoverBackground="Transparent"
+							Background="Transparent">
+							<TextBlock Text="备池收益" Foreground="{StaticResource LinkForeground}"></TextBlock>
+						</controls:KbLinkButton>
+						<controls:KbLinkButton
+							Padding="0"
+							Command="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.ViewPoolIncome}"
+							CommandParameter="{Binding MinerProfile.CoinVm.CoinProfile.SelectedWallet}"
+							KbDisplayLine="False"
+							KbSystemButtonHoverBackground="Transparent"
+							Background="Transparent">
+							<TextBlock Text="主池收益" Foreground="{StaticResource LinkForeground}"></TextBlock>
+						</controls:KbLinkButton>
+					</StackPanel>
 					<controls:KbButton 
 						HorizontalContentAlignment="Left"
 						Width="260" ToolTip="收益计算器"
