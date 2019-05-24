@@ -41,7 +41,7 @@ namespace NTMiner.Core {
             }
         }
 
-        public static bool IsMatch(this IFileWriter fileWriter, IMineContext mineContext) {
+        private static bool IsMatch(this IFileWriter fileWriter, IMineContext mineContext) {
             if (string.IsNullOrEmpty(fileWriter.Body)) {
                 return false;
             }
@@ -55,6 +55,12 @@ namespace NTMiner.Core {
                 }
             }
             return true;
+        }
+
+        public static void Execute(this IFileWriter fileWriter, IMineContext mineContext) {
+            if (!IsMatch(fileWriter, mineContext)) {
+                return;
+            }
         }
     }
 }

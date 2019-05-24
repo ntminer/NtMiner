@@ -44,9 +44,10 @@ namespace NTMiner {
                             }
 
                             try {
+                                // 执行文件书写器
                                 foreach (var fileWriterId in mineContext.CoinKernel.FileWriterIds) {
                                     if (Instance.FileWriterSet.TryGetFileWriter(fileWriterId, out IFileWriter fileWriter)) {
-                                        // TODO:执行文件书写器
+                                        fileWriter.Execute(mineContext);
                                     }
                                 }
                             }
