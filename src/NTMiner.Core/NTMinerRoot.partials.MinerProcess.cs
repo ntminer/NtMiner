@@ -43,9 +43,20 @@ namespace NTMiner {
                                 Write.UserOk("内核包解压成功");
                             }
 
+                            try {
+                                foreach (var fileWriterId in mineContext.CoinKernel.FileWriterIds) {
+                                    if (Instance.FileWriterSet.TryGetFileWriter(fileWriterId, out IFileWriter fileWriter)) {
+                                        // TODO:执行文件书写器
+                                    }
+                                }
+                            }
+                            catch (Exception e) {
+                                Logger.ErrorDebugLine(e);
+                            }
+
                             Write.UserInfo("总成命令");
                             // 组装命令
-                            BuildCmdLine(mineContext, out var kernelExeFileFullName, out var arguments);
+                            BuildCmdLine(mineContext, out string kernelExeFileFullName, out string arguments);
                             bool isLogFile = arguments.Contains("{logfile}");
                             // 这是不应该发生的，如果发生很可能是填写命令的时候拼写错误了
                             if (!File.Exists(kernelExeFileFullName)) {
