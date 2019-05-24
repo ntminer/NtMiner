@@ -73,7 +73,7 @@
 					</Image>
 					<TextBlock
 						Style="{StaticResource LblTb}"
-						Width="32"
+						Width="34"
 						Text="内核" />
 					<WrapPanel IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}">
 						<controls:KbButton 
