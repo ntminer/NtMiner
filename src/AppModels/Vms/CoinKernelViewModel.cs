@@ -96,8 +96,13 @@ namespace NTMiner.Vms {
                     InputSegments = InputSegments.ToList();
                 }, icon: IconConst.IconConfirm);
             });
-            this.RemoveFileWriter = new DelegateCommand(() => {
-                // TODO:
+            this.RemoveFileWriter = new DelegateCommand<FileWriterViewModel>((fileWriter) => {
+                this.ShowDialog(message: $"您确定删除文件书写器{fileWriter.Name}吗？", title: "确认", onYes: () => {
+                    this.FileWriterVms.Remove(fileWriter);
+                    List<Guid> fileWriterIds = new List<Guid>(this.FileWriterIds);
+                    fileWriterIds.Remove(fileWriter.Id);
+                    this.FileWriterIds = fileWriterIds;
+                }, icon: IconConst.IconConfirm);
             });
             this.Save = new DelegateCommand(() => {
                 if (NTMinerRoot.Instance.CoinKernelSet.Contains(this.Id)) {
