@@ -192,6 +192,37 @@ namespace NTMiner.Vms {
             }
         }
 
+        public PoolViewModel MainCoinPool1 {
+            get {
+                if (this.CoinId == Guid.Empty) {
+                    return null;
+                }
+
+                if (!AppContext.Instance.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
+                    return null;
+                }
+                if (!AppContext.Instance.PoolVms.TryGetPoolVm(this.PoolId1, out PoolViewModel pool)) {
+                    pool = coinVm.Pools.OrderBy(a => a.SortNumber).FirstOrDefault();
+                    if (pool != null) {
+                        PoolId1 = pool.Id;
+                    }
+                }
+                return pool;
+            }
+            set {
+                if (value == null) {
+                    if (AppContext.Instance.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
+                        value = coinVm.Pools.OrderBy(a => a.SortNumber).FirstOrDefault();
+                    }
+                }
+                if (value != null) {
+                    PoolId1 = value.Id;
+                    OnPropertyChanged(nameof(MainCoinPool1));
+                    NTMinerRoot.RefreshArgsAssembly.Invoke();
+                }
+            }
+        }
+
         public Guid DualCoinPoolId {
             get => _inner.DualCoinPoolId;
             set {
