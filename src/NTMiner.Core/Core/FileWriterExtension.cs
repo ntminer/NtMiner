@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text.RegularExpressions;
+using NTMiner.Core.Kernels;
 
 namespace NTMiner.Core {
     public static class FileWriterExtension {
@@ -41,11 +43,11 @@ namespace NTMiner.Core {
             }
         }
 
-        private static bool IsMatch(this IFileWriter fileWriter, IMineContext mineContext) {
+        private static bool IsMatch(this IFileWriter fileWriter, IMineContext mineContext, out ParameterNames parameterNames) {
+            parameterNames = GetParameterNames(fileWriter);
             if (string.IsNullOrEmpty(fileWriter.Body)) {
                 return false;
             }
-            ParameterNames parameterNames = GetParameterNames(fileWriter);
             if (parameterNames.Names.Count == 0) {
                 return true;
             }
@@ -58,9 +60,15 @@ namespace NTMiner.Core {
         }
 
         public static void Execute(this IFileWriter fileWriter, IMineContext mineContext) {
-            if (!IsMatch(fileWriter, mineContext)) {
+            if (!IsMatch(fileWriter, mineContext, out ParameterNames parameterNames)) {
                 return;
             }
+            string fileFullName = Path.Combine(mineContext.Kernel.GetKernelDirFullName(), fileWriter.FileUrl);
+            string content = fileWriter.Body;
+            foreach (var parameterName in parameterNames.Names) {
+                content = content.Replace($"{{{parameterName}}}", mineContext.Parameters[parameterName]);
+            }
+            File.WriteAllText(fileFullName, content);
         }
     }
 }
