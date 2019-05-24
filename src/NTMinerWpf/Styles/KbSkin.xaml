@@ -75,9 +75,6 @@
 	<Style TargetType="TabItem">
 		<Setter Property="FocusVisualStyle" Value="{x:Null}"></Setter>
 	</Style>
-	<Style TargetType="CheckBox">
-		<Setter Property="FocusVisualStyle" Value="{x:Null}" />
-	</Style>
 	<Style x:Key="ListBoxBarItem" TargetType="ListBoxItem">
 		<Setter Property="Template">
 			<Setter.Value>
