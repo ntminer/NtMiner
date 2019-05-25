@@ -14,7 +14,7 @@ namespace NTMiner.Core {
 
         private static readonly Dictionary<Guid, ParameterNames> _parameterNameDic = new Dictionary<Guid, ParameterNames>();
 
-        public static ParameterNames GetParameterNames(this IFragmentWriter writer) {
+        private static ParameterNames GetParameterNames(IFragmentWriter writer) {
             if (string.IsNullOrEmpty(writer.Body)) {
                 return new ParameterNames {
                     Body = writer.Body
@@ -44,7 +44,7 @@ namespace NTMiner.Core {
             }
         }
 
-        private static bool IsMatch(this IFragmentWriter writer, IMineContext mineContext, out ParameterNames parameterNames) {
+        private static bool IsMatch(IFragmentWriter writer, IMineContext mineContext, out ParameterNames parameterNames) {
             parameterNames = GetParameterNames(writer);
             if (string.IsNullOrEmpty(writer.Body)) {
                 return false;
@@ -61,15 +61,22 @@ namespace NTMiner.Core {
         }
 
         public static void Execute(this IFileWriter fileWriter, IMineContext mineContext) {
-            if (!IsMatch(fileWriter, mineContext, out ParameterNames parameterNames)) {
-                return;
+            string content = BuildFragment(fileWriter, mineContext);
+            if (!string.IsNullOrEmpty(content)) {
+                string fileFullName = Path.Combine(mineContext.Kernel.GetKernelDirFullName(), fileWriter.FileUrl);
+                File.WriteAllText(fileFullName, content);
             }
-            string fileFullName = Path.Combine(mineContext.Kernel.GetKernelDirFullName(), fileWriter.FileUrl);
-            string content = fileWriter.Body;
+        }
+
+        public static string BuildFragment(this IFragmentWriter writer, IMineContext mineContext) {
+            if (!IsMatch(writer, mineContext, out ParameterNames parameterNames)) {
+                return string.Empty;
+            }
+            string content = writer.Body;
             foreach (var parameterName in parameterNames.Names) {
                 content = content.Replace($"{{{parameterName}}}", mineContext.Parameters[parameterName]);
             }
-            File.WriteAllText(fileFullName, content);
+            return content;
         }
     }
 }
