@@ -14,29 +14,29 @@ namespace NTMiner.Core {
 
         private static readonly Dictionary<Guid, ParameterNames> _parameterNameDic = new Dictionary<Guid, ParameterNames>();
 
-        public static ParameterNames GetParameterNames(this IFileWriter fileWriter) {
-            if (string.IsNullOrEmpty(fileWriter.Body)) {
+        public static ParameterNames GetParameterNames(this IFragmentWriter writer) {
+            if (string.IsNullOrEmpty(writer.Body)) {
                 return new ParameterNames {
-                    Body = fileWriter.Body
+                    Body = writer.Body
                 };
             }
-            if (_parameterNameDic.TryGetValue(fileWriter.GetId(), out ParameterNames parameterNames) 
-                && parameterNames.Body == fileWriter.Body) {
+            if (_parameterNameDic.TryGetValue(writer.GetId(), out ParameterNames parameterNames) 
+                && parameterNames.Body == writer.Body) {
                 return parameterNames;
             }
             else {
                 if (parameterNames != null) {
-                    parameterNames.Body = fileWriter.Body;
+                    parameterNames.Body = writer.Body;
                 }
                 else {
                     parameterNames = new ParameterNames {
-                        Body = fileWriter.Body
+                        Body = writer.Body
                     };
-                    _parameterNameDic.Add(fileWriter.GetId(), parameterNames);
+                    _parameterNameDic.Add(writer.GetId(), parameterNames);
                 }
                 parameterNames.Names.Clear();
                 const string pattern = @"\{(\w+)\}";
-                var matches = Regex.Matches(fileWriter.Body, pattern);
+                var matches = Regex.Matches(writer.Body, pattern);
                 foreach (Match match in matches) {
                     parameterNames.Names.Add(match.Groups[1].Value);
                 }
@@ -44,9 +44,9 @@ namespace NTMiner.Core {
             }
         }
 
-        private static bool IsMatch(this IFileWriter fileWriter, IMineContext mineContext, out ParameterNames parameterNames) {
-            parameterNames = GetParameterNames(fileWriter);
-            if (string.IsNullOrEmpty(fileWriter.Body)) {
+        private static bool IsMatch(this IFragmentWriter writer, IMineContext mineContext, out ParameterNames parameterNames) {
+            parameterNames = GetParameterNames(writer);
+            if (string.IsNullOrEmpty(writer.Body)) {
                 return false;
             }
             if (parameterNames.Names.Count == 0) {
