@@ -95,7 +95,6 @@
     <Compile Include="Cleaner.cs" />
     <Compile Include="CommandLineArgs.cs" />
     <Compile Include="CommandLineArgs.partial.cs" />
-    <Compile Include="Core\FileWriterExtension.cs" />
     <Compile Include="Core\Gpus\GpuSetExtension.cs" />
     <Compile Include="Core\Gpus\GpuStatus.cs" />
     <Compile Include="Core\Gpus\Impl\Amd\AdlHelper.cs" />
@@ -114,16 +113,19 @@
     <Compile Include="Core\ICalcConfigSet.cs" />
     <Compile Include="Core\ICoinGroupSet.cs" />
     <Compile Include="Core\IFileWriterSet.cs" />
+    <Compile Include="Core\IFragmentWriterSet.cs" />
     <Compile Include="Core\IGroupSet.cs" />
     <Compile Include="Core\Impl\CalcConfigSet.cs" />
     <Compile Include="Core\Gpus\GpuSpeedExtension.cs" />
     <Compile Include="Core\ICoinShareSet.cs" />
     <Compile Include="Core\Impl\CoinGroupSet.cs" />
     <Compile Include="Core\Impl\CoinShareSet.cs" />
+    <Compile Include="Core\Impl\FragmentWriterSet.cs" />
     <Compile Include="Core\Impl\FileWriterSet.cs" />
     <Compile Include="Core\Kernels\Impl\PackageSet.cs" />
     <Compile Include="Core\Kernels\IPackageSet.cs" />
     <Compile Include="Core\Kernels\KernelSetExtension.cs" />
+    <Compile Include="Core\MineContextExtension.cs" />
     <Compile Include="Core\MinerServer\Impl\UserSet.cs" />
     <Compile Include="Core\MinerServer\IColumnsShowSet.cs" />
     <Compile Include="Core\MinerServer\IMinerGroupSet.cs" />

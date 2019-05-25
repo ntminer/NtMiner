@@ -60,6 +60,7 @@
     <Compile Include="AppContext.partials.CoinViewModels.cs" />
     <Compile Include="AppContext.partials.ColumnsShowViewModels.cs" />
     <Compile Include="AppContext.partials.DriveSetViewModel.cs" />
+    <Compile Include="AppContext.partials.FragmentWriterViewModels.cs" />
     <Compile Include="AppContext.partials.FileWriterViewModels.cs" />
     <Compile Include="AppContext.partials.GpuProfileViewModels.cs" />
     <Compile Include="AppContext.partials.GpuSpeedViewModels.cs" />
@@ -108,7 +109,10 @@
     <Compile Include="Vms\CoinKernelViewModel.cs" />
     <Compile Include="Vms\CoinPageViewModel.cs" />
     <Compile Include="Vms\CoinProfileViewModel.cs" />
+    <Compile Include="Vms\FragmentWriterPageViewModel.cs" />
+    <Compile Include="Vms\FragmentWriterSelectViewModel.cs" />
     <Compile Include="Vms\FileWriterSelectViewModel.cs" />
+    <Compile Include="Vms\FragmentWriterViewModel.cs" />
     <Compile Include="Vms\KernelOutputSelectViewModel.cs" />
     <Compile Include="Vms\KernelInputSelectViewModel.cs" />
     <Compile Include="Vms\SysDicItemSelectViewModel.cs" />

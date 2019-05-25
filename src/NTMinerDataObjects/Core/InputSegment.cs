@@ -1,4 +1,7 @@
 ﻿namespace NTMiner.Core {
+    /// <summary>
+    /// Segment是分割的片段，里面没有变量
+    /// </summary>
     public class InputSegment : IInputSegment {
         public InputSegment() { }
 

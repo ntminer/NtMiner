@@ -3,16 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 
 namespace NTMiner.Core.Impl {
-    public class FileWriterSet : IFileWriterSet {
-        private readonly Dictionary<Guid, FileWriterData> _dicById = new Dictionary<Guid, FileWriterData>();
+    public class FragmentWriterSet : IFragmentWriterSet {
+        private readonly Dictionary<Guid, FragmentWriterData> _dicById = new Dictionary<Guid, FragmentWriterData>();
 
         private readonly INTMinerRoot _root;
         private readonly bool _isUseJson;
 
-        public FileWriterSet(INTMinerRoot root, bool isUseJson) {
+        public FragmentWriterSet(INTMinerRoot root, bool isUseJson) {
             _isUseJson = isUseJson;
             _root = root;
-            _root.ServerContextWindow<AddFileWriterCommand>("添加文件书写器", LogEnum.DevConsole,
+            _root.ServerContextWindow<AddFragmentWriterCommand>("添加命令行片段书写器", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -21,39 +21,39 @@ namespace NTMiner.Core.Impl {
                     if (_dicById.ContainsKey(message.Input.GetId())) {
                         return;
                     }
-                    if (string.IsNullOrEmpty(message.Input.FileUrl) || string.IsNullOrEmpty(message.Input.Body)) {
-                        throw new ValidationException("FileWriter name and body can't be null or empty");
+                    if (string.IsNullOrEmpty(message.Input.Body)) {
+                        throw new ValidationException("FragmentWriter body can't be null or empty");
                     }
-                    FileWriterData entity = new FileWriterData().Update(message.Input);
+                    FragmentWriterData entity = new FragmentWriterData().Update(message.Input);
                     _dicById.Add(entity.Id, entity);
-                    var repository = NTMinerRoot.CreateServerRepository<FileWriterData>(isUseJson);
+                    var repository = NTMinerRoot.CreateServerRepository<FragmentWriterData>(isUseJson);
                     repository.Add(entity);
 
-                    VirtualRoot.Happened(new FileWriterAddedEvent(entity));
+                    VirtualRoot.Happened(new FragmentWriterAddedEvent(entity));
                 });
-            _root.ServerContextWindow<UpdateFileWriterCommand>("更新文件书写器", LogEnum.DevConsole,
+            _root.ServerContextWindow<UpdateFragmentWriterCommand>("更新命令行片段书写器", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
                         throw new ArgumentNullException();
                     }
-                    if (string.IsNullOrEmpty(message.Input.FileUrl) || string.IsNullOrEmpty(message.Input.Body)) {
-                        throw new ValidationException("FileWriter name and body can't be null or empty");
+                    if (string.IsNullOrEmpty(message.Input.Body)) {
+                        throw new ValidationException("FragmentWriter body can't be null or empty");
                     }
                     if (!_dicById.ContainsKey(message.Input.GetId())) {
                         return;
                     }
-                    FileWriterData entity = _dicById[message.Input.GetId()];
+                    FragmentWriterData entity = _dicById[message.Input.GetId()];
                     if (ReferenceEquals(entity, message.Input)) {
                         return;
                     }
                     entity.Update(message.Input);
-                    var repository = NTMinerRoot.CreateServerRepository<FileWriterData>(isUseJson);
+                    var repository = NTMinerRoot.CreateServerRepository<FragmentWriterData>(isUseJson);
                     repository.Update(entity);
 
-                    VirtualRoot.Happened(new FileWriterUpdatedEvent(entity));
+                    VirtualRoot.Happened(new FragmentWriterUpdatedEvent(entity));
                 });
-            _root.ServerContextWindow<RemoveFileWriterCommand>("移除组", LogEnum.DevConsole,
+            _root.ServerContextWindow<RemoveFragmentWriterCommand>("移除组", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {
@@ -62,13 +62,13 @@ namespace NTMiner.Core.Impl {
                     if (!_dicById.ContainsKey(message.EntityId)) {
                         return;
                     }
-                    FileWriterData entity = _dicById[message.EntityId];
-                    // TODO:移除内核对文件书写器的引用关系
+                    FragmentWriterData entity = _dicById[message.EntityId];
+                    // TODO:移除内核对命令行片段书写器的引用关系
                     _dicById.Remove(entity.GetId());
-                    var repository = NTMinerRoot.CreateServerRepository<FileWriterData>(isUseJson);
+                    var repository = NTMinerRoot.CreateServerRepository<FragmentWriterData>(isUseJson);
                     repository.Remove(message.EntityId);
 
-                    VirtualRoot.Happened(new FileWriterRemovedEvent(entity));
+                    VirtualRoot.Happened(new FragmentWriterRemovedEvent(entity));
                 });
         }
 
@@ -85,7 +85,7 @@ namespace NTMiner.Core.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    var repository = NTMinerRoot.CreateServerRepository<FileWriterData>(_isUseJson);
+                    var repository = NTMinerRoot.CreateServerRepository<FragmentWriterData>(_isUseJson);
                     foreach (var item in repository.GetAll()) {
                         if (!_dicById.ContainsKey(item.GetId())) {
                             _dicById.Add(item.GetId(), item);
@@ -96,15 +96,15 @@ namespace NTMiner.Core.Impl {
             }
         }
 
-        public bool TryGetFileWriter(Guid writerId, out IFileWriter writer) {
+        public bool TryGetFragmentWriter(Guid writerId, out IFragmentWriter writer) {
             InitOnece();
-            FileWriterData g;
+            FragmentWriterData g;
             bool r = _dicById.TryGetValue(writerId, out g);
             writer = g;
             return r;
         }
 
-        public IEnumerator<IFileWriter> GetEnumerator() {
+        public IEnumerator<IFragmentWriter> GetEnumerator() {
             InitOnece();
             return _dicById.Values.GetEnumerator();
         }

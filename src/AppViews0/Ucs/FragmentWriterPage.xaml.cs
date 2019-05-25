@@ -2,31 +2,31 @@
 using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
-    public partial class FileWriterPage : UserControl {
+    public partial class FragmentWriterPage : UserControl {
         public static void ShowWindow() {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                Title = "文件书写器",
-                IconName = "Icon_FileWriter",
+                Title = "命令行片段书写器",
+                IconName = "Icon_FragmentWriter",
                 CloseVisible = System.Windows.Visibility.Visible,
                 FooterVisible = System.Windows.Visibility.Collapsed,
                 Width = 1200,
                 Height = 620
             }, 
-            ucFactory: (window) => new FileWriterPage());
+            ucFactory: (window) => new FragmentWriterPage());
         }
 
-        private FileWriterPageViewModel Vm {
+        private FragmentWriterPageViewModel Vm {
             get {
-                return (FileWriterPageViewModel)this.DataContext;
+                return (FragmentWriterPageViewModel)this.DataContext;
             }
         }
 
-        private FileWriterPage() {
+        private FragmentWriterPage() {
             InitializeComponent();
         }
 
         private void DataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            Wpf.Util.DataGrid_MouseDoubleClick<FileWriterViewModel>(sender, e);
+            Wpf.Util.DataGrid_MouseDoubleClick<FragmentWriterViewModel>(sender, e);
         }
     }
 }

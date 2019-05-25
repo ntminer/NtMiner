@@ -45,7 +45,9 @@
     <Compile Include="Core\CoinKernelData.cs" />
     <Compile Include="Core\EnvironmentVariable.cs" />
     <Compile Include="Core\FileWriterData.cs" />
+    <Compile Include="Core\FragmentWriterData.cs" />
     <Compile Include="Core\GroupData.cs" />
+    <Compile Include="Core\IFragmentWriter.cs" />
     <Compile Include="Core\ICoin.cs" />
     <Compile Include="Core\ICoinGroup.cs" />
     <Compile Include="Core\ICoinKernel.cs" />

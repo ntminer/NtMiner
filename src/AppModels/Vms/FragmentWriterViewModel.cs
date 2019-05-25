@@ -3,8 +3,7 @@ using System;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class FileWriterViewModel : ViewModelBase, IEditableViewModel, IFileWriter {
-        private string _fileUrl;
+    public class FragmentWriterViewModel : ViewModelBase, IEditableViewModel, IFragmentWriter {
         private Guid _id;
         private string _name;
         private string _body;
@@ -15,23 +14,22 @@ namespace NTMiner.Vms {
 
         public Action CloseWindow { get; set; }
 
-        public FileWriterViewModel(IFileWriter data) : this(data.GetId()) {
+        public FragmentWriterViewModel(IFragmentWriter data) : this(data.GetId()) {
             _name = data.Name;
-            _fileUrl = data.FileUrl;
             _body = data.Body;
         }
 
-        public FileWriterViewModel(Guid id) {
+        public FragmentWriterViewModel(Guid id) {
             _id = id;
             this.Save = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                if (NTMinerRoot.Instance.FileWriterSet.TryGetFileWriter(this.Id, out IFileWriter writer)) {
-                    VirtualRoot.Execute(new UpdateFileWriterCommand(this));
+                if (NTMinerRoot.Instance.FragmentWriterSet.TryGetFragmentWriter(this.Id, out IFragmentWriter writer)) {
+                    VirtualRoot.Execute(new UpdateFragmentWriterCommand(this));
                 }
                 else {
-                    VirtualRoot.Execute(new AddFileWriterCommand(this));
+                    VirtualRoot.Execute(new AddFragmentWriterCommand(this));
                 }
                 CloseWindow?.Invoke();
             });
@@ -39,14 +37,14 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                VirtualRoot.Execute(new FileWriterEditCommand(formType ?? FormType.Edit, this));
+                VirtualRoot.Execute(new FragmentWriterEditCommand(formType ?? FormType.Edit, this));
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
                 this.ShowDialog(message: $"您确定删除{this.Name}组吗？", title: "确认", onYes: () => {
-                    VirtualRoot.Execute(new RemoveFileWriterCommand(this.Id));
+                    VirtualRoot.Execute(new RemoveFragmentWriterCommand(this.Id));
                 }, icon: IconConst.IconConfirm);
             });
         }
@@ -68,14 +66,6 @@ namespace NTMiner.Vms {
             set {
                 _name = value;
                 OnPropertyChanged(nameof(Name));
-            }
-        }
-
-        public string FileUrl {
-            get => _fileUrl;
-            set {
-                _fileUrl = value;
-                OnPropertyChanged(nameof(FileUrl));
             }
         }
 

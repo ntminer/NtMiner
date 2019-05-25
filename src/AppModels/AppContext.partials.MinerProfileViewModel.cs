@@ -63,6 +63,27 @@ namespace NTMiner {
 #endif
             }
 
+            // 是否主矿池和备矿池都是用户名密码模式的矿池
+            public bool IsAllMainCoinPoolIsUserMode {
+                get {
+                    if (CoinVm == null) {
+                        return false;
+                    }
+                    var mainCoinPool = CoinVm.CoinProfile.MainCoinPool;
+                    if (mainCoinPool == null) {
+                        return false;
+                    }
+                    if (CoinVm.CoinKernel.IsSupportPool1) {
+                        var mainCoinPool1 = CoinVm.CoinProfile.MainCoinPool1;
+                        if (mainCoinPool1 == null) {
+                            return mainCoinPool != null && mainCoinPool.IsUserMode;
+                        }
+                        return mainCoinPool != null && mainCoinPool.IsUserMode && mainCoinPool1 != null && mainCoinPool1.IsUserMode;
+                    }
+                    return mainCoinPool != null && mainCoinPool.IsUserMode;
+                }
+            }
+
             public IMineWork MineWork {
                 get {
                     return NTMinerRoot.Instance.MinerProfile.MineWork;
@@ -377,6 +398,7 @@ namespace NTMiner {
                         this.CoinId = value.Id;
                         OnPropertyChanged(nameof(CoinVm));
                         NTMinerRoot.RefreshArgsAssembly.Invoke();
+                        AppContext.Instance.MinerProfileVm.OnPropertyChanged(nameof(AppContext.Instance.MinerProfileVm.IsAllMainCoinPoolIsUserMode));
                     }
                 }
             }

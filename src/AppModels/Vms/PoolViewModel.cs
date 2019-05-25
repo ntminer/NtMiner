@@ -350,6 +350,7 @@ namespace NTMiner.Vms {
                 if (_isUserMode != value) {
                     _isUserMode = value;
                     OnPropertyChanged(nameof(IsUserMode));
+                    AppContext.Instance.MinerProfileVm.OnPropertyChanged(nameof(AppContext.Instance.MinerProfileVm.IsAllMainCoinPoolIsUserMode));
                 }
             }
         }

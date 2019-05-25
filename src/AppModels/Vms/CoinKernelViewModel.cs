@@ -21,7 +21,9 @@ namespace NTMiner.Vms {
         private List<InputSegment> _inputSegments = new List<InputSegment>();
         private List<InputSegmentViewModel> _inputSegmentVms = new List<InputSegmentViewModel>();
         private List<Guid> _fileWriterIds = new List<Guid>();
+        private List<Guid> _fragmentWriterIds = new List<Guid>();
         private List<FileWriterViewModel> _fileWriterVms = new List<FileWriterViewModel>();
+        private List<FragmentWriterViewModel> _fragmentWriterVms = new List<FragmentWriterViewModel>();
         private CoinViewModel _coinVm;
 
         public Guid GetId() {
@@ -41,6 +43,7 @@ namespace NTMiner.Vms {
         public ICommand EditSegment { get; private set; }
         public ICommand RemoveSegment { get; private set; }
         public ICommand RemoveFileWriter { get; private set; }
+        public ICommand RemoveFragmentWriter { get; private set; }
 
         public Action CloseWindow { get; set; }
 
@@ -65,9 +68,15 @@ namespace NTMiner.Vms {
             _inputSegments.AddRange(data.InputSegments.Select(a => new InputSegment(a)));
             _inputSegmentVms.AddRange(_inputSegments.Select(a => new InputSegmentViewModel(a)));
             _fileWriterIds = data.FileWriterIds;
-            foreach (var fileWriterId in _fileWriterIds) {
-                if (AppContext.Instance.FileWriterVms.TryGetFileWriterVm(fileWriterId, out FileWriterViewModel fileWriterVm)) {
-                    _fileWriterVms.Add(fileWriterVm);
+            _fragmentWriterIds = data.FragmentWriterIds;
+            foreach (var writerId in _fileWriterIds) {
+                if (AppContext.Instance.FileWriterVms.TryGetFileWriterVm(writerId, out FileWriterViewModel writerVm)) {
+                    _fileWriterVms.Add(writerVm);
+                }
+            }
+            foreach (var writerId in _fragmentWriterIds) {
+                if (AppContext.Instance.FragmentWriterVms.TryGetFragmentWriterVm(writerId, out FragmentWriterViewModel writerVm)) {
+                    _fragmentWriterVms.Add(writerVm);
                 }
             }
         }
@@ -98,12 +107,20 @@ namespace NTMiner.Vms {
                     InputSegments = InputSegments.ToList();
                 }, icon: IconConst.IconConfirm);
             });
-            this.RemoveFileWriter = new DelegateCommand<FileWriterViewModel>((fileWriter) => {
-                this.ShowDialog(message: $"您确定删除文件书写器{fileWriter.Name}吗？", title: "确认", onYes: () => {
-                    this.FileWriterVms.Remove(fileWriter);
-                    List<Guid> fileWriterIds = new List<Guid>(this.FileWriterIds);
-                    fileWriterIds.Remove(fileWriter.Id);
-                    this.FileWriterIds = fileWriterIds;
+            this.RemoveFileWriter = new DelegateCommand<FileWriterViewModel>((writer) => {
+                this.ShowDialog(message: $"您确定删除文件书写器{writer.Name}吗？", title: "确认", onYes: () => {
+                    this.FileWriterVms.Remove(writer);
+                    List<Guid> writerIds = new List<Guid>(this.FileWriterIds);
+                    writerIds.Remove(writer.Id);
+                    this.FileWriterIds = writerIds;
+                }, icon: IconConst.IconConfirm);
+            });
+            this.RemoveFragmentWriter = new DelegateCommand<FragmentWriterViewModel>((writer) => {
+                this.ShowDialog(message: $"您确定删除文件书写器{writer.Name}吗？", title: "确认", onYes: () => {
+                    this.FragmentWriterVms.Remove(writer);
+                    List<Guid> writerIds = new List<Guid>(this.FragmentWriterIds);
+                    writerIds.Remove(writer.Id);
+                    this.FragmentWriterIds = writerIds;
                 }, icon: IconConst.IconConfirm);
             });
             this.Save = new DelegateCommand(() => {
@@ -359,6 +376,32 @@ namespace NTMiner.Vms {
             }
         }
 
+        public List<Guid> FragmentWriterIds {
+            get {
+                return _fragmentWriterIds;
+            }
+            set {
+                _fragmentWriterIds = value;
+                OnPropertyChanged(nameof(FragmentWriterIds));
+                if (value != null) {
+                    this.FragmentWriterVms = AppContext.Instance.FragmentWriterVms.List.Where(a => value.Contains(a.Id)).ToList();
+                }
+                else {
+                    this.FragmentWriterVms = new List<FragmentWriterViewModel>();
+                }
+            }
+        }
+
+        public List<FragmentWriterViewModel> FragmentWriterVms {
+            get {
+                return _fragmentWriterVms;
+            }
+            set {
+                _fragmentWriterVms = value;
+                OnPropertyChanged(nameof(FragmentWriterVms));
+            }
+        }
+
         public bool IsSupportDualMine {
             get {
                 if (!this.Kernel.KernelInputVm.IsSupportDualMine) {
@@ -377,6 +420,7 @@ namespace NTMiner.Vms {
                 if (_isSupportPool1 != value) {
                     _isSupportPool1 = value;
                     OnPropertyChanged(nameof(IsSupportPool1));
+                    AppContext.Instance.MinerProfileVm.OnPropertyChanged(nameof(AppContext.Instance.MinerProfileVm.IsAllMainCoinPoolIsUserMode));
                 }
             }
         }

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace NTMiner {
     public partial class NTMinerRoot : INTMinerRoot {
@@ -36,36 +37,44 @@ namespace NTMiner {
             if (poolKernel != null) {
                 poolKernelArgs = poolKernel.Args;
             }
-            IPoolProfile poolProfile = MinerProfile.GetPoolProfile(mainCoinPool.GetId());
-            string password = poolProfile.Password;
-            if (string.IsNullOrEmpty(password)) {
-                password = "x";
-            }
             string kernelArgs = kernelInput.Args;
             string coinKernelArgs = coinKernel.Args;
             string customArgs = coinKernelProfile.CustomArgs;
             parameters.Add("mainCoin", mainCoin.Code);
-            parameters.Add("wallet", coinProfile.Wallet);
-            parameters.Add("userName", poolProfile.UserName);
-            parameters.Add("password", password);
+            if (mainCoinPool.IsUserMode) {
+                IPoolProfile poolProfile = MinerProfile.GetPoolProfile(mainCoinPool.GetId());
+                string password = poolProfile.Password;
+                if (string.IsNullOrEmpty(password)) {
+                    password = "x";
+                }
+                parameters.Add("userName", poolProfile.UserName);
+                parameters.Add("password", password);
+            }
+            else {
+                parameters.Add("wallet", coinProfile.Wallet);
+            }
             parameters.Add("host", mainCoinPool.GetHost());
             parameters.Add("port", mainCoinPool.GetPort().ToString());
             parameters.Add("pool", mainCoinPool.Server);
             parameters.Add("worker", this.MinerProfile.MinerName);
             if (coinKernel.IsSupportPool1) {
-                parameters.Add("wallet1", coinProfile.Wallet);
                 parameters.Add("worker1", this.MinerProfile.MinerName);
                 if (PoolSet.TryGetPool(coinProfile.PoolId1, out IPool mainCoinPool1)) {
                     parameters.Add("host1", mainCoinPool1.GetHost());
                     parameters.Add("port1", mainCoinPool1.GetPort().ToString());
                     parameters.Add("pool1", mainCoinPool1.Server);
-                    IPoolProfile poolProfile1 = MinerProfile.GetPoolProfile(mainCoinPool1.GetId());
-                    string password1 = poolProfile1.Password;
-                    if (string.IsNullOrEmpty(password1)) {
-                        password1 = "x";
+                    if (mainCoinPool1.IsUserMode) {
+                        IPoolProfile poolProfile1 = MinerProfile.GetPoolProfile(mainCoinPool1.GetId());
+                        string password1 = poolProfile1.Password;
+                        if (string.IsNullOrEmpty(password1)) {
+                            password1 = "x";
+                        }
+                        parameters.Add("userName1", poolProfile1.UserName);
+                        parameters.Add("password1", password1);
                     }
-                    parameters.Add("userName1", poolProfile.UserName);
-                    parameters.Add("password1", password);
+                    else {
+                        parameters.Add("wallet1", coinProfile.Wallet);
+                    }
                 }
             }
             // 这里不要考虑{logfile}，{logfile}往后推迟
@@ -158,9 +167,14 @@ namespace NTMiner {
             if (!string.IsNullOrEmpty(devicesArgs)) {
                 sb.Append(" ").Append(devicesArgs);
             }
+            BuildFragments(coinKernel, parameters, out Dictionary<Guid, string> fileWriters, out Dictionary<Guid, string> fragments);
+            foreach (var fragment in fragments.Values) {
+                sb.Append(" ").Append(fragment);
+            }
             if (!string.IsNullOrEmpty(customArgs)) {
                 sb.Append(" ").Append(customArgs);
             }
+
             return sb.ToString();
         }
 
@@ -170,14 +184,19 @@ namespace NTMiner {
                 return;
             }
             args = args.Replace("{mainCoin}", prms["mainCoin"]);
-            args = args.Replace("{wallet}", prms["wallet"]);
-            args = args.Replace("{userName}", prms["userName"]);
-            args = args.Replace("{password}", prms["password"]);
+            if (prms.ContainsKey("wallet")) {
+                args = args.Replace("{wallet}", prms["wallet"]);
+            }
+            if (prms.ContainsKey("userName")) {
+                args = args.Replace("{userName}", prms["userName"]);
+            }
+            if (prms.ContainsKey("password")) {
+                args = args.Replace("{password}", prms["password"]);
+            }
             args = args.Replace("{host}", prms["host"]);
             args = args.Replace("{port}", prms["port"]);
             args = args.Replace("{pool}", prms["pool"]);
             args = args.Replace("{worker}", prms["worker"]);
-            args = args.Replace("{wallet}", prms["wallet"]);
             if (isDual) {
                 args = args.Replace("{dualCoin}", prms["dualCoin"]);
                 args = args.Replace("{dualWallet}", prms["dualWallet"]);
@@ -188,6 +207,111 @@ namespace NTMiner {
                 args = args.Replace("{dualPool}", prms["dualPool"]);
             }
             // 这里不要考虑{logfile}，{logfile}往后推迟
+        }
+
+        public void BuildFragments(ICoinKernel coinKernel, Dictionary<string, string> parameters, out Dictionary<Guid, string> fileWriters, out Dictionary<Guid, string> fragments) {
+            fileWriters = new Dictionary<Guid, string>();
+            fragments = new Dictionary<Guid, string>();
+            try {
+                foreach (var writerId in coinKernel.FragmentWriterIds) {
+                    if (FragmentWriterSet.TryGetFragmentWriter(writerId, out IFragmentWriter writer)) {
+                        BuildFragment(parameters, fileWriters, fragments, writer);
+                    }
+                }
+                foreach (var writerId in coinKernel.FileWriterIds) {
+                    if (FileWriterSet.TryGetFileWriter(writerId, out IFileWriter writer)) {
+                        BuildFragment(parameters, fileWriters, fragments, writer);
+                    }
+                }
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e);
+            }
+        }
+
+        public class ParameterNames {
+            // 根据这个判断是否换成过期
+            internal string Body = string.Empty;
+            internal readonly HashSet<string> Names = new HashSet<string>();
+        }
+
+        private static readonly Dictionary<Guid, ParameterNames> _parameterNameDic = new Dictionary<Guid, ParameterNames>();
+
+        private static ParameterNames GetParameterNames(IFragmentWriter writer) {
+            if (string.IsNullOrEmpty(writer.Body)) {
+                return new ParameterNames {
+                    Body = writer.Body
+                };
+            }
+            if (_parameterNameDic.TryGetValue(writer.GetId(), out ParameterNames parameterNames)
+                && parameterNames.Body == writer.Body) {
+                return parameterNames;
+            }
+            else {
+                if (parameterNames != null) {
+                    parameterNames.Body = writer.Body;
+                }
+                else {
+                    parameterNames = new ParameterNames {
+                        Body = writer.Body
+                    };
+                    _parameterNameDic.Add(writer.GetId(), parameterNames);
+                }
+                parameterNames.Names.Clear();
+                const string pattern = @"\{(\w+)\}";
+                var matches = Regex.Matches(writer.Body, pattern);
+                foreach (Match match in matches) {
+                    parameterNames.Names.Add(match.Groups[1].Value);
+                }
+                return parameterNames;
+            }
+        }
+
+        private static bool IsMatch(IFragmentWriter writer, Dictionary<string, string> parameters, out ParameterNames parameterNames) {
+            parameterNames = GetParameterNames(writer);
+            if (string.IsNullOrEmpty(writer.Body)) {
+                return false;
+            }
+            if (parameterNames.Names.Count == 0) {
+                return true;
+            }
+            foreach (var name in parameterNames.Names) {
+                if (!parameters.ContainsKey(name)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        private static void BuildFragment(Dictionary<string, string> parameters, Dictionary<Guid, string> fileWriters, Dictionary<Guid, string> fragments, IFragmentWriter writer) {
+            try {
+                if (!IsMatch(writer, parameters, out ParameterNames parameterNames)) {
+                    return;
+                }
+                string content = writer.Body;
+                foreach (var parameterName in parameterNames.Names) {
+                    content = content.Replace($"{{{parameterName}}}", parameters[parameterName]);
+                }
+                if (writer is IFileWriter) {
+                    if (fileWriters.ContainsKey(writer.GetId())) {
+                        fileWriters[writer.GetId()] = content;
+                    }
+                    else {
+                        fileWriters.Add(writer.GetId(), content);
+                    }
+                }
+                else {
+                    if (fragments.ContainsKey(writer.GetId())) {
+                        fragments[writer.GetId()] = content;
+                    }
+                    else {
+                        fragments.Add(writer.GetId(), content);
+                    }
+                }
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e);
+            }
         }
     }
 }

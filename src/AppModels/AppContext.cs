@@ -100,6 +100,12 @@ namespace NTMiner {
             }
         }
 
+        public FragmentWriterViewModels FragmentWriterVms {
+            get {
+                return FragmentWriterViewModels.Instance;
+            }
+        }
+
         public CoinKernelViewModels CoinKernelVms {
             get {
                 return CoinKernelViewModels.Instance;

@@ -106,6 +106,15 @@
     <Compile Include="PackagesWindow.xaml.cs">
       <DependentUpon>PackagesWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Ucs\FragmentWriterEdit.xaml.cs">
+      <DependentUpon>FragmentWriterEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ucs\FragmentWriterPage.xaml.cs">
+      <DependentUpon>FragmentWriterPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ucs\FragmentWriterSelect.xaml.cs">
+      <DependentUpon>FragmentWriterSelect.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Ucs\FileWriterSelect.xaml.cs">
       <DependentUpon>FileWriterSelect.xaml</DependentUpon>
     </Compile>
@@ -370,6 +379,18 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Design\PackageViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ucs\FragmentWriterEdit.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ucs\FragmentWriterPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ucs\FragmentWriterSelect.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

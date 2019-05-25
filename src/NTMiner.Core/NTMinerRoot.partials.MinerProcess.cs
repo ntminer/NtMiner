@@ -43,22 +43,8 @@ namespace NTMiner {
                                 Write.UserOk("内核包解压成功");
                             }
 
-                            try {
-                                // 执行文件书写器
-                                foreach (var fileWriterId in mineContext.CoinKernel.FileWriterIds) {
-                                    if (Instance.FileWriterSet.TryGetFileWriter(fileWriterId, out IFileWriter fileWriter)) {
-                                        try {
-                                            fileWriter.Execute(mineContext);
-                                        }
-                                        catch (Exception ex) {
-                                            Logger.ErrorDebugLine(ex);
-                                        }
-                                    }
-                                }
-                            }
-                            catch (Exception e) {
-                                Logger.ErrorDebugLine(e);
-                            }
+                            // 执行文件书写器
+                            mineContext.ExecuteFileWriters();
 
                             Write.UserInfo("总成命令");
                             // 组装命令

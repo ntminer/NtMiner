@@ -189,6 +189,7 @@ namespace NTMiner.Vms {
                     OnPropertyChanged(nameof(MainCoinPool));
                     NTMinerRoot.RefreshArgsAssembly.Invoke();
                 }
+                AppContext.Instance.MinerProfileVm.OnPropertyChanged(nameof(AppContext.Instance.MinerProfileVm.IsAllMainCoinPoolIsUserMode));
             }
         }
 
@@ -220,6 +221,7 @@ namespace NTMiner.Vms {
                     OnPropertyChanged(nameof(MainCoinPool1));
                     NTMinerRoot.RefreshArgsAssembly.Invoke();
                 }
+                AppContext.Instance.MinerProfileVm.OnPropertyChanged(nameof(AppContext.Instance.MinerProfileVm.IsAllMainCoinPoolIsUserMode));
             }
         }
 
