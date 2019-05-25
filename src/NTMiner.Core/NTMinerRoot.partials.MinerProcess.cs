@@ -43,9 +43,6 @@ namespace NTMiner {
                                 Write.UserOk("内核包解压成功");
                             }
 
-                            // TODO:在CreateProcess前的BuildAssembleArgs时应可以预览
-                            mineContext.BuildFragments();
-
                             // 执行文件书写器
                             mineContext.ExecuteFileWriters();
 
