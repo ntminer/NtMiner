@@ -178,14 +178,19 @@ namespace NTMiner {
                 return;
             }
             args = args.Replace("{mainCoin}", prms["mainCoin"]);
-            args = args.Replace("{wallet}", prms["wallet"]);
-            args = args.Replace("{userName}", prms["userName"]);
-            args = args.Replace("{password}", prms["password"]);
+            if (prms.ContainsKey("wallet")) {
+                args = args.Replace("{wallet}", prms["wallet"]);
+            }
+            if (prms.ContainsKey("userName")) {
+                args = args.Replace("{userName}", prms["userName"]);
+            }
+            if (prms.ContainsKey("password")) {
+                args = args.Replace("{password}", prms["password"]);
+            }
             args = args.Replace("{host}", prms["host"]);
             args = args.Replace("{port}", prms["port"]);
             args = args.Replace("{pool}", prms["pool"]);
             args = args.Replace("{worker}", prms["worker"]);
-            args = args.Replace("{wallet}", prms["wallet"]);
             if (isDual) {
                 args = args.Replace("{dualCoin}", prms["dualCoin"]);
                 args = args.Replace("{dualWallet}", prms["dualWallet"]);
