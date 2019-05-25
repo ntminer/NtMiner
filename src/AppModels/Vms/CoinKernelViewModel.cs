@@ -21,6 +21,7 @@ namespace NTMiner.Vms {
         private List<InputSegment> _inputSegments = new List<InputSegment>();
         private List<InputSegmentViewModel> _inputSegmentVms = new List<InputSegmentViewModel>();
         private List<Guid> _fileWriterIds = new List<Guid>();
+        private List<Guid> _fragmentWriterIds = new List<Guid>();
         private List<FileWriterViewModel> _fileWriterVms = new List<FileWriterViewModel>();
         private CoinViewModel _coinVm;
 
@@ -65,6 +66,7 @@ namespace NTMiner.Vms {
             _inputSegments.AddRange(data.InputSegments.Select(a => new InputSegment(a)));
             _inputSegmentVms.AddRange(_inputSegments.Select(a => new InputSegmentViewModel(a)));
             _fileWriterIds = data.FileWriterIds;
+            _fragmentWriterIds = data.FragmentWriterIds;
             foreach (var fileWriterId in _fileWriterIds) {
                 if (AppContext.Instance.FileWriterVms.TryGetFileWriterVm(fileWriterId, out FileWriterViewModel fileWriterVm)) {
                     _fileWriterVms.Add(fileWriterVm);
@@ -356,6 +358,16 @@ namespace NTMiner.Vms {
             set {
                 _fileWriterVms = value;
                 OnPropertyChanged(nameof(FileWriterVms));
+            }
+        }
+
+        public List<Guid> FragmentWriterIds {
+            get {
+                return _fragmentWriterIds;
+            }
+            set {
+                _fragmentWriterIds = value;
+                OnPropertyChanged(nameof(FragmentWriterIds));
             }
         }
 

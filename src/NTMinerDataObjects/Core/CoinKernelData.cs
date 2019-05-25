@@ -7,6 +7,7 @@ namespace NTMiner.Core {
             this.EnvironmentVariables = new List<EnvironmentVariable>();
             this.InputSegments = new List<InputSegment>();
             this.FileWriterIds = new List<Guid>();
+            this.FragmentWriterIds = new List<Guid>();
         }
 
         public Guid GetId() {
@@ -36,5 +37,7 @@ namespace NTMiner.Core {
         public List<InputSegment> InputSegments { get; set; }
 
         public List<Guid> FileWriterIds { get; set; }
+
+        public List<Guid> FragmentWriterIds { get; set; }
     }
 }
