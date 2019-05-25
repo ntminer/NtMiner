@@ -36,7 +36,7 @@
 		</controls:KbButton>
 		<DataGrid 
 			Grid.Row="1"
-			Margin="0" ItemsSource="{Binding FileWriterVms}" 
+			Margin="0" ItemsSource="{Binding FragmentWriterVms}" 
 			BorderThickness="0 0 1 0" BorderBrush="{StaticResource LineColor}"
 			AutoGenerateColumns="False"
 			SelectedItem="{Binding SelectedResult}"
@@ -69,6 +69,6 @@
 				</DataGridTemplateColumn>
 			</DataGrid.Columns>
 		</DataGrid>
-		<TextBlock Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding FileWriterVms, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" Text="沒有记录"></TextBlock>
+		<TextBlock Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding FragmentWriterVms, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" Text="沒有记录"></TextBlock>
 	</Grid>
 </UserControl>

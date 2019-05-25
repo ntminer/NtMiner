@@ -356,7 +356,7 @@
 			</Grid>
 		</WrapPanel>
 		<WrapPanel Margin="0 2" Visibility="{x:Static app:AppStatic.IsDebugModeVisible}">
-			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="命令行片段书写器"></TextBlock>
+			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="命令片段书写器"></TextBlock>
 			<Grid>
 				<DataGrid 
 					Width="436"
