@@ -169,6 +169,7 @@ namespace NTMiner {
             if (!string.IsNullOrEmpty(customArgs)) {
                 sb.Append(" ").Append(customArgs);
             }
+
             return sb.ToString();
         }
 

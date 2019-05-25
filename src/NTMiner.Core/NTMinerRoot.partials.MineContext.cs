@@ -14,6 +14,8 @@ namespace NTMiner {
                 string mainCoinWallet,
                 string commandLine,
                 Dictionary<string, string> parameters) {
+                this.Fragments = new Dictionary<Guid, string>();
+                this.FileWriters = new Dictionary<Guid, string>();
                 this.Id = Guid.NewGuid();
                 this.MinerName = minerName;
                 this.MainCoin = mainCoin;
@@ -51,6 +53,10 @@ namespace NTMiner {
             public DateTime CreatedOn { get; private set; }
 
             public Dictionary<string, string> Parameters { get; private set; }
+
+            public Dictionary<Guid, string> Fragments { get; private set; }
+
+            public Dictionary<Guid, string> FileWriters { get; private set; }
         }
 
         private class DualMineContext : MineContext, IDualMineContext {

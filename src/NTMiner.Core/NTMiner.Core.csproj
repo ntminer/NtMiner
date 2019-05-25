@@ -95,7 +95,6 @@
     <Compile Include="Cleaner.cs" />
     <Compile Include="CommandLineArgs.cs" />
     <Compile Include="CommandLineArgs.partial.cs" />
-    <Compile Include="Core\FileWriterExtension.cs" />
     <Compile Include="Core\Gpus\GpuSetExtension.cs" />
     <Compile Include="Core\Gpus\GpuStatus.cs" />
     <Compile Include="Core\Gpus\Impl\Amd\AdlHelper.cs" />
@@ -126,6 +125,7 @@
     <Compile Include="Core\Kernels\Impl\PackageSet.cs" />
     <Compile Include="Core\Kernels\IPackageSet.cs" />
     <Compile Include="Core\Kernels\KernelSetExtension.cs" />
+    <Compile Include="Core\MineContextExtension.cs" />
     <Compile Include="Core\MinerServer\Impl\UserSet.cs" />
     <Compile Include="Core\MinerServer\IColumnsShowSet.cs" />
     <Compile Include="Core\MinerServer\IMinerGroupSet.cs" />

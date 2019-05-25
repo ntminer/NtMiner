@@ -17,5 +17,7 @@ namespace NTMiner.Core {
 
         DateTime CreatedOn { get; }
         Dictionary<string, string> Parameters { get; }
+        Dictionary<Guid, string> Fragments { get; }
+        Dictionary<Guid, string> FileWriters { get; }
     }
 }
