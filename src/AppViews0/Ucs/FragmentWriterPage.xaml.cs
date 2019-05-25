@@ -21,7 +21,7 @@ namespace NTMiner.Views.Ucs {
             }
         }
 
-        public FragmentWriterPage() {
+        private FragmentWriterPage() {
             InitializeComponent();
         }
 

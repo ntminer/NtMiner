@@ -21,7 +21,7 @@ namespace NTMiner.Views.Ucs {
             }
         }
 
-        public FileWriterPage() {
+        private FileWriterPage() {
             InitializeComponent();
         }
 

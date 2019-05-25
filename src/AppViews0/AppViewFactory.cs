@@ -202,10 +202,22 @@ namespace NTMiner.Views {
                         FileWriterPage.ShowWindow();
                     });
                 });
-            VirtualRoot.Window<FileWriterEditCommand>(LogEnum.DevConsole,
+            VirtualRoot.Window<FragmentWriterEditCommand>(LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
-                        FileWriterEdit.ShowWindow(message.FormType, message.Source);
+                        FragmentWriterEdit.ShowWindow(message.FormType, message.Source);
+                    });
+                });
+            VirtualRoot.Window<ShowFragmentWriterPageCommand>(LogEnum.DevConsole,
+                action: message => {
+                    UIThread.Execute(() => {
+                        FragmentWriterPage.ShowWindow();
+                    });
+                });
+            VirtualRoot.Window<FragmentWriterEditCommand>(LogEnum.DevConsole,
+                action: message => {
+                    UIThread.Execute(() => {
+                        FragmentWriterEdit.ShowWindow(message.FormType, message.Source);
                     });
                 });
             VirtualRoot.Window<GroupEditCommand>(LogEnum.DevConsole,

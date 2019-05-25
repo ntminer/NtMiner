@@ -215,6 +215,12 @@ namespace NTMiner {
         public FileWriterViewModel Source { get; private set; }
     }
 
+    [MessageType(description: "打开命令行片段书写器列表页")]
+    public class ShowFragmentWriterPageCommand : Cmd {
+        public ShowFragmentWriterPageCommand() {
+        }
+    }
+
     [MessageType(description: "打开命令行片段书写器编辑界面")]
     public class FragmentWriterEditCommand : Cmd {
         public FragmentWriterEditCommand(FormType formType, FragmentWriterViewModel source) {
