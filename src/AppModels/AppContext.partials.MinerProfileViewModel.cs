@@ -398,6 +398,7 @@ namespace NTMiner {
                         this.CoinId = value.Id;
                         OnPropertyChanged(nameof(CoinVm));
                         NTMinerRoot.RefreshArgsAssembly.Invoke();
+                        AppContext.Instance.MinerProfileVm.OnPropertyChanged(nameof(AppContext.Instance.MinerProfileVm.IsAllMainCoinPoolIsUserMode));
                     }
                 }
             }
