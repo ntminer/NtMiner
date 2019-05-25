@@ -43,6 +43,7 @@ namespace NTMiner.Vms {
         public ICommand EditSegment { get; private set; }
         public ICommand RemoveSegment { get; private set; }
         public ICommand RemoveFileWriter { get; private set; }
+        public ICommand RemoveFragmentWriter { get; private set; }
 
         public Action CloseWindow { get; set; }
 
@@ -106,12 +107,20 @@ namespace NTMiner.Vms {
                     InputSegments = InputSegments.ToList();
                 }, icon: IconConst.IconConfirm);
             });
-            this.RemoveFileWriter = new DelegateCommand<FileWriterViewModel>((fileWriter) => {
-                this.ShowDialog(message: $"您确定删除文件书写器{fileWriter.Name}吗？", title: "确认", onYes: () => {
-                    this.FileWriterVms.Remove(fileWriter);
-                    List<Guid> fileWriterIds = new List<Guid>(this.FileWriterIds);
-                    fileWriterIds.Remove(fileWriter.Id);
-                    this.FileWriterIds = fileWriterIds;
+            this.RemoveFileWriter = new DelegateCommand<FileWriterViewModel>((writer) => {
+                this.ShowDialog(message: $"您确定删除文件书写器{writer.Name}吗？", title: "确认", onYes: () => {
+                    this.FileWriterVms.Remove(writer);
+                    List<Guid> writerIds = new List<Guid>(this.FileWriterIds);
+                    writerIds.Remove(writer.Id);
+                    this.FileWriterIds = writerIds;
+                }, icon: IconConst.IconConfirm);
+            });
+            this.RemoveFragmentWriter = new DelegateCommand<FragmentWriterViewModel>((writer) => {
+                this.ShowDialog(message: $"您确定删除文件书写器{writer.Name}吗？", title: "确认", onYes: () => {
+                    this.FragmentWriterVms.Remove(writer);
+                    List<Guid> writerIds = new List<Guid>(this.FragmentWriterIds);
+                    writerIds.Remove(writer.Id);
+                    this.FragmentWriterIds = writerIds;
                 }, icon: IconConst.IconConfirm);
             });
             this.Save = new DelegateCommand(() => {

@@ -73,5 +73,23 @@ namespace NTMiner.Views.Ucs {
                 });
             PopupFileWriter.IsOpen = true;
         }
+
+        private void ButtonAddFragmentWriter_Click(object sender, RoutedEventArgs e) {
+            PopupFragmentWriter.Child = new FragmentWriterSelect(
+                new FragmentWriterSelectViewModel(onOk: selectedResult => {
+                    if (selectedResult != null) {
+                        var fileWriterIds = new List<Guid>(this.Vm.FragmentWriterIds) {
+                            selectedResult.Id
+                        };
+                        this.Vm.FragmentWriterIds = fileWriterIds;
+                        PopupFragmentWriter.IsOpen = false;
+                    }
+                }) {
+                    HideView = new DelegateCommand(() => {
+                        PopupFragmentWriter.IsOpen = false;
+                    })
+                });
+            PopupFragmentWriter.IsOpen = true;
+        }
     }
 }
