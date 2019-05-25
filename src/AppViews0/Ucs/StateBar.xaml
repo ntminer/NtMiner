@@ -120,13 +120,15 @@
 			</Grid>
 			<StackPanel HorizontalAlignment="Right">
 				<WrapPanel>
-					<StackPanel Margin="0 -14 0 0">
+					<StackPanel>
 						<controls:KbLinkButton
 							Padding="0"
+							Margin="0 -14 0 0"
 							Command="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool1.ViewPoolIncome}"
 							CommandParameter="{Binding MinerProfile.CoinVm.CoinProfile.SelectedWallet}"
 							KbDisplayLine="False"
 							KbSystemButtonHoverBackground="Transparent"
+							Visibility="{Binding MinerProfile.CoinVm.CoinKernel.IsSupportPool1, Converter={StaticResource BoolToVisibilityConverter}}"
 							Background="Transparent">
 							<TextBlock Text="备池收益" Foreground="{StaticResource LinkForeground}"></TextBlock>
 						</controls:KbLinkButton>
