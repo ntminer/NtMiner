@@ -215,6 +215,17 @@ namespace NTMiner {
         public FileWriterViewModel Source { get; private set; }
     }
 
+    [MessageType(description: "打开命令行片段书写器编辑界面")]
+    public class FragmentWriterEditCommand : Cmd {
+        public FragmentWriterEditCommand(FormType formType, FragmentWriterViewModel source) {
+            this.FormType = formType;
+            this.Source = source;
+        }
+
+        public FormType FormType { get; private set; }
+        public FragmentWriterViewModel Source { get; private set; }
+    }
+
     [MessageType(description: "打开内核输入编辑界面")]
     public class KernelInputEditCommand : Cmd {
         public KernelInputEditCommand(FormType formType, KernelInputViewModel source) {

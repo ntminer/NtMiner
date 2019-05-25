@@ -506,33 +506,71 @@ namespace NTMiner.Core {
         }
     }
 
-    [MessageType(description: "更新书写器")]
+    [MessageType(description: "更新文件书写器")]
     public class UpdateFileWriterCommand : UpdateEntityCommand<IFileWriter> {
         public UpdateFileWriterCommand(IFileWriter input) : base(input) {
         }
     }
 
-    [MessageType(description: "移除书写器")]
+    [MessageType(description: "移除文件书写器")]
     public class RemoveFileWriterCommand : RemoveEntityCommand {
         public RemoveFileWriterCommand(Guid entityId) : base(entityId) {
         }
     }
 
-    [MessageType(description: "添加了书写器后")]
+    [MessageType(description: "添加了文件书写器后")]
     public class FileWriterAddedEvent : DomainEvent<IFileWriter> {
         public FileWriterAddedEvent(IFileWriter source) : base(source) {
         }
     }
 
-    [MessageType(description: "更新了书写器后")]
+    [MessageType(description: "更新了文件书写器后")]
     public class FileWriterUpdatedEvent : DomainEvent<IFileWriter> {
         public FileWriterUpdatedEvent(IFileWriter source) : base(source) {
         }
     }
 
-    [MessageType(description: "移除了书写器后")]
+    [MessageType(description: "移除了文件书写器后")]
     public class FileWriterRemovedEvent : DomainEvent<IFileWriter> {
         public FileWriterRemovedEvent(IFileWriter source) : base(source) {
+        }
+    }
+    #endregion
+
+    #region FragmentWriter Messages
+    [MessageType(description: "添加命令行片段书写器")]
+    public class AddFragmentWriterCommand : AddEntityCommand<IFragmentWriter> {
+        public AddFragmentWriterCommand(IFragmentWriter input) : base(input) {
+        }
+    }
+
+    [MessageType(description: "更新命令行片段书写器")]
+    public class UpdateFragmentWriterCommand : UpdateEntityCommand<IFragmentWriter> {
+        public UpdateFragmentWriterCommand(IFragmentWriter input) : base(input) {
+        }
+    }
+
+    [MessageType(description: "移除命令行片段书写器")]
+    public class RemoveFragmentWriterCommand : RemoveEntityCommand {
+        public RemoveFragmentWriterCommand(Guid entityId) : base(entityId) {
+        }
+    }
+
+    [MessageType(description: "添加了命令行片段书写器后")]
+    public class FragmentWriterAddedEvent : DomainEvent<IFragmentWriter> {
+        public FragmentWriterAddedEvent(IFragmentWriter source) : base(source) {
+        }
+    }
+
+    [MessageType(description: "更新了命令行片段书写器后")]
+    public class FragmentWriterUpdatedEvent : DomainEvent<IFragmentWriter> {
+        public FragmentWriterUpdatedEvent(IFragmentWriter source) : base(source) {
+        }
+    }
+
+    [MessageType(description: "移除了命令行片段书写器后")]
+    public class FragmentWriterRemovedEvent : DomainEvent<IFragmentWriter> {
+        public FragmentWriterRemovedEvent(IFragmentWriter source) : base(source) {
         }
     }
     #endregion

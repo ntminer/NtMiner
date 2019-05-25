@@ -212,6 +212,7 @@ namespace NTMiner {
             this.PoolKernelSet = new PoolKernelSet(this, isUseJson);
             this.KernelSet = new KernelSet(this, isUseJson);
             this.FileWriterSet = new FileWriterSet(this, isUseJson);
+            this.FragmentWriterSet = new FragmentWriterSet(this, isUseJson);
             this.PackageSet = new PackageSet(this, isUseJson);
             this.KernelInputSet = new KernelInputSet(this, isUseJson);
             this.KernelOutputSet = new KernelOutputSet(this, isUseJson);
@@ -732,6 +733,8 @@ namespace NTMiner {
         public IKernelSet KernelSet { get; private set; }
 
         public IFileWriterSet FileWriterSet { get; private set; }
+
+        public IFragmentWriterSet FragmentWriterSet { get; private set; }
 
         public IPackageSet PackageSet { get; private set; }
 
