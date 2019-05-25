@@ -288,7 +288,7 @@
 								<TextBlock Text="开始" Padding="4 0 0 0" FontSize="14"></TextBlock>
 							</WrapPanel>
 						</TabItem.Header>
-						<Border x:Name="MinerProfileContainerRight" Background="{StaticResource MinerProfileBackground}" Padding="4 0">
+						<Border x:Name="MinerProfileContainerRight" Background="{StaticResource MinerProfileBackground}" Padding="4">
 						</Border>
 					</TabItem>
 					<TabItem x:Name="TabItemLog" IsSelected="True">
