@@ -36,36 +36,44 @@ namespace NTMiner {
             if (poolKernel != null) {
                 poolKernelArgs = poolKernel.Args;
             }
-            IPoolProfile poolProfile = MinerProfile.GetPoolProfile(mainCoinPool.GetId());
-            string password = poolProfile.Password;
-            if (string.IsNullOrEmpty(password)) {
-                password = "x";
-            }
             string kernelArgs = kernelInput.Args;
             string coinKernelArgs = coinKernel.Args;
             string customArgs = coinKernelProfile.CustomArgs;
             parameters.Add("mainCoin", mainCoin.Code);
-            parameters.Add("wallet", coinProfile.Wallet);
-            parameters.Add("userName", poolProfile.UserName);
-            parameters.Add("password", password);
+            if (mainCoinPool.IsUserMode) {
+                IPoolProfile poolProfile = MinerProfile.GetPoolProfile(mainCoinPool.GetId());
+                string password = poolProfile.Password;
+                if (string.IsNullOrEmpty(password)) {
+                    password = "x";
+                }
+                parameters.Add("userName", poolProfile.UserName);
+                parameters.Add("password", password);
+            }
+            else {
+                parameters.Add("wallet", coinProfile.Wallet);
+            }
             parameters.Add("host", mainCoinPool.GetHost());
             parameters.Add("port", mainCoinPool.GetPort().ToString());
             parameters.Add("pool", mainCoinPool.Server);
             parameters.Add("worker", this.MinerProfile.MinerName);
             if (coinKernel.IsSupportPool1) {
-                parameters.Add("wallet1", coinProfile.Wallet);
                 parameters.Add("worker1", this.MinerProfile.MinerName);
                 if (PoolSet.TryGetPool(coinProfile.PoolId1, out IPool mainCoinPool1)) {
                     parameters.Add("host1", mainCoinPool1.GetHost());
                     parameters.Add("port1", mainCoinPool1.GetPort().ToString());
                     parameters.Add("pool1", mainCoinPool1.Server);
-                    IPoolProfile poolProfile1 = MinerProfile.GetPoolProfile(mainCoinPool1.GetId());
-                    string password1 = poolProfile1.Password;
-                    if (string.IsNullOrEmpty(password1)) {
-                        password1 = "x";
+                    if (mainCoinPool1.IsUserMode) {
+                        IPoolProfile poolProfile1 = MinerProfile.GetPoolProfile(mainCoinPool1.GetId());
+                        string password1 = poolProfile1.Password;
+                        if (string.IsNullOrEmpty(password1)) {
+                            password1 = "x";
+                        }
+                        parameters.Add("userName1", poolProfile1.UserName);
+                        parameters.Add("password1", password1);
                     }
-                    parameters.Add("userName1", poolProfile.UserName);
-                    parameters.Add("password1", password);
+                    else {
+                        parameters.Add("wallet1", coinProfile.Wallet);
+                    }
                 }
             }
             // 这里不要考虑{logfile}，{logfile}往后推迟
