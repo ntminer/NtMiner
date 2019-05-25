@@ -23,6 +23,7 @@ namespace NTMiner.Vms {
         private List<Guid> _fileWriterIds = new List<Guid>();
         private List<Guid> _fragmentWriterIds = new List<Guid>();
         private List<FileWriterViewModel> _fileWriterVms = new List<FileWriterViewModel>();
+        private List<FragmentWriterViewModel> _fragmentWriterVms = new List<FragmentWriterViewModel>();
         private CoinViewModel _coinVm;
 
         public Guid GetId() {
@@ -67,9 +68,14 @@ namespace NTMiner.Vms {
             _inputSegmentVms.AddRange(_inputSegments.Select(a => new InputSegmentViewModel(a)));
             _fileWriterIds = data.FileWriterIds;
             _fragmentWriterIds = data.FragmentWriterIds;
-            foreach (var fileWriterId in _fileWriterIds) {
-                if (AppContext.Instance.FileWriterVms.TryGetFileWriterVm(fileWriterId, out FileWriterViewModel fileWriterVm)) {
-                    _fileWriterVms.Add(fileWriterVm);
+            foreach (var writerId in _fileWriterIds) {
+                if (AppContext.Instance.FileWriterVms.TryGetFileWriterVm(writerId, out FileWriterViewModel writerVm)) {
+                    _fileWriterVms.Add(writerVm);
+                }
+            }
+            foreach (var writerId in _fragmentWriterIds) {
+                if (AppContext.Instance.FragmentWriterVms.TryGetFragmentWriterVm(writerId, out FragmentWriterViewModel writerVm)) {
+                    _fragmentWriterVms.Add(writerVm);
                 }
             }
         }
@@ -368,6 +374,22 @@ namespace NTMiner.Vms {
             set {
                 _fragmentWriterIds = value;
                 OnPropertyChanged(nameof(FragmentWriterIds));
+                if (value != null) {
+                    this.FragmentWriterVms = AppContext.Instance.FragmentWriterVms.List.Where(a => value.Contains(a.Id)).ToList();
+                }
+                else {
+                    this.FragmentWriterVms = new List<FragmentWriterViewModel>();
+                }
+            }
+        }
+
+        public List<FragmentWriterViewModel> FragmentWriterVms {
+            get {
+                return _fragmentWriterVms;
+            }
+            set {
+                _fragmentWriterVms = value;
+                OnPropertyChanged(nameof(FragmentWriterVms));
             }
         }
 
