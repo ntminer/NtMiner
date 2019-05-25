@@ -30,6 +30,24 @@
 		<ScrollViewer 
 			VerticalScrollBarVisibility="Auto" 
 			PreviewMouseDown="ScrollViewer_PreviewMouseDown">
+			<ScrollViewer.ContextMenu>
+				<ContextMenu>
+					<MenuItem 
+						Visibility="{Binding MinerProfile.CoinVm.CoinProfile.IsHideWallet, Converter={StaticResource BoolToVisibilityConverter}}"
+						Header="显示用户名和钱包"
+						Background="Transparent" BorderThickness="0"
+						Command="{Binding MinerProfile.CoinVm.CoinProfile.ShowWallet}"
+						HorizontalAlignment="Left">
+					</MenuItem>
+					<MenuItem 
+						Visibility="{Binding MinerProfile.CoinVm.CoinProfile.IsShowWallet, Converter={StaticResource BoolToVisibilityConverter}}"
+						Header="隐藏用户名和钱包"
+						Background="Transparent" BorderThickness="0"
+						Command="{Binding MinerProfile.CoinVm.CoinProfile.HideWallet}"
+						HorizontalAlignment="Left">
+					</MenuItem>
+				</ContextMenu>
+			</ScrollViewer.ContextMenu>
 			<StackPanel>
 				<WrapPanel Margin="0 2">
 					<TextBlock
