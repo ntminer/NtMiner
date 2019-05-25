@@ -420,6 +420,7 @@ namespace NTMiner.Vms {
                 if (_isSupportPool1 != value) {
                     _isSupportPool1 = value;
                     OnPropertyChanged(nameof(IsSupportPool1));
+                    AppContext.Instance.MinerProfileVm.OnPropertyChanged(nameof(AppContext.Instance.MinerProfileVm.IsAllMainCoinPoolIsUserMode));
                 }
             }
         }

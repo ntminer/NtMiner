@@ -280,7 +280,7 @@
 				</WrapPanel>
 
 				<Grid Margin="0 2"
-					  Visibility="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.IsUserMode, Converter={StaticResource BoolToVisibilityInvertConverter}}">
+					  Visibility="{Binding MinerProfile.IsAllMainCoinPoolIsUserMode, Converter={StaticResource BoolToVisibilityInvertConverter}}">
 					<WrapPanel>
 						<TextBlock
 							Style="{StaticResource LblTb}"
