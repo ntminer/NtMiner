@@ -13,7 +13,7 @@ namespace NTMiner.Core.Gpus.Impl {
 
         private readonly INTMinerRoot _root;
         public GpusSpeed(INTMinerRoot root) {
-            _root = root;            
+            _root = root;
             VirtualRoot.On<Per10MinuteEvent>("周期清除过期的历史算力", LogEnum.DevConsole,
                 action: message => {
                     ClearOutOfDateHistory();
@@ -150,10 +150,10 @@ namespace NTMiner.Core.Gpus.Impl {
             }
             if (_averageGpuSpeed.TryGetValue(gpuIndex, out AverageSpeed averageSpeed)) {
                 if (isDual) {
-                    averageSpeed.DualSpeed = _gpuSpeedHistory[gpuIndex].Average(a => a.DualCoinSpeed.Value);
+                    averageSpeed.DualSpeed = _gpuSpeedHistory[gpuIndex].Where(a => a.DualCoinSpeed.Value != 0).Average(a => a.DualCoinSpeed.Value);
                 }
                 else {
-                    averageSpeed.Speed = _gpuSpeedHistory[gpuIndex].Average(a => a.MainCoinSpeed.Value);
+                    averageSpeed.Speed = _gpuSpeedHistory[gpuIndex].Where(a => a.DualCoinSpeed.Value != 0).Average(a => a.MainCoinSpeed.Value);
                 }
             }
             if (isChanged) {
