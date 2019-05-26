@@ -1,4 +1,5 @@
 ﻿using NTMiner.Core;
+using NTMiner.MinerServer;
 using NTMiner.Notifications;
 using NTMiner.OverClock;
 using NTMiner.View;
@@ -35,8 +36,81 @@ namespace NTMiner {
             ConsoleManager.Hide();
         }
 
+        #region Upgrade
+        public static void Upgrade(string fileName, Action callback) {
+            try {
+                string updaterDirFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "Updater");
+                if (!Directory.Exists(updaterDirFullName)) {
+                    Directory.CreateDirectory(updaterDirFullName);
+                }
+                OfficialServer.FileUrlService.GetNTMinerUpdaterUrlAsync((downloadFileUrl, e) => {
+                    try {
+                        string ntMinerUpdaterFileFullName = Path.Combine(updaterDirFullName, "NTMinerUpdater.exe");
+                        string argument = string.Empty;
+                        if (!string.IsNullOrEmpty(fileName)) {
+                            argument = "ntminerFileName=" + fileName;
+                        }
+                        if (VirtualRoot.IsMinerStudio) {
+                            argument += " --minerstudio";
+                        }
+                        if (string.IsNullOrEmpty(downloadFileUrl)) {
+                            if (File.Exists(ntMinerUpdaterFileFullName)) {
+                                NTMiner.Windows.Cmd.RunClose(ntMinerUpdaterFileFullName, argument);
+                            }
+                            callback?.Invoke();
+                            return;
+                        }
+                        Uri uri = new Uri(downloadFileUrl);
+                        string updaterVersion = string.Empty;
+                        if (NTMinerRoot.Instance.LocalAppSettingSet.TryGetAppSetting("UpdaterVersion", out IAppSetting appSetting) && appSetting.Value != null) {
+                            updaterVersion = appSetting.Value.ToString();
+                        }
+                        if (string.IsNullOrEmpty(updaterVersion) || !File.Exists(ntMinerUpdaterFileFullName) || uri.AbsolutePath != updaterVersion) {
+                            VirtualRoot.Execute(new ShowFileDownloaderCommand(downloadFileUrl, "开源矿工更新器", (window, isSuccess, message, saveFileFullName) => {
+                                try {
+                                    if (isSuccess) {
+                                        File.Copy(saveFileFullName, ntMinerUpdaterFileFullName, overwrite: true);
+                                        File.Delete(saveFileFullName);
+                                        VirtualRoot.Execute(new ChangeLocalAppSettingCommand(new AppSettingData {
+                                            Key = "UpdaterVersion",
+                                            Value = uri.AbsolutePath
+                                        }));
+                                        window?.Close();
+                                        NTMiner.Windows.Cmd.RunClose(ntMinerUpdaterFileFullName, argument);
+                                        callback?.Invoke();
+                                    }
+                                    else {
+                                        NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage(message);
+                                        callback?.Invoke();
+                                    }
+                                }
+                                catch {
+                                    callback?.Invoke();
+                                }
+                            }));
+                        }
+                        else {
+                            NTMiner.Windows.Cmd.RunClose(ntMinerUpdaterFileFullName, argument);
+                            callback?.Invoke();
+                        }
+                    }
+                    catch {
+                        callback?.Invoke();
+                    }
+                });
+            }
+            catch {
+                callback?.Invoke();
+            }
+        }
+        #endregion
+
         protected override void OnStartup(StartupEventArgs e) {
             RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
+            VirtualRoot.Window<UpgradeCommand>(LogEnum.DevConsole,
+                action: message => {
+                    Upgrade(message.FileName, message.Callback);
+                });
             if (!string.IsNullOrEmpty(CommandLineArgs.Upgrade)) {
                 VirtualRoot.Execute(new UpgradeCommand(CommandLineArgs.Upgrade, () => {
                     UIThread.Execute(() => { Environment.Exit(0); });

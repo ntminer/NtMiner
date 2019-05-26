@@ -322,10 +322,6 @@ namespace NTMiner.Views {
                         WalletEdit.ShowWindow(message.FormType, message.Source);
                     });
                 });
-            VirtualRoot.Window<UpgradeCommand>(LogEnum.DevConsole,
-                action: message => {
-                    Upgrade(message.FileName, message.Callback);
-                });
         }
     }
 }
