@@ -6,25 +6,6 @@ using System.Linq;
 
 namespace NTMiner.Core.Gpus.Impl {
     internal class GpusSpeed : IGpusSpeed {
-        public class AverageSpeed {
-            /// <summary>
-            /// 最近10分钟的均值
-            /// </summary>
-            public double Speed;
-            /// <summary>
-            /// 最近10分钟的均值
-            /// </summary>
-            public double DualSpeed;
-            /// <summary>
-            /// 存储每10分钟的均值
-            /// </summary>
-            public List<double> SpeedHistory = new List<double>();
-            /// <summary>
-            /// 存储每10分钟的均值
-            /// </summary>
-            public List<double> DualSpeedHistory = new List<double>();
-        }
-
         private readonly Dictionary<int, GpuSpeed> _currentGpuSpeed = new Dictionary<int, GpuSpeed>();
         private Dictionary<int, List<IGpuSpeed>> _gpuSpeedHistory = new Dictionary<int, List<IGpuSpeed>>();
         private readonly Dictionary<int, AverageSpeed> _averageGpuSpeed = new Dictionary<int, AverageSpeed>();
