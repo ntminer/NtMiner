@@ -83,10 +83,10 @@ namespace NTMiner.Core.Gpus.Impl {
 
         public IGpuSpeed CurrentSpeed(int gpuIndex) {
             InitOnece();
-            if (!_currentGpuSpeed.ContainsKey(gpuIndex)) {
-                return GpuSpeed.Empty;
+            if (_currentGpuSpeed.TryGetValue(gpuIndex, out GpuSpeed gpuSpeed)) {
+                return gpuSpeed;
             }
-            return _currentGpuSpeed[gpuIndex];
+            return GpuSpeed.Empty;
         }
 
         private Guid _mainCoinId;
