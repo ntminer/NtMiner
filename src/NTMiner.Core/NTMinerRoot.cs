@@ -545,7 +545,7 @@ namespace NTMiner {
                     }));
                 }
                 else {
-                    string commandLine = BuildAssembleArgs(out Dictionary<string, string> parameters);
+                    string commandLine = BuildAssembleArgs(out Dictionary<string, string> parameters, out Dictionary<Guid, string> fileWriters, out Dictionary<Guid, string> fragments);
                     if (IsUiVisible) {
                         if (commandLine != UserKernelCommandLine) {
                             Logger.WarnDebugLine("意外：MineContext.CommandLine和UserKernelCommandLine不等了");
@@ -557,13 +557,13 @@ namespace NTMiner {
                         this.MinerProfile.MinerName, mainCoin, 
                         mainCoinPool, kernel, coinKernel, 
                         coinProfile.Wallet, commandLine,
-                        parameters);
+                        parameters, fragments, fileWriters);
                     if (coinKernelProfile.IsDualCoinEnabled) {
                         mineContext = new DualMineContext(
                             mineContext, dualCoin, dualCoinPool, 
                             coinProfile.DualCoinWallet, 
                             coinKernelProfile.DualCoinWeight,
-                            parameters);
+                            parameters, fragments, fileWriters);
                     }
                     _currentMineContext = mineContext;
                     MinerProcess.CreateProcessAsync(mineContext);

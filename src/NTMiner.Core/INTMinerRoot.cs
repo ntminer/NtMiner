@@ -99,6 +99,6 @@ namespace NTMiner {
 
         IKernelOutputTranslaterSet KernelOutputTranslaterSet { get; }
 
-        string BuildAssembleArgs(out Dictionary<string, string> parameters);
+        string BuildAssembleArgs(out Dictionary<string, string> parameters, out Dictionary<Guid, string> fileWriters, out Dictionary<Guid, string> fragments);
     }
 }
