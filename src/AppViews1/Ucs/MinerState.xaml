@@ -78,8 +78,7 @@
 				<StackPanel Grid.Row="2" HorizontalAlignment="Right">
 					<TextBlock>显卡最高温度</TextBlock>
 					<WrapPanel Margin="0 8">
-						<TextBlock FontSize="22">0</TextBlock>
-						<TextBlock FontSize="22">℃</TextBlock>
+						<TextBlock FontSize="22" Text="{Binding StateBarVm.GpuVms.TemperatureMaxText}"></TextBlock>
 					</WrapPanel>
 				</StackPanel>
 			</Grid>
