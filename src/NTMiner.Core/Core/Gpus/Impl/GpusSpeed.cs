@@ -150,10 +150,16 @@ namespace NTMiner.Core.Gpus.Impl {
             }
             if (_averageGpuSpeed.TryGetValue(gpuIndex, out AverageSpeed averageSpeed)) {
                 if (isDual) {
-                    averageSpeed.DualSpeed = _gpuSpeedHistory[gpuIndex].Where(a => a.DualCoinSpeed.Value != 0).Average(a => a.DualCoinSpeed.Value);
+                    var array = _gpuSpeedHistory[gpuIndex].Where(a => a.DualCoinSpeed.Value != 0).ToArray();
+                    if (array.Length != 0) {
+                        averageSpeed.DualSpeed = array.Average(a => a.DualCoinSpeed.Value);
+                    }
                 }
                 else {
-                    averageSpeed.Speed = _gpuSpeedHistory[gpuIndex].Where(a => a.DualCoinSpeed.Value != 0).Average(a => a.MainCoinSpeed.Value);
+                    var array = _gpuSpeedHistory[gpuIndex].Where(a => a.MainCoinSpeed.Value != 0).ToArray();
+                    if (array.Length != 0) {
+                        averageSpeed.Speed = array.Average(a => a.MainCoinSpeed.Value);
+                    }
                 }
             }
             if (isChanged) {
