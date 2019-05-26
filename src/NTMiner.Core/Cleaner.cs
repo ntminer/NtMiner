@@ -10,9 +10,7 @@ namespace NTMiner {
             ClearKernelLogs();
             ClearRootLogs();
             ClearPackages();
-            // 清理除当前外的Temp/Kernel
             CleanKernels();
-            // 清理Temp/Download目录下的下载文件
             ClearDownload();
         }
 
