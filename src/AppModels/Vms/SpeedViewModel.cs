@@ -1,5 +1,6 @@
 ﻿using NTMiner.Core;
 using System;
+using System.Windows.Media;
 
 namespace NTMiner.Vms {
     public class SpeedViewModel : ViewModelBase, ISpeed {
@@ -41,6 +42,7 @@ namespace NTMiner.Vms {
                     _speedOn = value;
                     OnPropertyChanged(nameof(SpeedOn));
                     OnPropertyChanged(nameof(LastSpeedOnText));
+                    OnPropertyChanged(nameof(LastSpeedOnForeground));
                 }
             }
         }
@@ -61,6 +63,17 @@ namespace NTMiner.Vms {
                     return timeSpan.Minutes + "分前";
                 }
                 return (int)timeSpan.TotalSeconds + "秒前";
+            }
+        }
+
+        private static readonly SolidColorBrush Black = new SolidColorBrush(Colors.Black);
+        public static readonly SolidColorBrush Red = new SolidColorBrush(Colors.Red);
+        public SolidColorBrush LastSpeedOnForeground {
+            get {
+                if (SpeedOn.AddSeconds(120) < DateTime.Now) {
+                    return Red;
+                }
+                return Black;
             }
         }
     }

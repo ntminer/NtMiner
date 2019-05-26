@@ -10,6 +10,9 @@ namespace NTMiner {
             public ICommand StopMine { get; private set; }
 
             private StartStopMineButtonViewModel() {
+                if (Design.IsInDesignMode) {
+                    return;
+                }
 #if DEBUG
                 VirtualRoot.Stopwatch.Restart();
 #endif
