@@ -141,7 +141,6 @@ namespace NTMiner {
                         VirtualRoot.Happened(new ShareChangedEvent(coinShare));
                     }
                     AppContext.Instance.GpuSpeedVms.Refresh();
-                    // TODO:刷新收益和盈
                 }
             });
         }

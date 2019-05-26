@@ -105,8 +105,9 @@ namespace NTMiner {
                 foreach (var item in this._list) {
                     var data = NTMinerRoot.Instance.GpusSpeed.FirstOrDefault(a => a.Gpu.Index == item.GpuVm.Index);
                     if (data != null) {
-                        item.MainCoinSpeed.Update(data.MainCoinSpeed);
-                        item.DualCoinSpeed.Update(data.DualCoinSpeed);
+                        DateTime now = DateTime.Now;
+                        NTMinerRoot.Instance.GpusSpeed.SetCurrentSpeed(data.Gpu.Index, data.MainCoinSpeed.Value, isDual: false, now: now);
+                        NTMinerRoot.Instance.GpusSpeed.SetCurrentSpeed(data.Gpu.Index, data.DualCoinSpeed.Value, isDual: true, now: now);
                     }
                 }
             }
