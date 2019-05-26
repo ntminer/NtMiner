@@ -8,6 +8,8 @@ namespace NTMiner.Core.Gpus.Impl {
     internal class GpusSpeed : IGpusSpeed {
         private readonly Dictionary<int, GpuSpeed> _currentGpuSpeed = new Dictionary<int, GpuSpeed>();
         private Dictionary<int, List<IGpuSpeed>> _gpuSpeedHistory = new Dictionary<int, List<IGpuSpeed>>();
+        private readonly Dictionary<int, double> _averageGpuSpeed = new Dictionary<int, double>();
+        private readonly Dictionary<int, List<double>> _averageGpuSpeedHistory = new Dictionary<int, List<double>>();
         private readonly object _gpuSpeedHistoryValuesLocker = new object();
 
         private readonly INTMinerRoot _root;
@@ -61,6 +63,8 @@ namespace NTMiner.Core.Gpus.Impl {
                                 SpeedOn = now
                             }));
                             _gpuSpeedHistory.Add(gpu.Index, new List<IGpuSpeed>());
+                            _averageGpuSpeed.Add(gpu.Index, 0);
+                            _averageGpuSpeedHistory.Add(gpu.Index, new List<double>());
                         }
                         _isInited = true;
                     }
