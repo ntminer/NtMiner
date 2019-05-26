@@ -21,13 +21,11 @@ namespace NTMiner {
                     lock (_locker) {
                         try {
                             Write.UserInfo("清理内核进程");
-                            HashSet<string> allKernelProcessNames = Instance.KernelSet.GetAllKernelProcessNames();
 #if DEBUG
                             VirtualRoot.Stopwatch.Restart();
 #endif
-                            foreach (var processName in allKernelProcessNames) {
-                                Windows.TaskKill.Kill(processName, waitForExit: true);
-                            }
+                            // 清理除当前外的Temp/Kernel
+                            Cleaner.Clear();
 #if DEBUG
                             Write.DevWarn($"耗时{VirtualRoot.Stopwatch.ElapsedMilliseconds}毫秒 {nameof(MinerProcess)}.{nameof(CreateProcessAsync)}[{nameof(allKernelProcessNames)}]");
 #endif

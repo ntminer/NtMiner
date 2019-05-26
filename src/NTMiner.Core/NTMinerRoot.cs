@@ -354,7 +354,6 @@ namespace NTMiner {
             TempGruarder.Instance.Init(this);
             // 因为这里耗时500毫秒左右
             Task.Factory.StartNew(() => {
-                Cleaner.Clear();
                 Windows.Error.DisableWindowsErrorUI();
                 Windows.Firewall.DisableFirewall();
                 Windows.UAC.DisableUAC();
