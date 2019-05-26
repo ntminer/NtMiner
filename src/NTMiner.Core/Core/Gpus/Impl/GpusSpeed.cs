@@ -8,6 +8,7 @@ namespace NTMiner.Core.Gpus.Impl {
     internal class GpusSpeed : IGpusSpeed {
         private readonly Dictionary<int, GpuSpeed> _currentGpuSpeed = new Dictionary<int, GpuSpeed>();
         private Dictionary<int, List<IGpuSpeed>> _gpuSpeedHistory = new Dictionary<int, List<IGpuSpeed>>();
+        private readonly Dictionary<int, AverageSpeed> _averageGpuSpeed = new Dictionary<int, AverageSpeed>();
         private readonly object _gpuSpeedHistoryValuesLocker = new object();
 
         private readonly INTMinerRoot _root;
@@ -61,6 +62,10 @@ namespace NTMiner.Core.Gpus.Impl {
                                 SpeedOn = now
                             }));
                             _gpuSpeedHistory.Add(gpu.Index, new List<IGpuSpeed>());
+                            _averageGpuSpeed.Add(gpu.Index, new AverageSpeed {
+                                Speed = 0,
+                                DualSpeed = 0
+                            });
                         }
                         _isInited = true;
                     }
@@ -72,6 +77,10 @@ namespace NTMiner.Core.Gpus.Impl {
             InitOnece();
             DateTime now = DateTime.Now;
             lock (_gpuSpeedHistoryValuesLocker) {
+                foreach (var averageSpeed in _averageGpuSpeed.Values) {
+                    averageSpeed.SpeedHistory.Add(averageSpeed.Speed);
+                    averageSpeed.DualSpeedHistory.Add(averageSpeed.DualSpeed);
+                }
                 foreach (var historyList in _gpuSpeedHistory.Values.ToArray()) {
                     var toRemoves = historyList.Where(a => a.MainCoinSpeed.SpeedOn.AddMinutes(NTMinerRoot.SpeedHistoryLengthByMinute) < now).ToArray();
                     foreach (var item in toRemoves) {
@@ -83,39 +92,42 @@ namespace NTMiner.Core.Gpus.Impl {
 
         public IGpuSpeed CurrentSpeed(int gpuIndex) {
             InitOnece();
-            if (!_currentGpuSpeed.ContainsKey(gpuIndex)) {
-                return GpuSpeed.Empty;
+            if (_currentGpuSpeed.TryGetValue(gpuIndex, out GpuSpeed gpuSpeed)) {
+                return gpuSpeed;
             }
-            return _currentGpuSpeed[gpuIndex];
+            return GpuSpeed.Empty;
         }
 
         private Guid _mainCoinId;
         public void SetCurrentSpeed(int gpuIndex, double speed, bool isDual, DateTime now) {
             InitOnece();
-            GpuSpeed gpuSpeed = _currentGpuSpeed.Values.FirstOrDefault(a => a.Gpu.Index == gpuIndex);
-            if (gpuSpeed == null) {
+            GpuSpeed gpuSpeed;
+            if (!_currentGpuSpeed.TryGetValue(gpuIndex, out gpuSpeed)) {
                 return;
             }
             Guid mainCoinId = _root.MinerProfile.CoinId;
-            if (_mainCoinId != mainCoinId) {
-                _mainCoinId = mainCoinId;
+            if (this._mainCoinId != mainCoinId) {
+                this._mainCoinId = mainCoinId;
+                // 切换币种了，清空历史算力
                 lock (_gpuSpeedHistoryValuesLocker) {
                     foreach (var item in _gpuSpeedHistory) {
                         item.Value.Clear();
                     }
                 }
+                // 切换币种了，将所有显卡的当前算力置为0
                 foreach (var item in _currentGpuSpeed.Values) {
                     item.UpdateMainCoinSpeed(0, now);
                     item.UpdateDualCoinSpeed(0, now);
                 }
             }
             lock (_gpuSpeedHistoryValuesLocker) {
-                if (_gpuSpeedHistory.ContainsKey(gpuSpeed.Gpu.Index)) {
-                    _gpuSpeedHistory[gpuSpeed.Gpu.Index].Add(gpuSpeed.Clone());
+                // 将当前的旧算力加入历史列表
+                if (_gpuSpeedHistory.TryGetValue(gpuSpeed.Gpu.Index, out List<IGpuSpeed> list)) {
+                    list.Add(gpuSpeed.Clone());
                 }
             }
             bool isChanged = false;
-            // 如果变化幅度大于等于百分之一
+            // 如果变化幅度大于等于百分之一或者距离上一次算力记录的时间超过了10分钟则视为算力变化
             if (isDual) {
                 isChanged = gpuSpeed.DualCoinSpeed.SpeedOn.AddSeconds(10) < now || gpuSpeed.DualCoinSpeed.Value.IsChange(speed, 0.01);
                 if (isChanged) {
@@ -126,6 +138,14 @@ namespace NTMiner.Core.Gpus.Impl {
                 isChanged = gpuSpeed.MainCoinSpeed.SpeedOn.AddSeconds(10) < now || gpuSpeed.MainCoinSpeed.Value.IsChange(speed, 0.01);
                 if (isChanged) {
                     gpuSpeed.UpdateMainCoinSpeed(speed, now);
+                }
+            }
+            if (_averageGpuSpeed.TryGetValue(gpuIndex, out AverageSpeed averageSpeed)) {
+                if (isDual) {
+                    averageSpeed.DualSpeed = _gpuSpeedHistory[gpuIndex].Average(a => a.DualCoinSpeed.Value);
+                }
+                else {
+                    averageSpeed.Speed = _gpuSpeedHistory[gpuIndex].Average(a => a.MainCoinSpeed.Value);
                 }
             }
             if (isChanged) {
