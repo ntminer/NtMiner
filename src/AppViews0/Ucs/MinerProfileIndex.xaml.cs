@@ -32,6 +32,10 @@ namespace NTMiner.Views.Ucs {
                             this.PopupMainCoinPool.IsOpen = false;
                             OpenMainCoinPoolPopup();
                         }
+                        if (this.PopupMainCoinPool1.Child != null) {
+                            this.PopupMainCoinPool1.IsOpen = false;
+                            OpenMainCoinPool1Popup();
+                        }
                         if (this.PopupMainCoin != null) {
                             this.PopupMainCoin.IsOpen = false;
                             OpenMainCoinPopup();
