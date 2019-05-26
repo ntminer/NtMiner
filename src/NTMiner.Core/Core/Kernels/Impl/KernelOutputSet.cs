@@ -1,4 +1,5 @@
-﻿using NTMiner.Core.Gpus.Impl;
+﻿using NTMiner.Core.Gpus;
+using NTMiner.Core.Gpus.Impl;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -190,7 +191,7 @@ namespace NTMiner.Core.Kernels.Impl {
                 if (double.TryParse(totalSpeedText, out totalSpeed)) {
                     double totalSpeedL = totalSpeed.FromUnitSpeed(totalSpeedUnit);
                     var now = DateTime.Now;
-                    GpusSpeed gpuSpeeds = (GpusSpeed)NTMinerRoot.Instance.GpusSpeed;
+                    IGpusSpeed gpuSpeeds = NTMinerRoot.Instance.GpusSpeed;
                     gpuSpeeds.SetCurrentSpeed(NTMinerRoot.GpuAllId, totalSpeedL, isDual, now);
                     string gpuSpeedPattern = kernelOutput.GpuSpeedPattern;
                     if (isDual) {
@@ -222,7 +223,7 @@ namespace NTMiner.Core.Kernels.Impl {
             Regex regex = new Regex(gpuSpeedPattern);
             MatchCollection matches = regex.Matches(input);
             if (matches.Count > 0) {
-                GpusSpeed gpuSpeeds = (GpusSpeed)NTMinerRoot.Instance.GpusSpeed;
+                IGpusSpeed gpuSpeeds = NTMinerRoot.Instance.GpusSpeed;
                 for (int i = 0; i < matches.Count; i++) {
                     Match match = matches[i];
                     string gpuSpeedText = match.Groups["gpuSpeed"].Value;

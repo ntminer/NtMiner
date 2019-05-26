@@ -26,6 +26,10 @@ namespace NTMiner.JsonDb {
             CoinKernelProfileData coinKernelProfile = new CoinKernelProfileData(minerProfile.GetCoinKernelProfile(mainCoinProfile.CoinKernelId));
             PoolProfileData mainCoinPoolProfile = new PoolProfileData(minerProfile.GetPoolProfile(mainCoinProfile.PoolId));
             poolProfiles.Add(mainCoinPoolProfile);
+            if (mainCoinProfile.PoolId1 != Guid.Empty) {
+                mainCoinPoolProfile = new PoolProfileData(minerProfile.GetPoolProfile(mainCoinProfile.PoolId1));
+                poolProfiles.Add(mainCoinPoolProfile);
+            }
             if (coinKernelProfile.IsDualCoinEnabled) {
                 CoinProfileData dualCoinProfile = new CoinProfileData(minerProfile.GetCoinProfile(coinKernelProfile.DualCoinId));
                 coinProfiles.Add(dualCoinProfile);

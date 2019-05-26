@@ -37,6 +37,10 @@ namespace NTMiner {
 
         protected override void OnStartup(StartupEventArgs e) {
             RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
+            VirtualRoot.Window<UpgradeCommand>(LogEnum.DevConsole,
+                action: message => {
+                    AppStatic.Upgrade(message.FileName, message.Callback);
+                });
             if (!string.IsNullOrEmpty(CommandLineArgs.Upgrade)) {
                 VirtualRoot.Execute(new UpgradeCommand(CommandLineArgs.Upgrade, () => {
                     UIThread.Execute(() => { Environment.Exit(0); });
@@ -85,6 +89,7 @@ namespace NTMiner {
                         }
                         UIThread.Execute(() => {
                             if (NTMinerRegistry.GetIsNoUi() && NTMinerRegistry.GetIsAutoStart()) {
+                                MainWindow = NotiCenterWindow.Instance;
                                 NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage("已切换为无界面模式运行", "开源矿工");
                             }
                             else {
@@ -141,7 +146,6 @@ namespace NTMiner {
                         VirtualRoot.Happened(new ShareChangedEvent(coinShare));
                     }
                     AppContext.Instance.GpuSpeedVms.Refresh();
-                    // TODO:刷新收益和盈
                 }
             });
         }

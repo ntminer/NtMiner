@@ -63,7 +63,6 @@ namespace NTMiner.Core.Impl {
                         return;
                     }
                     FragmentWriterData entity = _dicById[message.EntityId];
-                    // TODO:移除内核对命令行片段书写器的引用关系
                     _dicById.Remove(entity.GetId());
                     var repository = NTMinerRoot.CreateServerRepository<FragmentWriterData>(isUseJson);
                     repository.Remove(message.EntityId);

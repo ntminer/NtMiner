@@ -13,9 +13,11 @@ namespace NTMiner {
                 ICoinKernel coinKernel,
                 string mainCoinWallet,
                 string commandLine,
-                Dictionary<string, string> parameters) {
-                this.Fragments = new Dictionary<Guid, string>();
-                this.FileWriters = new Dictionary<Guid, string>();
+                Dictionary<string, string> parameters,
+                Dictionary<Guid, string> fragments,
+                Dictionary<Guid, string> fileWriters) {
+                this.Fragments = fragments;
+                this.FileWriters = fileWriters;
                 this.Id = Guid.NewGuid();
                 this.MinerName = minerName;
                 this.MainCoin = mainCoin;
@@ -66,7 +68,9 @@ namespace NTMiner {
                 IPool dualCoinPool,
                 string dualCoinWallet,
                 double dualCoinWeight,
-                Dictionary<string, string> parameters) : base(
+                Dictionary<string, string> parameters,
+                Dictionary<Guid, string> fragments,
+                Dictionary<Guid, string> fileWriters) : base(
                     mineContext.MinerName,
                     mineContext.MainCoin,
                     mineContext.MainCoinPool,
@@ -74,7 +78,9 @@ namespace NTMiner {
                     mineContext.CoinKernel,
                     mineContext.MainCoinWallet,
                     mineContext.CommandLine,
-                    parameters) {
+                    parameters,
+                    fragments,
+                    fileWriters) {
                 this.DualCoin = dualCoin;
                 this.DualCoinPool = dualCoinPool;
                 this.DualCoinWallet = dualCoinWallet;

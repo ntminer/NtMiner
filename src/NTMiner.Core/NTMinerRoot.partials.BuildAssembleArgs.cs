@@ -10,8 +10,10 @@ using System.Text.RegularExpressions;
 namespace NTMiner {
     public partial class NTMinerRoot : INTMinerRoot {
         private static readonly string[] gpuIndexChars = new string[] { "a", "b", "c", "d", "e", "f", "g", "h" };
-        public string BuildAssembleArgs(out Dictionary<string, string> parameters) {
+        public string BuildAssembleArgs(out Dictionary<string, string> parameters, out Dictionary<Guid, string> fileWriters, out Dictionary<Guid, string> fragments) {
             parameters = new Dictionary<string, string>();
+            fileWriters = new Dictionary<Guid, string>();
+            fragments = new Dictionary<Guid, string>();
             if (!CoinSet.TryGetCoin(this.MinerProfile.CoinId, out ICoin mainCoin)) {
                 return string.Empty;
             }
@@ -117,8 +119,24 @@ namespace NTMiner {
                             else {
                                 dualWeightArg = string.Empty;
                             }
+                            StringBuilder dualSb = new StringBuilder();
+                            dualSb.Append(kernelArgs);
+                            if (!string.IsNullOrEmpty(dualWeightArg)) {
+                                dualSb.Append(" ").Append(dualWeightArg);
+                            }
+                            if (!string.IsNullOrEmpty(poolKernelArgs)) {
+                                dualSb.Append(" ").Append(poolKernelArgs);
+                            }
+                            BuildFragments(coinKernel, parameters, out fileWriters, out fragments);
+                            foreach (var fragment in fragments.Values) {
+                                dualSb.Append(" ").Append(fragment);
+                            }
+                            if (!string.IsNullOrEmpty(customArgs)) {
+                                dualSb.Append(" ").Append(customArgs);
+                            }
 
-                            return $"{kernelArgs} {dualWeightArg} {poolKernelArgs} {customArgs}";
+                            // 注意：这里退出
+                            return dualSb.ToString();
                         }
                     }
                 }
@@ -167,7 +185,7 @@ namespace NTMiner {
             if (!string.IsNullOrEmpty(devicesArgs)) {
                 sb.Append(" ").Append(devicesArgs);
             }
-            BuildFragments(coinKernel, parameters, out Dictionary<Guid, string> fileWriters, out Dictionary<Guid, string> fragments);
+            BuildFragments(coinKernel, parameters, out fileWriters, out fragments);
             foreach (var fragment in fragments.Values) {
                 sb.Append(" ").Append(fragment);
             }

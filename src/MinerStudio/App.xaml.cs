@@ -37,6 +37,10 @@ namespace NTMiner {
 
         protected override void OnStartup(StartupEventArgs e) {
             RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
+            VirtualRoot.Window<UpgradeCommand>(LogEnum.DevConsole,
+                action: message => {
+                    AppStatic.Upgrade(message.FileName, message.Callback);
+                });
             try {
                 appMutex = new Mutex(true, s_appPipName, out createdNew);
             }

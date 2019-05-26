@@ -53,7 +53,7 @@ namespace NTMiner.Core.Impl {
 
                     VirtualRoot.Happened(new FileWriterUpdatedEvent(entity));
                 });
-            _root.ServerContextWindow<RemoveFileWriterCommand>("移除组", LogEnum.DevConsole,
+            _root.ServerContextWindow<RemoveFileWriterCommand>("移除文件书写器", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {
@@ -63,7 +63,6 @@ namespace NTMiner.Core.Impl {
                         return;
                     }
                     FileWriterData entity = _dicById[message.EntityId];
-                    // TODO:移除内核对文件书写器的引用关系
                     _dicById.Remove(entity.GetId());
                     var repository = NTMinerRoot.CreateServerRepository<FileWriterData>(isUseJson);
                     repository.Remove(message.EntityId);
