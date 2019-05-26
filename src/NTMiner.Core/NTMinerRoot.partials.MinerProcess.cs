@@ -27,7 +27,7 @@ namespace NTMiner {
                             // 清理除当前外的Temp/Kernel
                             Cleaner.Clear();
 #if DEBUG
-                            Write.DevWarn($"耗时{VirtualRoot.Stopwatch.ElapsedMilliseconds}毫秒 {nameof(MinerProcess)}.{nameof(CreateProcessAsync)}[{nameof(allKernelProcessNames)}]");
+                            Write.DevWarn($"耗时{VirtualRoot.Stopwatch.ElapsedMilliseconds}毫秒 {nameof(MinerProcess)}.{nameof(CreateProcessAsync)}[{nameof(Cleaner)}.{nameof(Cleaner.Clear)}]");
 #endif
                             Write.UserOk("内核进程清理完毕");
                             Thread.Sleep(1000);

@@ -32,6 +32,10 @@ namespace NTMiner.Views.Ucs {
                             this.PopupMainCoinPool.IsOpen = false;
                             OpenMainCoinPoolPopup();
                         }
+                        if (this.PopupMainCoinPool1.Child != null) {
+                            this.PopupMainCoinPool1.IsOpen = false;
+                            OpenMainCoinPool1Popup();
+                        }
                         if (this.PopupMainCoin != null) {
                             this.PopupMainCoin.IsOpen = false;
                             OpenMainCoinPopup();
@@ -97,6 +101,29 @@ namespace NTMiner.Views.Ucs {
                     if (selectedResult != null) {
                         if (coinVm.CoinProfile.MainCoinPool != selectedResult) {
                             coinVm.CoinProfile.MainCoinPool = selectedResult;
+                        }
+                        popup.IsOpen = false;
+                    }
+                }) {
+                    HideView = new DelegateCommand(() => {
+                        popup.IsOpen = false;
+                    })
+                });
+        }
+
+        private void OpenMainCoinPool1Popup() {
+            var coinVm = Vm.MinerProfile.CoinVm;
+            if (coinVm == null) {
+                return;
+            }
+            var popup = PopupMainCoinPool1;
+            popup.IsOpen = true;
+            var selected = coinVm.CoinProfile.MainCoinPool1;
+            popup.Child = new PoolSelect(
+                new PoolSelectViewModel(coinVm, selected, onOk: selectedResult => {
+                    if (selectedResult != null) {
+                        if (coinVm.CoinProfile.MainCoinPool1 != selectedResult) {
+                            coinVm.CoinProfile.MainCoinPool1 = selectedResult;
                         }
                         popup.IsOpen = false;
                     }
@@ -187,6 +214,12 @@ namespace NTMiner.Views.Ucs {
                 MinerProfileDual child = new MinerProfileDual();
                 DualContainer.Child = child;
             }
+        }
+
+        private void KbButtonMainCoinPool1_Clicked(object sender, RoutedEventArgs e) {
+            OpenMainCoinPool1Popup();
+            UserActionHappend();
+            e.Handled = true;
         }
     }
 }
