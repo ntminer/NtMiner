@@ -98,6 +98,14 @@ namespace NTMiner.Core.Gpus.Impl {
             return GpuSpeed.Empty;
         }
 
+        public AverageSpeed GetAverageSpeed(int gpuIndex) {
+            InitOnece();
+            if (_averageGpuSpeed.TryGetValue(gpuIndex, out AverageSpeed averageSpeed)) {
+                return averageSpeed;
+            }
+            return AverageSpeed.Empty;
+        }
+
         private Guid _mainCoinId;
         public void SetCurrentSpeed(int gpuIndex, double speed, bool isDual, DateTime now) {
             InitOnece();
