@@ -254,34 +254,39 @@ namespace NTMiner {
         }
 
         private static readonly Dictionary<Guid, ParameterNames> _parameterNameDic = new Dictionary<Guid, ParameterNames>();
-
+        private static readonly object _locker = new object();
         private static ParameterNames GetParameterNames(IFragmentWriter writer) {
             if (string.IsNullOrEmpty(writer.Body)) {
                 return new ParameterNames {
                     Body = writer.Body
                 };
             }
-            if (_parameterNameDic.TryGetValue(writer.GetId(), out ParameterNames parameterNames)
-                && parameterNames.Body == writer.Body) {
+            Guid writerId = writer.GetId();
+            if (_parameterNameDic.TryGetValue(writerId, out ParameterNames parameterNames) && parameterNames.Body == writer.Body) {
                 return parameterNames;
             }
             else {
-                if (parameterNames != null) {
-                    parameterNames.Body = writer.Body;
-                }
-                else {
-                    parameterNames = new ParameterNames {
-                        Body = writer.Body
-                    };
-                    _parameterNameDic.Add(writer.GetId(), parameterNames);
-                }
-                parameterNames.Names.Clear();
-                const string pattern = @"\{(\w+)\}";
-                var matches = Regex.Matches(writer.Body, pattern);
-                foreach (Match match in matches) {
-                    parameterNames.Names.Add(match.Groups[1].Value);
-                }
-                return parameterNames;
+                lock (_locker) {
+                    if (_parameterNameDic.TryGetValue(writerId, out parameterNames) && parameterNames.Body == writer.Body) {
+                        return parameterNames;
+                    }
+                    if (parameterNames != null) {
+                        parameterNames.Body = writer.Body;
+                    }
+                    else {
+                        parameterNames = new ParameterNames {
+                            Body = writer.Body
+                        };
+                        _parameterNameDic.Add(writerId, parameterNames);
+                    }
+                    parameterNames.Names.Clear();
+                    const string pattern = @"\{(\w+)\}";
+                    var matches = Regex.Matches(writer.Body, pattern);
+                    foreach (Match match in matches) {
+                        parameterNames.Names.Add(match.Groups[1].Value);
+                    }
+                    return parameterNames;
+                }                
             }
         }
 
