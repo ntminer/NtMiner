@@ -61,6 +61,9 @@ namespace NTMiner.JsonDb {
                 if (coinKernel.FileWriterIds.Count == 0) {
                     coinKernel.FileWriterIds = null;
                 }
+                if (coinKernel.FragmentWriterIds.Count == 0) {
+                    coinKernel.FragmentWriterIds = null;
+                }
             }
         }
 
