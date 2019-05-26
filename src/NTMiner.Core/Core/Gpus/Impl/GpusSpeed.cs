@@ -6,10 +6,28 @@ using System.Linq;
 
 namespace NTMiner.Core.Gpus.Impl {
     internal class GpusSpeed : IGpusSpeed {
+        public class AverageSpeed {
+            /// <summary>
+            /// 最近10分钟的均值
+            /// </summary>
+            public double Speed;
+            /// <summary>
+            /// 最近10分钟的均值
+            /// </summary>
+            public double DualSpeed;
+            /// <summary>
+            /// 存储每10分钟的均值
+            /// </summary>
+            public List<double> SpeedHistory = new List<double>();
+            /// <summary>
+            /// 存储每10分钟的均值
+            /// </summary>
+            public List<double> DualSpeedHistory = new List<double>();
+        }
+
         private readonly Dictionary<int, GpuSpeed> _currentGpuSpeed = new Dictionary<int, GpuSpeed>();
         private Dictionary<int, List<IGpuSpeed>> _gpuSpeedHistory = new Dictionary<int, List<IGpuSpeed>>();
-        private readonly Dictionary<int, double> _averageGpuSpeed = new Dictionary<int, double>();
-        private readonly Dictionary<int, List<double>> _averageGpuSpeedHistory = new Dictionary<int, List<double>>();
+        private readonly Dictionary<int, AverageSpeed> _averageGpuSpeed = new Dictionary<int, AverageSpeed>();
         private readonly object _gpuSpeedHistoryValuesLocker = new object();
 
         private readonly INTMinerRoot _root;
@@ -63,8 +81,10 @@ namespace NTMiner.Core.Gpus.Impl {
                                 SpeedOn = now
                             }));
                             _gpuSpeedHistory.Add(gpu.Index, new List<IGpuSpeed>());
-                            _averageGpuSpeed.Add(gpu.Index, 0);
-                            _averageGpuSpeedHistory.Add(gpu.Index, new List<double>());
+                            _averageGpuSpeed.Add(gpu.Index, new AverageSpeed {
+                                Speed = 0,
+                                DualSpeed = 0
+                            });
                         }
                         _isInited = true;
                     }
@@ -76,6 +96,10 @@ namespace NTMiner.Core.Gpus.Impl {
             InitOnece();
             DateTime now = DateTime.Now;
             lock (_gpuSpeedHistoryValuesLocker) {
+                foreach (var averageSpeed in _averageGpuSpeed.Values) {
+                    averageSpeed.SpeedHistory.Add(averageSpeed.Speed);
+                    averageSpeed.DualSpeedHistory.Add(averageSpeed.DualSpeed);
+                }
                 foreach (var historyList in _gpuSpeedHistory.Values.ToArray()) {
                     var toRemoves = historyList.Where(a => a.MainCoinSpeed.SpeedOn.AddMinutes(NTMinerRoot.SpeedHistoryLengthByMinute) < now).ToArray();
                     foreach (var item in toRemoves) {
@@ -135,10 +159,17 @@ namespace NTMiner.Core.Gpus.Impl {
                     gpuSpeed.UpdateMainCoinSpeed(speed, now);
                 }
             }
+            if (_averageGpuSpeed.TryGetValue(gpuIndex, out AverageSpeed averageSpeed)) {
+                if (isDual) {
+                    averageSpeed.DualSpeed = _gpuSpeedHistory[gpuIndex].Average(a => a.DualCoinSpeed.Value);
+                }
+                else {
+                    averageSpeed.Speed = _gpuSpeedHistory[gpuIndex].Average(a => a.MainCoinSpeed.Value);
+                }
+            }
             if (isChanged) {
                 VirtualRoot.Happened(new GpuSpeedChangedEvent(isDualSpeed: isDual, gpuSpeed: gpuSpeed));
             }
-            // TODO:求算力平均值
         }
 
         public List<IGpuSpeed> GetGpuSpeedHistory(int index) {
