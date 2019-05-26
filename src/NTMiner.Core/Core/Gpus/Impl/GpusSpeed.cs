@@ -92,30 +92,33 @@ namespace NTMiner.Core.Gpus.Impl {
         private Guid _mainCoinId;
         public void SetCurrentSpeed(int gpuIndex, double speed, bool isDual, DateTime now) {
             InitOnece();
-            GpuSpeed gpuSpeed = _currentGpuSpeed.Values.FirstOrDefault(a => a.Gpu.Index == gpuIndex);
-            if (gpuSpeed == null) {
+            GpuSpeed gpuSpeed;
+            if (!_currentGpuSpeed.TryGetValue(gpuIndex, out gpuSpeed)) {
                 return;
             }
             Guid mainCoinId = _root.MinerProfile.CoinId;
-            if (_mainCoinId != mainCoinId) {
-                _mainCoinId = mainCoinId;
+            if (this._mainCoinId != mainCoinId) {
+                this._mainCoinId = mainCoinId;
+                // 切换币种了，清空历史算力
                 lock (_gpuSpeedHistoryValuesLocker) {
                     foreach (var item in _gpuSpeedHistory) {
                         item.Value.Clear();
                     }
                 }
+                // 切换币种了，将所有显卡的当前算力置为0
                 foreach (var item in _currentGpuSpeed.Values) {
                     item.UpdateMainCoinSpeed(0, now);
                     item.UpdateDualCoinSpeed(0, now);
                 }
             }
             lock (_gpuSpeedHistoryValuesLocker) {
-                if (_gpuSpeedHistory.ContainsKey(gpuSpeed.Gpu.Index)) {
-                    _gpuSpeedHistory[gpuSpeed.Gpu.Index].Add(gpuSpeed.Clone());
+                // 将当前的旧算力加入历史列表
+                if (_gpuSpeedHistory.TryGetValue(gpuSpeed.Gpu.Index, out List<IGpuSpeed> list)) {
+                    list.Add(gpuSpeed.Clone());
                 }
             }
             bool isChanged = false;
-            // 如果变化幅度大于等于百分之一
+            // 如果变化幅度大于等于百分之一或者距离上一次算力记录的时间超过了10分钟则视为算力变化
             if (isDual) {
                 isChanged = gpuSpeed.DualCoinSpeed.SpeedOn.AddSeconds(10) < now || gpuSpeed.DualCoinSpeed.Value.IsChange(speed, 0.01);
                 if (isChanged) {
@@ -131,6 +134,7 @@ namespace NTMiner.Core.Gpus.Impl {
             if (isChanged) {
                 VirtualRoot.Happened(new GpuSpeedChangedEvent(isDualSpeed: isDual, gpuSpeed: gpuSpeed));
             }
+            // TODO:求算力平均值
         }
 
         public List<IGpuSpeed> GetGpuSpeedHistory(int index) {
