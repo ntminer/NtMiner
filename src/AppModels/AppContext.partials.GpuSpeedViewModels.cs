@@ -58,9 +58,11 @@ namespace NTMiner {
                         if (gpuSpeedVm != null) {
                             if (message.IsDualSpeed) {
                                 gpuSpeedVm.DualCoinSpeed.Update(message.Source.DualCoinSpeed);
+                                gpuSpeedVm.OnPropertyChanged(nameof(gpuSpeedVm.AverageDualCoinSpeedText));
                             }
                             else {
                                 gpuSpeedVm.MainCoinSpeed.Update(message.Source.MainCoinSpeed);
+                                gpuSpeedVm.OnPropertyChanged(nameof(gpuSpeedVm.AverageMainCoinSpeedText));
                             }
                         }
                         if (index == _totalSpeedVm.GpuVm.Index) {
