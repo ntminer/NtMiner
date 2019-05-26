@@ -85,6 +85,7 @@ namespace NTMiner {
                         }
                         UIThread.Execute(() => {
                             if (NTMinerRegistry.GetIsNoUi() && NTMinerRegistry.GetIsAutoStart()) {
+                                MainWindow = NotiCenterWindow.Instance;
                                 NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage("已切换为无界面模式运行", "开源矿工");
                             }
                             else {
