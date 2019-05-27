@@ -29,6 +29,7 @@ namespace NTMiner.Views {
             }
         }
 
+        private bool _isFirstLoaded = true;
         private MinerClientsWindow() {
             Width = SystemParameters.FullPrimaryScreenWidth * 0.95;
             Height = SystemParameters.FullPrimaryScreenHeight * 0.95;

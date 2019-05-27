@@ -30,9 +30,14 @@ namespace NTMiner.Views.Ucs {
             }
         }
 
+        private bool _isFirstLoaded = true;
         private CalcConfig() {
             InitializeComponent();
             this.Loaded += (sender, e) => {
+                if (!_isFirstLoaded) {
+                    return;
+                }
+                _isFirstLoaded = false;
                 Window.GetWindow(this).On<CalcConfigSetInitedEvent>("收益计算器数据集刷新后刷新VM", LogEnum.DevConsole,
                     action: message => {
                         UIThread.Execute(() => {

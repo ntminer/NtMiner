@@ -12,13 +12,18 @@ namespace NTMiner.Views.Ucs {
             }
         }
 
+        private bool _isFirstLoaded = true;
         public MinerProfileIndex() {
             InitializeComponent();
             this.PopupKernel.Closed += Popup_Closed;
             this.PopupMainCoinPool.Closed += Popup_Closed;
             this.PopupMainCoin.Closed += Popup_Closed;
             this.PopupMainCoinWallet.Closed += Popup_Closed;
-            this.Loaded += (object sender, RoutedEventArgs e)=> {
+            this.Loaded += (sender, e)=> {
+                if (!_isFirstLoaded) {
+                    return;
+                }
+                _isFirstLoaded = false;
                 Window.GetWindow(this).On<LocalContextVmsReInitedEvent>("本地上下文视图模型集刷新后刷新界面上的popup", LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
