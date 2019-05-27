@@ -145,9 +145,10 @@
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate TargetType="{x:Type TabItem}">
-							<Border x:Name="Border" BorderThickness="0 0 0 2" Padding="8 0" Margin="6 4 0 6" Height="36" Background="Transparent">
+							<Border x:Name="Border" BorderThickness="0 0 0 2" Margin="10 4 0 6" Height="36" Background="Transparent">
 								<TextBlock 
 									x:Name="Text" 
+									Padding="10 0"
 									VerticalAlignment="Center" 
 									FontSize="16"
 									Text="{TemplateBinding Header}"></TextBlock>
