@@ -18,7 +18,8 @@ namespace NTMiner.Views.Ucs {
             this.PopupMainCoinPool.Closed += Popup_Closed;
             this.PopupMainCoin.Closed += Popup_Closed;
             this.PopupMainCoinWallet.Closed += Popup_Closed;
-            this.On<LocalContextVmsReInitedEvent>("本地上下文视图模型集刷新后刷新界面上的popup", LogEnum.DevConsole,
+            this.Loaded += (object sender, RoutedEventArgs e)=> {
+                Window.GetWindow(this).On<LocalContextVmsReInitedEvent>("本地上下文视图模型集刷新后刷新界面上的popup", LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
                         if (Vm.MinerProfile.MineWork != null) {
@@ -46,6 +47,7 @@ namespace NTMiner.Views.Ucs {
                         }
                     });
                 });
+            };
         }
 
         private void Popup_Closed(object sender, System.EventArgs e) {

@@ -48,70 +48,72 @@ namespace NTMiner.Views.Ucs {
                 return;
             }
             Guid mainCoinId = NTMinerRoot.Instance.MinerProfile.CoinId;
-            this.On<GpuSpeedChangedEvent>("显卡算力变更后刷新算力图界面", LogEnum.DevConsole,
-                action: (message) => {
-                    UIThread.Execute(() => {
-                        if (mainCoinId != NTMinerRoot.Instance.MinerProfile.CoinId) {
-                            mainCoinId = NTMinerRoot.Instance.MinerProfile.CoinId;
-                            foreach (var speedChartVm in Vm.SpeedChartVms) {
+            this.Loaded += (sender, e) => {
+                Window.GetWindow(this).On<GpuSpeedChangedEvent>("显卡算力变更后刷新算力图界面", LogEnum.DevConsole,
+                    action: (message) => {
+                        UIThread.Execute(() => {
+                            if (mainCoinId != NTMinerRoot.Instance.MinerProfile.CoinId) {
+                                mainCoinId = NTMinerRoot.Instance.MinerProfile.CoinId;
+                                foreach (var speedChartVm in Vm.SpeedChartVms) {
+                                    SeriesCollection series = speedChartVm.Series;
+                                    SeriesCollection seriesShadow = speedChartVm.SeriesShadow;
+                                    foreach (var item in series) {
+                                        item.Values.Clear();
+                                    }
+                                    foreach (var item in seriesShadow) {
+                                        item.Values.Clear();
+                                    }
+                                }
+                            }
+                            IGpuSpeed gpuSpeed = message.Source;
+                            int index = gpuSpeed.Gpu.Index;
+                            if (Vm.SpeedChartVms.ContainsKey(index)) {
+                                SpeedChartViewModel speedChartVm = Vm.SpeedChartVms[index];
                                 SeriesCollection series = speedChartVm.Series;
                                 SeriesCollection seriesShadow = speedChartVm.SeriesShadow;
-                                foreach (var item in series) {
-                                    item.Values.Clear();
+                                DateTime now = DateTime.Now;
+                                if (gpuSpeed.MainCoinSpeed != null && series.Count > 0) {
+                                    IChartValues chartValues = series[0].Values;
+                                    chartValues.Add(new MeasureModel() {
+                                        DateTime = gpuSpeed.MainCoinSpeed.SpeedOn,
+                                        Value = gpuSpeed.MainCoinSpeed.Value
+                                    });
+                                    if (((MeasureModel)chartValues[0]).DateTime.AddMinutes(NTMinerRoot.SpeedHistoryLengthByMinute) < now) {
+                                        chartValues.RemoveAt(0);
+                                    }
+                                    chartValues = seriesShadow[0].Values;
+                                    chartValues.Add(new MeasureModel() {
+                                        DateTime = gpuSpeed.MainCoinSpeed.SpeedOn,
+                                        Value = gpuSpeed.MainCoinSpeed.Value
+                                    });
+                                    if (((MeasureModel)chartValues[0]).DateTime.AddMinutes(NTMinerRoot.SpeedHistoryLengthByMinute) < now) {
+                                        chartValues.RemoveAt(0);
+                                    }
                                 }
-                                foreach (var item in seriesShadow) {
-                                    item.Values.Clear();
+                                if (gpuSpeed.DualCoinSpeed != null && series.Count > 1) {
+                                    IChartValues chartValues = series[1].Values;
+                                    chartValues.Add(new MeasureModel() {
+                                        DateTime = gpuSpeed.DualCoinSpeed.SpeedOn,
+                                        Value = gpuSpeed.DualCoinSpeed.Value
+                                    });
+                                    if (((MeasureModel)chartValues[0]).DateTime.AddMinutes(NTMinerRoot.SpeedHistoryLengthByMinute) < now) {
+                                        chartValues.RemoveAt(0);
+                                    }
+                                    chartValues = seriesShadow[1].Values;
+                                    chartValues.Add(new MeasureModel() {
+                                        DateTime = gpuSpeed.DualCoinSpeed.SpeedOn,
+                                        Value = gpuSpeed.DualCoinSpeed.Value
+                                    });
+                                    if (((MeasureModel)chartValues[0]).DateTime.AddMinutes(NTMinerRoot.SpeedHistoryLengthByMinute) < now) {
+                                        chartValues.RemoveAt(0);
+                                    }
                                 }
-                            }
-                        }
-                        IGpuSpeed gpuSpeed = message.Source;
-                        int index = gpuSpeed.Gpu.Index;
-                        if (Vm.SpeedChartVms.ContainsKey(index)) {
-                            SpeedChartViewModel speedChartVm = Vm.SpeedChartVms[index];
-                            SeriesCollection series = speedChartVm.Series;
-                            SeriesCollection seriesShadow = speedChartVm.SeriesShadow;
-                            DateTime now = DateTime.Now;
-                            if (gpuSpeed.MainCoinSpeed != null && series.Count > 0) {
-                                IChartValues chartValues = series[0].Values;
-                                chartValues.Add(new MeasureModel() {
-                                    DateTime = gpuSpeed.MainCoinSpeed.SpeedOn,
-                                    Value = gpuSpeed.MainCoinSpeed.Value
-                                });
-                                if (((MeasureModel)chartValues[0]).DateTime.AddMinutes(NTMinerRoot.SpeedHistoryLengthByMinute) < now) {
-                                    chartValues.RemoveAt(0);
-                                }
-                                chartValues = seriesShadow[0].Values;
-                                chartValues.Add(new MeasureModel() {
-                                    DateTime = gpuSpeed.MainCoinSpeed.SpeedOn,
-                                    Value = gpuSpeed.MainCoinSpeed.Value
-                                });
-                                if (((MeasureModel)chartValues[0]).DateTime.AddMinutes(NTMinerRoot.SpeedHistoryLengthByMinute) < now) {
-                                    chartValues.RemoveAt(0);
-                                }
-                            }
-                            if (gpuSpeed.DualCoinSpeed != null && series.Count > 1) {
-                                IChartValues chartValues = series[1].Values;
-                                chartValues.Add(new MeasureModel() {
-                                    DateTime = gpuSpeed.DualCoinSpeed.SpeedOn,
-                                    Value = gpuSpeed.DualCoinSpeed.Value
-                                });
-                                if (((MeasureModel)chartValues[0]).DateTime.AddMinutes(NTMinerRoot.SpeedHistoryLengthByMinute) < now) {
-                                    chartValues.RemoveAt(0);
-                                }
-                                chartValues = seriesShadow[1].Values;
-                                chartValues.Add(new MeasureModel() {
-                                    DateTime = gpuSpeed.DualCoinSpeed.SpeedOn,
-                                    Value = gpuSpeed.DualCoinSpeed.Value
-                                });
-                                if (((MeasureModel)chartValues[0]).DateTime.AddMinutes(NTMinerRoot.SpeedHistoryLengthByMinute) < now) {
-                                    chartValues.RemoveAt(0);
-                                }
-                            }
 
-                            speedChartVm.SetAxisLimits(now);
-                        }
+                                speedChartVm.SetAxisLimits(now);
+                            }
+                        });
                     });
-                });
+            };
 
             SolidColorBrush White = new SolidColorBrush(Colors.White);
             Vm.PropertyChanged += (object sender, System.ComponentModel.PropertyChangedEventArgs e) => {
