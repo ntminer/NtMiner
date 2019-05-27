@@ -93,13 +93,15 @@
 					<TextBlock Margin="4 0 0 0" VerticalAlignment="Bottom" Foreground="{Binding StateBarVm.GpuSpeedVms.TotalSpeedVm.MainCoinSpeed.LastSpeedOnForeground}" Text="{Binding StateBarVm.GpuSpeedVms.TotalSpeedVm.MainCoinSpeed.LastSpeedOnText}"></TextBlock>
 				</WrapPanel>
 				<TextBlock>24小时平均算力为</TextBlock>
-				<Border BorderThickness="0 1 0 0" Margin="0 10" BorderBrush="{StaticResource LineColor}"></Border>
-				<TextBlock FontSize="14">辅币算力</TextBlock>
-				<WrapPanel>
-					<TextBlock FontSize="24" Padding="0 10" Text="{Binding StateBarVm.GpuSpeedVms.TotalSpeedVm.DualCoinSpeed.SpeedText}" />
-					<TextBlock Margin="4 0 0 0" VerticalAlignment="Bottom" Foreground="{Binding StateBarVm.GpuSpeedVms.TotalSpeedVm.DualCoinSpeed.LastSpeedOnForeground}" Text="{Binding StateBarVm.GpuSpeedVms.TotalSpeedVm.DualCoinSpeed.LastSpeedOnText}"></TextBlock>
-				</WrapPanel>
-				<TextBlock>24小时平均算力为</TextBlock>
+				<StackPanel Visibility="{Binding MinerProfile.CoinVm.CoinKernel.IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}">
+					<Border BorderThickness="0 1 0 0" Margin="0 10" BorderBrush="{StaticResource LineColor}"></Border>
+					<TextBlock FontSize="14">辅币算力</TextBlock>
+					<WrapPanel>
+						<TextBlock FontSize="24" Padding="0 10" Text="{Binding StateBarVm.GpuSpeedVms.TotalSpeedVm.DualCoinSpeed.SpeedText}" />
+						<TextBlock Margin="4 0 0 0" VerticalAlignment="Bottom" Foreground="{Binding StateBarVm.GpuSpeedVms.TotalSpeedVm.DualCoinSpeed.LastSpeedOnForeground}" Text="{Binding StateBarVm.GpuSpeedVms.TotalSpeedVm.DualCoinSpeed.LastSpeedOnText}"></TextBlock>
+					</WrapPanel>
+					<TextBlock>24小时平均算力为</TextBlock>
+				</StackPanel>
 			</StackPanel>
 		</Border>
 	</Grid>
