@@ -34,13 +34,13 @@ namespace NTMiner {
 
         public static void Enable() {
             foreach (var handler in _contextHandlers) {
-                handler.IsEnabled = true;
+                handler.HandlerId.IsEnabled = true;
             }
         }
 
         public static void Disable() {
             foreach (var handler in _contextHandlers) {
-                handler.IsEnabled = false;
+                handler.HandlerId.IsEnabled = false;
             }
         }
         #endregion
