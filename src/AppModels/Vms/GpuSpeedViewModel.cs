@@ -26,6 +26,20 @@ namespace NTMiner.Vms {
             }
         }
 
+        public string AverageMainCoinSpeedText {
+            get {
+                var averageSpeed = NTMinerRoot.Instance.GpusSpeed.GetAverageSpeed(GpuVm.Index);
+                return averageSpeed.Speed.ToUnitSpeedText();
+            }
+        }
+
+        public string AverageDualCoinSpeedText {
+            get {
+                var averageSpeed = NTMinerRoot.Instance.GpusSpeed.GetAverageSpeed(GpuVm.Index);
+                return averageSpeed.DualSpeed.ToUnitSpeedText();
+            }
+        }
+
         public SpeedViewModel MainCoinSpeed {
             get => _mainCoinSpeed;
             set {

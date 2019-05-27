@@ -13,7 +13,7 @@ namespace NTMiner.Core.Gpus.Impl {
 
         private readonly INTMinerRoot _root;
         public GpusSpeed(INTMinerRoot root) {
-            _root = root;            
+            _root = root;
             VirtualRoot.On<Per10MinuteEvent>("周期清除过期的历史算力", LogEnum.DevConsole,
                 action: message => {
                     ClearOutOfDateHistory();
@@ -98,6 +98,14 @@ namespace NTMiner.Core.Gpus.Impl {
             return GpuSpeed.Empty;
         }
 
+        public AverageSpeed GetAverageSpeed(int gpuIndex) {
+            InitOnece();
+            if (_averageGpuSpeed.TryGetValue(gpuIndex, out AverageSpeed averageSpeed)) {
+                return averageSpeed;
+            }
+            return AverageSpeed.Empty;
+        }
+
         private Guid _mainCoinId;
         public void SetCurrentSpeed(int gpuIndex, double speed, bool isDual, DateTime now) {
             InitOnece();
@@ -142,10 +150,16 @@ namespace NTMiner.Core.Gpus.Impl {
             }
             if (_averageGpuSpeed.TryGetValue(gpuIndex, out AverageSpeed averageSpeed)) {
                 if (isDual) {
-                    averageSpeed.DualSpeed = _gpuSpeedHistory[gpuIndex].Average(a => a.DualCoinSpeed.Value);
+                    var array = _gpuSpeedHistory[gpuIndex].Where(a => a.DualCoinSpeed.Value != 0).ToArray();
+                    if (array.Length != 0) {
+                        averageSpeed.DualSpeed = array.Average(a => a.DualCoinSpeed.Value);
+                    }
                 }
                 else {
-                    averageSpeed.Speed = _gpuSpeedHistory[gpuIndex].Average(a => a.MainCoinSpeed.Value);
+                    var array = _gpuSpeedHistory[gpuIndex].Where(a => a.MainCoinSpeed.Value != 0).ToArray();
+                    if (array.Length != 0) {
+                        averageSpeed.Speed = array.Average(a => a.MainCoinSpeed.Value);
+                    }
                 }
             }
             if (isChanged) {

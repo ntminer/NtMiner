@@ -2,14 +2,18 @@
 
 namespace NTMiner.Core {
     public class AverageSpeed {
+        public static readonly AverageSpeed Empty = new AverageSpeed();
+
+        public AverageSpeed() { }
+
         /// <summary>
         /// 最近10分钟的均值
         /// </summary>
-        public double Speed;
+        public double Speed { get; internal set; }
         /// <summary>
         /// 最近10分钟的均值
         /// </summary>
-        public double DualSpeed;
+        public double DualSpeed { get; internal set; }
         /// <summary>
         /// 存储每10分钟的均值
         /// </summary>

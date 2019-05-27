@@ -122,16 +122,32 @@
                 </WrapPanel>
             </StackPanel>
             <WrapPanel Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0 10 10 0">
-                <WrapPanel 
+                <StackPanel 
                     HorizontalAlignment="Left" Margin="0 0 20 0"
                     Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <TextBlock FontSize="20" Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.Code}"></TextBlock>
-                    <TextBlock FontSize="20" Text="："></TextBlock>
-                    <TextBlock FontSize="20" Text="{Binding CurrentSpeedChartVm.GpuSpeedVm.DualCoinSpeed.SpeedText}"></TextBlock>
-                </WrapPanel>
-                <TextBlock FontSize="20" Text="{Binding MinerProfile.CoinVm.Code}"></TextBlock>
-                <TextBlock FontSize="20" Text="："></TextBlock>
-                <TextBlock FontSize="20" Text="{Binding CurrentSpeedChartVm.GpuSpeedVm.MainCoinSpeed.SpeedText}"></TextBlock>
+                    <WrapPanel>
+                        <TextBlock FontSize="20" Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.Code}"></TextBlock>
+                        <TextBlock FontSize="20" Text="："></TextBlock>
+                        <TextBlock FontSize="20" Text="{Binding CurrentSpeedChartVm.GpuSpeedVm.DualCoinSpeed.SpeedText}"></TextBlock>
+                    </WrapPanel>
+                    <WrapPanel>
+                        <TextBlock FontSize="20" Text="平均"></TextBlock>
+                        <TextBlock FontSize="20" Text="："></TextBlock>
+                        <TextBlock FontSize="20" Text="{Binding CurrentSpeedChartVm.GpuSpeedVm.AverageDualCoinSpeedText}"></TextBlock>
+                    </WrapPanel>
+                </StackPanel>
+                <StackPanel>
+                    <WrapPanel>
+                        <TextBlock FontSize="20" Text="{Binding MinerProfile.CoinVm.Code}"></TextBlock>
+                        <TextBlock FontSize="20" Text="："></TextBlock>
+                        <TextBlock FontSize="20" Text="{Binding CurrentSpeedChartVm.GpuSpeedVm.MainCoinSpeed.SpeedText}"></TextBlock>
+                    </WrapPanel>
+                    <WrapPanel>
+                        <TextBlock FontSize="20" Text="平均"></TextBlock>
+                        <TextBlock FontSize="20" Text="："></TextBlock>
+                        <TextBlock FontSize="20" Text="{Binding CurrentSpeedChartVm.GpuSpeedVm.AverageMainCoinSpeedText}"></TextBlock>
+                    </WrapPanel>
+                </StackPanel>
             </WrapPanel>
         </Grid>
         <Grid x:Name="DetailsGrid" Grid.Row="1" Grid.Column="1">
