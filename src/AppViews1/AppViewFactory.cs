@@ -178,12 +178,6 @@ namespace NTMiner.Views {
                         window?.ShowWindow();
                     });
                 });
-            VirtualRoot.Window<ShowSpeedChartsCommand>(LogEnum.DevConsole,
-                action: message => {
-                    UIThread.Execute(() => {
-                        SpeedCharts.ShowWindow(message.GpuSpeedVm);
-                    });
-                });
             VirtualRoot.Window<GroupEditCommand>(LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
