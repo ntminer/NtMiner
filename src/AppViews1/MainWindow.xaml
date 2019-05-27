@@ -25,7 +25,6 @@
 	</blankWindow:BlankWindow.DataContext>
 	<blankWindow:BlankWindow.Resources>
 		<ResourceDictionary>
-			<SolidColorBrush x:Key="TabControlNormalBorderBrush" Color="#8C8E94"></SolidColorBrush>
 			<SolidColorBrush x:Key="TabControlNormalForeground" Color="#C9CDCA"></SolidColorBrush>
 			<Style x:Key="TabControlStyle" TargetType="{x:Type TabControl}">
 				<Setter Property="Padding" Value="4,4,4,4"/>
@@ -63,7 +62,6 @@
 				<Setter Property="Foreground" Value="Black"/>
 				<Setter Property="Background" Value="White"/>
 				<Setter Property="Padding" Value="6,1,6,1"/>
-				<Setter Property="BorderBrush" Value="{StaticResource TabControlNormalBorderBrush}"/>
 				<Setter Property="HorizontalContentAlignment" Value="Stretch"/>
 				<Setter Property="VerticalContentAlignment" Value="Stretch"/>
 				<Setter Property="Template">
