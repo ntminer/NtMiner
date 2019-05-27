@@ -10,4 +10,6 @@
 	<SolidColorBrush x:Key="ThemeForeground">White</SolidColorBrush>
 	<SolidColorBrush x:Key="StateBarForeground">White</SolidColorBrush>
 	<SolidColorBrush x:Key="MinerProfileBackground">#F0F0F1</SolidColorBrush>
+	<sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">8</sys:Double>
+	<sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarButtonHeightKey}">0</sys:Double>
 </ResourceDictionary>
