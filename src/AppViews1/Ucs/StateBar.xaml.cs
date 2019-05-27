@@ -12,14 +12,9 @@ namespace NTMiner.Views.Ucs {
             }
         }
 
-        private bool _isFirstLoaded = true;
         public StateBar() {
             InitializeComponent();
-            this.Loaded += (sender, e) => {
-                if (!_isFirstLoaded) {
-                    return;
-                }
-                _isFirstLoaded = false;
+            this.RunOneceOnLoaded(() => {
                 var window = Window.GetWindow(this);
                 window.On<Per1SecondEvent>("挖矿计时秒表", LogEnum.None,
                     action: message => {
@@ -61,7 +56,7 @@ namespace NTMiner.Views.Ucs {
                             }
                         });
                     });
-            };
+            });
         }
     }
 }

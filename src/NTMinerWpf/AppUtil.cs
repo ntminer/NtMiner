@@ -2,6 +2,7 @@
 using System;
 using System.Threading;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Threading;
 
 namespace NTMiner {
@@ -24,6 +25,19 @@ namespace NTMiner {
             Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("zh-CN");
         }
         #endregion
+
+        public static void RunOneceOnLoaded(this UserControl uc, Action action) {
+            uc.Loaded += (sender, e) => {
+                if (uc.Resources == null) {
+                    uc.Resources = new ResourceDictionary();
+                }
+                if (uc.Resources.Contains("isNotFirstTimeLoaded")) {
+                    return;
+                }
+                uc.Resources.Add("isNotFirstTimeLoaded", true);
+                action();
+            };
+        }
 
         #region private methods
         private static void Handle(Exception e) {
