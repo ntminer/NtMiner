@@ -90,6 +90,7 @@ namespace NTMiner.Bus {
                     _handlers[keyType].Count > 0 &&
                     _handlers[keyType].Contains(handler)) {
                     _handlers[keyType].Remove(handler);
+                    Write.DevDebug("拆除路径" + handler.HandlerId.HandlerPath);
                 }
             }
         }
