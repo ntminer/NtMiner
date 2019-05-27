@@ -13,28 +13,6 @@ using System.Windows.Media;
 
 namespace NTMiner.Views.Ucs {
     public partial class SpeedCharts : UserControl {
-        public static void ShowWindow(GpuSpeedViewModel gpuSpeedVm = null) {
-            ContainerWindow.ShowWindow(new ContainerWindowViewModel() {
-                Title = "算力图",
-                IconName = "Icon_Speed",
-                Width = 860,
-                Height = 520,
-                CloseVisible = Visibility.Visible,
-                FooterVisible = Visibility.Collapsed
-            }, ucFactory: (window) => {
-                SpeedCharts uc = new SpeedCharts();
-                return uc;
-            }, beforeShow: (uc) => {
-                if (gpuSpeedVm != null) {
-                    SpeedChartsViewModel vm = (SpeedChartsViewModel)uc.DataContext;
-                    SpeedChartViewModel item = vm.SpeedChartVms.FirstOrDefault(a => a.GpuSpeedVm == gpuSpeedVm);
-                    if (item != null) {
-                        vm.SetCurrentSpeedChartVm(item);
-                    }
-                }
-            }, fixedSize: false);
-        }
-
         private SpeedChartsViewModel Vm {
             get {
                 return (SpeedChartsViewModel)this.DataContext;
@@ -48,7 +26,7 @@ namespace NTMiner.Views.Ucs {
                 return;
             }
             Guid mainCoinId = NTMinerRoot.Instance.MinerProfile.CoinId;
-            this.On<GpuSpeedChangedEvent>("显卡算力变更后刷新算力图界面", LogEnum.DevConsole,
+            VirtualRoot.On<GpuSpeedChangedEvent>("显卡算力变更后刷新算力图界面", LogEnum.DevConsole,
                 action: (message) => {
                     UIThread.Execute(() => {
                         if (mainCoinId != NTMinerRoot.Instance.MinerProfile.CoinId) {
@@ -113,7 +91,6 @@ namespace NTMiner.Views.Ucs {
                     });
                 });
 
-            Vm.ItemsPanelColumns = 1;
             SolidColorBrush White = new SolidColorBrush(Colors.White);
             Vm.PropertyChanged += (object sender, System.ComponentModel.PropertyChangedEventArgs e) => {
                 if (e.PropertyName == nameof(Vm.CurrentSpeedChartVm)) {

@@ -1,5 +1,6 @@
 ﻿using NTMiner.Core;
 using NTMiner.Vms;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
@@ -27,15 +28,22 @@ namespace NTMiner.Views.Ucs {
             }
         }
 
+        private bool _isFirstLoaded = true;
         private Calc(CoinViewModel coin) {
             InitializeComponent();
             Vm.SelectedCoinVm = coin;
-            this.On<CalcConfigSetInitedEvent>("收益计算器数据集刷新后刷新VM", LogEnum.DevConsole,
-                action: message => {
-                    UIThread.Execute(()=> {
-                        Vm.SelectedCoinVm = Vm.SelectedCoinVm;
+            this.Loaded += (sender, e) => {
+                if (!_isFirstLoaded) {
+                    return;
+                }
+                _isFirstLoaded = false;
+                Window.GetWindow(this).On<CalcConfigSetInitedEvent>("收益计算器数据集刷新后刷新VM", LogEnum.DevConsole,
+                    action: message => {
+                        UIThread.Execute(() => {
+                            Vm.SelectedCoinVm = Vm.SelectedCoinVm;
+                        });
                     });
-                });
+            };
         }
     }
 }

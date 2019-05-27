@@ -24,7 +24,7 @@ namespace NTMiner {
 
         public static IObjectSerializer JsonSerializer { get; private set; }
 
-        private static readonly IMessageDispatcher SMessageDispatcher;
+        public static readonly IMessageDispatcher SMessageDispatcher;
         private static readonly ICmdBus SCommandBus;
         private static readonly IEventBus SEventBus;
 

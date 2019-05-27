@@ -88,7 +88,7 @@ namespace NTMiner.Vms {
                     LabelFormatter = dateTimeFormatter,
                     Foreground = black,
                     MaxValue = 0,
-                    FontSize = 14,
+                    FontSize = 12,
                     MinValue=0,
                     Unit=axisUnit,
                     Separator = new Separator() {

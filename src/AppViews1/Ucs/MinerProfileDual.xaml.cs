@@ -11,32 +11,39 @@ namespace NTMiner.Views.Ucs {
             }
         }
 
+        private bool _isFirstLoaded = true;
         public MinerProfileDual() {
             this.DataContext = AppContext.MinerProfileViewModel.Instance;
             InitializeComponent();
             this.PopupDualCoinPool.Closed += Popup_Closed;
             this.PopupDualCoin.Closed += Popup_Closed;
             this.PopupDualCoinWallet.Closed += Popup_Closed;
-            this.On<LocalContextVmsReInitedEvent>("本地上下文视图模型集刷新后刷新界面上的popup", LogEnum.DevConsole,
-                action: message => {
-                    UIThread.Execute(() => {
-                        if (Vm.MineWork != null) {
-                            return;
-                        }
-                        if (this.PopupDualCoinPool != null) {
-                            this.PopupDualCoinPool.IsOpen = false;
-                            OpenDualCoinPoolPopup();
-                        }
-                        if (this.PopupDualCoin != null) {
-                            this.PopupDualCoin.IsOpen = false;
-                            OpenDualCoinPopup();
-                        }
-                        if (this.PopupDualCoinWallet != null) {
-                            this.PopupDualCoinWallet.IsOpen = false;
-                            OpenDualCoinWalletPopup();
-                        }
+            this.Loaded += (sender, e) => {
+                if (!_isFirstLoaded) {
+                    return;
+                }
+                _isFirstLoaded = false;
+                Window.GetWindow(this).On<LocalContextVmsReInitedEvent>("本地上下文视图模型集刷新后刷新界面上的popup", LogEnum.DevConsole,
+                    action: message => {
+                        UIThread.Execute(() => {
+                            if (Vm.MineWork != null) {
+                                return;
+                            }
+                            if (this.PopupDualCoinPool != null) {
+                                this.PopupDualCoinPool.IsOpen = false;
+                                OpenDualCoinPoolPopup();
+                            }
+                            if (this.PopupDualCoin != null) {
+                                this.PopupDualCoin.IsOpen = false;
+                                OpenDualCoinPopup();
+                            }
+                            if (this.PopupDualCoinWallet != null) {
+                                this.PopupDualCoinWallet.IsOpen = false;
+                                OpenDualCoinWalletPopup();
+                            }
+                        });
                     });
-                });
+            };
         }
 
         private void Popup_Closed(object sender, System.EventArgs e) {

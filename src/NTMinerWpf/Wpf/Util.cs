@@ -54,6 +54,12 @@ namespace NTMiner.Wpf {
                         return;
                     }
                 }
+                if (scrollViewer.ComputedHorizontalScrollBarVisibility == Visibility.Visible) {
+                    Point p = e.GetPosition(scrollViewer);
+                    if (p.Y > scrollViewer.ActualHeight - SystemParameters.ScrollHeight) {
+                        return;
+                    }
+                }
                 Window.GetWindow(scrollViewer).DragMove();
                 e.Handled = true;
             }

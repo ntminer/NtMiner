@@ -1,5 +1,6 @@
 ﻿using NTMiner.Core;
 using NTMiner.Vms;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -29,14 +30,21 @@ namespace NTMiner.Views.Ucs {
             }
         }
 
+        private bool _isFirstLoaded = true;
         private CalcConfig() {
             InitializeComponent();
-            this.On<CalcConfigSetInitedEvent>("收益计算器数据集刷新后刷新VM", LogEnum.DevConsole,
-                action: message => {
-                    UIThread.Execute(() => {
-                        Vm.Refresh();
+            this.Loaded += (sender, e) => {
+                if (!_isFirstLoaded) {
+                    return;
+                }
+                _isFirstLoaded = false;
+                Window.GetWindow(this).On<CalcConfigSetInitedEvent>("收益计算器数据集刷新后刷新VM", LogEnum.DevConsole,
+                    action: message => {
+                        UIThread.Execute(() => {
+                            Vm.Refresh();
+                        });
                     });
-                });
+            };
         }
 
         private void ScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {

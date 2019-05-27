@@ -7,6 +7,7 @@
 			 xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 			 xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
 			 xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
+			 xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
 			 xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 			 d:DataContext="{d:DesignData Source=/Design/MinerStateViewModel.xaml}"
 			 mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="400">
@@ -18,7 +19,7 @@
 			<ColumnDefinition Width="{Binding SideWidth}"></ColumnDefinition>
 		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="110"></RowDefinition>
+			<RowDefinition Height="116"></RowDefinition>
 			<RowDefinition Height="*"></RowDefinition>
 		</Grid.RowDefinitions>
 		<Border Margin="0 4 4 0" Padding="10" Background="White">
@@ -83,15 +84,24 @@
 				</StackPanel>
 			</Grid>
 		</Border>
-		<Border Margin="4 6 4 0" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Padding="10" Background="White">
-			<StackPanel>
-				<TextBlock>GPU监控</TextBlock>
-			</StackPanel>
-		</Border>
+		<uc:SpeedCharts Margin="4 6 4 0" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Padding="4" Background="White"></uc:SpeedCharts>
 		<Border Margin="4 6 0 0" Grid.Row="1" Grid.Column="3" Padding="10" Background="White">
 			<StackPanel>
-				<TextBlock>主币算力</TextBlock>
-				<TextBlock>辅币算力</TextBlock>
+				<TextBlock FontSize="14">主币算力</TextBlock>
+				<WrapPanel>
+					<TextBlock FontSize="24" Padding="0 8" Text="{Binding StateBarVm.GpuSpeedVms.TotalSpeedVm.MainCoinSpeed.SpeedText}" />
+					<TextBlock Margin="4 0 0 0" VerticalAlignment="Bottom" Foreground="{Binding StateBarVm.GpuSpeedVms.TotalSpeedVm.MainCoinSpeed.LastSpeedOnForeground}" Text="{Binding StateBarVm.GpuSpeedVms.TotalSpeedVm.MainCoinSpeed.LastSpeedOnText}"></TextBlock>
+				</WrapPanel>
+				<TextBlock>24小时平均算力为</TextBlock>
+				<StackPanel Visibility="{Binding MinerProfile.CoinVm.CoinKernel.IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}">
+					<Border BorderThickness="0 1 0 0" Margin="0 10" BorderBrush="{StaticResource LineColor}"></Border>
+					<TextBlock FontSize="14">辅币算力</TextBlock>
+					<WrapPanel>
+						<TextBlock FontSize="24" Padding="0 10" Text="{Binding StateBarVm.GpuSpeedVms.TotalSpeedVm.DualCoinSpeed.SpeedText}" />
+						<TextBlock Margin="4 0 0 0" VerticalAlignment="Bottom" Foreground="{Binding StateBarVm.GpuSpeedVms.TotalSpeedVm.DualCoinSpeed.LastSpeedOnForeground}" Text="{Binding StateBarVm.GpuSpeedVms.TotalSpeedVm.DualCoinSpeed.LastSpeedOnText}"></TextBlock>
+					</WrapPanel>
+					<TextBlock>24小时平均算力为</TextBlock>
+				</StackPanel>
 			</StackPanel>
 		</Border>
 	</Grid>

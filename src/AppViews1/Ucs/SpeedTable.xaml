@@ -18,7 +18,7 @@
 			Background="Transparent" 
 			ColumnHeaderHeight="32"
 			HorizontalScrollBarVisibility="Auto"
-			MouseDoubleClick="DataGrid_MouseDoubleClick" BorderThickness="0">
+			BorderThickness="0">
 			<DataGrid.Resources>
 				<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
 			</DataGrid.Resources>
