@@ -15,7 +15,6 @@ namespace NTMiner.Views {
             }
         }
 
-        private bool _isFirstLoaded = true;
         public MainWindow() {
 #if DEBUG
             VirtualRoot.Stopwatch.Restart();
