@@ -33,10 +33,6 @@
 				Height="36"
 				KbSystemButtonSize="40"
 				KbSystemButtonForeground="#385263" />
-			<controls:KbSystemCloseButton 
-				Height="36"
-				KbSystemButtonSize="40"
-				KbSystemButtonForeground="#385263" />
 		</WrapPanel>
 		<DataGrid Grid.Row="1" ItemsSource="{Binding HandlerIds}">
 			<DataGrid.Columns>
