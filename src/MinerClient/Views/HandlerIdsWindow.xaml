@@ -9,7 +9,6 @@
 	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 	mc:Ignorable="d"
 	Title="处理器标识"
-	Topmost="True"
 	Width="1400"
 	Height="500"
 	Background="#EEECEF"
