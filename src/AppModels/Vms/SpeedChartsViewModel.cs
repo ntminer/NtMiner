@@ -3,7 +3,6 @@
 namespace NTMiner.Vms {
     public class SpeedChartsViewModel : ViewModelBase {
         private SpeedChartViewModel _currentSpeedChartVm;
-        private int _itemsPanelColumns = 2;
         private readonly SpeedChartViewModels _speedChartViewModels;
 
         public ICommand ChangeCurrentSpeedChartVm { get; private set; }
@@ -45,16 +44,6 @@ namespace NTMiner.Vms {
         public SpeedChartViewModels SpeedChartVms {
             get {
                 return _speedChartViewModels;
-            }
-        }
-
-        public int ItemsPanelColumns {
-            get => _itemsPanelColumns;
-            set {
-                if (_itemsPanelColumns != value) {
-                    _itemsPanelColumns = value;
-                    OnPropertyChanged(nameof(ItemsPanelColumns));
-                }
             }
         }
     }

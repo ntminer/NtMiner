@@ -113,7 +113,6 @@ namespace NTMiner.Views.Ucs {
                     });
                 });
 
-            Vm.ItemsPanelColumns = 1;
             SolidColorBrush White = new SolidColorBrush(Colors.White);
             Vm.PropertyChanged += (object sender, System.ComponentModel.PropertyChangedEventArgs e) => {
                 if (e.PropertyName == nameof(Vm.CurrentSpeedChartVm)) {

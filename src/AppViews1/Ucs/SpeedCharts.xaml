@@ -41,8 +41,8 @@
                 </ItemsControl.Resources>
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <UniformGrid Columns="{Binding ItemsPanelColumns}" VerticalAlignment="Top">
-                        </UniformGrid>
+                        <WrapPanel>
+                        </WrapPanel>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>

@@ -46,7 +46,7 @@
                 </ItemsControl.Resources>
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <UniformGrid Columns="{Binding ItemsPanelColumns}" VerticalAlignment="Top">
+                        <UniformGrid Columns="1" VerticalAlignment="Top">
                         </UniformGrid>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
