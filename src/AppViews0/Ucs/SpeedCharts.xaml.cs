@@ -41,7 +41,6 @@ namespace NTMiner.Views.Ucs {
             }
         }
 
-        private bool _isFirstLoaded = true;
         private readonly Dictionary<SpeedChartViewModel, CartesianChart> _chartDic = new Dictionary<SpeedChartViewModel, CartesianChart>();
         public SpeedCharts() {
             InitializeComponent();
@@ -49,11 +48,7 @@ namespace NTMiner.Views.Ucs {
                 return;
             }
             Guid mainCoinId = NTMinerRoot.Instance.MinerProfile.CoinId;
-            this.Loaded += (sender, e) => {
-                if (!_isFirstLoaded) {
-                    return;
-                }
-                _isFirstLoaded = false;
+            this.RunOneceOnLoaded(() => {
                 Window.GetWindow(this).On<GpuSpeedChangedEvent>("显卡算力变更后刷新算力图界面", LogEnum.DevConsole,
                     action: (message) => {
                         UIThread.Execute(() => {
@@ -118,7 +113,7 @@ namespace NTMiner.Views.Ucs {
                             }
                         });
                     });
-            };
+            });
 
             SolidColorBrush White = new SolidColorBrush(Colors.White);
             Vm.PropertyChanged += (object sender, System.ComponentModel.PropertyChangedEventArgs e) => {
