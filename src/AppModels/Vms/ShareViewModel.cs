@@ -15,6 +15,7 @@ namespace NTMiner.Vms {
             _acceptShareCount = share.AcceptShareCount;
             _rejectShareCount = share.RejectShareCount;
             _shareOn = share.ShareOn;
+            OnPropertyChanged(nameof(AcceptShareCount));
             OnPropertyChanged(nameof(TotalShareCount));
             OnPropertyChanged(nameof(RejectPercent));
             OnPropertyChanged(nameof(RejectPercentText));
