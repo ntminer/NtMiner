@@ -84,7 +84,7 @@
 				</StackPanel>
 			</Grid>
 		</Border>
-		<uc:SpeedCharts Margin="4 6 4 0" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Padding="10" Background="White"></uc:SpeedCharts>
+		<uc:SpeedCharts Margin="4 6 4 0" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Padding="4" Background="White"></uc:SpeedCharts>
 		<Border Margin="4 6 0 0" Grid.Row="1" Grid.Column="3" Padding="10" Background="White">
 			<StackPanel>
 				<TextBlock FontSize="14">主币算力</TextBlock>
