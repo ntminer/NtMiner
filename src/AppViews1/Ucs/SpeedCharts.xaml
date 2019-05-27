@@ -14,11 +14,6 @@
     <UserControl.DataContext>
         <vm:SpeedChartsViewModel></vm:SpeedChartsViewModel>
     </UserControl.DataContext>
-    <UserControl.Resources>
-        <Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
-            <Setter Property="Width" Value="40"></Setter>
-        </Style>
-    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
@@ -49,11 +44,14 @@
                             Background="{Binding ItemBackground}" 
                             KbButtonHoverBackground="White"
                             BorderThickness="0" Margin="0"
+                            Width="60"
+                            Height="40"
                             Command="{Binding Data.ChangeCurrentSpeedChartVm, Source={StaticResource proxy}}"
                             CommandParameter="{Binding}">
                             <Grid>
                                 <Border BorderThickness="1" BorderBrush="{StaticResource LineColor}" ToolTip="{Binding GpuSpeedVm.GpuVm.Name}">
-                                    <lvc:CartesianChart DisableAnimations="True"                                            
+                                    <lvc:CartesianChart 
+                                        DisableAnimations="True"                                            
                                         Hoverable="False" DataTooltip="{x:Null}"
                                         Series="{Binding Series}"
                                         AxisY="{Binding AxisY}"
