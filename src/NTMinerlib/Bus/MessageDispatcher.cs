@@ -6,7 +6,17 @@ namespace NTMiner.Bus {
     public class MessageDispatcher : IMessageDispatcher {
         private readonly Dictionary<Type, List<object>> _handlers = new Dictionary<Type, List<object>>();
         private readonly HashSet<string> _paths = new HashSet<string>();
+        private readonly List<IHandlerId> _handlerIds = new List<IHandlerId>();
         private readonly object _locker = new object();
+
+        public IEnumerable<IHandlerId> HandlerIds {
+            get {
+                return _handlerIds;
+            }
+        }
+
+        public event Action<IHandlerId> HandlerIdAdded;
+        public event Action<IHandlerId> HandlerIdRemoved;
 
         #region IMessageDispatcher Members
         public void DispatchMessage<TMessage>(TMessage message) {
@@ -74,6 +84,8 @@ namespace NTMiner.Bus {
                     var registeredHandlers = new List<dynamic> { handler };
                     _handlers.Add(keyType, registeredHandlers);
                 }
+                _handlerIds.Add(handler.HandlerId);
+                HandlerIdAdded?.Invoke(handler.HandlerId);
             }
         }
 
@@ -90,6 +102,8 @@ namespace NTMiner.Bus {
                     _handlers[keyType].Count > 0 &&
                     _handlers[keyType].Contains(handler)) {
                     _handlers[keyType].Remove(handler);
+                    _handlerIds.Remove(handlerId);
+                    HandlerIdRemoved?.Invoke(handlerId);
                     Write.DevDebug("拆除路径" + handler.HandlerId.HandlerPath);
                 }
             }

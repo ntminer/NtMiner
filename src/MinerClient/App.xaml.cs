@@ -66,6 +66,10 @@ namespace NTMiner {
                     Window splashWindow = AppViewFactory.CreateSplashWindow();
                     splashWindow.Show();
                     NotiCenterWindow.Instance.Show();
+                    if (DevMode.IsDevMode) {
+                        HandlerIdsWindow window = new HandlerIdsWindow();
+                        window.Show();
+                    }
                     if (!NTMiner.Windows.Role.IsAdministrator) {
                         NotiCenterWindowViewModel.Instance.Manager
                             .CreateMessage()

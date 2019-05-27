@@ -113,6 +113,7 @@
     <Compile Include="Vms\FragmentWriterSelectViewModel.cs" />
     <Compile Include="Vms\FileWriterSelectViewModel.cs" />
     <Compile Include="Vms\FragmentWriterViewModel.cs" />
+    <Compile Include="Vms\HandlerIdsWindowViewModel.cs" />
     <Compile Include="Vms\KernelOutputSelectViewModel.cs" />
     <Compile Include="Vms\KernelInputSelectViewModel.cs" />
     <Compile Include="Vms\SysDicItemSelectViewModel.cs" />
