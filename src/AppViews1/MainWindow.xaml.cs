@@ -71,6 +71,16 @@ namespace NTMiner.Views {
                         Vm.StateBarVm.PoolDelayText = message.PoolDelayText;
                     }
                 });
+            this.On<MineStartedEvent>("开始挖矿后将清空矿池延时", LogEnum.DevConsole,
+                action: message => {
+                    Vm.StateBarVm.PoolDelayText = string.Empty;
+                    Vm.StateBarVm.DualPoolDelayText = string.Empty;
+                });
+            this.On<MineStopedEvent>("停止挖矿后将清空矿池延时", LogEnum.DevConsole,
+                action: message => {
+                    Vm.StateBarVm.PoolDelayText = string.Empty;
+                    Vm.StateBarVm.DualPoolDelayText = string.Empty;
+                });
 #if DEBUG
             Write.DevWarn($"耗时{VirtualRoot.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
 #endif

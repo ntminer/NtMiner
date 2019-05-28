@@ -66,6 +66,16 @@ namespace NTMiner.Views {
                         Vm.StateBarVm.PoolDelayText = message.PoolDelayText;
                     }
                 });
+            this.On<MineStartedEvent>("开始挖矿后将清空矿池延时", LogEnum.DevConsole,
+                action: message => {
+                    Vm.StateBarVm.PoolDelayText = string.Empty;
+                    Vm.StateBarVm.DualPoolDelayText = string.Empty;
+                });
+            this.On<MineStopedEvent>("停止挖矿后将清空矿池延时", LogEnum.DevConsole,
+                action: message => {
+                    Vm.StateBarVm.PoolDelayText = string.Empty;
+                    Vm.StateBarVm.DualPoolDelayText = string.Empty;
+                });
             this.On<Per1MinuteEvent>("挖矿中时界面展示？分钟后切换为无界面模式", LogEnum.DevConsole,
                 action: message => {
                     if (NTMinerRoot.IsUiVisible && NTMinerRegistry.GetIsAutoNoUi()) {
