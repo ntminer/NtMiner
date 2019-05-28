@@ -1,5 +1,4 @@
 ﻿using NTMiner.Core.Gpus;
-using NTMiner.Core.Gpus.Impl;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -131,18 +130,18 @@ namespace NTMiner.Core.Kernels.Impl {
             return _dicById.Values.GetEnumerator();
         }
 
-        public void Pick(Guid kernelId, ref string input, IMineContext mineContext) {
+        public void Pick(Guid kernelOutputId, ref string input, IMineContext mineContext) {
             try {
                 InitOnece();
-                if (!_dicById.ContainsKey(kernelId)) {
+                if (!_dicById.TryGetValue(kernelOutputId, out KernelOutputData kernelOutput)) {
                     return;
                 }
                 if (string.IsNullOrEmpty(input)) {
                     return;
                 }
-                IKernelOutput kernelOutput = _dicById[kernelId];
                 ICoin coin = mineContext.MainCoin;
                 bool isDual = false;
+                // 如果是双挖上下文且当前输入行中没有主币关键字则视为双挖币
                 if ((mineContext is IDualMineContext dualMineContext) && !input.Contains(mineContext.MainCoin.Code)) {
                     isDual = true;
                     coin = dualMineContext.DualCoin;
@@ -155,6 +154,7 @@ namespace NTMiner.Core.Kernels.Impl {
                 PickRejectPattern(_root, input, kernelOutput, coin, isDual);
                 PickRejectOneShare(_root, input, kernelOutput, coin, isDual);
                 PickRejectPercent(_root, input, kernelOutput, coin, isDual);
+                // 如果是像BMiner那样的主币和双挖币的输出在同一行那样的模式则一行输出既要视为主币又要视为双挖币
                 if (isDual && kernelOutput.IsDualInSameLine) {
                     coin = mineContext.MainCoin;
                     isDual = false;
