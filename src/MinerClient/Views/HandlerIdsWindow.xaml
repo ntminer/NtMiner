@@ -28,6 +28,10 @@
 			<TextBlock FontSize="14" Padding="4" FontWeight="Bold" Text="{Binding HandlerIds.Count}"></TextBlock>
 		</WrapPanel>
 		<WrapPanel HorizontalAlignment="Right">
+			<controls:KbSystemMinButton
+				Height="34"
+				KbSystemButtonSize="40"
+				KbSystemButtonForeground="#385263" />
 			<controls:KbSystemMaxButton
 				Height="36"
 				KbSystemButtonSize="40"
