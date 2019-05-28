@@ -54,6 +54,14 @@ namespace NTMiner.Views {
                         Vm.ServerJsonVersion = Vm.GetServerJsonVersion();
                     });
             }
+            this.On<Per10MinuteEvent>("界面展示10分钟后切换为无界面模式", LogEnum.DevConsole,
+                action: message => {
+                    if (NTMinerRoot.Instance.IsMining) {
+                        if (NTMinerRoot.IsUiVisible && NTMinerRegistry.GetIsAutoNoUi()) {
+                            VirtualRoot.Execute(new CloseMainWindowCommand());
+                        }
+                    }
+                });
 #if DEBUG
             Write.DevWarn($"耗时{VirtualRoot.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
 #endif
