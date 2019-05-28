@@ -27,6 +27,18 @@ namespace NTMiner.Core {
         }
     }
 
+    [MessageType(description: "从内核输出中提取了矿池延时")]
+    public class PoolDelayPickedEvent : EventBase {
+        public PoolDelayPickedEvent(string poolDelay) {
+            this.PoolDelayText = poolDelay;
+        }
+
+        /// <summary>
+        /// 矿池延时只用于展示，没有其它用户所以是字符串
+        /// </summary>
+        public string PoolDelayText { get; private set; }
+    }
+
     #region profile Messages
     [MessageType(description: "MinerProfile设置变更后")]
     public class MinerProfilePropertyChangedEvent : EventBase {

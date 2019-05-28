@@ -146,6 +146,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     isDual = true;
                     coin = dualMineContext.DualCoin;
                 }
+                // 这些方法输出的是事件消息
                 PickTotalSpeed(_root, input, kernelOutput, coin, isDual);
                 PickGpuSpeed(_root, input, kernelOutput, coin, isDual);
                 PickTotalShare(_root, input, kernelOutput, coin, isDual);
@@ -154,6 +155,7 @@ namespace NTMiner.Core.Kernels.Impl {
                 PickRejectPattern(_root, input, kernelOutput, coin, isDual);
                 PickRejectOneShare(_root, input, kernelOutput, coin, isDual);
                 PickRejectPercent(_root, input, kernelOutput, coin, isDual);
+                PickPoolDelay(input, kernelOutput);
                 // 如果是像BMiner那样的主币和双挖币的输出在同一行那样的模式则一行输出既要视为主币又要视为双挖币
                 if (isDual && kernelOutput.IsDualInSameLine) {
                     coin = mineContext.MainCoin;
@@ -207,6 +209,18 @@ namespace NTMiner.Core.Kernels.Impl {
                         }
                     }
                 }
+            }
+        }
+
+        private static void PickPoolDelay(string input, IKernelOutput kernelOutput) {
+            string poolDelayPattern = kernelOutput.PoolDelayPattern;
+            if (string.IsNullOrEmpty(poolDelayPattern)) {
+                return;
+            }
+            Match match = Regex.Match(input, poolDelayPattern, RegexOptions.Compiled);
+            if (match.Success) {
+                string poolDelayText = match.Groups["poolDelay"].Value;
+                VirtualRoot.Happened(new PoolDelayPickedEvent(poolDelayText));
             }
         }
 
