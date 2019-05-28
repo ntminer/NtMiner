@@ -59,27 +59,35 @@ namespace NTMiner.Views {
             if (DevMode.IsDevMode) {
                 this.On<ServerJsonVersionChangedEvent>("开发者模式展示ServerJsonVersion", LogEnum.DevConsole,
                     action: message => {
-                        Vm.ServerJsonVersion = Vm.GetServerJsonVersion();
+                        UIThread.Execute(() => {
+                            Vm.ServerJsonVersion = Vm.GetServerJsonVersion();
+                        });
                     });
             }
             this.On<PoolDelayPickedEvent>("从内核输出中提取了矿池延时时展示到界面", LogEnum.DevConsole,
                 action: message => {
-                    if (message.IsDual) {
-                        Vm.StateBarVm.DualPoolDelayText = message.PoolDelayText;
-                    }
-                    else {
-                        Vm.StateBarVm.PoolDelayText = message.PoolDelayText;
-                    }
+                    UIThread.Execute(() => {
+                        if (message.IsDual) {
+                            Vm.StateBarVm.DualPoolDelayText = message.PoolDelayText;
+                        }
+                        else {
+                            Vm.StateBarVm.PoolDelayText = message.PoolDelayText;
+                        }
+                    });
                 });
             this.On<MineStartedEvent>("开始挖矿后将清空矿池延时", LogEnum.DevConsole,
                 action: message => {
-                    Vm.StateBarVm.PoolDelayText = string.Empty;
-                    Vm.StateBarVm.DualPoolDelayText = string.Empty;
+                    UIThread.Execute(() => {
+                        Vm.StateBarVm.PoolDelayText = string.Empty;
+                        Vm.StateBarVm.DualPoolDelayText = string.Empty;
+                    });
                 });
             this.On<MineStopedEvent>("停止挖矿后将清空矿池延时", LogEnum.DevConsole,
                 action: message => {
-                    Vm.StateBarVm.PoolDelayText = string.Empty;
-                    Vm.StateBarVm.DualPoolDelayText = string.Empty;
+                    UIThread.Execute(() => {
+                        Vm.StateBarVm.PoolDelayText = string.Empty;
+                        Vm.StateBarVm.DualPoolDelayText = string.Empty;
+                    });
                 });
 #if DEBUG
             Write.DevWarn($"耗时{VirtualRoot.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
