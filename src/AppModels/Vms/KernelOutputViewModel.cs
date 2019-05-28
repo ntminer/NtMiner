@@ -33,6 +33,7 @@ namespace NTMiner.Vms {
         private string _dualRejectPercentPattern;
 
         private string _translaterKeyword;
+        private string _poolDelayPattern;
 
         public ICommand Remove { get; private set; }
         public ICommand Edit { get; private set; }
@@ -72,6 +73,7 @@ namespace NTMiner.Vms {
             _dualRejectPercentPattern = data.DualRejectPercentPattern;
             _dualTotalSharePattern = data.DualTotalSharePattern;
             _dualTotalSpeedPattern = data.DualTotalSpeedPattern;
+            _poolDelayPattern = data.PoolDelayPattern;
         }
 
         public KernelOutputViewModel(Guid id) {
@@ -348,6 +350,16 @@ namespace NTMiner.Vms {
                 if (_dualGpuSpeedPattern != value) {
                     _dualGpuSpeedPattern = value;
                     OnPropertyChanged(nameof(DualGpuSpeedPattern));
+                }
+            }
+        }
+
+        public string PoolDelayPattern {
+            get => _poolDelayPattern;
+            set {
+                if (_poolDelayPattern != value) {
+                    _poolDelayPattern = value;
+                    OnPropertyChanged(nameof(PoolDelayPattern));
                 }
             }
         }
