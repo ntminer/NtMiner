@@ -284,7 +284,7 @@
 				Visibility="{Binding IsBrandVisible}"
 				VerticalAlignment="Center"
 				Background="Transparent"				
-				ItemsSource="{Binding SysDicItemVms.KernelBrandItems}"
+				ItemsSource="{Binding SysDicItemVms.KernelBrandsSelect}"
 				SelectedItem="{Binding BrandItem}"
 				ScrollViewer.HorizontalScrollBarVisibility="Disabled"
 				ScrollViewer.VerticalScrollBarVisibility="Disabled"

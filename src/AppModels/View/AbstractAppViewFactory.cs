@@ -17,7 +17,6 @@ namespace NTMiner.View {
                             _mainWindow.Show();
                             AppContext.Enable();
                             NTMinerRoot.IsUiVisible = true;
-                            NTMinerRoot.MainWindowRendedOn = DateTime.Now;
                             VirtualRoot.Happened(new MainWindowShowedEvent());
                             _mainWindow.Closed += (object sender, EventArgs e) => {
                                 NTMinerRoot.IsUiVisible = false;

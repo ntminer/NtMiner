@@ -44,7 +44,6 @@
                             Background="{Binding ItemBackground}" 
                             KbButtonHoverBackground="White"
                             BorderThickness="0" Margin="0"
-                            Width="60"
                             Height="40"
                             Command="{Binding Data.ChangeCurrentSpeedChartVm, Source={StaticResource proxy}}"
                             CommandParameter="{Binding}">

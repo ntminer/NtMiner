@@ -76,6 +76,7 @@ namespace NTMiner {
                 OnPropertyChanged(nameof(List));
                 OnPropertyChanged(nameof(Count));
                 OnPropertyChanged(nameof(KernelBrandItems));
+                OnPropertyChanged(nameof(KernelBrandsSelect));
                 OnPropertyChanged(nameof(PoolBrandItems));
                 OnPropertyChanged(nameof(AlgoItems));
             }
@@ -83,6 +84,19 @@ namespace NTMiner {
             public List<SysDicItemViewModel> KernelBrandItems {
                 get {
                     List<SysDicItemViewModel> list = new List<SysDicItemViewModel>();
+                    SysDicViewModel sysDic;
+                    if (AppContext.Instance.SysDicVms.TryGetSysDicVm("KernelBrand", out sysDic)) {
+                        list.AddRange(List.Where(a => a.DicId == sysDic.Id).OrderBy(a => a.SortNumber));
+                    }
+                    return list;
+                }
+            }
+
+            public List<SysDicItemViewModel> KernelBrandsSelect {
+                get {
+                    List<SysDicItemViewModel> list = new List<SysDicItemViewModel> {
+                        SysDicItemViewModel.PleaseSelect
+                    };
                     SysDicViewModel sysDic;
                     if (AppContext.Instance.SysDicVms.TryGetSysDicVm("KernelBrand", out sysDic)) {
                         list.AddRange(List.Where(a => a.DicId == sysDic.Id).OrderBy(a => a.SortNumber));

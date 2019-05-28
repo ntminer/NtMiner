@@ -310,10 +310,10 @@
 						<TabItem Header="事件" Style="{StaticResource TabItem1}">
 
 						</TabItem>
-						<TabItem Header="通知" Style="{StaticResource TabItem1}">
+						<TabItem Header="异常" Style="{StaticResource TabItem1}">
 
 						</TabItem>
-						<TabItem Header="异常" Style="{StaticResource TabItem1}">
+						<TabItem Header="公告" Style="{StaticResource TabItem1}">
 
 						</TabItem>
 					</TabControl>

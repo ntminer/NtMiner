@@ -21,6 +21,9 @@ namespace NTMiner.Views {
 #endif
             UIThread.StartTimer();
             InitializeComponent();
+            if (Design.IsInDesignMode) {
+                return;
+            }
             this.StateChanged += (s, e) => {
                 if (Vm.MinerProfile.IsShowInTaskbar) {
                     ShowInTaskbar = true;
@@ -54,6 +57,17 @@ namespace NTMiner.Views {
                         Vm.ServerJsonVersion = Vm.GetServerJsonVersion();
                     });
             }
+            this.On<Per1MinuteEvent>("挖矿中时界面展示？分钟后切换为无界面模式", LogEnum.DevConsole,
+                action: message => {
+                    if (NTMinerRoot.IsUiVisible && NTMinerRegistry.GetIsAutoNoUi()) {
+                        var mineContext = NTMinerRoot.Instance.CurrentMineContext;
+                        if (mineContext != null) {
+                            if (mineContext.CreatedOn.AddMinutes(NTMinerRegistry.GetAutoNoUiMinutes()) < message.Timestamp) {
+                                VirtualRoot.Execute(new CloseMainWindowCommand());
+                            }
+                        }
+                    }
+                });
 #if DEBUG
             Write.DevWarn($"耗时{VirtualRoot.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
 #endif
