@@ -54,10 +54,10 @@ namespace NTMiner.Views {
                         Vm.ServerJsonVersion = Vm.GetServerJsonVersion();
                     });
             }
-            this.On<Per10MinuteEvent>("界面展示10分钟后切换为无界面模式", LogEnum.DevConsole,
+            this.On<Per1MinuteEvent>("挖矿中时界面展示？分钟后切换为无界面模式", LogEnum.DevConsole,
                 action: message => {
-                    if (NTMinerRoot.Instance.IsMining) {
-                        if (NTMinerRoot.IsUiVisible && NTMinerRegistry.GetIsAutoNoUi()) {
+                    if (NTMinerRoot.IsUiVisible && NTMinerRegistry.GetIsAutoNoUi()) {
+                        if (NTMinerRoot.MainWindowRendedOn.AddMinutes(NTMinerRegistry.GetAutoNoUiMinutes()) < message.Timestamp) {
                             VirtualRoot.Execute(new CloseMainWindowCommand());
                         }
                     }
