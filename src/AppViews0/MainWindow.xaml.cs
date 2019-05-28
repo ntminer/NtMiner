@@ -59,7 +59,12 @@ namespace NTMiner.Views {
             }
             this.On<PoolDelayPickedEvent>("从内核输出中提取了矿池延时时展示到界面", LogEnum.DevConsole,
                 action: message => {
-                    Vm.StateBarVm.PoolDelayText = message.PoolDelayText;
+                    if (message.IsDual) {
+                        Vm.StateBarVm.DualPoolDelayText = message.PoolDelayText;
+                    }
+                    else {
+                        Vm.StateBarVm.PoolDelayText = message.PoolDelayText;
+                    }
                 });
             this.On<Per1MinuteEvent>("挖矿中时界面展示？分钟后切换为无界面模式", LogEnum.DevConsole,
                 action: message => {

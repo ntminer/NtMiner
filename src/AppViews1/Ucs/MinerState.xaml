@@ -45,7 +45,7 @@
 				</WrapPanel>
 				<WrapPanel>
 					<TextBlock>矿池延迟</TextBlock>
-					<TextBlock Margin="4 0 0 0">TODO:</TextBlock>
+					<TextBlock Margin="4 0 0 0" Text="{Binding StateBarVm.PoolDelayText}"></TextBlock>
 				</WrapPanel>
 			</StackPanel>
 		</Border>
