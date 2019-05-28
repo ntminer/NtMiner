@@ -247,7 +247,7 @@
 								Visibility="{Binding MinerProfile.CoinVm.CoinProfile.IsHideWallet, Converter={StaticResource BoolToVisibilityConverter}}" />
 						</Grid>
 					</WrapPanel>					
-					<WrapPanel Grid.Column="1" HorizontalAlignment="Left" Visibility="{Binding MinerProfile.CoinVm.CoinKernel.IsSupportPool1, Converter={StaticResource BoolToVisibilityConverter}}">
+					<Border Grid.Column="1" HorizontalAlignment="Left" Visibility="{Binding MinerProfile.CoinVm.CoinKernel.IsSupportPool1, Converter={StaticResource BoolToVisibilityConverter}}">
 						<WrapPanel Visibility="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool1.IsUserMode, Converter={StaticResource BoolToVisibilityConverter}}">
 							<TextBlock Style="{StaticResource LblTb}" Text="备池账户" Width="Auto"></TextBlock>
 							<Grid>
@@ -270,7 +270,7 @@
 									Visibility="{Binding MinerProfile.CoinVm.CoinProfile.IsHideWallet, Converter={StaticResource BoolToVisibilityConverter}}" />
 							</Grid>
 						</WrapPanel>
-					</WrapPanel>					
+					</Border>					
 				</Grid>
 
 				<Grid Margin="0 2"
@@ -420,11 +420,11 @@
 						</WrapPanel>
 					</WrapPanel>
 				</WrapPanel>
-				<WrapPanel
+				<Border
 					x:Name="DualContainer"
 					IsVisibleChanged="DualContainer_IsVisibleChanged"
 					Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
-				</WrapPanel>
+				</Border>
 
 				<WrapPanel Margin="0 2 0 0" VerticalAlignment="Center">
 					<TextBlock
