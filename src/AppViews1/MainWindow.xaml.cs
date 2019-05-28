@@ -62,6 +62,10 @@ namespace NTMiner.Views {
                         Vm.ServerJsonVersion = Vm.GetServerJsonVersion();
                     });
             }
+            this.On<PoolDelayPickedEvent>("从内核输出中提取了矿池延时时展示到界面", LogEnum.DevConsole,
+                action: message => {
+                    Vm.StateBarVm.PoolDelayText = message.PoolDelayText;
+                });
 #if DEBUG
             Write.DevWarn($"耗时{VirtualRoot.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
 #endif
