@@ -190,7 +190,7 @@
 							<TextBlock Padding="1 0" Text="/天" Foreground="{StaticResource LableColor}" />
 						</WrapPanel>
 					</controls:KbButton>
-					<WrapPanel Width="160">
+					<WrapPanel Width="170">
 						<Label Padding="0 0 4 0" Content="拒绝" Style="{StaticResource Lbl}" />
 						<TextBlock Text="{Binding MinerProfile.CoinVm.ShareVm.RejectShareCount}" ToolTip="拒绝次数" />
 						<Label Padding="1" Content="/" Foreground="{StaticResource LableColor}" />
@@ -248,7 +248,7 @@
 								<TextBlock Padding="1 0" Text="/天" Foreground="{StaticResource LableColor}" />
 							</WrapPanel>
 						</controls:KbButton>
-						<WrapPanel Width="160">
+						<WrapPanel Width="170">
 							<Label Padding="0 0 4 0" Content="拒绝" Style="{StaticResource Lbl}" />
 							<TextBlock Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.RejectShareCount}" ToolTip="拒绝次数" />
 							<Label Padding="1" Content="/" Foreground="{StaticResource LableColor}" />
