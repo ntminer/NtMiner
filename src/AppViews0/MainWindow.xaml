@@ -195,7 +195,7 @@
 				Grid.Row="0" 
 				Background="{StaticResource MinerProfileBackground}"
 				Padding="0 4 8 0"
-				Margin="0 28 0 0"
+				Margin="0 4 0 0"
 				BorderThickness="0 1 0 0"
 				BorderBrush="{StaticResource LineColor}">
 				<Grid x:Name="GridMineStart">
