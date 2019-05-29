@@ -45,12 +45,6 @@
 				</CheckBox>
 			</WrapPanel>
 
-			<WrapPanel Margin="6 2 0 0">
-				<TextBlock Style="{StaticResource LblTb}" Text="矿池延时正则(不区分主辅)"></TextBlock>
-				<TextBox Style="{StaticResource TbRegex}" Text="{Binding PoolDelayPattern}">
-				</TextBox>
-			</WrapPanel>
-
 			<GroupBox Header="主币">
 				<StackPanel>
 					<WrapPanel Margin="0 2">
@@ -91,6 +85,11 @@
 					<WrapPanel Margin="0 2">
 						<TextBlock Style="{StaticResource LblTb}" Text="显卡算力正则"></TextBlock>
 						<TextBox Style="{StaticResource TbRegex}" Text="{Binding GpuSpeedPattern}">
+						</TextBox>
+					</WrapPanel>
+					<WrapPanel Margin="0 2">
+						<TextBlock Style="{StaticResource LblTb}" Text="矿池延时正则"></TextBlock>
+						<TextBox Style="{StaticResource TbRegex}" Text="{Binding PoolDelayPattern}">
 						</TextBox>
 					</WrapPanel>
 				</StackPanel>
@@ -143,6 +142,11 @@
 					<WrapPanel Margin="0 2">
 						<TextBlock Style="{StaticResource LblTb}" Text="显卡算力正则"></TextBlock>
 						<TextBox Style="{StaticResource TbRegex}" Text="{Binding DualGpuSpeedPattern}">
+						</TextBox>
+					</WrapPanel>
+					<WrapPanel Margin="0 2">
+						<TextBlock Style="{StaticResource LblTb}" Text="矿池延时正则"></TextBlock>
+						<TextBox Style="{StaticResource TbRegex}" Text="{Binding DualPoolDelayPattern}">
 						</TextBox>
 					</WrapPanel>
 				</StackPanel>

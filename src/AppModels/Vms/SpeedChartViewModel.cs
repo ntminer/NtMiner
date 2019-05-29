@@ -2,7 +2,6 @@
 using LiveCharts.Configurations;
 using LiveCharts.Wpf;
 using System;
-using System.Windows;
 using System.Windows.Media;
 
 namespace NTMiner.Vms {
@@ -172,29 +171,6 @@ namespace NTMiner.Vms {
                     OnPropertyChanged(nameof(AxisXShadow));
                 }
             }
-        }
-
-        private static readonly SolidColorBrush s_background = (SolidColorBrush)Application.Current.Resources["MinerProfileBackground"];
-        private static readonly SolidColorBrush s_selectedColor = new SolidColorBrush(Colors.White);
-        private SolidColorBrush _itemBackground = s_background;
-        public SolidColorBrush ItemBackground {
-            get {
-                return _itemBackground;
-            }
-            set {
-                if (_itemBackground != value) {
-                    _itemBackground = value;
-                    OnPropertyChanged(nameof(ItemBackground));
-                }
-            }
-        }
-
-        public void SetSelectedBackground() {
-            ItemBackground = s_selectedColor;
-        }
-
-        public void SetDefaultBackground() {
-            ItemBackground = s_background;
         }
 
         public void SetAxisLimits(DateTime now) {

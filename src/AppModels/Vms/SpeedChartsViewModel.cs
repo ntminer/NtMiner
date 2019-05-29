@@ -1,28 +1,10 @@
-﻿using System.Windows.Input;
-
-namespace NTMiner.Vms {
+﻿namespace NTMiner.Vms {
     public class SpeedChartsViewModel : ViewModelBase {
         private SpeedChartViewModel _currentSpeedChartVm;
         private readonly SpeedChartViewModels _speedChartViewModels;
 
-        public ICommand ChangeCurrentSpeedChartVm { get; private set; }
-
         public SpeedChartsViewModel() {
             _speedChartViewModels = new SpeedChartViewModels();
-            this.ChangeCurrentSpeedChartVm = new DelegateCommand<SpeedChartViewModel>((speedChartVm) =>
-            {
-                SetCurrentSpeedChartVm(speedChartVm);
-            });
-        }
-
-        public void SetCurrentSpeedChartVm(SpeedChartViewModel speedChartVm) {
-            if (this.CurrentSpeedChartVm != null) {
-                this.CurrentSpeedChartVm.SetDefaultBackground();
-            }
-            this.CurrentSpeedChartVm = speedChartVm;
-            if (speedChartVm != null) {
-                this.CurrentSpeedChartVm.SetSelectedBackground();
-            }
         }
 
         public AppContext.MinerProfileViewModel MinerProfile {

@@ -6,6 +6,9 @@ namespace NTMiner.Vms {
     public class SpeedViewModel : ViewModelBase, ISpeed {
         private double _speed;
         private DateTime _speedOn;
+        private string _speedValueText = "0.0";
+        private string _speedUnit = "H/s";
+        private string _speedText = "0.0 H/s";
 
         public SpeedViewModel(ISpeed speed) {
             this.Value = speed.Value;
@@ -22,14 +25,35 @@ namespace NTMiner.Vms {
                 if (_speed != value) {
                     _speed = value;
                     OnPropertyChanged(nameof(Value));
-                    OnPropertyChanged(nameof(SpeedText));
+                    value.ToUnitSpeedText(out string speedValueText, out string speedUnit);
+                    this.SpeedValueText = speedValueText;
+                    this.SpeedUnit = speedUnit;
+                    this.SpeedText = $"{speedValueText} {speedUnit}";
                 }
             }
         }
 
         public string SpeedText {
-            get {
-                return Value.ToUnitSpeedText();
+            get => _speedText;
+            private set {
+                _speedText = value;
+                OnPropertyChanged(nameof(SpeedText));
+            }
+        }
+
+        public string SpeedValueText {
+            get => _speedValueText;
+            private set {
+                _speedValueText = value;
+                OnPropertyChanged(nameof(SpeedValueText));
+            }
+        }
+
+        public string SpeedUnit {
+            get => _speedUnit;
+            private set {
+                _speedUnit = value;
+                OnPropertyChanged(nameof(SpeedUnit));
             }
         }
 

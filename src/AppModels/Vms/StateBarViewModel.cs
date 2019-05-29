@@ -9,6 +9,8 @@ namespace NTMiner.Vms {
         private TimeSpan _bootTimeSpan = TimeSpan.Zero;
         private SolidColorBrush _checkUpdateForeground;
         private Visibility _isNoticeVisible = Visibility.Collapsed;
+        private string _poolDelayText;
+        private string _dualPoolDelayText;
 
         public ICommand ConfigControlCenterHost { get; private set; }
 
@@ -90,6 +92,22 @@ namespace NTMiner.Vms {
             set {
                 _isNoticeVisible = value;
                 OnPropertyChanged(nameof(IsNoticeVisible));
+            }
+        }
+
+        public string PoolDelayText {
+            get { return _poolDelayText; }
+            set {
+                _poolDelayText = value;
+                OnPropertyChanged(nameof(PoolDelayText));
+            }
+        }
+
+        public string DualPoolDelayText {
+            get { return _dualPoolDelayText; }
+            set {
+                _dualPoolDelayText = value;
+                OnPropertyChanged(nameof(DualPoolDelayText));
             }
         }
 
