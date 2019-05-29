@@ -23,6 +23,7 @@ namespace NTMiner {
         public static string ServerVersion;
         public static Action RefreshArgsAssembly = () => { };
         public static bool IsUiVisible;
+        public static DateTime MainWindowRendedOn = DateTime.MinValue;
 
         public static bool IsUseDevConsole = false;
         // ReSharper disable once InconsistentNaming

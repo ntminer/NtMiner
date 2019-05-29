@@ -86,12 +86,9 @@ namespace NTMiner.Views {
                 });
             this.On<Per1MinuteEvent>("挖矿中时界面展示？分钟后切换为无界面模式", LogEnum.DevConsole,
                 action: message => {
-                    if (NTMinerRoot.IsUiVisible && NTMinerRegistry.GetIsAutoNoUi()) {
-                        var mineContext = NTMinerRoot.Instance.CurrentMineContext;
-                        if (mineContext != null) {
-                            if (mineContext.CreatedOn.AddMinutes(NTMinerRegistry.GetAutoNoUiMinutes()) < message.Timestamp) {
-                                VirtualRoot.Execute(new CloseMainWindowCommand());
-                            }
+                    if (NTMinerRoot.IsUiVisible && NTMinerRegistry.GetIsAutoNoUi() && NTMinerRoot.Instance.IsMining) {
+                        if (NTMinerRoot.MainWindowRendedOn.AddMinutes(NTMinerRegistry.GetAutoNoUiMinutes()) < message.Timestamp) {
+                            VirtualRoot.Execute(new CloseMainWindowCommand());
                         }
                     }
                 });
