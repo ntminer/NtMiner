@@ -38,15 +38,22 @@
 		<Border Margin="4 4 4 0" Grid.Column="1" Padding="10" Background="White">
 			<StackPanel>
 				<TextBlock FontSize="14" FontWeight="Bold">矿池接受率（确认/拒绝）</TextBlock>
-				<WrapPanel Margin="0 8">
+				<WrapPanel Margin="0 8 0 0">
+					<TextBlock VerticalAlignment="Bottom">主币</TextBlock>
 					<TextBlock FontSize="22" Text="{Binding MinerProfile.CoinVm.ShareVm.AcceptShareCount}"></TextBlock>
 					<TextBlock FontSize="22">/</TextBlock>
 					<TextBlock FontSize="22" Text="{Binding MinerProfile.CoinVm.ShareVm.RejectShareCount}"></TextBlock>
+					<TextBlock VerticalAlignment="Bottom" Text="{Binding StateBarVm.PoolDelayText}"></TextBlock>
 				</WrapPanel>
-				<WrapPanel>
-					<TextBlock>矿池延迟</TextBlock>
-					<TextBlock Margin="4 0 0 0" Text="{Binding StateBarVm.PoolDelayText}"></TextBlock>
-				</WrapPanel>
+				<Border Margin="0 8 0 0" Visibility="{Binding MinerProfile.CoinVm.CoinKernel.IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}">
+					<WrapPanel Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
+						<TextBlock VerticalAlignment="Bottom">辅币</TextBlock>
+						<TextBlock FontSize="22" Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.AcceptShareCount}"></TextBlock>
+						<TextBlock FontSize="22">/</TextBlock>
+						<TextBlock FontSize="22" Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.RejectShareCount}"></TextBlock>
+						<TextBlock VerticalAlignment="Bottom" Text="{Binding StateBarVm.DualPoolDelayText}"></TextBlock>
+					</WrapPanel>
+				</Border>
 			</StackPanel>
 		</Border>
 		<Border Margin="4 4 4 0" Grid.Column="2" Padding="10" Background="White">
