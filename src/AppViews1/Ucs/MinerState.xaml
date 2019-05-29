@@ -71,13 +71,13 @@
 					<WrapPanel>
 						<TextBlock>主币</TextBlock>
 						<controls:KbLinkButton
-						    Padding="0"
-						    Margin="4 0 0 0"
-						    Command="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.ViewPoolIncome}"
-						    CommandParameter="{Binding MinerProfile.CoinVm.CoinProfile.SelectedWallet}"
-						    KbDisplayLine="False"
-						    KbSystemButtonHoverBackground="Transparent"
-						    Background="Transparent">
+							Padding="0"
+							Margin="4 0 0 0"
+							Command="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.ViewPoolIncome}"
+							CommandParameter="{Binding MinerProfile.CoinVm.CoinProfile.SelectedWallet}"
+							KbDisplayLine="False"
+							KbSystemButtonHoverBackground="Transparent"
+							Background="Transparent">
 							<TextBlock Text="矿池收益" Foreground="{StaticResource LinkForeground}"></TextBlock>
 						</controls:KbLinkButton>
 						<TextBlock Margin="4 0 0 0" Foreground="{Binding StateBarVm.GpuSpeedVms.TotalSpeedVm.MainCoinSpeed.LastSpeedOnForeground}" Text="{Binding StateBarVm.GpuSpeedVms.TotalSpeedVm.MainCoinSpeed.LastSpeedOnText}"></TextBlock>
@@ -88,7 +88,10 @@
 						<TextBlock FontSize="20" Text="{Binding MinerProfile.CoinVm.ShareVm.RejectShareCount}"></TextBlock>
 						<TextBlock VerticalAlignment="Bottom" Text="{Binding StateBarVm.PoolDelayText}"></TextBlock>
 					</WrapPanel>
-					<TextBlock FontSize="22" Text="{Binding StateBarVm.GpuSpeedVms.TotalSpeedVm.MainCoinSpeed.SpeedText}" />
+					<WrapPanel>
+						<TextBlock FontSize="22" Text="{Binding StateBarVm.GpuSpeedVms.TotalSpeedVm.MainCoinSpeed.SpeedValueText}" />
+						<TextBlock Margin="4 0 0 0" VerticalAlignment="Bottom" Text="{Binding StateBarVm.GpuSpeedVms.TotalSpeedVm.MainCoinSpeed.SpeedUnit}" />
+					</WrapPanel>
 					<TextBlock>24小时平均算力为</TextBlock>
 				</StackPanel>
 				<Border Grid.Row="1" Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -114,7 +117,10 @@
 							<TextBlock FontSize="20" Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.RejectShareCount}"></TextBlock>
 							<TextBlock VerticalAlignment="Bottom" Text="{Binding StateBarVm.DualPoolDelayText}"></TextBlock>
 						</WrapPanel>
-						<TextBlock FontSize="20" Text="{Binding StateBarVm.GpuSpeedVms.TotalSpeedVm.DualCoinSpeed.SpeedText}" />
+						<WrapPanel>
+							<TextBlock FontSize="20" Text="{Binding StateBarVm.GpuSpeedVms.TotalSpeedVm.DualCoinSpeed.SpeedValueText}" />
+							<TextBlock Margin="4 0 0 0" VerticalAlignment="Bottom" Text="{Binding StateBarVm.GpuSpeedVms.TotalSpeedVm.DualCoinSpeed.SpeedUnit}" />
+						</WrapPanel>
 						<TextBlock>24小时平均算力为</TextBlock>
 					</StackPanel>
 				</Border>
