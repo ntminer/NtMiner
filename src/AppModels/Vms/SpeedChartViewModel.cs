@@ -174,8 +174,8 @@ namespace NTMiner.Vms {
             }
         }
 
-        private static readonly SolidColorBrush s_background = (SolidColorBrush)Application.Current.Resources["MinerProfileBackground"];
-        private static readonly SolidColorBrush s_selectedColor = new SolidColorBrush(Colors.White);
+        private static readonly SolidColorBrush s_background = new SolidColorBrush(Colors.White);
+        private static readonly SolidColorBrush s_selectedColor = (SolidColorBrush)Application.Current.Resources["ThemeBackground"];
         private SolidColorBrush _itemBackground = s_background;
         public SolidColorBrush ItemBackground {
             get {

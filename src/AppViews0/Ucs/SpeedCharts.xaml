@@ -19,7 +19,7 @@
             <Setter Property="Width" Value="40"></Setter>
         </Style>
     </UserControl.Resources>
-    <Grid>
+    <Grid Margin="4 0 0 0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" MinWidth="220"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
@@ -32,13 +32,10 @@
             Grid.Row="0" 
             Grid.Column="0" 
             Grid.RowSpan="2" 
-            Background="{StaticResource MinerProfileBackground}" 
             VerticalScrollBarVisibility="Auto" 
             PreviewMouseDown="ScrollViewer_PreviewMouseDown">
             <ItemsControl 
                 x:Name="LvGpus"
-                BorderThickness="0 0 1 0" 
-                BorderBrush="{StaticResource LineColor}"
                 ItemsSource="{Binding SpeedChartVms}" 
                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                 <ItemsControl.Resources>
@@ -53,9 +50,9 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <controls:KbButton 
-                            Background="{Binding ItemBackground}" 
-                            KbButtonHoverBackground="White"
-                            BorderThickness="0" Margin="0"
+                            Background="White"
+                            BorderBrush="{Binding ItemBackground}"
+                            BorderThickness="2 0 0 0" Margin="0"
                             Command="{Binding Data.ChangeCurrentSpeedChartVm, Source={StaticResource proxy}}"
                             CommandParameter="{Binding}">
                             <Grid>
