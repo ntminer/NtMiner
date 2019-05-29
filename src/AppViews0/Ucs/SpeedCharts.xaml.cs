@@ -29,7 +29,7 @@ namespace NTMiner.Views.Ucs {
                     SpeedChartsViewModel vm = (SpeedChartsViewModel)uc.DataContext;
                     SpeedChartViewModel item = vm.SpeedChartVms.FirstOrDefault(a => a.GpuSpeedVm == gpuSpeedVm);
                     if (item != null) {
-                        vm.SetCurrentSpeedChartVm(item);
+                        vm.CurrentSpeedChartVm = item;
                     }
                 }
             }, fixedSize: false);
@@ -147,7 +147,7 @@ namespace NTMiner.Views.Ucs {
                 }
             };
 
-            Vm.SetCurrentSpeedChartVm(Vm.SpeedChartVms.FirstOrDefault());
+            Vm.CurrentSpeedChartVm = Vm.SpeedChartVms.FirstOrDefault();
 
             if (AppContext.Instance.MinerProfileVm.CoinVm != null) {
                 Guid coinId = AppContext.Instance.MinerProfileVm.CoinId;

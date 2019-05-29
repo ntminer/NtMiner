@@ -52,9 +52,7 @@
                         <controls:KbButton 
                             Background="White"
                             BorderBrush="{Binding ItemBackground}"
-                            BorderThickness="2 0 0 0" Margin="0"
-                            Command="{Binding Data.ChangeCurrentSpeedChartVm, Source={StaticResource proxy}}"
-                            CommandParameter="{Binding}">
+                            BorderThickness="2 0 0 0" Margin="0">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"></ColumnDefinition>

@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Media;
 
 namespace NTMiner.Views.Ucs {
@@ -123,7 +122,7 @@ namespace NTMiner.Views.Ucs {
                 }
             };
 
-            Vm.SetCurrentSpeedChartVm(Vm.SpeedChartVms.FirstOrDefault());
+            Vm.CurrentSpeedChartVm = Vm.SpeedChartVms.FirstOrDefault();
 
             if (AppContext.Instance.MinerProfileVm.CoinVm != null) {
                 Guid coinId = AppContext.Instance.MinerProfileVm.CoinId;
@@ -166,10 +165,6 @@ namespace NTMiner.Views.Ucs {
                     speedChartVm.SetAxisLimits(now);
                 }
             }
-        }
-
-        private void ScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
-            Wpf.Util.ScrollViewer_PreviewMouseDown(sender, e);
         }
     }
 }
