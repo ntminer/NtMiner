@@ -17,7 +17,7 @@ namespace NTMiner.Views.Ucs {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel() {
                 Title = "算力图",
                 IconName = "Icon_Speed",
-                Width = 860,
+                Width = 760,
                 Height = 520,
                 CloseVisible = Visibility.Visible,
                 FooterVisible = Visibility.Collapsed
