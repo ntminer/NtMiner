@@ -186,7 +186,6 @@
 		<Grid Grid.Row="1" Background="{StaticResource MinerProfileBackground}">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto"></ColumnDefinition>
-				<ColumnDefinition Width="16"></ColumnDefinition>
 				<ColumnDefinition Width="*"></ColumnDefinition>
 			</Grid.ColumnDefinitions>
 			<Grid.RowDefinitions>
@@ -195,11 +194,9 @@
 			</Grid.RowDefinitions>
 			<Border 
 				x:Name="MinerProfileContainerLeft" 
-				Grid.Column="0" 
-				Width="342"
-				Margin="0 0 -14 0"				
+				Grid.Column="0" 			
 				Grid.Row="0" 
-				Padding="0 4 0 0"
+				Padding="0 4 8 0"
 				BorderThickness="0 1 0 0"
 				BorderBrush="{StaticResource LineColor}">
 				<Grid x:Name="GridMineStart">
@@ -262,14 +259,40 @@
 						<uc:StartStopMineButton Margin="0 -2 0 0" StartButtonBackground="{StaticResource ThemeBackground}" StartButtonForeground="{StaticResource ThemeForeground}">
 						</uc:StartStopMineButton>
 					</WrapPanel>
-					<uc:MinerProfileIndex 
+					<ScrollViewer 
 						Grid.Row="1" 
-						HorizontalAlignment="Left"
-						IsEnabled="{Binding MinerProfile.IsWorker,Converter={StaticResource BoolInvertConverter}}"/>
+						VerticalScrollBarVisibility="Auto" 
+						PreviewMouseDown="ScrollViewer_PreviewMouseDown">
+						<ScrollViewer.Resources>
+							<sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">8</sys:Double>
+							<sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarButtonHeightKey}">0</sys:Double>
+						</ScrollViewer.Resources>
+						<ScrollViewer.ContextMenu>
+							<ContextMenu>
+								<MenuItem 
+									Visibility="{Binding MinerProfile.CoinVm.CoinProfile.IsHideWallet, Converter={StaticResource BoolToVisibilityConverter}}"
+									Header="显示用户名和钱包"
+									Background="Transparent" BorderThickness="0"
+									Command="{Binding MinerProfile.CoinVm.CoinProfile.ShowWallet}"
+									HorizontalAlignment="Left">
+								</MenuItem>
+								<MenuItem 
+									Visibility="{Binding MinerProfile.CoinVm.CoinProfile.IsShowWallet, Converter={StaticResource BoolToVisibilityConverter}}"
+									Header="隐藏用户名和钱包"
+									Background="Transparent" BorderThickness="0"
+									Command="{Binding MinerProfile.CoinVm.CoinProfile.HideWallet}"
+									HorizontalAlignment="Left">
+								</MenuItem>
+							</ContextMenu>
+						</ScrollViewer.ContextMenu>
+						<uc:MinerProfileIndex 
+							HorizontalAlignment="Left"
+							IsEnabled="{Binding MinerProfile.IsWorker,Converter={StaticResource BoolInvertConverter}}"/>
+					</ScrollViewer>
 				</Grid>
 			</Border>
 
-			<Border Grid.Column="2" BorderThickness="0" Margin="0 -2 0 0" Padding="0 0 0 0" Background="{StaticResource ThemeBackground}">
+			<Border Grid.Column="1" BorderThickness="0" Margin="0 -2 0 0" Padding="0 0 0 0" Background="{StaticResource ThemeBackground}">
 				<TabControl
 					Padding="0"
 					SelectionChanged="TabControl_SelectionChanged"
@@ -541,39 +564,6 @@
 					</TabItem>
 				</TabControl>
 			</Border>
-			<Grid Grid.Column="1" HorizontalAlignment="Right" Margin="0 0 -2 0" Background="{StaticResource MinerProfileBackground}">
-				<controls:KbButton 
-					x:Name="BtnLeftTriangle"
-					Click="BtnLeftTriangle_Click"
-					VerticalAlignment="Center"
-					BorderThickness="0"
-					Padding="0"
-					Background="Transparent"
-					CornerRadius="2">
-					<Path
-						Width="10"
-						Height="23"
-						Data="{StaticResource Icon_LeftTriangle1}"
-						Fill="Black"
-						Stretch="Fill" />
-				</controls:KbButton>
-				<controls:KbButton 
-					x:Name="BtnRightTriangle"
-					Click="BtnRightTriangle_Click"
-					Visibility="Collapsed"
-					VerticalAlignment="Center"
-					BorderThickness="0"
-					Padding="0"
-					Background="Transparent"
-					CornerRadius="2">
-					<Path
-						Width="10"
-						Height="23"
-						Data="{StaticResource Icon_RightTriangle1}"
-						Fill="Black"
-						Stretch="Fill" />
-				</controls:KbButton>
-			</Grid>
 			<!--下状态栏-->
 			<uc:StateBar 
 				Grid.Row="1" 

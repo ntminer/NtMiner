@@ -211,10 +211,6 @@ namespace NTMiner.Views.Ucs {
             }
         }
 
-        private void ScrollViewer_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            Wpf.Util.ScrollViewer_PreviewMouseDown(sender, e);
-        }
-
         private void DualContainer_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e) {
             if (DualContainer.Visibility == Visibility.Visible && DualContainer.Child == null) {
                 MinerProfileDual child = new MinerProfileDual();

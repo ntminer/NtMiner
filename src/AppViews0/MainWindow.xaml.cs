@@ -121,8 +121,6 @@ namespace NTMiner.Views {
         }
 
         private void Collapse() {
-            BtnRightTriangle.Visibility = Visibility.Visible;
-            BtnLeftTriangle.Visibility = Visibility.Collapsed;
             MinerProfileContainerLeft.Visibility = Visibility.Collapsed;
             MinerProfileContainerLeft.Child = null;
             MinerProfileContainerRight.Child = GridMineStart;
@@ -130,8 +128,6 @@ namespace NTMiner.Views {
         }
 
         private void Expand() {
-            BtnRightTriangle.Visibility = Visibility.Collapsed;
-            BtnLeftTriangle.Visibility = Visibility.Visible;
             MinerProfileContainerLeft.Visibility = Visibility.Visible;
             MinerProfileContainerRight.Child = null;
             MinerProfileContainerLeft.Child = GridMineStart;
@@ -172,6 +168,10 @@ namespace NTMiner.Views {
                     SpeedTableContainer.Child = new SpeedTable();
                 }
             }
+        }
+
+        private void ScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
+            Wpf.Util.ScrollViewer_PreviewMouseDown(sender, e);
         }
 
         private void NTMinerLogo_MouseDown(object sender, MouseButtonEventArgs e) {
