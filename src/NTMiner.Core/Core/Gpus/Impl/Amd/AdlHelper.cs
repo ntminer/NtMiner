@@ -87,7 +87,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
             }
         }
 
-        public ulong GetTotalMemory(int gpuIndex) {
+        public ulong GetTotalMemoryByIndex(int gpuIndex) {
             try {
                 int adapterIndex = GpuIndexToAdapterIndex(_gpuNames, gpuIndex);
                 ADLMemoryInfo adlt = new ADLMemoryInfo();

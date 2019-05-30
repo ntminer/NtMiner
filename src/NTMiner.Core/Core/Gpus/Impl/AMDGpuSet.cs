@@ -44,7 +44,7 @@ namespace NTMiner.Core.Gpus.Impl {
                     name = name.Replace("Radeon RX ", string.Empty);
                 }
                 var gpu = Gpu.Create(i, name);
-                gpu.TotalMemory = adlHelper.GetTotalMemory(i);
+                gpu.TotalMemory = adlHelper.GetTotalMemoryByIndex(i);
                 _gpus.Add(i, gpu);
             }
             if (deviceCount > 0) {
