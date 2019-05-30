@@ -174,7 +174,38 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
             try {
                 int result = ADL.ADL2_OverdriveN_PowerLimit_Get(context, adapterIndex, ref lpODPowerLimit);
                 if (result == ADL.ADL_OK) {
+                    lpODPowerLimit.iMode = ADL.ODNControlType_Manual;
                     lpODPowerLimit.iTDPLimit = value - 100;
+                    ADL.ADL2_OverdriveN_PowerLimit_Set(context, adapterIndex, ref lpODPowerLimit);
+                }
+            }
+            catch {
+            }
+        }
+
+        public int GetTempLimitByIndex(int gpuIndex) {
+            int adapterIndex = GpuIndexToAdapterIndex(_gpuNames, gpuIndex);
+            ADLODNPowerLimitSetting lpODPowerLimit = new ADLODNPowerLimitSetting();
+            try {
+                int result = ADL.ADL2_OverdriveN_PowerLimit_Get(context, adapterIndex, ref lpODPowerLimit);
+                if (result == ADL.ADL_OK) {
+                    return lpODPowerLimit.iMaxOperatingTemperature;
+                }
+                return 0;
+            }
+            catch {
+                return 0;
+            }
+        }
+
+        public void SetTempLimitByIndex(int gpuIndex, int value) {
+            int adapterIndex = GpuIndexToAdapterIndex(_gpuNames, gpuIndex);
+            ADLODNPowerLimitSetting lpODPowerLimit = new ADLODNPowerLimitSetting();
+            try {
+                int result = ADL.ADL2_OverdriveN_PowerLimit_Get(context, adapterIndex, ref lpODPowerLimit);
+                if (result == ADL.ADL_OK) {
+                    lpODPowerLimit.iMode = ADL.ODNControlType_Manual;
+                    lpODPowerLimit.iMaxOperatingTemperature = value;
                     ADL.ADL2_OverdriveN_PowerLimit_Set(context, adapterIndex, ref lpODPowerLimit);
                 }
             }

@@ -81,6 +81,13 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
         public int iMaxOperatingTemperature;
     }
 
+    enum ADLODNControlType {
+        ODNControlType_Current = 0,
+        ODNControlType_Default,
+        ODNControlType_Auto,
+        ODNControlType_Manual
+    };
+
     internal class ADL {
         public const int ADL_MAX_PATH = 256;
         public const int ADL_MAX_ADAPTERS = 40;
@@ -101,6 +108,11 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
         public const int ADL_DL_FANCTRL_SUPPORTS_RPM_READ = 4;
         public const int ADL_DL_FANCTRL_SUPPORTS_RPM_WRITE = 8;
         public const int ADL_DL_FANCTRL_FLAG_USER_DEFINED_SPEED = 1;
+
+        public const int ODNControlType_Current = 0;
+        public const int ODNControlType_Default = 1;
+        public const int ODNControlType_Auto = 2;
+        public const int ODNControlType_Manual = 3;
 
         public const int ATI_VENDOR_ID = 0x1002;
 

@@ -121,10 +121,10 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="40" IsReadOnly="True">
+				<DataGridTemplateColumn Width="40" IsReadOnly="True">
 					<DataGridTemplateColumn.HeaderTemplate>
 						<DataTemplate>
-							<TextBlock Text="功耗" FontSize="12"></TextBlock>
+							<TextBlock Text="超频功耗" TextWrapping="Wrap" FontSize="12"></TextBlock>
 						</DataTemplate>
 					</DataGridTemplateColumn.HeaderTemplate>
 					<DataGridTemplateColumn.CellTemplate>
@@ -133,14 +133,36 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="40" Header="核心" IsReadOnly="True">
+				<DataGridTemplateColumn Width="40" IsReadOnly="True">
+					<DataGridTemplateColumn.HeaderTemplate>
+						<DataTemplate>
+							<TextBlock Text="超频温度" TextWrapping="Wrap" FontSize="12"></TextBlock>
+						</DataTemplate>
+					</DataGridTemplateColumn.HeaderTemplate>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding GpuVm.TempLimitText}"></TextBlock>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn Width="40" IsReadOnly="True">
+					<DataGridTemplateColumn.HeaderTemplate>
+						<DataTemplate>
+							<TextBlock Text="超频核心" TextWrapping="Wrap" FontSize="12"></TextBlock>
+						</DataTemplate>
+					</DataGridTemplateColumn.HeaderTemplate>
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding GpuVm.CoreClockDeltaMText}"></TextBlock>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="40" Header="显存" IsReadOnly="True">
+				<DataGridTemplateColumn Width="40" IsReadOnly="True">
+					<DataGridTemplateColumn.HeaderTemplate>
+						<DataTemplate>
+							<TextBlock Text="超频显存" TextWrapping="Wrap" FontSize="12"></TextBlock>
+						</DataTemplate>
+					</DataGridTemplateColumn.HeaderTemplate>
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding GpuVm.MemoryClockDeltaMText}"></TextBlock>
