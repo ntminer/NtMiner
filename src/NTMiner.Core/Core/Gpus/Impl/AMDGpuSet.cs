@@ -48,6 +48,7 @@ namespace NTMiner.Core.Gpus.Impl {
                 _gpus.Add(i, gpu);
             }
             if (deviceCount > 0) {
+                this.DriverVersion = adlHelper.GetDriverVersion();
                 this.Properties.Add(new GpuSetProperty(GpuSetProperty.DRIVER_VERSION, "驱动版本", DriverVersion));
                 Dictionary<string, string> kvs = new Dictionary<string, string> {
                     {"GPU_FORCE_64BIT_PTR","0" },
@@ -98,20 +99,7 @@ namespace NTMiner.Core.Gpus.Impl {
             }
         }
 
-        public string DriverVersion { get; private set; } = GetDriverVersion();
-
-        private static string GetDriverVersion() {
-            try {
-                ManagementObjectSearcher videos = new ManagementObjectSearcher("select DriverVersion from Win32_VideoController");
-                foreach (var obj in videos.Get()) {
-                    return obj[GpuSetProperty.DRIVER_VERSION]?.ToString();
-                }
-            }
-            catch (Exception e) {
-                Logger.ErrorDebugLine(e);
-            }
-            return "0.0";
-        }
+        public string DriverVersion { get; private set; }
 
         public bool TryGetGpu(int index, out IGpu gpu) {
             return _gpus.TryGetValue(index, out gpu);

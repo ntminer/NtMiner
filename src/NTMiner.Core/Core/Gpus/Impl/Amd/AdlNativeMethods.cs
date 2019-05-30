@@ -81,12 +81,17 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
         public int iMaxOperatingTemperature;
     }
 
-    enum ADLODNControlType {
-        ODNControlType_Current = 0,
-        ODNControlType_Default,
-        ODNControlType_Auto,
-        ODNControlType_Manual
-    };
+    [StructLayout(LayoutKind.Sequential)]
+    struct ADLVersionsInfoX2 {
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = ADL.ADL_MAX_PATH)]
+        public string strDriverVer;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = ADL.ADL_MAX_PATH)]
+        public string strCatalystVersion;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = ADL.ADL_MAX_PATH)]
+        public string strCrimsonVersion;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = ADL.ADL_MAX_PATH)]
+        public string strCatalystWebLink;
+    }
 
     internal class ADL {
         public const int ADL_MAX_PATH = 256;
@@ -135,6 +140,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
         internal delegate int ADL2_OverdriveN_PowerLimit_SetDelegate(IntPtr context, int iAdapterIndex, ref ADLODNPowerLimitSetting lpODPowerLimit);
         internal delegate int ADL2_Overdrive6_CurrentPower_GetDelegate(IntPtr context, int iAdapterIndex, int iPowerType, ref int lpCurrentValue);
         internal delegate int ADL_Adapter_MemoryInfo_GetDelegate(int iAdapterIndex, ref ADLMemoryInfo lpMemoryInfo);
+        internal delegate int ADL2_Graphics_VersionsX2_GetDelegate(IntPtr context, ref ADLVersionsInfoX2 lpVersionsInfo);
 
         private static ADL_Main_Control_CreateDelegate _ADL_Main_Control_Create;
         public static ADL2_Main_Control_CreateDelegate ADL2_Main_Control_Create;
@@ -155,6 +161,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
         public static ADL2_Overdrive6_CurrentPower_GetDelegate ADL2_Overdrive6_CurrentPower_Get;
         public static ADL2_OverdriveN_PowerLimit_SetDelegate ADL2_OverdriveN_PowerLimit_Set;
         public static ADL_Adapter_MemoryInfo_GetDelegate ADL_Adapter_MemoryInfo_Get;
+        public static ADL2_Graphics_VersionsX2_GetDelegate ADL2_Graphics_VersionsX2_Get;
         private static string dllName;
 
         private static void GetDelegate<T>(string entryPoint, out T newDelegate)
@@ -188,6 +195,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
             GetDelegate(nameof(ADL2_Overdrive6_CurrentPower_Get), out ADL2_Overdrive6_CurrentPower_Get);
             GetDelegate(nameof(ADL2_OverdriveN_PowerLimit_Set), out ADL2_OverdriveN_PowerLimit_Set);
             GetDelegate(nameof(ADL_Adapter_MemoryInfo_Get), out ADL_Adapter_MemoryInfo_Get);
+            GetDelegate(nameof(ADL2_Graphics_VersionsX2_Get), out ADL2_Graphics_VersionsX2_Get);
         }
 
         static ADL() {

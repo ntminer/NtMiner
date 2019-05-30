@@ -67,6 +67,20 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
             get { return _gpuNames.Count; }
         }
 
+        public string GetDriverVersion() {
+            ADLVersionsInfoX2 lpVersionInfo = new ADLVersionsInfoX2();
+            try {
+                int result = ADL.ADL2_Graphics_VersionsX2_Get(context, ref lpVersionInfo);
+#if DEBUG
+                Write.DevDebug($"result={result},strDriverVer={lpVersionInfo.strDriverVer},strCatalystVersion={lpVersionInfo.strCatalystVersion},strCrimsonVersion={lpVersionInfo.strCrimsonVersion},strCatalystWebLink={lpVersionInfo.strCatalystWebLink}");
+#endif
+                return lpVersionInfo.strCrimsonVersion;
+            }
+            catch {
+                return "0.0";
+            }
+        }
+
         // 将GPUIndex转换为AdapterIndex
         private static int GpuIndexToAdapterIndex(List<ATIGPU> gpuNames, int gpuIndex) {
             if (gpuIndex >= gpuNames.Count) {
