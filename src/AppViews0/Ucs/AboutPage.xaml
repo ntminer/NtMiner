@@ -50,11 +50,11 @@
 		</StackPanel>
 		<StackPanel Grid.Row="2" HorizontalAlignment="Center">
 			<WrapPanel HorizontalAlignment="Center">
-				<Label>NTMiner</Label>
-				<Label>|</Label>
-				<Label Content="版权所有"></Label>
-				<Label>|</Label>
-				<Label Content="LGPL"></Label>
+				<TextBlock Padding="4">NTMiner</TextBlock>
+				<TextBlock Padding="4">|</TextBlock>
+				<TextBlock Padding="4" Text="版权所有"></TextBlock>
+				<TextBlock Padding="4">|</TextBlock>
+				<TextBlock Padding="4" Text="LGPL"></TextBlock>
 			</WrapPanel>
 			<WrapPanel>
 				<TextBlock>Copyright</TextBlock>

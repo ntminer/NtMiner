@@ -91,10 +91,10 @@
 							Data="{StaticResource Icon_Kernel}"
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
-						<Label
+						<TextBlock
 							Padding="0 4"
 							VerticalAlignment="Center"
-							Content="内核参级数"
+							Text="内核参级数"
 							Foreground="{StaticResource LableColor}" />
 					</WrapPanel>
 				</controls:KbLinkButton>

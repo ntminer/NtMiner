@@ -270,7 +270,7 @@
 			<GroupBox>
 				<GroupBox.Header>
 					<WrapPanel>
-						<Label>作业</Label>
+						<TextBlock VerticalAlignment="Center">作业</TextBlock>
 						<controls:KbButton  
 							Command="{Binding MineWorkVms.Add}" 
 							Background="Transparent" 
@@ -346,7 +346,7 @@
 				<GroupBox>
 					<GroupBox.Header>
 						<WrapPanel>
-							<Label>分组</Label>
+							<TextBlock VerticalAlignment="Center">分组</TextBlock>
 							<controls:KbButton  
 								Command="{Binding MinerGroupVms.Add}" 
 								Background="Transparent" 
@@ -2043,16 +2043,16 @@
 							Data="{StaticResource Icon_Refresh}"></Path>
 					</Button>
 					<Button Command="{Binding PageLast}" IsEnabled="{Binding IsPageDownEnabled}" Margin="4 0 0 0">尾页</Button>
-					<Label>第</Label>
+					<TextBlock VerticalAlignment="Center">第</TextBlock>
 					<TextBox VerticalContentAlignment="Center" Padding="4 0" Text="{Binding MinerClientPageIndex}"></TextBox>
-					<Label>/</Label>
+					<TextBlock VerticalAlignment="Center">/</TextBlock>
 					<TextBlock VerticalAlignment="Center" Text="{Binding MinerClientPageCount}"></TextBlock>
-					<Label>页，每页</Label>
+					<TextBlock VerticalAlignment="Center">页，每页</TextBlock>
 					<controls:KbComboBox ItemsSource="{Binding PageSizeItems}" SelectedItem="{Binding MinerClientPageSize}">
 					</controls:KbComboBox>
-					<Label>条，共</Label>
+					<TextBlock VerticalAlignment="Center">条，共</TextBlock>
 					<TextBlock VerticalAlignment="Center" Text="{Binding MinerClientTotal}"></TextBlock>
-					<Label>条</Label>
+					<TextBlock VerticalAlignment="Center">条</TextBlock>
 
 					<controls:KbComboBox Margin="4 0 0 0" ToolTip="冻结列" ItemsSource="{Binding FrozenColumns}" SelectedItem="{Binding FrozenColumnCount}">
 					</controls:KbComboBox>

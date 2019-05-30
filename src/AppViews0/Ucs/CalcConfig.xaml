@@ -33,10 +33,6 @@
 				BorderThickness="0"
 				ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 				<ItemsControl.Resources>
-					<Style TargetType="Label">
-						<Setter Property="VerticalContentAlignment" Value="Center"></Setter>
-						<Setter Property="Height" Value="30"></Setter>
-					</Style>
 					<Style TargetType="TextBlock">
 						<Setter Property="TextAlignment" Value="Right"></Setter>
 					</Style>
@@ -56,7 +52,7 @@
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
 						<WrapPanel Margin="0 4">
-							<Label Content="算力"></Label>
+							<TextBlock Text="算力" VerticalAlignment="Center"></TextBlock>
 							<TextBox Text="{Binding Speed, ValidatesOnExceptions=True}">
 							</TextBox>
 							<controls:KbComboBox 
@@ -74,14 +70,10 @@
 								Data="{StaticResource Icon_ArrowRight}"
 								Fill="{StaticResource IconFillColor}"
 								Stretch="Fill"/>
-							<Label Content="收益"></Label>
+							<TextBlock Text="收益" VerticalAlignment="Center"></TextBlock>
 							<TextBox Text="{Binding IncomePerDay, ValidatesOnExceptions=True}"></TextBox>
-							<Label>
-								<WrapPanel>
-									<TextBlock Text="{Binding CoinCode}"></TextBlock>
-									<TextBlock Text="/天"></TextBlock>
-								</WrapPanel>
-							</Label>
+							<TextBlock Text="{Binding CoinCode}" VerticalAlignment="Center"></TextBlock>
+							<TextBlock Text="/天" VerticalAlignment="Center"></TextBlock>
 						</WrapPanel>
 					</DataTemplate>
 				</ItemsControl.ItemTemplate>

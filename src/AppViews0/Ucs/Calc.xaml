@@ -40,7 +40,7 @@
 			</ListBox.ItemTemplate>
 		</ListBox>
 		<WrapPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-			<Label Content="算力"></Label>
+			<TextBlock Text="算力" VerticalAlignment="Center"></TextBlock>
 			<TextBox Width="60" Text="{Binding Speed, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center"></TextBox>
 			<controls:KbComboBox 
 				Height="30"

@@ -128,13 +128,13 @@
 							Data="{StaticResource Icon_Restart}"
 							Fill="{StaticResource ThemeForeground}"
 							Stretch="Fill" />
-						<Label 
+						<TextBlock 
 							Width="60"
 							Padding="4"
 							Background="{StaticResource ThemeBackground}"
 							Foreground="{StaticResource ThemeForeground}"
 							VerticalAlignment="Center"
-							Content="立即重启" />
+							Text="立即重启" />
 					</WrapPanel>
 				</controls:KbButton>
 			</WrapPanel>

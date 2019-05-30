@@ -16,10 +16,6 @@
                 <ResourceDictionary Source="pack://application:,,,/NTMinerWpf;component/Styles/KbDataGrid.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/NTMinerWpf;component/Notifications/Themes/Generic.xaml" />
             </ResourceDictionary.MergedDictionaries>
-
-            <Style TargetType="Label">
-                <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
-            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

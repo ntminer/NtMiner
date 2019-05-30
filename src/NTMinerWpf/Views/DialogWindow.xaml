@@ -65,16 +65,16 @@
                         Data="{StaticResource Icon_Ok}"
                         Fill="{StaticResource ThemeForeground}"
                         Stretch="Fill" />
-                    <Label
+                    <TextBlock
                         FontSize="14"
+                        Padding="0 4"
                         Foreground="{StaticResource ThemeForeground}"
                         VerticalAlignment="Center"
-                        Content="好" />
+                        Text="好" />
                 </WrapPanel>
             </controls:KbButton>
             <controls:KbButton 
                 Padding="10 0" 
-                Width="80" 
                 Margin="10 0"
                 x:Name="BtnYes"
                 Click="KbYesButton_Click"
@@ -89,16 +89,16 @@
                         Data="{StaticResource Icon_Ok}"
                         Fill="{StaticResource ThemeForeground}"
                         Stretch="Fill" />
-                    <Label
+                    <TextBlock
                         FontSize="14"
+                        Padding="0 4"
                         Foreground="{StaticResource ThemeForeground}"
                         VerticalAlignment="Center"
-                        Content="是" />
+                        Text="是" />
                 </WrapPanel>
             </controls:KbButton>
             <controls:KbButton 
                 Padding="10 0" 
-                Width="80" 
                 Margin="10 0"
                 x:Name="BtnNo"
                 Click="KbNoButton_Click"
@@ -112,11 +112,12 @@
                         Data="{StaticResource Icon_Close}"
                         Fill="White"
                         Stretch="Fill" />
-                    <Label
+                    <TextBlock
                         FontSize="14"
+                        Padding="0 4"
                         Foreground="White"
                         VerticalAlignment="Center"
-                        Content="否" />
+                        Text="否" />
                 </WrapPanel>
             </controls:KbButton>
         </WrapPanel>

@@ -14,7 +14,7 @@
 	</UserControl.DataContext>
 	<StackPanel VerticalAlignment="Center">
 		<WrapPanel Margin="0 10 0 0">
-			<Label Width="120" HorizontalContentAlignment="Right" Foreground="{StaticResource LableColor}">升级器文件名：</Label>
+			<TextBlock Width="120" TextAlignment="Right" Foreground="{StaticResource LableColor}">升级器文件名：</TextBlock>
 			<TextBox Width="200" Text="{Binding FileName, ValidatesOnExceptions=True}" VerticalAlignment="Center"></TextBox>
 		</WrapPanel>
 		<TextBlock 

@@ -51,7 +51,7 @@
 					<RowDefinition Height="Auto"></RowDefinition>
 					<RowDefinition Height="Auto"></RowDefinition>
 				</Grid.RowDefinitions>
-				<Label Grid.Row="0" Grid.Column="0" Margin="0 2" Content="服务器" HorizontalContentAlignment="Right" Foreground="{StaticResource LableColor}"></Label>
+				<TextBlock Grid.Row="0" Grid.Column="0" Margin="0 2" Text="服务器" TextAlignment="Right" VerticalAlignment="Center" Foreground="{StaticResource LableColor}"></TextBlock>
 
 				<WrapPanel Grid.Row="0" Grid.Column="1" Margin="0 2">
 					<TextBox x:Name="TextBoxServerHost" ToolTip="IP或域名" Padding="0 0 20 0" Width="166" Height="26" VerticalContentAlignment="Center" Text="{Binding ServerHost}">
@@ -67,7 +67,7 @@
 							Fill="Black"
 							Stretch="Fill" />
 					</Button>
-					<TextBlock Padding="0" Text=":" VerticalAlignment="Center"></TextBlock>
+					<TextBlock Padding="2 0 0 0" Text=":" VerticalAlignment="Center"></TextBlock>
 					<TextBlock Padding="0" Text="{Binding Port}" ToolTip="端口" VerticalAlignment="Center"></TextBlock>
 				</WrapPanel>
 				<Popup 
@@ -77,37 +77,37 @@
 					Placement="Bottom" 
 					StaysOpen="False"></Popup>
 
-				<Label 
+				<TextBlock 
 					Grid.Row="1" Grid.Column="0" Margin="0 2" 
 					Visibility="{Binding IsInnerIp,Converter={StaticResource BoolToHiddenInvertConverter}}"
-					Content="登录名" HorizontalContentAlignment="Right" 
-					Foreground="{StaticResource LableColor}"></Label>
+					Text="登录名" TextAlignment="Right" VerticalAlignment="Center"
+					Foreground="{StaticResource LableColor}"></TextBlock>
 				<TextBox 
-					Grid.Row="1" Grid.Column="1" Margin="0 2" 
+					Grid.Row="1" Grid.Column="1" Margin="0 2" Height="26"
 					Visibility="{Binding IsInnerIp,Converter={StaticResource BoolToHiddenInvertConverter}}"
 					Text="{Binding LoginName}" Background="White" 
 					VerticalContentAlignment="Center"></TextBox>
 				<TextBlock 
-					Grid.Row="1" Grid.Column="1" Margin="0 2"
-					Visibility="{Binding IsInnerIp,Converter={StaticResource BoolToHiddenConverter}}">内网免登录</TextBlock>
+					Grid.Row="1" Grid.Column="1" Margin="0 2" 
+					Visibility="{Binding IsInnerIp,Converter={StaticResource BoolToHiddenConverter}}">内网免密码</TextBlock>
 
-				<Label 
+				<TextBlock 
 					Grid.Row="2" Grid.Column="0" Margin="0 2" 
 					Visibility="{Binding IsInnerIp,Converter={StaticResource BoolToHiddenInvertConverter}}"
-					Content="密码" HorizontalContentAlignment="Right" Foreground="{StaticResource LableColor}"></Label>
+					Text="密码" TextAlignment="Right" VerticalAlignment="Center" Foreground="{StaticResource LableColor}"></TextBlock>
 				<PasswordBox 
 					Visibility="{Binding IsInnerIp,Converter={StaticResource BoolToHiddenInvertConverter}}"
-					Grid.Row="2" Grid.Column="1" Margin="0 2" 
+					Grid.Row="2" Grid.Column="1" Margin="0 2" Height="26"
 					x:Name="PbPassword" VerticalContentAlignment="Center" Background="White" controls:PasswordBoxHelper.Attach="true" controls:PasswordBoxHelper.Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-				<Label 
+				<TextBlock 
 					Grid.Row="3" Grid.Column="0" 
-					Visibility="{Binding IsPasswordAgainVisible}"
-					Margin="0 2" Content="重复密码" HorizontalContentAlignment="Right" Foreground="{StaticResource LableColor}"></Label>
+					Visibility="{Binding IsPasswordAgainVisible}" VerticalAlignment="Center"
+					Margin="0 2" Text="重复密码" TextAlignment="Right" Foreground="{StaticResource LableColor}"></TextBlock>
 				<PasswordBox 
 					x:Name="PbPasswordAgain"
 					Grid.Row="3" Grid.Column="1" 
-					Visibility="{Binding IsPasswordAgainVisible}"
+					Visibility="{Binding IsPasswordAgainVisible}" Height="26"
 					Margin="0 2" VerticalContentAlignment="Center" Background="White" controls:PasswordBoxHelper.Attach="true" controls:PasswordBoxHelper.Password="{Binding PasswordAgain, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 				<WrapPanel Grid.Row="4" Grid.Column="2" Margin="0 8 0 0">
 					<controls:KbButton
@@ -125,10 +125,11 @@
 								Data="{StaticResource Icon_Ok}"
 								Fill="{StaticResource ThemeForeground}"
 								Stretch="Fill" />
-							<Label
+							<TextBlock
+								Padding="0 4"
 								VerticalAlignment="Center"
 								Foreground="{StaticResource ThemeForeground}"
-								Content="登录" />
+								Text="登录" />
 						</WrapPanel>
 					</controls:KbButton>
 					<controls:KbButton
@@ -146,10 +147,11 @@
 								Data="{StaticResource Icon_Ok}"
 								Fill="{StaticResource ThemeForeground}"
 								Stretch="Fill" />
-							<Label
+							<TextBlock
+								Padding="0 4"
 								VerticalAlignment="Center"
 								Foreground="{StaticResource ThemeForeground}"
-								Content="激活" />
+								Text="激活" />
 						</WrapPanel>
 					</controls:KbButton>
 				</WrapPanel>

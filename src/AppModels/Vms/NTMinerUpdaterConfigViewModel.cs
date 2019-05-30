@@ -9,6 +9,9 @@ namespace NTMiner.Vms {
         public Action CloseWindow { get; set; }
 
         public NTMinerUpdaterConfigViewModel() {
+            if (Design.IsInDesignMode) {
+                return;
+            }
             this.Save = new DelegateCommand(() => {
                 try {
                     if (string.IsNullOrEmpty(this.FileName)) {
