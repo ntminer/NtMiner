@@ -221,7 +221,6 @@
 			<TextBlock Style="{StaticResource LblTb}" Text="用户名"></TextBlock>
 			<Grid>
 				<TextBox 
-					Height="26"
 					Width="136"
 					Background="{Binding IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
 					IsEnabled="{Binding IsMining, Converter={StaticResource BoolInvertConverter}}"

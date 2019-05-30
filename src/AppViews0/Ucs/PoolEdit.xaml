@@ -112,10 +112,10 @@
 								IsChecked="{Binding IsUserMode}" />
 							<WrapPanel Visibility="{Binding IsUserMode,Converter={StaticResource BoolToHiddenConverter}}">
 								<TextBlock Margin="8 0 0 0" VerticalAlignment="Center">测试用户名</TextBlock>
-								<TextBox Width="180" Height="26" IsReadOnly="{Binding IsReadOnly}" VerticalContentAlignment="Center" Text="{Binding UserName}">
+								<TextBox Width="180" IsReadOnly="{Binding IsReadOnly}" VerticalContentAlignment="Center" Text="{Binding UserName}">
 								</TextBox>
 								<TextBlock Margin="4 0 0 0" VerticalAlignment="Center">密码</TextBlock>
-								<TextBox Width="100" Height="26" IsReadOnly="{Binding IsReadOnly}" VerticalContentAlignment="Center" Text="{Binding Password}">
+								<TextBox Width="100" IsReadOnly="{Binding IsReadOnly}" VerticalContentAlignment="Center" Text="{Binding Password}">
 								</TextBox>
 							</WrapPanel>
 						</WrapPanel>

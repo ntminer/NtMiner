@@ -44,7 +44,7 @@
 		<StackPanel Grid.Row="1">
 			<WrapPanel Margin="0 10 0 2">
 				<TextBlock Style="{StaticResource LblTb}">IP</TextBlock>
-				<TextBox Width="200" Height="24" Text="{Binding LeftIp, ValidatesOnExceptions=True}">
+				<TextBox Width="200" Text="{Binding LeftIp, ValidatesOnExceptions=True}">
 				</TextBox>
 			</WrapPanel>
 			<WrapPanel Margin="0 2">
@@ -54,7 +54,7 @@
 			<StackPanel Margin="0 2" Visibility="{Binding IsIpRange,Converter={StaticResource BoolToVisibilityConverter}}">
 				<WrapPanel>
 					<TextBlock Style="{StaticResource LblTb}">IP</TextBlock>
-					<TextBox Width="200" Height="24" Text="{Binding RightIp, ValidatesOnExceptions=True}">
+					<TextBox Width="200" Text="{Binding RightIp, ValidatesOnExceptions=True}">
 					</TextBox>
 				</WrapPanel>
 			</StackPanel>

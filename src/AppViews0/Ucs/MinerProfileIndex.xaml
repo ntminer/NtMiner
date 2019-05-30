@@ -205,7 +205,6 @@
 				<TextBlock Style="{StaticResource LblTb}" Text="主池账户"></TextBlock>
 				<Grid>
 					<TextBox 
-						Height="26"
 						Width="110"
 						Background="{Binding MinerProfile.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
 						IsReadOnly="{Binding MinerProfile.IsMining}"
@@ -228,7 +227,6 @@
 					<TextBlock Style="{StaticResource LblTb}" Text="备池账户" Width="Auto"></TextBlock>
 					<Grid>
 						<TextBox 
-							Height="26"
 							Width="110"
 							Background="{Binding MinerProfile.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
 							IsReadOnly="{Binding MinerProfile.IsMining}"
@@ -407,7 +405,6 @@
 				Style="{StaticResource LblTb}"
 				Text="高级参数" />
 			<TextBox 
-				Height="26"
 				Width="274"
 				VerticalContentAlignment="Center"
 				Background="{Binding MinerProfile.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"

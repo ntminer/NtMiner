@@ -215,7 +215,6 @@
 								TextWrapping="Wrap"
 								Text="矿机名"></TextBlock>
 							<TextBox 
-								Height="26"
 								Width="106" 
 								Padding="3 0 0 0"
 								Background="{Binding MinerProfile.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"

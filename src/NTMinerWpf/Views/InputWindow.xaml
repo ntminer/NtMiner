@@ -37,7 +37,7 @@
 		<StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
 			<WrapPanel>
 				<TextBlock x:Name="TbTitle" Margin="0 0 4 0" VerticalAlignment="Center"></TextBlock>
-				<TextBox x:Name="TbText" Width="200" Height="30" VerticalContentAlignment="Center"></TextBox>
+				<TextBox x:Name="TbText" Width="200" VerticalContentAlignment="Center"></TextBox>
 			</WrapPanel>
 			<TextBlock x:Name="TbMessage" HorizontalAlignment="Center" Visibility="Hidden" Foreground="Red"></TextBlock>
 			<controls:KbButton

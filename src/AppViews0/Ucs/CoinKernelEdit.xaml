@@ -109,7 +109,6 @@
 			<TextBlock Style="{StaticResource LblTb}" Text="币种级参数"></TextBlock>
 			<TextBox 
 				VerticalContentAlignment="Center"
-				Height="30"
 				Width="436" Background="Transparent"
 				IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
 				Text="{Binding Args, Mode=TwoWay}">

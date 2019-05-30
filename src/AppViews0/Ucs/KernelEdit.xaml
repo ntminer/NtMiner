@@ -36,7 +36,6 @@
 						<WrapPanel Margin="0 2">
 							<TextBlock Style="{StaticResource LblTb}" Text="编码"></TextBlock>
 							<TextBox 
-								Height="26"
 								Width="120"
 								IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
 								VerticalContentAlignment="Center" Text="{Binding Code, ValidatesOnExceptions=True}">

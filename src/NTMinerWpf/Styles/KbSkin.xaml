@@ -57,6 +57,7 @@
 		<Setter Property="TextWrapping" Value="Wrap"></Setter>
 	</Style>
 	<Style TargetType="TextBox">
+		<Setter Property="Height" Value="26"></Setter>
 		<Setter Property="BorderBrush" Value="{StaticResource LineColor}"></Setter>
 		<Setter Property="Background" Value="Transparent"></Setter>
 		<Setter Property="Validation.ErrorTemplate" Value="{StaticResource ErrorTemplate}">

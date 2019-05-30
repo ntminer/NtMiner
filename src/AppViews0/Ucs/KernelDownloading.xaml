@@ -66,7 +66,6 @@
 								</StackPanel>
 								<TextBlock
 									TextAlignment="Center"
-									Height="26"
 									Width="78"
 									Padding="8 4"
 									Text="{Binding KernelProfileVm.DownloadMessage}"></TextBlock>

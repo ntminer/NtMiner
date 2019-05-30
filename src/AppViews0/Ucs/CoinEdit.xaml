@@ -23,7 +23,6 @@
 			<TextBox 
 				IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
 				Width="150"
-				Height="26"
 				VerticalContentAlignment="Center" Text="{Binding Code, ValidatesOnExceptions=True}">
 			</TextBox>
 			<controls:KbButton 

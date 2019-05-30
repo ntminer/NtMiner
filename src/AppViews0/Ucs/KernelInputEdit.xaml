@@ -37,7 +37,7 @@
 		<StackPanel Margin="0 0 10 10">
 			<WrapPanel Margin="0 2">
 				<TextBlock Style="{StaticResource LblTb}" Text="名称"></TextBlock>
-				<TextBox Width="450" Height='26' VerticalContentAlignment="Center" Text="{Binding Name, ValidatesOnExceptions=True}">
+				<TextBox Width="450" VerticalContentAlignment="Center" Text="{Binding Name, ValidatesOnExceptions=True}">
 				</TextBox>
 			</WrapPanel>
 			<WrapPanel Margin="0 2">
@@ -53,19 +53,16 @@
 			<WrapPanel Margin="0 2">
 				<TextBlock Style="{StaticResource LblTb}" Text="显卡指定参数名"></TextBlock>
 				<TextBox 
-					Height="26"
 					Width="160"
 					IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
 					VerticalContentAlignment="Center" Text="{Binding DevicesArg}"></TextBox>
 				<TextBlock Style="{StaticResource LblTb}" Width="40" Text="基序"></TextBlock>
 				<TextBox 
-					Height="26"
 					Width="100"
 					IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
 					VerticalContentAlignment="Center" Text="{Binding DeviceBaseIndex,ValidatesOnExceptions=True}"></TextBox>
 				<TextBlock Style="{StaticResource LblTb}" Width="50" Text="分割符"></TextBlock>
 				<TextBox 
-					Height="26"
 					Width="100"
 					IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
 					VerticalContentAlignment="Center" Text="{Binding DevicesSeparator}"></TextBox>
@@ -84,7 +81,6 @@
 					Visibility="{Binding IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}">
 					<TextBlock Style="{StaticResource LblTb}" Width="Auto" Text="双挖权重参数名"></TextBlock>
 					<TextBox 
-						Height="26"
 						Width="120"
 						IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
 						VerticalContentAlignment="Center" Text="{Binding DualWeightArg}">
@@ -102,14 +98,12 @@
 						IsChecked="{Binding IsAutoDualWeight}" />
 					<TextBlock Margin="8 0 0 0" Text="双挖权重下限" VerticalAlignment="Center"></TextBlock>
 					<TextBox 
-						Height="26"
 						Width="50"
 						IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
 						VerticalContentAlignment="Center" Text="{Binding DualWeightMin}">
 					</TextBox>
 					<TextBlock Margin="8 0 0 0" Text="双挖权重上限" VerticalAlignment="Center"></TextBlock>
 					<TextBox 
-						Height="26"
 						Width="50"
 						IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
 						VerticalContentAlignment="Center" Text="{Binding DualWeightMax}">

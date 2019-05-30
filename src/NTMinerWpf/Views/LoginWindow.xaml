@@ -54,7 +54,7 @@
 				<TextBlock Grid.Row="0" Grid.Column="0" Margin="0 2" Text="服务器" TextAlignment="Right" VerticalAlignment="Center" Foreground="{StaticResource LableColor}"></TextBlock>
 
 				<WrapPanel Grid.Row="0" Grid.Column="1" Margin="0 2">
-					<TextBox x:Name="TextBoxServerHost" ToolTip="IP或域名" Padding="0 0 20 0" Width="166" Height="26" VerticalContentAlignment="Center" Text="{Binding ServerHost}">
+					<TextBox x:Name="TextBoxServerHost" ToolTip="IP或域名" Padding="0 0 20 0" Width="166" VerticalContentAlignment="Center" Text="{Binding ServerHost}">
 					</TextBox>
 					<Button 
 						Margin="-20 0 0 0" BorderThickness="0"
@@ -83,7 +83,7 @@
 					Text="登录名" TextAlignment="Right" VerticalAlignment="Center"
 					Foreground="{StaticResource LableColor}"></TextBlock>
 				<TextBox 
-					Grid.Row="1" Grid.Column="1" Margin="0 2" Height="26"
+					Grid.Row="1" Grid.Column="1" Margin="0 2"
 					Visibility="{Binding IsInnerIp,Converter={StaticResource BoolToHiddenInvertConverter}}"
 					Text="{Binding LoginName}" Background="White" 
 					VerticalContentAlignment="Center"></TextBox>

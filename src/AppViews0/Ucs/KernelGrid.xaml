@@ -237,7 +237,6 @@
 									</WrapPanel>
 									<TextBlock
 										TextAlignment="Center"
-										Height="26"
 										Width="64"
 										Padding="8 4"
 										Text="{Binding KernelProfileVm.DownloadMessage}"

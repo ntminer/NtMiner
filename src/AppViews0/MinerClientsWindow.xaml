@@ -442,7 +442,7 @@
 				</GroupBox>
 				<GroupBox Header="矿池">
 					<StackPanel>
-						<TextBox HorizontalAlignment="Left" VerticalContentAlignment="Center" Text="{Binding Pool}" Width="208" Height="24" Background="White"></TextBox>
+						<TextBox HorizontalAlignment="Left" VerticalContentAlignment="Center" Text="{Binding Pool}" Width="208" Background="White"></TextBox>
 						<ListBox 
 							Background="Transparent"
 							ItemsSource="{Binding CoinVm.OptionPools}"
@@ -466,7 +466,7 @@
 					</StackPanel>
 				</GroupBox>
 				<GroupBox Header="钱包">
-					<TextBox HorizontalAlignment="Left" VerticalContentAlignment="Center" Text="{Binding Wallet}" Width="208" Height="24" Background="White"></TextBox>
+					<TextBox HorizontalAlignment="Left" VerticalContentAlignment="Center" Text="{Binding Wallet}" Width="208" Background="White"></TextBox>
 				</GroupBox>
 				<WrapPanel>
 					<TextBlock Style="{StaticResource LblTb}" Width="50">IP</TextBlock>
