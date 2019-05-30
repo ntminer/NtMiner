@@ -61,6 +61,9 @@ namespace NTMiner.Core.Gpus.Impl {
                     this.Properties.Add(property);
                 }
                 Task.Factory.StartNew(() => {
+                    foreach (var gpu in _gpus.Values) {
+                        OverClock.RefreshGpuState(gpu.Index);
+                    }
                     foreach (var kv in kvs) {
                         Environment.SetEnvironmentVariable(kv.Key, kv.Value);
                     }

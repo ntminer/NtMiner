@@ -11,7 +11,7 @@ namespace NTMiner.Core.Gpus.Impl {
         #region static NvmlInit
         private static readonly string _nvsmiDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "NVIDIA Corporation", "NVSMI");
         private static bool _isNvmlInited = false;
-        private static object _nvmlInitLocker = new object();
+        private static readonly object _nvmlInitLocker = new object();
         public static bool NvmlInit() {
             if (_isNvmlInited) {
                 return _isNvmlInited;
@@ -136,8 +136,7 @@ namespace NTMiner.Core.Gpus.Impl {
                     NvmlNativeMethods.nvmlSystemGetNVMLVersion(out string nvmlVersion);
                     this.Properties.Add(new GpuSetProperty(GpuSetProperty.DRIVER_VERSION, "驱动版本", _driverVersion));
                     try {
-                        double driverVersionNum;
-                        if (double.TryParse(_driverVersion, out driverVersionNum)) {
+                        if (double.TryParse(_driverVersion, out double driverVersionNum)) {
                             var item = root.SysDicItemSet.GetSysDicItems("CudaVersion")
                                 .Select(a => new { Version = double.Parse(a.Value), a })
                                 .OrderByDescending(a => a.Version)
@@ -160,7 +159,7 @@ namespace NTMiner.Core.Gpus.Impl {
                     }
                     Task.Factory.StartNew(() => {
                         foreach (var gpu in _gpus.Values) {
-                            NVIDIAOverClock.RefreshGpuState(gpu);
+                            OverClock.RefreshGpuState(gpu.Index);
                         }
                         // 这里会耗时5秒
                         foreach (var kv in kvs) {
@@ -218,8 +217,7 @@ namespace NTMiner.Core.Gpus.Impl {
         }
 
         public bool TryGetGpu(int index, out IGpu gpu) {
-            Gpu g;
-            bool r = _gpus.TryGetValue(index, out g);
+            bool r = _gpus.TryGetValue(index, out Gpu g);
             gpu = g;
             return r;
         }

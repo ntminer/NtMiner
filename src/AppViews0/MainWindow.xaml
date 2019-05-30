@@ -525,7 +525,7 @@
 					<Border x:Name="SpeedTableContainer">
 					</Border>
 				</TabItem>
-				<TabItem x:Name="TabItemGpuOverClock" Visibility="{Binding IsOverClockVisible}">
+				<TabItem x:Name="TabItemGpuOverClock">
 					<TabItem.Header>
 						<WrapPanel>
 							<Path 

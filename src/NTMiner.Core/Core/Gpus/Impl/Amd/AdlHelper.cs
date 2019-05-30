@@ -88,46 +88,83 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
         }
 
         public ulong GetTotalMemory(int gpuIndex) {
-            int adapterIndex = GpuIndexToAdapterIndex(_gpuNames, gpuIndex);
-            ADLMemoryInfo adlt = new ADLMemoryInfo();
-            if (ADL.ADL_Adapter_MemoryInfo_Get(adapterIndex, ref adlt) == ADL.ADL_OK) {
-                return adlt.MemorySize;
+            try {
+                int adapterIndex = GpuIndexToAdapterIndex(_gpuNames, gpuIndex);
+                ADLMemoryInfo adlt = new ADLMemoryInfo();
+                if (ADL.ADL_Adapter_MemoryInfo_Get(adapterIndex, ref adlt) == ADL.ADL_OK) {
+                    return adlt.MemorySize;
+                }
+                else {
+                    return 0;
+                }
             }
-            else {
+            catch {
                 return 0;
             }
         }
 
         public int GetTemperatureByIndex(int gpuIndex) {
-            int adapterIndex = GpuIndexToAdapterIndex(_gpuNames, gpuIndex);
-            ADLTemperature adlt = new ADLTemperature();
-            if (ADL.ADL_Overdrive5_Temperature_Get(adapterIndex, 0, ref adlt) == ADL.ADL_OK) {
-                return (int)(0.001f * adlt.Temperature);
+            try {
+                int adapterIndex = GpuIndexToAdapterIndex(_gpuNames, gpuIndex);
+                ADLTemperature adlt = new ADLTemperature();
+                if (ADL.ADL_Overdrive5_Temperature_Get(adapterIndex, 0, ref adlt) == ADL.ADL_OK) {
+                    return (int)(0.001f * adlt.Temperature);
+                }
+                else {
+                    return 0;
+                }
             }
-            else {
+            catch {
                 return 0;
             }
         }
 
         public uint GetFanSpeedByIndex(int gpuIndex) {
-            int adapterIndex = GpuIndexToAdapterIndex(_gpuNames, gpuIndex);
-            ADLFanSpeedValue adlf = new ADLFanSpeedValue();
-            adlf.SpeedType = ADL.ADL_DL_FANCTRL_SPEED_TYPE_PERCENT;
-            if (ADL.ADL_Overdrive5_FanSpeed_Get(adapterIndex, 0, ref adlf) == ADL.ADL_OK) {
-                return (uint)adlf.FanSpeed;
+            try {
+                int adapterIndex = GpuIndexToAdapterIndex(_gpuNames, gpuIndex);
+                ADLFanSpeedValue adlf = new ADLFanSpeedValue();
+                adlf.SpeedType = ADL.ADL_DL_FANCTRL_SPEED_TYPE_PERCENT;
+                if (ADL.ADL_Overdrive5_FanSpeed_Get(adapterIndex, 0, ref adlf) == ADL.ADL_OK) {
+                    return (uint)adlf.FanSpeed;
+                }
+                else {
+                    return 0;
+                }
             }
-            else {
+            catch {
                 return 0;
             }
         }
 
         public void SetFunSpeedByIndex(int gpuIndex, int value) {
+            try {
+                int adapterIndex = GpuIndexToAdapterIndex(_gpuNames, gpuIndex);
+                ADLFanSpeedValue adlf = new ADLFanSpeedValue();
+                adlf.SpeedType = ADL.ADL_DL_FANCTRL_SPEED_TYPE_PERCENT;
+                if (ADL.ADL_Overdrive5_FanSpeed_Get(adapterIndex, 0, ref adlf) == ADL.ADL_OK) {
+                    adlf.FanSpeed = value;
+                    ADL.ADL_Overdrive5_FanSpeed_Set(adapterIndex, 0, ref adlf);
+                }
+            }
+            catch {
+            }
+        }
+
+        public int GetPowerCapacityByIndex(int gpuIndex) {
             int adapterIndex = GpuIndexToAdapterIndex(_gpuNames, gpuIndex);
-            ADLFanSpeedValue adlf = new ADLFanSpeedValue();
-            adlf.SpeedType = ADL.ADL_DL_FANCTRL_SPEED_TYPE_PERCENT;
-            if (ADL.ADL_Overdrive5_FanSpeed_Get(adapterIndex, 0, ref adlf) == ADL.ADL_OK) {
-                adlf.FanSpeed = value;
-                ADL.ADL_Overdrive5_FanSpeed_Set(adapterIndex, 0, ref adlf);
+            ADLODNPowerLimitSetting lpODPowerLimit = new ADLODNPowerLimitSetting();
+            try {
+                int result = ADL.ADL2_OverdriveN_PowerLimit_Get(context, adapterIndex, ref lpODPowerLimit);
+#if DEBUG
+                Write.DevDebug($"result={result},iMode={lpODPowerLimit.iMode},iTDPLimit={lpODPowerLimit.iTDPLimit},iMaxOperatingTemperature={lpODPowerLimit.iMaxOperatingTemperature}");
+#endif
+                if (result == ADL.ADL_OK) {
+                    return lpODPowerLimit.iTDPLimit;
+                }
+                return 0;
+            }
+            catch {
+                return 0;
             }
         }
 
@@ -135,7 +172,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
             int adapterIndex = GpuIndexToAdapterIndex(_gpuNames, gpuIndex);
             int power = 0;
             try {
-                if (ADL.ADL2_Overdrive6_CurrentPower_Get(context, adapterIndex, 0, ref power) == 0) {
+                if (ADL.ADL2_Overdrive6_CurrentPower_Get(context, adapterIndex, 0, ref power) == ADL.ADL_OK) {
                     return (uint)(power / 256.0);
                 }
             }

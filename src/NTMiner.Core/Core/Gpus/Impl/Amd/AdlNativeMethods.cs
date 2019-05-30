@@ -74,6 +74,13 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
         public long MemoryBandwidth;
     }
 
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct ADLODNPowerLimitSetting {
+        public int iMode;
+        public int iTDPLimit;
+        public int iMaxOperatingTemperature;
+    }
+
     internal class ADL {
         public const int ADL_MAX_PATH = 256;
         public const int ADL_MAX_ADAPTERS = 40;
@@ -101,17 +108,18 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
         public delegate int ADL2_Main_Control_CreateDelegate(ADL_Main_Memory_AllocDelegate callback, int enumConnectedAdapters, ref IntPtr context);
         private delegate int ADL_Adapter_AdapterInfo_GetDelegate(IntPtr info, int size);
 
-        public delegate int ADL_Main_Control_DestroyDelegate();
-        public delegate int ADL_Adapter_NumberOfAdapters_GetDelegate(ref int numAdapters);
-        public delegate int ADL_Adapter_ID_GetDelegate(int adapterIndex, out int adapterID);
-        public delegate int ADL_Display_AdapterID_GetDelegate(int adapterIndex, out int adapterID);
-        public delegate int ADL_Adapter_Active_GetDelegate(int adapterIndex, out int status);
-        public delegate int ADL_Overdrive5_CurrentActivity_GetDelegate(int iAdapterIndex, ref ADLPMActivity activity);
-        public delegate int ADL_Overdrive5_Temperature_GetDelegate(int adapterIndex, int thermalControllerIndex, ref ADLTemperature temperature);
-        public delegate int ADL_Overdrive5_FanSpeed_GetDelegate(int adapterIndex, int thermalControllerIndex, ref ADLFanSpeedValue fanSpeedValue);
-        public delegate int ADL_Overdrive5_FanSpeedInfo_GetDelegate(int adapterIndex, int thermalControllerIndex, ref ADLFanSpeedInfo fanSpeedInfo);
-        public delegate int ADL_Overdrive5_FanSpeedToDefault_SetDelegate(int adapterIndex, int thermalControllerIndex);
-        public delegate int ADL_Overdrive5_FanSpeed_SetDelegate(int adapterIndex, int thermalControllerIndex, ref ADLFanSpeedValue fanSpeedValue);
+        internal delegate int ADL_Main_Control_DestroyDelegate();
+        internal delegate int ADL_Adapter_NumberOfAdapters_GetDelegate(ref int numAdapters);
+        internal delegate int ADL_Adapter_ID_GetDelegate(int adapterIndex, out int adapterID);
+        internal delegate int ADL_Display_AdapterID_GetDelegate(int adapterIndex, out int adapterID);
+        internal delegate int ADL_Adapter_Active_GetDelegate(int adapterIndex, out int status);
+        internal delegate int ADL_Overdrive5_CurrentActivity_GetDelegate(int iAdapterIndex, ref ADLPMActivity activity);
+        internal delegate int ADL_Overdrive5_Temperature_GetDelegate(int adapterIndex, int thermalControllerIndex, ref ADLTemperature temperature);
+        internal delegate int ADL_Overdrive5_FanSpeed_GetDelegate(int adapterIndex, int thermalControllerIndex, ref ADLFanSpeedValue fanSpeedValue);
+        internal delegate int ADL_Overdrive5_FanSpeedInfo_GetDelegate(int adapterIndex, int thermalControllerIndex, ref ADLFanSpeedInfo fanSpeedInfo);
+        internal delegate int ADL_Overdrive5_FanSpeedToDefault_SetDelegate(int adapterIndex, int thermalControllerIndex);
+        internal delegate int ADL_Overdrive5_FanSpeed_SetDelegate(int adapterIndex, int thermalControllerIndex, ref ADLFanSpeedValue fanSpeedValue);
+        internal delegate int ADL2_OverdriveN_PowerLimit_GetDelegate(IntPtr context, int iAdapterIndex, ref ADLODNPowerLimitSetting lpODPowerLimit);
         internal delegate int ADL2_Overdrive6_CurrentPower_GetDelegate(IntPtr context, int iAdapterIndex, int iPowerType, ref int lpCurrentValue);
         internal delegate int ADL_Adapter_MemoryInfo_GetDelegate(int iAdapterIndex, ref ADLMemoryInfo lpMemoryInfo);
 
@@ -130,16 +138,18 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
         public static ADL_Overdrive5_FanSpeedInfo_GetDelegate ADL_Overdrive5_FanSpeedInfo_Get;
         public static ADL_Overdrive5_FanSpeedToDefault_SetDelegate ADL_Overdrive5_FanSpeedToDefault_Set;
         public static ADL_Overdrive5_FanSpeed_SetDelegate ADL_Overdrive5_FanSpeed_Set;
+        public static ADL2_OverdriveN_PowerLimit_GetDelegate ADL2_OverdriveN_PowerLimit_Get;
         public static ADL2_Overdrive6_CurrentPower_GetDelegate ADL2_Overdrive6_CurrentPower_Get;
         public static ADL_Adapter_MemoryInfo_GetDelegate ADL_Adapter_MemoryInfo_Get;
         private static string dllName;
 
         private static void GetDelegate<T>(string entryPoint, out T newDelegate)
           where T : class {
-            DllImportAttribute attribute = new DllImportAttribute(dllName);
-            attribute.CallingConvention = CallingConvention.Cdecl;
-            attribute.PreserveSig = true;
-            attribute.EntryPoint = entryPoint;
+            DllImportAttribute attribute = new DllImportAttribute(dllName) {
+                CallingConvention = CallingConvention.Cdecl,
+                PreserveSig = true,
+                EntryPoint = entryPoint
+            };
             PInvokeDelegateFactory.CreateDelegate(attribute, out newDelegate);
         }
 
@@ -160,6 +170,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
             GetDelegate("ADL_Overdrive5_FanSpeedInfo_Get", out ADL_Overdrive5_FanSpeedInfo_Get);
             GetDelegate("ADL_Overdrive5_FanSpeedToDefault_Set", out ADL_Overdrive5_FanSpeedToDefault_Set);
             GetDelegate("ADL_Overdrive5_FanSpeed_Set", out ADL_Overdrive5_FanSpeed_Set);
+            GetDelegate("ADL2_OverdriveN_PowerLimit_Get", out ADL2_OverdriveN_PowerLimit_Get);
             GetDelegate("ADL2_Overdrive6_CurrentPower_Get", out ADL2_Overdrive6_CurrentPower_Get);
             GetDelegate("ADL_Adapter_MemoryInfo_Get", out ADL_Adapter_MemoryInfo_Get);
         }

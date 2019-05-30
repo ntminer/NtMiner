@@ -41,8 +41,7 @@ namespace NTMiner.Core.Gpus.Impl {
                 }
             }
             else {
-                IGpu gpu;
-                if (NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out gpu) && gpu.Cool == value) {
+                if (NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu) && gpu.Cool == value) {
                     return;
                 }
                 effectGpus.Add(gpu.Index);
@@ -51,7 +50,22 @@ namespace NTMiner.Core.Gpus.Impl {
         }
 
         public void RefreshGpuState(int gpuIndex) {
-            // 暂不支持A卡超频
+            if (gpuIndex == NTMinerRoot.GpuAllId) {
+                return;
+            }
+            else {
+                if (NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu)) {
+                    RefreshGpuState(gpu);
+                }
+            }
+        }
+
+        private void RefreshGpuState(IGpu gpu) {
+            if (gpu.Index == NTMinerRoot.GpuAllId) {
+                return;
+            }
+            gpu.PowerCapacity = _adlHelper.GetPowerCapacityByIndex(gpu.Index);
+            VirtualRoot.Happened(new GpuStateChangedEvent(gpu));
         }
     }
 }
