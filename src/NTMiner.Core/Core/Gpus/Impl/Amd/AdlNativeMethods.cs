@@ -120,6 +120,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
         internal delegate int ADL_Overdrive5_FanSpeedToDefault_SetDelegate(int adapterIndex, int thermalControllerIndex);
         internal delegate int ADL_Overdrive5_FanSpeed_SetDelegate(int adapterIndex, int thermalControllerIndex, ref ADLFanSpeedValue fanSpeedValue);
         internal delegate int ADL2_OverdriveN_PowerLimit_GetDelegate(IntPtr context, int iAdapterIndex, ref ADLODNPowerLimitSetting lpODPowerLimit);
+        internal delegate int ADL2_OverdriveN_PowerLimit_SetDelegate(IntPtr context, int iAdapterIndex, ref ADLODNPowerLimitSetting lpODPowerLimit);
         internal delegate int ADL2_Overdrive6_CurrentPower_GetDelegate(IntPtr context, int iAdapterIndex, int iPowerType, ref int lpCurrentValue);
         internal delegate int ADL_Adapter_MemoryInfo_GetDelegate(int iAdapterIndex, ref ADLMemoryInfo lpMemoryInfo);
 
@@ -140,6 +141,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
         public static ADL_Overdrive5_FanSpeed_SetDelegate ADL_Overdrive5_FanSpeed_Set;
         public static ADL2_OverdriveN_PowerLimit_GetDelegate ADL2_OverdriveN_PowerLimit_Get;
         public static ADL2_Overdrive6_CurrentPower_GetDelegate ADL2_Overdrive6_CurrentPower_Get;
+        public static ADL2_OverdriveN_PowerLimit_SetDelegate ADL2_OverdriveN_PowerLimit_Set;
         public static ADL_Adapter_MemoryInfo_GetDelegate ADL_Adapter_MemoryInfo_Get;
         private static string dllName;
 
@@ -156,23 +158,24 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
         private static void CreateDelegates(string name) {
             dllName = name + ".dll";
 
-            GetDelegate("ADL_Main_Control_Create", out _ADL_Main_Control_Create);
-            GetDelegate("ADL2_Main_Control_Create", out ADL2_Main_Control_Create);
-            GetDelegate("ADL_Adapter_AdapterInfo_Get", out _ADL_Adapter_AdapterInfo_Get);
-            GetDelegate("ADL_Main_Control_Destroy", out ADL_Main_Control_Destroy);
-            GetDelegate("ADL_Adapter_NumberOfAdapters_Get", out ADL_Adapter_NumberOfAdapters_Get);
+            GetDelegate(nameof(ADL_Main_Control_Create), out _ADL_Main_Control_Create);
+            GetDelegate(nameof(ADL2_Main_Control_Create), out ADL2_Main_Control_Create);
+            GetDelegate(nameof(ADL_Adapter_AdapterInfo_Get), out _ADL_Adapter_AdapterInfo_Get);
+            GetDelegate(nameof(ADL_Main_Control_Destroy), out ADL_Main_Control_Destroy);
+            GetDelegate(nameof(ADL_Adapter_NumberOfAdapters_Get), out ADL_Adapter_NumberOfAdapters_Get);
             GetDelegate("ADL_Adapter_ID_Get", out _ADL_Adapter_ID_Get);
             GetDelegate("ADL_Display_AdapterID_Get", out _ADL_Display_AdapterID_Get);
-            GetDelegate("ADL_Adapter_Active_Get", out ADL_Adapter_Active_Get);
-            GetDelegate("ADL_Overdrive5_CurrentActivity_Get", out ADL_Overdrive5_CurrentActivity_Get);
-            GetDelegate("ADL_Overdrive5_Temperature_Get", out ADL_Overdrive5_Temperature_Get);
-            GetDelegate("ADL_Overdrive5_FanSpeed_Get", out ADL_Overdrive5_FanSpeed_Get);
-            GetDelegate("ADL_Overdrive5_FanSpeedInfo_Get", out ADL_Overdrive5_FanSpeedInfo_Get);
-            GetDelegate("ADL_Overdrive5_FanSpeedToDefault_Set", out ADL_Overdrive5_FanSpeedToDefault_Set);
-            GetDelegate("ADL_Overdrive5_FanSpeed_Set", out ADL_Overdrive5_FanSpeed_Set);
-            GetDelegate("ADL2_OverdriveN_PowerLimit_Get", out ADL2_OverdriveN_PowerLimit_Get);
-            GetDelegate("ADL2_Overdrive6_CurrentPower_Get", out ADL2_Overdrive6_CurrentPower_Get);
-            GetDelegate("ADL_Adapter_MemoryInfo_Get", out ADL_Adapter_MemoryInfo_Get);
+            GetDelegate(nameof(ADL_Adapter_Active_Get), out ADL_Adapter_Active_Get);
+            GetDelegate(nameof(ADL_Overdrive5_CurrentActivity_Get), out ADL_Overdrive5_CurrentActivity_Get);
+            GetDelegate(nameof(ADL_Overdrive5_Temperature_Get), out ADL_Overdrive5_Temperature_Get);
+            GetDelegate(nameof(ADL_Overdrive5_FanSpeed_Get), out ADL_Overdrive5_FanSpeed_Get);
+            GetDelegate(nameof(ADL_Overdrive5_FanSpeedInfo_Get), out ADL_Overdrive5_FanSpeedInfo_Get);
+            GetDelegate(nameof(ADL_Overdrive5_FanSpeedToDefault_Set), out ADL_Overdrive5_FanSpeedToDefault_Set);
+            GetDelegate(nameof(ADL_Overdrive5_FanSpeed_Set), out ADL_Overdrive5_FanSpeed_Set);
+            GetDelegate(nameof(ADL2_OverdriveN_PowerLimit_Get), out ADL2_OverdriveN_PowerLimit_Get);
+            GetDelegate(nameof(ADL2_Overdrive6_CurrentPower_Get), out ADL2_Overdrive6_CurrentPower_Get);
+            GetDelegate(nameof(ADL2_OverdriveN_PowerLimit_Set), out ADL2_OverdriveN_PowerLimit_Set);
+            GetDelegate(nameof(ADL_Adapter_MemoryInfo_Get), out ADL_Adapter_MemoryInfo_Get);
         }
 
         static ADL() {
