@@ -127,8 +127,6 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
 
         internal delegate int ADL_Main_Control_DestroyDelegate();
         internal delegate int ADL_Adapter_NumberOfAdapters_GetDelegate(ref int numAdapters);
-        internal delegate int ADL_Adapter_ID_GetDelegate(int adapterIndex, out int adapterID);
-        internal delegate int ADL_Display_AdapterID_GetDelegate(int adapterIndex, out int adapterID);
         internal delegate int ADL_Adapter_Active_GetDelegate(int adapterIndex, out int status);
         internal delegate int ADL_Overdrive5_CurrentActivity_GetDelegate(int iAdapterIndex, ref ADLPMActivity activity);
         internal delegate int ADL_Overdrive5_Temperature_GetDelegate(int adapterIndex, int thermalControllerIndex, ref ADLTemperature temperature);
@@ -148,8 +146,6 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
 
         public static ADL_Main_Control_DestroyDelegate ADL_Main_Control_Destroy;
         public static ADL_Adapter_NumberOfAdapters_GetDelegate ADL_Adapter_NumberOfAdapters_Get;
-        public static ADL_Adapter_ID_GetDelegate _ADL_Adapter_ID_Get;
-        public static ADL_Display_AdapterID_GetDelegate _ADL_Display_AdapterID_Get;
         public static ADL_Adapter_Active_GetDelegate ADL_Adapter_Active_Get;
         public static ADL_Overdrive5_CurrentActivity_GetDelegate ADL_Overdrive5_CurrentActivity_Get;
         public static ADL_Overdrive5_Temperature_GetDelegate ADL_Overdrive5_Temperature_Get;
@@ -182,8 +178,6 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
             GetDelegate(nameof(ADL_Adapter_AdapterInfo_Get), out _ADL_Adapter_AdapterInfo_Get);
             GetDelegate(nameof(ADL_Main_Control_Destroy), out ADL_Main_Control_Destroy);
             GetDelegate(nameof(ADL_Adapter_NumberOfAdapters_Get), out ADL_Adapter_NumberOfAdapters_Get);
-            GetDelegate("ADL_Adapter_ID_Get", out _ADL_Adapter_ID_Get);
-            GetDelegate("ADL_Display_AdapterID_Get", out _ADL_Display_AdapterID_Get);
             GetDelegate(nameof(ADL_Adapter_Active_Get), out ADL_Adapter_Active_Get);
             GetDelegate(nameof(ADL_Overdrive5_CurrentActivity_Get), out ADL_Overdrive5_CurrentActivity_Get);
             GetDelegate(nameof(ADL_Overdrive5_Temperature_Get), out ADL_Overdrive5_Temperature_Get);
@@ -251,22 +245,6 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
             return result;
         }
 
-        public static int ADL_Adapter_ID_Get(int adapterIndex,
-          out int adapterID) {
-            try {
-                return _ADL_Adapter_ID_Get(adapterIndex, out adapterID);
-            }
-            catch (EntryPointNotFoundException) {
-                try {
-                    return _ADL_Display_AdapterID_Get(adapterIndex, out adapterID);
-                }
-                catch (EntryPointNotFoundException) {
-                    adapterID = 1;
-                    return ADL_OK;
-                }
-            }
-        }
-
         internal delegate IntPtr ADL_Main_Memory_AllocDelegate(int size);
 
         // create a Main_Memory_Alloc delegate and keep it alive
@@ -274,10 +252,5 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
           delegate (int size) {
               return Marshal.AllocHGlobal(size);
           };
-
-        private static void Main_Memory_Free(IntPtr buffer) {
-            if (IntPtr.Zero != buffer)
-                Marshal.FreeHGlobal(buffer);
-        }
     }
 }
