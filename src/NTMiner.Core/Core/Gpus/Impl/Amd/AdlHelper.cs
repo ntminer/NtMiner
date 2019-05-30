@@ -101,8 +101,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
         public int GetTemperatureByIndex(int gpuIndex) {
             int adapterIndex = GpuIndexToAdapterIndex(_gpuNames, gpuIndex);
             ADLTemperature adlt = new ADLTemperature();
-            if (ADL.ADL_Overdrive5_Temperature_Get(adapterIndex, 0, ref adlt)
-              == ADL.ADL_OK) {
+            if (ADL.ADL_Overdrive5_Temperature_Get(adapterIndex, 0, ref adlt) == ADL.ADL_OK) {
                 return (int)(0.001f * adlt.Temperature);
             }
             else {
@@ -114,12 +113,21 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
             int adapterIndex = GpuIndexToAdapterIndex(_gpuNames, gpuIndex);
             ADLFanSpeedValue adlf = new ADLFanSpeedValue();
             adlf.SpeedType = ADL.ADL_DL_FANCTRL_SPEED_TYPE_PERCENT;
-            if (ADL.ADL_Overdrive5_FanSpeed_Get(adapterIndex, 0, ref adlf)
-              == ADL.ADL_OK) {
+            if (ADL.ADL_Overdrive5_FanSpeed_Get(adapterIndex, 0, ref adlf) == ADL.ADL_OK) {
                 return (uint)adlf.FanSpeed;
             }
             else {
                 return 0;
+            }
+        }
+
+        public void SetFunSpeedByIndex(int gpuIndex, int value) {
+            int adapterIndex = GpuIndexToAdapterIndex(_gpuNames, gpuIndex);
+            ADLFanSpeedValue adlf = new ADLFanSpeedValue();
+            adlf.SpeedType = ADL.ADL_DL_FANCTRL_SPEED_TYPE_PERCENT;
+            if (ADL.ADL_Overdrive5_FanSpeed_Get(adapterIndex, 0, ref adlf) == ADL.ADL_OK) {
+                adlf.FanSpeed = value;
+                ADL.ADL_Overdrive5_FanSpeed_Set(adapterIndex, 0, ref adlf);
             }
         }
 

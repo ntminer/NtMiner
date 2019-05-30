@@ -33,6 +33,7 @@ namespace NTMiner.Core.Gpus.Impl {
 #endif
             _root = root;
             adlHelper.Init();
+            this.OverClock = new AMDOverClock(adlHelper);
             int deviceCount = 0;
             deviceCount = adlHelper.GpuCount;
             for (int i = 0; i < deviceCount; i++) {
@@ -115,7 +116,7 @@ namespace NTMiner.Core.Gpus.Impl {
 
         public List<GpuSetProperty> Properties { get; private set; }
 
-        public IOverClock OverClock { get; private set; } = new AMDOverClock();
+        public IOverClock OverClock { get; private set; }
 
         public string GetProperty(string key) {
             GpuSetProperty item = this.Properties.FirstOrDefault(a => a.Code == key);
