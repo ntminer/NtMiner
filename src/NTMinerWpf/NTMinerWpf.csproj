@@ -52,6 +52,7 @@
     <Compile Include="Controls\KbSystemCloseButton.cs" />
     <Compile Include="Controls\KbSystemMaxButton.cs" />
     <Compile Include="Controls\KbSystemMinButton.cs" />
+    <Compile Include="Controls\KbMuiltilineTextBox.cs" />
     <Compile Include="Controls\KbTextBox.cs" />
     <Compile Include="Controls\PasswordBoxHelper.cs" />
     <Compile Include="Converters\AutoNumberValueConverter.cs" />

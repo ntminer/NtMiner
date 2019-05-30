@@ -367,14 +367,14 @@
 								<RowDefinition Height="Auto"></RowDefinition>
 								<RowDefinition Height="Auto"></RowDefinition>
 							</Grid.RowDefinitions>
-							<TextBox 
+							<controls:KbMuiltilineTextBox 
+								Background="Transparent"
 								FontFamily="Courier New"
 								Text="源于社区，服务社区。QQ群863725136 源码：https://github.com/ntminer-project/ntminer"
 								ToolTip="简介"
-								BorderThickness="0" AcceptsReturn="True" 
-								TextWrapping="Wrap" IsReadOnly="True" 
+								BorderThickness="0" IsReadOnly="True" 
 								Padding="4 0 16 0" Foreground="White">
-							</TextBox>
+							</controls:KbMuiltilineTextBox>
 							<WrapPanel 
 								Margin="0 0 16 0"
 								HorizontalAlignment="Right" 
@@ -401,16 +401,15 @@
 							</WrapPanel>
 							<Grid Grid.Row="1" Visibility="{Binding MinerProfile.IsShowCommandLine, Converter={StaticResource BoolToVisibilityConverter}}">
 								<TextBlock Foreground="LightGray" VerticalAlignment="Top">></TextBlock>
-								<TextBox 
+								<controls:KbMuiltilineTextBox 
+									Background="Transparent"
 									FontFamily="Courier New"
 									Padding="10 2 4 2"
 									ToolTip="参数总成。这是高级用户的工具，通常我们无需关心这一块。"
-									TextWrapping="Wrap"
-									AcceptsReturn="True"
 									BorderThickness="0"
 									Foreground="LightGray"						
 									IsReadOnly="True" 
-									Text="{Binding MinerProfile.ArgsAssembly, Mode=OneWay}"></TextBox>
+									Text="{Binding MinerProfile.ArgsAssembly, Mode=OneWay}"></controls:KbMuiltilineTextBox>
 							</Grid>
 							<StackPanel Grid.Row="3">
 								<WrapPanel Visibility="{Binding MinerProfile.CoinVm.Notice, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
@@ -423,15 +422,14 @@
 										Fill="LightGray"
 										Stretch="Fill" />
 									<TextBlock Foreground="LightGray" VerticalAlignment="Top" Text="{Binding MinerProfile.CoinVm.Code}"></TextBlock>
-									<TextBox 
+									<controls:KbMuiltilineTextBox 
 										FontFamily="Courier New"
-										TextWrapping="Wrap"
-										AcceptsReturn="True"
+										Background="Transparent"
 										BorderThickness="0"
 										Padding="0 2 16 2"
 										Foreground="Yellow"
 										IsReadOnly="True" 
-										Text="{Binding MinerProfile.CoinVm.Notice, Mode=OneWay}"></TextBox>
+										Text="{Binding MinerProfile.CoinVm.Notice, Mode=OneWay}"></controls:KbMuiltilineTextBox>
 								</WrapPanel>
 								<WrapPanel Visibility="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.Notice, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
 									<Path
@@ -443,15 +441,14 @@
 										Fill="LightGray"
 										Stretch="Fill" />
 									<TextBlock Foreground="LightGray" VerticalAlignment="Top" Text="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.Name}"></TextBlock>
-									<TextBox 
+									<controls:KbMuiltilineTextBox 
 										FontFamily="Courier New"
-										TextWrapping="Wrap"
-										AcceptsReturn="True"
+										Background="Transparent"
 										BorderThickness="0"
 										Padding="0 2 16 2"
 										Foreground="Yellow"
 										IsReadOnly="True" 
-										Text="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.Notice, Mode=OneWay}"></TextBox>
+										Text="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.Notice, Mode=OneWay}"></controls:KbMuiltilineTextBox>
 								</WrapPanel>
 								<WrapPanel Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
 									<WrapPanel Visibility="{Binding MinerProfile.CoinVm.CoinKernel.IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -465,15 +462,14 @@
 												Fill="LightGray"
 												Stretch="Fill" />
 											<TextBlock Foreground="LightGray" VerticalAlignment="Top" Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.Name}"></TextBlock>
-											<TextBox 
+											<controls:KbMuiltilineTextBox 
 												FontFamily="Courier New"
-												TextWrapping="Wrap"
-												AcceptsReturn="True"
+												Background="Transparent"
 												BorderThickness="0"
 												Padding="0 2 16 2"
 												Foreground="Yellow"
 												IsReadOnly="True" 
-												Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.Notice, Mode=OneWay}"></TextBox>
+												Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.Notice, Mode=OneWay}"></controls:KbMuiltilineTextBox>
 										</WrapPanel>
 									</WrapPanel>
 								</WrapPanel>
@@ -488,24 +484,24 @@
 										Stretch="Fill" />
 									<TextBlock Foreground="LightGray" VerticalAlignment="Top" Text="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.FullName, Mode=OneWay}"></TextBlock>
 									<WrapPanel>
-										<TextBox 
+										<controls:KbMuiltilineTextBox 
+											Background="Transparent"
 											FontFamily="Courier New"
 											ToolTip="币种内核公告"
 											Text="{Binding MinerProfile.CoinVm.CoinKernel.Notice, Mode=OneWay}"
 											Visibility="{Binding MinerProfile.CoinVm.CoinKernel.Notice,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
-											BorderThickness="0" AcceptsReturn="True" 
-											TextWrapping="Wrap" IsReadOnly="True" 
+											BorderThickness="0" IsReadOnly="True" 
 											Padding="0 2 0 2" Foreground="Yellow">
-										</TextBox>
-										<TextBox 
+										</controls:KbMuiltilineTextBox>
+										<controls:KbMuiltilineTextBox 
+											Background="Transparent"
 											FontFamily="Courier New"
 											ToolTip="内核公告"
 											Text="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.Notice, Mode=OneWay}"
 											Visibility="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.Notice,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
-											BorderThickness="0" AcceptsReturn="True" 
-											TextWrapping="Wrap" IsReadOnly="True" 
+											BorderThickness="0" IsReadOnly="True" 
 											Padding="0 2 16 2" Foreground="Yellow">
-										</TextBox>
+										</controls:KbMuiltilineTextBox>
 									</WrapPanel>
 								</WrapPanel>
 							</StackPanel>
