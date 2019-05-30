@@ -162,10 +162,10 @@
 					BorderThickness="0"
 					Click="CloseButton_Click">
 					<WrapPanel>
-						<Label
+						<TextBlock
 							Foreground="{StaticResource ThemeForeground}"
 							VerticalAlignment="Center"
-							Content="好的" />
+							Text="好的" />
 					</WrapPanel>
 				</controls:KbButton>
 				<Grid
@@ -182,10 +182,10 @@
 						Foreground="{StaticResource ThemeForeground}"
 						BorderThickness="0">
 						<WrapPanel>
-							<Label
+							<TextBlock
 								Foreground="{StaticResource ThemeForeground}"
 								VerticalAlignment="Center"
-								Content="一键更新" />
+								Text="一键更新" />
 						</WrapPanel>
 					</controls:KbButton>
 					<Grid

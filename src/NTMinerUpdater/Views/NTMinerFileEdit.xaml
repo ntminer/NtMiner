@@ -45,19 +45,19 @@
 		</DockPanel>
 		<StackPanel Grid.Row="1" Background="White" VerticalAlignment="Center">
 			<WrapPanel Margin="0 2">
-				<Label Width="80" HorizontalContentAlignment="Right">版本号：</Label>
+				<TextBlock Width="80" TextAlignment="Right">版本号：</TextBlock>
 				<TextBox Width="180" Text="{Binding Version, ValidatesOnExceptions=True}" Background="White" VerticalContentAlignment="Center"></TextBox>
 			</WrapPanel>
 			<WrapPanel Margin="0 2">
-				<Label Width="80" HorizontalContentAlignment="Right">别名：</Label>
+				<TextBlock Width="80" TextAlignment="Right">别名：</TextBlock>
 				<TextBox Width="180" Text="{Binding VersionTag, ValidatesOnExceptions=True}" Background="White" VerticalContentAlignment="Center"></TextBox>
 			</WrapPanel>
 			<WrapPanel Margin="0 2">
-				<Label Width="80" HorizontalContentAlignment="Right">文件名：</Label>
+				<TextBlock Width="80" TextAlignment="Right">文件名：</TextBlock>
 				<TextBox Width="180" Text="{Binding FileName, ValidatesOnExceptions=True}" Background="White" VerticalContentAlignment="Center"></TextBox>
 			</WrapPanel>
 			<WrapPanel Margin="0 2">
-				<Label Width="80" HorizontalContentAlignment="Right">发布时间：</Label>
+				<TextBlock Width="80" TextAlignment="Right">发布时间：</TextBlock>
 				<TextBox IsReadOnly="True" Width="180" BorderThickness="0" VerticalContentAlignment="Center" Text="{Binding PublishOnText, Mode=OneWay}"></TextBox>
 			</WrapPanel>
 		</StackPanel>
@@ -77,11 +77,11 @@
 							Data="{StaticResource Icon_Ok}"
 							Fill="{StaticResource ThemeForeground}"
 							Stretch="Fill" />
-						<Label
-							Width="40"
+						<TextBlock
+							Padding="0 4"
 							VerticalAlignment="Center"
 							Foreground="{StaticResource ThemeForeground}"
-							Content="保存" />
+							Text="保存" />
 					</WrapPanel>
 				</controls:KbButton>
 			</WrapPanel>

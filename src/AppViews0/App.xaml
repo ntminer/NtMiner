@@ -13,7 +13,6 @@
                 <ResourceDictionary Source="pack://application:,,,/NTMinerWpf;component/Styles/KbTextBox.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/NTMinerWpf;component/Styles/KbComboBox.xaml" />
 
-                <ResourceDictionary Source="pack://application:,,,/NTMinerWpf;component/Styles/KbRadioButton.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/NTMinerWpf;component/Styles/KbDataGrid.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/NTMinerWpf;component/Notifications/Themes/Generic.xaml" />
             </ResourceDictionary.MergedDictionaries>
