@@ -93,47 +93,6 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
         public string strCatalystWebLink;
     }
 
-    [StructLayout(LayoutKind.Sequential)]
-    struct ADLODNPerformanceLevelX2 {
-        public int iClock;
-        public int iVddc;
-        public int iEnabled;
-        public int iControl;
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    struct ADLODNPerformanceLevelsX2 {
-        public int iSize;
-        public int iMode;
-        public int iNumberOfPerformanceLevels;
-        public ADLODNPerformanceLevelX2[] aLevels;
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    struct ADLODNParameterRange {
-        public int iMode;
-        public int iMin;
-        public int iMax;
-        public int iStep;
-        public int iDefault;
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    struct ADLODNCapabilitiesX2 {
-        int iMaximumNumberOfPerformanceLevels;
-        int iFlags;
-        ADLODNParameterRange sEngineClockRange;
-        ADLODNParameterRange sMemoryClockRange;
-        ADLODNParameterRange svddcRange;
-        ADLODNParameterRange power;
-        ADLODNParameterRange powerTuneTemperature;
-        ADLODNParameterRange fanTemperature;
-        ADLODNParameterRange fanSpeed;
-        ADLODNParameterRange minimumPerformanceClock;
-        ADLODNParameterRange throttleNotificaion;
-        ADLODNParameterRange autoSystemClock;
-    }
-
     internal class ADL {
         public const int ADL_MAX_PATH = 256;
         public const int ADL_MAX_ADAPTERS = 40;
@@ -182,8 +141,6 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
         internal delegate int ADL2_Overdrive6_CurrentPower_GetDelegate(IntPtr context, int iAdapterIndex, int iPowerType, ref int lpCurrentValue);
         internal delegate int ADL_Adapter_MemoryInfo_GetDelegate(int iAdapterIndex, ref ADLMemoryInfo lpMemoryInfo);
         internal delegate int ADL2_Graphics_VersionsX2_GetDelegate(IntPtr context, ref ADLVersionsInfoX2 lpVersionsInfo);
-        internal delegate int ADL2_OverdriveN_CapabilitiesX2_GetDelegate(IntPtr context, int iAdapterIndex, ref ADLODNCapabilitiesX2 lpODCapabilities);
-        internal delegate int ADL2_OverdriveN_MemoryClocksX2_GetDelegate(IntPtr context, int iAdapterIndex, ref ADLODNPerformanceLevelsX2 lpODPerformanceLevels);
 
         private static ADL_Main_Control_CreateDelegate _ADL_Main_Control_Create;
         public static ADL2_Main_Control_CreateDelegate ADL2_Main_Control_Create;
@@ -205,8 +162,6 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
         public static ADL2_OverdriveN_PowerLimit_SetDelegate ADL2_OverdriveN_PowerLimit_Set;
         public static ADL_Adapter_MemoryInfo_GetDelegate ADL_Adapter_MemoryInfo_Get;
         public static ADL2_Graphics_VersionsX2_GetDelegate ADL2_Graphics_VersionsX2_Get;
-        public static ADL2_OverdriveN_CapabilitiesX2_GetDelegate ADL2_OverdriveN_CapabilitiesX2_Get;
-        public static ADL2_OverdriveN_MemoryClocksX2_GetDelegate ADL2_OverdriveN_MemoryClocksX2_Get;
         private static string dllName;
 
         private static void GetDelegate<T>(string entryPoint, out T newDelegate)
@@ -241,8 +196,6 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
             GetDelegate(nameof(ADL2_OverdriveN_PowerLimit_Set), out ADL2_OverdriveN_PowerLimit_Set);
             GetDelegate(nameof(ADL_Adapter_MemoryInfo_Get), out ADL_Adapter_MemoryInfo_Get);
             GetDelegate(nameof(ADL2_Graphics_VersionsX2_Get), out ADL2_Graphics_VersionsX2_Get);
-            GetDelegate(nameof(ADL2_OverdriveN_CapabilitiesX2_Get), out ADL2_OverdriveN_CapabilitiesX2_Get);
-            GetDelegate(nameof(ADL2_OverdriveN_MemoryClocksX2_Get), out ADL2_OverdriveN_MemoryClocksX2_Get);
         }
 
         static ADL() {
