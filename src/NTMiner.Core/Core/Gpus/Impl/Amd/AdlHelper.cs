@@ -161,8 +161,14 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
 #endif
                 if (result == ADL.ADL_OK) {
                     lpODPerformanceLevels.iMode = ADL.ODNControlType_Manual;
-                    lpODPerformanceLevels.aLevels[1].iEnabled = 1;
-                    lpODPerformanceLevels.aLevels[1].iClock = value * 100;
+                    int index = 0;
+                    for (int i = 0; i < lpODPerformanceLevels.aLevels.Length; i++) {
+                        if (lpODPerformanceLevels.aLevels[i].iControl != 0) {
+                            index = i;
+                        }
+                    }
+                    lpODPerformanceLevels.aLevels[index].iEnabled = 1;
+                    lpODPerformanceLevels.aLevels[index].iClock = value * 100;
                     result = ADL.ADL2_OverdriveN_MemoryClocksX2_Set(context, adapterIndex, ref lpODPerformanceLevels);
 #if DEBUG
                     Write.DevDebug($"ADL2_OverdriveN_MemoryClocksX2_Set({value * 100}) result " + result);
