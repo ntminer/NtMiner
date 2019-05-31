@@ -106,11 +106,12 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
         public int iSize;
         public int iMode;
         public int iNumberOfPerformanceLevels;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 7)]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = ADL.ADL_PERFORMANCE_LEVELS - 1)]
         public ADLODNPerformanceLevelX2[] aLevels;
     }
 
     internal class ADL {
+        public const int ADL_PERFORMANCE_LEVELS = 8;
         public const int ADL_MAX_PATH = 256;
         public const int ADL_MAX_ADAPTERS = 40;
         public const int ADL_MAX_DISPLAYS = 40;
