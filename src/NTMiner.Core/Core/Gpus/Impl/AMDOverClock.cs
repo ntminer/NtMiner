@@ -109,6 +109,7 @@ namespace NTMiner.Core.Gpus.Impl {
             gpu.PowerCapacity = _adlHelper.GetPowerLimitByIndex(gpu.Index);
             gpu.TempLimit = _adlHelper.GetTempLimitByIndex(gpu.Index);
             gpu.MemoryClockDelta = _adlHelper.GetMemoryClockByIndex(gpu.Index);
+            gpu.CoreClockDelta = _adlHelper.GetSystemClockByIndex(gpu.Index);
             VirtualRoot.Happened(new GpuStateChangedEvent(gpu));
         }
     }
