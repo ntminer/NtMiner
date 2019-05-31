@@ -123,7 +123,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
             try {
                 int adapterIndex = GpuIndexToAdapterIndex(_gpuNames, gpuIndex);
                 ADLODNPerformanceLevelsX2 lpODPerformanceLevels = new ADLODNPerformanceLevelsX2();
-                ADLODNPerformanceLevelX2[] aLevels = new ADLODNPerformanceLevelX2[ADL.ADL_PERFORMANCE_LEVELS - 1];
+                ADLODNPerformanceLevelX2[] aLevels = new ADLODNPerformanceLevelX2[ADL.ADL_PERFORMANCE_LEVELS];
                 for (int i = 0; i < aLevels.Length; i++) {
                     aLevels[i] = new ADLODNPerformanceLevelX2();
                 }
@@ -149,7 +149,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
             try {
                 int adapterIndex = GpuIndexToAdapterIndex(_gpuNames, gpuIndex);
                 ADLODNPerformanceLevelsX2 lpODPerformanceLevels = new ADLODNPerformanceLevelsX2();
-                ADLODNPerformanceLevelX2[] aLevels = new ADLODNPerformanceLevelX2[ADL.ADL_PERFORMANCE_LEVELS - 1];
+                ADLODNPerformanceLevelX2[] aLevels = new ADLODNPerformanceLevelX2[ADL.ADL_PERFORMANCE_LEVELS];
                 for (int i = 0; i < aLevels.Length; i++) {
                     aLevels[i] = new ADLODNPerformanceLevelX2();
                 }

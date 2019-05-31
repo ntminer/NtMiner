@@ -106,7 +106,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
         public int iSize;
         public int iMode;
         public int iNumberOfPerformanceLevels;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = ADL.ADL_PERFORMANCE_LEVELS - 1)]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = ADL.ADL_PERFORMANCE_LEVELS)]
         public ADLODNPerformanceLevelX2[] aLevels;
     }
 
