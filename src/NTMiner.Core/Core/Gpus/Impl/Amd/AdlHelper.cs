@@ -138,7 +138,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
                     Write.DevDebug($"iClock={item.iClock},iControl={item.iControl},iEnabled={item.iEnabled},iVddc={item.iVddc}");
                 }
 #endif
-                return lpODPerformanceLevels.aLevels[1].iClock / 100;
+                return lpODPerformanceLevels.aLevels[1].iClock * 10;
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
