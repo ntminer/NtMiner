@@ -130,7 +130,12 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
                 lpODPerformanceLevels.iSize = Marshal.SizeOf(typeof(ADLODNPerformanceLevelsX2));
                 lpODPerformanceLevels.iNumberOfPerformanceLevels = ADL.ADL_PERFORMANCE_LEVELS;
                 var result = ADL.ADL2_OverdriveN_MemoryClocksX2_Get(context, adapterIndex, ref lpODPerformanceLevels);
-                return lpODPerformanceLevels.aLevels[1].iClock * 10;
+                foreach (var level in lpODPerformanceLevels.aLevels) {
+                    if (level.iControl == 7) {
+                        return level.iClock * 10;
+                    }
+                }
+                return 0;
             }
             catch {
                 return 0;
