@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace NTMiner.Core.Gpus.Impl.Amd {
     public class AdlHelper {
@@ -113,6 +115,31 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
                 }
             }
             catch {
+                return 0;
+            }
+        }
+
+        public int GetMemoryClockByIndex(int gpuIndex) {
+            try {
+                const int ADL_PERFORMANCE_LEVELS = 8;
+                int adapterIndex = GpuIndexToAdapterIndex(_gpuNames, gpuIndex);
+                ADLODNPerformanceLevelsX2 lpODPerformanceLevels = new ADLODNPerformanceLevelsX2();
+                ADLODNPerformanceLevelX2[] aLevels = new ADLODNPerformanceLevelX2[ADL_PERFORMANCE_LEVELS - 1];
+                for (int i = 0; i < aLevels.Length; i++) {
+                    aLevels[i] = new ADLODNPerformanceLevelX2();
+                }
+                lpODPerformanceLevels.aLevels = aLevels;
+                lpODPerformanceLevels.iSize = Marshal.SizeOf(typeof(ADLODNPerformanceLevelsX2));
+                lpODPerformanceLevels.iNumberOfPerformanceLevels = ADL_PERFORMANCE_LEVELS;
+                var result = ADL.ADL2_OverdriveN_MemoryClocksX2_Get(context, adapterIndex, ref lpODPerformanceLevels);
+                Write.DevDebug("ADL2_OverdriveN_MemoryClocksX2_Get result=" + result);
+                foreach (var item in lpODPerformanceLevels.aLevels) {
+                    Write.DevDebug($"iClock={item.iClock},iControl={item.iControl},iEnabled={item.iEnabled},iVddc={item.iVddc}");
+                }
+                return lpODPerformanceLevels.aLevels[1].iClock / 100;
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e);
                 return 0;
             }
         }

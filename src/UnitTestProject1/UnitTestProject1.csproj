@@ -56,6 +56,7 @@
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IPTests.cs" />
+    <Compile Include="MarshalTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
