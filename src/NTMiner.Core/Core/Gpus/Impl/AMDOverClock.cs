@@ -9,9 +9,6 @@ namespace NTMiner.Core.Gpus.Impl {
         }
 
         public void SetCoreClock(int gpuIndex, int value, ref HashSet<int> effectGpus) {
-            if (value == 0) {
-                return;
-            }
             if (gpuIndex == NTMinerRoot.GpuAllId) {
                 foreach (var gpu in NTMinerRoot.Instance.GpuSet) {
                     if (gpu.Index == NTMinerRoot.GpuAllId) {
@@ -34,9 +31,6 @@ namespace NTMiner.Core.Gpus.Impl {
         }
 
         public void SetMemoryClock(int gpuIndex, int value, ref HashSet<int> effectGpus) {
-            if (value == 0) {
-                return;
-            }
             if (gpuIndex == NTMinerRoot.GpuAllId) {
                 foreach (var gpu in NTMinerRoot.Instance.GpuSet) {
                     if (gpu.Index == NTMinerRoot.GpuAllId) {
