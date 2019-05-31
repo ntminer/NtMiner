@@ -121,16 +121,16 @@ namespace NTMiner.Core.Profiles {
                 if (!_isInited) {
                     string json = SpecialPath.ReadGpuProfilesJsonFile();
                     if (!string.IsNullOrEmpty(json)) {
-                        try {
-                            GpuProfilesJsonDb data = VirtualRoot.JsonSerializer.Deserialize<GpuProfilesJsonDb>(json);
+                        // 反序列化不报异常，但如果格式不正确返回值可能为null
+                        GpuProfilesJsonDb data = VirtualRoot.JsonSerializer.Deserialize<GpuProfilesJsonDb>(json);
+                        if (data != null) {
                             _data = data;
                         }
-                        catch (Exception e) {
-                            Logger.ErrorDebugLine(e);
+                        else {
+                            Save();
                         }
                     }
                     else {
-                        _data = NewJsonDb();
                         Save();
                     }
                     _isInited = true;
