@@ -19,7 +19,8 @@
 			<TextBox Width="92" VerticalContentAlignment="Center" Text="{Binding SortNumber}">
 			</TextBox>
 			<TextBlock Style="{StaticResource LblTb}">是前译:</TextBlock>
-			<CheckBox IsChecked="{Binding IsPre}" VerticalContentAlignment="Center">
+			<CheckBox IsChecked="{Binding IsPre}" VerticalContentAlignment="Center"
+				FocusVisualStyle="{x:Null}">
 			</CheckBox>
 		</WrapPanel>
 		<WrapPanel Margin="0 2">

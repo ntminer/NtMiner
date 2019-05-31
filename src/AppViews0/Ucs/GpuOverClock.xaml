@@ -31,6 +31,7 @@
 			<GroupBox Width="186">
 				<GroupBox.Header>
 					<CheckBox
+						FocusVisualStyle="{x:Null}"
 						Margin="0 4 0 0"
 						VerticalAlignment="Top"
 						IsChecked="{Binding CoinVm.IsOverClockGpuAll}" 
@@ -70,6 +71,7 @@
 					<WrapPanel>
 						<TextBlock Style="{StaticResource LblTb}">温度</TextBlock>
 						<CheckBox 
+							FocusVisualStyle="{x:Null}"
 							Padding="0" 
 							VerticalAlignment="Center"
 							Foreground="{StaticResource LableColor}"
@@ -215,6 +217,7 @@
 									<WrapPanel>
 										<TextBlock Style="{StaticResource LblTb}">温度</TextBlock>
 										<CheckBox 
+											FocusVisualStyle="{x:Null}"
 											Padding="0" 
 											VerticalAlignment="Center"
 											Click="CheckBoxIsAutoFanSpeed_Click"

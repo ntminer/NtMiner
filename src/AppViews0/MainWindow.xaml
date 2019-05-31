@@ -134,6 +134,7 @@
 						Text="{Binding ServerJsonVersion}" 
 						Foreground="{StaticResource ThemeForeground}"></TextBlock>
 					<CheckBox 
+						FocusVisualStyle="{x:Null}"
 						Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
 						VerticalAlignment="Center"
 						Cursor="Hand"
@@ -380,6 +381,7 @@
 								HorizontalAlignment="Right" 
 								VerticalAlignment="Top">
 								<CheckBox 
+									FocusVisualStyle="{x:Null}"
 									Margin="4 0 0 0"
 									Width="16"
 									ToolTip="显示命令行"
@@ -537,6 +539,7 @@
 							<TextBlock VerticalAlignment="Center" Padding="4 0 0 0" Text="{Binding MinerProfile.CoinVm.Code}"></TextBlock>
 							<TextBlock VerticalAlignment="Center" Text="超频" FontSize="14"></TextBlock>
 							<CheckBox 
+								FocusVisualStyle="{x:Null}"
 								VerticalAlignment="Center"
 								Margin="4 1 0 0" 
 								ToolTip="挖矿开始时自动应用超频" 

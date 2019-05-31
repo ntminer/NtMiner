@@ -106,6 +106,7 @@
 						</WrapPanel>
 						<WrapPanel Margin="0 2" HorizontalAlignment="Right" Height="26">
 							<CheckBox
+								FocusVisualStyle="{x:Null}"
 								VerticalAlignment="Center"
 								Content="用户名密码模式"
 								IsEnabled="{Binding IsReadOnly, Converter={StaticResource BoolInvertConverter}}"

@@ -145,6 +145,7 @@
 				Stretch="Fill" />
 		</controls:KbButton>
 		<CheckBox 
+			FocusVisualStyle="{x:Null}"
 			VerticalAlignment="Center"
 			Cursor="Hand"
 			Foreground="{StaticResource ThemeForeground}"

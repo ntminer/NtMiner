@@ -39,10 +39,12 @@
 		</DockPanel>
 		<StackPanel Grid.Row="1" Margin="30 10 0 0">
 			<CheckBox
+				FocusVisualStyle="{x:Null}"
 				Margin="0 2 0 0"
 				Content="开机自动启动"
 				IsChecked="{Binding IsAutoBoot}" />
 			<CheckBox
+				FocusVisualStyle="{x:Null}"
 				Margin="0 2 0 0"
 				Content="自动挖矿"
 				IsChecked="{Binding IsAutoStart}" />

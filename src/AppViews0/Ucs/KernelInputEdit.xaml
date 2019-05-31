@@ -71,6 +71,7 @@
 			<WrapPanel Margin="0 2" Visibility="{Binding IsSupportDualMineVisible}">
 				<TextBlock Style="{StaticResource LblTb}"></TextBlock>
 				<CheckBox 
+					FocusVisualStyle="{x:Null}"
 					VerticalContentAlignment="Center"
 					Height="26"
 					IsEnabled="{x:Static app:AppStatic.IsDebugMode}"
@@ -92,6 +93,7 @@
 				<WrapPanel Margin="0 2">
 					<TextBlock Style="{StaticResource LblTb}"></TextBlock>
 					<CheckBox 
+						FocusVisualStyle="{x:Null}"
 						VerticalContentAlignment="Center"
 						IsEnabled="{x:Static app:AppStatic.IsDebugMode}"
 						Content="自动双挖权重"

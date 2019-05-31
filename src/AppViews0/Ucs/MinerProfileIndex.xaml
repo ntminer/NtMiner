@@ -27,8 +27,8 @@
 	<StackPanel>
 		<WrapPanel Margin="0 2">
 			<TextBlock
-			    Style="{StaticResource LblTb}"
-			    Text="主币" />
+				Style="{StaticResource LblTb}"
+				Text="主币" />
 			<WrapPanel IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}">
 				<controls:KbButton 
 					x:Name="ButtonMainCoin"
@@ -358,6 +358,7 @@
 			Visibility="{Binding MinerProfile.CoinVm.CoinKernel.IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}">
 			<TextBlock Style="{StaticResource LblTb}" />
 			<CheckBox
+				FocusVisualStyle="{x:Null}"
 				VerticalAlignment="Center"
 				Content="双挖"
 				IsChecked="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled}" />
@@ -368,6 +369,7 @@
 					Width="Auto"
 					Text="权重" />
 				<CheckBox
+					FocusVisualStyle="{x:Null}"
 					Content="自动"
 					VerticalContentAlignment="Center"
 					IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}"
@@ -441,7 +443,7 @@
 				</ItemsControl.ItemsPanel>
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
-						<CheckBox Padding="0 0 4 0" IsChecked="{Binding IsDeviceArgInclude}" Content="{Binding SharpIndexText}"></CheckBox>
+						<CheckBox Padding="0 0 4 0" IsChecked="{Binding IsDeviceArgInclude}" FocusVisualStyle="{x:Null}" Content="{Binding SharpIndexText}"></CheckBox>
 					</DataTemplate>
 				</ItemsControl.ItemTemplate>
 			</ItemsControl>
@@ -461,7 +463,7 @@
 			</ItemsControl.ItemsPanel>
 			<ItemsControl.ItemTemplate>
 				<DataTemplate>
-					<CheckBox Padding="0" IsChecked="{Binding IsChecked}" Content="{Binding Name}" ToolTip="{Binding Description}"></CheckBox>
+					<CheckBox Padding="0" IsChecked="{Binding IsChecked}" FocusVisualStyle="{x:Null}" Content="{Binding Name}" ToolTip="{Binding Description}"></CheckBox>
 				</DataTemplate>
 			</ItemsControl.ItemTemplate>
 		</ItemsControl>

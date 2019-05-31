@@ -41,7 +41,9 @@
 
 			<WrapPanel Margin="6 0 0 0">
 				<TextBlock Style="{StaticResource LblTb}"></TextBlock>
-				<CheckBox Margin="0 2 0 0" IsChecked="{Binding PrependDateTime}" Content="为输出行附加上前缀时间戳（当内核输出默认没有时间戳时勾选）">
+				<CheckBox 
+					FocusVisualStyle="{x:Null}"
+					Margin="0 2 0 0" IsChecked="{Binding PrependDateTime}" Content="为输出行附加上前缀时间戳（当内核输出默认没有时间戳时勾选）">
 				</CheckBox>
 			</WrapPanel>
 
@@ -99,7 +101,9 @@
 				<GroupBox.Header>
 					<WrapPanel>
 						<TextBlock VerticalAlignment="Center">双挖币</TextBlock>
-						<CheckBox Margin="10 2 0 0" IsChecked="{Binding IsDualInSameLine}" Content="双挖币的输出和主币在同一行上">
+						<CheckBox 
+							FocusVisualStyle="{x:Null}"
+							Margin="10 2 0 0" IsChecked="{Binding IsDualInSameLine}" Content="双挖币的输出和主币在同一行上">
 						</CheckBox>
 					</WrapPanel>
 				</GroupBox.Header>

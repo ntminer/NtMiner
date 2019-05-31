@@ -27,6 +27,7 @@
 		<WrapPanel Margin="0 2">
 			<TextBlock Style="{StaticResource LblTb}"></TextBlock>
 			<CheckBox 
+				FocusVisualStyle="{x:Null}"
 				VerticalAlignment="Center"
 				Content="启用"
 				IsChecked="{Binding IsEnabled}" />
