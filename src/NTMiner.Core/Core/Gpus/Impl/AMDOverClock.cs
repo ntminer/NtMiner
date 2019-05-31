@@ -14,7 +14,7 @@ namespace NTMiner.Core.Gpus.Impl {
                     if (gpu.Index == NTMinerRoot.GpuAllId) {
                         continue;
                     }
-                    if (gpu.Cool == value) {
+                    if (gpu.CoreClockDelta == value) {
                         continue;
                     }
                     effectGpus.Add(gpu.Index);
@@ -22,7 +22,7 @@ namespace NTMiner.Core.Gpus.Impl {
                 }
             }
             else {
-                if (NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu) && gpu.Cool == value) {
+                if (NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu) && gpu.CoreClockDelta == value) {
                     return;
                 }
                 effectGpus.Add(gpu.Index);
@@ -36,7 +36,7 @@ namespace NTMiner.Core.Gpus.Impl {
                     if (gpu.Index == NTMinerRoot.GpuAllId) {
                         continue;
                     }
-                    if (gpu.Cool == value) {
+                    if (gpu.MemoryClockDelta == value) {
                         continue;
                     }
                     effectGpus.Add(gpu.Index);
@@ -44,7 +44,7 @@ namespace NTMiner.Core.Gpus.Impl {
                 }
             }
             else {
-                if (NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu) && gpu.Cool == value) {
+                if (NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu) && gpu.MemoryClockDelta == value) {
                     return;
                 }
                 effectGpus.Add(gpu.Index);
@@ -61,7 +61,7 @@ namespace NTMiner.Core.Gpus.Impl {
                     if (gpu.Index == NTMinerRoot.GpuAllId) {
                         continue;
                     }
-                    if (gpu.Cool == value) {
+                    if (gpu.PowerCapacity == value) {
                         continue;
                     }
                     effectGpus.Add(gpu.Index);
@@ -69,7 +69,7 @@ namespace NTMiner.Core.Gpus.Impl {
                 }
             }
             else {
-                if (NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu) && gpu.Cool == value) {
+                if (NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu) && gpu.PowerCapacity == value) {
                     return;
                 }
                 effectGpus.Add(gpu.Index);
@@ -86,7 +86,7 @@ namespace NTMiner.Core.Gpus.Impl {
                     if (gpu.Index == NTMinerRoot.GpuAllId) {
                         continue;
                     }
-                    if (gpu.Cool == value) {
+                    if (gpu.TempLimit == value) {
                         continue;
                     }
                     effectGpus.Add(gpu.Index);
@@ -94,7 +94,7 @@ namespace NTMiner.Core.Gpus.Impl {
                 }
             }
             else {
-                if (NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu) && gpu.Cool == value) {
+                if (NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu) && gpu.TempLimit == value) {
                     return;
                 }
                 effectGpus.Add(gpu.Index);
