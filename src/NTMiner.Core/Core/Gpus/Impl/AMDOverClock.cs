@@ -9,7 +9,28 @@ namespace NTMiner.Core.Gpus.Impl {
         }
 
         public void SetCoreClock(int gpuIndex, int value, ref HashSet<int> effectGpus) {
-            // 暂不支持A卡超频
+            if (value == 0) {
+                return;
+            }
+            if (gpuIndex == NTMinerRoot.GpuAllId) {
+                foreach (var gpu in NTMinerRoot.Instance.GpuSet) {
+                    if (gpu.Index == NTMinerRoot.GpuAllId) {
+                        continue;
+                    }
+                    if (gpu.Cool == value) {
+                        continue;
+                    }
+                    effectGpus.Add(gpu.Index);
+                    _adlHelper.SetSystemClockByIndex(gpu.Index, value);
+                }
+            }
+            else {
+                if (NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu) && gpu.Cool == value) {
+                    return;
+                }
+                effectGpus.Add(gpu.Index);
+                _adlHelper.SetSystemClockByIndex(gpuIndex, value);
+            }
         }
 
         public void SetMemoryClock(int gpuIndex, int value, ref HashSet<int> effectGpus) {
