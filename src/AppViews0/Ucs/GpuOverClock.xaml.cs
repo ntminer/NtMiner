@@ -17,10 +17,8 @@ namespace NTMiner.Views.Ucs {
             InitializeComponent();
             switch (NTMinerRoot.Instance.GpuSet.GpuType) {
                 case GpuType.NVIDIA:
-                    this.TbRedText.Text = "超频有风险，操作需谨慎";
-                    break;
                 case GpuType.AMD:
-                    this.TbRedText.Text = "暂不支持A卡超频";
+                    this.TbRedText.Text = "超频有风险，操作需谨慎";
                     break;
                 case GpuType.Empty:
                 default:
