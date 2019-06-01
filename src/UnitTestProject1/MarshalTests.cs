@@ -18,14 +18,41 @@ namespace UnitTestProject1 {
             public int iSize;
             public int iMode;
             public int iNumberOfPerformanceLevels;
-            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 7)]
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8)]
             public ADLODNPerformanceLevelX2[] aLevels;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        struct ADLODNParameterRange {
+            public int iMode;
+            public int iMin;
+            public int iMax;
+            public int iStep;
+            public int iDefault;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        struct ADLODNCapabilitiesX2 {
+            public int iMaximumNumberOfPerformanceLevels;
+            public int iFlags;
+            public ADLODNParameterRange sEngineClockRange;
+            public ADLODNParameterRange sMemoryClockRange;
+            public ADLODNParameterRange svddcRange;
+            public ADLODNParameterRange power;
+            public ADLODNParameterRange powerTuneTemperature;
+            public ADLODNParameterRange fanTemperature;
+            public ADLODNParameterRange fanSpeed;
+            public ADLODNParameterRange minimumPerformanceClock;
+            public ADLODNParameterRange throttleNotificaion;
+            public ADLODNParameterRange autoSystemClock;
         }
 
         [TestMethod]
         public void TestMethod1() {
             Console.WriteLine(Marshal.SizeOf(typeof(ADLODNPerformanceLevelsX2)));
             Console.WriteLine(Marshal.SizeOf(typeof(ADLODNPerformanceLevelX2)));
+            Console.WriteLine(Marshal.SizeOf(typeof(ADLODNParameterRange)));
+            Console.WriteLine(Marshal.SizeOf(typeof(ADLODNCapabilitiesX2)));
         }
     }
 }
