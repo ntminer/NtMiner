@@ -25,7 +25,7 @@
 		</ResourceDictionary>
 	</UserControl.Resources>
 	<StackPanel>
-		<WrapPanel Margin="0 2">
+		<WrapPanel>
 			<TextBlock
 				Style="{StaticResource LblTb}"
 				Text="主币" />
@@ -108,7 +108,7 @@
 			</WrapPanel>
 		</WrapPanel>
 
-		<WrapPanel Margin="0 2">
+		<WrapPanel>
 			<TextBlock 
 				Style="{StaticResource LblTb}"
 				Text="主矿池" />
@@ -196,7 +196,7 @@
 			</WrapPanel>
 		</WrapPanel>
 
-		<Grid Margin="0 2">
+		<Grid>
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="163"></ColumnDefinition>
 				<ColumnDefinition Width="166"></ColumnDefinition>
@@ -247,7 +247,7 @@
 			</Border>
 		</Grid>
 
-		<Grid Margin="0 2"
+		<Grid
 			Visibility="{Binding MinerProfile.IsAllMainCoinPoolIsUserMode, Converter={StaticResource BoolToVisibilityInvertConverter}}">
 			<WrapPanel>
 				<TextBlock
@@ -353,7 +353,7 @@
 		</Grid>
 
 		<WrapPanel 
-			Margin="0 2"
+			Margin="0 0 0 4"
 			IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}" 
 			Visibility="{Binding MinerProfile.CoinVm.CoinKernel.IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}">
 			<TextBlock Style="{StaticResource LblTb}" />
@@ -402,7 +402,7 @@
 			Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
 		</Border>
 
-		<WrapPanel Margin="0 2 0 0" VerticalAlignment="Center">
+		<WrapPanel VerticalAlignment="Center">
 			<TextBlock
 				Style="{StaticResource LblTb}"
 				Text="高级参数" />
@@ -418,7 +418,7 @@
 				</TextBox.ToolTip>
 			</TextBox>
 		</WrapPanel>
-		<Grid Margin="0 2 0 0" Visibility="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.KernelInputVm.IsSupportDevicesArg, Converter={StaticResource BoolToVisibilityConverter}}">
+		<Grid Visibility="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.KernelInputVm.IsSupportDevicesArg, Converter={StaticResource BoolToVisibilityConverter}}">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto"></ColumnDefinition>
 				<ColumnDefinition Width="*"></ColumnDefinition>

@@ -285,6 +285,7 @@
 							</ContextMenu>
 						</ScrollViewer.ContextMenu>
 						<uc:MinerProfileIndex 
+							Margin="0 4 0 0"
 							HorizontalAlignment="Left"
 							IsEnabled="{Binding MinerProfile.IsWorker,Converter={StaticResource BoolInvertConverter}}"/>
 					</ScrollViewer>
