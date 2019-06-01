@@ -43,7 +43,6 @@
 			<TextBlock Text="算力" VerticalAlignment="Center"></TextBlock>
 			<TextBox Width="60" Text="{Binding Speed, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center"></TextBox>
 			<controls:KbComboBox 
-				Height="30"
 				Width="60"
 				VerticalAlignment="Center"
 				ItemsSource="{x:Static vm:SpeedUnitViewModel.SpeedUnitVms}"

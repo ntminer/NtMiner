@@ -153,11 +153,6 @@
 				BorderThickness="0"
 				Width="132" ItemsSource="{Binding CurrentGroup.CoinVms}" 
 				DisplayMemberPath="Code">
-				<controls:KbComboBox.ItemContainerStyle>
-					<Style TargetType="ComboBoxItem">
-						<Setter Property="Height" Value="30"></Setter>
-					</Style>
-				</controls:KbComboBox.ItemContainerStyle>
 			</controls:KbComboBox>
 			<controls:KbButton 
 				Command="{Binding CurrentGroup.AddCoinGroup}" 

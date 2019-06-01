@@ -41,7 +41,7 @@
 				<controls:KbComboBox 
 					Width="80" ItemsSource="{x:Static app:AppStatic.SupportedGpuEnumItems}"
 					IsEnabled="{x:Static app:AppStatic.IsDebugMode}"
-					DisplayMemberPath="Description" Height="26"
+					DisplayMemberPath="Description"
 					SelectedItem="{Binding SupportedGpuEnumItem}">
 				</controls:KbComboBox>
 				<Path

@@ -5,6 +5,7 @@
 
     <Style TargetType="{x:Type controls:KbComboBox}">
         <Setter Property="Background" Value="White" />
+        <Setter Property="Height" Value="26" />
         <Setter Property="BorderBrush" Value="{StaticResource LineColor}" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Template">

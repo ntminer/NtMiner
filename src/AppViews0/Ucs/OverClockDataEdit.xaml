@@ -24,7 +24,7 @@
 			<TextBlock Style="{StaticResource LblTb}">显卡类型</TextBlock>
 			<controls:KbComboBox 
 				Width="100" ItemsSource="{x:Static app:AppStatic.GpuTypeEnumItems}"
-				DisplayMemberPath="Description" Height="26"
+				DisplayMemberPath="Description"
 				SelectedItem="{Binding GpuTypeEnumItem}">
 			</controls:KbComboBox>
 			<Path

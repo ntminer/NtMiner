@@ -118,7 +118,6 @@
 						BorderThickness="0"
 						IsEnabled="{x:Static app:AppStatic.IsDebugMode}"
 						Width="200" 
-						Height="26"
 						ItemsSource="{Binding GroupVms.SelectionOptions}"
 						DisplayMemberPath="Name"
 						SelectedItem="{Binding DualCoinGroup}">
