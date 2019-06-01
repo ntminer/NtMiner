@@ -100,7 +100,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
             }
         }
 
-        public void GetClockRange(
+        public void GetClockRangeByIndex(
             int gpuIndex, 
             out int coreClockDeltaMin, out int coreClockDeltaMax, 
             out int memoryClockDeltaMin, out int memoryClockDeltaMax,
