@@ -146,9 +146,11 @@ namespace NTMiner.Core.Gpus.Impl {
             gpu.TempLimit = _adlHelper.GetTempLimitByIndex(gpu.Index);
             gpu.MemoryClockDelta = _adlHelper.GetMemoryClockByIndex(gpu.Index);
             gpu.CoreClockDelta = _adlHelper.GetSystemClockByIndex(gpu.Index);
-            _adlHelper.GetClockRange(gpu.Index, out int coreClockDeltaMin, out int coreClockDeltaMax);
+            _adlHelper.GetClockRange(gpu.Index, out int coreClockDeltaMin, out int coreClockDeltaMax, out int memoryClockDeltaMin, out int memoryClockDeltaMax);
             gpu.CoreClockDeltaMin = coreClockDeltaMin;
             gpu.CoreClockDeltaMax = coreClockDeltaMax;
+            gpu.MemoryClockDeltaMin = memoryClockDeltaMin;
+            gpu.MemoryClockDeltaMax = memoryClockDeltaMax;
             VirtualRoot.Happened(new GpuStateChangedEvent(gpu));
         }
     }
