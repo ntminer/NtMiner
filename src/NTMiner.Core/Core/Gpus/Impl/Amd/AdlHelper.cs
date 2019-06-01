@@ -100,7 +100,12 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
             }
         }
 
-        public void GetClockRange(int gpuIndex, out int coreClockDeltaMin, out int coreClockDeltaMax, out int memoryClockDeltaMin, out int memoryClockDeltaMax) {
+        public void GetClockRange(
+            int gpuIndex, 
+            out int coreClockDeltaMin, out int coreClockDeltaMax, 
+            out int memoryClockDeltaMin, out int memoryClockDeltaMax,
+            out int powerMin, out int powerMax,
+            out int tempLimitMin, out int tempLimitMax, out int tempLimitDefault) {
             int adapterIndex = GpuIndexToAdapterIndex(gpuIndex);
             ADLODNCapabilitiesX2 lpODCapabilities = new ADLODNCapabilitiesX2();
             var result = ADL.ADL2_OverdriveN_CapabilitiesX2_Get(context, adapterIndex, ref lpODCapabilities);
@@ -108,6 +113,11 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
             coreClockDeltaMax = lpODCapabilities.sEngineClockRange.iMax * 10;
             memoryClockDeltaMin = lpODCapabilities.sMemoryClockRange.iMin * 10;
             memoryClockDeltaMax = lpODCapabilities.sMemoryClockRange.iMax * 10;
+            powerMin = lpODCapabilities.power.iMin + 100;
+            powerMax = lpODCapabilities.power.iMax + 100;
+            tempLimitMin = lpODCapabilities.powerTuneTemperature.iMin;
+            tempLimitMax = lpODCapabilities.powerTuneTemperature.iMax;
+            tempLimitDefault = lpODCapabilities.powerTuneTemperature.iDefault;
 #if DEBUG
             Write.DevDebug($"ADL2_OverdriveN_CapabilitiesX2_Get result {result} coreClockDeltaMin={coreClockDeltaMin},coreClockDeltaMax={coreClockDeltaMax},memoryClockDeltaMin={memoryClockDeltaMin},memoryClockDeltaMax={memoryClockDeltaMax}");
 #endif
