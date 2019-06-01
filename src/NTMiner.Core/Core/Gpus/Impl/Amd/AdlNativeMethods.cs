@@ -103,6 +103,19 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
 
     [StructLayout(LayoutKind.Sequential)]
     struct ADLODNPerformanceLevelsX2 {
+        public static ADLODNPerformanceLevelsX2 Create() {
+            ADLODNPerformanceLevelsX2 lpODPerformanceLevels = new ADLODNPerformanceLevelsX2 {
+                aLevels = new ADLODNPerformanceLevelX2[ADL.ADL_PERFORMANCE_LEVELS]
+            };
+            for (int i = 0; i < lpODPerformanceLevels.aLevels.Length; i++) {
+                lpODPerformanceLevels.aLevels[i] = new ADLODNPerformanceLevelX2();
+            }
+            lpODPerformanceLevels.iSize = Marshal.SizeOf(typeof(ADLODNPerformanceLevelsX2));
+            lpODPerformanceLevels.iNumberOfPerformanceLevels = ADL.ADL_PERFORMANCE_LEVELS;
+
+            return lpODPerformanceLevels;
+        }
+
         public int iSize;
         public int iMode;
         public int iNumberOfPerformanceLevels;
