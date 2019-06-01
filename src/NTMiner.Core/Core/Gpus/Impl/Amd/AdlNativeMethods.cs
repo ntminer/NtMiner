@@ -110,6 +110,31 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
         public ADLODNPerformanceLevelX2[] aLevels;
     }
 
+    [StructLayout(LayoutKind.Sequential)]
+    struct ADLODNParameterRange {
+        public int iMode;
+        public int iMin;
+        public int iMax;
+        public int iStep;
+        public int iDefault;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    struct ADLODNCapabilitiesX2 {
+        public int iMaximumNumberOfPerformanceLevels;
+        public int iFlags;
+        public ADLODNParameterRange sEngineClockRange;
+        public ADLODNParameterRange sMemoryClockRange;
+        public ADLODNParameterRange svddcRange;
+        public ADLODNParameterRange power;
+        public ADLODNParameterRange powerTuneTemperature;
+        public ADLODNParameterRange fanTemperature;
+        public ADLODNParameterRange fanSpeed;
+        public ADLODNParameterRange minimumPerformanceClock;
+        public ADLODNParameterRange throttleNotificaion;
+        public ADLODNParameterRange autoSystemClock;
+    }
+
     internal class ADL {
         public const int ADL_PERFORMANCE_LEVELS = 8;
         public const int ADL_MAX_PATH = 256;
