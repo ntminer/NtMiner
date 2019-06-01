@@ -81,11 +81,11 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
         }
 
         // 将GPUIndex转换为AdapterIndex
-        private static int GpuIndexToAdapterIndex(List<ATIGPU> gpuNames, int gpuIndex) {
-            if (gpuIndex >= gpuNames.Count) {
+        private int GpuIndexToAdapterIndex(int gpuIndex) {
+            if (gpuIndex >= _gpuNames.Count) {
                 return 0;
             }
-            return gpuNames[gpuIndex].AdapterIndex;
+            return _gpuNames[gpuIndex].AdapterIndex;
         }
 
         public string GetGpuName(int gpuIndex) {
@@ -100,9 +100,13 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
             }
         }
 
+        public void GetClockRange(int gpuIndex) {
+            int adapterIndex = GpuIndexToAdapterIndex(gpuIndex);
+        }
+
         public ulong GetTotalMemoryByIndex(int gpuIndex) {
             try {
-                int adapterIndex = GpuIndexToAdapterIndex(_gpuNames, gpuIndex);
+                int adapterIndex = GpuIndexToAdapterIndex(gpuIndex);
                 ADLMemoryInfo adlt = new ADLMemoryInfo();
                 if (ADL.ADL_Adapter_MemoryInfo_Get(adapterIndex, ref adlt) == ADL.ADL_OK) {
                     return adlt.MemorySize;
@@ -118,7 +122,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
 
         public int GetMemoryClockByIndex(int gpuIndex) {
             try {
-                int adapterIndex = GpuIndexToAdapterIndex(_gpuNames, gpuIndex);
+                int adapterIndex = GpuIndexToAdapterIndex(gpuIndex);
                 ADLODNPerformanceLevelsX2 lpODPerformanceLevels = ADLODNPerformanceLevelsX2.Create();
                 var result = ADL.ADL2_OverdriveN_MemoryClocksX2_Get(context, adapterIndex, ref lpODPerformanceLevels);
                 foreach (var level in lpODPerformanceLevels.aLevels) {
@@ -135,7 +139,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
 
         public void SetMemoryClockByIndex(int gpuIndex, int value) {
             try {
-                int adapterIndex = GpuIndexToAdapterIndex(_gpuNames, gpuIndex);
+                int adapterIndex = GpuIndexToAdapterIndex(gpuIndex);
                 ADLODNPerformanceLevelsX2 lpODPerformanceLevels = ADLODNPerformanceLevelsX2.Create();
                 var result = ADL.ADL2_OverdriveN_MemoryClocksX2_Get(context, adapterIndex, ref lpODPerformanceLevels);
 #if DEBUG
@@ -171,7 +175,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
 
         public int GetSystemClockByIndex(int gpuIndex) {
             try {
-                int adapterIndex = GpuIndexToAdapterIndex(_gpuNames, gpuIndex);
+                int adapterIndex = GpuIndexToAdapterIndex(gpuIndex);
                 ADLODNPerformanceLevelsX2 lpODPerformanceLevels = ADLODNPerformanceLevelsX2.Create();
                 var result = ADL.ADL2_OverdriveN_SystemClocksX2_Get(context, adapterIndex, ref lpODPerformanceLevels);
                 return lpODPerformanceLevels.aLevels[lpODPerformanceLevels.aLevels.Length - 1].iClock * 10;
@@ -183,7 +187,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
 
         public void SetSystemClockByIndex(int gpuIndex, int value) {
             try {
-                int adapterIndex = GpuIndexToAdapterIndex(_gpuNames, gpuIndex);
+                int adapterIndex = GpuIndexToAdapterIndex(gpuIndex);
                 ADLODNPerformanceLevelsX2 lpODPerformanceLevels = ADLODNPerformanceLevelsX2.Create();
                 var result = ADL.ADL2_OverdriveN_SystemClocksX2_Get(context, adapterIndex, ref lpODPerformanceLevels);
 #if DEBUG
@@ -211,7 +215,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
 
         public int GetTemperatureByIndex(int gpuIndex) {
             try {
-                int adapterIndex = GpuIndexToAdapterIndex(_gpuNames, gpuIndex);
+                int adapterIndex = GpuIndexToAdapterIndex(gpuIndex);
                 ADLTemperature adlt = new ADLTemperature();
                 if (ADL.ADL_Overdrive5_Temperature_Get(adapterIndex, 0, ref adlt) == ADL.ADL_OK) {
                     return (int)(0.001f * adlt.Temperature);
@@ -227,7 +231,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
 
         public uint GetFanSpeedByIndex(int gpuIndex) {
             try {
-                int adapterIndex = GpuIndexToAdapterIndex(_gpuNames, gpuIndex);
+                int adapterIndex = GpuIndexToAdapterIndex(gpuIndex);
                 ADLFanSpeedValue adlf = new ADLFanSpeedValue {
                     SpeedType = ADL.ADL_DL_FANCTRL_SPEED_TYPE_PERCENT
                 };
@@ -245,7 +249,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
 
         public void SetFunSpeedByIndex(int gpuIndex, int value) {
             try {
-                int adapterIndex = GpuIndexToAdapterIndex(_gpuNames, gpuIndex);
+                int adapterIndex = GpuIndexToAdapterIndex(gpuIndex);
                 ADLFanSpeedValue adlf = new ADLFanSpeedValue {
                     SpeedType = ADL.ADL_DL_FANCTRL_SPEED_TYPE_PERCENT
                 };
@@ -259,7 +263,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
         }
 
         public int GetPowerLimitByIndex(int gpuIndex) {
-            int adapterIndex = GpuIndexToAdapterIndex(_gpuNames, gpuIndex);
+            int adapterIndex = GpuIndexToAdapterIndex(gpuIndex);
             ADLODNPowerLimitSetting lpODPowerLimit = new ADLODNPowerLimitSetting();
             try {
                 int result = ADL.ADL2_OverdriveN_PowerLimit_Get(context, adapterIndex, ref lpODPowerLimit);
@@ -277,7 +281,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
         }
 
         public void SetPowerLimitByIndex(int gpuIndex, int value) {
-            int adapterIndex = GpuIndexToAdapterIndex(_gpuNames, gpuIndex);
+            int adapterIndex = GpuIndexToAdapterIndex(gpuIndex);
             ADLODNPowerLimitSetting lpODPowerLimit = new ADLODNPowerLimitSetting();
             try {
                 int result = ADL.ADL2_OverdriveN_PowerLimit_Get(context, adapterIndex, ref lpODPowerLimit);
@@ -292,7 +296,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
         }
 
         public int GetTempLimitByIndex(int gpuIndex) {
-            int adapterIndex = GpuIndexToAdapterIndex(_gpuNames, gpuIndex);
+            int adapterIndex = GpuIndexToAdapterIndex(gpuIndex);
             ADLODNPowerLimitSetting lpODPowerLimit = new ADLODNPowerLimitSetting();
             try {
                 int result = ADL.ADL2_OverdriveN_PowerLimit_Get(context, adapterIndex, ref lpODPowerLimit);
@@ -307,7 +311,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
         }
 
         public void SetTempLimitByIndex(int gpuIndex, int value) {
-            int adapterIndex = GpuIndexToAdapterIndex(_gpuNames, gpuIndex);
+            int adapterIndex = GpuIndexToAdapterIndex(gpuIndex);
             ADLODNPowerLimitSetting lpODPowerLimit = new ADLODNPowerLimitSetting();
             try {
                 int result = ADL.ADL2_OverdriveN_PowerLimit_Get(context, adapterIndex, ref lpODPowerLimit);
@@ -322,7 +326,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
         }
 
         public uint GetPowerUsageByIndex(int gpuIndex) {
-            int adapterIndex = GpuIndexToAdapterIndex(_gpuNames, gpuIndex);
+            int adapterIndex = GpuIndexToAdapterIndex(gpuIndex);
             int power = 0;
             try {
                 if (ADL.ADL2_Overdrive6_CurrentPower_Get(context, adapterIndex, 0, ref power) == ADL.ADL_OK) {
