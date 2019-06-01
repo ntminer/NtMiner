@@ -186,6 +186,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
         internal delegate int ADL2_OverdriveN_MemoryClocksX2_SetDelegate(IntPtr context, int iAdapterIndex, ref ADLODNPerformanceLevelsX2 lpODPerformanceLevels);
         internal delegate int ADL2_OverdriveN_SystemClocksX2_GetDelegate(IntPtr context, int iAdapterIndex, ref ADLODNPerformanceLevelsX2 lpODPerformanceLevels);
         internal delegate int ADL2_OverdriveN_SystemClocksX2_SetDelegate(IntPtr context, int iAdapterIndex, ref ADLODNPerformanceLevelsX2 lpODPerformanceLevels);
+        internal delegate int ADL2_OverdriveN_CapabilitiesX2_GetDelegate(IntPtr context, int iAdapterIndex, ref ADLODNCapabilitiesX2 lpODCapabilities);
 
         private static ADL_Main_Control_CreateDelegate _ADL_Main_Control_Create;
         public static ADL2_Main_Control_CreateDelegate ADL2_Main_Control_Create;
@@ -209,6 +210,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
         public static ADL2_OverdriveN_MemoryClocksX2_SetDelegate ADL2_OverdriveN_MemoryClocksX2_Set;
         public static ADL2_OverdriveN_SystemClocksX2_GetDelegate ADL2_OverdriveN_SystemClocksX2_Get;
         public static ADL2_OverdriveN_SystemClocksX2_SetDelegate ADL2_OverdriveN_SystemClocksX2_Set;
+        public static ADL2_OverdriveN_CapabilitiesX2_GetDelegate ADL2_OverdriveN_CapabilitiesX2_Get;
 
         private static string dllName;
 
@@ -246,6 +248,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
             GetDelegate(nameof(ADL2_OverdriveN_MemoryClocksX2_Set), out ADL2_OverdriveN_MemoryClocksX2_Set);
             GetDelegate(nameof(ADL2_OverdriveN_SystemClocksX2_Get), out ADL2_OverdriveN_SystemClocksX2_Get);
             GetDelegate(nameof(ADL2_OverdriveN_SystemClocksX2_Set), out ADL2_OverdriveN_SystemClocksX2_Set);
+            GetDelegate(nameof(ADL2_OverdriveN_CapabilitiesX2_Get), out ADL2_OverdriveN_CapabilitiesX2_Get);
         }
 
         static ADL() {
@@ -257,13 +260,11 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
         public static int ADL_Main_Control_Create(int enumConnectedAdapters) {
             try {
                 try {
-                    return _ADL_Main_Control_Create(Main_Memory_Alloc,
-                      enumConnectedAdapters);
+                    return _ADL_Main_Control_Create(Main_Memory_Alloc, enumConnectedAdapters);
                 }
                 catch {
                     CreateDelegates("atiadlxy");
-                    return _ADL_Main_Control_Create(Main_Memory_Alloc,
-                      enumConnectedAdapters);
+                    return _ADL_Main_Control_Create(Main_Memory_Alloc, enumConnectedAdapters);
                 }
             }
             catch {
@@ -276,10 +277,9 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
             int size = info.Length * elementSize;
             IntPtr ptr = Marshal.AllocHGlobal(size);
             int result = _ADL_Adapter_AdapterInfo_Get(ptr, size);
-            for (int i = 0; i < info.Length; i++)
-                info[i] = (ADLAdapterInfo)
-                  Marshal.PtrToStructure((IntPtr)((long)ptr + i * elementSize),
-                  typeof(ADLAdapterInfo));
+            for (int i = 0; i < info.Length; i++) {
+                info[i] = (ADLAdapterInfo)Marshal.PtrToStructure((IntPtr)((long)ptr + i * elementSize), typeof(ADLAdapterInfo));
+            }
             Marshal.FreeHGlobal(ptr);
 
             // the ADLAdapterInfo.VendorID field reported by ADL is wrong on 
@@ -304,9 +304,8 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
         internal delegate IntPtr ADL_Main_Memory_AllocDelegate(int size);
 
         // create a Main_Memory_Alloc delegate and keep it alive
-        internal static ADL_Main_Memory_AllocDelegate Main_Memory_Alloc =
-          delegate (int size) {
-              return Marshal.AllocHGlobal(size);
-          };
+        internal static ADL_Main_Memory_AllocDelegate Main_Memory_Alloc = (int size) => {
+            return Marshal.AllocHGlobal(size);
+        };
     }
 }
