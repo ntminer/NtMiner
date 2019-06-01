@@ -134,6 +134,21 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
 
     [StructLayout(LayoutKind.Sequential)]
     struct ADLODNCapabilitiesX2 {
+        public static ADLODNCapabilitiesX2 Create() {
+            return new ADLODNCapabilitiesX2 {
+                sEngineClockRange = new ADLODNParameterRange(),
+                sMemoryClockRange = new ADLODNParameterRange(),
+                svddcRange = new ADLODNParameterRange(),
+                power = new ADLODNParameterRange(),
+                powerTuneTemperature = new ADLODNParameterRange(),
+                fanTemperature = new ADLODNParameterRange(),
+                fanSpeed = new ADLODNParameterRange(),
+                minimumPerformanceClock = new ADLODNParameterRange(),
+                throttleNotificaion = new ADLODNParameterRange(),
+                autoSystemClock = new ADLODNParameterRange()
+            };
+        }
+
         public int iMaximumNumberOfPerformanceLevels;
         public int iFlags;
         public ADLODNParameterRange sEngineClockRange;

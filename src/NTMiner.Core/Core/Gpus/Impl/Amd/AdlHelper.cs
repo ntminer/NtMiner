@@ -100,8 +100,15 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
             }
         }
 
-        public void GetClockRange(int gpuIndex) {
+        public void GetClockRange(int gpuIndex, out int coreClockDeltaMin, out int coreClockDeltaMax) {
             int adapterIndex = GpuIndexToAdapterIndex(gpuIndex);
+            ADLODNCapabilitiesX2 lpODCapabilities = new ADLODNCapabilitiesX2();
+            var result = ADL.ADL2_OverdriveN_CapabilitiesX2_Get(context, adapterIndex, ref lpODCapabilities);
+            coreClockDeltaMin = lpODCapabilities.sEngineClockRange.iMin * 10;
+            coreClockDeltaMax = lpODCapabilities.sEngineClockRange.iMax * 10;
+#if DEBUG
+            Write.DevDebug($"ADL2_OverdriveN_CapabilitiesX2_Get result {result} coreClockDeltaMin={coreClockDeltaMin},coreClockDeltaMax={coreClockDeltaMax}");
+#endif
         }
 
         public ulong GetTotalMemoryByIndex(int gpuIndex) {
