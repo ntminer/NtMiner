@@ -17,7 +17,7 @@ namespace NTMiner.MinerServer {
                 ClientId = data.ClientId,
                 MinerIp = data.MinerIp,
                 MinerName = data.MinerName,
-                ClientName = string.Empty,
+                ClientName = data.ClientName,
                 CreatedOn = data.CreatedOn,
                 GroupId = data.GroupId,
                 WorkId = data.WorkId,

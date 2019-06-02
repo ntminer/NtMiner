@@ -30,6 +30,7 @@ namespace NTMiner.Data.Impl {
                                     GroupId = clientData.GroupId,
                                     Id = clientData.Id,
                                     ClientId = clientData.ClientId,
+                                    ClientName = clientData.ClientName,
                                     MinerIp = clientData.MinerIp,
                                     MinerName = clientData.MinerName,
                                     WindowsLoginName = clientData.WindowsLoginName,
@@ -123,6 +124,7 @@ namespace NTMiner.Data.Impl {
             MinerData minerData = new MinerData {
                 Id = ObjectId.NewObjectId().ToString(),
                 ClientId = Guid.NewGuid(),
+                ClientName = string.Empty,
                 CreatedOn = DateTime.Now,
                 GroupId = Guid.Empty,
                 MinerIp = minerIp,
