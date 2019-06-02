@@ -70,9 +70,6 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
             ADLVersionsInfoX2 lpVersionInfo = new ADLVersionsInfoX2();
             try {
                 int result = ADL.ADL2_Graphics_VersionsX2_Get(context, ref lpVersionInfo);
-#if DEBUG
-                Write.DevWarn($"result={result},strDriverVer={lpVersionInfo.strDriverVer},strCatalystVersion={lpVersionInfo.strCatalystVersion},strCrimsonVersion={lpVersionInfo.strCrimsonVersion},strCatalystWebLink={lpVersionInfo.strCatalystWebLink}");
-#endif
                 return lpVersionInfo.strCrimsonVersion;
             }
             catch {
@@ -184,7 +181,9 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
                     }
                     result = ADL.ADL2_OverdriveN_MemoryClocksX2_Set(context, adapterIndex, ref lpODPerformanceLevels);
 #if DEBUG
-                    Write.DevWarn($"ADL2_OverdriveN_MemoryClocksX2_Set({value * 100}) result " + result);
+                    if (result != ADL.ADL_OK) {
+                        Write.DevWarn($"ADL2_OverdriveN_MemoryClocksX2_Set({value * 100}) result " + result);
+                    }
 #endif
                 }
             }
@@ -224,7 +223,9 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
                     }
                     result = ADL.ADL2_OverdriveN_SystemClocksX2_Set(context, adapterIndex, ref lpODPerformanceLevels);
 #if DEBUG
-                    Write.DevWarn($"ADL2_OverdriveN_SystemClocksX2_Set({value * 100}) result " + result);
+                    if (result != ADL.ADL_OK) {
+                        Write.DevWarn($"ADL2_OverdriveN_SystemClocksX2_Set({value * 100}) result " + result);
+                    }
 #endif
                 }
             }
