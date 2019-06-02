@@ -156,6 +156,7 @@
 						</ItemsControl>
 					</WrapPanel>
 					<StackPanel Grid.Row="1">
+						<TextBlock VerticalAlignment="Center" Foreground="{StaticResource LableColor}">核心和显存填0表示恢复默认</TextBlock>
 						<TextBlock VerticalAlignment="Center" Foreground="{StaticResource LableColor}">最高温度：表示达到这个温度时显卡将自动降频</TextBlock>
 					</StackPanel>
 					<WrapPanel Grid.Row="2" VerticalAlignment="Bottom">
