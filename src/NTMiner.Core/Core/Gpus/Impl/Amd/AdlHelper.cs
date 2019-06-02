@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 
@@ -22,8 +23,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
                     Windows.NativeMethods.SetDllDirectory(SpecialPath.ThisSysWOW64Dir);
                 }
                 int status = ADL.ADL_Main_Control_Create(1);
-                Write.DevDebug("AMD Display Library");
-                Write.DevDebug("Status: " + (status == ADL.ADL_OK ? "OK" : status.ToString(CultureInfo.InvariantCulture)));
+                Write.DevDebug("AMD Display Library Status: " + (status == ADL.ADL_OK ? "OK" : status.ToString(CultureInfo.InvariantCulture)));
                 if (status == ADL.ADL_OK) {
                     int numberOfAdapters = 0;
                     ADL.ADL_Adapter_NumberOfAdapters_Get(ref numberOfAdapters);
@@ -71,7 +71,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
             try {
                 int result = ADL.ADL2_Graphics_VersionsX2_Get(context, ref lpVersionInfo);
 #if DEBUG
-                Write.DevDebug($"result={result},strDriverVer={lpVersionInfo.strDriverVer},strCatalystVersion={lpVersionInfo.strCatalystVersion},strCrimsonVersion={lpVersionInfo.strCrimsonVersion},strCatalystWebLink={lpVersionInfo.strCatalystWebLink}");
+                Write.DevWarn($"result={result},strDriverVer={lpVersionInfo.strDriverVer},strCatalystVersion={lpVersionInfo.strCatalystVersion},strCrimsonVersion={lpVersionInfo.strCrimsonVersion},strCatalystWebLink={lpVersionInfo.strCatalystWebLink}");
 #endif
                 return lpVersionInfo.strCrimsonVersion;
             }
@@ -119,7 +119,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
             tempLimitMax = lpODCapabilities.powerTuneTemperature.iMax;
             tempLimitDefault = lpODCapabilities.powerTuneTemperature.iDefault;
 #if DEBUG
-            Write.DevDebug($"ADL2_OverdriveN_CapabilitiesX2_Get result {result} coreClockDeltaMin={coreClockDeltaMin},coreClockDeltaMax={coreClockDeltaMax},memoryClockDeltaMin={memoryClockDeltaMin},memoryClockDeltaMax={memoryClockDeltaMax}");
+            Write.DevWarn($"ADL2_OverdriveN_CapabilitiesX2_Get result {result} coreClockDeltaMin={coreClockDeltaMin},coreClockDeltaMax={coreClockDeltaMax},memoryClockDeltaMin={memoryClockDeltaMin},memoryClockDeltaMax={memoryClockDeltaMax}");
 #endif
         }
 
@@ -162,7 +162,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
                 ADLODNPerformanceLevelsX2 lpODPerformanceLevels = ADLODNPerformanceLevelsX2.Create();
                 var result = ADL.ADL2_OverdriveN_MemoryClocksX2_Get(context, adapterIndex, ref lpODPerformanceLevels);
 #if DEBUG
-                Write.DevDebug("ADL2_OverdriveN_MemoryClocksX2_Get result=" + result);
+                Write.DevWarn("ADL2_OverdriveN_MemoryClocksX2_Get result=" + result);
                 foreach (var item in lpODPerformanceLevels.aLevels) {
                     Write.DevDebug($"iClock={item.iClock},iControl={item.iControl},iEnabled={item.iEnabled},iVddc={item.iVddc}");
                 }
@@ -184,7 +184,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
                     }
                     result = ADL.ADL2_OverdriveN_MemoryClocksX2_Set(context, adapterIndex, ref lpODPerformanceLevels);
 #if DEBUG
-                    Write.DevDebug($"ADL2_OverdriveN_MemoryClocksX2_Set({value * 100}) result " + result);
+                    Write.DevWarn($"ADL2_OverdriveN_MemoryClocksX2_Set({value * 100}) result " + result);
 #endif
                 }
             }
@@ -211,7 +211,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
                 var result = ADL.ADL2_OverdriveN_SystemClocksX2_Get(context, adapterIndex, ref lpODPerformanceLevels);
 #if DEBUG
                 foreach (var item in lpODPerformanceLevels.aLevels) {
-                    Write.DevDebug($"iClock={item.iClock},iControl={item.iControl},iEnabled={item.iEnabled},iVddc={item.iVddc}");
+                    Write.DevWarn($"iClock={item.iClock},iControl={item.iControl},iEnabled={item.iEnabled},iVddc={item.iVddc}");
                 }
 #endif
                 if (result == ADL.ADL_OK) {
@@ -224,7 +224,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
                     }
                     result = ADL.ADL2_OverdriveN_SystemClocksX2_Set(context, adapterIndex, ref lpODPerformanceLevels);
 #if DEBUG
-                    Write.DevDebug($"ADL2_OverdriveN_SystemClocksX2_Set({value * 100}) result " + result);
+                    Write.DevWarn($"ADL2_OverdriveN_SystemClocksX2_Set({value * 100}) result " + result);
 #endif
                 }
             }
@@ -286,9 +286,6 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
             ADLODNPowerLimitSetting lpODPowerLimit = new ADLODNPowerLimitSetting();
             try {
                 int result = ADL.ADL2_OverdriveN_PowerLimit_Get(context, adapterIndex, ref lpODPowerLimit);
-#if DEBUG
-                Write.DevDebug($"result={result},iMode={lpODPowerLimit.iMode},iTDPLimit={lpODPowerLimit.iTDPLimit},iMaxOperatingTemperature={lpODPowerLimit.iMaxOperatingTemperature}");
-#endif
                 if (result == ADL.ADL_OK) {
                     return 100 + lpODPowerLimit.iTDPLimit;
                 }
@@ -304,13 +301,17 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
             ADLODNPowerLimitSetting lpODPowerLimit = new ADLODNPowerLimitSetting();
             try {
                 int result = ADL.ADL2_OverdriveN_PowerLimit_Get(context, adapterIndex, ref lpODPowerLimit);
+#if DEBUG
+                Write.DevWarn($"ADL2_OverdriveN_PowerLimit_Get result={result},iMode={lpODPowerLimit.iMode},iTDPLimit={lpODPowerLimit.iTDPLimit},iMaxOperatingTemperature={lpODPowerLimit.iMaxOperatingTemperature}");
+#endif
                 if (result == ADL.ADL_OK) {
                     lpODPowerLimit.iMode = ADL.ODNControlType_Manual;
                     lpODPowerLimit.iTDPLimit = value - 100;
                     ADL.ADL2_OverdriveN_PowerLimit_Set(context, adapterIndex, ref lpODPowerLimit);
                 }
             }
-            catch {
+            catch(Exception e) {
+                Logger.ErrorDebugLine(e);
             }
         }
 
