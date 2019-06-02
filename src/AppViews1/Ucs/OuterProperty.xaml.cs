@@ -8,7 +8,7 @@ namespace NTMiner.Views.Ucs {
                 Title = "属性",
                 IconName = "Icon_Property",
                 Width = 700,
-                Height = 500,
+                Height = AppStatic.MainWindowHeight,
                 CloseVisible = System.Windows.Visibility.Visible
             }, ucFactory: (window) => new OuterProperty(), fixedSize: false);
         }

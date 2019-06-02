@@ -8,7 +8,7 @@
 		xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
-	    xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
+		xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 		Background="White"
 		mc:Ignorable="d" d:DesignHeight="460" d:DesignWidth="700">
 	<UserControl.DataContext>
@@ -110,30 +110,33 @@
 						</WrapPanel>
 					</StackPanel>
 				</GroupBox>
-				<DataGrid 
-					ItemsSource="{Binding GpuSetProperties}" 
-					Background="Transparent" 
-					GridLinesVisibility="None"
-					HeadersVisibility="None"
-					VerticalScrollBarVisibility="Auto"
-					BorderThickness="0">
-					<DataGrid.Columns>
-						<DataGridTemplateColumn IsReadOnly="True">
-							<DataGridTemplateColumn.CellTemplate>
-								<DataTemplate>
-									<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Name}"></TextBlock>
-								</DataTemplate>
-							</DataGridTemplateColumn.CellTemplate>
-						</DataGridTemplateColumn>
-						<DataGridTemplateColumn Width="*" IsReadOnly="True">
-							<DataGridTemplateColumn.CellTemplate>
-								<DataTemplate>
-									<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Value}"></TextBlock>
-								</DataTemplate>
-							</DataGridTemplateColumn.CellTemplate>
-						</DataGridTemplateColumn>
-					</DataGrid.Columns>
-				</DataGrid>
+				<Grid>
+					<DataGrid 
+						ItemsSource="{Binding GpuSetProperties}" 
+						Background="Transparent" 
+						GridLinesVisibility="None"
+						HeadersVisibility="None"
+						VerticalScrollBarVisibility="Auto"
+						BorderThickness="0">
+						<DataGrid.Columns>
+							<DataGridTemplateColumn IsReadOnly="True">
+								<DataGridTemplateColumn.CellTemplate>
+									<DataTemplate>
+										<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Name}"></TextBlock>
+									</DataTemplate>
+								</DataGridTemplateColumn.CellTemplate>
+							</DataGridTemplateColumn>
+							<DataGridTemplateColumn Width="*" IsReadOnly="True">
+								<DataGridTemplateColumn.CellTemplate>
+									<DataTemplate>
+										<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Value}"></TextBlock>
+									</DataTemplate>
+								</DataGridTemplateColumn.CellTemplate>
+							</DataGridTemplateColumn>
+						</DataGrid.Columns>
+					</DataGrid>
+					<StackPanel Background="#00ffffff"></StackPanel>
+				</Grid>
 			</StackPanel>
 		</ScrollViewer>
 	</Grid>
