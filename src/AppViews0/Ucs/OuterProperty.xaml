@@ -110,33 +110,25 @@
 						</WrapPanel>
 					</StackPanel>
 				</GroupBox>
-				<Grid>
-					<DataGrid 
-						ItemsSource="{Binding GpuSetProperties}" 
-						Background="Transparent" 
-						GridLinesVisibility="None"
-						HeadersVisibility="None"
-						VerticalScrollBarVisibility="Auto"
-						BorderThickness="0">
-						<DataGrid.Columns>
-							<DataGridTemplateColumn IsReadOnly="True">
-								<DataGridTemplateColumn.CellTemplate>
-									<DataTemplate>
-										<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Name}"></TextBlock>
-									</DataTemplate>
-								</DataGridTemplateColumn.CellTemplate>
-							</DataGridTemplateColumn>
-							<DataGridTemplateColumn Width="*" IsReadOnly="True">
-								<DataGridTemplateColumn.CellTemplate>
-									<DataTemplate>
-										<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Value}"></TextBlock>
-									</DataTemplate>
-								</DataGridTemplateColumn.CellTemplate>
-							</DataGridTemplateColumn>
-						</DataGrid.Columns>
-					</DataGrid>
-					<StackPanel Background="#00ffffff"></StackPanel>
-				</Grid>
+				<ItemsControl 
+					ItemsSource="{Binding GpuSetProperties}" 
+					Background="Transparent" 
+			        MouseDown="ItemsControl_MouseDown"
+					BorderThickness="0">
+					<ItemsControl.ItemsPanel>
+						<ItemsPanelTemplate>
+							<StackPanel></StackPanel>
+						</ItemsPanelTemplate>
+					</ItemsControl.ItemsPanel>
+					<ItemsControl.ItemTemplate>
+						<DataTemplate>
+							<WrapPanel>
+								<TextBlock Text="{Binding Name}" Style="{StaticResource LblTb}" Width="200"></TextBlock>
+								<TextBlock Text="{Binding Value}"></TextBlock>
+							</WrapPanel>
+						</DataTemplate>
+					</ItemsControl.ItemTemplate>
+				</ItemsControl>
 			</StackPanel>
 		</ScrollViewer>
 	</Grid>
