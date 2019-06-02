@@ -225,7 +225,7 @@ namespace NTMiner.Data.Impl {
             }
             total = query.Count();
             miningCount = query.Count(a => a.IsMining);
-            var results = query.OrderBy(a => a.MinerName).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+            var results = query.OrderBy(a => a.ClientName).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
             DateTime time = DateTime.Now.AddMinutes(-3);
             // 3分钟未上报算力视为0算力
             foreach (var clientData in results) {
