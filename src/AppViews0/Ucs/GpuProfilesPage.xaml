@@ -157,7 +157,6 @@
 					</WrapPanel>
 					<StackPanel Grid.Row="1">
 						<TextBlock VerticalAlignment="Center" Foreground="{StaticResource LableColor}">最高温度：表示达到这个温度时显卡将自动降频</TextBlock>
-						<TextBlock VerticalAlignment="Center" Foreground="{StaticResource LableColor}">防线温度：系统自动调整风扇转速以使温度不越过防线</TextBlock>
 					</StackPanel>
 					<WrapPanel Grid.Row="2" VerticalAlignment="Bottom">
 						<controls:KbButton
