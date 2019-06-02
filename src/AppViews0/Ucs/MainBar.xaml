@@ -144,13 +144,5 @@
 				Fill="{StaticResource ThemeForeground}"
 				Stretch="Fill" />
 		</controls:KbButton>
-		<CheckBox 
-			FocusVisualStyle="{x:Null}"
-			VerticalAlignment="Center"
-			Cursor="Hand"
-			Foreground="{StaticResource ThemeForeground}"
-			IsChecked="{Binding IsAutoCloseServices}">
-			<TextBlock Text="退出时同时退出本机群控服务" Foreground="{StaticResource ThemeForeground}"></TextBlock>
-		</CheckBox>
 	</WrapPanel>
 </UserControl>
