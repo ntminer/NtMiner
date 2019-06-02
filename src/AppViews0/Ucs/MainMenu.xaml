@@ -270,6 +270,16 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
+				<MenuItem Header="矿机属性" Command="{x:Static app:AppStatic.ShowOuterProperty}">
+					<MenuItem.Icon>
+						<Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_Property}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
 				<MenuItem Header="关于" Command="{x:Static app:AppStatic.ShowAbout}">
 					<MenuItem.Icon>
 						<Path

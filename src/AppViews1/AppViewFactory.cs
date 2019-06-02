@@ -87,6 +87,12 @@ namespace NTMiner.Views {
                         NotificationSample.ShowWindow();
                     });
                 });
+            VirtualRoot.Window<ShowOuterPropertyCommand>(LogEnum.DevConsole,
+                action: message => {
+                    UIThread.Execute(() => {
+                        OuterProperty.ShowWindow();
+                    });
+                });
             VirtualRoot.Window<ShowInnerPropertyCommand>(LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {

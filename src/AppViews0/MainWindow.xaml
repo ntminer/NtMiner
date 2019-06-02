@@ -578,20 +578,6 @@
 					</TabItem.Header>
 					<Border x:Name="ToolboxContainer"></Border>
 				</TabItem>
-				<TabItem x:Name="TabItemOuterProperty">
-					<TabItem.Header>
-						<WrapPanel>
-							<Path 
-								Width="14"
-								Height="13"
-								Data="{StaticResource Icon_Property}"
-								Fill="{StaticResource IconFillColor}"
-								Stretch="Fill" />
-							<TextBlock Text="属性" Padding="4 0 0 0" FontSize="14"></TextBlock>
-						</WrapPanel>
-					</TabItem.Header>
-					<Border x:Name="OuterPropertyContainer"></Border>
-				</TabItem>
 			</TabControl>
 		</Grid>
 		<!--下状态栏-->

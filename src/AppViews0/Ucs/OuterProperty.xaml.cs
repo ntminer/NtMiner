@@ -7,8 +7,10 @@ namespace NTMiner.Views.Ucs {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "属性",
                 IconName = "Icon_Property",
+                Width = 700,
+                Height = 500,
                 CloseVisible = System.Windows.Visibility.Visible
-            }, ucFactory: (window) => new OuterProperty(), fixedSize: true);
+            }, ucFactory: (window) => new OuterProperty(), fixedSize: false);
         }
 
         private OuterPropertyViewModel Vm {

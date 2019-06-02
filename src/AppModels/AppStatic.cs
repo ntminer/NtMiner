@@ -319,6 +319,10 @@ namespace NTMiner {
             VirtualRoot.Execute(new ShowChartsWindowCommand());
         });
 
+        public static ICommand ShowOuterProperty { get; private set; } = new DelegateCommand(() => {
+            VirtualRoot.Execute(new ShowOuterPropertyCommand());
+        });
+
         public static ICommand ShowInnerProperty { get; private set; } = new DelegateCommand(()=> {
             VirtualRoot.Execute(new ShowInnerPropertyCommand());
         });
