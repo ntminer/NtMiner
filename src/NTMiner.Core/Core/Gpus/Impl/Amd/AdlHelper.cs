@@ -23,7 +23,9 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
                     Windows.NativeMethods.SetDllDirectory(SpecialPath.ThisSysWOW64Dir);
                 }
                 int status = ADL.ADL_Main_Control_Create(1);
+#if DEBUG
                 Write.DevDebug("AMD Display Library Status: " + (status == ADL.ADL_OK ? "OK" : status.ToString(CultureInfo.InvariantCulture)));
+#endif
                 if (status == ADL.ADL_OK) {
                     int numberOfAdapters = 0;
                     ADL.ADL_Adapter_NumberOfAdapters_Get(ref numberOfAdapters);
@@ -53,7 +55,9 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
                     }
                     ADL.ADL2_Main_Control_Create(ADL.Main_Memory_Alloc, 1, ref context);
                 }
+#if DEBUG
                 Write.DevDebug(string.Join(",", _gpuNames.Select(a => a.AdapterIndex)));
+#endif
             }
             catch {
                 return false;
@@ -161,7 +165,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
 #if DEBUG
                 Write.DevWarn("ADL2_OverdriveN_MemoryClocksX2_Get result=" + result);
                 foreach (var item in lpODPerformanceLevels.aLevels) {
-                    Write.DevDebug($"iClock={item.iClock},iControl={item.iControl},iEnabled={item.iEnabled},iVddc={item.iVddc}");
+                    Write.DevWarn($"iClock={item.iClock},iControl={item.iControl},iEnabled={item.iEnabled},iVddc={item.iVddc}");
                 }
 #endif
                 if (result == ADL.ADL_OK) {
@@ -209,6 +213,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
                 ADLODNPerformanceLevelsX2 lpODPerformanceLevels = ADLODNPerformanceLevelsX2.Create();
                 var result = ADL.ADL2_OverdriveN_SystemClocksX2_Get(context, adapterIndex, ref lpODPerformanceLevels);
 #if DEBUG
+                Write.DevWarn("ADL2_OverdriveN_SystemClocksX2_Get result=" + result);
                 foreach (var item in lpODPerformanceLevels.aLevels) {
                     Write.DevWarn($"iClock={item.iClock},iControl={item.iControl},iEnabled={item.iEnabled},iVddc={item.iVddc}");
                 }
