@@ -177,10 +177,10 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
                         int index = 0;
                         for (int i = 0; i < lpODPerformanceLevels.aLevels.Length; i++) {
                             if (lpODPerformanceLevels.aLevels[i].iControl != 0) {
+                                lpODPerformanceLevels.aLevels[i].iEnabled = 1;
                                 index = i;
                             }
                         }
-                        lpODPerformanceLevels.aLevels[index].iEnabled = 1;
                         lpODPerformanceLevels.aLevels[index].iClock = value * 100;
                     }
                     result = ADL.ADL2_OverdriveN_MemoryClocksX2_Set(context, adapterIndex, ref lpODPerformanceLevels);
