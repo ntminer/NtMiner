@@ -97,9 +97,6 @@
     <Compile Include="ContainerWindow.xaml.cs">
       <DependentUpon>ContainerWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ChartsWindow.xaml.cs">
-      <DependentUpon>ChartsWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="BrandWindow.xaml.cs">
       <DependentUpon>BrandWindow.xaml</DependentUpon>
     </Compile>
@@ -123,9 +120,6 @@
     </Compile>
     <Compile Include="Ucs\PackageEdit.xaml.cs">
       <DependentUpon>PackageEdit.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\MainBar.xaml.cs">
-      <DependentUpon>MainBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Ucs\MainMenu.xaml.cs">
       <DependentUpon>MainMenu.xaml</DependentUpon>
@@ -166,29 +160,11 @@
     <Compile Include="Ucs\CoinKernelSelect.xaml.cs">
       <DependentUpon>CoinKernelSelect.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ucs\MessageCenter.xaml.cs">
-      <DependentUpon>MessageCenter.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\MinerClientSetting.xaml.cs">
-      <DependentUpon>MinerClientSetting.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\MinerNamesSeter.xaml.cs">
-      <DependentUpon>MinerNamesSeter.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\MinerClientUc.xaml.cs">
-      <DependentUpon>MinerClientUc.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Ucs\GpuOverClock.xaml.cs">
       <DependentUpon>GpuOverClock.xaml</DependentUpon>
     </Compile>
     <Compile Include="Ucs\Calc.xaml.cs">
       <DependentUpon>Calc.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\ColumnsShowEdit.xaml.cs">
-      <DependentUpon>ColumnsShowEdit.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\ColumnsShowPage.xaml.cs">
-      <DependentUpon>ColumnsShowPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Ucs\InnerProperty.xaml.cs">
       <DependentUpon>InnerProperty.xaml</DependentUpon>
@@ -204,18 +180,6 @@
     </Compile>
     <Compile Include="Ucs\UserPage.xaml.cs">
       <DependentUpon>UserPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\OverClockDataPage.xaml.cs">
-      <DependentUpon>OverClockDataPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\OverClockDataEdit.xaml.cs">
-      <DependentUpon>OverClockDataEdit.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\MinerClientAdd.xaml.cs">
-      <DependentUpon>MinerClientAdd.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\NTMinerUpdaterConfig.xaml.cs">
-      <DependentUpon>NTMinerUpdaterConfig.xaml</DependentUpon>
     </Compile>
     <Compile Include="Ucs\PoolKernelEdit.xaml.cs">
       <DependentUpon>PoolKernelEdit.xaml</DependentUpon>
@@ -235,12 +199,6 @@
     <Compile Include="Ucs\QQGroupQrCode.xaml.cs">
       <DependentUpon>QQGroupQrCode.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MinerClientsWindow.xaml.cs">
-      <DependentUpon>MinerClientsWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\CalcConfig.xaml.cs">
-      <DependentUpon>CalcConfig.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Ucs\KernelSelect.xaml.cs">
       <DependentUpon>KernelSelect.xaml</DependentUpon>
     </Compile>
@@ -255,15 +213,6 @@
     </Compile>
     <Compile Include="Ucs\KernelDownloading.xaml.cs">
       <DependentUpon>KernelDownloading.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\ControlCenterHostConfig.xaml.cs">
-      <DependentUpon>ControlCenterHostConfig.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\MineWorkEdit.xaml.cs">
-      <DependentUpon>MineWorkEdit.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\MinerGroupEdit.xaml.cs">
-      <DependentUpon>MinerGroupEdit.xaml</DependentUpon>
     </Compile>
     <Compile Include="Ucs\KernelHelpPage.xaml.cs">
       <DependentUpon>KernelHelpPage.xaml</DependentUpon>
@@ -435,10 +384,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="ChartsWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="BrandWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -472,10 +417,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Ucs\PackageEdit.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Ucs\MainBar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -531,35 +472,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\MessageCenter.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Ucs\MinerClientSetting.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Ucs\MinerNamesSeter.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Ucs\MinerClientUc.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Ucs\GpuOverClock.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Ucs\Calc.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Ucs\ColumnsShowEdit.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Ucs\ColumnsShowPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -580,22 +497,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Ucs\UserPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Ucs\OverClockDataPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Ucs\OverClockDataEdit.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Ucs\MinerClientAdd.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Ucs\NTMinerUpdaterConfig.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -623,14 +524,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="MinerClientsWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Ucs\CalcConfig.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Ucs\KernelSelect.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -648,18 +541,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Ucs\KernelDownloading.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Ucs\ControlCenterHostConfig.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Ucs\MineWorkEdit.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Ucs\MinerGroupEdit.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

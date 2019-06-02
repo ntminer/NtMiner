@@ -34,6 +34,12 @@ namespace NTMiner {
         }
     }
 
+    [MessageType(description: "打开外属性页")]
+    public class ShowOuterPropertyCommand : Cmd {
+        public ShowOuterPropertyCommand() {
+        }
+    }
+
     [MessageType(description: "打开内属性页")]
     public class ShowInnerPropertyCommand : Cmd {
         public ShowInnerPropertyCommand() {

@@ -65,16 +65,11 @@ namespace NTMiner.Vms {
                     string iconName;
                     switch (_minerClientVm.GpuType) {
                         case GpuType.NVIDIA:
+                        case GpuType.AMD:
                             iconName = "Icon_Nvidia";
                             GpuIconFill = "Green";
                             RedText = "超频有风险，操作需谨慎";
                             IsEnabled = true;
-                            break;
-                        case GpuType.AMD:
-                            iconName = "Icon_AMD";
-                            GpuIconFill = "Red";
-                            RedText = "暂不支持A卡超频";
-                            IsEnabled = false;
                             break;
                         case GpuType.Empty:
                         default:

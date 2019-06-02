@@ -4,8 +4,8 @@ using System.Reflection;
 
 namespace NTMiner {
     public static class AssemblyInfo {
-        public const string Version = "2.1.0";
-        public const string Build = "50010";
+        public const string Version = "2.2.0";
+        public const string Build = "0";
         public const string Copyright = "Copyright ©  2019";
         public const string Tag = "蛮吉";
         public static readonly string ServerJsonFileName = $"server2.0.0.json";

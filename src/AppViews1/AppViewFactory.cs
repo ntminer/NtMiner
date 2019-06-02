@@ -39,24 +39,6 @@ namespace NTMiner.Views {
                         FileDownloader.ShowWindow(message.DownloadFileUrl, message.FileTitle, message.DownloadComplete);
                     });
                 });
-            VirtualRoot.Window<ShowCalcConfigCommand>(LogEnum.DevConsole,
-                action: message => {
-                    UIThread.Execute(() => {
-                        CalcConfig.ShowWindow();
-                    });
-                });
-            VirtualRoot.Window<ShowMinerClientsWindowCommand>(LogEnum.DevConsole,
-                action: message => {
-                    UIThread.Execute(() => {
-                        MinerClientsWindow.ShowWindow();
-                    });
-                });
-            VirtualRoot.Window<ShowNTMinerUpdaterConfigCommand>(LogEnum.DevConsole,
-                action: message => {
-                    UIThread.Execute(() => {
-                        NTMinerUpdaterConfig.ShowWindow();
-                    });
-                });
             VirtualRoot.Window<ShowAboutPageCommand>(LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
@@ -73,12 +55,6 @@ namespace NTMiner.Views {
                 action: message => {
                     UIThread.Execute(() => {
                         KernelInputPage.ShowWindow();
-                    });
-                });
-            VirtualRoot.Window<ShowColumnsShowPageCommand>(LogEnum.DevConsole,
-                action: message => {
-                    UIThread.Execute(() => {
-                        ColumnsShowPage.ShowWindow();
                     });
                 });
             VirtualRoot.Window<ShowGroupPageCommand>(LogEnum.DevConsole,
@@ -111,22 +87,16 @@ namespace NTMiner.Views {
                         NotificationSample.ShowWindow();
                     });
                 });
+            VirtualRoot.Window<ShowOuterPropertyCommand>(LogEnum.DevConsole,
+                action: message => {
+                    UIThread.Execute(() => {
+                        OuterProperty.ShowWindow();
+                    });
+                });
             VirtualRoot.Window<ShowInnerPropertyCommand>(LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
                         InnerProperty.ShowWindow();
-                    });
-                });
-            VirtualRoot.Window<ShowChartsWindowCommand>(LogEnum.DevConsole,
-                action: message => {
-                    UIThread.Execute(() => {
-                        ChartsWindow.ShowWindow();
-                    });
-                });
-            VirtualRoot.Window<ShowOverClockDataPageCommand>(LogEnum.DevConsole,
-                action: message => {
-                    UIThread.Execute(() => {
-                        OverClockDataPage.ShowWindow();
                     });
                 });
             VirtualRoot.Window<ShowUserPageCommand>(LogEnum.DevConsole,
@@ -163,12 +133,6 @@ namespace NTMiner.Views {
                 action: message => {
                     UIThread.Execute(() => {
                         CoinEdit.ShowWindow(message.FormType, message.Source);
-                    });
-                });
-            VirtualRoot.Window<ColumnsShowEditCommand>(LogEnum.DevConsole,
-                action: message => {
-                    UIThread.Execute(() => {
-                        ColumnsShowEdit.ShowWindow(message.FormType, message.Source);
                     });
                 });
             VirtualRoot.Window<ShowContainerWindowCommand>(LogEnum.DevConsole,
@@ -226,46 +190,10 @@ namespace NTMiner.Views {
                         LogColor.ShowWindow();
                     });
                 });
-            VirtualRoot.Window<ShowMinerClientSettingCommand>(LogEnum.DevConsole,
-                action: message => {
-                    UIThread.Execute(() => {
-                        MinerClientSetting.ShowWindow(message.Vm);
-                    });
-                });
-            VirtualRoot.Window<ShowMinerNamesSeterCommand>(LogEnum.DevConsole,
-                action: message => {
-                    UIThread.Execute(() => {
-                        MinerNamesSeter.ShowWindow(message.Vm);
-                    });
-                });
             VirtualRoot.Window<ShowGpuProfilesPageCommand>(LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
                         GpuProfilesPage.ShowWindow(message.MinerClientsWindowVm);
-                    });
-                });
-            VirtualRoot.Window<ShowMinerClientAddCommand>(LogEnum.DevConsole,
-                action: message => {
-                    UIThread.Execute(() => {
-                        MinerClientAdd.ShowWindow();
-                    });
-                });
-            VirtualRoot.Window<MinerGroupEditCommand>(LogEnum.DevConsole,
-                action: message => {
-                    UIThread.Execute(() => {
-                        MinerGroupEdit.ShowWindow(message.FormType, message.Source);
-                    });
-                });
-            VirtualRoot.Window<MineWorkEditCommand>(LogEnum.DevConsole,
-                action: message => {
-                    UIThread.Execute(() => {
-                        MineWorkEdit.ShowWindow(message.FormType, message.Source);
-                    });
-                });
-            VirtualRoot.Window<OverClockDataEditCommand>(LogEnum.DevConsole,
-                action: message => {
-                    UIThread.Execute(() => {
-                        OverClockDataEdit.ShowWindow(message.FormType, message.Source);
                     });
                 });
             VirtualRoot.Window<PackageEditCommand>(LogEnum.DevConsole,
@@ -284,12 +212,6 @@ namespace NTMiner.Views {
                 action: message => {
                     UIThread.Execute(() => {
                         PoolEdit.ShowWindow(message.FormType, message.Source);
-                    });
-                });
-            VirtualRoot.Window<ShowControlCenterHostConfigCommand>(LogEnum.DevConsole,
-                action: message => {
-                    UIThread.Execute(() => {
-                        ControlCenterHostConfig.ShowWindow();
                     });
                 });
             VirtualRoot.Window<SysDicItemEditCommand>(LogEnum.DevConsole,

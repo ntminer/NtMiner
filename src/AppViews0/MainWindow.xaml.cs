@@ -140,12 +140,7 @@ namespace NTMiner.Views {
             }
             var selectedItem = ((TabControl)sender).SelectedItem;
             ConsoleUc.IsBuffer = selectedItem != TabItemLog;
-            if (selectedItem == TabItemOuterProperty) {
-                if (OuterPropertyContainer.Child == null) {
-                    OuterPropertyContainer.Child = new OuterProperty();
-                }
-            }
-            else if (selectedItem == TabItemToolbox) {
+            if (selectedItem == TabItemToolbox) {
                 if (ToolboxContainer.Child == null) {
                     ToolboxContainer.Child = new Toolbox();
                 }

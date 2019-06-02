@@ -28,7 +28,7 @@ namespace NTMiner {
             AppContext.NotifyIcon?.Dispose();
             NTMinerRoot.Instance.Exit();
             HttpServer.Stop();
-            if (createdNew && NTMinerRegistry.GetIsAutoCloseServices()) {
+            if (createdNew) {
                 Server.ControlCenterService.CloseServices();
             }
             base.OnExit(e);

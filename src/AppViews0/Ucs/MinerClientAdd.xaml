@@ -49,7 +49,7 @@
 			</WrapPanel>
 			<WrapPanel Margin="0 2">
 				<TextBlock Style="{StaticResource LblTb}"></TextBlock>
-				<CheckBox IsChecked="{Binding IsIpRange}">至</CheckBox>
+				<CheckBox IsChecked="{Binding IsIpRange}" FocusVisualStyle="{x:Null}">至</CheckBox>
 			</WrapPanel>
 			<StackPanel Margin="0 2" Visibility="{Binding IsIpRange,Converter={StaticResource BoolToVisibilityConverter}}">
 				<WrapPanel>

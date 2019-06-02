@@ -8,9 +8,9 @@
 		xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
-	    xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
+		xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 		Background="White"
-		mc:Ignorable="d" d:DesignHeight="520" d:DesignWidth="460">
+		mc:Ignorable="d" d:DesignHeight="460" d:DesignWidth="700">
 	<UserControl.DataContext>
 		<vm:OuterPropertyViewModel></vm:OuterPropertyViewModel>
 	</UserControl.DataContext>
@@ -110,30 +110,25 @@
 						</WrapPanel>
 					</StackPanel>
 				</GroupBox>
-				<DataGrid 
+				<ItemsControl 
 					ItemsSource="{Binding GpuSetProperties}" 
 					Background="Transparent" 
-					GridLinesVisibility="None"
-					HeadersVisibility="None"
-					VerticalScrollBarVisibility="Auto"
+					MouseDown="ItemsControl_MouseDown"
 					BorderThickness="0">
-					<DataGrid.Columns>
-						<DataGridTemplateColumn IsReadOnly="True">
-							<DataGridTemplateColumn.CellTemplate>
-								<DataTemplate>
-									<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Name}"></TextBlock>
-								</DataTemplate>
-							</DataGridTemplateColumn.CellTemplate>
-						</DataGridTemplateColumn>
-						<DataGridTemplateColumn Width="*" IsReadOnly="True">
-							<DataGridTemplateColumn.CellTemplate>
-								<DataTemplate>
-									<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Value}"></TextBlock>
-								</DataTemplate>
-							</DataGridTemplateColumn.CellTemplate>
-						</DataGridTemplateColumn>
-					</DataGrid.Columns>
-				</DataGrid>
+					<ItemsControl.ItemsPanel>
+						<ItemsPanelTemplate>
+							<StackPanel></StackPanel>
+						</ItemsPanelTemplate>
+					</ItemsControl.ItemsPanel>
+					<ItemsControl.ItemTemplate>
+						<DataTemplate>
+							<WrapPanel>
+								<TextBlock Text="{Binding Name}" Style="{StaticResource LblTb}" Width="200"></TextBlock>
+								<TextBlock Text="{Binding Value}"></TextBlock>
+							</WrapPanel>
+						</DataTemplate>
+					</ItemsControl.ItemTemplate>
+				</ItemsControl>
 			</StackPanel>
 		</ScrollViewer>
 	</Grid>

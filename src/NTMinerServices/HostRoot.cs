@@ -33,7 +33,7 @@ namespace NTMiner {
                         NTMinerRegistry.SetAutoBoot("NTMinerServices", true);
                     }
                     Type thisType = typeof(HostRoot);
-                    NotifyIcon = ExtendedNotifyIcon.Create(new System.Drawing.Icon(thisType.Assembly.GetManifestResourceStream(thisType, "logo.ico")), "群控服务", isShowNotifyIcon: true);
+                    NotifyIcon = ExtendedNotifyIcon.Create(new System.Drawing.Icon(thisType.Assembly.GetManifestResourceStream(thisType, "logo.ico")), "本机群控服务", isShowNotifyIcon: false);
                     Run();
                 }
             }

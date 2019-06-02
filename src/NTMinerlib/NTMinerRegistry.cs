@@ -127,17 +127,6 @@ namespace NTMiner {
         }
         #endregion
 
-        #region IsAutoCloseServices
-        public static bool GetIsAutoCloseServices() {
-            object value = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, "IsAutoCloseServices");
-            return value != null && value.ToString() == "True";
-        }
-
-        public static void SetIsAutoCloseServices(bool value) {
-            Windows.Registry.SetValue(Registry.Users, NTMinerRegistrySubKey, "IsAutoCloseServices", value);
-        }
-        #endregion
-
         #region IsAutoBoot
         public static bool GetIsAutoBoot() {
             object value = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, "IsAutoBoot");

@@ -24,6 +24,7 @@
 		</FlowDocumentScrollViewer>
 		<CheckBox 
 			x:Name="ChkbIsConsoleAutoScrollToEnd"
+			FocusVisualStyle="{x:Null}"
 			Width="16" Margin="0 -1 16 0"
 			HorizontalAlignment="Right"
 			VerticalAlignment="Top"

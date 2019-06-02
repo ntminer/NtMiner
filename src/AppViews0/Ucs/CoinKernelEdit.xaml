@@ -41,7 +41,7 @@
 				<controls:KbComboBox 
 					Width="80" ItemsSource="{x:Static app:AppStatic.SupportedGpuEnumItems}"
 					IsEnabled="{x:Static app:AppStatic.IsDebugMode}"
-					DisplayMemberPath="Description" Height="26"
+					DisplayMemberPath="Description"
 					SelectedItem="{Binding SupportedGpuEnumItem}">
 				</controls:KbComboBox>
 				<Path
@@ -63,7 +63,9 @@
 					Fill="Red"
 					Stretch="Fill" />
 			</WrapPanel>
-			<CheckBox Margin="4 0 0 0" IsChecked="{Binding IsSupportPool1}" VerticalContentAlignment="Center">支持备池1</CheckBox>
+			<CheckBox 
+				Margin="4 0 0 0" IsChecked="{Binding IsSupportPool1}" VerticalContentAlignment="Center"
+				FocusVisualStyle="{x:Null}">支持备池1</CheckBox>
 			<WrapPanel Visibility="{Binding Kernel.KernelInputVm.IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}">
 				<TextBlock Style="{StaticResource LblTb}" Text="双挖币组"></TextBlock>
 				<controls:KbComboBox 

@@ -47,7 +47,7 @@
 					<Border Padding="8 0">
 						<WrapPanel>
 							<TextBlock Padding="10 2" Text="{Binding Code}"></TextBlock>
-							<CheckBox IsChecked="{Binding IsOverClockEnabled}" VerticalAlignment="Center"></CheckBox>
+							<CheckBox IsChecked="{Binding IsOverClockEnabled}" VerticalAlignment="Center" FocusVisualStyle="{x:Null}"></CheckBox>
 						</WrapPanel>
 					</Border>
 				</DataTemplate>
@@ -63,6 +63,7 @@
 				<GroupBox Width="186">
 					<GroupBox.Header>
 						<CheckBox
+							FocusVisualStyle="{x:Null}"
 							Margin="0 4 0 0"
 							VerticalAlignment="Top"
 							IsChecked="{Binding CoinVm.IsOverClockGpuAll}" 
@@ -102,6 +103,7 @@
 						<WrapPanel>
 							<TextBlock Style="{StaticResource LblTb}">温度</TextBlock>
 							<CheckBox 
+								FocusVisualStyle="{x:Null}"
 								Padding="0" 
 								VerticalAlignment="Center"
 								Foreground="{StaticResource LableColor}"
@@ -154,8 +156,8 @@
 						</ItemsControl>
 					</WrapPanel>
 					<StackPanel Grid.Row="1">
+						<TextBlock VerticalAlignment="Center" Foreground="{StaticResource LableColor}">核心和显存填0表示恢复默认</TextBlock>
 						<TextBlock VerticalAlignment="Center" Foreground="{StaticResource LableColor}">最高温度：表示达到这个温度时显卡将自动降频</TextBlock>
-						<TextBlock VerticalAlignment="Center" Foreground="{StaticResource LableColor}">防线温度：系统自动调整风扇转速以使温度不越过防线</TextBlock>
 					</StackPanel>
 					<WrapPanel Grid.Row="2" VerticalAlignment="Bottom">
 						<controls:KbButton
@@ -236,6 +238,7 @@
 										<WrapPanel>
 											<TextBlock Style="{StaticResource LblTb}">温度</TextBlock>
 											<CheckBox 
+												FocusVisualStyle="{x:Null}"
 												Padding="0" 
 												VerticalAlignment="Center"
 												Foreground="{StaticResource LableColor}"

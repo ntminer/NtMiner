@@ -134,6 +134,7 @@
 						Text="{Binding ServerJsonVersion}" 
 						Foreground="{StaticResource ThemeForeground}"></TextBlock>
 					<CheckBox 
+						FocusVisualStyle="{x:Null}"
 						Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
 						VerticalAlignment="Center"
 						Cursor="Hand"
@@ -284,6 +285,7 @@
 							</ContextMenu>
 						</ScrollViewer.ContextMenu>
 						<uc:MinerProfileIndex 
+							Margin="0 4 0 0"
 							HorizontalAlignment="Left"
 							IsEnabled="{Binding MinerProfile.IsWorker,Converter={StaticResource BoolInvertConverter}}"/>
 					</ScrollViewer>
@@ -380,6 +382,7 @@
 								HorizontalAlignment="Right" 
 								VerticalAlignment="Top">
 								<CheckBox 
+									FocusVisualStyle="{x:Null}"
 									Margin="4 0 0 0"
 									Width="16"
 									ToolTip="显示命令行"
@@ -537,6 +540,7 @@
 							<TextBlock VerticalAlignment="Center" Padding="4 0 0 0" Text="{Binding MinerProfile.CoinVm.Code}"></TextBlock>
 							<TextBlock VerticalAlignment="Center" Text="超频" FontSize="14"></TextBlock>
 							<CheckBox 
+								FocusVisualStyle="{x:Null}"
 								VerticalAlignment="Center"
 								Margin="4 1 0 0" 
 								ToolTip="挖矿开始时自动应用超频" 
@@ -573,20 +577,6 @@
 						</WrapPanel>
 					</TabItem.Header>
 					<Border x:Name="ToolboxContainer"></Border>
-				</TabItem>
-				<TabItem x:Name="TabItemOuterProperty">
-					<TabItem.Header>
-						<WrapPanel>
-							<Path 
-								Width="14"
-								Height="13"
-								Data="{StaticResource Icon_Property}"
-								Fill="{StaticResource IconFillColor}"
-								Stretch="Fill" />
-							<TextBlock Text="属性" Padding="4 0 0 0" FontSize="14"></TextBlock>
-						</WrapPanel>
-					</TabItem.Header>
-					<Border x:Name="OuterPropertyContainer"></Border>
 				</TabItem>
 			</TabControl>
 		</Grid>

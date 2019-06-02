@@ -27,9 +27,11 @@
 				</Grid.ColumnDefinitions>
 				<WrapPanel>
 					<CheckBox
+						FocusVisualStyle="{x:Null}"
 						Content="开机启动"
 						IsChecked="{Binding MinerProfile.IsAutoBoot}" />
 					<CheckBox
+						FocusVisualStyle="{x:Null}"
 						Margin="10 0 0 0"
 						Content="自动挖矿"
 						VerticalAlignment="Top"

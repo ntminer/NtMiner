@@ -55,7 +55,7 @@
 					</ItemsControl.ItemsPanel>
 					<ItemsControl.ItemTemplate>
 						<DataTemplate>
-							<CheckBox Width="120" IsChecked="{Binding IsChecked}" Content="{Binding SysDicItemVm.Value}"></CheckBox>
+							<CheckBox Width="120" IsChecked="{Binding IsChecked}" FocusVisualStyle="{x:Null}" Content="{Binding SysDicItemVm.Value}"></CheckBox>
 						</DataTemplate>
 					</ItemsControl.ItemTemplate>
 				</ItemsControl>

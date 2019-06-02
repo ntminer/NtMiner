@@ -122,6 +122,7 @@
 								</WrapPanel>
 
 								<CheckBox 
+									FocusVisualStyle="{x:Null}"
 									Padding="0" 
 									FontSize="16"
 									FontWeight="Bold"

@@ -30,6 +30,7 @@ namespace NTMiner.Data.Impl {
                                     GroupId = clientData.GroupId,
                                     Id = clientData.Id,
                                     ClientId = clientData.ClientId,
+                                    ClientName = clientData.ClientName,
                                     MinerIp = clientData.MinerIp,
                                     MinerName = clientData.MinerName,
                                     WindowsLoginName = clientData.WindowsLoginName,
@@ -123,6 +124,7 @@ namespace NTMiner.Data.Impl {
             MinerData minerData = new MinerData {
                 Id = ObjectId.NewObjectId().ToString(),
                 ClientId = Guid.NewGuid(),
+                ClientName = string.Empty,
                 CreatedOn = DateTime.Now,
                 GroupId = Guid.Empty,
                 MinerIp = minerIp,
@@ -225,7 +227,7 @@ namespace NTMiner.Data.Impl {
             }
             total = query.Count();
             miningCount = query.Count(a => a.IsMining);
-            var results = query.OrderBy(a => a.MinerName).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+            var results = query.OrderBy(a => a.ClientName).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
             DateTime time = DateTime.Now.AddMinutes(-3);
             // 3分钟未上报算力视为0算力
             foreach (var clientData in results) {

@@ -25,10 +25,10 @@
 		</ResourceDictionary>
 	</UserControl.Resources>
 	<StackPanel>
-		<WrapPanel Margin="0 2">
+		<WrapPanel Margin="0 0 0 4">
 			<TextBlock
-			    Style="{StaticResource LblTb}"
-			    Text="主币" />
+				Style="{StaticResource LblTb}"
+				Text="主币" />
 			<WrapPanel IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}">
 				<controls:KbButton 
 					x:Name="ButtonMainCoin"
@@ -108,7 +108,7 @@
 			</WrapPanel>
 		</WrapPanel>
 
-		<WrapPanel Margin="0 2">
+		<WrapPanel Margin="0 0 0 4">
 			<TextBlock 
 				Style="{StaticResource LblTb}"
 				Text="主矿池" />
@@ -196,46 +196,21 @@
 			</WrapPanel>
 		</WrapPanel>
 
-		<Grid Margin="0 2">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="163"></ColumnDefinition>
-				<ColumnDefinition Width="166"></ColumnDefinition>
-			</Grid.ColumnDefinitions>
-			<WrapPanel Grid.Column="0" Visibility="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.IsUserMode, Converter={StaticResource BoolToVisibilityConverter}}">
-				<TextBlock Style="{StaticResource LblTb}" Text="主池账户"></TextBlock>
-				<Grid>
-					<TextBox 
-						Width="110"
-						Background="{Binding MinerProfile.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
-						IsReadOnly="{Binding MinerProfile.IsMining}"
-						VerticalContentAlignment="Center" 
-						Text="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.PoolProfileVm.UserName}">
-					</TextBox>
-					<Path
-						Margin="1 0"
-						Width="108"
-						Height="16"
-						HorizontalAlignment="Left"
-						Data="M98 480.86h829.99v63.79H98z"
-						Fill="{StaticResource ThemeBackground}"
-						Stretch="Fill"
-						Visibility="{Binding MinerProfile.CoinVm.CoinProfile.IsHideWallet, Converter={StaticResource BoolToVisibilityConverter}}" />
-				</Grid>
-			</WrapPanel>
-			<Border Grid.Column="1" HorizontalAlignment="Left" Visibility="{Binding MinerProfile.CoinVm.CoinKernel.IsSupportPool1, Converter={StaticResource BoolToVisibilityConverter}}">
-				<WrapPanel Visibility="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool1.IsUserMode, Converter={StaticResource BoolToVisibilityConverter}}">
-					<TextBlock Style="{StaticResource LblTb}" Text="备池账户" Width="Auto"></TextBlock>
+		<WrapPanel>
+			<Border Visibility="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.IsUserMode, Converter={StaticResource BoolToVisibilityConverter}}">
+				<WrapPanel Margin="0 0 0 4">
+					<TextBlock Style="{StaticResource LblTb}" Text="主池账户"></TextBlock>
 					<Grid>
 						<TextBox 
-							Width="110"
+							Width="112"
 							Background="{Binding MinerProfile.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
 							IsReadOnly="{Binding MinerProfile.IsMining}"
 							VerticalContentAlignment="Center" 
-							Text="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool1.PoolProfileVm.UserName}">
+							Text="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.PoolProfileVm.UserName}">
 						</TextBox>
 						<Path
 							Margin="1 0"
-							Width="108"
+							Width="110"
 							Height="16"
 							HorizontalAlignment="Left"
 							Data="M98 480.86h829.99v63.79H98z"
@@ -245,9 +220,34 @@
 					</Grid>
 				</WrapPanel>
 			</Border>
-		</Grid>
+			<Border 
+				HorizontalAlignment="Left" Visibility="{Binding MinerProfile.CoinVm.CoinKernel.IsSupportPool1, Converter={StaticResource BoolToVisibilityConverter}}">
+				<WrapPanel Margin="0 0 0 4" Visibility="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool1.IsUserMode, Converter={StaticResource BoolToVisibilityConverter}}">
+					<TextBlock Style="{StaticResource LblTb}" Text="备池账户" Width="Auto"></TextBlock>
+					<Grid>
+						<TextBox 
+							Width="112"
+							Background="{Binding MinerProfile.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
+							IsReadOnly="{Binding MinerProfile.IsMining}"
+							VerticalContentAlignment="Center" 
+							Text="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool1.PoolProfileVm.UserName}">
+						</TextBox>
+						<Path
+							Margin="1 0"
+							Width="110"
+							Height="16"
+							HorizontalAlignment="Left"
+							Data="M98 480.86h829.99v63.79H98z"
+							Fill="{StaticResource ThemeBackground}"
+							Stretch="Fill"
+							Visibility="{Binding MinerProfile.CoinVm.CoinProfile.IsHideWallet, Converter={StaticResource BoolToVisibilityConverter}}" />
+					</Grid>
+				</WrapPanel>
+			</Border>
+		</WrapPanel>
 
-		<Grid Margin="0 2"
+		<Grid
+			Margin="0 0 0 4"
 			Visibility="{Binding MinerProfile.IsAllMainCoinPoolIsUserMode, Converter={StaticResource BoolToVisibilityInvertConverter}}">
 			<WrapPanel>
 				<TextBlock
@@ -353,11 +353,12 @@
 		</Grid>
 
 		<WrapPanel 
-			Margin="0 2"
+			Margin="0 0 0 4"
 			IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}" 
 			Visibility="{Binding MinerProfile.CoinVm.CoinKernel.IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}">
 			<TextBlock Style="{StaticResource LblTb}" />
 			<CheckBox
+				FocusVisualStyle="{x:Null}"
 				VerticalAlignment="Center"
 				Content="双挖"
 				IsChecked="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled}" />
@@ -368,6 +369,7 @@
 					Width="Auto"
 					Text="权重" />
 				<CheckBox
+					FocusVisualStyle="{x:Null}"
 					Content="自动"
 					VerticalContentAlignment="Center"
 					IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}"
@@ -400,7 +402,7 @@
 			Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
 		</Border>
 
-		<WrapPanel Margin="0 2 0 0" VerticalAlignment="Center">
+		<WrapPanel VerticalAlignment="Center" Margin="0 0 0 4">
 			<TextBlock
 				Style="{StaticResource LblTb}"
 				Text="高级参数" />
@@ -416,7 +418,7 @@
 				</TextBox.ToolTip>
 			</TextBox>
 		</WrapPanel>
-		<Grid Margin="0 2 0 0" Visibility="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.KernelInputVm.IsSupportDevicesArg, Converter={StaticResource BoolToVisibilityConverter}}">
+		<Grid Margin="0 0 0 4" Visibility="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.KernelInputVm.IsSupportDevicesArg, Converter={StaticResource BoolToVisibilityConverter}}">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto"></ColumnDefinition>
 				<ColumnDefinition Width="*"></ColumnDefinition>
@@ -441,13 +443,13 @@
 				</ItemsControl.ItemsPanel>
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
-						<CheckBox Padding="0 0 4 0" IsChecked="{Binding IsDeviceArgInclude}" Content="{Binding SharpIndexText}"></CheckBox>
+						<CheckBox Padding="0 0 4 0" IsChecked="{Binding IsDeviceArgInclude}" FocusVisualStyle="{x:Null}" Content="{Binding SharpIndexText}"></CheckBox>
 					</DataTemplate>
 				</ItemsControl.ItemTemplate>
 			</ItemsControl>
 		</Grid>
 		<ItemsControl
-			Margin="50 0 0 0"
+			Margin="50 0 0 4"
 			IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}"
 			ItemsSource="{Binding MinerProfile.CoinVm.CoinKernel.InputSegmentVms}"
 			BorderThickness="0"
@@ -461,7 +463,7 @@
 			</ItemsControl.ItemsPanel>
 			<ItemsControl.ItemTemplate>
 				<DataTemplate>
-					<CheckBox Padding="0" IsChecked="{Binding IsChecked}" Content="{Binding Name}" ToolTip="{Binding Description}"></CheckBox>
+					<CheckBox Padding="0" IsChecked="{Binding IsChecked}" FocusVisualStyle="{x:Null}" Content="{Binding Name}" ToolTip="{Binding Description}"></CheckBox>
 				</DataTemplate>
 			</ItemsControl.ItemTemplate>
 		</ItemsControl>

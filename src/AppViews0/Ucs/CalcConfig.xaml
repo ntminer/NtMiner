@@ -56,7 +56,6 @@
 							<TextBox Text="{Binding Speed, ValidatesOnExceptions=True}">
 							</TextBox>
 							<controls:KbComboBox 
-								Height="30"
 								Width="60"
 								VerticalAlignment="Center"
 								ItemsSource="{x:Static vm:SpeedUnitViewModel.SpeedUnitVms}"
