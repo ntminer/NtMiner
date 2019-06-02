@@ -444,11 +444,15 @@ namespace NTMiner {
         });
 
         public static ICommand OpenOfficialSite { get; private set; } = new DelegateCommand(() => {
-            Process.Start("https://github.com/ntminer/ntminer");
+            Process.Start("https://github.com/ntminer-project/ntminer");
+        });
+
+        public static ICommand OpenGithub { get; private set; } = new DelegateCommand(() => {
+            Process.Start("https://github.com/ntminer-project/ntminer");
         });
 
         public static ICommand OpenDiscussSite { get; private set; } = new DelegateCommand(() => {
-            Process.Start("https://github.com/ntminer/ntminer/issues");
+            Process.Start("https://github.com/ntminer-project/ntminer/issues");
         });
 
         public static ICommand DownloadMinerStudio { get; private set; } = new DelegateCommand(() => {
