@@ -573,7 +573,7 @@ namespace NTMiner.Vms {
                                 foreach (var item in toAdds) {
                                     this.MinerClients.Add(new MinerClientViewModel(item));
                                 }
-                                _minerClients = _minerClients.OrderBy(a => a.MinerName).ToList();
+                                _minerClients = _minerClients.ToList();
                             }
                             MiningCount = response.MiningCount;
                             RefreshPagingUi(response.Total);
