@@ -25,7 +25,7 @@
 		</ResourceDictionary>
 	</UserControl.Resources>
 	<StackPanel>
-		<WrapPanel>
+		<WrapPanel Margin="0 0 0 4">
 			<TextBlock
 				Style="{StaticResource LblTb}"
 				Text="主币" />
@@ -108,7 +108,7 @@
 			</WrapPanel>
 		</WrapPanel>
 
-		<WrapPanel>
+		<WrapPanel Margin="0 0 0 4">
 			<TextBlock 
 				Style="{StaticResource LblTb}"
 				Text="主矿池" />
@@ -196,7 +196,7 @@
 			</WrapPanel>
 		</WrapPanel>
 
-		<Grid>
+		<Grid Margin="0 0 0 4">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="163"></ColumnDefinition>
 				<ColumnDefinition Width="166"></ColumnDefinition>
@@ -248,6 +248,7 @@
 		</Grid>
 
 		<Grid
+			Margin="0 0 0 4"
 			Visibility="{Binding MinerProfile.IsAllMainCoinPoolIsUserMode, Converter={StaticResource BoolToVisibilityInvertConverter}}">
 			<WrapPanel>
 				<TextBlock
@@ -402,7 +403,7 @@
 			Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
 		</Border>
 
-		<WrapPanel VerticalAlignment="Center">
+		<WrapPanel VerticalAlignment="Center" Margin="0 0 0 4">
 			<TextBlock
 				Style="{StaticResource LblTb}"
 				Text="高级参数" />
@@ -418,7 +419,7 @@
 				</TextBox.ToolTip>
 			</TextBox>
 		</WrapPanel>
-		<Grid Visibility="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.KernelInputVm.IsSupportDevicesArg, Converter={StaticResource BoolToVisibilityConverter}}">
+		<Grid Margin="0 0 0 4" Visibility="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.KernelInputVm.IsSupportDevicesArg, Converter={StaticResource BoolToVisibilityConverter}}">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto"></ColumnDefinition>
 				<ColumnDefinition Width="*"></ColumnDefinition>
@@ -449,7 +450,7 @@
 			</ItemsControl>
 		</Grid>
 		<ItemsControl
-			Margin="50 0 0 0"
+			Margin="50 0 0 4"
 			IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}"
 			ItemsSource="{Binding MinerProfile.CoinVm.CoinKernel.InputSegmentVms}"
 			BorderThickness="0"

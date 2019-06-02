@@ -21,7 +21,7 @@
 		</ResourceDictionary>
 	</UserControl.Resources>
 	<StackPanel Visibility="{Binding CoinVm.CoinKernel.IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}">
-		<WrapPanel>
+		<WrapPanel Margin="0 0 0 4">
 			<TextBlock
 				Style="{StaticResource LblTb}"
 				Text="双挖币" />
@@ -109,6 +109,7 @@
 			</WrapPanel>
 		</WrapPanel>
 		<Grid
+			Margin="0 0 0 4"
 			Visibility="{Binding CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.IsUserMode, Converter={StaticResource BoolToVisibilityInvertConverter}}">
 			<WrapPanel>
 				<WrapPanel>
