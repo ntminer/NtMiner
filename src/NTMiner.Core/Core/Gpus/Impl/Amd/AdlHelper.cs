@@ -223,6 +223,9 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
                         lpODPerformanceLevels.iMode = ADL.ODNControlType_Default;
                     }
                     else {
+                        for (int i = 0; i < lpODPerformanceLevels.aLevels.Length; i++) {
+                            lpODPerformanceLevels.aLevels[i].iEnabled = 1;
+                        }
                         lpODPerformanceLevels.iMode = ADL.ODNControlType_Manual;
                         lpODPerformanceLevels.aLevels[lpODPerformanceLevels.aLevels.Length - 1].iClock = value * 100;
                     }
