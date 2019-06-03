@@ -92,7 +92,7 @@ namespace NTMiner {
                             NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage("没有矿卡或矿卡未驱动。");
                         }
                         UIThread.Execute(() => {
-                            if (Registry.GetIsNoUi() && Registry.GetIsAutoStart()) {
+                            if (NTMinerRoot.GetIsNoUi() && Registry.GetIsAutoStart()) {
                                 MainWindow = NotiCenterWindow.Instance;
                                 NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage("已切换为无界面模式运行", "开源矿工");
                             }

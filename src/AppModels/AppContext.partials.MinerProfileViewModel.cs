@@ -115,50 +115,50 @@ namespace NTMiner {
             }
 
             public bool IsShowInTaskbar {
-                get => Registry.GetIsShowInTaskbar();
+                get => NTMinerRoot.GetIsShowInTaskbar();
                 set {
-                    if (Registry.GetIsShowInTaskbar() != value) {
-                        Registry.SetIsShowInTaskbar(value);
+                    if (NTMinerRoot.GetIsShowInTaskbar() != value) {
+                        NTMinerRoot.SetIsShowInTaskbar(value);
                         OnPropertyChanged(nameof(IsShowInTaskbar));
                     }
                 }
             }
 
             public bool IsNoUi {
-                get { return Registry.GetIsNoUi(); }
+                get { return NTMinerRoot.GetIsNoUi(); }
                 set {
-                    if (Registry.GetIsNoUi() != value) {
-                        Registry.SetIsNoUi(value);
+                    if (NTMinerRoot.GetIsNoUi() != value) {
+                        NTMinerRoot.SetIsNoUi(value);
                         OnPropertyChanged(nameof(IsNoUi));
                     }
                 }
             }
 
             public bool IsAutoNoUi {
-                get { return Registry.GetIsAutoNoUi(); }
+                get { return NTMinerRoot.GetIsAutoNoUi(); }
                 set {
-                    if (Registry.GetIsAutoNoUi() != value) {
-                        Registry.SetIsAutoNoUi(value);
+                    if (NTMinerRoot.GetIsAutoNoUi() != value) {
+                        NTMinerRoot.SetIsAutoNoUi(value);
                         OnPropertyChanged(nameof(IsAutoNoUi));
                     }
                 }
             }
 
             public int AutoNoUiMinutes {
-                get { return Registry.GetAutoNoUiMinutes(); }
+                get { return NTMinerRoot.GetAutoNoUiMinutes(); }
                 set {
-                    if (Registry.GetAutoNoUiMinutes() != value) {
-                        Registry.SetAutoNoUiMinutes(value);
+                    if (NTMinerRoot.GetAutoNoUiMinutes() != value) {
+                        NTMinerRoot.SetAutoNoUiMinutes(value);
                         OnPropertyChanged(nameof(AutoNoUiMinutes));
                     }
                 }
             }
 
             public bool IsShowNotifyIcon {
-                get => Registry.GetIsShowNotifyIcon();
+                get => NTMinerRoot.GetIsShowNotifyIcon();
                 set {
-                    if (Registry.GetIsShowNotifyIcon() != value) {
-                        Registry.SetIsShowNotifyIcon(value);
+                    if (NTMinerRoot.GetIsShowNotifyIcon() != value) {
+                        NTMinerRoot.SetIsShowNotifyIcon(value);
                         OnPropertyChanged(nameof(IsShowNotifyIcon));
                         NotifyIcon?.RefreshIcon();
                     }

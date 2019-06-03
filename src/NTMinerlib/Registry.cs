@@ -28,64 +28,8 @@ namespace NTMiner {
 
         public const string NTMinerRegistrySubKey = @".DEFAULT\Software\NTMiner";
 
-        #region IsShowInTaskbar
-        public static bool GetIsShowInTaskbar() {
-            object value = Windows.Registry.GetValue(Microsoft.Win32.Registry.Users, NTMinerRegistrySubKey, "IsShowInTaskbar");
-            return value == null || value.ToString() == "True";
-        }
-
-        public static void SetIsShowInTaskbar(bool value) {
-            Windows.Registry.SetValue(Microsoft.Win32.Registry.Users, NTMinerRegistrySubKey, "IsShowInTaskbar", value);
-        }
-        #endregion
-
-        #region IsNoUi
-        public static bool GetIsNoUi() {
-            object value = Windows.Registry.GetValue(Microsoft.Win32.Registry.Users, NTMinerRegistrySubKey, "IsNoUi");
-            return value != null && value.ToString() == "True";
-        }
-
-        public static void SetIsNoUi(bool value) {
-            Windows.Registry.SetValue(Microsoft.Win32.Registry.Users, NTMinerRegistrySubKey, "IsNoUi", value);
-        }
-        #endregion
-
-        #region AutoNoUi 挖矿过程中界面展示给定的时间后是否自动切换为无界面模式
-        public static bool GetIsAutoNoUi() {
-            object value = Windows.Registry.GetValue(Microsoft.Win32.Registry.Users, NTMinerRegistrySubKey, "IsAutoNoUi");
-            return value == null || value.ToString() == "True";
-        }
-
-        public static void SetIsAutoNoUi(bool value) {
-            Windows.Registry.SetValue(Microsoft.Win32.Registry.Users, NTMinerRegistrySubKey, "IsAutoNoUi", value);
-        }
-        #endregion
-
-        #region AutoNoUiMinutes
-        public static int GetAutoNoUiMinutes() {
-            object value = Windows.Registry.GetValue(Microsoft.Win32.Registry.Users, NTMinerRegistrySubKey, "AutoNoUiMinutes");
-            if (value == null) {
-                return 10;
-            }
-            int.TryParse(value.ToString(), out int v);
-            return v;
-        }
-
-        public static void SetAutoNoUiMinutes(int value) {
-            Windows.Registry.SetValue(Microsoft.Win32.Registry.Users, NTMinerRegistrySubKey, "AutoNoUiMinutes", value);
-        }
-        #endregion
-
-        #region IsShowNotifyIcon
-        public static bool GetIsShowNotifyIcon() {
-            object value = Windows.Registry.GetValue(Microsoft.Win32.Registry.Users, NTMinerRegistrySubKey, "IsShowNotifyIcon");
-            return value == null || value.ToString() == "True";
-        }
-
-        public static void SetIsShowNotifyIcon(bool value) {
-            Windows.Registry.SetValue(Microsoft.Win32.Registry.Users, NTMinerRegistrySubKey, "IsShowNotifyIcon", value);
-        }
-        #endregion
+        // 下面这些项是可能需要交换到下层系统从而完成不同进程间信息交换的项
+        // 注册表就属于下层系统，文件系统也属于下层系统，具体使用什么方案交换到时候再定
 
         #region Location
         public static string GetLocation() {
@@ -144,13 +88,13 @@ namespace NTMiner {
 
         #region IsAutoStart
         public static bool GetIsAutoStart() {
-            object value = Windows.Registry.GetValue(Microsoft.Win32.Registry.Users, NTMinerRegistrySubKey, "IsAutoStart");
+            object value = Windows.Registry.GetValue(Microsoft.Win32.Registry.Users, Registry.NTMinerRegistrySubKey, "IsAutoStart");
             // 如果是新装的机器，显卡还没驱动，不要自动开始挖矿
             return value != null && value.ToString() == "True";
         }
 
         public static void SetIsAutoStart(bool value) {
-            Windows.Registry.SetValue(Microsoft.Win32.Registry.Users, NTMinerRegistrySubKey, "IsAutoStart", value);
+            Windows.Registry.SetValue(Microsoft.Win32.Registry.Users, Registry.NTMinerRegistrySubKey, "IsAutoStart", value);
         }
         #endregion
 

@@ -280,6 +280,65 @@ namespace NTMiner {
             }
         }
 
+        #region IsShowInTaskbar
+        public static bool GetIsShowInTaskbar() {
+            object value = Windows.Registry.GetValue(Microsoft.Win32.Registry.Users, Registry.NTMinerRegistrySubKey, "IsShowInTaskbar");
+            return value == null || value.ToString() == "True";
+        }
+
+        public static void SetIsShowInTaskbar(bool value) {
+            Windows.Registry.SetValue(Microsoft.Win32.Registry.Users, Registry.NTMinerRegistrySubKey, "IsShowInTaskbar", value);
+        }
+        #endregion
+
+        #region IsNoUi
+        public static bool GetIsNoUi() {
+            object value = Windows.Registry.GetValue(Microsoft.Win32.Registry.Users, Registry.NTMinerRegistrySubKey, "IsNoUi");
+            return value != null && value.ToString() == "True";
+        }
+
+        public static void SetIsNoUi(bool value) {
+            Windows.Registry.SetValue(Microsoft.Win32.Registry.Users, Registry.NTMinerRegistrySubKey, "IsNoUi", value);
+        }
+        #endregion
+
+        #region AutoNoUi 挖矿过程中界面展示给定的时间后是否自动切换为无界面模式
+        public static bool GetIsAutoNoUi() {
+            object value = Windows.Registry.GetValue(Microsoft.Win32.Registry.Users, Registry.NTMinerRegistrySubKey, "IsAutoNoUi");
+            return value == null || value.ToString() == "True";
+        }
+
+        public static void SetIsAutoNoUi(bool value) {
+            Windows.Registry.SetValue(Microsoft.Win32.Registry.Users, Registry.NTMinerRegistrySubKey, "IsAutoNoUi", value);
+        }
+        #endregion
+
+        #region AutoNoUiMinutes
+        public static int GetAutoNoUiMinutes() {
+            object value = Windows.Registry.GetValue(Microsoft.Win32.Registry.Users, Registry.NTMinerRegistrySubKey, "AutoNoUiMinutes");
+            if (value == null) {
+                return 10;
+            }
+            int.TryParse(value.ToString(), out int v);
+            return v;
+        }
+
+        public static void SetAutoNoUiMinutes(int value) {
+            Windows.Registry.SetValue(Microsoft.Win32.Registry.Users, Registry.NTMinerRegistrySubKey, "AutoNoUiMinutes", value);
+        }
+        #endregion
+
+        #region IsShowNotifyIcon
+        public static bool GetIsShowNotifyIcon() {
+            object value = Windows.Registry.GetValue(Microsoft.Win32.Registry.Users, Registry.NTMinerRegistrySubKey, "IsShowNotifyIcon");
+            return value == null || value.ToString() == "True";
+        }
+
+        public static void SetIsShowNotifyIcon(bool value) {
+            Windows.Registry.SetValue(Microsoft.Win32.Registry.Users, Registry.NTMinerRegistrySubKey, "IsShowNotifyIcon", value);
+        }
+        #endregion
+
         #region IsShowCommandLine
         public static bool GetIsShowCommandLine() {
             object isAutoBootValue = Windows.Registry.GetValue(Microsoft.Win32.Registry.Users, Registry.NTMinerRegistrySubKey, "IsShowCommandLine");
