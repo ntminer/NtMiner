@@ -307,6 +307,10 @@ namespace NTMiner {
             }, icon: IconConst.IconConfirm));
         });
 
+        public static ICommand WindowsAutoLogon { get; private set; } = new DelegateCommand(() => {
+            Windows.Cmd.RunClose("control", "userpasswords2");
+        });
+
         public static ICommand ShowUsers { get; private set; } = new DelegateCommand(()=> {
             VirtualRoot.Execute(new ShowUserPageCommand());
         });

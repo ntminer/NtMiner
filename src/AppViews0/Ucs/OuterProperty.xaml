@@ -29,9 +29,23 @@
 			VerticalScrollBarVisibility="Auto" 
 			PreviewMouseDown="ScrollViewer_PreviewMouseDown">
 			<StackPanel>
-				<WrapPanel>
+				<WrapPanel Margin="0 4 0 0">
 					<TextBlock Style="{StaticResource LblTb}" Text="机器名"></TextBlock>
 					<TextBlock Text="{Binding MachineName}"></TextBlock>
+					<TextBlock Margin="20 0 0 0" Text="自动登录" Visibility="{Binding IsAutoAdminLogon,Converter={StaticResource BoolToVisibilityConverter}}"></TextBlock>
+					<controls:KbButton 
+						Margin="20 0 0 0"
+						Padding="6 0"
+						Visibility="{Binding IsAutoAdminLogon,Converter={StaticResource BoolToVisibilityInvertConverter}}"
+						Command="{x:Static app:AppStatic.WindowsAutoLogon}"
+						Background="{StaticResource ThemeBackground}"
+						CornerRadius="2">
+						<TextBlock
+							Padding="2 0"
+							VerticalAlignment="Center"
+							Foreground="{StaticResource ThemeForeground}"
+							Text="设置Windows自动登录" />
+					</controls:KbButton>
 				</WrapPanel>
 				<WrapPanel>
 					<TextBlock Style="{StaticResource LblTb}" Text="操作系统"></TextBlock>
@@ -50,7 +64,6 @@
 					<controls:KbButton 
 						Margin="8 0 0 0"
 						Padding="6 0"
-						Height="20"
 						Command="{x:Static app:AppStatic.ShowVirtualMemory}"
 						Background="{StaticResource ThemeBackground}"
 						CornerRadius="2">
@@ -113,7 +126,7 @@
 				<ItemsControl 
 					ItemsSource="{Binding GpuSetProperties}" 
 					Background="Transparent" 
-			        MouseDown="ItemsControl_MouseDown"
+					MouseDown="ItemsControl_MouseDown"
 					BorderThickness="0">
 					<ItemsControl.ItemsPanel>
 						<ItemsPanelTemplate>

@@ -57,9 +57,27 @@ namespace NTMiner.Windows {
             }
         }
 
+        /// <summary>
+        /// 是否开启了windows自动登录
+        /// </summary>
+        public bool IsAutoAdminLogon {
+            get {
+                return GetAutoAdminLogon() == "1";
+            }
+        }
+
         #endregion
 
         #region Methods
+
+        private string GetAutoAdminLogon() {
+            const string key = @"SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon";
+            var value = Registry.GetValue(Microsoft.Win32.Registry.LocalMachine, key, "AutoAdminLogon");
+            if (value == null) {
+                return string.Empty;
+            }
+            return value.ToString();
+        }
 
         /// <summary>
         /// Gets Windows-related values from specified keys
