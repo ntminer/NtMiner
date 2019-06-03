@@ -11,7 +11,7 @@ namespace NTMiner.Vms {
             this.Save = new DelegateCommand(() => {
                 try {
                     if (string.IsNullOrEmpty(this.ControlCenterHost)) {
-                        this.ControlCenterHost = NTMinerRegistry.DefaultControlCenterHost;
+                        this.ControlCenterHost = Registry.DefaultControlCenterHost;
                     }
                     CloseWindow?.Invoke();
                 }
@@ -23,11 +23,11 @@ namespace NTMiner.Vms {
 
         public string ControlCenterHost {
             get {
-                return NTMinerRegistry.GetControlCenterHost();
+                return Registry.GetControlCenterHost();
             }
             set {
-                if (NTMinerRegistry.GetControlCenterHost() != value) {
-                    NTMinerRegistry.SetControlCenterHost(value);
+                if (Registry.GetControlCenterHost() != value) {
+                    Registry.SetControlCenterHost(value);
                     OnPropertyChanged(nameof(ControlCenterHost));
                 }
             }

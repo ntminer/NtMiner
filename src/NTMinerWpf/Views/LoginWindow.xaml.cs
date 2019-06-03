@@ -38,12 +38,12 @@ namespace NTMiner.Views {
                 return;
             }
             string passwordSha1 = HashUtil.Sha1(Vm.Password);
-            NTMinerRegistry.SetControlCenterHost(Vm.ServerHost);
-            var list = NTMinerRegistry.GetControlCenterHosts();
+            Registry.SetControlCenterHost(Vm.ServerHost);
+            var list = Registry.GetControlCenterHosts();
             if (!list.Contains(Vm.ServerHost)) {
                 list.Insert(0, Vm.ServerHost);
             }
-            NTMinerRegistry.SetControlCenterHosts(list);
+            Registry.SetControlCenterHosts(list);
             if (Ip.Util.IsInnerIp(Vm.ServerHost)) {
                 this.DialogResult = true;
                 this.Close();

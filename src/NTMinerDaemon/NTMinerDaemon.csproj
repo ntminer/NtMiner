@@ -84,8 +84,8 @@
     <Compile Include="..\NTMiner.Core\Windows\Power.cs">
       <Link>Windows\Power.cs</Link>
     </Compile>
-    <Compile Include="..\NTMinerlib\NTMinerRegistry.cs">
-      <Link>NTMinerRegistry.cs</Link>
+    <Compile Include="..\NTMinerlib\Registry.cs">
+      <Link>Registry.cs</Link>
     </Compile>
     <Compile Include="..\NTMinerlib\Serialization\IObjectSerializer.cs">
       <Link>Serialization\IObjectSerializer.cs</Link>

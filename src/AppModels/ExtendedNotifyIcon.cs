@@ -22,7 +22,7 @@ namespace NTMiner {
             _isMinerStudio = isMinerStudio;
             _targetNotifyIcon = new NotifyIcon {
                 Icon = icon,
-                Visible = isMinerStudio || NTMinerRegistry.GetIsShowNotifyIcon(),
+                Visible = isMinerStudio || Registry.GetIsShowNotifyIcon(),
                 Text = text,
                 ContextMenu = new ContextMenu()
             };
@@ -37,7 +37,7 @@ namespace NTMiner {
         }
 
         public void RefreshIcon() {
-            _targetNotifyIcon.Visible = _isMinerStudio || NTMinerRegistry.GetIsShowNotifyIcon();
+            _targetNotifyIcon.Visible = _isMinerStudio || Registry.GetIsShowNotifyIcon();
         }
 
         #region IDisposable Members

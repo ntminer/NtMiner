@@ -1,23 +1,28 @@
-﻿using Microsoft.Win32;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
 namespace NTMiner {
-    public static class NTMinerRegistry {
-        private const string AutoRunSubKey = @"Software\Microsoft\Windows\CurrentVersion\Run";
+    public static class Registry {
+        /// <summary>
+        /// 将当前程序设置为windows开机自动启动
+        /// </summary>
+        /// <param name="valueName"></param>
+        /// <param name="isAutoBoot"></param>
+        /// <param name="otherParams"></param>
         public static void SetAutoBoot(string valueName, bool isAutoBoot, string otherParams = null) {
+            const string AutoRunSubKey = @"Software\Microsoft\Windows\CurrentVersion\Run";
             string exeFileFullName = Process.GetCurrentProcess().MainModule.FileName;
             if (isAutoBoot == true) {
                 string value = exeFileFullName;
                 if (!string.IsNullOrEmpty(otherParams)) {
                     value = value + " " + otherParams;
                 }
-                Windows.Registry.SetValue(Registry.CurrentUser, AutoRunSubKey, valueName, value);
+                Windows.Registry.SetValue(Microsoft.Win32.Registry.CurrentUser, AutoRunSubKey, valueName, value);
             }
             else {
-                Windows.Registry.DeleteValue(Registry.CurrentUser, AutoRunSubKey, valueName);
+                Windows.Registry.DeleteValue(Microsoft.Win32.Registry.CurrentUser, AutoRunSubKey, valueName);
             }
         }
 
@@ -25,61 +30,60 @@ namespace NTMiner {
 
         #region IsShowInTaskbar
         public static bool GetIsShowInTaskbar() {
-            object value = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, "IsShowInTaskbar");
+            object value = Windows.Registry.GetValue(Microsoft.Win32.Registry.Users, NTMinerRegistrySubKey, "IsShowInTaskbar");
             return value == null || value.ToString() == "True";
         }
 
         public static void SetIsShowInTaskbar(bool value) {
-            Windows.Registry.SetValue(Registry.Users, NTMinerRegistrySubKey, "IsShowInTaskbar", value);
+            Windows.Registry.SetValue(Microsoft.Win32.Registry.Users, NTMinerRegistrySubKey, "IsShowInTaskbar", value);
         }
         #endregion
 
         #region IsNoUi
         public static bool GetIsNoUi() {
-            object value = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, "IsNoUi");
+            object value = Windows.Registry.GetValue(Microsoft.Win32.Registry.Users, NTMinerRegistrySubKey, "IsNoUi");
             return value != null && value.ToString() == "True";
         }
 
         public static void SetIsNoUi(bool value) {
-            Windows.Registry.SetValue(Registry.Users, NTMinerRegistrySubKey, "IsNoUi", value);
+            Windows.Registry.SetValue(Microsoft.Win32.Registry.Users, NTMinerRegistrySubKey, "IsNoUi", value);
         }
         #endregion
 
-        #region AutoNoUi
+        #region AutoNoUi 挖矿过程中界面展示给定的时间后是否自动切换为无界面模式
         public static bool GetIsAutoNoUi() {
-            object value = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, "IsAutoNoUi");
+            object value = Windows.Registry.GetValue(Microsoft.Win32.Registry.Users, NTMinerRegistrySubKey, "IsAutoNoUi");
             return value == null || value.ToString() == "True";
         }
 
         public static void SetIsAutoNoUi(bool value) {
-            Windows.Registry.SetValue(Registry.Users, NTMinerRegistrySubKey, "IsAutoNoUi", value);
+            Windows.Registry.SetValue(Microsoft.Win32.Registry.Users, NTMinerRegistrySubKey, "IsAutoNoUi", value);
         }
         #endregion
 
         #region AutoNoUiMinutes
         public static int GetAutoNoUiMinutes() {
-            object value = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, "AutoNoUiMinutes");
+            object value = Windows.Registry.GetValue(Microsoft.Win32.Registry.Users, NTMinerRegistrySubKey, "AutoNoUiMinutes");
             if (value == null) {
                 return 10;
             }
-            int v;
-            int.TryParse(value.ToString(), out v);
+            int.TryParse(value.ToString(), out int v);
             return v;
         }
 
         public static void SetAutoNoUiMinutes(int value) {
-            Windows.Registry.SetValue(Registry.Users, NTMinerRegistrySubKey, "AutoNoUiMinutes", value);
+            Windows.Registry.SetValue(Microsoft.Win32.Registry.Users, NTMinerRegistrySubKey, "AutoNoUiMinutes", value);
         }
         #endregion
 
         #region IsShowNotifyIcon
         public static bool GetIsShowNotifyIcon() {
-            object value = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, "IsShowNotifyIcon");
+            object value = Windows.Registry.GetValue(Microsoft.Win32.Registry.Users, NTMinerRegistrySubKey, "IsShowNotifyIcon");
             return value == null || value.ToString() == "True";
         }
 
         public static void SetIsShowNotifyIcon(bool value) {
-            Windows.Registry.SetValue(Registry.Users, NTMinerRegistrySubKey, "IsShowNotifyIcon", value);
+            Windows.Registry.SetValue(Microsoft.Win32.Registry.Users, NTMinerRegistrySubKey, "IsShowNotifyIcon", value);
         }
         #endregion
 
@@ -89,7 +93,7 @@ namespace NTMiner {
             if (VirtualRoot.IsMinerStudio) {
                 valueName = "MinerStudioLocation";
             }
-            object value = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, valueName);
+            object value = Windows.Registry.GetValue(Microsoft.Win32.Registry.Users, NTMinerRegistrySubKey, valueName);
             if (value != null) {
                 return (string)value;
             }
@@ -101,7 +105,7 @@ namespace NTMiner {
             if (VirtualRoot.IsMinerStudio) {
                 valueName = "MinerStudioLocation";
             }
-            Windows.Registry.SetValue(Registry.Users, NTMinerRegistrySubKey, valueName, location);
+            Windows.Registry.SetValue(Microsoft.Win32.Registry.Users, NTMinerRegistrySubKey, valueName, location);
         }
         #endregion
 
@@ -111,7 +115,7 @@ namespace NTMiner {
             if (VirtualRoot.IsMinerStudio) {
                 valueName = "MinerStudioArguments";
             }
-            object value = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, valueName);
+            object value = Windows.Registry.GetValue(Microsoft.Win32.Registry.Users, NTMinerRegistrySubKey, valueName);
             if (value != null) {
                 return (string)value;
             }
@@ -123,30 +127,30 @@ namespace NTMiner {
             if (VirtualRoot.IsMinerStudio) {
                 valueName = "MinerStudioArguments";
             }
-            Windows.Registry.SetValue(Registry.Users, NTMinerRegistrySubKey, valueName, arguments);
+            Windows.Registry.SetValue(Microsoft.Win32.Registry.Users, NTMinerRegistrySubKey, valueName, arguments);
         }
         #endregion
 
         #region IsAutoBoot
         public static bool GetIsAutoBoot() {
-            object value = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, "IsAutoBoot");
+            object value = Windows.Registry.GetValue(Microsoft.Win32.Registry.Users, NTMinerRegistrySubKey, "IsAutoBoot");
             return value == null || value.ToString() == "True";
         }
 
         public static void SetIsAutoBoot(bool value) {
-            Windows.Registry.SetValue(Registry.Users, NTMinerRegistrySubKey, "IsAutoBoot", value);
+            Windows.Registry.SetValue(Microsoft.Win32.Registry.Users, NTMinerRegistrySubKey, "IsAutoBoot", value);
         }
         #endregion
 
         #region IsAutoStart
         public static bool GetIsAutoStart() {
-            object value = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, "IsAutoStart");
+            object value = Windows.Registry.GetValue(Microsoft.Win32.Registry.Users, NTMinerRegistrySubKey, "IsAutoStart");
             // 如果是新装的机器，显卡还没驱动，不要自动开始挖矿
             return value != null && value.ToString() == "True";
         }
 
         public static void SetIsAutoStart(bool value) {
-            Windows.Registry.SetValue(Registry.Users, NTMinerRegistrySubKey, "IsAutoStart", value);
+            Windows.Registry.SetValue(Microsoft.Win32.Registry.Users, NTMinerRegistrySubKey, "IsAutoStart", value);
         }
         #endregion
 
@@ -157,7 +161,7 @@ namespace NTMiner {
                 valueName = "MinerStudioCurrentVersion";
             }
             string currentVersion = "1.0.0.0";
-            object value = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, valueName);
+            object value = Windows.Registry.GetValue(Microsoft.Win32.Registry.Users, NTMinerRegistrySubKey, valueName);
             if (value != null) {
                 currentVersion = (string)value;
             }
@@ -172,7 +176,7 @@ namespace NTMiner {
             if (VirtualRoot.IsMinerStudio) {
                 valueName = "MinerStudioCurrentVersion";
             }
-            Windows.Registry.SetValue(Registry.Users, NTMinerRegistrySubKey, valueName, version);
+            Windows.Registry.SetValue(Microsoft.Win32.Registry.Users, NTMinerRegistrySubKey, valueName, version);
         }
         #endregion
 
@@ -183,7 +187,7 @@ namespace NTMiner {
                 valueName = "MinerStudioCurrentVersionTag";
             }
             string currentVersionTag = string.Empty;
-            object value = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, valueName);
+            object value = Windows.Registry.GetValue(Microsoft.Win32.Registry.Users, NTMinerRegistrySubKey, valueName);
             if (value != null) {
                 currentVersionTag = (string)value;
             }
@@ -195,14 +199,14 @@ namespace NTMiner {
             if (VirtualRoot.IsMinerStudio) {
                 valueName = "MinerStudioCurrentVersionTag";
             }
-            Windows.Registry.SetValue(Registry.Users, NTMinerRegistrySubKey, valueName, versionTag);
+            Windows.Registry.SetValue(Microsoft.Win32.Registry.Users, NTMinerRegistrySubKey, valueName, versionTag);
         }
         #endregion
 
         #region ControlCenterHost
         public const string DefaultControlCenterHost = "localhost";
         public static string GetControlCenterHost() {
-            object value = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, "ControlCenterHost");
+            object value = Windows.Registry.GetValue(Microsoft.Win32.Registry.Users, NTMinerRegistrySubKey, "ControlCenterHost");
             if (value == null) {
                 return DefaultControlCenterHost;
             }
@@ -213,13 +217,13 @@ namespace NTMiner {
             if (string.IsNullOrEmpty(host)) {
                 host = DefaultControlCenterHost;
             }
-            Windows.Registry.SetValue(Registry.Users, NTMinerRegistrySubKey, "ControlCenterHost", host);
+            Windows.Registry.SetValue(Microsoft.Win32.Registry.Users, NTMinerRegistrySubKey, "ControlCenterHost", host);
         }
         #endregion
 
         #region ControlCenterHosts
         public static List<string> GetControlCenterHosts() {
-            object value = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, "ControlCenterHosts");
+            object value = Windows.Registry.GetValue(Microsoft.Win32.Registry.Users, NTMinerRegistrySubKey, "ControlCenterHosts");
             if (value == null) {
                 return new List<string>();
             }
@@ -231,13 +235,13 @@ namespace NTMiner {
             if (hosts != null) {
                 value = string.Join(",", hosts);
             }
-            Windows.Registry.SetValue(Registry.Users, NTMinerRegistrySubKey, "ControlCenterHosts", value);
+            Windows.Registry.SetValue(Microsoft.Win32.Registry.Users, NTMinerRegistrySubKey, "ControlCenterHosts", value);
         }
         #endregion
 
         #region DaemonVersion
         public static string GetDaemonVersion() {
-            object value = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, "DaemonVersion");
+            object value = Windows.Registry.GetValue(Microsoft.Win32.Registry.Users, NTMinerRegistrySubKey, "DaemonVersion");
             if (value == null) {
                 return string.Empty;
             }
@@ -248,40 +252,39 @@ namespace NTMiner {
             if (version == null) {
                 version = string.Empty;
             }
-            Windows.Registry.SetValue(Registry.Users, NTMinerRegistrySubKey, "DaemonVersion", version);
+            Windows.Registry.SetValue(Microsoft.Win32.Registry.Users, NTMinerRegistrySubKey, "DaemonVersion", version);
         }
         #endregion
 
         #region DaemonVersion
         public static DateTime GetDaemonActiveOn() {
-            object value = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, "DaemonActiveOn");
+            object value = Windows.Registry.GetValue(Microsoft.Win32.Registry.Users, NTMinerRegistrySubKey, "DaemonActiveOn");
             if (value == null) {
                 return DateTime.MinValue;
             }
             string str = value.ToString();
-            DateTime dateTime;
-            if (!DateTime.TryParse(str, out dateTime)) {
+            if (!DateTime.TryParse(str, out DateTime dateTime)) {
                 return DateTime.MinValue;
             }
             return dateTime;
         }
 
         public static void SetDaemonActiveOn(DateTime version) {
-            Windows.Registry.SetValue(Registry.Users, NTMinerRegistrySubKey, "DaemonActiveOn", version.ToString());
+            Windows.Registry.SetValue(Microsoft.Win32.Registry.Users, NTMinerRegistrySubKey, "DaemonActiveOn", version.ToString());
         }
         #endregion
 
         #region GetClientId
         public static Guid GetClientId() {
             Guid id;
-            object value = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, "ClientId");
+            object value = Windows.Registry.GetValue(Microsoft.Win32.Registry.Users, NTMinerRegistrySubKey, "ClientId");
             if (value == null) {
                 id = Guid.NewGuid();
-                Windows.Registry.SetValue(Registry.Users, NTMinerRegistrySubKey, "ClientId", id.ToString());
+                Windows.Registry.SetValue(Microsoft.Win32.Registry.Users, NTMinerRegistrySubKey, "ClientId", id.ToString());
             }
             else if (!Guid.TryParse((string)value, out id)) {
                 id = Guid.NewGuid();
-                Windows.Registry.SetValue(Registry.Users, NTMinerRegistrySubKey, "ClientId", id.ToString());
+                Windows.Registry.SetValue(Microsoft.Win32.Registry.Users, NTMinerRegistrySubKey, "ClientId", id.ToString());
             }
             return id;
         }

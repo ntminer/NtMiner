@@ -14,7 +14,7 @@ namespace NTMiner {
     public partial class NTMinerRoot {
         public const int SpeedHistoryLengthByMinute = 10;
         public const int GpuAllId = -1;
-        public static readonly bool IsAutoStart = (NTMinerRegistry.GetIsAutoStart() || CommandLineArgs.IsAutoStart);
+        public static readonly bool IsAutoStart = (Registry.GetIsAutoStart() || CommandLineArgs.IsAutoStart);
         private static readonly NTMinerRoot S_Instance = new NTMinerRoot();
         public static readonly INTMinerRoot Instance = S_Instance;
         public static readonly Version CurrentVersion;
@@ -282,12 +282,12 @@ namespace NTMiner {
 
         #region IsShowCommandLine
         public static bool GetIsShowCommandLine() {
-            object isAutoBootValue = Windows.Registry.GetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "IsShowCommandLine");
+            object isAutoBootValue = Windows.Registry.GetValue(Microsoft.Win32.Registry.Users, Registry.NTMinerRegistrySubKey, "IsShowCommandLine");
             return isAutoBootValue != null && isAutoBootValue.ToString() == "True";
         }
 
         public static void SetIsShowCommandLine(bool value) {
-            Windows.Registry.SetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "IsShowCommandLine", value);
+            Windows.Registry.SetValue(Microsoft.Win32.Registry.Users, Registry.NTMinerRegistrySubKey, "IsShowCommandLine", value);
         }
         #endregion
     }

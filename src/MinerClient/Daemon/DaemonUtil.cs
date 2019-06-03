@@ -17,7 +17,7 @@ namespace NTMiner.Daemon {
             string processName = "NTMinerDaemon";
             Process[] processes = Process.GetProcessesByName(processName);
             if (processes.Length != 0) {
-                string thatVersion = NTMinerRegistry.GetDaemonVersion();
+                string thatVersion = Registry.GetDaemonVersion();
                 try {
                     string thisVersion = ThisNTMinerDaemonFileVersion;
                     if (thatVersion != thisVersion) {

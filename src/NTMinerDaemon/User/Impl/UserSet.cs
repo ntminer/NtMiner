@@ -44,11 +44,11 @@ namespace NTMiner.User.Impl {
             try {
                 DataRequest<Guid?> request = new DataRequest<Guid?> {
                     LoginName = string.Empty,
-                    Data = NTMinerRegistry.GetClientId()
+                    Data = Registry.GetClientId()
                 };
                 using (HttpClient client = new HttpClient()) {
                     client.Timeout = TimeSpan.FromMilliseconds(2000);
-                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{NTMinerRegistry.GetControlCenterHost()}:{Consts.ControlCenterPort}/api/ControlCenter/Users", request);
+                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{Registry.GetControlCenterHost()}:{Consts.ControlCenterPort}/api/ControlCenter/Users", request);
                     DataResponse<List<UserData>> response = message.Result.Content.ReadAsAsync<DataResponse<List<UserData>>>().Result;
                     if (response != null && response.Data != null) {
                         return response.Data;

@@ -34,10 +34,10 @@ namespace NTMiner {
         }
 
         public static void StartTimer() {
-            NTMinerRegistry.SetDaemonActiveOn(DateTime.Now);
+            Registry.SetDaemonActiveOn(DateTime.Now);
             var timer = new System.Timers.Timer(10 * 1000);
             timer.Elapsed += (object sender, System.Timers.ElapsedEventArgs e) => {
-                NTMinerRegistry.SetDaemonActiveOn(DateTime.Now);
+                Registry.SetDaemonActiveOn(DateTime.Now);
             };
             timer.Start();
         }
@@ -67,16 +67,16 @@ namespace NTMiner {
                 }
                 if (mutexCreated) {
                     StartTimer();
-                    NTMinerRegistry.SetDaemonVersion(Sha1);
-                    NTMinerRegistry.SetAutoBoot("NTMinerDaemon", true);
-                    bool isAutoBoot = NTMinerRegistry.GetIsAutoBoot();
+                    Registry.SetDaemonVersion(Sha1);
+                    Registry.SetAutoBoot("NTMinerDaemon", true);
+                    bool isAutoBoot = Registry.GetIsAutoBoot();
                     if (isAutoBoot) {
-                        string location = NTMinerRegistry.GetLocation();
+                        string location = Registry.GetLocation();
                         if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
                             string processName = Path.GetFileName(location);
                             Process[] processes = Process.GetProcessesByName(processName);
                             if (processes.Length == 0) {
-                                string arguments = NTMinerRegistry.GetArguments();
+                                string arguments = Registry.GetArguments();
                                 try {
                                     Process.Start(location, arguments);
                                     Write.DevOk($"启动挖矿端 {location} {arguments}");

@@ -71,7 +71,7 @@ namespace NTMiner.Vms {
                             Client.MinerClientService.CloseNTMiner();
                         }
                         TimeSpan.FromSeconds(3).Delay().ContinueWith((t) => {
-                            string location = NTMinerRegistry.GetLocation();
+                            string location = Registry.GetLocation();
                             if (string.IsNullOrEmpty(location) || !File.Exists(location)) {
                                 location = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ntMinerFile);
                             }
@@ -98,7 +98,7 @@ namespace NTMiner.Vms {
                             File.Copy(saveFileFullName, location, overwrite: true);
                             File.Delete(saveFileFullName);
                             Logger.InfoDebugLine("复制完成，删除旧文件");
-                            string arguments = NTMinerRegistry.GetArguments();
+                            string arguments = Registry.GetArguments();
                             Logger.InfoDebugLine("启动新程序");
                             Process.Start(location, arguments);
                             this.IsDownloading = false;
@@ -261,7 +261,7 @@ namespace NTMiner.Vms {
         public Version LocalNTMinerVersion {
             get {
                 if (_localNTMinerVersion == null) {
-                    string currentVersion = NTMinerRegistry.GetCurrentVersion();
+                    string currentVersion = Registry.GetCurrentVersion();
                     if (!Version.TryParse(currentVersion, out _localNTMinerVersion)) {
                         _localNTMinerVersion = new Version(1, 0);
                     }
@@ -272,7 +272,7 @@ namespace NTMiner.Vms {
 
         public string LocalNTMinerVersionTag {
             get {
-                return NTMinerRegistry.GetCurrentVersionTag();
+                return Registry.GetCurrentVersionTag();
             }
         }
 

@@ -6,7 +6,7 @@ namespace NTMiner {
         public static Func<System.Windows.Forms.Keys, bool> RegHotKey;
         #region HotKey
         public static string GetHotKey() {
-            object value = Windows.Registry.GetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "HotKey");
+            object value = Windows.Registry.GetValue(global::Microsoft.Win32.Registry.Users, Registry.NTMinerRegistrySubKey, "HotKey");
             if (value == null) {
                 return "X";
             }
@@ -22,7 +22,7 @@ namespace NTMiner {
             }
             if (Enum.TryParse(value, out System.Windows.Forms.Keys key) && key >= System.Windows.Forms.Keys.A && key <= System.Windows.Forms.Keys.Z) {
                 if (RegHotKey.Invoke(key)) {
-                    Windows.Registry.SetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "HotKey", value);
+                    Windows.Registry.SetValue(global::Microsoft.Win32.Registry.Users, Registry.NTMinerRegistrySubKey, "HotKey", value);
                     return true;
                 }
             }

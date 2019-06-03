@@ -115,50 +115,50 @@ namespace NTMiner {
             }
 
             public bool IsShowInTaskbar {
-                get => NTMinerRegistry.GetIsShowInTaskbar();
+                get => Registry.GetIsShowInTaskbar();
                 set {
-                    if (NTMinerRegistry.GetIsShowInTaskbar() != value) {
-                        NTMinerRegistry.SetIsShowInTaskbar(value);
+                    if (Registry.GetIsShowInTaskbar() != value) {
+                        Registry.SetIsShowInTaskbar(value);
                         OnPropertyChanged(nameof(IsShowInTaskbar));
                     }
                 }
             }
 
             public bool IsNoUi {
-                get { return NTMinerRegistry.GetIsNoUi(); }
+                get { return Registry.GetIsNoUi(); }
                 set {
-                    if (NTMinerRegistry.GetIsNoUi() != value) {
-                        NTMinerRegistry.SetIsNoUi(value);
+                    if (Registry.GetIsNoUi() != value) {
+                        Registry.SetIsNoUi(value);
                         OnPropertyChanged(nameof(IsNoUi));
                     }
                 }
             }
 
             public bool IsAutoNoUi {
-                get { return NTMinerRegistry.GetIsAutoNoUi(); }
+                get { return Registry.GetIsAutoNoUi(); }
                 set {
-                    if (NTMinerRegistry.GetIsAutoNoUi() != value) {
-                        NTMinerRegistry.SetIsAutoNoUi(value);
+                    if (Registry.GetIsAutoNoUi() != value) {
+                        Registry.SetIsAutoNoUi(value);
                         OnPropertyChanged(nameof(IsAutoNoUi));
                     }
                 }
             }
 
             public int AutoNoUiMinutes {
-                get { return NTMinerRegistry.GetAutoNoUiMinutes(); }
+                get { return Registry.GetAutoNoUiMinutes(); }
                 set {
-                    if (NTMinerRegistry.GetAutoNoUiMinutes() != value) {
-                        NTMinerRegistry.SetAutoNoUiMinutes(value);
+                    if (Registry.GetAutoNoUiMinutes() != value) {
+                        Registry.SetAutoNoUiMinutes(value);
                         OnPropertyChanged(nameof(AutoNoUiMinutes));
                     }
                 }
             }
 
             public bool IsShowNotifyIcon {
-                get => NTMinerRegistry.GetIsShowNotifyIcon();
+                get => Registry.GetIsShowNotifyIcon();
                 set {
-                    if (NTMinerRegistry.GetIsShowNotifyIcon() != value) {
-                        NTMinerRegistry.SetIsShowNotifyIcon(value);
+                    if (Registry.GetIsShowNotifyIcon() != value) {
+                        Registry.SetIsShowNotifyIcon(value);
                         OnPropertyChanged(nameof(IsShowNotifyIcon));
                         NotifyIcon?.RefreshIcon();
                     }
@@ -191,17 +191,17 @@ namespace NTMiner {
             }
 
             public bool IsAutoBoot {
-                get => NTMinerRegistry.GetIsAutoBoot();
+                get => Registry.GetIsAutoBoot();
                 set {
-                    NTMinerRegistry.SetIsAutoBoot(value);
+                    Registry.SetIsAutoBoot(value);
                     OnPropertyChanged(nameof(IsAutoBoot));
                 }
             }
 
             public bool IsAutoStart {
-                get => NTMinerRegistry.GetIsAutoStart();
+                get => Registry.GetIsAutoStart();
                 set {
-                    NTMinerRegistry.SetIsAutoStart(value);
+                    Registry.SetIsAutoStart(value);
                     OnPropertyChanged(nameof(IsAutoStart));
                 }
             }

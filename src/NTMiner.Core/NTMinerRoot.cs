@@ -173,10 +173,10 @@ namespace NTMiner {
             this._minerProfile = new MinerProfile(this, mineWorkData);
 
             // 这几个注册表内部区分挖矿端和群控客户端
-            NTMinerRegistry.SetLocation(VirtualRoot.AppFileFullName);
-            NTMinerRegistry.SetArguments(string.Join(" ", CommandLineArgs.Args));
-            NTMinerRegistry.SetCurrentVersion(CurrentVersion.ToString());
-            NTMinerRegistry.SetCurrentVersionTag(CurrentVersionTag);
+            Registry.SetLocation(VirtualRoot.AppFileFullName);
+            Registry.SetArguments(string.Join(" ", CommandLineArgs.Args));
+            Registry.SetCurrentVersion(CurrentVersion.ToString());
+            Registry.SetCurrentVersionTag(CurrentVersionTag);
 
             callback?.Invoke();
         }
@@ -330,7 +330,7 @@ namespace NTMiner {
                     #endregion
 
                     if (IsMining) {
-                        if (NTMinerRegistry.GetDaemonActiveOn().AddSeconds(20) < message.Timestamp) {
+                        if (Registry.GetDaemonActiveOn().AddSeconds(20) < message.Timestamp) {
                             StartNoDevFeeAsync();
                         }
                     }

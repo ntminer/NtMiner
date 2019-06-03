@@ -12,7 +12,7 @@ namespace NTMiner.Vms {
         public ICommand Remove { get; private set; }
 
         public ServerHostSelectViewModel(string selected, Action<ServerHostItem> onOk) {
-            var data = NTMinerRegistry.GetControlCenterHosts().ToList();
+            var data = Registry.GetControlCenterHosts().ToList();
             if (!data.Contains("127.0.0.1") && !data.Contains("localhost")) {
                 data.Add("127.0.0.1");
             }
@@ -21,8 +21,8 @@ namespace NTMiner.Vms {
             OnOk = onOk;
             this.Remove = new DelegateCommand<ServerHostItem>((serverHost) => {
                 if (this.ServerHosts.Remove(serverHost)) {
-                    if (NTMinerRegistry.GetControlCenterHost() == serverHost.IpOrHost) {
-                        NTMinerRegistry.SetControlCenterHost(string.Empty);
+                    if (Registry.GetControlCenterHost() == serverHost.IpOrHost) {
+                        Registry.SetControlCenterHost(string.Empty);
                     }
                     this.ServerHosts = this.ServerHosts.ToList();
                 }
@@ -35,7 +35,7 @@ namespace NTMiner.Vms {
             }
             set {
                 _serverHosts = value;
-                NTMinerRegistry.SetControlCenterHosts(value.Select(a => a.IpOrHost).ToList());
+                Registry.SetControlCenterHosts(value.Select(a => a.IpOrHost).ToList());
                 OnPropertyChanged(nameof(ServerHosts));
             }
         }
