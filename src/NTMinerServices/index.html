@@ -4,11 +4,12 @@
     <meta charset="utf-8">
 </head>
 <body>
-
     <div ng-app="myApp" ng-controller="myCtrl">
         GetServicesVersionResult {{GetServicesVersionResult}}
         <br />
         LatestSnapshotsResult {{LatestSnapshotsResult}}
+        <br />
+        QueryClientsResult {{QueryClientsResult}}
     </div>
 
     <script src="https://cdn.staticfile.org/angular.js/1.4.6/angular.min.js"></script>
@@ -16,11 +17,14 @@
         var app = angular.module('myApp', []);
         app.controller('myCtrl', function ($scope, $http) {
             $scope.name = "NTMiner";
-            $http.post("http://localhost:3339/api/ControlCenter/GetServicesVersion").then(function (response) {
+            $http.post("/api/ControlCenter/GetServicesVersion").then(function (response) {
                 $scope.GetServicesVersionResult = response.data;
             });
-            $http.post("http://localhost:3339/api/ControlCenter/LatestSnapshots", { LoginName: 'test', Limit: 10 }).then(function (response) {
+            $http.post("/api/ControlCenter/LatestSnapshots", { Limit: 10 }).then(function (response) {
                 $scope.LatestSnapshotsResult = response.data;
+            });
+            $http.post("/api/ControlCenter/QueryClients", { PageIndex: 0, PageSize:20 }).then(function (response) {
+                $scope.QueryClientsResult = response.data;
             });
         });
     </script>
