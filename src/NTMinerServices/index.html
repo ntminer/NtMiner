@@ -2,14 +2,47 @@
 <html>
 <head>
     <meta charset="utf-8">
+    <style>
+        .request {
+            background: #FB9D87;
+        }
+
+        .response {
+        }
+    </style>
 </head>
 <body>
     <div ng-app="myApp" ng-controller="myCtrl">
-        GetServicesVersionResult {{GetServicesVersionResult}}
-        <br />
-        LatestSnapshotsResult {{LatestSnapshotsResult}}
-        <br />
-        QueryClientsResult {{QueryClientsResult}}
+        <p>
+            <div class="request">GetServicesVersionResult</div>
+            <div class="response">
+                {{GetServicesVersionResult}}
+            </div>
+        </p>
+        <p>
+            <div class="request">
+                LatestSnapshotsResult
+            </div>
+            <div class="response">
+                {{LatestSnapshotsResult}}
+            </div>
+        </p>
+        <div>
+            <div class="request">
+                QueryClientsResult
+            </div>
+            <div class="response">
+                {{QueryClientsResult}}
+            </div>
+        </div>
+        <p>
+            <div class="request">
+                MinerGroupsResult
+            </div>
+            <div class="response">
+                {{MinerGroupsResult}}
+            </div>
+        </p>
     </div>
 
     <script src="https://cdn.staticfile.org/angular.js/1.4.6/angular.min.js"></script>
@@ -23,8 +56,11 @@
             $http.post("/api/ControlCenter/LatestSnapshots", { Limit: 10 }).then(function (response) {
                 $scope.LatestSnapshotsResult = response.data;
             });
-            $http.post("/api/ControlCenter/QueryClients", { PageIndex: 0, PageSize:20 }).then(function (response) {
+            $http.post("/api/ControlCenter/QueryClients", { PageIndex: 0, PageSize: 20 }).then(function (response) {
                 $scope.QueryClientsResult = response.data;
+            });
+            $http.post("/api/ControlCenter/MinerGroups", { PageIndex: 0, PageSize: 20 }).then(function (response) {
+                $scope.MinerGroupsResult = response.data;
             });
         });
     </script>
