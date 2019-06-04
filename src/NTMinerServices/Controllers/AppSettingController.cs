@@ -5,13 +5,7 @@ using System.Linq;
 using System.Web.Http;
 
 namespace NTMiner.Controllers {
-    public class AppSettingController : ApiController, IAppSettingController {
-        private string ClientIp {
-            get {
-                return Request.GetWebClientIp();
-            }
-        }
-
+    public class AppSettingController : ApiControllerBase, IAppSettingController {
         public DateTime GetTime() {
             return DateTime.Now;
         }

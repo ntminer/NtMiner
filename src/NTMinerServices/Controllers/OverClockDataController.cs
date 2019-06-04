@@ -4,13 +4,7 @@ using System.Collections.Generic;
 using System.Web.Http;
 
 namespace NTMiner.Controllers {
-    public class OverClockDataController : ApiController, IOverClockDataController {
-        private string ClientIp {
-            get {
-                return Request.GetWebClientIp();
-            }
-        }
-
+    public class OverClockDataController : ApiControllerBase, IOverClockDataController {
         #region AddOrUpdateOverClockData
         [HttpPost]
         public ResponseBase AddOrUpdateOverClockData([FromBody]DataRequest<OverClockData> request) {

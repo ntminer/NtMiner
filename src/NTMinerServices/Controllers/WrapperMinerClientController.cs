@@ -5,13 +5,7 @@ using System;
 using System.Web.Http;
 
 namespace NTMiner.Controllers {
-    public class WrapperMinerClientController : ApiController, IWrapperMinerClientController {
-        private string ClientIp {
-            get {
-                return Request.GetWebClientIp();
-            }
-        }
-
+    public class WrapperMinerClientController : ApiControllerBase, IWrapperMinerClientController {
         #region RestartWindows
         [HttpPost]
         public ResponseBase RestartWindows([FromBody]WrapperRequest<SignatureRequest> request) {
