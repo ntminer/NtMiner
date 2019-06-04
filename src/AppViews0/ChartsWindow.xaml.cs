@@ -52,10 +52,8 @@ namespace NTMiner.Views {
         #region 刷新总算力图表
         private void RefreshTotalSpeedChart(int limit) {
             //NTMinerRoot.Current.DebugLine($"获取总算力数据，范围{leftTime} - {rightTime}");
-            var coinCodes = NTMinerRoot.Instance.CoinSet.Select(a => a.Code).ToList();
             Server.ControlCenterService.GetLatestSnapshotsAsync(
                 limit,
-                coinCodes,
                 (response, exception) => {
                     if (response == null) {
                         return;
