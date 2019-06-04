@@ -92,6 +92,13 @@
                 {{OverClockDatasResult}}
             </div>
         </div>
+        <b>NTMinerUrl</b>
+        <div class="requestResponseGroup">
+            <div>
+                <div class="request">NTMinerUrlResult</div>
+                {{NTMinerUrlResult}}
+            </div>
+        </div>
     </div>
 
     <script src="https://cdn.staticfile.org/angular.js/1.4.6/angular.min.js"></script>
@@ -136,6 +143,11 @@
 
             $http.post("/api/OverClockData/OverClockDatas", {}).then(function (response) {
                 $scope.OverClockDatasResult = response.data;
+            });
+
+
+            $http.post("/api/FileUrl/NTMinerUrl", { FileName:'test.exe'}).then(function (response) {
+                $scope.NTMinerUrlResult = response.data;
             });
         });
     </script>

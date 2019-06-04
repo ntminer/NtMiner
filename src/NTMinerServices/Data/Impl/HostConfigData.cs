@@ -5,9 +5,9 @@ namespace NTMiner.Data.Impl {
         public static readonly HostConfigData LocalHostConfig = new HostConfigData {
             Id = Guid.Empty,
             IsPull = true,
-            OssAccessKeyId = string.Empty,
-            OssAccessKeySecret = string.Empty,
-            OssEndpoint = string.Empty
+            OssAccessKeyId = "ABCDEFGHIJKLMNOP",
+            OssAccessKeySecret = "ABCDEFGHIJKLMNOPQRSTUVWXYZ000",
+            OssEndpoint = "oss-cn-beijing.aliyuncs.com"
         };
 
         public HostConfigData() {

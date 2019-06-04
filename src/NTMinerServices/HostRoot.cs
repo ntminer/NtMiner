@@ -114,11 +114,11 @@ namespace NTMiner {
                             string accessKeySecret = hostConfigData.OssAccessKeySecret;
                             string endpoint = hostConfigData.OssEndpoint;
                             _ossClientOn = DateTime.Now;
-                            _ossClient = new OssClient(endpoint, accessKeyId, accessKeySecret);
                         }
                     }
                 }
             }
+            _ossClient = new OssClient(this.HostConfig.OssEndpoint, this.HostConfig.OssAccessKeyId, this.HostConfig.OssAccessKeySecret);
         }
         #endregion
 
