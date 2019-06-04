@@ -27,20 +27,60 @@
                 {{LatestSnapshotsResult}}
             </div>
         </p>
-        <div>
+        <p>
             <div class="request">
                 QueryClientsResult
             </div>
             <div class="response">
                 {{QueryClientsResult}}
             </div>
-        </div>
+        </p>
         <p>
             <div class="request">
                 MinerGroupsResult
             </div>
             <div class="response">
                 {{MinerGroupsResult}}
+            </div>
+        </p>
+        <p>
+            <div class="request">
+                MineWorksResult
+            </div>
+            <div class="response">
+                {{MineWorksResult}}
+            </div>
+        </p>
+        <p>
+            <div class="request">
+                PoolsResult
+            </div>
+            <div class="response">
+                {{PoolsResult}}
+            </div>
+        </p>
+        <p>
+            <div class="request">
+                WalletsResult
+            </div>
+            <div class="response">
+                {{WalletsResult}}
+            </div>
+        </p>
+        <p>
+            <div class="request">
+                CalcConfigsResult
+            </div>
+            <div class="response">
+                {{CalcConfigsResult}}
+            </div>
+        </p>
+        <p>
+            <div class="request">
+                ColumnsShowsResult
+            </div>
+            <div class="response">
+                {{ColumnsShowsResult}}
             </div>
         </p>
     </div>
@@ -61,6 +101,21 @@
             });
             $http.post("/api/ControlCenter/MinerGroups", { PageIndex: 0, PageSize: 20 }).then(function (response) {
                 $scope.MinerGroupsResult = response.data;
+            });
+            $http.post("/api/ControlCenter/MineWorks", { PageIndex: 0, PageSize: 20 }).then(function (response) {
+                $scope.MineWorksResult = response.data;
+            });
+            $http.post("/api/ControlCenter/Pools", { PageIndex: 0, PageSize: 20 }).then(function (response) {
+                $scope.PoolsResult = response.data;
+            });
+            $http.post("/api/ControlCenter/Wallets", { PageIndex: 0, PageSize: 20 }).then(function (response) {
+                $scope.WalletsResult = response.data;
+            });
+            $http.post("/api/ControlCenter/CalcConfigs", { PageIndex: 0, PageSize: 20 }).then(function (response) {
+                $scope.CalcConfigsResult = response.data;
+            });
+            $http.post("/api/ControlCenter/ColumnsShows", { PageIndex: 0, PageSize: 20 }).then(function (response) {
+                $scope.ColumnsShowsResult = response.data;
             });
         });
     </script>
