@@ -98,6 +98,22 @@
                 <div class="request">NTMinerUrlResult</div>
                 {{NTMinerUrlResult}}
             </div>
+            <div>
+                <div class="request">NTMinerFilesResult</div>
+                {{NTMinerFilesResult}}
+            </div>
+            <div>
+                <div class="request">NTMinerUpdaterUrlResult</div>
+                {{NTMinerUpdaterUrlResult}}
+            </div>
+            <div>
+                <div class="request">LiteDbExplorerUrlResult</div>
+                {{LiteDbExplorerUrlResult}}
+            </div>
+            <div>
+                <div class="request">PackageUrlResult</div>
+                {{PackageUrlResult}}
+            </div>
         </div>
     </div>
 
@@ -146,8 +162,20 @@
             });
 
 
-            $http.post("/api/FileUrl/NTMinerUrl", { FileName:'test.exe'}).then(function (response) {
+            $http.post("/api/FileUrl/NTMinerUrl", { FileName: 'test.exe' }).then(function (response) {
                 $scope.NTMinerUrlResult = response.data;
+            });
+            $http.post("/api/FileUrl/NTMinerFiles").then(function (response) {
+                $scope.NTMinerFilesResult = response.data;
+            });
+            $http.post("/api/FileUrl/NTMinerUpdaterUrl").then(function (response) {
+                $scope.NTMinerUpdaterUrlResult = response.data;
+            });
+            $http.post("/api/FileUrl/LiteDbExplorerUrl").then(function (response) {
+                $scope.LiteDbExplorerUrlResult = response.data;
+            });
+            $http.post("/api/FileUrl/PackageUrl", { Package: 'test.zip' }).then(function (response) {
+                $scope.PackageUrlResult = response.data;
             });
         });
     </script>
