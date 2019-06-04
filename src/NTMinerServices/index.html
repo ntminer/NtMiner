@@ -7,6 +7,8 @@
 
     <div ng-app="myApp" ng-controller="myCtrl">
         GetServicesVersionResult {{GetServicesVersionResult}}
+        <br />
+        LatestSnapshotsResult {{LatestSnapshotsResult}}
     </div>
 
     <script src="https://cdn.staticfile.org/angular.js/1.4.6/angular.min.js"></script>
@@ -16,6 +18,9 @@
             $scope.name = "NTMiner";
             $http.post("http://localhost:3339/api/ControlCenter/GetServicesVersion").then(function (response) {
                 $scope.GetServicesVersionResult = response.data;
+            });
+            $http.post("http://localhost:3339/api/ControlCenter/LatestSnapshots", { LoginName: 'test', Limit: 10 }).then(function (response) {
+                $scope.LatestSnapshotsResult = response.data;
             });
         });
     </script>

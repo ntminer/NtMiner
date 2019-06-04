@@ -130,7 +130,6 @@ namespace NTMiner {
             #region GetLatestSnapshotsAsync
             public void GetLatestSnapshotsAsync(
                 int limit,
-                List<string> coinCodes,
                 Action<GetCoinSnapshotsResponse, Exception> callback) {
                 GetCoinSnapshotsRequest request = new GetCoinSnapshotsRequest {
                     LoginName = SingleUser.LoginName,
