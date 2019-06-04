@@ -15,7 +15,7 @@
         app.controller('myCtrl', function ($scope, $http) {
             $scope.name = "NTMiner";
             $http.post("http://localhost:3339/api/ControlCenter/GetServicesVersion").then(function (response) {
-                $scope.GetServicesVersionResult = response;
+                $scope.GetServicesVersionResult = response.data;
             });
         });
     </script>
