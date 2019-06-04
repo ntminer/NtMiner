@@ -7,82 +7,91 @@
             background: #FB9D87;
         }
 
-        .response {
+        .requestResponseGroup {
+            margin: 0 0 0 20px;
+            word-wrap: break-word;
+            word-break: break-all;
+            overflow: hidden;
         }
     </style>
 </head>
 <body>
     <div ng-app="myApp" ng-controller="myCtrl">
-        <p>
-            <div class="request">GetServicesVersionResult</div>
-            <div class="response">
-                {{GetServicesVersionResult}}
+        <b>ControlCenter</b>
+        <div class="requestResponseGroup">
+            <div>
+                <div class="request">GetServicesVersionResult</div>
+                <span>
+                    {{GetServicesVersionResult}}
+                </span>
             </div>
-        </p>
-        <p>
-            <div class="request">
-                LatestSnapshotsResult
+            <div>
+                <div class="request">
+                    LatestSnapshotsResult
+                </div>
+                <span>{{LatestSnapshotsResult}}</span>
             </div>
-            <div class="response">
-                {{LatestSnapshotsResult}}
-            </div>
-        </p>
-        <p>
-            <div class="request">
-                QueryClientsResult
-            </div>
-            <div class="response">
+            <div>
+                <div class="request">
+                    QueryClientsResult
+                </div>
                 {{QueryClientsResult}}
             </div>
-        </p>
-        <p>
-            <div class="request">
-                MinerGroupsResult
-            </div>
-            <div class="response">
+            <div>
+                <div class="request">
+                    MinerGroupsResult
+                </div>
                 {{MinerGroupsResult}}
             </div>
-        </p>
-        <p>
-            <div class="request">
-                MineWorksResult
-            </div>
-            <div class="response">
+            <div>
+                <div class="request">
+                    MineWorksResult
+                </div>
                 {{MineWorksResult}}
             </div>
-        </p>
-        <p>
-            <div class="request">
-                PoolsResult
-            </div>
-            <div class="response">
+            <div>
+                <div class="request">
+                    PoolsResult
+                </div>
                 {{PoolsResult}}
             </div>
-        </p>
-        <p>
-            <div class="request">
-                WalletsResult
-            </div>
-            <div class="response">
+            <div>
+                <div class="request">
+                    WalletsResult
+                </div>
                 {{WalletsResult}}
             </div>
-        </p>
-        <p>
-            <div class="request">
-                CalcConfigsResult
-            </div>
-            <div class="response">
+            <div>
+                <div class="request">
+                    CalcConfigsResult
+                </div>
                 {{CalcConfigsResult}}
             </div>
-        </p>
-        <p>
-            <div class="request">
-                ColumnsShowsResult
-            </div>
-            <div class="response">
+            <p>
+                <div class="request">
+                    ColumnsShowsResult
+                </div>
                 {{ColumnsShowsResult}}
+            </p>
+        </div>
+        <b>AppSetting</b>
+        <div class="requestResponseGroup">
+            <div>
+                <div class="request">GetTimeResult</div>
+                {{GetTimeResult}}
             </div>
-        </p>
+            <div>
+                <div class="request">AppSettingsResult</div>
+                {{AppSettingsResult}}
+            </div>
+        </div>
+        <b>OverClockData</b>
+        <div class="requestResponseGroup">
+            <div>
+                <div class="request">OverClockDatasResult</div>
+                {{OverClockDatasResult}}
+            </div>
+        </div>
     </div>
 
     <script src="https://cdn.staticfile.org/angular.js/1.4.6/angular.min.js"></script>
@@ -99,23 +108,34 @@
             $http.post("/api/ControlCenter/QueryClients", { PageIndex: 0, PageSize: 20 }).then(function (response) {
                 $scope.QueryClientsResult = response.data;
             });
-            $http.post("/api/ControlCenter/MinerGroups", { PageIndex: 0, PageSize: 20 }).then(function (response) {
+            $http.post("/api/ControlCenter/MinerGroups", {}).then(function (response) {
                 $scope.MinerGroupsResult = response.data;
             });
-            $http.post("/api/ControlCenter/MineWorks", { PageIndex: 0, PageSize: 20 }).then(function (response) {
+            $http.post("/api/ControlCenter/MineWorks", {}).then(function (response) {
                 $scope.MineWorksResult = response.data;
             });
-            $http.post("/api/ControlCenter/Pools", { PageIndex: 0, PageSize: 20 }).then(function (response) {
+            $http.post("/api/ControlCenter/Pools", {}).then(function (response) {
                 $scope.PoolsResult = response.data;
             });
-            $http.post("/api/ControlCenter/Wallets", { PageIndex: 0, PageSize: 20 }).then(function (response) {
+            $http.post("/api/ControlCenter/Wallets", {}).then(function (response) {
                 $scope.WalletsResult = response.data;
             });
-            $http.post("/api/ControlCenter/CalcConfigs", { PageIndex: 0, PageSize: 20 }).then(function (response) {
+            $http.post("/api/ControlCenter/CalcConfigs", {}).then(function (response) {
                 $scope.CalcConfigsResult = response.data;
             });
-            $http.post("/api/ControlCenter/ColumnsShows", { PageIndex: 0, PageSize: 20 }).then(function (response) {
+            $http.post("/api/ControlCenter/ColumnsShows", {}).then(function (response) {
                 $scope.ColumnsShowsResult = response.data;
+            });
+
+            $http.get("/api/AppSetting/GetTime").then(function (response) {
+                $scope.GetTimeResult = response.data;
+            });
+            $http.post("/api/AppSetting/AppSettings", {}).then(function (response) {
+                $scope.AppSettingsResult = response.data;
+            });
+
+            $http.post("/api/OverClockData/OverClockDatas", {}).then(function (response) {
+                $scope.OverClockDatasResult = response.data;
             });
         });
     </script>
