@@ -20,10 +20,6 @@ namespace NTMiner.Profile {
         bool IsSpeedDownRestartComputer { get; }
         int RestartComputerSpeedDownPercent { get; }
 
-        bool IsTempHighStopMine { get; }
-        int StopMineTempHigh { get; }
-        int StartMineTempLow { get; }
-
         bool IsEChargeEnabled { get; }
 
         double EPrice { get; }

@@ -21,10 +21,7 @@ namespace NTMiner.Profile {
             this.IsPeriodicRestartComputer = false;
             this.PeriodicRestartComputerHours = 24;
             this.IsSpeedDownRestartComputer = false;
-            this.IsTempHighStopMine = false;
             this.RestartComputerSpeedDownPercent = 0;
-            this.StartMineTempLow = 50;
-            this.StopMineTempHigh = 88;
             this.IsEChargeEnabled = true;
             this.EPrice = 0.3;
         }
@@ -42,10 +39,7 @@ namespace NTMiner.Profile {
             this.IsPeriodicRestartComputer = data.IsPeriodicRestartComputer;
             this.PeriodicRestartComputerHours = data.PeriodicRestartComputerHours;
             this.IsSpeedDownRestartComputer = data.IsSpeedDownRestartComputer;
-            this.IsTempHighStopMine = data.IsTempHighStopMine;
             this.RestartComputerSpeedDownPercent = data.RestartComputerSpeedDownPercent;
-            this.StartMineTempLow = data.StartMineTempLow;
-            this.StopMineTempHigh = data.StopMineTempHigh;
             this.IsEChargeEnabled = data.IsEChargeEnabled;
             this.EPrice = data.EPrice;
         }
@@ -69,18 +63,12 @@ namespace NTMiner.Profile {
 
         public int RestartComputerSpeedDownPercent { get; set; }
 
-        public bool IsTempHighStopMine { get; set; }
-
-        public int StopMineTempHigh { get; set; }
-
-        public int StartMineTempLow { get; set; }
-
         public bool IsEChargeEnabled { get; set; }
 
         public double EPrice { get; set; }
 
         public override string ToString() {
-            return $"{Id}{MinerName}{IsAutoRestartKernel}{CoinId}{IsNoShareRestartKernel}{NoShareRestartKernelMinutes}{IsPeriodicRestartKernel}{PeriodicRestartKernelHours}{IsPeriodicRestartComputer}{PeriodicRestartComputerHours}{IsSpeedDownRestartComputer}{RestartComputerSpeedDownPercent}{IsTempHighStopMine}{StopMineTempHigh}{StartMineTempLow}{IsEChargeEnabled}{EPrice}";
+            return $"{Id}{MinerName}{IsAutoRestartKernel}{CoinId}{IsNoShareRestartKernel}{NoShareRestartKernelMinutes}{IsPeriodicRestartKernel}{PeriodicRestartKernelHours}{IsPeriodicRestartComputer}{PeriodicRestartComputerHours}{IsSpeedDownRestartComputer}{RestartComputerSpeedDownPercent}{IsEChargeEnabled}{EPrice}";
         }
 
         public StringBuilder GetSignData() {

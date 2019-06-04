@@ -309,36 +309,6 @@ namespace NTMiner {
                 }
             }
 
-            public bool IsTempHighStopMine {
-                get => NTMinerRoot.Instance.MinerProfile.IsTempHighStopMine;
-                set {
-                    if (NTMinerRoot.Instance.MinerProfile.IsTempHighStopMine != value) {
-                        NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsTempHighStopMine), value);
-                        OnPropertyChanged(nameof(IsTempHighStopMine));
-                    }
-                }
-            }
-
-            public int StopMineTempHigh {
-                get => NTMinerRoot.Instance.MinerProfile.StopMineTempHigh;
-                set {
-                    if (NTMinerRoot.Instance.MinerProfile.StopMineTempHigh != value) {
-                        NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(StopMineTempHigh), value);
-                        OnPropertyChanged(nameof(StopMineTempHigh));
-                    }
-                }
-            }
-
-            public int StartMineTempLow {
-                get => NTMinerRoot.Instance.MinerProfile.StartMineTempLow;
-                set {
-                    if (NTMinerRoot.Instance.MinerProfile.StartMineTempLow != value) {
-                        NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(StartMineTempLow), value);
-                        OnPropertyChanged(nameof(StartMineTempLow));
-                    }
-                }
-            }
-
             public bool IsEChargeEnabled {
                 get => NTMinerRoot.Instance.MinerProfile.IsEChargeEnabled;
                 set {
