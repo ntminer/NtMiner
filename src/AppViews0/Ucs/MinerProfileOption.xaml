@@ -45,6 +45,20 @@
 						</WrapPanel>
 						<WrapPanel Margin="0 2">
 							<CheckBox
+								Padding="0"
+								VerticalContentAlignment="Center"
+								IsChecked="{Binding IsTempHighStopMine}">
+								<WrapPanel>
+									<TextBlock VerticalAlignment="Center">显卡温度超过</TextBlock>
+									<TextBox Width="40" Margin="2 0" Background="White" Text="{Binding StopMineTempHigh}" HorizontalAlignment="Left"></TextBox>
+									<TextBlock VerticalAlignment="Center">℃时停止挖矿，低于</TextBlock>
+									<TextBox Width="40" Margin="2 0" Background="White" Text="{Binding StartMineTempLow}" HorizontalAlignment="Left"></TextBox>
+									<TextBlock VerticalAlignment="Center">℃时开始挖矿</TextBlock>
+								</WrapPanel>
+							</CheckBox>
+						</WrapPanel>
+						<WrapPanel Margin="0 2">
+							<CheckBox
 								FocusVisualStyle="{x:Null}"
 								Padding="0"
 								VerticalContentAlignment="Center"
