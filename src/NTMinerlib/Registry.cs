@@ -233,5 +233,15 @@ namespace NTMiner {
             return id;
         }
         #endregion
+
+        #region GetIndexHtmlFileFullName
+        public static string GetIndexHtmlFileFullName() {
+            object value = Windows.Registry.GetValue(Microsoft.Win32.Registry.Users, NTMinerRegistrySubKey, "IndexHtmlFileFullName");
+            if (value == null) {
+                return string.Empty;
+            }
+            return (string)value;
+        }
+        #endregion
     }
 }
