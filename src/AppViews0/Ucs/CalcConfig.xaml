@@ -70,7 +70,7 @@
 								Fill="{StaticResource IconFillColor}"
 								Stretch="Fill"/>
 							<TextBlock Text="收益" VerticalAlignment="Center"></TextBlock>
-							<TextBox Text="{Binding IncomePerDay, ValidatesOnExceptions=True}"></TextBox>
+							<TextBox Text="{Binding IncomePerDay, ValidatesOnExceptions=True}" VerticalAlignment="Center"></TextBox>
 							<TextBlock Text="{Binding CoinCode}" VerticalAlignment="Center"></TextBlock>
 							<TextBlock Text="/天" VerticalAlignment="Center"></TextBlock>
 						</WrapPanel>
