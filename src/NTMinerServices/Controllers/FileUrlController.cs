@@ -6,13 +6,7 @@ using System.Web;
 using System.Web.Http;
 
 namespace NTMiner.Controllers {
-    public class FileUrlController : ApiController, IFileUrlController {
-        private string ClientIp {
-            get {
-                return Request.GetWebClientIp();
-            }
-        }
-
+    public class FileUrlController : ApiControllerBase, IFileUrlController {
         private string SignatureSafeUrl(Uri uri) {
             string url = uri.ToString();
             if (url.Length > 28) {

@@ -57,14 +57,14 @@
 				Fill="{StaticResource IconFillColor}"
 				Stretch="Fill"/>
 			<WrapPanel VerticalAlignment="Center">
-				<TextBox IsReadOnly="True" BorderThickness="0" Text="{Binding IncomePerDayText, Mode=OneWay}" VerticalContentAlignment="Center"></TextBox>
-				<TextBlock Text="{Binding SelectedCoinVm.Code}"></TextBlock>
-				<TextBlock Text="，"></TextBlock>
-				<TextBox IsReadOnly="True" BorderThickness="0" Text="{Binding IncomeUsdPerDayText, Mode=OneWay}" VerticalContentAlignment="Center"></TextBox>
-				<TextBlock Text="USD"></TextBlock>
-				<TextBlock Text="，"></TextBlock>
-				<TextBox IsReadOnly="True" BorderThickness="0" Text="{Binding IncomeCnyPerDayText, Mode=OneWay}" VerticalContentAlignment="Center"></TextBox>
-				<TextBlock Text="CNY/天"></TextBlock>
+				<TextBox VerticalAlignment="Center" IsReadOnly="True" BorderThickness="0" Text="{Binding IncomePerDayText, Mode=OneWay}"></TextBox>
+				<TextBlock VerticalAlignment="Center" Text="{Binding SelectedCoinVm.Code}"></TextBlock>
+				<TextBlock VerticalAlignment="Center" Text="，"></TextBlock>
+				<TextBox VerticalAlignment="Center" IsReadOnly="True" BorderThickness="0" Text="{Binding IncomeUsdPerDayText, Mode=OneWay}"></TextBox>
+				<TextBlock VerticalAlignment="Center" Text="USD"></TextBlock>
+				<TextBlock VerticalAlignment="Center" Text="，"></TextBlock>
+				<TextBox VerticalAlignment="Center" IsReadOnly="True" BorderThickness="0" Text="{Binding IncomeCnyPerDayText, Mode=OneWay}"></TextBox>
+				<TextBlock VerticalAlignment="Center" Text="CNY/天"></TextBlock>
 			</WrapPanel>
 		</WrapPanel>
 		<TextBlock Grid.Row="2" HorizontalAlignment="Center" Foreground="Red">因为数据来自矿池，单位算力收益的币数一定是准确的，误差约10分钟。</TextBlock>

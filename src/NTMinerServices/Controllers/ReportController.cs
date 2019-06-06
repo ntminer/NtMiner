@@ -4,13 +4,7 @@ using System;
 using System.Web.Http;
 
 namespace NTMiner.Controllers {
-    public class ReportController : ApiController, IReportController {
-        private string ClientIp {
-            get {
-                return Request.GetWebClientIp();
-            }
-        }
-
+    public class ReportController : ApiControllerBase, IReportController {
         [HttpPost]
         public void ReportSpeed([FromBody]SpeedData speedData) {
             try {
