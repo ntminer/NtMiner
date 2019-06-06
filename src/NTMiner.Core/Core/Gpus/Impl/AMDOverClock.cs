@@ -19,10 +19,7 @@ namespace NTMiner.Core.Gpus.Impl {
                 }
             }
             else {
-                if (NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu)) {
-                    return;
-                }
-                effectGpus.Add(gpu.Index);
+                effectGpus.Add(gpuIndex);
                 _adlHelper.SetSystemClockByIndex(gpuIndex, value);
             }
         }
@@ -38,10 +35,7 @@ namespace NTMiner.Core.Gpus.Impl {
                 }
             }
             else {
-                if (NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu)) {
-                    return;
-                }
-                effectGpus.Add(gpu.Index);
+                effectGpus.Add(gpuIndex);
                 _adlHelper.SetMemoryClockByIndex(gpuIndex, value);
             }
         }
@@ -60,10 +54,7 @@ namespace NTMiner.Core.Gpus.Impl {
                 }
             }
             else {
-                if (NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu)) {
-                    return;
-                }
-                effectGpus.Add(gpu.Index);
+                effectGpus.Add(gpuIndex);
                 _adlHelper.SetPowerLimitByIndex(gpuIndex, value);
             }
         }
@@ -82,10 +73,7 @@ namespace NTMiner.Core.Gpus.Impl {
                 }
             }
             else {
-                if (NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu)) {
-                    return;
-                }
-                effectGpus.Add(gpu.Index);
+                effectGpus.Add(gpuIndex);
                 _adlHelper.SetTempLimitByIndex(gpuIndex, value);
             }
         }
@@ -104,10 +92,7 @@ namespace NTMiner.Core.Gpus.Impl {
                 }
             }
             else {
-                if (NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu)) {
-                    return;
-                }
-                effectGpus.Add(gpu.Index);
+                effectGpus.Add(gpuIndex);
                 _adlHelper.SetFunSpeedByIndex(gpuIndex, value);
             }
         }
