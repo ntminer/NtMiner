@@ -10,9 +10,13 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
             public int BusNumber { get; set; }
             public int DeviceNumber { get; set; }
             public string AdapterName { get; set; }
+
+            public override string ToString() {
+                return $"AdapterIndex={AdapterIndex},BusNumber={BusNumber},DeviceNumber={DeviceNumber},AdapterName={AdapterName}";
+            }
         }
 
-        private System.IntPtr context;
+        private IntPtr context;
         private List<ATIGPU> _gpuNames = new List<ATIGPU>();
         public bool Init() {
             try {
@@ -58,6 +62,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
 #if DEBUG
                 Write.DevDebug(string.Join(",", _gpuNames.Select(a => a.AdapterIndex)));
 #endif
+                _gpuNames = _gpuNames.OrderBy(a => a.BusNumber).ToList();
             }
             catch {
                 return false;
