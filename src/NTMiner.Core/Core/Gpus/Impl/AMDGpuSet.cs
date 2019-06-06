@@ -37,13 +37,14 @@ namespace NTMiner.Core.Gpus.Impl {
             int deviceCount = 0;
             deviceCount = adlHelper.GpuCount;
             for (int i = 0; i < deviceCount; i++) {
-                string name = adlHelper.GetGpuName(i);
+                var atiGpu = adlHelper.GetGpuName(i);
+                string name = atiGpu.AdapterName;
                 // short gpu name
                 if (!string.IsNullOrEmpty(name)) {
                     name = name.Replace("Radeon (TM) RX ", string.Empty);
                     name = name.Replace("Radeon RX ", string.Empty);
                 }
-                var gpu = Gpu.Create(i, name);
+                var gpu = Gpu.Create(i, atiGpu.BusNumber.ToString(), name);
                 gpu.TotalMemory = adlHelper.GetTotalMemoryByIndex(i);
                 _gpus.Add(i, gpu);
             }

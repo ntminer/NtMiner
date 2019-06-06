@@ -1,11 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 
 namespace NTMiner.Core.Gpus.Impl.Amd {
     public class AdlHelper {
         public struct ATIGPU {
+            public static readonly ATIGPU Empty = new ATIGPU {
+                AdapterIndex = -1,
+                BusNumber = -1,
+                AdapterName = string.Empty,
+                DeviceNumber = - 1
+            };
+
             public int AdapterIndex { get; set; }
             public int BusNumber { get; set; }
             public int DeviceNumber { get; set; }
@@ -28,7 +34,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
                 }
                 int status = ADL.ADL_Main_Control_Create(1);
 #if DEBUG
-                Write.DevDebug("AMD Display Library Status: " + (status == ADL.ADL_OK ? "OK" : status.ToString(CultureInfo.InvariantCulture)));
+                Write.DevDebug("AMD Display Library Status: " + (status == ADL.ADL_OK ? "OK" : status.ToString()));
 #endif
                 if (status == ADL.ADL_OK) {
                     int numberOfAdapters = 0;
@@ -94,15 +100,15 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
             return _gpuNames[gpuIndex].AdapterIndex;
         }
 
-        public string GetGpuName(int gpuIndex) {
+        public ATIGPU GetGpuName(int gpuIndex) {
             try {
                 if (gpuIndex >= _gpuNames.Count) {
-                    return string.Empty;
+                    return ATIGPU.Empty;
                 }
-                return _gpuNames[gpuIndex].AdapterName;
+                return _gpuNames[gpuIndex];
             }
             catch {
-                return string.Empty;
+                return ATIGPU.Empty;
             }
         }
 

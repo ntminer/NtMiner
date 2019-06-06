@@ -7,6 +7,7 @@ using System.Linq;
 namespace NTMiner.Vms {
     public class GpuViewModel : ViewModelBase, IGpu {
         private int _index;
+        private string _busId;
         private string _name;
         private int _temperature;
         private uint _fanSpeed;
@@ -32,6 +33,7 @@ namespace NTMiner.Vms {
 
         public GpuViewModel(IGpu data) {
             _index = data.Index;
+            _busId = data.BusId;
             _name = data.Name;
             _totalMemory = data.TotalMemory;
             _temperature = data.Temperature;
@@ -68,6 +70,7 @@ namespace NTMiner.Vms {
             _isGpuData = true;
             _gpuDatas = gpuDatas.Where(a => a.Index != NTMinerRoot.GpuAllId).ToArray();
             _index = gpuData.Index;
+            _busId = gpuData.BusId;
             _name = gpuData.Name;
             _totalMemory = gpuData.TotalMemory;
             _temperature = 0;
@@ -116,6 +119,16 @@ namespace NTMiner.Vms {
                     return "All";
                 }
                 return $"#{Index}";
+            }
+        }
+
+        public string BusId {
+            get {
+                return _busId;
+            }
+            set {
+                _busId = value;
+                OnPropertyChanged(nameof(BusId));
             }
         }
 
