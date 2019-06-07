@@ -228,6 +228,15 @@ namespace NTMiner.Vms {
             get => _powerUsage;
             set {
                 if (_powerUsage != value) {
+                    if (AppContext.Instance.MinerProfileVm.IsPowerAppend) {
+                        int v = (int)value + AppContext.Instance.MinerProfileVm.PowerAppend;
+                        if (v <= 0) {
+                            value = 0;
+                        }
+                        else {
+                            value = (uint)v;
+                        }
+                    }
                     _powerUsage = value;
                     OnPropertyChanged(nameof(PowerUsage));
                     OnPropertyChanged(nameof(PowerUsageW));
