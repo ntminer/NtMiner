@@ -254,17 +254,21 @@ namespace NTMiner.Vms {
                     return "0W";
                 }
                 if (this.Index == NTMinerRoot.GpuAllId && NTMinerRoot.Instance.GpuSet.Count != 0) {
-                    var sum = AppContext.Instance.GpuVms.Sum(a => a.PowerUsage);
-                    if (AppContext.Instance.MinerProfileVm.IsPowerAppend) {
-                        sum = sum + AppContext.Instance.MinerProfileVm.PowerAppend * AppContext.Instance.GpuVms.Count;
-                        if (sum <= 0) {
-                            sum = 0;
-                        }
-                    }
-                    return $"{sum.ToString("f0")}W";
+                    return $"{GetSumPower().ToString("f0")}W";
                 }
                 return PowerUsageW.ToString("f0") + "W";
             }
+        }
+
+        private static long GetSumPower() {
+            var sum = AppContext.Instance.GpuVms.Sum(a => a.PowerUsage);
+            if (AppContext.Instance.MinerProfileVm.IsPowerAppend) {
+                sum = sum + AppContext.Instance.MinerProfileVm.PowerAppend * AppContext.Instance.GpuVms.Count;
+                if (sum <= 0) {
+                    sum = 0;
+                }
+            }
+            return sum;
         }
 
         public double ECharge {
@@ -276,7 +280,7 @@ namespace NTMiner.Vms {
                     return 0;
                 }
                 if (this.Index == NTMinerRoot.GpuAllId && NTMinerRoot.Instance.GpuSet.Count != 0) {
-                    return (double)AppContext.Instance.GpuVms.Sum(a => a.PowerUsage) * NTMinerRoot.Instance.MinerProfile.EPrice / 1000 * 24;
+                    return GetSumPower() * NTMinerRoot.Instance.MinerProfile.EPrice / 1000 * 24;
                 }
                 return (double)PowerUsageW * NTMinerRoot.Instance.MinerProfile.EPrice / 1000 * 24;
             }
