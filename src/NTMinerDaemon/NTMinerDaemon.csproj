@@ -127,7 +127,6 @@
     <Compile Include="VirtualRoot.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="NoDevFee\WinDivert.lib" />
     <EmbeddedResource Include="NoDevFee\WinDivert64.sys" />
     <None Include="app.config" />
     <None Include="packages.config" />
