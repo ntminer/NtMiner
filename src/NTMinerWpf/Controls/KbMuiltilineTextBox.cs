@@ -6,7 +6,7 @@ namespace NTMiner.Controls {
         public KbMuiltilineTextBox() {
             this.AcceptsReturn = true;
             this.TextWrapping = System.Windows.TextWrapping.Wrap;
-            this.Background = new SolidColorBrush(Colors.White);
+            this.Background = new SolidColorBrush(Colors.Transparent);
         }
     }
 }
