@@ -313,6 +313,13 @@
 						<TextBlock Text="{Binding MinerProfile.EPrice}" ToolTip="电价" Foreground="{StaticResource LableColor}"></TextBlock>
 						<TextBlock Text="￥每度" Foreground="{StaticResource LableColor}"></TextBlock>
 					</WrapPanel>
+					<WrapPanel 
+						Visibility="{Binding MinerProfile.IsPowerAppend,Converter={StaticResource BoolToVisibilityConverter}}"
+						ToolTip="可在'选项'页调整功耗补偿">
+						<TextBlock Text=" / 每卡功耗补偿" Foreground="{StaticResource LableColor}"></TextBlock>
+						<TextBlock Text="{Binding MinerProfile.PowerAppend}" Foreground="{StaticResource LableColor}"></TextBlock>
+						<TextBlock Text="瓦" Foreground="{StaticResource LableColor}"></TextBlock>
+					</WrapPanel>
 				</WrapPanel>
 			</Grid>
 		</StackPanel>
