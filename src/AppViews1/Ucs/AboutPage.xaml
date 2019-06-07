@@ -38,15 +38,15 @@
 				Background="Transparent">
 				<TextBlock Text="http://ntminer.com/" Foreground="{StaticResource LinkForeground}"></TextBlock>
 			</controls:KbLinkButton>
-			<TextBox 
+			<controls:KbMuiltilineTextBox 
 				Background="Transparent"
 				HorizontalAlignment="Center"
 				Text="做好用的集成挖矿客户端"
-				BorderThickness="0" AcceptsReturn="True" 
-				TextWrapping="Wrap" IsReadOnly="True" 
+				BorderThickness="0" 
+				IsReadOnly="True" 
 				FontSize="14" 
 				Padding="4" VerticalScrollBarVisibility="Auto">
-			</TextBox>
+			</controls:KbMuiltilineTextBox>
 		</StackPanel>
 		<StackPanel Grid.Row="2" HorizontalAlignment="Center">
 			<WrapPanel HorizontalAlignment="Center">

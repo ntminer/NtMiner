@@ -34,12 +34,12 @@
 		
 		<WrapPanel Margin="0 2">
 			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top">说明:</TextBlock>
-			<TextBox Width="420" Background="Transparent" Padding="0 4"
-					 AcceptsReturn="True" TextWrapping="Wrap" 
-					 VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
-					 Text="{Binding Description, Mode=TwoWay}" 
-					 Height="100">                
-			</TextBox>
+			<controls:KbMuiltilineTextBox 
+				Width="420" Background="Transparent" Padding="0 4"
+				VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
+				Text="{Binding Description, Mode=TwoWay}" 
+				Height="100">                
+			</controls:KbMuiltilineTextBox>
 		</WrapPanel>
 		<controls:KbButton
 			Command="{Binding Save}" 

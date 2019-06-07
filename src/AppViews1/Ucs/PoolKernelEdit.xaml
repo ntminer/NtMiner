@@ -57,10 +57,11 @@
 					</WrapPanel>
 				</controls:KbLinkButton>
 			</TextBlock>
-			<TextBox IsReadOnly="True" BorderThickness="0" 
-					 Background="Transparent" TextWrapping="Wrap" Padding="0 4" Width="420"
-					 Text="{Binding Kernel.KernelInputVm.Args, Mode=OneWay}">
-			</TextBox>
+			<controls:KbMuiltilineTextBox 
+				IsReadOnly="True" BorderThickness="0" 
+				Padding="0 4" Width="420"
+				Text="{Binding Kernel.KernelInputVm.Args, Mode=OneWay}">
+			</controls:KbMuiltilineTextBox>
 		</WrapPanel>
 
 		<WrapPanel Margin="0 2">
@@ -88,10 +89,11 @@
 					</WrapPanel>
 				</controls:KbLinkButton>
 			</TextBlock>
-			<TextBox IsReadOnly="True" BorderThickness="0" 
-					 Background="Transparent" TextWrapping="Wrap" Padding="0 4" Width="420"
-					 Text="{Binding CoinKernelVm.Args, Mode=OneWay}">
-			</TextBox>
+			<controls:KbMuiltilineTextBox 
+				IsReadOnly="True" BorderThickness="0" 
+				Padding="0 4" Width="420"
+				Text="{Binding CoinKernelVm.Args, Mode=OneWay}">
+			</controls:KbMuiltilineTextBox>
 		</WrapPanel>
 
 		<WrapPanel Margin="0 2">

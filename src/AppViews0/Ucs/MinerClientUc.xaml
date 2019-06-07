@@ -416,15 +416,14 @@
 				<ColumnDefinition Width="*"></ColumnDefinition>
 			</Grid.ColumnDefinitions>
 			<TextBlock Style="{StaticResource LblTb}">内核命令行</TextBlock>
-			<TextBox 
+			<controls:KbMuiltilineTextBox 
 				Grid.Column="1"
 				Padding="0"
 				BorderThickness="0"
-				TextWrapping="Wrap"
 				Background="Transparent"
 				IsReadOnly="True"
 				ToolTip="{Binding KernelCommandLine}"
-				Text="{Binding KernelCommandLine, Mode=OneWay}"></TextBox>
+				Text="{Binding KernelCommandLine, Mode=OneWay}"></controls:KbMuiltilineTextBox>
 		</Grid>
 		<Border Style="{StaticResource RowLine}"></Border>
 	</StackPanel>

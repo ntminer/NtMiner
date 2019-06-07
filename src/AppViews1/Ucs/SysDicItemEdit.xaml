@@ -29,22 +29,22 @@
 
 		<WrapPanel Margin="0 2">
 			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top">值:</TextBlock>
-			<TextBox Width="420" Background="Transparent" Padding="0 4"
-					 AcceptsReturn="True" TextWrapping="Wrap" 
-					 VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
-					 Text="{Binding Value, Mode=TwoWay}" 
-					 Height="150">
-			</TextBox>
+			<controls:KbMuiltilineTextBox 
+				Width="420" Background="Transparent" Padding="0 4"
+				VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
+				Text="{Binding Value, Mode=TwoWay}" 
+				Height="150">
+			</controls:KbMuiltilineTextBox>
 		</WrapPanel>
 
 		<WrapPanel Margin="0 2">
 			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top">备注:</TextBlock>
-			<TextBox Width="420" Background="Transparent" Padding="0 4"
-					 AcceptsReturn="True" TextWrapping="Wrap" 
-					 VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
-					 Text="{Binding Description, Mode=TwoWay}" 
-					 Height="50">                
-			</TextBox>
+			<controls:KbMuiltilineTextBox 
+				Width="420" Background="Transparent" Padding="0 4"
+				VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
+				Text="{Binding Description, Mode=TwoWay}" 
+				Height="50">                
+			</controls:KbMuiltilineTextBox>
 		</WrapPanel>
 		<controls:KbButton
 			Command="{Binding Save}" 

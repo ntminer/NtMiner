@@ -36,23 +36,23 @@
 			<TextBlock Style="{StaticResource LblTb}" Width="42" Text="算法"></TextBlock>
 			<WrapPanel IsEnabled="{x:Static app:AppStatic.IsDebugMode}">
 				<controls:KbButton 
-				    x:Name="ButtonAlgo"
-				    Padding="4 0"
-				    BorderThickness="1"
-				    BorderBrush="{StaticResource LineColor}"
-				    Height="26"
-				    IsEnabled="{Binding ElementName=PopupAlgo,Path=IsOpen,Converter={StaticResource BoolInvertConverter}}"
-				    Background="Transparent"
-				    Click="KbButtonAlgo_Clicked">
+					x:Name="ButtonAlgo"
+					Padding="4 0"
+					BorderThickness="1"
+					BorderBrush="{StaticResource LineColor}"
+					Height="26"
+					IsEnabled="{Binding ElementName=PopupAlgo,Path=IsOpen,Converter={StaticResource BoolInvertConverter}}"
+					Background="Transparent"
+					Click="KbButtonAlgo_Clicked">
 					<WrapPanel>
 						<TextBlock Width="138" Padding="0 0 10 0" Foreground="Black" Text="{Binding AlgoItem.Value}"></TextBlock>
 						<Path
-						    Margin="0 2 0 0"
-						    Width="12"
-						    Height="8"
-						    Data="{StaticResource Icon_ComboBoxToogle}"
-						    Fill="Black"
-						    Stretch="Fill" />
+							Margin="0 2 0 0"
+							Width="12"
+							Height="8"
+							Data="{StaticResource Icon_ComboBoxToogle}"
+							Fill="Black"
+							Stretch="Fill" />
 					</WrapPanel>
 				</controls:KbButton>
 			</WrapPanel>
@@ -111,13 +111,12 @@
 
 		<WrapPanel Margin="0 2">
 			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="通知"></TextBlock>
-			<TextBox 
+			<controls:KbMuiltilineTextBox 
 				Width="380" Background="Transparent"
 				IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
-				AcceptsReturn="True" TextWrapping="Wrap" 
 				VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
 				Text="{Binding Notice, Mode=TwoWay}" Height="60">
-			</TextBox>
+			</controls:KbMuiltilineTextBox>
 		</WrapPanel>
 		<controls:KbButton
 			Command="{Binding Save}" 

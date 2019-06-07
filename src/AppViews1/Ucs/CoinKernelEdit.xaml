@@ -102,10 +102,11 @@
 					</WrapPanel>
 				</controls:KbLinkButton>
 			</TextBlock>
-			<TextBox IsReadOnly="True" BorderThickness="0" 
-					 Background="Transparent" TextWrapping="Wrap" Padding="0 4" Width="420"
-					 Text="{Binding Kernel.KernelInputVm.Args, Mode=OneWay}">
-			</TextBox>
+			<controls:KbMuiltilineTextBox 
+				IsReadOnly="True" BorderThickness="0" 
+				Padding="0 4" Width="420"
+				Text="{Binding Kernel.KernelInputVm.Args, Mode=OneWay}">
+			</controls:KbMuiltilineTextBox>
 		</WrapPanel>
 
 		<WrapPanel Margin="0 2">
@@ -121,13 +122,12 @@
 
 		<WrapPanel Margin="0 2">
 			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="通知"></TextBlock>
-			<TextBox 
+			<controls:KbMuiltilineTextBox 
 				Width="436" Background="Transparent"
 				IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
-				AcceptsReturn="True" TextWrapping="Wrap" 
 				VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
 				Text="{Binding Notice, Mode=TwoWay}" Height="60">                
-			</TextBox>
+			</controls:KbMuiltilineTextBox>
 		</WrapPanel>
 		<WrapPanel Margin="0 2" Visibility="{x:Static app:AppStatic.IsDebugModeVisible}">
 			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="环境变量"></TextBlock>

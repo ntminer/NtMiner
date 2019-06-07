@@ -96,13 +96,12 @@
 
 						<WrapPanel Margin="0 2">
 							<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top">通知:</TextBlock>
-							<TextBox 
+							<controls:KbMuiltilineTextBox 
 								Width="420" Background="Transparent" Padding="0 4"
 								IsReadOnly="{Binding IsReadOnly}"
-								AcceptsReturn="True" TextWrapping="Wrap" 
 								VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
 								Text="{Binding Notice, Mode=TwoWay}" Height="100">
-							</TextBox>
+							</controls:KbMuiltilineTextBox>
 						</WrapPanel>
 						<WrapPanel Margin="0 2" HorizontalAlignment="Right" Height="26">
 							<CheckBox

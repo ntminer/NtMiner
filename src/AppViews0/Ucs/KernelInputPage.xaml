@@ -7,7 +7,7 @@
 			 xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 			 xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 			 xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
-		     xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
+			 xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 			 mc:Ignorable="d"
 			 Background="White"
 			 TextOptions.TextFormattingMode="Display" 
@@ -94,8 +94,8 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel>
-								<TextBox IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding Args,Mode=OneWay}" BorderThickness="0" FontWeight="Bold"></TextBox>
-								<TextBox IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding KernelFullNames,Mode=OneWay}" ToolTip="使用该输入的内核" BorderThickness="0" Foreground="{StaticResource LableColor}"></TextBox>
+								<controls:KbMuiltilineTextBox IsReadOnly="True" Text="{Binding Args,Mode=OneWay}" BorderThickness="0" FontWeight="Bold"></controls:KbMuiltilineTextBox>
+								<controls:KbMuiltilineTextBox IsReadOnly="True" Text="{Binding KernelFullNames,Mode=OneWay}" ToolTip="使用该输入的内核" BorderThickness="0" Foreground="{StaticResource LableColor}"></controls:KbMuiltilineTextBox>
 							</StackPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>

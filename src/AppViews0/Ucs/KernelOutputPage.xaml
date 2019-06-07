@@ -94,8 +94,8 @@
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel>
-									<TextBox IsReadOnly="True" Text="{Binding Name,Mode=OneWay}" FontWeight="Bold" Padding="0 0 4 0" BorderThickness="0"></TextBox>
-									<TextBox IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding KernelFullNames,Mode=OneWay}" Padding="0 0 4 0" BorderThickness="0"></TextBox>
+									<controls:KbMuiltilineTextBox IsReadOnly="True" Text="{Binding Name,Mode=OneWay}" FontWeight="Bold" Padding="0 0 4 0" BorderThickness="0"></controls:KbMuiltilineTextBox>
+									<controls:KbMuiltilineTextBox IsReadOnly="True" Text="{Binding KernelFullNames,Mode=OneWay}" Padding="0 0 4 0" BorderThickness="0"></controls:KbMuiltilineTextBox>
 								</StackPanel>
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>

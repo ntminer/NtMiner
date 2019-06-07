@@ -111,13 +111,12 @@
 
 		<WrapPanel Margin="0 2">
 			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="通知"></TextBlock>
-			<TextBox 
-				Width="380" Background="Transparent"
+			<controls:KbMuiltilineTextBox 
+				Width="380" 
 				IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
-				AcceptsReturn="True" TextWrapping="Wrap" 
 				VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
 				Text="{Binding Notice, Mode=TwoWay}" Height="60">
-			</TextBox>
+			</controls:KbMuiltilineTextBox>
 		</WrapPanel>
 		<controls:KbButton
 			Command="{Binding Save}" 
