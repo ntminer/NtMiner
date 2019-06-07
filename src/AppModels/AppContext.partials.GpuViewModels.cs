@@ -68,6 +68,7 @@ namespace NTMiner {
                             vm.TempLimitMin = message.Source.TempLimitMin;
                             if (_gpuAllVm != null) {
                                 _gpuAllVm.OnPropertyChanged(nameof(_gpuAllVm.TemperatureText));
+                                _gpuAllVm.OnPropertyChanged(nameof(_gpuAllVm.TemperatureSumText));
                                 _gpuAllVm.OnPropertyChanged(nameof(_gpuAllVm.FanSpeedText));
                                 _gpuAllVm.OnPropertyChanged(nameof(_gpuAllVm.PowerUsageWText));
                                 _gpuAllVm.OnPropertyChanged(nameof(_gpuAllVm.CoreClockDeltaMText));
