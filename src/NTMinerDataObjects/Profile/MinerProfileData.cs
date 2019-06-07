@@ -24,6 +24,8 @@ namespace NTMiner.Profile {
             this.RestartComputerSpeedDownPercent = 0;
             this.IsEChargeEnabled = true;
             this.EPrice = 0.3;
+            this.IsPowerAppend = false;
+            this.PowerAppend = 0;
         }
 
         public MinerProfileData(IMinerProfile data) {
@@ -42,6 +44,8 @@ namespace NTMiner.Profile {
             this.RestartComputerSpeedDownPercent = data.RestartComputerSpeedDownPercent;
             this.IsEChargeEnabled = data.IsEChargeEnabled;
             this.EPrice = data.EPrice;
+            this.IsPowerAppend = data.IsPowerAppend;
+            this.PowerAppend = data.PowerAppend;
         }
 
         public Guid GetId() {
@@ -67,8 +71,12 @@ namespace NTMiner.Profile {
 
         public double EPrice { get; set; }
 
+        public bool IsPowerAppend { get; set; }
+
+        public int PowerAppend { get; set; }
+
         public override string ToString() {
-            return $"{Id}{MinerName}{IsAutoRestartKernel}{CoinId}{IsNoShareRestartKernel}{NoShareRestartKernelMinutes}{IsPeriodicRestartKernel}{PeriodicRestartKernelHours}{IsPeriodicRestartComputer}{PeriodicRestartComputerHours}{IsSpeedDownRestartComputer}{RestartComputerSpeedDownPercent}{IsEChargeEnabled}{EPrice}";
+            return $"{Id}{MinerName}{IsAutoRestartKernel}{CoinId}{IsNoShareRestartKernel}{NoShareRestartKernelMinutes}{IsPeriodicRestartKernel}{PeriodicRestartKernelHours}{IsPeriodicRestartComputer}{PeriodicRestartComputerHours}{IsSpeedDownRestartComputer}{RestartComputerSpeedDownPercent}{IsEChargeEnabled}{EPrice}{IsPowerAppend}{PowerAppend}";
         }
 
         public StringBuilder GetSignData() {

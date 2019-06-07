@@ -21,6 +21,11 @@ namespace NTMiner.Core {
         }
     }
 
+    [MessageType(description: "功耗补偿变更后")]
+    public class PowerAppendChangedEvent : EventBase {
+        public PowerAppendChangedEvent() { }
+    }
+
     [MessageType(description: "收益计算器数据集初始化后")]
     public class CalcConfigSetInitedEvent : EventBase {
         public CalcConfigSetInitedEvent() {

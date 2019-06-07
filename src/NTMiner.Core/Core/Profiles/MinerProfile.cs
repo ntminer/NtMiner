@@ -267,6 +267,30 @@ namespace NTMiner.Core.Profiles {
             }
         }
 
+        public bool IsPowerAppend {
+            get {
+                return _data.IsPowerAppend;
+            }
+            private set {
+                if (_data.IsPowerAppend != value) {
+                    _data.IsPowerAppend = value;
+                    VirtualRoot.Happened(new PowerAppendChangedEvent());
+                }
+            }
+        }
+
+        public int PowerAppend {
+            get {
+                return _data.PowerAppend;
+            }
+            private set {
+                if (_data.PowerAppend != value) {
+                    _data.PowerAppend = value;
+                    VirtualRoot.Happened(new PowerAppendChangedEvent());
+                }
+            }
+        }
+
         public Guid CoinId {
             get => _data.CoinId;
             private set {
