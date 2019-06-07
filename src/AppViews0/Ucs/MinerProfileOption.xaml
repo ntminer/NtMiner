@@ -112,7 +112,7 @@
 				<TextBlock Margin="10 0 0 0" VerticalAlignment="Center">每卡补偿</TextBlock>
 				<TextBox Width="40" Margin="2 0" Background="White" Text="{Binding PowerAppend}" HorizontalAlignment="Left"></TextBox>
 				<TextBlock VerticalAlignment="Center">瓦</TextBlock>
-				<TextBlock Foreground="Red" VerticalAlignment="Center">（可正负）</TextBlock>
+				<TextBlock Foreground="Red" VerticalAlignment="Center">（由于A卡的功耗不准，可以通过功耗补偿修正，可正负）</TextBlock>
 			</WrapPanel>
 			<GroupBox x:Name="GroupSystemSetting" Header="显示">
 				<StackPanel>

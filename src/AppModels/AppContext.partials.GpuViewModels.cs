@@ -39,6 +39,13 @@ namespace NTMiner {
                         }
                         AppContext.Instance.GpuSpeedVms.OnPropertyChanged(nameof(GpuSpeedViewModels.ProfitCnyPerDayText));
                     });
+                On<PowerAppendChangedEvent>("功耗补偿变更后更新功耗显示", LogEnum.DevConsole,
+                    action: message => {
+                        foreach (var gpuVm in _gpuVms.Values) {
+                            gpuVm.OnPropertyChanged(nameof(GpuViewModel.PowerUsageWText));
+                        }
+                        AppContext.Instance.GpuSpeedVms.OnPropertyChanged(nameof(GpuSpeedViewModels.ProfitCnyPerDayText));
+                    });
                 On<Per5SecondEvent>("周期刷新显卡状态", LogEnum.None,
                     action: message => {
                         NTMinerRoot.Instance.GpuSet.LoadGpuState();
