@@ -226,15 +226,6 @@ namespace NTMiner.Vms {
 
         public uint PowerUsage {
             get {
-                if (AppContext.Instance.MinerProfileVm.IsPowerAppend) {
-                    int v = (int)_powerUsage + AppContext.Instance.MinerProfileVm.PowerAppend;
-                    if (v <= 0) {
-                        return 0;
-                    }
-                    else {
-                        return (uint)v;
-                    }
-                }
                 return _powerUsage;
             }
             set {
@@ -263,7 +254,14 @@ namespace NTMiner.Vms {
                     return "0W";
                 }
                 if (this.Index == NTMinerRoot.GpuAllId && NTMinerRoot.Instance.GpuSet.Count != 0) {
-                    return $"{(AppContext.Instance.GpuVms.Sum(a => a.PowerUsage)).ToString("f0")}W";
+                    var sum = AppContext.Instance.GpuVms.Sum(a => a.PowerUsage);
+                    if (AppContext.Instance.MinerProfileVm.IsPowerAppend) {
+                        sum = sum + AppContext.Instance.MinerProfileVm.PowerAppend * AppContext.Instance.GpuVms.Count;
+                        if (sum <= 0) {
+                            sum = 0;
+                        }
+                    }
+                    return $"{sum.ToString("f0")}W";
                 }
                 return PowerUsageW.ToString("f0") + "W";
             }
