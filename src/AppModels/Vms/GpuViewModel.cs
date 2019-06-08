@@ -24,6 +24,7 @@ namespace NTMiner.Vms {
         private int _coolMax;
         private double _powerMin;
         private double _powerMax;
+        private double _powerDefault;
         private int _powerCapacity;
         private int _tempLimitMin;
         private int _tempLimitDefault;
@@ -52,6 +53,7 @@ namespace NTMiner.Vms {
             _powerCapacity = data.PowerCapacity;
             _powerMin = data.PowerMin;
             _powerMax = data.PowerMax;
+            _powerDefault = data.PowerDefault;
             _tempLimit = data.TempLimit;
             _tempLimitDefault = data.TempLimitDefault;
             _tempLimitMax = data.TempLimitMax;
@@ -89,6 +91,7 @@ namespace NTMiner.Vms {
             _powerCapacity = 0;
             _powerMin = gpuData.PowerMin;
             _powerMax = gpuData.PowerMax;
+            _powerDefault = gpuData.PowerDefault;
             _tempLimitMin = gpuData.TempLimitMin;
             _tempLimitMax = gpuData.TempLimitMax;
             _tempLimitDefault = gpuData.TempLimitDefault;
@@ -535,6 +538,13 @@ namespace NTMiner.Vms {
             set {
                 _powerMax = value;
                 OnPropertyChanged(nameof(PowerMax));
+            }
+        }
+        public double PowerDefault {
+            get => _powerDefault;
+            set {
+                _powerDefault = value;
+                OnPropertyChanged(nameof(PowerDefault));
             }
         }
         public int PowerCapacity {

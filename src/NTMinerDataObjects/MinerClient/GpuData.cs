@@ -1,6 +1,8 @@
 ﻿namespace NTMiner.MinerClient {
     public class GpuData : IGpuStaticData {
-        public GpuData() { }
+        public GpuData() {
+            this.PowerDefault = 100;
+        }
 
         public int Index { get; set; }
         public string BusId { get; set; }
@@ -18,6 +20,7 @@
         public int CoolMax { get; set; }
         public double PowerMin { get; set; }
         public double PowerMax { get; set; }
+        public double PowerDefault { get; set; }
         public int TempLimitMin { get; set; }
         public int TempLimitDefault { get; set; }
         public int TempLimitMax { get; set; }
