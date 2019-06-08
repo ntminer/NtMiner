@@ -8,8 +8,12 @@ namespace NTMiner.Vms {
         public ICommand NavigateToNvidiaDriverWin10 { get; private set; }
         public ICommand NavigateToNvidiaDriverWin7 { get; private set; }
         public ICommand NavigateToAmdDriver { get; private set; }
+        public ICommand RegCmdHere { get; private set; }
 
         public ToolboxViewModel() {
+            if (Design.IsInDesignMode) {
+                return;
+            }
             this.SwitchRadeonGpu = new DelegateCommand(() => {
                 this.ShowDialog(message: $"确定运行吗？大概需要花费5到10秒钟时间看到结果", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new SwitchRadeonGpuCommand());
@@ -23,6 +27,9 @@ namespace NTMiner.Vms {
             });
             this.NavigateToAmdDriver = new DelegateCommand(() => {
                 Process.Start("https://www.amd.com/zh-hans/support");
+            });
+            this.RegCmdHere = new DelegateCommand(() => {
+                VirtualRoot.Execute(new RegCmdHereCommand());
             });
         }
     }

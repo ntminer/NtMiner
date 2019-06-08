@@ -150,6 +150,7 @@ namespace NTMiner.Core.Gpus.Impl {
             const string coolSpeedMinMaxPattern = @"cooler\[0\]\.speed   = (\d+) % \[(-?\d+) .. (\d+)\]";
             const string powerMinPattern = @"policy\[0\]\.pwrLimitMin     = (\d+\.?\d*) %";
             const string powerMaxPattern = @"policy\[0\]\.pwrLimitMax     = (\d+\.?\d*) %";
+            const string powerDefaultPattern = @"policy\[0\]\.pwrLimitDefault = (\d+\.?\d*) %";
             const string powerLimitCurrentPattern = @"policy\[0\]\.pwrLimitCurrent = (\d+\.?\d*) %";
             const string tempLimitMinPattern = @"policy\[0\]\.tempLimitMin     = (\d+\.?\d*)C";
             const string tempLimitMaxPattern = @"policy\[0\]\.tempLimitMax     = (\d+\.?\d*)C";
@@ -167,8 +168,9 @@ namespace NTMiner.Core.Gpus.Impl {
             int cool = 0;
             int coolMin = 0;
             int coolMax = 0;
-            double powerMin = 0;
-            double powerMax = 0;
+            double powerMin = 50;
+            double powerMax = 100;
+            double powerDefault = 100;
             double powerCapacity = 0;
             double tempLimitMin = 0;
             double tempLimitMax = 0;
@@ -220,8 +222,13 @@ namespace NTMiner.Core.Gpus.Impl {
                 if (match.Success) {
                     double.TryParse(match.Groups[1].Value, out powerCapacity);
                 }
+                match = Regex.Match(output, powerDefaultPattern, RegexOptions.Compiled);
+                if (match.Success) {
+                    double.TryParse(match.Groups[1].Value, out powerDefault);
+                }
                 gpu.PowerMin = powerMin;
                 gpu.PowerMax = powerMax;
+                gpu.PowerDefault = powerDefault;
                 gpu.PowerCapacity = (int)powerCapacity;
             }
             Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{gpu.Index} therminfo", ref exitCode, out output);

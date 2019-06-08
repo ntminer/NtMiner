@@ -322,6 +322,11 @@ namespace NTMiner.Core {
         }
     }
 
+    [MessageType(description: "注册右键打开windindows命令行菜单")]
+    public class RegCmdHereCommand : Cmd {
+        public RegCmdHereCommand() { }
+    }
+
     #region SysDic Messages
     [MessageType(description: "添加系统字典")]
     public class AddSysDicCommand : AddEntityCommand<ISysDic> {
