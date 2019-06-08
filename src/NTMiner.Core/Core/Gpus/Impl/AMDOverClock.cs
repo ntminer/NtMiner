@@ -120,19 +120,21 @@ namespace NTMiner.Core.Gpus.Impl {
                 gpu.Index, 
                 out int coreClockDeltaMin, out int coreClockDeltaMax, 
                 out int memoryClockDeltaMin, out int memoryClockDeltaMax,
-                out int powerMin, out int powerMax,
-                out int tempLimitMin, out int tempLimitMax, out int tempLimitDefault);
+                out int powerMin, out int powerMax, out int powerDefault,
+                out int tempLimitMin, out int tempLimitMax, out int tempLimitDefault,
+                out int fanSpeedMin, out int fanSpeedMax, out int fanSpeedDefault);
             gpu.CoreClockDeltaMin = coreClockDeltaMin;
             gpu.CoreClockDeltaMax = coreClockDeltaMax;
             gpu.MemoryClockDeltaMin = memoryClockDeltaMin;
             gpu.MemoryClockDeltaMax = memoryClockDeltaMax;
             gpu.PowerMin = powerMin;
             gpu.PowerMax = powerMax;
+            gpu.PowerDefault = powerDefault;
             gpu.TempLimitMin = tempLimitMin;
             gpu.TempLimitMax = tempLimitMax;
             gpu.TempLimitDefault = tempLimitDefault;
-            gpu.CoolMin = 50;
-            gpu.CoolMax = 100;
+            gpu.CoolMin = fanSpeedMin;
+            gpu.CoolMax = fanSpeedMax;
             VirtualRoot.Happened(new GpuStateChangedEvent(gpu));
         }
     }

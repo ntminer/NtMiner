@@ -116,8 +116,9 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
             int gpuIndex, 
             out int coreClockDeltaMin, out int coreClockDeltaMax, 
             out int memoryClockDeltaMin, out int memoryClockDeltaMax,
-            out int powerMin, out int powerMax,
-            out int tempLimitMin, out int tempLimitMax, out int tempLimitDefault) {
+            out int powerMin, out int powerMax, out int powerDefault,
+            out int tempLimitMin, out int tempLimitMax, out int tempLimitDefault,
+            out int fanSpeedMin, out int fanSpeedMax, out int fanSpeedDefault) {
             int adapterIndex = GpuIndexToAdapterIndex(gpuIndex);
             ADLODNCapabilitiesX2 lpODCapabilities = new ADLODNCapabilitiesX2();
             var result = ADL.ADL2_OverdriveN_CapabilitiesX2_Get(context, adapterIndex, ref lpODCapabilities);
@@ -127,11 +128,15 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
             memoryClockDeltaMax = lpODCapabilities.sMemoryClockRange.iMax * 10;
             powerMin = lpODCapabilities.power.iMin + 100;
             powerMax = lpODCapabilities.power.iMax + 100;
+            powerDefault = lpODCapabilities.power.iDefault + 100;
             tempLimitMin = lpODCapabilities.powerTuneTemperature.iMin;
             tempLimitMax = lpODCapabilities.powerTuneTemperature.iMax;
             tempLimitDefault = lpODCapabilities.powerTuneTemperature.iDefault;
+            fanSpeedMin = lpODCapabilities.fanSpeed.iMin;
+            fanSpeedMax = lpODCapabilities.fanSpeed.iMax;
+            fanSpeedDefault = lpODCapabilities.fanSpeed.iDefault;
 #if DEBUG
-            Write.DevWarn($"ADL2_OverdriveN_CapabilitiesX2_Get result {result} coreClockDeltaMin={coreClockDeltaMin},coreClockDeltaMax={coreClockDeltaMax},memoryClockDeltaMin={memoryClockDeltaMin},memoryClockDeltaMax={memoryClockDeltaMax}");
+            Write.DevWarn($"ADL2_OverdriveN_CapabilitiesX2_Get result {result} coreClockDeltaMin={coreClockDeltaMin},coreClockDeltaMax={coreClockDeltaMax},memoryClockDeltaMin={memoryClockDeltaMin},memoryClockDeltaMax={memoryClockDeltaMax},powerMin={powerMin},powerMax={powerMax},powerDefault={powerDefault},tempLimitMin={tempLimitMin},tempLimitMax={tempLimitMax},tempLimitDefault={tempLimitDefault},fanSpeedMin={fanSpeedMin},fanSpeedMax={fanSpeedMax},fanSpeedDefault={fanSpeedDefault}");
 #endif
         }
 
