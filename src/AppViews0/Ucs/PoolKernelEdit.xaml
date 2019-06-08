@@ -47,7 +47,7 @@
 							Data="{StaticResource Icon_Kernel}"
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
-						<controls:KbMuiltilineTextBox
+						<TextBlock
 							Padding="0 4"
 							MaxWidth="78"
 							VerticalAlignment="Center"
@@ -78,7 +78,7 @@
 							Data="{StaticResource Icon_Coin}"
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
-						<controls:KbMuiltilineTextBox
+						<TextBlock
 							MaxWidth="78"
 							Padding="0 4"
 							VerticalAlignment="Center"
