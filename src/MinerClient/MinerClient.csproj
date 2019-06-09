@@ -100,7 +100,6 @@
   <ItemGroup>
     <Compile Include="App.xaml.cs" />
     <Compile Include="SwitchRadeonGpu\SwitchRadeonGpu.cs" />
-    <Compile Include="Tools\ToolsUtil.cs" />
     <Compile Include="Views\HandlerIdsWindow.xaml.cs">
       <DependentUpon>HandlerIdsWindow.xaml</DependentUpon>
     </Compile>
@@ -134,7 +133,6 @@
     <EmbeddedResource Include="Brand\KernelBrandId" />
     <EmbeddedResource Include="Daemon\sha1" />
     <EmbeddedResource Include="Brand\PoolBrandId" />
-    <EmbeddedResource Include="Tools\CmdHere.reg" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

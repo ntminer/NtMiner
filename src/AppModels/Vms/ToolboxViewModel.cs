@@ -29,7 +29,9 @@ namespace NTMiner.Vms {
                 Process.Start("https://www.amd.com/zh-hans/support");
             });
             this.RegCmdHere = new DelegateCommand(() => {
-                VirtualRoot.Execute(new RegCmdHereCommand());
+                this.ShowDialog(message: $"确定在windows右键上下文菜单中添加\"命令行\"菜单吗？", title: "确认", onYes: () => {
+                    VirtualRoot.Execute(new RegCmdHereCommand());
+                }, icon: IconConst.IconConfirm);
             });
         }
     }

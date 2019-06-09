@@ -246,6 +246,28 @@ namespace NTMiner {
 
             Report.Init(this);
 
+            VirtualRoot.Window<RegCmdHereCommand>("处理注册右键打开windows命令行菜单命令", LogEnum.UserConsole,
+                action: message => {
+                    string cmdHere = "SOFTWARE\\Classes\\Directory\\background\\shell\\cmd_here";
+                    string cmdHereCommand = cmdHere + "\\command";
+                    string cmdPrompt = "SOFTWARE\\Classes\\Folder\\shell\\cmdPrompt";
+                    string cmdPromptCommand = cmdPrompt + "\\command";
+                    try {
+                        Windows.Registry.SetValue(Microsoft.Win32.Registry.LocalMachine, cmdHere, "", "命令行");
+                        Windows.Registry.SetValue(Microsoft.Win32.Registry.LocalMachine, cmdHere, "Icon", "cmd.exe");
+                        Windows.Registry.SetValue(Microsoft.Win32.Registry.LocalMachine, cmdHereCommand, "", "\"cmd.exe\"");
+                        Windows.Registry.SetValue(Microsoft.Win32.Registry.LocalMachine, cmdPrompt, "", "命令行");
+                        Windows.Registry.SetValue(Microsoft.Win32.Registry.LocalMachine, cmdPromptCommand, "", "\"cmd.exe\" \"cd %1\"");
+                        cmdHere = "SOFTWARE\\Classes\\Directory\\shell\\cmd_here";
+                        cmdHereCommand = cmdHere + "\\command";
+                        Windows.Registry.SetValue(Microsoft.Win32.Registry.LocalMachine, cmdHere, "", "命令行");
+                        Windows.Registry.SetValue(Microsoft.Win32.Registry.LocalMachine, cmdHere, "Icon", "cmd.exe");
+                        Windows.Registry.SetValue(Microsoft.Win32.Registry.LocalMachine, cmdHereCommand, "", "\"cmd.exe\"");
+                    }
+                    catch (Exception e) {
+                        Logger.ErrorDebugLine(e);
+                    }
+                });
             #region 挖矿开始时将无份额内核重启份额计数置0
             int shareCount = 0;
             DateTime shareOn = DateTime.Now;

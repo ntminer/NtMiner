@@ -155,10 +155,6 @@ namespace NTMiner {
         }
 
         private void Link() {
-            VirtualRoot.Window<RegCmdHereCommand>("处理注册右键打开windows命令行菜单命令", LogEnum.UserConsole,
-                action: message => {
-                    Tools.ToolsUtil.RegCmdHere();
-                });
             VirtualRoot.Window<CloseNTMinerCommand>("处理关闭NTMiner客户端命令", LogEnum.UserConsole,
                 action: message => {
                     UIThread.Execute(() => {
