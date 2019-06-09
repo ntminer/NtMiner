@@ -485,40 +485,40 @@ namespace NTMiner.Core {
     }
     #endregion
 
-    #region EventType Messages
+    #region MinerEventType Messages
     [MessageType(description: "添加事件类型")]
-    public class AddEventTypeCommand : AddEntityCommand<IEventType> {
-        public AddEventTypeCommand(IEventType input) : base(input) {
+    public class AddMinerEventTypeCommand : AddEntityCommand<IMinerEventType> {
+        public AddMinerEventTypeCommand(IMinerEventType input) : base(input) {
         }
     }
 
     [MessageType(description: "更新事件类型")]
-    public class UpdateEventTypeCommand : UpdateEntityCommand<IEventType> {
-        public UpdateEventTypeCommand(IEventType input) : base(input) {
+    public class UpdateMinerEventTypeCommand : UpdateEntityCommand<IMinerEventType> {
+        public UpdateMinerEventTypeCommand(IMinerEventType input) : base(input) {
         }
     }
 
     [MessageType(description: "移除事件类型")]
-    public class RemoveEventTypeCommand : RemoveEntityCommand {
-        public RemoveEventTypeCommand(Guid entityId) : base(entityId) {
+    public class RemoveMinerEventTypeCommand : RemoveEntityCommand {
+        public RemoveMinerEventTypeCommand(Guid entityId) : base(entityId) {
         }
     }
 
     [MessageType(description: "添加了事件类型后")]
-    public class EventTypeAddedEvent : DomainEvent<IEventType> {
-        public EventTypeAddedEvent(IEventType source) : base(source) {
+    public class MinerEventTypeAddedEvent : DomainEvent<IMinerEventType> {
+        public MinerEventTypeAddedEvent(IMinerEventType source) : base(source) {
         }
     }
 
     [MessageType(description: "更新了事件类型后")]
-    public class EventTypeUpdatedEvent : DomainEvent<IEventType> {
-        public EventTypeUpdatedEvent(IEventType source) : base(source) {
+    public class MinerEventTypeUpdatedEvent : DomainEvent<IMinerEventType> {
+        public MinerEventTypeUpdatedEvent(IMinerEventType source) : base(source) {
         }
     }
 
     [MessageType(description: "移除了事件类型后")]
-    public class EventTypeRemovedEvent : DomainEvent<IEventType> {
-        public EventTypeRemovedEvent(IEventType source) : base(source) {
+    public class MinerEventTypeRemovedEvent : DomainEvent<IMinerEventType> {
+        public MinerEventTypeRemovedEvent(IMinerEventType source) : base(source) {
         }
     }
     #endregion

@@ -5,16 +5,16 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace NTMiner.Core.Impl {
-    public class EventTypeSet : IEventTypeSet {
+    public class MinerEventTypeSet : IMinerEventTypeSet {
         private readonly INTMinerRoot _root;
-        private readonly Dictionary<Guid, EventTypeData> _dicById = new Dictionary<Guid, EventTypeData>();
+        private readonly Dictionary<Guid, MinerEventTypeData> _dicById = new Dictionary<Guid, MinerEventTypeData>();
 
         private readonly bool _isUseJson;
 
-        public EventTypeSet(INTMinerRoot root, bool isUseJson) {
+        public MinerEventTypeSet(INTMinerRoot root, bool isUseJson) {
             _root = root;
             _isUseJson = isUseJson;
-            _root.ServerContextWindow<AddEventTypeCommand>("添加事件类型", LogEnum.DevConsole,
+            _root.ServerContextWindow<AddMinerEventTypeCommand>("添加事件类型", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -26,14 +26,14 @@ namespace NTMiner.Core.Impl {
                     if (string.IsNullOrEmpty(message.Input.Name)) {
                         throw new ValidationException("EventType name can't be null or empty");
                     }
-                    EventTypeData entity = new EventTypeData().Update(message.Input);
+                    MinerEventTypeData entity = new MinerEventTypeData().Update(message.Input);
                     _dicById.Add(entity.Id, entity);
-                    var repository = NTMinerRoot.CreateCompositeRepository<EventTypeData>(isUseJson);
+                    var repository = NTMinerRoot.CreateCompositeRepository<MinerEventTypeData>(isUseJson);
                     repository.Add(entity);
 
-                    VirtualRoot.Happened(new EventTypeAddedEvent(entity));
+                    VirtualRoot.Happened(new MinerEventTypeAddedEvent(entity));
                 });
-            _root.ServerContextWindow<UpdateEventTypeCommand>("更新事件类型", LogEnum.DevConsole,
+            _root.ServerContextWindow<UpdateMinerEventTypeCommand>("更新事件类型", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -45,17 +45,17 @@ namespace NTMiner.Core.Impl {
                     if (!_dicById.ContainsKey(message.Input.GetId())) {
                         return;
                     }
-                    EventTypeData entity = _dicById[message.Input.GetId()];
+                    MinerEventTypeData entity = _dicById[message.Input.GetId()];
                     if (ReferenceEquals(entity, message.Input)) {
                         return;
                     }
                     entity.Update(message.Input);
-                    var repository = NTMinerRoot.CreateCompositeRepository<EventTypeData>(isUseJson);
+                    var repository = NTMinerRoot.CreateCompositeRepository<MinerEventTypeData>(isUseJson);
                     repository.Update(entity);
 
-                    VirtualRoot.Happened(new EventTypeUpdatedEvent(entity));
+                    VirtualRoot.Happened(new MinerEventTypeUpdatedEvent(entity));
                 });
-            _root.ServerContextWindow<RemoveEventTypeCommand>("移除事件类型", LogEnum.DevConsole,
+            _root.ServerContextWindow<RemoveMinerEventTypeCommand>("移除事件类型", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {
@@ -64,12 +64,12 @@ namespace NTMiner.Core.Impl {
                     if (!_dicById.ContainsKey(message.EntityId)) {
                         return;
                     }
-                    EventTypeData entity = _dicById[message.EntityId];
+                    MinerEventTypeData entity = _dicById[message.EntityId];
                     _dicById.Remove(entity.GetId());
-                    var repository = NTMinerRoot.CreateCompositeRepository<EventTypeData>(isUseJson);
+                    var repository = NTMinerRoot.CreateCompositeRepository<MinerEventTypeData>(isUseJson);
                     repository.Remove(message.EntityId);
 
-                    VirtualRoot.Happened(new EventTypeRemovedEvent(entity));
+                    VirtualRoot.Happened(new MinerEventTypeRemovedEvent(entity));
                 });
         }
 
@@ -86,7 +86,7 @@ namespace NTMiner.Core.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    var repository = NTMinerRoot.CreateCompositeRepository<EventTypeData>(_isUseJson);
+                    var repository = NTMinerRoot.CreateCompositeRepository<MinerEventTypeData>(_isUseJson);
                     foreach (var item in repository.GetAll()) {
                         if (!_dicById.ContainsKey(item.GetId())) {
                             _dicById.Add(item.GetId(), item);
@@ -107,14 +107,14 @@ namespace NTMiner.Core.Impl {
             return _dicById.ContainsKey(id);
         }
 
-        public bool TryGetEventType(Guid id, out IEventType eventType) {
+        public bool TryGetEventType(Guid id, out IMinerEventType eventType) {
             InitOnece();
-            var result = _dicById.TryGetValue(id, out EventTypeData data);
+            var result = _dicById.TryGetValue(id, out MinerEventTypeData data);
             eventType = data;
             return result;
         }
 
-        public IEnumerator<IEventType> GetEnumerator() {
+        public IEnumerator<IMinerEventType> GetEnumerator() {
             InitOnece();
             return _dicById.Values.GetEnumerator();
         }
