@@ -662,58 +662,6 @@ namespace NTMiner {
         }
         #endregion
 
-        public bool GetIsUseDevice(int gpuIndex) {
-            if (gpuIndex < 0 || gpuIndex >= GpuSet.Count) {
-                return false;
-            }
-            List<int> devices = GetUseDevices();
-            return devices.Contains(gpuIndex);
-        }
-
-        public void SetIsUseDevice(int gpuIndex, bool isUse) {
-            List<int> devices = GetUseDevices();
-            if (!isUse) {
-                devices.Remove(gpuIndex);
-            }
-            else if (!devices.Contains(gpuIndex)) {
-                devices.Add(gpuIndex);
-            }
-            devices = devices.OrderBy(a => a).ToList();
-            SetUseDevices(devices);
-        }
-
-        public List<int> GetUseDevices() {
-            List<int> list = new List<int>();
-            if (LocalAppSettingSet.TryGetAppSetting("UseDevices", out IAppSetting setting) && setting.Value != null) {
-                string[] parts = setting.Value.ToString().Split(',');
-                foreach (var part in parts) {
-                    if (int.TryParse(part, out int index)) {
-                        list.Add(index);
-                    }
-                }
-            }
-            if (list.Count == 0) {
-                foreach (var gpu in GpuSet) {
-                    if (gpu.Index == GpuAllId) {
-                        continue;
-                    }
-                    list.Add(gpu.Index);
-                }
-            }
-            return list;
-        }
-
-        private void SetUseDevices(List<int> gpuIndexes) {
-            if (gpuIndexes.Count != 0 && gpuIndexes.Count == GpuSet.Count) {
-                gpuIndexes = new List<int>();
-            }
-            AppSettingData appSettingData = new AppSettingData() {
-                Key = "UseDevices",
-                Value = string.Join(",", gpuIndexes)// 存逗号分隔的字符串，因为litedb处理List、Array有问题
-            };
-            VirtualRoot.Execute(new ChangeLocalAppSettingCommand(appSettingData));
-        }
-
         public ISysDicSet SysDicSet { get; private set; }
 
         public ISysDicItemSet SysDicItemSet { get; private set; }
