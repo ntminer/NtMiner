@@ -46,6 +46,17 @@ namespace NTMiner.Core {
         public string PoolDelayText { get; private set; }
     }
 
+    [MessageType(description: "开机A卡计算模式")]
+    public class SwitchRadeonGpuCommand : Cmd {
+        public SwitchRadeonGpuCommand() {
+        }
+    }
+
+    [MessageType(description: "注册右键打开windindows命令行菜单")]
+    public class RegCmdHereCommand : Cmd {
+        public RegCmdHereCommand() { }
+    }
+
     #region profile Messages
     [MessageType(description: "MinerProfile设置变更后")]
     public class MinerProfilePropertyChangedEvent : EventBase {
@@ -316,17 +327,6 @@ namespace NTMiner.Core {
     }
     #endregion
 
-    [MessageType(description: "开机A卡计算模式")]
-    public class SwitchRadeonGpuCommand : Cmd {
-        public SwitchRadeonGpuCommand() {
-        }
-    }
-
-    [MessageType(description: "注册右键打开windindows命令行菜单")]
-    public class RegCmdHereCommand : Cmd {
-        public RegCmdHereCommand() { }
-    }
-
     #region SysDic Messages
     [MessageType(description: "添加系统字典")]
     public class AddSysDicCommand : AddEntityCommand<ISysDic> {
@@ -481,6 +481,44 @@ namespace NTMiner.Core {
     [MessageType(description: "移除了组后")]
     public class GroupRemovedEvent : DomainEvent<IGroup> {
         public GroupRemovedEvent(IGroup source) : base(source) {
+        }
+    }
+    #endregion
+
+    #region EventType Messages
+    [MessageType(description: "添加事件类型")]
+    public class AddEventTypeCommand : AddEntityCommand<IEventType> {
+        public AddEventTypeCommand(IEventType input) : base(input) {
+        }
+    }
+
+    [MessageType(description: "更新事件类型")]
+    public class UpdateEventTypeCommand : UpdateEntityCommand<IEventType> {
+        public UpdateEventTypeCommand(IEventType input) : base(input) {
+        }
+    }
+
+    [MessageType(description: "移除事件类型")]
+    public class RemoveEventTypeCommand : RemoveEntityCommand {
+        public RemoveEventTypeCommand(Guid entityId) : base(entityId) {
+        }
+    }
+
+    [MessageType(description: "添加了事件类型后")]
+    public class EventTypeAddedEvent : DomainEvent<IEventType> {
+        public EventTypeAddedEvent(IEventType source) : base(source) {
+        }
+    }
+
+    [MessageType(description: "更新了事件类型后")]
+    public class EventTypeUpdatedEvent : DomainEvent<IEventType> {
+        public EventTypeUpdatedEvent(IEventType source) : base(source) {
+        }
+    }
+
+    [MessageType(description: "移除了事件类型后")]
+    public class EventTypeRemovedEvent : DomainEvent<IEventType> {
+        public EventTypeRemovedEvent(IEventType source) : base(source) {
         }
     }
     #endregion
