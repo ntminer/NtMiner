@@ -234,6 +234,16 @@ namespace NTMiner {
             }
         }
 
+        /// <summary>
+        /// 创建组合仓储，组合仓储由ServerDb和ProfileDb层序组成。
+        /// 如果是开发者则访问ServerDb且只访问GlobalDb，否则将ServerDb和ProfileDb并起来访问且不能修改删除GlobalDb。
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static IRepository<T> CreateCompositeRepository<T>(bool isUseJson) where T : class, ILevelEntity<Guid> {
+            return new CompositeRepository<T>(CreateServerRepository<T>(isUseJson), CreateLocalRepository<T>(isUseJson: false));
+        }
+
         public static IRepository<T> CreateLocalRepository<T>(bool isUseJson) where T : class, IDbEntity<Guid> {
             if (!isUseJson) {
                 return new CommonRepository<T>(SpecialPath.LocalDbFileFullName);

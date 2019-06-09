@@ -28,7 +28,7 @@ namespace NTMiner.Core.Impl {
                     }
                     EventTypeData entity = new EventTypeData().Update(message.Input);
                     _dicById.Add(entity.Id, entity);
-                    var repository = NTMinerRoot.CreateServerRepository<EventTypeData>(isUseJson);
+                    var repository = NTMinerRoot.CreateCompositeRepository<EventTypeData>(isUseJson);
                     repository.Add(entity);
 
                     VirtualRoot.Happened(new EventTypeAddedEvent(entity));
@@ -50,7 +50,7 @@ namespace NTMiner.Core.Impl {
                         return;
                     }
                     entity.Update(message.Input);
-                    var repository = NTMinerRoot.CreateServerRepository<EventTypeData>(isUseJson);
+                    var repository = NTMinerRoot.CreateCompositeRepository<EventTypeData>(isUseJson);
                     repository.Update(entity);
 
                     VirtualRoot.Happened(new EventTypeUpdatedEvent(entity));
@@ -66,7 +66,7 @@ namespace NTMiner.Core.Impl {
                     }
                     EventTypeData entity = _dicById[message.EntityId];
                     _dicById.Remove(entity.GetId());
-                    var repository = NTMinerRoot.CreateServerRepository<EventTypeData>(isUseJson);
+                    var repository = NTMinerRoot.CreateCompositeRepository<EventTypeData>(isUseJson);
                     repository.Remove(message.EntityId);
 
                     VirtualRoot.Happened(new EventTypeRemovedEvent(entity));
@@ -86,7 +86,7 @@ namespace NTMiner.Core.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    var repository = NTMinerRoot.CreateServerRepository<EventTypeData>(_isUseJson);
+                    var repository = NTMinerRoot.CreateCompositeRepository<EventTypeData>(_isUseJson);
                     foreach (var item in repository.GetAll()) {
                         if (!_dicById.ContainsKey(item.GetId())) {
                             _dicById.Add(item.GetId(), item);
