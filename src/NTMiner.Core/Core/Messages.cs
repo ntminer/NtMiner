@@ -1016,4 +1016,12 @@ namespace NTMiner.Core {
         }
     }
     #endregion
+
+    #region MinerEvent Messages
+    [MessageType(description: "发生了挖矿事件")]
+    public class MinerEventOccurredEvnet : DomainEvent<IMinerEvent> {
+        public MinerEventOccurredEvnet(IMinerEvent source) : base(source) {
+        }
+    }
+    #endregion
 }
