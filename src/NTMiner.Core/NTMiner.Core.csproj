@@ -123,6 +123,7 @@
     <Compile Include="Core\ICoinShareSet.cs" />
     <Compile Include="Core\Impl\CoinGroupSet.cs" />
     <Compile Include="Core\Impl\CoinShareSet.cs" />
+    <Compile Include="Core\Impl\MinerEventSet.cs" />
     <Compile Include="Core\Impl\MinerEventTypeSet.cs" />
     <Compile Include="Core\Impl\FragmentWriterSet.cs" />
     <Compile Include="Core\Impl\FileWriterSet.cs" />
