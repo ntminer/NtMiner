@@ -18,19 +18,19 @@ namespace NTMiner.Core.Impl {
                 });
         }
 
-        public IEnumerable<IWorkerEvent> GetEvents(Guid? typeId, string keyword) {
+        public IEnumerable<IWorkerEvent> GetEvents(Guid typeId, string keyword) {
             using (LiteDatabase db = new LiteDatabase($"filename={SpecialPath.LocalDbFileFullName};journal=false")) {
                 var col = db.GetCollection<WorkerEventData>();
                 col.EnsureIndex(nameof(WorkerEventData.EventOn), unique: false);
-                if (typeId.HasValue) {
+                if (typeId != Guid.Empty) {
                     if (!string.IsNullOrEmpty(keyword)) {
                         return col.Find(
                             Query.And(
-                                Query.EQ(nameof(WorkerEventData.TypeId), typeId.Value),
+                                Query.EQ(nameof(WorkerEventData.TypeId), typeId),
                                 Query.Contains(nameof(WorkerEventData.Description), keyword)));
                     }
                     else {
-                        return col.Find(Query.EQ(nameof(WorkerEventData.TypeId), typeId.Value));
+                        return col.Find(Query.EQ(nameof(WorkerEventData.TypeId), typeId));
                     }
                 }
                 else {

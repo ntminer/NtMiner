@@ -1017,6 +1017,44 @@ namespace NTMiner.Core {
     }
     #endregion
 
+    #region WorkerEventType Messages
+    [MessageType(description: "添加矿机事件类型")]
+    public class AddWorkerEventTypeCommand : AddEntityCommand<IWorkerEventType> {
+        public AddWorkerEventTypeCommand(IWorkerEventType input) : base(input) {
+        }
+    }
+
+    [MessageType(description: "更新矿机事件类型")]
+    public class UpdateWorkerEventTypeCommand : UpdateEntityCommand<IWorkerEventType> {
+        public UpdateWorkerEventTypeCommand(IWorkerEventType input) : base(input) {
+        }
+    }
+
+    [MessageType(description: "移除矿机事件类型")]
+    public class RemoveWorkerEventTypeCommand : RemoveEntityCommand {
+        public RemoveWorkerEventTypeCommand(Guid entityId) : base(entityId) {
+        }
+    }
+
+    [MessageType(description: "添加了矿机事件类型后")]
+    public class WorkerEventTypeAddedEvent : DomainEvent<IWorkerEventType> {
+        public WorkerEventTypeAddedEvent(IWorkerEventType source) : base(source) {
+        }
+    }
+
+    [MessageType(description: "更新了矿机事件类型后")]
+    public class WorkerEventTypeUpdatedEvent : DomainEvent<IWorkerEventType> {
+        public WorkerEventTypeUpdatedEvent(IWorkerEventType source) : base(source) {
+        }
+    }
+
+    [MessageType(description: "移除了矿机事件类型后")]
+    public class WorkerEventTypeRemovedEvent : DomainEvent<IWorkerEventType> {
+        public WorkerEventTypeRemovedEvent(IWorkerEventType source) : base(source) {
+        }
+    }
+    #endregion
+
     #region WorkerEvent Messages
     [MessageType(description: "发生了矿机事件")]
     public class WorkerEventOccurredEvent : DomainEvent<IWorkerEvent> {
