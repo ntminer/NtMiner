@@ -600,6 +600,7 @@ namespace NTMiner {
 
         public ICalcConfigSet CalcConfigSet { get; private set; }
 
+        #region GpuSetInfo
         private string _gpuSetInfo = null;
         public string GpuSetInfo {
             get {
@@ -623,7 +624,9 @@ namespace NTMiner {
                 return _gpuSetInfo;
             }
         }
+        #endregion
 
+        #region GpuSet
         private IGpuSet _gpuSet;
         private object _gpuSetLocker = new object();
         public IGpuSet GpuSet {
@@ -657,7 +660,7 @@ namespace NTMiner {
                 return _gpuSet;
             }
         }
-
+        #endregion
 
         public bool GetIsUseDevice(int gpuIndex) {
             if (gpuIndex < 0 || gpuIndex >= GpuSet.Count) {
