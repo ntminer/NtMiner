@@ -246,7 +246,7 @@ namespace NTMiner {
 
             Report.Init(this);
 
-            VirtualRoot.Window<RegCmdHereCommand>("处理注册右键打开windows命令行菜单命令", LogEnum.UserConsole,
+            VirtualRoot.Window<RegCmdHereCommand>("处理注册右键打开windows命令行菜单命令", LogEnum.DevConsole,
                 action: message => {
                     string cmdHere = "SOFTWARE\\Classes\\Directory\\background\\shell\\cmd_here";
                     string cmdHereCommand = cmdHere + "\\command";
