@@ -11,7 +11,10 @@ namespace NTMiner.Core.Impl {
             _root = root;
             VirtualRoot.On<WorkerEventOccurredEvent>("将矿机事件记录到磁盘", LogEnum.DevConsole,
                 action: message => {
-
+                    using (LiteDatabase db = new LiteDatabase($"filename={SpecialPath.LocalDbFileFullName};journal=false")) {
+                        var col = db.GetCollection<WorkerEventData>();
+                        col.Insert(WorkerEventData.Create(message.Source));
+                    }
                 });
         }
 
