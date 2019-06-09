@@ -125,9 +125,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\AppModels\View\AppViewsName=">
-      <Link>Views\AppViewsName=</Link>
-    </EmbeddedResource>
     <None Include="app.config" />
     <None Include="app.manifest" />
     <EmbeddedResource Include="Brand\KernelBrandId" />
@@ -147,6 +144,10 @@
     <ProjectReference Include="..\AppModels\AppModels.csproj">
       <Project>{3426f677-5026-4bb1-a0b2-dd5d9bd70d07}</Project>
       <Name>AppModels</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AppViews0\AppViews0.csproj">
+      <Project>{b3667589-d9b1-489e-ab4f-d1ec06a40a9d}</Project>
+      <Name>AppViews0</Name>
     </ProjectReference>
     <ProjectReference Include="..\BlankWindow\BlankWindow.csproj">
       <Project>{b7107a67-a76e-4313-8c5b-3265dde238b6}</Project>
@@ -203,12 +204,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Views\AppViews0.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Views\AppViews1.dll" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="Views\HandlerIdsWindow.xaml">
