@@ -1,8 +1,8 @@
 ﻿using System;
 
 namespace NTMiner.MinerClient {
-    public class MinerEventTypeData : IMinerEventType, IDbEntity<Guid> {
-        public MinerEventTypeData() { }
+    public class WorkerEventTypeData : IWorkerEventType, IDbEntity<Guid> {
+        public WorkerEventTypeData() { }
 
         public Guid GetId() {
             return this.Id;

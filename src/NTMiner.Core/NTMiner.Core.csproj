@@ -113,8 +113,8 @@
     <Compile Include="Core\Gpus\Impl\NVIDIAOverClock.cs" />
     <Compile Include="Core\ICalcConfigSet.cs" />
     <Compile Include="Core\ICoinGroupSet.cs" />
-    <Compile Include="Core\IMinerEventSet.cs" />
-    <Compile Include="Core\IMinerEventTypeSet.cs" />
+    <Compile Include="Core\IWorkerEventSet.cs" />
+    <Compile Include="Core\IWorkerEventTypeSet.cs" />
     <Compile Include="Core\IFileWriterSet.cs" />
     <Compile Include="Core\IFragmentWriterSet.cs" />
     <Compile Include="Core\IGroupSet.cs" />
@@ -123,8 +123,8 @@
     <Compile Include="Core\ICoinShareSet.cs" />
     <Compile Include="Core\Impl\CoinGroupSet.cs" />
     <Compile Include="Core\Impl\CoinShareSet.cs" />
-    <Compile Include="Core\Impl\MinerEventSet.cs" />
-    <Compile Include="Core\Impl\MinerEventTypeSet.cs" />
+    <Compile Include="Core\Impl\WorkerEventSet.cs" />
+    <Compile Include="Core\Impl\WorkerEventTypeSet.cs" />
     <Compile Include="Core\Impl\FragmentWriterSet.cs" />
     <Compile Include="Core\Impl\FileWriterSet.cs" />
     <Compile Include="Core\Kernels\Impl\PackageSet.cs" />

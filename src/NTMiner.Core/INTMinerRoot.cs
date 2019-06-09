@@ -95,9 +95,9 @@ namespace NTMiner {
 
         IKernelOutputTranslaterSet KernelOutputTranslaterSet { get; }
 
-        IMinerEventTypeSet MinerEventTypeSet { get; }
+        IWorkerEventTypeSet WorkerEventTypeSet { get; }
 
-        IMinerEventSet MinerEventSet { get; }
+        IWorkerEventSet WorkerEventSet { get; }
 
         string BuildAssembleArgs(out Dictionary<string, string> parameters, out Dictionary<Guid, string> fileWriters, out Dictionary<Guid, string> fragments);
     }

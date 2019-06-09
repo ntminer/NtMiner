@@ -5,13 +5,13 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace NTMiner.Core.Impl {
-    public class MinerEventTypeSet : IMinerEventTypeSet {
+    public class WorkerEventTypeSet : IWorkerEventTypeSet {
         private readonly INTMinerRoot _root;
-        private readonly Dictionary<Guid, MinerEventTypeData> _dicById = new Dictionary<Guid, MinerEventTypeData>();
+        private readonly Dictionary<Guid, WorkerEventTypeData> _dicById = new Dictionary<Guid, WorkerEventTypeData>();
 
         private readonly bool _isUseJson;
 
-        public MinerEventTypeSet(INTMinerRoot root, bool isUseJson) {
+        public WorkerEventTypeSet(INTMinerRoot root, bool isUseJson) {
             _root = root;
             _isUseJson = isUseJson;
             _root.ServerContextWindow<AddMinerEventTypeCommand>("添加事件类型", LogEnum.DevConsole,
@@ -26,9 +26,9 @@ namespace NTMiner.Core.Impl {
                     if (string.IsNullOrEmpty(message.Input.Name)) {
                         throw new ValidationException("EventType name can't be null or empty");
                     }
-                    MinerEventTypeData entity = new MinerEventTypeData().Update(message.Input);
+                    WorkerEventTypeData entity = new WorkerEventTypeData().Update(message.Input);
                     _dicById.Add(entity.Id, entity);
-                    var repository = NTMinerRoot.CreateCompositeRepository<MinerEventTypeData>(isUseJson);
+                    var repository = NTMinerRoot.CreateCompositeRepository<WorkerEventTypeData>(isUseJson);
                     repository.Add(entity);
 
                     VirtualRoot.Happened(new MinerEventTypeAddedEvent(entity));
@@ -45,12 +45,12 @@ namespace NTMiner.Core.Impl {
                     if (!_dicById.ContainsKey(message.Input.GetId())) {
                         return;
                     }
-                    MinerEventTypeData entity = _dicById[message.Input.GetId()];
+                    WorkerEventTypeData entity = _dicById[message.Input.GetId()];
                     if (ReferenceEquals(entity, message.Input)) {
                         return;
                     }
                     entity.Update(message.Input);
-                    var repository = NTMinerRoot.CreateCompositeRepository<MinerEventTypeData>(isUseJson);
+                    var repository = NTMinerRoot.CreateCompositeRepository<WorkerEventTypeData>(isUseJson);
                     repository.Update(entity);
 
                     VirtualRoot.Happened(new MinerEventTypeUpdatedEvent(entity));
@@ -64,9 +64,9 @@ namespace NTMiner.Core.Impl {
                     if (!_dicById.ContainsKey(message.EntityId)) {
                         return;
                     }
-                    MinerEventTypeData entity = _dicById[message.EntityId];
+                    WorkerEventTypeData entity = _dicById[message.EntityId];
                     _dicById.Remove(entity.GetId());
-                    var repository = NTMinerRoot.CreateCompositeRepository<MinerEventTypeData>(isUseJson);
+                    var repository = NTMinerRoot.CreateCompositeRepository<WorkerEventTypeData>(isUseJson);
                     repository.Remove(message.EntityId);
 
                     VirtualRoot.Happened(new MinerEventTypeRemovedEvent(entity));
@@ -86,7 +86,7 @@ namespace NTMiner.Core.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    var repository = NTMinerRoot.CreateCompositeRepository<MinerEventTypeData>(_isUseJson);
+                    var repository = NTMinerRoot.CreateCompositeRepository<WorkerEventTypeData>(_isUseJson);
                     foreach (var item in repository.GetAll()) {
                         if (!_dicById.ContainsKey(item.GetId())) {
                             _dicById.Add(item.GetId(), item);
@@ -107,14 +107,14 @@ namespace NTMiner.Core.Impl {
             return _dicById.ContainsKey(id);
         }
 
-        public bool TryGetEventType(Guid id, out IMinerEventType eventType) {
+        public bool TryGetEventType(Guid id, out IWorkerEventType eventType) {
             InitOnece();
-            var result = _dicById.TryGetValue(id, out MinerEventTypeData data);
+            var result = _dicById.TryGetValue(id, out WorkerEventTypeData data);
             eventType = data;
             return result;
         }
 
-        public IEnumerator<IMinerEventType> GetEnumerator() {
+        public IEnumerator<IWorkerEventType> GetEnumerator() {
             InitOnece();
             return _dicById.Values.GetEnumerator();
         }

@@ -1,5 +1,5 @@
 ﻿namespace NTMiner.MinerClient {
-    public enum MinerEventSource {
+    public enum WorkerEventSource {
         Kernel,
         NTMiner
     }

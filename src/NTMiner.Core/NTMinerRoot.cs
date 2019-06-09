@@ -218,8 +218,8 @@ namespace NTMiner {
             this.KernelOutputSet = new KernelOutputSet(this, isUseJson);
             this.KernelOutputFilterSet = new KernelOutputFilterSet(this, isUseJson);
             this.KernelOutputTranslaterSet = new KernelOutputTranslaterSet(this, isUseJson);
-            this.MinerEventTypeSet = new MinerEventTypeSet(this, isUseJson);
-            this.MinerEventSet = new MinerEventSet(this);
+            this.WorkerEventTypeSet = new WorkerEventTypeSet(this, isUseJson);
+            this.WorkerEventSet = new WorkerEventSet(this);
         }
 
         // MinerProfile对应local.litedb或local.json
@@ -718,8 +718,8 @@ namespace NTMiner {
 
         public IKernelOutputTranslaterSet KernelOutputTranslaterSet { get; private set; }
 
-        public IMinerEventTypeSet MinerEventTypeSet { get; private set; }
+        public IWorkerEventTypeSet WorkerEventTypeSet { get; private set; }
 
-        public IMinerEventSet MinerEventSet { get; private set; }
+        public IWorkerEventSet WorkerEventSet { get; private set; }
     }
 }

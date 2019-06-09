@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace NTMiner.MinerClient {
-    public interface IMinerEventType : ILevelEntity<Guid> {
+    public interface IWorkerEventType : ILevelEntity<Guid> {
         string Name { get; }
     }
 }

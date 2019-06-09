@@ -1,9 +1,9 @@
 ﻿using System;
 
 namespace NTMiner.MinerClient {
-    public interface IMinerEvent : IEntity<Guid> {
+    public interface IWorkerEvent : IEntity<Guid> {
         Guid TypeId { get; }
-        MinerEventSource Source { get; }
+        WorkerEventSource Source { get; }
         string Description { get; }
         DateTime EventOn { get; }
     }
