@@ -113,6 +113,7 @@
     <Compile Include="Core\Gpus\Impl\NVIDIAOverClock.cs" />
     <Compile Include="Core\ICalcConfigSet.cs" />
     <Compile Include="Core\ICoinGroupSet.cs" />
+    <Compile Include="Core\IMinerEventSet.cs" />
     <Compile Include="Core\IMinerEventTypeSet.cs" />
     <Compile Include="Core\IFileWriterSet.cs" />
     <Compile Include="Core\IFragmentWriterSet.cs" />
