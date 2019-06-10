@@ -132,8 +132,8 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
             tempLimitMin = lpODCapabilities.powerTuneTemperature.iMin;
             tempLimitMax = lpODCapabilities.powerTuneTemperature.iMax;
             tempLimitDefault = lpODCapabilities.powerTuneTemperature.iDefault;
-            fanSpeedMin = lpODCapabilities.fanSpeed.iMin;
-            fanSpeedMax = lpODCapabilities.fanSpeed.iMax;
+            fanSpeedMin = lpODCapabilities.fanSpeed.iMin * 100 / lpODCapabilities.fanSpeed.iMax;
+            fanSpeedMax = 100;
             fanSpeedDefault = lpODCapabilities.fanSpeed.iDefault;
 #if DEBUG
             Write.DevWarn($"ADL2_OverdriveN_CapabilitiesX2_Get result {result} coreClockDeltaMin={coreClockDeltaMin},coreClockDeltaMax={coreClockDeltaMax},memoryClockDeltaMin={memoryClockDeltaMin},memoryClockDeltaMax={memoryClockDeltaMax},powerMin={powerMin},powerMax={powerMax},powerDefault={powerDefault},tempLimitMin={tempLimitMin},tempLimitMax={tempLimitMax},tempLimitDefault={tempLimitDefault},fanSpeedMin={fanSpeedMin},fanSpeedMax={fanSpeedMax},fanSpeedDefault={fanSpeedDefault}");
