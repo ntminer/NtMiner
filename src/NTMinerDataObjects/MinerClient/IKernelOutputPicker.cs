@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace NTMiner.MinerClient {
-    public interface IKernelEvent : ILevelEntity<Guid> {
+    public interface IKernelOutputPicker : ILevelEntity<Guid> {
         Guid WorkerEventTypeId { get; }
         string Keyword { get; }
     }

@@ -1,8 +1,8 @@
 ﻿using System;
 
 namespace NTMiner.MinerClient {
-    public class KernelEventData : IKernelEvent, IDbEntity<Guid> {
-        public KernelEventData() { }
+    public class KernelOutputPickerData : IKernelOutputPicker, IDbEntity<Guid> {
+        public KernelOutputPickerData() { }
 
         public Guid GetId() {
             return this.Id;
