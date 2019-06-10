@@ -26,7 +26,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
         private List<ATIGPU> _gpuNames = new List<ATIGPU>();
         public bool Init() {
             try {
-                if (System.Environment.Is64BitOperatingSystem) {
+                if (Environment.Is64BitOperatingSystem) {
                     Windows.NativeMethods.SetDllDirectory(SpecialPath.ThisSystem32Dir);
                 }
                 else {
@@ -193,10 +193,10 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
                         int index = 0;
                         for (int i = 0; i < lpODPerformanceLevels.aLevels.Length; i++) {
                             if (lpODPerformanceLevels.aLevels[i].iControl != 0) {
-                                lpODPerformanceLevels.aLevels[i].iEnabled = 1;
                                 index = i;
                             }
                         }
+                        lpODPerformanceLevels.aLevels[index].iEnabled = 1;
                         lpODPerformanceLevels.aLevels[index].iClock = value * 100;
                     }
                     result = ADL.ADL2_OverdriveN_MemoryClocksX2_Set(context, adapterIndex, ref lpODPerformanceLevels);
@@ -239,10 +239,8 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
                         lpODPerformanceLevels.iMode = ADL.ODNControlType_Default;
                     }
                     else {
-                        for (int i = 0; i < lpODPerformanceLevels.aLevels.Length; i++) {
-                            lpODPerformanceLevels.aLevels[i].iEnabled = 1;
-                        }
                         lpODPerformanceLevels.iMode = ADL.ODNControlType_Manual;
+                        lpODPerformanceLevels.aLevels[lpODPerformanceLevels.aLevels.Length - 1].iEnabled = 1;
                         lpODPerformanceLevels.aLevels[lpODPerformanceLevels.aLevels.Length - 1].iClock = value * 100;
                     }
                     result = ADL.ADL2_OverdriveN_SystemClocksX2_Set(context, adapterIndex, ref lpODPerformanceLevels);
