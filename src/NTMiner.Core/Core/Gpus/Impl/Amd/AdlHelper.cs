@@ -194,11 +194,10 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
                         lpODPerformanceLevels.iMode = ADL.ODNControlType_Manual;
                         int index = 0;
                         for (int i = 0; i < lpODPerformanceLevels.aLevels.Length; i++) {
-                            if (lpODPerformanceLevels.aLevels[i].iControl != 0) {
+                            if (lpODPerformanceLevels.aLevels[i].iEnabled == 1) {
                                 index = i;
                             }
                         }
-                        lpODPerformanceLevels.aLevels[index].iEnabled = 1;
                         lpODPerformanceLevels.aLevels[index].iClock = value * 100;
                     }
                     result = ADL.ADL2_OverdriveN_MemoryClocksX2_Set(context, adapterIndex, ref lpODPerformanceLevels);
@@ -244,8 +243,13 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
                     }
                     else {
                         lpODPerformanceLevels.iMode = ADL.ODNControlType_Manual;
-                        lpODPerformanceLevels.aLevels[lpODPerformanceLevels.aLevels.Length - 1].iEnabled = 1;
-                        lpODPerformanceLevels.aLevels[lpODPerformanceLevels.aLevels.Length - 1].iClock = value * 100;
+                        int index = 0;
+                        for (int i = 0; i < lpODPerformanceLevels.aLevels.Length; i++) {
+                            if (lpODPerformanceLevels.aLevels[i].iEnabled == 1) {
+                                index = i;
+                            }
+                        }
+                        lpODPerformanceLevels.aLevels[index].iClock = value * 100;
                     }
                     result = ADL.ADL2_OverdriveN_SystemClocksX2_Set(context, adapterIndex, ref lpODPerformanceLevels);
 #if DEBUG
