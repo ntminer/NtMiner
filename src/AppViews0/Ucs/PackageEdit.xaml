@@ -7,11 +7,11 @@
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
-	    xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
+		xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 		mc:Ignorable="d"
 		d:DataContext="{d:DesignData Source=/Design/PackageViewModel.xaml}"
 		Background="White"
-		d:DesignWidth="580" d:DesignHeight="300">
+		d:DesignWidth="860" d:DesignHeight="300">
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
@@ -38,10 +38,14 @@
 					Content="浏览">
 				</Button>
 			</WrapPanel>
-			<WrapPanel Margin="0 2">
-				<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="支持算法"></TextBlock>
+			<Grid Margin="0 2">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto"></ColumnDefinition>
+					<ColumnDefinition Width="*"></ColumnDefinition>
+				</Grid.ColumnDefinitions>
+				<TextBlock Grid.Column="0" Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="支持算法"></TextBlock>
 				<ItemsControl
-					Width="480"
+					Grid.Column="1"
 					IsEnabled="{x:Static app:AppStatic.IsDebugMode}"
 					ItemsSource="{Binding AlgoSelectItems}"
 					BorderThickness="0"
@@ -55,11 +59,11 @@
 					</ItemsControl.ItemsPanel>
 					<ItemsControl.ItemTemplate>
 						<DataTemplate>
-							<CheckBox Width="120" IsChecked="{Binding IsChecked}" FocusVisualStyle="{x:Null}" Content="{Binding SysDicItemVm.Value}"></CheckBox>
+							<CheckBox Width="180" IsChecked="{Binding IsChecked}" FocusVisualStyle="{x:Null}" Content="{Binding SysDicItemVm.Value}"></CheckBox>
 						</DataTemplate>
 					</ItemsControl.ItemTemplate>
 				</ItemsControl>
-			</WrapPanel>
+			</Grid>
 		</StackPanel>
 
 		<StackPanel Grid.Row="1">

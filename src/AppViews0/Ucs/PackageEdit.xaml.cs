@@ -9,7 +9,7 @@ namespace NTMiner.Views.Ucs {
                 FormType = formType,
                 IconName = "Icon_Package",
                 IsDialogWindow = true,
-                Width = 620,
+                Width = 860,
                 Height = 300,
                 CloseVisible = System.Windows.Visibility.Visible
             }, ucFactory: (window) => {
