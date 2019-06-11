@@ -92,11 +92,19 @@ namespace NTMiner.Core.Profiles {
                 if (!data.IsAutoFanSpeed) {
                     overClock.SetCool(data.Index, data.Cool, ref effectGpus);
                 }
+                string coreClockText = "默认";
+                if (data.CoreClockDelta != 0) {
+                    coreClockText = data.CoreClockDelta.ToString();
+                }
+                string memoryClockText = "默认";
+                if (data.MemoryClockDelta != 0) {
+                    memoryClockText = data.MemoryClockDelta.ToString();
+                }
                 if (data.Index == NTMinerRoot.GpuAllId) {
-                    Write.UserWarn($"统一超频：核心({data.CoreClockDelta}),显存({data.MemoryClockDelta}),功耗({data.PowerCapacity}),温度({data.TempLimit}),风扇({data.Cool})");
+                    Write.UserWarn($"统一超频：核心({coreClockText}),显存({memoryClockText}),功耗({data.PowerCapacity}),温度({data.TempLimit}),风扇({data.Cool})");
                 }
                 else {
-                    Write.UserWarn($"GPU{gpu.Index}超频：核心({data.CoreClockDelta}),显存({data.MemoryClockDelta}),功耗({data.PowerCapacity}),温度({data.TempLimit}),风扇({data.Cool})");
+                    Write.UserWarn($"GPU{gpu.Index}超频：核心({coreClockText}),显存({memoryClockText}),功耗({data.PowerCapacity}),温度({data.TempLimit}),风扇({data.Cool})");
                 }
                 TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
                     foreach (var gpuIndex in effectGpus) {
