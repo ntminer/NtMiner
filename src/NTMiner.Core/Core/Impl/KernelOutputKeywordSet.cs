@@ -6,16 +6,16 @@ using System.Linq;
 using System.Text;
 
 namespace NTMiner.Core.Impl {
-    public class KernelOutputPickerSet : IKernelOutputPickerSet {
+    public class KernelOutputKeywordSet : IKernelOutputKeywordSet {
         public bool Contains(Guid id) {
             throw new NotImplementedException();
         }
 
-        public bool TryGetKernelOutputPicker(Guid id, out IKernelOutputPicker eventType) {
+        public bool TryGetKernelOutputPicker(Guid id, out IKernelOutputKeyword eventType) {
             throw new NotImplementedException();
         }
 
-        public IEnumerator<IKernelOutputPicker> GetEnumerator() {
+        public IEnumerator<IKernelOutputKeyword> GetEnumerator() {
             throw new NotImplementedException();
         }
 

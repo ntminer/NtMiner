@@ -113,8 +113,8 @@
     <Compile Include="Core\Gpus\Impl\NVIDIAOverClock.cs" />
     <Compile Include="Core\ICalcConfigSet.cs" />
     <Compile Include="Core\ICoinGroupSet.cs" />
-    <Compile Include="Core\IKernelOutputPickerSet.cs" />
-    <Compile Include="Core\Impl\KernelOutputPickerSet.cs" />
+    <Compile Include="Core\IKernelOutputKeywordSet.cs" />
+    <Compile Include="Core\Impl\KernelOutputKeywordSet.cs" />
     <Compile Include="Core\IWorkerEventSet.cs" />
     <Compile Include="Core\IWorkerEventTypeSet.cs" />
     <Compile Include="Core\IFileWriterSet.cs" />
