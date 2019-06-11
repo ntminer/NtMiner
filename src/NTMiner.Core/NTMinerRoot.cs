@@ -158,6 +158,7 @@ namespace NTMiner {
 
             ServerContextInit(isWork);
 
+            this.WorkerEventSet = new WorkerEventSet(this);
             this.UserSet = new UserSet();
             this.KernelProfileSet = new KernelProfileSet(this);
             this.GpusSpeed = new GpusSpeed(this);
@@ -219,7 +220,7 @@ namespace NTMiner {
             this.KernelOutputFilterSet = new KernelOutputFilterSet(this, isUseJson);
             this.KernelOutputTranslaterSet = new KernelOutputTranslaterSet(this, isUseJson);
             this.WorkerEventTypeSet = new WorkerEventTypeSet(this, isUseJson);
-            this.WorkerEventSet = new WorkerEventSet(this);
+            this.KernelOutputKeywordSet = new KernelOutputKeywordSet(this, isUseJson);
         }
 
         // MinerProfile对应local.litedb或local.json
@@ -721,5 +722,7 @@ namespace NTMiner {
         public IWorkerEventTypeSet WorkerEventTypeSet { get; private set; }
 
         public IWorkerEventSet WorkerEventSet { get; private set; }
+
+        public IKernelOutputKeywordSet KernelOutputKeywordSet { get; private set; }
     }
 }

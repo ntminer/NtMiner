@@ -99,6 +99,8 @@ namespace NTMiner {
 
         IWorkerEventSet WorkerEventSet { get; }
 
+        IKernelOutputKeywordSet KernelOutputKeywordSet { get; }
+
         string BuildAssembleArgs(out Dictionary<string, string> parameters, out Dictionary<Guid, string> fileWriters, out Dictionary<Guid, string> fragments);
     }
 }

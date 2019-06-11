@@ -95,6 +95,7 @@ namespace NTMiner {
             ServerJsonFileFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "server.json");
 
             LocalDbFileFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "local.litedb");
+            WorkerEventDbFileFullName = Path.Combine(TempDirFullName, "workerEvent.litedb");
             LocalJsonFileFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "local.json");
             GpuProfilesJsonFileFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "gpuProfiles.json");
         }
@@ -140,6 +141,7 @@ namespace NTMiner {
         }
 
         public static string LocalDbFileFullName { get; private set; }
+        public static string WorkerEventDbFileFullName { get; private set; }
         public static string LocalJsonFileFullName { get; private set; }
         public static string ServerDbFileFullName { get; private set; }
         public static string GpuProfilesJsonFileFullName { get; private set; }
