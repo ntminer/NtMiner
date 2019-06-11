@@ -140,28 +140,28 @@ namespace NTMiner {
             File.WriteAllText(GpuProfilesJsonFileFullName, json);
         }
 
-        public static string LocalDbFileFullName { get; private set; }
-        public static string WorkerEventDbFileFullName { get; private set; }
-        public static string LocalJsonFileFullName { get; private set; }
-        public static string ServerDbFileFullName { get; private set; }
-        public static string GpuProfilesJsonFileFullName { get; private set; }
+        public static readonly string LocalDbFileFullName;
+        public static readonly string WorkerEventDbFileFullName;
+        public static readonly string LocalJsonFileFullName;
+        public static readonly string ServerDbFileFullName;
+        public static readonly string GpuProfilesJsonFileFullName;
 
-        public static string ServerJsonFileFullName { get; private set; }
+        public static readonly string ServerJsonFileFullName;
 
-        public static string DaemonFileFullName { get; private set; }
-        public static string NTMinerServicesFileFullName { get; private set; }
+        public static readonly string DaemonFileFullName;
+        public static readonly string NTMinerServicesFileFullName;
 
-        public static string DevConsoleFileFullName { get; private set; }
+        public static readonly string DevConsoleFileFullName;
 
-        public static string NTMinerOverClockFileFullName { get; private set; }
+        public static readonly string NTMinerOverClockFileFullName;
 
-        public static string CommonDirFullName { get; private set; }
+        public static readonly string CommonDirFullName;
 
-        public static string ThisSystemDir { get; private set; }
-        public static string ThisSysWOW64Dir { get; private set; }
-        public static string ThisSystem32Dir { get; private set; }
+        public static readonly string ThisSystemDir;
+        public static readonly string ThisSysWOW64Dir;
+        public static readonly string ThisSystem32Dir;
 
-        public static string TempDirFullName { get; private set; }
+        public static readonly string TempDirFullName;
 
         private static bool _sIsFirstCallPackageDirFullName = true;
         public static string PackagesDirFullName {
