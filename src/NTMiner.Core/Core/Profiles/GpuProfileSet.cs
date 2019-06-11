@@ -101,10 +101,10 @@ namespace NTMiner.Core.Profiles {
                     memoryClockText = data.MemoryClockDelta.ToString();
                 }
                 if (data.Index == NTMinerRoot.GpuAllId) {
-                    Write.UserWarn($"统一超频：核心({coreClockText}),显存({memoryClockText}),功耗({data.PowerCapacity}),温度({data.TempLimit}),风扇({data.Cool})");
+                    Write.UserLine($"统一超频：核心({coreClockText}),显存({memoryClockText}),功耗({data.PowerCapacity}),温度({data.TempLimit}),风扇({data.Cool})", "超频", ConsoleColor.Yellow);
                 }
                 else {
-                    Write.UserWarn($"GPU{gpu.Index}超频：核心({coreClockText}),显存({memoryClockText}),功耗({data.PowerCapacity}),温度({data.TempLimit}),风扇({data.Cool})");
+                    Write.UserLine($"GPU{gpu.Index}超频：核心({coreClockText}),显存({memoryClockText}),功耗({data.PowerCapacity}),温度({data.TempLimit}),风扇({data.Cool})", "超频", ConsoleColor.Yellow);
                 }
                 TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
                     foreach (var gpuIndex in effectGpus) {

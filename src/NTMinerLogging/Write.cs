@@ -31,6 +31,10 @@ namespace NTMiner {
             UserLine($"NTMiner {messageType.ToString().PadLeft(10)}  {text}", messageType.ToConsoleColor());
         }
 
+        public static void UserLine(string text, string messageType, ConsoleColor color) {
+            UserLine($"NTMiner {messageType.PadLeft(10)}  {text}", color);
+        }
+
         public static void UserError(string text) {
             UserLine(text, MessageType.Error);
         }
