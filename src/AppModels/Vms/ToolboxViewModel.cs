@@ -22,7 +22,7 @@ namespace NTMiner.Vms {
             }, () => NTMinerRoot.Instance.GpuSet.GpuType == GpuType.AMD);
             this.AtikmdagPatcher = new DelegateCommand(() => {
                 VirtualRoot.Execute(new AtikmdagPatcherCommand());
-            });
+            }, () => NTMinerRoot.Instance.GpuSet.GpuType == GpuType.AMD);
             this.NavigateToNvidiaDriverWin10 = new DelegateCommand(() => {
                 Process.Start("https://www.geforce.cn/drivers/results/137770");
             });
