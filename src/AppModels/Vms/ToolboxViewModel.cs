@@ -5,6 +5,7 @@ using System.Windows.Input;
 namespace NTMiner.Vms {
     public class ToolboxViewModel : ViewModelBase {
         public ICommand SwitchRadeonGpu { get; private set; }
+        public ICommand AtikmdagPatcher { get; private set; }
         public ICommand NavigateToNvidiaDriverWin10 { get; private set; }
         public ICommand NavigateToNvidiaDriverWin7 { get; private set; }
         public ICommand NavigateToAmdDriver { get; private set; }
@@ -19,6 +20,9 @@ namespace NTMiner.Vms {
                     VirtualRoot.Execute(new SwitchRadeonGpuCommand());
                 }, icon: IconConst.IconConfirm);
             }, () => NTMinerRoot.Instance.GpuSet.GpuType == GpuType.AMD);
+            this.AtikmdagPatcher = new DelegateCommand(() => {
+                VirtualRoot.Execute(new AtikmdagPatcherCommand());
+            });
             this.NavigateToNvidiaDriverWin10 = new DelegateCommand(() => {
                 Process.Start("https://www.geforce.cn/drivers/results/137770");
             });

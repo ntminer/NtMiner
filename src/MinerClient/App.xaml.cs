@@ -226,6 +226,22 @@ namespace NTMiner {
                     }
                 });
             #endregion
+            #region 处理A卡驱动签名
+            VirtualRoot.Window<AtikmdagPatcherCommand>("处理A卡驱动签名命令", LogEnum.DevConsole,
+                action: message => {
+                    if (NTMinerRoot.Instance.GpuSet.GpuType == GpuType.AMD) {
+                        if (NTMinerRoot.Instance.IsMining) {
+                            NTMinerRoot.Instance.StopMineAsync(() => {
+                                AtikmdagPatcher.AtikmdagPatcher.Run();
+                                NTMinerRoot.Instance.StartMine();
+                            });
+                        }
+                        else {
+                            AtikmdagPatcher.AtikmdagPatcher.Run();
+                        }
+                    }
+                });
+            #endregion
         }
 
         private static void SwitchRadeonGpuMode() {

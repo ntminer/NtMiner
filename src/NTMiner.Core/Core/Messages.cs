@@ -52,6 +52,12 @@ namespace NTMiner.Core {
         }
     }
 
+    [MessageType(description: "A卡驱动签名")]
+    public class AtikmdagPatcherCommand : Cmd {
+        public AtikmdagPatcherCommand() {
+        }
+    }
+
     [MessageType(description: "注册右键打开windindows命令行菜单")]
     public class RegCmdHereCommand : Cmd {
         public RegCmdHereCommand() { }
