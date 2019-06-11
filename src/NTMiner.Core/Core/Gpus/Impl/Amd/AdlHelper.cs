@@ -161,12 +161,13 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
                 int adapterIndex = GpuIndexToAdapterIndex(gpuIndex);
                 ADLODNPerformanceLevelsX2 lpODPerformanceLevels = ADLODNPerformanceLevelsX2.Create();
                 var result = ADL.ADL2_OverdriveN_MemoryClocksX2_Get(context, adapterIndex, ref lpODPerformanceLevels);
-                foreach (var level in lpODPerformanceLevels.aLevels) {
-                    if (level.iControl == 7) {
-                        return level.iClock * 10;
+                int index = 0;
+                for (int i = 0; i < lpODPerformanceLevels.aLevels.Length; i++) {
+                    if (lpODPerformanceLevels.aLevels[i].iEnabled != 0) {
+                        index = i;
                     }
                 }
-                return 0;
+                return lpODPerformanceLevels.aLevels[index].iClock * 10;
             }
             catch {
                 return 0;
@@ -217,7 +218,13 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
                 int adapterIndex = GpuIndexToAdapterIndex(gpuIndex);
                 ADLODNPerformanceLevelsX2 lpODPerformanceLevels = ADLODNPerformanceLevelsX2.Create();
                 var result = ADL.ADL2_OverdriveN_SystemClocksX2_Get(context, adapterIndex, ref lpODPerformanceLevels);
-                return lpODPerformanceLevels.aLevels[lpODPerformanceLevels.aLevels.Length - 1].iClock * 10;
+                int index = 0;
+                for (int i = 0; i < lpODPerformanceLevels.aLevels.Length; i++) {
+                    if (lpODPerformanceLevels.aLevels[i].iEnabled != 0) {
+                        index = i;
+                    }
+                }
+                return lpODPerformanceLevels.aLevels[index].iClock * 10;
             }
             catch {
                 return 0;
