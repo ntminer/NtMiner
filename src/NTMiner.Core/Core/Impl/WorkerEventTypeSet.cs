@@ -14,7 +14,7 @@ namespace NTMiner.Core.Impl {
         public WorkerEventTypeSet(INTMinerRoot root, bool isUseJson) {
             _root = root;
             _isUseJson = isUseJson;
-            _root.ServerContextWindow<AddMinerEventTypeCommand>("添加事件类型", LogEnum.DevConsole,
+            _root.ServerContextWindow<AddWorkerEventTypeCommand>("添加事件类型", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -31,9 +31,9 @@ namespace NTMiner.Core.Impl {
                     var repository = NTMinerRoot.CreateCompositeRepository<WorkerEventTypeData>(isUseJson);
                     repository.Add(entity);
 
-                    VirtualRoot.Happened(new MinerEventTypeAddedEvent(entity));
+                    VirtualRoot.Happened(new WorkerEventTypeAddedEvent((IWorkerEventType)entity));
                 });
-            _root.ServerContextWindow<UpdateMinerEventTypeCommand>("更新事件类型", LogEnum.DevConsole,
+            _root.ServerContextWindow<UpdateWorkerEventTypeCommand>("更新事件类型", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -53,9 +53,9 @@ namespace NTMiner.Core.Impl {
                     var repository = NTMinerRoot.CreateCompositeRepository<WorkerEventTypeData>(isUseJson);
                     repository.Update(entity);
 
-                    VirtualRoot.Happened(new MinerEventTypeUpdatedEvent(entity));
+                    VirtualRoot.Happened(new WorkerEventTypeUpdatedEvent((IWorkerEventType)entity));
                 });
-            _root.ServerContextWindow<RemoveMinerEventTypeCommand>("移除事件类型", LogEnum.DevConsole,
+            _root.ServerContextWindow<RemoveWorkerEventTypeCommand>("移除事件类型", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {
@@ -69,12 +69,12 @@ namespace NTMiner.Core.Impl {
                     var repository = NTMinerRoot.CreateCompositeRepository<WorkerEventTypeData>(isUseJson);
                     repository.Remove(message.EntityId);
 
-                    VirtualRoot.Happened(new MinerEventTypeRemovedEvent(entity));
+                    VirtualRoot.Happened(new WorkerEventTypeRemovedEvent((IWorkerEventType)entity));
                 });
         }
 
         private bool _isInited = false;
-        private object _locker = new object();
+        private readonly object _locker = new object();
 
         private void InitOnece() {
             if (_isInited) {

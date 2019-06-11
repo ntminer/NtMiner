@@ -47,9 +47,9 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                this.ShowDialog(message: $"您确定删除{this.Name}矿机事件类型吗？", title: "确认", onYes: () => {
-                    VirtualRoot.Execute(new RemoveWorkerEventTypeCommand(this.Id));
-                }, icon: IconConst.IconConfirm);
+                (this).ShowDialog(message: (string)$"您确定删除{this.Name}矿机事件类型吗？", title: (string)"确认", onYes: (Action)(() => {
+                    VirtualRoot.Execute((Bus.ICmd)new RemoveWorkerEventTypeCommand((Guid)this.Id));
+                }), icon: (string)IconConst.IconConfirm);
             });
         }
 
