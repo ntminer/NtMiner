@@ -43,7 +43,9 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
                         ADLAdapterInfo[] adapterInfo = new ADLAdapterInfo[numberOfAdapters];
                         if (ADL.ADL_Adapter_AdapterInfo_Get(adapterInfo) == ADL.ADL_OK) {
                             for (int i = 0; i < numberOfAdapters; i++) {
-                                ADL.ADL_Adapter_Active_Get(adapterInfo[i].AdapterIndex, out int isActive);
+#if DEBUG
+                                Write.DevDebug(adapterInfo[i].ToString());
+#endif
                                 if (!string.IsNullOrEmpty(adapterInfo[i].UDID) && adapterInfo[i].VendorID == ADL.ATI_VENDOR_ID) {
                                     bool found = false;
                                     foreach (ATIGPU gpu in _gpuNames) {
@@ -65,10 +67,10 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
                     }
                     ADL.ADL2_Main_Control_Create(ADL.Main_Memory_Alloc, 1, ref context);
                 }
+                _gpuNames = _gpuNames.OrderBy(a => a.BusNumber).ToList();
 #if DEBUG
                 Write.DevDebug(string.Join(",", _gpuNames.Select(a => a.AdapterIndex)));
 #endif
-                _gpuNames = _gpuNames.OrderBy(a => a.BusNumber).ToList();
             }
             catch {
                 return false;

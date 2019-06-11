@@ -26,6 +26,10 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = ADL.ADL_MAX_PATH)]
         public string PNPString;
         public int OSDisplayIndex;
+
+        public override string ToString() {
+            return $"Size={Size},AdapterIndex={AdapterIndex},UDID={UDID},BusNumber={BusNumber},DeviceNumber={DeviceNumber},FunctionNumber={FunctionNumber},VendorID={VendorID},AdapterName={AdapterName},DisplayName={DisplayName},Present={Present},Exist={Exist},PNPString={PNPString},OSDisplayIndex={OSDisplayIndex}";
+        }
     }
 
     [StructLayout(LayoutKind.Sequential)]
