@@ -153,7 +153,7 @@ namespace NTMiner.Vms {
 
         public string PublishOnText {
             get {
-                return this.PublishOn.ToString("yyyy-MM-dd HH:mm:ss");
+                return this.PublishOn.ToString("yyyy-MM-dd");
             }
         }
 
