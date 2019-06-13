@@ -20,5 +20,6 @@
         public int MemoryClockDelta { get; set; }
         public int Cool { get; set; }
         public double PowerCapacity { get; set; }
+        public int TempLimit { get; set; }
     }
 }

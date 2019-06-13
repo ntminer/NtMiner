@@ -118,21 +118,48 @@
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
-			<DataGridTemplateColumn Header="功耗" Width="60" IsReadOnly="True">
+			<DataGridTemplateColumn Width="60" IsReadOnly="True">
+				<DataGridTemplateColumn.HeaderTemplate>
+					<DataTemplate>
+						<TextBlock Text="超频功耗" TextWrapping="Wrap" FontSize="12"></TextBlock>
+					</DataTemplate>
+				</DataGridTemplateColumn.HeaderTemplate>
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding PowerCapacityText}"></TextBlock>
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
-			<DataGridTemplateColumn Header="核心" Width="60" IsReadOnly="True">
+			<DataGridTemplateColumn Width="60" IsReadOnly="True">
+				<DataGridTemplateColumn.HeaderTemplate>
+					<DataTemplate>
+						<TextBlock Text="超频温度" TextWrapping="Wrap" FontSize="12"></TextBlock>
+					</DataTemplate>
+				</DataGridTemplateColumn.HeaderTemplate>
+				<DataGridTemplateColumn.CellTemplate>
+					<DataTemplate>
+						<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding TempLimitText}"></TextBlock>
+					</DataTemplate>
+				</DataGridTemplateColumn.CellTemplate>
+			</DataGridTemplateColumn>
+			<DataGridTemplateColumn Width="60" IsReadOnly="True">
+				<DataGridTemplateColumn.HeaderTemplate>
+					<DataTemplate>
+						<TextBlock Text="超频核心" TextWrapping="Wrap" FontSize="12"></TextBlock>
+					</DataTemplate>
+				</DataGridTemplateColumn.HeaderTemplate>
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding CoreClockDeltaMText}"></TextBlock>
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
-			<DataGridTemplateColumn Header="显存" Width="60" IsReadOnly="True">
+			<DataGridTemplateColumn Width="60" IsReadOnly="True">
+				<DataGridTemplateColumn.HeaderTemplate>
+					<DataTemplate>
+						<TextBlock Text="超频显存" TextWrapping="Wrap" FontSize="12"></TextBlock>
+					</DataTemplate>
+				</DataGridTemplateColumn.HeaderTemplate>
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding MemoryClockDeltaMText}"></TextBlock>
