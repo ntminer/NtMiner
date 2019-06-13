@@ -56,7 +56,7 @@
 							FontSize="18" Foreground="Red"
 							Visibility="{Binding ServerLatestVm.Title, Converter={StaticResource NotNullOrEmptyVisibilityInvertConverter}}">发现新版本，请更新</TextBlock>
 					</WrapPanel>
-					<WrapPanel HorizontalAlignment="Center">
+					<WrapPanel HorizontalAlignment="Center" Margin="0 10 0 0">
 						<TextBlock TextAlignment="Right" FontSize="14">本地版本：</TextBlock>
 						<TextBlock Width="80" Text="{Binding LocalNTMinerVersion}" FontSize="14"></TextBlock>
 						<TextBlock Margin="4 0 0 0" Text="{Binding LocalNTMinerVersionTag}" FontSize="14"></TextBlock>
