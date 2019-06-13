@@ -7,14 +7,15 @@
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 		xmlns:vm="clr-namespace:NTMiner.Vms"
 		xmlns:local="clr-namespace:NTMiner.Views"
-		mc:Ignorable="d"
 		ResizeMode="NoResize"
 		Background="White"
 		BorderThickness="0.8"
 		BorderBrush="{StaticResource IconFillColor}"
+		mc:Ignorable="d"
+		d:DataContext="{d:DesignData Source=Design/NTMinerFileViewModel.xaml}"
 		WindowStartupLocation="CenterOwner"
 		MouseDown="MetroWindow_MouseDown"
-		Title="NTMinerFileEdit" Height="230" Width="300">
+		Title="NTMinerFileEdit" SizeToContent="Height" Width="300">
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="30"></RowDefinition>
@@ -49,16 +50,27 @@
 				<TextBox Width="180" Text="{Binding Version, ValidatesOnExceptions=True}" Background="White" VerticalContentAlignment="Center"></TextBox>
 			</WrapPanel>
 			<WrapPanel Margin="0 2">
-				<TextBlock Width="80" TextAlignment="Right">别名：</TextBlock>
-				<TextBox Width="180" Text="{Binding VersionTag, ValidatesOnExceptions=True}" Background="White" VerticalContentAlignment="Center"></TextBox>
-			</WrapPanel>
-			<WrapPanel Margin="0 2">
 				<TextBlock Width="80" TextAlignment="Right">文件名：</TextBlock>
 				<TextBox Width="180" Text="{Binding FileName, ValidatesOnExceptions=True}" Background="White" VerticalContentAlignment="Center"></TextBox>
 			</WrapPanel>
 			<WrapPanel Margin="0 2">
+				<TextBlock Width="80" TextAlignment="Right">别名：</TextBlock>
+				<TextBox Width="180" Text="{Binding VersionTag, ValidatesOnExceptions=True}" Background="White" VerticalContentAlignment="Center"></TextBox>
+			</WrapPanel>
+			<WrapPanel Margin="0 2">
+				<TextBlock Width="80" TextAlignment="Right">标题：</TextBlock>
+				<TextBox Width="180" Text="{Binding Title, ValidatesOnExceptions=True}" Background="White" VerticalContentAlignment="Center"></TextBox>
+			</WrapPanel>
+			<WrapPanel Margin="0 2">
+				<TextBlock Width="80" TextAlignment="Right">说明：</TextBlock>
+				<controls:KbMuiltilineTextBox 
+					Width="180" 
+					Height="100"
+					Text="{Binding Description, ValidatesOnExceptions=True}" Background="White"></controls:KbMuiltilineTextBox>
+			</WrapPanel>
+			<WrapPanel Margin="0 2">
 				<TextBlock Width="80" TextAlignment="Right">发布时间：</TextBlock>
-				<TextBox IsReadOnly="True" Width="180" BorderThickness="0" VerticalContentAlignment="Center" Text="{Binding PublishOnText, Mode=OneWay}"></TextBox>
+				<TextBlock Width="180" Text="{Binding PublishOnText, Mode=OneWay}"></TextBlock>
 			</WrapPanel>
 		</StackPanel>
 		<Grid Grid.Row="2" Background="White" Height="40">
