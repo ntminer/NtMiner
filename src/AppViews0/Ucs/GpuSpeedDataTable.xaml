@@ -81,7 +81,15 @@
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
-			<DataGridTemplateColumn Header="温度" Width="50" IsReadOnly="True">
+			<DataGridTemplateColumn Width="50" IsReadOnly="True">
+				<DataGridTemplateColumn.HeaderTemplate>
+					<DataTemplate>
+						<StackPanel>
+							<TextBlock Text="温度" FontSize="12"></TextBlock>
+							<TextBlock Text="{Binding Data.TemperatureSumText, Source={StaticResource proxy2}}" FontSize="11"></TextBlock>
+						</StackPanel>
+					</DataTemplate>
+				</DataGridTemplateColumn.HeaderTemplate>
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<TextBlock Foreground="{Binding TemperatureForeground}" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding TemperatureText}"></TextBlock>
