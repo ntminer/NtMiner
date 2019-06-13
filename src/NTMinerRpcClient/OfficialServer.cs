@@ -7,9 +7,10 @@ using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace NTMiner {
-    public static class OfficialServer {
+    public static partial class OfficialServer {
         public static readonly FileUrlServiceFace FileUrlService = FileUrlServiceFace.Instance;
         public static readonly OverClockDataServiceFace OverClockDataService = OverClockDataServiceFace.Instance;
+        public static readonly CalcConfigServiceFace CalcConfigService = CalcConfigServiceFace.Instance;
 
         #region private methods
         private static void PostAsync<T>(string controller, string action, object param, Action<T, Exception> callback, int timeountMilliseconds = 0) where T : class {
@@ -19,8 +20,7 @@ namespace NTMiner {
                         if (timeountMilliseconds != 0) {
                             client.Timeout = TimeSpan.FromMilliseconds(timeountMilliseconds);
                         }
-                        Task<HttpResponseMessage> message =
-                            client.PostAsJsonAsync($"http://{AssemblyInfo.OfficialServerHost}:{Consts.ControlCenterPort}/api/{controller}/{action}", param);
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{AssemblyInfo.OfficialServerHost}:{Consts.ControlCenterPort}/api/{controller}/{action}", param);
                         T response = message.Result.Content.ReadAsAsync<T>().Result;
                         callback?.Invoke(response, null);
                     }
@@ -40,8 +40,7 @@ namespace NTMiner {
                             queryString = "?" + string.Join("&", param.Select(a => a.Key + "=" + a.Value));
                         }
 
-                        Task<HttpResponseMessage> message =
-                            client.GetAsync($"http://{AssemblyInfo.OfficialServerHost}:{Consts.ControlCenterPort}/api/{controller}/{action}{queryString}");
+                        Task<HttpResponseMessage> message = client.GetAsync($"http://{AssemblyInfo.OfficialServerHost}:{Consts.ControlCenterPort}/api/{controller}/{action}{queryString}");
                         T response = message.Result.Content.ReadAsAsync<T>().Result;
                         callback?.Invoke(response, null);
                     }
@@ -59,43 +58,7 @@ namespace NTMiner {
             });
         }
 
-        #region GetCalcConfigs
-        public static void GetCalcConfigsAsync(Action<List<CalcConfigData>> callback) {
-            Task.Factory.StartNew(() => {
-                try {
-                    CalcConfigsRequest request = new CalcConfigsRequest {
-                    };
-                    PostAsync("ControlCenter", nameof(IControlCenterController.CalcConfigs), request, (DataResponse<List<CalcConfigData>> response, Exception e) => {
-                        if (response.IsSuccess()) {
-                            callback?.Invoke(response.Data);
-                        }
-                        else {
-                            callback?.Invoke(new List<CalcConfigData>());
-                        }
-                    }, timeountMilliseconds: 10 * 1000);
-                }
-                catch (Exception e) {
-                    callback?.Invoke(new List<CalcConfigData>());
-                    Logger.ErrorDebugLine(e);
-                }
-            });
-        }
-        #endregion
-
-        #region SaveCalcConfigsAsync
-        public static void SaveCalcConfigsAsync(List<CalcConfigData> configs, Action<ResponseBase, Exception> callback) {
-            if (configs == null || configs.Count == 0) {
-                return;
-            }
-            SaveCalcConfigsRequest request = new SaveCalcConfigsRequest {
-                Data = configs,
-                LoginName = SingleUser.LoginName
-            };
-            request.SignIt(SingleUser.PasswordSha1);
-            PostAsync("ControlCenter", nameof(IControlCenterController.SaveCalcConfigs), request, callback);
-        }
-        #endregion
-
+        #region GetJsonFileVersionAsync
         public static void GetJsonFileVersionAsync(string key, Action<string, string> callback) {
             AppSettingRequest request = new AppSettingRequest {
                 Key = key
@@ -115,123 +78,6 @@ namespace NTMiner {
                 callback?.Invoke(jsonFileVersion, minerClientVersion);
             }, timeountMilliseconds: 10 * 1000);
         }
-
-        public class FileUrlServiceFace {
-            public static readonly FileUrlServiceFace Instance = new FileUrlServiceFace();
-            private static readonly string SControllerName = ControllerUtil.GetControllerName<IFileUrlController>();
-
-            private FileUrlServiceFace() { }
-
-            #region GetNTMinerUrlAsync
-            // ReSharper disable once InconsistentNaming
-            public void GetNTMinerUrlAsync(string fileName, Action<string, Exception> callback) {
-                NTMinerUrlRequest request = new NTMinerUrlRequest {
-                    FileName = fileName
-                };
-                PostAsync(SControllerName, nameof(IFileUrlController.NTMinerUrl), request, callback);
-            }
-            #endregion
-
-            #region GetNTMinerFilesAsync
-            // ReSharper disable once InconsistentNaming
-            public void GetNTMinerFilesAsync(NTMinerAppType appType, Action<List<NTMinerFileData>, Exception> callback) {
-                PostAsync<List<NTMinerFileData>>(SControllerName, nameof(IFileUrlController.NTMinerFiles), null, callback: (data, e) => {
-                    if (data != null) {
-                        data = data.Where(a => a.AppType == appType).ToList();
-                    }
-                    callback?.Invoke(data, e);
-                });
-            }
-            #endregion
-
-            #region AddOrUpdateNTMinerFileAsync
-            // ReSharper disable once InconsistentNaming
-            public void AddOrUpdateNTMinerFileAsync(NTMinerFileData entity, Action<ResponseBase, Exception> callback) {
-                DataRequest<NTMinerFileData> request = new DataRequest<NTMinerFileData>() {
-                    Data = entity,
-                    LoginName = SingleUser.LoginName
-                };
-                request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(SControllerName, nameof(IFileUrlController.AddOrUpdateNTMinerFile), request, callback);
-            }
-            #endregion
-
-            #region RemoveNTMinerFileAsync
-            // ReSharper disable once InconsistentNaming
-            public void RemoveNTMinerFileAsync(Guid id, Action<ResponseBase, Exception> callback) {
-                DataRequest<Guid> request = new DataRequest<Guid>() {
-                    LoginName = SingleUser.LoginName,
-                    Data = id
-                };
-                request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(SControllerName, nameof(IFileUrlController.RemoveNTMinerFile), request, callback);
-            }
-            #endregion
-
-            #region GetLiteDbExplorerUrlAsync
-            public void GetLiteDbExplorerUrlAsync(Action<string, Exception> callback) {
-                PostAsync(SControllerName, nameof(IFileUrlController.LiteDbExplorerUrl), null, callback);
-            }
-            #endregion
-
-            #region GetNTMinerUpdaterUrlAsync
-            // ReSharper disable once InconsistentNaming
-            public void GetNTMinerUpdaterUrlAsync(Action<string, Exception> callback) {
-                PostAsync(SControllerName, nameof(IFileUrlController.NTMinerUpdaterUrl), null, callback, timeountMilliseconds: 2000);
-            }
-            #endregion
-
-            #region GetPackageUrlAsync
-            public void GetPackageUrlAsync(string package, Action<string, Exception> callback) {
-                PackageUrlRequest request = new PackageUrlRequest {
-                    Package = package
-                };
-                PostAsync(SControllerName, nameof(IFileUrlController.PackageUrl), request, callback);
-            }
-            #endregion
-        }
-
-        public class OverClockDataServiceFace {
-            public static readonly OverClockDataServiceFace Instance = new OverClockDataServiceFace();
-            private static readonly string SControllerName = ControllerUtil.GetControllerName<IOverClockDataController>();
-
-            private OverClockDataServiceFace() { }
-
-            #region GetOverClockDatas
-            public void GetOverClockDatasAsync(Action<DataResponse<List<OverClockData>>, Exception> callback) {
-                try {
-                    OverClockDatasRequest request = new OverClockDatasRequest {
-                    };
-                    PostAsync(SControllerName, nameof(IOverClockDataController.OverClockDatas), request, callback);
-                }
-                catch (Exception e) {
-                    Logger.ErrorDebugLine(e);
-                    callback?.Invoke(null, e);
-                }
-            }
-            #endregion
-
-            #region AddOrUpdateOverClockDataAsync
-            public void AddOrUpdateOverClockDataAsync(OverClockData entity, Action<ResponseBase, Exception> callback) {
-                DataRequest<OverClockData> request = new DataRequest<OverClockData>() {
-                    LoginName = SingleUser.LoginName,
-                    Data = entity
-                };
-                request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(SControllerName, nameof(IOverClockDataController.AddOrUpdateOverClockData), request, callback);
-            }
-            #endregion
-
-            #region RemoveOverClockDataAsync
-            public void RemoveOverClockDataAsync(Guid id, Action<ResponseBase, Exception> callback) {
-                DataRequest<Guid> request = new DataRequest<Guid>() {
-                    LoginName = SingleUser.LoginName,
-                    Data = id
-                };
-                request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(SControllerName, nameof(IOverClockDataController.RemoveOverClockData), request, callback);
-            }
-            #endregion
-        }
+        #endregion
     }
 }
