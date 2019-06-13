@@ -1,5 +1,4 @@
 ﻿using NTMiner.Core.Gpus.Impl.Amd;
-using System.Collections.Generic;
 
 namespace NTMiner.Core.Gpus.Impl {
     public class AMDOverClock : IOverClock {
@@ -8,39 +7,39 @@ namespace NTMiner.Core.Gpus.Impl {
             _adlHelper = adlHelper;
         }
 
-        public void SetCoreClock(int gpuIndex, int value, ref HashSet<int> effectGpus) {
+        public void SetCoreClock(int gpuIndex, int value) {
             if (gpuIndex == NTMinerRoot.GpuAllId) {
                 foreach (var gpu in NTMinerRoot.Instance.GpuSet) {
                     if (gpu.Index == NTMinerRoot.GpuAllId) {
                         continue;
                     }
-                    effectGpus.Add(gpu.Index);
                     _adlHelper.SetSystemClockByIndex(gpu.Index, value);
+                    this.RefreshGpuState(gpu.Index);
                 }
             }
             else {
-                effectGpus.Add(gpuIndex);
                 _adlHelper.SetSystemClockByIndex(gpuIndex, value);
+                this.RefreshGpuState(gpuIndex);
             }
         }
 
-        public void SetMemoryClock(int gpuIndex, int value, ref HashSet<int> effectGpus) {
+        public void SetMemoryClock(int gpuIndex, int value) {
             if (gpuIndex == NTMinerRoot.GpuAllId) {
                 foreach (var gpu in NTMinerRoot.Instance.GpuSet) {
                     if (gpu.Index == NTMinerRoot.GpuAllId) {
                         continue;
                     }
-                    effectGpus.Add(gpu.Index);
                     _adlHelper.SetMemoryClockByIndex(gpu.Index, value);
+                    this.RefreshGpuState(gpu.Index);
                 }
             }
             else {
-                effectGpus.Add(gpuIndex);
                 _adlHelper.SetMemoryClockByIndex(gpuIndex, value);
+                this.RefreshGpuState(gpuIndex);
             }
         }
 
-        public void SetPowerCapacity(int gpuIndex, int value, ref HashSet<int> effectGpus) {
+        public void SetPowerCapacity(int gpuIndex, int value) {
             if (value == 0) {
                 return;
             }
@@ -49,17 +48,17 @@ namespace NTMiner.Core.Gpus.Impl {
                     if (gpu.Index == NTMinerRoot.GpuAllId) {
                         continue;
                     }
-                    effectGpus.Add(gpu.Index);
                     _adlHelper.SetPowerLimitByIndex(gpu.Index, value);
+                    this.RefreshGpuState(gpu.Index);
                 }
             }
             else {
-                effectGpus.Add(gpuIndex);
                 _adlHelper.SetPowerLimitByIndex(gpuIndex, value);
+                this.RefreshGpuState(gpuIndex);
             }
         }
 
-        public void SetThermCapacity(int gpuIndex, int value, ref HashSet<int> effectGpus) {
+        public void SetThermCapacity(int gpuIndex, int value) {
             if (value == 0) {
                 return;
             }
@@ -68,17 +67,17 @@ namespace NTMiner.Core.Gpus.Impl {
                     if (gpu.Index == NTMinerRoot.GpuAllId) {
                         continue;
                     }
-                    effectGpus.Add(gpu.Index);
                     _adlHelper.SetTempLimitByIndex(gpu.Index, value);
+                    this.RefreshGpuState(gpu.Index);
                 }
             }
             else {
-                effectGpus.Add(gpuIndex);
                 _adlHelper.SetTempLimitByIndex(gpuIndex, value);
+                this.RefreshGpuState(gpuIndex);
             }
         }
 
-        public void SetCool(int gpuIndex, int value, ref HashSet<int> effectGpus) {
+        public void SetCool(int gpuIndex, int value) {
             if (value == 0) {
                 return;
             }
@@ -87,13 +86,13 @@ namespace NTMiner.Core.Gpus.Impl {
                     if (gpu.Index == NTMinerRoot.GpuAllId) {
                         continue;
                     }
-                    effectGpus.Add(gpu.Index);
                     _adlHelper.SetFunSpeedByIndex(gpu.Index, value);
+                    this.RefreshGpuState(gpu.Index);
                 }
             }
             else {
-                effectGpus.Add(gpuIndex);
                 _adlHelper.SetFunSpeedByIndex(gpuIndex, value);
+                this.RefreshGpuState(gpuIndex);
             }
         }
 
