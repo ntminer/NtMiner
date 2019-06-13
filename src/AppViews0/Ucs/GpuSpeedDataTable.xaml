@@ -130,10 +130,20 @@
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
-			<DataGridTemplateColumn Width="60" IsReadOnly="True">
+			<DataGridTemplateColumn Width="70" IsReadOnly="True">
 				<DataGridTemplateColumn.HeaderTemplate>
 					<DataTemplate>
-						<TextBlock Text="超频温度" TextWrapping="Wrap" FontSize="12"></TextBlock>
+						<WrapPanel>
+							<TextBlock 
+								Text="超频温度" TextWrapping="Wrap" FontSize="12"
+								ToolTip="'超频温度'可能显示为0，因为挖矿端自2.2.0.6开始上报超频温度"></TextBlock>
+							<Path
+								Width="16"
+								Height="16"
+								Data="{StaticResource Icon_Help}"
+								Fill="{StaticResource IconFillColor}"
+								Stretch="Fill" />
+						</WrapPanel>
 					</DataTemplate>
 				</DataGridTemplateColumn.HeaderTemplate>
 				<DataGridTemplateColumn.CellTemplate>
