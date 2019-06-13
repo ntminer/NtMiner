@@ -35,10 +35,10 @@
 			<!--start升级到服务器最新版本-->
 			<Grid Visibility="{Binding IsHistoryVisible, Converter={StaticResource VisibilityInvertConverter}}">
 				<Grid.RowDefinitions>
-					<RowDefinition Height="230"></RowDefinition>
+					<RowDefinition Height="240"></RowDefinition>
 					<RowDefinition Height="*"></RowDefinition>
 				</Grid.RowDefinitions>
-				<Image HorizontalAlignment="Center" VerticalAlignment="Top" Width="180" Height="180" Margin="0 20 0 0" Source="{Binding BigLogoImageSource}">
+				<Image VerticalAlignment="Top" Width="180" Height="180" Margin="0 20 0 0" Source="{Binding BigLogoImageSource}">
 				</Image>
 				<StackPanel Grid.Row="1" Visibility="{Binding IsReady, Converter={StaticResource BoolToVisibilityInvertConverter}}">
 					<TextBlock Margin="0 12 0 0" FontSize="18" HorizontalAlignment="Center">检查中</TextBlock>
@@ -46,19 +46,25 @@
 				<StackPanel Grid.Row="1" Visibility="{Binding IsReady, Converter={StaticResource BoolToVisibilityConverter}}">
 					<TextBlock 
 						Visibility="{Binding LocalIsLatest, Converter={StaticResource BoolToVisibilityConverter}}"
-						HorizontalAlignment="Center" FontSize="18">开源矿工已是最新版本</TextBlock>
-					<TextBlock 
-						Visibility="{Binding LocalIsLatest, Converter={StaticResource BoolToVisibilityInvertConverter}}"
-						HorizontalAlignment="Center" FontSize="18" Foreground="Red">发现新版本，请更新</TextBlock>
-					<WrapPanel>
-						<TextBlock Width="146" TextAlignment="Right">当前版本：</TextBlock>
-						<TextBlock Text="{Binding LocalNTMinerVersion}"></TextBlock>
-						<TextBlock Margin="4 0 0 0" Text="{Binding LocalNTMinerVersionTag}"></TextBlock>
+						HorizontalAlignment="Center" FontSize="18">已是最新版本</TextBlock>
+					<WrapPanel HorizontalAlignment="Center" Background="White" Visibility="{Binding LocalIsLatest, Converter={StaticResource BoolToVisibilityInvertConverter}}">
+						<TextBlock 
+							Visibility="{Binding ServerLatestVm.Title, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
+							Text="{Binding ServerLatestVm.Title}"
+							FontSize="18" Foreground="Red"></TextBlock>
+						<TextBlock 
+							FontSize="18" Foreground="Red"
+							Visibility="{Binding ServerLatestVm.Title, Converter={StaticResource NotNullOrEmptyVisibilityInvertConverter}}">发现新版本，请更新</TextBlock>
 					</WrapPanel>
-					<WrapPanel Visibility="{Binding LocalIsLatest, Converter={StaticResource BoolToVisibilityInvertConverter}}">
-						<TextBlock Width="146" TextAlignment="Right">可更新至：</TextBlock>
-						<TextBlock Text="{Binding ServerLatestVm.Version}"></TextBlock>
-						<TextBlock Margin="4 0 0 0" Text="{Binding ServerLatestVm.VersionTag}"></TextBlock>
+					<WrapPanel HorizontalAlignment="Center">
+						<TextBlock TextAlignment="Right" FontSize="14">本地版本：</TextBlock>
+						<TextBlock Width="80" Text="{Binding LocalNTMinerVersion}" FontSize="14"></TextBlock>
+						<TextBlock Margin="4 0 0 0" Text="{Binding LocalNTMinerVersionTag}" FontSize="14"></TextBlock>
+					</WrapPanel>
+					<WrapPanel HorizontalAlignment="Center" Visibility="{Binding LocalIsLatest, Converter={StaticResource BoolToVisibilityInvertConverter}}">
+						<TextBlock TextAlignment="Right" FontSize="14">可更新至：</TextBlock>
+						<TextBlock Width="80" Text="{Binding ServerLatestVm.Version}" FontSize="14"></TextBlock>
+						<TextBlock Margin="4 0 0 0" Text="{Binding ServerLatestVm.VersionTag}" FontSize="14"></TextBlock>
 					</WrapPanel>
 				</StackPanel>
 			</Grid>
@@ -67,7 +73,7 @@
 			<!--start历史版本列表-->
 			<Grid Visibility="{Binding IsHistoryVisible}" Background="White">
 				<Grid.RowDefinitions>
-					<RowDefinition Height="230"></RowDefinition>
+					<RowDefinition Height="240"></RowDefinition>
 					<RowDefinition Height="*"></RowDefinition>
 				</Grid.RowDefinitions>
 				<DataGrid  

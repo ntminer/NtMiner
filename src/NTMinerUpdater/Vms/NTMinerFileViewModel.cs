@@ -16,6 +16,7 @@ namespace NTMiner.Vms {
         private Guid _id;
         private NTMinerAppType _appType;
         private DateTime _publishOn;
+        private string _title;
 
         public ICommand Save { get; private set; }
         public ICommand Edit { get; private set; }
@@ -79,6 +80,7 @@ namespace NTMiner.Vms {
             _versionTag = data.VersionTag;
             _createdOn = data.CreatedOn;
             _publishOn = data.PublishOn;
+            _title = data.Title;
             if (!System.Version.TryParse(_version, out _versionData)) {
                 _versionData = new Version(1, 0);
             }
@@ -123,6 +125,14 @@ namespace NTMiner.Vms {
                 if (MainWindowViewModel.Instance.NTMinerFiles.Any(a => a.Version == value && a.Id != this.Id)) {
                     throw new ValidationException("重复的版本号");
                 }
+            }
+        }
+
+        public string Title {
+            get => _title;
+            set {
+                _title = value;
+                OnPropertyChanged(nameof(Title));
             }
         }
 

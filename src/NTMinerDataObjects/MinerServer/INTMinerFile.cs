@@ -15,5 +15,7 @@ namespace NTMiner.MinerServer {
         DateTime CreatedOn { get; }
 
         DateTime PublishOn { get; }
+
+        string Title { get; }
     }
 }
