@@ -113,7 +113,7 @@
 					<controls:KbButton
 						Visibility="{Binding IsPasswordAgainVisible,Converter={StaticResource VisibilityInvertConverter}}"
 						IsDefault="True"
-						Padding="10 0"
+						Padding="15 2"
 						Click="BtnLogin_OnClick"
 						Background="{StaticResource ThemeBackground}"
 						Foreground="{StaticResource ThemeForeground}"
@@ -135,7 +135,7 @@
 					<controls:KbButton
 						Visibility="{Binding IsPasswordAgainVisible}"
 						IsDefault="True"
-						Padding="10 0"
+						Padding="15 2"
 						Command="{Binding ActiveAdmin}"
 						Background="{StaticResource ThemeBackground}"
 						Foreground="{StaticResource ThemeForeground}"

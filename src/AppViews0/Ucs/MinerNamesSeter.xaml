@@ -45,7 +45,7 @@
 			<controls:KbButton
 				IsDefault="True"
 				Command="{Binding Save}" 
-				Padding="10 0"
+				Padding="15 2"
 				Background="{StaticResource ThemeBackground}"
 				Foreground="{StaticResource ThemeForeground}"
 				CornerRadius="2">

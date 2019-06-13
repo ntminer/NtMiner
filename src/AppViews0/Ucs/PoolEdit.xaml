@@ -130,7 +130,7 @@
 							Margin="4 0 0 0"
 							Command="{Binding Save}" 
 							Visibility="{Binding IsReadOnly, Converter={StaticResource BoolToVisibilityInvertConverter}}"
-							Padding="10 0"
+							Padding="15 2"
 							Background="{StaticResource ThemeBackground}"
 							Foreground="{StaticResource ThemeForeground}"
 							CornerRadius="2">

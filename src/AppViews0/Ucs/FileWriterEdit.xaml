@@ -32,7 +32,7 @@
         <WrapPanel Margin="0 10 0 0" HorizontalAlignment="Center" VerticalAlignment="Center">
             <controls:KbButton
                 Command="{Binding Save}" 
-                Padding="10 0"
+                Padding="15 2"
                 Background="{StaticResource ThemeBackground}"
                 Foreground="{StaticResource ThemeForeground}"
                 CornerRadius="2">

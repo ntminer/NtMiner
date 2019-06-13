@@ -50,8 +50,8 @@
         </StackPanel>
         <WrapPanel Grid.Row="2" HorizontalAlignment="Center" Margin="0 0 0 30">
             <controls:KbButton 
-                Padding="10 0"
-                Margin="10 0"
+                Padding="15 2"
+                Margin="20 0"
                 x:Name="BtnOk"
                 Click="KbOkButton_Click"
                 Background="{StaticResource ThemeBackground}"
@@ -74,8 +74,8 @@
                 </WrapPanel>
             </controls:KbButton>
             <controls:KbButton 
-                Padding="10 0" 
-                Margin="10 0"
+                Padding="15 2"
+                Margin="20 0"
                 x:Name="BtnYes"
                 Click="KbYesButton_Click"
                 Background="{StaticResource ThemeBackground}"
@@ -98,8 +98,8 @@
                 </WrapPanel>
             </controls:KbButton>
             <controls:KbButton 
-                Padding="10 0" 
-                Margin="10 0"
+                Padding="15 2"
+                Margin="20 0"
                 x:Name="BtnNo"
                 Click="KbNoButton_Click"
                 Background="Red"

@@ -34,7 +34,7 @@
 			<controls:KbButton
 				Command="{Binding Save}" 
 				Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
-				Padding="10 0"
+				Padding="15 2"
 				HorizontalAlignment="Center"
 				Background="{StaticResource ThemeBackground}"
 				Foreground="{StaticResource ThemeForeground}"
