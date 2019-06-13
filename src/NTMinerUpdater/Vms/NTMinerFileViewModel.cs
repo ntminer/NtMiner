@@ -17,6 +17,7 @@ namespace NTMiner.Vms {
         private NTMinerAppType _appType;
         private DateTime _publishOn;
         private string _title;
+        private string _description;
 
         public ICommand Save { get; private set; }
         public ICommand Edit { get; private set; }
@@ -81,6 +82,7 @@ namespace NTMiner.Vms {
             _createdOn = data.CreatedOn;
             _publishOn = data.PublishOn;
             _title = data.Title;
+            _description = data.Description;
             if (!System.Version.TryParse(_version, out _versionData)) {
                 _versionData = new Version(1, 0);
             }
@@ -133,6 +135,14 @@ namespace NTMiner.Vms {
             set {
                 _title = value;
                 OnPropertyChanged(nameof(Title));
+            }
+        }
+
+        public string Description {
+            get { return _description; }
+            set {
+                _description = value;
+                OnPropertyChanged(nameof(Description));
             }
         }
 

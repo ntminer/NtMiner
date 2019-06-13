@@ -17,5 +17,7 @@ namespace NTMiner.MinerServer {
         DateTime PublishOn { get; }
 
         string Title { get; }
+
+        string Description { get; }
     }
 }
