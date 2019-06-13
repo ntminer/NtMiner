@@ -302,10 +302,7 @@
 					IsReadOnly="True"
 					Text="{Binding MaxTempText, Mode=OneWay}"></TextBox>
 			</StackPanel>
-			<Grid Grid.Column="1" HorizontalAlignment="Left">
-				<uc:GpuSpeedDataTable DataContext="{Binding GpuTableVm}"></uc:GpuSpeedDataTable>
-				<StackPanel Background="#00ffffff"></StackPanel>
-			</Grid>
+			<uc:GpuSpeedDataTable Grid.Column="1" HorizontalAlignment="Left" DataContext="{Binding GpuTableVm}"></uc:GpuSpeedDataTable>
 		</Grid>
 		<Border Style="{StaticResource RowLine}"></Border>
 		<WrapPanel Style="{StaticResource Row}">
