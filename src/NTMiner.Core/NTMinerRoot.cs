@@ -82,10 +82,7 @@ namespace NTMiner {
                         }
                         OfficialServer.GetJsonFileVersionAsync(AssemblyInfo.ServerJsonFileName, (serverJsonFileVersion, minerClientVersion) => {
                             SetServerJsonVersion(serverJsonFileVersion);
-                            if (!string.IsNullOrEmpty(minerClientVersion) && minerClientVersion != CurrentVersion.ToString()) {
-                                ServerVersion = minerClientVersion;
-                                VirtualRoot.Happened(new ServerVersionChangedEvent());
-                            }
+                            AppVersionChangedEvent.PublishIfNewVersion(minerClientVersion);
                         });
                     }
                     else {
@@ -97,10 +94,7 @@ namespace NTMiner {
                 VirtualRoot.On<UserActionEvent>("发生了用户活动时检查serverJson是否有新版本", LogEnum.DevConsole,
                     action: message => {
                         OfficialServer.GetJsonFileVersionAsync(AssemblyInfo.ServerJsonFileName, (serverJsonFileVersion, minerClientVersion) => {
-                            if (!string.IsNullOrEmpty(minerClientVersion) && minerClientVersion != CurrentVersion.ToString()) {
-                                ServerVersion = minerClientVersion;
-                                VirtualRoot.Happened(new ServerVersionChangedEvent());
-                            }
+                            AppVersionChangedEvent.PublishIfNewVersion(minerClientVersion);
                             string localServerJsonFileVersion = GetServerJsonVersion();
                             if (!string.IsNullOrEmpty(serverJsonFileVersion) && localServerJsonFileVersion != serverJsonFileVersion) {
                                 SpecialPath.GetAliyunServerJson((data) => {

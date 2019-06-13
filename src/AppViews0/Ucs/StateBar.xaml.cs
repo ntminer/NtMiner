@@ -37,7 +37,7 @@ namespace NTMiner.Views.Ucs {
                             }
                         }
                     });
-                window.On<ServerVersionChangedEvent>("发现了服务端新版本", LogEnum.DevConsole,
+                window.On<AppVersionChangedEvent>("发现了服务端新版本", LogEnum.DevConsole,
                     action: message => {
                         UIThread.Execute(() => {
                             if (NTMinerRoot.CurrentVersion.ToString() != NTMinerRoot.ServerVersion) {
