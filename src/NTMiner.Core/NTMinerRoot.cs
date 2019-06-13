@@ -60,6 +60,7 @@ namespace NTMiner {
         #region Init
         public void Init(Action callback) {
             Task.Factory.StartNew(() => {
+                // TODO:检测是否非正常退出，如果非正常退出则尝试恢复作业
                 bool isWork = Environment.GetCommandLineArgs().Contains("--work", StringComparer.OrdinalIgnoreCase);
                 if (isWork) {
                     DoInit(isWork, callback);
