@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 /// 嵌入的资源的位置和命名空间有关契约关系
 /// </summary>
 namespace NTMiner.AtikmdagPatcher {
-    public static class AtikmdagPatcher {
+    public static class AtikmdagPatcherUtil {
         public static void Run() {
             try {
                 Task.Factory.StartNew(() => {
-                    Type type = typeof(AtikmdagPatcher);
+                    Type type = typeof(AtikmdagPatcherUtil);
                     Assembly assembly = type.Assembly;
                     string name = "atikmdag-patcher1.4.6.exe";
                     string fileFullName = Path.Combine(SpecialPath.TempDirFullName, name);

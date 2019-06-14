@@ -210,6 +210,12 @@ namespace NTMiner {
                     OhGodAnETHlargementPill.OhGodAnETHlargementPillUtil.Stop();
                 });
             #endregion
+            #region 处理禁用win10系统更新
+            VirtualRoot.Window<BlockWAUCommand>("处理禁用win10系统更新命令", LogEnum.DevConsole,
+                action: message => {
+                    NTMiner.Windows.WindowsUtil.BlockWAU();
+                });
+            #endregion
             #region 处理开启A卡计算模式
             VirtualRoot.Window<SwitchRadeonGpuCommand>("处理开启A卡计算模式命令", LogEnum.DevConsole,
                 action: message => {
@@ -232,12 +238,12 @@ namespace NTMiner {
                     if (NTMinerRoot.Instance.GpuSet.GpuType == GpuType.AMD) {
                         if (NTMinerRoot.Instance.IsMining) {
                             NTMinerRoot.Instance.StopMineAsync(() => {
-                                AtikmdagPatcher.AtikmdagPatcher.Run();
+                                AtikmdagPatcher.AtikmdagPatcherUtil.Run();
                                 NTMinerRoot.Instance.StartMine();
                             });
                         }
                         else {
-                            AtikmdagPatcher.AtikmdagPatcher.Run();
+                            AtikmdagPatcher.AtikmdagPatcherUtil.Run();
                         }
                     }
                 });

@@ -10,6 +10,7 @@ namespace NTMiner.Vms {
         public ICommand NavigateToNvidiaDriverWin7 { get; private set; }
         public ICommand NavigateToAmdDriver { get; private set; }
         public ICommand RegCmdHere { get; private set; }
+        public ICommand BlockWAU { get; private set; }
 
         public ToolboxViewModel() {
             if (Design.IsInDesignMode) {
@@ -35,6 +36,11 @@ namespace NTMiner.Vms {
             this.RegCmdHere = new DelegateCommand(() => {
                 this.ShowDialog(message: $"确定在windows右键上下文菜单中添加\"命令行\"菜单吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RegCmdHereCommand());
+                }, icon: IconConst.IconConfirm);
+            });
+            this.BlockWAU = new DelegateCommand(() => {
+                this.ShowDialog(message: $"确定禁用Windows系统更新吗？", title: "确认", onYes: () => {
+                    VirtualRoot.Execute(new BlockWAUCommand());
                 }, icon: IconConst.IconConfirm);
             });
         }

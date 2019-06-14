@@ -99,11 +99,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs" />
-    <Compile Include="AtikmdagPatcher\SwitchRadeonGpu.cs" />
+    <Compile Include="AtikmdagPatcher\AtikmdagPatcherUtil.cs" />
     <Compile Include="SwitchRadeonGpu\SwitchRadeonGpu.cs" />
     <Compile Include="Views\HandlerIdsWindow.xaml.cs">
       <DependentUpon>HandlerIdsWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\WindowsUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Daemon\DaemonUtil.cs" />
@@ -137,6 +138,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <EmbeddedResource Include="Windows\BlockWAU.bat" />
   </ItemGroup>
   <ItemGroup>
     <None Include="FodyWeavers.xml" />

@@ -46,6 +46,11 @@ namespace NTMiner.Core {
         public string PoolDelayText { get; private set; }
     }
 
+    [MessageType(description: "禁用win10系统更新")]
+    public class BlockWAUCommand : Cmd {
+        public BlockWAUCommand() { }
+    }
+
     [MessageType(description: "开机A卡计算模式")]
     public class SwitchRadeonGpuCommand : Cmd {
         public SwitchRadeonGpuCommand() {
