@@ -72,6 +72,9 @@ namespace NTMiner.Core.Impl {
                 return IncomePerDay.Zero;
             }
             double speed = item.Speed.FromUnitSpeed(item.SpeedUnit);
+            if (speed == 0) {
+                return IncomePerDay.Zero;
+            }
             return new IncomePerDay(item.IncomePerDay / speed, item.IncomeUsdPerDay / speed, item.IncomeCnyPerDay / speed);
         }
 

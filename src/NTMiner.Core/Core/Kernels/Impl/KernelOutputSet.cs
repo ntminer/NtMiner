@@ -200,7 +200,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     if (isDual) {
                         gpuSpeedPattern = kernelOutput.DualGpuSpeedPattern;
                     }
-                    if (string.IsNullOrEmpty(gpuSpeedPattern)) {
+                    if (string.IsNullOrEmpty(gpuSpeedPattern) && root.GpuSet.Count != 0) {
                         // 平分总算力
                         double gpuSpeedL = totalSpeedL / root.GpuSet.Count;
                         foreach (var item in gpuSpeeds) {
