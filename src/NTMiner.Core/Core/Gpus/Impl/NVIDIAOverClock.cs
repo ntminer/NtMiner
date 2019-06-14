@@ -16,7 +16,7 @@ namespace NTMiner.Core.Gpus.Impl {
         private readonly object _locker = new object();
 
         public NVIDIAOverClock() {
-            VirtualRoot.On<Per2SecondEvent>("应用N卡的超频设置", LogEnum.None,
+            VirtualRoot.On<Per1SecondEvent>("应用N卡的超频设置", LogEnum.None,
                 action: message => {
                     lock (_locker) {
                         var valueItem = _values.FirstOrDefault();
