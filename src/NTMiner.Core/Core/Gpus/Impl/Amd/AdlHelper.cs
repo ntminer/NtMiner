@@ -134,7 +134,12 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
             tempLimitMin = lpODCapabilities.powerTuneTemperature.iMin;
             tempLimitMax = lpODCapabilities.powerTuneTemperature.iMax;
             tempLimitDefault = lpODCapabilities.powerTuneTemperature.iDefault;
-            fanSpeedMin = lpODCapabilities.fanSpeed.iMin * 100 / lpODCapabilities.fanSpeed.iMax;
+            if (lpODCapabilities.fanSpeed.iMax == 0) {
+                fanSpeedMin = 0;
+            }
+            else {
+                fanSpeedMin = lpODCapabilities.fanSpeed.iMin * 100 / lpODCapabilities.fanSpeed.iMax;
+            }
             fanSpeedMax = 100;
             fanSpeedDefault = lpODCapabilities.fanSpeed.iDefault;
 #if DEBUG
