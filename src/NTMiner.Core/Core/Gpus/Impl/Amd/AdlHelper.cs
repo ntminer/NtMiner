@@ -203,8 +203,9 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
             try {
                 int adapterIndex = GpuIndexToAdapterIndex(gpuIndex);
                 ADLODNPerformanceLevelsX2 lpODPerformanceLevels = ADLODNPerformanceLevelsX2.Create();
+                var result = ADL.ADL2_OverdriveN_MemoryClocksX2_Get(context, adapterIndex, ref lpODPerformanceLevels);
                 lpODPerformanceLevels.iMode = ADL.ODNControlType_Default;
-                var result = ADL.ADL2_OverdriveN_MemoryClocksX2_Set(context, adapterIndex, ref lpODPerformanceLevels);
+                result = ADL.ADL2_OverdriveN_MemoryClocksX2_Set(context, adapterIndex, ref lpODPerformanceLevels);
                 result = ADL.ADL2_OverdriveN_MemoryClocksX2_Get(context, adapterIndex, ref lpODPerformanceLevels);
 #if DEBUG
                 Write.DevWarn("ADL2_OverdriveN_MemoryClocksX2_Get result=" + result);
@@ -260,8 +261,9 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
             try {
                 int adapterIndex = GpuIndexToAdapterIndex(gpuIndex);
                 ADLODNPerformanceLevelsX2 lpODPerformanceLevels = ADLODNPerformanceLevelsX2.Create();
+                var result = ADL.ADL2_OverdriveN_SystemClocksX2_Get(context, adapterIndex, ref lpODPerformanceLevels);
                 lpODPerformanceLevels.iMode = ADL.ODNControlType_Default;
-                var result = ADL.ADL2_OverdriveN_SystemClocksX2_Set(context, adapterIndex, ref lpODPerformanceLevels);
+                result = ADL.ADL2_OverdriveN_SystemClocksX2_Set(context, adapterIndex, ref lpODPerformanceLevels);
                 result = ADL.ADL2_OverdriveN_SystemClocksX2_Get(context, adapterIndex, ref lpODPerformanceLevels);
 #if DEBUG
                 Write.DevWarn("ADL2_OverdriveN_SystemClocksX2_Get result=" + result);
