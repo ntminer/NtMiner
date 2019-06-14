@@ -14,12 +14,10 @@ namespace NTMiner.Core.Gpus.Impl {
                         continue;
                     }
                     _adlHelper.SetSystemClockByIndex(gpu.Index, value);
-                    this.RefreshGpuState(gpu.Index);
                 }
             }
             else {
                 _adlHelper.SetSystemClockByIndex(gpuIndex, value);
-                this.RefreshGpuState(gpuIndex);
             }
         }
 
@@ -30,12 +28,10 @@ namespace NTMiner.Core.Gpus.Impl {
                         continue;
                     }
                     _adlHelper.SetMemoryClockByIndex(gpu.Index, value);
-                    this.RefreshGpuState(gpu.Index);
                 }
             }
             else {
                 _adlHelper.SetMemoryClockByIndex(gpuIndex, value);
-                this.RefreshGpuState(gpuIndex);
             }
         }
 
@@ -49,12 +45,10 @@ namespace NTMiner.Core.Gpus.Impl {
                         continue;
                     }
                     _adlHelper.SetPowerLimitByIndex(gpu.Index, value);
-                    this.RefreshGpuState(gpu.Index);
                 }
             }
             else {
                 _adlHelper.SetPowerLimitByIndex(gpuIndex, value);
-                this.RefreshGpuState(gpuIndex);
             }
         }
 
@@ -68,12 +62,10 @@ namespace NTMiner.Core.Gpus.Impl {
                         continue;
                     }
                     _adlHelper.SetTempLimitByIndex(gpu.Index, value);
-                    this.RefreshGpuState(gpu.Index);
                 }
             }
             else {
                 _adlHelper.SetTempLimitByIndex(gpuIndex, value);
-                this.RefreshGpuState(gpuIndex);
             }
         }
 
@@ -87,18 +79,21 @@ namespace NTMiner.Core.Gpus.Impl {
                         continue;
                     }
                     _adlHelper.SetFunSpeedByIndex(gpu.Index, value);
-                    this.RefreshGpuState(gpu.Index);
                 }
             }
             else {
                 _adlHelper.SetFunSpeedByIndex(gpuIndex, value);
-                this.RefreshGpuState(gpuIndex);
             }
         }
 
         public void RefreshGpuState(int gpuIndex) {
             if (gpuIndex == NTMinerRoot.GpuAllId) {
-                return;
+                foreach (var gpu in NTMinerRoot.Instance.GpuSet) {
+                    if (gpu.Index == NTMinerRoot.GpuAllId) {
+                        continue;
+                    }
+                    RefreshGpuState(gpu);
+                }
             }
             else {
                 if (NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu)) {
