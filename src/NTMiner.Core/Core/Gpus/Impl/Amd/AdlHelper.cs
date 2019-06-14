@@ -121,30 +121,48 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
             out int powerMin, out int powerMax, out int powerDefault,
             out int tempLimitMin, out int tempLimitMax, out int tempLimitDefault,
             out int fanSpeedMin, out int fanSpeedMax, out int fanSpeedDefault) {
-            int adapterIndex = GpuIndexToAdapterIndex(gpuIndex);
-            ADLODNCapabilitiesX2 lpODCapabilities = new ADLODNCapabilitiesX2();
-            var result = ADL.ADL2_OverdriveN_CapabilitiesX2_Get(context, adapterIndex, ref lpODCapabilities);
-            coreClockDeltaMin = lpODCapabilities.sEngineClockRange.iMin * 10;
-            coreClockDeltaMax = lpODCapabilities.sEngineClockRange.iMax * 10;
-            memoryClockDeltaMin = lpODCapabilities.sMemoryClockRange.iMin * 10;
-            memoryClockDeltaMax = lpODCapabilities.sMemoryClockRange.iMax * 10;
-            powerMin = lpODCapabilities.power.iMin + 100;
-            powerMax = lpODCapabilities.power.iMax + 100;
-            powerDefault = lpODCapabilities.power.iDefault + 100;
-            tempLimitMin = lpODCapabilities.powerTuneTemperature.iMin;
-            tempLimitMax = lpODCapabilities.powerTuneTemperature.iMax;
-            tempLimitDefault = lpODCapabilities.powerTuneTemperature.iDefault;
-            if (lpODCapabilities.fanSpeed.iMax == 0) {
-                fanSpeedMin = 0;
-            }
-            else {
-                fanSpeedMin = lpODCapabilities.fanSpeed.iMin * 100 / lpODCapabilities.fanSpeed.iMax;
-            }
-            fanSpeedMax = 100;
-            fanSpeedDefault = lpODCapabilities.fanSpeed.iDefault;
+            coreClockDeltaMin = 0;
+            coreClockDeltaMax = 0;
+            memoryClockDeltaMin = 0;
+            memoryClockDeltaMax = 0;
+            powerMin = 0;
+            powerMax = 0;
+            powerDefault = 0;
+            tempLimitMin = 0;
+            tempLimitMax = 0;
+            tempLimitDefault = 0;
+            fanSpeedMin = 0;
+            fanSpeedMax = 0;
+            fanSpeedDefault = 0;
+            try {
+                int adapterIndex = GpuIndexToAdapterIndex(gpuIndex);
+                ADLODNCapabilitiesX2 lpODCapabilities = new ADLODNCapabilitiesX2();
+                var result = ADL.ADL2_OverdriveN_CapabilitiesX2_Get(context, adapterIndex, ref lpODCapabilities);
+                coreClockDeltaMin = lpODCapabilities.sEngineClockRange.iMin * 10;
+                coreClockDeltaMax = lpODCapabilities.sEngineClockRange.iMax * 10;
+                memoryClockDeltaMin = lpODCapabilities.sMemoryClockRange.iMin * 10;
+                memoryClockDeltaMax = lpODCapabilities.sMemoryClockRange.iMax * 10;
+                powerMin = lpODCapabilities.power.iMin + 100;
+                powerMax = lpODCapabilities.power.iMax + 100;
+                powerDefault = lpODCapabilities.power.iDefault + 100;
+                tempLimitMin = lpODCapabilities.powerTuneTemperature.iMin;
+                tempLimitMax = lpODCapabilities.powerTuneTemperature.iMax;
+                tempLimitDefault = lpODCapabilities.powerTuneTemperature.iDefault;
+                if (lpODCapabilities.fanSpeed.iMax == 0) {
+                    fanSpeedMin = 0;
+                }
+                else {
+                    fanSpeedMin = lpODCapabilities.fanSpeed.iMin * 100 / lpODCapabilities.fanSpeed.iMax;
+                }
+                fanSpeedMax = 100;
+                fanSpeedDefault = lpODCapabilities.fanSpeed.iDefault;
 #if DEBUG
-            Write.DevWarn($"ADL2_OverdriveN_CapabilitiesX2_Get result {result} coreClockDeltaMin={coreClockDeltaMin},coreClockDeltaMax={coreClockDeltaMax},memoryClockDeltaMin={memoryClockDeltaMin},memoryClockDeltaMax={memoryClockDeltaMax},powerMin={powerMin},powerMax={powerMax},powerDefault={powerDefault},tempLimitMin={tempLimitMin},tempLimitMax={tempLimitMax},tempLimitDefault={tempLimitDefault},fanSpeedMin={fanSpeedMin},fanSpeedMax={fanSpeedMax},fanSpeedDefault={fanSpeedDefault}");
+                Write.DevWarn($"ADL2_OverdriveN_CapabilitiesX2_Get result {result} coreClockDeltaMin={coreClockDeltaMin},coreClockDeltaMax={coreClockDeltaMax},memoryClockDeltaMin={memoryClockDeltaMin},memoryClockDeltaMax={memoryClockDeltaMax},powerMin={powerMin},powerMax={powerMax},powerDefault={powerDefault},tempLimitMin={tempLimitMin},tempLimitMax={tempLimitMax},tempLimitDefault={tempLimitDefault},fanSpeedMin={fanSpeedMin},fanSpeedMax={fanSpeedMax},fanSpeedDefault={fanSpeedDefault}");
 #endif
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e);
+            }
         }
 
         public ulong GetTotalMemoryByIndex(int gpuIndex) {
