@@ -84,13 +84,13 @@ namespace NTMiner.Core.Profiles {
         private void OverClock(INTMinerRoot root, IGpuProfile data) {
             if (root.GpuSet.TryGetGpu(data.Index, out IGpu gpu)) {
                 IOverClock overClock = root.GpuSet.OverClock;
+                if (!data.IsAutoFanSpeed) {
+                    overClock.SetCool(data.Index, data.Cool);
+                }
                 overClock.SetCoreClock(data.Index, data.CoreClockDelta);
                 overClock.SetMemoryClock(data.Index, data.MemoryClockDelta);
                 overClock.SetPowerCapacity(data.Index, data.PowerCapacity);
                 overClock.SetThermCapacity(data.Index, data.TempLimit);
-                if (!data.IsAutoFanSpeed) {
-                    overClock.SetCool(data.Index, data.Cool);
-                }
                 string coreClockText = "默认";
                 if (data.CoreClockDelta != 0) {
                     coreClockText = data.CoreClockDelta.ToString();
