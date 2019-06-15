@@ -1,4 +1,5 @@
 ﻿using NTMiner.MinerClient;
+using System;
 using System.Windows.Media;
 
 namespace NTMiner.Vms {
@@ -22,6 +23,21 @@ namespace NTMiner.Vms {
             set {
                 _data.Name = value;
                 OnPropertyChanged(nameof(Name));
+            }
+        }
+
+        public int TotalMemoryMb {
+            get { return _data.TotalMemoryMb; }
+            set {
+                _data.TotalMemoryMb = value;
+                OnPropertyChanged(nameof(TotalMemoryMb));
+                OnPropertyChanged(nameof(TotalMemoryGbText));
+            }
+        }
+
+        public string TotalMemoryGbText {
+            get {
+                return Math.Round(this.TotalMemoryMb / 1024.0, 1) + "Gb";
             }
         }
 

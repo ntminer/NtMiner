@@ -54,6 +54,16 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
+				<DataGridTemplateColumn IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<TextBlock Text="显存"></TextBlock>
+					</DataGridTemplateColumn.Header>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding TotalMemoryGbText}"></TextBlock>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
 				<DataGridTemplateColumn Width="90" IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
 						<StackPanel>

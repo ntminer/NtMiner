@@ -7,6 +7,8 @@
 
         public string Name { get; set; }
 
+        public int TotalMemoryMb { get; set; }
+
         public double MainCoinSpeed { get; set; }
 
         public double DualCoinSpeed { get; set; }
