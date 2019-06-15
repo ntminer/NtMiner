@@ -24,7 +24,7 @@ namespace NTMiner.Core.Impl {
             // 如果未显示主界面则收益计算器也不用更新了
             if ((_initedOn == DateTime.MinValue || NTMinerRoot.IsUiVisible) && _initedOn.AddMinutes(10) < now) {
                 _initedOn = now;
-                OfficialServer.GetCalcConfigsAsync(data => {
+                OfficialServer.CalcConfigService.GetCalcConfigsAsync(data => {
                     Init(data);
                     VirtualRoot.Happened(new CalcConfigSetInitedEvent());
                 });
@@ -72,12 +72,15 @@ namespace NTMiner.Core.Impl {
                 return IncomePerDay.Zero;
             }
             double speed = item.Speed.FromUnitSpeed(item.SpeedUnit);
+            if (speed == 0) {
+                return IncomePerDay.Zero;
+            }
             return new IncomePerDay(item.IncomePerDay / speed, item.IncomeUsdPerDay / speed, item.IncomeCnyPerDay / speed);
         }
 
         public void SaveCalcConfigs(List<CalcConfigData> data) {
             _dicByCoinCode = data.ToDictionary(a => a.CoinCode, a => a, StringComparer.OrdinalIgnoreCase);
-            OfficialServer.SaveCalcConfigsAsync(data, null);
+            OfficialServer.CalcConfigService.SaveCalcConfigsAsync(data, null);
         }
 
         public IEnumerator<CalcConfigData> GetEnumerator() {

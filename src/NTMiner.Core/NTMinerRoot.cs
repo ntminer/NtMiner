@@ -60,6 +60,7 @@ namespace NTMiner {
         #region Init
         public void Init(Action callback) {
             Task.Factory.StartNew(() => {
+                // TODO:检测是否非正常退出，如果非正常退出则尝试恢复作业
                 bool isWork = Environment.GetCommandLineArgs().Contains("--work", StringComparer.OrdinalIgnoreCase);
                 if (isWork) {
                     DoInit(isWork, callback);
@@ -81,10 +82,7 @@ namespace NTMiner {
                         }
                         OfficialServer.GetJsonFileVersionAsync(AssemblyInfo.ServerJsonFileName, (serverJsonFileVersion, minerClientVersion) => {
                             SetServerJsonVersion(serverJsonFileVersion);
-                            if (!string.IsNullOrEmpty(minerClientVersion) && minerClientVersion != CurrentVersion.ToString()) {
-                                ServerVersion = minerClientVersion;
-                                VirtualRoot.Happened(new ServerVersionChangedEvent());
-                            }
+                            AppVersionChangedEvent.PublishIfNewVersion(minerClientVersion);
                         });
                     }
                     else {
@@ -96,10 +94,7 @@ namespace NTMiner {
                 VirtualRoot.On<UserActionEvent>("发生了用户活动时检查serverJson是否有新版本", LogEnum.DevConsole,
                     action: message => {
                         OfficialServer.GetJsonFileVersionAsync(AssemblyInfo.ServerJsonFileName, (serverJsonFileVersion, minerClientVersion) => {
-                            if (!string.IsNullOrEmpty(minerClientVersion) && minerClientVersion != CurrentVersion.ToString()) {
-                                ServerVersion = minerClientVersion;
-                                VirtualRoot.Happened(new ServerVersionChangedEvent());
-                            }
+                            AppVersionChangedEvent.PublishIfNewVersion(minerClientVersion);
                             string localServerJsonFileVersion = GetServerJsonVersion();
                             if (!string.IsNullOrEmpty(serverJsonFileVersion) && localServerJsonFileVersion != serverJsonFileVersion) {
                                 SpecialPath.GetAliyunServerJson((data) => {
@@ -158,6 +153,7 @@ namespace NTMiner {
 
             ServerContextInit(isWork);
 
+            this.WorkerEventSet = new WorkerEventSet(this);
             this.UserSet = new UserSet();
             this.KernelProfileSet = new KernelProfileSet(this);
             this.GpusSpeed = new GpusSpeed(this);
@@ -218,6 +214,8 @@ namespace NTMiner {
             this.KernelOutputSet = new KernelOutputSet(this, isUseJson);
             this.KernelOutputFilterSet = new KernelOutputFilterSet(this, isUseJson);
             this.KernelOutputTranslaterSet = new KernelOutputTranslaterSet(this, isUseJson);
+            this.WorkerEventTypeSet = new WorkerEventTypeSet(this, isUseJson);
+            this.KernelOutputKeywordSet = new KernelOutputKeywordSet(this, isUseJson);
         }
 
         // MinerProfile对应local.litedb或local.json
@@ -246,6 +244,28 @@ namespace NTMiner {
 
             Report.Init(this);
 
+            VirtualRoot.Window<RegCmdHereCommand>("处理注册右键打开windows命令行菜单命令", LogEnum.DevConsole,
+                action: message => {
+                    string cmdHere = "SOFTWARE\\Classes\\Directory\\background\\shell\\cmd_here";
+                    string cmdHereCommand = cmdHere + "\\command";
+                    string cmdPrompt = "SOFTWARE\\Classes\\Folder\\shell\\cmdPrompt";
+                    string cmdPromptCommand = cmdPrompt + "\\command";
+                    try {
+                        Windows.Registry.SetValue(Microsoft.Win32.Registry.LocalMachine, cmdHere, "", "命令行");
+                        Windows.Registry.SetValue(Microsoft.Win32.Registry.LocalMachine, cmdHere, "Icon", "cmd.exe");
+                        Windows.Registry.SetValue(Microsoft.Win32.Registry.LocalMachine, cmdHereCommand, "", "\"cmd.exe\"");
+                        Windows.Registry.SetValue(Microsoft.Win32.Registry.LocalMachine, cmdPrompt, "", "命令行");
+                        Windows.Registry.SetValue(Microsoft.Win32.Registry.LocalMachine, cmdPromptCommand, "", "\"cmd.exe\" \"cd %1\"");
+                        cmdHere = "SOFTWARE\\Classes\\Directory\\shell\\cmd_here";
+                        cmdHereCommand = cmdHere + "\\command";
+                        Windows.Registry.SetValue(Microsoft.Win32.Registry.LocalMachine, cmdHere, "", "命令行");
+                        Windows.Registry.SetValue(Microsoft.Win32.Registry.LocalMachine, cmdHere, "Icon", "cmd.exe");
+                        Windows.Registry.SetValue(Microsoft.Win32.Registry.LocalMachine, cmdHereCommand, "", "\"cmd.exe\"");
+                    }
+                    catch (Exception e) {
+                        Logger.ErrorDebugLine(e);
+                    }
+                });
             #region 挖矿开始时将无份额内核重启份额计数置0
             int shareCount = 0;
             DateTime shareOn = DateTime.Now;
@@ -600,6 +620,7 @@ namespace NTMiner {
 
         public ICalcConfigSet CalcConfigSet { get; private set; }
 
+        #region GpuSetInfo
         private string _gpuSetInfo = null;
         public string GpuSetInfo {
             get {
@@ -623,7 +644,9 @@ namespace NTMiner {
                 return _gpuSetInfo;
             }
         }
+        #endregion
 
+        #region GpuSet
         private IGpuSet _gpuSet;
         private object _gpuSetLocker = new object();
         public IGpuSet GpuSet {
@@ -657,59 +680,7 @@ namespace NTMiner {
                 return _gpuSet;
             }
         }
-
-
-        public bool GetIsUseDevice(int gpuIndex) {
-            if (gpuIndex < 0 || gpuIndex >= GpuSet.Count) {
-                return false;
-            }
-            List<int> devices = GetUseDevices();
-            return devices.Contains(gpuIndex);
-        }
-
-        public void SetIsUseDevice(int gpuIndex, bool isUse) {
-            List<int> devices = GetUseDevices();
-            if (!isUse) {
-                devices.Remove(gpuIndex);
-            }
-            else if (!devices.Contains(gpuIndex)) {
-                devices.Add(gpuIndex);
-            }
-            devices = devices.OrderBy(a => a).ToList();
-            SetUseDevices(devices);
-        }
-
-        public List<int> GetUseDevices() {
-            List<int> list = new List<int>();
-            if (LocalAppSettingSet.TryGetAppSetting("UseDevices", out IAppSetting setting) && setting.Value != null) {
-                string[] parts = setting.Value.ToString().Split(',');
-                foreach (var part in parts) {
-                    if (int.TryParse(part, out int index)) {
-                        list.Add(index);
-                    }
-                }
-            }
-            if (list.Count == 0) {
-                foreach (var gpu in GpuSet) {
-                    if (gpu.Index == GpuAllId) {
-                        continue;
-                    }
-                    list.Add(gpu.Index);
-                }
-            }
-            return list;
-        }
-
-        private void SetUseDevices(List<int> gpuIndexes) {
-            if (gpuIndexes.Count != 0 && gpuIndexes.Count == GpuSet.Count) {
-                gpuIndexes = new List<int>();
-            }
-            AppSettingData appSettingData = new AppSettingData() {
-                Key = "UseDevices",
-                Value = string.Join(",", gpuIndexes)// 存逗号分隔的字符串，因为litedb处理List、Array有问题
-            };
-            VirtualRoot.Execute(new ChangeLocalAppSettingCommand(appSettingData));
-        }
+        #endregion
 
         public ISysDicSet SysDicSet { get; private set; }
 
@@ -742,5 +713,11 @@ namespace NTMiner {
         public IKernelOutputFilterSet KernelOutputFilterSet { get; private set; }
 
         public IKernelOutputTranslaterSet KernelOutputTranslaterSet { get; private set; }
+
+        public IWorkerEventTypeSet WorkerEventTypeSet { get; private set; }
+
+        public IWorkerEventSet WorkerEventSet { get; private set; }
+
+        public IKernelOutputKeywordSet KernelOutputKeywordSet { get; private set; }
     }
 }

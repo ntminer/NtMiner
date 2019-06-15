@@ -1,4 +1,5 @@
 ﻿using NTMiner.Core;
+using NTMiner.Core.Gpus;
 using NTMiner.Core.Kernels;
 using NTMiner.Profile;
 using System;
@@ -147,7 +148,7 @@ namespace NTMiner {
             AssembleArgs(parameters, ref customArgs, isDual: false);
             string devicesArgs = string.Empty;
             if (!string.IsNullOrWhiteSpace(kernelInput.DevicesArg)) {
-                List<int> useDevices = GetUseDevices();
+                List<int> useDevices = this.GpuSet.GetUseDevices();
                 if (useDevices.Count != 0 && useDevices.Count != GpuSet.Count) {
                     string separator = kernelInput.DevicesSeparator;
                     if (kernelInput.DevicesSeparator == "space") {

@@ -5,16 +5,24 @@
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:blankWindow="http://NTMiner.com"
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:vm="clr-namespace:NTMiner.Vms"
 		xmlns:local="clr-namespace:NTMiner.Views"
-		mc:Ignorable="d"
 		ResizeMode="NoResize"
 		Background="White"
 		BorderThickness="0.8"
 		BorderBrush="{StaticResource IconFillColor}"
+		mc:Ignorable="d"
+		d:DataContext="{d:DesignData Source=Design/NTMinerFileViewModel.xaml}"
 		WindowStartupLocation="CenterOwner"
 		MouseDown="MetroWindow_MouseDown"
-		Title="NTMinerFileEdit" Height="230" Width="300">
+		Title="NTMinerFileEdit" SizeToContent="Height" Width="400">
+	<blankWindow:BlankWindow.Resources>
+		<ResourceDictionary>
+			<sys:Double x:Key="LblWidth">80</sys:Double>
+			<sys:Double x:Key="InputWidth">280</sys:Double>
+		</ResourceDictionary>
+	</blankWindow:BlankWindow.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="30"></RowDefinition>
@@ -45,27 +53,38 @@
 		</DockPanel>
 		<StackPanel Grid.Row="1" Background="White" VerticalAlignment="Center">
 			<WrapPanel Margin="0 2">
-				<TextBlock Width="80" TextAlignment="Right">版本号：</TextBlock>
-				<TextBox Width="180" Text="{Binding Version, ValidatesOnExceptions=True}" Background="White" VerticalContentAlignment="Center"></TextBox>
+				<TextBlock Width="{StaticResource LblWidth}" TextAlignment="Right">版本号：</TextBlock>
+				<TextBox Width="{StaticResource InputWidth}" Text="{Binding Version, ValidatesOnExceptions=True}" Background="White" VerticalContentAlignment="Center"></TextBox>
 			</WrapPanel>
 			<WrapPanel Margin="0 2">
-				<TextBlock Width="80" TextAlignment="Right">别名：</TextBlock>
-				<TextBox Width="180" Text="{Binding VersionTag, ValidatesOnExceptions=True}" Background="White" VerticalContentAlignment="Center"></TextBox>
+				<TextBlock Width="{StaticResource LblWidth}" TextAlignment="Right">文件名：</TextBlock>
+				<TextBox Width="{StaticResource InputWidth}" Text="{Binding FileName, ValidatesOnExceptions=True}" Background="White" VerticalContentAlignment="Center"></TextBox>
 			</WrapPanel>
 			<WrapPanel Margin="0 2">
-				<TextBlock Width="80" TextAlignment="Right">文件名：</TextBlock>
-				<TextBox Width="180" Text="{Binding FileName, ValidatesOnExceptions=True}" Background="White" VerticalContentAlignment="Center"></TextBox>
+				<TextBlock Width="{StaticResource LblWidth}" TextAlignment="Right">别名：</TextBlock>
+				<TextBox Width="{StaticResource InputWidth}" Text="{Binding VersionTag, ValidatesOnExceptions=True}" Background="White" VerticalContentAlignment="Center"></TextBox>
 			</WrapPanel>
 			<WrapPanel Margin="0 2">
-				<TextBlock Width="80" TextAlignment="Right">发布时间：</TextBlock>
-				<TextBox IsReadOnly="True" Width="180" BorderThickness="0" VerticalContentAlignment="Center" Text="{Binding PublishOnText, Mode=OneWay}"></TextBox>
+				<TextBlock Width="{StaticResource LblWidth}" TextAlignment="Right">标题：</TextBlock>
+				<TextBox Width="{StaticResource InputWidth}" Text="{Binding Title, ValidatesOnExceptions=True}" Background="White" VerticalContentAlignment="Center"></TextBox>
+			</WrapPanel>
+			<WrapPanel Margin="0 2">
+				<TextBlock Width="{StaticResource LblWidth}" TextAlignment="Right">说明：</TextBlock>
+				<controls:KbMuiltilineTextBox 
+					Width="{StaticResource InputWidth}" 
+					Height="100"
+					Text="{Binding Description, ValidatesOnExceptions=True}" Background="White"></controls:KbMuiltilineTextBox>
+			</WrapPanel>
+			<WrapPanel Margin="0 2">
+				<TextBlock Width="{StaticResource LblWidth}" TextAlignment="Right">发布时间：</TextBlock>
+				<TextBlock Width="{StaticResource InputWidth}" Text="{Binding PublishOnText, Mode=OneWay}"></TextBlock>
 			</WrapPanel>
 		</StackPanel>
 		<Grid Grid.Row="2" Background="White" Height="40">
 			<WrapPanel HorizontalAlignment="Right">
 				<controls:KbButton
 					Command="{Binding Save}"
-					Padding="10 0"
+					Padding="15 2"
 					Background="{StaticResource ThemeBackground}"
 					Foreground="{StaticResource ThemeForeground}"
 					Margin="0 4 10 4"

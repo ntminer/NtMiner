@@ -20,6 +20,8 @@ namespace NTMiner {
             InitializeComponent();
         }
 
+        private readonly IAppViewFactory _appViewFactory = new AppViewFactory();
+
         private bool createdNew;
         private Mutex appMutex;
         private static string s_appPipName = "ntminercontrol";
@@ -83,7 +85,7 @@ namespace NTMiner {
             }
             else {
                 try {
-                    AppViewFactory.ShowMainWindow(this, MinerServer.NTMinerAppType.MinerStudio);
+                    _appViewFactory.ShowMainWindow(this, MinerServer.NTMinerAppType.MinerStudio);
                 }
                 catch (Exception) {
                     DialogWindow.ShowDialog(message: "另一个NTMiner正在运行，请手动结束正在运行的NTMiner进程后再次尝试。", title: "alert", icon: "Icon_Error");
@@ -96,7 +98,7 @@ namespace NTMiner {
 
         private void Init() {
             NTMinerRoot.Instance.Init(() => {
-                AppViewFactory.Link();
+                _appViewFactory.Link();
                 UIThread.Execute(() => {
                     VirtualRoot.Execute(new ShowChartsWindowCommand());
                     AppContext.NotifyIcon = ExtendedNotifyIcon.Create("群控客户端", isMinerStudio: true);

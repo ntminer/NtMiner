@@ -23,5 +23,8 @@ namespace NTMiner.Profile {
         bool IsEChargeEnabled { get; }
 
         double EPrice { get; }
+
+        bool IsPowerAppend { get; }
+        int PowerAppend { get; }
     }
 }

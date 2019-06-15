@@ -58,14 +58,14 @@ namespace NTMiner.NoDevFee {
 
                 string filter = $"outbound && ip && ip.DstAddr != 127.0.0.1 && tcp && tcp.PayloadLength > 100";
                 Logger.InfoDebugLine(filter);
-                IntPtr divertHandle = WinDivertNativeMethods.WinDivertOpen(filter, WINDIVERT_LAYER.WINDIVERT_LAYER_NETWORK, 0, 0);
+                IntPtr divertHandle = WinDivertMethods.WinDivertOpen(filter, WINDIVERT_LAYER.WINDIVERT_LAYER_NETWORK, 0, 0);
                 
                 if (divertHandle != IntPtr.Zero) {
                     Task.Factory.StartNew(() => {
                         Logger.InfoDebugLine($"{coin} divertHandle 守护程序开启");
                         WaitHandle.WaitOne();
                         if (divertHandle != IntPtr.Zero) {
-                            WinDivertNativeMethods.WinDivertClose(divertHandle);
+                            WinDivertMethods.WinDivertClose(divertHandle);
                             divertHandle = IntPtr.Zero;
                         }
                         Logger.InfoDebugLine($"{coin} divertHandle 守护程序结束");
@@ -127,7 +127,7 @@ namespace NTMiner.NoDevFee {
                     WINDIVERT_TCPHDR* tcpHdr = null;
                     WINDIVERT_ADDRESS addr = new WINDIVERT_ADDRESS();
 
-                    if (!WinDivertNativeMethods.WinDivertRecv(divertHandle, packet, (uint)packet.Length, ref addr, ref readLength)) continue;
+                    if (!WinDivertMethods.WinDivertRecv(divertHandle, packet, (uint)packet.Length, ref addr, ref readLength)) continue;
 
                     if (!ranOnce && readLength > 1) {
                         ranOnce = true;
@@ -136,7 +136,7 @@ namespace NTMiner.NoDevFee {
 
                     fixed (byte* inBuf = packet) {
                         byte* payload = null;
-                        WinDivertNativeMethods.WinDivertHelperParsePacket(inBuf, readLength, &ipv4Header, null, null, null, &tcpHdr, null, &payload, null);
+                        WinDivertMethods.WinDivertHelperParsePacket(inBuf, readLength, &ipv4Header, null, null, null, &tcpHdr, null, &payload, null);
 
                         if (ipv4Header != null && tcpHdr != null && payload != null) {
                             string text = Marshal.PtrToStringAnsi((IntPtr)payload);
@@ -159,8 +159,8 @@ namespace NTMiner.NoDevFee {
                         }
                     }
 
-                    WinDivertNativeMethods.WinDivertHelperCalcChecksums(packet, readLength, 0);
-                    WinDivertNativeMethods.WinDivertSendEx(divertHandle, packet, readLength, 0, ref addr, IntPtr.Zero, IntPtr.Zero);
+                    WinDivertMethods.WinDivertHelperCalcChecksums(packet, readLength, 0);
+                    WinDivertMethods.WinDivertSendEx(divertHandle, packet, readLength, 0, ref addr, IntPtr.Zero, IntPtr.Zero);
                 }
             }
             catch (Exception e) {

@@ -103,7 +103,7 @@
 					</DataGridTemplateColumn.Header>
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<TextBox IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding Body,Mode=OneWay}" BorderThickness="0"></TextBox>
+							<controls:KbMuiltilineTextBox IsReadOnly="True" Text="{Binding Body,Mode=OneWay}" BorderThickness="0"></controls:KbMuiltilineTextBox>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>

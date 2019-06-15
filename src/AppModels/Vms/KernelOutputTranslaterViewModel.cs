@@ -243,6 +243,7 @@ namespace NTMiner.Vms {
             set {
                 if (this.Color != value.Code) {
                     this.Color = value.Code;
+                    OnPropertyChanged(nameof(SelectedColor));
                 }
             }
         }

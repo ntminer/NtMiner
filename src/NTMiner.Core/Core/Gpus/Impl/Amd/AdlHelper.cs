@@ -1,22 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 
 namespace NTMiner.Core.Gpus.Impl.Amd {
     public class AdlHelper {
         public struct ATIGPU {
+            public static readonly ATIGPU Empty = new ATIGPU {
+                AdapterIndex = -1,
+                BusNumber = -1,
+                AdapterName = string.Empty,
+                DeviceNumber = - 1
+            };
+
             public int AdapterIndex { get; set; }
             public int BusNumber { get; set; }
             public int DeviceNumber { get; set; }
             public string AdapterName { get; set; }
+
+            public override string ToString() {
+                return $"AdapterIndex={AdapterIndex},BusNumber={BusNumber},DeviceNumber={DeviceNumber},AdapterName={AdapterName}";
+            }
         }
 
-        private System.IntPtr context;
+        private IntPtr context;
         private List<ATIGPU> _gpuNames = new List<ATIGPU>();
         public bool Init() {
             try {
-                if (System.Environment.Is64BitOperatingSystem) {
+                if (Environment.Is64BitOperatingSystem) {
                     Windows.NativeMethods.SetDllDirectory(SpecialPath.ThisSystem32Dir);
                 }
                 else {
@@ -24,7 +34,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
                 }
                 int status = ADL.ADL_Main_Control_Create(1);
 #if DEBUG
-                Write.DevDebug("AMD Display Library Status: " + (status == ADL.ADL_OK ? "OK" : status.ToString(CultureInfo.InvariantCulture)));
+                Write.DevDebug("AMD Display Library Status: " + (status == ADL.ADL_OK ? "OK" : status.ToString()));
 #endif
                 if (status == ADL.ADL_OK) {
                     int numberOfAdapters = 0;
@@ -33,7 +43,9 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
                         ADLAdapterInfo[] adapterInfo = new ADLAdapterInfo[numberOfAdapters];
                         if (ADL.ADL_Adapter_AdapterInfo_Get(adapterInfo) == ADL.ADL_OK) {
                             for (int i = 0; i < numberOfAdapters; i++) {
-                                ADL.ADL_Adapter_Active_Get(adapterInfo[i].AdapterIndex, out int isActive);
+#if DEBUG
+                                Write.DevDebug(adapterInfo[i].ToString());
+#endif
                                 if (!string.IsNullOrEmpty(adapterInfo[i].UDID) && adapterInfo[i].VendorID == ADL.ATI_VENDOR_ID) {
                                     bool found = false;
                                     foreach (ATIGPU gpu in _gpuNames) {
@@ -55,6 +67,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
                     }
                     ADL.ADL2_Main_Control_Create(ADL.Main_Memory_Alloc, 1, ref context);
                 }
+                _gpuNames = _gpuNames.OrderBy(a => a.BusNumber).ToList();
 #if DEBUG
                 Write.DevDebug(string.Join(",", _gpuNames.Select(a => a.AdapterIndex)));
 #endif
@@ -89,15 +102,15 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
             return _gpuNames[gpuIndex].AdapterIndex;
         }
 
-        public string GetGpuName(int gpuIndex) {
+        public ATIGPU GetGpuName(int gpuIndex) {
             try {
                 if (gpuIndex >= _gpuNames.Count) {
-                    return string.Empty;
+                    return ATIGPU.Empty;
                 }
-                return _gpuNames[gpuIndex].AdapterName;
+                return _gpuNames[gpuIndex];
             }
             catch {
-                return string.Empty;
+                return ATIGPU.Empty;
             }
         }
 
@@ -105,23 +118,51 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
             int gpuIndex, 
             out int coreClockDeltaMin, out int coreClockDeltaMax, 
             out int memoryClockDeltaMin, out int memoryClockDeltaMax,
-            out int powerMin, out int powerMax,
-            out int tempLimitMin, out int tempLimitMax, out int tempLimitDefault) {
-            int adapterIndex = GpuIndexToAdapterIndex(gpuIndex);
-            ADLODNCapabilitiesX2 lpODCapabilities = new ADLODNCapabilitiesX2();
-            var result = ADL.ADL2_OverdriveN_CapabilitiesX2_Get(context, adapterIndex, ref lpODCapabilities);
-            coreClockDeltaMin = lpODCapabilities.sEngineClockRange.iMin * 10;
-            coreClockDeltaMax = lpODCapabilities.sEngineClockRange.iMax * 10;
-            memoryClockDeltaMin = lpODCapabilities.sMemoryClockRange.iMin * 10;
-            memoryClockDeltaMax = lpODCapabilities.sMemoryClockRange.iMax * 10;
-            powerMin = lpODCapabilities.power.iMin + 100;
-            powerMax = lpODCapabilities.power.iMax + 100;
-            tempLimitMin = lpODCapabilities.powerTuneTemperature.iMin;
-            tempLimitMax = lpODCapabilities.powerTuneTemperature.iMax;
-            tempLimitDefault = lpODCapabilities.powerTuneTemperature.iDefault;
+            out int powerMin, out int powerMax, out int powerDefault,
+            out int tempLimitMin, out int tempLimitMax, out int tempLimitDefault,
+            out int fanSpeedMin, out int fanSpeedMax, out int fanSpeedDefault) {
+            coreClockDeltaMin = 0;
+            coreClockDeltaMax = 0;
+            memoryClockDeltaMin = 0;
+            memoryClockDeltaMax = 0;
+            powerMin = 0;
+            powerMax = 0;
+            powerDefault = 0;
+            tempLimitMin = 0;
+            tempLimitMax = 0;
+            tempLimitDefault = 0;
+            fanSpeedMin = 0;
+            fanSpeedMax = 0;
+            fanSpeedDefault = 0;
+            try {
+                int adapterIndex = GpuIndexToAdapterIndex(gpuIndex);
+                ADLODNCapabilitiesX2 lpODCapabilities = new ADLODNCapabilitiesX2();
+                var result = ADL.ADL2_OverdriveN_CapabilitiesX2_Get(context, adapterIndex, ref lpODCapabilities);
+                coreClockDeltaMin = lpODCapabilities.sEngineClockRange.iMin * 10;
+                coreClockDeltaMax = lpODCapabilities.sEngineClockRange.iMax * 10;
+                memoryClockDeltaMin = lpODCapabilities.sMemoryClockRange.iMin * 10;
+                memoryClockDeltaMax = lpODCapabilities.sMemoryClockRange.iMax * 10;
+                powerMin = lpODCapabilities.power.iMin + 100;
+                powerMax = lpODCapabilities.power.iMax + 100;
+                powerDefault = lpODCapabilities.power.iDefault + 100;
+                tempLimitMin = lpODCapabilities.powerTuneTemperature.iMin;
+                tempLimitMax = lpODCapabilities.powerTuneTemperature.iMax;
+                tempLimitDefault = lpODCapabilities.powerTuneTemperature.iDefault;
+                if (lpODCapabilities.fanSpeed.iMax == 0) {
+                    fanSpeedMin = 0;
+                }
+                else {
+                    fanSpeedMin = lpODCapabilities.fanSpeed.iMin * 100 / lpODCapabilities.fanSpeed.iMax;
+                }
+                fanSpeedMax = 100;
+                fanSpeedDefault = lpODCapabilities.fanSpeed.iDefault;
 #if DEBUG
-            Write.DevWarn($"ADL2_OverdriveN_CapabilitiesX2_Get result {result} coreClockDeltaMin={coreClockDeltaMin},coreClockDeltaMax={coreClockDeltaMax},memoryClockDeltaMin={memoryClockDeltaMin},memoryClockDeltaMax={memoryClockDeltaMax}");
+                Write.DevWarn($"ADL2_OverdriveN_CapabilitiesX2_Get result {result} coreClockDeltaMin={coreClockDeltaMin},coreClockDeltaMax={coreClockDeltaMax},memoryClockDeltaMin={memoryClockDeltaMin},memoryClockDeltaMax={memoryClockDeltaMax},powerMin={powerMin},powerMax={powerMax},powerDefault={powerDefault},tempLimitMin={tempLimitMin},tempLimitMax={tempLimitMax},tempLimitDefault={tempLimitDefault},fanSpeedMin={fanSpeedMin},fanSpeedMax={fanSpeedMax},fanSpeedDefault={fanSpeedDefault}");
 #endif
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e);
+            }
         }
 
         public ulong GetTotalMemoryByIndex(int gpuIndex) {
@@ -145,12 +186,13 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
                 int adapterIndex = GpuIndexToAdapterIndex(gpuIndex);
                 ADLODNPerformanceLevelsX2 lpODPerformanceLevels = ADLODNPerformanceLevelsX2.Create();
                 var result = ADL.ADL2_OverdriveN_MemoryClocksX2_Get(context, adapterIndex, ref lpODPerformanceLevels);
-                foreach (var level in lpODPerformanceLevels.aLevels) {
-                    if (level.iControl == 7) {
-                        return level.iClock * 10;
+                int index = 0;
+                for (int i = 0; i < lpODPerformanceLevels.aLevels.Length; i++) {
+                    if (lpODPerformanceLevels.aLevels[i].iEnabled != 0) {
+                        index = i;
                     }
                 }
-                return 0;
+                return lpODPerformanceLevels.aLevels[index].iClock * 10;
             }
             catch {
                 return 0;
@@ -162,6 +204,9 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
                 int adapterIndex = GpuIndexToAdapterIndex(gpuIndex);
                 ADLODNPerformanceLevelsX2 lpODPerformanceLevels = ADLODNPerformanceLevelsX2.Create();
                 var result = ADL.ADL2_OverdriveN_MemoryClocksX2_Get(context, adapterIndex, ref lpODPerformanceLevels);
+                lpODPerformanceLevels.iMode = ADL.ODNControlType_Default;
+                result = ADL.ADL2_OverdriveN_MemoryClocksX2_Set(context, adapterIndex, ref lpODPerformanceLevels);
+                result = ADL.ADL2_OverdriveN_MemoryClocksX2_Get(context, adapterIndex, ref lpODPerformanceLevels);
 #if DEBUG
                 Write.DevWarn("ADL2_OverdriveN_MemoryClocksX2_Get result=" + result);
                 foreach (var item in lpODPerformanceLevels.aLevels) {
@@ -170,14 +215,13 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
 #endif
                 if (result == ADL.ADL_OK) {
                     if (value <= 0) {
-                        lpODPerformanceLevels.iMode = ADL.ODNControlType_Default;
+                        return;
                     }
                     else {
                         lpODPerformanceLevels.iMode = ADL.ODNControlType_Manual;
                         int index = 0;
                         for (int i = 0; i < lpODPerformanceLevels.aLevels.Length; i++) {
-                            if (lpODPerformanceLevels.aLevels[i].iControl != 0) {
-                                lpODPerformanceLevels.aLevels[i].iEnabled = 1;
+                            if (lpODPerformanceLevels.aLevels[i].iEnabled == 1) {
                                 index = i;
                             }
                         }
@@ -200,7 +244,13 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
                 int adapterIndex = GpuIndexToAdapterIndex(gpuIndex);
                 ADLODNPerformanceLevelsX2 lpODPerformanceLevels = ADLODNPerformanceLevelsX2.Create();
                 var result = ADL.ADL2_OverdriveN_SystemClocksX2_Get(context, adapterIndex, ref lpODPerformanceLevels);
-                return lpODPerformanceLevels.aLevels[lpODPerformanceLevels.aLevels.Length - 1].iClock * 10;
+                int index = 0;
+                for (int i = 0; i < lpODPerformanceLevels.aLevels.Length; i++) {
+                    if (lpODPerformanceLevels.aLevels[i].iEnabled != 0) {
+                        index = i;
+                    }
+                }
+                return lpODPerformanceLevels.aLevels[index].iClock * 10;
             }
             catch {
                 return 0;
@@ -212,6 +262,9 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
                 int adapterIndex = GpuIndexToAdapterIndex(gpuIndex);
                 ADLODNPerformanceLevelsX2 lpODPerformanceLevels = ADLODNPerformanceLevelsX2.Create();
                 var result = ADL.ADL2_OverdriveN_SystemClocksX2_Get(context, adapterIndex, ref lpODPerformanceLevels);
+                lpODPerformanceLevels.iMode = ADL.ODNControlType_Default;
+                result = ADL.ADL2_OverdriveN_SystemClocksX2_Set(context, adapterIndex, ref lpODPerformanceLevels);
+                result = ADL.ADL2_OverdriveN_SystemClocksX2_Get(context, adapterIndex, ref lpODPerformanceLevels);
 #if DEBUG
                 Write.DevWarn("ADL2_OverdriveN_SystemClocksX2_Get result=" + result);
                 foreach (var item in lpODPerformanceLevels.aLevels) {
@@ -220,14 +273,17 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
 #endif
                 if (result == ADL.ADL_OK) {
                     if (value <= 0) {
-                        lpODPerformanceLevels.iMode = ADL.ODNControlType_Default;
+                        return;
                     }
                     else {
-                        for (int i = 0; i < lpODPerformanceLevels.aLevels.Length; i++) {
-                            lpODPerformanceLevels.aLevels[i].iEnabled = 1;
-                        }
                         lpODPerformanceLevels.iMode = ADL.ODNControlType_Manual;
-                        lpODPerformanceLevels.aLevels[lpODPerformanceLevels.aLevels.Length - 1].iClock = value * 100;
+                        int index = 0;
+                        for (int i = 0; i < lpODPerformanceLevels.aLevels.Length; i++) {
+                            if (lpODPerformanceLevels.aLevels[i].iEnabled == 1) {
+                                index = i;
+                            }
+                        }
+                        lpODPerformanceLevels.aLevels[index].iClock = value * 100;
                     }
                     result = ADL.ADL2_OverdriveN_SystemClocksX2_Set(context, adapterIndex, ref lpODPerformanceLevels);
 #if DEBUG

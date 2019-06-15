@@ -84,19 +84,30 @@ namespace NTMiner.Core.Profiles {
         private void OverClock(INTMinerRoot root, IGpuProfile data) {
             if (root.GpuSet.TryGetGpu(data.Index, out IGpu gpu)) {
                 IOverClock overClock = root.GpuSet.OverClock;
-                HashSet<int> effectGpus = new HashSet<int>();
-                overClock.SetCoreClock(data.Index, data.CoreClockDelta, ref effectGpus);
-                overClock.SetMemoryClock(data.Index, data.MemoryClockDelta, ref effectGpus);
-                overClock.SetPowerCapacity(data.Index, data.PowerCapacity, ref effectGpus);
-                overClock.SetThermCapacity(data.Index, data.TempLimit, ref effectGpus);
                 if (!data.IsAutoFanSpeed) {
-                    overClock.SetCool(data.Index, data.Cool, ref effectGpus);
+                    overClock.SetCool(data.Index, data.Cool);
                 }
-                TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
-                    foreach (var gpuIndex in effectGpus) {
-                        overClock.RefreshGpuState(gpuIndex);
-                    }
-                });
+                overClock.SetCoreClock(data.Index, data.CoreClockDelta);
+                overClock.SetMemoryClock(data.Index, data.MemoryClockDelta);
+                overClock.SetPowerCapacity(data.Index, data.PowerCapacity);
+                overClock.SetThermCapacity(data.Index, data.TempLimit);
+                string coreClockText = "默认";
+                if (data.CoreClockDelta != 0) {
+                    coreClockText = data.CoreClockDelta.ToString();
+                }
+                string memoryClockText = "默认";
+                if (data.MemoryClockDelta != 0) {
+                    memoryClockText = data.MemoryClockDelta.ToString();
+                }
+                if (data.Index == NTMinerRoot.GpuAllId) {
+                    Write.UserLine($"统一超频：核心({coreClockText}),显存({memoryClockText}),功耗({data.PowerCapacity}),温度({data.TempLimit}),风扇({data.Cool})", "超频", ConsoleColor.Yellow);
+                }
+                else {
+                    Write.UserLine($"GPU{gpu.Index}超频：核心({coreClockText}),显存({memoryClockText}),功耗({data.PowerCapacity}),温度({data.TempLimit}),风扇({data.Cool})", "超频", ConsoleColor.Yellow);
+                }
+                if (root.GpuSet.GpuType == GpuType.AMD) {
+                    overClock.RefreshGpuState(data.Index);
+                }
             }
         }
 

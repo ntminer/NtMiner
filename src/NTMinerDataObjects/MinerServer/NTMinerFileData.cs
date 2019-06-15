@@ -25,6 +25,10 @@ namespace NTMiner.MinerServer {
 
         public DateTime PublishOn { get; set; }
 
+        public string Title { get; set; }
+
+        public string Description { get; set; }
+
         public StringBuilder GetSignData() {
             StringBuilder sb = new StringBuilder();
             sb.Append(nameof(Id)).Append(Id)
@@ -32,7 +36,9 @@ namespace NTMiner.MinerServer {
                 .Append(nameof(Version)).Append(Version)
                 .Append(nameof(VersionTag)).Append(VersionTag)
                 .Append(nameof(CreatedOn)).Append(CreatedOn.ToUlong())
-                .Append(nameof(PublishOn)).Append(PublishOn.ToUlong());
+                .Append(nameof(PublishOn)).Append(PublishOn.ToUlong())
+                .Append(nameof(Title)).Append(Title)
+                .Append(nameof(Description)).Append(Description);
             return sb;
         }
 
@@ -40,8 +46,7 @@ namespace NTMiner.MinerServer {
             if (string.IsNullOrEmpty(Version)) {
                 return new Version(1, 0);
             }
-            Version v;
-            if (System.Version.TryParse(this.Version, out v)) {
+            if (System.Version.TryParse(this.Version, out Version v)) {
                 return v;
             }
             return new Version(1, 0);

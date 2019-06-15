@@ -55,10 +55,6 @@ namespace NTMiner {
 
         IGpuSet GpuSet { get; }
 
-        bool GetIsUseDevice(int gpuIndex);
-        void SetIsUseDevice(int gpuIndex, bool isUse);
-        List<int> GetUseDevices();
-
         ISysDicSet SysDicSet { get; }
 
         ISysDicItemSet SysDicItemSet { get; }
@@ -98,6 +94,12 @@ namespace NTMiner {
         IKernelOutputFilterSet KernelOutputFilterSet { get; }
 
         IKernelOutputTranslaterSet KernelOutputTranslaterSet { get; }
+
+        IWorkerEventTypeSet WorkerEventTypeSet { get; }
+
+        IWorkerEventSet WorkerEventSet { get; }
+
+        IKernelOutputKeywordSet KernelOutputKeywordSet { get; }
 
         string BuildAssembleArgs(out Dictionary<string, string> parameters, out Dictionary<Guid, string> fileWriters, out Dictionary<Guid, string> fragments);
     }

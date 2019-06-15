@@ -99,7 +99,19 @@
 				<TextBlock Margin="10 0 0 0" VerticalAlignment="Center">电价</TextBlock>
 				<TextBox Width="40" Margin="2 0" Background="White" Text="{Binding EPrice}" HorizontalAlignment="Left"></TextBox>
 				<TextBlock VerticalAlignment="Center">￥/度</TextBlock>
-				<TextBlock Foreground="Red" VerticalAlignment="Center">（1Kw时=1度）</TextBlock>
+			</WrapPanel>
+			<WrapPanel Margin="6 2">
+				<CheckBox
+					FocusVisualStyle="{x:Null}"
+					Padding="0"
+					VerticalContentAlignment="Center"
+					IsChecked="{Binding IsPowerAppend}">
+					<TextBlock>功耗补偿</TextBlock>
+				</CheckBox>
+				<TextBlock Margin="10 0 0 0" VerticalAlignment="Center">每卡补偿</TextBlock>
+				<TextBox Width="40" Margin="2 0" Background="White" Text="{Binding PowerAppend}" HorizontalAlignment="Left"></TextBox>
+				<TextBlock VerticalAlignment="Center">瓦</TextBlock>
+				<TextBlock Foreground="Red" VerticalAlignment="Center">（由于A卡的功耗不准，可以通过功耗补偿修正，可正负）</TextBlock>
 			</WrapPanel>
 			<GroupBox x:Name="GroupSystemSetting" Header="显示">
 				<StackPanel>
@@ -119,7 +131,6 @@
 							IsChecked="{Binding IsNoUi}"
 							Content="以无界面模式启动（同时勾选了自动挖矿时生效）">
 						</CheckBox>
-						<TextBlock Foreground="Red">（无界面模式可以减少一点CPU使用率增加稳定性）</TextBlock>
 					</WrapPanel>
 
 					<WrapPanel Margin="0 2">

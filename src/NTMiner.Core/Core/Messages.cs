@@ -21,6 +21,11 @@ namespace NTMiner.Core {
         }
     }
 
+    [MessageType(description: "功耗补偿变更后")]
+    public class PowerAppendChangedEvent : EventBase {
+        public PowerAppendChangedEvent() { }
+    }
+
     [MessageType(description: "收益计算器数据集初始化后")]
     public class CalcConfigSetInitedEvent : EventBase {
         public CalcConfigSetInitedEvent() {
@@ -39,6 +44,28 @@ namespace NTMiner.Core {
         /// 矿池延时只用于展示，没有其它用户所以是字符串
         /// </summary>
         public string PoolDelayText { get; private set; }
+    }
+
+    [MessageType(description: "禁用win10系统更新")]
+    public class BlockWAUCommand : Cmd {
+        public BlockWAUCommand() { }
+    }
+
+    [MessageType(description: "开机A卡计算模式")]
+    public class SwitchRadeonGpuCommand : Cmd {
+        public SwitchRadeonGpuCommand() {
+        }
+    }
+
+    [MessageType(description: "A卡驱动签名")]
+    public class AtikmdagPatcherCommand : Cmd {
+        public AtikmdagPatcherCommand() {
+        }
+    }
+
+    [MessageType(description: "注册右键打开windindows命令行菜单")]
+    public class RegCmdHereCommand : Cmd {
+        public RegCmdHereCommand() { }
     }
 
     #region profile Messages
@@ -310,12 +337,6 @@ namespace NTMiner.Core {
         }
     }
     #endregion
-
-    [MessageType(description: "开机A卡计算模式")]
-    public class SwitchRadeonGpuCommand : Cmd {
-        public SwitchRadeonGpuCommand() {
-        }
-    }
 
     #region SysDic Messages
     [MessageType(description: "添加系统字典")]
@@ -965,6 +986,90 @@ namespace NTMiner.Core {
     [MessageType(description: "移除了内核输出翻译器后")]
     public class KernelOutputTranslaterRemovedEvent : DomainEvent<IKernelOutputTranslater> {
         public KernelOutputTranslaterRemovedEvent(IKernelOutputTranslater source) : base(source) {
+        }
+    }
+    #endregion
+
+    #region WorkerEventType Messages
+    [MessageType(description: "添加矿机事件类型")]
+    public class AddWorkerEventTypeCommand : AddEntityCommand<IWorkerEventType> {
+        public AddWorkerEventTypeCommand(IWorkerEventType input) : base(input) {
+        }
+    }
+
+    [MessageType(description: "更新矿机事件类型")]
+    public class UpdateWorkerEventTypeCommand : UpdateEntityCommand<IWorkerEventType> {
+        public UpdateWorkerEventTypeCommand(IWorkerEventType input) : base(input) {
+        }
+    }
+
+    [MessageType(description: "移除矿机事件类型")]
+    public class RemoveWorkerEventTypeCommand : RemoveEntityCommand {
+        public RemoveWorkerEventTypeCommand(Guid entityId) : base(entityId) {
+        }
+    }
+
+    [MessageType(description: "添加了矿机事件类型后")]
+    public class WorkerEventTypeAddedEvent : DomainEvent<IWorkerEventType> {
+        public WorkerEventTypeAddedEvent(IWorkerEventType source) : base(source) {
+        }
+    }
+
+    [MessageType(description: "更新了矿机事件类型后")]
+    public class WorkerEventTypeUpdatedEvent : DomainEvent<IWorkerEventType> {
+        public WorkerEventTypeUpdatedEvent(IWorkerEventType source) : base(source) {
+        }
+    }
+
+    [MessageType(description: "移除了矿机事件类型后")]
+    public class WorkerEventTypeRemovedEvent : DomainEvent<IWorkerEventType> {
+        public WorkerEventTypeRemovedEvent(IWorkerEventType source) : base(source) {
+        }
+    }
+    #endregion
+
+    #region WorkerEvent Messages
+    [MessageType(description: "发生了矿机事件")]
+    public class WorkerEventOccurredEvent : DomainEvent<IWorkerEvent> {
+        public WorkerEventOccurredEvent(IWorkerEvent source) : base(source) {
+        }
+    }
+    #endregion
+
+    #region KernelOutputKeyword Messages
+    [MessageType(description: "添加内核输出关键字")]
+    public class AddKernelOutputKeywordCommand : AddEntityCommand<IKernelOutputKeyword> {
+        public AddKernelOutputKeywordCommand(IKernelOutputKeyword input) : base(input) {
+        }
+    }
+
+    [MessageType(description: "更新内核输出关键字")]
+    public class UpdateKernelOutputKeywordCommand : UpdateEntityCommand<IKernelOutputKeyword> {
+        public UpdateKernelOutputKeywordCommand(IKernelOutputKeyword input) : base(input) {
+        }
+    }
+
+    [MessageType(description: "移除内核输出关键字")]
+    public class RemoveKernelOutputKeywordCommand : RemoveEntityCommand {
+        public RemoveKernelOutputKeywordCommand(Guid entityId) : base(entityId) {
+        }
+    }
+
+    [MessageType(description: "添加了内核输出关键字后")]
+    public class KernelOutputKeywordAddedEvent : DomainEvent<IKernelOutputKeyword> {
+        public KernelOutputKeywordAddedEvent(IKernelOutputKeyword source) : base(source) {
+        }
+    }
+
+    [MessageType(description: "更新了内核输出关键字后")]
+    public class KernelOutputKeywordUpdatedEvent : DomainEvent<IKernelOutputKeyword> {
+        public KernelOutputKeywordUpdatedEvent(IKernelOutputKeyword source) : base(source) {
+        }
+    }
+
+    [MessageType(description: "移除了内核输出关键字后")]
+    public class KernelOutputKeywordRemovedEvent : DomainEvent<IKernelOutputKeyword> {
+        public KernelOutputKeywordRemovedEvent(IKernelOutputKeyword source) : base(source) {
         }
     }
     #endregion

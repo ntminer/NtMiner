@@ -81,7 +81,13 @@
     <Compile Include="IOverClockInput.cs" />
     <Compile Include="JsonDb\IGpuProfilesJsonDb.cs" />
     <Compile Include="JsonDb\IJsonDb.cs" />
+    <Compile Include="MinerClient\IKernelOutputKeyword.cs" />
+    <Compile Include="MinerClient\IWorkerEvent.cs" />
+    <Compile Include="MinerClient\KernelOutputKeywordData.cs" />
+    <Compile Include="MinerClient\WorkerEventData.cs" />
+    <Compile Include="MinerClient\WorkerEventTypeData.cs" />
     <Compile Include="MinerClient\GpuData.cs" />
+    <Compile Include="MinerClient\IWorkerEventType.cs" />
     <Compile Include="MinerClient\IGpuStaticData.cs" />
     <Compile Include="MinerServer\AddClientRequest.cs" />
     <Compile Include="MinerServer\MinerData.cs" />

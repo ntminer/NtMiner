@@ -302,10 +302,7 @@
 					IsReadOnly="True"
 					Text="{Binding MaxTempText, Mode=OneWay}"></TextBox>
 			</StackPanel>
-			<Grid Grid.Column="1" HorizontalAlignment="Left">
-				<uc:GpuSpeedDataTable DataContext="{Binding GpuTableVm}"></uc:GpuSpeedDataTable>
-				<StackPanel Background="#00ffffff"></StackPanel>
-			</Grid>
+			<uc:GpuSpeedDataTable Grid.Column="1" HorizontalAlignment="Left" DataContext="{Binding GpuTableVm}"></uc:GpuSpeedDataTable>
 		</Grid>
 		<Border Style="{StaticResource RowLine}"></Border>
 		<WrapPanel Style="{StaticResource Row}">
@@ -416,15 +413,14 @@
 				<ColumnDefinition Width="*"></ColumnDefinition>
 			</Grid.ColumnDefinitions>
 			<TextBlock Style="{StaticResource LblTb}">内核命令行</TextBlock>
-			<TextBox 
+			<controls:KbMuiltilineTextBox 
 				Grid.Column="1"
 				Padding="0"
 				BorderThickness="0"
-				TextWrapping="Wrap"
 				Background="Transparent"
 				IsReadOnly="True"
 				ToolTip="{Binding KernelCommandLine}"
-				Text="{Binding KernelCommandLine, Mode=OneWay}"></TextBox>
+				Text="{Binding KernelCommandLine, Mode=OneWay}"></controls:KbMuiltilineTextBox>
 		</Grid>
 		<Border Style="{StaticResource RowLine}"></Border>
 	</StackPanel>

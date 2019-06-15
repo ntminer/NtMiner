@@ -49,6 +49,9 @@ namespace NTMiner.Vms {
 
         public double HasUsedSpacePercent {
             get {
+                if (TotalSize == 0) {
+                    return 0;
+                }
                 return 1 - (double)(AvailableFreeSpace) / TotalSize;
             }
         }

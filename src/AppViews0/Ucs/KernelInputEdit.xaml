@@ -42,13 +42,12 @@
 			</WrapPanel>
 			<WrapPanel Margin="0 2">
 				<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="形参"></TextBlock>
-				<TextBox 
+				<controls:KbMuiltilineTextBox 
 					Width="450" Background="Transparent" Padding="0 4"
 					IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
-					AcceptsReturn="True" TextWrapping="Wrap" 
 					VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
 					Text="{Binding Args, Mode=TwoWay}" Height="60">
-				</TextBox>
+				</controls:KbMuiltilineTextBox>
 			</WrapPanel>
 			<WrapPanel Margin="0 2">
 				<TextBlock Style="{StaticResource LblTb}" Text="显卡指定参数名"></TextBlock>
@@ -148,25 +147,24 @@
 
 				<WrapPanel Margin="0 2">
 					<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="双挖全参"></TextBlock>
-					<TextBox 
+					<controls:KbMuiltilineTextBox 
 						Width="450" Background="Transparent"
 						IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
-						AcceptsReturn="True" TextWrapping="Wrap" 
 						VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
 						Text="{Binding DualFullArgs, Mode=TwoWay}" Height="80">
-					</TextBox>
+					</controls:KbMuiltilineTextBox>
 				</WrapPanel>
 			</StackPanel>
 		</StackPanel>
 		<StackPanel Grid.Column="1" Visibility="{x:Static app:AppStatic.IsDebugModeVisible}" HorizontalAlignment="Left">
-			<TextBox 
-				Width="100" Margin="0 6 0 0" BorderThickness="0" IsReadOnly="True" 
-				AcceptsReturn="True" TextWrapping="Wrap">mainCoin、wallet、userName、password、host、port、pool、worker</TextBox>
-			<TextBox 
+			<controls:KbMuiltilineTextBox 
+				Background="White"
+				Width="100" Margin="0 6 0 0" BorderThickness="0" IsReadOnly="True">mainCoin、wallet、userName、password、host、port、pool、worker</controls:KbMuiltilineTextBox>
+			<controls:KbMuiltilineTextBox 
+				Background="White"
 				Margin="0"
 				Visibility="{Binding IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}"
-				Width="100" BorderThickness="0" IsReadOnly="True" AcceptsReturn="True" 
-				TextWrapping="Wrap">dualCoin、dualWallet、dualUserName、dualPassword、dualHost、dualPort、dualPool</TextBox>
+				Width="100" BorderThickness="0" IsReadOnly="True">dualCoin、dualWallet、dualUserName、dualPassword、dualHost、dualPort、dualPool</controls:KbMuiltilineTextBox>
 		</StackPanel>
 
 		<controls:KbButton
@@ -175,7 +173,7 @@
 			Command="{Binding Save}" 
 			Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
 			Margin="0 10 0 0"
-			Padding="10 0"
+			Padding="15 2"
 			HorizontalAlignment="Center"
 			Background="{StaticResource ThemeBackground}"
 			Foreground="{StaticResource ThemeForeground}"

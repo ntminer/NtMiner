@@ -9,12 +9,12 @@
 		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
 		mc:Ignorable="d" d:DesignHeight="200" d:DesignWidth="500">
 	<Grid>
-		<TextBox 
+		<controls:KbMuiltilineTextBox 
 			Text="{Binding HelpText, Mode=OneWay}"
-			BorderThickness="0" AcceptsReturn="True" 
-			TextWrapping="Wrap" IsReadOnly="True" 
+			BorderThickness="0"
+			IsReadOnly="True" 
 			Background="White" FontSize="14" 
 			Padding="4" VerticalScrollBarVisibility="Auto">
-		</TextBox>
+		</controls:KbMuiltilineTextBox>
 	</Grid>
 </UserControl>

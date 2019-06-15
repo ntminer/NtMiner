@@ -32,7 +32,7 @@
 	<SolidColorBrush x:Key="ThemeBackground">#007ACC</SolidColorBrush>
 	<SolidColorBrush x:Key="ThemeForeground">White</SolidColorBrush>
 	<SolidColorBrush x:Key="StateBarForeground">White</SolidColorBrush>
-	<SolidColorBrush x:Key="MinerProfileBackground">#F0F0F1</SolidColorBrush>
+	<SolidColorBrush x:Key="MinerProfileBackground">#EBEBEB</SolidColorBrush>
 	<SolidColorBrush x:Key="WindowBorderBrush">#9B9FB9</SolidColorBrush>
 
 	<ControlTemplate x:Key="ErrorTemplate">

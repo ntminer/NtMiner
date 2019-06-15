@@ -35,6 +35,18 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
+				<DataGridTemplateColumn MinWidth="30" IsReadOnly="True">
+					<DataGridTemplateColumn.HeaderTemplate>
+						<DataTemplate>
+							<TextBlock Text="PCI"></TextBlock>
+						</DataTemplate>
+					</DataGridTemplateColumn.HeaderTemplate>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding GpuVm.BusId}"></TextBlock>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
 				<DataGridTemplateColumn MinWidth="80" Width="*" IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
 						<TextBlock Text="名称"></TextBlock>
@@ -85,7 +97,10 @@
 				<DataGridTemplateColumn MinWidth="50" IsReadOnly="True">
 					<DataGridTemplateColumn.HeaderTemplate>
 						<DataTemplate>
-							<TextBlock Text="温度"></TextBlock>
+							<StackPanel>
+								<TextBlock Text="温度" FontSize="12"></TextBlock>
+								<TextBlock Text="{Binding Data.GpuAllVm.TemperatureSumText, Source={StaticResource proxy}}" FontSize="11"></TextBlock>
+							</StackPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.HeaderTemplate>
 					<DataGridTemplateColumn.CellTemplate>

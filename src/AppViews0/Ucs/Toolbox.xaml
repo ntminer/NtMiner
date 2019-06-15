@@ -44,6 +44,46 @@
 					Height="50" 
 					Width="200"
 					Margin="4"
+					Command="{Binding AtikmdagPatcher}"
+					Cursor="Hand"
+					Background="Transparent">
+					<WrapPanel VerticalAlignment="Center">
+						<Path 
+							Width="30"
+							Height="30"
+							Data="{StaticResource Icon_AMD}"
+							Fill="Red"
+							Stretch="Fill" />
+						<StackPanel Margin="8 0 0 0" Width="152">
+							<TextBlock FontWeight="Bold" FontSize="14">A卡驱动签名</TextBlock>
+							<TextBlock Foreground="{StaticResource LableColor}">一键A卡驱动签名</TextBlock>
+						</StackPanel>
+					</WrapPanel>
+				</controls:KbButton>
+				<controls:KbButton 
+					Height="50" 
+					Width="200"
+					Margin="4"
+					Cursor="Hand"
+					Command="{Binding NavigateToAmdDriver}"
+					Background="Transparent">
+					<WrapPanel VerticalAlignment="Center">
+						<Path 
+							Width="30"
+							Height="30"
+							Data="{StaticResource Icon_AMD}"
+							Fill="Red"
+							Stretch="Fill" />
+						<StackPanel Margin="8 0 0 0" Width="152">
+							<TextBlock FontWeight="Bold" FontSize="14">A卡驱动下载</TextBlock>
+							<TextBlock Foreground="{StaticResource LableColor}">打开AMD官网下载A卡驱动</TextBlock>
+						</StackPanel>
+					</WrapPanel>
+				</controls:KbButton>
+				<controls:KbButton 
+					Height="50" 
+					Width="200"
+					Margin="4"
 					Cursor="Hand"
 					ToolTip="如果没有20系列的卡，挖矿建议使用3xx驱动。"
 					Background="Transparent">
@@ -75,26 +115,6 @@
 								FontSize="14">
 								<TextBlock Text="N卡驱动399.24_win7" Foreground="{StaticResource LinkForeground}"></TextBlock>
 							</controls:KbLinkButton>
-						</StackPanel>
-					</WrapPanel>
-				</controls:KbButton>
-				<controls:KbButton 
-					Height="50" 
-					Width="200"
-					Margin="4"
-					Cursor="Hand"
-					Command="{Binding NavigateToAmdDriver}"
-					Background="Transparent">
-					<WrapPanel VerticalAlignment="Center">
-						<Path 
-							Width="30"
-							Height="30"
-							Data="{StaticResource Icon_AMD}"
-							Fill="Red"
-							Stretch="Fill" />
-						<StackPanel Margin="8 0 0 0" Width="152">
-							<TextBlock FontWeight="Bold" FontSize="14">A卡驱动下载</TextBlock>
-							<TextBlock Foreground="{StaticResource LableColor}">打开AMD官网下载A卡驱动</TextBlock>
 						</StackPanel>
 					</WrapPanel>
 				</controls:KbButton>
@@ -135,6 +155,46 @@
 						<StackPanel Margin="8 0 0 0" Width="152">
 							<TextBlock FontWeight="Bold" FontSize="14">收益计算器</TextBlock>
 							<TextBlock Foreground="{StaticResource LableColor}">点击打开收益计算器</TextBlock>
+						</StackPanel>
+					</WrapPanel>
+				</controls:KbButton>
+				<controls:KbButton 
+					Height="50" 
+					Width="200"
+					Margin="4"
+					Command="{Binding RegCmdHere}"
+					Cursor="Hand"
+					Background="Transparent">
+					<WrapPanel VerticalAlignment="Center">
+						<Path 
+							Width="30"
+							Height="30"
+							Data="{StaticResource Icon_Command}"
+							Fill="Black"
+							Stretch="Fill" />
+						<StackPanel Margin="8 0 0 0" Width="152">
+							<TextBlock FontWeight="Bold" FontSize="14">Windows右键命令行</TextBlock>
+							<TextBlock Foreground="{StaticResource LableColor}">方便在当前目录打开命令行</TextBlock>
+						</StackPanel>
+					</WrapPanel>
+				</controls:KbButton>
+				<controls:KbButton 
+					Height="50" 
+					Width="200"
+					Margin="4"
+					Command="{Binding BlockWAU}"
+					Cursor="Hand"
+					Background="Transparent">
+					<WrapPanel VerticalAlignment="Center">
+						<Path 
+							Width="30"
+							Height="30"
+							Data="{StaticResource Icon_WindowsUpdate}"
+							Fill="Black"
+							Stretch="Fill" />
+						<StackPanel Margin="8 0 0 0" Width="152">
+							<TextBlock FontWeight="Bold" FontSize="14">禁用Windows系统更新</TextBlock>
+							<TextBlock Foreground="{StaticResource LableColor}">一键禁用Windows系统更新</TextBlock>
 						</StackPanel>
 					</WrapPanel>
 				</controls:KbButton>

@@ -50,7 +50,7 @@ namespace NTMiner {
                         NeatenSpeedUnit(incomeItems);
                         if (incomeItems != null && incomeItems.Count != 0) {
                             Login();
-                            OfficialServer.GetCalcConfigsAsync(data=> {
+                            OfficialServer.CalcConfigService.GetCalcConfigsAsync(data=> {
                                 Write.UserInfo($"NTMiner有{data.Count}个币种");
                                 HashSet<string> coinCodes = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
                                 foreach (CalcConfigData calcConfigData in data) {
@@ -65,7 +65,7 @@ namespace NTMiner {
                                         calcConfigData.ModifiedOn = DateTime.Now;
                                     }
                                 }
-                                OfficialServer.SaveCalcConfigsAsync(data, callback: (res, e) => {
+                                OfficialServer.CalcConfigService.SaveCalcConfigsAsync(data, callback: (res, e) => {
                                     if (!res.IsSuccess()) {
                                         Write.UserFail(res.ReadMessage(e));
                                     }

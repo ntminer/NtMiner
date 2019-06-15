@@ -35,7 +35,7 @@ namespace NTMiner.Core.Impl {
                         Server.ControlCenterService.AddOrUpdatePoolAsync(entity, callback: null);
                     }
                     else {
-                        var repository = CreateCompositeRepository<PoolData>(isUseJson);
+                        var repository = NTMinerRoot.CreateCompositeRepository<PoolData>(isUseJson);
                         repository.Add(entity);
                     }
 
@@ -83,7 +83,7 @@ namespace NTMiner.Core.Impl {
                         Server.ControlCenterService.AddOrUpdatePoolAsync(entity, callback: null);
                     }
                     else {
-                        var repository = CreateCompositeRepository<PoolData>(isUseJson);
+                        var repository = NTMinerRoot.CreateCompositeRepository<PoolData>(isUseJson);
                         repository.Update(new PoolData().Update(message.Input));
                     }
 
@@ -105,7 +105,7 @@ namespace NTMiner.Core.Impl {
                         Server.ControlCenterService.RemovePoolAsync(entity.Id, callback: null);
                     }
                     else {
-                        var repository = CreateCompositeRepository<PoolData>(isUseJson);
+                        var repository = NTMinerRoot.CreateCompositeRepository<PoolData>(isUseJson);
                         repository.Remove(message.EntityId);
                     }
                     VirtualRoot.Happened(new PoolRemovedEvent(entity));
@@ -114,16 +114,6 @@ namespace NTMiner.Core.Impl {
                         VirtualRoot.Execute(new RemovePoolKernelCommand(poolKernelId));
                     }
                 });
-        }
-
-        /// <summary>
-        /// 创建组合仓储，组合仓储由ServerDb和ProfileDb层序组成。
-        /// 如果是开发者则访问ServerDb且只访问GlobalDb，否则将ServerDb和ProfileDb并起来访问且不能修改删除GlobalDb。
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        private static IRepository<T> CreateCompositeRepository<T>(bool isUseJson) where T : class, ILevelEntity<Guid> {
-            return new CompositeRepository<T>(NTMinerRoot.CreateServerRepository<T>(isUseJson), NTMinerRoot.CreateLocalRepository<T>(isUseJson: false));
         }
 
         private bool _isInited = false;
@@ -139,7 +129,7 @@ namespace NTMiner.Core.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    var repository = CreateCompositeRepository<PoolData>(_isUseJson);
+                    var repository = NTMinerRoot.CreateCompositeRepository<PoolData>(_isUseJson);
                     List<PoolData> data = repository.GetAll().ToList();
                     if (VirtualRoot.IsMinerStudio) {
                         foreach (var item in Server.ControlCenterService.GetPools()) {

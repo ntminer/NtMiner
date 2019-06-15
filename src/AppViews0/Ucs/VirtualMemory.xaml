@@ -116,7 +116,7 @@
 				<TextBlock VerticalAlignment="Center" Foreground="Red">虚拟内存已更改，重启电脑后生效</TextBlock>
 				<controls:KbButton 
 					Margin="8 0 0 0"
-					Width="80"
+					Padding="15 2"
 					Background="{StaticResource ThemeBackground}"
 					Command="{x:Static app:AppStatic.ShowRestartWindows}"
 					VerticalAlignment="Center"
@@ -142,7 +142,7 @@
 		<controls:KbButton
 			Grid.Row="2"
 			HorizontalAlignment="Right"
-			Padding="10 0"
+			Padding="15 2"
 			Margin="0 0 90 20"
 			Command="{Binding Apply}" 
 			Background="{StaticResource ThemeBackground}"

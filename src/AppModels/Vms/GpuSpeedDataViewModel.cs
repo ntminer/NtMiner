@@ -176,5 +176,20 @@ namespace NTMiner.Vms {
                 return this.PowerCapacity.ToString("f0") + "%";
             }
         }
+
+        public int TempLimit {
+            get { return _data.TempLimit; }
+            set {
+                _data.TempLimit = value;
+                OnPropertyChanged(nameof(TempLimit));
+                OnPropertyChanged(nameof(TempLimitText));
+            }
+        }
+
+        public string TempLimitText {
+            get {
+                return this.TempLimit + "℃";
+            }
+        }
     }
 }

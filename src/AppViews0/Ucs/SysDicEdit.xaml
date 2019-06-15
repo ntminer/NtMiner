@@ -28,19 +28,19 @@
 
 		<WrapPanel Margin="0 2">
 			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top">简介:</TextBlock>
-			<TextBox Width="420" Background="Transparent" Padding="0 4"
-					 AcceptsReturn="True" TextWrapping="Wrap" 
-					 VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
-					 Text="{Binding Description, Mode=TwoWay}" 
-					 Height="100">                
-			</TextBox>
+			<controls:KbMuiltilineTextBox 
+				Width="420" Background="Transparent" Padding="0 4"
+				VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
+				Text="{Binding Description, Mode=TwoWay}" 
+				Height="100">                
+			</controls:KbMuiltilineTextBox>
 		</WrapPanel>
 		<controls:KbButton
 			Command="{Binding Save}" 
 			VerticalAlignment="Bottom"
 			Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
 			Margin="0 10 0 0"
-			Padding="10 0"
+			Padding="15 2"
 			HorizontalAlignment="Center"
 			Background="{StaticResource ThemeBackground}"
 			Foreground="{StaticResource ThemeForeground}"

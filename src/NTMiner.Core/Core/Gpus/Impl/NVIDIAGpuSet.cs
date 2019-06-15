@@ -115,7 +115,7 @@ namespace NTMiner.Core.Gpus.Impl {
             if (NvmlInit()) {
                 NvmlNativeMethods.nvmlDeviceGetCount(ref deviceCount);
                 for (int i = 0; i < deviceCount; i++) {
-                    Gpu gpu = Gpu.Create(i, string.Empty);
+                    Gpu gpu = Gpu.Create(i, string.Empty, string.Empty);
                     nvmlDevice nvmlDevice = new nvmlDevice();
                     var nvmlReturn = NvmlNativeMethods.nvmlDeviceGetHandleByIndex((uint)i, ref nvmlDevice);
                     SetGpuStatus(gpu, nvmlReturn);
@@ -127,7 +127,10 @@ namespace NTMiner.Core.Gpus.Impl {
                         name = name.Replace("GeForce GTX ", string.Empty);
                         name = name.Replace("GeForce ", string.Empty);
                     }
+                    nvmlPciInfo pci = new nvmlPciInfo();
+                    NvmlNativeMethods.nvmlDeviceGetPciInfo(nvmlDevice, ref pci);
                     gpu.Name = name;
+                    gpu.BusId = pci.bus.ToString();
                     gpu.TotalMemory = memory.total;
                     _gpus.Add(i, gpu);
                 }

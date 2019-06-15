@@ -329,6 +329,26 @@ namespace NTMiner {
                 }
             }
 
+            public bool IsPowerAppend {
+                get => NTMinerRoot.Instance.MinerProfile.IsPowerAppend;
+                set {
+                    if (NTMinerRoot.Instance.MinerProfile.IsPowerAppend != value) {
+                        NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsPowerAppend), value);
+                        OnPropertyChanged(nameof(IsPowerAppend));
+                    }
+                }
+            }
+
+            public int PowerAppend {
+                get => NTMinerRoot.Instance.MinerProfile.PowerAppend;
+                set {
+                    if (NTMinerRoot.Instance.MinerProfile.PowerAppend != value) {
+                        NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(PowerAppend), value);
+                        OnPropertyChanged(nameof(PowerAppend));
+                    }
+                }
+            }
+
             public bool IsShowCommandLine {
                 get { return NTMinerRoot.GetIsShowCommandLine(); }
                 set {

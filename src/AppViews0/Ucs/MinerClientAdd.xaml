@@ -68,7 +68,7 @@
 			IsDefault="True"
 			Command="{Binding Save}" 
 			HorizontalAlignment="Center"
-			Padding="10 0"
+			Padding="15 2"
 			Margin="0 0 0 10"
 			Background="{StaticResource ThemeBackground}"
 			Foreground="{StaticResource ThemeForeground}"

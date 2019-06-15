@@ -467,6 +467,17 @@ namespace NTMiner {
         public PoolViewModel Source { get; private set; }
     }
 
+    [MessageType(description: "打开矿机事件类型编辑界面")]
+    public class WorkerEventTypeEditCommand : Cmd {
+        public WorkerEventTypeEditCommand(FormType formType, WorkerEventTypeViewModel source) {
+            this.FormType = formType;
+            this.Source = source;
+        }
+
+        public FormType FormType { get; private set; }
+        public WorkerEventTypeViewModel Source { get; private set; }
+    }
+
     [MessageType(description: "打开群控服务地址设置界面")]
     public class ShowControlCenterHostConfigCommand : Cmd {
         public ShowControlCenterHostConfigCommand() {

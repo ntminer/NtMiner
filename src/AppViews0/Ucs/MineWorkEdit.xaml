@@ -30,11 +30,11 @@
 			<TextBox Width="220" VerticalContentAlignment="Center" Background="White" Text="{Binding Name, ValidatesOnExceptions=True}">
 			</TextBox>
 			<TextBlock Style="{StaticResource LblTb}">作业备注:</TextBlock>
-			<TextBox Width="320" Background="White" Padding="0 4"
-					 AcceptsReturn="True" TextWrapping="Wrap" 
-					 VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
-					 Text="{Binding Description, Mode=TwoWay}">
-			</TextBox>
+			<controls:KbMuiltilineTextBox 
+				Width="320" Background="White" Padding="0 4"
+				VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
+				Text="{Binding Description, Mode=TwoWay}">
+			</controls:KbMuiltilineTextBox>
 		</WrapPanel>
 		<uc:MinerProfileIndex Grid.Row="1" Grid.Column="0" BorderBrush="{StaticResource LineColor}" />
 		<uc:MinerProfileOption Grid.Row="1" Grid.Column="1">
@@ -42,15 +42,14 @@
 		<TextBlock Grid.Row="1" Grid.ColumnSpan="2" VerticalAlignment="Bottom" Foreground="Red">
 			修改了作业后重新开始挖矿即可应用新作业
 		</TextBlock>
-		<TextBox 
+		<controls:KbMuiltilineTextBox 
 			Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" 
 			IsReadOnly="True"
 			Background="Transparent" Padding="0 4"
 			BorderBrush="{StaticResource LineColor}"
 			BorderThickness="0 1 0 0"
-			AcceptsReturn="True" TextWrapping="Wrap" 
 			VerticalContentAlignment="Top"
 			Text="{Binding MinerProfile.ArgsAssembly, Mode=OneWay}">
-		</TextBox>
+		</controls:KbMuiltilineTextBox>
 	</Grid>
 </UserControl>

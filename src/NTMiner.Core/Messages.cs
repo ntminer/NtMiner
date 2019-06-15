@@ -45,9 +45,20 @@ namespace NTMiner {
         public MainWindowShowedEvent() { }
     }
 
-    [MessageType(description: "发现了服务端新版本")]
-    public class ServerVersionChangedEvent : EventBase {
-        public ServerVersionChangedEvent() { }
+    [MessageType(description: "发现了NTMiner或MinerStudio新版本")]
+    public class AppVersionChangedEvent : EventBase {
+        /// <summary>
+        /// 如果给定的服务器版本比本地版本高则发布AppVersionChangedEvent事件
+        /// </summary>
+        /// <param name="serverVersion"></param>
+        public static void PublishIfNewVersion(string serverVersion) {
+            if (!string.IsNullOrEmpty(serverVersion) && serverVersion != NTMinerRoot.CurrentVersion.ToString()) {
+                NTMinerRoot.ServerVersion = serverVersion;
+                VirtualRoot.Happened(new AppVersionChangedEvent());
+            }
+        }
+
+        public AppVersionChangedEvent() { }
     }
 
     [MessageType(description: "开始挖矿不成功")]

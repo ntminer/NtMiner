@@ -7,6 +7,7 @@ using System.Linq;
 namespace NTMiner.Vms {
     public class GpuViewModel : ViewModelBase, IGpu {
         private int _index;
+        private string _busId;
         private string _name;
         private int _temperature;
         private uint _fanSpeed;
@@ -23,6 +24,7 @@ namespace NTMiner.Vms {
         private int _coolMax;
         private double _powerMin;
         private double _powerMax;
+        private double _powerDefault;
         private int _powerCapacity;
         private int _tempLimitMin;
         private int _tempLimitDefault;
@@ -32,6 +34,7 @@ namespace NTMiner.Vms {
 
         public GpuViewModel(IGpu data) {
             _index = data.Index;
+            _busId = data.BusId;
             _name = data.Name;
             _totalMemory = data.TotalMemory;
             _temperature = data.Temperature;
@@ -50,6 +53,7 @@ namespace NTMiner.Vms {
             _powerCapacity = data.PowerCapacity;
             _powerMin = data.PowerMin;
             _powerMax = data.PowerMax;
+            _powerDefault = data.PowerDefault;
             _tempLimit = data.TempLimit;
             _tempLimitDefault = data.TempLimitDefault;
             _tempLimitMax = data.TempLimitMax;
@@ -68,6 +72,7 @@ namespace NTMiner.Vms {
             _isGpuData = true;
             _gpuDatas = gpuDatas.Where(a => a.Index != NTMinerRoot.GpuAllId).ToArray();
             _index = gpuData.Index;
+            _busId = gpuData.BusId;
             _name = gpuData.Name;
             _totalMemory = gpuData.TotalMemory;
             _temperature = 0;
@@ -86,6 +91,7 @@ namespace NTMiner.Vms {
             _powerCapacity = 0;
             _powerMin = gpuData.PowerMin;
             _powerMax = gpuData.PowerMax;
+            _powerDefault = gpuData.PowerDefault;
             _tempLimitMin = gpuData.TempLimitMin;
             _tempLimitMax = gpuData.TempLimitMax;
             _tempLimitDefault = gpuData.TempLimitDefault;
@@ -116,6 +122,16 @@ namespace NTMiner.Vms {
                     return "All";
                 }
                 return $"#{Index}";
+            }
+        }
+
+        public string BusId {
+            get {
+                return _busId;
+            }
+            set {
+                _busId = value;
+                OnPropertyChanged(nameof(BusId));
             }
         }
 
@@ -170,6 +186,21 @@ namespace NTMiner.Vms {
             }
         }
 
+        public string TemperatureSumText {
+            get {
+                if (_isGpuData) {
+                    return "0℃";
+                }
+                if (NTMinerRoot.Instance.GpuSet == EmptyGpuSet.Instance) {
+                    return "0℃";
+                }
+                if (this.Index == NTMinerRoot.GpuAllId && NTMinerRoot.Instance.GpuSet.Count != 0) {
+                    return $"{AppContext.Instance.GpuVms.Sum(a=>a.Temperature)}℃";
+                }
+                return this.Temperature.ToString() + "℃";
+            }
+        }
+
         public uint FanSpeed {
             get => _fanSpeed;
             set {
@@ -197,7 +228,9 @@ namespace NTMiner.Vms {
         }
 
         public uint PowerUsage {
-            get => _powerUsage;
+            get {
+                return _powerUsage;
+            }
             set {
                 if (_powerUsage != value) {
                     _powerUsage = value;
@@ -224,10 +257,21 @@ namespace NTMiner.Vms {
                     return "0W";
                 }
                 if (this.Index == NTMinerRoot.GpuAllId && NTMinerRoot.Instance.GpuSet.Count != 0) {
-                    return $"{(AppContext.Instance.GpuVms.Sum(a => a.PowerUsage)).ToString("f0")}W";
+                    return $"{GetSumPower().ToString("f0")}W";
                 }
                 return PowerUsageW.ToString("f0") + "W";
             }
+        }
+
+        private static long GetSumPower() {
+            var sum = AppContext.Instance.GpuVms.Sum(a => a.PowerUsage);
+            if (AppContext.Instance.MinerProfileVm.IsPowerAppend) {
+                sum = sum + AppContext.Instance.MinerProfileVm.PowerAppend * AppContext.Instance.GpuVms.Count;
+                if (sum <= 0) {
+                    sum = 0;
+                }
+            }
+            return sum;
         }
 
         public double ECharge {
@@ -239,7 +283,7 @@ namespace NTMiner.Vms {
                     return 0;
                 }
                 if (this.Index == NTMinerRoot.GpuAllId && NTMinerRoot.Instance.GpuSet.Count != 0) {
-                    return (double)AppContext.Instance.GpuVms.Sum(a => a.PowerUsage) * NTMinerRoot.Instance.MinerProfile.EPrice / 1000 * 24;
+                    return GetSumPower() * NTMinerRoot.Instance.MinerProfile.EPrice / 1000 * 24;
                 }
                 return (double)PowerUsageW * NTMinerRoot.Instance.MinerProfile.EPrice / 1000 * 24;
             }
@@ -496,6 +540,13 @@ namespace NTMiner.Vms {
                 OnPropertyChanged(nameof(PowerMax));
             }
         }
+        public double PowerDefault {
+            get => _powerDefault;
+            set {
+                _powerDefault = value;
+                OnPropertyChanged(nameof(PowerDefault));
+            }
+        }
         public int PowerCapacity {
             get => _powerCapacity;
             set {
@@ -548,11 +599,11 @@ namespace NTMiner.Vms {
         }
 
         public bool IsDeviceArgInclude {
-            get => NTMinerRoot.Instance.GetIsUseDevice(this.Index);
+            get => NTMinerRoot.Instance.GpuSet.GetIsUseDevice(this.Index);
             set {
-                List<int> old = NTMinerRoot.Instance.GetUseDevices();
+                List<int> old = NTMinerRoot.Instance.GpuSet.GetUseDevices();
                 bool refreshAllGpu = !value && old.Count <= 1;
-                NTMinerRoot.Instance.SetIsUseDevice(this.Index, value);
+                NTMinerRoot.Instance.GpuSet.SetIsUseDevice(this.Index, value);
                 if (refreshAllGpu) {
                     foreach (var gpuVm in AppContext.Instance.GpuVms) {
                         if (gpuVm.Index == NTMinerRoot.GpuAllId) {
