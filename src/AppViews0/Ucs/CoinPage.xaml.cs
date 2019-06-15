@@ -20,10 +20,10 @@ namespace NTMiner.Views.Ucs {
                 if (currentCoin != null) {
                     CoinPageViewModel vm = (CoinPageViewModel)uc.DataContext;
                     switch (tabType) {
-                        case "pool":
+                        case Consts.PoolParameterName:
                             vm.IsPoolTabSelected = true;
                             break;
-                        case "wallet":
+                        case Consts.WalletParameterName:
                             vm.IsWalletTabSelected = true;
                             break;
                         default:

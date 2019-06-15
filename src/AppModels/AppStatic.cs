@@ -366,10 +366,10 @@ namespace NTMiner {
             VirtualRoot.Execute(new ShowColumnsShowPageCommand());
         });
         public static ICommand ManagePools { get; private set; } = new DelegateCommand<CoinViewModel>(coinVm => {
-            VirtualRoot.Execute(new ShowCoinPageCommand(coinVm, "pool"));
+            VirtualRoot.Execute(new ShowCoinPageCommand(coinVm, Consts.PoolParameterName));
         });
         public static ICommand ManageWallet { get; private set; } = new DelegateCommand<CoinViewModel>(coinVm => {
-            VirtualRoot.Execute(new ShowCoinPageCommand(coinVm, "wallet"));
+            VirtualRoot.Execute(new ShowCoinPageCommand(coinVm, Consts.WalletParameterName));
         });
         public static ICommand ShowKernelInputs { get; private set; } = new DelegateCommand(()=> {
             VirtualRoot.Execute(new ShowKernelInputPageCommand());

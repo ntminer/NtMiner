@@ -270,7 +270,7 @@ namespace NTMiner.Vms {
 
         public bool IsDevicesSpaceSeparator {
             get {
-                return DevicesSeparator == "space";
+                return DevicesSeparator == Consts.SpaceKeyword;
             }
         }
 
