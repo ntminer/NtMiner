@@ -6,6 +6,9 @@ using System;
 using System.Web.Http;
 
 namespace NTMiner {
+    /// <summary>
+    /// 端口号：<see cref="Consts.MinerClientPort"/>
+    /// </summary>
     public class MinerClientController : ApiController, IMinerClientController, IShowMainWindow {
         [HttpPost]
         public bool ShowMainWindow() {

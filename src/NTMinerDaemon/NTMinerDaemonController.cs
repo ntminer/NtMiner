@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 using System.Web.Http;
 
 namespace NTMiner {
+    /// <summary>
+    /// 端口号：<see cref="Consts.NTMinerDaemonPort"/>
+    /// </summary>
     public class NTMinerDaemonController : ApiController, INTMinerDaemonController {
         [HttpPost]
         public void CloseDaemon() {
