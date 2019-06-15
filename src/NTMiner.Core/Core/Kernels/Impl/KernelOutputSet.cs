@@ -223,7 +223,7 @@ namespace NTMiner.Core.Kernels.Impl {
             }
             Match match = Regex.Match(input, poolDelayPattern, RegexOptions.Compiled);
             if (match.Success) {
-                string poolDelayText = match.Groups["poolDelay"].Value;
+                string poolDelayText = match.Groups[Consts.PoolDelayGroupName].Value;
                 VirtualRoot.Happened(new PoolDelayPickedEvent(poolDelayText, isDual));
             }
         }
@@ -237,19 +237,19 @@ namespace NTMiner.Core.Kernels.Impl {
                 return;
             }
             var now = DateTime.Now;
-            bool hasGpuId = gpuSpeedPattern.Contains("?<gpu>");
+            bool hasGpuId = gpuSpeedPattern.Contains($"?<{Consts.GpuIndexGroupName}>");
             Regex regex = new Regex(gpuSpeedPattern);
             MatchCollection matches = regex.Matches(input);
             if (matches.Count > 0) {
                 IGpusSpeed gpuSpeeds = NTMinerRoot.Instance.GpusSpeed;
                 for (int i = 0; i < matches.Count; i++) {
                     Match match = matches[i];
-                    string gpuSpeedText = match.Groups["gpuSpeed"].Value;
-                    string gpuSpeedUnit = match.Groups["gpuSpeedUnit"].Value;
+                    string gpuSpeedText = match.Groups[Consts.GpuSpeedGroupName].Value;
+                    string gpuSpeedUnit = match.Groups[Consts.GpuSpeedUnitGroupName].Value;
 
                     int gpu = i;
                     if (hasGpuId) {
-                        string gpuText = match.Groups["gpu"].Value;
+                        string gpuText = match.Groups[Consts.GpuIndexGroupName].Value;
                         if (!int.TryParse(gpuText, out gpu)) {
                             gpu = i;
                         }
@@ -283,7 +283,7 @@ namespace NTMiner.Core.Kernels.Impl {
             }
             var match = Regex.Match(input, totalSharePattern, RegexOptions.Compiled);
             if (match.Success) {
-                string totalShareText = match.Groups["totalShare"].Value;
+                string totalShareText = match.Groups[Consts.TotalShareGroupName].Value;
                 int totalShare;
                 if (int.TryParse(totalShareText, out totalShare)) {
                     ICoinShare share = root.CoinShareSet.GetOrCreate(coin.GetId());
@@ -302,7 +302,7 @@ namespace NTMiner.Core.Kernels.Impl {
             }
             var match = Regex.Match(input, acceptSharePattern, RegexOptions.Compiled);
             if (match.Success) {
-                string acceptShareText = match.Groups["acceptShare"].Value;
+                string acceptShareText = match.Groups[Consts.AcceptShareGroupName].Value;
                 int acceptShare;
                 if (int.TryParse(acceptShareText, out acceptShare)) {
                     root.CoinShareSet.UpdateShare(coin.GetId(), acceptShareCount: acceptShare, rejectShareCount: null, now: DateTime.Now);
@@ -335,7 +335,7 @@ namespace NTMiner.Core.Kernels.Impl {
             }
             var match = Regex.Match(input, rejectSharePattern, RegexOptions.Compiled);
             if (match.Success) {
-                string rejectShareText = match.Groups["rejectShare"].Value;
+                string rejectShareText = match.Groups[Consts.RejectShareGroupName].Value;
 
                 int rejectShare;
                 if (int.TryParse(rejectShareText, out rejectShare)) {
@@ -368,7 +368,7 @@ namespace NTMiner.Core.Kernels.Impl {
                 return;
             }
             var match = Regex.Match(input, rejectPercentPattern, RegexOptions.Compiled);
-            string rejectPercentText = match.Groups["rejectPercent"].Value;
+            string rejectPercentText = match.Groups[Consts.RejectPercentGroupName].Value;
             double rejectPercent;
             if (double.TryParse(rejectPercentText, out rejectPercent)) {
                 ICoinShare share = root.CoinShareSet.GetOrCreate(coin.GetId());
