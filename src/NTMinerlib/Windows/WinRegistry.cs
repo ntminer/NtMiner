@@ -2,7 +2,6 @@
 
 namespace NTMiner.Windows {
     public static class WinRegistry {
-        #region Registry
         public static object GetValue(RegistryKey root, string subkey, string valueName) {
             object registData = "";
             try {
@@ -23,6 +22,7 @@ namespace NTMiner.Windows {
             try {
                 RegistryKey registryKey = root.CreateSubKey(subkey);
                 registryKey.SetValue(valueName, value);
+                registryKey.Close();
             }
             catch (System.Exception e) {
                 Logger.ErrorDebugLine(e);
@@ -32,12 +32,14 @@ namespace NTMiner.Windows {
         public static void DeleteValue(RegistryKey root, string subkey, string valueName) {
             try {
                 RegistryKey myKey = root.OpenSubKey(subkey, true);
-                myKey?.DeleteValue(valueName, throwOnMissingValue: false);
+                if (myKey != null) {
+                    myKey.DeleteValue(valueName, throwOnMissingValue: false);
+                    myKey.Close();
+                }
             }
             catch (System.Exception e) {
                 Logger.ErrorDebugLine(e);
             }
         }
-        #endregion
     }
 }
