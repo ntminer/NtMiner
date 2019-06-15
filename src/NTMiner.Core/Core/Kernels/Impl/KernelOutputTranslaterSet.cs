@@ -21,7 +21,7 @@ namespace NTMiner.Core.Kernels.Impl {
                         throw new ArgumentNullException();
                     }
                     if (string.IsNullOrEmpty(message.Input.RegexPattern)) {
-                        throw new ValidationException("ConsoleTranslater RegexPattern can't be null or empty");
+                        throw new ValidationException($"{nameof(message.Input.RegexPattern)} can't be null or empty");
                     }
                     if (_dicById.ContainsKey(message.Input.GetId())) {
                         return;
@@ -44,7 +44,7 @@ namespace NTMiner.Core.Kernels.Impl {
                         throw new ArgumentNullException();
                     }
                     if (string.IsNullOrEmpty(message.Input.RegexPattern)) {
-                        throw new ValidationException("ConsoleTranslater RegexPattern can't be null or empty");
+                        throw new ValidationException($"{nameof(message.Input.RegexPattern)} can't be null or empty");
                     }
                     if (!_dicById.ContainsKey(message.Input.GetId())) {
                         return;
@@ -90,7 +90,7 @@ namespace NTMiner.Core.Kernels.Impl {
                 });
             _root.ServerContextOn<SysDicItemUpdatedEvent>("LogColor字典项更新后刷新翻译器内存", LogEnum.DevConsole,
                 action: message => {
-                    if (!_root.SysDicSet.TryGetSysDic("LogColor", out ISysDic dic)) {
+                    if (!_root.SysDicSet.TryGetSysDic(Consts.LogColorDicKey, out ISysDic dic)) {
                         return;
                     }
                     if (message.Source.DicId != dic.GetId()) {
@@ -170,7 +170,7 @@ namespace NTMiner.Core.Kernels.Impl {
         private Dictionary<IKernelOutputTranslater, ConsoleColor> _colorDic = new Dictionary<IKernelOutputTranslater, ConsoleColor>();
         private ConsoleColor GetColor(IKernelOutputTranslater consoleTranslater) {
             if (!_colorDic.ContainsKey(consoleTranslater)) {
-                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("LogColor", consoleTranslater.Color, out ISysDicItem dicItem)) {
+                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(Consts.LogColorDicKey, consoleTranslater.Color, out ISysDicItem dicItem)) {
                     _colorDic.Add(consoleTranslater, GetColor(dicItem.Value));
                 }
                 else {

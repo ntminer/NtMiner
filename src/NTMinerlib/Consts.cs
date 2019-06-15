@@ -6,5 +6,7 @@
         public const int ControlCenterPort = 3339;
         public const string KernelBrandId = "KernelBrandId";
         public const string PoolBrandId = "PoolBrandId";
+
+        public const string LogColorDicKey = "LogColor";
     }
 }
