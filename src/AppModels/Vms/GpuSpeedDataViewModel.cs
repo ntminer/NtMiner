@@ -26,18 +26,19 @@ namespace NTMiner.Vms {
             }
         }
 
-        public int TotalMemoryMb {
-            get { return _data.TotalMemoryMb; }
+        public ulong TotalMemory {
+            get { return _data.TotalMemory; }
             set {
-                _data.TotalMemoryMb = value;
-                OnPropertyChanged(nameof(TotalMemoryMb));
+                _data.TotalMemory = value;
+                OnPropertyChanged(nameof(TotalMemory));
                 OnPropertyChanged(nameof(TotalMemoryGbText));
             }
         }
 
+        private const double g = 1024 * 1024 * 1024;
         public string TotalMemoryGbText {
             get {
-                return Math.Round(this.TotalMemoryMb / 1024.0, 1) + "Gb";
+                return Math.Round(this.TotalMemory / g, 1) + "Gb";
             }
         }
 

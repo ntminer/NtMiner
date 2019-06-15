@@ -7,7 +7,10 @@
 
         public string Name { get; set; }
 
-        public int TotalMemoryMb { get; set; }
+        /// <summary>
+        /// 单位byte
+        /// </summary>
+        public ulong TotalMemory { get; set; }
 
         public double MainCoinSpeed { get; set; }
 

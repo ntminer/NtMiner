@@ -5,7 +5,7 @@
         string Name { get; }
 
         /// <summary>
-        /// 单位Mb
+        /// 单位Byte
         /// </summary>
         ulong TotalMemory { get; set; }
 

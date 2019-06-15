@@ -54,9 +54,9 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn IsReadOnly="True">
+				<DataGridTemplateColumn Width="40" IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
-						<TextBlock Text="显存"></TextBlock>
+						<TextBlock Text="显存?" ToolTip="'显存'可能显示为0，因为挖矿端自2.2.0.6开始上报显存"></TextBlock>
 					</DataGridTemplateColumn.Header>
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
