@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 
 /// <summary>
 /// 注意不要挪动这里的命名空间也不要挪动该代码文件所处的程序集
@@ -46,8 +47,10 @@ namespace NTMiner.OhGodAnETHlargementPill {
         public static void Stop() {
             try {
                 if (NTMinerRoot.Instance.GpuSet.Any(a => a.Name.IndexOf("1080", StringComparison.OrdinalIgnoreCase) != -1)) {
-                    Windows.TaskKill.Kill(s_processName);
-                    Logger.OkWriteLine("成功停止小药丸");
+                    Task.Factory.StartNew(() => {
+                        Windows.TaskKill.Kill(s_processName, waitForExit: true);
+                        Logger.OkWriteLine("成功停止小药丸");
+                    });
                 }
                 else {
                     Logger.InfoDebugLine("没有发现1080卡，不适用小药丸");

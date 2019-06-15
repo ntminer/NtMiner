@@ -435,9 +435,14 @@ namespace NTMiner {
             try {
                 if (_currentMineContext != null && _currentMineContext.Kernel != null) {
                     string processName = _currentMineContext.Kernel.GetProcessName();
-                    Windows.TaskKill.Kill(processName);
+                    Task.Factory.StartNew(() => {
+                        Windows.TaskKill.Kill(processName, waitForExit: true);
+                        Logger.EventWriteLine("挖矿停止");
+                    });
                 }
-                Logger.EventWriteLine("挖矿停止");
+                else {
+                    Logger.EventWriteLine("挖矿停止");
+                }
                 var mineContext = _currentMineContext;
                 _currentMineContext = null;
                 VirtualRoot.Happened(new MineStopedEvent(mineContext));

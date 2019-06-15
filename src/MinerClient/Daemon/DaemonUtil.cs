@@ -43,7 +43,7 @@ namespace NTMiner.Daemon {
                 foreach (var name in names) {
                     ExtractResource(name);
                 }
-                Windows.Cmd.RunClose(SpecialPath.DaemonFileFullName, string.Empty);
+                Windows.Cmd.RunClose(SpecialPath.DaemonFileFullName, string.Empty, waitForExit: true);
                 Logger.OkDebugLine("守护进程启动成功");
             });
         }
@@ -59,12 +59,7 @@ namespace NTMiner.Daemon {
                     Logger.OkDebugLine("DevConsole解压成功");
                 }
                 else if (HashUtil.Sha1(File.ReadAllBytes(SpecialPath.DevConsoleFileFullName)) != ThisDevConsoleFileVersion) {
-                    try {
-                        Windows.TaskKill.Kill("DevConsole", waitForExit: true);
-                    }
-                    catch (Exception e) {
-                        Logger.ErrorDebugLine(e);
-                    }
+                    Windows.TaskKill.Kill("DevConsole", waitForExit: true);
                     string name = "DevConsole.exe";
                     ExtractResource(name);
                     Logger.OkDebugLine("发现新版DevConsole，更新成功");
