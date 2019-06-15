@@ -238,25 +238,26 @@ namespace NTMiner.Controllers {
         }
         #endregion
 
-        #region LatestSnapshots
-        [HttpPost]
-        public GetCoinSnapshotsResponse LatestSnapshots([FromBody]GetCoinSnapshotsRequest request) {
-            if (request == null) {
-                return ResponseBase.InvalidInput<GetCoinSnapshotsResponse>("参数错误");
+        #region RefreshClients
+
+        public DataResponse<List<ClientData>> RefreshClients([FromBody]MinerIdsRequest request) {
+            if (request == null || request.ObjectIds == null) {
+                return ResponseBase.InvalidInput<DataResponse<List<ClientData>>>("参数错误");
+            }
+            if (!HostRoot.Instance.HostConfig.IsPull) {
+                return ResponseBase.InvalidInput<DataResponse<List<ClientData>>>("服务端配置为不支持刷新");
             }
             try {
-                if (!request.IsValid(HostRoot.Instance.UserSet.GetUser, base.ClientIp, out GetCoinSnapshotsResponse response)) {
+                if (!request.IsValid(HostRoot.Instance.UserSet.GetUser, base.ClientIp, out DataResponse<List<ClientData>> response)) {
                     return response;
                 }
-                List<CoinSnapshotData> data = HostRoot.Instance.CoinSnapshotSet.GetLatestSnapshots(
-                    request.Limit,
-                    out int totalMiningCount,
-                    out int totalOnlineCount) ?? new List<CoinSnapshotData>();
-                return GetCoinSnapshotsResponse.Ok(data, totalMiningCount, totalOnlineCount);
+
+                var data = HostRoot.Instance.ClientSet.RefreshClients(request.ObjectIds);
+                return DataResponse<List<ClientData>>.Ok(data);
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
-                return ResponseBase.ServerError<GetCoinSnapshotsResponse>(e.Message);
+                return ResponseBase.ServerError<DataResponse<List<ClientData>>>(e.Message);
             }
         }
         #endregion
@@ -341,30 +342,6 @@ namespace NTMiner.Controllers {
         }
         #endregion
 
-        #region RefreshClients
-
-        public DataResponse<List<ClientData>> RefreshClients([FromBody]MinerIdsRequest request) {
-            if (request == null || request.ObjectIds == null) {
-                return ResponseBase.InvalidInput<DataResponse<List<ClientData>>>("参数错误");
-            }
-            if (!HostRoot.Instance.HostConfig.IsPull) {
-                return ResponseBase.InvalidInput<DataResponse<List<ClientData>>>("服务端配置为不支持刷新");
-            }
-            try {
-                if (!request.IsValid(HostRoot.Instance.UserSet.GetUser, base.ClientIp, out DataResponse<List<ClientData>> response)) {
-                    return response;
-                }
-
-                var data = HostRoot.Instance.ClientSet.RefreshClients(request.ObjectIds);
-                return DataResponse<List<ClientData>>.Ok(data);
-            }
-            catch (Exception e) {
-                Logger.ErrorDebugLine(e);
-                return ResponseBase.ServerError<DataResponse<List<ClientData>>>(e.Message);
-            }
-        }
-        #endregion
-
         #region UpdateClients
         [HttpPost]
         public ResponseBase UpdateClients([FromBody]UpdateClientsRequest request) {
@@ -381,6 +358,29 @@ namespace NTMiner.Controllers {
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
                 return ResponseBase.ServerError(e.Message);
+            }
+        }
+        #endregion
+
+        #region LatestSnapshots
+        [HttpPost]
+        public GetCoinSnapshotsResponse LatestSnapshots([FromBody]GetCoinSnapshotsRequest request) {
+            if (request == null) {
+                return ResponseBase.InvalidInput<GetCoinSnapshotsResponse>("参数错误");
+            }
+            try {
+                if (!request.IsValid(HostRoot.Instance.UserSet.GetUser, base.ClientIp, out GetCoinSnapshotsResponse response)) {
+                    return response;
+                }
+                List<CoinSnapshotData> data = HostRoot.Instance.CoinSnapshotSet.GetLatestSnapshots(
+                    request.Limit,
+                    out int totalMiningCount,
+                    out int totalOnlineCount) ?? new List<CoinSnapshotData>();
+                return GetCoinSnapshotsResponse.Ok(data, totalMiningCount, totalOnlineCount);
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e);
+                return ResponseBase.ServerError<GetCoinSnapshotsResponse>(e.Message);
             }
         }
         #endregion
