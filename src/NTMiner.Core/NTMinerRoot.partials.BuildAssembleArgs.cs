@@ -43,40 +43,40 @@ namespace NTMiner {
             string kernelArgs = kernelInput.Args;
             string coinKernelArgs = coinKernel.Args;
             string customArgs = coinKernelProfile.CustomArgs;
-            parameters.Add("mainCoin", mainCoin.Code);
+            parameters.Add(Consts.MainCoinParameterName, mainCoin.Code);
             if (mainCoinPool.IsUserMode) {
                 IPoolProfile poolProfile = MinerProfile.GetPoolProfile(mainCoinPool.GetId());
                 string password = poolProfile.Password;
                 if (string.IsNullOrEmpty(password)) {
-                    password = "x";
+                    password = Consts.PasswordDefaultValue;
                 }
-                parameters.Add("userName", poolProfile.UserName);
-                parameters.Add("password", password);
+                parameters.Add(Consts.UserNameParameterName, poolProfile.UserName);
+                parameters.Add(Consts.PasswordParameterName, password);
             }
             else {
-                parameters.Add("wallet", coinProfile.Wallet);
+                parameters.Add(Consts.WalletParameterName, coinProfile.Wallet);
             }
-            parameters.Add("host", mainCoinPool.GetHost());
-            parameters.Add("port", mainCoinPool.GetPort().ToString());
-            parameters.Add("pool", mainCoinPool.Server);
-            parameters.Add("worker", this.MinerProfile.MinerName);
+            parameters.Add(Consts.HostParameterName, mainCoinPool.GetHost());
+            parameters.Add(Consts.PortParameterName, mainCoinPool.GetPort().ToString());
+            parameters.Add(Consts.PoolParameterName, mainCoinPool.Server);
+            parameters.Add(Consts.WorkerParameterName, this.MinerProfile.MinerName);
             if (coinKernel.IsSupportPool1) {
-                parameters.Add("worker1", this.MinerProfile.MinerName);
+                parameters.Add(Consts.Worker1ParameterName, this.MinerProfile.MinerName);
                 if (PoolSet.TryGetPool(coinProfile.PoolId1, out IPool mainCoinPool1)) {
-                    parameters.Add("host1", mainCoinPool1.GetHost());
-                    parameters.Add("port1", mainCoinPool1.GetPort().ToString());
-                    parameters.Add("pool1", mainCoinPool1.Server);
+                    parameters.Add(Consts.Host1ParameterName, mainCoinPool1.GetHost());
+                    parameters.Add(Consts.Port1ParameterName, mainCoinPool1.GetPort().ToString());
+                    parameters.Add(Consts.Pool1ParameterName, mainCoinPool1.Server);
                     if (mainCoinPool1.IsUserMode) {
                         IPoolProfile poolProfile1 = MinerProfile.GetPoolProfile(mainCoinPool1.GetId());
                         string password1 = poolProfile1.Password;
                         if (string.IsNullOrEmpty(password1)) {
-                            password1 = "x";
+                            password1 = Consts.PasswordDefaultValue;
                         }
-                        parameters.Add("userName1", poolProfile1.UserName);
-                        parameters.Add("password1", password1);
+                        parameters.Add(Consts.UserName1ParameterName, poolProfile1.UserName);
+                        parameters.Add(Consts.Password1ParameterName, password1);
                     }
                     else {
-                        parameters.Add("wallet1", coinProfile.Wallet);
+                        parameters.Add(Consts.Wallet1ParameterName, coinProfile.Wallet);
                     }
                 }
             }
@@ -93,15 +93,15 @@ namespace NTMiner {
                             IPoolProfile dualPoolProfile = MinerProfile.GetPoolProfile(dualCoinPool.GetId());
                             string dualPassword = dualPoolProfile.Password;
                             if (string.IsNullOrEmpty(dualPassword)) {
-                                dualPassword = "x";
+                                dualPassword = Consts.PasswordDefaultValue;
                             }
-                            parameters.Add("dualCoin", dualCoin.Code);
-                            parameters.Add("dualWallet", dualCoinProfile.DualCoinWallet);
-                            parameters.Add("dualUserName", dualPoolProfile.UserName);
-                            parameters.Add("dualPassword", dualPassword);
-                            parameters.Add("dualHost", dualCoinPool.GetHost());
-                            parameters.Add("dualPort", dualCoinPool.GetPort().ToString());
-                            parameters.Add("dualPool", dualCoinPool.Server);
+                            parameters.Add(Consts.DualCoinParameterName, dualCoin.Code);
+                            parameters.Add(Consts.DualWalletParameterName, dualCoinProfile.DualCoinWallet);
+                            parameters.Add(Consts.DualUserNameParameterName, dualPoolProfile.UserName);
+                            parameters.Add(Consts.DualPasswordParameterName, dualPassword);
+                            parameters.Add(Consts.DualHostParameterName, dualCoinPool.GetHost());
+                            parameters.Add(Consts.DualPortParameterName, dualCoinPool.GetPort().ToString());
+                            parameters.Add(Consts.DualPoolParameterName, dualCoinPool.Server);
 
                             kernelArgs = kernelInput.DualFullArgs;
                             AssembleArgs(parameters, ref kernelArgs, isDual: true);
@@ -151,7 +151,8 @@ namespace NTMiner {
                 List<int> useDevices = this.GpuSet.GetUseDevices();
                 if (useDevices.Count != 0 && useDevices.Count != GpuSet.Count) {
                     string separator = kernelInput.DevicesSeparator;
-                    if (kernelInput.DevicesSeparator == "space") {
+                    // 因为空格在界面上不易被人读取所以以关键字代替空格
+                    if (kernelInput.DevicesSeparator == Consts.SpaceKeyword) {
                         separator = " ";
                     }
                     if (string.IsNullOrEmpty(separator)) {
@@ -202,28 +203,28 @@ namespace NTMiner {
                 args = string.Empty;
                 return;
             }
-            args = args.Replace("{mainCoin}", prms["mainCoin"]);
-            if (prms.ContainsKey("wallet")) {
-                args = args.Replace("{wallet}", prms["wallet"]);
+            args = args.Replace("{" + Consts.MainCoinParameterName + "}", prms[Consts.MainCoinParameterName]);
+            if (prms.ContainsKey(Consts.WalletParameterName)) {
+                args = args.Replace("{" + Consts.WalletParameterName + "}", prms[Consts.WalletParameterName]);
             }
-            if (prms.ContainsKey("userName")) {
-                args = args.Replace("{userName}", prms["userName"]);
+            if (prms.ContainsKey(Consts.UserNameParameterName)) {
+                args = args.Replace("{" + Consts.UserNameParameterName + "}", prms[Consts.UserNameParameterName]);
             }
-            if (prms.ContainsKey("password")) {
-                args = args.Replace("{password}", prms["password"]);
+            if (prms.ContainsKey(Consts.PasswordParameterName)) {
+                args = args.Replace("{" + Consts.PasswordParameterName + "}", prms[Consts.PasswordParameterName]);
             }
-            args = args.Replace("{host}", prms["host"]);
-            args = args.Replace("{port}", prms["port"]);
-            args = args.Replace("{pool}", prms["pool"]);
-            args = args.Replace("{worker}", prms["worker"]);
+            args = args.Replace("{" + Consts.HostParameterName + "}", prms[Consts.HostParameterName]);
+            args = args.Replace("{" + Consts.PortParameterName + "}", prms[Consts.PortParameterName]);
+            args = args.Replace("{" + Consts.PoolParameterName + "}", prms[Consts.PoolParameterName]);
+            args = args.Replace("{" + Consts.WorkerParameterName + "}", prms[Consts.WorkerParameterName]);
             if (isDual) {
-                args = args.Replace("{dualCoin}", prms["dualCoin"]);
-                args = args.Replace("{dualWallet}", prms["dualWallet"]);
-                args = args.Replace("{dualUserName}", prms["dualUserName"]);
-                args = args.Replace("{dualPassword}", prms["dualPassword"]);
-                args = args.Replace("{dualHost}", prms["dualHost"]);
-                args = args.Replace("{dualPort}", prms["dualPort"]);
-                args = args.Replace("{dualPool}", prms["dualPool"]);
+                args = args.Replace("{" + Consts.DualCoinParameterName + "}", prms[Consts.DualCoinParameterName]);
+                args = args.Replace("{" + Consts.DualWalletParameterName + "}", prms[Consts.DualWalletParameterName]);
+                args = args.Replace("{" + Consts.DualUserNameParameterName + "}", prms[Consts.DualUserNameParameterName]);
+                args = args.Replace("{" + Consts.DualPasswordParameterName + "}", prms[Consts.DualPasswordParameterName]);
+                args = args.Replace("{" + Consts.DualHostParameterName + "}", prms[Consts.DualHostParameterName]);
+                args = args.Replace("{" + Consts.DualPortParameterName + "}", prms[Consts.DualPortParameterName]);
+                args = args.Replace("{" + Consts.DualPoolParameterName + "}", prms[Consts.DualPoolParameterName]);
             }
             // 这里不要考虑{logfile}，{logfile}往后推迟
         }
@@ -287,7 +288,7 @@ namespace NTMiner {
                         parameterNames.Names.Add(match.Groups[1].Value);
                     }
                     return parameterNames;
-                }                
+                }
             }
         }
 
