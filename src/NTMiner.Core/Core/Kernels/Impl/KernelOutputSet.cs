@@ -38,7 +38,7 @@ namespace NTMiner.Core.Kernels.Impl {
                         throw new ArgumentNullException();
                     }
                     if (string.IsNullOrEmpty(message.Input.Name)) {
-                        throw new ValidationException("KernelOutput name can't be null or empty");
+                        throw new ValidationException($"{nameof(message.Input.Name)} can't be null or empty");
                     }
                     if (!_dicById.ContainsKey(message.Input.GetId())) {
                         return;
@@ -187,8 +187,8 @@ namespace NTMiner.Core.Kernels.Impl {
             }
             Match match = Regex.Match(input, totalSpeedPattern, RegexOptions.Compiled);
             if (match.Success) {
-                string totalSpeedText = match.Groups["totalSpeed"].Value;
-                string totalSpeedUnit = match.Groups["totalSpeedUnit"].Value;
+                string totalSpeedText = match.Groups[Consts.TotalSpeedGroupName].Value;
+                string totalSpeedUnit = match.Groups[Consts.TotalSpeedUnitGroupName].Value;
 
                 double totalSpeed;
                 if (double.TryParse(totalSpeedText, out totalSpeed)) {

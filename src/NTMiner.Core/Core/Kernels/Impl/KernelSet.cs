@@ -20,7 +20,7 @@ namespace NTMiner.Core.Kernels.Impl {
                         throw new ArgumentNullException();
                     }
                     if (string.IsNullOrEmpty(message.Input.Code)) {
-                        throw new ValidationException("Kernel code can't be null or empty");
+                        throw new ValidationException($"{nameof(message.Input.Code)} can't be null or empty");
                     }
                     if (_dicById.ContainsKey(message.Input.GetId())) {
                         return;
@@ -39,7 +39,7 @@ namespace NTMiner.Core.Kernels.Impl {
                         throw new ArgumentNullException();
                     }
                     if (string.IsNullOrEmpty(message.Input.Code)) {
-                        throw new ValidationException("Kernel code can't be null or empty");
+                        throw new ValidationException($"{nameof(message.Input.Code)} can't be null or empty");
                     }
                     if (!_dicById.ContainsKey(message.Input.GetId())) {
                         return;

@@ -8,5 +8,8 @@
         public const string PoolBrandId = "PoolBrandId";
 
         public const string LogColorDicKey = "LogColor";
+
+        public const string TotalSpeedGroupName = "totalSpeed";
+        public const string TotalSpeedUnitGroupName = "totalSpeedUnit";
     }
 }

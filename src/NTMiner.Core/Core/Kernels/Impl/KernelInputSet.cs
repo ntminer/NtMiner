@@ -35,7 +35,7 @@ namespace NTMiner.Core.Kernels.Impl {
                         throw new ArgumentNullException();
                     }
                     if (string.IsNullOrEmpty(message.Input.Name)) {
-                        throw new ValidationException("KernelInput name can't be null or empty");
+                        throw new ValidationException($"{nameof(message.Input.Name)} can't be null or empty");
                     }
                     if (!_dicById.ContainsKey(message.Input.GetId())) {
                         return;

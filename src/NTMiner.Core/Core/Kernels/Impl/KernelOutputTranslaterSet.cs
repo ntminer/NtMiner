@@ -88,7 +88,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.Happened(new KernelOutputTranslaterRemovedEvent(entity));
                 });
-            _root.ServerContextOn<SysDicItemUpdatedEvent>("LogColor字典项更新后刷新翻译器内存", LogEnum.DevConsole,
+            _root.ServerContextOn<SysDicItemUpdatedEvent>($"{Consts.LogColorDicKey}字典项更新后刷新翻译器内存", LogEnum.DevConsole,
                 action: message => {
                     if (!_root.SysDicSet.TryGetSysDic(Consts.LogColorDicKey, out ISysDic dic)) {
                         return;
