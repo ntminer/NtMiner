@@ -35,7 +35,7 @@ namespace NTMiner {
             }
         }
         static VirtualRoot() {
-            Id = Registry.GetClientId();
+            Id = NTMinerRegistry.GetClientId();
             if (!Directory.Exists(GlobalDirFullName)) {
                 Directory.CreateDirectory(GlobalDirFullName);
             }

@@ -6,7 +6,7 @@ using System.Web.Http;
 
 namespace NTMiner.Controllers {
     public class IndexController : ApiController {
-        private static readonly string _indexFileFullName = Registry.GetIndexHtmlFileFullName();
+        private static readonly string _indexFileFullName = NTMinerRegistry.GetIndexHtmlFileFullName();
 
         public HttpResponseMessage Get() {
             string html = "no content";

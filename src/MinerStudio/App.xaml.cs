@@ -57,7 +57,7 @@ namespace NTMiner {
                 LoginWindow loginWindow = new LoginWindow();
                 var result = loginWindow.ShowDialog();
                 if (result.HasValue && result.Value) {
-                    bool isInnerIp = Ip.Util.IsInnerIp(Registry.GetControlCenterHost());
+                    bool isInnerIp = Ip.Util.IsInnerIp(NTMinerRegistry.GetControlCenterHost());
                     if (isInnerIp) {
                         NTMinerServices.NTMinerServicesUtil.RunNTMinerServices(() => {
                             Init();

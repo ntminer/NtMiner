@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 
 namespace NTMiner.Windows {
     public static class Error {
@@ -7,7 +8,7 @@ namespace NTMiner.Windows {
                 const string subKey = @"Software\Microsoft\Windows\Windows Error Reporting";
                 string[] keys = { "Disabled", "DontShowUI", "LoggingDisabled", "DontSendAdditionalData" };
                 foreach (var key in keys) {
-                    Registry.SetValue(Microsoft.Win32.Registry.CurrentUser, subKey, key, 1);
+                    WinRegistry.SetValue(Registry.CurrentUser, subKey, key, 1);
                 }
                 Logger.OkDebugLine("disable windows erro ok");
                 return true;

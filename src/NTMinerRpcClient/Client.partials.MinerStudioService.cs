@@ -29,7 +29,7 @@ namespace NTMiner {
             }
 
             public void CloseMinerStudio() {
-                string location = Registry.GetLocation();
+                string location = NTMinerRegistry.GetLocation();
                 if (string.IsNullOrEmpty(location) || !File.Exists(location)) {
                     return;
                 }

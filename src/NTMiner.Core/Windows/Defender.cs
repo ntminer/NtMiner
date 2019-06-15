@@ -1,13 +1,14 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 
 namespace NTMiner.Windows {
     public static class Defender {
         public static void DisableAntiSpyware() {
             try {
                 const string subKey = @"SOFTWARE\Policies\Microsoft\Windows Defender";
-                var v = Registry.GetValue(Microsoft.Win32.Registry.LocalMachine, subKey, "DisableAntiSpyware");
+                var v = WinRegistry.GetValue(Registry.LocalMachine, subKey, "DisableAntiSpyware");
                 if (v == null || v.ToString() != "1") {
-                    Registry.SetValue(Microsoft.Win32.Registry.LocalMachine, subKey, "DisableAntiSpyware", 1);
+                    WinRegistry.SetValue(Registry.LocalMachine, subKey, "DisableAntiSpyware", 1);
                     Logger.OkDebugLine("Windows Defender禁用成功");
                 }
                 else {

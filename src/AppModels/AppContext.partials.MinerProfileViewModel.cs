@@ -191,17 +191,17 @@ namespace NTMiner {
             }
 
             public bool IsAutoBoot {
-                get => Registry.GetIsAutoBoot();
+                get => NTMinerRegistry.GetIsAutoBoot();
                 set {
-                    Registry.SetIsAutoBoot(value);
+                    NTMinerRegistry.SetIsAutoBoot(value);
                     OnPropertyChanged(nameof(IsAutoBoot));
                 }
             }
 
             public bool IsAutoStart {
-                get => Registry.GetIsAutoStart();
+                get => NTMinerRegistry.GetIsAutoStart();
                 set {
-                    Registry.SetIsAutoStart(value);
+                    NTMinerRegistry.SetIsAutoStart(value);
                     OnPropertyChanged(nameof(IsAutoStart));
                 }
             }

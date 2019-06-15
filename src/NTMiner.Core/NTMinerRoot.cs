@@ -1,4 +1,5 @@
-﻿using NTMiner.AppSetting;
+﻿using Microsoft.Win32;
+using NTMiner.AppSetting;
 using NTMiner.Bus;
 using NTMiner.Core;
 using NTMiner.Core.Gpus;
@@ -169,10 +170,10 @@ namespace NTMiner {
             this._minerProfile = new MinerProfile(this, mineWorkData);
 
             // 这几个注册表内部区分挖矿端和群控客户端
-            Registry.SetLocation(VirtualRoot.AppFileFullName);
-            Registry.SetArguments(string.Join(" ", CommandLineArgs.Args));
-            Registry.SetCurrentVersion(CurrentVersion.ToString());
-            Registry.SetCurrentVersionTag(CurrentVersionTag);
+            NTMinerRegistry.SetLocation(VirtualRoot.AppFileFullName);
+            NTMinerRegistry.SetArguments(string.Join(" ", CommandLineArgs.Args));
+            NTMinerRegistry.SetCurrentVersion(CurrentVersion.ToString());
+            NTMinerRegistry.SetCurrentVersionTag(CurrentVersionTag);
 
             callback?.Invoke();
         }
@@ -251,16 +252,16 @@ namespace NTMiner {
                     string cmdPrompt = "SOFTWARE\\Classes\\Folder\\shell\\cmdPrompt";
                     string cmdPromptCommand = cmdPrompt + "\\command";
                     try {
-                        Windows.Registry.SetValue(Microsoft.Win32.Registry.LocalMachine, cmdHere, "", "命令行");
-                        Windows.Registry.SetValue(Microsoft.Win32.Registry.LocalMachine, cmdHere, "Icon", "cmd.exe");
-                        Windows.Registry.SetValue(Microsoft.Win32.Registry.LocalMachine, cmdHereCommand, "", "\"cmd.exe\"");
-                        Windows.Registry.SetValue(Microsoft.Win32.Registry.LocalMachine, cmdPrompt, "", "命令行");
-                        Windows.Registry.SetValue(Microsoft.Win32.Registry.LocalMachine, cmdPromptCommand, "", "\"cmd.exe\" \"cd %1\"");
+                        Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdHere, "", "命令行");
+                        Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdHere, "Icon", "cmd.exe");
+                        Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdHereCommand, "", "\"cmd.exe\"");
+                        Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdPrompt, "", "命令行");
+                        Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdPromptCommand, "", "\"cmd.exe\" \"cd %1\"");
                         cmdHere = "SOFTWARE\\Classes\\Directory\\shell\\cmd_here";
                         cmdHereCommand = cmdHere + "\\command";
-                        Windows.Registry.SetValue(Microsoft.Win32.Registry.LocalMachine, cmdHere, "", "命令行");
-                        Windows.Registry.SetValue(Microsoft.Win32.Registry.LocalMachine, cmdHere, "Icon", "cmd.exe");
-                        Windows.Registry.SetValue(Microsoft.Win32.Registry.LocalMachine, cmdHereCommand, "", "\"cmd.exe\"");
+                        Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdHere, "", "命令行");
+                        Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdHere, "Icon", "cmd.exe");
+                        Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdHereCommand, "", "\"cmd.exe\"");
                     }
                     catch (Exception e) {
                         Logger.ErrorDebugLine(e);
@@ -350,7 +351,7 @@ namespace NTMiner {
                     #endregion
 
                     if (IsMining) {
-                        if (Registry.GetDaemonActiveOn().AddSeconds(20) < message.Timestamp) {
+                        if (NTMinerRegistry.GetDaemonActiveOn().AddSeconds(20) < message.Timestamp) {
                             StartNoDevFeeAsync();
                         }
                     }

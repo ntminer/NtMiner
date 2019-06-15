@@ -72,7 +72,7 @@ namespace NTMiner.Windows {
 
         private string GetAutoAdminLogon() {
             const string key = @"SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon";
-            var value = Registry.GetValue(Microsoft.Win32.Registry.LocalMachine, key, "AutoAdminLogon");
+            var value = WinRegistry.GetValue(Registry.LocalMachine, key, "AutoAdminLogon");
             if (value == null) {
                 return string.Empty;
             }
@@ -85,7 +85,7 @@ namespace NTMiner.Windows {
         /// <param name="key">Key to get value for</param>
         /// <returns>Value for the specified key</returns>
         private string RetrieveWindowsInfo(string key) {
-            using (RegistryKey rkey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\")) {
+            using (RegistryKey rkey = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\")) {
                 if (rkey != null) {
                     var obj = rkey.GetValue(key);
                     if (obj != null) {

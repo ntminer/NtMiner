@@ -56,7 +56,7 @@
     <Compile Include="SignatureRequestExtension.cs" />
     <Compile Include="TimeSpanExtensions.cs" />
     <Compile Include="User\IUserSet.cs" />
-    <Compile Include="Registry.cs" />
+    <Compile Include="NTMinerRegistry.cs" />
     <Compile Include="Repositories\IReadOnlyRepository.cs" />
     <Compile Include="SortNumberComparer.cs" />
     <Compile Include="DictionaryExtensions.cs" />
@@ -90,7 +90,7 @@
     <Compile Include="ValidationException.cs" />
     <Compile Include="Consts.cs" />
     <Compile Include="Windows\ConsoleHandler.cs" />
-    <Compile Include="Windows\Registry.cs" />
+    <Compile Include="Windows\WinRegistry.cs" />
     <Compile Include="Windows\Role.cs" />
     <Compile Include="Windows\Cmd.cs" />
     <Compile Include="Windows\TaskKill.cs" />

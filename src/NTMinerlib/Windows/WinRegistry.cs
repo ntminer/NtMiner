@@ -1,7 +1,7 @@
 ﻿using Microsoft.Win32;
 
 namespace NTMiner.Windows {
-    public static class Registry {
+    public static class WinRegistry {
         #region Registry
         public static object GetValue(RegistryKey root, string subkey, string valueName) {
             object registData = "";

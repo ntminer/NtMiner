@@ -51,8 +51,8 @@ namespace NTMiner {
 
         [HttpPost]
         public void SetAutoBootStart([FromUri]bool autoBoot, [FromUri]bool autoStart) {
-            Registry.SetIsAutoBoot(autoBoot);
-            Registry.SetIsAutoStart(autoStart);
+            NTMinerRegistry.SetIsAutoBoot(autoBoot);
+            NTMinerRegistry.SetIsAutoStart(autoStart);
             if (IsNTMinerOpened()) {
                 using (HttpClient client = new HttpClient()) {
                     Task<HttpResponseMessage> message = client.PostAsync($"http://localhost:{Consts.MinerClientPort}/api/MinerClient/RefreshAutoBootStart", null);
@@ -96,7 +96,7 @@ namespace NTMiner {
         }
 
         private static bool IsNTMinerOpened() {
-            string location = Registry.GetLocation();
+            string location = NTMinerRegistry.GetLocation();
             if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
                 string processName = Path.GetFileNameWithoutExtension(location);
                 Process[] processes = Process.GetProcessesByName(processName);
@@ -116,7 +116,7 @@ namespace NTMiner {
                     File.WriteAllText(SpecialPath.NTMinerLocalJsonFileFullName, request.LocalJson);
                     File.WriteAllText(SpecialPath.NTMinerServerJsonFileFullName, request.ServerJson);
                 }
-                string location = Registry.GetLocation();
+                string location = NTMinerRegistry.GetLocation();
                 if (IsNTMinerOpened()) {
                     using (HttpClient client = new HttpClient()) {
                         WorkRequest innerRequest = new WorkRequest {
@@ -192,7 +192,7 @@ namespace NTMiner {
                     if (request.WorkId != Guid.Empty) {
                         arguments = "--work";
                     }
-                    string location = Registry.GetLocation();
+                    string location = NTMinerRegistry.GetLocation();
                     if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
                         Windows.Cmd.RunClose(location, arguments);
                     }
@@ -218,7 +218,7 @@ namespace NTMiner {
             }
             if (!isClosed) {
                 try {
-                    string location = Registry.GetLocation();
+                    string location = NTMinerRegistry.GetLocation();
                     if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
                         string processName = Path.GetFileNameWithoutExtension(location);
                         Windows.TaskKill.Kill(processName);
@@ -237,7 +237,7 @@ namespace NTMiner {
             }
             Task.Factory.StartNew(() => {
                 try {
-                    string location = Registry.GetLocation();
+                    string location = NTMinerRegistry.GetLocation();
                     if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
                         string arguments = "upgrade=" + request.NTMinerFileName;
                         Windows.Cmd.RunClose(location, arguments);

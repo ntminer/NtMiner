@@ -38,8 +38,8 @@ namespace NTMiner {
                 root.GpuSet.LoadGpuState();
             }
             SpeedData data = new SpeedData {
-                IsAutoBoot = Registry.GetIsAutoBoot(),
-                IsAutoStart = Registry.GetIsAutoStart(),
+                IsAutoBoot = NTMinerRegistry.GetIsAutoBoot(),
+                IsAutoStart = NTMinerRegistry.GetIsAutoStart(),
                 Version = NTMinerRoot.CurrentVersion.ToString(4),
                 BootOn = root.CreatedOn,
                 MineStartedOn = null,

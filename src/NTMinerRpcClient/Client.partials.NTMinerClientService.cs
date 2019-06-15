@@ -33,7 +33,7 @@ namespace NTMiner {
 
             // ReSharper disable once InconsistentNaming
             public void CloseNTMiner() {
-                string location = Registry.GetLocation();
+                string location = NTMinerRegistry.GetLocation();
                 if (string.IsNullOrEmpty(location) || !File.Exists(location)) {
                     return;
                 }

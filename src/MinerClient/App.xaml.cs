@@ -94,7 +94,7 @@ namespace NTMiner {
                             NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage("没有矿卡或矿卡未驱动。");
                         }
                         UIThread.Execute(() => {
-                            if (NTMinerRoot.GetIsNoUi() && Registry.GetIsAutoStart()) {
+                            if (NTMinerRoot.GetIsNoUi() && NTMinerRegistry.GetIsAutoStart()) {
                                 MainWindow = NotiCenterWindow.Instance;
                                 NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage("已切换为无界面模式运行", "开源矿工");
                             }
@@ -188,7 +188,7 @@ namespace NTMiner {
             Daemon.DaemonUtil.RunNTMinerDaemon();
             VirtualRoot.On<Per20SecondEvent>("周期确保守护进程在运行", LogEnum.DevConsole,
                 action: message => {
-                    if (Registry.GetDaemonActiveOn().AddSeconds(20) < DateTime.Now) {
+                    if (NTMinerRegistry.GetDaemonActiveOn().AddSeconds(20) < DateTime.Now) {
                         Daemon.DaemonUtil.RunNTMinerDaemon();
                     }
                 });

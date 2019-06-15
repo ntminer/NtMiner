@@ -1,4 +1,5 @@
-﻿using NTMiner.Vms;
+﻿using Microsoft.Win32;
+using NTMiner.Vms;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -67,7 +68,7 @@ namespace NTMiner {
                 List<VirtualMemoryViewModel> virtualMemories = _dic.Values.Where(a => a.MaxSizeMb != 0).ToList();
                 string[] value = virtualMemories.Select(a => a.ToString()).ToArray();
 
-                Windows.Registry.SetValue(Microsoft.Win32.Registry.LocalMachine, MemoryManagementSubKey, "PagingFiles", value);
+                Windows.WinRegistry.SetValue(Registry.LocalMachine, MemoryManagementSubKey, "PagingFiles", value);
                 OnPropertyChanged(nameof(TotalVirtualMemoryGb));
                 OnPropertyChanged(nameof(TotalVirtualMemoryGbText));
                 OnPropertyChanged(nameof(IsStateChanged));
@@ -75,7 +76,7 @@ namespace NTMiner {
             }
 
             private List<VirtualMemoryViewModel> GetPagingFiles() {
-                object value = Windows.Registry.GetValue(Microsoft.Win32.Registry.LocalMachine, MemoryManagementSubKey, "PagingFiles");
+                object value = Windows.WinRegistry.GetValue(Registry.LocalMachine, MemoryManagementSubKey, "PagingFiles");
                 // REG_SZ or REG_MULTI_SZ
                 List<VirtualMemoryViewModel> list;
                 if (value is string[]) {

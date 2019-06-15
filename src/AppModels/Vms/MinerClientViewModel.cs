@@ -311,7 +311,7 @@ namespace NTMiner.Vms {
             }
         }
 
-        private readonly bool _isInnerIp = Ip.Util.IsInnerIp(Registry.GetControlCenterHost());
+        private readonly bool _isInnerIp = Ip.Util.IsInnerIp(NTMinerRegistry.GetControlCenterHost());
         public bool IsOnline {
             get {
                 if (_isInnerIp) {

@@ -84,8 +84,8 @@
     <Compile Include="..\NTMiner.Core\Windows\Power.cs">
       <Link>Windows\Power.cs</Link>
     </Compile>
-    <Compile Include="..\NTMinerlib\Registry.cs">
-      <Link>Registry.cs</Link>
+    <Compile Include="..\NTMinerlib\NTMinerRegistry.cs">
+      <Link>NTMinerRegistry.cs</Link>
     </Compile>
     <Compile Include="..\NTMinerlib\Serialization\IObjectSerializer.cs">
       <Link>Serialization\IObjectSerializer.cs</Link>
@@ -108,11 +108,11 @@
     <Compile Include="..\NTMinerlib\Windows\ConsoleHandler.cs">
       <Link>Windows\ConsoleHandler.cs</Link>
     </Compile>
-    <Compile Include="..\NTMinerlib\Windows\Registry.cs">
-      <Link>Windows\Registry.cs</Link>
-    </Compile>
     <Compile Include="..\NTMinerlib\Windows\TaskKill.cs">
       <Link>Windows\TaskKill.cs</Link>
+    </Compile>
+    <Compile Include="..\NTMinerlib\Windows\WinRegistry.cs">
+      <Link>Windows\WinRegistry.cs</Link>
     </Compile>
     <Compile Include="HostRoot.cs" />
     <Compile Include="IHostRoot.cs" />

@@ -15,7 +15,7 @@ namespace NTMiner.Vms {
 
         public LoginWindowViewModel() {
             this._loginName = "admin";
-            this._serverHost = Registry.GetControlCenterHost();
+            this._serverHost = NTMinerRegistry.GetControlCenterHost();
             this.IsInnerIp = Ip.Util.IsInnerIp(_serverHost);
             this.ActiveAdmin = new DelegateCommand(() => {
                 if (string.IsNullOrEmpty(this.Password)) {
