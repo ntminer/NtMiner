@@ -159,12 +159,19 @@
 		<StackPanel Grid.Column="1" Visibility="{x:Static app:AppStatic.IsDebugModeVisible}" HorizontalAlignment="Left">
 			<controls:KbMuiltilineTextBox 
 				Background="White"
-				Width="100" Margin="0 6 0 0" BorderThickness="0" IsReadOnly="True">mainCoin、wallet、userName、password、host、port、pool、worker</controls:KbMuiltilineTextBox>
+				Width="100" 
+				Margin="0 6 0 0" 
+				BorderThickness="0" 
+				IsReadOnly="True" 
+				Text="{Binding ParameterNames, Mode=OneWay}"></controls:KbMuiltilineTextBox>
 			<controls:KbMuiltilineTextBox 
 				Background="White"
 				Margin="0"
 				Visibility="{Binding IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}"
-				Width="100" BorderThickness="0" IsReadOnly="True">dualCoin、dualWallet、dualUserName、dualPassword、dualHost、dualPort、dualPool</controls:KbMuiltilineTextBox>
+				Width="100" 
+				BorderThickness="0" 
+				IsReadOnly="True"
+				Text="{Binding DualParameterNames, Mode=OneWay}"></controls:KbMuiltilineTextBox>
 		</StackPanel>
 
 		<controls:KbButton
