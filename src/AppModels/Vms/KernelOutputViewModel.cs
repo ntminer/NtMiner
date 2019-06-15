@@ -151,6 +151,18 @@ namespace NTMiner.Vms {
             }
         }
 
+        public string GroupNames {
+            get {
+                return string.Join("、", new string[] {
+                    Consts.TotalSpeedGroupName, Consts.TotalSpeedUnitGroupName,
+                    Consts.TotalShareGroupName, Consts.AcceptShareGroupName,
+                    Consts.RejectShareGroupName, Consts.RejectPercentGroupName,
+                    Consts.GpuIndexGroupName, Consts.GpuSpeedGroupName,
+                    Consts.GpuSpeedUnitGroupName, Consts.PoolDelayGroupName
+                });
+            }
+        }
+
         public Guid GetId() {
             return this.Id;
         }

@@ -164,8 +164,8 @@
 			BorderThickness="0"
 			VerticalAlignment="Top"
 			IsReadOnly="True" 
-			Background="Transparent">
-			totalSpeed、totalSpeedUnit、totalShare、acceptShare、rejectShare、rejectPercent、gpu、gpuSpeed、gpuSpeedUnit、poolDelay
+			Background="Transparent"
+			Text="{Binding GroupNames,Mode=OneWay}">
 		</controls:KbMuiltilineTextBox>
 		<controls:KbButton
 			Grid.Column="1"
