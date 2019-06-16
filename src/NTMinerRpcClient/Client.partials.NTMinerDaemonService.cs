@@ -20,8 +20,8 @@ namespace NTMiner {
                         Write.DevDebug($"{nameof(CloseDaemon)} {message.Result.ReasonPhrase}");
                     }
                 }
-                catch (Exception e) {
-                    Logger.ErrorDebugLine(e);
+                catch {
+                    // 吞掉异常，以免用户恐慌
                 }
             }
 

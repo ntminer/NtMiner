@@ -24,13 +24,8 @@ namespace NTMiner {
                             Write.DevDebug($"{nameof(ReportSpeedAsync)} {message.Result.ReasonPhrase}");
                         }
                     }
-                    catch (Exception e) {
-                        if (e is TaskCanceledException) {
-                            Write.DevError($"本次ReportSpeedAsync已取消，因为耗时超过{timeSpan.TotalSeconds}秒");
-                        }
-                        else {
-                            Logger.ErrorDebugLine(e);
-                        }
+                    catch {
+                        // 吞掉异常，以免用户恐慌
                     }
                 });
             }
