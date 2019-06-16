@@ -242,6 +242,7 @@
 			Background="Transparent"
 			BorderThickness="0"
 			Width="60"
+			Margin="0 0 4 4"
 			Content="{Binding BtnShowHistoryText}">
 		</controls:KbButton>
 	</Grid>
