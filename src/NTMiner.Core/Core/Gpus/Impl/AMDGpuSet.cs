@@ -75,6 +75,9 @@ namespace NTMiner.Core.Gpus.Impl {
         }
 
         public void LoadGpuState() {
+#if DEBUG
+            VirtualRoot.Stopwatch.Restart();
+#endif
             for (int i = 0; i < Count; i++) {
                 uint power = adlHelper.GetPowerUsageByIndex(i);
                 int temp = adlHelper.GetTemperatureByIndex(i);
@@ -90,6 +93,9 @@ namespace NTMiner.Core.Gpus.Impl {
                     VirtualRoot.Happened(new GpuStateChangedEvent(gpu));
                 }
             }
+#if DEBUG
+            Write.DevWarn($"耗时{VirtualRoot.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.{nameof(LoadGpuState)}");
+#endif
         }
 
         public GpuType GpuType {

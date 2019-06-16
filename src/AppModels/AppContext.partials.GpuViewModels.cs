@@ -3,6 +3,7 @@ using NTMiner.Core.Gpus.Impl;
 using NTMiner.Vms;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace NTMiner {
     public partial class AppContext {
@@ -48,7 +49,10 @@ namespace NTMiner {
                     });
                 On<Per5SecondEvent>("周期刷新显卡状态", LogEnum.None,
                     action: message => {
-                        NTMinerRoot.Instance.GpuSet.LoadGpuState();
+                        // 因为遇到显卡系统状态变更时可能费时
+                        Task.Factory.StartNew(() => {
+                            NTMinerRoot.Instance.GpuSet.LoadGpuState();
+                        });
                     });
                 On<GpuStateChangedEvent>("显卡状态变更后刷新VM内存", LogEnum.None,
                     action: message => {
