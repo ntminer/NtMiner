@@ -19,7 +19,7 @@ namespace NTMiner {
         #region Upgrade
         public static void Upgrade(string fileName, Action callback) {
             try {
-                string updaterDirFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "Updater");
+                string updaterDirFullName = Path.Combine(AssemblyInfo.GlobalDirFullName, "Updater");
                 if (!Directory.Exists(updaterDirFullName)) {
                     Directory.CreateDirectory(updaterDirFullName);
                 }
@@ -408,7 +408,7 @@ namespace NTMiner {
             VirtualRoot.Execute(new ShowCalcConfigCommand());
         });
         public static ICommand ShowGlobalDir { get; private set; } = new DelegateCommand(() => {
-            Process.Start(VirtualRoot.GlobalDirFullName);
+            Process.Start(AssemblyInfo.GlobalDirFullName);
         });
         public static ICommand OpenLocalLiteDb { get; private set; } = new DelegateCommand(() => {
             OpenLiteDb(SpecialPath.LocalDbFileFullName);
@@ -418,7 +418,7 @@ namespace NTMiner {
         });
 
         private static void OpenLiteDb(string dbFileFullName) {
-            string liteDbExplorerDir = Path.Combine(VirtualRoot.GlobalDirFullName, "LiteDBExplorerPortable");
+            string liteDbExplorerDir = Path.Combine(AssemblyInfo.GlobalDirFullName, "LiteDBExplorerPortable");
             string liteDbExplorerFileFullName = Path.Combine(liteDbExplorerDir, "LiteDbExplorer.exe");
             if (!Directory.Exists(liteDbExplorerDir)) {
                 Directory.CreateDirectory(liteDbExplorerDir);

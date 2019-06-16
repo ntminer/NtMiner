@@ -14,7 +14,6 @@ namespace NTMiner {
 
         public static readonly string AppFileFullName = Process.GetCurrentProcess().MainModule.FileName;
         public static Guid Id { get; private set; }
-        public static string GlobalDirFullName { get; set; } = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "NTMiner");
 
         public static bool IsMinerStudio { get; private set; }
 
@@ -36,9 +35,6 @@ namespace NTMiner {
         }
         static VirtualRoot() {
             Id = NTMinerRegistry.GetClientId();
-            if (!Directory.Exists(GlobalDirFullName)) {
-                Directory.CreateDirectory(GlobalDirFullName);
-            }
             JsonSerializer = new ObjectJsonSerializer();
             SMessageDispatcher = new MessageDispatcher();
             SCommandBus = new DirectCommandBus(SMessageDispatcher);

@@ -431,8 +431,7 @@ namespace NTMiner.Vms {
                 if (this.AlgoId == Guid.Empty) {
                     return SysDicItemViewModel.PleaseSelect;
                 }
-                SysDicItemViewModel item;
-                if (AppContext.Instance.SysDicItemVms.TryGetValue(this.AlgoId, out item)) {
+                if (AppContext.Instance.SysDicItemVms.TryGetValue(this.AlgoId, out SysDicItemViewModel item)) {
                     return item;
                 }
                 return SysDicItemViewModel.PleaseSelect;

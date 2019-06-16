@@ -58,11 +58,11 @@ namespace NTMiner {
         }
 
         static SpecialPath() {
-            string daemonDirFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "Daemon");
+            string daemonDirFullName = Path.Combine(AssemblyInfo.GlobalDirFullName, "Daemon");
             if (!Directory.Exists(daemonDirFullName)) {
                 Directory.CreateDirectory(daemonDirFullName);
             }
-            string ntminerServicesDirFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "Services");
+            string ntminerServicesDirFullName = Path.Combine(AssemblyInfo.GlobalDirFullName, "Services");
             if (!Directory.Exists(ntminerServicesDirFullName)) {
                 Directory.CreateDirectory(ntminerServicesDirFullName);
             }
@@ -70,7 +70,7 @@ namespace NTMiner {
             NTMinerServicesFileFullName = Path.Combine(ntminerServicesDirFullName, "NTMinerServices.exe");
             DevConsoleFileFullName = Path.Combine(daemonDirFullName, "DevConsole.exe");
 
-            ThisSystemDir = Path.Combine(VirtualRoot.GlobalDirFullName, "ThisSystem");
+            ThisSystemDir = Path.Combine(AssemblyInfo.GlobalDirFullName, "ThisSystem");
             if (!Directory.Exists(ThisSystemDir)) {
                 Directory.CreateDirectory(ThisSystemDir);
             }
@@ -82,22 +82,22 @@ namespace NTMiner {
             if (!Directory.Exists(ThisSysWOW64Dir)) {
                 Directory.CreateDirectory(ThisSysWOW64Dir);
             }
-            CommonDirFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "Common");
+            CommonDirFullName = Path.Combine(AssemblyInfo.GlobalDirFullName, "Common");
             if (!Directory.Exists(CommonDirFullName)) {
                 Directory.CreateDirectory(CommonDirFullName);
             }
-            TempDirFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "Temp");
+            TempDirFullName = Path.Combine(AssemblyInfo.GlobalDirFullName, "Temp");
             if (!Directory.Exists(TempDirFullName)) {
                 Directory.CreateDirectory(TempDirFullName);
             }
             NTMinerOverClockFileFullName = Path.Combine(TempDirFullName, "NTMinerOverClock.exe");
-            ServerDbFileFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "server.litedb");
-            ServerJsonFileFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "server.json");
+            ServerDbFileFullName = Path.Combine(AssemblyInfo.GlobalDirFullName, "server.litedb");
+            ServerJsonFileFullName = Path.Combine(AssemblyInfo.GlobalDirFullName, "server.json");
 
-            LocalDbFileFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "local.litedb");
+            LocalDbFileFullName = Path.Combine(AssemblyInfo.GlobalDirFullName, "local.litedb");
             WorkerEventDbFileFullName = Path.Combine(TempDirFullName, "workerEvent.litedb");
-            LocalJsonFileFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "local.json");
-            GpuProfilesJsonFileFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "gpuProfiles.json");
+            LocalJsonFileFullName = Path.Combine(AssemblyInfo.GlobalDirFullName, "local.json");
+            GpuProfilesJsonFileFullName = Path.Combine(AssemblyInfo.GlobalDirFullName, "gpuProfiles.json");
         }
 
         public static string GetIconFileFullName(ICoin coin) {
@@ -166,7 +166,7 @@ namespace NTMiner {
         private static bool _sIsFirstCallPackageDirFullName = true;
         public static string PackagesDirFullName {
             get {
-                string dirFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "Packages");
+                string dirFullName = Path.Combine(AssemblyInfo.GlobalDirFullName, "Packages");
                 if (_sIsFirstCallPackageDirFullName) {
                     if (!Directory.Exists(dirFullName)) {
                         Directory.CreateDirectory(dirFullName);
@@ -181,7 +181,7 @@ namespace NTMiner {
         private static bool _sIsFirstCallCoinIconDirFullName = true;
         public static string CoinIconsDirFullName {
             get {
-                string dirFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "CoinIcons");
+                string dirFullName = Path.Combine(AssemblyInfo.GlobalDirFullName, "CoinIcons");
                 if (_sIsFirstCallCoinIconDirFullName) {
                     if (!Directory.Exists(dirFullName)) {
                         Directory.CreateDirectory(dirFullName);

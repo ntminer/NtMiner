@@ -143,7 +143,7 @@ namespace NTMiner {
                 ProcessStartInfo startInfo = new ProcessStartInfo(kernelExeFileFullName, arguments) {
                     UseShellExecute = false,
                     CreateNoWindow = true,
-                    WorkingDirectory = VirtualRoot.GlobalDirFullName
+                    WorkingDirectory = AssemblyInfo.GlobalDirFullName
                 };
                 // 追加环境变量
                 foreach (var item in mineContext.CoinKernel.EnvironmentVariables) {

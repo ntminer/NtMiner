@@ -51,7 +51,6 @@
     <Compile Include="Bus\DirectBus\DirectCommandBus.cs" />
     <Compile Include="Bus\DirectBus\DirectEventBus.cs" />
     <Compile Include="Bus\EventBase.cs" />
-    <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Ip\Util.cs" />
     <Compile Include="SignatureRequestExtension.cs" />
     <Compile Include="TimeSpanExtensions.cs" />
