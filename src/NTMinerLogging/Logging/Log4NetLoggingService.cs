@@ -10,9 +10,10 @@ namespace NTMiner.Logging {
 
         public Log4NetLoggingService() {
             XmlDocument xmlDoc = new XmlDocument();
-            string logFile = "logs\\root.log";
+            string logFileName = $"root{AssemblyInfo.Version}.{AssemblyInfo.Build}.log";
+            string logFile = $"logs\\{logFileName}";
             if (!string.IsNullOrEmpty(LogDir.Dir)) {
-                logFile = Path.Combine(LogDir.Dir, "root.log");
+                logFile = Path.Combine(LogDir.Dir, logFileName);
             }
             xmlDoc.LoadXml(
 $@"<log4net>
