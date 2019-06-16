@@ -2,6 +2,8 @@
 
 namespace NTMiner.MinerClient {
     public class CoinOverClockData : IEntity<Guid> {
+        public CoinOverClockData() { }
+
         public Guid GetId() {
             return this.CoinId;
         }
