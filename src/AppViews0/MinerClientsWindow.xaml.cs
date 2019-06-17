@@ -127,5 +127,19 @@ namespace NTMiner.Views {
         private void DataGrid_OnSorting(object sender, DataGridSortingEventArgs e) {
             e.Handled = true;
         }
+
+        private void ButtonLeftCoin_Click(object sender, RoutedEventArgs e) {
+            double offset = ColumnsShowScrollView.ContentHorizontalOffset - ColumnsShowScrollView.ViewportWidth;
+            ColumnsShowScrollView.ScrollToHorizontalOffset(offset);
+            ButtonLeft.IsEnabled = offset > 0;
+            ButtonRight.IsEnabled = offset < ColumnsShowScrollView.ScrollableWidth;
+        }
+
+        private void ButtonRightCoin_Click(object sender, RoutedEventArgs e) {
+            double offset = ColumnsShowScrollView.ContentHorizontalOffset + ColumnsShowScrollView.ViewportWidth;
+            ColumnsShowScrollView.ScrollToHorizontalOffset(offset);
+            ButtonLeft.IsEnabled = offset > 0;
+            ButtonRight.IsEnabled = offset < ColumnsShowScrollView.ScrollableWidth;
+        }
     }
 }

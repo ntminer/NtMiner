@@ -2015,6 +2015,7 @@
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto"></ColumnDefinition>
 					<ColumnDefinition Width="*"></ColumnDefinition>
+					<ColumnDefinition Width="Auto"></ColumnDefinition>
 				</Grid.ColumnDefinitions>
 				<WrapPanel>
 					<Button Margin="4 0 0 0" Command="{Binding PageFirst}" IsEnabled="{Binding IsPageUpEnabled}">首页</Button>
@@ -2094,27 +2095,95 @@
 						</controls:KbComboBox.ContextMenuEx>
 					</controls:KbComboBox>
 				</WrapPanel>
-				<ItemsControl 
+				<ScrollViewer
 					Grid.Column="1" 
-					VerticalAlignment="Center" 
-					ScrollViewer.HorizontalScrollBarVisibility="Auto"
-					ScrollViewer.VerticalScrollBarVisibility="Disabled"
-					ItemsSource="{Binding ColumnsShow.ColumnItems}">
-					<ItemsControl.Resources>
-						<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
-					</ItemsControl.Resources>
-					<ItemsControl.ItemsPanel>
-						<ItemsPanelTemplate>
-							<WrapPanel>
-							</WrapPanel>
-						</ItemsPanelTemplate>
-					</ItemsControl.ItemsPanel>
-					<ItemsControl.ItemTemplate>
-						<DataTemplate>
-							<CheckBox Visibility="{Binding IsChecked, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding IsChecked}" Margin="0 0 6 0" Content="{Binding Name}"></CheckBox>
-						</DataTemplate>
-					</ItemsControl.ItemTemplate>
-				</ItemsControl>
+					x:Name="ColumnsShowScrollView" 
+					FocusVisualStyle="{x:Null}"
+					VerticalAlignment="Center"
+					HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+					<ScrollViewer.Resources>
+						<sys:Double x:Key="{x:Static SystemParameters.HorizontalScrollBarHeightKey}">0</sys:Double>
+						<sys:Double x:Key="{x:Static SystemParameters.HorizontalScrollBarButtonWidthKey}">0</sys:Double>
+					</ScrollViewer.Resources>
+					<ItemsControl ItemsSource="{Binding ColumnsShow.ColumnItems}">
+						<ItemsControl.Resources>
+							<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
+						</ItemsControl.Resources>
+						<ItemsControl.ItemsPanel>
+							<ItemsPanelTemplate>
+								<WrapPanel>
+								</WrapPanel>
+							</ItemsPanelTemplate>
+						</ItemsControl.ItemsPanel>
+						<ItemsControl.ItemTemplate>
+							<DataTemplate>
+								<CheckBox Visibility="{Binding IsChecked, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding IsChecked}" Margin="0 0 6 0" Content="{Binding Name}"></CheckBox>
+							</DataTemplate>
+						</ItemsControl.ItemTemplate>
+					</ItemsControl>
+				</ScrollViewer>
+				<WrapPanel Grid.Column="2">
+					<Button x:Name="ButtonLeft" IsEnabled="False" Click="ButtonLeftCoin_Click">
+						<Button.Template>
+							<ControlTemplate>
+								<Border 
+									x:Name="Content"
+									Padding="4 4 6 4"
+									BorderThickness="1"
+									Background="Transparent">
+									<Path
+										x:Name="Icon"
+										Width="8"
+										Height="12"
+										Data="{StaticResource Icon_LeftTriangle}"
+										Fill="#676767"
+										Stretch="Fill">
+									</Path>
+								</Border>
+								<ControlTemplate.Triggers>
+									<Trigger Property="IsMouseOver" Value="True">
+										<Setter TargetName="Content" Property="Background" Value="{StaticResource ThemeBackground}"></Setter>
+										<Setter TargetName="Content" Property="BorderBrush" Value="{StaticResource LineColor}"></Setter>
+										<Setter TargetName="Icon" Property="Fill" Value="{StaticResource ThemeForeground}"></Setter>
+									</Trigger>
+									<Trigger Property="IsEnabled" Value="False">
+										<Setter Property="Opacity" Value="0.5"></Setter>
+									</Trigger>
+								</ControlTemplate.Triggers>
+							</ControlTemplate>
+						</Button.Template>
+					</Button>
+					<Button x:Name="ButtonRight" Margin="2 0 0 0" Click="ButtonRightCoin_Click">
+						<Button.Template>
+							<ControlTemplate>
+								<Border 
+									x:Name="Content"
+									Padding="6 4 4 4"
+									BorderThickness="1"
+									Background="Transparent">
+									<Path
+										x:Name="Icon"
+										Width="8"
+										Height="12"
+										Data="{StaticResource Icon_RightTriangle}"
+										Fill="#676767"
+										Stretch="Fill">
+									</Path>
+								</Border>
+								<ControlTemplate.Triggers>
+									<Trigger Property="IsMouseOver" Value="True">
+										<Setter TargetName="Content" Property="Background" Value="{StaticResource ThemeBackground}"></Setter>
+										<Setter TargetName="Content" Property="BorderBrush" Value="{StaticResource LineColor}"></Setter>
+										<Setter TargetName="Icon" Property="Fill" Value="{StaticResource ThemeForeground}"></Setter>
+									</Trigger>
+									<Trigger Property="IsEnabled" Value="False">
+										<Setter Property="Opacity" Value="0.5"></Setter>
+									</Trigger>
+								</ControlTemplate.Triggers>
+							</ControlTemplate>
+						</Button.Template>
+					</Button>
+				</WrapPanel>
 			</Grid>
 			<Grid Grid.Row="1" Margin="0 6 0 0">
 				<Grid.ColumnDefinitions>
