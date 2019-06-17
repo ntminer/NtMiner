@@ -1,11 +1,36 @@
 ﻿using NTMiner.Core;
 using NTMiner.MinerServer;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class ColumnsShowViewModel : ViewModelBase, IColumnsShow, IEditableViewModel {
+        public class ColumnItem : ViewModelBase {
+            private readonly ColumnsShowViewModel _vm;
+
+            public ColumnItem(PropertyInfo propertyInfo, ColumnsShowViewModel vm) {
+                this.PropertyInfo = propertyInfo;
+                this._vm = vm;
+            }
+
+            public PropertyInfo PropertyInfo {
+                get; private set;
+            }
+
+            public bool IsChecked {
+                get {
+                    return (bool)this.PropertyInfo.GetValue(_vm, null);
+                }
+                set {
+                    this.PropertyInfo.SetValue(_vm, value, null);
+                    OnPropertyChanged(nameof(IsChecked));
+                }
+            }
+        }
+
         private Guid _id;
         private string _columnsShowName;
         private bool _work;
@@ -47,6 +72,16 @@ namespace NTMiner.Vms {
         private bool _isNoShareRestartKernel;
         private bool _isPeriodicRestartKernel;
         private bool _isPeriodicRestartComputer;
+
+        public List<ColumnItem> ColumnItems {
+            get {
+                Type boolType = typeof(bool);
+                var properties = new List<PropertyInfo>(typeof(ColumnsShowViewModel).GetProperties().Where(a => a.PropertyType == boolType && a.CanRead && a.CanWrite));
+                return new List<ColumnItem>(properties.Select(a => new ColumnItem(a, this) {
+                    IsChecked = (bool)a.GetValue(this, null)
+                }));
+            }
+        }
 
         public ICommand Hide { get; private set; }
 
@@ -166,6 +201,17 @@ namespace NTMiner.Vms {
             }
         }
 
+        public bool LastActivedOnText {
+            get => _lastActivedOnText;
+            set {
+                if (_lastActivedOnText != value) {
+                    _lastActivedOnText = value;
+                    OnPropertyChanged(nameof(LastActivedOnText));
+                    UpdateColumnsShowAsync();
+                }
+            }
+        }
+
         public bool BootTimeSpanText {
             get { return _bootTimeSpanText; }
             set {
@@ -199,12 +245,12 @@ namespace NTMiner.Vms {
             }
         }
 
-        public bool MinerName {
-            get { return _minerName; }
+        public bool MinerGroup {
+            get { return _minerGroup; }
             set {
-                if (_minerName != value) {
-                    _minerName = value;
-                    OnPropertyChanged(nameof(MinerName));
+                if (_minerGroup != value) {
+                    _minerGroup = value;
+                    OnPropertyChanged(nameof(MinerGroup));
                     UpdateColumnsShowAsync();
                 }
             }
@@ -221,6 +267,17 @@ namespace NTMiner.Vms {
             }
         }
 
+        public bool MinerName {
+            get { return _minerName; }
+            set {
+                if (_minerName != value) {
+                    _minerName = value;
+                    OnPropertyChanged(nameof(MinerName));
+                    UpdateColumnsShowAsync();
+                }
+            }
+        }
+
         public bool MinerIp {
             get { return _minerIp; }
             set {
@@ -232,12 +289,45 @@ namespace NTMiner.Vms {
             }
         }
 
-        public bool MinerGroup {
-            get { return _minerGroup; }
+        public bool WindowsLoginNameAndPassword {
+            get => _windowsLoginNameAndPassword;
             set {
-                if (_minerGroup != value) {
-                    _minerGroup = value;
-                    OnPropertyChanged(nameof(MinerGroup));
+                if (_windowsLoginNameAndPassword != value) {
+                    _windowsLoginNameAndPassword = value;
+                    OnPropertyChanged(nameof(WindowsLoginNameAndPassword));
+                    UpdateColumnsShowAsync();
+                }
+            }
+        }
+
+        public bool GpuType {
+            get => _gpuType;
+            set {
+                if (_gpuType != value) {
+                    _gpuType = value;
+                    OnPropertyChanged(nameof(GpuType));
+                    UpdateColumnsShowAsync();
+                }
+            }
+        }
+
+        public bool GpuInfo {
+            get => _gpuInfo;
+            set {
+                if (_gpuInfo != value) {
+                    _gpuInfo = value;
+                    OnPropertyChanged(nameof(GpuInfo));
+                    UpdateColumnsShowAsync();
+                }
+            }
+        }
+
+        public bool GpuDriver {
+            get => _gpuDriver;
+            set {
+                if (_gpuDriver != value) {
+                    _gpuDriver = value;
+                    OnPropertyChanged(nameof(GpuDriver));
                     UpdateColumnsShowAsync();
                 }
             }
@@ -278,12 +368,34 @@ namespace NTMiner.Vms {
             }
         }
 
-        public bool GpuTableVm {
-            get { return _gpuTableVms; }
+        public bool DualCoinCode {
+            get => _dualCoinCode;
             set {
-                if (_gpuTableVms != value) {
-                    _gpuTableVms = value;
-                    OnPropertyChanged(nameof(GpuTableVm));
+                if (_dualCoinCode != value) {
+                    _dualCoinCode = value;
+                    OnPropertyChanged(nameof(DualCoinCode));
+                    UpdateColumnsShowAsync();
+                }
+            }
+        }
+
+        public bool DualCoinSpeedText {
+            get => _dualCoinSpeedText;
+            set {
+                if (_dualCoinSpeedText != value) {
+                    _dualCoinSpeedText = value;
+                    OnPropertyChanged(nameof(DualCoinSpeedText));
+                    UpdateColumnsShowAsync();
+                }
+            }
+        }
+
+        public bool DualCoinRejectPercentText {
+            get => _dualCoinRejectPercentText;
+            set {
+                if (_dualCoinRejectPercentText != value) {
+                    _dualCoinRejectPercentText = value;
+                    OnPropertyChanged(nameof(DualCoinRejectPercentText));
                     UpdateColumnsShowAsync();
                 }
             }
@@ -306,6 +418,28 @@ namespace NTMiner.Vms {
                 if (_maxTempText != value) {
                     _maxTempText = value;
                     OnPropertyChanged(nameof(MaxTempText));
+                    UpdateColumnsShowAsync();
+                }
+            }
+        }
+
+        public bool IncomeMainCoinPerDayText {
+            get => _incomeMainCoinPerDayText;
+            set {
+                if (_incomeMainCoinPerDayText != value) {
+                    _incomeMainCoinPerDayText = value;
+                    OnPropertyChanged(nameof(IncomeMainCoinPerDayText));
+                    UpdateColumnsShowAsync();
+                }
+            }
+        }
+
+        public bool IncomeDualCoinPerDayText {
+            get => _incomeDualCoinPerDayText;
+            set {
+                if (_incomeDualCoinPerDayText != value) {
+                    _incomeDualCoinPerDayText = value;
+                    OnPropertyChanged(nameof(IncomeDualCoinPerDayText));
                     UpdateColumnsShowAsync();
                 }
             }
@@ -343,60 +477,6 @@ namespace NTMiner.Vms {
                 }
             }
         }
-        public bool DualCoinCode {
-            get => _dualCoinCode;
-            set {
-                if (_dualCoinCode != value) {
-                    _dualCoinCode = value;
-                    OnPropertyChanged(nameof(DualCoinCode));
-                    UpdateColumnsShowAsync();
-                }
-            }
-        }
-
-        public bool DualCoinSpeedText {
-            get => _dualCoinSpeedText;
-            set {
-                if (_dualCoinSpeedText != value) {
-                    _dualCoinSpeedText = value;
-                    OnPropertyChanged(nameof(DualCoinSpeedText));
-                    UpdateColumnsShowAsync();
-                }
-            }
-        }
-
-        public bool DualCoinRejectPercentText {
-            get => _dualCoinRejectPercentText;
-            set {
-                if (_dualCoinRejectPercentText != value) {
-                    _dualCoinRejectPercentText = value;
-                    OnPropertyChanged(nameof(DualCoinRejectPercentText));
-                    UpdateColumnsShowAsync();
-                }
-            }
-        }
-
-        public bool IncomeMainCoinPerDayText {
-            get => _incomeMainCoinPerDayText;
-            set {
-                if (_incomeMainCoinPerDayText != value) {
-                    _incomeMainCoinPerDayText = value;
-                    OnPropertyChanged(nameof(IncomeMainCoinPerDayText));
-                    UpdateColumnsShowAsync();
-                }
-            }
-        }
-
-        public bool IncomeDualCoinPerDayText {
-            get => _incomeDualCoinPerDayText;
-            set {
-                if (_incomeDualCoinPerDayText != value) {
-                    _incomeDualCoinPerDayText = value;
-                    OnPropertyChanged(nameof(IncomeDualCoinPerDayText));
-                    UpdateColumnsShowAsync();
-                }
-            }
-        }
 
         public bool DualCoinWallet {
             get => _dualCoinWallet;
@@ -420,56 +500,12 @@ namespace NTMiner.Vms {
             }
         }
 
-        public bool LastActivedOnText {
-            get => _lastActivedOnText;
-            set {
-                if (_lastActivedOnText != value) {
-                    _lastActivedOnText = value;
-                    OnPropertyChanged(nameof(LastActivedOnText));
-                    UpdateColumnsShowAsync();
-                }
-            }
-        }
-
         public bool Version {
             get => _version;
             set {
                 if (_version != value) {
                     _version = value;
                     OnPropertyChanged(nameof(Version));
-                    UpdateColumnsShowAsync();
-                }
-            }
-        }
-
-        public bool IsAutoBoot {
-            get => _isAutoBoot;
-            set {
-                if (_isAutoBoot != value) {
-                    _isAutoBoot = value;
-                    OnPropertyChanged(nameof(IsAutoBoot));
-                    UpdateColumnsShowAsync();
-                }
-            }
-        }
-
-        public bool IsAutoStart {
-            get => _isAutoStart;
-            set {
-                if (_isAutoStart != value) {
-                    _isAutoStart = value;
-                    OnPropertyChanged(nameof(IsAutoStart));
-                    UpdateColumnsShowAsync();
-                }
-            }
-        }
-
-        public bool WindowsLoginNameAndPassword {
-            get => _windowsLoginNameAndPassword;
-            set {
-                if (_windowsLoginNameAndPassword != value) {
-                    _windowsLoginNameAndPassword = value;
-                    OnPropertyChanged(nameof(WindowsLoginNameAndPassword));
                     UpdateColumnsShowAsync();
                 }
             }
@@ -497,23 +533,34 @@ namespace NTMiner.Vms {
             }
         }
 
-        public bool GpuType {
-            get => _gpuType;
+        public bool DiskSpace {
+            get => _diskSpace;
             set {
-                if (_gpuType != value) {
-                    _gpuType = value;
-                    OnPropertyChanged(nameof(GpuType));
+                if (_diskSpace != value) {
+                    _diskSpace = value;
+                    OnPropertyChanged(nameof(DiskSpace));
                     UpdateColumnsShowAsync();
                 }
             }
         }
 
-        public bool GpuDriver {
-            get => _gpuDriver;
+        public bool IsAutoBoot {
+            get => _isAutoBoot;
             set {
-                if (_gpuDriver != value) {
-                    _gpuDriver = value;
-                    OnPropertyChanged(nameof(GpuDriver));
+                if (_isAutoBoot != value) {
+                    _isAutoBoot = value;
+                    OnPropertyChanged(nameof(IsAutoBoot));
+                    UpdateColumnsShowAsync();
+                }
+            }
+        }
+
+        public bool IsAutoStart {
+            get => _isAutoStart;
+            set {
+                if (_isAutoStart != value) {
+                    _isAutoStart = value;
+                    OnPropertyChanged(nameof(IsAutoStart));
                     UpdateColumnsShowAsync();
                 }
             }
@@ -525,28 +572,6 @@ namespace NTMiner.Vms {
                 if (_kernelCommandLine != value) {
                     _kernelCommandLine = value;
                     OnPropertyChanged(nameof(KernelCommandLine));
-                    UpdateColumnsShowAsync();
-                }
-            }
-        }
-
-        public bool GpuInfo {
-            get => _gpuInfo;
-            set {
-                if (_gpuInfo != value) {
-                    _gpuInfo = value;
-                    OnPropertyChanged(nameof(GpuInfo));
-                    UpdateColumnsShowAsync();
-                }
-            }
-        }
-
-        public bool DiskSpace {
-            get => _diskSpace;
-            set {
-                if (_diskSpace != value) {
-                    _diskSpace = value;
-                    OnPropertyChanged(nameof(DiskSpace));
                     UpdateColumnsShowAsync();
                 }
             }
@@ -591,6 +616,17 @@ namespace NTMiner.Vms {
                 if (_isPeriodicRestartComputer != value) {
                     _isPeriodicRestartComputer = value;
                     OnPropertyChanged(nameof(IsPeriodicRestartComputer));
+                    UpdateColumnsShowAsync();
+                }
+            }
+        }
+
+        public bool GpuTableVm {
+            get { return _gpuTableVms; }
+            set {
+                if (_gpuTableVms != value) {
+                    _gpuTableVms = value;
+                    OnPropertyChanged(nameof(GpuTableVm));
                     UpdateColumnsShowAsync();
                 }
             }
