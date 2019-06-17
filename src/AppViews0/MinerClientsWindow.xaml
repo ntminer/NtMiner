@@ -2055,11 +2055,12 @@
 					<TextBlock VerticalAlignment="Center" Text="{Binding MinerClientTotal}"></TextBlock>
 					<TextBlock VerticalAlignment="Center">条</TextBlock>
 
-					<controls:KbComboBox Margin="4 0 0 0" ToolTip="冻结列" ItemsSource="{Binding FrozenColumns}" SelectedItem="{Binding FrozenColumnCount}">
+					<TextBlock VerticalAlignment="Center" Margin="4 0 0 0">冻结前</TextBlock>
+					<controls:KbComboBox ItemsSource="{Binding FrozenColumns}" SelectedItem="{Binding FrozenColumnCount}">
 					</controls:KbComboBox>
+					<TextBlock VerticalAlignment="Center">列</TextBlock>
+					<TextBlock VerticalAlignment="Center" Margin="4 0 0 0">分组</TextBlock>
 					<controls:KbComboBox 
-						Margin="0 0 4 0"
-						ToolTip="定义显示哪些列"
 						ItemsSource="{Binding ColumnsShows.List}"
 						DisplayMemberPath="ColumnsShowName"
 						SelectedItem="{Binding ColumnsShow}">
@@ -2098,6 +2099,7 @@
 				<ScrollViewer
 					Grid.Column="1" 
 					x:Name="ColumnsShowScrollView" 
+					Margin="4 0 0 0"
 					FocusVisualStyle="{x:Null}"
 					VerticalAlignment="Center"
 					HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
@@ -2122,7 +2124,7 @@
 						</ItemsControl.ItemTemplate>
 					</ItemsControl>
 				</ScrollViewer>
-				<WrapPanel Grid.Column="2">
+				<WrapPanel Grid.Column="2" Visibility="{Binding ElementName=ColumnsShowScrollView,Path=ComputedHorizontalScrollBarVisibility}">
 					<Button x:Name="ButtonLeft" IsEnabled="False" Click="ButtonLeftCoin_Click">
 						<Button.Template>
 							<ControlTemplate>
