@@ -2,6 +2,7 @@
 using NTMiner.MinerServer;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Input;
@@ -18,6 +19,12 @@ namespace NTMiner.Vms {
 
             public PropertyInfo PropertyInfo {
                 get; private set;
+            }
+
+            public string Name {
+                get {
+                    return ((DescriptionAttribute)(this.PropertyInfo.GetCustomAttributes(typeof(DescriptionAttribute), inherit: false)[0])).Description;
+                }
             }
 
             public bool IsChecked {
@@ -76,7 +83,7 @@ namespace NTMiner.Vms {
         public List<ColumnItem> ColumnItems {
             get {
                 Type boolType = typeof(bool);
-                var properties = new List<PropertyInfo>(typeof(ColumnsShowViewModel).GetProperties().Where(a => a.PropertyType == boolType && a.CanRead && a.CanWrite));
+                var properties = new List<PropertyInfo>(typeof(ColumnsShowViewModel).GetProperties().Where(a => a.PropertyType == boolType && a.CanRead && a.CanWrite && a.GetCustomAttributes(typeof(DescriptionAttribute), inherit: false).Length != 0));
                 return new List<ColumnItem>(properties.Select(a => new ColumnItem(a, this) {
                     IsChecked = (bool)a.GetValue(this, null)
                 }));
@@ -201,6 +208,7 @@ namespace NTMiner.Vms {
             }
         }
 
+        [Description("最后更新")]
         public bool LastActivedOnText {
             get => _lastActivedOnText;
             set {
@@ -212,6 +220,7 @@ namespace NTMiner.Vms {
             }
         }
 
+        [Description("运行时长")]
         public bool BootTimeSpanText {
             get { return _bootTimeSpanText; }
             set {
@@ -223,6 +232,7 @@ namespace NTMiner.Vms {
             }
         }
 
+        [Description("挖矿时长")]
         public bool MineTimeSpanText {
             get { return _mineTimeSpanText; }
             set {
@@ -234,6 +244,7 @@ namespace NTMiner.Vms {
             }
         }
 
+        [Description("作业")]
         public bool Work {
             get => _work;
             set {
@@ -245,6 +256,7 @@ namespace NTMiner.Vms {
             }
         }
 
+        [Description("分组")]
         public bool MinerGroup {
             get { return _minerGroup; }
             set {
@@ -256,6 +268,7 @@ namespace NTMiner.Vms {
             }
         }
 
+        [Description("矿机名")]
         public bool ClientName {
             get { return _clientName; }
             set {
@@ -267,6 +280,7 @@ namespace NTMiner.Vms {
             }
         }
 
+        [Description("作业矿机名")]
         public bool MinerName {
             get { return _minerName; }
             set {
@@ -278,6 +292,7 @@ namespace NTMiner.Vms {
             }
         }
 
+        [Description("IP")]
         public bool MinerIp {
             get { return _minerIp; }
             set {
@@ -289,6 +304,7 @@ namespace NTMiner.Vms {
             }
         }
 
+        [Description("远程桌面用户名密码")]
         public bool WindowsLoginNameAndPassword {
             get => _windowsLoginNameAndPassword;
             set {
@@ -300,6 +316,7 @@ namespace NTMiner.Vms {
             }
         }
 
+        [Description("显卡类型")]
         public bool GpuType {
             get => _gpuType;
             set {
@@ -311,6 +328,7 @@ namespace NTMiner.Vms {
             }
         }
 
+        [Description("显卡")]
         public bool GpuInfo {
             get => _gpuInfo;
             set {
@@ -322,6 +340,7 @@ namespace NTMiner.Vms {
             }
         }
 
+        [Description("显卡驱动")]
         public bool GpuDriver {
             get => _gpuDriver;
             set {
@@ -333,6 +352,7 @@ namespace NTMiner.Vms {
             }
         }
 
+        [Description("主挖币种")]
         public bool MainCoinCode {
             get {
                 return _mainCoinCode;
@@ -346,6 +366,7 @@ namespace NTMiner.Vms {
             }
         }
 
+        [Description("主币算力")]
         public bool MainCoinSpeedText {
             get { return _mainCoinSpeedText; }
             set {
@@ -357,6 +378,7 @@ namespace NTMiner.Vms {
             }
         }
 
+        [Description("主币拒绝")]
         public bool MainCoinRejectPercentText {
             get => _mainCoinRejectPercentText;
             set {
@@ -368,6 +390,7 @@ namespace NTMiner.Vms {
             }
         }
 
+        [Description("双挖币种")]
         public bool DualCoinCode {
             get => _dualCoinCode;
             set {
@@ -379,6 +402,7 @@ namespace NTMiner.Vms {
             }
         }
 
+        [Description("双挖币算力")]
         public bool DualCoinSpeedText {
             get => _dualCoinSpeedText;
             set {
@@ -390,6 +414,7 @@ namespace NTMiner.Vms {
             }
         }
 
+        [Description("双挖币拒绝")]
         public bool DualCoinRejectPercentText {
             get => _dualCoinRejectPercentText;
             set {
@@ -401,6 +426,7 @@ namespace NTMiner.Vms {
             }
         }
 
+        [Description("功耗")]
         public bool TotalPowerText {
             get => _totalPowerText;
             set {
@@ -412,6 +438,7 @@ namespace NTMiner.Vms {
             }
         }
 
+        [Description("最高卡温")]
         public bool MaxTempText {
             get => _maxTempText;
             set {
@@ -423,6 +450,7 @@ namespace NTMiner.Vms {
             }
         }
 
+        [Description("主币预期收益")]
         public bool IncomeMainCoinPerDayText {
             get => _incomeMainCoinPerDayText;
             set {
@@ -434,6 +462,7 @@ namespace NTMiner.Vms {
             }
         }
 
+        [Description("双挖币预期收益")]
         public bool IncomeDualCoinPerDayText {
             get => _incomeDualCoinPerDayText;
             set {
@@ -445,6 +474,7 @@ namespace NTMiner.Vms {
             }
         }
 
+        [Description("主币钱包")]
         public bool MainCoinWallet {
             get => _mainCoinWallet;
             set {
@@ -456,6 +486,7 @@ namespace NTMiner.Vms {
             }
         }
 
+        [Description("主币矿池")]
         public bool MainCoinPool {
             get => _mainCoinPool;
             set {
@@ -467,6 +498,7 @@ namespace NTMiner.Vms {
             }
         }
 
+        [Description("内核")]
         public bool Kernel {
             get => _kernel;
             set {
@@ -478,6 +510,7 @@ namespace NTMiner.Vms {
             }
         }
 
+        [Description("双挖币钱包")]
         public bool DualCoinWallet {
             get => _dualCoinWallet;
             set {
@@ -489,6 +522,7 @@ namespace NTMiner.Vms {
             }
         }
 
+        [Description("双挖币矿池")]
         public bool DualCoinPool {
             get => _dualCoinPool;
             set {
@@ -500,6 +534,7 @@ namespace NTMiner.Vms {
             }
         }
 
+        [Description("客户端版本")]
         public bool Version {
             get => _version;
             set {
@@ -511,6 +546,7 @@ namespace NTMiner.Vms {
             }
         }
 
+        [Description("操作系统")]
         public bool OSName {
             get => _oSName;
             set {
@@ -522,6 +558,7 @@ namespace NTMiner.Vms {
             }
         }
 
+        [Description("虚拟内存")]
         public bool OSVirtualMemoryGbText {
             get => _oSVirtualMemoryGbText;
             set {
@@ -533,6 +570,7 @@ namespace NTMiner.Vms {
             }
         }
 
+        [Description("剩余磁盘")]
         public bool DiskSpace {
             get => _diskSpace;
             set {
@@ -544,6 +582,7 @@ namespace NTMiner.Vms {
             }
         }
 
+        [Description("开机启动")]
         public bool IsAutoBoot {
             get => _isAutoBoot;
             set {
@@ -555,6 +594,7 @@ namespace NTMiner.Vms {
             }
         }
 
+        [Description("自动挖矿")]
         public bool IsAutoStart {
             get => _isAutoStart;
             set {
@@ -566,6 +606,7 @@ namespace NTMiner.Vms {
             }
         }
 
+        [Description("内核命令行")]
         public bool KernelCommandLine {
             get => _kernelCommandLine;
             set {
