@@ -80,13 +80,24 @@ namespace NTMiner.Vms {
         private bool _isPeriodicRestartKernel;
         private bool _isPeriodicRestartComputer;
 
+        private List<ColumnItem> _columnItems = null;
         public List<ColumnItem> ColumnItems {
             get {
-                Type boolType = typeof(bool);
-                var properties = new List<PropertyInfo>(typeof(ColumnsShowViewModel).GetProperties().Where(a => a.PropertyType == boolType && a.CanRead && a.CanWrite && a.GetCustomAttributes(typeof(DescriptionAttribute), inherit: false).Length != 0));
-                return new List<ColumnItem>(properties.Select(a => new ColumnItem(a, this) {
-                    IsChecked = (bool)a.GetValue(this, null)
-                }));
+                if (_columnItems == null) {
+                    Type boolType = typeof(bool);
+                    var properties = new List<PropertyInfo>(typeof(ColumnsShowViewModel).GetProperties().Where(a => a.PropertyType == boolType && a.CanRead && a.CanWrite && a.GetCustomAttributes(typeof(DescriptionAttribute), inherit: false).Length != 0));
+                    _columnItems = new List<ColumnItem>(properties.Select(a => new ColumnItem(a, this) {
+                        IsChecked = (bool)a.GetValue(this, null)
+                    }));
+                }
+                return _columnItems;
+            }
+        }
+
+        private void OnColumnItemChanged(string propertyName) {
+            ColumnItem item = this.ColumnItems.FirstOrDefault(a => a.PropertyInfo.Name == propertyName);
+            if (item != null) {
+                item.OnPropertyChanged(nameof(item.IsChecked));
             }
         }
 
@@ -215,6 +226,7 @@ namespace NTMiner.Vms {
                 if (_lastActivedOnText != value) {
                     _lastActivedOnText = value;
                     OnPropertyChanged(nameof(LastActivedOnText));
+                    OnColumnItemChanged(nameof(LastActivedOnText));
                     UpdateColumnsShowAsync();
                 }
             }
@@ -227,6 +239,7 @@ namespace NTMiner.Vms {
                 if (_bootTimeSpanText != value) {
                     _bootTimeSpanText = value;
                     OnPropertyChanged(nameof(BootTimeSpanText));
+                    OnColumnItemChanged(nameof(BootTimeSpanText));
                     UpdateColumnsShowAsync();
                 }
             }
@@ -239,6 +252,7 @@ namespace NTMiner.Vms {
                 if (_mineTimeSpanText != value) {
                     _mineTimeSpanText = value;
                     OnPropertyChanged(nameof(MineTimeSpanText));
+                    OnColumnItemChanged(nameof(MineTimeSpanText));
                     UpdateColumnsShowAsync();
                 }
             }
@@ -251,6 +265,7 @@ namespace NTMiner.Vms {
                 if (_work != value) {
                     _work = value;
                     OnPropertyChanged(nameof(Work));
+                    OnColumnItemChanged(nameof(Work));
                     UpdateColumnsShowAsync();
                 }
             }
@@ -263,6 +278,7 @@ namespace NTMiner.Vms {
                 if (_minerGroup != value) {
                     _minerGroup = value;
                     OnPropertyChanged(nameof(MinerGroup));
+                    OnColumnItemChanged(nameof(MinerGroup));
                     UpdateColumnsShowAsync();
                 }
             }
@@ -275,6 +291,7 @@ namespace NTMiner.Vms {
                 if (_clientName != value) {
                     _clientName = value;
                     OnPropertyChanged(nameof(ClientName));
+                    OnColumnItemChanged(nameof(ClientName));
                     UpdateColumnsShowAsync();
                 }
             }
@@ -287,6 +304,7 @@ namespace NTMiner.Vms {
                 if (_minerName != value) {
                     _minerName = value;
                     OnPropertyChanged(nameof(MinerName));
+                    OnColumnItemChanged(nameof(MinerName));
                     UpdateColumnsShowAsync();
                 }
             }
@@ -299,6 +317,7 @@ namespace NTMiner.Vms {
                 if (_minerIp != value) {
                     _minerIp = value;
                     OnPropertyChanged(nameof(MinerIp));
+                    OnColumnItemChanged(nameof(MinerIp));
                     UpdateColumnsShowAsync();
                 }
             }
@@ -311,6 +330,7 @@ namespace NTMiner.Vms {
                 if (_windowsLoginNameAndPassword != value) {
                     _windowsLoginNameAndPassword = value;
                     OnPropertyChanged(nameof(WindowsLoginNameAndPassword));
+                    OnColumnItemChanged(nameof(WindowsLoginNameAndPassword));
                     UpdateColumnsShowAsync();
                 }
             }
@@ -323,6 +343,7 @@ namespace NTMiner.Vms {
                 if (_gpuType != value) {
                     _gpuType = value;
                     OnPropertyChanged(nameof(GpuType));
+                    OnColumnItemChanged(nameof(GpuType));
                     UpdateColumnsShowAsync();
                 }
             }
@@ -335,6 +356,7 @@ namespace NTMiner.Vms {
                 if (_gpuInfo != value) {
                     _gpuInfo = value;
                     OnPropertyChanged(nameof(GpuInfo));
+                    OnColumnItemChanged(nameof(GpuInfo));
                     UpdateColumnsShowAsync();
                 }
             }
@@ -347,6 +369,7 @@ namespace NTMiner.Vms {
                 if (_gpuDriver != value) {
                     _gpuDriver = value;
                     OnPropertyChanged(nameof(GpuDriver));
+                    OnColumnItemChanged(nameof(GpuDriver));
                     UpdateColumnsShowAsync();
                 }
             }
@@ -361,6 +384,7 @@ namespace NTMiner.Vms {
                 if (_mainCoinCode != value) {
                     _mainCoinCode = value;
                     OnPropertyChanged(nameof(MainCoinCode));
+                    OnColumnItemChanged(nameof(MainCoinCode));
                     UpdateColumnsShowAsync();
                 }
             }
@@ -373,6 +397,7 @@ namespace NTMiner.Vms {
                 if (_mainCoinSpeedText != value) {
                     _mainCoinSpeedText = value;
                     OnPropertyChanged(nameof(MainCoinSpeedText));
+                    OnColumnItemChanged(nameof(MainCoinSpeedText));
                     UpdateColumnsShowAsync();
                 }
             }
@@ -385,6 +410,7 @@ namespace NTMiner.Vms {
                 if (_mainCoinRejectPercentText != value) {
                     _mainCoinRejectPercentText = value;
                     OnPropertyChanged(nameof(MainCoinRejectPercentText));
+                    OnColumnItemChanged(nameof(MainCoinRejectPercentText));
                     UpdateColumnsShowAsync();
                 }
             }
@@ -397,6 +423,7 @@ namespace NTMiner.Vms {
                 if (_dualCoinCode != value) {
                     _dualCoinCode = value;
                     OnPropertyChanged(nameof(DualCoinCode));
+                    OnColumnItemChanged(nameof(DualCoinCode));
                     UpdateColumnsShowAsync();
                 }
             }
@@ -409,6 +436,7 @@ namespace NTMiner.Vms {
                 if (_dualCoinSpeedText != value) {
                     _dualCoinSpeedText = value;
                     OnPropertyChanged(nameof(DualCoinSpeedText));
+                    OnColumnItemChanged(nameof(DualCoinSpeedText));
                     UpdateColumnsShowAsync();
                 }
             }
@@ -421,6 +449,7 @@ namespace NTMiner.Vms {
                 if (_dualCoinRejectPercentText != value) {
                     _dualCoinRejectPercentText = value;
                     OnPropertyChanged(nameof(DualCoinRejectPercentText));
+                    OnColumnItemChanged(nameof(DualCoinRejectPercentText));
                     UpdateColumnsShowAsync();
                 }
             }
@@ -433,6 +462,7 @@ namespace NTMiner.Vms {
                 if (_totalPowerText != value) {
                     _totalPowerText = value;
                     OnPropertyChanged(nameof(TotalPowerText));
+                    OnColumnItemChanged(nameof(TotalPowerText));
                     UpdateColumnsShowAsync();
                 }
             }
@@ -445,6 +475,7 @@ namespace NTMiner.Vms {
                 if (_maxTempText != value) {
                     _maxTempText = value;
                     OnPropertyChanged(nameof(MaxTempText));
+                    OnColumnItemChanged(nameof(MaxTempText));
                     UpdateColumnsShowAsync();
                 }
             }
@@ -457,6 +488,7 @@ namespace NTMiner.Vms {
                 if (_incomeMainCoinPerDayText != value) {
                     _incomeMainCoinPerDayText = value;
                     OnPropertyChanged(nameof(IncomeMainCoinPerDayText));
+                    OnColumnItemChanged(nameof(IncomeMainCoinPerDayText));
                     UpdateColumnsShowAsync();
                 }
             }
@@ -469,6 +501,7 @@ namespace NTMiner.Vms {
                 if (_incomeDualCoinPerDayText != value) {
                     _incomeDualCoinPerDayText = value;
                     OnPropertyChanged(nameof(IncomeDualCoinPerDayText));
+                    OnColumnItemChanged(nameof(IncomeDualCoinPerDayText));
                     UpdateColumnsShowAsync();
                 }
             }
@@ -481,6 +514,7 @@ namespace NTMiner.Vms {
                 if (_mainCoinWallet != value) {
                     _mainCoinWallet = value;
                     OnPropertyChanged(nameof(MainCoinWallet));
+                    OnColumnItemChanged(nameof(MainCoinWallet));
                     UpdateColumnsShowAsync();
                 }
             }
@@ -493,6 +527,7 @@ namespace NTMiner.Vms {
                 if (_mainCoinPool != value) {
                     _mainCoinPool = value;
                     OnPropertyChanged(nameof(MainCoinPool));
+                    OnColumnItemChanged(nameof(MainCoinPool));
                     UpdateColumnsShowAsync();
                 }
             }
@@ -505,6 +540,7 @@ namespace NTMiner.Vms {
                 if (_kernel != value) {
                     _kernel = value;
                     OnPropertyChanged(nameof(Kernel));
+                    OnColumnItemChanged(nameof(Kernel));
                     UpdateColumnsShowAsync();
                 }
             }
@@ -517,6 +553,7 @@ namespace NTMiner.Vms {
                 if (_dualCoinWallet != value) {
                     _dualCoinWallet = value;
                     OnPropertyChanged(nameof(DualCoinWallet));
+                    OnColumnItemChanged(nameof(DualCoinWallet));
                     UpdateColumnsShowAsync();
                 }
             }
@@ -529,6 +566,7 @@ namespace NTMiner.Vms {
                 if (_dualCoinPool != value) {
                     _dualCoinPool = value;
                     OnPropertyChanged(nameof(DualCoinPool));
+                    OnColumnItemChanged(nameof(DualCoinPool));
                     UpdateColumnsShowAsync();
                 }
             }
@@ -541,6 +579,7 @@ namespace NTMiner.Vms {
                 if (_version != value) {
                     _version = value;
                     OnPropertyChanged(nameof(Version));
+                    OnColumnItemChanged(nameof(Version));
                     UpdateColumnsShowAsync();
                 }
             }
@@ -553,6 +592,7 @@ namespace NTMiner.Vms {
                 if (_oSName != value) {
                     _oSName = value;
                     OnPropertyChanged(nameof(OSName));
+                    OnColumnItemChanged(nameof(OSName));
                     UpdateColumnsShowAsync();
                 }
             }
@@ -565,6 +605,7 @@ namespace NTMiner.Vms {
                 if (_oSVirtualMemoryGbText != value) {
                     _oSVirtualMemoryGbText = value;
                     OnPropertyChanged(nameof(OSVirtualMemoryGbText));
+                    OnColumnItemChanged(nameof(OSVirtualMemoryGbText));
                     UpdateColumnsShowAsync();
                 }
             }
@@ -577,6 +618,7 @@ namespace NTMiner.Vms {
                 if (_diskSpace != value) {
                     _diskSpace = value;
                     OnPropertyChanged(nameof(DiskSpace));
+                    OnColumnItemChanged(nameof(DiskSpace));
                     UpdateColumnsShowAsync();
                 }
             }
@@ -589,6 +631,7 @@ namespace NTMiner.Vms {
                 if (_isAutoBoot != value) {
                     _isAutoBoot = value;
                     OnPropertyChanged(nameof(IsAutoBoot));
+                    OnColumnItemChanged(nameof(IsAutoBoot));
                     UpdateColumnsShowAsync();
                 }
             }
@@ -601,6 +644,7 @@ namespace NTMiner.Vms {
                 if (_isAutoStart != value) {
                     _isAutoStart = value;
                     OnPropertyChanged(nameof(IsAutoStart));
+                    OnColumnItemChanged(nameof(IsAutoStart));
                     UpdateColumnsShowAsync();
                 }
             }
@@ -613,6 +657,7 @@ namespace NTMiner.Vms {
                 if (_kernelCommandLine != value) {
                     _kernelCommandLine = value;
                     OnPropertyChanged(nameof(KernelCommandLine));
+                    OnColumnItemChanged(nameof(KernelCommandLine));
                     UpdateColumnsShowAsync();
                 }
             }
