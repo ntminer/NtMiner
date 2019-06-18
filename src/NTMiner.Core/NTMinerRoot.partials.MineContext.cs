@@ -26,9 +26,10 @@ namespace NTMiner {
                 this.CoinKernel = coinKernel;
                 this.MainCoinWallet = mainCoinWallet;
                 this.AutoRestartKernelCount = 0;
+                this.KernelSelfRestartCount = 0;
                 this.CommandLine = commandLine;
                 this.CreatedOn = DateTime.Now;
-                this.PipeFileName = "pip_" + DateTime.Now.Ticks.ToString() + ".log";
+                this.PipeFileName = $"{kernel.Code}_pip_{DateTime.Now.Ticks.ToString()}.log";
                 this.Parameters = parameters;
             }
 
@@ -47,6 +48,8 @@ namespace NTMiner {
             public string MainCoinWallet { get; private set; }
 
             public int AutoRestartKernelCount { get; set; }
+
+            public int KernelSelfRestartCount { get; set; }
 
             public string PipeFileName { get; private set; }
 
