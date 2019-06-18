@@ -6,6 +6,8 @@ namespace NTMiner.Core {
         bool PrependDateTime { get; }
         bool IsDualInSameLine { get; }
 
+        string KernelRestartPattern { get; }
+
         string TotalSpeedPattern { get; }
         string TotalSharePattern { get; }
         string AcceptSharePattern { get; }

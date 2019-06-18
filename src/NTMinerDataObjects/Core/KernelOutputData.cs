@@ -12,6 +12,8 @@ namespace NTMiner.Core {
 
         public string Name { get; set; }
 
+        public string KernelRestartPattern { get; set; }
+
         public bool PrependDateTime { get; set; }
 
         public bool IsDualInSameLine { get; set; }

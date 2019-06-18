@@ -12,6 +12,7 @@ namespace NTMiner.Vms {
 
         private Guid _id;
         private string _name;
+        private string _kernelRestartPattern;
         private bool _prependDateTime;
         private bool _isDualInSameLine;
         private string _totalSpeedPattern;
@@ -58,6 +59,7 @@ namespace NTMiner.Vms {
 
         public KernelOutputViewModel(IKernelOutput data) : this(data.GetId()) {
             _name = data.Name;
+            _kernelRestartPattern = data.KernelRestartPattern;
             _prependDateTime = data.PrependDateTime;
             _isDualInSameLine = data.IsDualInSameLine;
             _totalSpeedPattern = data.TotalSpeedPattern;
@@ -191,6 +193,14 @@ namespace NTMiner.Vms {
                         throw new ValidationException("名称是必须的");
                     }
                 }
+            }
+        }
+
+        public string KernelRestartPattern {
+            get { return _kernelRestartPattern; }
+            set {
+                _kernelRestartPattern = value;
+                OnPropertyChanged(nameof(KernelRestartPattern));
             }
         }
 
