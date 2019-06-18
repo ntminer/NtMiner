@@ -139,6 +139,10 @@ namespace NTMiner.Core.Kernels.Impl {
                 if (string.IsNullOrEmpty(input)) {
                     return;
                 }
+                if (!string.IsNullOrEmpty(kernelOutput.KernelRestartKeyword) && input.Contains(kernelOutput.KernelRestartKeyword)) {
+                    mineContext.KernelSelfRestartCount = mineContext.KernelSelfRestartCount + 1;
+                    VirtualRoot.Happened(new KernelSelfRestartedEvent());
+                }
                 ICoin coin = mineContext.MainCoin;
                 bool isDual = false;
                 // 如果是双挖上下文且当前输入行中没有主币关键字则视为双挖币

@@ -54,6 +54,10 @@ namespace NTMiner.Views.Ucs {
                             Vm.OnPropertyChanged(nameof(Vm.KernelSelfRestartCountText));
                         });
                     });
+                window.On<MineStartedEvent>("挖矿开始后将内核自我重启计数清零", LogEnum.DevConsole,
+                    action: message => {
+                        Vm.OnPropertyChanged(nameof(Vm.KernelSelfRestartCountText));
+                    });
             });
             var gpuSet = NTMinerRoot.Instance.GpuSet;
             // 建议每张显卡至少对应4G虚拟内存，否则标红
