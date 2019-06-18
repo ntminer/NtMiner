@@ -41,6 +41,21 @@ namespace NTMiner {
             SEventBus = new DirectEventBus(SMessageDispatcher);
         }
 
+        public static Guid ConvertToGuid(object obj) {
+            if (obj == null) {
+                return Guid.Empty;
+            }
+            if (obj is Guid guid1) {
+                return guid1;
+            }
+            if (obj is string s) {
+                if (Guid.TryParse(s, out Guid guid)) {
+                    return guid;
+                }
+            }
+            return Guid.Empty;
+        }
+
         private static Timer _timer;
         public static void StartTimer() {
             if (_timer != null) {

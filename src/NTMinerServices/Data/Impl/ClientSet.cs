@@ -263,7 +263,7 @@ namespace NTMiner.Data.Impl {
                 PropertyInfo propertyInfo = typeof(ClientData).GetProperty(propertyName);
                 if (propertyInfo != null) {
                     if (propertyInfo.PropertyType == typeof(Guid)) {
-                        value = DictionaryExtensions.ConvertToGuid(value);
+                        value = VirtualRoot.ConvertToGuid(value);
                     }
                     propertyInfo.SetValue(clientData, value, null);
                     clientData.ModifiedOn = DateTime.Now;
@@ -277,7 +277,7 @@ namespace NTMiner.Data.Impl {
             if (propertyInfo != null) {
                 if (propertyInfo.PropertyType == typeof(Guid)) {
                     foreach (var kv in values) {
-                        values[kv.Key] = DictionaryExtensions.ConvertToGuid(kv.Value);
+                        values[kv.Key] = VirtualRoot.ConvertToGuid(kv.Value);
                     }
                 }
                 foreach (var kv in values) {

@@ -54,7 +54,7 @@ namespace NTMiner {
 
             private EnumDic() {
                 if (typeof(Enum) != typeof(T).BaseType) {
-                    throw new GeneralException(typeof(T).FullName + " must be enum type");
+                    throw new NTMinerException(typeof(T).FullName + " must be enum type");
                 }
                 Type enumType = typeof(T);
                 var names = Enum.GetNames(enumType);
@@ -93,7 +93,7 @@ namespace NTMiner {
             public string this[ValueType value] {
                 get {
                     if (!_dicByValue.ContainsKey(value)) {
-                        throw new GeneralException("invalid enum value:" + value.ToString());
+                        throw new NTMinerException("invalid enum value:" + value.ToString());
                     }
 
                     return _dicByValue[value];

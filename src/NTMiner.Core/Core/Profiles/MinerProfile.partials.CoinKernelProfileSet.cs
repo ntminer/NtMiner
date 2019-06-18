@@ -140,7 +140,7 @@ namespace NTMiner.Core.Profiles {
                     if (Properties.TryGetValue(propertyName, out PropertyInfo propertyInfo)) {
                         if (propertyInfo.CanWrite) {
                             if (propertyInfo.PropertyType == typeof(Guid)) {
-                                value = DictionaryExtensions.ConvertToGuid(value);
+                                value = VirtualRoot.ConvertToGuid(value);
                             }
                             var oldValue = propertyInfo.GetValue(this, null);
                             if (oldValue != value) {

@@ -2,6 +2,6 @@
 
 namespace NTMiner.Repositories {
     [Serializable]
-    public class DuplicateIdException : GeneralException {
+    public class DuplicateIdException : NTMinerException {
     }
 }

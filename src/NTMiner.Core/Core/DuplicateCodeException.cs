@@ -2,6 +2,6 @@
 
 namespace NTMiner.Core {
     [Serializable]
-    public class DuplicateCodeException : GeneralException {
+    public class DuplicateCodeException : NTMinerException {
     }
 }

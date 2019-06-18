@@ -58,7 +58,6 @@
     <Compile Include="NTMinerRegistry.cs" />
     <Compile Include="Repositories\IReadOnlyRepository.cs" />
     <Compile Include="SortNumberComparer.cs" />
-    <Compile Include="DictionaryExtensions.cs" />
     <Compile Include="HandlerId.cs" />
     <Compile Include="Bus\IBus.cs" />
     <Compile Include="Bus\ICmd.cs" />
@@ -75,7 +74,7 @@
     <Compile Include="Bus\MessageTypeAttribute.cs" />
     <Compile Include="EntityExtensions.cs" />
     <Compile Include="EnumExtension.cs" />
-    <Compile Include="GeneralException.cs" />
+    <Compile Include="NTMinerException.cs" />
     <Compile Include="Messages.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\CommonRepository`1.cs" />
