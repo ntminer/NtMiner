@@ -12,7 +12,7 @@ namespace NTMiner.Core {
 
         public string Name { get; set; }
 
-        public string KernelRestartPattern { get; set; }
+        public string KernelRestartKeyword { get; set; }
 
         public bool PrependDateTime { get; set; }
 

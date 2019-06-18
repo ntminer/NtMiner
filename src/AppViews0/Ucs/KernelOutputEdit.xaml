@@ -48,8 +48,8 @@
 			</WrapPanel>
 
 			<WrapPanel Margin="6 2 0 0">
-				<TextBlock Style="{StaticResource LblTb}" Text="内核重启一次正则"></TextBlock>
-				<TextBox Style="{StaticResource TbRegex}" Text="{Binding KernelRestartPattern}">
+				<TextBlock Style="{StaticResource LblTb}" Text="内核重启一次关键字"></TextBlock>
+				<TextBox Style="{StaticResource TbRegex}" Text="{Binding KernelRestartKeyword}">
 				</TextBox>
 			</WrapPanel>
 			
