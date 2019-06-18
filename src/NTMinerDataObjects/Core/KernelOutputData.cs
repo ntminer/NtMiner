@@ -32,6 +32,8 @@ namespace NTMiner.Core {
 
         public string GpuSpeedPattern { get; set; }
 
+        public string GpuSharePattern { get; set; }
+
 
         public string DualTotalSpeedPattern { get; set; }
 
@@ -48,6 +50,8 @@ namespace NTMiner.Core {
         public string DualRejectPercentPattern { get; set; }
 
         public string DualGpuSpeedPattern { get; set; }
+
+        public string DualGpuSharePattern { get; set; }
 
         public string PoolDelayPattern { get; set; }
 
