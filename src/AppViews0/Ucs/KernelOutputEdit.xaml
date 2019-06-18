@@ -47,6 +47,12 @@
 				</CheckBox>
 			</WrapPanel>
 
+			<WrapPanel Margin="6 2 0 0">
+				<TextBlock Style="{StaticResource LblTb}" Text="内核重启一次正则"></TextBlock>
+				<TextBox Style="{StaticResource TbRegex}" Text="{Binding KernelRestartPattern}">
+				</TextBox>
+			</WrapPanel>
+			
 			<GroupBox Header="主币">
 				<StackPanel>
 					<WrapPanel Margin="0 2">
@@ -85,8 +91,13 @@
 						</TextBox>
 					</WrapPanel>
 					<WrapPanel Margin="0 2">
-						<TextBlock Style="{StaticResource LblTb}" Text="显卡算力正则"></TextBlock>
+						<TextBlock Style="{StaticResource LblTb}" Text="单卡算力正则"></TextBlock>
 						<TextBox Style="{StaticResource TbRegex}" Text="{Binding GpuSpeedPattern}">
+						</TextBox>
+					</WrapPanel>
+					<WrapPanel Margin="0 2">
+						<TextBlock Style="{StaticResource LblTb}" Text="单卡份额正则"></TextBlock>
+						<TextBox Style="{StaticResource TbRegex}" Text="{Binding GpuSharePattern}">
 						</TextBox>
 					</WrapPanel>
 					<WrapPanel Margin="0 2">
@@ -144,8 +155,13 @@
 						</TextBox>
 					</WrapPanel>
 					<WrapPanel Margin="0 2">
-						<TextBlock Style="{StaticResource LblTb}" Text="显卡算力正则"></TextBlock>
+						<TextBlock Style="{StaticResource LblTb}" Text="单卡算力正则"></TextBlock>
 						<TextBox Style="{StaticResource TbRegex}" Text="{Binding DualGpuSpeedPattern}">
+						</TextBox>
+					</WrapPanel>
+					<WrapPanel Margin="0 2">
+						<TextBlock Style="{StaticResource LblTb}" Text="单卡份额力正则"></TextBlock>
+						<TextBox Style="{StaticResource TbRegex}" Text="{Binding DualGpuSharePattern}">
 						</TextBox>
 					</WrapPanel>
 					<WrapPanel Margin="0 2">
