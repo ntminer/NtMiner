@@ -2,7 +2,6 @@
 using NTMiner.Core.Kernels;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -135,7 +134,7 @@ namespace NTMiner {
 
             #region CreateLogfileProcess
             private static void CreateLogfileProcess(IMineContext mineContext, string kernelExeFileFullName, string arguments) {
-                string logFile = Path.Combine(SpecialPath.LogsDirFullName, "logfile_" + DateTime.Now.Ticks.ToString() + ".log");
+                string logFile = Path.Combine(SpecialPath.LogsDirFullName, $"{mineContext.Kernel.Code}_{DateTime.Now.Ticks.ToString()}.log");
                 arguments = arguments.Replace("{logfile}", logFile);
                 string cmdLine = $"\"{kernelExeFileFullName}\" {arguments}";
                 Write.UserOk($"命令总成：{cmdLine}");
