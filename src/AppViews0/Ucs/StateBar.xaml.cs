@@ -17,6 +17,7 @@ namespace NTMiner.Views.Ucs {
             InitializeComponent();
             this.RunOneceOnLoaded(() => {
                 var window = Window.GetWindow(this);
+                // 时间事件是在WPF UI线程的，所以这里不用考虑访问UI线程创建的Vm对象的问题
                 window.On<Per1SecondEvent>("挖矿计时秒表", LogEnum.None,
                     action: message => {
                         DateTime now = DateTime.Now;
@@ -56,7 +57,9 @@ namespace NTMiner.Views.Ucs {
                     });
                 window.On<MineStartedEvent>("挖矿开始后将内核自我重启计数清零", LogEnum.DevConsole,
                     action: message => {
-                        Vm.OnPropertyChanged(nameof(Vm.KernelSelfRestartCountText));
+                        UIThread.Execute(() => {
+                            Vm.OnPropertyChanged(nameof(Vm.KernelSelfRestartCountText));
+                        });
                     });
             });
             var gpuSet = NTMinerRoot.Instance.GpuSet;
