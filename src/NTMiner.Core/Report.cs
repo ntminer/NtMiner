@@ -38,6 +38,7 @@ namespace NTMiner {
                 root.GpuSet.LoadGpuState();
             }
             SpeedData data = new SpeedData {
+                KernelSelfRestartCount = 0,
                 IsAutoBoot = NTMinerRegistry.GetIsAutoBoot(),
                 IsAutoStart = NTMinerRegistry.GetIsAutoStart(),
                 Version = NTMinerRoot.CurrentVersion.ToString(4),
@@ -136,6 +137,7 @@ namespace NTMiner {
             if (root.IsMining) {
                 var mineContext = root.CurrentMineContext;
                 if (mineContext != null) {
+                    data.KernelSelfRestartCount = mineContext.KernelSelfRestartCount;
                     data.MineStartedOn = mineContext.CreatedOn;
                     data.KernelCommandLine = mineContext.CommandLine;
                 }

@@ -6,6 +6,7 @@ namespace NTMiner.MinerClient {
             GpuTable = new GpuSpeedData[0];
         }
 
+        public int KernelSelfRestartCount { get; set; }
         public bool IsAutoBoot { get; set; }
         public bool IsAutoStart { get; set; }
         public bool IsAutoRestartKernel { get; set; }
