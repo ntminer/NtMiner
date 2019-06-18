@@ -39,6 +39,16 @@ namespace NTMiner.Vms {
 
         public AppContext.GpuSpeedViewModels GpuSpeedVms { get; private set; } = AppContext.Instance.GpuSpeedVms;
 
+        public string KernelSelfRestartCountText {
+            get {
+                var mineContext = NTMinerRoot.Instance.CurrentMineContext;
+                if (mineContext == null || mineContext.KernelSelfRestartCount <= 0) {
+                    return string.Empty;
+                }
+                return mineContext.KernelSelfRestartCount - 1 + "次";
+            }
+        }
+
         public TimeSpan BootTimeSpan {
             get { return _bootTimeSpan; }
             set {

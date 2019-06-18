@@ -11,6 +11,7 @@ namespace NTMiner.Core {
         ICoinKernel CoinKernel { get; }
         string MainCoinWallet { get; }
         int AutoRestartKernelCount { get; set; }
+        int KernelSelfRestartCount { get; set; }
         string PipeFileName { get; }
 
         string CommandLine { get; }

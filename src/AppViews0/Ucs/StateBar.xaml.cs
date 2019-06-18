@@ -48,6 +48,12 @@ namespace NTMiner.Views.Ucs {
                             }
                         });
                     });
+                window.On<KernelSelfRestartedEvent>("内核自我重启时刷新计数器", LogEnum.DevConsole,
+                    action: message => {
+                        UIThread.Execute(() => {
+                            Vm.OnPropertyChanged(nameof(Vm.KernelSelfRestartCountText));
+                        });
+                    });
             });
             var gpuSet = NTMinerRoot.Instance.GpuSet;
             // 建议每张显卡至少对应4G虚拟内存，否则标红

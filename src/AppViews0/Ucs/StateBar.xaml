@@ -144,54 +144,64 @@
 							<TextBlock Text="主池收益" Foreground="{StaticResource LinkForeground}"></TextBlock>
 						</controls:KbLinkButton>
 					</StackPanel>
-					<controls:KbButton 
-						HorizontalContentAlignment="Left"
-						Width="260" ToolTip="收益计算器"
-						Padding="2 0" Cursor="Hand" Background="Transparent" BorderThickness="0"
-						Command="{x:Static app:AppStatic.ShowCalc}"
-						CommandParameter="{Binding MinerProfile.CoinVm}">
-						<WrapPanel>
-							<TextBlock Padding="0 0 2 0" Text="≈" Style="{StaticResource Lbl}" />
+					<StackPanel>
+						<WrapPanel Margin="0 -14 0 0">
+							<TextBlock Margin="4 0 0 0" Foreground="{StaticResource LableColor}">内核重启</TextBlock>
 							<TextBlock 
-								Padding="0"
-								Background="Transparent"
-								Text="{Binding GpuSpeedVms.IncomeMainCoinPerDayText}">
-							</TextBlock>
-							<TextBlock 
-								Text="{Binding MinerProfile.CoinVm.Code}" 
-								Margin="2 0 0 0"
-								Padding="0"
-								Foreground="{StaticResource LableColor}"
-								FontWeight="Bold"></TextBlock>
-							<TextBlock Padding="0" Text="，" Foreground="{StaticResource LableColor}" />
-							<TextBlock 
-								Padding="0"
-								Background="Transparent"
-								Text="{Binding GpuSpeedVms.IncomeMainCoinCnyPerDayText}">
-							</TextBlock>
-							<TextBlock 
-								Text="￥" 
-								Margin="2 0 0 0"
-								Padding="0"
-								Foreground="{StaticResource LableColor}"></TextBlock>
-							<WrapPanel 
-								ToolTip="盈 = 总收益（包括双挖） - 电费"
-								Visibility="{Binding MinerProfile.IsEChargeEnabled,Converter={StaticResource BoolToVisibilityConverter}}">
-								<TextBlock Padding="2 0" Foreground="{StaticResource LableColor}" Text="盈" />
+								Width="40"
+								Padding="4 0 0 0"
+								Text="{Binding KernelSelfRestartCountText}"
+								Background="Transparent"></TextBlock>
+						</WrapPanel>
+						<controls:KbButton 
+							HorizontalContentAlignment="Left"
+							Width="260" ToolTip="收益计算器"
+							Padding="2 0" Cursor="Hand" Background="Transparent" BorderThickness="0"
+							Command="{x:Static app:AppStatic.ShowCalc}"
+							CommandParameter="{Binding MinerProfile.CoinVm}">
+							<WrapPanel>
+								<TextBlock Padding="0 0 2 0" Text="≈" Style="{StaticResource Lbl}" />
 								<TextBlock 
 									Padding="0"
 									Background="Transparent"
-									Text="{Binding GpuSpeedVms.ProfitCnyPerDayText}">
+									Text="{Binding GpuSpeedVms.IncomeMainCoinPerDayText}">
+								</TextBlock>
+								<TextBlock 
+									Text="{Binding MinerProfile.CoinVm.Code}" 
+									Margin="2 0 0 0"
+									Padding="0"
+									Foreground="{StaticResource LableColor}"
+									FontWeight="Bold"></TextBlock>
+								<TextBlock Padding="0" Text="，" Foreground="{StaticResource LableColor}" />
+								<TextBlock 
+									Padding="0"
+									Background="Transparent"
+									Text="{Binding GpuSpeedVms.IncomeMainCoinCnyPerDayText}">
 								</TextBlock>
 								<TextBlock 
 									Text="￥" 
 									Margin="2 0 0 0"
 									Padding="0"
 									Foreground="{StaticResource LableColor}"></TextBlock>
+								<WrapPanel 
+									ToolTip="盈 = 总收益（包括双挖） - 电费"
+									Visibility="{Binding MinerProfile.IsEChargeEnabled,Converter={StaticResource BoolToVisibilityConverter}}">
+									<TextBlock Padding="2 0" Foreground="{StaticResource LableColor}" Text="盈" />
+									<TextBlock 
+										Padding="0"
+										Background="Transparent"
+										Text="{Binding GpuSpeedVms.ProfitCnyPerDayText}">
+									</TextBlock>
+									<TextBlock 
+										Text="￥" 
+										Margin="2 0 0 0"
+										Padding="0"
+										Foreground="{StaticResource LableColor}"></TextBlock>
+								</WrapPanel>
+								<TextBlock Padding="1 0" Text="/天" Foreground="{StaticResource LableColor}" />
 							</WrapPanel>
-							<TextBlock Padding="1 0" Text="/天" Foreground="{StaticResource LableColor}" />
-						</WrapPanel>
-					</controls:KbButton>
+						</controls:KbButton>
+					</StackPanel>
 					<WrapPanel Width="170">
 						<TextBlock Padding="0 0 4 0" Text="拒绝" Style="{StaticResource Lbl}" />
 						<TextBlock Text="{Binding MinerProfile.CoinVm.ShareVm.RejectShareCount}" ToolTip="拒绝次数" />
