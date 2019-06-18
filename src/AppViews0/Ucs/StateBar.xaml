@@ -146,7 +146,7 @@
 					</StackPanel>
 					<StackPanel>
 						<WrapPanel Margin="0 -14 0 0">
-							<TextBlock Margin="4 0 0 0" Foreground="{StaticResource LableColor}">内核重启</TextBlock>
+							<TextBlock Margin="12 0 0 0" Foreground="{StaticResource LableColor}">内核重启</TextBlock>
 							<TextBlock 
 								Width="40"
 								Padding="4 0 0 0"
