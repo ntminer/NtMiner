@@ -20,7 +20,6 @@ namespace NTMiner.Vms {
         private string _acceptSharePattern;
         private string _acceptOneShare;
         private string _gpuSpeedPattern;
-        private string _gpuSharePattern;
         private string _rejectOneShare;
         private string _rejectSharePattern;
         private string _rejectPercentPattern;
@@ -30,7 +29,6 @@ namespace NTMiner.Vms {
         private string _dualAcceptSharePattern;
         private string _dualAcceptOneShare;
         private string _dualGpuSpeedPattern;
-        private string _dualGpuSharePattern;
         private string _dualRejectSharePattern;
         private string _dualRejectOneShare;
         private string _dualRejectPercentPattern;
@@ -64,7 +62,6 @@ namespace NTMiner.Vms {
             _isDualInSameLine = data.IsDualInSameLine;
             _totalSpeedPattern = data.TotalSpeedPattern;
             _gpuSpeedPattern = data.GpuSpeedPattern;
-            _gpuSharePattern = data.GpuSharePattern;
             _totalSharePattern = data.TotalSharePattern;
             _acceptSharePattern = data.AcceptSharePattern;
             _acceptOneShare = data.AcceptOneShare;
@@ -72,7 +69,6 @@ namespace NTMiner.Vms {
             _rejectOneShare = data.RejectOneShare;
             _rejectPercentPattern = data.RejectPercentPattern;
             _dualGpuSpeedPattern = data.DualGpuSpeedPattern;
-            _dualGpuSharePattern = data.DualGpuSharePattern;
             _dualAcceptSharePattern = data.DualAcceptSharePattern;
             _dualAcceptOneShare = data.DualAcceptOneShare;
             _dualRejectSharePattern = data.DualRejectSharePattern;
@@ -302,16 +298,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        public string GpuSharePattern {
-            get { return _gpuSharePattern; }
-            set {
-                if (_gpuSharePattern != value) {
-                    _gpuSharePattern = value;
-                    OnPropertyChanged(nameof(GpuSharePattern));
-                }
-            }
-        }
-
         public string DualTotalSpeedPattern {
             get => _dualTotalSpeedPattern;
             set {
@@ -388,16 +374,6 @@ namespace NTMiner.Vms {
                 if (_dualGpuSpeedPattern != value) {
                     _dualGpuSpeedPattern = value;
                     OnPropertyChanged(nameof(DualGpuSpeedPattern));
-                }
-            }
-        }
-
-        public string DualGpuSharePattern {
-            get { return _dualGpuSharePattern; }
-            set {
-                if (_dualGpuSharePattern != value) {
-                    _dualGpuSharePattern = value;
-                    OnPropertyChanged(nameof(DualGpuSharePattern));
                 }
             }
         }

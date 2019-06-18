@@ -96,11 +96,6 @@
 						</TextBox>
 					</WrapPanel>
 					<WrapPanel Margin="0 2">
-						<TextBlock Style="{StaticResource LblTb}" Text="单卡份额正则"></TextBlock>
-						<TextBox Style="{StaticResource TbRegex}" Text="{Binding GpuSharePattern}">
-						</TextBox>
-					</WrapPanel>
-					<WrapPanel Margin="0 2">
 						<TextBlock Style="{StaticResource LblTb}" Text="矿池延时正则"></TextBlock>
 						<TextBox Style="{StaticResource TbRegex}" Text="{Binding PoolDelayPattern}">
 						</TextBox>
@@ -157,11 +152,6 @@
 					<WrapPanel Margin="0 2">
 						<TextBlock Style="{StaticResource LblTb}" Text="单卡算力正则"></TextBlock>
 						<TextBox Style="{StaticResource TbRegex}" Text="{Binding DualGpuSpeedPattern}">
-						</TextBox>
-					</WrapPanel>
-					<WrapPanel Margin="0 2">
-						<TextBlock Style="{StaticResource LblTb}" Text="单卡份额力正则"></TextBlock>
-						<TextBox Style="{StaticResource TbRegex}" Text="{Binding DualGpuSharePattern}">
 						</TextBox>
 					</WrapPanel>
 					<WrapPanel Margin="0 2">
