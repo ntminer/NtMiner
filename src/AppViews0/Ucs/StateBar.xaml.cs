@@ -67,13 +67,6 @@ namespace NTMiner.Views.Ucs {
             if (NTMinerRoot.OSVirtualMemoryMb < gpuSet.Count * 4) {
                 BtnShowVirtualMemory.Foreground = new SolidColorBrush(Colors.Red);
             }
-            if (!gpuSet.Has20NCard()) {
-                string nvDriverVersion = gpuSet.DriverVersion;
-                if (double.TryParse(nvDriverVersion, out double driverNum) && driverNum >= 400) {
-                    TextBlockDriverVersion.Foreground = new SolidColorBrush(Colors.Red);
-                    TextBlockDriverVersion.ToolTip = "如果没有20系列的N卡，挖矿建议使用3xx驱动。";
-                }
-            }
         }
     }
 }
