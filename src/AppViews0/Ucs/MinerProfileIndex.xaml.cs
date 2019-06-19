@@ -200,8 +200,17 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void KbButtonMainCoinWallet_Clicked(object sender, RoutedEventArgs e) {
-            OpenMainCoinWalletPopup();
-            UserActionHappend();
+            var coinVm = Vm.MinerProfile.CoinVm;
+            if (coinVm == null) {
+                return;
+            }
+            if (coinVm.Wallets.Count == 0) {
+                coinVm.CoinProfile.AddWallet.Execute(null);
+            }
+            else {
+                OpenMainCoinWalletPopup();
+                UserActionHappend();
+            }
             e.Handled = true;
         }
 

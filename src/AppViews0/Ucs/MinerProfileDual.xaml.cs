@@ -142,8 +142,17 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void KbButtonDualCoinWallet_Clicked(object sender, RoutedEventArgs e) {
-            OpenDualCoinWalletPopup();
-            UserActionHappend();
+            var coinVm = Vm.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin;
+            if (coinVm == null) {
+                return;
+            }
+            if (coinVm.Wallets.Count == 0) {
+                coinVm.CoinProfile.AddDualCoinWallet.Execute(null);
+            }
+            else {
+                OpenDualCoinWalletPopup();
+                UserActionHappend();
+            }
             e.Handled = true;
         }
 
