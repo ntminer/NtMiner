@@ -45,12 +45,7 @@ namespace NTMiner {
                         }
                     }
                     catch (Exception e) {
-                        if (e is TaskCanceledException) {
-                            Write.DevError($"本次ReportStateAsync已取消，因为耗时超过{timeSpan.TotalSeconds}秒");
-                        }
-                        else {
-                            Logger.ErrorDebugLine(e);
-                        }
+                        // 吞掉异常，以免用户恐慌
                     }
                 });
             }
