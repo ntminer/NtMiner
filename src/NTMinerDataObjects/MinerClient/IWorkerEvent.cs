@@ -2,7 +2,7 @@
 
 namespace NTMiner.MinerClient {
     public interface IWorkerEvent : IEntity<Guid> {
-        Guid TypeId { get; }
+        Guid EventTypeId { get; }
         string Description { get; }
         DateTime EventOn { get; }
     }

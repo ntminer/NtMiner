@@ -196,7 +196,6 @@
     <Compile Include="Vms\VirtualMemoryViewModel.cs" />
     <Compile Include="Vms\WalletSelectViewModel.cs" />
     <Compile Include="Vms\WalletViewModel.cs" />
-    <Compile Include="Vms\WorkerEventTypeViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NTMiner.Core\NTMiner.Core.csproj">

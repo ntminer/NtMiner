@@ -18,6 +18,7 @@ namespace NTMiner.Vms {
         private string _value;
         private string _description;
         private int _sortNumber;
+        private DataLevel _dataLevel;
         public ICommand Remove { get; private set; }
         public ICommand Edit { get; private set; }
         public ICommand SortUp { get; private set; }
@@ -74,8 +75,7 @@ namespace NTMiner.Vms {
                     VirtualRoot.Execute(new UpdateSysDicItemCommand(upOne));
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdateSysDicItemCommand(this));
-                    SysDicViewModel sysDicVm;
-                    if (AppContext.Instance.SysDicVms.TryGetSysDicVm(this.DicId, out sysDicVm)) {
+                    if (AppContext.Instance.SysDicVms.TryGetSysDicVm(this.DicId, out SysDicViewModel sysDicVm)) {
                         sysDicVm.OnPropertyChanged(nameof(sysDicVm.SysDicItems));
                         sysDicVm.OnPropertyChanged(nameof(sysDicVm.SysDicItemsSelect));
                     }
@@ -89,13 +89,43 @@ namespace NTMiner.Vms {
                     VirtualRoot.Execute(new UpdateSysDicItemCommand(nextOne));
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdateSysDicItemCommand(this));
-                    SysDicViewModel sysDicVm;
-                    if (AppContext.Instance.SysDicVms.TryGetSysDicVm(this.DicId, out sysDicVm)) {
+                    if (AppContext.Instance.SysDicVms.TryGetSysDicVm(this.DicId, out SysDicViewModel sysDicVm)) {
                         sysDicVm.OnPropertyChanged(nameof(sysDicVm.SysDicItems));
                         sysDicVm.OnPropertyChanged(nameof(sysDicVm.SysDicItemsSelect));
                     }
                 }
             });
+        }
+
+        public DataLevel DataLevel {
+            get { return _dataLevel; }
+            set {
+                if (_dataLevel != value) {
+                    _dataLevel = value;
+                    OnPropertyChanged(nameof(DataLevel));
+                    OnPropertyChanged(nameof(DataLevelText));
+                    OnPropertyChanged(nameof(IsReadOnly));
+                }
+            }
+        }
+
+        public bool IsReadOnly {
+            get {
+                if (!DevMode.IsDebugMode && this.DataLevel == DataLevel.Global) {
+                    return true;
+                }
+                return false;
+            }
+        }
+
+        public string DataLevelText {
+            get {
+                return this.DataLevel.GetDescription();
+            }
+        }
+
+        public void SetDataLevel(DataLevel dataLevel) {
+            this.DataLevel = dataLevel;
         }
 
         public Guid Id {
@@ -169,8 +199,7 @@ namespace NTMiner.Vms {
 
         public SysDicViewModel SysDicVm {
             get {
-                SysDicViewModel sysDicVm;
-                AppContext.Instance.SysDicVms.TryGetSysDicVm(this.DicId, out sysDicVm);
+                AppContext.Instance.SysDicVms.TryGetSysDicVm(this.DicId, out SysDicViewModel sysDicVm);
                 return sysDicVm;
             }
         }

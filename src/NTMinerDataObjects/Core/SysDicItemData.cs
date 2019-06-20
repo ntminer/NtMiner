@@ -6,6 +6,13 @@ namespace NTMiner.Core {
             return this.Id;
         }
 
+        [LiteDB.BsonIgnore]
+        public DataLevel DataLevel { get; set; }
+
+        public void SetDataLevel(DataLevel dataLevel) {
+            this.DataLevel = dataLevel;
+        }
+
         public Guid Id { get; set; }
 
         public Guid DicId { get; set; }

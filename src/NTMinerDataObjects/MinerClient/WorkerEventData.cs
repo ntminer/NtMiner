@@ -12,8 +12,8 @@ namespace NTMiner.MinerClient {
                 return result;
             }
             return new WorkerEventData {
-                Id = data.TypeId,
-                TypeId = data.TypeId,
+                Id = data.EventTypeId,
+                EventTypeId = data.EventTypeId,
                 Description = data.Description,
                 EventOn = data.EventOn
             };
@@ -25,7 +25,7 @@ namespace NTMiner.MinerClient {
 
         public Guid Id { get; set; }
 
-        public Guid TypeId { get; set; }
+        public Guid EventTypeId { get; set; }
 
         public string Description { get; set; }
 

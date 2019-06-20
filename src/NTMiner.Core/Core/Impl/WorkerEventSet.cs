@@ -26,11 +26,11 @@ namespace NTMiner.Core.Impl {
                     if (!string.IsNullOrEmpty(keyword)) {
                         return col.Find(
                             Query.And(
-                                Query.EQ(nameof(WorkerEventData.TypeId), typeId),
+                                Query.EQ(nameof(WorkerEventData.EventTypeId), typeId),
                                 Query.Contains(nameof(WorkerEventData.Description), keyword)));
                     }
                     else {
-                        return col.Find(Query.EQ(nameof(WorkerEventData.TypeId), typeId));
+                        return col.Find(Query.EQ(nameof(WorkerEventData.EventTypeId), typeId));
                     }
                 }
                 else {

@@ -116,7 +116,6 @@
     <Compile Include="Core\IKernelOutputKeywordSet.cs" />
     <Compile Include="Core\Impl\KernelOutputKeywordSet.cs" />
     <Compile Include="Core\IWorkerEventSet.cs" />
-    <Compile Include="Core\IWorkerEventTypeSet.cs" />
     <Compile Include="Core\IFileWriterSet.cs" />
     <Compile Include="Core\IFragmentWriterSet.cs" />
     <Compile Include="Core\IGroupSet.cs" />
@@ -126,7 +125,6 @@
     <Compile Include="Core\Impl\CoinGroupSet.cs" />
     <Compile Include="Core\Impl\CoinShareSet.cs" />
     <Compile Include="Core\Impl\WorkerEventSet.cs" />
-    <Compile Include="Core\Impl\WorkerEventTypeSet.cs" />
     <Compile Include="Core\Impl\FragmentWriterSet.cs" />
     <Compile Include="Core\Impl\FileWriterSet.cs" />
     <Compile Include="Core\Kernels\Impl\PackageSet.cs" />

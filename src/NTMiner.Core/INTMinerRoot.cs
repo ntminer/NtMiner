@@ -95,8 +95,6 @@ namespace NTMiner {
 
         IKernelOutputTranslaterSet KernelOutputTranslaterSet { get; }
 
-        IWorkerEventTypeSet WorkerEventTypeSet { get; }
-
         IWorkerEventSet WorkerEventSet { get; }
 
         IKernelOutputKeywordSet KernelOutputKeywordSet { get; }
