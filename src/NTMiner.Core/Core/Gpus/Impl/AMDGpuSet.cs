@@ -51,23 +51,26 @@ namespace NTMiner.Core.Gpus.Impl {
             if (deviceCount > 0) {
                 this.DriverVersion = adlHelper.GetDriverVersion();
                 this.Properties.Add(new GpuSetProperty(GpuSetProperty.DRIVER_VERSION, "驱动版本", DriverVersion));
-                Dictionary<string, string> kvs = new Dictionary<string, string> {
-                    {"GPU_FORCE_64BIT_PTR","0" },
-                    {"GPU_MAX_ALLOC_PERCENT","100" },
-                    {"GPU_MAX_HEAP_SIZE","100" },
-                    {"GPU_SINGLE_ALLOC_PERCENT","100" },
-                    { "GPU_USE_SYNC_OBJECTS","1" }
-                };
-                foreach (var kv in kvs) {
-                    var property = new GpuSetProperty(kv.Key, kv.Key, kv.Value);
-                    this.Properties.Add(property);
-                }
-                Task.Factory.StartNew(() => {
-                    OverClock.RefreshGpuState(NTMinerRoot.GpuAllId);
+                const ulong minG = (ulong)5 * 1024 * 1024 * 1024;
+                if (_gpus.Any(a => a.Value.TotalMemory <= minG)) {
+                    Dictionary<string, string> kvs = new Dictionary<string, string> {
+                        {"GPU_FORCE_64BIT_PTR","0" },
+                        {"GPU_MAX_ALLOC_PERCENT","100" },
+                        {"GPU_MAX_HEAP_SIZE","100" },
+                        {"GPU_SINGLE_ALLOC_PERCENT","100" },
+                        { "GPU_USE_SYNC_OBJECTS","1" }
+                    };
                     foreach (var kv in kvs) {
-                        Environment.SetEnvironmentVariable(kv.Key, kv.Value);
+                        var property = new GpuSetProperty(kv.Key, kv.Key, kv.Value);
+                        this.Properties.Add(property);
                     }
-                });
+                    Task.Factory.StartNew(() => {
+                        OverClock.RefreshGpuState(NTMinerRoot.GpuAllId);
+                        foreach (var kv in kvs) {
+                            Environment.SetEnvironmentVariable(kv.Key, kv.Value);
+                        }
+                    });
+                }
             }
 #if DEBUG
             Write.DevWarn($"耗时{VirtualRoot.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");

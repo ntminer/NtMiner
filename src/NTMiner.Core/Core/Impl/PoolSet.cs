@@ -1,5 +1,4 @@
-﻿using NTMiner.Repositories;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,8 +40,7 @@ namespace NTMiner.Core.Impl {
 
                     VirtualRoot.Happened(new PoolAddedEvent(entity));
 
-                    ICoin coin;
-                    if (root.CoinSet.TryGetCoin(message.Input.CoinId, out coin)) {
+                    if (root.CoinSet.TryGetCoin(message.Input.CoinId, out ICoin coin)) {
                         ICoinKernel[] coinKernels = root.CoinKernelSet.Where(a => a.CoinId == coin.GetId()).ToArray();
                         foreach (ICoinKernel coinKernel in coinKernels) {
                             Guid poolKernelId = Guid.NewGuid();
@@ -117,7 +115,7 @@ namespace NTMiner.Core.Impl {
         }
 
         private bool _isInited = false;
-        private object _locker = new object();
+        private readonly object _locker = new object();
 
         private void InitOnece() {
             if (_isInited) {
@@ -160,8 +158,7 @@ namespace NTMiner.Core.Impl {
 
         public bool TryGetPool(Guid poolId, out IPool pool) {
             InitOnece();
-            PoolData p;
-            var r = _dicById.TryGetValue(poolId, out p);
+            var r = _dicById.TryGetValue(poolId, out PoolData p);
             pool = p;
             return r;
         }

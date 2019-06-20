@@ -34,7 +34,7 @@ namespace NTMiner.Core.Impl {
                     SysDicItemData entity = new SysDicItemData().Update(message.Input);
                     _dicById.Add(entity.Id, entity);
                     _dicByDicId[message.Input.DicId].Add(entity.Code, entity);
-                    var repository = NTMinerRoot.CreateServerRepository<SysDicItemData>(isUseJson);
+                    var repository = NTMinerRoot.CreateCompositeRepository<SysDicItemData>(isUseJson);
                     repository.Add(entity);
 
                     VirtualRoot.Happened(new SysDicItemAddedEvent(entity));
@@ -62,7 +62,7 @@ namespace NTMiner.Core.Impl {
                         _dicByDicId[entity.DicId].Remove(oldCode);
                         _dicByDicId[entity.DicId].Add(entity.Code, entity);
                     }
-                    var repository = NTMinerRoot.CreateServerRepository<SysDicItemData>(isUseJson);
+                    var repository = NTMinerRoot.CreateCompositeRepository<SysDicItemData>(isUseJson);
                     repository.Update(entity);
 
                     VirtualRoot.Happened(new SysDicItemUpdatedEvent(entity));
@@ -83,7 +83,7 @@ namespace NTMiner.Core.Impl {
                             _dicByDicId[entity.DicId].Remove(entity.Code);
                         }
                     }
-                    var repository = NTMinerRoot.CreateServerRepository<SysDicItemData>(isUseJson);
+                    var repository = NTMinerRoot.CreateCompositeRepository<SysDicItemData>(isUseJson);
                     repository.Remove(entity.Id);
 
                     VirtualRoot.Happened(new SysDicItemRemovedEvent(entity));
@@ -103,7 +103,7 @@ namespace NTMiner.Core.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    var repository = NTMinerRoot.CreateServerRepository<SysDicItemData>(_isUseJson);
+                    var repository = NTMinerRoot.CreateCompositeRepository<SysDicItemData>(_isUseJson);
                     foreach (var item in repository.GetAll()) {
                         if (!_dicById.ContainsKey(item.GetId())) {
                             _dicById.Add(item.GetId(), item);
