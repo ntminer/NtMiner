@@ -163,7 +163,7 @@ namespace NTMiner {
                     bool isLogFileCreated = true;
                     int n = 0;
                     while (!File.Exists(logFile)) {
-                        if (n >= 10) {
+                        if (n >= 20) {
                             // 10秒钟都没有建立日志文件，不可能
                             isLogFileCreated = false;
                             Write.UserFail("呃！竟然10秒钟未产生内核输出文件，请联系开发人员解决。");
