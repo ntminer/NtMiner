@@ -27,7 +27,7 @@ namespace NTMiner.Core.SysDics.Impl {
                         return;
                     }
                     if (_dicByCode.ContainsKey(message.Input.Code)) {
-                        throw new DuplicateCodeException();
+                        throw new ValidationException("编码重复");
                     }
                     SysDicData entity = new SysDicData().Update(message.Input);
                     _dicById.Add(entity.Id, entity);

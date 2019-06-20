@@ -26,7 +26,7 @@ namespace NTMiner.Core.Impl {
                         return;
                     }
                     if (_dicByCode.ContainsKey(message.Input.Code)) {
-                        throw new DuplicateCodeException();
+                        throw new ValidationException("编码重复");
                     }
                     CoinData entity = new CoinData().Update(message.Input);
                     _dicById.Add(entity.Id, entity);

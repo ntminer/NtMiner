@@ -30,7 +30,7 @@ namespace NTMiner.Core.SysDics.Impl {
                         _dicByDicId.Add(message.Input.DicId, new Dictionary<string, SysDicItemData>(StringComparer.OrdinalIgnoreCase));
                     }
                     if (_dicByDicId[message.Input.DicId].ContainsKey(message.Input.Code)) {
-                        throw new DuplicateCodeException();
+                        throw new ValidationException("编码重复");
                     }
                     SysDicItemData entity = new SysDicItemData().Update(message.Input);
                     _dicById.Add(entity.Id, entity);

@@ -192,7 +192,6 @@
     <Compile Include="Core\SysDics\ISysDicSet.cs" />
     <Compile Include="Core\Gpus\Impl\Nvidia\NvmlNativeMethods.cs" />
     <Compile Include="Core\Gpus\Impl\Nvidia\NvmlTypes.cs" />
-    <Compile Include="Core\DuplicateCodeException.cs" />
     <Compile Include="Core\Gpus\IGpuSpeed.cs" />
     <Compile Include="Core\Gpus\IGpusSpeed.cs" />
     <Compile Include="Core\ISpeed.cs" />
