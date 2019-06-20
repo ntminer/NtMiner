@@ -18,8 +18,10 @@ namespace NTMiner.Profile {
             this.NoShareRestartKernelMinutes = 30;
             this.IsPeriodicRestartKernel = false;
             this.PeriodicRestartKernelHours = 12;
+            this.PeriodicRestartKernelMinutes = 0;
             this.IsPeriodicRestartComputer = false;
             this.PeriodicRestartComputerHours = 24;
+            this.PeriodicRestartComputerMinutes = 0;
             this.IsSpeedDownRestartComputer = false;
             this.RestartComputerSpeedDownPercent = 0;
             this.IsEChargeEnabled = true;
@@ -38,8 +40,10 @@ namespace NTMiner.Profile {
             this.NoShareRestartKernelMinutes = data.NoShareRestartKernelMinutes;
             this.IsPeriodicRestartKernel = data.IsPeriodicRestartKernel;
             this.PeriodicRestartKernelHours = data.PeriodicRestartKernelHours;
+            this.PeriodicRestartKernelHours = data.PeriodicRestartKernelHours;
             this.IsPeriodicRestartComputer = data.IsPeriodicRestartComputer;
             this.PeriodicRestartComputerHours = data.PeriodicRestartComputerHours;
+            this.PeriodicRestartComputerMinutes = data.PeriodicRestartComputerMinutes;
             this.IsSpeedDownRestartComputer = data.IsSpeedDownRestartComputer;
             this.RestartComputerSpeedDownPercent = data.RestartComputerSpeedDownPercent;
             this.IsEChargeEnabled = data.IsEChargeEnabled;
@@ -74,6 +78,10 @@ namespace NTMiner.Profile {
         public bool IsPowerAppend { get; set; }
 
         public int PowerAppend { get; set; }
+
+        public int PeriodicRestartKernelMinutes { get; set; }
+
+        public int PeriodicRestartComputerMinutes { get; set; }
 
         public override string ToString() {
             return $"{Id}{MinerName}{IsAutoRestartKernel}{CoinId}{IsNoShareRestartKernel}{NoShareRestartKernelMinutes}{IsPeriodicRestartKernel}{PeriodicRestartKernelHours}{IsPeriodicRestartComputer}{PeriodicRestartComputerHours}{IsSpeedDownRestartComputer}{RestartComputerSpeedDownPercent}{IsEChargeEnabled}{EPrice}{IsPowerAppend}{PowerAppend}";

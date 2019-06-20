@@ -219,6 +219,20 @@ namespace NTMiner.Core.Profiles {
             }
         }
 
+        public int PeriodicRestartKernelMinutes {
+            get => _data.PeriodicRestartKernelMinutes;
+            private set {
+                _data.PeriodicRestartKernelMinutes = value;
+            }
+        }
+
+        public int PeriodicRestartComputerMinutes {
+            get => _data.PeriodicRestartComputerMinutes;
+            private set {
+                _data.PeriodicRestartComputerMinutes = value;
+            }
+        }
+
         public bool IsAutoRestartKernel {
             get {
                 return _data.IsAutoRestartKernel;

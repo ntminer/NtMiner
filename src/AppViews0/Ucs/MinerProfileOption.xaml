@@ -52,7 +52,9 @@
 								<WrapPanel>
 									<TextBlock VerticalAlignment="Center">每运行</TextBlock>
 									<TextBox Width="40" Margin="2 0" Background="White" Text="{Binding PeriodicRestartKernelHours}" HorizontalAlignment="Left"></TextBox>
-									<TextBlock VerticalAlignment="Center">小时重启内核</TextBlock>
+									<TextBlock VerticalAlignment="Center">小时</TextBlock>
+									<TextBox Width="40" Margin="2 0" Background="White" Text="{Binding PeriodicRestartKernelMinutes}" HorizontalAlignment="Left"></TextBox>
+									<TextBlock VerticalAlignment="Center">分钟重启内核</TextBlock>
 								</WrapPanel>
 							</CheckBox>
 						</WrapPanel>
@@ -65,7 +67,9 @@
 								<WrapPanel>
 									<TextBlock VerticalAlignment="Center">每运行</TextBlock>
 									<TextBox Width="40" Margin="2 0" Background="White" Text="{Binding PeriodicRestartComputerHours}" HorizontalAlignment="Left"></TextBox>
-									<TextBlock VerticalAlignment="Center">小时重启电脑</TextBlock>
+									<TextBlock VerticalAlignment="Center">小时</TextBlock>
+									<TextBox Width="40" Margin="2 0" Background="White" Text="{Binding PeriodicRestartComputerMinutes}" HorizontalAlignment="Left"></TextBox>
+									<TextBlock VerticalAlignment="Center">分钟重启电脑</TextBlock>
 								</WrapPanel>
 							</CheckBox>
 						</WrapPanel>

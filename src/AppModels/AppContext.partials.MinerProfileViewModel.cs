@@ -299,6 +299,26 @@ namespace NTMiner {
                 }
             }
 
+            public int PeriodicRestartKernelMinutes {
+                get => NTMinerRoot.Instance.MinerProfile.PeriodicRestartKernelMinutes;
+                set {
+                    if (NTMinerRoot.Instance.MinerProfile.PeriodicRestartKernelMinutes != value) {
+                        NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(PeriodicRestartKernelMinutes), value);
+                        OnPropertyChanged(nameof(PeriodicRestartKernelMinutes));
+                    }
+                }
+            }
+
+            public int PeriodicRestartComputerMinutes {
+                get => NTMinerRoot.Instance.MinerProfile.PeriodicRestartComputerMinutes;
+                set {
+                    if (NTMinerRoot.Instance.MinerProfile.PeriodicRestartComputerMinutes != value) {
+                        NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(PeriodicRestartComputerMinutes), value);
+                        OnPropertyChanged(nameof(PeriodicRestartComputerMinutes));
+                    }
+                }
+            }
+
             public int RestartComputerSpeedDownPercent {
                 get => NTMinerRoot.Instance.MinerProfile.RestartComputerSpeedDownPercent;
                 set {
