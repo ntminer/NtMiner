@@ -305,6 +305,9 @@ namespace NTMiner {
                     if (NTMinerRoot.Instance.MinerProfile.PeriodicRestartKernelMinutes != value) {
                         NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(PeriodicRestartKernelMinutes), value);
                         OnPropertyChanged(nameof(PeriodicRestartKernelMinutes));
+                        if (value < 0 || value > 60) {
+                            throw new ValidationException("无效的值");
+                        }
                     }
                 }
             }
@@ -315,6 +318,9 @@ namespace NTMiner {
                     if (NTMinerRoot.Instance.MinerProfile.PeriodicRestartComputerMinutes != value) {
                         NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(PeriodicRestartComputerMinutes), value);
                         OnPropertyChanged(nameof(PeriodicRestartComputerMinutes));
+                        if (value < 0 || value > 60) {
+                            throw new ValidationException("无效的值");
+                        }
                     }
                 }
             }
