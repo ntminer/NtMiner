@@ -52,7 +52,7 @@ namespace NTMiner.Core.Gpus.Impl {
                 this.DriverVersion = adlHelper.GetDriverVersion();
                 this.Properties.Add(new GpuSetProperty(GpuSetProperty.DRIVER_VERSION, "驱动版本", DriverVersion));
                 const ulong minG = (ulong)5 * 1024 * 1024 * 1024;
-                if (_gpus.Any(a => a.Value.TotalMemory < minG)) {
+                if (_gpus.Any(a => a.Key != NTMinerRoot.GpuAllId && a.Value.TotalMemory < minG)) {
                     Dictionary<string, string> kvs = new Dictionary<string, string> {
                         {"GPU_FORCE_64BIT_PTR","0" },
                         {"GPU_MAX_ALLOC_PERCENT","100" },
