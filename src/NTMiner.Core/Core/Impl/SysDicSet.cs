@@ -3,9 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NTMiner.Core.SysDics.Impl {
+namespace NTMiner.Core.Impl {
     internal class SysDicSet : ISysDicSet {
-
         private readonly INTMinerRoot _root;
         private readonly Dictionary<string, SysDicData> _dicByCode = new Dictionary<string, SysDicData>(StringComparer.OrdinalIgnoreCase);
         private readonly Dictionary<Guid, SysDicData> _dicById = new Dictionary<Guid, SysDicData>();
@@ -85,7 +84,7 @@ namespace NTMiner.Core.SysDics.Impl {
         }
 
         private bool _isInited = false;
-        private object _locker = new object();
+        private readonly object _locker = new object();
 
         private void InitOnece() {
             if (_isInited) {
@@ -123,16 +122,14 @@ namespace NTMiner.Core.SysDics.Impl {
 
         public bool TryGetSysDic(string sysDicCode, out ISysDic sysDic) {
             InitOnece();
-            SysDicData d;
-            var r = _dicByCode.TryGetValue(sysDicCode, out d);
+            var r = _dicByCode.TryGetValue(sysDicCode, out SysDicData d);
             sysDic = d;
             return r;
         }
 
         public bool TryGetSysDic(Guid sysDicId, out ISysDic sysDic) {
             InitOnece();
-            SysDicData d;
-            var r = _dicById.TryGetValue(sysDicId, out d);
+            var r = _dicById.TryGetValue(sysDicId, out SysDicData d);
             sysDic = d;
             return r;
         }

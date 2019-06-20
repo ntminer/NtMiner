@@ -181,13 +181,13 @@
     <Compile Include="Core\Kernels\Impl\KernelOutputFilterSet.cs" />
     <Compile Include="Core\Kernels\Impl\KernelOutputTranslaterSet.cs" />
     <Compile Include="Core\Profiles\MinerProfile.cs" />
-    <Compile Include="Core\SysDics\Impl\SysDicItemSet.cs" />
-    <Compile Include="Core\SysDics\Impl\SysDicSet.cs" />
+    <Compile Include="Core\Impl\SysDicItemSet.cs" />
+    <Compile Include="Core\Impl\SysDicSet.cs" />
     <Compile Include="Core\Impl\Speed.cs" />
     <Compile Include="Core\Kernels\IKernelOutputFilterSet.cs" />
     <Compile Include="Core\Kernels\IKernelOutputTranslaterSet.cs" />
-    <Compile Include="Core\SysDics\ISysDicItemSet.cs" />
-    <Compile Include="Core\SysDics\ISysDicSet.cs" />
+    <Compile Include="Core\ISysDicItemSet.cs" />
+    <Compile Include="Core\ISysDicSet.cs" />
     <Compile Include="Core\Gpus\Impl\Nvidia\NvmlNativeMethods.cs" />
     <Compile Include="Core\Gpus\Impl\Nvidia\NvmlTypes.cs" />
     <Compile Include="Core\Gpus\IGpuSpeed.cs" />

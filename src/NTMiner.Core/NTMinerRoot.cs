@@ -11,8 +11,6 @@ using NTMiner.Core.MinerServer;
 using NTMiner.Core.MinerServer.Impl;
 using NTMiner.Core.Profiles;
 using NTMiner.Core.Profiles.Impl;
-using NTMiner.Core.SysDics;
-using NTMiner.Core.SysDics.Impl;
 using NTMiner.Daemon;
 using NTMiner.MinerServer;
 using NTMiner.Profile;

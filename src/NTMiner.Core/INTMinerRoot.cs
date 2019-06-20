@@ -5,7 +5,6 @@ using NTMiner.Core.Gpus;
 using NTMiner.Core.Kernels;
 using NTMiner.Core.MinerServer;
 using NTMiner.Core.Profiles;
-using NTMiner.Core.SysDics;
 using NTMiner.User;
 using System;
 using System.Collections.Generic;

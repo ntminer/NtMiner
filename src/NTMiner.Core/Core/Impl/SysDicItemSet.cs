@@ -3,9 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NTMiner.Core.SysDics.Impl {
+namespace NTMiner.Core.Impl {
     internal class SysDicItemSet : ISysDicItemSet {
-
         private readonly INTMinerRoot _root;
         private readonly Dictionary<Guid, Dictionary<string, SysDicItemData>> _dicByDicId = new Dictionary<Guid, Dictionary<string, SysDicItemData>>();
         private readonly Dictionary<Guid, SysDicItemData> _dicById = new Dictionary<Guid, SysDicItemData>();
@@ -92,7 +91,7 @@ namespace NTMiner.Core.SysDics.Impl {
         }
 
         private bool _isInited = false;
-        private object _locker = new object();
+        private readonly object _locker = new object();
 
         private void InitOnece() {
             if (_isInited) {
@@ -138,8 +137,7 @@ namespace NTMiner.Core.SysDics.Impl {
 
         public bool ContainsKey(Guid dicId, string dicItemCode) {
             InitOnece();
-            Dictionary<string, SysDicItemData> items;
-            if (!_dicByDicId.TryGetValue(dicId, out items)) {
+            if (!_dicByDicId.TryGetValue(dicId, out Dictionary<string, SysDicItemData> items)) {
                 return false;
             }
             return _dicByDicId[dicId].ContainsKey(dicItemCode);
@@ -147,8 +145,7 @@ namespace NTMiner.Core.SysDics.Impl {
 
         public bool ContainsKey(string dicCode, string dicItemCode) {
             InitOnece();
-            ISysDic sysDic;
-            if (!_root.SysDicSet.TryGetSysDic(dicCode, out sysDic)) {
+            if (!_root.SysDicSet.TryGetSysDic(dicCode, out ISysDic sysDic)) {
                 return false;
             }
             if (!_dicByDicId.ContainsKey(sysDic.GetId())) {
@@ -159,47 +156,40 @@ namespace NTMiner.Core.SysDics.Impl {
 
         public bool TryGetDicItem(Guid dicItemId, out ISysDicItem dicItem) {
             InitOnece();
-            SysDicItemData di;
-            var r = _dicById.TryGetValue(dicItemId, out di);
+            var r = _dicById.TryGetValue(dicItemId, out SysDicItemData di);
             dicItem = di;
             return r;
         }
 
         public bool TryGetDicItem(string dicCode, string dicItemCode, out ISysDicItem dicItem) {
             InitOnece();
-            ISysDic sysDic;
-            if (!_root.SysDicSet.TryGetSysDic(dicCode, out sysDic)) {
+            if (!_root.SysDicSet.TryGetSysDic(dicCode, out ISysDic sysDic)) {
                 dicItem = null;
                 return false;
             }
-            Dictionary<string, SysDicItemData> items;
-            if (!_dicByDicId.TryGetValue(sysDic.GetId(), out items)) {
+            if (!_dicByDicId.TryGetValue(sysDic.GetId(), out Dictionary<string, SysDicItemData> items)) {
                 dicItem = null;
                 return false;
             }
-            SysDicItemData di;
-            var r = items.TryGetValue(dicItemCode, out di);
+            var r = items.TryGetValue(dicItemCode, out SysDicItemData di);
             dicItem = di;
             return r;
         }
 
         public bool TryGetDicItem(Guid dicId, string dicItemCode, out ISysDicItem dicItem) {
             InitOnece();
-            Dictionary<string, SysDicItemData> items;
-            if (!_dicByDicId.TryGetValue(dicId, out items)) {
+            if (!_dicByDicId.TryGetValue(dicId, out Dictionary<string, SysDicItemData> items)) {
                 dicItem = null;
                 return false;
             }
-            SysDicItemData di;
-            var r = items.TryGetValue(dicItemCode, out di);
+            var r = items.TryGetValue(dicItemCode, out SysDicItemData di);
             dicItem = di;
             return r;
         }
 
         public IEnumerable<ISysDicItem> GetSysDicItems(string dicCode) {
             InitOnece();
-            ISysDic sysDic;
-            if (!_root.SysDicSet.TryGetSysDic(dicCode, out sysDic)) {
+            if (!_root.SysDicSet.TryGetSysDic(dicCode, out ISysDic sysDic)) {
                 return new List<ISysDicItem>();
             }
             return _dicByDicId[sysDic.GetId()].Values.ToList();

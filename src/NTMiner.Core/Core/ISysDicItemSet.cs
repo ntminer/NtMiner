@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace NTMiner.Core.SysDics {
+namespace NTMiner.Core {
     public interface ISysDicItemSet : IEnumerable<ISysDicItem> {
         bool ContainsKey(Guid dicItemId);
         bool ContainsKey(Guid dicId, string dicItemCode);
