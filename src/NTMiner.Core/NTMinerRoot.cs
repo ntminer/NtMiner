@@ -422,6 +422,13 @@ namespace NTMiner {
             }
             Task.Factory.StartNew(() => {
                 StopMine();
+                int n = 0;
+                while (n < 10) {
+                    n++;
+                    Write.UserInfo("显卡性能恢复中");
+                    System.Threading.Thread.Sleep(1000);
+                }
+                Write.UserInfo("显卡性能恢复完毕");
                 callback?.Invoke();
             });
         }
