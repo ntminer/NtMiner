@@ -422,10 +422,10 @@ namespace NTMiner {
             }
             Task.Factory.StartNew(() => {
                 StopMine();
-                int n = 0;
-                while (n < 10) {
+                int n = 1;
+                while (n <= 10) {
                     n++;
-                    Write.UserInfo("显卡性能恢复中");
+                    Write.UserInfo($"显卡性能恢复中{n * 10}%");
                     System.Threading.Thread.Sleep(1000);
                 }
                 Write.UserInfo("显卡性能恢复完毕");
@@ -576,14 +576,14 @@ namespace NTMiner {
                         }
                     }
                     IMineContext mineContext = new MineContext(
-                        this.MinerProfile.MinerName, mainCoin, 
-                        mainCoinPool, kernel, coinKernel, 
+                        this.MinerProfile.MinerName, mainCoin,
+                        mainCoinPool, kernel, coinKernel,
                         coinProfile.Wallet, commandLine,
                         parameters, fragments, fileWriters);
                     if (coinKernelProfile.IsDualCoinEnabled) {
                         mineContext = new DualMineContext(
-                            mineContext, dualCoin, dualCoinPool, 
-                            coinProfile.DualCoinWallet, 
+                            mineContext, dualCoin, dualCoinPool,
+                            coinProfile.DualCoinWallet,
                             coinKernelProfile.DualCoinWeight,
                             parameters, fragments, fileWriters);
                     }
