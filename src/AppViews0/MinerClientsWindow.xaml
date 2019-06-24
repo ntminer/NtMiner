@@ -214,7 +214,17 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="远程桌面" ToolTip="双击矿机等效" Padding="4" Margin="0 0 6 0" Command="{Binding RemoteDesktop}">
+				<MenuItem Command="{Binding OneKeyWindowsLoginName}" Padding="4" Margin="0 0 6 0" Header="一键远程桌面用户名">
+					<MenuItem.Icon>
+						<Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_RemoteDesktop}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Command="{Binding OneKeyWindowsLoginPassword}" Padding="4" Margin="0 0 6 0" Header="一键远程桌面密码">
 					<MenuItem.Icon>
 						<Path
 							Width="16"

@@ -57,7 +57,8 @@ namespace NTMiner.Vms {
         public ICommand OneKeyUpgrade { get; private set; }
         public ICommand EditMineWork { get; private set; }
         public ICommand OneKeyMinerNames { get; private set; }
-        public ICommand RemoteDesktop { get; private set; }
+        public ICommand OneKeyWindowsLoginName { get; private set; }
+        public ICommand OneKeyWindowsLoginPassword { get; private set; }
         public ICommand OneKeySetting { get; private set; }
 
         #region ctor
@@ -139,11 +140,22 @@ namespace NTMiner.Vms {
                     });
                 }
             }, CanCommand);
-            this.RemoteDesktop = new DelegateCommand(() => {
-                if (this.SelectedMinerClients != null && this.SelectedMinerClients.Length == 1) {
-                    this.SelectedMinerClients[0].RemoteDesktop.Execute(null);
-                }
-            }, OnlySelectedOne);
+            this.OneKeyWindowsLoginName = new DelegateCommand(() => {
+                Wpf.Util.ShowInputDialog("远程桌面用户名", string.Empty, null, loginName => {
+                    foreach (var item in SelectedMinerClients) {
+                        item.WindowsLoginName = loginName;
+                    }
+                    NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage("设置远程桌面用户名成功，双击矿机可打开远程桌面。");
+                });
+            }, CanCommand);
+            this.OneKeyWindowsLoginPassword = new DelegateCommand(() => {
+                Wpf.Util.ShowInputDialog("远程桌面密码", string.Empty, null, password => {
+                    foreach (var item in SelectedMinerClients) {
+                        item.WindowsPassword = password;
+                    }
+                    NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage("设置远程桌面密码成功，双击矿机可打开远程桌面。");
+                });
+            }, CanCommand);
             this.EditMineWork = new DelegateCommand(() => {
                 this.SelectedMinerClients[0].SelectedMineWork.Edit.Execute(null);
             }, () => OnlySelectedOne() && this.SelectedMinerClients[0].SelectedMineWork != null
