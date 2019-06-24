@@ -110,7 +110,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem x:Name="MenuItemMineWork" IsEnabled="{Binding ElementName=MenuItemRefresh, Path=IsEnabled}" Padding="4" Margin="0 0 6 0" Header="切换作业" Click="MenuItemWork_Click">
+				<MenuItem Header="切换作业" ToolTip="为选中的矿机指定作业" x:Name="MenuItemMineWork" IsEnabled="{Binding ElementName=MenuItemRefresh, Path=IsEnabled}" Padding="4" Margin="0 0 6 0" Click="MenuItemWork_Click">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -120,7 +120,17 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem x:Name="MenuItemMinerGroup" IsEnabled="{Binding ElementName=MenuItemRefresh, Path=IsEnabled}" Padding="4" Margin="0 0 6 0" Header="分组" Click="MenuItemGroup_Click">
+				<MenuItem Header="编辑作业" Padding="4" Margin="0 0 6 0" Command="{Binding EditMineWork}">
+					<MenuItem.Icon>
+						<Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_Edit}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="分组" ToolTip="将选中的矿机放入分组" x:Name="MenuItemMinerGroup" IsEnabled="{Binding ElementName=MenuItemRefresh, Path=IsEnabled}" Padding="4" Margin="0 0 6 0" Click="MenuItemGroup_Click">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -130,7 +140,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Command="{Binding OneKeyMinerNames}" Padding="4" Margin="0 0 6 0" Header="作业矿工名">
+				<MenuItem Command="{Binding OneKeyMinerNames}" Padding="4" Margin="0 0 6 0" Header="群控矿工名">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -194,7 +204,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="关闭电脑" Padding="4" Margin="0 0 6 0" Command="{Binding ShutdownWindows}">
+				<MenuItem Header="关机" ToolTip="关闭电脑" Padding="4" Margin="0 0 6 0" Command="{Binding ShutdownWindows}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -204,7 +214,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="远程桌面" Padding="4" Margin="0 0 6 0" Command="{Binding RemoteDesktop}">
+				<MenuItem Header="远程桌面" ToolTip="双击矿机等效" Padding="4" Margin="0 0 6 0" Command="{Binding RemoteDesktop}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -230,16 +240,6 @@
 							Width="16"
 							Height="16"
 							Data="{StaticResource Icon_Delete}"
-							Fill="{StaticResource IconFillColor}"
-							Stretch="Fill" />
-					</MenuItem.Icon>
-				</MenuItem>
-				<MenuItem Header="编辑作业" Padding="4" Margin="0 0 6 0" Command="{Binding EditMineWork}">
-					<MenuItem.Icon>
-						<Path
-							Width="16"
-							Height="16"
-							Data="{StaticResource Icon_Edit}"
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
 					</MenuItem.Icon>

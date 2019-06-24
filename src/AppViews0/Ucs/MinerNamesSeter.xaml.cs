@@ -5,7 +5,7 @@ namespace NTMiner.Views.Ucs {
     public partial class MinerNamesSeter : UserControl {
         public static void ShowWindow(MinerNamesSeterViewModel vm) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                Title = "作业矿工名",
+                Title = "群控矿工名",
                 IsDialogWindow = true,
                 CloseVisible = System.Windows.Visibility.Visible,
                 IconName = "Icon_MinerName"
