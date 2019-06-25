@@ -422,10 +422,8 @@ namespace NTMiner {
             }
             Task.Factory.StartNew(() => {
                 StopMine();
-                int n = 1;
-                while (n <= 10) {
-                    n++;
-                    Write.UserInfo($"显卡性能恢复中{n * 10}%");
+                for (int i = 1; i <= 10; i++) {
+                    Write.UserInfo($"显卡性能恢复中{i * 10}%");
                     System.Threading.Thread.Sleep(1000);
                 }
                 Write.UserInfo("显卡性能恢复完毕");
