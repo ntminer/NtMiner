@@ -35,16 +35,35 @@ namespace NTMiner {
             System.Threading.Thread.Sleep(1000);
         }
 
+
         private static void UpdateAsync() {
             Task.Factory.StartNew(() => {
                 try {
-                    byte[] htmlData = GetHtmlAsync("https://www.f2pool.com/").Result;
+                    var vdsUUDataTask = GetHtmlAsync("https://uupool.cn/api/getAllInfo.php");
+                    var vdsZtDataTask = GetHtmlAsync("https://www.zt.com/api/v1/symbol");
+                    var htmlDataTask = GetHtmlAsync("https://www.f2pool.com/");
+                    Task.WaitAll(new Task[] { vdsUUDataTask, vdsZtDataTask, htmlDataTask }, 10 * 1000);
+                    var htmlData = htmlDataTask.Result;
                     if (htmlData != null && htmlData.Length != 0) {
                         Write.UserOk($"{DateTime.Now} - 鱼池首页html获取成功");
                         string html = Encoding.UTF8.GetString(htmlData);
+                        var vdsUUData = vdsUUDataTask.Result;
+                        var vdsZtData = vdsZtDataTask.Result;
+                        string vdsUUHtml = string.Empty;
+                        string vdsZtHtml = string.Empty;
+                        if (vdsUUData != null && vdsUUData.Length != 0) {
+                            vdsUUHtml = Encoding.UTF8.GetString(vdsUUData);
+                        }
+                        if (vdsZtData != null && vdsZtData.Length != 0) {
+                            vdsZtHtml = Encoding.UTF8.GetString(vdsZtData);
+                        }
                         double usdCny = PickUsdCny(html);
                         Write.UserInfo($"usdCny={usdCny}");
                         List<IncomeItem> incomeItems = PickIncomeItems(html);
+                        IncomeItem vdsIncomeItem = PickVDSIncomeItem(vdsUUHtml, vdsZtHtml, usdCny);
+                        if (vdsIncomeItem != null) {
+                            incomeItems.Add(vdsIncomeItem);
+                        }
                         Write.UserInfo($"鱼池首页有{incomeItems.Count}个币种");
                         FillCny(incomeItems, usdCny);
                         NeatenSpeedUnit(incomeItems);
@@ -121,6 +140,40 @@ namespace NTMiner {
                     incomeItem.SpeedUnit = incomeItem.SpeedUnit.Replace("sol/s", "h/s");
                 }
             }
+        }
+
+        private static IncomeItem PickVDSIncomeItem(string vdsUUHtml, string vdsZtHtml, double usdCny) {
+            string pattern = "\"symbol\":\"vds\",.+,\"est\":\"(?<incomeCoin>[\\d\\.]+) VDS\\/(?<speedUnit>\\w+)\",";
+            if (string.IsNullOrEmpty(pattern)) {
+                return null;
+            }
+            IncomeItem result = new IncomeItem {
+                CoinCode = "VDS",
+                DataCode = "data-VDS",
+                Speed = 1,
+            };
+            var match = Regex.Match(vdsUUHtml, pattern);
+            if (match.Success) {
+                string incomeCoinText = match.Groups["incomeCoin"].Value;
+                string speedUnit = match.Groups["speedUnit"].Value;
+                result.SpeedUnit = speedUnit;
+                double incomeCoin;
+                if (double.TryParse(incomeCoinText, out incomeCoin)) {
+                    result.IncomeCoin = incomeCoin;
+                }
+            }
+            pattern = "\"VDS\",.+,\"last\":\"(?<incomeCny>[\\d\\.]+)\"";
+            match = Regex.Match(vdsZtHtml, pattern);
+            if (match.Success) {
+                string incomeCnyText = match.Groups["incomeCny"].Value;
+                double incomeCny;
+                if (double.TryParse(incomeCnyText, out incomeCny)) {
+                    result.IncomeCny = incomeCny;
+                    result.IncomeUsd = incomeCny / usdCny;
+                }
+            }
+
+            return result;
         }
 
         private static List<IncomeItem> PickIncomeItems(string html) {
