@@ -153,7 +153,7 @@ namespace NTMiner {
             if (match.Success) {
                 string incomeCoinText = match.Groups["incomeCoin"].Value;
                 string speedUnit = match.Groups["speedUnit"].Value;
-                result.SpeedUnit = speedUnit + "/s";
+                result.SpeedUnit = speedUnit + "h/s";
                 double incomeCoin;
                 if (double.TryParse(incomeCoinText, out incomeCoin)) {
                     result.IncomeCoin = incomeCoin;
