@@ -165,8 +165,8 @@ namespace NTMiner {
                 string incomeCnyText = match.Groups["incomeCny"].Value;
                 double incomeCny;
                 if (double.TryParse(incomeCnyText, out incomeCny)) {
-                    result.IncomeCny = incomeCny;
-                    result.IncomeUsd = incomeCny / usdCny;
+                    result.IncomeCny = incomeCny * result.IncomeCoin;
+                    result.IncomeUsd = result.IncomeCny / usdCny;
                 }
             }
 
