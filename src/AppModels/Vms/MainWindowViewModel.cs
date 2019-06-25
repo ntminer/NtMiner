@@ -6,7 +6,7 @@ using System.Windows.Input;
 namespace NTMiner.Vms {
     public class MainWindowViewModel : ViewModelBase {
         private string _serverJsonVersion;
-        private StateBarViewModel _stateBarVm = new StateBarViewModel();
+        private readonly StateBarViewModel _stateBarVm = new StateBarViewModel();
         private MinerStateViewModel _minerStateVm;
         public MinerStateViewModel MinerStateVm {
             get {
@@ -26,7 +26,7 @@ namespace NTMiner.Vms {
                 return;
             }
             this.CloseMainWindow = new DelegateCommand(() => {
-                VirtualRoot.Execute(new CloseMainWindowCommand());
+                VirtualRoot.Execute(new CloseMainWindowCommand("已切换为无界面模式运行"));
             });
             this.CustomTheme = new DelegateCommand(() => {
                 VirtualRoot.Execute(new ShowLogColorCommand());
