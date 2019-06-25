@@ -143,20 +143,17 @@ namespace NTMiner {
         }
 
         private static IncomeItem PickVDSIncomeItem(string vdsUUHtml, string vdsZtHtml, double usdCny) {
-            string pattern = "\"symbol\":\"vds\",.+,\"est\":\"(?<incomeCoin>[\\d\\.]+) VDS\\/(?<speedUnit>\\w+)\",";
-            if (string.IsNullOrEmpty(pattern)) {
-                return null;
-            }
+            string pattern = "\"symbol\":\"vds\",.+,\"est\":\"(?<incomeCoin>[\\d\\.]+) VDS\\\\/(?<speedUnit>\\w+)\",";
             IncomeItem result = new IncomeItem {
                 CoinCode = "VDS",
-                DataCode = "data-VDS",
+                DataCode = "VDS",
                 Speed = 1,
             };
             var match = Regex.Match(vdsUUHtml, pattern);
             if (match.Success) {
                 string incomeCoinText = match.Groups["incomeCoin"].Value;
                 string speedUnit = match.Groups["speedUnit"].Value;
-                result.SpeedUnit = speedUnit;
+                result.SpeedUnit = speedUnit + "/s";
                 double incomeCoin;
                 if (double.TryParse(incomeCoinText, out incomeCoin)) {
                     result.IncomeCoin = incomeCoin;

@@ -1,1 +1,0 @@
-﻿"symbol":"vds",.+,"est":"(?<incomeCoin>[\d\.]+) VDS\\/(?<speedUnit>\w+)",
