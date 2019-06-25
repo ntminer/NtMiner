@@ -136,8 +136,7 @@ namespace NTMiner {
             private static void CreateLogfileProcess(IMineContext mineContext, string kernelExeFileFullName, string arguments) {
                 string logFile = Path.Combine(SpecialPath.LogsDirFullName, $"{mineContext.Kernel.Code}_{DateTime.Now.Ticks.ToString()}.log");
                 arguments = arguments.Replace("{logfile}", logFile);
-                string cmdLine = $"\"{kernelExeFileFullName}\" {arguments}";
-                Write.UserOk($"命令总成：{cmdLine}");
+                Write.UserOk($"\"{kernelExeFileFullName}\" {arguments}");
                 Write.UserInfo("有请内核上场");
                 ProcessStartInfo startInfo = new ProcessStartInfo(kernelExeFileFullName, arguments) {
                     UseShellExecute = false,
@@ -164,9 +163,9 @@ namespace NTMiner {
                     int n = 0;
                     while (!File.Exists(logFile)) {
                         if (n >= 20) {
-                            // 10秒钟都没有建立日志文件，不可能
+                            // 20秒钟都没有建立日志文件，不可能
                             isLogFileCreated = false;
-                            Write.UserFail("呃！竟然10秒钟未产生内核输出文件，请联系开发人员解决。");
+                            Write.UserFail("呃！意外，竟然20秒钟未产生内核输出文件，请联系开发人员解决。");
                             break;
                         }
                         Thread.Sleep(1000);
@@ -264,7 +263,7 @@ namespace NTMiner {
                     hStdInput = IntPtr.Zero
                 };
                 string cmdLine = $"\"{kernelExeFileFullName}\" {arguments}";
-                Write.UserOk($"命令总成：{cmdLine}");
+                Write.UserOk(cmdLine);
                 Write.UserInfo("有请内核上场");
                 StringBuilder lpEnvironment = new StringBuilder();
                 // 复制父进程的环境变量
