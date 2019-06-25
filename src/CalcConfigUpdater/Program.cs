@@ -159,7 +159,7 @@ namespace NTMiner {
                     result.IncomeCoin = incomeCoin;
                 }
             }
-            pattern = "\"VDS\",.+,\"last\":\"(?<incomeCny>[\\d\\.]+)\"";
+            pattern = "\"VDS\",.+,\"last\":\"(?<incomeCny>[\\\\d\\.]+)\"";
             match = Regex.Match(vdsZtHtml, pattern);
             if (match.Success) {
                 string incomeCnyText = match.Groups["incomeCny"].Value;
