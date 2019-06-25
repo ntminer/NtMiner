@@ -49,22 +49,16 @@ namespace NTMiner.Vms {
             }
         }
 
-        public TimeSpan BootTimeSpan {
-            get { return _bootTimeSpan; }
-            set {
-                if (_bootTimeSpan != value) {
-                    _bootTimeSpan = value;
-                    OnPropertyChanged(nameof(BootTimeSpan));
-                    OnPropertyChanged(nameof(BootTimeSpanText));
-                }
-            }
+        public void UpdateBootTimeSpan(TimeSpan value) {
+            _bootTimeSpan = value;
+            OnPropertyChanged(nameof(BootTimeSpanText));
         }
 
         public string BootTimeSpanText {
             get {
-                TimeSpan time = new TimeSpan(this.BootTimeSpan.Hours, this.BootTimeSpan.Minutes, this.BootTimeSpan.Seconds);
-                if (this.BootTimeSpan.Days > 0) {
-                    return $"{this.BootTimeSpan.Days}天{time.ToString()}";
+                TimeSpan time = new TimeSpan(this._bootTimeSpan.Hours, this._bootTimeSpan.Minutes, this._bootTimeSpan.Seconds);
+                if (this._bootTimeSpan.Days > 0) {
+                    return $"{this._bootTimeSpan.Days}天{time.ToString()}";
                 }
                 else {
                     return time.ToString();
@@ -72,27 +66,24 @@ namespace NTMiner.Vms {
             }
         }
 
-        public TimeSpan MineTimeSpan {
-            get {
-                return _mineTimeSpan;
+        public void UpdateMineTimeSpan(TimeSpan value) {
+            if (value.Minutes != _mineTimeSpan.Minutes) {
+                _mineTimeSpan = value;
+                OnPropertyChanged(nameof(MineTimeSpanText));
             }
-            set {
-                if (_mineTimeSpan != value) {
-                    _mineTimeSpan = value;
-                    OnPropertyChanged(nameof(MineTimeSpan));
-                    OnPropertyChanged(nameof(MineTimeSpanText));
-                }
+            else {
+                _mineTimeSpan = value;
             }
         }
 
         public string MineTimeSpanText {
             get {
-                TimeSpan time = new TimeSpan(this.MineTimeSpan.Hours, this.MineTimeSpan.Minutes, this.MineTimeSpan.Seconds);
-                if (this.MineTimeSpan.Days > 0) {
-                    return $"{this.MineTimeSpan.Days}天{time.ToString()}";
+                TimeSpan time = new TimeSpan(this._mineTimeSpan.Hours, this._mineTimeSpan.Minutes, this._mineTimeSpan.Seconds);
+                if (this._mineTimeSpan.Days > 0) {
+                    return $"{this._mineTimeSpan.Days}天{time.ToString(@"hh\:mm")}";
                 }
                 else {
-                    return time.ToString();
+                    return time.ToString(@"hh\:mm");
                 }
             }
         }

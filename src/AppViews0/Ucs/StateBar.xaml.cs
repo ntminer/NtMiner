@@ -21,13 +21,13 @@ namespace NTMiner.Views.Ucs {
                 window.On<Per1SecondEvent>("挖矿计时秒表", LogEnum.None,
                     action: message => {
                         DateTime now = DateTime.Now;
-                        Vm.BootTimeSpan = now - NTMinerRoot.Instance.CreatedOn;
+                        Vm.UpdateBootTimeSpan(now - NTMinerRoot.Instance.CreatedOn);
                         if (NTMinerRoot.IsAutoStart && VirtualRoot.SecondCount <= 10 && !NTMinerRoot.IsAutoStartCanceled) {
                             return;
                         }
                         var mineContext = NTMinerRoot.Instance.CurrentMineContext;
                         if (mineContext != null) {
-                            Vm.MineTimeSpan = now - mineContext.CreatedOn;
+                            Vm.UpdateMineTimeSpan(now - mineContext.CreatedOn);
                             if (!Vm.MinerProfile.IsMining) {
                                 Vm.MinerProfile.IsMining = true;
                             }
