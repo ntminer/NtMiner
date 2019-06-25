@@ -61,7 +61,7 @@ namespace NTMiner {
                         Write.UserInfo($"usdCny={usdCny}");
                         List<IncomeItem> incomeItems = PickIncomeItems(html);
                         IncomeItem vdsIncomeItem = PickVDSIncomeItem(vdsUUHtml, vdsZtHtml, usdCny);
-                        if (vdsIncomeItem != null) {
+                        if (vdsIncomeItem != null && incomeItems.All(a => a.CoinCode != "VDS")) {
                             incomeItems.Add(vdsIncomeItem);
                         }
                         Write.UserInfo($"鱼池首页有{incomeItems.Count}个币种");
@@ -69,7 +69,7 @@ namespace NTMiner {
                         NeatenSpeedUnit(incomeItems);
                         if (incomeItems != null && incomeItems.Count != 0) {
                             Login();
-                            OfficialServer.CalcConfigService.GetCalcConfigsAsync(data=> {
+                            OfficialServer.CalcConfigService.GetCalcConfigsAsync(data => {
                                 Write.UserInfo($"NTMiner有{data.Count}个币种");
                                 HashSet<string> coinCodes = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
                                 foreach (CalcConfigData calcConfigData in data) {
