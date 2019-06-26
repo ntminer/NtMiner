@@ -189,10 +189,6 @@ namespace NTMiner {
                                     foreach (var item in poolToRemoves) {
                                         data.Pools.Remove(item);
                                     }
-                                    var poolKernelToRemoves = data.PoolKernels.Where(a => a.PoolId != PoolBrandId).ToArray();
-                                    foreach (var item in poolKernelToRemoves) {
-                                        data.PoolKernels.Remove(item);
-                                    }
                                 }
                             }
                             catch (Exception e) {
