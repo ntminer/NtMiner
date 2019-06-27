@@ -98,7 +98,7 @@
 					Padding="0"
 					VerticalContentAlignment="Center"
 					IsChecked="{Binding IsEChargeEnabled}">
-					<TextBlock>在状态栏展示电费</TextBlock>
+					<TextBlock VerticalAlignment="Center">在状态栏展示电费</TextBlock>
 				</CheckBox>
 				<TextBlock Margin="10 0 0 0" VerticalAlignment="Center">电价</TextBlock>
 				<TextBox Width="40" Margin="2 0" Background="White" Text="{Binding EPrice}" HorizontalAlignment="Left"></TextBox>
@@ -110,7 +110,7 @@
 					Padding="0"
 					VerticalContentAlignment="Center"
 					IsChecked="{Binding IsPowerAppend}">
-					<TextBlock>功耗补偿</TextBlock>
+					<TextBlock VerticalAlignment="Center">功耗补偿</TextBlock>
 				</CheckBox>
 				<TextBlock Margin="10 0 0 0" VerticalAlignment="Center">每卡补偿</TextBlock>
 				<TextBox Width="40" Margin="2 0" Background="White" Text="{Binding PowerAppend}" HorizontalAlignment="Left"></TextBox>
