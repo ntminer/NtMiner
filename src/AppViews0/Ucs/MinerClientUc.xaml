@@ -202,18 +202,34 @@
 			</Grid.ColumnDefinitions>
 			<TextBlock Style="{StaticResource LblTb}" Text="{Binding MainCoinCode}"></TextBlock>
 			<WrapPanel Grid.Column="1">
-				<TextBox 
-					Padding="0"
-					BorderThickness="0"
-					Width="{StaticResource OneColWidth}"
-					Background="Transparent"
-					Text="{Binding MainCoinWallet, Mode=OneWay}" 
-					IsReadOnly="True"></TextBox>
-				<TextBlock Text="{Binding MainCoinRejectShare}"></TextBlock>
-				<TextBlock Padding="1 0" Text="/"></TextBlock>
-				<TextBlock Text="{Binding MainCoinTotalShare}"></TextBlock>
-				<TextBlock Margin="10 0 0 0" Text="{Binding MainCoinRejectPercentText}" Foreground="{Binding MainCoinRejectPercentForeground}"></TextBlock>
-				<WrapPanel Margin="10 0 0 0">
+				<WrapPanel Width="{StaticResource OneColWidth}">
+					<Grid>
+						<TextBox 
+							Padding="0"
+							BorderThickness="0"
+							Background="Transparent"
+							Text="{Binding MainCoinWallet, Mode=OneWay}" 
+							IsReadOnly="True"></TextBox>
+						<Path
+							Margin="1 0"
+							Width="110"
+							Height="16"
+							HorizontalAlignment="Left"
+							Data="M98 480.86h829.99v63.79H98z"
+							Fill="{StaticResource ThemeBackground}"
+							Stretch="Fill"
+							Visibility="{Binding ElementName=ChkHideMainCoinWallet,Path=IsChecked, Converter={StaticResource BoolToVisibilityConverter}}" />
+					</Grid>
+					<CheckBox x:Name="ChkHideMainCoinWallet" FocusVisualStyle="{x:Null}" VerticalAlignment="Center">隐藏</CheckBox>
+				</WrapPanel>
+				<TextBlock x:Name="TbDateTime" VerticalAlignment="Center" Margin="-140 0 0 0"></TextBlock>
+				<WrapPanel VerticalAlignment="Center">
+					<TextBlock Text="{Binding MainCoinRejectShare}"></TextBlock>
+					<TextBlock Padding="1 0" Text="/"></TextBlock>
+					<TextBlock Text="{Binding MainCoinTotalShare}"></TextBlock>
+					<TextBlock Margin="10 0 0 0" Text="{Binding MainCoinRejectPercentText}" Foreground="{Binding MainCoinRejectPercentForeground}"></TextBlock>
+				</WrapPanel>
+				<WrapPanel Margin="10 0 0 0" VerticalAlignment="Center">
 					<TextBlock Text="{Binding IncomeMainCoinPerDayText}"></TextBlock>
 					<TextBlock 
 						Text="{Binding MainCoinCode}" 
@@ -254,11 +270,13 @@
 					Background="Transparent"
 					IsReadOnly="True"
 					Text="{Binding DualCoinWallet, Mode=OneWay}"></TextBox>
-				<TextBlock Text="{Binding DualCoinRejectShare}"></TextBlock>
-				<TextBlock Padding="1 0" Text="/"></TextBlock>
-				<TextBlock Text="{Binding DualCoinTotalShare}"></TextBlock>
-				<TextBlock Margin="10 0 0 0" Text="{Binding DualCoinRejectPercentText}" Foreground="{Binding DualCoinRejectPercentForeground}"></TextBlock>
-				<WrapPanel Margin="10 0 0 0">
+				<WrapPanel VerticalAlignment="Center">
+					<TextBlock Text="{Binding DualCoinRejectShare}"></TextBlock>
+					<TextBlock Padding="1 0" Text="/"></TextBlock>
+					<TextBlock Text="{Binding DualCoinTotalShare}"></TextBlock>
+					<TextBlock Margin="10 0 0 0" Text="{Binding DualCoinRejectPercentText}" Foreground="{Binding DualCoinRejectPercentForeground}"></TextBlock>
+				</WrapPanel>
+				<WrapPanel Margin="10 0 0 0" VerticalAlignment="Center">
 					<TextBlock Text="{Binding IncomeDualCoinPerDayText}"></TextBlock>
 					<TextBlock 
 						Text="{Binding DualCoinCode}" 

@@ -1,4 +1,5 @@
 ﻿using NTMiner.Vms;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -13,6 +14,14 @@ namespace NTMiner.Views.Ucs {
 
         public MinerClientUc() {
             InitializeComponent();
+            this.TbDateTime.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm");
+            this.RunOneceOnLoaded(() => {
+                var window = Window.GetWindow(this);
+                window.On<Per1MinuteEvent>("每分钟更新MinerClientUc上的日期时间计时器", LogEnum.None,
+                    action: message => {
+                        this.TbDateTime.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm");
+                    });
+            });
         }
 
         private void TbIp_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e) {
