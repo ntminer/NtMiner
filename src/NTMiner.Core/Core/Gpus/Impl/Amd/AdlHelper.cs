@@ -202,8 +202,13 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
         public void SetMemoryClockByIndex(int gpuIndex, int value) {
             try {
                 int adapterIndex = GpuIndexToAdapterIndex(gpuIndex);
+                ADLODNCapabilitiesX2 lpODCapabilities = new ADLODNCapabilitiesX2();
+                var result = ADL.ADL2_OverdriveN_CapabilitiesX2_Get(context, adapterIndex, ref lpODCapabilities);
+                if (result != 0) {
+                    return;
+                }
                 ADLODNPerformanceLevelsX2 lpODPerformanceLevels = ADLODNPerformanceLevelsX2.Create();
-                var result = ADL.ADL2_OverdriveN_MemoryClocksX2_Get(context, adapterIndex, ref lpODPerformanceLevels);
+                result = ADL.ADL2_OverdriveN_MemoryClocksX2_Get(context, adapterIndex, ref lpODPerformanceLevels);
                 lpODPerformanceLevels.iMode = ADL.ODNControlType_Default;
                 result = ADL.ADL2_OverdriveN_MemoryClocksX2_Set(context, adapterIndex, ref lpODPerformanceLevels);
                 result = ADL.ADL2_OverdriveN_MemoryClocksX2_Get(context, adapterIndex, ref lpODPerformanceLevels);
@@ -260,8 +265,13 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
         public void SetSystemClockByIndex(int gpuIndex, int value) {
             try {
                 int adapterIndex = GpuIndexToAdapterIndex(gpuIndex);
+                ADLODNCapabilitiesX2 lpODCapabilities = new ADLODNCapabilitiesX2();
+                var result = ADL.ADL2_OverdriveN_CapabilitiesX2_Get(context, adapterIndex, ref lpODCapabilities);
+                if (result != 0) {
+                    return;
+                }
                 ADLODNPerformanceLevelsX2 lpODPerformanceLevels = ADLODNPerformanceLevelsX2.Create();
-                var result = ADL.ADL2_OverdriveN_SystemClocksX2_Get(context, adapterIndex, ref lpODPerformanceLevels);
+                result = ADL.ADL2_OverdriveN_SystemClocksX2_Get(context, adapterIndex, ref lpODPerformanceLevels);
                 lpODPerformanceLevels.iMode = ADL.ODNControlType_Default;
                 result = ADL.ADL2_OverdriveN_SystemClocksX2_Set(context, adapterIndex, ref lpODPerformanceLevels);
                 result = ADL.ADL2_OverdriveN_SystemClocksX2_Get(context, adapterIndex, ref lpODPerformanceLevels);
