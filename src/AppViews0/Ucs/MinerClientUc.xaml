@@ -202,26 +202,28 @@
 			</Grid.ColumnDefinitions>
 			<TextBlock Style="{StaticResource LblTb}" Text="{Binding MainCoinCode}"></TextBlock>
 			<WrapPanel Grid.Column="1">
-				<WrapPanel Width="{StaticResource OneColWidth}">
-					<Grid>
-						<TextBox 
-							Padding="0"
-							BorderThickness="0"
-							Background="Transparent"
-							Text="{Binding MainCoinWallet, Mode=OneWay}" 
-							IsReadOnly="True"></TextBox>
-						<Path
-							Margin="1 0"
-							Width="110"
-							Height="16"
-							HorizontalAlignment="Left"
-							Data="M98 480.86h829.99v63.79H98z"
-							Fill="{StaticResource ThemeBackground}"
-							Stretch="Fill"
-							Visibility="{Binding ElementName=ChkHideMainCoinWallet,Path=IsChecked, Converter={StaticResource BoolToVisibilityConverter}}" />
-					</Grid>
-					<CheckBox x:Name="ChkHideMainCoinWallet" FocusVisualStyle="{x:Null}" VerticalAlignment="Center">隐藏</CheckBox>
-				</WrapPanel>
+				<Grid Width="{StaticResource OneColWidth}">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto"></ColumnDefinition>
+						<ColumnDefinition Width="*"></ColumnDefinition>
+					</Grid.ColumnDefinitions>
+					<TextBox 
+						Padding="0"
+						BorderThickness="0"
+						Background="Transparent"
+						Text="{Binding MainCoinWallet, Mode=OneWay}" 
+						IsReadOnly="True"></TextBox>
+					<Path
+						Margin="1 0"
+						Width="110"
+						Height="16"
+						HorizontalAlignment="Left"
+						Data="M98 480.86h829.99v63.79H98z"
+						Fill="{StaticResource ThemeBackground}"
+						Stretch="Fill"
+						Visibility="{Binding ElementName=ChkHideMainCoinWallet,Path=IsChecked, Converter={StaticResource BoolToVisibilityConverter}}" />
+					<CheckBox Grid.Column="1" x:Name="ChkHideMainCoinWallet" FocusVisualStyle="{x:Null}" VerticalAlignment="Center">隐藏</CheckBox>
+				</Grid>
 				<WrapPanel>
 					<TextBlock Text="{Binding MainCoinRejectShare}"></TextBlock>
 					<TextBlock Padding="1 0" Text="/"></TextBlock>
