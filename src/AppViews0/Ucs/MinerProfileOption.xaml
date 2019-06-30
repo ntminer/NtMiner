@@ -22,6 +22,27 @@
 								Padding="0"
 								FocusVisualStyle="{x:Null}"
 								VerticalContentAlignment="Center"
+								IsChecked="{Binding IsAutoBoot}">
+								<TextBlock VerticalAlignment="Center">开机启动</TextBlock>
+							</CheckBox>
+							<CheckBox
+								Margin="10 0 0 0"
+								Padding="0"
+								FocusVisualStyle="{x:Null}"
+								VerticalContentAlignment="Center"
+								IsChecked="{Binding IsAutoStart}">
+								<WrapPanel>
+									<TextBlock VerticalAlignment="Center">自动挖矿，延迟</TextBlock>
+									<TextBox Width="40" Margin="2 0" Background="White" Text="{Binding AutoStartDelaySeconds}" HorizontalAlignment="Left"></TextBox>
+									<TextBlock VerticalAlignment="Center">秒</TextBlock>
+								</WrapPanel>
+							</CheckBox>
+						</WrapPanel>
+						<WrapPanel Margin="0 2">
+							<CheckBox
+								Padding="0"
+								FocusVisualStyle="{x:Null}"
+								VerticalContentAlignment="Center"
 								IsChecked="{Binding IsAutoRestartKernel}">
 								<WrapPanel>
 									<TextBlock VerticalAlignment="Center">如果内核进程意外消失，尝试重启内核</TextBlock>
@@ -116,6 +137,11 @@
 				<TextBox Width="40" Margin="2 0" Background="White" Text="{Binding PowerAppend}" HorizontalAlignment="Left"></TextBox>
 				<TextBlock VerticalAlignment="Center">瓦</TextBlock>
 				<TextBlock Foreground="Red" VerticalAlignment="Center">（由于A卡的功耗不准，可以通过功耗补偿修正，可正负）</TextBlock>
+			</WrapPanel>
+			<WrapPanel Margin="6 2">
+				<TextBlock VerticalAlignment="Center">显卡温度达到</TextBlock>
+				<TextBox Width="40" Margin="2 0" Background="White" Text="{Binding MaxTemp}" HorizontalAlignment="Left"></TextBox>
+				<TextBlock VerticalAlignment="Center">℃红色</TextBlock>
 			</WrapPanel>
 			<GroupBox x:Name="GroupSystemSetting" Header="显示">
 				<StackPanel>

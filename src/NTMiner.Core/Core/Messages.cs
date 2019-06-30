@@ -26,6 +26,11 @@ namespace NTMiner.Core {
         public PowerAppendChangedEvent() { }
     }
 
+    [MessageType(description: "高温红色阈值变更后")]
+    public class MaxTempChangedEvent : EventBase {
+        public MaxTempChangedEvent() { }
+    }
+
     [MessageType(description: "收益计算器数据集初始化后")]
     public class CalcConfigSetInitedEvent : EventBase {
         public CalcConfigSetInitedEvent() {

@@ -28,5 +28,7 @@ namespace NTMiner.Profile {
 
         bool IsPowerAppend { get; }
         int PowerAppend { get; }
+        int MaxTemp { get; }
+        int AutoStartDelaySeconds { get; }
     }
 }

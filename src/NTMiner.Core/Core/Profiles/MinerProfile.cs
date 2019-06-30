@@ -311,6 +311,23 @@ namespace NTMiner.Core.Profiles {
                 _data.CoinId = value;
             }
         }
+
+        public int MaxTemp {
+            get => _data.MaxTemp;
+            private set {
+                if (_data.MaxTemp != value) {
+                    _data.MaxTemp = value;
+                    VirtualRoot.Happened(new MaxTempChangedEvent());
+                }
+            }
+        }
+
+        public int AutoStartDelaySeconds {
+            get => _data.AutoStartDelaySeconds;
+            private set {
+                _data.AutoStartDelaySeconds = value;
+            }
+        }
         #endregion
 
         private static Dictionary<string, PropertyInfo> s_properties;

@@ -395,6 +395,26 @@ namespace NTMiner {
                 }
             }
 
+            public int MaxTemp {
+                get => NTMinerRoot.Instance.MinerProfile.MaxTemp;
+                set {
+                    if (NTMinerRoot.Instance.MinerProfile.MaxTemp != value) {
+                        NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(MaxTemp), value);
+                        OnPropertyChanged(nameof(MaxTemp));
+                    }
+                }
+            }
+
+            public int AutoStartDelaySeconds {
+                get => NTMinerRoot.Instance.MinerProfile.AutoStartDelaySeconds;
+                set {
+                    if (NTMinerRoot.Instance.MinerProfile.AutoStartDelaySeconds != value) {
+                        NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(AutoStartDelaySeconds), value);
+                        OnPropertyChanged(nameof(AutoStartDelaySeconds));
+                    }
+                }
+            }
+
             public CoinViewModel CoinVm {
                 get {
                     if (!AppContext.Instance.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm) || !coinVm.IsSupported) {

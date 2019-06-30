@@ -28,6 +28,8 @@ namespace NTMiner.Profile {
             this.EPrice = 0.3;
             this.IsPowerAppend = false;
             this.PowerAppend = 0;
+            this.MaxTemp = 80;
+            this.AutoStartDelaySeconds = 10;
         }
 
         public MinerProfileData(IMinerProfile data) {
@@ -50,6 +52,8 @@ namespace NTMiner.Profile {
             this.EPrice = data.EPrice;
             this.IsPowerAppend = data.IsPowerAppend;
             this.PowerAppend = data.PowerAppend;
+            this.MaxTemp = data.MaxTemp;
+            this.AutoStartDelaySeconds = data.AutoStartDelaySeconds;
         }
 
         public Guid GetId() {
@@ -83,8 +87,12 @@ namespace NTMiner.Profile {
 
         public int PeriodicRestartComputerMinutes { get; set; }
 
+        public int MaxTemp { get; set; }
+
+        public int AutoStartDelaySeconds { get; set; }
+
         public override string ToString() {
-            return $"{Id}{MinerName}{IsAutoRestartKernel}{CoinId}{IsNoShareRestartKernel}{NoShareRestartKernelMinutes}{IsPeriodicRestartKernel}{PeriodicRestartKernelHours}{IsPeriodicRestartComputer}{PeriodicRestartComputerHours}{IsSpeedDownRestartComputer}{RestartComputerSpeedDownPercent}{IsEChargeEnabled}{EPrice}{IsPowerAppend}{PowerAppend}";
+            return $"{Id}{CoinId}";
         }
 
         public StringBuilder GetSignData() {
