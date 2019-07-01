@@ -20,6 +20,9 @@ namespace NTMiner {
             public ICommand NoShareRestartKernelMinutesUp { get; private set; }
             public ICommand NoShareRestartKernelMinutesDown { get; private set; }
 
+            public ICommand PeriodicRestartKernelHoursUp { get; private set; }
+            public ICommand PeriodicRestartKernelHoursDown { get; private set; }
+
             private MinerProfileViewModel() {
 #if DEBUG
                 VirtualRoot.Stopwatch.Restart();
@@ -49,6 +52,14 @@ namespace NTMiner {
                 this.NoShareRestartKernelMinutesDown = new DelegateCommand(() => {
                     if (this.NoShareRestartKernelMinutes > 0) {
                         this.NoShareRestartKernelMinutes--;
+                    }
+                });
+                this.PeriodicRestartKernelHoursUp = new DelegateCommand(() => {
+                    this.PeriodicRestartKernelHours++;
+                });
+                this.PeriodicRestartKernelHoursDown = new DelegateCommand(() => {
+                    if (this.PeriodicRestartKernelHours > 0) {
+                        this.PeriodicRestartKernelHours--;
                     }
                 });
                 NTMinerRoot.RefreshArgsAssembly = () => {
