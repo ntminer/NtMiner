@@ -4,11 +4,15 @@ using NTMiner.Profile;
 using NTMiner.Vms;
 using System;
 using System.Linq;
+using System.Windows.Input;
 
 namespace NTMiner {
     public partial class AppContext {
         public class MinerProfileViewModel : ViewModelBase, IMinerProfile {
             public static readonly MinerProfileViewModel Instance = new MinerProfileViewModel();
+
+            public ICommand AutoStartDelaySecondsUp { get; private set; }
+            public ICommand AutoStartDelaySecondsDown { get; private set; }
 
             private MinerProfileViewModel() {
 #if DEBUG
@@ -17,6 +21,14 @@ namespace NTMiner {
                 if (Design.IsInDesignMode) {
                     return;
                 }
+                this.AutoStartDelaySecondsUp = new DelegateCommand(() => {
+                    this.AutoStartDelaySeconds++;
+                });
+                this.AutoStartDelaySecondsDown = new DelegateCommand(() => {
+                    if (this.AutoStartDelaySeconds > 0) {
+                        this.AutoStartDelaySeconds--;
+                    }
+                });
                 NTMinerRoot.RefreshArgsAssembly = () => {
                     if (CoinVm != null && CoinVm.CoinKernel != null && CoinVm.CoinKernel.Kernel != null) {
                         var coinKernelProfile = CoinVm.CoinKernel.CoinKernelProfile;
