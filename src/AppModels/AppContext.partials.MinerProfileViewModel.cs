@@ -23,6 +23,27 @@ namespace NTMiner {
             public ICommand PeriodicRestartKernelHoursUp { get; private set; }
             public ICommand PeriodicRestartKernelHoursDown { get; private set; }
 
+            public ICommand PeriodicRestartKernelMinutesUp { get; private set; }
+            public ICommand PeriodicRestartKernelMinutesDown { get; private set; }
+
+            public ICommand PeriodicRestartComputerHoursUp { get; private set; }
+            public ICommand PeriodicRestartComputerHoursDown { get; private set; }
+
+            public ICommand PeriodicRestartComputerMinutesUp { get; private set; }
+            public ICommand PeriodicRestartComputerMinutesDown { get; private set; }
+
+            public ICommand EPriceUp { get; private set; }
+            public ICommand EPriceDown { get; private set; }
+
+            public ICommand PowerAppendUp { get; private set; }
+            public ICommand PowerAppendDown { get; private set; }
+
+            public ICommand MaxTempUp { get; private set; }
+            public ICommand MaxTempDown { get; private set; }
+
+            public ICommand AutoNoUiMinutesUp { get; private set; }
+            public ICommand AutoNoUiMinutesDown { get; private set; }
+
             private MinerProfileViewModel() {
 #if DEBUG
                 VirtualRoot.Stopwatch.Restart();
@@ -60,6 +81,62 @@ namespace NTMiner {
                 this.PeriodicRestartKernelHoursDown = new DelegateCommand(() => {
                     if (this.PeriodicRestartKernelHours > 0) {
                         this.PeriodicRestartKernelHours--;
+                    }
+                });
+                this.PeriodicRestartKernelMinutesUp = new DelegateCommand(() => {
+                    this.PeriodicRestartKernelMinutes++;
+                });
+                this.PeriodicRestartKernelMinutesDown = new DelegateCommand(() => {
+                    if (this.PeriodicRestartKernelMinutes > 0) {
+                        this.PeriodicRestartKernelMinutes--;
+                    }
+                });
+                this.PeriodicRestartComputerHoursUp = new DelegateCommand(() => {
+                    this.PeriodicRestartComputerHours++;
+                });
+                this.PeriodicRestartComputerHoursDown = new DelegateCommand(() => {
+                    if (this.PeriodicRestartComputerHours > 0) {
+                        this.PeriodicRestartComputerHours--;
+                    }
+                });
+                this.PeriodicRestartComputerMinutesUp = new DelegateCommand(() => {
+                    this.PeriodicRestartComputerMinutes++;
+                });
+                this.PeriodicRestartComputerMinutesDown = new DelegateCommand(() => {
+                    if (this.PeriodicRestartComputerMinutes > 0) {
+                        this.PeriodicRestartComputerMinutes--;
+                    }
+                });
+                this.EPriceUp = new DelegateCommand(() => {
+                    this.EPrice = this.EPrice + 0.1;
+                });
+                this.EPriceDown = new DelegateCommand(() => {
+                    if (this.EPrice > 0.1) {
+                        this.EPrice = this.EPrice - 0.1;
+                    }
+                });
+                this.PowerAppendUp = new DelegateCommand(() => {
+                    this.PowerAppend++;
+                });
+                this.PowerAppendDown = new DelegateCommand(() => {
+                    if (this.PowerAppend > 0) {
+                        this.PowerAppend--;
+                    }
+                });
+                this.MaxTempUp = new DelegateCommand(() => {
+                    this.MaxTemp++;
+                });
+                this.MaxTempDown = new DelegateCommand(() => {
+                    if (this.MaxTemp > 0) {
+                        this.MaxTemp--;
+                    }
+                });
+                this.AutoNoUiMinutesUp = new DelegateCommand(() => {
+                    this.AutoNoUiMinutes++;
+                });
+                this.AutoNoUiMinutesDown = new DelegateCommand(() => {
+                    if (this.AutoNoUiMinutes > 0) {
+                        this.AutoNoUiMinutes--;
                     }
                 });
                 NTMinerRoot.RefreshArgsAssembly = () => {
