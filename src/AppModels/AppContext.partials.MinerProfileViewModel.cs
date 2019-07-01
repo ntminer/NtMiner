@@ -14,6 +14,12 @@ namespace NTMiner {
             public ICommand AutoStartDelaySecondsUp { get; private set; }
             public ICommand AutoStartDelaySecondsDown { get; private set; }
 
+            public ICommand AutoRestartKernelTimesUp { get; private set; }
+            public ICommand AutoRestartKernelTimesDown { get; private set; }
+
+            public ICommand NoShareRestartKernelMinutesUp { get; private set; }
+            public ICommand NoShareRestartKernelMinutesDown { get; private set; }
+
             private MinerProfileViewModel() {
 #if DEBUG
                 VirtualRoot.Stopwatch.Restart();
@@ -27,6 +33,22 @@ namespace NTMiner {
                 this.AutoStartDelaySecondsDown = new DelegateCommand(() => {
                     if (this.AutoStartDelaySeconds > 0) {
                         this.AutoStartDelaySeconds--;
+                    }
+                });
+                this.AutoRestartKernelTimesUp = new DelegateCommand(() => {
+                    this.AutoRestartKernelTimes++;
+                });
+                this.AutoRestartKernelTimesDown = new DelegateCommand(() => {
+                    if (this.AutoRestartKernelTimes > 0) {
+                        this.AutoRestartKernelTimes--;
+                    }
+                });
+                this.NoShareRestartKernelMinutesUp = new DelegateCommand(() => {
+                    this.NoShareRestartKernelMinutes++;
+                });
+                this.NoShareRestartKernelMinutesDown = new DelegateCommand(() => {
+                    if (this.NoShareRestartKernelMinutes > 0) {
+                        this.NoShareRestartKernelMinutes--;
                     }
                 });
                 NTMinerRoot.RefreshArgsAssembly = () => {
