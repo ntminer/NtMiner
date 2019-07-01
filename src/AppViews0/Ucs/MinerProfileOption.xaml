@@ -33,7 +33,19 @@
 								IsChecked="{Binding IsAutoStart}">
 								<WrapPanel>
 									<TextBlock VerticalAlignment="Center">自动挖矿，延迟</TextBlock>
-									<TextBox Width="40" Margin="2 0" Background="White" Text="{Binding AutoStartDelaySeconds}" HorizontalAlignment="Left"></TextBox>
+									<TextBox Width="50" Height="24" Margin="2 0 0 0" Background="White" Text="{Binding AutoStartDelaySeconds}" HorizontalAlignment="Left"></TextBox>
+									<StackPanel Margin="0 0 2 0">
+										<Button Height="12">
+											<Button.Content>
+												<Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="M4,0 L0,4 L8,4 z"/>
+											</Button.Content>
+										</Button>
+										<Button Height="12">
+											<Button.Content>
+												<Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="M0,0 L8,0 L4,4 z"/>
+											</Button.Content>
+										</Button>
+									</StackPanel>
 									<TextBlock VerticalAlignment="Center">秒</TextBlock>
 								</WrapPanel>
 							</CheckBox>
@@ -46,7 +58,19 @@
 								IsChecked="{Binding IsAutoRestartKernel}">
 								<WrapPanel>
 									<TextBlock VerticalAlignment="Center">如果内核进程意外消失，尝试重启内核</TextBlock>
-									<TextBox Width="40" Margin="2 0" Background="White" Text="{Binding AutoRestartKernelTimes}" HorizontalAlignment="Left"></TextBox>
+									<TextBox Width="50" Height="24" Margin="2 0 0 0" Background="White" Text="{Binding AutoRestartKernelTimes}" HorizontalAlignment="Left"></TextBox>
+									<StackPanel Margin="0 0 2 0">
+										<Button Height="12">
+											<Button.Content>
+												<Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="M4,0 L0,4 L8,4 z"/>
+											</Button.Content>
+										</Button>
+										<Button Height="12">
+											<Button.Content>
+												<Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="M0,0 L8,0 L4,4 z"/>
+											</Button.Content>
+										</Button>
+									</StackPanel>
 									<TextBlock VerticalAlignment="Center">次</TextBlock>
 								</WrapPanel>
 							</CheckBox>
@@ -59,7 +83,19 @@
 								IsChecked="{Binding IsNoShareRestartKernel}">
 								<WrapPanel>
 									<TextBlock VerticalAlignment="Center">如果</TextBlock>
-									<TextBox Width="40" Margin="2 0" Background="White" Text="{Binding NoShareRestartKernelMinutes}" HorizontalAlignment="Left"></TextBox>
+									<TextBox Width="50" Height="24" Margin="2 0 0 0" Background="White" Text="{Binding NoShareRestartKernelMinutes}" HorizontalAlignment="Left"></TextBox>
+									<StackPanel Margin="0 0 2 0">
+										<Button Height="12">
+											<Button.Content>
+												<Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="M4,0 L0,4 L8,4 z"/>
+											</Button.Content>
+										</Button>
+										<Button Height="12">
+											<Button.Content>
+												<Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="M0,0 L8,0 L4,4 z"/>
+											</Button.Content>
+										</Button>
+									</StackPanel>
 									<TextBlock VerticalAlignment="Center">分钟收益没有增加重启内核</TextBlock>
 								</WrapPanel>
 							</CheckBox>
@@ -72,9 +108,33 @@
 								IsChecked="{Binding IsPeriodicRestartKernel}">
 								<WrapPanel>
 									<TextBlock VerticalAlignment="Center">每运行</TextBlock>
-									<TextBox Width="40" Margin="2 0" Background="White" Text="{Binding PeriodicRestartKernelHours}" HorizontalAlignment="Left"></TextBox>
+									<TextBox Width="50" Height="24" Margin="2 0 0 0" Background="White" Text="{Binding PeriodicRestartKernelHours}" HorizontalAlignment="Left"></TextBox>
+									<StackPanel Margin="0 0 2 0">
+										<Button Height="12">
+											<Button.Content>
+												<Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="M4,0 L0,4 L8,4 z"/>
+											</Button.Content>
+										</Button>
+										<Button Height="12">
+											<Button.Content>
+												<Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="M0,0 L8,0 L4,4 z"/>
+											</Button.Content>
+										</Button>
+									</StackPanel>
 									<TextBlock VerticalAlignment="Center">小时</TextBlock>
-									<TextBox Width="40" Margin="2 0" Background="White" Text="{Binding PeriodicRestartKernelMinutes,ValidatesOnExceptions=True}" HorizontalAlignment="Left"></TextBox>
+									<TextBox Width="50" Height="24" Margin="2 0 0 0" Background="White" Text="{Binding PeriodicRestartKernelMinutes,ValidatesOnExceptions=True}" HorizontalAlignment="Left"></TextBox>
+									<StackPanel Margin="0 0 2 0">
+										<Button Height="12">
+											<Button.Content>
+												<Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="M4,0 L0,4 L8,4 z"/>
+											</Button.Content>
+										</Button>
+										<Button Height="12">
+											<Button.Content>
+												<Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="M0,0 L8,0 L4,4 z"/>
+											</Button.Content>
+										</Button>
+									</StackPanel>
 									<TextBlock VerticalAlignment="Center">分钟重启内核</TextBlock>
 								</WrapPanel>
 							</CheckBox>
@@ -87,9 +147,33 @@
 								IsChecked="{Binding IsPeriodicRestartComputer}">
 								<WrapPanel>
 									<TextBlock VerticalAlignment="Center">每运行</TextBlock>
-									<TextBox Width="40" Margin="2 0" Background="White" Text="{Binding PeriodicRestartComputerHours}" HorizontalAlignment="Left"></TextBox>
+									<TextBox Width="50" Height="24" Margin="2 0 0 0" Background="White" Text="{Binding PeriodicRestartComputerHours}" HorizontalAlignment="Left"></TextBox>
+									<StackPanel Margin="0 0 2 0">
+										<Button Height="12">
+											<Button.Content>
+												<Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="M4,0 L0,4 L8,4 z"/>
+											</Button.Content>
+										</Button>
+										<Button Height="12">
+											<Button.Content>
+												<Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="M0,0 L8,0 L4,4 z"/>
+											</Button.Content>
+										</Button>
+									</StackPanel>
 									<TextBlock VerticalAlignment="Center">小时</TextBlock>
-									<TextBox Width="40" Margin="2 0" Background="White" Text="{Binding PeriodicRestartComputerMinutes,ValidatesOnExceptions=True}" HorizontalAlignment="Left"></TextBox>
+									<TextBox Width="50" Height="24" Margin="2 0 0 0" Background="White" Text="{Binding PeriodicRestartComputerMinutes,ValidatesOnExceptions=True}" HorizontalAlignment="Left"></TextBox>
+									<StackPanel Margin="0 0 2 0">
+										<Button Height="12">
+											<Button.Content>
+												<Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="M4,0 L0,4 L8,4 z"/>
+											</Button.Content>
+										</Button>
+										<Button Height="12">
+											<Button.Content>
+												<Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="M0,0 L8,0 L4,4 z"/>
+											</Button.Content>
+										</Button>
+									</StackPanel>
 									<TextBlock VerticalAlignment="Center">分钟重启电脑</TextBlock>
 								</WrapPanel>
 							</CheckBox>
@@ -122,7 +206,19 @@
 					<TextBlock VerticalAlignment="Center">在状态栏展示电费</TextBlock>
 				</CheckBox>
 				<TextBlock Margin="10 0 0 0" VerticalAlignment="Center">电价</TextBlock>
-				<TextBox Width="40" Margin="2 0" Background="White" Text="{Binding EPrice}" HorizontalAlignment="Left"></TextBox>
+				<TextBox Width="50" Height="24" Margin="2 0 0 0" Background="White" Text="{Binding EPrice}" HorizontalAlignment="Left"></TextBox>
+				<StackPanel Margin="0 0 2 0">
+					<Button Height="12">
+						<Button.Content>
+							<Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="M4,0 L0,4 L8,4 z"/>
+						</Button.Content>
+					</Button>
+					<Button Height="12">
+						<Button.Content>
+							<Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="M0,0 L8,0 L4,4 z"/>
+						</Button.Content>
+					</Button>
+				</StackPanel>
 				<TextBlock VerticalAlignment="Center">￥/度</TextBlock>
 			</WrapPanel>
 			<WrapPanel Margin="6 2">
@@ -134,13 +230,37 @@
 					<TextBlock VerticalAlignment="Center">功耗补偿</TextBlock>
 				</CheckBox>
 				<TextBlock Margin="10 0 0 0" VerticalAlignment="Center">每卡补偿</TextBlock>
-				<TextBox Width="40" Margin="2 0" Background="White" Text="{Binding PowerAppend}" HorizontalAlignment="Left"></TextBox>
+				<TextBox Width="50" Height="24" Margin="2 0 0 0" Background="White" Text="{Binding PowerAppend}" HorizontalAlignment="Left"></TextBox>
+				<StackPanel Margin="0 0 2 0">
+					<Button Height="12">
+						<Button.Content>
+							<Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="M4,0 L0,4 L8,4 z"/>
+						</Button.Content>
+					</Button>
+					<Button Height="12">
+						<Button.Content>
+							<Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="M0,0 L8,0 L4,4 z"/>
+						</Button.Content>
+					</Button>
+				</StackPanel>
 				<TextBlock VerticalAlignment="Center">瓦</TextBlock>
 				<TextBlock Foreground="Red" VerticalAlignment="Center">（由于A卡的功耗不准，可以通过功耗补偿修正，可正负）</TextBlock>
 			</WrapPanel>
 			<WrapPanel Margin="6 2">
 				<TextBlock VerticalAlignment="Center">显卡温度达到</TextBlock>
-				<TextBox Width="40" Margin="2 0" Background="White" Text="{Binding MaxTemp}" HorizontalAlignment="Left"></TextBox>
+				<TextBox Width="50" Height="24" Margin="2 0 0 0" Background="White" Text="{Binding MaxTemp}" HorizontalAlignment="Left"></TextBox>
+				<StackPanel Margin="0 0 2 0">
+					<Button Height="12">
+						<Button.Content>
+							<Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="M4,0 L0,4 L8,4 z"/>
+						</Button.Content>
+					</Button>
+					<Button Height="12">
+						<Button.Content>
+							<Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="M0,0 L8,0 L4,4 z"/>
+						</Button.Content>
+					</Button>
+				</StackPanel>
 				<TextBlock VerticalAlignment="Center">℃红色</TextBlock>
 			</WrapPanel>
 			<GroupBox x:Name="GroupSystemSetting" Header="显示">
@@ -171,7 +291,19 @@
 							IsChecked="{Binding IsAutoNoUi}">
 							<WrapPanel>
 								<TextBlock VerticalAlignment="Center">挖矿中时界面展示</TextBlock>
-								<TextBox Width="40" Margin="2 0" Background="White" Text="{Binding AutoNoUiMinutes}" HorizontalAlignment="Left"></TextBox>
+								<TextBox Width="50" Height="24" Margin="2 0 0 0" Background="White" Text="{Binding AutoNoUiMinutes}" HorizontalAlignment="Left"></TextBox>
+								<StackPanel Margin="0 0 2 0">
+									<Button Height="12">
+										<Button.Content>
+											<Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="M4,0 L0,4 L8,4 z"/>
+										</Button.Content>
+									</Button>
+									<Button Height="12">
+										<Button.Content>
+											<Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="M0,0 L8,0 L4,4 z"/>
+										</Button.Content>
+									</Button>
+								</StackPanel>
 								<TextBlock VerticalAlignment="Center">分钟后自动切换为无界面模式运行</TextBlock>
 							</WrapPanel>
 						</CheckBox>
@@ -189,7 +321,7 @@
 
 					<WrapPanel Margin="0 2">
 						<TextBlock VerticalAlignment="Center">打开/隐藏主界面快捷键 Ctrl + Alt +</TextBlock>
-						<TextBox Margin="4 0 0 0" Padding="4 0" IsReadOnly="True" Text="{Binding HotKey}" ToolTip="可选范围A-Z" KeyDown="ButtonHotKey_KeyDown"></TextBox>
+						<TextBox Margin="4 0 0 0" Padding="4 0" Height="24" IsReadOnly="True" Text="{Binding HotKey}" ToolTip="可选范围A-Z" KeyDown="ButtonHotKey_KeyDown"></TextBox>
 					</WrapPanel>
 				</StackPanel>
 			</GroupBox>
