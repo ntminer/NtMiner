@@ -3,6 +3,7 @@ using NTMiner.MinerClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Media;
 
 namespace NTMiner.Vms {
     public class GpuViewModel : ViewModelBase, IGpu {
@@ -167,6 +168,7 @@ namespace NTMiner.Vms {
                     _temperature = value;
                     OnPropertyChanged(nameof(Temperature));
                     OnPropertyChanged(nameof(TemperatureText));
+                    OnPropertyChanged(nameof(TemperatureForeground));
                 }
             }
         }
@@ -183,6 +185,17 @@ namespace NTMiner.Vms {
                     return $"{AppContext.Instance.GpuVms.TemperatureMinText} - {AppContext.Instance.GpuVms.TemperatureMaxText}";
                 }
                 return this.Temperature.ToString() + "℃";
+            }
+        }
+
+        private static readonly SolidColorBrush Black = new SolidColorBrush(Colors.Black);
+        private static readonly SolidColorBrush Red = new SolidColorBrush(Colors.Red);
+        public SolidColorBrush TemperatureForeground {
+            get {
+                if (this.Temperature >= AppContext.Instance.MinerProfileVm.MaxTemp) {
+                    return Red;
+                }
+                return Black;
             }
         }
 

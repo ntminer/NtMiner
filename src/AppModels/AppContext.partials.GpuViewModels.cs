@@ -40,6 +40,12 @@ namespace NTMiner {
                         }
                         AppContext.Instance.GpuSpeedVms.OnPropertyChanged(nameof(GpuSpeedViewModels.ProfitCnyPerDayText));
                     });
+                On<MaxTempChangedEvent>("高温红色阈值变更后更新显卡温度颜色", LogEnum.DevConsole,
+                    action: message => {
+                        foreach (var gpuVm in _gpuVms.Values) {
+                            gpuVm.OnPropertyChanged(nameof(GpuViewModel.TemperatureForeground));
+                        }
+                    });
                 On<PowerAppendChangedEvent>("功耗补偿变更后更新功耗显示", LogEnum.DevConsole,
                     action: message => {
                         foreach (var gpuVm in _gpuVms.Values) {
