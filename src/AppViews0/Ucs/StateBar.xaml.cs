@@ -22,7 +22,7 @@ namespace NTMiner.Views.Ucs {
                     action: message => {
                         DateTime now = DateTime.Now;
                         Vm.UpdateBootTimeSpan(now - NTMinerRoot.Instance.CreatedOn);
-                        if (NTMinerRoot.IsAutoStart && VirtualRoot.SecondCount <= 10 && !NTMinerRoot.IsAutoStartCanceled) {
+                        if (NTMinerRoot.IsAutoStart && VirtualRoot.SecondCount <= Vm.MinerProfile.AutoStartDelaySeconds && !NTMinerRoot.IsAutoStartCanceled) {
                             return;
                         }
                         var mineContext = NTMinerRoot.Instance.CurrentMineContext;
