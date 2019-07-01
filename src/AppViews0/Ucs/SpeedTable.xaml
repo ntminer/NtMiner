@@ -105,7 +105,7 @@
 					</DataGridTemplateColumn.HeaderTemplate>
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding GpuVm.TemperatureText}"></TextBlock>
+							<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{Binding GpuVm.TemperatureForeground}" Text="{Binding GpuVm.TemperatureText}"></TextBlock>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
