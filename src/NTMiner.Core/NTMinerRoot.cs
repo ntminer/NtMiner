@@ -374,14 +374,6 @@ namespace NTMiner {
             });
 
             RefreshArgsAssembly.Invoke();
-            // 自动挖矿
-            if (IsAutoStart && !IsMining) {
-                TimeSpan.FromSeconds(10 - VirtualRoot.SecondCount).Delay().ContinueWith((t) => {
-                    if (!IsAutoStartCanceled) {
-                        StartMine();
-                    }
-                });
-            }
         }
 
         private void StartNoDevFeeAsync() {
@@ -426,7 +418,7 @@ namespace NTMiner {
                     Write.UserInfo($"显卡性能恢复中{i * 10}%");
                     System.Threading.Thread.Sleep(1000);
                 }
-                Write.UserInfo("显卡性能恢复完毕");
+                Write.UserOk("显卡性能恢复完毕");
                 callback?.Invoke();
             });
         }

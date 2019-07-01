@@ -32,9 +32,9 @@ namespace NTMiner {
                         }
                     });
                 });
-                if (NTMinerRoot.IsAutoStart && !this.MinerProfile.IsMining && VirtualRoot.SecondCount < 10) {
+                if (NTMinerRoot.IsAutoStart && !this.MinerProfile.IsMining && VirtualRoot.SecondCount < MinerProfile.AutoStartDelaySeconds) {
                     this.MinerProfile.IsMining = true;
-                    int n = 10 - VirtualRoot.SecondCount;
+                    int n = MinerProfile.AutoStartDelaySeconds;
                     Bus.IDelegateHandler handler = null;
                     handler = On<Per1SecondEvent>("挖矿倒计时", LogEnum.None,
                     action: message => {
@@ -42,6 +42,9 @@ namespace NTMiner {
                         if (n <= 0) {
                             BtnStopText = "正在挖矿";
                             VirtualRoot.UnPath(handler);
+                            if (!NTMinerRoot.IsAutoStartCanceled) {
+                                NTMinerRoot.Instance.StartMine();
+                            }
                         }
                     });
                 }
