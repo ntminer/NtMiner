@@ -149,6 +149,15 @@
 						</WrapPanel>
 					</controls:KbButton>
 					<TextBlock x:Name="TbRedText" Margin="10 0 0 0" Foreground="Red" VerticalAlignment="Center"></TextBlock>
+					<controls:KbButton
+						Margin="10 0 0 0"
+						Height="21"
+						Padding="6 2"
+						ToolTip="将统一超频的数据一键填充到每张卡"
+						Command="{Binding CoinVm.FillOverClockForms}" 
+						CornerRadius="2">
+						<TextBlock Foreground="{StaticResource IconFillColor}">一键填充表单</TextBlock>
+					</controls:KbButton>
 				</WrapPanel>
 			</Grid>
 		</WrapPanel>

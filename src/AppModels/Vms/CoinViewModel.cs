@@ -63,6 +63,8 @@ namespace NTMiner.Vms {
 
         public ICommand ApplyCustomOverClock { get; private set; }
 
+        public ICommand FillOverClockForms { get; private set; }
+
         public ICommand FillOverClockForm { get; private set; }
 
         public Action CloseWindow { get; set; }
@@ -156,6 +158,17 @@ namespace NTMiner.Vms {
             });
             this.FillOverClockForm = new DelegateCommand<OverClockDataViewModel>((data) => {
                 FillOverClock(data);
+            });
+            this.FillOverClockForms = new DelegateCommand(() => {
+                this.ShowDialog(message: "确定将统一超频的数据一键填充到每张卡吗？", title: "一键填充表单", onYes: () => {
+                    var data = GpuAllProfileVm;
+                    foreach (var item in GpuProfileVms) {
+                        if (item.Index == NTMinerRoot.GpuAllId) {
+                            continue;
+                        }
+                        item.Update(data);
+                    }
+                }, icon: IconConst.IconConfirm);
             });
             this.AddOverClockData = new DelegateCommand(() => {
                 new OverClockDataViewModel(Guid.NewGuid()) {
