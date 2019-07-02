@@ -203,14 +203,14 @@
 						</controls:KbButton>
 					</StackPanel>
 					<WrapPanel Width="170">
-						<TextBlock Padding="0 0 4 0" Text="拒绝" Style="{StaticResource Lbl}" />
-						<TextBlock Text="{Binding MinerProfile.CoinVm.ShareVm.RejectShareCount}" ToolTip="拒绝次数" />
-						<TextBlock Padding="1" Text="/" Foreground="{StaticResource LableColor}" />
-						<TextBlock Text="{Binding MinerProfile.CoinVm.ShareVm.TotalShareCount}" ToolTip="提交次数" />
-						<TextBlock Margin="8 0 0 0" ToolTip="拒绝率" Text="{Binding MinerProfile.CoinVm.ShareVm.RejectPercentText}" />
-						<TextBlock Margin="8 0 0 0" ToolTip="矿池延时" Text="{Binding PoolDelayText}" />
+						<TextBlock Padding="0 0 4 0" VerticalAlignment="Center" Text="拒绝" Style="{StaticResource Lbl}" />
+						<TextBlock VerticalAlignment="Center" Text="{Binding MinerProfile.CoinVm.ShareVm.RejectShareCount}" ToolTip="拒绝次数" />
+						<TextBlock VerticalAlignment="Center" Padding="1" Text="/" Foreground="{StaticResource LableColor}" />
+						<TextBlock VerticalAlignment="Center" Text="{Binding MinerProfile.CoinVm.ShareVm.TotalShareCount}" ToolTip="提交次数" />
+						<TextBlock VerticalAlignment="Center" Margin="8 0 0 0" ToolTip="拒绝率" Text="{Binding MinerProfile.CoinVm.ShareVm.RejectPercentText}" />
+						<TextBlock VerticalAlignment="Center" Margin="8 0 0 0" ToolTip="矿池延时" Text="{Binding PoolDelayText}" />
 					</WrapPanel>
-					<WrapPanel Width="150">
+					<WrapPanel Width="150" VerticalAlignment="Center">
 						<TextBlock Padding="0 0 4 0" Text="算力" Style="{StaticResource Lbl}" />
 						<TextBlock Text="{Binding GpuSpeedVms.TotalSpeedVm.MainCoinSpeed.SpeedText}" />
 						<TextBlock Margin="4 0 0 0" Foreground="{Binding GpuSpeedVms.TotalSpeedVm.MainCoinSpeed.LastSpeedOnForeground}" Text="{Binding GpuSpeedVms.TotalSpeedVm.MainCoinSpeed.LastSpeedOnText}"></TextBlock>
@@ -261,14 +261,14 @@
 							</WrapPanel>
 						</controls:KbButton>
 						<WrapPanel Width="170">
-							<TextBlock Padding="0 0 4 0" Text="拒绝" Style="{StaticResource Lbl}" />
-							<TextBlock Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.RejectShareCount}" ToolTip="拒绝次数" />
-							<TextBlock Padding="1" Text="/" Foreground="{StaticResource LableColor}" />
-							<TextBlock Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.TotalShareCount}" ToolTip="提交次数" />
-							<TextBlock Margin="8 0 0 0" ToolTip="拒绝率" Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.RejectPercentText}" />
-							<TextBlock Margin="8 0 0 0" ToolTip="矿池延时" Text="{Binding DualPoolDelayText}" />
+							<TextBlock Padding="0 0 4 0" VerticalAlignment="Center" Text="拒绝" Style="{StaticResource Lbl}" />
+							<TextBlock VerticalAlignment="Center" Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.RejectShareCount}" ToolTip="拒绝次数" />
+							<TextBlock VerticalAlignment="Center" Padding="1" Text="/" Foreground="{StaticResource LableColor}" />
+							<TextBlock VerticalAlignment="Center" Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.TotalShareCount}" ToolTip="提交次数" />
+							<TextBlock VerticalAlignment="Center" Margin="8 0 0 0" ToolTip="拒绝率" Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.RejectPercentText}" />
+							<TextBlock VerticalAlignment="Center" Margin="8 0 0 0" ToolTip="矿池延时" Text="{Binding DualPoolDelayText}" />
 						</WrapPanel>
-						<WrapPanel Width="150">
+						<WrapPanel Width="150" VerticalAlignment="Center">
 							<TextBlock Padding="0 0 4 0" Text="算力" Style="{StaticResource Lbl}" />
 							<TextBlock Text="{Binding GpuSpeedVms.TotalSpeedVm.DualCoinSpeed.SpeedText}" />
 							<TextBlock Margin="4 0 0 0" Foreground="{Binding GpuSpeedVms.TotalSpeedVm.DualCoinSpeed.LastSpeedOnForeground}" Text="{Binding GpuSpeedVms.TotalSpeedVm.DualCoinSpeed.LastSpeedOnText}"></TextBlock>
