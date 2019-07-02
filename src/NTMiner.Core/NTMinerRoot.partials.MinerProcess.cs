@@ -33,8 +33,7 @@ namespace NTMiner {
                             Write.UserInfo($"解压内核包{mineContext.Kernel.Package}");
                             // 解压内核包
                             if (!mineContext.Kernel.ExtractPackage()) {
-                                Write.UserFail("内核解压失败");
-                                VirtualRoot.Happened(new StartingMineFailedEvent("内核解压失败。"));
+                                VirtualRoot.Happened(new StartingMineFailedEvent("内核解压失败，请卸载内核重试。"));
                             }
                             else {
                                 Write.UserOk("内核包解压成功");
