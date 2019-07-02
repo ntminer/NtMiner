@@ -120,7 +120,7 @@
 					</Path>
 				</WrapPanel>
 			</Grid>
-			<StackPanel HorizontalAlignment="Right" Margin="0 0 30 0">
+			<StackPanel HorizontalAlignment="Right" Margin="0 0 20 0">
 				<WrapPanel>
 					<StackPanel>
 						<controls:KbLinkButton
