@@ -120,7 +120,7 @@
 					</Path>
 				</WrapPanel>
 			</Grid>
-			<StackPanel HorizontalAlignment="Right" Margin="0 0 20 0">
+			<StackPanel HorizontalAlignment="Right" Margin="0 0 30 0">
 				<WrapPanel>
 					<StackPanel>
 						<controls:KbLinkButton
@@ -155,7 +155,7 @@
 						</WrapPanel>
 						<controls:KbButton 
 							HorizontalContentAlignment="Left"
-							Width="260" ToolTip="收益计算器"
+							Width="250" ToolTip="收益计算器"
 							Padding="2 0" Cursor="Hand" Background="Transparent" BorderThickness="0"
 							Command="{x:Static app:AppStatic.ShowCalc}"
 							CommandParameter="{Binding MinerProfile.CoinVm}">
@@ -210,8 +210,7 @@
 						<TextBlock VerticalAlignment="Center" Margin="8 0 0 0" ToolTip="拒绝率" Text="{Binding MinerProfile.CoinVm.ShareVm.RejectPercentText}" />
 						<TextBlock VerticalAlignment="Center" Margin="8 0 0 0" ToolTip="矿池延时" Text="{Binding PoolDelayText}" />
 					</WrapPanel>
-					<WrapPanel Width="150" VerticalAlignment="Center">
-						<TextBlock Padding="0 0 4 0" Text="算力" Style="{StaticResource Lbl}" />
+					<WrapPanel Width="140" VerticalAlignment="Center">
 						<TextBlock Text="{Binding GpuSpeedVms.TotalSpeedVm.MainCoinSpeed.SpeedText}" />
 						<TextBlock Margin="4 0 0 0" Foreground="{Binding GpuSpeedVms.TotalSpeedVm.MainCoinSpeed.LastSpeedOnForeground}" Text="{Binding GpuSpeedVms.TotalSpeedVm.MainCoinSpeed.LastSpeedOnText}"></TextBlock>
 					</WrapPanel>
@@ -229,7 +228,7 @@
 						</controls:KbLinkButton>
 						<controls:KbButton 
 							HorizontalContentAlignment="Left"
-							Width="260" ToolTip="数据来自鱼池首页"
+							Width="250" ToolTip="数据来自鱼池首页"
 							Padding="2 0" Cursor="Hand" Background="Transparent" BorderThickness="0"
 							Command="{x:Static app:AppStatic.ShowCalc}"
 							CommandParameter="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin}">
@@ -268,8 +267,7 @@
 							<TextBlock VerticalAlignment="Center" Margin="8 0 0 0" ToolTip="拒绝率" Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.RejectPercentText}" />
 							<TextBlock VerticalAlignment="Center" Margin="8 0 0 0" ToolTip="矿池延时" Text="{Binding DualPoolDelayText}" />
 						</WrapPanel>
-						<WrapPanel Width="150" VerticalAlignment="Center">
-							<TextBlock Padding="0 0 4 0" Text="算力" Style="{StaticResource Lbl}" />
+						<WrapPanel Width="140" VerticalAlignment="Center">
 							<TextBlock Text="{Binding GpuSpeedVms.TotalSpeedVm.DualCoinSpeed.SpeedText}" />
 							<TextBlock Margin="4 0 0 0" Foreground="{Binding GpuSpeedVms.TotalSpeedVm.DualCoinSpeed.LastSpeedOnForeground}" Text="{Binding GpuSpeedVms.TotalSpeedVm.DualCoinSpeed.LastSpeedOnText}"></TextBlock>
 						</WrapPanel>
