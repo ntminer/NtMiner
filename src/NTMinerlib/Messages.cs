@@ -217,6 +217,11 @@ namespace NTMiner {
         public Per20SecondEvent() { }
     }
 
+    [MessageType(description: "时间的分钟部分变更后", isCanNoHandler: true)]
+    public class MinutePartChangedEvent : EventBase {
+        public MinutePartChangedEvent() { }
+    }
+
     [MessageType(description: "每1分钟事件", isCanNoHandler: true)]
     public class Per1MinuteEvent : EventBase {
         public readonly int Seconds = 60;

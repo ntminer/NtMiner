@@ -18,6 +18,10 @@ namespace NTMiner.Views.Ucs {
             this.RunOneceOnLoaded(() => {
                 var window = Window.GetWindow(this);
                 // 时间事件是在WPF UI线程的，所以这里不用考虑访问UI线程创建的Vm对象的问题
+                window.On<MinutePartChangedEvent>("时间的分钟部分变更过更新计时器显示", LogEnum.None,
+                    action: message => {
+                        Vm.UpdateDateTime();
+                    });
                 window.On<Per1SecondEvent>("挖矿计时秒表", LogEnum.None,
                     action: message => {
                         DateTime now = DateTime.Now;

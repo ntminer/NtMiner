@@ -11,6 +11,34 @@ namespace NTMiner.Vms {
         private Visibility _isNoticeVisible = Visibility.Collapsed;
         private string _poolDelayText;
         private string _dualPoolDelayText;
+        private string _timeText;
+        private string _dateText;
+
+        public string TimeText {
+            get => _timeText;
+            set {
+                _timeText = value;
+                OnPropertyChanged(nameof(TimeText));
+            }
+        }
+        public string DateText {
+            get => _dateText;
+            set {
+                _dateText = value;
+                OnPropertyChanged(nameof(DateText));
+            }
+        }
+
+        private DateTime _now = DateTime.Now;
+        public void UpdateDateTime() {
+            DateTime now = DateTime.Now;
+            if (_now.Minute != now.Minute) {
+                this.TimeText = now.ToString("H:m");
+            }
+            if (_now.Hour != now.Hour) {
+                this.DateText = now.ToString("yyyy/M/d");
+            }
+        }
 
         public ICommand ConfigControlCenterHost { get; private set; }
 
@@ -18,6 +46,8 @@ namespace NTMiner.Vms {
             if (Design.IsInDesignMode) {
                 return;
             }
+            this.TimeText = _now.ToString("H:m");
+            this.DateText = _now.ToString("yyyy/M/d");
             this.ConfigControlCenterHost = new DelegateCommand(() => {
                 VirtualRoot.Execute(new ShowControlCenterHostConfigCommand());
             });

@@ -75,9 +75,15 @@ namespace NTMiner {
             }
         }
 
+        private static DateTime _dateTime = DateTime.Now;
         public static void Elapsed() {
             _secondCount++;
             const int daySecond = 24 * 60 * 60;
+            DateTime now = DateTime.Now;
+            if (now.Minute != _dateTime.Minute) {
+                _dateTime = now;
+                Happened(new MinutePartChangedEvent());
+            }
             #region one
             if (_secondCount <= 20) {
                 if (_secondCount == 1) {
