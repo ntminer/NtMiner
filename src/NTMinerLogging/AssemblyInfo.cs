@@ -6,7 +6,7 @@ namespace NTMiner {
     public static class AssemblyInfo {
         public static string GlobalDirFullName { get; set; } = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "NTMiner");
         public const string Version = "2.2.2";
-        public const string Build = "0";
+        public const string Build = "1";
         public const string Copyright = "Copyright ©  2019";
         public const string Tag = "蛮吉";
         public static readonly string ServerJsonFileName = $"server2.0.0.json";
