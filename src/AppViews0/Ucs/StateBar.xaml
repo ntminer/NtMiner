@@ -120,7 +120,7 @@
 					</Path>
 				</WrapPanel>
 			</Grid>
-			<StackPanel HorizontalAlignment="Right">
+			<StackPanel HorizontalAlignment="Right" Margin="0 0 30 0">
 				<WrapPanel>
 					<StackPanel>
 						<controls:KbLinkButton
@@ -132,7 +132,7 @@
 							KbSystemButtonHoverBackground="Transparent"
 							Visibility="{Binding MinerProfile.CoinVm.CoinKernel.IsSupportPool1, Converter={StaticResource BoolToVisibilityConverter}}"
 							Background="Transparent">
-							<TextBlock Text="备池收益" Foreground="{StaticResource LinkForeground}"></TextBlock>
+							<TextBlock Text="备池" Foreground="{StaticResource LinkForeground}"></TextBlock>
 						</controls:KbLinkButton>
 						<controls:KbLinkButton
 							Padding="0"
@@ -141,7 +141,7 @@
 							KbDisplayLine="False"
 							KbSystemButtonHoverBackground="Transparent"
 							Background="Transparent">
-							<TextBlock Text="主池收益" Foreground="{StaticResource LinkForeground}"></TextBlock>
+							<TextBlock Text="主币" Foreground="{StaticResource LinkForeground}"></TextBlock>
 						</controls:KbLinkButton>
 					</StackPanel>
 					<StackPanel>
@@ -225,7 +225,7 @@
 							KbDisplayLine="False"
 							KbSystemButtonHoverBackground="Transparent"
 							Background="Transparent">
-							<TextBlock Text="矿池收益" Foreground="{StaticResource LinkForeground}"></TextBlock>
+							<TextBlock Text="辅币" Foreground="{StaticResource LinkForeground}"></TextBlock>
 						</controls:KbLinkButton>
 						<controls:KbButton 
 							HorizontalContentAlignment="Left"
