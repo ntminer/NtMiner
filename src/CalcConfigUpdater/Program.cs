@@ -42,7 +42,11 @@ namespace NTMiner {
                     var vdsUUDataTask = GetHtmlAsync("https://uupool.cn/api/getAllInfo.php");
                     var vdsZtDataTask = GetHtmlAsync("https://www.zt.com/api/v1/symbol");
                     var htmlDataTask = GetHtmlAsync("https://www.f2pool.com/");
-                    Task.WaitAll(new Task[] { vdsUUDataTask, vdsZtDataTask, htmlDataTask }, 10 * 1000);
+                    try {
+                        Task.WaitAll(new Task[] { vdsUUDataTask, vdsZtDataTask, htmlDataTask }, 20 * 1000);
+                    }
+                    catch {
+                    }
                     var htmlData = htmlDataTask.Result;
                     if (htmlData != null && htmlData.Length != 0) {
                         Write.UserOk($"{DateTime.Now} - 鱼池首页html获取成功");
