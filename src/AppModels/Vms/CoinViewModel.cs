@@ -166,7 +166,7 @@ namespace NTMiner.Vms {
                         if (item.Index == NTMinerRoot.GpuAllId) {
                             continue;
                         }
-                        item.Update(data);
+                        item.Update((IOverClockInput)data);
                     }
                 }, icon: IconConst.IconConfirm);
             });

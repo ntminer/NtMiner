@@ -50,7 +50,7 @@ namespace NTMiner.Vms {
             OnPropertyChanged(nameof(Cool));
         }
 
-        public void Update(IOverClockData data) {
+        public void Update(IOverClockInput data) {
             this._coreClockDelta = data.CoreClockDelta;
             this._memoryClockDelta = data.MemoryClockDelta;
             this._powerCapacity = data.PowerCapacity;
