@@ -33,7 +33,7 @@ namespace NTMiner.Vms {
         public void UpdateDateTime() {
             DateTime now = DateTime.Now;
             if (_now.Minute != now.Minute) {
-                this.TimeText = now.ToString("H:m");
+                this.TimeText = now.ToString("H:mm");
             }
             if (_now.Hour != now.Hour) {
                 this.DateText = now.ToString("yyyy/M/d");

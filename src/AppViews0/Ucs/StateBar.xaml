@@ -330,8 +330,8 @@
 					</WrapPanel>
 				</WrapPanel>
 				<StackPanel Grid.Column="1" HorizontalAlignment="Right" Margin="0 -17 0 0">
-					<TextBlock HorizontalAlignment="Center" Text="{Binding TimeText}"></TextBlock>
-					<TextBlock Text="{Binding DateText}"></TextBlock>
+					<TextBlock HorizontalAlignment="Center" Text="{Binding TimeText}" Foreground="{StaticResource LableColor}"></TextBlock>
+					<TextBlock Text="{Binding DateText}" Foreground="{StaticResource LableColor}"></TextBlock>
 				</StackPanel>
 			</Grid>
 		</StackPanel>
