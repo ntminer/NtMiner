@@ -29,7 +29,7 @@ namespace NTMiner.Vms {
             }
         }
 
-        private DateTime _now = DateTime.Now;
+        private DateTime _now = DateTime.MinValue;
         public void UpdateDateTime() {
             DateTime now = DateTime.Now;
             if (_now.Minute != now.Minute) {
@@ -46,8 +46,7 @@ namespace NTMiner.Vms {
             if (Design.IsInDesignMode) {
                 return;
             }
-            this.TimeText = _now.ToString("H:m");
-            this.DateText = _now.ToString("yyyy/M/d");
+            UpdateDateTime();
             this.ConfigControlCenterHost = new DelegateCommand(() => {
                 VirtualRoot.Execute(new ShowControlCenterHostConfigCommand());
             });
