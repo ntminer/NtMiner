@@ -120,7 +120,7 @@
 					</Path>
 				</WrapPanel>
 			</Grid>
-			<WrapPanel HorizontalAlignment="Right" Margin="0 -15 470 0">
+			<WrapPanel HorizontalAlignment="Right" Margin="0 -15 480 0">
 				<controls:KbLinkButton
 					Padding="0"
 					Command="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool1.ViewPoolIncome}"
