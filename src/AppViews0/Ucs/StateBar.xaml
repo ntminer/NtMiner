@@ -321,7 +321,7 @@
 							Text="{Binding GpuSpeedVms.ProfitCnyPerDayText}">
 						</TextBlock>
 						<TextBlock 
-							Text="￥/天" 
+							Text="￥每天" 
 							Margin="2 0 0 0"
 							Padding="0"
 							Foreground="{StaticResource LableColor}"></TextBlock>
