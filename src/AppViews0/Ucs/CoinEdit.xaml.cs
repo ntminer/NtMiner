@@ -10,7 +10,7 @@ namespace NTMiner.Views.Ucs {
                 FormType = formType,
                 IsDialogWindow = true,
                 Width = 500,
-                Height = 280,
+                Height = 320,
                 CloseVisible = Visibility.Visible,
                 IconName = "Icon_Coin",
             }, ucFactory: (window) =>
