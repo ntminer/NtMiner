@@ -153,7 +153,7 @@
 					</controls:KbLinkButton>
 					<controls:KbButton 
 						HorizontalContentAlignment="Left"
-						Width="250" ToolTip="收益计算器"
+						Width="260" ToolTip="收益计算器"
 						Padding="2 0" Cursor="Hand" Background="Transparent" BorderThickness="0"
 						Command="{x:Static app:AppStatic.ShowCalc}"
 						CommandParameter="{Binding MinerProfile.CoinVm}">
@@ -199,7 +199,7 @@
 							<TextBlock Padding="1 0" Text="/天" Foreground="{StaticResource LableColor}" />
 						</WrapPanel>
 					</controls:KbButton>
-					<WrapPanel Width="170">
+					<WrapPanel Width="160">
 						<TextBlock Padding="0 0 4 0" VerticalAlignment="Center" Text="拒绝" Style="{StaticResource Lbl}" />
 						<TextBlock VerticalAlignment="Center" Text="{Binding MinerProfile.CoinVm.ShareVm.RejectShareCount}" ToolTip="拒绝次数" />
 						<TextBlock VerticalAlignment="Center" Padding="1" Text="/" Foreground="{StaticResource LableColor}" />
@@ -226,7 +226,7 @@
 						</controls:KbLinkButton>
 						<controls:KbButton 
 							HorizontalContentAlignment="Left"
-							Width="250" ToolTip="数据来自鱼池首页"
+							Width="260" ToolTip="数据来自鱼池首页"
 							Padding="2 0" Cursor="Hand" Background="Transparent" BorderThickness="0"
 							Command="{x:Static app:AppStatic.ShowCalc}"
 							CommandParameter="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin}">
@@ -257,7 +257,7 @@
 								<TextBlock Padding="1 0" Text="/天" Foreground="{StaticResource LableColor}" />
 							</WrapPanel>
 						</controls:KbButton>
-						<WrapPanel Width="170">
+						<WrapPanel Width="160">
 							<TextBlock Padding="0 0 4 0" VerticalAlignment="Center" Text="拒绝" Style="{StaticResource Lbl}" />
 							<TextBlock VerticalAlignment="Center" Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.RejectShareCount}" ToolTip="拒绝次数" />
 							<TextBlock VerticalAlignment="Center" Padding="1" Text="/" Foreground="{StaticResource LableColor}" />
