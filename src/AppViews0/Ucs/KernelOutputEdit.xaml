@@ -53,7 +53,14 @@
 				</TextBox>
 			</WrapPanel>
 			
-			<GroupBox Header="主币">
+			<GroupBox>
+				<GroupBox.Header>
+					<WrapPanel>
+						<TextBlock VerticalAlignment="Center">主币</TextBlock>
+						<TextBlock VerticalAlignment="Center" Margin="10 0 0 0">默认算力单位</TextBlock>
+						<TextBox Width="100" Text="{Binding SpeedUnit}"></TextBox>
+					</WrapPanel>
+				</GroupBox.Header>
 				<StackPanel>
 					<WrapPanel Margin="0 2">
 						<TextBlock Style="{StaticResource LblTb}" Text="总算力正则"></TextBlock>
@@ -92,8 +99,10 @@
 					</WrapPanel>
 					<WrapPanel Margin="0 2">
 						<TextBlock Style="{StaticResource LblTb}" Text="单卡算力正则"></TextBlock>
-						<TextBox Style="{StaticResource TbRegex}" Text="{Binding GpuSpeedPattern}">
+						<TextBox Style="{StaticResource TbRegex}" Width="400" Text="{Binding GpuSpeedPattern}">
 						</TextBox>
+						<TextBlock VerticalAlignment="Center" Margin="6 0 0 0">GPU序号序基</TextBlock>
+						<TextBox Width="120" Text="{Binding GpuBaseIndex}"></TextBox>
 					</WrapPanel>
 					<WrapPanel Margin="0 2">
 						<TextBlock Style="{StaticResource LblTb}" Text="矿池延时正则"></TextBlock>
@@ -107,8 +116,11 @@
 				<GroupBox.Header>
 					<WrapPanel>
 						<TextBlock VerticalAlignment="Center">双挖币</TextBlock>
+						<TextBlock VerticalAlignment="Center" Margin="10 0 0 0">默认算力单位</TextBlock>
+						<TextBox Width="100" Text="{Binding DualSpeedUnit}"></TextBox>
 						<CheckBox 
 							FocusVisualStyle="{x:Null}"
+							VerticalAlignment="Center"
 							Margin="10 2 0 0" IsChecked="{Binding IsDualInSameLine}" Content="双挖币的输出和主币在同一行上">
 						</CheckBox>
 					</WrapPanel>

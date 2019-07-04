@@ -28,5 +28,9 @@ namespace NTMiner.Core {
 
         string PoolDelayPattern { get; }
         string DualPoolDelayPattern { get; }
+
+        string SpeedUnit { get; }
+        string DualSpeedUnit { get; }
+        int GpuBaseIndex { get; }
     }
 }

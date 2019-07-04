@@ -36,6 +36,9 @@ namespace NTMiner.Vms {
         private string _translaterKeyword;
         private string _poolDelayPattern;
         private string _dualPoolDelayPattern;
+        private string _speedUnit;
+        private string _dualSpeedUnit;
+        private int _gpuBaseIndex;
 
         public ICommand Remove { get; private set; }
         public ICommand Edit { get; private set; }
@@ -78,6 +81,9 @@ namespace NTMiner.Vms {
             _dualTotalSpeedPattern = data.DualTotalSpeedPattern;
             _poolDelayPattern = data.PoolDelayPattern;
             _dualPoolDelayPattern = data.DualPoolDelayPattern;
+            _speedUnit = data.SpeedUnit;
+            _dualSpeedUnit = data.DualSpeedUnit;
+            _gpuBaseIndex = data.GpuBaseIndex;
         }
 
         public KernelOutputViewModel(Guid id) {
@@ -395,6 +401,30 @@ namespace NTMiner.Vms {
                     _dualPoolDelayPattern = value;
                     OnPropertyChanged(nameof(DualPoolDelayPattern));
                 }
+            }
+        }
+
+        public string SpeedUnit {
+            get => _speedUnit;
+            set {
+                _speedUnit = value;
+                OnPropertyChanged(nameof(SpeedUnit));
+            }
+        }
+
+        public string DualSpeedUnit {
+            get => _dualSpeedUnit;
+            set {
+                _dualSpeedUnit = value;
+                OnPropertyChanged(nameof(DualSpeedUnit));
+            }
+        }
+
+        public int GpuBaseIndex {
+            get => _gpuBaseIndex;
+            set {
+                _gpuBaseIndex = value;
+                OnPropertyChanged(nameof(GpuBaseIndex));
             }
         }
 
