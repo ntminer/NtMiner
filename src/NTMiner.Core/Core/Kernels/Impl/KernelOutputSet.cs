@@ -193,7 +193,14 @@ namespace NTMiner.Core.Kernels.Impl {
             if (match.Success) {
                 string totalSpeedText = match.Groups[Consts.TotalSpeedGroupName].Value;
                 string totalSpeedUnit = match.Groups[Consts.TotalSpeedUnitGroupName].Value;
-
+                if (string.IsNullOrEmpty(totalSpeedUnit)) {
+                    if (isDual) {
+                        totalSpeedUnit = kernelOutput.DualSpeedUnit;
+                    }
+                    else {
+                        totalSpeedUnit = kernelOutput.SpeedUnit;
+                    }
+                }
                 double totalSpeed;
                 if (double.TryParse(totalSpeedText, out totalSpeed)) {
                     double totalSpeedL = totalSpeed.FromUnitSpeed(totalSpeedUnit);
@@ -250,12 +257,25 @@ namespace NTMiner.Core.Kernels.Impl {
                     Match match = matches[i];
                     string gpuSpeedText = match.Groups[Consts.GpuSpeedGroupName].Value;
                     string gpuSpeedUnit = match.Groups[Consts.GpuSpeedUnitGroupName].Value;
-
+                    if (string.IsNullOrEmpty(gpuSpeedUnit)) {
+                        if (isDual) {
+                            gpuSpeedUnit = kernelOutput.DualSpeedUnit;
+                        }
+                        else {
+                            gpuSpeedUnit = kernelOutput.SpeedUnit;
+                        }
+                    }
                     int gpu = i;
                     if (hasGpuId) {
                         string gpuText = match.Groups[Consts.GpuIndexGroupName].Value;
                         if (!int.TryParse(gpuText, out gpu)) {
                             gpu = i;
+                        }
+                        else {
+                            gpu = gpu - kernelOutput.GpuBaseIndex;
+                            if (gpu < 0) {
+                                continue;
+                            }
                         }
                     }
                     double gpuSpeed;

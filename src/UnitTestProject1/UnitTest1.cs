@@ -53,6 +53,7 @@ namespace UnitTestProject1 {
                 Console.WriteLine(match.Groups["gpu"]);
                 Console.WriteLine(match.Groups["gpuSpeed"]);
                 Console.WriteLine(match.Groups["gpuSpeedUnit"]);
+                Console.WriteLine("notexit=" + match.Groups["notexit"]);
             }
         }
 
