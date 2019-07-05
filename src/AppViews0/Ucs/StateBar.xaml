@@ -110,9 +110,8 @@
 						</StackPanel>
 					</WrapPanel>
 					<Path
-						Margin="2 0 2 3"
-						Width="16"
-						Height="14"
+						Width="24"
+						Height="24"
 						ToolTip="{Binding GpuStatusBarVm.GpuSetName}"
 						Data="{Binding GpuStatusBarVm.Icon}"
 						Fill="{Binding GpuStatusBarVm.IconFill}"
