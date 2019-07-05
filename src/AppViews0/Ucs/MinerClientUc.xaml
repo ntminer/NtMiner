@@ -131,7 +131,7 @@
 					DisplayMemberPath="Name"
 					SelectedItem="{Binding SelectedMineWork}"
 					Text="{Binding SelectedMineWork.Name, Mode=OneWay}"></ComboBox>
-				<TextBlock Style="{StaticResource LblTb}" Width="80" Padding="0 0 10 0">作业矿机名</TextBlock>
+				<TextBlock Style="{StaticResource LblTb}" Width="80" Padding="0 0 10 0">群控矿机名</TextBlock>
 				<TextBox 
 					VerticalAlignment="Center"
 					ToolTip="注意：修改矿机名后需重新开始挖矿才能反应到矿池"

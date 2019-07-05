@@ -377,7 +377,7 @@ namespace NTMiner {
         public Action OnNo { get; private set; }
     }
 
-    [MessageType(description: "打开作业矿机名设置界面")]
+    [MessageType(description: "打开作群控矿机名设置界面")]
     public class ShowMinerNamesSeterCommand : Cmd {
         public ShowMinerNamesSeterCommand(MinerNamesSeterViewModel vm) {
             this.Vm = vm;

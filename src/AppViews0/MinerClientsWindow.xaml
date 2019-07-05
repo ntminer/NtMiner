@@ -956,7 +956,7 @@
 						IsReadOnly="False">
 						<DataGridTextColumn.Header>
 							<WrapPanel>
-								<TextBlock>作业矿机名</TextBlock>
+								<TextBlock>群控矿机名</TextBlock>
 								<controls:KbButton
 									ToolTip="不展示"
 									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
