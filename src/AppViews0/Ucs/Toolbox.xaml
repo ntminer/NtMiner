@@ -210,7 +210,7 @@
 							Width="30"
 							Height="30"
 							Data="{StaticResource Icon_Calc}"
-							Fill="Black"
+							Fill="Green"
 							Stretch="Fill" />
 						<StackPanel Margin="8 0 0 0" Width="152">
 							<TextBlock FontWeight="Bold" FontSize="14">收益计算器</TextBlock>
