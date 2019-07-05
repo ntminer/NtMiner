@@ -77,6 +77,9 @@ namespace NTMiner {
                             Process[] processes = Process.GetProcessesByName(processName);
                             if (processes.Length == 0) {
                                 string arguments = NTMinerRegistry.GetArguments();
+                                if (NTMinerRegistry.GetIsLastIsWork()) {
+                                    arguments = "--work " + arguments;
+                                }
                                 try {
                                     Process.Start(location, arguments);
                                     Write.DevOk($"启动挖矿端 {location} {arguments}");

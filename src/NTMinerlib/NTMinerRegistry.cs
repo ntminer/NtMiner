@@ -53,6 +53,17 @@ namespace NTMiner {
         }
         #endregion
 
+        #region IsLastIsWork
+        public static bool GetIsLastIsWork() {
+            object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistrySubKey, "IsLastIsWork");
+            return value != null && value.ToString() == "True";
+        }
+
+        public static void SetIsLastIsWork(bool value) {
+            Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistrySubKey, "IsLastIsWork", value);
+        }
+        #endregion
+
         #region Arguments
         public static string GetArguments() {
             string valueName = "Arguments";

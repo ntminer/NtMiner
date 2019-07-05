@@ -271,23 +271,6 @@ namespace NTMiner {
         }
         #endregion
 
-        #region IsLastIsWork
-        public static bool GetIsLastIsWork() {
-            if (!IsMinerClient) {
-                return false;
-            }
-            object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "IsLastIsWork");
-            return value != null && value.ToString() == "True";
-        }
-
-        public static void SetIsLastIsWork(bool value) {
-            if (!IsMinerClient) {
-                return;
-            }
-            Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "IsLastIsWork", value);
-        }
-        #endregion
-
         #region IsShowInTaskbar
         public static bool GetIsShowInTaskbar() {
             object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "IsShowInTaskbar");

@@ -63,11 +63,15 @@ namespace NTMiner {
                 bool isWork = Environment.GetCommandLineArgs().Contains("--work", StringComparer.OrdinalIgnoreCase);
                 if (isWork) {
                     DoInit(isWork, callback);
-                    SetIsLastIsWork(true);
+                    if (IsMinerClient) {
+                        NTMinerRegistry.SetIsLastIsWork(true);
+                    }
                     return;
                 }
                 else {
-                    SetIsLastIsWork(false);
+                    if (IsMinerClient) {
+                        NTMinerRegistry.SetIsLastIsWork(false);
+                    }
                 }
                 // 如果是Debug模式且不是群控客户端且不是作业则使用本地数据库初始化
                 if (DevMode.IsDebugMode && !VirtualRoot.IsMinerStudio) {
@@ -472,7 +476,7 @@ namespace NTMiner {
                     StartMine();
                 });
             }
-            SetIsLastIsWork(isWork);
+            NTMinerRegistry.SetIsLastIsWork(isWork);
         }
         #endregion
 
