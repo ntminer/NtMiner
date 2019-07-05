@@ -14,9 +14,11 @@ namespace NTMiner.Views.Ucs {
             InitializeComponent();
             if (VirtualRoot.IsMinerStudio) {
                 this.GroupSystemSetting.Visibility = Visibility.Collapsed;
+                this.WrapPanelAutoBootAndStart.Visibility = Visibility.Collapsed;
             }
             else {
                 this.GroupSystemSetting.Visibility = Visibility.Visible;
+                this.WrapPanelAutoBootAndStart.Visibility = Visibility.Visible;
             }
         }
 

@@ -60,7 +60,7 @@ namespace NTMiner {
         #region Init
         public void Init(Action callback) {
             Task.Factory.StartNew(() => {
-                bool isWork = Environment.GetCommandLineArgs().Contains("--work", StringComparer.OrdinalIgnoreCase) || GetIsLastIsWork();
+                bool isWork = Environment.GetCommandLineArgs().Contains("--work", StringComparer.OrdinalIgnoreCase);
                 if (isWork) {
                     DoInit(isWork, callback);
                     SetIsLastIsWork(true);

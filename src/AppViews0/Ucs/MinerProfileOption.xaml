@@ -23,7 +23,7 @@
 			<Grid>
 				<GroupBox Header="自动化" IsEnabled="{Binding IsFreeClient}">
 					<StackPanel>
-						<WrapPanel Margin="0 2">
+						<WrapPanel x:Name="WrapPanelAutoBootAndStart" Margin="0 2">
 							<CheckBox
 								Padding="0"
 								FocusVisualStyle="{x:Null}"
