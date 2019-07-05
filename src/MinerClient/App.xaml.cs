@@ -217,6 +217,12 @@ namespace NTMiner {
                     NTMiner.Windows.WindowsUtil.BlockWAU();
                 });
             #endregion
+            #region 优化windows
+            VirtualRoot.Window<Win10OptimizeCommand>("处理优化windows命令", LogEnum.DevConsole,
+                action: message => {
+                    NTMiner.Windows.WindowsUtil.Win10Optimize();
+                });
+            #endregion
             #region 处理开启A卡计算模式
             VirtualRoot.Window<SwitchRadeonGpuCommand>("处理开启A卡计算模式命令", LogEnum.DevConsole,
                 action: message => {

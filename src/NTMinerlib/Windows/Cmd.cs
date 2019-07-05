@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 
 namespace NTMiner.Windows {
     public static class Cmd {
@@ -8,11 +9,14 @@ namespace NTMiner.Windows {
                 return;
             }
             try {
+                if (Path.IsPathRooted(filePullName)) {
+                    filePullName = $"\"{filePullName}\"";
+                }
                 using (Process proc = new Process()) {
                     proc.StartInfo.CreateNoWindow = true;
                     proc.StartInfo.UseShellExecute = false;
                     proc.StartInfo.FileName = "cmd.exe";
-                    proc.StartInfo.Arguments = $"/C \"{filePullName}\" {args}";
+                    proc.StartInfo.Arguments = $"/C {filePullName} {args}";
                     proc.StartInfo.WorkingDirectory = AssemblyInfo.GlobalDirFullName;
                     proc.Start();
                     if (waitForExit) {
@@ -30,11 +34,14 @@ namespace NTMiner.Windows {
                 return;
             }
             try {
+                if (Path.IsPathRooted(filePullName)) {
+                    filePullName = $"\"{filePullName}\"";
+                }
                 using (Process proc = new Process()) {
                     proc.StartInfo.CreateNoWindow = true;
                     proc.StartInfo.UseShellExecute = false;
                     proc.StartInfo.FileName = "cmd.exe";
-                    proc.StartInfo.Arguments = $"/C \"{filePullName}\" {args}";
+                    proc.StartInfo.Arguments = $"/C {filePullName} {args}";
                     proc.StartInfo.WorkingDirectory = AssemblyInfo.GlobalDirFullName;
                     proc.Start();
                     proc.WaitForExit(10 * 1000);
@@ -52,6 +59,9 @@ namespace NTMiner.Windows {
                 return;
             }
             try {
+                if (Path.IsPathRooted(filePullName)) {
+                    filePullName = $"\"{filePullName}\"";
+                }
                 using (Process proc = new Process()) {
                     proc.StartInfo.CreateNoWindow = true;
                     proc.StartInfo.UseShellExecute = false;
@@ -59,7 +69,7 @@ namespace NTMiner.Windows {
                     proc.StartInfo.RedirectStandardOutput = true;
                     proc.StartInfo.RedirectStandardError = true;
                     proc.StartInfo.FileName = "cmd.exe";
-                    proc.StartInfo.Arguments = $"/C \"{filePullName}\" {args}";
+                    proc.StartInfo.Arguments = $"/C {filePullName} {args}";
                     proc.StartInfo.WorkingDirectory = AssemblyInfo.GlobalDirFullName;
                     proc.Start();
 

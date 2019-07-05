@@ -24,6 +24,14 @@ namespace UnitTestProject1 {
         }
 
         [TestMethod]
+        public void Test() {
+            Assert.IsTrue(Path.IsPathRooted("C:test"));
+            Assert.IsTrue(Path.IsPathRooted("C:test/txt.txt"));
+            Assert.IsTrue(Path.IsPathRooted("C:test\\txt.txt"));
+            Assert.IsFalse(Path.IsPathRooted("txt.txt"));
+        }
+
+        [TestMethod]
         public void MathTest() {
             Assert.AreEqual(8, Math.Pow(2, 3));
         }

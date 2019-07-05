@@ -45,8 +45,8 @@ namespace NTMiner.Vms {
                 }, icon: IconConst.IconConfirm);
             });
             this.Win10Optimize = new DelegateCommand(() => {
-                this.ShowDialog(message: $"确定面向挖矿优化windows吗？（感谢微软专家提供技术支持）", title: "确认", onYes: () => {
-                    
+                this.ShowDialog(message: $"确定面向挖矿优化windows吗？", title: "确认", onYes: () => {
+                    VirtualRoot.Execute(new Win10OptimizeCommand());
                 }, icon: IconConst.IconConfirm);
             });
         }

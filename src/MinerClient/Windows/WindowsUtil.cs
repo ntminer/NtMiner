@@ -36,7 +36,7 @@ namespace NTMiner.Windows {
                     string name = "Win10Optimize.reg";
                     string fileFullName = Path.Combine(SpecialPath.TempDirFullName, name);
                     assembly.ExtractManifestResource(type, name, fileFullName);
-                    Cmd.RunClose("regedit", "/s \"" + fileFullName + "\"", waitForExit: true);
+                    Cmd.RunClose("regedit", $"/s \"{fileFullName}\"", waitForExit: true);
                     VirtualRoot.Happened(new Win10OptimizeEvent(true, "优化Windows成功"));
                 });
             }

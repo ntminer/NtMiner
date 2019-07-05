@@ -44,6 +44,15 @@ namespace NTMiner.Views.Ucs {
                             NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage(message.Message);
                         }
                     });
+                window.On<Win10OptimizeEvent>("执行优化windows命令后通过弹窗反馈命令执行结果", LogEnum.None,
+                    action: message => {
+                        if (message.IsSuccess) {
+                            NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage(message.Message);
+                        }
+                        else {
+                            NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage(message.Message);
+                        }
+                    });
             });
         }
 
