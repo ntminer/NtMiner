@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Management;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -651,6 +652,24 @@ namespace NTMiner {
         #endregion
 
         #region GpuSet
+        private static bool IsNCard {
+            get {
+                try {
+                    foreach (ManagementBaseObject item in new ManagementObjectSearcher("SELECT Caption FROM Win32_VideoController").Get()) {
+                        foreach (var property in item.Properties) {
+                            if ((property.Value ?? string.Empty).ToString().Contains("NVIDIA")) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+                catch (Exception e) {
+                    Logger.ErrorDebugLine(e);
+                }
+                return false;
+            }
+        }
+
         private IGpuSet _gpuSet;
         private object _gpuSetLocker = new object();
         public IGpuSet GpuSet {

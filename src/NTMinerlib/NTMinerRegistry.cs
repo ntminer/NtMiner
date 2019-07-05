@@ -1,7 +1,6 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace NTMiner {
@@ -14,9 +13,8 @@ namespace NTMiner {
         /// <param name="otherParams"></param>
         public static void SetAutoBoot(string valueName, bool isAutoBoot, string otherParams = null) {
             const string AutoRunSubKey = @"Software\Microsoft\Windows\CurrentVersion\Run";
-            string exeFileFullName = Process.GetCurrentProcess().MainModule.FileName;
             if (isAutoBoot == true) {
-                string value = exeFileFullName;
+                string value = VirtualRoot.AppFileFullName;
                 if (!string.IsNullOrEmpty(otherParams)) {
                     value = value + " " + otherParams;
                 }
@@ -32,11 +30,12 @@ namespace NTMiner {
         // 下面这些项是可能需要交换到下层系统从而完成不同进程间信息交换的项
         // 注册表就属于下层系统，文件系统也属于下层系统，具体使用什么方案交换到时候再定
 
+        private const string MinerStudio = "MinerStudio";
         #region Location
         public static string GetLocation() {
             string valueName = "Location";
             if (VirtualRoot.IsMinerStudio) {
-                valueName = "MinerStudioLocation";
+                valueName = MinerStudio + "Location";
             }
             object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistrySubKey, valueName);
             if (value != null) {
@@ -48,7 +47,7 @@ namespace NTMiner {
         public static void SetLocation(string location) {
             string valueName = "Location";
             if (VirtualRoot.IsMinerStudio) {
-                valueName = "MinerStudioLocation";
+                valueName = MinerStudio + "Location";
             }
             Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistrySubKey, valueName, location);
         }
@@ -58,7 +57,7 @@ namespace NTMiner {
         public static string GetArguments() {
             string valueName = "Arguments";
             if (VirtualRoot.IsMinerStudio) {
-                valueName = "MinerStudioArguments";
+                valueName = MinerStudio + "Arguments";
             }
             object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistrySubKey, valueName);
             if (value != null) {
@@ -70,7 +69,7 @@ namespace NTMiner {
         public static void SetArguments(string arguments) {
             string valueName = "Arguments";
             if (VirtualRoot.IsMinerStudio) {
-                valueName = "MinerStudioArguments";
+                valueName = MinerStudio + "Arguments";
             }
             Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistrySubKey, valueName, arguments);
         }
@@ -103,7 +102,7 @@ namespace NTMiner {
         public static string GetCurrentVersion() {
             string valueName = "CurrentVersion";
             if (VirtualRoot.IsMinerStudio) {
-                valueName = "MinerStudioCurrentVersion";
+                valueName = MinerStudio + "CurrentVersion";
             }
             string currentVersion = "1.0.0.0";
             object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistrySubKey, valueName);
@@ -119,7 +118,7 @@ namespace NTMiner {
         public static void SetCurrentVersion(string version) {
             string valueName = "CurrentVersion";
             if (VirtualRoot.IsMinerStudio) {
-                valueName = "MinerStudioCurrentVersion";
+                valueName = MinerStudio + "CurrentVersion";
             }
             Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistrySubKey, valueName, version);
         }
@@ -129,7 +128,7 @@ namespace NTMiner {
         public static string GetCurrentVersionTag() {
             string valueName = "CurrentVersionTag";
             if (VirtualRoot.IsMinerStudio) {
-                valueName = "MinerStudioCurrentVersionTag";
+                valueName = MinerStudio + "CurrentVersionTag";
             }
             string currentVersionTag = string.Empty;
             object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistrySubKey, valueName);
@@ -142,7 +141,7 @@ namespace NTMiner {
         public static void SetCurrentVersionTag(string versionTag) {
             string valueName = "CurrentVersionTag";
             if (VirtualRoot.IsMinerStudio) {
-                valueName = "MinerStudioCurrentVersionTag";
+                valueName = MinerStudio + "CurrentVersionTag";
             }
             Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistrySubKey, valueName, versionTag);
         }

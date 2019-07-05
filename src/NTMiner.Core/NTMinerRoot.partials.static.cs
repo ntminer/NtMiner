@@ -6,7 +6,6 @@ using NTMiner.Repositories;
 using System;
 using System.IO;
 using System.Linq;
-using System.Management;
 using System.Reflection;
 using System.Text;
 
@@ -86,24 +85,6 @@ namespace NTMiner {
             CurrentVersionTag = ((AssemblyDescriptionAttribute)mainAssembly.GetCustomAttributes(typeof(AssemblyDescriptionAttribute), inherit: false).First()).Description;
         }
 
-        public static bool IsNCard {
-            get {
-                try {
-                    foreach (ManagementBaseObject item in new ManagementObjectSearcher("SELECT Caption FROM Win32_VideoController").Get()) {
-                        foreach (var property in item.Properties) {
-                            if ((property.Value ?? string.Empty).ToString().Contains("NVIDIA")) {
-                                return true;
-                            }
-                        }
-                    }
-                }
-                catch (Exception e) {
-                    Logger.ErrorDebugLine(e);
-                }
-                return false;
-            }
-        }
-
         private static LocalJsonDb _localJson;
         public static ILocalJsonDb LocalJson {
             get {
@@ -158,6 +139,7 @@ namespace NTMiner {
             _serverJsonInited = false;
         }
 
+        #region ServerJsonInit
         private static readonly object _serverJsonlocker = new object();
         private static bool _serverJsonInited = false;
         // 从磁盘读取server.json反序列化为ServerJson对象
@@ -203,6 +185,7 @@ namespace NTMiner {
                 }
             }
         }
+        #endregion
 
         /// <summary>
         /// 将当前的系统状态导出到给定的json文件
@@ -264,6 +247,7 @@ namespace NTMiner {
             return value;
         }
 
+        #region DiskSpace
         private static DateTime _diskSpaceOn = DateTime.MinValue;
         private static string _diskSpace = string.Empty;
         public static string DiskSpace {
@@ -285,6 +269,7 @@ namespace NTMiner {
                 return _diskSpace;
             }
         }
+        #endregion
 
         #region IsShowInTaskbar
         public static bool GetIsShowInTaskbar() {
@@ -308,7 +293,7 @@ namespace NTMiner {
         }
         #endregion
 
-        #region AutoNoUi 挖矿过程中界面展示给定的时间后是否自动切换为无界面模式
+        #region AutoNoUi
         public static bool GetIsAutoNoUi() {
             object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "IsAutoNoUi");
             return value == null || value.ToString() == "True";
