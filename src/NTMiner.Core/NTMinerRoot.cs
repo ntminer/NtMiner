@@ -259,9 +259,11 @@ namespace NTMiner {
                         Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdHere, "", "命令行");
                         Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdHere, "Icon", "cmd.exe");
                         Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdHereCommand, "", "\"cmd.exe\"");
+                        VirtualRoot.Happened(new RegCmdHereEvent(true, "windows右键命令行添加成功"));
                     }
                     catch (Exception e) {
                         Logger.ErrorDebugLine(e);
+                        VirtualRoot.Happened(new RegCmdHereEvent(false, "windows右键命令行添加失败"));
                     }
                 });
             #region 挖矿开始时将无份额内核重启份额计数置0

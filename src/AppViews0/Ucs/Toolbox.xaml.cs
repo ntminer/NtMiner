@@ -1,4 +1,6 @@
-﻿using NTMiner.Vms;
+﻿using NTMiner.Core;
+using NTMiner.Vms;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
@@ -22,6 +24,18 @@ namespace NTMiner.Views.Ucs {
             if (Design.IsInDesignMode) {
                 return;
             }
+            this.RunOneceOnLoaded(() => {
+                var window = Window.GetWindow(this);
+                window.On<RegCmdHereEvent>("执行添加windows右键命令行命令后通过弹窗反馈命令结果", LogEnum.None,
+                    action: message => {
+                        if (message.IsSuccess) {
+                            NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage(message.Message);
+                        }
+                        else {
+                            NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage(message.Message);
+                        }
+                    });
+            });
         }
 
         private void ScrollViewer_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {

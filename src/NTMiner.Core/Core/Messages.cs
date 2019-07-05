@@ -73,6 +73,17 @@ namespace NTMiner.Core {
         public RegCmdHereCommand() { }
     }
 
+    [MessageType(description: "注册右键打开windindows命令行菜单后")]
+    public class RegCmdHereEvent : EventBase {
+        public RegCmdHereEvent(bool isSuccess, string message) {
+            this.IsSuccess = isSuccess;
+            this.Message = message;
+        }
+
+        public bool IsSuccess { get; private set; }
+        public string Message { get; private set; }
+    }
+
     #region profile Messages
     [MessageType(description: "MinerProfile设置变更后")]
     public class MinerProfilePropertyChangedEvent : EventBase {
