@@ -26,7 +26,16 @@ namespace NTMiner.Views.Ucs {
             }
             this.RunOneceOnLoaded(() => {
                 var window = Window.GetWindow(this);
-                window.On<RegCmdHereEvent>("执行添加windows右键命令行命令后通过弹窗反馈命令结果", LogEnum.None,
+                window.On<RegCmdHereEvent>("执行添加windows右键命令行命令后通过弹窗反馈命令执行结果", LogEnum.None,
+                    action: message => {
+                        if (message.IsSuccess) {
+                            NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage(message.Message);
+                        }
+                        else {
+                            NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage(message.Message);
+                        }
+                    });
+                window.On<BlockWAUEvent>("执行禁用windows系统更新命令后通过弹窗反馈命令执行结果", LogEnum.None,
                     action: message => {
                         if (message.IsSuccess) {
                             NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage(message.Message);

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NTMiner.Core;
+using System;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -17,11 +18,13 @@ namespace NTMiner.Windows {
                     string name = "BlockWAU.bat";
                     string fileFullName = Path.Combine(SpecialPath.TempDirFullName, name);
                     assembly.ExtractManifestResource(type, name, fileFullName);
-                    Cmd.RunClose(fileFullName, string.Empty, waitForExit: false);
+                    Cmd.RunClose(fileFullName, string.Empty, waitForExit: true);
+                    VirtualRoot.Happened(new BlockWAUEvent(true, "禁用windows系统更新成功"));
                 });
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
+                VirtualRoot.Happened(new BlockWAUEvent(false, "禁用windows系统更新失败"));
             }
         }
     }
