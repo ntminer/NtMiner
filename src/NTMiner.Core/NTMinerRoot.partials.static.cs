@@ -167,9 +167,13 @@ namespace NTMiner {
                                     }
                                 }
                                 if (PoolBrandId != Guid.Empty) {
-                                    var poolToRemoves = data.Pools.Where(a => a.BrandId != PoolBrandId).ToArray();
+                                    var poolToRemoves = data.Pools.Where(a => a.BrandId != PoolBrandId && data.Pools.Any(b => b.CoinId == a.CoinId && b.BrandId == poolBrandId)).ToArray();
                                     foreach (var item in poolToRemoves) {
                                         data.Pools.Remove(item);
+                                    }
+                                    var poolKernelToRemoves = data.PoolKernels.Where(a => poolToRemoves.Any(b => b.Id == a.PoolId)).ToArray();
+                                    foreach (var item in poolKernelToRemoves) {
+                                        data.PoolKernels.Remove(item);
                                     }
                                 }
                             }
