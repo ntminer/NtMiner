@@ -139,6 +139,7 @@
     </None>
     <AppDesigner Include="Properties\" />
     <EmbeddedResource Include="Windows\BlockWAU.bat" />
+    <EmbeddedResource Include="Windows\Win10Optimize.reg" />
   </ItemGroup>
   <ItemGroup>
     <None Include="FodyWeavers.xml" />

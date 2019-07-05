@@ -67,6 +67,22 @@ namespace NTMiner.Core {
         public string Message { get; private set; }
     }
 
+    [MessageType(description: "优化window10")]
+    public class Win10OptimizeCommand : Cmd {
+        public Win10OptimizeCommand() { }
+    }
+
+    [MessageType(description: "优化window10后")]
+    public class Win10OptimizeEvent : EventBase {
+        public Win10OptimizeEvent(bool isSuccess, string message) {
+            this.IsSuccess = isSuccess;
+            this.Message = message;
+        }
+
+        public bool IsSuccess { get; private set; }
+        public string Message { get; private set; }
+    }
+
     [MessageType(description: "开机A卡计算模式")]
     public class SwitchRadeonGpuCommand : Cmd {
         public SwitchRadeonGpuCommand() {

@@ -27,5 +27,23 @@ namespace NTMiner.Windows {
                 VirtualRoot.Happened(new BlockWAUEvent(false, "禁用windows系统更新失败"));
             }
         }
+
+        public static void Win10Optimize() {
+            try {
+                Task.Factory.StartNew(() => {
+                    Type type = typeof(WindowsUtil);
+                    Assembly assembly = type.Assembly;
+                    string name = "Win10Optimize.reg";
+                    string fileFullName = Path.Combine(SpecialPath.TempDirFullName, name);
+                    assembly.ExtractManifestResource(type, name, fileFullName);
+                    Cmd.RunClose("regedit", "/s \"" + fileFullName + "\"", waitForExit: true);
+                    VirtualRoot.Happened(new Win10OptimizeEvent(true, "优化Windows成功"));
+                });
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e);
+                VirtualRoot.Happened(new Win10OptimizeEvent(false, "优化Windows失败"));
+            }
+        }
     }
 }
