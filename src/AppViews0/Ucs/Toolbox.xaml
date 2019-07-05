@@ -10,7 +10,7 @@
 		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
 		xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 		Background="White"
-		mc:Ignorable="d" d:DesignHeight="420" d:DesignWidth="460">
+		mc:Ignorable="d" d:DesignHeight="420" d:DesignWidth="660">
 	<UserControl.DataContext>
 		<vm:ToolboxViewModel></vm:ToolboxViewModel>
 	</UserControl.DataContext>
@@ -142,19 +142,19 @@
 					Height="50" 
 					Width="200"
 					Margin="4"
-					Command="{x:Static app:AppStatic.ShowCalc}"
+					Command="{Binding Win10Optimize}"
 					Cursor="Hand"
 					Background="Transparent">
 					<WrapPanel VerticalAlignment="Center">
 						<Path 
 							Width="30"
 							Height="30"
-							Data="{StaticResource Icon_Calc}"
+							Data="{StaticResource Icon_Windows}"
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
 						<StackPanel Margin="8 0 0 0" Width="152">
-							<TextBlock FontWeight="Bold" FontSize="14">收益计算器</TextBlock>
-							<TextBlock Foreground="{StaticResource LableColor}">点击打开收益计算器</TextBlock>
+							<TextBlock FontWeight="Bold" FontSize="14">一键优化Windows</TextBlock>
+							<TextBlock Foreground="{StaticResource LableColor}">面向挖矿优化Windows</TextBlock>
 						</StackPanel>
 					</WrapPanel>
 				</controls:KbButton>
@@ -195,6 +195,26 @@
 						<StackPanel Margin="8 0 0 0" Width="152">
 							<TextBlock FontWeight="Bold" FontSize="14">禁用Windows系统更新</TextBlock>
 							<TextBlock Foreground="{StaticResource LableColor}">一键禁用Windows系统更新</TextBlock>
+						</StackPanel>
+					</WrapPanel>
+				</controls:KbButton>
+				<controls:KbButton 
+					Height="50" 
+					Width="200"
+					Margin="4"
+					Command="{x:Static app:AppStatic.ShowCalc}"
+					Cursor="Hand"
+					Background="Transparent">
+					<WrapPanel VerticalAlignment="Center">
+						<Path 
+							Width="30"
+							Height="30"
+							Data="{StaticResource Icon_Calc}"
+							Fill="Black"
+							Stretch="Fill" />
+						<StackPanel Margin="8 0 0 0" Width="152">
+							<TextBlock FontWeight="Bold" FontSize="14">收益计算器</TextBlock>
+							<TextBlock Foreground="{StaticResource LableColor}">点击打开收益计算器</TextBlock>
 						</StackPanel>
 					</WrapPanel>
 				</controls:KbButton>

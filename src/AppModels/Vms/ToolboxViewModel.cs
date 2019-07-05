@@ -11,6 +11,7 @@ namespace NTMiner.Vms {
         public ICommand NavigateToAmdDriver { get; private set; }
         public ICommand RegCmdHere { get; private set; }
         public ICommand BlockWAU { get; private set; }
+        public ICommand Win10Optimize { get; private set; }
 
         public ToolboxViewModel() {
             if (Design.IsInDesignMode) {
@@ -41,6 +42,11 @@ namespace NTMiner.Vms {
             this.BlockWAU = new DelegateCommand(() => {
                 this.ShowDialog(message: $"确定禁用Windows系统更新吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new BlockWAUCommand());
+                }, icon: IconConst.IconConfirm);
+            });
+            this.Win10Optimize = new DelegateCommand(() => {
+                this.ShowDialog(message: $"确定面向挖矿优化windows吗？（感谢微软专家提供技术支持）", title: "确认", onYes: () => {
+                    
                 }, icon: IconConst.IconConfirm);
             });
         }
