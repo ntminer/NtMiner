@@ -60,11 +60,14 @@ namespace NTMiner {
         #region Init
         public void Init(Action callback) {
             Task.Factory.StartNew(() => {
-                // TODO:检测是否非正常退出，如果非正常退出则尝试恢复作业
-                bool isWork = Environment.GetCommandLineArgs().Contains("--work", StringComparer.OrdinalIgnoreCase);
+                bool isWork = Environment.GetCommandLineArgs().Contains("--work", StringComparer.OrdinalIgnoreCase) || GetIsLastIsWork();
                 if (isWork) {
                     DoInit(isWork, callback);
+                    SetIsLastIsWork(true);
                     return;
+                }
+                else {
+                    SetIsLastIsWork(false);
                 }
                 // 如果是Debug模式且不是群控客户端且不是作业则使用本地数据库初始化
                 if (DevMode.IsDebugMode && !VirtualRoot.IsMinerStudio) {
@@ -469,6 +472,7 @@ namespace NTMiner {
                     StartMine();
                 });
             }
+            SetIsLastIsWork(isWork);
         }
         #endregion
 
