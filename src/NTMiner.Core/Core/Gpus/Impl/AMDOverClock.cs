@@ -36,6 +36,9 @@ namespace NTMiner.Core.Gpus.Impl {
         }
 
         public void SetPowerCapacity(int gpuIndex, int value) {
+            if (value == 0) {
+                value = 100;
+            }
             if (gpuIndex == NTMinerRoot.GpuAllId) {
                 foreach (var gpu in NTMinerRoot.Instance.GpuSet) {
                     if (gpu.Index == NTMinerRoot.GpuAllId) {

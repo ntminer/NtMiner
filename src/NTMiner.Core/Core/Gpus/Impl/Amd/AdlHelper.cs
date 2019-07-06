@@ -381,14 +381,8 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
                 Write.DevWarn($"ADL2_OverdriveN_PowerLimit_Get result={result},iMode={lpODPowerLimit.iMode},iTDPLimit={lpODPowerLimit.iTDPLimit},iMaxOperatingTemperature={lpODPowerLimit.iMaxOperatingTemperature}");
 #endif
                 if (result == ADL.ADL_OK) {
-                    value = value - 100;
-                    if (value == -100) {
-                        lpODPowerLimit.iMode = ADL.ODNControlType_Default;
-                    }
-                    else {
-                        lpODPowerLimit.iMode = ADL.ODNControlType_Manual;
-                        lpODPowerLimit.iTDPLimit = value;
-                    }
+                    lpODPowerLimit.iMode = ADL.ODNControlType_Manual;
+                    lpODPowerLimit.iTDPLimit = value - 100;
                     ADL.ADL2_OverdriveN_PowerLimit_Set(context, adapterIndex, ref lpODPowerLimit);
                 }
             }
