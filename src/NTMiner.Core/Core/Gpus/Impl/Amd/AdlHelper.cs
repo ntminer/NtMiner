@@ -382,7 +382,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
 #endif
                 if (result == ADL.ADL_OK) {
                     value = value - 100;
-                    if (value == 0) {
+                    if (value == -100) {
                         lpODPowerLimit.iMode = ADL.ODNControlType_Default;
                     }
                     else {
