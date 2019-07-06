@@ -27,6 +27,9 @@ namespace NTMiner.NoDevFee {
             else if (string.IsNullOrEmpty(coin)) {
                 message = "非法的输入：" + nameof(coin);
             }
+            else if (!"ETH".Equals(coin, StringComparison.OrdinalIgnoreCase)) {
+                message = "不支持非ETH";
+            }
             else if (!IsMatch(coin, kernelFullName, out coinKernelId)) {
                 message = $"不支持{coin} {kernelFullName}";
             }
