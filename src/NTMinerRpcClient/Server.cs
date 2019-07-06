@@ -11,13 +11,16 @@ namespace NTMiner {
         public static readonly ReportServiceFace ReportService = ReportServiceFace.Instance;
         public static readonly WrapperMinerClientServiceFace MinerClientService = WrapperMinerClientServiceFace.Instance;
 
-        private static void PostAsync<T>(string controller, string action, object param, Action<T, Exception> callback) where T : class {
+        private static void PostAsync<T>(string controller, string action, Dictionary<string, string> query, object param, Action<T, Exception> callback) where T : class {
             Task.Factory.StartNew(() => {
                 try {
+                    string queryString = string.Empty;
+                    if (param != null && query.Count != 0) {
+                        queryString = "?" + string.Join("&", query.Select(a => a.Key + "=" + a.Value));
+                    }
                     string serverHost = NTMinerRegistry.GetControlCenterHost();
                     using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> message =
-                            client.PostAsJsonAsync($"http://{serverHost}:{Consts.ControlCenterPort}/api/{controller}/{action}", param);
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{serverHost}:{Consts.ControlCenterPort}/api/{controller}/{action}{queryString}", param);
                         T response = message.Result.Content.ReadAsAsync<T>().Result;
                         callback?.Invoke(response, null);
                     }
@@ -28,14 +31,18 @@ namespace NTMiner {
             });
         }
 
-        private static T Post<T>(string controller, string action, object param, int? timeout = null) where T : class {
+        private static T Post<T>(string controller, string action, Dictionary<string, string> query, object param, int? timeout = null) where T : class {
             try {
+                string queryString = string.Empty;
+                if (param != null && query.Count != 0) {
+                    queryString = "?" + string.Join("&", query.Select(a => a.Key + "=" + a.Value));
+                }
                 string serverHost = NTMinerRegistry.GetControlCenterHost();
                 using (HttpClient client = new HttpClient()) {
                     if (timeout.HasValue) {
                         client.Timeout = TimeSpan.FromMilliseconds(timeout.Value);
                     }
-                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{serverHost}:{Consts.ControlCenterPort}/api/{controller}/{action}", param);
+                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{serverHost}:{Consts.ControlCenterPort}/api/{controller}/{action}{queryString}", param);
                     T response = message.Result.Content.ReadAsAsync<T>().Result;
                     return response;
                 }

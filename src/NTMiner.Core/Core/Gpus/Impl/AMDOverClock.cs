@@ -105,6 +105,7 @@ namespace NTMiner.Core.Gpus.Impl {
             SetPowerCapacity(NTMinerRoot.GpuAllId, 0);
             SetThermCapacity(NTMinerRoot.GpuAllId, 0);
             SetCool(NTMinerRoot.GpuAllId, 0);
+            RefreshGpuState(NTMinerRoot.GpuAllId);
         }
 
         private void RefreshGpuState(IGpu gpu) {
