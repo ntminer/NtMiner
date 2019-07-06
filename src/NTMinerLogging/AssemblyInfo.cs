@@ -5,7 +5,7 @@ using System.Reflection;
 namespace NTMiner {
     public static class AssemblyInfo {
         public static string GlobalDirFullName { get; set; } = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "NTMiner");
-        public const string Version = "2.2.3";
+        public const string Version = "2.3.0";
         public const string Build = "0";
         public const string Copyright = "Copyright ©  2019";
         public const string Tag = "蛮吉";
