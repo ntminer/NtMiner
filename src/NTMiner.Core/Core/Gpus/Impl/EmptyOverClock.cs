@@ -23,5 +23,9 @@
         public void SetPowerCapacity(int gpuIndex, int value) {
             // noting need todo
         }
+
+        public void Restore() {
+            // nothing need todo
+        }
     }
 }

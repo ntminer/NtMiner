@@ -63,6 +63,8 @@ namespace NTMiner.Vms {
 
         public ICommand ApplyCustomOverClock { get; private set; }
 
+        public ICommand RestoreOverClock { get; private set; }
+
         public ICommand FillOverClockForms { get; private set; }
 
         public ICommand FillOverClockForm { get; private set; }
@@ -154,6 +156,12 @@ namespace NTMiner.Vms {
             this.ApplyCustomOverClock = new DelegateCommand(() => {
                 this.ShowDialog(message: $"确定应用您的自定义超频吗？", title: "确认自定义超频", onYes: () => {
                     ApplyOverClock();
+                }, icon: IconConst.IconConfirm);
+            });
+            this.RestoreOverClock = new DelegateCommand(() => {
+                this.ShowDialog(message: $"确定恢复默认并禁用超频界面吗？", title: "确认", onYes: () => {
+                    NTMinerRoot.Instance.GpuSet.OverClock.Restore();
+                    this.IsOverClockEnabled = false;
                 }, icon: IconConst.IconConfirm);
             });
             this.FillOverClockForm = new DelegateCommand<OverClockDataViewModel>((data) => {

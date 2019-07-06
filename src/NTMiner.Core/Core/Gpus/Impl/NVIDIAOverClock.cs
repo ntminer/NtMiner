@@ -190,6 +190,14 @@ namespace NTMiner.Core.Gpus.Impl {
             }
         }
 
+        public void Restore() {
+            SetCoreClock(NTMinerRoot.GpuAllId, 0);
+            SetMemoryClock(NTMinerRoot.GpuAllId, 0);
+            SetPowerCapacity(NTMinerRoot.GpuAllId, 0);
+            SetThermCapacity(NTMinerRoot.GpuAllId, 0);
+            SetCool(NTMinerRoot.GpuAllId, 0);
+        }
+
         private void RefreshGpuState(IGpu gpu) {
             const string coreClockDeltaMinMaxPattern = @"c\[0\]\.freqDelta     = (-?\d+) kHz \[(-?\d+) .. (\d+)\]";
             const string memoryClockDeltaMinMaxPattern = @"c\[1\]\.freqDelta     = (-?\d+) kHz \[(-?\d+) .. (\d+)\]";
