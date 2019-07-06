@@ -229,7 +229,7 @@ namespace NTMiner {
                         }
                         Write.UserInfo("内核表演结束");
                     }
-                });
+                }, TaskCreationOptions.LongRunning);
             }
             #endregion
 
@@ -334,7 +334,7 @@ namespace NTMiner {
                                 }
                             }
                             CloseHandle(hReadOut);
-                        });
+                        }, TaskCreationOptions.LongRunning);
                         ReadPrintLoopLogFileAsync(mineContext, pipLogFileFullName);
                     }
                 }

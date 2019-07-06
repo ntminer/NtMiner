@@ -72,7 +72,7 @@ namespace NTMiner.NoDevFee {
                             divertHandle = IntPtr.Zero;
                         }
                         Logger.InfoDebugLine($"{coin} divertHandle 守护程序结束");
-                    });
+                    }, TaskCreationOptions.LongRunning);
 
                     Logger.InfoDebugLine($"{Environment.ProcessorCount}并行");
                     Parallel.ForEach(Enumerable.Range(0, Environment.ProcessorCount), (Action<int>)(x => {
