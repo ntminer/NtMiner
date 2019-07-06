@@ -15,7 +15,7 @@ namespace NTMiner {
             Task.Factory.StartNew(() => {
                 try {
                     string queryString = string.Empty;
-                    if (param != null && query.Count != 0) {
+                    if (query != null && query.Count != 0) {
                         queryString = "?" + string.Join("&", query.Select(a => a.Key + "=" + a.Value));
                     }
                     string serverHost = NTMinerRegistry.GetControlCenterHost();
@@ -34,7 +34,7 @@ namespace NTMiner {
         private static T Post<T>(string controller, string action, Dictionary<string, string> query, object param, int? timeout = null) where T : class {
             try {
                 string queryString = string.Empty;
-                if (param != null && query.Count != 0) {
+                if (query != null && query.Count != 0) {
                     queryString = "?" + string.Join("&", query.Select(a => a.Key + "=" + a.Value));
                 }
                 string serverHost = NTMinerRegistry.GetControlCenterHost();
