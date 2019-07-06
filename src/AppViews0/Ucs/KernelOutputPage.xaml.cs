@@ -23,10 +23,10 @@ namespace NTMiner.Views.Ucs {
         }
 
         public KernelOutputPage(KernelOutputViewModel selectedKernelOutputVm) {
+            InitializeComponent();
             if (selectedKernelOutputVm != null) {
                 Vm.CurrentKernelOutputVm = selectedKernelOutputVm;
             }
-            InitializeComponent();
         }
 
         private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
