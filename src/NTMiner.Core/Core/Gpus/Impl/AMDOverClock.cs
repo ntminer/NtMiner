@@ -36,9 +36,6 @@ namespace NTMiner.Core.Gpus.Impl {
         }
 
         public void SetPowerCapacity(int gpuIndex, int value) {
-            if (value == 0) {
-                return;
-            }
             if (gpuIndex == NTMinerRoot.GpuAllId) {
                 foreach (var gpu in NTMinerRoot.Instance.GpuSet) {
                     if (gpu.Index == NTMinerRoot.GpuAllId) {
@@ -53,9 +50,6 @@ namespace NTMiner.Core.Gpus.Impl {
         }
 
         public void SetThermCapacity(int gpuIndex, int value) {
-            if (value == 0) {
-                return;
-            }
             if (gpuIndex == NTMinerRoot.GpuAllId) {
                 foreach (var gpu in NTMinerRoot.Instance.GpuSet) {
                     if (gpu.Index == NTMinerRoot.GpuAllId) {
@@ -71,7 +65,7 @@ namespace NTMiner.Core.Gpus.Impl {
 
         public void SetCool(int gpuIndex, int value) {
             if (value == 0) {
-                return;
+                value = 90;
             }
             if (gpuIndex == NTMinerRoot.GpuAllId) {
                 foreach (var gpu in NTMinerRoot.Instance.GpuSet) {

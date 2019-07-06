@@ -10,8 +10,8 @@ namespace NTMiner.MinerClient {
             this.Index = index;
             this.CoreClockDelta = 0;
             this.MemoryClockDelta = 0;
-            this.PowerCapacity = 100;
-            this.TempLimit = 83;
+            this.PowerCapacity = 0;
+            this.TempLimit = 0;
             this.IsAutoFanSpeed = false;
             this.Cool = 90;
         }
