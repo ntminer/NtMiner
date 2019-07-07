@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -16,6 +17,12 @@ namespace NTMiner.Vms {
 
         public bool IsAutoAdminLogon {
             get { return Windows.OS.Instance.IsAutoAdminLogon; }
+        }
+
+        public bool IsRemoteDesktopEnabled {
+            get {
+                return (int)Windows.WinRegistry.GetValue(Registry.LocalMachine, "SYSTEM\\CurrentControlSet\\Control\\Terminal Server", "fDenyTSConnections") == 0;
+            }
         }
 
         public string TimeText {

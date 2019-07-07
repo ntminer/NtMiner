@@ -295,6 +295,7 @@
 							Foreground="{StaticResource ThemeForeground}"
 							Text="Windows自动登录" />
 					</controls:KbButton>
+					<TextBlock Margin="4 0 0 0" Text="远程桌面" Foreground="{StaticResource LableColor}" Visibility="{Binding IsRemoteDesktopEnabled,Converter={StaticResource BoolToVisibilityConverter}}"></TextBlock>
 					<TextBlock Text=" / " Foreground="{StaticResource LableColor}"></TextBlock>
 					<controls:KbButton 
 						x:Name="BtnShowVirtualMemory"
