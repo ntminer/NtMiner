@@ -755,16 +755,6 @@
 									Stretch="Fill" />
 							</MenuItem.Icon>
 						</MenuItem>
-						<MenuItem Header="远程桌面" Padding="4" Margin="0 0 6 0" Command="{Binding Data.RemoteDesktop,Source={StaticResource proxy}}">
-							<MenuItem.Icon>
-								<Path
-									Width="16"
-									Height="16"
-									Data="{StaticResource Icon_RemoteDesktop}"
-									Fill="{StaticResource IconFillColor}"
-									Stretch="Fill" />
-							</MenuItem.Icon>
-						</MenuItem>
 						<MenuItem Header="添加矿机" Padding="4" Margin="0 0 6 0" Command="{Binding Data.AddMinerClient,Source={StaticResource proxy}}">
 							<MenuItem.Icon>
 								<Path
