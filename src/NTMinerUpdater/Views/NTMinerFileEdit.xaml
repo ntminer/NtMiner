@@ -63,7 +63,7 @@
 				<TextBox Width="{StaticResource InputWidth}" IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}" Text="{Binding Title, ValidatesOnExceptions=True}" Background="White" VerticalContentAlignment="Center"></TextBox>
 			</WrapPanel>
 			<WrapPanel Margin="0 2">
-				<TextBlock Width="{StaticResource LblWidth}" TextAlignment="Right">说明：</TextBlock>
+				<TextBlock Width="{StaticResource LblWidth}" TextAlignment="Right">更新内容：</TextBlock>
 				<controls:KbMuiltilineTextBox 
 					Width="{StaticResource InputWidth}" 
 					Height="100"
