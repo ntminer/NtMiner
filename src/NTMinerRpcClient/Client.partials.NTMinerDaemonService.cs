@@ -13,6 +13,7 @@ namespace NTMiner {
 
             private NTMinerDaemonServiceFace() { }
 
+            #region Localhost
             public void CloseDaemon() {
                 try {
                     using (HttpClient client = new HttpClient()) {
@@ -25,12 +26,46 @@ namespace NTMiner {
                 }
             }
 
-            public void GetGpuProfilesJsonAsync(string clientHost, Action<GpuProfilesJsonDb, Exception> callback) {
+            public void StartNoDevFeeAsync(StartNoDevFeeRequest request, Action<ResponseBase, Exception> callback) {
+                Task.Factory.StartNew(() => {
+                    try {
+                        using (HttpClient client = new HttpClient()) {
+                            Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:{Consts.NTMinerDaemonPort}/api/{s_controllerName}/{nameof(INTMinerDaemonController.StartNoDevFee)}", request);
+                            ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
+                            callback?.Invoke(response, null);
+                        }
+                    }
+                    catch (Exception e) {
+                        callback?.Invoke(null, e);
+                    }
+                });
+            }
+
+            public void StopNoDevFeeAsync(Action<ResponseBase, Exception> callback) {
+                Task.Factory.StartNew(() => {
+                    try {
+                        using (HttpClient client = new HttpClient()) {
+                            client.Timeout = TimeSpan.FromSeconds(2);
+                            RequestBase request = new RequestBase();
+                            Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:{Consts.NTMinerDaemonPort}/api/{s_controllerName}/{nameof(INTMinerDaemonController.StopNoDevFee)}", request);
+                            ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
+                            callback?.Invoke(response, null);
+                        }
+                    }
+                    catch (Exception e) {
+                        callback?.Invoke(null, e);
+                    }
+                });
+            }
+            #endregion
+
+            #region ClientIp
+            public void GetGpuProfilesJsonAsync(string clientIp, Action<GpuProfilesJsonDb, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         using (HttpClient client = new HttpClient()) {
                             client.Timeout = TimeSpan.FromMilliseconds(3000);
-                            Task<HttpResponseMessage> message = client.PostAsync($"http://{clientHost}:{Consts.NTMinerDaemonPort}/api/{s_controllerName}/{nameof(INTMinerDaemonController.GetGpuProfilesJson)}", null);
+                            Task<HttpResponseMessage> message = client.PostAsync($"http://{clientIp}:{Consts.NTMinerDaemonPort}/api/{s_controllerName}/{nameof(INTMinerDaemonController.GetGpuProfilesJson)}", null);
                             string json = message.Result.Content.ReadAsAsync<string>().Result;
                             GpuProfilesJsonDb data = VirtualRoot.JsonSerializer.Deserialize<GpuProfilesJsonDb>(json);
                             callback?.Invoke(data, null);
@@ -44,13 +79,13 @@ namespace NTMiner {
                 });
             }
 
-            public void SaveGpuProfilesJsonAsync(string clientHost, string json) {
+            public void SaveGpuProfilesJsonAsync(string clientIp, string json) {
                 Task.Factory.StartNew(() => {
                     try {
                         using (HttpClient client = new HttpClient()) {
                             client.Timeout = TimeSpan.FromMilliseconds(3000);
                             HttpContent content = new StringContent(json);
-                            Task<HttpResponseMessage> message = client.PostAsync($"http://{clientHost}:{Consts.NTMinerDaemonPort}/api/{s_controllerName}/{nameof(INTMinerDaemonController.SaveGpuProfilesJson)}", content);
+                            Task<HttpResponseMessage> message = client.PostAsync($"http://{clientIp}:{Consts.NTMinerDaemonPort}/api/{s_controllerName}/{nameof(INTMinerDaemonController.SaveGpuProfilesJson)}", content);
                             Write.DevDebug($"{nameof(SaveGpuProfilesJsonAsync)} {message.Result.ReasonPhrase}");
                         }
                     }
@@ -60,12 +95,12 @@ namespace NTMiner {
                 });
             }
 
-            public void SetAutoBootStartAsync(string clientHost, bool autoBoot, bool autoStart) {
+            public void SetAutoBootStartAsync(string clientIp, bool autoBoot, bool autoStart) {
                 Task.Factory.StartNew(() => {
                     try {
                         using (HttpClient client = new HttpClient()) {
                             client.Timeout = TimeSpan.FromMilliseconds(3000);
-                            Task<HttpResponseMessage> message = client.PostAsync($"http://{clientHost}:{Consts.NTMinerDaemonPort}/api/{s_controllerName}/{nameof(INTMinerDaemonController.SetAutoBootStart)}?autoBoot={autoBoot}&autoStart={autoStart}", null);
+                            Task<HttpResponseMessage> message = client.PostAsync($"http://{clientIp}:{Consts.NTMinerDaemonPort}/api/{s_controllerName}/{nameof(INTMinerDaemonController.SetAutoBootStart)}?autoBoot={autoBoot}&autoStart={autoStart}", null);
                             Write.DevDebug($"{nameof(SetAutoBootStartAsync)} {message.Result.ReasonPhrase}");
                         }
                     }
@@ -122,38 +157,7 @@ namespace NTMiner {
                     return response;
                 }
             }
-
-            public void StartNoDevFeeAsync(StartNoDevFeeRequest request, Action<ResponseBase, Exception> callback) {
-                Task.Factory.StartNew(() => {
-                    try {
-                        using (HttpClient client = new HttpClient()) {
-                            Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:{Consts.NTMinerDaemonPort}/api/{s_controllerName}/{nameof(INTMinerDaemonController.StartNoDevFee)}", request);
-                            ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
-                            callback?.Invoke(response, null);
-                        }
-                    }
-                    catch (Exception e) {
-                        callback?.Invoke(null, e);
-                    }
-                });
-            }
-
-            public void StopNoDevFeeAsync(Action<ResponseBase, Exception> callback) {
-                Task.Factory.StartNew(() => {
-                    try {
-                        using (HttpClient client = new HttpClient()) {
-                            client.Timeout = TimeSpan.FromSeconds(2);
-                            RequestBase request = new RequestBase();
-                            Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:{Consts.NTMinerDaemonPort}/api/{s_controllerName}/{nameof(INTMinerDaemonController.StopNoDevFee)}", request);
-                            ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
-                            callback?.Invoke(response, null);
-                        }
-                    }
-                    catch (Exception e) {
-                        callback?.Invoke(null, e);
-                    }
-                });
-            }
+            #endregion
         }
     }
 }
