@@ -42,7 +42,7 @@ namespace NTMiner.Vms {
                 }
             });
             this.Edit = new DelegateCommand(() => {
-                NTMinerFileEdit window = new NTMinerFileEdit("编辑", "Icon_Edit", new NTMinerFileViewModel(this));
+                NTMinerFileEdit window = new NTMinerFileEdit("Icon_Edit", new NTMinerFileViewModel(this));
                 window.ShowDialogEx();
             });
             this.Remove = new DelegateCommand(() => {

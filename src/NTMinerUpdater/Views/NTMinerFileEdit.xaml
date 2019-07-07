@@ -37,13 +37,6 @@
 				Height="16"
 				Fill="{StaticResource ThemeForeground}"
 				Stretch="Fill"/>
-			<TextBlock 
-				x:Name="TbTitle" 
-				DockPanel.Dock="Left" 
-				Margin="4 0 0 0" 
-				Foreground="{StaticResource ThemeForeground}" 
-				FontSize="14" 
-				VerticalAlignment="Center"></TextBlock>
 			<WrapPanel 
 				DockPanel.Dock="Right"
 				HorizontalAlignment="Right">

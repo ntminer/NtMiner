@@ -124,7 +124,7 @@ namespace NTMiner.Vms {
                 }
             });
             this.AddNTMinerFile = new DelegateCommand(() => {
-                NTMinerFileEdit window = new NTMinerFileEdit("添加", "Icon_Add", new NTMinerFileViewModel() {
+                NTMinerFileEdit window = new NTMinerFileEdit("Icon_Add", new NTMinerFileViewModel() {
                     AppType = App.AppType
                 });
                 window.ShowDialogEx();

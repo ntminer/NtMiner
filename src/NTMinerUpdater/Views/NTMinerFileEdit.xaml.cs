@@ -11,10 +11,9 @@ namespace NTMiner.Views {
             }
         }
 
-        public NTMinerFileEdit(string title, string iconName, NTMinerFileViewModel vm) {
+        public NTMinerFileEdit(string iconName, NTMinerFileViewModel vm) {
             this.DataContext = vm;
             InitializeComponent();
-            this.TbTitle.Text = title;
             this.PathIcon.Data = (Geometry)Application.Current.Resources[iconName];
             this.Owner = TopWindow.GetTopWindow();
         }
