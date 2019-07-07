@@ -660,6 +660,9 @@ namespace NTMiner {
                         }
                     }
                     _gpuSetInfo = sb.ToString();
+                    if (_gpuSetInfo.Length == 0) {
+                        _gpuSetInfo = "无";
+                    }
                 }
                 return _gpuSetInfo;
             }
