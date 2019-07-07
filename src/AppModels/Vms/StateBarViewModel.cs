@@ -14,6 +14,10 @@ namespace NTMiner.Vms {
         private string _timeText;
         private string _dateText;
 
+        public bool IsAutoAdminLogon {
+            get { return Windows.OS.Instance.IsAutoAdminLogon; }
+        }
+
         public string TimeText {
             get => _timeText;
             set {

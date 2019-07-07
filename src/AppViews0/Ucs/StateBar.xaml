@@ -280,6 +280,21 @@
 				</WrapPanel>
 				<WrapPanel Grid.Column="1" HorizontalAlignment="Right" Margin="0 0 70 0">
 					<TextBlock Text="{x:Static app:AppStatic.WindowsEdition}" ToolTip="操作系统" Foreground="{StaticResource LableColor}"></TextBlock>
+					<TextBlock Margin="4 0 0 0" Text="自动登录" Foreground="{StaticResource LableColor}" Visibility="{Binding IsAutoAdminLogon,Converter={StaticResource BoolToVisibilityConverter}}"></TextBlock>
+					<controls:KbButton 
+						Margin="4 0 0 0"
+						Padding="6 0"
+						ToolTip="将当前windows用户设置为开机自动登录"
+						Visibility="{Binding IsAutoAdminLogon,Converter={StaticResource BoolToVisibilityInvertConverter}}"
+						Command="{x:Static app:AppStatic.WindowsAutoLogon}"
+						Background="Red"
+						CornerRadius="2">
+						<TextBlock
+							Padding="2 0"
+							VerticalAlignment="Center"
+							Foreground="{StaticResource ThemeForeground}"
+							Text="Windows自动登录" />
+					</controls:KbButton>
 					<TextBlock Text=" / " Foreground="{StaticResource LableColor}"></TextBlock>
 					<controls:KbButton 
 						x:Name="BtnShowVirtualMemory"
