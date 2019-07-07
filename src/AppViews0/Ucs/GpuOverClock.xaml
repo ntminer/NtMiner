@@ -32,8 +32,9 @@
 				<GroupBox.Header>
 					<CheckBox
 						FocusVisualStyle="{x:Null}"
-						Margin="0 4 0 0"
-						VerticalAlignment="Top"
+						FontSize="16"
+                        FontWeight="Bold"
+						VerticalContentAlignment="Center"
 						IsChecked="{Binding CoinVm.IsOverClockGpuAll}" 
 						Content="统一超频"></CheckBox>
 				</GroupBox.Header>
@@ -229,7 +230,7 @@
 										<TextBlock VerticalAlignment="Center" Margin="4 0 0 0" Text="{Binding GpuVm.PowerUsageWText}"></TextBlock>
 									</WrapPanel>
 									<WrapPanel>
-										<TextBlock Style="{StaticResource LblTb}">最高温度</TextBlock>
+										<TextBlock Style="{StaticResource LblTb}">温度阈值</TextBlock>
 										<TextBox Style="{StaticResource TextBox}" ToolTip="{Binding GpuVm.TempLimitMinMaxText}" Text="{Binding TempLimit, ValidatesOnExceptions=True}"></TextBox>
 										<TextBlock VerticalAlignment="Center">℃</TextBlock>
 										<TextBlock VerticalAlignment="Center" Margin="4 0 0 0" Text="{Binding GpuVm.TempLimitText}"></TextBlock>

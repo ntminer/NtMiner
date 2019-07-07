@@ -82,7 +82,7 @@
 				</DataGridTextColumn>
 				<DataGridTextColumn IsReadOnly="True" Header="功耗" Binding="{Binding PowerCapacity}">
 				</DataGridTextColumn>
-				<DataGridTextColumn IsReadOnly="True" Header="最高温度" Binding="{Binding TempLimit}">
+				<DataGridTextColumn IsReadOnly="True" Header="温度阈值" Binding="{Binding TempLimit}">
 				</DataGridTextColumn>
 				<DataGridTextColumn IsReadOnly="True" Header="风扇" Binding="{Binding Cool}">
 				</DataGridTextColumn>

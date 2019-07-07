@@ -13,6 +13,10 @@
 		<ResourceDictionary>
 			<PathGeometry x:Key="Icon_Up">M4,0 L0,4 L8,4 z</PathGeometry>
 			<PathGeometry x:Key="Icon_Down">M0,0 L8,0 L4,4 z</PathGeometry>
+			<Style x:Key="GroupHeader" TargetType="TextBlock">
+				<Setter Property="FontSize" Value="16"></Setter>
+				<Setter Property="FontWeight" Value="Bold"></Setter>
+			</Style>
 			<Style x:Key="TbUpDown" TargetType="TextBox">
 				<Setter Property="Height" Value="24"></Setter>
 				<Setter Property="Width" Value="50"></Setter>
@@ -29,7 +33,10 @@
 		PreviewMouseDown="ScrollViewer_PreviewMouseDown">
 		<StackPanel>
 			<Grid>
-				<GroupBox Header="自动化" IsEnabled="{Binding IsFreeClient}" Padding="10 0">
+				<GroupBox IsEnabled="{Binding IsFreeClient}" Padding="6 0">
+					<GroupBox.Header>
+						<TextBlock Style="{StaticResource GroupHeader}">自动化</TextBlock>
+					</GroupBox.Header>
 					<StackPanel>
 						<WrapPanel x:Name="WrapPanelAutoBootAndStart" Margin="0 2">
 							<CheckBox
@@ -211,75 +218,10 @@
 						Text="群控"></TextBlock>
 				</Border>
 			</Grid>
-			<StackPanel Margin="16 6">
-				<WrapPanel>
-					<CheckBox
-						FocusVisualStyle="{x:Null}"
-						Padding="0"
-						VerticalContentAlignment="Center"
-						Content="在状态栏展示电费"
-						IsChecked="{Binding IsEChargeEnabled}">
-					</CheckBox>
-					<TextBlock Margin="10 0 0 0" VerticalAlignment="Center">电价</TextBlock>
-					<TextBox Style="{StaticResource TbUpDown}" Text="{Binding EPrice}" HorizontalAlignment="Left"></TextBox>
-					<StackPanel Margin="0 0 2 0">
-						<Button Height="12" Command="{Binding EPriceUp}">
-							<Button.Content>
-								<Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
-							</Button.Content>
-						</Button>
-						<Button Height="12" Command="{Binding EPriceDown}">
-							<Button.Content>
-								<Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
-							</Button.Content>
-						</Button>
-					</StackPanel>
-					<TextBlock VerticalAlignment="Center">￥/度</TextBlock>
-				</WrapPanel>
-				<WrapPanel>
-					<CheckBox
-						FocusVisualStyle="{x:Null}"
-						Padding="0"
-						Content="功耗补偿"
-						VerticalContentAlignment="Center"
-						IsChecked="{Binding IsPowerAppend}">
-					</CheckBox>
-					<TextBlock Margin="10 0 0 0" VerticalAlignment="Center">每卡补偿</TextBlock>
-					<TextBox Style="{StaticResource TbUpDown}" Text="{Binding PowerAppend}" HorizontalAlignment="Left"></TextBox>
-					<StackPanel Margin="0 0 2 0">
-						<Button Height="12" Command="{Binding PowerAppendUp}">
-							<Button.Content>
-								<Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
-							</Button.Content>
-						</Button>
-						<Button Height="12" Command="{Binding PowerAppendDown}">
-							<Button.Content>
-								<Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
-							</Button.Content>
-						</Button>
-					</StackPanel>
-					<TextBlock VerticalAlignment="Center">瓦</TextBlock>
-					<TextBlock Foreground="Red" VerticalAlignment="Center">（由于A卡的功耗不准，可以通过功耗补偿修正，可正负）</TextBlock>
-				</WrapPanel>
-				<WrapPanel>
-					<TextBlock VerticalAlignment="Center">显卡温度达到</TextBlock>
-					<TextBox Style="{StaticResource TbUpDown}" Text="{Binding MaxTemp}" HorizontalAlignment="Left"></TextBox>
-					<StackPanel Margin="0 0 2 0">
-						<Button Height="12" Command="{Binding MaxTempUp}">
-							<Button.Content>
-								<Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
-							</Button.Content>
-						</Button>
-						<Button Height="12" Command="{Binding MaxTempDown}">
-							<Button.Content>
-								<Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
-							</Button.Content>
-						</Button>
-					</StackPanel>
-					<TextBlock VerticalAlignment="Center">℃红色</TextBlock>
-				</WrapPanel>
-			</StackPanel>
-			<GroupBox x:Name="GroupSystemSetting" Header="显示" Padding="10 0">
+			<GroupBox x:Name="GroupSystemSetting" Margin="0 6 0 0" Padding="6 0">
+				<GroupBox.Header>
+					<TextBlock Style="{StaticResource GroupHeader}">显示</TextBlock>
+				</GroupBox.Header>
 				<StackPanel>
 					<WrapPanel Margin="0 2">
 						<CheckBox 
@@ -338,6 +280,79 @@
 					<WrapPanel Margin="0 2">
 						<TextBlock VerticalAlignment="Center">打开/隐藏主界面快捷键 Ctrl + Alt +</TextBlock>
 						<TextBox Margin="4 0 0 0" Padding="4 0" Height="24" IsReadOnly="True" Text="{Binding HotKey}" ToolTip="可选范围A-Z" KeyDown="ButtonHotKey_KeyDown"></TextBox>
+					</WrapPanel>
+				</StackPanel>
+			</GroupBox>
+			<GroupBox Padding="6 0" Margin="0 6 0 0">
+				<GroupBox.Header>
+					<TextBlock Style="{StaticResource GroupHeader}">其它</TextBlock>
+				</GroupBox.Header>
+				<StackPanel>
+					<WrapPanel>
+						<CheckBox
+							FocusVisualStyle="{x:Null}"
+							Padding="0"
+							VerticalContentAlignment="Center"
+							Content="在状态栏展示电费"
+							IsChecked="{Binding IsEChargeEnabled}">
+						</CheckBox>
+						<TextBlock Margin="10 0 0 0" VerticalAlignment="Center">电价</TextBlock>
+						<TextBox Style="{StaticResource TbUpDown}" Text="{Binding EPrice}" HorizontalAlignment="Left"></TextBox>
+						<StackPanel Margin="0 0 2 0">
+							<Button Height="12" Command="{Binding EPriceUp}">
+								<Button.Content>
+									<Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
+								</Button.Content>
+							</Button>
+							<Button Height="12" Command="{Binding EPriceDown}">
+								<Button.Content>
+									<Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
+								</Button.Content>
+							</Button>
+						</StackPanel>
+						<TextBlock VerticalAlignment="Center">￥/度</TextBlock>
+					</WrapPanel>
+					<WrapPanel>
+						<CheckBox
+							FocusVisualStyle="{x:Null}"
+							Padding="0"
+							Content="功耗补偿"
+							VerticalContentAlignment="Center"
+							IsChecked="{Binding IsPowerAppend}">
+						</CheckBox>
+						<TextBlock Margin="10 0 0 0" VerticalAlignment="Center">每卡补偿</TextBlock>
+						<TextBox Style="{StaticResource TbUpDown}" Text="{Binding PowerAppend}" HorizontalAlignment="Left"></TextBox>
+						<StackPanel Margin="0 0 2 0">
+							<Button Height="12" Command="{Binding PowerAppendUp}">
+								<Button.Content>
+									<Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
+								</Button.Content>
+							</Button>
+							<Button Height="12" Command="{Binding PowerAppendDown}">
+								<Button.Content>
+									<Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
+								</Button.Content>
+							</Button>
+						</StackPanel>
+						<TextBlock VerticalAlignment="Center">瓦</TextBlock>
+						<TextBlock Foreground="Red" VerticalAlignment="Center">（由于A卡的功耗不准，可以通过功耗补偿修正，可正负）</TextBlock>
+					</WrapPanel>
+					<WrapPanel>
+						<TextBlock VerticalAlignment="Center">显卡温度达到</TextBlock>
+						<TextBox Style="{StaticResource TbUpDown}" Text="{Binding MaxTemp}" HorizontalAlignment="Left"></TextBox>
+						<StackPanel Margin="0 0 2 0">
+							<Button Height="12" Command="{Binding MaxTempUp}">
+								<Button.Content>
+									<Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
+								</Button.Content>
+							</Button>
+							<Button Height="12" Command="{Binding MaxTempDown}">
+								<Button.Content>
+									<Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
+								</Button.Content>
+							</Button>
+						</StackPanel>
+						<TextBlock VerticalAlignment="Center">℃红色</TextBlock>
 					</WrapPanel>
 				</StackPanel>
 			</GroupBox>
