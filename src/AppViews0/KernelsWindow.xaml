@@ -26,256 +26,152 @@
 	<blankWindow:BlankWindow.DataContext>
 		<vm:KernelsWindowViewModel></vm:KernelsWindowViewModel>
 	</blankWindow:BlankWindow.DataContext>
-	<Grid>
-		<DockPanel>
-			<StackPanel DockPanel.Dock="Left" Background="{StaticResource IconFillColor}" Margin="0 0 10 0">
+	<DockPanel>
+		<StackPanel DockPanel.Dock="Left" Background="{StaticResource IconFillColor}" Margin="0 0 10 0">
+			<controls:KbButton 
+				Command="{Binding Home}"
+				Height="60"
+				KbButtonHoverBackground="#0A548C" 
+				BorderThickness="0 0 0 1"
+				BorderBrush="#550A5081"
+				Background="Transparent">
+				<Path
+					Width="36"
+					Height="36"
+					Data="{StaticResource Icon_Kernel}"
+					Fill="#EEECEF"
+					Stretch="Fill">
+				</Path>
+			</controls:KbButton>
+			<ItemsControl
+				Background="Transparent"
+				BorderThickness="0"
+				ItemsSource="{Binding KernelMenus}" 
+				ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+				<ItemsControl.Resources>
+					<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
+				</ItemsControl.Resources>
+				<ItemsControl.ItemsPanel>
+					<ItemsPanelTemplate>
+						<StackPanel Background="Transparent">
+						</StackPanel>
+					</ItemsPanelTemplate>
+				</ItemsControl.ItemsPanel>
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<controls:KbButton
+							BorderThickness="0 0 0 1"
+							BorderBrush="#550A5081"
+							KbButtonHoverBackground="#0A548C" 
+							Background="{Binding ItemBackground}" 
+							Command="{Binding Data.ChangeCurrentKernelMenu, Source={StaticResource proxy}}"
+							CommandParameter="{Binding}">
+							<Border 
+								Padding="16 32 12 32"
+								BorderThickness="0 0 3 0"
+								BorderBrush="{Binding BorderBrush}">
+								<StackPanel>
+									<Path 
+										Width="24"
+										Height="24"
+										Data="{Binding Icon}"
+										Fill="{Binding ItemForeground}"
+										Stretch="Fill" />
+									<TextBlock
+										Padding="0"
+										VerticalAlignment="Center"
+										Foreground="{Binding ItemForeground}"
+										Text="{Binding Name}" />
+								</StackPanel>
+							</Border>
+						</controls:KbButton>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+		</StackPanel>
+		<Grid DockPanel.Dock="Top" Height="36">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*"></ColumnDefinition>
+				<ColumnDefinition Width="Auto"></ColumnDefinition>
+			</Grid.ColumnDefinitions>
+			<WrapPanel Margin="0 4 0 0">
+				<Path Margin="4 0 0 0"
+					Width="12"
+					Height="12"
+					Fill="{StaticResource IconFillColor}"
+					Stretch="Fill"
+					Data="{StaticResource Icon_Serach}"></Path>
+				<TextBlock Padding="2 6">搜索</TextBlock>
+				<controls:KbTextBox 
+					x:Name="TbKeyword" Width="154" Height="24"
+					Text="{Binding Keyword, UpdateSourceTrigger=PropertyChanged}" 
+					LostFocus="TbKeyword_LostFocus"
+					VerticalContentAlignment="Center"
+					Hint="请输入想搜索的内核"
+					BorderBrush="{StaticResource LineColor}"
+					BorderThickness="1"
+					Background="White"
+					SelectedColor="#409EFF" />
 				<controls:KbButton 
-					Command="{Binding Home}"
-					Height="60"
-					KbButtonHoverBackground="#0A548C" 
-					BorderThickness="0 0 0 1"
-					BorderBrush="#550A5081"
-					Background="Transparent">
+					Height="20"
+					Background="Transparent" BorderThickness="0"
+					Command="{Binding ClearKeyword}"
+					Visibility="{Binding ElementName=TbKeyword,Path=Text, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
+					Margin="-14 0 0 0" HorizontalAlignment="Left">
 					<Path
-						Width="36"
-						Height="36"
-						Data="{StaticResource Icon_Kernel}"
-						Fill="#EEECEF"
-						Stretch="Fill">
-					</Path>
-				</controls:KbButton>
-				<ItemsControl
-					Background="Transparent"
-					BorderThickness="0"
-					ItemsSource="{Binding KernelMenus}" 
-					ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-					<ItemsControl.Resources>
-						<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
-					</ItemsControl.Resources>
-					<ItemsControl.ItemsPanel>
-						<ItemsPanelTemplate>
-							<StackPanel Background="Transparent">
-							</StackPanel>
-						</ItemsPanelTemplate>
-					</ItemsControl.ItemsPanel>
-					<ItemsControl.ItemTemplate>
-						<DataTemplate>
-							<controls:KbButton
-								BorderThickness="0 0 0 1"
-								BorderBrush="#550A5081"
-								KbButtonHoverBackground="#0A548C" 
-								Background="{Binding ItemBackground}" 
-								Command="{Binding Data.ChangeCurrentKernelMenu, Source={StaticResource proxy}}"
-								CommandParameter="{Binding}">
-								<Border 
-									Padding="16 32 12 32"
-									BorderThickness="0 0 3 0"
-									BorderBrush="{Binding BorderBrush}">
-									<StackPanel>
-										<Path 
-											Width="24"
-											Height="24"
-											Data="{Binding Icon}"
-											Fill="{Binding ItemForeground}"
-											Stretch="Fill" />
-										<TextBlock
-											Padding="0"
-											VerticalAlignment="Center"
-											Foreground="{Binding ItemForeground}"
-											Text="{Binding Name}" />
-									</StackPanel>
-								</Border>
-							</controls:KbButton>
-						</DataTemplate>
-					</ItemsControl.ItemTemplate>
-				</ItemsControl>
-			</StackPanel>
-			<Grid DockPanel.Dock="Top" Height="36">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="*"></ColumnDefinition>
-					<ColumnDefinition Width="Auto"></ColumnDefinition>
-				</Grid.ColumnDefinitions>
-				<WrapPanel Margin="0 4 0 0">
-					<Path Margin="4 0 0 0"
-						Width="12"
-						Height="12"
+						Width="8"
+						Height="8"
+						Data="{StaticResource Icon_Close}"
 						Fill="{StaticResource IconFillColor}"
-						Stretch="Fill"
-						Data="{StaticResource Icon_Serach}"></Path>
-					<TextBlock Padding="2 6">搜索</TextBlock>
-					<controls:KbTextBox 
-						x:Name="TbKeyword" Width="154" Height="24"
-						Text="{Binding Keyword, UpdateSourceTrigger=PropertyChanged}" 
-						LostFocus="TbKeyword_LostFocus"
-						VerticalContentAlignment="Center"
-						Hint="请输入想搜索的内核"
-						BorderBrush="{StaticResource LineColor}"
-						BorderThickness="1"
-						Background="White"
-						SelectedColor="#409EFF" />
-					<controls:KbButton 
-						Height="20"
-						Background="Transparent" BorderThickness="0"
-						Command="{Binding ClearKeyword}"
-						Visibility="{Binding ElementName=TbKeyword,Path=Text, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
-						Margin="-14 0 0 0" HorizontalAlignment="Left">
+						Stretch="Fill" />
+				</controls:KbButton>
+				<Button IsDefault="True" Command="{Binding Search}" Background="Transparent" BorderThickness="0"></Button>
+				<controls:KbButton  
+					Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
+					Command="{Binding Add}" 
+					Background="Transparent" BorderThickness="0"
+					Margin="20 0 0 0"
+					CornerRadius="2" ToolTip="添加">
+					<WrapPanel>
 						<Path
-							Width="8"
-							Height="8"
-							Data="{StaticResource Icon_Close}"
+							Width="18"
+							Height="18"
+							Data="{StaticResource Icon_Add}"
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
-					</controls:KbButton>
-					<Button IsDefault="True" Command="{Binding Search}" Background="Transparent" BorderThickness="0"></Button>
-					<controls:KbButton  
-						Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
-						Command="{Binding Add}" 
-						Background="Transparent" BorderThickness="0"
-						Margin="20 0 0 0"
-						CornerRadius="2" ToolTip="添加">
-						<WrapPanel>
-							<Path
-								Width="18"
-								Height="18"
-								Data="{StaticResource Icon_Add}"
-								Fill="{StaticResource IconFillColor}"
-								Stretch="Fill" />
-						</WrapPanel>
-					</controls:KbButton>
-					<controls:KbButton  
-						Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
-						Command="{Binding ShowPackages}" 
-						Background="Transparent" BorderThickness="0"
-						Margin="20 0 0 0"
-						CornerRadius="2" ToolTip="打开包列表">
-						<WrapPanel>
-							<Path
-								Width="18"
-								Height="18"
-								Data="{StaticResource Icon_Package}"
-								Fill="{StaticResource IconFillColor}"
-								Stretch="Fill" />
-						</WrapPanel>
-					</controls:KbButton>
-				</WrapPanel>
-				<WrapPanel Grid.Column="1" HorizontalAlignment="Right">
-					<controls:KbSystemMinButton 
-						Height="36"
-						KbSystemButtonSize="40"
-						KbSystemButtonForeground="#385263" />
-					<controls:KbSystemMaxButton
-						Height="36"
-						KbSystemButtonSize="40"
-						KbSystemButtonForeground="#385263" />
-					<controls:KbSystemCloseButton 
-						Height="36"
-						KbSystemButtonSize="40"
-						KbSystemButtonForeground="#385263" />
-				</WrapPanel>
-			</Grid>
-			<Grid Margin="0 0 10 0" Background="Transparent">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="*"></ColumnDefinition>
-					<ColumnDefinition Width="Auto"></ColumnDefinition>
-				</Grid.ColumnDefinitions>
-				<Grid.RowDefinitions>
-					<RowDefinition Height="Auto"></RowDefinition>
-					<RowDefinition Height="*"></RowDefinition>
-				</Grid.RowDefinitions>
-				<ScrollViewer 
-					x:Name="CoinsScrollView" 
-					PreviewMouseDown="CoinsScrollView_PreviewMouseDown" 
-					HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
-					<ScrollViewer.Resources>
-						<sys:Double x:Key="{x:Static SystemParameters.HorizontalScrollBarHeightKey}">0</sys:Double>
-						<sys:Double x:Key="{x:Static SystemParameters.HorizontalScrollBarButtonWidthKey}">0</sys:Double>
-					</ScrollViewer.Resources>
-					<ListBox 
-						Margin="0 0 0 4"
-						Background="Transparent"
-						ItemsSource="{Binding CoinVms.MainCoinPleaseSelect}"
-						SelectedItem="{Binding SelectedCoinVm}"
-						MouseDown="ListBox_MouseDown"
-						ItemContainerStyle="{StaticResource ListBoxBarItem}"
-						BorderThickness="0">
-						<ListBox.ItemsPanel>
-							<ItemsPanelTemplate>
-								<WrapPanel>
-								</WrapPanel>
-							</ItemsPanelTemplate>
-						</ListBox.ItemsPanel>
-						<ListBox.ItemTemplate>
-							<DataTemplate>
-								<TextBlock Padding="10 2" Text="{Binding Code}">
-								</TextBlock>
-							</DataTemplate>
-						</ListBox.ItemTemplate>
-					</ListBox>
-				</ScrollViewer>
-				<WrapPanel Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Visibility="{Binding ElementName=CoinsScrollView,Path=ComputedHorizontalScrollBarVisibility}">
-					<Button x:Name="ButtonLeft" IsEnabled="False" Click="ButtonLeftCoin_Click">
-						<Button.Template>
-							<ControlTemplate>
-								<Border 
-									x:Name="Content"
-									Padding="4 4 6 4"
-									BorderThickness="1"
-									Background="Transparent">
-									<Path
-										x:Name="Icon"
-										Width="8"
-										Height="12"
-										Data="{StaticResource Icon_LeftTriangle}"
-										Fill="#676767"
-										Stretch="Fill">
-									</Path>
-								</Border>
-								<ControlTemplate.Triggers>
-									<Trigger Property="IsMouseOver" Value="True">
-										<Setter TargetName="Content" Property="Background" Value="{StaticResource ThemeBackground}"></Setter>
-										<Setter TargetName="Content" Property="BorderBrush" Value="{StaticResource LineColor}"></Setter>
-										<Setter TargetName="Icon" Property="Fill" Value="{StaticResource ThemeForeground}"></Setter>
-									</Trigger>
-									<Trigger Property="IsEnabled" Value="False">
-										<Setter Property="Opacity" Value="0.5"></Setter>
-									</Trigger>
-								</ControlTemplate.Triggers>
-							</ControlTemplate>
-						</Button.Template>
-					</Button>
-					<Button x:Name="ButtonRight" Margin="2 0 0 0" Click="ButtonRightCoin_Click">
-						<Button.Template>
-							<ControlTemplate>
-								<Border 
-									x:Name="Content"
-									Padding="6 4 4 4"
-									BorderThickness="1"
-									Background="Transparent">
-									<Path
-										x:Name="Icon"
-										Width="8"
-										Height="12"
-										Data="{StaticResource Icon_RightTriangle}"
-										Fill="#676767"
-										Stretch="Fill">
-									</Path>
-								</Border>
-								<ControlTemplate.Triggers>
-									<Trigger Property="IsMouseOver" Value="True">
-										<Setter TargetName="Content" Property="Background" Value="{StaticResource ThemeBackground}"></Setter>
-										<Setter TargetName="Content" Property="BorderBrush" Value="{StaticResource LineColor}"></Setter>
-										<Setter TargetName="Icon" Property="Fill" Value="{StaticResource ThemeForeground}"></Setter>
-									</Trigger>
-									<Trigger Property="IsEnabled" Value="False">
-										<Setter Property="Opacity" Value="0.5"></Setter>
-									</Trigger>
-								</ControlTemplate.Triggers>
-							</ControlTemplate>
-						</Button.Template>
-					</Button>
-				</WrapPanel>
-				<uc:KernelGrid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" DataContext="{Binding}"></uc:KernelGrid>
-			</Grid>
-		</DockPanel>
-	</Grid>
+					</WrapPanel>
+				</controls:KbButton>
+				<controls:KbButton  
+					Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
+					Command="{Binding ShowPackages}" 
+					Background="Transparent" BorderThickness="0"
+					Margin="20 0 0 0"
+					CornerRadius="2" ToolTip="打开包列表">
+					<WrapPanel>
+						<Path
+							Width="18"
+							Height="18"
+							Data="{StaticResource Icon_Package}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</WrapPanel>
+				</controls:KbButton>
+			</WrapPanel>
+			<WrapPanel Grid.Column="1" HorizontalAlignment="Right">
+				<controls:KbSystemMinButton 
+					Height="36"
+					KbSystemButtonSize="40"
+					KbSystemButtonForeground="#385263" />
+				<controls:KbSystemMaxButton
+					Height="36"
+					KbSystemButtonSize="40"
+					KbSystemButtonForeground="#385263" />
+				<controls:KbSystemCloseButton 
+					Height="36"
+					KbSystemButtonSize="40"
+					KbSystemButtonForeground="#385263" />
+			</WrapPanel>
+		</Grid>
+		<uc:KernelGrid DataContext="{Binding}" Margin="0 0 10 0" Background="Transparent"></uc:KernelGrid>
+	</DockPanel>
 </blankWindow:BlankWindow>
