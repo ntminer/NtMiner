@@ -193,9 +193,6 @@
     <Compile Include="Ucs\ColumnsShowEdit.xaml.cs">
       <DependentUpon>ColumnsShowEdit.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ucs\ColumnsShowPage.xaml.cs">
-      <DependentUpon>ColumnsShowPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Ucs\InnerProperty.xaml.cs">
       <DependentUpon>InnerProperty.xaml</DependentUpon>
     </Compile>
@@ -523,10 +520,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Design\ColumnsShowViewModel.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Ucs\ColumnsShowPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

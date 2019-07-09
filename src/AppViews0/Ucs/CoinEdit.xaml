@@ -10,7 +10,7 @@
 		mc:Ignorable="d"
 		d:DataContext="{d:DesignData Source=/Design/CoinViewModel.xaml}"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs" 
-		d:DesignWidth="500" d:DesignHeight="280"
+		d:DesignWidth="500" d:DesignHeight="300"
 		Background="White">
 	<UserControl.Resources>
 		<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
@@ -75,6 +75,15 @@
 				IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
 				Width="160"
 				VerticalContentAlignment="Center" Text="{Binding CnName}">
+			</TextBox>
+		</WrapPanel>
+
+		<WrapPanel Margin="0 2">
+			<TextBlock Style="{StaticResource LblTb}" Text="教程Url"></TextBlock>
+			<TextBox 
+				Width="380"
+				IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
+				VerticalContentAlignment="Center" Text="{Binding TutorialUrl}">
 			</TextBox>
 		</WrapPanel>
 

@@ -204,6 +204,15 @@
 								Placement="Bottom" 
 								StaysOpen="False"></Popup>
 						</WrapPanel>
+
+						<WrapPanel Margin="0 2">
+							<TextBlock Style="{StaticResource LblTb}" Text="教程Url"></TextBlock>
+							<TextBox 
+								Width="450"
+								IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
+								VerticalContentAlignment="Center" Text="{Binding OfficialUrl}">
+							</TextBox>
+						</WrapPanel>
 					</StackPanel>
 
 					<StackPanel Grid.Row="1">

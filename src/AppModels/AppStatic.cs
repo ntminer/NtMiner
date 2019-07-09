@@ -362,9 +362,6 @@ namespace NTMiner {
         public static ICommand ShowCoins { get; private set; } = new DelegateCommand<CoinViewModel>((currentCoin) => {
             VirtualRoot.Execute(new ShowCoinPageCommand(currentCoin, "coin"));
         });
-        public static ICommand ManageColumnsShows { get; private set; } = new DelegateCommand(()=> {
-            VirtualRoot.Execute(new ShowColumnsShowPageCommand());
-        });
         public static ICommand ManagePools { get; private set; } = new DelegateCommand<CoinViewModel>(coinVm => {
             VirtualRoot.Execute(new ShowCoinPageCommand(coinVm, Consts.PoolParameterName));
         });

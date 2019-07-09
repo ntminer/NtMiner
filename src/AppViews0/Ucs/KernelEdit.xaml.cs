@@ -15,7 +15,6 @@ namespace NTMiner.Views.Ucs {
                 IconName = "Icon_Kernel",
                 IsDialogWindow = true,
                 Width = 620,
-                Height = 400,
                 CloseVisible = Visibility.Visible
             }, ucFactory: (window) => {
                 KernelViewModel vm = new KernelViewModel(source) {

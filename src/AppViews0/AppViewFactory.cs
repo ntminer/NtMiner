@@ -75,12 +75,6 @@ namespace NTMiner.Views {
                         KernelInputPage.ShowWindow();
                     });
                 });
-            VirtualRoot.Window<ShowColumnsShowPageCommand>(LogEnum.DevConsole,
-                action: message => {
-                    UIThread.Execute(() => {
-                        ColumnsShowPage.ShowWindow();
-                    });
-                });
             VirtualRoot.Window<ShowCoinPageCommand>(LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
