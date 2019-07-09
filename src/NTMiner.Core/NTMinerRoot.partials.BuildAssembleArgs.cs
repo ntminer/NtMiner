@@ -262,14 +262,18 @@ namespace NTMiner {
             fileWriters = new Dictionary<Guid, string>();
             fragments = new Dictionary<Guid, string>();
             try {
-                foreach (var writerId in coinKernel.FragmentWriterIds) {
-                    if (FragmentWriterSet.TryGetFragmentWriter(writerId, out IFragmentWriter writer)) {
-                        BuildFragment(parameters, fileWriters, fragments, writer);
+                if (coinKernel.FragmentWriterIds != null && coinKernel.FragmentWriterIds.Count != 0) {
+                    foreach (var writerId in coinKernel.FragmentWriterIds) {
+                        if (FragmentWriterSet.TryGetFragmentWriter(writerId, out IFragmentWriter writer)) {
+                            BuildFragment(parameters, fileWriters, fragments, writer);
+                        }
                     }
                 }
-                foreach (var writerId in coinKernel.FileWriterIds) {
-                    if (FileWriterSet.TryGetFileWriter(writerId, out IFileWriter writer)) {
-                        BuildFragment(parameters, fileWriters, fragments, writer);
+                if (coinKernel.FileWriterIds != null && coinKernel.FileWriterIds.Count != 0) {
+                    foreach (var writerId in coinKernel.FileWriterIds) {
+                        if (FileWriterSet.TryGetFileWriter(writerId, out IFileWriter writer)) {
+                            BuildFragment(parameters, fileWriters, fragments, writer);
+                        }
                     }
                 }
             }
