@@ -73,6 +73,7 @@
 								Width="80"
 								IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
 								VerticalContentAlignment="Center" Text="{Binding DevicesSeparator}"></TextBox>
+							<TextBlock VerticalAlignment="Center">用space代替空格</TextBlock>
 						</WrapPanel>
 						<CheckBox 
 							IsChecked="{Binding IsDeviceAllNotEqualsNone}" 
