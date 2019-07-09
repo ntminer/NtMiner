@@ -78,24 +78,24 @@
 							IsChecked="{Binding IsDeviceAllNotEqualsNone}" 
 							IsEnabled="{x:Static app:AppStatic.IsDebugMode}">如果全选了显卡是否“不等效于”全部没选</CheckBox>
 						<WrapPanel>
-							<TextBlock Style="{StaticResource LblTb}" Width="Auto" Text="N卡序号前缀"></TextBlock>
+							<TextBlock Style="{StaticResource LblTb}" Width="74" Text="N卡序号前缀"></TextBlock>
 							<TextBox 
 								Width="100"
 								IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
 								VerticalContentAlignment="Center" Text="{Binding NDevicePrefix}"></TextBox>
-							<TextBlock Style="{StaticResource LblTb}" Margin="4 0 0 0" Width="Auto" Text="N卡序号后缀"></TextBlock>
+							<TextBlock Style="{StaticResource LblTb}" Margin="4 0 0 0" Width="74" Text="N卡序号后缀"></TextBlock>
 							<TextBox 
 								Width="100"
 								IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
 								VerticalContentAlignment="Center" Text="{Binding NDevicePostfix}"></TextBox>
 						</WrapPanel>
 						<WrapPanel>
-							<TextBlock Style="{StaticResource LblTb}" Width="Auto" Text="A卡序号前缀"></TextBlock>
+							<TextBlock Style="{StaticResource LblTb}" Width="74" Text="A卡序号前缀"></TextBlock>
 							<TextBox 
 								Width="100"
 								IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
 								VerticalContentAlignment="Center" Text="{Binding ADevicePrefix}"></TextBox>
-							<TextBlock Style="{StaticResource LblTb}" Margin="4 0 0 0" Width="Auto" Text="A卡序号后缀"></TextBlock>
+							<TextBlock Style="{StaticResource LblTb}" Margin="4 0 0 0" Width="74" Text="A卡序号后缀"></TextBlock>
 							<TextBox 
 								Width="100"
 								IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
