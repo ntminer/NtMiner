@@ -20,7 +20,10 @@ namespace NTMiner {
         public static readonly string CurrentVersionTag;
 
         public static string ServerVersion;
-        public static Action RefreshArgsAssembly = () => { };
+        public static Action RefreshArgsAssembly { get; private set; } = () => { };
+        public static void SetRefreshArgsAssembly(Action action) {
+            RefreshArgsAssembly = action;
+        }
         public static bool IsUiVisible;
         public static DateTime MainWindowRendedOn = DateTime.MinValue;
 

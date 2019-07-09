@@ -139,7 +139,7 @@ namespace NTMiner {
                         this.AutoNoUiMinutes--;
                     }
                 });
-                NTMinerRoot.RefreshArgsAssembly = () => {
+                NTMinerRoot.SetRefreshArgsAssembly(() => {
                     if (CoinVm != null && CoinVm.CoinKernel != null && CoinVm.CoinKernel.Kernel != null) {
                         var coinKernelProfile = CoinVm.CoinKernel.CoinKernelProfile;
                         var kernelInput = CoinVm.CoinKernel.Kernel.KernelInputVm;
@@ -156,7 +156,7 @@ namespace NTMiner {
                         }
                     }
                     this.ArgsAssembly = NTMinerRoot.Instance.BuildAssembleArgs(out _, out _, out _);
-                };
+                });
                 VirtualRoot.On<ServerContextVmsReInitedEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
                     action: message => {
                         OnPropertyChanged(nameof(CoinVm));
