@@ -49,23 +49,62 @@
 					Text="{Binding Args, Mode=TwoWay}" Height="60">
 				</controls:KbMuiltilineTextBox>
 			</WrapPanel>
-			<WrapPanel Margin="0 2">
-				<TextBlock Style="{StaticResource LblTb}" Text="显卡指定参数名"></TextBlock>
-				<TextBox 
-					Width="160"
-					IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
-					VerticalContentAlignment="Center" Text="{Binding DevicesArg}"></TextBox>
-				<TextBlock Style="{StaticResource LblTb}" Width="40" Text="基序"></TextBlock>
-				<TextBox 
-					Width="100"
-					IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
-					VerticalContentAlignment="Center" Text="{Binding DeviceBaseIndex,ValidatesOnExceptions=True}"></TextBox>
-				<TextBlock Style="{StaticResource LblTb}" Width="50" Text="分割符"></TextBlock>
-				<TextBox 
-					Width="100"
-					IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
-					VerticalContentAlignment="Center" Text="{Binding DevicesSeparator}"></TextBox>
-			</WrapPanel>
+			<GroupBox Margin="0 2">
+				<GroupBox.Header>
+					<WrapPanel>
+						<TextBlock>使用指定序号的显卡挖矿</TextBlock>
+						<CheckBox 
+							IsChecked="{Binding IsDeviceAllNotEqualsNone}" 
+							IsEnabled="{x:Static app:AppStatic.IsDebugMode}" 
+							Margin="10 0 0 0">如果全选了显卡是否“不等效于”全部没选</CheckBox>
+					</WrapPanel>
+				</GroupBox.Header>
+				<WrapPanel>
+					<TextBlock Style="{StaticResource LblTb}" Text="参数名" VerticalAlignment="Top"></TextBlock>
+					<StackPanel>
+						<WrapPanel>
+							<TextBox 
+								Width="150"
+								IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
+								VerticalContentAlignment="Center" Text="{Binding DevicesArg}"></TextBox>
+							<TextBlock Style="{StaticResource LblTb}" Width="40" Text="基序"></TextBlock>
+							<TextBox 
+								Width="100"
+								IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
+								VerticalContentAlignment="Center" Text="{Binding DeviceBaseIndex,ValidatesOnExceptions=True}"></TextBox>
+							<TextBlock Style="{StaticResource LblTb}" Width="50" Text="分割符"></TextBlock>
+							<TextBox 
+								Width="100"
+								IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
+								VerticalContentAlignment="Center" Text="{Binding DevicesSeparator}"></TextBox>
+						</WrapPanel>
+						<WrapPanel>
+							<TextBlock Style="{StaticResource LblTb}" Width="Auto" Text="N卡序号前缀"></TextBlock>
+							<TextBox 
+								Width="100"
+								IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
+								VerticalContentAlignment="Center" Text="{Binding NDevicePrefix}"></TextBox>
+							<TextBlock Style="{StaticResource LblTb}" Margin="4 0 0 0" Width="Auto" Text="N卡序号后缀"></TextBlock>
+							<TextBox 
+								Width="100"
+								IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
+								VerticalContentAlignment="Center" Text="{Binding NDevicePostfix}"></TextBox>
+						</WrapPanel>
+						<WrapPanel>
+							<TextBlock Style="{StaticResource LblTb}" Width="Auto" Text="A卡序号前缀"></TextBlock>
+							<TextBox 
+								Width="100"
+								IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
+								VerticalContentAlignment="Center" Text="{Binding ADevicePrefix}"></TextBox>
+							<TextBlock Style="{StaticResource LblTb}" Margin="4 0 0 0" Width="Auto" Text="A卡序号后缀"></TextBlock>
+							<TextBox 
+								Width="100"
+								IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
+								VerticalContentAlignment="Center" Text="{Binding ADevicePostfix}"></TextBox>
+						</WrapPanel>
+					</StackPanel>
+				</WrapPanel>
+			</GroupBox>
 
 			<WrapPanel Margin="0 2" Visibility="{Binding IsSupportDualMineVisible}">
 				<TextBlock Style="{StaticResource LblTb}"></TextBlock>
