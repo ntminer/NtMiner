@@ -58,7 +58,7 @@
 				</WrapPanel>
 			</WrapPanel>
 			<DataGrid 
-				Grid.Row="1" Margin="0" 
+				Grid.Row="1"
 				ItemsSource="{Binding List}" 
 				BorderThickness="0 0 1 0" 
 				BorderBrush="{StaticResource LineColor}"
@@ -175,7 +175,7 @@
 					</DataGridTemplateColumn>
 					<DataGridTextColumn Header="算法" Binding="{Binding AlgoItem.Value}" IsReadOnly="True">
 					</DataGridTextColumn>
-					<DataGridTemplateColumn IsReadOnly="True">
+					<DataGridTemplateColumn Width="40" IsReadOnly="True">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<controls:KbLinkButton
@@ -239,7 +239,7 @@
 				<Grid>
 					<DataGrid 
 						BorderThickness="0"
-						ItemsSource="{Binding CurrentCoin.Pools}" Padding="0"
+						ItemsSource="{Binding CurrentCoin.Pools}"
 						MouseDoubleClick="PoolDataGrid_MouseDoubleClick">
 						<DataGrid.Resources>
 							<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
@@ -364,6 +364,23 @@
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate>
 										<TextBlock Text="{Binding SortNumber}"></TextBlock>
+									</DataTemplate>
+								</DataGridTemplateColumn.CellTemplate>
+							</DataGridTemplateColumn>
+							<DataGridTemplateColumn Width="40" IsReadOnly="True">
+								<DataGridTemplateColumn.CellTemplate>
+									<DataTemplate>
+										<controls:KbLinkButton
+											VerticalAlignment="Center"
+											Padding="0"
+											Visibility="{Binding TutorialUrl,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
+											Command="{x:Static app:AppStatic.ViewUrl}"
+											CommandParameter="{Binding TutorialUrl}"
+											KbDisplayLine="False"
+											Content="教程"
+											KbSystemButtonHoverBackground="Transparent"
+											Background="Transparent">
+										</controls:KbLinkButton>
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>

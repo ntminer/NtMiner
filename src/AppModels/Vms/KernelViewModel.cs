@@ -15,7 +15,6 @@ namespace NTMiner.Vms {
             _code = string.Empty,
             _brandId = Guid.Empty,
             _notice = string.Empty,
-            _officialUrl = string.Empty,
             _id = Guid.Empty,
             _publishState = PublishStatus.UnPublished,
             _size = 0,
@@ -35,7 +34,6 @@ namespace NTMiner.Vms {
         private long _size;
         private PublishStatus _publishState = PublishStatus.UnPublished;
         private string _notice;
-        private string _officialUrl;
         private Guid _kernelInputId;
         private Guid _kernelOutputId;
         private KernelInputViewModel _kernelInputVm;
@@ -74,7 +72,6 @@ namespace NTMiner.Vms {
             _code = data.Code;
             _brandId = data.BrandId;
             _notice = data.Notice;
-            _officialUrl = data.OfficialUrl;
             _publishState = data.PublishState;
             _size = data.Size;
             _publishOn = data.PublishOn;
@@ -499,16 +496,6 @@ namespace NTMiner.Vms {
                 if (_notice != value) {
                     _notice = value;
                     OnPropertyChanged(nameof(Notice));
-                }
-            }
-        }
-
-        public string OfficialUrl {
-            get => _officialUrl;
-            set {
-                if (value != _officialUrl) {
-                    _officialUrl = value;
-                    OnPropertyChanged(nameof(OfficialUrl));
                 }
             }
         }

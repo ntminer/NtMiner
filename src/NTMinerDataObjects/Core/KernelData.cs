@@ -29,6 +29,5 @@ namespace NTMiner.Core {
 
         public Guid KernelInputId { get; set; }
         public Guid KernelOutputId { get; set; }
-        public string OfficialUrl { get; set; }
     }
 }
