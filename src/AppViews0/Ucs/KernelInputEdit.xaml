@@ -49,35 +49,34 @@
 					Text="{Binding Args, Mode=TwoWay}" Height="60">
 				</controls:KbMuiltilineTextBox>
 			</WrapPanel>
-			<GroupBox Margin="0 2">
+			<GroupBox Margin="10 2">
 				<GroupBox.Header>
 					<WrapPanel>
 						<TextBlock>使用指定序号的显卡挖矿</TextBlock>
-						<CheckBox 
-							IsChecked="{Binding IsDeviceAllNotEqualsNone}" 
-							IsEnabled="{x:Static app:AppStatic.IsDebugMode}" 
-							Margin="10 0 0 0">如果全选了显卡是否“不等效于”全部没选</CheckBox>
 					</WrapPanel>
 				</GroupBox.Header>
 				<WrapPanel>
-					<TextBlock Style="{StaticResource LblTb}" Text="参数名" VerticalAlignment="Top"></TextBlock>
+					<TextBlock Style="{StaticResource LblTb}" Width="74" Text="参数名" VerticalAlignment="Top"></TextBlock>
 					<StackPanel>
 						<WrapPanel>
 							<TextBox 
-								Width="150"
+								Width="100"
 								IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
 								VerticalContentAlignment="Center" Text="{Binding DevicesArg}"></TextBox>
 							<TextBlock Style="{StaticResource LblTb}" Width="40" Text="基序"></TextBlock>
 							<TextBox 
-								Width="100"
+								Width="80"
 								IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
 								VerticalContentAlignment="Center" Text="{Binding DeviceBaseIndex,ValidatesOnExceptions=True}"></TextBox>
 							<TextBlock Style="{StaticResource LblTb}" Width="50" Text="分割符"></TextBlock>
 							<TextBox 
-								Width="100"
+								Width="80"
 								IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
 								VerticalContentAlignment="Center" Text="{Binding DevicesSeparator}"></TextBox>
 						</WrapPanel>
+						<CheckBox 
+							IsChecked="{Binding IsDeviceAllNotEqualsNone}" 
+							IsEnabled="{x:Static app:AppStatic.IsDebugMode}">如果全选了显卡是否“不等效于”全部没选</CheckBox>
 						<WrapPanel>
 							<TextBlock Style="{StaticResource LblTb}" Width="Auto" Text="N卡序号前缀"></TextBlock>
 							<TextBox 
