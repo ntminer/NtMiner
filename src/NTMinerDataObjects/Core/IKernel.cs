@@ -13,5 +13,6 @@ namespace NTMiner.Core {
         string Notice { get; }
         Guid KernelInputId { get; }
         Guid KernelOutputId { get; }
+        string OfficialUrl { get; }
     }
 }

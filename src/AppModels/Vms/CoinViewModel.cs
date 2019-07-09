@@ -23,7 +23,9 @@ namespace NTMiner.Vms {
             _sortNumber = 0,
             _justAsDualCoin = false,
             _walletRegexPattern = string.Empty,
-            _notice = string.Empty
+            _notice = string.Empty,
+            _tutorialUrl = string.Empty,
+            _iconImageSource = string.Empty
         };
         public static readonly CoinViewModel PleaseSelect = new CoinViewModel(Guid.Empty) {
             _code = "不指定"
@@ -43,6 +45,9 @@ namespace NTMiner.Vms {
         private string _walletRegexPattern;
         private bool _justAsDualCoin;
         private string _notice;
+        private string _iconImageSource;
+        private string _tutorialUrl;
+        private List<GpuProfileViewModel> _gpuProfileVms;
 
         public Guid GetId() {
             return this.Id;
@@ -88,6 +93,7 @@ namespace NTMiner.Vms {
             _walletRegexPattern = data.WalletRegexPattern;
             _justAsDualCoin = data.JustAsDualCoin;
             _notice = data.Notice;
+            _tutorialUrl = data.TutorialUrl;
             string iconFileFullName = SpecialPath.GetIconFileFullName(data);
             if (!string.IsNullOrEmpty(iconFileFullName) && File.Exists(iconFileFullName)) {
                 _iconImageSource = iconFileFullName;
@@ -288,9 +294,6 @@ namespace NTMiner.Vms {
                 OnPropertyChanged(nameof(GpuAllProfileVm));
             }
         }
-
-        private List<GpuProfileViewModel> _gpuProfileVms;
-        private string _iconImageSource;
 
         public List<GpuProfileViewModel> GpuProfileVms {
             get {
@@ -524,6 +527,16 @@ namespace NTMiner.Vms {
                 if (_notice != value) {
                     _notice = value;
                     OnPropertyChanged(nameof(Notice));
+                }
+            }
+        }
+
+        public string TutorialUrl {
+            get => _tutorialUrl;
+            set {
+                if (value != _tutorialUrl) {
+                    _tutorialUrl = value;
+                    OnPropertyChanged(nameof(TutorialUrl));
                 }
             }
         }
