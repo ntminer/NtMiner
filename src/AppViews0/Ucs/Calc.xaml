@@ -64,9 +64,6 @@
 				<TextBox VerticalAlignment="Center" IsReadOnly="True" BorderThickness="0" Text="{Binding IncomePerDayText, Mode=OneWay}"></TextBox>
 				<TextBlock VerticalAlignment="Center" Text="{Binding SelectedCoinVm.Code}"></TextBlock>
 				<TextBlock VerticalAlignment="Center" Text="，"></TextBlock>
-				<TextBox VerticalAlignment="Center" IsReadOnly="True" BorderThickness="0" Text="{Binding IncomeUsdPerDayText, Mode=OneWay}"></TextBox>
-				<TextBlock VerticalAlignment="Center" Text="USD"></TextBlock>
-				<TextBlock VerticalAlignment="Center" Text="，"></TextBlock>
 				<TextBox VerticalAlignment="Center" IsReadOnly="True" BorderThickness="0" Text="{Binding IncomeCnyPerDayText, Mode=OneWay}"></TextBox>
 				<TextBlock VerticalAlignment="Center" Text="CNY/天"></TextBlock>
 			</WrapPanel>

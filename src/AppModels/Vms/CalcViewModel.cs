@@ -5,7 +5,6 @@ namespace NTMiner.Vms {
         private CoinViewModel _selectedCoinVm;
         private double _speed = 1;
         private string _incomePerDayText;
-        private string _incomeUsdPerDayText;
         private string _incomeCnyPerDayText;
         private string _coinPriceCnyText;
         private string _modifiedOnText;
@@ -19,14 +18,12 @@ namespace NTMiner.Vms {
             if (NTMinerRoot.Instance.CalcConfigSet.TryGetCalcConfig(SelectedCoinVm, out calcConfig)) {
                 var incomePerDay = NTMinerRoot.Instance.CalcConfigSet.GetIncomePerHashPerDay(SelectedCoinVm.Code);
                 IncomePerDayText = (this.Speed.FromUnitSpeed(this.SpeedUnitVm.Unit) * incomePerDay.IncomeCoin).ToString("f7");
-                IncomeUsdPerDayText = (this.Speed.FromUnitSpeed(this.SpeedUnitVm.Unit) * incomePerDay.IncomeUsd).ToString("f7");
                 IncomeCnyPerDayText = (this.Speed.FromUnitSpeed(this.SpeedUnitVm.Unit) * incomePerDay.IncomeCny).ToString("f7");
                 CoinPriceCnyText = (incomePerDay.IncomeCny / incomePerDay.IncomeCoin).ToString("f2");
                 ModifiedOnText = incomePerDay.ModifiedOn.ToString("yyyy-MM-dd HH:mm");
             }
             else {
                 IncomePerDayText = "0";
-                IncomeUsdPerDayText = "0";
                 IncomeCnyPerDayText = "0";
                 CoinPriceCnyText = "0";
                 ModifiedOnText = string.Empty;
@@ -81,16 +78,6 @@ namespace NTMiner.Vms {
             set {
                 _incomePerDayText = value;
                 OnPropertyChanged(nameof(IncomePerDayText));
-            }
-        }
-
-        public string IncomeUsdPerDayText {
-            get {
-                return _incomeUsdPerDayText;
-            }
-            set {
-                _incomeUsdPerDayText = value;
-                OnPropertyChanged(nameof(IncomeUsdPerDayText));
             }
         }
 
