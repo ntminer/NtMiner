@@ -9,7 +9,7 @@
 	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 	xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 	xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
-	mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="650">
+	mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="800">
 	<UserControl.DataContext>
 		<vm:CalcViewModel></vm:CalcViewModel>
 	</UserControl.DataContext>
@@ -17,7 +17,6 @@
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"></RowDefinition>
 			<RowDefinition Height="*"></RowDefinition>
-			<RowDefinition Height="Auto"></RowDefinition>
 		</Grid.RowDefinitions>
 		<ListBox 
 			Background="Transparent"
@@ -40,7 +39,12 @@
 			</ListBox.ItemTemplate>
 		</ListBox>
 		<WrapPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-			<TextBlock Text="算力" VerticalAlignment="Center"></TextBlock>
+			<TextBlock Text="{Binding ModifiedOnText}" Width="120" VerticalAlignment="Center"></TextBlock>
+			<Image Width="30" Height="30" Source="{Binding SelectedCoinVm.IconImageSource}">
+			</Image>
+			<TextBlock Text="{Binding CoinPriceCnyText}" Margin="4 0 0 0" VerticalAlignment="Center"></TextBlock>
+			<TextBlock Text="￥" VerticalAlignment="Center"></TextBlock>
+			<TextBlock Text="算力" Margin="4 0 0 0" VerticalAlignment="Center"></TextBlock>
 			<TextBox Width="60" Text="{Binding Speed, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center"></TextBox>
 			<controls:KbComboBox 
 				Width="60"
@@ -67,6 +71,5 @@
 				<TextBlock VerticalAlignment="Center" Text="CNY/天"></TextBlock>
 			</WrapPanel>
 		</WrapPanel>
-		<TextBlock Grid.Row="2" HorizontalAlignment="Center" Foreground="Red">因为数据来自矿池，单位算力收益的币数一定是准确的，误差约10分钟。</TextBlock>
 	</Grid>
 </UserControl>
