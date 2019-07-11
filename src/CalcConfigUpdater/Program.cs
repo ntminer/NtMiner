@@ -246,8 +246,8 @@ namespace NTMiner {
                 incomeItem.IncomeUsd = incomeUsd;
                 if (incomeItem.DataCode == "ae") {
                     incomeItem.SpeedUnit = "h/s";
-                    incomeItem.IncomeCoin = incomeItem.IncomeCoin / 26;
-                    incomeItem.IncomeUsd = incomeItem.IncomeUsd / 26;
+                    incomeItem.IncomeCoin = incomeItem.IncomeCoin / 100;
+                    incomeItem.IncomeUsd = incomeItem.IncomeUsd / 100;
                 }
                 return incomeItem;
             }
