@@ -48,6 +48,13 @@ namespace NTMiner.Vms {
         private string _iconImageSource;
         private string _tutorialUrl;
         private List<GpuProfileViewModel> _gpuProfileVms;
+        private readonly CoinIncomeViewModel _coinIncomeVm;
+
+        public CoinIncomeViewModel CoinIncomeVm {
+            get {
+                return _coinIncomeVm;
+            }
+        }
 
         public Guid GetId() {
             return this.Id;
@@ -129,6 +136,7 @@ namespace NTMiner.Vms {
 
         public CoinViewModel(Guid id) {
             _id = id;
+            _coinIncomeVm = new CoinIncomeViewModel(this);
             this.BrowseIcon = new DelegateCommand(() => {
                 if (!DevMode.IsDevMode) {
                     return;

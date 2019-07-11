@@ -13,60 +13,64 @@
 	<UserControl.DataContext>
 		<vm:CalcViewModel></vm:CalcViewModel>
 	</UserControl.DataContext>
-	<Grid>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto"></RowDefinition>
-			<RowDefinition Height="*"></RowDefinition>
-		</Grid.RowDefinitions>
-		<ListBox 
+	<ScrollViewer 
+		VerticalScrollBarVisibility="Auto" 
+		PreviewMouseDown="ScrollViewer_PreviewMouseDown">
+		<ItemsControl 
+			x:Name="ItemsControl"
 			Background="Transparent"
 			ItemsSource="{Binding CoinVms.AllCoins}"
-			SelectedItem="{Binding SelectedCoinVm}"
 			ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-			ScrollViewer.VerticalScrollBarVisibility="Disabled"
-			ItemContainerStyle="{StaticResource ListBoxBarItem}"
 			BorderThickness="0">
-			<ListBox.ItemsPanel>
+			<ItemsControl.ItemsPanel>
 				<ItemsPanelTemplate>
-					<WrapPanel HorizontalAlignment="Center">
+					<WrapPanel>
 					</WrapPanel>
 				</ItemsPanelTemplate>
-			</ListBox.ItemsPanel>
-			<ListBox.ItemTemplate>
+			</ItemsControl.ItemsPanel>
+			<ItemsControl.ItemTemplate>
 				<DataTemplate>
-					<TextBlock Padding="10 2" Text="{Binding Code}"></TextBlock>
+					<Border Margin="40 0 0 0" Padding="20 4 0 4" BorderBrush="{StaticResource LineColor}" BorderThickness="0 0 0 1">
+						<WrapPanel>
+							<StackPanel Width="80">
+								<Image Width="30" Height="30" Source="{Binding IconImageSource}">
+								</Image>
+								<TextBlock Text="{Binding Code}" HorizontalAlignment="Center"></TextBlock>
+							</StackPanel>
+							<StackPanel Width="180" Margin="6 0 0 0">
+								<WrapPanel>
+									<TextBlock Height="30" FontSize="16" FontWeight="Bold" Text="{Binding CoinIncomeVm.CoinPriceCnyText}"></TextBlock>
+									<TextBlock Text="￥" FontSize="16"></TextBlock>
+								</WrapPanel>
+								<TextBlock VerticalAlignment="Bottom" Text="{Binding CoinIncomeVm.ModifiedOnText}" Foreground="{StaticResource LableColor}"></TextBlock>
+							</StackPanel>
+							<TextBox Width="80" Text="{Binding CoinIncomeVm.Speed, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center"></TextBox>
+							<controls:KbComboBox 
+								Width="60"
+								VerticalAlignment="Center"
+								ItemsSource="{x:Static vm:SpeedUnitViewModel.SpeedUnitVms}"
+								DisplayMemberPath="Unit"
+								SelectedValue="{Binding CoinIncomeVm.SpeedUnitVm}">
+							</controls:KbComboBox>
+							<TextBlock Text=" / 日" VerticalAlignment="Center"></TextBlock>
+							<Path
+								Margin="10 0"
+								Width="30"
+								Height="20"
+								Data="{StaticResource Icon_ArrowRight}"
+								Fill="{StaticResource IconFillColor}"
+								Stretch="Fill"/>
+							<StackPanel Width="200">
+								<TextBox FontSize="16" FontWeight="Bold" IsReadOnly="True" BorderThickness="0" Text="{Binding CoinIncomeVm.IncomePerDayText, Mode=OneWay}"></TextBox>
+								<WrapPanel VerticalAlignment="Center">
+									<TextBlock Text="≈ ￥" VerticalAlignment="Center"></TextBlock>
+									<TextBox IsReadOnly="True" VerticalAlignment="Center" BorderThickness="0" Text="{Binding CoinIncomeVm.IncomeCnyPerDayText, Mode=OneWay}"></TextBox>
+								</WrapPanel>
+							</StackPanel>
+						</WrapPanel>
+					</Border>
 				</DataTemplate>
-			</ListBox.ItemTemplate>
-		</ListBox>
-		<WrapPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-			<TextBlock Text="{Binding ModifiedOnText}" Width="120" VerticalAlignment="Center"></TextBlock>
-			<Image Width="30" Height="30" Source="{Binding SelectedCoinVm.IconImageSource}">
-			</Image>
-			<TextBlock Text="{Binding CoinPriceCnyText}" Margin="4 0 0 0" VerticalAlignment="Center"></TextBlock>
-			<TextBlock Text="￥" VerticalAlignment="Center"></TextBlock>
-			<TextBlock Text="算力" Margin="4 0 0 0" VerticalAlignment="Center"></TextBlock>
-			<TextBox Width="60" Text="{Binding Speed, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center"></TextBox>
-			<controls:KbComboBox 
-				Width="60"
-				VerticalAlignment="Center"
-				ItemsSource="{x:Static vm:SpeedUnitViewModel.SpeedUnitVms}"
-				DisplayMemberPath="Unit"
-				SelectedValue="{Binding SpeedUnitVm}">
-			</controls:KbComboBox>
-			<Path
-				Margin="10 0"
-				Width="30"
-				Height="20"
-				Data="{StaticResource Icon_ArrowRight}"
-				Fill="{StaticResource IconFillColor}"
-				Stretch="Fill"/>
-			<WrapPanel VerticalAlignment="Center">
-				<TextBox VerticalAlignment="Center" IsReadOnly="True" BorderThickness="0" Text="{Binding IncomePerDayText, Mode=OneWay}"></TextBox>
-				<TextBlock VerticalAlignment="Center" Text="{Binding SelectedCoinVm.Code}"></TextBlock>
-				<TextBlock VerticalAlignment="Center" Text="，"></TextBlock>
-				<TextBox VerticalAlignment="Center" IsReadOnly="True" BorderThickness="0" Text="{Binding IncomeCnyPerDayText, Mode=OneWay}"></TextBox>
-				<TextBlock VerticalAlignment="Center" Text="CNY/天"></TextBlock>
-			</WrapPanel>
-		</WrapPanel>
-	</Grid>
+			</ItemsControl.ItemTemplate>
+		</ItemsControl>
+	</ScrollViewer>
 </UserControl>

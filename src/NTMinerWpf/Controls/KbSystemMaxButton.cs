@@ -8,10 +8,11 @@ namespace NTMiner.Controls {
             this.Icon = (StreamGeometry)Application.Current.Resources["Icon_Max"];
             Click += delegate {
                 if (window.WindowState == WindowState.Normal) {
-                    window.WindowState = WindowState.Maximized;
+                    Microsoft.Windows.Shell.SystemCommands.MaximizeWindow(window);
                     this.Icon = (StreamGeometry)Application.Current.Resources["Icon_Maxed"];
+                    window.Show();
                 } else if (window.WindowState == WindowState.Maximized) {
-                    window.WindowState = WindowState.Normal;
+                    Microsoft.Windows.Shell.SystemCommands.RestoreWindow(window);
                     this.Icon = (StreamGeometry)Application.Current.Resources["Icon_Max"];
                 }
             };
