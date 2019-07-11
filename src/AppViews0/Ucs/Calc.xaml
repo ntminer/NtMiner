@@ -30,7 +30,7 @@
 			</ItemsControl.ItemsPanel>
 			<ItemsControl.ItemTemplate>
 				<DataTemplate>
-					<Border Margin="40 0 0 0" Padding="20 4 0 4" BorderBrush="{StaticResource LineColor}" BorderThickness="0 0 0 1">
+					<Border Margin="40 0 0 0" Padding="20 4 0 4" Background="{Binding CoinIncomeVm.BackgroundBrush}" BorderBrush="{StaticResource LineColor}" BorderThickness="0 0 0 1">
 						<WrapPanel>
 							<StackPanel Width="80">
 								<Image Width="30" Height="30" Source="{Binding IconImageSource}">

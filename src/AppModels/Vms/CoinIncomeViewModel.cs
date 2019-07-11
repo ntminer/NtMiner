@@ -1,4 +1,6 @@
 ﻿using NTMiner.MinerServer;
+using System;
+using System.Windows.Media;
 
 namespace NTMiner.Vms {
     public class CoinIncomeViewModel : ViewModelBase {
@@ -9,11 +11,14 @@ namespace NTMiner.Vms {
         private string _modifiedOnText;
         private readonly CoinViewModel _coinVm;
         private SpeedUnitViewModel _speedUnitVm = null;
+        private SolidColorBrush _backgroundBrush;
 
         public CoinIncomeViewModel(CoinViewModel coinVm) {
             _coinVm = coinVm;
         }
 
+        private static readonly SolidColorBrush White = new SolidColorBrush(Colors.White);
+        private static readonly SolidColorBrush Red = new SolidColorBrush(Color.FromRgb(0xFF, 0xCC, 0x00));
         public void Refresh() {
             if (NTMinerRoot.Instance.CalcConfigSet.TryGetCalcConfig(_coinVm, out ICalcConfig calcConfig)) {
                 var incomePerDay = NTMinerRoot.Instance.CalcConfigSet.GetIncomePerHashPerDay(_coinVm.Code);
@@ -21,15 +26,22 @@ namespace NTMiner.Vms {
                 IncomeCnyPerDayText = (this.Speed.FromUnitSpeed(this.SpeedUnitVm.Unit) * incomePerDay.IncomeCny).ToString("f7");
                 CoinPriceCnyText = (incomePerDay.IncomeCny / incomePerDay.IncomeCoin).ToString("f2");
                 ModifiedOnText = incomePerDay.ModifiedOn.ToString("yyyy-MM-dd HH:mm");
+                if (incomePerDay.ModifiedOn.AddMinutes(15) < DateTime.Now) {
+                    BackgroundBrush = Red;
+                }
+                else {
+                    BackgroundBrush = White;
+                }
             }
             else {
                 IncomePerDayText = "0";
                 IncomeCnyPerDayText = "0";
                 CoinPriceCnyText = "0";
                 ModifiedOnText = string.Empty;
+                BackgroundBrush = Red;
             }
         }
-
+        
         public double Speed {
             get => _speed;
             set {
@@ -91,6 +103,14 @@ namespace NTMiner.Vms {
             set {
                 _modifiedOnText = value;
                 OnPropertyChanged(nameof(ModifiedOnText));
+            }
+        }
+
+        public SolidColorBrush BackgroundBrush {
+            get => _backgroundBrush;
+            set {
+                _backgroundBrush = value;
+                OnPropertyChanged(nameof(BackgroundBrush));
             }
         }
     }

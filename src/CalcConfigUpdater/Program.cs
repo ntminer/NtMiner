@@ -244,6 +244,11 @@ namespace NTMiner {
                 incomeItem.IncomeCoin = incomeCoin;
                 double.TryParse(match.Groups["incomeUsd"].Value, out double incomeUsd);
                 incomeItem.IncomeUsd = incomeUsd;
+                if (incomeItem.DataCode == "ae") {
+                    incomeItem.SpeedUnit = "h/s";
+                    incomeItem.IncomeCoin = incomeItem.IncomeCoin / 10.7;
+                    incomeItem.IncomeUsd = incomeItem.IncomeUsd / 10.7;
+                }
                 return incomeItem;
             }
             return null;
