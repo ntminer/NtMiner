@@ -149,9 +149,23 @@
 						Command="{x:Static app:AppStatic.ShowSpeedChart}">
 						<WrapPanel>
 							<Path 
-								Height="14"
-								Width="14"
+								Height="18"
+								Width="18"
 								Data="{StaticResource Icon_Speed}"
+								Fill="{StaticResource ThemeForeground}"
+								Stretch="Fill" />
+						</WrapPanel>
+					</controls:KbButton>
+					<controls:KbButton 
+						Margin="0 0 8 0"
+						ToolTip="收益计算器"
+						Background="Transparent" BorderThickness="0"
+						Command="{x:Static app:AppStatic.ShowCalc}">
+						<WrapPanel>
+							<Path 
+								Height="18"
+								Width="18"
+								Data="{StaticResource Icon_Calc}"
 								Fill="{StaticResource ThemeForeground}"
 								Stretch="Fill" />
 						</WrapPanel>
@@ -163,8 +177,8 @@
 						Command="{x:Static app:AppStatic.ShowKernels}">
 						<WrapPanel>
 							<Path 
-								Height="14"
-								Width="14"
+								Height="18"
+								Width="18"
 								Data="{StaticResource Icon_Kernel}"
 								Fill="{StaticResource ThemeForeground}"
 								Stretch="Fill" />

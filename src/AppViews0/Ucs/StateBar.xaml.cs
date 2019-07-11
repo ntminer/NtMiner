@@ -14,6 +14,9 @@ namespace NTMiner.Views.Ucs {
 
         public StateBar() {
             InitializeComponent();
+            if (Design.IsInDesignMode) {
+                return;
+            }
             this.RunOneceOnLoaded(() => {
                 var window = Window.GetWindow(this);
                 window.Activated += (object sender, EventArgs e) => {
