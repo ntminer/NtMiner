@@ -8,10 +8,10 @@ namespace NTMiner.Vms {
         private string _incomePerDayText;
         private string _incomeCnyPerDayText;
         private string _coinPriceCnyText;
-        private string _modifiedOnText;
         private readonly CoinViewModel _coinVm;
         private SpeedUnitViewModel _speedUnitVm = null;
         private SolidColorBrush _backgroundBrush;
+        private DateTime _modifiedOn;
 
         public CoinIncomeViewModel(CoinViewModel coinVm) {
             _coinVm = coinVm;
@@ -25,8 +25,8 @@ namespace NTMiner.Vms {
                 IncomePerDayText = (this.Speed.FromUnitSpeed(this.SpeedUnitVm.Unit) * incomePerDay.IncomeCoin).ToString("f7");
                 IncomeCnyPerDayText = (this.Speed.FromUnitSpeed(this.SpeedUnitVm.Unit) * incomePerDay.IncomeCny).ToString("f7");
                 CoinPriceCnyText = (incomePerDay.IncomeCny / incomePerDay.IncomeCoin).ToString("f2");
-                ModifiedOnText = incomePerDay.ModifiedOn.ToString("yyyy-MM-dd HH:mm");
-                if (incomePerDay.ModifiedOn.AddMinutes(15) < DateTime.Now) {
+                ModifiedOn = incomePerDay.ModifiedOn;
+                if (ModifiedOn.AddMinutes(15) < DateTime.Now) {
                     BackgroundBrush = Red;
                 }
                 else {
@@ -37,11 +37,11 @@ namespace NTMiner.Vms {
                 IncomePerDayText = "0";
                 IncomeCnyPerDayText = "0";
                 CoinPriceCnyText = "0";
-                ModifiedOnText = string.Empty;
+                ModifiedOn = DateTime.MinValue;
                 BackgroundBrush = Red;
             }
         }
-        
+
         public double Speed {
             get => _speed;
             set {
@@ -98,11 +98,18 @@ namespace NTMiner.Vms {
             }
         }
 
-        public string ModifiedOnText {
-            get => _modifiedOnText;
+        public DateTime ModifiedOn {
+            get => _modifiedOn;
             set {
-                _modifiedOnText = value;
+                _modifiedOn = value;
+                OnPropertyChanged(nameof(ModifiedOn));
                 OnPropertyChanged(nameof(ModifiedOnText));
+            }
+        }
+
+        public string ModifiedOnText {
+            get {
+                return ModifiedOn.ToString("yyyy-MM-dd HH:mm");
             }
         }
 

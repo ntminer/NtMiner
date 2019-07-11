@@ -1,5 +1,7 @@
 ﻿using NTMiner.Core;
 using NTMiner.Vms;
+using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -41,13 +43,23 @@ namespace NTMiner.Views.Ucs {
                 coinVm.CoinIncomeVm.Refresh();
             }
             this.RunOneceOnLoaded(() => {
-                Window.GetWindow(this).On<CalcConfigSetInitedEvent>("收益计算器数据集刷新后刷新VM", LogEnum.DevConsole,
+                var window = Window.GetWindow(this);
+                window.On<CalcConfigSetInitedEvent>("收益计算器数据集刷新后刷新VM", LogEnum.DevConsole,
                     action: message => {
                         UIThread.Execute(() => {
                             foreach (var coinVm in Vm.CoinVms.AllCoins) {
                                 coinVm.CoinIncomeVm.Refresh();
                             }
                         });
+                    });
+                window.On<Per1MinuteEvent>("当收益计算器页面打开着的时候周期刷新", LogEnum.None,
+                    action: message => {
+                        if (Vm.CoinVms.AllCoins.Count == 0) {
+                            return;
+                        }
+                        if (Vm.CoinVms.AllCoins.Max(a => a.CoinIncomeVm.ModifiedOn).AddMinutes(10) < DateTime.Now) {
+                            NTMinerRoot.Instance.CalcConfigSet.Init(forceRefresh: true);
+                        }
                     });
             });
         }

@@ -13,16 +13,16 @@ namespace NTMiner.Core.Impl {
             _root = root;
             VirtualRoot.On<MainWindowShowedEvent>("主界面显示后刷新收益计算器", LogEnum.DevConsole,
                 action: message => {
-                    Init(forceRefresh : true);
+                    Init(forceRefresh: true);
                 });
         }
 
         private DateTime _initedOn = DateTime.MinValue;
 
-        private void Init(bool forceRefresh = false) {
+        public void Init(bool forceRefresh = false) {
             DateTime now = DateTime.Now;
             // 如果未显示主界面则收益计算器也不用更新了
-            if ((_initedOn == DateTime.MinValue || NTMinerRoot.IsUiVisible) && (forceRefresh || _initedOn.AddMinutes(1) < now)) {
+            if ((_initedOn == DateTime.MinValue || NTMinerRoot.IsUiVisible) && (forceRefresh || _initedOn.AddMinutes(10) < now)) {
                 _initedOn = now;
                 OfficialServer.CalcConfigService.GetCalcConfigsAsync(data => {
                     Init(data);
