@@ -15,7 +15,8 @@ namespace NTMiner.Core {
             WalletRegexPattern = string.Empty,
             JustAsDualCoin = false,
             Notice = string.Empty,
-            TutorialUrl = string.Empty
+            TutorialUrl = string.Empty,
+            IsHot = false
         };
 
         public CoinData() {
@@ -49,5 +50,7 @@ namespace NTMiner.Core {
 
         public string Notice { get; set; }
         public string TutorialUrl { get; set; }
+
+        public bool IsHot { get; set; }
     }
 }

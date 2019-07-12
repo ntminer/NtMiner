@@ -32,6 +32,8 @@ namespace NTMiner.Core {
 
         public string Notice { get; set; }
 
+        public bool IsHot { get; set; }
+
         public List<EnvironmentVariable> EnvironmentVariables { get; set; }
 
         public List<InputSegment> InputSegments { get; set; }

@@ -47,6 +47,7 @@ namespace NTMiner.Vms {
         private string _notice;
         private string _iconImageSource;
         private string _tutorialUrl;
+        private bool _isHot;
         private List<GpuProfileViewModel> _gpuProfileVms;
         private readonly CoinIncomeViewModel _coinIncomeVm;
 
@@ -101,6 +102,7 @@ namespace NTMiner.Vms {
             _justAsDualCoin = data.JustAsDualCoin;
             _notice = data.Notice;
             _tutorialUrl = data.TutorialUrl;
+            _isHot = data.IsHot;
             string iconFileFullName = SpecialPath.GetIconFileFullName(data);
             if (!string.IsNullOrEmpty(iconFileFullName) && File.Exists(iconFileFullName)) {
                 _iconImageSource = iconFileFullName;
@@ -546,6 +548,14 @@ namespace NTMiner.Vms {
                     _tutorialUrl = value;
                     OnPropertyChanged(nameof(TutorialUrl));
                 }
+            }
+        }
+
+        public bool IsHot {
+            get { return _isHot; }
+            set {
+                _isHot = value;
+                OnPropertyChanged(nameof(IsHot));
             }
         }
 

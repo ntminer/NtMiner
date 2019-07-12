@@ -15,5 +15,6 @@ namespace NTMiner.Core {
         bool JustAsDualCoin { get; }
         string Notice { get; }
         string TutorialUrl { get; }
+        bool IsHot { get; }
     }
 }
