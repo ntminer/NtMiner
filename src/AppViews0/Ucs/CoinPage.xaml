@@ -146,7 +146,17 @@
 						</DataGridTemplateColumn.Header>
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
-								<TextBlock Text="{Binding Code}" />
+								<WrapPanel>
+									<TextBlock Text="{Binding Code}" />
+									<Path
+										Margin="4 0 0 0"
+										Visibility="{Binding IsHot,Converter={StaticResource BoolToVisibilityConverter}}"
+										Width="12"
+										Height="12"
+										Data="{StaticResource Icon_Hot}"
+										Fill="Red"
+										Stretch="Fill" />
+								</WrapPanel>
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
@@ -639,14 +649,29 @@
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
-							<DataGridTextColumn IsReadOnly="True" Binding="{Binding Kernel.FullName}">
-								<DataGridTextColumn.Header>
+							<DataGridTemplateColumn IsReadOnly="True">
+								<DataGridTemplateColumn.Header>
 									<WrapPanel>
 										<TextBlock Text="名称"></TextBlock>
 										<TextBlock Margin="4 0 0 0" Text="{Binding Data.CurrentCoin.CoinKernels.Count, Source={StaticResource proxy}}"></TextBlock>
 									</WrapPanel>
-								</DataGridTextColumn.Header>
-							</DataGridTextColumn>
+								</DataGridTemplateColumn.Header>
+								<DataGridTemplateColumn.CellTemplate>
+									<DataTemplate>
+										<WrapPanel>
+											<TextBlock Text="{Binding Kernel.FullName}"></TextBlock>
+											<Path
+												Margin="4 0 0 0"
+												Visibility="{Binding IsHot,Converter={StaticResource BoolToVisibilityConverter}}"
+												Width="12"
+												Height="12"
+												Data="{StaticResource Icon_Hot}"
+												Fill="Red"
+												Stretch="Fill" />
+										</WrapPanel>
+									</DataTemplate>
+								</DataGridTemplateColumn.CellTemplate>
+							</DataGridTemplateColumn>
 							<DataGridTemplateColumn IsReadOnly="True">
 								<DataGridTemplateColumn.Header>
 									<TextBlock Text="支持显卡"></TextBlock>
