@@ -227,15 +227,7 @@ namespace NTMiner {
             VirtualRoot.Window<SwitchRadeonGpuCommand>("处理开启A卡计算模式命令", LogEnum.DevConsole,
                 action: message => {
                     if (NTMinerRoot.Instance.GpuSet.GpuType == GpuType.AMD) {
-                        if (NTMinerRoot.Instance.IsMining) {
-                            NTMinerRoot.Instance.StopMineAsync(() => {
-                                SwitchRadeonGpuMode();
-                                NTMinerRoot.Instance.StartMine();
-                            });
-                        }
-                        else {
-                            SwitchRadeonGpuMode();
-                        }
+                        SwitchRadeonGpuMode();
                     }
                 });
             #endregion
@@ -243,15 +235,7 @@ namespace NTMiner {
             VirtualRoot.Window<AtikmdagPatcherCommand>("处理A卡驱动签名命令", LogEnum.DevConsole,
                 action: message => {
                     if (NTMinerRoot.Instance.GpuSet.GpuType == GpuType.AMD) {
-                        if (NTMinerRoot.Instance.IsMining) {
-                            NTMinerRoot.Instance.StopMineAsync(() => {
-                                AtikmdagPatcher.AtikmdagPatcherUtil.Run();
-                                NTMinerRoot.Instance.StartMine();
-                            });
-                        }
-                        else {
-                            AtikmdagPatcher.AtikmdagPatcherUtil.Run();
-                        }
+                        AtikmdagPatcher.AtikmdagPatcherUtil.Run();
                     }
                 });
             #endregion
