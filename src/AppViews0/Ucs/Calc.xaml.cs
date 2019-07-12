@@ -39,9 +39,6 @@ namespace NTMiner.Views.Ucs {
 
         private Calc() {
             InitializeComponent();
-            foreach (var coinVm in Vm.CoinVms.AllCoins) {
-                coinVm.CoinIncomeVm.Refresh();
-            }
             this.RunOneceOnLoaded(() => {
                 var window = Window.GetWindow(this);
                 window.On<CalcConfigSetInitedEvent>("收益计算器数据集刷新后刷新VM", LogEnum.DevConsole,
@@ -61,6 +58,9 @@ namespace NTMiner.Views.Ucs {
                             NTMinerRoot.Instance.CalcConfigSet.Init(forceRefresh: true);
                         }
                     });
+                foreach (var coinVm in Vm.CoinVms.AllCoins) {
+                    coinVm.CoinIncomeVm.Refresh();
+                }
             });
         }
 
