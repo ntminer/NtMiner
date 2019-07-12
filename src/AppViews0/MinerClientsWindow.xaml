@@ -58,7 +58,21 @@
 			</WrapPanel>
 			<WrapPanel Grid.Column="1">
 				<controls:KbButton 
-					Margin="10 0 4 0"
+					ToolTip="收益计算器"
+					Command="{x:Static app:AppStatic.ShowCalc}" 
+					Background="Transparent" 
+					BorderThickness="0"
+					Margin="0 0 8 0"
+					CornerRadius="2">
+					<Path 
+						Width="18"
+						Height="18"
+						Data="{StaticResource Icon_Calc}"
+						Fill="{StaticResource ThemeForeground}"
+						Stretch="Fill" />
+				</controls:KbButton>
+				<controls:KbButton 
+					Margin="0 0 8 0"
 					ToolTip="算力图"
 					Command="{x:Static app:AppStatic.ShowChartsWindow}" Background="Transparent" BorderThickness="0"
 					CornerRadius="2">
