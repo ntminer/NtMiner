@@ -18,6 +18,7 @@
 		PreviewMouseDown="ScrollViewer_PreviewMouseDown">
 		<ItemsControl 
 			x:Name="ItemsControl"
+			HorizontalAlignment="Center"
 			Background="Transparent"
 			ItemsSource="{Binding CoinVms.AllCoins}"
 			ScrollViewer.HorizontalScrollBarVisibility="Disabled"
@@ -30,7 +31,7 @@
 			</ItemsControl.ItemsPanel>
 			<ItemsControl.ItemTemplate>
 				<DataTemplate>
-					<Border Margin="40 0 0 0" Padding="20 4 0 4" Background="{Binding CoinIncomeVm.BackgroundBrush}" BorderBrush="{StaticResource LineColor}" BorderThickness="0 0 0 1">
+					<Border Margin="10 0" Padding="20 4 0 4" Background="{Binding CoinIncomeVm.BackgroundBrush}" BorderBrush="{StaticResource LineColor}" BorderThickness="0 0 0 1">
 						<WrapPanel>
 							<StackPanel Width="80">
 								<Image Width="30" Height="30" Source="{Binding IconImageSource}">
@@ -60,7 +61,7 @@
 								Data="{StaticResource Icon_ArrowRight}"
 								Fill="{StaticResource IconFillColor}"
 								Stretch="Fill"/>
-							<StackPanel Width="200">
+							<StackPanel Width="160">
 								<TextBox FontSize="16" FontWeight="Bold" IsReadOnly="True" BorderThickness="0" Text="{Binding CoinIncomeVm.IncomePerDayText, Mode=OneWay}"></TextBox>
 								<WrapPanel VerticalAlignment="Center">
 									<TextBlock Text="≈ ￥" FontSize="16" VerticalAlignment="Center"></TextBlock>

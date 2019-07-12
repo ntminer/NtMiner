@@ -15,9 +15,9 @@ namespace NTMiner.Views.Ucs {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "收益计算器",
                 IconName = "Icon_Calc",
-                Width = 760,
-                MinWidth = 760,
-                Height = 600,
+                Width = 700,
+                MinWidth = 700,
+                Height = 560,
                 CloseVisible = Visibility.Visible,
                 FooterText = "数据来自鱼池首页，感谢鱼池的支持。因为数据来自矿池，单位算力收益的币数是非常准确的。"
             }, ucFactory: (window) => {
