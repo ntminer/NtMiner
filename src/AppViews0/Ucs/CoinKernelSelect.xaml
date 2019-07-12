@@ -79,7 +79,17 @@
 				<DataGridTemplateColumn Width="200" Header="名称" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<TextBlock Text="{Binding Kernel.FullName}" VerticalAlignment="Center" FontSize="14"></TextBlock>
+							<WrapPanel>
+								<TextBlock Text="{Binding Kernel.FullName}" VerticalAlignment="Center" FontSize="14"></TextBlock>
+								<Path
+									Margin="4 0 0 0"
+									Visibility="{Binding IsHot,Converter={StaticResource BoolToVisibilityConverter}}"
+									Width="12"
+									Height="12"
+									Data="{StaticResource Icon_Hot}"
+									Fill="Red"
+									Stretch="Fill" />
+							</WrapPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
