@@ -106,8 +106,23 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTextColumn Width="100" Header="编码" Binding="{Binding Code}" IsReadOnly="True">
-				</DataGridTextColumn>
+				<DataGridTemplateColumn Width="100" Header="编码" IsReadOnly="True">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<WrapPanel>
+								<TextBlock Text="{Binding Code}"></TextBlock>
+								<Path
+									Margin="4 0 0 0"
+									Visibility="{Binding IsHot,Converter={StaticResource BoolToVisibilityConverter}}"
+									Width="12"
+									Height="12"
+									Data="{StaticResource Icon_Hot}"
+									Fill="Red"
+									Stretch="Fill" />
+							</WrapPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
 				<DataGridTextColumn Width="140" Header="中文名" Binding="{Binding CnName}" IsReadOnly="True">
 				</DataGridTextColumn>
 				<DataGridTextColumn Width="140" Header="算法" Binding="{Binding AlgoItem.Value}" IsReadOnly="True">
