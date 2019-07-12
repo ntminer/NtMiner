@@ -49,6 +49,7 @@
 					Fill="{StaticResource IconFillColor}"
 					Stretch="Fill" />
 				<TextBlock
+					VerticalAlignment="Center"
 					Margin="4 0 8 0"
 					FontSize="14"
 					Foreground="{StaticResource ThemeForeground}"

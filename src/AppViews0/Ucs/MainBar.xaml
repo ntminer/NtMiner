@@ -15,80 +15,6 @@
 		<vm:MainBarViewModel></vm:MainBarViewModel>
 	</UserControl.DataContext>
 	<WrapPanel>
-		<controls:KbLinkButton
-			Foreground="{StaticResource ThemeForeground}"
-			ToolTip="点击加入QQ群"
-			Background="Transparent"
-			KbSystemButtonHoverBackground="Transparent"
-			KbDisplayLine="False"
-			Command="{x:Static app:AppStatic.JoinQQGroup}">
-			<WrapPanel>
-				<Path 
-					Margin="0 -2 2 0"
-					Width="14"
-					Height="14"
-					Data="{StaticResource Icon_QQ}"
-					Fill="{StaticResource ThemeForeground}"
-					Stretch="Fill" />
-			</WrapPanel>
-		</controls:KbLinkButton>
-		<TextBox 
-			VerticalAlignment="Center" IsReadOnly="True" 
-			Margin="0 0 8 0"
-			Foreground="{StaticResource ThemeForeground}"
-			Background="Transparent" 
-			BorderThickness="0" Text="{x:Static app:AppStatic.QQGroup}">
-		</TextBox>
-		<controls:KbButton 
-			Margin="2 -1 8 0"
-			Cursor="Hand"
-			ToolTip="点击显示QQ群二维码"
-			Background="Transparent" 
-			Foreground="{StaticResource ThemeForeground}"
-			BorderThickness="0"
-			Command="{x:Static app:AppStatic.ShowQQGroupQrCode}">
-			<Path 
-				Width="14"
-				Height="14"
-				Data="{StaticResource Icon_QRCode}"
-				Fill="{StaticResource ThemeForeground}"
-				Stretch="Fill" />
-		</controls:KbButton>
-		<controls:KbLinkButton
-			Margin="0 0 8 0"
-			Command="{x:Static app:AppStatic.OpenOfficialSite}"
-			Background="Transparent"
-			Foreground="{StaticResource ThemeForeground}"
-			KbSystemButtonHoverBackground="Transparent"
-			KbDisplayLine="False">
-			<WrapPanel>
-				<TextBlock Text="Github" Foreground="{StaticResource ThemeForeground}"></TextBlock>
-				<Path 
-					Width="14"
-					Height="14"
-					Data="{StaticResource Icon_Github}"
-					Fill="{StaticResource ThemeForeground}"
-					Stretch="Fill" />
-			</WrapPanel>
-		</controls:KbLinkButton>
-		<controls:KbLinkButton
-			Margin="0 0 8 0"
-			Foreground="{StaticResource ThemeForeground}"
-			Command="{x:Static app:AppStatic.OpenDiscussSite}"
-			Background="Transparent"
-			KbSystemButtonHoverBackground="Transparent"
-			KbDisplayLine="False">
-			<WrapPanel>
-				<TextBlock Text="Discuss" Foreground="{StaticResource ThemeForeground}"></TextBlock>
-				<Path 
-					Width="14"
-					Height="14"
-					Data="{StaticResource Icon_Discuss}"
-					Fill="{StaticResource ThemeForeground}"
-					Stretch="Fill" />
-			</WrapPanel>
-		</controls:KbLinkButton>
-
 		<TextBlock
 			Margin="2 0 0 0"
 			Foreground="{StaticResource ThemeForeground}"
@@ -118,6 +44,67 @@
 			HorizontalAlignment="Left"
 			VerticalAlignment="Center"
 			Text=")" />
+		<controls:KbLinkButton
+			Margin="8 0 0 0"
+			Foreground="{StaticResource ThemeForeground}"
+			ToolTip="点击加入QQ群"
+			Background="Transparent"
+			KbSystemButtonHoverBackground="Transparent"
+			KbDisplayLine="False"
+			Command="{x:Static app:AppStatic.JoinQQGroup}">
+			<TextBlock>Q群</TextBlock>
+		</controls:KbLinkButton>
+		<TextBox 
+			VerticalAlignment="Center" IsReadOnly="True" 
+			Foreground="{StaticResource ThemeForeground}"
+			Background="Transparent" 
+			BorderThickness="0" Text="{x:Static app:AppStatic.QQGroup}">
+		</TextBox>
+		<controls:KbButton 
+			Cursor="Hand"
+			ToolTip="点击显示QQ群二维码"
+			Background="Transparent" 
+			Foreground="{StaticResource ThemeForeground}"
+			BorderThickness="0"
+			Command="{x:Static app:AppStatic.ShowQQGroupQrCode}">
+			<Path 
+				Width="14"
+				Height="14"
+				Data="{StaticResource Icon_QRCode}"
+				Fill="{StaticResource ThemeForeground}"
+				Stretch="Fill" />
+		</controls:KbButton>
+		<controls:KbLinkButton
+			Margin="8 0 8 0"
+			ToolTip="源代码"
+			Command="{x:Static app:AppStatic.OpenOfficialSite}"
+			Background="Transparent"
+			Foreground="{StaticResource ThemeForeground}"
+			KbSystemButtonHoverBackground="Transparent"
+			KbDisplayLine="False">
+			<Path 
+				Width="14"
+				Height="14"
+				Data="{StaticResource Icon_Github}"
+				Fill="{StaticResource ThemeForeground}"
+				Stretch="Fill" />
+		</controls:KbLinkButton>
+		<controls:KbLinkButton
+			ToolTip="讨论"
+			Margin="0 0 8 0"
+			Foreground="{StaticResource ThemeForeground}"
+			Command="{x:Static app:AppStatic.OpenDiscussSite}"
+			Background="Transparent"
+			KbSystemButtonHoverBackground="Transparent"
+			KbDisplayLine="False">
+			<Path 
+				Width="14"
+				Height="14"
+				Data="{StaticResource Icon_Discuss}"
+				Fill="{StaticResource ThemeForeground}"
+				Stretch="Fill" />
+		</controls:KbLinkButton>
+
 		<controls:KbButton 
 			Margin="0 0 4 0"
 			Cursor="Hand"
