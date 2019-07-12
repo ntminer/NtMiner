@@ -13,8 +13,7 @@
 		BorderThickness="1"
 		Background="White"
 		mc:Ignorable="d" 
-		d:DesignHeight="300"
-		MaxHeight="320">
+		d:DesignHeight="300">
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"></RowDefinition>
