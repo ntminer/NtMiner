@@ -21,10 +21,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        public bool IsAutoAdminLogon {
-            get { return OS.IsAutoAdminLogon; }
-        }
-
         public Cpu Cpu {
             get {
                 return Cpu.Instance;

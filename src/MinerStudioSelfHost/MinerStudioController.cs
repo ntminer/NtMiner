@@ -1,11 +1,12 @@
-﻿using System;
+﻿using NTMiner.Controllers;
+using System;
 using System.Web.Http;
 
 namespace NTMiner {
     /// <summary>
     /// 端口号：<see cref="Consts.MinerStudioPort"/>
     /// </summary>
-    public class MinerStudioController : ApiController, IShowMainWindow {
+    public class MinerStudioController : ApiController, IMinerStudioController {
         [HttpPost]
         public bool ShowMainWindow() {
             try {

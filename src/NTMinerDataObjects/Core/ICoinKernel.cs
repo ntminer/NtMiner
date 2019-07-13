@@ -24,5 +24,6 @@ namespace NTMiner.Core {
         /// Fragment是里面有变量的片段
         /// </summary>
         List<Guid> FragmentWriterIds { get; }
+        bool IsHot { get; }
     }
 }

@@ -53,7 +53,7 @@ namespace NTMiner {
 
             #region ActiveControlCenterAdminAsync
             public void ActiveControlCenterAdminAsync(string password, Action<ResponseBase, Exception> callback) {
-                PostAsync(SControllerName, nameof(IControlCenterController.ActiveControlCenterAdmin), password, callback);
+                PostAsync(SControllerName, nameof(IControlCenterController.ActiveControlCenterAdmin), null, password, callback);
             }
             #endregion
 
@@ -63,7 +63,7 @@ namespace NTMiner {
                     LoginName = loginName
                 };
                 request.SignIt(password);
-                PostAsync(SControllerName, nameof(IControlCenterController.LoginControlCenter), request, callback);
+                PostAsync(SControllerName, nameof(IControlCenterController.LoginControlCenter), null, request, callback);
             }
             #endregion
 
@@ -81,7 +81,7 @@ namespace NTMiner {
                         Data = clientId
                     };
                     request.SignIt(SingleUser.PasswordSha1);
-                    DataResponse<List<UserData>> response = Post<DataResponse<List<UserData>>>(SControllerName, nameof(IControlCenterController.Users), request, timeout: 2000);
+                    DataResponse<List<UserData>> response = Post<DataResponse<List<UserData>>>(SControllerName, nameof(IControlCenterController.Users), null, request, timeout: 2000);
                     if (response != null && response.Data != null) {
                         return response.Data;
                     }
@@ -101,7 +101,7 @@ namespace NTMiner {
                     Data = userData
                 };
                 request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(SControllerName, nameof(IControlCenterController.AddUser), request, callback);
+                PostAsync(SControllerName, nameof(IControlCenterController.AddUser), null, request, callback);
             }
             #endregion
 
@@ -112,7 +112,7 @@ namespace NTMiner {
                     Data = userData
                 };
                 request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(SControllerName, nameof(IControlCenterController.UpdateUser), request, callback);
+                PostAsync(SControllerName, nameof(IControlCenterController.UpdateUser), null, request, callback);
             }
             #endregion
 
@@ -123,7 +123,7 @@ namespace NTMiner {
                     Data = loginName
                 };
                 request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(SControllerName, nameof(IControlCenterController.RemoveUser), request, callback);
+                PostAsync(SControllerName, nameof(IControlCenterController.RemoveUser), null, request, callback);
             }
             #endregion
 
@@ -136,7 +136,7 @@ namespace NTMiner {
                     Limit = limit
                 };
                 request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(SControllerName, nameof(IControlCenterController.LatestSnapshots), request, callback);
+                PostAsync(SControllerName, nameof(IControlCenterController.LatestSnapshots), null, request, callback);
             }
             #endregion
 
@@ -171,7 +171,7 @@ namespace NTMiner {
                     Kernel = kernel
                 };
                 request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(SControllerName, nameof(IControlCenterController.QueryClients), request, callback);
+                PostAsync(SControllerName, nameof(IControlCenterController.QueryClients), null, request, callback);
             }
             #endregion
 
@@ -182,7 +182,7 @@ namespace NTMiner {
                     ClientIps = clientIps
                 };
                 request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(SControllerName, nameof(IControlCenterController.AddClients), request, callback);
+                PostAsync(SControllerName, nameof(IControlCenterController.AddClients), null, request, callback);
             }
             #endregion
 
@@ -193,7 +193,7 @@ namespace NTMiner {
                     ObjectIds = objectIds
                 };
                 request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(SControllerName, nameof(IControlCenterController.RemoveClients), request, callback);
+                PostAsync(SControllerName, nameof(IControlCenterController.RemoveClients), null, request, callback);
             }
             #endregion
 
@@ -204,7 +204,7 @@ namespace NTMiner {
                     ObjectIds = objectIds
                 };
                 request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(SControllerName, nameof(IControlCenterController.RefreshClients), request, callback);
+                PostAsync(SControllerName, nameof(IControlCenterController.RefreshClients), null, request, callback);
             }
             #endregion
 
@@ -217,7 +217,7 @@ namespace NTMiner {
                     Value = value
                 };
                 request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(SControllerName, nameof(IControlCenterController.UpdateClient), request, callback);
+                PostAsync(SControllerName, nameof(IControlCenterController.UpdateClient), null, request, callback);
             }
             #endregion
 
@@ -229,7 +229,7 @@ namespace NTMiner {
                     Values = values
                 };
                 request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(SControllerName, nameof(IControlCenterController.UpdateClients), request, callback);
+                PostAsync(SControllerName, nameof(IControlCenterController.UpdateClients), null, request, callback);
             }
             #endregion
 
@@ -245,7 +245,7 @@ namespace NTMiner {
                         LoginName = SingleUser.LoginName
                     };
                     request.SignIt(SingleUser.PasswordSha1);
-                    DataResponse<List<MinerGroupData>> response = Post<DataResponse<List<MinerGroupData>>>(SControllerName, nameof(IControlCenterController.MinerGroups), request, timeout: 2000);
+                    DataResponse<List<MinerGroupData>> response = Post<DataResponse<List<MinerGroupData>>>(SControllerName, nameof(IControlCenterController.MinerGroups), null, request, timeout: 2000);
                     if (response != null && response.Data != null) {
                         return response.Data;
                     }
@@ -266,7 +266,7 @@ namespace NTMiner {
                     Data = entity
                 };
                 request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(SControllerName, nameof(IControlCenterController.AddOrUpdateMinerGroup), request, callback);
+                PostAsync(SControllerName, nameof(IControlCenterController.AddOrUpdateMinerGroup), null, request, callback);
             }
             #endregion
 
@@ -277,7 +277,7 @@ namespace NTMiner {
                     Data = id
                 };
                 request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(SControllerName, nameof(IControlCenterController.RemoveMinerGroup), request, callback);
+                PostAsync(SControllerName, nameof(IControlCenterController.RemoveMinerGroup), null, request, callback);
             }
             #endregion
 
@@ -303,7 +303,7 @@ namespace NTMiner {
                     Data = entity
                 };
                 request.SignIt(SingleUser.PasswordSha1);
-                ResponseBase response = Post<ResponseBase>(SControllerName, nameof(IControlCenterController.AddOrUpdateMineWork), request);
+                ResponseBase response = Post<ResponseBase>(SControllerName, nameof(IControlCenterController.AddOrUpdateMineWork), null, request);
                 return response;
             }
             #endregion
@@ -315,7 +315,7 @@ namespace NTMiner {
                     Data = id
                 };
                 request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(SControllerName, nameof(IControlCenterController.RemoveMineWork), request, callback);
+                PostAsync(SControllerName, nameof(IControlCenterController.RemoveMineWork), null, request, callback);
             }
             #endregion
 
@@ -331,7 +331,7 @@ namespace NTMiner {
                         LoginName = SingleUser.LoginName
                     };
                     request.SignIt(SingleUser.PasswordSha1);
-                    DataResponse<List<MineWorkData>> response = Post<DataResponse<List<MineWorkData>>>(SControllerName, nameof(IControlCenterController.MineWorks), request, timeout: 2000);
+                    DataResponse<List<MineWorkData>> response = Post<DataResponse<List<MineWorkData>>>(SControllerName, nameof(IControlCenterController.MineWorks), null, request, timeout: 2000);
                     if (response != null && response.Data != null) {
                         return response.Data;
                     }
@@ -353,7 +353,7 @@ namespace NTMiner {
                     ServerJson = serverJson
                 };
                 request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(SControllerName, nameof(IControlCenterController.ExportMineWork), request, callback);
+                PostAsync(SControllerName, nameof(IControlCenterController.ExportMineWork), null, request, callback);
             }
             #endregion
 
@@ -364,7 +364,7 @@ namespace NTMiner {
                         LoginName = SingleUser.LoginName
                     };
                     request.SignIt(SingleUser.PasswordSha1);
-                    var response = Post<DataResponse<string>>(SControllerName, nameof(IControlCenterController.GetLocalJson), request);
+                    var response = Post<DataResponse<string>>(SControllerName, nameof(IControlCenterController.GetLocalJson), null, request);
                     if (response != null) {
                         return response.Data;
                     }
@@ -387,7 +387,7 @@ namespace NTMiner {
                         LoginName = SingleUser.LoginName
                     };
                     request.SignIt(SingleUser.PasswordSha1);
-                    DataResponse<List<WalletData>> response = Post<DataResponse<List<WalletData>>>(SControllerName, nameof(IControlCenterController.Wallets), request, timeout: 2000);
+                    DataResponse<List<WalletData>> response = Post<DataResponse<List<WalletData>>>(SControllerName, nameof(IControlCenterController.Wallets), null, request, timeout: 2000);
                     return response;
                 }
                 catch (Exception e) {
@@ -404,7 +404,7 @@ namespace NTMiner {
                     Data = entity
                 };
                 request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(SControllerName, nameof(IControlCenterController.AddOrUpdateWallet), request, callback);
+                PostAsync(SControllerName, nameof(IControlCenterController.AddOrUpdateWallet), null, request, callback);
             }
             #endregion
 
@@ -415,7 +415,7 @@ namespace NTMiner {
                     Data = id
                 };
                 request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(SControllerName, nameof(IControlCenterController.RemoveWallet), request, callback);
+                PostAsync(SControllerName, nameof(IControlCenterController.RemoveWallet), null, request, callback);
             }
             #endregion
 
@@ -431,7 +431,7 @@ namespace NTMiner {
                         LoginName = SingleUser.LoginName
                     };
                     request.SignIt(SingleUser.PasswordSha1);
-                    DataResponse<List<PoolData>> response = Post<DataResponse<List<PoolData>>>(SControllerName, nameof(IControlCenterController.Pools), request, timeout: 2000);
+                    DataResponse<List<PoolData>> response = Post<DataResponse<List<PoolData>>>(SControllerName, nameof(IControlCenterController.Pools), null, request, timeout: 2000);
                     if (response != null && response.Data != null) {
                         return response.Data;
                     }
@@ -451,7 +451,7 @@ namespace NTMiner {
                     Data = entity
                 };
                 request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(SControllerName, nameof(IControlCenterController.AddOrUpdatePool), request, callback);
+                PostAsync(SControllerName, nameof(IControlCenterController.AddOrUpdatePool), null, request, callback);
             }
             #endregion
 
@@ -462,7 +462,7 @@ namespace NTMiner {
                     Data = id
                 };
                 request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(SControllerName, nameof(IControlCenterController.RemovePool), request, callback);
+                PostAsync(SControllerName, nameof(IControlCenterController.RemovePool), null, request, callback);
             }
             #endregion
 
@@ -478,7 +478,7 @@ namespace NTMiner {
                         LoginName = SingleUser.LoginName
                     };
                     request.SignIt(SingleUser.PasswordSha1);
-                    DataResponse<List<ColumnsShowData>> response = Post<DataResponse<List<ColumnsShowData>>>(SControllerName, nameof(IControlCenterController.ColumnsShows), request, timeout: 2000);
+                    DataResponse<List<ColumnsShowData>> response = Post<DataResponse<List<ColumnsShowData>>>(SControllerName, nameof(IControlCenterController.ColumnsShows), null, request, timeout: 2000);
                     if (response != null && response.Data != null) {
                         return response.Data;
                     }
@@ -498,7 +498,7 @@ namespace NTMiner {
                     Data = entity
                 };
                 request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(SControllerName, nameof(IControlCenterController.AddOrUpdateColumnsShow), request, callback);
+                PostAsync(SControllerName, nameof(IControlCenterController.AddOrUpdateColumnsShow), null, request, callback);
             }
             #endregion
 
@@ -509,7 +509,7 @@ namespace NTMiner {
                     Data = id
                 };
                 request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(SControllerName, nameof(IControlCenterController.RemoveColumnsShow), request, callback);
+                PostAsync(SControllerName, nameof(IControlCenterController.RemoveColumnsShow), null, request, callback);
             }
             #endregion
         }

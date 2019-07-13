@@ -32,8 +32,9 @@
 				<GroupBox.Header>
 					<CheckBox
 						FocusVisualStyle="{x:Null}"
-						Margin="0 4 0 0"
-						VerticalAlignment="Top"
+						FontSize="16"
+                        FontWeight="Bold"
+						VerticalContentAlignment="Center"
 						IsChecked="{Binding CoinVm.IsOverClockGpuAll}" 
 						Content="统一超频"></CheckBox>
 				</GroupBox.Header>
@@ -55,7 +56,7 @@
 					</WrapPanel>
 
 					<WrapPanel>
-						<TextBlock Style="{StaticResource LblTb}">最高温度</TextBlock>
+						<TextBlock Style="{StaticResource LblTb}">温度阈值</TextBlock>
 						<TextBox Style="{StaticResource TextBox}" ToolTip="{Binding CoinVm.GpuAllProfileVm.GpuVm.TempLimitMinMaxText}" Text="{Binding CoinVm.GpuAllProfileVm.TempLimit, ValidatesOnExceptions=True}"></TextBox>
 						<TextBlock VerticalAlignment="Center">℃</TextBlock>
 					</WrapPanel>
@@ -126,8 +127,8 @@
 					</ItemsControl>
 				</WrapPanel>
 				<StackPanel Grid.Row="1">
-					<TextBlock VerticalAlignment="Center" Foreground="{StaticResource LableColor}">核心和显存填0表示恢复默认</TextBlock>
-					<TextBlock VerticalAlignment="Center" Foreground="{StaticResource LableColor}">最高温度：表示达到这个温度时显卡将自动降频</TextBlock>
+					<TextBlock VerticalAlignment="Center" Foreground="{StaticResource LableColor}">填0表示使用默认值</TextBlock>
+					<TextBlock VerticalAlignment="Center" Foreground="{StaticResource LableColor}">温度阈值：表示达到这个温度时显卡将自动降频</TextBlock>
 				</StackPanel>
 				<WrapPanel Grid.Row="2" VerticalAlignment="Bottom">
 					<controls:KbButton
@@ -149,6 +150,25 @@
 						</WrapPanel>
 					</controls:KbButton>
 					<TextBlock x:Name="TbRedText" Margin="10 0 0 0" Foreground="Red" VerticalAlignment="Center"></TextBlock>
+					<controls:KbButton
+						Height="21"
+						Margin="10 0 0 0"
+						Padding="6 2"
+						ToolTip="恢复默认值并禁用超频界面"
+						Command="{Binding CoinVm.RestoreOverClock}" 
+						Background="Red"
+						Foreground="{StaticResource ThemeForeground}"
+						CornerRadius="2">
+						<WrapPanel>
+							<Path
+								Width="12"
+								Height="12"
+								Data="{StaticResource Icon_Refresh}"
+								Fill="{StaticResource ThemeForeground}"
+								Stretch="Fill" />
+							<TextBlock Foreground="{StaticResource ThemeForeground}">恢复默认</TextBlock>
+						</WrapPanel>
+					</controls:KbButton>
 					<controls:KbButton
 						Margin="10 0 0 0"
 						Height="21"
@@ -210,7 +230,7 @@
 										<TextBlock VerticalAlignment="Center" Margin="4 0 0 0" Text="{Binding GpuVm.PowerUsageWText}"></TextBlock>
 									</WrapPanel>
 									<WrapPanel>
-										<TextBlock Style="{StaticResource LblTb}">最高温度</TextBlock>
+										<TextBlock Style="{StaticResource LblTb}">温度阈值</TextBlock>
 										<TextBox Style="{StaticResource TextBox}" ToolTip="{Binding GpuVm.TempLimitMinMaxText}" Text="{Binding TempLimit, ValidatesOnExceptions=True}"></TextBox>
 										<TextBlock VerticalAlignment="Center">℃</TextBlock>
 										<TextBlock VerticalAlignment="Center" Margin="4 0 0 0" Text="{Binding GpuVm.TempLimitText}"></TextBlock>

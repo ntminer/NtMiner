@@ -352,7 +352,8 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
                     ADL.ADL_Overdrive5_FanSpeed_Set(adapterIndex, 0, ref adlf);
                 }
             }
-            catch {
+            catch(Exception e) {
+                Logger.ErrorDebugLine(e);
             }
         }
 
@@ -411,12 +412,18 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
             try {
                 int result = ADL.ADL2_OverdriveN_PowerLimit_Get(context, adapterIndex, ref lpODPowerLimit);
                 if (result == ADL.ADL_OK) {
+                    if (value == 0) {
+                        ADLODNCapabilitiesX2 lpODCapabilities = new ADLODNCapabilitiesX2();
+                        result = ADL.ADL2_OverdriveN_CapabilitiesX2_Get(context, adapterIndex, ref lpODCapabilities);
+                        value = lpODCapabilities.powerTuneTemperature.iDefault;
+                    }
                     lpODPowerLimit.iMode = ADL.ODNControlType_Manual;
                     lpODPowerLimit.iMaxOperatingTemperature = value;
                     ADL.ADL2_OverdriveN_PowerLimit_Set(context, adapterIndex, ref lpODPowerLimit);
                 }
             }
-            catch {
+            catch(Exception e) {
+                Logger.ErrorDebugLine(e);
             }
         }
 

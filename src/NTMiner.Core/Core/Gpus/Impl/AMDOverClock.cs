@@ -37,7 +37,7 @@ namespace NTMiner.Core.Gpus.Impl {
 
         public void SetPowerCapacity(int gpuIndex, int value) {
             if (value == 0) {
-                return;
+                value = 100;
             }
             if (gpuIndex == NTMinerRoot.GpuAllId) {
                 foreach (var gpu in NTMinerRoot.Instance.GpuSet) {
@@ -53,9 +53,6 @@ namespace NTMiner.Core.Gpus.Impl {
         }
 
         public void SetThermCapacity(int gpuIndex, int value) {
-            if (value == 0) {
-                return;
-            }
             if (gpuIndex == NTMinerRoot.GpuAllId) {
                 foreach (var gpu in NTMinerRoot.Instance.GpuSet) {
                     if (gpu.Index == NTMinerRoot.GpuAllId) {
@@ -71,7 +68,7 @@ namespace NTMiner.Core.Gpus.Impl {
 
         public void SetCool(int gpuIndex, int value) {
             if (value == 0) {
-                return;
+                value = 90;
             }
             if (gpuIndex == NTMinerRoot.GpuAllId) {
                 foreach (var gpu in NTMinerRoot.Instance.GpuSet) {
@@ -100,6 +97,15 @@ namespace NTMiner.Core.Gpus.Impl {
                     RefreshGpuState(gpu);
                 }
             }
+        }
+
+        public void Restore() {
+            SetCoreClock(NTMinerRoot.GpuAllId, 0);
+            SetMemoryClock(NTMinerRoot.GpuAllId, 0);
+            SetPowerCapacity(NTMinerRoot.GpuAllId, 0);
+            SetThermCapacity(NTMinerRoot.GpuAllId, 0);
+            SetCool(NTMinerRoot.GpuAllId, 0);
+            RefreshGpuState(NTMinerRoot.GpuAllId);
         }
 
         private void RefreshGpuState(IGpu gpu) {

@@ -275,7 +275,11 @@ namespace NTMiner {
             }
         }
 
-        public static ICommand ConfigControlCenterHost { get; private set; } = new DelegateCommand(()=> {
+        public static ICommand ViewUrl { get; private set; } = new DelegateCommand<string>(url => {
+            Process.Start(url);
+        });
+
+        public static ICommand ConfigControlCenterHost { get; private set; } = new DelegateCommand(() => {
             VirtualRoot.Execute(new ShowControlCenterHostConfigCommand());
         });
 
@@ -311,15 +315,15 @@ namespace NTMiner {
             Windows.Cmd.RunClose("control", "userpasswords2");
         });
 
-        public static ICommand ShowUsers { get; private set; } = new DelegateCommand(()=> {
+        public static ICommand ShowUsers { get; private set; } = new DelegateCommand(() => {
             VirtualRoot.Execute(new ShowUserPageCommand());
         });
 
-        public static ICommand ShowOverClockDatas { get; private set; } = new DelegateCommand(()=> {
+        public static ICommand ShowOverClockDatas { get; private set; } = new DelegateCommand(() => {
             VirtualRoot.Execute(new ShowOverClockDataPageCommand());
         });
 
-        public static ICommand ShowChartsWindow { get; private set; } = new DelegateCommand(()=> {
+        public static ICommand ShowChartsWindow { get; private set; } = new DelegateCommand(() => {
             VirtualRoot.Execute(new ShowChartsWindowCommand());
         });
 
@@ -327,7 +331,7 @@ namespace NTMiner {
             VirtualRoot.Execute(new ShowOuterPropertyCommand());
         });
 
-        public static ICommand ShowInnerProperty { get; private set; } = new DelegateCommand(()=> {
+        public static ICommand ShowInnerProperty { get; private set; } = new DelegateCommand(() => {
             VirtualRoot.Execute(new ShowInnerPropertyCommand());
         });
 
@@ -337,7 +341,7 @@ namespace NTMiner {
 
         public static ICommand RunAsAdministrator { get; private set; } = new DelegateCommand(Wpf.Util.RunAsAdministrator);
 
-        public static ICommand ShowNotificationSample { get; private set; } = new DelegateCommand(()=> {
+        public static ICommand ShowNotificationSample { get; private set; } = new DelegateCommand(() => {
             VirtualRoot.Execute(new ShowNotificationSampleCommand());
         });
 
@@ -345,25 +349,22 @@ namespace NTMiner {
             VirtualRoot.Execute(new CloseNTMinerCommand());
         });
 
-        public static ICommand ShowRestartWindows { get; private set; } = new DelegateCommand(()=> {
+        public static ICommand ShowRestartWindows { get; private set; } = new DelegateCommand(() => {
             VirtualRoot.Execute(new ShowRestartWindowsCommand());
         });
 
-        public static ICommand ShowVirtualMemory { get; private set; } = new DelegateCommand(()=> {
+        public static ICommand ShowVirtualMemory { get; private set; } = new DelegateCommand(() => {
             VirtualRoot.Execute(new ShowVirtualMemoryCommand());
         });
 
-        public static ICommand ShowSysDic { get; private set; } = new DelegateCommand(()=> {
+        public static ICommand ShowSysDic { get; private set; } = new DelegateCommand(() => {
             VirtualRoot.Execute(new ShowSysDicPageCommand());
         });
-        public static ICommand ShowGroups { get; private set; } = new DelegateCommand(()=> {
+        public static ICommand ShowGroups { get; private set; } = new DelegateCommand(() => {
             VirtualRoot.Execute(new ShowGroupPageCommand());
         });
         public static ICommand ShowCoins { get; private set; } = new DelegateCommand<CoinViewModel>((currentCoin) => {
             VirtualRoot.Execute(new ShowCoinPageCommand(currentCoin, "coin"));
-        });
-        public static ICommand ManageColumnsShows { get; private set; } = new DelegateCommand(()=> {
-            VirtualRoot.Execute(new ShowColumnsShowPageCommand());
         });
         public static ICommand ManagePools { get; private set; } = new DelegateCommand<CoinViewModel>(coinVm => {
             VirtualRoot.Execute(new ShowCoinPageCommand(coinVm, Consts.PoolParameterName));
@@ -371,7 +372,7 @@ namespace NTMiner {
         public static ICommand ManageWallet { get; private set; } = new DelegateCommand<CoinViewModel>(coinVm => {
             VirtualRoot.Execute(new ShowCoinPageCommand(coinVm, Consts.WalletParameterName));
         });
-        public static ICommand ShowKernelInputs { get; private set; } = new DelegateCommand(()=> {
+        public static ICommand ShowKernelInputs { get; private set; } = new DelegateCommand(() => {
             VirtualRoot.Execute(new ShowKernelInputPageCommand());
         });
         public static ICommand ShowFileWriters { get; private set; } = new DelegateCommand(() => {
@@ -386,13 +387,13 @@ namespace NTMiner {
         public static ICommand ShowKernels { get; private set; } = new DelegateCommand(() => {
             VirtualRoot.Execute(new ShowKernelsWindowCommand());
         });
-        public static ICommand ShowAbout { get; private set; } = new DelegateCommand(()=> {
+        public static ICommand ShowAbout { get; private set; } = new DelegateCommand(() => {
             VirtualRoot.Execute(new ShowAboutPageCommand());
         });
         public static ICommand ShowSpeedChart { get; private set; } = new DelegateCommand(() => {
             VirtualRoot.Execute(new ShowSpeedChartsCommand());
         });
-        public static ICommand ShowNTMinerUpdaterConfig { get; private set; } = new DelegateCommand(()=> {
+        public static ICommand ShowNTMinerUpdaterConfig { get; private set; } = new DelegateCommand(() => {
             VirtualRoot.Execute(new ShowNTMinerUpdaterConfigCommand());
         });
         public static ICommand ShowOnlineUpdate { get; private set; } = new DelegateCommand(() => {
@@ -404,7 +405,7 @@ namespace NTMiner {
         public static ICommand ShowMinerClients { get; private set; } = new DelegateCommand(() => {
             VirtualRoot.Execute(new ShowMinerClientsWindowCommand());
         });
-        public static ICommand ShowCalcConfig { get; private set; } = new DelegateCommand(()=> {
+        public static ICommand ShowCalcConfig { get; private set; } = new DelegateCommand(() => {
             VirtualRoot.Execute(new ShowCalcConfigCommand());
         });
         public static ICommand ShowGlobalDir { get; private set; } = new DelegateCommand(() => {
@@ -443,7 +444,7 @@ namespace NTMiner {
             }
         }
 
-        public static ICommand ShowCalc { get; private set; } = new DelegateCommand<CoinViewModel>(coinVm=> {
+        public static ICommand ShowCalc { get; private set; } = new DelegateCommand<CoinViewModel>(coinVm => {
             VirtualRoot.Execute(new ShowCalcCommand(coinVm));
         });
 
@@ -463,7 +464,7 @@ namespace NTMiner {
             Process.Start(AssemblyInfo.MinerJsonBucket + "MinerStudio.exe?t=" + DateTime.Now.Ticks);
         });
 
-        public static ICommand ShowQQGroupQrCode { get; private set; } = new DelegateCommand(()=> {
+        public static ICommand ShowQQGroupQrCode { get; private set; } = new DelegateCommand(() => {
             VirtualRoot.Execute(new ShowQQGroupQrCodeCommand());
         });
     }

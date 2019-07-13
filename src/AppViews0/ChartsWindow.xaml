@@ -37,6 +37,7 @@
 				<Image Width="18" Height="18" Source="/NTMinerWpf;component/Styles/Images/cc32.png">
 				</Image>
 				<TextBlock
+					VerticalAlignment="Center"
 					Margin="4 0 8 0"
 					FontSize="14"
 					Foreground="{StaticResource ThemeForeground}"
@@ -45,18 +46,31 @@
 				<uc:MainBar></uc:MainBar>
 			</WrapPanel>
 			<WrapPanel Grid.Column="2">
-				<WrapPanel Margin="0"
-					VerticalAlignment="Top">
+				<WrapPanel Margin="0" VerticalAlignment="Top">
+					<controls:KbButton 
+						ToolTip="收益计算器"
+						Command="{x:Static app:AppStatic.ShowCalc}" 
+						Background="Transparent" 
+						BorderThickness="0"
+						Margin="0 0 8 0"
+						CornerRadius="2">
+						<Path 
+							Width="18"
+							Height="18"
+							Data="{StaticResource Icon_Calc}"
+							Fill="{StaticResource ThemeForeground}"
+							Stretch="Fill" />
+					</controls:KbButton>
 					<controls:KbButton 
 						ToolTip="矿机列表"
 						Command="{x:Static app:AppStatic.ShowMinerClients}" 
 						Background="Transparent" 
 						BorderThickness="0"
-						Margin="8 0 0 0"
+						Margin="0 0 8 0"
 						CornerRadius="2">
 						<Path 
-							Width="16"
-							Height="16"
+							Width="18"
+							Height="18"
 							Data="{StaticResource Icon_Miner}"
 							Fill="{StaticResource ThemeForeground}"
 							Stretch="Fill" />

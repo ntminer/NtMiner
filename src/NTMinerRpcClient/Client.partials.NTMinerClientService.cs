@@ -16,6 +16,7 @@ namespace NTMiner {
             private MinerClientServiceFace() {
             }
 
+            #region Localhost
             public void ShowMainWindowAsync(int clientPort, Action<bool, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
@@ -45,7 +46,7 @@ namespace NTMiner {
                 try {
                     using (HttpClient client = new HttpClient()) {
                         client.Timeout = TimeSpan.FromMilliseconds(2000);
-                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:{Consts.MinerClientPort}/api/MinerClient/CloseNTMiner", new SignatureRequest {});
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:{Consts.MinerClientPort}/api/{s_controllerName}/{nameof(IMinerClientController.CloseNTMiner)}", new SignatureRequest { });
                         ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                         isClosed = response.IsSuccess();
                     }
@@ -63,6 +64,23 @@ namespace NTMiner {
                 }
             }
 
+            public void RefreshAutoBootStartAsync() {
+                Task.Factory.StartNew(() => {
+                    try {
+                        using (HttpClient client = new HttpClient()) {
+                            client.Timeout = TimeSpan.FromMilliseconds(3000);
+                            Task<HttpResponseMessage> message = client.PostAsync($"http://localhost:{Consts.MinerClientPort}/api/{s_controllerName}/{nameof(IMinerClientController.RefreshAutoBootStart)}", null);
+                            Write.DevDebug($"{nameof(RefreshAutoBootStartAsync)} {message.Result.ReasonPhrase}");
+                        }
+                    }
+                    catch (Exception e) {
+                        Logger.ErrorDebugLine(e);
+                    }
+                });
+            }
+            #endregion
+
+            #region ClientIp
             public void StartMineAsync(string clientIp, WorkRequest request, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
@@ -141,36 +159,7 @@ namespace NTMiner {
                     }
                 });
             }
-
-            public void RefreshAutoBootStartAsync() {
-                Task.Factory.StartNew(() => {
-                    try {
-                        using (HttpClient client = new HttpClient()) {
-                            client.Timeout = TimeSpan.FromMilliseconds(3000);
-                            Task<HttpResponseMessage> message = client.PostAsync($"http://localhost:{Consts.MinerClientPort}/api/{s_controllerName}/{nameof(IMinerClientController.RefreshAutoBootStart)}", null);
-                            Write.DevDebug($"{nameof(RefreshAutoBootStartAsync)} {message.Result.ReasonPhrase}");
-                        }
-                    }
-                    catch (Exception e) {
-                        Logger.ErrorDebugLine(e);
-                    }
-                });
-            }
-
-            public void OverClockAsync() {
-                Task.Factory.StartNew(() => {
-                    try {
-                        using (HttpClient client = new HttpClient()) {
-                            client.Timeout = TimeSpan.FromMilliseconds(3000);
-                            Task<HttpResponseMessage> message = client.PostAsync($"http://localhost:{Consts.MinerClientPort}/api/{s_controllerName}/{nameof(IMinerClientController.OverClock)}", null);
-                            Write.DevDebug($"{nameof(OverClockAsync)} {message.Result.ReasonPhrase}");
-                        }
-                    }
-                    catch (Exception e) {
-                        Logger.ErrorDebugLine(e);
-                    }
-                });
-            }
+            #endregion
         }
     }
 }

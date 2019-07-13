@@ -6,5 +6,6 @@
         void SetThermCapacity(int gpuIndex, int value);
         void SetCool(int gpuIndex, int value);
         void RefreshGpuState(int gpuIndex);
+        void Restore();
     }
 }

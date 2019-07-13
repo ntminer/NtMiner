@@ -80,6 +80,7 @@ namespace NTMiner {
                     }
                 }
             }
+            string devicesArgs = GetDevicesArgs(kernelInput);
             // 这里不要考虑{logfile}，{logfile}往后推迟
             if (coinKernelProfile.IsDualCoinEnabled && kernelInput.IsSupportDualMine) {
                 Guid dualCoinGroupId = coinKernel.DualCoinGroupId;
@@ -135,6 +136,9 @@ namespace NTMiner {
                             if (!string.IsNullOrEmpty(customArgs)) {
                                 dualSb.Append(" ").Append(customArgs);
                             }
+                            if (!string.IsNullOrEmpty(devicesArgs)) {
+                                dualSb.Append(" ").Append(devicesArgs);
+                            }
 
                             // 注意：这里退出
                             return dualSb.ToString();
@@ -146,36 +150,6 @@ namespace NTMiner {
             AssembleArgs(parameters, ref coinKernelArgs, isDual: false);
             AssembleArgs(parameters, ref poolKernelArgs, isDual: false);
             AssembleArgs(parameters, ref customArgs, isDual: false);
-            string devicesArgs = string.Empty;
-            if (!string.IsNullOrWhiteSpace(kernelInput.DevicesArg)) {
-                List<int> useDevices = this.GpuSet.GetUseDevices();
-                if (useDevices.Count != 0 && useDevices.Count != GpuSet.Count) {
-                    string separator = kernelInput.DevicesSeparator;
-                    // 因为空格在界面上不易被人读取所以以关键字代替空格
-                    if (kernelInput.DevicesSeparator == Consts.SpaceKeyword) {
-                        separator = " ";
-                    }
-                    if (string.IsNullOrEmpty(separator)) {
-                        List<string> gpuIndexes = new List<string>();
-                        foreach (var index in useDevices) {
-                            int i = index;
-                            if (kernelInput.DeviceBaseIndex != 0) {
-                                i = index + kernelInput.DeviceBaseIndex;
-                            }
-                            if (i > 9) {
-                                gpuIndexes.Add(gpuIndexChars[i - 10]);
-                            }
-                            else {
-                                gpuIndexes.Add(i.ToString());
-                            }
-                        }
-                        devicesArgs = $"{kernelInput.DevicesArg} {string.Join(separator, gpuIndexes)}";
-                    }
-                    else {
-                        devicesArgs = $"{kernelInput.DevicesArg} {string.Join(separator, useDevices)}";
-                    }
-                }
-            }
             StringBuilder sb = new StringBuilder();
             sb.Append(kernelArgs);
             if (!string.IsNullOrEmpty(coinKernelArgs)) {
@@ -196,6 +170,61 @@ namespace NTMiner {
             }
 
             return sb.ToString();
+        }
+
+        private string GetDevicesArgs(IKernelInput kernelInput) {
+            string devicesArgs = string.Empty;
+            if (!string.IsNullOrWhiteSpace(kernelInput.DevicesArg)) {
+                List<int> useDevices = this.GpuSet.GetUseDevices();
+                if ((useDevices.Count != 0 && useDevices.Count != GpuSet.Count) || kernelInput.IsDeviceAllNotEqualsNone) {
+                    string separator = kernelInput.DevicesSeparator;
+                    // 因为空格在界面上不易被人读取所以以关键字代替空格
+                    if (kernelInput.DevicesSeparator == Consts.SpaceKeyword) {
+                        separator = " ";
+                    }
+                    if (string.IsNullOrEmpty(separator)) {
+                        List<string> gpuIndexes = new List<string>();
+                        foreach (var index in useDevices) {
+                            int i = index;
+                            if (kernelInput.DeviceBaseIndex != 0) {
+                                i = index + kernelInput.DeviceBaseIndex;
+                            }
+                            string nText = i.ToString();
+                            if (i > 9) {
+                                nText = gpuIndexChars[i - 10];
+                            }
+                            gpuIndexes.Add(nText);
+                        }
+                        switch (GpuSet.GpuType) {
+                            case GpuType.Empty:
+                                break;
+                            case GpuType.NVIDIA:
+                                devicesArgs = $"{kernelInput.DevicesArg} {string.Join(separator, gpuIndexes.Select(a => $"{kernelInput.NDevicePrefix}{a}{kernelInput.NDevicePostfix}"))}";
+                                break;
+                            case GpuType.AMD:
+                                devicesArgs = $"{kernelInput.DevicesArg} {string.Join(separator, gpuIndexes.Select(a => $"{kernelInput.ADevicePrefix}{a}{kernelInput.ADevicePostfix}"))}";
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    else {
+                        switch (GpuSet.GpuType) {
+                            case GpuType.Empty:
+                                break;
+                            case GpuType.NVIDIA:
+                                devicesArgs = $"{kernelInput.DevicesArg} {string.Join(separator, useDevices.Select(a => $"{kernelInput.NDevicePrefix}{a}{kernelInput.NDevicePostfix}"))}";
+                                break;
+                            case GpuType.AMD:
+                                devicesArgs = $"{kernelInput.DevicesArg} {string.Join(separator, useDevices.Select(a => $"{kernelInput.ADevicePrefix}{a}{kernelInput.ADevicePostfix}"))}";
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+            }
+            return devicesArgs;
         }
 
         private static void AssembleArgs(Dictionary<string, string> prms, ref string args, bool isDual) {
@@ -233,14 +262,18 @@ namespace NTMiner {
             fileWriters = new Dictionary<Guid, string>();
             fragments = new Dictionary<Guid, string>();
             try {
-                foreach (var writerId in coinKernel.FragmentWriterIds) {
-                    if (FragmentWriterSet.TryGetFragmentWriter(writerId, out IFragmentWriter writer)) {
-                        BuildFragment(parameters, fileWriters, fragments, writer);
+                if (coinKernel.FragmentWriterIds != null && coinKernel.FragmentWriterIds.Count != 0) {
+                    foreach (var writerId in coinKernel.FragmentWriterIds) {
+                        if (FragmentWriterSet.TryGetFragmentWriter(writerId, out IFragmentWriter writer)) {
+                            BuildFragment(parameters, fileWriters, fragments, writer);
+                        }
                     }
                 }
-                foreach (var writerId in coinKernel.FileWriterIds) {
-                    if (FileWriterSet.TryGetFileWriter(writerId, out IFileWriter writer)) {
-                        BuildFragment(parameters, fileWriters, fragments, writer);
+                if (coinKernel.FileWriterIds != null && coinKernel.FileWriterIds.Count != 0) {
+                    foreach (var writerId in coinKernel.FileWriterIds) {
+                        if (FileWriterSet.TryGetFileWriter(writerId, out IFileWriter writer)) {
+                            BuildFragment(parameters, fileWriters, fragments, writer);
+                        }
                     }
                 }
             }

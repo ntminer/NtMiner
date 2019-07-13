@@ -14,10 +14,6 @@ namespace NTMiner.Views.Ucs {
                 CloseVisible = Visibility.Visible
             }, ucFactory: (window) => {
                 var uc = new OuterProperty();
-                var vm = (OuterPropertyViewModel)uc.DataContext;
-                window.Activated += (object sender, System.EventArgs e)=> {
-                    vm.OnPropertyChanged(nameof(vm.IsAutoAdminLogon));
-                };
                 return uc;
             }, fixedSize: false);
         }

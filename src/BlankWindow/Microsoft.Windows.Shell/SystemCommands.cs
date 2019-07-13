@@ -6,7 +6,7 @@ using System.Windows.Interop;
 using NTMiner.Microsoft.Windows.Shell.Standard;
 
 namespace NTMiner.Microsoft.Windows.Shell {
-    internal static class SystemCommands {
+    public static class SystemCommands {
         public static RoutedCommand CloseWindowCommand { get; private set; }
         public static RoutedCommand MaximizeWindowCommand { get; private set; }
         public static RoutedCommand MinimizeWindowCommand { get; private set; }

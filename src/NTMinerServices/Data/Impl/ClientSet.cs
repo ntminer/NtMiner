@@ -75,7 +75,7 @@ namespace NTMiner.Data.Impl {
                         System.Threading.Thread.Sleep((int)(_getSpeedOn.AddSeconds(10) - now).TotalMilliseconds);
                     }
                 }
-            });
+            }, TaskCreationOptions.LongRunning);
         }
 
         private bool _isInited = false;

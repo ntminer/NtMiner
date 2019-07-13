@@ -64,8 +64,9 @@
 					<GroupBox.Header>
 						<CheckBox
 							FocusVisualStyle="{x:Null}"
-							Margin="0 4 0 0"
-							VerticalAlignment="Top"
+							FontSize="16"
+							FontWeight="Bold"
+							VerticalContentAlignment="Center"
 							IsChecked="{Binding CoinVm.IsOverClockGpuAll}" 
 							Content="统一超频"></CheckBox>
 					</GroupBox.Header>
@@ -87,7 +88,7 @@
 						</WrapPanel>
 
 						<WrapPanel>
-							<TextBlock Style="{StaticResource LblTb}">最高温度</TextBlock>
+							<TextBlock Style="{StaticResource LblTb}">温度阈值</TextBlock>
 							<TextBox Style="{StaticResource TextBox}" ToolTip="{Binding CoinVm.GpuAllProfileVm.GpuVm.TempLimitMinMaxText}" Text="{Binding CoinVm.GpuAllProfileVm.TempLimit, ValidatesOnExceptions=True}"></TextBox>
 							<TextBlock VerticalAlignment="Center">℃</TextBlock>
 						</WrapPanel>
@@ -156,8 +157,8 @@
 						</ItemsControl>
 					</WrapPanel>
 					<StackPanel Grid.Row="1">
-						<TextBlock VerticalAlignment="Center" Foreground="{StaticResource LableColor}">核心和显存填0表示恢复默认</TextBlock>
-						<TextBlock VerticalAlignment="Center" Foreground="{StaticResource LableColor}">最高温度：表示达到这个温度时显卡将自动降频</TextBlock>
+						<TextBlock VerticalAlignment="Center" Foreground="{StaticResource LableColor}">填0表示使用默认值</TextBlock>
+						<TextBlock VerticalAlignment="Center" Foreground="{StaticResource LableColor}">温度阈值：表示达到这个温度时显卡将自动降频</TextBlock>
 					</StackPanel>
 					<WrapPanel Grid.Row="2" VerticalAlignment="Bottom">
 						<controls:KbButton
@@ -224,7 +225,7 @@
 											<TextBlock VerticalAlignment="Center">%</TextBlock>
 										</WrapPanel>
 										<WrapPanel>
-											<TextBlock Style="{StaticResource LblTb}">最高温度</TextBlock>
+											<TextBlock Style="{StaticResource LblTb}">温度阈值</TextBlock>
 											<TextBox Style="{StaticResource TextBox}" ToolTip="{Binding GpuVm.TempLimitMinMaxText}" Text="{Binding TempLimit, ValidatesOnExceptions=True}"></TextBox>
 											<TextBlock VerticalAlignment="Center">℃</TextBlock>
 										</WrapPanel>

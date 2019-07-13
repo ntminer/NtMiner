@@ -69,7 +69,7 @@
 				</TextBox>
 			</WrapPanel>
 			<WrapPanel Margin="0 2">
-				<TextBlock Style="{StaticResource LblTb}">最高温度</TextBlock>
+				<TextBlock Style="{StaticResource LblTb}">温度阈值</TextBlock>
 				<TextBox Style="{StaticResource TextBox}" Text="{Binding TempLimit, ValidatesOnExceptions=True}">
 				</TextBox>
 			</WrapPanel>

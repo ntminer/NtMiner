@@ -26,6 +26,11 @@ namespace NTMiner.Vms {
         private string _devicesSeparator;
 
         private GroupViewModel _dualCoinGroup;
+        private bool _isDeviceAllNotEqualsNone;
+        private string _nDevicePrefix;
+        private string _nDevicePostfix;
+        private string _aDevicePrefix;
+        private string _aDevicePostfix;
 
         public ICommand Remove { get; private set; }
         public ICommand Edit { get; private set; }
@@ -50,8 +55,13 @@ namespace NTMiner.Vms {
             _isAutoDualWeight = data.IsAutoDualWeight;
             _dualWeightArg = data.DualWeightArg;
             _deviceBaseIndex = data.DeviceBaseIndex;
+            _isDeviceAllNotEqualsNone = data.IsDeviceAllNotEqualsNone;
             _devicesArg = data.DevicesArg;
             _devicesSeparator = data.DevicesSeparator;
+            _nDevicePrefix = data.NDevicePrefix;
+            _nDevicePostfix = data.NDevicePostfix;
+            _aDevicePrefix = data.ADevicePrefix;
+            _aDevicePostfix = data.ADevicePostfix;
         }
 
         public KernelInputViewModel(Guid id) {
@@ -261,6 +271,14 @@ namespace NTMiner.Vms {
             }
         }
 
+        public bool IsDeviceAllNotEqualsNone {
+            get => _isDeviceAllNotEqualsNone;
+            set {
+                _isDeviceAllNotEqualsNone = value;
+                OnPropertyChanged(nameof(IsDeviceAllNotEqualsNone));
+            }
+        }
+
         public string DevicesArg {
             get => _devicesArg;
             set {
@@ -319,6 +337,38 @@ namespace NTMiner.Vms {
                     return false;
                 }
                 return !string.IsNullOrWhiteSpace(DevicesArg);
+            }
+        }
+
+        public string NDevicePrefix {
+            get => _nDevicePrefix;
+            set {
+                _nDevicePrefix = value;
+                OnPropertyChanged(nameof(NDevicePrefix));
+            }
+        }
+
+        public string NDevicePostfix {
+            get => _nDevicePostfix;
+            set {
+                _nDevicePostfix = value;
+                OnPropertyChanged(nameof(NDevicePostfix));
+            }
+        }
+
+        public string ADevicePrefix {
+            get => _aDevicePrefix;
+            set {
+                _aDevicePrefix = value;
+                OnPropertyChanged(nameof(ADevicePrefix));
+            }
+        }
+
+        public string ADevicePostfix {
+            get => _aDevicePostfix;
+            set {
+                _aDevicePostfix = value;
+                OnPropertyChanged(nameof(ADevicePostfix));
             }
         }
     }

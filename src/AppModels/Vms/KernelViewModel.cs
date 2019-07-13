@@ -38,9 +38,6 @@ namespace NTMiner.Vms {
         private Guid _kernelOutputId;
         private KernelInputViewModel _kernelInputVm;
         private KernelOutputViewModel _kernelOutputVm;
-
-
-
         private KernelProfileViewModel _kernelProfileVm;
 
         public Guid GetId() {

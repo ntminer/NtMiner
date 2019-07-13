@@ -23,7 +23,9 @@ namespace NTMiner.Vms {
             _sortNumber = 0,
             _justAsDualCoin = false,
             _walletRegexPattern = string.Empty,
-            _notice = string.Empty
+            _notice = string.Empty,
+            _tutorialUrl = string.Empty,
+            _iconImageSource = string.Empty
         };
         public static readonly CoinViewModel PleaseSelect = new CoinViewModel(Guid.Empty) {
             _code = "不指定"
@@ -43,6 +45,17 @@ namespace NTMiner.Vms {
         private string _walletRegexPattern;
         private bool _justAsDualCoin;
         private string _notice;
+        private string _iconImageSource;
+        private string _tutorialUrl;
+        private bool _isHot;
+        private List<GpuProfileViewModel> _gpuProfileVms;
+        private readonly CoinIncomeViewModel _coinIncomeVm;
+
+        public CoinIncomeViewModel CoinIncomeVm {
+            get {
+                return _coinIncomeVm;
+            }
+        }
 
         public Guid GetId() {
             return this.Id;
@@ -62,6 +75,8 @@ namespace NTMiner.Vms {
         public ICommand ApplyTemplateOverClock { get; private set; }
 
         public ICommand ApplyCustomOverClock { get; private set; }
+
+        public ICommand RestoreOverClock { get; private set; }
 
         public ICommand FillOverClockForms { get; private set; }
 
@@ -86,6 +101,8 @@ namespace NTMiner.Vms {
             _walletRegexPattern = data.WalletRegexPattern;
             _justAsDualCoin = data.JustAsDualCoin;
             _notice = data.Notice;
+            _tutorialUrl = data.TutorialUrl;
+            _isHot = data.IsHot;
             string iconFileFullName = SpecialPath.GetIconFileFullName(data);
             if (!string.IsNullOrEmpty(iconFileFullName) && File.Exists(iconFileFullName)) {
                 _iconImageSource = iconFileFullName;
@@ -121,6 +138,7 @@ namespace NTMiner.Vms {
 
         public CoinViewModel(Guid id) {
             _id = id;
+            _coinIncomeVm = new CoinIncomeViewModel(this);
             this.BrowseIcon = new DelegateCommand(() => {
                 if (!DevMode.IsDevMode) {
                     return;
@@ -154,6 +172,12 @@ namespace NTMiner.Vms {
             this.ApplyCustomOverClock = new DelegateCommand(() => {
                 this.ShowDialog(message: $"确定应用您的自定义超频吗？", title: "确认自定义超频", onYes: () => {
                     ApplyOverClock();
+                }, icon: IconConst.IconConfirm);
+            });
+            this.RestoreOverClock = new DelegateCommand(() => {
+                this.ShowDialog(message: $"确定恢复默认并禁用超频界面吗？", title: "确认", onYes: () => {
+                    NTMinerRoot.Instance.GpuSet.OverClock.Restore();
+                    this.IsOverClockEnabled = false;
                 }, icon: IconConst.IconConfirm);
             });
             this.FillOverClockForm = new DelegateCommand<OverClockDataViewModel>((data) => {
@@ -280,9 +304,6 @@ namespace NTMiner.Vms {
                 OnPropertyChanged(nameof(GpuAllProfileVm));
             }
         }
-
-        private List<GpuProfileViewModel> _gpuProfileVms;
-        private string _iconImageSource;
 
         public List<GpuProfileViewModel> GpuProfileVms {
             get {
@@ -517,6 +538,24 @@ namespace NTMiner.Vms {
                     _notice = value;
                     OnPropertyChanged(nameof(Notice));
                 }
+            }
+        }
+
+        public string TutorialUrl {
+            get => _tutorialUrl;
+            set {
+                if (value != _tutorialUrl) {
+                    _tutorialUrl = value;
+                    OnPropertyChanged(nameof(TutorialUrl));
+                }
+            }
+        }
+
+        public bool IsHot {
+            get { return _isHot; }
+            set {
+                _isHot = value;
+                OnPropertyChanged(nameof(IsHot));
             }
         }
 

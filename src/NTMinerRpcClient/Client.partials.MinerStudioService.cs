@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NTMiner.Controllers;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
@@ -8,7 +9,7 @@ namespace NTMiner {
     public static partial class Client {
         public partial class MinerStudioServiceFace {
             public static readonly MinerStudioServiceFace Instance = new MinerStudioServiceFace();
-            private static readonly string s_controllerName = "MinerStudio";
+            private static readonly string s_controllerName = ControllerUtil.GetControllerName<IMinerStudioController>();
 
             private MinerStudioServiceFace() {
             }
@@ -17,7 +18,7 @@ namespace NTMiner {
                 Task.Factory.StartNew(() => {
                     try {
                         using (HttpClient client = new HttpClient()) {
-                            Task<HttpResponseMessage> message = client.PostAsync($"http://localhost:{clientPort}/api/{s_controllerName}/ShowMainWindow", null);
+                            Task<HttpResponseMessage> message = client.PostAsync($"http://localhost:{clientPort}/api/{s_controllerName}/{nameof(IMinerStudioController.ShowMainWindow)}", null);
                             bool response = message.Result.Content.ReadAsAsync<bool>().Result;
                             callback?.Invoke(response, null);
                         }
@@ -40,7 +41,7 @@ namespace NTMiner {
                 bool isClosed = false;
                 try {
                     using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:{Consts.MinerStudioPort}/api/{s_controllerName}/CloseMinerStudio", new SignatureRequest {});
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:{Consts.MinerStudioPort}/api/{s_controllerName}/{nameof(IMinerStudioController.CloseMinerStudio)}", new SignatureRequest {});
                         ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                         isClosed = response.IsSuccess();
                     }

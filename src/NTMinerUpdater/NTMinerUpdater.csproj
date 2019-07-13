@@ -76,6 +76,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="AppStatic.cs" />
     <Compile Include="CommandLineArgs.partial.cs" />
     <Compile Include="SpecialPath.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">

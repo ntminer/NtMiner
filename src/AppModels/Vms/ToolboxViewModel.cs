@@ -1,6 +1,7 @@
 ﻿using NTMiner.Core;
 using System.Diagnostics;
 using System.Windows.Input;
+using static NTMiner.AppContext;
 
 namespace NTMiner.Vms {
     public class ToolboxViewModel : ViewModelBase {
@@ -21,10 +22,10 @@ namespace NTMiner.Vms {
                 this.ShowDialog(message: $"确定运行吗？大概需要花费5到10秒钟时间看到结果", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new SwitchRadeonGpuCommand());
                 }, icon: IconConst.IconConfirm);
-            }, () => NTMinerRoot.Instance.GpuSet.GpuType == GpuType.AMD);
+            }, () => NTMinerRoot.Instance.GpuSet.GpuType == GpuType.AMD && !MinerProfileViewModel.Instance.IsMining);
             this.AtikmdagPatcher = new DelegateCommand(() => {
                 VirtualRoot.Execute(new AtikmdagPatcherCommand());
-            }, () => NTMinerRoot.Instance.GpuSet.GpuType == GpuType.AMD);
+            }, () => NTMinerRoot.Instance.GpuSet.GpuType == GpuType.AMD && !MinerProfileViewModel.Instance.IsMining);
             this.NavigateToNvidiaDriverWin10 = new DelegateCommand(() => {
                 Process.Start("https://www.geforce.cn/drivers/results/137770");
             });

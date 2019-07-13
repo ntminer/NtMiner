@@ -11,8 +11,13 @@ namespace NTMiner.Core {
         bool IsAutoDualWeight { get; }
         string DualWeightArg { get; }
         string DualFullArgs { get; }
+        bool IsDeviceAllNotEqualsNone { get; }
         string DevicesArg { get; }
         int DeviceBaseIndex { get; }
         string DevicesSeparator { get; }
+        string NDevicePrefix { get; }
+        string NDevicePostfix { get; }
+        string ADevicePrefix { get; }
+        string ADevicePostfix { get; }
     }
 }

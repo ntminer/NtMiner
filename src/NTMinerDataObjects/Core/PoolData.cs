@@ -20,6 +20,7 @@ namespace NTMiner.Core {
             this.UserName = data.UserName;
             this.Password = data.Password;
             this.Notice = data.Notice;
+            this.TutorialUrl = data.TutorialUrl;
         }
 
         public Guid GetId() {
@@ -57,6 +58,8 @@ namespace NTMiner.Core {
 
         public string Notice { get; set; }
 
+        public string TutorialUrl { get; set; }
+
         public StringBuilder GetSignData() {
             StringBuilder sb = new StringBuilder();
             sb.Append(nameof(Id)).Append(Id)
@@ -71,7 +74,8 @@ namespace NTMiner.Core {
                 .Append(nameof(IsUserMode)).Append(IsUserMode)
                 .Append(nameof(UserName)).Append(UserName)
                 .Append(nameof(Password)).Append(Password)
-                .Append(nameof(Notice)).Append(Notice);
+                .Append(nameof(Notice)).Append(Notice)
+                .Append(nameof(TutorialUrl)).Append(TutorialUrl);
             return sb;
         }
     }

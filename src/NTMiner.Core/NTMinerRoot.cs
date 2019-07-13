@@ -370,6 +370,13 @@ namespace NTMiner {
                      Client.NTMinerDaemonService.StopNoDevFeeAsync(callback: null);
                  });
             #endregion
+            VirtualRoot.On<Per10SecondEvent>("周期刷新显卡状态", LogEnum.None,
+                action: message => {
+                    // 因为遇到显卡系统状态变更时可能费时
+                    Task.Factory.StartNew(() => {
+                        GpuSet.LoadGpuState();
+                    });
+                });
             // 当显卡温度变更时守卫温度防线
             TempGruarder.Instance.Init(this);
             // 因为这里耗时500毫秒左右
@@ -653,6 +660,9 @@ namespace NTMiner {
                         }
                     }
                     _gpuSetInfo = sb.ToString();
+                    if (_gpuSetInfo.Length == 0) {
+                        _gpuSetInfo = "无";
+                    }
                 }
                 return _gpuSetInfo;
             }

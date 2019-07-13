@@ -49,31 +49,6 @@ namespace NTMiner.Views {
             }
         }
 
-        private void ButtonLeftCoin_Click(object sender, RoutedEventArgs e) {
-            double offset = CoinsScrollView.ContentHorizontalOffset - CoinsScrollView.ViewportWidth;
-            CoinsScrollView.ScrollToHorizontalOffset(offset);
-            ButtonLeft.IsEnabled = offset > 0;
-            ButtonRight.IsEnabled = offset < CoinsScrollView.ScrollableWidth;
-        }
-
-        private void ButtonRightCoin_Click(object sender, RoutedEventArgs e) {
-            double offset = CoinsScrollView.ContentHorizontalOffset + CoinsScrollView.ViewportWidth;
-            CoinsScrollView.ScrollToHorizontalOffset(offset);
-            ButtonLeft.IsEnabled = offset > 0;
-            ButtonRight.IsEnabled = offset < CoinsScrollView.ScrollableWidth;
-        }
-
-        private void CoinsScrollView_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
-            Wpf.Util.ScrollViewer_PreviewMouseDown(sender, e);
-        }
-
-        private void ListBox_MouseDown(object sender, MouseButtonEventArgs e) {
-            if (e.LeftButton == MouseButtonState.Pressed) {
-                Window window = GetWindow(this);
-                window.DragMove();
-            }
-        }
-
         private void TbKeyword_LostFocus(object sender, RoutedEventArgs e) {
             Vm.Search.Execute(null);
         }

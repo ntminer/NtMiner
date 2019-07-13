@@ -10,7 +10,7 @@ namespace NTMiner.Views.Ucs {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "收益计算器设置",
                 IconName = "Icon_Calc",
-                CloseVisible = System.Windows.Visibility.Visible
+                CloseVisible = Visibility.Visible
             }, ucFactory: (window) => {
                 var uc = new CalcConfig();
                 CalcConfigViewModels vm = (CalcConfigViewModels)uc.DataContext;

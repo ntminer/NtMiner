@@ -28,8 +28,8 @@ namespace NTMiner.Vms {
         private string _userName;
         private string _passWord;
         private bool _isUserMode;
+        private string _tutorialUrl;
         private CoinViewModel _coinVm;
-
 
         public Guid GetId() {
             return this.Id;
@@ -65,6 +65,7 @@ namespace NTMiner.Vms {
             _userName = data.UserName;
             _passWord = data.Password;
             _isUserMode = data.IsUserMode;
+            _tutorialUrl = data.TutorialUrl;
         }
 
         public PoolViewModel(Guid id) {
@@ -124,7 +125,7 @@ namespace NTMiner.Vms {
                 }
             });
             this.ViewPoolIncome = new DelegateCommand<WalletViewModel>((wallet) => {
-                if ((!this.IsUserMode && (wallet == null || string.IsNullOrEmpty(wallet.Address)))  || 
+                if ((!this.IsUserMode && (wallet == null || string.IsNullOrEmpty(wallet.Address))) ||
                     (this.IsUserMode && string.IsNullOrEmpty(this.PoolProfileVm.UserName))) {
                     if (!string.IsNullOrEmpty(Website)) {
                         Process.Start(Website);
@@ -340,6 +341,16 @@ namespace NTMiner.Vms {
                 if (_notice != value) {
                     _notice = value;
                     OnPropertyChanged(nameof(Notice));
+                }
+            }
+        }
+
+        public string TutorialUrl {
+            get => _tutorialUrl;
+            set {
+                if (_tutorialUrl != value) {
+                    _tutorialUrl = value;
+                    OnPropertyChanged(nameof(TutorialUrl));
                 }
             }
         }

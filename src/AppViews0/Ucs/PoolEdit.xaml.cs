@@ -10,9 +10,8 @@ namespace NTMiner.Views.Ucs {
                 FormType = formType,
                 IconName = "Icon_Pool",
                 IsDialogWindow = true,
-                Width = 580,
-                Height = 400,
-                CloseVisible = System.Windows.Visibility.Visible
+                Width = 540,
+                CloseVisible = Visibility.Visible
             }, ucFactory: (window) =>
             {
                 PoolViewModel vm = new PoolViewModel(source) {

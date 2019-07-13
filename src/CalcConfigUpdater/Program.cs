@@ -42,17 +42,20 @@ namespace NTMiner {
                     var vdsUUDataTask = GetHtmlAsync("https://uupool.cn/api/getAllInfo.php");
                     var vdsZtDataTask = GetHtmlAsync("https://www.zt.com/api/v1/symbol");
                     var htmlDataTask = GetHtmlAsync("https://www.f2pool.com/");
+                    byte[] htmlData = null;
+                    byte[] vdsUUData = null;
+                    byte[] vdsZtData = null;
                     try {
                         Task.WaitAll(new Task[] { vdsUUDataTask, vdsZtDataTask, htmlDataTask }, 20 * 1000);
+                        htmlData = htmlDataTask.Result;
+                        vdsUUData = vdsUUDataTask.Result;
+                        vdsZtData = vdsZtDataTask.Result;
                     }
                     catch {
                     }
-                    var htmlData = htmlDataTask.Result;
                     if (htmlData != null && htmlData.Length != 0) {
                         Write.UserOk($"{DateTime.Now} - 鱼池首页html获取成功");
                         string html = Encoding.UTF8.GetString(htmlData);
-                        var vdsUUData = vdsUUDataTask.Result;
-                        var vdsZtData = vdsZtDataTask.Result;
                         string vdsUUHtml = string.Empty;
                         string vdsZtHtml = string.Empty;
                         if (vdsUUData != null && vdsUUData.Length != 0) {
@@ -241,6 +244,11 @@ namespace NTMiner {
                 incomeItem.IncomeCoin = incomeCoin;
                 double.TryParse(match.Groups["incomeUsd"].Value, out double incomeUsd);
                 incomeItem.IncomeUsd = incomeUsd;
+                if (incomeItem.DataCode == "ae") {
+                    incomeItem.SpeedUnit = "h/s";
+                    incomeItem.IncomeCoin = incomeItem.IncomeCoin / 100;
+                    incomeItem.IncomeUsd = incomeItem.IncomeUsd / 100;
+                }
                 return incomeItem;
             }
             return null;

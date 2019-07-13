@@ -6,6 +6,7 @@
 		xmlns:blankWindow="http://NTMiner.com"
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
+		xmlns:app="clr-namespace:NTMiner"
 		xmlns:vm="clr-namespace:NTMiner.Vms"
 		xmlns:local="clr-namespace:NTMiner.Views"
 		ResizeMode="NoResize"
@@ -36,13 +37,6 @@
 				Height="16"
 				Fill="{StaticResource ThemeForeground}"
 				Stretch="Fill"/>
-			<TextBlock 
-				x:Name="TbTitle" 
-				DockPanel.Dock="Left" 
-				Margin="4 0 0 0" 
-				Foreground="{StaticResource ThemeForeground}" 
-				FontSize="14" 
-				VerticalAlignment="Center"></TextBlock>
 			<WrapPanel 
 				DockPanel.Dock="Right"
 				HorizontalAlignment="Right">
@@ -53,26 +47,27 @@
 		</DockPanel>
 		<StackPanel Grid.Row="1" Background="White" VerticalAlignment="Center">
 			<WrapPanel Margin="0 2">
-				<TextBlock Width="{StaticResource LblWidth}" TextAlignment="Right">版本号：</TextBlock>
-				<TextBox Width="{StaticResource InputWidth}" Text="{Binding Version, ValidatesOnExceptions=True}" Background="White" VerticalContentAlignment="Center"></TextBox>
+				<TextBlock Width="{StaticResource LblWidth}" VerticalAlignment="Center" TextAlignment="Right">版本号：</TextBlock>
+				<TextBox Width="{StaticResource InputWidth}" IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}" Text="{Binding Version, ValidatesOnExceptions=True}" Background="White" VerticalContentAlignment="Center"></TextBox>
 			</WrapPanel>
 			<WrapPanel Margin="0 2">
-				<TextBlock Width="{StaticResource LblWidth}" TextAlignment="Right">文件名：</TextBlock>
-				<TextBox Width="{StaticResource InputWidth}" Text="{Binding FileName, ValidatesOnExceptions=True}" Background="White" VerticalContentAlignment="Center"></TextBox>
+				<TextBlock Width="{StaticResource LblWidth}" VerticalAlignment="Center" TextAlignment="Right">文件名：</TextBlock>
+				<TextBox Width="{StaticResource InputWidth}" IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}" Text="{Binding FileName, ValidatesOnExceptions=True}" Background="White" VerticalContentAlignment="Center"></TextBox>
 			</WrapPanel>
 			<WrapPanel Margin="0 2">
-				<TextBlock Width="{StaticResource LblWidth}" TextAlignment="Right">别名：</TextBlock>
-				<TextBox Width="{StaticResource InputWidth}" Text="{Binding VersionTag, ValidatesOnExceptions=True}" Background="White" VerticalContentAlignment="Center"></TextBox>
+				<TextBlock Width="{StaticResource LblWidth}" VerticalAlignment="Center" TextAlignment="Right">别名：</TextBlock>
+				<TextBox Width="{StaticResource InputWidth}" IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}" Text="{Binding VersionTag, ValidatesOnExceptions=True}" Background="White" VerticalContentAlignment="Center"></TextBox>
 			</WrapPanel>
 			<WrapPanel Margin="0 2">
-				<TextBlock Width="{StaticResource LblWidth}" TextAlignment="Right">标题：</TextBlock>
-				<TextBox Width="{StaticResource InputWidth}" Text="{Binding Title, ValidatesOnExceptions=True}" Background="White" VerticalContentAlignment="Center"></TextBox>
+				<TextBlock Width="{StaticResource LblWidth}" VerticalAlignment="Center" TextAlignment="Right">标题：</TextBlock>
+				<TextBox Width="{StaticResource InputWidth}" IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}" Text="{Binding Title, ValidatesOnExceptions=True}" Background="White" VerticalContentAlignment="Center"></TextBox>
 			</WrapPanel>
 			<WrapPanel Margin="0 2">
-				<TextBlock Width="{StaticResource LblWidth}" TextAlignment="Right">说明：</TextBlock>
+				<TextBlock Width="{StaticResource LblWidth}" TextAlignment="Right">更新内容：</TextBlock>
 				<controls:KbMuiltilineTextBox 
 					Width="{StaticResource InputWidth}" 
 					Height="100"
+					IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
 					Text="{Binding Description, ValidatesOnExceptions=True}" Background="White"></controls:KbMuiltilineTextBox>
 			</WrapPanel>
 			<WrapPanel Margin="0 2">
@@ -81,7 +76,7 @@
 			</WrapPanel>
 		</StackPanel>
 		<Grid Grid.Row="2" Background="White" Height="40">
-			<WrapPanel HorizontalAlignment="Right">
+			<WrapPanel HorizontalAlignment="Right" Visibility="{x:Static app:AppStatic.IsDevModeVisible}">
 				<controls:KbButton
 					Command="{Binding Save}"
 					Padding="15 2"

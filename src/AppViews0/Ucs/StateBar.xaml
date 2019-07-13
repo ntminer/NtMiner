@@ -274,12 +274,44 @@
 								Data="{StaticResource Icon_Update}"
 								Fill="{StaticResource IconFillColor}"
 								Stretch="Fill" />
-							<TextBlock Foreground="{Binding CheckUpdateForeground}">检查更新</TextBlock>
+							<TextBlock Foreground="{Binding CheckUpdateForeground}">更新</TextBlock>
 						</WrapPanel>
 					</controls:KbButton>
 				</WrapPanel>
 				<WrapPanel Grid.Column="1" HorizontalAlignment="Right" Margin="0 0 70 0">
 					<TextBlock Text="{x:Static app:AppStatic.WindowsEdition}" ToolTip="操作系统" Foreground="{StaticResource LableColor}"></TextBlock>
+					<Border ToolTip="已设置Windows开机自动登录" Margin="4 0 0 0" Background="Transparent">
+						<Path
+							Width="14"
+							Height="14"
+							Visibility="{Binding IsAutoAdminLogon,Converter={StaticResource BoolToVisibilityConverter}}"
+							Data="{StaticResource Icon_Login}"
+							Fill="{StaticResource LableColor}"
+							Stretch="Fill" />
+					</Border>
+					<controls:KbButton 
+						Margin="4 0 0 0"
+						Padding="6 0"
+						ToolTip="将当前windows用户设置为开机自动登录"
+						Visibility="{Binding IsAutoAdminLogon,Converter={StaticResource BoolToVisibilityInvertConverter}}"
+						Command="{x:Static app:AppStatic.WindowsAutoLogon}"
+						Background="Red"
+						CornerRadius="2">
+						<TextBlock
+							Padding="2 0"
+							VerticalAlignment="Center"
+							Foreground="{StaticResource ThemeForeground}"
+							Text="Windows自动登录" />
+					</controls:KbButton>
+					<Border ToolTip="已启用远程桌面" Margin="4 0 0 0" Background="Transparent">
+						<Path
+							Width="14"
+							Height="14"
+							Visibility="{Binding IsRemoteDesktopEnabled,Converter={StaticResource BoolToVisibilityConverter}}"
+							Data="{StaticResource Icon_RemoteDesktop}"
+							Fill="{StaticResource LableColor}"
+							Stretch="Fill" />
+					</Border>
 					<TextBlock Text=" / " Foreground="{StaticResource LableColor}"></TextBlock>
 					<controls:KbButton 
 						x:Name="BtnShowVirtualMemory"

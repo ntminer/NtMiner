@@ -47,15 +47,24 @@
 					<TextBlock 
 						Visibility="{Binding LocalIsLatest, Converter={StaticResource BoolToVisibilityConverter}}"
 						HorizontalAlignment="Center" FontSize="18">已是最新版本</TextBlock>
-					<WrapPanel HorizontalAlignment="Center" Background="White" Visibility="{Binding LocalIsLatest, Converter={StaticResource BoolToVisibilityInvertConverter}}">
-						<TextBlock 
-							Visibility="{Binding ServerLatestVm.Title, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
-							Text="{Binding ServerLatestVm.Title}"
-							FontSize="18" Foreground="Red"></TextBlock>
-						<TextBlock 
-							FontSize="18" Foreground="Red"
-							Visibility="{Binding ServerLatestVm.Title, Converter={StaticResource NotNullOrEmptyVisibilityInvertConverter}}">发现新版本，请更新</TextBlock>
-					</WrapPanel>
+					<controls:KbButton
+						Command="{Binding ServerLatestVm.Edit}"
+						ToolTip="点击查看详情"
+						Padding="15 2"
+						HorizontalAlignment="Center" Background="White" 
+						Visibility="{Binding LocalIsLatest, Converter={StaticResource BoolToVisibilityInvertConverter}}"
+						Foreground="{StaticResource ThemeForeground}"
+						CornerRadius="2">
+						<WrapPanel>
+							<TextBlock 
+								Visibility="{Binding ServerLatestVm.Title, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
+								Text="{Binding ServerLatestVm.Title}"
+								FontSize="18" Foreground="Red"></TextBlock>
+							<TextBlock 
+								FontSize="18" Foreground="Red"
+								Visibility="{Binding ServerLatestVm.Title, Converter={StaticResource NotNullOrEmptyVisibilityInvertConverter}}">发现新版本，请更新</TextBlock>
+						</WrapPanel>
+					</controls:KbButton>
 					<WrapPanel HorizontalAlignment="Center" Margin="0 10 0 0">
 						<TextBlock TextAlignment="Right" FontSize="14">本地版本：</TextBlock>
 						<TextBlock Width="80" Text="{Binding LocalNTMinerVersion}" FontSize="14"></TextBlock>
