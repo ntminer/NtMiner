@@ -44,9 +44,11 @@ namespace NTMiner {
         }
 
         public static Dictionary<string, string> ToQuery(this IGetSignData data, string loginName, string password) {
+            DateTime now = DateTime.Now;
             return new Dictionary<string, string> {
                     {"LoginName", loginName },
-                    {"Sign", GetSign(data, loginName, password, DateTime.Now) }
+                    {"Sign", GetSign(data, loginName, password, now) },
+                    {"Timestamp", Timestamp.GetTimestamp(now).ToString() }
                 };
         }
     }
