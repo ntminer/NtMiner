@@ -54,7 +54,7 @@ namespace NTMiner.Controllers {
 
         protected string Sign {
             get {
-                return QueryString["Sign"];
+                return QueryString["sign"];
             }
         }
 
