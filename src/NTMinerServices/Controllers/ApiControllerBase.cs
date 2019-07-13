@@ -30,9 +30,12 @@ namespace NTMiner.Controllers {
                     string query = Request.RequestUri.Query;
                     if (!string.IsNullOrEmpty(query)) {
                         query = query.Substring(1);
-                        string[] parts = query.Split('=');
-                        for (int i = 0; i < parts.Length - 1; i = i + 2) {
-                            _queryString.Add(parts[i], parts[i + 1]);
+                        string[] parts = query.Split('&');
+                        foreach (var item in parts) {
+                            string[] pair = item.Split('=');
+                            if (pair.Length == 2) {
+                                _queryString.Add(parts[0], parts[1]);
+                            }
                         }
                     }
                 }
