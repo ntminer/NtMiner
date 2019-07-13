@@ -1,4 +1,5 @@
-﻿using System.Web.Http;
+﻿using System.Collections.Specialized;
+using System.Web.Http;
 
 namespace NTMiner.Controllers {
     public abstract class ApiControllerBase : ApiController {
@@ -11,6 +12,42 @@ namespace NTMiner.Controllers {
         protected bool IsInnerIp {
             get {
                 return Ip.Util.IsInnerIp(ClientIp);
+            }
+        }
+
+        private NameValueCollection _queryString;
+        private NameValueCollection QueryString {
+            get {
+                if (_queryString == null) {
+                    _queryString = new NameValueCollection();
+                    string query = Request.RequestUri.Query;
+                    if (!string.IsNullOrEmpty(query)) {
+                        query = query.Substring(1);
+                        string[] parts = query.Split('=');
+                        for (int i = 0; i < parts.Length - 1; i = i + 2) {
+                            _queryString.Add(parts[i], parts[i + 1]);
+                        }
+                    }
+                }
+                return _queryString;
+            }
+        }
+
+        protected string LoginName {
+            get {
+                return QueryString["loginName"];
+            }
+        }
+
+        protected string Sign {
+            get {
+                return QueryString["Sign"];
+            }
+        }
+
+        protected string Timestamp {
+            get {
+                return QueryString["timestamp"];
             }
         }
     }
