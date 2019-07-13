@@ -1,4 +1,5 @@
-﻿using System.Collections.Specialized;
+﻿using System;
+using System.Collections.Specialized;
 using System.Web.Http;
 
 namespace NTMiner.Controllers {
@@ -45,9 +46,13 @@ namespace NTMiner.Controllers {
             }
         }
 
-        protected string Timestamp {
+        protected DateTime Timestamp {
             get {
-                return QueryString["timestamp"];
+                string t = QueryString["timestamp"];
+                if (string.IsNullOrEmpty(t)) {
+                    return NTMiner.Timestamp.UnixBaseTime;
+                }
+                return ulong.TryParse(t, out ulong v) ? NTMiner.Timestamp.FromTimestamp(v) : NTMiner.Timestamp.UnixBaseTime;
             }
         }
     }
