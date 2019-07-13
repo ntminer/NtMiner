@@ -16,6 +16,12 @@ namespace NTMiner.Controllers {
             }
         }
 
+        protected new IUser User {
+            get {
+                return HostRoot.Instance.UserSet.GetUser(LoginName);
+            }
+        }
+
         private NameValueCollection _queryString;
         private NameValueCollection QueryString {
             get {

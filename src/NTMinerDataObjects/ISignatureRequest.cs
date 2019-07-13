@@ -1,10 +1,4 @@
-﻿using System;
-
-namespace NTMiner {
+﻿namespace NTMiner {
     public interface ISignatureRequest : IGetSignData {
-        string LoginName { get; }
-        DateTime Timestamp { get; }
-        string Sign { get; }
-        string GetSign(string password);
     }
 }

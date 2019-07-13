@@ -32,22 +32,18 @@ namespace NTMiner {
             #region SetAppSettingAsync
             public void SetAppSettingAsync(AppSettingData entity, Action<ResponseBase, Exception> callback) {
                 DataRequest<AppSettingData> request = new DataRequest<AppSettingData>() {
-                    Data = entity,
-                    LoginName = SingleUser.LoginName
+                    Data = entity
                 };
-                request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(SControllerName, nameof(IAppSettingController.SetAppSetting), null, request, callback);
+                PostAsync(SControllerName, nameof(IAppSettingController.SetAppSetting), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
             }
             #endregion
 
             #region SetAppSettingsAsync
             public void SetAppSettingsAsync(List<AppSettingData> entities, Action<ResponseBase, Exception> callback) {
                 DataRequest<List<AppSettingData>> request = new DataRequest<List<AppSettingData>>() {
-                    Data = entities,
-                    LoginName = SingleUser.LoginName
+                    Data = entities
                 };
-                request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(SControllerName, nameof(IAppSettingController.SetAppSettings), null, request, callback);
+                PostAsync(SControllerName, nameof(IAppSettingController.SetAppSettings), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
             }
             #endregion
         }

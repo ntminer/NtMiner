@@ -71,11 +71,11 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                Logger.InfoDebugLine($"{request.LoginName} {request.Sign} {request.Timestamp}");
-                if (!request.IsValid(HostRoot.Instance.UserSet.GetUser, base.ClientIp, out IUser user, out ResponseBase response)) {
+                Logger.InfoDebugLine($"{LoginName} {Sign} {request.Timestamp}");
+                if (!request.IsValid(User, Sign, Timestamp, base.ClientIp, out ResponseBase response)) {
                     return response;
                 }
-                Logger.InfoDebugLine($"{request.LoginName}登录成功");
+                Logger.InfoDebugLine($"{LoginName}登录成功");
                 return ResponseBase.Ok();
             }
             catch (Exception e) {
@@ -94,7 +94,7 @@ namespace NTMiner.Controllers {
             try {
                 if (!request.Data.HasValue) {
                     // request.Data是ClientId，如果未传ClientId表示是群控客户端，群控客户端获取用户表需验证身份
-                    if (!request.IsValid(HostRoot.Instance.UserSet.GetUser, base.ClientIp, out DataResponse<List<UserData>> response)) {
+                    if (!request.IsValid(User, Sign, Timestamp, base.ClientIp, out DataResponse<List<UserData>> response)) {
                         return response;
                     }
                 }
@@ -122,7 +122,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                if (!request.IsValid(HostRoot.Instance.UserSet.GetUser, base.ClientIp, out ResponseBase response)) {
+                if (!request.IsValid(User, Sign, Timestamp, base.ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 VirtualRoot.Execute(new AddUserCommand(request.Data));
@@ -142,7 +142,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                if (!request.IsValid(HostRoot.Instance.UserSet.GetUser, base.ClientIp, out ResponseBase response)) {
+                if (!request.IsValid(User, Sign, Timestamp, base.ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 VirtualRoot.Execute(new UpdateUserCommand(request.Data));
@@ -162,7 +162,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                if (!request.IsValid(HostRoot.Instance.UserSet.GetUser, base.ClientIp, out ResponseBase response)) {
+                if (!request.IsValid(User, Sign, Timestamp, base.ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 VirtualRoot.Execute(new RemoveUserCommand(request.Data));
@@ -211,7 +211,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput<QueryClientsResponse>("参数错误");
             }
             try {
-                if (!request.IsValid(HostRoot.Instance.UserSet.GetUser, base.ClientIp, out QueryClientsResponse response)) {
+                if (!request.IsValid(User, Sign, Timestamp, base.ClientIp, out QueryClientsResponse response)) {
                     return response;
                 }
                 var data = HostRoot.Instance.ClientSet.QueryClients(
@@ -248,7 +248,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput<DataResponse<List<ClientData>>>("服务端配置为不支持刷新");
             }
             try {
-                if (!request.IsValid(HostRoot.Instance.UserSet.GetUser, base.ClientIp, out DataResponse<List<ClientData>> response)) {
+                if (!request.IsValid(User, Sign, Timestamp, base.ClientIp, out DataResponse<List<ClientData>> response)) {
                     return response;
                 }
 
@@ -274,7 +274,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput("最多支持一次添加101个IP");
             }
             try {
-                if (!request.IsValid(HostRoot.Instance.UserSet.GetUser, base.ClientIp, out ResponseBase response)) {
+                if (!request.IsValid(User, Sign, Timestamp, base.ClientIp, out ResponseBase response)) {
                     return response;
                 }
 
@@ -306,7 +306,7 @@ namespace NTMiner.Controllers {
             }
 
             try {
-                if (!request.IsValid(HostRoot.Instance.UserSet.GetUser, base.ClientIp, out ResponseBase response)) {
+                if (!request.IsValid(User, Sign, Timestamp, base.ClientIp, out ResponseBase response)) {
                     return response;
                 }
 
@@ -329,7 +329,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                if (!request.IsValid(HostRoot.Instance.UserSet.GetUser, base.ClientIp, out ResponseBase response)) {
+                if (!request.IsValid(User, Sign, Timestamp, base.ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 HostRoot.Instance.ClientSet.UpdateClient(request.ObjectId, request.PropertyName, request.Value);
@@ -349,7 +349,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                if (!request.IsValid(HostRoot.Instance.UserSet.GetUser, base.ClientIp, out ResponseBase response)) {
+                if (!request.IsValid(User, Sign, Timestamp, base.ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 HostRoot.Instance.ClientSet.UpdateClients(request.PropertyName, request.Values);
@@ -369,7 +369,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput<GetCoinSnapshotsResponse>("参数错误");
             }
             try {
-                if (!request.IsValid(HostRoot.Instance.UserSet.GetUser, base.ClientIp, out GetCoinSnapshotsResponse response)) {
+                if (!request.IsValid(User, Sign, Timestamp, base.ClientIp, out GetCoinSnapshotsResponse response)) {
                     return response;
                 }
                 List<CoinSnapshotData> data = HostRoot.Instance.CoinSnapshotSet.GetLatestSnapshots(
@@ -392,7 +392,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput<DataResponse<List<MinerGroupData>>>("参数错误");
             }
             try {
-                if (!request.IsValid(HostRoot.Instance.UserSet.GetUser, base.ClientIp, out DataResponse<List<MinerGroupData>> response)) {
+                if (!request.IsValid(User, Sign, Timestamp, base.ClientIp, out DataResponse<List<MinerGroupData>> response)) {
                     return response;
                 }
                 var data = HostRoot.Instance.MinerGroupSet.GetAll();
@@ -412,7 +412,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                if (!request.IsValid(HostRoot.Instance.UserSet.GetUser, base.ClientIp, out ResponseBase response)) {
+                if (!request.IsValid(User, Sign, Timestamp, base.ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 HostRoot.Instance.MinerGroupSet.AddOrUpdate(request.Data);
@@ -432,7 +432,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                if (!request.IsValid(HostRoot.Instance.UserSet.GetUser, base.ClientIp, out ResponseBase response)) {
+                if (!request.IsValid(User, Sign, Timestamp, base.ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 IMinerGroup minerGroup = HostRoot.Instance.MinerGroupSet.GetMinerGroup(request.Data);
@@ -459,7 +459,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                if (!request.IsValid(HostRoot.Instance.UserSet.GetUser, base.ClientIp, out ResponseBase response)) {
+                if (!request.IsValid(User, Sign, Timestamp, base.ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 HostRoot.Instance.MineWorkSet.AddOrUpdate(request.Data);
@@ -479,7 +479,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                if (!request.IsValid(HostRoot.Instance.UserSet.GetUser, base.ClientIp, out ResponseBase response)) {
+                if (!request.IsValid(User, Sign, Timestamp, base.ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 IMineWork mineWork = HostRoot.Instance.MineWorkSet.GetMineWork(request.Data);
@@ -506,7 +506,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput<DataResponse<List<MineWorkData>>>("参数错误");
             }
             try {
-                if (!request.IsValid(HostRoot.Instance.UserSet.GetUser, base.ClientIp, out DataResponse<List<MineWorkData>> response)) {
+                if (!request.IsValid(User, Sign, Timestamp, base.ClientIp, out DataResponse<List<MineWorkData>> response)) {
                     return response;
                 }
                 var data = HostRoot.Instance.MineWorkSet.GetAll();
@@ -526,7 +526,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput<ResponseBase>("参数错误");
             }
             try {
-                if (!request.IsValid(HostRoot.Instance.UserSet.GetUser, base.ClientIp, out ResponseBase response)) {
+                if (!request.IsValid(User, Sign, Timestamp, base.ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 string localJsonFileFullName = SpecialPath.GetMineWorkLocalJsonFileFullName(request.MineWorkId);
@@ -549,7 +549,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput<DataResponse<string>>("参数错误");
             }
             try {
-                if (!request.IsValid(HostRoot.Instance.UserSet.GetUser, base.ClientIp, out DataResponse<string> response)) {
+                if (!request.IsValid(User, Sign, Timestamp, base.ClientIp, out DataResponse<string> response)) {
                     return response;
                 }
                 string localJsonFileFullName = SpecialPath.GetMineWorkLocalJsonFileFullName(request.Data);
@@ -573,7 +573,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput<DataResponse<List<PoolData>>>("参数错误");
             }
             try {
-                if (!request.IsValid(HostRoot.Instance.UserSet.GetUser, base.ClientIp, out DataResponse<List<PoolData>> response)) {
+                if (!request.IsValid(User, Sign, Timestamp, base.ClientIp, out DataResponse<List<PoolData>> response)) {
                     return response;
                 }
                 var data = HostRoot.Instance.PoolSet.GetAll();
@@ -593,7 +593,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                if (!request.IsValid(HostRoot.Instance.UserSet.GetUser, base.ClientIp, out ResponseBase response)) {
+                if (!request.IsValid(User, Sign, Timestamp, base.ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 HostRoot.Instance.PoolSet.AddOrUpdate(request.Data);
@@ -613,7 +613,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                if (!request.IsValid(HostRoot.Instance.UserSet.GetUser, base.ClientIp, out ResponseBase response)) {
+                if (!request.IsValid(User, Sign, Timestamp, base.ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 HostRoot.Instance.PoolSet.Remove(request.Data);
@@ -633,7 +633,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput<DataResponse<List<WalletData>>>("参数错误");
             }
             try {
-                if (!request.IsValid(HostRoot.Instance.UserSet.GetUser, base.ClientIp, out DataResponse<List<WalletData>> response)) {
+                if (!request.IsValid(User, Sign, Timestamp, base.ClientIp, out DataResponse<List<WalletData>> response)) {
                     return response;
                 }
                 var data = HostRoot.Instance.WalletSet.GetAll();
@@ -653,7 +653,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                if (!request.IsValid(HostRoot.Instance.UserSet.GetUser, base.ClientIp, out ResponseBase response)) {
+                if (!request.IsValid(User, Sign, Timestamp, base.ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 HostRoot.Instance.WalletSet.AddOrUpdate(request.Data);
@@ -673,7 +673,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                if (!request.IsValid(HostRoot.Instance.UserSet.GetUser, base.ClientIp, out ResponseBase response)) {
+                if (!request.IsValid(User, Sign, Timestamp, base.ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 HostRoot.Instance.WalletSet.Remove(request.Data);
@@ -708,7 +708,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                if (!request.IsValid(HostRoot.Instance.UserSet.GetUser, base.ClientIp, out ResponseBase response)) {
+                if (!request.IsValid(User, Sign, Timestamp, base.ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 HostRoot.Instance.CalcConfigSet.SaveCalcConfigs(request.Data);
@@ -728,7 +728,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput<DataResponse<List<ColumnsShowData>>>("参数错误");
             }
             try {
-                if (!request.IsValid(HostRoot.Instance.UserSet.GetUser, base.ClientIp, out DataResponse<List<ColumnsShowData>> response)) {
+                if (!request.IsValid(User, Sign, Timestamp, base.ClientIp, out DataResponse<List<ColumnsShowData>> response)) {
                     return response;
                 }
                 var data = HostRoot.Instance.ColumnsShowSet.GetAll();
@@ -748,7 +748,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                if (!request.IsValid(HostRoot.Instance.UserSet.GetUser, base.ClientIp, out ResponseBase response)) {
+                if (!request.IsValid(User, Sign, Timestamp, base.ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 HostRoot.Instance.ColumnsShowSet.AddOrUpdate(request.Data);
@@ -768,7 +768,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                if (!request.IsValid(HostRoot.Instance.UserSet.GetUser, base.ClientIp, out ResponseBase response)) {
+                if (!request.IsValid(User, Sign, Timestamp, base.ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 HostRoot.Instance.ColumnsShowSet.Remove(request.Data);

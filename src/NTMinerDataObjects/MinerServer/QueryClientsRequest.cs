@@ -4,7 +4,6 @@ using System.Text;
 namespace NTMiner.MinerServer {
     public class QueryClientsRequest : RequestBase, ISignatureRequest {
         public QueryClientsRequest() { }
-        public string LoginName { get; set; }
         public int PageIndex { get; set; }
         public int PageSize { get; set; }
         public Guid? GroupId { get; set; }
@@ -17,21 +16,10 @@ namespace NTMiner.MinerServer {
         public string Wallet { get; set; }
         public string Version { get; set; }
         public string Kernel { get; set; }
-        public string Sign { get; set; }
-
-        public void SignIt(string password) {
-            this.Sign = this.GetSign(password);
-        }
-
-        public string GetSign(string password) {
-            StringBuilder sb = GetSignData().Append(nameof(UserData.Password)).Append(password);
-            return HashUtil.Sha1(sb.ToString());
-        }
 
         public StringBuilder GetSignData() {
             StringBuilder sb = new StringBuilder();
-            sb.Append(nameof(LoginName)).Append(LoginName)
-                .Append(nameof(PageIndex)).Append(PageIndex)
+            sb.Append(nameof(PageIndex)).Append(PageIndex)
                 .Append(nameof(PageSize)).Append(PageSize)
                 .Append(nameof(GroupId)).Append(GroupId)
                 .Append(nameof(WorkId)).Append(WorkId)

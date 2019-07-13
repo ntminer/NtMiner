@@ -13,7 +13,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                if (!request.IsValid(HostRoot.Instance.UserSet.GetUser, ClientIp, out ResponseBase response)) {
+                if (!request.IsValid(User, Sign, Timestamp, ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 response = Client.NTMinerDaemonService.RestartWindows(request.ClientIp, request.InnerRequest);
@@ -34,7 +34,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                if (!request.IsValid(HostRoot.Instance.UserSet.GetUser, ClientIp, out ResponseBase response)) {
+                if (!request.IsValid(User, Sign, Timestamp, ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 response = Client.NTMinerDaemonService.ShutdownWindows(request.ClientIp, request.InnerRequest);
@@ -55,7 +55,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                if (!request.IsValid(HostRoot.Instance.UserSet.GetUser, ClientIp, out ResponseBase response)) {
+                if (!request.IsValid(User, Sign, Timestamp, ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 response = Client.NTMinerDaemonService.UpgradeNTMiner(request.ClientIp, request.InnerRequest);
@@ -76,7 +76,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                if (!request.IsValid(HostRoot.Instance.UserSet.GetUser, ClientIp, out ResponseBase response)) {
+                if (!request.IsValid(User, Sign, Timestamp, ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 IClientData clientData = HostRoot.Instance.ClientSet.GetByObjectId(request.ObjectId);
@@ -113,7 +113,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                if (!request.IsValid(HostRoot.Instance.UserSet.GetUser, ClientIp, out ResponseBase response)) {
+                if (!request.IsValid(User, Sign, Timestamp, ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 IClientData clientData = HostRoot.Instance.ClientSet.GetByObjectId(request.ObjectId);
@@ -150,7 +150,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                if (!request.IsValid(HostRoot.Instance.UserSet.GetUser, ClientIp, out ResponseBase response)) {
+                if (!request.IsValid(User, Sign, Timestamp, ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 response = Client.NTMinerDaemonService.StopMine(request.ClientIp, request.InnerRequest);
@@ -171,7 +171,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                if (!request.IsValid(HostRoot.Instance.UserSet.GetUser, ClientIp, out ResponseBase response)) {
+                if (!request.IsValid(User, Sign, Timestamp, ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 response = Client.MinerClientService.SetMinerProfileProperty(request.ClientIp, request.InnerRequest);

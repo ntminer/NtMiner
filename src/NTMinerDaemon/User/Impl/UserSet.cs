@@ -43,7 +43,6 @@ namespace NTMiner.User.Impl {
         private static List<UserData> GetUsers() {
             try {
                 DataRequest<Guid?> request = new DataRequest<Guid?> {
-                    LoginName = string.Empty,
                     Data = NTMinerRegistry.GetClientId()
                 };
                 using (HttpClient client = new HttpClient()) {

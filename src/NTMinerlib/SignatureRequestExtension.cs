@@ -1,49 +1,53 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace NTMiner {
     public static class SignatureRequestExtension {
         private static readonly bool _isInnerIpEnabled = Environment.CommandLine.Contains("--enableInnerIp");
 
-        public static bool IsValid<TResponse>(this ISignatureRequest request, Func<string, IUser> getUser, string clientIp, out TResponse response) where TResponse : ResponseBase, new() {
-            return IsValid(request, getUser, clientIp, out _, out response);
-        }
-
-        public static bool IsValid<TResponse>(this ISignatureRequest request, Func<string, IUser> getUser, string clientIp, out IUser user, out TResponse response) where TResponse : ResponseBase, new() {
+        public static bool IsValid<TResponse>(this ISignatureRequest request, IUser user, string sign, DateTime timestamp, string clientIp, out TResponse response) where TResponse : ResponseBase, new() {
             if (clientIp == "localhost" || clientIp == "127.0.0.1") {
-                user = null;
                 response = null;
                 return true;
             }
             if (_isInnerIpEnabled && Ip.Util.IsInnerIp(clientIp)) {
-                user = null;
                 response = null;
                 return true;
             }
-            if (string.IsNullOrEmpty(request.LoginName)) {
-                response = ResponseBase.InvalidInput<TResponse>("登录名不能为空");
-                user = null;
-                return false;
-            }
-            user = getUser.Invoke(request.LoginName);
             if (user == null) {
-                string message = "登录名不存在";
-                if (request.LoginName == "admin") {
-                    message = "第一次使用，请先设置密码";
-                }
+                string message = "用户不存在";
                 response = ResponseBase.NotExist<TResponse>(message);
                 return false;
             }
-            if (!request.Timestamp.IsInTime()) {
+            else if (user.LoginName == "admin" && string.IsNullOrEmpty(user.Password)) {
+                string message = "第一次使用，请先设置密码";
+                response = ResponseBase.NotExist<TResponse>(message);
+                return false;
+            }
+            if (!timestamp.IsInTime()) {
                 response = ResponseBase.Expired<TResponse>();
                 return false;
             }
-            if (request.Sign != request.GetSign(user.Password)) {
+            if (sign != request.GetSign(user.LoginName, user.Password, timestamp)) {
                 string message = "用户名或密码错误";
                 response = ResponseBase.Forbidden<TResponse>(message);
                 return false;
             }
             response = null;
             return true;
+        }
+
+        public static string GetSign(this ISignatureRequest request, string loginName, string password, DateTime timestamp) {
+            var sb = request.GetSignData();
+            sb.Append("LoginName").Append(loginName).Append("Password").Append(password).Append("Timestamp").Append(timestamp);
+            return HashUtil.Sha1(sb.ToString());
+        }
+
+        public static Dictionary<string, string> ToQuery(this ISignatureRequest request, string loginName, string password) {
+            return new Dictionary<string, string> {
+                    {"LoginName", loginName },
+                    {"Sign", request.GetSign(loginName, password, DateTime.Now) }
+                };
         }
     }
 }

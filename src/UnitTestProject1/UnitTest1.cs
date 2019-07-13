@@ -237,42 +237,5 @@ namespace UnitTestProject1 {
             Console.WriteLine(uri.ToString());
             Console.WriteLine(SignatureSafeUrl(uri));
         }
-
-        [TestMethod]
-        public void SignTest() {
-            NTMinerFileData data = new NTMinerFileData() {
-                AppType = NTMinerAppType.MinerClient,
-                CreatedOn = DateTime.Now,
-                Description = "this is a test",
-                FileName = "test.exe",
-                Id = Guid.NewGuid(),
-                PublishOn = DateTime.Now,
-                Title = "test",
-                Version = "1.1",
-                VersionTag = "test"
-            };
-            SingleUser.LoginName = "test";
-            SingleUser.SetPasswordSha1(HashUtil.Sha1(SingleUser.LoginName));
-            DataRequest<NTMinerFileData> request = new DataRequest<NTMinerFileData>() {
-                Data = data,
-                LoginName = SingleUser.LoginName
-            };
-            request.SignIt(SingleUser.PasswordSha1);
-            request = new DataRequest<NTMinerFileData>() {
-                Data = data,
-                LoginName = "test",
-                Sign = request.Sign,
-                Timestamp = DateTime.Now
-            };
-            var result = request.IsValid((loginName)=> {
-                return new UserData() {
-                    Description = "test",
-                    IsEnabled = true,
-                    LoginName = SingleUser.LoginName,
-                    Password = SingleUser.PasswordSha1
-                };
-            }, "10.1.2.3", out ResponseBase response);
-            Assert.IsTrue(result);
-        }
     }
 }
