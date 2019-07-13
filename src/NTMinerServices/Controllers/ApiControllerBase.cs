@@ -58,13 +58,13 @@ namespace NTMiner.Controllers {
             }
         }
 
-        protected DateTime Timestamp {
+        protected ulong Timestamp {
             get {
                 string t = QueryString["timestamp"];
                 if (string.IsNullOrEmpty(t)) {
-                    return NTMiner.Timestamp.UnixBaseTime;
+                    return 0;
                 }
-                return ulong.TryParse(t, out ulong v) ? NTMiner.Timestamp.FromTimestamp(v) : NTMiner.Timestamp.UnixBaseTime;
+                return ulong.TryParse(t, out ulong v) ? v : 0;
             }
         }
     }

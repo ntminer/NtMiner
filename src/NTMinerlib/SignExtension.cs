@@ -5,7 +5,7 @@ namespace NTMiner {
     public static class SignExtension {
         private static readonly bool _isInnerIpEnabled = Environment.CommandLine.Contains("--enableInnerIp");
 
-        public static bool IsValid<TResponse>(this IGetSignData data, IUser user, string sign, DateTime timestamp, string clientIp, out TResponse response) where TResponse : ResponseBase, new() {
+        public static bool IsValid<TResponse>(this IGetSignData data, IUser user, string sign, ulong timestamp, string clientIp, out TResponse response) where TResponse : ResponseBase, new() {
             if (clientIp == "localhost" || clientIp == "127.0.0.1") {
                 response = null;
                 return true;
@@ -37,18 +37,18 @@ namespace NTMiner {
             return true;
         }
 
-        private static string GetSign(IGetSignData data, string loginName, string password, DateTime timestamp) {
+        private static string GetSign(IGetSignData data, string loginName, string password, ulong timestamp) {
             var sb = data.GetSignData();
             sb.Append("LoginName").Append(loginName).Append("Password").Append(password).Append("Timestamp").Append(timestamp);
             return HashUtil.Sha1(sb.ToString());
         }
 
         public static Dictionary<string, string> ToQuery(this IGetSignData data, string loginName, string password) {
-            DateTime now = DateTime.Now;
+            var timestamp = Timestamp.GetTimestamp(DateTime.Now);
             return new Dictionary<string, string> {
                     {"loginName", loginName },
-                    {"sign", GetSign(data, loginName, password, now) },
-                    {"timestamp", Timestamp.GetTimestamp(now).ToString() }
+                    {"sign", GetSign(data, loginName, password, timestamp) },
+                    {"timestamp", timestamp.ToString() }
                 };
         }
     }
