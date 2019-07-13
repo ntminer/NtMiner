@@ -2,7 +2,7 @@
 using System.Text;
 
 namespace NTMiner.Profile {
-    public class SetWorkProfileRequest<T> : RequestBase, ISignatureRequest where T : IGetSignData{
+    public class SetWorkProfileRequest<T> : RequestBase, IGetSignData where T : IGetSignData{
         public SetWorkProfileRequest() { }
 
         public Guid WorkId { get; set; }

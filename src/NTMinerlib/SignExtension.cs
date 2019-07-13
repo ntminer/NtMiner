@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 
 namespace NTMiner {
-    public static class SignatureRequestExtension {
+    public static class SignExtension {
         private static readonly bool _isInnerIpEnabled = Environment.CommandLine.Contains("--enableInnerIp");
 
-        public static bool IsValid<TResponse>(this ISignatureRequest request, IUser user, string sign, DateTime timestamp, string clientIp, out TResponse response) where TResponse : ResponseBase, new() {
+        public static bool IsValid<TResponse>(this IGetSignData data, IUser user, string sign, DateTime timestamp, string clientIp, out TResponse response) where TResponse : ResponseBase, new() {
             if (clientIp == "localhost" || clientIp == "127.0.0.1") {
                 response = null;
                 return true;
@@ -28,7 +28,7 @@ namespace NTMiner {
                 response = ResponseBase.Expired<TResponse>();
                 return false;
             }
-            if (sign != request.GetSign(user.LoginName, user.Password, timestamp)) {
+            if (sign != GetSign(data, user.LoginName, user.Password, timestamp)) {
                 string message = "用户名或密码错误";
                 response = ResponseBase.Forbidden<TResponse>(message);
                 return false;
@@ -37,16 +37,16 @@ namespace NTMiner {
             return true;
         }
 
-        public static string GetSign(this ISignatureRequest request, string loginName, string password, DateTime timestamp) {
-            var sb = request.GetSignData();
+        private static string GetSign(IGetSignData data, string loginName, string password, DateTime timestamp) {
+            var sb = data.GetSignData();
             sb.Append("LoginName").Append(loginName).Append("Password").Append(password).Append("Timestamp").Append(timestamp);
             return HashUtil.Sha1(sb.ToString());
         }
 
-        public static Dictionary<string, string> ToQuery(this ISignatureRequest request, string loginName, string password) {
+        public static Dictionary<string, string> ToQuery(this IGetSignData data, string loginName, string password) {
             return new Dictionary<string, string> {
                     {"LoginName", loginName },
-                    {"Sign", request.GetSign(loginName, password, DateTime.Now) }
+                    {"Sign", GetSign(data, loginName, password, DateTime.Now) }
                 };
         }
     }

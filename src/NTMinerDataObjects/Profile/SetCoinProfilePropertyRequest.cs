@@ -2,7 +2,7 @@
 using System.Text;
 
 namespace NTMiner.Profile {
-    public class SetCoinProfilePropertyRequest : RequestBase, ISignatureRequest {
+    public class SetCoinProfilePropertyRequest : RequestBase, IGetSignData {
         public SetCoinProfilePropertyRequest() { }
         public Guid WorkId { get; set; }
         public Guid CoinId { get; set; }

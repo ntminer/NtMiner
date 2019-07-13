@@ -2,7 +2,7 @@
 using System.Text;
 
 namespace NTMiner.MinerServer {
-    public class UpdateClientsRequest : RequestBase, ISignatureRequest {
+    public class UpdateClientsRequest : RequestBase, IGetSignData {
         public UpdateClientsRequest() {
             this.Values = new Dictionary<string, object>();
         }

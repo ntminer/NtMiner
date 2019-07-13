@@ -1,7 +1,7 @@
 ﻿using System.Text;
 
 namespace NTMiner {
-    public class SignatureRequest : RequestBase, ISignatureRequest {
+    public class SignatureRequest : RequestBase, IGetSignData {
         public SignatureRequest() { }
 
         public StringBuilder GetSignData() {

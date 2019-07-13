@@ -1,7 +1,7 @@
 ﻿using System.Text;
 
 namespace NTMiner.MinerClient {
-    public class SetMinerProfilePropertyRequest : RequestBase, ISignatureRequest {
+    public class SetMinerProfilePropertyRequest : RequestBase, IGetSignData {
         public SetMinerProfilePropertyRequest() { }
         public string ClientIp { get; set; }
         public string PropertyName { get; set; }

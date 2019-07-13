@@ -1,7 +1,7 @@
 ﻿using System.Text;
 
 namespace NTMiner.MinerServer {
-    public class UpdateClientRequest : RequestBase, ISignatureRequest {
+    public class UpdateClientRequest : RequestBase, IGetSignData {
         public UpdateClientRequest() { }
         public string ObjectId { get; set; }
         public string PropertyName { get; set; }

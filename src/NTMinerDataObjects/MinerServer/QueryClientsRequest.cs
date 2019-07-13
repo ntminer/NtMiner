@@ -2,7 +2,7 @@
 using System.Text;
 
 namespace NTMiner.MinerServer {
-    public class QueryClientsRequest : RequestBase, ISignatureRequest {
+    public class QueryClientsRequest : RequestBase, IGetSignData {
         public QueryClientsRequest() { }
         public int PageIndex { get; set; }
         public int PageSize { get; set; }

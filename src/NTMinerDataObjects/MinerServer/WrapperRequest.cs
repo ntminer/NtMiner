@@ -2,7 +2,7 @@
 using System.Text;
 
 namespace NTMiner.MinerServer {
-    public class WrapperRequest<T> : RequestBase, ISignatureRequest where T : IGetSignData {
+    public class WrapperRequest<T> : RequestBase, IGetSignData where T : IGetSignData {
         public WrapperRequest() { }
 
         public string ObjectId { get; set; }

@@ -2,7 +2,7 @@
 using System.Text;
 
 namespace NTMiner.MinerServer {
-    public class MinerIdsRequest : RequestBase, ISignatureRequest {
+    public class MinerIdsRequest : RequestBase, IGetSignData {
         public MinerIdsRequest() {
             this.ObjectIds = new List<string>();
         }

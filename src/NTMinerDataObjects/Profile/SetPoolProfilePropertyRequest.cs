@@ -2,7 +2,7 @@
 using System.Text;
 
 namespace NTMiner.Profile {
-    public class SetPoolProfilePropertyRequest : RequestBase, ISignatureRequest {
+    public class SetPoolProfilePropertyRequest : RequestBase, IGetSignData {
         public SetPoolProfilePropertyRequest() { }
         public Guid WorkId { get; set; }
         public Guid PoolId { get; set; }

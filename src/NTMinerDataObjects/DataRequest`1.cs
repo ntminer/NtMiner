@@ -2,7 +2,7 @@
 using System.Text;
 
 namespace NTMiner {
-    public class DataRequest<T> : RequestBase, ISignatureRequest {
+    public class DataRequest<T> : RequestBase, IGetSignData {
         public DataRequest() { }
         public T Data { get; set; }
 
