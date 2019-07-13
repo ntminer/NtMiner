@@ -18,6 +18,9 @@ namespace NTMiner.Controllers {
 
         protected new IUser User {
             get {
+                if (string.IsNullOrEmpty(LoginName)) {
+                    return null;
+                }
                 return HostRoot.Instance.UserSet.GetUser(LoginName);
             }
         }

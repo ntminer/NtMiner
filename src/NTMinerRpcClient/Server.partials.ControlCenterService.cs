@@ -61,7 +61,7 @@ namespace NTMiner {
             public void LoginAsync(string loginName, string password, Action<ResponseBase, Exception> callback) {
                 SignatureRequest request = new SignatureRequest() {
                 };
-                PostAsync(SControllerName, nameof(IControlCenterController.LoginControlCenter), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
+                PostAsync(SControllerName, nameof(IControlCenterController.LoginControlCenter), request.ToQuery(loginName, password), request, callback);
             }
             #endregion
 
