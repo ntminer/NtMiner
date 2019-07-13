@@ -37,7 +37,7 @@ namespace NTMiner.Controllers {
                         foreach (var item in parts) {
                             string[] pair = item.Split('=');
                             if (pair.Length == 2) {
-                                _queryString.Add(parts[0], parts[1]);
+                                _queryString.Add(pair[0], pair[1]);
                             }
                         }
                     }
