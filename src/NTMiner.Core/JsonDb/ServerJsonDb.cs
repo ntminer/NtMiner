@@ -71,6 +71,23 @@ namespace NTMiner.JsonDb {
             }
         }
 
+        public void UnCut() {
+            foreach (var coinKernel in this.CoinKernels) {
+                if (coinKernel.EnvironmentVariables == null) {
+                    coinKernel.EnvironmentVariables = new List<EnvironmentVariable>();
+                }
+                if (coinKernel.InputSegments == null) {
+                    coinKernel.InputSegments = new List<InputSegment>();
+                }
+                if (coinKernel.FileWriterIds == null) {
+                    coinKernel.FileWriterIds = new List<Guid>();
+                }
+                if (coinKernel.FragmentWriterIds == null) {
+                    coinKernel.FragmentWriterIds = new List<Guid>();
+                }
+            }
+        }
+
         public ServerJsonDb(INTMinerRoot root, LocalJsonDb localJsonObj) {
             var minerProfile = root.MinerProfile;
             var mainCoinProfile = minerProfile.GetCoinProfile(minerProfile.CoinId);

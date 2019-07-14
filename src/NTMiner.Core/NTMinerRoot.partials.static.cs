@@ -202,6 +202,7 @@ namespace NTMiner {
             ServerJsonDb serverJsonObj = new ServerJsonDb(Instance);
             serverJsonObj.CutJsonSize();
             string json = VirtualRoot.JsonSerializer.Serialize(serverJsonObj);
+            serverJsonObj.UnCut();
             File.WriteAllText(jsonFileFullName, json);
         }
 
