@@ -110,7 +110,7 @@ namespace NTMiner {
                 });
             }
 
-            public ResponseBase RestartWindows(string clientIp, SignatureRequest request) {
+            public ResponseBase RestartWindows(string clientIp, SignRequest request) {
                 using (HttpClient client = new HttpClient()) {
                     Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientIp}:{Consts.NTMinerDaemonPort}/api/{s_controllerName}/{nameof(INTMinerDaemonController.RestartWindows)}", request);
                     ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
@@ -118,7 +118,7 @@ namespace NTMiner {
                 }
             }
 
-            public ResponseBase ShutdownWindows(string clientIp, SignatureRequest request) {
+            public ResponseBase ShutdownWindows(string clientIp, SignRequest request) {
                 using (HttpClient client = new HttpClient()) {
                     Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientIp}:{Consts.NTMinerDaemonPort}/api/{s_controllerName}/{nameof(INTMinerDaemonController.ShutdownWindows)}", request);
                     ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
@@ -150,7 +150,7 @@ namespace NTMiner {
                 }
             }
 
-            public ResponseBase StopMine(string clientIp, SignatureRequest request) {
+            public ResponseBase StopMine(string clientIp, SignRequest request) {
                 using (HttpClient client = new HttpClient()) {
                     Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientIp}:{Consts.NTMinerDaemonPort}/api/{s_controllerName}/{nameof(INTMinerDaemonController.StopMine)}", request);
                     ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;

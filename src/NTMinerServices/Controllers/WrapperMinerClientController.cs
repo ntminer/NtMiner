@@ -8,7 +8,7 @@ namespace NTMiner.Controllers {
     public class WrapperMinerClientController : ApiControllerBase, IWrapperMinerClientController {
         #region RestartWindows
         [HttpPost]
-        public ResponseBase RestartWindows([FromBody]WrapperRequest<SignatureRequest> request) {
+        public ResponseBase RestartWindows([FromBody]WrapperRequest<SignRequest> request) {
             if (request == null || request.InnerRequest == null || string.IsNullOrEmpty(request.ClientIp)) {
                 return ResponseBase.InvalidInput("参数错误");
             }
@@ -29,7 +29,7 @@ namespace NTMiner.Controllers {
 
         #region ShutdownWindows
         [HttpPost]
-        public ResponseBase ShutdownWindows([FromBody]WrapperRequest<SignatureRequest> request) {
+        public ResponseBase ShutdownWindows([FromBody]WrapperRequest<SignRequest> request) {
             if (request == null || request.InnerRequest == null || string.IsNullOrEmpty(request.ClientIp)) {
                 return ResponseBase.InvalidInput("参数错误");
             }
@@ -145,7 +145,7 @@ namespace NTMiner.Controllers {
 
         #region StopMine
         [HttpPost]
-        public ResponseBase StopMine([FromBody]WrapperRequest<SignatureRequest> request) {
+        public ResponseBase StopMine([FromBody]WrapperRequest<SignRequest> request) {
             if (request == null || request.InnerRequest == null || string.IsNullOrEmpty(request.ClientIp)) {
                 return ResponseBase.InvalidInput("参数错误");
             }

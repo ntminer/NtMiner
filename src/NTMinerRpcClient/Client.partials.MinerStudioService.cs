@@ -41,7 +41,7 @@ namespace NTMiner {
                 bool isClosed = false;
                 try {
                     using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:{Consts.MinerStudioPort}/api/{s_controllerName}/{nameof(IMinerStudioController.CloseMinerStudio)}", new SignatureRequest {});
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:{Consts.MinerStudioPort}/api/{s_controllerName}/{nameof(IMinerStudioController.CloseMinerStudio)}", new SignRequest {});
                         ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                         isClosed = response.IsSuccess();
                     }

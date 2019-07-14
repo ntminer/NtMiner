@@ -14,9 +14,9 @@ namespace NTMiner {
             }
 
             public void RestartWindowsAsync(IClientData client, Action<ResponseBase, Exception> callback) {
-                SignatureRequest innerRequest = new SignatureRequest {
+                SignRequest innerRequest = new SignRequest {
                 };
-                WrapperRequest<SignatureRequest> request = new WrapperRequest<SignatureRequest> {
+                WrapperRequest<SignRequest> request = new WrapperRequest<SignRequest> {
                     ObjectId = client.GetId(),
                     ClientId = client.ClientId,
                     InnerRequest = innerRequest,
@@ -26,9 +26,9 @@ namespace NTMiner {
             }
 
             public void ShutdownWindowsAsync(IClientData client, Action<ResponseBase, Exception> callback) {
-                SignatureRequest innerRequest = new SignatureRequest {
+                SignRequest innerRequest = new SignRequest {
                 };
-                WrapperRequest<SignatureRequest> request = new WrapperRequest<SignatureRequest> {
+                WrapperRequest<SignRequest> request = new WrapperRequest<SignRequest> {
                     ObjectId = client.GetId(),
                     ClientId = client.ClientId,
                     InnerRequest = innerRequest,
@@ -79,9 +79,9 @@ namespace NTMiner {
             }
 
             public void StopMineAsync(IClientData client, Action<ResponseBase, Exception> callback) {
-                SignatureRequest innerRequest = new SignatureRequest {
+                SignRequest innerRequest = new SignRequest {
                 };
-                WrapperRequest<SignatureRequest> request = new WrapperRequest<SignatureRequest> {
+                WrapperRequest<SignRequest> request = new WrapperRequest<SignRequest> {
                     ObjectId = client.GetId(),
                     ClientId = client.ClientId,
                     ClientIp = client.MinerIp,

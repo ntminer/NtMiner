@@ -65,7 +65,7 @@ namespace NTMiner {
         }
 
         [HttpPost]
-        public ResponseBase RestartWindows([FromBody]SignatureRequest request) {
+        public ResponseBase RestartWindows([FromBody]SignRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput("参数错误");
             }
@@ -82,7 +82,7 @@ namespace NTMiner {
         }
 
         [HttpPost]
-        public ResponseBase ShutdownWindows([FromBody]SignatureRequest request) {
+        public ResponseBase ShutdownWindows([FromBody]SignRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput("参数错误");
             }
@@ -149,7 +149,7 @@ namespace NTMiner {
         }
 
         [HttpPost]
-        public ResponseBase StopMine([FromBody]SignatureRequest request) {
+        public ResponseBase StopMine([FromBody]SignRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput("参数错误");
             }
@@ -211,7 +211,7 @@ namespace NTMiner {
             bool isClosed = false;
             try {
                 using (HttpClient client = new HttpClient()) {
-                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:{Consts.MinerClientPort}/api/MinerClient/CloseNTMiner", new SignatureRequest { });
+                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:{Consts.MinerClientPort}/api/MinerClient/CloseNTMiner", new SignRequest { });
                     ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                     isClosed = response.IsSuccess();
                 }

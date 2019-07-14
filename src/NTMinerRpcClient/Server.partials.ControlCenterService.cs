@@ -59,7 +59,7 @@ namespace NTMiner {
 
             #region LoginAsync
             public void LoginAsync(string loginName, string password, Action<ResponseBase, Exception> callback) {
-                SignatureRequest request = new SignatureRequest() {
+                SignRequest request = new SignRequest() {
                 };
                 PostAsync(SControllerName, nameof(IControlCenterController.LoginControlCenter), request.ToQuery(loginName, password), request, callback);
             }
@@ -217,7 +217,7 @@ namespace NTMiner {
             /// <returns></returns>
             public List<MinerGroupData> GetMinerGroups() {
                 try {
-                    SignatureRequest request = new SignatureRequest {
+                    SignRequest request = new SignRequest {
                     };
                     DataResponse<List<MinerGroupData>> response = Post<DataResponse<List<MinerGroupData>>>(SControllerName, nameof(IControlCenterController.MinerGroups), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, timeout: 2000);
                     if (response != null && response.Data != null) {
@@ -293,7 +293,7 @@ namespace NTMiner {
             /// <returns></returns>
             public List<MineWorkData> GetMineWorks() {
                 try {
-                    SignatureRequest request = new SignatureRequest {
+                    SignRequest request = new SignRequest {
                     };
                     DataResponse<List<MineWorkData>> response = Post<DataResponse<List<MineWorkData>>>(SControllerName, nameof(IControlCenterController.MineWorks), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, timeout: 2000);
                     if (response != null && response.Data != null) {
@@ -343,7 +343,7 @@ namespace NTMiner {
             /// <returns></returns>
             public DataResponse<List<WalletData>> GetWallets() {
                 try {
-                    SignatureRequest request = new SignatureRequest {
+                    SignRequest request = new SignRequest {
                     };
                     DataResponse<List<WalletData>> response = Post<DataResponse<List<WalletData>>>(SControllerName, nameof(IControlCenterController.Wallets), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, timeout: 2000);
                     return response;
@@ -381,7 +381,7 @@ namespace NTMiner {
             /// <returns></returns>
             public List<PoolData> GetPools() {
                 try {
-                    SignatureRequest request = new SignatureRequest {
+                    SignRequest request = new SignRequest {
                     };
                     DataResponse<List<PoolData>> response = Post<DataResponse<List<PoolData>>>(SControllerName, nameof(IControlCenterController.Pools), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, timeout: 2000);
                     if (response != null && response.Data != null) {
@@ -422,7 +422,7 @@ namespace NTMiner {
             /// <returns></returns>
             public List<ColumnsShowData> GetColumnsShows() {
                 try {
-                    SignatureRequest request = new SignatureRequest {
+                    SignRequest request = new SignRequest {
                     };
                     DataResponse<List<ColumnsShowData>> response = Post<DataResponse<List<ColumnsShowData>>>(SControllerName, nameof(IControlCenterController.ColumnsShows), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, timeout: 2000);
                     if (response != null && response.Data != null) {

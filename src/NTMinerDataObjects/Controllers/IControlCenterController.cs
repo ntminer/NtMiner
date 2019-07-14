@@ -8,7 +8,7 @@ namespace NTMiner.Controllers {
         string GetServicesVersion();
         void CloseServices();
         ResponseBase ActiveControlCenterAdmin(string password);
-        ResponseBase LoginControlCenter(SignatureRequest request);
+        ResponseBase LoginControlCenter(SignRequest request);
         DataResponse<List<UserData>> Users(DataRequest<Guid?> request);
         ResponseBase AddUser(DataRequest<UserData> request);
         ResponseBase UpdateUser(DataRequest<UserData> request);
@@ -21,23 +21,23 @@ namespace NTMiner.Controllers {
         ResponseBase UpdateClient(UpdateClientRequest request);
         DataResponse<List<ClientData>> RefreshClients(MinerIdsRequest request);
         ResponseBase UpdateClients(UpdateClientsRequest request);
-        DataResponse<List<MinerGroupData>> MinerGroups(SignatureRequest request);
+        DataResponse<List<MinerGroupData>> MinerGroups(SignRequest request);
         ResponseBase AddOrUpdateMinerGroup(DataRequest<MinerGroupData> request);
         ResponseBase RemoveMinerGroup(DataRequest<Guid> request);
         ResponseBase AddOrUpdateMineWork(DataRequest<MineWorkData> request);
         ResponseBase RemoveMineWork(DataRequest<Guid> request);
         ResponseBase ExportMineWork(ExportMineWorkRequest request);
         DataResponse<string> GetLocalJson(DataRequest<Guid> request);
-        DataResponse<List<MineWorkData>> MineWorks(SignatureRequest request);
-        DataResponse<List<WalletData>> Wallets(SignatureRequest request);
+        DataResponse<List<MineWorkData>> MineWorks(SignRequest request);
+        DataResponse<List<WalletData>> Wallets(SignRequest request);
         ResponseBase AddOrUpdateWallet(DataRequest<WalletData> request);
         ResponseBase RemoveWallet(DataRequest<Guid> request);
-        DataResponse<List<PoolData>> Pools(SignatureRequest request);
+        DataResponse<List<PoolData>> Pools(SignRequest request);
         ResponseBase AddOrUpdatePool(DataRequest<PoolData> request);
         ResponseBase RemovePool(DataRequest<Guid> request);
         DataResponse<List<CalcConfigData>> CalcConfigs(CalcConfigsRequest request);
         ResponseBase SaveCalcConfigs(SaveCalcConfigsRequest request);
-        DataResponse<List<ColumnsShowData>> ColumnsShows(SignatureRequest request);
+        DataResponse<List<ColumnsShowData>> ColumnsShows(SignRequest request);
         ResponseBase AddOrUpdateColumnsShow(DataRequest<ColumnsShowData> request);
         ResponseBase RemoveColumnsShow(DataRequest<Guid> request);
     }

@@ -66,7 +66,7 @@ namespace NTMiner.Controllers {
 
         #region LoginControlCenter
         [HttpPost]
-        public ResponseBase LoginControlCenter([FromBody]SignatureRequest request) {
+        public ResponseBase LoginControlCenter([FromBody]SignRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput("参数错误");
             }
@@ -387,7 +387,7 @@ namespace NTMiner.Controllers {
 
         #region MinerGroups
         [HttpPost]
-        public DataResponse<List<MinerGroupData>> MinerGroups([FromBody]SignatureRequest request) {
+        public DataResponse<List<MinerGroupData>> MinerGroups([FromBody]SignRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput<DataResponse<List<MinerGroupData>>>("参数错误");
             }
@@ -501,7 +501,7 @@ namespace NTMiner.Controllers {
 
         #region MineWorks
         [HttpPost]
-        public DataResponse<List<MineWorkData>> MineWorks([FromBody]SignatureRequest request) {
+        public DataResponse<List<MineWorkData>> MineWorks([FromBody]SignRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput<DataResponse<List<MineWorkData>>>("参数错误");
             }
@@ -568,7 +568,7 @@ namespace NTMiner.Controllers {
 
         #region Pools
         [HttpPost]
-        public DataResponse<List<PoolData>> Pools([FromBody]SignatureRequest request) {
+        public DataResponse<List<PoolData>> Pools([FromBody]SignRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput<DataResponse<List<PoolData>>>("参数错误");
             }
@@ -628,7 +628,7 @@ namespace NTMiner.Controllers {
 
         #region Wallets
         [HttpPost]
-        public DataResponse<List<WalletData>> Wallets([FromBody]SignatureRequest request) {
+        public DataResponse<List<WalletData>> Wallets([FromBody]SignRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput<DataResponse<List<WalletData>>>("参数错误");
             }
@@ -723,7 +723,7 @@ namespace NTMiner.Controllers {
 
         #region ColumnsShows
         [HttpPost]
-        public DataResponse<List<ColumnsShowData>> ColumnsShows([FromBody]SignatureRequest request) {
+        public DataResponse<List<ColumnsShowData>> ColumnsShows([FromBody]SignRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput<DataResponse<List<ColumnsShowData>>>("参数错误");
             }
