@@ -60,7 +60,7 @@
 								Background="Transparent" 
 								BorderThickness="0" 
 								Padding="2"
-								Visibility="{Binding IsInnerIp,Converter={StaticResource BoolToVisibilityInvertConverter}}"
+								Visibility="{Binding IsLocalHost,Converter={StaticResource BoolToVisibilityInvertConverter}}"
 								Command="{Binding Data.Remove,Source={StaticResource proxy}}"
 								CommandParameter="{Binding}"
 								HorizontalAlignment="Right">
