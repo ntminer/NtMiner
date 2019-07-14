@@ -4,6 +4,7 @@ using System.Text;
 namespace NTMiner {
     public class DataRequest<T> : RequestBase, IGetSignData {
         public DataRequest() { }
+        [ManualSign]
         public T Data { get; set; }
 
         private string GetData() {
@@ -23,7 +24,7 @@ namespace NTMiner {
         }
 
         public StringBuilder GetSignData() {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = this.BuildSign();
             sb.Append(nameof(Data)).Append(GetData());
             return sb;
         }

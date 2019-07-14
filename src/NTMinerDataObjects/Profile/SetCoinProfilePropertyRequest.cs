@@ -10,12 +10,7 @@ namespace NTMiner.Profile {
         public object Value { get; set; }
 
         public StringBuilder GetSignData() {
-            StringBuilder sb = new StringBuilder();
-            sb.Append(nameof(WorkId)).Append(WorkId)
-              .Append(nameof(CoinId)).Append(CoinId)
-              .Append(nameof(PropertyName)).Append(PropertyName)
-              .Append(nameof(Value)).Append(Value);
-            return sb;
+            return this.BuildSign();
         }
     }
 }

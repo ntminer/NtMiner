@@ -8,11 +8,7 @@ namespace NTMiner.MinerClient {
         public object Value { get; set; }
 
         public StringBuilder GetSignData() {
-            StringBuilder sb = new StringBuilder();
-            sb.Append(nameof(ClientIp)).Append(ClientIp)
-              .Append(nameof(PropertyName)).Append(PropertyName)
-              .Append(nameof(Value)).Append(Value);
-            return sb;
+            return this.BuildSign();
         }
     }
 }

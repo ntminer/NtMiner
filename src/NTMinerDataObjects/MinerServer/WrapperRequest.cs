@@ -11,14 +11,12 @@ namespace NTMiner.MinerServer {
 
         public string ClientIp { get; set; }
 
+        [ManualSign]
         public T InnerRequest { get; set; }
 
         public StringBuilder GetSignData() {
-            StringBuilder sb = new StringBuilder();
-            sb.Append(nameof(ObjectId)).Append(ObjectId)
-              .Append(nameof(ClientId)).Append(ClientId)
-              .Append(nameof(ClientIp)).Append(ClientIp)
-              .Append(nameof(InnerRequest)).Append(InnerRequest.GetSignData());
+            StringBuilder sb = this.BuildSign();
+            sb.Append(nameof(InnerRequest)).Append(InnerRequest.GetSignData().ToString());
             return sb;
         }
     }

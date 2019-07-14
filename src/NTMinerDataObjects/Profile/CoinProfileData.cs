@@ -50,11 +50,11 @@ namespace NTMiner.Profile {
         public bool IsDualCoinHideWallet { get; set; }
 
         public override string ToString() {
-            return $"{CoinId}{PoolId}{PoolId1}{Wallet}{IsHideWallet}{CoinKernelId}{DualCoinPoolId}{DualCoinWallet}{IsDualCoinHideWallet}";
+            return this.BuildSign().ToString();
         }
 
         public StringBuilder GetSignData() {
-            return new StringBuilder(this.ToString());
+            return this.BuildSign();
         }
     }
 }

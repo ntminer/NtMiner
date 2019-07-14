@@ -8,9 +8,7 @@ namespace NTMiner.MinerServer {
         public int Limit { get; set; }
 
         public StringBuilder GetSignData() {
-            StringBuilder sb = new StringBuilder();
-            sb.Append(nameof(Limit)).Append(Limit);
-            return sb;
+            return this.BuildSign();
         }
     }
 }

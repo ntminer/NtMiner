@@ -3,19 +3,17 @@ using System.Text;
 
 namespace NTMiner.MinerServer {
     public class SaveCalcConfigsRequest : RequestBase, IGetSignData {
-        public SaveCalcConfigsRequest() { }
+        public SaveCalcConfigsRequest() {
+            this.Data = new List<CalcConfigData>();
+        }
+        [ManualSign]
         public List<CalcConfigData> Data { get; set; }
 
-        private static StringBuilder GetSignData(StringBuilder sb, List<CalcConfigData> list) {
-            foreach (var item in list) {
-                sb.Append(item.GetSignData());
-            }
-            return sb;
-        }
-
         public StringBuilder GetSignData() {
-            StringBuilder sb = new StringBuilder();
-            sb.Append(GetSignData(sb, this.Data));
+            StringBuilder sb = this.BuildSign();
+            foreach (var item in Data) {
+                sb.Append(item.GetSignData().ToString());
+            }
             return sb;
         }
     }

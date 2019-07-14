@@ -7,9 +7,7 @@ namespace NTMiner.MinerServer {
         public Guid ClientId { get; set; }
 
         public StringBuilder GetSignData() {
-            StringBuilder sb = new StringBuilder();
-            sb.Append(nameof(ClientId)).Append(ClientId);
-            return sb;
+            return this.BuildSign();
         }
     }
 }

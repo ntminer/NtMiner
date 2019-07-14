@@ -7,6 +7,7 @@ namespace NTMiner.MinerServer {
             this.Values = new Dictionary<string, object>();
         }
         public string PropertyName { get; set; }
+        [ManualSign]
         public Dictionary<string, object> Values { get; set; }
 
         private string GetValuesString() {
@@ -17,9 +18,8 @@ namespace NTMiner.MinerServer {
         }
 
         public StringBuilder GetSignData() {
-            StringBuilder sb = new StringBuilder();
-            sb.Append(nameof(PropertyName)).Append(PropertyName)
-              .Append(nameof(Values)).Append(GetValuesString());
+            StringBuilder sb = this.BuildSign();
+            sb.Append(nameof(Values)).Append(GetValuesString());
             return sb;
         }
     }

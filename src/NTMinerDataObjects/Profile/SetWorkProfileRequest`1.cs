@@ -7,12 +7,12 @@ namespace NTMiner.Profile {
 
         public Guid WorkId { get; set; }
 
+        [ManualSign]
         public T Data { get; set; }
 
         public StringBuilder GetSignData() {
-            StringBuilder sb = new StringBuilder();
-            sb.Append(nameof(WorkId)).Append(WorkId)
-              .Append(nameof(Data)).Append(Data.GetSignData());
+            StringBuilder sb = this.BuildSign();
+            sb.Append(nameof(Data)).Append(Data.GetSignData().ToString());
             return sb;
         }
     }

@@ -5,7 +5,7 @@ namespace NTMiner {
         public SignRequest() { }
 
         public StringBuilder GetSignData() {
-            return new StringBuilder();
+            return this.BuildSign();
         }
     }
 }

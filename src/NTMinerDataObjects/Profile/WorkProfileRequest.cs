@@ -10,11 +10,7 @@ namespace NTMiner.Profile {
         public Guid DataId { get; set; }
 
         public StringBuilder GetSignData() {
-            StringBuilder sb = new StringBuilder();
-            sb.Append(nameof(WorkId)).Append(WorkId)
-              .Append(nameof(DataId)).Append(DataId);
-
-            return sb;
+            return this.BuildSign();
         }
     }
 }

@@ -6,10 +6,12 @@ namespace NTMiner.MinerServer {
         public MinerIdsRequest() {
             this.ObjectIds = new List<string>();
         }
+
+        [ManualSign]
         public List<string> ObjectIds { get; set; }
 
         public StringBuilder GetSignData() {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = this.BuildSign();
             sb.Append(nameof(ObjectIds));
             foreach (var clientId in ObjectIds) {
                 sb.Append(clientId);
