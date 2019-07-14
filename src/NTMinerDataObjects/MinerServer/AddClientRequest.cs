@@ -10,7 +10,10 @@ namespace NTMiner.MinerServer {
 
         public StringBuilder GetSignData() {
             StringBuilder sb = new StringBuilder();
-            sb.Append(nameof(Timestamp)).Append(Timestamp.ToUlong());
+            sb.Append(nameof(ClientIps));
+            foreach (var clientIp in ClientIps) {
+                sb.Append(clientIp);
+            }
             return sb;
         }
     }

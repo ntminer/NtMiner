@@ -12,8 +12,7 @@ namespace NTMiner.Profile {
         public StringBuilder GetSignData() {
             StringBuilder sb = new StringBuilder();
             sb.Append(nameof(WorkId)).Append(WorkId)
-                .Append(nameof(DataId)).Append(DataId)
-                .Append(nameof(Timestamp)).Append(Timestamp.ToUlong());
+              .Append(nameof(DataId)).Append(DataId);
 
             return sb;
         }

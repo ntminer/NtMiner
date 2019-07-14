@@ -6,8 +6,7 @@ namespace NTMiner.Daemon {
 
         public StringBuilder GetSignData() {
             StringBuilder sb = new StringBuilder();
-            sb.Append(nameof(NTMinerFileName)).Append(NTMinerFileName)
-                .Append(nameof(Timestamp)).Append(Timestamp.ToUlong());
+            sb.Append(nameof(NTMinerFileName)).Append(NTMinerFileName);
             return sb;
         }
     }

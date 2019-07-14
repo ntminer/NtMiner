@@ -90,7 +90,6 @@ namespace NTMiner.Controllers {
                     serverJson = SpecialPath.ReadMineWorkServerJsonFile(workId);
                 }
                 WorkRequest innerRequest = new WorkRequest {
-                    Timestamp = request.InnerRequest.Timestamp,
                     WorkId = workId,
                     LocalJson = localJson,
                     ServerJson = serverJson
@@ -127,7 +126,6 @@ namespace NTMiner.Controllers {
                     serverJson = SpecialPath.ReadMineWorkServerJsonFile(workId);
                 }
                 WorkRequest innerRequest = new WorkRequest {
-                    Timestamp = request.InnerRequest.Timestamp,
                     WorkId = workId,
                     LocalJson = localJson,
                     ServerJson = serverJson

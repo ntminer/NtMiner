@@ -10,7 +10,6 @@ namespace NTMiner.MinerServer {
 
         public StringBuilder GetSignData() {
             StringBuilder sb = new StringBuilder();
-            sb.Append(nameof(Timestamp)).Append(Timestamp.ToUlong());
             sb.Append(nameof(ObjectIds));
             foreach (var clientId in ObjectIds) {
                 sb.Append(clientId);

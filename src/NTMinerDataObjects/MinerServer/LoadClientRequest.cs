@@ -8,8 +8,7 @@ namespace NTMiner.MinerServer {
 
         public StringBuilder GetSignData() {
             StringBuilder sb = new StringBuilder();
-            sb.Append(nameof(ClientId)).Append(ClientId)
-                .Append(nameof(Timestamp)).Append(Timestamp.ToUlong());
+            sb.Append(nameof(ClientId)).Append(ClientId);
             return sb;
         }
     }

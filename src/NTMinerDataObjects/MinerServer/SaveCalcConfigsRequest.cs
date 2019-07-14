@@ -15,8 +15,7 @@ namespace NTMiner.MinerServer {
 
         public StringBuilder GetSignData() {
             StringBuilder sb = new StringBuilder();
-            sb.Append(GetSignData(sb, this.Data))
-                .Append(nameof(Timestamp)).Append(Timestamp.ToUlong());
+            sb.Append(GetSignData(sb, this.Data));
             return sb;
         }
     }

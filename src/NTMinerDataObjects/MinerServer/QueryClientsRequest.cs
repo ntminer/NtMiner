@@ -20,18 +20,17 @@ namespace NTMiner.MinerServer {
         public StringBuilder GetSignData() {
             StringBuilder sb = new StringBuilder();
             sb.Append(nameof(PageIndex)).Append(PageIndex)
-                .Append(nameof(PageSize)).Append(PageSize)
-                .Append(nameof(GroupId)).Append(GroupId)
-                .Append(nameof(WorkId)).Append(WorkId)
-                .Append(nameof(MinerIp)).Append(MinerIp)
-                .Append(nameof(MinerName)).Append(MinerName)
-                .Append(nameof(MineState)).Append(MineState)
-                .Append(nameof(Coin)).Append(Coin)
-                .Append(nameof(Pool)).Append(Pool)
-                .Append(nameof(Wallet)).Append(Wallet)
-                .Append(nameof(Version)).Append(Version)
-                .Append(nameof(Kernel)).Append(Kernel)
-                .Append(nameof(Timestamp)).Append(Timestamp.ToUlong());
+              .Append(nameof(PageSize)).Append(PageSize)
+              .Append(nameof(GroupId)).Append(GroupId)
+              .Append(nameof(WorkId)).Append(WorkId)
+              .Append(nameof(MinerIp)).Append(MinerIp)
+              .Append(nameof(MinerName)).Append(MinerName)
+              .Append(nameof(MineState)).Append(MineState)
+              .Append(nameof(Coin)).Append(Coin)
+              .Append(nameof(Pool)).Append(Pool)
+              .Append(nameof(Wallet)).Append(Wallet)
+              .Append(nameof(Version)).Append(Version)
+              .Append(nameof(Kernel)).Append(Kernel);
             return sb;
         }
     }

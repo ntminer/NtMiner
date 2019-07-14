@@ -24,8 +24,7 @@ namespace NTMiner {
 
         public StringBuilder GetSignData() {
             StringBuilder sb = new StringBuilder();
-            sb.Append(nameof(Data)).Append(GetData())
-              .Append(nameof(Timestamp)).Append(Timestamp.ToUlong());
+            sb.Append(nameof(Data)).Append(GetData());
             return sb;
         }
     }
