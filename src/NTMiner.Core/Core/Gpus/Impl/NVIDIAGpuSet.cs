@@ -20,23 +20,23 @@ namespace NTMiner.Core.Gpus.Impl {
                 if (_isNvmlInited) {
                     return _isNvmlInited;
                 }
-                if (Directory.Exists(_nvsmiDir)) {
-                    try {
+                try {
 #if DEBUG
                         VirtualRoot.Stopwatch.Restart();
 #endif
+                    if (Directory.Exists(_nvsmiDir)) {
                         Windows.NativeMethods.SetDllDirectory(_nvsmiDir);
-                        var nvmlReturn = NvmlNativeMethods.nvmlInit();
-                        SetGpuStatus(Gpu.GpuAll, nvmlReturn);
-                        _isNvmlInited = nvmlReturn == nvmlReturn.Success;
+                    }
+                    var nvmlReturn = NvmlNativeMethods.nvmlInit();
+                    SetGpuStatus(Gpu.GpuAll, nvmlReturn);
+                    _isNvmlInited = nvmlReturn == nvmlReturn.Success;
 #if DEBUG
                         Write.DevWarn($"耗时{VirtualRoot.Stopwatch.ElapsedMilliseconds}毫秒 {nameof(NVIDIAGpuSet)}.{nameof(NvmlInit)}()");
 #endif
-                        return _isNvmlInited;
-                    }
-                    catch (Exception e) {
-                        Logger.ErrorDebugLine(e);
-                    }
+                    return _isNvmlInited;
+                }
+                catch (Exception e) {
+                    Logger.ErrorDebugLine(e);
                 }
                 return false;
             }
