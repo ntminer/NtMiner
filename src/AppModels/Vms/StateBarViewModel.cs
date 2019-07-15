@@ -71,6 +71,7 @@ namespace NTMiner.Vms {
 
         public ICommand ConfigControlCenterHost { get; private set; }
         public ICommand WindowsAutoLogon { get; private set; }
+        public ICommand EnableOrDisableWindowsRemoteDesktop { get; private set; }
 
         public StateBarViewModel() {
             if (Design.IsInDesignMode) {
@@ -82,6 +83,17 @@ namespace NTMiner.Vms {
             });
             this.WindowsAutoLogon = new DelegateCommand(() => {
                 VirtualRoot.Execute(new EnableOrDisableWindowsAutoLoginCommand());
+            });
+            this.EnableOrDisableWindowsRemoteDesktop = new DelegateCommand(() => {
+                string message = "确定启用Windows远程桌面吗？";
+                if (IsRemoteDesktopEnabled) {
+                    message = "确定禁用Windows远程桌面吗？";
+                }
+                this.ShowDialog(message: message, title: "确认", onYes: () => {
+                    VirtualRoot.Execute(new EnableOrDisableWindowsRemoteDesktopCommand(!IsRemoteDesktopEnabled));
+                    OnPropertyChanged(nameof(IsRemoteDesktopEnabled));
+                    OnPropertyChanged(nameof(RemoteDesktopToolTip));
+                }, icon: IconConst.IconConfirm);
             });
             if (NTMinerRoot.CurrentVersion.ToString() != NTMinerRoot.ServerVersion) {
                 _checkUpdateForeground = new SolidColorBrush(Colors.Red);

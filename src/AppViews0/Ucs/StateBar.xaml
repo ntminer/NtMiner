@@ -293,14 +293,19 @@
 							Fill="{Binding IsAutoAdminLogon,Converter={StaticResource BoolToBrushConverter}}"
 							Stretch="Fill" />
 					</controls:KbButton>
-					<Border ToolTip="{Binding RemoteDesktopToolTip}" Margin="4 0 0 0" Background="Transparent">
+					<controls:KbButton 
+						Background="Transparent"
+						Margin="4 0 0 0"
+						ToolTip="{Binding RemoteDesktopToolTip}"
+						Command="{Binding EnableOrDisableWindowsRemoteDesktop}"
+						CornerRadius="2">
 						<Path
 							Width="14"
 							Height="14"
 							Data="{StaticResource Icon_RemoteDesktop}"
 							Fill="{Binding IsRemoteDesktopEnabled,Converter={StaticResource BoolToBrushConverter}}"
 							Stretch="Fill" />
-					</Border>
+					</controls:KbButton>
 					<TextBlock Text=" / " Foreground="{StaticResource LableColor}"></TextBlock>
 					<controls:KbButton 
 						x:Name="BtnShowVirtualMemory"

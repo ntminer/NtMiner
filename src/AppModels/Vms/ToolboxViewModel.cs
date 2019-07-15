@@ -75,9 +75,9 @@ namespace NTMiner.Vms {
         public string AutoAdminLogonMessage {
             get {
                 if (IsAutoAdminLogon) {
-                    return "Windows开机自动登录已启用";
+                    return "开机自动登录已启用";
                 }
-                return "Windows开机自动登录未启用";
+                return "开机自动登录未启用";
             }
         }
 

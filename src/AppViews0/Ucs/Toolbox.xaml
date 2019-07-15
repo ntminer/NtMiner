@@ -162,6 +162,26 @@
 					Height="50" 
 					Width="200"
 					Margin="4"
+					Command="{Binding WindowsAutoLogon}"
+					Cursor="Hand"
+					Background="Transparent">
+					<WrapPanel VerticalAlignment="Center">
+						<Path 
+							Width="30"
+							Height="30"
+							Data="{StaticResource Icon_RemoteDesktop}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+						<StackPanel Margin="8 0 0 0" Width="152">
+							<TextBlock FontWeight="Bold" FontSize="14">Windows开机自动登录</TextBlock>
+							<TextBlock Foreground="{Binding IsAutoAdminLogon,Converter={StaticResource BoolToBrushConverter}}" Text="{Binding AutoAdminLogonMessage}"></TextBlock>
+						</StackPanel>
+					</WrapPanel>
+				</controls:KbButton>
+				<controls:KbButton 
+					Height="50" 
+					Width="200"
+					Margin="4"
 					Command="{Binding Win10Optimize}"
 					Cursor="Hand"
 					Background="Transparent">
