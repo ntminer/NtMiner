@@ -1,6 +1,7 @@
 ﻿using NTMiner.Core;
 using NTMiner.Notifications;
 using NTMiner.OverClock;
+using NTMiner.RemoteDesktopEnabler;
 using NTMiner.View;
 using NTMiner.Views;
 using NTMiner.Vms;
@@ -236,6 +237,19 @@ namespace NTMiner {
                 action: message => {
                     if (NTMinerRoot.Instance.GpuSet.GpuType == GpuType.AMD) {
                         AtikmdagPatcher.AtikmdagPatcherUtil.Run();
+                    }
+                });
+            #endregion
+            #region 启用或禁用windows远程桌面
+            VirtualRoot.Window<EnableOrDisableWindowsRemoteDesktopCommand>("处理启用或禁用Windows远程桌面命令", LogEnum.DevConsole,
+                action: message => {
+                    if (message.IsEnable) {
+                        Rdp.SetRdpEnabled(true, true);
+                        Firewall.AddRemoteDesktopRule();
+                    }
+                    else {
+                        Rdp.SetRdpEnabled(false, true);
+                        Firewall.RemoveRemoteDesktopRule();
                     }
                 });
             #endregion
