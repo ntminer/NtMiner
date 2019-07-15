@@ -1,7 +1,12 @@
 ﻿using Microsoft.Win32;
-using System;
 
-namespace NTMiner.RemoteDesktopEnabler.RemoteDesktop {
+namespace NTMiner.RemoteDesktopEnabler {
+    internal enum RdpStatus {
+        Unknown = -1,
+        Enabled = 0,
+        Disabled = 1
+    }
+
     internal class Rdp {
         RegistryKey rdpKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Default).OpenSubKey(@"SYSTEM\CurrentControlSet\Control\Terminal Server", true);
 
@@ -16,11 +21,11 @@ namespace NTMiner.RemoteDesktopEnabler.RemoteDesktop {
                 return false;
             }
             else if (value == 1 && currentValue == 1 && !forceChange) {
-                Console.WriteLine("RDP is already disabled. No changes will be made.");
+                Write.DevDebug("RDP is already disabled. No changes will be made.");
                 return false;
             }
             else if (value == 0 && currentValue == 0 && !forceChange) {
-                Console.WriteLine("RDP is already enabled. No changes will be made.");
+                Write.DevDebug("RDP is already enabled. No changes will be made.");
                 return false;
             }
             else {

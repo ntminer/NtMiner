@@ -2,7 +2,18 @@
 using System;
 using System.Linq;
 
-namespace NTMiner.RemoteDesktopEnabler.WindowsFirewall {
+namespace NTMiner.RemoteDesktopEnabler {
+    internal enum FirewallDomain {
+        Domain = 0x0001,
+        Private = 0x0002,
+        Public = 0x0004,
+        All = 0x7FFFFFFF
+    }
+    internal enum FirewallStatus {
+        Enabled = 1,
+        Disabled = 0
+    }
+
     internal class Firewall {
         private const int RdpTcpPort = 3389;
         private const int RdpUdpPort = 3389;

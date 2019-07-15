@@ -104,11 +104,8 @@
   <ItemGroup>
     <Compile Include="App.xaml.cs" />
     <Compile Include="AtikmdagPatcher\AtikmdagPatcherUtil.cs" />
-    <Compile Include="RemoteDesktopEnabler\RemoteDesktop\Rdp.cs" />
-    <Compile Include="RemoteDesktopEnabler\RemoteDesktop\RdpStatus.cs" />
-    <Compile Include="RemoteDesktopEnabler\WindowsFirewall\Firewall.cs" />
-    <Compile Include="RemoteDesktopEnabler\WindowsFirewall\FirewallDomain.cs" />
-    <Compile Include="RemoteDesktopEnabler\WindowsFirewall\FirewallStatus.cs" />
+    <Compile Include="RemoteDesktopEnabler\Rdp.cs" />
+    <Compile Include="RemoteDesktopEnabler\Firewall.cs" />
     <Compile Include="SwitchRadeonGpu\SwitchRadeonGpu.cs" />
     <Compile Include="Views\HandlerIdsWindow.xaml.cs">
       <DependentUpon>HandlerIdsWindow.xaml</DependentUpon>
