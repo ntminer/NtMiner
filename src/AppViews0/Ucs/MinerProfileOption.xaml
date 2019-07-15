@@ -288,7 +288,7 @@
 					<TextBlock Style="{StaticResource GroupHeader}">其它</TextBlock>
 				</GroupBox.Header>
 				<StackPanel>
-					<WrapPanel>
+					<WrapPanel Margin="0 2">
 						<CheckBox
 							FocusVisualStyle="{x:Null}"
 							Padding="0"
@@ -312,7 +312,7 @@
 						</StackPanel>
 						<TextBlock VerticalAlignment="Center">￥/度</TextBlock>
 					</WrapPanel>
-					<WrapPanel>
+					<WrapPanel Margin="0 2">
 						<CheckBox
 							FocusVisualStyle="{x:Null}"
 							Padding="0"
@@ -337,7 +337,7 @@
 						<TextBlock VerticalAlignment="Center">瓦</TextBlock>
 						<TextBlock Foreground="Red" VerticalAlignment="Center">（由于A卡的功耗不准，可以通过功耗补偿修正，可正负）</TextBlock>
 					</WrapPanel>
-					<WrapPanel>
+					<WrapPanel Margin="0 2">
 						<TextBlock VerticalAlignment="Center">显卡温度达到</TextBlock>
 						<TextBox Style="{StaticResource TbUpDown}" Text="{Binding MaxTemp}" HorizontalAlignment="Left"></TextBox>
 						<StackPanel Margin="0 0 2 0">
