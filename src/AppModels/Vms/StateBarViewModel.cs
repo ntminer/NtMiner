@@ -19,18 +19,18 @@ namespace NTMiner.Vms {
             get { return Windows.OS.Instance.IsAutoAdminLogon; }
         }
 
-        public bool IsRemoteDesktopEnabled {
-            get {
-                return (int)Windows.WinRegistry.GetValue(Registry.LocalMachine, "SYSTEM\\CurrentControlSet\\Control\\Terminal Server", "fDenyTSConnections") == 0;
-            }
-        }
-
         public string AutoAdminLogonToolTip {
             get {
                 if (IsAutoAdminLogon) {
                     return "Windows开机自动登录已启用";
                 }
                 return "未启用Windows开机自动登录";
+            }
+        }
+
+        public bool IsRemoteDesktopEnabled {
+            get {
+                return (int)Windows.WinRegistry.GetValue(Registry.LocalMachine, "SYSTEM\\CurrentControlSet\\Control\\Terminal Server", "fDenyTSConnections") == 0;
             }
         }
 

@@ -14,6 +14,7 @@ namespace NTMiner.Vms {
         public ICommand BlockWAU { get; private set; }
         public ICommand Win10Optimize { get; private set; }
         public ICommand EnableOrDisableWindowsRemoteDesktop { get; private set; }
+        public ICommand WindowsAutoLogon { get; private set; }
 
         public ToolboxViewModel() {
             if (Design.IsInDesignMode) {
@@ -62,6 +63,22 @@ namespace NTMiner.Vms {
                     OnPropertyChanged(nameof(RemoteDesktopMessage));
                 }, icon: IconConst.IconConfirm);
             });
+            this.WindowsAutoLogon = new DelegateCommand(() => {
+                VirtualRoot.Execute(new EnableOrDisableWindowsAutoLoginCommand());
+            });
+        }
+
+        public bool IsAutoAdminLogon {
+            get { return Windows.OS.Instance.IsAutoAdminLogon; }
+        }
+
+        public string AutoAdminLogonMessage {
+            get {
+                if (IsAutoAdminLogon) {
+                    return "Windows开机自动登录已启用";
+                }
+                return "Windows开机自动登录未启用";
+            }
         }
 
         public bool IsRemoteDesktopEnabled {
