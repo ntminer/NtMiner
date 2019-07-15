@@ -20,7 +20,7 @@ namespace NTMiner {
                 _propertyInfos = new Dictionary<Type, PropertyInfo[]>();
             }
             if (!_propertyInfos.ContainsKey(type)) {
-                _propertyInfos.Add(type, type.GetProperties(BindingFlags.Public & BindingFlags.GetProperty & BindingFlags.SetProperty).Where(a => a.GetCustomAttributes(typeof(ManualSignAttribute), inherit: false).Length == 0).ToArray());
+                _propertyInfos.Add(type, type.GetProperties().Where(a => a.CanRead && a.CanWrite && a.GetCustomAttributes(typeof(ManualSignAttribute), inherit: false).Length == 0).ToArray());
             }
             return _propertyInfos[type];
         }
