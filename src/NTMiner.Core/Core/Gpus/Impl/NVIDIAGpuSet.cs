@@ -34,6 +34,7 @@ namespace NTMiner.Core.Gpus.Impl {
                     }
                     Windows.NativeMethods.SetDllDirectory(_nvsmiDir);
                     var nvmlReturn = NvmlNativeMethods.nvmlInit();
+                    Windows.NativeMethods.SetDllDirectory(null);
                     SetGpuStatus(Gpu.GpuAll, nvmlReturn);
                     _isNvmlInited = nvmlReturn == nvmlReturn.Success;
 #if DEBUG
