@@ -19,10 +19,15 @@ namespace NTMiner {
     [MessageType(description: "启用或禁用远程windows桌面")]
     public class EnableOrDisableWindowsRemoteDesktopCommand : Cmd {
         public EnableOrDisableWindowsRemoteDesktopCommand(bool isEnable) {
-            this.IsEnable = isEnable;
+            IsEnable = isEnable;
         }
 
         public bool IsEnable { get; private set; }
+    }
+
+    [MessageType(description: "启用或禁用远程windows桌面后")]
+    public class WindowsRemoteDesktopEnableOrDisabledEvent : EventBase {
+        public WindowsRemoteDesktopEnableOrDisabledEvent() { }
     }
 
     [MessageType(description: "打开用户列表页")]

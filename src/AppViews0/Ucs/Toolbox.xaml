@@ -56,7 +56,7 @@
 							Stretch="Fill" />
 						<StackPanel Margin="8 0 0 0" Width="152">
 							<TextBlock FontWeight="Bold" FontSize="14">A卡驱动签名</TextBlock>
-							<TextBlock Foreground="Red">运行后重启生效</TextBlock>
+							<TextBlock Foreground="Red">运行后重启电脑生效</TextBlock>
 						</StackPanel>
 					</WrapPanel>
 				</controls:KbButton>
@@ -135,6 +135,26 @@
 						<StackPanel Margin="8 0 0 0" Width="152">
 							<TextBlock FontWeight="Bold" FontSize="14">管理虚拟内存</TextBlock>
 							<TextBlock Foreground="{StaticResource LableColor}">打开虚拟内存管理页面</TextBlock>
+						</StackPanel>
+					</WrapPanel>
+				</controls:KbButton>
+				<controls:KbButton 
+					Height="50" 
+					Width="200"
+					Margin="4"
+					Command="{Binding EnableOrDisableWindowsRemoteDesktop}"
+					Cursor="Hand"
+					Background="Transparent">
+					<WrapPanel VerticalAlignment="Center">
+						<Path 
+							Width="30"
+							Height="30"
+							Data="{StaticResource Icon_RemoteDesktop}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+						<StackPanel Margin="8 0 0 0" Width="152">
+							<TextBlock FontWeight="Bold" FontSize="14">Windows远程桌面</TextBlock>
+							<TextBlock Foreground="{Binding IsRemoteDesktopEnabled,Converter={StaticResource BoolToBrushConverter}}" Text="{Binding RemoteDesktopMessage}"></TextBlock>
 						</StackPanel>
 					</WrapPanel>
 				</controls:KbButton>

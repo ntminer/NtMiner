@@ -1,4 +1,5 @@
-﻿using NTMiner.Core;
+﻿using Microsoft.Win32;
+using NTMiner.Core;
 using System.Diagnostics;
 using System.Windows.Input;
 using static NTMiner.AppContext;
@@ -13,6 +14,7 @@ namespace NTMiner.Vms {
         public ICommand RegCmdHere { get; private set; }
         public ICommand BlockWAU { get; private set; }
         public ICommand Win10Optimize { get; private set; }
+        public ICommand EnableOrDisableWindowsRemoteDesktop { get; private set; }
 
         public ToolboxViewModel() {
             if (Design.IsInDesignMode) {
@@ -50,6 +52,33 @@ namespace NTMiner.Vms {
                     VirtualRoot.Execute(new Win10OptimizeCommand());
                 }, icon: IconConst.IconConfirm);
             });
+            this.EnableOrDisableWindowsRemoteDesktop = new DelegateCommand(() => {
+                string message = "确定启用Windows远程桌面吗？";
+                if (IsRemoteDesktopEnabled) {
+                    message = "确定禁用Windows远程桌面吗？";
+                }
+                this.ShowDialog(message: message, title: "确认", onYes: () => {
+                    VirtualRoot.Execute(new EnableOrDisableWindowsRemoteDesktopCommand(!IsRemoteDesktopEnabled));
+                    OnPropertyChanged(nameof(IsRemoteDesktopEnabled));
+                    OnPropertyChanged(nameof(RemoteDesktopMessage));
+                    VirtualRoot.Happened(new WindowsRemoteDesktopEnableOrDisabledEvent());
+                }, icon: IconConst.IconConfirm);
+            });
+        }
+
+        public bool IsRemoteDesktopEnabled {
+            get {
+                return (int)Windows.WinRegistry.GetValue(Registry.LocalMachine, "SYSTEM\\CurrentControlSet\\Control\\Terminal Server", "fDenyTSConnections") == 0;
+            }
+        }
+
+        public string RemoteDesktopMessage {
+            get {
+                if (IsRemoteDesktopEnabled) {
+                    return "远程桌面已启用";
+                }
+                return "远程桌面已禁用";
+            }
         }
     }
 }
