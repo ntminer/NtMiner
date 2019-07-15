@@ -53,17 +53,7 @@ namespace NTMiner.Vms {
                 }, icon: IconConst.IconConfirm);
             });
             this.EnableOrDisableWindowsRemoteDesktop = new DelegateCommand(() => {
-                string message = "确定启用Windows远程桌面吗？";
-                if (IsRemoteDesktopEnabled) {
-                    message = "确定禁用Windows远程桌面吗？";
-                    // 返回，挖矿端支持关闭远程桌面的功能不合理
-                    return;
-                }
-                this.ShowDialog(message: message, title: "确认", onYes: () => {
-                    VirtualRoot.Execute(new EnableOrDisableWindowsRemoteDesktopCommand(!IsRemoteDesktopEnabled));
-                    OnPropertyChanged(nameof(IsRemoteDesktopEnabled));
-                    OnPropertyChanged(nameof(RemoteDesktopMessage));
-                }, icon: IconConst.IconConfirm);
+                VirtualRoot.Execute(new EnableOrDisableWindowsRemoteDesktopCommand(!IsRemoteDesktopEnabled));
             });
             this.WindowsAutoLogon = new DelegateCommand(() => {
                 VirtualRoot.Execute(new EnableOrDisableWindowsAutoLoginCommand());

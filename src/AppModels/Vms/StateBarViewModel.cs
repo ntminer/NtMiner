@@ -85,15 +85,7 @@ namespace NTMiner.Vms {
                 VirtualRoot.Execute(new EnableOrDisableWindowsAutoLoginCommand());
             });
             this.EnableOrDisableWindowsRemoteDesktop = new DelegateCommand(() => {
-                string message = "确定启用Windows远程桌面吗？";
-                if (IsRemoteDesktopEnabled) {
-                    message = "确定禁用Windows远程桌面吗？";
-                }
-                this.ShowDialog(message: message, title: "确认", onYes: () => {
-                    VirtualRoot.Execute(new EnableOrDisableWindowsRemoteDesktopCommand(!IsRemoteDesktopEnabled));
-                    OnPropertyChanged(nameof(IsRemoteDesktopEnabled));
-                    OnPropertyChanged(nameof(RemoteDesktopToolTip));
-                }, icon: IconConst.IconConfirm);
+                VirtualRoot.Execute(new EnableOrDisableWindowsRemoteDesktopCommand(!IsRemoteDesktopEnabled));
             });
             if (NTMinerRoot.CurrentVersion.ToString() != NTMinerRoot.ServerVersion) {
                 _checkUpdateForeground = new SolidColorBrush(Colors.Red);
