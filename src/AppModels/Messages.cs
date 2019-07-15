@@ -16,7 +16,7 @@ namespace NTMiner {
         public Action Callback { get; private set; }
     }
 
-    [MessageType(description: "启用或禁用远程windows桌面")]
+    [MessageType(description: "启用或禁用windows远程桌面")]
     public class EnableOrDisableWindowsRemoteDesktopCommand : Cmd {
         public EnableOrDisableWindowsRemoteDesktopCommand(bool isEnable) {
             IsEnable = isEnable;
@@ -25,9 +25,15 @@ namespace NTMiner {
         public bool IsEnable { get; private set; }
     }
 
-    [MessageType(description: "启用或禁用远程windows桌面后")]
-    public class WindowsRemoteDesktopEnableOrDisabledEvent : EventBase {
-        public WindowsRemoteDesktopEnableOrDisabledEvent() { }
+    [MessageType(description: "启用或禁用windows远程桌面后")]
+    public class WindowsRemoteDesktopEnabledOrDisabledEvent : EventBase {
+        public WindowsRemoteDesktopEnabledOrDisabledEvent() { }
+    }
+
+    [MessageType(description: "启用或禁用windows开机自动登录")]
+    public class EnableOrDisableWindowsAutoLoginCommand : Cmd {
+        public EnableOrDisableWindowsAutoLoginCommand() {
+        }
     }
 
     [MessageType(description: "打开用户列表页")]

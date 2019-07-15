@@ -21,7 +21,9 @@ namespace NTMiner.Views.Ucs {
                 var window = Window.GetWindow(this);
                 window.Activated += (object sender, EventArgs e) => {
                     Vm.OnPropertyChanged(nameof(Vm.IsAutoAdminLogon));
+                    Vm.OnPropertyChanged(nameof(Vm.AutoAdminLogonToolTip));
                     Vm.OnPropertyChanged(nameof(Vm.IsRemoteDesktopEnabled));
+                    Vm.OnPropertyChanged(nameof(Vm.RemoteDesktopToolTip));
                 };
                 // 时间事件是在WPF UI线程的，所以这里不用考虑访问UI线程创建的Vm对象的问题
                 window.On<MinutePartChangedEvent>("时间的分钟部分变更过更新计时器显示", LogEnum.None,
@@ -71,9 +73,10 @@ namespace NTMiner.Views.Ucs {
                             Vm.OnPropertyChanged(nameof(Vm.KernelSelfRestartCountText));
                         });
                     });
-                window.On<WindowsRemoteDesktopEnableOrDisabledEvent>("Windows远程桌面启用或禁用后刷新状态栏", LogEnum.DevConsole,
+                window.On<WindowsRemoteDesktopEnabledOrDisabledEvent>("Windows远程桌面启用或禁用后刷新状态栏", LogEnum.DevConsole,
                     action: message => {
                         Vm.OnPropertyChanged(nameof(Vm.IsRemoteDesktopEnabled));
+                        Vm.OnPropertyChanged(nameof(Vm.RemoteDesktopToolTip));
                     });
             });
             var gpuSet = NTMinerRoot.Instance.GpuSet;

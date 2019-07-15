@@ -70,7 +70,7 @@ namespace NTMiner {
                             }));
                         }
                         else {
-                            NTMiner.Windows.Cmd.RunClose(ntMinerUpdaterFileFullName, argument);
+                            Windows.Cmd.RunClose(ntMinerUpdaterFileFullName, argument);
                             callback?.Invoke();
                         }
                     }
@@ -309,10 +309,6 @@ namespace NTMiner {
                     NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage($"刷新失败");
                 }
             }, icon: IconConst.IconConfirm));
-        });
-
-        public static ICommand WindowsAutoLogon { get; private set; } = new DelegateCommand(() => {
-            Windows.Cmd.RunClose("control", "userpasswords2");
         });
 
         public static ICommand ShowUsers { get; private set; } = new DelegateCommand(() => {

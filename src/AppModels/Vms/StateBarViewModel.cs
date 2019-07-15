@@ -25,6 +25,24 @@ namespace NTMiner.Vms {
             }
         }
 
+        public string AutoAdminLogonToolTip {
+            get {
+                if (IsAutoAdminLogon) {
+                    return "Windows开机自动登录已启用";
+                }
+                return "未启用Windows开机自动登录";
+            }
+        }
+
+        public string RemoteDesktopToolTip {
+            get {
+                if (IsRemoteDesktopEnabled) {
+                    return "Windows远程桌面已启用";
+                }
+                return "Windows远程桌面已禁用";
+            }
+        }
+
         public string TimeText {
             get => _timeText;
             set {
@@ -52,6 +70,7 @@ namespace NTMiner.Vms {
         }
 
         public ICommand ConfigControlCenterHost { get; private set; }
+        public ICommand WindowsAutoLogon { get; private set; }
 
         public StateBarViewModel() {
             if (Design.IsInDesignMode) {
@@ -60,6 +79,9 @@ namespace NTMiner.Vms {
             UpdateDateTime();
             this.ConfigControlCenterHost = new DelegateCommand(() => {
                 VirtualRoot.Execute(new ShowControlCenterHostConfigCommand());
+            });
+            this.WindowsAutoLogon = new DelegateCommand(() => {
+                VirtualRoot.Execute(new EnableOrDisableWindowsAutoLoginCommand());
             });
             if (NTMinerRoot.CurrentVersion.ToString() != NTMinerRoot.ServerVersion) {
                 _checkUpdateForeground = new SolidColorBrush(Colors.Red);

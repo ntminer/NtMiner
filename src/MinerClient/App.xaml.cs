@@ -251,6 +251,13 @@ namespace NTMiner {
                         Rdp.SetRdpEnabled(false, true);
                         Firewall.RemoveRemoteDesktopRule();
                     }
+                    VirtualRoot.Happened(new WindowsRemoteDesktopEnabledOrDisabledEvent());
+                });
+            #endregion
+            #region 启用或禁用windows开机自动登录
+            VirtualRoot.Window<EnableOrDisableWindowsAutoLoginCommand>("处理启用或禁用Windows开机自动登录命令", LogEnum.DevConsole,
+                action: message => {
+                    NTMiner.Windows.Cmd.RunClose("control", "userpasswords2");
                 });
             #endregion
         }
