@@ -169,7 +169,7 @@
 						<Path 
 							Width="30"
 							Height="30"
-							Data="{StaticResource Icon_RemoteDesktop}"
+							Data="{StaticResource Icon_User}"
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
 						<StackPanel Margin="8 0 0 0" Width="152">
