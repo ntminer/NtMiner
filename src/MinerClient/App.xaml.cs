@@ -263,6 +263,9 @@ namespace NTMiner {
             #region 启用或禁用windows开机自动登录
             VirtualRoot.Window<EnableOrDisableWindowsAutoLoginCommand>("处理启用或禁用Windows开机自动登录命令", LogEnum.DevConsole,
                 action: message => {
+                    if (NTMiner.Windows.OS.Instance.IsAutoAdminLogon) {
+                        return;
+                    }
                     NTMiner.Windows.Cmd.RunClose("control", "userpasswords2");
                 });
             #endregion

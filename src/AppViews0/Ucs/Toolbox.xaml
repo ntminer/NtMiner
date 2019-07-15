@@ -142,6 +142,7 @@
 					Height="50" 
 					Width="200"
 					Margin="4"
+					IsEnabled="{Binding IsRemoteDesktopEnabled,Converter={StaticResource BoolInvertConverter}}"
 					Command="{Binding EnableOrDisableWindowsRemoteDesktop}"
 					Cursor="Hand"
 					Background="Transparent">
@@ -162,6 +163,7 @@
 					Height="50" 
 					Width="200"
 					Margin="4"
+					IsEnabled="{Binding IsAutoAdminLogon,Converter={StaticResource BoolInvertConverter}}"
 					Command="{Binding WindowsAutoLogon}"
 					Cursor="Hand"
 					Background="Transparent">
