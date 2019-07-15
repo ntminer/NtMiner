@@ -25,11 +25,6 @@ namespace NTMiner {
         public bool IsEnable { get; private set; }
     }
 
-    [MessageType(description: "启用或禁用windows远程桌面后")]
-    public class WindowsRemoteDesktopEnabledOrDisabledEvent : EventBase {
-        public WindowsRemoteDesktopEnabledOrDisabledEvent() { }
-    }
-
     [MessageType(description: "启用或禁用windows开机自动登录")]
     public class EnableOrDisableWindowsAutoLoginCommand : Cmd {
         public EnableOrDisableWindowsAutoLoginCommand() {

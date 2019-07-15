@@ -73,11 +73,6 @@ namespace NTMiner.Views.Ucs {
                             Vm.OnPropertyChanged(nameof(Vm.KernelSelfRestartCountText));
                         });
                     });
-                window.On<WindowsRemoteDesktopEnabledOrDisabledEvent>("Windows远程桌面启用或禁用后刷新状态栏", LogEnum.DevConsole,
-                    action: message => {
-                        Vm.OnPropertyChanged(nameof(Vm.IsRemoteDesktopEnabled));
-                        Vm.OnPropertyChanged(nameof(Vm.RemoteDesktopToolTip));
-                    });
             });
             var gpuSet = NTMinerRoot.Instance.GpuSet;
             // 建议每张显卡至少对应4G虚拟内存，否则标红
