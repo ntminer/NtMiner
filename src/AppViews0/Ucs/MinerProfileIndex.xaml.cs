@@ -19,7 +19,7 @@ namespace NTMiner.Views.Ucs {
             this.PopupMainCoin.Closed += Popup_Closed;
             this.PopupMainCoinWallet.Closed += Popup_Closed;
             this.RunOneceOnLoaded(()=> {
-                Window.GetWindow(this).On<LocalContextVmsReInitedEvent>("本地上下文视图模型集刷新后刷新界面上的popup", LogEnum.DevConsole,
+                Window.GetWindow(this).On<ServerContextVmsReInitedEvent>("上下文视图模型集刷新后刷新界面上的popup", LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
                         if (Vm.MinerProfile.MineWork != null) {
@@ -81,6 +81,9 @@ namespace NTMiner.Views.Ucs {
                         if (coinVm.CoinKernel != selectedResult) {
                             coinVm.CoinKernel = selectedResult;
                         }
+                        else {
+                            selectedResult?.Kernel?.OnPropertyChanged(nameof(selectedResult.Kernel.FullName));
+                        }
                         popup.IsOpen = false;
                     }
                 }) {
@@ -103,6 +106,9 @@ namespace NTMiner.Views.Ucs {
                     if (selectedResult != null) {
                         if (coinVm.CoinProfile.MainCoinPool != selectedResult) {
                             coinVm.CoinProfile.MainCoinPool = selectedResult;
+                        }
+                        else {
+                            selectedResult.OnPropertyChanged(nameof(selectedResult.Name));
                         }
                         popup.IsOpen = false;
                     }
@@ -127,6 +133,9 @@ namespace NTMiner.Views.Ucs {
                         if (coinVm.CoinProfile.MainCoinPool1 != selectedResult) {
                             coinVm.CoinProfile.MainCoinPool1 = selectedResult;
                         }
+                        else {
+                            selectedResult.OnPropertyChanged(nameof(selectedResult.Name));
+                        }
                         popup.IsOpen = false;
                     }
                 }) {
@@ -145,6 +154,9 @@ namespace NTMiner.Views.Ucs {
                     if (selectedResult != null) {
                         if (Vm.MinerProfile.CoinVm != selectedResult) {
                             Vm.MinerProfile.CoinVm = selectedResult;
+                        }
+                        else {
+                            selectedResult.OnPropertyChanged(nameof(selectedResult.Code));
                         }
                         popup.IsOpen = false;
                     }
@@ -169,6 +181,10 @@ namespace NTMiner.Views.Ucs {
                     if (selectedResult != null) {
                         if (coinVm.CoinProfile.SelectedWallet != selectedResult) {
                             coinVm.CoinProfile.SelectedWallet = selectedResult;
+                        }
+                        else {
+                            selectedResult.OnPropertyChanged(nameof(selectedResult.Name));
+                            selectedResult.OnPropertyChanged(nameof(selectedResult.Address));
                         }
                         popup.IsOpen = false;
                     }
