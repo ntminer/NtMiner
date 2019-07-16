@@ -25,23 +25,23 @@ namespace NTMiner.Views.Ucs {
                         if (Vm.MinerProfile.MineWork != null) {
                             return;
                         }
-                        if (this.PopupKernel.Child != null) {
+                        if (this.PopupKernel.Child != null && this.PopupKernel.IsOpen) {
                             this.PopupKernel.IsOpen = false;
                             OpenKernelPopup();
                         }
-                        if (this.PopupMainCoinPool.Child != null) {
+                        if (this.PopupMainCoinPool.Child != null && this.PopupMainCoinPool.IsOpen) {
                             this.PopupMainCoinPool.IsOpen = false;
                             OpenMainCoinPoolPopup();
                         }
-                        if (this.PopupMainCoinPool1.Child != null) {
+                        if (this.PopupMainCoinPool1.Child != null && this.PopupMainCoinPool1.IsOpen) {
                             this.PopupMainCoinPool1.IsOpen = false;
                             OpenMainCoinPool1Popup();
                         }
-                        if (this.PopupMainCoin != null) {
+                        if (this.PopupMainCoin != null && this.PopupMainCoin.IsOpen) {
                             this.PopupMainCoin.IsOpen = false;
                             OpenMainCoinPopup();
                         }
-                        if (this.PopupMainCoinWallet != null) {
+                        if (this.PopupMainCoinWallet != null && this.PopupMainCoinWallet.IsOpen) {
                             this.PopupMainCoinWallet.IsOpen = false;
                             OpenMainCoinWalletPopup();
                         }
