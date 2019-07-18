@@ -124,6 +124,8 @@ namespace NTMiner {
                         else {
                             _localJson = new LocalJsonDb();
                         }
+                        // 这里的逻辑是，当用户在主界面填写矿工名时，矿工名会被交换到注册表从而当用户使用群控但没有填写群控矿工名时作为缺省矿工名
+                        // 但是旧版本的挖矿端并没有把矿工名交换到注册表去所以当注册表中没有矿工名时需读取local.litedb中的矿工名
                         if (string.IsNullOrEmpty(_localJson.MinerProfile.MinerName)) {
                             _localJson.MinerProfile.MinerName = GetMinerName();
                             if (string.IsNullOrEmpty(_localJson.MinerProfile.MinerName)) {
