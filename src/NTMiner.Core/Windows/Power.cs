@@ -29,6 +29,10 @@ namespace NTMiner.Windows {
             SetThreadExecutionState(ExecutionFlag.System | ExecutionFlag.Display | ExecutionFlag.Continus);
         }
 
+        /// <summary>
+        /// 关闭系统休眠
+        /// </summary>
+        /// <returns></returns>
         public static bool PowerCfgOff() {
             try {
                 int exitcode = -1;
