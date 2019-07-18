@@ -6,6 +6,7 @@
 		xmlns:blankWindow="http://NTMiner.com"
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+		xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
 		mc:Ignorable="d" d:DesignHeight="430" d:DesignWidth="800">
@@ -128,8 +129,9 @@
 				</WrapPanel>
 				<StackPanel Grid.Row="1">
 					<TextBlock VerticalAlignment="Center" Foreground="{StaticResource LableColor}">填0表示使用默认值</TextBlock>
-					<TextBlock VerticalAlignment="Center" Foreground="{StaticResource LableColor}">温度阈值：表示达到这个温度时显卡将自动降频</TextBlock>
-				</StackPanel>
+                    <TextBlock VerticalAlignment="Center" Foreground="{StaticResource LableColor}">温度阈值：表示达到这个温度时显卡将自动降频</TextBlock>
+                    <TextBlock VerticalAlignment="Center" Foreground="Red" Visibility="{x:Static app:AppStatic.IsAmdGpuVisible}">如果算力很低，请转到工具箱开启A卡计算模式</TextBlock>
+                </StackPanel>
 				<WrapPanel Grid.Row="2" VerticalAlignment="Bottom">
 					<controls:KbButton
 						Height="21"

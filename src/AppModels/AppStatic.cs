@@ -122,6 +122,15 @@ namespace NTMiner {
             }
         }
 
+        public static Visibility IsAmdGpuVisible {
+            get {
+                if (NTMinerRoot.Instance.GpuSet.GpuType == GpuType.AMD) {
+                    return Visibility.Visible;
+                }
+                return Visibility.Collapsed;
+            }
+        }
+
         public static bool IsPoolBrand {
             get {
                 return NTMinerRoot.IsPoolBrand;
