@@ -61,10 +61,10 @@ namespace NTMiner.Vms {
         private DateTime _now = DateTime.MinValue;
         public void UpdateDateTime() {
             DateTime now = DateTime.Now;
-            if (_now.Minute != now.Minute) {
+            if (_now.Minute != now.Minute || _now == DateTime.MinValue) {
                 this.TimeText = now.ToString("H:mm");
             }
-            if (_now.Hour != now.Hour) {
+            if (_now.Hour != now.Hour || _now == DateTime.MinValue) {
                 this.DateText = now.ToString("yyyy/M/d");
             }
         }
