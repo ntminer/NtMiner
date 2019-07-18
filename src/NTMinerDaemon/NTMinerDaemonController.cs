@@ -84,9 +84,8 @@ namespace NTMiner {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                TimeSpan.FromMilliseconds(100).Delay().ContinueWith(t => {
-                    Windows.Power.Restart();
-                });
+                Windows.Power.Restart(10);
+                CloseNTMiner();
                 return ResponseBase.Ok();
             }
             catch (Exception e) {
@@ -101,9 +100,8 @@ namespace NTMiner {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                TimeSpan.FromMilliseconds(100).Delay().ContinueWith(t => {
-                    Windows.Power.Shutdown();
-                });
+                Windows.Power.Shutdown(10);
+                CloseNTMiner();
                 return ResponseBase.Ok();
             }
             catch (Exception e) {

@@ -303,7 +303,8 @@ namespace NTMiner {
                         if (MinerProfile.IsPeriodicRestartComputer) {
                             if ((DateTime.Now - this.CreatedOn).TotalMinutes > 60 * MinerProfile.PeriodicRestartComputerHours + MinerProfile.PeriodicRestartComputerMinutes) {
                                 Logger.WarnWriteLine($"每运行{MinerProfile.PeriodicRestartKernelHours}小时{MinerProfile.PeriodicRestartComputerMinutes}分钟重启电脑");
-                                Windows.Power.Restart();
+                                Windows.Power.Restart(10);
+                                VirtualRoot.Execute(new CloseNTMinerCommand());
                                 return;// 退出
                             }
                         }
