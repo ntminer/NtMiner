@@ -1,4 +1,5 @@
-﻿using NTMiner.Core;
+﻿using Microsoft.Win32;
+using NTMiner.Core;
 using NTMiner.MinerServer;
 using NTMiner.Profile;
 using NTMiner.Vms;
@@ -226,15 +227,34 @@ namespace NTMiner {
             }
 
             public string MinerName {
-                get => NTMinerRoot.Instance.MinerProfile.MinerName;
+                get {
+                    string minerName = NTMinerRoot.Instance.MinerProfile.MinerName;
+                    // 群控模式时可能未指定群控矿工名，此时使用本地模式交换到注册表的本地矿工名
+                    if (string.IsNullOrEmpty(minerName)) {
+                        return GetMinerName();
+                    }
+                    return minerName;
+                }
                 set {
                     if (NTMinerRoot.Instance.MinerProfile.MinerName != value) {
                         NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(MinerName), value);
+                        SetMinerName(value);
                         NTMinerRoot.RefreshArgsAssembly.Invoke();
                         OnPropertyChanged(nameof(MinerName));
                     }
                 }
             }
+
+            #region MinerName 非群控模式时将矿工名交换到注册表从而作为群控模式时未指定矿工名的缺省矿工名
+            private static string GetMinerName() {
+                object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "MinerName");
+                return (value ?? string.Empty).ToString();
+            }
+
+            private static void SetMinerName(string value) {
+                Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "MinerName", value);
+            }
+            #endregion
 
             public bool IsShowInTaskbar {
                 get => NTMinerRoot.GetIsShowInTaskbar();

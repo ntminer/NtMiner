@@ -115,7 +115,7 @@ namespace NTMiner {
                         if (!string.IsNullOrEmpty(localJson)) {
                             try {
                                 LocalJsonDb data = VirtualRoot.JsonSerializer.Deserialize<LocalJsonDb>(localJson);
-                                _localJson = data;
+                                _localJson = data ?? new LocalJsonDb();
                             }
                             catch (Exception e) {
                                 Logger.ErrorDebugLine(e);
