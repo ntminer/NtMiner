@@ -96,15 +96,17 @@ namespace NTMiner {
                             NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage("没有矿卡或矿卡未驱动。");
                         }
                         else if (NTMinerRoot.Instance.GpuSet.GpuType == GpuType.AMD && !NTMinerRoot.GetIsAllGpuInComputeMode()) {
-                            NotiCenterWindowViewModel.Instance.Manager
-                            .CreateMessage()
-                            .Warning("请开启A卡计算模式提高挖矿算力。")
-                            .WithButton("一键开启A卡计算模式", button => {
-                                SwitchRadeonGpuMode();
-                            })
-                            .Dismiss().WithButton("忽略（可随时在工具箱开启）", button => {
+                            UIThread.Execute(() => {
+                                NotiCenterWindowViewModel.Instance.Manager
+                                    .CreateMessage()
+                                    .Warning("请开启A卡计算模式提高挖矿算力。")
+                                    .WithButton("一键开启A卡计算模式", button => {
+                                        SwitchRadeonGpuMode();
+                                    })
+                                    .Dismiss().WithButton("忽略（可随时在工具箱开启）", button => {
 
-                            }).Queue();
+                                    }).Queue();
+                            });
                         }
                         UIThread.Execute(() => {
                             if (NTMinerRoot.GetIsNoUi() && NTMinerRegistry.GetIsAutoStart()) {
