@@ -124,6 +124,16 @@ namespace NTMiner {
                         else {
                             _localJson = new LocalJsonDb();
                         }
+                        if (string.IsNullOrEmpty(_localJson.MinerProfile.MinerName)) {
+                            _localJson.MinerProfile.MinerName = GetMinerName();
+                            if (string.IsNullOrEmpty(_localJson.MinerProfile.MinerName)) {
+                                var repository = CreateLocalRepository<Profile.MinerProfileData>(isUseJson: false);
+                                Profile.MinerProfileData data = repository.GetByKey(Profile.MinerProfileData.DefaultId);
+                                if (data != null) {
+                                    _localJson.MinerProfile.MinerName = data.MinerName;
+                                }
+                            }
+                        }
                         _localJsonInited = true;
                     }
                 }
@@ -276,6 +286,17 @@ namespace NTMiner {
 
                 return _diskSpace;
             }
+        }
+        #endregion
+
+        #region MinerName 非群控模式时将矿工名交换到注册表从而作为群控模式时未指定矿工名的缺省矿工名
+        public static string GetMinerName() {
+            object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "MinerName");
+            return (value ?? string.Empty).ToString();
+        }
+
+        public static void SetMinerName(string value) {
+            Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "MinerName", value);
         }
         #endregion
 

@@ -3,9 +3,10 @@ using System.Text;
 
 namespace NTMiner.Profile {
     public class MinerProfileData : IMinerProfile, IDbEntity<Guid>, IGetSignData {
+        public static readonly Guid DefaultId = Guid.Parse("7d9eec49-2d1f-44fa-881e-571a78661ca0");
         public static MinerProfileData CreateDefaultData(Guid coinId) {
             return new MinerProfileData {
-                Id = Guid.Parse("7d9eec49-2d1f-44fa-881e-571a78661ca0"),
+                Id = DefaultId,
                 CoinId = coinId
             };
         }
