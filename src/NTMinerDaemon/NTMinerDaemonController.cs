@@ -1,5 +1,6 @@
 ﻿using NTMiner.Controllers;
 using NTMiner.Daemon;
+using NTMiner.RemoteDesktopEnabler;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -12,6 +13,12 @@ namespace NTMiner {
     /// 端口号：<see cref="Consts.NTMinerDaemonPort"/>
     /// </summary>
     public class NTMinerDaemonController : ApiController, INTMinerDaemonController {
+        [HttpPost]
+        public void EnableWindowsRemoteDesktop() {
+            Rdp.SetRdpEnabled(true, true);
+            Firewall.AddRemoteDesktopRule();
+        }
+
         [HttpPost]
         public void CloseDaemon() {
             // 延迟100毫秒再退出从而避免当前的CloseDaemon请求尚未收到响应

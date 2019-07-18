@@ -2,6 +2,7 @@
 
 namespace NTMiner.Controllers {
     public interface INTMinerDaemonController {
+        void EnableWindowsRemoteDesktop();
         void CloseDaemon();
         string GetGpuProfilesJson();
         void SaveGpuProfilesJson();
