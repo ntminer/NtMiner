@@ -249,10 +249,10 @@ namespace NTMiner {
                     incomeItem.IncomeCoin = incomeItem.IncomeCoin / 100;
                     incomeItem.IncomeUsd = incomeItem.IncomeUsd / 100;
                 }
-                if (incomeItem.DataCode == "grin")
+                if (incomeItem.DataCode == "grin-29")
                 {
-                    incomeItem.IncomeCoin = incomeItem.IncomeCoin * 1.667;
-                    incomeItem.IncomeUsd = incomeItem.IncomeUsd * 1.667;
+                    incomeItem.IncomeCoin = incomeItem.IncomeCoin * 2;
+                    incomeItem.IncomeUsd = incomeItem.IncomeUsd * 2;
                 }
                 return incomeItem;
             }
