@@ -14,9 +14,16 @@ namespace NTMiner {
     /// </summary>
     public class NTMinerDaemonController : ApiController, INTMinerDaemonController {
         [HttpPost]
-        public void EnableWindowsRemoteDesktop() {
-            Rdp.SetRdpEnabled(true, true);
-            Firewall.AddRemoteDesktopRule();
+        public ResponseBase EnableWindowsRemoteDesktop() {
+            try {
+                Rdp.SetRdpEnabled(true, true);
+                Firewall.AddRemoteDesktopRule();
+                return ResponseBase.Ok();
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e);
+                return ResponseBase.ServerError(e.Message);
+            }
         }
 
         [HttpPost]
