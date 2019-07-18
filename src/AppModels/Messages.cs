@@ -16,13 +16,10 @@ namespace NTMiner {
         public Action Callback { get; private set; }
     }
 
-    [MessageType(description: "启用或禁用windows远程桌面")]
-    public class EnableOrDisableWindowsRemoteDesktopCommand : Cmd {
-        public EnableOrDisableWindowsRemoteDesktopCommand(bool isEnable) {
-            IsEnable = isEnable;
+    [MessageType(description: "启用windows远程桌面")]
+    public class EnableWindowsRemoteDesktopCommand : Cmd {
+        public EnableWindowsRemoteDesktopCommand() {
         }
-
-        public bool IsEnable { get; private set; }
     }
 
     [MessageType(description: "启用或禁用windows开机自动登录")]

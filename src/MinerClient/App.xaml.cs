@@ -241,22 +241,12 @@ namespace NTMiner {
                 });
             #endregion
             #region 启用或禁用windows远程桌面
-            VirtualRoot.Window<EnableOrDisableWindowsRemoteDesktopCommand>("处理启用或禁用Windows远程桌面命令", LogEnum.DevConsole,
+            VirtualRoot.Window<EnableWindowsRemoteDesktopCommand>("处理启用或禁用Windows远程桌面命令", LogEnum.DevConsole,
                 action: message => {
                     string msg = "确定启用Windows远程桌面吗？";
-                    if (!message.IsEnable) {
-                        msg = "确定禁用Windows远程桌面吗？";
-                        return;
-                    }
                     DialogWindow.ShowDialog(message: msg, title: "确认", onYes: () => {
-                        if (message.IsEnable) {
-                            Rdp.SetRdpEnabled(true, true);
-                            Firewall.AddRemoteDesktopRule();
-                        }
-                        else {
-                            Rdp.SetRdpEnabled(false, true);
-                            Firewall.RemoveRemoteDesktopRule();
-                        }
+                        Rdp.SetRdpEnabled(true, true);
+                        Firewall.AddRemoteDesktopRule();
                     }, icon: IconConst.IconConfirm);
                 });
             #endregion

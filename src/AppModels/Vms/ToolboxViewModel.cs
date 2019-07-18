@@ -13,7 +13,7 @@ namespace NTMiner.Vms {
         public ICommand RegCmdHere { get; private set; }
         public ICommand BlockWAU { get; private set; }
         public ICommand Win10Optimize { get; private set; }
-        public ICommand EnableOrDisableWindowsRemoteDesktop { get; private set; }
+        public ICommand EnableWindowsRemoteDesktop { get; private set; }
         public ICommand WindowsAutoLogon { get; private set; }
 
         public ToolboxViewModel() {
@@ -52,8 +52,8 @@ namespace NTMiner.Vms {
                     VirtualRoot.Execute(new Win10OptimizeCommand());
                 }, icon: IconConst.IconConfirm);
             });
-            this.EnableOrDisableWindowsRemoteDesktop = new DelegateCommand(() => {
-                VirtualRoot.Execute(new EnableOrDisableWindowsRemoteDesktopCommand(!IsRemoteDesktopEnabled));
+            this.EnableWindowsRemoteDesktop = new DelegateCommand(() => {
+                VirtualRoot.Execute(new EnableWindowsRemoteDesktopCommand());
             });
             this.WindowsAutoLogon = new DelegateCommand(() => {
                 VirtualRoot.Execute(new EnableOrDisableWindowsAutoLoginCommand());

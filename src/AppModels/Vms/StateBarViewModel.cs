@@ -71,7 +71,7 @@ namespace NTMiner.Vms {
 
         public ICommand ConfigControlCenterHost { get; private set; }
         public ICommand WindowsAutoLogon { get; private set; }
-        public ICommand EnableOrDisableWindowsRemoteDesktop { get; private set; }
+        public ICommand EnableWindowsRemoteDesktop { get; private set; }
 
         public StateBarViewModel() {
             if (Design.IsInDesignMode) {
@@ -84,8 +84,8 @@ namespace NTMiner.Vms {
             this.WindowsAutoLogon = new DelegateCommand(() => {
                 VirtualRoot.Execute(new EnableOrDisableWindowsAutoLoginCommand());
             });
-            this.EnableOrDisableWindowsRemoteDesktop = new DelegateCommand(() => {
-                VirtualRoot.Execute(new EnableOrDisableWindowsRemoteDesktopCommand(!IsRemoteDesktopEnabled));
+            this.EnableWindowsRemoteDesktop = new DelegateCommand(() => {
+                VirtualRoot.Execute(new EnableWindowsRemoteDesktopCommand());
             });
             if (NTMinerRoot.CurrentVersion.ToString() != NTMinerRoot.ServerVersion) {
                 _checkUpdateForeground = new SolidColorBrush(Colors.Red);

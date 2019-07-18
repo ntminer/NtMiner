@@ -143,7 +143,7 @@
 					Width="200"
 					Margin="4"
 					IsEnabled="{Binding IsRemoteDesktopEnabled,Converter={StaticResource BoolInvertConverter}}"
-					Command="{Binding EnableOrDisableWindowsRemoteDesktop}"
+					Command="{Binding EnableWindowsRemoteDesktop}"
 					Cursor="Hand"
 					Background="Transparent">
 					<WrapPanel VerticalAlignment="Center">

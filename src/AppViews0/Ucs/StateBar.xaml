@@ -297,7 +297,7 @@
 						Background="Transparent"
 						Margin="4 0 0 0"
 						ToolTip="{Binding RemoteDesktopToolTip}"
-						Command="{Binding EnableOrDisableWindowsRemoteDesktop}"
+						Command="{Binding EnableWindowsRemoteDesktop}"
 						CornerRadius="2">
 						<Path
 							Width="14"
