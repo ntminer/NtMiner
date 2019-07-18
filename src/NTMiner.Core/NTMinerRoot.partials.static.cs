@@ -371,36 +371,5 @@ namespace NTMiner {
             Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "IsShowCommandLine", value);
         }
         #endregion
-
-        #region GetIsAllGpuInComputeMode
-        public static bool GetIsAllGpuInComputeMode() {
-            try {
-                RegistryKey softwareKey = Registry.LocalMachine.OpenSubKey("SYSTEM\\CurrentControlSet\\Control\\Class\\{4d36e968-e325-11ce-bfc1-08002be10318}");
-                var cardFolders = softwareKey.GetSubKeyNames();
-                int n;
-
-                foreach (var cardFolder in cardFolders) {
-                    if (int.TryParse(cardFolder, out n)) {
-                        RegistryKey cardRegistry = null;
-                        try {
-                            cardRegistry = softwareKey.OpenSubKey(cardFolder);
-                        }
-                        catch (Exception) { }
-                        if (cardRegistry != null) {
-                            var KMD_EnableInternalLargePage = cardRegistry.GetValue("KMD_EnableInternalLargePage");
-                            if (KMD_EnableInternalLargePage == null || KMD_EnableInternalLargePage.ToString() != "2") {
-                                return false;
-                            }
-                        }
-                    }
-                }
-                return true;
-            }
-            catch (Exception e) {
-                Logger.ErrorDebugLine(e);
-                return true;
-            }
-        }
-        #endregion
     }
 }
