@@ -64,8 +64,44 @@ namespace NTMiner.Views.Ucs {
             });
         }
 
-        private void ScrollViewer_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+        private void ScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
             Wpf.Util.ScrollViewer_PreviewMouseDown(sender, e);
+        }
+
+        private void UnitButton_Click(object sender, RoutedEventArgs e) {
+            var fe = (FrameworkElement)sender;
+            PopupMain.PlacementTarget = fe;
+            PopupMain.IsOpen = true;
+            _dump = true;
+            var speedUnitVm = ((CoinIncomeViewModel)fe.Tag).SpeedUnitVm;
+            Vm.SpeedUnitVm = speedUnitVm;
+            _dump = false;
+            e.Handled = true;
+        }
+
+        private bool _dump = false;
+        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            var fe = (FrameworkElement)PopupMain.PlacementTarget;
+            if (fe != null && PopupMain.IsOpen) {
+                ((CoinIncomeViewModel)fe.Tag).SpeedUnitVm = Vm.SpeedUnitVm;
+            }
+            if (!_dump) {
+                PopupMain.IsOpen = false;
+            }
+        }
+
+        private void PopupMain_Opened(object sender, EventArgs e) {
+            var fe = (FrameworkElement)PopupMain.PlacementTarget;
+            if (fe != null) {
+                fe.IsEnabled = !PopupMain.IsOpen;
+            }
+        }
+
+        private void PopupMain_Closed(object sender, EventArgs e) {
+            var fe = (FrameworkElement)PopupMain.PlacementTarget;
+            if (fe != null) {
+                fe.IsEnabled = !PopupMain.IsOpen;
+            }
         }
     }
 }
