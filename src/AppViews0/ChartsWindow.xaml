@@ -138,6 +138,8 @@
                                         HorizontalAlignment="Center"
 								        VerticalContentAlignment="Bottom" 
 								        IsChecked="{Binding IsShow}" 
+                                        Checked="IsShowCheckBox_Changed"
+                                        Unchecked="IsShowCheckBox_Changed"
 								        ToolTip="显示算力图" 
 								        VerticalAlignment="Center">
                                         <TextBlock Margin="0 0 0 -2" Text="{Binding CoinVm.Code}"></TextBlock>
