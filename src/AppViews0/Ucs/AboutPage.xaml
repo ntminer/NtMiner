@@ -14,9 +14,9 @@
 		<vm:AboutPageViewModel></vm:AboutPageViewModel>
 	</UserControl.DataContext>
 	<Grid>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="*"></RowDefinition>
-			<RowDefinition Height="120"></RowDefinition>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="120"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
 			<RowDefinition Height="58"></RowDefinition>
 		</Grid.RowDefinitions>
 		<StackPanel Grid.Row="0">
@@ -26,17 +26,9 @@
 				<StackPanel VerticalAlignment="Center">
 					<WrapPanel>
 						<TextBlock FontSize="30" Text="NTMiner"></TextBlock>
-						<TextBlock FontSize="30" Margin="6 0 0 0" Text="{Binding CurrentVersion}"></TextBlock>
-					</WrapPanel>
-					<controls:KbLinkButton
-						Command="{x:Static app:AppStatic.OpenGithub}"
-						KbDisplayLine="False"
-						HorizontalAlignment="Left"
-						KbSystemButtonHoverBackground="Transparent"
-						Background="Transparent">
-						<TextBlock Text="源码@github" Foreground="{StaticResource LinkForeground}"></TextBlock>
-					</controls:KbLinkButton>
-					<controls:KbLinkButton
+                        <TextBlock FontSize="20" VerticalAlignment="Bottom" Margin="6 0 0 0" Text="{Binding CurrentVersion}"></TextBlock>
+                    </WrapPanel>
+                    <controls:KbLinkButton
 						Command="{x:Static app:AppStatic.OpenOfficialSite}"
 						KbDisplayLine="False"
 						HorizontalAlignment="Left"
@@ -48,13 +40,30 @@
 			</WrapPanel>
 		</StackPanel>
 		<StackPanel Grid.Row="1">
-			<TextBlock Margin="100 0 0 0">1，开源矿工内置的所有内核均为原版，永远不会额外增加矿工支出；</TextBlock>
-			<TextBlock Margin="100 0 0 0">2，开源矿工永远开源；</TextBlock>
-			<TextBlock Margin="100 0 0 0">3，开源矿工永远不会破解国人开发的内核；</TextBlock>
+			<TextBlock Margin="70 0 0 0" FontSize="15" Padding="0 4">1，开源矿工内置的所有内核均为原版，永不增加矿工支出；</TextBlock>
+            <TextBlock Margin="70 0 0 0" FontSize="15" Padding="0 4">2，开源矿工永远开源；</TextBlock>
+            <TextBlock Margin="70 0 0 0" FontSize="15" Padding="0 4">3，开源矿工永不破解国人开发的内核；</TextBlock>
 		</StackPanel>
 		<StackPanel Grid.Row="2" HorizontalAlignment="Center">
-			<WrapPanel HorizontalAlignment="Center">
-				<TextBlock Padding="4">NTMiner</TextBlock>
+            <WrapPanel HorizontalAlignment="Center">
+                <controls:KbLinkButton
+			            ToolTip="源代码"
+                        VerticalAlignment="Center"
+                        Background="Transparent"
+			            Command="{x:Static app:AppStatic.OpenGithub}"
+			            Foreground="{StaticResource ThemeBackground}"
+			            KbSystemButtonHoverBackground="Transparent"
+			            KbDisplayLine="False">
+                    <WrapPanel Margin="4">
+                        <Path 
+				            Width="14"
+				            Height="14"
+				            Data="{StaticResource Icon_Github}"
+				            Fill="{StaticResource ThemeBackground}"
+				            Stretch="Fill" />
+                        <TextBlock>NTMiner</TextBlock>
+                    </WrapPanel>
+                </controls:KbLinkButton>
 				<TextBlock Padding="4">|</TextBlock>
 				<TextBlock Padding="4" Text="版权所有"></TextBlock>
 				<TextBlock Padding="4">|</TextBlock>
