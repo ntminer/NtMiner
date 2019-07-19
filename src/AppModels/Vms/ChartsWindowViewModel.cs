@@ -18,6 +18,7 @@ namespace NTMiner.Vms {
                 foreach (var item in ChartVms) {
                     item.IsShow = value;
                 }
+                OnPropertyChanged(nameof(IsShowAll));
             }
         }
 

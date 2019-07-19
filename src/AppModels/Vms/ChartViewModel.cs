@@ -131,23 +131,26 @@ namespace NTMiner.Vms {
             };
         }
 
+        private bool _isFirst = true;
+        private bool _isShow;
         public bool IsShow {
             get {
+                if (!_isFirst) {
+                    return _isShow;
+                }
+                _isFirst = false;
                 string key = $"ChartVm.IsShow.{this.CoinVm.Code}";
-                IAppSetting appSetting;
-                if (NTMinerRoot.Instance.ServerAppSettingSet.TryGetAppSetting(key, out appSetting)) {
-                    return (bool)appSetting.Value;
+                if (NTMinerRoot.Instance.ServerAppSettingSet.TryGetAppSetting(key, out IAppSetting _appSetting)) {
+                    _isShow = (bool)_appSetting.Value;
                 }
                 else {
-                    return true;
+                    _isShow = false;
                 }
+                return _isShow;
             }
             set {
-                string key = $"ChartVm.IsShow.{this.CoinVm.Code}";
-                VirtualRoot.Execute(new ChangeServerAppSettingCommand(new AppSettingData {
-                    Key = key,
-                    Value = value
-                }));
+                _isFirst = false;
+                _isShow = value;
                 OnPropertyChanged(nameof(IsShow));
             }
         }
