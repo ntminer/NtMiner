@@ -243,6 +243,9 @@ namespace NTMiner {
             #region 启用或禁用windows远程桌面
             VirtualRoot.Window<EnableWindowsRemoteDesktopCommand>("处理启用或禁用Windows远程桌面命令", LogEnum.DevConsole,
                 action: message => {
+                    if (NTMinerRoot.GetIsRemoteDesktopEnabled()) {
+                        return;
+                    }
                     string msg = "确定启用Windows远程桌面吗？";
                     DialogWindow.ShowDialog(message: msg, title: "确认", onYes: () => {
                         Rdp.SetRdpEnabled(true, true);

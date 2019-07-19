@@ -1,16 +1,9 @@
 ﻿using Microsoft.Win32;
 
 namespace NTMiner.RemoteDesktopEnabler {
-    internal enum RdpStatus {
-        Unknown = -1,
-        Enabled = 0,
-        Disabled = 1
-    }
-
     internal class Rdp {
-        RegistryKey rdpKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Default).OpenSubKey(@"SYSTEM\CurrentControlSet\Control\Terminal Server", true);
-
-        private bool SetRdpRegistryValue(int value, bool forceChange) {
+        private static bool SetRdpRegistryValue(int value, bool forceChange) {
+            RegistryKey rdpKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Default).OpenSubKey(@"SYSTEM\CurrentControlSet\Control\Terminal Server", true);
             int currentValue;
             if (!int.TryParse(rdpKey.GetValue("fDenyTSConnections").ToString(), out currentValue)) {
                 currentValue = -1;
@@ -37,24 +30,11 @@ namespace NTMiner.RemoteDesktopEnabler {
 
         internal static bool SetRdpEnabled(bool enabled, bool forceChange = false) {
             if (enabled) {
-                return new Rdp().SetRdpRegistryValue(0, forceChange);
+                return SetRdpRegistryValue(0, forceChange);
             }
             else {
-                return new Rdp().SetRdpRegistryValue(1, forceChange);
+                return SetRdpRegistryValue(1, forceChange);
             }
-        }
-
-        private RdpStatus GetRdpStatus() {
-            int currentValue;
-            if (!int.TryParse(rdpKey.GetValue("fDenyTSConnections").ToString(), out currentValue)) {
-                currentValue = -1;
-            }
-
-            return (RdpStatus)currentValue;
-        }
-
-        internal static RdpStatus GetStatus() {
-            return new Rdp().GetRdpStatus();
         }
     }
 }

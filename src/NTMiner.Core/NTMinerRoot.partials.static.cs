@@ -371,5 +371,11 @@ namespace NTMiner {
             Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "IsShowCommandLine", value);
         }
         #endregion
+
+        #region GetIsRemoteDesktopEnabled
+        public static bool GetIsRemoteDesktopEnabled() {
+            return (int)Windows.WinRegistry.GetValue(Registry.LocalMachine, "SYSTEM\\CurrentControlSet\\Control\\Terminal Server", "fDenyTSConnections") == 0;
+        }
+        #endregion
     }
 }

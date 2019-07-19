@@ -30,7 +30,7 @@ namespace NTMiner.Vms {
 
         public bool IsRemoteDesktopEnabled {
             get {
-                return (int)Windows.WinRegistry.GetValue(Registry.LocalMachine, "SYSTEM\\CurrentControlSet\\Control\\Terminal Server", "fDenyTSConnections") == 0;
+                return NTMinerRoot.GetIsRemoteDesktopEnabled();
             }
         }
 
