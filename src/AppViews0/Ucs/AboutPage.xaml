@@ -43,7 +43,16 @@
 			<TextBlock Margin="70 0 0 0" FontSize="15" Padding="0 4">1，开源矿工内置的所有内核均为原版，永不增加矿工支出；</TextBlock>
             <TextBlock Margin="70 0 0 0" FontSize="15" Padding="0 4">2，开源矿工永远开源；</TextBlock>
             <TextBlock Margin="70 0 0 0" FontSize="15" Padding="0 4">3，开源矿工永不破解国人开发的内核；</TextBlock>
-		</StackPanel>
+            <controls:KbLinkButton
+                Margin="70 0 0 0" FontSize="15" Padding="0 4"
+				Command="{x:Static app:AppStatic.BusinessModel}"
+				KbDisplayLine="False"
+				HorizontalAlignment="Left"
+				KbSystemButtonHoverBackground="Transparent"
+				Background="Transparent">
+                <TextBlock Text="4，如何盈利/商业模式" Foreground="{StaticResource LinkForeground}"></TextBlock>
+            </controls:KbLinkButton>
+        </StackPanel>
 		<StackPanel Grid.Row="2" HorizontalAlignment="Center">
             <WrapPanel HorizontalAlignment="Center">
                 <controls:KbLinkButton

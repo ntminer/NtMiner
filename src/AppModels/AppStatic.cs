@@ -457,6 +457,10 @@ namespace NTMiner {
             Process.Start("https://github.com/ntminer-project/ntminer");
         });
 
+        public static ICommand BusinessModel { get; private set; } = new DelegateCommand(() => {
+            Process.Start("https://www.loserhub.cn/posts/details/52");
+        });
+
         public static ICommand OpenGithub { get; private set; } = new DelegateCommand(() => {
             Process.Start("https://github.com/ntminer-project/ntminer");
         });
