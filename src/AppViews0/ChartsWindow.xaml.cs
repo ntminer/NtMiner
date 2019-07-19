@@ -49,10 +49,10 @@ namespace NTMiner.Views {
             List<AppSettingData> list = new List<AppSettingData>();
             foreach (var item in Vm.ChartVms) {
                 string key = $"ChartVm.IsShow.{item.CoinVm.Code}";
-                VirtualRoot.Execute(new ChangeServerAppSettingCommand(new AppSettingData {
+                list.Add(new AppSettingData {
                     Key = key,
                     Value = item.IsShow
-                }));
+                });
             }
             VirtualRoot.Execute(new ChangeServerAppSettingsCommand(list));
             base.OnClosing(e);
