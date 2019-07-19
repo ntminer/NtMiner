@@ -38,6 +38,7 @@ namespace NTMiner.Vms {
                 else {
                     BackgroundBrush = White;
                 }
+                OnPropertyChanged(nameof(SpeedUnitVm));
             }
             else {
                 IncomePerDayText = "0";
@@ -63,7 +64,7 @@ namespace NTMiner.Vms {
         public SpeedUnitViewModel SpeedUnitVm {
             get {
                 if (_speedUnitVm == null && NTMinerRoot.Instance.CalcConfigSet.TryGetCalcConfig(_coinVm, out ICalcConfig calcConfig)) {
-                    return SpeedUnitViewModel.GetSpeedUnitVm(calcConfig.SpeedUnit);
+                    _speedUnitVm = SpeedUnitViewModel.GetSpeedUnitVm(calcConfig.SpeedUnit);
                 }
                 return _speedUnitVm;
             }
