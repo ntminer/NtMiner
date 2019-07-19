@@ -39,7 +39,7 @@
                                     </Image>
                                     <TextBlock Text="{Binding Code}" HorizontalAlignment="Center"></TextBlock>
                                 </StackPanel>
-                                <StackPanel Width="180" Margin="6 0 0 0">
+                                <StackPanel Width="160" Margin="6 0 0 0">
                                     <WrapPanel>
                                         <TextBlock Height="30" FontSize="16" FontWeight="Bold" Text="{Binding CoinIncomeVm.CoinPriceCnyText}"></TextBlock>
                                         <TextBlock Text="￥" FontSize="16"></TextBlock>
@@ -73,7 +73,7 @@
 								    Data="{StaticResource Icon_ArrowRight}"
 								    Fill="{StaticResource IconFillColor}"
 								    Stretch="Fill"/>
-                                <StackPanel Width="160">
+                                <StackPanel Width="180">
                                     <TextBox FontSize="16" FontWeight="Bold" IsReadOnly="True" BorderThickness="0" Text="{Binding CoinIncomeVm.IncomePerDayText, Mode=OneWay}"></TextBox>
                                     <WrapPanel VerticalAlignment="Center">
                                         <TextBlock Text="≈ ￥" FontSize="16" VerticalAlignment="Center"></TextBlock>
@@ -94,6 +94,8 @@
             Closed="PopupMain_Closed"
 		    StaysOpen="False">
             <ListBox
+                Width="56"
+                Padding="0"
 			    ItemsSource="{x:Static vm:SpeedUnitViewModel.SpeedUnitVms}"
 			    SelectedItem="{Binding SpeedUnitVm}"
                 SelectionChanged="ListBox_SelectionChanged"
@@ -102,7 +104,7 @@
 			    BorderThickness="1">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Height="26" Text="{Binding Unit}"></TextBlock>
+                        <TextBlock Padding="4" Text="{Binding Unit}"></TextBlock>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
