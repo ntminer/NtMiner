@@ -10,6 +10,17 @@ namespace NTMiner.Vms {
         public ChartsWindowViewModel() {
         }
 
+        public bool IsShowAll {
+            get {
+                return ChartVms.All(a => a.IsShow);
+            }
+            set {
+                foreach (var item in ChartVms) {
+                    item.IsShow = value;
+                }
+            }
+        }
+
         public int TotalMiningCount {
             get => _totalMiningCount;
             set {
