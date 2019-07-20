@@ -119,15 +119,17 @@ namespace NTMiner.Core.Gpus.Impl {
                 gpu.CoreClockDelta = _adlHelper.GetSystemClockByIndex(gpu.Index);
                 _adlHelper.GetClockRangeByIndex(
                     gpu.Index,
-                    out int coreClockDeltaMin, out int coreClockDeltaMax,
-                    out int memoryClockDeltaMin, out int memoryClockDeltaMax,
+                    out int coreClockDeltaMin, out int coreClockDeltaMax, out int coreClockDefault,
+                    out int memoryClockDeltaMin, out int memoryClockDeltaMax, out int memoryClockDefault,
                     out int powerMin, out int powerMax, out int powerDefault,
                     out int tempLimitMin, out int tempLimitMax, out int tempLimitDefault,
                     out int fanSpeedMin, out int fanSpeedMax, out int fanSpeedDefault);
                 gpu.CoreClockDeltaMin = coreClockDeltaMin;
                 gpu.CoreClockDeltaMax = coreClockDeltaMax;
+                gpu.CoreClockDefault = coreClockDefault;
                 gpu.MemoryClockDeltaMin = memoryClockDeltaMin;
                 gpu.MemoryClockDeltaMax = memoryClockDeltaMax;
+                gpu.MemoryClockDefault = memoryClockDefault;
                 gpu.PowerMin = powerMin;
                 gpu.PowerMax = powerMax;
                 gpu.PowerDefault = powerDefault;

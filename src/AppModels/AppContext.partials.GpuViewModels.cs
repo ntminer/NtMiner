@@ -62,9 +62,11 @@ namespace NTMiner {
                             vm.CoreClockDelta = message.Source.CoreClockDelta;
                             vm.MemoryClockDelta = message.Source.MemoryClockDelta;
                             vm.CoreClockDeltaMin = message.Source.CoreClockDeltaMin;
+                            vm.CoreClockDefault = message.Source.CoreClockDefault;
                             vm.CoreClockDeltaMax = message.Source.CoreClockDeltaMax;
                             vm.MemoryClockDeltaMin = message.Source.MemoryClockDeltaMin;
                             vm.MemoryClockDeltaMax = message.Source.MemoryClockDeltaMax;
+                            vm.MemoryClockDefault = message.Source.MemoryClockDefault;
                             vm.Cool = message.Source.Cool;
                             vm.CoolMin = message.Source.CoolMin;
                             vm.CoolMax = message.Source.CoolMax;
