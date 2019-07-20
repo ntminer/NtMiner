@@ -16,6 +16,7 @@ namespace NTMiner.Vms {
         private string _args;
         private string _notice;
         private bool _isHot;
+        private bool _isRecommend;
         private SupportedGpu _supportedGpu;
         private GroupViewModel _selectedDualCoinGroup;
         private List<EnvironmentVariable> _environmentVariables = new List<EnvironmentVariable>();
@@ -71,6 +72,7 @@ namespace NTMiner.Vms {
             _fileWriterIds = data.FileWriterIds;
             _fragmentWriterIds = data.FragmentWriterIds;
             _isHot = data.IsHot;
+            _isRecommend = data.IsRecommend;
             foreach (var writerId in _fileWriterIds) {
                 if (AppContext.Instance.FileWriterVms.TryGetFileWriterVm(writerId, out FileWriterViewModel writerVm)) {
                     _fileWriterVms.Add(writerVm);
@@ -327,6 +329,14 @@ namespace NTMiner.Vms {
             set {
                 _isHot = value;
                 OnPropertyChanged(nameof(IsHot));
+            }
+        }
+
+        public bool IsRecommend {
+            get { return _isRecommend; }
+            set {
+                _isRecommend = value;
+                OnPropertyChanged(nameof(IsRecommend));
             }
         }
 

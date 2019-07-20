@@ -89,7 +89,15 @@
 									Data="{StaticResource Icon_Hot}"
 									Fill="Red"
 									Stretch="Fill" />
-							</WrapPanel>
+                                <Path
+									Margin="4 0 0 0"
+									Visibility="{Binding IsRecommend,Converter={StaticResource BoolToVisibilityConverter}}"
+									Width="12"
+									Height="12"
+									Data="{StaticResource Icon_Recommend}"
+									Fill="Red"
+									Stretch="Fill" />
+                            </WrapPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>

@@ -25,5 +25,6 @@ namespace NTMiner.Core {
         /// </summary>
         List<Guid> FragmentWriterIds { get; }
         bool IsHot { get; }
+        bool IsRecommend { get; }
     }
 }
