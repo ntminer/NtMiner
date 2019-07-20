@@ -10,11 +10,9 @@
         ulong TotalMemory { get; set; }
         int CoreClockDeltaMin { get; set; }
         int CoreClockDeltaMax { get; set; }
-        int CoreClockDefault { get; set; }
 
         int MemoryClockDeltaMin { get; set; }
         int MemoryClockDeltaMax { get; set; }
-        int MemoryClockDefault { get; set; }
 
         int CoolMin { get; set; }
         int CoolMax { get; set; }

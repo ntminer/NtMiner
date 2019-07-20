@@ -32,8 +32,6 @@ namespace NTMiner.Vms {
         private int _tempLimitMax;
         private int _tempLimit;
         private ulong _totalMemory;
-        private int _coreClockDefault;
-        private int _memoryClockDefault;
 
         public GpuViewModel(IGpu data) {
             _index = data.Index;
@@ -47,11 +45,9 @@ namespace NTMiner.Vms {
             _coreClockDelta = data.CoreClockDelta;
             _memoryClockDelta = data.MemoryClockDelta;
             _coreClockDeltaMin = data.CoreClockDeltaMin;
-            _coreClockDefault = data.CoreClockDefault;
             _coreClockDeltaMax = data.CoreClockDeltaMax;
             _memoryClockDeltaMin = data.MemoryClockDeltaMin;
             _memoryClockDeltaMax = data.MemoryClockDeltaMax;
-            _memoryClockDefault = data.MemoryClockDefault;
             _cool = data.Cool;
             _coolMin = data.CoolMin;
             _coolMax = data.CoolMax;
@@ -88,10 +84,8 @@ namespace NTMiner.Vms {
             _memoryClockDelta = 0;
             _coreClockDeltaMin = gpuData.CoreClockDeltaMin;
             _coreClockDeltaMax = gpuData.CoreClockDeltaMax;
-            _coreClockDefault = gpuData.CoreClockDefault;
             _memoryClockDeltaMin = gpuData.MemoryClockDeltaMin;
             _memoryClockDeltaMax = gpuData.MemoryClockDeltaMax;
-            _memoryClockDefault = gpuData.MemoryClockDefault;
             _cool = 0;
             _coolMin = gpuData.CoolMin;
             _coolMax = gpuData.CoolMax;
@@ -408,7 +402,7 @@ namespace NTMiner.Vms {
                         return $"{NTMinerRoot.Instance.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Max(a => a.CoreClockDeltaMin) / 1000}至{NTMinerRoot.Instance.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Min(a => a.CoreClockDeltaMax) / 1000}";
                     }
                 }
-                return $"{this.CoreClockDeltaMinMText} - {this.CoreClockDeltaMaxMText} 默认：{this.CoreClockDefault}";
+                return $"{this.CoreClockDeltaMinMText} - {this.CoreClockDeltaMaxMText}";
             }
         }
 
@@ -422,7 +416,7 @@ namespace NTMiner.Vms {
                         return $"{NTMinerRoot.Instance.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Max(a => a.MemoryClockDeltaMin) / 1000}至{NTMinerRoot.Instance.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Min(a => a.MemoryClockDeltaMax) / 1000}";
                     }
                 }
-                return $"{this.MemoryClockDeltaMinMText} - {this.MemoryClockDeltaMaxMText} 默认：{this.MemoryClockDefault}";
+                return $"{this.MemoryClockDeltaMinMText} - {this.MemoryClockDeltaMaxMText}";
             }
         }
 
@@ -493,20 +487,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        public int CoreClockDefault {
-            get => _coreClockDefault;
-            set {
-                _coreClockDefault = value;
-                OnPropertyChanged(nameof(CoreClockDefault));
-            }
-        }
-        public int MemoryClockDefault {
-            get => _memoryClockDefault;
-            set {
-                _memoryClockDefault = value;
-                OnPropertyChanged(nameof(MemoryClockDefault));
-            }
-        }
         public int MemoryClockDeltaMax {
             get => _memoryClockDeltaMax;
             set {

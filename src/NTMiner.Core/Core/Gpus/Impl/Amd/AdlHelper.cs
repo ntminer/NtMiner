@@ -116,17 +116,15 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
 
         public void GetClockRangeByIndex(
             int gpuIndex, 
-            out int coreClockMin, out int coreClockMax, out int coreClockDefault,
-            out int memoryClockMin, out int memoryClockMax, out int memoryClockDefault,
+            out int coreClockMin, out int coreClockMax, 
+            out int memoryClockMin, out int memoryClockMax, 
             out int powerMin, out int powerMax, out int powerDefault,
             out int tempLimitMin, out int tempLimitMax, out int tempLimitDefault,
             out int fanSpeedMin, out int fanSpeedMax, out int fanSpeedDefault) {
             coreClockMin = 0;
             coreClockMax = 0;
-            coreClockDefault = 0;
             memoryClockMin = 0;
             memoryClockMax = 0;
-            memoryClockDefault = 0;
             powerMin = 0;
             powerMax = 0;
             powerDefault = 0;
@@ -142,10 +140,8 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
                 var result = ADL.ADL2_OverdriveN_CapabilitiesX2_Get(context, adapterIndex, ref lpODCapabilities);
                 coreClockMin = lpODCapabilities.sEngineClockRange.iMin * 10;
                 coreClockMax = lpODCapabilities.sEngineClockRange.iMax * 10;
-                coreClockDefault = lpODCapabilities.sEngineClockRange.iDefault * 10;
                 memoryClockMin = lpODCapabilities.sMemoryClockRange.iMin * 10;
                 memoryClockMax = lpODCapabilities.sMemoryClockRange.iMax * 10;
-                memoryClockDefault = lpODCapabilities.sMemoryClockRange.iDefault * 10;
                 powerMin = lpODCapabilities.power.iMin + 100;
                 powerMax = lpODCapabilities.power.iMax + 100;
                 powerDefault = lpODCapabilities.power.iDefault + 100;
@@ -161,7 +157,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
                 fanSpeedMax = 100;
                 fanSpeedDefault = lpODCapabilities.fanSpeed.iDefault;
 #if DEBUG
-                Write.DevWarn($"ADL2_OverdriveN_CapabilitiesX2_Get result {result} coreClockMin={coreClockMin},coreClockDefault={coreClockDefault},coreClockMax={coreClockMax},memoryClockMin={memoryClockMin},memoryClockMax={memoryClockMax},memoryClockDefault={memoryClockDefault},powerMin={powerMin},powerMax={powerMax},powerDefault={powerDefault},tempLimitMin={tempLimitMin},tempLimitMax={tempLimitMax},tempLimitDefault={tempLimitDefault},fanSpeedMin={fanSpeedMin},fanSpeedMax={fanSpeedMax},fanSpeedDefault={fanSpeedDefault}");
+                Write.DevWarn($"ADL2_OverdriveN_CapabilitiesX2_Get result {result} coreClockMin={coreClockMin},coreClockMax={coreClockMax},memoryClockMin={memoryClockMin},memoryClockMax={memoryClockMax},powerMin={powerMin},powerMax={powerMax},powerDefault={powerDefault},tempLimitMin={tempLimitMin},tempLimitMax={tempLimitMax},tempLimitDefault={tempLimitDefault},fanSpeedMin={fanSpeedMin},fanSpeedMax={fanSpeedMax},fanSpeedDefault={fanSpeedDefault}");
 #endif
             }
             catch (Exception e) {
