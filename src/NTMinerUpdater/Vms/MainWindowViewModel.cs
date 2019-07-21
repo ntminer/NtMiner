@@ -21,6 +21,7 @@ namespace NTMiner.Vms {
         private NTMinerFileViewModel _serverLatestVm;
         private bool _isReady;
         private bool _localIsLatest;
+        private Visibility _serverLatestDescriptionVisible = Visibility.Collapsed;
 
         private List<NTMinerFileViewModel> _nTMinerFiles;
         private Visibility _isHistoryVisible = Visibility.Collapsed;
@@ -33,12 +34,21 @@ namespace NTMiner.Vms {
         public ICommand ShowHistory { get; private set; }
         // ReSharper disable once InconsistentNaming
         public ICommand AddNTMinerFile { get; private set; }
+        public ICommand ShowOrHideServerLatestDescription { get; private set; }
 
         private MainWindowViewModel() {
             if (App.IsInDesignMode) {
                 return;
             }
             this.Refresh();
+            this.ShowOrHideServerLatestDescription = new DelegateCommand(() => {
+                if (ServerLatestDescriptionVisible == Visibility.Visible) {
+                    ServerLatestDescriptionVisible = Visibility.Collapsed;
+                }
+                else {
+                    ServerLatestDescriptionVisible = Visibility.Visible;
+                }
+            });
             this.CancelDownload = new DelegateCommand(() => {
                 this._cancel?.Invoke();
             });
@@ -204,6 +214,14 @@ namespace NTMiner.Vms {
         public BitmapImage BigLogoImageSource {
             get {
                 return new BitmapImage(new Uri((VirtualRoot.IsMinerStudio ? "/NTMinerWpf;component/Styles/Images/cc128.png" : "/NTMinerWpf;component/Styles/Images/logo128.png"), UriKind.RelativeOrAbsolute));
+            }
+        }
+
+        public Visibility ServerLatestDescriptionVisible {
+            get { return _serverLatestDescriptionVisible; }
+            set {
+                _serverLatestDescriptionVisible = value;
+                OnPropertyChanged(nameof(ServerLatestDescriptionVisible));
             }
         }
 
