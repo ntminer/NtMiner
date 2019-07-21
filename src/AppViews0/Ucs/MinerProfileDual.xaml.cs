@@ -118,6 +118,11 @@ namespace NTMiner.Views.Ucs {
                         if (coinVm.CoinProfile.SelectedDualCoinWallet != selectedResult) {
                             coinVm.CoinProfile.SelectedDualCoinWallet = selectedResult;
                         }
+                        else {
+                            coinVm.CoinProfile.OnPropertyChanged(nameof(coinVm.CoinProfile.SelectedDualCoinWallet));
+                            selectedResult.OnPropertyChanged(nameof(selectedResult.Name));
+                            selectedResult.OnPropertyChanged(nameof(selectedResult.Address));
+                        }
                         popup.IsOpen = false;
                     }
                 }) {

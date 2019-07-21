@@ -183,6 +183,7 @@ namespace NTMiner.Views.Ucs {
                             coinVm.CoinProfile.SelectedWallet = selectedResult;
                         }
                         else {
+                            coinVm.CoinProfile.OnPropertyChanged(nameof(coinVm.CoinProfile.SelectedWallet));
                             selectedResult.OnPropertyChanged(nameof(selectedResult.Name));
                             selectedResult.OnPropertyChanged(nameof(selectedResult.Address));
                         }
