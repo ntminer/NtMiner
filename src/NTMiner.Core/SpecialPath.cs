@@ -71,12 +71,42 @@ namespace NTMiner {
             }
             NTMinerOverClockFileFullName = Path.Combine(TempDirFullName, "NTMinerOverClock.exe");
             ServerDbFileFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "server.litedb");
+            if (!File.Exists(ServerDbFileFullName)) {
+                var shareServerDbFileFullName = Path.Combine(AssemblyInfo.ShareDirFullName, "server.litedb");
+                if (File.Exists(shareServerDbFileFullName)) {
+                    File.Copy(shareServerDbFileFullName, ServerDbFileFullName, overwrite: false);
+                }
+            }
             ServerJsonFileFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "server.json");
+            if (!File.Exists(ServerJsonFileFullName)) {
+                var shareServerJsonFileFullName = Path.Combine(AssemblyInfo.ShareDirFullName, "server.json");
+                if (File.Exists(shareServerJsonFileFullName)) {
+                    File.Copy(shareServerJsonFileFullName, ServerJsonFileFullName, overwrite: false);
+                }
+            }
 
             LocalDbFileFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "local.litedb");
-            WorkerEventDbFileFullName = Path.Combine(TempDirFullName, "workerEvent.litedb");
+            if (!File.Exists(LocalDbFileFullName)) {
+                var shareLocalDbFileFullName = Path.Combine(AssemblyInfo.ShareDirFullName, "local.litedb");
+                if (File.Exists(shareLocalDbFileFullName)) {
+                    File.Copy(shareLocalDbFileFullName, LocalDbFileFullName, overwrite: false);
+                }
+            }
             LocalJsonFileFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "local.json");
+            if (!File.Exists(LocalJsonFileFullName)) {
+                var shareLocalJsonFileFullName = Path.Combine(AssemblyInfo.ShareDirFullName, "local.json");
+                if (File.Exists(shareLocalJsonFileFullName)) {
+                    File.Copy(shareLocalJsonFileFullName, LocalJsonFileFullName, overwrite: false);
+                }
+            }
             GpuProfilesJsonFileFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "gpuProfiles.json");
+            if (!File.Exists(GpuProfilesJsonFileFullName)) {
+                var shareGpuProfilesJsonFileFullName = Path.Combine(AssemblyInfo.ShareDirFullName, "gpuProfiles.json");
+                if (File.Exists(shareGpuProfilesJsonFileFullName)) {
+                    File.Copy(shareGpuProfilesJsonFileFullName, GpuProfilesJsonFileFullName, overwrite: false);
+                }
+            }
+            WorkerEventDbFileFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "workerEvent.litedb");
         }
 
         public static string GetIconFileFullName(ICoin coin) {
@@ -120,10 +150,11 @@ namespace NTMiner {
         }
 
         public static readonly string LocalDbFileFullName;
-        public static readonly string WorkerEventDbFileFullName;
         public static readonly string LocalJsonFileFullName;
-        public static readonly string ServerDbFileFullName;
         public static readonly string GpuProfilesJsonFileFullName;
+
+        public static readonly string WorkerEventDbFileFullName;
+        public static readonly string ServerDbFileFullName;
 
         public static readonly string ServerJsonFileFullName;
 
@@ -142,6 +173,12 @@ namespace NTMiner {
                 if (_sIsFirstCallPackageDirFullName) {
                     if (!Directory.Exists(dirFullName)) {
                         Directory.CreateDirectory(dirFullName);
+                        var shareDir = Path.Combine(AssemblyInfo.ShareDirFullName, "Packages");
+                        if (Directory.Exists(shareDir)) {
+                            foreach (var fileFullName in Directory.GetFiles(shareDir)) {
+                                File.Copy(fileFullName, Path.Combine(dirFullName, Path.GetFileName(fileFullName)), overwrite: false);
+                            }
+                        }
                     }
                     _sIsFirstCallPackageDirFullName = false;
                 }

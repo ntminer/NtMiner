@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace NTMiner {
     public static class AssemblyInfo {
-        public static string LocalDirFullName { get; set; } = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "NTMiner");
+        public static string LocalDirFullName { get; set; } = AppDomain.CurrentDomain.BaseDirectory;
         public static string ShareDirFullName { get; set; } = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "NTMiner");
         public const string Version = "2.3.3";
         public const string Build = "0";
