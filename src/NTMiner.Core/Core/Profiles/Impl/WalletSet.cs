@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NTMiner.MinerServer;
+using System;
 using System.Collections.Generic;
 
 namespace NTMiner.Core.Profiles.Impl {
@@ -6,8 +7,10 @@ namespace NTMiner.Core.Profiles.Impl {
         private readonly INTMinerRoot _root;
         private readonly Dictionary<Guid, WalletData> _dicById = new Dictionary<Guid, WalletData>();
 
-        public WalletSet(INTMinerRoot root) {
+        private MineWorkData _mineWorkData;
+        public WalletSet(INTMinerRoot root, MineWorkData mineWorkData) {
             _root = root;
+            _mineWorkData = mineWorkData;
             VirtualRoot.Window<AddWalletCommand>("添加钱包", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
@@ -100,7 +103,8 @@ namespace NTMiner.Core.Profiles.Impl {
             }
         }
 
-        public void Refresh() {
+        public void Refresh(MineWorkData mineWorkData) {
+            _mineWorkData = mineWorkData;
             _dicById.Clear();
             _isInited = false;
         }
@@ -133,7 +137,8 @@ namespace NTMiner.Core.Profiles.Impl {
                     }
                 }
                 else {
-                    var repository = NTMinerRoot.CreateLocalRepository<WalletData>(isUseJson: false);
+                    bool isUseJson = _mineWorkData != null;
+                    var repository = NTMinerRoot.CreateLocalRepository<WalletData>(isUseJson: isUseJson);
                     lock (_locker) {
                         if (!_isInited) {
                             foreach (var item in repository.GetAll()) {

@@ -66,10 +66,10 @@ namespace NTMiner.Core.Profiles {
                 _poolProfileSet.Refresh(mineWorkData);
             }
             if (_walletSet == null) {
-                _walletSet = new WalletSet(root);
+                _walletSet = new WalletSet(root, mineWorkData);
             }
             else {
-                _walletSet.Refresh();
+                _walletSet.Refresh(mineWorkData);
             }
         }
         #endregion
