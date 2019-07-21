@@ -62,18 +62,9 @@ namespace NTMiner {
             if (!Directory.Exists(daemonDirFullName)) {
                 Directory.CreateDirectory(daemonDirFullName);
             }
-            string ntminerServicesDirFullName = Path.Combine(AssemblyInfo.GlobalDirFullName, "Services");
-            if (!Directory.Exists(ntminerServicesDirFullName)) {
-                Directory.CreateDirectory(ntminerServicesDirFullName);
-            }
-            DaemonFileFullName = Path.Combine(daemonDirFullName, "NTMinerDaemon.exe");
-            NTMinerServicesFileFullName = Path.Combine(ntminerServicesDirFullName, "NTMinerServices.exe");
+            DaemonFileFullName = Path.Combine(daemonDirFullName, "NTMinerDaemon.exe");            
             DevConsoleFileFullName = Path.Combine(daemonDirFullName, "DevConsole.exe");
 
-            CommonDirFullName = Path.Combine(AssemblyInfo.GlobalDirFullName, "Common");
-            if (!Directory.Exists(CommonDirFullName)) {
-                Directory.CreateDirectory(CommonDirFullName);
-            }
             TempDirFullName = Path.Combine(AssemblyInfo.GlobalDirFullName, "Temp");
             if (!Directory.Exists(TempDirFullName)) {
                 Directory.CreateDirectory(TempDirFullName);
@@ -137,13 +128,10 @@ namespace NTMiner {
         public static readonly string ServerJsonFileFullName;
 
         public static readonly string DaemonFileFullName;
-        public static readonly string NTMinerServicesFileFullName;
 
         public static readonly string DevConsoleFileFullName;
 
         public static readonly string NTMinerOverClockFileFullName;
-
-        public static readonly string CommonDirFullName;
 
         public static readonly string TempDirFullName;
 
