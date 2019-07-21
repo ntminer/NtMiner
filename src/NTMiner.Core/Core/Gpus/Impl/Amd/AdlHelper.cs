@@ -26,12 +26,6 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
         private List<ATIGPU> _gpuNames = new List<ATIGPU>();
         public bool Init() {
             try {
-                if (Environment.Is64BitOperatingSystem) {
-                    Windows.NativeMethods.SetDllDirectory(SpecialPath.ThisSystem32Dir);
-                }
-                else {
-                    Windows.NativeMethods.SetDllDirectory(SpecialPath.ThisSysWOW64Dir);
-                }
                 int status = ADL.ADL_Main_Control_Create(1);
 #if DEBUG
                 Write.DevDebug("AMD Display Library Status: " + (status == ADL.ADL_OK ? "OK" : status.ToString()));
