@@ -79,39 +79,6 @@ namespace NTMiner {
             WorkerEventDbFileFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "workerEvent.litedb");
         }
 
-        public static void UpgradeDir() {
-            if (!File.Exists(ServerDbFileFullName)) {
-                var shareServerDbFileFullName = Path.Combine(AssemblyInfo.ShareDirFullName, "server.litedb");
-                if (File.Exists(shareServerDbFileFullName)) {
-                    File.Copy(shareServerDbFileFullName, ServerDbFileFullName, overwrite: false);
-                }
-            }
-            if (!File.Exists(ServerJsonFileFullName)) {
-                var shareServerJsonFileFullName = Path.Combine(AssemblyInfo.ShareDirFullName, "server.json");
-                if (File.Exists(shareServerJsonFileFullName)) {
-                    File.Copy(shareServerJsonFileFullName, ServerJsonFileFullName, overwrite: false);
-                }
-            }
-            if (!File.Exists(LocalDbFileFullName)) {
-                var shareLocalDbFileFullName = Path.Combine(AssemblyInfo.ShareDirFullName, "local.litedb");
-                if (File.Exists(shareLocalDbFileFullName)) {
-                    File.Copy(shareLocalDbFileFullName, LocalDbFileFullName, overwrite: false);
-                }
-            }
-            if (!File.Exists(LocalJsonFileFullName)) {
-                var shareLocalJsonFileFullName = Path.Combine(AssemblyInfo.ShareDirFullName, "local.json");
-                if (File.Exists(shareLocalJsonFileFullName)) {
-                    File.Copy(shareLocalJsonFileFullName, LocalJsonFileFullName, overwrite: false);
-                }
-            }
-            if (!File.Exists(GpuProfilesJsonFileFullName)) {
-                var shareGpuProfilesJsonFileFullName = Path.Combine(AssemblyInfo.ShareDirFullName, "gpuProfiles.json");
-                if (File.Exists(shareGpuProfilesJsonFileFullName)) {
-                    File.Copy(shareGpuProfilesJsonFileFullName, GpuProfilesJsonFileFullName, overwrite: false);
-                }
-            }
-        }
-
         public static string GetIconFileFullName(ICoin coin) {
             if (coin == null || string.IsNullOrEmpty(coin.Icon)) {
                 return string.Empty;

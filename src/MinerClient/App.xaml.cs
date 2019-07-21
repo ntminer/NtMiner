@@ -74,7 +74,6 @@ namespace NTMiner {
                     NTMinerOverClockUtil.ExtractResource();
 
                     NTMinerRoot.SetIsMinerClient(true);
-                    SpecialPath.UpgradeDir();
                     NotiCenterWindowViewModel.IsHotKeyEnabled = true;
                     Window splashWindow = _appViewFactory.CreateSplashWindow();
                     splashWindow.Show();
