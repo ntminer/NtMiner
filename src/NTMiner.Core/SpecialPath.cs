@@ -58,25 +58,25 @@ namespace NTMiner {
         }
 
         static SpecialPath() {
-            string daemonDirFullName = Path.Combine(AssemblyInfo.GlobalDirFullName, "Daemon");
+            string daemonDirFullName = Path.Combine(AssemblyInfo.ShareDirFullName, "Daemon");
             if (!Directory.Exists(daemonDirFullName)) {
                 Directory.CreateDirectory(daemonDirFullName);
             }
             DaemonFileFullName = Path.Combine(daemonDirFullName, "NTMinerDaemon.exe");            
             DevConsoleFileFullName = Path.Combine(daemonDirFullName, "DevConsole.exe");
 
-            TempDirFullName = Path.Combine(AssemblyInfo.GlobalDirFullName, "Temp");
+            TempDirFullName = Path.Combine(AssemblyInfo.ShareDirFullName, "Temp");
             if (!Directory.Exists(TempDirFullName)) {
                 Directory.CreateDirectory(TempDirFullName);
             }
             NTMinerOverClockFileFullName = Path.Combine(TempDirFullName, "NTMinerOverClock.exe");
-            ServerDbFileFullName = Path.Combine(AssemblyInfo.GlobalDirFullName, "server.litedb");
-            ServerJsonFileFullName = Path.Combine(AssemblyInfo.GlobalDirFullName, "server.json");
+            ServerDbFileFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "server.litedb");
+            ServerJsonFileFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "server.json");
 
-            LocalDbFileFullName = Path.Combine(AssemblyInfo.GlobalDirFullName, "local.litedb");
+            LocalDbFileFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "local.litedb");
             WorkerEventDbFileFullName = Path.Combine(TempDirFullName, "workerEvent.litedb");
-            LocalJsonFileFullName = Path.Combine(AssemblyInfo.GlobalDirFullName, "local.json");
-            GpuProfilesJsonFileFullName = Path.Combine(AssemblyInfo.GlobalDirFullName, "gpuProfiles.json");
+            LocalJsonFileFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "local.json");
+            GpuProfilesJsonFileFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "gpuProfiles.json");
         }
 
         public static string GetIconFileFullName(ICoin coin) {
@@ -138,7 +138,7 @@ namespace NTMiner {
         private static bool _sIsFirstCallPackageDirFullName = true;
         public static string PackagesDirFullName {
             get {
-                string dirFullName = Path.Combine(AssemblyInfo.GlobalDirFullName, "Packages");
+                string dirFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "Packages");
                 if (_sIsFirstCallPackageDirFullName) {
                     if (!Directory.Exists(dirFullName)) {
                         Directory.CreateDirectory(dirFullName);
@@ -153,7 +153,7 @@ namespace NTMiner {
         private static bool _sIsFirstCallCoinIconDirFullName = true;
         public static string CoinIconsDirFullName {
             get {
-                string dirFullName = Path.Combine(AssemblyInfo.GlobalDirFullName, "CoinIcons");
+                string dirFullName = Path.Combine(AssemblyInfo.ShareDirFullName, "CoinIcons");
                 if (_sIsFirstCallCoinIconDirFullName) {
                     if (!Directory.Exists(dirFullName)) {
                         Directory.CreateDirectory(dirFullName);
@@ -198,7 +198,7 @@ namespace NTMiner {
         private static bool _sIsFirstCallLogsDirFullName = true;
         public static string LogsDirFullName {
             get {
-                string dirFullName = Path.Combine(AssemblyInfo.GlobalDirFullName, "logs");
+                string dirFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "logs");
                 if (_sIsFirstCallLogsDirFullName) {
                     if (!Directory.Exists(dirFullName)) {
                         Directory.CreateDirectory(dirFullName);

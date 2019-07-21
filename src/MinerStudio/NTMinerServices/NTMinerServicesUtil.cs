@@ -39,7 +39,7 @@ namespace NTMiner.NTMinerServices {
             }
         }
 
-        private static readonly string NTMinerServicesFileFullName = Path.Combine(AssemblyInfo.GlobalDirFullName, "Services", "NTMinerServices.exe");
+        private static readonly string NTMinerServicesFileFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "Services", "NTMinerServices.exe");
         private static void ExtractRunNTMinerServicesAsync(Action callback) {
             string[] names = new string[] { "NTMinerServices.exe" };
             foreach (var name in names) {
