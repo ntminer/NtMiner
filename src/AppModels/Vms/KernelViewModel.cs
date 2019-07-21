@@ -132,6 +132,8 @@ namespace NTMiner.Vms {
                     string package = Path.GetFileName(openFileDialog.FileName);
                     this.Package = package;
                     this.Size = new FileInfo(openFileDialog.FileName).Length;
+                    // 当内核文件改变时同时更新发布时间
+                    this.PublishOn = Timestamp.GetTimestamp();
                     this.KernelProfileVm.Refresh();
                 }
             });
