@@ -133,7 +133,7 @@ namespace NTMiner {
 
             #region CreateLogfileProcess
             private static void CreateLogfileProcess(IMineContext mineContext, string kernelExeFileFullName, string arguments) {
-                string logFile = Path.Combine(SpecialPath.LogsDirFullName, $"{mineContext.Kernel.Code}_{DateTime.Now.Ticks.ToString()}.log");
+                string logFile = Path.Combine(SpecialPath.LogsDirFullName, $"{mineContext.Kernel.Code}_{DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss_fff")}.log");
                 arguments = arguments.Replace("{logfile}", logFile);
                 Write.UserOk($"\"{kernelExeFileFullName}\" {arguments}");
                 Write.UserInfo("有请内核上场");
