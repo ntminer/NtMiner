@@ -49,7 +49,15 @@ namespace NTMiner {
 
         public IAppSettingSet ServerAppSettingSet { get; private set; }
 
-        public IAppSettingSet LocalAppSettingSet { get; private set; } = new LocalAppSettingSet(SpecialPath.LocalDbFileFullName);
+        private IAppSettingSet _appSettingSet;
+        public IAppSettingSet LocalAppSettingSet {
+            get {
+                if (_appSettingSet == null) {
+                    _appSettingSet = new LocalAppSettingSet(SpecialPath.LocalDbFileFullName);
+                }
+                return _appSettingSet;
+            }
+        }
 
         #region cotr
         private NTMinerRoot() {

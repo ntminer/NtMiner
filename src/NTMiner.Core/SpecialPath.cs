@@ -71,42 +71,45 @@ namespace NTMiner {
             }
             NTMinerOverClockFileFullName = Path.Combine(TempDirFullName, "NTMinerOverClock.exe");
             ServerDbFileFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "server.litedb");
+            ServerJsonFileFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "server.json");
+
+            LocalDbFileFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "local.litedb");
+            LocalJsonFileFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "local.json");
+            GpuProfilesJsonFileFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "gpuProfiles.json");
+            WorkerEventDbFileFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "workerEvent.litedb");
+        }
+
+        public static void UpgradeDir() {
             if (!File.Exists(ServerDbFileFullName)) {
                 var shareServerDbFileFullName = Path.Combine(AssemblyInfo.ShareDirFullName, "server.litedb");
                 if (File.Exists(shareServerDbFileFullName)) {
                     File.Copy(shareServerDbFileFullName, ServerDbFileFullName, overwrite: false);
                 }
             }
-            ServerJsonFileFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "server.json");
             if (!File.Exists(ServerJsonFileFullName)) {
                 var shareServerJsonFileFullName = Path.Combine(AssemblyInfo.ShareDirFullName, "server.json");
                 if (File.Exists(shareServerJsonFileFullName)) {
                     File.Copy(shareServerJsonFileFullName, ServerJsonFileFullName, overwrite: false);
                 }
             }
-
-            LocalDbFileFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "local.litedb");
             if (!File.Exists(LocalDbFileFullName)) {
                 var shareLocalDbFileFullName = Path.Combine(AssemblyInfo.ShareDirFullName, "local.litedb");
                 if (File.Exists(shareLocalDbFileFullName)) {
                     File.Copy(shareLocalDbFileFullName, LocalDbFileFullName, overwrite: false);
                 }
             }
-            LocalJsonFileFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "local.json");
             if (!File.Exists(LocalJsonFileFullName)) {
                 var shareLocalJsonFileFullName = Path.Combine(AssemblyInfo.ShareDirFullName, "local.json");
                 if (File.Exists(shareLocalJsonFileFullName)) {
                     File.Copy(shareLocalJsonFileFullName, LocalJsonFileFullName, overwrite: false);
                 }
             }
-            GpuProfilesJsonFileFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "gpuProfiles.json");
             if (!File.Exists(GpuProfilesJsonFileFullName)) {
                 var shareGpuProfilesJsonFileFullName = Path.Combine(AssemblyInfo.ShareDirFullName, "gpuProfiles.json");
                 if (File.Exists(shareGpuProfilesJsonFileFullName)) {
                     File.Copy(shareGpuProfilesJsonFileFullName, GpuProfilesJsonFileFullName, overwrite: false);
                 }
             }
-            WorkerEventDbFileFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "workerEvent.litedb");
         }
 
         public static string GetIconFileFullName(ICoin coin) {
