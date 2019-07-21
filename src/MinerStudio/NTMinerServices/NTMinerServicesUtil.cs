@@ -10,6 +10,14 @@ using System.Reflection;
 /// </summary>
 namespace NTMiner.NTMinerServices {
     public static class NTMinerServicesUtil {
+        static NTMinerServicesUtil() {
+            string serverDir = Path.Combine(AssemblyInfo.LocalDirFullName, "Services");
+            if (!Directory.Exists(serverDir)) {
+                Directory.CreateDirectory(serverDir);
+            }
+            NTMinerServicesFileFullName = Path.Combine(serverDir, "NTMinerServices.exe");
+        }
+
         public static void RunNTMinerServices(Action callback) {
             string processName = "NTMinerServices";
             Process[] processes = Process.GetProcessesByName(processName);
@@ -39,7 +47,7 @@ namespace NTMiner.NTMinerServices {
             }
         }
 
-        private static readonly string NTMinerServicesFileFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "Services", "NTMinerServices.exe");
+        private static readonly string NTMinerServicesFileFullName;
         private static void ExtractRunNTMinerServicesAsync(Action callback) {
             string[] names = new string[] { "NTMinerServices.exe" };
             foreach (var name in names) {
