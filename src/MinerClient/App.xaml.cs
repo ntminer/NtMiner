@@ -4,6 +4,7 @@ using NTMiner.OverClock;
 using NTMiner.RemoteDesktopEnabler;
 using NTMiner.View;
 using NTMiner.Views;
+using NTMiner.Views.Ucs;
 using NTMiner.Vms;
 using System;
 using System.Diagnostics;
@@ -40,6 +41,13 @@ namespace NTMiner {
 
         protected override void OnStartup(StartupEventArgs e) {
             RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
+            // 通过群控升级挖矿端的时候升级器可能不存在所以需要下载，下载的时候需要用到下载器所以下载器需要提前注册
+            VirtualRoot.Window<ShowFileDownloaderCommand>(LogEnum.DevConsole,
+                action: message => {
+                    UIThread.Execute(() => {
+                        FileDownloader.ShowWindow(message.DownloadFileUrl, message.FileTitle, message.DownloadComplete);
+                    });
+                });
             VirtualRoot.Window<UpgradeCommand>(LogEnum.DevConsole,
                 action: message => {
                     AppStatic.Upgrade(message.FileName, message.Callback);
