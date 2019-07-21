@@ -237,9 +237,9 @@ namespace NTMiner.Vms {
         public string BtnShowHistoryText {
             get {
                 if (this.IsHistoryVisible == Visibility.Visible) {
-                    return "最新版本";
+                    return "<-最新版本";
                 }
-                return "历史版本";
+                return "->历史版本";
             }
         }
 
