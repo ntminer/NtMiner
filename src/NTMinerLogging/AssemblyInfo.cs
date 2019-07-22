@@ -7,7 +7,7 @@ namespace NTMiner {
         public static string ShareDirFullName { get; set; } = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "NTMiner");
         public static string LocalDirFullName { get; set; } = ShareDirFullName;
         public const string Version = "2.3.3";
-        public const string Build = "0";
+        public const string Build = "1";
         public const string Copyright = "Copyright ©  2019";
         public const string Tag = "蛮吉";
         public static readonly string ServerJsonFileName = $"server2.0.0.json";

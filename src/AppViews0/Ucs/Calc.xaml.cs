@@ -58,9 +58,7 @@ namespace NTMiner.Views.Ucs {
                             NTMinerRoot.Instance.CalcConfigSet.Init(forceRefresh: true);
                         }
                     });
-                foreach (var coinVm in Vm.CoinVms.AllCoins) {
-                    coinVm.CoinIncomeVm.Refresh();
-                }
+                NTMinerRoot.Instance.CalcConfigSet.Init(forceRefresh: true);
             });
         }
 
