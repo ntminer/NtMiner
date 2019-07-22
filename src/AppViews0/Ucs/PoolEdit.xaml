@@ -103,8 +103,9 @@
 								Text="{Binding Notice, Mode=TwoWay}" Height="100">
 							</controls:KbMuiltilineTextBox>
 						</WrapPanel>
-						<WrapPanel Margin="0 2" HorizontalAlignment="Right" Height="26">
-							<CheckBox
+                        <WrapPanel Margin="0 2" Height="26">
+                            <TextBlock Style="{StaticResource LblTb}"></TextBlock>
+                            <CheckBox
 								FocusVisualStyle="{x:Null}"
 								VerticalAlignment="Center"
 								Content="用户名密码模式"
@@ -115,7 +116,7 @@
 								<TextBox Width="180" IsReadOnly="{Binding IsReadOnly}" VerticalContentAlignment="Center" Text="{Binding UserName}">
 								</TextBox>
 								<TextBlock Margin="4 0 0 0" VerticalAlignment="Center">密码</TextBlock>
-								<TextBox Width="100" IsReadOnly="{Binding IsReadOnly}" VerticalContentAlignment="Center" Text="{Binding Password}">
+								<TextBox Width="40" IsReadOnly="{Binding IsReadOnly}" VerticalContentAlignment="Center" Text="{Binding Password}">
 								</TextBox>
 							</WrapPanel>
 						</WrapPanel>
