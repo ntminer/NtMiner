@@ -200,6 +200,9 @@ namespace NTMiner {
                     if (mainCoinPool == null) {
                         return false;
                     }
+                    if (mainCoinPool.NoPool1) {
+                        return true;
+                    }
                     if (CoinVm.CoinKernel.IsSupportPool1) {
                         var mainCoinPool1 = CoinVm.CoinProfile.MainCoinPool1;
                         if (mainCoinPool1 == null) {

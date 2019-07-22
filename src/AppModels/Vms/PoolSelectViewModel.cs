@@ -11,10 +11,12 @@ namespace NTMiner.Vms {
 
         public ICommand HideView { get; set; }
 
-        public PoolSelectViewModel(CoinViewModel coin, PoolViewModel selected, Action<PoolViewModel> onOk) {
+        private bool _usedByPool1;
+        public PoolSelectViewModel(CoinViewModel coin, PoolViewModel selected, Action<PoolViewModel> onOk, bool usedByPool1 = false) {
             _coin = coin;
             _selectedResult = selected;
             OnOk = onOk;
+            _usedByPool1 = usedByPool1;
         }
 
         public PoolViewModel SelectedResult {
@@ -40,6 +42,9 @@ namespace NTMiner.Vms {
 
         public List<PoolViewModel> QueryResults {
             get {
+                if (_usedByPool1) {
+                    return Coin.Pools.Where(a => !a.NotPool1).OrderBy(a => a.SortNumber).ToList();
+                }
                 return Coin.Pools.OrderBy(a => a.SortNumber).ToList();
             }
         }

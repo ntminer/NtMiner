@@ -29,6 +29,8 @@ namespace NTMiner.Vms {
         private string _passWord;
         private bool _isUserMode;
         private string _tutorialUrl;
+        private bool _noPool1;
+        private bool _notPool1;
         private CoinViewModel _coinVm;
 
         public Guid GetId() {
@@ -66,6 +68,8 @@ namespace NTMiner.Vms {
             _passWord = data.Password;
             _isUserMode = data.IsUserMode;
             _tutorialUrl = data.TutorialUrl;
+            _noPool1 = data.NoPool1;
+            _notPool1 = data.NotPool1;
         }
 
         public PoolViewModel(Guid id) {
@@ -383,6 +387,22 @@ namespace NTMiner.Vms {
                     _passWord = value;
                     OnPropertyChanged(nameof(Password));
                 }
+            }
+        }
+
+        public bool NoPool1 {
+            get { return _noPool1; }
+            set {
+                _noPool1 = value;
+                OnPropertyChanged(nameof(NoPool1));
+            }
+        }
+
+        public bool NotPool1 {
+            get { return _notPool1; }
+            set {
+                _notPool1 = value;
+                OnPropertyChanged(nameof(NotPool1));
             }
         }
 

@@ -72,8 +72,10 @@
 
 						<WrapPanel Margin="0 2">
 							<TextBlock Style="{StaticResource LblTb}">矿池名称:</TextBlock>
-							<TextBox Width="420" IsReadOnly="{Binding IsReadOnly}" VerticalContentAlignment="Center" Text="{Binding Name, ValidatesOnExceptions=True}">
-							</TextBox>
+							<TextBox Width="220" IsReadOnly="{Binding IsReadOnly}" VerticalContentAlignment="Center" Text="{Binding Name, ValidatesOnExceptions=True}">
+                            </TextBox>
+                            <CheckBox VerticalAlignment="Center" Margin="10 0 0 0" IsChecked="{Binding NoPool1}">不能有备池</CheckBox>
+                            <CheckBox VerticalAlignment="Center" Margin="10 0 0 0" IsChecked="{Binding NotPool1}">不能作为备池</CheckBox>
 						</WrapPanel>
 
 						<WrapPanel Margin="0 2">

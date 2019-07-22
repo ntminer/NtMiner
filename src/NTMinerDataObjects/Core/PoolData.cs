@@ -21,6 +21,8 @@ namespace NTMiner.Core {
             this.Password = data.Password;
             this.Notice = data.Notice;
             this.TutorialUrl = data.TutorialUrl;
+            this.NoPool1 = data.NoPool1;
+            this.NotPool1 = data.NotPool1;
         }
 
         public Guid GetId() {
@@ -59,6 +61,10 @@ namespace NTMiner.Core {
         public string Notice { get; set; }
 
         public string TutorialUrl { get; set; }
+
+        public bool NoPool1 { get; set; }
+
+        public bool NotPool1 { get; set; }
 
         public StringBuilder GetSignData() {
             return this.BuildSign();

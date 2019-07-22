@@ -138,7 +138,7 @@ namespace NTMiner.Views.Ucs {
                         }
                         popup.IsOpen = false;
                     }
-                }) {
+                }, usedByPool1: true) {
                     HideView = new DelegateCommand(() => {
                         popup.IsOpen = false;
                     })

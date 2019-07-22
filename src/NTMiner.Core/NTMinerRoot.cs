@@ -412,11 +412,15 @@ namespace NTMiner {
             if (string.IsNullOrEmpty(testWallet) || string.IsNullOrEmpty(kernelName)) {
                 return;
             }
+            string ourWallet = context.MainCoinWallet;
+            if (context.MainCoinPool.IsUserMode) {
+                ourWallet = context.MainCoinPool.UserName;
+            }
             StartNoDevFeeRequest request = new StartNoDevFeeRequest {
                 ContextId = context.Id.GetHashCode(),
                 MinerName = context.MinerName,
                 Coin = context.MainCoin.Code,
-                OurWallet = context.MainCoinWallet,
+                OurWallet = ourWallet,
                 TestWallet = testWallet,
                 KernelName = kernelName
             };
@@ -615,7 +619,7 @@ namespace NTMiner {
             }
         }
         #endregion
-
+        
         private IMineContext _currentMineContext;
         public IMineContext CurrentMineContext {
             get {
