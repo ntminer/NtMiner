@@ -153,6 +153,13 @@ namespace NTMiner.Core.Profiles {
                     }
                 }
 
+                public double CalcInput {
+                    get => _data.CalcInput;
+                    private set {
+                        _data.CalcInput = value;
+                    }
+                }
+
                 private static Dictionary<string, PropertyInfo> _sProperties;
                 [IgnoreReflectionSet]
                 private static Dictionary<string, PropertyInfo> Properties {

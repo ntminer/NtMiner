@@ -290,6 +290,16 @@ namespace NTMiner.Vms {
             }
         }
 
+        public double CalcInput {
+            get { return _inner.CalcInput; }
+            set {
+                if (_inner.CalcInput != value) {
+                    NTMinerRoot.Instance.MinerProfile.SetCoinProfileProperty(this.CoinId, nameof(CalcInput), value);
+                    OnPropertyChanged(nameof(CalcInput));
+                }
+            }
+        }
+
         public PoolViewModel DualCoinPool {
             get {
                 if (!AppContext.Instance.CoinVms.TryGetCoinVm(CoinId, out CoinViewModel coinVm)) {

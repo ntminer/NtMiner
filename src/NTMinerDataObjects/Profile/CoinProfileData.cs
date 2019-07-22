@@ -17,7 +17,8 @@ namespace NTMiner.Profile {
                 IsHideWallet = false,
                 DualCoinPoolId = Guid.Empty,
                 DualCoinWallet = string.Empty,
-                IsDualCoinHideWallet = false
+                IsDualCoinHideWallet = false,
+                CalcInput = 1
             };
         }
 
@@ -31,6 +32,7 @@ namespace NTMiner.Profile {
             this.DualCoinPoolId = data.DualCoinPoolId;
             this.DualCoinWallet = data.DualCoinWallet;
             this.IsDualCoinHideWallet = data.IsDualCoinHideWallet;
+            this.CalcInput = data.CalcInput;
         }
 
         public Guid GetId() {
@@ -48,6 +50,8 @@ namespace NTMiner.Profile {
         public Guid DualCoinPoolId { get; set; }
         public string DualCoinWallet { get; set; }
         public bool IsDualCoinHideWallet { get; set; }
+
+        public double CalcInput { get; set; }
 
         public override string ToString() {
             return this.BuildSign().ToString();

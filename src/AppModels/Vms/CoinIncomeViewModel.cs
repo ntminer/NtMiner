@@ -4,7 +4,6 @@ using System.Windows.Media;
 
 namespace NTMiner.Vms {
     public class CoinIncomeViewModel : ViewModelBase {
-        private double _speed = 1;
         private string _incomePerDayText;
         private string _incomeCnyPerDayText;
         private string _coinPriceCnyText;
@@ -50,10 +49,16 @@ namespace NTMiner.Vms {
         }
 
         public double Speed {
-            get => _speed;
+            get {
+                double input = _coinVm.CoinProfile.CalcInput;
+                if (input == 0) {
+                    return 1;
+                }
+                return input;
+            }
             set {
-                if (_speed != value) {
-                    _speed = value;
+                if (_coinVm.CoinProfile.CalcInput != value) {
+                    _coinVm.CoinProfile.CalcInput = value;
                     Refresh();
                     OnPropertyChanged(nameof(Speed));
                 }
