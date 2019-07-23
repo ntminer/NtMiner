@@ -83,7 +83,7 @@
                                 x:Name="Content"
                                 Width="13"
                                 Height="13"
-                                Data="M853.333333 204.8l-34.133333-34.133333-307.2 311.466666L204.8 170.666667l-34.133333 34.133333 311.466666 307.2L170.666667 819.2l34.133333 34.133333 307.2-311.466666 307.2 311.466666 34.133333-34.133333-311.466666-307.2z"
+                                Data="{StaticResource Icon_Close}"
                                 Fill="{Binding KbSystemButtonForeground, RelativeSource={RelativeSource TemplatedParent}}"
                                 UseLayoutRounding="True"
                                 Stretch="Fill" />

@@ -185,6 +185,10 @@ namespace NTMiner {
             VirtualRoot.Window<CloseMainWindowCommand>("处理关闭主界面命令", LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
+                        if (NTMinerRoot.GetIsCloseMeanExit()) {
+                            VirtualRoot.Execute(new CloseNTMinerCommand());
+                            return;
+                        }
                         MainWindow = NotiCenterWindow.Instance;
                         foreach (Window window in Windows) {
                             if (window != MainWindow) {

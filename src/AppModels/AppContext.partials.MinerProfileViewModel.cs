@@ -304,6 +304,16 @@ namespace NTMiner {
                 }
             }
 
+            public bool IsCloseMeanExit {
+                get => NTMinerRoot.GetIsCloseMeanExit();
+                set {
+                    if (NTMinerRoot.GetIsCloseMeanExit() != value) {
+                        NTMinerRoot.SetIsCloseMeanExit(value);
+                        OnPropertyChanged(nameof(IsCloseMeanExit));
+                    }
+                }
+            }
+
             public string HotKey {
                 get { return HotKeyUtil.GetHotKey(); }
                 set {
