@@ -11,6 +11,7 @@
 			 d:DataContext="{d:DesignData Source=/Design/PoolViewModel.xaml}"
 			 xmlns:local="clr-namespace:NTMiner.Views.Ucs" 
 			 d:DesignWidth="540" d:DesignHeight="400"
+             MinHeight="200"
 			 Background="White">
 	<UserControl.Resources>
 		<ResourceDictionary>
@@ -74,8 +75,8 @@
 							<TextBlock Style="{StaticResource LblTb}">矿池名称:</TextBlock>
 							<TextBox Width="220" IsReadOnly="{Binding IsReadOnly}" VerticalContentAlignment="Center" Text="{Binding Name, ValidatesOnExceptions=True}">
                             </TextBox>
-                            <CheckBox VerticalAlignment="Center" Margin="10 0 0 0" IsChecked="{Binding NoPool1}">不能有备池</CheckBox>
-                            <CheckBox VerticalAlignment="Center" Margin="10 0 0 0" IsChecked="{Binding NotPool1}">不能作为备池</CheckBox>
+                            <CheckBox VerticalAlignment="Center" Margin="10 0 0 0" IsEnabled="{Binding IsReadOnly,Converter={StaticResource BoolInvertConverter}}" IsChecked="{Binding NoPool1}">不能有备池</CheckBox>
+                            <CheckBox VerticalAlignment="Center" Margin="10 0 0 0" IsEnabled="{Binding IsReadOnly,Converter={StaticResource BoolInvertConverter}}" IsChecked="{Binding NotPool1}">不能作为备池</CheckBox>
 						</WrapPanel>
 
 						<WrapPanel Margin="0 2">
