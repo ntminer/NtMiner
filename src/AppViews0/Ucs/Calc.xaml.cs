@@ -39,8 +39,7 @@ namespace NTMiner.Views.Ucs {
 
         private Calc() {
             InitializeComponent();
-            this.RunOneceOnLoaded(() => {
-                var window = Window.GetWindow(this);
+            this.RunOneceOnLoaded((window) => {
                 window.On<CalcConfigSetInitedEvent>("收益计算器数据集刷新后刷新VM", LogEnum.DevConsole,
                     action: message => {
                         UIThread.Execute(() => {

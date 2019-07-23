@@ -52,7 +52,7 @@
 					</ListBox.ItemTemplate>
 				</ListBox>
 			</ScrollViewer>
-			<WrapPanel Grid.Column="1" Visibility="{Binding ElementName=CoinsScrollView,Path=ComputedHorizontalScrollBarVisibility}">
+			<WrapPanel Grid.Column="1">
 				<Button x:Name="ButtonLeftCoin" IsEnabled="False" Click="ButtonLeftCoin_Click">
 					<Button.Template>
 						<ControlTemplate>
@@ -412,7 +412,7 @@
 					</ListBox.ItemTemplate>
 				</ListBox>
 			</ScrollViewer>
-			<WrapPanel Grid.Column="1" VerticalAlignment="Center" Visibility="{Binding ElementName=BrandsScrollView,Path=ComputedHorizontalScrollBarVisibility}">
+			<WrapPanel Grid.Column="1" VerticalAlignment="Center">
 				<Button x:Name="ButtonLeftBrand" IsEnabled="False" Click="ButtonLeftBrand_Click">
 					<Button.Template>
 						<ControlTemplate>

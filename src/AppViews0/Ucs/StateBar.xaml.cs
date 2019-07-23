@@ -1,6 +1,5 @@
 ﻿using NTMiner.Vms;
 using System;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -17,8 +16,7 @@ namespace NTMiner.Views.Ucs {
             if (Design.IsInDesignMode) {
                 return;
             }
-            this.RunOneceOnLoaded(() => {
-                var window = Window.GetWindow(this);
+            this.RunOneceOnLoaded((window) => {
                 window.Activated += (object sender, EventArgs e) => {
                     Vm.OnPropertyChanged(nameof(Vm.IsAutoAdminLogon));
                     Vm.OnPropertyChanged(nameof(Vm.AutoAdminLogonToolTip));
