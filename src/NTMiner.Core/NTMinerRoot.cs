@@ -414,7 +414,8 @@ namespace NTMiner {
             }
             string ourWallet = context.MainCoinWallet;
             if (context.MainCoinPool.IsUserMode) {
-                ourWallet = context.MainCoinPool.UserName;
+                IPoolProfile poolProfile = MinerProfile.GetPoolProfile(context.MainCoinPool.GetId());
+                ourWallet = poolProfile.UserName;
             }
             StartNoDevFeeRequest request = new StartNoDevFeeRequest {
                 ContextId = context.Id.GetHashCode(),
