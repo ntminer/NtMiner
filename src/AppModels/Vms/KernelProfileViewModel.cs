@@ -187,7 +187,7 @@ namespace NTMiner.Vms {
             out Action cancel) {
             string saveFileFullName = Path.Combine(SpecialPath.DownloadDirFullName, package);
             progressChanged?.Invoke(0);
-            using (WebClient webClient = new WebClient()) {
+            using (NTMinerWebClient webClient = new NTMinerWebClient()) {
                 cancel = () => {
                     webClient.CancelAsync();
                 };

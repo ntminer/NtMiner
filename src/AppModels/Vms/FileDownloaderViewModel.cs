@@ -77,7 +77,7 @@ namespace NTMiner.Vms {
         private void Download(Action<bool, string, string> downloadComplete) {
             Logger.InfoDebugLine("下载：" + _downloadFileUrl);
             string saveFileFullName = Path.Combine(SpecialPath.DownloadDirFullName, Guid.NewGuid().ToString());
-            using (WebClient webClient = new WebClient()) {
+            using (NTMinerWebClient webClient = new NTMinerWebClient()) {
                 _cancel = () => {
                     webClient.CancelAsync();
                 };

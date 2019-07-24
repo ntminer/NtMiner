@@ -422,7 +422,7 @@ namespace NTMiner.Vms {
             if (File.Exists(iconFileFullName)) {
                 return;
             }
-            using (WebClient client = new WebClient()) {
+            using (NTMinerWebClient client = new NTMinerWebClient(10)) {
                 client.DownloadFileCompleted += (object sender, System.ComponentModel.AsyncCompletedEventArgs e) => {
                     if (!e.Cancelled && e.Error == null) {
                         VirtualRoot.Happened(new CoinIconDownloadedEvent(this));
