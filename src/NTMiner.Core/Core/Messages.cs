@@ -83,7 +83,7 @@ namespace NTMiner.Core {
         public string Message { get; private set; }
     }
 
-    [MessageType(description: "开机A卡计算模式")]
+    [MessageType(description: "开起A卡计算模式")]
     public class SwitchRadeonGpuCommand : Cmd {
         public SwitchRadeonGpuCommand() {
         }
