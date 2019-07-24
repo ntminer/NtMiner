@@ -22,7 +22,7 @@ namespace NTMiner.Core.Impl {
         public void Init(bool forceRefresh = false) {
             DateTime now = DateTime.Now;
             // 如果未显示主界面则收益计算器也不用更新了
-            if ((_initedOn == DateTime.MinValue || NTMinerRoot.IsUiVisible) && (forceRefresh || _initedOn.AddMinutes(10) < now)) {
+            if ((_initedOn == DateTime.MinValue || NTMinerRoot.IsUiVisible || VirtualRoot.IsMinerStudio) && (forceRefresh || _initedOn.AddMinutes(10) < now)) {
                 _initedOn = now;
                 OfficialServer.CalcConfigService.GetCalcConfigsAsync(data => {
                     Init(data);

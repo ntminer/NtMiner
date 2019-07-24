@@ -71,13 +71,13 @@ namespace NTMiner {
                 bool isWork = Environment.GetCommandLineArgs().Contains("--work", StringComparer.OrdinalIgnoreCase);
                 if (isWork) {
                     DoInit(isWork, callback);
-                    if (IsMinerClient) {
+                    if (VirtualRoot.IsMinerClient) {
                         NTMinerRegistry.SetIsLastIsWork(true);
                     }
                     return;
                 }
                 else {
-                    if (IsMinerClient) {
+                    if (VirtualRoot.IsMinerClient) {
                         NTMinerRegistry.SetIsLastIsWork(false);
                     }
                 }

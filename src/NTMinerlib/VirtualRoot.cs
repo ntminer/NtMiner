@@ -15,6 +15,12 @@ namespace NTMiner {
         public static readonly string AppFileFullName = Process.GetCurrentProcess().MainModule.FileName;
         public static Guid Id { get; private set; }
 
+        public static bool IsMinerClient { get; private set; }
+
+        public static void SetIsMinerClient(bool value) {
+            IsMinerClient = value;
+        }
+
         public static bool IsMinerStudio { get; private set; }
 
         public static void SetIsMinerStudio(bool value) {

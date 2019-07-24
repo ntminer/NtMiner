@@ -86,7 +86,7 @@ namespace NTMiner {
         #endregion
 
         public static bool IsMinerClient {
-            get => NTMinerRoot.IsMinerClient;
+            get => VirtualRoot.IsMinerClient;
         }
 
         public static string AppName {
