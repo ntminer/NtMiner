@@ -87,17 +87,21 @@ namespace NTMiner.Vms {
             this.EnableWindowsRemoteDesktop = new DelegateCommand(() => {
                 VirtualRoot.Execute(new EnableWindowsRemoteDesktopCommand());
             });
-            if (NTMinerRoot.CurrentVersion.ToString() != NTMinerRoot.ServerVersion) {
-                _checkUpdateForeground = new SolidColorBrush(Colors.Red);
+            SetCheckUpdateForeground(isLatest: NTMinerRoot.CurrentVersion.ToString() == NTMinerRoot.ServerVersion);
+        }
+
+        public void SetCheckUpdateForeground(bool isLatest) {
+            if (isLatest) {
+                CheckUpdateForeground = (SolidColorBrush)Application.Current.Resources["LableColor"];
             }
             else {
-                _checkUpdateForeground = new SolidColorBrush(Colors.Black);
+                CheckUpdateForeground = new SolidColorBrush(Colors.Red);
             }
         }
 
         public SolidColorBrush CheckUpdateForeground {
             get => _checkUpdateForeground;
-            set {
+            private set {
                 _checkUpdateForeground = value;
                 OnPropertyChanged(nameof(CheckUpdateForeground));
             }

@@ -62,62 +62,13 @@
 							HorizontalAlignment="Left"
 							VerticalAlignment="Center"
 							FontSize="16"
-							Text="开源矿工" />
+							Text="开源矿工 - 最后一个矿工" />
 						<TextBlock
 							Margin="0"
 							HorizontalAlignment="Left"
 							VerticalAlignment="Center"
 							FontSize="16"
 							Text="{Binding BrandTitle}" />
-						<WrapPanel VerticalAlignment="Bottom">
-							<TextBlock
-								Margin="2 0 0 0"
-								Foreground="{StaticResource ThemeForeground}"
-								HorizontalAlignment="Left"
-								VerticalAlignment="Center"
-								Text="v" />
-							<TextBlock
-								Margin="0"
-								Foreground="{StaticResource ThemeForeground}"
-								HorizontalAlignment="Left"
-								VerticalAlignment="Center"
-								Text="{x:Static app:AppStatic.CurrentVersion}" />
-							<TextBlock
-								Foreground="{StaticResource ThemeForeground}"
-								Margin="2 0 0 0"
-								HorizontalAlignment="Left"
-								VerticalAlignment="Center"
-								Text="(" />
-							<TextBlock
-								Margin="0"
-								Foreground="{StaticResource ThemeForeground}"
-								HorizontalAlignment="Left"
-								VerticalAlignment="Center"
-								Text="{x:Static app:AppStatic.VersionTag}" />
-							<TextBlock
-								Foreground="{StaticResource ThemeForeground}"
-								HorizontalAlignment="Left"
-								VerticalAlignment="Center"
-								Text=")" />
-						</WrapPanel>
-					</WrapPanel>
-				</controls:KbLinkButton>
-				<controls:KbLinkButton
-					Margin="8 0 0 0"
-					VerticalAlignment="Bottom"
-					Command="{x:Static app:AppStatic.DownloadMinerStudio}"
-					KbDisplayLine="False"
-					Foreground="{StaticResource ThemeForeground}"
-					KbSystemButtonHoverBackground="Transparent"
-					Background="Transparent">
-					<WrapPanel>
-						<Path 
-							Width="14"
-							Height="13"
-							Data="{StaticResource Icon_ControlCenter}"
-							Fill="{StaticResource ThemeForeground}"
-							Stretch="Fill" />
-						<TextBlock Foreground="{StaticResource ThemeForeground}">下载群控</TextBlock>
 					</WrapPanel>
 				</controls:KbLinkButton>
 				<WrapPanel Margin="4 0 0 0" VerticalAlignment="Bottom" Visibility="{Binding MinerProfile.MineWork,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
@@ -592,8 +543,28 @@
 					</TabItem.Header>
 					<Border x:Name="ToolboxContainer"></Border>
 				</TabItem>
-			</TabControl>
-		</Grid>
+            </TabControl>
+            <controls:KbLinkButton
+                Grid.Column="1"
+                HorizontalAlignment="Right"
+				Margin="0 0 4 0"
+				VerticalAlignment="Top"
+				Command="{x:Static app:AppStatic.DownloadMinerStudio}"
+				KbDisplayLine="False"
+				Foreground="{StaticResource ThemeForeground}"
+				KbSystemButtonHoverBackground="Transparent"
+				Background="Transparent">
+                <WrapPanel>
+                    <Path 
+						Width="14"
+						Height="13"
+						Data="{StaticResource Icon_ControlCenter}"
+						Fill="{StaticResource ThemeForeground}"
+						Stretch="Fill" />
+                    <TextBlock Foreground="{StaticResource ThemeForeground}">下载群控</TextBlock>
+                </WrapPanel>
+            </controls:KbLinkButton>
+        </Grid>
 		<!--下状态栏-->
 		<uc:StateBar 
 			Grid.Row="2" 

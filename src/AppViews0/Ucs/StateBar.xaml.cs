@@ -51,12 +51,7 @@ namespace NTMiner.Views.Ucs {
                 window.On<AppVersionChangedEvent>("发现了服务端新版本", LogEnum.DevConsole,
                     action: message => {
                         UIThread.Execute(() => {
-                            if (NTMinerRoot.CurrentVersion.ToString() != NTMinerRoot.ServerVersion) {
-                                Vm.CheckUpdateForeground = new SolidColorBrush(Colors.Red);
-                            }
-                            else {
-                                Vm.CheckUpdateForeground = new SolidColorBrush(Colors.Black);
-                            }
+                            Vm.SetCheckUpdateForeground(isLatest: NTMinerRoot.CurrentVersion.ToString() == NTMinerRoot.ServerVersion);
                         });
                     });
                 window.On<KernelSelfRestartedEvent>("内核自我重启时刷新计数器", LogEnum.DevConsole,

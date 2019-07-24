@@ -260,25 +260,30 @@
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto"></ColumnDefinition>
 					<ColumnDefinition Width="*"></ColumnDefinition>
-				</Grid.ColumnDefinitions>
-				<WrapPanel>
-					<controls:KbButton 
-						Cursor="Hand"
-						Background="Transparent" 
-						BorderThickness="0"
-						Command="{x:Static app:AppStatic.ShowOnlineUpdate}">
-						<WrapPanel>
-							<Path 
-								Width="14"
-								Height="13"
-								Data="{StaticResource Icon_Update}"
-								Fill="{StaticResource IconFillColor}"
-								Stretch="Fill" />
-							<TextBlock Foreground="{Binding CheckUpdateForeground}">更新</TextBlock>
-						</WrapPanel>
-					</controls:KbButton>
-				</WrapPanel>
-				<WrapPanel Grid.Column="1" HorizontalAlignment="Right" Margin="0 0 70 0">
+                </Grid.ColumnDefinitions>
+                <controls:KbButton 
+                    ToolTip="检查更新"
+					Cursor="Hand"
+					Background="Transparent" 
+					BorderThickness="0"
+					Command="{x:Static app:AppStatic.ShowOnlineUpdate}">
+                    <WrapPanel>
+                        <Path 
+							Width="14"
+							Height="13"
+							Data="{StaticResource Icon_Update}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+                        <TextBlock Foreground="{Binding CheckUpdateForeground}">更新</TextBlock>
+                        <TextBlock
+						    Margin="2 0 0 0"
+                            Foreground="{StaticResource LableColor}"
+						    HorizontalAlignment="Left"
+						    VerticalAlignment="Center"
+						    Text="{x:Static app:AppStatic.VersionFullName}" />
+                    </WrapPanel>
+                </controls:KbButton>
+                <WrapPanel Grid.Column="1" HorizontalAlignment="Right" Margin="0 0 70 0">
 					<TextBlock Text="{x:Static app:AppStatic.WindowsEdition}" ToolTip="操作系统" Foreground="{StaticResource LableColor}"></TextBlock>
 					<controls:KbButton 
 						Background="Transparent"

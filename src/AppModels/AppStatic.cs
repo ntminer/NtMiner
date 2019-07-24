@@ -240,6 +240,12 @@ namespace NTMiner {
             }
         }
 
+        public static string VersionFullName {
+            get {
+                return $"v{NTMinerRoot.CurrentVersion}({VersionTag})";
+            }
+        }
+
         public static string QQGroup {
             get {
                 if (Design.IsInDesignMode) {
