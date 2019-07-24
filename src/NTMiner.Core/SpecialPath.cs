@@ -14,7 +14,7 @@ namespace NTMiner {
             Task.Factory.StartNew(() => {
                 try {
                     var webRequest = WebRequest.Create(fileUrl);
-                    webRequest.Timeout = 5 * 1000;
+                    webRequest.Timeout = 20 * 1000;
                     webRequest.Method = "GET";
                     webRequest.Headers.Add("Accept-Encoding", "gzip, deflate, br");
                     var response = webRequest.GetResponse();
