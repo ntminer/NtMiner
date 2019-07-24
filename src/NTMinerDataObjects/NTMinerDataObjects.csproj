@@ -145,7 +145,6 @@
     <Compile Include="MinerServer\IClientData.cs" />
     <Compile Include="Profile\ICoinKernelProfile.cs" />
     <Compile Include="Profile\ICoinProfile.cs" />
-    <Compile Include="IDbEntity`1.cs" />
     <Compile Include="IEntity`1.cs" />
     <Compile Include="MinerServer\IMinerGroup.cs" />
     <Compile Include="Profile\IMinerProfile.cs" />
