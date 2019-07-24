@@ -49,8 +49,8 @@
 			<WrapPanel VerticalAlignment="Center">
 				<Image Width="18" Height="18" Source="/NTMinerWpf;component/Styles/Images/logo32.png" MouseDown="NTMinerLogo_MouseDown"></Image>
 				<controls:KbLinkButton
-					ToolTip="点击打开官网"
-					Command="{x:Static app:AppStatic.OpenOfficialSite}"
+					ToolTip="关于开源矿工"
+					Command="{x:Static app:AppStatic.ShowAbout}"
 					KbDisplayLine="False"
 					KbSystemButtonHoverBackground="Transparent"
 					Background="Transparent"
