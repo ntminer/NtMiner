@@ -62,14 +62,21 @@
 							HorizontalAlignment="Left"
 							VerticalAlignment="Center"
 							FontSize="16"
-							Text="开源矿工 - 最后一个矿工" />
+							Text="开源矿工" />
 						<TextBlock
 							Margin="0"
 							HorizontalAlignment="Left"
 							VerticalAlignment="Center"
 							FontSize="16"
 							Text="{Binding BrandTitle}" />
-					</WrapPanel>
+                        <TextBlock
+							Foreground="{StaticResource ThemeForeground}"
+							Margin="0"
+							HorizontalAlignment="Left"
+							VerticalAlignment="Center"
+							FontSize="16"
+							Text=" - 最后一个矿工" />
+                    </WrapPanel>
 				</controls:KbLinkButton>
 				<WrapPanel Margin="4 0 0 0" VerticalAlignment="Bottom" Visibility="{Binding MinerProfile.MineWork,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
 					<TextBlock Foreground="{StaticResource ThemeForeground}">作业：</TextBlock>
