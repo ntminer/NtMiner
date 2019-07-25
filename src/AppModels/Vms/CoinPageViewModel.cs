@@ -70,10 +70,9 @@ namespace NTMiner.Vms {
             get {
                 List<CoinViewModel> list;
                 if (!string.IsNullOrEmpty(CoinKeyword)) {
-                    string keyword = this.CoinKeyword.ToLower();
                     list = AppContext.Instance.CoinVms.AllCoins.
-                        Where(a => (!string.IsNullOrEmpty(a.Code) && a.Code.ToLower().Contains(keyword))
-                            || (!string.IsNullOrEmpty(a.EnName) && a.EnName.ToLower().Contains(keyword))).OrderBy(a => a.SortNumber).ToList();
+                        Where(a => (!string.IsNullOrEmpty(a.Code) && a.Code.IgnoreCaseContains(CoinKeyword))
+                            || (!string.IsNullOrEmpty(a.EnName) && a.EnName.IgnoreCaseContains(CoinKeyword))).OrderBy(a => a.SortNumber).ToList();
                 }
                 else {
                     list = AppContext.Instance.CoinVms.AllCoins.OrderBy(a => a.SortNumber).ToList();
