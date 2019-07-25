@@ -30,7 +30,7 @@ namespace NTMiner.Profile {
             this.IsPowerAppend = false;
             this.PowerAppend = 0;
             this.MaxTemp = 80;
-            this.AutoStartDelaySeconds = 10;
+            this.AutoStartDelaySeconds = 15;
         }
 
         public MinerProfileData(IMinerProfile data) {
