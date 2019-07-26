@@ -108,14 +108,14 @@ namespace NTMiner {
         }
         #endregion
 
-        #region IsAutoCloseWindowsFirewall
-        public static bool GetIsAutoCloseWindowsFirewall() {
-            object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "IsAutoCloseWindowsFirewall");
-            return value != null && value.ToString() == "True";
+        #region IsAutoDisableWindowsFirewall
+        public static bool GetIsAutoDisableWindowsFirewall() {
+            object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "IsAutoDisableWindowsFirewall");
+            return value == null || value.ToString() == "True";
         }
 
-        public static void SetIsAutoCloseWindowsFirewall(bool value) {
-            Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "IsAutoCloseWindowsFirewall", value);
+        public static void SetIsAutoDisableWindowsFirewall(bool value) {
+            Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "IsAutoDisableWindowsFirewall", value);
         }
         #endregion
 

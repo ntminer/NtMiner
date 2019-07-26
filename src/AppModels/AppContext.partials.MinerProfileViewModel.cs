@@ -355,11 +355,11 @@ namespace NTMiner {
                 }
             }
 
-            public bool IsAutoCloseWindowsFirewall {
-                get => NTMinerRegistry.GetIsAutoCloseWindowsFirewall();
+            public bool IsAutoDisableWindowsFirewall {
+                get => NTMinerRegistry.GetIsAutoDisableWindowsFirewall();
                 set {
-                    NTMinerRegistry.SetIsAutoCloseWindowsFirewall(value);
-                    OnPropertyChanged(nameof(IsAutoCloseWindowsFirewall));
+                    NTMinerRegistry.SetIsAutoDisableWindowsFirewall(value);
+                    OnPropertyChanged(nameof(IsAutoDisableWindowsFirewall));
                 }
             }
 

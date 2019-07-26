@@ -76,7 +76,7 @@
 								Padding="0"
 								FocusVisualStyle="{x:Null}"
 								VerticalContentAlignment="Center"
-								IsChecked="{Binding IsAutoCloseWindowsFirewall}">
+								IsChecked="{Binding IsAutoDisableWindowsFirewall}">
                                 <TextBlock VerticalAlignment="Center">启动开源矿工时自动关闭Windows防火墙</TextBlock>
                             </CheckBox>
                         </WrapPanel>
