@@ -355,6 +355,14 @@ namespace NTMiner {
                 }
             }
 
+            public bool IsAutoCloseWindowsFirewall {
+                get => NTMinerRegistry.GetIsAutoCloseWindowsFirewall();
+                set {
+                    NTMinerRegistry.SetIsAutoCloseWindowsFirewall(value);
+                    OnPropertyChanged(nameof(IsAutoCloseWindowsFirewall));
+                }
+            }
+
             public bool IsNoShareRestartKernel {
                 get => NTMinerRoot.Instance.MinerProfile.IsNoShareRestartKernel;
                 set {

@@ -70,8 +70,17 @@
 									<TextBlock VerticalAlignment="Center">秒</TextBlock>
 								</WrapPanel>
 							</CheckBox>
-						</WrapPanel>
-						<WrapPanel Margin="0 2">
+                        </WrapPanel>
+                        <WrapPanel Margin="0 2">
+                            <CheckBox
+								Padding="0"
+								FocusVisualStyle="{x:Null}"
+								VerticalContentAlignment="Center"
+								IsChecked="{Binding IsAutoCloseWindowsFirewall}">
+                                <TextBlock VerticalAlignment="Center">启动开源矿工时自动关闭Windows防火墙</TextBlock>
+                            </CheckBox>
+                        </WrapPanel>
+                        <WrapPanel Margin="0 2">
 							<CheckBox
 								Padding="0"
 								FocusVisualStyle="{x:Null}"

@@ -100,12 +100,22 @@ namespace NTMiner {
         #region IsAutoStart
         public static bool GetIsAutoStart() {
             object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "IsAutoStart");
-            // 如果是新装的机器，显卡还没驱动，不要自动开始挖矿
             return value != null && value.ToString() == "True";
         }
 
         public static void SetIsAutoStart(bool value) {
             Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "IsAutoStart", value);
+        }
+        #endregion
+
+        #region IsAutoCloseWindowsFirewall
+        public static bool GetIsAutoCloseWindowsFirewall() {
+            object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "IsAutoCloseWindowsFirewall");
+            return value != null && value.ToString() == "True";
+        }
+
+        public static void SetIsAutoCloseWindowsFirewall(bool value) {
+            Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "IsAutoCloseWindowsFirewall", value);
         }
         #endregion
 
