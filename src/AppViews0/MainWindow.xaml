@@ -307,27 +307,27 @@
 					<TabItem.Header>
 						<WrapPanel>
 							<Path 
-								Width="14"
-								Height="13"
+								Width="15"
+								Height="15"
 								Data="{StaticResource Icon_Mining1}"
 								Fill="{StaticResource IconFillColor}"
 								Stretch="Fill" />
-							<TextBlock Text="开始" Padding="4 0 0 0" FontSize="14"></TextBlock>
+                            <TextBlock Text="开始" Padding="2 0 0 0" FontSize="15"></TextBlock>
 						</WrapPanel>
 					</TabItem.Header>
 					<Border x:Name="MinerProfileContainerRight" Background="{StaticResource MinerProfileBackground}" Padding="4 8 4 4">
 					</Border>
 				</TabItem>
-				<TabItem x:Name="TabItemLog" IsSelected="True">
+				<TabItem x:Name="TabItemLog" IsSelected="True" FontSize="14">
 					<TabItem.Header>
 						<WrapPanel>
 							<Path 
-								Width="14"
-								Height="13"
+								Width="15"
+								Height="15"
 								Data="{StaticResource Icon_Log}"
 								Fill="{StaticResource IconFillColor}"
 								Stretch="Fill" />
-							<TextBlock Text="日志" Padding="4 0 0 0" FontSize="14"></TextBlock>
+							<TextBlock Text="日志" Padding="2 0 0 1" FontSize="15"></TextBlock>
 						</WrapPanel>
 					</TabItem.Header>
 					<Grid Margin="-1 0 0 0" Background="Black">
@@ -489,12 +489,12 @@
 					<TabItem.Header>
 						<WrapPanel>
 							<Path 
-								Width="14"
-								Height="13"
+								Width="15"
+								Height="15"
 								Data="{StaticResource Icon_Table}"
 								Fill="{StaticResource IconFillColor}"
 								Stretch="Fill" />
-							<TextBlock Text="算力" Padding="4 0 0 0" FontSize="14"></TextBlock>
+                            <TextBlock Text="算力" Padding="2 0 0 1" FontSize="15"></TextBlock>
 						</WrapPanel>
 					</TabItem.Header>
 					<Border x:Name="SpeedTableContainer">
@@ -504,13 +504,13 @@
 					<TabItem.Header>
 						<WrapPanel>
 							<Path 
-								Width="14"
-								Height="13"
+								Width="15"
+								Height="15"
 								Data="{StaticResource Icon_OverClock}"
 								Fill="{StaticResource IconFillColor}"
 								Stretch="Fill" />
-							<TextBlock VerticalAlignment="Center" Padding="4 0 0 0" Text="{Binding MinerProfile.CoinVm.Code}"></TextBlock>
-							<TextBlock VerticalAlignment="Center" Text="超频" FontSize="14"></TextBlock>
+							<TextBlock VerticalAlignment="Center" Padding="2 0 0 1" Text="{Binding MinerProfile.CoinVm.Code}"></TextBlock>
+                            <TextBlock VerticalAlignment="Center" Text="超频" FontSize="15"></TextBlock>
 							<CheckBox 
 								FocusVisualStyle="{x:Null}"
 								VerticalAlignment="Center"
@@ -526,12 +526,12 @@
 					<TabItem.Header>
 						<WrapPanel>
 							<Path 
-								Width="14"
-								Height="13"
+								Width="15"
+								Height="15"
 								Data="{StaticResource Icon_Setting}"
 								Fill="{StaticResource IconFillColor}"
 								Stretch="Fill" />
-							<TextBlock Text="选项" Padding="4 0 0 0" FontSize="14"></TextBlock>
+                            <TextBlock Text="选项" Padding="2 0 0 1" FontSize="15"></TextBlock>
 						</WrapPanel>
 					</TabItem.Header>
 					<Border x:Name="MinerProfileOptionContainer"></Border>
@@ -540,12 +540,12 @@
 					<TabItem.Header>
 						<WrapPanel>
 							<Path 
-								Width="14"
-								Height="13"
+								Width="15"
+								Height="15"
 								Data="{StaticResource Icon_Toolbox}"
 								Fill="{StaticResource IconFillColor}"
 								Stretch="Fill" />
-							<TextBlock Text="工具箱" Padding="4 0 0 0" FontSize="14"></TextBlock>
+                            <TextBlock Text="工具箱" Padding="2 0 0 1" FontSize="15"></TextBlock>
 						</WrapPanel>
 					</TabItem.Header>
 					<Border x:Name="ToolboxContainer"></Border>

@@ -18,7 +18,7 @@
 			BorderThickness="0" 
 			Background="Transparent" Foreground="White">
 			<FlowDocument PagePadding="4">
-				<Paragraph x:Name="ConsoleParagraph" FontFamily="Courier New" FontSize="12">
+				<Paragraph x:Name="ConsoleParagraph" FontFamily="Courier New" FontSize="13">
 				</Paragraph>
 			</FlowDocument>
 		</FlowDocumentScrollViewer>

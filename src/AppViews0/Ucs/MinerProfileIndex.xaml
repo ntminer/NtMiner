@@ -405,7 +405,7 @@
 			Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
 		</Border>
 
-		<WrapPanel VerticalAlignment="Center" Margin="0 0 0 4">
+		<WrapPanel VerticalAlignment="Center">
 			<TextBlock
 				Style="{StaticResource LblTb}"
 				Text="高级参数" />
@@ -420,8 +420,29 @@
 					<TextBlock Foreground="Red" Width="300" TextWrapping="Wrap" Text="这是高级用户的工具，通常我们无需关心这一块。"></TextBlock>
 				</TextBox.ToolTip>
 			</TextBox>
-		</WrapPanel>
-		<Grid Margin="0 0 0 4" Visibility="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.KernelInputVm.IsSupportDevicesArg, Converter={StaticResource BoolToVisibilityConverter}}">
+        </WrapPanel>
+        <WrapPanel Margin="0 0 0 4">
+            <TextBlock Style="{StaticResource LblTb}" />
+            <ItemsControl
+			    IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}"
+			    ItemsSource="{Binding MinerProfile.CoinVm.CoinKernel.InputSegmentVms}"
+			    BorderThickness="0"
+			    VerticalAlignment="Center"
+			    ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel>
+                        </WrapPanel>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <CheckBox Padding="0" IsChecked="{Binding IsChecked}" FocusVisualStyle="{x:Null}" Content="{Binding Name}" ToolTip="{Binding Description}"></CheckBox>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </WrapPanel>
+        <Grid Margin="0 0 0 4" Visibility="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.KernelInputVm.IsSupportDevicesArg, Converter={StaticResource BoolToVisibilityConverter}}">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto"></ColumnDefinition>
 				<ColumnDefinition Width="*"></ColumnDefinition>
@@ -451,24 +472,5 @@
 				</ItemsControl.ItemTemplate>
 			</ItemsControl>
 		</Grid>
-		<ItemsControl
-			Margin="50 0 0 4"
-			IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}"
-			ItemsSource="{Binding MinerProfile.CoinVm.CoinKernel.InputSegmentVms}"
-			BorderThickness="0"
-			VerticalAlignment="Center"
-			ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-			<ItemsControl.ItemsPanel>
-				<ItemsPanelTemplate>
-					<WrapPanel>
-					</WrapPanel>
-				</ItemsPanelTemplate>
-			</ItemsControl.ItemsPanel>
-			<ItemsControl.ItemTemplate>
-				<DataTemplate>
-					<CheckBox Padding="0" IsChecked="{Binding IsChecked}" FocusVisualStyle="{x:Null}" Content="{Binding Name}" ToolTip="{Binding Description}"></CheckBox>
-				</DataTemplate>
-			</ItemsControl.ItemTemplate>
-		</ItemsControl>
 	</StackPanel>
 </UserControl>
