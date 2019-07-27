@@ -70,12 +70,12 @@ namespace NTMiner.Views {
         protected override void OnContentRendered(EventArgs e) {
             base.OnContentRendered(e);
             if (NotiCenterWindowViewModel.IsHotKeyEnabled) {
-                System.Windows.Forms.Keys hotKey = System.Windows.Forms.Keys.X;
+                System.Windows.Forms.Keys hotKey;
                 Enum.TryParse(HotKeyUtil.GetHotKey(), out hotKey);
                 if (!RegHotKey(hotKey, out string message)) {
                     NotiCenterWindowViewModel.Instance.Manager
                         .CreateMessage()
-                        .Error(message)
+                        .Warning(message)
                         .Dismiss().WithButton("忽略", null)
                         .Queue();
                 }
