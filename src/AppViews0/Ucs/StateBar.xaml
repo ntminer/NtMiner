@@ -120,16 +120,18 @@
 				</WrapPanel>
 			</Grid>
 			<WrapPanel HorizontalAlignment="Right" Margin="0 -15 480 0">
-				<controls:KbLinkButton
-					Padding="0"
-					Command="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool1.ViewPoolIncome}"
-					CommandParameter="{Binding MinerProfile.CoinVm.CoinProfile.SelectedWallet}"
-					KbDisplayLine="False"
-					Content="备池收益"
-					KbSystemButtonHoverBackground="Transparent"
-					Visibility="{Binding MinerProfile.CoinVm.CoinKernel.IsSupportPool1, Converter={StaticResource BoolToVisibilityConverter}}"
-					Background="Transparent">
-				</controls:KbLinkButton>
+                <Border Visibility="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.NoPool1,Converter={StaticResource BoolToVisibilityInvertConverter}}">
+                    <controls:KbLinkButton
+					    Padding="0"
+					    Command="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool1.ViewPoolIncome}"
+					    CommandParameter="{Binding MinerProfile.CoinVm.CoinProfile.SelectedWallet}"
+					    KbDisplayLine="False"
+					    Content="备池收益"
+					    KbSystemButtonHoverBackground="Transparent"
+					    Visibility="{Binding MinerProfile.CoinVm.CoinKernel.IsSupportPool1, Converter={StaticResource BoolToVisibilityConverter}}"
+					    Background="Transparent">
+                    </controls:KbLinkButton>
+                </Border>
 				<WrapPanel>
 					<TextBlock Margin="12 0 0 0" Foreground="{StaticResource LableColor}">内核重启</TextBlock>
 					<TextBlock 
