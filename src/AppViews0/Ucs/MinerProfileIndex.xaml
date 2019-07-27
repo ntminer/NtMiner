@@ -421,7 +421,7 @@
 				</TextBox.ToolTip>
 			</TextBox>
         </WrapPanel>
-        <WrapPanel Margin="0 0 0 4">
+        <WrapPanel Margin="0 0 0 4" Visibility="{Binding MinerProfile.CoinVm.CoinKernel.InputSegmentVms,Converter={StaticResource NoRecordInvertVisibilityConverter}}">
             <TextBlock Style="{StaticResource LblTb}" />
             <ItemsControl
 			    IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}"
