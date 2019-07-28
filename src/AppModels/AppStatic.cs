@@ -411,7 +411,7 @@ namespace NTMiner {
             VirtualRoot.Execute(new UpgradeCommand(string.Empty, null));
         });
         public static ICommand ShowHelp { get; private set; } = new DelegateCommand(() => {
-            Process.Start("https://github.com/ntminer/ntminer");
+            Process.Start("http://ntminer.com/");
         });
         public static ICommand ShowMinerClients { get; private set; } = new DelegateCommand(() => {
             VirtualRoot.Execute(new ShowMinerClientsWindowCommand());
@@ -460,7 +460,7 @@ namespace NTMiner {
         });
 
         public static ICommand OpenOfficialSite { get; private set; } = new DelegateCommand(() => {
-            Process.Start("https://github.com/ntminer-project/ntminer");
+            Process.Start("http://ntminer.com/");
         });
 
         public static ICommand BusinessModel { get; private set; } = new DelegateCommand(() => {
