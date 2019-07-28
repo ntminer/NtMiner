@@ -34,7 +34,7 @@
 						HorizontalAlignment="Left"
 						KbSystemButtonHoverBackground="Transparent"
 						Background="Transparent">
-						<TextBlock Text="http://www.ntminer.com/" Foreground="{StaticResource LinkForeground}"></TextBlock>
+						<TextBlock Text="https://ntminer.com/" Foreground="{StaticResource LinkForeground}"></TextBlock>
 					</controls:KbLinkButton>
 				</StackPanel>
 			</WrapPanel>
