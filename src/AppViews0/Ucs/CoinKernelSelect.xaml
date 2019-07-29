@@ -135,7 +135,7 @@
 								Width="12"
 								Height="12"
 								ToolTip="支持双挖"
-								Visibility="{Binding Kernel.KernelInputVm.IsSupportDualMine,Converter={StaticResource BoolToVisibilityConverter}}"
+								Visibility="{Binding IsSupportDualMine,Converter={StaticResource BoolToVisibilityConverter}}"
 								Data="{StaticResource Icon_DualMine}"
 								Fill="{StaticResource IconFillColor}"
 								Stretch="Fill" />
