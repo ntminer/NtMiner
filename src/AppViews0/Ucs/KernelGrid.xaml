@@ -124,36 +124,6 @@
 				<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
 			</DataGrid.Resources>
 			<DataGrid.Columns>
-				<DataGridTemplateColumn 
-					MinWidth="52" Header="显卡" 
-					IsReadOnly="True">
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<StackPanel>
-								<WrapPanel>
-									<Path
-										Margin="4 0 0 0"
-										Width="18"
-										Height="14"
-										ToolTip="NVIDIA"
-										Visibility="{Binding IsNvidiaIconVisible}"
-										Data="{StaticResource Icon_Nvidia}"
-										Fill="Green"
-										Stretch="Fill" />
-									<Path
-										Margin="4 0 0 0"
-										Width="16"
-										Height="14"
-										ToolTip="AMD"
-										Visibility="{Binding IsAMDIconVisible}"
-										Data="{StaticResource Icon_AMD}"
-										Fill="Red"
-										Stretch="Fill" />
-								</WrapPanel>
-							</StackPanel>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
 				<DataGridTemplateColumn MinWidth="100" Width="*" Header="内核编码" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>

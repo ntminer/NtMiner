@@ -101,35 +101,6 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Width="54" IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<TextBlock>显卡</TextBlock>
-					</DataGridTemplateColumn.Header>
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<WrapPanel>
-								<Path
-									Margin="4 0 0 0"
-									Width="18"
-									Height="14"
-									ToolTip="支持N卡"
-									Visibility="{Binding IsNvidiaIconVisible}"
-									Data="{StaticResource Icon_Nvidia}"
-									Fill="Green"
-									Stretch="Fill" />
-								<Path
-									Margin="4 0 0 0"
-									Width="16"
-									Height="14"
-									ToolTip="支持A卡"
-									Visibility="{Binding IsAMDIconVisible}"
-									Data="{StaticResource Icon_AMD}"
-									Fill="Red"
-									Stretch="Fill" />
-							</WrapPanel>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
 			</DataGrid.Columns>
 		</DataGrid>
 		<TextBlock Grid.Row="1" Visibility="{Binding QueryResults, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center">没有记录</TextBlock>

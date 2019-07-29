@@ -232,34 +232,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        public Visibility IsNvidiaIconVisible {
-            get {
-                foreach (var item in NTMinerRoot.Instance.CoinKernelSet.Where(a => a.KernelId == this.Id)) {
-                    if (item.SupportedGpu == SupportedGpu.Both) {
-                        return Visibility.Visible;
-                    }
-                    if (item.SupportedGpu == SupportedGpu.NVIDIA) {
-                        return Visibility.Visible;
-                    }
-                }
-                return Visibility.Collapsed;
-            }
-        }
-
-        public Visibility IsAMDIconVisible {
-            get {
-                foreach (var item in NTMinerRoot.Instance.CoinKernelSet.Where(a => a.KernelId == this.Id)) {
-                    if (item.SupportedGpu == SupportedGpu.Both) {
-                        return Visibility.Visible;
-                    }
-                    if (item.SupportedGpu == SupportedGpu.AMD) {
-                        return Visibility.Visible;
-                    }
-                }
-                return Visibility.Collapsed;
-            }
-        }
-
         public Guid Id {
             get => _id;
             private set {

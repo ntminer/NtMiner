@@ -107,8 +107,8 @@
 							<WrapPanel>
 								<Path
 									Margin="4 0 0 0"
-									Width="18"
-									Height="14"
+									Width="20"
+									Height="16"
 									ToolTip="支持N卡"
 									Visibility="{Binding IsNvidiaIconVisible}"
 									Data="{StaticResource Icon_Nvidia}"
@@ -116,8 +116,8 @@
 									Stretch="Fill" />
 								<Path
 									Margin="4 0 0 0"
-									Width="16"
-									Height="14"
+									Width="20"
+									Height="16"
 									ToolTip="支持A卡"
 									Visibility="{Binding IsAMDIconVisible}"
 									Data="{StaticResource Icon_AMD}"
