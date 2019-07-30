@@ -5,10 +5,12 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class PoolSelectViewModel : ViewModelBase {
+        private string _keyword;
         private CoinViewModel _coin;
         private PoolViewModel _selectedResult;
         public readonly Action<PoolViewModel> OnOk;
 
+        public ICommand ClearKeyword { get; private set; }
         public ICommand HideView { get; set; }
 
         private bool _usedByPool1;
@@ -17,6 +19,20 @@ namespace NTMiner.Vms {
             _selectedResult = selected;
             OnOk = onOk;
             _usedByPool1 = usedByPool1;
+            this.ClearKeyword = new DelegateCommand(() => {
+                this.Keyword = string.Empty;
+            });
+        }
+
+        public string Keyword {
+            get => _keyword;
+            set {
+                if (_keyword != value) {
+                    _keyword = value;
+                    OnPropertyChanged(nameof(Keyword));
+                    OnPropertyChanged(nameof(QueryResults));
+                }
+            }
         }
 
         public PoolViewModel SelectedResult {
@@ -42,10 +58,12 @@ namespace NTMiner.Vms {
 
         public List<PoolViewModel> QueryResults {
             get {
+                var query = Coin.Pools.Where(a =>
+                    (a.Name != null && a.Name.IgnoreCaseContains(Keyword)) || a.Server != null && a.Server.IgnoreCaseContains(Keyword));
                 if (_usedByPool1) {
-                    return Coin.Pools.Where(a => !a.NotPool1).OrderBy(a => a.SortNumber).ToList();
+                    return query.Where(a => !a.NotPool1).OrderBy(a => a.SortNumber).ToList();
                 }
-                return Coin.Pools.OrderBy(a => a.SortNumber).ToList();
+                return query.OrderBy(a => a.SortNumber).ToList();
             }
         }
     }
