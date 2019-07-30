@@ -16,6 +16,18 @@ namespace NTMiner {
         public Action Callback { get; private set; }
     }
 
+    [MessageType(description: "启用windows远程桌面")]
+    public class EnableWindowsRemoteDesktopCommand : Cmd {
+        public EnableWindowsRemoteDesktopCommand() {
+        }
+    }
+
+    [MessageType(description: "启用或禁用windows开机自动登录")]
+    public class EnableOrDisableWindowsAutoLoginCommand : Cmd {
+        public EnableOrDisableWindowsAutoLoginCommand() {
+        }
+    }
+
     [MessageType(description: "打开用户列表页")]
     public class ShowUserPageCommand : Cmd {
         public ShowUserPageCommand() {

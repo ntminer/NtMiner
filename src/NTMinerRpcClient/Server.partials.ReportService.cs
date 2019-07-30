@@ -44,7 +44,7 @@ namespace NTMiner {
                             Write.DevDebug($"{nameof(ReportStateAsync)} {message.Result.ReasonPhrase}");
                         }
                     }
-                    catch (Exception e) {
+                    catch {
                         // 吞掉异常，以免用户恐慌
                     }
                 });

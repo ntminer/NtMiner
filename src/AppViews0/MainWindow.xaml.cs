@@ -171,8 +171,7 @@ namespace NTMiner.Views {
                 if (NTMinerRoot.IsBrandSpecified) {
                     return;
                 }
-                BrandWindow brandWindow = new BrandWindow();
-                brandWindow.ShowDialog();
+                BrandTag.ShowWindow();
                 e.Handled = true;
             }
         }

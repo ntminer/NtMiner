@@ -26,7 +26,7 @@ namespace NTMiner {
         }
         #endregion
 
-        public static void RunOneceOnLoaded(this UserControl uc, Action action) {
+        public static void RunOneceOnLoaded(this UserControl uc, Action<Window> action) {
             uc.Loaded += (sender, e) => {
                 if (uc.Resources == null) {
                     uc.Resources = new ResourceDictionary();
@@ -35,7 +35,7 @@ namespace NTMiner {
                     return;
                 }
                 uc.Resources.Add("isNotFirstTimeLoaded", true);
-                action();
+                action(Window.GetWindow(uc));
             };
         }
 

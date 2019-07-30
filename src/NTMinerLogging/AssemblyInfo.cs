@@ -4,19 +4,20 @@ using System.Reflection;
 
 namespace NTMiner {
     public static class AssemblyInfo {
-        public static string GlobalDirFullName { get; set; } = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "NTMiner");
-        public const string Version = "2.3.1";
-        public const string Build = "0";
+        public static string ShareDirFullName { get; set; } = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "NTMiner");
+        public static string LocalDirFullName { get; set; } = ShareDirFullName;
+        public const string Version = "2.3.4";
+        public const string Build = "1";
         public const string Copyright = "Copyright ©  2019";
         public const string Tag = "蛮吉";
         public static readonly string ServerJsonFileName = $"server2.0.0.json";
-        public static string ServerVersionJsonFileFullName = Path.Combine(GlobalDirFullName, ServerJsonFileName);
+        public static string ServerVersionJsonFileFullName = Path.Combine(LocalDirFullName, ServerJsonFileName);
         public static string OfficialServerHost = "server.ntminer.com";
         public static readonly string MinerJsonBucket = "https://minerjson.oss-cn-beijing.aliyuncs.com/";
 
         static AssemblyInfo() {
-            if (!Directory.Exists(GlobalDirFullName)) {
-                Directory.CreateDirectory(GlobalDirFullName);
+            if (!Directory.Exists(LocalDirFullName)) {
+                Directory.CreateDirectory(LocalDirFullName);
             }
         }
 

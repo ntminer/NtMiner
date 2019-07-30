@@ -14,5 +14,7 @@ namespace NTMiner.Core {
         string Password { get; }
         string Notice { get; }
         string TutorialUrl { get; }
+        bool NoPool1 { get; }
+        bool NotPool1 { get; }
     }
 }

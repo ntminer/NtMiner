@@ -6,6 +6,7 @@
 		xmlns:blankWindow="http://NTMiner.com"
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 		xmlns:vm="clr-namespace:NTMiner.Vms"
+		xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
 		mc:Ignorable="d"
 		ResizeMode="NoResize"
 		Background="{StaticResource ThemeBackground}"
@@ -32,142 +33,8 @@
 				<RowDefinition Height="*"></RowDefinition>
 				<RowDefinition Height="Auto"></RowDefinition>
 			</Grid.RowDefinitions>
-			<!--start升级到服务器最新版本-->
-			<Grid Visibility="{Binding IsHistoryVisible, Converter={StaticResource VisibilityInvertConverter}}">
-				<Grid.RowDefinitions>
-					<RowDefinition Height="240"></RowDefinition>
-					<RowDefinition Height="*"></RowDefinition>
-				</Grid.RowDefinitions>
-				<Image VerticalAlignment="Top" Width="180" Height="180" Margin="0 20 0 0" Source="{Binding BigLogoImageSource}">
-				</Image>
-				<StackPanel Grid.Row="1" Visibility="{Binding IsReady, Converter={StaticResource BoolToVisibilityInvertConverter}}">
-					<TextBlock Margin="0 12 0 0" FontSize="18" HorizontalAlignment="Center">检查中</TextBlock>
-				</StackPanel>
-				<StackPanel Grid.Row="1" Visibility="{Binding IsReady, Converter={StaticResource BoolToVisibilityConverter}}">
-					<TextBlock 
-						Visibility="{Binding LocalIsLatest, Converter={StaticResource BoolToVisibilityConverter}}"
-						HorizontalAlignment="Center" FontSize="18">已是最新版本</TextBlock>
-					<controls:KbButton
-						Command="{Binding ServerLatestVm.Edit}"
-						ToolTip="点击查看详情"
-						Padding="15 2"
-						HorizontalAlignment="Center" Background="White" 
-						Visibility="{Binding LocalIsLatest, Converter={StaticResource BoolToVisibilityInvertConverter}}"
-						Foreground="{StaticResource ThemeForeground}"
-						CornerRadius="2">
-						<WrapPanel>
-							<TextBlock 
-								Visibility="{Binding ServerLatestVm.Title, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
-								Text="{Binding ServerLatestVm.Title}"
-								FontSize="18" Foreground="Red"></TextBlock>
-							<TextBlock 
-								FontSize="18" Foreground="Red"
-								Visibility="{Binding ServerLatestVm.Title, Converter={StaticResource NotNullOrEmptyVisibilityInvertConverter}}">发现新版本，请更新</TextBlock>
-						</WrapPanel>
-					</controls:KbButton>
-					<WrapPanel HorizontalAlignment="Center" Margin="0 10 0 0">
-						<TextBlock TextAlignment="Right" FontSize="14">本地版本：</TextBlock>
-						<TextBlock Width="80" Text="{Binding LocalNTMinerVersion}" FontSize="14"></TextBlock>
-						<TextBlock Margin="4 0 0 0" Text="{Binding LocalNTMinerVersionTag}" FontSize="14"></TextBlock>
-					</WrapPanel>
-					<WrapPanel HorizontalAlignment="Center" Visibility="{Binding LocalIsLatest, Converter={StaticResource BoolToVisibilityInvertConverter}}">
-						<TextBlock TextAlignment="Right" FontSize="14">可更新至：</TextBlock>
-						<TextBlock Width="80" Text="{Binding ServerLatestVm.Version}" FontSize="14"></TextBlock>
-						<TextBlock Margin="4 0 0 0" Text="{Binding ServerLatestVm.VersionTag}" FontSize="14"></TextBlock>
-					</WrapPanel>
-				</StackPanel>
-			</Grid>
-			<!--end升级到服务器最新版本-->
-			
-			<!--start历史版本列表-->
-			<Grid Visibility="{Binding IsHistoryVisible}" Background="White">
-				<Grid.RowDefinitions>
-					<RowDefinition Height="240"></RowDefinition>
-					<RowDefinition Height="*"></RowDefinition>
-				</Grid.RowDefinitions>
-				<DataGrid  
-					BorderThickness="0"
-					ItemsSource="{Binding NTMinerFiles}"
-					SelectedItem="{Binding SelectedNTMinerFile}"
-					MouseDoubleClick="DataGrid_MouseDoubleClick">
-					<DataGrid.Resources>
-						<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
-					</DataGrid.Resources>
-					<DataGrid.Columns>
-						<DataGridTemplateColumn Width="*" IsReadOnly="True" Header="版本号">
-							<DataGridTemplateColumn.CellTemplate>
-								<DataTemplate>
-									<TextBlock Text="{Binding Version}"></TextBlock>
-								</DataTemplate>
-							</DataGridTemplateColumn.CellTemplate>
-						</DataGridTemplateColumn>
-						<DataGridTemplateColumn Width="*" IsReadOnly="True" Header="别名">
-							<DataGridTemplateColumn.CellTemplate>
-								<DataTemplate>
-									<TextBlock Text="{Binding VersionTag}"></TextBlock>
-								</DataTemplate>
-							</DataGridTemplateColumn.CellTemplate>
-						</DataGridTemplateColumn>
-						<DataGridTextColumn IsReadOnly="True" Header="时间" Binding="{Binding PublishOnText}"></DataGridTextColumn>
-						<DataGridTemplateColumn 
-							IsReadOnly="True"
-							Visibility="{Binding Data.IsDebugModeVisible,Source={StaticResource proxy}}">
-							<DataGridTemplateColumn.Header>
-								<controls:KbButton  
-									Command="{Binding Data.AddNTMinerFile, Source={StaticResource proxy}}" 
-									Background="Transparent" BorderThickness="0"
-									Margin="2 0"
-									CornerRadius="2" ToolTip="添加">
-									<WrapPanel>
-										<Path
-											Width="18"
-											Height="18"
-											Data="{StaticResource Icon_Add}"
-											Fill="{StaticResource IconFillColor}"
-											Stretch="Fill" />
-									</WrapPanel>
-								</controls:KbButton>
-							</DataGridTemplateColumn.Header>
-							<DataGridTemplateColumn.CellTemplate>
-								<DataTemplate>
-									<StackPanel HorizontalAlignment="Right" Background="Transparent" VerticalAlignment="Center" Orientation="Horizontal">
-										<controls:KbButton 
-											Command="{Binding Edit}" 
-											Background="Transparent" BorderThickness="0"
-											Margin="2 0"
-											CornerRadius="2">
-											<WrapPanel>
-												<Path
-													Width="18"
-													Height="18"
-													Data="{StaticResource Icon_Edit}"
-													Fill="{StaticResource IconFillColor}"
-													Stretch="Fill" />
-											</WrapPanel>
-										</controls:KbButton>
-										<controls:KbButton 
-											Command="{Binding Remove}" 
-											Background="Transparent" BorderThickness="0"
-											Margin="2 0"
-											CornerRadius="2">
-											<WrapPanel>
-												<Path
-													Width="18"
-													Height="18"
-													Data="{StaticResource Icon_Delete}"
-													Fill="{StaticResource IconFillColor}"
-													Stretch="Fill" />
-											</WrapPanel>
-										</controls:KbButton>
-									</StackPanel>
-								</DataTemplate>
-							</DataGridTemplateColumn.CellTemplate>
-						</DataGridTemplateColumn>
-					</DataGrid.Columns>
-				</DataGrid>
-				<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Red" Visibility="{Binding NTMinerFiles, Converter={StaticResource NoRecordVisibilityConverter}}" Grid.Column="1">没有记录</TextBlock>
-			</Grid>
-			<!--end历史版本列表-->
+            <uc:LatestUc></uc:LatestUc>
+            <uc:HistoryUc></uc:HistoryUc>
 			
 			<!--start下方两个大按钮和下载进度条-->
 			<Grid Grid.Row="1" Height="140" Background="White" Visibility="{Binding IsReady, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -250,7 +117,7 @@
 			VerticalAlignment="Bottom"
 			Background="Transparent"
 			BorderThickness="0"
-			Width="60"
+			Width="66"
 			Margin="0 0 4 4"
 			Content="{Binding BtnShowHistoryText}">
 		</controls:KbButton>

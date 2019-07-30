@@ -7,7 +7,7 @@ namespace NTMiner.Core {
         }
 
         public WalletData(IWallet data) {
-            this.Id = data.CoinId;
+            this.Id = data.GetId();
             this.CoinId = data.CoinId;
             this.Name = data.Name;
             this.Address = data.Address;
@@ -29,13 +29,7 @@ namespace NTMiner.Core {
         public int SortNumber { get; set; }
 
         public StringBuilder GetSignData() {
-            StringBuilder sb = new StringBuilder();
-            sb.Append(nameof(Id)).Append(Id)
-                .Append(nameof(CoinId)).Append(CoinId)
-                .Append(nameof(Name)).Append(Name)
-                .Append(nameof(Address)).Append(Address)
-                .Append(nameof(SortNumber)).Append(SortNumber);
-            return sb;
+            return this.BuildSign();
         }
     }
 }

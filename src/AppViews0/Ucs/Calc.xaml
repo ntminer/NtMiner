@@ -13,65 +13,101 @@
 	<UserControl.DataContext>
 		<vm:CalcViewModel></vm:CalcViewModel>
 	</UserControl.DataContext>
-	<ScrollViewer 
-		VerticalScrollBarVisibility="Auto" 
-		PreviewMouseDown="ScrollViewer_PreviewMouseDown">
-		<ItemsControl 
-			x:Name="ItemsControl"
-			HorizontalAlignment="Center"
-			Background="Transparent"
-			ItemsSource="{Binding CoinVms.AllCoins}"
-			ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-			BorderThickness="0">
-			<ItemsControl.ItemsPanel>
-				<ItemsPanelTemplate>
-					<WrapPanel>
-					</WrapPanel>
-				</ItemsPanelTemplate>
-			</ItemsControl.ItemsPanel>
-			<ItemsControl.ItemTemplate>
-				<DataTemplate>
-					<Border Margin="10 0" Padding="20 4 0 4" Background="{Binding CoinIncomeVm.BackgroundBrush}" BorderBrush="{StaticResource LineColor}" BorderThickness="0 0 0 1">
-						<WrapPanel>
-							<StackPanel Width="80">
-								<Image Width="30" Height="30" Source="{Binding IconImageSource}">
-								</Image>
-								<TextBlock Text="{Binding Code}" HorizontalAlignment="Center"></TextBlock>
-							</StackPanel>
-							<StackPanel Width="180" Margin="6 0 0 0">
-								<WrapPanel>
-									<TextBlock Height="30" FontSize="16" FontWeight="Bold" Text="{Binding CoinIncomeVm.CoinPriceCnyText}"></TextBlock>
-									<TextBlock Text="￥" FontSize="16"></TextBlock>
-								</WrapPanel>
-								<TextBlock VerticalAlignment="Bottom" Text="{Binding CoinIncomeVm.ModifiedOnText}" Foreground="{StaticResource LableColor}"></TextBlock>
-							</StackPanel>
-							<TextBox Width="80" Text="{Binding CoinIncomeVm.Speed, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center"></TextBox>
-							<controls:KbComboBox 
-								Width="60"
-								VerticalAlignment="Center"
-								ItemsSource="{x:Static vm:SpeedUnitViewModel.SpeedUnitVms}"
-								DisplayMemberPath="Unit"
-								SelectedValue="{Binding CoinIncomeVm.SpeedUnitVm}">
-							</controls:KbComboBox>
-							<TextBlock Text=" / 日" VerticalAlignment="Center"></TextBlock>
-							<Path
-								Margin="10 0"
-								Width="30"
-								Height="20"
-								Data="{StaticResource Icon_ArrowRight}"
-								Fill="{StaticResource IconFillColor}"
-								Stretch="Fill"/>
-							<StackPanel Width="160">
-								<TextBox FontSize="16" FontWeight="Bold" IsReadOnly="True" BorderThickness="0" Text="{Binding CoinIncomeVm.IncomePerDayText, Mode=OneWay}"></TextBox>
-								<WrapPanel VerticalAlignment="Center">
-									<TextBlock Text="≈ ￥" FontSize="16" VerticalAlignment="Center"></TextBlock>
-									<TextBox IsReadOnly="True" FontSize="16" VerticalAlignment="Center" BorderThickness="0" Text="{Binding CoinIncomeVm.IncomeCnyPerDayText, Mode=OneWay}"></TextBox>
-								</WrapPanel>
-							</StackPanel>
-						</WrapPanel>
-					</Border>
-				</DataTemplate>
-			</ItemsControl.ItemTemplate>
-		</ItemsControl>
-	</ScrollViewer>
+    <Grid>
+        <ScrollViewer 
+		    VerticalScrollBarVisibility="Auto" 
+		    PreviewMouseDown="ScrollViewer_PreviewMouseDown">
+            <ItemsControl 
+			    x:Name="ItemsControl"
+			    HorizontalAlignment="Center"
+			    Background="Transparent"
+			    ItemsSource="{Binding CoinVms.AllCoins}"
+			    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+			    BorderThickness="0">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel>
+                        </WrapPanel>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="10 0" Padding="20 4 0 4" Background="{Binding CoinIncomeVm.BackgroundBrush}" BorderBrush="{StaticResource LineColor}" BorderThickness="0 0 0 1">
+                            <WrapPanel>
+                                <StackPanel Width="80">
+                                    <Image Width="30" Height="30" Source="{Binding IconImageSource}">
+                                    </Image>
+                                    <TextBlock Text="{Binding Code}" HorizontalAlignment="Center"></TextBlock>
+                                </StackPanel>
+                                <StackPanel Width="160" Margin="6 0 0 0">
+                                    <WrapPanel>
+                                        <TextBlock Height="30" FontSize="16" FontWeight="Bold" Text="{Binding CoinIncomeVm.CoinPriceCnyText}"></TextBlock>
+                                        <TextBlock Text="￥" FontSize="16"></TextBlock>
+                                    </WrapPanel>
+                                    <TextBlock VerticalAlignment="Bottom" Text="{Binding CoinIncomeVm.ModifiedOnText}" Foreground="{StaticResource LableColor}"></TextBlock>
+                                </StackPanel>
+                                <TextBox Width="80" Text="{Binding CoinIncomeVm.Speed, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center"></TextBox>
+                                <controls:KbButton 
+					                Padding="4 0"
+					                BorderThickness="1"
+					                BorderBrush="{StaticResource LineColor}"
+					                Height="26"
+                                    Tag="{Binding CoinIncomeVm}"
+                                    Click="UnitButton_Click">
+                                    <WrapPanel>
+                                        <TextBlock Width="34" Padding="0 0 10 0" Foreground="Black" Text="{Binding CoinIncomeVm.SpeedUnitVm.Unit}"></TextBlock>
+                                        <Path
+							                Margin="0 2 0 0"
+							                Width="12"
+							                Height="8"
+							                Data="{StaticResource Icon_ComboBoxToogle}"
+							                Fill="Black"
+							                Stretch="Fill" />
+                                    </WrapPanel>
+                                </controls:KbButton>
+                                <TextBlock Text=" / 日" VerticalAlignment="Center"></TextBlock>
+                                <Path
+								    Margin="10 0"
+								    Width="30"
+								    Height="20"
+								    Data="{StaticResource Icon_ArrowRight}"
+								    Fill="{StaticResource IconFillColor}"
+								    Stretch="Fill"/>
+                                <StackPanel Width="180">
+                                    <TextBox FontSize="16" FontWeight="Bold" IsReadOnly="True" BorderThickness="0" Text="{Binding CoinIncomeVm.IncomePerDayText, Mode=OneWay}"></TextBox>
+                                    <WrapPanel VerticalAlignment="Center">
+                                        <TextBlock Text="≈ ￥" FontSize="16" VerticalAlignment="Center"></TextBlock>
+                                        <TextBox IsReadOnly="True" FontSize="16" VerticalAlignment="Center" BorderThickness="0" Text="{Binding CoinIncomeVm.IncomeCnyPerDayText, Mode=OneWay}"></TextBox>
+                                    </WrapPanel>
+                                </StackPanel>
+                            </WrapPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+        <Popup 
+		    x:Name="PopupMain" 
+		    PopupAnimation="Slide" 
+		    Placement="Bottom" 
+            Opened="PopupMain_Opened"
+            Closed="PopupMain_Closed"
+		    StaysOpen="False">
+            <ListBox
+                Width="56"
+                Padding="0"
+			    ItemsSource="{x:Static vm:SpeedUnitViewModel.SpeedUnitVms}"
+			    SelectedItem="{Binding SpeedUnitVm}"
+                SelectionChanged="ListBox_SelectionChanged"
+			    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+			    ScrollViewer.VerticalScrollBarVisibility="Disabled"
+			    BorderThickness="1">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Padding="4" Text="{Binding Unit}"></TextBlock>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Popup>
+    </Grid>
 </UserControl>

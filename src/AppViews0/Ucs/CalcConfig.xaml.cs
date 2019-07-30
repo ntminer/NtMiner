@@ -32,8 +32,8 @@ namespace NTMiner.Views.Ucs {
 
         private CalcConfig() {
             InitializeComponent();
-            this.RunOneceOnLoaded(() => {
-                Window.GetWindow(this).On<CalcConfigSetInitedEvent>("收益计算器数据集刷新后刷新VM", LogEnum.DevConsole,
+            this.RunOneceOnLoaded((window) => {
+                window.On<CalcConfigSetInitedEvent>("收益计算器数据集刷新后刷新VM", LogEnum.DevConsole,
                     action: message => {
                         UIThread.Execute(() => {
                             Vm.Refresh();

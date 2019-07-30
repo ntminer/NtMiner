@@ -14,12 +14,12 @@ namespace NTMiner.Windows {
             Continus = 0x80000000,
         }
 
-        public static void Restart() {
-            Cmd.RunClose("shutdown", "-r -f -t 0");
+        public static void Restart(int delaySeconds = 0) {
+            Cmd.RunClose("shutdown", "-r -f -t " + delaySeconds);
         }
 
-        public static void Shutdown() {
-            Cmd.RunClose("shutdown", "-s -f -t 0");
+        public static void Shutdown(int delaySeconds = 0) {
+            Cmd.RunClose("shutdown", "-s -f -t " + delaySeconds);
         }
 
         /// <summary>
@@ -29,6 +29,10 @@ namespace NTMiner.Windows {
             SetThreadExecutionState(ExecutionFlag.System | ExecutionFlag.Display | ExecutionFlag.Continus);
         }
 
+        /// <summary>
+        /// 关闭系统休眠
+        /// </summary>
+        /// <returns></returns>
         public static bool PowerCfgOff() {
             try {
                 int exitcode = -1;

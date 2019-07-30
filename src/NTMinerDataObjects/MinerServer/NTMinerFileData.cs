@@ -30,16 +30,7 @@ namespace NTMiner.MinerServer {
         public string Description { get; set; }
 
         public StringBuilder GetSignData() {
-            StringBuilder sb = new StringBuilder();
-            sb.Append(nameof(Id)).Append(Id)
-                .Append(nameof(FileName)).Append(FileName)
-                .Append(nameof(Version)).Append(Version)
-                .Append(nameof(VersionTag)).Append(VersionTag)
-                .Append(nameof(CreatedOn)).Append(CreatedOn.ToUlong())
-                .Append(nameof(PublishOn)).Append(PublishOn.ToUlong())
-                .Append(nameof(Title)).Append(Title)
-                .Append(nameof(Description)).Append(Description);
-            return sb;
+            return this.BuildSign();
         }
 
         public Version GetVersion() {

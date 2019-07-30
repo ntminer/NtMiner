@@ -57,6 +57,16 @@ namespace NTMiner.Ip {
             }
         }
 
+        public static bool IsLocalHost(string ipAddress) {
+            if (string.IsNullOrEmpty(ipAddress)) {
+                return false;
+            }
+            if (ipAddress == "localhost" || ipAddress == "127.0.0.1") {
+                return true;
+            }
+            return false;
+        }
+
         /// <summary>
         /// 把IP地址转换为Long型数字
         /// </summary>

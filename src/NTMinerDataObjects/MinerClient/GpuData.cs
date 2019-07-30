@@ -10,11 +10,8 @@
         public ulong TotalMemory { get; set; }
 
         public int CoreClockDeltaMin { get; set; }
-
         public int CoreClockDeltaMax { get; set; }
-
         public int MemoryClockDeltaMin { get; set; }
-
         public int MemoryClockDeltaMax { get; set; }
         public int CoolMin { get; set; }
         public int CoolMax { get; set; }

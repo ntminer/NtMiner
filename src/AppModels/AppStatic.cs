@@ -19,7 +19,7 @@ namespace NTMiner {
         #region Upgrade
         public static void Upgrade(string fileName, Action callback) {
             try {
-                string updaterDirFullName = Path.Combine(AssemblyInfo.GlobalDirFullName, "Updater");
+                string updaterDirFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "Updater");
                 if (!Directory.Exists(updaterDirFullName)) {
                     Directory.CreateDirectory(updaterDirFullName);
                 }
@@ -70,7 +70,7 @@ namespace NTMiner {
                             }));
                         }
                         else {
-                            NTMiner.Windows.Cmd.RunClose(ntMinerUpdaterFileFullName, argument);
+                            Windows.Cmd.RunClose(ntMinerUpdaterFileFullName, argument);
                             callback?.Invoke();
                         }
                     }
@@ -86,7 +86,7 @@ namespace NTMiner {
         #endregion
 
         public static bool IsMinerClient {
-            get => NTMinerRoot.IsMinerClient;
+            get => VirtualRoot.IsMinerClient;
         }
 
         public static string AppName {
@@ -116,6 +116,15 @@ namespace NTMiner {
         public static Visibility IsDevModeVisible {
             get {
                 if (DevMode.IsDevMode) {
+                    return Visibility.Visible;
+                }
+                return Visibility.Collapsed;
+            }
+        }
+
+        public static Visibility IsAmdGpuVisible {
+            get {
+                if (NTMinerRoot.Instance.GpuSet.GpuType == GpuType.AMD) {
                     return Visibility.Visible;
                 }
                 return Visibility.Collapsed;
@@ -231,6 +240,12 @@ namespace NTMiner {
             }
         }
 
+        public static string VersionFullName {
+            get {
+                return $"v{NTMinerRoot.CurrentVersion}({VersionTag})";
+            }
+        }
+
         public static string QQGroup {
             get {
                 if (Design.IsInDesignMode) {
@@ -309,10 +324,6 @@ namespace NTMiner {
                     NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage($"刷新失败");
                 }
             }, icon: IconConst.IconConfirm));
-        });
-
-        public static ICommand WindowsAutoLogon { get; private set; } = new DelegateCommand(() => {
-            Windows.Cmd.RunClose("control", "userpasswords2");
         });
 
         public static ICommand ShowUsers { get; private set; } = new DelegateCommand(() => {
@@ -400,7 +411,7 @@ namespace NTMiner {
             VirtualRoot.Execute(new UpgradeCommand(string.Empty, null));
         });
         public static ICommand ShowHelp { get; private set; } = new DelegateCommand(() => {
-            Process.Start("https://github.com/ntminer/ntminer");
+            Process.Start("http://ntminer.com/");
         });
         public static ICommand ShowMinerClients { get; private set; } = new DelegateCommand(() => {
             VirtualRoot.Execute(new ShowMinerClientsWindowCommand());
@@ -409,7 +420,7 @@ namespace NTMiner {
             VirtualRoot.Execute(new ShowCalcConfigCommand());
         });
         public static ICommand ShowGlobalDir { get; private set; } = new DelegateCommand(() => {
-            Process.Start(AssemblyInfo.GlobalDirFullName);
+            Process.Start(AssemblyInfo.LocalDirFullName);
         });
         public static ICommand OpenLocalLiteDb { get; private set; } = new DelegateCommand(() => {
             OpenLiteDb(SpecialPath.LocalDbFileFullName);
@@ -419,7 +430,7 @@ namespace NTMiner {
         });
 
         private static void OpenLiteDb(string dbFileFullName) {
-            string liteDbExplorerDir = Path.Combine(AssemblyInfo.GlobalDirFullName, "LiteDBExplorerPortable");
+            string liteDbExplorerDir = Path.Combine(AssemblyInfo.LocalDirFullName, "LiteDBExplorerPortable");
             string liteDbExplorerFileFullName = Path.Combine(liteDbExplorerDir, "LiteDbExplorer.exe");
             if (!Directory.Exists(liteDbExplorerDir)) {
                 Directory.CreateDirectory(liteDbExplorerDir);
@@ -449,7 +460,11 @@ namespace NTMiner {
         });
 
         public static ICommand OpenOfficialSite { get; private set; } = new DelegateCommand(() => {
-            Process.Start("https://github.com/ntminer-project/ntminer");
+            Process.Start("http://ntminer.com/");
+        });
+
+        public static ICommand BusinessModel { get; private set; } = new DelegateCommand(() => {
+            Process.Start("https://www.loserhub.cn/posts/details/52");
         });
 
         public static ICommand OpenGithub { get; private set; } = new DelegateCommand(() => {

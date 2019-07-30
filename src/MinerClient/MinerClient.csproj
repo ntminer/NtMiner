@@ -81,6 +81,10 @@
       <HintPath>..\..\packages\Costura.Fody.1.6.2\lib\portable-net+sl+win+wpa+wp\Costura.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Interop.NetFwTypeLib">
+      <HintPath>..\ThirdPartyDlls\Interop.NetFwTypeLib.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="LiveCharts, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
       <HintPath>..\..\packages\LiveCharts.0.9.7\lib\net40\LiveCharts.dll</HintPath>
     </Reference>
@@ -100,6 +104,8 @@
   <ItemGroup>
     <Compile Include="App.xaml.cs" />
     <Compile Include="AtikmdagPatcher\AtikmdagPatcherUtil.cs" />
+    <Compile Include="RemoteDesktopEnabler\Rdp.cs" />
+    <Compile Include="RemoteDesktopEnabler\Firewall.cs" />
     <Compile Include="SwitchRadeonGpu\SwitchRadeonGpu.cs" />
     <Compile Include="Views\HandlerIdsWindow.xaml.cs">
       <DependentUpon>HandlerIdsWindow.xaml</DependentUpon>

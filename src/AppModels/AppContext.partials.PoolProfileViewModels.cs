@@ -19,7 +19,7 @@ namespace NTMiner {
                             vm.OnPropertyChanged(message.PropertyName);
                         }
                     });
-                VirtualRoot.On<LocalContextReInitedEvent>("MinerProfile刷新后刷新VM内存", LogEnum.DevConsole,
+                VirtualRoot.On<LocalContextReInitedEvent>("LocalContext刷新后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById.Clear();
                     });

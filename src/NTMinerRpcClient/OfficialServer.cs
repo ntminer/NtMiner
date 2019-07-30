@@ -13,14 +13,18 @@ namespace NTMiner {
         public static readonly CalcConfigServiceFace CalcConfigService = CalcConfigServiceFace.Instance;
 
         #region private methods
-        private static void PostAsync<T>(string controller, string action, object param, Action<T, Exception> callback, int timeountMilliseconds = 0) where T : class {
+        private static void PostAsync<T>(string controller, string action, Dictionary<string, string> query, object param, Action<T, Exception> callback, int timeountMilliseconds = 0) where T : class {
             Task.Factory.StartNew(() => {
                 try {
                     using (HttpClient client = new HttpClient()) {
                         if (timeountMilliseconds != 0) {
                             client.Timeout = TimeSpan.FromMilliseconds(timeountMilliseconds);
                         }
-                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{AssemblyInfo.OfficialServerHost}:{Consts.ControlCenterPort}/api/{controller}/{action}", param);
+                        string queryString = string.Empty;
+                        if (query != null && query.Count != 0) {
+                            queryString = "?" + string.Join("&", query.Select(a => a.Key + "=" + a.Value));
+                        }
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{AssemblyInfo.OfficialServerHost}:{Consts.ControlCenterPort}/api/{controller}/{action}{queryString}", param);
                         T response = message.Result.Content.ReadAsAsync<T>().Result;
                         callback?.Invoke(response, null);
                     }
@@ -63,7 +67,7 @@ namespace NTMiner {
             AppSettingRequest request = new AppSettingRequest {
                 Key = key
             };
-            PostAsync("AppSetting", nameof(IAppSettingController.GetJsonFileVersion), request, (string text, Exception e) => {
+            PostAsync("AppSetting", nameof(IAppSettingController.GetJsonFileVersion), null, request, (string text, Exception e) => {
                 string jsonFileVersion = string.Empty;
                 string minerClientVersion = string.Empty;
                 if (!string.IsNullOrEmpty(text)) {

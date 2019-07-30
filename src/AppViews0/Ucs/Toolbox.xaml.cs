@@ -1,6 +1,6 @@
 ﻿using NTMiner.Core;
 using NTMiner.Vms;
-using System.Windows;
+using System;
 using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
@@ -24,8 +24,13 @@ namespace NTMiner.Views.Ucs {
             if (Design.IsInDesignMode) {
                 return;
             }
-            this.RunOneceOnLoaded(() => {
-                var window = Window.GetWindow(this);
+            this.RunOneceOnLoaded((window) => {
+                window.Activated += (object sender, EventArgs e) => {
+                    Vm.OnPropertyChanged(nameof(Vm.IsAutoAdminLogon));
+                    Vm.OnPropertyChanged(nameof(Vm.AutoAdminLogonMessage));
+                    Vm.OnPropertyChanged(nameof(Vm.IsRemoteDesktopEnabled));
+                    Vm.OnPropertyChanged(nameof(Vm.RemoteDesktopMessage));
+                };
                 window.On<RegCmdHereEvent>("执行添加windows右键命令行命令后通过弹窗反馈命令执行结果", LogEnum.None,
                     action: message => {
                         if (message.IsSuccess) {

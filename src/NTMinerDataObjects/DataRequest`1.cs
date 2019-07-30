@@ -2,15 +2,10 @@
 using System.Text;
 
 namespace NTMiner {
-    public class DataRequest<T> : RequestBase, ISignatureRequest {
+    public class DataRequest<T> : RequestBase, IGetSignData {
         public DataRequest() { }
-        public string LoginName { get; set; }
+        [ManualSign]
         public T Data { get; set; }
-        public string Sign { get; set; }
-
-        public void SignIt(string password) {
-            this.Sign = this.GetSign(password);
-        }
 
         private string GetData() {
             Type dataType = typeof(T);
@@ -28,16 +23,9 @@ namespace NTMiner {
             return Data.ToString();
         }
 
-        public string GetSign(string password) {
-            StringBuilder sb = GetSignData().Append(nameof(UserData.Password)).Append(password);
-            return HashUtil.Sha1(sb.ToString());
-        }
-
         public StringBuilder GetSignData() {
-            StringBuilder sb = new StringBuilder();
-            sb.Append(nameof(LoginName)).Append(LoginName)
-                .Append(nameof(Data)).Append(GetData())
-                .Append(nameof(Timestamp)).Append(Timestamp.ToUlong());
+            StringBuilder sb = this.BuildSign();
+            sb.Append(nameof(Data)).Append(GetData());
             return sb;
         }
     }

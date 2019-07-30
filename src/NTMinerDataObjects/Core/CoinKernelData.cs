@@ -34,6 +34,8 @@ namespace NTMiner.Core {
 
         public bool IsHot { get; set; }
 
+        public bool IsRecommend { get; set; }
+
         public List<EnvironmentVariable> EnvironmentVariables { get; set; }
 
         public List<InputSegment> InputSegments { get; set; }

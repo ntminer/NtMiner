@@ -19,9 +19,27 @@ namespace NTMiner.Vms {
             get { return Windows.OS.Instance.IsAutoAdminLogon; }
         }
 
+        public string AutoAdminLogonToolTip {
+            get {
+                if (IsAutoAdminLogon) {
+                    return "Windows开机自动登录已启用";
+                }
+                return "未启用Windows开机自动登录";
+            }
+        }
+
         public bool IsRemoteDesktopEnabled {
             get {
-                return (int)Windows.WinRegistry.GetValue(Registry.LocalMachine, "SYSTEM\\CurrentControlSet\\Control\\Terminal Server", "fDenyTSConnections") == 0;
+                return NTMinerRoot.GetIsRemoteDesktopEnabled();
+            }
+        }
+
+        public string RemoteDesktopToolTip {
+            get {
+                if (IsRemoteDesktopEnabled) {
+                    return "Windows远程桌面已启用";
+                }
+                return "Windows远程桌面已禁用";
             }
         }
 
@@ -43,15 +61,17 @@ namespace NTMiner.Vms {
         private DateTime _now = DateTime.MinValue;
         public void UpdateDateTime() {
             DateTime now = DateTime.Now;
-            if (_now.Minute != now.Minute) {
+            if (_now.Minute != now.Minute || _now == DateTime.MinValue) {
                 this.TimeText = now.ToString("H:mm");
             }
-            if (_now.Hour != now.Hour) {
+            if (_now.Hour != now.Hour || _now == DateTime.MinValue) {
                 this.DateText = now.ToString("yyyy/M/d");
             }
         }
 
         public ICommand ConfigControlCenterHost { get; private set; }
+        public ICommand WindowsAutoLogon { get; private set; }
+        public ICommand EnableWindowsRemoteDesktop { get; private set; }
 
         public StateBarViewModel() {
             if (Design.IsInDesignMode) {
@@ -61,17 +81,27 @@ namespace NTMiner.Vms {
             this.ConfigControlCenterHost = new DelegateCommand(() => {
                 VirtualRoot.Execute(new ShowControlCenterHostConfigCommand());
             });
-            if (NTMinerRoot.CurrentVersion.ToString() != NTMinerRoot.ServerVersion) {
-                _checkUpdateForeground = new SolidColorBrush(Colors.Red);
+            this.WindowsAutoLogon = new DelegateCommand(() => {
+                VirtualRoot.Execute(new EnableOrDisableWindowsAutoLoginCommand());
+            });
+            this.EnableWindowsRemoteDesktop = new DelegateCommand(() => {
+                VirtualRoot.Execute(new EnableWindowsRemoteDesktopCommand());
+            });
+            SetCheckUpdateForeground(isLatest: NTMinerRoot.CurrentVersion.ToString() == NTMinerRoot.ServerVersion);
+        }
+
+        public void SetCheckUpdateForeground(bool isLatest) {
+            if (isLatest) {
+                CheckUpdateForeground = (SolidColorBrush)Application.Current.Resources["LableColor"];
             }
             else {
-                _checkUpdateForeground = new SolidColorBrush(Colors.Black);
+                CheckUpdateForeground = new SolidColorBrush(Colors.Red);
             }
         }
 
         public SolidColorBrush CheckUpdateForeground {
             get => _checkUpdateForeground;
-            set {
+            private set {
                 _checkUpdateForeground = value;
                 OnPropertyChanged(nameof(CheckUpdateForeground));
             }

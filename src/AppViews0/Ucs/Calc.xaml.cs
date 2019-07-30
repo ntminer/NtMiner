@@ -39,8 +39,7 @@ namespace NTMiner.Views.Ucs {
 
         private Calc() {
             InitializeComponent();
-            this.RunOneceOnLoaded(() => {
-                var window = Window.GetWindow(this);
+            this.RunOneceOnLoaded((window) => {
                 window.On<CalcConfigSetInitedEvent>("收益计算器数据集刷新后刷新VM", LogEnum.DevConsole,
                     action: message => {
                         UIThread.Execute(() => {
@@ -58,14 +57,48 @@ namespace NTMiner.Views.Ucs {
                             NTMinerRoot.Instance.CalcConfigSet.Init(forceRefresh: true);
                         }
                     });
-                foreach (var coinVm in Vm.CoinVms.AllCoins) {
-                    coinVm.CoinIncomeVm.Refresh();
-                }
+                NTMinerRoot.Instance.CalcConfigSet.Init(forceRefresh: true);
             });
         }
 
-        private void ScrollViewer_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+        private void ScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
             Wpf.Util.ScrollViewer_PreviewMouseDown(sender, e);
+        }
+
+        private void UnitButton_Click(object sender, RoutedEventArgs e) {
+            var fe = (FrameworkElement)sender;
+            PopupMain.PlacementTarget = fe;
+            PopupMain.IsOpen = true;
+            _dump = true;
+            var speedUnitVm = ((CoinIncomeViewModel)fe.Tag).SpeedUnitVm;
+            Vm.SpeedUnitVm = speedUnitVm;
+            _dump = false;
+            e.Handled = true;
+        }
+
+        private bool _dump = false;
+        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            var fe = (FrameworkElement)PopupMain.PlacementTarget;
+            if (fe != null && PopupMain.IsOpen) {
+                ((CoinIncomeViewModel)fe.Tag).SpeedUnitVm = Vm.SpeedUnitVm;
+            }
+            if (!_dump) {
+                PopupMain.IsOpen = false;
+            }
+        }
+
+        private void PopupMain_Opened(object sender, EventArgs e) {
+            var fe = (FrameworkElement)PopupMain.PlacementTarget;
+            if (fe != null) {
+                fe.IsEnabled = !PopupMain.IsOpen;
+            }
+        }
+
+        private void PopupMain_Closed(object sender, EventArgs e) {
+            var fe = (FrameworkElement)PopupMain.PlacementTarget;
+            if (fe != null) {
+                fe.IsEnabled = !PopupMain.IsOpen;
+            }
         }
     }
 }

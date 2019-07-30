@@ -34,15 +34,6 @@ namespace NTMiner {
 
         public static bool IsAutoStartCanceled = false;
 
-        private static bool _isMinerClient;
-        public static bool IsMinerClient {
-            get => _isMinerClient;
-        }
-
-        public static void SetIsMinerClient(bool value) {
-            _isMinerClient = value;
-        }
-
         public static bool IsKernelBrand {
             get {
                 return KernelBrandId != Guid.Empty;
@@ -115,7 +106,7 @@ namespace NTMiner {
                         if (!string.IsNullOrEmpty(localJson)) {
                             try {
                                 LocalJsonDb data = VirtualRoot.JsonSerializer.Deserialize<LocalJsonDb>(localJson);
-                                _localJson = data;
+                                _localJson = data ?? new LocalJsonDb();
                             }
                             catch (Exception e) {
                                 Logger.ErrorDebugLine(e);
@@ -123,6 +114,18 @@ namespace NTMiner {
                         }
                         else {
                             _localJson = new LocalJsonDb();
+                        }
+                        // 这里的逻辑是，当用户在主界面填写矿工名时，矿工名会被交换到注册表从而当用户使用群控但没有填写群控矿工名时作为缺省矿工名
+                        // 但是旧版本的挖矿端并没有把矿工名交换到注册表去所以当注册表中没有矿工名时需读取local.litedb中的矿工名
+                        if (string.IsNullOrEmpty(_localJson.MinerProfile.MinerName)) {
+                            _localJson.MinerProfile.MinerName = GetMinerName();
+                            if (string.IsNullOrEmpty(_localJson.MinerProfile.MinerName)) {
+                                var repository = CreateLocalRepository<Profile.MinerProfileData>(isUseJson: false);
+                                Profile.MinerProfileData data = repository.GetByKey(Profile.MinerProfileData.DefaultId);
+                                if (data != null) {
+                                    _localJson.MinerProfile.MinerName = data.MinerName;
+                                }
+                            }
                         }
                         _localJsonInited = true;
                     }
@@ -202,6 +205,7 @@ namespace NTMiner {
             ServerJsonDb serverJsonObj = new ServerJsonDb(Instance);
             serverJsonObj.CutJsonSize();
             string json = VirtualRoot.JsonSerializer.Serialize(serverJsonObj);
+            serverJsonObj.UnCut();
             File.WriteAllText(jsonFileFullName, json);
         }
 
@@ -278,6 +282,17 @@ namespace NTMiner {
         }
         #endregion
 
+        #region MinerName 非群控模式时将矿工名交换到注册表从而作为群控模式时未指定矿工名的缺省矿工名
+        public static string GetMinerName() {
+            object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "MinerName");
+            return (value ?? string.Empty).ToString();
+        }
+
+        public static void SetMinerName(string value) {
+            Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "MinerName", value);
+        }
+        #endregion
+
         #region IsShowInTaskbar
         public static bool GetIsShowInTaskbar() {
             object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "IsShowInTaskbar");
@@ -337,6 +352,17 @@ namespace NTMiner {
         }
         #endregion
 
+        #region IsCloseMeanExit
+        public static bool GetIsCloseMeanExit() {
+            object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "IsCloseMeanExit");
+            return value != null && value.ToString() == "True";
+        }
+
+        public static void SetIsCloseMeanExit(bool value) {
+            Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "IsCloseMeanExit", value);
+        }
+        #endregion
+
         #region IsShowCommandLine
         public static bool GetIsShowCommandLine() {
             object isAutoBootValue = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "IsShowCommandLine");
@@ -345,6 +371,12 @@ namespace NTMiner {
 
         public static void SetIsShowCommandLine(bool value) {
             Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "IsShowCommandLine", value);
+        }
+        #endregion
+
+        #region GetIsRemoteDesktopEnabled
+        public static bool GetIsRemoteDesktopEnabled() {
+            return (int)Windows.WinRegistry.GetValue(Registry.LocalMachine, "SYSTEM\\CurrentControlSet\\Control\\Terminal Server", "fDenyTSConnections") == 0;
         }
         #endregion
     }

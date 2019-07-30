@@ -14,35 +14,27 @@ namespace NTMiner {
             }
 
             public void RestartWindowsAsync(IClientData client, Action<ResponseBase, Exception> callback) {
-                SignatureRequest innerRequest = new SignatureRequest {
-                    LoginName = SingleUser.LoginName
+                SignRequest innerRequest = new SignRequest {
                 };
-                innerRequest.SignIt(SingleUser.GetRemotePassword(client.ClientId));
-                WrapperRequest<SignatureRequest> request = new WrapperRequest<SignatureRequest> {
+                WrapperRequest<SignRequest> request = new WrapperRequest<SignRequest> {
                     ObjectId = client.GetId(),
                     ClientId = client.ClientId,
-                    LoginName = SingleUser.LoginName,
                     InnerRequest = innerRequest,
                     ClientIp = client.MinerIp
                 };
-                request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(SControllerName, nameof(IWrapperMinerClientController.RestartWindows), null, request, callback);
+                PostAsync(SControllerName, nameof(IWrapperMinerClientController.RestartWindows), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
             }
 
             public void ShutdownWindowsAsync(IClientData client, Action<ResponseBase, Exception> callback) {
-                SignatureRequest innerRequest = new SignatureRequest {
-                    LoginName = SingleUser.LoginName
+                SignRequest innerRequest = new SignRequest {
                 };
-                innerRequest.SignIt(SingleUser.GetRemotePassword(client.ClientId));
-                WrapperRequest<SignatureRequest> request = new WrapperRequest<SignatureRequest> {
+                WrapperRequest<SignRequest> request = new WrapperRequest<SignRequest> {
                     ObjectId = client.GetId(),
                     ClientId = client.ClientId,
-                    LoginName = SingleUser.LoginName,
                     InnerRequest = innerRequest,
                     ClientIp = client.MinerIp
                 };
-                request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(SControllerName, nameof(IWrapperMinerClientController.ShutdownWindows), null, request, callback);
+                PostAsync(SControllerName, nameof(IWrapperMinerClientController.ShutdownWindows), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
             }
 
             // ReSharper disable once InconsistentNaming
@@ -53,30 +45,24 @@ namespace NTMiner {
                 WrapperRequest<WorkRequest> request = new WrapperRequest<WorkRequest> {
                     ObjectId = client.GetId(),
                     ClientId = client.ClientId,
-                    LoginName = SingleUser.LoginName,
                     InnerRequest = innerRequest,
                     ClientIp = client.MinerIp
                 };
-                request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(SControllerName, nameof(IWrapperMinerClientController.RestartNTMiner), null, request, callback);
+                PostAsync(SControllerName, nameof(IWrapperMinerClientController.RestartNTMiner), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
             }
 
             // ReSharper disable once InconsistentNaming
             public void UpgradeNTMinerAsync(IClientData client, string ntminerFileName, Action<ResponseBase, Exception> callback) {
                 UpgradeNTMinerRequest innerRequest = new UpgradeNTMinerRequest {
-                    LoginName = SingleUser.LoginName,
                     NTMinerFileName = ntminerFileName
                 };
-                innerRequest.SignIt(SingleUser.GetRemotePassword(client.ClientId));
                 WrapperRequest<UpgradeNTMinerRequest> request = new WrapperRequest<UpgradeNTMinerRequest> {
                     ObjectId = client.GetId(),
                     ClientId = client.ClientId,
-                    LoginName = SingleUser.LoginName,
                     InnerRequest = innerRequest,
                     ClientIp = client.MinerIp
                 };
-                request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(SControllerName, nameof(IWrapperMinerClientController.UpgradeNTMiner), null, request, callback);
+                PostAsync(SControllerName, nameof(IWrapperMinerClientController.UpgradeNTMiner), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
             }
 
             public void StartMineAsync(IClientData client, Guid workId, Action<ResponseBase, Exception> callback) {
@@ -86,46 +72,36 @@ namespace NTMiner {
                 WrapperRequest<WorkRequest> request = new WrapperRequest<WorkRequest> {
                     ObjectId = client.GetId(),
                     ClientId = client.ClientId,
-                    LoginName = SingleUser.LoginName,
                     ClientIp = client.MinerIp,
                     InnerRequest = innerRequest
                 };
-                request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(SControllerName, nameof(IWrapperMinerClientController.StartMine), null, request, callback);
+                PostAsync(SControllerName, nameof(IWrapperMinerClientController.StartMine), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
             }
 
             public void StopMineAsync(IClientData client, Action<ResponseBase, Exception> callback) {
-                SignatureRequest innerRequest = new SignatureRequest {
-                    LoginName = SingleUser.LoginName
+                SignRequest innerRequest = new SignRequest {
                 };
-                innerRequest.SignIt(SingleUser.GetRemotePassword(client.ClientId));
-                WrapperRequest<SignatureRequest> request = new WrapperRequest<SignatureRequest> {
+                WrapperRequest<SignRequest> request = new WrapperRequest<SignRequest> {
                     ObjectId = client.GetId(),
                     ClientId = client.ClientId,
-                    LoginName = SingleUser.LoginName,
                     ClientIp = client.MinerIp,
                     InnerRequest = innerRequest
                 };
-                request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(SControllerName, nameof(IWrapperMinerClientController.StopMine), null, request, callback);
+                PostAsync(SControllerName, nameof(IWrapperMinerClientController.StopMine), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
             }
 
             public void SetClientMinerProfilePropertyAsync(IClientData client, string propertyName, object value, Action<ResponseBase, Exception> callback) {
                 SetClientMinerProfilePropertyRequest innerRequest = new SetClientMinerProfilePropertyRequest {
-                    LoginName = SingleUser.LoginName,
                     PropertyName = propertyName,
                     Value = value
                 };
-                innerRequest.SignIt(SingleUser.GetRemotePassword(client.ClientId));
                 WrapperRequest<SetClientMinerProfilePropertyRequest> request = new WrapperRequest<SetClientMinerProfilePropertyRequest> {
                     ObjectId = client.GetId(),
                     ClientId = client.ClientId,
-                    LoginName = SingleUser.LoginName,
                     ClientIp = client.MinerIp,
                     InnerRequest = innerRequest
                 };
-                request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(SControllerName, nameof(IWrapperMinerClientController.SetClientMinerProfileProperty), null, request, callback);
+                PostAsync(SControllerName, nameof(IWrapperMinerClientController.SetClientMinerProfileProperty), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
             }
         }
     }

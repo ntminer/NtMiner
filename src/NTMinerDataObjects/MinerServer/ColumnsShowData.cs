@@ -139,48 +139,7 @@ namespace NTMiner.MinerServer {
         public bool IsPeriodicRestartComputer { get; set; }
 
         public StringBuilder GetSignData() {
-            StringBuilder sb = new StringBuilder();
-            sb.Append(nameof(Id)).Append(Id)
-                .Append(nameof(Work)).Append(Work)
-                .Append(nameof(MinerName)).Append(MinerName)
-                .Append(nameof(ClientName)).Append(ClientName)
-                .Append(nameof(MinerIp)).Append(MinerIp)
-                .Append(nameof(MinerGroup)).Append(MinerGroup)
-                .Append(nameof(MainCoinCode)).Append(MainCoinCode)
-                .Append(nameof(MainCoinSpeedText)).Append(MainCoinSpeedText)
-                .Append(nameof(MainCoinWallet)).Append(MainCoinWallet)
-                .Append(nameof(MainCoinPool)).Append(MainCoinPool)
-                .Append(nameof(Kernel)).Append(Kernel)
-                .Append(nameof(DualCoinCode)).Append(DualCoinCode)
-                .Append(nameof(DualCoinSpeedText)).Append(DualCoinSpeedText)
-                .Append(nameof(DualCoinWallet)).Append(DualCoinWallet)
-                .Append(nameof(DualCoinPool)).Append(DualCoinPool)
-                .Append(nameof(LastActivedOnText)).Append(LastActivedOnText)
-                .Append(nameof(Version)).Append(Version)
-                .Append(nameof(WindowsLoginNameAndPassword)).Append(WindowsLoginNameAndPassword)
-                .Append(nameof(WindowsPassword)).Append(WindowsPassword)
-                .Append(nameof(GpuInfo)).Append(GpuInfo)
-                .Append(nameof(MainCoinRejectPercentText)).Append(MainCoinRejectPercentText)
-                .Append(nameof(DualCoinRejectPercentText)).Append(DualCoinRejectPercentText)
-                .Append(nameof(BootTimeSpanText)).Append(BootTimeSpanText)
-                .Append(nameof(MineTimeSpanText)).Append(MineTimeSpanText)
-                .Append(nameof(IncomeMainCoinPerDayText)).Append(IncomeMainCoinPerDayText)
-                .Append(nameof(IncomeDualCoinPerDayText)).Append(IncomeDualCoinPerDayText)
-                .Append(nameof(IsAutoBoot)).Append(IsAutoBoot)
-                .Append(nameof(IsAutoStart)).Append(IsAutoStart)
-                .Append(nameof(OSName)).Append(OSName)
-                .Append(nameof(OSVirtualMemoryGbText)).Append(OSVirtualMemoryGbText)
-                .Append(nameof(GpuType)).Append(GpuType)
-                .Append(nameof(GpuDriver)).Append(GpuDriver)
-                .Append(nameof(TotalPowerText)).Append(TotalPowerText)
-                .Append(nameof(MaxTempText)).Append(MaxTempText)
-                .Append(nameof(KernelCommandLine)).Append(KernelCommandLine)
-                .Append(nameof(DiskSpace)).Append(DiskSpace)
-                .Append(nameof(IsAutoRestartKernel)).Append(IsAutoRestartKernel)
-                .Append(nameof(IsNoShareRestartKernel)).Append(IsNoShareRestartKernel)
-                .Append(nameof(IsPeriodicRestartKernel)).Append(IsPeriodicRestartKernel)
-                .Append(nameof(IsPeriodicRestartComputer)).Append(IsPeriodicRestartComputer);
-            return sb;
+            return this.BuildSign();
         }
     }
 }

@@ -48,6 +48,10 @@
       <HintPath>..\..\packages\Costura.Fody.1.6.2\lib\portable-net+sl+win+wpa+wp\Costura.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Interop.NetFwTypeLib">
+      <HintPath>..\ThirdPartyDlls\Interop.NetFwTypeLib.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="LiteDB, Version=4.1.4.0, Culture=neutral, PublicKeyToken=4ee40123013c9f27, processorArchitecture=MSIL">
       <HintPath>..\..\packages\LiteDB.4.1.4\lib\net40\LiteDB.dll</HintPath>
     </Reference>
@@ -80,6 +84,12 @@
   <ItemGroup>
     <Compile Include="..\MinerClientSelfHost\HttpServer.cs">
       <Link>HttpServer.cs</Link>
+    </Compile>
+    <Compile Include="..\MinerClient\RemoteDesktopEnabler\Firewall.cs">
+      <Link>RemoteDesktopEnabler\Firewall.cs</Link>
+    </Compile>
+    <Compile Include="..\MinerClient\RemoteDesktopEnabler\Rdp.cs">
+      <Link>RemoteDesktopEnabler\Rdp.cs</Link>
     </Compile>
     <Compile Include="..\NTMiner.Core\Windows\Power.cs">
       <Link>Windows\Power.cs</Link>

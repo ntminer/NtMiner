@@ -47,9 +47,9 @@ namespace NTMiner.Vms {
             get {
                 if (!string.IsNullOrEmpty(Keyword)) {
                     return _sysDicItemVms.Where(a => 
-                        (a.Code != null && a.Code.Contains(Keyword)) || 
-                        (a.Value != null && a.Value.Contains(Keyword)) || 
-                        (a.Description != null && a.Description.Contains(Keyword))).OrderBy(a => a.SortNumber).ToList();
+                        (a.Code != null && a.Code.IgnoreCaseContains(Keyword)) || 
+                        (a.Value != null && a.Value.IgnoreCaseContains(Keyword)) || 
+                        (a.Description != null && a.Description.IgnoreCaseContains(Keyword))).OrderBy(a => a.SortNumber).ToList();
                 }
                 return _sysDicItemVms.OrderBy(a => a.SortNumber).ToList();
             }

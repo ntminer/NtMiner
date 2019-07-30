@@ -44,11 +44,11 @@ namespace NTMiner.Profile {
         public string CustomArgs { get; set; }
 
         public override string ToString() {
-            return $"{CoinKernelId}{IsDualCoinEnabled}{DualCoinId}{DualCoinWeight}{IsAutoDualWeight}{CustomArgs}";
+            return this.BuildSign().ToString();
         }
 
         public StringBuilder GetSignData() {
-            return new StringBuilder(this.ToString());
+            return this.BuildSign();
         }
     }
 }

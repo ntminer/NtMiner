@@ -87,10 +87,24 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Ucs\LatestUc.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Ucs\HistoryUc.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Views\NTMinerFileEdit.xaml.cs">
       <DependentUpon>NTMinerFileEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\LatestUc.xaml.cs">
+      <DependentUpon>LatestUc.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\HistoryUc.xaml.cs">
+      <DependentUpon>HistoryUc.xaml</DependentUpon>
     </Compile>
     <Compile Include="Vms\MainWindowViewModel.cs" />
     <Compile Include="Vms\NTMinerFileViewModel.cs" />

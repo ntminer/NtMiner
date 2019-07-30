@@ -59,11 +59,9 @@ namespace NTMiner {
 
             #region LoginAsync
             public void LoginAsync(string loginName, string password, Action<ResponseBase, Exception> callback) {
-                SignatureRequest request = new SignatureRequest() {
-                    LoginName = loginName
+                SignRequest request = new SignRequest() {
                 };
-                request.SignIt(password);
-                PostAsync(SControllerName, nameof(IControlCenterController.LoginControlCenter), null, request, callback);
+                PostAsync(SControllerName, nameof(IControlCenterController.LoginControlCenter), request.ToQuery(loginName, password), request, callback);
             }
             #endregion
 
@@ -77,11 +75,9 @@ namespace NTMiner {
             public List<UserData> GetUsers(Guid? clientId) {
                 try {
                     DataRequest<Guid?> request = new DataRequest<Guid?> {
-                        LoginName = SingleUser.LoginName,
                         Data = clientId
                     };
-                    request.SignIt(SingleUser.PasswordSha1);
-                    DataResponse<List<UserData>> response = Post<DataResponse<List<UserData>>>(SControllerName, nameof(IControlCenterController.Users), null, request, timeout: 2000);
+                    DataResponse<List<UserData>> response = Post<DataResponse<List<UserData>>>(SControllerName, nameof(IControlCenterController.Users), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, timeout: 2000);
                     if (response != null && response.Data != null) {
                         return response.Data;
                     }
@@ -97,33 +93,27 @@ namespace NTMiner {
             #region AddUserAsync
             public void AddUserAsync(UserData userData, Action<ResponseBase, Exception> callback) {
                 DataRequest<UserData> request = new DataRequest<UserData>() {
-                    LoginName = SingleUser.LoginName,
                     Data = userData
                 };
-                request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(SControllerName, nameof(IControlCenterController.AddUser), null, request, callback);
+                PostAsync(SControllerName, nameof(IControlCenterController.AddUser), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
             }
             #endregion
 
             #region UpdateUserAsync
             public void UpdateUserAsync(UserData userData, Action<ResponseBase, Exception> callback) {
                 DataRequest<UserData> request = new DataRequest<UserData>() {
-                    LoginName = SingleUser.LoginName,
                     Data = userData
                 };
-                request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(SControllerName, nameof(IControlCenterController.UpdateUser), null, request, callback);
+                PostAsync(SControllerName, nameof(IControlCenterController.UpdateUser), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
             }
             #endregion
 
             #region RemoveUserAsync
             public void RemoveUserAsync(string loginName, Action<ResponseBase, Exception> callback) {
                 DataRequest<String> request = new DataRequest<String>() {
-                    LoginName = SingleUser.LoginName,
                     Data = loginName
                 };
-                request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(SControllerName, nameof(IControlCenterController.RemoveUser), null, request, callback);
+                PostAsync(SControllerName, nameof(IControlCenterController.RemoveUser), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
             }
             #endregion
 
@@ -132,11 +122,9 @@ namespace NTMiner {
                 int limit,
                 Action<GetCoinSnapshotsResponse, Exception> callback) {
                 GetCoinSnapshotsRequest request = new GetCoinSnapshotsRequest {
-                    LoginName = SingleUser.LoginName,
                     Limit = limit
                 };
-                request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(SControllerName, nameof(IControlCenterController.LatestSnapshots), null, request, callback);
+                PostAsync(SControllerName, nameof(IControlCenterController.LatestSnapshots), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
             }
             #endregion
 
@@ -156,7 +144,6 @@ namespace NTMiner {
                 string kernel,
                 Action<QueryClientsResponse, Exception> callback) {
                 var request = new QueryClientsRequest {
-                    LoginName = SingleUser.LoginName,
                     PageIndex = pageIndex,
                     PageSize = pageSize,
                     GroupId = groupId,
@@ -170,66 +157,55 @@ namespace NTMiner {
                     Version = version,
                     Kernel = kernel
                 };
-                request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(SControllerName, nameof(IControlCenterController.QueryClients), null, request, callback);
+                PostAsync(SControllerName, nameof(IControlCenterController.QueryClients), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
             }
             #endregion
 
             #region AddClientsAsync
             public void AddClientsAsync(List<string> clientIps, Action<ResponseBase, Exception> callback) {
                 AddClientRequest request = new AddClientRequest() {
-                    LoginName = SingleUser.LoginName,
                     ClientIps = clientIps
                 };
-                request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(SControllerName, nameof(IControlCenterController.AddClients), null, request, callback);
+                PostAsync(SControllerName, nameof(IControlCenterController.AddClients), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
             }
             #endregion
 
             #region RemoveClientsAsync
             public void RemoveClientsAsync(List<string> objectIds, Action<ResponseBase, Exception> callback) {
                 MinerIdsRequest request = new MinerIdsRequest() {
-                    LoginName = SingleUser.LoginName,
                     ObjectIds = objectIds
                 };
-                request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(SControllerName, nameof(IControlCenterController.RemoveClients), null, request, callback);
+                PostAsync(SControllerName, nameof(IControlCenterController.RemoveClients), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
             }
             #endregion
 
             #region RefreshClientsAsync
             public void RefreshClientsAsync(List<string> objectIds, Action<DataResponse<List<ClientData>>, Exception> callback) {
                 MinerIdsRequest request = new MinerIdsRequest() {
-                    LoginName = SingleUser.LoginName,
                     ObjectIds = objectIds
                 };
-                request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(SControllerName, nameof(IControlCenterController.RefreshClients), null, request, callback);
+                PostAsync(SControllerName, nameof(IControlCenterController.RefreshClients), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
             }
             #endregion
 
             #region UpdateClientAsync
             public void UpdateClientAsync(string objectId, string propertyName, object value, Action<ResponseBase, Exception> callback) {
                 UpdateClientRequest request = new UpdateClientRequest {
-                    LoginName = SingleUser.LoginName,
                     ObjectId = objectId,
                     PropertyName = propertyName,
                     Value = value
                 };
-                request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(SControllerName, nameof(IControlCenterController.UpdateClient), null, request, callback);
+                PostAsync(SControllerName, nameof(IControlCenterController.UpdateClient), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
             }
             #endregion
 
             #region UpdateClientsAsync
             public void UpdateClientsAsync(string propertyName, Dictionary<string, object> values, Action<ResponseBase, Exception> callback) {
                 UpdateClientsRequest request = new UpdateClientsRequest {
-                    LoginName = SingleUser.LoginName,
                     PropertyName = propertyName,
                     Values = values
                 };
-                request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(SControllerName, nameof(IControlCenterController.UpdateClients), null, request, callback);
+                PostAsync(SControllerName, nameof(IControlCenterController.UpdateClients), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
             }
             #endregion
 
@@ -241,11 +217,9 @@ namespace NTMiner {
             /// <returns></returns>
             public List<MinerGroupData> GetMinerGroups() {
                 try {
-                    SignatureRequest request = new SignatureRequest {
-                        LoginName = SingleUser.LoginName
+                    SignRequest request = new SignRequest {
                     };
-                    request.SignIt(SingleUser.PasswordSha1);
-                    DataResponse<List<MinerGroupData>> response = Post<DataResponse<List<MinerGroupData>>>(SControllerName, nameof(IControlCenterController.MinerGroups), null, request, timeout: 2000);
+                    DataResponse<List<MinerGroupData>> response = Post<DataResponse<List<MinerGroupData>>>(SControllerName, nameof(IControlCenterController.MinerGroups), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, timeout: 2000);
                     if (response != null && response.Data != null) {
                         return response.Data;
                     }
@@ -262,22 +236,18 @@ namespace NTMiner {
             public void AddOrUpdateMinerGroupAsync(MinerGroupData entity, Action<ResponseBase, Exception> callback) {
                 entity.ModifiedOn = DateTime.Now;
                 DataRequest<MinerGroupData> request = new DataRequest<MinerGroupData> {
-                    LoginName = SingleUser.LoginName,
                     Data = entity
                 };
-                request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(SControllerName, nameof(IControlCenterController.AddOrUpdateMinerGroup), null, request, callback);
+                PostAsync(SControllerName, nameof(IControlCenterController.AddOrUpdateMinerGroup), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
             }
             #endregion
 
             #region RemoveMinerGroupAsync
             public void RemoveMinerGroupAsync(Guid id, Action<ResponseBase, Exception> callback) {
                 DataRequest<Guid> request = new DataRequest<Guid>() {
-                    LoginName = SingleUser.LoginName,
                     Data = id
                 };
-                request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(SControllerName, nameof(IControlCenterController.RemoveMinerGroup), null, request, callback);
+                PostAsync(SControllerName, nameof(IControlCenterController.RemoveMinerGroup), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
             }
             #endregion
 
@@ -299,11 +269,9 @@ namespace NTMiner {
             public ResponseBase AddOrUpdateMineWork(MineWorkData entity) {
                 entity.ModifiedOn = DateTime.Now;
                 DataRequest<MineWorkData> request = new DataRequest<MineWorkData> {
-                    LoginName = SingleUser.LoginName,
                     Data = entity
                 };
-                request.SignIt(SingleUser.PasswordSha1);
-                ResponseBase response = Post<ResponseBase>(SControllerName, nameof(IControlCenterController.AddOrUpdateMineWork), null, request);
+                ResponseBase response = Post<ResponseBase>(SControllerName, nameof(IControlCenterController.AddOrUpdateMineWork), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request);
                 return response;
             }
             #endregion
@@ -311,11 +279,9 @@ namespace NTMiner {
             #region RemoveMineWorkAsync
             public void RemoveMineWorkAsync(Guid id, Action<ResponseBase, Exception> callback) {
                 DataRequest<Guid> request = new DataRequest<Guid> {
-                    LoginName = SingleUser.LoginName,
                     Data = id
                 };
-                request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(SControllerName, nameof(IControlCenterController.RemoveMineWork), null, request, callback);
+                PostAsync(SControllerName, nameof(IControlCenterController.RemoveMineWork), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
             }
             #endregion
 
@@ -327,11 +293,9 @@ namespace NTMiner {
             /// <returns></returns>
             public List<MineWorkData> GetMineWorks() {
                 try {
-                    SignatureRequest request = new SignatureRequest {
-                        LoginName = SingleUser.LoginName
+                    SignRequest request = new SignRequest {
                     };
-                    request.SignIt(SingleUser.PasswordSha1);
-                    DataResponse<List<MineWorkData>> response = Post<DataResponse<List<MineWorkData>>>(SControllerName, nameof(IControlCenterController.MineWorks), null, request, timeout: 2000);
+                    DataResponse<List<MineWorkData>> response = Post<DataResponse<List<MineWorkData>>>(SControllerName, nameof(IControlCenterController.MineWorks), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, timeout: 2000);
                     if (response != null && response.Data != null) {
                         return response.Data;
                     }
@@ -347,24 +311,20 @@ namespace NTMiner {
             #region ExportMineWorkAsync
             public void ExportMineWorkAsync(Guid workId, string localJson, string serverJson, Action<ResponseBase, Exception> callback) {
                 ExportMineWorkRequest request = new ExportMineWorkRequest {
-                    LoginName = SingleUser.LoginName,
                     MineWorkId = workId,
                     LocalJson = localJson,
                     ServerJson = serverJson
                 };
-                request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(SControllerName, nameof(IControlCenterController.ExportMineWork), null, request, callback);
+                PostAsync(SControllerName, nameof(IControlCenterController.ExportMineWork), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
             }
             #endregion
 
             public string GetLocalJson(Guid workId) {
                 try {
                     DataRequest<Guid> request = new DataRequest<Guid>() {
-                        Data = workId,
-                        LoginName = SingleUser.LoginName
+                        Data = workId
                     };
-                    request.SignIt(SingleUser.PasswordSha1);
-                    var response = Post<DataResponse<string>>(SControllerName, nameof(IControlCenterController.GetLocalJson), null, request);
+                    var response = Post<DataResponse<string>>(SControllerName, nameof(IControlCenterController.GetLocalJson), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request);
                     if (response != null) {
                         return response.Data;
                     }
@@ -383,11 +343,9 @@ namespace NTMiner {
             /// <returns></returns>
             public DataResponse<List<WalletData>> GetWallets() {
                 try {
-                    SignatureRequest request = new SignatureRequest {
-                        LoginName = SingleUser.LoginName
+                    SignRequest request = new SignRequest {
                     };
-                    request.SignIt(SingleUser.PasswordSha1);
-                    DataResponse<List<WalletData>> response = Post<DataResponse<List<WalletData>>>(SControllerName, nameof(IControlCenterController.Wallets), null, request, timeout: 2000);
+                    DataResponse<List<WalletData>> response = Post<DataResponse<List<WalletData>>>(SControllerName, nameof(IControlCenterController.Wallets), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, timeout: 2000);
                     return response;
                 }
                 catch (Exception e) {
@@ -400,22 +358,18 @@ namespace NTMiner {
             #region AddOrUpdateWalletAsync
             public void AddOrUpdateWalletAsync(WalletData entity, Action<ResponseBase, Exception> callback) {
                 DataRequest<WalletData> request = new DataRequest<WalletData>() {
-                    LoginName = SingleUser.LoginName,
                     Data = entity
                 };
-                request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(SControllerName, nameof(IControlCenterController.AddOrUpdateWallet), null, request, callback);
+                PostAsync(SControllerName, nameof(IControlCenterController.AddOrUpdateWallet), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
             }
             #endregion
 
             #region RemoveWalletAsync
             public void RemoveWalletAsync(Guid id, Action<ResponseBase, Exception> callback) {
                 DataRequest<Guid> request = new DataRequest<Guid>() {
-                    LoginName = SingleUser.LoginName,
                     Data = id
                 };
-                request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(SControllerName, nameof(IControlCenterController.RemoveWallet), null, request, callback);
+                PostAsync(SControllerName, nameof(IControlCenterController.RemoveWallet), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
             }
             #endregion
 
@@ -427,11 +381,9 @@ namespace NTMiner {
             /// <returns></returns>
             public List<PoolData> GetPools() {
                 try {
-                    SignatureRequest request = new SignatureRequest {
-                        LoginName = SingleUser.LoginName
+                    SignRequest request = new SignRequest {
                     };
-                    request.SignIt(SingleUser.PasswordSha1);
-                    DataResponse<List<PoolData>> response = Post<DataResponse<List<PoolData>>>(SControllerName, nameof(IControlCenterController.Pools), null, request, timeout: 2000);
+                    DataResponse<List<PoolData>> response = Post<DataResponse<List<PoolData>>>(SControllerName, nameof(IControlCenterController.Pools), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, timeout: 2000);
                     if (response != null && response.Data != null) {
                         return response.Data;
                     }
@@ -447,22 +399,18 @@ namespace NTMiner {
             #region AddOrUpdatePoolAsync
             public void AddOrUpdatePoolAsync(PoolData entity, Action<ResponseBase, Exception> callback) {
                 DataRequest<PoolData> request = new DataRequest<PoolData> {
-                    LoginName = SingleUser.LoginName,
                     Data = entity
                 };
-                request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(SControllerName, nameof(IControlCenterController.AddOrUpdatePool), null, request, callback);
+                PostAsync(SControllerName, nameof(IControlCenterController.AddOrUpdatePool), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
             }
             #endregion
 
             #region RemovePoolAsync
             public void RemovePoolAsync(Guid id, Action<ResponseBase, Exception> callback) {
                 DataRequest<Guid> request = new DataRequest<Guid>() {
-                    LoginName = SingleUser.LoginName,
                     Data = id
                 };
-                request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(SControllerName, nameof(IControlCenterController.RemovePool), null, request, callback);
+                PostAsync(SControllerName, nameof(IControlCenterController.RemovePool), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
             }
             #endregion
 
@@ -474,11 +422,9 @@ namespace NTMiner {
             /// <returns></returns>
             public List<ColumnsShowData> GetColumnsShows() {
                 try {
-                    SignatureRequest request = new SignatureRequest {
-                        LoginName = SingleUser.LoginName
+                    SignRequest request = new SignRequest {
                     };
-                    request.SignIt(SingleUser.PasswordSha1);
-                    DataResponse<List<ColumnsShowData>> response = Post<DataResponse<List<ColumnsShowData>>>(SControllerName, nameof(IControlCenterController.ColumnsShows), null, request, timeout: 2000);
+                    DataResponse<List<ColumnsShowData>> response = Post<DataResponse<List<ColumnsShowData>>>(SControllerName, nameof(IControlCenterController.ColumnsShows), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, timeout: 2000);
                     if (response != null && response.Data != null) {
                         return response.Data;
                     }
@@ -494,22 +440,18 @@ namespace NTMiner {
             #region AddOrUpdateColumnsShowAsync
             public void AddOrUpdateColumnsShowAsync(ColumnsShowData entity, Action<ResponseBase, Exception> callback) {
                 DataRequest<ColumnsShowData> request = new DataRequest<ColumnsShowData>() {
-                    LoginName = SingleUser.LoginName,
                     Data = entity
                 };
-                request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(SControllerName, nameof(IControlCenterController.AddOrUpdateColumnsShow), null, request, callback);
+                PostAsync(SControllerName, nameof(IControlCenterController.AddOrUpdateColumnsShow), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
             }
             #endregion
 
             #region RemoveColumnsShowAsync
             public void RemoveColumnsShowAsync(Guid id, Action<ResponseBase, Exception> callback) {
                 DataRequest<Guid> request = new DataRequest<Guid>() {
-                    LoginName = SingleUser.LoginName,
                     Data = id
                 };
-                request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(SControllerName, nameof(IControlCenterController.RemoveColumnsShow), null, request, callback);
+                PostAsync(SControllerName, nameof(IControlCenterController.RemoveColumnsShow), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
             }
             #endregion
         }

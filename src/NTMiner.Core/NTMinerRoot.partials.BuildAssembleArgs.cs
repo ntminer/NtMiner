@@ -52,6 +52,7 @@ namespace NTMiner {
                 }
                 parameters.Add(Consts.UserNameParameterName, poolProfile.UserName);
                 parameters.Add(Consts.PasswordParameterName, password);
+                parameters.Add(Consts.WalletParameterName, poolProfile.UserName);
             }
             else {
                 parameters.Add(Consts.WalletParameterName, coinProfile.Wallet);
@@ -60,7 +61,7 @@ namespace NTMiner {
             parameters.Add(Consts.PortParameterName, mainCoinPool.GetPort().ToString());
             parameters.Add(Consts.PoolParameterName, mainCoinPool.Server);
             parameters.Add(Consts.WorkerParameterName, this.MinerProfile.MinerName);
-            if (coinKernel.IsSupportPool1) {
+            if (coinKernel.IsSupportPool1 && !mainCoinPool.NoPool1) {
                 parameters.Add(Consts.Worker1ParameterName, this.MinerProfile.MinerName);
                 if (PoolSet.TryGetPool(coinProfile.PoolId1, out IPool mainCoinPool1)) {
                     parameters.Add(Consts.Host1ParameterName, mainCoinPool1.GetHost());

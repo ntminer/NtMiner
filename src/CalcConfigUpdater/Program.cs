@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -249,6 +249,11 @@ namespace NTMiner {
                     incomeItem.IncomeCoin = incomeItem.IncomeCoin / 100;
                     incomeItem.IncomeUsd = incomeItem.IncomeUsd / 100;
                 }
+                if (incomeItem.DataCode == "grin-29")
+                {
+                    incomeItem.IncomeCoin = incomeItem.IncomeCoin * 2;
+                    incomeItem.IncomeUsd = incomeItem.IncomeUsd * 2;
+                }
                 return incomeItem;
             }
             return null;
@@ -272,8 +277,9 @@ namespace NTMiner {
 
         private static async Task<byte[]> GetHtmlAsync(string url) {
             try {
-                using (WebClient client = new WebClient()) {
-                    return await client.DownloadDataTaskAsync(new Uri(url));
+                using (HttpClient client = new HttpClient()) {
+                    client.Timeout = TimeSpan.FromSeconds(10);
+                    return await client.GetByteArrayAsync(url);
                 }
             }
             catch (Exception e) {

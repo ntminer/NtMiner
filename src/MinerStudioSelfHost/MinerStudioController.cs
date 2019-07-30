@@ -20,7 +20,7 @@ namespace NTMiner {
         }
 
         [HttpPost]
-        public ResponseBase CloseMinerStudio([FromBody]SignatureRequest request) {
+        public ResponseBase CloseMinerStudio([FromBody]SignRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput("参数错误");
             }

@@ -10,6 +10,14 @@ using System.Reflection;
 /// </summary>
 namespace NTMiner.NTMinerServices {
     public static class NTMinerServicesUtil {
+        static NTMinerServicesUtil() {
+            string serverDir = Path.Combine(AssemblyInfo.LocalDirFullName, "Services");
+            if (!Directory.Exists(serverDir)) {
+                Directory.CreateDirectory(serverDir);
+            }
+            NTMinerServicesFileFullName = Path.Combine(serverDir, "NTMinerServices.exe");
+        }
+
         public static void RunNTMinerServices(Action callback) {
             string processName = "NTMinerServices";
             Process[] processes = Process.GetProcessesByName(processName);
@@ -39,12 +47,13 @@ namespace NTMiner.NTMinerServices {
             }
         }
 
+        private static readonly string NTMinerServicesFileFullName;
         private static void ExtractRunNTMinerServicesAsync(Action callback) {
             string[] names = new string[] { "NTMinerServices.exe" };
             foreach (var name in names) {
                 ExtractResource(name);
             }
-            Windows.Cmd.RunClose(SpecialPath.NTMinerServicesFileFullName, "--enableInnerIp --notofficial");
+            Windows.Cmd.RunClose(NTMinerServicesFileFullName, "--enableInnerIp --notofficial");
             Logger.OkDebugLine("群控服务进程启动成功");
             callback?.Invoke();
         }
@@ -53,7 +62,7 @@ namespace NTMiner.NTMinerServices {
             try {
                 Type type = typeof(NTMinerServicesUtil);
                 Assembly assembly = type.Assembly;
-                string dir = Path.GetDirectoryName(SpecialPath.NTMinerServicesFileFullName);
+                string dir = Path.GetDirectoryName(NTMinerServicesFileFullName);
                 assembly.ExtractManifestResource(type, name, Path.Combine(dir, name));
             }
             catch (Exception e) {

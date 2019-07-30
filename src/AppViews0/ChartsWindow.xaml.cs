@@ -2,6 +2,8 @@
 using NTMiner.MinerServer;
 using NTMiner.Vms;
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
@@ -41,6 +43,19 @@ namespace NTMiner.Views {
                 });
             RefreshTotalSpeedChart(limit: 60);
             #endregion
+        }
+
+        protected override void OnClosing(CancelEventArgs e) {
+            List<AppSettingData> list = new List<AppSettingData>();
+            foreach (var item in Vm.ChartVms) {
+                string key = $"ChartVm.IsShow.{item.CoinVm.Code}";
+                list.Add(new AppSettingData {
+                    Key = key,
+                    Value = item.IsShow
+                });
+            }
+            VirtualRoot.Execute(new ChangeServerAppSettingsCommand(list));
+            base.OnClosing(e);
         }
 
         protected override void OnClosed(EventArgs e) {
@@ -197,6 +212,10 @@ namespace NTMiner.Views {
 
         private void ScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
             Wpf.Util.ScrollViewer_PreviewMouseDown(sender, e);
+        }
+
+        private void IsShowCheckBox_Changed(object sender, RoutedEventArgs e) {
+            Vm.OnPropertyChanged(nameof(Vm.IsShowAll));
         }
     }
 }

@@ -11,6 +11,7 @@
 		mc:Ignorable="d"
 		d:DataContext="{d:DesignData Source=/Design/KernelViewModel.xaml}"
 		Background="White"
+        MinHeight="200"
 		d:DesignWidth="580" d:DesignHeight="400">
 	<UserControl.Resources>
 		<ResourceDictionary>

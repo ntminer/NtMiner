@@ -46,7 +46,7 @@ namespace NTMiner {
                 try {
                     using (HttpClient client = new HttpClient()) {
                         client.Timeout = TimeSpan.FromMilliseconds(2000);
-                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:{Consts.MinerClientPort}/api/{s_controllerName}/{nameof(IMinerClientController.CloseNTMiner)}", new SignatureRequest { });
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:{Consts.MinerClientPort}/api/{s_controllerName}/{nameof(IMinerClientController.CloseNTMiner)}", new SignRequest { });
                         ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                         isClosed = response.IsSuccess();
                     }
@@ -101,7 +101,7 @@ namespace NTMiner {
                 }
             }
 
-            public void StopMineAsync(string clientIp, SignatureRequest request, Action<ResponseBase, Exception> callback) {
+            public void StopMineAsync(string clientIp, SignRequest request, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         ResponseBase response = StopMine(clientIp, request);
@@ -113,7 +113,7 @@ namespace NTMiner {
                 });
             }
 
-            public ResponseBase StopMine(string clientIp, SignatureRequest request) {
+            public ResponseBase StopMine(string clientIp, SignRequest request) {
                 using (HttpClient client = new HttpClient()) {
                     Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientIp}:{Consts.MinerClientPort}/api/{s_controllerName}/{nameof(IMinerClientController.StopMine)}", request);
                     ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;

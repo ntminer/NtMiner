@@ -62,11 +62,10 @@ namespace NTMiner.Vms {
                     query = query.Where(a => a.PublishState == PublishStatus.Published);
                 }
                 if (!string.IsNullOrEmpty(Keyword)) {
-                    string keyword = this.Keyword.ToLower();
                     query = query.
-                        Where(a => (!string.IsNullOrEmpty(a.Code) && a.Code.ToLower().Contains(keyword))
-                            || (!string.IsNullOrEmpty(a.Version) && a.Version.ToLower().Contains(keyword))
-                            || (!string.IsNullOrEmpty(a.Notice) && a.Notice.ToLower().Contains(keyword)));
+                        Where(a => (!string.IsNullOrEmpty(a.Code) && a.Code.IgnoreCaseContains(Keyword))
+                            || (!string.IsNullOrEmpty(a.Version) && a.Version.IgnoreCaseContains(Keyword))
+                            || (!string.IsNullOrEmpty(a.Notice) && a.Notice.IgnoreCaseContains(Keyword)));
                 }
                 return query.OrderByDescending(a => a.Code + a.Version).ToList();
             }

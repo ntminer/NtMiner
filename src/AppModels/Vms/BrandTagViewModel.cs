@@ -3,11 +3,11 @@ using System.IO;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class BrandWindowViewModel : ViewModelBase {
+    public class BrandTagViewModel : ViewModelBase {
         public ICommand TagKernelBrand { get; private set; }
         public ICommand TagPoolBrand { get; private set; }
 
-        public BrandWindowViewModel() {
+        public BrandTagViewModel() {
             this.TagKernelBrand = new DelegateCommand<SysDicItemViewModel>(brandItem => {
                 string outFileName = Path.GetFileNameWithoutExtension(VirtualRoot.AppFileFullName) + $"_{brandItem.Value}.exe";
                 string outDir = Path.GetDirectoryName(VirtualRoot.AppFileFullName);

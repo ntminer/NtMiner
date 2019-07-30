@@ -63,7 +63,7 @@
 					Command="{x:Static app:AppStatic.ShowCalc}" 
 					Background="Transparent" 
 					BorderThickness="0"
-					Margin="0 0 8 0"
+					Margin="0 0 12 0"
 					CornerRadius="2">
 					<Path 
 						Width="18"
@@ -73,7 +73,7 @@
 						Stretch="Fill" />
 				</controls:KbButton>
 				<controls:KbButton 
-					Margin="0 0 8 0"
+					Margin="0 0 12 0"
 					ToolTip="算力图"
 					Command="{x:Static app:AppStatic.ShowChartsWindow}" Background="Transparent" BorderThickness="0"
 					CornerRadius="2">

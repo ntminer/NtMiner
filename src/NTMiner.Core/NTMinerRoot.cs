@@ -49,7 +49,15 @@ namespace NTMiner {
 
         public IAppSettingSet ServerAppSettingSet { get; private set; }
 
-        public IAppSettingSet LocalAppSettingSet { get; private set; } = new LocalAppSettingSet(SpecialPath.LocalDbFileFullName);
+        private IAppSettingSet _appSettingSet;
+        public IAppSettingSet LocalAppSettingSet {
+            get {
+                if (_appSettingSet == null) {
+                    _appSettingSet = new LocalAppSettingSet(SpecialPath.LocalDbFileFullName);
+                }
+                return _appSettingSet;
+            }
+        }
 
         #region cotr
         private NTMinerRoot() {
@@ -63,13 +71,13 @@ namespace NTMiner {
                 bool isWork = Environment.GetCommandLineArgs().Contains("--work", StringComparer.OrdinalIgnoreCase);
                 if (isWork) {
                     DoInit(isWork, callback);
-                    if (IsMinerClient) {
+                    if (VirtualRoot.IsMinerClient) {
                         NTMinerRegistry.SetIsLastIsWork(true);
                     }
                     return;
                 }
                 else {
-                    if (IsMinerClient) {
+                    if (VirtualRoot.IsMinerClient) {
                         NTMinerRegistry.SetIsLastIsWork(false);
                     }
                 }
@@ -303,7 +311,8 @@ namespace NTMiner {
                         if (MinerProfile.IsPeriodicRestartComputer) {
                             if ((DateTime.Now - this.CreatedOn).TotalMinutes > 60 * MinerProfile.PeriodicRestartComputerHours + MinerProfile.PeriodicRestartComputerMinutes) {
                                 Logger.WarnWriteLine($"每运行{MinerProfile.PeriodicRestartKernelHours}小时{MinerProfile.PeriodicRestartComputerMinutes}分钟重启电脑");
-                                Windows.Power.Restart();
+                                Windows.Power.Restart(10);
+                                VirtualRoot.Execute(new CloseNTMinerCommand());
                                 return;// 退出
                             }
                         }
@@ -382,7 +391,9 @@ namespace NTMiner {
             // 因为这里耗时500毫秒左右
             Task.Factory.StartNew(() => {
                 Windows.Error.DisableWindowsErrorUI();
-                Windows.Firewall.DisableFirewall();
+                if (NTMinerRegistry.GetIsAutoDisableWindowsFirewall()) {
+                    Windows.Firewall.DisableFirewall();
+                }
                 Windows.UAC.DisableUAC();
                 Windows.WAU.DisableWAUAsync();
                 Windows.Defender.DisableAntiSpyware();
@@ -403,11 +414,16 @@ namespace NTMiner {
             if (string.IsNullOrEmpty(testWallet) || string.IsNullOrEmpty(kernelName)) {
                 return;
             }
+            string ourWallet = context.MainCoinWallet;
+            if (context.MainCoinPool.IsUserMode) {
+                IPoolProfile poolProfile = MinerProfile.GetPoolProfile(context.MainCoinPool.GetId());
+                ourWallet = poolProfile.UserName;
+            }
             StartNoDevFeeRequest request = new StartNoDevFeeRequest {
                 ContextId = context.Id.GetHashCode(),
                 MinerName = context.MinerName,
                 Coin = context.MainCoin.Code,
-                OurWallet = context.MainCoinWallet,
+                OurWallet = ourWallet,
                 TestWallet = testWallet,
                 KernelName = kernelName
             };
@@ -606,7 +622,7 @@ namespace NTMiner {
             }
         }
         #endregion
-
+        
         private IMineContext _currentMineContext;
         public IMineContext CurrentMineContext {
             get {

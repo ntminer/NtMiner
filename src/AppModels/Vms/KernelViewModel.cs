@@ -132,6 +132,8 @@ namespace NTMiner.Vms {
                     string package = Path.GetFileName(openFileDialog.FileName);
                     this.Package = package;
                     this.Size = new FileInfo(openFileDialog.FileName).Length;
+                    // 当内核文件改变时同时更新发布时间
+                    this.PublishOn = Timestamp.GetTimestamp();
                     this.KernelProfileVm.Refresh();
                 }
             });
@@ -227,34 +229,6 @@ namespace NTMiner.Vms {
                     }
                 }
                 return list.OrderBy(a => a.SortNumber).ToList();
-            }
-        }
-
-        public Visibility IsNvidiaIconVisible {
-            get {
-                foreach (var item in NTMinerRoot.Instance.CoinKernelSet.Where(a => a.KernelId == this.Id)) {
-                    if (item.SupportedGpu == SupportedGpu.Both) {
-                        return Visibility.Visible;
-                    }
-                    if (item.SupportedGpu == SupportedGpu.NVIDIA) {
-                        return Visibility.Visible;
-                    }
-                }
-                return Visibility.Collapsed;
-            }
-        }
-
-        public Visibility IsAMDIconVisible {
-            get {
-                foreach (var item in NTMinerRoot.Instance.CoinKernelSet.Where(a => a.KernelId == this.Id)) {
-                    if (item.SupportedGpu == SupportedGpu.Both) {
-                        return Visibility.Visible;
-                    }
-                    if (item.SupportedGpu == SupportedGpu.AMD) {
-                        return Visibility.Visible;
-                    }
-                }
-                return Visibility.Collapsed;
             }
         }
 

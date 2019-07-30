@@ -52,7 +52,11 @@
     <Compile Include="Bus\DirectBus\DirectEventBus.cs" />
     <Compile Include="Bus\EventBase.cs" />
     <Compile Include="Ip\Util.cs" />
-    <Compile Include="SignatureRequestExtension.cs" />
+    <Compile Include="NTMinerWebClient.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SignExtensions.cs" />
+    <Compile Include="StringExtensions.cs" />
     <Compile Include="TimeSpanExtensions.cs" />
     <Compile Include="User\IUserSet.cs" />
     <Compile Include="NTMinerRegistry.cs" />

@@ -22,7 +22,7 @@
 				<TextBlock FontSize="16" Margin="4 0" VerticalAlignment="Center" Text="{Binding VirtualMemorySet.TotalVirtualMemoryGbText}"></TextBlock>
 				<TextBlock VerticalAlignment="Center">虚拟内存</TextBlock>
 			</WrapPanel>
-			<TextBlock Foreground="Red" Text="挖ETH至少设置25G虚拟内存，建议按照虚拟内存和显存比例1:1进行设置。比如6张6G显存的1060显卡的矿机建议虚拟内存为6 x 6 = 36G。"></TextBlock>
+			<TextBlock Foreground="Red" Text="挖ETH每卡至少设置5G虚拟内存（4G不保险），建议按虚拟内存和显存1:1进行设置。比如6张6G的1060建议虚拟内存为6 x 6 = 36G。"></TextBlock>
 		</StackPanel>
 		<ScrollViewer 
 			Grid.Row="1" 

@@ -10,6 +10,8 @@ namespace NTMiner.Core.Gpus.Impl {
     internal class NVIDIAGpuSet : IGpuSet {
         #region static NvmlInit
         private static readonly string _nvsmiDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "NVIDIA Corporation", "NVSMI");
+        private static readonly string _nvmlDllFileFullName = Path.Combine(_nvsmiDir, "nvml.dll");
+        private static readonly string _nvmlDllFileFullName2 = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "nvml.dll");
         private static bool _isNvmlInited = false;
         private static readonly object _nvmlInitLocker = new object();
         public static bool NvmlInit() {
@@ -20,23 +22,28 @@ namespace NTMiner.Core.Gpus.Impl {
                 if (_isNvmlInited) {
                     return _isNvmlInited;
                 }
-                if (Directory.Exists(_nvsmiDir)) {
-                    try {
+                try {
 #if DEBUG
                         VirtualRoot.Stopwatch.Restart();
 #endif
-                        Windows.NativeMethods.SetDllDirectory(_nvsmiDir);
-                        var nvmlReturn = NvmlNativeMethods.nvmlInit();
-                        SetGpuStatus(Gpu.GpuAll, nvmlReturn);
-                        _isNvmlInited = nvmlReturn == nvmlReturn.Success;
+                    if (!Directory.Exists(_nvsmiDir)) {
+                        Directory.CreateDirectory(_nvsmiDir);
+                    }
+                    if (!File.Exists(_nvmlDllFileFullName) && File.Exists(_nvmlDllFileFullName2)) {
+                        File.Copy(_nvmlDllFileFullName2, _nvmlDllFileFullName);
+                    }
+                    Windows.NativeMethods.SetDllDirectory(_nvsmiDir);
+                    var nvmlReturn = NvmlNativeMethods.nvmlInit();
+                    Windows.NativeMethods.SetDllDirectory(null);
+                    SetGpuStatus(Gpu.GpuAll, nvmlReturn);
+                    _isNvmlInited = nvmlReturn == nvmlReturn.Success;
 #if DEBUG
                         Write.DevWarn($"耗时{VirtualRoot.Stopwatch.ElapsedMilliseconds}毫秒 {nameof(NVIDIAGpuSet)}.{nameof(NvmlInit)}()");
 #endif
-                        return _isNvmlInited;
-                    }
-                    catch (Exception e) {
-                        Logger.ErrorDebugLine(e);
-                    }
+                    return _isNvmlInited;
+                }
+                catch (Exception e) {
+                    Logger.ErrorDebugLine(e);
                 }
                 return false;
             }

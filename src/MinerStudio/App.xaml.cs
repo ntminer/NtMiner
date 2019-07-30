@@ -1,5 +1,6 @@
 ﻿using NTMiner.View;
 using NTMiner.Views;
+using NTMiner.Views.Ucs;
 using System;
 using System.Diagnostics;
 using System.Threading;
@@ -14,8 +15,8 @@ namespace NTMiner {
                 Write.Init();
             }
             VirtualRoot.SetIsMinerStudio(true);
-            AssemblyInfo.GlobalDirFullName = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NTMiner");
-            Logging.LogDir.SetDir(System.IO.Path.Combine(AssemblyInfo.GlobalDirFullName, "Logs"));
+            AssemblyInfo.LocalDirFullName = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NTMiner");
+            Logging.LogDir.SetDir(System.IO.Path.Combine(AssemblyInfo.LocalDirFullName, "Logs"));
             AppUtil.Init(this);
             InitializeComponent();
         }
@@ -39,6 +40,12 @@ namespace NTMiner {
 
         protected override void OnStartup(StartupEventArgs e) {
             RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
+            VirtualRoot.Window<ShowFileDownloaderCommand>(LogEnum.DevConsole,
+                action: message => {
+                    UIThread.Execute(() => {
+                        FileDownloader.ShowWindow(message.DownloadFileUrl, message.FileTitle, message.DownloadComplete);
+                    });
+                });
             VirtualRoot.Window<UpgradeCommand>(LogEnum.DevConsole,
                 action: message => {
                     AppStatic.Upgrade(message.FileName, message.Callback);
@@ -52,7 +59,7 @@ namespace NTMiner {
 
             if (createdNew) {
                 this.ShutdownMode = ShutdownMode.OnExplicitShutdown;
-                NTMinerRoot.SetIsMinerClient(false);
+                VirtualRoot.SetIsMinerClient(false);
                 NotiCenterWindow.Instance.Show();
                 LoginWindow loginWindow = new LoginWindow();
                 var result = loginWindow.ShowDialog();

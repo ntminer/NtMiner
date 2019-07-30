@@ -1,5 +1,6 @@
 ﻿using NTMiner.Controllers;
 using NTMiner.Daemon;
+using NTMiner.RemoteDesktopEnabler;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -12,6 +13,19 @@ namespace NTMiner {
     /// 端口号：<see cref="Consts.NTMinerDaemonPort"/>
     /// </summary>
     public class NTMinerDaemonController : ApiController, INTMinerDaemonController {
+        [HttpPost]
+        public ResponseBase EnableWindowsRemoteDesktop() {
+            try {
+                Rdp.SetRdpEnabled(true, true);
+                Firewall.AddRemoteDesktopRule();
+                return ResponseBase.Ok();
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e);
+                return ResponseBase.ServerError(e.Message);
+            }
+        }
+
         [HttpPost]
         public void CloseDaemon() {
             // 延迟100毫秒再退出从而避免当前的CloseDaemon请求尚未收到响应
@@ -65,14 +79,13 @@ namespace NTMiner {
         }
 
         [HttpPost]
-        public ResponseBase RestartWindows([FromBody]SignatureRequest request) {
+        public ResponseBase RestartWindows([FromBody]SignRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                TimeSpan.FromMilliseconds(100).Delay().ContinueWith(t => {
-                    Windows.Power.Restart();
-                });
+                Windows.Power.Restart(10);
+                CloseNTMiner();
                 return ResponseBase.Ok();
             }
             catch (Exception e) {
@@ -82,14 +95,13 @@ namespace NTMiner {
         }
 
         [HttpPost]
-        public ResponseBase ShutdownWindows([FromBody]SignatureRequest request) {
+        public ResponseBase ShutdownWindows([FromBody]SignRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                TimeSpan.FromMilliseconds(100).Delay().ContinueWith(t => {
-                    Windows.Power.Shutdown();
-                });
+                Windows.Power.Shutdown(10);
+                CloseNTMiner();
                 return ResponseBase.Ok();
             }
             catch (Exception e) {
@@ -149,7 +161,7 @@ namespace NTMiner {
         }
 
         [HttpPost]
-        public ResponseBase StopMine([FromBody]SignatureRequest request) {
+        public ResponseBase StopMine([FromBody]SignRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput("参数错误");
             }
@@ -211,7 +223,7 @@ namespace NTMiner {
             bool isClosed = false;
             try {
                 using (HttpClient client = new HttpClient()) {
-                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:{Consts.MinerClientPort}/api/MinerClient/CloseNTMiner", new SignatureRequest { });
+                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:{Consts.MinerClientPort}/api/MinerClient/CloseNTMiner", new SignRequest { });
                     ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                     isClosed = response.IsSuccess();
                 }

@@ -39,13 +39,25 @@
 				IsEnabled="{x:Static app:AppStatic.IsDebugMode}"
 				VerticalContentAlignment="Center" IsChecked="{Binding IsHot}">
 				<Path
-					Width="12"
-					Height="12"
+					Width="16"
+					Height="16"
 					Data="{StaticResource Icon_Hot}"
 					Fill="Red"
 					Stretch="Fill" />
-			</CheckBox>
-		</WrapPanel>
+            </CheckBox>
+            <CheckBox
+                Margin="10 0 0 0"
+				FocusVisualStyle="{x:Null}"
+				IsEnabled="{x:Static app:AppStatic.IsDebugMode}"
+				VerticalContentAlignment="Center" IsChecked="{Binding IsRecommend}">
+                <Path
+					Width="16"
+					Height="16"
+					Data="{StaticResource Icon_Recommend}"
+					Fill="Red"
+					Stretch="Fill" />
+            </CheckBox>
+        </WrapPanel>
 
 		<WrapPanel Margin="0 2">
 			<TextBlock Style="{StaticResource LblTb}" Text="支持显卡"></TextBlock>

@@ -21,6 +21,7 @@ namespace NTMiner.Vms {
         private NTMinerFileViewModel _serverLatestVm;
         private bool _isReady;
         private bool _localIsLatest;
+        private Visibility _serverLatestDescriptionVisible = Visibility.Collapsed;
 
         private List<NTMinerFileViewModel> _nTMinerFiles;
         private Visibility _isHistoryVisible = Visibility.Collapsed;
@@ -33,12 +34,21 @@ namespace NTMiner.Vms {
         public ICommand ShowHistory { get; private set; }
         // ReSharper disable once InconsistentNaming
         public ICommand AddNTMinerFile { get; private set; }
+        public ICommand ShowOrHideServerLatestDescription { get; private set; }
 
         private MainWindowViewModel() {
             if (App.IsInDesignMode) {
                 return;
             }
             this.Refresh();
+            this.ShowOrHideServerLatestDescription = new DelegateCommand(() => {
+                if (ServerLatestDescriptionVisible == Visibility.Visible) {
+                    ServerLatestDescriptionVisible = Visibility.Collapsed;
+                }
+                else {
+                    ServerLatestDescriptionVisible = Visibility.Visible;
+                }
+            });
             this.CancelDownload = new DelegateCommand(() => {
                 this._cancel?.Invoke();
             });
@@ -140,7 +150,7 @@ namespace NTMiner.Vms {
             Logger.InfoDebugLine("下载：" + fileName);
             string saveFileFullName = Path.Combine(SpecialPath.DownloadDirFullName, App.AppType.ToString() + version);
             progressChanged?.Invoke(0);
-            using (WebClient webClient = new WebClient()) {
+            using (NTMinerWebClient webClient = new NTMinerWebClient()) {
                 cancel = () => {
                     webClient.CancelAsync();
                 };
@@ -207,6 +217,14 @@ namespace NTMiner.Vms {
             }
         }
 
+        public Visibility ServerLatestDescriptionVisible {
+            get { return _serverLatestDescriptionVisible; }
+            set {
+                _serverLatestDescriptionVisible = value;
+                OnPropertyChanged(nameof(ServerLatestDescriptionVisible));
+            }
+        }
+
         public Visibility IsDebugModeVisible {
             get {
                 if (DevMode.IsDebugMode) {
@@ -237,9 +255,9 @@ namespace NTMiner.Vms {
         public string BtnShowHistoryText {
             get {
                 if (this.IsHistoryVisible == Visibility.Visible) {
-                    return "最新版本";
+                    return "<-最新版本";
                 }
-                return "历史版本";
+                return "->历史版本";
             }
         }
 

@@ -124,7 +124,7 @@
     <Compile Include="MinerServer\ColumnsShowData.cs" />
     <Compile Include="MinerServer\IColumnsShow.cs" />
     <Compile Include="Profile\SetWorkProfileRequest`1.cs" />
-    <Compile Include="SignatureRequest.cs" />
+    <Compile Include="SignRequest.cs" />
     <Compile Include="MinerServer\IOverClockData.cs" />
     <Compile Include="Daemon\WorkRequest.cs" />
     <Compile Include="MinerServer\OverClockData.cs" />
@@ -145,14 +145,12 @@
     <Compile Include="MinerServer\IClientData.cs" />
     <Compile Include="Profile\ICoinKernelProfile.cs" />
     <Compile Include="Profile\ICoinProfile.cs" />
-    <Compile Include="IDbEntity`1.cs" />
     <Compile Include="IEntity`1.cs" />
     <Compile Include="MinerServer\IMinerGroup.cs" />
     <Compile Include="Profile\IMinerProfile.cs" />
     <Compile Include="MinerServer\IMineWork.cs" />
     <Compile Include="MinerServer\INTMinerFile.cs" />
     <Compile Include="Profile\IPoolProfile.cs" />
-    <Compile Include="ISignatureRequest.cs" />
     <Compile Include="ITimestampEntity·1.cs" />
     <Compile Include="IUser.cs" />
     <Compile Include="Core\IWallet.cs" />

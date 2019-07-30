@@ -8,14 +8,12 @@
         /// 单位Byte
         /// </summary>
         ulong TotalMemory { get; set; }
-
         int CoreClockDeltaMin { get; set; }
-
         int CoreClockDeltaMax { get; set; }
 
         int MemoryClockDeltaMin { get; set; }
-
         int MemoryClockDeltaMax { get; set; }
+
         int CoolMin { get; set; }
         int CoolMax { get; set; }
         double PowerMin { get; set; }

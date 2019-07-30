@@ -40,29 +40,9 @@
 						</Grid>
 						<Border Padding="6 4">
 							<WrapPanel>
-								<StackPanel Width="176">
-									<WrapPanel>
-										<TextBlock FontSize="14" FontWeight="Bold" Text="{Binding FullName}"></TextBlock>
-										<Path
-											Margin="4 0 0 0"
-											Width="18"
-											Height="14"
-											ToolTip="NVIDIA"
-											Visibility="{Binding IsNvidiaIconVisible}"
-											Data="{StaticResource Icon_Nvidia}"
-											Fill="Green"
-											Stretch="Fill" />
-										<Path
-											Margin="4 0 0 0"
-											Width="16"
-											Height="14"
-											ToolTip="AMD"
-											Visibility="{Binding IsAMDIconVisible}"
-											Data="{StaticResource Icon_AMD}"
-											Fill="Red"
-											Stretch="Fill" />
-									</WrapPanel>
-									<TextBlock Text="{Binding SizeMbText}"></TextBlock>
+                                <StackPanel Width="176">
+                                    <TextBlock FontSize="14" FontWeight="Bold" Text="{Binding FullName}"></TextBlock>
+                                    <TextBlock Text="{Binding SizeMbText}"></TextBlock>
 								</StackPanel>
 								<TextBlock
 									TextAlignment="Center"

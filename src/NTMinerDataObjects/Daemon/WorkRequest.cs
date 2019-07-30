@@ -10,12 +10,7 @@ namespace NTMiner.Daemon {
         public string ServerJson { get; set; }
 
         public StringBuilder GetSignData() {
-            StringBuilder sb = new StringBuilder();
-            sb.Append(nameof(WorkId)).Append(WorkId)
-                .Append(nameof(LocalJson)).Append(LocalJson)
-                .Append(nameof(ServerJson)).Append(ServerJson)
-                .Append(nameof(Timestamp)).Append(Timestamp.ToUlong());
-            return sb;
+            return this.BuildSign();
         }
     }
 }

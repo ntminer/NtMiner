@@ -178,6 +178,12 @@ namespace NTMiner {
                 VirtualRoot.On<LocalContextVmsReInitedEvent>("本地上下文视图模型集刷新后刷新界面", LogEnum.DevConsole,
                     action: message => {
                         AllPropertyChanged();
+                        if (CoinVm != null) {
+                            CoinVm.OnPropertyChanged(nameof(CoinVm.Wallets));
+                            CoinVm.CoinKernel?.CoinKernelProfile.SelectedDualCoin?.OnPropertyChanged(nameof(CoinVm.Wallets));
+                            CoinVm.CoinProfile.OnPropertyChanged(nameof(CoinVm.CoinProfile.SelectedWallet));
+                            CoinVm.CoinKernel?.CoinKernelProfile.SelectedDualCoin?.CoinProfile.OnPropertyChanged(nameof(CoinVm.CoinProfile.SelectedDualCoinWallet));
+                        }
                     });
 #if DEBUG
                 Write.DevWarn($"耗时{VirtualRoot.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
@@ -193,6 +199,9 @@ namespace NTMiner {
                     var mainCoinPool = CoinVm.CoinProfile.MainCoinPool;
                     if (mainCoinPool == null) {
                         return false;
+                    }
+                    if (mainCoinPool.NoPool1) {
+                        return true;
                     }
                     if (CoinVm.CoinKernel.IsSupportPool1) {
                         var mainCoinPool1 = CoinVm.CoinProfile.MainCoinPool1;
@@ -226,10 +235,18 @@ namespace NTMiner {
             }
 
             public string MinerName {
-                get => NTMinerRoot.Instance.MinerProfile.MinerName;
+                get {
+                    string minerName = NTMinerRoot.Instance.MinerProfile.MinerName;
+                    // 群控模式时可能未指定群控矿工名，此时使用本地模式交换到注册表的本地矿工名
+                    if (string.IsNullOrEmpty(minerName)) {
+                        return NTMinerRoot.GetMinerName();
+                    }
+                    return minerName;
+                }
                 set {
                     if (NTMinerRoot.Instance.MinerProfile.MinerName != value) {
                         NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(MinerName), value);
+                        NTMinerRoot.SetMinerName(value);
                         NTMinerRoot.RefreshArgsAssembly.Invoke();
                         OnPropertyChanged(nameof(MinerName));
                     }
@@ -287,6 +304,16 @@ namespace NTMiner {
                 }
             }
 
+            public bool IsCloseMeanExit {
+                get => NTMinerRoot.GetIsCloseMeanExit();
+                set {
+                    if (NTMinerRoot.GetIsCloseMeanExit() != value) {
+                        NTMinerRoot.SetIsCloseMeanExit(value);
+                        OnPropertyChanged(nameof(IsCloseMeanExit));
+                    }
+                }
+            }
+
             public string HotKey {
                 get { return HotKeyUtil.GetHotKey(); }
                 set {
@@ -325,6 +352,14 @@ namespace NTMiner {
                 set {
                     NTMinerRegistry.SetIsAutoStart(value);
                     OnPropertyChanged(nameof(IsAutoStart));
+                }
+            }
+
+            public bool IsAutoDisableWindowsFirewall {
+                get => NTMinerRegistry.GetIsAutoDisableWindowsFirewall();
+                set {
+                    NTMinerRegistry.SetIsAutoDisableWindowsFirewall(value);
+                    OnPropertyChanged(nameof(IsAutoDisableWindowsFirewall));
                 }
             }
 

@@ -1,11 +1,5 @@
-﻿using System;
-
-namespace NTMiner {
+﻿namespace NTMiner {
     public class RequestBase {
-        public RequestBase() {
-            this.Timestamp = DateTime.Now;
-        }
-
-        public DateTime Timestamp { get; set; }
+        public RequestBase() { }
     }
 }

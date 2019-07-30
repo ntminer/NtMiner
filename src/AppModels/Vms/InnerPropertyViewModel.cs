@@ -12,7 +12,7 @@ namespace NTMiner.Vms {
             get => NTMinerRoot.Instance.CreatedOn;
         }
         public string GlobalDir {
-            get => AssemblyInfo.GlobalDirFullName;
+            get => AssemblyInfo.LocalDirFullName;
         }
         public string ServerDbFileFullName {
             get => SpecialPath.ServerDbFileFullName;

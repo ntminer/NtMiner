@@ -70,8 +70,17 @@
 									<TextBlock VerticalAlignment="Center">秒</TextBlock>
 								</WrapPanel>
 							</CheckBox>
-						</WrapPanel>
-						<WrapPanel Margin="0 2">
+                        </WrapPanel>
+                        <WrapPanel Margin="0 2">
+                            <CheckBox
+								Padding="0"
+								FocusVisualStyle="{x:Null}"
+								VerticalContentAlignment="Center"
+								IsChecked="{Binding IsAutoDisableWindowsFirewall}">
+                                <TextBlock VerticalAlignment="Center">启动开源矿工时自动关闭Windows防火墙</TextBlock>
+                            </CheckBox>
+                        </WrapPanel>
+                        <WrapPanel Margin="0 2">
 							<CheckBox
 								Padding="0"
 								FocusVisualStyle="{x:Null}"
@@ -281,14 +290,36 @@
 						<TextBlock VerticalAlignment="Center">打开/隐藏主界面快捷键 Ctrl + Alt +</TextBlock>
 						<TextBox Margin="4 0 0 0" Padding="4 0" Height="24" IsReadOnly="True" Text="{Binding HotKey}" ToolTip="可选范围A-Z" KeyDown="ButtonHotKey_KeyDown"></TextBox>
 					</WrapPanel>
-				</StackPanel>
+
+                    <WrapPanel Margin="0 2">
+                        <CheckBox 
+                            VerticalContentAlignment="Center"
+							FocusVisualStyle="{x:Null}"
+							Padding="0"
+							IsChecked="{Binding IsCloseMeanExit}">
+                            <WrapPanel>
+                                <TextBlock VerticalAlignment="Center">点击主界面右上角的</TextBlock>
+                                <Border Background="Red" Padding="2" Margin="2 0">
+                                    <Path
+                                        Width="13"
+                                        Height="13"
+                                        Data="{StaticResource Icon_Close}"
+                                        Fill="{StaticResource ThemeForeground}"
+                                        UseLayoutRounding="True"
+                                        Stretch="Fill" />
+                                </Border>
+                                <TextBlock VerticalAlignment="Center">时直接退出开源矿工</TextBlock>
+                            </WrapPanel>
+                        </CheckBox>
+                    </WrapPanel>
+                </StackPanel>
 			</GroupBox>
 			<GroupBox Padding="6 0" Margin="0 6 0 0">
 				<GroupBox.Header>
 					<TextBlock Style="{StaticResource GroupHeader}">其它</TextBlock>
 				</GroupBox.Header>
 				<StackPanel>
-					<WrapPanel>
+					<WrapPanel Margin="0 2">
 						<CheckBox
 							FocusVisualStyle="{x:Null}"
 							Padding="0"
@@ -312,7 +343,7 @@
 						</StackPanel>
 						<TextBlock VerticalAlignment="Center">￥/度</TextBlock>
 					</WrapPanel>
-					<WrapPanel>
+					<WrapPanel Margin="0 2">
 						<CheckBox
 							FocusVisualStyle="{x:Null}"
 							Padding="0"
@@ -337,7 +368,7 @@
 						<TextBlock VerticalAlignment="Center">瓦</TextBlock>
 						<TextBlock Foreground="Red" VerticalAlignment="Center">（由于A卡的功耗不准，可以通过功耗补偿修正，可正负）</TextBlock>
 					</WrapPanel>
-					<WrapPanel>
+					<WrapPanel Margin="0 2">
 						<TextBlock VerticalAlignment="Center">显卡温度达到</TextBlock>
 						<TextBox Style="{StaticResource TbUpDown}" Text="{Binding MaxTemp}" HorizontalAlignment="Left"></TextBox>
 						<StackPanel Margin="0 0 2 0">

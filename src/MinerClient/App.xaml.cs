@@ -1,8 +1,10 @@
 ﻿using NTMiner.Core;
 using NTMiner.Notifications;
 using NTMiner.OverClock;
+using NTMiner.RemoteDesktopEnabler;
 using NTMiner.View;
 using NTMiner.Views;
+using NTMiner.Views.Ucs;
 using NTMiner.Vms;
 using System;
 using System.Diagnostics;
@@ -19,7 +21,7 @@ namespace NTMiner {
             if (DevMode.IsDevMode && !Debugger.IsAttached && !Design.IsInDesignMode) {
                 Write.Init();
             }
-            Logging.LogDir.SetDir(Path.Combine(AssemblyInfo.GlobalDirFullName, "Logs"));
+            Logging.LogDir.SetDir(Path.Combine(AssemblyInfo.LocalDirFullName, "Logs"));
             AppUtil.Init(this);
             InitializeComponent();
         }
@@ -39,6 +41,13 @@ namespace NTMiner {
 
         protected override void OnStartup(StartupEventArgs e) {
             RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
+            // 通过群控升级挖矿端的时候升级器可能不存在所以需要下载，下载的时候需要用到下载器所以下载器需要提前注册
+            VirtualRoot.Window<ShowFileDownloaderCommand>(LogEnum.DevConsole,
+                action: message => {
+                    UIThread.Execute(() => {
+                        FileDownloader.ShowWindow(message.DownloadFileUrl, message.FileTitle, message.DownloadComplete);
+                    });
+                });
             VirtualRoot.Window<UpgradeCommand>(LogEnum.DevConsole,
                 action: message => {
                     AppStatic.Upgrade(message.FileName, message.Callback);
@@ -64,7 +73,7 @@ namespace NTMiner {
                     }
                     NTMinerOverClockUtil.ExtractResource();
 
-                    NTMinerRoot.SetIsMinerClient(true);
+                    VirtualRoot.SetIsMinerClient(true);
                     NotiCenterWindowViewModel.IsHotKeyEnabled = true;
                     Window splashWindow = _appViewFactory.CreateSplashWindow();
                     splashWindow.Show();
@@ -176,6 +185,10 @@ namespace NTMiner {
             VirtualRoot.Window<CloseMainWindowCommand>("处理关闭主界面命令", LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
+                        if (NTMinerRoot.GetIsCloseMeanExit()) {
+                            VirtualRoot.Execute(new CloseNTMinerCommand());
+                            return;
+                        }
                         MainWindow = NotiCenterWindow.Instance;
                         foreach (Window window in Windows) {
                             if (window != MainWindow) {
@@ -237,6 +250,28 @@ namespace NTMiner {
                     if (NTMinerRoot.Instance.GpuSet.GpuType == GpuType.AMD) {
                         AtikmdagPatcher.AtikmdagPatcherUtil.Run();
                     }
+                });
+            #endregion
+            #region 启用或禁用windows远程桌面
+            VirtualRoot.Window<EnableWindowsRemoteDesktopCommand>("处理启用或禁用Windows远程桌面命令", LogEnum.DevConsole,
+                action: message => {
+                    if (NTMinerRoot.GetIsRemoteDesktopEnabled()) {
+                        return;
+                    }
+                    string msg = "确定启用Windows远程桌面吗？";
+                    DialogWindow.ShowDialog(message: msg, title: "确认", onYes: () => {
+                        Rdp.SetRdpEnabled(true, true);
+                        Firewall.AddRemoteDesktopRule();
+                    }, icon: IconConst.IconConfirm);
+                });
+            #endregion
+            #region 启用或禁用windows开机自动登录
+            VirtualRoot.Window<EnableOrDisableWindowsAutoLoginCommand>("处理启用或禁用Windows开机自动登录命令", LogEnum.DevConsole,
+                action: message => {
+                    if (NTMiner.Windows.OS.Instance.IsAutoAdminLogon) {
+                        return;
+                    }
+                    NTMiner.Windows.Cmd.RunClose("control", "userpasswords2");
                 });
             #endregion
         }

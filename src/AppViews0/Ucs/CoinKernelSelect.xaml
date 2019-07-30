@@ -84,12 +84,20 @@
 								<Path
 									Margin="4 0 0 0"
 									Visibility="{Binding IsHot,Converter={StaticResource BoolToVisibilityConverter}}"
-									Width="12"
-									Height="12"
+									Width="16"
+									Height="16"
 									Data="{StaticResource Icon_Hot}"
 									Fill="Red"
 									Stretch="Fill" />
-							</WrapPanel>
+                                <Path
+									Margin="4 0 0 0"
+									Visibility="{Binding IsRecommend,Converter={StaticResource BoolToVisibilityConverter}}"
+									Width="16"
+									Height="16"
+									Data="{StaticResource Icon_Recommend}"
+									Fill="Red"
+									Stretch="Fill" />
+                            </WrapPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
@@ -99,8 +107,8 @@
 							<WrapPanel>
 								<Path
 									Margin="4 0 0 0"
-									Width="18"
-									Height="14"
+									Width="20"
+									Height="16"
 									ToolTip="支持N卡"
 									Visibility="{Binding IsNvidiaIconVisible}"
 									Data="{StaticResource Icon_Nvidia}"
@@ -108,8 +116,8 @@
 									Stretch="Fill" />
 								<Path
 									Margin="4 0 0 0"
-									Width="16"
-									Height="14"
+									Width="20"
+									Height="16"
 									ToolTip="支持A卡"
 									Visibility="{Binding IsAMDIconVisible}"
 									Data="{StaticResource Icon_AMD}"
@@ -127,7 +135,7 @@
 								Width="12"
 								Height="12"
 								ToolTip="支持双挖"
-								Visibility="{Binding Kernel.KernelInputVm.IsSupportDualMine,Converter={StaticResource BoolToVisibilityConverter}}"
+								Visibility="{Binding IsSupportDualMine,Converter={StaticResource BoolToVisibilityConverter}}"
 								Data="{StaticResource Icon_DualMine}"
 								Fill="{StaticResource IconFillColor}"
 								Stretch="Fill" />

@@ -33,12 +33,6 @@ namespace NTMiner.Views {
                         Calc.ShowWindow(message.CoinVm);
                     });
                 });
-            VirtualRoot.Window<ShowFileDownloaderCommand>(LogEnum.DevConsole,
-                action: message => {
-                    UIThread.Execute(() => {
-                        FileDownloader.ShowWindow(message.DownloadFileUrl, message.FileTitle, message.DownloadComplete);
-                    });
-                });
             VirtualRoot.Window<ShowCalcConfigCommand>(LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {

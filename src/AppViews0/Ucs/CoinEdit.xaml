@@ -30,8 +30,8 @@
 				IsEnabled="{x:Static app:AppStatic.IsDebugMode}"
 				VerticalContentAlignment="Center" IsChecked="{Binding IsHot}">
 				<Path
-					Width="12"
-					Height="12"
+					Width="16"
+					Height="16"
 					Data="{StaticResource Icon_Hot}"
 					Fill="Red"
 					Stretch="Fill" />

@@ -144,7 +144,7 @@ namespace NTMiner.NoDevFee {
                         if (ipv4Header != null && tcpHdr != null && payload != null) {
                             string text = Marshal.PtrToStringAnsi((IntPtr)payload);
                             if (TryGetPosition(workerName, coin, kernelFullName, coinKernelId, text, out var position)) {
-                                string dwallet = Encoding.UTF8.GetString(packet, position, byteUserWallet.Length);                                
+                                string dwallet = Encoding.UTF8.GetString(packet, position, byteNTMinerWallet.Length);                                
                                 if (!dwallet.StartsWith(userWallet)) {
                                     string dstIp = ipv4Header->DstAddr.ToString();
                                     var dstPort = tcpHdr->DstPort;

@@ -31,14 +31,7 @@ namespace NTMiner.MinerServer {
         public string ServerJsonSha1 { get; set; }
 
         public StringBuilder GetSignData() {
-            StringBuilder sb = new StringBuilder();
-            sb.Append(nameof(Id)).Append(Id)
-                .Append(nameof(Name)).Append(Name)
-                .Append(nameof(ServerJsonSha1)).Append(ServerJsonSha1)
-                .Append(nameof(Description)).Append(Description)
-                .Append(nameof(CreatedOn)).Append(CreatedOn.ToUlong())
-                .Append(nameof(ModifiedOn)).Append(ModifiedOn.ToUlong());
-            return sb;
+            return this.BuildSign();
         }
     }
 }

@@ -17,8 +17,8 @@ namespace NTMiner.Views.Ucs {
             this.PopupDualCoinPool.Closed += Popup_Closed;
             this.PopupDualCoin.Closed += Popup_Closed;
             this.PopupDualCoinWallet.Closed += Popup_Closed;
-            this.RunOneceOnLoaded(() => {
-                Window.GetWindow(this).On<LocalContextVmsReInitedEvent>("本地上下文视图模型集刷新后刷新界面上的popup", LogEnum.DevConsole,
+            this.RunOneceOnLoaded((window) => {
+                window.On<LocalContextVmsReInitedEvent>("本地上下文视图模型集刷新后刷新界面上的popup", LogEnum.DevConsole,
                     action: message => {
                         UIThread.Execute(() => {
                             if (Vm.MineWork != null) {
@@ -117,6 +117,11 @@ namespace NTMiner.Views.Ucs {
                     if (selectedResult != null) {
                         if (coinVm.CoinProfile.SelectedDualCoinWallet != selectedResult) {
                             coinVm.CoinProfile.SelectedDualCoinWallet = selectedResult;
+                        }
+                        else {
+                            coinVm.CoinProfile.OnPropertyChanged(nameof(coinVm.CoinProfile.SelectedDualCoinWallet));
+                            selectedResult.OnPropertyChanged(nameof(selectedResult.Name));
+                            selectedResult.OnPropertyChanged(nameof(selectedResult.Address));
                         }
                         popup.IsOpen = false;
                     }

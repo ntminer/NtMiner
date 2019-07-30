@@ -23,7 +23,7 @@ namespace NTMiner {
         }
 
         [HttpPost]
-        public ResponseBase CloseNTMiner([FromBody]SignatureRequest request) {
+        public ResponseBase CloseNTMiner([FromBody]SignRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput("参数错误");
             }
@@ -55,7 +55,7 @@ namespace NTMiner {
         }
 
         [HttpPost]
-        public ResponseBase StopMine([FromBody]SignatureRequest request) {
+        public ResponseBase StopMine([FromBody]SignRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput("参数错误");
             }

@@ -30,18 +30,7 @@ namespace NTMiner.MinerServer {
         public int Cool { get; set; }
 
         public StringBuilder GetSignData() {
-            StringBuilder sb = new StringBuilder();
-            sb.Append(nameof(Id)).Append(Id)
-                .Append(nameof(CoinId)).Append(CoinId)
-                .Append(nameof(Name)).Append(Name)
-                .Append(nameof(GpuType)).Append(GpuType)
-                .Append(nameof(CoreClockDelta)).Append(CoreClockDelta)
-                .Append(nameof(MemoryClockDelta)).Append(MemoryClockDelta)
-                .Append(nameof(PowerCapacity)).Append(PowerCapacity)
-                .Append(nameof(TempLimit)).Append(TempLimit)
-                .Append(nameof(IsAutoFanSpeed)).Append(IsAutoFanSpeed)
-                .Append(nameof(Cool)).Append(Cool);
-            return sb;
+            return this.BuildSign();
         }
     }
 }

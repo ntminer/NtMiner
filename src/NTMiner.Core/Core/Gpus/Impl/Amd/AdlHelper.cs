@@ -26,12 +26,6 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
         private List<ATIGPU> _gpuNames = new List<ATIGPU>();
         public bool Init() {
             try {
-                if (Environment.Is64BitOperatingSystem) {
-                    Windows.NativeMethods.SetDllDirectory(SpecialPath.ThisSystem32Dir);
-                }
-                else {
-                    Windows.NativeMethods.SetDllDirectory(SpecialPath.ThisSysWOW64Dir);
-                }
                 int status = ADL.ADL_Main_Control_Create(1);
 #if DEBUG
                 Write.DevDebug("AMD Display Library Status: " + (status == ADL.ADL_OK ? "OK" : status.ToString()));
@@ -116,15 +110,15 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
 
         public void GetClockRangeByIndex(
             int gpuIndex, 
-            out int coreClockDeltaMin, out int coreClockDeltaMax, 
-            out int memoryClockDeltaMin, out int memoryClockDeltaMax,
+            out int coreClockMin, out int coreClockMax, 
+            out int memoryClockMin, out int memoryClockMax, 
             out int powerMin, out int powerMax, out int powerDefault,
             out int tempLimitMin, out int tempLimitMax, out int tempLimitDefault,
             out int fanSpeedMin, out int fanSpeedMax, out int fanSpeedDefault) {
-            coreClockDeltaMin = 0;
-            coreClockDeltaMax = 0;
-            memoryClockDeltaMin = 0;
-            memoryClockDeltaMax = 0;
+            coreClockMin = 0;
+            coreClockMax = 0;
+            memoryClockMin = 0;
+            memoryClockMax = 0;
             powerMin = 0;
             powerMax = 0;
             powerDefault = 0;
@@ -138,10 +132,10 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
                 int adapterIndex = GpuIndexToAdapterIndex(gpuIndex);
                 ADLODNCapabilitiesX2 lpODCapabilities = new ADLODNCapabilitiesX2();
                 var result = ADL.ADL2_OverdriveN_CapabilitiesX2_Get(context, adapterIndex, ref lpODCapabilities);
-                coreClockDeltaMin = lpODCapabilities.sEngineClockRange.iMin * 10;
-                coreClockDeltaMax = lpODCapabilities.sEngineClockRange.iMax * 10;
-                memoryClockDeltaMin = lpODCapabilities.sMemoryClockRange.iMin * 10;
-                memoryClockDeltaMax = lpODCapabilities.sMemoryClockRange.iMax * 10;
+                coreClockMin = lpODCapabilities.sEngineClockRange.iMin * 10;
+                coreClockMax = lpODCapabilities.sEngineClockRange.iMax * 10;
+                memoryClockMin = lpODCapabilities.sMemoryClockRange.iMin * 10;
+                memoryClockMax = lpODCapabilities.sMemoryClockRange.iMax * 10;
                 powerMin = lpODCapabilities.power.iMin + 100;
                 powerMax = lpODCapabilities.power.iMax + 100;
                 powerDefault = lpODCapabilities.power.iDefault + 100;
@@ -157,7 +151,7 @@ namespace NTMiner.Core.Gpus.Impl.Amd {
                 fanSpeedMax = 100;
                 fanSpeedDefault = lpODCapabilities.fanSpeed.iDefault;
 #if DEBUG
-                Write.DevWarn($"ADL2_OverdriveN_CapabilitiesX2_Get result {result} coreClockDeltaMin={coreClockDeltaMin},coreClockDeltaMax={coreClockDeltaMax},memoryClockDeltaMin={memoryClockDeltaMin},memoryClockDeltaMax={memoryClockDeltaMax},powerMin={powerMin},powerMax={powerMax},powerDefault={powerDefault},tempLimitMin={tempLimitMin},tempLimitMax={tempLimitMax},tempLimitDefault={tempLimitDefault},fanSpeedMin={fanSpeedMin},fanSpeedMax={fanSpeedMax},fanSpeedDefault={fanSpeedDefault}");
+                Write.DevWarn($"ADL2_OverdriveN_CapabilitiesX2_Get result {result} coreClockMin={coreClockMin},coreClockMax={coreClockMax},memoryClockMin={memoryClockMin},memoryClockMax={memoryClockMax},powerMin={powerMin},powerMax={powerMax},powerDefault={powerDefault},tempLimitMin={tempLimitMin},tempLimitMax={tempLimitMax},tempLimitDefault={tempLimitDefault},fanSpeedMin={fanSpeedMin},fanSpeedMax={fanSpeedMax},fanSpeedDefault={fanSpeedDefault}");
 #endif
             }
             catch (Exception e) {

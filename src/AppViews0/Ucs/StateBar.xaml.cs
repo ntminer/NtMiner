@@ -1,6 +1,5 @@
 ﻿using NTMiner.Vms;
 using System;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -17,11 +16,12 @@ namespace NTMiner.Views.Ucs {
             if (Design.IsInDesignMode) {
                 return;
             }
-            this.RunOneceOnLoaded(() => {
-                var window = Window.GetWindow(this);
+            this.RunOneceOnLoaded((window) => {
                 window.Activated += (object sender, EventArgs e) => {
                     Vm.OnPropertyChanged(nameof(Vm.IsAutoAdminLogon));
+                    Vm.OnPropertyChanged(nameof(Vm.AutoAdminLogonToolTip));
                     Vm.OnPropertyChanged(nameof(Vm.IsRemoteDesktopEnabled));
+                    Vm.OnPropertyChanged(nameof(Vm.RemoteDesktopToolTip));
                 };
                 // 时间事件是在WPF UI线程的，所以这里不用考虑访问UI线程创建的Vm对象的问题
                 window.On<MinutePartChangedEvent>("时间的分钟部分变更过更新计时器显示", LogEnum.None,
@@ -51,12 +51,7 @@ namespace NTMiner.Views.Ucs {
                 window.On<AppVersionChangedEvent>("发现了服务端新版本", LogEnum.DevConsole,
                     action: message => {
                         UIThread.Execute(() => {
-                            if (NTMinerRoot.CurrentVersion.ToString() != NTMinerRoot.ServerVersion) {
-                                Vm.CheckUpdateForeground = new SolidColorBrush(Colors.Red);
-                            }
-                            else {
-                                Vm.CheckUpdateForeground = new SolidColorBrush(Colors.Black);
-                            }
+                            Vm.SetCheckUpdateForeground(isLatest: NTMinerRoot.CurrentVersion.ToString() == NTMinerRoot.ServerVersion);
                         });
                     });
                 window.On<KernelSelfRestartedEvent>("内核自我重启时刷新计数器", LogEnum.DevConsole,

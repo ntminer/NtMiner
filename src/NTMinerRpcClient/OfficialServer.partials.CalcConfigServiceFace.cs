@@ -16,7 +16,7 @@ namespace NTMiner {
                 try {
                     OverClockDatasRequest request = new OverClockDatasRequest {
                     };
-                    PostAsync(SControllerName, nameof(IOverClockDataController.OverClockDatas), request, callback);
+                    PostAsync(SControllerName, nameof(IOverClockDataController.OverClockDatas), null, request, callback);
                 }
                 catch (Exception e) {
                     Logger.ErrorDebugLine(e);
@@ -28,22 +28,18 @@ namespace NTMiner {
             #region AddOrUpdateOverClockDataAsync
             public void AddOrUpdateOverClockDataAsync(OverClockData entity, Action<ResponseBase, Exception> callback) {
                 DataRequest<OverClockData> request = new DataRequest<OverClockData>() {
-                    LoginName = SingleUser.LoginName,
                     Data = entity
                 };
-                request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(SControllerName, nameof(IOverClockDataController.AddOrUpdateOverClockData), request, callback);
+                PostAsync(SControllerName, nameof(IOverClockDataController.AddOrUpdateOverClockData), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
             }
             #endregion
 
             #region RemoveOverClockDataAsync
             public void RemoveOverClockDataAsync(Guid id, Action<ResponseBase, Exception> callback) {
                 DataRequest<Guid> request = new DataRequest<Guid>() {
-                    LoginName = SingleUser.LoginName,
                     Data = id
                 };
-                request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(SControllerName, nameof(IOverClockDataController.RemoveOverClockData), request, callback);
+                PostAsync(SControllerName, nameof(IOverClockDataController.RemoveOverClockData), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
             }
             #endregion
         }

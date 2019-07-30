@@ -208,7 +208,7 @@ namespace NTMiner.Vms {
                     return "0℃";
                 }
                 if (this.Index == NTMinerRoot.GpuAllId && NTMinerRoot.Instance.GpuSet.Count != 0) {
-                    return $"{AppContext.Instance.GpuVms.Sum(a=>a.Temperature)}℃";
+                    return $"{AppContext.Instance.GpuVms.Sum(a => a.Temperature)}℃";
                 }
                 return this.Temperature.ToString() + "℃";
             }
@@ -486,6 +486,7 @@ namespace NTMiner.Vms {
                 OnPropertyChanged(nameof(MemoryClockDeltaMinMText));
             }
         }
+
         public int MemoryClockDeltaMax {
             get => _memoryClockDeltaMax;
             set {

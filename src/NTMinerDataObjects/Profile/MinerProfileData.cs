@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Reflection;
 using System.Text;
 
 namespace NTMiner.Profile {
     public class MinerProfileData : IMinerProfile, IDbEntity<Guid>, IGetSignData {
+        public static readonly Guid DefaultId = Guid.Parse("7d9eec49-2d1f-44fa-881e-571a78661ca0");
         public static MinerProfileData CreateDefaultData(Guid coinId) {
             return new MinerProfileData {
-                Id = Guid.Parse("7d9eec49-2d1f-44fa-881e-571a78661ca0"),
+                Id = DefaultId,
                 CoinId = coinId
             };
         }
@@ -30,7 +30,7 @@ namespace NTMiner.Profile {
             this.IsPowerAppend = false;
             this.PowerAppend = 0;
             this.MaxTemp = 80;
-            this.AutoStartDelaySeconds = 10;
+            this.AutoStartDelaySeconds = 15;
         }
 
         public MinerProfileData(IMinerProfile data) {
@@ -92,27 +92,12 @@ namespace NTMiner.Profile {
 
         public int AutoStartDelaySeconds { get; set; }
 
-        private static PropertyInfo[] _propertyInfos = null;
-        private static PropertyInfo[] PropertyInfos {
-            get {
-                if (_propertyInfos == null) {
-                    _propertyInfos = typeof(MinerProfileData).GetProperties(BindingFlags.Public & BindingFlags.SetProperty & BindingFlags.GetProperty);
-                }
-                return _propertyInfos;
-            }
-        }
-
         public override string ToString() {
-            // 检测状态变更依赖于此
-            StringBuilder sb = new StringBuilder();
-            foreach (var propertyInfo in PropertyInfos) {
-                sb.Append(propertyInfo.GetValue(this, null));
-            }
-            return sb.ToString();
+            return this.BuildSign().ToString();
         }
 
         public StringBuilder GetSignData() {
-            return new StringBuilder(this.ToString());
+            return this.BuildSign();
         }
     }
 }
