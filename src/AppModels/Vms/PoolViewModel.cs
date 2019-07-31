@@ -31,6 +31,8 @@ namespace NTMiner.Vms {
         private string _tutorialUrl;
         private bool _noPool1;
         private bool _notPool1;
+        private string _minerNamePrefix;
+        private string _minerNamePostfix;
         private CoinViewModel _coinVm;
 
         public Guid GetId() {
@@ -70,6 +72,8 @@ namespace NTMiner.Vms {
             _tutorialUrl = data.TutorialUrl;
             _noPool1 = data.NoPool1;
             _notPool1 = data.NotPool1;
+            _minerNamePrefix = data.MinerNamePrefix;
+            _minerNamePostfix = data.MinerNamePostfix;
         }
 
         public PoolViewModel(Guid id) {
@@ -403,6 +407,22 @@ namespace NTMiner.Vms {
             set {
                 _notPool1 = value;
                 OnPropertyChanged(nameof(NotPool1));
+            }
+        }
+
+        public string MinerNamePrefix {
+            get => _minerNamePrefix;
+            set {
+                _minerNamePrefix = value;
+                OnPropertyChanged(nameof(MinerNamePrefix));
+            }
+        }
+
+        public string MinerNamePostfix {
+            get => _minerNamePostfix;
+            set {
+                _minerNamePostfix = value;
+                OnPropertyChanged(nameof(MinerNamePostfix));
             }
         }
 

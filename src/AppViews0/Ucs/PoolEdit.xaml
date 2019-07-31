@@ -86,19 +86,19 @@
 						</WrapPanel>
 
 						<WrapPanel Margin="0 2">
-							<TextBlock Style="{StaticResource LblTb}">收益查看地址:</TextBlock>
+							<TextBlock Style="{StaticResource LblTb}">收益查看地址</TextBlock>
 							<TextBox Width="420" IsReadOnly="{Binding IsReadOnly}" VerticalContentAlignment="Center" Text="{Binding Url}">
 							</TextBox>
 						</WrapPanel>
 
 						<WrapPanel Margin="0 2">
-							<TextBlock Style="{StaticResource LblTb}">矿池官网:</TextBlock>
+							<TextBlock Style="{StaticResource LblTb}">矿池官网</TextBlock>
 							<TextBox Width="420" IsReadOnly="{Binding IsReadOnly}" VerticalContentAlignment="Center" Text="{Binding Website}">
 							</TextBox>
 						</WrapPanel>
 
 						<WrapPanel Margin="0 2">
-							<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top">通知:</TextBlock>
+							<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top">通知</TextBlock>
 							<controls:KbMuiltilineTextBox 
 								Width="420" Background="Transparent" Padding="0 4"
 								IsReadOnly="{Binding IsReadOnly}"
@@ -123,6 +123,15 @@
 								</TextBox>
 							</WrapPanel>
 						</WrapPanel>
+
+                        <WrapPanel Margin="0 2">
+                            <TextBlock Style="{StaticResource LblTb}" Text="矿工名前缀"></TextBlock>
+                            <TextBox Width="168" IsReadOnly="{Binding IsReadOnly}" VerticalContentAlignment="Center" Text="{Binding MinerNamePrefix, ValidatesOnExceptions=True}">
+                            </TextBox>
+                            <TextBlock Style="{StaticResource LblTb}" Text="矿工名后缀"></TextBlock>
+                            <TextBox Width="168" IsReadOnly="{Binding IsReadOnly}" VerticalContentAlignment="Center" Text="{Binding MinerNamePostfix, ValidatesOnExceptions=True}">
+                            </TextBox>
+                        </WrapPanel>
 
 						<WrapPanel Margin="0 2">
 							<TextBlock Style="{StaticResource LblTb}" Text="教程Url"></TextBlock>
