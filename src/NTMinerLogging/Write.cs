@@ -17,7 +17,9 @@ namespace NTMiner {
                 lock (_locker) {
                     if (!_isInited) {
                         _isInited = true;
-                        ConsoleManager.Show();
+                        if (DevMode.IsDevMode) {
+                            ConsoleManager.Show();
+                        }
                     }
                 }
             }
