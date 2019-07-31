@@ -54,7 +54,7 @@ namespace NTMiner {
                 }
             }
             try {
-                if (DevMode.IsDevMode && !Debugger.IsAttached) {
+                if (!Debugger.IsAttached) {
                     Write.Init();
                 }
                 _waitHandle = new AutoResetEvent(false);

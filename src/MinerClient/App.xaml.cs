@@ -18,7 +18,7 @@ using System.Windows.Media;
 namespace NTMiner {
     public partial class App : Application, IDisposable {
         public App() {
-            if (DevMode.IsDevMode && !Debugger.IsAttached && !Design.IsInDesignMode) {
+            if (!Debugger.IsAttached && !Design.IsInDesignMode) {
                 Write.Init();
             }
             Logging.LogDir.SetDir(Path.Combine(AssemblyInfo.LocalDirFullName, "Logs"));
@@ -36,7 +36,7 @@ namespace NTMiner {
             NTMinerRoot.Instance.Exit();
             HttpServer.Stop();
             base.OnExit(e);
-            ConsoleManager.Hide();
+            NTMinerConsole.Hide();
         }
 
         protected override void OnStartup(StartupEventArgs e) {

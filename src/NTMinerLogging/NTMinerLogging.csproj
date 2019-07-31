@@ -41,7 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="DevConsole.cs" />
+    <Compile Include="NTMinerConsole.cs" />
     <Compile Include="DevMode.cs" />
     <Compile Include="ExceptionExtension.cs" />
     <Compile Include="Logger.cs" />

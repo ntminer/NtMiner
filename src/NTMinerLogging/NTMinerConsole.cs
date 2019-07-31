@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 
 namespace NTMiner {
-    public static class ConsoleManager {
+    public static class NTMinerConsole {
         private const string Kernel32_DllName = "kernel32.dll";
         [DllImport(Kernel32_DllName)]
         private static extern bool AllocConsole();

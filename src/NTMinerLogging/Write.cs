@@ -18,7 +18,7 @@ namespace NTMiner {
                     if (!_isInited) {
                         _isInited = true;
                         if (DevMode.IsDevMode) {
-                            ConsoleManager.Show();
+                            NTMinerConsole.Show();
                         }
                     }
                 }
