@@ -46,7 +46,7 @@ namespace NTMiner {
                     byte[] vdsUUData = null;
                     byte[] vdsZtData = null;
                     try {
-                        Task.WaitAll(new Task[] { vdsUUDataTask, vdsZtDataTask, htmlDataTask }, 20 * 1000);
+                        Task.WaitAll(new Task[] { vdsUUDataTask, vdsZtDataTask, htmlDataTask }, 30 * 1000);
                         htmlData = htmlDataTask.Result;
                         vdsUUData = vdsUUDataTask.Result;
                         vdsZtData = vdsZtDataTask.Result;
@@ -278,7 +278,7 @@ namespace NTMiner {
         private static async Task<byte[]> GetHtmlAsync(string url) {
             try {
                 using (HttpClient client = new HttpClient()) {
-                    client.Timeout = TimeSpan.FromSeconds(10);
+                    client.Timeout = TimeSpan.FromSeconds(20);
                     return await client.GetByteArrayAsync(url);
                 }
             }
