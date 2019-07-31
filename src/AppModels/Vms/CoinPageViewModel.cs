@@ -56,6 +56,9 @@ namespace NTMiner.Vms {
         }
 
         private CoinViewModel _currentCoin;
+        private PoolViewModel currentPool;
+        private CoinKernelViewModel currentCoinKernel;
+
         public CoinViewModel CurrentCoin {
             get { return _currentCoin; }
             set {
@@ -117,6 +120,22 @@ namespace NTMiner.Vms {
                     _isKernelTabSelected = value;
                     OnPropertyChanged(nameof(IsKernelTabSelected));
                 }
+            }
+        }
+
+        public PoolViewModel CurrentPool {
+            get => currentPool;
+            set {
+                currentPool = value;
+                OnPropertyChanged(nameof(CurrentPool));
+            }
+        }
+
+        public CoinKernelViewModel CurrentCoinKernel {
+            get => currentCoinKernel;
+            set {
+                currentCoinKernel = value;
+                OnPropertyChanged(nameof(CurrentCoinKernel));
             }
         }
     }
