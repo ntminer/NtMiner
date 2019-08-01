@@ -60,9 +60,10 @@ namespace NTMiner {
             parameters.Add(Consts.HostParameterName, mainCoinPool.GetHost());
             parameters.Add(Consts.PortParameterName, mainCoinPool.GetPort().ToString());
             parameters.Add(Consts.PoolParameterName, mainCoinPool.Server);
-            parameters.Add(Consts.WorkerParameterName, this.MinerProfile.MinerName);
+            string minerName = $"{mainCoinPool.MinerNamePrefix}{this.MinerProfile.MinerName}{mainCoinPool.MinerNamePostfix}";
+            parameters.Add(Consts.WorkerParameterName, minerName);
             if (coinKernel.IsSupportPool1 && !mainCoinPool.NoPool1) {
-                parameters.Add(Consts.Worker1ParameterName, this.MinerProfile.MinerName);
+                parameters.Add(Consts.Worker1ParameterName, minerName);
                 if (PoolSet.TryGetPool(coinProfile.PoolId1, out IPool mainCoinPool1)) {
                     parameters.Add(Consts.Host1ParameterName, mainCoinPool1.GetHost());
                     parameters.Add(Consts.Port1ParameterName, mainCoinPool1.GetPort().ToString());

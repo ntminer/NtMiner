@@ -1,4 +1,6 @@
 ﻿using NTMiner.Core;
+using NTMiner.Core.Profiles;
+using NTMiner.Profile;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -311,6 +313,7 @@ namespace NTMiner.Vms {
                     if (string.IsNullOrEmpty(value)) {
                         throw new ValidationException("矿池地址是必须的");
                     }
+                    RefreshArgsAssembly();
                 }
             }
         }
@@ -370,6 +373,27 @@ namespace NTMiner.Vms {
                     _isUserMode = value;
                     OnPropertyChanged(nameof(IsUserMode));
                     AppContext.Instance.MinerProfileVm.OnPropertyChanged(nameof(AppContext.Instance.MinerProfileVm.IsAllMainCoinPoolIsUserMode));
+                    RefreshArgsAssembly();
+                }
+            }
+        }
+
+        private static ICoinProfile GetDualCoinProfile() {
+            var workProfile = NTMinerRoot.Instance.MinerProfile;
+            var mainCoinProfile = workProfile.GetCoinProfile(workProfile.CoinId);
+            var coinKernelProfile = workProfile.GetCoinKernelProfile(mainCoinProfile.CoinKernelId);
+            return workProfile.GetCoinProfile(coinKernelProfile.DualCoinId);
+        }
+
+        private void RefreshArgsAssembly() {
+            var mainCoinProfile = NTMinerRoot.Instance.MinerProfile.GetCoinProfile(NTMinerRoot.Instance.MinerProfile.CoinId);
+            if (mainCoinProfile.PoolId == this.Id || mainCoinProfile.PoolId1 == this.Id) {
+                NTMinerRoot.RefreshArgsAssembly.Invoke();
+            }
+            else {
+                var dualCoinProfile = GetDualCoinProfile();
+                if (dualCoinProfile.PoolId == this.Id || dualCoinProfile.PoolId1 == this.Id) {
+                    NTMinerRoot.RefreshArgsAssembly.Invoke();
                 }
             }
         }
@@ -399,6 +423,7 @@ namespace NTMiner.Vms {
             set {
                 _noPool1 = value;
                 OnPropertyChanged(nameof(NoPool1));
+                RefreshArgsAssembly();
             }
         }
 
@@ -407,6 +432,7 @@ namespace NTMiner.Vms {
             set {
                 _notPool1 = value;
                 OnPropertyChanged(nameof(NotPool1));
+                RefreshArgsAssembly();
             }
         }
 
@@ -415,6 +441,7 @@ namespace NTMiner.Vms {
             set {
                 _minerNamePrefix = value;
                 OnPropertyChanged(nameof(MinerNamePrefix));
+                RefreshArgsAssembly();
             }
         }
 
@@ -423,6 +450,7 @@ namespace NTMiner.Vms {
             set {
                 _minerNamePostfix = value;
                 OnPropertyChanged(nameof(MinerNamePostfix));
+                RefreshArgsAssembly();
             }
         }
 
