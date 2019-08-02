@@ -25,87 +25,87 @@
 	</UserControl.Resources>
 	<StackPanel Margin="0 0 20 0">
 		<WrapPanel>
-			<TextBlock Style="{StaticResource LblTb}" Text="AppName"></TextBlock>
+			<TextBlock Style="{StaticResource LblTb}" Text="程序名"></TextBlock>
 			<TextBlock Text="{x:Static app:AppStatic.AppName}"></TextBlock>
 		</WrapPanel>
 		
 		<WrapPanel>
-			<TextBlock Style="{StaticResource LblTb}" Text="Id"></TextBlock>
+			<TextBlock Style="{StaticResource LblTb}" Text="矿机标识"></TextBlock>
 			<TextBox Text="{Binding Id,Mode=OneWay}" VerticalAlignment="Center" BorderThickness="0" IsReadOnly="True"></TextBox>
 		</WrapPanel>
 
 		<WrapPanel>
-			<TextBlock Style="{StaticResource LblTb}" Text="IsMinerStudio"></TextBlock>
-			<TextBlock Text="{Binding IsMinerStudio}"></TextBlock>
+			<TextBlock Style="{StaticResource LblTb}" Text="运行时"></TextBlock>
+            <TextBlock Text="{Binding AppRuntime}"></TextBlock>
 		</WrapPanel>
 		
 		<WrapPanel>
-			<TextBlock Style="{StaticResource LblTb}" Text="BootOn"></TextBlock>
+			<TextBlock Style="{StaticResource LblTb}" Text="启动时间"></TextBlock>
 			<TextBlock Text="{Binding BootOn}"></TextBlock>
 		</WrapPanel>
 
 		<WrapPanel>
-			<TextBlock Style="{StaticResource LblTb}" Text="GlobalDir"></TextBlock>
+			<TextBlock Style="{StaticResource LblTb}" Text="全局目录"></TextBlock>
 			<TextBlock Text="{Binding GlobalDir}"></TextBlock>
 		</WrapPanel>
 
 		<WrapPanel>
-			<TextBlock Style="{StaticResource LblTb}" Text="ServerDbFileFullName"></TextBlock>
+			<TextBlock Visibility="{x:Static app:AppStatic.IsDevModeVisible}" Style="{StaticResource LblTb}" Text="服务端数据库名"></TextBlock>
 			<TextBlock Text="{Binding ServerDbFileFullName}"></TextBlock>
 		</WrapPanel>
 
 		<WrapPanel>
-			<TextBlock Style="{StaticResource LblTb}" Text="ServerJsonFileFullName"></TextBlock>
+			<TextBlock Style="{StaticResource LblTb}" Text="服务端配置文件名"></TextBlock>
 			<TextBlock Text="{Binding ServerJsonFileFullName}"></TextBlock>
 		</WrapPanel>
 
 		<WrapPanel>
-			<TextBlock Style="{StaticResource LblTb}" Text="ServerVersionJsonFileFullName"></TextBlock>
+			<TextBlock Style="{StaticResource LblTb}" Text="服务端导出文件名"></TextBlock>
 			<TextBlock Text="{Binding ServerVersionJsonFileFullName}"></TextBlock>
 		</WrapPanel>
 
 		<WrapPanel>
-			<TextBlock Style="{StaticResource LblTb}" Text="LocalDbFileFullName"></TextBlock>
+			<TextBlock Style="{StaticResource LblTb}" Text="本地数据库文件名"></TextBlock>
 			<TextBlock Text="{Binding LocalDbFileFullName}"></TextBlock>
 		</WrapPanel>
 
 		<WrapPanel>
-			<TextBlock Style="{StaticResource LblTb}" Text="DaemonFileFullName"></TextBlock>
+			<TextBlock Visibility="{x:Static app:AppStatic.IsDevModeVisible}" Style="{StaticResource LblTb}" Text="守护程序文件名"></TextBlock>
 			<TextBlock Text="{Binding DaemonFileFullName}"></TextBlock>
 		</WrapPanel>
 
 		<WrapPanel>
-			<TextBlock Style="{StaticResource LblTb}" Text="DevConsoleFileFullName"></TextBlock>
+            <TextBlock Visibility="{x:Static app:AppStatic.IsDevModeVisible}" Style="{StaticResource LblTb}" Text="开发者工具程序文件名"></TextBlock>
 			<TextBlock Text="{Binding DevConsoleFileFullName}"></TextBlock>
 		</WrapPanel>
 
 		<WrapPanel>
-			<TextBlock Style="{StaticResource LblTb}" Text="NTMinerOverClockFileFullName"></TextBlock>
+			<TextBlock Style="{StaticResource LblTb}" Text="超频程序文件名"></TextBlock>
 			<TextBlock Text="{Binding NTMinerOverClockFileFullName}"></TextBlock>
 		</WrapPanel>
 
 		<WrapPanel>
-			<TextBlock Style="{StaticResource LblTb}" Text="TempDirFullName"></TextBlock>
+			<TextBlock Style="{StaticResource LblTb}" Text="临时目录"></TextBlock>
 			<TextBlock Text="{Binding TempDirFullName}"></TextBlock>
 		</WrapPanel>
 
 		<WrapPanel>
-			<TextBlock Style="{StaticResource LblTb}" Text="PackagesDirFullName"></TextBlock>
+			<TextBlock Style="{StaticResource LblTb}" Text="内核包目录"></TextBlock>
 			<TextBlock Text="{Binding PackagesDirFullName}"></TextBlock>
 		</WrapPanel>
 
 		<WrapPanel>
-			<TextBlock Style="{StaticResource LblTb}" Text="DownloadDirFullName"></TextBlock>
+			<TextBlock Style="{StaticResource LblTb}" Text="下载目录"></TextBlock>
 			<TextBlock Text="{Binding DownloadDirFullName}"></TextBlock>
 		</WrapPanel>
 
 		<WrapPanel>
-			<TextBlock Style="{StaticResource LblTb}" Text="KernelsDirFullName"></TextBlock>
+			<TextBlock Style="{StaticResource LblTb}" Text="内核解压目录"></TextBlock>
 			<TextBlock Text="{Binding KernelsDirFullName}"></TextBlock>
 		</WrapPanel>
 
 		<WrapPanel>
-			<TextBlock Style="{StaticResource LblTb}" Text="LogsDirFullName"></TextBlock>
+			<TextBlock Style="{StaticResource LblTb}" Text="日志目录"></TextBlock>
 			<TextBlock Text="{Binding LogsDirFullName}"></TextBlock>
 		</WrapPanel>
 	</StackPanel>

@@ -63,9 +63,15 @@ namespace NTMiner.Vms {
             get { return SpecialPath.LogsDirFullName; }
         }
 
-        public bool IsMinerStudio {
+        public string AppRuntime {
             get {
-                return NTMinerRoot.IsUseDevConsole;
+                if (VirtualRoot.IsMinerStudio) {
+                    return "群控客户端";
+                }
+                else if (VirtualRoot.IsMinerClient) {
+                    return "挖矿端";
+                }
+                return "未知";
             }
         }
     }

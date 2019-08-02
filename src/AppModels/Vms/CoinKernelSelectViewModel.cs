@@ -57,7 +57,7 @@ namespace NTMiner.Vms {
         public List<CoinKernelViewModel> QueryResults {
             get {
                 IQueryable<CoinKernelViewModel> query = Coin.CoinKernels.Where(a => a.Kernel != null && a.IsSupported).OrderBy(a => a.SortNumber).AsQueryable();
-                if (!Design.IsDebugMode) {
+                if (!Design.IsDevMode) {
                     query = query.Where(a => a.Kernel.PublishState == PublishStatus.Published);
                 }
                 if (!string.IsNullOrEmpty(Keyword)) {
