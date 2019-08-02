@@ -5,19 +5,6 @@ using System.Windows.Input;
 
 namespace NTMiner.Views.Ucs {
     public partial class OuterProperty : UserControl {
-        public static void ShowWindow() {
-            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                Title = "属性",
-                IconName = "Icon_Property",
-                Width = 400,
-                Height = AppStatic.MainWindowHeight,
-                CloseVisible = Visibility.Visible
-            }, ucFactory: (window) => {
-                var uc = new OuterProperty();
-                return uc;
-            }, fixedSize: false);
-        }
-
         private OuterPropertyViewModel Vm {
             get {
                 return (OuterPropertyViewModel)this.DataContext;

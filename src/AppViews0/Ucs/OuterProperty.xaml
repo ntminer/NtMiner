@@ -27,6 +27,7 @@
 		<ScrollViewer
 			Padding="4 0 0 0"
 			VerticalScrollBarVisibility="Auto" 
+            HorizontalScrollBarVisibility="Auto"
 			PreviewMouseDown="ScrollViewer_PreviewMouseDown">
 			<StackPanel>
 				<WrapPanel Margin="0 4 0 0">
