@@ -290,6 +290,11 @@ namespace NTMiner {
             }
         }
 
+        public static ICommand OpenDir { get; private set; } = new DelegateCommand<string>((dir) => {
+            dir = dir.Replace(Consts.LocalDirParameterName, AssemblyInfo.LocalDirFullName);
+            Process.Start(dir);
+        });
+
         public static ICommand ViewUrl { get; private set; } = new DelegateCommand<string>(url => {
             Process.Start(url);
         });

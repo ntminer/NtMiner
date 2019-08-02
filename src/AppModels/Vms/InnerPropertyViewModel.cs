@@ -2,7 +2,6 @@
 
 namespace NTMiner.Vms {
     public class InnerPropertyViewModel : ViewModelBase {
-        const string GlobalDirParameterName = "{全局目录}";
         public InnerPropertyViewModel() {
         }
 
@@ -12,58 +11,58 @@ namespace NTMiner.Vms {
         public string BootOn {
             get => NTMinerRoot.Instance.CreatedOn.ToString("yyyy-MM-dd HH:mm:ss");
         }
-        public string GlobalDir {
+        public string LocalDir {
             get => AssemblyInfo.LocalDirFullName;
         }
         public string ServerDbFileFullName {
             get {
-                return SpecialPath.ServerDbFileFullName.Replace(GlobalDir, GlobalDirParameterName);
+                return SpecialPath.ServerDbFileFullName.Replace(LocalDir, Consts.LocalDirParameterName);
             }
         }
         public string LocalDbFileFullName {
-            get => SpecialPath.LocalDbFileFullName.Replace(GlobalDir, GlobalDirParameterName);
+            get => SpecialPath.LocalDbFileFullName.Replace(LocalDir, Consts.LocalDirParameterName);
         }
 
         public string ServerJsonFileFullName {
-            get { return SpecialPath.ServerJsonFileFullName.Replace(GlobalDir, GlobalDirParameterName); }
+            get { return SpecialPath.ServerJsonFileFullName.Replace(LocalDir, Consts.LocalDirParameterName); }
         }
 
         public string ServerVersionJsonFileFullName {
-            get { return AssemblyInfo.ServerVersionJsonFileFullName.Replace(GlobalDir, GlobalDirParameterName); }
+            get { return AssemblyInfo.ServerVersionJsonFileFullName.Replace(LocalDir, Consts.LocalDirParameterName); }
         }
 
         public string DaemonFileFullName {
-            get { return SpecialPath.DaemonFileFullName.Replace(GlobalDir, GlobalDirParameterName); }
+            get { return SpecialPath.DaemonFileFullName.Replace(LocalDir, Consts.LocalDirParameterName); }
         }
 
         public string DevConsoleFileFullName {
-            get { return SpecialPath.DevConsoleFileFullName.Replace(GlobalDir, GlobalDirParameterName); }
+            get { return SpecialPath.DevConsoleFileFullName.Replace(LocalDir, Consts.LocalDirParameterName); }
         }
 
         public string NTMinerOverClockFileFullName {
-            get { return SpecialPath.NTMinerOverClockFileFullName.Replace(GlobalDir, GlobalDirParameterName); }
+            get { return SpecialPath.NTMinerOverClockFileFullName.Replace(LocalDir, Consts.LocalDirParameterName); }
         }
 
         public string TempDirFullName {
-            get { return SpecialPath.TempDirFullName.Replace(GlobalDir, GlobalDirParameterName); }
+            get { return SpecialPath.TempDirFullName.Replace(LocalDir, Consts.LocalDirParameterName); }
         }
 
         public string PackagesDirFullName {
-            get { return SpecialPath.PackagesDirFullName.Replace(GlobalDir, GlobalDirParameterName); }
+            get { return SpecialPath.PackagesDirFullName.Replace(LocalDir, Consts.LocalDirParameterName); }
         }
 
         public string DownloadDirFullName {
             get {
-                return SpecialPath.DownloadDirFullName.Replace(GlobalDir, GlobalDirParameterName);
+                return SpecialPath.DownloadDirFullName.Replace(LocalDir, Consts.LocalDirParameterName);
             }
         }
 
         public string KernelsDirFullName {
-            get { return SpecialPath.KernelsDirFullName.Replace(GlobalDir, GlobalDirParameterName); }
+            get { return SpecialPath.KernelsDirFullName.Replace(LocalDir, Consts.LocalDirParameterName); }
         }
 
         public string LogsDirFullName {
-            get { return SpecialPath.LogsDirFullName.Replace(GlobalDir, GlobalDirParameterName); }
+            get { return SpecialPath.LogsDirFullName.Replace(LocalDir, Consts.LocalDirParameterName); }
         }
 
         public string AppRuntime {
