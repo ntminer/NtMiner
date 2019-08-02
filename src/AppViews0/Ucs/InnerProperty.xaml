@@ -16,7 +16,7 @@
 	</UserControl.DataContext>
 	<UserControl.Resources>
 		<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
-			<Setter Property="Width" Value="210"></Setter>
+			<Setter Property="Width" Value="160"></Setter>
 			<Setter Property="Padding" Value="10 4"></Setter>
 		</Style>
 		<Style TargetType="TextBlock">
@@ -49,8 +49,8 @@
 			<TextBlock Text="{Binding GlobalDir}"></TextBlock>
 		</WrapPanel>
 
-		<WrapPanel>
-			<TextBlock Visibility="{x:Static app:AppStatic.IsDevModeVisible}" Style="{StaticResource LblTb}" Text="服务端数据库名"></TextBlock>
+        <WrapPanel Visibility="{x:Static app:AppStatic.IsDevModeVisible}">
+			<TextBlock Style="{StaticResource LblTb}" Text="服务端数据库名"></TextBlock>
 			<TextBlock Text="{Binding ServerDbFileFullName}"></TextBlock>
 		</WrapPanel>
 
@@ -69,13 +69,13 @@
 			<TextBlock Text="{Binding LocalDbFileFullName}"></TextBlock>
 		</WrapPanel>
 
-		<WrapPanel>
-			<TextBlock Visibility="{x:Static app:AppStatic.IsDevModeVisible}" Style="{StaticResource LblTb}" Text="守护程序文件名"></TextBlock>
+        <WrapPanel Visibility="{x:Static app:AppStatic.IsDevModeVisible}">
+			<TextBlock Style="{StaticResource LblTb}" Text="守护程序文件名"></TextBlock>
 			<TextBlock Text="{Binding DaemonFileFullName}"></TextBlock>
 		</WrapPanel>
 
-		<WrapPanel>
-            <TextBlock Visibility="{x:Static app:AppStatic.IsDevModeVisible}" Style="{StaticResource LblTb}" Text="开发者工具程序文件名"></TextBlock>
+        <WrapPanel Visibility="{x:Static app:AppStatic.IsDevModeVisible}">
+            <TextBlock Style="{StaticResource LblTb}" Text="开发者工具程序文件名"></TextBlock>
 			<TextBlock Text="{Binding DevConsoleFileFullName}"></TextBlock>
 		</WrapPanel>
 
