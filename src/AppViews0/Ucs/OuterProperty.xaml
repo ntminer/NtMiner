@@ -10,7 +10,7 @@
 		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
 		xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 		Background="White"
-		mc:Ignorable="d" d:DesignHeight="460" d:DesignWidth="700">
+		mc:Ignorable="d" d:DesignHeight="460" d:DesignWidth="400">
 	<UserControl.DataContext>
 		<vm:OuterPropertyViewModel></vm:OuterPropertyViewModel>
 	</UserControl.DataContext>
