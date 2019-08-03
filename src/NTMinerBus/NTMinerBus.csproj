@@ -7,8 +7,8 @@
     <ProjectGuid>{E17F278A-E393-403E-9D37-E371036D7A02}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NTMiner.Bus</RootNamespace>
-    <AssemblyName>NTMiner.Bus</AssemblyName>
+    <RootNamespace>NTMiner</RootNamespace>
+    <AssemblyName>NTMinerBus</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -40,26 +40,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cmd.cs" />
-    <Compile Include="DelegateHandler`1.cs" />
-    <Compile Include="DirectBus\DirectBus.cs" />
-    <Compile Include="DirectBus\DirectCommandBus.cs" />
-    <Compile Include="DirectBus\DirectEventBus.cs" />
-    <Compile Include="EventBase.cs" />
-    <Compile Include="IBus.cs" />
-    <Compile Include="ICmd.cs" />
-    <Compile Include="ICmdBus.cs" />
-    <Compile Include="IDelegateHandler.cs" />
-    <Compile Include="IEvent.cs" />
-    <Compile Include="IEventBus.cs" />
-    <Compile Include="IHandlerId.cs" />
-    <Compile Include="IMessage.cs" />
-    <Compile Include="IMessageDispatcher.cs" />
+    <Compile Include="Bus\Cmd.cs" />
+    <Compile Include="Bus\DelegateHandler`1.cs" />
+    <Compile Include="Bus\DirectBus\DirectBus.cs" />
+    <Compile Include="Bus\DirectBus\DirectCommandBus.cs" />
+    <Compile Include="Bus\DirectBus\DirectEventBus.cs" />
+    <Compile Include="Bus\EventBase.cs" />
+    <Compile Include="Bus\IBus.cs" />
+    <Compile Include="Bus\ICmd.cs" />
+    <Compile Include="Bus\ICmdBus.cs" />
+    <Compile Include="Bus\IDelegateHandler.cs" />
+    <Compile Include="Bus\IEvent.cs" />
+    <Compile Include="Bus\IEventBus.cs" />
+    <Compile Include="Bus\IHandlerId.cs" />
+    <Compile Include="Bus\IMessage.cs" />
+    <Compile Include="Bus\IMessageDispatcher.cs" />
     <Compile Include="LogEnum.cs" />
-    <Compile Include="MessageDispatcher.cs" />
-    <Compile Include="MessageDispatcherExtensions.cs" />
-    <Compile Include="MessageDispatchEventArgs.cs" />
-    <Compile Include="MessageTypeAttribute.cs" />
+    <Compile Include="Bus\MessageDispatcher.cs" />
+    <Compile Include="Bus\MessageDispatcherExtensions.cs" />
+    <Compile Include="Bus\MessageDispatchEventArgs.cs" />
+    <Compile Include="Bus\MessageTypeAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
