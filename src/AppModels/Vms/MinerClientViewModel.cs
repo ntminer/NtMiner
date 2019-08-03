@@ -977,6 +977,14 @@ namespace NTMiner.Vms {
             }
         }
 
+        public bool IsNoShareRestartComputer {
+            get { return _data.IsNoShareRestartComputer; }
+            set {
+                _data.IsNoShareRestartComputer = value;
+                OnPropertyChanged(nameof(IsNoShareRestartComputer));
+            }
+        }
+
         public bool IsPeriodicRestartKernel {
             get { return _data.IsPeriodicRestartKernel; }
             set {

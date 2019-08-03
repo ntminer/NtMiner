@@ -107,7 +107,7 @@
 							</CheckBox>
 						</WrapPanel>
 						<WrapPanel Margin="0 2">
-							<CheckBox
+                            <CheckBox
 								Padding="0"
 								FocusVisualStyle="{x:Null}"
 								VerticalContentAlignment="Center"
@@ -130,8 +130,33 @@
 									<TextBlock VerticalAlignment="Center">分钟收益没有增加重启内核</TextBlock>
 								</WrapPanel>
 							</CheckBox>
-						</WrapPanel>
-						<WrapPanel Margin="0 2">
+                        </WrapPanel>
+                        <WrapPanel Margin="0 2">
+                            <CheckBox
+								Padding="0"
+								FocusVisualStyle="{x:Null}"
+								VerticalContentAlignment="Center"
+								IsChecked="{Binding IsNoShareRestartComputer}">
+                                <WrapPanel>
+                                    <TextBlock VerticalAlignment="Center">如果</TextBlock>
+                                    <TextBox Style="{StaticResource TbUpDown}" Text="{Binding NoShareRestartComputerMinutes}" HorizontalAlignment="Left"></TextBox>
+                                    <StackPanel Margin="0 0 2 0">
+                                        <Button Height="12" Command="{Binding NoShareRestartComputerMinutesUp}">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
+                                            </Button.Content>
+                                        </Button>
+                                        <Button Height="12" Command="{Binding NoShareRestartComputerMinutesDown}">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
+                                            </Button.Content>
+                                        </Button>
+                                    </StackPanel>
+                                    <TextBlock VerticalAlignment="Center">分钟收益没有增加重启电脑</TextBlock>
+                                </WrapPanel>
+                            </CheckBox>
+                        </WrapPanel>
+                        <WrapPanel Margin="0 2">
 							<CheckBox
 								FocusVisualStyle="{x:Null}"
 								Padding="0"

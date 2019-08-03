@@ -24,6 +24,7 @@ namespace NTMiner.MinerServer {
             IsAutoRestartKernel = true,
             IsAutoStart = true,
             IsNoShareRestartKernel = true,
+            IsNoShareRestartComputer = false,
             IsPeriodicRestartComputer = true,
             IsPeriodicRestartKernel = true,
             MinerIp = true,
@@ -137,6 +138,8 @@ namespace NTMiner.MinerServer {
         public bool IsPeriodicRestartKernel { get; set; }
 
         public bool IsPeriodicRestartComputer { get; set; }
+
+        public bool IsNoShareRestartComputer { get; set; }
 
         public StringBuilder GetSignData() {
             return this.BuildSign();

@@ -19,6 +19,8 @@ namespace NTMiner {
 
             public ICommand NoShareRestartKernelMinutesUp { get; private set; }
             public ICommand NoShareRestartKernelMinutesDown { get; private set; }
+            public ICommand NoShareRestartComputerMinutesUp { get; private set; }
+            public ICommand NoShareRestartComputerMinutesDown { get; private set; }
 
             public ICommand PeriodicRestartKernelHoursUp { get; private set; }
             public ICommand PeriodicRestartKernelHoursDown { get; private set; }
@@ -73,6 +75,14 @@ namespace NTMiner {
                 this.NoShareRestartKernelMinutesDown = new DelegateCommand(() => {
                     if (this.NoShareRestartKernelMinutes > 0) {
                         this.NoShareRestartKernelMinutes--;
+                    }
+                });
+                this.NoShareRestartComputerMinutesUp = new DelegateCommand(() => {
+                    this.NoShareRestartComputerMinutes++;
+                });
+                this.NoShareRestartComputerMinutesDown = new DelegateCommand(() => {
+                    if (this.NoShareRestartComputerMinutes > 0) {
+                        this.NoShareRestartComputerMinutes--;
                     }
                 });
                 this.PeriodicRestartKernelHoursUp = new DelegateCommand(() => {
@@ -379,6 +389,26 @@ namespace NTMiner {
                     if (NTMinerRoot.Instance.MinerProfile.NoShareRestartKernelMinutes != value) {
                         NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(NoShareRestartKernelMinutes), value);
                         OnPropertyChanged(nameof(NoShareRestartKernelMinutes));
+                    }
+                }
+            }
+
+            public bool IsNoShareRestartComputer {
+                get => NTMinerRoot.Instance.MinerProfile.IsNoShareRestartComputer;
+                set {
+                    if (NTMinerRoot.Instance.MinerProfile.IsNoShareRestartComputer != value) {
+                        NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsNoShareRestartComputer), value);
+                        OnPropertyChanged(nameof(IsNoShareRestartComputer));
+                    }
+                }
+            }
+
+            public int NoShareRestartComputerMinutes {
+                get => NTMinerRoot.Instance.MinerProfile.NoShareRestartComputerMinutes;
+                set {
+                    if (NTMinerRoot.Instance.MinerProfile.NoShareRestartComputerMinutes != value) {
+                        NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(NoShareRestartComputerMinutes), value);
+                        OnPropertyChanged(nameof(NoShareRestartComputerMinutes));
                     }
                 }
             }

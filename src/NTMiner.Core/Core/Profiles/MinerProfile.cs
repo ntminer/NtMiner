@@ -191,6 +191,20 @@ namespace NTMiner.Core.Profiles {
             }
         }
 
+        public bool IsNoShareRestartComputer {
+            get => _data.IsNoShareRestartComputer;
+            private set {
+                _data.IsNoShareRestartComputer = value;
+            }
+        }
+
+        public int NoShareRestartComputerMinutes {
+            get => _data.NoShareRestartComputerMinutes;
+            private set {
+                _data.NoShareRestartComputerMinutes = value;
+            }
+        }
+
         public bool IsPeriodicRestartKernel {
             get => _data.IsPeriodicRestartKernel;
             private set {

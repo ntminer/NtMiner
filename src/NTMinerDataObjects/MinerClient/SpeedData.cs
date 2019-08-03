@@ -12,6 +12,8 @@ namespace NTMiner.MinerClient {
         public bool IsAutoRestartKernel { get; set; }
         public bool IsNoShareRestartKernel { get; set; }
         public int NoShareRestartKernelMinutes { get; set; }
+        public bool IsNoShareRestartComputer { get; set; }
+        public int NoShareRestartComputerMinutes { get; set; }
         public bool IsPeriodicRestartKernel { get; set; }
         public int PeriodicRestartKernelHours { get; set; }
         public bool IsPeriodicRestartComputer { get; set; }

@@ -17,6 +17,8 @@ namespace NTMiner.Profile {
             this.AutoRestartKernelTimes = 10;
             this.IsNoShareRestartKernel = false;
             this.NoShareRestartKernelMinutes = 30;
+            this.IsNoShareRestartComputer = false;
+            this.NoShareRestartComputerMinutes = 30;
             this.IsPeriodicRestartKernel = false;
             this.PeriodicRestartKernelHours = 12;
             this.PeriodicRestartKernelMinutes = 0;
@@ -41,6 +43,8 @@ namespace NTMiner.Profile {
             this.AutoRestartKernelTimes = data.AutoRestartKernelTimes;
             this.IsNoShareRestartKernel = data.IsNoShareRestartKernel;
             this.NoShareRestartKernelMinutes = data.NoShareRestartKernelMinutes;
+            this.IsNoShareRestartComputer = data.IsNoShareRestartComputer;
+            this.NoShareRestartComputerMinutes = data.NoShareRestartComputerMinutes;
             this.IsPeriodicRestartKernel = data.IsPeriodicRestartKernel;
             this.PeriodicRestartKernelHours = data.PeriodicRestartKernelHours;
             this.PeriodicRestartKernelHours = data.PeriodicRestartKernelHours;
@@ -67,6 +71,8 @@ namespace NTMiner.Profile {
         public Guid CoinId { get; set; }
         public bool IsNoShareRestartKernel { get; set; }
         public int NoShareRestartKernelMinutes { get; set; }
+        public bool IsNoShareRestartComputer { get; set; }
+        public int NoShareRestartComputerMinutes { get; set; }
         public bool IsPeriodicRestartKernel { get; set; }
         public int PeriodicRestartKernelHours { get; set; }
         public bool IsPeriodicRestartComputer { get; set; }

@@ -77,6 +77,7 @@ namespace NTMiner.Vms {
         private bool _diskSpace;
         private bool _isAutoRestartKernel;
         private bool _isNoShareRestartKernel;
+        private bool _isNoShareRestartComputer;
         private bool _isPeriodicRestartKernel;
         private bool _isPeriodicRestartComputer;
 
@@ -186,6 +187,7 @@ namespace NTMiner.Vms {
             _diskSpace = data.DiskSpace;
             _isAutoRestartKernel = data.IsAutoRestartKernel;
             _isNoShareRestartKernel = data.IsNoShareRestartKernel;
+            _isNoShareRestartComputer = data.IsNoShareRestartComputer;
             _isPeriodicRestartKernel = data.IsPeriodicRestartKernel;
             _isPeriodicRestartComputer = data.IsPeriodicRestartComputer;
         }
@@ -680,6 +682,17 @@ namespace NTMiner.Vms {
                 if (_isNoShareRestartKernel != value) {
                     _isNoShareRestartKernel = value;
                     OnPropertyChanged(nameof(IsNoShareRestartKernel));
+                    UpdateColumnsShowAsync();
+                }
+            }
+        }
+
+        public bool IsNoShareRestartComputer {
+            get { return _isNoShareRestartComputer; }
+            set {
+                if (_isNoShareRestartComputer != value) {
+                    _isNoShareRestartComputer = value;
+                    OnPropertyChanged(nameof(IsNoShareRestartComputer));
                     UpdateColumnsShowAsync();
                 }
             }
