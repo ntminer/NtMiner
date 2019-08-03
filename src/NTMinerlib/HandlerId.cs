@@ -1,8 +1,9 @@
-﻿using System;
+﻿using NTMiner.Bus;
+using System;
 using System.ComponentModel;
 
 namespace NTMiner {
-    public class HandlerId : IHandlerId, INotifyPropertyChanged {
+    public partial class HandlerId : IHandlerId, INotifyPropertyChanged {
         private bool _isEnabled;
 
         public event PropertyChangedEventHandler PropertyChanged;

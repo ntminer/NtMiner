@@ -1,8 +1,7 @@
 ﻿namespace NTMiner.Bus {
-    using NTMiner;
     using System;
 
-    public interface IEvent : IMessage, IEntity<Guid> {
+    public interface IEvent : IMessage {
         DateTime Timestamp { get; }
     }
 }

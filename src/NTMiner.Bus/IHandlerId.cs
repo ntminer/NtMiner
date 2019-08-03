@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NTMiner {
+namespace NTMiner.Bus {
     public interface IHandlerId {
         Type MessageType { get; }
         bool IsEnabled { get; set; }

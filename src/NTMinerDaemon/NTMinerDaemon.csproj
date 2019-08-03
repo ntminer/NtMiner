@@ -98,6 +98,12 @@
     <Compile Include="..\NTMiner.Core\Windows\WMI.cs">
       <Link>Windows\WMI.cs</Link>
     </Compile>
+    <Compile Include="..\NTMinerlib\HandlerId.cs">
+      <Link>HandlerId.cs</Link>
+    </Compile>
+    <Compile Include="..\NTMinerlib\Messages.Timing.cs">
+      <Link>Messages.Timing.cs</Link>
+    </Compile>
     <Compile Include="..\NTMinerlib\NTMinerRegistry.cs">
       <Link>NTMinerRegistry.cs</Link>
     </Compile>
@@ -115,6 +121,9 @@
     </Compile>
     <Compile Include="..\NTMinerlib\Consts.cs">
       <Link>Consts.cs</Link>
+    </Compile>
+    <Compile Include="..\NTMinerlib\VirtualRoot.partials.cs">
+      <Link>VirtualRoot.partials.cs</Link>
     </Compile>
     <Compile Include="..\NTMinerlib\Windows\Cmd.cs">
       <Link>Windows\Cmd.cs</Link>
@@ -149,6 +158,10 @@
     <EmbeddedResource Include="NoDevFee\WinDivert.dll" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NTMiner.Bus\NTMiner.Bus.csproj">
+      <Project>{e17f278a-e393-403e-9d37-e371036d7a02}</Project>
+      <Name>NTMiner.Bus</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NTMinerDataObjects\NTMinerDataObjects.csproj">
       <Project>{defc7387-f9fa-4651-a281-6612efb7fbb6}</Project>
       <Name>NTMinerDataObjects</Name>
