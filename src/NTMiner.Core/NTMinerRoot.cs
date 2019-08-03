@@ -340,28 +340,7 @@ namespace NTMiner {
                     #region 收益没有增加重启内核
                     try {
                         if (IsMining) {
-                            if (MinerProfile.IsNoShareRestartKernel) {
-                                if ((DateTime.Now - shareOn).TotalMinutes > MinerProfile.NoShareRestartKernelMinutes) {
-                                    if (this.CurrentMineContext.MainCoin != null) {
-                                        ICoinShare mainCoinShare = this.CoinShareSet.GetOrCreate(this.CurrentMineContext.MainCoin.GetId());
-                                        int totalShare = mainCoinShare.TotalShareCount;
-                                        if ((this.CurrentMineContext is IDualMineContext dualMineContext) && dualMineContext.DualCoin != null) {
-                                            ICoinShare dualCoinShare = this.CoinShareSet.GetOrCreate(dualMineContext.DualCoin.GetId());
-                                            totalShare += dualCoinShare.TotalShareCount;
-                                        }
-                                        if (shareCount == totalShare) {
-                                            Logger.WarnWriteLine($"{MinerProfile.NoShareRestartKernelMinutes}分钟收益没有增加重启内核");
-                                            RestartMine();
-                                            return;// 退出
-                                        }
-                                        else {
-                                            shareCount = totalShare;
-                                            shareOn = DateTime.Now;
-                                        }
-                                    }
-                                }
-                            }
-                            else if (MinerProfile.IsNoShareRestartComputer) {
+                            if (MinerProfile.IsNoShareRestartComputer) {
                                 if ((DateTime.Now - shareOn).TotalMinutes > MinerProfile.NoShareRestartComputerMinutes) {
                                     if (this.CurrentMineContext.MainCoin != null) {
                                         ICoinShare mainCoinShare = this.CoinShareSet.GetOrCreate(this.CurrentMineContext.MainCoin.GetId());
@@ -374,6 +353,27 @@ namespace NTMiner {
                                             Logger.WarnWriteLine($"{MinerProfile.NoShareRestartComputerMinutes}分钟收益没有增加重启电脑");
                                             Windows.Power.Restart(10);
                                             VirtualRoot.Execute(new CloseNTMinerCommand());
+                                            return;// 退出
+                                        }
+                                        else {
+                                            shareCount = totalShare;
+                                            shareOn = DateTime.Now;
+                                        }
+                                    }
+                                }
+                            }
+                            if (MinerProfile.IsNoShareRestartKernel) {
+                                if ((DateTime.Now - shareOn).TotalMinutes > MinerProfile.NoShareRestartKernelMinutes) {
+                                    if (this.CurrentMineContext.MainCoin != null) {
+                                        ICoinShare mainCoinShare = this.CoinShareSet.GetOrCreate(this.CurrentMineContext.MainCoin.GetId());
+                                        int totalShare = mainCoinShare.TotalShareCount;
+                                        if ((this.CurrentMineContext is IDualMineContext dualMineContext) && dualMineContext.DualCoin != null) {
+                                            ICoinShare dualCoinShare = this.CoinShareSet.GetOrCreate(dualMineContext.DualCoin.GetId());
+                                            totalShare += dualCoinShare.TotalShareCount;
+                                        }
+                                        if (shareCount == totalShare) {
+                                            Logger.WarnWriteLine($"{MinerProfile.NoShareRestartKernelMinutes}分钟收益没有增加重启内核");
+                                            RestartMine();
                                             return;// 退出
                                         }
                                         else {
