@@ -16,7 +16,7 @@ namespace NTMiner.Profile {
             this.IsAutoRestartKernel = true;
             this.AutoRestartKernelTimes = 10;
             this.IsNoShareRestartKernel = false;
-            this.NoShareRestartKernelMinutes = 30;
+            this.NoShareRestartKernelMinutes = 15;
             this.IsNoShareRestartComputer = false;
             this.NoShareRestartComputerMinutes = 30;
             this.IsPeriodicRestartKernel = false;
