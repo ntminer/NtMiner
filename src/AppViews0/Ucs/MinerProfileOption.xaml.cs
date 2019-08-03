@@ -12,14 +12,6 @@ namespace NTMiner.Views.Ucs {
         public MinerProfileOption() {
             this.DataContext = AppContext.Instance.MinerProfileVm;
             InitializeComponent();
-            if (VirtualRoot.IsMinerStudio) {
-                this.GroupSystemSetting.Visibility = Visibility.Collapsed;
-                this.WrapPanelAutoBootAndStart.Visibility = Visibility.Collapsed;
-            }
-            else {
-                this.GroupSystemSetting.Visibility = Visibility.Visible;
-                this.WrapPanelAutoBootAndStart.Visibility = Visibility.Visible;
-            }
         }
 
         private void ButtonHotKey_KeyDown(object sender, System.Windows.Input.KeyEventArgs e) {

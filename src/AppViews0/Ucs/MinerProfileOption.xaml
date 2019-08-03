@@ -3,6 +3,7 @@
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 		xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
@@ -38,7 +39,7 @@
 						<TextBlock Style="{StaticResource GroupHeader}">自动化</TextBlock>
 					</GroupBox.Header>
 					<StackPanel>
-						<WrapPanel x:Name="WrapPanelAutoBootAndStart" Margin="0 2">
+						<WrapPanel Margin="0 2" Visibility="{x:Static app:AppStatic.IsMinerClientVisible}">
 							<CheckBox
 								Padding="0"
 								FocusVisualStyle="{x:Null}"
@@ -227,7 +228,7 @@
 						Text="群控"></TextBlock>
 				</Border>
 			</Grid>
-			<GroupBox x:Name="GroupSystemSetting" Margin="0 6 0 0" Padding="6 0">
+			<GroupBox Margin="0 6 0 0" Padding="6 0" Visibility="{x:Static app:AppStatic.IsMinerClientVisible}">
 				<GroupBox.Header>
 					<TextBlock Style="{StaticResource GroupHeader}">显示</TextBlock>
 				</GroupBox.Header>

@@ -89,6 +89,28 @@ namespace NTMiner {
             get => VirtualRoot.IsMinerClient;
         }
 
+        public static Visibility IsMinerClientVisible {
+            get {
+                if (VirtualRoot.IsMinerClient) {
+                    return Visibility.Visible;
+                }
+                return Visibility.Collapsed;
+            }
+        }
+
+        public static bool IsMinerStudio {
+            get => VirtualRoot.IsMinerStudio;
+        }
+
+        public static Visibility IsMinerStudioVisible {
+            get {
+                if (VirtualRoot.IsMinerStudio) {
+                    return Visibility.Visible;
+                }
+                return Visibility.Collapsed;
+            }
+        }
+
         public static string AppName {
             get {
                 Assembly mainAssembly = Assembly.GetEntryAssembly();
