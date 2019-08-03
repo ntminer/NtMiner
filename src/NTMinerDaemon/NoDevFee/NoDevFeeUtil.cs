@@ -17,6 +17,9 @@ namespace NTMiner.NoDevFee {
             string ntminerWallet,
             string kernelFullName,
             out string message) {
+            if (!VirtualRoot.IsMinerClientRunning) {
+                message = "开源矿工的挖矿端程序未运行时不反水";
+            }
             CoinKernelId coinKernelId = CoinKernelId.Undefined;
             if (contextId == 0) {
                 message = "非法的输入：" + nameof(contextId);
