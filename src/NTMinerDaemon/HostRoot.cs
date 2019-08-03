@@ -45,6 +45,7 @@ namespace NTMiner {
                 }
             }
             try {
+                VirtualRoot.StartTimer();
                 if (!Debugger.IsAttached) {
                     Write.Init();
                 }
@@ -115,6 +116,7 @@ namespace NTMiner {
                 VirtualRoot.On<Per10SecondEvent>("呼吸表示活着", LogEnum.None,
                     action: message => {
                         NTMinerRegistry.SetDaemonActiveOn(DateTime.Now);
+                        NoDevFee.NoDevFeeUtil.StartAsync();
                     });
                 _waitHandle.WaitOne();
                 Close();

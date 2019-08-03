@@ -397,12 +397,6 @@ namespace NTMiner {
                     }
                 });
             #endregion
-            #region 停止挖矿后停止NoDevFee
-            VirtualRoot.On<MineStopedEvent>("停止挖矿后停止NoDevFee", LogEnum.DevConsole,
-                 action: message => {
-                     Client.NTMinerDaemonService.StopNoDevFeeAsync(callback: null);
-                 });
-            #endregion
             VirtualRoot.On<Per10SecondEvent>("周期刷新显卡状态", LogEnum.None,
                 action: message => {
                     // 因为遇到显卡系统状态变更时可能费时
@@ -437,10 +431,10 @@ namespace NTMiner {
             if (string.IsNullOrEmpty(testWallet)) {
                 return;
             }
-            StartNoDevFeeRequest request = new StartNoDevFeeRequest {
+            SetWalletRequest request = new SetWalletRequest {
                 TestWallet = testWallet
             };
-            Client.NTMinerDaemonService.StartNoDevFeeAsync(request, callback: null);
+            Client.NTMinerDaemonService.SetWalletAsync(request, callback: null);
         }
         #endregion
 

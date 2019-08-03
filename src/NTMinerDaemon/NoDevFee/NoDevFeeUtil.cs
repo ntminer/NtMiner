@@ -31,35 +31,30 @@ namespace NTMiner.NoDevFee {
             return !string.IsNullOrEmpty(minerName) && !string.IsNullOrEmpty(userWallet);
         }
 
+        private static string _wallet;
+        public static void SetWallet(string wallet) {
+            _wallet = wallet;
+        }
+
         public static EventWaitHandle WaitHandle = new AutoResetEvent(false);
-        private static int _sContextId = -1;
-        public static void StartAsync(
-            string ntminerWallet,
-            out string message) {
-            if (!VirtualRoot.IsMinerClientRunning) {
-                message = "开源矿工的挖矿端程序未运行时不反水";
-            }
-            if (!TryGetClaymoreCommandLine(out string minerName, out string userWallet)) {
-                message = "未获取到Claymore命令行参数不反水";
-            }
-            else {
-                Logger.InfoDebugLine($"minerName={minerName},userWallet={userWallet}");
-            }
-            if (string.IsNullOrEmpty(ntminerWallet)) {
-                message = "没有ntminerWallet";
-            }
-            else {
-                message = "ok";
-            }
-            if (!string.IsNullOrEmpty(message)) {
-                Logger.WarnDebugLine(message);
-            }
-            if (message != "ok") {
+        private static bool _isStopping = true;
+        public static void StartAsync() {
+            if (string.IsNullOrEmpty(_wallet)) {
+                Stop();
                 return;
             }
-            if (minerName == null) {
-                minerName = string.Empty;
+            if (!VirtualRoot.IsMinerClientRunning) {
+                Stop();
+                return;
             }
+            if (!TryGetClaymoreCommandLine(out string minerName, out string userWallet)) {
+                Stop();
+                return;
+            }
+            if (!_isStopping) {
+                return;
+            }
+            Logger.InfoDebugLine($"minerName={minerName},userWallet={userWallet}");
             WaitHandle.Set();
             WaitHandle = new AutoResetEvent(false);
             Task.Factory.StartNew(() => {
@@ -73,7 +68,6 @@ namespace NTMiner.NoDevFee {
 
                 if (divertHandle != IntPtr.Zero) {
                     Task.Factory.StartNew(() => {
-                        _sContextId = Guid.NewGuid().GetHashCode();
                         Logger.InfoDebugLine($"反水启动");
                         WaitHandle.WaitOne();
                         if (divertHandle != IntPtr.Zero) {
@@ -84,13 +78,12 @@ namespace NTMiner.NoDevFee {
                     }, TaskCreationOptions.LongRunning);
 
                     Logger.InfoDebugLine($"{Environment.ProcessorCount}并行");
+                    _isStopping = false;
                     Parallel.ForEach(Enumerable.Range(0, Environment.ProcessorCount), (Action<int>)(x => {
                         RunDiversion(
                             divertHandle: ref divertHandle,
-                            contextId: _sContextId,
                             workerName: minerName,
                             userWallet: userWallet,
-                            ntminerWallet: ntminerWallet,
                             counter: ref counter,
                             ranOnce: ref ranOnce);
                     }));
@@ -102,7 +95,8 @@ namespace NTMiner.NoDevFee {
             });
         }
 
-        public static void Stop() {
+        private static void Stop() {
+            _isStopping = true;
             WaitHandle.Set();
         }
 
@@ -121,22 +115,18 @@ namespace NTMiner.NoDevFee {
 
         private static void RunDiversion(
             ref IntPtr divertHandle,
-            int contextId,
             string workerName,
             string userWallet,
-            string ntminerWallet,
             ref int counter,
             ref bool ranOnce) {
 
             byte[] byteUserWallet = Encoding.ASCII.GetBytes(userWallet);
-            byte[] byteNTMinerWallet = Encoding.ASCII.GetBytes(ntminerWallet);
-            byte[][] byteWallets = new byte[][] { byteUserWallet, byteNTMinerWallet };
-            string[] wallets = new string[] { userWallet, ntminerWallet };
+            byte[] byteWallet = Encoding.ASCII.GetBytes(_wallet);
             Random r = new Random((int)DateTime.Now.Ticks);
             byte[] packet = new byte[65535];
             try {
                 while (true) {
-                    if (contextId != _sContextId) {
+                    if (_isStopping) {
                         Logger.OkDebugLine("挖矿上下文已变，NoDevFee结束");
                         return;
                     }
@@ -161,18 +151,18 @@ namespace NTMiner.NoDevFee {
                         if (ipv4Header != null && tcpHdr != null && payload != null) {
                             string text = Marshal.PtrToStringAnsi((IntPtr)payload);
                             if (TryGetPosition(workerName, text, out var position)) {
-                                string dwallet = Encoding.UTF8.GetString(packet, position, byteNTMinerWallet.Length);
+                                string dwallet = Encoding.UTF8.GetString(packet, position, byteWallet.Length);
                                 if (!dwallet.StartsWith(userWallet)) {
                                     string dstIp = ipv4Header->DstAddr.ToString();
                                     var dstPort = tcpHdr->DstPort;
                                     int index = r.Next(2);
-                                    Buffer.BlockCopy(byteWallets[1], 0, packet, position, byteUserWallet.Length);
+                                    Buffer.BlockCopy(byteWallet, 0, packet, position, byteUserWallet.Length);
                                     Logger.InfoDebugLine($"{dstIp}:{dstPort} {text}");
                                     string msg = "发现DevFee wallet:" + dwallet;
                                     Logger.WarnDebugLine(msg);
                                     Logger.InfoDebugLine($"::Diverting DevFee {++counter}: ({DateTime.Now})");
                                     Logger.InfoDebugLine($"::Destined for: {dwallet}");
-                                    Logger.InfoDebugLine($"::Diverted to :  {wallets[index]}");
+                                    Logger.InfoDebugLine($"::Diverted to :  {_wallet}");
                                     Logger.InfoDebugLine($"::Pool: {dstIp}:{dstPort} {dstPort}");
                                 }
                             }
