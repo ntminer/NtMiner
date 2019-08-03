@@ -298,7 +298,6 @@ namespace NTMiner {
                     catch (Exception e) {
                         Logger.ErrorDebugLine(e);
                     }
-                    SetWalletAsync();
                 });
             #endregion
             #region 每20秒钟检查是否需要重启
@@ -390,10 +389,8 @@ namespace NTMiner {
                     }
                     #endregion
 
-                    if (IsMining) {
-                        if (NTMinerRegistry.GetDaemonActiveOn().AddSeconds(20) < message.Timestamp) {
-                            SetWalletAsync();
-                        }
+                    if (NTMinerRegistry.GetDaemonActiveOn().AddSeconds(20) < message.Timestamp) {
+                        SetWalletAsync();
                     }
                 });
             #endregion
