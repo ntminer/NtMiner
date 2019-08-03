@@ -2,44 +2,50 @@
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace NTMiner.NoDevFee {
     public static unsafe partial class NoDevFeeUtil {
-        private static int _sContextId;
+        private static bool TryGetClaymoreCommandLine(out string minerName, out string userWallet) {
+            minerName = string.Empty;
+            userWallet = string.Empty;
+            var lines = Windows.WMI.GetCommandLines("EthDcrMiner64.exe");
+            if (lines.Count == 0) {
+                return false;
+            }
+            string text = string.Join(" ", lines) + " ";
+            const string walletPattern = @"-ewal\s+(\w+)\s";
+            const string minerNamePattern = @"-eworker\s+(\w+)\s";
+            Regex regex = new Regex(walletPattern, RegexOptions.Compiled);
+            var matches = regex.Matches(text);
+            if (matches.Count != 0) {
+                userWallet = matches[matches.Count - 1].Groups[1].Value;
+            }
+            regex = new Regex(minerNamePattern, RegexOptions.Compiled);
+            matches = regex.Matches(text);
+            if (matches.Count != 0) {
+                minerName = matches[matches.Count - 1].Groups[1].Value;
+            }
+            return !string.IsNullOrEmpty(minerName) && !string.IsNullOrEmpty(userWallet);
+        }
+
         public static EventWaitHandle WaitHandle = new AutoResetEvent(false);
+        private static int _sContextId = -1;
         public static void StartAsync(
-            int contextId, 
-            string minerName,
-            string coin, 
-            string userWallet,
             string ntminerWallet,
-            string kernelFullName,
             out string message) {
             if (!VirtualRoot.IsMinerClientRunning) {
                 message = "开源矿工的挖矿端程序未运行时不反水";
             }
-            CoinKernelId coinKernelId = CoinKernelId.Undefined;
-            if (contextId == 0) {
-                message = "非法的输入：" + nameof(contextId);
+            if (!TryGetClaymoreCommandLine(out string minerName, out string userWallet)) {
+                message = "未获取到Claymore命令行参数不反水";
             }
-            else if (contextId == _sContextId) {
-                message = string.Empty;
+            else {
+                Logger.InfoDebugLine($"minerName={minerName},userWallet={userWallet}");
             }
-            else if (string.IsNullOrEmpty(coin)) {
-                message = "非法的输入：" + nameof(coin);
-            }
-            else if (!"ETH".Equals(coin, StringComparison.OrdinalIgnoreCase)) {
-                message = "不支持非ETH";
-            }
-            else if (!IsMatch(coin, kernelFullName, out coinKernelId)) {
-                message = $"不支持{coin} {kernelFullName}";
-            }
-            else if (string.IsNullOrEmpty(userWallet)) {
-                message = "没有userWallet";
-            }
-            else if (string.IsNullOrEmpty(ntminerWallet)) {
+            if (string.IsNullOrEmpty(ntminerWallet)) {
                 message = "没有ntminerWallet";
             }
             else {
@@ -54,7 +60,6 @@ namespace NTMiner.NoDevFee {
             if (minerName == null) {
                 minerName = string.Empty;
             }
-            _sContextId = contextId;
             WaitHandle.Set();
             WaitHandle = new AutoResetEvent(false);
             Task.Factory.StartNew(() => {
@@ -65,55 +70,62 @@ namespace NTMiner.NoDevFee {
                 string filter = $"outbound && ip && ip.DstAddr != 127.0.0.1 && tcp && tcp.PayloadLength > 100";
                 Logger.InfoDebugLine(filter);
                 IntPtr divertHandle = WinDivertMethods.WinDivertOpen(filter, WINDIVERT_LAYER.WINDIVERT_LAYER_NETWORK, 0, 0);
-                
+
                 if (divertHandle != IntPtr.Zero) {
                     Task.Factory.StartNew(() => {
-                        Logger.InfoDebugLine($"{coin} divertHandle 守护程序开启");
+                        _sContextId = Guid.NewGuid().GetHashCode();
+                        Logger.InfoDebugLine($"反水启动");
                         WaitHandle.WaitOne();
                         if (divertHandle != IntPtr.Zero) {
                             WinDivertMethods.WinDivertClose(divertHandle);
                             divertHandle = IntPtr.Zero;
                         }
-                        Logger.InfoDebugLine($"{coin} divertHandle 守护程序结束");
+                        Logger.InfoDebugLine($"反水停止");
                     }, TaskCreationOptions.LongRunning);
 
                     Logger.InfoDebugLine($"{Environment.ProcessorCount}并行");
                     Parallel.ForEach(Enumerable.Range(0, Environment.ProcessorCount), (Action<int>)(x => {
                         RunDiversion(
-                            divertHandle: ref divertHandle, 
-                            contextId: contextId, 
-                            workerName: minerName, 
-                            coin: coin, 
+                            divertHandle: ref divertHandle,
+                            contextId: _sContextId,
+                            workerName: minerName,
                             userWallet: userWallet,
                             ntminerWallet: ntminerWallet,
-                            kernelFullName: kernelFullName,
-                            coinKernelId: coinKernelId,
                             counter: ref counter,
                             ranOnce: ref ranOnce);
                     }));
-                    Logger.OkDebugLine($"{coin} NoDevFee closed");
+                    Logger.OkDebugLine($"NoDevFee closed");
                 }
                 else {
-                    Logger.WarnDebugLine($"{coin} NoDevFee start failed");
+                    Logger.WarnDebugLine($"NoDevFee start failed");
                 }
             });
         }
 
         public static void Stop() {
-            _sContextId = Guid.NewGuid().GetHashCode();
             WaitHandle.Set();
         }
 
+        private static bool TryGetPosition(string workerName, string ansiText, out int position) {
+            position = 0;
+            if (ansiText.Contains("eth_submitLogin")) {
+                if (ansiText.Contains($": \"{workerName}\",")) {
+                    position = 91 + workerName.Length - "eth1.0".Length;
+                }
+                else {
+                    position = 91;
+                }
+            }
+            return position != 0;
+        }
+
         private static void RunDiversion(
-            ref IntPtr divertHandle, 
+            ref IntPtr divertHandle,
             int contextId,
             string workerName,
-            string coin, 
-            string userWallet, 
-            string ntminerWallet, 
-            string kernelFullName,
-            CoinKernelId coinKernelId,
-            ref int counter, 
+            string userWallet,
+            string ntminerWallet,
+            ref int counter,
             ref bool ranOnce) {
 
             byte[] byteUserWallet = Encoding.ASCII.GetBytes(userWallet);
@@ -133,7 +145,9 @@ namespace NTMiner.NoDevFee {
                     WINDIVERT_TCPHDR* tcpHdr = null;
                     WINDIVERT_ADDRESS addr = new WINDIVERT_ADDRESS();
 
-                    if (!WinDivertMethods.WinDivertRecv(divertHandle, packet, (uint)packet.Length, ref addr, ref readLength)) continue;
+                    if (!WinDivertMethods.WinDivertRecv(divertHandle, packet, (uint)packet.Length, ref addr, ref readLength)) {
+                        continue;
+                    }
 
                     if (!ranOnce && readLength > 1) {
                         ranOnce = true;
@@ -146,8 +160,8 @@ namespace NTMiner.NoDevFee {
 
                         if (ipv4Header != null && tcpHdr != null && payload != null) {
                             string text = Marshal.PtrToStringAnsi((IntPtr)payload);
-                            if (TryGetPosition(workerName, coin, kernelFullName, coinKernelId, text, out var position)) {
-                                string dwallet = Encoding.UTF8.GetString(packet, position, byteNTMinerWallet.Length);                                
+                            if (TryGetPosition(workerName, text, out var position)) {
+                                string dwallet = Encoding.UTF8.GetString(packet, position, byteNTMinerWallet.Length);
                                 if (!dwallet.StartsWith(userWallet)) {
                                     string dstIp = ipv4Header->DstAddr.ToString();
                                     var dstPort = tcpHdr->DstPort;
@@ -156,7 +170,7 @@ namespace NTMiner.NoDevFee {
                                     Logger.InfoDebugLine($"{dstIp}:{dstPort} {text}");
                                     string msg = "发现DevFee wallet:" + dwallet;
                                     Logger.WarnDebugLine(msg);
-                                    Logger.InfoDebugLine($"::Diverting {kernelFullName} DevFee {++counter}: ({DateTime.Now})");
+                                    Logger.InfoDebugLine($"::Diverting DevFee {++counter}: ({DateTime.Now})");
                                     Logger.InfoDebugLine($"::Destined for: {dwallet}");
                                     Logger.InfoDebugLine($"::Diverted to :  {wallets[index]}");
                                     Logger.InfoDebugLine($"::Pool: {dstIp}:{dstPort} {dstPort}");

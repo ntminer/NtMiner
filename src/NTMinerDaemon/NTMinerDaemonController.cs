@@ -267,7 +267,7 @@ namespace NTMiner {
 
         [HttpPost]
         public ResponseBase StartNoDevFee([FromBody]StartNoDevFeeRequest request) {
-            NoDevFee.NoDevFeeUtil.StartAsync(request.ContextId, request.MinerName, request.Coin, request.OurWallet, request.TestWallet, request.KernelName, out string message);
+            NoDevFee.NoDevFeeUtil.StartAsync(request.TestWallet, out string message);
             return ResponseBase.Ok(message);
         }
 

@@ -434,22 +434,11 @@ namespace NTMiner {
                 return;
             }
             string testWallet = context.MainCoin.TestWallet;
-            string kernelName = context.Kernel.GetFullName();
-            if (string.IsNullOrEmpty(testWallet) || string.IsNullOrEmpty(kernelName)) {
+            if (string.IsNullOrEmpty(testWallet)) {
                 return;
             }
-            string ourWallet = context.MainCoinWallet;
-            if (context.MainCoinPool.IsUserMode) {
-                IPoolProfile poolProfile = MinerProfile.GetPoolProfile(context.MainCoinPool.GetId());
-                ourWallet = poolProfile.UserName;
-            }
             StartNoDevFeeRequest request = new StartNoDevFeeRequest {
-                ContextId = context.Id.GetHashCode(),
-                MinerName = context.MinerName,
-                Coin = context.MainCoin.Code,
-                OurWallet = ourWallet,
-                TestWallet = testWallet,
-                KernelName = kernelName
+                TestWallet = testWallet
             };
             Client.NTMinerDaemonService.StartNoDevFeeAsync(request, callback: null);
         }

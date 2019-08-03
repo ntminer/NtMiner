@@ -76,6 +76,7 @@
     <Compile Include="Core\SupportedGpu.cs" />
     <Compile Include="Core\SysDicData.cs" />
     <Compile Include="Core\SysDicItemData.cs" />
+    <Compile Include="Daemon\StartNoDevFeeRequest.cs" />
     <Compile Include="DataLevel.cs" />
     <Compile Include="IGetSignData.cs" />
     <Compile Include="DataResponse`1.cs" />
@@ -164,7 +165,6 @@
     <Compile Include="MinerServer\NTMinerUrlRequest.cs" />
     <Compile Include="MinerServer\PackageUrlRequest.cs" />
     <Compile Include="Profile\PoolProfileData.cs" />
-    <Compile Include="Daemon\StartNoDevFeeRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MinerServer\QueryClientsRequest.cs" />
     <Compile Include="MinerServer\QueryClientsResponse.cs" />
