@@ -389,9 +389,7 @@ namespace NTMiner {
                     }
                     #endregion
 
-                    if (NTMinerRegistry.GetDaemonActiveOn().AddSeconds(20) < message.Timestamp) {
-                        SetWalletAsync();
-                    }
+                    SetWalletAsync();
                 });
             #endregion
             VirtualRoot.On<Per10SecondEvent>("周期刷新显卡状态", LogEnum.None,
