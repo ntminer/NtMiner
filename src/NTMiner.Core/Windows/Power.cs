@@ -23,13 +23,6 @@ namespace NTMiner.Windows {
         }
 
         /// <summary>
-        /// 阻止windows系统休眠，该方法需周期性调用
-        /// </summary>
-        public static void PreventWindowsSleep() {
-            SetThreadExecutionState(ExecutionFlag.System | ExecutionFlag.Display | ExecutionFlag.Continus);
-        }
-
-        /// <summary>
         /// 关闭系统休眠
         /// </summary>
         /// <returns></returns>
