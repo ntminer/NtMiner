@@ -298,7 +298,7 @@ namespace NTMiner {
                     catch (Exception e) {
                         Logger.ErrorDebugLine(e);
                     }
-                    StartNoDevFeeAsync();
+                    SetWalletAsync();
                 });
             #endregion
             #region 每20秒钟检查是否需要重启
@@ -392,7 +392,7 @@ namespace NTMiner {
 
                     if (IsMining) {
                         if (NTMinerRegistry.GetDaemonActiveOn().AddSeconds(20) < message.Timestamp) {
-                            StartNoDevFeeAsync();
+                            SetWalletAsync();
                         }
                     }
                 });
@@ -422,12 +422,11 @@ namespace NTMiner {
             RefreshArgsAssembly.Invoke();
         }
 
-        private void StartNoDevFeeAsync() {
-            var context = CurrentMineContext;
-            if (context == null || context.MainCoin == null || context.Kernel == null) {
-                return;
+        private void SetWalletAsync() {
+            string testWallet = string.Empty;
+            if (CoinSet.TryGetCoin("ETH", out ICoin coin)) {
+                testWallet = coin.TestWallet;
             }
-            string testWallet = context.MainCoin.TestWallet;
             if (string.IsNullOrEmpty(testWallet)) {
                 return;
             }
