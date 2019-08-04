@@ -8,6 +8,8 @@ namespace NTMiner.Vms {
         private string _serverJsonVersion;
         private readonly StateBarViewModel _stateBarVm = new StateBarViewModel();
         private MinerStateViewModel _minerStateVm;
+        private bool _isDaemonStateOk;
+
         public MinerStateViewModel MinerStateVm {
             get {
                 if (_minerStateVm == null) {
@@ -108,6 +110,14 @@ namespace NTMiner.Vms {
                     return Visibility.Visible;
                 }
                 return Visibility.Collapsed;
+            }
+        }
+
+        public bool IsDaemonStateOk {
+            get => _isDaemonStateOk;
+            set {
+                _isDaemonStateOk = value;
+                OnPropertyChanged(nameof(IsDaemonStateOk));
             }
         }
     }

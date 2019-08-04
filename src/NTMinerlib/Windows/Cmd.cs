@@ -25,7 +25,7 @@ namespace NTMiner.Windows {
                 }
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine($"{filePullName} {args}");
+                Logger.ErrorDebugLine($"filePullName={filePullName}, args={args}");
                 Logger.ErrorDebugLine(e);
             }
         }
@@ -50,7 +50,7 @@ namespace NTMiner.Windows {
                 }
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine($"{filePullName} {args}");
+                Logger.ErrorDebugLine($"filePullName={filePullName}, args={args}");
                 Logger.ErrorDebugLine(e);
             }
         }
@@ -81,7 +81,7 @@ namespace NTMiner.Windows {
                 }
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine($"{filePullName} {args}");
+                Logger.ErrorDebugLine($"filePullName={filePullName}, args={args}");
                 output = string.Empty;
                 Logger.ErrorDebugLine(e);
             }
