@@ -8,13 +8,19 @@ namespace NTMiner {
     internal unsafe class Program {
         private static bool s_running = true;
         private static string s_poolIp;
+        private static string s_keyword;
         private static bool s_ranOnce = false;
 
         private static void Main(string[] args) {
             Console.CancelKeyPress += delegate { s_running = false; };
 
             if (args.Length >= 1) {
-                s_poolIp = args[0];
+                if (args[0].StartsWith("keyword=")) {
+                    s_keyword = args[0].Substring("keyword=".Length);
+                }
+                else {
+                    s_poolIp = args[0];
+                }
             }
             else {
                 Console.WriteLine("ERROR: No poolIp argument was found.");
@@ -31,7 +37,13 @@ namespace NTMiner {
 
             WinDivertExtract.Extract();
 
-            string filter = $"ip && (ip.DstAddr = {s_poolIp} || ip.SrcAddr = {s_poolIp}) && tcp && tcp.PayloadLength > 100";
+            string filter;
+            if (string.IsNullOrEmpty(s_keyword)) {
+                filter = $"ip && (ip.DstAddr = {s_poolIp} || ip.SrcAddr = {s_poolIp}) && tcp && tcp.PayloadLength > 100";
+            }
+            else {
+                filter = $"ip && tcp && tcp.PayloadLength > 100";
+            }
             Console.WriteLine(filter);
             var divertHandle = WinDivertMethods.WinDivertOpen(filter, WINDIVERT_LAYER.WINDIVERT_LAYER_NETWORK, 0, 0);
 
@@ -70,19 +82,28 @@ namespace NTMiner {
 
                         if (ipv4Header != null && tcpHdr != null && payload != null) {
                             string text = Marshal.PtrToStringAnsi((IntPtr)payload);
-                            string dstIp = ipv4Header->DstAddr.ToString();
-                            var dstPort = tcpHdr->DstPort;
-                            string arrow = $"->{dstIp}:{dstPort}";
-                            if (dstIp == poolIp) {
-                                arrow = $"{dstIp}:{dstPort}<-";
-                                Console.WriteLine($"<-<-<-<-<-<-<-<-<-<-<-<-<-{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss fff")}<-<-<-<-<-<-<-<-<-<-<-<-<-<-<-");
+                            if (!string.IsNullOrEmpty(s_keyword)) {
+                                if (text.Contains(s_keyword)) {
+                                    Console.WriteLine(text);
+                                    Console.WriteLine();
+                                    Console.WriteLine();
+                                }
                             }
                             else {
-                                Console.WriteLine($"->->->->->->->->->->->->->{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss fff")}->->->->->->->->->->->->->->->");
+                                string dstIp = ipv4Header->DstAddr.ToString();
+                                var dstPort = tcpHdr->DstPort;
+                                string arrow = $"->{dstIp}:{dstPort}";
+                                if (dstIp == poolIp) {
+                                    arrow = $"{dstIp}:{dstPort}<-";
+                                    Console.WriteLine($"<-<-<-<-<-<-<-<-<-<-<-<-<-{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss fff")}<-<-<-<-<-<-<-<-<-<-<-<-<-<-<-");
+                                }
+                                else {
+                                    Console.WriteLine($"->->->->->->->->->->->->->{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss fff")}->->->->->->->->->->->->->->->");
+                                }
+                                Console.WriteLine(arrow + text);
+                                Console.WriteLine();
+                                Console.WriteLine();
                             }
-                            Console.WriteLine(arrow + text);
-                            Console.WriteLine();
-                            Console.WriteLine();
                         }
                     }
 
