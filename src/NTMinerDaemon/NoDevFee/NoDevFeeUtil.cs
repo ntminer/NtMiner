@@ -43,10 +43,6 @@ namespace NTMiner.NoDevFee {
                 Stop();
                 return;
             }
-            if (!VirtualRoot.IsMinerClientRunning) {
-                Stop();
-                return;
-            }
             if (!TryGetClaymoreCommandLine(out string minerName, out string userWallet)) {
                 Stop();
                 return;
