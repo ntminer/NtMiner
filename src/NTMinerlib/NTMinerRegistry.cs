@@ -221,7 +221,7 @@ namespace NTMiner {
         }
         #endregion
 
-        #region DaemonVersion
+        #region DaemonActiveOn
         public static DateTime GetDaemonActiveOn() {
             object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistrySubKey, "DaemonActiveOn");
             if (value == null) {

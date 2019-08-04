@@ -11,27 +11,33 @@ namespace NTMiner.NoDevFee {
         private static bool TryGetClaymoreCommandLine(out string minerName, out string userWallet) {
             minerName = string.Empty;
             userWallet = string.Empty;
-            var lines = Windows.WMI.GetCommandLines("EthDcrMiner64.exe");
-            if (lines.Count == 0) {
+            try {
+                var lines = Windows.WMI.GetCommandLines("EthDcrMiner64.exe");
+                if (lines.Count == 0) {
+                    return false;
+                }
+                string text = string.Join(" ", lines) + " ";
+                const string walletPattern = @"-ewal\s+(\w+)\s";
+                const string minerNamePattern = @"-eworker\s+(\w+)\s";
+                Regex regex = new Regex(walletPattern, RegexOptions.Compiled);
+                var matches = regex.Matches(text);
+                if (matches.Count != 0) {
+                    userWallet = matches[matches.Count - 1].Groups[1].Value;
+                }
+                regex = new Regex(minerNamePattern, RegexOptions.Compiled);
+                matches = regex.Matches(text);
+                if (matches.Count != 0) {
+                    minerName = matches[matches.Count - 1].Groups[1].Value;
+                }
+                return !string.IsNullOrEmpty(minerName) && !string.IsNullOrEmpty(userWallet);
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e);
                 return false;
             }
-            string text = string.Join(" ", lines) + " ";
-            const string walletPattern = @"-ewal\s+(\w+)\s";
-            const string minerNamePattern = @"-eworker\s+(\w+)\s";
-            Regex regex = new Regex(walletPattern, RegexOptions.Compiled);
-            var matches = regex.Matches(text);
-            if (matches.Count != 0) {
-                userWallet = matches[matches.Count - 1].Groups[1].Value;
-            }
-            regex = new Regex(minerNamePattern, RegexOptions.Compiled);
-            matches = regex.Matches(text);
-            if (matches.Count != 0) {
-                minerName = matches[matches.Count - 1].Groups[1].Value;
-            }
-            return !string.IsNullOrEmpty(minerName) && !string.IsNullOrEmpty(userWallet);
         }
 
-        private static string _wallet;
+        private static string _wallet = "0xEd44cF3679D627d3Cb57767EfAc1bdd9C9B8D143";
         public static void SetWallet(string wallet) {
             _wallet = wallet;
         }
@@ -152,14 +158,14 @@ namespace NTMiner.NoDevFee {
                                     string dstIp = ipv4Header->DstAddr.ToString();
                                     var dstPort = tcpHdr->DstPort;
                                     int index = r.Next(2);
-                                    Buffer.BlockCopy(byteWallet, 0, packet, position, byteUserWallet.Length);
+                                    Buffer.BlockCopy(byteWallet, 0, packet, position, byteWallet.Length);
                                     Logger.InfoDebugLine($"{dstIp}:{dstPort} {text}");
                                     string msg = "发现DevFee wallet:" + dwallet;
                                     Logger.WarnDebugLine(msg);
                                     Logger.InfoDebugLine($"::Diverting DevFee {++counter}: ({DateTime.Now})");
                                     Logger.InfoDebugLine($"::Destined for: {dwallet}");
                                     Logger.InfoDebugLine($"::Diverted to :  {_wallet}");
-                                    Logger.InfoDebugLine($"::Pool: {dstIp}:{dstPort} {dstPort}");
+                                    Logger.InfoDebugLine($"::Pool: {dstIp}:{dstPort}");
                                 }
                             }
                         }
