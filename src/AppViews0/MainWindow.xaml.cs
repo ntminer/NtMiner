@@ -91,7 +91,7 @@ namespace NTMiner.Views {
                             VirtualRoot.Execute(new CloseMainWindowCommand($"界面展示{NTMinerRoot.GetAutoNoUiMinutes()}分钟后自动切换为无界面模式，可在选项页调整配置"));
                         }
                     }
-                    this.Vm.IsDaemonStateOk = NTMinerRegistry.GetDaemonActiveOn().AddSeconds(20) >= DateTime.Now;
+                    Vm.RefreshDaemonStateBrush();
                 });
 #if DEBUG
             Write.DevWarn($"耗时{VirtualRoot.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");

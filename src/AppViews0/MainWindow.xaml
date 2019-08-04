@@ -47,7 +47,7 @@
 		<!--上标题栏-->
 		<Grid>
 			<WrapPanel VerticalAlignment="Center">
-				<Image Width="18" Height="18" Source="/NTMinerWpf;component/Styles/Images/logo32.png" MouseDown="NTMinerLogo_MouseDown"></Image>
+				<Image Margin="2 0 0 0" Width="18" Height="18" Source="/NTMinerWpf;component/Styles/Images/logo32.png" MouseDown="NTMinerLogo_MouseDown"></Image>
 				<controls:KbLinkButton
 					ToolTip="关于开源矿工"
 					Command="{x:Static app:AppStatic.ShowAbout}"
@@ -57,7 +57,7 @@
 					Foreground="{StaticResource ThemeForeground}">
 					<WrapPanel>
 						<TextBlock
-							Foreground="{StaticResource ThemeForeground}"
+							Foreground="{Binding DaemonStateBrush}"
 							Margin="0"
 							HorizontalAlignment="Left"
 							VerticalAlignment="Center"

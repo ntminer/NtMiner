@@ -2,13 +2,16 @@
 using System;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace NTMiner.Vms {
     public class MainWindowViewModel : ViewModelBase {
         private string _serverJsonVersion;
         private readonly StateBarViewModel _stateBarVm = new StateBarViewModel();
         private MinerStateViewModel _minerStateVm;
-        private bool _isDaemonStateOk;
+        private readonly SolidColorBrush White = new SolidColorBrush(Colors.White);
+        private readonly SolidColorBrush Red = new SolidColorBrush(Colors.Red);
+        private SolidColorBrush _daemonStateBrush;
 
         public MinerStateViewModel MinerStateVm {
             get {
@@ -27,6 +30,7 @@ namespace NTMiner.Vms {
             if (Design.IsInDesignMode) {
                 return;
             }
+            RefreshDaemonStateBrush();
             this.CloseMainWindow = new DelegateCommand(() => {
                 VirtualRoot.Execute(new CloseMainWindowCommand("已切换为无界面模式运行"));
             });
@@ -113,11 +117,22 @@ namespace NTMiner.Vms {
             }
         }
 
-        public bool IsDaemonStateOk {
-            get => _isDaemonStateOk;
+        public SolidColorBrush DaemonStateBrush {
+            get => _daemonStateBrush;
             set {
-                _isDaemonStateOk = value;
-                OnPropertyChanged(nameof(IsDaemonStateOk));
+                if (_daemonStateBrush != value) {
+                    _daemonStateBrush = value;
+                    OnPropertyChanged(nameof(DaemonStateBrush));
+                }
+            }
+        }
+
+        public void RefreshDaemonStateBrush() {
+            if (NTMinerRegistry.GetDaemonActiveOn().AddSeconds(20) >= DateTime.Now) {
+                DaemonStateBrush = White;
+            }
+            else {
+                DaemonStateBrush = Red;
             }
         }
     }

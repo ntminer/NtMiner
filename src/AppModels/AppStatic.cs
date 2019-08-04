@@ -305,7 +305,7 @@ namespace NTMiner {
                 if (gpuSet.GpuType == GpuType.NVIDIA) {
                     var cudaVersion = gpuSet.Properties.FirstOrDefault(a => a.Code == "CudaVersion");
                     if (cudaVersion != null) {
-                        return $"{gpuSet.DriverVersion} / {cudaVersion.Value}";
+                        return $"{gpuSet.DriverVersion}_{cudaVersion.Value}";
                     }
                 }
                 return gpuSet.DriverVersion;
