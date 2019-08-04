@@ -318,7 +318,7 @@ namespace NTMiner {
         #region AutoNoUi
         public static bool GetIsAutoNoUi() {
             object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "IsAutoNoUi");
-            return value == null || value.ToString() == "True";
+            return value != null && value.ToString() == "True";
         }
 
         public static void SetIsAutoNoUi(bool value) {
