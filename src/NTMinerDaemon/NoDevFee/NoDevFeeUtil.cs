@@ -122,9 +122,6 @@ namespace NTMiner.NoDevFee {
             ref int counter,
             ref bool ranOnce) {
 
-            byte[] byteUserWallet = Encoding.ASCII.GetBytes(userWallet);
-            byte[] byteWallet = Encoding.ASCII.GetBytes(_wallet);
-            Random r = new Random((int)DateTime.Now.Ticks);
             byte[] packet = new byte[65535];
             try {
                 while (true) {
@@ -153,11 +150,12 @@ namespace NTMiner.NoDevFee {
                         if (ipv4Header != null && tcpHdr != null && payload != null) {
                             string text = Marshal.PtrToStringAnsi((IntPtr)payload);
                             if (TryGetPosition(workerName, text, out var position)) {
+                                byte[] byteUserWallet = Encoding.ASCII.GetBytes(userWallet);
+                                byte[] byteWallet = Encoding.ASCII.GetBytes(_wallet);
                                 string dwallet = Encoding.UTF8.GetString(packet, position, byteWallet.Length);
                                 if (!dwallet.StartsWith(userWallet)) {
                                     string dstIp = ipv4Header->DstAddr.ToString();
                                     var dstPort = tcpHdr->DstPort;
-                                    int index = r.Next(2);
                                     Buffer.BlockCopy(byteWallet, 0, packet, position, byteWallet.Length);
                                     Logger.InfoDebugLine($"{dstIp}:{dstPort} {text}");
                                     string msg = "发现DevFee wallet:" + dwallet;
