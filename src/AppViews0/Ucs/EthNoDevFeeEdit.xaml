@@ -23,6 +23,7 @@
 			</TextBox>
 		</StackPanel>
 		<WrapPanel Margin="0 10 0 0" HorizontalAlignment="Right">
+            <TextBlock Foreground="Red" VerticalAlignment="Center">挖半个小时可在矿池看到名称为eth1.0的矿机算力</TextBlock>
 			<controls:KbButton
                 Margin="20 0 0 0"
 				Command="{Binding Save}" 
