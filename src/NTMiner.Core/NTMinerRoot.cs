@@ -11,7 +11,6 @@ using NTMiner.Core.MinerServer;
 using NTMiner.Core.MinerServer.Impl;
 using NTMiner.Core.Profiles;
 using NTMiner.Core.Profiles.Impl;
-using NTMiner.Daemon;
 using NTMiner.MinerServer;
 using NTMiner.Profile;
 using NTMiner.User;
@@ -386,8 +385,6 @@ namespace NTMiner {
                         Logger.ErrorDebugLine(e);
                     }
                     #endregion
-
-                    SetWalletAsync();
                 });
             #endregion
             VirtualRoot.On<Per10SecondEvent>("周期刷新显卡状态", LogEnum.None,
@@ -413,20 +410,6 @@ namespace NTMiner {
             });
 
             RefreshArgsAssembly.Invoke();
-        }
-
-        private void SetWalletAsync() {
-            string testWallet = string.Empty;
-            if (CoinSet.TryGetCoin("ETH", out ICoin coin)) {
-                testWallet = coin.TestWallet;
-            }
-            if (string.IsNullOrEmpty(testWallet)) {
-                return;
-            }
-            SetWalletRequest request = new SetWalletRequest {
-                TestWallet = testWallet
-            };
-            Client.NTMinerDaemonService.SetWalletAsync(request, callback: null);
         }
         #endregion
 

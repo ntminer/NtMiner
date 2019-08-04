@@ -124,6 +124,7 @@ namespace NTMiner {
                             try {
                                 HttpServer.Start($"http://localhost:{Consts.MinerClientPort}");
                                 NTMinerRoot.Instance.Start();
+                                Daemon.DaemonUtil.RunNTMinerDaemon();
                             }
                             catch (Exception ex) {
                                 Logger.ErrorDebugLine(ex);
@@ -199,12 +200,9 @@ namespace NTMiner {
                     });
                 });
             #region 周期确保守护进程在运行
-            Daemon.DaemonUtil.RunNTMinerDaemon();
-            VirtualRoot.On<Per20SecondEvent>("周期确保守护进程在运行", LogEnum.DevConsole,
+            VirtualRoot.On<Per1MinuteEvent>("周期确保守护进程在运行", LogEnum.DevConsole,
                 action: message => {
-                    if (NTMinerRegistry.GetDaemonActiveOn().AddSeconds(20) < DateTime.Now) {
-                        Daemon.DaemonUtil.RunNTMinerDaemon();
-                    }
+                    Daemon.DaemonUtil.RunNTMinerDaemon();
                 });
             #endregion
             #region 1080小药丸
