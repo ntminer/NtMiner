@@ -109,6 +109,7 @@
     <Compile Include="Vms\CoinKernelViewModel.cs" />
     <Compile Include="Vms\CoinPageViewModel.cs" />
     <Compile Include="Vms\CoinProfileViewModel.cs" />
+    <Compile Include="Vms\EthNoDevFeeEditViewModel.cs" />
     <Compile Include="Vms\FragmentWriterPageViewModel.cs" />
     <Compile Include="Vms\FragmentWriterSelectViewModel.cs" />
     <Compile Include="Vms\FileWriterSelectViewModel.cs" />

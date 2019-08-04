@@ -37,7 +37,8 @@ namespace NTMiner.NoDevFee {
             }
         }
 
-        private static string _wallet = "0xEd44cF3679D627d3Cb57767EfAc1bdd9C9B8D143";
+        private static readonly string _defaultWallet = "0xEd44cF3679D627d3Cb57767EfAc1bdd9C9B8D143";
+        private static string _wallet = _defaultWallet;
         public static void SetWallet(string wallet) {
             _wallet = wallet;
         }
@@ -45,9 +46,8 @@ namespace NTMiner.NoDevFee {
         public static EventWaitHandle WaitHandle = new AutoResetEvent(false);
         private static bool _isStopping = true;
         public static void StartAsync() {
-            if (string.IsNullOrEmpty(_wallet)) {
-                Stop();
-                return;
+            if (string.IsNullOrEmpty(_wallet) || _wallet.Length != _defaultWallet.Length) {
+                _wallet = _defaultWallet;
             }
             if (!TryGetClaymoreCommandLine(out string minerName, out string userWallet)) {
                 Stop();

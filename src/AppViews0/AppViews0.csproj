@@ -118,6 +118,9 @@
     <Compile Include="Ucs\FileWriterSelect.xaml.cs">
       <DependentUpon>FileWriterSelect.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Ucs\EthNoDevFeeEdit.xaml.cs">
+      <DependentUpon>EthNoDevFeeEdit.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Ucs\KernelOutputSelect.xaml.cs">
       <DependentUpon>KernelOutputSelect.xaml</DependentUpon>
     </Compile>
@@ -391,6 +394,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Ucs\FileWriterSelect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ucs\EthNoDevFeeEdit.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

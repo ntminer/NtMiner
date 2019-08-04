@@ -482,6 +482,10 @@ namespace NTMiner {
             VirtualRoot.Execute(new ShowCalcCommand(coinVm));
         });
 
+        public static ICommand ShowEthNoDevFee { get; private set; } = new DelegateCommand(() => {
+            VirtualRoot.Execute(new ShowEthNoDevFeeCommand());
+        });
+
         public static ICommand OpenOfficialSite { get; private set; } = new DelegateCommand(() => {
             Process.Start("http://ntminer.com/");
         });

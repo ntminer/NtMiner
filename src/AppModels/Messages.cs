@@ -357,6 +357,11 @@ namespace NTMiner {
         public CoinViewModel CoinVm { get; private set; }
     }
 
+    [MessageType(description: "打开ETH反抽水配置页")]
+    public class ShowEthNoDevFeeCommand : Cmd {
+        public ShowEthNoDevFeeCommand() { }
+    }
+
     [MessageType(description: "打开QQ群二维码")]
     public class ShowQQGroupQrCodeCommand : Cmd {
         public ShowQQGroupQrCodeCommand() {

@@ -33,6 +33,12 @@ namespace NTMiner.Views {
                         Calc.ShowWindow(message.CoinVm);
                     });
                 });
+            VirtualRoot.Window<ShowEthNoDevFeeCommand>(LogEnum.DevConsole,
+                action: message => {
+                    UIThread.Execute(() => {
+                        EthNoDevFeeEdit.ShowWindow();
+                    });
+                });
             VirtualRoot.Window<ShowCalcConfigCommand>(LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
