@@ -8,7 +8,7 @@ namespace NTMiner.Core.Gpus.Impl {
     internal class GpusSpeed : IGpusSpeed {
         private readonly Dictionary<int, GpuSpeed> _currentGpuSpeed = new Dictionary<int, GpuSpeed>();
         private Dictionary<int, List<IGpuSpeed>> _gpuSpeedHistory = new Dictionary<int, List<IGpuSpeed>>();
-        private readonly Dictionary<int, AverageSpeed> _averageGpuSpeed = new Dictionary<int, AverageSpeed>();
+        private readonly Dictionary<int, AverageSpeedWithHistory> _averageGpuSpeed = new Dictionary<int, AverageSpeedWithHistory>();
         private readonly object _gpuSpeedHistoryValuesLocker = new object();
 
         private readonly INTMinerRoot _root;
@@ -62,7 +62,7 @@ namespace NTMiner.Core.Gpus.Impl {
                                 SpeedOn = now
                             }));
                             _gpuSpeedHistory.Add(gpu.Index, new List<IGpuSpeed>());
-                            _averageGpuSpeed.Add(gpu.Index, new AverageSpeed {
+                            _averageGpuSpeed.Add(gpu.Index, new AverageSpeedWithHistory {
                                 Speed = 0,
                                 DualSpeed = 0
                             });
@@ -100,8 +100,14 @@ namespace NTMiner.Core.Gpus.Impl {
 
         public AverageSpeed GetAverageSpeed(int gpuIndex) {
             InitOnece();
-            if (_averageGpuSpeed.TryGetValue(gpuIndex, out AverageSpeed averageSpeed)) {
-                return averageSpeed;
+            if (_averageGpuSpeed.TryGetValue(gpuIndex, out AverageSpeedWithHistory averageSpeed)) {
+                if (averageSpeed.SpeedHistory.Count != 0) {
+                    return new AverageSpeed() {
+                        Speed = averageSpeed.SpeedHistory.Average(),
+                        DualSpeed = averageSpeed.DualSpeedHistory.Average()
+                    };
+                }
+                return averageSpeed.ToAverageSpeed();
             }
             return AverageSpeed.Empty;
         }
@@ -127,6 +133,9 @@ namespace NTMiner.Core.Gpus.Impl {
                     item.UpdateMainCoinSpeed(0, now);
                     item.UpdateDualCoinSpeed(0, now);
                 }
+                foreach (var avgSpeed in _averageGpuSpeed.Values) {
+                    avgSpeed.Reset();
+                }
             }
             lock (_gpuSpeedHistoryValuesLocker) {
                 // 将当前的旧算力加入历史列表
@@ -148,7 +157,7 @@ namespace NTMiner.Core.Gpus.Impl {
                     gpuSpeed.UpdateMainCoinSpeed(speed, now);
                 }
             }
-            if (_averageGpuSpeed.TryGetValue(gpuIndex, out AverageSpeed averageSpeed)) {
+            if (_averageGpuSpeed.TryGetValue(gpuIndex, out AverageSpeedWithHistory averageSpeed)) {
                 if (isDual) {
                     var array = _gpuSpeedHistory[gpuIndex].Where(a => a.DualCoinSpeed.Value != 0).ToArray();
                     if (array.Length != 0) {
