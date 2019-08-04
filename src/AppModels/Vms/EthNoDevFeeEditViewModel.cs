@@ -24,7 +24,7 @@ namespace NTMiner.Vms {
             });
         }
 
-        private string GetEthNoDevFeeWallet() {
+        public static string GetEthNoDevFeeWallet() {
             if (NTMinerRoot.Instance.LocalAppSettingSet.TryGetAppSetting(nameof(EthNoDevFeeWallet), out IAppSetting appSetting)) {
                 return (string)appSetting.Value;
             }

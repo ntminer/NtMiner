@@ -42,12 +42,14 @@ namespace NTMiner.Daemon {
         }
 
         private static string GetEthNoDevFeeWallet() {
-            string wallet = string.Empty;
-            if (NTMinerRoot.Instance.CoinSet == null) {
-                return wallet;
-            }
-            if (NTMinerRoot.Instance.CoinSet.TryGetCoin("ETH", out ICoin coin)) {
-                wallet = coin.TestWallet;
+            string wallet = Vms.EthNoDevFeeEditViewModel.GetEthNoDevFeeWallet();
+            if (string.IsNullOrEmpty(wallet)) {
+                if (NTMinerRoot.Instance.CoinSet == null) {
+                    return wallet;
+                }
+                if (NTMinerRoot.Instance.CoinSet.TryGetCoin("ETH", out ICoin coin)) {
+                    wallet = coin.TestWallet;
+                }
             }
             return wallet;
         }
