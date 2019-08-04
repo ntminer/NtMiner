@@ -10,7 +10,10 @@ namespace NTMiner.Views.Ucs {
                 IsDialogWindow = true,
                 CloseVisible = System.Windows.Visibility.Visible
             }, ucFactory: (window) => {
-                return new EthNoDevFeeEdit();
+                var uc = new EthNoDevFeeEdit();
+                EthNoDevFeeEditViewModel vm = (EthNoDevFeeEditViewModel)uc.DataContext;
+                vm.CloseWindow = window.Close;
+                return uc;
             }, fixedSize: true);
         }
 

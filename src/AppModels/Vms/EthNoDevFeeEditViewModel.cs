@@ -1,5 +1,6 @@
 ﻿using NTMiner.Core;
 using NTMiner.MinerServer;
+using System;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
 
@@ -9,6 +10,8 @@ namespace NTMiner.Vms {
 
         public ICommand Save { get; private set; }
 
+        public Action CloseWindow { get; set; }
+
         public EthNoDevFeeEditViewModel() {
             _ethNoDevFeeWallet = GetEthNoDevFeeWallet();
             this.Save = new DelegateCommand(() => {                
@@ -17,6 +20,7 @@ namespace NTMiner.Vms {
                     Value = EthNoDevFeeWallet
                 };
                 VirtualRoot.Execute(new ChangeLocalAppSettingCommand(appSettingData));
+                CloseWindow?.Invoke();
             });
         }
 
