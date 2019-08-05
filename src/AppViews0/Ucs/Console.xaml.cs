@@ -17,6 +17,7 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void InnerWrite(string text, ConsoleColor foreground) {
+            ChkbIsConsoleAutoScrollToEnd.Focus();
             int p1 = RichTextBox.TextLength;
             string line = text;
             if (RichTextBox.Lines.Length != 0) {
@@ -38,10 +39,6 @@ namespace NTMiner.Views.Ucs {
             Dispatcher.Invoke((Action)(() => {
                 InnerWrite(text, foreground);
             }));
-        }
-
-        private void RichTextBox_GotFocus(object sender, EventArgs e) {
-            ChkbIsConsoleAutoScrollToEnd.Focus();
         }
     }
 }
