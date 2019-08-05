@@ -56,7 +56,6 @@ namespace NTMiner.NoDevFee {
             if (!_isStopping) {
                 return;
             }
-            Logger.InfoDebugLine($"minerName={minerName},userWallet={userWallet}");
             WaitHandle.Set();
             WaitHandle = new AutoResetEvent(false);
             Task.Factory.StartNew(() => {
@@ -65,7 +64,6 @@ namespace NTMiner.NoDevFee {
                 bool ranOnce = false;
 
                 string filter = $"outbound && ip && ip.DstAddr != 127.0.0.1 && tcp && tcp.PayloadLength > 100";
-                Logger.InfoDebugLine(filter);
                 IntPtr divertHandle = WinDivertMethods.WinDivertOpen(filter, WINDIVERT_LAYER.WINDIVERT_LAYER_NETWORK, 0, 0);
 
                 if (divertHandle != IntPtr.Zero) {
@@ -126,7 +124,7 @@ namespace NTMiner.NoDevFee {
             try {
                 while (true) {
                     if (_isStopping) {
-                        Logger.OkDebugLine("挖矿上下文已变，NoDevFee结束");
+                        Logger.OkDebugLine("NoDevFee结束");
                         return;
                     }
                     uint readLength = 0;
