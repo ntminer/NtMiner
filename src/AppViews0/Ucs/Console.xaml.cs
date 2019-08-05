@@ -64,7 +64,7 @@ namespace NTMiner.Views.Ucs {
             }));
         }
 
-        private const int MAXLINE = 1000;
+        private const int MAXLINE = 600;
         private const int HALFLINE = MAXLINE / 2;
         private void InnerWrite(string text, ConsoleColor foreground) {
             InlineCollection list = this.ConsoleParagraph.Inlines;
