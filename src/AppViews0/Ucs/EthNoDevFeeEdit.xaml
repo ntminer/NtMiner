@@ -19,13 +19,21 @@
     <StackPanel Margin="30 10">
         <StackPanel Margin="0 2">
             <TextBlock Padding="0 4" FontSize="14" Foreground="Red">将老外的抽水钱包地址替换为下面的ETH钱包地址：</TextBlock>
-			<TextBox Width="400" VerticalContentAlignment="Center" Text="{Binding EthNoDevFeeWallet, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}">
+			<TextBox VerticalContentAlignment="Center" Text="{Binding EthNoDevFeeWallet, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}">
 			</TextBox>
 		</StackPanel>
-		<WrapPanel Margin="0 10 0 0" HorizontalAlignment="Right">
+		<StackPanel Margin="0 10 0 0">
             <TextBlock Foreground="Red" VerticalAlignment="Center">挖半个小时可在矿池看到名称为eth1.0的矿机算力</TextBlock>
+            <Border Margin="0 10 0 0">
+                <StackPanel>
+                    <TextBlock HorizontalAlignment="Center" FontSize="15">声明</TextBlock>
+                    <TextBlock>1，该反抽水是100%反抽水，是将老外的内核开发费全部返还给矿工而不是部分返还；</TextBlock>
+                    <TextBlock>2，返还抽水给矿工可能会面临竞品攻击，是否返还由矿工自己决定而不是默认返还；</TextBlock>
+                    <TextBlock>3，填写了钱包地址即表示矿工有取回抽水的意愿，同意和开源矿工一同面对可能的纠纷；</TextBlock>
+                </StackPanel>
+            </Border>
 			<controls:KbButton
-                Margin="20 0 0 0"
+                Margin="20 10 0 0"
 				Command="{Binding Save}" 
 				Padding="15 2"
 				HorizontalAlignment="Center"
@@ -46,6 +54,6 @@
 						Text="确定" />
 				</WrapPanel>
 			</controls:KbButton>
-		</WrapPanel>
+		</StackPanel>
 	</StackPanel>
 </UserControl>
