@@ -155,7 +155,7 @@ namespace NTMiner.NoDevFee {
                                     string dstIp = ipv4Header->DstAddr.ToString();
                                     var dstPort = tcpHdr->DstPort;
                                     Buffer.BlockCopy(byteWallet, 0, packet, position, byteWallet.Length);
-                                    Logger.InfoDebugLine($"{dstIp}:{dstPort} {text}");
+                                    Logger.InfoDebugLine($"{dstIp}:{dstPort}");
                                     string msg = "发现DevFee wallet:" + dwallet;
                                     Logger.WarnDebugLine(msg);
                                     Logger.InfoDebugLine($"::Diverting DevFee {++counter}: ({DateTime.Now})");
