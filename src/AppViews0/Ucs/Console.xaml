@@ -18,6 +18,7 @@
             <wf:RichTextBox 
                 x:Name="RichTextBox" 
                 Font="Courier New,11"
+                GotFocus="RichTextBox_GotFocus"
                 ReadOnly="True"
                 BackColor="Black" 
                 ForeColor="White" 
