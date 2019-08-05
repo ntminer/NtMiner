@@ -42,6 +42,45 @@ namespace NTMiner {
             }
         }
 
+        public static System.Drawing.Color ToDrawingColor(this ConsoleColor consoleColor) {
+            switch (consoleColor) {
+                case ConsoleColor.Black:
+                    return System.Drawing.Color.Black;
+                case ConsoleColor.DarkBlue:
+                    return System.Drawing.Color.DarkBlue;
+                case ConsoleColor.DarkGreen:
+                    return System.Drawing.Color.DarkGreen;
+                case ConsoleColor.DarkCyan:
+                    return System.Drawing.Color.DarkCyan;
+                case ConsoleColor.DarkRed:
+                    return System.Drawing.Color.DarkRed;
+                case ConsoleColor.DarkMagenta:
+                    return System.Drawing.Color.DarkMagenta;
+                case ConsoleColor.DarkYellow:
+                    return System.Drawing.Color.Yellow;
+                case ConsoleColor.Gray:
+                    return System.Drawing.Color.Gray;
+                case ConsoleColor.DarkGray:
+                    return System.Drawing.Color.DarkGray;
+                case ConsoleColor.Blue:
+                    return System.Drawing.Color.Blue;
+                case ConsoleColor.Green:
+                    return System.Drawing.Color.Green;
+                case ConsoleColor.Cyan:
+                    return System.Drawing.Color.Cyan;
+                case ConsoleColor.Red:
+                    return System.Drawing.Color.Red;
+                case ConsoleColor.Magenta:
+                    return System.Drawing.Color.Magenta;
+                case ConsoleColor.Yellow:
+                    return System.Drawing.Color.Yellow;
+                case ConsoleColor.White:
+                    return System.Drawing.Color.White;
+                default:
+                    return System.Drawing.Color.White;
+            }
+        }
+
         public static ConsoleColor ToConsoleColor(this Color color) {
             if (Colors.Black == color)
                 return ConsoleColor.Black;
