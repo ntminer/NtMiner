@@ -128,7 +128,11 @@ namespace NTMiner.Vms {
         }
 
         public void RefreshDaemonStateBrush() {
-            if (NTMinerRegistry.GetDaemonActiveOn().AddSeconds(20) >= DateTime.Now) {
+            if (NTMinerRoot.Instance.CreatedOn.AddSeconds(10) > DateTime.Now) {
+                // 如果刚刚启动10秒钟内视为白色正常状态
+                DaemonStateBrush = White;
+            }
+            else if (NTMinerRegistry.GetDaemonActiveOn().AddSeconds(20) >= DateTime.Now) {
                 DaemonStateBrush = White;
             }
             else {
