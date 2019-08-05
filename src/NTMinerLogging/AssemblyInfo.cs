@@ -6,7 +6,7 @@ namespace NTMiner {
     public static class AssemblyInfo {
         public static string ShareDirFullName { get; set; } = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "NTMiner");
         public static string LocalDirFullName { get; set; } = ShareDirFullName;
-        public const string Version = "2.3.5";
+        public const string Version = "2.5.0";
         public const string Build = "0";
         public const string Copyright = "Copyright ©  2019";
         public const string Tag = "蛮吉";
