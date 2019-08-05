@@ -1,6 +1,11 @@
 ﻿using NTMiner.Vms;
+using NTMiner.Wpf;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Media;
 
 namespace NTMiner.Views.Ucs {
     public partial class Console : UserControl {
@@ -16,32 +21,93 @@ namespace NTMiner.Views.Ucs {
             Write.UserLineMethod = WriteLine;
         }
 
-        private void InnerWrite(string text, ConsoleColor foreground) {
-            int p1 = RichTextBox.TextLength;
-            string line = text;
-            if (RichTextBox.Lines.Length != 0) {
-                p1 += 1;
-                line = "\n" + text;
+        private ScrollViewer _scrollView;
+        private ScrollViewer ScrollViewer {
+            get {
+                if (_scrollView == null) {
+                    _scrollView = this.FlowDocumentScrollViewer.GetScrollViewer();
+                }
+                return _scrollView;
             }
-            RichTextBox.AppendText(line); 
-            int p2 = text.Length; 
-            RichTextBox.Select(p1, p2);
-            RichTextBox.SelectionColor = foreground.ToDrawingColor();
+        }
+
+        private List<string> _buffer = new List<string>();
+        private List<ConsoleColor> _colors = new List<ConsoleColor>();
+        private bool _isBuffer = false;
+        public bool IsBuffer {
+            get {
+                return _isBuffer;
+            }
+            set {
+                _isBuffer = value;
+                if (!_isBuffer) {
+                    Flush();
+                }
+            }
+        }
+
+        private void Flush() {
+            if (_buffer.Count == 0) {
+                return;
+            }
+            Dispatcher.Invoke((Action)(() => {
+                for (int i = 0; i < _buffer.Count; i++) {
+                    string text = _buffer[i];
+                    ConsoleColor foreground = ConsoleColor.White;
+                    if (_colors.Count > i) {
+                        foreground = _colors[i];
+                    }
+                    InnerWrite(text, foreground);
+                }
+                _buffer.Clear();
+                _colors.Clear();
+            }));
+        }
+
+        private const int MAXLINE = 1000;
+        private const int HALFLINE = MAXLINE / 2;
+        private void InnerWrite(string text, ConsoleColor foreground) {
+            InlineCollection list = this.ConsoleParagraph.Inlines;
+            if (list.Count > MAXLINE) {
+                int delLines = HALFLINE;
+                while (delLines-- > 0) {
+                    ((IList)list).RemoveAt(0);
+                }
+            }
+            Run run = new Run(text) {
+                Foreground = new SolidColorBrush(foreground.ToMediaColor())
+            };
+            list.Add(run);
 
             if (ChkbIsConsoleAutoScrollToEnd.IsChecked.HasValue && ChkbIsConsoleAutoScrollToEnd.IsChecked.Value) {
-                RichTextBox.Select(RichTextBox.TextLength, 0);
-                RichTextBox.ScrollToCaret();
+                this.ScrollViewer?.ScrollToEnd();
             }
         }
 
         public void WriteLine(string text, ConsoleColor foreground) {
             Dispatcher.Invoke((Action)(() => {
-                InnerWrite(text, foreground);
+                InlineCollection list = this.ConsoleParagraph.Inlines;
+                string line = text;
+                if (list.Count != 0 || _buffer.Count != 0) {
+                    line = "\n" + text;
+                }
+                if (IsBuffer) {
+                    _buffer.Add(line);
+                    _colors.Add(foreground);
+                    if (list.Count + _buffer.Count > MAXLINE) {
+                        if (list.Count != 0) {
+                            ((IList)list).RemoveAt(0);
+                        }
+                        else {
+                            _buffer.RemoveAt(0);
+                            _colors.RemoveAt(0);
+                        }
+                    }
+                }
+                else {
+                    InnerWrite(line, foreground);
+                }
             }));
-        }
-
-        private void RichTextBox_GotFocus(object sender, EventArgs e) {
-            ChkbIsConsoleAutoScrollToEnd.Focus();
         }
     }
 }
