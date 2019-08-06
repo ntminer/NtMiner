@@ -5,6 +5,8 @@ namespace NTMiner.MinerServer {
         string CoinCode { get; }
         double Speed { get; }
         string SpeedUnit { get; }
+        double NetSpeed { get; }
+        string NetSpeedUnit { get; }
         double IncomePerDay { get; }
         double IncomeUsdPerDay { get; }
         double IncomeCnyPerDay { get; }

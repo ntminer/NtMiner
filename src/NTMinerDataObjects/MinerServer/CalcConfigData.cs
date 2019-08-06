@@ -10,6 +10,8 @@ namespace NTMiner.MinerServer {
             this.CoinCode = data.CoinCode;
             this.Speed = data.Speed;
             this.SpeedUnit = data.SpeedUnit;
+            this.NetSpeed = data.NetSpeed;
+            this.NetSpeedUnit = data.NetSpeedUnit;
             this.IncomePerDay = data.IncomePerDay;
             this.IncomeUsdPerDay = data.IncomeUsdPerDay;
             this.IncomeCnyPerDay = data.IncomeCnyPerDay;
@@ -20,6 +22,8 @@ namespace NTMiner.MinerServer {
         public void Update(ICalcConfig data) {
             this.Speed = data.Speed;
             this.SpeedUnit = data.SpeedUnit;
+            this.NetSpeed = data.NetSpeed;
+            this.NetSpeedUnit = data.NetSpeedUnit;
             this.IncomePerDay = data.IncomePerDay;
             this.IncomeUsdPerDay = data.IncomeUsdPerDay;
             this.IncomeCnyPerDay = data.IncomeCnyPerDay;
@@ -33,6 +37,10 @@ namespace NTMiner.MinerServer {
         public double Speed { get; set; }
 
         public string SpeedUnit { get; set; }
+
+        public double NetSpeed { get; set; }
+
+        public string NetSpeedUnit { get; set; }
 
         public double IncomePerDay { get; set; }
 

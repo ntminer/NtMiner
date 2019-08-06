@@ -8,6 +8,8 @@ namespace NTMiner.Vms {
         private double _incomeCnyPerDay;
         private string _speedUnit;
         private double _speed;
+        private string _netSpeedUnit;
+        private double _netSpeed;
         private string _coinCode;
         private DateTime _createdOn;
         private DateTime _modifiedOn;
@@ -18,6 +20,8 @@ namespace NTMiner.Vms {
             _incomeCnyPerDay = data.IncomeCnyPerDay;
             _speed = data.Speed;
             _speedUnit = data.SpeedUnit;
+            _netSpeed = data.NetSpeed;
+            _netSpeedUnit = data.NetSpeedUnit;
             _coinCode = data.CoinCode;
             _createdOn = data.CreatedOn;
             _modifiedOn = data.ModifiedOn;
@@ -50,6 +54,26 @@ namespace NTMiner.Vms {
                     _speedUnit = value;
                     OnPropertyChanged(nameof(SpeedUnit));
                     OnPropertyChanged(nameof(SpeedUnitVm));
+                }
+            }
+        }
+
+        public double NetSpeed {
+            get => _netSpeed;
+            set {
+                if (Math.Abs(_netSpeed - value) > 0.01) {
+                    _netSpeed = value;
+                    OnPropertyChanged(nameof(NetSpeed));
+                }
+            }
+        }
+
+        public string NetSpeedUnit {
+            get => _netSpeedUnit;
+            set {
+                if (_netSpeedUnit != value) {
+                    _netSpeedUnit = value;
+                    OnPropertyChanged(nameof(NetSpeedUnit));
                 }
             }
         }

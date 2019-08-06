@@ -85,6 +85,8 @@ namespace NTMiner {
                                         coinCodes.Add(calcConfigData.CoinCode);
                                         calcConfigData.Speed = incomeItem.Speed;
                                         calcConfigData.SpeedUnit = incomeItem.SpeedUnit;
+                                        calcConfigData.NetSpeed = incomeItem.NetSpeed;
+                                        calcConfigData.NetSpeedUnit = incomeItem.NetSpeedUnit;
                                         calcConfigData.IncomePerDay = incomeItem.IncomeCoin;
                                         calcConfigData.IncomeUsdPerDay = incomeItem.IncomeUsd;
                                         calcConfigData.IncomeCnyPerDay = incomeItem.IncomeCny;
@@ -195,7 +197,7 @@ namespace NTMiner {
                     return results;
                 }
                 List<int> indexList = new List<int>();
-                const string splitText = "<div class=\"row-collapse-container\" data-code=";
+                const string splitText = "<tr class=\"row-common";
                 int index = html.IndexOf(splitText);
                 while (index != -1) {
                     indexList.Add(index);
@@ -208,7 +210,8 @@ namespace NTMiner {
                         incomeItem = PickIncomeItem(regex, html.Substring(indexList[i], indexList[i + 1] - indexList[i]));
                     }
                     else {
-                        incomeItem = PickIncomeItem(regex, html.Substring(indexList[i], 2000));
+                        string content = html.Substring(indexList[i]);
+                        incomeItem = PickIncomeItem(regex, content.Substring(0, content.IndexOf("<span class=\"info-title\">币价</span>")));
                     }
                     if (incomeItem != null) {
                         results.Add(incomeItem);
@@ -228,7 +231,8 @@ namespace NTMiner {
                 IncomeItem incomeItem = new IncomeItem() {
                     DataCode = match.Groups["dataCode"].Value,
                     CoinCode = match.Groups["coinCode"].Value,
-                    SpeedUnit = match.Groups["speedUnit"].Value
+                    SpeedUnit = match.Groups["speedUnit"].Value,
+                    NetSpeedUnit = match.Groups["netSpeedUnit"].Value,
                 };
                 if (incomeItem.DataCode == "grin-29") {
                     incomeItem.CoinCode = "grin";
@@ -240,6 +244,8 @@ namespace NTMiner {
                 }
                 double.TryParse(match.Groups["speed"].Value, out double speed);
                 incomeItem.Speed = speed;
+                double.TryParse(match.Groups["netSpeed"].Value, out double netSpeed);
+                incomeItem.NetSpeed = netSpeed;
                 double.TryParse(match.Groups["incomeCoin"].Value, out double incomeCoin);
                 incomeItem.IncomeCoin = incomeCoin;
                 double.TryParse(match.Groups["incomeUsd"].Value, out double incomeUsd);
