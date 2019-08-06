@@ -48,7 +48,7 @@ namespace NTMiner {
                             bool isLogFile = arguments.Contains("{logfile}");
                             // 这是不应该发生的，如果发生很可能是填写命令的时候拼写错误了
                             if (!File.Exists(kernelExeFileFullName)) {
-                                Write.UserError(kernelExeFileFullName + "文件不存在，可能是小编拼写错误导致，请QQ群联系小编。");
+                                Write.UserError(kernelExeFileFullName + "文件不存在，可能是小编拼写错误或是挖矿内核被杀毒软件删除导致，请退出杀毒软件重试或者QQ群联系小编。");
                             }
                             if (isLogFile) {
                                 Logger.InfoDebugLine("创建日志文件型进程");
