@@ -13,7 +13,8 @@ namespace NTMiner.Vms {
         private SpeedUnitViewModel _speedUnitVm = null;
         private SolidColorBrush _backgroundBrush;
         private DateTime _modifiedOn;
-        private string netSpeedText;
+        private string _netSpeedText;
+        private string _netSpeedUnit;
 
         public CoinIncomeViewModel(CoinViewModel coinVm) {
             _coinVm = coinVm;
@@ -23,7 +24,8 @@ namespace NTMiner.Vms {
         private static readonly SolidColorBrush Red = new SolidColorBrush(Color.FromRgb(0xFF, 0xCC, 0x00));
         public void Refresh() {
             if (NTMinerRoot.Instance.CalcConfigSet.TryGetCalcConfig(_coinVm, out ICalcConfig calcConfig)) {
-                NetSpeedText = $"{calcConfig.NetSpeed} {calcConfig.NetSpeedUnit}";
+                NetSpeedText = calcConfig.NetSpeed > 0 ? calcConfig.NetSpeed.ToString() : string.Empty;
+                NetSpeedUnit = calcConfig.NetSpeedUnit;
                 var incomePerDay = NTMinerRoot.Instance.CalcConfigSet.GetIncomePerHashPerDay(_coinVm.Code);
                 var v = this.Speed.FromUnitSpeed(this.SpeedUnitVm.Unit) * incomePerDay.IncomeCoin;
                 if (v >= 100) {
@@ -58,6 +60,7 @@ namespace NTMiner.Vms {
                 IncomeCnyPerDayText = "0";
                 CoinPriceCnyText = "0";
                 NetSpeedText = string.Empty;
+                NetSpeedUnit = string.Empty;
                 ModifiedOn = DateTime.MinValue;
                 BackgroundBrush = Red;
             }
@@ -146,10 +149,18 @@ namespace NTMiner.Vms {
         }
 
         public string NetSpeedText {
-            get => netSpeedText;
+            get => _netSpeedText;
             set {
-                netSpeedText = value;
+                _netSpeedText = value;
                 OnPropertyChanged(nameof(NetSpeedText));
+            }
+        }
+
+        public string NetSpeedUnit {
+            get => _netSpeedUnit;
+            set {
+                _netSpeedUnit = value;
+                OnPropertyChanged(nameof(NetSpeedUnit));
             }
         }
 

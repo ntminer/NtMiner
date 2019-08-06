@@ -4,7 +4,6 @@ using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 
 namespace NTMiner.Views.Ucs {
     public partial class Calc : UserControl {
@@ -22,11 +21,6 @@ namespace NTMiner.Views.Ucs {
                 FooterText = "数据来自鱼池首页，感谢鱼池的支持。因为数据来自矿池，单位算力收益的币数是非常准确的。"
             }, ucFactory: (window) => {
                 var uc = new Calc();
-                uc.ItemsControl.MouseDown += (object sender, MouseButtonEventArgs e) => {
-                    if (e.LeftButton == MouseButtonState.Pressed) {
-                        window.DragMove();
-                    }
-                };
                 return uc;
             }, fixedSize: false);
         }
@@ -59,10 +53,6 @@ namespace NTMiner.Views.Ucs {
                     });
                 NTMinerRoot.Instance.CalcConfigSet.Init(forceRefresh: true);
             });
-        }
-
-        private void ScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
-            Wpf.Util.ScrollViewer_PreviewMouseDown(sender, e);
         }
 
         private void UnitButton_Click(object sender, RoutedEventArgs e) {
