@@ -34,7 +34,7 @@ namespace NTMiner {
         }
 
         /// <summary>
-        /// 清理掉下载时间超过7天且服务器已经删除的内核包
+        /// 清理掉下载时间超过1个月且服务器已经删除的内核包
         /// </summary>
         private static void ClearPackages() {
             HashSet<string> packageFileNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -51,7 +51,7 @@ namespace NTMiner {
                     if (isPackageExitInServer) {
                         continue;
                     }
-                    if (fileInfo.LastWriteTime.AddDays(7) < DateTime.Now) {
+                    if (fileInfo.LastWriteTime.AddMonths(1) < DateTime.Now) {
                         File.Delete(file);
                         n++;
                     }
