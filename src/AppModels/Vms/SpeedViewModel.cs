@@ -90,14 +90,12 @@ namespace NTMiner.Vms {
             }
         }
 
-        private static readonly SolidColorBrush Black = new SolidColorBrush(Colors.Black);
-        public static readonly SolidColorBrush Red = new SolidColorBrush(Colors.Red);
         public SolidColorBrush LastSpeedOnForeground {
             get {
                 if (SpeedOn.AddSeconds(120) < DateTime.Now) {
-                    return Red;
+                    return Wpf.Util.RedBrush;
                 }
-                return Black;
+                return Wpf.Util.BlackBrush;
             }
         }
     }

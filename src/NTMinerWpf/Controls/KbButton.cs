@@ -11,7 +11,7 @@ namespace NTMiner.Controls {
             set { SetValue(KbButtonHoverBackgroundProperty, value); }
         }
         public static readonly DependencyProperty KbButtonHoverBackgroundProperty =
-            DependencyProperty.Register("KbButtonHoverBackground", typeof(SolidColorBrush), typeof(KbButton), new PropertyMetadata(new SolidColorBrush(Colors.Transparent)));
+            DependencyProperty.Register("KbButtonHoverBackground", typeof(SolidColorBrush), typeof(KbButton), new PropertyMetadata(Wpf.Util.TransparentBrush));
 
         public CornerRadius CornerRadius {
             get { return (CornerRadius)GetValue(CornerRadiusProperty); }

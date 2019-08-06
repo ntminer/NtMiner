@@ -6,14 +6,11 @@ using System.Windows.Media;
 namespace NTMiner.Converters {
     [ValueConversion(typeof(bool), typeof(Brush))]
     public class BoolToBrushConverter : IValueConverter {
-        private static readonly SolidColorBrush s_green = new SolidColorBrush(Colors.Green);
-        private static readonly SolidColorBrush s_red = new SolidColorBrush(Colors.Red);
-
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
             if (value is bool b && b) {
-                return s_green;
+                return Wpf.Util.GreenBrush;
             }
-            return s_red;
+            return Wpf.Util.RedBrush;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {

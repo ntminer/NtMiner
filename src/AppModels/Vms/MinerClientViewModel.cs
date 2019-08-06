@@ -10,7 +10,6 @@ using System.Windows.Media;
 
 namespace NTMiner.Vms {
     public class MinerClientViewModel : ViewModelBase, IClientData {
-        public static readonly SolidColorBrush Red = new SolidColorBrush(Colors.Red);
         public static readonly SolidColorBrush Blue = new SolidColorBrush(Colors.Blue);
         public static readonly SolidColorBrush DefaultForeground = new SolidColorBrush(Color.FromArgb(0xFF, 0x5A, 0x5A, 0x5A));
 
@@ -1031,7 +1030,7 @@ namespace NTMiner.Vms {
             }
             foreach (var gpuSpeedData in GpuTableVm.List) {
                 if (gpuSpeedData.Temperature >= maxTemp) {
-                    gpuSpeedData.TemperatureForeground = Red;
+                    gpuSpeedData.TemperatureForeground = Wpf.Util.RedBrush;
                 }
                 else if (gpuSpeedData.Temperature < minTemp) {
                     gpuSpeedData.TemperatureForeground = Blue;

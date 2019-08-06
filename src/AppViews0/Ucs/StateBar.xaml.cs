@@ -70,7 +70,7 @@ namespace NTMiner.Views.Ucs {
             var gpuSet = NTMinerRoot.Instance.GpuSet;
             // 建议每张显卡至少对应4G虚拟内存，否则标红
             if (NTMinerRoot.OSVirtualMemoryMb < gpuSet.Count * 4) {
-                BtnShowVirtualMemory.Foreground = new SolidColorBrush(Colors.Red);
+                BtnShowVirtualMemory.Foreground = Wpf.Util.RedBrush;
             }
         }
     }

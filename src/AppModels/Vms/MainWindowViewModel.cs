@@ -9,8 +9,6 @@ namespace NTMiner.Vms {
         private string _serverJsonVersion;
         private readonly StateBarViewModel _stateBarVm = new StateBarViewModel();
         private MinerStateViewModel _minerStateVm;
-        private readonly SolidColorBrush White = new SolidColorBrush(Colors.White);
-        private readonly SolidColorBrush Red = new SolidColorBrush(Colors.Red);
         private SolidColorBrush _daemonStateBrush;
 
         public MinerStateViewModel MinerStateVm {
@@ -130,13 +128,13 @@ namespace NTMiner.Vms {
         public void RefreshDaemonStateBrush() {
             if (NTMinerRoot.Instance.CreatedOn.AddSeconds(10) > DateTime.Now) {
                 // 如果刚刚启动10秒钟内视为白色正常状态
-                DaemonStateBrush = White;
+                DaemonStateBrush = Wpf.Util.WhiteBrush;
             }
             else if (NTMinerRegistry.GetDaemonActiveOn().AddSeconds(20) >= DateTime.Now) {
-                DaemonStateBrush = White;
+                DaemonStateBrush = Wpf.Util.WhiteBrush;
             }
             else {
-                DaemonStateBrush = Red;
+                DaemonStateBrush = Wpf.Util.RedBrush;
             }
         }
     }

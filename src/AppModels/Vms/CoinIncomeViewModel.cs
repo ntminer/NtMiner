@@ -22,17 +22,14 @@ namespace NTMiner.Vms {
             _coinVm = coinVm;
         }
 
-        private static readonly SolidColorBrush Green = new SolidColorBrush(Colors.Green);
-        private static readonly SolidColorBrush White = new SolidColorBrush(Colors.White);
         private static readonly SolidColorBrush LightRed = new SolidColorBrush(Color.FromRgb(0xFF, 0xCC, 0x00));
-        private static readonly SolidColorBrush Red = new SolidColorBrush(Colors.Red);
         public void Refresh() {
             if (NTMinerRoot.Instance.CalcConfigSet.TryGetCalcConfig(_coinVm, out ICalcConfig calcConfig)) {
                 NetSpeedText = calcConfig.NetSpeed > 0 ? calcConfig.NetSpeed.ToString() : string.Empty;
                 NetSpeedUnit = calcConfig.NetSpeedUnit;
                 if (calcConfig.DayWave > 0) {
                     DayWaveText = $"+{(calcConfig.DayWave * 100).ToString("f2")}%";
-                    DayWaveBrush = Green;
+                    DayWaveBrush = Wpf.Util.GreenBrush;
                 }
                 else if (calcConfig.DayWave == 0) {
                     DayWaveText = "0%";
@@ -40,7 +37,7 @@ namespace NTMiner.Vms {
                 }
                 else {
                     DayWaveText = $"{(calcConfig.DayWave * 100).ToString("f2")}%";
-                    DayWaveBrush = Red;
+                    DayWaveBrush = Wpf.Util.RedBrush;
                 }
                 var incomePerDay = NTMinerRoot.Instance.CalcConfigSet.GetIncomePerHashPerDay(_coinVm.Code);
                 var v = this.Speed.FromUnitSpeed(this.SpeedUnitVm.Unit) * incomePerDay.IncomeCoin;
@@ -65,7 +62,7 @@ namespace NTMiner.Vms {
                     BackgroundBrush = LightRed;
                 }
                 else {
-                    BackgroundBrush = White;
+                    BackgroundBrush = Wpf.Util.TransparentBrush;
                 }
                 OnPropertyChanged(nameof(SpeedUnitVm));
             }
@@ -79,7 +76,7 @@ namespace NTMiner.Vms {
                 NetSpeedUnit = string.Empty;
                 DayWaveText = string.Empty;
                 ModifiedOn = DateTime.MinValue;
-                BackgroundBrush = Red;
+                BackgroundBrush = Wpf.Util.RedBrush;
             }
         }
 

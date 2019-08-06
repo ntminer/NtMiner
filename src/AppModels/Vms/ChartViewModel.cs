@@ -1,7 +1,6 @@
 ﻿using LiveCharts;
 using LiveCharts.Configurations;
 using LiveCharts.Wpf;
-using NTMiner.MinerServer;
 using System;
 using System.Linq;
 using System.Windows.Input;
@@ -13,9 +12,6 @@ namespace NTMiner.Vms {
         private AxesCollection _axisY;
         private AxesCollection _axisX;
 
-        private static readonly SolidColorBrush STransparent = new SolidColorBrush(Colors.Transparent);
-        private static readonly SolidColorBrush SBlack = new SolidColorBrush(Colors.Black);
-        private static readonly SolidColorBrush SGreen = new SolidColorBrush(Colors.Green);
         private static readonly SolidColorBrush SAxisForeground = new SolidColorBrush(Color.FromRgb(0x38, 0x52, 0x63));
 
         private readonly CoinViewModel _coinVm;
@@ -96,7 +92,7 @@ namespace NTMiner.Vms {
                 PointGeometrySize = 0,
                 StrokeThickness = 1,
                 ScalesYAt = 0,
-                Fill = STransparent,
+                Fill = Wpf.Util.TransparentBrush,
                 Stroke = OnlineColor,
                 Values = new ChartValues<MeasureModel>()
             };
@@ -106,7 +102,7 @@ namespace NTMiner.Vms {
                 PointGeometrySize = 0,
                 StrokeThickness = 1,
                 ScalesYAt = 0,
-                Fill = STransparent,
+                Fill = Wpf.Util.TransparentBrush,
                 Stroke = MiningColor,
                 Values = new ChartValues<MeasureModel>()
             };
@@ -167,13 +163,13 @@ namespace NTMiner.Vms {
 
         public SolidColorBrush MiningColor {
             get {
-                return SGreen;
+                return Wpf.Util.GreenBrush;
             }
         }
 
         public SolidColorBrush OnlineColor {
             get {
-                return SBlack;
+                return Wpf.Util.BlackBrush;
             }
         }
 

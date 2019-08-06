@@ -51,7 +51,6 @@ namespace NTMiner.Vms {
             };
             this.Series.Add(mainCoinSpeedLs);
             this.SeriesShadow.Add(mainCoinSpeedLsShadow);
-            SolidColorBrush black = new SolidColorBrush(Colors.Black);
             Axis axisYMainCoin = new Axis() {
                 LabelFormatter = emptySpeedFormatter,
                 MinValue = 0,
@@ -76,7 +75,7 @@ namespace NTMiner.Vms {
                 LabelFormatter = speedFormatter,
                 MinValue = 0,
                 FontSize = 14,
-                Foreground = black,
+                Foreground = Wpf.Util.BlackBrush,
                 Separator = new Separator()
             };
             this._axisYShadow = new AxesCollection() {
@@ -85,7 +84,7 @@ namespace NTMiner.Vms {
             this._axisXShadow = new AxesCollection() {
                 new Axis() {
                     LabelFormatter = dateTimeFormatter,
-                    Foreground = black,
+                    Foreground = Wpf.Util.BlackBrush,
                     MaxValue = 0,
                     FontSize = 12,
                     MinValue=0,

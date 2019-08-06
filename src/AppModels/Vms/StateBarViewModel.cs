@@ -95,7 +95,7 @@ namespace NTMiner.Vms {
                 CheckUpdateForeground = (SolidColorBrush)Application.Current.Resources["LableColor"];
             }
             else {
-                CheckUpdateForeground = new SolidColorBrush(Colors.Red);
+                CheckUpdateForeground = Wpf.Util.RedBrush;
             }
         }
 

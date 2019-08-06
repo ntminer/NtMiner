@@ -370,14 +370,14 @@ namespace NTMiner.Vms {
         private void RefreshRejectPercentForeground() {
             foreach (MinerClientViewModel item in MinerClients) {
                 if (item.MainCoinRejectPercent >= this.RejectPercent) {
-                    item.MainCoinRejectPercentForeground = MinerClientViewModel.Red;
+                    item.MainCoinRejectPercentForeground = Wpf.Util.RedBrush;
                 }
                 else {
                     item.MainCoinRejectPercentForeground = MinerClientViewModel.DefaultForeground;
                 }
 
                 if (item.DualCoinRejectPercent >= this.RejectPercent) {
-                    item.DualCoinRejectPercentForeground = MinerClientViewModel.Red;
+                    item.DualCoinRejectPercentForeground = Wpf.Util.RedBrush;
                 }
                 else {
                     item.DualCoinRejectPercentForeground = MinerClientViewModel.DefaultForeground;
@@ -410,7 +410,7 @@ namespace NTMiner.Vms {
         private void RefreshMaxTempForeground() {
             foreach (MinerClientViewModel item in MinerClients) {
                 if (item.MaxTemp >= this.MaxTemp) {
-                    item.TempForeground = MinerClientViewModel.Red;
+                    item.TempForeground = Wpf.Util.RedBrush;
                 }
                 else if (item.MaxTemp < this.MinTemp) {
                     item.TempForeground = MinerClientViewModel.Blue;

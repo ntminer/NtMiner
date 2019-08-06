@@ -188,14 +188,12 @@ namespace NTMiner.Vms {
             }
         }
 
-        private static readonly SolidColorBrush Black = new SolidColorBrush(Colors.Black);
-        private static readonly SolidColorBrush Red = new SolidColorBrush(Colors.Red);
         public SolidColorBrush TemperatureForeground {
             get {
                 if (this.Temperature >= AppContext.Instance.MinerProfileVm.MaxTemp) {
-                    return Red;
+                    return Wpf.Util.RedBrush;
                 }
-                return Black;
+                return Wpf.Util.BlackBrush;
             }
         }
 
