@@ -22,10 +22,10 @@ namespace NTMiner.Vms {
             _coinVm = coinVm;
         }
 
-        private static readonly SolidColorBrush Green = new SolidColorBrush(Colors.White);
+        private static readonly SolidColorBrush Green = new SolidColorBrush(Colors.Green);
         private static readonly SolidColorBrush White = new SolidColorBrush(Colors.White);
         private static readonly SolidColorBrush LightRed = new SolidColorBrush(Color.FromRgb(0xFF, 0xCC, 0x00));
-        private static readonly SolidColorBrush Red = new SolidColorBrush(Color.FromRgb(0xFF, 0xCC, 0x00));
+        private static readonly SolidColorBrush Red = new SolidColorBrush(Colors.Red);
         public void Refresh() {
             if (NTMinerRoot.Instance.CalcConfigSet.TryGetCalcConfig(_coinVm, out ICalcConfig calcConfig)) {
                 NetSpeedText = calcConfig.NetSpeed > 0 ? calcConfig.NetSpeed.ToString() : string.Empty;
@@ -35,7 +35,8 @@ namespace NTMiner.Vms {
                     DayWaveBrush = Green;
                 }
                 else if (calcConfig.DayWave == 0) {
-                    DayWaveText = string.Empty;
+                    DayWaveText = "0%";
+                    DayWaveBrush = LightRed;
                 }
                 else {
                     DayWaveText = $"{(calcConfig.DayWave * 100).ToString("f2")}%";
