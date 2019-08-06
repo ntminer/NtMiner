@@ -41,10 +41,13 @@
                                 </StackPanel>
                                 <StackPanel Width="160" Margin="6 0 0 0">
                                     <WrapPanel>
-                                        <TextBlock Height="30" FontSize="16" FontWeight="Bold" Text="{Binding CoinIncomeVm.CoinPriceCnyText}"></TextBlock>
+                                        <TextBlock FontSize="16" FontWeight="Bold" Text="{Binding CoinIncomeVm.CoinPriceCnyText}"></TextBlock>
                                         <TextBlock Text="￥" FontSize="16"></TextBlock>
                                     </WrapPanel>
-                                    <TextBlock VerticalAlignment="Bottom" Text="{Binding CoinIncomeVm.ModifiedOnText}" Foreground="{StaticResource LableColor}"></TextBlock>
+                                    <WrapPanel>
+                                        <TextBlock FontSize="16" FontWeight="Bold" Text="{Binding CoinIncomeVm.NetSpeedText}"></TextBlock>
+                                        <TextBlock VerticalAlignment="Bottom" Text="{Binding CoinIncomeVm.ModifiedOnText}" Foreground="{StaticResource LableColor}"></TextBlock>
+                                    </WrapPanel>
                                 </StackPanel>
                                 <TextBox Width="80" Text="{Binding CoinIncomeVm.Speed, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center"></TextBox>
                                 <controls:KbButton 
