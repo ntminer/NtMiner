@@ -10,9 +10,11 @@ namespace NTMiner.Vms {
         private double _speed;
         private string _netSpeedUnit;
         private double _netSpeed;
+        private double _baseNetSpeed;
         private string _coinCode;
         private DateTime _createdOn;
         private DateTime _modifiedOn;
+        private double _dayWave;
 
         public CalcConfigViewModel(ICalcConfig data) {
             _incomePerDay = data.IncomePerDay;
@@ -21,6 +23,8 @@ namespace NTMiner.Vms {
             _speed = data.Speed;
             _speedUnit = data.SpeedUnit;
             _netSpeed = data.NetSpeed;
+            _baseNetSpeed = data.BaseNetSpeed;
+            _dayWave = data.DayWave;
             _netSpeedUnit = data.NetSpeedUnit;
             _coinCode = data.CoinCode;
             _createdOn = data.CreatedOn;
@@ -64,6 +68,26 @@ namespace NTMiner.Vms {
                 if (Math.Abs(_netSpeed - value) > 0.01) {
                     _netSpeed = value;
                     OnPropertyChanged(nameof(NetSpeed));
+                }
+            }
+        }
+
+        public double BaseNetSpeed {
+            get { return _baseNetSpeed; }
+            set {
+                if (Math.Abs(_baseNetSpeed - value) > 0.001) {
+                    _baseNetSpeed = value;
+                    OnPropertyChanged(nameof(BaseNetSpeed));
+                }
+            }
+        }
+
+        public double DayWave {
+            get => _dayWave;
+            set {
+                if (Math.Abs(_dayWave - value) > 0.0001) {
+                    _dayWave = value;
+                    OnPropertyChanged(nameof(DayWave));
                 }
             }
         }

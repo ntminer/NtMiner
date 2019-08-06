@@ -91,6 +91,12 @@ namespace NTMiner {
                                         calcConfigData.IncomeUsdPerDay = incomeItem.IncomeUsd;
                                         calcConfigData.IncomeCnyPerDay = incomeItem.IncomeCny;
                                         calcConfigData.ModifiedOn = DateTime.Now;
+                                        if (calcConfigData.ModifiedOn.AddMinutes(15) > calcConfigData.ModifiedOn.Date.AddDays(1)) {
+                                            calcConfigData.BaseNetSpeed = calcConfigData.NetSpeed;
+                                        }
+                                        else if(calcConfigData.BaseNetSpeed != 0) {
+                                            calcConfigData.DayWave = (calcConfigData.NetSpeed - calcConfigData.BaseNetSpeed) / calcConfigData.BaseNetSpeed;
+                                        }
                                     }
                                 }
                                 OfficialServer.CalcConfigService.SaveCalcConfigsAsync(data, callback: (res, e) => {
