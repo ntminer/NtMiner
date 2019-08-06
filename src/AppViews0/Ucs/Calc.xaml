@@ -73,13 +73,22 @@
 								    Data="{StaticResource Icon_ArrowRight}"
 								    Fill="{StaticResource IconFillColor}"
 								    Stretch="Fill"/>
-                                <StackPanel Width="180">
-                                    <TextBox FontSize="16" FontWeight="Bold" IsReadOnly="True" BorderThickness="0" Text="{Binding CoinIncomeVm.IncomePerDayText, Mode=OneWay}"></TextBox>
-                                    <WrapPanel VerticalAlignment="Center">
-                                        <TextBlock Text="≈ ￥" FontSize="16" VerticalAlignment="Center"></TextBlock>
-                                        <TextBox IsReadOnly="True" FontSize="16" VerticalAlignment="Center" BorderThickness="0" Text="{Binding CoinIncomeVm.IncomeCnyPerDayText, Mode=OneWay}"></TextBox>
-                                    </WrapPanel>
-                                </StackPanel>
+                                <WrapPanel Width="280">
+                                    <StackPanel Width="180">
+                                        <TextBox FontSize="16" FontWeight="Bold" IsReadOnly="True" BorderThickness="0" Text="{Binding CoinIncomeVm.IncomePerDaySumText, Mode=OneWay}"></TextBox>
+                                        <WrapPanel VerticalAlignment="Center">
+                                            <TextBlock Text="≈ ￥" FontSize="16" VerticalAlignment="Center"></TextBlock>
+                                            <TextBox IsReadOnly="True" FontSize="16" VerticalAlignment="Center" BorderThickness="0" Text="{Binding CoinIncomeVm.IncomeCnyPerDaySumText, Mode=OneWay}"></TextBox>
+                                        </WrapPanel>
+                                    </StackPanel>
+                                    <StackPanel>
+                                        <TextBox FontSize="16" FontWeight="Bold" IsReadOnly="True" BorderThickness="0" Text="{Binding CoinIncomeVm.IncomePerDayText, Mode=OneWay}"></TextBox>
+                                        <WrapPanel VerticalAlignment="Center">
+                                            <TextBlock Text="≈ ￥" FontSize="16" VerticalAlignment="Center"></TextBlock>
+                                            <TextBox IsReadOnly="True" FontSize="16" VerticalAlignment="Center" BorderThickness="0" Text="{Binding CoinIncomeVm.IncomeCnyPerDayText, Mode=OneWay}"></TextBox>
+                                        </WrapPanel>
+                                    </StackPanel>
+                                </WrapPanel>
                             </WrapPanel>
                         </Border>
                     </DataTemplate>
