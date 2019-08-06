@@ -41,12 +41,12 @@
 					<StackPanel>
                         <WrapPanel Margin="0 2" VerticalAlignment="Center" Visibility="{x:Static app:AppStatic.IsMinerClientVisible}">
 							<CheckBox
+                                VerticalAlignment="Center"
 								Padding="0"
 								FocusVisualStyle="{x:Null}"
-								VerticalContentAlignment="Center"
 								IsChecked="{Binding IsAutoBoot}">
-								<TextBlock Padding="0 4" VerticalAlignment="Center">开机启动</TextBlock>
-							</CheckBox>
+                                <TextBlock>开机启动</TextBlock>
+                            </CheckBox>
 							<CheckBox
 								Margin="10 0 0 0"
 								Padding="0"
@@ -351,9 +351,9 @@
 						<CheckBox
 							FocusVisualStyle="{x:Null}"
 							Padding="0"
-							VerticalContentAlignment="Center"
+							VerticalAlignment="Center"
 							IsChecked="{Binding IsEChargeEnabled}">
-                            <TextBlock Padding="0 4">在状态栏展示电费</TextBlock>
+                            <TextBlock>在状态栏展示电费</TextBlock>
 						</CheckBox>
 						<TextBlock Margin="10 0 0 0" VerticalAlignment="Center">电价</TextBlock>
 						<TextBox Style="{StaticResource TbUpDown}" Text="{Binding EPrice}" HorizontalAlignment="Left"></TextBox>
