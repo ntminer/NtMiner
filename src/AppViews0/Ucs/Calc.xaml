@@ -56,7 +56,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="Auto" IsReadOnly="True">
+                <DataGridTemplateColumn Width="Auto" IsReadOnly="True" Header="总算力">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <WrapPanel>
