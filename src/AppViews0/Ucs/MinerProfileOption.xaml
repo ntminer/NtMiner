@@ -9,7 +9,7 @@
 		xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
-		mc:Ignorable="d" d:DesignHeight="450" d:DesignWidth="600">
+		mc:Ignorable="d" d:DesignHeight="650" d:DesignWidth="600">
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<PathGeometry x:Key="Icon_Up">M4,0 L0,4 L8,4 z</PathGeometry>
@@ -39,13 +39,13 @@
 						<TextBlock Style="{StaticResource GroupHeader}">自动化</TextBlock>
 					</GroupBox.Header>
 					<StackPanel>
-						<WrapPanel Margin="0 2" Visibility="{x:Static app:AppStatic.IsMinerClientVisible}">
+                        <WrapPanel Margin="0 2" VerticalAlignment="Center" Visibility="{x:Static app:AppStatic.IsMinerClientVisible}">
 							<CheckBox
 								Padding="0"
 								FocusVisualStyle="{x:Null}"
 								VerticalContentAlignment="Center"
 								IsChecked="{Binding IsAutoBoot}">
-								<TextBlock VerticalAlignment="Center">开机启动</TextBlock>
+								<TextBlock Padding="0 4" VerticalAlignment="Center">开机启动</TextBlock>
 							</CheckBox>
 							<CheckBox
 								Margin="10 0 0 0"
@@ -352,8 +352,8 @@
 							FocusVisualStyle="{x:Null}"
 							Padding="0"
 							VerticalContentAlignment="Center"
-							Content="在状态栏展示电费"
 							IsChecked="{Binding IsEChargeEnabled}">
+                            <TextBlock Padding="0 4">在状态栏展示电费</TextBlock>
 						</CheckBox>
 						<TextBlock Margin="10 0 0 0" VerticalAlignment="Center">电价</TextBlock>
 						<TextBox Style="{StaticResource TbUpDown}" Text="{Binding EPrice}" HorizontalAlignment="Left"></TextBox>
@@ -375,9 +375,9 @@
 						<CheckBox
 							FocusVisualStyle="{x:Null}"
 							Padding="0"
-							Content="功耗补偿"
 							VerticalContentAlignment="Center"
 							IsChecked="{Binding IsPowerAppend}">
+                            <TextBlock Padding="0 4">功耗补偿</TextBlock>
 						</CheckBox>
 						<TextBlock Margin="10 0 0 0" VerticalAlignment="Center">每卡补偿</TextBlock>
 						<TextBox Style="{StaticResource TbUpDown}" Text="{Binding PowerAppend}" HorizontalAlignment="Left"></TextBox>
