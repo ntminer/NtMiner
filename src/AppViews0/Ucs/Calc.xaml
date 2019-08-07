@@ -24,10 +24,10 @@
                 <DataGridTemplateColumn IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <StackPanel>
-                                <Image Width="30" Height="30" Source="{Binding IconImageSource}">
+                            <StackPanel Width="60">
+                                <Image HorizontalAlignment="Center" Width="30" Height="30" Source="{Binding IconImageSource}">
                                 </Image>
-                                <TextBlock Text="{Binding Code}"></TextBlock>
+                                <TextBlock HorizontalAlignment="Center" Text="{Binding Code}"></TextBlock>
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -60,7 +60,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <WrapPanel>
-                                <TextBox Width="80" Text="{Binding CoinIncomeVm.Speed, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center"></TextBox>
+                                <TextBox Width="60" Text="{Binding CoinIncomeVm.Speed, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center"></TextBox>
                                 <controls:KbButton 
 					                Padding="4 0"
 					                BorderThickness="1"
