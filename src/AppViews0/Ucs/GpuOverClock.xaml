@@ -23,12 +23,12 @@
 			<Setter Property="Background" Value="White"></Setter>
 		</Style>
 	</UserControl.Resources>
-	<Grid IsEnabled="{Binding CoinVm.IsOverClockEnabled}">
+	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"></RowDefinition>
 			<RowDefinition Height="*"></RowDefinition>
 		</Grid.RowDefinitions>
-		<WrapPanel Grid.Row="0" Margin="0 0 0 4">
+        <WrapPanel Grid.Row="0" Margin="0 0 0 4" IsEnabled="{Binding CoinVm.IsOverClockEnabled}">
 			<GroupBox Width="186">
 				<GroupBox.Header>
 					<CheckBox
@@ -153,25 +153,6 @@
 					</controls:KbButton>
 					<TextBlock x:Name="TbRedText" Margin="10 0 0 0" Foreground="Red" VerticalAlignment="Center"></TextBlock>
 					<controls:KbButton
-						Height="21"
-						Margin="10 0 0 0"
-						Padding="6 2"
-						ToolTip="恢复默认值并禁用超频界面"
-						Command="{Binding CoinVm.RestoreOverClock}" 
-						Background="Red"
-						Foreground="{StaticResource ThemeForeground}"
-						CornerRadius="2">
-						<WrapPanel>
-							<Path
-								Width="12"
-								Height="12"
-								Data="{StaticResource Icon_Refresh}"
-								Fill="{StaticResource ThemeForeground}"
-								Stretch="Fill" />
-							<TextBlock Foreground="{StaticResource ThemeForeground}">恢复默认</TextBlock>
-						</WrapPanel>
-					</controls:KbButton>
-					<controls:KbButton
 						Margin="10 0 0 0"
 						Height="21"
 						Padding="6 2"
@@ -182,9 +163,31 @@
 					</controls:KbButton>
 				</WrapPanel>
 			</Grid>
-		</WrapPanel>
-		<ScrollViewer
+        </WrapPanel>
+        <controls:KbButton
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+			Height="21"
+            Margin="4 2"
+			Padding="6 2"
+			ToolTip="恢复默认"
+			Command="{Binding CoinVm.RestoreOverClock}" 
+			Background="{StaticResource ThemeBackground}"
+			Foreground="{StaticResource ThemeForeground}"
+			CornerRadius="2">
+            <WrapPanel>
+                <Path
+					Width="12"
+					Height="12"
+					Data="{StaticResource Icon_Refresh}"
+					Fill="{StaticResource ThemeForeground}"
+					Stretch="Fill" />
+                <TextBlock Foreground="{StaticResource ThemeForeground}">恢复默认</TextBlock>
+            </WrapPanel>
+        </controls:KbButton>
+        <ScrollViewer
 			Grid.Row="1"
+            IsEnabled="{Binding CoinVm.IsOverClockEnabled}"
 			VerticalScrollBarVisibility="Auto" 
 			PreviewMouseDown="ScrollViewer_PreviewMouseDown">
 			<ItemsControl 

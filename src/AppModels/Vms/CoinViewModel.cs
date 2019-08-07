@@ -175,7 +175,7 @@ namespace NTMiner.Vms {
                 }, icon: IconConst.IconConfirm);
             });
             this.RestoreOverClock = new DelegateCommand(() => {
-                this.ShowDialog(message: $"确定恢复默认并禁用超频界面吗？", title: "确认", onYes: () => {
+                this.ShowDialog(message: $"确定恢复默认吗？", title: "确认", onYes: () => {
                     NTMinerRoot.Instance.GpuSet.OverClock.Restore();
                     this.IsOverClockEnabled = false;
                 }, icon: IconConst.IconConfirm);
