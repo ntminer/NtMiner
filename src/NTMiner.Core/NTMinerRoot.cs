@@ -68,76 +68,75 @@ namespace NTMiner {
         public void Init(Action callback) {
             Task.Factory.StartNew(() => {
                 bool isWork = Environment.GetCommandLineArgs().Contains("--work", StringComparer.OrdinalIgnoreCase);
-                if (isWork) {
+                if (isWork) { // 是作业
                     DoInit(isWork, callback);
                     if (VirtualRoot.IsMinerClient) {
                         NTMinerRegistry.SetIsLastIsWork(true);
                     }
-                    return;
                 }
-                else {
+                else { // 不是作业
                     if (VirtualRoot.IsMinerClient) {
                         NTMinerRegistry.SetIsLastIsWork(false);
                     }
-                }
-                // 如果是Debug模式且不是群控客户端且不是作业则使用本地数据库初始化
-                if (DevMode.IsDebugMode && !VirtualRoot.IsMinerStudio) {
-                    DoInit(isWork: false, callback: callback);
-                    return;
-                }
-                Logger.InfoDebugLine("开始下载server.json");
-                SpecialPath.GetAliyunServerJson((data) => {
-                    // 如果server.json未下载成功则不覆写本地server.json
-                    if (data != null && data.Length != 0) {
-                        Logger.InfoDebugLine("GetAliyunServerJson下载成功");
-                        var serverJson = Encoding.UTF8.GetString(data);
-                        if (!string.IsNullOrEmpty(serverJson)) {
-                            SpecialPath.WriteServerJsonFile(serverJson);
-                        }
-                        OfficialServer.GetJsonFileVersionAsync(AssemblyInfo.ServerJsonFileName, (serverJsonFileVersion, minerClientVersion) => {
-                            SetServerJsonVersion(serverJsonFileVersion);
-                            AppVersionChangedEvent.PublishIfNewVersion(minerClientVersion);
-                        });
+                    // 如果是Debug模式且不是群控客户端则使用本地数据库初始化
+                    bool useLocalDb = DevMode.IsDebugMode && !VirtualRoot.IsMinerStudio;
+                    if (useLocalDb) {
+                        DoInit(isWork: false, callback: callback);
                     }
                     else {
-                        Logger.InfoDebugLine("GetAliyunServerJson下载失败");
-                    }
-                    DoInit(isWork, callback);
-                });
-                #region 发生了用户活动时检查serverJson是否有新版本
-                VirtualRoot.On<UserActionEvent>("发生了用户活动时检查serverJson是否有新版本", LogEnum.DevConsole,
-                    action: message => {
-                        OfficialServer.GetJsonFileVersionAsync(AssemblyInfo.ServerJsonFileName, (serverJsonFileVersion, minerClientVersion) => {
-                            AppVersionChangedEvent.PublishIfNewVersion(minerClientVersion);
-                            string localServerJsonFileVersion = GetServerJsonVersion();
-                            if (!string.IsNullOrEmpty(serverJsonFileVersion) && localServerJsonFileVersion != serverJsonFileVersion) {
-                                SpecialPath.GetAliyunServerJson((data) => {
-                                    Write.UserInfo($"server.json配置文件有新版本{localServerJsonFileVersion}->{serverJsonFileVersion}");
-                                    string rawJson = Encoding.UTF8.GetString(data);
-                                    SpecialPath.WriteServerJsonFile(rawJson);
+                        Logger.InfoDebugLine("开始下载server.json");
+                        SpecialPath.GetAliyunServerJson((data) => {
+                            // 如果server.json未下载成功则不覆写本地server.json
+                            if (data != null && data.Length != 0) {
+                                Logger.InfoDebugLine("GetAliyunServerJson下载成功");
+                                var serverJson = Encoding.UTF8.GetString(data);
+                                if (!string.IsNullOrEmpty(serverJson)) {
+                                    SpecialPath.WriteServerJsonFile(serverJson);
+                                }
+                                OfficialServer.GetJsonFileVersionAsync(AssemblyInfo.ServerJsonFileName, (serverJsonFileVersion, minerClientVersion) => {
                                     SetServerJsonVersion(serverJsonFileVersion);
-                                    ReInitServerJson();
-                                    bool isUseJson = !DevMode.IsDebugMode || VirtualRoot.IsMinerStudio;
-                                    if (isUseJson) {
-                                        // 作业模式下界面是禁用的，所以这里的初始化isWork必然是false
-                                        ContextReInit(isWork: VirtualRoot.IsMinerStudio);
-                                        Write.UserInfo("刷新完成");
-                                    }
-                                    else {
-                                        Write.UserInfo("不是使用的server.json，无需刷新");
-                                    }
+                                    AppVersionChangedEvent.PublishIfNewVersion(minerClientVersion);
                                 });
                             }
                             else {
-                                Write.DevDebug("server.json没有新版本");
+                                Logger.InfoDebugLine("GetAliyunServerJson下载失败");
                             }
+                            DoInit(isWork, callback);
                         });
-                    });
-                #endregion
+                        #region 发生了用户活动时检查serverJson是否有新版本
+                        VirtualRoot.On<UserActionEvent>("发生了用户活动时检查serverJson是否有新版本", LogEnum.DevConsole,
+                            action: message => {
+                                RefreshServerJsonFile();
+                            });
+                        #endregion
+                    }
+                }
             });
             // 因为这个操作大概需要200毫秒
             Task.Factory.StartNew(() => {
                 NVIDIAGpuSet.NvmlInit();
+            });
+        }
+
+        private void RefreshServerJsonFile() {
+            OfficialServer.GetJsonFileVersionAsync(AssemblyInfo.ServerJsonFileName, (serverJsonFileVersion, minerClientVersion) => {
+                AppVersionChangedEvent.PublishIfNewVersion(minerClientVersion);
+                string localServerJsonFileVersion = GetServerJsonVersion();
+                if (!string.IsNullOrEmpty(serverJsonFileVersion) && localServerJsonFileVersion != serverJsonFileVersion) {
+                    SpecialPath.GetAliyunServerJson((data) => {
+                        Write.UserInfo($"更新配置{localServerJsonFileVersion}->{serverJsonFileVersion}");
+                        string rawJson = Encoding.UTF8.GetString(data);
+                        SpecialPath.WriteServerJsonFile(rawJson);
+                        SetServerJsonVersion(serverJsonFileVersion);
+                        ReInitServerJson();
+                        // 作业模式下界面是禁用的，所以这里的初始化isWork必然是false
+                        ContextReInit(isWork: VirtualRoot.IsMinerStudio);
+                        Write.UserInfo("更新成功");
+                    });
+                }
+                else {
+                    Write.DevDebug("server.json没有新版本");
+                }
             });
         }
 
