@@ -8,7 +8,7 @@ using System.Linq;
 namespace NTMiner {
     public static class Report {
         public static void Init(INTMinerRoot root) {
-            VirtualRoot.On<HasBoot5SecondEvent>("登录服务器并报告一次0算力", LogEnum.DevConsole,
+            VirtualRoot.On<HasBoot10SecondEvent>("登录服务器并报告一次0算力", LogEnum.DevConsole,
                 action: message => {
                     // 报告0算力从而告知服务器该客户端当前在线的币种
                     ReportSpeed();

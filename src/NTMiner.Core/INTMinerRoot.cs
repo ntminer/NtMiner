@@ -28,8 +28,6 @@ namespace NTMiner {
 
         void Exit();
 
-        void Start();
-
         void StartMine();
 
         void RestartMine(bool isWork = false);

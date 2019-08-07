@@ -123,7 +123,6 @@ namespace NTMiner {
                         Task.Factory.StartNew(() => {
                             try {
                                 HttpServer.Start($"http://localhost:{Consts.MinerClientPort}");
-                                NTMinerRoot.Instance.Start();
                                 Daemon.DaemonUtil.RunNTMinerDaemon();
                             }
                             catch (Exception ex) {

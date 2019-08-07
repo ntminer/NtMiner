@@ -187,6 +187,34 @@ namespace NTMiner {
             NTMinerRegistry.SetCurrentVersion(CurrentVersion.ToString());
             NTMinerRegistry.SetCurrentVersionTag(CurrentVersionTag);
 
+            if (VirtualRoot.IsMinerClient) {
+                OfficialServer.GetTimeAsync((remoteTime) => {
+                    if (Math.Abs((DateTime.Now - remoteTime).TotalSeconds) < Timestamp.DesyncSeconds) {
+                        Logger.OkDebugLine("时间同步");
+                    }
+                    else {
+                        Write.UserWarn($"本机时间和服务器时间不同步，请调整，本地：{DateTime.Now}，服务器：{remoteTime}");
+                    }
+                });
+
+                Report.Init(this);
+                Link();
+                // 当显卡温度变更时守卫温度防线
+                TempGruarder.Instance.Init(this);
+                // 因为这里耗时500毫秒左右
+                Task.Factory.StartNew(() => {
+                    Windows.Error.DisableWindowsErrorUI();
+                    if (NTMinerRegistry.GetIsAutoDisableWindowsFirewall()) {
+                        Windows.Firewall.DisableFirewall();
+                    }
+                    Windows.UAC.DisableUAC();
+                    Windows.WAU.DisableWAUAsync();
+                    Windows.Defender.DisableAntiSpyware();
+                    Windows.Power.PowerCfgOff();
+                    Windows.BcdEdit.IgnoreAllFailures();
+                });
+            }
+
             callback?.Invoke();
         }
 
@@ -243,36 +271,11 @@ namespace NTMiner {
 
         #endregion
 
-        #region Start
-        public void Start() {
-            OfficialServer.GetTimeAsync((remoteTime) => {
-                if (Math.Abs((DateTime.Now - remoteTime).TotalSeconds) < Timestamp.DesyncSeconds) {
-                    Logger.OkDebugLine("时间同步");
-                }
-                else {
-                    Logger.WarnDebugLine($"本机时间和服务器时间不同步，请调整，本地：{DateTime.Now}，服务器：{remoteTime}");
-                }
-            });
-
-            Report.Init(this);
-
+        private void Link() {
             VirtualRoot.Window<RegCmdHereCommand>("处理注册右键打开windows命令行菜单命令", LogEnum.DevConsole,
                 action: message => {
-                    string cmdHere = "SOFTWARE\\Classes\\Directory\\background\\shell\\cmd_here";
-                    string cmdHereCommand = cmdHere + "\\command";
-                    string cmdPrompt = "SOFTWARE\\Classes\\Folder\\shell\\cmdPrompt";
-                    string cmdPromptCommand = cmdPrompt + "\\command";
                     try {
-                        Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdHere, "", "命令行");
-                        Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdHere, "Icon", "cmd.exe");
-                        Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdHereCommand, "", "\"cmd.exe\"");
-                        Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdPrompt, "", "命令行");
-                        Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdPromptCommand, "", "\"cmd.exe\" \"cd %1\"");
-                        cmdHere = "SOFTWARE\\Classes\\Directory\\shell\\cmd_here";
-                        cmdHereCommand = cmdHere + "\\command";
-                        Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdHere, "", "命令行");
-                        Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdHere, "Icon", "cmd.exe");
-                        Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdHereCommand, "", "\"cmd.exe\"");
+                        RegCmdHere();
                         VirtualRoot.Happened(new RegCmdHereEvent(true, "windows右键命令行添加成功"));
                     }
                     catch (Exception e) {
@@ -283,7 +286,7 @@ namespace NTMiner {
             #region 挖矿开始时将无份额内核重启份额计数置0
             int shareCount = 0;
             DateTime shareOn = DateTime.Now;
-            VirtualRoot.On<MineStartedEvent>("挖矿开始后将无份额内核重启份额计数置0，应用超频，启动NoDevFee，启动DevConsole，清理除当前外的Temp/Kernel", LogEnum.DevConsole,
+            VirtualRoot.On<MineStartedEvent>("挖矿开始后将无份额内核重启份额计数置0，应用超频", LogEnum.DevConsole,
                 action: message => {
                     // 将无份额内核重启份额计数置0
                     shareCount = 0;
@@ -393,24 +396,25 @@ namespace NTMiner {
                         GpuSet.LoadGpuState();
                     });
                 });
-            // 当显卡温度变更时守卫温度防线
-            TempGruarder.Instance.Init(this);
-            // 因为这里耗时500毫秒左右
-            Task.Factory.StartNew(() => {
-                Windows.Error.DisableWindowsErrorUI();
-                if (NTMinerRegistry.GetIsAutoDisableWindowsFirewall()) {
-                    Windows.Firewall.DisableFirewall();
-                }
-                Windows.UAC.DisableUAC();
-                Windows.WAU.DisableWAUAsync();
-                Windows.Defender.DisableAntiSpyware();
-                Windows.Power.PowerCfgOff();
-                Windows.BcdEdit.IgnoreAllFailures();
-            });
-
-            RefreshArgsAssembly.Invoke();
         }
-        #endregion
+
+        // 在Windows右键上下文菜单中添加“命令行”菜单
+        private static void RegCmdHere() {
+            string cmdHere = "SOFTWARE\\Classes\\Directory\\background\\shell\\cmd_here";
+            string cmdHereCommand = cmdHere + "\\command";
+            string cmdPrompt = "SOFTWARE\\Classes\\Folder\\shell\\cmdPrompt";
+            string cmdPromptCommand = cmdPrompt + "\\command";
+            Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdHere, "", "命令行");
+            Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdHere, "Icon", "cmd.exe");
+            Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdHereCommand, "", "\"cmd.exe\"");
+            Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdPrompt, "", "命令行");
+            Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdPromptCommand, "", "\"cmd.exe\" \"cd %1\"");
+            cmdHere = "SOFTWARE\\Classes\\Directory\\shell\\cmd_here";
+            cmdHereCommand = cmdHere + "\\command";
+            Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdHere, "", "命令行");
+            Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdHere, "Icon", "cmd.exe");
+            Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdHereCommand, "", "\"cmd.exe\"");
+        }
 
         #region Exit
         public void Exit() {
