@@ -1,4 +1,5 @@
 ﻿using NTMiner.Vms;
+using System.Diagnostics;
 using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
@@ -24,6 +25,10 @@ namespace NTMiner.Views.Ucs {
 
         public EthNoDevFeeEdit() {
             InitializeComponent();
+        }
+
+        private void Help_Click(object sender, System.Windows.RoutedEventArgs e) {
+            Process.Start("https://www.loserhub.cn/posts/details/92");
         }
     }
 }

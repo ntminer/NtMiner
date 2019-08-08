@@ -30,6 +30,18 @@
                     <TextBlock>1，该反抽水是100%反抽水，是将老外的内核开发费全部返还给矿工而不是部分返还；</TextBlock>
                     <TextBlock>2，返还抽水给矿工可能会面临竞品攻击，是否返还由矿工自己决定而不是默认返还；</TextBlock>
                     <TextBlock>3，填写了钱包地址即表示矿工有取回抽水的意愿，同意和开源矿工一同面对可能的纠纷；</TextBlock>
+                    <controls:KbLinkButton 
+                            BorderThickness="0"
+                            HorizontalAlignment="Center" 
+                            VerticalAlignment="Bottom"
+				            KbDisplayLine="False"
+                            Click="Help_Click"
+                            Background="Transparent"
+				            KbSystemButtonHoverBackground="Transparent">
+                        <WrapPanel>
+                            <TextBlock Foreground="{StaticResource IconFillColor}">更多</TextBlock>
+                        </WrapPanel>
+                    </controls:KbLinkButton>
                 </StackPanel>
             </Border>
 			<controls:KbButton
