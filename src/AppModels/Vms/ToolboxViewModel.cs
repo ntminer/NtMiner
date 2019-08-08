@@ -43,14 +43,14 @@ namespace NTMiner.Vms {
                 }, icon: IconConst.IconConfirm);
             });
             this.BlockWAU = new DelegateCommand(() => {
-                this.ShowDialog(message: $"确定禁用Windows系统更新吗？", title: "确认", onYes: () => {
+                this.ShowDialog(message: $"确定禁用Windows系统更新吗？禁用后可在Windows服务中找到Windows Update手动启用。", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new BlockWAUCommand());
                 }, icon: IconConst.IconConfirm);
             });
             this.Win10Optimize = new DelegateCommand(() => {
                 this.ShowDialog(message: $"确定面向挖矿优化windows吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new Win10OptimizeCommand());
-                }, icon: IconConst.IconConfirm);
+                }, icon: IconConst.IconConfirm, helpUrl: "https://www.loserhub.cn/posts/details/83");
             });
             this.EnableWindowsRemoteDesktop = new DelegateCommand(() => {
                 VirtualRoot.Execute(new EnableWindowsRemoteDesktopCommand());

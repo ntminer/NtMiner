@@ -1,5 +1,6 @@
 ﻿using NTMiner.Wpf;
 using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
 
@@ -8,9 +9,10 @@ namespace NTMiner.Views {
         public static void ShowDialog(string icon = null,
             string title = null,
             string message = null,
+            string helpUrl = null,
             Action onYes = null,
             Action onNo = null) {
-            Window window = new DialogWindow(icon, title, message, onYes, onNo);
+            Window window = new DialogWindow(icon, title, message, helpUrl, onYes, onNo);
             if (window.Owner != null) {
                 window.MouseBottom();
                 double ownerOpacity = window.Owner.Opacity;
@@ -25,14 +27,19 @@ namespace NTMiner.Views {
 
         private readonly Action _onYes;
         private readonly Action _onNo;
-
+        private readonly string _helpUrl;
         private DialogWindow(
             string icon, 
             string title, 
             string message, 
+            string helpUrl,
             Action onYes, 
             Action onNo) {
+            _helpUrl = helpUrl;
             InitializeComponent();
+            if (!string.IsNullOrEmpty(helpUrl)) {
+                this.BtnHelp.Visibility = Visibility.Visible;
+            }
             this.TextBlockTitle.Text = title;
             this.TextBlockMessage.Text = message;
             if (!string.IsNullOrEmpty(icon) && Application.Current.Resources.Contains(icon)) {
@@ -71,6 +78,12 @@ namespace NTMiner.Views {
         private void Window_MouseDown(object sender, MouseButtonEventArgs e) {
             if (e.ButtonState == MouseButtonState.Pressed) {
                 this.DragMove();
+            }
+        }
+
+        private void Help_Click(object sender, RoutedEventArgs e) {
+            if (!string.IsNullOrEmpty(_helpUrl)) {
+                Process.Start(_helpUrl);
             }
         }
     }

@@ -44,6 +44,28 @@
                     Margin="4 4 0 0"
                     FontSize="16" />
             </WrapPanel>
+            <controls:KbLinkButton 
+                x:Name="BtnHelp"
+                Margin="0 0 4 0"
+                Visibility="Collapsed"
+                DockPanel.Dock="Right" 
+                HorizontalAlignment="Right" 
+                VerticalAlignment="Center"
+				KbDisplayLine="False"
+                Click="Help_Click"
+				KbSystemButtonHoverBackground="Transparent"
+				Background="Transparent"
+				Foreground="{StaticResource ThemeForeground}">
+                <WrapPanel>
+                    <Path 
+                        Width="14"
+                        Height="14"
+                        Fill="{StaticResource ThemeForeground}"
+                        Data="{StaticResource Icon_Help}"
+                        Stretch="Fill"/>
+                    <TextBlock Margin="2 0 0 0" FontSize="13" Foreground="{StaticResource ThemeForeground}">帮助</TextBlock>
+                </WrapPanel>
+            </controls:KbLinkButton>
         </DockPanel>
         <StackPanel Grid.Row="1" Margin="10 20 10 10" HorizontalAlignment="Center" VerticalAlignment="Top">
             <TextBlock x:Name="TextBlockMessage" VerticalAlignment="Center" TextWrapping="Wrap"></TextBlock>
