@@ -9,7 +9,6 @@ namespace NTMiner.Vms {
         private string _mainCoinSpeedText;
         private string _dualCoinSpeedText;
         private string _powerUsageWText;
-        private string _temperatureSumText;
 
         public GpuSpeedDataViewModels(
             string mainCoinCode,
@@ -17,14 +16,12 @@ namespace NTMiner.Vms {
             string mainCoinTotalSpeedText,
             string dualCoinTotalSpeedText,
             string totalPowerText,
-            string temperatureSumText,
             GpuSpeedData[] datas) {
             this._mainCoinCode = mainCoinCode;
             this._dualCoinCode = dualCoinCode;
             this._mainCoinSpeedText = mainCoinTotalSpeedText;
             this._dualCoinSpeedText = dualCoinTotalSpeedText;
             this._powerUsageWText = totalPowerText;
-            this._temperatureSumText = temperatureSumText;
             if (datas != null && datas.Length != 0) {
                 foreach (var data in datas) {
                     _gpuSpeeds.Add(new GpuSpeedDataViewModel(data));
@@ -65,14 +62,6 @@ namespace NTMiner.Vms {
             set {
                 _powerUsageWText = value;
                 OnPropertyChanged(nameof(PowerUsageWText));
-            }
-        }
-
-        public string TemperatureSumText {
-            get => _temperatureSumText;
-            set {
-                _temperatureSumText = value;
-                OnPropertyChanged(nameof(TemperatureSumText));
             }
         }
 

@@ -96,12 +96,9 @@
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn MinWidth="50" IsReadOnly="True">
 					<DataGridTemplateColumn.HeaderTemplate>
-						<DataTemplate>
-							<StackPanel>
-								<TextBlock Text="温度" FontSize="12"></TextBlock>
-								<TextBlock Text="{Binding Data.GpuAllVm.TemperatureSumText, Source={StaticResource proxy}}" FontSize="11"></TextBlock>
-							</StackPanel>
-						</DataTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="温度" FontSize="12"></TextBlock>
+                        </DataTemplate>
 					</DataGridTemplateColumn.HeaderTemplate>
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>

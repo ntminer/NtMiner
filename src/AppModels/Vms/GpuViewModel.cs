@@ -197,21 +197,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        public string TemperatureSumText {
-            get {
-                if (_isGpuData) {
-                    return "0℃";
-                }
-                if (NTMinerRoot.Instance.GpuSet == EmptyGpuSet.Instance) {
-                    return "0℃";
-                }
-                if (this.Index == NTMinerRoot.GpuAllId && NTMinerRoot.Instance.GpuSet.Count != 0) {
-                    return $"{AppContext.Instance.GpuVms.Sum(a => a.Temperature)}℃";
-                }
-                return this.Temperature.ToString() + "℃";
-            }
-        }
-
         public uint FanSpeed {
             get => _fanSpeed;
             set {

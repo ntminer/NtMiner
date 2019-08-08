@@ -886,12 +886,6 @@ namespace NTMiner.Vms {
             get { return $"{GpuTable.Sum(a => a.PowerUsage).ToString("f0")}W"; }
         }
 
-        public string TemperatureSumText {
-            get {
-                return $"{GpuTable.Sum(a => a.Temperature)}℃";
-            }
-        }
-
         public int MaxTemp {
             get {
                 if (GpuTable == null || GpuTable.Length == 0) {
@@ -941,11 +935,10 @@ namespace NTMiner.Vms {
                 OnPropertyChanged(nameof(GpuTable));
                 OnPropertyChanged(nameof(TotalPower));
                 OnPropertyChanged(nameof(TotalPowerText));
-                OnPropertyChanged(nameof(TemperatureSumText));
                 OnPropertyChanged(nameof(MaxTemp));
                 OnPropertyChanged(nameof(MaxTempText));
                 OnPropertyChanged(nameof(GpuCount));
-                this.GpuTableVm = new GpuSpeedDataViewModels(MainCoinCode, DualCoinCode, MainCoinSpeedText, DualCoinSpeedText, TotalPowerText, TemperatureSumText, value);
+                this.GpuTableVm = new GpuSpeedDataViewModels(MainCoinCode, DualCoinCode, MainCoinSpeedText, DualCoinSpeedText, TotalPowerText, value);
             }
         }
 
