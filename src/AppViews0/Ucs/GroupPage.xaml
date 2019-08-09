@@ -10,7 +10,9 @@
 			 xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 			 Background="White"
 			 TextOptions.TextFormattingMode="Display" 
-			 mc:Ignorable="d" d:DesignHeight="420" d:DesignWidth="660">
+			 mc:Ignorable="d" 
+             d:DesignHeight="420" 
+             d:DesignWidth="660">
 	<UserControl.DataContext>
 		<vm:GroupPageViewModel></vm:GroupPageViewModel>
 	</UserControl.DataContext>

@@ -274,9 +274,6 @@
     <Compile Include="Ucs\MinerGroupEdit.xaml.cs">
       <DependentUpon>MinerGroupEdit.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ucs\KernelHelpPage.xaml.cs">
-      <DependentUpon>KernelHelpPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Ucs\StateBar.xaml.cs">
       <DependentUpon>StateBar.xaml</DependentUpon>
     </Compile>
@@ -356,6 +353,26 @@
     <Page Include="ChartsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Design\InputSegmentEditViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Design\GroupViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Design\GpuSpeedDataViewModels.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Design\GpuProfilesPageViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Design\MinerProfileViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Design\FragmentWriterSelectViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -686,10 +703,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Ucs\MinerGroupEdit.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Ucs\KernelHelpPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

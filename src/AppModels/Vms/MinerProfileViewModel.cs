@@ -44,12 +44,15 @@ namespace NTMiner.Vms {
         public ICommand AutoNoUiMinutesUp { get; private set; }
         public ICommand AutoNoUiMinutesDown { get; private set; }
 
-        private MinerProfileViewModel() {
+        public MinerProfileViewModel() {
 #if DEBUG
                 VirtualRoot.Stopwatch.Restart();
 #endif
             if (Design.IsInDesignMode) {
                 return;
+            }
+            if (Instance != null) {
+                throw new InvalidProgramException();
             }
             this.AutoStartDelaySecondsUp = new DelegateCommand(() => {
                 this.AutoStartDelaySeconds++;

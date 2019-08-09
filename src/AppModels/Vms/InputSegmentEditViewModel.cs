@@ -12,6 +12,12 @@ namespace NTMiner.Vms {
         public ICommand Save { get; private set; }
         public Action CloseWindow { get; set; }
 
+        public InputSegmentEditViewModel() {
+            if (!Design.IsInDesignMode) {
+                throw new InvalidProgramException();
+            }
+        }
+
         public InputSegmentEditViewModel(CoinKernelViewModel coinKernelVm, InputSegment segment) {
             _name = segment.Name;
             _segment = segment.Segment;

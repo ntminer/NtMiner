@@ -23,6 +23,12 @@ namespace NTMiner.Vms {
 
         public Action CloseWindow { get; set; }
 
+        public GpuProfilesPageViewModel() {
+            if (!Design.IsInDesignMode) {
+                throw new InvalidProgramException();
+            }
+        }
+
         public GpuProfilesPageViewModel(MinerClientsWindowViewModel minerClientsWindowVm) {
             _minerClientsWindowVm = minerClientsWindowVm;
             if (minerClientsWindowVm.SelectedMinerClients == null && minerClientsWindowVm.SelectedMinerClients.Length != 1) {

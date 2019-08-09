@@ -142,7 +142,6 @@
     <Compile Include="Vms\InputSegmentEditViewModel.cs" />
     <Compile Include="Vms\InputSegmentViewModel.cs" />
     <Compile Include="Vms\KernelDownloadingViewModel.cs" />
-    <Compile Include="Vms\KernelHelpPageViewModel.cs" />
     <Compile Include="Vms\KernelInputPageViewModel.cs" />
     <Compile Include="Vms\KernelInputViewModel.cs" />
     <Compile Include="Vms\KernelMenu.cs" />

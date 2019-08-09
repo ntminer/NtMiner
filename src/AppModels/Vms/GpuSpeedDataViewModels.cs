@@ -1,4 +1,5 @@
 ﻿using NTMiner.MinerClient;
+using System;
 using System.Collections.Generic;
 
 namespace NTMiner.Vms {
@@ -9,6 +10,12 @@ namespace NTMiner.Vms {
         private string _mainCoinSpeedText;
         private string _dualCoinSpeedText;
         private string _powerUsageWText;
+
+        public GpuSpeedDataViewModels() {
+            if (!Design.IsInDesignMode) {
+                throw new InvalidProgramException();
+            }
+        }
 
         public GpuSpeedDataViewModels(
             string mainCoinCode,

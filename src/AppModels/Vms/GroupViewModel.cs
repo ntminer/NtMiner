@@ -24,6 +24,12 @@ namespace NTMiner.Vms {
 
         public Action CloseWindow { get; set; }
 
+        public GroupViewModel() {
+            if (!Design.IsInDesignMode) {
+                throw new InvalidProgramException();
+            }
+        }
+
         public GroupViewModel(IGroup data) : this(data.GetId()) {
             _name = data.Name;
             _sortNumber = data.SortNumber;

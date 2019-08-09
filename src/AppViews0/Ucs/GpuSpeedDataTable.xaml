@@ -9,6 +9,7 @@
 			 xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 			 xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
 			 mc:Ignorable="d" 
+             d:DataContext="{d:DesignData Source=/Design/GpuSpeedDataViewModels.xaml}"
 			 Background="Transparent"
 			 TextOptions.TextFormattingMode="Display" 
 			 d:DesignHeight="250" d:DesignWidth="800">
