@@ -15,6 +15,12 @@ namespace NTMiner.Vms {
 
         public Action CloseWindow { get; set; }
 
+        public FileWriterViewModel() {
+            if (!Design.IsInDesignMode) {
+                throw new InvalidProgramException();
+            }
+        }
+
         public FileWriterViewModel(IFileWriter data) : this(data.GetId()) {
             _name = data.Name;
             _fileUrl = data.FileUrl;
