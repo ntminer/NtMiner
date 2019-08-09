@@ -182,13 +182,13 @@ namespace NTMiner.Vms {
             }
         }
 
-        public AppContext.MinerProfileViewModel MinerProfile {
+        public MinerProfileViewModel MinerProfile {
             get {
                 return AppContext.Instance.MinerProfileVm;
             }
         }
 
-        public AppContext.GpuStatusBarViewModel GpuStatusBarVm {
+        public GpuStatusBarViewModel GpuStatusBarVm {
             get {
                 return AppContext.Instance.GpuStatusBarVm;
             }

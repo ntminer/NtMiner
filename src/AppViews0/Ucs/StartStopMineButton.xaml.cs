@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using NTMiner.Vms;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -22,7 +23,7 @@ namespace NTMiner.Views.Ucs {
         public static readonly DependencyProperty StartButtonForegroundProperty =
             DependencyProperty.Register("StartButtonForeground", typeof(SolidColorBrush), typeof(StartStopMineButton), new PropertyMetadata(Wpf.Util.TransparentBrush));
 
-        private AppContext.StartStopMineButtonViewModel Vm {
+        private StartStopMineButtonViewModel Vm {
             get {
                 return AppContext.Instance.StartStopMineButtonVm;
             }

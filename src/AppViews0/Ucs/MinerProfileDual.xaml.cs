@@ -5,14 +5,14 @@ using System.Windows.Controls.Primitives;
 
 namespace NTMiner.Views.Ucs {
     public partial class MinerProfileDual : UserControl {
-        private AppContext.MinerProfileViewModel Vm {
+        private MinerProfileViewModel Vm {
             get {
-                return AppContext.MinerProfileViewModel.Instance;
+                return MinerProfileViewModel.Instance;
             }
         }
 
         public MinerProfileDual() {
-            this.DataContext = AppContext.MinerProfileViewModel.Instance;
+            this.DataContext = MinerProfileViewModel.Instance;
             InitializeComponent();
             this.PopupDualCoinPool.Closed += Popup_Closed;
             this.PopupDualCoin.Closed += Popup_Closed;
