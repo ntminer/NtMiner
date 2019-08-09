@@ -13,6 +13,12 @@ namespace NTMiner.Vms {
 
         public Action CloseWindow { get; set; }
 
+        public MinerNamesSeterViewModel() {
+            if (!Design.IsInDesignMode) {
+                throw new InvalidProgramException();
+            }
+        }
+
         public MinerNamesSeterViewModel(string prefix, string suffix, List<Tuple<string, string>> namesByObjectId) {
             _prefix = prefix;
             _suffix = suffix;
