@@ -17,6 +17,12 @@ namespace NTMiner.Vms {
 
         public Action CloseWindow { get; set; }
 
+        public KernelOutputFilterViewModel() {
+            if (!Design.IsInDesignMode) {
+                throw new InvalidProgramException();
+            }
+        }
+
         public KernelOutputFilterViewModel(IKernelOutputFilter data) : this(data.GetId()) {
             _kernelOutputId = data.KernelOutputId;
             _regexPattern = data.RegexPattern;

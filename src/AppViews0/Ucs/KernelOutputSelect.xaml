@@ -12,6 +12,7 @@
 		BorderBrush="{StaticResource WindowBorderBrush}"
 		BorderThickness="1"
 		Background="White"
+        d:DataContext="{d:DesignData Source=/Design/KernelOutputSelectViewModel.xaml}"
 		mc:Ignorable="d" 
 		d:DesignHeight="300"
 		MaxHeight="400"

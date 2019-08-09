@@ -17,6 +17,9 @@ namespace NTMiner.Vms {
         public Action CloseWindow { get; set; }
 
         public MinerClientAddViewModel() {
+            if (Design.IsInDesignMode) {
+                return;
+            }
             this.Save = new DelegateCommand(() => {
                 if (!IPAddress.TryParse(this.LeftIp, out _)) {
                     this.ShowMessage("IP格式不正确");

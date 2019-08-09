@@ -13,6 +13,12 @@ namespace NTMiner.Vms {
         public ICommand ClearKeyword { get; private set; }
         public ICommand HideView { get; set; }
 
+        public KernelSelectViewModel() {
+            if (!Design.IsInDesignMode) {
+                throw new InvalidProgramException();
+            }
+        }
+
         public KernelSelectViewModel(CoinViewModel coin, KernelViewModel selectedKernel, Action<KernelViewModel> onOk) {
             _coin = coin;
             _selectedResult = selectedKernel;
