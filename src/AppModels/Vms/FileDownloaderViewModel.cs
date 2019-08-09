@@ -13,6 +13,12 @@ namespace NTMiner.Vms {
 
         public ICommand CancelDownload { get; private set; }
 
+        public FileDownloaderViewModel() {
+            if (!Design.IsInDesignMode) {
+                throw new InvalidProgramException();
+            }
+        }
+
         public FileDownloaderViewModel(string downloadFileUrl, Action<bool, string, string> downloadComplete) {
             if (string.IsNullOrEmpty(downloadFileUrl)) {
                 throw new InvalidProgramException();

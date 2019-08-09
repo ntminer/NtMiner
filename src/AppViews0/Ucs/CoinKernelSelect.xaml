@@ -12,7 +12,8 @@
 		BorderThickness="1"
 		Background="White"
 		mc:Ignorable="d" 
-		d:DesignHeight="300">
+		d:DesignHeight="300"
+        d:DataContext="{d:DesignData Source=/Design/CoinKernelSelectViewModel.xaml}">
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"></RowDefinition>

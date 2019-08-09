@@ -8,6 +8,7 @@
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
+        d:DataContext="{d:DesignData Source=/Design/FileDownloaderViewModel.xaml}"
 		mc:Ignorable="d" Height="200" Width="400">
 	<Grid
 		Background="#F5F4F5"
