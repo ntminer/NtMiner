@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace NTMiner {
     public static class SpecialPath {
-        private static readonly string ServerJsonFileUrl = AssemblyInfo.MinerJsonBucket + AssemblyInfo.ServerJsonFileName;
-
         public static void GetAliyunServerJson(Action<byte[]> callback) {
-            string fileUrl = ServerJsonFileUrl + "?t=" + DateTime.Now.Ticks;
+        string serverJsonFileUrl = AssemblyInfo.MinerJsonBucket + AssemblyInfo.ServerJsonFileName;
+        string fileUrl = serverJsonFileUrl + "?t=" + DateTime.Now.Ticks;
             Task.Factory.StartNew(() => {
                 try {
                     var webRequest = WebRequest.Create(fileUrl);
