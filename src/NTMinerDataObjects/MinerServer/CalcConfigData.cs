@@ -12,6 +12,7 @@ namespace NTMiner.MinerServer {
             this.SpeedUnit = data.SpeedUnit;
             this.NetSpeed = data.NetSpeed;
             this.BaseNetSpeed = data.BaseNetSpeed;
+            this.BaseNetSpeedUnit = data.BaseNetSpeedUnit;
             this.DayWave = data.DayWave;
             this.NetSpeedUnit = data.NetSpeedUnit;
             this.IncomePerDay = data.IncomePerDay;
@@ -26,6 +27,7 @@ namespace NTMiner.MinerServer {
             this.SpeedUnit = data.SpeedUnit;
             this.NetSpeed = data.NetSpeed;
             this.BaseNetSpeed = data.BaseNetSpeed;
+            this.BaseNetSpeedUnit = data.BaseNetSpeedUnit;
             this.DayWave = data.DayWave;
             this.NetSpeedUnit = data.NetSpeedUnit;
             this.IncomePerDay = data.IncomePerDay;
@@ -54,6 +56,7 @@ namespace NTMiner.MinerServer {
 
         public double IncomeCnyPerDay { get; set; }
         public double BaseNetSpeed { get; set; }
+        public string BaseNetSpeedUnit { get; set; }
 
         public DateTime CreatedOn { get; set; }
 

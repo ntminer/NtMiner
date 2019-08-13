@@ -8,6 +8,7 @@ namespace NTMiner.MinerServer {
         double NetSpeed { get; }
         string NetSpeedUnit { get; }
         double BaseNetSpeed { get; }
+        string BaseNetSpeedUnit { get; }
         double DayWave { get; }
         double IncomePerDay { get; }
         double IncomeUsdPerDay { get; }

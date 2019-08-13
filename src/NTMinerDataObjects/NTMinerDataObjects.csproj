@@ -78,6 +78,7 @@
     <Compile Include="Core\SysDicItemData.cs" />
     <Compile Include="Daemon\SetWalletRequest.cs" />
     <Compile Include="DataLevel.cs" />
+    <Compile Include="DoubleExtension.cs" />
     <Compile Include="IGetSignData.cs" />
     <Compile Include="DataResponse`1.cs" />
     <Compile Include="IOverClockInput.cs" />

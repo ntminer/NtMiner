@@ -11,6 +11,7 @@ namespace NTMiner.Vms {
         private string _netSpeedUnit;
         private double _netSpeed;
         private double _baseNetSpeed;
+        private string _baseNetSpeedUnit;
         private string _coinCode;
         private DateTime _createdOn;
         private DateTime _modifiedOn;
@@ -24,6 +25,7 @@ namespace NTMiner.Vms {
             _speedUnit = data.SpeedUnit;
             _netSpeed = data.NetSpeed;
             _baseNetSpeed = data.BaseNetSpeed;
+            _baseNetSpeedUnit = data.BaseNetSpeedUnit;
             _dayWave = data.DayWave;
             _netSpeedUnit = data.NetSpeedUnit;
             _coinCode = data.CoinCode;
@@ -78,6 +80,16 @@ namespace NTMiner.Vms {
                 if (Math.Abs(_baseNetSpeed - value) > 0.001) {
                     _baseNetSpeed = value;
                     OnPropertyChanged(nameof(BaseNetSpeed));
+                }
+            }
+        }
+
+        public string BaseNetSpeedUnit {
+            get { return _baseNetSpeedUnit; }
+            set {
+                if (value != _baseNetSpeedUnit) {
+                    _baseNetSpeedUnit = value;
+                    OnPropertyChanged(nameof(BaseNetSpeedUnit));
                 }
             }
         }

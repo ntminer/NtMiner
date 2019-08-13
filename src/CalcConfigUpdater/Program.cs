@@ -93,9 +93,17 @@ namespace NTMiner {
                                         calcConfigData.ModifiedOn = DateTime.Now;
                                         if (calcConfigData.ModifiedOn.AddMinutes(15) > calcConfigData.ModifiedOn.Date.AddDays(1)) {
                                             calcConfigData.BaseNetSpeed = calcConfigData.NetSpeed;
+                                            calcConfigData.BaseNetSpeedUnit = calcConfigData.NetSpeedUnit;
                                         }
                                         else if(calcConfigData.BaseNetSpeed != 0) {
-                                            calcConfigData.DayWave = (calcConfigData.NetSpeed - calcConfigData.BaseNetSpeed) / calcConfigData.BaseNetSpeed;
+                                            if (calcConfigData.NetSpeedUnit == calcConfigData.BaseNetSpeedUnit) {
+                                                calcConfigData.DayWave = (calcConfigData.NetSpeed - calcConfigData.BaseNetSpeed) / calcConfigData.BaseNetSpeed;
+                                            }
+                                            else {
+                                                var netSpeed = calcConfigData.NetSpeed.FromUnitSpeed(calcConfigData.NetSpeedUnit);
+                                                var baseNetSpeed = calcConfigData.BaseNetSpeed.FromUnitSpeed(calcConfigData.BaseNetSpeedUnit);
+                                                calcConfigData.DayWave = (netSpeed - baseNetSpeed) / baseNetSpeed;
+                                            }
                                         }
                                     }
                                 }
