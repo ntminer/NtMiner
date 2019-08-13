@@ -100,6 +100,9 @@ namespace NTMiner {
                                                 calcConfigData.DayWave = (calcConfigData.NetSpeed - calcConfigData.BaseNetSpeed) / calcConfigData.BaseNetSpeed;
                                             }
                                             else {
+                                                if (string.IsNullOrEmpty(calcConfigData.BaseNetSpeedUnit)) {
+                                                    calcConfigData.BaseNetSpeedUnit = calcConfigData.NetSpeedUnit;
+                                                }
                                                 var netSpeed = calcConfigData.NetSpeed.FromUnitSpeed(calcConfigData.NetSpeedUnit);
                                                 var baseNetSpeed = calcConfigData.BaseNetSpeed.FromUnitSpeed(calcConfigData.BaseNetSpeedUnit);
                                                 calcConfigData.DayWave = (netSpeed - baseNetSpeed) / baseNetSpeed;
