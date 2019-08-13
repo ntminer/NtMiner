@@ -103,6 +103,9 @@ namespace NTMiner {
                         if (NTMinerRoot.Instance.GpuSet.Count == 0) {
                             NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage("没有矿卡或矿卡未驱动。");
                         }
+                        if (NTMinerRoot.Instance.CoinSet.Count == 0) {
+                            NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage("访问阿里云失败，更换本机dns可以解决此问题");
+                        }
                         UIThread.Execute(() => {
                             if (NTMinerRoot.GetIsNoUi() && NTMinerRegistry.GetIsAutoStart()) {
                                 MainWindow = NotiCenterWindow.Instance;
