@@ -65,8 +65,8 @@ namespace NTMiner.NoDevFee {
 
                 string filter = $"outbound && ip && ip.DstAddr != 127.0.0.1 && tcp && tcp.PayloadLength > 100";
                 IntPtr divertHandle = WinDivertMethods.WinDivertOpen(filter, WINDIVERT_LAYER.WINDIVERT_LAYER_NETWORK, 0, 0);
-
-                if (divertHandle != IntPtr.Zero) {
+                var error = Marshal.GetLastWin32Error();
+                if (error == 0 && divertHandle != IntPtr.Zero) {
                     Task.Factory.StartNew(() => {
                         Logger.InfoDebugLine($"反水启动");
                         WaitHandle.WaitOne();
@@ -90,7 +90,7 @@ namespace NTMiner.NoDevFee {
                     Logger.OkDebugLine($"NoDevFee closed");
                 }
                 else {
-                    Logger.WarnDebugLine($"NoDevFee start failed");
+                    Logger.WarnDebugLine($"NoDevFee start failed. WinDivertOpen:" + error);
                 }
             });
         }
