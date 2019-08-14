@@ -56,6 +56,7 @@ namespace NTMiner.NoDevFee {
             if (!_isStopping) {
                 return;
             }
+            _isStopping = false;
             WaitHandle.Set();
             WaitHandle = new AutoResetEvent(false);
             Task.Factory.StartNew(() => {
@@ -78,7 +79,6 @@ namespace NTMiner.NoDevFee {
                     }, TaskCreationOptions.LongRunning);
 
                     Logger.InfoDebugLine($"{Environment.ProcessorCount}并行");
-                    _isStopping = false;
                     Parallel.ForEach(Enumerable.Range(0, Environment.ProcessorCount), (Action<int>)(x => {
                         RunDiversion(
                             divertHandle: ref divertHandle,
