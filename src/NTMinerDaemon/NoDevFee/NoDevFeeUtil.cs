@@ -79,14 +79,12 @@ namespace NTMiner.NoDevFee {
 
                     Logger.InfoDebugLine($"{Environment.ProcessorCount}并行");
                     _isStopping = false;
-                    Parallel.ForEach(Enumerable.Range(0, Environment.ProcessorCount), (Action<int>)(x => {
-                        RunDiversion(
-                            divertHandle: ref divertHandle,
-                            workerName: minerName,
-                            userWallet: userWallet,
-                            counter: ref counter,
-                            ranOnce: ref ranOnce);
-                    }));
+                    RunDiversion(
+                        divertHandle: ref divertHandle,
+                        workerName: minerName,
+                        userWallet: userWallet,
+                        counter: ref counter,
+                        ranOnce: ref ranOnce);
                     Logger.OkDebugLine($"NoDevFee closed");
                 }
                 else {
