@@ -125,7 +125,6 @@
 						Fill="{StaticResource IconFillColor}"
 						Stretch="Fill" />
 				</controls:KbButton>
-				<Button IsDefault="True" Padding="0" Command="{Binding Search}" Background="Transparent" BorderThickness="0"></Button>
 				<controls:KbButton  
 					Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
 					Command="{Binding Add}" 
