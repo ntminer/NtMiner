@@ -7,7 +7,7 @@ using System.Windows.Input;
 namespace NTMiner.Vms {
     public class GroupViewModel : ViewModelBase, IGroup, IEditableViewModel {
         public static readonly GroupViewModel PleaseSelect = new GroupViewModel(Guid.Empty) {
-            _name = "本级未定义",
+            _name = "不支持双挖",
             _sortNumber = 0
         };
 

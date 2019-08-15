@@ -261,6 +261,8 @@ namespace NTMiner.Vms {
                 if (_dualCoinGroupId != value) {
                     _dualCoinGroupId = value;
                     OnPropertyChanged(nameof(DualCoinGroupId));
+                    OnPropertyChanged(nameof(SelectedDualCoinGroup));
+                    OnPropertyChanged(nameof(IsSupportDualMine));
                 }
             }
         }
@@ -281,8 +283,6 @@ namespace NTMiner.Vms {
             set {
                 if (DualCoinGroupId != value.Id) {
                     DualCoinGroupId = value.Id;
-                    OnPropertyChanged(nameof(SelectedDualCoinGroup));
-                    OnPropertyChanged(nameof(IsSupportDualMine));
                 }
             }
         }
