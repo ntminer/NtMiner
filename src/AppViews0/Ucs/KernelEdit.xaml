@@ -288,7 +288,7 @@
 								</DataGridTemplateColumn.Header>
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate>
-										<TextBlock Text="{Binding DualCoinGroup.Name}"></TextBlock>
+                                        <TextBlock Text="{Binding SelectedDualCoinGroup.Name}"></TextBlock>
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>

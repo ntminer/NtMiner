@@ -96,7 +96,7 @@
 				<TextBlock Style="{StaticResource LblTb}" Text="双挖币组"></TextBlock>
 				<controls:KbComboBox 
 					BorderThickness="0"
-					Width="166" ItemsSource="{Binding GroupVms.SelectionOptions}"
+					Width="146" ItemsSource="{Binding GroupVms.SelectionOptions}"
 					IsEnabled="{x:Static app:AppStatic.IsDebugMode}"
 					DisplayMemberPath="Name"
 					SelectedItem="{Binding SelectedDualCoinGroup}">
@@ -127,23 +127,36 @@
 					</WrapPanel>
 				</controls:KbLinkButton>
 			</TextBlock>
-			<controls:KbMuiltilineTextBox IsReadOnly="True" BorderThickness="0" 
-					 Padding="0 4" Width="420"
-					 Text="{Binding Kernel.KernelInputVm.Args, Mode=OneWay}">
+			<controls:KbMuiltilineTextBox 
+                IsReadOnly="True" 
+                BorderThickness="0" 
+                Background="White"
+				Padding="0 4" Width="420"
+				Text="{Binding Kernel.KernelInputVm.Args, Mode=OneWay}">
 			</controls:KbMuiltilineTextBox>
 		</WrapPanel>
 
-		<WrapPanel Margin="0 2">
-			<TextBlock Style="{StaticResource LblTb}" Text="币种级参数"></TextBlock>
-			<TextBox 
-				VerticalContentAlignment="Center"
+        <WrapPanel Margin="0 2">
+            <TextBlock Style="{StaticResource LblTb}" Text="币种级参数"></TextBlock>
+            <TextBox 
+				    VerticalContentAlignment="Center"
+				    Width="436" Background="Transparent"
+				    IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
+				    Text="{Binding Args, Mode=TwoWay}">
+            </TextBox>
+        </WrapPanel>
+
+        <WrapPanel Margin="0 2" Visibility="{Binding IsSupportDualMine,Converter={StaticResource BoolToVisibilityConverter}}">
+            <TextBlock Style="{StaticResource LblTb}" Text="双挖全参" VerticalAlignment="Top"></TextBlock>
+            <controls:KbMuiltilineTextBox 
 				Width="436" Background="Transparent"
 				IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
-				Text="{Binding Args, Mode=TwoWay}">
-			</TextBox>
-		</WrapPanel>
+				VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
+				Text="{Binding DualFullArgs, Mode=TwoWay}" Height="60">
+            </controls:KbMuiltilineTextBox>
+        </WrapPanel>
 
-		<WrapPanel Margin="0 2">
+        <WrapPanel Margin="0 2">
 			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="通知"></TextBlock>
 			<controls:KbMuiltilineTextBox 
 				Width="436" Background="Transparent"

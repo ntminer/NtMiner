@@ -108,7 +108,7 @@ namespace NTMiner.Vms {
             get {
                 if (!AppContext.Instance.CoinVms.TryGetCoinVm(this.DualCoinId, out CoinViewModel coin)) {
                     if (AppContext.Instance.CoinKernelVms.TryGetCoinKernelVm(this.CoinKernelId, out CoinKernelViewModel coinKernelVm)) {
-                        coin = coinKernelVm.DualCoinGroup.DualCoinVms.FirstOrDefault();
+                        coin = coinKernelVm.SelectedDualCoinGroup.DualCoinVms.FirstOrDefault();
                     }
                     if (coin != null) {
                         DualCoinId = coin.Id;

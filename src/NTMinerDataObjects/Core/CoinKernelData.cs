@@ -30,6 +30,8 @@ namespace NTMiner.Core {
 
         public string Args { get; set; }
 
+        public string DualFullArgs { get; set; }
+
         public string Notice { get; set; }
 
         public bool IsHot { get; set; }

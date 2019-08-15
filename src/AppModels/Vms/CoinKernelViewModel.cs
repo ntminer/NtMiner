@@ -14,6 +14,7 @@ namespace NTMiner.Vms {
         private Guid _dualCoinGroupId;
         private bool _isSupportPool1;
         private string _args;
+        private string _dualFullArgs;
         private string _notice;
         private bool _isHot;
         private bool _isRecommend;
@@ -61,6 +62,7 @@ namespace NTMiner.Vms {
             _sortNumber = data.SortNumber;
             _dualCoinGroupId = data.DualCoinGroupId;
             _args = data.Args;
+            _dualFullArgs = data.DualFullArgs;
             _notice = data.Notice;
             _supportedGpu = data.SupportedGpu;
             _isSupportPool1 = data.IsSupportPool1;
@@ -279,22 +281,9 @@ namespace NTMiner.Vms {
             set {
                 if (DualCoinGroupId != value.Id) {
                     DualCoinGroupId = value.Id;
-                    OnPropertyChanged(nameof(DualCoinGroup));
                     OnPropertyChanged(nameof(SelectedDualCoinGroup));
                     OnPropertyChanged(nameof(IsSupportDualMine));
                 }
-            }
-        }
-
-        public GroupViewModel DualCoinGroup {
-            get {
-                if (!this.Kernel.KernelInputVm.IsSupportDualMine) {
-                    return GroupViewModel.PleaseSelect;
-                }
-                if (this.DualCoinGroupId == Guid.Empty) {
-                    return this.Kernel.KernelInputVm.DualCoinGroup;
-                }
-                return SelectedDualCoinGroup;
             }
         }
 
@@ -311,6 +300,14 @@ namespace NTMiner.Vms {
                     _args = value;
                     OnPropertyChanged(nameof(Args));
                 }
+            }
+        }
+
+        public string DualFullArgs {
+            get { return _dualFullArgs; }
+            set {
+                _dualFullArgs = value;
+                OnPropertyChanged(nameof(DualFullArgs));
             }
         }
 
@@ -427,10 +424,7 @@ namespace NTMiner.Vms {
                 if (!this.Kernel.KernelInputVm.IsSupportDualMine) {
                     return false;
                 }
-                if (this.DualCoinGroupId != Guid.Empty) {
-                    return true;
-                }
-                return this.Kernel.KernelInputVm.DualCoinGroupId != Guid.Empty;
+                return this.DualCoinGroupId != Guid.Empty;
             }
         }
 

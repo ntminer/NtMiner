@@ -61,9 +61,6 @@ namespace NTMiner {
                             var kernelVm = entity.Kernel;
                             kernelVm.OnPropertyChanged(nameof(kernelVm.CoinKernels));
                         }
-                        if (dualCoinGroupId != entity.DualCoinGroupId) {
-                            entity.OnPropertyChanged(nameof(entity.DualCoinGroup));
-                        }
                         if (sortNumber != entity.SortNumber) {
                             CoinViewModel coinVm;
                             if (AppContext.Instance.CoinVms.TryGetCoinVm(entity.CoinId, out coinVm)) {

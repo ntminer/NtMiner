@@ -89,7 +89,7 @@ namespace NTMiner.Views.Ucs {
             popup.IsOpen = true;
             var selected = Vm.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin;
             popup.Child = new CoinSelect(
-                new CoinSelectViewModel(Vm.CoinVm.CoinKernel.DualCoinGroup.DualCoinVms, selected, onOk: selectedResult => {
+                new CoinSelectViewModel(Vm.CoinVm.CoinKernel.SelectedDualCoinGroup.DualCoinVms, selected, onOk: selectedResult => {
                     if (selectedResult != null) {
                         if (Vm.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin != selectedResult) {
                             Vm.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin = selectedResult;
