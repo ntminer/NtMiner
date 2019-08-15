@@ -347,7 +347,7 @@
 					<TextBlock Style="{StaticResource GroupHeader}">其它</TextBlock>
 				</GroupBox.Header>
 				<StackPanel>
-					<WrapPanel Margin="0 2">
+					<WrapPanel Margin="0 2" VerticalAlignment="Center">
 						<CheckBox
 							FocusVisualStyle="{x:Null}"
 							Padding="0"
@@ -371,13 +371,13 @@
 						</StackPanel>
 						<TextBlock VerticalAlignment="Center">￥/度</TextBlock>
 					</WrapPanel>
-					<WrapPanel Margin="0 2">
+					<WrapPanel Margin="0 2" VerticalAlignment="Center">
 						<CheckBox
 							FocusVisualStyle="{x:Null}"
 							Padding="0"
-							VerticalContentAlignment="Center"
+							VerticalAlignment="Center"
 							IsChecked="{Binding IsPowerAppend}">
-                            <TextBlock Padding="0 4">功耗补偿</TextBlock>
+                            <TextBlock>功耗补偿</TextBlock>
 						</CheckBox>
 						<TextBlock Margin="10 0 0 0" VerticalAlignment="Center">每卡补偿</TextBlock>
 						<TextBox Style="{StaticResource TbUpDown}" Text="{Binding PowerAppend}" HorizontalAlignment="Left"></TextBox>
