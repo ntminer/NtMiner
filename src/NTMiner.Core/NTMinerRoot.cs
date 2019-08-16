@@ -350,10 +350,6 @@ namespace NTMiner {
                                     ICoinShare dualCoinShare = this.CoinShareSet.GetOrCreate(dualMineContext.DualCoin.GetId());
                                     totalShare += dualCoinShare.TotalShareCount;
                                 }
-                                if (totalShare > shareCount) {
-                                    shareCount = totalShare;
-                                    shareOn = DateTime.Now;
-                                }
                                 if (shareCount == totalShare) {
                                     if (restartComputer) {
                                         Logger.WarnWriteLine($"{MinerProfile.NoShareRestartComputerMinutes}分钟收益没有增加重启电脑");
@@ -366,6 +362,10 @@ namespace NTMiner {
                                         RestartMine();
                                         return;// 退出
                                     }
+                                }
+                                if (totalShare > shareCount) {
+                                    shareCount = totalShare;
+                                    shareOn = DateTime.Now;
                                 }
                             }
                         }
