@@ -52,7 +52,8 @@ namespace NTMiner.Core.Gpus.Impl {
                 this.DriverVersion = adlHelper.GetDriverVersion();
                 this.Properties.Add(new GpuSetProperty(GpuSetProperty.DRIVER_VERSION, "驱动版本", DriverVersion));
                 const ulong minG = (ulong)5 * 1024 * 1024 * 1024;
-                if (_gpus.Any(a => a.Key != NTMinerRoot.GpuAllId && a.Value.TotalMemory < minG)) {
+                bool has470 = _gpus.Any(a => a.Key != NTMinerRoot.GpuAllId && a.Value.TotalMemory < minG);
+                if (has470) {
                     Dictionary<string, string> kvs = new Dictionary<string, string> {
                         {"GPU_FORCE_64BIT_PTR","0" },
                         {"GPU_MAX_ALLOC_PERCENT","100" },
@@ -69,6 +70,11 @@ namespace NTMiner.Core.Gpus.Impl {
                         foreach (var kv in kvs) {
                             Environment.SetEnvironmentVariable(kv.Key, kv.Value);
                         }
+                    });
+                }
+                else {
+                    Task.Factory.StartNew(() => {
+                        OverClock.RefreshGpuState(NTMinerRoot.GpuAllId);
                     });
                 }
             }
