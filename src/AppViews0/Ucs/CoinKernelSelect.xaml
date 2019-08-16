@@ -53,7 +53,7 @@
 						Fill="{StaticResource IconFillColor}"
 						Stretch="Fill" />
 				</controls:KbButton>
-                <TextBlock Margin="4 0 0 0" Foreground="Red" VerticalAlignment="Center">按字母表排序</TextBlock>
+                <TextBlock Margin="4 0 0 0" Foreground="{StaticResource LableColor}" VerticalAlignment="Center">按字母表排序</TextBlock>
 			</WrapPanel>
 		</Border>
 		<controls:KbButton 
