@@ -350,6 +350,7 @@ namespace NTMiner {
                                     ICoinShare dualCoinShare = this.CoinShareSet.GetOrCreate(dualMineContext.DualCoin.GetId());
                                     totalShare += dualCoinShare.TotalShareCount;
                                 }
+                                // 如果份额没有增加
                                 if (shareCount == totalShare) {
                                     if (restartComputer) {
                                         if (!NTMinerRegistry.GetIsAutoBoot()) {
@@ -363,7 +364,8 @@ namespace NTMiner {
                                         VirtualRoot.Execute(new CloseNTMinerCommand());
                                         return;// 退出
                                     }
-                                    if (restartKernel && totalShare > 0) {
+                                    // 产生过份额或者已经两倍重启内核时间了
+                                    if (restartKernel && (totalShare > 0 || (DateTime.Now - shareOn).TotalMinutes > 2 * MinerProfile.NoShareRestartKernelMinutes)) {
                                         Logger.WarnWriteLine($"{MinerProfile.NoShareRestartKernelMinutes}分钟收益没有增加重启内核");
                                         RestartMine();
                                         return;// 退出
