@@ -588,7 +588,7 @@
 						<DataGrid.Columns>
 							<DataGridTemplateColumn 
 								Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
-								MinWidth="100" IsReadOnly="True">
+								Width="50" IsReadOnly="True">
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate>
 										<StackPanel
