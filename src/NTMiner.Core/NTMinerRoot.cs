@@ -290,7 +290,9 @@ namespace NTMiner {
                 action: message => {
                     // 将无份额内核重启份额计数置0
                     shareCount = 0;
-                    shareOn = DateTime.Now;
+                    if (!message.MineContext.IsRestart) {
+                        shareOn = DateTime.Now;
+                    }
                     try {
                         if (GpuProfileSet.Instance.IsOverClockEnabled(message.MineContext.MainCoin.GetId())) {
                             VirtualRoot.Execute(new CoinOverClockCommand(message.MineContext.MainCoin.GetId()));
@@ -337,47 +339,32 @@ namespace NTMiner {
 
                     #region 收益没有增加重启内核
                     try {
-                        if (IsMining) {
-                            if (MinerProfile.IsNoShareRestartComputer) {
-                                if ((DateTime.Now - shareOn).TotalMinutes > MinerProfile.NoShareRestartComputerMinutes) {
-                                    if (this.CurrentMineContext.MainCoin != null) {
-                                        ICoinShare mainCoinShare = this.CoinShareSet.GetOrCreate(this.CurrentMineContext.MainCoin.GetId());
-                                        int totalShare = mainCoinShare.TotalShareCount;
-                                        if ((this.CurrentMineContext is IDualMineContext dualMineContext) && dualMineContext.DualCoin != null) {
-                                            ICoinShare dualCoinShare = this.CoinShareSet.GetOrCreate(dualMineContext.DualCoin.GetId());
-                                            totalShare += dualCoinShare.TotalShareCount;
-                                        }
-                                        if (shareCount == totalShare) {
-                                            Logger.WarnWriteLine($"{MinerProfile.NoShareRestartComputerMinutes}分钟收益没有增加重启电脑");
-                                            Windows.Power.Restart(10);
-                                            VirtualRoot.Execute(new CloseNTMinerCommand());
-                                            return;// 退出
-                                        }
-                                        else {
-                                            shareCount = totalShare;
-                                            shareOn = DateTime.Now;
-                                        }
-                                    }
+                        if (IsMining && this.CurrentMineContext.MainCoin != null) {
+                            int totalShare = 0;
+                            bool restartComputer = MinerProfile.IsNoShareRestartComputer && (DateTime.Now - shareOn).TotalMinutes > MinerProfile.NoShareRestartComputerMinutes;
+                            bool restartKernel = MinerProfile.IsNoShareRestartKernel && (DateTime.Now - shareOn).TotalMinutes > MinerProfile.NoShareRestartKernelMinutes;
+                            if (restartComputer || restartKernel) {
+                                ICoinShare mainCoinShare = this.CoinShareSet.GetOrCreate(this.CurrentMineContext.MainCoin.GetId());
+                                totalShare = mainCoinShare.TotalShareCount;
+                                if ((this.CurrentMineContext is IDualMineContext dualMineContext) && dualMineContext.DualCoin != null) {
+                                    ICoinShare dualCoinShare = this.CoinShareSet.GetOrCreate(dualMineContext.DualCoin.GetId());
+                                    totalShare += dualCoinShare.TotalShareCount;
                                 }
-                            }
-                            if (MinerProfile.IsNoShareRestartKernel) {
-                                if ((DateTime.Now - shareOn).TotalMinutes > MinerProfile.NoShareRestartKernelMinutes) {
-                                    if (this.CurrentMineContext.MainCoin != null) {
-                                        ICoinShare mainCoinShare = this.CoinShareSet.GetOrCreate(this.CurrentMineContext.MainCoin.GetId());
-                                        int totalShare = mainCoinShare.TotalShareCount;
-                                        if ((this.CurrentMineContext is IDualMineContext dualMineContext) && dualMineContext.DualCoin != null) {
-                                            ICoinShare dualCoinShare = this.CoinShareSet.GetOrCreate(dualMineContext.DualCoin.GetId());
-                                            totalShare += dualCoinShare.TotalShareCount;
-                                        }
-                                        if (shareCount == totalShare) {
-                                            Logger.WarnWriteLine($"{MinerProfile.NoShareRestartKernelMinutes}分钟收益没有增加重启内核");
-                                            RestartMine();
-                                            return;// 退出
-                                        }
-                                        else {
-                                            shareCount = totalShare;
-                                            shareOn = DateTime.Now;
-                                        }
+                                if (totalShare > shareCount) {
+                                    shareCount = totalShare;
+                                    shareOn = DateTime.Now;
+                                }
+                                if (shareCount == totalShare) {
+                                    if (restartComputer) {
+                                        Logger.WarnWriteLine($"{MinerProfile.NoShareRestartComputerMinutes}分钟收益没有增加重启电脑");
+                                        Windows.Power.Restart(10);
+                                        VirtualRoot.Execute(new CloseNTMinerCommand());
+                                        return;// 退出
+                                    }
+                                    if (restartKernel && totalShare > 0) {
+                                        Logger.WarnWriteLine($"{MinerProfile.NoShareRestartKernelMinutes}分钟收益没有增加重启内核");
+                                        RestartMine();
+                                        return;// 退出
                                     }
                                 }
                             }
@@ -473,7 +460,7 @@ namespace NTMiner {
                 if (isWork) {
                     ContextReInit(true);
                 }
-                StartMine();
+                StartMine(isRestart: true);
             }
             else {
                 this.StopMineAsync(() => {
@@ -481,7 +468,7 @@ namespace NTMiner {
                     if (isWork) {
                         ContextReInit(true);
                     }
-                    StartMine();
+                    StartMine(isRestart: true);
                 });
             }
             NTMinerRegistry.SetIsLastIsWork(isWork);
@@ -489,7 +476,7 @@ namespace NTMiner {
         #endregion
 
         #region StartMine
-        public void StartMine() {
+        public void StartMine(bool isRestart = false) {
             try {
                 Logger.EventWriteLine("开始挖矿");
                 IWorkProfile minerProfile = this.MinerProfile;
@@ -570,7 +557,7 @@ namespace NTMiner {
                     Logger.WarnWriteLine(kernel.GetFullName() + "本地内核包不存在，开始自动下载");
                     VirtualRoot.Execute(new ShowKernelDownloaderCommand(kernel.GetId(), downloadComplete: (isSuccess, message) => {
                         if (isSuccess) {
-                            StartMine();
+                            StartMine(isRestart);
                         }
                         else {
                             VirtualRoot.Happened(new StartingMineFailedEvent("内核下载：" + message));
@@ -587,6 +574,7 @@ namespace NTMiner {
                         }
                     }
                     IMineContext mineContext = new MineContext(
+                        isRestart,
                         this.MinerProfile.MinerName, mainCoin,
                         mainCoinPool, kernel, coinKernel,
                         coinProfile.Wallet, commandLine,
@@ -607,7 +595,7 @@ namespace NTMiner {
             }
         }
         #endregion
-        
+
         private IMineContext _currentMineContext;
         public IMineContext CurrentMineContext {
             get {

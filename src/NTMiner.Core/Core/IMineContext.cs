@@ -4,6 +4,7 @@ using System.Collections.Generic;
 namespace NTMiner.Core {
     public interface IMineContext {
         Guid Id { get; }
+        bool IsRestart { get; }
         string MinerName { get; }
         ICoin MainCoin { get; }
         IPool MainCoinPool { get; }

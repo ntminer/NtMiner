@@ -6,6 +6,7 @@ namespace NTMiner {
     public partial class NTMinerRoot : INTMinerRoot {
         private class MineContext : IMineContext {
             public MineContext(
+                bool isRestart,
                 string minerName,
                 ICoin mainCoin,
                 IPool mainCoinPool,
@@ -19,6 +20,7 @@ namespace NTMiner {
                 this.Fragments = fragments;
                 this.FileWriters = fileWriters;
                 this.Id = Guid.NewGuid();
+                this.IsRestart = isRestart;
                 this.MinerName = minerName;
                 this.MainCoin = mainCoin;
                 this.MainCoinPool = mainCoinPool;
@@ -34,6 +36,8 @@ namespace NTMiner {
             }
 
             public Guid Id { get; private set; }
+
+            public bool IsRestart { get; private set; }
 
             public string MinerName { get; private set; }
 
@@ -74,6 +78,7 @@ namespace NTMiner {
                 Dictionary<string, string> parameters,
                 Dictionary<Guid, string> fragments,
                 Dictionary<Guid, string> fileWriters) : base(
+                    mineContext.IsRestart,
                     mineContext.MinerName,
                     mineContext.MainCoin,
                     mineContext.MainCoinPool,
