@@ -311,7 +311,7 @@ namespace NTMiner {
                         if (MinerProfile.IsPeriodicRestartComputer) {
                             if ((DateTime.Now - this.CreatedOn).TotalMinutes > 60 * MinerProfile.PeriodicRestartComputerHours + MinerProfile.PeriodicRestartComputerMinutes) {
                                 Logger.WarnWriteLine($"每运行{MinerProfile.PeriodicRestartKernelHours}小时{MinerProfile.PeriodicRestartComputerMinutes}分钟重启电脑");
-                                Windows.Power.Restart(10);
+                                Windows.Power.Restart(60);
                                 VirtualRoot.Execute(new CloseNTMinerCommand());
                                 return;// 退出
                             }
@@ -352,8 +352,14 @@ namespace NTMiner {
                                 }
                                 if (shareCount == totalShare) {
                                     if (restartComputer) {
+                                        if (!NTMinerRegistry.GetIsAutoBoot()) {
+                                            NTMinerRegistry.SetIsAutoBoot(true);
+                                        }
+                                        if (!NTMinerRegistry.GetIsAutoStart()) {
+                                            NTMinerRegistry.SetIsAutoStart(true);
+                                        }
                                         Logger.WarnWriteLine($"{MinerProfile.NoShareRestartComputerMinutes}分钟收益没有增加重启电脑");
-                                        Windows.Power.Restart(10);
+                                        Windows.Power.Restart(60);
                                         VirtualRoot.Execute(new CloseNTMinerCommand());
                                         return;// 退出
                                     }
