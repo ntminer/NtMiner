@@ -56,8 +56,7 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void KbButtonNKernelBrand_Clicked(object sender, RoutedEventArgs e) {
-            var popup = PopupKernelBrand;
-            popup.PlacementTarget = (UIElement)sender;
+            var popup = PopupNKernelBrand;
             popup.IsOpen = true;
             var selected = Vm.NKernelBrand;
             popup.Child = new SysDicItemSelect(
@@ -76,8 +75,7 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void KbButtonAKernelBrand_Clicked(object sender, RoutedEventArgs e) {
-            var popup = PopupKernelBrand;
-            popup.PlacementTarget = (UIElement)sender;
+            var popup = PopupAKernelBrand;
             popup.IsOpen = true;
             var selected = Vm.AKernelBrand;
             popup.Child = new SysDicItemSelect(

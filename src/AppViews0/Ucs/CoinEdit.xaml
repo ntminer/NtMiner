@@ -148,7 +148,7 @@
 				BorderThickness="1"
 				BorderBrush="{StaticResource LineColor}"
 				Height="26"
-				IsEnabled="{Binding ElementName=PopupKernelBrand,Path=IsOpen,Converter={StaticResource BoolInvertConverter}}"
+				IsEnabled="{Binding ElementName=PopupNKernelBrand,Path=IsOpen,Converter={StaticResource BoolInvertConverter}}"
 				Background="Transparent"
 				Click="KbButtonNKernelBrand_Clicked">
                 <WrapPanel>
@@ -169,7 +169,7 @@
 				BorderThickness="1"
 				BorderBrush="{StaticResource LineColor}"
 				Height="26"
-				IsEnabled="{Binding ElementName=PopupKernelBrand,Path=IsOpen,Converter={StaticResource BoolInvertConverter}}"
+				IsEnabled="{Binding ElementName=PopupAKernelBrand,Path=IsOpen,Converter={StaticResource BoolInvertConverter}}"
 				Background="Transparent"
 				Click="KbButtonAKernelBrand_Clicked">
                 <WrapPanel>
@@ -184,9 +184,16 @@
                 </WrapPanel>
             </controls:KbButton>
             <Popup 
-				x:Name="PopupKernelBrand" 
+				x:Name="PopupNKernelBrand" 
 				PopupAnimation="Slide" 
 				Placement="Bottom" 
+				PlacementTarget="{Binding ElementName=ButtonNKernelBrand}" 
+				StaysOpen="False"></Popup>
+            <Popup 
+				x:Name="PopupAKernelBrand" 
+				PopupAnimation="Slide" 
+				Placement="Bottom" 
+				PlacementTarget="{Binding ElementName=ButtonAKernelBrand}" 
 				StaysOpen="False"></Popup>
         </WrapPanel>
 		<controls:KbButton
