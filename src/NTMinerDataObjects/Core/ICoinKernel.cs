@@ -5,7 +5,6 @@ namespace NTMiner.Core {
     public interface ICoinKernel : IEntity<Guid> {
         Guid CoinId { get; }
         Guid KernelId { get; }
-        int SortNumber { get; }
         string Args { get; }
         string DualFullArgs { get; }
         Guid DualCoinGroupId { get; }

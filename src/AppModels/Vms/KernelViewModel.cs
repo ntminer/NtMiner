@@ -205,15 +205,11 @@ namespace NTMiner.Vms {
             }
         }
 
-        public List<KernelViewModel> OtherVersionKernelVms {
-            get {
-                return AppContext.Instance.KernelVms.AllKernels.Where(a => a.Code == this.Code && a.Id != this.Id).OrderBy(a => a.Code + a.Version).ToList();
-            }
-        }
-
         public List<CoinKernelViewModel> CoinKernels {
             get {
-                return AppContext.Instance.CoinKernelVms.AllCoinKernels.Where(a => a.KernelId == this.Id).OrderBy(a => a.SortNumber).ToList();
+                return AppContext.Instance.CoinKernelVms.AllCoinKernels
+                    .Where(a => a.KernelId == this.Id)
+                    .OrderBy(a => a.CoinCode).ToList();
             }
         }
 

@@ -46,7 +46,6 @@ namespace NTMiner {
                     action: (message) => {
                         CoinKernelViewModel entity = _dicById[message.Source.GetId()];
                         var supportedGpu = entity.SupportedGpu;
-                        int sortNumber = entity.SortNumber;
                         Guid dualCoinGroupId = entity.DualCoinGroupId;
                         entity.Update(message.Source);
                         if (supportedGpu != entity.SupportedGpu) {
@@ -60,12 +59,6 @@ namespace NTMiner {
                             }
                             var kernelVm = entity.Kernel;
                             kernelVm.OnPropertyChanged(nameof(kernelVm.CoinKernels));
-                        }
-                        if (sortNumber != entity.SortNumber) {
-                            CoinViewModel coinVm;
-                            if (AppContext.Instance.CoinVms.TryGetCoinVm(entity.CoinId, out coinVm)) {
-                                coinVm.OnPropertyChanged(nameof(coinVm.CoinKernels));
-                            }
                         }
                     });
                 On<CoinKernelRemovedEvent>("移除了币种内核后刷新VM内存", LogEnum.DevConsole,

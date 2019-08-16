@@ -10,7 +10,6 @@ namespace NTMiner.Vms {
         private Guid _id;
         private Guid _coinId;
         private Guid _kernelId;
-        private int _sortNumber;
         private Guid _dualCoinGroupId;
         private bool _isSupportPool1;
         private string _args;
@@ -35,8 +34,6 @@ namespace NTMiner.Vms {
 
         public ICommand Remove { get; private set; }
         public ICommand Edit { get; private set; }
-        public ICommand SortUp { get; private set; }
-        public ICommand SortDown { get; private set; }
         public ICommand Save { get; private set; }
 
         public ICommand AddEnvironmentVariable { get; private set; }
@@ -59,7 +56,6 @@ namespace NTMiner.Vms {
         public CoinKernelViewModel(ICoinKernel data) : this(data.GetId()) {
             _coinId = data.CoinId;
             _kernelId = data.KernelId;
-            _sortNumber = data.SortNumber;
             _dualCoinGroupId = data.DualCoinGroupId;
             _args = data.Args;
             _dualFullArgs = data.DualFullArgs;
@@ -147,36 +143,6 @@ namespace NTMiner.Vms {
                     Kernel.OnPropertyChanged(nameof(Kernel.SupportedCoins));
                 }, icon: IconConst.IconConfirm);
             });
-            this.SortUp = new DelegateCommand(() => {
-                CoinKernelViewModel upOne = AppContext.Instance.CoinKernelVms.AllCoinKernels.OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.CoinId == this.CoinId && a.SortNumber < this.SortNumber);
-                if (upOne != null) {
-                    int sortNumber = upOne.SortNumber;
-                    upOne.SortNumber = this.SortNumber;
-                    VirtualRoot.Execute(new UpdateCoinKernelCommand(upOne));
-                    this.SortNumber = sortNumber;
-                    VirtualRoot.Execute(new UpdateCoinKernelCommand(this));
-                    if (AppContext.Instance.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
-                        coinVm.OnPropertyChanged(nameof(coinVm.CoinKernels));
-                    }
-                    this.Kernel.OnPropertyChanged(nameof(this.Kernel.CoinKernels));
-                    AppContext.Instance.CoinVms.OnPropertyChanged(nameof(AppContext.CoinViewModels.MainCoins));
-                }
-            });
-            this.SortDown = new DelegateCommand(() => {
-                CoinKernelViewModel nextOne = AppContext.Instance.CoinKernelVms.AllCoinKernels.OrderBy(a => a.SortNumber).FirstOrDefault(a => a.CoinId == this.CoinId && a.SortNumber > this.SortNumber);
-                if (nextOne != null) {
-                    int sortNumber = nextOne.SortNumber;
-                    nextOne.SortNumber = this.SortNumber;
-                    VirtualRoot.Execute(new UpdateCoinKernelCommand(nextOne));
-                    this.SortNumber = sortNumber;
-                    VirtualRoot.Execute(new UpdateCoinKernelCommand(this));
-                    if (AppContext.Instance.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
-                        coinVm.OnPropertyChanged(nameof(coinVm.CoinKernels));
-                    }
-                    this.Kernel.OnPropertyChanged(nameof(this.Kernel.CoinKernels));
-                    AppContext.Instance.CoinVms.OnPropertyChanged(nameof(AppContext.CoinViewModels.MainCoins));
-                }
-            });
         }
 
         public Guid Id {
@@ -242,16 +208,6 @@ namespace NTMiner.Vms {
                     return kernel;
                 }
                 return KernelViewModel.Empty;
-            }
-        }
-
-        public int SortNumber {
-            get => _sortNumber;
-            set {
-                if (_sortNumber != value) {
-                    _sortNumber = value;
-                    OnPropertyChanged(nameof(SortNumber));
-                }
             }
         }
 

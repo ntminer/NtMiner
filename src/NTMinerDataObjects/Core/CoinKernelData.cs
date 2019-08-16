@@ -24,8 +24,6 @@ namespace NTMiner.Core {
 
         public bool IsSupportPool1 { get; set; }
 
-        public int SortNumber { get; set; }
-
         public Guid DualCoinGroupId { get; set; }
 
         public string Args { get; set; }

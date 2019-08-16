@@ -60,7 +60,7 @@ namespace NTMiner.Core.Profiles {
                             }
                             string wallet = coin.TestWallet;
                             Guid coinKernelId = Guid.Empty;
-                            ICoinKernel coinKernel = root.CoinKernelSet.OrderBy(a => a.SortNumber).FirstOrDefault(a => a.CoinId == coinId);
+                            ICoinKernel coinKernel = root.CoinKernelSet.FirstOrDefault(a => a.CoinId == coinId);
                             if (coinKernel != null) {
                                 coinKernelId = coinKernel.GetId();
                             }
