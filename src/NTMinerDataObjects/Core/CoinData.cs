@@ -52,5 +52,8 @@ namespace NTMiner.Core {
         public bool IsHot { get; set; }
 
         public string KernelBrand { get; set; }
+        // 使导出的json向后兼容，待旧版本用户少了可以去除这个属性
+
+        public int SortNumber { get; set; }
     }
 }

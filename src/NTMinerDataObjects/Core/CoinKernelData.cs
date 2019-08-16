@@ -36,6 +36,9 @@ namespace NTMiner.Core {
 
         public bool IsRecommend { get; set; }
 
+        // 使导出的json向后兼容，待旧版本用户少了可以去除这个属性
+        public int SortNumber { get; set; }
+
         public List<EnvironmentVariable> EnvironmentVariables { get; set; }
 
         public List<InputSegment> InputSegments { get; set; }
