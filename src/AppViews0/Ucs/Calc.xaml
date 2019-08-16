@@ -16,12 +16,14 @@
     <Grid>
         <DataGrid 
 			ItemsSource="{Binding CoinVms.AllCoins}" 
-            RowHeight="40" AutoGenerateColumns="False">
+            RowHeight="50" AutoGenerateColumns="False">
             <DataGrid.Resources>
                 <controls:BindingProxy x:Key="proxy" Data="{Binding}" />
             </DataGrid.Resources>
             <DataGrid.Columns>
-                <DataGridTextColumn MinWidth="40" IsReadOnly="True" Header="编码" Binding="{Binding Code}">
+                <DataGridTextColumn Width="*" IsReadOnly="True">
+                </DataGridTextColumn>
+                <DataGridTextColumn MinWidth="40" IsReadOnly="True" FontSize="16" FontWeight="Bold" Header="编码" Binding="{Binding Code}">
                 </DataGridTextColumn>
                 <DataGridTemplateColumn MinWidth="40" IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>
@@ -31,7 +33,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="110" IsReadOnly="True" Header="币价">
+                <DataGridTemplateColumn MinWidth="110" IsReadOnly="True" Header="币价">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <WrapPanel Background="{Binding CoinIncomeVm.BackgroundBrush}">
@@ -55,7 +57,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="Auto" IsReadOnly="True" Header="总算力">
+                <DataGridTemplateColumn MinWidth="160" IsReadOnly="True" Header="总算力">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <WrapPanel>
@@ -78,40 +80,38 @@
 							                Stretch="Fill" />
                                     </WrapPanel>
                                 </controls:KbButton>
-                                <TextBlock Text=" / 日" VerticalAlignment="Center"></TextBlock>
-                                <Path
-								    Margin="10 0"
-								    Width="30"
-								    Height="20"
-								    Data="{StaticResource Icon_ArrowRight}"
-								    Fill="{StaticResource IconFillColor}"
-								    Stretch="Fill"/>
                             </WrapPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="总算力日收益" MinWidth="320" IsReadOnly="True">
+                <DataGridTemplateColumn Header="总算力日收益" MinWidth="160" IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <WrapPanel>
+                            <StackPanel>
                                 <TextBox Width="160" FontSize="16" FontWeight="Bold" IsReadOnly="True" BorderThickness="0" Text="{Binding CoinIncomeVm.IncomePerDaySumText, Mode=OneWay}"></TextBox>
-                                <TextBlock Text="≈ ￥" FontSize="16" VerticalAlignment="Center"></TextBlock>
-                                <TextBox IsReadOnly="True" FontSize="16" VerticalAlignment="Center" BorderThickness="0" Text="{Binding CoinIncomeVm.IncomeCnyPerDaySumText, Mode=OneWay}"></TextBox>
-                            </WrapPanel>
+                                <WrapPanel>
+                                    <TextBlock Text="≈ ￥" FontSize="16" VerticalAlignment="Center"></TextBlock>
+                                    <TextBox IsReadOnly="True" FontSize="16" VerticalAlignment="Center" BorderThickness="0" Text="{Binding CoinIncomeVm.IncomeCnyPerDaySumText, Mode=OneWay}"></TextBox>
+                                </WrapPanel>
+                            </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="单位算力日收益" IsReadOnly="True">
+                <DataGridTemplateColumn Header="单位算力日收益" MinWidth="160" IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <WrapPanel>
-                                <TextBox Width="160" FontSize="16" FontWeight="Bold" IsReadOnly="True" BorderThickness="0" Text="{Binding CoinIncomeVm.IncomePerDayText, Mode=OneWay}"></TextBox>
-                                <TextBlock Text="≈ ￥" FontSize="16" VerticalAlignment="Center"></TextBlock>
-                                <TextBox IsReadOnly="True" FontSize="16" VerticalAlignment="Center" BorderThickness="0" Text="{Binding CoinIncomeVm.IncomeCnyPerDayText, Mode=OneWay}"></TextBox>
-                            </WrapPanel>
+                            <StackPanel>
+                                <TextBox FontSize="16" FontWeight="Bold" IsReadOnly="True" BorderThickness="0" Text="{Binding CoinIncomeVm.IncomePerDayText, Mode=OneWay}"></TextBox>
+                                <WrapPanel>
+                                    <TextBlock Text="≈ ￥" FontSize="16" VerticalAlignment="Center"></TextBlock>
+                                    <TextBox IsReadOnly="True" FontSize="16" VerticalAlignment="Center" BorderThickness="0" Text="{Binding CoinIncomeVm.IncomeCnyPerDayText, Mode=OneWay}"></TextBox>
+                                </WrapPanel>
+                            </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
+                <DataGridTextColumn Width="*" IsReadOnly="True">
+                </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
         <Popup 
