@@ -55,9 +55,9 @@ namespace NTMiner.Vms {
                     return _coins.Where(a => 
                         (a.Code != null && a.Code.IgnoreCaseContains(Keyword)) || 
                         (a.CnName != null && a.CnName.IgnoreCaseContains(Keyword)) || 
-                        (a.EnName != null && a.EnName.IgnoreCaseContains(Keyword))).OrderBy(a => a.SortNumber).ToList();
+                        (a.EnName != null && a.EnName.IgnoreCaseContains(Keyword))).OrderBy(a => a.Code).ToList();
                 }
-                return _coins.OrderBy(a => a.SortNumber).ToList();
+                return _coins.OrderBy(a => a.Code).ToList();
             }
         }
     }

@@ -41,7 +41,7 @@ namespace NTMiner.Core.Profiles {
             }
             if (_data == null) {
                 Guid coinId = Guid.Empty;
-                ICoin coin = root.CoinSet.OrderBy(a => a.SortNumber).FirstOrDefault();
+                ICoin coin = root.CoinSet.OrderBy(a => a.Code).FirstOrDefault();
                 if (coin != null) {
                     coinId = coin.GetId();
                 }

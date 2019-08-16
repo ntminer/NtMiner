@@ -115,14 +115,14 @@ namespace NTMiner.Vms {
                         list.Add(item);
                     }
                 }
-                return list.OrderBy(a => a.SortNumber).ToList();
+                return list.OrderBy(a => a.Code).ToList();
             }
         }
 
         public List<CoinViewModel> DualCoinVms {
             get {
                 var coinGroupVms = AppContext.Instance.CoinGroupVms.GetCoinGroupsByGroupId(this.Id);
-                return coinGroupVms.Where(a => a.CoinVm != CoinViewModel.Empty).Select(a => a.CoinVm).OrderBy(a => a.SortNumber).ToList();
+                return coinGroupVms.Where(a => a.CoinVm != CoinViewModel.Empty).Select(a => a.CoinVm).OrderBy(a => a.Code).ToList();
             }
         }
 

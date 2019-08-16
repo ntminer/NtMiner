@@ -19,10 +19,7 @@ namespace NTMiner.Vms {
                 return;
             }
             this.Add = new DelegateCommand(() => {
-                int sortNumber = NTMinerRoot.Instance.CoinSet.Count == 0 ? 1 : NTMinerRoot.Instance.CoinSet.Max(a => a.SortNumber) + 1;
-                new CoinViewModel(Guid.NewGuid()) {
-                    SortNumber = sortNumber
-                }.Edit.Execute(FormType.Add);
+                new CoinViewModel(Guid.NewGuid()).Edit.Execute(FormType.Add);
             });
             this.AddHidedCoin = new DelegateCommand(() => {
 
@@ -50,7 +47,7 @@ namespace NTMiner.Vms {
                 if (_coinKeyword != value) {
                     _coinKeyword = value;
                     OnPropertyChanged(nameof(CoinKeyword));
-                    OnPropertyChanged(nameof(List));
+                    OnPropertyChanged(nameof(QueryResults));
                 }
             }
         }
@@ -69,16 +66,16 @@ namespace NTMiner.Vms {
             }
         }
 
-        public List<CoinViewModel> List {
+        public List<CoinViewModel> QueryResults {
             get {
                 List<CoinViewModel> list;
                 if (!string.IsNullOrEmpty(CoinKeyword)) {
                     list = AppContext.Instance.CoinVms.AllCoins.
                         Where(a => (!string.IsNullOrEmpty(a.Code) && a.Code.IgnoreCaseContains(CoinKeyword))
-                            || (!string.IsNullOrEmpty(a.EnName) && a.EnName.IgnoreCaseContains(CoinKeyword))).OrderBy(a => a.SortNumber).ToList();
+                            || (!string.IsNullOrEmpty(a.EnName) && a.EnName.IgnoreCaseContains(CoinKeyword))).OrderBy(a => a.Code).ToList();
                 }
                 else {
-                    list = AppContext.Instance.CoinVms.AllCoins.OrderBy(a => a.SortNumber).ToList();
+                    list = AppContext.Instance.CoinVms.AllCoins.OrderBy(a => a.Code).ToList();
                 }
                 if (list.Count == 1) {
                     CurrentCoin = list.FirstOrDefault();

@@ -52,7 +52,7 @@ namespace NTMiner.Views.Ucs {
 
         private void Current_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) {
             if (e.PropertyName == nameof(AppContext.Instance.CoinVms.AllCoins)) {
-                Vm.OnPropertyChanged(nameof(Vm.List));
+                Vm.OnPropertyChanged(nameof(Vm.QueryResults));
             }
         }
 

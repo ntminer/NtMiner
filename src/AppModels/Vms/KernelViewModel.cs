@@ -228,7 +228,7 @@ namespace NTMiner.Vms {
                         list.Add(item);
                     }
                 }
-                return list.OrderBy(a => a.SortNumber).ToList();
+                return list.OrderBy(a => a.Code).ToList();
             }
         }
 
@@ -387,7 +387,7 @@ namespace NTMiner.Vms {
             get {
                 StringBuilder sb = new StringBuilder();
                 int len = sb.Length;
-                foreach (var coinVm in SupportedCoinVms.OrderBy(a => a.SortNumber)) {
+                foreach (var coinVm in SupportedCoinVms.OrderBy(a => a.Code)) {
                     if (len != sb.Length) {
                         sb.Append(",");
                     }

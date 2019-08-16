@@ -9,7 +9,6 @@ namespace NTMiner.Core {
         Guid AlgoId { get; }
         // json向后兼容
         string Algo { get; }
-        int SortNumber { get; }
         string TestWallet { get; }
         string WalletRegexPattern { get; }
         bool JustAsDualCoin { get; }

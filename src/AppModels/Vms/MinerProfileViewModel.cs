@@ -615,7 +615,7 @@ namespace NTMiner.Vms {
             }
             set {
                 if (value == null) {
-                    value = AppContext.Instance.CoinVms.MainCoins.Where(a => a.IsSupported).OrderBy(a => a.SortNumber).FirstOrDefault();
+                    value = AppContext.Instance.CoinVms.MainCoins.Where(a => a.IsSupported).OrderBy(a => a.Code).FirstOrDefault();
                 }
                 if (value != null) {
                     this.CoinId = value.Id;

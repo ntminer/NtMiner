@@ -10,7 +10,6 @@ namespace NTMiner.Core {
             Icon = string.Empty,
             AlgoId = Guid.Empty,
             Algo = string.Empty,
-            SortNumber = 0,
             TestWallet = string.Empty,
             WalletRegexPattern = string.Empty,
             JustAsDualCoin = false,
@@ -39,8 +38,6 @@ namespace NTMiner.Core {
         public Guid AlgoId { get; set; }
 
         public string Algo { get; set; }
-
-        public int SortNumber { get; set; }
 
         public string TestWallet { get; set; }
 

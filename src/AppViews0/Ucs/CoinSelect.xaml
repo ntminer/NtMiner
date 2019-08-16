@@ -76,6 +76,7 @@
 					<TextBlock Margin="4 0 0 0" Text="管理" Foreground="{StaticResource ThemeForeground}"></TextBlock>
 				</WrapPanel>
 			</controls:KbButton>
+            <TextBlock VerticalAlignment="Center" Foreground="Red">按字母表排序</TextBlock>
 		</WrapPanel>
 		<controls:KbButton 
 			Background="Transparent" 
