@@ -139,7 +139,7 @@
 			</controls:KbMuiltilineTextBox>
 		</WrapPanel>
 
-        <WrapPanel Margin="0 2">
+        <WrapPanel Margin="0 2" IsEnabled="{x:Static app:AppStatic.IsDebugMode}">
             <TextBlock Style="{StaticResource LblTb}"></TextBlock>
             <TextBlock VerticalAlignment="Center">N卡默认</TextBlock>
             <controls:KbButton 
