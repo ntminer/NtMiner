@@ -59,11 +59,7 @@ namespace NTMiner.Core.Profiles {
                                 poolId = pool.GetId();
                             }
                             string wallet = coin.TestWallet;
-                            Guid coinKernelId = Guid.Empty;
-                            ICoinKernel coinKernel = root.CoinKernelSet.FirstOrDefault(a => a.CoinId == coinId);
-                            if (coinKernel != null) {
-                                coinKernelId = coinKernel.GetId();
-                            }
+                            Guid coinKernelId = coin.GetDefaultCoinKernelId();
                             data = CoinProfileData.CreateDefaultData(coinId, poolId, wallet, coinKernelId);
                         }
                         CoinProfile coinProfile = new CoinProfile(mineWorkData, data);

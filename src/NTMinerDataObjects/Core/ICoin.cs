@@ -15,5 +15,9 @@ namespace NTMiner.Core {
         string Notice { get; }
         string TutorialUrl { get; }
         bool IsHot { get; }
+        /// <summary>
+        /// GpuType:KernelBrandId;GpuType:KernelBrandId
+        /// </summary>
+        string KernelBrand { get; }
     }
 }

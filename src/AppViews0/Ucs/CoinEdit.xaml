@@ -10,7 +10,7 @@
 		mc:Ignorable="d"
 		d:DataContext="{d:DesignData Source=/Design/CoinViewModel.xaml}"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs" 
-		d:DesignWidth="500" d:DesignHeight="300"
+		d:DesignWidth="500" d:DesignHeight="400"
 		Background="White">
 	<UserControl.Resources>
 		<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
@@ -138,6 +138,57 @@
 				Text="{Binding Notice, Mode=TwoWay}" Height="60">
 			</controls:KbMuiltilineTextBox>
 		</WrapPanel>
+
+        <WrapPanel Margin="0 2">
+            <TextBlock Style="{StaticResource LblTb}"></TextBlock>
+            <TextBlock VerticalAlignment="Center">N卡默认</TextBlock>
+            <controls:KbButton 
+				x:Name="ButtonNKernelBrand"
+				Padding="4 0"
+				BorderThickness="1"
+				BorderBrush="{StaticResource LineColor}"
+				Height="26"
+				IsEnabled="{Binding ElementName=PopupKernelBrand,Path=IsOpen,Converter={StaticResource BoolInvertConverter}}"
+				Background="Transparent"
+				Click="KbButtonNKernelBrand_Clicked">
+                <WrapPanel>
+                    <TextBlock Width="120" Padding="0 0 10 0" Foreground="Black" Text="{Binding NKernelBrand.Value}"></TextBlock>
+                    <Path
+						Margin="0 2 0 0"
+						Width="12"
+						Height="8"
+						Data="{StaticResource Icon_ComboBoxToogle}"
+						Fill="Black"
+						Stretch="Fill" />
+                </WrapPanel>
+            </controls:KbButton>
+            <TextBlock VerticalAlignment="Center">A卡默认</TextBlock>
+            <controls:KbButton 
+				x:Name="ButtonAKernelBrand"
+				Padding="4 0"
+				BorderThickness="1"
+				BorderBrush="{StaticResource LineColor}"
+				Height="26"
+				IsEnabled="{Binding ElementName=PopupKernelBrand,Path=IsOpen,Converter={StaticResource BoolInvertConverter}}"
+				Background="Transparent"
+				Click="KbButtonAKernelBrand_Clicked">
+                <WrapPanel>
+                    <TextBlock Width="120" Padding="0 0 10 0" Foreground="Black" Text="{Binding AKernelBrand.Value}"></TextBlock>
+                    <Path
+						Margin="0 2 0 0"
+						Width="12"
+						Height="8"
+						Data="{StaticResource Icon_ComboBoxToogle}"
+						Fill="Black"
+						Stretch="Fill" />
+                </WrapPanel>
+            </controls:KbButton>
+            <Popup 
+				x:Name="PopupKernelBrand" 
+				PopupAnimation="Slide" 
+				Placement="Bottom" 
+				StaysOpen="False"></Popup>
+        </WrapPanel>
 		<controls:KbButton
 			Command="{Binding Save}" 
 			Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"

@@ -15,7 +15,8 @@ namespace NTMiner.Core {
             JustAsDualCoin = false,
             Notice = string.Empty,
             TutorialUrl = string.Empty,
-            IsHot = false
+            IsHot = false,
+            KernelBrand = string.Empty
         };
 
         public CoinData() {
@@ -49,5 +50,7 @@ namespace NTMiner.Core {
         public string TutorialUrl { get; set; }
 
         public bool IsHot { get; set; }
+
+        public string KernelBrand { get; set; }
     }
 }

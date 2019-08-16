@@ -54,5 +54,45 @@ namespace NTMiner.Views.Ucs {
                     })
                 });
         }
+
+        private void KbButtonNKernelBrand_Clicked(object sender, RoutedEventArgs e) {
+            var popup = PopupKernelBrand;
+            popup.PlacementTarget = (UIElement)sender;
+            popup.IsOpen = true;
+            var selected = Vm.NKernelBrand;
+            popup.Child = new SysDicItemSelect(
+                new SysDicItemSelectViewModel(AppContext.Instance.SysDicItemVms.KernelBrandsSelect, selected, onOk: selectedResult => {
+                    if (selectedResult != null) {
+                        if (Vm.NKernelBrand != selectedResult) {
+                            Vm.NKernelBrand = selectedResult;
+                        }
+                        popup.IsOpen = false;
+                    }
+                }) {
+                    HideView = new DelegateCommand(() => {
+                        popup.IsOpen = false;
+                    })
+                });
+        }
+
+        private void KbButtonAKernelBrand_Clicked(object sender, RoutedEventArgs e) {
+            var popup = PopupKernelBrand;
+            popup.PlacementTarget = (UIElement)sender;
+            popup.IsOpen = true;
+            var selected = Vm.AKernelBrand;
+            popup.Child = new SysDicItemSelect(
+                new SysDicItemSelectViewModel(AppContext.Instance.SysDicItemVms.KernelBrandsSelect, selected, onOk: selectedResult => {
+                    if (selectedResult != null) {
+                        if (Vm.AKernelBrand != selectedResult) {
+                            Vm.AKernelBrand = selectedResult;
+                        }
+                        popup.IsOpen = false;
+                    }
+                }) {
+                    HideView = new DelegateCommand(() => {
+                        popup.IsOpen = false;
+                    })
+                });
+        }
     }
 }

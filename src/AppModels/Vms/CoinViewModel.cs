@@ -46,6 +46,7 @@ namespace NTMiner.Vms {
         private string _iconImageSource;
         private string _tutorialUrl;
         private bool _isHot;
+        private string _kernelBrand;
         private List<GpuProfileViewModel> _gpuProfileVms;
         private readonly CoinIncomeViewModel _coinIncomeVm;
 
@@ -98,6 +99,7 @@ namespace NTMiner.Vms {
             _notice = data.Notice;
             _tutorialUrl = data.TutorialUrl;
             _isHot = data.IsHot;
+            _kernelBrand = data.KernelBrand;
             string iconFileFullName = SpecialPath.GetIconFileFullName(data);
             if (!string.IsNullOrEmpty(iconFileFullName) && File.Exists(iconFileFullName)) {
                 _iconImageSource = iconFileFullName;
@@ -520,6 +522,107 @@ namespace NTMiner.Vms {
             }
         }
 
+        public string KernelBrand {
+            get { return _kernelBrand; }
+            set {
+                if (_kernelBrand != value) {
+                    _kernelBrand = value;
+                    OnPropertyChanged(nameof(KernelBrand));
+                    if (string.IsNullOrEmpty(value)) {
+                        _kernelBrandDic.Clear();
+                    }
+                }
+            }
+        }
+
+        private string _oldKernelBrand;
+        private readonly Dictionary<GpuType, Guid> _kernelBrandDic = new Dictionary<GpuType, Guid>();
+        private Dictionary<GpuType, Guid> KernelBrandDic {
+            get {
+                if (string.IsNullOrEmpty(this.KernelBrand)) {
+                    return _kernelBrandDic;
+                }
+                if (_oldKernelBrand == this.KernelBrand) {
+                    return _kernelBrandDic;
+                }
+                _oldKernelBrand = this.KernelBrand;
+                if (_kernelBrandDic.ContainsKey(GpuType.AMD)) {
+                    _kernelBrandDic[GpuType.AMD] = this.GetKernelBrandId(GpuType.AMD);
+                }
+                else {
+                    _kernelBrandDic.Add(GpuType.AMD, this.GetKernelBrandId(GpuType.AMD));
+                }
+                if (_kernelBrandDic.ContainsKey(GpuType.NVIDIA)) {
+                    _kernelBrandDic[GpuType.NVIDIA] = this.GetKernelBrandId(GpuType.NVIDIA);
+                }
+                else {
+                    _kernelBrandDic.Add(GpuType.NVIDIA, this.GetKernelBrandId(GpuType.NVIDIA));
+                }
+                return _kernelBrandDic;
+            }
+        }
+
+        public SysDicItemViewModel NKernelBrand {
+            get {
+                if (KernelBrandDic.TryGetValue(GpuType.NVIDIA, out Guid id)) {
+                    if (AppContext.SysDicItemViewModels.Instance.TryGetValue(id, out SysDicItemViewModel sysDicItemVm)) {
+                        return sysDicItemVm;
+                    }
+                    return null;
+                }
+                return null;
+            }
+            set {
+                if (value != NKernelBrand) {
+                    if (value == SysDicItemViewModel.PleaseSelect) {
+                        value = null;
+                    }
+                    SetKernelBrand(value, AKernelBrand);
+                    OnPropertyChanged(nameof(NKernelBrand));
+                }
+            }
+        }
+
+        public SysDicItemViewModel AKernelBrand {
+            get {
+                if (KernelBrandDic.TryGetValue(GpuType.AMD, out Guid id)) {
+                    if (AppContext.SysDicItemViewModels.Instance.TryGetValue(id, out SysDicItemViewModel sysDicItemVm)) {
+                        return sysDicItemVm;
+                    }
+                    return null;
+                }
+                return null;
+            }
+            set {
+                if (value != AKernelBrand) {
+                    if (value == SysDicItemViewModel.PleaseSelect) {
+                        value = null;
+                    }
+                    SetKernelBrand(NKernelBrand, value);
+                    OnPropertyChanged(nameof(AKernelBrand));
+                }
+            }
+        }
+
+        private void SetKernelBrand(SysDicItemViewModel n, SysDicItemViewModel a) {
+            if (n == null) {
+                if (a == null) {
+                    this.KernelBrand = string.Empty;
+                }
+                else {
+                    this.KernelBrand = $"{GpuType.AMD.GetName()}:{a.Id}";
+                }
+            }
+            else {
+                if (a == null) {
+                    this.KernelBrand = $"{GpuType.NVIDIA.GetName()}:{n.Id}";
+                }
+                else {
+                    this.KernelBrand = $"{GpuType.NVIDIA.GetName()}:{n.Id};{GpuType.AMD.GetName()}:{a.Id}";
+                }
+            }
+        }
+
         public CoinProfileViewModel CoinProfile {
             get {
                 if (!NTMinerRoot.Instance.CoinSet.Contains(this.Id)) {
@@ -622,12 +725,6 @@ namespace NTMiner.Vms {
         public CoinKernelViewModel CoinKernel {
             get {
                 CoinKernelViewModel coinKernel = CoinKernels.FirstOrDefault(a => a.Id == CoinProfile.CoinKernelId);
-                if (coinKernel == null || !coinKernel.Kernel.IsSupported(this)) {
-                    coinKernel = CoinKernels.FirstOrDefault(a => a.Kernel.IsSupported(this));
-                    if (coinKernel != null) {
-                        CoinProfile.CoinKernelId = coinKernel.Id;
-                    }
-                }
                 return coinKernel;
             }
             set {
