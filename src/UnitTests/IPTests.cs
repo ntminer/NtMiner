@@ -2,7 +2,7 @@
 using System;
 using System.Net;
 
-namespace UnitTestProject1 {
+namespace UnitTests {
     [TestClass]
     public class IPTests {
         [TestMethod]

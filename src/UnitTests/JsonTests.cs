@@ -2,7 +2,7 @@
 using NTMiner;
 using NTMiner.JsonDb;
 
-namespace UnitTestProject1 {
+namespace UnitTests {
     [TestClass]
     public class JsonTests {
         [TestMethod]

@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace UnitTestProject1 {
+namespace UnitTests {
     [TestClass]
     public class MarshalTests {
         [StructLayout(LayoutKind.Sequential)]

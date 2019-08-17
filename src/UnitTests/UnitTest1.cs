@@ -12,7 +12,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Windows;
 
-namespace UnitTestProject1 {
+namespace UnitTests {
     [TestClass]
     public class UnitTest1 {
         [TestMethod]
