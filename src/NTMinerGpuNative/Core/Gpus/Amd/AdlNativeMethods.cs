@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 
-namespace NTMiner.Core.Gpus.Impl.Amd {
+namespace NTMiner.Core.Gpus.Amd {
     [StructLayout(LayoutKind.Sequential)]
     internal struct ADLAdapterInfo {
         public int Size;

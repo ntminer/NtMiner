@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace NTMiner.Core.Gpus.Impl.Nvapi {
+namespace NTMiner.Core.Gpus.Nvapi {
     internal static class NvapiNativeMethods {
         internal const int MAX_PHYSICAL_GPUS = 64;
         internal const int MAX_PSTATES_PER_GPU = 8;

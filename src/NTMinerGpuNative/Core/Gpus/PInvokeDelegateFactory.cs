@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.InteropServices;
 
-namespace NTMiner.Core.Gpus.Impl {
+namespace NTMiner.Core.Gpus {
     public struct Pair<F, S> {
         private F first;
         private S second;

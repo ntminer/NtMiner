@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace NTMiner.Core.Gpus.Impl.Nvapi {
+namespace NTMiner.Core.Gpus.Nvapi {
     #region Enumms
     internal enum NvStatus {
         OK = 0,

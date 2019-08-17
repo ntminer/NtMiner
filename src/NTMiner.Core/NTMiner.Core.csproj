@@ -99,17 +99,12 @@
     <Compile Include="Core\CoinExtensions.cs" />
     <Compile Include="Core\Gpus\GpuSetExtension.cs" />
     <Compile Include="Core\Gpus\GpuStatus.cs" />
-    <Compile Include="Core\Gpus\Impl\Amd\AdlHelper.cs" />
-    <Compile Include="Core\Gpus\Impl\Amd\AdlNativeMethods.cs" />
     <Compile Include="Core\Gpus\EmptyGpuSet.cs" />
     <Compile Include="Core\Gpus\IGpu.cs" />
     <Compile Include="Core\Gpus\Impl\EmptyOverClock.cs" />
     <Compile Include="Core\Gpus\GpuSetProperty.cs" />
     <Compile Include="Core\Gpus\Impl\AMDGpuSet.cs" />
     <Compile Include="Core\Gpus\Impl\AMDOverClock.cs" />
-    <Compile Include="Core\Gpus\Impl\PInvokeDelegateFactory.cs" />
-    <Compile Include="Core\Gpus\Impl\Nvapi\NvapiNativeMethods.cs" />
-    <Compile Include="Core\Gpus\Impl\Nvapi\NvapiTypes.cs" />
     <Compile Include="Core\Gpus\Impl\TempGruarder.cs" />
     <Compile Include="Core\Gpus\IOverClock.cs" />
     <Compile Include="Core\Gpus\Impl\NVIDIAOverClock.cs" />
@@ -189,8 +184,6 @@
     <Compile Include="Core\Kernels\IKernelOutputTranslaterSet.cs" />
     <Compile Include="Core\ISysDicItemSet.cs" />
     <Compile Include="Core\ISysDicSet.cs" />
-    <Compile Include="Core\Gpus\Impl\Nvml\NvmlNativeMethods.cs" />
-    <Compile Include="Core\Gpus\Impl\Nvml\NvmlTypes.cs" />
     <Compile Include="Core\Gpus\IGpuSpeed.cs" />
     <Compile Include="Core\Gpus\IGpusSpeed.cs" />
     <Compile Include="Core\ISpeed.cs" />
@@ -254,6 +247,10 @@
     <ProjectReference Include="..\NTMinerDataObjects\NTMinerDataObjects.csproj">
       <Project>{defc7387-f9fa-4651-a281-6612efb7fbb6}</Project>
       <Name>NTMinerDataObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NTMinerGpuNative\NTMinerGpuNative.csproj">
+      <Project>{035c9774-01fc-4df2-8225-769542a9fd5e}</Project>
+      <Name>NTMinerGpuNative</Name>
     </ProjectReference>
     <ProjectReference Include="..\NTMinerlib\NTMinerlib.csproj">
       <Project>{5d0f2719-83fd-40fc-8f65-85ebb891bc13}</Project>
