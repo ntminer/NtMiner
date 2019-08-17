@@ -1,17 +1,12 @@
-﻿using NTMiner.Gpus.Nvapi;
-using System;
-using NTMiner;
+﻿using System;
 
-namespace ConsoleTests {
+namespace NTMiner {
     class Program {
         static void Main(string[] args) {
             DevMode.SetDevMode();
 
-            NvapiHelper helper = new NvapiHelper();
-            var handlerDic = helper.GetNvPhysicalGpuHandles();
-            foreach (var item in handlerDic) {
-                Console.WriteLine(item.Key);
-            }
+            ObjectJsonSerializer objectJsonSerializer = new ObjectJsonSerializer();
+
             Console.ReadKey();
         }
     }
