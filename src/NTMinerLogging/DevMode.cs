@@ -11,6 +11,11 @@ namespace NTMiner {
         public static bool IsDebugMode { get; private set; }
         public static bool IsDevMode { get; private set; }
 
+        public static void SetDevMode() {
+            IsDebugMode = true;
+            IsDevMode = true;
+        }
+
         static DevMode() {
             List<string> _commandLineArgs = Environment.GetCommandLineArgs().Skip(1).ToList();
             IsDebugMode = _commandLineArgs.Contains(AppDebugParamName, StringComparer.OrdinalIgnoreCase);

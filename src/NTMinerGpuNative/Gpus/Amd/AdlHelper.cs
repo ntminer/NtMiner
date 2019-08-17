@@ -22,6 +22,8 @@ namespace NTMiner.Gpus.Amd {
             }
         }
 
+        public AdlHelper() { }
+
         private IntPtr context;
         private List<ATIGPU> _gpuNames = new List<ATIGPU>();
         public bool Init() {

@@ -19,6 +19,7 @@ namespace NTMiner.Gpus.Nvapi {
         private delegate NvStatus NvAPI_InitializeDelegate();
 
         public delegate NvStatus NvAPI_EnumPhysicalGPUsDelegate([Out] NvPhysicalGpuHandle[] gpuHandles, out int gpuCount);
+        public delegate NvStatus NvAPI_EnumTCCPhysicalGPUsDelegate([Out] NvPhysicalGpuHandle[] gpuHandles, out int gpuCount);
         public delegate NvStatus NvAPI_GPU_GetBusIdDelegate(NvPhysicalGpuHandle gpuHandle, out int busID);
         public delegate NvStatus NvAPI_GPU_GetTachReadingDelegate(NvPhysicalGpuHandle gpuHandle, out int value);
         public delegate NvStatus NvAPI_GPU_GetPStatesDelegate(NvPhysicalGpuHandle gpuHandle, ref NvPStates nvPStates);
@@ -34,6 +35,7 @@ namespace NTMiner.Gpus.Nvapi {
         private static readonly bool available;
 
         public static readonly NvAPI_EnumPhysicalGPUsDelegate NvAPI_EnumPhysicalGPUs;
+        public static readonly NvAPI_EnumTCCPhysicalGPUsDelegate NvAPI_EnumTCCPhysicalGPUs;
         public static readonly NvAPI_GPU_GetBusIdDelegate NvAPI_GPU_GetBusID;
         public static readonly NvAPI_GPU_GetTachReadingDelegate NvAPI_GPU_GetTachReading;
         public static readonly NvAPI_GPU_GetPStatesDelegate NvAPI_GPU_GetPStates;
@@ -76,6 +78,7 @@ namespace NTMiner.Gpus.Nvapi {
                 GetDelegate(0x60DED2ED, out NvAPI_GPU_GetPStates);
                 GetDelegate(0xE3640A56, out NvAPI_GPU_GetThermalSettings);
                 GetDelegate(0xE5AC921F, out NvAPI_EnumPhysicalGPUs);
+                GetDelegate(0xD9930B07, out NvAPI_EnumTCCPhysicalGPUs);
                 GetDelegate(0x1BE0B8E5, out NvAPI_GPU_GetBusID);
                 GetDelegate(0x34206D86, out NvAPI_DLL_ClientPowerPoliciesGetInfo);
                 GetDelegate(0x70916171, out NvAPI_DLL_ClientPowerPoliciesGetStatus);
