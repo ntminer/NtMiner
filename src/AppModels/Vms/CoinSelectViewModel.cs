@@ -19,13 +19,22 @@ namespace NTMiner.Vms {
             }
         }
 
-        public CoinSelectViewModel(IEnumerable<CoinViewModel> coins, CoinViewModel selected, Action<CoinViewModel> onOk) {
+        public CoinSelectViewModel(
+            IEnumerable<CoinViewModel> coins,
+            CoinViewModel selected,
+            Action<CoinViewModel> onOk,
+            bool isPromoteHotCoin = false) {
             _coins = coins;
             _selectedResult = selected;
             OnOk = onOk;
+            IsPromoteHotCoin = isPromoteHotCoin;
             this.ClearKeyword = new DelegateCommand(() => {
                 this.Keyword = string.Empty;
             });
+        }
+
+        public bool IsPromoteHotCoin {
+            get; set;
         }
 
         public string Keyword {
@@ -52,12 +61,21 @@ namespace NTMiner.Vms {
         public List<CoinViewModel> QueryResults {
             get {
                 if (!string.IsNullOrEmpty(Keyword)) {
-                    return _coins.Where(a => 
-                        (a.Code != null && a.Code.IgnoreCaseContains(Keyword)) || 
-                        (a.CnName != null && a.CnName.IgnoreCaseContains(Keyword)) || 
+                    return _coins.Where(a =>
+                        (a.Code != null && a.Code.IgnoreCaseContains(Keyword)) ||
+                        (a.CnName != null && a.CnName.IgnoreCaseContains(Keyword)) ||
                         (a.EnName != null && a.EnName.IgnoreCaseContains(Keyword))).OrderBy(a => a.Code).ToList();
                 }
                 return _coins.OrderBy(a => a.Code).ToList();
+            }
+        }
+
+        public List<CoinViewModel> HotCoins {
+            get {
+                if (!IsPromoteHotCoin) {
+                    return new List<CoinViewModel>();
+                }
+                return _coins.Where(a => a.IsHot).OrderBy(a => a.Code).ToList();
             }
         }
     }

@@ -160,7 +160,7 @@ namespace NTMiner.Views.Ucs {
                         }
                         popup.IsOpen = false;
                     }
-                }) {
+                }, isPromoteHotCoin: true) {
                     HideView = new DelegateCommand(() => {
                         popup.IsOpen = false;
                     })
