@@ -19,7 +19,7 @@
 	<StackPanel Margin="10">
 		<WrapPanel Margin="0 2">
 			<TextBlock Style="{StaticResource LblTb}">正则表达式:</TextBlock>
-			<TextBox Width="420" VerticalContentAlignment="Center" Text="{Binding RegexPattern}">
+			<TextBox Width="420" VerticalContentAlignment="Center" Text="{Binding RegexPattern}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}">
 			</TextBox>
 		</WrapPanel>
 		<controls:KbButton
