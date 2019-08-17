@@ -196,6 +196,12 @@ namespace NTMiner.Views {
                         FileWriterPage.ShowWindow();
                     });
                 });
+            VirtualRoot.Window<FileWriterEditCommand>(LogEnum.DevConsole,
+                action: message => {
+                    UIThread.Execute(() => {
+                        FileWriterEdit.ShowWindow(message.FormType, message.Source);
+                    });
+                });
             VirtualRoot.Window<ShowFragmentWriterPageCommand>(LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
