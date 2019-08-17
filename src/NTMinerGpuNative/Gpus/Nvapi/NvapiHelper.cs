@@ -1,27 +1,27 @@
-﻿using System.Collections.Generic;
+﻿using NTMiner.Gpus.Nvapi.Native;
+using NTMiner.Gpus.Nvapi.Native.GPU.Structures;
+using System.Collections.Generic;
 
 namespace NTMiner.Gpus.Nvapi {
     public class NvapiHelper {
         public NvapiHelper() { }
 
-        public Dictionary<int, NvPhysicalGpuHandle> GetNvPhysicalGpuHandles() {
-            Dictionary<int, NvPhysicalGpuHandle> dic = new Dictionary<int, NvPhysicalGpuHandle>();
-            var gpuHandles = new NvPhysicalGpuHandle[NvapiNativeMethods.MAX_PHYSICAL_GPUS];
-            int gpuCount;
-            NvapiNativeMethods.NvAPI_EnumPhysicalGPUs(gpuHandles, out gpuCount);
-            Write.DevDebug($"NvAPI_EnumPhysicalGPUs:{gpuCount}");
-            for (int i = 0; i < gpuCount; i++) {
-                NvapiNativeMethods.NvAPI_GPU_GetBusID(gpuHandles[i], out int busId);
+        public Dictionary<int, PhysicalGPUHandle> GetNvPhysicalGpuHandles() {
+            Dictionary<int, PhysicalGPUHandle> dic = new Dictionary<int, PhysicalGPUHandle>();
+            var handles = GPUApi.EnumPhysicalGPUs();
+            Write.DevDebug($"EnumPhysicalGPUs:{handles.Length}");
+            foreach (var handle in handles) {
+                int busId = GPUApi.GetBusId(handle);
                 if (!dic.ContainsKey(busId)) {
-                    dic.Add(busId, gpuHandles[i]);
+                    dic.Add(busId, handle);
                 }
             }
-            NvapiNativeMethods.NvAPI_EnumTCCPhysicalGPUs(gpuHandles, out gpuCount);
-            Write.DevDebug($"NvAPI_EnumTCCPhysicalGPUs:{gpuCount}");
-            for (int i = 0; i < gpuCount; i++) {
-                NvapiNativeMethods.NvAPI_GPU_GetBusID(gpuHandles[i], out int busId);
+            handles = GPUApi.EnumTCCPhysicalGPUs();
+            Write.DevDebug($"EnumTCCPhysicalGPUs:{handles.Length}");
+            foreach (var handle in handles) {
+                int busId = GPUApi.GetBusId(handle);
                 if (!dic.ContainsKey(busId)) {
-                    dic.Add(busId, gpuHandles[i]);
+                    dic.Add(busId, handle);
                 }
             }
             return dic;
