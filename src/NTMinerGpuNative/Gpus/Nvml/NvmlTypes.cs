@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace NTMiner.Core.Gpus.Nvml {
+namespace NTMiner.Gpus.Nvml {
     #region enums
     /// <summary>
     /// enum to represent type of bridge chip

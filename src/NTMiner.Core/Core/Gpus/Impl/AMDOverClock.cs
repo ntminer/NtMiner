@@ -1,4 +1,4 @@
-﻿using NTMiner.Core.Gpus.Amd;
+﻿using NTMiner.Gpus.Amd;
 
 namespace NTMiner.Core.Gpus.Impl {
     public class AMDOverClock : IOverClock {

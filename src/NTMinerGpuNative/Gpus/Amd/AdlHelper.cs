@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NTMiner.Core.Gpus.Amd {
+namespace NTMiner.Gpus.Amd {
     public class AdlHelper {
         public struct ATIGPU {
             public static readonly ATIGPU Empty = new ATIGPU {
