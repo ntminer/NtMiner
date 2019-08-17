@@ -1,4 +1,4 @@
-﻿using NTMiner.Core.Gpus.Impl.Nvidia;
+﻿using NTMiner.Core.Gpus.Impl.Nvml;
 using System;
 using System.Collections;
 using System.Collections.Generic;

@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 
 
-namespace NTMiner.Core.Gpus.Impl.Nvidia {
+namespace NTMiner.Core.Gpus.Impl.Nvml {
     internal static class NvmlNativeMethods {
         private const string NVML_API_DLL_NAME = "nvml";
 
