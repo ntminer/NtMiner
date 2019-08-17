@@ -8,8 +8,10 @@ namespace ConsoleTests {
             DevMode.SetDevMode();
 
             NvapiHelper helper = new NvapiHelper();
-            helper.GetNvPhysicalGpuHandles();
-
+            var handlerDic = helper.GetNvPhysicalGpuHandles();
+            foreach (var item in handlerDic) {
+                Console.WriteLine(item.Key);
+            }
             Console.ReadKey();
         }
     }
