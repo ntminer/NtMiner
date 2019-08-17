@@ -84,7 +84,7 @@
 					Click="KbButtonKernel_Clicked">
 					<controls:KbButton.ContextMenu>
 						<ContextMenu>
-							<MenuItem Header="编辑" Command="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.Edit}">
+							<MenuItem Header="编辑" Command="{Binding MinerProfile.CoinVm.CoinKernel.Edit}">
 							</MenuItem>
 						</ContextMenu>
 					</controls:KbButton.ContextMenu>

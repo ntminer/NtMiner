@@ -120,9 +120,9 @@
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
 						<TextBlock
+							Text="内核参级数"
 							Padding="0 4"
 							VerticalAlignment="Center"
-							Text="内核参级数"
 							Foreground="{StaticResource LableColor}" />
 					</WrapPanel>
 				</controls:KbLinkButton>

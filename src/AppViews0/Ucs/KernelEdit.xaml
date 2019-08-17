@@ -113,20 +113,23 @@
 						<WrapPanel Margin="0 2">
 							<TextBlock Style="{StaticResource LblTb}">
 								<WrapPanel>
-									<TextBlock Text="输入"></TextBlock>
-									<controls:KbButton
-										Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
-										Background="Transparent"
-										Command="{Binding KernelInputVm.Edit}">
-										<WrapPanel>
-											<Path
+                                    <controls:KbLinkButton 
+					                    KbDisplayLine="False"
+					                    KbSystemButtonHoverBackground="Transparent" 
+					                    Background="Transparent"
+					                    Margin="0" 
+					                    Command="{Binding KernelInputVm.Edit}">
+					                    <WrapPanel>
+						                    <Path
 												Width="14"
 												Height="14"
 												Data="{StaticResource Icon_KernelInput}"
 												Fill="{StaticResource IconFillColor}"
 												Stretch="Fill" />
-										</WrapPanel>
-									</controls:KbButton>
+									        <TextBlock Text="输入" Foreground="{StaticResource LableColor}">                                                
+                                            </TextBlock>
+					                    </WrapPanel>
+				                    </controls:KbLinkButton>
 								</WrapPanel>
 							</TextBlock>
 							<WrapPanel IsEnabled="{x:Static app:AppStatic.IsDebugMode}">
@@ -159,21 +162,23 @@
 								StaysOpen="False"></Popup>
 							<TextBlock Style="{StaticResource LblTb}">
 								<WrapPanel>
-									<TextBlock Text="输出"></TextBlock>
-									<controls:KbButton
-										Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
-										Background="Transparent"
-										Command="{x:Static app:AppStatic.ShowKernelOutputs}"
+                                    <controls:KbLinkButton 
+					                    KbDisplayLine="False"
+					                    KbSystemButtonHoverBackground="Transparent" 
+					                    Background="Transparent"
+					                    Margin="0" 
+					                    Command="{x:Static app:AppStatic.ShowKernelOutputs}"
 										CommandParameter="{Binding KernelOutputVm}">
-										<WrapPanel>
-											<Path
+					                    <WrapPanel>
+						                    <Path
 												Width="14"
 												Height="14"
 												Data="{StaticResource Icon_KernelOutput}"
 												Fill="{StaticResource IconFillColor}"
 												Stretch="Fill" />
-										</WrapPanel>
-									</controls:KbButton>
+									        <TextBlock Text="输出" Foreground="{StaticResource LableColor}"></TextBlock>
+					                    </WrapPanel>
+				                    </controls:KbLinkButton>
 								</WrapPanel>
 							</TextBlock>
 							<WrapPanel IsEnabled="{x:Static app:AppStatic.IsDebugMode}">
