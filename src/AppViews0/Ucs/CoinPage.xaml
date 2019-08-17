@@ -107,7 +107,7 @@
 					<DataGridTemplateColumn Width="40" IsReadOnly="True">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
-								<Image Width="30" Height="30" Source="{Binding IconImageSource}">
+                                <Image Width="26" Height="26" Source="{Binding IconImageSource}">
 								</Image>
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
