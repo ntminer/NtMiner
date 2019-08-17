@@ -4,9 +4,33 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.InteropServices;
 
-namespace NTMiner.Core.Gpus.Impl.Amd {
-    internal static class PInvokeDelegateFactory {
+namespace NTMiner.Core.Gpus.Impl {
+    public struct Pair<F, S> {
+        private F first;
+        private S second;
 
+        public Pair(F first, S second) {
+            this.first = first;
+            this.second = second;
+        }
+
+        public F First {
+            get { return first; }
+            set { first = value; }
+        }
+
+        public S Second {
+            get { return second; }
+            set { second = value; }
+        }
+
+        public override int GetHashCode() {
+            return (first != null ? first.GetHashCode() : 0) ^
+              (second != null ? second.GetHashCode() : 0);
+        }
+    }
+
+    internal static class PInvokeDelegateFactory {
         private static readonly ModuleBuilder moduleBuilder =
           AppDomain.CurrentDomain.DefineDynamicAssembly(
             new AssemblyName("PInvokeDelegateFactoryInternalAssembly"),
