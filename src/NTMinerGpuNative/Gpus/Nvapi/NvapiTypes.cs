@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace NTMiner.Gpus.Nvapi {
     #region Enumms
-    internal enum NvStatus {
+    public enum NvStatus {
         OK = 0,
         ERROR = -1,
         LIBRARY_NOT_FOUND = -2,
@@ -56,7 +56,7 @@ namespace NTMiner.Gpus.Nvapi {
         D3D10_1_LIBRARY_NOT_FOUND = -135,
         FUNCTION_NOT_FOUND = -136
     }
-    internal enum NvThermalController {
+    public enum NvThermalController {
         NONE = 0,
         GPU_INTERNAL,
         ADM1032,
@@ -71,7 +71,7 @@ namespace NTMiner.Gpus.Nvapi {
         OS,
         UNKNOWN = -1,
     }
-    internal enum NvThermalTarget {
+    public enum NvThermalTarget {
         NONE = 0,
         GPU = 1,
         MEMORY = 2,
@@ -85,28 +85,28 @@ namespace NTMiner.Gpus.Nvapi {
 
     #region Structs
     [StructLayout(LayoutKind.Sequential)]
-    internal struct NvPhysicalGpuHandle {
+    public struct NvPhysicalGpuHandle {
         private readonly IntPtr ptr;
     }
     [StructLayout(LayoutKind.Sequential, Pack = 8)]
-    internal struct NvPState {
+    public struct NvPState {
         public bool Present;
         public int Percentage;
     }
     [StructLayout(LayoutKind.Sequential, Pack = 8)]
-    internal struct NvPStates {
+    public struct NvPStates {
         public uint Version;
         public uint Flags;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiNativeMethods.MAX_PSTATES_PER_GPU)]
         public NvPState[] PStates;
     }
     [StructLayout(LayoutKind.Sequential, Pack = 8)]
-    internal struct NvLevel {
+    public struct NvLevel {
         public int Level;
         public int Policy;
     }
     [StructLayout(LayoutKind.Sequential, Pack = 8)]
-    internal struct NvSensor {
+    public struct NvSensor {
         public NvThermalController Controller;
         public uint DefaultMinTemp;
         public uint DefaultMaxTemp;
@@ -114,14 +114,14 @@ namespace NTMiner.Gpus.Nvapi {
         public NvThermalTarget Target;
     }
     [StructLayout(LayoutKind.Sequential, Pack = 8)]
-    internal struct NvGPUThermalSettings {
+    public struct NvGPUThermalSettings {
         public uint Version;
         public uint Count;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiNativeMethods.MAX_THERMAL_SENSORS_PER_GPU)]
         public NvSensor[] Sensor;
     }
     [StructLayout(LayoutKind.Sequential, Pack = 8)]
-    internal struct NvGPUPowerInfo {
+    public struct NvGPUPowerInfo {
         public uint Version;
         public uint Flags;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiNativeMethods.MAX_POWER_ENTRIES_PER_GPU)]
@@ -129,7 +129,7 @@ namespace NTMiner.Gpus.Nvapi {
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 8)]
-    internal struct NvGPUPowerInfoEntry {
+    public struct NvGPUPowerInfoEntry {
         public uint PState;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2)]
         public uint[] Unknown1;
@@ -144,7 +144,7 @@ namespace NTMiner.Gpus.Nvapi {
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 8)]
-    internal struct NvGPUPowerStatus {
+    public struct NvGPUPowerStatus {
         public uint Version;
         public uint Flags;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiNativeMethods.MAX_POWER_ENTRIES_PER_GPU)]
@@ -152,7 +152,7 @@ namespace NTMiner.Gpus.Nvapi {
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 8)]
-    internal struct NvGPUPowerStatusEntry {
+    public struct NvGPUPowerStatusEntry {
         public uint Unknown1;
         public uint Unknown2;
         /// <summary>
