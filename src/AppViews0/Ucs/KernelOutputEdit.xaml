@@ -42,14 +42,14 @@
 			<WrapPanel Margin="6 0 0 0">
 				<TextBlock Style="{StaticResource LblTb}"></TextBlock>
 				<CheckBox 
-					FocusVisualStyle="{x:Null}"
+					FocusVisualStyle="{x:Null}" IsEnabled="{x:Static app:AppStatic.IsDevMode}"
 					Margin="0 2 0 0" IsChecked="{Binding PrependDateTime}" Content="为输出行附加上前缀时间戳（当内核输出默认没有时间戳时勾选）">
 				</CheckBox>
 			</WrapPanel>
 
 			<WrapPanel Margin="6 2 0 0">
 				<TextBlock Style="{StaticResource LblTb}" Text="内核重启一次关键字"></TextBlock>
-				<TextBox Style="{StaticResource TbRegex}" Text="{Binding KernelRestartKeyword}">
+                <TextBox Style="{StaticResource TbRegex}" Text="{Binding KernelRestartKeyword}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}">
 				</TextBox>
 			</WrapPanel>
 			
@@ -58,55 +58,55 @@
 					<WrapPanel>
 						<TextBlock VerticalAlignment="Center">主币</TextBlock>
 						<TextBlock VerticalAlignment="Center" Margin="10 0 0 0">默认算力单位</TextBlock>
-						<TextBox Width="100" Text="{Binding SpeedUnit}"></TextBox>
+                        <TextBox Width="100" Text="{Binding SpeedUnit}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}"></TextBox>
 					</WrapPanel>
 				</GroupBox.Header>
 				<StackPanel>
 					<WrapPanel Margin="0 2">
 						<TextBlock Style="{StaticResource LblTb}" Text="总算力正则"></TextBlock>
-						<TextBox Style="{StaticResource TbRegex}" Text="{Binding TotalSpeedPattern}">
+                        <TextBox Style="{StaticResource TbRegex}" Text="{Binding TotalSpeedPattern}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}">
 						</TextBox>
 					</WrapPanel>
 					<WrapPanel Margin="0 2">
 						<TextBlock Style="{StaticResource LblTb}" Text="总份额正则"></TextBlock>
-						<TextBox Style="{StaticResource TbRegex}" Text="{Binding TotalSharePattern}">
+                        <TextBox Style="{StaticResource TbRegex}" Text="{Binding TotalSharePattern}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}">
 						</TextBox>
 					</WrapPanel>
 					<WrapPanel Margin="0 2">
 						<TextBlock Style="{StaticResource LblTb}" Text="矿池接受份额正则"></TextBlock>
-						<TextBox Style="{StaticResource TbRegex}" Text="{Binding AcceptSharePattern}">
+                        <TextBox Style="{StaticResource TbRegex}" Text="{Binding AcceptSharePattern}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}">
 						</TextBox>
 					</WrapPanel>
 					<WrapPanel Margin="0 2">
 						<TextBlock Style="{StaticResource LblTb}" Text="矿池接受一个份额正则"></TextBlock>
-						<TextBox Style="{StaticResource TbRegex}" Text="{Binding AcceptOneShare}">
+                        <TextBox Style="{StaticResource TbRegex}" Text="{Binding AcceptOneShare}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}">
 						</TextBox>
 					</WrapPanel>
 					<WrapPanel Margin="0 2">
 						<TextBlock Style="{StaticResource LblTb}" Text="矿池拒绝份额正则"></TextBlock>
-						<TextBox Style="{StaticResource TbRegex}" Text="{Binding RejectSharePattern}">
+                        <TextBox Style="{StaticResource TbRegex}" Text="{Binding RejectSharePattern}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}">
 						</TextBox>
 					</WrapPanel>
 					<WrapPanel Margin="0 2">
 						<TextBlock Style="{StaticResource LblTb}" Text="矿池拒绝一个份额正则"></TextBlock>
-						<TextBox Style="{StaticResource TbRegex}" Text="{Binding RejectOneShare}">
+                        <TextBox Style="{StaticResource TbRegex}" Text="{Binding RejectOneShare}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}">
 						</TextBox>
 					</WrapPanel>
 					<WrapPanel Margin="0 2">
 						<TextBlock Style="{StaticResource LblTb}" Text="拒绝率正则"></TextBlock>
-						<TextBox Style="{StaticResource TbRegex}" Text="{Binding RejectPercentPattern}">
+                        <TextBox Style="{StaticResource TbRegex}" Text="{Binding RejectPercentPattern}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}">
 						</TextBox>
 					</WrapPanel>
 					<WrapPanel Margin="0 2">
 						<TextBlock Style="{StaticResource LblTb}" Text="单卡算力正则"></TextBlock>
-						<TextBox Style="{StaticResource TbRegex}" Width="400" Text="{Binding GpuSpeedPattern}">
+                        <TextBox Style="{StaticResource TbRegex}" Width="400" Text="{Binding GpuSpeedPattern}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}">
 						</TextBox>
 						<TextBlock VerticalAlignment="Center" Margin="6 0 0 0">GPU序号序基</TextBlock>
-						<TextBox Width="120" Text="{Binding GpuBaseIndex}"></TextBox>
+                        <TextBox Width="120" Text="{Binding GpuBaseIndex}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}"></TextBox>
 					</WrapPanel>
 					<WrapPanel Margin="0 2">
 						<TextBlock Style="{StaticResource LblTb}" Text="矿池延时正则"></TextBlock>
-						<TextBox Style="{StaticResource TbRegex}" Text="{Binding PoolDelayPattern}">
+                        <TextBox Style="{StaticResource TbRegex}" Text="{Binding PoolDelayPattern}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}">
 						</TextBox>
 					</WrapPanel>
 				</StackPanel>
@@ -117,10 +117,10 @@
 					<WrapPanel>
 						<TextBlock VerticalAlignment="Center">双挖币</TextBlock>
 						<TextBlock VerticalAlignment="Center" Margin="10 0 0 0">默认算力单位</TextBlock>
-						<TextBox Width="100" Text="{Binding DualSpeedUnit}"></TextBox>
+                        <TextBox Width="100" Text="{Binding DualSpeedUnit}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}"></TextBox>
 						<CheckBox 
 							FocusVisualStyle="{x:Null}"
-							VerticalAlignment="Center"
+							VerticalAlignment="Center" IsEnabled="{x:Static app:AppStatic.IsDevMode}"
 							Margin="10 2 0 0" IsChecked="{Binding IsDualInSameLine}" Content="双挖币的输出和主币在同一行上">
 						</CheckBox>
 					</WrapPanel>
@@ -128,47 +128,47 @@
 				<StackPanel>
 					<WrapPanel Margin="0 2">
 						<TextBlock Style="{StaticResource LblTb}" Text="总算力正则"></TextBlock>
-						<TextBox Style="{StaticResource TbRegex}" Text="{Binding DualTotalSpeedPattern}">
+                        <TextBox Style="{StaticResource TbRegex}" Text="{Binding DualTotalSpeedPattern}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}">
 						</TextBox>
 					</WrapPanel>
 					<WrapPanel Margin="0 2">
 						<TextBlock Style="{StaticResource LblTb}" Text="总份额正则" ></TextBlock>
-						<TextBox Style="{StaticResource TbRegex}" Text="{Binding DualTotalSharePattern}">
+                        <TextBox Style="{StaticResource TbRegex}" Text="{Binding DualTotalSharePattern}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}">
 						</TextBox>
 					</WrapPanel>
 					<WrapPanel Margin="0 2">
 						<TextBlock Style="{StaticResource LblTb}" Text="矿池接受份额正则"></TextBlock>
-						<TextBox Style="{StaticResource TbRegex}" Text="{Binding DualAcceptSharePattern}">
+                        <TextBox Style="{StaticResource TbRegex}" Text="{Binding DualAcceptSharePattern}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}">
 						</TextBox>
 					</WrapPanel>
 					<WrapPanel Margin="0 2">
 						<TextBlock Style="{StaticResource LblTb}" Text="矿池接受一个份额正则"></TextBlock>
-						<TextBox Style="{StaticResource TbRegex}" Text="{Binding DualAcceptOneShare}">
+                        <TextBox Style="{StaticResource TbRegex}" Text="{Binding DualAcceptOneShare}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}">
 						</TextBox>
 					</WrapPanel>
 					<WrapPanel Margin="0 2">
 						<TextBlock Style="{StaticResource LblTb}" Text="矿池拒绝份额正则"></TextBlock>
-						<TextBox Style="{StaticResource TbRegex}" Text="{Binding DualRejectSharePattern}">
+                        <TextBox Style="{StaticResource TbRegex}" Text="{Binding DualRejectSharePattern}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}">
 						</TextBox>
 					</WrapPanel>
 					<WrapPanel Margin="0 2">
 						<TextBlock Style="{StaticResource LblTb}" Text="矿池拒绝一个份额正则"></TextBlock>
-						<TextBox Style="{StaticResource TbRegex}" Text="{Binding DualRejectOneShare}">
+                        <TextBox Style="{StaticResource TbRegex}" Text="{Binding DualRejectOneShare}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}">
 						</TextBox>
 					</WrapPanel>
 					<WrapPanel Margin="0 2">
 						<TextBlock Style="{StaticResource LblTb}" Text="拒绝率正则"></TextBlock>
-						<TextBox Style="{StaticResource TbRegex}" Text="{Binding DualRejectPercentPattern}">
+                        <TextBox Style="{StaticResource TbRegex}" Text="{Binding DualRejectPercentPattern}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}">
 						</TextBox>
 					</WrapPanel>
 					<WrapPanel Margin="0 2">
 						<TextBlock Style="{StaticResource LblTb}" Text="单卡算力正则"></TextBlock>
-						<TextBox Style="{StaticResource TbRegex}" Text="{Binding DualGpuSpeedPattern}">
+                        <TextBox Style="{StaticResource TbRegex}" Text="{Binding DualGpuSpeedPattern}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}">
 						</TextBox>
 					</WrapPanel>
 					<WrapPanel Margin="0 2">
 						<TextBlock Style="{StaticResource LblTb}" Text="矿池延时正则"></TextBlock>
-						<TextBox Style="{StaticResource TbRegex}" Text="{Binding DualPoolDelayPattern}">
+                        <TextBox Style="{StaticResource TbRegex}" Text="{Binding DualPoolDelayPattern}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}">
 						</TextBox>
 					</WrapPanel>
 				</StackPanel>

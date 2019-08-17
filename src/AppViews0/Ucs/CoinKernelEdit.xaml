@@ -110,7 +110,7 @@
 					KbDisplayLine="False"
 					KbSystemButtonHoverBackground="Transparent" 
 					Background="Transparent"
-					Margin="0" 
+					Margin="0 4 0 0" 
 					Command="{Binding Kernel.Edit}">
 					<WrapPanel>
 						<Path 
@@ -121,7 +121,6 @@
 							Stretch="Fill" />
 						<TextBlock
 							Text="内核参级数"
-							Padding="0 4"
 							VerticalAlignment="Center"
 							Foreground="{StaticResource LableColor}" />
 					</WrapPanel>
