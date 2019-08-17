@@ -130,6 +130,7 @@ namespace NTMiner.Core.Kernels.Impl {
             return _dicById.Values.GetEnumerator();
         }
 
+        private DateTime _kernelRestartKeywordOn = DateTime.MinValue;
         public void Pick(Guid kernelOutputId, ref string input, IMineContext mineContext) {
             try {
                 InitOnece();
@@ -140,8 +141,11 @@ namespace NTMiner.Core.Kernels.Impl {
                     return;
                 }
                 if (!string.IsNullOrEmpty(kernelOutput.KernelRestartKeyword) && input.Contains(kernelOutput.KernelRestartKeyword)) {
-                    mineContext.KernelSelfRestartCount = mineContext.KernelSelfRestartCount + 1;
-                    VirtualRoot.Happened(new KernelSelfRestartedEvent());
+                    if (_kernelRestartKeywordOn.AddSeconds(10) < DateTime.Now) {
+                        mineContext.KernelSelfRestartCount = mineContext.KernelSelfRestartCount + 1;
+                        _kernelRestartKeywordOn = DateTime.Now;
+                        VirtualRoot.Happened(new KernelSelfRestartedEvent());
+                    }
                 }
                 ICoin coin = mineContext.MainCoin;
                 bool isDual = false;
