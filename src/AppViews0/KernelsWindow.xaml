@@ -126,7 +126,7 @@
 						Stretch="Fill" />
 				</controls:KbButton>
 				<controls:KbButton  
-					Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
+					Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
 					Command="{Binding Add}" 
 					Background="Transparent" BorderThickness="0"
 					Margin="20 0 0 0"
@@ -141,7 +141,7 @@
 					</WrapPanel>
 				</controls:KbButton>
 				<controls:KbButton  
-					Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
+					Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
 					Command="{Binding ShowPackages}" 
 					Background="Transparent" BorderThickness="0"
 					Margin="20 0 0 0"

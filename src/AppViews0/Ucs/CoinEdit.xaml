@@ -21,13 +21,13 @@
 		<WrapPanel Margin="0 2">
 			<TextBlock Style="{StaticResource LblTb}" Text="编码"></TextBlock>
 			<TextBox 
-				IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
+				IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}"
 				Width="118"
 				VerticalContentAlignment="Center" Text="{Binding Code, ValidatesOnExceptions=True}">
 			</TextBox>
 			<CheckBox
 				FocusVisualStyle="{x:Null}"
-				IsEnabled="{x:Static app:AppStatic.IsDebugMode}"
+				IsEnabled="{x:Static app:AppStatic.IsDevMode}"
 				VerticalContentAlignment="Center" IsChecked="{Binding IsHot}">
 				<Path
 					Width="16"
@@ -44,7 +44,7 @@
 				</Image>
 			</controls:KbButton>
 			<TextBlock Style="{StaticResource LblTb}" Width="42" Text="算法"></TextBlock>
-			<WrapPanel IsEnabled="{x:Static app:AppStatic.IsDebugMode}">
+			<WrapPanel IsEnabled="{x:Static app:AppStatic.IsDevMode}">
 				<controls:KbButton 
 					x:Name="ButtonAlgo"
 					Padding="4 0"
@@ -77,13 +77,13 @@
 		<WrapPanel Margin="0 2">
 			<TextBlock Style="{StaticResource LblTb}" Text="英文名"></TextBlock>
 			<TextBox 
-				IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
+				IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}"
 				Width="150"
 				VerticalContentAlignment="Center" Text="{Binding EnName}">
 			</TextBox>
 			<TextBlock Style="{StaticResource LblTb}" Text="中文名"></TextBlock>
 			<TextBox 
-				IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
+				IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}"
 				Width="160"
 				VerticalContentAlignment="Center" Text="{Binding CnName}">
 			</TextBox>
@@ -93,26 +93,26 @@
 			<TextBlock Style="{StaticResource LblTb}" Text="教程Url"></TextBlock>
 			<TextBox 
 				Width="380"
-				IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
+				IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}"
 				VerticalContentAlignment="Center" Text="{Binding TutorialUrl}">
 			</TextBox>
 		</WrapPanel>
 
-		<WrapPanel Margin="0 2" Visibility="{x:Static app:AppStatic.IsDebugModeVisible}">
+		<WrapPanel Margin="0 2" Visibility="{x:Static app:AppStatic.IsDevModeVisible}">
 			<TextBlock Style="{StaticResource LblTb}" Text="钱包正则"></TextBlock>
 			<TextBox 
 				Width="380"
-				IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
+				IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}"
 				VerticalContentAlignment="Center" Text="{Binding WalletRegexPattern}">
 			</TextBox>
 		</WrapPanel>
 
-		<WrapPanel Margin="0 2" Visibility="{x:Static app:AppStatic.IsDebugModeVisible}">
+		<WrapPanel Margin="0 2" Visibility="{x:Static app:AppStatic.IsDevModeVisible}">
 			<TextBlock Style="{StaticResource LblTb}" Text="测试钱包"></TextBlock>
 			<TextBox 
 				x:Name="TbTestWallet" 
 				Width="380" 
-				IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
+				IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}"
 				VerticalContentAlignment="Center" Text="{Binding TestWallet, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}">
 			</TextBox>
 			<TextBlock VerticalAlignment="Center">(</TextBlock>
@@ -120,7 +120,7 @@
 			<TextBlock VerticalAlignment="Center">)</TextBlock>
 		</WrapPanel>
 
-		<WrapPanel Margin="0 2" Visibility="{x:Static app:AppStatic.IsDebugModeVisible}">
+		<WrapPanel Margin="0 2" Visibility="{x:Static app:AppStatic.IsDevModeVisible}">
 			<TextBlock Style="{StaticResource LblTb}"></TextBlock>
 			<CheckBox
 				FocusVisualStyle="{x:Null}"
@@ -133,13 +133,13 @@
 			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="通知"></TextBlock>
 			<controls:KbMuiltilineTextBox 
 				Width="380" 
-				IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
+				IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}"
 				VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
 				Text="{Binding Notice, Mode=TwoWay}" Height="60">
 			</controls:KbMuiltilineTextBox>
 		</WrapPanel>
 
-        <WrapPanel Margin="0 2" IsEnabled="{x:Static app:AppStatic.IsDebugMode}">
+        <WrapPanel Margin="0 2" IsEnabled="{x:Static app:AppStatic.IsDevMode}">
             <TextBlock Style="{StaticResource LblTb}"></TextBlock>
             <TextBlock VerticalAlignment="Center">N卡默认</TextBlock>
             <controls:KbButton 
@@ -198,7 +198,7 @@
         </WrapPanel>
 		<controls:KbButton
 			Command="{Binding Save}" 
-			Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
+			Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
 			HorizontalAlignment="Center"
 			Margin="0 10 0 0"
 			Padding="15 2"

@@ -70,7 +70,7 @@
 				<DataGrid.Columns>
 					<DataGridTemplateColumn 
 						IsReadOnly="True"
-						Visibility="{x:Static app:AppStatic.IsDebugModeVisible}">
+						Visibility="{x:Static app:AppStatic.IsDevModeVisible}">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel HorizontalAlignment="Right" Background="Transparent" VerticalAlignment="Center" Orientation="Horizontal">
@@ -337,7 +337,7 @@
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
 							<DataGridTemplateColumn 
-								Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
+								Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
 								IsReadOnly="True">
 								<DataGridTemplateColumn.Header>
 									<TextBlock Text="排序"></TextBlock>
@@ -385,7 +385,7 @@
                         </controls:KbButton>
                         <controls:KbButton 
 							Margin="2 0"
-                            Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
+                            Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
 							Command="{Binding CurrentPool.SortDown}" ToolTip="下移" 
 							Background="Transparent" BorderThickness="0"
 							CornerRadius="2">
@@ -400,7 +400,7 @@
                         </controls:KbButton>
                         <controls:KbButton 
 							Margin="2 0"
-                            Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
+                            Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
 							Command="{Binding CurrentPool.SortUp}" ToolTip="上移" 
 							Background="Transparent" BorderThickness="0"
 							CornerRadius="2">
@@ -528,7 +528,7 @@
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
 							<DataGridTemplateColumn 
-								Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
+								Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
 								IsReadOnly="True">
 								<DataGridTemplateColumn.Header>
 									<TextBlock Text="排序"></TextBlock>
@@ -706,7 +706,7 @@
 						</DataGrid.Columns>
 					</DataGrid>
 					<TextBlock Visibility="{Binding CurrentCoin.CoinKernels, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Text="沒有记录" Grid.Column="2" Margin="280,239,328,239"></TextBlock>
-                    <WrapPanel HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="{x:Static app:AppStatic.IsDebugModeVisible}">
+                    <WrapPanel HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="{x:Static app:AppStatic.IsDevModeVisible}">
                         <controls:KbButton 
 						    x:Name="ButtonAddCoinKernel"						
 						    IsEnabled="{Binding ElementName=PopupKernel,Path=IsOpen, Converter={StaticResource BoolInvertConverter}}"

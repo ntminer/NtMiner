@@ -41,7 +41,7 @@
 				VerticalAlignment="Center"></TextBlock>
 			<controls:KbButton
 				Command="{Binding Save}" 
-				Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
+				Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
 				Padding="15 2"
 				HorizontalAlignment="Center"
 				Background="{StaticResource ThemeBackground}"

@@ -183,7 +183,7 @@
 				<DataGridTextColumn MinWidth="80" Header="尺寸" IsReadOnly="True" Binding="{Binding SizeMbText}">
 				</DataGridTextColumn>
 				<DataGridTemplateColumn MinWidth="100" Header="输入" 
-					Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
+					Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
 					IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
@@ -193,7 +193,7 @@
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn MinWidth="100" Header="输出" 
-					Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
+					Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
 					IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
@@ -203,7 +203,7 @@
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn MinWidth="70" Header="双挖" 
-					Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
+					Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
 					IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
@@ -214,7 +214,7 @@
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn MinWidth="100" Header="操作" 
-					Visibility="{x:Static app:AppStatic.IsDebugModeVisible}">
+					Visibility="{x:Static app:AppStatic.IsDevModeVisible}">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel>

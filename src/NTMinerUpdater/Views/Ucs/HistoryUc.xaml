@@ -37,7 +37,7 @@
                 <DataGridTextColumn Width="100" IsReadOnly="True" Header="时间" Binding="{Binding PublishOnText}"></DataGridTextColumn>
                 <DataGridTemplateColumn 
 					IsReadOnly="True"
-					Visibility="{Binding Data.IsDebugModeVisible,Source={StaticResource proxy}}">
+					Visibility="{Binding Data.IsDevModeVisible,Source={StaticResource proxy}}">
                     <DataGridTemplateColumn.Header>
                         <controls:KbButton  
 							Command="{Binding Data.AddNTMinerFile, Source={StaticResource proxy}}" 

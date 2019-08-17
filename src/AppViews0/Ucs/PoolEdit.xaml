@@ -40,7 +40,7 @@
 							</TextBlock>
 							<WrapPanel Visibility="{x:Static app:AppStatic.IsDevModeVisible}">
 								<TextBlock Style="{StaticResource LblTb}" Width="Auto" Text="品牌"></TextBlock>
-								<WrapPanel IsEnabled="{x:Static app:AppStatic.IsDebugMode}">
+								<WrapPanel IsEnabled="{x:Static app:AppStatic.IsDevMode}">
 									<controls:KbButton 
 										x:Name="ButtonBrand"
 										Padding="4 0"
@@ -137,7 +137,7 @@
 							<TextBlock Style="{StaticResource LblTb}" Text="教程Url"></TextBlock>
 							<TextBox 
 								Width="420"
-								IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
+								IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}"
 								VerticalContentAlignment="Center" Text="{Binding TutorialUrl}">
 							</TextBox>
 						</WrapPanel>
@@ -208,7 +208,7 @@
 							</DataGridTemplateColumn>
 							<DataGridTemplateColumn 
 								IsReadOnly="True"
-								Visibility="{x:Static app:AppStatic.IsDebugModeVisible}">
+								Visibility="{x:Static app:AppStatic.IsDevModeVisible}">
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate>
 										<StackPanel HorizontalAlignment="Right" Background="Transparent" VerticalAlignment="Center" Orientation="Horizontal">

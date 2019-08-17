@@ -118,22 +118,13 @@ namespace NTMiner {
             }
         }
 
-        public static bool IsDebugMode {
+        public static bool IsDevMode {
             get {
                 return Design.IsDevMode;
             }
         }
 
-        public static bool IsNotDebugMode => !Design.IsDevMode;
-
-        public static Visibility IsDebugModeVisible {
-            get {
-                if (Design.IsDevMode) {
-                    return Visibility.Visible;
-                }
-                return Visibility.Collapsed;
-            }
-        }
+        public static bool IsNotDevMode => !Design.IsDevMode;
 
         public static Visibility IsDevModeVisible {
             get {

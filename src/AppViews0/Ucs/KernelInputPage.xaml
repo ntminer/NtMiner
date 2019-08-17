@@ -27,7 +27,7 @@
 			<DataGrid.Columns>
 				<DataGridTemplateColumn 
 					MinWidth="50" IsReadOnly="True"
-					Visibility="{x:Static app:AppStatic.IsDebugModeVisible}">
+					Visibility="{x:Static app:AppStatic.IsDevModeVisible}">
 					<DataGridTemplateColumn.Header>
 						<controls:KbButton  
 							Command="{Binding Data.Add, Source={StaticResource proxy}}" 

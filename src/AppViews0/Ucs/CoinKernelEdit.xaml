@@ -36,7 +36,7 @@
 			</TextBlock>
 			<CheckBox
 				FocusVisualStyle="{x:Null}"
-				IsEnabled="{x:Static app:AppStatic.IsDebugMode}"
+				IsEnabled="{x:Static app:AppStatic.IsDevMode}"
 				VerticalContentAlignment="Center" IsChecked="{Binding IsHot}">
 				<Path
 					Width="16"
@@ -48,7 +48,7 @@
             <CheckBox
                 Margin="10 0 0 0"
 				FocusVisualStyle="{x:Null}"
-				IsEnabled="{x:Static app:AppStatic.IsDebugMode}"
+				IsEnabled="{x:Static app:AppStatic.IsDevMode}"
 				VerticalContentAlignment="Center" IsChecked="{Binding IsRecommend}">
                 <Path
 					Width="16"
@@ -64,7 +64,7 @@
 			<WrapPanel VerticalAlignment="Center">
 				<controls:KbComboBox 
 					Width="80" ItemsSource="{x:Static app:AppStatic.SupportedGpuEnumItems}"
-					IsEnabled="{x:Static app:AppStatic.IsDebugMode}"
+					IsEnabled="{x:Static app:AppStatic.IsDevMode}"
 					DisplayMemberPath="Description"
 					SelectedItem="{Binding SupportedGpuEnumItem}">
 				</controls:KbComboBox>
@@ -88,7 +88,7 @@
 					Stretch="Fill" />
 			</WrapPanel>
 			<CheckBox 
-				IsEnabled="{x:Static app:AppStatic.IsDebugMode}"
+				IsEnabled="{x:Static app:AppStatic.IsDevMode}"
 				Margin="4 0 0 0" IsChecked="{Binding IsSupportPool1}" 
 				VerticalContentAlignment="Center"
 				FocusVisualStyle="{x:Null}">支持备池1</CheckBox>
@@ -97,7 +97,7 @@
 				<controls:KbComboBox 
 					BorderThickness="0"
 					Width="146" ItemsSource="{Binding GroupVms.SelectionOptions}"
-					IsEnabled="{x:Static app:AppStatic.IsDebugMode}"
+					IsEnabled="{x:Static app:AppStatic.IsDevMode}"
 					DisplayMemberPath="Name"
 					SelectedItem="{Binding SelectedDualCoinGroup}">
 				</controls:KbComboBox>
@@ -141,7 +141,7 @@
             <TextBox 
 				    VerticalContentAlignment="Center"
 				    Width="436" Background="Transparent"
-				    IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
+				    IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}"
 				    Text="{Binding Args, Mode=TwoWay}">
             </TextBox>
         </WrapPanel>
@@ -150,7 +150,7 @@
             <TextBlock Style="{StaticResource LblTb}" Text="双挖全参" VerticalAlignment="Top"></TextBlock>
             <controls:KbMuiltilineTextBox 
 				Width="436" Background="Transparent"
-				IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
+				IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}"
 				VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
 				Text="{Binding DualFullArgs, Mode=TwoWay}" Height="60">
             </controls:KbMuiltilineTextBox>
@@ -160,12 +160,12 @@
 			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="通知"></TextBlock>
 			<controls:KbMuiltilineTextBox 
 				Width="436" Background="Transparent"
-				IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
+				IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}"
 				VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
 				Text="{Binding Notice, Mode=TwoWay}" Height="60">                
 			</controls:KbMuiltilineTextBox>
 		</WrapPanel>
-		<WrapPanel Margin="0 2" Visibility="{x:Static app:AppStatic.IsDebugModeVisible}">
+		<WrapPanel Margin="0 2" Visibility="{x:Static app:AppStatic.IsDevModeVisible}">
 			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="环境变量"></TextBlock>
 			<DataGrid 
 				Width="436"				
@@ -239,7 +239,7 @@
 				</DataGrid.Columns>
 			</DataGrid>
 		</WrapPanel>
-		<WrapPanel Margin="0 2" Visibility="{x:Static app:AppStatic.IsDebugModeVisible}">
+		<WrapPanel Margin="0 2" Visibility="{x:Static app:AppStatic.IsDevModeVisible}">
 			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="片段"></TextBlock>
 			<DataGrid 
 				Width="436"
@@ -320,7 +320,7 @@
 				</DataGrid.Columns>
 			</DataGrid>
 		</WrapPanel>
-		<WrapPanel Margin="0 2" Visibility="{x:Static app:AppStatic.IsDebugModeVisible}">
+		<WrapPanel Margin="0 2" Visibility="{x:Static app:AppStatic.IsDevModeVisible}">
 			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="文件书写器"></TextBlock>
 			<Grid>
 				<DataGrid 
@@ -372,7 +372,7 @@
 					HorizontalAlignment="Left"
 					VerticalAlignment="Top"
 					IsEnabled="{Binding ElementName=PopupFileWriter,Path=IsOpen, Converter={StaticResource BoolInvertConverter}}"
-					Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
+					Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
 					Click="ButtonAddFileWriter_Click"
 					Background="Transparent" BorderThickness="0"
 					Margin="6 4"
@@ -394,7 +394,7 @@
 					StaysOpen="False"></Popup>
 			</Grid>
 		</WrapPanel>
-		<WrapPanel Margin="0 2" Visibility="{x:Static app:AppStatic.IsDebugModeVisible}">
+		<WrapPanel Margin="0 2" Visibility="{x:Static app:AppStatic.IsDevModeVisible}">
 			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="命令片段书写器"></TextBlock>
 			<Grid>
 				<DataGrid 
@@ -444,7 +444,7 @@
 					HorizontalAlignment="Left"
 					VerticalAlignment="Top"
 					IsEnabled="{Binding ElementName=PopupFragmentWriter,Path=IsOpen, Converter={StaticResource BoolInvertConverter}}"
-					Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
+					Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
 					Click="ButtonAddFragmentWriter_Click"
 					Background="Transparent" BorderThickness="0"
 					Margin="6 4"
@@ -468,7 +468,7 @@
 		</WrapPanel>
 		<controls:KbButton
 			Command="{Binding Save}" 
-			Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
+			Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
 			HorizontalAlignment="Center"
 			Margin="0 10 0 0"
 			Padding="15 2"

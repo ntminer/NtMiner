@@ -37,7 +37,7 @@
 			<DataGrid.Columns>
 				<DataGridTemplateColumn 
 					IsReadOnly="True"
-					Visibility="{x:Static app:AppStatic.IsDebugModeVisible}">
+					Visibility="{x:Static app:AppStatic.IsDevModeVisible}">
 					<DataGridTemplateColumn.Header>
 						<controls:KbButton  
 							Command="{Binding Data.GroupVms.Add, Source={StaticResource proxy}}" 
@@ -134,7 +134,7 @@
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn 
-					Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
+					Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
 					IsReadOnly="True" >
 					<DataGridTemplateColumn.Header>
 						<TextBlock Text="排序"></TextBlock>
@@ -148,7 +148,7 @@
 			</DataGrid.Columns>
 		</DataGrid>
 		<TextBlock Grid.Row="1" Grid.Column="0" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding GroupVms, Converter={StaticResource NoRecordVisibilityConverter}}" Text="沒有记录"></TextBlock>
-		<WrapPanel Grid.Row="0" Grid.Column="2" Margin="0 2" VerticalAlignment="Center" Visibility="{x:Static app:AppStatic.IsDebugModeVisible}">
+		<WrapPanel Grid.Row="0" Grid.Column="2" Margin="0 2" VerticalAlignment="Center" Visibility="{x:Static app:AppStatic.IsDevModeVisible}">
 			<TextBlock Width="40" Text="币种" VerticalAlignment="Center"></TextBlock>
 			<controls:KbComboBox 
 				x:Name="CbCoins"
@@ -184,7 +184,7 @@
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
 					<DataGridTemplateColumn 
-						Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
+						Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
 						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<TextBlock Text="排序"></TextBlock>
@@ -200,7 +200,7 @@
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel 
-									Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
+									Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
 									HorizontalAlignment="Right" 
 									Background="Transparent" 
 									VerticalAlignment="Center" 

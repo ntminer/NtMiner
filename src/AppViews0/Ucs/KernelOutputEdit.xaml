@@ -35,7 +35,7 @@
 		<StackPanel>
 			<WrapPanel Margin="6 0 0 0">
 				<TextBlock Style="{StaticResource LblTb}" Text="名称"></TextBlock>
-				<TextBox Style="{StaticResource TbRegex}" Text="{Binding Name, ValidatesOnExceptions=True}">
+				<TextBox Style="{StaticResource TbRegex}" Text="{Binding Name, ValidatesOnExceptions=True}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}">
 				</TextBox>
 			</WrapPanel>
 
@@ -190,7 +190,7 @@
 			VerticalAlignment="Bottom"
 			HorizontalAlignment="Left"
 			Command="{Binding Save}" 
-			Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
+			Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
 			Margin="10 10 0 0"
 			Padding="15 2"
 			Background="{StaticResource ThemeBackground}"

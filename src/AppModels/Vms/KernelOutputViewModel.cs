@@ -428,9 +428,14 @@ namespace NTMiner.Vms {
             }
         }
 
+
         public string KernelFullNames {
             get {
-                string names = string.Join(";", AppContext.Instance.KernelVms.AllKernels.Where(a => a.KernelOutputId == this.Id).Select(a => a.FullName));
+                string names = string.Join(";", AppContext.Instance.KernelVms.AllKernels
+                    .Where(a => a.KernelOutputId == this.Id)
+                    .OrderBy(a => a.Code)
+                    .ThenByDescending(a => a.Version)
+                    .Select(a => a.FullName));
                 if (string.IsNullOrEmpty(names)) {
                     return "无";
                 }

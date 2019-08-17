@@ -44,7 +44,7 @@
 				<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="形参"></TextBlock>
 				<controls:KbMuiltilineTextBox 
 					Width="450" Background="Transparent" Padding="0 4"
-					IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
+					IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}"
 					VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
 					Text="{Binding Args, Mode=TwoWay}" Height="60">
 				</controls:KbMuiltilineTextBox>
@@ -61,45 +61,45 @@
 						<WrapPanel>
 							<TextBox 
 								Width="100"
-								IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
+								IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}"
 								VerticalContentAlignment="Center" Text="{Binding DevicesArg}"></TextBox>
 							<TextBlock Style="{StaticResource LblTb}" Width="40" Text="基序"></TextBlock>
 							<TextBox 
 								Width="80"
-								IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
+								IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}"
 								VerticalContentAlignment="Center" Text="{Binding DeviceBaseIndex,ValidatesOnExceptions=True}"></TextBox>
 							<TextBlock Style="{StaticResource LblTb}" Width="50" Text="分割符"></TextBlock>
 							<TextBox 
 								Width="80"
-								IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
+								IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}"
 								VerticalContentAlignment="Center" Text="{Binding DevicesSeparator}"></TextBox>
 							<TextBlock VerticalAlignment="Center">用space代替空格</TextBlock>
 						</WrapPanel>
 						<CheckBox 
 							IsChecked="{Binding IsDeviceAllNotEqualsNone}" 
-							IsEnabled="{x:Static app:AppStatic.IsDebugMode}">如果全选了显卡是否“不等效于”全部没选</CheckBox>
+							IsEnabled="{x:Static app:AppStatic.IsDevMode}">如果全选了显卡是否“不等效于”全部没选</CheckBox>
 						<WrapPanel>
 							<TextBlock Style="{StaticResource LblTb}" Width="74" Text="N卡序号前缀"></TextBlock>
 							<TextBox 
 								Width="100"
-								IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
+								IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}"
 								VerticalContentAlignment="Center" Text="{Binding NDevicePrefix}"></TextBox>
 							<TextBlock Style="{StaticResource LblTb}" Margin="4 0 0 0" Width="74" Text="N卡序号后缀"></TextBlock>
 							<TextBox 
 								Width="100"
-								IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
+								IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}"
 								VerticalContentAlignment="Center" Text="{Binding NDevicePostfix}"></TextBox>
 						</WrapPanel>
 						<WrapPanel>
 							<TextBlock Style="{StaticResource LblTb}" Width="74" Text="A卡序号前缀"></TextBlock>
 							<TextBox 
 								Width="100"
-								IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
+								IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}"
 								VerticalContentAlignment="Center" Text="{Binding ADevicePrefix}"></TextBox>
 							<TextBlock Style="{StaticResource LblTb}" Margin="4 0 0 0" Width="74" Text="A卡序号后缀"></TextBlock>
 							<TextBox 
 								Width="100"
-								IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
+								IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}"
 								VerticalContentAlignment="Center" Text="{Binding ADevicePostfix}"></TextBox>
 						</WrapPanel>
 					</StackPanel>
@@ -112,7 +112,7 @@
 					FocusVisualStyle="{x:Null}"
 					VerticalContentAlignment="Center"
 					Height="26"
-					IsEnabled="{x:Static app:AppStatic.IsDebugMode}"
+					IsEnabled="{x:Static app:AppStatic.IsDevMode}"
 					Content="支持双挖"
 					IsChecked="{Binding IsSupportDualMine}" />
 				<WrapPanel 
@@ -121,7 +121,7 @@
 					<TextBlock Style="{StaticResource LblTb}" Width="Auto" Text="双挖权重参数名"></TextBlock>
 					<TextBox 
 						Width="120"
-						IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
+						IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}"
 						VerticalContentAlignment="Center" Text="{Binding DualWeightArg}">
 					</TextBox>
 				</WrapPanel>
@@ -133,25 +133,25 @@
 					<CheckBox 
 						FocusVisualStyle="{x:Null}"
 						VerticalContentAlignment="Center"
-						IsEnabled="{x:Static app:AppStatic.IsDebugMode}"
+						IsEnabled="{x:Static app:AppStatic.IsDevMode}"
 						Content="自动双挖权重"
 						IsChecked="{Binding IsAutoDualWeight}" />
 					<TextBlock Margin="8 0 0 0" Text="双挖权重下限" VerticalAlignment="Center"></TextBlock>
 					<TextBox 
 						Width="50"
-						IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
+						IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}"
 						VerticalContentAlignment="Center" Text="{Binding DualWeightMin}">
 					</TextBox>
 					<TextBlock Margin="8 0 0 0" Text="双挖权重上限" VerticalAlignment="Center"></TextBlock>
 					<TextBox 
 						Width="50"
-						IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
+						IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}"
 						VerticalContentAlignment="Center" Text="{Binding DualWeightMax}">
 					</TextBox>
 				</WrapPanel>
 			</StackPanel>
 		</StackPanel>
-		<StackPanel Grid.Column="1" Visibility="{x:Static app:AppStatic.IsDebugModeVisible}" HorizontalAlignment="Left">
+		<StackPanel Grid.Column="1" Visibility="{x:Static app:AppStatic.IsDevModeVisible}" HorizontalAlignment="Left">
 			<controls:KbMuiltilineTextBox 
 				Background="White"
 				Width="100" 
@@ -173,7 +173,7 @@
 			Grid.Row="1"
 			VerticalAlignment="Bottom"
 			Command="{Binding Save}" 
-			Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
+			Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
 			Margin="0 10 0 0"
 			Padding="15 2"
 			HorizontalAlignment="Center"
