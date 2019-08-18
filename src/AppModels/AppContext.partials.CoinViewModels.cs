@@ -146,7 +146,7 @@ namespace NTMiner {
             }
             public List<CoinViewModel> MainCoinPleaseSelect {
                 get {
-                    return GetMainCoinPleaseSelect().OrderBy(a => a.Code).ToList();
+                    return GetMainCoinPleaseSelect().ToList();
                 }
             }
 
@@ -161,7 +161,7 @@ namespace NTMiner {
             }
             public List<CoinViewModel> DualPleaseSelect {
                 get {
-                    return GetDualPleaseSelect().Distinct().OrderBy(a => a.Code).ToList();
+                    return GetDualPleaseSelect().Distinct().ToList();
                 }
             }
         }
