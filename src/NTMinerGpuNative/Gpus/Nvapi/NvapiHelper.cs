@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace NTMiner.Gpus.Nvapi {
@@ -28,6 +29,59 @@ namespace NTMiner.Gpus.Nvapi {
                     }
                 }
                 return _handlesByBusId;
+            }
+        }
+
+        public void GetClockRangeByIndex(
+            int busId,
+            out int coreClockMin, out int coreClockMax,
+            out int memoryClockMin, out int memoryClockMax,
+            out int powerMin, out int powerMax, out int powerDefault,
+            out int tempLimitMin, out int tempLimitMax, out int tempLimitDefault,
+            out int fanSpeedMin, out int fanSpeedMax, out int fanSpeedDefault) {
+            coreClockMin = 0;
+            coreClockMax = 0;
+            memoryClockMin = 0;
+            memoryClockMax = 0;
+            powerMin = 0;
+            powerMax = 0;
+            powerDefault = 0;
+            tempLimitMin = 0;
+            tempLimitMax = 0;
+            tempLimitDefault = 0;
+            fanSpeedMin = 0;
+            fanSpeedMax = 0;
+            fanSpeedDefault = 0;
+            try {
+                if (GetClockDelta(busId, isMemClock: false, out int outCurrFreqDelta, out int outMinFreqDelta, out int outMaxFreqDelta)) {
+                    coreClockMin = outMinFreqDelta;
+                    coreClockMax = outMaxFreqDelta;
+                }
+                if (GetClockDelta(busId, isMemClock: true, out outCurrFreqDelta, out outMinFreqDelta, out outMaxFreqDelta)) {
+                    memoryClockMin = outMinFreqDelta;
+                    memoryClockMax = outMaxFreqDelta;
+                }
+                if (getPowerLimit(busId, out uint outCurrPower, out uint outMinPower, out uint outDefPower, out uint outMaxPower)) {
+                    powerMin = (int)outMinPower;
+                    powerMax = (int)outMaxPower;
+                    powerDefault = (int)outDefPower;
+                }
+                if (getTempLimit(busId, out int outCurrTemp, out int outMinTemp, out int outDefTemp, out int outMaxTemp)) {
+                    tempLimitMin = outMinTemp;
+                    tempLimitMax = outMaxTemp;
+                    tempLimitDefault = outDefTemp;
+                }
+                if (getCooler(busId, out uint currCooler, out uint minCooler, out uint defCooler, out uint maxCooler)) {
+                    fanSpeedMin = (int)minCooler;
+                    fanSpeedMax = (int)maxCooler;
+                    fanSpeedDefault = (int)defCooler;
+                }
+#if DEBUG
+                Write.DevWarn($"ADL2_OverdriveN_CapabilitiesX2_Get coreClockMin={coreClockMin},coreClockMax={coreClockMax},memoryClockMin={memoryClockMin},memoryClockMax={memoryClockMax},powerMin={powerMin},powerMax={powerMax},powerDefault={powerDefault},tempLimitMin={tempLimitMin},tempLimitMax={tempLimitMax},tempLimitDefault={tempLimitDefault},fanSpeedMin={fanSpeedMin},fanSpeedMax={fanSpeedMax},fanSpeedDefault={fanSpeedDefault}");
+#endif
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e);
             }
         }
 
@@ -85,7 +139,10 @@ namespace NTMiner.Gpus.Nvapi {
         }
 
         #region private methods
-        private bool GetClockDelta(int busId, bool isMemClock, ref int outCurrFreqDelta, ref int outMinFreqDelta, ref int outMaxFreqDelta) {
+        private bool GetClockDelta(int busId, bool isMemClock, out int outCurrFreqDelta, out int outMinFreqDelta, out int outMaxFreqDelta) {
+            outCurrFreqDelta = 0;
+            outMinFreqDelta = 0;
+            outMaxFreqDelta = 0;
             bool hasSetValue = false;
             NV_GPU_PUBLIC_CLOCK_ID clockType;
             if (isMemClock) {
@@ -198,6 +255,378 @@ namespace NTMiner.Gpus.Nvapi {
             catch {
             }
             return 0;
+        }
+        private NVAPI_GPU_THERMAL_INFO nvapi_ClientThermalPoliciesGetInfo(int busId) {
+            NVAPI_GPU_THERMAL_INFO info = default;
+            try {
+                info.version = (uint)(VERSION2 | (Marshal.SizeOf(typeof(NVAPI_GPU_THERMAL_INFO))));
+                if (NvapiNativeMethods.NvApiClientThermalPoliciesGetInfo(HandlesByBusId[busId], ref info) == NvStatus.OK) {
+                    return info;
+                }
+            }
+            catch {
+            }
+            return info;
+        }
+
+        private NVAPI_GPU_THERMAL_LIMIT nvapi_ClientThermalPoliciesGetLimit(int busId) {
+            NVAPI_GPU_THERMAL_LIMIT info = default;
+            try {
+                info.version = (uint)(VERSION2 | (Marshal.SizeOf(typeof(NVAPI_GPU_THERMAL_LIMIT))));
+                if (NvapiNativeMethods.NvApiClientThermalPoliciesGetSetLimit(_handlesByBusId[busId], ref info) == NvStatus.OK) {
+                    return info;
+                }
+            }
+            catch {
+            }
+            return info;
+        }
+
+        private bool nvapi_ClientThermalPoliciesSetLimit(int gpu, ref NVAPI_GPU_THERMAL_LIMIT info) {
+            try {
+                info.version = (uint)(VERSION2 | (Marshal.SizeOf(typeof(NVAPI_GPU_THERMAL_LIMIT))));
+                if (NvapiNativeMethods.NvApiClientThermalPoliciesGetSetLimit(HandlesByBusId[gpu], ref info) == NvStatus.OK) {
+                    return true;
+                }
+            }
+            catch {
+            }
+            return false;
+        }
+
+        public bool nvapi_SetThermalValue(int gpu, int value) {
+            value = value << 8;
+            try {
+                NVAPI_GPU_THERMAL_INFO info = nvapi_ClientThermalPoliciesGetInfo(gpu);
+                if (value == 0)
+                    value = info.entries[0].def_temp;
+                else if (value > info.entries[0].max_temp)
+                    value = info.entries[0].max_temp;
+                else if (value < info.entries[0].min_temp)
+                    value = info.entries[0].min_temp;
+
+                NVAPI_GPU_THERMAL_LIMIT limit = nvapi_ClientThermalPoliciesGetLimit(gpu);
+                limit.flags = 1;
+                limit.entries[0].value = (uint)value;
+
+                return nvapi_ClientThermalPoliciesSetLimit(gpu, ref limit);
+            }
+            catch {
+            }
+            return false;
+        }
+
+        public bool nvapi_GetThermalInfo(int gpu, out double minThermal, out double defThermal, out double maxThermal) {
+            minThermal = 0;
+            defThermal = 0;
+            maxThermal = 0;
+            try {
+                NVAPI_GPU_THERMAL_INFO info = nvapi_ClientThermalPoliciesGetInfo(gpu);
+                minThermal = info.entries[0].min_temp / 256.0;
+                defThermal = info.entries[0].def_temp / 256.0;
+                maxThermal = info.entries[0].max_temp / 256.0;
+            }
+            catch {
+                return false;
+            }
+            return false;
+        }
+
+        public bool nvapi_GetThermalInfo(int gpu, out int minThermal, out int defThermal, out int maxThermal) {
+            minThermal = 0;
+            defThermal = 0;
+            maxThermal = 0;
+            try {
+                NVAPI_GPU_THERMAL_INFO info = nvapi_ClientThermalPoliciesGetInfo(gpu);
+                minThermal = info.entries[0].min_temp / (1 << 8);
+                defThermal = info.entries[0].def_temp / (1 << 8);
+                maxThermal = info.entries[0].max_temp / (1 << 8);
+            }
+            catch {
+                return false;
+            }
+            return false;
+        }
+        private bool getTempLimit(int gpu, out int outCurrTemp, out int outMinTemp, out int outDefTemp, out int outMaxTemp) {
+            outCurrTemp = 0;
+            outMinTemp = 0;
+            outDefTemp = 0;
+            outMaxTemp = 0;
+            try {
+                nvapi_GetThermalInfo(gpu, out outMinTemp, out outDefTemp, out outMaxTemp);
+
+                NVAPI_GPU_THERMAL_LIMIT limit = nvapi_ClientThermalPoliciesGetLimit(gpu);
+                outCurrTemp = (int)(limit.entries[0].value / 256);
+
+                return true;
+            }
+            catch {
+            }
+            return false;
+        }
+        public bool setTempLimit(int gpu, int temp) {
+            return nvapi_SetThermalValue(gpu, temp);
+        }
+        public bool setDefaultTempLimit(int gpu) {
+            int currValue = 0;
+            int minValue = 0;
+            int defValue = 0;
+            int maxValue = 0;
+            if (getTempLimit(gpu, out currValue, out minValue, out defValue, out maxValue)) {
+                return setTempLimit(gpu, defValue);
+            }
+            return false;
+        }
+        private NVAPI_GPU_POWER_STATUS nvapi_ClientPowerPoliciesGetStatus(int gpu) {
+            NVAPI_GPU_POWER_STATUS info = default;
+            try {
+                info.version = (uint)(VERSION1 | (Marshal.SizeOf(typeof(NVAPI_GPU_POWER_STATUS))));
+                if (NvapiNativeMethods.NvApiClientPowerPoliciesGetSetStatus(HandlesByBusId[gpu], ref info) == NvStatus.OK) {
+                    return info;
+                }
+            }
+            catch {
+            }
+            return info;
+        }
+
+        public double nvapi_GetPowerPercent(int gpu) {
+            try {
+                NVAPI_GPU_POWER_STATUS info = nvapi_ClientPowerPoliciesGetStatus(gpu);
+                return (info.entries[0].power / 1000) / 100.0;
+            }
+            catch {
+            }
+            return 1.0;
+        }
+
+
+        public NVAPI_GPU_POWER_INFO nvapi_ClientPowerPoliciesGetInfo(int gpu) {
+            NVAPI_GPU_POWER_INFO info = default;
+            try {
+                info.version = (uint)(VERSION1 | (Marshal.SizeOf(typeof(NVAPI_GPU_POWER_INFO))));
+                if (NvapiNativeMethods.NvApiClientPowerPoliciesGetInfo(HandlesByBusId[gpu], ref info) == NvStatus.OK) {
+                    return info;
+                }
+            }
+            catch {
+            }
+            return info;
+        }
+
+        public bool nvapi_ClientPowerPoliciesGetInfo(int gpu, out uint minPower, out uint defPower, out uint maxPower) {
+            minPower = 0;
+            defPower = 0;
+            maxPower = 0;
+            NVAPI_GPU_POWER_INFO info = nvapi_ClientPowerPoliciesGetInfo(gpu);
+            if (info.valid == 1 && info.count > 0) {
+                minPower = info.entries[0].min_power;
+                defPower = info.entries[0].def_power;
+                maxPower = info.entries[0].max_power;
+                return true;
+            }
+            return false;
+        }
+
+        public bool nvapi_ClientPowerPoliciesSetStatus(int gpu, ref NVAPI_GPU_POWER_STATUS info) {
+            try {
+                info.version = (uint)(VERSION1 | (Marshal.SizeOf(typeof(NVAPI_GPU_POWER_STATUS))));
+                if (NvapiNativeMethods.NvApiClientPowerPoliciesGetSetStatus(HandlesByBusId[gpu], ref info) == NvStatus.OK) {
+                    return true;
+                }
+            }
+            catch {
+            }
+            return false;
+        }
+
+        public bool nvapi_SetPowerPercent(int gpu, double percent) {
+            uint percentInt = (uint)(percent * 100) * 1000;
+            return nvapi_SetPowerValue(gpu, percentInt);
+        }
+
+        public bool nvapi_SetPowerValue(int gpu, uint percentInt) {
+            uint minPower = 0, defPower = 0, maxPower = 0;
+
+            try {
+                if (nvapi_ClientPowerPoliciesGetInfo(gpu, out minPower, out defPower, out maxPower)) {
+                    if (percentInt == 0)
+                        percentInt = defPower;
+                    else if (percentInt < minPower)
+                        percentInt = minPower;
+                    else if (percentInt > maxPower)
+                        percentInt = maxPower;
+
+                    NVAPI_GPU_POWER_STATUS info = nvapi_ClientPowerPoliciesGetStatus(gpu);
+                    info.flags = 1;
+                    info.entries[0].power = percentInt;
+                    return nvapi_ClientPowerPoliciesSetStatus(gpu, ref info);
+                }
+            }
+            catch {
+            }
+            return false;
+        }
+        public bool getPowerLimit(int gpu, out uint outCurrPower, out uint outMinPower, out uint outDefPower, out uint outMaxPower) {
+            outCurrPower = 0;
+            outMinPower = 0;
+            outDefPower = 0;
+            outMaxPower = 0;
+            try {
+                nvapi_ClientPowerPoliciesGetInfo(gpu, out outMinPower, out outDefPower, out outMaxPower);
+
+                NVAPI_GPU_POWER_STATUS info = nvapi_ClientPowerPoliciesGetStatus(gpu);
+                outCurrPower = info.entries[0].power;
+
+                outCurrPower = outCurrPower / 1000;
+                outMinPower = outMinPower / 1000;
+                outDefPower = outDefPower / 1000;
+                outMaxPower = outMaxPower / 1000;
+
+                return true;
+            }
+            catch {
+            }
+            return false;
+        }
+        public bool setPowerLimit(int gpu, uint powerValue) {
+            powerValue *= 1000;
+            return nvapi_SetPowerValue(gpu, powerValue);
+        }
+        public bool setDefaultPowerLimit(int gpu) {
+            uint currPower;
+            uint minPower;
+            uint defPower;
+            uint maxPower;
+            if (getPowerLimit(gpu, out currPower, out minPower, out defPower, out maxPower)) {
+                return nvapi_SetPowerValue(gpu, defPower * 1000);
+            }
+            return false;
+        }
+        public NVAPI_COOLER_SETTINGS nvapi_GetCoolerSettings(int gpu) {
+            NVAPI_COOLER_SETTINGS info = default;
+            try {
+                NV_COOLER_TARGET cmd = NV_COOLER_TARGET.NVAPI_COOLER_TARGET_ALL;
+                info.version = (uint)(VERSION1 | (Marshal.SizeOf(typeof(NVAPI_COOLER_SETTINGS))));
+                if (NvapiNativeMethods.NvApiGetCoolerSettings(HandlesByBusId[gpu], cmd, ref info) == NvStatus.OK) {
+                    return info;
+                }
+            }
+            catch {
+            }
+            return info;
+        }
+
+        public bool nvapi_GetCoolerSettings(int gpu, ref uint minCooler, ref uint currCooler, ref uint maxCooler) {
+            try {
+                NVAPI_COOLER_SETTINGS info = nvapi_GetCoolerSettings(gpu);
+                if (info.count > 0) {
+                    minCooler = info.cooler[0].currentMinLevel;
+                    currCooler = info.cooler[0].currentLevel;
+                    maxCooler = info.cooler[0].currentMaxLevel;
+                    return true;
+                }
+            }
+            catch {
+            }
+            return false;
+        }
+
+        public bool nvapi_IsCoolerAuto(int gpu) {
+            try {
+                NVAPI_COOLER_SETTINGS info = nvapi_GetCoolerSettings(gpu);
+                if (info.count > 0) {
+                    return info.cooler[0].currentPolicy != NV_COOLER_POLICY.NVAPI_COOLER_POLICY_MANUAL;
+                }
+            }
+            catch {
+            }
+            return false;
+        }
+
+        public bool nvapi_SetCoolerLevels(int gpu, NV_COOLER_TARGET coolerIndex, ref NVAPI_COOLER_LEVEL level) {
+            try {
+                level.version = (uint)(VERSION1 | (Marshal.SizeOf(typeof(NVAPI_COOLER_LEVEL))));
+                if (NvapiNativeMethods.NvApiSetCoolerLevels(HandlesByBusId[gpu], coolerIndex, ref level) == NvStatus.OK) {
+                    return true;
+                }
+            }
+            catch {
+            }
+            return false;
+        }
+        private static T allocStruct<T>() {
+            int size = Marshal.SizeOf(typeof(T));
+            byte[] bytes = new byte[size];
+            Array.Clear(bytes, 0, size);
+            IntPtr structPtr = Marshal.AllocHGlobal(size);
+            object obj = Marshal.PtrToStructure(structPtr, typeof(T));
+            Marshal.FreeHGlobal(structPtr);
+            return (T)obj;
+        }
+
+        public bool nvapi_SetCoolerLevels(int gpu, uint value) {
+            NV_COOLER_TARGET coolerIndex = NV_COOLER_TARGET.NVAPI_COOLER_TARGET_ALL;
+            try {
+                NVAPI_COOLER_LEVEL level = allocStruct<NVAPI_COOLER_LEVEL>();
+                level.coolers[0].currentLevel = value;
+                level.coolers[0].currentPolicy = NV_COOLER_POLICY.NVAPI_COOLER_POLICY_MANUAL;
+
+                return nvapi_SetCoolerLevels(gpu, coolerIndex, ref level);
+            }
+            catch {
+            }
+            return false;
+        }
+
+        public bool nvapi_SetCoolerLevelsAuto(int gpu) {
+            NV_COOLER_TARGET coolerIndex = NV_COOLER_TARGET.NVAPI_COOLER_TARGET_ALL;
+            try {
+                NVAPI_COOLER_LEVEL level = allocStruct<NVAPI_COOLER_LEVEL>();
+                level.coolers[0].currentLevel = 0;
+                level.coolers[0].currentPolicy = NV_COOLER_POLICY.NVAPI_COOLER_POLICY_AUTO;
+                return nvapi_SetCoolerLevels(gpu, coolerIndex, ref level);
+            }
+            catch {
+            }
+            return false;
+        }
+
+        public bool getCooler(int gpu, out uint currCooler, out uint minCooler, out uint defCooler, out uint maxCooler) {
+            currCooler = 0;
+            minCooler = 0;
+            defCooler = 0;
+            maxCooler = 0;
+            try {
+                nvapi_GetCoolerSettings(gpu, ref minCooler, ref currCooler, ref maxCooler);
+                defCooler = minCooler;
+                return true;
+            }
+            catch {
+            }
+            return false;
+        }
+
+
+        public bool isCoolerAuto(int gpu) {
+            try {
+                return nvapi_IsCoolerAuto(gpu);
+            }
+            catch {
+            }
+            return false;
+        }
+
+        public bool setCooler(int gpu, uint value, bool isAutoMode) {
+            if (isAutoMode) {
+                return nvapi_SetCoolerLevelsAuto(gpu);
+            }
+            else {
+                return nvapi_SetCoolerLevels(gpu, value);
+            }
+        }
+        public bool setDefaultCooler(int gpu) {
+            return setCooler(gpu, 0, true);
         }
         #endregion
     }
