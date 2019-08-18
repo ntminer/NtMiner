@@ -204,12 +204,8 @@ namespace NTMiner.Core.Gpus.Impl {
                 return;
             }
             try {
-                int busId;
-                if (!int.TryParse(gpu.BusId, out busId)) {
-                    return;
-                }
                 _nvapiHelper.GetClockRangeByIndex(
-                    busId,
+                    gpu.GetBusId(),
                     out int coreClockDeltaMin, out int coreClockDeltaMax, out int coreClockDelta,
                     out int memoryClockDeltaMin, out int memoryClockDeltaMax, out int memoryClockDelta,
                     out int powerMin, out int powerMax, out int powerDefault, out int powerLimit,

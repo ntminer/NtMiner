@@ -105,6 +105,7 @@
     <Compile Include="Core\Gpus\GpuSetProperty.cs" />
     <Compile Include="Core\Gpus\Impl\AMDGpuSet.cs" />
     <Compile Include="Core\Gpus\Impl\AMDOverClock.cs" />
+    <Compile Include="Core\Gpus\Impl\GpuExtensions.cs" />
     <Compile Include="Core\Gpus\Impl\TempGruarder.cs" />
     <Compile Include="Core\Gpus\IOverClock.cs" />
     <Compile Include="Core\Gpus\Impl\NVIDIAOverClock.cs" />
