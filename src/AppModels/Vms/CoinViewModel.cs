@@ -116,7 +116,7 @@ namespace NTMiner.Vms {
             foreach (var item in list) {
                 VirtualRoot.Execute(new AddOrUpdateGpuProfileCommand(item));
             }
-            VirtualRoot.Execute(new CoinOverClockCommand(this.Id));
+            VirtualRoot.Execute(new CoinOverClockCommand(this.Id, isJoin: false));
         }
 
         private void FillOverClock(OverClockDataViewModel data) {
