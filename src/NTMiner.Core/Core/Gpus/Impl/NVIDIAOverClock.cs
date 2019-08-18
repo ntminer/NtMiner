@@ -28,7 +28,7 @@ namespace NTMiner.Core.Gpus.Impl {
                 }
             }
             else {
-                if (NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu)) {
+                if (!NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu)) {
                     return;
                 }
                 _nvapiHelper.SetPstatesV2_CoreClock(gpu.GetBusId(), value);
@@ -46,7 +46,7 @@ namespace NTMiner.Core.Gpus.Impl {
                 }
             }
             else {
-                if (NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu)) {
+                if (!NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu)) {
                     return;
                 }
                 _nvapiHelper.SetPstatesV2_MemClock(gpu.GetBusId(), value);
@@ -66,7 +66,7 @@ namespace NTMiner.Core.Gpus.Impl {
                 }
             }
             else {
-                if (NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu)) {
+                if (!NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu)) {
                     return;
                 }
                 _nvapiHelper.setPowerLimit(gpu.GetBusId(), (uint)value);
@@ -86,7 +86,7 @@ namespace NTMiner.Core.Gpus.Impl {
                 }
             }
             else {
-                if (NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu)) {
+                if (!NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu)) {
                     return;
                 }
                 _nvapiHelper.setTempLimit(gpu.GetBusId(), value);
@@ -106,7 +106,7 @@ namespace NTMiner.Core.Gpus.Impl {
                 }
             }
             else {
-                if (NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu)) {
+                if (!NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu)) {
                     return;
                 }
                 _nvapiHelper.setCooler(gpu.GetBusId(), (uint)value, isAutoMode: false);

@@ -77,6 +77,8 @@ namespace NTMiner.Core.Profiles {
                                 }
                             }
                         }
+                        IOverClock overClock = root.GpuSet.OverClock;
+                        overClock.RefreshGpuState(NTMinerRoot.GpuAllId);
                     });
                 });
         }
@@ -105,7 +107,6 @@ namespace NTMiner.Core.Profiles {
                 else {
                     Write.UserLine($"GPU{gpu.Index}超频：核心({coreClockText}),显存({memoryClockText}),功耗({data.PowerCapacity}),温度({data.TempLimit}),风扇({data.Cool})", "OverClock", ConsoleColor.Yellow);
                 }
-                overClock.RefreshGpuState(data.Index);
             }
         }
 
