@@ -282,7 +282,7 @@ namespace NTMiner.Gpus.Nvapi {
             NVAPI_GPU_THERMAL_LIMIT info = new NVAPI_GPU_THERMAL_LIMIT();
             try {
                 info.version = (uint)(VERSION2 | (Marshal.SizeOf(typeof(NVAPI_GPU_THERMAL_LIMIT))));
-                if (NvapiNativeMethods.NvApiClientThermalPoliciesGetSetLimit(_handlesByBusId[busId], ref info) == NvStatus.OK) {
+                if (NvapiNativeMethods.NvApiClientThermalPoliciesGetLimit(_handlesByBusId[busId], ref info) == NvStatus.OK) {
                     return info;
                 }
             }
@@ -294,7 +294,7 @@ namespace NTMiner.Gpus.Nvapi {
         private bool nvapi_ClientThermalPoliciesSetLimit(int busId, ref NVAPI_GPU_THERMAL_LIMIT info) {
             try {
                 info.version = (uint)(VERSION2 | (Marshal.SizeOf(typeof(NVAPI_GPU_THERMAL_LIMIT))));
-                if (NvapiNativeMethods.NvApiClientThermalPoliciesGetSetLimit(HandlesByBusId[busId], ref info) == NvStatus.OK) {
+                if (NvapiNativeMethods.NvApiClientThermalPoliciesSetLimit(HandlesByBusId[busId], ref info) == NvStatus.OK) {
                     return true;
                 }
             }
@@ -390,7 +390,7 @@ namespace NTMiner.Gpus.Nvapi {
             NVAPI_GPU_POWER_STATUS info = new NVAPI_GPU_POWER_STATUS();
             try {
                 info.version = (uint)(VERSION1 | (Marshal.SizeOf(typeof(NVAPI_GPU_POWER_STATUS))));
-                if (NvapiNativeMethods.NvApiClientPowerPoliciesGetSetStatus(HandlesByBusId[busId], ref info) == NvStatus.OK) {
+                if (NvapiNativeMethods.NvApiClientPowerPoliciesGetStatus(HandlesByBusId[busId], ref info) == NvStatus.OK) {
                     return info;
                 }
             }
@@ -439,7 +439,7 @@ namespace NTMiner.Gpus.Nvapi {
         public bool nvapi_ClientPowerPoliciesSetStatus(int busId, ref NVAPI_GPU_POWER_STATUS info) {
             try {
                 info.version = (uint)(VERSION1 | (Marshal.SizeOf(typeof(NVAPI_GPU_POWER_STATUS))));
-                if (NvapiNativeMethods.NvApiClientPowerPoliciesGetSetStatus(HandlesByBusId[busId], ref info) == NvStatus.OK) {
+                if (NvapiNativeMethods.NvApiClientPowerPoliciesSetStatus(HandlesByBusId[busId], ref info) == NvStatus.OK) {
                     return true;
                 }
             }

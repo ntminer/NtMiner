@@ -59,9 +59,11 @@ namespace NTMiner.Gpus.Nvapi {
         internal static readonly NvGetAllClockFrequenciesV2Delegate NvGetAllClockFrequenciesV2;
 
         internal static readonly NvApiClientThermalPoliciesGetInfoDelegate NvApiClientThermalPoliciesGetInfo;
-        internal static readonly NvApiClientThermalPoliciesGetSetLimitDelegate NvApiClientThermalPoliciesGetSetLimit;
+        internal static readonly NvApiClientThermalPoliciesGetSetLimitDelegate NvApiClientThermalPoliciesGetLimit;
+        internal static readonly NvApiClientThermalPoliciesGetSetLimitDelegate NvApiClientThermalPoliciesSetLimit;
 
-        internal static readonly NvApiClientPowerPoliciesGetSetStatusDelegate NvApiClientPowerPoliciesGetSetStatus;
+        internal static readonly NvApiClientPowerPoliciesGetSetStatusDelegate NvApiClientPowerPoliciesGetStatus;
+        internal static readonly NvApiClientPowerPoliciesGetSetStatusDelegate NvApiClientPowerPoliciesSetStatus;
         internal static readonly NvApiClientPowerPoliciesGetInfoDelegate NvApiClientPowerPoliciesGetInfo;
 
         internal static readonly NvApiGetCoolerSettingsDelegate NvApiGetCoolerSettings;
@@ -113,10 +115,12 @@ namespace NTMiner.Gpus.Nvapi {
                 GetDelegate(0x0F4DAE6B, out NvSetGetPStateV2);
                 GetDelegate(0xDCB616C3, out NvGetAllClockFrequenciesV2);
 
-                GetDelegate(0xE9C425A1, out NvApiClientThermalPoliciesGetInfo);
-                GetDelegate(0xE9C425A1, out NvApiClientThermalPoliciesGetSetLimit);
+                GetDelegate(0x0D258BB5, out NvApiClientThermalPoliciesGetInfo);
+                GetDelegate(0xE9C425A1, out NvApiClientThermalPoliciesGetLimit);
+                GetDelegate(0x34C0B13D, out NvApiClientThermalPoliciesSetLimit);
 
-                GetDelegate(0x70916171, out NvApiClientPowerPoliciesGetSetStatus);
+                GetDelegate(0x70916171, out NvApiClientPowerPoliciesGetStatus);
+                GetDelegate(0xAD95F5ED, out NvApiClientPowerPoliciesSetStatus);
                 GetDelegate(0x34206D86, out NvApiClientPowerPoliciesGetInfo);
 
                 GetDelegate(0xDA141340, out NvApiGetCoolerSettings);
