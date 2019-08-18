@@ -191,7 +191,7 @@ namespace NTMiner.Gpus.Nvapi {
             NV_GPU_PERF_PSTATES20_INFO_V1 info = new NV_GPU_PERF_PSTATES20_INFO_V1();
             try {
                 info.version = (uint)(VERSION1 | (Marshal.SizeOf(typeof(NV_GPU_PERF_PSTATES20_INFO_V1))));
-                if (NvapiNativeMethods.NvSetGetPStateV1(HandlesByBusId[busId], ref info) == NvStatus.OK) {
+                if (NvapiNativeMethods.NvGetPStateV1(HandlesByBusId[busId], ref info) == NvStatus.OK) {
                     return info;
                 }
             }
@@ -204,7 +204,7 @@ namespace NTMiner.Gpus.Nvapi {
             NV_GPU_PERF_PSTATES20_INFO_V2 info = new NV_GPU_PERF_PSTATES20_INFO_V2();
             try {
                 info.version = (uint)(VERSION2 | (Marshal.SizeOf(typeof(NV_GPU_PERF_PSTATES20_INFO_V2))));
-                if (NvapiNativeMethods.NvSetGetPStateV2(_handlesByBusId[busId], ref info) == NvStatus.OK) {
+                if (NvapiNativeMethods.NvGetPStateV2(_handlesByBusId[busId], ref info) == NvStatus.OK) {
                     return info;
                 }
             }

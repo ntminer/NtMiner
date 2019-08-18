@@ -52,6 +52,8 @@ namespace NTMiner.Gpus.Nvapi {
         internal static readonly NvAPI_DLL_ClientPowerPoliciesGetStatusDelegate NvAPI_DLL_ClientPowerPoliciesGetStatus;
         internal static readonly NvAPI_DLL_ClientPowerPoliciesSetStatusDelegate NvAPI_DLL_ClientPowerPoliciesSetStatus;
 
+        internal static readonly NvSetGetPStateV1Delegate NvGetPStateV1;
+        internal static readonly NvSetGetPStateV2Delegate NvGetPStateV2;
         internal static readonly NvSetGetPStateV1Delegate NvSetGetPStateV1;
         internal static readonly NvSetGetPStateV2Delegate NvSetGetPStateV2;
         internal static readonly NvGetAllClockFrequenciesV2Delegate NvGetAllClockFrequenciesV2;
@@ -105,8 +107,10 @@ namespace NTMiner.Gpus.Nvapi {
                 GetDelegate(0x70916171, out NvAPI_DLL_ClientPowerPoliciesGetStatus);
                 GetDelegate(0xAD95F5ED, out NvAPI_DLL_ClientPowerPoliciesSetStatus);
 
-                GetDelegate(0x6FF81213, out NvSetGetPStateV1);
-                GetDelegate(0x6FF81213, out NvSetGetPStateV2);
+                GetDelegate(0x6FF81213, out NvGetPStateV1);
+                GetDelegate(0x6FF81213, out NvGetPStateV2);
+                GetDelegate(0x0F4DAE6B, out NvSetGetPStateV1);
+                GetDelegate(0x0F4DAE6B, out NvSetGetPStateV2);
                 GetDelegate(0xDCB616C3, out NvGetAllClockFrequenciesV2);
 
                 GetDelegate(0xE9C425A1, out NvApiClientThermalPoliciesGetInfo);
