@@ -36,6 +36,8 @@
   <ItemGroup>
     <Compile Include="Gpus\Amd\AdlHelper.cs" />
     <Compile Include="Gpus\Amd\AdlNativeMethods.cs" />
+    <Compile Include="Gpus\Nvapi\NvapiNativeMethods.cs" />
+    <Compile Include="Gpus\Nvapi\NvapiTypes.cs" />
     <Compile Include="Gpus\Nvml\NvmlNativeMethods.cs" />
     <Compile Include="Gpus\Nvml\NvmlTypes.cs" />
     <Compile Include="Gpus\PInvokeDelegateFactory.cs" />
@@ -47,8 +49,6 @@
       <Name>NTMinerLogging</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Gpus\Nvapi\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
