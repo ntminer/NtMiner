@@ -21,6 +21,7 @@ namespace NTMiner.Gpus.Nvapi {
                         _handlesByBusId.Add(busId, handles[i]);
                     }
                 }
+                handles = new NvPhysicalGpuHandle[NvConst.MAX_PHYSICAL_GPUS];
                 NvapiNativeMethods.NvAPI_EnumTCCPhysicalGPUs(handles, out gpuCount);
                 for (int i = 0; i < gpuCount; i++) {
                     NvapiNativeMethods.NvAPI_GPU_GetBusID(handles[i], out int busId);
@@ -85,7 +86,7 @@ namespace NTMiner.Gpus.Nvapi {
                     fanSpeedDefault = (int)defCooler;
                 }
 #if DEBUG
-                Write.DevWarn($"ADL2_OverdriveN_CapabilitiesX2_Get coreClockMin={coreClockMin},coreClockMax={coreClockMax},memoryClockMin={memoryClockMin},memoryClockMax={memoryClockMax},powerMin={powerMin},powerMax={powerMax},powerDefault={powerDefault},tempLimitMin={tempLimitMin},tempLimitMax={tempLimitMax},tempLimitDefault={tempLimitDefault},fanSpeedMin={fanSpeedMin},fanSpeedMax={fanSpeedMax},fanSpeedDefault={fanSpeedDefault}");
+                Write.DevWarn($"GetClockRangeByIndex coreClockMin={coreClockMin},coreClockMax={coreClockMax},coreClockDelta={coreClockDelta},memoryClockMin={memoryClockMin},memoryClockMax={memoryClockMax},memoryClockDelta={memoryClockDelta},powerMin={powerMin},powerMax={powerMax},powerDefault={powerDefault},powerLimit={powerLimit},tempLimitMin={tempLimitMin},tempLimitMax={tempLimitMax},tempLimitDefault={tempLimitDefault},tempLimit={tempLimit},fanSpeedMin={fanSpeedMin},fanSpeedMax={fanSpeedMax},fanSpeedDefault={fanSpeedDefault}");
 #endif
             }
             catch (Exception e) {
@@ -187,7 +188,7 @@ namespace NTMiner.Gpus.Nvapi {
         private const int VERSION1 = 1 << 16;
         private const int VERSION2 = 2 << 16;
         private NV_GPU_PERF_PSTATES20_INFO_V1 nvapi_NvGetPstatesV1(int busId) {
-            NV_GPU_PERF_PSTATES20_INFO_V1 info = default;
+            NV_GPU_PERF_PSTATES20_INFO_V1 info = new NV_GPU_PERF_PSTATES20_INFO_V1();
             try {
                 info.version = (uint)(VERSION1 | (Marshal.SizeOf(typeof(NV_GPU_PERF_PSTATES20_INFO_V1))));
                 if (NvapiNativeMethods.NvSetGetPStateV1(HandlesByBusId[busId], ref info) == NvStatus.OK) {
@@ -200,7 +201,7 @@ namespace NTMiner.Gpus.Nvapi {
         }
 
         private NV_GPU_PERF_PSTATES20_INFO_V2 nvapi_NvGetPstatesV2(int busId) {
-            NV_GPU_PERF_PSTATES20_INFO_V2 info = default;
+            NV_GPU_PERF_PSTATES20_INFO_V2 info = new NV_GPU_PERF_PSTATES20_INFO_V2();
             try {
                 info.version = (uint)(VERSION2 | (Marshal.SizeOf(typeof(NV_GPU_PERF_PSTATES20_INFO_V2))));
                 if (NvapiNativeMethods.NvSetGetPStateV2(_handlesByBusId[busId], ref info) == NvStatus.OK) {
@@ -237,7 +238,7 @@ namespace NTMiner.Gpus.Nvapi {
         }
         
         private NV_GPU_CLOCK_FREQUENCIES_V2 nvapi_NvGetAllClockFrequenciesV2(int busId, uint type) {
-            NV_GPU_CLOCK_FREQUENCIES_V2 info = default;
+            NV_GPU_CLOCK_FREQUENCIES_V2 info = new NV_GPU_CLOCK_FREQUENCIES_V2();
             try {
                 info.version = (uint)(VERSION2 | (Marshal.SizeOf(typeof(NV_GPU_CLOCK_FREQUENCIES_V2))));
                 info.ClockType = type;
@@ -265,7 +266,7 @@ namespace NTMiner.Gpus.Nvapi {
             return 0;
         }
         private NVAPI_GPU_THERMAL_INFO nvapi_ClientThermalPoliciesGetInfo(int busId) {
-            NVAPI_GPU_THERMAL_INFO info = default;
+            NVAPI_GPU_THERMAL_INFO info = new NVAPI_GPU_THERMAL_INFO();
             try {
                 info.version = (uint)(VERSION2 | (Marshal.SizeOf(typeof(NVAPI_GPU_THERMAL_INFO))));
                 if (NvapiNativeMethods.NvApiClientThermalPoliciesGetInfo(HandlesByBusId[busId], ref info) == NvStatus.OK) {
@@ -278,7 +279,7 @@ namespace NTMiner.Gpus.Nvapi {
         }
 
         private NVAPI_GPU_THERMAL_LIMIT nvapi_ClientThermalPoliciesGetLimit(int busId) {
-            NVAPI_GPU_THERMAL_LIMIT info = default;
+            NVAPI_GPU_THERMAL_LIMIT info = new NVAPI_GPU_THERMAL_LIMIT();
             try {
                 info.version = (uint)(VERSION2 | (Marshal.SizeOf(typeof(NVAPI_GPU_THERMAL_LIMIT))));
                 if (NvapiNativeMethods.NvApiClientThermalPoliciesGetSetLimit(_handlesByBusId[busId], ref info) == NvStatus.OK) {
@@ -386,7 +387,7 @@ namespace NTMiner.Gpus.Nvapi {
             return false;
         }
         private NVAPI_GPU_POWER_STATUS nvapi_ClientPowerPoliciesGetStatus(int busId) {
-            NVAPI_GPU_POWER_STATUS info = default;
+            NVAPI_GPU_POWER_STATUS info = new NVAPI_GPU_POWER_STATUS();
             try {
                 info.version = (uint)(VERSION1 | (Marshal.SizeOf(typeof(NVAPI_GPU_POWER_STATUS))));
                 if (NvapiNativeMethods.NvApiClientPowerPoliciesGetSetStatus(HandlesByBusId[busId], ref info) == NvStatus.OK) {
@@ -409,7 +410,7 @@ namespace NTMiner.Gpus.Nvapi {
         }
 
         public NVAPI_GPU_POWER_INFO nvapi_ClientPowerPoliciesGetInfo(int busId) {
-            NVAPI_GPU_POWER_INFO info = default;
+            NVAPI_GPU_POWER_INFO info = new NVAPI_GPU_POWER_INFO();
             try {
                 info.version = (uint)(VERSION1 | (Marshal.SizeOf(typeof(NVAPI_GPU_POWER_INFO))));
                 if (NvapiNativeMethods.NvApiClientPowerPoliciesGetInfo(HandlesByBusId[busId], ref info) == NvStatus.OK) {
@@ -512,7 +513,7 @@ namespace NTMiner.Gpus.Nvapi {
             return false;
         }
         public NVAPI_COOLER_SETTINGS nvapi_GetCoolerSettings(int busId) {
-            NVAPI_COOLER_SETTINGS info = default;
+            NVAPI_COOLER_SETTINGS info = new NVAPI_COOLER_SETTINGS();
             try {
                 NV_COOLER_TARGET cmd = NV_COOLER_TARGET.NVAPI_COOLER_TARGET_ALL;
                 info.version = (uint)(VERSION1 | (Marshal.SizeOf(typeof(NVAPI_COOLER_SETTINGS))));
