@@ -36,6 +36,7 @@
   <ItemGroup>
     <Compile Include="Gpus\Amd\AdlHelper.cs" />
     <Compile Include="Gpus\Amd\AdlNativeMethods.cs" />
+    <Compile Include="Gpus\Nvapi\NvapiHelper.cs" />
     <Compile Include="Gpus\Nvapi\NvapiNativeMethods.cs" />
     <Compile Include="Gpus\Nvapi\NvapiTypes.cs" />
     <Compile Include="Gpus\Nvml\NvmlNativeMethods.cs" />

@@ -78,7 +78,7 @@ namespace NTMiner.Gpus.Nvapi {
                 GetDelegate(0x60DED2ED, out NvAPI_GPU_GetPStates);
                 GetDelegate(0xE3640A56, out NvAPI_GPU_GetThermalSettings);
                 GetDelegate(0xE5AC921F, out NvAPI_EnumPhysicalGPUs);
-                GetDelegate(0xD9930B07, out NvAPI_EnumPhysicalGPUs);
+                GetDelegate(0xD9930B07, out NvAPI_EnumTCCPhysicalGPUs);
                 GetDelegate(0x1BE0B8E5, out NvAPI_GPU_GetBusID);
                 GetDelegate(0x34206D86, out NvAPI_DLL_ClientPowerPoliciesGetInfo);
                 GetDelegate(0x70916171, out NvAPI_DLL_ClientPowerPoliciesGetStatus);
