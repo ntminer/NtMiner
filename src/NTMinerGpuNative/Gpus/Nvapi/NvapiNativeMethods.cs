@@ -3,12 +3,6 @@ using System.Runtime.InteropServices;
 
 namespace NTMiner.Gpus.Nvapi {
     public static class NvapiNativeMethods {
-        internal const int MAX_PHYSICAL_GPUS = 64;
-        internal const int MAX_PSTATES_PER_GPU = 8;
-        internal const int MAX_COOLER_PER_GPU = 20;
-        internal const int MAX_THERMAL_SENSORS_PER_GPU = 3;
-        internal const int MAX_POWER_ENTRIES_PER_GPU = 4;
-
         public static readonly uint GPU_PSTATES_VER = (uint)Marshal.SizeOf(typeof(NvPStates)) | 0x10000;
         public static readonly uint GPU_THERMAL_SETTINGS_VER = (uint)Marshal.SizeOf(typeof(NvGPUThermalSettings)) | 0x10000;
         public static readonly uint GPU_POWER_STATUS_VER = (uint)Marshal.SizeOf(typeof(NvGPUPowerStatus)) | 0x10000;
@@ -29,6 +23,9 @@ namespace NTMiner.Gpus.Nvapi {
         internal delegate NvStatus NvAPI_DLL_ClientPowerPoliciesGetStatusDelegate(NvPhysicalGpuHandle gpuHandle, ref NvGPUPowerStatus status);
         internal delegate NvStatus NvAPI_DLL_ClientPowerPoliciesSetStatusDelegate(NvPhysicalGpuHandle gpuHandle, ref NvGPUPowerStatus status);
 
+        internal delegate NvStatus NvSetGetPStateV1Delegate(NvPhysicalGpuHandle hHandle, ref NV_GPU_PERF_PSTATES20_INFO_V1 pstate);
+        internal delegate NvStatus NvSetGetPStateV2Delegate(NvPhysicalGpuHandle hHandle, ref NV_GPU_PERF_PSTATES20_INFO_V2 pstate);
+        internal delegate NvStatus NvGetAllClockFrequenciesV2Delegate(NvPhysicalGpuHandle hHandle, ref NV_GPU_CLOCK_FREQUENCIES_V2 freq);
 
         private static readonly nvapi_QueryInterfaceDelegate nvapi_QueryInterface;
         private static readonly NvAPI_InitializeDelegate NvAPI_Initialize;
@@ -44,6 +41,10 @@ namespace NTMiner.Gpus.Nvapi {
         internal static readonly NvAPI_DLL_ClientPowerPoliciesGetInfoDelegate NvAPI_DLL_ClientPowerPoliciesGetInfo;
         internal static readonly NvAPI_DLL_ClientPowerPoliciesGetStatusDelegate NvAPI_DLL_ClientPowerPoliciesGetStatus;
         internal static readonly NvAPI_DLL_ClientPowerPoliciesSetStatusDelegate NvAPI_DLL_ClientPowerPoliciesSetStatus;
+
+        internal static readonly NvSetGetPStateV1Delegate NvSetGetPStateV1;
+        internal static readonly NvSetGetPStateV2Delegate NvSetGetPStateV2;
+        internal static readonly NvGetAllClockFrequenciesV2Delegate NvGetAllClockFrequenciesV2;
 
         #endregion
 
@@ -83,6 +84,10 @@ namespace NTMiner.Gpus.Nvapi {
                 GetDelegate(0x34206D86, out NvAPI_DLL_ClientPowerPoliciesGetInfo);
                 GetDelegate(0x70916171, out NvAPI_DLL_ClientPowerPoliciesGetStatus);
                 GetDelegate(0xAD95F5ED, out NvAPI_DLL_ClientPowerPoliciesSetStatus);
+
+                GetDelegate(0x6FF81213, out NvSetGetPStateV1);
+                GetDelegate(0x6FF81213, out NvSetGetPStateV2);
+                GetDelegate(0xDCB616C3, out NvGetAllClockFrequenciesV2);
             }
 
             available = true;
