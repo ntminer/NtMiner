@@ -1,7 +1,5 @@
 ﻿using NTMiner.Gpus.Nvapi;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 
 namespace NTMiner.Core.Gpus.Impl {
     public class NVIDIAOverClock : IOverClock {
@@ -26,14 +24,11 @@ namespace NTMiner.Core.Gpus.Impl {
                     if (gpu.Index == NTMinerRoot.GpuAllId) {
                         continue;
                     }
-                    if (gpu.CoreClockDelta == value) {
-                        continue;
-                    }
                     _nvapiHelper.SetPstatesV2_CoreClock(gpu.GetBusId(), value);
                 }
             }
             else {
-                if (NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu) && gpu.CoreClockDelta == value) {
+                if (NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu)) {
                     return;
                 }
                 _nvapiHelper.SetPstatesV2_CoreClock(gpu.GetBusId(), value);
@@ -47,14 +42,11 @@ namespace NTMiner.Core.Gpus.Impl {
                     if (gpu.Index == NTMinerRoot.GpuAllId) {
                         continue;
                     }
-                    if (gpu.MemoryClockDelta == value) {
-                        continue;
-                    }
                     _nvapiHelper.SetPstatesV2_MemClock(gpu.GetBusId(), value);
                 }
             }
             else {
-                if (NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu) && gpu.MemoryClockDelta == value) {
+                if (NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu)) {
                     return;
                 }
                 _nvapiHelper.SetPstatesV2_MemClock(gpu.GetBusId(), value);
@@ -70,14 +62,11 @@ namespace NTMiner.Core.Gpus.Impl {
                     if (gpu.Index == NTMinerRoot.GpuAllId) {
                         continue;
                     }
-                    if (gpu.PowerCapacity == value) {
-                        continue;
-                    }
                     _nvapiHelper.setPowerLimit(gpu.GetBusId(), (uint)value);
                 }
             }
             else {
-                if (NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu) && gpu.PowerCapacity == value) {
+                if (NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu)) {
                     return;
                 }
                 _nvapiHelper.setPowerLimit(gpu.GetBusId(), (uint)value);
@@ -93,14 +82,11 @@ namespace NTMiner.Core.Gpus.Impl {
                     if (gpu.Index == NTMinerRoot.GpuAllId) {
                         continue;
                     }
-                    if (gpu.TempLimit == value) {
-                        continue;
-                    }
                     _nvapiHelper.setTempLimit(gpu.GetBusId(), value);
                 }
             }
             else {
-                if (NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu) && gpu.TempLimit == value) {
+                if (NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu)) {
                     return;
                 }
                 _nvapiHelper.setTempLimit(gpu.GetBusId(), value);
@@ -116,14 +102,11 @@ namespace NTMiner.Core.Gpus.Impl {
                     if (gpu.Index == NTMinerRoot.GpuAllId) {
                         continue;
                     }
-                    if (gpu.Cool == value) {
-                        continue;
-                    }
                     _nvapiHelper.setCooler(gpu.GetBusId(), (uint)value, isAutoMode: false);
                 }
             }
             else {
-                if (NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu) && gpu.Cool == value) {
+                if (NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu)) {
                     return;
                 }
                 _nvapiHelper.setCooler(gpu.GetBusId(), (uint)value, isAutoMode: false);
