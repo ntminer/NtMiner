@@ -1,4 +1,5 @@
-﻿using NTMiner.Gpus.Nvml;
+﻿using NTMiner.Gpus.Nvapi;
+using NTMiner.Gpus.Nvml;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -115,9 +116,11 @@ namespace NTMiner.Core.Gpus.Impl {
             }
         }
 
+        private readonly NvapiHelper _nvapiHelper = new NvapiHelper();
         private readonly uint deviceCount = 0;
         public NVIDIAGpuSet(INTMinerRoot root) {
             _root = root;
+            this.OverClock = new NVIDIAOverClock(_nvapiHelper);
             this.Properties = new List<GpuSetProperty>();
             if (NvmlInit()) {
                 NvmlNativeMethods.nvmlDeviceGetCount(ref deviceCount);
@@ -234,7 +237,7 @@ namespace NTMiner.Core.Gpus.Impl {
 
         public List<GpuSetProperty> Properties { get; private set; }
 
-        public IOverClock OverClock { get; private set; } = new NVIDIAOverClock();
+        public IOverClock OverClock { get; private set; }
 
         public string GetProperty(string key) {
             GpuSetProperty item = this.Properties.FirstOrDefault(a => a.Code == key);

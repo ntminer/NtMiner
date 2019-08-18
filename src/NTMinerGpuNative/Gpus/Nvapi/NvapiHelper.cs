@@ -34,21 +34,25 @@ namespace NTMiner.Gpus.Nvapi {
 
         public void GetClockRangeByIndex(
             int busId,
-            out int coreClockMin, out int coreClockMax,
-            out int memoryClockMin, out int memoryClockMax,
-            out int powerMin, out int powerMax, out int powerDefault,
-            out int tempLimitMin, out int tempLimitMax, out int tempLimitDefault,
+            out int coreClockMin, out int coreClockMax, out int coreClockDelta,
+            out int memoryClockMin, out int memoryClockMax, out int memoryClockDelta,
+            out int powerMin, out int powerMax, out int powerDefault, out int powerLimit,
+            out int tempLimitMin, out int tempLimitMax, out int tempLimitDefault, out int tempLimit,
             out int fanSpeedMin, out int fanSpeedMax, out int fanSpeedDefault) {
             coreClockMin = 0;
             coreClockMax = 0;
+            coreClockDelta = 0;
             memoryClockMin = 0;
             memoryClockMax = 0;
+            memoryClockDelta = 0;
             powerMin = 0;
             powerMax = 0;
             powerDefault = 0;
+            powerLimit = 0;
             tempLimitMin = 0;
             tempLimitMax = 0;
             tempLimitDefault = 0;
+            tempLimit = 0;
             fanSpeedMin = 0;
             fanSpeedMax = 0;
             fanSpeedDefault = 0;
@@ -56,20 +60,24 @@ namespace NTMiner.Gpus.Nvapi {
                 if (GetClockDelta(busId, isMemClock: false, out int outCurrFreqDelta, out int outMinFreqDelta, out int outMaxFreqDelta)) {
                     coreClockMin = outMinFreqDelta;
                     coreClockMax = outMaxFreqDelta;
+                    coreClockDelta = outCurrFreqDelta;
                 }
                 if (GetClockDelta(busId, isMemClock: true, out outCurrFreqDelta, out outMinFreqDelta, out outMaxFreqDelta)) {
                     memoryClockMin = outMinFreqDelta;
                     memoryClockMax = outMaxFreqDelta;
+                    memoryClockDelta = outCurrFreqDelta;
                 }
                 if (getPowerLimit(busId, out uint outCurrPower, out uint outMinPower, out uint outDefPower, out uint outMaxPower)) {
                     powerMin = (int)outMinPower;
                     powerMax = (int)outMaxPower;
                     powerDefault = (int)outDefPower;
+                    powerLimit = (int)outCurrPower;
                 }
                 if (getTempLimit(busId, out int outCurrTemp, out int outMinTemp, out int outDefTemp, out int outMaxTemp)) {
                     tempLimitMin = outMinTemp;
                     tempLimitMax = outMaxTemp;
                     tempLimitDefault = outDefTemp;
+                    tempLimit = outCurrTemp;
                 }
                 if (getCooler(busId, out uint currCooler, out uint minCooler, out uint defCooler, out uint maxCooler)) {
                     fanSpeedMin = (int)minCooler;

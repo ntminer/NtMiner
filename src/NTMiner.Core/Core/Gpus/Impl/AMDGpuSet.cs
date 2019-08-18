@@ -25,7 +25,7 @@ namespace NTMiner.Core.Gpus.Impl {
             this.Properties = new List<GpuSetProperty>();
         }
 
-        private AdlHelper adlHelper = new AdlHelper();
+        private readonly AdlHelper adlHelper = new AdlHelper();
         public AMDGpuSet(INTMinerRoot root) : this() {
 #if DEBUG
             VirtualRoot.Stopwatch.Restart();
