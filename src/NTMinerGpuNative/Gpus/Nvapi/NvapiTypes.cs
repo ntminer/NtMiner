@@ -4,7 +4,7 @@ using NvU32 = System.UInt32;
 using NvS32 = System.Int32;
 
 namespace NTMiner.Gpus.Nvapi {
-    internal class NvConst {
+    internal static class NvConst {
         internal const int MAX_PHYSICAL_GPUS = 64;
         internal const int MAX_PSTATES_PER_GPU = 8;
         internal const int MAX_COOLER_PER_GPU = 20;

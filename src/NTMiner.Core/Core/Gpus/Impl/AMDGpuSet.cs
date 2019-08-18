@@ -1,4 +1,4 @@
-﻿using NTMiner.Gpus.Amd;
+﻿using NTMiner.Gpus.Adl;
 using System;
 using System.Collections;
 using System.Collections.Generic;
