@@ -25,43 +25,33 @@ namespace NTMiner.Gpus {
         }
 
         public override int GetHashCode() {
-            return (first != null ? first.GetHashCode() : 0) ^
-              (second != null ? second.GetHashCode() : 0);
+            return (first != null ? first.GetHashCode() : 0) ^ (second != null ? second.GetHashCode() : 0);
         }
     }
 
     internal static class PInvokeDelegateFactory {
         private static readonly ModuleBuilder moduleBuilder =
-          AppDomain.CurrentDomain.DefineDynamicAssembly(
-            new AssemblyName("PInvokeDelegateFactoryInternalAssembly"),
-            AssemblyBuilderAccess.Run).DefineDynamicModule(
-            "PInvokeDelegateFactoryInternalModule");
+          AppDomain.CurrentDomain
+            .DefineDynamicAssembly(new AssemblyName("PInvokeDelegateFactoryInternalAssembly"), AssemblyBuilderAccess.Run)
+            .DefineDynamicModule("PInvokeDelegateFactoryInternalModule");
 
-        private static readonly IDictionary<Pair<DllImportAttribute, Type>, Type> wrapperTypes =
-          new Dictionary<Pair<DllImportAttribute, Type>, Type>();
+        private static readonly IDictionary<Pair<DllImportAttribute, Type>, Type> wrapperTypes = new Dictionary<Pair<DllImportAttribute, Type>, Type>();
 
-        public static void CreateDelegate<T>(DllImportAttribute dllImportAttribute,
-          out T newDelegate) where T : class {
-            Type wrapperType;
-            Pair<DllImportAttribute, Type> key =
-              new Pair<DllImportAttribute, Type>(dllImportAttribute, typeof(T));
-            wrapperTypes.TryGetValue(key, out wrapperType);
+        public static void CreateDelegate<T>(DllImportAttribute DllImportAttribute, out T newDelegate) where T : class {
+            Pair<DllImportAttribute, Type> key = new Pair<DllImportAttribute, Type>(DllImportAttribute, typeof(T));
+            wrapperTypes.TryGetValue(key, out Type wrapperType);
 
             if (wrapperType == null) {
-                wrapperType = CreateWrapperType(typeof(T), dllImportAttribute);
+                wrapperType = CreateWrapperType(typeof(T), DllImportAttribute);
                 wrapperTypes.Add(key, wrapperType);
             }
 
-            newDelegate = Delegate.CreateDelegate(typeof(T), wrapperType,
-              dllImportAttribute.EntryPoint) as T;
+            newDelegate = Delegate.CreateDelegate(typeof(T), wrapperType, DllImportAttribute.EntryPoint) as T;
         }
 
 
-        private static Type CreateWrapperType(Type delegateType,
-          DllImportAttribute dllImportAttribute) {
-
-            TypeBuilder typeBuilder = moduleBuilder.DefineType(
-              "PInvokeDelegateFactoryInternalWrapperType" + wrapperTypes.Count);
+        private static Type CreateWrapperType(Type delegateType, DllImportAttribute dllImportAttribute) {
+            TypeBuilder typeBuilder = moduleBuilder.DefineType("PInvokeDelegateFactoryInternalWrapperType" + wrapperTypes.Count);
 
             MethodInfo methodInfo = delegateType.GetMethod("Invoke");
 
@@ -69,23 +59,26 @@ namespace NTMiner.Gpus {
             int parameterCount = parameterInfos.GetLength(0);
 
             Type[] parameterTypes = new Type[parameterCount];
-            for (int i = 0; i < parameterCount; i++)
+            for (int i = 0; i < parameterCount; i++) {
                 parameterTypes[i] = parameterInfos[i].ParameterType;
+            }
 
-            MethodBuilder methodBuilder = typeBuilder.DefinePInvokeMethod(
-              dllImportAttribute.EntryPoint, dllImportAttribute.Value,
-              MethodAttributes.Public | MethodAttributes.Static |
-              MethodAttributes.PinvokeImpl, CallingConventions.Standard,
-              methodInfo.ReturnType, parameterTypes,
-              dllImportAttribute.CallingConvention,
-              dllImportAttribute.CharSet);
+            MethodBuilder methodBuilder = 
+                typeBuilder.DefinePInvokeMethod(
+                    dllImportAttribute.EntryPoint, dllImportAttribute.Value,
+                    MethodAttributes.Public | MethodAttributes.Static |
+                    MethodAttributes.PinvokeImpl, CallingConventions.Standard,
+                    methodInfo.ReturnType, parameterTypes,
+                    dllImportAttribute.CallingConvention,
+                    dllImportAttribute.CharSet);
 
-            foreach (ParameterInfo parameterInfo in parameterInfos)
-                methodBuilder.DefineParameter(parameterInfo.Position + 1,
-                  parameterInfo.Attributes, parameterInfo.Name);
+            foreach (ParameterInfo parameterInfo in parameterInfos) {
+                methodBuilder.DefineParameter(parameterInfo.Position + 1, parameterInfo.Attributes, parameterInfo.Name);
+            }
 
-            if (dllImportAttribute.PreserveSig)
+            if (dllImportAttribute.PreserveSig) {
                 methodBuilder.SetImplementationFlags(MethodImplAttributes.PreserveSig);
+            }
 
             return typeBuilder.CreateType();
         }
