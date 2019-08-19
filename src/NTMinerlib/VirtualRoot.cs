@@ -9,8 +9,6 @@ using System.Text;
 
 namespace NTMiner {
     public static partial class VirtualRoot {
-        public static readonly Stopwatch Stopwatch = new Stopwatch();
-
         public static readonly string AppFileFullName = Process.GetCurrentProcess().MainModule.FileName;
         public static Guid Id { get; private set; }
 
@@ -85,7 +83,7 @@ namespace NTMiner {
 
         public static Guid GetBrandId(string fileFullName, string keyword) {
 #if DEBUG
-            Stopwatch.Restart();
+            Write.Stopwatch.Restart();
 #endif
             Guid guid = Guid.Empty;
             int LEN = keyword.Length;
@@ -125,7 +123,7 @@ namespace NTMiner {
                 Guid.TryParse(guidString, out guid);
             }
 #if DEBUG
-            Write.DevWarn($"耗时{Stopwatch.ElapsedMilliseconds}毫秒 {typeof(VirtualRoot).Name}.GetBrandId");
+            Write.DevWarn($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {typeof(VirtualRoot).Name}.GetBrandId");
 #endif
             return guid;
         }

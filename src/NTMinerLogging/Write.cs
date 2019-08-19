@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace NTMiner {
     public static class Write {
+        public static readonly Stopwatch Stopwatch = new Stopwatch();
+
         private static readonly Action<string, ConsoleColor> _consoleUserLineMethod = (line, color) => {
             ConsoleColor oldColor = Console.ForegroundColor;
             Console.ForegroundColor = color;

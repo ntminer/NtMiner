@@ -5,6 +5,9 @@ using System.Runtime.InteropServices;
 
 namespace NTMiner.Gpus {
     public class NvapiHelper {
+        private const int VERSION1 = 1 << 16;
+        private const int VERSION2 = 2 << 16;
+
         public NvapiHelper() { }
 
         private static Dictionary<int, NvPhysicalGpuHandle> _handlesByBusId = null;
@@ -304,8 +307,6 @@ namespace NTMiner.Gpus {
             return hasSetValue;
         }
 
-        private const int VERSION1 = 1 << 16;
-        private const int VERSION2 = 2 << 16;
         private NV_GPU_PERF_PSTATES20_INFO_V1 NvGetPStateV1(int busId) {
             NV_GPU_PERF_PSTATES20_INFO_V1 info = new NV_GPU_PERF_PSTATES20_INFO_V1();
             try {
@@ -585,20 +586,10 @@ namespace NTMiner.Gpus {
             return false;
         }
 
-        private static T allocStruct<T>() {
-            int size = Marshal.SizeOf(typeof(T));
-            byte[] bytes = new byte[size];
-            Array.Clear(bytes, 0, size);
-            IntPtr structPtr = Marshal.AllocHGlobal(size);
-            object obj = Marshal.PtrToStructure(structPtr, typeof(T));
-            Marshal.FreeHGlobal(structPtr);
-            return (T)obj;
-        }
-
         private bool SetCoolerLevels(int busId, uint value) {
             NV_COOLER_TARGET coolerIndex = NV_COOLER_TARGET.NVAPI_COOLER_TARGET_ALL;
             try {
-                NVAPI_COOLER_LEVEL level = allocStruct<NVAPI_COOLER_LEVEL>();
+                NVAPI_COOLER_LEVEL level = new NVAPI_COOLER_LEVEL();
                 level.coolers[0].currentLevel = value;
                 level.coolers[0].currentPolicy = NV_COOLER_POLICY.NVAPI_COOLER_POLICY_MANUAL;
 
@@ -612,7 +603,7 @@ namespace NTMiner.Gpus {
         private bool SetCoolerLevelsAuto(int busId) {
             NV_COOLER_TARGET coolerIndex = NV_COOLER_TARGET.NVAPI_COOLER_TARGET_ALL;
             try {
-                NVAPI_COOLER_LEVEL level = allocStruct<NVAPI_COOLER_LEVEL>();
+                NVAPI_COOLER_LEVEL level = new NVAPI_COOLER_LEVEL();
                 level.coolers[0].currentLevel = 0;
                 level.coolers[0].currentPolicy = NV_COOLER_POLICY.NVAPI_COOLER_POLICY_AUTO;
                 return SetCoolerLevels(busId, coolerIndex, ref level);

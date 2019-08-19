@@ -17,7 +17,7 @@ namespace NTMiner.Views {
 
         public MainWindow() {
 #if DEBUG
-            VirtualRoot.Stopwatch.Restart();
+            Write.Stopwatch.Restart();
 #endif
             UIThread.StartTimer();
             InitializeComponent();
@@ -94,7 +94,7 @@ namespace NTMiner.Views {
                     Vm.RefreshDaemonStateBrush();
                 });
 #if DEBUG
-            Write.DevWarn($"耗时{VirtualRoot.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+            Write.DevWarn($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
 #endif
         }
 
