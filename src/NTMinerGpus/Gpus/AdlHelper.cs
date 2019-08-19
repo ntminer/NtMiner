@@ -29,16 +29,16 @@ namespace NTMiner.Gpus {
         private List<ATIGPU> _gpuNames = new List<ATIGPU>();
         public bool Init() {
             try {
-                int status = AdlNativeMethods.ADL_Main_Control_Create(1);
+                var status = AdlNativeMethods.ADL_Main_Control_Create(1);
 #if DEBUG
-                Write.DevDebug("AMD Display Library Status: " + (status == AdlConst.ADL_OK ? "OK" : status.ToString()));
+                Write.DevDebug("AMD Display Library Status: " + (status == AdlStatus.OK ? "OK" : status.ToString()));
 #endif
-                if (status == AdlConst.ADL_OK) {
+                if (status == AdlStatus.OK) {
                     int numberOfAdapters = 0;
                     AdlNativeMethods.ADL_Adapter_NumberOfAdapters_Get(ref numberOfAdapters);
                     if (numberOfAdapters > 0) {
                         ADLAdapterInfo[] adapterInfo = new ADLAdapterInfo[numberOfAdapters];
-                        if (AdlNativeMethods.ADL_Adapter_AdapterInfo_Get(adapterInfo) == AdlConst.ADL_OK) {
+                        if (AdlNativeMethods.ADL_Adapter_AdapterInfo_Get(adapterInfo) == AdlStatus.OK) {
                             for (int i = 0; i < numberOfAdapters; i++) {
 #if DEBUG
                                 Write.DevDebug(adapterInfo[i].ToString());
@@ -83,7 +83,7 @@ namespace NTMiner.Gpus {
         public string GetDriverVersion() {
             ADLVersionsInfoX2 lpVersionInfo = new ADLVersionsInfoX2();
             try {
-                int result = AdlNativeMethods.ADL2_Graphics_VersionsX2_Get(context, ref lpVersionInfo);
+                var result = AdlNativeMethods.ADL2_Graphics_VersionsX2_Get(context, ref lpVersionInfo);
                 return lpVersionInfo.strCrimsonVersion;
             }
             catch {
@@ -172,7 +172,7 @@ namespace NTMiner.Gpus {
                     return 0;
                 }
                 ADLMemoryInfo adlt = new ADLMemoryInfo();
-                if (AdlNativeMethods.ADL_Adapter_MemoryInfo_Get(adapterIndex, ref adlt) == AdlConst.ADL_OK) {
+                if (AdlNativeMethods.ADL_Adapter_MemoryInfo_Get(adapterIndex, ref adlt) == AdlStatus.OK) {
                     return adlt.MemorySize;
                 }
                 else {
@@ -225,7 +225,7 @@ namespace NTMiner.Gpus {
                     Write.DevWarn($"iClock={item.iClock},iControl={item.iControl},iEnabled={item.iEnabled},iVddc={item.iVddc}");
                 }
 #endif
-                if (result == AdlConst.ADL_OK) {
+                if (result == AdlStatus.OK) {
                     if (value <= 0) {
                         return;
                     }
@@ -241,7 +241,7 @@ namespace NTMiner.Gpus {
                     }
                     result = AdlNativeMethods.ADL2_OverdriveN_MemoryClocksX2_Set(context, adapterIndex, ref lpODPerformanceLevels);
 #if DEBUG
-                    if (result != AdlConst.ADL_OK) {
+                    if (result != AdlStatus.OK) {
                         Write.DevWarn($"ADL2_OverdriveN_MemoryClocksX2_Set({value * 100}) result " + result);
                     }
 #endif
@@ -292,7 +292,7 @@ namespace NTMiner.Gpus {
                     Write.DevWarn($"iClock={item.iClock},iControl={item.iControl},iEnabled={item.iEnabled},iVddc={item.iVddc}");
                 }
 #endif
-                if (result == AdlConst.ADL_OK) {
+                if (result == AdlStatus.OK) {
                     if (value <= 0) {
                         return;
                     }
@@ -308,7 +308,7 @@ namespace NTMiner.Gpus {
                     }
                     result = AdlNativeMethods.ADL2_OverdriveN_SystemClocksX2_Set(context, adapterIndex, ref lpODPerformanceLevels);
 #if DEBUG
-                    if (result != AdlConst.ADL_OK) {
+                    if (result != AdlStatus.OK) {
                         Write.DevWarn($"ADL2_OverdriveN_SystemClocksX2_Set({value * 100}) result " + result);
                     }
 #endif
@@ -324,7 +324,7 @@ namespace NTMiner.Gpus {
                     return 0;
                 }
                 ADLTemperature adlt = new ADLTemperature();
-                if (AdlNativeMethods.ADL_Overdrive5_Temperature_Get(adapterIndex, 0, ref adlt) == AdlConst.ADL_OK) {
+                if (AdlNativeMethods.ADL_Overdrive5_Temperature_Get(adapterIndex, 0, ref adlt) == AdlStatus.OK) {
                     return (int)(0.001f * adlt.Temperature);
                 }
                 else {
@@ -344,7 +344,7 @@ namespace NTMiner.Gpus {
                 ADLFanSpeedValue adlf = new ADLFanSpeedValue {
                     SpeedType = AdlConst.ADL_DL_FANCTRL_SPEED_TYPE_PERCENT
                 };
-                if (AdlNativeMethods.ADL_Overdrive5_FanSpeed_Get(adapterIndex, 0, ref adlf) == AdlConst.ADL_OK) {
+                if (AdlNativeMethods.ADL_Overdrive5_FanSpeed_Get(adapterIndex, 0, ref adlf) == AdlStatus.OK) {
                     return (uint)adlf.FanSpeed;
                 }
                 else {
@@ -364,7 +364,7 @@ namespace NTMiner.Gpus {
                 ADLFanSpeedValue adlf = new ADLFanSpeedValue {
                     SpeedType = AdlConst.ADL_DL_FANCTRL_SPEED_TYPE_PERCENT
                 };
-                if (AdlNativeMethods.ADL_Overdrive5_FanSpeed_Get(adapterIndex, 0, ref adlf) == AdlConst.ADL_OK) {
+                if (AdlNativeMethods.ADL_Overdrive5_FanSpeed_Get(adapterIndex, 0, ref adlf) == AdlStatus.OK) {
                     adlf.FanSpeed = value;
                     AdlNativeMethods.ADL_Overdrive5_FanSpeed_Set(adapterIndex, 0, ref adlf);
                 }
@@ -380,8 +380,8 @@ namespace NTMiner.Gpus {
             }
             ADLODNPowerLimitSetting lpODPowerLimit = new ADLODNPowerLimitSetting();
             try {
-                int result = AdlNativeMethods.ADL2_OverdriveN_PowerLimit_Get(context, adapterIndex, ref lpODPowerLimit);
-                if (result == AdlConst.ADL_OK) {
+                var result = AdlNativeMethods.ADL2_OverdriveN_PowerLimit_Get(context, adapterIndex, ref lpODPowerLimit);
+                if (result == AdlStatus.OK) {
                     return 100 + lpODPowerLimit.iTDPLimit;
                 }
                 return 0;
@@ -397,11 +397,11 @@ namespace NTMiner.Gpus {
             }
             ADLODNPowerLimitSetting lpODPowerLimit = new ADLODNPowerLimitSetting();
             try {
-                int result = AdlNativeMethods.ADL2_OverdriveN_PowerLimit_Get(context, adapterIndex, ref lpODPowerLimit);
+                var result = AdlNativeMethods.ADL2_OverdriveN_PowerLimit_Get(context, adapterIndex, ref lpODPowerLimit);
 #if DEBUG
                 Write.DevWarn($"ADL2_OverdriveN_PowerLimit_Get result={result},iMode={lpODPowerLimit.iMode},iTDPLimit={lpODPowerLimit.iTDPLimit},iMaxOperatingTemperature={lpODPowerLimit.iMaxOperatingTemperature}");
 #endif
-                if (result == AdlConst.ADL_OK) {
+                if (result == AdlStatus.OK) {
                     lpODPowerLimit.iMode = AdlConst.ODNControlType_Manual;
                     lpODPowerLimit.iTDPLimit = value - 100;
                     AdlNativeMethods.ADL2_OverdriveN_PowerLimit_Set(context, adapterIndex, ref lpODPowerLimit);
@@ -418,8 +418,8 @@ namespace NTMiner.Gpus {
             }
             ADLODNPowerLimitSetting lpODPowerLimit = new ADLODNPowerLimitSetting();
             try {
-                int result = AdlNativeMethods.ADL2_OverdriveN_PowerLimit_Get(context, adapterIndex, ref lpODPowerLimit);
-                if (result == AdlConst.ADL_OK) {
+                var result = AdlNativeMethods.ADL2_OverdriveN_PowerLimit_Get(context, adapterIndex, ref lpODPowerLimit);
+                if (result == AdlStatus.OK) {
                     return lpODPowerLimit.iMaxOperatingTemperature;
                 }
                 return 0;
@@ -435,8 +435,8 @@ namespace NTMiner.Gpus {
             }
             ADLODNPowerLimitSetting lpODPowerLimit = new ADLODNPowerLimitSetting();
             try {
-                int result = AdlNativeMethods.ADL2_OverdriveN_PowerLimit_Get(context, adapterIndex, ref lpODPowerLimit);
-                if (result == AdlConst.ADL_OK) {
+                var result = AdlNativeMethods.ADL2_OverdriveN_PowerLimit_Get(context, adapterIndex, ref lpODPowerLimit);
+                if (result == AdlStatus.OK) {
                     if (value == 0) {
                         ADLODNCapabilitiesX2 lpODCapabilities = new ADLODNCapabilitiesX2();
                         result = AdlNativeMethods.ADL2_OverdriveN_CapabilitiesX2_Get(context, adapterIndex, ref lpODCapabilities);
@@ -458,7 +458,7 @@ namespace NTMiner.Gpus {
             }
             int power = 0;
             try {
-                if (AdlNativeMethods.ADL2_Overdrive6_CurrentPower_Get(context, adapterIndex, 0, ref power) == AdlConst.ADL_OK) {
+                if (AdlNativeMethods.ADL2_Overdrive6_CurrentPower_Get(context, adapterIndex, 0, ref power) == AdlStatus.OK) {
                     return (uint)(power / 256.0);
                 }
             }

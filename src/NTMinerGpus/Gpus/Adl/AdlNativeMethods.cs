@@ -4,29 +4,29 @@ using System.Text.RegularExpressions;
 
 namespace NTMiner.Gpus.Adl {
     internal class AdlNativeMethods {
-        private delegate int ADL_Main_Control_CreateDelegate(ADL_Main_Memory_AllocDelegate callback, int enumConnectedAdapters);
-        public delegate int ADL2_Main_Control_CreateDelegate(ADL_Main_Memory_AllocDelegate callback, int enumConnectedAdapters, ref IntPtr context);
-        private delegate int ADL_Adapter_AdapterInfo_GetDelegate(IntPtr info, int size);
+        private delegate AdlStatus ADL_Main_Control_CreateDelegate(ADL_Main_Memory_AllocDelegate callback, int enumConnectedAdapters);
+        public delegate AdlStatus ADL2_Main_Control_CreateDelegate(ADL_Main_Memory_AllocDelegate callback, int enumConnectedAdapters, ref IntPtr context);
+        private delegate AdlStatus ADL_Adapter_AdapterInfo_GetDelegate(IntPtr info, int size);
 
-        internal delegate int ADL_Main_Control_DestroyDelegate();
-        internal delegate int ADL_Adapter_NumberOfAdapters_GetDelegate(ref int numAdapters);
-        internal delegate int ADL_Adapter_Active_GetDelegate(int adapterIndex, out int status);
-        internal delegate int ADL_Overdrive5_CurrentActivity_GetDelegate(int iAdapterIndex, ref ADLPMActivity activity);
-        internal delegate int ADL_Overdrive5_Temperature_GetDelegate(int adapterIndex, int thermalControllerIndex, ref ADLTemperature temperature);
-        internal delegate int ADL_Overdrive5_FanSpeed_GetDelegate(int adapterIndex, int thermalControllerIndex, ref ADLFanSpeedValue fanSpeedValue);
-        internal delegate int ADL_Overdrive5_FanSpeedInfo_GetDelegate(int adapterIndex, int thermalControllerIndex, ref ADLFanSpeedInfo fanSpeedInfo);
-        internal delegate int ADL_Overdrive5_FanSpeedToDefault_SetDelegate(int adapterIndex, int thermalControllerIndex);
-        internal delegate int ADL_Overdrive5_FanSpeed_SetDelegate(int adapterIndex, int thermalControllerIndex, ref ADLFanSpeedValue fanSpeedValue);
-        internal delegate int ADL2_OverdriveN_PowerLimit_GetDelegate(IntPtr context, int iAdapterIndex, ref ADLODNPowerLimitSetting lpODPowerLimit);
-        internal delegate int ADL2_OverdriveN_PowerLimit_SetDelegate(IntPtr context, int iAdapterIndex, ref ADLODNPowerLimitSetting lpODPowerLimit);
-        internal delegate int ADL2_Overdrive6_CurrentPower_GetDelegate(IntPtr context, int iAdapterIndex, int iPowerType, ref int lpCurrentValue);
-        internal delegate int ADL_Adapter_MemoryInfo_GetDelegate(int iAdapterIndex, ref ADLMemoryInfo lpMemoryInfo);
-        internal delegate int ADL2_Graphics_VersionsX2_GetDelegate(IntPtr context, ref ADLVersionsInfoX2 lpVersionsInfo);
-        internal delegate int ADL2_OverdriveN_MemoryClocksX2_GetDelegate(IntPtr context, int iAdapterIndex, ref ADLODNPerformanceLevelsX2 lpODPerformanceLevels);
-        internal delegate int ADL2_OverdriveN_MemoryClocksX2_SetDelegate(IntPtr context, int iAdapterIndex, ref ADLODNPerformanceLevelsX2 lpODPerformanceLevels);
-        internal delegate int ADL2_OverdriveN_SystemClocksX2_GetDelegate(IntPtr context, int iAdapterIndex, ref ADLODNPerformanceLevelsX2 lpODPerformanceLevels);
-        internal delegate int ADL2_OverdriveN_SystemClocksX2_SetDelegate(IntPtr context, int iAdapterIndex, ref ADLODNPerformanceLevelsX2 lpODPerformanceLevels);
-        internal delegate int ADL2_OverdriveN_CapabilitiesX2_GetDelegate(IntPtr context, int iAdapterIndex, ref ADLODNCapabilitiesX2 lpODCapabilities);
+        internal delegate AdlStatus ADL_Main_Control_DestroyDelegate();
+        internal delegate AdlStatus ADL_Adapter_NumberOfAdapters_GetDelegate(ref int numAdapters);
+        internal delegate AdlStatus ADL_Adapter_Active_GetDelegate(int adapterIndex, out int status);
+        internal delegate AdlStatus ADL_Overdrive5_CurrentActivity_GetDelegate(int iAdapterIndex, ref ADLPMActivity activity);
+        internal delegate AdlStatus ADL_Overdrive5_Temperature_GetDelegate(int adapterIndex, int thermalControllerIndex, ref ADLTemperature temperature);
+        internal delegate AdlStatus ADL_Overdrive5_FanSpeed_GetDelegate(int adapterIndex, int thermalControllerIndex, ref ADLFanSpeedValue fanSpeedValue);
+        internal delegate AdlStatus ADL_Overdrive5_FanSpeedInfo_GetDelegate(int adapterIndex, int thermalControllerIndex, ref ADLFanSpeedInfo fanSpeedInfo);
+        internal delegate AdlStatus ADL_Overdrive5_FanSpeedToDefault_SetDelegate(int adapterIndex, int thermalControllerIndex);
+        internal delegate AdlStatus ADL_Overdrive5_FanSpeed_SetDelegate(int adapterIndex, int thermalControllerIndex, ref ADLFanSpeedValue fanSpeedValue);
+        internal delegate AdlStatus ADL2_OverdriveN_PowerLimit_GetDelegate(IntPtr context, int iAdapterIndex, ref ADLODNPowerLimitSetting lpODPowerLimit);
+        internal delegate AdlStatus ADL2_OverdriveN_PowerLimit_SetDelegate(IntPtr context, int iAdapterIndex, ref ADLODNPowerLimitSetting lpODPowerLimit);
+        internal delegate AdlStatus ADL2_Overdrive6_CurrentPower_GetDelegate(IntPtr context, int iAdapterIndex, int iPowerType, ref int lpCurrentValue);
+        internal delegate AdlStatus ADL_Adapter_MemoryInfo_GetDelegate(int iAdapterIndex, ref ADLMemoryInfo lpMemoryInfo);
+        internal delegate AdlStatus ADL2_Graphics_VersionsX2_GetDelegate(IntPtr context, ref ADLVersionsInfoX2 lpVersionsInfo);
+        internal delegate AdlStatus ADL2_OverdriveN_MemoryClocksX2_GetDelegate(IntPtr context, int iAdapterIndex, ref ADLODNPerformanceLevelsX2 lpODPerformanceLevels);
+        internal delegate AdlStatus ADL2_OverdriveN_MemoryClocksX2_SetDelegate(IntPtr context, int iAdapterIndex, ref ADLODNPerformanceLevelsX2 lpODPerformanceLevels);
+        internal delegate AdlStatus ADL2_OverdriveN_SystemClocksX2_GetDelegate(IntPtr context, int iAdapterIndex, ref ADLODNPerformanceLevelsX2 lpODPerformanceLevels);
+        internal delegate AdlStatus ADL2_OverdriveN_SystemClocksX2_SetDelegate(IntPtr context, int iAdapterIndex, ref ADLODNPerformanceLevelsX2 lpODPerformanceLevels);
+        internal delegate AdlStatus ADL2_OverdriveN_CapabilitiesX2_GetDelegate(IntPtr context, int iAdapterIndex, ref ADLODNCapabilitiesX2 lpODCapabilities);
 
         private static ADL_Main_Control_CreateDelegate _ADL_Main_Control_Create;
         internal static ADL2_Main_Control_CreateDelegate ADL2_Main_Control_Create;
@@ -97,7 +97,7 @@ namespace NTMiner.Gpus.Adl {
 
         private AdlNativeMethods() { }
 
-        internal static int ADL_Main_Control_Create(int enumConnectedAdapters) {
+        internal static AdlStatus ADL_Main_Control_Create(int enumConnectedAdapters) {
             try {
                 try {
                     return _ADL_Main_Control_Create(Main_Memory_Alloc, enumConnectedAdapters);
@@ -108,15 +108,15 @@ namespace NTMiner.Gpus.Adl {
                 }
             }
             catch {
-                return AdlConst.ADL_ERR;
+                return AdlStatus.ERR;
             }
         }
 
-        internal static int ADL_Adapter_AdapterInfo_Get(ADLAdapterInfo[] info) {
+        internal static AdlStatus ADL_Adapter_AdapterInfo_Get(ADLAdapterInfo[] info) {
             int elementSize = Marshal.SizeOf(typeof(ADLAdapterInfo));
             int size = info.Length * elementSize;
             IntPtr ptr = Marshal.AllocHGlobal(size);
-            int result = _ADL_Adapter_AdapterInfo_Get(ptr, size);
+            AdlStatus result = _ADL_Adapter_AdapterInfo_Get(ptr, size);
             for (int i = 0; i < info.Length; i++) {
                 info[i] = (ADLAdapterInfo)Marshal.PtrToStructure((IntPtr)((long)ptr + i * elementSize), typeof(ADLAdapterInfo));
             }

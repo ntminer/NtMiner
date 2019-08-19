@@ -1,18 +1,17 @@
 ﻿using System.Runtime.InteropServices;
 
 namespace NTMiner.Gpus.Adl {
+    internal enum AdlStatus {
+        OK = 0,
+        ERR = -1
+    }
+
     internal static class AdlConst {
         public const int ADL_PERFORMANCE_LEVELS = 8;
         public const int ADL_MAX_PATH = 256;
         public const int ADL_MAX_ADAPTERS = 40;
         public const int ADL_MAX_DISPLAYS = 40;
         public const int ADL_MAX_DEVICENAME = 32;
-        public const int ADL_OK = 0;
-        public const int ADL_ERR = -1;
-        public const int ADL_DRIVER_OK = 0;
-        public const int ADL_MAX_GLSYNC_PORTS = 8;
-        public const int ADL_MAX_GLSYNC_PORT_LEDS = 8;
-        public const int ADL_MAX_NUM_DISPLAYMODES = 1024;
 
         public const int ADL_DL_FANCTRL_SPEED_TYPE_PERCENT = 1;
         public const int ADL_DL_FANCTRL_SPEED_TYPE_RPM = 2;
