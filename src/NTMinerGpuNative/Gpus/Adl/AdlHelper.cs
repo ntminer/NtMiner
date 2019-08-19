@@ -91,11 +91,13 @@ namespace NTMiner.Gpus.Adl {
         }
 
         // 将GPUIndex转换为AdapterIndex
-        private int GpuIndexToAdapterIndex(int gpuIndex) {
+        private bool TryGpuAdapterIndex(int gpuIndex, out int adapterIndex) {
+            adapterIndex = 0;
             if (gpuIndex >= _gpuNames.Count) {
-                return 0;
+                return false;
             }
-            return _gpuNames[gpuIndex].AdapterIndex;
+            adapterIndex = _gpuNames[gpuIndex].AdapterIndex;
+            return true;
         }
 
         public ATIGPU GetGpuName(int gpuIndex) {
@@ -131,7 +133,9 @@ namespace NTMiner.Gpus.Adl {
             fanSpeedMax = 0;
             fanSpeedDefault = 0;
             try {
-                int adapterIndex = GpuIndexToAdapterIndex(gpuIndex);
+                if (!TryGpuAdapterIndex(gpuIndex, out int adapterIndex)) {
+                    return;
+                }
                 ADLODNCapabilitiesX2 lpODCapabilities = new ADLODNCapabilitiesX2();
                 var result = AdlNativeMethods.ADL2_OverdriveN_CapabilitiesX2_Get(context, adapterIndex, ref lpODCapabilities);
                 coreClockMin = lpODCapabilities.sEngineClockRange.iMin * 10;
@@ -163,7 +167,9 @@ namespace NTMiner.Gpus.Adl {
 
         public ulong GetTotalMemoryByIndex(int gpuIndex) {
             try {
-                int adapterIndex = GpuIndexToAdapterIndex(gpuIndex);
+                if (!TryGpuAdapterIndex(gpuIndex, out int adapterIndex)) {
+                    return 0;
+                }
                 ADLMemoryInfo adlt = new ADLMemoryInfo();
                 if (AdlNativeMethods.ADL_Adapter_MemoryInfo_Get(adapterIndex, ref adlt) == AdlConst.ADL_OK) {
                     return adlt.MemorySize;
@@ -179,7 +185,9 @@ namespace NTMiner.Gpus.Adl {
 
         public int GetMemoryClockByIndex(int gpuIndex) {
             try {
-                int adapterIndex = GpuIndexToAdapterIndex(gpuIndex);
+                if (!TryGpuAdapterIndex(gpuIndex, out int adapterIndex)) {
+                    return 0;
+                }
                 ADLODNPerformanceLevelsX2 lpODPerformanceLevels = ADLODNPerformanceLevelsX2.Create();
                 var result = AdlNativeMethods.ADL2_OverdriveN_MemoryClocksX2_Get(context, adapterIndex, ref lpODPerformanceLevels);
                 int index = 0;
@@ -197,7 +205,9 @@ namespace NTMiner.Gpus.Adl {
 
         public void SetMemoryClockByIndex(int gpuIndex, int value) {
             try {
-                int adapterIndex = GpuIndexToAdapterIndex(gpuIndex);
+                if (!TryGpuAdapterIndex(gpuIndex, out int adapterIndex)) {
+                    return;
+                }
                 ADLODNCapabilitiesX2 lpODCapabilities = new ADLODNCapabilitiesX2();
                 var result = AdlNativeMethods.ADL2_OverdriveN_CapabilitiesX2_Get(context, adapterIndex, ref lpODCapabilities);
                 if (result != 0) {
@@ -242,7 +252,9 @@ namespace NTMiner.Gpus.Adl {
 
         public int GetSystemClockByIndex(int gpuIndex) {
             try {
-                int adapterIndex = GpuIndexToAdapterIndex(gpuIndex);
+                if (!TryGpuAdapterIndex(gpuIndex, out int adapterIndex)) {
+                    return 0;
+                }
                 ADLODNPerformanceLevelsX2 lpODPerformanceLevels = ADLODNPerformanceLevelsX2.Create();
                 var result = AdlNativeMethods.ADL2_OverdriveN_SystemClocksX2_Get(context, adapterIndex, ref lpODPerformanceLevels);
                 int index = 0;
@@ -260,7 +272,9 @@ namespace NTMiner.Gpus.Adl {
 
         public void SetSystemClockByIndex(int gpuIndex, int value) {
             try {
-                int adapterIndex = GpuIndexToAdapterIndex(gpuIndex);
+                if (!TryGpuAdapterIndex(gpuIndex, out int adapterIndex)) {
+                    return;
+                }
                 ADLODNCapabilitiesX2 lpODCapabilities = new ADLODNCapabilitiesX2();
                 var result = AdlNativeMethods.ADL2_OverdriveN_CapabilitiesX2_Get(context, adapterIndex, ref lpODCapabilities);
                 if (result != 0) {
@@ -305,7 +319,9 @@ namespace NTMiner.Gpus.Adl {
 
         public int GetTemperatureByIndex(int gpuIndex) {
             try {
-                int adapterIndex = GpuIndexToAdapterIndex(gpuIndex);
+                if (!TryGpuAdapterIndex(gpuIndex, out int adapterIndex)) {
+                    return 0;
+                }
                 ADLTemperature adlt = new ADLTemperature();
                 if (AdlNativeMethods.ADL_Overdrive5_Temperature_Get(adapterIndex, 0, ref adlt) == AdlConst.ADL_OK) {
                     return (int)(0.001f * adlt.Temperature);
@@ -321,7 +337,9 @@ namespace NTMiner.Gpus.Adl {
 
         public uint GetFanSpeedByIndex(int gpuIndex) {
             try {
-                int adapterIndex = GpuIndexToAdapterIndex(gpuIndex);
+                if (!TryGpuAdapterIndex(gpuIndex, out int adapterIndex)) {
+                    return 0;
+                }
                 ADLFanSpeedValue adlf = new ADLFanSpeedValue {
                     SpeedType = AdlConst.ADL_DL_FANCTRL_SPEED_TYPE_PERCENT
                 };
@@ -339,7 +357,9 @@ namespace NTMiner.Gpus.Adl {
 
         public void SetFunSpeedByIndex(int gpuIndex, int value) {
             try {
-                int adapterIndex = GpuIndexToAdapterIndex(gpuIndex);
+                if (!TryGpuAdapterIndex(gpuIndex, out int adapterIndex)) {
+                    return;
+                }
                 ADLFanSpeedValue adlf = new ADLFanSpeedValue {
                     SpeedType = AdlConst.ADL_DL_FANCTRL_SPEED_TYPE_PERCENT
                 };
@@ -354,7 +374,9 @@ namespace NTMiner.Gpus.Adl {
         }
 
         public int GetPowerLimitByIndex(int gpuIndex) {
-            int adapterIndex = GpuIndexToAdapterIndex(gpuIndex);
+            if (!TryGpuAdapterIndex(gpuIndex, out int adapterIndex)) {
+                return 0;
+            }
             ADLODNPowerLimitSetting lpODPowerLimit = new ADLODNPowerLimitSetting();
             try {
                 int result = AdlNativeMethods.ADL2_OverdriveN_PowerLimit_Get(context, adapterIndex, ref lpODPowerLimit);
@@ -369,7 +391,9 @@ namespace NTMiner.Gpus.Adl {
         }
 
         public void SetPowerLimitByIndex(int gpuIndex, int value) {
-            int adapterIndex = GpuIndexToAdapterIndex(gpuIndex);
+            if (!TryGpuAdapterIndex(gpuIndex, out int adapterIndex)) {
+                return;
+            }
             ADLODNPowerLimitSetting lpODPowerLimit = new ADLODNPowerLimitSetting();
             try {
                 int result = AdlNativeMethods.ADL2_OverdriveN_PowerLimit_Get(context, adapterIndex, ref lpODPowerLimit);
@@ -388,7 +412,9 @@ namespace NTMiner.Gpus.Adl {
         }
 
         public int GetTempLimitByIndex(int gpuIndex) {
-            int adapterIndex = GpuIndexToAdapterIndex(gpuIndex);
+            if (!TryGpuAdapterIndex(gpuIndex, out int adapterIndex)) {
+                return 0;
+            }
             ADLODNPowerLimitSetting lpODPowerLimit = new ADLODNPowerLimitSetting();
             try {
                 int result = AdlNativeMethods.ADL2_OverdriveN_PowerLimit_Get(context, adapterIndex, ref lpODPowerLimit);
@@ -403,7 +429,9 @@ namespace NTMiner.Gpus.Adl {
         }
 
         public void SetTempLimitByIndex(int gpuIndex, int value) {
-            int adapterIndex = GpuIndexToAdapterIndex(gpuIndex);
+            if (!TryGpuAdapterIndex(gpuIndex, out int adapterIndex)) {
+                return;
+            }
             ADLODNPowerLimitSetting lpODPowerLimit = new ADLODNPowerLimitSetting();
             try {
                 int result = AdlNativeMethods.ADL2_OverdriveN_PowerLimit_Get(context, adapterIndex, ref lpODPowerLimit);
@@ -424,7 +452,9 @@ namespace NTMiner.Gpus.Adl {
         }
 
         public uint GetPowerUsageByIndex(int gpuIndex) {
-            int adapterIndex = GpuIndexToAdapterIndex(gpuIndex);
+            if (!TryGpuAdapterIndex(gpuIndex, out int adapterIndex)) {
+                return 0;
+            }
             int power = 0;
             try {
                 if (AdlNativeMethods.ADL2_Overdrive6_CurrentPower_Get(context, adapterIndex, 0, ref power) == AdlConst.ADL_OK) {

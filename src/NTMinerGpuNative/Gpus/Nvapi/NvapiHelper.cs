@@ -7,29 +7,35 @@ namespace NTMiner.Gpus.Nvapi {
         public NvapiHelper() { }
 
         private static Dictionary<int, NvPhysicalGpuHandle> _handlesByBusId = null;
-        internal Dictionary<int, NvPhysicalGpuHandle> HandlesByBusId {
+        private static readonly object _locker = new object();
+        private static Dictionary<int, NvPhysicalGpuHandle> HandlesByBusId {
             get {
                 if (_handlesByBusId != null) {
                     return _handlesByBusId;
                 }
-                _handlesByBusId = new Dictionary<int, NvPhysicalGpuHandle>();
-                var handles = new NvPhysicalGpuHandle[NvConst.MAX_PHYSICAL_GPUS];
-                NvapiNativeMethods.NvAPI_EnumPhysicalGPUs(handles, out int gpuCount);
-                for (int i = 0; i < gpuCount; i++) {
-                    NvapiNativeMethods.NvAPI_GPU_GetBusID(handles[i], out int busId);
-                    if (!_handlesByBusId.ContainsKey(busId)) {
-                        _handlesByBusId.Add(busId, handles[i]);
+                lock (_locker) {
+                    if (_handlesByBusId != null) {
+                        return _handlesByBusId;
                     }
-                }
-                handles = new NvPhysicalGpuHandle[NvConst.MAX_PHYSICAL_GPUS];
-                NvapiNativeMethods.NvAPI_EnumTCCPhysicalGPUs(handles, out gpuCount);
-                for (int i = 0; i < gpuCount; i++) {
-                    NvapiNativeMethods.NvAPI_GPU_GetBusID(handles[i], out int busId);
-                    if (!_handlesByBusId.ContainsKey(busId)) {
-                        _handlesByBusId.Add(busId, handles[i]);
+                    _handlesByBusId = new Dictionary<int, NvPhysicalGpuHandle>();
+                    var handles = new NvPhysicalGpuHandle[NvConst.MAX_PHYSICAL_GPUS];
+                    NvapiNativeMethods.NvAPI_EnumPhysicalGPUs(handles, out int gpuCount);
+                    for (int i = 0; i < gpuCount; i++) {
+                        NvapiNativeMethods.NvAPI_GPU_GetBusID(handles[i], out int busId);
+                        if (!_handlesByBusId.ContainsKey(busId)) {
+                            _handlesByBusId.Add(busId, handles[i]);
+                        }
                     }
+                    handles = new NvPhysicalGpuHandle[NvConst.MAX_PHYSICAL_GPUS];
+                    NvapiNativeMethods.NvAPI_EnumTCCPhysicalGPUs(handles, out gpuCount);
+                    for (int i = 0; i < gpuCount; i++) {
+                        NvapiNativeMethods.NvAPI_GPU_GetBusID(handles[i], out int busId);
+                        if (!_handlesByBusId.ContainsKey(busId)) {
+                            _handlesByBusId.Add(busId, handles[i]);
+                        }
+                    }
+                    return _handlesByBusId;
                 }
-                return _handlesByBusId;
             }
         }
 
