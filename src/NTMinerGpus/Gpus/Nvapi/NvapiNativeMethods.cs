@@ -3,11 +3,6 @@ using System.Runtime.InteropServices;
 
 namespace NTMiner.Gpus.Nvapi {
     public static class NvapiNativeMethods {
-        public static readonly uint GPU_PSTATES_VER = (uint)Marshal.SizeOf(typeof(NvPStates)) | 0x10000;
-        public static readonly uint GPU_THERMAL_SETTINGS_VER = (uint)Marshal.SizeOf(typeof(NvGPUThermalSettings)) | 0x10000;
-        public static readonly uint GPU_POWER_STATUS_VER = (uint)Marshal.SizeOf(typeof(NvGPUPowerStatus)) | 0x10000;
-        public static readonly uint GPU_POWER_INFO_VER = (uint)Marshal.SizeOf(typeof(NvGPUPowerInfo)) | 0x10000;
-
         #region Delegates
         private delegate IntPtr nvapi_QueryInterfaceDelegate(uint id);
         private delegate NvStatus NvAPI_InitializeDelegate();
@@ -54,8 +49,8 @@ namespace NTMiner.Gpus.Nvapi {
 
         internal static readonly NvSetGetPStateV1Delegate NvGetPStateV1;
         internal static readonly NvSetGetPStateV2Delegate NvGetPStateV2;
-        internal static readonly NvSetGetPStateV1Delegate NvSetGetPStateV1;
-        internal static readonly NvSetGetPStateV2Delegate NvSetGetPStateV2;
+        internal static readonly NvSetGetPStateV1Delegate NvSetPStateV1;
+        internal static readonly NvSetGetPStateV2Delegate NvSetPStateV2;
         internal static readonly NvGetAllClockFrequenciesV2Delegate NvGetAllClockFrequenciesV2;
 
         internal static readonly NvApiClientThermalPoliciesGetInfoDelegate NvApiClientThermalPoliciesGetInfo;
@@ -67,8 +62,8 @@ namespace NTMiner.Gpus.Nvapi {
         internal static readonly NvApiClientPowerPoliciesGetInfoDelegate NvApiClientPowerPoliciesGetInfo;
 
         internal static readonly NvApiGetCoolerSettingsDelegate NvApiGetCoolerSettings;
-        internal static readonly NvApiRestoreCoolerSettingsDelegate NvApiRestoreCoolerSettings;
         internal static readonly NvApiSetCoolerLevelsDelegate NvApiSetCoolerLevels;
+        internal static readonly NvApiRestoreCoolerSettingsDelegate NvApiRestoreCoolerSettings;
 
         #endregion
 
@@ -111,8 +106,8 @@ namespace NTMiner.Gpus.Nvapi {
 
                 GetDelegate(0x6FF81213, out NvGetPStateV1);
                 GetDelegate(0x6FF81213, out NvGetPStateV2);
-                GetDelegate(0x0F4DAE6B, out NvSetGetPStateV1);
-                GetDelegate(0x0F4DAE6B, out NvSetGetPStateV2);
+                GetDelegate(0x0F4DAE6B, out NvSetPStateV1);
+                GetDelegate(0x0F4DAE6B, out NvSetPStateV2);
                 GetDelegate(0xDCB616C3, out NvGetAllClockFrequenciesV2);
 
                 GetDelegate(0x0D258BB5, out NvApiClientThermalPoliciesGetInfo);

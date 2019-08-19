@@ -40,6 +40,7 @@
     <Compile Include="Gpus\NvapiHelper.cs" />
     <Compile Include="Gpus\Nvapi\NvapiNativeMethods.cs" />
     <Compile Include="Gpus\Nvapi\NvapiTypes.cs" />
+    <Compile Include="Gpus\NvmlHelper.cs" />
     <Compile Include="Gpus\Nvml\NvmlNativeMethods.cs" />
     <Compile Include="Gpus\Nvml\NvmlTypes.cs" />
     <Compile Include="Gpus\PInvokeDelegateFactory.cs" />

@@ -112,10 +112,6 @@ namespace NTMiner {
                     }
                 }
             });
-            // 因为这个操作大概需要200毫秒
-            Task.Factory.StartNew(() => {
-                NVIDIAGpuSet.NvmlInit();
-            });
         }
 
         private void RefreshServerJsonFile() {

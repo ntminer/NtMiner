@@ -4,31 +4,30 @@ using NvU32 = System.UInt32;
 using NvS32 = System.Int32;
 
 namespace NTMiner.Gpus.Nvapi {
-    internal static class NvConst {
+    internal static class NvapiConst {
         internal const int MAX_PHYSICAL_GPUS = 64;
         internal const int MAX_PSTATES_PER_GPU = 8;
         internal const int MAX_COOLER_PER_GPU = 20;
         internal const int MAX_THERMAL_SENSORS_PER_GPU = 3;
         internal const int MAX_POWER_ENTRIES_PER_GPU = 4;
 
-        public const int NVAPI_MAX_GPU_CLOCKS = 32;
-        public const int NVAPI_MAX_GPU_PUBLIC_CLOCKS = 32;
-        public const int NVAPI_MAX_GPU_PERF_CLOCKS = 32;
-        public const int NVAPI_MAX_GPU_PERF_VOLTAGES = 16;
-        public const int NVAPI_MAX_GPU_PERF_PSTATES = 16;
+        internal const int NVAPI_MAX_GPU_CLOCKS = 32;
+        internal const int NVAPI_MAX_GPU_PUBLIC_CLOCKS = 32;
+        internal const int NVAPI_MAX_GPU_PERF_CLOCKS = 32;
+        internal const int NVAPI_MAX_GPU_PERF_VOLTAGES = 16;
+        internal const int NVAPI_MAX_GPU_PERF_PSTATES = 16;
+        
+        internal const int NVAPI_MAX_GPU_PSTATE20_PSTATES = 16;
+        internal const int NVAPI_MAX_GPU_PSTATE20_CLOCKS = 8;
+        internal const int NVAPI_MAX_GPU_PSTATE20_BASE_VOLTAGES = 4;
 
+        internal const int NV_GPU_CLOCK_FREQUENCIES_CURRENT_FREQ = 0;
+        internal const int NV_GPU_CLOCK_FREQUENCIES_BASE_CLOCK = 1;
+        internal const int NV_GPU_CLOCK_FREQUENCIES_BOOST_CLOCK = 2;
+        internal const int NV_GPU_CLOCK_FREQUENCIES_CLOCK_TYPE_NUM = 3;
+        internal const int NV_GPU_CLOCK_FREQUENCIES_CLOCK_TYPE = 4;
 
-        public const int NVAPI_MAX_GPU_PSTATE20_PSTATES = 16;
-        public const int NVAPI_MAX_GPU_PSTATE20_CLOCKS = 8;
-        public const int NVAPI_MAX_GPU_PSTATE20_BASE_VOLTAGES = 4;
-
-        public const int NV_GPU_CLOCK_FREQUENCIES_CURRENT_FREQ = 0;
-        public const int NV_GPU_CLOCK_FREQUENCIES_BASE_CLOCK = 1;
-        public const int NV_GPU_CLOCK_FREQUENCIES_BOOST_CLOCK = 2;
-        public const int NV_GPU_CLOCK_FREQUENCIES_CLOCK_TYPE_NUM = 3;
-        public const int NV_GPU_CLOCK_FREQUENCIES_CLOCK_TYPE = 4;
-
-        public const int NVAPI_MAX_COOLERS_PER_GPU = 3;
+        internal const int NVAPI_MAX_COOLERS_PER_GPU = 3;
     }
 
     #region Enumms
@@ -114,7 +113,7 @@ namespace NTMiner.Gpus.Nvapi {
         NVAPI_GPU_PUBLIC_CLOCK_MEMORY = 4,
         NVAPI_GPU_PUBLIC_CLOCK_PROCESSOR = 7,
         NVAPI_GPU_PUBLIC_CLOCK_VIDEO = 8,
-        NVAPI_GPU_PUBLIC_CLOCK_UNDEFINED = NvConst.NVAPI_MAX_GPU_PUBLIC_CLOCKS,
+        NVAPI_GPU_PUBLIC_CLOCK_UNDEFINED = NvapiConst.NVAPI_MAX_GPU_PUBLIC_CLOCKS,
     }
     internal enum NV_GPU_PERF_PSTATE_ID : NvU32 {
         NVAPI_GPU_PERF_PSTATE_P0 = 0,
@@ -133,7 +132,7 @@ namespace NTMiner.Gpus.Nvapi {
         NVAPI_GPU_PERF_PSTATE_P13,
         NVAPI_GPU_PERF_PSTATE_P14,
         NVAPI_GPU_PERF_PSTATE_P15,
-        NVAPI_GPU_PERF_PSTATE_UNDEFINED = NvConst.NVAPI_MAX_GPU_PERF_PSTATES,
+        NVAPI_GPU_PERF_PSTATE_UNDEFINED = NvapiConst.NVAPI_MAX_GPU_PERF_PSTATES,
         NVAPI_GPU_PERF_PSTATE_ALL,
     }
     internal enum NV_GPU_PERF_PSTATE20_CLOCK_TYPE_ID : NvU32 {
@@ -142,7 +141,7 @@ namespace NTMiner.Gpus.Nvapi {
     }
     internal enum NV_GPU_PERF_VOLTAGE_INFO_DOMAIN_ID : NvU32 {
         NVAPI_GPU_PERF_VOLTAGE_INFO_DOMAIN_CORE = 0,
-        NVAPI_GPU_PERF_VOLTAGE_INFO_DOMAIN_UNDEFINED = NvConst.NVAPI_MAX_GPU_PERF_VOLTAGES,
+        NVAPI_GPU_PERF_VOLTAGE_INFO_DOMAIN_UNDEFINED = NvapiConst.NVAPI_MAX_GPU_PERF_VOLTAGES,
     }
     #endregion
 
@@ -160,7 +159,7 @@ namespace NTMiner.Gpus.Nvapi {
     internal struct NvPStates {
         public uint Version;
         public uint Flags;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvConst.MAX_PSTATES_PER_GPU)]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.MAX_PSTATES_PER_GPU)]
         public NvPState[] PStates;
     }
     [StructLayout(LayoutKind.Sequential, Pack = 8)]
@@ -180,14 +179,14 @@ namespace NTMiner.Gpus.Nvapi {
     internal struct NvGPUThermalSettings {
         public uint Version;
         public uint Count;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvConst.MAX_THERMAL_SENSORS_PER_GPU)]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.MAX_THERMAL_SENSORS_PER_GPU)]
         public NvSensor[] Sensor;
     }
     [StructLayout(LayoutKind.Sequential, Pack = 8)]
     internal struct NvGPUPowerInfo {
         public uint Version;
         public uint Flags;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvConst.MAX_POWER_ENTRIES_PER_GPU)]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.MAX_POWER_ENTRIES_PER_GPU)]
         public NvGPUPowerInfoEntry[] Entries;
     }
 
@@ -210,7 +209,7 @@ namespace NTMiner.Gpus.Nvapi {
     internal struct NvGPUPowerStatus {
         public uint Version;
         public uint Flags;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvConst.MAX_POWER_ENTRIES_PER_GPU)]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.MAX_POWER_ENTRIES_PER_GPU)]
         public NvGPUPowerStatusEntry[] Entries;
     }
 
@@ -272,16 +271,16 @@ namespace NTMiner.Gpus.Nvapi {
     internal struct PSTATES_ARRAY_16 {
         public NV_GPU_PERF_PSTATE_ID pstateId;
         public NvU32 bIsEditable_reserved;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvConst.NVAPI_MAX_GPU_PSTATE20_CLOCKS)]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.NVAPI_MAX_GPU_PSTATE20_CLOCKS)]
         public NV_GPU_PSTATE20_CLOCK_ENTRY_V1[] clocks;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvConst.NVAPI_MAX_GPU_PSTATE20_BASE_VOLTAGES)]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.NVAPI_MAX_GPU_PSTATE20_BASE_VOLTAGES)]
         public NV_GPU_PSTATE20_BASE_VOLTAGE_ENTRY_V1[] baseVoltages;
     }
 
     [StructLayout(LayoutKind.Sequential)]
     internal struct NV_GPU_PSTATE20_V2_OV {
         public NvU32 numVoltages;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvConst.NVAPI_MAX_GPU_PSTATE20_BASE_VOLTAGES)]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.NVAPI_MAX_GPU_PSTATE20_BASE_VOLTAGES)]
         public NV_GPU_PSTATE20_BASE_VOLTAGE_ENTRY_V1[] voltages;
     }
 
@@ -292,7 +291,7 @@ namespace NTMiner.Gpus.Nvapi {
         public NvU32 numPstates;
         public NvU32 numClocks;
         public NvU32 numBaseVoltages;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvConst.NVAPI_MAX_GPU_PERF_PSTATES)]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.NVAPI_MAX_GPU_PERF_PSTATES)]
         public PSTATES_ARRAY_16[] pstates;
         public NV_GPU_PSTATE20_V2_OV ov;
     }
@@ -304,7 +303,7 @@ namespace NTMiner.Gpus.Nvapi {
         public NvU32 numPstates;
         public NvU32 numClocks;
         public NvU32 numBaseVoltages;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvConst.NVAPI_MAX_GPU_PERF_PSTATES)]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.NVAPI_MAX_GPU_PERF_PSTATES)]
         public PSTATES_ARRAY_16[] pstates;
     }
 
@@ -322,7 +321,7 @@ namespace NTMiner.Gpus.Nvapi {
     public struct NV_GPU_CLOCK_FREQUENCIES_V2 {
         public NvU32 version;
         public NvU32 ClockType_reserved_reserved1;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvConst.NVAPI_MAX_GPU_PUBLIC_CLOCKS)]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.NVAPI_MAX_GPU_PUBLIC_CLOCKS)]
         public NV_GPU_CLOCK_FREQUENCIES_DOMAIN[] domain;
         public NvU32 ClockType {
             set {
@@ -489,7 +488,7 @@ namespace NTMiner.Gpus.Nvapi {
     public struct NVAPI_COOLER_SETTINGS {
         public NvU32 version;
         public NvU32 count;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvConst.NVAPI_MAX_COOLERS_PER_GPU)]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.NVAPI_MAX_COOLERS_PER_GPU)]
         public NVAPI_COOLER_ITEM[] cooler;
     }
 
@@ -502,7 +501,7 @@ namespace NTMiner.Gpus.Nvapi {
     [StructLayout(LayoutKind.Sequential)]
     public struct NVAPI_COOLER_LEVEL {
         public NvU32 version;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvConst.NVAPI_MAX_COOLERS_PER_GPU)]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.NVAPI_MAX_COOLERS_PER_GPU)]
         public NVAPI_COOLER_LEVEL_ITEM[] coolers;
     }
     #endregion

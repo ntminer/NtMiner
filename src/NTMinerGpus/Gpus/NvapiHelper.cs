@@ -19,7 +19,7 @@ namespace NTMiner.Gpus {
                         return _handlesByBusId;
                     }
                     _handlesByBusId = new Dictionary<int, NvPhysicalGpuHandle>();
-                    var handles = new NvPhysicalGpuHandle[NvConst.MAX_PHYSICAL_GPUS];
+                    var handles = new NvPhysicalGpuHandle[NvapiConst.MAX_PHYSICAL_GPUS];
                     NvapiNativeMethods.NvAPI_EnumPhysicalGPUs(handles, out int gpuCount);
                     for (int i = 0; i < gpuCount; i++) {
                         NvapiNativeMethods.NvAPI_GPU_GetBusID(handles[i], out int busId);
@@ -27,7 +27,7 @@ namespace NTMiner.Gpus {
                             _handlesByBusId.Add(busId, handles[i]);
                         }
                     }
-                    handles = new NvPhysicalGpuHandle[NvConst.MAX_PHYSICAL_GPUS];
+                    handles = new NvPhysicalGpuHandle[NvapiConst.MAX_PHYSICAL_GPUS];
                     NvapiNativeMethods.NvAPI_EnumTCCPhysicalGPUs(handles, out gpuCount);
                     for (int i = 0; i < gpuCount; i++) {
                         NvapiNativeMethods.NvAPI_GPU_GetBusID(handles[i], out int busId);
@@ -102,23 +102,23 @@ namespace NTMiner.Gpus {
         }
 
         public uint GetCoreClockBaseFreq(int busId) {
-            return GetCoreAndMemClockFreq(busId, (uint)NV_GPU_PUBLIC_CLOCK_ID.NVAPI_GPU_PUBLIC_CLOCK_GRAPHICS, NvConst.NV_GPU_CLOCK_FREQUENCIES_BASE_CLOCK);
+            return GetClockFreq(busId, (uint)NV_GPU_PUBLIC_CLOCK_ID.NVAPI_GPU_PUBLIC_CLOCK_GRAPHICS, NvapiConst.NV_GPU_CLOCK_FREQUENCIES_BASE_CLOCK);
         }
         public uint GetMemClockBaseFreq(int busId) {
-            return GetCoreAndMemClockFreq(busId, (uint)NV_GPU_PUBLIC_CLOCK_ID.NVAPI_GPU_PUBLIC_CLOCK_MEMORY, NvConst.NV_GPU_CLOCK_FREQUENCIES_BASE_CLOCK);
+            return GetClockFreq(busId, (uint)NV_GPU_PUBLIC_CLOCK_ID.NVAPI_GPU_PUBLIC_CLOCK_MEMORY, NvapiConst.NV_GPU_CLOCK_FREQUENCIES_BASE_CLOCK);
         }
         public uint GetCoreClockBoostFreq(int busId) {
-            return GetCoreAndMemClockFreq(busId, (uint)NV_GPU_PUBLIC_CLOCK_ID.NVAPI_GPU_PUBLIC_CLOCK_GRAPHICS, NvConst.NV_GPU_CLOCK_FREQUENCIES_BOOST_CLOCK);
+            return GetClockFreq(busId, (uint)NV_GPU_PUBLIC_CLOCK_ID.NVAPI_GPU_PUBLIC_CLOCK_GRAPHICS, NvapiConst.NV_GPU_CLOCK_FREQUENCIES_BOOST_CLOCK);
         }
         public uint GetMemClockBoostFreq(int busId) {
-            return GetCoreAndMemClockFreq(busId, (uint)NV_GPU_PUBLIC_CLOCK_ID.NVAPI_GPU_PUBLIC_CLOCK_MEMORY, NvConst.NV_GPU_CLOCK_FREQUENCIES_BOOST_CLOCK);
+            return GetClockFreq(busId, (uint)NV_GPU_PUBLIC_CLOCK_ID.NVAPI_GPU_PUBLIC_CLOCK_MEMORY, NvapiConst.NV_GPU_CLOCK_FREQUENCIES_BOOST_CLOCK);
         }
         
         public uint GetCoreClockFreq(int busId) {
-            return GetCoreAndMemClockFreq(busId, (uint)NV_GPU_PUBLIC_CLOCK_ID.NVAPI_GPU_PUBLIC_CLOCK_GRAPHICS, NvConst.NV_GPU_CLOCK_FREQUENCIES_CURRENT_FREQ);
+            return GetClockFreq(busId, (uint)NV_GPU_PUBLIC_CLOCK_ID.NVAPI_GPU_PUBLIC_CLOCK_GRAPHICS, NvapiConst.NV_GPU_CLOCK_FREQUENCIES_CURRENT_FREQ);
         }
         public uint GetMemClockFreq(int busId) {
-            return GetCoreAndMemClockFreq(busId, (uint)NV_GPU_PUBLIC_CLOCK_ID.NVAPI_GPU_PUBLIC_CLOCK_MEMORY, NvConst.NV_GPU_CLOCK_FREQUENCIES_CURRENT_FREQ);
+            return GetClockFreq(busId, (uint)NV_GPU_PUBLIC_CLOCK_ID.NVAPI_GPU_PUBLIC_CLOCK_MEMORY, NvapiConst.NV_GPU_CLOCK_FREQUENCIES_CURRENT_FREQ);
         }
 
         public bool SetCoreClockV2(int busId, int kHz) {
@@ -128,7 +128,7 @@ namespace NTMiner.Gpus {
                 info.numClocks = 1;
                 info.pstates[0].clocks[0].domainId = NV_GPU_PUBLIC_CLOCK_ID.NVAPI_GPU_PUBLIC_CLOCK_GRAPHICS;
                 info.pstates[0].clocks[0].freqDelta_kHz.value = kHz;
-                return NvSetGetPStateV2(busId, ref info);
+                return NvSetPStateV2(busId, ref info);
             }
             catch {
             }
@@ -146,7 +146,7 @@ namespace NTMiner.Gpus {
                 info.pstates[0].clocks[0].typeId = NV_GPU_PERF_PSTATE20_CLOCK_TYPE_ID.NVAPI_GPU_PERF_PSTATE20_CLOCK_TYPE_SINGLE;
                 info.pstates[0].clocks[0].freqDelta_kHz.value = kHz;
 
-                return NvSetGetPStateV2(busId, ref info);
+                return NvSetPStateV2(busId, ref info);
             }
             catch {
             }
@@ -332,10 +332,10 @@ namespace NTMiner.Gpus {
             return info;
         }
 
-        private bool NvSetGetPStateV2(int busId, ref NV_GPU_PERF_PSTATES20_INFO_V2 info) {
+        private bool NvSetPStateV2(int busId, ref NV_GPU_PERF_PSTATES20_INFO_V2 info) {
             try {
                 info.version = (uint)(VERSION2 | (Marshal.SizeOf(typeof(NV_GPU_PERF_PSTATES20_INFO_V2))));
-                if (NvapiNativeMethods.NvSetGetPStateV2(_handlesByBusId[busId], ref info) == NvStatus.OK) {
+                if (NvapiNativeMethods.NvSetPStateV2(_handlesByBusId[busId], ref info) == NvStatus.OK) {
                     return true;
                 }
             }
@@ -344,11 +344,11 @@ namespace NTMiner.Gpus {
             return false;
         }
 
-        private bool NvSetGetPStateV1(int busId, ref NV_GPU_PERF_PSTATES20_INFO_V1 info) {
+        private bool NvSetPStateV1(int busId, ref NV_GPU_PERF_PSTATES20_INFO_V1 info) {
             try {
                 int len = Marshal.SizeOf(typeof(NV_GPU_PERF_PSTATES20_INFO_V1));
                 info.version = (uint)(VERSION1 | (Marshal.SizeOf(typeof(NV_GPU_PERF_PSTATES20_INFO_V1))));
-                if (NvapiNativeMethods.NvSetGetPStateV1(_handlesByBusId[busId], ref info) == NvStatus.OK) {
+                if (NvapiNativeMethods.NvSetPStateV1(_handlesByBusId[busId], ref info) == NvStatus.OK) {
                     return true;
                 }
             }
@@ -371,7 +371,7 @@ namespace NTMiner.Gpus {
             return info;
         }
 
-        private uint GetCoreAndMemClockFreq(int busId, uint clockId, uint clockType) {
+        private uint GetClockFreq(int busId, uint clockId, uint clockType) {
             try {
                 NV_GPU_CLOCK_FREQUENCIES_V2 info = NvGetAllClockFrequenciesV2(busId, clockType);
                 if (clockId < info.domain.Length) {

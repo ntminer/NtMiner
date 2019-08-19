@@ -4,7 +4,10 @@ using System.Text;
 
 
 namespace NTMiner.Gpus.Nvml {
-    public static class NvmlNativeMethods {
+    internal static class NvmlNativeMethods {
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        internal static extern bool SetDllDirectory(string lpPathName);
+
         private const string NVML_API_DLL_NAME = "nvml";
 
 
@@ -33,7 +36,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN             on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME, EntryPoint = "nvmlInit_v2")]
-        public static extern nvmlReturn nvmlInit();
+        internal static extern nvmlReturn nvmlInit();
 
 
         /// <summary>
@@ -52,7 +55,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlShutdown();
+        internal static extern nvmlReturn nvmlShutdown();
 
 
         [DllImport(NVML_API_DLL_NAME, EntryPoint = "nvmlErrorString")]
@@ -66,7 +69,7 @@ namespace NTMiner.Gpus.Nvml {
         /// <returns>
         /// String representation of the error.
         /// </returns>
-        public static string nvmlErrorString(nvmlReturn result) {
+        internal static string nvmlErrorString(nvmlReturn result) {
             IntPtr ptr = nvmlErrorStringInternal(result);
             string error;
             error = Marshal.PtrToStringAnsi(ptr);
@@ -92,9 +95,9 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_INVALID_ARGUMENT  if \a version is NULL
         ///         - \ref NVML_ERROR_INSUFFICIENT_SIZE if \a length is too small 
         /// </returns>
-        public static nvmlReturn nvmlSystemGetDriverVersion(out string name) {
-            byte[] temp = new byte[NVMLConstants.SystemDriverVersionBufferSize];
-            nvmlReturn ret = nvmlSystemGetDriverVersionInternal(temp, NVMLConstants.SystemDriverVersionBufferSize);
+        internal static nvmlReturn nvmlSystemGetDriverVersion(out string name) {
+            byte[] temp = new byte[NvmlConstant.SystemDriverVersionBufferSize];
+            nvmlReturn ret = nvmlSystemGetDriverVersionInternal(temp, NvmlConstant.SystemDriverVersionBufferSize);
             name = string.Empty;
             if (ret == nvmlReturn.Success) {
                 name = ASCIIEncoding.ASCII.GetString(temp).Replace("\0", "");
@@ -119,9 +122,9 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_INVALID_ARGUMENT  if \a version is NULL
         ///         - \ref NVML_ERROR_INSUFFICIENT_SIZE if \a length is too small 
         /// </returns>
-        public static nvmlReturn nvmlSystemGetNVMLVersion(out string name) {
-            byte[] temp = new byte[NVMLConstants.SystemNVMLVersionBufferSize];
-            nvmlReturn ret = nvmlSystemGetNVMLVersionInternal(temp, NVMLConstants.SystemNVMLVersionBufferSize);
+        internal static nvmlReturn nvmlSystemGetNVMLVersion(out string name) {
+            byte[] temp = new byte[NvmlConstant.SystemNVMLVersionBufferSize];
+            nvmlReturn ret = nvmlSystemGetNVMLVersionInternal(temp, NvmlConstant.SystemNVMLVersionBufferSize);
             name = string.Empty;
             if (ret == nvmlReturn.Success) {
                 name = ASCIIEncoding.ASCII.GetString(temp).Replace("\0", "");
@@ -150,7 +153,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_NO_PERMISSION     if the user doesn't have permission to perform this operation
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
-        public static nvmlReturn nvmlSystemGetProcessName(uint pid, out string name) {
+        internal static nvmlReturn nvmlSystemGetProcessName(uint pid, out string name) {
             byte[] temp = new byte[2048];
             nvmlReturn ret = nvmlSystemGetProcessNameInternal(pid, temp, 2048);
             name = string.Empty;
@@ -174,7 +177,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlUnitGetCount(ref uint unitCount);
+        internal static extern nvmlReturn nvmlUnitGetCount(ref uint unitCount);
 
 
         /// <summary>
@@ -194,7 +197,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlUnitGetHandleByIndex(uint index, ref nvmlUnit unit);
+        internal static extern nvmlReturn nvmlUnitGetHandleByIndex(uint index, ref nvmlUnit unit);
 
 
         /// <summary>
@@ -211,7 +214,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_INVALID_ARGUMENT  if \a unit is invalid or \a info is NULL
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlUnitGetUnitInfo(nvmlUnit unit, ref nvmlUnitInfo info);
+        internal static extern nvmlReturn nvmlUnitGetUnitInfo(nvmlUnit unit, ref nvmlUnitInfo info);
 
 
         /// <summary>
@@ -232,7 +235,7 @@ namespace NTMiner.Gpus.Nvml {
         /// @see nvmlUnitSetLedState()
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlUnitGetLedState(nvmlUnit unit, ref nvmlLedState state);
+        internal static extern nvmlReturn nvmlUnitGetLedState(nvmlUnit unit, ref nvmlLedState state);
 
 
         /// <summary>
@@ -251,7 +254,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlUnitGetPsuInfo(nvmlUnit unit, ref nvmlPSUInfo psu);
+        internal static extern nvmlReturn nvmlUnitGetPsuInfo(nvmlUnit unit, ref nvmlPSUInfo psu);
 
 
         /// <summary>
@@ -272,7 +275,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlUnitGetTemperature(nvmlUnit unit, uint type, ref uint temp);
+        internal static extern nvmlReturn nvmlUnitGetTemperature(nvmlUnit unit, uint type, ref uint temp);
 
 
         /// <summary>
@@ -291,7 +294,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlUnitGetFanSpeedInfo(nvmlUnit unit, ref nvmlUnitFanSpeeds fanSpeeds);
+        internal static extern nvmlReturn nvmlUnitGetFanSpeedInfo(nvmlUnit unit, ref nvmlUnitFanSpeeds fanSpeeds);
 
 
         /// <summary>
@@ -311,7 +314,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlUnitGetDevices(nvmlUnit unit, ref uint deviceCount, nvmlDevice[] devices);
+        internal static extern nvmlReturn nvmlUnitGetDevices(nvmlUnit unit, ref uint deviceCount, nvmlDevice[] devices);
 
 
         /// <summary>
@@ -331,7 +334,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_INSUFFICIENT_SIZE if \a hwbcCount indicates that the \a hwbcEntries array is too small
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlSystemGetHicVersion(ref uint hwbcCount, nvmlHwbcEntry[] hwbcEntries);
+        internal static extern nvmlReturn nvmlSystemGetHicVersion(ref uint hwbcCount, nvmlHwbcEntry[] hwbcEntries);
 
 
         /// <summary>
@@ -354,7 +357,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME, EntryPoint = "nvmlDeviceGetCount_v2")]
-        public static extern nvmlReturn nvmlDeviceGetCount(ref uint deviceCount);
+        internal static extern nvmlReturn nvmlDeviceGetCount(ref uint deviceCount);
 
 
         /// <summary>
@@ -398,7 +401,7 @@ namespace NTMiner.Gpus.Nvml {
         /// @see nvmlDeviceGetCount
         /// </returns>
         [DllImport(NVML_API_DLL_NAME, EntryPoint = "nvmlDeviceGetHandleByIndex_v2")]
-        public static extern nvmlReturn nvmlDeviceGetHandleByIndex(uint index, ref nvmlDevice device);
+        internal static extern nvmlReturn nvmlDeviceGetHandleByIndex(uint index, ref nvmlDevice device);
 
 
         /// <summary>
@@ -420,7 +423,7 @@ namespace NTMiner.Gpus.Nvml {
         /// @see nvmlDeviceGetUUID
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetHandleByUUID([MarshalAs(UnmanagedType.LPStr)] string uuid, ref nvmlDevice device);
+        internal static extern nvmlReturn nvmlDeviceGetHandleByUUID([MarshalAs(UnmanagedType.LPStr)] string uuid, ref nvmlDevice device);
 
 
         /// <summary>
@@ -449,7 +452,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN            on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME, EntryPoint = "nvmlDeviceGetHandleByPciBusId_v2")]
-        public static extern nvmlReturn nvmlDeviceGetHandleByPciBusId([MarshalAs(UnmanagedType.LPStr)] string pciBusId, ref nvmlDevice device);
+        internal static extern nvmlReturn nvmlDeviceGetHandleByPciBusId([MarshalAs(UnmanagedType.LPStr)] string pciBusId, ref nvmlDevice device);
 
 
         [DllImport(NVML_API_DLL_NAME, EntryPoint = "nvmlDeviceGetName")]
@@ -474,9 +477,9 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_GPU_IS_LOST       if the target GPU has fallen off the bus or is otherwise inaccessible
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
-        public static nvmlReturn nvmlDeviceGetName(nvmlDevice device, out string name) {
-            byte[] temp = new byte[NVMLConstants.DeviceNameBufferSize];
-            nvmlReturn ret = nvmlDeviceGetNameInternal(device, temp, NVMLConstants.DeviceNameBufferSize);
+        internal static nvmlReturn nvmlDeviceGetName(nvmlDevice device, out string name) {
+            byte[] temp = new byte[NvmlConstant.DeviceNameBufferSize];
+            nvmlReturn ret = nvmlDeviceGetNameInternal(device, temp, NvmlConstant.DeviceNameBufferSize);
             name = string.Empty;
             if (ret == nvmlReturn.Success) {
                 name = ASCIIEncoding.ASCII.GetString(temp).Replace("\0", "");
@@ -501,7 +504,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetBrand(nvmlDevice device, ref nvmlBrandType type);
+        internal static extern nvmlReturn nvmlDeviceGetBrand(nvmlDevice device, ref nvmlBrandType type);
 
 
         /// <summary>
@@ -529,7 +532,7 @@ namespace NTMiner.Gpus.Nvml {
         /// @see nvmlDeviceGetCount()
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetIndex(nvmlDevice device, ref uint index);
+        internal static extern nvmlReturn nvmlDeviceGetIndex(nvmlDevice device, ref uint index);
 
 
         [DllImport(NVML_API_DLL_NAME, EntryPoint = "nvmlDeviceGetSerial")]
@@ -554,9 +557,9 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_GPU_IS_LOST       if the target GPU has fallen off the bus or is otherwise inaccessible
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
-        public static nvmlReturn nvmlDeviceGetSerial(nvmlDevice device, out string serial) {
-            byte[] temp = new byte[NVMLConstants.DeviceSerialBufferSize];
-            nvmlReturn ret = nvmlDeviceGetSerialInternal(device, temp, NVMLConstants.DeviceSerialBufferSize);
+        internal static nvmlReturn nvmlDeviceGetSerial(nvmlDevice device, out string serial) {
+            byte[] temp = new byte[NvmlConstant.DeviceSerialBufferSize];
+            nvmlReturn ret = nvmlDeviceGetSerialInternal(device, temp, NvmlConstant.DeviceSerialBufferSize);
             serial = string.Empty;
             if (ret == nvmlReturn.Success) {
                 serial = ASCIIEncoding.ASCII.GetString(temp).Replace("\0", "");
@@ -585,7 +588,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetCpuAffinity(nvmlDevice device, uint cpuSetSize, ulong[] cpuSet);
+        internal static extern nvmlReturn nvmlDeviceGetCpuAffinity(nvmlDevice device, uint cpuSetSize, ulong[] cpuSet);
 
 
         /// <summary>
@@ -607,7 +610,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceSetCpuAffinity(nvmlDevice device);
+        internal static extern nvmlReturn nvmlDeviceSetCpuAffinity(nvmlDevice device);
 
 
         /// <summary>
@@ -625,7 +628,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceClearCpuAffinity(nvmlDevice device);
+        internal static extern nvmlReturn nvmlDeviceClearCpuAffinity(nvmlDevice device);
 
 
         /// <summary>
@@ -644,7 +647,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           an error has occurred in underlying topology discovery
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetTopologyCommonAncestor(nvmlDevice device1, nvmlDevice device2, ref nvmlGpuTopologyLevel pathInfo);
+        internal static extern nvmlReturn nvmlDeviceGetTopologyCommonAncestor(nvmlDevice device1, nvmlDevice device2, ref nvmlGpuTopologyLevel pathInfo);
 
 
         /// <summary>
@@ -664,7 +667,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           an error has occurred in underlying topology discovery
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetTopologyNearestGpus(nvmlDevice device, nvmlGpuTopologyLevel level, ref uint count, nvmlDevice[] deviceArray);
+        internal static extern nvmlReturn nvmlDeviceGetTopologyNearestGpus(nvmlDevice device, nvmlGpuTopologyLevel level, ref uint count, nvmlDevice[] deviceArray);
 
 
         /// <summary>
@@ -683,7 +686,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           an error has occurred in underlying topology discovery
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlSystemGetTopologyGpuSet(uint cpuNumber, ref uint count, nvmlDevice[] deviceArray);
+        internal static extern nvmlReturn nvmlSystemGetTopologyGpuSet(uint cpuNumber, ref uint count, nvmlDevice[] deviceArray);
 
 
         [DllImport(NVML_API_DLL_NAME, EntryPoint = "nvmlDeviceGetUUID")]
@@ -709,9 +712,9 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_GPU_IS_LOST       if the target GPU has fallen off the bus or is otherwise inaccessible
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
-        public static nvmlReturn nvmlDeviceGetUUID(nvmlDevice device, out string uuid) {
-            byte[] temp = new byte[NVMLConstants.DevicePartNumberBufferSize];
-            nvmlReturn ret = nvmlDeviceGetUUIDInternal(device, temp, NVMLConstants.DevicePartNumberBufferSize);
+        internal static nvmlReturn nvmlDeviceGetUUID(nvmlDevice device, out string uuid) {
+            byte[] temp = new byte[NvmlConstant.DevicePartNumberBufferSize];
+            nvmlReturn ret = nvmlDeviceGetUUIDInternal(device, temp, NvmlConstant.DevicePartNumberBufferSize);
             uuid = string.Empty;
             if (ret == nvmlReturn.Success) {
                 uuid = ASCIIEncoding.ASCII.GetString(temp).Replace("\0", "");
@@ -738,7 +741,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetMinorNumber(nvmlDevice device, ref uint minorNumber);
+        internal static extern nvmlReturn nvmlDeviceGetMinorNumber(nvmlDevice device, ref uint minorNumber);
 
 
         [DllImport(NVML_API_DLL_NAME, EntryPoint = "nvmlDeviceGetBoardPartNumber")]
@@ -759,9 +762,9 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_GPU_IS_LOST        if the target GPU has fallen off the bus or is otherwise inaccessible
         ///         - \ref NVML_ERROR_UNKNOWN            on any unexpected error
         /// </returns>
-        public static nvmlReturn nvmlDeviceGetBoardPartNumber(nvmlDevice device, out string partNumber) {
-            byte[] temp = new byte[NVMLConstants.DevicePartNumberBufferSize];
-            nvmlReturn ret = nvmlDeviceGetBoardPartNumberInternal(device, temp, NVMLConstants.DevicePartNumberBufferSize);
+        internal static nvmlReturn nvmlDeviceGetBoardPartNumber(nvmlDevice device, out string partNumber) {
+            byte[] temp = new byte[NvmlConstant.DevicePartNumberBufferSize];
+            nvmlReturn ret = nvmlDeviceGetBoardPartNumberInternal(device, temp, NvmlConstant.DevicePartNumberBufferSize);
             partNumber = string.Empty;
             if (ret == nvmlReturn.Success) {
                 partNumber = ASCIIEncoding.ASCII.GetString(temp).Replace("\0", "");
@@ -796,9 +799,9 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// @see nvmlDeviceGetInforomImageVersion
         /// </returns>
-        public static nvmlReturn nvmlDeviceGetInforomVersion(nvmlDevice device, nvmlInforomObject IRobject, out string version) {
-            byte[] temp = new byte[NVMLConstants.DeviceInformVersionBufferSize];
-            nvmlReturn ret = nvmlDeviceGetInforomVersionInternal(device, IRobject, temp, NVMLConstants.DeviceInformVersionBufferSize);
+        internal static nvmlReturn nvmlDeviceGetInforomVersion(nvmlDevice device, nvmlInforomObject IRobject, out string version) {
+            byte[] temp = new byte[NvmlConstant.DeviceInformVersionBufferSize];
+            nvmlReturn ret = nvmlDeviceGetInforomVersionInternal(device, IRobject, temp, NvmlConstant.DeviceInformVersionBufferSize);
             version = string.Empty;
             if (ret == nvmlReturn.Success) {
                 version = ASCIIEncoding.ASCII.GetString(temp).Replace("\0", "");
@@ -831,9 +834,9 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// @see nvmlDeviceGetInforomVersion
         /// </returns>
-        public static nvmlReturn nvmlDeviceGetInforomImageVersion(nvmlDevice device, out string version) {
-            byte[] temp = new byte[NVMLConstants.DeviceInformVersionBufferSize];
-            nvmlReturn ret = nvmlDeviceGetInforomImageVersionInternal(device, temp, NVMLConstants.DeviceInformVersionBufferSize);
+        internal static nvmlReturn nvmlDeviceGetInforomImageVersion(nvmlDevice device, out string version) {
+            byte[] temp = new byte[NvmlConstant.DeviceInformVersionBufferSize];
+            nvmlReturn ret = nvmlDeviceGetInforomImageVersionInternal(device, temp, NvmlConstant.DeviceInformVersionBufferSize);
             version = string.Empty;
             if (ret == nvmlReturn.Success) {
                 version = ASCIIEncoding.ASCII.GetString(temp).Replace("\0", "");
@@ -861,7 +864,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error 
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetInforomConfigurationChecksum(nvmlDevice device, ref uint checksum);
+        internal static extern nvmlReturn nvmlDeviceGetInforomConfigurationChecksum(nvmlDevice device, ref uint checksum);
 
 
         /// <summary>
@@ -879,7 +882,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error 
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceValidateInforom(nvmlDevice device);
+        internal static extern nvmlReturn nvmlDeviceValidateInforom(nvmlDevice device);
 
 
         /// <summary>
@@ -901,7 +904,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetDisplayMode(nvmlDevice device, ref nvmlEnableState display);
+        internal static extern nvmlReturn nvmlDeviceGetDisplayMode(nvmlDevice device, ref nvmlEnableState display);
 
 
         /// <summary>
@@ -924,7 +927,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetDisplayActive(nvmlDevice device, ref nvmlEnableState isActive);
+        internal static extern nvmlReturn nvmlDeviceGetDisplayActive(nvmlDevice device, ref nvmlEnableState isActive);
 
 
         /// <summary>
@@ -948,7 +951,7 @@ namespace NTMiner.Gpus.Nvml {
         /// @see nvmlDeviceSetPersistenceMode()
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetPersistenceMode(nvmlDevice device, ref nvmlEnableState mode);
+        internal static extern nvmlReturn nvmlDeviceGetPersistenceMode(nvmlDevice device, ref nvmlEnableState mode);
 
 
         /// <summary>
@@ -968,7 +971,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME, EntryPoint = "nvmlDeviceGetPciInfo_v2")]
-        public static extern nvmlReturn nvmlDeviceGetPciInfo(nvmlDevice device, ref nvmlPciInfo pci);
+        internal static extern nvmlReturn nvmlDeviceGetPciInfo(nvmlDevice device, ref nvmlPciInfo pci);
 
 
         /// <summary>
@@ -990,7 +993,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetMaxPcieLinkGeneration(nvmlDevice device, ref uint maxLinkGen);
+        internal static extern nvmlReturn nvmlDeviceGetMaxPcieLinkGeneration(nvmlDevice device, ref uint maxLinkGen);
 
 
         /// <summary>
@@ -1012,7 +1015,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetMaxPcieLinkWidth(nvmlDevice device, ref uint maxLinkWidth);
+        internal static extern nvmlReturn nvmlDeviceGetMaxPcieLinkWidth(nvmlDevice device, ref uint maxLinkWidth);
 
 
         /// <summary>
@@ -1032,7 +1035,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetCurrPcieLinkGeneration(nvmlDevice device, ref uint currLinkGen);
+        internal static extern nvmlReturn nvmlDeviceGetCurrPcieLinkGeneration(nvmlDevice device, ref uint currLinkGen);
 
 
         /// <summary>
@@ -1052,7 +1055,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetCurrPcieLinkWidth(nvmlDevice device, ref uint currLinkWidth);
+        internal static extern nvmlReturn nvmlDeviceGetCurrPcieLinkWidth(nvmlDevice device, ref uint currLinkWidth);
 
 
         /// <summary>
@@ -1075,7 +1078,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetPcieThroughput(nvmlDevice device, nvmlPcieUtilCounter counter, ref uint value);
+        internal static extern nvmlReturn nvmlDeviceGetPcieThroughput(nvmlDevice device, nvmlPcieUtilCounter counter, ref uint value);
 
 
         /// <summary>
@@ -1094,7 +1097,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetPcieReplayCounter(nvmlDevice device, ref uint value);
+        internal static extern nvmlReturn nvmlDeviceGetPcieReplayCounter(nvmlDevice device, ref uint value);
 
 
         /// <summary>
@@ -1115,7 +1118,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetClockInfo(nvmlDevice device, nvmlClockType type, ref uint clock);
+        internal static extern nvmlReturn nvmlDeviceGetClockInfo(nvmlDevice device, nvmlClockType type, ref uint clock);
 
 
         /// <summary>
@@ -1138,7 +1141,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetMaxClockInfo(nvmlDevice device, nvmlClockType type, ref uint clock);
+        internal static extern nvmlReturn nvmlDeviceGetMaxClockInfo(nvmlDevice device, nvmlClockType type, ref uint clock);
 
 
         /// <summary>
@@ -1159,7 +1162,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetApplicationsClock(nvmlDevice device, nvmlClockType clockType, ref uint clockMHz);
+        internal static extern nvmlReturn nvmlDeviceGetApplicationsClock(nvmlDevice device, nvmlClockType clockType, ref uint clockMHz);
 
 
         /// <summary>
@@ -1181,7 +1184,7 @@ namespace NTMiner.Gpus.Nvml {
         /// \see nvmlDeviceGetApplicationsClock
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetDefaultApplicationsClock(nvmlDevice device, nvmlClockType clockType, ref uint clockMHz);
+        internal static extern nvmlReturn nvmlDeviceGetDefaultApplicationsClock(nvmlDevice device, nvmlClockType clockType, ref uint clockMHz);
 
 
         /// <summary>
@@ -1203,7 +1206,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceResetApplicationsClocks(nvmlDevice device);
+        internal static extern nvmlReturn nvmlDeviceResetApplicationsClocks(nvmlDevice device);
 
 
         /// <summary>
@@ -1224,7 +1227,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetClock(nvmlDevice device, nvmlClockType clockType, nvmlClockId clockId, ref uint clockMHz);
+        internal static extern nvmlReturn nvmlDeviceGetClock(nvmlDevice device, nvmlClockType clockType, nvmlClockId clockId, ref uint clockMHz);
 
 
         /// <summary>
@@ -1244,7 +1247,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetMaxCustomerBoostClock(nvmlDevice device, nvmlClockType clockType, ref uint clockMHz);
+        internal static extern nvmlReturn nvmlDeviceGetMaxCustomerBoostClock(nvmlDevice device, nvmlClockType clockType, ref uint clockMHz);
 
 
         /// <summary>
@@ -1268,7 +1271,7 @@ namespace NTMiner.Gpus.Nvml {
         /// @see nvmlDeviceGetSupportedGraphicsClocks
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetSupportedMemoryClocks(nvmlDevice device, ref uint count, uint[] clocksMHz);
+        internal static extern nvmlReturn nvmlDeviceGetSupportedMemoryClocks(nvmlDevice device, ref uint count, uint[] clocksMHz);
 
 
         /// <summary>
@@ -1293,7 +1296,7 @@ namespace NTMiner.Gpus.Nvml {
         /// @see nvmlDeviceGetSupportedMemoryClocks
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetSupportedGraphicsClocks(nvmlDevice device, uint memoryClockMHz, ref uint count, uint[] clocksMHz);
+        internal static extern nvmlReturn nvmlDeviceGetSupportedGraphicsClocks(nvmlDevice device, uint memoryClockMHz, ref uint count, uint[] clocksMHz);
 
 
         /// <summary>
@@ -1315,7 +1318,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetAutoBoostedClocksEnabled(nvmlDevice device, ref nvmlEnableState isEnabled, ref nvmlEnableState defaultIsEnabled);
+        internal static extern nvmlReturn nvmlDeviceGetAutoBoostedClocksEnabled(nvmlDevice device, ref nvmlEnableState isEnabled, ref nvmlEnableState defaultIsEnabled);
 
 
         /// <summary>
@@ -1340,7 +1343,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceSetAutoBoostedClocksEnabled(nvmlDevice device, nvmlEnableState enabled);
+        internal static extern nvmlReturn nvmlDeviceSetAutoBoostedClocksEnabled(nvmlDevice device, nvmlEnableState enabled);
 
 
         /// <summary>
@@ -1366,7 +1369,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceSetDefaultAutoBoostedClocksEnabled(nvmlDevice device, nvmlEnableState enabled, uint flags);
+        internal static extern nvmlReturn nvmlDeviceSetDefaultAutoBoostedClocksEnabled(nvmlDevice device, nvmlEnableState enabled, uint flags);
 
 
         /// <summary>
@@ -1389,7 +1392,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetFanSpeed(nvmlDevice device, ref uint speed);
+        internal static extern nvmlReturn nvmlDeviceGetFanSpeed(nvmlDevice device, ref uint speed);
 
 
         /// <summary>
@@ -1411,7 +1414,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetTemperature(nvmlDevice device, nvmlTemperatureSensors sensorType, ref uint temp);
+        internal static extern nvmlReturn nvmlDeviceGetTemperature(nvmlDevice device, nvmlTemperatureSensors sensorType, ref uint temp);
 
 
         /// <summary>
@@ -1432,7 +1435,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetTemperatureThreshold(nvmlDevice device, nvmlTemperatureThresholds thresholdType, ref uint temp);
+        internal static extern nvmlReturn nvmlDeviceGetTemperatureThreshold(nvmlDevice device, nvmlTemperatureThresholds thresholdType, ref uint temp);
 
 
         /// <summary>
@@ -1452,7 +1455,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetPerformanceState(nvmlDevice device, ref nvmlPstates pState);
+        internal static extern nvmlReturn nvmlDeviceGetPerformanceState(nvmlDevice device, ref nvmlPstates pState);
 
 
         /// <summary>
@@ -1474,7 +1477,7 @@ namespace NTMiner.Gpus.Nvml {
         /// @see nvmlDeviceGetSupportedClocksThrottleReasons
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetCurrentClocksThrottleReasons(nvmlDevice device, ref ulong clocksThrottleReasons);
+        internal static extern nvmlReturn nvmlDeviceGetCurrentClocksThrottleReasons(nvmlDevice device, ref ulong clocksThrottleReasons);
 
 
         /// <summary>
@@ -1496,7 +1499,7 @@ namespace NTMiner.Gpus.Nvml {
         /// @see nvmlDeviceGetCurrentClocksThrottleReasons
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetSupportedClocksThrottleReasons(nvmlDevice device, ref ulong supportedClocksThrottleReasons);
+        internal static extern nvmlReturn nvmlDeviceGetSupportedClocksThrottleReasons(nvmlDevice device, ref ulong supportedClocksThrottleReasons);
 
 
         /// <summary>
@@ -1519,7 +1522,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetPowerManagementLimit(nvmlDevice device, ref uint limit);
+        internal static extern nvmlReturn nvmlDeviceGetPowerManagementLimit(nvmlDevice device, ref uint limit);
 
 
         /// <summary>
@@ -1540,7 +1543,7 @@ namespace NTMiner.Gpus.Nvml {
         /// @see nvmlDeviceSetPowerManagementLimit
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetPowerManagementLimitConstraints(nvmlDevice device, ref uint minLimit, ref uint maxLimit);
+        internal static extern nvmlReturn nvmlDeviceGetPowerManagementLimitConstraints(nvmlDevice device, ref uint minLimit, ref uint maxLimit);
 
 
         /// <summary>
@@ -1560,7 +1563,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetPowerManagementDefaultLimit(nvmlDevice device, ref uint defaultLimit);
+        internal static extern nvmlReturn nvmlDeviceGetPowerManagementDefaultLimit(nvmlDevice device, ref uint defaultLimit);
 
 
         /// <summary>
@@ -1581,7 +1584,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetPowerUsage(nvmlDevice device, ref uint power);
+        internal static extern nvmlReturn nvmlDeviceGetPowerUsage(nvmlDevice device, ref uint power);
 
 
         /// <summary>
@@ -1602,7 +1605,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetEnforcedPowerLimit(nvmlDevice device, ref uint limit);
+        internal static extern nvmlReturn nvmlDeviceGetEnforcedPowerLimit(nvmlDevice device, ref uint limit);
 
 
         /// <summary>
@@ -1626,7 +1629,7 @@ namespace NTMiner.Gpus.Nvml {
         /// @see nvmlDeviceSetGpuOperationMode
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetGpuOperationMode(nvmlDevice device, ref nvmlGpuOperationMode current, ref nvmlGpuOperationMode pending);
+        internal static extern nvmlReturn nvmlDeviceGetGpuOperationMode(nvmlDevice device, ref nvmlGpuOperationMode current, ref nvmlGpuOperationMode pending);
 
 
         /// <summary>
@@ -1650,7 +1653,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetMemoryInfo(nvmlDevice device, ref nvmlMemory memory);
+        internal static extern nvmlReturn nvmlDeviceGetMemoryInfo(nvmlDevice device, ref nvmlMemory memory);
 
 
         /// <summary>
@@ -1671,7 +1674,7 @@ namespace NTMiner.Gpus.Nvml {
         /// @see nvmlDeviceSetComputeMode()
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetComputeMode(nvmlDevice device, ref nvmlComputeMode mode);
+        internal static extern nvmlReturn nvmlDeviceGetComputeMode(nvmlDevice device, ref nvmlComputeMode mode);
 
 
         /// <summary>
@@ -1697,7 +1700,7 @@ namespace NTMiner.Gpus.Nvml {
         /// @see nvmlDeviceSetEccMode()
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetEccMode(nvmlDevice device, ref nvmlEnableState current, ref nvmlEnableState pending);
+        internal static extern nvmlReturn nvmlDeviceGetEccMode(nvmlDevice device, ref nvmlEnableState current, ref nvmlEnableState pending);
 
 
         /// <summary>
@@ -1723,7 +1726,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetBoardId(nvmlDevice device, ref uint boardId);
+        internal static extern nvmlReturn nvmlDeviceGetBoardId(nvmlDevice device, ref uint boardId);
 
 
         /// <summary>
@@ -1743,7 +1746,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetMultiGpuBoard(nvmlDevice device, ref uint multiGpuBool);
+        internal static extern nvmlReturn nvmlDeviceGetMultiGpuBoard(nvmlDevice device, ref uint multiGpuBool);
 
 
         /// <summary>
@@ -1772,7 +1775,7 @@ namespace NTMiner.Gpus.Nvml {
         /// @see nvmlDeviceClearEccErrorCounts()
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetTotalEccErrors(nvmlDevice device, nvmlMemoryErrorType errorType, nvmlEccCounterType counterType, ref ulong eccCounts);
+        internal static extern nvmlReturn nvmlDeviceGetTotalEccErrors(nvmlDevice device, nvmlMemoryErrorType errorType, nvmlEccCounterType counterType, ref ulong eccCounts);
 
 
 
@@ -1803,7 +1806,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetMemoryErrorCounter(nvmlDevice device, nvmlMemoryErrorType errorType, nvmlEccCounterType counterType, nvmlMemoryLocation locationType, ref ulong count);
+        internal static extern nvmlReturn nvmlDeviceGetMemoryErrorCounter(nvmlDevice device, nvmlMemoryErrorType errorType, nvmlEccCounterType counterType, nvmlMemoryLocation locationType, ref ulong count);
 
 
         /// <summary>
@@ -1825,7 +1828,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetUtilizationRates(nvmlDevice device, ref nvmlUtilization utilization);
+        internal static extern nvmlReturn nvmlDeviceGetUtilizationRates(nvmlDevice device, ref nvmlUtilization utilization);
 
 
         /// <summary>
@@ -1845,7 +1848,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetEncoderUtilization(nvmlDevice device, ref uint utilization, ref uint samplingPeriodUs);
+        internal static extern nvmlReturn nvmlDeviceGetEncoderUtilization(nvmlDevice device, ref uint utilization, ref uint samplingPeriodUs);
 
 
         /// <summary>
@@ -1865,7 +1868,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetDecoderUtilization(nvmlDevice device, ref uint utilization, ref uint samplingPeriodUs);
+        internal static extern nvmlReturn nvmlDeviceGetDecoderUtilization(nvmlDevice device, ref uint utilization, ref uint samplingPeriodUs);
 
 
         /// <summary>
@@ -1891,7 +1894,7 @@ namespace NTMiner.Gpus.Nvml {
         /// @see nvmlDeviceSetDriverModel()
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetDriverModel(nvmlDevice device, ref nvmlDriverModel current, ref nvmlDriverModel pending);
+        internal static extern nvmlReturn nvmlDeviceGetDriverModel(nvmlDevice device, ref nvmlDriverModel current, ref nvmlDriverModel pending);
 
 
         [DllImport(NVML_API_DLL_NAME, EntryPoint = "nvmlDeviceGetVbiosVersion")]
@@ -1914,9 +1917,9 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_GPU_IS_LOST       if the target GPU has fallen off the bus or is otherwise inaccessible
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
-        public static nvmlReturn nvmlDeviceGetVbiosVersion(nvmlDevice device, out string version) {
-            byte[] temp = new byte[NVMLConstants.DeviceVBIOSVersionBufferSize];
-            nvmlReturn ret = nvmlDeviceGetVbiosVersionInternal(device, temp, NVMLConstants.DeviceVBIOSVersionBufferSize);
+        internal static nvmlReturn nvmlDeviceGetVbiosVersion(nvmlDevice device, out string version) {
+            byte[] temp = new byte[NvmlConstant.DeviceVBIOSVersionBufferSize];
+            nvmlReturn ret = nvmlDeviceGetVbiosVersionInternal(device, temp, NvmlConstant.DeviceVBIOSVersionBufferSize);
             version = string.Empty;
             if (ret == nvmlReturn.Success) {
                 version = ASCIIEncoding.ASCII.GetString(temp).Replace("\0", "");
@@ -1944,7 +1947,7 @@ namespace NTMiner.Gpus.Nvml {
         /// 
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetBridgeChipInfo(nvmlDevice device, ref nvmlBridgeChipHierarchy bridgeHierarchy);
+        internal static extern nvmlReturn nvmlDeviceGetBridgeChipInfo(nvmlDevice device, ref nvmlBridgeChipHierarchy bridgeHierarchy);
 
 
         /// <summary>
@@ -1975,7 +1978,7 @@ namespace NTMiner.Gpus.Nvml {
         /// @see \ref nvmlSystemGetProcessName
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetComputeRunningProcesses(nvmlDevice device, ref uint infoCount, nvmlProcessInfo[] infos);
+        internal static extern nvmlReturn nvmlDeviceGetComputeRunningProcesses(nvmlDevice device, ref uint infoCount, nvmlProcessInfo[] infos);
 
 
         /// <summary>
@@ -2006,7 +2009,7 @@ namespace NTMiner.Gpus.Nvml {
         /// @see \ref nvmlSystemGetProcessName
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetGraphicsRunningProcesses(nvmlDevice device, ref uint infoCount, nvmlProcessInfo[] infos);
+        internal static extern nvmlReturn nvmlDeviceGetGraphicsRunningProcesses(nvmlDevice device, ref uint infoCount, nvmlProcessInfo[] infos);
 
 
         /// <summary>
@@ -2026,7 +2029,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceOnSameBoard(nvmlDevice device1, nvmlDevice device2, ref int onSameBoard);
+        internal static extern nvmlReturn nvmlDeviceOnSameBoard(nvmlDevice device1, nvmlDevice device2, ref int onSameBoard);
 
 
         /// <summary>
@@ -2050,7 +2053,7 @@ namespace NTMiner.Gpus.Nvml {
         /// @see nvmlRestrictedAPI
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetAPIRestriction(nvmlDevice device, nvmlRestrictedAPI apiType, ref nvmlEnableState isRestricted);
+        internal static extern nvmlReturn nvmlDeviceGetAPIRestriction(nvmlDevice device, nvmlRestrictedAPI apiType, ref nvmlEnableState isRestricted);
 
 
         /// <summary>
@@ -2093,7 +2096,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetSamples(nvmlDevice device, nvmlSamplingType type, ulong lastSeenTimeStamp, ref nvmlValueType sampleValType, ref uint sampleCount, nvmlSample[] samples);
+        internal static extern nvmlReturn nvmlDeviceGetSamples(nvmlDevice device, nvmlSamplingType type, ulong lastSeenTimeStamp, ref nvmlValueType sampleValType, ref uint sampleCount, nvmlSample[] samples);
 
 
         /// <summary>
@@ -2116,7 +2119,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetBAR1MemoryInfo(nvmlDevice device, ref nvmlBAR1Memory bar1Memory);
+        internal static extern nvmlReturn nvmlDeviceGetBAR1MemoryInfo(nvmlDevice device, ref nvmlBAR1Memory bar1Memory);
 
 
         /// <summary>
@@ -2140,7 +2143,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_GPU_IS_LOST       if the target GPU has fallen off the bus or is otherwise inaccessible
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetViolationStatus(nvmlDevice device, nvmlPerfPolicyType perfPolicyType, ref nvmlViolationTime violTime);
+        internal static extern nvmlReturn nvmlDeviceGetViolationStatus(nvmlDevice device, nvmlPerfPolicyType perfPolicyType, ref nvmlViolationTime violTime);
 
 
         /// <summary>
@@ -2160,7 +2163,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetAccountingMode(nvmlDevice device, ref nvmlEnableState mode);
+        internal static extern nvmlReturn nvmlDeviceGetAccountingMode(nvmlDevice device, ref nvmlEnableState mode);
 
 
         /// <summary>
@@ -2195,7 +2198,7 @@ namespace NTMiner.Gpus.Nvml {
         /// @see nvmlDeviceGetAccountingBufferSize
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetAccountingStats(nvmlDevice device, uint pid, ref nvmlAccountingStats stats);
+        internal static extern nvmlReturn nvmlDeviceGetAccountingStats(nvmlDevice device, uint pid, ref nvmlAccountingStats stats);
 
 
         /// <summary>
@@ -2223,7 +2226,7 @@ namespace NTMiner.Gpus.Nvml {
         /// @see nvmlDeviceGetAccountingBufferSize
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetAccountingPids(nvmlDevice device, ref uint count, uint[] pids);
+        internal static extern nvmlReturn nvmlDeviceGetAccountingPids(nvmlDevice device, ref uint count, uint[] pids);
 
 
         /// <summary>
@@ -2246,7 +2249,7 @@ namespace NTMiner.Gpus.Nvml {
         /// @see nvmlDeviceGetAccountingPids
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetAccountingBufferSize(nvmlDevice device, ref uint bufferSize);
+        internal static extern nvmlReturn nvmlDeviceGetAccountingBufferSize(nvmlDevice device, ref uint bufferSize);
 
 
         /// <summary>
@@ -2273,7 +2276,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetRetiredPages(nvmlDevice device, nvmlPageRetirementCause cause, ref uint pageCount, ulong[] addresses);
+        internal static extern nvmlReturn nvmlDeviceGetRetiredPages(nvmlDevice device, nvmlPageRetirementCause cause, ref uint pageCount, ulong[] addresses);
 
 
         /// <summary>
@@ -2292,7 +2295,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetRetiredPagesPendingStatus(nvmlDevice device, ref nvmlEnableState isPending);
+        internal static extern nvmlReturn nvmlDeviceGetRetiredPagesPendingStatus(nvmlDevice device, ref nvmlEnableState isPending);
 
 
         /// <summary>
@@ -2319,7 +2322,7 @@ namespace NTMiner.Gpus.Nvml {
         /// @see nvmlUnitGetLedState()
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlUnitSetLedState(nvmlUnit unit, nvmlLedColor color);
+        internal static extern nvmlReturn nvmlUnitSetLedState(nvmlUnit unit, nvmlLedColor color);
 
 
         /// <summary>
@@ -2347,7 +2350,7 @@ namespace NTMiner.Gpus.Nvml {
         /// @see nvmlDeviceGetPersistenceMode()
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceSetPersistenceMode(nvmlDevice device, nvmlEnableState mode);
+        internal static extern nvmlReturn nvmlDeviceSetPersistenceMode(nvmlDevice device, nvmlEnableState mode);
 
 
         /// <summary>
@@ -2375,7 +2378,7 @@ namespace NTMiner.Gpus.Nvml {
         /// @see nvmlDeviceGetComputeMode()
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceSetComputeMode(nvmlDevice device, nvmlComputeMode mode);
+        internal static extern nvmlReturn nvmlDeviceSetComputeMode(nvmlDevice device, nvmlComputeMode mode);
 
 
         /// <summary>
@@ -2402,7 +2405,7 @@ namespace NTMiner.Gpus.Nvml {
         /// @see nvmlDeviceGetEccMode()
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceSetEccMode(nvmlDevice device, nvmlEnableState ecc);
+        internal static extern nvmlReturn nvmlDeviceSetEccMode(nvmlDevice device, nvmlEnableState ecc);
 
 
         /// <summary>
@@ -2433,7 +2436,7 @@ namespace NTMiner.Gpus.Nvml {
         ///      - nvmlDeviceGetTotalEccErrors()
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceClearEccErrorCounts(nvmlDevice device, nvmlEccCounterType counterType);
+        internal static extern nvmlReturn nvmlDeviceClearEccErrorCounts(nvmlDevice device, nvmlEccCounterType counterType);
 
 
         /// <summary>
@@ -2470,7 +2473,7 @@ namespace NTMiner.Gpus.Nvml {
         /// @see nvmlDeviceGetDriverModel()
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceSetDriverModel(nvmlDevice device, nvmlDriverModel driverModel, uint flags);
+        internal static extern nvmlReturn nvmlDeviceSetDriverModel(nvmlDevice device, nvmlDriverModel driverModel, uint flags);
 
 
         /// <summary>
@@ -2502,7 +2505,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceSetApplicationsClocks(nvmlDevice device, uint memClockMHz, uint graphicsClockMHz);
+        internal static extern nvmlReturn nvmlDeviceSetApplicationsClocks(nvmlDevice device, uint memClockMHz, uint graphicsClockMHz);
 
 
         /// <summary>
@@ -2528,7 +2531,7 @@ namespace NTMiner.Gpus.Nvml {
         /// @see nvmlDeviceGetPowerManagementDefaultLimit
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceSetPowerManagementLimit(nvmlDevice device, uint limit);
+        internal static extern nvmlReturn nvmlDeviceSetPowerManagementLimit(nvmlDevice device, uint limit);
 
 
         /// <summary>
@@ -2558,7 +2561,7 @@ namespace NTMiner.Gpus.Nvml {
         /// @see nvmlDeviceGetGpuOperationMode
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceSetGpuOperationMode(nvmlDevice device, nvmlGpuOperationMode mode);
+        internal static extern nvmlReturn nvmlDeviceSetGpuOperationMode(nvmlDevice device, nvmlGpuOperationMode mode);
 
 
         /// <summary>
@@ -2587,7 +2590,7 @@ namespace NTMiner.Gpus.Nvml {
         /// @see nvmlRestrictedAPI
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceSetAPIRestriction(nvmlDevice device, nvmlRestrictedAPI apiType, nvmlEnableState isRestricted);
+        internal static extern nvmlReturn nvmlDeviceSetAPIRestriction(nvmlDevice device, nvmlRestrictedAPI apiType, nvmlEnableState isRestricted);
 
 
         /// <summary>
@@ -2615,7 +2618,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceSetAccountingMode(nvmlDevice device, nvmlEnableState mode);
+        internal static extern nvmlReturn nvmlDeviceSetAccountingMode(nvmlDevice device, nvmlEnableState mode);
 
 
         /// <summary>
@@ -2637,7 +2640,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceClearAccountingPids(nvmlDevice device);
+        internal static extern nvmlReturn nvmlDeviceClearAccountingPids(nvmlDevice device);
 
 
         /// <summary>
@@ -2656,7 +2659,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetNvLinkState(nvmlDevice device, uint link, ref nvmlEnableState isActive);
+        internal static extern nvmlReturn nvmlDeviceGetNvLinkState(nvmlDevice device, uint link, ref nvmlEnableState isActive);
 
 
         /// <summary>
@@ -2675,7 +2678,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetNvLinkVersion(nvmlDevice device, uint link, ref uint version);
+        internal static extern nvmlReturn nvmlDeviceGetNvLinkVersion(nvmlDevice device, uint link, ref uint version);
 
 
         /// <summary>
@@ -2697,7 +2700,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetNvLinkCapability(nvmlDevice device, uint link, nvmlNvLinkCapability capability, ref uint capResult);
+        internal static extern nvmlReturn nvmlDeviceGetNvLinkCapability(nvmlDevice device, uint link, nvmlNvLinkCapability capability, ref uint capResult);
 
 
         /// <summary>
@@ -2717,7 +2720,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetNvLinkRemotePciInfo(nvmlDevice device, uint link, ref nvmlPciInfo pci);
+        internal static extern nvmlReturn nvmlDeviceGetNvLinkRemotePciInfo(nvmlDevice device, uint link, ref nvmlPciInfo pci);
 
 
         /// <summary>
@@ -2738,7 +2741,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetNvLinkErrorCounter(nvmlDevice device, uint link, nvmlNvLinkErrorCounter counter, ref ulong counterValue);
+        internal static extern nvmlReturn nvmlDeviceGetNvLinkErrorCounter(nvmlDevice device, uint link, nvmlNvLinkErrorCounter counter, ref ulong counterValue);
 
 
         /// <summary>
@@ -2757,7 +2760,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceResetNvLinkErrorCounters(nvmlDevice device, uint link);
+        internal static extern nvmlReturn nvmlDeviceResetNvLinkErrorCounters(nvmlDevice device, uint link);
 
 
         /// <summary>
@@ -2780,7 +2783,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceSetNvLinkUtilizationControl(nvmlDevice device, uint link, uint counter, ref nvmlNvLinkUtilizationControl control, uint reset);
+        internal static extern nvmlReturn nvmlDeviceSetNvLinkUtilizationControl(nvmlDevice device, uint link, uint counter, ref nvmlNvLinkUtilizationControl control, uint reset);
 
 
         /// <summary>
@@ -2801,7 +2804,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetNvLinkUtilizationControl(nvmlDevice device, uint link, uint counter, ref nvmlNvLinkUtilizationControl control);
+        internal static extern nvmlReturn nvmlDeviceGetNvLinkUtilizationControl(nvmlDevice device, uint link, uint counter, ref nvmlNvLinkUtilizationControl control);
 
 
         /// <summary>
@@ -2824,7 +2827,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetNvLinkUtilizationCounter(nvmlDevice device, uint link, uint counter, ref ulong rxcounter, ref ulong txcounter);
+        internal static extern nvmlReturn nvmlDeviceGetNvLinkUtilizationCounter(nvmlDevice device, uint link, uint counter, ref ulong rxcounter, ref ulong txcounter);
 
 
         /// <summary>
@@ -2845,7 +2848,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceFreezeNvLinkUtilizationCounter(nvmlDevice device, uint link, uint counter, nvmlEnableState freeze);
+        internal static extern nvmlReturn nvmlDeviceFreezeNvLinkUtilizationCounter(nvmlDevice device, uint link, uint counter, nvmlEnableState freeze);
 
 
         /// <summary>
@@ -2865,7 +2868,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceResetNvLinkUtilizationCounter(nvmlDevice device, uint link, uint counter);
+        internal static extern nvmlReturn nvmlDeviceResetNvLinkUtilizationCounter(nvmlDevice device, uint link, uint counter);
 
 
         /// <summary>
@@ -2884,7 +2887,7 @@ namespace NTMiner.Gpus.Nvml {
         /// @see nvmlEventSetFree
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlEventSetCreate(ref nvmlEventSet set);
+        internal static extern nvmlReturn nvmlEventSetCreate(ref nvmlEventSet set);
 
 
         /// <summary>
@@ -2919,7 +2922,7 @@ namespace NTMiner.Gpus.Nvml {
         /// @see nvmlEventSetFree
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceRegisterEvents(nvmlDevice device, ulong eventTypes, nvmlEventSet set);
+        internal static extern nvmlReturn nvmlDeviceRegisterEvents(nvmlDevice device, ulong eventTypes, nvmlEventSet set);
 
 
         /// <summary>
@@ -2941,7 +2944,7 @@ namespace NTMiner.Gpus.Nvml {
         /// @see nvmlDeviceRegisterEvents
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceGetSupportedEventTypes(nvmlDevice device, ref ulong eventTypes);
+        internal static extern nvmlReturn nvmlDeviceGetSupportedEventTypes(nvmlDevice device, ref ulong eventTypes);
 
 
         /// <summary>
@@ -2972,7 +2975,7 @@ namespace NTMiner.Gpus.Nvml {
         /// @see nvmlDeviceRegisterEvents
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlEventSetWait(nvmlEventSet set, ref nvmlEventData data, uint timeoutms);
+        internal static extern nvmlReturn nvmlEventSetWait(nvmlEventSet set, ref nvmlEventData data, uint timeoutms);
 
 
         /// <summary>
@@ -2989,7 +2992,7 @@ namespace NTMiner.Gpus.Nvml {
         /// @see nvmlDeviceRegisterEvents
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlEventSetFree(nvmlEventSet set);
+        internal static extern nvmlReturn nvmlEventSetFree(nvmlEventSet set);
 
 
         /// <summary>
@@ -3014,7 +3017,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceModifyDrainState(uint nvmlIndex, nvmlEnableState newState);
+        internal static extern nvmlReturn nvmlDeviceModifyDrainState(uint nvmlIndex, nvmlEnableState newState);
 
 
         /// <summary>
@@ -3036,7 +3039,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceQueryDrainState(uint nvmlIndex, ref nvmlEnableState currentState);
+        internal static extern nvmlReturn nvmlDeviceQueryDrainState(uint nvmlIndex, ref nvmlEnableState currentState);
 
 
         /// <summary>
@@ -3065,7 +3068,7 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_IN_USE            if the device is still in use and cannot be removed
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceRemoveGpu(uint nvmlIndex);
+        internal static extern nvmlReturn nvmlDeviceRemoveGpu(uint nvmlIndex);
 
 
         /// <summary>
@@ -3093,6 +3096,6 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME)]
-        public static extern nvmlReturn nvmlDeviceDiscoverGpus(ref nvmlPciInfo spciInfo);
+        internal static extern nvmlReturn nvmlDeviceDiscoverGpus(ref nvmlPciInfo spciInfo);
     }
 }
