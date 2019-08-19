@@ -94,8 +94,9 @@
 		</controls:KbButton>
         <ListBox 
             Grid.Row="1"
+            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
             Visibility="{Binding IsPromoteHotCoin,Converter={StaticResource BoolToVisibilityConverter}}"
-			Background="Transparent"
+			Background="{StaticResource TableHeaderBackground}"
 			ItemsSource="{Binding HotCoins}"
             SelectedItem="{Binding SelectedResult}"
 			ItemContainerStyle="{StaticResource ListBoxBarItem}"
@@ -108,7 +109,7 @@
             </ListBox.ItemsPanel>
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Border Padding="10 2" Background="Transparent" MouseUp="DataGrid_MouseUp">
+                    <Border Padding="10 0" Background="Transparent" MouseUp="DataGrid_MouseUp">
                         <StackPanel>
                             <Image Width="26" Height="26" Source="{Binding IconImageSource}">
                             </Image>
