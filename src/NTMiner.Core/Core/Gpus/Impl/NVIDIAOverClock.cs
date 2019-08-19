@@ -27,14 +27,14 @@ namespace NTMiner.Core.Gpus.Impl {
                     if (value == gpu.CoreClockDelta) {
                         continue;
                     }
-                    _nvapiHelper.SetPstatesV2_CoreClock(gpu.GetBusId(), value);
+                    _nvapiHelper.SetCoreClockV2(gpu.GetBusId(), value);
                 }
             }
             else {
                 if (!NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu) || value == gpu.CoreClockDelta) {
                     return;
                 }
-                _nvapiHelper.SetPstatesV2_CoreClock(gpu.GetBusId(), value);
+                _nvapiHelper.SetCoreClockV2(gpu.GetBusId(), value);
             }
         }
 
@@ -48,14 +48,14 @@ namespace NTMiner.Core.Gpus.Impl {
                     if (value == gpu.MemoryClockDelta) {
                         continue;
                     }
-                    _nvapiHelper.SetPstatesV2_MemClock(gpu.GetBusId(), value);
+                    _nvapiHelper.SetMemClockV2(gpu.GetBusId(), value);
                 }
             }
             else {
                 if (!NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu) || value == gpu.MemoryClockDelta) {
                     return;
                 }
-                _nvapiHelper.SetPstatesV2_MemClock(gpu.GetBusId(), value);
+                _nvapiHelper.SetMemClockV2(gpu.GetBusId(), value);
             }
         }
 
@@ -71,14 +71,14 @@ namespace NTMiner.Core.Gpus.Impl {
                     if (value == gpu.PowerCapacity) {
                         continue;
                     }
-                    _nvapiHelper.setPowerLimit(gpu.GetBusId(), (uint)value);
+                    _nvapiHelper.SetPowerLimit(gpu.GetBusId(), (uint)value);
                 }
             }
             else {
                 if (!NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu) || value == gpu.PowerCapacity) {
                     return;
                 }
-                _nvapiHelper.setPowerLimit(gpu.GetBusId(), (uint)value);
+                _nvapiHelper.SetPowerLimit(gpu.GetBusId(), (uint)value);
             }
         }
 
@@ -94,14 +94,14 @@ namespace NTMiner.Core.Gpus.Impl {
                     if (value == gpu.TempLimit) {
                         continue;
                     }
-                    _nvapiHelper.setTempLimit(gpu.GetBusId(), value);
+                    _nvapiHelper.SetThermalValue(gpu.GetBusId(), value);
                 }
             }
             else {
                 if (!NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu) || value == gpu.TempLimit) {
                     return;
                 }
-                _nvapiHelper.setTempLimit(gpu.GetBusId(), value);
+                _nvapiHelper.SetThermalValue(gpu.GetBusId(), value);
             }
         }
 
@@ -117,14 +117,14 @@ namespace NTMiner.Core.Gpus.Impl {
                     if (value == gpu.Cool) {
                         continue;
                     }
-                    _nvapiHelper.setCooler(gpu.GetBusId(), (uint)value, isAutoMode: false);
+                    _nvapiHelper.SetCooler(gpu.GetBusId(), (uint)value, isAutoMode: false);
                 }
             }
             else {
                 if (!NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu) || value == gpu.Cool) {
                     return;
                 }
-                _nvapiHelper.setCooler(gpu.GetBusId(), (uint)value, isAutoMode: false);
+                _nvapiHelper.SetCooler(gpu.GetBusId(), (uint)value, isAutoMode: false);
             }
         }
 
