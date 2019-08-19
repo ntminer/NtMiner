@@ -1,4 +1,4 @@
-﻿using NTMiner.Gpus.Nvapi;
+﻿using NTMiner.Gpus;
 using System.Collections.Generic;
 
 namespace NTMiner.Core.Gpus.Impl {

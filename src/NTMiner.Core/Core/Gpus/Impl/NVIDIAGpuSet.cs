@@ -1,4 +1,4 @@
-﻿using NTMiner.Gpus.Nvapi;
+﻿using NTMiner.Gpus;
 using NTMiner.Gpus.Nvml;
 using System;
 using System.Collections;
@@ -50,56 +50,6 @@ namespace NTMiner.Core.Gpus.Impl {
             }
         }
         #endregion
-
-        private static void SetGpuStatus(Gpu gpu, nvmlReturn nvmlReturn) {
-            switch (nvmlReturn) {
-                case nvmlReturn.Success:
-                    gpu.State = GpuStatus.Ok;
-                    break;
-                case nvmlReturn.Uninitialized:
-                    break;
-                case nvmlReturn.InvalidArgument:
-                    break;
-                case nvmlReturn.NotSupported:
-                    break;
-                case nvmlReturn.NoPermission:
-                    break;
-                case nvmlReturn.NotFound:
-                    break;
-                case nvmlReturn.InsufficientSize:
-                    break;
-                case nvmlReturn.InsufficientPower:
-                    break;
-                case nvmlReturn.DriverNotLoaded:
-                    break;
-                case nvmlReturn.TimeOut:
-                    break;
-                case nvmlReturn.IRQIssue:
-                    break;
-                case nvmlReturn.LibraryNotFound:
-                    break;
-                case nvmlReturn.FunctionNotFound:
-                    break;
-                case nvmlReturn.CorruptedInfoROM:
-                    break;
-                case nvmlReturn.GPUIsLost:
-                    gpu.State = GpuStatus.GpuIsLost;
-                    break;
-                case nvmlReturn.ResetRequired:
-                    break;
-                case nvmlReturn.OperatingSystem:
-                    break;
-                case nvmlReturn.LibRMVersionMismatch:
-                    break;
-                case nvmlReturn.InUse:
-                    break;
-                case nvmlReturn.Unknown:
-                    gpu.State = GpuStatus.Unknown;
-                    break;
-                default:
-                    break;
-            }
-        }
 
         private readonly Dictionary<int, Gpu> _gpus = new Dictionary<int, Gpu>() {
             {
@@ -253,6 +203,56 @@ namespace NTMiner.Core.Gpus.Impl {
 
         IEnumerator IEnumerable.GetEnumerator() {
             return _gpus.Values.GetEnumerator();
+        }
+
+        private static void SetGpuStatus(Gpu gpu, nvmlReturn nvmlReturn) {
+            switch (nvmlReturn) {
+                case nvmlReturn.Success:
+                    gpu.State = GpuStatus.Ok;
+                    break;
+                case nvmlReturn.Uninitialized:
+                    break;
+                case nvmlReturn.InvalidArgument:
+                    break;
+                case nvmlReturn.NotSupported:
+                    break;
+                case nvmlReturn.NoPermission:
+                    break;
+                case nvmlReturn.NotFound:
+                    break;
+                case nvmlReturn.InsufficientSize:
+                    break;
+                case nvmlReturn.InsufficientPower:
+                    break;
+                case nvmlReturn.DriverNotLoaded:
+                    break;
+                case nvmlReturn.TimeOut:
+                    break;
+                case nvmlReturn.IRQIssue:
+                    break;
+                case nvmlReturn.LibraryNotFound:
+                    break;
+                case nvmlReturn.FunctionNotFound:
+                    break;
+                case nvmlReturn.CorruptedInfoROM:
+                    break;
+                case nvmlReturn.GPUIsLost:
+                    gpu.State = GpuStatus.GpuIsLost;
+                    break;
+                case nvmlReturn.ResetRequired:
+                    break;
+                case nvmlReturn.OperatingSystem:
+                    break;
+                case nvmlReturn.LibRMVersionMismatch:
+                    break;
+                case nvmlReturn.InUse:
+                    break;
+                case nvmlReturn.Unknown:
+                    gpu.State = GpuStatus.Unknown;
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

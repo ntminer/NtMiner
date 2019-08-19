@@ -34,10 +34,10 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Gpus\Adl\AdlHelper.cs" />
+    <Compile Include="Gpus\AdlHelper.cs" />
     <Compile Include="Gpus\Adl\AdlNativeMethods.cs" />
     <Compile Include="Gpus\Adl\AdlTypes.cs" />
-    <Compile Include="Gpus\Nvapi\NvapiHelper.cs" />
+    <Compile Include="Gpus\NvapiHelper.cs" />
     <Compile Include="Gpus\Nvapi\NvapiNativeMethods.cs" />
     <Compile Include="Gpus\Nvapi\NvapiTypes.cs" />
     <Compile Include="Gpus\Nvml\NvmlNativeMethods.cs" />

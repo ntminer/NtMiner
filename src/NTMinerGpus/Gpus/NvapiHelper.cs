@@ -1,8 +1,9 @@
-﻿using System;
+﻿using NTMiner.Gpus.Nvapi;
+using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-namespace NTMiner.Gpus.Nvapi {
+namespace NTMiner.Gpus {
     public class NvapiHelper {
         public NvapiHelper() { }
 

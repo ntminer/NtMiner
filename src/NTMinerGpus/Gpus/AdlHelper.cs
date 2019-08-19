@@ -1,8 +1,9 @@
-﻿using System;
+﻿using NTMiner.Gpus.Adl;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NTMiner.Gpus.Adl {
+namespace NTMiner.Gpus {
     public class AdlHelper {
         public struct ATIGPU {
             public static readonly ATIGPU Empty = new ATIGPU {
