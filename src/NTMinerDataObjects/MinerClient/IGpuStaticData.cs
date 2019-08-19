@@ -1,6 +1,9 @@
 ﻿namespace NTMiner.MinerClient {
     public interface IGpuStaticData {
         int Index { get; }
+        /// <summary>
+        /// 必须是数字格式
+        /// </summary>
         string BusId { get; }
         string Name { get; }
 
