@@ -182,47 +182,6 @@ namespace NTMiner.Gpus.Nvapi {
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.MAX_THERMAL_SENSORS_PER_GPU)]
         public NvSensor[] Sensor;
     }
-    [StructLayout(LayoutKind.Sequential, Pack = 8)]
-    internal struct NvGPUPowerInfo {
-        public uint Version;
-        public uint Flags;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.MAX_POWER_ENTRIES_PER_GPU)]
-        public NvGPUPowerInfoEntry[] Entries;
-    }
-
-    [StructLayout(LayoutKind.Sequential, Pack = 8)]
-    internal struct NvGPUPowerInfoEntry {
-        public uint PState;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2)]
-        public uint[] Unknown1;
-        public uint MinPower;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2)]
-        public uint[] Unknown2;
-        public uint DefPower;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2)]
-        public uint[] Unknown3;
-        public uint MaxPower;
-        public uint Unknown4;
-    }
-
-    [StructLayout(LayoutKind.Sequential, Pack = 8)]
-    internal struct NvGPUPowerStatus {
-        public uint Version;
-        public uint Flags;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.MAX_POWER_ENTRIES_PER_GPU)]
-        public NvGPUPowerStatusEntry[] Entries;
-    }
-
-    [StructLayout(LayoutKind.Sequential, Pack = 8)]
-    internal struct NvGPUPowerStatusEntry {
-        public uint Unknown1;
-        public uint Unknown2;
-        /// <summary>
-        /// Power percentage * 1000 (e.g. 50% is 50000)
-        /// </summary>
-        public uint Power;
-        public uint Unknown4;
-    }
 
     [StructLayout(LayoutKind.Sequential)]
     internal struct NV_GPU_PERF_PSTATES20_PARAM_DELTA {
@@ -451,7 +410,6 @@ namespace NTMiner.Gpus.Nvapi {
         NVAPI_COOLER_TARGET_ALL = 7                    // This cooler cools all of the components related to its target gpu.
     }
 
-    // rev
     public enum NV_COOLER_CONTROL {
         NVAPI_COOLER_CONTROL_NONE = 0,
         NVAPI_COOLER_CONTROL_TOGGLE,                   // ON/OFF
