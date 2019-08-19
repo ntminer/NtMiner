@@ -84,7 +84,6 @@ namespace NTMiner.Gpus {
                             GpuIndex = i
                         };
                         nvmlDevice nvmlDevice = new nvmlDevice();
-                        _nvmlDevices.Add(nvmlDevice);
                         r = NvmlNativeMethods.nvmlDeviceGetHandleByIndex((uint)i, ref nvmlDevice);
                         if (r != nvmlReturn.Success) {
                             Write.DevWarn($"nvmlDeviceGetHandleByIndex({(uint)i}) {r}");
@@ -112,6 +111,7 @@ namespace NTMiner.Gpus {
                         gpu.BusId = (int)pci.bus;
                         gpu.TotalMemory = memory.total;
                         results.Add(gpu);
+                        _nvmlDevices.Add(nvmlDevice);
                     }
                 }
             }
