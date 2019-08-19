@@ -94,7 +94,7 @@ namespace NTMiner.Gpus {
         // 将GPUIndex转换为AdapterIndex
         private bool TryGpuAdapterIndex(int gpuIndex, out int adapterIndex) {
             adapterIndex = 0;
-            if (gpuIndex >= _gpuNames.Count) {
+            if (gpuIndex < 0 || gpuIndex >= _gpuNames.Count) {
                 return false;
             }
             adapterIndex = _gpuNames[gpuIndex].AdapterIndex;

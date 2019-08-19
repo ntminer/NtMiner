@@ -148,7 +148,7 @@
 				<DataGridTemplateColumn Width="40" IsReadOnly="True">
 					<DataGridTemplateColumn.HeaderTemplate>
 						<DataTemplate>
-							<TextBlock Text="超频温度" TextWrapping="Wrap" FontSize="12"></TextBlock>
+                            <TextBlock Text="温度阈值" TextWrapping="Wrap" FontSize="12"></TextBlock>
 						</DataTemplate>
 					</DataGridTemplateColumn.HeaderTemplate>
 					<DataGridTemplateColumn.CellTemplate>
