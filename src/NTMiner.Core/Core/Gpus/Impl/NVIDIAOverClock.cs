@@ -118,6 +118,7 @@ namespace NTMiner.Core.Gpus.Impl {
                         continue;
                     }
                     _nvapiHelper.SetCooler(gpu.GetBusId(), (uint)value, isAutoMode: false);
+                    NTMinerRoot.Instance.GpuSet.LoadGpuState();
                 }
             }
             else {
@@ -125,6 +126,7 @@ namespace NTMiner.Core.Gpus.Impl {
                     return;
                 }
                 _nvapiHelper.SetCooler(gpu.GetBusId(), (uint)value, isAutoMode: false);
+                NTMinerRoot.Instance.GpuSet.LoadGpuState();
             }
         }
 

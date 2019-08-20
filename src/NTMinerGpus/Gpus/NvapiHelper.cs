@@ -641,26 +641,24 @@ namespace NTMiner.Gpus {
         }
 
         private void SetFanSpeed(int busId, uint value, bool isAutoMode) {
-            NvCoolerTarget coolerIndex = NvCoolerTarget.NVAPI_COOLER_TARGET_ALL;
             try {
+                NvCoolerTarget coolerIndex = NvCoolerTarget.NVAPI_COOLER_TARGET_ALL;
                 if (NvGetCoolerLevels(busId, coolerIndex, out NvCoolerLevel info)) {
                     var r = NvapiNativeMethods.NvGetCoolerLevels(HandlesByBusId[busId], coolerIndex, ref info);
                     if (r != NvStatus.OK) {
                         Write.DevWarn($"{nameof(NvapiNativeMethods.NvGetCoolerLevels)} {r}");
                     }
                     else {
-                        info.coolers[0].currentLevel = isAutoMode ? 0 : value;
-                        info.coolers[0].currentPolicy = isAutoMode ? NvCoolerPolicy.NVAPI_COOLER_POLICY_AUTO : NvCoolerPolicy.NVAPI_COOLER_POLICY_MANUAL;
-                        try {
-                            r = NvapiNativeMethods.NvSetCoolerLevels(HandlesByBusId[busId], coolerIndex, ref info);
-                            if (r != NvStatus.OK && DevMode.IsDevMode) {
-                                Write.DevWarn($"{nameof(NvapiNativeMethods.NvSetCoolerLevels)} {r}");
-                            }
-                            else {
-                                return;
-                            }
+                        for (int i = 0; i < info.coolers.Length; i++) {
+                            info.coolers[i].currentLevel = isAutoMode ? 0 : value;
+                            info.coolers[i].currentPolicy = isAutoMode ? NvCoolerPolicy.NVAPI_COOLER_POLICY_AUTO : NvCoolerPolicy.NVAPI_COOLER_POLICY_MANUAL;
                         }
-                        catch {
+                        r = NvapiNativeMethods.NvSetCoolerLevels(HandlesByBusId[busId], coolerIndex, ref info);
+                        if (r != NvStatus.OK && DevMode.IsDevMode) {
+                            Write.DevWarn($"{nameof(NvapiNativeMethods.NvSetCoolerLevels)} {r}");
+                        }
+                        else {
+                            return;
                         }
                     }
                 }
@@ -672,16 +670,8 @@ namespace NTMiner.Gpus {
             try {
                 if (NvFanCoolersGetControl(busId, out PrivateFanCoolersControlV1 info)) {
                     for (int i = 0; i < info.FanCoolersControlCount; i++) {
-                        if (coolerIndex != NvCoolerTarget.NVAPI_COOLER_TARGET_ALL) {
-                            if (info.FanCoolersControlEntries[i].CoolerId == (uint)coolerIndex) {
-                                info.FanCoolersControlEntries[i].ControlMode = isAutoMode ? FanCoolersControlMode.Auto : FanCoolersControlMode.Manual;
-                                info.FanCoolersControlEntries[i].Level = isAutoMode ? 0u : (uint)value;
-                            }
-                        }
-                        else {
-                            info.FanCoolersControlEntries[i].ControlMode = isAutoMode ? FanCoolersControlMode.Auto : FanCoolersControlMode.Manual;
-                            info.FanCoolersControlEntries[i].Level = isAutoMode ? 0u : (uint)value;
-                        }
+                        info.FanCoolersControlEntries[i].ControlMode = isAutoMode ? FanCoolersControlMode.Auto : FanCoolersControlMode.Manual;
+                        info.FanCoolersControlEntries[i].Level = isAutoMode ? 0u : (uint)value;
                     }
                     var r = NvapiNativeMethods.NvFanCoolersSetControl(HandlesByBusId[busId], ref info);
                     if (r != NvStatus.OK) {
@@ -699,9 +689,7 @@ namespace NTMiner.Gpus {
             defCooler = 0;
             maxCooler = 0;
             try {
-                var r = GetCoolerSettings(busId, ref minCooler, ref currCooler, ref maxCooler);
-                defCooler = minCooler;
-                return r;
+                return GetCoolerSettings(busId, ref minCooler, ref currCooler, ref maxCooler);
             }
             catch {
                 return false;
