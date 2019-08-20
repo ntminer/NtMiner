@@ -80,33 +80,32 @@ namespace NTMiner.Gpus {
             fanSpeedMax = 0;
             fanSpeedDefault = 0;
             try {
-                if (GetClockDelta(busId, isMemClock: false, out int outCurrFreqDelta, out int outMinFreqDelta, out int outMaxFreqDelta)) {
-                    coreClockMin = outMinFreqDelta;
-                    coreClockMax = outMaxFreqDelta;
-                    coreClockDelta = outCurrFreqDelta;
-                }
-                if (GetClockDelta(busId, isMemClock: true, out outCurrFreqDelta, out outMinFreqDelta, out outMaxFreqDelta)) {
-                    memoryClockMin = outMinFreqDelta;
-                    memoryClockMax = outMaxFreqDelta;
-                    memoryClockDelta = outCurrFreqDelta;
-                }
-                if (GetPowerLimit(busId, out uint outCurrPower, out uint outMinPower, out uint outDefPower, out uint outMaxPower)) {
-                    powerMin = (int)outMinPower;
-                    powerMax = (int)outMaxPower;
-                    powerDefault = (int)outDefPower;
-                    powerLimit = (int)outCurrPower;
-                }
-                if (GetTempLimit(busId, out int outCurrTemp, out int outMinTemp, out int outDefTemp, out int outMaxTemp)) {
-                    tempLimitMin = outMinTemp;
-                    tempLimitMax = outMaxTemp;
-                    tempLimitDefault = outDefTemp;
-                    tempLimit = outCurrTemp;
-                }
-                if (GetCooler(busId, out uint currCooler, out uint minCooler, out uint defCooler, out uint maxCooler)) {
-                    fanSpeedMin = (int)minCooler;
-                    fanSpeedMax = (int)maxCooler;
-                    fanSpeedDefault = (int)defCooler;
-                }
+                GetClockDelta(busId, isMemClock: false, out int outCurrFreqDelta, out int outMinFreqDelta, out int outMaxFreqDelta);
+                coreClockMin = outMinFreqDelta;
+                coreClockMax = outMaxFreqDelta;
+                coreClockDelta = outCurrFreqDelta;
+
+                GetClockDelta(busId, isMemClock: true, out outCurrFreqDelta, out outMinFreqDelta, out outMaxFreqDelta);
+                memoryClockMin = outMinFreqDelta;
+                memoryClockMax = outMaxFreqDelta;
+                memoryClockDelta = outCurrFreqDelta;
+
+                GetPowerLimit(busId, out uint outCurrPower, out uint outMinPower, out uint outDefPower, out uint outMaxPower);
+                powerMin = (int)outMinPower;
+                powerMax = (int)outMaxPower;
+                powerDefault = (int)outDefPower;
+                powerLimit = (int)outCurrPower;
+
+                GetTempLimit(busId, out int outCurrTemp, out int outMinTemp, out int outDefTemp, out int outMaxTemp);
+                tempLimitMin = outMinTemp;
+                tempLimitMax = outMaxTemp;
+                tempLimitDefault = outDefTemp;
+                tempLimit = outCurrTemp;
+
+                GetCooler(busId, out uint currCooler, out uint minCooler, out uint defCooler, out uint maxCooler);
+                fanSpeedMin = (int)minCooler;
+                fanSpeedMax = (int)maxCooler;
+                fanSpeedDefault = (int)defCooler;
 #if DEBUG
                 Write.DevWarn($"{nameof(GetClockRangeByIndex)} coreClockMin={coreClockMin},coreClockMax={coreClockMax},coreClockDelta={coreClockDelta},memoryClockMin={memoryClockMin},memoryClockMax={memoryClockMax},memoryClockDelta={memoryClockDelta},powerMin={powerMin},powerMax={powerMax},powerDefault={powerDefault},powerLimit={powerLimit},tempLimitMin={tempLimitMin},tempLimitMax={tempLimitMax},tempLimitDefault={tempLimitDefault},tempLimit={tempLimit},fanSpeedMin={fanSpeedMin},fanSpeedMax={fanSpeedMax},fanSpeedDefault={fanSpeedDefault}");
 #endif
@@ -172,12 +171,15 @@ namespace NTMiner.Gpus {
             value = value << 8;
             try {
                 NvGpuThermalInfo info = NvThermalPoliciesGetInfo(busId);
-                if (value == 0)
+                if (value == 0) {
                     value = info.entries[0].def_temp;
-                else if (value > info.entries[0].max_temp)
+                }
+                else if (value > info.entries[0].max_temp) {
                     value = info.entries[0].max_temp;
-                else if (value < info.entries[0].min_temp)
+                }
+                else if (value < info.entries[0].min_temp) {
                     value = info.entries[0].min_temp;
+                }
 
                 NvGpuThermalLimit limit = NvThermalPoliciesGetLimit(busId);
                 limit.flags = 1;
@@ -230,7 +232,7 @@ namespace NTMiner.Gpus {
             return false;
         }
 
-        public bool GetPowerLimit(int busId, out uint outCurrPower, out uint outMinPower, out uint outDefPower, out uint outMaxPower) {
+        public void GetPowerLimit(int busId, out uint outCurrPower, out uint outMinPower, out uint outDefPower, out uint outMaxPower) {
             outCurrPower = 0;
             outMinPower = 0;
             outDefPower = 0;
@@ -245,12 +247,9 @@ namespace NTMiner.Gpus {
                 outMinPower = outMinPower / 1000;
                 outDefPower = outDefPower / 1000;
                 outMaxPower = outMaxPower / 1000;
-
-                return true;
             }
             catch {
             }
-            return false;
         }
 
         public bool SetPowerLimit(int busId, uint powerValue) {
@@ -258,8 +257,8 @@ namespace NTMiner.Gpus {
             return SetPowerValue(busId, powerValue);
         }
 
-        public bool SetCooler(int busId, uint value, bool isAutoMode) {
-            return SetCoolerLevels(busId, value, isAutoMode);
+        public void SetCooler(int busId, uint value, bool isAutoMode) {
+            SetCoolerLevels(busId, value, isAutoMode);
         }
 
         #region private methods
@@ -279,11 +278,10 @@ namespace NTMiner.Gpus {
             return false;
         }
 
-        private bool GetClockDelta(int busId, bool isMemClock, out int outCurrFreqDelta, out int outMinFreqDelta, out int outMaxFreqDelta) {
+        private void GetClockDelta(int busId, bool isMemClock, out int outCurrFreqDelta, out int outMinFreqDelta, out int outMaxFreqDelta) {
             outCurrFreqDelta = 0;
             outMinFreqDelta = 0;
             outMaxFreqDelta = 0;
-            bool hasSetValue = false;
             NV_GPU_PUBLIC_CLOCK_ID clockType;
             if (isMemClock) {
                 clockType = NV_GPU_PUBLIC_CLOCK_ID.NVAPI_GPU_PUBLIC_CLOCK_MEMORY;
@@ -304,16 +302,12 @@ namespace NTMiner.Gpus {
                             outCurrFreqDelta = info.pstates[i].clocks[j].freqDelta_kHz.value;
                             outMinFreqDelta = info.pstates[i].clocks[j].freqDelta_kHz.mindelta;
                             outMaxFreqDelta = info.pstates[i].clocks[j].freqDelta_kHz.maxdelta;
-                            hasSetValue = true;
-                            return hasSetValue;
                         }
                     }
                 }
             }
             catch {
             }
-
-            return hasSetValue;
         }
 
         private NvGpuPerfPstates20InfoV1 NvGetPStateV1(int busId) {
@@ -466,7 +460,7 @@ namespace NTMiner.Gpus {
             return false;
         }
 
-        private bool GetThermalInfo(int busId, out int minThermal, out int defThermal, out int maxThermal) {
+        private void GetThermalInfo(int busId, out int minThermal, out int defThermal, out int maxThermal) {
             minThermal = 0;
             defThermal = 0;
             maxThermal = 0;
@@ -477,12 +471,10 @@ namespace NTMiner.Gpus {
                 maxThermal = info.entries[0].max_temp / (1 << 8);
             }
             catch {
-                return false;
             }
-            return false;
         }
 
-        private bool GetTempLimit(int busId, out int outCurrTemp, out int outMinTemp, out int outDefTemp, out int outMaxTemp) {
+        private void GetTempLimit(int busId, out int outCurrTemp, out int outMinTemp, out int outDefTemp, out int outMaxTemp) {
             outCurrTemp = 0;
             outMinTemp = 0;
             outDefTemp = 0;
@@ -492,23 +484,18 @@ namespace NTMiner.Gpus {
 
                 NvGpuThermalLimit limit = NvThermalPoliciesGetLimit(busId);
                 outCurrTemp = (int)(limit.entries[0].value / 256);
-
-                return true;
             }
             catch {
             }
-            return false;
         }
 
-        private bool SetDefaultTempLimit(int busId) {
+        private void SetDefaultTempLimit(int busId) {
             int currValue = 0;
             int minValue = 0;
             int defValue = 0;
             int maxValue = 0;
-            if (GetTempLimit(busId, out currValue, out minValue, out defValue, out maxValue)) {
-                return SetThermal(busId, defValue);
-            }
-            return false;
+            GetTempLimit(busId, out currValue, out minValue, out defValue, out maxValue);
+            SetThermal(busId, defValue);
         }
 
         private NvGpuPowerStatus NvPowerPoliciesGetStatus(int busId) {
@@ -555,15 +542,13 @@ namespace NTMiner.Gpus {
             return info;
         }
 
-        private bool SetDefaultPowerLimit(int busId) {
+        private void SetDefaultPowerLimit(int busId) {
             uint currPower;
             uint minPower;
             uint defPower;
             uint maxPower;
-            if (GetPowerLimit(busId, out currPower, out minPower, out defPower, out maxPower)) {
-                return SetPowerValue(busId, defPower * 1000);
-            }
-            return false;
+            GetPowerLimit(busId, out currPower, out minPower, out defPower, out maxPower);
+            SetPowerValue(busId, defPower * 1000);
         }
 
         private NvCoolerSettings GetCoolerSettings(int busId) {
@@ -584,52 +569,51 @@ namespace NTMiner.Gpus {
             return info;
         }
 
-        private bool GetCoolerSettings(int busId, ref uint minCooler, ref uint currCooler, ref uint maxCooler) {
+        private void GetCoolerSettings(int busId, ref uint minCooler, ref uint currCooler, ref uint maxCooler) {
             try {
                 NvCoolerSettings info = GetCoolerSettings(busId);
                 if (info.count > 0) {
                     minCooler = info.cooler[0].currentMinLevel;
                     currCooler = info.cooler[0].currentLevel;
                     maxCooler = info.cooler[0].currentMaxLevel;
-                    return true;
                 }
             }
             catch {
             }
-            return false;
         }
 
-        private bool SetCoolerLevels(int busId, NvCoolerTarget coolerIndex, ref NvCoolerLevel level) {
+        private void SetCoolerLevels(int busId, NvCoolerTarget coolerIndex, ref NvCoolerLevel level) {
             try {
                 level.version = (uint)(VERSION1 | (Marshal.SizeOf(typeof(NvCoolerLevel))));
                 var r = NvapiNativeMethods.NvSetCoolerLevels(HandlesByBusId[busId], coolerIndex, ref level);
                 if (r != NvStatus.OK) {
                     Write.DevWarn($"{nameof(NvapiNativeMethods.NvSetCoolerLevels)} {r}");
                 }
-                if (r == NvStatus.OK) {
-                    return true;
-                }
             }
             catch {
             }
-            return false;
         }
 
-        private bool SetCoolerLevels(int busId, uint value, bool isAutoMode) {
+        private void SetCoolerLevels(int busId, uint value, bool isAutoMode) {
             NvCoolerTarget coolerIndex = NvCoolerTarget.NVAPI_COOLER_TARGET_ALL;
             try {
                 NvCoolerLevel level = new NvCoolerLevel();
                 level.coolers[0].currentLevel = isAutoMode ? 0 : value;
                 level.coolers[0].currentPolicy = isAutoMode ? NvCoolerPolicy.NVAPI_COOLER_POLICY_AUTO : NvCoolerPolicy.NVAPI_COOLER_POLICY_MANUAL;
 
-                return SetCoolerLevels(busId, coolerIndex, ref level);
+                SetCoolerLevels(busId, coolerIndex, ref level);
             }
             catch {
             }
-            return false;
+
+            try {
+
+            }
+            catch {
+            }
         }
 
-        private bool GetCooler(int busId, out uint currCooler, out uint minCooler, out uint defCooler, out uint maxCooler) {
+        private void GetCooler(int busId, out uint currCooler, out uint minCooler, out uint defCooler, out uint maxCooler) {
             currCooler = 0;
             minCooler = 0;
             defCooler = 0;
@@ -637,11 +621,9 @@ namespace NTMiner.Gpus {
             try {
                 GetCoolerSettings(busId, ref minCooler, ref currCooler, ref maxCooler);
                 defCooler = minCooler;
-                return true;
             }
             catch {
             }
-            return false;
         }
         #endregion
     }
