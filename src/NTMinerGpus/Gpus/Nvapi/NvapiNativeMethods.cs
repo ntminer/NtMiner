@@ -7,30 +7,30 @@ namespace NTMiner.Gpus.Nvapi {
         private delegate IntPtr nvapi_QueryInterfaceDelegate(uint id);
         private delegate NvStatus NvAPI_InitializeDelegate();
 
-        internal delegate NvStatus NvAPI_EnumPhysicalGPUsDelegate([Out] NvPhysicalGpuHandle[] gpuHandles, out int gpuCount);
-        internal delegate NvStatus NvAPI_EnumTCCPhysicalGPUsDelegate([Out] NvPhysicalGpuHandle[] gpuHandles, out int gpuCount);
-        internal delegate NvStatus NvAPI_GPU_GetBusIdDelegate(NvPhysicalGpuHandle gpuHandle, out int busID);
-        internal delegate NvStatus NvAPI_GPU_GetTachReadingDelegate(NvPhysicalGpuHandle gpuHandle, out int value);
-        internal delegate NvStatus NvAPI_GPU_GetPStatesDelegate(NvPhysicalGpuHandle gpuHandle, ref NvPStates nvPStates);
-        internal delegate NvStatus NvAPI_GPU_GetThermalSettingsDelegate(NvPhysicalGpuHandle gpuHandle, int sensorIndex, ref NvGPUThermalSettings nvGPUThermalSettings);
+        internal delegate NvStatus NvAPI_EnumPhysicalGPUsDelegate([Out] NvPhysicalGpuHandle[] physicalGpus, out int gpuCount);
+        internal delegate NvStatus NvAPI_EnumTCCPhysicalGPUsDelegate([Out] NvPhysicalGpuHandle[] physicalGpus, out int gpuCount);
+        internal delegate NvStatus NvAPI_GPU_GetBusIdDelegate(NvPhysicalGpuHandle physicalGpu, out int busID);
+        internal delegate NvStatus NvAPI_GPU_GetTachReadingDelegate(NvPhysicalGpuHandle physicalGpu, out int value);
+        internal delegate NvStatus NvAPI_GPU_GetPStatesDelegate(NvPhysicalGpuHandle physicalGpu, ref NvPStates nvPStates);
 
-        internal delegate NvStatus NvAPI_DLL_ClientPowerPoliciesGetInfoDelegate(NvPhysicalGpuHandle gpuHandle, ref NvGPUPowerInfo info);
-        internal delegate NvStatus NvAPI_DLL_ClientPowerPoliciesGetStatusDelegate(NvPhysicalGpuHandle gpuHandle, ref NvGPUPowerStatus status);
-        internal delegate NvStatus NvAPI_DLL_ClientPowerPoliciesSetStatusDelegate(NvPhysicalGpuHandle gpuHandle, ref NvGPUPowerStatus status);
+        internal delegate NvStatus NvAPI_DLL_ClientPowerPoliciesGetInfoDelegate(NvPhysicalGpuHandle physicalGpu, ref NvGPUPowerInfo info);
+        internal delegate NvStatus NvAPI_DLL_ClientPowerPoliciesGetStatusDelegate(NvPhysicalGpuHandle physicalGpu, ref NvGPUPowerStatus status);
+        internal delegate NvStatus NvAPI_DLL_ClientPowerPoliciesSetStatusDelegate(NvPhysicalGpuHandle physicalGpu, ref NvGPUPowerStatus status);
 
-        internal delegate NvStatus NvSetGetPStateV1Delegate(NvPhysicalGpuHandle hHandle, ref NV_GPU_PERF_PSTATES20_INFO_V1 pstate);
-        internal delegate NvStatus NvSetGetPStateV2Delegate(NvPhysicalGpuHandle hHandle, ref NV_GPU_PERF_PSTATES20_INFO_V2 pstate);
-        internal delegate NvStatus NvGetAllClockFrequenciesV2Delegate(NvPhysicalGpuHandle hHandle, ref NV_GPU_CLOCK_FREQUENCIES_V2 freq);
+        internal delegate NvStatus NvSetGetPStateV1Delegate(NvPhysicalGpuHandle physicalGpu, ref NvGpuPerfPstates20InfoV1 pstate);
+        internal delegate NvStatus NvSetGetPStateV2Delegate(NvPhysicalGpuHandle physicalGpu, ref NvGpuPerfPstates20InfoV2 pstate);
+        internal delegate NvStatus NvGetAllClockFrequenciesV2Delegate(NvPhysicalGpuHandle physicalGpu, ref NvGpuClockFrequenciesV2 freq);
 
-        internal delegate NvStatus NvApiClientThermalPoliciesGetInfoDelegate(NvPhysicalGpuHandle hHandle, ref NVAPI_GPU_THERMAL_INFO outThermalInfo);
-        internal delegate NvStatus NvApiClientThermalPoliciesGetSetLimitDelegate(NvPhysicalGpuHandle hHandle, ref NVAPI_GPU_THERMAL_LIMIT outThermalLimit);
+        internal delegate NvStatus NvApiClientThermalPoliciesGetInfoDelegate(NvPhysicalGpuHandle physicalGpu, ref NvGpuThermalInfo outThermalInfo);
+        internal delegate NvStatus NvApiClientThermalPoliciesGetSetLimitDelegate(NvPhysicalGpuHandle physicalGpu, ref NvGpuThermalLimit outThermalLimit);
 
-        internal delegate NvStatus NvApiClientPowerPoliciesGetSetStatusDelegate(NvPhysicalGpuHandle hHandle, ref NVAPI_GPU_POWER_STATUS outPowerPolicy);
-        internal delegate NvStatus NvApiClientPowerPoliciesGetInfoDelegate(NvPhysicalGpuHandle hHandle, ref NVAPI_GPU_POWER_INFO outPowerInfo);
+        internal delegate NvStatus NvApiClientPowerPoliciesGetSetStatusDelegate(NvPhysicalGpuHandle physicalGpu, ref NvGpuPowerStatus outPowerPolicy);
+        internal delegate NvStatus NvApiClientPowerPoliciesGetInfoDelegate(NvPhysicalGpuHandle physicalGpu, ref NvGpuPowerInfo outPowerInfo);
 
-        internal delegate NvStatus NvApiGetCoolerSettingsDelegate(NvPhysicalGpuHandle hHandle, NV_COOLER_TARGET targetId, ref NVAPI_COOLER_SETTINGS outCoolerInfo);
-        internal delegate NvStatus NvApiRestoreCoolerSettingsDelegate(NvPhysicalGpuHandle hHandle, IntPtr pCoolerIndex, NV_COOLER_TARGET targetId);
-        internal delegate NvStatus NvApiSetCoolerLevelsDelegate(NvPhysicalGpuHandle hHandle, NV_COOLER_TARGET coolerIndex, ref NVAPI_COOLER_LEVEL level);
+        internal delegate NvStatus NvApiGetCoolerSettingsDelegate(NvPhysicalGpuHandle physicalGpu, NvCoolerTarget targetId, ref NvCoolerSettings outCoolerInfo);
+        internal delegate NvStatus NvApiRestoreCoolerSettingsDelegate(NvPhysicalGpuHandle physicalGpu, IntPtr pCoolerIndex, NvCoolerTarget targetId);
+        internal delegate NvStatus NvApiSetCoolerLevelsDelegate(NvPhysicalGpuHandle physicalGpu, NvCoolerTarget coolerIndex, ref NvCoolerLevel level);
+        internal delegate NvStatus NvAPI_GPU_ClientFanCoolersSetControl(NvPhysicalGpuHandle physicalGpu, PrivateFanCoolersControlV1 control);
 
         private static readonly nvapi_QueryInterfaceDelegate nvapi_QueryInterface;
         private static readonly NvAPI_InitializeDelegate NvAPI_Initialize;
@@ -41,7 +41,6 @@ namespace NTMiner.Gpus.Nvapi {
         internal static readonly NvAPI_GPU_GetBusIdDelegate NvAPI_GPU_GetBusID;
         internal static readonly NvAPI_GPU_GetTachReadingDelegate NvAPI_GPU_GetTachReading;
         internal static readonly NvAPI_GPU_GetPStatesDelegate NvAPI_GPU_GetPStates;
-        internal static readonly NvAPI_GPU_GetThermalSettingsDelegate NvAPI_GPU_GetThermalSettings;
 
         internal static readonly NvAPI_DLL_ClientPowerPoliciesGetInfoDelegate NvAPI_DLL_ClientPowerPoliciesGetInfo;
         internal static readonly NvAPI_DLL_ClientPowerPoliciesGetStatusDelegate NvAPI_DLL_ClientPowerPoliciesGetStatus;
@@ -96,7 +95,6 @@ namespace NTMiner.Gpus.Nvapi {
             if (NvAPI_Initialize() == NvStatus.OK) {
                 GetDelegate(0x5F608315, out NvAPI_GPU_GetTachReading);
                 GetDelegate(0x60DED2ED, out NvAPI_GPU_GetPStates);
-                GetDelegate(0xE3640A56, out NvAPI_GPU_GetThermalSettings);
                 GetDelegate(0xE5AC921F, out NvAPI_EnumPhysicalGPUs);
                 GetDelegate(0xD9930B07, out NvAPI_EnumTCCPhysicalGPUs);
                 GetDelegate(0x1BE0B8E5, out NvAPI_GPU_GetBusID);
