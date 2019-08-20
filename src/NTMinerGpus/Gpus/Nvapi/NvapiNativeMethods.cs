@@ -16,8 +16,10 @@ namespace NTMiner.Gpus.Nvapi {
         internal delegate NvStatus NvPowerPoliciesGetStatusDelegate(NvPhysicalGpuHandle physicalGpu, ref NvGpuPowerStatus status);
         internal delegate NvStatus NvPowerPoliciesSetStatusDelegate(NvPhysicalGpuHandle physicalGpu, ref NvGpuPowerStatus status);
 
-        internal delegate NvStatus NvSetGetPStateV1Delegate(NvPhysicalGpuHandle physicalGpu, ref NvGpuPerfPStates20InfoV1 pstate);
-        internal delegate NvStatus NvSetGetPStateV2Delegate(NvPhysicalGpuHandle physicalGpu, ref NvGpuPerfPStates20InfoV2 pstate);
+        internal delegate NvStatus NvGetPStateV1Delegate(NvPhysicalGpuHandle physicalGpu, ref NvGpuPerfPStates20InfoV1 pstate);
+        internal delegate NvStatus NvGetPStateV2Delegate(NvPhysicalGpuHandle physicalGpu, ref NvGpuPerfPStates20InfoV2 pstate);
+        internal delegate NvStatus NvSetPStateV1Delegate(NvPhysicalGpuHandle physicalGpu, ref NvGpuPerfPStates20InfoV1 pstate);
+        internal delegate NvStatus NvSetPStateV2Delegate(NvPhysicalGpuHandle physicalGpu, ref NvGpuPerfPStates20InfoV2 pstate);
         internal delegate NvStatus NvGetAllClockFrequenciesV2Delegate(NvPhysicalGpuHandle physicalGpu, ref NvGpuClockFrequenciesV2 freq);
 
         internal delegate NvStatus NvThermalPoliciesGetInfoDelegate(NvPhysicalGpuHandle physicalGpu, ref NvGpuThermalInfo outThermalInfo);
@@ -46,10 +48,10 @@ namespace NTMiner.Gpus.Nvapi {
         internal static readonly NvPowerPoliciesGetStatusDelegate NvPowerPoliciesGetStatus;
         internal static readonly NvPowerPoliciesSetStatusDelegate NvPowerPoliciesSetStatus;
 
-        internal static readonly NvSetGetPStateV1Delegate NvGetPStateV1;
-        internal static readonly NvSetGetPStateV2Delegate NvGetPStateV2;
-        internal static readonly NvSetGetPStateV1Delegate NvSetPStateV1;
-        internal static readonly NvSetGetPStateV2Delegate NvSetPStateV2;
+        internal static readonly NvGetPStateV1Delegate NvGetPStateV1;
+        internal static readonly NvGetPStateV2Delegate NvGetPStateV2;
+        internal static readonly NvSetPStateV1Delegate NvSetPStateV1;
+        internal static readonly NvSetPStateV2Delegate NvSetPStateV2;
         internal static readonly NvGetAllClockFrequenciesV2Delegate NvGetAllClockFrequenciesV2;
 
         internal static readonly NvThermalPoliciesGetInfoDelegate NvThermalPoliciesGetInfo;

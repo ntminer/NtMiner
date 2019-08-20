@@ -81,16 +81,15 @@ namespace NTMiner.Gpus {
             fanSpeedMax = 0;
             fanSpeedDefault = 0;
             try {
-                if (GetClockDelta(busId, isMemClock: false, out int outCurrFreqDelta, out int outMinFreqDelta, out int outMaxFreqDelta)) {
-                    coreClockMin = outMinFreqDelta;
-                    coreClockMax = outMaxFreqDelta;
-                    coreClockDelta = outCurrFreqDelta;
-                }
-
-                if (GetClockDelta(busId, isMemClock: true, out outCurrFreqDelta, out outMinFreqDelta, out outMaxFreqDelta)) {
-                    memoryClockMin = outMinFreqDelta;
-                    memoryClockMax = outMaxFreqDelta;
-                    memoryClockDelta = outCurrFreqDelta;
+                if (GetClockDelta(busId, 
+                    out int outCoreCurrFreqDelta, out int outCoreMinFreqDelta, out int outCoreMaxFreqDelta,
+                    out int outMemoryCurrFreqDelta, out int outMemoryMinFreqDelta, out int outMemoryMaxFreqDelta)) {
+                    coreClockMin = outCoreMinFreqDelta;
+                    coreClockMax = outCoreMaxFreqDelta;
+                    coreClockDelta = outCoreCurrFreqDelta;
+                    memoryClockMin = outMemoryMinFreqDelta;
+                    memoryClockMax = outMemoryMaxFreqDelta;
+                    memoryClockDelta = outMemoryCurrFreqDelta;
                 }
 
                 if (GetPowerLimit(busId, out uint outCurrPower, out uint outMinPower, out uint outDefPower, out uint outMaxPower)) {
@@ -304,29 +303,35 @@ namespace NTMiner.Gpus {
             return false;
         }
 
-        private bool GetClockDelta(int busId, bool isMemClock, out int outCurrFreqDelta, out int outMinFreqDelta, out int outMaxFreqDelta) {
-            outCurrFreqDelta = 0;
-            outMinFreqDelta = 0;
-            outMaxFreqDelta = 0;
-            NvGpuPublicClockId clockType;
-            if (isMemClock) {
-                clockType = NvGpuPublicClockId.NVAPI_GPU_PUBLIC_CLOCK_MEMORY;
-            }
-            else {
-                clockType = NvGpuPublicClockId.NVAPI_GPU_PUBLIC_CLOCK_GRAPHICS;
-            }
-
+        private bool GetClockDelta(int busId,
+            out int outCoreCurrFreqDelta, out int outCoreMinFreqDelta, out int outCoreMaxFreqDelta,
+            out int outMemoryCurrFreqDelta, out int outMemoryMinFreqDelta, out int outMemoryMaxFreqDelta) {
+            outCoreCurrFreqDelta = 0;
+            outCoreMinFreqDelta = 0;
+            outCoreMaxFreqDelta = 0;
+            outMemoryCurrFreqDelta = 0;
+            outMemoryMinFreqDelta = 0;
+            outMemoryMaxFreqDelta = 0;
             try {
+                bool isCoreClockPicked = false;
+                bool isMemoryClockPicked = false;
                 if (NvGetPStateV2(busId, out NvGpuPerfPStates20InfoV2 info)) {
                     for (int i = 0; i < info.numPStates; i++) {
                         for (int j = 0; j < info.numClocks; j++) {
                             uint min = info.pstates[i].clocks[j].data.minFreq_kHz;
                             uint max = info.pstates[i].clocks[j].data.maxFreq_kHz;
-                            if (info.pstates[i].clocks[j].domainId == clockType && min > 0 && max > 0) {
-                                outCurrFreqDelta = info.pstates[i].clocks[j].freqDelta_kHz.value;
-                                outMinFreqDelta = info.pstates[i].clocks[j].freqDelta_kHz.mindelta;
-                                outMaxFreqDelta = info.pstates[i].clocks[j].freqDelta_kHz.maxdelta;
-                                return true;
+                            var domainId = info.pstates[i].clocks[j].domainId;
+                            if (!isCoreClockPicked && domainId == NvGpuPublicClockId.NVAPI_GPU_PUBLIC_CLOCK_GRAPHICS && min > 0 && max > 0) {
+                                outCoreCurrFreqDelta = info.pstates[i].clocks[j].freqDelta_kHz.value;
+                                outCoreMinFreqDelta = info.pstates[i].clocks[j].freqDelta_kHz.mindelta;
+                                outCoreMaxFreqDelta = info.pstates[i].clocks[j].freqDelta_kHz.maxdelta;
+                                isCoreClockPicked = true;
+                            }
+                            else if (!isMemoryClockPicked && domainId == NvGpuPublicClockId.NVAPI_GPU_PUBLIC_CLOCK_MEMORY && min > 0 && max > 0) {
+                                outMemoryCurrFreqDelta = info.pstates[i].clocks[j].freqDelta_kHz.value;
+                                outMemoryMinFreqDelta = info.pstates[i].clocks[j].freqDelta_kHz.mindelta;
+                                outMemoryMaxFreqDelta = info.pstates[i].clocks[j].freqDelta_kHz.maxdelta;
+                                isMemoryClockPicked = true;
                             }
                         }
                     }
@@ -366,7 +371,7 @@ namespace NTMiner.Gpus {
                 }
                 return true;
             }
-            catch(Exception e) {
+            catch (Exception e) {
                 Logger.ErrorDebugLine(e);
                 return false;
             }
@@ -647,7 +652,7 @@ namespace NTMiner.Gpus {
                     return;
                 }
             }
-            catch(Exception e) {
+            catch (Exception e) {
                 Logger.ErrorDebugLine(e);
             }
 
