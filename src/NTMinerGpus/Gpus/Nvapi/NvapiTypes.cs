@@ -222,65 +222,12 @@ namespace NTMiner.Gpus.Nvapi {
         public NvPState[] PStates;
     }
     [StructLayout(LayoutKind.Sequential, Pack = 8)]
-    internal struct NvLevel {
-        public int Level;
-        public int Policy;
-    }
-    [StructLayout(LayoutKind.Sequential, Pack = 8)]
     internal struct NvSensor {
         public NvThermalController Controller;
         public uint DefaultMinTemp;
         public uint DefaultMaxTemp;
         public uint CurrentTemp;
         public NvThermalTarget Target;
-    }
-    [StructLayout(LayoutKind.Sequential, Pack = 8)]
-    internal struct NvGPUThermalSettings {
-        public uint Version;
-        public uint Count;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.MAX_THERMAL_SENSORS_PER_GPU)]
-        public NvSensor[] Sensor;
-    }
-    [StructLayout(LayoutKind.Sequential, Pack = 8)]
-    internal struct NvGPUPowerInfo {
-        public uint Version;
-        public uint Flags;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.MAX_POWER_ENTRIES_PER_GPU)]
-        public NvGPUPowerInfoEntry[] Entries;
-    }
-
-    [StructLayout(LayoutKind.Sequential, Pack = 8)]
-    internal struct NvGPUPowerInfoEntry {
-        public uint PState;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2)]
-        public uint[] Unknown1;
-        public uint MinPower;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2)]
-        public uint[] Unknown2;
-        public uint DefPower;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2)]
-        public uint[] Unknown3;
-        public uint MaxPower;
-        public uint Unknown4;
-    }
-
-    [StructLayout(LayoutKind.Sequential, Pack = 8)]
-    internal struct NvGPUPowerStatus {
-        public uint Version;
-        public uint Flags;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.MAX_POWER_ENTRIES_PER_GPU)]
-        public NvGPUPowerStatusEntry[] Entries;
-    }
-
-    [StructLayout(LayoutKind.Sequential, Pack = 8)]
-    internal struct NvGPUPowerStatusEntry {
-        public uint Unknown1;
-        public uint Unknown2;
-        /// <summary>
-        /// Power percentage * 1000 (e.g. 50% is 50000)
-        /// </summary>
-        public uint Power;
-        public uint Unknown4;
     }
 
     [StructLayout(LayoutKind.Sequential)]
@@ -475,11 +422,6 @@ namespace NTMiner.Gpus.Nvapi {
                 return (valid_count_reserver1_reserver2 >> 8) & 0xff;
             }
         }
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    internal struct NvCoolerArray {
-        public NvU32 value;
     }
 
     [StructLayout(LayoutKind.Sequential)]
