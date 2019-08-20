@@ -111,14 +111,14 @@ namespace NTMiner.Gpus.Nvapi {
         ALL = 15,
         UNKNOWN = -1
     };
-    internal enum NV_GPU_PUBLIC_CLOCK_ID : NvU32 {
+    internal enum NvGpuPublicClockId : NvU32 {
         NVAPI_GPU_PUBLIC_CLOCK_GRAPHICS = 0,
         NVAPI_GPU_PUBLIC_CLOCK_MEMORY = 4,
         NVAPI_GPU_PUBLIC_CLOCK_PROCESSOR = 7,
         NVAPI_GPU_PUBLIC_CLOCK_VIDEO = 8,
         NVAPI_GPU_PUBLIC_CLOCK_UNDEFINED = NvapiConst.NVAPI_MAX_GPU_PUBLIC_CLOCKS,
     }
-    internal enum NV_GPU_PERF_PSTATE_ID : NvU32 {
+    internal enum NvGpuPerfPStateId : NvU32 {
         NVAPI_GPU_PERF_PSTATE_P0 = 0,
         NVAPI_GPU_PERF_PSTATE_P1,
         NVAPI_GPU_PERF_PSTATE_P2,
@@ -138,11 +138,11 @@ namespace NTMiner.Gpus.Nvapi {
         NVAPI_GPU_PERF_PSTATE_UNDEFINED = NvapiConst.NVAPI_MAX_GPU_PERF_PSTATES,
         NVAPI_GPU_PERF_PSTATE_ALL,
     }
-    internal enum NV_GPU_PERF_PSTATE20_CLOCK_TYPE_ID : NvU32 {
+    internal enum NvGpuPerfPState20ClockTypeId : NvU32 {
         NVAPI_GPU_PERF_PSTATE20_CLOCK_TYPE_SINGLE = 0,
         NVAPI_GPU_PERF_PSTATE20_CLOCK_TYPE_RANGE,
     }
-    internal enum NV_GPU_PERF_VOLTAGE_INFO_DOMAIN_ID : NvU32 {
+    internal enum NvGpuPerfVoltageInfoDomainId : NvU32 {
         NVAPI_GPU_PERF_VOLTAGE_INFO_DOMAIN_CORE = 0,
         NVAPI_GPU_PERF_VOLTAGE_INFO_DOMAIN_UNDEFINED = NvapiConst.NVAPI_MAX_GPU_PERF_VOLTAGES,
     }
@@ -199,7 +199,7 @@ namespace NTMiner.Gpus.Nvapi {
         NVAPI_COOLER_CONTROL_VARIABLE,                 // Suppports variable control.
     }
 
-    internal enum NV_COOLER_ACTIVITY_LEVEL {
+    internal enum NvCoolerActivityLevel {
         NVAPI_INACTIVE = 0,                             // inactive or unsupported
         NVAPI_ACTIVE = 1,                               // active and spinning in case of fan
     }
@@ -225,7 +225,7 @@ namespace NTMiner.Gpus.Nvapi {
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    internal struct NvGpuPerfPstates20ParamDelta {
+    internal struct NvGpuPerfPStates20ParamDelta {
         public NvS32 value;
         public NvS32 mindelta;
         public NvS32 maxdelta;
@@ -241,7 +241,7 @@ namespace NTMiner.Gpus.Nvapi {
         [FieldOffset(4)]
         public NvU32 maxFreq_kHz;
         [FieldOffset(8)]
-        public NV_GPU_PERF_VOLTAGE_INFO_DOMAIN_ID domainId;
+        public NvGpuPerfVoltageInfoDomainId domainId;
         [FieldOffset(12)]
         public NvU32 minVoltage_uV;
         [FieldOffset(16)]
@@ -249,61 +249,61 @@ namespace NTMiner.Gpus.Nvapi {
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    internal struct NvGpuPstate20ClockEntryV1 {
-        public NV_GPU_PUBLIC_CLOCK_ID domainId;
-        public NV_GPU_PERF_PSTATE20_CLOCK_TYPE_ID typeId;
+    internal struct NvGpuPState20ClockEntryV1 {
+        public NvGpuPublicClockId domainId;
+        public NvGpuPerfPState20ClockTypeId typeId;
         public NvU32 bIsEditable_reserved;
-        public NvGpuPerfPstates20ParamDelta freqDelta_kHz;
+        public NvGpuPerfPStates20ParamDelta freqDelta_kHz;
 
         public NvGpuSingleRangeDataUnion data;
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    internal struct NvGpuPstate20BaseVoltageEntryV1 {
-        public NV_GPU_PERF_VOLTAGE_INFO_DOMAIN_ID domainId;
+    internal struct NvGpuPState20BaseVoltageEntryV1 {
+        public NvGpuPerfVoltageInfoDomainId domainId;
         public NvU32 bIsEditable_reserved;
         public NvU32 volt_uV;
-        public NvGpuPerfPstates20ParamDelta voltDelta_uV;
+        public NvGpuPerfPStates20ParamDelta voltDelta_uV;
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    internal struct PstatesArray16 {
-        public NV_GPU_PERF_PSTATE_ID pstateId;
+    internal struct PStatesArray16 {
+        public NvGpuPerfPStateId pstateId;
         public NvU32 bIsEditable_reserved;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.NVAPI_MAX_GPU_PSTATE20_CLOCKS)]
-        public NvGpuPstate20ClockEntryV1[] clocks;
+        public NvGpuPState20ClockEntryV1[] clocks;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.NVAPI_MAX_GPU_PSTATE20_BASE_VOLTAGES)]
-        public NvGpuPstate20BaseVoltageEntryV1[] baseVoltages;
+        public NvGpuPState20BaseVoltageEntryV1[] baseVoltages;
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    internal struct NvGpuPstate20V2Ov {
+    internal struct NvGpuPState20V2Ov {
         public NvU32 numVoltages;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.NVAPI_MAX_GPU_PSTATE20_BASE_VOLTAGES)]
-        public NvGpuPstate20BaseVoltageEntryV1[] voltages;
+        public NvGpuPState20BaseVoltageEntryV1[] voltages;
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    internal struct NvGpuPerfPstates20InfoV2 {
+    internal struct NvGpuPerfPStates20InfoV2 {
         public NvU32 version;
         public NvU32 bIsEditable_reserved;
-        public NvU32 numPstates;
+        public NvU32 numPStates;
         public NvU32 numClocks;
         public NvU32 numBaseVoltages;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.NVAPI_MAX_GPU_PERF_PSTATES)]
-        public PstatesArray16[] pstates;
-        public NvGpuPstate20V2Ov ov;
+        public PStatesArray16[] pstates;
+        public NvGpuPState20V2Ov ov;
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    internal struct NvGpuPerfPstates20InfoV1 {
+    internal struct NvGpuPerfPStates20InfoV1 {
         public NvU32 version;
         public NvU32 bIsEditable_reserved;
-        public NvU32 numPstates;
+        public NvU32 numPStates;
         public NvU32 numClocks;
         public NvU32 numBaseVoltages;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.NVAPI_MAX_GPU_PERF_PSTATES)]
-        public PstatesArray16[] pstates;
+        public PStatesArray16[] pstates;
     }
 
     [StructLayout(LayoutKind.Sequential)]
@@ -431,7 +431,7 @@ namespace NTMiner.Gpus.Nvapi {
         public NvCoolerPolicy currentPolicy;
         public NvCoolerTarget target;
         public NvCoolerControl controlType;
-        public NV_COOLER_ACTIVITY_LEVEL active;
+        public NvCoolerActivityLevel active;
     }
 
     [StructLayout(LayoutKind.Sequential)]

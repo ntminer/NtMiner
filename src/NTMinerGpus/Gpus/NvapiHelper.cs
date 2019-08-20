@@ -119,31 +119,31 @@ namespace NTMiner.Gpus {
         }
 
         public uint GetCoreClockBaseFreq(int busId) {
-            return NvGetAllClockFrequenciesV2(busId, (uint)NV_GPU_PUBLIC_CLOCK_ID.NVAPI_GPU_PUBLIC_CLOCK_GRAPHICS, NvapiConst.NV_GPU_CLOCK_FREQUENCIES_BASE_CLOCK);
+            return NvGetAllClockFrequenciesV2(busId, (uint)NvGpuPublicClockId.NVAPI_GPU_PUBLIC_CLOCK_GRAPHICS, NvapiConst.NV_GPU_CLOCK_FREQUENCIES_BASE_CLOCK);
         }
         public uint GetMemClockBaseFreq(int busId) {
-            return NvGetAllClockFrequenciesV2(busId, (uint)NV_GPU_PUBLIC_CLOCK_ID.NVAPI_GPU_PUBLIC_CLOCK_MEMORY, NvapiConst.NV_GPU_CLOCK_FREQUENCIES_BASE_CLOCK);
+            return NvGetAllClockFrequenciesV2(busId, (uint)NvGpuPublicClockId.NVAPI_GPU_PUBLIC_CLOCK_MEMORY, NvapiConst.NV_GPU_CLOCK_FREQUENCIES_BASE_CLOCK);
         }
         public uint GetCoreClockBoostFreq(int busId) {
-            return NvGetAllClockFrequenciesV2(busId, (uint)NV_GPU_PUBLIC_CLOCK_ID.NVAPI_GPU_PUBLIC_CLOCK_GRAPHICS, NvapiConst.NV_GPU_CLOCK_FREQUENCIES_BOOST_CLOCK);
+            return NvGetAllClockFrequenciesV2(busId, (uint)NvGpuPublicClockId.NVAPI_GPU_PUBLIC_CLOCK_GRAPHICS, NvapiConst.NV_GPU_CLOCK_FREQUENCIES_BOOST_CLOCK);
         }
         public uint GetMemClockBoostFreq(int busId) {
-            return NvGetAllClockFrequenciesV2(busId, (uint)NV_GPU_PUBLIC_CLOCK_ID.NVAPI_GPU_PUBLIC_CLOCK_MEMORY, NvapiConst.NV_GPU_CLOCK_FREQUENCIES_BOOST_CLOCK);
+            return NvGetAllClockFrequenciesV2(busId, (uint)NvGpuPublicClockId.NVAPI_GPU_PUBLIC_CLOCK_MEMORY, NvapiConst.NV_GPU_CLOCK_FREQUENCIES_BOOST_CLOCK);
         }
 
         public uint GetCoreClockFreq(int busId) {
-            return NvGetAllClockFrequenciesV2(busId, (uint)NV_GPU_PUBLIC_CLOCK_ID.NVAPI_GPU_PUBLIC_CLOCK_GRAPHICS, NvapiConst.NV_GPU_CLOCK_FREQUENCIES_CURRENT_FREQ);
+            return NvGetAllClockFrequenciesV2(busId, (uint)NvGpuPublicClockId.NVAPI_GPU_PUBLIC_CLOCK_GRAPHICS, NvapiConst.NV_GPU_CLOCK_FREQUENCIES_CURRENT_FREQ);
         }
         public uint GetMemClockFreq(int busId) {
-            return NvGetAllClockFrequenciesV2(busId, (uint)NV_GPU_PUBLIC_CLOCK_ID.NVAPI_GPU_PUBLIC_CLOCK_MEMORY, NvapiConst.NV_GPU_CLOCK_FREQUENCIES_CURRENT_FREQ);
+            return NvGetAllClockFrequenciesV2(busId, (uint)NvGpuPublicClockId.NVAPI_GPU_PUBLIC_CLOCK_MEMORY, NvapiConst.NV_GPU_CLOCK_FREQUENCIES_CURRENT_FREQ);
         }
 
         public bool SetCoreClock(int busId, int kHz) {
             try {
-                NvGpuPerfPstates20InfoV2 info = NvGetPStateV2(busId);
-                info.numPstates = 1;
+                NvGpuPerfPStates20InfoV2 info = NvGetPStateV2(busId);
+                info.numPStates = 1;
                 info.numClocks = 1;
-                info.pstates[0].clocks[0].domainId = NV_GPU_PUBLIC_CLOCK_ID.NVAPI_GPU_PUBLIC_CLOCK_GRAPHICS;
+                info.pstates[0].clocks[0].domainId = NvGpuPublicClockId.NVAPI_GPU_PUBLIC_CLOCK_GRAPHICS;
                 info.pstates[0].clocks[0].freqDelta_kHz.value = kHz;
                 return NvSetPStateV2(busId, ref info);
             }
@@ -154,13 +154,13 @@ namespace NTMiner.Gpus {
 
         public bool SetMemClock(int busId, int kHz) {
             try {
-                NvGpuPerfPstates20InfoV2 info = NvGetPStateV2(busId);
-                info.numPstates = 1;
+                NvGpuPerfPStates20InfoV2 info = NvGetPStateV2(busId);
+                info.numPStates = 1;
                 info.numClocks = 1;
                 info.numBaseVoltages = 0;
 
-                info.pstates[0].clocks[0].domainId = NV_GPU_PUBLIC_CLOCK_ID.NVAPI_GPU_PUBLIC_CLOCK_MEMORY;
-                info.pstates[0].clocks[0].typeId = NV_GPU_PERF_PSTATE20_CLOCK_TYPE_ID.NVAPI_GPU_PERF_PSTATE20_CLOCK_TYPE_SINGLE;
+                info.pstates[0].clocks[0].domainId = NvGpuPublicClockId.NVAPI_GPU_PUBLIC_CLOCK_MEMORY;
+                info.pstates[0].clocks[0].typeId = NvGpuPerfPState20ClockTypeId.NVAPI_GPU_PERF_PSTATE20_CLOCK_TYPE_SINGLE;
                 info.pstates[0].clocks[0].freqDelta_kHz.value = kHz;
 
                 return NvSetPStateV2(busId, ref info);
@@ -292,18 +292,18 @@ namespace NTMiner.Gpus {
             outCurrFreqDelta = 0;
             outMinFreqDelta = 0;
             outMaxFreqDelta = 0;
-            NV_GPU_PUBLIC_CLOCK_ID clockType;
+            NvGpuPublicClockId clockType;
             if (isMemClock) {
-                clockType = NV_GPU_PUBLIC_CLOCK_ID.NVAPI_GPU_PUBLIC_CLOCK_MEMORY;
+                clockType = NvGpuPublicClockId.NVAPI_GPU_PUBLIC_CLOCK_MEMORY;
             }
             else {
-                clockType = NV_GPU_PUBLIC_CLOCK_ID.NVAPI_GPU_PUBLIC_CLOCK_GRAPHICS;
+                clockType = NvGpuPublicClockId.NVAPI_GPU_PUBLIC_CLOCK_GRAPHICS;
             }
 
             try {
-                NvGpuPerfPstates20InfoV2 info = NvGetPStateV2(busId);
+                NvGpuPerfPStates20InfoV2 info = NvGetPStateV2(busId);
 
-                for (int i = 0; i < info.numPstates; i++) {
+                for (int i = 0; i < info.numPStates; i++) {
                     for (int j = 0; j < info.numClocks; j++) {
                         uint min = info.pstates[i].clocks[j].data.minFreq_kHz;
                         uint max = info.pstates[i].clocks[j].data.maxFreq_kHz;
@@ -320,10 +320,10 @@ namespace NTMiner.Gpus {
             }
         }
 
-        private NvGpuPerfPstates20InfoV1 NvGetPStateV1(int busId) {
-            NvGpuPerfPstates20InfoV1 info = new NvGpuPerfPstates20InfoV1();
+        private NvGpuPerfPStates20InfoV1 NvGetPStateV1(int busId) {
+            NvGpuPerfPStates20InfoV1 info = new NvGpuPerfPStates20InfoV1();
             try {
-                info.version = (uint)(VERSION1 | (Marshal.SizeOf(typeof(NvGpuPerfPstates20InfoV1))));
+                info.version = (uint)(VERSION1 | (Marshal.SizeOf(typeof(NvGpuPerfPStates20InfoV1))));
                 var r = NvapiNativeMethods.NvGetPStateV1(HandlesByBusId[busId], ref info);
                 if (r != NvStatus.OK) {
                     Write.DevWarn($"{nameof(NvapiNativeMethods.NvGetPStateV1)} {r}");
@@ -337,10 +337,10 @@ namespace NTMiner.Gpus {
             return info;
         }
 
-        private NvGpuPerfPstates20InfoV2 NvGetPStateV2(int busId) {
-            NvGpuPerfPstates20InfoV2 info = new NvGpuPerfPstates20InfoV2();
+        private NvGpuPerfPStates20InfoV2 NvGetPStateV2(int busId) {
+            NvGpuPerfPStates20InfoV2 info = new NvGpuPerfPStates20InfoV2();
             try {
-                info.version = (uint)(VERSION2 | (Marshal.SizeOf(typeof(NvGpuPerfPstates20InfoV2))));
+                info.version = (uint)(VERSION2 | (Marshal.SizeOf(typeof(NvGpuPerfPStates20InfoV2))));
                 var r = NvapiNativeMethods.NvGetPStateV2(HandlesByBusId[busId], ref info);
                 if (r != NvStatus.OK) {
                     Write.DevWarn($"{nameof(NvapiNativeMethods.NvGetPStateV2)} {r}");
@@ -355,9 +355,9 @@ namespace NTMiner.Gpus {
             return info;
         }
 
-        private bool NvSetPStateV2(int busId, ref NvGpuPerfPstates20InfoV2 info) {
+        private bool NvSetPStateV2(int busId, ref NvGpuPerfPStates20InfoV2 info) {
             try {
-                info.version = (uint)(VERSION2 | (Marshal.SizeOf(typeof(NvGpuPerfPstates20InfoV2))));
+                info.version = (uint)(VERSION2 | (Marshal.SizeOf(typeof(NvGpuPerfPStates20InfoV2))));
                 var r = NvapiNativeMethods.NvSetPStateV2(HandlesByBusId[busId], ref info);
                 if (r != NvStatus.OK) {
                     Write.DevWarn($"{nameof(NvapiNativeMethods.NvSetPStateV2)} {r}");
@@ -371,10 +371,10 @@ namespace NTMiner.Gpus {
             return false;
         }
 
-        private bool NvSetPStateV1(int busId, ref NvGpuPerfPstates20InfoV1 info) {
+        private bool NvSetPStateV1(int busId, ref NvGpuPerfPStates20InfoV1 info) {
             try {
-                int len = Marshal.SizeOf(typeof(NvGpuPerfPstates20InfoV1));
-                info.version = (uint)(VERSION1 | (Marshal.SizeOf(typeof(NvGpuPerfPstates20InfoV1))));
+                int len = Marshal.SizeOf(typeof(NvGpuPerfPStates20InfoV1));
+                info.version = (uint)(VERSION1 | (Marshal.SizeOf(typeof(NvGpuPerfPStates20InfoV1))));
                 var r = NvapiNativeMethods.NvSetPStateV1(HandlesByBusId[busId], ref info);
                 if (r != NvStatus.OK) {
                     Write.DevWarn($"{nameof(NvapiNativeMethods.NvSetPStateV1)} {r}");
