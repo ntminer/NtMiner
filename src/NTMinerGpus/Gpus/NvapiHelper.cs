@@ -341,7 +341,7 @@ namespace NTMiner.Gpus {
             NvGpuPerfPstates20InfoV2 info = new NvGpuPerfPstates20InfoV2();
             try {
                 info.version = (uint)(VERSION2 | (Marshal.SizeOf(typeof(NvGpuPerfPstates20InfoV2))));
-                var r = NvapiNativeMethods.NvGetPStateV2(_handlesByBusId[busId], ref info);
+                var r = NvapiNativeMethods.NvGetPStateV2(HandlesByBusId[busId], ref info);
                 if (r != NvStatus.OK) {
                     Write.DevWarn($"{nameof(NvapiNativeMethods.NvGetPStateV2)} {r}");
                 }
@@ -349,7 +349,8 @@ namespace NTMiner.Gpus {
                     return info;
                 }
             }
-            catch {
+            catch(Exception e) {
+                Logger.ErrorDebugLine(e);
             }
             return info;
         }
@@ -357,7 +358,7 @@ namespace NTMiner.Gpus {
         private bool NvSetPStateV2(int busId, ref NvGpuPerfPstates20InfoV2 info) {
             try {
                 info.version = (uint)(VERSION2 | (Marshal.SizeOf(typeof(NvGpuPerfPstates20InfoV2))));
-                var r = NvapiNativeMethods.NvSetPStateV2(_handlesByBusId[busId], ref info);
+                var r = NvapiNativeMethods.NvSetPStateV2(HandlesByBusId[busId], ref info);
                 if (r != NvStatus.OK) {
                     Write.DevWarn($"{nameof(NvapiNativeMethods.NvSetPStateV2)} {r}");
                 }
@@ -374,7 +375,7 @@ namespace NTMiner.Gpus {
             try {
                 int len = Marshal.SizeOf(typeof(NvGpuPerfPstates20InfoV1));
                 info.version = (uint)(VERSION1 | (Marshal.SizeOf(typeof(NvGpuPerfPstates20InfoV1))));
-                var r = NvapiNativeMethods.NvSetPStateV1(_handlesByBusId[busId], ref info);
+                var r = NvapiNativeMethods.NvSetPStateV1(HandlesByBusId[busId], ref info);
                 if (r != NvStatus.OK) {
                     Write.DevWarn($"{nameof(NvapiNativeMethods.NvSetPStateV1)} {r}");
                 }
@@ -441,7 +442,7 @@ namespace NTMiner.Gpus {
             NvGpuThermalLimit info = new NvGpuThermalLimit();
             try {
                 info.version = (uint)(VERSION2 | (Marshal.SizeOf(typeof(NvGpuThermalLimit))));
-                var r = NvapiNativeMethods.NvThermalPoliciesGetLimit(_handlesByBusId[busId], ref info);
+                var r = NvapiNativeMethods.NvThermalPoliciesGetLimit(HandlesByBusId[busId], ref info);
                 if (r != NvStatus.OK) {
                     Write.DevWarn($"{nameof(NvapiNativeMethods.NvThermalPoliciesGetLimit)} {r}");
                 }
