@@ -80,7 +80,6 @@ namespace NTMiner.Gpus.Nvapi {
             }
         }
 
-        private static readonly bool available;
         static NvapiNativeMethods() {
             DllImportAttribute attribute = new DllImportAttribute("nvapi64.dll");
             attribute.CallingConvention = CallingConvention.Cdecl;
@@ -126,14 +125,6 @@ namespace NTMiner.Gpus.Nvapi {
                 GetDelegate(0x814B209F, out NvClientFanCoolersGetControl);
                 GetDelegate(0xA58971A5, out NvClientFanCoolersSetControl);
             }
-
-            available = true;
-        }
-
-        public static bool IsAvailable { get { return available; } }
-
-        public static uint MakeNVAPIVersion(object param, uint version) {
-            return 72 | (version << 16);
         }
     }
 }
