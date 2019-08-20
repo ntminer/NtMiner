@@ -104,8 +104,8 @@ namespace NTMiner.Core.Profiles {
                 if (!data.IsAutoFanSpeed) {
                     overClock.SetCool(data.Index, data.Cool);
                 }
-                overClock.SetCoreClock(data.Index, data.CoreClockDelta);
-                overClock.SetMemoryClock(data.Index, data.MemoryClockDelta);
+                overClock.SetCoreClock(data.Index, data.CoreClockDelta, data.CoreVoltage);
+                overClock.SetMemoryClock(data.Index, data.MemoryClockDelta, data.MemoryVoltage);
                 overClock.SetPowerCapacity(data.Index, data.PowerCapacity);
                 overClock.SetThermCapacity(data.Index, data.TempLimit);
                 string coreClockText = "默认";

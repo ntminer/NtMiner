@@ -12,11 +12,11 @@
             // noting need todo
         }
 
-        public void SetCoreClock(int gpuIndex, int value) {
+        public void SetCoreClock(int gpuIndex, int value, int voltage) {
             // noting need todo
         }
 
-        public void SetMemoryClock(int gpuIndex, int value) {
+        public void SetMemoryClock(int gpuIndex, int value, int voltage) {
             // noting need todo
         }
 

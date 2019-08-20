@@ -229,24 +229,24 @@ namespace NTMiner.Gpus {
             }
         }
 
-        public void SetMemoryClockByIndex(int gpuIndex, int value) {
+        public void SetMemoryClockByIndex(int gpuIndex, int value, int voltage) {
             try {
                 if (!TryGpuAdapterIndex(gpuIndex, out int adapterIndex)) {
                     return;
                 }
-                ADLODNPerformanceLevelsX2 lpODPerformanceLevels = ADLODNPerformanceLevelsX2.Create();
-                var r = AdlNativeMethods.ADL2_OverdriveN_MemoryClocksX2_Get(context, adapterIndex, ref lpODPerformanceLevels);
+                ADLODNPerformanceLevelsX2 info = ADLODNPerformanceLevelsX2.Create();
+                var r = AdlNativeMethods.ADL2_OverdriveN_MemoryClocksX2_Get(context, adapterIndex, ref info);
                 if (r != AdlStatus.OK) {
                     Write.DevWarn($"{nameof(AdlNativeMethods.ADL2_OverdriveN_MemoryClocksX2_Get)} {r}");
                     return;
                 }
-                lpODPerformanceLevels.iMode = AdlConst.ODNControlType_Default;
-                r = AdlNativeMethods.ADL2_OverdriveN_MemoryClocksX2_Set(context, adapterIndex, ref lpODPerformanceLevels);
+                info.iMode = AdlConst.ODNControlType_Default;
+                r = AdlNativeMethods.ADL2_OverdriveN_MemoryClocksX2_Set(context, adapterIndex, ref info);
                 if (r != AdlStatus.OK) {
                     Write.DevWarn($"{nameof(AdlNativeMethods.ADL2_OverdriveN_MemoryClocksX2_Set)} {r}");
                     return;
                 }
-                r = AdlNativeMethods.ADL2_OverdriveN_MemoryClocksX2_Get(context, adapterIndex, ref lpODPerformanceLevels);
+                r = AdlNativeMethods.ADL2_OverdriveN_MemoryClocksX2_Get(context, adapterIndex, ref info);
                 if (r != AdlStatus.OK) {
                     Write.DevWarn($"{nameof(AdlNativeMethods.ADL2_OverdriveN_MemoryClocksX2_Get)} {r}");
                     return;
@@ -261,16 +261,17 @@ namespace NTMiner.Gpus {
                         return;
                     }
                     else {
-                        lpODPerformanceLevels.iMode = AdlConst.ODNControlType_Manual;
+                        info.iMode = AdlConst.ODNControlType_Manual;
                         int index = 0;
-                        for (int i = 0; i < lpODPerformanceLevels.aLevels.Length; i++) {
-                            if (lpODPerformanceLevels.aLevels[i].iEnabled == 1) {
+                        for (int i = 0; i < info.aLevels.Length; i++) {
+                            if (info.aLevels[i].iEnabled == 1) {
                                 index = i;
                             }
                         }
-                        lpODPerformanceLevels.aLevels[index].iClock = value * 100;
+                        info.aLevels[index].iClock = value * 100;
+                        info.aLevels[index].iVddc = voltage;
                     }
-                    r = AdlNativeMethods.ADL2_OverdriveN_MemoryClocksX2_Set(context, adapterIndex, ref lpODPerformanceLevels);
+                    r = AdlNativeMethods.ADL2_OverdriveN_MemoryClocksX2_Set(context, adapterIndex, ref info);
                     if (r != AdlStatus.OK) {
                         Write.DevWarn($"{nameof(AdlNativeMethods.ADL2_OverdriveN_MemoryClocksX2_Set)} {r}");
                     }
@@ -287,20 +288,20 @@ namespace NTMiner.Gpus {
                 if (!TryGpuAdapterIndex(gpuIndex, out int adapterIndex)) {
                     return false;
                 }
-                ADLODNPerformanceLevelsX2 lpODPerformanceLevels = ADLODNPerformanceLevelsX2.Create();
-                var r = AdlNativeMethods.ADL2_OverdriveN_SystemClocksX2_Get(context, adapterIndex, ref lpODPerformanceLevels);
+                ADLODNPerformanceLevelsX2 info = ADLODNPerformanceLevelsX2.Create();
+                var r = AdlNativeMethods.ADL2_OverdriveN_SystemClocksX2_Get(context, adapterIndex, ref info);
                 if (r != AdlStatus.OK) {
                     Write.DevWarn($"{nameof(AdlNativeMethods.ADL2_OverdriveN_SystemClocksX2_Get)} {r}");
                     return false;
                 }
                 int index = 0;
-                for (int i = 0; i < lpODPerformanceLevels.aLevels.Length; i++) {
-                    if (lpODPerformanceLevels.aLevels[i].iEnabled != 0) {
+                for (int i = 0; i < info.aLevels.Length; i++) {
+                    if (info.aLevels[i].iEnabled != 0) {
                         index = i;
                     }
                 }
-                coreClock = lpODPerformanceLevels.aLevels[index].iClock * 10;
-                iVddc = lpODPerformanceLevels.aLevels[index].iVddc;
+                coreClock = info.aLevels[index].iClock * 10;
+                iVddc = info.aLevels[index].iVddc;
                 return true;
             }
             catch {
@@ -308,24 +309,24 @@ namespace NTMiner.Gpus {
             }
         }
 
-        public void SetCoreClockByIndex(int gpuIndex, int value) {
+        public void SetCoreClockByIndex(int gpuIndex, int value, int voltage) {
             try {
                 if (!TryGpuAdapterIndex(gpuIndex, out int adapterIndex)) {
                     return;
                 }
-                ADLODNPerformanceLevelsX2 lpODPerformanceLevels = ADLODNPerformanceLevelsX2.Create();
-                var r = AdlNativeMethods.ADL2_OverdriveN_SystemClocksX2_Get(context, adapterIndex, ref lpODPerformanceLevels);
+                ADLODNPerformanceLevelsX2 info = ADLODNPerformanceLevelsX2.Create();
+                var r = AdlNativeMethods.ADL2_OverdriveN_SystemClocksX2_Get(context, adapterIndex, ref info);
                 if (r != AdlStatus.OK) {
                     Write.DevWarn($"{nameof(AdlNativeMethods.ADL2_OverdriveN_SystemClocksX2_Get)} {r}");
                     return;
                 }
-                lpODPerformanceLevels.iMode = AdlConst.ODNControlType_Default;
-                r = AdlNativeMethods.ADL2_OverdriveN_SystemClocksX2_Set(context, adapterIndex, ref lpODPerformanceLevels);
+                info.iMode = AdlConst.ODNControlType_Default;
+                r = AdlNativeMethods.ADL2_OverdriveN_SystemClocksX2_Set(context, adapterIndex, ref info);
                 if (r != AdlStatus.OK) {
                     Write.DevWarn($"{nameof(AdlNativeMethods.ADL2_OverdriveN_SystemClocksX2_Set)} {r}");
                     return;
                 }
-                r = AdlNativeMethods.ADL2_OverdriveN_SystemClocksX2_Get(context, adapterIndex, ref lpODPerformanceLevels);
+                r = AdlNativeMethods.ADL2_OverdriveN_SystemClocksX2_Get(context, adapterIndex, ref info);
                 if (r != AdlStatus.OK) {
                     Write.DevWarn($"{nameof(AdlNativeMethods.ADL2_OverdriveN_SystemClocksX2_Get)} {r}");
                     return;
@@ -340,16 +341,17 @@ namespace NTMiner.Gpus {
                         return;
                     }
                     else {
-                        lpODPerformanceLevels.iMode = AdlConst.ODNControlType_Manual;
+                        info.iMode = AdlConst.ODNControlType_Manual;
                         int index = 0;
-                        for (int i = 0; i < lpODPerformanceLevels.aLevels.Length; i++) {
-                            if (lpODPerformanceLevels.aLevels[i].iEnabled == 1) {
+                        for (int i = 0; i < info.aLevels.Length; i++) {
+                            if (info.aLevels[i].iEnabled == 1) {
                                 index = i;
                             }
                         }
-                        lpODPerformanceLevels.aLevels[index].iClock = value * 100;
+                        info.aLevels[index].iClock = value * 100;
+                        info.aLevels[index].iVddc = voltage;
                     }
-                    r = AdlNativeMethods.ADL2_OverdriveN_SystemClocksX2_Set(context, adapterIndex, ref lpODPerformanceLevels);
+                    r = AdlNativeMethods.ADL2_OverdriveN_SystemClocksX2_Set(context, adapterIndex, ref info);
                     if (r != AdlStatus.OK) {
                         Write.DevWarn($"{nameof(AdlNativeMethods.ADL2_OverdriveN_SystemClocksX2_Set)} {r}");
                     }

@@ -7,7 +7,7 @@ namespace NTMiner.Core.Gpus.Impl {
             _adlHelper = adlHelper;
         }
 
-        public void SetCoreClock(int gpuIndex, int value) {
+        public void SetCoreClock(int gpuIndex, int value, int voltage) {
             if (gpuIndex == NTMinerRoot.GpuAllId) {
                 foreach (var gpu in NTMinerRoot.Instance.GpuSet) {
                     if (gpu.Index == NTMinerRoot.GpuAllId) {
@@ -16,18 +16,18 @@ namespace NTMiner.Core.Gpus.Impl {
                     if (value == gpu.CoreClockDelta) {
                         continue;
                     }
-                    _adlHelper.SetCoreClockByIndex(gpu.Index, value);
+                    _adlHelper.SetCoreClockByIndex(gpu.Index, value, voltage);
                 }
             }
             else {
                 if (!NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu) || value == gpu.CoreClockDelta) {
                     return;
                 }
-                _adlHelper.SetCoreClockByIndex(gpuIndex, value);
+                _adlHelper.SetCoreClockByIndex(gpuIndex, value, voltage);
             }
         }
 
-        public void SetMemoryClock(int gpuIndex, int value) {
+        public void SetMemoryClock(int gpuIndex, int value, int voltage) {
             if (gpuIndex == NTMinerRoot.GpuAllId) {
                 foreach (var gpu in NTMinerRoot.Instance.GpuSet) {
                     if (gpu.Index == NTMinerRoot.GpuAllId) {
@@ -36,14 +36,14 @@ namespace NTMiner.Core.Gpus.Impl {
                     if (value == gpu.MemoryClockDelta) {
                         continue;
                     }
-                    _adlHelper.SetMemoryClockByIndex(gpu.Index, value);
+                    _adlHelper.SetMemoryClockByIndex(gpu.Index, value, voltage);
                 }
             }
             else {
                 if (!NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu) || value == gpu.MemoryClockDelta) {
                     return;
                 }
-                _adlHelper.SetMemoryClockByIndex(gpuIndex, value);
+                _adlHelper.SetMemoryClockByIndex(gpuIndex, value, voltage);
             }
         }
 
@@ -130,8 +130,8 @@ namespace NTMiner.Core.Gpus.Impl {
         }
 
         public void Restore() {
-            SetCoreClock(NTMinerRoot.GpuAllId, 0);
-            SetMemoryClock(NTMinerRoot.GpuAllId, 0);
+            SetCoreClock(NTMinerRoot.GpuAllId, 0, 0);
+            SetMemoryClock(NTMinerRoot.GpuAllId, 0, 0);
             SetPowerCapacity(NTMinerRoot.GpuAllId, 0);
             SetThermCapacity(NTMinerRoot.GpuAllId, 0);
             SetCool(NTMinerRoot.GpuAllId, 0);

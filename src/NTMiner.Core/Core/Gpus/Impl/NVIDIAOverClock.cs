@@ -17,7 +17,7 @@ namespace NTMiner.Core.Gpus.Impl {
             _nvapiHelper = nvapiHelper;
         }
 
-        public void SetCoreClock(int gpuIndex, int value) {
+        public void SetCoreClock(int gpuIndex, int value, int voltage) {
             value = 1000 * value;
             if (gpuIndex == NTMinerRoot.GpuAllId) {
                 foreach (var gpu in NTMinerRoot.Instance.GpuSet) {
@@ -38,7 +38,7 @@ namespace NTMiner.Core.Gpus.Impl {
             }
         }
 
-        public void SetMemoryClock(int gpuIndex, int value) {
+        public void SetMemoryClock(int gpuIndex, int value, int voltage) {
             value = 1000 * value;
             if (gpuIndex == NTMinerRoot.GpuAllId) {
                 foreach (var gpu in NTMinerRoot.Instance.GpuSet) {
@@ -147,8 +147,8 @@ namespace NTMiner.Core.Gpus.Impl {
         }
 
         public void Restore() {
-            SetCoreClock(NTMinerRoot.GpuAllId, 0);
-            SetMemoryClock(NTMinerRoot.GpuAllId, 0);
+            SetCoreClock(NTMinerRoot.GpuAllId, 0, 0);
+            SetMemoryClock(NTMinerRoot.GpuAllId, 0, 0);
             SetPowerCapacity(NTMinerRoot.GpuAllId, 0);
             SetThermCapacity(NTMinerRoot.GpuAllId, 0);
             SetCool(NTMinerRoot.GpuAllId, 0);
