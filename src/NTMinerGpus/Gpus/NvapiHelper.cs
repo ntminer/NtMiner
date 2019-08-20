@@ -259,12 +259,7 @@ namespace NTMiner.Gpus {
         }
 
         public bool SetCooler(int busId, uint value, bool isAutoMode) {
-            if (isAutoMode) {
-                return SetCoolerLevelsAuto(busId);
-            }
-            else {
-                return SetCoolerLevels(busId, value);
-            }
+            return SetCoolerLevels(busId, value, isAutoMode);
         }
 
         #region private methods
@@ -604,18 +599,6 @@ namespace NTMiner.Gpus {
             return false;
         }
 
-        private bool IsCoolerAuto(int busId) {
-            try {
-                NvCoolerSettings info = GetCoolerSettings(busId);
-                if (info.count > 0) {
-                    return info.cooler[0].currentPolicy != NvCoolerPolicy.NVAPI_COOLER_POLICY_MANUAL;
-                }
-            }
-            catch {
-            }
-            return false;
-        }
-
         private bool SetCoolerLevels(int busId, NvCoolerTarget coolerIndex, ref NvCoolerLevel level) {
             try {
                 level.version = (uint)(VERSION1 | (Marshal.SizeOf(typeof(NvCoolerLevel))));
@@ -632,26 +615,13 @@ namespace NTMiner.Gpus {
             return false;
         }
 
-        private bool SetCoolerLevels(int busId, uint value) {
+        private bool SetCoolerLevels(int busId, uint value, bool isAutoMode) {
             NvCoolerTarget coolerIndex = NvCoolerTarget.NVAPI_COOLER_TARGET_ALL;
             try {
                 NvCoolerLevel level = new NvCoolerLevel();
-                level.coolers[0].currentLevel = value;
-                level.coolers[0].currentPolicy = NvCoolerPolicy.NVAPI_COOLER_POLICY_MANUAL;
+                level.coolers[0].currentLevel = isAutoMode ? 0 : value;
+                level.coolers[0].currentPolicy = isAutoMode ? NvCoolerPolicy.NVAPI_COOLER_POLICY_AUTO : NvCoolerPolicy.NVAPI_COOLER_POLICY_MANUAL;
 
-                return SetCoolerLevels(busId, coolerIndex, ref level);
-            }
-            catch {
-            }
-            return false;
-        }
-
-        private bool SetCoolerLevelsAuto(int busId) {
-            NvCoolerTarget coolerIndex = NvCoolerTarget.NVAPI_COOLER_TARGET_ALL;
-            try {
-                NvCoolerLevel level = new NvCoolerLevel();
-                level.coolers[0].currentLevel = 0;
-                level.coolers[0].currentPolicy = NvCoolerPolicy.NVAPI_COOLER_POLICY_AUTO;
                 return SetCoolerLevels(busId, coolerIndex, ref level);
             }
             catch {
