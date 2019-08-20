@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using NvU32 = System.UInt32;
 using NvS32 = System.Int32;
+using NvU32 = System.UInt32;
 
 namespace NTMiner.Gpus.Nvapi {
     internal static class NvapiConst {
@@ -28,6 +28,9 @@ namespace NTMiner.Gpus.Nvapi {
         internal const int NV_GPU_CLOCK_FREQUENCIES_CLOCK_TYPE = 4;
 
         internal const int NVAPI_MAX_COOLERS_PER_GPU = 3;
+        internal const int MaxNumberOfFanCoolerControlEntries = 32;
+        internal const int MaxNumberOfFanCoolerStatusEntries = 32;
+        internal const int MaxNumberOfFanCoolerInfoEntries = 32;
     }
 
     #region Enumms
@@ -143,6 +146,64 @@ namespace NTMiner.Gpus.Nvapi {
         NVAPI_GPU_PERF_VOLTAGE_INFO_DOMAIN_CORE = 0,
         NVAPI_GPU_PERF_VOLTAGE_INFO_DOMAIN_UNDEFINED = NvapiConst.NVAPI_MAX_GPU_PERF_VOLTAGES,
     }
+    /// <summary>
+    ///     Holds possible fan cooler control modes
+    /// </summary>
+    [Flags]
+    internal enum FanCoolersControlMode : uint {
+        /// <summary>
+        ///     Automatic fan cooler control
+        /// </summary>
+        Auto = 0,
+
+        /// <summary>
+        ///     Manual fan cooler control
+        /// </summary>
+        Manual = 0b1,
+    }
+
+    internal enum NvCoolerType : NvU32 {
+        NVAPI_COOLER_TYPE_NONE = 0,
+        NVAPI_COOLER_TYPE_FAN,
+        NVAPI_COOLER_TYPE_WATER,
+        NVAPI_COOLER_TYPE_LIQUID_NO2,
+    }
+    internal enum NvCoolerController {
+        NVAPI_COOLER_CONTROLLER_NONE = 0,
+        NVAPI_COOLER_CONTROLLER_ADI,
+        NVAPI_COOLER_CONTROLLER_INTERNAL,
+    }
+
+    internal enum NvCoolerPolicy {
+        NVAPI_COOLER_POLICY_NONE = 0,
+        NVAPI_COOLER_POLICY_MANUAL = 1,                 // Manual adjustment of cooler level. Gets applied right away independent of temperature or performance level.
+        NVAPI_COOLER_POLICY_PERF = 2,                   // GPU performance controls the cooler level.
+        NVAPI_COOLER_POLICY_TEMPERATURE_DISCRETE = 4,   // Discrete thermal levels control the cooler level.
+        NVAPI_COOLER_POLICY_TEMPERATURE_CONTINUOUS = 8, // Cooler level adjusted at continuous thermal levels.
+        NVAPI_COOLER_POLICY_HYBRID = 16,                // Hybrid of performance and temperature levels.
+
+        NVAPI_COOLER_POLICY_AUTO = 32,                  // AIMiner custom .
+    }
+
+    internal enum NvCoolerTarget {
+        NVAPI_COOLER_TARGET_NONE = 0,
+        NVAPI_COOLER_TARGET_GPU,
+        NVAPI_COOLER_TARGET_MEMORY,
+        NVAPI_COOLER_TARGET_POWER_SUPPLY = 4,
+        NVAPI_COOLER_TARGET_ALL = 7                    // This cooler cools all of the components related to its target gpu.
+    }
+
+    internal enum NvCoolerControl {
+        NVAPI_COOLER_CONTROL_NONE = 0,
+        NVAPI_COOLER_CONTROL_TOGGLE,                   // ON/OFF
+        NVAPI_COOLER_CONTROL_VARIABLE,                 // Suppports variable control.
+    }
+
+    internal enum NV_COOLER_ACTIVITY_LEVEL {
+        NVAPI_INACTIVE = 0,                             // inactive or unsupported
+        NVAPI_ACTIVE = 1,                               // active and spinning in case of fan
+    }
+
     #endregion
 
     #region Structs
@@ -162,36 +223,16 @@ namespace NTMiner.Gpus.Nvapi {
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.MAX_PSTATES_PER_GPU)]
         public NvPState[] PStates;
     }
-    [StructLayout(LayoutKind.Sequential, Pack = 8)]
-    internal struct NvLevel {
-        public int Level;
-        public int Policy;
-    }
-    [StructLayout(LayoutKind.Sequential, Pack = 8)]
-    internal struct NvSensor {
-        public NvThermalController Controller;
-        public uint DefaultMinTemp;
-        public uint DefaultMaxTemp;
-        public uint CurrentTemp;
-        public NvThermalTarget Target;
-    }
-    [StructLayout(LayoutKind.Sequential, Pack = 8)]
-    internal struct NvGPUThermalSettings {
-        public uint Version;
-        public uint Count;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.MAX_THERMAL_SENSORS_PER_GPU)]
-        public NvSensor[] Sensor;
-    }
 
     [StructLayout(LayoutKind.Sequential)]
-    internal struct NV_GPU_PERF_PSTATES20_PARAM_DELTA {
+    internal struct NvGpuPerfPstates20ParamDelta {
         public NvS32 value;
         public NvS32 mindelta;
         public NvS32 maxdelta;
     }
 
     [StructLayout(LayoutKind.Explicit)]
-    internal struct NV_GPU_SINGLE_RANGE_DATA_UNION {
+    internal struct NvGpuSingleRangeDataUnion {
         [FieldOffset(0)]
         public NvU32 freq_kHz;
 
@@ -208,66 +249,65 @@ namespace NTMiner.Gpus.Nvapi {
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    internal struct NV_GPU_PSTATE20_CLOCK_ENTRY_V1 {
+    internal struct NvGpuPstate20ClockEntryV1 {
         public NV_GPU_PUBLIC_CLOCK_ID domainId;
         public NV_GPU_PERF_PSTATE20_CLOCK_TYPE_ID typeId;
         public NvU32 bIsEditable_reserved;
-        public NV_GPU_PERF_PSTATES20_PARAM_DELTA freqDelta_kHz;
+        public NvGpuPerfPstates20ParamDelta freqDelta_kHz;
 
-        /* union */
-        public NV_GPU_SINGLE_RANGE_DATA_UNION data;
+        public NvGpuSingleRangeDataUnion data;
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    internal struct NV_GPU_PSTATE20_BASE_VOLTAGE_ENTRY_V1 {
+    internal struct NvGpuPstate20BaseVoltageEntryV1 {
         public NV_GPU_PERF_VOLTAGE_INFO_DOMAIN_ID domainId;
         public NvU32 bIsEditable_reserved;
         public NvU32 volt_uV;
-        public NV_GPU_PERF_PSTATES20_PARAM_DELTA voltDelta_uV;
+        public NvGpuPerfPstates20ParamDelta voltDelta_uV;
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    internal struct PSTATES_ARRAY_16 {
+    internal struct PstatesArray16 {
         public NV_GPU_PERF_PSTATE_ID pstateId;
         public NvU32 bIsEditable_reserved;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.NVAPI_MAX_GPU_PSTATE20_CLOCKS)]
-        public NV_GPU_PSTATE20_CLOCK_ENTRY_V1[] clocks;
+        public NvGpuPstate20ClockEntryV1[] clocks;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.NVAPI_MAX_GPU_PSTATE20_BASE_VOLTAGES)]
-        public NV_GPU_PSTATE20_BASE_VOLTAGE_ENTRY_V1[] baseVoltages;
+        public NvGpuPstate20BaseVoltageEntryV1[] baseVoltages;
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    internal struct NV_GPU_PSTATE20_V2_OV {
+    internal struct NvGpuPstate20V2Ov {
         public NvU32 numVoltages;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.NVAPI_MAX_GPU_PSTATE20_BASE_VOLTAGES)]
-        public NV_GPU_PSTATE20_BASE_VOLTAGE_ENTRY_V1[] voltages;
+        public NvGpuPstate20BaseVoltageEntryV1[] voltages;
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    internal struct NV_GPU_PERF_PSTATES20_INFO_V2 {
+    internal struct NvGpuPerfPstates20InfoV2 {
         public NvU32 version;
         public NvU32 bIsEditable_reserved;
         public NvU32 numPstates;
         public NvU32 numClocks;
         public NvU32 numBaseVoltages;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.NVAPI_MAX_GPU_PERF_PSTATES)]
-        public PSTATES_ARRAY_16[] pstates;
-        public NV_GPU_PSTATE20_V2_OV ov;
+        public PstatesArray16[] pstates;
+        public NvGpuPstate20V2Ov ov;
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    internal struct NV_GPU_PERF_PSTATES20_INFO_V1 {
+    internal struct NvGpuPerfPstates20InfoV1 {
         public NvU32 version;
         public NvU32 bIsEditable_reserved;
         public NvU32 numPstates;
         public NvU32 numClocks;
         public NvU32 numBaseVoltages;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.NVAPI_MAX_GPU_PERF_PSTATES)]
-        public PSTATES_ARRAY_16[] pstates;
+        public PstatesArray16[] pstates;
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    public struct NV_GPU_CLOCK_FREQUENCIES_DOMAIN {
+    internal struct NvGpuClockRrequenciesDomain {
         public NvU32 bIsPresent_reserved;
         public NvU32 frequency;
         public NvU32 bIsPresent {
@@ -277,11 +317,11 @@ namespace NTMiner.Gpus.Nvapi {
         }
     }
     [StructLayout(LayoutKind.Sequential)]
-    public struct NV_GPU_CLOCK_FREQUENCIES_V2 {
+    internal struct NvGpuClockFrequenciesV2 {
         public NvU32 version;
         public NvU32 ClockType_reserved_reserved1;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.NVAPI_MAX_GPU_PUBLIC_CLOCKS)]
-        public NV_GPU_CLOCK_FREQUENCIES_DOMAIN[] domain;
+        public NvGpuClockRrequenciesDomain[] domain;
         public NvU32 ClockType {
             set {
                 NvU32 tmp = ClockType_reserved_reserved1 & ~(NvU32)0x03;
@@ -294,7 +334,7 @@ namespace NTMiner.Gpus.Nvapi {
         }
     }
     [StructLayout(LayoutKind.Sequential)]
-    public struct NVAPI_GPU_THERMAL_INFO_ENTRIES {
+    internal struct NvGpuThermalInfoEntries {
         public NvU32 controller;
         public NvU32 unknown;
         public NvS32 min_temp;
@@ -304,49 +344,48 @@ namespace NTMiner.Gpus.Nvapi {
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    public struct NVAPI_GPU_THERMAL_INFO {
+    internal struct NvGpuThermalInfo {
         public NvU32 version;
         public NvU32 flags;
 
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
-        public NVAPI_GPU_THERMAL_INFO_ENTRIES[] entries;
+        public NvGpuThermalInfoEntries[] entries;
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    public struct NVAPI_GPU_THERMAL_LIMIT_ENTRIES {
+    internal struct NvGpuThermalLimitEntries {
         public NvU32 controller;
         public NvU32 value;
         public NvU32 flags;
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    public struct NVAPI_GPU_THERMAL_LIMIT {
+    internal struct NvGpuThermalLimit {
         public NvU32 version;
         public NvU32 flags;
 
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
-        public NVAPI_GPU_THERMAL_LIMIT_ENTRIES[] entries;
+        public NvGpuThermalLimitEntries[] entries;
     }
     [StructLayout(LayoutKind.Sequential)]
-    public struct NVAPI_GPU_POWER_STATUS_ENTRY {
+    internal struct NvGpuPowerStatusEntry {
         public NvU32 unknown1;
         public NvU32 unknown2;
 
-        /* percent * 1000 */
         public NvU32 power;
         public NvU32 unknown4;
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    public struct NVAPI_GPU_POWER_STATUS {
+    internal struct NvGpuPowerStatus {
         public NvU32 version;
         public NvU32 flags;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
-        public NVAPI_GPU_POWER_STATUS_ENTRY[] entries;
+        public NvGpuPowerStatusEntry[] entries;
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    public struct NVAPI_GPU_POWER_INFO_ENTRY {
+    internal struct NvGpuPowerInfoEntry {
         public NvU32 pstate;
         public NvU32 unknown1_0;
         public NvU32 unknown1_1;
@@ -361,11 +400,11 @@ namespace NTMiner.Gpus.Nvapi {
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    public struct NVAPI_GPU_POWER_INFO {
+    internal struct NvGpuPowerInfo {
         public NvU32 version;
         public NvU32 valid_count_reserver1_reserver2;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
-        public NVAPI_GPU_POWER_INFO_ENTRY[] entries;
+        public NvGpuPowerInfoEntry[] entries;
 
         public NvU32 valid {
             get {
@@ -379,88 +418,112 @@ namespace NTMiner.Gpus.Nvapi {
         }
     }
 
-    public enum NV_COOLER_TYPE : NvU32 {
-        NVAPI_COOLER_TYPE_NONE = 0,
-        NVAPI_COOLER_TYPE_FAN,
-        NVAPI_COOLER_TYPE_WATER,
-        NVAPI_COOLER_TYPE_LIQUID_NO2,
-    }
-    public enum NV_COOLER_CONTROLLER {
-        NVAPI_COOLER_CONTROLLER_NONE = 0,
-        NVAPI_COOLER_CONTROLLER_ADI,
-        NVAPI_COOLER_CONTROLLER_INTERNAL,
-    }
-
-    public enum NV_COOLER_POLICY {
-        NVAPI_COOLER_POLICY_NONE = 0,
-        NVAPI_COOLER_POLICY_MANUAL = 1,                 // Manual adjustment of cooler level. Gets applied right away independent of temperature or performance level.
-        NVAPI_COOLER_POLICY_PERF = 2,                   // GPU performance controls the cooler level.
-        NVAPI_COOLER_POLICY_TEMPERATURE_DISCRETE = 4,   // Discrete thermal levels control the cooler level.
-        NVAPI_COOLER_POLICY_TEMPERATURE_CONTINUOUS = 8, // Cooler level adjusted at continuous thermal levels.
-        NVAPI_COOLER_POLICY_HYBRID = 16,                // Hybrid of performance and temperature levels.
-
-        NVAPI_COOLER_POLICY_AUTO = 32,                  // AIMiner custom .
-    }
-
-    public enum NV_COOLER_TARGET {
-        NVAPI_COOLER_TARGET_NONE = 0,
-        NVAPI_COOLER_TARGET_GPU,
-        NVAPI_COOLER_TARGET_MEMORY,
-        NVAPI_COOLER_TARGET_POWER_SUPPLY = 4,
-        NVAPI_COOLER_TARGET_ALL = 7                    // This cooler cools all of the components related to its target gpu.
-    }
-
-    public enum NV_COOLER_CONTROL {
-        NVAPI_COOLER_CONTROL_NONE = 0,
-        NVAPI_COOLER_CONTROL_TOGGLE,                   // ON/OFF
-        NVAPI_COOLER_CONTROL_VARIABLE,                 // Suppports variable control.
-    }
-
-    public enum NV_COOLER_ACTIVITY_LEVEL {
-        NVAPI_INACTIVE = 0,                             // inactive or unsupported
-        NVAPI_ACTIVE = 1,                               // active and spinning in case of fan
-    }
-
     [StructLayout(LayoutKind.Sequential)]
-    public struct NVAPI_COOLER_ARRAY {
-        public NvU32 value;
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    public struct NVAPI_COOLER_ITEM {
-        public NV_COOLER_TYPE type;
-        public NV_COOLER_CONTROLLER controller;
+    internal struct NvCoolerItem {
+        public NvCoolerType type;
+        public NvCoolerController controller;
         public NvU32 defaultMinLevel;
         public NvU32 defaultMaxLevel;
         public NvU32 currentMinLevel;
         public NvU32 currentMaxLevel;
         public NvU32 currentLevel;
-        public NV_COOLER_POLICY defaultPolicy;
-        public NV_COOLER_POLICY currentPolicy;
-        public NV_COOLER_TARGET target;
-        public NV_COOLER_CONTROL controlType;
+        public NvCoolerPolicy defaultPolicy;
+        public NvCoolerPolicy currentPolicy;
+        public NvCoolerTarget target;
+        public NvCoolerControl controlType;
         public NV_COOLER_ACTIVITY_LEVEL active;
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    public struct NVAPI_COOLER_SETTINGS {
+    internal struct NvCoolerSettings {
         public NvU32 version;
         public NvU32 count;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.NVAPI_MAX_COOLERS_PER_GPU)]
-        public NVAPI_COOLER_ITEM[] cooler;
+        public NvCoolerItem[] cooler;
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    public struct NVAPI_COOLER_LEVEL_ITEM {
+    internal struct NvCoolerLevelItem {
         public NvU32 currentLevel;
-        public NV_COOLER_POLICY currentPolicy;
+        public NvCoolerPolicy currentPolicy;
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    public struct NVAPI_COOLER_LEVEL {
+    internal struct NvCoolerLevel {
         public NvU32 version;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.NVAPI_MAX_COOLERS_PER_GPU)]
-        public NVAPI_COOLER_LEVEL_ITEM[] coolers;
+        public NvCoolerLevelItem[] coolers;
+    }
+
+    [StructLayout(LayoutKind.Sequential, Pack = 8)]
+    internal struct PrivateFanCoolersInfoV1 {
+        public NvU32 version;
+        internal readonly uint UnknownUInt1;
+        internal readonly uint FanCoolersInfoCount;
+
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8, ArraySubType = UnmanagedType.U4)]
+        internal readonly uint[] Reserved;
+
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.MaxNumberOfFanCoolerInfoEntries)]
+        internal readonly FanCoolersInfoEntry[] FanCoolersInfoEntries;
+
+        [StructLayout(LayoutKind.Sequential, Pack = 8)]
+        internal struct FanCoolersInfoEntry {
+            internal readonly uint CoolerId;
+            internal readonly uint UnknownUInt3;
+            internal readonly uint UnknownUInt4;
+            internal readonly uint MaximumRPM;
+
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8, ArraySubType = UnmanagedType.U4)]
+            internal readonly uint[] Reserved;
+        }
+    }
+
+    [StructLayout(LayoutKind.Sequential, Pack = 8)]
+    internal struct PrivateFanCoolersStatusV1 {
+        internal NvU32 version;
+        internal readonly uint FanCoolersStatusCount;
+
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8, ArraySubType = UnmanagedType.U4)]
+        internal readonly uint[] Reserved;
+
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.MaxNumberOfFanCoolerStatusEntries)]
+        internal readonly FanCoolersStatusEntry[] FanCoolersStatusEntries;
+
+        [StructLayout(LayoutKind.Sequential, Pack = 8)]
+        internal struct FanCoolersStatusEntry {
+            internal readonly uint CoolerId;
+            internal readonly uint CurrentRPM;
+            internal readonly uint CurrentMinimumLevel;
+            internal readonly uint CurrentMaximumLevel;
+            internal readonly uint CurrentLevel;
+
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8, ArraySubType = UnmanagedType.U4)]
+            internal readonly uint[] Reserved;
+        }
+    }
+
+    [StructLayout(LayoutKind.Sequential, Pack = 8)]
+    internal struct PrivateFanCoolersControlV1 {
+        internal NvU32 version;
+        internal readonly uint UnknownUInt;
+        internal readonly uint FanCoolersControlCount;
+
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8, ArraySubType = UnmanagedType.U4)]
+        internal readonly uint[] Reserved;
+
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.MaxNumberOfFanCoolerControlEntries)]
+        internal readonly FanCoolersControlEntry[] FanCoolersControlEntries;
+
+        [StructLayout(LayoutKind.Sequential, Pack = 8)]
+        internal struct FanCoolersControlEntry {
+            internal readonly uint CoolerId;
+            internal readonly uint Level;
+            internal readonly FanCoolersControlMode ControlMode;
+
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8, ArraySubType = UnmanagedType.U4)]
+            internal readonly uint[] Reserved;
+        }
     }
     #endregion
 }

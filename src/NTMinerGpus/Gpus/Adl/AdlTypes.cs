@@ -113,7 +113,7 @@ namespace NTMiner.Gpus.Adl {
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    struct ADLVersionsInfoX2 {
+    internal struct ADLVersionsInfoX2 {
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = AdlConst.ADL_MAX_PATH)]
         public string strDriverVer;
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = AdlConst.ADL_MAX_PATH)]
@@ -125,7 +125,7 @@ namespace NTMiner.Gpus.Adl {
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    struct ADLODNPerformanceLevelX2 {
+    internal struct ADLODNPerformanceLevelX2 {
         public int iClock;
         public int iVddc;
         public int iEnabled;
@@ -133,7 +133,7 @@ namespace NTMiner.Gpus.Adl {
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    struct ADLODNPerformanceLevelsX2 {
+    internal struct ADLODNPerformanceLevelsX2 {
         public static ADLODNPerformanceLevelsX2 Create() {
             ADLODNPerformanceLevelsX2 lpODPerformanceLevels = new ADLODNPerformanceLevelsX2 {
                 aLevels = new ADLODNPerformanceLevelX2[AdlConst.ADL_PERFORMANCE_LEVELS]
@@ -155,7 +155,7 @@ namespace NTMiner.Gpus.Adl {
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    struct ADLODNParameterRange {
+    internal struct ADLODNParameterRange {
         public int iMode;
         public int iMin;
         public int iMax;
@@ -164,7 +164,7 @@ namespace NTMiner.Gpus.Adl {
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    struct ADLODNCapabilitiesX2 {
+    internal struct ADLODNCapabilitiesX2 {
         public static ADLODNCapabilitiesX2 Create() {
             return new ADLODNCapabilitiesX2 {
                 sEngineClockRange = new ADLODNParameterRange(),
