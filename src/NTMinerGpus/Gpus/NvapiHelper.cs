@@ -62,7 +62,7 @@ namespace NTMiner.Gpus {
             out int memoryClockMin, out int memoryClockMax, out int memoryClockDelta,
             out int powerMin, out int powerMax, out int powerDefault, out int powerLimit,
             out int tempLimitMin, out int tempLimitMax, out int tempLimitDefault, out int tempLimit,
-            out int fanSpeedMin, out int fanSpeedMax, out int fanSpeedDefault) {
+            out uint fanSpeedCurr, out int fanSpeedMin, out int fanSpeedMax, out int fanSpeedDefault) {
             coreClockMin = 0;
             coreClockMax = 0;
             coreClockDelta = 0;
@@ -77,6 +77,7 @@ namespace NTMiner.Gpus {
             tempLimitMax = 0;
             tempLimitDefault = 0;
             tempLimit = 0;
+            fanSpeedCurr = 0;
             fanSpeedMin = 0;
             fanSpeedMax = 0;
             fanSpeedDefault = 0;
@@ -104,6 +105,7 @@ namespace NTMiner.Gpus {
                 tempLimit = outCurrTemp;
 
                 GetCooler(busId, out uint currCooler, out uint minCooler, out uint defCooler, out uint maxCooler);
+                fanSpeedCurr = currCooler;
                 fanSpeedMin = (int)minCooler;
                 fanSpeedMax = (int)maxCooler;
                 fanSpeedDefault = (int)defCooler;
@@ -258,8 +260,13 @@ namespace NTMiner.Gpus {
             return SetPowerValue(busId, powerValue);
         }
 
+        public uint GetCooler(int busId) {
+            GetCooler(busId, out uint currCooler, out uint minCooler, out uint defCooler, out uint maxCooler);
+            return currCooler;
+        }
+
         public void SetCooler(int busId, uint value, bool isAutoMode) {
-            SetCoolerLevels(busId, value, isAutoMode);
+            SetFanSpeed(busId, value, isAutoMode);
         }
 
         #region private methods
@@ -552,12 +559,11 @@ namespace NTMiner.Gpus {
             SetPowerValue(busId, defPower * 1000);
         }
 
-        private NvCoolerSettings GetCoolerSettings(int busId) {
-            NvCoolerSettings info = new NvCoolerSettings();
+        private PrivateFanCoolersStatusV1 GetCoolerSettings(int busId) {
+            PrivateFanCoolersStatusV1 info = new PrivateFanCoolersStatusV1();
             try {
-                NvCoolerTarget cmd = NvCoolerTarget.NVAPI_COOLER_TARGET_ALL;
-                info.version = (uint)(VERSION1 | (Marshal.SizeOf(typeof(NvCoolerSettings))));
-                var r = NvapiNativeMethods.NvGetCoolerSettings(HandlesByBusId[busId], cmd, ref info);
+                info.version = (uint)(VERSION1 | (Marshal.SizeOf(typeof(PrivateFanCoolersStatusV1))));
+                var r = NvapiNativeMethods.NvFanCoolersGetStatus(HandlesByBusId[busId], ref info);
                 if (r != NvStatus.OK) {
                     Write.DevWarn($"{nameof(NvapiNativeMethods.NvGetCoolerSettings)} {r}");
                 }
@@ -572,11 +578,11 @@ namespace NTMiner.Gpus {
 
         private void GetCoolerSettings(int busId, ref uint minCooler, ref uint currCooler, ref uint maxCooler) {
             try {
-                NvCoolerSettings info = GetCoolerSettings(busId);
-                if (info.count > 0) {
-                    minCooler = info.cooler[0].currentMinLevel;
-                    currCooler = info.cooler[0].currentLevel;
-                    maxCooler = info.cooler[0].currentMaxLevel;
+                PrivateFanCoolersStatusV1 info = GetCoolerSettings(busId);
+                if (info.FanCoolersStatusCount > 0) {
+                    minCooler = info.FanCoolersStatusEntries[0].CurrentMinimumLevel;
+                    currCooler = info.FanCoolersStatusEntries[0].CurrentLevel;
+                    maxCooler = info.FanCoolersStatusEntries[0].CurrentMaximumLevel;
                 }
             }
             catch {
@@ -595,7 +601,17 @@ namespace NTMiner.Gpus {
             }
         }
 
-        private void SetCoolerLevels(int busId, uint value, bool isAutoMode) {
+        private PrivateFanCoolersControlV1 NvFanCoolersGetControl(int busId) {
+            var info = new PrivateFanCoolersControlV1();
+            info.version = (uint)(VERSION1 | (Marshal.SizeOf(typeof(PrivateFanCoolersControlV1))));
+            var r = NvapiNativeMethods.NvFanCoolersGetControl(HandlesByBusId[busId], ref info);
+            if (r != NvStatus.OK) {
+                Write.DevWarn($"{nameof(NvapiNativeMethods.NvFanCoolersGetControl)} {r}");
+            }
+            return info;
+        }
+
+        private void SetFanSpeed(int busId, uint value, bool isAutoMode) {
             NvCoolerTarget coolerIndex = NvCoolerTarget.NVAPI_COOLER_TARGET_ALL;
             try {
                 NvCoolerLevel level = new NvCoolerLevel();
@@ -608,12 +624,7 @@ namespace NTMiner.Gpus {
             }
 
             try {
-                var info = new PrivateFanCoolersControlV1();
-                info.version = (uint)(VERSION1 | (Marshal.SizeOf(typeof(PrivateFanCoolersControlV1))));
-                var r = NvapiNativeMethods.NvFanCoolersGetControl(HandlesByBusId[busId], ref info);
-                if (r != NvStatus.OK) {
-                    Write.DevWarn($"{nameof(NvapiNativeMethods.NvFanCoolersGetControl)} {r}");
-                }
+                var info = NvFanCoolersGetControl(busId);
                 for (int i = 0; i < info.FanCoolersControlCount; i++) {
                     if (coolerIndex != NvCoolerTarget.NVAPI_COOLER_TARGET_ALL) {
                         if (info.FanCoolersControlEntries[i].CoolerId == (uint)coolerIndex) {
@@ -626,7 +637,7 @@ namespace NTMiner.Gpus {
                         info.FanCoolersControlEntries[i].Level = isAutoMode ? 0u : (uint)value;
                     }
                 }
-                r = NvapiNativeMethods.NvFanCoolersSetControl(HandlesByBusId[busId], ref info);
+                var r = NvapiNativeMethods.NvFanCoolersSetControl(HandlesByBusId[busId], ref info);
                 if (r != NvStatus.OK) {
                     Write.DevWarn($"{nameof(NvapiNativeMethods.NvFanCoolersSetControl)} {r}");
                 }
