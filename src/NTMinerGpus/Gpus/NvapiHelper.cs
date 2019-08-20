@@ -117,23 +117,23 @@ namespace NTMiner.Gpus {
         }
 
         public uint GetCoreClockBaseFreq(int busId) {
-            return GetClockFreq(busId, (uint)NV_GPU_PUBLIC_CLOCK_ID.NVAPI_GPU_PUBLIC_CLOCK_GRAPHICS, NvapiConst.NV_GPU_CLOCK_FREQUENCIES_BASE_CLOCK);
+            return NvGetAllClockFrequenciesV2(busId, (uint)NV_GPU_PUBLIC_CLOCK_ID.NVAPI_GPU_PUBLIC_CLOCK_GRAPHICS, NvapiConst.NV_GPU_CLOCK_FREQUENCIES_BASE_CLOCK);
         }
         public uint GetMemClockBaseFreq(int busId) {
-            return GetClockFreq(busId, (uint)NV_GPU_PUBLIC_CLOCK_ID.NVAPI_GPU_PUBLIC_CLOCK_MEMORY, NvapiConst.NV_GPU_CLOCK_FREQUENCIES_BASE_CLOCK);
+            return NvGetAllClockFrequenciesV2(busId, (uint)NV_GPU_PUBLIC_CLOCK_ID.NVAPI_GPU_PUBLIC_CLOCK_MEMORY, NvapiConst.NV_GPU_CLOCK_FREQUENCIES_BASE_CLOCK);
         }
         public uint GetCoreClockBoostFreq(int busId) {
-            return GetClockFreq(busId, (uint)NV_GPU_PUBLIC_CLOCK_ID.NVAPI_GPU_PUBLIC_CLOCK_GRAPHICS, NvapiConst.NV_GPU_CLOCK_FREQUENCIES_BOOST_CLOCK);
+            return NvGetAllClockFrequenciesV2(busId, (uint)NV_GPU_PUBLIC_CLOCK_ID.NVAPI_GPU_PUBLIC_CLOCK_GRAPHICS, NvapiConst.NV_GPU_CLOCK_FREQUENCIES_BOOST_CLOCK);
         }
         public uint GetMemClockBoostFreq(int busId) {
-            return GetClockFreq(busId, (uint)NV_GPU_PUBLIC_CLOCK_ID.NVAPI_GPU_PUBLIC_CLOCK_MEMORY, NvapiConst.NV_GPU_CLOCK_FREQUENCIES_BOOST_CLOCK);
+            return NvGetAllClockFrequenciesV2(busId, (uint)NV_GPU_PUBLIC_CLOCK_ID.NVAPI_GPU_PUBLIC_CLOCK_MEMORY, NvapiConst.NV_GPU_CLOCK_FREQUENCIES_BOOST_CLOCK);
         }
 
         public uint GetCoreClockFreq(int busId) {
-            return GetClockFreq(busId, (uint)NV_GPU_PUBLIC_CLOCK_ID.NVAPI_GPU_PUBLIC_CLOCK_GRAPHICS, NvapiConst.NV_GPU_CLOCK_FREQUENCIES_CURRENT_FREQ);
+            return NvGetAllClockFrequenciesV2(busId, (uint)NV_GPU_PUBLIC_CLOCK_ID.NVAPI_GPU_PUBLIC_CLOCK_GRAPHICS, NvapiConst.NV_GPU_CLOCK_FREQUENCIES_CURRENT_FREQ);
         }
         public uint GetMemClockFreq(int busId) {
-            return GetClockFreq(busId, (uint)NV_GPU_PUBLIC_CLOCK_ID.NVAPI_GPU_PUBLIC_CLOCK_MEMORY, NvapiConst.NV_GPU_CLOCK_FREQUENCIES_CURRENT_FREQ);
+            return NvGetAllClockFrequenciesV2(busId, (uint)NV_GPU_PUBLIC_CLOCK_ID.NVAPI_GPU_PUBLIC_CLOCK_MEMORY, NvapiConst.NV_GPU_CLOCK_FREQUENCIES_CURRENT_FREQ);
         }
 
         public bool SetCoreClockV2(int busId, int kHz) {
@@ -171,7 +171,7 @@ namespace NTMiner.Gpus {
         public bool SetThermalValue(int busId, int value) {
             value = value << 8;
             try {
-                NvGpuThermalInfo info = NvApiClientThermalPoliciesGetInfo(busId);
+                NvGpuThermalInfo info = NvThermalPoliciesGetInfo(busId);
                 if (value == 0)
                     value = info.entries[0].def_temp;
                 else if (value > info.entries[0].max_temp)
@@ -179,22 +179,22 @@ namespace NTMiner.Gpus {
                 else if (value < info.entries[0].min_temp)
                     value = info.entries[0].min_temp;
 
-                NvGpuThermalLimit limit = NvApiClientThermalPoliciesGetLimit(busId);
+                NvGpuThermalLimit limit = NvThermalPoliciesGetLimit(busId);
                 limit.flags = 1;
                 limit.entries[0].value = (uint)value;
 
-                return ClientThermalPoliciesSetLimit(busId, ref limit);
+                return NvThermalPoliciesSetLimit(busId, ref limit);
             }
             catch {
             }
             return false;
         }
 
-        public bool ClientPowerPoliciesGetInfo(int busId, out uint minPower, out uint defPower, out uint maxPower) {
+        public bool GetPowerPoliciesInfo(int busId, out uint minPower, out uint defPower, out uint maxPower) {
             minPower = 0;
             defPower = 0;
             maxPower = 0;
-            NvGpuPowerInfo info = NvApiClientPowerPoliciesGetInfo(busId);
+            NvGpuPowerInfo info = NvPowerPoliciesGetInfo(busId);
             if (info.valid == 1 && info.count > 0) {
                 minPower = info.entries[0].min_power;
                 defPower = info.entries[0].def_power;
@@ -213,7 +213,7 @@ namespace NTMiner.Gpus {
             uint minPower = 0, defPower = 0, maxPower = 0;
 
             try {
-                if (ClientPowerPoliciesGetInfo(busId, out minPower, out defPower, out maxPower)) {
+                if (GetPowerPoliciesInfo(busId, out minPower, out defPower, out maxPower)) {
                     if (percentInt == 0)
                         percentInt = defPower;
                     else if (percentInt < minPower)
@@ -221,10 +221,10 @@ namespace NTMiner.Gpus {
                     else if (percentInt > maxPower)
                         percentInt = maxPower;
 
-                    NvGpuPowerStatus info = ClientPowerPoliciesGetStatus(busId);
+                    NvGpuPowerStatus info = NvPowerPoliciesGetStatus(busId);
                     info.flags = 1;
                     info.entries[0].power = percentInt;
-                    return ClientPowerPoliciesSetStatus(busId, ref info);
+                    return NvPowerPoliciesSetStatus(busId, ref info);
                 }
             }
             catch {
@@ -238,9 +238,9 @@ namespace NTMiner.Gpus {
             outDefPower = 0;
             outMaxPower = 0;
             try {
-                ClientPowerPoliciesGetInfo(busId, out outMinPower, out outDefPower, out outMaxPower);
+                GetPowerPoliciesInfo(busId, out outMinPower, out outDefPower, out outMaxPower);
 
-                NvGpuPowerStatus info = ClientPowerPoliciesGetStatus(busId);
+                NvGpuPowerStatus info = NvPowerPoliciesGetStatus(busId);
                 outCurrPower = info.entries[0].power;
 
                 outCurrPower = outCurrPower / 1000;
@@ -270,7 +270,7 @@ namespace NTMiner.Gpus {
         }
 
         #region private methods
-        private bool ClientPowerPoliciesSetStatus(int busId, ref NvGpuPowerStatus info) {
+        private bool NvPowerPoliciesSetStatus(int busId, ref NvGpuPowerStatus info) {
             try {
                 info.version = (uint)(VERSION1 | (Marshal.SizeOf(typeof(NvGpuPowerStatus))));
                 var r = NvapiNativeMethods.NvPowerPoliciesSetStatus(HandlesByBusId[busId], ref info);
@@ -408,7 +408,7 @@ namespace NTMiner.Gpus {
             return info;
         }
 
-        private uint GetClockFreq(int busId, uint clockId, uint clockType) {
+        private uint NvGetAllClockFrequenciesV2(int busId, uint clockId, uint clockType) {
             try {
                 NvGpuClockFrequenciesV2 info = NvGetAllClockFrequenciesV2(busId, clockType);
                 if (clockId < info.domain.Length) {
@@ -423,7 +423,7 @@ namespace NTMiner.Gpus {
             return 0;
         }
 
-        private NvGpuThermalInfo NvApiClientThermalPoliciesGetInfo(int busId) {
+        private NvGpuThermalInfo NvThermalPoliciesGetInfo(int busId) {
             NvGpuThermalInfo info = new NvGpuThermalInfo();
             try {
                 info.version = (uint)(VERSION2 | (Marshal.SizeOf(typeof(NvGpuThermalInfo))));
@@ -440,7 +440,7 @@ namespace NTMiner.Gpus {
             return info;
         }
 
-        private NvGpuThermalLimit NvApiClientThermalPoliciesGetLimit(int busId) {
+        private NvGpuThermalLimit NvThermalPoliciesGetLimit(int busId) {
             NvGpuThermalLimit info = new NvGpuThermalLimit();
             try {
                 info.version = (uint)(VERSION2 | (Marshal.SizeOf(typeof(NvGpuThermalLimit))));
@@ -457,7 +457,7 @@ namespace NTMiner.Gpus {
             return info;
         }
 
-        private bool ClientThermalPoliciesSetLimit(int busId, ref NvGpuThermalLimit info) {
+        private bool NvThermalPoliciesSetLimit(int busId, ref NvGpuThermalLimit info) {
             try {
                 info.version = (uint)(VERSION2 | (Marshal.SizeOf(typeof(NvGpuThermalLimit))));
                 var r = NvapiNativeMethods.NvThermalPoliciesSetLimit(HandlesByBusId[busId], ref info);
@@ -473,28 +473,12 @@ namespace NTMiner.Gpus {
             return false;
         }
 
-        private bool GetThermalInfo(int busId, out double minThermal, out double defThermal, out double maxThermal) {
-            minThermal = 0;
-            defThermal = 0;
-            maxThermal = 0;
-            try {
-                NvGpuThermalInfo info = NvApiClientThermalPoliciesGetInfo(busId);
-                minThermal = info.entries[0].min_temp / 256.0;
-                defThermal = info.entries[0].def_temp / 256.0;
-                maxThermal = info.entries[0].max_temp / 256.0;
-            }
-            catch {
-                return false;
-            }
-            return false;
-        }
-
         private bool GetThermalInfo(int busId, out int minThermal, out int defThermal, out int maxThermal) {
             minThermal = 0;
             defThermal = 0;
             maxThermal = 0;
             try {
-                NvGpuThermalInfo info = NvApiClientThermalPoliciesGetInfo(busId);
+                NvGpuThermalInfo info = NvThermalPoliciesGetInfo(busId);
                 minThermal = info.entries[0].min_temp / (1 << 8);
                 defThermal = info.entries[0].def_temp / (1 << 8);
                 maxThermal = info.entries[0].max_temp / (1 << 8);
@@ -513,7 +497,7 @@ namespace NTMiner.Gpus {
             try {
                 GetThermalInfo(busId, out outMinTemp, out outDefTemp, out outMaxTemp);
 
-                NvGpuThermalLimit limit = NvApiClientThermalPoliciesGetLimit(busId);
+                NvGpuThermalLimit limit = NvThermalPoliciesGetLimit(busId);
                 outCurrTemp = (int)(limit.entries[0].value / 256);
 
                 return true;
@@ -534,7 +518,7 @@ namespace NTMiner.Gpus {
             return false;
         }
 
-        private NvGpuPowerStatus ClientPowerPoliciesGetStatus(int busId) {
+        private NvGpuPowerStatus NvPowerPoliciesGetStatus(int busId) {
             NvGpuPowerStatus info = new NvGpuPowerStatus();
             try {
                 info.version = (uint)(VERSION1 | (Marshal.SizeOf(typeof(NvGpuPowerStatus))));
@@ -553,7 +537,7 @@ namespace NTMiner.Gpus {
 
         private double GetPowerPercent(int busId) {
             try {
-                NvGpuPowerStatus info = ClientPowerPoliciesGetStatus(busId);
+                NvGpuPowerStatus info = NvPowerPoliciesGetStatus(busId);
                 return (info.entries[0].power / 1000) / 100.0;
             }
             catch {
@@ -561,7 +545,7 @@ namespace NTMiner.Gpus {
             return 1.0;
         }
 
-        private NvGpuPowerInfo NvApiClientPowerPoliciesGetInfo(int busId) {
+        private NvGpuPowerInfo NvPowerPoliciesGetInfo(int busId) {
             NvGpuPowerInfo info = new NvGpuPowerInfo();
             try {
                 info.version = (uint)(VERSION1 | (Marshal.SizeOf(typeof(NvGpuPowerInfo))));
