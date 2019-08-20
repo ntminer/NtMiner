@@ -127,7 +127,7 @@
 				<DataGridTemplateColumn MinWidth="100" Width="*" Header="内核编码" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<StackPanel>
+                            <StackPanel Margin="4 0 0 0">
 								<TextBlock Text="{Binding Code}" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"></TextBlock>
 								<WrapPanel>
 									<TextBlock Text="{Binding Notice}" ToolTip="{Binding Notice}"></TextBlock>
