@@ -455,75 +455,75 @@ namespace NTMiner.Gpus.Nvapi {
         public NvCoolerLevelItem[] coolers;
     }
 
-    [StructLayout(LayoutKind.Sequential, Pack = 8)]
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct FanCoolersInfoEntry {
+        internal readonly uint CoolerId;
+        internal readonly uint UnknownUInt3;
+        internal readonly uint UnknownUInt4;
+        internal readonly uint MaximumRPM;
+
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8)]
+        internal readonly uint[] Reserved;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
     internal struct PrivateFanCoolersInfoV1 {
         public NvU32 version;
         internal readonly uint UnknownUInt1;
         internal readonly uint FanCoolersInfoCount;
 
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8, ArraySubType = UnmanagedType.U4)]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8)]
         internal readonly uint[] Reserved;
 
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.MaxNumberOfFanCoolerInfoEntries)]
         internal readonly FanCoolersInfoEntry[] FanCoolersInfoEntries;
-
-        [StructLayout(LayoutKind.Sequential, Pack = 8)]
-        internal struct FanCoolersInfoEntry {
-            internal readonly uint CoolerId;
-            internal readonly uint UnknownUInt3;
-            internal readonly uint UnknownUInt4;
-            internal readonly uint MaximumRPM;
-
-            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8, ArraySubType = UnmanagedType.U4)]
-            internal readonly uint[] Reserved;
-        }
     }
 
-    [StructLayout(LayoutKind.Sequential, Pack = 8)]
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct FanCoolersStatusEntry {
+        internal readonly uint CoolerId;
+        internal readonly uint CurrentRPM;
+        internal readonly uint CurrentMinimumLevel;
+        internal readonly uint CurrentMaximumLevel;
+        internal readonly uint CurrentLevel;
+
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8)]
+        internal readonly uint[] Reserved;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
     internal struct PrivateFanCoolersStatusV1 {
         internal NvU32 version;
         internal readonly uint FanCoolersStatusCount;
 
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8, ArraySubType = UnmanagedType.U4)]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8)]
         internal readonly uint[] Reserved;
 
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.MaxNumberOfFanCoolerStatusEntries)]
         internal readonly FanCoolersStatusEntry[] FanCoolersStatusEntries;
-
-        [StructLayout(LayoutKind.Sequential, Pack = 8)]
-        internal struct FanCoolersStatusEntry {
-            internal readonly uint CoolerId;
-            internal readonly uint CurrentRPM;
-            internal readonly uint CurrentMinimumLevel;
-            internal readonly uint CurrentMaximumLevel;
-            internal readonly uint CurrentLevel;
-
-            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8, ArraySubType = UnmanagedType.U4)]
-            internal readonly uint[] Reserved;
-        }
     }
 
-    [StructLayout(LayoutKind.Sequential, Pack = 8)]
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct FanCoolersControlEntry {
+        internal readonly uint CoolerId;
+        internal uint Level;
+        internal FanCoolersControlMode ControlMode;
+
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8)]
+        internal readonly uint[] Reserved;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
     internal struct PrivateFanCoolersControlV1 {
         internal NvU32 version;
         internal readonly uint UnknownUInt;
         internal readonly uint FanCoolersControlCount;
 
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8, ArraySubType = UnmanagedType.U4)]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8)]
         internal readonly uint[] Reserved;
 
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.MaxNumberOfFanCoolerControlEntries)]
         internal readonly FanCoolersControlEntry[] FanCoolersControlEntries;
-
-        [StructLayout(LayoutKind.Sequential, Pack = 8)]
-        internal struct FanCoolersControlEntry {
-            internal readonly uint CoolerId;
-            internal readonly uint Level;
-            internal readonly FanCoolersControlMode ControlMode;
-
-            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8, ArraySubType = UnmanagedType.U4)]
-            internal readonly uint[] Reserved;
-        }
     }
     #endregion
 }
