@@ -596,26 +596,30 @@ namespace NTMiner.Gpus {
             }
         }
 
-        private void SetCoolerLevels(int busId, NvCoolerTarget coolerIndex, ref NvCoolerLevel level) {
+        private bool SetCoolerLevels(int busId, NvCoolerTarget coolerIndex, ref NvCoolerLevel level) {
             try {
                 level.version = (uint)(VERSION1 | (Marshal.SizeOf(typeof(NvCoolerLevel))));
                 var r = NvapiNativeMethods.NvSetCoolerLevels(HandlesByBusId[busId], coolerIndex, ref level);
                 if (r != NvStatus.OK) {
                     Write.DevWarn($"{nameof(NvapiNativeMethods.NvSetCoolerLevels)} {r}");
+                    return false;
                 }
+                return true;
             }
             catch {
+                return false;
             }
         }
 
-        private PrivateFanCoolersControlV1 NvFanCoolersGetControl(int busId) {
-            var info = new PrivateFanCoolersControlV1();
+        private bool NvFanCoolersGetControl(int busId, out PrivateFanCoolersControlV1 info) {
+            info = new PrivateFanCoolersControlV1();
             info.version = (uint)(VERSION1 | (Marshal.SizeOf(typeof(PrivateFanCoolersControlV1))));
             var r = NvapiNativeMethods.NvFanCoolersGetControl(HandlesByBusId[busId], ref info);
             if (r != NvStatus.OK) {
                 Write.DevWarn($"{nameof(NvapiNativeMethods.NvFanCoolersGetControl)} {r}");
+                return false;
             }
-            return info;
+            return true;
         }
 
         private void SetFanSpeed(int busId, uint value, bool isAutoMode) {
@@ -631,22 +635,23 @@ namespace NTMiner.Gpus {
             }
 
             try {
-                var info = NvFanCoolersGetControl(busId);
-                for (int i = 0; i < info.FanCoolersControlCount; i++) {
-                    if (coolerIndex != NvCoolerTarget.NVAPI_COOLER_TARGET_ALL) {
-                        if (info.FanCoolersControlEntries[i].CoolerId == (uint)coolerIndex) {
+                if (NvFanCoolersGetControl(busId, out PrivateFanCoolersControlV1 info)) {
+                    for (int i = 0; i < info.FanCoolersControlCount; i++) {
+                        if (coolerIndex != NvCoolerTarget.NVAPI_COOLER_TARGET_ALL) {
+                            if (info.FanCoolersControlEntries[i].CoolerId == (uint)coolerIndex) {
+                                info.FanCoolersControlEntries[i].ControlMode = isAutoMode ? FanCoolersControlMode.Auto : FanCoolersControlMode.Manual;
+                                info.FanCoolersControlEntries[i].Level = isAutoMode ? 0u : (uint)value;
+                            }
+                        }
+                        else {
                             info.FanCoolersControlEntries[i].ControlMode = isAutoMode ? FanCoolersControlMode.Auto : FanCoolersControlMode.Manual;
                             info.FanCoolersControlEntries[i].Level = isAutoMode ? 0u : (uint)value;
                         }
                     }
-                    else {
-                        info.FanCoolersControlEntries[i].ControlMode = isAutoMode ? FanCoolersControlMode.Auto : FanCoolersControlMode.Manual;
-                        info.FanCoolersControlEntries[i].Level = isAutoMode ? 0u : (uint)value;
+                    var r = NvapiNativeMethods.NvFanCoolersSetControl(HandlesByBusId[busId], ref info);
+                    if (r != NvStatus.OK) {
+                        Write.DevWarn($"{nameof(NvapiNativeMethods.NvFanCoolersSetControl)} {r}");
                     }
-                }
-                var r = NvapiNativeMethods.NvFanCoolersSetControl(HandlesByBusId[busId], ref info);
-                if (r != NvStatus.OK) {
-                    Write.DevWarn($"{nameof(NvapiNativeMethods.NvFanCoolersSetControl)} {r}");
                 }
             }
             catch {
