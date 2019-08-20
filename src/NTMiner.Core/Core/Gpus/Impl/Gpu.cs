@@ -20,18 +20,12 @@
         }
 
         public int Index { get; set; }
-
         public string BusId { get; set; }
-
         public string Name { get; set; }
         public ulong TotalMemory { get; set; }
 
         public int Temperature { get; set; }
-
         public uint FanSpeed { get; set; }
-
-        public GpuStatus State { get; set; }
-
         public uint PowerUsage { get; set; }
         public int CoreClockDelta { get; set; }
         public int MemoryClockDelta { get; set; }
@@ -39,6 +33,9 @@
         public int CoreClockDeltaMax { get; set; }
         public int MemoryClockDeltaMin { get; set; }
         public int MemoryClockDeltaMax { get; set; }
+        public int VoltMin { get; set; }
+        public int VoltMax { get; set; }
+        public int VoltDefault { get; set; }
         public int Cool { get; set; }
         public int CoolMin { get; set; }
         public int CoolMax { get; set; }
@@ -50,5 +47,7 @@
         public int TempLimitDefault { get; set; }
         public int TempLimitMax { get; set; }
         public int TempLimit { get; set; }
+        public int CoreVoltage { get; set; }
+        public int MemoryVoltage { get; set; }
     }
 }

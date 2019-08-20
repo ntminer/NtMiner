@@ -23,7 +23,7 @@
 				<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
 			</DataGrid.Resources>
 			<DataGrid.Columns>
-				<DataGridTemplateColumn MinWidth="50" IsReadOnly="True">
+				<DataGridTemplateColumn MinWidth="40" IsReadOnly="True">
 					<DataGridTemplateColumn.HeaderTemplate>
 						<DataTemplate>
 							<TextBlock Text="序号"></TextBlock>
@@ -47,7 +47,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="80" Width="*" IsReadOnly="True">
+				<DataGridTemplateColumn MinWidth="60" Width="*" IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
 						<TextBlock Text="名称"></TextBlock>
 					</DataGridTemplateColumn.Header>
@@ -57,7 +57,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn IsReadOnly="True">
+				<DataGridTemplateColumn IsReadOnly="True" MinWidth="40">
 					<DataGridTemplateColumn.Header>
 						<TextBlock Text="显存"></TextBlock>
 					</DataGridTemplateColumn.Header>
@@ -94,7 +94,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="50" IsReadOnly="True">
+				<DataGridTemplateColumn MinWidth="40" IsReadOnly="True">
 					<DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
                             <TextBlock Text="温度" FontSize="12"></TextBlock>
@@ -106,7 +106,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="50" IsReadOnly="True">
+				<DataGridTemplateColumn MinWidth="40" IsReadOnly="True">
 					<DataGridTemplateColumn.HeaderTemplate>
 						<DataTemplate>
 							<TextBlock Text="风扇"></TextBlock>
@@ -132,8 +132,32 @@
 							<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding GpuVm.PowerUsageWText}"></TextBlock>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Width="40" IsReadOnly="True">
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="40" IsReadOnly="True" Visibility="{Binding Data.IsACardVisible, Source={StaticResource proxy}}">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="核心电压" TextWrapping="Wrap" FontSize="12"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding GpuVm.CoreVoltage}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="40" IsReadOnly="True" Header="显存电压" Visibility="{Binding Data.IsACardVisible, Source={StaticResource proxy}}">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="显存电压" TextWrapping="Wrap" FontSize="12"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding GpuVm.MemoryVoltage}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="40" IsReadOnly="True">
 					<DataGridTemplateColumn.HeaderTemplate>
 						<DataTemplate>
 							<TextBlock Text="超频功耗" TextWrapping="Wrap" FontSize="12"></TextBlock>
@@ -148,7 +172,7 @@
 				<DataGridTemplateColumn Width="40" IsReadOnly="True">
 					<DataGridTemplateColumn.HeaderTemplate>
 						<DataTemplate>
-							<TextBlock Text="超频温度" TextWrapping="Wrap" FontSize="12"></TextBlock>
+                            <TextBlock Text="温度阈值" TextWrapping="Wrap" FontSize="12"></TextBlock>
 						</DataTemplate>
 					</DataGridTemplateColumn.HeaderTemplate>
 					<DataGridTemplateColumn.CellTemplate>

@@ -30,9 +30,11 @@
 	<SolidColorBrush x:Key="ThemeForeground">White</SolidColorBrush>
 	<SolidColorBrush x:Key="StateBarForeground">White</SolidColorBrush>
 	<SolidColorBrush x:Key="MinerProfileBackground">#EBEBEB</SolidColorBrush>
-	<SolidColorBrush x:Key="WindowBorderBrush">#9B9FB9</SolidColorBrush>
+    <SolidColorBrush x:Key="WindowBorderBrush">#9B9FB9</SolidColorBrush>
+    <SolidColorBrush x:Key="TableHeaderBackground">#F5F4F5</SolidColorBrush>
+    <SolidColorBrush x:Key="TableHeaderForeground">#FF5A5A5A</SolidColorBrush>
 
-	<ControlTemplate x:Key="ErrorTemplate">
+    <ControlTemplate x:Key="ErrorTemplate">
 		<DockPanel LastChildFill="true">
 			<Border Background="Red" DockPanel.Dock="right" Margin="-20,0,0,0" Width="16" Height="16" CornerRadius="8"
 					ToolTip="{Binding ElementName=customAdorner, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}">

@@ -1,5 +1,4 @@
 ﻿using NTMiner.MinerClient;
-using NTMiner.MinerServer;
 using System;
 
 namespace NTMiner.Vms {
@@ -13,7 +12,8 @@ namespace NTMiner.Vms {
         private GpuViewModel _gpuVm;
         private int _tempLimit;
         private bool _isAutoFanSpeed;
-
+        private int _coreVoltage;
+        private int _memoryVoltage;
 
         public GpuProfileViewModel() {
         }
@@ -28,6 +28,8 @@ namespace NTMiner.Vms {
             _isAutoFanSpeed = data.IsAutoFanSpeed;
             _cool = data.Cool;
             _gpuVm = gpuVm;
+            _coreVoltage = data.CoreVoltage;
+            _memoryVoltage = data.MemoryVoltage;
         }
 
         public void Update(IGpuProfile data) {
@@ -39,6 +41,8 @@ namespace NTMiner.Vms {
             this._tempLimit = data.TempLimit;
             this._isAutoFanSpeed = data.IsAutoFanSpeed;
             this._cool = data.Cool;
+            this._coreVoltage = data.CoreVoltage;
+            this._memoryVoltage = data.MemoryVoltage;
 
             OnPropertyChanged(nameof(CoinId));
             OnPropertyChanged(nameof(Index));
@@ -56,9 +60,13 @@ namespace NTMiner.Vms {
             this._powerCapacity = data.PowerCapacity;
             this._tempLimit = data.TempLimit;
             this._cool = data.Cool;
+            this._coreVoltage = data.CoreVoltage;
+            this._memoryVoltage = data.MemoryVoltage;
 
             OnPropertyChanged(nameof(CoreClockDelta));
             OnPropertyChanged(nameof(MemoryClockDelta));
+            OnPropertyChanged(nameof(CoreVoltage));
+            OnPropertyChanged(nameof(MemoryVoltage));
             OnPropertyChanged(nameof(PowerCapacity));
             OnPropertyChanged(nameof(TempLimit));
             OnPropertyChanged(nameof(Cool));
@@ -120,6 +128,22 @@ namespace NTMiner.Vms {
                     _memoryClockDelta = value;
                     OnPropertyChanged(nameof(MemoryClockDelta));
                 }
+            }
+        }
+
+        public int CoreVoltage {
+            get => _coreVoltage;
+            set {
+                _coreVoltage = value;
+                OnPropertyChanged(nameof(CoreVoltage));
+            }
+        }
+
+        public int MemoryVoltage {
+            get => _memoryVoltage;
+            set {
+                _memoryVoltage = value;
+                OnPropertyChanged(nameof(MemoryVoltage));
             }
         }
 

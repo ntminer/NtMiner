@@ -2,19 +2,66 @@
 using System.Runtime.InteropServices;
 
 namespace NTMiner.Gpus.Nvml {
+    internal static class NvmlConstant {
+        /// <summary>
+        /// Buffer size guaranteed to be large enough for pci bus id
+        /// </summary>
+        internal const uint DevicePCIBusIDBufferSize = 16;
+        /// <summary>
+        /// Maximum number of NvLink links supported 
+        /// </summary>
+        internal const uint NVLinkMaxLinks = 4;
+        /// <summary>
+        /// Maximum limit on Physical Bridges per Board
+        /// </summary>
+        internal const uint MaxPhysicalBridge = 128;
+        /// <summary>
+        /// Buffer size guaranteed to be large enough for \ref nvmlDeviceGetInforomVersion and \ref nvmlDeviceGetInforomImageVersion
+        /// </summary>
+        internal const uint DeviceInformVersionBufferSize = 16;
+        /// <summary>
+        /// Buffer size guaranteed to be large enough for \ref nvmlDeviceGetUUID
+        /// </summary>
+        internal const uint DeviceUUIDBufferSize = 80;
+        /// <summary>
+        /// Buffer size guaranteed to be large enough for \ref nvmlDeviceGetBoardPartNumber
+        /// </summary>
+        internal const uint DevicePartNumberBufferSize = 80;
+        /// <summary>
+        /// Buffer size guaranteed to be large enough for \ref nvmlSystemGetDriverVersion
+        /// </summary>
+        internal const uint SystemDriverVersionBufferSize = 80;
+        /// <summary>
+        /// Buffer size guaranteed to be large enough for \ref nvmlSystemGetNVMLVersion
+        /// </summary>
+        internal const uint SystemNVMLVersionBufferSize = 80;
+        /// <summary>
+        /// Buffer size guaranteed to be large enough for \ref nvmlDeviceGetName
+        /// </summary>
+        internal const uint DeviceNameBufferSize = 64;
+        /// <summary>
+        /// Buffer size guaranteed to be large enough for \ref nvmlDeviceGetSerial
+        /// </summary>
+        internal const uint DeviceSerialBufferSize = 30;
+        /// <summary>
+        /// Buffer size guaranteed to be large enough for \ref nvmlDeviceGetVbiosVersion
+        /// </summary>
+        internal const uint DeviceVBIOSVersionBufferSize = 32;
+    }
+
     #region enums
     /// <summary>
     /// enum to represent type of bridge chip
     /// </summary>
-    public enum nvmlBridgeChipType {
+    internal enum nvmlBridgeChipType {
         PLX = 0,
         BRO4 = 1
     }
-    
+
     /// <summary>
     /// enum to represent the NvLink utilization counter packet units
     /// </summary>
-    public enum nvmlNvLinkUtilizationCountUnits {
+    internal enum nvmlNvLinkUtilizationCountUnits {
         /// <summary>
         /// count by cycles
         /// </summary>
@@ -36,7 +83,7 @@ namespace NTMiner.Gpus.Nvml {
     /// ** all packet filter descriptions are target GPU centric<para/>
     /// ** these can be "OR'd" together 
     /// </summary>
-    public enum nvmlNvLinkUtilizationCountPktTypes {
+    internal enum nvmlNvLinkUtilizationCountPktTypes {
         /// <summary>
         /// no operation packets
         /// </summary>
@@ -78,7 +125,7 @@ namespace NTMiner.Gpus.Nvml {
     /// <summary>
     /// enum to represent NvLink queryable capabilities
     /// </summary>
-    public enum nvmlNvLinkCapability {
+    internal enum nvmlNvLinkCapability {
         /// <summary>
         /// P2P over NVLink is supported
         /// </summary>
@@ -109,7 +156,7 @@ namespace NTMiner.Gpus.Nvml {
     /// <summary>
     /// enum to represent NvLink queryable error counters
     /// </summary>
-    public enum nvmlNvLinkErrorCounter {
+    internal enum nvmlNvLinkErrorCounter {
         /// <summary>
         /// Data link transmit replay error counter
         /// </summary>
@@ -132,7 +179,7 @@ namespace NTMiner.Gpus.Nvml {
     /// Represents level relationships within a system between two GPUs
     /// The enums are spaced to allow for future relationships
     /// </summary>
-    public enum nvmlGpuTopologyLevel {
+    internal enum nvmlGpuTopologyLevel {
         /// <summary>
         /// e.g. Tesla K80
         /// </summary>
@@ -162,7 +209,7 @@ namespace NTMiner.Gpus.Nvml {
     /// <summary>
     /// Represents Type of Sampling Event
     /// </summary>
-    public enum nvmlSamplingType {
+    internal enum nvmlSamplingType {
         /// <summary>
         /// To represent total power drawn by GPU
         /// </summary>
@@ -196,7 +243,7 @@ namespace NTMiner.Gpus.Nvml {
     /// <summary>
     /// Represents the queryable PCIe utilization counters
     /// </summary>
-    public enum nvmlPcieUtilCounter {
+    internal enum nvmlPcieUtilCounter {
         /// <summary>
         /// 1KB granularity
         /// </summary>
@@ -210,7 +257,7 @@ namespace NTMiner.Gpus.Nvml {
     /// <summary>
     /// Represents the type for sample value returned
     /// </summary>
-    public enum nvmlValueType {
+    internal enum nvmlValueType {
         Double = 0,
         UInt = 1,
         ULong = 2,
@@ -220,7 +267,7 @@ namespace NTMiner.Gpus.Nvml {
     /// <summary>
     /// Represents type of perf policy for which violation times can be queried 
     /// </summary>
-    public enum nvmlPerfPolicyType {
+    internal enum nvmlPerfPolicyType {
         Power = 0,
         Thermal = 1,
         SyncBoost = 2
@@ -229,7 +276,7 @@ namespace NTMiner.Gpus.Nvml {
     /// <summary>
     /// Generic enable/disable enum.
     /// </summary>
-    public enum nvmlEnableState {
+    internal enum nvmlEnableState {
         /// <summary>
         /// Feature disabled 
         /// </summary>
@@ -243,7 +290,7 @@ namespace NTMiner.Gpus.Nvml {
     /// <summary>
     /// The Brand of the GPU
     /// </summary>
-    public enum nvmlBrandType {
+    internal enum nvmlBrandType {
         Unknown = 0,
         Quadro = 1,
         Tesla = 2,
@@ -255,7 +302,7 @@ namespace NTMiner.Gpus.Nvml {
     /// <summary>
     /// Temperature thresholds.
     /// </summary>
-    public enum nvmlTemperatureThresholds {
+    internal enum nvmlTemperatureThresholds {
         /// <summary>
         /// Temperature at which the GPU will shut down for HW protection
         /// </summary>
@@ -269,7 +316,7 @@ namespace NTMiner.Gpus.Nvml {
     /// <summary>
     /// Temperature sensors.
     /// </summary>
-    public enum nvmlTemperatureSensors {
+    internal enum nvmlTemperatureSensors {
         /// <summary>
         /// Temperature sensor for the GPU die
         /// </summary>
@@ -282,7 +329,7 @@ namespace NTMiner.Gpus.Nvml {
     /// Earlier CUDA versions supported a single exclusive mode, 
     /// which is equivalent to NVML_COMPUTEMODE_EXCLUSIVE_THREAD in CUDA 4.0 and beyond.
     /// </summary>
-    public enum nvmlComputeMode {
+    internal enum nvmlComputeMode {
         /// <summary>
         /// Default compute mode -- multiple contexts per device
         /// </summary>
@@ -304,7 +351,7 @@ namespace NTMiner.Gpus.Nvml {
     /// <summary>
     /// Memory error types
     /// </summary>
-    public enum nvmlMemoryErrorType {
+    internal enum nvmlMemoryErrorType {
         /// <summary>
         /// A memory error that was corrected<para/>
         /// For ECC errors, these are single bit errors<para/>
@@ -323,7 +370,7 @@ namespace NTMiner.Gpus.Nvml {
     /// <summary>
     /// ECC counter types. 
     /// </summary>
-    public enum nvmlEccCounterType {
+    internal enum nvmlEccCounterType {
         /// <summary>
         /// Volatile counts are reset each time the driver loads.
         /// </summary>
@@ -337,7 +384,7 @@ namespace NTMiner.Gpus.Nvml {
     /// <summary>
     /// Clock types. All speeds are in Mhz.
     /// </summary>
-    public enum nvmlClockType {
+    internal enum nvmlClockType {
         /// <summary>
         /// Graphics clock domain 
         /// </summary>
@@ -359,7 +406,7 @@ namespace NTMiner.Gpus.Nvml {
     /// <summary>
     /// Clock Ids.  These are used in combination with nvmlClockType to specify a single clock value.
     /// </summary>
-    public enum nvmlClockId {
+    internal enum nvmlClockId {
         /// <summary>
         /// Current actual clock value
         /// </summary>
@@ -381,7 +428,7 @@ namespace NTMiner.Gpus.Nvml {
     /// <summary>
     /// Driver models. Windows only.
     /// </summary>
-    public enum nvmlDriverModel {
+    internal enum nvmlDriverModel {
         /// <summary>
         /// WDDM driver model -- GPU treated as a display device
         /// </summary>
@@ -395,7 +442,7 @@ namespace NTMiner.Gpus.Nvml {
     /// <summary>
     /// Allowed PStates.
     /// </summary>
-    public enum nvmlPstates {
+    internal enum nvmlPstates {
         /// <summary>
         /// Performance state 0 -- Maximum Performance
         /// </summary>
@@ -471,7 +518,7 @@ namespace NTMiner.Gpus.Nvml {
     /// GOM allows to reduce power usage and optimize GPU throughput by disabling GPU features.<para/>
     /// Each GOM is designed to meet specific user needs.
     /// </summary>
-    public enum nvmlGpuOperationMode {
+    internal enum nvmlGpuOperationMode {
         /// <summary>
         /// Everything is enabled and running at full speed
         /// </summary>
@@ -489,7 +536,7 @@ namespace NTMiner.Gpus.Nvml {
     /// <summary>
     /// Available infoROM objects.
     /// </summary>
-    public enum nvmlInforomObject {
+    internal enum nvmlInforomObject {
         /// <summary>
         /// An object defined by OEM
         /// </summary>
@@ -507,7 +554,7 @@ namespace NTMiner.Gpus.Nvml {
     /// <summary>
     /// Return values for NVML API calls. 
     /// </summary>
-    public enum nvmlReturn {
+    internal enum nvmlReturn {
         /// <summary>
         /// The operation was successful
         /// </summary>
@@ -598,7 +645,7 @@ namespace NTMiner.Gpus.Nvml {
     /// <summary>
     /// Memory locations
     /// </summary>
-    public enum nvmlMemoryLocation {
+    internal enum nvmlMemoryLocation {
         /// <summary>
         /// GPU L1 Cache
         /// </summary>
@@ -628,7 +675,7 @@ namespace NTMiner.Gpus.Nvml {
     /// <summary>
     /// Causes for page retirement
     /// </summary>
-    public enum nvmlPageRetirementCause {
+    internal enum nvmlPageRetirementCause {
         /// <summary>
         /// Page was retired due to multiple single bit ECC error
         /// </summary>
@@ -642,7 +689,7 @@ namespace NTMiner.Gpus.Nvml {
     /// <summary>
     /// API types that allow changes to default permission restrictions
     /// </summary>
-    public enum nvmlRestrictedAPI {
+    internal enum nvmlRestrictedAPI {
         /// <summary>
         /// APIs that change application clocks, see nvmlDeviceSetApplicationsClocks and see nvmlDeviceResetApplicationsClocks
         /// </summary>
@@ -656,7 +703,7 @@ namespace NTMiner.Gpus.Nvml {
     /// <summary>
     /// Fan state enum. 
     /// </summary>
-    public enum nvmlFanState {
+    internal enum nvmlFanState {
         /// <summary>
         /// Fan is working properly
         /// </summary>
@@ -670,7 +717,7 @@ namespace NTMiner.Gpus.Nvml {
     /// <summary>
     /// Led color enum. 
     /// </summary>
-    public enum nvmlLedColor {
+    internal enum nvmlLedColor {
         /// <summary>
         /// GREEN, indicates good health
         /// </summary>
@@ -683,101 +730,12 @@ namespace NTMiner.Gpus.Nvml {
 
     #endregion
 
-    #region enum (Flags)
-
-    /// <summary>
-    /// Event Types which user can be notified about. Types can be combined with bitwise or operator '|' when passed to \ref nvmlDeviceRegisterEvents
-    /// </summary>
-    [Flags]
-    public enum nvmlEventType : long {
-        /// <summary>
-        /// Event about single bit ECC errors
-        /// </summary>
-        SingleBitEccError = 0x0000000000000001L,
-        /// <summary>
-        /// Event about double bit ECC errors
-        /// </summary>
-        DoubleBitEccError = 0x0000000000000002L,
-        /// <summary>
-        /// Event about PState changes
-        /// </summary>
-        PState = 0x0000000000000004L,
-        /// <summary>
-        /// Event that Xid critical error occurred
-        /// </summary>
-        XidCriticalError = 0x0000000000000008L,
-        /// <summary>
-        /// Event about clock changes
-        /// </summary>
-        Clock = 0x0000000000000010L,
-        /// <summary>
-        /// Mask with no events
-        /// </summary>
-        None = 0x0000000000000000L,
-        /// <summary>
-        /// Mask of all events
-        /// </summary>
-        All = (None | SingleBitEccError | DoubleBitEccError | PState | Clock | XidCriticalError)
-    }
-
-    /// <summary>
-    /// nvmlClocksThrottleReasons
-    /// </summary>
-    [Flags]
-    public enum nvmlClocksThrottleReason : ulong {
-        /// <summary>
-        /// Nothing is running on the GPU and the clocks are dropping to Idle state
-        /// </summary>
-        GpuIdle = 0x0000000000000001L,
-        /// <summary>
-        /// GPU clocks are limited by current setting of applications clocks
-        /// </summary>
-        ApplicationsClocksSetting = 0x0000000000000002L,
-        /// <summary>
-        /// SW Power Scaling algorithm is reducing the clocks below requested clocks 
-        /// </summary>
-        SwPowerCap = 0x0000000000000004L,
-
-        /// <summary>
-        /// HW Slowdown (reducing the core clocks by a factor of 2 or more) is engaged<para/>
-        /// This is an indicator of:<para/>
-        ///  - temperature being too high<para/>
-        ///  - External Power Brake Assertion is triggered (e.g. by the system power supply)<para/>
-        ///  - Power draw is too high and Fast Trigger protection is reducing the clocks<para/>
-        ///  - May be also reported during PState or clock change<para/>
-        ///  - This behavior may be removed in a later release.<para/>
-        /// </summary>
-        HwSlowdown = 0x0000000000000008L,
-        /// <summary>
-        /// Sync Boost. 
-        /// This GPU has been added to a Sync boost group with nvidia-smi or DCGM in
-        /// order to maximize performance per watt. All GPUs in the sync boost group
-        /// will boost to the minimum possible clocks across the entire group. Look at
-        /// the throttle reasons for other GPUs in the system to see why those GPUs are
-        /// holding this one at lower clocks.
-        /// </summary>
-        SyncBoost = 0x0000000000000010L,
-        /// <summary>
-        /// Some other unspecified factor is reducing the clocks
-        /// </summary>
-        Unknown = 0x8000000000000000L,
-        /// <summary>
-        /// Bit mask representing no clocks throttling. Clocks are as high as possible.
-        /// </summary>
-        None = 0x0000000000000000L,
-        /// <summary>
-        /// Bit mask representing all supported clocks throttling reasons. New reasons might be added to this list in the future
-        /// </summary>
-        All = (None | GpuIdle | ApplicationsClocksSetting | SwPowerCap | HwSlowdown | SyncBoost | Unknown)
-    }
-    #endregion
-
     #region structs
     /// <summary>
     /// PCI information about a GPU device.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct nvmlPciInfo {
+    internal struct nvmlPciInfo {
         /// <summary>
         /// The tuple domain:bus:device.function PCI identifier (&amp; NULL terminator)
         /// </summary>
@@ -819,7 +777,7 @@ namespace NTMiner.Gpus.Nvml {
     /// Each sample period may be between 1 second and 1/6 second, depending on the product being queried.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct nvmlUtilization {
+    internal struct nvmlUtilization {
         /// <summary>
         /// Percent of time over the past sample period during which one or more kernels was executing on the GPU
         /// </summary>
@@ -834,7 +792,7 @@ namespace NTMiner.Gpus.Nvml {
     /// Memory allocation information for a device.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct nvmlMemory {
+    internal struct nvmlMemory {
         /// <summary>
         /// Total installed FB memory (in bytes)
         /// </summary>
@@ -853,7 +811,7 @@ namespace NTMiner.Gpus.Nvml {
     /// BAR1 Memory allocation Information for a device
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct nvmlBAR1Memory {
+    internal struct nvmlBAR1Memory {
         /// <summary>
         /// Total BAR1 Memory (in bytes)
         /// </summary>
@@ -872,7 +830,7 @@ namespace NTMiner.Gpus.Nvml {
     /// Information about running compute processes on the GPU
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct nvmlProcessInfo {
+    internal struct nvmlProcessInfo {
         /// <summary>
         /// Process ID
         /// </summary>
@@ -887,7 +845,7 @@ namespace NTMiner.Gpus.Nvml {
     /// struct to define the NVLINK counter controls
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct nvmlNvLinkUtilizationControl {
+    internal struct nvmlNvLinkUtilizationControl {
         public nvmlNvLinkUtilizationCountUnits units;
         public nvmlNvLinkUtilizationCountPktTypes pktfilter;
     }
@@ -896,7 +854,7 @@ namespace NTMiner.Gpus.Nvml {
     /// Information about the Bridge Chip Firmware
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct nvmlBridgeChipInfo {
+    internal struct nvmlBridgeChipInfo {
         /// <summary>
         /// Type of Bridge Chip 
         /// </summary>
@@ -912,7 +870,7 @@ namespace NTMiner.Gpus.Nvml {
     /// bridge is stored at index 0 of bridgeInfoList, parent to immediate bridge is at index 1 and so forth.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct nvmlBridgeChipHierarchy {
+    internal struct nvmlBridgeChipHierarchy {
         /// <summary>
         /// Number of Bridge Chips on the Board
         /// </summary>
@@ -928,7 +886,7 @@ namespace NTMiner.Gpus.Nvml {
     /// Union to represent different types of Value
     /// </summary>
     [StructLayout(LayoutKind.Explicit)]
-    public struct nvmlValue {
+    internal struct nvmlValue {
         /// <summary>
         /// If the value is double
         /// </summary>
@@ -955,7 +913,7 @@ namespace NTMiner.Gpus.Nvml {
     /// Information for Sample
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct nvmlSample {
+    internal struct nvmlSample {
         /// <summary>
         /// CPU Timestamp in microseconds
         /// </summary>
@@ -970,7 +928,7 @@ namespace NTMiner.Gpus.Nvml {
     /// struct to hold perf policy violation status data
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct nvmlViolationTime {
+    internal struct nvmlViolationTime {
         /// <summary>
         /// referenceTime represents CPU timestamp in microseconds
         /// </summary>
@@ -985,7 +943,7 @@ namespace NTMiner.Gpus.Nvml {
     /// Description of HWBC entry 
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct nvmlHwbcEntry {
+    internal struct nvmlHwbcEntry {
         public uint hwbcId;
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
         public string firmwareVersion;
@@ -995,7 +953,7 @@ namespace NTMiner.Gpus.Nvml {
     /// LED states for an S-class unit.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct nvmlLedState {
+    internal struct nvmlLedState {
         /// <summary>
         /// If amber, a text description of the cause
         /// </summary>
@@ -1011,7 +969,7 @@ namespace NTMiner.Gpus.Nvml {
     /// Static S-class unit info.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct nvmlUnitInfo {
+    internal struct nvmlUnitInfo {
         /// <summary>
         /// Product name
         /// </summary>
@@ -1050,7 +1008,7 @@ namespace NTMiner.Gpus.Nvml {
     ///    - Short pin transition 
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct nvmlPSUInfo {
+    internal struct nvmlPSUInfo {
         /// <summary>
         /// The power supply state
         /// </summary>
@@ -1074,7 +1032,7 @@ namespace NTMiner.Gpus.Nvml {
     /// Fan speed reading for a single fan in an S-class unit.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct nvmlUnitFanInfo {
+    internal struct nvmlUnitFanInfo {
         /// <summary>
         /// Fan speed (RPM)
         /// </summary>
@@ -1089,7 +1047,7 @@ namespace NTMiner.Gpus.Nvml {
     /// Fan speed readings for an entire S-class unit.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct nvmlUnitFanSpeeds {
+    internal struct nvmlUnitFanSpeeds {
         /// <summary>
         /// Fan speed data for each fan
         /// </summary>
@@ -1105,7 +1063,7 @@ namespace NTMiner.Gpus.Nvml {
     /// Information about occurred event
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct nvmlEventData {
+    internal struct nvmlEventData {
         /// <summary>
         /// Specific device where the event occurred
         /// </summary>
@@ -1124,7 +1082,7 @@ namespace NTMiner.Gpus.Nvml {
     /// Describes accounting statistics of a process.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct nvmlAccountingStats {
+    internal struct nvmlAccountingStats {
         /// <summary>
         /// Percent of time over the process's lifetime during which one or more kernels was executing on the GPU. 
         /// Utilization stats just like returned by \ref nvmlDeviceGetUtilizationRates but for the life time of a 
@@ -1171,7 +1129,7 @@ namespace NTMiner.Gpus.Nvml {
     /// nvmlDevice
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct nvmlDevice {
+    internal struct nvmlDevice {
         /// <summary>
         /// 
         /// </summary>
@@ -1182,7 +1140,7 @@ namespace NTMiner.Gpus.Nvml {
     /// nvmlUnit
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct nvmlUnit {
+    internal struct nvmlUnit {
         /// <summary>
         /// 
         /// </summary>
@@ -1193,71 +1151,11 @@ namespace NTMiner.Gpus.Nvml {
     /// Handle to an event set
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct nvmlEventSet {
+    internal struct nvmlEventSet {
         /// <summary>
         /// 
         /// </summary>
         private IntPtr Pointer;
     }
     #endregion
-
-    /// <summary>
-    /// Constants used in NVML API (defines in original header file)
-    /// </summary>
-    public static class NVMLConstants {
-        /// <summary>
-        /// Buffer size guaranteed to be large enough for pci bus id
-        /// </summary>
-        public const uint DevicePCIBusIDBufferSize = 16;
-        /// <summary>
-        /// Maximum number of NvLink links supported 
-        /// </summary>
-        public const uint NVLinkMaxLinks = 4;
-        /// <summary>
-        /// Maximum limit on Physical Bridges per Board
-        /// </summary>
-        public const uint MaxPhysicalBridge = 128;
-        /// <summary>
-        /// Buffer size guaranteed to be large enough for \ref nvmlDeviceGetInforomVersion and \ref nvmlDeviceGetInforomImageVersion
-        /// </summary>
-        public const uint DeviceInformVersionBufferSize = 16;
-        /// <summary>
-        /// Buffer size guaranteed to be large enough for \ref nvmlDeviceGetUUID
-        /// </summary>
-        public const uint DeviceUUIDBufferSize = 80;
-        /// <summary>
-        /// Buffer size guaranteed to be large enough for \ref nvmlDeviceGetBoardPartNumber
-        /// </summary>
-        public const uint DevicePartNumberBufferSize = 80;
-        /// <summary>
-        /// Buffer size guaranteed to be large enough for \ref nvmlSystemGetDriverVersion
-        /// </summary>
-        public const uint SystemDriverVersionBufferSize = 80;
-        /// <summary>
-        /// Buffer size guaranteed to be large enough for \ref nvmlSystemGetNVMLVersion
-        /// </summary>
-        public const uint SystemNVMLVersionBufferSize = 80;
-        /// <summary>
-        /// Buffer size guaranteed to be large enough for \ref nvmlDeviceGetName
-        /// </summary>
-        public const uint DeviceNameBufferSize = 64;
-        /// <summary>
-        /// Buffer size guaranteed to be large enough for \ref nvmlDeviceGetSerial
-        /// </summary>
-        public const uint DeviceSerialBufferSize = 30;
-        /// <summary>
-        /// Buffer size guaranteed to be large enough for \ref nvmlDeviceGetVbiosVersion
-        /// </summary>
-        public const uint DeviceVBIOSVersionBufferSize = 32;
-    }
-    /// <summary>
-    /// NVML API versioning support
-    /// </summary>
-    //#define NVML_API_VERSION            8
-    //#define NVML_API_VERSIONR        "8"
-    //#define nvmlInit                    nvmlInit_v2
-    //#define nvmlDeviceGetPciInfo        nvmlDeviceGetPciInfo_v2
-    //#define nvmlDeviceGetCount          nvmlDeviceGetCount_v2
-    //#define nvmlDeviceGetHandleByIndex  nvmlDeviceGetHandleByIndex_v2
-    //#define nvmlDeviceGetHandleByPciBusId nvmlDeviceGetHandleByPciBusId_v2
 }

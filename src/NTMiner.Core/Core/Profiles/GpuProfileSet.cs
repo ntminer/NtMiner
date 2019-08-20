@@ -63,25 +63,42 @@ namespace NTMiner.Core.Profiles {
                 });
             VirtualRoot.Window<CoinOverClockCommand>("处理币种超频命令", LogEnum.DevConsole,
                 action: message => {
-                    Task.Factory.StartNew(() => {
-                        if (IsOverClockGpuAll(message.CoinId)) {
-                            GpuProfileData overClockData = _data.GpuProfiles.FirstOrDefault(a => a.CoinId == message.CoinId && a.Index == NTMinerRoot.GpuAllId);
-                            if (overClockData != null) {
-                                OverClock(root, overClockData);
-                            }
-                        }
-                        else {
-                            foreach (var overClockData in _data.GpuProfiles.Where(a => a.CoinId == message.CoinId)) {
-                                if (overClockData.Index != NTMinerRoot.GpuAllId) {
-                                    OverClock(root, overClockData);
-                                }
-                            }
-                        }
-                    });
+                    if (message.IsJoin) {
+                        CoinOverClock(root, message.CoinId);
+                    }
+                    else {
+                        Task.Factory.StartNew(() => {
+                            CoinOverClock(root, message.CoinId);
+                        });
+                    }
                 });
         }
 
+        private void CoinOverClock(INTMinerRoot root, Guid coinId) {
+            try {
+                if (IsOverClockGpuAll(coinId)) {
+                    GpuProfileData overClockData = _data.GpuProfiles.FirstOrDefault(a => a.CoinId == coinId && a.Index == NTMinerRoot.GpuAllId);
+                    if (overClockData != null) {
+                        OverClock(root, overClockData);
+                    }
+                }
+                else {
+                    foreach (var overClockData in _data.GpuProfiles.Where(a => a.CoinId == coinId)) {
+                        if (overClockData.Index != NTMinerRoot.GpuAllId) {
+                            OverClock(root, overClockData);
+                        }
+                    }
+                }
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e);
+            }
+        }
+
         private void OverClock(INTMinerRoot root, IGpuProfile data) {
+#if DEBUG
+            Write.Stopwatch.Restart();
+#endif
             if (root.GpuSet.TryGetGpu(data.Index, out IGpu gpu)) {
                 IOverClock overClock = root.GpuSet.OverClock;
                 if (!data.IsAutoFanSpeed) {
@@ -105,10 +122,11 @@ namespace NTMiner.Core.Profiles {
                 else {
                     Write.UserLine($"GPU{gpu.Index}超频：核心({coreClockText}),显存({memoryClockText}),功耗({data.PowerCapacity}),温度({data.TempLimit}),风扇({data.Cool})", "OverClock", ConsoleColor.Yellow);
                 }
-                if (root.GpuSet.GpuType == GpuType.AMD) {
-                    overClock.RefreshGpuState(data.Index);
-                }
+                overClock.RefreshGpuState(data.Index);
             }
+#if DEBUG
+            Write.DevWarn($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.OverClock");
+#endif
         }
 
         private void Save() {

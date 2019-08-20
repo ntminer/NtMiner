@@ -21,6 +21,9 @@ namespace NTMiner.MinerServer {
 
         public int MemoryClockDelta { get; set; }
 
+        public int CoreVoltage { get; set; }
+        public int MemoryVoltage { get; set; }
+
         public int PowerCapacity { get; set; }
 
         public int TempLimit { get; set; }

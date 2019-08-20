@@ -1,4 +1,4 @@
-﻿using NTMiner.Gpus.Amd;
+﻿using NTMiner.Gpus;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -25,10 +25,10 @@ namespace NTMiner.Core.Gpus.Impl {
             this.Properties = new List<GpuSetProperty>();
         }
 
-        private AdlHelper adlHelper = new AdlHelper();
+        private readonly AdlHelper adlHelper = new AdlHelper();
         public AMDGpuSet(INTMinerRoot root) : this() {
 #if DEBUG
-            VirtualRoot.Stopwatch.Restart();
+            Write.Stopwatch.Restart();
 #endif
             _root = root;
             adlHelper.Init();
@@ -78,13 +78,13 @@ namespace NTMiner.Core.Gpus.Impl {
                 }
             }
 #if DEBUG
-            Write.DevWarn($"耗时{VirtualRoot.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+            Write.DevWarn($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
 #endif
         }
 
         public void LoadGpuState() {
 #if DEBUG
-            VirtualRoot.Stopwatch.Restart();
+            Write.Stopwatch.Restart();
 #endif
             for (int i = 0; i < Count; i++) {
                 uint power = adlHelper.GetPowerUsageByIndex(i);
@@ -102,7 +102,7 @@ namespace NTMiner.Core.Gpus.Impl {
                 }
             }
 #if DEBUG
-            Write.DevWarn($"耗时{VirtualRoot.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.{nameof(LoadGpuState)}");
+            Write.DevWarn($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.{nameof(LoadGpuState)}");
 #endif
         }
 

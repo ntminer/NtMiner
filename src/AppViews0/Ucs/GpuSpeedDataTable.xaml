@@ -142,7 +142,7 @@
 				<DataGridTemplateColumn Width="70" IsReadOnly="True">
 					<DataGridTemplateColumn.HeaderTemplate>
 						<DataTemplate>
-							<TextBlock Text="超频温度？" ToolTip="'超频温度'可能显示为0，因为挖矿端自2.2.0.6开始上报超频温度" TextWrapping="Wrap" FontSize="12"></TextBlock>
+                            <TextBlock Text="温度阈值？" ToolTip="'温度阈值'可能显示为0，因为挖矿端自2.2.0.6开始上报温度阈值" TextWrapping="Wrap" FontSize="12"></TextBlock>
 						</DataTemplate>
 					</DataGridTemplateColumn.HeaderTemplate>
 					<DataGridTemplateColumn.CellTemplate>

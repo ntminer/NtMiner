@@ -4,6 +4,7 @@ using NTMiner.Vms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 
 namespace NTMiner {
     public partial class AppContext {
@@ -21,9 +22,18 @@ namespace NTMiner {
             private double _incomeDualCoinUsdPerDay;
             private double _incomeDualCoinCnyPerDay;
 
+            public Visibility IsACardVisible {
+                get {
+                    if (NTMinerRoot.Instance.GpuSet.GpuType == GpuType.AMD) {
+                        return Visibility.Visible;
+                    }
+                    return Visibility.Collapsed;
+                }
+            }
+
             private GpuSpeedViewModels() {
 #if DEBUG
-                VirtualRoot.Stopwatch.Restart();
+                Write.Stopwatch.Restart();
 #endif
                 if (Design.IsInDesignMode) {
                     return;
@@ -99,7 +109,7 @@ namespace NTMiner {
                         TotalSpeedVm.DualCoinSpeed.OnPropertyChanged(nameof(SpeedViewModel.LastSpeedOnText));
                     });
 #if DEBUG
-                Write.DevWarn($"耗时{VirtualRoot.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+                Write.DevWarn($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
 #endif
             }
 

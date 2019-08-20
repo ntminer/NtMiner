@@ -1,5 +1,6 @@
 ﻿using NTMiner.Core;
 using NTMiner.Core.Kernels;
+using NTMiner.Core.Profiles;
 using System;
 using System.Collections;
 using System.Diagnostics;
@@ -21,14 +22,19 @@ namespace NTMiner {
                         try {
                             Write.UserInfo("清理内核进程");
 #if DEBUG
-                            VirtualRoot.Stopwatch.Restart();
+                            Write.Stopwatch.Restart();
 #endif
                             // 清理除当前外的Temp/Kernel
                             Cleaner.Clear();
 #if DEBUG
-                            Write.DevWarn($"耗时{VirtualRoot.Stopwatch.ElapsedMilliseconds}毫秒 {nameof(MinerProcess)}.{nameof(CreateProcessAsync)}[{nameof(Cleaner)}.{nameof(Cleaner.Clear)}]");
+                            Write.DevWarn($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {nameof(MinerProcess)}.{nameof(CreateProcessAsync)}[{nameof(Cleaner)}.{nameof(Cleaner.Clear)}]");
 #endif
                             Write.UserOk("内核进程清理完毕");
+                            // 应用超频
+                            if (GpuProfileSet.Instance.IsOverClockEnabled(mineContext.MainCoin.GetId())) {
+                                Write.UserInfo("应用超频，如果CPU性能较差耗时可能超过1分钟，请耐心等待");
+                                VirtualRoot.Execute(new CoinOverClockCommand(mineContext.MainCoin.GetId(), isJoin: true));
+                            }
                             Thread.Sleep(1000);
                             Write.UserInfo($"解压内核包{mineContext.Kernel.Package}");
                             // 解压内核包

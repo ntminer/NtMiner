@@ -113,7 +113,6 @@
     <Compile Include="Controllers\IWrapperMinerClientController.cs" />
     <Compile Include="MinerClient\SetMinerProfilePropertyRequest.cs" />
     <Compile Include="DataRequest`1.cs" />
-    <Compile Include="MinerNameConst.cs" />
     <Compile Include="MinerServer\AppSettingData.cs" />
     <Compile Include="MinerServer\AppSettingRequest.cs" />
     <Compile Include="MinerServer\AppSettingsRequest.cs" />

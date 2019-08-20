@@ -112,10 +112,6 @@ namespace NTMiner {
                     }
                 }
             });
-            // 因为这个操作大概需要200毫秒
-            Task.Factory.StartNew(() => {
-                NVIDIAGpuSet.NvmlInit();
-            });
         }
 
         private void RefreshServerJsonFile() {
@@ -286,20 +282,12 @@ namespace NTMiner {
             #region 挖矿开始时将无份额内核重启份额计数置0
             int shareCount = 0;
             DateTime shareOn = DateTime.Now;
-            VirtualRoot.On<MineStartedEvent>("挖矿开始后将无份额内核重启份额计数置0，应用超频", LogEnum.DevConsole,
+            VirtualRoot.On<MineStartedEvent>("挖矿开始后将无份额内核重启份额计数置0", LogEnum.DevConsole,
                 action: message => {
                     // 将无份额内核重启份额计数置0
                     shareCount = 0;
                     if (!message.MineContext.IsRestart) {
                         shareOn = DateTime.Now;
-                    }
-                    try {
-                        if (GpuProfileSet.Instance.IsOverClockEnabled(message.MineContext.MainCoin.GetId())) {
-                            VirtualRoot.Execute(new CoinOverClockCommand(message.MineContext.MainCoin.GetId()));
-                        }
-                    }
-                    catch (Exception e) {
-                        Logger.ErrorDebugLine(e);
                     }
                 });
             #endregion

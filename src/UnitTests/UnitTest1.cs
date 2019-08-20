@@ -23,6 +23,11 @@ namespace UnitTests {
         }
 
         [TestMethod]
+        public void Test11() {
+            Assert.AreEqual(2 << 16, 0x20000);
+        }
+
+        [TestMethod]
         public void Test() {
             Assert.IsTrue(Path.IsPathRooted("C:test"));
             Assert.IsTrue(Path.IsPathRooted("C:test/txt.txt"));
