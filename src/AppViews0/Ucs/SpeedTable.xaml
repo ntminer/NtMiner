@@ -14,14 +14,23 @@
 			 d:DesignHeight="450" d:DesignWidth="800">
 	<Grid>
 		<DataGrid 
+            x:Name="DataGrid"
 			ItemsSource="{Binding List}" 
 			Background="Transparent" 
 			ColumnHeaderHeight="32"
+            RowDetailsVisibilityMode="Collapsed"
 			HorizontalScrollBarVisibility="Auto"
 			MouseDoubleClick="DataGrid_MouseDoubleClick" BorderThickness="0">
 			<DataGrid.Resources>
 				<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
 			</DataGrid.Resources>
+            <DataGrid.RowDetailsTemplate>
+                <DataTemplate>
+                    <WrapPanel>
+                        <TextBlock>Hello world</TextBlock>
+                    </WrapPanel>
+                </DataTemplate>
+            </DataGrid.RowDetailsTemplate>
 			<DataGrid.Columns>
 				<DataGridTemplateColumn MinWidth="40" IsReadOnly="True">
 					<DataGridTemplateColumn.HeaderTemplate>
@@ -208,5 +217,6 @@
 			</DataGrid.Columns>
 		</DataGrid>
 		<TextBlock Visibility="{Binding List, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center">没有矿卡或矿卡未驱动</TextBlock>
+        <Button HorizontalAlignment="Left" VerticalAlignment="Bottom" Content="显示超频" Click="BtnOverClockVisible_Click"></Button>
 	</Grid>
 </UserControl>

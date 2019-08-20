@@ -30,5 +30,17 @@ namespace NTMiner.Views.Ucs {
             }
             e.Handled = true;
         }
+
+        private void BtnOverClockVisible_Click(object sender, RoutedEventArgs e) {
+            ContentControl btn = (ContentControl)sender;
+            if (DataGrid.RowDetailsVisibilityMode == DataGridRowDetailsVisibilityMode.Collapsed) {
+                btn.Content = "隐藏超频";
+                DataGrid.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.Visible;
+            }
+            else if (DataGrid.RowDetailsVisibilityMode == DataGridRowDetailsVisibilityMode.Visible) {
+                DataGrid.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.Collapsed;
+                btn.Content = "显示超频";
+            }
+        }
     }
 }
