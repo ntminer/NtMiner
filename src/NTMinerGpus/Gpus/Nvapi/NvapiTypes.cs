@@ -500,7 +500,7 @@ namespace NTMiner.Gpus.Nvapi {
         internal readonly uint[] Reserved;
 
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.MaxNumberOfFanCoolerStatusEntries)]
-        internal readonly FanCoolersStatusEntry[] FanCoolersStatusEntries;
+        internal FanCoolersStatusEntry[] FanCoolersStatusEntries;
     }
 
     [StructLayout(LayoutKind.Sequential)]
