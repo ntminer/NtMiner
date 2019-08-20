@@ -90,6 +90,9 @@ namespace NTMiner.Gpus {
                     memoryClockMin = outMemoryMinFreqDelta;
                     memoryClockMax = outMemoryMaxFreqDelta;
                     memoryClockDelta = outMemoryCurrFreqDelta;
+#if DEBUG
+                Write.DevWarn($"{nameof(GetClockDelta)} coreClockMin={coreClockMin},coreClockMax={coreClockMax},coreClockDelta={coreClockDelta},memoryClockMin={memoryClockMin},memoryClockMax={memoryClockMax},memoryClockDelta={memoryClockDelta}");
+#endif
                 }
 
                 if (GetPowerLimit(busId, out uint outCurrPower, out uint outMinPower, out uint outDefPower, out uint outMaxPower)) {
@@ -97,6 +100,9 @@ namespace NTMiner.Gpus {
                     powerMax = (int)outMaxPower;
                     powerDefault = (int)outDefPower;
                     powerLimit = (int)outCurrPower;
+#if DEBUG
+                    Write.DevWarn($"{nameof(GetPowerLimit)} powerMin={powerMin},powerMax={powerMax},powerDefault={powerDefault},powerLimit={powerLimit}");
+#endif
                 }
 
                 if (GetTempLimit(busId, out int outCurrTemp, out int outMinTemp, out int outDefTemp, out int outMaxTemp)) {
@@ -104,6 +110,9 @@ namespace NTMiner.Gpus {
                     tempLimitMax = outMaxTemp;
                     tempLimitDefault = outDefTemp;
                     tempLimit = outCurrTemp;
+#if DEBUG
+                    Write.DevWarn($"{nameof(GetTempLimit)} tempLimitMin={tempLimitMin},tempLimitMax={tempLimitMax},tempLimitDefault={tempLimitDefault},tempLimit={tempLimit}");
+#endif
                 }
 
                 if (GetCooler(busId, out uint currCooler, out uint minCooler, out uint defCooler, out uint maxCooler)) {
@@ -111,10 +120,10 @@ namespace NTMiner.Gpus {
                     fanSpeedMin = (int)minCooler;
                     fanSpeedMax = (int)maxCooler;
                     fanSpeedDefault = (int)defCooler;
-                }
 #if DEBUG
-                Write.DevWarn($"{nameof(GetClockRangeByIndex)} coreClockMin={coreClockMin},coreClockMax={coreClockMax},coreClockDelta={coreClockDelta},memoryClockMin={memoryClockMin},memoryClockMax={memoryClockMax},memoryClockDelta={memoryClockDelta},powerMin={powerMin},powerMax={powerMax},powerDefault={powerDefault},powerLimit={powerLimit},tempLimitMin={tempLimitMin},tempLimitMax={tempLimitMax},tempLimitDefault={tempLimitDefault},tempLimit={tempLimit},fanSpeedMin={fanSpeedMin},fanSpeedMax={fanSpeedMax},fanSpeedDefault={fanSpeedDefault}");
+                    Write.DevWarn($"{nameof(GetCooler)} fanSpeedCurr={fanSpeedCurr},fanSpeedMin={fanSpeedMin},fanSpeedMax={fanSpeedMax},fanSpeedDefault={fanSpeedDefault}");
 #endif
+                }
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
@@ -333,6 +342,12 @@ namespace NTMiner.Gpus {
                                 outMemoryMaxFreqDelta = info.pstates[i].clocks[j].freqDelta_kHz.maxdelta;
                                 isMemoryClockPicked = true;
                             }
+                            if (isCoreClockPicked && isMemoryClockPicked) {
+                                break;
+                            }
+                        }
+                        if (isCoreClockPicked && isMemoryClockPicked) {
+                            break;
                         }
                     }
                 }
