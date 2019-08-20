@@ -260,9 +260,11 @@ namespace NTMiner.Gpus {
             return SetPowerValue(busId, powerValue);
         }
 
-        public uint GetCooler(int busId) {
-            GetCooler(busId, out uint currCooler, out uint minCooler, out uint defCooler, out uint maxCooler);
-            return currCooler;
+        public bool GetCooler(int busId, out uint currCooler) {
+            if (GetCooler(busId, out currCooler, out uint minCooler, out uint defCooler, out uint maxCooler)) {
+                return true;
+            }
+            return false;
         }
 
         public void SetCooler(int busId, uint value, bool isAutoMode) {
@@ -559,33 +561,37 @@ namespace NTMiner.Gpus {
             SetPowerValue(busId, defPower * 1000);
         }
 
-        private PrivateFanCoolersStatusV1 GetCoolerSettings(int busId) {
-            PrivateFanCoolersStatusV1 info = new PrivateFanCoolersStatusV1();
+        private bool GetCoolerSettings(int busId, out PrivateFanCoolersStatusV1 info) {
+            info = new PrivateFanCoolersStatusV1();
             try {
                 info.version = (uint)(VERSION1 | (Marshal.SizeOf(typeof(PrivateFanCoolersStatusV1))));
                 var r = NvapiNativeMethods.NvFanCoolersGetStatus(HandlesByBusId[busId], ref info);
-                if (r != NvStatus.OK) {
+                if (r != NvStatus.OK && DevMode.IsDevMode) {
                     Write.DevWarn($"{nameof(NvapiNativeMethods.NvGetCoolerSettings)} {r}");
                 }
                 if (r == NvStatus.OK) {
-                    return info;
+                    return true;
                 }
             }
             catch {
             }
-            return info;
+            return false;
         }
 
-        private void GetCoolerSettings(int busId, ref uint minCooler, ref uint currCooler, ref uint maxCooler) {
+        private bool GetCoolerSettings(int busId, ref uint minCooler, ref uint currCooler, ref uint maxCooler) {
             try {
-                PrivateFanCoolersStatusV1 info = GetCoolerSettings(busId);
+                if (!GetCoolerSettings(busId, out PrivateFanCoolersStatusV1 info)) {
+                    return false;
+                }
                 if (info.FanCoolersStatusCount > 0) {
                     minCooler = info.FanCoolersStatusEntries[0].CurrentMinimumLevel;
                     currCooler = info.FanCoolersStatusEntries[0].CurrentLevel;
                     maxCooler = info.FanCoolersStatusEntries[0].CurrentMaximumLevel;
                 }
+                return true;
             }
             catch {
+                return false;
             }
         }
 
@@ -646,16 +652,18 @@ namespace NTMiner.Gpus {
             }
         }
 
-        private void GetCooler(int busId, out uint currCooler, out uint minCooler, out uint defCooler, out uint maxCooler) {
+        private bool GetCooler(int busId, out uint currCooler, out uint minCooler, out uint defCooler, out uint maxCooler) {
             currCooler = 0;
             minCooler = 0;
             defCooler = 0;
             maxCooler = 0;
             try {
-                GetCoolerSettings(busId, ref minCooler, ref currCooler, ref maxCooler);
+                var r = GetCoolerSettings(busId, ref minCooler, ref currCooler, ref maxCooler);
                 defCooler = minCooler;
+                return r;
             }
             catch {
+                return false;
             }
         }
         #endregion
