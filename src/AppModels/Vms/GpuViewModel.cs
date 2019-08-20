@@ -33,6 +33,9 @@ namespace NTMiner.Vms {
         private ulong _totalMemory;
         private int _coreVoltage;
         private int _memoryVoltage;
+        private int _voltMin;
+        private int _voltMax;
+        private int _voltDefault;
 
         public GpuViewModel(IGpu data) {
             _index = data.Index;
@@ -61,44 +64,50 @@ namespace NTMiner.Vms {
             _tempLimitMin = data.TempLimitMin;
             _coreVoltage = data.CoreVoltage;
             _memoryVoltage = data.MemoryVoltage;
+            _voltMin = data.VoltMin;
+            _voltMax = data.VoltMax;
+            _voltDefault = data.VoltDefault;
         }
 
         private readonly bool _isGpuData;
         private readonly IGpuStaticData[] _gpuDatas;
-        public GpuViewModel(IGpuStaticData gpuData, IGpuStaticData[] gpuDatas) {
-            if (gpuData == null) {
-                throw new ArgumentNullException(nameof(gpuData));
+        public GpuViewModel(IGpuStaticData data, IGpuStaticData[] gpuDatas) {
+            if (data == null) {
+                throw new ArgumentNullException(nameof(data));
             }
             if (gpuDatas == null) {
                 throw new ArgumentNullException(nameof(gpuDatas));
             }
             _isGpuData = true;
             _gpuDatas = gpuDatas.Where(a => a.Index != NTMinerRoot.GpuAllId).ToArray();
-            _index = gpuData.Index;
-            _busId = gpuData.BusId;
-            _name = gpuData.Name;
-            _totalMemory = gpuData.TotalMemory;
+            _index = data.Index;
+            _busId = data.BusId;
+            _name = data.Name;
+            _totalMemory = data.TotalMemory;
             _temperature = 0;
             _fanSpeed = 0;
             _powerUsage = 0;
             _coreClockDelta = 0;
             _memoryClockDelta = 0;
-            _coreClockDeltaMin = gpuData.CoreClockDeltaMin;
-            _coreClockDeltaMax = gpuData.CoreClockDeltaMax;
-            _memoryClockDeltaMin = gpuData.MemoryClockDeltaMin;
-            _memoryClockDeltaMax = gpuData.MemoryClockDeltaMax;
+            _coreClockDeltaMin = data.CoreClockDeltaMin;
+            _coreClockDeltaMax = data.CoreClockDeltaMax;
+            _memoryClockDeltaMin = data.MemoryClockDeltaMin;
+            _memoryClockDeltaMax = data.MemoryClockDeltaMax;
             _cool = 0;
-            _coolMin = gpuData.CoolMin;
-            _coolMax = gpuData.CoolMax;
+            _coolMin = data.CoolMin;
+            _coolMax = data.CoolMax;
             _powerCapacity = 0;
-            _powerMin = gpuData.PowerMin;
-            _powerMax = gpuData.PowerMax;
-            _powerDefault = gpuData.PowerDefault;
-            _tempLimitMin = gpuData.TempLimitMin;
-            _tempLimitMax = gpuData.TempLimitMax;
-            _tempLimitDefault = gpuData.TempLimitDefault;
+            _powerMin = data.PowerMin;
+            _powerMax = data.PowerMax;
+            _powerDefault = data.PowerDefault;
+            _tempLimitMin = data.TempLimitMin;
+            _tempLimitMax = data.TempLimitMax;
+            _tempLimitDefault = data.TempLimitDefault;
             _coreVoltage = 0;
             _memoryVoltage = 0;
+            _voltMin = data.VoltMin;
+            _voltMax = data.VoltMax;
+            _voltDefault = data.VoltDefault;
         }
 
         public int Index {
@@ -134,8 +143,10 @@ namespace NTMiner.Vms {
                 return _busId;
             }
             set {
-                _busId = value;
-                OnPropertyChanged(nameof(BusId));
+                if (_busId != value) {
+                    _busId = value;
+                    OnPropertyChanged(nameof(BusId));
+                }
             }
         }
 
@@ -152,9 +163,11 @@ namespace NTMiner.Vms {
         public ulong TotalMemory {
             get => _totalMemory;
             set {
-                _totalMemory = value;
-                OnPropertyChanged(nameof(TotalMemory));
-                OnPropertyChanged(nameof(TotalMemoryGbText));
+                if (_totalMemory != value) {
+                    _totalMemory = value;
+                    OnPropertyChanged(nameof(TotalMemory));
+                    OnPropertyChanged(nameof(TotalMemoryGbText));
+                }
             }
         }
 
@@ -443,50 +456,62 @@ namespace NTMiner.Vms {
         public int CoreVoltage {
             get => _coreVoltage;
             set {
-                _coreVoltage = value;
-                OnPropertyChanged(nameof(CoreVoltage));
+                if (_coreVoltage != value) {
+                    _coreVoltage = value;
+                    OnPropertyChanged(nameof(CoreVoltage));
+                }
             }
         }
 
         public int MemoryVoltage {
             get => _memoryVoltage;
             set {
-                _memoryVoltage = value;
-                OnPropertyChanged(nameof(MemoryVoltage));
+                if (_memoryVoltage != value) {
+                    _memoryVoltage = value;
+                    OnPropertyChanged(nameof(MemoryVoltage));
+                }
             }
         }
 
         public int CoreClockDeltaMin {
             get => _coreClockDeltaMin;
             set {
-                _coreClockDeltaMin = value;
-                OnPropertyChanged(nameof(CoreClockDeltaMin));
-                OnPropertyChanged(nameof(CoreClockDeltaMinMText));
+                if (_coreClockDeltaMin != value) {
+                    _coreClockDeltaMin = value;
+                    OnPropertyChanged(nameof(CoreClockDeltaMin));
+                    OnPropertyChanged(nameof(CoreClockDeltaMinMText));
+                }
             }
         }
         public int CoreClockDeltaMax {
             get => _coreClockDeltaMax;
             set {
-                _coreClockDeltaMax = value;
-                OnPropertyChanged(nameof(CoreClockDeltaMax));
-                OnPropertyChanged(nameof(CoreClockDeltaMaxMText));
+                if (_coreClockDeltaMax != value) {
+                    _coreClockDeltaMax = value;
+                    OnPropertyChanged(nameof(CoreClockDeltaMax));
+                    OnPropertyChanged(nameof(CoreClockDeltaMaxMText));
+                }
             }
         }
         public int MemoryClockDeltaMin {
             get => _memoryClockDeltaMin;
             set {
-                _memoryClockDeltaMin = value;
-                OnPropertyChanged(nameof(MemoryClockDeltaMin));
-                OnPropertyChanged(nameof(MemoryClockDeltaMinMText));
+                if (_memoryClockDeltaMin != value) {
+                    _memoryClockDeltaMin = value;
+                    OnPropertyChanged(nameof(MemoryClockDeltaMin));
+                    OnPropertyChanged(nameof(MemoryClockDeltaMinMText));
+                }
             }
         }
 
         public int MemoryClockDeltaMax {
             get => _memoryClockDeltaMax;
             set {
-                _memoryClockDeltaMax = value;
-                OnPropertyChanged(nameof(MemoryClockDeltaMax));
-                OnPropertyChanged(nameof(MemoryClockDeltaMaxMText));
+                if (_memoryClockDeltaMax != value) {
+                    _memoryClockDeltaMax = value;
+                    OnPropertyChanged(nameof(MemoryClockDeltaMax));
+                    OnPropertyChanged(nameof(MemoryClockDeltaMaxMText));
+                }
             }
         }
         public string CoreClockDeltaMinMText {
@@ -516,51 +541,66 @@ namespace NTMiner.Vms {
         public int Cool {
             get => _cool;
             set {
-                _cool = value;
-                OnPropertyChanged(nameof(Cool));
+                if (_cool != value) {
+                    _cool = value;
+                    OnPropertyChanged(nameof(Cool));
+                }
             }
         }
+
         public int CoolMin {
             get => _coolMin;
             set {
-                _coolMin = value;
-                OnPropertyChanged(nameof(CoolMin));
+                if (_coolMin != value) {
+                    _coolMin = value;
+                    OnPropertyChanged(nameof(CoolMin));
+                }
             }
         }
         public int CoolMax {
             get => _coolMax;
             set {
-                _coolMax = value;
-                OnPropertyChanged(nameof(CoolMax));
+                if (_coolMax != value) {
+                    _coolMax = value;
+                    OnPropertyChanged(nameof(CoolMax));
+                }
             }
         }
         public double PowerMin {
             get => _powerMin;
             set {
-                _powerMin = value;
-                OnPropertyChanged(nameof(PowerMin));
+                if (_powerMin != value) {
+                    _powerMin = value;
+                    OnPropertyChanged(nameof(PowerMin));
+                }
             }
         }
         public double PowerMax {
             get => _powerMax;
             set {
-                _powerMax = value;
-                OnPropertyChanged(nameof(PowerMax));
+                if (_powerMax != value) {
+                    _powerMax = value;
+                    OnPropertyChanged(nameof(PowerMax));
+                }
             }
         }
         public double PowerDefault {
             get => _powerDefault;
             set {
-                _powerDefault = value;
-                OnPropertyChanged(nameof(PowerDefault));
+                if (_powerDefault != value) {
+                    _powerDefault = value;
+                    OnPropertyChanged(nameof(PowerDefault));
+                }
             }
         }
         public int PowerCapacity {
             get => _powerCapacity;
             set {
-                _powerCapacity = value;
-                OnPropertyChanged(nameof(PowerCapacity));
-                OnPropertyChanged(nameof(PowerCapacityText));
+                if (_powerCapacity != value) {
+                    _powerCapacity = value;
+                    OnPropertyChanged(nameof(PowerCapacity));
+                    OnPropertyChanged(nameof(PowerCapacityText));
+                }
             }
         }
 
@@ -573,36 +613,72 @@ namespace NTMiner.Vms {
         public int TempLimitMin {
             get => _tempLimitMin;
             set {
-                _tempLimitMin = value;
-                OnPropertyChanged(nameof(TempLimitMin));
+                if (_tempLimitMin != value) {
+                    _tempLimitMin = value;
+                    OnPropertyChanged(nameof(TempLimitMin));
+                }
             }
         }
         public int TempLimitDefault {
             get => _tempLimitDefault;
             set {
-                _tempLimitDefault = value;
-                OnPropertyChanged(nameof(TempLimitDefault));
+                if (_tempLimitDefault != value) {
+                    _tempLimitDefault = value;
+                    OnPropertyChanged(nameof(TempLimitDefault));
+                }
             }
         }
         public int TempLimitMax {
             get => _tempLimitMax;
             set {
-                _tempLimitMax = value;
-                OnPropertyChanged(nameof(TempLimitMax));
+                if (_tempLimitMax != value) {
+                    _tempLimitMax = value;
+                    OnPropertyChanged(nameof(TempLimitMax));
+                }
             }
         }
         public int TempLimit {
             get => _tempLimit;
             set {
-                _tempLimit = value;
-                OnPropertyChanged(nameof(TempLimit));
-                OnPropertyChanged(nameof(TempLimitText));
+                if (_tempLimit != value) {
+                    _tempLimit = value;
+                    OnPropertyChanged(nameof(TempLimit));
+                    OnPropertyChanged(nameof(TempLimitText));
+                }
             }
         }
 
         public string TempLimitText {
             get {
                 return this.TempLimit.ToString() + "℃";
+            }
+        }
+
+        public int VoltMin {
+            get { return _voltMin; }
+            set {
+                if (_voltMin != value) {
+                    _voltMin = value;
+                    OnPropertyChanged(nameof(VoltMin));
+                }
+            }
+        }
+        public int VoltMax {
+            get { return _voltMax; }
+            set {
+                if (_voltMax != value) {
+                    _voltMax = value;
+                    OnPropertyChanged(nameof(VoltMax));
+                }
+            }
+        }
+        public int VoltDefault {
+            get { return _voltDefault; }
+            set {
+                if (_voltDefault != value) {
+                    _voltDefault = value;
+                    OnPropertyChanged(nameof(VoltDefault));
+                }
             }
         }
 

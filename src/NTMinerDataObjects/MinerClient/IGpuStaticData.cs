@@ -17,6 +17,10 @@
         int MemoryClockDeltaMin { get; set; }
         int MemoryClockDeltaMax { get; set; }
 
+        int VoltMin { get; set; }
+        int VoltMax { get; set; }
+        int VoltDefault { get; set; }
+
         int CoolMin { get; set; }
         int CoolMax { get; set; }
         double PowerMin { get; set; }

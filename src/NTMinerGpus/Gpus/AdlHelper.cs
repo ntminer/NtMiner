@@ -126,6 +126,7 @@ namespace NTMiner.Gpus {
             int gpuIndex, 
             out int coreClockMin, out int coreClockMax, 
             out int memoryClockMin, out int memoryClockMax, 
+            out int voltMin, out int voltMax, out int voltDefault,
             out int powerMin, out int powerMax, out int powerDefault,
             out int tempLimitMin, out int tempLimitMax, out int tempLimitDefault,
             out int fanSpeedMin, out int fanSpeedMax, out int fanSpeedDefault) {
@@ -142,36 +143,40 @@ namespace NTMiner.Gpus {
             fanSpeedMin = 0;
             fanSpeedMax = 0;
             fanSpeedDefault = 0;
+            voltMin = 0;
+            voltMax = 0;
+            voltDefault = 0;
             try {
                 if (!TryGpuAdapterIndex(gpuIndex, out int adapterIndex)) {
                     return;
                 }
-                ADLODNCapabilitiesX2 lpODCapabilities = new ADLODNCapabilitiesX2();
-                var r = AdlNativeMethods.ADL2_OverdriveN_CapabilitiesX2_Get(context, adapterIndex, ref lpODCapabilities);
+                ADLODNCapabilitiesX2 info = new ADLODNCapabilitiesX2();
+                var r = AdlNativeMethods.ADL2_OverdriveN_CapabilitiesX2_Get(context, adapterIndex, ref info);
                 if (r != AdlStatus.OK) {
                     Write.DevWarn($"{nameof(AdlNativeMethods.ADL2_OverdriveN_CapabilitiesX2_Get)} {r}");
+                    return;
                 }
-                coreClockMin = lpODCapabilities.sEngineClockRange.iMin * 10;
-                coreClockMax = lpODCapabilities.sEngineClockRange.iMax * 10;
-                memoryClockMin = lpODCapabilities.sMemoryClockRange.iMin * 10;
-                memoryClockMax = lpODCapabilities.sMemoryClockRange.iMax * 10;
-                powerMin = lpODCapabilities.power.iMin + 100;
-                powerMax = lpODCapabilities.power.iMax + 100;
-                powerDefault = lpODCapabilities.power.iDefault + 100;
-                tempLimitMin = lpODCapabilities.powerTuneTemperature.iMin;
-                tempLimitMax = lpODCapabilities.powerTuneTemperature.iMax;
-                tempLimitDefault = lpODCapabilities.powerTuneTemperature.iDefault;
-                if (lpODCapabilities.fanSpeed.iMax == 0) {
+                coreClockMin = info.sEngineClockRange.iMin * 10;
+                coreClockMax = info.sEngineClockRange.iMax * 10;
+                memoryClockMin = info.sMemoryClockRange.iMin * 10;
+                memoryClockMax = info.sMemoryClockRange.iMax * 10;
+                powerMin = info.power.iMin + 100;
+                powerMax = info.power.iMax + 100;
+                powerDefault = info.power.iDefault + 100;
+                tempLimitMin = info.powerTuneTemperature.iMin;
+                tempLimitMax = info.powerTuneTemperature.iMax;
+                tempLimitDefault = info.powerTuneTemperature.iDefault;
+                voltMin = info.svddcRange.iMin;
+                voltMax = info.svddcRange.iMax;
+                voltDefault = info.svddcRange.iDefault;
+                if (info.fanSpeed.iMax == 0) {
                     fanSpeedMin = 0;
                 }
                 else {
-                    fanSpeedMin = lpODCapabilities.fanSpeed.iMin * 100 / lpODCapabilities.fanSpeed.iMax;
+                    fanSpeedMin = info.fanSpeed.iMin * 100 / info.fanSpeed.iMax;
                 }
                 fanSpeedMax = 100;
-                fanSpeedDefault = lpODCapabilities.fanSpeed.iDefault;
-#if DEBUG
-                Write.DevWarn($"{nameof(AdlNativeMethods.ADL2_OverdriveN_CapabilitiesX2_Get)} result {r} coreClockMin={coreClockMin},coreClockMax={coreClockMax},memoryClockMin={memoryClockMin},memoryClockMax={memoryClockMax},powerMin={powerMin},powerMax={powerMax},powerDefault={powerDefault},tempLimitMin={tempLimitMin},tempLimitMax={tempLimitMax},tempLimitDefault={tempLimitDefault},fanSpeedMin={fanSpeedMin},fanSpeedMax={fanSpeedMax},fanSpeedDefault={fanSpeedDefault}");
-#endif
+                fanSpeedDefault = info.fanSpeed.iDefault;
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);

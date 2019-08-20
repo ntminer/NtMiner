@@ -33,6 +33,9 @@
         public int CoreClockDeltaMax { get; set; }
         public int MemoryClockDeltaMin { get; set; }
         public int MemoryClockDeltaMax { get; set; }
+        public int VoltMin { get; set; }
+        public int VoltMax { get; set; }
+        public int VoltDefault { get; set; }
         public int Cool { get; set; }
         public int CoolMin { get; set; }
         public int CoolMax { get; set; }

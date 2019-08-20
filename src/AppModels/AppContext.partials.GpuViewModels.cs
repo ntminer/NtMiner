@@ -75,6 +75,11 @@ namespace NTMiner {
                             vm.TempLimitDefault = message.Source.TempLimitDefault;
                             vm.TempLimitMax = message.Source.TempLimitMax;
                             vm.TempLimitMin = message.Source.TempLimitMin;
+                            vm.CoreVoltage = message.Source.CoreVoltage;
+                            vm.MemoryVoltage = message.Source.MemoryVoltage;
+                            vm.VoltMin = message.Source.VoltMin;
+                            vm.VoltMax = message.Source.VoltMax;
+                            vm.VoltDefault = message.Source.VoltDefault;
                             if (_gpuAllVm != null) {
                                 _gpuAllVm.OnPropertyChanged(nameof(_gpuAllVm.TemperatureText));
                                 _gpuAllVm.OnPropertyChanged(nameof(_gpuAllVm.FanSpeedText));

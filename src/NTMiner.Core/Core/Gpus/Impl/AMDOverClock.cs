@@ -156,7 +156,8 @@ namespace NTMiner.Core.Gpus.Impl {
                 _adlHelper.GetClockRangeByIndex(
                     gpu.Index,
                     out int coreClockDeltaMin, out int coreClockDeltaMax, 
-                    out int memoryClockDeltaMin, out int memoryClockDeltaMax, 
+                    out int memoryClockDeltaMin, out int memoryClockDeltaMax,
+                    out int voltMin, out int voltMax, out int voltDefault,
                     out int powerMin, out int powerMax, out int powerDefault,
                     out int tempLimitMin, out int tempLimitMax, out int tempLimitDefault,
                     out int fanSpeedMin, out int fanSpeedMax, out int fanSpeedDefault);
