@@ -308,10 +308,10 @@ namespace NTMiner.Gpus {
                         uint min = info.pstates[i].clocks[j].data.minFreq_kHz;
                         uint max = info.pstates[i].clocks[j].data.maxFreq_kHz;
                         if (info.pstates[i].clocks[j].domainId == clockType && min > 0 && max > 0) {
-
                             outCurrFreqDelta = info.pstates[i].clocks[j].freqDelta_kHz.value;
                             outMinFreqDelta = info.pstates[i].clocks[j].freqDelta_kHz.mindelta;
                             outMaxFreqDelta = info.pstates[i].clocks[j].freqDelta_kHz.maxdelta;
+                            return;
                         }
                     }
                 }
