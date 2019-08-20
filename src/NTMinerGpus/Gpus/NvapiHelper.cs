@@ -629,38 +629,21 @@ namespace NTMiner.Gpus {
             return true;
         }
 
-        private bool NvGetCoolerLevels(int busId, NvCoolerTarget coolerIndex, out NvCoolerLevel info) {
-            info = new NvCoolerLevel();
-            info.version = (uint)(VERSION1 | (Marshal.SizeOf(typeof(NvCoolerLevel))));
-            var r = NvapiNativeMethods.NvGetCoolerLevels(HandlesByBusId[busId], coolerIndex, ref info);
-            if (r != NvStatus.OK) {
-                Write.DevWarn($"{nameof(NvapiNativeMethods.NvGetCoolerLevels)} {r}");
-                return false;
-            }
-            return true;
-        }
-
         private void SetFanSpeed(int busId, uint value, bool isAutoMode) {
             try {
                 NvCoolerTarget coolerIndex = NvCoolerTarget.NVAPI_COOLER_TARGET_ALL;
-                if (NvGetCoolerLevels(busId, coolerIndex, out NvCoolerLevel info)) {
-                    var r = NvapiNativeMethods.NvGetCoolerLevels(HandlesByBusId[busId], coolerIndex, ref info);
-                    if (r != NvStatus.OK) {
-                        Write.DevWarn($"{nameof(NvapiNativeMethods.NvGetCoolerLevels)} {r}");
-                    }
-                    else {
-                        for (int i = 0; i < info.coolers.Length; i++) {
-                            info.coolers[i].currentLevel = isAutoMode ? 0 : value;
-                            info.coolers[i].currentPolicy = isAutoMode ? NvCoolerPolicy.NVAPI_COOLER_POLICY_AUTO : NvCoolerPolicy.NVAPI_COOLER_POLICY_MANUAL;
-                        }
-                        r = NvapiNativeMethods.NvSetCoolerLevels(HandlesByBusId[busId], coolerIndex, ref info);
-                        if (r != NvStatus.OK && DevMode.IsDevMode) {
-                            Write.DevWarn($"{nameof(NvapiNativeMethods.NvSetCoolerLevels)} {r}");
-                        }
-                        else {
-                            return;
-                        }
-                    }
+                NvCoolerLevel info = new NvCoolerLevel() {
+                    version = (uint)(VERSION1 | (Marshal.SizeOf(typeof(NvCoolerLevel)))),
+                    coolers = new NvCoolerLevelItem[NvapiConst.NVAPI_MAX_COOLERS_PER_GPU]
+                };
+                info.coolers[0].currentLevel = isAutoMode ? 0 : value;
+                info.coolers[0].currentPolicy = isAutoMode ? NvCoolerPolicy.NVAPI_COOLER_POLICY_AUTO : NvCoolerPolicy.NVAPI_COOLER_POLICY_MANUAL;
+                var r = NvapiNativeMethods.NvSetCoolerLevels(HandlesByBusId[busId], coolerIndex, ref info);
+                if (r != NvStatus.OK && DevMode.IsDevMode) {
+                    Write.DevWarn($"{nameof(NvapiNativeMethods.NvSetCoolerLevels)} {r}");
+                }
+                else {
+                    return;
                 }
             }
             catch(Exception e) {
