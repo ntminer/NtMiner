@@ -4,6 +4,7 @@ using NTMiner.Vms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 
 namespace NTMiner {
     public partial class AppContext {
@@ -20,6 +21,15 @@ namespace NTMiner {
             private double _incomeDualCoinPerDay;
             private double _incomeDualCoinUsdPerDay;
             private double _incomeDualCoinCnyPerDay;
+
+            public Visibility IsACardVisible {
+                get {
+                    if (NTMinerRoot.Instance.GpuSet.GpuType == GpuType.AMD) {
+                        return Visibility.Visible;
+                    }
+                    return Visibility.Collapsed;
+                }
+            }
 
             private GpuSpeedViewModels() {
 #if DEBUG
