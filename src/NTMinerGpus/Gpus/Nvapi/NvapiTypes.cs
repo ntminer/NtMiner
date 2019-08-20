@@ -159,6 +159,49 @@ namespace NTMiner.Gpus.Nvapi {
         /// </summary>
         Manual = 0b1,
     }
+
+    internal enum NvCoolerType : NvU32 {
+        NVAPI_COOLER_TYPE_NONE = 0,
+        NVAPI_COOLER_TYPE_FAN,
+        NVAPI_COOLER_TYPE_WATER,
+        NVAPI_COOLER_TYPE_LIQUID_NO2,
+    }
+    internal enum NvCoolerController {
+        NVAPI_COOLER_CONTROLLER_NONE = 0,
+        NVAPI_COOLER_CONTROLLER_ADI,
+        NVAPI_COOLER_CONTROLLER_INTERNAL,
+    }
+
+    internal enum NvCoolerPolicy {
+        NVAPI_COOLER_POLICY_NONE = 0,
+        NVAPI_COOLER_POLICY_MANUAL = 1,                 // Manual adjustment of cooler level. Gets applied right away independent of temperature or performance level.
+        NVAPI_COOLER_POLICY_PERF = 2,                   // GPU performance controls the cooler level.
+        NVAPI_COOLER_POLICY_TEMPERATURE_DISCRETE = 4,   // Discrete thermal levels control the cooler level.
+        NVAPI_COOLER_POLICY_TEMPERATURE_CONTINUOUS = 8, // Cooler level adjusted at continuous thermal levels.
+        NVAPI_COOLER_POLICY_HYBRID = 16,                // Hybrid of performance and temperature levels.
+
+        NVAPI_COOLER_POLICY_AUTO = 32,                  // AIMiner custom .
+    }
+
+    internal enum NvCoolerTarget {
+        NVAPI_COOLER_TARGET_NONE = 0,
+        NVAPI_COOLER_TARGET_GPU,
+        NVAPI_COOLER_TARGET_MEMORY,
+        NVAPI_COOLER_TARGET_POWER_SUPPLY = 4,
+        NVAPI_COOLER_TARGET_ALL = 7                    // This cooler cools all of the components related to its target gpu.
+    }
+
+    internal enum NvCoolerControl {
+        NVAPI_COOLER_CONTROL_NONE = 0,
+        NVAPI_COOLER_CONTROL_TOGGLE,                   // ON/OFF
+        NVAPI_COOLER_CONTROL_VARIABLE,                 // Suppports variable control.
+    }
+
+    internal enum NV_COOLER_ACTIVITY_LEVEL {
+        NVAPI_INACTIVE = 0,                             // inactive or unsupported
+        NVAPI_ACTIVE = 1,                               // active and spinning in case of fan
+    }
+
     #endregion
 
     #region Structs
@@ -323,7 +366,7 @@ namespace NTMiner.Gpus.Nvapi {
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    public struct NvGpuClockRrequenciesDomain {
+    internal struct NvGpuClockRrequenciesDomain {
         public NvU32 bIsPresent_reserved;
         public NvU32 frequency;
         public NvU32 bIsPresent {
@@ -333,7 +376,7 @@ namespace NTMiner.Gpus.Nvapi {
         }
     }
     [StructLayout(LayoutKind.Sequential)]
-    public struct NvGpuClockFrequenciesV2 {
+    internal struct NvGpuClockFrequenciesV2 {
         public NvU32 version;
         public NvU32 ClockType_reserved_reserved1;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.NVAPI_MAX_GPU_PUBLIC_CLOCKS)]
@@ -350,7 +393,7 @@ namespace NTMiner.Gpus.Nvapi {
         }
     }
     [StructLayout(LayoutKind.Sequential)]
-    public struct NvGpuThermalInfoEntries {
+    internal struct NvGpuThermalInfoEntries {
         public NvU32 controller;
         public NvU32 unknown;
         public NvS32 min_temp;
@@ -360,7 +403,7 @@ namespace NTMiner.Gpus.Nvapi {
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    public struct NvGpuThermalInfo {
+    internal struct NvGpuThermalInfo {
         public NvU32 version;
         public NvU32 flags;
 
@@ -369,14 +412,14 @@ namespace NTMiner.Gpus.Nvapi {
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    public struct NvGpuThermalLimitEntries {
+    internal struct NvGpuThermalLimitEntries {
         public NvU32 controller;
         public NvU32 value;
         public NvU32 flags;
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    public struct NvGpuThermalLimit {
+    internal struct NvGpuThermalLimit {
         public NvU32 version;
         public NvU32 flags;
 
@@ -384,7 +427,7 @@ namespace NTMiner.Gpus.Nvapi {
         public NvGpuThermalLimitEntries[] entries;
     }
     [StructLayout(LayoutKind.Sequential)]
-    public struct NvGpuPowerStatusEntry {
+    internal struct NvGpuPowerStatusEntry {
         public NvU32 unknown1;
         public NvU32 unknown2;
 
@@ -393,7 +436,7 @@ namespace NTMiner.Gpus.Nvapi {
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    public struct NvGpuPowerStatus {
+    internal struct NvGpuPowerStatus {
         public NvU32 version;
         public NvU32 flags;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
@@ -401,7 +444,7 @@ namespace NTMiner.Gpus.Nvapi {
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    public struct NvGpuPowerInfoEntry {
+    internal struct NvGpuPowerInfoEntry {
         public NvU32 pstate;
         public NvU32 unknown1_0;
         public NvU32 unknown1_1;
@@ -416,7 +459,7 @@ namespace NTMiner.Gpus.Nvapi {
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    public struct NvGpuPowerInfo {
+    internal struct NvGpuPowerInfo {
         public NvU32 version;
         public NvU32 valid_count_reserver1_reserver2;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
@@ -434,55 +477,13 @@ namespace NTMiner.Gpus.Nvapi {
         }
     }
 
-    public enum NvCoolerType : NvU32 {
-        NVAPI_COOLER_TYPE_NONE = 0,
-        NVAPI_COOLER_TYPE_FAN,
-        NVAPI_COOLER_TYPE_WATER,
-        NVAPI_COOLER_TYPE_LIQUID_NO2,
-    }
-    public enum NvCoolerController {
-        NVAPI_COOLER_CONTROLLER_NONE = 0,
-        NVAPI_COOLER_CONTROLLER_ADI,
-        NVAPI_COOLER_CONTROLLER_INTERNAL,
-    }
-
-    public enum NvCoolerPolicy {
-        NVAPI_COOLER_POLICY_NONE = 0,
-        NVAPI_COOLER_POLICY_MANUAL = 1,                 // Manual adjustment of cooler level. Gets applied right away independent of temperature or performance level.
-        NVAPI_COOLER_POLICY_PERF = 2,                   // GPU performance controls the cooler level.
-        NVAPI_COOLER_POLICY_TEMPERATURE_DISCRETE = 4,   // Discrete thermal levels control the cooler level.
-        NVAPI_COOLER_POLICY_TEMPERATURE_CONTINUOUS = 8, // Cooler level adjusted at continuous thermal levels.
-        NVAPI_COOLER_POLICY_HYBRID = 16,                // Hybrid of performance and temperature levels.
-
-        NVAPI_COOLER_POLICY_AUTO = 32,                  // AIMiner custom .
-    }
-
-    public enum NvCoolerTarget {
-        NVAPI_COOLER_TARGET_NONE = 0,
-        NVAPI_COOLER_TARGET_GPU,
-        NVAPI_COOLER_TARGET_MEMORY,
-        NVAPI_COOLER_TARGET_POWER_SUPPLY = 4,
-        NVAPI_COOLER_TARGET_ALL = 7                    // This cooler cools all of the components related to its target gpu.
-    }
-
-    public enum NvCoolerControl {
-        NVAPI_COOLER_CONTROL_NONE = 0,
-        NVAPI_COOLER_CONTROL_TOGGLE,                   // ON/OFF
-        NVAPI_COOLER_CONTROL_VARIABLE,                 // Suppports variable control.
-    }
-
-    public enum NV_COOLER_ACTIVITY_LEVEL {
-        NVAPI_INACTIVE = 0,                             // inactive or unsupported
-        NVAPI_ACTIVE = 1,                               // active and spinning in case of fan
-    }
-
     [StructLayout(LayoutKind.Sequential)]
-    public struct NvCoolerArray {
+    internal struct NvCoolerArray {
         public NvU32 value;
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    public struct NvCoolerItem {
+    internal struct NvCoolerItem {
         public NvCoolerType type;
         public NvCoolerController controller;
         public NvU32 defaultMinLevel;
@@ -498,7 +499,7 @@ namespace NTMiner.Gpus.Nvapi {
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    public struct NvCoolerSettings {
+    internal struct NvCoolerSettings {
         public NvU32 version;
         public NvU32 count;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.NVAPI_MAX_COOLERS_PER_GPU)]
@@ -506,13 +507,13 @@ namespace NTMiner.Gpus.Nvapi {
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    public struct NvCoolerLevelItem {
+    internal struct NvCoolerLevelItem {
         public NvU32 currentLevel;
         public NvCoolerPolicy currentPolicy;
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    public struct NvCoolerLevel {
+    internal struct NvCoolerLevel {
         public NvU32 version;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.NVAPI_MAX_COOLERS_PER_GPU)]
         public NvCoolerLevelItem[] coolers;

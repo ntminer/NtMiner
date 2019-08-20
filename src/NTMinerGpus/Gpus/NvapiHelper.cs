@@ -204,22 +204,6 @@ namespace NTMiner.Gpus {
             return false;
         }
 
-        public bool ClientPowerPoliciesSetStatus(int busId, ref NvGpuPowerStatus info) {
-            try {
-                info.version = (uint)(VERSION1 | (Marshal.SizeOf(typeof(NvGpuPowerStatus))));
-                var r = NvapiNativeMethods.NvApiClientPowerPoliciesSetStatus(HandlesByBusId[busId], ref info);
-                if (r != NvStatus.OK) {
-                    Write.DevWarn($"{nameof(NvapiNativeMethods.NvApiClientPowerPoliciesSetStatus)} {r}");
-                }
-                if (r == NvStatus.OK) {
-                    return true;
-                }
-            }
-            catch {
-            }
-            return false;
-        }
-
         public bool SetPowerPercent(int busId, double percent) {
             uint percentInt = (uint)(percent * 100) * 1000;
             return SetPowerValue(busId, percentInt);
@@ -286,6 +270,22 @@ namespace NTMiner.Gpus {
         }
 
         #region private methods
+        private bool ClientPowerPoliciesSetStatus(int busId, ref NvGpuPowerStatus info) {
+            try {
+                info.version = (uint)(VERSION1 | (Marshal.SizeOf(typeof(NvGpuPowerStatus))));
+                var r = NvapiNativeMethods.NvApiClientPowerPoliciesSetStatus(HandlesByBusId[busId], ref info);
+                if (r != NvStatus.OK) {
+                    Write.DevWarn($"{nameof(NvapiNativeMethods.NvApiClientPowerPoliciesSetStatus)} {r}");
+                }
+                if (r == NvStatus.OK) {
+                    return true;
+                }
+            }
+            catch {
+            }
+            return false;
+        }
+
         private bool GetClockDelta(int busId, bool isMemClock, out int outCurrFreqDelta, out int outMinFreqDelta, out int outMaxFreqDelta) {
             outCurrFreqDelta = 0;
             outMinFreqDelta = 0;
