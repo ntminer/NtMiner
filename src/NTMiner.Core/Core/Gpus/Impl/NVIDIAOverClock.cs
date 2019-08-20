@@ -27,14 +27,14 @@ namespace NTMiner.Core.Gpus.Impl {
                     if (value == gpu.CoreClockDelta) {
                         continue;
                     }
-                    _nvapiHelper.SetCoreClockV2(gpu.GetBusId(), value);
+                    _nvapiHelper.SetCoreClock(gpu.GetBusId(), value);
                 }
             }
             else {
                 if (!NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu) || value == gpu.CoreClockDelta) {
                     return;
                 }
-                _nvapiHelper.SetCoreClockV2(gpu.GetBusId(), value);
+                _nvapiHelper.SetCoreClock(gpu.GetBusId(), value);
             }
         }
 
@@ -48,14 +48,14 @@ namespace NTMiner.Core.Gpus.Impl {
                     if (value == gpu.MemoryClockDelta) {
                         continue;
                     }
-                    _nvapiHelper.SetMemClockV2(gpu.GetBusId(), value);
+                    _nvapiHelper.SetMemClock(gpu.GetBusId(), value);
                 }
             }
             else {
                 if (!NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu) || value == gpu.MemoryClockDelta) {
                     return;
                 }
-                _nvapiHelper.SetMemClockV2(gpu.GetBusId(), value);
+                _nvapiHelper.SetMemClock(gpu.GetBusId(), value);
             }
         }
 
@@ -94,14 +94,14 @@ namespace NTMiner.Core.Gpus.Impl {
                     if (value == gpu.TempLimit) {
                         continue;
                     }
-                    _nvapiHelper.SetThermalValue(gpu.GetBusId(), value);
+                    _nvapiHelper.SetThermal(gpu.GetBusId(), value);
                 }
             }
             else {
                 if (!NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu) || value == gpu.TempLimit) {
                     return;
                 }
-                _nvapiHelper.SetThermalValue(gpu.GetBusId(), value);
+                _nvapiHelper.SetThermal(gpu.GetBusId(), value);
             }
         }
 

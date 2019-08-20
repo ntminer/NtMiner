@@ -136,7 +136,7 @@ namespace NTMiner.Gpus {
             return NvGetAllClockFrequenciesV2(busId, (uint)NV_GPU_PUBLIC_CLOCK_ID.NVAPI_GPU_PUBLIC_CLOCK_MEMORY, NvapiConst.NV_GPU_CLOCK_FREQUENCIES_CURRENT_FREQ);
         }
 
-        public bool SetCoreClockV2(int busId, int kHz) {
+        public bool SetCoreClock(int busId, int kHz) {
             try {
                 NvGpuPerfPstates20InfoV2 info = NvGetPStateV2(busId);
                 info.numPstates = 1;
@@ -150,7 +150,7 @@ namespace NTMiner.Gpus {
             return false;
         }
 
-        public bool SetMemClockV2(int busId, int kHz) {
+        public bool SetMemClock(int busId, int kHz) {
             try {
                 NvGpuPerfPstates20InfoV2 info = NvGetPStateV2(busId);
                 info.numPstates = 1;
@@ -168,7 +168,7 @@ namespace NTMiner.Gpus {
             return false;
         }
 
-        public bool SetThermalValue(int busId, int value) {
+        public bool SetThermal(int busId, int value) {
             value = value << 8;
             try {
                 NvGpuThermalInfo info = NvThermalPoliciesGetInfo(busId);
@@ -204,22 +204,20 @@ namespace NTMiner.Gpus {
             return false;
         }
 
-        public bool SetPowerPercent(int busId, double percent) {
-            uint percentInt = (uint)(percent * 100) * 1000;
-            return SetPowerValue(busId, percentInt);
-        }
-
         public bool SetPowerValue(int busId, uint percentInt) {
             uint minPower = 0, defPower = 0, maxPower = 0;
 
             try {
                 if (GetPowerPoliciesInfo(busId, out minPower, out defPower, out maxPower)) {
-                    if (percentInt == 0)
+                    if (percentInt == 0) {
                         percentInt = defPower;
-                    else if (percentInt < minPower)
+                    }
+                    else if (percentInt < minPower) {
                         percentInt = minPower;
-                    else if (percentInt > maxPower)
+                    }
+                    else if (percentInt > maxPower) {
                         percentInt = maxPower;
+                    }
 
                     NvGpuPowerStatus info = NvPowerPoliciesGetStatus(busId);
                     info.flags = 1;
@@ -513,7 +511,7 @@ namespace NTMiner.Gpus {
             int defValue = 0;
             int maxValue = 0;
             if (GetTempLimit(busId, out currValue, out minValue, out defValue, out maxValue)) {
-                return SetThermalValue(busId, defValue);
+                return SetThermal(busId, defValue);
             }
             return false;
         }
