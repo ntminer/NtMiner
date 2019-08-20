@@ -31,6 +31,8 @@ namespace NTMiner.Vms {
         private int _tempLimitMax;
         private int _tempLimit;
         private ulong _totalMemory;
+        private int _coreVoltage;
+        private int _memoryVoltage;
 
         public GpuViewModel(IGpu data) {
             _index = data.Index;
@@ -57,6 +59,8 @@ namespace NTMiner.Vms {
             _tempLimitDefault = data.TempLimitDefault;
             _tempLimitMax = data.TempLimitMax;
             _tempLimitMin = data.TempLimitMin;
+            _coreVoltage = data.CoreVoltage;
+            _memoryVoltage = data.MemoryVoltage;
         }
 
         private readonly bool _isGpuData;
@@ -93,6 +97,8 @@ namespace NTMiner.Vms {
             _tempLimitMin = gpuData.TempLimitMin;
             _tempLimitMax = gpuData.TempLimitMax;
             _tempLimitDefault = gpuData.TempLimitDefault;
+            _coreVoltage = 0;
+            _memoryVoltage = 0;
         }
 
         public int Index {
@@ -431,6 +437,22 @@ namespace NTMiner.Vms {
                     }
                 }
                 return $"{this.TempLimitMin} - {this.TempLimitMax}℃";
+            }
+        }
+
+        public int CoreVoltage {
+            get => _coreVoltage;
+            set {
+                _coreVoltage = value;
+                OnPropertyChanged(nameof(CoreVoltage));
+            }
+        }
+
+        public int MemoryVoltage {
+            get => _memoryVoltage;
+            set {
+                _memoryVoltage = value;
+                OnPropertyChanged(nameof(MemoryVoltage));
             }
         }
 

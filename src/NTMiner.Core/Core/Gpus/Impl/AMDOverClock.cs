@@ -16,14 +16,14 @@ namespace NTMiner.Core.Gpus.Impl {
                     if (value == gpu.CoreClockDelta) {
                         continue;
                     }
-                    _adlHelper.SetSystemClockByIndex(gpu.Index, value);
+                    _adlHelper.SetCoreClockByIndex(gpu.Index, value);
                 }
             }
             else {
                 if (!NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu) || value == gpu.CoreClockDelta) {
                     return;
                 }
-                _adlHelper.SetSystemClockByIndex(gpuIndex, value);
+                _adlHelper.SetCoreClockByIndex(gpuIndex, value);
             }
         }
 
@@ -145,8 +145,14 @@ namespace NTMiner.Core.Gpus.Impl {
             try {
                 gpu.PowerCapacity = _adlHelper.GetPowerLimitByIndex(gpu.Index);
                 gpu.TempLimit = _adlHelper.GetTempLimitByIndex(gpu.Index);
-                gpu.MemoryClockDelta = _adlHelper.GetMemoryClockByIndex(gpu.Index);
-                gpu.CoreClockDelta = _adlHelper.GetSystemClockByIndex(gpu.Index);
+                if (_adlHelper.GetMemoryClockByIndex(gpu.Index, out int memoryClock, out int iVddc)) {
+                    gpu.MemoryClockDelta = memoryClock;
+                    gpu.MemoryVoltage = iVddc;
+                }
+                if (_adlHelper.GetCoreClockByIndex(gpu.Index, out int coreClock, out iVddc)) {
+                    gpu.CoreClockDelta = coreClock;
+                    gpu.CoreVoltage = iVddc;
+                }
                 _adlHelper.GetClockRangeByIndex(
                     gpu.Index,
                     out int coreClockDeltaMin, out int coreClockDeltaMax, 

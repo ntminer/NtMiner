@@ -44,5 +44,7 @@
         public int TempLimitDefault { get; set; }
         public int TempLimitMax { get; set; }
         public int TempLimit { get; set; }
+        public int CoreVoltage { get; set; }
+        public int MemoryVoltage { get; set; }
     }
 }

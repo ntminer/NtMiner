@@ -17,6 +17,8 @@ namespace NTMiner.Vms {
         private int _cool;
         private int _tempLimit;
         private bool _isAutoFanSpeed;
+        private int _coreVoltage;
+        private int _memoryVoltage;
 
         public ICommand Remove { get; private set; }
         public ICommand Edit { get; private set; }
@@ -70,6 +72,8 @@ namespace NTMiner.Vms {
             _powerCapacity = data.PowerCapacity;
             _tempLimit = data.TempLimit;
             _cool = data.Cool;
+            _coreVoltage = data.CoreVoltage;
+            _memoryVoltage = data.MemoryVoltage;
         }
 
         public Guid GetId() {
@@ -189,6 +193,22 @@ namespace NTMiner.Vms {
                 _cool = value;
                 OnPropertyChanged(nameof(Cool));
                 OnPropertyChanged(nameof(Tooltip));
+            }
+        }
+
+        public int CoreVoltage {
+            get => _coreVoltage;
+            set {
+                _coreVoltage = value;
+                OnPropertyChanged(nameof(CoreVoltage));
+            }
+        }
+
+        public int MemoryVoltage {
+            get => _memoryVoltage;
+            set {
+                _memoryVoltage = value;
+                OnPropertyChanged(nameof(MemoryVoltage));
             }
         }
 

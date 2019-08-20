@@ -200,15 +200,18 @@ namespace NTMiner.Gpus {
             }
         }
 
-        public int GetMemoryClockByIndex(int gpuIndex) {
+        public bool GetMemoryClockByIndex(int gpuIndex, out int memoryClock, out int iVddc) {
+            memoryClock = 0;
+            iVddc = 0;
             try {
                 if (!TryGpuAdapterIndex(gpuIndex, out int adapterIndex)) {
-                    return 0;
+                    return false;
                 }
                 ADLODNPerformanceLevelsX2 lpODPerformanceLevels = ADLODNPerformanceLevelsX2.Create();
                 var r = AdlNativeMethods.ADL2_OverdriveN_MemoryClocksX2_Get(context, adapterIndex, ref lpODPerformanceLevels);
                 if (r != AdlStatus.OK) {
                     Write.DevWarn($"{nameof(AdlNativeMethods.ADL2_OverdriveN_MemoryClocksX2_Get)} {r}");
+                    return false;
                 }
                 int index = 0;
                 for (int i = 0; i < lpODPerformanceLevels.aLevels.Length; i++) {
@@ -216,10 +219,12 @@ namespace NTMiner.Gpus {
                         index = i;
                     }
                 }
-                return lpODPerformanceLevels.aLevels[index].iClock * 10;
+                memoryClock = lpODPerformanceLevels.aLevels[index].iClock * 10;
+                iVddc = lpODPerformanceLevels.aLevels[index].iVddc;
+                return true;
             }
             catch {
-                return 0;
+                return false;
             }
         }
 
@@ -277,15 +282,18 @@ namespace NTMiner.Gpus {
             }
         }
 
-        public int GetSystemClockByIndex(int gpuIndex) {
+        public bool GetCoreClockByIndex(int gpuIndex, out int coreClock, out int iVddc) {
+            coreClock = 0;
+            iVddc = 0;
             try {
                 if (!TryGpuAdapterIndex(gpuIndex, out int adapterIndex)) {
-                    return 0;
+                    return false;
                 }
                 ADLODNPerformanceLevelsX2 lpODPerformanceLevels = ADLODNPerformanceLevelsX2.Create();
                 var r = AdlNativeMethods.ADL2_OverdriveN_SystemClocksX2_Get(context, adapterIndex, ref lpODPerformanceLevels);
                 if (r != AdlStatus.OK) {
                     Write.DevWarn($"{nameof(AdlNativeMethods.ADL2_OverdriveN_SystemClocksX2_Get)} {r}");
+                    return false;
                 }
                 int index = 0;
                 for (int i = 0; i < lpODPerformanceLevels.aLevels.Length; i++) {
@@ -293,14 +301,16 @@ namespace NTMiner.Gpus {
                         index = i;
                     }
                 }
-                return lpODPerformanceLevels.aLevels[index].iClock * 10;
+                coreClock = lpODPerformanceLevels.aLevels[index].iClock * 10;
+                iVddc = lpODPerformanceLevels.aLevels[index].iVddc;
+                return true;
             }
             catch {
-                return 0;
+                return false;
             }
         }
 
-        public void SetSystemClockByIndex(int gpuIndex, int value) {
+        public void SetCoreClockByIndex(int gpuIndex, int value) {
             try {
                 if (!TryGpuAdapterIndex(gpuIndex, out int adapterIndex)) {
                     return;
