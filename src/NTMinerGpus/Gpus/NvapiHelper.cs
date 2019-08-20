@@ -336,18 +336,15 @@ namespace NTMiner.Gpus {
                                 outCoreMaxFreqDelta = info.pstates[i].clocks[j].freqDelta_kHz.maxdelta;
                                 isCoreClockPicked = true;
                             }
-                            else if (!isMemoryClockPicked && domainId == NvGpuPublicClockId.NVAPI_GPU_PUBLIC_CLOCK_MEMORY && min > 0 && max > 0) {
+                            if (!isMemoryClockPicked && domainId == NvGpuPublicClockId.NVAPI_GPU_PUBLIC_CLOCK_MEMORY && min > 0 && max > 0) {
                                 outMemoryCurrFreqDelta = info.pstates[i].clocks[j].freqDelta_kHz.value;
                                 outMemoryMinFreqDelta = info.pstates[i].clocks[j].freqDelta_kHz.mindelta;
                                 outMemoryMaxFreqDelta = info.pstates[i].clocks[j].freqDelta_kHz.maxdelta;
                                 isMemoryClockPicked = true;
                             }
                             if (isCoreClockPicked && isMemoryClockPicked) {
-                                break;
+                                return true;
                             }
-                        }
-                        if (isCoreClockPicked && isMemoryClockPicked) {
-                            break;
                         }
                     }
                 }
