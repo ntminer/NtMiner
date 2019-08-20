@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using NvU32 = System.UInt32;
 using NvS32 = System.Int32;
-using System.Linq;
+using NvU32 = System.UInt32;
 
 namespace NTMiner.Gpus.Nvapi {
     internal static class NvapiConst {
@@ -30,6 +29,8 @@ namespace NTMiner.Gpus.Nvapi {
 
         internal const int NVAPI_MAX_COOLERS_PER_GPU = 3;
         internal const int MaxNumberOfFanCoolerControlEntries = 32;
+        internal const int MaxNumberOfFanCoolerStatusEntries = 32;
+        internal const int MaxNumberOfFanCoolerInfoEntries = 32;
     }
 
     #region Enumms
@@ -452,6 +453,54 @@ namespace NTMiner.Gpus.Nvapi {
         public NvU32 version;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.NVAPI_MAX_COOLERS_PER_GPU)]
         public NvCoolerLevelItem[] coolers;
+    }
+
+    [StructLayout(LayoutKind.Sequential, Pack = 8)]
+    internal struct PrivateFanCoolersInfoV1 {
+        public NvU32 version;
+        internal readonly uint UnknownUInt1;
+        internal readonly uint FanCoolersInfoCount;
+
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8, ArraySubType = UnmanagedType.U4)]
+        internal readonly uint[] Reserved;
+
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.MaxNumberOfFanCoolerInfoEntries)]
+        internal readonly FanCoolersInfoEntry[] FanCoolersInfoEntries;
+
+        [StructLayout(LayoutKind.Sequential, Pack = 8)]
+        internal struct FanCoolersInfoEntry {
+            internal readonly uint CoolerId;
+            internal readonly uint UnknownUInt3;
+            internal readonly uint UnknownUInt4;
+            internal readonly uint MaximumRPM;
+
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8, ArraySubType = UnmanagedType.U4)]
+            internal readonly uint[] Reserved;
+        }
+    }
+
+    [StructLayout(LayoutKind.Sequential, Pack = 8)]
+    internal struct PrivateFanCoolersStatusV1 {
+        internal NvU32 version;
+        internal readonly uint FanCoolersStatusCount;
+
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8, ArraySubType = UnmanagedType.U4)]
+        internal readonly uint[] Reserved;
+
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.MaxNumberOfFanCoolerStatusEntries)]
+        internal readonly FanCoolersStatusEntry[] FanCoolersStatusEntries;
+
+        [StructLayout(LayoutKind.Sequential, Pack = 8)]
+        internal struct FanCoolersStatusEntry {
+            internal readonly uint CoolerId;
+            internal readonly uint CurrentRPM;
+            internal readonly uint CurrentMinimumLevel;
+            internal readonly uint CurrentMaximumLevel;
+            internal readonly uint CurrentLevel;
+
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8, ArraySubType = UnmanagedType.U4)]
+            internal readonly uint[] Reserved;
+        }
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 8)]

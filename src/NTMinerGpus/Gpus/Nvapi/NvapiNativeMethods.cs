@@ -28,7 +28,11 @@ namespace NTMiner.Gpus.Nvapi {
         internal delegate NvStatus NvGetCoolerSettingsDelegate(NvPhysicalGpuHandle physicalGpu, NvCoolerTarget targetId, ref NvCoolerSettings outCoolerInfo);
         internal delegate NvStatus NvRestoreCoolerSettingsDelegate(NvPhysicalGpuHandle physicalGpu, IntPtr pCoolerIndex, NvCoolerTarget targetId);
         internal delegate NvStatus NvSetCoolerLevelsDelegate(NvPhysicalGpuHandle physicalGpu, NvCoolerTarget coolerIndex, ref NvCoolerLevel level);
-        internal delegate NvStatus NvClientFanCoolersSetControl(NvPhysicalGpuHandle physicalGpu, PrivateFanCoolersControlV1 control);
+
+        internal delegate NvStatus NvClientFanCoolersGetInfoDelegate(NvPhysicalGpuHandle physicalGpu, PrivateFanCoolersInfoV1 info);
+        internal delegate NvStatus NvClientFanCoolersGetStatusDelegate(NvPhysicalGpuHandle physicalGpu, PrivateFanCoolersStatusV1 status);
+        internal delegate NvStatus NvClientFanCoolersGetControlDelegate(NvPhysicalGpuHandle physicalGpu, PrivateFanCoolersControlV1 control);
+        internal delegate NvStatus NvClientFanCoolersSetControlDelegate(NvPhysicalGpuHandle physicalGpu, PrivateFanCoolersControlV1 control);
 
         private static readonly NvQueryInterfaceDelegate NvQueryInterface;
         private static readonly NvInitializeDelegate NvInitialize;
@@ -57,6 +61,11 @@ namespace NTMiner.Gpus.Nvapi {
         internal static readonly NvGetCoolerSettingsDelegate NvGetCoolerSettings;
         internal static readonly NvSetCoolerLevelsDelegate NvSetCoolerLevels;
         internal static readonly NvRestoreCoolerSettingsDelegate NvRestoreCoolerSettings;
+
+        internal static readonly NvClientFanCoolersGetInfoDelegate NvClientFanCoolersGetInfo;
+        internal static readonly NvClientFanCoolersGetStatusDelegate NvClientFanCoolersGetStatus;
+        internal static readonly NvClientFanCoolersGetControlDelegate NvClientFanCoolersGetControl;
+        internal static readonly NvClientFanCoolersSetControlDelegate NvClientFanCoolersSetControl;
 
         #endregion
 
@@ -111,6 +120,11 @@ namespace NTMiner.Gpus.Nvapi {
                 GetDelegate(0xDA141340, out NvGetCoolerSettings);
                 GetDelegate(0x8F6ED0FB, out NvRestoreCoolerSettings);
                 GetDelegate(0x891FA0AE, out NvSetCoolerLevels);
+
+                GetDelegate(0xFB85B01E, out NvClientFanCoolersGetInfo);
+                GetDelegate(0x35AED5E8, out NvClientFanCoolersGetStatus);
+                GetDelegate(0x814B209F, out NvClientFanCoolersGetControl);
+                GetDelegate(0xA58971A5, out NvClientFanCoolersSetControl);
             }
 
             available = true;
