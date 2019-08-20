@@ -1,7 +1,6 @@
 ﻿using NTMiner.Gpus.Nvapi;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace NTMiner.Gpus {
@@ -92,23 +91,26 @@ namespace NTMiner.Gpus {
                 memoryClockMax = outMaxFreqDelta;
                 memoryClockDelta = outCurrFreqDelta;
 
-                GetPowerLimit(busId, out uint outCurrPower, out uint outMinPower, out uint outDefPower, out uint outMaxPower);
-                powerMin = (int)outMinPower;
-                powerMax = (int)outMaxPower;
-                powerDefault = (int)outDefPower;
-                powerLimit = (int)outCurrPower;
+                if (GetPowerLimit(busId, out uint outCurrPower, out uint outMinPower, out uint outDefPower, out uint outMaxPower)) {
+                    powerMin = (int)outMinPower;
+                    powerMax = (int)outMaxPower;
+                    powerDefault = (int)outDefPower;
+                    powerLimit = (int)outCurrPower;
+                }
 
-                GetTempLimit(busId, out int outCurrTemp, out int outMinTemp, out int outDefTemp, out int outMaxTemp);
-                tempLimitMin = outMinTemp;
-                tempLimitMax = outMaxTemp;
-                tempLimitDefault = outDefTemp;
-                tempLimit = outCurrTemp;
+                if (GetTempLimit(busId, out int outCurrTemp, out int outMinTemp, out int outDefTemp, out int outMaxTemp)) {
+                    tempLimitMin = outMinTemp;
+                    tempLimitMax = outMaxTemp;
+                    tempLimitDefault = outDefTemp;
+                    tempLimit = outCurrTemp;
+                }
 
-                GetCooler(busId, out uint currCooler, out uint minCooler, out uint defCooler, out uint maxCooler);
-                fanSpeedCurr = currCooler;
-                fanSpeedMin = (int)minCooler;
-                fanSpeedMax = (int)maxCooler;
-                fanSpeedDefault = (int)defCooler;
+                if (GetCooler(busId, out uint currCooler, out uint minCooler, out uint defCooler, out uint maxCooler)) {
+                    fanSpeedCurr = currCooler;
+                    fanSpeedMin = (int)minCooler;
+                    fanSpeedMax = (int)maxCooler;
+                    fanSpeedDefault = (int)defCooler;
+                }
 #if DEBUG
                 Write.DevWarn($"{nameof(GetClockRangeByIndex)} coreClockMin={coreClockMin},coreClockMax={coreClockMax},coreClockDelta={coreClockDelta},memoryClockMin={memoryClockMin},memoryClockMax={memoryClockMax},memoryClockDelta={memoryClockDelta},powerMin={powerMin},powerMax={powerMax},powerDefault={powerDefault},powerLimit={powerLimit},tempLimitMin={tempLimitMin},tempLimitMax={tempLimitMax},tempLimitDefault={tempLimitDefault},tempLimit={tempLimit},fanSpeedMin={fanSpeedMin},fanSpeedMax={fanSpeedMax},fanSpeedDefault={fanSpeedDefault}");
 #endif
@@ -173,7 +175,9 @@ namespace NTMiner.Gpus {
         public bool SetThermal(int busId, int value) {
             value = value << 8;
             try {
-                NvGpuThermalInfo info = NvThermalPoliciesGetInfo(busId);
+                if (!NvThermalPoliciesGetInfo(busId, out NvGpuThermalInfo info)) {
+                    return false;
+                }
                 if (value == 0) {
                     value = info.entries[0].def_temp;
                 }
@@ -199,12 +203,13 @@ namespace NTMiner.Gpus {
             minPower = 0;
             defPower = 0;
             maxPower = 0;
-            NvGpuPowerInfo info = NvPowerPoliciesGetInfo(busId);
-            if (info.valid == 1 && info.count > 0) {
-                minPower = info.entries[0].min_power;
-                defPower = info.entries[0].def_power;
-                maxPower = info.entries[0].max_power;
-                return true;
+            if (NvPowerPoliciesGetInfo(busId, out NvGpuPowerInfo info)) {
+                if (info.valid == 1 && info.count > 0) {
+                    minPower = info.entries[0].min_power;
+                    defPower = info.entries[0].def_power;
+                    maxPower = info.entries[0].max_power;
+                    return true;
+                }
             }
             return false;
         }
@@ -224,10 +229,12 @@ namespace NTMiner.Gpus {
                         percentInt = maxPower;
                     }
 
-                    NvGpuPowerStatus info = NvPowerPoliciesGetStatus(busId);
-                    info.flags = 1;
-                    info.entries[0].power = percentInt;
-                    return NvPowerPoliciesSetStatus(busId, ref info);
+                    if (NvPowerPoliciesGetStatus(busId, out NvGpuPowerStatus info)) {
+                        info.flags = 1;
+                        info.entries[0].power = percentInt;
+                        return NvPowerPoliciesSetStatus(busId, ref info);
+                    }
+                    return false;
                 }
             }
             catch {
@@ -235,23 +242,26 @@ namespace NTMiner.Gpus {
             return false;
         }
 
-        public void GetPowerLimit(int busId, out uint outCurrPower, out uint outMinPower, out uint outDefPower, out uint outMaxPower) {
+        public bool GetPowerLimit(int busId, out uint outCurrPower, out uint outMinPower, out uint outDefPower, out uint outMaxPower) {
             outCurrPower = 0;
             outMinPower = 0;
             outDefPower = 0;
             outMaxPower = 0;
             try {
-                GetPowerPoliciesInfo(busId, out outMinPower, out outDefPower, out outMaxPower);
-
-                NvGpuPowerStatus info = NvPowerPoliciesGetStatus(busId);
-                outCurrPower = info.entries[0].power;
-
-                outCurrPower = outCurrPower / 1000;
-                outMinPower = outMinPower / 1000;
-                outDefPower = outDefPower / 1000;
-                outMaxPower = outMaxPower / 1000;
+                if (GetPowerPoliciesInfo(busId, out outMinPower, out outDefPower, out outMaxPower)) {
+                    if (NvPowerPoliciesGetStatus(busId, out NvGpuPowerStatus info)) {
+                        outCurrPower = info.entries[0].power;
+                        outCurrPower = outCurrPower / 1000;
+                        outMinPower = outMinPower / 1000;
+                        outDefPower = outDefPower / 1000;
+                        outMaxPower = outMaxPower / 1000;
+                        return true;
+                    }
+                }
+                return false;
             }
             catch {
+                return false;
             }
         }
 
@@ -421,21 +431,20 @@ namespace NTMiner.Gpus {
             return 0;
         }
 
-        private NvGpuThermalInfo NvThermalPoliciesGetInfo(int busId) {
-            NvGpuThermalInfo info = new NvGpuThermalInfo();
+        private bool NvThermalPoliciesGetInfo(int busId, out NvGpuThermalInfo info) {
+            info = new NvGpuThermalInfo();
             try {
                 info.version = (uint)(VERSION2 | (Marshal.SizeOf(typeof(NvGpuThermalInfo))));
                 var r = NvapiNativeMethods.NvThermalPoliciesGetInfo(HandlesByBusId[busId], ref info);
                 if (r != NvStatus.OK) {
                     Write.DevWarn($"{nameof(NvapiNativeMethods.NvThermalPoliciesGetInfo)} {r}");
+                    return false;
                 }
-                if (r == NvStatus.OK) {
-                    return info;
-                }
+                return true;
             }
             catch {
+                return false;
             }
-            return info;
         }
 
         private NvGpuThermalLimit NvThermalPoliciesGetLimit(int busId) {
@@ -471,32 +480,35 @@ namespace NTMiner.Gpus {
             return false;
         }
 
-        private void GetThermalInfo(int busId, out int minThermal, out int defThermal, out int maxThermal) {
+        private bool GetThermalInfo(int busId, out int minThermal, out int defThermal, out int maxThermal) {
             minThermal = 0;
             defThermal = 0;
             maxThermal = 0;
             try {
-                NvGpuThermalInfo info = NvThermalPoliciesGetInfo(busId);
+                var r = NvThermalPoliciesGetInfo(busId, out NvGpuThermalInfo info);
                 minThermal = info.entries[0].min_temp / (1 << 8);
                 defThermal = info.entries[0].def_temp / (1 << 8);
                 maxThermal = info.entries[0].max_temp / (1 << 8);
+                return r;
             }
             catch {
+                return false;
             }
         }
 
-        private void GetTempLimit(int busId, out int outCurrTemp, out int outMinTemp, out int outDefTemp, out int outMaxTemp) {
+        private bool GetTempLimit(int busId, out int outCurrTemp, out int outMinTemp, out int outDefTemp, out int outMaxTemp) {
             outCurrTemp = 0;
             outMinTemp = 0;
             outDefTemp = 0;
             outMaxTemp = 0;
             try {
-                GetThermalInfo(busId, out outMinTemp, out outDefTemp, out outMaxTemp);
-
+                var r = GetThermalInfo(busId, out outMinTemp, out outDefTemp, out outMaxTemp);
                 NvGpuThermalLimit limit = NvThermalPoliciesGetLimit(busId);
                 outCurrTemp = (int)(limit.entries[0].value / 256);
+                return r;
             }
             catch {
+                return false;
             }
         }
 
@@ -505,61 +517,64 @@ namespace NTMiner.Gpus {
             int minValue = 0;
             int defValue = 0;
             int maxValue = 0;
-            GetTempLimit(busId, out currValue, out minValue, out defValue, out maxValue);
-            SetThermal(busId, defValue);
+            if (GetTempLimit(busId, out currValue, out minValue, out defValue, out maxValue)) {
+                SetThermal(busId, defValue);
+            }
         }
 
-        private NvGpuPowerStatus NvPowerPoliciesGetStatus(int busId) {
-            NvGpuPowerStatus info = new NvGpuPowerStatus();
+        private bool NvPowerPoliciesGetStatus(int busId, out NvGpuPowerStatus info) {
+            info = new NvGpuPowerStatus();
             try {
                 info.version = (uint)(VERSION1 | (Marshal.SizeOf(typeof(NvGpuPowerStatus))));
                 var r = NvapiNativeMethods.NvPowerPoliciesGetStatus(HandlesByBusId[busId], ref info);
                 if (r != NvStatus.OK) {
                     Write.DevWarn($"{nameof(NvapiNativeMethods.NvPowerPoliciesGetStatus)} {r}");
+                    return false;
                 }
-                if (r == NvStatus.OK) {
-                    return info;
-                }
+                return true;
             }
             catch {
             }
-            return info;
+            return false;
         }
 
         private double GetPowerPercent(int busId) {
             try {
-                NvGpuPowerStatus info = NvPowerPoliciesGetStatus(busId);
-                return (info.entries[0].power / 1000) / 100.0;
+                if (NvPowerPoliciesGetStatus(busId, out NvGpuPowerStatus info)) {
+                    return (info.entries[0].power / 1000) / 100.0;
+                }
+                return 1.0;
             }
             catch {
             }
             return 1.0;
         }
 
-        private NvGpuPowerInfo NvPowerPoliciesGetInfo(int busId) {
-            NvGpuPowerInfo info = new NvGpuPowerInfo();
+        private bool NvPowerPoliciesGetInfo(int busId, out NvGpuPowerInfo info) {
+            info = new NvGpuPowerInfo();
             try {
                 info.version = (uint)(VERSION1 | (Marshal.SizeOf(typeof(NvGpuPowerInfo))));
                 var r = NvapiNativeMethods.NvPowerPoliciesGetInfo(HandlesByBusId[busId], ref info);
                 if (r != NvStatus.OK) {
                     Write.DevWarn($"{nameof(NvapiNativeMethods.NvPowerPoliciesGetInfo)} {r}");
+                    return false;
                 }
-                if (r == NvStatus.OK) {
-                    return info;
-                }
+                return true;
             }
             catch {
+                return false;
             }
-            return info;
         }
 
-        private void SetDefaultPowerLimit(int busId) {
+        private bool SetDefaultPowerLimit(int busId) {
             uint currPower;
             uint minPower;
             uint defPower;
             uint maxPower;
-            GetPowerLimit(busId, out currPower, out minPower, out defPower, out maxPower);
-            SetPowerValue(busId, defPower * 1000);
+            if (GetPowerLimit(busId, out currPower, out minPower, out defPower, out maxPower)) {
+                return SetPowerValue(busId, defPower * 1000);
+            }
+            return false;
         }
 
         private bool GetCoolerSettings(int busId, out PrivateFanCoolersStatusV1 info) {
