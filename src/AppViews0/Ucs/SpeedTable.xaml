@@ -375,15 +375,43 @@
                     </WrapPanel>
                 </Grid>
             </WrapPanel>
-            <controls:KbButton
-                VerticalAlignment="Bottom"
-                HorizontalAlignment="Right"
-				Height="21"
-				Padding="6 2"
-				Command="{Binding VisibleOverClock}" 
-				CornerRadius="2">
-                <TextBlock Foreground="{StaticResource IconFillColor}" Text="{Binding BtnOverClockVisibleName}"></TextBlock>
-            </controls:KbButton>
+            <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Right">
+                <controls:KbButton
+			        Height="21"
+			        Padding="6 2"
+			        ToolTip="恢复默认"
+                    Visibility="{Binding IsOverClockVisible}"
+			        Command="{Binding GpuSpeedVms.MinerProfile.CoinVm.RestoreOverClock}" 
+			        Background="{StaticResource ThemeBackground}"
+			        Foreground="{StaticResource ThemeForeground}"
+			        CornerRadius="2">
+                    <WrapPanel>
+                        <Path
+					        Width="12"
+					        Height="12"
+					        Data="{StaticResource Icon_Refresh}"
+					        Fill="{StaticResource ThemeForeground}"
+					        Stretch="Fill" />
+                        <TextBlock Foreground="{StaticResource ThemeForeground}">恢复默认</TextBlock>
+                    </WrapPanel>
+                </controls:KbButton>
+                <controls:KbButton
+                    Margin="0 10 0 0"
+				    Height="21"
+				    Padding="6 2"
+				    Command="{Binding VisibleOverClock}" 
+				    CornerRadius="2">
+                    <WrapPanel>
+                        <Path
+					        Width="12"
+					        Height="12"
+					        Data="{StaticResource Icon_OverClock}"
+					        Fill="{StaticResource IconFillColor}"
+					        Stretch="Fill" />
+                        <TextBlock Foreground="{StaticResource IconFillColor}" Text="{Binding BtnOverClockVisibleName}"></TextBlock>
+                    </WrapPanel>
+                </controls:KbButton>
+            </StackPanel>
         </DockPanel>
     </Grid>
 </UserControl>
