@@ -32,14 +32,15 @@ namespace NTMiner.Vms {
         private GpuProfileViewModel _gpuProfileVm;
         public GpuProfileViewModel GpuProfileVm {
             get {
-                if (_coinId == Guid.Empty) {
+                var coinId = NTMinerRoot.Instance.MinerProfile.CoinId;
+                if (coinId == Guid.Empty) {
                     return null;
                 }
-                if (NTMinerRoot.Instance.MinerProfile.CoinId == _coinId) {
+                if (coinId == _coinId) {
                     return _gpuProfileVm;
                 }
-                _coinId = NTMinerRoot.Instance.MinerProfile.CoinId;
-                _gpuProfileVm = AppContext.GpuProfileViewModels.Instance.List(_coinId).FirstOrDefault();
+                _coinId = coinId;
+                _gpuProfileVm = AppContext.GpuProfileViewModels.Instance.List(coinId).FirstOrDefault();
                 return _gpuProfileVm;
             }
         }
