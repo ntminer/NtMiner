@@ -155,7 +155,7 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
                             <StackPanel>
-                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{Binding GpuVm.TemperatureForeground}" Text="{Binding GpuVm.TemperatureText}"></TextBlock>
+                                <TextBlock Foreground="{Binding GpuVm.TemperatureForeground}" Text="{Binding GpuVm.TemperatureText}"></TextBlock>
                                 <Border Visibility="{Binding Data.IsOverClockVisible,Source={StaticResource proxy}}">
                                     <CheckBox 
 							            FocusVisualStyle="{x:Null}"
@@ -193,7 +193,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel>
-                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding GpuVm.FanSpeedText}"></TextBlock>
+                                <TextBlock Text="{Binding GpuVm.FanSpeedText}"></TextBlock>
                                 <Border Visibility="{Binding Data.IsOverClockVisible,Source={StaticResource proxy}}">
                                     <TextBox 
                                         Style="{StaticResource TextBox}" 
@@ -227,7 +227,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel>
-                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding GpuVm.CoreVoltage}"></TextBlock>
+                                <TextBlock Text="{Binding GpuVm.CoreVoltage}"></TextBlock>
                                 <Border Visibility="{Binding Data.IsOverClockVisible,Source={StaticResource proxy}}">
                                     <TextBox 
                                         Style="{StaticResource TextBox}" 
@@ -261,7 +261,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel>
-                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding GpuVm.MemoryVoltage}"></TextBlock>
+                                <TextBlock Text="{Binding GpuVm.MemoryVoltage}"></TextBlock>
                                 <Border Visibility="{Binding Data.IsOverClockVisible,Source={StaticResource proxy}}">
                                     <TextBox 
                                         Style="{StaticResource TextBox}" 
@@ -295,7 +295,7 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
                             <StackPanel>
-                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding GpuVm.PowerCapacityText}"></TextBlock>
+                                <TextBlock Text="{Binding GpuVm.PowerCapacityText}"></TextBlock>
                                 <Border Visibility="{Binding Data.IsOverClockVisible,Source={StaticResource proxy}}">
                                     <TextBox 
                                         Style="{StaticResource TextBox}" 
@@ -329,7 +329,7 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
                             <StackPanel>
-                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding GpuVm.TempLimitText}"></TextBlock>
+                                <TextBlock Text="{Binding GpuVm.TempLimitText}"></TextBlock>
                                 <Border Visibility="{Binding Data.IsOverClockVisible,Source={StaticResource proxy}}">
                                     <TextBox 
                                         Style="{StaticResource TextBox}" 
@@ -363,7 +363,7 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
                             <StackPanel>
-                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding GpuVm.CoreClockDeltaMText}"></TextBlock>
+                                <TextBlock Text="{Binding GpuVm.CoreClockDeltaMText}"></TextBlock>
                                 <Border Visibility="{Binding Data.IsOverClockVisible,Source={StaticResource proxy}}">
                                     <TextBox 
                                         Style="{StaticResource TextBox}" 
@@ -397,7 +397,7 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
                             <StackPanel>
-                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding GpuVm.MemoryClockDeltaMText}"></TextBlock>
+                                <TextBlock Text="{Binding GpuVm.MemoryClockDeltaMText}"></TextBlock>
                                 <Border Visibility="{Binding Data.IsOverClockVisible,Source={StaticResource proxy}}">
                                     <TextBox 
                                         Style="{StaticResource TextBox}" 
