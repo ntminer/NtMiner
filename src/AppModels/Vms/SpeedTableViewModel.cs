@@ -7,15 +7,6 @@ namespace NTMiner.Vms {
         public SpeedTableViewModel() {
         }
 
-        public Visibility IsACardVisible {
-            get {
-                if (NTMinerRoot.Instance.GpuSet.GpuType == GpuType.AMD) {
-                    return Visibility.Visible;
-                }
-                return Visibility.Collapsed;
-            }
-        }
-
         public Visibility IsOverClockVisible {
             get { return _isOverClockVisible; }
             set {
