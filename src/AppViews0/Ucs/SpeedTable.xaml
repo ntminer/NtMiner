@@ -12,6 +12,9 @@
 			 Background="White"
 			 TextOptions.TextFormattingMode="Display" 
 			 d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.DataContext>
+        <vm:SpeedTableViewModel></vm:SpeedTableViewModel>
+    </UserControl.DataContext>
 	<Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
@@ -19,14 +22,14 @@
         </Grid.RowDefinitions>
 		<DataGrid 
             x:Name="DataGrid"
-			ItemsSource="{Binding List}" 
+			ItemsSource="{Binding GpuSpeedVms.List}" 
 			Background="Transparent" 
 			ColumnHeaderHeight="32"
             RowDetailsVisibilityMode="{Binding RowDetailsVisibilityMode}"
 			HorizontalScrollBarVisibility="Auto"
 			MouseDoubleClick="DataGrid_MouseDoubleClick" BorderThickness="0">
 			<DataGrid.Resources>
-				<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
+                <controls:BindingProxy x:Key="proxy" Data="{Binding GpuSpeedVms}" />
 			</DataGrid.Resources>
             <DataGrid.RowDetailsTemplate>
                 <DataTemplate>
@@ -36,7 +39,7 @@
                 </DataTemplate>
             </DataGrid.RowDetailsTemplate>
 			<DataGrid.Columns>
-				<DataGridTemplateColumn MinWidth="40" IsReadOnly="True">
+                <DataGridTemplateColumn MinWidth="40" Width="40" IsReadOnly="True">
 					<DataGridTemplateColumn.HeaderTemplate>
 						<DataTemplate>
 							<TextBlock Text="序号"></TextBlock>
@@ -48,7 +51,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="30" IsReadOnly="True">
+                <DataGridTemplateColumn MinWidth="30" Width="30" IsReadOnly="True">
 					<DataGridTemplateColumn.HeaderTemplate>
 						<DataTemplate>
 							<TextBlock Text="PCI"></TextBlock>
@@ -70,7 +73,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn IsReadOnly="True" MinWidth="40">
+                <DataGridTemplateColumn MinWidth="40" Width="40" IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
 						<TextBlock Text="显存"></TextBlock>
 					</DataGridTemplateColumn.Header>
@@ -80,7 +83,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="90" IsReadOnly="True">
+                <DataGridTemplateColumn MinWidth="90" Width="90" IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
 						<StackPanel>
 							<TextBlock Text="{Binding Data.MinerProfile.CoinVm.Code, Source={StaticResource proxy}}" FontSize="12"></TextBlock>
@@ -93,7 +96,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="90" IsReadOnly="True"
+                <DataGridTemplateColumn MinWidth="90" Width="90" IsReadOnly="True"
 					Visibility="{Binding Data.MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled, Source={StaticResource proxy}, Converter={StaticResource BoolToHiddenConverter}}">
 					<DataGridTemplateColumn.Header>
 						<StackPanel>
@@ -107,7 +110,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="40" IsReadOnly="True">
+                <DataGridTemplateColumn MinWidth="40" Width="40" IsReadOnly="True">
 					<DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
                             <TextBlock Text="温度" FontSize="12"></TextBlock>
@@ -119,7 +122,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="40" IsReadOnly="True">
+                <DataGridTemplateColumn MinWidth="40" Width="40" IsReadOnly="True">
 					<DataGridTemplateColumn.HeaderTemplate>
 						<DataTemplate>
 							<TextBlock Text="风扇"></TextBlock>
@@ -131,7 +134,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="60" IsReadOnly="True">
+                <DataGridTemplateColumn MinWidth="60" Width="60" IsReadOnly="True">
 					<DataGridTemplateColumn.HeaderTemplate>
 						<DataTemplate>
 							<StackPanel>
@@ -146,7 +149,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="40" IsReadOnly="True" Visibility="{Binding Data.IsACardVisible, Source={StaticResource proxy}}">
+                <DataGridTemplateColumn MinWidth="40" Width="40" IsReadOnly="True" Visibility="{Binding Data.IsACardVisible, Source={StaticResource proxy}}">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
                             <TextBlock Text="核心电压" TextWrapping="Wrap" FontSize="12"></TextBlock>
@@ -158,7 +161,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="40" IsReadOnly="True" Header="显存电压" Visibility="{Binding Data.IsACardVisible, Source={StaticResource proxy}}">
+                <DataGridTemplateColumn MinWidth="40" Width="40" IsReadOnly="True" Header="显存电压" Visibility="{Binding Data.IsACardVisible, Source={StaticResource proxy}}">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
                             <TextBlock Text="显存电压" TextWrapping="Wrap" FontSize="12"></TextBlock>
@@ -170,7 +173,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="40" IsReadOnly="True">
+                <DataGridTemplateColumn MinWidth="40" Width="40" IsReadOnly="True">
 					<DataGridTemplateColumn.HeaderTemplate>
 						<DataTemplate>
 							<TextBlock Text="超频功耗" TextWrapping="Wrap" FontSize="12"></TextBlock>
@@ -182,7 +185,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Width="40" IsReadOnly="True">
+                <DataGridTemplateColumn MinWidth="40" Width="40" IsReadOnly="True">
 					<DataGridTemplateColumn.HeaderTemplate>
 						<DataTemplate>
                             <TextBlock Text="温度阈值" TextWrapping="Wrap" FontSize="12"></TextBlock>
@@ -194,7 +197,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Width="40" IsReadOnly="True">
+                <DataGridTemplateColumn MinWidth="40" Width="40" IsReadOnly="True">
 					<DataGridTemplateColumn.HeaderTemplate>
 						<DataTemplate>
 							<TextBlock Text="超频核心" TextWrapping="Wrap" FontSize="12"></TextBlock>
@@ -206,7 +209,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Width="40" IsReadOnly="True">
+                <DataGridTemplateColumn MinWidth="40" Width="40" IsReadOnly="True">
 					<DataGridTemplateColumn.HeaderTemplate>
 						<DataTemplate>
 							<TextBlock Text="超频显存" TextWrapping="Wrap" FontSize="12"></TextBlock>
@@ -220,7 +223,7 @@
 				</DataGridTemplateColumn>
 			</DataGrid.Columns>
 		</DataGrid>
-		<TextBlock Visibility="{Binding List, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center">没有矿卡或矿卡未驱动</TextBlock>
+        <TextBlock Visibility="{Binding GpuSpeedVms.List, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center">没有矿卡或矿卡未驱动</TextBlock>
         <WrapPanel Grid.Row="1" Margin="4 2" HorizontalAlignment="Left">
             <controls:KbButton
 				Height="21"

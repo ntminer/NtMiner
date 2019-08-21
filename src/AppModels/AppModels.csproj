@@ -115,6 +115,7 @@
     <Compile Include="Vms\KernelOutputSelectViewModel.cs" />
     <Compile Include="Vms\KernelInputSelectViewModel.cs" />
     <Compile Include="Vms\MinerProfileViewModel.cs" />
+    <Compile Include="Vms\SpeedTableViewModel.cs" />
     <Compile Include="Vms\StartStopMineButtonViewModel.cs" />
     <Compile Include="Vms\SysDicItemSelectViewModel.cs" />
     <Compile Include="Vms\CoinSelectViewModel.cs" />
