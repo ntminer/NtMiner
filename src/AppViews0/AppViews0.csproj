@@ -190,9 +190,6 @@
     <Compile Include="Ucs\MinerClientUc.xaml.cs">
       <DependentUpon>MinerClientUc.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ucs\GpuOverClock.xaml.cs">
-      <DependentUpon>GpuOverClock.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Ucs\Calc.xaml.cs">
       <DependentUpon>Calc.xaml</DependentUpon>
     </Compile>
@@ -587,10 +584,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Design\OverClockDataViewModel.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Ucs\GpuOverClock.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

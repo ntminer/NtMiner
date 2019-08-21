@@ -514,28 +514,6 @@
 					<Border x:Name="SpeedTableContainer">
 					</Border>
 				</TabItem>
-				<TabItem x:Name="TabItemGpuOverClock">
-					<TabItem.Header>
-						<WrapPanel>
-							<Path 
-								Width="15"
-								Height="15"
-								Data="{StaticResource Icon_OverClock}"
-								Fill="{StaticResource IconFillColor}"
-								Stretch="Fill" />
-							<TextBlock VerticalAlignment="Center" Padding="2 0 0 1" Text="{Binding MinerProfile.CoinVm.Code}"></TextBlock>
-                            <TextBlock VerticalAlignment="Center" Text="超频" FontSize="15"></TextBlock>
-							<CheckBox 
-								FocusVisualStyle="{x:Null}"
-								VerticalAlignment="Center"
-								Margin="4 1 0 0" 
-								ToolTip="挖矿开始时自动应用超频" 
-								IsChecked="{Binding MinerProfile.CoinVm.IsOverClockEnabled}"></CheckBox>
-						</WrapPanel>
-					</TabItem.Header>
-					<Border x:Name="GpuOverClockContainer" Padding="4 0 0 0">
-					</Border>
-				</TabItem>
 				<TabItem x:Name="TabItemMinerProfileOption">
 					<TabItem.Header>
 						<WrapPanel>

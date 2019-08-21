@@ -151,11 +151,6 @@ namespace NTMiner.Views {
                     MinerProfileOptionContainer.Child = new MinerProfileOption();
                 }
             }
-            else if (selectedItem == TabItemGpuOverClock) {
-                if (GpuOverClockContainer.Child == null) {
-                    GpuOverClockContainer.Child = new GpuOverClock();
-                }
-            }
             else if (selectedItem == TabItemSpeedTable) {
                 if (SpeedTableContainer.Child == null) {
                     SpeedTableContainer.Child = new SpeedTable();
