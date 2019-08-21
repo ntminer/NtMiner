@@ -47,9 +47,53 @@
 			</DataGrid.Resources>
             <DataGrid.RowDetailsTemplate>
                 <DataTemplate>
-                    <WrapPanel>
-                        <TextBlock>Hello world</TextBlock>
-                    </WrapPanel>
+                    <StackPanel>
+                        <WrapPanel>
+                            <TextBlock Style="{StaticResource LblTb}">核心</TextBlock>
+                            <TextBox Style="{StaticResource TextBox}" ToolTip="{Binding GpuVm.CoreClockDeltaMinMaxMText}" Text="{Binding GpuProfileVm.CoreClockDelta, ValidatesOnExceptions=True}"></TextBox>
+                            <TextBlock VerticalAlignment="Center">M</TextBlock>
+                            <TextBlock VerticalAlignment="Center" Margin="4 0 0 0" Text="{Binding GpuVm.CoreClockDeltaMText}"></TextBlock>
+                        </WrapPanel>
+                        <WrapPanel>
+                            <TextBlock Style="{StaticResource LblTb}">显存</TextBlock>
+                            <TextBox Style="{StaticResource TextBox}" ToolTip="{Binding GpuVm.MemoryClockDeltaMinMaxMText}" Text="{Binding GpuProfileVm.MemoryClockDelta, ValidatesOnExceptions=True}"></TextBox>
+                            <TextBlock VerticalAlignment="Center">M</TextBlock>
+                            <TextBlock VerticalAlignment="Center" Margin="4 0 0 0" Text="{Binding GpuVm.MemoryClockDeltaMText}"></TextBlock>
+                        </WrapPanel>
+                        <WrapPanel>
+                            <TextBlock Style="{StaticResource LblTb}">功耗</TextBlock>
+                            <TextBox Style="{StaticResource TextBox}" ToolTip="{Binding GpuVm.PowerMinMaxText}" Text="{Binding GpuProfileVm.PowerCapacity, ValidatesOnExceptions=True}"></TextBox>
+                            <TextBlock VerticalAlignment="Center">%</TextBlock>
+                            <TextBlock VerticalAlignment="Center" Margin="4 0 0 0" Text="{Binding GpuVm.PowerUsageWText}"></TextBlock>
+                        </WrapPanel>
+                        <WrapPanel>
+                            <TextBlock Style="{StaticResource LblTb}">温度阈值</TextBlock>
+                            <TextBox Style="{StaticResource TextBox}" ToolTip="{Binding GpuVm.TempLimitMinMaxText}" Text="{Binding GpuProfileVm.TempLimit, ValidatesOnExceptions=True}"></TextBox>
+                            <TextBlock VerticalAlignment="Center">℃</TextBlock>
+                            <TextBlock VerticalAlignment="Center" Margin="4 0 0 0" Text="{Binding GpuVm.TempLimitText}"></TextBlock>
+                        </WrapPanel>
+                        <WrapPanel>
+                            <TextBlock Style="{StaticResource LblTb}">风扇</TextBlock>
+                            <TextBox
+								Style="{StaticResource TextBox}"
+								ToolTip="{Binding GpuVm.CoolMinMaxText}" Text="{Binding GpuProfileVm.Cool, ValidatesOnExceptions=True}"></TextBox>
+                            <TextBlock VerticalAlignment="Center">%</TextBlock>
+                            <TextBlock Margin="4 0 0 0" VerticalAlignment="Center" Text="{Binding GpuVm.FanSpeedText}"></TextBlock>
+                        </WrapPanel>
+                        <WrapPanel>
+                            <TextBlock Style="{StaticResource LblTb}">温度</TextBlock>
+                            <CheckBox 
+								FocusVisualStyle="{x:Null}"
+								Padding="0" 
+								VerticalAlignment="Center"
+								Click="CheckBoxIsAutoFanSpeed_Click"
+								Tag="{Binding GpuProfileVm}"
+								Foreground="{StaticResource LableColor}"
+								IsChecked="{Binding GpuProfileVm.IsAutoFanSpeed}" 
+								Content="自动控温"></CheckBox>
+                            <TextBlock Margin="4 0 0 0" VerticalAlignment="Center" Text="{Binding GpuVm.TemperatureText}"></TextBlock>
+                        </WrapPanel>
+                    </StackPanel>
                 </DataTemplate>
             </DataGrid.RowDetailsTemplate>
 			<DataGrid.Columns>

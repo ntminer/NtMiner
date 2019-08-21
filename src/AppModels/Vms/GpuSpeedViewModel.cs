@@ -1,4 +1,6 @@
 ﻿using NTMiner.Core.Gpus;
+using System;
+using System.Linq;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
@@ -23,6 +25,22 @@ namespace NTMiner.Vms {
         public GpuViewModel GpuVm {
             get {
                 return _gpuVm;
+            }
+        }
+
+        private Guid _coinId;
+        private GpuProfileViewModel _gpuProfileVm;
+        public GpuProfileViewModel GpuProfileVm {
+            get {
+                if (_coinId == Guid.Empty) {
+                    return null;
+                }
+                if (NTMinerRoot.Instance.MinerProfile.CoinId == _coinId) {
+                    return _gpuProfileVm;
+                }
+                _coinId = NTMinerRoot.Instance.MinerProfile.CoinId;
+                _gpuProfileVm = AppContext.GpuProfileViewModels.Instance.List(_coinId).FirstOrDefault();
+                return _gpuProfileVm;
             }
         }
 
