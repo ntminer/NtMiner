@@ -690,7 +690,11 @@ namespace NTMiner.Gpus {
             defCooler = 0;
             maxCooler = 0;
             try {
-                return GetCoolerSettings(busId, ref minCooler, ref currCooler, ref maxCooler);
+                bool r = GetCoolerSettings(busId, ref minCooler, ref currCooler, ref maxCooler);
+                if (maxCooler == 0) {
+                    maxCooler = 100;
+                }
+                return r;
             }
             catch {
                 return false;

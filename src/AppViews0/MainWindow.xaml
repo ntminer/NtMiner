@@ -280,6 +280,7 @@
 
 			<TabControl
 				Grid.Column="1"
+                x:Name="RightTab"
 				Padding="0"
 				SelectionChanged="TabControl_SelectionChanged"
 				BorderThickness="1 0 0 0" 
@@ -543,26 +544,46 @@
 					<Border x:Name="ToolboxContainer"></Border>
 				</TabItem>
             </TabControl>
-            <controls:KbLinkButton
-                Grid.Column="1"
-                HorizontalAlignment="Right"
-				Margin="0 8 4 0"
-				VerticalAlignment="Top"
-				Command="{x:Static app:AppStatic.DownloadMinerStudio}"
-				KbDisplayLine="False"
-				Foreground="{StaticResource ThemeForeground}"
-				KbSystemButtonHoverBackground="Transparent"
-				Background="Transparent">
-                <WrapPanel>
-                    <Path 
-						Width="14"
-						Height="13"
-						Data="{StaticResource Icon_ControlCenter}"
-						Fill="{StaticResource ThemeForeground}"
-						Stretch="Fill" />
-                    <TextBlock Foreground="{StaticResource ThemeForeground}">下载群控</TextBlock>
-                </WrapPanel>
-            </controls:KbLinkButton>
+            <WrapPanel Grid.Column="1" HorizontalAlignment="Right" Margin="0 8 4 0" VerticalAlignment="Top">
+                <CheckBox 
+                    Margin="4 0 0 0"
+				    FocusVisualStyle="{x:Null}"
+				    VerticalContentAlignment="Center"
+				    ToolTip="挖矿开始时自动应用超频" 
+                    Foreground="{StaticResource ThemeForeground}"
+				    IsChecked="{Binding MinerProfile.CoinVm.IsOverClockEnabled}">
+                    <WrapPanel>
+                        <TextBlock VerticalAlignment="Center" Text="{Binding MinerProfile.CoinVm.Code}"></TextBlock>
+                        <TextBlock VerticalAlignment="Center" Text="启用超频"></TextBlock>
+                    </WrapPanel>
+                </CheckBox>
+                <controls:KbButton
+                    Margin="4 0 0 0"
+                    Padding="8 2"
+                    Foreground="{StaticResource ThemeForeground}"
+				    Command="{Binding VisibleOverClock}" 
+                    Click="BtnOverClockVisible_Click"
+				    CornerRadius="2 2 0 0">
+                    <TextBlock Foreground="{StaticResource IconFillColor}" Text="{Binding BtnOverClockVisibleName}"></TextBlock>
+                </controls:KbButton>
+                <controls:KbLinkButton
+                    Margin="10 0 0 0"
+				    Command="{x:Static app:AppStatic.DownloadMinerStudio}"
+				    KbDisplayLine="False"
+				    Foreground="{StaticResource ThemeForeground}"
+				    KbSystemButtonHoverBackground="Transparent"
+				    Background="Transparent">
+                    <WrapPanel>
+                        <Path 
+						    Width="14"
+						    Height="13"
+						    Data="{StaticResource Icon_ControlCenter}"
+						    Fill="{StaticResource ThemeForeground}"
+						    Stretch="Fill" />
+                        <TextBlock Foreground="{StaticResource ThemeForeground}">下载群控</TextBlock>
+                    </WrapPanel>
+                </controls:KbLinkButton>
+            </WrapPanel>
         </Grid>
 		<!--下状态栏-->
 		<uc:StateBar 

@@ -22,7 +22,7 @@
             <Setter Property="BorderBrush" Value="{StaticResource LineColor}"></Setter>
             <Setter Property="Width" Value="40"></Setter>
             <Setter Property="BorderThickness" Value="0"></Setter>
-            <Setter Property="Background" Value="White"></Setter>
+            <Setter Property="Background" Value="Transparent"></Setter>
         </Style>
     </UserControl.Resources>
     <Grid>
@@ -135,7 +135,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-                <DataGridTemplateColumn MinWidth="70" Width="70" IsReadOnly="True">
+                <DataGridTemplateColumn MinWidth="70" Width="70" IsReadOnly="True" CanUserResize="False">
 					<DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
                             <StackPanel>
@@ -163,7 +163,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-                <DataGridTemplateColumn MinWidth="60" Width="60" IsReadOnly="True">
+                <DataGridTemplateColumn MinWidth="60" Width="60" IsReadOnly="True" CanUserResize="False">
 					<DataGridTemplateColumn.HeaderTemplate>
 						<DataTemplate>
                             <StackPanel>
@@ -178,7 +178,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn MinWidth="40" Width="40" IsReadOnly="True">
+                <DataGridTemplateColumn MinWidth="40" Width="40" IsReadOnly="True" CanUserResize="False">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
                             <StackPanel>
@@ -187,6 +187,7 @@
                                     <TextBox 
                                         IsEnabled="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockGpuAll,Source={StaticResource proxy}}"
                                         Style="{StaticResource TextBox}" 
+                                        FontSize="12"
                                         FontWeight="Normal" 
                                         ToolTip="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm.GpuVm.CoolMinMaxText,Source={StaticResource proxy}}" 
                                         Text="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm.Cool,Source={StaticResource proxy}, ValidatesOnExceptions=True}">
@@ -201,7 +202,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn MinWidth="40" Width="40" IsReadOnly="True" Visibility="{Binding Data.IsACardVisible, Source={StaticResource proxy}}">
+                <DataGridTemplateColumn MinWidth="40" Width="40" IsReadOnly="True" CanUserResize="False" Visibility="{Binding Data.IsACardVisible, Source={StaticResource proxy}}">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
                             <StackPanel>
@@ -210,6 +211,7 @@
                                     <TextBox 
                                         IsEnabled="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockGpuAll,Source={StaticResource proxy}}"
                                         Style="{StaticResource TextBox}" 
+                                        FontSize="12"
                                         FontWeight="Normal" 
                                         ToolTip="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm.GpuVm.VoltageMinMaxText,Source={StaticResource proxy}}" 
                                         Text="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm.CoreVoltage, Source={StaticResource proxy}, ValidatesOnExceptions=True}">
@@ -224,7 +226,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn MinWidth="40" Width="40" IsReadOnly="True" Header="显存电压" Visibility="{Binding Data.IsACardVisible, Source={StaticResource proxy}}">
+                <DataGridTemplateColumn MinWidth="40" Width="40" IsReadOnly="True" Header="显存电压" CanUserResize="False" Visibility="{Binding Data.IsACardVisible, Source={StaticResource proxy}}">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
                             <StackPanel>
@@ -233,6 +235,7 @@
                                     <TextBox 
                                         IsEnabled="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockGpuAll,Source={StaticResource proxy}}"
                                         Style="{StaticResource TextBox}" 
+                                        FontSize="12"
                                         FontWeight="Normal" 
                                         ToolTip="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm.GpuVm.VoltageMinMaxText,Source={StaticResource proxy}}" 
                                         Text="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm.MemoryVoltage,Source={StaticResource proxy}, ValidatesOnExceptions=True}" >
@@ -247,7 +250,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn MinWidth="40" Width="40" IsReadOnly="True">
+                <DataGridTemplateColumn MinWidth="40" Width="40" IsReadOnly="True" CanUserResize="False">
 					<DataGridTemplateColumn.HeaderTemplate>
 						<DataTemplate>
                             <StackPanel>
@@ -256,6 +259,7 @@
                                     <TextBox 
                                         IsEnabled="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockGpuAll,Source={StaticResource proxy}}"
                                         Style="{StaticResource TextBox}" 
+                                        FontSize="12"
                                         FontWeight="Normal" 
                                         ToolTip="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm.GpuVm.PowerMinMaxText,Source={StaticResource proxy}}" 
                                         Text="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm.PowerCapacity,Source={StaticResource proxy}, ValidatesOnExceptions=True}">
@@ -270,7 +274,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-                <DataGridTemplateColumn MinWidth="40" Width="40" IsReadOnly="True">
+                <DataGridTemplateColumn MinWidth="40" Width="40" IsReadOnly="True" CanUserResize="False">
 					<DataGridTemplateColumn.HeaderTemplate>
 						<DataTemplate>
                             <StackPanel>
@@ -279,6 +283,7 @@
                                     <TextBox 
                                         IsEnabled="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockGpuAll,Source={StaticResource proxy}}"
                                         Style="{StaticResource TextBox}" 
+                                        FontSize="12"
                                         FontWeight="Normal" 
                                         ToolTip="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm.GpuVm.TempLimitMinMaxText,Source={StaticResource proxy}}" 
                                         Text="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm.TempLimit,Source={StaticResource proxy}, ValidatesOnExceptions=True}">
@@ -293,7 +298,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-                <DataGridTemplateColumn MinWidth="40" Width="40" IsReadOnly="True">
+                <DataGridTemplateColumn MinWidth="40" Width="40" IsReadOnly="True" CanUserResize="False">
 					<DataGridTemplateColumn.HeaderTemplate>
 						<DataTemplate>
                             <StackPanel>
@@ -302,6 +307,7 @@
                                     <TextBox 
                                         IsEnabled="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockGpuAll,Source={StaticResource proxy}}"
                                         Style="{StaticResource TextBox}" 
+                                        FontSize="12"
                                         FontWeight="Normal" 
                                         ToolTip="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm.GpuVm.CoreClockDeltaMinMaxMText,Source={StaticResource proxy}}" 
                                         Text="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm.CoreClockDelta,Source={StaticResource proxy}, ValidatesOnExceptions=True}">
@@ -316,7 +322,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-                <DataGridTemplateColumn MinWidth="40" Width="40" IsReadOnly="True">
+                <DataGridTemplateColumn MinWidth="40" Width="40" IsReadOnly="True" CanUserResize="False">
 					<DataGridTemplateColumn.HeaderTemplate>
 						<DataTemplate>
                             <StackPanel>
@@ -325,6 +331,7 @@
                                     <TextBox 
                                         IsEnabled="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockGpuAll,Source={StaticResource proxy}}"
                                         Style="{StaticResource TextBox}" 
+                                        FontSize="12"
                                         FontWeight="Normal"
                                         ToolTip="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm.GpuVm.MemoryClockDeltaMinMaxMText,Source={StaticResource proxy}}" 
                                         Text="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm.MemoryClockDelta,Source={StaticResource proxy}, ValidatesOnExceptions=True}">
@@ -342,119 +349,88 @@
 			</DataGrid.Columns>
         </DataGrid>
         <TextBlock Visibility="{Binding GpuSpeedVms.List, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center">没有矿卡或矿卡未驱动</TextBlock>
-        <DockPanel Grid.Row="2">
-            <WrapPanel Visibility="{Binding IsOverClockVisible}" HorizontalAlignment="Left">
-                <controls:KbButton
-					Height="21"
-					Padding="6 2"
-					ToolTip="点击应用超频设置"
-					Command="{Binding GpuSpeedVms.MinerProfile.CoinVm.ApplyCustomOverClock}" 
-					Background="{StaticResource ThemeBackground}"
-					Foreground="{StaticResource ThemeForeground}"
-					CornerRadius="2">
-                    <WrapPanel>
-                        <Path
-							Width="12"
-							Height="12"
-							Data="{StaticResource Icon_OverClock}"
-							Fill="{StaticResource ThemeForeground}"
-							Stretch="Fill" />
-                        <TextBlock Foreground="{StaticResource ThemeForeground}">应用</TextBlock>
-                    </WrapPanel>
-                </controls:KbButton>
-                <controls:KbButton
-                    Margin="4 0 0 0"
-			        Height="21"
-			        Padding="6 2"
-			        ToolTip="恢复默认"
-			        Command="{Binding GpuSpeedVms.MinerProfile.CoinVm.RestoreOverClock}" 
-			        Background="{StaticResource ThemeBackground}"
-			        Foreground="{StaticResource ThemeForeground}"
-			        CornerRadius="2">
-                    <WrapPanel>
-                        <Path
-					        Width="12"
-					        Height="12"
-					        Data="{StaticResource Icon_Refresh}"
-					        Fill="{StaticResource ThemeForeground}"
-					        Stretch="Fill" />
-                        <TextBlock Foreground="{StaticResource ThemeForeground}">恢复默认</TextBlock>
-                    </WrapPanel>
-                </controls:KbButton>
-                <controls:KbButton
-					Margin="4 0 0 0"
-					Height="21"
-					Padding="6 2"
-					ToolTip="将统一超频的数据一键填充到每张卡"
-					Command="{Binding GpuSpeedVms.MinerProfile.CoinVm.FillOverClockForms}" 
-					CornerRadius="2">
-                    <TextBlock Foreground="{StaticResource IconFillColor}">一键填充表单</TextBlock>
-                </controls:KbButton>
-                <ItemsControl
-					BorderThickness="0"
-					MouseDown="ItemsControl_MouseDown"
-					ItemsSource="{Binding GpuSpeedVms.MinerProfile.CoinVm.OverClockDatas}" 
-					ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                    <ItemsControl.Resources>
-                        <controls:BindingProxy x:Key="proxy" Data="{Binding GpuSpeedVms.MinerProfile}" />
-                    </ItemsControl.Resources>
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapPanel></WrapPanel>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <controls:KbButton
-								ToolTip="{Binding Tooltip}"
-								Command="{Binding Data.CoinVm.ApplyTemplateOverClock,Source={StaticResource proxy}}"
-								CommandParameter="{Binding}"
-								Background="{StaticResource ThemeBackground}"
-								Foreground="{StaticResource ThemeForeground}"
-								Margin="10 0"
-								Padding="6 2"
-								CornerRadius="2">
-                                <TextBlock Text="{Binding Name}" Foreground="{StaticResource ThemeForeground}"></TextBlock>
-                            </controls:KbButton>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </WrapPanel>
-            <WrapPanel HorizontalAlignment="Right">
-                <CheckBox 
-                    Margin="4 0 0 0"
-				    FocusVisualStyle="{x:Null}"
-				    VerticalContentAlignment="Center"
-				    ToolTip="挖矿开始时自动应用超频" 
-				    IsChecked="{Binding GpuSpeedVms.MinerProfile.CoinVm.IsOverClockEnabled}">
-                    <WrapPanel>
-                        <TextBlock VerticalAlignment="Center" Text="{Binding GpuSpeedVms.MinerProfile.CoinVm.Code}"></TextBlock>
-                        <TextBlock VerticalAlignment="Center" Text="启用超频"></TextBlock>
-                    </WrapPanel>
-                </CheckBox>
-                <CheckBox
-                    Margin="4 0 0 0"
-				    FocusVisualStyle="{x:Null}"
-				    VerticalContentAlignment="Center"
-				    IsChecked="{Binding GpuSpeedVms.MinerProfile.CoinVm.IsOverClockGpuAll}" 
-				    Content="统一超频"></CheckBox>
-                <controls:KbButton
-                    Margin="4 0 0 0"
-				    Height="21"
-				    Padding="6 2"
-				    Command="{Binding VisibleOverClock}" 
-				    CornerRadius="2">
-                    <WrapPanel>
-                        <Path
-					        Width="12"
-					        Height="12"
-					        Data="{StaticResource Icon_OverClock}"
-					        Fill="{StaticResource IconFillColor}"
-					        Stretch="Fill" />
-                        <TextBlock Foreground="{StaticResource IconFillColor}" Text="{Binding BtnOverClockVisibleName}"></TextBlock>
-                    </WrapPanel>
-                </controls:KbButton>
-            </WrapPanel>
-        </DockPanel>
+        <WrapPanel Grid.Row="2" Margin="4 2" Visibility="{Binding IsOverClockVisible}">
+            <CheckBox
+				FocusVisualStyle="{x:Null}"
+				VerticalContentAlignment="Center"
+				IsChecked="{Binding GpuSpeedVms.MinerProfile.CoinVm.IsOverClockGpuAll, Converter={StaticResource BoolInvertConverter}}" 
+				Content="单卡超频"></CheckBox>
+            <controls:KbButton
+                Margin="4 0 0 0"
+				Height="21"
+				Padding="6 2"
+				ToolTip="点击应用超频设置"
+				Command="{Binding GpuSpeedVms.MinerProfile.CoinVm.ApplyCustomOverClock}" 
+				Background="{StaticResource ThemeBackground}"
+				Foreground="{StaticResource ThemeForeground}"
+				CornerRadius="2">
+                <WrapPanel>
+                    <Path
+						Width="12"
+						Height="12"
+						Data="{StaticResource Icon_OverClock}"
+						Fill="{StaticResource ThemeForeground}"
+						Stretch="Fill" />
+                    <TextBlock Foreground="{StaticResource ThemeForeground}">应用</TextBlock>
+                </WrapPanel>
+            </controls:KbButton>
+            <controls:KbButton
+                Margin="4 0 0 0"
+			    Height="21"
+			    Padding="6 2"
+			    ToolTip="恢复默认"
+			    Command="{Binding GpuSpeedVms.MinerProfile.CoinVm.RestoreOverClock}" 
+			    Background="{StaticResource ThemeBackground}"
+			    Foreground="{StaticResource ThemeForeground}"
+			    CornerRadius="2">
+                <WrapPanel>
+                    <Path
+					    Width="12"
+					    Height="12"
+					    Data="{StaticResource Icon_Refresh}"
+					    Fill="{StaticResource ThemeForeground}"
+					    Stretch="Fill" />
+                    <TextBlock Foreground="{StaticResource ThemeForeground}">恢复默认</TextBlock>
+                </WrapPanel>
+            </controls:KbButton>
+            <controls:KbButton
+				Margin="4 0 0 0"
+				Height="21"
+				Padding="6 2"
+				ToolTip="将统一超频的数据一键填充到每张卡"
+				Command="{Binding GpuSpeedVms.MinerProfile.CoinVm.FillOverClockForms}" 
+				CornerRadius="2">
+                <TextBlock Foreground="{StaticResource IconFillColor}">一键填充表单</TextBlock>
+            </controls:KbButton>
+            <ItemsControl
+				BorderThickness="0"
+				MouseDown="ItemsControl_MouseDown"
+				ItemsSource="{Binding GpuSpeedVms.MinerProfile.CoinVm.OverClockDatas}" 
+				ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ItemsControl.Resources>
+                    <controls:BindingProxy x:Key="proxy" Data="{Binding GpuSpeedVms.MinerProfile}" />
+                </ItemsControl.Resources>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel></WrapPanel>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <controls:KbButton
+							ToolTip="{Binding Tooltip}"
+							Command="{Binding Data.CoinVm.ApplyTemplateOverClock,Source={StaticResource proxy}}"
+							CommandParameter="{Binding}"
+							Background="{StaticResource ThemeBackground}"
+							Foreground="{StaticResource ThemeForeground}"
+							Margin="10 0"
+							Padding="6 2"
+							CornerRadius="2">
+                            <TextBlock Text="{Binding Name}" Foreground="{StaticResource ThemeForeground}"></TextBlock>
+                        </controls:KbButton>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </WrapPanel>
     </Grid>
 </UserControl>

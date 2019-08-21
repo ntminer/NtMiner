@@ -171,5 +171,9 @@ namespace NTMiner.Views {
                 e.Handled = true;
             }
         }
+
+        private void BtnOverClockVisible_Click(object sender, RoutedEventArgs e) {
+            RightTab.SelectedItem = TabItemSpeedTable;
+        }
     }
 }

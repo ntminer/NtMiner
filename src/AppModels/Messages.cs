@@ -16,6 +16,15 @@ namespace NTMiner {
         public Action Callback { get; private set; }
     }
 
+    [MessageType(description: "显示或隐藏超频界面")]
+    public class ShowOrHideOverClockCommand : Cmd {
+        public ShowOrHideOverClockCommand(bool isHide) {
+            this.IsHide = isHide;
+        }
+
+        public bool IsHide { get; private set; }
+    }
+
     [MessageType(description: "启用windows远程桌面")]
     public class EnableWindowsRemoteDesktopCommand : Cmd {
         public EnableWindowsRemoteDesktopCommand() {
