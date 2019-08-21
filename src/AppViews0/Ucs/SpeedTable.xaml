@@ -21,8 +21,8 @@
             <Setter Property="VerticalAlignment" Value="Center"></Setter>
             <Setter Property="BorderBrush" Value="{StaticResource LineColor}"></Setter>
             <Setter Property="Width" Value="40"></Setter>
-            <Setter Property="BorderThickness" Value="1 1 0 0"></Setter>
-            <Setter Property="Background" Value="White"></Setter>
+            <Setter Property="Background" Value="Black"></Setter>
+            <Setter Property="Foreground" Value="White"></Setter>
         </Style>
     </UserControl.Resources>
     <Grid>
@@ -35,8 +35,7 @@
             x:Name="DataGrid"
 			ItemsSource="{Binding GpuSpeedVms.List}" 
 			Background="Transparent" 
-			ColumnHeaderHeight="42"
-            RowHeight="42"
+			ColumnHeaderHeight="34"
             SelectionUnit="Cell"
 			HorizontalScrollBarVisibility="Auto"
             BorderThickness="0">
