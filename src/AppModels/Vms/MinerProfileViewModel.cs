@@ -622,6 +622,9 @@ namespace NTMiner.Vms {
                     OnPropertyChanged(nameof(CoinVm));
                     NTMinerRoot.RefreshArgsAssembly.Invoke();
                     AppContext.Instance.MinerProfileVm.OnPropertyChanged(nameof(AppContext.Instance.MinerProfileVm.IsAllMainCoinPoolIsUserMode));
+                    foreach (var item in AppContext.GpuSpeedViewModels.Instance.List) {
+                        item.OnPropertyChanged(nameof(item.GpuProfileVm));
+                    }
                 }
             }
         }

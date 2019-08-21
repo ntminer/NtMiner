@@ -40,7 +40,7 @@ namespace NTMiner.Vms {
                     return _gpuProfileVm;
                 }
                 _coinId = coinId;
-                _gpuProfileVm = AppContext.GpuProfileViewModels.Instance.List(coinId).FirstOrDefault();
+                _gpuProfileVm = AppContext.GpuProfileViewModels.Instance.List(coinId).FirstOrDefault(a => a.Index == this.GpuVm.Index);
                 return _gpuProfileVm;
             }
         }

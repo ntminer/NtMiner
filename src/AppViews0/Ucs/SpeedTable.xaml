@@ -36,7 +36,6 @@
 			ItemsSource="{Binding GpuSpeedVms.List}" 
 			Background="Transparent" 
 			ColumnHeaderHeight="34"
-            SelectionUnit="Cell"
 			HorizontalScrollBarVisibility="Auto"
             BorderThickness="0">
 			<DataGrid.Resources>
