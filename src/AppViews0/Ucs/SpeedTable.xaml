@@ -38,13 +38,15 @@
 			ColumnHeaderHeight="32"
             RowDetailsVisibilityMode="{Binding RowDetailsVisibilityMode}"
 			HorizontalScrollBarVisibility="Auto"
-			MouseDoubleClick="DataGrid_MouseDoubleClick" BorderThickness="0">
+            BorderThickness="0">
 			<DataGrid.Resources>
                 <controls:BindingProxy x:Key="proxy" Data="{Binding}" />
 			</DataGrid.Resources>
             <DataGrid.RowDetailsTemplate>
                 <DataTemplate>
-                    <WrapPanel HorizontalAlignment="Right" IsEnabled="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockGpuAll,Source={StaticResource proxy},Converter={StaticResource BoolInvertConverter}}">
+                    <WrapPanel 
+                        HorizontalAlignment="Right" 
+                        Visibility="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockGpuAll,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityInvertConverter}}">
                         <CheckBox 
 							FocusVisualStyle="{x:Null}"
 							Padding="0" 

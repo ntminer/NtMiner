@@ -26,22 +26,6 @@ namespace NTMiner.Views.Ucs {
             }
         }
 
-        private void DataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            DataGrid dg = (DataGrid)sender;
-            Point p = e.GetPosition(dg);
-            if (p.Y < dg.ColumnHeaderHeight) {
-                return;
-            }
-            if (dg.SelectedItem != null) {
-                GpuSpeedViewModel gpuSpeedVm = (GpuSpeedViewModel)dg.SelectedItem;
-                gpuSpeedVm.OpenChart.Execute(null);
-            }
-            else {
-                SpeedCharts.ShowWindow(null);
-            }
-            e.Handled = true;
-        }
-
         private void ScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
             Wpf.Util.ScrollViewer_PreviewMouseDown(sender, e);
         }
