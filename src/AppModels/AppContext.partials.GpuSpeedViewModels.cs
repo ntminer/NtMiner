@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace NTMiner {
     public partial class AppContext {
@@ -31,6 +33,26 @@ namespace NTMiner {
                 }
             }
 
+            private DataGridRowDetailsVisibilityMode _rowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.Collapsed;
+            public DataGridRowDetailsVisibilityMode RowDetailsVisibilityMode {
+                get { return _rowDetailsVisibilityMode; }
+                set {
+                    _rowDetailsVisibilityMode = value;
+                    OnPropertyChanged(nameof(RowDetailsVisibilityMode));
+                }
+            }
+
+            private string _btnOverClockVisibleName = "显示超频";
+            public string BtnOverClockVisibleName {
+                get { return _btnOverClockVisibleName; }
+                set {
+                    _btnOverClockVisibleName = value;
+                    OnPropertyChanged(nameof(BtnOverClockVisibleName));
+                }
+            }
+
+            public ICommand VisibleOverClock { get; private set; }
+
             private GpuSpeedViewModels() {
 #if DEBUG
                 Write.Stopwatch.Restart();
@@ -38,6 +60,16 @@ namespace NTMiner {
                 if (Design.IsInDesignMode) {
                     return;
                 }
+                this.VisibleOverClock = new DelegateCommand(() => {
+                    if (RowDetailsVisibilityMode == DataGridRowDetailsVisibilityMode.Collapsed) {
+                        BtnOverClockVisibleName = "隐藏超频";
+                        RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.Visible;
+                    }
+                    else if (RowDetailsVisibilityMode == DataGridRowDetailsVisibilityMode.Visible) {
+                        BtnOverClockVisibleName = "显示超频";
+                        RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.Collapsed;
+                    }
+                });
                 this.GpuAllVm = AppContext.Instance.GpuVms.FirstOrDefault(a => a.Index == NTMinerRoot.GpuAllId);
                 IGpusSpeed gpuSpeeds = NTMinerRoot.Instance.GpusSpeed;
                 foreach (var item in gpuSpeeds) {

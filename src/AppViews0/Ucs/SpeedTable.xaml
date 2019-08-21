@@ -13,12 +13,16 @@
 			 TextOptions.TextFormattingMode="Display" 
 			 d:DesignHeight="450" d:DesignWidth="800">
 	<Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
 		<DataGrid 
             x:Name="DataGrid"
 			ItemsSource="{Binding List}" 
 			Background="Transparent" 
 			ColumnHeaderHeight="32"
-            RowDetailsVisibilityMode="Collapsed"
+            RowDetailsVisibilityMode="{Binding RowDetailsVisibilityMode}"
 			HorizontalScrollBarVisibility="Auto"
 			MouseDoubleClick="DataGrid_MouseDoubleClick" BorderThickness="0">
 			<DataGrid.Resources>
@@ -217,6 +221,17 @@
 			</DataGrid.Columns>
 		</DataGrid>
 		<TextBlock Visibility="{Binding List, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center">没有矿卡或矿卡未驱动</TextBlock>
-        <Button HorizontalAlignment="Left" VerticalAlignment="Bottom" Content="显示超频" Click="BtnOverClockVisible_Click"></Button>
+        <WrapPanel Grid.Row="1" Margin="4 2" HorizontalAlignment="Left">
+            <controls:KbButton
+				Height="21"
+				Padding="6 2"
+				Command="{Binding VisibleOverClock}" 
+				CornerRadius="2">
+                <TextBlock Foreground="{StaticResource IconFillColor}" Text="{Binding BtnOverClockVisibleName}"></TextBlock>
+            </controls:KbButton>
+        </WrapPanel>
+        <WrapPanel Grid.Row="1" HorizontalAlignment="Right">
+            
+        </WrapPanel>
 	</Grid>
 </UserControl>
