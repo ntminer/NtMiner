@@ -7,6 +7,7 @@
 			 xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
 			 xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 			 xmlns:local="clr-namespace:NTMiner.Views.Ucs"
+		     xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 			 xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
 			 mc:Ignorable="d" 
 			 Background="White"
@@ -15,7 +16,20 @@
     <UserControl.DataContext>
         <vm:SpeedTableViewModel></vm:SpeedTableViewModel>
     </UserControl.DataContext>
-	<Grid>
+    <UserControl.Resources>
+        <Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
+            <Setter Property="Width" Value="60"></Setter>
+            <Setter Property="Padding" Value="0 0 4 0"></Setter>
+        </Style>
+        <Style x:Key="TextBox" TargetType="TextBox">
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="BorderBrush" Value="{StaticResource LineColor}"></Setter>
+            <Setter Property="Width" Value="50"></Setter>
+            <Setter Property="Margin" Value="0 0 4 0"></Setter>
+            <Setter Property="Background" Value="White"></Setter>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
@@ -29,7 +43,7 @@
 			HorizontalScrollBarVisibility="Auto"
 			MouseDoubleClick="DataGrid_MouseDoubleClick" BorderThickness="0">
 			<DataGrid.Resources>
-                <controls:BindingProxy x:Key="proxy" Data="{Binding GpuSpeedVms}" />
+                <controls:BindingProxy x:Key="proxy" Data="{Binding}" />
 			</DataGrid.Resources>
             <DataGrid.RowDetailsTemplate>
                 <DataTemplate>
@@ -86,8 +100,8 @@
                 <DataGridTemplateColumn MinWidth="90" Width="90" IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
 						<StackPanel>
-							<TextBlock Text="{Binding Data.MinerProfile.CoinVm.Code, Source={StaticResource proxy}}" FontSize="12"></TextBlock>
-							<TextBlock Text="{Binding Data.TotalSpeedVm.MainCoinSpeed.SpeedText, Source={StaticResource proxy}}" FontSize="11"></TextBlock>
+							<TextBlock Text="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.Code, Source={StaticResource proxy}}" FontSize="12"></TextBlock>
+                            <TextBlock Text="{Binding Data.GpuSpeedVms.TotalSpeedVm.MainCoinSpeed.SpeedText, Source={StaticResource proxy}}" FontSize="11"></TextBlock>
 						</StackPanel>
 					</DataGridTemplateColumn.Header>
 					<DataGridTemplateColumn.CellTemplate>
@@ -97,11 +111,11 @@
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
                 <DataGridTemplateColumn MinWidth="90" Width="90" IsReadOnly="True"
-					Visibility="{Binding Data.MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled, Source={StaticResource proxy}, Converter={StaticResource BoolToHiddenConverter}}">
+					Visibility="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled, Source={StaticResource proxy}, Converter={StaticResource BoolToHiddenConverter}}">
 					<DataGridTemplateColumn.Header>
 						<StackPanel>
-							<TextBlock Text="{Binding Data.MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.Code, Source={StaticResource proxy}}" FontSize="12"></TextBlock>
-							<TextBlock Text="{Binding Data.TotalSpeedVm.DualCoinSpeed.SpeedText, Source={StaticResource proxy}}" FontSize="11"></TextBlock>
+                            <TextBlock Text="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.Code, Source={StaticResource proxy}}" FontSize="12"></TextBlock>
+                            <TextBlock Text="{Binding Data.GpuSpeedVms.TotalSpeedVm.DualCoinSpeed.SpeedText, Source={StaticResource proxy}}" FontSize="11"></TextBlock>
 						</StackPanel>
 					</DataGridTemplateColumn.Header>
 					<DataGridTemplateColumn.CellTemplate>
@@ -139,7 +153,7 @@
 						<DataTemplate>
 							<StackPanel>
 								<TextBlock Text="功耗" FontSize="12"></TextBlock>
-								<TextBlock Text="{Binding Data.GpuAllVm.PowerUsageWText, Source={StaticResource proxy}}" FontSize="11"></TextBlock>
+                                <TextBlock Text="{Binding Data.GpuSpeedVms.GpuAllVm.PowerUsageWText, Source={StaticResource proxy}}" FontSize="11"></TextBlock>
 							</StackPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.HeaderTemplate>
@@ -224,17 +238,152 @@
 			</DataGrid.Columns>
 		</DataGrid>
         <TextBlock Visibility="{Binding GpuSpeedVms.List, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center">没有矿卡或矿卡未驱动</TextBlock>
-        <WrapPanel Grid.Row="1" Margin="4 2" HorizontalAlignment="Left">
+        <DockPanel Grid.Row="1" Margin="4 2">
+            <WrapPanel Margin="4 0 0 0" Visibility="{Binding IsOverClockVisible}" IsEnabled="{Binding GpuSpeedVms.MinerProfile.CoinVm.IsOverClockEnabled}">
+                <GroupBox Width="186">
+                    <GroupBox.Header>
+                        <CheckBox
+						    FocusVisualStyle="{x:Null}"
+						    FontSize="16"
+                            FontWeight="Bold"
+						    VerticalContentAlignment="Center"
+						    IsChecked="{Binding GpuSpeedVms.MinerProfile.CoinVm.IsOverClockGpuAll}" 
+						    Content="统一超频"></CheckBox>
+                    </GroupBox.Header>
+                    <StackPanel IsEnabled="{Binding GpuSpeedVms.MinerProfile.CoinVm.IsOverClockGpuAll}">
+                        <WrapPanel VerticalAlignment="Center">
+                            <TextBlock Style="{StaticResource LblTb}">核心</TextBlock>
+                            <TextBox Style="{StaticResource TextBox}" ToolTip="{Binding GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm.GpuVm.CoreClockDeltaMinMaxMText}" Text="{Binding GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm.CoreClockDelta, ValidatesOnExceptions=True}"></TextBox>
+                            <TextBlock VerticalAlignment="Center">M</TextBlock>
+                        </WrapPanel>
+                        <WrapPanel>
+                            <TextBlock Style="{StaticResource LblTb}">显存</TextBlock>
+                            <TextBox Style="{StaticResource TextBox}" ToolTip="{Binding GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm.GpuVm.MemoryClockDeltaMinMaxMText}" Text="{Binding GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm.MemoryClockDelta, ValidatesOnExceptions=True}"></TextBox>
+                            <TextBlock VerticalAlignment="Center">M</TextBlock>
+                        </WrapPanel>
+                        <WrapPanel>
+                            <TextBlock Style="{StaticResource LblTb}">功耗</TextBlock>
+                            <TextBox Style="{StaticResource TextBox}" ToolTip="{Binding GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm.GpuVm.PowerMinMaxText}" Text="{Binding GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm.PowerCapacity, ValidatesOnExceptions=True}"></TextBox>
+                            <TextBlock VerticalAlignment="Center">%</TextBlock>
+                        </WrapPanel>
+
+                        <WrapPanel>
+                            <TextBlock Style="{StaticResource LblTb}">温度阈值</TextBlock>
+                            <TextBox Style="{StaticResource TextBox}" ToolTip="{Binding GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm.GpuVm.TempLimitMinMaxText}" Text="{Binding GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm.TempLimit, ValidatesOnExceptions=True}"></TextBox>
+                            <TextBlock VerticalAlignment="Center">℃</TextBlock>
+                        </WrapPanel>
+                        <WrapPanel>
+                            <TextBlock Style="{StaticResource LblTb}">风扇</TextBlock>
+                            <WrapPanel>
+                                <TextBox
+								    Style="{StaticResource TextBox}"
+								    ToolTip="{Binding GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm.GpuVm.CoolMinMaxText}" Text="{Binding GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm.Cool, ValidatesOnExceptions=True}"></TextBox>
+                                <TextBlock VerticalAlignment="Center">%</TextBlock>
+                            </WrapPanel>
+                        </WrapPanel>
+                        <WrapPanel>
+                            <TextBlock Style="{StaticResource LblTb}">温度</TextBlock>
+                            <CheckBox 
+							    FocusVisualStyle="{x:Null}"
+							    Padding="0" 
+							    VerticalAlignment="Center"
+							    Foreground="{StaticResource LableColor}"
+							    Tag="{Binding GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm}"
+							    IsChecked="{Binding GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm.IsAutoFanSpeed}" 
+							    Click="CheckBoxIsAutoFanSpeed_Click"
+							    Content="自动控温"></CheckBox>
+                        </WrapPanel>
+                    </StackPanel>
+                </GroupBox>
+                <Grid Margin="10 4">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <WrapPanel>
+                        <TextBlock 
+						    Visibility="{Binding GpuSpeedVms.MinerProfile.CoinVm.OverClockDatas,Converter={StaticResource NoRecordInvertVisibilityConverter}}"
+						    Style="{StaticResource LblTb}" Width="Auto">背包</TextBlock>
+                        <TextBlock 
+						    Visibility="{Binding GpuSpeedVms.MinerProfile.CoinVm.OverClockDatas,Converter={StaticResource NoRecordVisibilityConverter}}"
+						    Style="{StaticResource LblTb}" Width="Auto">没有推荐</TextBlock>
+                        <ItemsControl
+						    BorderThickness="0"
+						    MouseDown="ItemsControl_MouseDown"
+						    ItemsSource="{Binding GpuSpeedVms.MinerProfile.CoinVm.OverClockDatas}" 
+						    ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                            <ItemsControl.Resources>
+                                <controls:BindingProxy x:Key="proxy" Data="{Binding GpuSpeedVms.MinerProfile}" />
+                            </ItemsControl.Resources>
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel></WrapPanel>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <controls:KbButton
+									    ToolTip="{Binding Tooltip}"
+									    Command="{Binding Data.CoinVm.ApplyTemplateOverClock,Source={StaticResource proxy}}"
+									    CommandParameter="{Binding}"
+									    Background="{StaticResource ThemeBackground}"
+									    Foreground="{StaticResource ThemeForeground}"
+									    Margin="10 0"
+									    Padding="6 2"
+									    CornerRadius="2">
+                                        <TextBlock Text="{Binding Name}" Foreground="{StaticResource ThemeForeground}"></TextBlock>
+                                    </controls:KbButton>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </WrapPanel>
+                    <StackPanel Grid.Row="1">
+                        <TextBlock VerticalAlignment="Center" Foreground="{StaticResource LableColor}">填0表示使用默认值</TextBlock>
+                        <TextBlock VerticalAlignment="Center" Foreground="{StaticResource LableColor}">温度阈值：表示达到这个温度时显卡将自动降频</TextBlock>
+                        <TextBlock VerticalAlignment="Center" Foreground="Red" Visibility="{x:Static app:AppStatic.IsAmdGpuVisible}">如果算力很低，请转到工具箱开启A卡计算模式</TextBlock>
+                    </StackPanel>
+                    <WrapPanel Grid.Row="2" VerticalAlignment="Bottom">
+                        <controls:KbButton
+						    Height="21"
+						    Padding="6 2"
+						    ToolTip="点击应用超频设置"
+						    Command="{Binding GpuSpeedVms.MinerProfile.CoinVm.ApplyCustomOverClock}" 
+						    Background="{StaticResource ThemeBackground}"
+						    Foreground="{StaticResource ThemeForeground}"
+						    CornerRadius="2">
+                            <WrapPanel>
+                                <Path
+								    Width="12"
+								    Height="12"
+								    Data="{StaticResource Icon_OverClock}"
+								    Fill="{StaticResource ThemeForeground}"
+								    Stretch="Fill" />
+                                <TextBlock Foreground="{StaticResource ThemeForeground}">应用</TextBlock>
+                            </WrapPanel>
+                        </controls:KbButton>
+                        <TextBlock x:Name="TbRedText" Margin="10 0 0 0" Foreground="Red" VerticalAlignment="Center"></TextBlock>
+                        <controls:KbButton
+						    Margin="10 0 0 0"
+						    Height="21"
+						    Padding="6 2"
+						    ToolTip="将统一超频的数据一键填充到每张卡"
+						    Command="{Binding GpuSpeedVms.MinerProfile.CoinVm.FillOverClockForms}" 
+						    CornerRadius="2">
+                            <TextBlock Foreground="{StaticResource IconFillColor}">一键填充表单</TextBlock>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </Grid>
+            </WrapPanel>
             <controls:KbButton
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Right"
 				Height="21"
 				Padding="6 2"
 				Command="{Binding VisibleOverClock}" 
 				CornerRadius="2">
                 <TextBlock Foreground="{StaticResource IconFillColor}" Text="{Binding BtnOverClockVisibleName}"></TextBlock>
             </controls:KbButton>
-        </WrapPanel>
-        <WrapPanel Grid.Row="1" HorizontalAlignment="Right">
-            
-        </WrapPanel>
-	</Grid>
+        </DockPanel>
+    </Grid>
 </UserControl>

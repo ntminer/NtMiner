@@ -1,6 +1,8 @@
-﻿using NTMiner.Vms;
+﻿using NTMiner.Core;
+using NTMiner.Vms;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace NTMiner.Views.Ucs {
     public partial class SpeedTable : UserControl {
@@ -28,6 +30,22 @@ namespace NTMiner.Views.Ucs {
                 SpeedCharts.ShowWindow(null);
             }
             e.Handled = true;
+        }
+
+        private void ScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
+            Wpf.Util.ScrollViewer_PreviewMouseDown(sender, e);
+        }
+
+        private void ItemsControl_MouseDown(object sender, MouseButtonEventArgs e) {
+            if (e.LeftButton == MouseButtonState.Pressed) {
+                Window.GetWindow(this).DragMove();
+            }
+        }
+
+        private void CheckBoxIsAutoFanSpeed_Click(object sender, RoutedEventArgs e) {
+            FrameworkElement checkBox = (FrameworkElement)sender;
+            GpuProfileViewModel gpuProfileVm = (GpuProfileViewModel)checkBox.Tag;
+            VirtualRoot.Execute(new AddOrUpdateGpuProfileCommand(gpuProfileVm));
         }
     }
 }
