@@ -153,9 +153,17 @@ namespace NTMiner.Views {
             }
             else if (selectedItem == TabItemSpeedTable) {
                 if (SpeedTableContainer.Child == null) {
-                    SpeedTableContainer.Child = new SpeedTable();
+                    SpeedTableContainer.Child = GetSpeedTableUc();
                 }
             }
+        }
+
+        private SpeedTable _speedTableUc;
+        private SpeedTable GetSpeedTableUc() {
+            if (_speedTableUc == null) {
+                _speedTableUc = new SpeedTable();
+            }
+            return _speedTableUc;
         }
 
         private void ScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
@@ -173,6 +181,16 @@ namespace NTMiner.Views {
         }
 
         private void BtnOverClockVisible_Click(object sender, RoutedEventArgs e) {
+            ContentControl btn = (ContentControl)sender;
+            var speedTableUc = GetSpeedTableUc();
+            if (btn.Content.ToString() == "展开超频") {
+                btn.Content = "折叠超频";
+                speedTableUc.ShowOrHideOverClock(isShow: true);
+            }
+            else {
+                btn.Content = "展开超频";
+                speedTableUc.ShowOrHideOverClock(isShow: false);
+            }
             RightTab.SelectedItem = TabItemSpeedTable;
         }
     }

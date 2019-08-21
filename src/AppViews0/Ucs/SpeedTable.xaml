@@ -134,7 +134,22 @@
 							<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding DualCoinSpeed.SpeedText}"></TextBlock>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn MinWidth="60" Width="60" IsReadOnly="True" CanUserResize="False">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="功耗" FontSize="10"></TextBlock>
+                                <TextBlock Text="{Binding Data.GpuSpeedVms.GpuAllVm.PowerUsageWText, Source={StaticResource proxy}}" FontSize="11"></TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding GpuVm.PowerUsageWText}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTemplateColumn MinWidth="70" Width="70" IsReadOnly="True" CanUserResize="False">
 					<DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
@@ -163,21 +178,6 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-                <DataGridTemplateColumn MinWidth="60" Width="60" IsReadOnly="True" CanUserResize="False">
-					<DataGridTemplateColumn.HeaderTemplate>
-						<DataTemplate>
-                            <StackPanel>
-                                <TextBlock Text="功耗" FontSize="10"></TextBlock>
-                                <TextBlock Text="{Binding Data.GpuSpeedVms.GpuAllVm.PowerUsageWText, Source={StaticResource proxy}}" FontSize="11"></TextBlock>
-							</StackPanel>
-						</DataTemplate>
-					</DataGridTemplateColumn.HeaderTemplate>
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding GpuVm.PowerUsageWText}"></TextBlock>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
                 <DataGridTemplateColumn MinWidth="40" Width="40" IsReadOnly="True" CanUserResize="False">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
@@ -349,12 +349,7 @@
 			</DataGrid.Columns>
         </DataGrid>
         <TextBlock Visibility="{Binding GpuSpeedVms.List, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center">没有矿卡或矿卡未驱动</TextBlock>
-        <WrapPanel Grid.Row="2" Margin="4 2" Visibility="{Binding IsOverClockVisible}">
-            <CheckBox
-				FocusVisualStyle="{x:Null}"
-				VerticalContentAlignment="Center"
-				IsChecked="{Binding GpuSpeedVms.MinerProfile.CoinVm.IsOverClockGpuAll, Converter={StaticResource BoolInvertConverter}}" 
-				Content="单卡超频"></CheckBox>
+        <WrapPanel Grid.Row="2" Margin="4 2" Visibility="{Binding IsOverClockVisible}" IsEnabled="{Binding GpuSpeedVms.MinerProfile.CoinVm.IsOverClockEnabled}">
             <controls:KbButton
                 Margin="4 0 0 0"
 				Height="21"

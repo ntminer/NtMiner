@@ -40,7 +40,7 @@
 	</blankWindow:BlankWindow.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="34"/>
+			<RowDefinition Height="36"/>
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto"></RowDefinition>
 		</Grid.RowDefinitions>
@@ -91,7 +91,8 @@
 						ToolTip="ServerJsonVersion"
 						Text="{Binding ServerJsonVersion}" 
 						Foreground="{StaticResource ThemeForeground}"></TextBlock>
-					<CheckBox 
+                    <CheckBox 
+                        Margin="0 0 12 0"
 						FocusVisualStyle="{x:Null}"
 						Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
 						VerticalAlignment="Center"
@@ -100,6 +101,24 @@
 						IsChecked="{Binding IsUseDevConsole}">
 						<TextBlock Text="DevConsole" Foreground="{StaticResource ThemeForeground}"></TextBlock>
                     </CheckBox>
+                    <controls:KbLinkButton
+                        Margin="0 0 20 0"
+                        VerticalAlignment="Center"
+				        Command="{x:Static app:AppStatic.DownloadMinerStudio}"
+				        KbDisplayLine="False"
+				        Foreground="{StaticResource ThemeForeground}"
+				        KbSystemButtonHoverBackground="Transparent"
+				        Background="Transparent">
+                        <WrapPanel>
+                            <Path 
+						    Width="14"
+						    Height="13"
+						    Data="{StaticResource Icon_ControlCenter}"
+						    Fill="{StaticResource ThemeForeground}"
+						    Stretch="Fill" />
+                            <TextBlock Foreground="{StaticResource ThemeForeground}">下载群控</TextBlock>
+                        </WrapPanel>
+                    </controls:KbLinkButton>
                     <controls:KbButton 
 						Margin="0 0 12 0"
 						ToolTip="属性"
@@ -159,14 +178,14 @@
 					<uc:MainMenu VerticalAlignment="Center">
 					</uc:MainMenu>
 					<controls:KbSystemMinButton
-						Height="34"
+						Height="32"
 						KbSystemButtonSize="40" />
 					<controls:KbSystemMaxButton
-						Height="34"
+						Height="32"
 						KbSystemButtonSize="40" />
 					<controls:KbSystemCloseButton
 						Command="{Binding CloseMainWindow}"
-						Height="34"
+						Height="32"
 						KbSystemButtonSize="40" />
 				</WrapPanel>
 			</WrapPanel>
@@ -544,45 +563,38 @@
 					<Border x:Name="ToolboxContainer"></Border>
 				</TabItem>
             </TabControl>
-            <WrapPanel Grid.Column="1" HorizontalAlignment="Right" Margin="0 8 4 0" VerticalAlignment="Top">
-                <CheckBox 
-                    Margin="4 0 0 0"
-				    FocusVisualStyle="{x:Null}"
-				    VerticalContentAlignment="Center"
-				    ToolTip="挖矿开始时自动应用超频" 
-                    Foreground="{StaticResource ThemeForeground}"
-				    IsChecked="{Binding MinerProfile.CoinVm.IsOverClockEnabled}">
-                    <WrapPanel>
-                        <TextBlock VerticalAlignment="Center" Text="{Binding MinerProfile.CoinVm.Code}"></TextBlock>
-                        <TextBlock VerticalAlignment="Center" Text="启用超频"></TextBlock>
-                    </WrapPanel>
-                </CheckBox>
+            <WrapPanel Grid.Column="1" HorizontalAlignment="Right" Margin="0 -3 4 0" VerticalAlignment="Top">
+                <StackPanel Margin="4 0 0 0">
+                    <CheckBox 
+                        Padding="0"
+				        FocusVisualStyle="{x:Null}"
+				        VerticalContentAlignment="Center"
+				        ToolTip="挖矿开始时自动应用超频" 
+                        Foreground="{StaticResource ThemeForeground}"
+				        IsChecked="{Binding MinerProfile.CoinVm.IsOverClockEnabled}">
+                        <WrapPanel>
+                            <TextBlock VerticalAlignment="Center" Text="{Binding MinerProfile.CoinVm.Code}"></TextBlock>
+                            <TextBlock VerticalAlignment="Center" Text="超频"></TextBlock>
+                        </WrapPanel>
+                    </CheckBox>
+                    <CheckBox
+                        Padding="0"
+                        Margin="0 -2 0 0"
+				        FocusVisualStyle="{x:Null}"
+				        VerticalContentAlignment="Center"
+                        Foreground="{StaticResource ThemeForeground}"
+                        IsEnabled="{Binding MinerProfile.CoinVm.IsOverClockEnabled}"
+				        IsChecked="{Binding MinerProfile.CoinVm.IsOverClockGpuAll, Converter={StaticResource BoolInvertConverter}}" 
+				        Content="单卡超频"></CheckBox>
+                </StackPanel>
                 <controls:KbButton
                     Margin="4 0 0 0"
-                    Padding="8 2"
-                    Foreground="{StaticResource ThemeForeground}"
-				    Command="{Binding VisibleOverClock}" 
+                    Padding="8 0"
+                    Content="展开超频"
+                    Background="{StaticResource TableHeaderBackground}"
                     Click="BtnOverClockVisible_Click"
 				    CornerRadius="2 2 0 0">
-                    <TextBlock Foreground="{StaticResource IconFillColor}" Text="{Binding BtnOverClockVisibleName}"></TextBlock>
                 </controls:KbButton>
-                <controls:KbLinkButton
-                    Margin="10 0 0 0"
-				    Command="{x:Static app:AppStatic.DownloadMinerStudio}"
-				    KbDisplayLine="False"
-				    Foreground="{StaticResource ThemeForeground}"
-				    KbSystemButtonHoverBackground="Transparent"
-				    Background="Transparent">
-                    <WrapPanel>
-                        <Path 
-						    Width="14"
-						    Height="13"
-						    Data="{StaticResource Icon_ControlCenter}"
-						    Fill="{StaticResource ThemeForeground}"
-						    Stretch="Fill" />
-                        <TextBlock Foreground="{StaticResource ThemeForeground}">下载群控</TextBlock>
-                    </WrapPanel>
-                </controls:KbLinkButton>
             </WrapPanel>
         </Grid>
 		<!--下状态栏-->
