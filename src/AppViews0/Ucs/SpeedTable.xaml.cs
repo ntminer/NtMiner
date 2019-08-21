@@ -18,11 +18,9 @@ namespace NTMiner.Views.Ucs {
         public void ShowOrHideOverClock(bool isShow) {
             if (isShow) {
                 Vm.IsOverClockVisible = Visibility.Visible;
-                Vm.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.Visible;
             }
             else {
                 Vm.IsOverClockVisible = Visibility.Collapsed;
-                Vm.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.Collapsed;
             }
         }
 
