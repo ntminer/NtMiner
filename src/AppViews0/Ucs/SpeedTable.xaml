@@ -35,7 +35,8 @@
             x:Name="DataGrid"
 			ItemsSource="{Binding GpuSpeedVms.List}" 
 			Background="Transparent" 
-			ColumnHeaderHeight="32"
+			ColumnHeaderHeight="42"
+            RowHeight="42"
             SelectionUnit="Cell"
 			HorizontalScrollBarVisibility="Auto"
             BorderThickness="0">
