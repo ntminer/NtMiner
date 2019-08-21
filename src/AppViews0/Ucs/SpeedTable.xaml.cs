@@ -1,5 +1,4 @@
-﻿using NTMiner.Core;
-using NTMiner.Vms;
+﻿using NTMiner.Vms;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -40,12 +39,6 @@ namespace NTMiner.Views.Ucs {
             if (e.LeftButton == MouseButtonState.Pressed) {
                 Window.GetWindow(this).DragMove();
             }
-        }
-
-        private void CheckBoxIsAutoFanSpeed_Click(object sender, RoutedEventArgs e) {
-            FrameworkElement checkBox = (FrameworkElement)sender;
-            GpuProfileViewModel gpuProfileVm = (GpuProfileViewModel)checkBox.Tag;
-            VirtualRoot.Execute(new AddOrUpdateGpuProfileCommand(gpuProfileVm));
         }
     }
 }

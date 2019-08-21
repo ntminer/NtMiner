@@ -682,6 +682,20 @@ namespace NTMiner.Vms {
             }
         }
 
+        public string VoltageMinMaxText {
+            get {
+                if (Index == NTMinerRoot.GpuAllId) {
+                    if (_isGpuData) {
+                        return $"{_gpuDatas.Max(a => a.VoltMin)} - {_gpuDatas.Min(a => a.VoltMax)}";
+                    }
+                    else {
+                        return $"{NTMinerRoot.Instance.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Max(a => a.VoltMin)} - {NTMinerRoot.Instance.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Min(a => a.VoltMax)}%";
+                    }
+                }
+                return $"{this.VoltMin} - {this.VoltMax}%";
+            }
+        }
+
         public bool IsDeviceArgInclude {
             get => NTMinerRoot.Instance.GpuSet.GetIsUseDevice(this.Index);
             set {
