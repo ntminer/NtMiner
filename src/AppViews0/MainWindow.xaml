@@ -13,7 +13,7 @@
 		mc:Ignorable="d"
 		Title="{x:Static app:AppStatic.AppName}"
 		d:DesignHeight="630"
-		d:DesignWidth="900"
+		d:DesignWidth="1100"
 		Background="{StaticResource ThemeBackground}"
 		WindowStartupLocation="CenterScreen"
 		MouseDown="MetroWindow_MouseDown"
@@ -76,7 +76,7 @@
 							Text=" - 做最好的矿工" />
                     </WrapPanel>
 				</controls:KbLinkButton>
-				<WrapPanel Margin="4 0 0 0" VerticalAlignment="Bottom" Visibility="{Binding MinerProfile.MineWork,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
+				<WrapPanel Margin="4 0 0 0" VerticalAlignment="Center" Visibility="{Binding MinerProfile.MineWork,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
 					<TextBlock Foreground="{StaticResource ThemeForeground}">作业：</TextBlock>
 					<TextBlock Foreground="{StaticResource ThemeForeground}" Text="{Binding MinerProfile.MineWork.Name}" ToolTip="{Binding MinerProfile.MineWork.Description}"></TextBlock>
 				</WrapPanel>
@@ -175,16 +175,9 @@
 					</controls:KbButton>
 					<uc:MainMenu VerticalAlignment="Center">
 					</uc:MainMenu>
-					<controls:KbSystemMinButton
-						Height="32"
-						KbSystemButtonSize="40" />
-					<controls:KbSystemMaxButton
-						Height="32"
-						KbSystemButtonSize="40" />
-					<controls:KbSystemCloseButton
-						Command="{Binding CloseMainWindow}"
-						Height="32"
-						KbSystemButtonSize="40" />
+					<controls:KbSystemMinButton Height="32" />
+					<controls:KbSystemMaxButton Height="32" />
+					<controls:KbSystemCloseButton Command="{Binding CloseMainWindow}" Height="32" />
 				</WrapPanel>
 			</WrapPanel>
 		</Grid>
