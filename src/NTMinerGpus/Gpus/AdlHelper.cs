@@ -505,8 +505,9 @@ namespace NTMiner.Gpus {
                     Write.DevError($"{nameof(AdlNativeMethods.ADL2_OverdriveN_PowerLimit_Get)} {r}");
                     return false;
                 }
-                info.iMode = value == 0 ? AdlConst.ODNControlType_Auto : AdlConst.ODNControlType_Manual;
-                info.iMaxOperatingTemperature = value;
+                bool isAutoModel = value == 0;
+                info.iMode = isAutoModel ? AdlConst.ODNControlType_Auto : AdlConst.ODNControlType_Manual;
+                info.iMaxOperatingTemperature = isAutoModel ? -1 : 0;
                 r = AdlNativeMethods.ADL2_OverdriveN_PowerLimit_Set(context, adapterIndex, ref info);
                 if (r < AdlStatus.ADL_OK) {
                     Write.DevError($"{nameof(AdlNativeMethods.ADL2_OverdriveN_PowerLimit_Set)} {r}");
