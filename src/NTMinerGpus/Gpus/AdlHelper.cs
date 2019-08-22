@@ -236,28 +236,21 @@ namespace NTMiner.Gpus {
                     Write.DevError($"{nameof(AdlNativeMethods.ADL2_OverdriveN_SystemClocksX2_Get)} {r}");
                     return false;
                 }
-#if DEBUG
-                foreach (var item in info.aLevels) {
-                    Write.DevWarn($"iClock={item.iClock},iControl={item.iControl},iEnabled={item.iEnabled},iVddc={item.iVddc}");
+                info.iMode = AdlConst.ODNControlType_Manual;
+                int index = 0;
+                for (int i = 0; i < info.aLevels.Length; i++) {
+                    if (info.aLevels[i].iEnabled == 1) {
+                        index = i;
+                    }
                 }
-#endif
-                if (r >= AdlStatus.ADL_OK) {
-                    info.iMode = AdlConst.ODNControlType_Manual;
-                    int index = 0;
-                    for (int i = 0; i < info.aLevels.Length; i++) {
-                        if (info.aLevels[i].iEnabled == 1) {
-                            index = i;
-                        }
-                    }
-                    info.aLevels[index].iClock = value * 100;
-                    if (voltage != 0) {
-                        info.aLevels[index].iVddc = voltage;
-                    }
-                    r = AdlNativeMethods.ADL2_OverdriveN_SystemClocksX2_Set(context, adapterIndex, ref info);
-                    if (r < AdlStatus.ADL_OK) {
-                        Write.DevError($"{nameof(AdlNativeMethods.ADL2_OverdriveN_SystemClocksX2_Set)} {r}");
-                        return false;
-                    }
+                info.aLevels[index].iClock = value * 100;
+                if (voltage != 0) {
+                    info.aLevels[index].iVddc = voltage;
+                }
+                r = AdlNativeMethods.ADL2_OverdriveN_SystemClocksX2_Set(context, adapterIndex, ref info);
+                if (r < AdlStatus.ADL_OK) {
+                    Write.DevError($"{nameof(AdlNativeMethods.ADL2_OverdriveN_SystemClocksX2_Set)} {r}");
+                    return false;
                 }
                 return true;
             }
@@ -320,28 +313,21 @@ namespace NTMiner.Gpus {
                     Write.DevError($"{nameof(AdlNativeMethods.ADL2_OverdriveN_MemoryClocksX2_Get)} {r}");
                     return false;
                 }
-#if DEBUG
-                foreach (var item in info.aLevels) {
-                    Write.DevWarn($"iClock={item.iClock},iControl={item.iControl},iEnabled={item.iEnabled},iVddc={item.iVddc}");
+                info.iMode = AdlConst.ODNControlType_Manual;
+                int index = 0;
+                for (int i = 0; i < info.aLevels.Length; i++) {
+                    if (info.aLevels[i].iEnabled == 1) {
+                        index = i;
+                    }
                 }
-#endif
-                if (r >= AdlStatus.ADL_OK) {
-                    info.iMode = AdlConst.ODNControlType_Manual;
-                    int index = 0;
-                    for (int i = 0; i < info.aLevels.Length; i++) {
-                        if (info.aLevels[i].iEnabled == 1) {
-                            index = i;
-                        }
-                    }
-                    info.aLevels[index].iClock = value * 100;
-                    if (voltage != 0) {
-                        info.aLevels[index].iVddc = voltage;
-                    }
-                    r = AdlNativeMethods.ADL2_OverdriveN_MemoryClocksX2_Set(context, adapterIndex, ref info);
-                    if (r < AdlStatus.ADL_OK) {
-                        Write.DevError($"{nameof(AdlNativeMethods.ADL2_OverdriveN_MemoryClocksX2_Set)} {r}");
-                        return false;
-                    }
+                info.aLevels[index].iClock = value * 100;
+                if (voltage != 0) {
+                    info.aLevels[index].iVddc = voltage;
+                }
+                r = AdlNativeMethods.ADL2_OverdriveN_MemoryClocksX2_Set(context, adapterIndex, ref info);
+                if (r < AdlStatus.ADL_OK) {
+                    Write.DevError($"{nameof(AdlNativeMethods.ADL2_OverdriveN_MemoryClocksX2_Set)} {r}");
+                    return false;
                 }
                 return true;
             }
