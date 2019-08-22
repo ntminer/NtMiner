@@ -7,6 +7,7 @@
         public int Index { get; set; }
         public string BusId { get; set; }
         public string Name { get; set; }
+        public string Description { get; set; }
         public ulong TotalMemory { get; set; }
 
         public int CoreClockDeltaMin { get; set; }
