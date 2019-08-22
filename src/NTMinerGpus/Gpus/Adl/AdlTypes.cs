@@ -129,6 +129,10 @@ namespace NTMiner.Gpus.Adl {
         public int iVddc;
         public int iEnabled;
         public int iControl;
+
+        public override string ToString() {
+            return $"iClock:{iClock},iVddc:{iVddc},iEnabled={iEnabled},iControl={iControl}";
+        }
     }
 
     [StructLayout(LayoutKind.Sequential)]

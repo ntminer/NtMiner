@@ -198,9 +198,10 @@ namespace NTMiner.Gpus {
                 }
                 int index = 0;
                 for (int i = 0; i < info.aLevels.Length; i++) {
-                    if (info.aLevels[i].iEnabled != 0) {
+                    if (info.aLevels[i].iEnabled != 1) {
                         index = i;
                     }
+                    Write.DevWarn("GetCoreClock " + info.aLevels[i].ToString());
                 }
                 coreClock = info.aLevels[index].iClock * 10;
                 iVddc = info.aLevels[index].iVddc;
@@ -246,10 +247,13 @@ namespace NTMiner.Gpus {
                 info.iMode = AdlConst.ODNControlType_Manual;
                 int index = 0;
                 for (int i = 0; i < info.aLevels.Length; i++) {
+                    info.aLevels[i].iEnabled = ((info.aLevels[i].iEnabled & (1 << i)) != 0) ? 1 : 0;
+                    info.aLevels[i].iControl = 0;
                     if (info.aLevels[i].iEnabled == 1) {
                         index = i;
                     }
                 }
+                Write.DevDebug($"SetCoreClock PState {index} value={value} voltage={voltage}");
                 if (value != 0) {
                     info.aLevels[index].iClock = value * 100;
                 }
@@ -284,9 +288,10 @@ namespace NTMiner.Gpus {
                 }
                 int index = 0;
                 for (int i = 0; i < info.aLevels.Length; i++) {
-                    if (info.aLevels[i].iEnabled != 0) {
+                    if (info.aLevels[i].iEnabled != 1) {
                         index = i;
                     }
+                    Write.DevWarn("GetMemoryClock " + info.aLevels[i].ToString());
                 }
                 memoryClock = info.aLevels[index].iClock * 10;
                 iVddc = info.aLevels[index].iVddc;
@@ -332,10 +337,13 @@ namespace NTMiner.Gpus {
                 info.iMode = AdlConst.ODNControlType_Manual;
                 int index = 0;
                 for (int i = 0; i < info.aLevels.Length; i++) {
+                    info.aLevels[i].iEnabled = ((info.aLevels[i].iEnabled & (1 << i)) != 0) ? 1 : 0;
+                    info.aLevels[i].iControl = 0;
                     if (info.aLevels[i].iEnabled == 1) {
                         index = i;
                     }
                 }
+                Write.DevDebug($"SetMemoryClock PState {index} value={value} voltage={voltage}");
                 if (value != 0) {
                     info.aLevels[index].iClock = value * 100;
                 }
