@@ -398,10 +398,10 @@ namespace NTMiner.Vms {
             get {
                 if (Index == NTMinerRoot.GpuAllId) {
                     if (_isGpuData) {
-                        return $"{_gpuDatas.Max(a => a.CoreClockDeltaMin) / 1000}至{_gpuDatas.Min(a => a.CoreClockDeltaMax) / 1000}";
+                        return $"{_gpuDatas.Max(a => a.CoreClockDeltaMin) / 1000}至{_gpuDatas.Min(a => a.CoreClockDeltaMax) / 1000}，0 表示默认";
                     }
                     else {
-                        return $"{NTMinerRoot.Instance.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Max(a => a.CoreClockDeltaMin) / 1000}至{NTMinerRoot.Instance.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Min(a => a.CoreClockDeltaMax) / 1000}";
+                        return $"{NTMinerRoot.Instance.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Max(a => a.CoreClockDeltaMin) / 1000}至{NTMinerRoot.Instance.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Min(a => a.CoreClockDeltaMax) / 1000}，0 表示默认";
                     }
                 }
                 return $"范围：{this.CoreClockDeltaMinMText} - {this.CoreClockDeltaMaxMText}，0 表示默认";
@@ -412,10 +412,10 @@ namespace NTMiner.Vms {
             get {
                 if (Index == NTMinerRoot.GpuAllId) {
                     if (_isGpuData) {
-                        return $"{_gpuDatas.Max(a => a.MemoryClockDeltaMin) / 1000}至{_gpuDatas.Min(a => a.MemoryClockDeltaMax) / 1000}";
+                        return $"{_gpuDatas.Max(a => a.MemoryClockDeltaMin) / 1000}至{_gpuDatas.Min(a => a.MemoryClockDeltaMax) / 1000}，0 表示默认";
                     }
                     else {
-                        return $"{NTMinerRoot.Instance.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Max(a => a.MemoryClockDeltaMin) / 1000}至{NTMinerRoot.Instance.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Min(a => a.MemoryClockDeltaMax) / 1000}";
+                        return $"{NTMinerRoot.Instance.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Max(a => a.MemoryClockDeltaMin) / 1000}至{NTMinerRoot.Instance.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Min(a => a.MemoryClockDeltaMax) / 1000}，0 表示默认";
                     }
                 }
                 return $"范围：{this.MemoryClockDeltaMinMText} - {this.MemoryClockDeltaMaxMText}，0 表示默认";
@@ -426,10 +426,10 @@ namespace NTMiner.Vms {
             get {
                 if (Index == NTMinerRoot.GpuAllId) {
                     if (_isGpuData) {
-                        return $"{_gpuDatas.Max(a => a.CoolMin)} - {_gpuDatas.Min(a => a.CoolMax)}%";
+                        return $"{_gpuDatas.Max(a => a.CoolMin)} - {_gpuDatas.Min(a => a.CoolMax)}%，0 表示默认";
                     }
                     else {
-                        return $"{NTMinerRoot.Instance.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Max(a => a.CoolMin)} - {NTMinerRoot.Instance.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Min(a => a.CoolMax)}%";
+                        return $"{NTMinerRoot.Instance.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Max(a => a.CoolMin)} - {NTMinerRoot.Instance.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Min(a => a.CoolMax)}%，0 表示默认";
                     }
                 }
                 return $"范围：{this.CoolMin} - {this.CoolMax}%，0 表示默认";
@@ -440,10 +440,10 @@ namespace NTMiner.Vms {
             get {
                 if (Index == NTMinerRoot.GpuAllId) {
                     if (_isGpuData) {
-                        return $"{Math.Ceiling(_gpuDatas.Max(a => a.PowerMin))} - {(int)_gpuDatas.Min(a => a.PowerMax)}%";
+                        return $"{Math.Ceiling(_gpuDatas.Max(a => a.PowerMin))} - {(int)_gpuDatas.Min(a => a.PowerMax)}%，0 表示默认";
                     }
                     else {
-                        return $"{Math.Ceiling(NTMinerRoot.Instance.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Max(a => a.PowerMin))} - {(int)NTMinerRoot.Instance.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Min(a => a.PowerMax)}%";
+                        return $"{Math.Ceiling(NTMinerRoot.Instance.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Max(a => a.PowerMin))} - {(int)NTMinerRoot.Instance.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Min(a => a.PowerMax)}%，0 表示默认";
                     }
                 }
                 return $"范围：{Math.Ceiling(this.PowerMin)} - {(int)this.PowerMax}%，0 表示默认";
@@ -454,13 +454,27 @@ namespace NTMiner.Vms {
             get {
                 if (Index == NTMinerRoot.GpuAllId) {
                     if (_isGpuData) {
-                        return $"{_gpuDatas.Max(a => a.TempLimitMin)} - {_gpuDatas.Min(a => a.TempLimitMax)}℃";
+                        return $"{_gpuDatas.Max(a => a.TempLimitMin)} - {_gpuDatas.Min(a => a.TempLimitMax)}℃，0 表示默认";
                     }
                     else {
-                        return $"{NTMinerRoot.Instance.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Max(a => a.TempLimitMin)} - {NTMinerRoot.Instance.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Min(a => a.TempLimitMax)}℃";
+                        return $"{NTMinerRoot.Instance.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Max(a => a.TempLimitMin)} - {NTMinerRoot.Instance.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Min(a => a.TempLimitMax)}℃，0 表示默认";
                     }
                 }
                 return $"范围：{this.TempLimitMin} - {this.TempLimitMax}℃，0 表示默认";
+            }
+        }
+
+        public string VoltageMinMaxText {
+            get {
+                if (Index == NTMinerRoot.GpuAllId) {
+                    if (_isGpuData) {
+                        return $"{_gpuDatas.Max(a => a.VoltMin)} - {_gpuDatas.Min(a => a.VoltMax)}，0 表示默认";
+                    }
+                    else {
+                        return $"{NTMinerRoot.Instance.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Max(a => a.VoltMin)} - {NTMinerRoot.Instance.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Min(a => a.VoltMax)}%，0 表示默认";
+                    }
+                }
+                return $"范围：{this.VoltMin} - {this.VoltMax}，0 表示默认";
             }
         }
 
@@ -690,20 +704,6 @@ namespace NTMiner.Vms {
                     _voltDefault = value;
                     OnPropertyChanged(nameof(VoltDefault));
                 }
-            }
-        }
-
-        public string VoltageMinMaxText {
-            get {
-                if (Index == NTMinerRoot.GpuAllId) {
-                    if (_isGpuData) {
-                        return $"{_gpuDatas.Max(a => a.VoltMin)} - {_gpuDatas.Min(a => a.VoltMax)}";
-                    }
-                    else {
-                        return $"{NTMinerRoot.Instance.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Max(a => a.VoltMin)} - {NTMinerRoot.Instance.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Min(a => a.VoltMax)}%";
-                    }
-                }
-                return $"范围：{this.VoltMin} - {this.VoltMax}，0 表示默认";
             }
         }
 
