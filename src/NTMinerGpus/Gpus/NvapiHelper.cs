@@ -293,8 +293,8 @@ namespace NTMiner.Gpus {
             return false;
         }
 
-        public bool SetFanSpeed(int busId, uint value, bool isAutoMode) {
-            return SetCooler(busId, value, isAutoMode);
+        public bool SetFanSpeed(int busId, int value, bool isAutoMode) {
+            return SetCooler(busId, (uint)value, isAutoMode);
         }
 
         #region private methods

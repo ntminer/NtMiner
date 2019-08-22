@@ -94,7 +94,7 @@ namespace NTMiner.Core.Gpus.Impl {
             }
         }
 
-        protected void SetThermCapacity(int gpuIndex, int value, Func<int, int, bool> setTempLimit) {
+        protected void SetTempLimit(int gpuIndex, int value, Func<int, int, bool> setTempLimit) {
             if (gpuIndex == NTMinerRoot.GpuAllId) {
                 foreach (var gpu in NTMinerRoot.Instance.GpuSet) {
                     if (gpu.Index == NTMinerRoot.GpuAllId) {
@@ -111,6 +111,26 @@ namespace NTMiner.Core.Gpus.Impl {
                     return;
                 }
                 setTempLimit(gpu.GetOverClockId(), value);
+            }
+        }
+
+        protected void SetFanSpeed(int gpuIndex, int value, bool isAutoMode, Func<int, int, bool, bool> setFanSpeed) {
+            if (gpuIndex == NTMinerRoot.GpuAllId) {
+                foreach (var gpu in NTMinerRoot.Instance.GpuSet) {
+                    if (gpu.Index == NTMinerRoot.GpuAllId) {
+                        continue;
+                    }
+                    if (value == gpu.Cool) {
+                        continue;
+                    }
+                    setFanSpeed(gpu.GetOverClockId(), value, isAutoMode);
+                }
+            }
+            else {
+                if (!NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu) || value == gpu.Cool) {
+                    return;
+                }
+                setFanSpeed(gpu.GetOverClockId(), value, isAutoMode);
             }
         }
     }

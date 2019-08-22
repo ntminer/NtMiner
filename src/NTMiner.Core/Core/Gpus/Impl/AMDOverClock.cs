@@ -21,30 +21,11 @@ namespace NTMiner.Core.Gpus.Impl {
         }
 
         public void SetTempLimit(int gpuIndex, int value) {
-            base.SetThermCapacity(gpuIndex, value, _adlHelper.SetTempLimit);
+            base.SetTempLimit(gpuIndex, value, _adlHelper.SetTempLimit);
         }
 
         public void SetFanSpeed(int gpuIndex, int value) {
-            if (value == 0) {
-                value = 90;
-            }
-            if (gpuIndex == NTMinerRoot.GpuAllId) {
-                foreach (var gpu in NTMinerRoot.Instance.GpuSet) {
-                    if (gpu.Index == NTMinerRoot.GpuAllId) {
-                        continue;
-                    }
-                    if (value == gpu.Cool) {
-                        continue;
-                    }
-                    _adlHelper.SetFanSpeed(gpu.Index, value);
-                }
-            }
-            else {
-                if (!NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu) || value == gpu.Cool) {
-                    return;
-                }
-                _adlHelper.SetFanSpeed(gpuIndex, value);
-            }
+            base.SetFanSpeed(gpuIndex, value, isAutoMode: value == 0, setFanSpeed: _adlHelper.SetFanSpeed);
         }
 
         public void RefreshGpuState(int gpuIndex) {

@@ -10,7 +10,7 @@ namespace NTMiner.Gpus {
                 AdapterIndex = -1,
                 BusNumber = -1,
                 AdapterName = string.Empty,
-                DeviceNumber = - 1
+                DeviceNumber = -1
             };
 
             public int AdapterIndex { get; set; }
@@ -123,9 +123,9 @@ namespace NTMiner.Gpus {
         }
 
         public void GetClockRange(
-            int gpuIndex, 
-            out int coreClockMin, out int coreClockMax, 
-            out int memoryClockMin, out int memoryClockMax, 
+            int gpuIndex,
+            out int coreClockMin, out int coreClockMax,
+            out int memoryClockMin, out int memoryClockMax,
             out int voltMin, out int voltMax, out int voltDefault,
             out int powerMin, out int powerMax, out int powerDefault,
             out int tempLimitMin, out int tempLimitMax, out int tempLimitDefault,
@@ -359,7 +359,7 @@ namespace NTMiner.Gpus {
                 }
                 return true;
             }
-            catch(Exception e) {
+            catch (Exception e) {
                 Logger.ErrorDebugLine(e);
                 return false;
             }
@@ -403,15 +403,24 @@ namespace NTMiner.Gpus {
             }
         }
 
-        public bool SetFanSpeed(int gpuIndex, int value) {
+        public bool SetFanSpeed(int gpuIndex, int value, bool isAutoMode) {
             try {
                 if (!TryGpuAdapterIndex(gpuIndex, out int adapterIndex)) {
                     return false;
                 }
+                AdlStatus r;
+                if (isAutoMode) {
+                    r = AdlNativeMethods.ADL_Overdrive5_FanSpeedToDefault_Set(adapterIndex, 0);
+                    if (r != AdlStatus.OK) {
+                        Write.DevWarn($"{nameof(AdlNativeMethods.ADL_Overdrive5_FanSpeedToDefault_Set)} {r}");
+                        return false;
+                    }
+                    return true;
+                }
                 ADLFanSpeedValue info = new ADLFanSpeedValue {
                     SpeedType = AdlConst.ADL_DL_FANCTRL_SPEED_TYPE_PERCENT
                 };
-                var r = AdlNativeMethods.ADL_Overdrive5_FanSpeed_Get(adapterIndex, 0, ref info);
+                r = AdlNativeMethods.ADL_Overdrive5_FanSpeed_Get(adapterIndex, 0, ref info);
                 if (r != AdlStatus.OK) {
                     Write.DevWarn($"{nameof(AdlNativeMethods.ADL_Overdrive5_FanSpeed_Get)} {r}");
                     return false;
@@ -424,7 +433,7 @@ namespace NTMiner.Gpus {
                 }
                 return true;
             }
-            catch(Exception e) {
+            catch (Exception e) {
                 Logger.ErrorDebugLine(e);
                 return false;
             }
@@ -473,7 +482,7 @@ namespace NTMiner.Gpus {
                 }
                 return true;
             }
-            catch(Exception e) {
+            catch (Exception e) {
                 Logger.ErrorDebugLine(e);
                 return false;
             }
@@ -528,7 +537,7 @@ namespace NTMiner.Gpus {
                 }
                 return true;
             }
-            catch(Exception e) {
+            catch (Exception e) {
                 Logger.ErrorDebugLine(e);
                 return false;
             }
