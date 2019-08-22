@@ -1,4 +1,5 @@
-﻿using NTMiner.MinerClient;
+﻿using NTMiner.Core;
+using NTMiner.MinerClient;
 using System;
 
 namespace NTMiner.Vms {
@@ -35,25 +36,12 @@ namespace NTMiner.Vms {
         public void Update(IGpuProfile data) {
             this._coinId = data.CoinId;
             this._index = data.Index;
-            this._coreClockDelta = data.CoreClockDelta;
-            this._memoryClockDelta = data.MemoryClockDelta;
-            this._powerCapacity = data.PowerCapacity;
-            this._tempLimit = data.TempLimit;
             this._isAutoFanSpeed = data.IsAutoFanSpeed;
-            this._cool = data.Cool;
-            this._coreVoltage = data.CoreVoltage;
-            this._memoryVoltage = data.MemoryVoltage;
 
             OnPropertyChanged(nameof(CoinId));
             OnPropertyChanged(nameof(Index));
-            OnPropertyChanged(nameof(CoreClockDelta));
-            OnPropertyChanged(nameof(MemoryClockDelta));
-            OnPropertyChanged(nameof(PowerCapacity));
-            OnPropertyChanged(nameof(TempLimit));
             OnPropertyChanged(nameof(IsAutoFanSpeed));
-            OnPropertyChanged(nameof(Cool));
-            OnPropertyChanged(nameof(CoreVoltage));
-            OnPropertyChanged(nameof(MemoryVoltage));
+            this.Update((IOverClockInput)data);
         }
 
         public void Update(IOverClockInput data) {
@@ -119,6 +107,7 @@ namespace NTMiner.Vms {
                 if (_coreClockDelta != value) {
                     _coreClockDelta = value;
                     OnPropertyChanged(nameof(CoreClockDelta));
+                    Save();
                 }
             }
         }
@@ -129,6 +118,7 @@ namespace NTMiner.Vms {
                 if (_memoryClockDelta != value) {
                     _memoryClockDelta = value;
                     OnPropertyChanged(nameof(MemoryClockDelta));
+                    Save();
                 }
             }
         }
@@ -136,48 +126,66 @@ namespace NTMiner.Vms {
         public int CoreVoltage {
             get => _coreVoltage;
             set {
-                _coreVoltage = value;
-                OnPropertyChanged(nameof(CoreVoltage));
+                if (_coreVoltage != value) {
+                    _coreVoltage = value;
+                    OnPropertyChanged(nameof(CoreVoltage));
+                    Save();
+                }
             }
         }
 
         public int MemoryVoltage {
             get => _memoryVoltage;
             set {
-                _memoryVoltage = value;
-                OnPropertyChanged(nameof(MemoryVoltage));
+                if (_memoryVoltage != value) {
+                    _memoryVoltage = value;
+                    OnPropertyChanged(nameof(MemoryVoltage));
+                    Save();
+                }
             }
         }
 
         public int PowerCapacity {
             get => _powerCapacity;
             set {
-                _powerCapacity = value;
-                OnPropertyChanged(nameof(PowerCapacity));
+                if (_powerCapacity != value) {
+                    _powerCapacity = value;
+                    OnPropertyChanged(nameof(PowerCapacity));
+                    Save();
+                }
             }
         }
 
         public int TempLimit {
             get => _tempLimit;
             set {
-                _tempLimit = value;
-                OnPropertyChanged(nameof(TempLimit));
+                if (_tempLimit != value) {
+                    _tempLimit = value;
+                    OnPropertyChanged(nameof(TempLimit));
+                    Save();
+                }
             }
         }
 
         public bool IsAutoFanSpeed {
             get => _isAutoFanSpeed;
             set {
-                _isAutoFanSpeed = value;
-                OnPropertyChanged(nameof(IsAutoFanSpeed));
+                if (_isAutoFanSpeed != value) {
+                    _isAutoFanSpeed = value;
+                    OnPropertyChanged(nameof(IsAutoFanSpeed));
+                    Save();
+                }
             }
         }
 
         public int Cool {
             get => _cool;
             set {
-                _cool = value;
-                OnPropertyChanged(nameof(Cool));
+                if (_cool != value) {
+                    _cool = value;
+                    OnPropertyChanged(nameof(Cool));
+                    Save();
+                }
             }
         }
 
@@ -188,6 +196,10 @@ namespace NTMiner.Vms {
                 }
                 return _gpuVm;
             }
+        }
+
+        private void Save() {
+            VirtualRoot.Execute(new AddOrUpdateGpuProfileCommand(this));
         }
     }
 }
