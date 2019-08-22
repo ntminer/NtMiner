@@ -1,6 +1,7 @@
 ﻿using NTMiner.Core.Gpus;
 using NTMiner.JsonDb;
 using NTMiner.MinerClient;
+using NTMiner.Profile;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -161,19 +162,11 @@ namespace NTMiner.Core.Profiles.Impl {
                 overClock.SetMemoryClock(data.Index, data.MemoryClockDelta, data.MemoryVoltage);
                 overClock.SetPowerLimit(data.Index, data.PowerCapacity);
                 overClock.SetTempLimit(data.Index, data.TempLimit);
-                string coreClockText = "默认";
-                if (data.CoreClockDelta != 0) {
-                    coreClockText = data.CoreClockDelta.ToString();
-                }
-                string memoryClockText = "默认";
-                if (data.MemoryClockDelta != 0) {
-                    memoryClockText = data.MemoryClockDelta.ToString();
-                }
                 if (data.Index == NTMinerRoot.GpuAllId) {
-                    Write.UserLine($"统一超频：核心({coreClockText}),显存({memoryClockText}),功耗({data.PowerCapacity}),温度({data.TempLimit}),风扇({data.Cool})", "OverClock", ConsoleColor.Yellow);
+                    Write.UserLine($"统一超频：核心({data.CoreClockDelta}),显存({data.MemoryClockDelta}),功耗({data.PowerCapacity}),温度({data.TempLimit}),风扇({data.Cool})", "OverClock", ConsoleColor.Yellow);
                 }
                 else {
-                    Write.UserLine($"GPU{gpu.Index}超频：核心({coreClockText}),显存({memoryClockText}),功耗({data.PowerCapacity}),温度({data.TempLimit}),风扇({data.Cool})", "OverClock", ConsoleColor.Yellow);
+                    Write.UserLine($"GPU{gpu.Index}超频：核心({data.CoreClockDelta}),显存({data.MemoryClockDelta}),功耗({data.PowerCapacity}),温度({data.TempLimit}),风扇({data.Cool})", "OverClock", ConsoleColor.Yellow);
                 }
                 overClock.RefreshGpuState(data.Index);
             }

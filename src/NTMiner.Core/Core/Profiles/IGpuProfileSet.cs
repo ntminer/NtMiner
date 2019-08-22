@@ -1,5 +1,5 @@
-﻿using System;
-using NTMiner.MinerClient;
+﻿using NTMiner.Profile;
+using System;
 
 namespace NTMiner.Core.Profiles {
     public interface IGpuProfileSet {

@@ -84,6 +84,7 @@
     <Compile Include="IOverClockInput.cs" />
     <Compile Include="JsonDb\IGpuProfilesJsonDb.cs" />
     <Compile Include="JsonDb\IJsonDb.cs" />
+    <Compile Include="Profile\GpuProfileExtension.cs" />
     <Compile Include="MinerClient\IKernelOutputKeyword.cs" />
     <Compile Include="MinerClient\IWorkerEvent.cs" />
     <Compile Include="MinerClient\KernelOutputKeywordData.cs" />
@@ -94,10 +95,10 @@
     <Compile Include="MinerServer\MinerData.cs" />
     <Compile Include="MinerServer\MinerIdsRequest.cs" />
     <Compile Include="MinerClient\CoinOverClockData.cs" />
-    <Compile Include="MinerClient\GpuProfileData.cs" />
+    <Compile Include="Profile\GpuProfileData.cs" />
     <Compile Include="GpuType.cs" />
     <Compile Include="JsonDb\GpuProfilesJsonDb.cs" />
-    <Compile Include="MinerClient\IGpuProfile.cs" />
+    <Compile Include="Profile\IGpuProfile.cs" />
     <Compile Include="ILevelEntity`1.cs" />
     <Compile Include="Core\IPool.cs" />
     <Compile Include="ISortable.cs" />
