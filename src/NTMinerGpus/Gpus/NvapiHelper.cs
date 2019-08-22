@@ -78,7 +78,7 @@ namespace NTMiner.Gpus {
             tempLimit = 0;
             fanSpeedCurr = 0;
             fanSpeedMin = 0;
-            fanSpeedMax = 0;
+            fanSpeedMax = 100;
             fanSpeedDefault = 0;
             try {
                 if (GetClockDelta(busId, 
