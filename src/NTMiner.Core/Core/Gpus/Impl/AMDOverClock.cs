@@ -75,6 +75,9 @@ namespace NTMiner.Core.Gpus.Impl {
                 gpu.TempLimitDefault = tempLimitDefault;
                 gpu.CoolMin = fanSpeedMin;
                 gpu.CoolMax = fanSpeedMax;
+                gpu.VoltMin = voltMin;
+                gpu.VoltMax = voltMax;
+                gpu.VoltDefault = voltDefault;
             }
             catch (System.Exception e) {
                 Logger.ErrorDebugLine(e);
