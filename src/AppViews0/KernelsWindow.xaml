@@ -157,18 +157,9 @@
 				</controls:KbButton>
 			</WrapPanel>
 			<WrapPanel Grid.Column="1" HorizontalAlignment="Right">
-				<controls:KbSystemMinButton 
-					Height="36"
-					KbSystemButtonSize="40"
-					KbSystemButtonForeground="#385263" />
-				<controls:KbSystemMaxButton
-					Height="36"
-					KbSystemButtonSize="40"
-					KbSystemButtonForeground="#385263" />
-				<controls:KbSystemCloseButton 
-					Height="36"
-					KbSystemButtonSize="40"
-					KbSystemButtonForeground="#385263" />
+				<controls:KbSystemMinButton Height="36" KbSystemButtonForeground="#385263" />
+				<controls:KbSystemMaxButton Height="36" KbSystemButtonForeground="#385263" />
+				<controls:KbSystemCloseButton Height="36" KbSystemButtonForeground="#385263" />
 			</WrapPanel>
 		</Grid>
 		<uc:KernelGrid DataContext="{Binding}" Margin="0 0 10 0" Background="Transparent"></uc:KernelGrid>
