@@ -2,8 +2,25 @@
 
 namespace NTMiner.Gpus.Adl {
     internal enum AdlStatus {
-        OK = 0,
-        ERR = -1
+        ADL_OK_WAIT = 4,
+        ADL_OK_RESTART = 3,
+        ADL_OK_MODE_CHANGE = 2,
+        ADL_OK_WARNING = 1,
+        ADL_OK = 0,
+        ADL_ERR = -1,
+        ADL_ERR_NOT_INIT = -2,
+        ADL_ERR_INVALID_PARAM = -3,
+        ADL_ERR_INVALID_PARAM_SIZE = -4,
+        ADL_ERR_INVALID_ADL_IDX = -5,
+        ADL_ERR_INVALID_CONTROLLER_IDX = -6,
+        ADL_ERR_INVALID_DIPLAY_IDX = -7,
+        ADL_ERR_NOT_SUPPORTED = -8,
+        ADL_ERR_NULL_POINTER = -9,
+        ADL_ERR_DISABLED_ADAPTER = -10,
+        ADL_ERR_INVALID_CALLBACK = -11,
+        ADL_ERR_RESOURCE_CONFLICT = -12,
+        ADL_ERR_SET_INCOMPLETE = -20,
+        ADL_ERR_NO_XDISPLAY = -21
     }
 
     internal static class AdlConst {

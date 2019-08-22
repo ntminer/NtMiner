@@ -108,7 +108,7 @@ namespace NTMiner.Gpus.Adl {
                 }
             }
             catch {
-                return AdlStatus.ERR;
+                return AdlStatus.ADL_ERR;
             }
         }
 
