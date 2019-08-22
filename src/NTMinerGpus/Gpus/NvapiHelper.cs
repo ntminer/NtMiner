@@ -150,7 +150,8 @@ namespace NTMiner.Gpus {
             return NvGetAllClockFrequenciesV2(busId, (uint)NvGpuPublicClockId.NVAPI_GPU_PUBLIC_CLOCK_MEMORY, NvapiConst.NV_GPU_CLOCK_FREQUENCIES_CURRENT_FREQ);
         }
 
-        public bool SetCoreClock(int busId, int kHz, int voltage) {
+        public bool SetCoreClock(int busId, int mHz, int voltage) {
+            int kHz = mHz * 1000;
             try {
                 if (NvGetPStateV2(busId, out NvGpuPerfPStates20InfoV2 info)) {
                     info.numPStates = 1;
@@ -166,7 +167,8 @@ namespace NTMiner.Gpus {
             return false;
         }
 
-        public bool SetMemoryClock(int busId, int kHz, int voltage) {
+        public bool SetMemoryClock(int busId, int mHz, int voltage) {
+            int kHz = mHz * 1000;
             try {
                 if (NvGetPStateV2(busId, out NvGpuPerfPStates20InfoV2 info)) {
                     info.numPStates = 1;

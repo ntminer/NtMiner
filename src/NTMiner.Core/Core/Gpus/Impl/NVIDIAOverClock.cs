@@ -19,12 +19,10 @@ namespace NTMiner.Core.Gpus.Impl {
         }
 
         public void SetCoreClock(int gpuIndex, int value, int voltage) {
-            value = 1000 * value;
             base.SetCoreClock(gpuIndex, value, voltage, _nvapiHelper.SetCoreClock);
         }
 
         public void SetMemoryClock(int gpuIndex, int value, int voltage) {
-            value = 1000 * value;
             base.SetMemoryClock(gpuIndex, value, voltage, _nvapiHelper.SetMemoryClock);
         }
 
@@ -33,9 +31,6 @@ namespace NTMiner.Core.Gpus.Impl {
         }
 
         public void SetTempLimit(int gpuIndex, int value) {
-            if (value == 0) {
-                value = 83;
-            }
             base.SetThermCapacity(gpuIndex, value, _nvapiHelper.SetTempLimit);
         }
 
