@@ -609,12 +609,11 @@ namespace NTMiner.Gpus {
             try {
                 NvCoolerTarget coolerIndex = NvCoolerTarget.NVAPI_COOLER_TARGET_ALL;
                 var r = NvapiNativeMethods.NvGetCoolerSettings(HandlesByBusId[busId], coolerIndex, ref info);
-                if (r != NvStatus.OK && DevMode.IsDevMode) {
+                if (r != NvStatus.OK) {
                     Write.DevError($"{nameof(NvapiNativeMethods.NvGetCoolerSettings)} {r}");
+                    return false;
                 }
-                if (r == NvStatus.OK) {
-                    return true;
-                }
+                return true;
             }
             catch {
             }
@@ -660,7 +659,7 @@ namespace NTMiner.Gpus {
                 info.coolers[0].currentLevel = isAutoMode ? 0 : value;
                 info.coolers[0].currentPolicy = isAutoMode ? NvCoolerPolicy.NVAPI_COOLER_POLICY_AUTO : NvCoolerPolicy.NVAPI_COOLER_POLICY_MANUAL;
                 var r = NvapiNativeMethods.NvSetCoolerLevels(HandlesByBusId[busId], coolerIndex, ref info);
-                if (r != NvStatus.OK && DevMode.IsDevMode) {
+                if (r != NvStatus.OK) {
                     Write.DevError($"{nameof(NvapiNativeMethods.NvSetCoolerLevels)} {r}");
                 }
                 else {
