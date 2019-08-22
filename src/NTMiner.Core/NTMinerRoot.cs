@@ -605,7 +605,7 @@ namespace NTMiner {
             }
         }
 
-        public GpuProfileSet GpuProfileSet { get; private set; }
+        public IGpuProfileSet GpuProfileSet { get; private set; }
 
         public IWorkProfile MinerProfile {
             get { return _minerProfile; }

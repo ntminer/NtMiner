@@ -141,6 +141,7 @@
     <Compile Include="Core\Kernels\IKernelOutputSet.cs" />
     <Compile Include="Core\MinerServer\Impl\OverClockDataSet.cs" />
     <Compile Include="Core\MinerServer\IOverClockDataSet.cs" />
+    <Compile Include="Core\Profiles\IGpuProfileSet.cs" />
     <Compile Include="Core\Profiles\IWorkProfile.cs" />
     <Compile Include="Core\Kernels\Impl\KernelInputSet.cs" />
     <Compile Include="Core\Kernels\Impl\KernelOutputSet.cs" />
@@ -153,7 +154,7 @@
     <Compile Include="Core\Profiles\Impl\KernelProfileSet.cs" />
     <Compile Include="Core\Profiles\MinerProfile.partials.CoinKernelProfileSet.cs" />
     <Compile Include="Core\Profiles\MinerProfile.partials.CoinProfileSet.cs" />
-    <Compile Include="Core\Profiles\GpuProfileSet.cs" />
+    <Compile Include="Core\Profiles\Impl\GpuProfileSet.cs" />
     <Compile Include="Core\Profiles\MinerProfile.partials.PoolProfileSet.cs" />
     <Compile Include="Core\Gpus\IGpuSet.cs" />
     <Compile Include="Core\Gpus\Impl\Gpu.cs" />

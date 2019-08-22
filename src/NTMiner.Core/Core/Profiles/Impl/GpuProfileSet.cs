@@ -6,8 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NTMiner.Core.Profiles {
-    public class GpuProfileSet {
+namespace NTMiner.Core.Profiles.Impl {
+    public class GpuProfileSet : IGpuProfileSet {
         private GpuProfilesJsonDb _data = new GpuProfilesJsonDb();
 
         public GpuProfileSet(INTMinerRoot root) {
@@ -38,6 +38,73 @@ namespace NTMiner.Core.Profiles {
                 });
         }
 
+        public void Refresh() {
+            _isInited = false;
+            VirtualRoot.Happened(new GpuProfileSetRefreshedEvent());
+        }
+
+        public bool IsOverClockEnabled(Guid coinId) {
+            InitOnece();
+            var item = _data.CoinOverClocks.FirstOrDefault(a => a.CoinId == coinId);
+            if (item == null) {
+                return false;
+            }
+            return item.IsOverClockEnabled;
+        }
+
+        public void SetIsOverClockEnabled(Guid coinId, bool value) {
+            InitOnece();
+            var item = _data.CoinOverClocks.FirstOrDefault(a => a.CoinId == coinId);
+            if (item == null) {
+                item = new CoinOverClockData() {
+                    CoinId = coinId,
+                    IsOverClockEnabled = value,
+                    IsOverClockGpuAll = true
+                };
+                _data.CoinOverClocks.Add(item);
+            }
+            else {
+                item.IsOverClockEnabled = value;
+            }
+            Save();
+        }
+
+        public bool IsOverClockGpuAll(Guid coinId) {
+            InitOnece();
+            var item = _data.CoinOverClocks.FirstOrDefault(a => a.CoinId == coinId);
+            if (item == null) {
+                return true;
+            }
+            return item.IsOverClockGpuAll;
+        }
+
+        public void SetIsOverClockGpuAll(Guid coinId, bool value) {
+            InitOnece();
+            var item = _data.CoinOverClocks.FirstOrDefault(a => a.CoinId == coinId);
+            if (item == null) {
+                item = new CoinOverClockData() {
+                    CoinId = coinId,
+                    IsOverClockEnabled = false,
+                    IsOverClockGpuAll = value
+                };
+                _data.CoinOverClocks.Add(item);
+            }
+            else {
+                item.IsOverClockGpuAll = value;
+            }
+            Save();
+        }
+
+        public IGpuProfile GetGpuProfile(Guid coinId, int index) {
+            InitOnece();
+            GpuProfileData data = _data.GpuProfiles.FirstOrDefault(a => a.CoinId == coinId && a.Index == index);
+            if (data == null) {
+                return new GpuProfileData(coinId, index);
+            }
+            return data;
+        }
+
+        #region private methods
         private GpuData[] CreateGpus() {
             List<GpuData> list = new List<GpuData>();
             foreach (var gpu in NTMinerRoot.Instance.GpuSet) {
@@ -152,76 +219,6 @@ namespace NTMiner.Core.Profiles {
                 }
             }
         }
-
-        public void Refresh() {
-            _isInited = false;
-            VirtualRoot.Happened(new GpuProfileSetRefreshedEvent());
-        }
-
-        public bool IsOverClockEnabled(Guid coinId) {
-            InitOnece();
-            var item = _data.CoinOverClocks.FirstOrDefault(a => a.CoinId == coinId);
-            if (item == null) {
-                return false;
-            }
-            return item.IsOverClockEnabled;
-        }
-
-        public void SetIsOverClockEnabled(Guid coinId, bool value) {
-            InitOnece();
-            var item = _data.CoinOverClocks.FirstOrDefault(a => a.CoinId == coinId);
-            if (item == null) {
-                item = new CoinOverClockData() {
-                    CoinId = coinId,
-                    IsOverClockEnabled = value,
-                    IsOverClockGpuAll = true
-                };
-                _data.CoinOverClocks.Add(item);
-            }
-            else {
-                item.IsOverClockEnabled = value;
-            }
-            Save();
-        }
-
-        public bool IsOverClockGpuAll(Guid coinId) {
-            InitOnece();
-            var item = _data.CoinOverClocks.FirstOrDefault(a => a.CoinId == coinId);
-            if (item == null) {
-                return true;
-            }
-            return item.IsOverClockGpuAll;
-        }
-
-        public void SetIsOverClockGpuAll(Guid coinId, bool value) {
-            InitOnece();
-            var item = _data.CoinOverClocks.FirstOrDefault(a => a.CoinId == coinId);
-            if (item == null) {
-                item = new CoinOverClockData() {
-                    CoinId = coinId,
-                    IsOverClockEnabled = false,
-                    IsOverClockGpuAll = value
-                };
-                _data.CoinOverClocks.Add(item);
-            }
-            else {
-                item.IsOverClockGpuAll = value;
-            }
-            Save();
-        }
-
-        public IGpuProfile GetGpuProfile(Guid coinId, int index) {
-            InitOnece();
-            GpuProfileData data = _data.GpuProfiles.FirstOrDefault(a => a.CoinId == coinId && a.Index == index);
-            if (data == null) {
-                return new GpuProfileData(coinId, index);
-            }
-            return data;
-        }
-
-        public IEnumerable<IGpuProfile> GetGpuOverClocks() {
-            InitOnece();
-            return _data.GpuProfiles;
-        }
+        #endregion
     }
 }
