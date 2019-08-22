@@ -247,9 +247,7 @@ namespace NTMiner.Gpus {
                 info.iMode = AdlConst.ODNControlType_Manual;
                 int index = 0;
                 for (int i = 0; i < info.aLevels.Length; i++) {
-                    info.aLevels[i].iEnabled = ((info.aLevels[i].iEnabled & (1 << i)) != 0) ? 1 : 0;
-                    info.aLevels[i].iControl = 0;
-                    if (info.aLevels[i].iEnabled == 1) {
+                    if (info.aLevels[i].iEnabled != 0) {
                         index = i;
                     }
                 }
@@ -337,9 +335,7 @@ namespace NTMiner.Gpus {
                 info.iMode = AdlConst.ODNControlType_Manual;
                 int index = 0;
                 for (int i = 0; i < info.aLevels.Length; i++) {
-                    info.aLevels[i].iEnabled = ((info.aLevels[i].iEnabled & (1 << i)) != 0) ? 1 : 0;
-                    info.aLevels[i].iControl = 0;
-                    if (info.aLevels[i].iEnabled == 1) {
+                    if (info.aLevels[i].iEnabled != 0) {
                         index = i;
                     }
                 }
