@@ -26,5 +26,7 @@
         public int Cool { get; set; }
         public double PowerCapacity { get; set; }
         public int TempLimit { get; set; }
+        public int CoreVoltage { get; set; }
+        public int MemoryVoltage { get; set; }
     }
 }

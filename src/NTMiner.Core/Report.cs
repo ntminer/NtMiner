@@ -88,7 +88,9 @@ namespace NTMiner {
                     PowerCapacity = a.Gpu.PowerCapacity,
                     CoreClockDelta = a.Gpu.CoreClockDelta,
                     MemoryClockDelta = a.Gpu.MemoryClockDelta,
-                    TempLimit = a.Gpu.TempLimit
+                    TempLimit = a.Gpu.TempLimit,
+                    CoreVoltage = a.Gpu.CoreVoltage,
+                    MemoryVoltage = a.Gpu.MemoryVoltage
                 }).ToArray()
             };
             #region 当前选中的币种是什么
