@@ -250,7 +250,9 @@ namespace NTMiner.Gpus {
                         }
                     }
                     info.aLevels[index].iClock = value * 100;
-                    info.aLevels[index].iVddc = voltage;
+                    if (voltage != 0) {
+                        info.aLevels[index].iVddc = voltage;
+                    }
                     r = AdlNativeMethods.ADL2_OverdriveN_SystemClocksX2_Set(context, adapterIndex, ref info);
                     if (r != AdlStatus.OK) {
                         Write.DevWarn($"{nameof(AdlNativeMethods.ADL2_OverdriveN_SystemClocksX2_Set)} {r}");
@@ -332,7 +334,9 @@ namespace NTMiner.Gpus {
                         }
                     }
                     info.aLevels[index].iClock = value * 100;
-                    info.aLevels[index].iVddc = voltage;
+                    if (voltage != 0) {
+                        info.aLevels[index].iVddc = voltage;
+                    }
                     r = AdlNativeMethods.ADL2_OverdriveN_MemoryClocksX2_Set(context, adapterIndex, ref info);
                     if (r != AdlStatus.OK) {
                         Write.DevWarn($"{nameof(AdlNativeMethods.ADL2_OverdriveN_MemoryClocksX2_Set)} {r}");
