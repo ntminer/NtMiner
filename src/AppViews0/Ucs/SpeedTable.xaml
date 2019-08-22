@@ -143,7 +143,7 @@
 			                            VerticalContentAlignment="Center"
 			                            Foreground="{StaticResource LableColor}"
 			                            Tag="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm,Source={StaticResource proxy}}"
-			                            IsChecked="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm.IsAutoFanSpeed,Source={StaticResource proxy}}" 
+			                            IsChecked="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm.IsAutoFanSpeed,Mode=TwoWay,Source={StaticResource proxy}}" 
 			                            Content="自动">
                                     </CheckBox>
                                 </Border>
@@ -183,7 +183,7 @@
                                         FontSize="12"
                                         FontWeight="Normal" 
                                         ToolTip="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm.GpuVm.CoolMinMaxText,Source={StaticResource proxy}}" 
-                                        Text="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm.Cool,Source={StaticResource proxy}, ValidatesOnExceptions=True}">
+                                        Text="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm.Cool,Source={StaticResource proxy},Mode=TwoWay,ValidatesOnExceptions=True}">
                                     </TextBox>
                                 </Border>
                             </StackPanel>
@@ -217,7 +217,7 @@
                                         FontSize="12"
                                         FontWeight="Normal" 
                                         ToolTip="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm.GpuVm.VoltageMinMaxText,Source={StaticResource proxy}}" 
-                                        Text="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm.CoreVoltage, Source={StaticResource proxy}, ValidatesOnExceptions=True}">
+                                        Text="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm.CoreVoltage,Source={StaticResource proxy},Mode=TwoWay,ValidatesOnExceptions=True}">
                                     </TextBox>
                                 </Border>
                             </StackPanel>
@@ -252,7 +252,7 @@
                                         FontSize="12"
                                         FontWeight="Normal" 
                                         ToolTip="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm.GpuVm.VoltageMinMaxText,Source={StaticResource proxy}}" 
-                                        Text="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm.MemoryVoltage,Source={StaticResource proxy}, ValidatesOnExceptions=True}" >
+                                        Text="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm.MemoryVoltage,Source={StaticResource proxy},Mode=TwoWay,ValidatesOnExceptions=True}" >
                                     </TextBox>
                                 </Border>
                             </StackPanel>
@@ -287,7 +287,7 @@
                                         FontSize="12"
                                         FontWeight="Normal" 
                                         ToolTip="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm.GpuVm.PowerMinMaxText,Source={StaticResource proxy}}" 
-                                        Text="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm.PowerCapacity,Source={StaticResource proxy}, ValidatesOnExceptions=True}">
+                                        Text="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm.PowerCapacity,Source={StaticResource proxy},Mode=TwoWay,ValidatesOnExceptions=True}">
                                     </TextBox>
                                 </Border>
                             </StackPanel>
@@ -321,7 +321,7 @@
                                         FontSize="12"
                                         FontWeight="Normal" 
                                         ToolTip="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm.GpuVm.TempLimitMinMaxText,Source={StaticResource proxy}}" 
-                                        Text="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm.TempLimit,Source={StaticResource proxy}, ValidatesOnExceptions=True}">
+                                        Text="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm.TempLimit,Source={StaticResource proxy},Mode=TwoWay,ValidatesOnExceptions=True}">
                                     </TextBox>
                                 </Border>
                             </StackPanel>
@@ -355,7 +355,7 @@
                                         FontSize="12"
                                         FontWeight="Normal" 
                                         ToolTip="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm.GpuVm.CoreClockDeltaMinMaxMText,Source={StaticResource proxy}}" 
-                                        Text="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm.CoreClockDelta,Source={StaticResource proxy}, ValidatesOnExceptions=True}">
+                                        Text="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm.CoreClockDelta,Source={StaticResource proxy},Mode=TwoWay,ValidatesOnExceptions=True}">
                                     </TextBox>
                                 </Border>
                             </StackPanel>
@@ -389,7 +389,7 @@
                                         FontSize="12"
                                         FontWeight="Normal"
                                         ToolTip="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm.GpuVm.MemoryClockDeltaMinMaxMText,Source={StaticResource proxy}}" 
-                                        Text="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm.MemoryClockDelta,Source={StaticResource proxy}, ValidatesOnExceptions=True}">
+                                        Text="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm.MemoryClockDelta,Source={StaticResource proxy},Mode=TwoWay,ValidatesOnExceptions=True}">
                                     </TextBox>
                                 </Border>
                             </StackPanel>

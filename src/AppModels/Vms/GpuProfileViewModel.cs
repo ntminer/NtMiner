@@ -52,6 +52,8 @@ namespace NTMiner.Vms {
             OnPropertyChanged(nameof(TempLimit));
             OnPropertyChanged(nameof(IsAutoFanSpeed));
             OnPropertyChanged(nameof(Cool));
+            OnPropertyChanged(nameof(CoreVoltage));
+            OnPropertyChanged(nameof(MemoryVoltage));
         }
 
         public void Update(IOverClockInput data) {
@@ -65,11 +67,11 @@ namespace NTMiner.Vms {
 
             OnPropertyChanged(nameof(CoreClockDelta));
             OnPropertyChanged(nameof(MemoryClockDelta));
-            OnPropertyChanged(nameof(CoreVoltage));
-            OnPropertyChanged(nameof(MemoryVoltage));
             OnPropertyChanged(nameof(PowerCapacity));
             OnPropertyChanged(nameof(TempLimit));
             OnPropertyChanged(nameof(Cool));
+            OnPropertyChanged(nameof(CoreVoltage));
+            OnPropertyChanged(nameof(MemoryVoltage));
         }
 
         public string GetId() {
