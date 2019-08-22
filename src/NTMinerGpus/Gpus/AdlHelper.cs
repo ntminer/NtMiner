@@ -403,10 +403,10 @@ namespace NTMiner.Gpus {
             }
         }
 
-        public void SetFanSpeed(int gpuIndex, int value) {
+        public bool SetFanSpeed(int gpuIndex, int value) {
             try {
                 if (!TryGpuAdapterIndex(gpuIndex, out int adapterIndex)) {
-                    return;
+                    return false;
                 }
                 ADLFanSpeedValue info = new ADLFanSpeedValue {
                     SpeedType = AdlConst.ADL_DL_FANCTRL_SPEED_TYPE_PERCENT
@@ -414,18 +414,19 @@ namespace NTMiner.Gpus {
                 var r = AdlNativeMethods.ADL_Overdrive5_FanSpeed_Get(adapterIndex, 0, ref info);
                 if (r != AdlStatus.OK) {
                     Write.DevWarn($"{nameof(AdlNativeMethods.ADL_Overdrive5_FanSpeed_Get)} {r}");
-                    return;
+                    return false;
                 }
-                if (r == AdlStatus.OK) {
-                    info.FanSpeed = value;
-                    r = AdlNativeMethods.ADL_Overdrive5_FanSpeed_Set(adapterIndex, 0, ref info);
-                    if (r != AdlStatus.OK) {
-                        Write.DevWarn($"{nameof(AdlNativeMethods.ADL_Overdrive5_FanSpeed_Set)} {r}");
-                    }
+                info.FanSpeed = value;
+                r = AdlNativeMethods.ADL_Overdrive5_FanSpeed_Set(adapterIndex, 0, ref info);
+                if (r != AdlStatus.OK) {
+                    Write.DevWarn($"{nameof(AdlNativeMethods.ADL_Overdrive5_FanSpeed_Set)} {r}");
+                    return false;
                 }
+                return true;
             }
             catch(Exception e) {
                 Logger.ErrorDebugLine(e);
+                return false;
             }
         }
 

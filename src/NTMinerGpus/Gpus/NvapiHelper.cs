@@ -293,8 +293,8 @@ namespace NTMiner.Gpus {
             return false;
         }
 
-        public void SetFanSpeed(int busId, uint value, bool isAutoMode) {
-            SetCooler(busId, value, isAutoMode);
+        public bool SetFanSpeed(int busId, uint value, bool isAutoMode) {
+            return SetCooler(busId, value, isAutoMode);
         }
 
         #region private methods
@@ -649,7 +649,8 @@ namespace NTMiner.Gpus {
             return true;
         }
 
-        private void SetCooler(int busId, uint value, bool isAutoMode) {
+        private bool SetCooler(int busId, uint value, bool isAutoMode) {
+            #region GTX
             try {
                 NvCoolerTarget coolerIndex = NvCoolerTarget.NVAPI_COOLER_TARGET_ALL;
                 NvCoolerLevel info = new NvCoolerLevel() {
@@ -663,13 +664,14 @@ namespace NTMiner.Gpus {
                     Write.DevWarn($"{nameof(NvapiNativeMethods.NvSetCoolerLevels)} {r}");
                 }
                 else {
-                    return;
+                    return true;
                 }
             }
-            catch (Exception e) {
-                Logger.ErrorDebugLine(e);
+            catch {
             }
+            #endregion
 
+            #region RTX
             try {
                 if (NvFanCoolersGetControl(busId, out PrivateFanCoolersControlV1 info)) {
                     for (int i = 0; i < info.FanCoolersControlCount; i++) {
@@ -679,11 +681,17 @@ namespace NTMiner.Gpus {
                     var r = NvapiNativeMethods.NvFanCoolersSetControl(HandlesByBusId[busId], ref info);
                     if (r != NvStatus.OK) {
                         Write.DevWarn($"{nameof(NvapiNativeMethods.NvFanCoolersSetControl)} {r}");
+                        return false;
                     }
+                    return true;
                 }
+                return false;
             }
-            catch {
+            catch(Exception e) {
+                Logger.ErrorDebugLine(e);
+                return false;
             }
+            #endregion
         }
 
         private bool GetCooler(int busId, out uint currCooler, out uint minCooler, out uint defCooler, out uint maxCooler) {
