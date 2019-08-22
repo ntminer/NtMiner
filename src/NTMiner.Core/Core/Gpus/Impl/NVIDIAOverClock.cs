@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace NTMiner.Core.Gpus.Impl {
-    public class NVIDIAOverClock : IOverClock {
+    public class NVIDIAOverClock : OverClockBase, IOverClock {
         public class ValueItem {
             public string MethodName;
             public int GpuIndex;
@@ -20,72 +20,12 @@ namespace NTMiner.Core.Gpus.Impl {
 
         public void SetCoreClock(int gpuIndex, int value, int voltage) {
             value = 1000 * value;
-            if (gpuIndex == NTMinerRoot.GpuAllId) {
-                int minVoltage = NTMinerRoot.Instance.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Min(a => a.VoltMin);
-                int maxVoltage = NTMinerRoot.Instance.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Max(a => a.VoltMax);
-                if (voltage < minVoltage) {
-                    voltage = minVoltage;
-                }
-                if (voltage > maxVoltage) {
-                    voltage = maxVoltage;
-                }
-                foreach (var gpu in NTMinerRoot.Instance.GpuSet) {
-                    if (gpu.Index == NTMinerRoot.GpuAllId) {
-                        continue;
-                    }
-                    if (value == gpu.CoreClockDelta && voltage == gpu.CoreVoltage) {
-                        continue;
-                    }
-                    _nvapiHelper.SetCoreClock(gpu.GetBusId(), value, voltage);
-                }
-            }
-            else {
-                if (!NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu) || (value == gpu.CoreClockDelta && voltage == gpu.CoreVoltage)) {
-                    return;
-                }
-                if (voltage < gpu.VoltMin) {
-                    voltage = gpu.VoltMin;
-                }
-                if (voltage > gpu.VoltMax) {
-                    voltage = gpu.VoltMax;
-                }
-                _nvapiHelper.SetCoreClock(gpu.GetBusId(), value, voltage);
-            }
+            base.SetCoreClock(gpuIndex, value, voltage, _nvapiHelper.SetCoreClock);
         }
 
         public void SetMemoryClock(int gpuIndex, int value, int voltage) {
             value = 1000 * value;
-            if (gpuIndex == NTMinerRoot.GpuAllId) {
-                int minVoltage = NTMinerRoot.Instance.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Min(a => a.VoltMin);
-                int maxVoltage = NTMinerRoot.Instance.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Max(a => a.VoltMax);
-                if (voltage < minVoltage) {
-                    voltage = minVoltage;
-                }
-                if (voltage > maxVoltage) {
-                    voltage = maxVoltage;
-                }
-                foreach (var gpu in NTMinerRoot.Instance.GpuSet) {
-                    if (gpu.Index == NTMinerRoot.GpuAllId) {
-                        continue;
-                    }
-                    if (value == gpu.MemoryClockDelta && voltage == gpu.MemoryVoltage) {
-                        continue;
-                    }
-                    _nvapiHelper.SetMemClock(gpu.GetBusId(), value, voltage);
-                }
-            }
-            else {
-                if (!NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu) || (value == gpu.MemoryClockDelta && voltage == gpu.MemoryVoltage)) {
-                    return;
-                }
-                if (voltage < gpu.VoltMin) {
-                    voltage = gpu.VoltMin;
-                }
-                if (voltage > gpu.VoltMax) {
-                    voltage = gpu.VoltMax;
-                }
-                _nvapiHelper.SetMemClock(gpu.GetBusId(), value, voltage);
-            }
+            base.SetMemoryClock(gpuIndex, value, voltage, _nvapiHelper.SetMemoryClock);
         }
 
         public void SetPowerCapacity(int gpuIndex, int value) {
@@ -100,14 +40,14 @@ namespace NTMiner.Core.Gpus.Impl {
                     if (value == gpu.PowerCapacity) {
                         continue;
                     }
-                    _nvapiHelper.SetPowerLimit(gpu.GetBusId(), (uint)value);
+                    _nvapiHelper.SetPowerLimit(gpu.GetOverClockId(), (uint)value);
                 }
             }
             else {
                 if (!NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu) || value == gpu.PowerCapacity) {
                     return;
                 }
-                _nvapiHelper.SetPowerLimit(gpu.GetBusId(), (uint)value);
+                _nvapiHelper.SetPowerLimit(gpu.GetOverClockId(), (uint)value);
             }
         }
 
@@ -123,14 +63,14 @@ namespace NTMiner.Core.Gpus.Impl {
                     if (value == gpu.TempLimit) {
                         continue;
                     }
-                    _nvapiHelper.SetThermal(gpu.GetBusId(), value);
+                    _nvapiHelper.SetThermal(gpu.GetOverClockId(), value);
                 }
             }
             else {
                 if (!NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu) || value == gpu.TempLimit) {
                     return;
                 }
-                _nvapiHelper.SetThermal(gpu.GetBusId(), value);
+                _nvapiHelper.SetThermal(gpu.GetOverClockId(), value);
             }
         }
 
@@ -146,7 +86,7 @@ namespace NTMiner.Core.Gpus.Impl {
                     if (value == gpu.Cool) {
                         continue;
                     }
-                    _nvapiHelper.SetCooler(gpu.GetBusId(), (uint)value, isAutoMode: false);
+                    _nvapiHelper.SetCooler(gpu.GetOverClockId(), (uint)value, isAutoMode: false);
                     NTMinerRoot.Instance.GpuSet.LoadGpuState();
                 }
             }
@@ -154,7 +94,7 @@ namespace NTMiner.Core.Gpus.Impl {
                 if (!NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu) || value == gpu.Cool) {
                     return;
                 }
-                _nvapiHelper.SetCooler(gpu.GetBusId(), (uint)value, isAutoMode: false);
+                _nvapiHelper.SetCooler(gpu.GetOverClockId(), (uint)value, isAutoMode: false);
                 NTMinerRoot.Instance.GpuSet.LoadGpuState();
             }
         }
@@ -189,7 +129,7 @@ namespace NTMiner.Core.Gpus.Impl {
             }
             try {
                 _nvapiHelper.GetClockRange(
-                    gpu.GetBusId(),
+                    gpu.GetOverClockId(),
                     out int coreClockDeltaMin, out int coreClockDeltaMax, out int coreClockDelta,
                     out int memoryClockDeltaMin, out int memoryClockDeltaMax, out int memoryClockDelta,
                     out int powerMin, out int powerMax, out int powerDefault, out int powerLimit,

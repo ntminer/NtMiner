@@ -166,7 +166,7 @@ namespace NTMiner.Gpus {
             return false;
         }
 
-        public bool SetMemClock(int busId, int kHz, int voltage) {
+        public bool SetMemoryClock(int busId, int kHz, int voltage) {
             try {
                 if (NvGetPStateV2(busId, out NvGpuPerfPStates20InfoV2 info)) {
                     info.numPStates = 1;
