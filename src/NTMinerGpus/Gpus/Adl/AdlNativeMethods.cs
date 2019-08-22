@@ -10,11 +10,8 @@ namespace NTMiner.Gpus.Adl {
 
         internal delegate AdlStatus ADL_Main_Control_DestroyDelegate();
         internal delegate AdlStatus ADL_Adapter_NumberOfAdapters_GetDelegate(ref int numAdapters);
-        internal delegate AdlStatus ADL_Adapter_Active_GetDelegate(int adapterIndex, out int status);
-        internal delegate AdlStatus ADL_Overdrive5_CurrentActivity_GetDelegate(int iAdapterIndex, ref ADLPMActivity activity);
         internal delegate AdlStatus ADL_Overdrive5_Temperature_GetDelegate(int adapterIndex, int thermalControllerIndex, ref ADLTemperature temperature);
         internal delegate AdlStatus ADL_Overdrive5_FanSpeed_GetDelegate(int adapterIndex, int thermalControllerIndex, ref ADLFanSpeedValue fanSpeedValue);
-        internal delegate AdlStatus ADL_Overdrive5_FanSpeedInfo_GetDelegate(int adapterIndex, int thermalControllerIndex, ref ADLFanSpeedInfo fanSpeedInfo);
         internal delegate AdlStatus ADL2_Overdrive5_FanSpeedToDefault_SetDelegate(IntPtr context, int adapterIndex, int thermalControllerIndex);
         internal delegate AdlStatus ADL_Overdrive5_FanSpeed_SetDelegate(int adapterIndex, int thermalControllerIndex, ref ADLFanSpeedValue fanSpeedValue);
         internal delegate AdlStatus ADL2_OverdriveN_PowerLimit_GetDelegate(IntPtr context, int iAdapterIndex, ref ADLODNPowerLimitSetting lpODPowerLimit);
@@ -28,8 +25,6 @@ namespace NTMiner.Gpus.Adl {
         internal delegate AdlStatus ADL2_OverdriveN_SystemClocksX2_SetDelegate(IntPtr context, int iAdapterIndex, ref ADLODNPerformanceLevelsX2 lpODPerformanceLevels);
         internal delegate AdlStatus ADL2_OverdriveN_CapabilitiesX2_GetDelegate(IntPtr context, int iAdapterIndex, ref ADLODNCapabilitiesX2 lpODCapabilities);
         internal delegate AdlStatus ADL2_Overdrive6_FanSpeed_ResetDelegate(IntPtr context, int iAdapterIndex);
-        internal delegate AdlStatus ADL2_OverdriveN_FanControl_GetDelegate(IntPtr context, int iAdapterIndex, ref ADLODNFanControl lpODFanSpeed);
-        internal delegate AdlStatus ADL2_OverdriveN_FanControl_SetDelegate(IntPtr context, int iAdapterIndex, ADLODNFanControl lpODFanControl);
 
         private static ADL_Main_Control_CreateDelegate _ADL_Main_Control_Create;
         internal static ADL2_Main_Control_CreateDelegate ADL2_Main_Control_Create;
@@ -37,11 +32,8 @@ namespace NTMiner.Gpus.Adl {
 
         private static ADL_Main_Control_DestroyDelegate ADL_Main_Control_Destroy;
         internal static ADL_Adapter_NumberOfAdapters_GetDelegate ADL_Adapter_NumberOfAdapters_Get;
-        private static ADL_Adapter_Active_GetDelegate ADL_Adapter_Active_Get;
-        private static ADL_Overdrive5_CurrentActivity_GetDelegate ADL_Overdrive5_CurrentActivity_Get;
         internal static ADL_Overdrive5_Temperature_GetDelegate ADL_Overdrive5_Temperature_Get;
         internal static ADL_Overdrive5_FanSpeed_GetDelegate ADL_Overdrive5_FanSpeed_Get;
-        internal static ADL_Overdrive5_FanSpeedInfo_GetDelegate ADL_Overdrive5_FanSpeedInfo_Get;
         internal static ADL2_Overdrive5_FanSpeedToDefault_SetDelegate ADL2_Overdrive5_FanSpeedToDefault_Set;
         internal static ADL_Overdrive5_FanSpeed_SetDelegate ADL_Overdrive5_FanSpeed_Set;
         internal static ADL2_OverdriveN_PowerLimit_GetDelegate ADL2_OverdriveN_PowerLimit_Get;
@@ -55,8 +47,6 @@ namespace NTMiner.Gpus.Adl {
         internal static ADL2_OverdriveN_SystemClocksX2_SetDelegate ADL2_OverdriveN_SystemClocksX2_Set;
         internal static ADL2_OverdriveN_CapabilitiesX2_GetDelegate ADL2_OverdriveN_CapabilitiesX2_Get;
         internal static ADL2_Overdrive6_FanSpeed_ResetDelegate ADL2_Overdrive6_FanSpeed_Reset;
-        internal static ADL2_OverdriveN_FanControl_GetDelegate ADL2_OverdriveN_FanControl_Get;
-        internal static ADL2_OverdriveN_FanControl_SetDelegate ADL2_OverdriveN_FanControl_Set;
 
         private static string dllName;
 
@@ -78,11 +68,8 @@ namespace NTMiner.Gpus.Adl {
             GetDelegate(nameof(ADL_Adapter_AdapterInfo_Get), out _ADL_Adapter_AdapterInfo_Get);
             GetDelegate(nameof(ADL_Main_Control_Destroy), out ADL_Main_Control_Destroy);
             GetDelegate(nameof(ADL_Adapter_NumberOfAdapters_Get), out ADL_Adapter_NumberOfAdapters_Get);
-            GetDelegate(nameof(ADL_Adapter_Active_Get), out ADL_Adapter_Active_Get);
-            GetDelegate(nameof(ADL_Overdrive5_CurrentActivity_Get), out ADL_Overdrive5_CurrentActivity_Get);
             GetDelegate(nameof(ADL_Overdrive5_Temperature_Get), out ADL_Overdrive5_Temperature_Get);
             GetDelegate(nameof(ADL_Overdrive5_FanSpeed_Get), out ADL_Overdrive5_FanSpeed_Get);
-            GetDelegate(nameof(ADL_Overdrive5_FanSpeedInfo_Get), out ADL_Overdrive5_FanSpeedInfo_Get);
             GetDelegate(nameof(ADL2_Overdrive5_FanSpeedToDefault_Set), out ADL2_Overdrive5_FanSpeedToDefault_Set);
             GetDelegate(nameof(ADL_Overdrive5_FanSpeed_Set), out ADL_Overdrive5_FanSpeed_Set);
             GetDelegate(nameof(ADL2_OverdriveN_PowerLimit_Get), out ADL2_OverdriveN_PowerLimit_Get);
@@ -96,8 +83,6 @@ namespace NTMiner.Gpus.Adl {
             GetDelegate(nameof(ADL2_OverdriveN_SystemClocksX2_Set), out ADL2_OverdriveN_SystemClocksX2_Set);
             GetDelegate(nameof(ADL2_OverdriveN_CapabilitiesX2_Get), out ADL2_OverdriveN_CapabilitiesX2_Get);
             GetDelegate(nameof(ADL2_Overdrive6_FanSpeed_Reset), out ADL2_Overdrive6_FanSpeed_Reset);
-            GetDelegate(nameof(ADL2_OverdriveN_FanControl_Get), out ADL2_OverdriveN_FanControl_Get);
-            GetDelegate(nameof(ADL2_OverdriveN_FanControl_Set), out ADL2_OverdriveN_FanControl_Set);
         }
 
         static AdlNativeMethods() {
