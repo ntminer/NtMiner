@@ -247,7 +247,9 @@ namespace NTMiner.Gpus {
                         index = i;
                     }
                 }
-                info.aLevels[index].iClock = value * 100;
+                if (value != 0) {
+                    info.aLevels[index].iClock = value * 100;
+                }
                 if (voltage != 0) {
                     info.aLevels[index].iVddc = voltage;
                 }
@@ -328,7 +330,9 @@ namespace NTMiner.Gpus {
                         index = i;
                     }
                 }
-                info.aLevels[index].iClock = value * 100;
+                if (value != 0) {
+                    info.aLevels[index].iClock = value * 100;
+                }
                 if (voltage != 0) {
                     info.aLevels[index].iVddc = voltage;
                 }
