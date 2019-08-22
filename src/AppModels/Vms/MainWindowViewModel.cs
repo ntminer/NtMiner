@@ -13,8 +13,10 @@ namespace NTMiner.Vms {
         public bool IsOverClockVisible {
             get { return _isOverClockVisible; }
             set {
-                _isOverClockVisible = value;
-                OnPropertyChanged(nameof(IsOverClockVisible));
+                if (_isOverClockVisible != value) {
+                    _isOverClockVisible = value;
+                    OnPropertyChanged(nameof(IsOverClockVisible));
+                }
             }
         }
 
