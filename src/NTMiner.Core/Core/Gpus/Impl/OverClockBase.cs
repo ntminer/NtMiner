@@ -70,5 +70,48 @@ namespace NTMiner.Core.Gpus.Impl {
                 setMemoryClock(gpu.GetOverClockId(), value, voltage);
             }
         }
+
+        protected void SetPowerCapacity(int gpuIndex, int value, Func<int, int, bool> setPowerLimit) {
+            if (value == 0) {
+                value = 100;
+            }
+            if (gpuIndex == NTMinerRoot.GpuAllId) {
+                foreach (var gpu in NTMinerRoot.Instance.GpuSet) {
+                    if (gpu.Index == NTMinerRoot.GpuAllId) {
+                        continue;
+                    }
+                    if (value == gpu.PowerCapacity) {
+                        continue;
+                    }
+                    setPowerLimit(gpu.GetOverClockId(), value);
+                }
+            }
+            else {
+                if (!NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu) || value == gpu.PowerCapacity) {
+                    return;
+                }
+                setPowerLimit(gpu.GetOverClockId(), value);
+            }
+        }
+
+        protected void SetThermCapacity(int gpuIndex, int value, Func<int, int, bool> setTempLimit) {
+            if (gpuIndex == NTMinerRoot.GpuAllId) {
+                foreach (var gpu in NTMinerRoot.Instance.GpuSet) {
+                    if (gpu.Index == NTMinerRoot.GpuAllId) {
+                        continue;
+                    }
+                    if (value == gpu.TempLimit) {
+                        continue;
+                    }
+                    setTempLimit(gpu.GetOverClockId(), value);
+                }
+            }
+            else {
+                if (!NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu) || value == gpu.TempLimit) {
+                    return;
+                }
+                setTempLimit(gpu.GetOverClockId(), value);
+            }
+        }
     }
 }

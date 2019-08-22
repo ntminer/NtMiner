@@ -447,16 +447,16 @@ namespace NTMiner.Gpus {
             }
         }
 
-        public void SetPowerLimit(int gpuIndex, int value) {
+        public bool SetPowerLimit(int gpuIndex, int value) {
             if (!TryGpuAdapterIndex(gpuIndex, out int adapterIndex)) {
-                return;
+                return false;
             }
             ADLODNPowerLimitSetting info = new ADLODNPowerLimitSetting();
             try {
                 var r = AdlNativeMethods.ADL2_OverdriveN_PowerLimit_Get(context, adapterIndex, ref info);
                 if (r != AdlStatus.OK) {
                     Write.DevWarn($"{nameof(AdlNativeMethods.ADL2_OverdriveN_PowerLimit_Get)} {r}");
-                    return;
+                    return false;
                 }
 #if DEBUG
                 Write.DevWarn($"{nameof(AdlNativeMethods.ADL2_OverdriveN_PowerLimit_Get)} result={r},iMode={info.iMode},iTDPLimit={info.iTDPLimit},iMaxOperatingTemperature={info.iMaxOperatingTemperature}");
@@ -467,11 +467,14 @@ namespace NTMiner.Gpus {
                     r = AdlNativeMethods.ADL2_OverdriveN_PowerLimit_Set(context, adapterIndex, ref info);
                     if (r != AdlStatus.OK) {
                         Write.DevWarn($"{nameof(AdlNativeMethods.ADL2_OverdriveN_PowerLimit_Set)} {r}");
+                        return false;
                     }
                 }
+                return true;
             }
             catch(Exception e) {
                 Logger.ErrorDebugLine(e);
+                return false;
             }
         }
 
@@ -493,16 +496,16 @@ namespace NTMiner.Gpus {
             }
         }
 
-        public void SetTempLimit(int gpuIndex, int value) {
+        public bool SetTempLimit(int gpuIndex, int value) {
             if (!TryGpuAdapterIndex(gpuIndex, out int adapterIndex)) {
-                return;
+                return false;
             }
             ADLODNPowerLimitSetting info = new ADLODNPowerLimitSetting();
             try {
                 var r = AdlNativeMethods.ADL2_OverdriveN_PowerLimit_Get(context, adapterIndex, ref info);
                 if (r != AdlStatus.OK) {
                     Write.DevWarn($"{nameof(AdlNativeMethods.ADL2_OverdriveN_PowerLimit_Get)} {r}");
-                    return;
+                    return false;
                 }
                 if (r == AdlStatus.OK) {
                     if (value == 0) {
@@ -510,7 +513,7 @@ namespace NTMiner.Gpus {
                         r = AdlNativeMethods.ADL2_OverdriveN_CapabilitiesX2_Get(context, adapterIndex, ref lpODCapabilities);
                         if (r != AdlStatus.OK) {
                             Write.DevWarn($"{nameof(AdlNativeMethods.ADL2_OverdriveN_CapabilitiesX2_Get)} {r}");
-                            return;
+                            return false;
                         }
                         value = lpODCapabilities.powerTuneTemperature.iDefault;
                     }
@@ -519,11 +522,14 @@ namespace NTMiner.Gpus {
                     r = AdlNativeMethods.ADL2_OverdriveN_PowerLimit_Set(context, adapterIndex, ref info);
                     if (r != AdlStatus.OK) {
                         Write.DevWarn($"{nameof(AdlNativeMethods.ADL2_OverdriveN_PowerLimit_Set)} {r}");
+                        return false;
                     }
                 }
+                return true;
             }
             catch(Exception e) {
                 Logger.ErrorDebugLine(e);
+                return false;
             }
         }
 

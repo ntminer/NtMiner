@@ -29,49 +29,14 @@ namespace NTMiner.Core.Gpus.Impl {
         }
 
         public void SetPowerCapacity(int gpuIndex, int value) {
-            if (value == 0) {
-                value = 100;
-            }
-            if (gpuIndex == NTMinerRoot.GpuAllId) {
-                foreach (var gpu in NTMinerRoot.Instance.GpuSet) {
-                    if (gpu.Index == NTMinerRoot.GpuAllId) {
-                        continue;
-                    }
-                    if (value == gpu.PowerCapacity) {
-                        continue;
-                    }
-                    _nvapiHelper.SetPowerLimit(gpu.GetOverClockId(), (uint)value);
-                }
-            }
-            else {
-                if (!NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu) || value == gpu.PowerCapacity) {
-                    return;
-                }
-                _nvapiHelper.SetPowerLimit(gpu.GetOverClockId(), (uint)value);
-            }
+            base.SetPowerCapacity(gpuIndex, value, _nvapiHelper.SetPowerLimit);
         }
 
         public void SetThermCapacity(int gpuIndex, int value) {
             if (value == 0) {
                 value = 83;
             }
-            if (gpuIndex == NTMinerRoot.GpuAllId) {
-                foreach (var gpu in NTMinerRoot.Instance.GpuSet) {
-                    if (gpu.Index == NTMinerRoot.GpuAllId) {
-                        continue;
-                    }
-                    if (value == gpu.TempLimit) {
-                        continue;
-                    }
-                    _nvapiHelper.SetThermal(gpu.GetOverClockId(), value);
-                }
-            }
-            else {
-                if (!NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu) || value == gpu.TempLimit) {
-                    return;
-                }
-                _nvapiHelper.SetThermal(gpu.GetOverClockId(), value);
-            }
+            base.SetThermCapacity(gpuIndex, value, _nvapiHelper.SetTempLimit);
         }
 
         public void SetCool(int gpuIndex, int value) {

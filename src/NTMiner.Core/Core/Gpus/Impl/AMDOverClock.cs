@@ -17,46 +17,11 @@ namespace NTMiner.Core.Gpus.Impl {
         }
 
         public void SetPowerCapacity(int gpuIndex, int value) {
-            if (value == 0) {
-                value = 100;
-            }
-            if (gpuIndex == NTMinerRoot.GpuAllId) {
-                foreach (var gpu in NTMinerRoot.Instance.GpuSet) {
-                    if (gpu.Index == NTMinerRoot.GpuAllId) {
-                        continue;
-                    }
-                    if (value == gpu.PowerCapacity) {
-                        continue;
-                    }
-                    _adlHelper.SetPowerLimit(gpu.Index, value);
-                }
-            }
-            else {
-                if (!NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu) || value == gpu.PowerCapacity) {
-                    return;
-                }
-                _adlHelper.SetPowerLimit(gpuIndex, value);
-            }
+            base.SetPowerCapacity(gpuIndex, value, _adlHelper.SetPowerLimit);
         }
 
         public void SetThermCapacity(int gpuIndex, int value) {
-            if (gpuIndex == NTMinerRoot.GpuAllId) {
-                foreach (var gpu in NTMinerRoot.Instance.GpuSet) {
-                    if (gpu.Index == NTMinerRoot.GpuAllId) {
-                        continue;
-                    }
-                    if (value == gpu.TempLimit) {
-                        continue;
-                    }
-                    _adlHelper.SetTempLimit(gpu.Index, value);
-                }
-            }
-            else {
-                if (!NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu) || value == gpu.TempLimit) {
-                    return;
-                }
-                _adlHelper.SetTempLimit(gpuIndex, value);
-            }
+            base.SetThermCapacity(gpuIndex, value, _adlHelper.SetTempLimit);
         }
 
         public void SetCool(int gpuIndex, int value) {

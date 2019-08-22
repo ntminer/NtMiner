@@ -186,7 +186,7 @@ namespace NTMiner.Gpus {
             return false;
         }
 
-        public bool SetThermal(int busId, int value) {
+        public bool SetTempLimit(int busId, int value) {
             value = value << 8;
             try {
                 if (!NvThermalPoliciesGetInfo(busId, out NvGpuThermalInfo info)) {
@@ -279,9 +279,9 @@ namespace NTMiner.Gpus {
             }
         }
 
-        public bool SetPowerLimit(int busId, uint powerValue) {
+        public bool SetPowerLimit(int busId, int powerValue) {
             powerValue *= 1000;
-            return SetPowerValue(busId, powerValue);
+            return SetPowerValue(busId, (uint)powerValue);
         }
 
         public bool GetCooler(int busId, out uint currCooler) {
@@ -542,7 +542,7 @@ namespace NTMiner.Gpus {
             int defValue = 0;
             int maxValue = 0;
             if (GetTempLimit(busId, out currValue, out minValue, out defValue, out maxValue)) {
-                SetThermal(busId, defValue);
+                SetTempLimit(busId, defValue);
             }
         }
 
