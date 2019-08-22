@@ -122,7 +122,7 @@ namespace NTMiner.Gpus {
             }
         }
 
-        public void GetClockRangeByIndex(
+        public void GetClockRange(
             int gpuIndex, 
             out int coreClockMin, out int coreClockMax, 
             out int memoryClockMin, out int memoryClockMax, 
@@ -183,7 +183,7 @@ namespace NTMiner.Gpus {
             }
         }
 
-        public ulong GetTotalMemoryByIndex(int gpuIndex) {
+        public ulong GetTotalMemory(int gpuIndex) {
             try {
                 if (!TryGpuAdapterIndex(gpuIndex, out int adapterIndex)) {
                     return 0;
@@ -201,7 +201,7 @@ namespace NTMiner.Gpus {
             }
         }
 
-        public bool GetMemoryClockByIndex(int gpuIndex, out int memoryClock, out int iVddc) {
+        public bool GetMemoryClock(int gpuIndex, out int memoryClock, out int iVddc) {
             memoryClock = 0;
             iVddc = 0;
             try {
@@ -229,7 +229,7 @@ namespace NTMiner.Gpus {
             }
         }
 
-        public void SetMemoryClockByIndex(int gpuIndex, int value, int voltage) {
+        public void SetMemoryClock(int gpuIndex, int value, int voltage) {
             try {
                 if (!TryGpuAdapterIndex(gpuIndex, out int adapterIndex)) {
                     return;
@@ -281,7 +281,7 @@ namespace NTMiner.Gpus {
             }
         }
 
-        public bool GetCoreClockByIndex(int gpuIndex, out int coreClock, out int iVddc) {
+        public bool GetCoreClock(int gpuIndex, out int coreClock, out int iVddc) {
             coreClock = 0;
             iVddc = 0;
             try {
@@ -309,7 +309,7 @@ namespace NTMiner.Gpus {
             }
         }
 
-        public void SetCoreClockByIndex(int gpuIndex, int value, int voltage) {
+        public void SetCoreClock(int gpuIndex, int value, int voltage) {
             try {
                 if (!TryGpuAdapterIndex(gpuIndex, out int adapterIndex)) {
                     return;
@@ -361,7 +361,7 @@ namespace NTMiner.Gpus {
             }
         }
 
-        public int GetTemperatureByIndex(int gpuIndex) {
+        public int GetTemperature(int gpuIndex) {
             try {
                 if (!TryGpuAdapterIndex(gpuIndex, out int adapterIndex)) {
                     return 0;
@@ -379,7 +379,7 @@ namespace NTMiner.Gpus {
             }
         }
 
-        public uint GetFanSpeedByIndex(int gpuIndex) {
+        public uint GetFanSpeed(int gpuIndex) {
             try {
                 if (!TryGpuAdapterIndex(gpuIndex, out int adapterIndex)) {
                     return 0;
@@ -399,7 +399,7 @@ namespace NTMiner.Gpus {
             }
         }
 
-        public void SetFunSpeedByIndex(int gpuIndex, int value) {
+        public void SetFunSpeed(int gpuIndex, int value) {
             try {
                 if (!TryGpuAdapterIndex(gpuIndex, out int adapterIndex)) {
                     return;
@@ -425,7 +425,7 @@ namespace NTMiner.Gpus {
             }
         }
 
-        public int GetPowerLimitByIndex(int gpuIndex) {
+        public int GetPowerLimit(int gpuIndex) {
             if (!TryGpuAdapterIndex(gpuIndex, out int adapterIndex)) {
                 return 0;
             }
@@ -443,7 +443,7 @@ namespace NTMiner.Gpus {
             }
         }
 
-        public void SetPowerLimitByIndex(int gpuIndex, int value) {
+        public void SetPowerLimit(int gpuIndex, int value) {
             if (!TryGpuAdapterIndex(gpuIndex, out int adapterIndex)) {
                 return;
             }
@@ -471,7 +471,7 @@ namespace NTMiner.Gpus {
             }
         }
 
-        public int GetTempLimitByIndex(int gpuIndex) {
+        public int GetTempLimit(int gpuIndex) {
             if (!TryGpuAdapterIndex(gpuIndex, out int adapterIndex)) {
                 return 0;
             }
@@ -489,7 +489,7 @@ namespace NTMiner.Gpus {
             }
         }
 
-        public void SetTempLimitByIndex(int gpuIndex, int value) {
+        public void SetTempLimit(int gpuIndex, int value) {
             if (!TryGpuAdapterIndex(gpuIndex, out int adapterIndex)) {
                 return;
             }
@@ -523,7 +523,7 @@ namespace NTMiner.Gpus {
             }
         }
 
-        public uint GetPowerUsageByIndex(int gpuIndex) {
+        public uint GetPowerUsage(int gpuIndex) {
             if (!TryGpuAdapterIndex(gpuIndex, out int adapterIndex)) {
                 return 0;
             }

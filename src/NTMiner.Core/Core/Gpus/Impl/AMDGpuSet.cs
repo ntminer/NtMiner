@@ -44,7 +44,7 @@ namespace NTMiner.Core.Gpus.Impl {
                     name = name.Replace("Radeon RX ", string.Empty);
                 }
                 var gpu = Gpu.Create(i, atiGpu.BusNumber.ToString(), name);
-                gpu.TotalMemory = adlHelper.GetTotalMemoryByIndex(i);
+                gpu.TotalMemory = adlHelper.GetTotalMemory(i);
                 _gpus.Add(i, gpu);
             }
             if (deviceCount > 0) {
@@ -87,9 +87,9 @@ namespace NTMiner.Core.Gpus.Impl {
             Write.Stopwatch.Restart();
 #endif
             for (int i = 0; i < Count; i++) {
-                uint power = adlHelper.GetPowerUsageByIndex(i);
-                int temp = adlHelper.GetTemperatureByIndex(i);
-                uint speed = adlHelper.GetFanSpeedByIndex(i);
+                uint power = adlHelper.GetPowerUsage(i);
+                int temp = adlHelper.GetTemperature(i);
+                uint speed = adlHelper.GetFanSpeed(i);
 
                 Gpu gpu = (Gpu)_gpus[i];
                 bool isChanged = gpu.Temperature != temp || gpu.PowerUsage != power || gpu.FanSpeed != speed;

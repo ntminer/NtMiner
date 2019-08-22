@@ -27,14 +27,14 @@ namespace NTMiner.Core.Gpus.Impl {
                     if (value == gpu.CoreClockDelta) {
                         continue;
                     }
-                    _nvapiHelper.SetCoreClock(gpu.GetBusId(), value);
+                    _nvapiHelper.SetCoreClock(gpu.GetBusId(), value, voltage);
                 }
             }
             else {
                 if (!NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu) || value == gpu.CoreClockDelta) {
                     return;
                 }
-                _nvapiHelper.SetCoreClock(gpu.GetBusId(), value);
+                _nvapiHelper.SetCoreClock(gpu.GetBusId(), value, voltage);
             }
         }
 
@@ -48,14 +48,14 @@ namespace NTMiner.Core.Gpus.Impl {
                     if (value == gpu.MemoryClockDelta) {
                         continue;
                     }
-                    _nvapiHelper.SetMemClock(gpu.GetBusId(), value);
+                    _nvapiHelper.SetMemClock(gpu.GetBusId(), value, voltage);
                 }
             }
             else {
                 if (!NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu) || value == gpu.MemoryClockDelta) {
                     return;
                 }
-                _nvapiHelper.SetMemClock(gpu.GetBusId(), value);
+                _nvapiHelper.SetMemClock(gpu.GetBusId(), value, voltage);
             }
         }
 
@@ -159,7 +159,7 @@ namespace NTMiner.Core.Gpus.Impl {
                 return;
             }
             try {
-                _nvapiHelper.GetClockRangeByIndex(
+                _nvapiHelper.GetClockRange(
                     gpu.GetBusId(),
                     out int coreClockDeltaMin, out int coreClockDeltaMax, out int coreClockDelta,
                     out int memoryClockDeltaMin, out int memoryClockDeltaMax, out int memoryClockDelta,
