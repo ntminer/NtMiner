@@ -51,21 +51,5 @@ namespace NTMiner.Controls {
         }
         public static readonly DependencyProperty IconProperty =
             DependencyProperty.Register("Icon", typeof(Geometry), typeof(KbSystemButton), new PropertyMetadata(null));
-
-
-        public double IconWidth {
-            get { return (double)GetValue(IconWidthProperty); }
-            set { SetValue(IconWidthProperty, value); }
-        }
-        public static readonly DependencyProperty IconWidthProperty =
-            DependencyProperty.Register("IconWidth", typeof(double), typeof(KbSystemButton), new PropertyMetadata(15.0));
-
-
-        public double IconHeight {
-            get { return (double)GetValue(IconHeightProperty); }
-            set { SetValue(IconHeightProperty, value); }
-        }
-        public static readonly DependencyProperty IconHeightProperty =
-            DependencyProperty.Register("IconHeight", typeof(double), typeof(KbSystemButton), new PropertyMetadata(15.0));
     }
 }
