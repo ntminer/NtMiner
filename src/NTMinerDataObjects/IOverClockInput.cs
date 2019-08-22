@@ -15,6 +15,6 @@
 
         int TempLimit { get; set; }
 
-        int Cool { get; set; }
+        int Cool { get; }
     }
 }
