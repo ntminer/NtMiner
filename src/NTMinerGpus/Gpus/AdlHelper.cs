@@ -215,6 +215,9 @@ namespace NTMiner.Gpus {
             if (value < 0) {
                 value = 0;
             }
+            if (voltage < 0) {
+                voltage = 0;
+            }
             try {
                 if (!TryGpuAdapterIndex(gpuIndex, out int adapterIndex)) {
                     return false;
@@ -297,6 +300,9 @@ namespace NTMiner.Gpus {
         public bool SetMemoryClock(int gpuIndex, int value, int voltage) {
             if (value < 0) {
                 value = 0;
+            }
+            if (voltage < 0) {
+                voltage = 0;
             }
             try {
                 if (!TryGpuAdapterIndex(gpuIndex, out int adapterIndex)) {
