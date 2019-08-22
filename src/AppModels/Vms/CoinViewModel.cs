@@ -114,6 +114,7 @@ namespace NTMiner.Vms {
         private void FillOverClock(OverClockDataViewModel data) {
             if (IsOverClockGpuAll) {
                 GpuAllProfileVm.Update(data);
+                VirtualRoot.Execute(new AddOrUpdateGpuProfileCommand(GpuAllProfileVm));
             }
             else {
                 foreach (var item in GpuProfileVms) {
@@ -121,6 +122,7 @@ namespace NTMiner.Vms {
                         continue;
                     }
                     item.Update(data);
+                    VirtualRoot.Execute(new AddOrUpdateGpuProfileCommand(item));
                 }
             }
         }
@@ -181,6 +183,7 @@ namespace NTMiner.Vms {
                             continue;
                         }
                         item.Update((IOverClockInput)data);
+                        VirtualRoot.Execute(new AddOrUpdateGpuProfileCommand(item));
                     }
                 }, icon: IconConst.IconConfirm);
             });
