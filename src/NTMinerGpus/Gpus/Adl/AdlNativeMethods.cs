@@ -27,6 +27,9 @@ namespace NTMiner.Gpus.Adl {
         internal delegate AdlStatus ADL2_OverdriveN_SystemClocksX2_GetDelegate(IntPtr context, int iAdapterIndex, ref ADLODNPerformanceLevelsX2 lpODPerformanceLevels);
         internal delegate AdlStatus ADL2_OverdriveN_SystemClocksX2_SetDelegate(IntPtr context, int iAdapterIndex, ref ADLODNPerformanceLevelsX2 lpODPerformanceLevels);
         internal delegate AdlStatus ADL2_OverdriveN_CapabilitiesX2_GetDelegate(IntPtr context, int iAdapterIndex, ref ADLODNCapabilitiesX2 lpODCapabilities);
+        internal delegate AdlStatus ADL2_Overdrive6_FanSpeed_ResetDelegate(IntPtr context, int iAdapterIndex);
+        internal delegate AdlStatus ADL2_OverdriveN_FanControl_GetDelegate(IntPtr context, int iAdapterIndex, ref ADLODNFanControl lpODFanSpeed);
+        internal delegate AdlStatus ADL2_OverdriveN_FanControl_SetDelegate(IntPtr context, int iAdapterIndex, ADLODNFanControl lpODFanControl);
 
         private static ADL_Main_Control_CreateDelegate _ADL_Main_Control_Create;
         internal static ADL2_Main_Control_CreateDelegate ADL2_Main_Control_Create;
@@ -51,6 +54,9 @@ namespace NTMiner.Gpus.Adl {
         internal static ADL2_OverdriveN_SystemClocksX2_GetDelegate ADL2_OverdriveN_SystemClocksX2_Get;
         internal static ADL2_OverdriveN_SystemClocksX2_SetDelegate ADL2_OverdriveN_SystemClocksX2_Set;
         internal static ADL2_OverdriveN_CapabilitiesX2_GetDelegate ADL2_OverdriveN_CapabilitiesX2_Get;
+        internal static ADL2_Overdrive6_FanSpeed_ResetDelegate ADL2_Overdrive6_FanSpeed_Reset;
+        internal static ADL2_OverdriveN_FanControl_GetDelegate ADL2_OverdriveN_FanControl_Get;
+        internal static ADL2_OverdriveN_FanControl_SetDelegate ADL2_OverdriveN_FanControl_Set;
 
         private static string dllName;
 
@@ -89,6 +95,9 @@ namespace NTMiner.Gpus.Adl {
             GetDelegate(nameof(ADL2_OverdriveN_SystemClocksX2_Get), out ADL2_OverdriveN_SystemClocksX2_Get);
             GetDelegate(nameof(ADL2_OverdriveN_SystemClocksX2_Set), out ADL2_OverdriveN_SystemClocksX2_Set);
             GetDelegate(nameof(ADL2_OverdriveN_CapabilitiesX2_Get), out ADL2_OverdriveN_CapabilitiesX2_Get);
+            GetDelegate(nameof(ADL2_Overdrive6_FanSpeed_Reset), out ADL2_Overdrive6_FanSpeed_Reset);
+            GetDelegate(nameof(ADL2_OverdriveN_FanControl_Get), out ADL2_OverdriveN_FanControl_Get);
+            GetDelegate(nameof(ADL2_OverdriveN_FanControl_Set), out ADL2_OverdriveN_FanControl_Set);
         }
 
         static AdlNativeMethods() {

@@ -46,6 +46,12 @@ namespace NTMiner.Gpus.Adl {
 
         public const int ATI_VENDOR_ID = 0x1002;
     }
+    internal enum ADLODNControlType {
+        ODNControlType_Current = 0,
+        ODNControlType_Default = 1,
+        ODNControlType_Auto = 2,
+        ODNControlType_Manual = 3
+    };
 
     [StructLayout(LayoutKind.Sequential)]
     internal struct ADLAdapterInfo {
@@ -102,6 +108,18 @@ namespace NTMiner.Gpus.Adl {
         public int SpeedType;
         public int FanSpeed;
         public int Flags;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct ADLODNFanControl {
+        public ADLODNControlType iMode;
+        public int iFanControlMode;
+        public int iCurrentFanSpeedMode;
+        public int iCurrentFanSpeed;
+        public int iTargetFanSpeed;
+        public int iTargetTemperature;
+        public int iMinPerformanceClock;
+        public int iMinFanLimit;
     }
 
     [StructLayout(LayoutKind.Sequential)]

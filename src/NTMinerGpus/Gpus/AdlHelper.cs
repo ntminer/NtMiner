@@ -401,9 +401,12 @@ namespace NTMiner.Gpus {
                 AdlStatus r;
                 if (isAutoMode) {
                     r = AdlNativeMethods.ADL2_Overdrive5_FanSpeedToDefault_Set(context, adapterIndex, 0);
-                    if (r < AdlStatus.ADL_OK) {
+                    if (r != AdlStatus.ADL_OK) {
                         Write.DevError($"{nameof(AdlNativeMethods.ADL2_Overdrive5_FanSpeedToDefault_Set)} {r}");
-                        return false;
+                        r = AdlNativeMethods.ADL2_Overdrive6_FanSpeed_Reset(context, adapterIndex);
+                        if (r < AdlStatus.ADL_OK) {
+                            Write.DevError($"{nameof(AdlNativeMethods.ADL2_Overdrive6_FanSpeed_Reset)} {r}");
+                        }
                     }
                     return true;
                 }
