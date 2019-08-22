@@ -212,8 +212,8 @@ namespace NTMiner.Gpus {
         }
 
         public bool SetCoreClock(int gpuIndex, int value, int voltage) {
-            if (value <= 0) {
-                return false;
+            if (value < 0) {
+                value = 0;
             }
             try {
                 if (!TryGpuAdapterIndex(gpuIndex, out int adapterIndex)) {
@@ -230,6 +230,10 @@ namespace NTMiner.Gpus {
                 if (r < AdlStatus.ADL_OK) {
                     Write.DevError($"{nameof(AdlNativeMethods.ADL2_OverdriveN_SystemClocksX2_Set)} {r}");
                     return false;
+                }
+                bool isReset = value == 0 && voltage == 0;
+                if (isReset) {
+                    return true;
                 }
                 r = AdlNativeMethods.ADL2_OverdriveN_SystemClocksX2_Get(context, adapterIndex, ref info);
                 if (r < AdlStatus.ADL_OK) {
@@ -289,8 +293,8 @@ namespace NTMiner.Gpus {
         }
 
         public bool SetMemoryClock(int gpuIndex, int value, int voltage) {
-            if (value <= 0) {
-                return false;
+            if (value < 0) {
+                value = 0;
             }
             try {
                 if (!TryGpuAdapterIndex(gpuIndex, out int adapterIndex)) {
@@ -307,6 +311,10 @@ namespace NTMiner.Gpus {
                 if (r < AdlStatus.ADL_OK) {
                     Write.DevError($"{nameof(AdlNativeMethods.ADL2_OverdriveN_MemoryClocksX2_Set)} {r}");
                     return false;
+                }
+                bool isReset = value == 0 && voltage == 0;
+                if (isReset) {
+                    return true;
                 }
                 r = AdlNativeMethods.ADL2_OverdriveN_MemoryClocksX2_Get(context, adapterIndex, ref info);
                 if (r < AdlStatus.ADL_OK) {
