@@ -1,5 +1,4 @@
 ﻿using NTMiner.Gpus;
-using System.Linq;
 
 namespace NTMiner.Core.Gpus.Impl {
     public class AMDOverClock : OverClockBase, IOverClock {
@@ -28,20 +27,8 @@ namespace NTMiner.Core.Gpus.Impl {
             base.SetFanSpeed(gpuIndex, value, isAutoMode: value == 0, setFanSpeed: _adlHelper.SetFanSpeed);
         }
 
-        public void RefreshGpuState(int gpuIndex) {
-            if (gpuIndex == NTMinerRoot.GpuAllId) {
-                foreach (var gpu in NTMinerRoot.Instance.GpuSet) {
-                    if (gpu.Index == NTMinerRoot.GpuAllId) {
-                        continue;
-                    }
-                    RefreshGpuState(gpu);
-                }
-            }
-            else {
-                if (NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu)) {
-                    RefreshGpuState(gpu);
-                }
-            }
+        public new void RefreshGpuState(int gpuIndex) {
+            base.RefreshGpuState(gpuIndex);
         }
 
         public void Restore() {
@@ -53,7 +40,7 @@ namespace NTMiner.Core.Gpus.Impl {
             RefreshGpuState(NTMinerRoot.GpuAllId);
         }
 
-        private void RefreshGpuState(IGpu gpu) {
+        protected override void RefreshGpuState(IGpu gpu) {
             if (gpu.Index == NTMinerRoot.GpuAllId) {
                 return;
             }

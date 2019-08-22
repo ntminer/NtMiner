@@ -3,6 +3,8 @@ using System.Linq;
 
 namespace NTMiner.Core.Gpus.Impl {
     public abstract class OverClockBase {
+        protected abstract void RefreshGpuState(IGpu gpu);
+
         protected void SetCoreClock(int gpuIndex, int value, int voltage, Func<int, int, int, bool> setCoreClock) {
             if (gpuIndex == NTMinerRoot.GpuAllId) {
                 int minVoltage = NTMinerRoot.Instance.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Min(a => a.VoltMin);
@@ -131,6 +133,22 @@ namespace NTMiner.Core.Gpus.Impl {
                     return;
                 }
                 setFanSpeed(gpu.GetOverClockId(), value, isAutoMode);
+            }
+        }
+
+        protected void RefreshGpuState(int gpuIndex) {
+            if (gpuIndex == NTMinerRoot.GpuAllId) {
+                foreach (var gpu in NTMinerRoot.Instance.GpuSet) {
+                    if (gpu.Index == NTMinerRoot.GpuAllId) {
+                        continue;
+                    }
+                    RefreshGpuState(gpu);
+                }
+            }
+            else {
+                if (NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu)) {
+                    RefreshGpuState(gpu);
+                }
             }
         }
     }
