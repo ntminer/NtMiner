@@ -16,6 +16,10 @@ namespace NTMiner.Views {
         }
 
         public MainWindow() {
+            this.MinHeight = 430;
+            this.MinWidth = 640;
+            this.Width = AppStatic.MainWindowWidth;
+            this.Height = AppStatic.MainWindowHeight;
 #if DEBUG
             Write.Stopwatch.Restart();
 #endif
