@@ -507,7 +507,7 @@ namespace NTMiner.Gpus {
                 }
                 bool isAutoModel = value == 0;
                 info.iMode = isAutoModel ? AdlConst.ODNControlType_Auto : AdlConst.ODNControlType_Manual;
-                info.iMaxOperatingTemperature = isAutoModel ? -1 : 0;
+                info.iMaxOperatingTemperature = isAutoModel ? -1 : value;
                 r = AdlNativeMethods.ADL2_OverdriveN_PowerLimit_Set(context, adapterIndex, ref info);
                 if (r < AdlStatus.ADL_OK) {
                     Write.DevError($"{nameof(AdlNativeMethods.ADL2_OverdriveN_PowerLimit_Set)} {r}");
