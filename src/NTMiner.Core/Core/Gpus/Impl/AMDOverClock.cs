@@ -1,4 +1,5 @@
 ﻿using NTMiner.Gpus;
+using System.Linq;
 
 namespace NTMiner.Core.Gpus.Impl {
     public class AMDOverClock : IOverClock {
@@ -9,19 +10,33 @@ namespace NTMiner.Core.Gpus.Impl {
 
         public void SetCoreClock(int gpuIndex, int value, int voltage) {
             if (gpuIndex == NTMinerRoot.GpuAllId) {
+                int minVoltage = NTMinerRoot.Instance.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Min(a => a.VoltMin);
+                int maxVoltage = NTMinerRoot.Instance.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Max(a => a.VoltMax);
+                if (voltage < minVoltage) {
+                    voltage = minVoltage;
+                }
+                if (voltage > maxVoltage) {
+                    voltage = maxVoltage;
+                }
                 foreach (var gpu in NTMinerRoot.Instance.GpuSet) {
                     if (gpu.Index == NTMinerRoot.GpuAllId) {
                         continue;
                     }
-                    if (value == gpu.CoreClockDelta) {
+                    if (value == gpu.CoreClockDelta && voltage == gpu.CoreVoltage) {
                         continue;
                     }
                     _adlHelper.SetCoreClock(gpu.Index, value, voltage);
                 }
             }
             else {
-                if (!NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu) || value == gpu.CoreClockDelta) {
+                if (!NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu) || (value == gpu.CoreClockDelta && voltage == gpu.CoreVoltage)) {
                     return;
+                }
+                if (voltage < gpu.VoltMin) {
+                    voltage = gpu.VoltMin;
+                }
+                if (voltage > gpu.VoltMax) {
+                    voltage = gpu.VoltMax;
                 }
                 _adlHelper.SetCoreClock(gpuIndex, value, voltage);
             }
@@ -29,19 +44,33 @@ namespace NTMiner.Core.Gpus.Impl {
 
         public void SetMemoryClock(int gpuIndex, int value, int voltage) {
             if (gpuIndex == NTMinerRoot.GpuAllId) {
+                int minVoltage = NTMinerRoot.Instance.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Min(a => a.VoltMin);
+                int maxVoltage = NTMinerRoot.Instance.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Max(a => a.VoltMax);
+                if (voltage < minVoltage) {
+                    voltage = minVoltage;
+                }
+                if (voltage > maxVoltage) {
+                    voltage = maxVoltage;
+                }
                 foreach (var gpu in NTMinerRoot.Instance.GpuSet) {
                     if (gpu.Index == NTMinerRoot.GpuAllId) {
                         continue;
                     }
-                    if (value == gpu.MemoryClockDelta) {
+                    if (value == gpu.MemoryClockDelta && voltage == gpu.MemoryVoltage) {
                         continue;
                     }
                     _adlHelper.SetMemoryClock(gpu.Index, value, voltage);
                 }
             }
             else {
-                if (!NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu) || value == gpu.MemoryClockDelta) {
+                if (!NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu) || (value == gpu.MemoryClockDelta && voltage == gpu.MemoryVoltage)) {
                     return;
+                }
+                if (voltage < gpu.VoltMin) {
+                    voltage = gpu.VoltMin;
+                }
+                if (voltage > gpu.VoltMax) {
+                    voltage = gpu.VoltMax;
                 }
                 _adlHelper.SetMemoryClock(gpuIndex, value, voltage);
             }
@@ -155,7 +184,7 @@ namespace NTMiner.Core.Gpus.Impl {
                 }
                 _adlHelper.GetClockRange(
                     gpu.Index,
-                    out int coreClockDeltaMin, out int coreClockDeltaMax, 
+                    out int coreClockDeltaMin, out int coreClockDeltaMax,
                     out int memoryClockDeltaMin, out int memoryClockDeltaMax,
                     out int voltMin, out int voltMax, out int voltDefault,
                     out int powerMin, out int powerMax, out int powerDefault,
