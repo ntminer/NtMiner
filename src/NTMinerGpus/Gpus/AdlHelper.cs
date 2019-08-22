@@ -183,21 +183,85 @@ namespace NTMiner.Gpus {
             }
         }
 
-        public ulong GetTotalMemory(int gpuIndex) {
+        public bool GetCoreClock(int gpuIndex, out int coreClock, out int iVddc) {
+            coreClock = 0;
+            iVddc = 0;
             try {
                 if (!TryGpuAdapterIndex(gpuIndex, out int adapterIndex)) {
-                    return 0;
+                    return false;
                 }
-                ADLMemoryInfo info = new ADLMemoryInfo();
-                var r = AdlNativeMethods.ADL_Adapter_MemoryInfo_Get(adapterIndex, ref info);
+                ADLODNPerformanceLevelsX2 info = ADLODNPerformanceLevelsX2.Create();
+                var r = AdlNativeMethods.ADL2_OverdriveN_SystemClocksX2_Get(context, adapterIndex, ref info);
                 if (r != AdlStatus.OK) {
-                    Write.DevWarn($"{nameof(AdlNativeMethods.ADL_Adapter_MemoryInfo_Get)} {r}");
-                    return 0;
+                    Write.DevWarn($"{nameof(AdlNativeMethods.ADL2_OverdriveN_SystemClocksX2_Get)} {r}");
+                    return false;
                 }
-                return info.MemorySize;
+                int index = 0;
+                for (int i = 0; i < info.aLevels.Length; i++) {
+                    if (info.aLevels[i].iEnabled != 0) {
+                        index = i;
+                    }
+                }
+                coreClock = info.aLevels[index].iClock * 10;
+                iVddc = info.aLevels[index].iVddc;
+                return true;
             }
             catch {
-                return 0;
+                return false;
+            }
+        }
+
+        public bool SetCoreClock(int gpuIndex, int value, int voltage) {
+            if (value <= 0) {
+                return false;
+            }
+            try {
+                if (!TryGpuAdapterIndex(gpuIndex, out int adapterIndex)) {
+                    return false;
+                }
+                ADLODNPerformanceLevelsX2 info = ADLODNPerformanceLevelsX2.Create();
+                var r = AdlNativeMethods.ADL2_OverdriveN_SystemClocksX2_Get(context, adapterIndex, ref info);
+                if (r != AdlStatus.OK) {
+                    Write.DevWarn($"{nameof(AdlNativeMethods.ADL2_OverdriveN_SystemClocksX2_Get)} {r}");
+                    return false;
+                }
+                info.iMode = AdlConst.ODNControlType_Default;
+                r = AdlNativeMethods.ADL2_OverdriveN_SystemClocksX2_Set(context, adapterIndex, ref info);
+                if (r != AdlStatus.OK) {
+                    Write.DevWarn($"{nameof(AdlNativeMethods.ADL2_OverdriveN_SystemClocksX2_Set)} {r}");
+                    return false;
+                }
+                r = AdlNativeMethods.ADL2_OverdriveN_SystemClocksX2_Get(context, adapterIndex, ref info);
+                if (r != AdlStatus.OK) {
+                    Write.DevWarn($"{nameof(AdlNativeMethods.ADL2_OverdriveN_SystemClocksX2_Get)} {r}");
+                    return false;
+                }
+#if DEBUG
+                foreach (var item in info.aLevels) {
+                    Write.DevWarn($"iClock={item.iClock},iControl={item.iControl},iEnabled={item.iEnabled},iVddc={item.iVddc}");
+                }
+#endif
+                if (r == AdlStatus.OK) {
+                    info.iMode = AdlConst.ODNControlType_Manual;
+                    int index = 0;
+                    for (int i = 0; i < info.aLevels.Length; i++) {
+                        if (info.aLevels[i].iEnabled == 1) {
+                            index = i;
+                        }
+                    }
+                    info.aLevels[index].iClock = value * 100;
+                    info.aLevels[index].iVddc = voltage;
+                    r = AdlNativeMethods.ADL2_OverdriveN_SystemClocksX2_Set(context, adapterIndex, ref info);
+                    if (r != AdlStatus.OK) {
+                        Write.DevWarn($"{nameof(AdlNativeMethods.ADL2_OverdriveN_SystemClocksX2_Set)} {r}");
+                        return false;
+                    }
+                }
+                return true;
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e);
+                return false;
             }
         }
 
@@ -283,85 +347,21 @@ namespace NTMiner.Gpus {
             }
         }
 
-        public bool GetCoreClock(int gpuIndex, out int coreClock, out int iVddc) {
-            coreClock = 0;
-            iVddc = 0;
+        public ulong GetTotalMemory(int gpuIndex) {
             try {
                 if (!TryGpuAdapterIndex(gpuIndex, out int adapterIndex)) {
-                    return false;
+                    return 0;
                 }
-                ADLODNPerformanceLevelsX2 info = ADLODNPerformanceLevelsX2.Create();
-                var r = AdlNativeMethods.ADL2_OverdriveN_SystemClocksX2_Get(context, adapterIndex, ref info);
+                ADLMemoryInfo info = new ADLMemoryInfo();
+                var r = AdlNativeMethods.ADL_Adapter_MemoryInfo_Get(adapterIndex, ref info);
                 if (r != AdlStatus.OK) {
-                    Write.DevWarn($"{nameof(AdlNativeMethods.ADL2_OverdriveN_SystemClocksX2_Get)} {r}");
-                    return false;
+                    Write.DevWarn($"{nameof(AdlNativeMethods.ADL_Adapter_MemoryInfo_Get)} {r}");
+                    return 0;
                 }
-                int index = 0;
-                for (int i = 0; i < info.aLevels.Length; i++) {
-                    if (info.aLevels[i].iEnabled != 0) {
-                        index = i;
-                    }
-                }
-                coreClock = info.aLevels[index].iClock * 10;
-                iVddc = info.aLevels[index].iVddc;
-                return true;
+                return info.MemorySize;
             }
             catch {
-                return false;
-            }
-        }
-
-        public bool SetCoreClock(int gpuIndex, int value, int voltage) {
-            if (value <= 0) {
-                return false;
-            }
-            try {
-                if (!TryGpuAdapterIndex(gpuIndex, out int adapterIndex)) {
-                    return false;
-                }
-                ADLODNPerformanceLevelsX2 info = ADLODNPerformanceLevelsX2.Create();
-                var r = AdlNativeMethods.ADL2_OverdriveN_SystemClocksX2_Get(context, adapterIndex, ref info);
-                if (r != AdlStatus.OK) {
-                    Write.DevWarn($"{nameof(AdlNativeMethods.ADL2_OverdriveN_SystemClocksX2_Get)} {r}");
-                    return false;
-                }
-                info.iMode = AdlConst.ODNControlType_Default;
-                r = AdlNativeMethods.ADL2_OverdriveN_SystemClocksX2_Set(context, adapterIndex, ref info);
-                if (r != AdlStatus.OK) {
-                    Write.DevWarn($"{nameof(AdlNativeMethods.ADL2_OverdriveN_SystemClocksX2_Set)} {r}");
-                    return false;
-                }
-                r = AdlNativeMethods.ADL2_OverdriveN_SystemClocksX2_Get(context, adapterIndex, ref info);
-                if (r != AdlStatus.OK) {
-                    Write.DevWarn($"{nameof(AdlNativeMethods.ADL2_OverdriveN_SystemClocksX2_Get)} {r}");
-                    return false;
-                }
-#if DEBUG
-                foreach (var item in info.aLevels) {
-                    Write.DevWarn($"iClock={item.iClock},iControl={item.iControl},iEnabled={item.iEnabled},iVddc={item.iVddc}");
-                }
-#endif
-                if (r == AdlStatus.OK) {
-                    info.iMode = AdlConst.ODNControlType_Manual;
-                    int index = 0;
-                    for (int i = 0; i < info.aLevels.Length; i++) {
-                        if (info.aLevels[i].iEnabled == 1) {
-                            index = i;
-                        }
-                    }
-                    info.aLevels[index].iClock = value * 100;
-                    info.aLevels[index].iVddc = voltage;
-                    r = AdlNativeMethods.ADL2_OverdriveN_SystemClocksX2_Set(context, adapterIndex, ref info);
-                    if (r != AdlStatus.OK) {
-                        Write.DevWarn($"{nameof(AdlNativeMethods.ADL2_OverdriveN_SystemClocksX2_Set)} {r}");
-                        return false;
-                    }
-                }
-                return true;
-            }
-            catch (Exception e) {
-                Logger.ErrorDebugLine(e);
-                return false;
+                return 0;
             }
         }
 
