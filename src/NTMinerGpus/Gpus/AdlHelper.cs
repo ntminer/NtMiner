@@ -198,7 +198,7 @@ namespace NTMiner.Gpus {
                 }
                 int index = 0;
                 for (int i = 0; i < info.aLevels.Length; i++) {
-                    if (info.aLevels[i].iEnabled != 1) {
+                    if (info.aLevels[i].iEnabled != 0) {
                         index = i;
                     }
                     Write.DevWarn("GetCoreClock " + info.aLevels[i].ToString());
@@ -288,7 +288,7 @@ namespace NTMiner.Gpus {
                 }
                 int index = 0;
                 for (int i = 0; i < info.aLevels.Length; i++) {
-                    if (info.aLevels[i].iEnabled != 1) {
+                    if (info.aLevels[i].iEnabled != 0) {
                         index = i;
                     }
                     Write.DevWarn("GetMemoryClock " + info.aLevels[i].ToString());
