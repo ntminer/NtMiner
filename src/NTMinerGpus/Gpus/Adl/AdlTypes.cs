@@ -83,20 +83,6 @@ namespace NTMiner.Gpus.Adl {
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    internal struct ADLPMActivity {
-        public int Size;
-        public int EngineClock;
-        public int MemoryClock;
-        public int Vddc;
-        public int ActivityPercent;
-        public int CurrentPerformanceLevel;
-        public int CurrentBusSpeed;
-        public int CurrentBusLanes;
-        public int MaximumBusLanes;
-        public int Reserved;
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
     internal struct ADLTemperature {
         public int Size;
         public int Temperature;
@@ -108,28 +94,6 @@ namespace NTMiner.Gpus.Adl {
         public int SpeedType;
         public int FanSpeed;
         public int Flags;
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    internal struct ADLODNFanControl {
-        public ADLODNControlType iMode;
-        public int iFanControlMode;
-        public int iCurrentFanSpeedMode;
-        public int iCurrentFanSpeed;
-        public int iTargetFanSpeed;
-        public int iTargetTemperature;
-        public int iMinPerformanceClock;
-        public int iMinFanLimit;
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    internal struct ADLFanSpeedInfo {
-        public int Size;
-        public int Flags;
-        public int MinPercent;
-        public int MaxPercent;
-        public int MinRPM;
-        public int MaxRPM;
     }
 
     [StructLayout(LayoutKind.Sequential)]
@@ -200,21 +164,6 @@ namespace NTMiner.Gpus.Adl {
 
     [StructLayout(LayoutKind.Sequential)]
     internal struct ADLODNCapabilitiesX2 {
-        public static ADLODNCapabilitiesX2 Create() {
-            return new ADLODNCapabilitiesX2 {
-                sEngineClockRange = new ADLODNParameterRange(),
-                sMemoryClockRange = new ADLODNParameterRange(),
-                svddcRange = new ADLODNParameterRange(),
-                power = new ADLODNParameterRange(),
-                powerTuneTemperature = new ADLODNParameterRange(),
-                fanTemperature = new ADLODNParameterRange(),
-                fanSpeed = new ADLODNParameterRange(),
-                minimumPerformanceClock = new ADLODNParameterRange(),
-                throttleNotificaion = new ADLODNParameterRange(),
-                autoSystemClock = new ADLODNParameterRange()
-            };
-        }
-
         public int iMaximumNumberOfPerformanceLevels;
         public int iFlags;
         public ADLODNParameterRange sEngineClockRange;
