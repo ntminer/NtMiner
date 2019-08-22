@@ -1,11 +1,8 @@
 ﻿using NTMiner.Core;
-using NTMiner.Core.Kernels;
-using NTMiner.Core.Profiles;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -249,17 +246,17 @@ namespace NTMiner.Vms {
         }
 
         public bool IsOverClockEnabled {
-            get { return GpuProfileSet.Instance.IsOverClockEnabled(this.Id); }
+            get { return NTMinerRoot.Instance.GpuProfileSet.IsOverClockEnabled(this.Id); }
             set {
-                GpuProfileSet.Instance.SetIsOverClockEnabled(this.Id, value);
+                NTMinerRoot.Instance.GpuProfileSet.SetIsOverClockEnabled(this.Id, value);
                 OnPropertyChanged(nameof(IsOverClockEnabled));
             }
         }
 
         public bool IsOverClockGpuAll {
-            get { return GpuProfileSet.Instance.IsOverClockGpuAll(this.Id); }
+            get { return NTMinerRoot.Instance.GpuProfileSet.IsOverClockGpuAll(this.Id); }
             set {
-                GpuProfileSet.Instance.SetIsOverClockGpuAll(this.Id, value);
+                NTMinerRoot.Instance.GpuProfileSet.SetIsOverClockGpuAll(this.Id, value);
                 OnPropertyChanged(nameof(IsOverClockGpuAll));
             }
         }

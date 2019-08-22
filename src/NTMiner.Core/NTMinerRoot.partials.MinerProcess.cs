@@ -1,6 +1,5 @@
 ﻿using NTMiner.Core;
 using NTMiner.Core.Kernels;
-using NTMiner.Core.Profiles;
 using System;
 using System.Collections;
 using System.Diagnostics;
@@ -31,7 +30,7 @@ namespace NTMiner {
 #endif
                             Write.UserOk("内核进程清理完毕");
                             // 应用超频
-                            if (GpuProfileSet.Instance.IsOverClockEnabled(mineContext.MainCoin.GetId())) {
+                            if (NTMinerRoot.Instance.GpuProfileSet.IsOverClockEnabled(mineContext.MainCoin.GetId())) {
                                 Write.UserInfo("应用超频，如果CPU性能较差耗时可能超过1分钟，请耐心等待");
                                 VirtualRoot.Execute(new CoinOverClockCommand(mineContext.MainCoin.GetId(), isJoin: true));
                             }

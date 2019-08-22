@@ -38,6 +38,8 @@ namespace NTMiner {
 
         bool IsMining { get; }
 
+        GpuProfileSet GpuProfileSet { get; }
+
         IWorkProfile MinerProfile { get; }
 
         IMineWorkSet MineWorkSet { get; }

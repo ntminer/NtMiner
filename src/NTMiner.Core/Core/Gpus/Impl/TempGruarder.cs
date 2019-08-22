@@ -1,5 +1,4 @@
-﻿using NTMiner.Core.Profiles;
-using NTMiner.MinerClient;
+﻿using NTMiner.MinerClient;
 using System;
 using System.Collections.Generic;
 
@@ -29,11 +28,11 @@ namespace NTMiner.Core.Gpus.Impl {
                         return;
                     }
                     IGpuProfile gpuProfile;
-                    if (GpuProfileSet.Instance.IsOverClockGpuAll(root.MinerProfile.CoinId)) {
-                        gpuProfile = GpuProfileSet.Instance.GetGpuProfile(root.MinerProfile.CoinId, NTMinerRoot.GpuAllId);
+                    if (NTMinerRoot.Instance.GpuProfileSet.IsOverClockGpuAll(root.MinerProfile.CoinId)) {
+                        gpuProfile = NTMinerRoot.Instance.GpuProfileSet.GetGpuProfile(root.MinerProfile.CoinId, NTMinerRoot.GpuAllId);
                     }
                     else {
-                        gpuProfile = GpuProfileSet.Instance.GetGpuProfile(root.MinerProfile.CoinId, gpu.Index);
+                        gpuProfile = NTMinerRoot.Instance.GpuProfileSet.GetGpuProfile(root.MinerProfile.CoinId, gpu.Index);
                     }
                     if (!gpuProfile.IsAutoFanSpeed) {
                         return;

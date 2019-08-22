@@ -8,45 +8,9 @@ using System.Threading.Tasks;
 
 namespace NTMiner.Core.Profiles {
     public class GpuProfileSet {
-        public static readonly GpuProfileSet Instance = new GpuProfileSet();
-        private GpuProfilesJsonDb _data = NewJsonDb();
+        private GpuProfilesJsonDb _data = new GpuProfilesJsonDb();
 
-        public GpuProfilesJsonDb Data {
-            get {
-                return _data;
-            }
-        }
-
-        private static GpuProfilesJsonDb NewJsonDb() {
-            return new GpuProfilesJsonDb();
-        }
-
-        private GpuData[] CreateGpus() {
-            List<GpuData> list = new List<GpuData>();
-            foreach (var gpu in NTMinerRoot.Instance.GpuSet) {
-                list.Add(new GpuData {
-                    Index = gpu.Index,
-                    Name = gpu.Name,
-                    CoreClockDeltaMax = gpu.CoreClockDeltaMax,
-                    CoreClockDeltaMin = gpu.CoreClockDeltaMin,
-                    MemoryClockDeltaMax = gpu.MemoryClockDeltaMax,
-                    MemoryClockDeltaMin = gpu.MemoryClockDeltaMin,
-                    CoolMax = gpu.CoolMax,
-                    CoolMin = gpu.CoolMin,
-                    PowerMax = gpu.PowerMax,
-                    PowerMin = gpu.PowerMin,
-                    TempLimitDefault = gpu.TempLimitDefault,
-                    TempLimitMax = gpu.TempLimitMax,
-                    TempLimitMin = gpu.TempLimitMin
-                });
-            }
-            return list.ToArray();
-        }
-
-        private GpuProfileSet() {
-        }
-
-        public void Register(INTMinerRoot root) {
+        public GpuProfileSet(INTMinerRoot root) {
             VirtualRoot.Window<AddOrUpdateGpuProfileCommand>("处理添加或更新Gpu超频数据命令", LogEnum.DevConsole,
                 action: message => {
                     GpuProfileData data = _data.GpuProfiles.FirstOrDefault(a => a.CoinId == message.Input.CoinId && a.Index == message.Input.Index);
@@ -72,6 +36,34 @@ namespace NTMiner.Core.Profiles {
                         });
                     }
                 });
+        }
+
+        public GpuProfilesJsonDb Data {
+            get {
+                return _data;
+            }
+        }
+
+        private GpuData[] CreateGpus() {
+            List<GpuData> list = new List<GpuData>();
+            foreach (var gpu in NTMinerRoot.Instance.GpuSet) {
+                list.Add(new GpuData {
+                    Index = gpu.Index,
+                    Name = gpu.Name,
+                    CoreClockDeltaMax = gpu.CoreClockDeltaMax,
+                    CoreClockDeltaMin = gpu.CoreClockDeltaMin,
+                    MemoryClockDeltaMax = gpu.MemoryClockDeltaMax,
+                    MemoryClockDeltaMin = gpu.MemoryClockDeltaMin,
+                    CoolMax = gpu.CoolMax,
+                    CoolMin = gpu.CoolMin,
+                    PowerMax = gpu.PowerMax,
+                    PowerMin = gpu.PowerMin,
+                    TempLimitDefault = gpu.TempLimitDefault,
+                    TempLimitMax = gpu.TempLimitMax,
+                    TempLimitMin = gpu.TempLimitMin
+                });
+            }
+            return list.ToArray();
         }
 
         private void CoinOverClock(INTMinerRoot root, Guid coinId) {

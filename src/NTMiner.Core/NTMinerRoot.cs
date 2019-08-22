@@ -156,12 +156,12 @@ namespace NTMiner {
 
         private MinerProfile _minerProfile;
         private void DoInit(bool isWork, Action callback) {
-            GpuProfileSet.Instance.Register(this);
             this.ServerAppSettingSet = new ServerAppSettingSet(this);
             this.CalcConfigSet = new CalcConfigSet(this);
 
             ServerContextInit(isWork);
 
+            this.GpuProfileSet = new GpuProfileSet(this);
             this.WorkerEventSet = new WorkerEventSet(this);
             this.UserSet = new UserSet();
             this.KernelProfileSet = new KernelProfileSet(this);
@@ -604,6 +604,8 @@ namespace NTMiner {
                 return CurrentMineContext != null;
             }
         }
+
+        public GpuProfileSet GpuProfileSet { get; private set; }
 
         public IWorkProfile MinerProfile {
             get { return _minerProfile; }

@@ -1,5 +1,4 @@
 ﻿using NTMiner.Core;
-using NTMiner.Core.Profiles;
 using NTMiner.MinerClient;
 using NTMiner.Vms;
 using System;
@@ -104,7 +103,7 @@ namespace NTMiner {
             }
 
             private GpuProfileViewModel GetGpuProfileVm(Guid coinId, GpuViewModel gpuVm) {
-                IGpuProfile data = GpuProfileSet.Instance.GetGpuProfile(coinId, gpuVm.Index);
+                IGpuProfile data = NTMinerRoot.Instance.GpuProfileSet.GetGpuProfile(coinId, gpuVm.Index);
                 return new GpuProfileViewModel(data, gpuVm);
             }
 
