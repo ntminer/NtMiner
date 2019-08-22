@@ -155,12 +155,12 @@ namespace NTMiner.Core.Profiles.Impl {
             if (root.GpuSet.TryGetGpu(data.Index, out IGpu gpu)) {
                 IOverClock overClock = root.GpuSet.OverClock;
                 if (!data.IsAutoFanSpeed) {
-                    overClock.SetCool(data.Index, data.Cool);
+                    overClock.SetFanSpeed(data.Index, data.Cool);
                 }
                 overClock.SetCoreClock(data.Index, data.CoreClockDelta, data.CoreVoltage);
                 overClock.SetMemoryClock(data.Index, data.MemoryClockDelta, data.MemoryVoltage);
-                overClock.SetPowerCapacity(data.Index, data.PowerCapacity);
-                overClock.SetThermCapacity(data.Index, data.TempLimit);
+                overClock.SetPowerLimit(data.Index, data.PowerCapacity);
+                overClock.SetTempLimit(data.Index, data.TempLimit);
                 string coreClockText = "默认";
                 if (data.CoreClockDelta != 0) {
                     coreClockText = data.CoreClockDelta.ToString();

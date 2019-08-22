@@ -16,15 +16,15 @@ namespace NTMiner.Core.Gpus.Impl {
             base.SetMemoryClock(gpuIndex, value, voltage, _adlHelper.SetMemoryClock);
         }
 
-        public void SetPowerCapacity(int gpuIndex, int value) {
-            base.SetPowerCapacity(gpuIndex, value, _adlHelper.SetPowerLimit);
+        public void SetPowerLimit(int gpuIndex, int value) {
+            base.SetPowerLimit(gpuIndex, value, _adlHelper.SetPowerLimit);
         }
 
-        public void SetThermCapacity(int gpuIndex, int value) {
+        public void SetTempLimit(int gpuIndex, int value) {
             base.SetThermCapacity(gpuIndex, value, _adlHelper.SetTempLimit);
         }
 
-        public void SetCool(int gpuIndex, int value) {
+        public void SetFanSpeed(int gpuIndex, int value) {
             if (value == 0) {
                 value = 90;
             }
@@ -66,9 +66,9 @@ namespace NTMiner.Core.Gpus.Impl {
         public void Restore() {
             SetCoreClock(NTMinerRoot.GpuAllId, 0, 0);
             SetMemoryClock(NTMinerRoot.GpuAllId, 0, 0);
-            SetPowerCapacity(NTMinerRoot.GpuAllId, 0);
-            SetThermCapacity(NTMinerRoot.GpuAllId, 0);
-            SetCool(NTMinerRoot.GpuAllId, 0);
+            SetPowerLimit(NTMinerRoot.GpuAllId, 0);
+            SetTempLimit(NTMinerRoot.GpuAllId, 0);
+            SetFanSpeed(NTMinerRoot.GpuAllId, 0);
             RefreshGpuState(NTMinerRoot.GpuAllId);
         }
 

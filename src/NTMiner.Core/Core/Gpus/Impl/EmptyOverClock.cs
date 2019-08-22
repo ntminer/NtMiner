@@ -4,11 +4,11 @@
             // noting need todo
         }
 
-        public void SetCool(int gpuIndex, int value) {
+        public void SetFanSpeed(int gpuIndex, int value) {
             // noting need todo
         }
 
-        public void SetThermCapacity(int gpuIndex, int value) {
+        public void SetTempLimit(int gpuIndex, int value) {
             // noting need todo
         }
 
@@ -20,7 +20,7 @@
             // noting need todo
         }
 
-        public void SetPowerCapacity(int gpuIndex, int value) {
+        public void SetPowerLimit(int gpuIndex, int value) {
             // noting need todo
         }
 

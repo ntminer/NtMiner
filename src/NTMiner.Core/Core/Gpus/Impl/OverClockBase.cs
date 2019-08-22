@@ -71,7 +71,7 @@ namespace NTMiner.Core.Gpus.Impl {
             }
         }
 
-        protected void SetPowerCapacity(int gpuIndex, int value, Func<int, int, bool> setPowerLimit) {
+        protected void SetPowerLimit(int gpuIndex, int value, Func<int, int, bool> setPowerLimit) {
             if (value == 0) {
                 value = 100;
             }
