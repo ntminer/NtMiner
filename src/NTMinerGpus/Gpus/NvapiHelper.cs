@@ -286,15 +286,15 @@ namespace NTMiner.Gpus {
             return SetPowerValue(busId, (uint)powerValue);
         }
 
-        public bool GetCooler(int busId, out uint currCooler) {
+        public bool GetFanSpeed(int busId, out uint currCooler) {
             if (GetCooler(busId, out currCooler, out uint minCooler, out uint defCooler, out uint maxCooler)) {
                 return true;
             }
             return false;
         }
 
-        public void SetCooler(int busId, uint value, bool isAutoMode) {
-            SetFanSpeed(busId, value, isAutoMode);
+        public void SetFanSpeed(int busId, uint value, bool isAutoMode) {
+            SetCooler(busId, value, isAutoMode);
         }
 
         #region private methods
@@ -649,7 +649,7 @@ namespace NTMiner.Gpus {
             return true;
         }
 
-        private void SetFanSpeed(int busId, uint value, bool isAutoMode) {
+        private void SetCooler(int busId, uint value, bool isAutoMode) {
             try {
                 NvCoolerTarget coolerIndex = NvCoolerTarget.NVAPI_COOLER_TARGET_ALL;
                 NvCoolerLevel info = new NvCoolerLevel() {

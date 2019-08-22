@@ -46,7 +46,7 @@ namespace NTMiner.Core.Gpus.Impl {
                     if (value == gpu.Cool) {
                         continue;
                     }
-                    _nvapiHelper.SetCooler(gpu.GetOverClockId(), (uint)value, isAutoMode: false);
+                    _nvapiHelper.SetFanSpeed(gpu.GetOverClockId(), (uint)value, isAutoMode: false);
                     NTMinerRoot.Instance.GpuSet.LoadGpuState();
                 }
             }
@@ -54,7 +54,7 @@ namespace NTMiner.Core.Gpus.Impl {
                 if (!NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu) || value == gpu.Cool) {
                     return;
                 }
-                _nvapiHelper.SetCooler(gpu.GetOverClockId(), (uint)value, isAutoMode: false);
+                _nvapiHelper.SetFanSpeed(gpu.GetOverClockId(), (uint)value, isAutoMode: false);
                 NTMinerRoot.Instance.GpuSet.LoadGpuState();
             }
         }

@@ -80,7 +80,7 @@ namespace NTMiner.Core.Gpus.Impl {
                 uint power = _nvmlHelper.GetPowerUsage(i);
                 uint temp = _nvmlHelper.GetTemperature(i);
                 uint fanSpeed;
-                if (!_nvapiHelper.GetCooler(gpu.GetOverClockId(), out fanSpeed)) {
+                if (!_nvapiHelper.GetFanSpeed(gpu.GetOverClockId(), out fanSpeed)) {
                     fanSpeed = _nvmlHelper.GetFanSpeed(i);
                 }
                 bool isChanged = gpu.Temperature != temp || gpu.PowerUsage != power || gpu.FanSpeed != fanSpeed;

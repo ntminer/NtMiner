@@ -403,7 +403,7 @@ namespace NTMiner.Gpus {
             }
         }
 
-        public void SetFunSpeed(int gpuIndex, int value) {
+        public void SetFanSpeed(int gpuIndex, int value) {
             try {
                 if (!TryGpuAdapterIndex(gpuIndex, out int adapterIndex)) {
                     return;

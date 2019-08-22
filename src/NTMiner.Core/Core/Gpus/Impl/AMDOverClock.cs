@@ -36,14 +36,14 @@ namespace NTMiner.Core.Gpus.Impl {
                     if (value == gpu.Cool) {
                         continue;
                     }
-                    _adlHelper.SetFunSpeed(gpu.Index, value);
+                    _adlHelper.SetFanSpeed(gpu.Index, value);
                 }
             }
             else {
                 if (!NTMinerRoot.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu) || value == gpu.Cool) {
                     return;
                 }
-                _adlHelper.SetFunSpeed(gpuIndex, value);
+                _adlHelper.SetFanSpeed(gpuIndex, value);
             }
         }
 
