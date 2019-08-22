@@ -167,6 +167,7 @@ namespace NTMiner.Vms {
                 this.ShowDialog(message: $"确定恢复默认吗？", title: "确认", onYes: () => {
                     NTMinerRoot.Instance.GpuSet.OverClock.Restore();
                     this.IsOverClockEnabled = false;
+                    NTMinerRoot.Instance.GpuSet.OverClock.RefreshGpuState(NTMinerRoot.GpuAllId);
                 }, icon: IconConst.IconConfirm);
             });
             this.FillOverClockForm = new DelegateCommand<OverClockDataViewModel>((data) => {
