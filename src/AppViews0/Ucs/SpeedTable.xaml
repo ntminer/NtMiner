@@ -164,7 +164,7 @@
 							            Foreground="{StaticResource LableColor}" 
                                         Visibility="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockGpuAll,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityInvertConverter}}"
                                         IsEnabled="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockEnabled,Source={StaticResource proxy}}"
-							            IsChecked="{Binding GpuProfileVm.IsAutoFanSpeed,Mode=TwoWay}" 
+							            IsChecked="{Binding GpuProfileVm.IsAutoFanSpeed,Mode=TwoWay,UpdateSourceTrigger=LostFocus}" 
 							            Content="自动"></CheckBox>
                                 </Border>
                             </StackPanel>
@@ -234,7 +234,7 @@
                                         Visibility="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockGpuAll,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityInvertConverter}}" 
                                         IsEnabled="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockEnabled,Source={StaticResource proxy}}" 
                                         ToolTip="{Binding GpuVm.VoltageMinMaxText}" 
-                                        Text="{Binding GpuProfileVm.CoreVoltage,Mode=TwoWay, ValidatesOnExceptions=True}"></TextBox>
+                                        Text="{Binding GpuProfileVm.CoreVoltage,Mode=TwoWay,UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"></TextBox>
                                 </Border>
                             </StackPanel>
                         </DataTemplate>
@@ -269,7 +269,7 @@
                                         Visibility="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockGpuAll,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityInvertConverter}}" 
                                         IsEnabled="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockEnabled,Source={StaticResource proxy}}" 
                                         ToolTip="{Binding GpuVm.VoltageMinMaxText}" 
-                                        Text="{Binding GpuProfileVm.MemoryVoltage,Mode=TwoWay, ValidatesOnExceptions=True}"></TextBox>
+                                        Text="{Binding GpuProfileVm.MemoryVoltage,Mode=TwoWay,UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"></TextBox>
                                 </Border>
                             </StackPanel>
                         </DataTemplate>
@@ -303,7 +303,7 @@
                                         Visibility="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockGpuAll,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityInvertConverter}}" 
                                         IsEnabled="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockEnabled,Source={StaticResource proxy}}" 
                                         ToolTip="{Binding GpuVm.PowerMinMaxText}" 
-                                        Text="{Binding GpuProfileVm.PowerCapacity,Mode=TwoWay, ValidatesOnExceptions=True}"></TextBox>
+                                        Text="{Binding GpuProfileVm.PowerCapacity,Mode=TwoWay,UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"></TextBox>
                                 </Border>
                             </StackPanel>
 						</DataTemplate>
@@ -337,7 +337,7 @@
                                         Visibility="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockGpuAll,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityInvertConverter}}" 
                                         IsEnabled="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockEnabled,Source={StaticResource proxy}}" 
                                         ToolTip="{Binding GpuVm.TempLimitMinMaxText}" 
-                                        Text="{Binding GpuProfileVm.TempLimit,Mode=TwoWay, ValidatesOnExceptions=True}"></TextBox>
+                                        Text="{Binding GpuProfileVm.TempLimit,Mode=TwoWay,UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"></TextBox>
                                 </Border>
                             </StackPanel>
 						</DataTemplate>
@@ -371,7 +371,7 @@
                                         Visibility="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockGpuAll,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityInvertConverter}}" 
                                         IsEnabled="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockEnabled,Source={StaticResource proxy}}" 
                                         ToolTip="{Binding GpuVm.CoreClockDeltaMinMaxMText}" 
-                                        Text="{Binding GpuProfileVm.CoreClockDelta,Mode=TwoWay, ValidatesOnExceptions=True}"></TextBox>
+                                        Text="{Binding GpuProfileVm.CoreClockDelta,Mode=TwoWay,UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"></TextBox>
                                 </Border>
                             </StackPanel>
 						</DataTemplate>
@@ -405,7 +405,7 @@
                                         Visibility="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockGpuAll,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityInvertConverter}}" 
                                         IsEnabled="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockEnabled,Source={StaticResource proxy}}" 
                                         ToolTip="{Binding GpuVm.MemoryClockDeltaMinMaxMText}" 
-                                        Text="{Binding GpuProfileVm.MemoryClockDelta,Mode=TwoWay, ValidatesOnExceptions=True}"></TextBox>
+                                        Text="{Binding GpuProfileVm.MemoryClockDelta,Mode=TwoWay,UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"></TextBox>
                                 </Border>
                             </StackPanel>
 						</DataTemplate>
