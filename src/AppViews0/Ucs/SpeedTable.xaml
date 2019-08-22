@@ -414,54 +414,7 @@
 			</DataGrid.Columns>
         </DataGrid>
         <TextBlock Visibility="{Binding GpuSpeedVms.List, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center">没有矿卡或矿卡未驱动</TextBlock>
-        <WrapPanel Grid.Row="2" Margin="4 2" Visibility="{Binding IsOverClockVisible}" IsEnabled="{Binding GpuSpeedVms.MinerProfile.CoinVm.IsOverClockEnabled}">
-            <controls:KbButton
-                Margin="4 0 0 0"
-				Height="21"
-				Padding="6 2"
-				ToolTip="点击应用超频设置"
-				Command="{Binding GpuSpeedVms.MinerProfile.CoinVm.ApplyCustomOverClock}" 
-				Background="{StaticResource ThemeBackground}"
-				Foreground="{StaticResource ThemeForeground}"
-				CornerRadius="2">
-                <WrapPanel>
-                    <Path
-						Width="12"
-						Height="12"
-						Data="{StaticResource Icon_OverClock}"
-						Fill="{StaticResource ThemeForeground}"
-						Stretch="Fill" />
-                    <TextBlock Foreground="{StaticResource ThemeForeground}">应用</TextBlock>
-                </WrapPanel>
-            </controls:KbButton>
-            <controls:KbButton
-                Margin="4 0 0 0"
-			    Height="21"
-			    Padding="6 2"
-			    ToolTip="恢复默认"
-			    Command="{Binding GpuSpeedVms.MinerProfile.CoinVm.RestoreOverClock}" 
-			    Background="{StaticResource ThemeBackground}"
-			    Foreground="{StaticResource ThemeForeground}"
-			    CornerRadius="2">
-                <WrapPanel>
-                    <Path
-					    Width="12"
-					    Height="12"
-					    Data="{StaticResource Icon_Refresh}"
-					    Fill="{StaticResource ThemeForeground}"
-					    Stretch="Fill" />
-                    <TextBlock Foreground="{StaticResource ThemeForeground}">恢复默认</TextBlock>
-                </WrapPanel>
-            </controls:KbButton>
-            <controls:KbButton
-				Margin="4 0 0 0"
-				Height="21"
-				Padding="6 2"
-				ToolTip="将统一超频的数据一键填充到每张卡"
-				Command="{Binding GpuSpeedVms.MinerProfile.CoinVm.FillOverClockForms}" 
-				CornerRadius="2">
-                <TextBlock Foreground="{StaticResource IconFillColor}">一键填充表单</TextBlock>
-            </controls:KbButton>
+        <WrapPanel Grid.Row="2" Margin="4 2" HorizontalAlignment="Right" Visibility="{Binding IsOverClockVisible}" IsEnabled="{Binding GpuSpeedVms.MinerProfile.CoinVm.IsOverClockEnabled}">
             <ItemsControl
 				BorderThickness="0"
 				MouseDown="ItemsControl_MouseDown"
@@ -491,6 +444,53 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
+            <controls:KbButton
+				Margin="4 0 0 0"
+				Height="21"
+				Padding="6 2"
+				ToolTip="将统一超频的数据一键填充到每张卡"
+				Command="{Binding GpuSpeedVms.MinerProfile.CoinVm.FillOverClockForms}" 
+				CornerRadius="2">
+                <TextBlock Foreground="{StaticResource IconFillColor}">一键填充表单</TextBlock>
+            </controls:KbButton>
+            <controls:KbButton
+                Margin="4 0 0 0"
+			    Height="21"
+			    Padding="6 2"
+			    ToolTip="恢复默认"
+			    Command="{Binding GpuSpeedVms.MinerProfile.CoinVm.RestoreOverClock}" 
+			    Background="{StaticResource ThemeBackground}"
+			    Foreground="{StaticResource ThemeForeground}"
+			    CornerRadius="2">
+                <WrapPanel>
+                    <Path
+					    Width="12"
+					    Height="12"
+					    Data="{StaticResource Icon_Refresh}"
+					    Fill="{StaticResource ThemeForeground}"
+					    Stretch="Fill" />
+                    <TextBlock Foreground="{StaticResource ThemeForeground}">恢复默认</TextBlock>
+                </WrapPanel>
+            </controls:KbButton>
+            <controls:KbButton
+                Margin="4 0 0 0"
+				Height="21"
+				Padding="6 2"
+				ToolTip="点击应用超频设置"
+				Command="{Binding GpuSpeedVms.MinerProfile.CoinVm.ApplyCustomOverClock}" 
+				Background="{StaticResource ThemeBackground}"
+				Foreground="{StaticResource ThemeForeground}"
+				CornerRadius="2">
+                <WrapPanel>
+                    <Path
+						Width="12"
+						Height="12"
+						Data="{StaticResource Icon_OverClock}"
+						Fill="{StaticResource ThemeForeground}"
+						Stretch="Fill" />
+                    <TextBlock Foreground="{StaticResource ThemeForeground}">应用</TextBlock>
+                </WrapPanel>
+            </controls:KbButton>
         </WrapPanel>
     </Grid>
 </UserControl>

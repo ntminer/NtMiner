@@ -38,12 +38,6 @@ namespace NTMiner.Core.Profiles {
                 });
         }
 
-        public GpuProfilesJsonDb Data {
-            get {
-                return _data;
-            }
-        }
-
         private GpuData[] CreateGpus() {
             List<GpuData> list = new List<GpuData>();
             foreach (var gpu in NTMinerRoot.Instance.GpuSet) {
@@ -122,8 +116,8 @@ namespace NTMiner.Core.Profiles {
         }
 
         private void Save() {
-            Data.Gpus = CreateGpus();
-            string json = VirtualRoot.JsonSerializer.Serialize(Data);
+            _data.Gpus = CreateGpus();
+            string json = VirtualRoot.JsonSerializer.Serialize(_data);
             SpecialPath.WriteGpuProfilesJsonFile(json);
         }
 
