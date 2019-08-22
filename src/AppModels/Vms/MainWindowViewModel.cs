@@ -1,6 +1,5 @@
 ﻿using NTMiner.Core;
 using System;
-using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -10,6 +9,14 @@ namespace NTMiner.Vms {
         private readonly StateBarViewModel _stateBarVm = new StateBarViewModel();
         private MinerStateViewModel _minerStateVm;
         private SolidColorBrush _daemonStateBrush;
+        private bool _isOverClockVisible = false;
+        public bool IsOverClockVisible {
+            get { return _isOverClockVisible; }
+            set {
+                _isOverClockVisible = value;
+                OnPropertyChanged(nameof(IsOverClockVisible));
+            }
+        }
 
         public MinerStateViewModel MinerStateVm {
             get {
@@ -100,18 +107,6 @@ namespace NTMiner.Vms {
                     _serverJsonVersion = value;
                     OnPropertyChanged(nameof(ServerJsonVersion));
                 }
-            }
-        }
-
-        public Visibility IsOverClockVisible {
-            get {
-                if (Design.IsInDesignMode) {
-                    return Visibility.Visible;
-                }
-                if (NTMinerRoot.Instance.GpuSet.GpuType == GpuType.NVIDIA) {
-                    return Visibility.Visible;
-                }
-                return Visibility.Collapsed;
             }
         }
 

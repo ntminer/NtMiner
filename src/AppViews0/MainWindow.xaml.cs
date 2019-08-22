@@ -187,14 +187,8 @@ namespace NTMiner.Views {
         private void BtnOverClockVisible_Click(object sender, RoutedEventArgs e) {
             ContentControl btn = (ContentControl)sender;
             var speedTableUc = GetSpeedTableUc();
-            if (btn.Content.ToString() == "展开超频") {
-                btn.Content = "折叠超频";
-                speedTableUc.ShowOrHideOverClock(isShow: true);
-            }
-            else {
-                btn.Content = "展开超频";
-                speedTableUc.ShowOrHideOverClock(isShow: false);
-            }
+            speedTableUc.ShowOrHideOverClock(isShow: !Vm.IsOverClockVisible);
+            Vm.IsOverClockVisible = !Vm.IsOverClockVisible;
             RightTab.SelectedItem = TabItemSpeedTable;
         }
     }
