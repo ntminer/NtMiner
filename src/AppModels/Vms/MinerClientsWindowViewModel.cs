@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class MinerClientsWindowViewModel : ViewModelBase {
-        public static readonly MinerClientsWindowViewModel Instance = new MinerClientsWindowViewModel();
+        public static readonly MinerClientsWindowViewModel Instance = new MinerClientsWindowViewModel(isInDesignMode: false);
 
         private ColumnsShowViewModel _columnsShow;
         private int _countDown;
@@ -62,8 +62,8 @@ namespace NTMiner.Vms {
         public ICommand OneKeySetting { get; private set; }
 
         #region ctor
-        private MinerClientsWindowViewModel() {
-            if (Design.IsInDesignMode) {
+        public MinerClientsWindowViewModel(bool isInDesignMode = true) {
+            if (Design.IsInDesignMode || isInDesignMode) {
                 return;
             }
             var appSettings = NTMinerRoot.Instance.ServerAppSettingSet;

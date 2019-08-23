@@ -32,6 +32,7 @@ namespace NTMiner.Views {
         private MinerClientsWindow() {
             Width = SystemParameters.FullPrimaryScreenWidth * 0.95;
             Height = SystemParameters.FullPrimaryScreenHeight * 0.95;
+            this.DataContext = Vm;
             this.DataContext = AppContext.Instance.MinerClientsWindowVm;
             InitializeComponent();
             this.On<Per1SecondEvent>("刷新倒计时秒表", LogEnum.None,

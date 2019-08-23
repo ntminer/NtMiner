@@ -13,7 +13,7 @@
 		xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 		Background="{StaticResource ThemeBackground}"
 		WindowState="Maximized"
-		DataContext="{x:Static vm:MinerClientsWindowViewModel.Instance}"
+        d:DataContext="{d:DesignData Source=/Design/MinerClientsWindowViewModel.xaml}"
 		WindowStartupLocation="CenterScreen"
 		MouseDown="MetroWindow_MouseDown"
 		Title="矿机列表"
