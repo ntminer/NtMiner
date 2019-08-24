@@ -31,9 +31,11 @@ namespace NTMiner.Core {
             var root = NTMinerRoot.Instance;
             Guid coinKernelId = Guid.Empty;
             SupportedGpu gpuType;
+            bool noneGpu = false;
             switch (root.GpuSet.GpuType) {
                 case GpuType.Empty:
-                    gpuType = SupportedGpu.Both;
+                    noneGpu = true;
+                    gpuType = SupportedGpu.NVIDIA;
                     break;
                 case GpuType.NVIDIA:
                     gpuType = SupportedGpu.NVIDIA;
@@ -45,7 +47,13 @@ namespace NTMiner.Core {
                     gpuType = SupportedGpu.Both;
                     break;
             }
-            var coinKernels = root.CoinKernelSet.Where(a => a.CoinId == coin.GetId() && (a.SupportedGpu == SupportedGpu.Both || a.SupportedGpu == gpuType)).ToList();
+            List<ICoinKernel> coinKernels;
+            if (noneGpu) {
+                coinKernels = root.CoinKernelSet.Where(a => a.CoinId == coin.GetId()).ToList();
+            }
+            else {
+                coinKernels = root.CoinKernelSet.Where(a => a.CoinId == coin.GetId() && (a.SupportedGpu == SupportedGpu.Both || a.SupportedGpu == gpuType)).ToList();
+            }
             var items = new List<Tuple<Guid, IKernel>>(coinKernels.Count);
             foreach (var item in coinKernels) {
                 if (root.KernelSet.TryGetKernel(item.KernelId, out IKernel kernel)) {
