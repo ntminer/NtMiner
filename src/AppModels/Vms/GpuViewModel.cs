@@ -426,13 +426,13 @@ namespace NTMiner.Vms {
             get {
                 if (Index == NTMinerRoot.GpuAllId) {
                     if (_isGpuData) {
-                        return $"{_gpuDatas.Max(a => a.CoolMin)} - {_gpuDatas.Min(a => a.CoolMax)}%，默认：0";
+                        return $"{_gpuDatas.Max(a => a.CoolMin)} - {_gpuDatas.Min(a => a.CoolMax)}%，默认：0（表示驱动自控）";
                     }
                     else {
-                        return $"{NTMinerRoot.Instance.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Max(a => a.CoolMin)} - {NTMinerRoot.Instance.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Min(a => a.CoolMax)}%，默认：0";
+                        return $"{NTMinerRoot.Instance.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Max(a => a.CoolMin)} - {NTMinerRoot.Instance.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Min(a => a.CoolMax)}%，默认：0（表示驱动自控）";
                     }
                 }
-                return $"范围：{this.CoolMin} - {this.CoolMax}%，默认：0";
+                return $"范围：{this.CoolMin} - {this.CoolMax}%，默认：0（表示驱动自控）";
             }
         }
 
