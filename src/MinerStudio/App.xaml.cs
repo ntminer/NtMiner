@@ -14,7 +14,6 @@ namespace NTMiner {
             if (!Debugger.IsAttached && !Design.IsInDesignMode) {
                 Write.Init();
             }
-            VirtualRoot.SetIsMinerStudio(true);
             AssemblyInfo.LocalDirFullName = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NTMiner");
             Logging.LogDir.SetDir(System.IO.Path.Combine(AssemblyInfo.LocalDirFullName, "Logs"));
             AppUtil.Init(this);

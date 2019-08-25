@@ -14,13 +14,13 @@ namespace NTMiner {
 
         private static bool _isMinerClient;
         private static bool _isMinerClientDetected = false;
-        private static readonly object _locker = new object();
+        private static readonly object _isMinerClientLocker = new object();
         public static bool IsMinerClient {
             get {
                 if (_isMinerClientDetected) {
                     return _isMinerClient;
                 }
-                lock (_locker) {
+                lock (_isMinerClientLocker) {
                     if (_isMinerClientDetected) {
                         return _isMinerClient;
                     }
@@ -32,10 +32,24 @@ namespace NTMiner {
             }
         }
 
-        public static bool IsMinerStudio { get; private set; }
-
-        public static void SetIsMinerStudio(bool value) {
-            IsMinerStudio = value;
+        private static bool _isMinerStudio;
+        private static bool _isMinerStudioDetected = false;
+        private static readonly object _isMinerStudioLocker = new object();
+        public static bool IsMinerStudio {
+            get {
+                if (_isMinerStudioDetected) {
+                    return _isMinerStudio;
+                }
+                lock (_isMinerStudioLocker) {
+                    if (_isMinerStudioDetected) {
+                        return _isMinerStudio;
+                    }
+                    // 基于约定
+                    _isMinerStudio = Environment.CommandLine.IndexOf("--minerstudio", StringComparison.OrdinalIgnoreCase) != -1 || Assembly.GetEntryAssembly().GetManifestResourceInfo("NTMiner.NTMinerServices.NTMinerServices.exe") != null;
+                    _isMinerStudioDetected = true;
+                }
+                return _isMinerStudio;
+            }
         }
 
         public static IObjectSerializer JsonSerializer { get; private set; }

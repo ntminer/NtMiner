@@ -28,10 +28,6 @@ namespace NTMiner {
                 Write.Init();
             }
             AppType = Environment.CommandLine.IndexOf("--minerstudio", StringComparison.OrdinalIgnoreCase) != -1 ? NTMinerAppType.MinerStudio : NTMinerAppType.MinerClient;
-            // 读取注册表中的Location的时候会根据VirtualRoot.IsMinerStudio而变化所以需要赋值
-            if (AppType == NTMinerAppType.MinerStudio) {
-                VirtualRoot.SetIsMinerStudio(true);
-            }
         }
 
         private Mutex mutexApp;
