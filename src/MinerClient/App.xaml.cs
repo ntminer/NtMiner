@@ -1,6 +1,5 @@
 ﻿using NTMiner.Core;
 using NTMiner.Notifications;
-using NTMiner.OverClock;
 using NTMiner.RemoteDesktopEnabler;
 using NTMiner.View;
 using NTMiner.Views;
@@ -71,7 +70,6 @@ namespace NTMiner {
                         Shutdown();
                         Environment.Exit(0);
                     }
-                    NTMinerOverClockUtil.ExtractResource();
 
                     VirtualRoot.SetIsMinerClient(true);
                     NotiCenterWindowViewModel.IsHotKeyEnabled = true;
