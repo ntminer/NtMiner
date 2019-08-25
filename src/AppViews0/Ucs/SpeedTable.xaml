@@ -214,76 +214,6 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn MinWidth="50" Width="50" IsReadOnly="True" CanUserResize="False" Visibility="{Binding Data.IsVoltVisible,Source={StaticResource proxy}}">
-                    <DataGridTemplateColumn.HeaderTemplate>
-                        <DataTemplate>
-                            <StackPanel>
-                                <TextBlock Text="核心电压" TextWrapping="Wrap" FontSize="10"></TextBlock>
-                                <Border Visibility="{Binding Data.IsOverClockVisible,Source={StaticResource proxy}}" IsEnabled="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockEnabled,Source={StaticResource proxy}}">
-                                    <TextBox 
-                                        Visibility="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockGpuAll,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-                                        Style="{StaticResource TextBox}" 
-                                        FontSize="12"
-                                        FontWeight="Normal" 
-                                        ToolTip="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm.GpuVm.VoltageMinMaxText,Source={StaticResource proxy}}" 
-                                        Text="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm.CoreVoltage,Source={StaticResource proxy},ValidatesOnExceptions=True}">
-                                    </TextBox>
-                                </Border>
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.HeaderTemplate>
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel>
-                                <TextBlock Text="{Binding GpuVm.CoreVoltage}"></TextBlock>
-                                <Border Visibility="{Binding Data.IsOverClockVisible,Source={StaticResource proxy}}">
-                                    <TextBox 
-                                        Style="{StaticResource TextBox}" 
-                                        Width="50"
-                                        Visibility="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockGpuAll,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityInvertConverter}}" 
-                                        IsEnabled="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockEnabled,Source={StaticResource proxy}}" 
-                                        ToolTip="{Binding GpuVm.VoltageMinMaxText}" 
-                                        Text="{Binding GpuProfileVm.CoreVoltage,Mode=TwoWay,UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"></TextBox>
-                                </Border>
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn MinWidth="50" Width="50" IsReadOnly="True" Header="显存电压" CanUserResize="False" Visibility="{Binding Data.IsVoltVisible,Source={StaticResource proxy}}">
-                    <DataGridTemplateColumn.HeaderTemplate>
-                        <DataTemplate>
-                            <StackPanel>
-                                <TextBlock Text="显存电压" TextWrapping="Wrap" FontSize="10"></TextBlock>
-                                <Border Visibility="{Binding Data.IsOverClockVisible,Source={StaticResource proxy}}" IsEnabled="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockEnabled,Source={StaticResource proxy}}">
-                                    <TextBox 
-                                        Visibility="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockGpuAll,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-                                        Style="{StaticResource TextBox}" 
-                                        FontSize="12"
-                                        FontWeight="Normal" 
-                                        ToolTip="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm.GpuVm.VoltageMinMaxText,Source={StaticResource proxy}}" 
-                                        Text="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm.MemoryVoltage,Source={StaticResource proxy},ValidatesOnExceptions=True}" >
-                                    </TextBox>
-                                </Border>
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.HeaderTemplate>
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel>
-                                <TextBlock Text="{Binding GpuVm.MemoryVoltage}"></TextBlock>
-                                <Border Visibility="{Binding Data.IsOverClockVisible,Source={StaticResource proxy}}">
-                                    <TextBox 
-                                        Style="{StaticResource TextBox}" 
-                                        Width="50"
-                                        Visibility="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockGpuAll,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityInvertConverter}}" 
-                                        IsEnabled="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockEnabled,Source={StaticResource proxy}}" 
-                                        ToolTip="{Binding GpuVm.VoltageMinMaxText}" 
-                                        Text="{Binding GpuProfileVm.MemoryVoltage,Mode=TwoWay,UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"></TextBox>
-                                </Border>
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
                 <DataGridTemplateColumn MinWidth="50" Width="50" IsReadOnly="True" CanUserResize="False">
 					<DataGridTemplateColumn.HeaderTemplate>
 						<DataTemplate>
@@ -351,7 +281,42 @@
                             </StackPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn MinWidth="50" Width="50" IsReadOnly="True" CanUserResize="False" Visibility="{Binding Data.IsVoltVisible,Source={StaticResource proxy}}">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="核心电压" TextWrapping="Wrap" FontSize="10"></TextBlock>
+                                <Border Visibility="{Binding Data.IsOverClockVisible,Source={StaticResource proxy}}" IsEnabled="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockEnabled,Source={StaticResource proxy}}">
+                                    <TextBox 
+                                        Visibility="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockGpuAll,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+                                        Style="{StaticResource TextBox}" 
+                                        FontSize="12"
+                                        FontWeight="Normal" 
+                                        ToolTip="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm.GpuVm.VoltageMinMaxText,Source={StaticResource proxy}}" 
+                                        Text="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm.CoreVoltage,Source={StaticResource proxy},ValidatesOnExceptions=True}">
+                                    </TextBox>
+                                </Border>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding GpuVm.CoreVoltage}"></TextBlock>
+                                <Border Visibility="{Binding Data.IsOverClockVisible,Source={StaticResource proxy}}">
+                                    <TextBox 
+                                        Style="{StaticResource TextBox}" 
+                                        Width="50"
+                                        Visibility="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockGpuAll,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityInvertConverter}}" 
+                                        IsEnabled="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockEnabled,Source={StaticResource proxy}}" 
+                                        ToolTip="{Binding GpuVm.VoltageMinMaxText}" 
+                                        Text="{Binding GpuProfileVm.CoreVoltage,Mode=TwoWay,UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"></TextBox>
+                                </Border>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTemplateColumn MinWidth="50" Width="50" IsReadOnly="True" CanUserResize="False">
 					<DataGridTemplateColumn.HeaderTemplate>
 						<DataTemplate>
@@ -385,6 +350,41 @@
                             </StackPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn MinWidth="50" Width="50" IsReadOnly="True" Header="显存电压" CanUserResize="False" Visibility="{Binding Data.IsVoltVisible,Source={StaticResource proxy}}">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="显存电压" TextWrapping="Wrap" FontSize="10"></TextBlock>
+                                <Border Visibility="{Binding Data.IsOverClockVisible,Source={StaticResource proxy}}" IsEnabled="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockEnabled,Source={StaticResource proxy}}">
+                                    <TextBox 
+                                        Visibility="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockGpuAll,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+                                        Style="{StaticResource TextBox}" 
+                                        FontSize="12"
+                                        FontWeight="Normal" 
+                                        ToolTip="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm.GpuVm.VoltageMinMaxText,Source={StaticResource proxy}}" 
+                                        Text="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.GpuAllProfileVm.MemoryVoltage,Source={StaticResource proxy},ValidatesOnExceptions=True}" >
+                                    </TextBox>
+                                </Border>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding GpuVm.MemoryVoltage}"></TextBlock>
+                                <Border Visibility="{Binding Data.IsOverClockVisible,Source={StaticResource proxy}}">
+                                    <TextBox 
+                                        Style="{StaticResource TextBox}" 
+                                        Width="50"
+                                        Visibility="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockGpuAll,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityInvertConverter}}" 
+                                        IsEnabled="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockEnabled,Source={StaticResource proxy}}" 
+                                        ToolTip="{Binding GpuVm.VoltageMinMaxText}" 
+                                        Text="{Binding GpuProfileVm.MemoryVoltage,Mode=TwoWay,UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"></TextBox>
+                                </Border>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn MinWidth="50" Width="50" IsReadOnly="True" CanUserResize="False">
                     <DataGridTemplateColumn.HeaderTemplate>
