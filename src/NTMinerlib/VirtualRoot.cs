@@ -12,10 +12,24 @@ namespace NTMiner {
         public static readonly string AppFileFullName = Process.GetCurrentProcess().MainModule.FileName;
         public static Guid Id { get; private set; }
 
-        public static bool IsMinerClient { get; private set; }
-
-        public static void SetIsMinerClient(bool value) {
-            IsMinerClient = value;
+        private static bool _isMinerClient;
+        private static bool _isMinerClientDetected = false;
+        private static readonly object _locker = new object();
+        public static bool IsMinerClient {
+            get {
+                if (_isMinerClientDetected) {
+                    return _isMinerClient;
+                }
+                lock (_locker) {
+                    if (_isMinerClientDetected) {
+                        return _isMinerClient;
+                    }
+                    // 基于约定
+                    _isMinerClient = Assembly.GetEntryAssembly().GetManifestResourceInfo("NTMiner.Daemon.NTMinerDaemon.exe") != null;
+                    _isMinerClientDetected = true;
+                }
+                return _isMinerClient;
+            }
         }
 
         public static bool IsMinerStudio { get; private set; }

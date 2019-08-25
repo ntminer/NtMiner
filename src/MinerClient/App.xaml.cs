@@ -71,7 +71,6 @@ namespace NTMiner {
                         Environment.Exit(0);
                     }
 
-                    VirtualRoot.SetIsMinerClient(true);
                     NotiCenterWindowViewModel.IsHotKeyEnabled = true;
                     Window splashWindow = _appViewFactory.CreateSplashWindow();
                     splashWindow.Show();

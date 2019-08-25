@@ -59,7 +59,6 @@ namespace NTMiner {
 
             if (createdNew) {
                 this.ShutdownMode = ShutdownMode.OnExplicitShutdown;
-                VirtualRoot.SetIsMinerClient(false);
                 NotiCenterWindow.Instance.Show();
                 LoginWindow loginWindow = new LoginWindow();
                 var result = loginWindow.ShowDialog();
