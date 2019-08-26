@@ -3,6 +3,7 @@ using NTMiner.Profile;
 using NTMiner.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace NTMiner.Core.Profiles {
@@ -58,6 +59,48 @@ namespace NTMiner.Core.Profiles {
                         }
                         CoinKernelProfile coinProfile = new CoinKernelProfile(mineWorkData, data);
 
+                        SupportedGpu supportedGpu = SupportedGpu.Both;
+                        switch (NTMinerRoot.Instance.GpuSet.GpuType) {
+                            case GpuType.Empty:
+                                break;
+                            case GpuType.NVIDIA:
+                                supportedGpu = SupportedGpu.NVIDIA;
+                                break;
+                            case GpuType.AMD:
+                                supportedGpu = SupportedGpu.AMD;
+                                break;
+                            default:
+                                break;
+                        }
+                        var defaultInputSegments = coinKernel.InputSegments.Where(a => a.IsDefault && a.TargetGpu == SupportedGpu.Both || a.TargetGpu == supportedGpu).ToArray();
+                        string touchedArgs = coinProfile.TouchedArgs;
+                        if (coinProfile.CustomArgs == null) {
+                            coinProfile.CustomArgs = string.Empty;
+                        }
+                        if (string.IsNullOrEmpty(touchedArgs)) {
+                            foreach (var defaultInputSegment in defaultInputSegments) {
+                                if (!coinProfile.CustomArgs.Contains(defaultInputSegment.Segment)) {
+                                    if (coinProfile.CustomArgs.Length == 0) {
+                                        coinProfile.CustomArgs += defaultInputSegment.Segment;
+                                    }
+                                    else {
+                                        coinProfile.CustomArgs += " " + defaultInputSegment.Segment;
+                                    }
+                                }
+                            }
+                        }
+                        else {
+                            foreach (var defaultInputSegment in defaultInputSegments) {
+                                if (!touchedArgs.Contains(defaultInputSegment.Segment) && !coinProfile.CustomArgs.Contains(defaultInputSegment.Segment)) {
+                                    if (coinProfile.CustomArgs.Length == 0) {
+                                        coinProfile.CustomArgs += defaultInputSegment.Segment;
+                                    }
+                                    else {
+                                        coinProfile.CustomArgs += " " + defaultInputSegment.Segment;
+                                    }
+                                }
+                            }
+                        }
                         return coinProfile;
                     }
                     else {
@@ -122,6 +165,13 @@ namespace NTMiner.Core.Profiles {
                     get => _data.CustomArgs;
                     private set {
                         _data.CustomArgs = value;
+                    }
+                }
+
+                public string TouchedArgs {
+                    get { return _data.TouchedArgs; }
+                    set {
+                        _data.TouchedArgs = value;
                     }
                 }
 

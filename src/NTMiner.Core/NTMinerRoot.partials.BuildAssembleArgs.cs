@@ -43,7 +43,7 @@ namespace NTMiner {
             }
             string kernelArgs = kernelInput.Args;
             string coinKernelArgs = coinKernel.Args;
-            string customArgs = coinKernelProfile.CustomArgs;
+            string customArgs = coinKernelProfile.CustomArgs ?? string.Empty;
             parameters.Add(Consts.MainCoinParameterName, mainCoin.Code);
             if (mainCoinPool.IsUserMode) {
                 IPoolProfile poolProfile = MinerProfile.GetPoolProfile(mainCoinPool.GetId());

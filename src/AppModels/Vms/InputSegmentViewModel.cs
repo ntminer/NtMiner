@@ -81,6 +81,18 @@ namespace NTMiner.Vms {
 
         public bool IsChecked {
             get {
+                if (this.IsDefault) {
+                    CoinKernelProfileViewModel coinKernelProfileVm = AppContext.Instance.MinerProfileVm.CoinVm?.CoinKernel?.CoinKernelProfile;
+                    if (coinKernelProfileVm != null) {
+                        if (string.IsNullOrEmpty(coinKernelProfileVm.TouchedArgs)) {
+                            return true;
+                        }
+                        // 用户未触碰过则使用默认值
+                        if (!coinKernelProfileVm.TouchedArgs.Contains(this.Segment)) {
+                            return true;
+                        }
+                    }
+                }
                 if (AppContext.Instance.MinerProfileVm.CoinVm?.CoinKernel?.CoinKernelProfile?.CustomArgs?.Contains(this.Segment) ?? false) {
                     return true;
                 }
@@ -88,7 +100,21 @@ namespace NTMiner.Vms {
             }
             set {
                 CoinKernelProfileViewModel coinKernelProfileVm = AppContext.Instance.MinerProfileVm.CoinVm?.CoinKernel?.CoinKernelProfile;
-                string customArgs = coinKernelProfileVm?.CustomArgs ?? string.Empty;
+                string customArgs = (coinKernelProfileVm?.CustomArgs ?? string.Empty).Trim();
+                if (coinKernelProfileVm != null) {
+                    if (coinKernelProfileVm.TouchedArgs == null) {
+                        coinKernelProfileVm.TouchedArgs = string.Empty;
+                    }
+                    if (!coinKernelProfileVm.TouchedArgs.Contains(this.Segment)) {
+                        // 记录下用户是否触碰过该自定义参数，如果用户触碰过则IsDefault失效
+                        if (coinKernelProfileVm.TouchedArgs.Length == 0) {
+                            coinKernelProfileVm.TouchedArgs += this.Segment;
+                        }
+                        else {
+                            coinKernelProfileVm.TouchedArgs += " " + this.Segment;
+                        }
+                    }
+                }
                 bool b = customArgs.Contains(this.Segment);
                 if (value) {
                     if (b == false) {

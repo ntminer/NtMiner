@@ -13,6 +13,7 @@ namespace NTMiner.Profile {
             this.DualCoinId = data.DualCoinId;
             this.DualCoinWeight = data.DualCoinWeight;
             this.CustomArgs = data.CustomArgs;
+            this.TouchedArgs = data.TouchedArgs;
         }
 
         public static CoinKernelProfileData CreateDefaultData(Guid coinKernelId) {
@@ -22,7 +23,8 @@ namespace NTMiner.Profile {
                 IsAutoDualWeight = true,
                 DualCoinId = Guid.Empty,
                 DualCoinWeight = 30,
-                CustomArgs = string.Empty
+                CustomArgs = string.Empty,
+                TouchedArgs = string.Empty
             };
         }
 
@@ -42,6 +44,8 @@ namespace NTMiner.Profile {
         public bool IsAutoDualWeight { get; set; }
 
         public string CustomArgs { get; set; }
+
+        public string TouchedArgs { get; set; }
 
         public override string ToString() {
             return this.BuildSign().ToString();
