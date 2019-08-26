@@ -64,9 +64,9 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-                <DataGridTemplateColumn MinWidth="40" Width="40" IsReadOnly="True">
+                <DataGridTemplateColumn MinWidth="36" Width="36" IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
-						<TextBlock Text="显存"></TextBlock>
+						<TextBlock Text="显存" FontSize="11"></TextBlock>
 					</DataGridTemplateColumn.Header>
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
@@ -101,7 +101,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn MinWidth="50" Width="50" IsReadOnly="True" CanUserResize="False">
+                <DataGridTemplateColumn MinWidth="46" Width="46" IsReadOnly="True" CanUserResize="False">
 					<DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
                             <StackPanel>
