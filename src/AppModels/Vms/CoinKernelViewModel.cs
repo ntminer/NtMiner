@@ -22,6 +22,7 @@ namespace NTMiner.Vms {
         private List<EnvironmentVariable> _environmentVariables = new List<EnvironmentVariable>();
         private List<InputSegment> _inputSegments = new List<InputSegment>();
         private List<InputSegmentViewModel> _inputSegmentVms = new List<InputSegmentViewModel>();
+        private List<InputSegmentViewModel> _gpuInputSegmentVms = new List<InputSegmentViewModel>();
         private List<Guid> _fileWriterIds = new List<Guid>();
         private List<Guid> _fragmentWriterIds = new List<Guid>();
         private List<FileWriterViewModel> _fileWriterVms = new List<FileWriterViewModel>();
@@ -67,6 +68,7 @@ namespace NTMiner.Vms {
             // 复制，视为值对象，防止直接修改引用
             _inputSegments.AddRange(data.InputSegments.Select(a => new InputSegment(a)));
             _inputSegmentVms.AddRange(_inputSegments.Select(a => new InputSegmentViewModel(a)));
+            _gpuInputSegmentVms.AddRange(_inputSegmentVms.Where(a => a.TargetGpu.IsSupportedGpu(NTMinerRoot.Instance.GpuSet.GpuType)));
             _fileWriterIds = data.FileWriterIds;
             _fragmentWriterIds = data.FragmentWriterIds;
             _isHot = data.IsHot;
@@ -321,13 +323,12 @@ namespace NTMiner.Vms {
             }
             set {
                 _inputSegmentVms = value;
-                _gpuInputSegmentVms = this.InputSegmentVms.Where(a => a.TargetGpu.IsSupportedGpu(NTMinerRoot.Instance.GpuSet.GpuType)).ToList();
+                _gpuInputSegmentVms = _inputSegmentVms.Where(a => a.TargetGpu.IsSupportedGpu(NTMinerRoot.Instance.GpuSet.GpuType)).ToList();
                 OnPropertyChanged(nameof(InputSegmentVms));
                 OnPropertyChanged(nameof(GpuInputSegmentVms));
             }
         }
 
-        private List<InputSegmentViewModel> _gpuInputSegmentVms;
         public List<InputSegmentViewModel> GpuInputSegmentVms {
             get {
                 return _gpuInputSegmentVms;
