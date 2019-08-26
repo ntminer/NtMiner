@@ -8,7 +8,7 @@ namespace NTMiner.Vms {
         private string _name;
         private string _segment;
         private string _description;
-        private bool _isDefaultUse;
+        private bool _isDefault;
 
         public InputSegmentViewModel() { }
 
@@ -17,7 +17,7 @@ namespace NTMiner.Vms {
             _name = data.Name;
             _segment = data.Segment;
             _description = data.Description;
-            _isDefaultUse = data.IsDefaultUse;
+            _isDefault = data.IsDefault;
         }
 
         public SupportedGpu TargetGpu {
@@ -55,11 +55,11 @@ namespace NTMiner.Vms {
             }
         }
 
-        public bool IsDefaultUse {
-            get { return _isDefaultUse; }
+        public bool IsDefault {
+            get { return _isDefault; }
             set {
-                _isDefaultUse = value;
-                OnPropertyChanged(nameof(IsDefaultUse));
+                _isDefault = value;
+                OnPropertyChanged(nameof(IsDefault));
             }
         }
 

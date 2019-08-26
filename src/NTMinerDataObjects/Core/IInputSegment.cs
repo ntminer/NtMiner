@@ -4,6 +4,6 @@
         string Name { get; }
         string Segment { get; }
         string Description { get; }
-        bool IsDefaultUse { get; }
+        bool IsDefault { get; }
     }
 }

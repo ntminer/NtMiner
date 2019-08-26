@@ -9,7 +9,7 @@ namespace NTMiner.Vms {
         private string _name;
         private string _segment;
         private string _description;
-        private bool _isDefaultUse;
+        private bool _isDefault;
 
         public ICommand Save { get; private set; }
         public Action CloseWindow { get; set; }
@@ -25,7 +25,7 @@ namespace NTMiner.Vms {
             _name = segment.Name;
             _segment = segment.Segment;
             _description = segment.Description;
-            _isDefaultUse = segment.IsDefaultUse;
+            _isDefault = segment.IsDefault;
             this.Save = new DelegateCommand(() => {
                 if (string.IsNullOrEmpty(this.Name)) {
                     throw new ValidationException("片段名不能为空");
@@ -34,7 +34,7 @@ namespace NTMiner.Vms {
                 segment.Name = this.Name;
                 segment.Segment = this.Segment;
                 segment.Description = this.Description;
-                segment.IsDefaultUse = this.IsDefaultUse;
+                segment.IsDefault = this.IsDefault;
                 if (!coinKernelVm.InputSegments.Contains(segment)) {
                     coinKernelVm.InputSegments.Add(segment);
                 }
@@ -78,11 +78,11 @@ namespace NTMiner.Vms {
             }
         }
 
-        public bool IsDefaultUse {
-            get { return _isDefaultUse; }
+        public bool IsDefault {
+            get { return _isDefault; }
             set {
-                _isDefaultUse = value;
-                OnPropertyChanged(nameof(IsDefaultUse));
+                _isDefault = value;
+                OnPropertyChanged(nameof(IsDefault));
             }
         }
     }

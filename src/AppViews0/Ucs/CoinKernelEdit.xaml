@@ -8,7 +8,7 @@
 		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
 		xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 		mc:Ignorable="d"
-		Width="600"
+		Width="700"
 		d:DataContext="{d:DesignData Source=/Design/CoinKernelViewModel.xaml}"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs" Background="White">
 	<UserControl.Resources>
@@ -25,7 +25,7 @@
 	<StackPanel Margin="10">
 		<WrapPanel Margin="0 2">
 			<TextBlock Style="{StaticResource LblTb}" Text="币种"></TextBlock>
-			<WrapPanel Width="180" VerticalAlignment="Center">
+			<WrapPanel Width="230" VerticalAlignment="Center">
 				<TextBlock Text="{Binding CoinCode}">
 				</TextBlock>
 			</WrapPanel>
@@ -63,7 +63,7 @@
 			<TextBlock Style="{StaticResource LblTb}" Text="支持显卡"></TextBlock>
 			<WrapPanel VerticalAlignment="Center">
 				<controls:KbComboBox 
-					Width="80" ItemsSource="{x:Static app:AppStatic.SupportedGpuEnumItems}"
+					Width="100" ItemsSource="{x:Static app:AppStatic.SupportedGpuEnumItems}"
 					IsEnabled="{x:Static app:AppStatic.IsDevMode}"
 					DisplayMemberPath="Description"
 					SelectedItem="{Binding SupportedGpuEnumItem}">
@@ -88,8 +88,9 @@
 					Stretch="Fill" />
 			</WrapPanel>
 			<CheckBox 
+                Width="88"
 				IsEnabled="{x:Static app:AppStatic.IsDevMode}"
-				Margin="4 0 0 0" IsChecked="{Binding IsSupportPool1}" 
+				IsChecked="{Binding IsSupportPool1}" 
 				VerticalContentAlignment="Center"
 				FocusVisualStyle="{x:Null}">支持备池1</CheckBox>
 			<WrapPanel Visibility="{Binding Kernel.KernelInputVm.IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -139,7 +140,7 @@
             <TextBlock Style="{StaticResource LblTb}" Text="币种级参数"></TextBlock>
             <TextBox 
 				    VerticalContentAlignment="Center"
-				    Width="436" Background="Transparent"
+				    Width="536" Background="Transparent"
 				    IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}"
 				    Text="{Binding Args, Mode=TwoWay}">
             </TextBox>
@@ -148,7 +149,7 @@
         <WrapPanel Margin="0 2" Visibility="{Binding IsSupportDualMine,Converter={StaticResource BoolToVisibilityConverter}}">
             <TextBlock Style="{StaticResource LblTb}" Text="双挖全参" VerticalAlignment="Top"></TextBlock>
             <controls:KbMuiltilineTextBox 
-				Width="436" Background="Transparent"
+				Width="536" Background="Transparent"
 				IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}"
 				VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
 				Text="{Binding DualFullArgs, Mode=TwoWay}" Height="60">
@@ -158,7 +159,7 @@
         <WrapPanel Margin="0 2">
 			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="通知"></TextBlock>
 			<controls:KbMuiltilineTextBox 
-				Width="436" Background="Transparent"
+				Width="536" Background="Transparent"
 				IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}"
 				VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
 				Text="{Binding Notice, Mode=TwoWay}" Height="60">                
@@ -167,7 +168,7 @@
 		<WrapPanel Margin="0 2" Visibility="{x:Static app:AppStatic.IsDevModeVisible}">
 			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="环境变量"></TextBlock>
 			<DataGrid 
-				Width="436"				
+				Width="536"				
 				ItemsSource="{Binding EnvironmentVariables}" 
 				Background="Transparent" 
 				MouseDoubleClick="DataGrid_MouseDoubleClick"
@@ -241,7 +242,7 @@
 		<WrapPanel Margin="0 2" Visibility="{x:Static app:AppStatic.IsDevModeVisible}">
 			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="片段"></TextBlock>
 			<DataGrid 
-				Width="436"
+				Width="536"
 				ItemsSource="{Binding InputSegments}" 
 				Background="Transparent" 
 				MouseDoubleClick="DataGridSegments_MouseDoubleClick"
@@ -331,6 +332,8 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
+                    <DataGridCheckBoxColumn Header="默认" Binding="{Binding IsDefault}" IsReadOnly="True">
+                    </DataGridCheckBoxColumn>
                     <DataGridTextColumn Header="名称" Binding="{Binding Name}" IsReadOnly="True">
 					</DataGridTextColumn>
 					<DataGridTextColumn Width="Auto" Header="片段" Binding="{Binding Segment}" IsReadOnly="True">
@@ -349,7 +352,7 @@
 			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="文件书写器"></TextBlock>
 			<Grid>
 				<DataGrid 
-					Width="436"
+					Width="536"
 					ItemsSource="{Binding FileWriterVms}" 
 					Background="Transparent" 
 					VerticalScrollBarVisibility="Auto"
@@ -423,7 +426,7 @@
 			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="命令片段书写器"></TextBlock>
 			<Grid>
 				<DataGrid 
-					Width="436"
+					Width="536"
 					ItemsSource="{Binding FragmentWriterVms}" 
 					Background="Transparent" 
 					VerticalScrollBarVisibility="Auto"

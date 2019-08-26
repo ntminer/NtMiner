@@ -10,13 +10,13 @@
             this.Name = data.Name;
             this.Segment = data.Name;
             this.Description = data.Description;
-            this.IsDefaultUse = false;
+            this.IsDefault = false;
         }
 
         public SupportedGpu TargetGpu { get; set; }
         public string Name { get; set; }
         public string Segment { get; set; }
         public string Description { get; set; }
-        public bool IsDefaultUse { get; set; }
+        public bool IsDefault { get; set; }
     }
 }
