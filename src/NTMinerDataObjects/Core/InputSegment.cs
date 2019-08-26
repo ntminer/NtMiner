@@ -6,13 +6,17 @@
         public InputSegment() { }
 
         public InputSegment(IInputSegment data) {
+            this.TargetGpu = SupportedGpu.Both;
             this.Name = data.Name;
             this.Segment = data.Name;
             this.Description = data.Description;
+            this.IsDefaultUse = false;
         }
 
+        public SupportedGpu TargetGpu { get; set; }
         public string Name { get; set; }
         public string Segment { get; set; }
         public string Description { get; set; }
+        public bool IsDefaultUse { get; set; }
     }
 }
