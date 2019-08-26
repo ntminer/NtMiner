@@ -36,8 +36,12 @@ namespace NTMiner.Vms {
                 segment.Segment = this.Segment;
                 segment.Description = this.Description;
                 segment.IsDefault = this.IsDefault;
-                if (!coinKernelVm.InputSegmentVms.Contains(segment)) {
-                    coinKernelVm.InputSegmentVms.Add(segment);
+                var existItem = coinKernelVm.InputSegments.FirstOrDefault(a => a.Segment == segment.Segment);
+                if (existItem == null) {
+                    coinKernelVm.InputSegments.Add(new InputSegment(segment));
+                }
+                else {
+                    existItem.Update(segment);
                 }
                 coinKernelVm.InputSegments = coinKernelVm.InputSegments.ToList();
                 CloseWindow?.Invoke();
@@ -57,9 +61,6 @@ namespace NTMiner.Vms {
             set {
                 _name = value;
                 OnPropertyChanged(nameof(Name));
-                if (string.IsNullOrEmpty(value)) {
-                    throw new ValidationException("片段名不能为空");
-                }
             }
         }
 

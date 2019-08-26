@@ -1,5 +1,4 @@
 ﻿using NTMiner.Core;
-using System.Linq;
 using System.Windows;
 
 namespace NTMiner.Vms {
