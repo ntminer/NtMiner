@@ -304,8 +304,34 @@
 								</StackPanel>
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
-					</DataGridTemplateColumn>
-					<DataGridTextColumn Header="名称" Binding="{Binding Name}" IsReadOnly="True">
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="54" Header="显卡" IsReadOnly="True">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <WrapPanel>
+                                    <Path
+									Margin="4 0 0 0"
+									Width="20"
+									Height="16"
+									ToolTip="支持N卡"
+									Visibility="{Binding IsNvidiaIconVisible}"
+									Data="{StaticResource Icon_Nvidia}"
+									Fill="Green"
+									Stretch="Fill" />
+                                    <Path
+									Margin="4 0 0 0"
+									Width="20"
+									Height="16"
+									ToolTip="支持A卡"
+									Visibility="{Binding IsAMDIconVisible}"
+									Data="{StaticResource Icon_AMD}"
+									Fill="Red"
+									Stretch="Fill" />
+                                </WrapPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="名称" Binding="{Binding Name}" IsReadOnly="True">
 					</DataGridTextColumn>
 					<DataGridTextColumn Width="Auto" Header="片段" Binding="{Binding Segment}" IsReadOnly="True">
 					</DataGridTextColumn>

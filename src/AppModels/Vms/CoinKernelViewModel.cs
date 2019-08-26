@@ -404,6 +404,7 @@ namespace NTMiner.Vms {
                     OnPropertyChanged(nameof(IsNvidiaIconVisible));
                     OnPropertyChanged(nameof(IsAMDIconVisible));
                     OnPropertyChanged(nameof(IsSupported));
+                    OnPropertyChanged(nameof(SupportedGpuEnumItem));
                 }
             }
         }
@@ -451,7 +452,6 @@ namespace NTMiner.Vms {
             set {
                 if (SupportedGpu != value.Value) {
                     SupportedGpu = value.Value;
-                    OnPropertyChanged(nameof(SupportedGpuEnumItem));
                 }
             }
         }

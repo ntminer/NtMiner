@@ -1,4 +1,6 @@
 ﻿using NTMiner.Core;
+using System.Linq;
+using System.Windows;
 
 namespace NTMiner.Vms {
     public class InputSegmentViewModel : ViewModelBase, IInputSegment {
@@ -39,6 +41,9 @@ namespace NTMiner.Vms {
             set {
                 _segment = value;
                 OnPropertyChanged(nameof(Segment));
+                OnPropertyChanged(nameof(IsNvidiaIconVisible));
+                OnPropertyChanged(nameof(IsAMDIconVisible));
+                OnPropertyChanged(nameof(TargetGpuEnumItem));
             }
         }
 
@@ -55,6 +60,35 @@ namespace NTMiner.Vms {
             set {
                 _isDefaultUse = value;
                 OnPropertyChanged(nameof(IsDefaultUse));
+            }
+        }
+
+        public Visibility IsNvidiaIconVisible {
+            get {
+                if (TargetGpu == SupportedGpu.NVIDIA || TargetGpu == SupportedGpu.Both) {
+                    return Visibility.Visible;
+                }
+                return Visibility.Collapsed;
+            }
+        }
+
+        public Visibility IsAMDIconVisible {
+            get {
+                if (TargetGpu == SupportedGpu.AMD || TargetGpu == SupportedGpu.Both) {
+                    return Visibility.Visible;
+                }
+                return Visibility.Collapsed;
+            }
+        }
+
+        public EnumItem<SupportedGpu> TargetGpuEnumItem {
+            get {
+                return EnumSet.SupportedGpuEnumItems.FirstOrDefault(a => a.Value == TargetGpu);
+            }
+            set {
+                if (TargetGpu != value.Value) {
+                    TargetGpu = value.Value;
+                }
             }
         }
 
