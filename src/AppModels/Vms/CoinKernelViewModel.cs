@@ -321,7 +321,16 @@ namespace NTMiner.Vms {
             }
             set {
                 _inputSegmentVms = value;
+                _gpuInputSegmentVms = this.InputSegmentVms.Where(a => a.TargetGpu.IsSupportedGpu(NTMinerRoot.Instance.GpuSet.GpuType)).ToList();
                 OnPropertyChanged(nameof(InputSegmentVms));
+                OnPropertyChanged(nameof(GpuInputSegmentVms));
+            }
+        }
+
+        private List<InputSegmentViewModel> _gpuInputSegmentVms;
+        public List<InputSegmentViewModel> GpuInputSegmentVms {
+            get {
+                return _gpuInputSegmentVms;
             }
         }
 
@@ -411,25 +420,13 @@ namespace NTMiner.Vms {
 
         public bool IsSupported {
             get {
-                if (NTMinerRoot.Instance.GpuSet.GpuType == GpuType.Empty) {
-                    return true;
-                }
-                if (this.SupportedGpu == SupportedGpu.Both) {
-                    return true;
-                }
-                if (this.SupportedGpu == SupportedGpu.NVIDIA && NTMinerRoot.Instance.GpuSet.GpuType == GpuType.NVIDIA) {
-                    return true;
-                }
-                if (this.SupportedGpu == SupportedGpu.AMD && NTMinerRoot.Instance.GpuSet.GpuType == GpuType.AMD) {
-                    return true;
-                }
-                return false;
+                return this.SupportedGpu.IsSupportedGpu(NTMinerRoot.Instance.GpuSet.GpuType);
             }
         }
 
         public Visibility IsNvidiaIconVisible {
             get {
-                if (SupportedGpu == SupportedGpu.NVIDIA || SupportedGpu == SupportedGpu.Both) {
+                if (SupportedGpu.IsSupportedGpu(GpuType.NVIDIA)) {
                     return Visibility.Visible;
                 }
                 return Visibility.Collapsed;
@@ -438,7 +435,7 @@ namespace NTMiner.Vms {
 
         public Visibility IsAMDIconVisible {
             get {
-                if (SupportedGpu == SupportedGpu.AMD || SupportedGpu == SupportedGpu.Both) {
+                if (SupportedGpu.IsSupportedGpu(GpuType.AMD)) {
                     return Visibility.Visible;
                 }
                 return Visibility.Collapsed;

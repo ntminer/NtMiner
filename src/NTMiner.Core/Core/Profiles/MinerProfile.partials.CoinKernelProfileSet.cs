@@ -59,20 +59,7 @@ namespace NTMiner.Core.Profiles {
                         }
                         CoinKernelProfile coinProfile = new CoinKernelProfile(mineWorkData, data);
 
-                        SupportedGpu supportedGpu = SupportedGpu.Both;
-                        switch (NTMinerRoot.Instance.GpuSet.GpuType) {
-                            case GpuType.Empty:
-                                break;
-                            case GpuType.NVIDIA:
-                                supportedGpu = SupportedGpu.NVIDIA;
-                                break;
-                            case GpuType.AMD:
-                                supportedGpu = SupportedGpu.AMD;
-                                break;
-                            default:
-                                break;
-                        }
-                        var defaultInputSegments = coinKernel.InputSegments.Where(a => a.IsDefault && a.TargetGpu == SupportedGpu.Both || a.TargetGpu == supportedGpu).ToArray();
+                        var defaultInputSegments = coinKernel.InputSegments.Where(a => a.IsDefault && a.TargetGpu.IsSupportedGpu(NTMinerRoot.Instance.GpuSet.GpuType)).ToArray();
                         string touchedArgs = coinProfile.TouchedArgs;
                         if (coinProfile.CustomArgs == null) {
                             coinProfile.CustomArgs = string.Empty;

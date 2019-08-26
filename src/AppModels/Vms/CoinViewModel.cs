@@ -309,13 +309,7 @@ namespace NTMiner.Vms {
                     return true;
                 }
                 foreach (var coinKernel in NTMinerRoot.Instance.CoinKernelSet.Where(a => a.CoinId == this.Id)) {
-                    if (coinKernel.SupportedGpu == SupportedGpu.Both) {
-                        return true;
-                    }
-                    if (coinKernel.SupportedGpu == SupportedGpu.NVIDIA && NTMinerRoot.Instance.GpuSet.GpuType == GpuType.NVIDIA) {
-                        return true;
-                    }
-                    if (coinKernel.SupportedGpu == SupportedGpu.AMD && NTMinerRoot.Instance.GpuSet.GpuType == GpuType.AMD) {
+                    if (coinKernel.SupportedGpu.IsSupportedGpu(NTMinerRoot.Instance.GpuSet.GpuType)) {
                         return true;
                     }
                 }
