@@ -603,13 +603,25 @@ namespace NTMiner.Gpus {
             return false;
         }
 
+        private Dictionary<int, int> _nvGetCoolerSettingsErrorCountByBusId = new Dictionary<int, int>();
+        // 20卡不支持该方法，所以尝试两次返回值不正确不再尝试
         private bool GetCoolerSettings(int busId, out NvCoolerSettings info) {
             info = new NvCoolerSettings();
+            int count;
+            if (_nvGetCoolerSettingsErrorCountByBusId.TryGetValue(busId, out count)) {
+                if (count > 1) {
+                    return false;
+                }
+            }
+            else {
+                _nvGetCoolerSettingsErrorCountByBusId.Add(busId, 1);
+            }
             info.version = (uint)(VERSION1 | (Marshal.SizeOf(typeof(NvCoolerSettings))));
             try {
                 NvCoolerTarget coolerIndex = NvCoolerTarget.NVAPI_COOLER_TARGET_ALL;
                 var r = NvapiNativeMethods.NvGetCoolerSettings(HandlesByBusId[busId], coolerIndex, ref info);
                 if (r != NvStatus.OK) {
+                    _nvGetCoolerSettingsErrorCountByBusId[busId] = count + 1;
                     Write.DevError($"{nameof(NvapiNativeMethods.NvGetCoolerSettings)} {r}");
                     return false;
                 }
