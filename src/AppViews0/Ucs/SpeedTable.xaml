@@ -64,9 +64,9 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-                <DataGridTemplateColumn MinWidth="36" Width="36" IsReadOnly="True">
+                <DataGridTemplateColumn MinWidth="32" Width="32" IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
-						<TextBlock Text="显存" FontSize="11"></TextBlock>
+						<TextBlock Text="显存" FontSize="10"></TextBlock>
 					</DataGridTemplateColumn.Header>
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
@@ -74,7 +74,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-                <DataGridTemplateColumn MinWidth="90" Width="90" IsReadOnly="True">
+                <DataGridTemplateColumn MinWidth="86" Width="86" IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
 						<StackPanel>
 							<TextBlock Text="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.Code, Source={StaticResource proxy}}" FontSize="12"></TextBlock>
@@ -87,7 +87,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-                <DataGridTemplateColumn MinWidth="90" Width="90" IsReadOnly="True"
+                <DataGridTemplateColumn MinWidth="86" Width="86" IsReadOnly="True"
 					Visibility="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled, Source={StaticResource proxy}, Converter={StaticResource BoolToHiddenConverter}}">
 					<DataGridTemplateColumn.Header>
 						<StackPanel>
