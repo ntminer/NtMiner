@@ -1,6 +1,7 @@
 ﻿using NTMiner.Core;
 using System;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
@@ -20,7 +21,7 @@ namespace NTMiner.Vms {
             }
         }
 
-        public InputSegmentEditViewModel(CoinKernelViewModel coinKernelVm, InputSegment segment) {
+        public InputSegmentEditViewModel(CoinKernelViewModel coinKernelVm, InputSegmentViewModel segment) {
             _targetGpu = segment.TargetGpu;
             _name = segment.Name;
             _segment = segment.Segment;
@@ -35,8 +36,8 @@ namespace NTMiner.Vms {
                 segment.Segment = this.Segment;
                 segment.Description = this.Description;
                 segment.IsDefault = this.IsDefault;
-                if (!coinKernelVm.InputSegments.Contains(segment)) {
-                    coinKernelVm.InputSegments.Add(segment);
+                if (!coinKernelVm.InputSegmentVms.Contains(segment)) {
+                    coinKernelVm.InputSegmentVms.Add(segment);
                 }
                 coinKernelVm.InputSegments = coinKernelVm.InputSegments.ToList();
                 CloseWindow?.Invoke();
@@ -67,6 +68,9 @@ namespace NTMiner.Vms {
             set {
                 _segment = value;
                 OnPropertyChanged(nameof(Segment));
+                OnPropertyChanged(nameof(IsNvidiaIconVisible));
+                OnPropertyChanged(nameof(IsAMDIconVisible));
+                OnPropertyChanged(nameof(TargetGpuEnumItem));
             }
         }
 
@@ -83,6 +87,35 @@ namespace NTMiner.Vms {
             set {
                 _isDefault = value;
                 OnPropertyChanged(nameof(IsDefault));
+            }
+        }
+
+        public Visibility IsNvidiaIconVisible {
+            get {
+                if (TargetGpu == SupportedGpu.NVIDIA || TargetGpu == SupportedGpu.Both) {
+                    return Visibility.Visible;
+                }
+                return Visibility.Collapsed;
+            }
+        }
+
+        public Visibility IsAMDIconVisible {
+            get {
+                if (TargetGpu == SupportedGpu.AMD || TargetGpu == SupportedGpu.Both) {
+                    return Visibility.Visible;
+                }
+                return Visibility.Collapsed;
+            }
+        }
+
+        public EnumItem<SupportedGpu> TargetGpuEnumItem {
+            get {
+                return EnumSet.SupportedGpuEnumItems.FirstOrDefault(a => a.Value == TargetGpu);
+            }
+            set {
+                if (TargetGpu != value.Value) {
+                    TargetGpu = value.Value;
+                }
             }
         }
     }

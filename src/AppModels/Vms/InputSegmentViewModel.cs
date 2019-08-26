@@ -43,7 +43,6 @@ namespace NTMiner.Vms {
                 OnPropertyChanged(nameof(Segment));
                 OnPropertyChanged(nameof(IsNvidiaIconVisible));
                 OnPropertyChanged(nameof(IsAMDIconVisible));
-                OnPropertyChanged(nameof(TargetGpuEnumItem));
             }
         }
 
@@ -78,17 +77,6 @@ namespace NTMiner.Vms {
                     return Visibility.Visible;
                 }
                 return Visibility.Collapsed;
-            }
-        }
-
-        public EnumItem<SupportedGpu> TargetGpuEnumItem {
-            get {
-                return EnumSet.SupportedGpuEnumItems.FirstOrDefault(a => a.Value == TargetGpu);
-            }
-            set {
-                if (TargetGpu != value.Value) {
-                    TargetGpu = value.Value;
-                }
             }
         }
 

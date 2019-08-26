@@ -98,9 +98,9 @@ namespace NTMiner.Vms {
                 }, icon: IconConst.IconConfirm);
             });
             this.AddSegment = new DelegateCommand(() => {
-                VirtualRoot.Execute(new InputSegmentEditCommand(this, new InputSegment()));
+                VirtualRoot.Execute(new InputSegmentEditCommand(this, new InputSegmentViewModel()));
             });
-            this.EditSegment = new DelegateCommand<InputSegment>((segment) => {
+            this.EditSegment = new DelegateCommand<InputSegmentViewModel>((segment) => {
                 VirtualRoot.Execute(new InputSegmentEditCommand(this, segment));
             });
             this.RemoveSegment = new DelegateCommand<InputSegment>((segment) => {

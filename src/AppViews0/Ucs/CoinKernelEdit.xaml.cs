@@ -52,7 +52,7 @@ namespace NTMiner.Views.Ucs {
                 return;
             }
             if (dg.SelectedItem != null) {
-                Vm.EditSegment.Execute((InputSegment)dg.SelectedItem);
+                Vm.EditSegment.Execute((InputSegmentViewModel)dg.SelectedItem);
             }
         }
 

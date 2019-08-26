@@ -139,13 +139,13 @@ namespace NTMiner {
 
     [MessageType(description: "打开内核输入片段编辑界面")]
     public class InputSegmentEditCommand : Cmd {
-        public InputSegmentEditCommand(CoinKernelViewModel coinKernelVm, InputSegment segment) {
+        public InputSegmentEditCommand(CoinKernelViewModel coinKernelVm, InputSegmentViewModel segment) {
             this.CoinKernelVm = coinKernelVm;
             this.Segment = segment;
         }
 
         public CoinKernelViewModel CoinKernelVm { get; private set; }
-        public InputSegment Segment { get; private set; }
+        public InputSegmentViewModel Segment { get; private set; }
     }
 
     [MessageType(description: "打开币种级内核编辑界面")]

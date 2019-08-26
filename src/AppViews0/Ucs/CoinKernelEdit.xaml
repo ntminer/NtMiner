@@ -88,7 +88,8 @@
 					Stretch="Fill" />
 			</WrapPanel>
 			<CheckBox 
-                Width="88"
+                Margin="10 0 0 0"
+                Width="78"
 				IsEnabled="{x:Static app:AppStatic.IsDevMode}"
 				IsChecked="{Binding IsSupportPool1}" 
 				VerticalContentAlignment="Center"
@@ -243,7 +244,7 @@
 			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="片段"></TextBlock>
 			<DataGrid 
 				Width="536"
-				ItemsSource="{Binding InputSegments}" 
+				ItemsSource="{Binding InputSegmentVms}" 
 				Background="Transparent" 
 				MouseDoubleClick="DataGridSegments_MouseDoubleClick"
 				VerticalScrollBarVisibility="Auto"

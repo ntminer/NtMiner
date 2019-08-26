@@ -4,7 +4,7 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class InputSegmentEdit : UserControl {
-        public static void ShowWindow(CoinKernelViewModel coinKernelVm, InputSegment segment) {
+        public static void ShowWindow(CoinKernelViewModel coinKernelVm, InputSegmentViewModel segment) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "片段",
                 IsDialogWindow = true,

@@ -17,11 +17,46 @@
 		</Style>
 	</UserControl.Resources>
 	<StackPanel Margin="10">
+        <WrapPanel Margin="0 2">
+            <TextBlock Style="{StaticResource LblTb}">支持显卡</TextBlock>
+            <WrapPanel VerticalAlignment="Center">
+                <controls:KbComboBox 
+					Width="100" ItemsSource="{x:Static app:AppStatic.SupportedGpuEnumItems}"
+					IsEnabled="{x:Static app:AppStatic.IsDevMode}"
+					DisplayMemberPath="Description"
+					SelectedItem="{Binding TargetGpuEnumItem}">
+                </controls:KbComboBox>
+                <Path
+					Margin="4 0 0 0"
+					Width="18"
+					Height="14"
+					ToolTip="NVIDIA"
+					Visibility="{Binding IsNvidiaIconVisible}"
+					Data="{StaticResource Icon_Nvidia}"
+					Fill="Green"
+					Stretch="Fill" />
+                <Path
+					Margin="4 0 0 0"
+					Width="16"
+					Height="14"
+					ToolTip="AMD"
+					Visibility="{Binding IsAMDIconVisible}"
+					Data="{StaticResource Icon_AMD}"
+					Fill="Red"
+					Stretch="Fill" />
+            </WrapPanel>
+            <CheckBox 
+                Margin="10 0 0 0"
+				IsEnabled="{x:Static app:AppStatic.IsDevMode}"
+				IsChecked="{Binding IsDefault}" 
+				VerticalContentAlignment="Center"
+				FocusVisualStyle="{x:Null}">默认使用</CheckBox>
+        </WrapPanel>
 		<WrapPanel Margin="0 2">
 			<TextBlock Style="{StaticResource LblTb}">名称</TextBlock>
 			<TextBox Width="420" VerticalContentAlignment="Center" Text="{Binding Name, ValidatesOnExceptions=True}">
-			</TextBox>
-		</WrapPanel>
+            </TextBox>
+        </WrapPanel>
 		<WrapPanel Margin="0 2">
 			<TextBlock Style="{StaticResource LblTb}">片段</TextBlock>
 			<TextBox Width="420" VerticalContentAlignment="Center" Text="{Binding Segment, ValidatesOnExceptions=True}">
