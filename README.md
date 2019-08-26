@@ -4,7 +4,7 @@
 2. 开源矿工永远开源；
 3. 开源矿工永远不会去破解国人开发的内核；
 
-# 下载地址 阿里云：[点击下载最新版](https://minerjson.oss-cn-beijing.aliyuncs.com/NTMiner.exe)
+# 下载地址 阿里云：[点击下载最新版](https://minerjson.oss-cn-beijing.aliyuncs.com/NTMiner.zip)
 
 ## 起因
 整个区块链行业都是开源开放的，所以我认为挖矿软件必须开源，但做了几年矿工见证的一个个昙花一现的矿工软件却没有一个是开源的。因为我本人是程序员，且热爱开源所以有了这个软件。
@@ -14,7 +14,7 @@
 
 ## 使用说明
 ### 注意：显卡币普遍对显存有要求，90%的家用和办公电脑的显卡达不到大部分币种挖矿的最低要求。
-[在线下载](https://minerjson.oss-cn-beijing.aliyuncs.com/NTMiner.exe)或者拷贝到矿机上打开即可开始挖矿了。下图是软件主界面，这是一台具有8张p106显卡的矿机：
+[在线下载](https://minerjson.oss-cn-beijing.aliyuncs.com/NTMiner.zip)或者拷贝到矿机上打开即可开始挖矿了。下图是软件主界面，这是一台具有8张p106显卡的矿机：
 ![视图](https://minerjson.oss-cn-beijing.aliyuncs.com/view.png?4 "NTMiner视图")
 从图上可以看到，这台矿机挖了3分钟了，它在挖ETH，连接的鱼池的矿池，使用鱼池的挖矿账户名挖矿，也可以选择鱼池pps矿池使用ETH钱包地址挖矿，这个挖矿账户名或钱包地址也是用户唯一需要填写的东西，其它的都不用填默认即可开挖。从图上可以看到这台矿机一天能挖0.0149个ETH，约等于22块钱，去除电费（0.56元每度）后盈利15块钱。
 
