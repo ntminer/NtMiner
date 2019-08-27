@@ -558,7 +558,6 @@
                 <StackPanel Margin="4 0 0 0">
                     <CheckBox 
                         Padding="0"
-				        FocusVisualStyle="{x:Null}"
 				        VerticalContentAlignment="Center"
 				        ToolTip="挖矿开始时自动应用超频" 
                         Foreground="{StaticResource ThemeForeground}"
