@@ -493,6 +493,38 @@ namespace NTMiner {
             Process.Start(url);
         });
 
+        public static string OfficialSiteName {
+            get {
+                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("ThisSystem", "HomePageUrl", out ISysDicItem dicItem) && !string.IsNullOrEmpty(dicItem.Value)) {
+                    if (dicItem.Value.StartsWith("https://")) {
+                        return dicItem.Value.Substring("https://".Length);
+                    }
+                    if (dicItem.Value.StartsWith("http://")) {
+                        return dicItem.Value.Substring("http://".Length);
+                    }
+                }
+                return "NTMiner.com";
+            }
+        }
+
+        public static string AppMinerName {
+            get {
+                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("ThisSystem", "AppMinerName", out ISysDicItem dicItem)) {
+                    return dicItem.Value;
+                }
+                return "开源矿工";
+            }
+        }
+
+        public static string AppMinerDescription {
+            get {
+                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("ThisSystem", "AppMinerName", out ISysDicItem dicItem)) {
+                    return " - " + dicItem.Description;
+                }
+                return " - 做最好的矿工";
+            }
+        }
+
         public static ICommand BusinessModel { get; private set; } = new DelegateCommand(() => {
             string url = "https://www.loserhub.cn/posts/details/52";
             if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("ThisSystem", "BusinessModelUrl", out ISysDicItem dicItem)) {

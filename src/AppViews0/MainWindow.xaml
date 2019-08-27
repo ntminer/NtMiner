@@ -45,8 +45,24 @@
 		<!--上标题栏-->
 		<Grid>
 			<WrapPanel VerticalAlignment="Center">
-				<Image Margin="2 0 0 0" Width="18" Height="18" Source="/NTMinerWpf;component/Styles/Images/logo32.png" MouseDown="NTMinerLogo_MouseDown"></Image>
-				<controls:KbLinkButton
+                <Image Margin="2 0 0 0" Width="18" Height="18" Source="/NTMinerWpf;component/Styles/Images/logo32.png" MouseDown="NTMinerLogo_MouseDown"></Image>
+                <controls:KbLinkButton
+					ToolTip="打开官网"
+					Command="{x:Static app:AppStatic.OpenOfficialSite}"
+					KbDisplayLine="False"
+                    Foreground="{StaticResource ThemeForeground}"
+                    Content="{x:Static app:AppStatic.OfficialSiteName}"
+					KbSystemButtonHoverBackground="Transparent"
+					Background="Transparent">
+                </controls:KbLinkButton>
+                <TextBlock
+					Foreground="{StaticResource ThemeForeground}"
+					Margin="0"
+					HorizontalAlignment="Left"
+					VerticalAlignment="Center"
+					FontSize="16"
+					Text=" - " />
+                <controls:KbLinkButton
 					ToolTip="关于开源矿工"
 					Command="{x:Static app:AppStatic.ShowAbout}"
 					KbDisplayLine="False"
@@ -55,13 +71,12 @@
 					Foreground="{StaticResource ThemeForeground}">
 					<WrapPanel>
 						<TextBlock
-							Foreground="{Binding DaemonStateBrush}"
 							Margin="0"
 							HorizontalAlignment="Left"
 							VerticalAlignment="Center"
 							FontSize="16"
-							Text="开源矿工" />
-						<TextBlock
+							Text="{x:Static app:AppStatic.AppMinerName}" />
+                        <TextBlock
 							Margin="0"
 							HorizontalAlignment="Left"
 							VerticalAlignment="Center"
@@ -73,7 +88,7 @@
 							HorizontalAlignment="Left"
 							VerticalAlignment="Center"
 							FontSize="16"
-							Text=" - 做最好的矿工" />
+							Text="{x:Static app:AppStatic.AppMinerDescription}" />
                     </WrapPanel>
 				</controls:KbLinkButton>
 				<WrapPanel Margin="4 0 0 0" VerticalAlignment="Center" Visibility="{Binding MinerProfile.MineWork,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
