@@ -361,7 +361,11 @@ namespace NTMiner {
         });
 
         public static ICommand JoinQQGroup { get; private set; } = new DelegateCommand(() => {
-            Process.Start("https://jq.qq.com/?_wv=1027&k=5ZPsuCk");
+            string url = "https://jq.qq.com/?_wv=1027&k=5ZPsuCk";
+            if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("ThisSystem", "QQGroupJoinUrl", out ISysDicItem dicItem)) {
+                url = dicItem.Value;
+            }
+            Process.Start(url);
         });
 
         public static ICommand RunAsAdministrator { get; private set; } = new DelegateCommand(Wpf.Util.RunAsAdministrator);
@@ -425,7 +429,11 @@ namespace NTMiner {
             VirtualRoot.Execute(new UpgradeCommand(string.Empty, null));
         });
         public static ICommand ShowHelp { get; private set; } = new DelegateCommand(() => {
-            Process.Start("http://ntminer.com/");
+            string url = "http://ntminer.com/";
+            if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("ThisSystem", "HelpUrl", out ISysDicItem dicItem)) {
+                url = dicItem.Value;
+            }
+            Process.Start(url);
         });
         public static ICommand ShowMinerClients { get; private set; } = new DelegateCommand(() => {
             VirtualRoot.Execute(new ShowMinerClientsWindowCommand());
@@ -478,19 +486,35 @@ namespace NTMiner {
         });
 
         public static ICommand OpenOfficialSite { get; private set; } = new DelegateCommand(() => {
-            Process.Start("http://ntminer.com/");
+            string url = "http://ntminer.com/";
+            if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("ThisSystem", "HomePageUrl", out ISysDicItem dicItem)) {
+                url = dicItem.Value;
+            }
+            Process.Start(url);
         });
 
         public static ICommand BusinessModel { get; private set; } = new DelegateCommand(() => {
-            Process.Start("https://www.loserhub.cn/posts/details/52");
+            string url = "https://www.loserhub.cn/posts/details/52";
+            if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("ThisSystem", "BusinessModelUrl", out ISysDicItem dicItem)) {
+                url = dicItem.Value;
+            }
+            Process.Start(url);
         });
 
         public static ICommand OpenGithub { get; private set; } = new DelegateCommand(() => {
-            Process.Start("https://github.com/ntminer/ntminer");
+            string url = "https://github.com/ntminer/ntminer";
+            if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("ThisSystem", "GithubUrl", out ISysDicItem dicItem)) {
+                url = dicItem.Value;
+            }
+            Process.Start(url);
         });
 
         public static ICommand OpenDiscussSite { get; private set; } = new DelegateCommand(() => {
-            Process.Start("https://github.com/ntminer/ntminer/issues");
+            string url = "https://github.com/ntminer/ntminer/issues";
+            if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("ThisSystem", "DiscussUrl", out ISysDicItem dicItem)) {
+                url = dicItem.Value;
+            }
+            Process.Start(url);
         });
 
         public static ICommand DownloadMinerStudio { get; private set; } = new DelegateCommand(() => {
