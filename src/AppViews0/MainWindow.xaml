@@ -48,6 +48,7 @@
                 <Image Margin="2 0 0 0" Width="18" Height="18" Source="/NTMinerWpf;component/Styles/Images/logo32.png" MouseDown="NTMinerLogo_MouseDown"></Image>
                 <controls:KbLinkButton
 					ToolTip="打开官网"
+					FontSize="16"
 					Command="{x:Static app:AppStatic.OpenOfficialSite}"
 					KbDisplayLine="False"
                     Foreground="{StaticResource ThemeForeground}"
@@ -91,10 +92,6 @@
 							Text="{x:Static app:AppStatic.AppMinerDescription}" />
                     </WrapPanel>
 				</controls:KbLinkButton>
-				<WrapPanel Margin="4 0 0 0" VerticalAlignment="Center" Visibility="{Binding MinerProfile.MineWork,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
-					<TextBlock Foreground="{StaticResource ThemeForeground}">作业：</TextBlock>
-					<TextBlock Foreground="{StaticResource ThemeForeground}" Text="{Binding MinerProfile.MineWork.Name}" ToolTip="{Binding MinerProfile.MineWork.Description}"></TextBlock>
-				</WrapPanel>
 			</WrapPanel>
 			<WrapPanel HorizontalAlignment="Right">
 				<WrapPanel Margin="0" HorizontalAlignment="Right" VerticalAlignment="Top">
@@ -114,9 +111,17 @@
 						IsChecked="{Binding IsUseDevConsole}">
 						<TextBlock Text="DevConsole" Foreground="{StaticResource ThemeForeground}"></TextBlock>
                     </CheckBox>
+                    <WrapPanel 
+                        Margin="0 0 20 0" 
+                        VerticalAlignment="Center" 
+                        Visibility="{Binding MinerProfile.MineWork,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
+                        <TextBlock Foreground="{StaticResource ThemeForeground}">作业：</TextBlock>
+                        <TextBlock Foreground="{StaticResource ThemeForeground}" Text="{Binding MinerProfile.MineWork.Name}" ToolTip="{Binding MinerProfile.MineWork.Description}"></TextBlock>
+                    </WrapPanel>
                     <controls:KbLinkButton
                         Margin="0 0 20 0"
                         VerticalAlignment="Center"
+                        Visibility="{Binding MinerProfile.MineWork,Converter={StaticResource NotNullOrEmptyVisibilityInvertConverter}}"
 				        Command="{x:Static app:AppStatic.DownloadMinerStudio}"
 				        KbDisplayLine="False"
 				        Foreground="{StaticResource ThemeForeground}"
@@ -124,11 +129,11 @@
 				        Background="Transparent">
                         <WrapPanel>
                             <Path 
-						    Width="14"
-						    Height="13"
-						    Data="{StaticResource Icon_ControlCenter}"
-						    Fill="{StaticResource ThemeForeground}"
-						    Stretch="Fill" />
+						        Width="14"
+						        Height="13"
+						        Data="{StaticResource Icon_ControlCenter}"
+						        Fill="{StaticResource ThemeForeground}"
+						        Stretch="Fill" />
                             <TextBlock Foreground="{StaticResource ThemeForeground}">下载群控</TextBlock>
                         </WrapPanel>
                     </controls:KbLinkButton>
