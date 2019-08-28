@@ -17,8 +17,10 @@ using NTMiner.User;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Management;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -85,7 +87,7 @@ namespace NTMiner {
                     }
                     else {
                         Logger.InfoDebugLine("开始下载server.json");
-                        SpecialPath.GetAliyunServerJson((data) => {
+                        GetAliyunServerJson((data) => {
                             // 如果server.json未下载成功则不覆写本地server.json
                             if (data != null && data.Length != 0) {
                                 Logger.InfoDebugLine("GetAliyunServerJson下载成功");
@@ -114,12 +116,23 @@ namespace NTMiner {
             });
         }
 
+        // MinerProfile对应local.litedb或local.json
+        public void ReInitMinerProfile() {
+            ReInitLocalJson();
+            this._minerProfile.ReInit(this, LocalJson.MineWork);
+            // 本地数据集已刷新，此时刷新本地数据集的视图模型集
+            VirtualRoot.Happened(new LocalContextReInitedEvent());
+            // 本地数据集的视图模型已刷新，此时刷新本地数据集的视图界面
+            VirtualRoot.Happened(new LocalContextVmsReInitedEvent());
+            RefreshArgsAssembly();
+        }
+
         private void RefreshServerJsonFile() {
             OfficialServer.GetJsonFileVersionAsync(AssemblyInfo.ServerJsonFileName, (serverJsonFileVersion, minerClientVersion) => {
                 AppVersionChangedEvent.PublishIfNewVersion(minerClientVersion);
                 string localServerJsonFileVersion = GetServerJsonVersion();
                 if (!string.IsNullOrEmpty(serverJsonFileVersion) && localServerJsonFileVersion != serverJsonFileVersion) {
-                    SpecialPath.GetAliyunServerJson((data) => {
+                    GetAliyunServerJson((data) => {
                         Write.UserInfo($"更新配置{localServerJsonFileVersion}->{serverJsonFileVersion}");
                         string rawJson = Encoding.UTF8.GetString(data);
                         SpecialPath.WriteServerJsonFile(rawJson);
@@ -134,6 +147,58 @@ namespace NTMiner {
                     Write.DevDebug("server.json没有新版本");
                 }
             });
+        }
+
+        #endregion
+
+        #region private methods
+        private static void GetAliyunServerJson(Action<byte[]> callback) {
+            string serverJsonFileUrl = AssemblyInfo.MinerJsonBucket + AssemblyInfo.ServerJsonFileName;
+            string fileUrl = serverJsonFileUrl + "?t=" + DateTime.Now.Ticks;
+            Task.Factory.StartNew(() => {
+                try {
+                    var webRequest = WebRequest.Create(fileUrl);
+                    webRequest.Timeout = 20 * 1000;
+                    webRequest.Method = "GET";
+                    webRequest.Headers.Add("Accept-Encoding", "gzip, deflate, br");
+                    var response = webRequest.GetResponse();
+                    using (MemoryStream ms = new MemoryStream())
+                    using (Stream stream = response.GetResponseStream()) {
+                        byte[] buffer = new byte[1024];
+                        int n = stream.Read(buffer, 0, buffer.Length);
+                        while (n > 0) {
+                            ms.Write(buffer, 0, n);
+                            n = stream.Read(buffer, 0, buffer.Length);
+                        }
+                        byte[] data = new byte[ms.Length];
+                        ms.Position = 0;
+                        ms.Read(data, 0, data.Length);
+                        data = ZipDecompress(data);
+                        callback?.Invoke(data);
+                    }
+                    Logger.InfoDebugLine($"下载完成：{fileUrl}");
+                }
+                catch (Exception e) {
+                    Logger.ErrorDebugLine(e);
+                    callback?.Invoke(new byte[0]);
+                }
+            });
+        }
+
+        private static byte[] ZipDecompress(byte[] zippedData) {
+            MemoryStream ms = new MemoryStream(zippedData);
+            GZipStream compressedzipStream = new GZipStream(ms, CompressionMode.Decompress);
+            MemoryStream outBuffer = new MemoryStream();
+            byte[] block = new byte[1024];
+            while (true) {
+                int bytesRead = compressedzipStream.Read(block, 0, block.Length);
+                if (bytesRead <= 0)
+                    break;
+                else
+                    outBuffer.Write(block, 0, bytesRead);
+            }
+            compressedzipStream.Close();
+            return outBuffer.ToArray();
         }
 
         private string GetServerJsonVersion() {
@@ -253,19 +318,6 @@ namespace NTMiner {
             this.KernelOutputTranslaterSet = new KernelOutputTranslaterSet(this, isUseJson);
             this.KernelOutputKeywordSet = new KernelOutputKeywordSet(this, isUseJson);
         }
-
-        // MinerProfile对应local.litedb或local.json
-        public void ReInitMinerProfile() {
-            ReInitLocalJson();
-            this._minerProfile.ReInit(this, LocalJson.MineWork);
-            // 本地数据集已刷新，此时刷新本地数据集的视图模型集
-            VirtualRoot.Happened(new LocalContextReInitedEvent());
-            // 本地数据集的视图模型已刷新，此时刷新本地数据集的视图界面
-            VirtualRoot.Happened(new LocalContextVmsReInitedEvent());
-            RefreshArgsAssembly();
-        }
-
-        #endregion
 
         private void Link() {
             VirtualRoot.Window<RegCmdHereCommand>("处理注册右键打开windows命令行菜单命令", LogEnum.DevConsole,
@@ -398,6 +450,7 @@ namespace NTMiner {
             Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdHere, "Icon", "cmd.exe");
             Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdHereCommand, "", "\"cmd.exe\"");
         }
+        #endregion
 
         #region Exit
         public void Exit() {

@@ -1,67 +1,14 @@
 ﻿using NTMiner.Core;
-using System;
 using System.IO;
-using System.IO.Compression;
-using System.Net;
-using System.Threading.Tasks;
 
 namespace NTMiner {
     public static class SpecialPath {
-        public static void GetAliyunServerJson(Action<byte[]> callback) {
-        string serverJsonFileUrl = AssemblyInfo.MinerJsonBucket + AssemblyInfo.ServerJsonFileName;
-        string fileUrl = serverJsonFileUrl + "?t=" + DateTime.Now.Ticks;
-            Task.Factory.StartNew(() => {
-                try {
-                    var webRequest = WebRequest.Create(fileUrl);
-                    webRequest.Timeout = 20 * 1000;
-                    webRequest.Method = "GET";
-                    webRequest.Headers.Add("Accept-Encoding", "gzip, deflate, br");
-                    var response = webRequest.GetResponse();
-                    using (MemoryStream ms = new MemoryStream())
-                    using (Stream stream = response.GetResponseStream()) {
-                        byte[] buffer = new byte[1024];
-                        int n = stream.Read(buffer, 0, buffer.Length);
-                        while (n > 0) {
-                            ms.Write(buffer, 0, n);
-                            n = stream.Read(buffer, 0, buffer.Length);
-                        }
-                        byte[] data = new byte[ms.Length];
-                        ms.Position = 0;
-                        ms.Read(data, 0, data.Length);
-                        data = ZipDecompress(data);
-                        callback?.Invoke(data);
-                    }
-                    Logger.InfoDebugLine($"下载完成：{fileUrl}");
-                }
-                catch (Exception e) {
-                    Logger.ErrorDebugLine(e);
-                    callback?.Invoke(new byte[0]);
-                }
-            });
-        }
-
-        private static byte[] ZipDecompress(byte[] zippedData) {
-            MemoryStream ms = new MemoryStream(zippedData);
-            GZipStream compressedzipStream = new GZipStream(ms, CompressionMode.Decompress);
-            MemoryStream outBuffer = new MemoryStream();
-            byte[] block = new byte[1024];
-            while (true) {
-                int bytesRead = compressedzipStream.Read(block, 0, block.Length);
-                if (bytesRead <= 0)
-                    break;
-                else
-                    outBuffer.Write(block, 0, bytesRead);
-            }
-            compressedzipStream.Close();
-            return outBuffer.ToArray();
-        }
-
         static SpecialPath() {
             string daemonDirFullName = Path.Combine(AssemblyInfo.ShareDirFullName, "Daemon");
             if (!Directory.Exists(daemonDirFullName)) {
                 Directory.CreateDirectory(daemonDirFullName);
             }
-            DaemonFileFullName = Path.Combine(daemonDirFullName, "NTMinerDaemon.exe");            
+            DaemonFileFullName = Path.Combine(daemonDirFullName, "NTMinerDaemon.exe");
             DevConsoleFileFullName = Path.Combine(daemonDirFullName, "DevConsole.exe");
 
             TempDirFullName = Path.Combine(AssemblyInfo.ShareDirFullName, "Temp");
