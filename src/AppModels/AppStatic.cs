@@ -19,13 +19,8 @@ namespace NTMiner {
         #region Upgrade
         public static void Upgrade(string fileName, Action callback) {
             try {
-                string updaterDirFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "Updater");
-                if (!Directory.Exists(updaterDirFullName)) {
-                    Directory.CreateDirectory(updaterDirFullName);
-                }
                 OfficialServer.FileUrlService.GetNTMinerUpdaterUrlAsync((downloadFileUrl, e) => {
                     try {
-                        string ntMinerUpdaterFileFullName = Path.Combine(updaterDirFullName, "NTMinerUpdater.exe");
                         string argument = string.Empty;
                         if (!string.IsNullOrEmpty(fileName)) {
                             argument = "ntminerFileName=" + fileName;
@@ -34,8 +29,8 @@ namespace NTMiner {
                             argument += " --minerstudio";
                         }
                         if (string.IsNullOrEmpty(downloadFileUrl)) {
-                            if (File.Exists(ntMinerUpdaterFileFullName)) {
-                                NTMiner.Windows.Cmd.RunClose(ntMinerUpdaterFileFullName, argument);
+                            if (File.Exists(SpecialPath.UpdaterFileFullName)) {
+                                NTMiner.Windows.Cmd.RunClose(SpecialPath.UpdaterFileFullName, argument);
                             }
                             callback?.Invoke();
                             return;
@@ -45,18 +40,18 @@ namespace NTMiner {
                         if (NTMinerRoot.Instance.LocalAppSettingSet.TryGetAppSetting("UpdaterVersion", out IAppSetting appSetting) && appSetting.Value != null) {
                             updaterVersion = appSetting.Value.ToString();
                         }
-                        if (string.IsNullOrEmpty(updaterVersion) || !File.Exists(ntMinerUpdaterFileFullName) || uri.AbsolutePath != updaterVersion) {
+                        if (string.IsNullOrEmpty(updaterVersion) || !File.Exists(SpecialPath.UpdaterFileFullName) || uri.AbsolutePath != updaterVersion) {
                             VirtualRoot.Execute(new ShowFileDownloaderCommand(downloadFileUrl, "开源矿工更新器", (window, isSuccess, message, saveFileFullName) => {
                                 try {
                                     if (isSuccess) {
-                                        File.Copy(saveFileFullName, ntMinerUpdaterFileFullName, overwrite: true);
+                                        File.Copy(saveFileFullName, SpecialPath.UpdaterFileFullName, overwrite: true);
                                         File.Delete(saveFileFullName);
                                         VirtualRoot.Execute(new ChangeLocalAppSettingCommand(new AppSettingData {
                                             Key = "UpdaterVersion",
                                             Value = uri.AbsolutePath
                                         }));
                                         window?.Close();
-                                        NTMiner.Windows.Cmd.RunClose(ntMinerUpdaterFileFullName, argument);
+                                        NTMiner.Windows.Cmd.RunClose(SpecialPath.UpdaterFileFullName, argument);
                                         callback?.Invoke();
                                     }
                                     else {
@@ -70,7 +65,7 @@ namespace NTMiner {
                             }));
                         }
                         else {
-                            Windows.Cmd.RunClose(ntMinerUpdaterFileFullName, argument);
+                            Windows.Cmd.RunClose(SpecialPath.UpdaterFileFullName, argument);
                             callback?.Invoke();
                         }
                     }

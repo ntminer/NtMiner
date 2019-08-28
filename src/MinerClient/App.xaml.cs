@@ -20,7 +20,7 @@ namespace NTMiner {
             if (!Debugger.IsAttached && !Design.IsInDesignMode) {
                 Write.Init();
             }
-            Logging.LogDir.SetDir(Path.Combine(AssemblyInfo.LocalDirFullName, "Logs"));
+            Logging.LogDir.SetDir(SpecialPath.LogsDirFullName);
             AppUtil.Init(this);
             InitializeComponent();
         }

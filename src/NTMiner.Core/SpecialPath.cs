@@ -156,5 +156,47 @@ namespace NTMiner {
                 return dirFullName;
             }
         }
+
+        private static bool _sIsFirstCallUpdaterDirFullName = true;
+        public static string UpdaterDirFullName {
+            get {
+                string dirFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "updater");
+                if (_sIsFirstCallUpdaterDirFullName) {
+                    if (!Directory.Exists(dirFullName)) {
+                        Directory.CreateDirectory(dirFullName);
+                    }
+                    _sIsFirstCallUpdaterDirFullName = false;
+                }
+
+                return dirFullName;
+            }
+        }
+
+        public static string UpdaterFileFullName {
+            get {
+                return Path.Combine(UpdaterDirFullName, "NTMinerUpdater.exe");
+            }
+        }
+
+        private static bool _sIsFirstCallServicesDirFullName = true;
+        public static string ServicesDirFullName {
+            get {
+                string dirFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "services");
+                if (_sIsFirstCallServicesDirFullName) {
+                    if (!Directory.Exists(dirFullName)) {
+                        Directory.CreateDirectory(dirFullName);
+                    }
+                    _sIsFirstCallServicesDirFullName = false;
+                }
+
+                return dirFullName;
+            }
+        }
+
+        public static string ServicesFileFullName {
+            get {
+                return Path.Combine(UpdaterDirFullName, "NTMinerServices.exe");
+            }
+        }
     }
 }
