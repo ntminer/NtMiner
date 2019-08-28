@@ -56,14 +56,8 @@
 					KbSystemButtonHoverBackground="Transparent"
 					Background="Transparent">
                 </controls:KbLinkButton>
-                <TextBlock
-					Foreground="{StaticResource ThemeForeground}"
-					Margin="0"
-					HorizontalAlignment="Left"
-					VerticalAlignment="Center"
-					FontSize="16"
-					Text=" - " />
                 <controls:KbLinkButton
+                    Margin="2 0 0 0"
 					ToolTip="关于开源矿工"
 					Command="{x:Static app:AppStatic.ShowAbout}"
 					KbDisplayLine="False"
@@ -84,6 +78,7 @@
 							FontSize="16"
 							Text="{Binding BrandTitle}" />
                         <TextBlock
+                            Visibility="{Binding BrandTitle,Converter={StaticResource NotNullOrEmptyVisibilityInvertConverter}}"
 							Foreground="{StaticResource ThemeForeground}"
 							Margin="0"
 							HorizontalAlignment="Left"
