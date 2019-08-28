@@ -384,13 +384,13 @@
 							<controls:KbMuiltilineTextBox 
 								Background="Transparent"
 								FontFamily="Courier New"
-								Text="源于社区，服务社区。QQ群863725136 官网：https://ntminer.com"
+								Text="源于社区，服务社区。QQ群863725136"
 								ToolTip="简介"
 								BorderThickness="0" IsReadOnly="True" 
 								Padding="4 0 16 0" Foreground="White">
 							</controls:KbMuiltilineTextBox>
 							<WrapPanel 
-								Margin="0 0 16 0"
+								Margin="0 2 16 0"
 								HorizontalAlignment="Right" 
 								VerticalAlignment="Top">
 								<CheckBox 
