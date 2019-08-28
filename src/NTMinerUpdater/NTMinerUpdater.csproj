@@ -72,13 +72,15 @@
     <Compile Include="..\NTMiner.Core\CommandLineArgs.cs">
       <Link>CommandLineArgs.cs</Link>
     </Compile>
+    <Compile Include="..\NTMiner.Core\SpecialPath.cs">
+      <Link>SpecialPath.cs</Link>
+    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AppStatic.cs" />
     <Compile Include="CommandLineArgs.partial.cs" />
-    <Compile Include="SpecialPath.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
