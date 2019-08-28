@@ -14,7 +14,7 @@ namespace NTMiner {
             if (!Debugger.IsAttached && !Design.IsInDesignMode) {
                 Write.Init();
             }
-            AssemblyInfo.LocalDirFullName = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NTMiner");
+            AssemblyInfo.SetLocalDirFullName(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NTMiner"));
             Logging.LogDir.SetDir(SpecialPath.LogsDirFullName);
             AppUtil.Init(this);
             InitializeComponent();
