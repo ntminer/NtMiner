@@ -142,12 +142,6 @@ namespace NTMiner {
                 if (_sIsFirstCallPackageDirFullName) {
                     if (!Directory.Exists(dirFullName)) {
                         Directory.CreateDirectory(dirFullName);
-                        var shareDir = Path.Combine(AssemblyInfo.ShareDirFullName, "Packages");
-                        if (Directory.Exists(shareDir)) {
-                            foreach (var fileFullName in Directory.GetFiles(shareDir)) {
-                                File.Copy(fileFullName, Path.Combine(dirFullName, Path.GetFileName(fileFullName)), overwrite: false);
-                            }
-                        }
                     }
                     _sIsFirstCallPackageDirFullName = false;
                 }

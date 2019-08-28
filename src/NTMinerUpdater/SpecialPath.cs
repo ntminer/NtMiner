@@ -3,11 +3,11 @@
 namespace NTMiner {
     public static class SpecialPath {
         static SpecialPath() {
-            string daemonDirFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "Daemon");
+            string daemonDirFullName = Path.Combine(AssemblyInfo.ShareDirFullName, "Daemon");
             if (!Directory.Exists(daemonDirFullName)) {
                 Directory.CreateDirectory(daemonDirFullName);
             }
-            TempDirFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "Temp");
+            TempDirFullName = Path.Combine(AssemblyInfo.ShareDirFullName, "Temp");
             if (!Directory.Exists(TempDirFullName)) {
                 Directory.CreateDirectory(TempDirFullName);
             }
