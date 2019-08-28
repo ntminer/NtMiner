@@ -171,7 +171,7 @@ namespace NTMiner.Core.Profiles.Impl {
                 overClock.RefreshGpuState(data.Index);
             }
 #if DEBUG
-            Write.DevWarn($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.OverClock");
+            Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.OverClock");
 #endif
         }
 

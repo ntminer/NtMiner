@@ -17,7 +17,7 @@ namespace NTMiner.Core.Kernels {
                 hashSet.Add(kernel.GetProcessName());
             }
 #if DEBUG
-            Write.DevWarn($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {nameof(KernelSetExtension)}.{nameof(GetAllKernelProcessNames)}()");
+            Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {nameof(KernelSetExtension)}.{nameof(GetAllKernelProcessNames)}()");
 #endif
             return hashSet;
         }

@@ -11,7 +11,7 @@ namespace NTMiner.Vms {
 #endif
             this.GpuAllVm = AppContext.Instance.GpuVms.FirstOrDefault(a => a.Index == NTMinerRoot.GpuAllId);
 #if DEBUG
-                Write.DevWarn($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+                Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
 #endif
         }
 

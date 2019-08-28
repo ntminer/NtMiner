@@ -53,7 +53,7 @@ namespace NTMiner.Gpus {
                     NvmlNativeMethods.SetDllDirectory(null);
                     _isNvmlInited = nvmlReturn == nvmlReturn.Success;
 #if DEBUG
-                        Write.DevWarn($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {nameof(NvmlHelper)}.{nameof(NvmlInit)}()");
+                        Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {nameof(NvmlHelper)}.{nameof(NvmlInit)}()");
 #endif
                     return _isNvmlInited;
                 }

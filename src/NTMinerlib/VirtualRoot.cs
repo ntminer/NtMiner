@@ -151,7 +151,7 @@ namespace NTMiner {
                 Guid.TryParse(guidString, out guid);
             }
 #if DEBUG
-            Write.DevWarn($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {typeof(VirtualRoot).Name}.GetBrandId");
+            Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {typeof(VirtualRoot).Name}.GetBrandId");
 #endif
             return guid;
         }

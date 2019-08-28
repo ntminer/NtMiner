@@ -99,6 +99,10 @@ namespace NTMiner {
             DevLine(text, MessageType.Warn);
         }
 
+        public static void DevTimeSpan(string text) {
+            DevLine(text, MessageType.TimeSpan);
+        }
+
         public static void DevFail(string text) {
             DevLine(text, MessageType.Fail);
         }

@@ -78,7 +78,7 @@ namespace NTMiner.Core.Gpus.Impl {
                 }
             }
 #if DEBUG
-            Write.DevWarn($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+            Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
 #endif
         }
 
@@ -102,7 +102,7 @@ namespace NTMiner.Core.Gpus.Impl {
                 }
             }
 #if DEBUG
-            Write.DevWarn($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.{nameof(LoadGpuState)}");
+            Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.{nameof(LoadGpuState)}");
 #endif
         }
 
