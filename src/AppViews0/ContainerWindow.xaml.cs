@@ -41,10 +41,7 @@ namespace NTMiner.Views {
             if (ucFactory == null) {
                 throw new ArgumentNullException(nameof(ucFactory));
             }
-            ContainerWindow window = new ContainerWindow(vm, ucFactory, fixedSize) {
-                WindowStartupLocation = WindowStartupLocation.Manual,
-                Owner = null
-            };
+            ContainerWindow window = new ContainerWindow(vm, ucFactory, fixedSize);
             if (vm.IsDialogWindow) {
                 window.ShowWindow(beforeShow);
                 return window;
@@ -60,11 +57,9 @@ namespace NTMiner.Views {
                 };
                 s_windowDicByType.Add(ucType, window);
                 if (s_windowLeftDic.ContainsKey(ucType)) {
-                    s_windowDicByType[ucType].Left = s_windowLeftDic[ucType];
-                    s_windowDicByType[ucType].Top = s_windowTopDic[ucType];
-                }
-                else {
-                    s_windowDicByType[ucType].WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                    window.WindowStartupLocation = WindowStartupLocation.Manual;
+                    window.Left = s_windowLeftDic[ucType];
+                    window.Top = s_windowTopDic[ucType];
                 }
             }
             window.ShowWindow(beforeShow);
