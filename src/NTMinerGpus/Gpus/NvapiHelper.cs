@@ -81,7 +81,7 @@ namespace NTMiner.Gpus {
             fanSpeedMax = 100;
             fanSpeedDefault = 0;
             try {
-                if (GetClockDelta(busId, 
+                if (GetClockDelta(busId,
                     out int outCoreCurrFreqDelta, out int outCoreMinFreqDelta, out int outCoreMaxFreqDelta,
                     out int outMemoryCurrFreqDelta, out int outMemoryMinFreqDelta, out int outMemoryMaxFreqDelta)) {
                     coreClockMin = outCoreMinFreqDelta;
@@ -91,7 +91,7 @@ namespace NTMiner.Gpus {
                     memoryClockMax = outMemoryMaxFreqDelta;
                     memoryClockDelta = outMemoryCurrFreqDelta;
 #if DEBUG
-                Write.DevWarn($"{nameof(GetClockDelta)} coreClockMin={coreClockMin},coreClockMax={coreClockMax},coreClockDelta={coreClockDelta},memoryClockMin={memoryClockMin},memoryClockMax={memoryClockMax},memoryClockDelta={memoryClockDelta}");
+                    Write.DevWarn($"{nameof(GetClockDelta)} coreClockMin={coreClockMin},coreClockMax={coreClockMax},coreClockDelta={coreClockDelta},memoryClockMin={memoryClockMin},memoryClockMax={memoryClockMax},memoryClockDelta={memoryClockDelta}");
 #endif
                 }
 
@@ -299,6 +299,9 @@ namespace NTMiner.Gpus {
 
         #region private methods
         private bool NvPowerPoliciesSetStatus(int busId, ref NvGpuPowerStatus info) {
+            if (NvapiNativeMethods.NvPowerPoliciesSetStatus == null) {
+                return false;
+            }
             try {
                 info.version = (uint)(VERSION1 | (Marshal.SizeOf(typeof(NvGpuPowerStatus))));
                 var r = NvapiNativeMethods.NvPowerPoliciesSetStatus(HandlesByBusId[busId], ref info);
@@ -359,6 +362,9 @@ namespace NTMiner.Gpus {
 
         private NvGpuPerfPStates20InfoV1 NvGetPStateV1(int busId) {
             NvGpuPerfPStates20InfoV1 info = new NvGpuPerfPStates20InfoV1();
+            if (NvapiNativeMethods.NvGetPStateV1 == null) {
+                return info;
+            }
             try {
                 info.version = (uint)(VERSION1 | (Marshal.SizeOf(typeof(NvGpuPerfPStates20InfoV1))));
                 var r = NvapiNativeMethods.NvGetPStateV1(HandlesByBusId[busId], ref info);
@@ -376,6 +382,9 @@ namespace NTMiner.Gpus {
 
         private bool NvGetPStateV2(int busId, out NvGpuPerfPStates20InfoV2 info) {
             info = new NvGpuPerfPStates20InfoV2();
+            if (NvapiNativeMethods.NvGetPStateV2 == null) {
+                return false;
+            }
             try {
                 info.version = (uint)(VERSION2 | (Marshal.SizeOf(typeof(NvGpuPerfPStates20InfoV2))));
                 var r = NvapiNativeMethods.NvGetPStateV2(HandlesByBusId[busId], ref info);
@@ -392,6 +401,9 @@ namespace NTMiner.Gpus {
         }
 
         private bool NvSetPStateV2(int busId, ref NvGpuPerfPStates20InfoV2 info) {
+            if (NvapiNativeMethods.NvSetPStateV2 == null) {
+                return false;
+            }
             try {
                 info.version = (uint)(VERSION2 | (Marshal.SizeOf(typeof(NvGpuPerfPStates20InfoV2))));
                 var r = NvapiNativeMethods.NvSetPStateV2(HandlesByBusId[busId], ref info);
@@ -408,6 +420,9 @@ namespace NTMiner.Gpus {
         }
 
         private bool NvSetPStateV1(int busId, ref NvGpuPerfPStates20InfoV1 info) {
+            if (NvapiNativeMethods.NvSetPStateV1 == null) {
+                return false;
+            }
             try {
                 int len = Marshal.SizeOf(typeof(NvGpuPerfPStates20InfoV1));
                 info.version = (uint)(VERSION1 | (Marshal.SizeOf(typeof(NvGpuPerfPStates20InfoV1))));
@@ -426,6 +441,9 @@ namespace NTMiner.Gpus {
 
         private NvGpuClockFrequenciesV2 NvGetAllClockFrequenciesV2(int busId, uint type) {
             NvGpuClockFrequenciesV2 info = new NvGpuClockFrequenciesV2();
+            if (NvapiNativeMethods.NvGetAllClockFrequenciesV2 == null) {
+                return info;
+            }
             try {
                 info.version = (uint)(VERSION2 | (Marshal.SizeOf(typeof(NvGpuClockFrequenciesV2))));
                 info.ClockType = type;
@@ -459,6 +477,9 @@ namespace NTMiner.Gpus {
 
         private bool NvThermalPoliciesGetInfo(int busId, out NvGpuThermalInfo info) {
             info = new NvGpuThermalInfo();
+            if (NvapiNativeMethods.NvThermalPoliciesGetInfo == null) {
+                return false;
+            }
             try {
                 info.version = (uint)(VERSION2 | (Marshal.SizeOf(typeof(NvGpuThermalInfo))));
                 var r = NvapiNativeMethods.NvThermalPoliciesGetInfo(HandlesByBusId[busId], ref info);
@@ -473,8 +494,11 @@ namespace NTMiner.Gpus {
             }
         }
 
-        private NvGpuThermalLimit NvThermalPoliciesGetLimit(int busId) {
+        private NvGpuThermalLimit NvThermalPoliciesGetLimit(int busId) { 
             NvGpuThermalLimit info = new NvGpuThermalLimit();
+            if (NvapiNativeMethods.NvThermalPoliciesGetLimit == null) {
+                return info;
+            }
             try {
                 info.version = (uint)(VERSION2 | (Marshal.SizeOf(typeof(NvGpuThermalLimit))));
                 var r = NvapiNativeMethods.NvThermalPoliciesGetLimit(HandlesByBusId[busId], ref info);
@@ -491,6 +515,9 @@ namespace NTMiner.Gpus {
         }
 
         private bool NvThermalPoliciesSetLimit(int busId, ref NvGpuThermalLimit info) {
+            if (NvapiNativeMethods.NvThermalPoliciesSetLimit == null) {
+                return false;
+            }
             try {
                 info.version = (uint)(VERSION2 | (Marshal.SizeOf(typeof(NvGpuThermalLimit))));
                 var r = NvapiNativeMethods.NvThermalPoliciesSetLimit(HandlesByBusId[busId], ref info);
@@ -550,6 +577,9 @@ namespace NTMiner.Gpus {
 
         private bool NvPowerPoliciesGetStatus(int busId, out NvGpuPowerStatus info) {
             info = new NvGpuPowerStatus();
+            if (NvapiNativeMethods.NvPowerPoliciesGetStatus == null) {
+                return false;
+            }
             try {
                 info.version = (uint)(VERSION1 | (Marshal.SizeOf(typeof(NvGpuPowerStatus))));
                 var r = NvapiNativeMethods.NvPowerPoliciesGetStatus(HandlesByBusId[busId], ref info);
@@ -578,6 +608,9 @@ namespace NTMiner.Gpus {
 
         private bool NvPowerPoliciesGetInfo(int busId, out NvGpuPowerInfo info) {
             info = new NvGpuPowerInfo();
+            if (NvapiNativeMethods.NvPowerPoliciesGetInfo == null) {
+                return false;
+            }
             try {
                 info.version = (uint)(VERSION1 | (Marshal.SizeOf(typeof(NvGpuPowerInfo))));
                 var r = NvapiNativeMethods.NvPowerPoliciesGetInfo(HandlesByBusId[busId], ref info);
@@ -607,6 +640,9 @@ namespace NTMiner.Gpus {
         // 20卡不支持该方法，所以尝试两次返回值不正确不再尝试
         private bool GetCoolerSettings(int busId, out NvCoolerSettings info) {
             info = new NvCoolerSettings();
+            if (NvapiNativeMethods.NvGetCoolerSettings == null) {
+                return false;
+            }
             int count;
             if (_nvGetCoolerSettingsErrorCountByBusId.TryGetValue(busId, out count)) {
                 if (count > 1) {
@@ -651,6 +687,9 @@ namespace NTMiner.Gpus {
 
         private bool NvFanCoolersGetControl(int busId, out PrivateFanCoolersControlV1 info) {
             info = new PrivateFanCoolersControlV1();
+            if (NvapiNativeMethods.NvFanCoolersGetControl == null) {
+                return false;
+            }
             info.version = (uint)(VERSION1 | (Marshal.SizeOf(typeof(PrivateFanCoolersControlV1))));
             var r = NvapiNativeMethods.NvFanCoolersGetControl(HandlesByBusId[busId], ref info);
             if (r != NvStatus.OK) {
@@ -662,27 +701,32 @@ namespace NTMiner.Gpus {
 
         private bool SetCooler(int busId, uint value, bool isAutoMode) {
             #region GTX
-            try {
-                NvCoolerTarget coolerIndex = NvCoolerTarget.NVAPI_COOLER_TARGET_ALL;
-                NvCoolerLevel info = new NvCoolerLevel() {
-                    version = (uint)(VERSION1 | (Marshal.SizeOf(typeof(NvCoolerLevel)))),
-                    coolers = new NvCoolerLevelItem[NvapiConst.NVAPI_MAX_COOLERS_PER_GPU]
-                };
-                info.coolers[0].currentLevel = isAutoMode ? 0 : value;
-                info.coolers[0].currentPolicy = isAutoMode ? NvCoolerPolicy.NVAPI_COOLER_POLICY_AUTO : NvCoolerPolicy.NVAPI_COOLER_POLICY_MANUAL;
-                var r = NvapiNativeMethods.NvSetCoolerLevels(HandlesByBusId[busId], coolerIndex, ref info);
-                if (r != NvStatus.OK) {
-                    Write.DevError($"{nameof(NvapiNativeMethods.NvSetCoolerLevels)} {r}");
+            if (NvapiNativeMethods.NvSetCoolerLevels != null) {
+                try {
+                    NvCoolerTarget coolerIndex = NvCoolerTarget.NVAPI_COOLER_TARGET_ALL;
+                    NvCoolerLevel info = new NvCoolerLevel() {
+                        version = (uint)(VERSION1 | (Marshal.SizeOf(typeof(NvCoolerLevel)))),
+                        coolers = new NvCoolerLevelItem[NvapiConst.NVAPI_MAX_COOLERS_PER_GPU]
+                    };
+                    info.coolers[0].currentLevel = isAutoMode ? 0 : value;
+                    info.coolers[0].currentPolicy = isAutoMode ? NvCoolerPolicy.NVAPI_COOLER_POLICY_AUTO : NvCoolerPolicy.NVAPI_COOLER_POLICY_MANUAL;
+                    var r = NvapiNativeMethods.NvSetCoolerLevels(HandlesByBusId[busId], coolerIndex, ref info);
+                    if (r != NvStatus.OK) {
+                        Write.DevError($"{nameof(NvapiNativeMethods.NvSetCoolerLevels)} {r}");
+                    }
+                    else {
+                        return true;
+                    }
                 }
-                else {
-                    return true;
+                catch {
                 }
-            }
-            catch {
             }
             #endregion
 
             #region RTX
+            if (NvapiNativeMethods.NvFanCoolersSetControl == null) {
+                return false;
+            }
             try {
                 if (NvFanCoolersGetControl(busId, out PrivateFanCoolersControlV1 info)) {
                     for (int i = 0; i < info.FanCoolersControlCount; i++) {
@@ -698,7 +742,7 @@ namespace NTMiner.Gpus {
                 }
                 return false;
             }
-            catch(Exception e) {
+            catch (Exception e) {
                 Logger.ErrorDebugLine(e);
                 return false;
             }
