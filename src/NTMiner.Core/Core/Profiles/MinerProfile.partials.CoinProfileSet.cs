@@ -59,8 +59,13 @@ namespace NTMiner.Core.Profiles {
                                 poolId = pool.GetId();
                             }
                             string wallet = coin.TestWallet;
-                            Guid coinKernelId = coin.GetDefaultCoinKernelId();
+                            Guid coinKernelId = GetDefaultCoinKernelId(coin);
                             data = CoinProfileData.CreateDefaultData(coinId, poolId, wallet, coinKernelId);
+                        }
+                        else {
+                            if (!root.CoinKernelSet.TryGetCoinKernel(data.CoinKernelId, out ICoinKernel coinKernel)) {
+                                data.CoinKernelId = GetDefaultCoinKernelId(coin);
+                            }
                         }
                         CoinProfile coinProfile = new CoinProfile(mineWorkData, data);
 
@@ -69,6 +74,42 @@ namespace NTMiner.Core.Profiles {
                     else {
                         return Empty;
                     }
+                }
+
+                /// <summary>
+                /// 选择默认内核
+                /// </summary>
+                /// <param name="coin"></param>
+                /// <returns></returns>
+                private static Guid GetDefaultCoinKernelId(ICoin coin) {
+                    var root = NTMinerRoot.Instance;
+                    Guid coinKernelId = Guid.Empty;
+                    bool noneGpu = false;
+                    if (root.GpuSet.GpuType == GpuType.Empty) {
+                        noneGpu = true;
+                    }
+                    List<ICoinKernel> coinKernels;
+                    if (noneGpu) {
+                        coinKernels = root.CoinKernelSet.Where(a => a.CoinId == coin.GetId()).ToList();
+                    }
+                    else {
+                        coinKernels = root.CoinKernelSet.Where(a => a.CoinId == coin.GetId() && a.SupportedGpu.IsSupportedGpu(root.GpuSet.GpuType)).ToList();
+                    }
+                    var items = new List<Tuple<Guid, IKernel>>(coinKernels.Count);
+                    foreach (var item in coinKernels) {
+                        if (root.KernelSet.TryGetKernel(item.KernelId, out IKernel kernel)) {
+                            items.Add(new Tuple<Guid, IKernel>(item.GetId(), kernel));
+                        }
+                    }
+                    items = items.OrderBy(a => a.Item2.Code).ThenByDescending(a => a.Item2.Version).ToList();
+                    Guid kernelBrandId = coin.GetKernelBrandId(root.GpuSet.GpuType);
+                    if (kernelBrandId == Guid.Empty) {
+                        coinKernelId = items.Select(a => a.Item1).FirstOrDefault();
+                    }
+                    else {
+                        coinKernelId = items.Where(a => a.Item2.BrandId == kernelBrandId).Select(a => a.Item1).FirstOrDefault();
+                    }
+                    return coinKernelId;
                 }
 
                 private readonly MineWorkData _mineWorkData;
