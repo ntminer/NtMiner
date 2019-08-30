@@ -195,7 +195,7 @@ namespace NTMiner {
 
         public static string ServicesFileFullName {
             get {
-                return Path.Combine(UpdaterDirFullName, "NTMinerServices.exe");
+                return Path.Combine(ServicesDirFullName, "NTMinerServices.exe");
             }
         }
     }
