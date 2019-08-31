@@ -25,7 +25,7 @@ namespace NTMiner.Views.Ucs {
         public Console() {
             NTMinerRoot.RefreshArgsAssembly.Invoke();
             InitializeComponent();
-            this.SizeChanged += Console_SizeChanged; ;
+            this.SizeChanged += Console_SizeChanged;
         }
 
         private void Console_SizeChanged(object sender, SizeChangedEventArgs e) {
