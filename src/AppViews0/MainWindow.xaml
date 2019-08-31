@@ -537,8 +537,8 @@
                             <TextBlock Text="算力" Padding="2 0 0 1" FontSize="15"></TextBlock>
 						</WrapPanel>
 					</TabItem.Header>
-					<Border x:Name="SpeedTableContainer">
-					</Border>
+                    <uc:SpeedTable x:Name="SpeedTable">
+					</uc:SpeedTable>
 				</TabItem>
 				<TabItem x:Name="TabItemMinerProfileOption">
 					<TabItem.Header>

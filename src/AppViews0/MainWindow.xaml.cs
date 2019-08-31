@@ -158,19 +158,6 @@ namespace NTMiner.Views {
                     MinerProfileOptionContainer.Child = new MinerProfileOption();
                 }
             }
-            else if (selectedItem == TabItemSpeedTable) {
-                if (SpeedTableContainer.Child == null) {
-                    SpeedTableContainer.Child = GetSpeedTableUc();
-                }
-            }
-        }
-
-        private SpeedTable _speedTableUc;
-        private SpeedTable GetSpeedTableUc() {
-            if (_speedTableUc == null) {
-                _speedTableUc = new SpeedTable();
-            }
-            return _speedTableUc;
         }
 
         private void ScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
@@ -189,7 +176,7 @@ namespace NTMiner.Views {
 
         private void BtnOverClockVisible_Click(object sender, RoutedEventArgs e) {
             ContentControl btn = (ContentControl)sender;
-            var speedTableUc = GetSpeedTableUc();
+            var speedTableUc = this.SpeedTable;
             if (RightTab.SelectedItem == TabItemSpeedTable) {
                 speedTableUc.ShowOrHideOverClock(isShow: !Vm.IsOverClockVisible);
                 Vm.IsOverClockVisible = !Vm.IsOverClockVisible;
