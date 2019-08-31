@@ -6,16 +6,22 @@ using System.Windows;
 namespace NTMiner {
     public static class WindowExtension {
         public static void ShowWindow(this Window window, bool isToggle) {
-            if (!isToggle) {
+            if (isToggle) {
+                if (window.IsVisible && window.WindowState != WindowState.Minimized) {
+                    window.Hide();
+                }
+                else {
+                    window.Show();
+                    if (window.WindowState == WindowState.Minimized) {
+                        window.WindowState = WindowState.Normal;
+                    }
+                }
+            }
+            else {
                 window.Show();
-            }
-            window.ShowInTaskbar = true;
-            if (window.WindowState == WindowState.Minimized) {
-                window.WindowState = WindowState.Normal;
-                window.Activate();
-            }
-            else if (isToggle) {
-                window.WindowState = WindowState.Minimized;
+                if (window.WindowState == WindowState.Minimized) {
+                    window.WindowState = WindowState.Normal;
+                }
             }
         }
         /// <summary>

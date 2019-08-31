@@ -103,9 +103,10 @@ namespace NTMiner.Views {
         }
 
         protected override void OnClosing(CancelEventArgs e) {
+            e.Cancel = true;
             AppContext.Disable();
             Write.SetConsoleUserLineMethod();
-            base.OnClosing(e);
+            this.Hide();
         }
 
         private void MetroWindow_MouseDown(object sender, MouseButtonEventArgs e) {
