@@ -29,7 +29,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        public ICommand CustomTheme { get; private set; }
         public ICommand UseThisPcName { get; private set; }
         public ICommand CloseMainWindow { get; private set; }
 
@@ -40,9 +39,6 @@ namespace NTMiner.Vms {
             RefreshDaemonStateBrush();
             this.CloseMainWindow = new DelegateCommand(() => {
                 VirtualRoot.Execute(new CloseMainWindowCommand("已切换为无界面模式运行"));
-            });
-            this.CustomTheme = new DelegateCommand(() => {
-                VirtualRoot.Execute(new ShowLogColorCommand());
             });
             this.UseThisPcName = new DelegateCommand(() => {
                 string thisPcName = NTMinerRoot.GetThisPcName();
