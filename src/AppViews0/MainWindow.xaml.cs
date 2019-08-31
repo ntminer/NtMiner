@@ -136,12 +136,18 @@ namespace NTMiner.Views {
             MinerProfileContainerLeft.Child = GridMineStart;
             TabItemMinerProfile.Visibility = Visibility.Collapsed;
             if (TabItemMinerProfile.IsSelected) {
-                TabItemSpeedTable.IsSelected = true;
+                TabItemLog.IsSelected = true;
             }
         }
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             var selectedItem = ((TabControl)sender).SelectedItem;
+            if (selectedItem == TabItemLog) {
+                NTMinerConsole.ShowWindow(NTMinerConsole.Show(), 1);
+            }
+            else {
+                NTMinerConsole.ShowWindow(NTMinerConsole.Show(), 0);
+            }
             if (selectedItem == TabItemToolbox) {
                 if (ToolboxContainer.Child == null) {
                     ToolboxContainer.Child = new Toolbox();
@@ -180,10 +186,6 @@ namespace NTMiner.Views {
                 Vm.IsOverClockVisible = true;
             }
             RightTab.SelectedItem = TabItemSpeedTable;
-        }
-
-        private void BtnShowConsole_Click(object sender, RoutedEventArgs e) {
-            Ucs.Console.ShowWindow();
         }
     }
 }
