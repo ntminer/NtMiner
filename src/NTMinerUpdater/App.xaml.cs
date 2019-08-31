@@ -24,7 +24,7 @@ namespace NTMiner {
         public static readonly bool IsInDesignMode = (bool)DesignerProperties.IsInDesignModeProperty.GetMetadata(typeof(DependencyObject)).DefaultValue;
 
         static App() {
-            if (!Debugger.IsAttached && !Design.IsInDesignMode) {
+            if (!Debugger.IsAttached && !Design.IsInDesignMode && DevMode.IsDevMode) {
                 Write.Init();
             }
             AppType = Environment.CommandLine.IndexOf("--minerstudio", StringComparison.OrdinalIgnoreCase) != -1 ? NTMinerAppType.MinerStudio : NTMinerAppType.MinerClient;

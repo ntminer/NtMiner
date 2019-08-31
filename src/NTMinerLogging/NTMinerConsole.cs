@@ -1,50 +1,53 @@
 ﻿using System;
-using System.Diagnostics;
-using System.IO;
-using System.Reflection;
 using System.Runtime.InteropServices;
 
 namespace NTMiner {
     public static class NTMinerConsole {
-        private const string Kernel32_DllName = "kernel32.dll";
-        [DllImport(Kernel32_DllName)]
+        private const string Kernel32DllName = "kernel32.dll";
+        [DllImport(Kernel32DllName)]
         private static extern bool AllocConsole();
-        [DllImport(Kernel32_DllName)]
+        [DllImport(Kernel32DllName)]
         private static extern bool FreeConsole();
-        [DllImport(Kernel32_DllName)]
+        [DllImport(Kernel32DllName)]
         private static extern IntPtr GetConsoleWindow();
-        private static bool HasConsole {
-            get { return GetConsoleWindow() != IntPtr.Zero; }
+
+        const int STD_INPUT_HANDLE = -10;
+        const uint ENABLE_QUICK_EDIT_MODE = 0x0040;
+        const uint ENABLE_INSERT_MODE = 0x0020;
+        [DllImport(Kernel32DllName, SetLastError = true)]
+        private static extern IntPtr GetStdHandle(int hConsoleHandle);
+        [DllImport(Kernel32DllName, SetLastError = true)]
+        private static extern bool GetConsoleMode(IntPtr hConsoleHandle, out uint mode);
+        [DllImport(Kernel32DllName, SetLastError = true)]
+        private static extern bool SetConsoleMode(IntPtr hConsoleHandle, uint mode);
+        [DllImport("user32.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, ExactSpelling = true, SetLastError = true)]
+        public static extern void MoveWindow(IntPtr hwnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
+
+        private static void DisbleQuickEditMode() {
+            IntPtr hStdin = GetStdHandle(STD_INPUT_HANDLE);
+            uint mode;
+            GetConsoleMode(hStdin, out mode);
+            mode &= ~ENABLE_QUICK_EDIT_MODE;//移除快速编辑模式
+            mode &= ~ENABLE_INSERT_MODE;    //移除插入模式
+            SetConsoleMode(hStdin, mode);
         }
-        /// Creates a new console instance if the process is not attached to a console already.  
-        public static void Show() {
-            if (!HasConsole) {
+
+        public static IntPtr Show() {
+            IntPtr console = GetConsoleWindow();
+            if (console == IntPtr.Zero) {
                 AllocConsole();
-                InvalidateOutAndError();
+                DisbleQuickEditMode();
+                console = GetConsoleWindow();
+                MoveWindow(console, -1000, 0, 0, 0, false);
             }
+            return console;
         }
-        /// If the process has a console attached to it, it will be detached and no longer visible. Writing to the System.Console is still possible, but no output will be shown.   
+
         public static void Hide() {
-            if (HasConsole) {
-                SetOutAndErrorNull();
+            IntPtr console = GetConsoleWindow();
+            if (console != IntPtr.Zero) {
                 FreeConsole();
             }
-        }
-        private static void InvalidateOutAndError() {
-            Type type = typeof(Console);
-            FieldInfo _out = type.GetField("_out", BindingFlags.Static | BindingFlags.NonPublic);
-            FieldInfo _error = type.GetField("_error", BindingFlags.Static | BindingFlags.NonPublic);
-            MethodInfo _InitializeStdOutError = type.GetMethod("InitializeStdOutError", BindingFlags.Static | BindingFlags.NonPublic);
-            Debug.Assert(_out != null);
-            Debug.Assert(_error != null);
-            Debug.Assert(_InitializeStdOutError != null);
-            _out.SetValue(null, null);
-            _error.SetValue(null, null);
-            _InitializeStdOutError.Invoke(null, new object[] { true });
-        }
-        private static void SetOutAndErrorNull() {
-            Console.SetOut(TextWriter.Null);
-            Console.SetError(TextWriter.Null);
         }
     }
 }

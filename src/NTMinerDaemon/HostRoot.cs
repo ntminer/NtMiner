@@ -46,7 +46,7 @@ namespace NTMiner {
             }
             try {
                 VirtualRoot.StartTimer();
-                if (!Debugger.IsAttached) {
+                if (!Debugger.IsAttached && DevMode.IsDevMode) {
                     Write.Init();
                 }
                 _waitHandle = new AutoResetEvent(false);

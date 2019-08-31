@@ -11,24 +11,4 @@
 	<UserControl.DataContext>
 		<vm:ConsoleViewModel></vm:ConsoleViewModel>
 	</UserControl.DataContext>
-	<Grid Background="Black">
-		<FlowDocumentScrollViewer 
-			VerticalScrollBarVisibility="Visible"
-			x:Name="FlowDocumentScrollViewer" 
-			BorderThickness="0" 
-			Background="Transparent" Foreground="White">
-			<FlowDocument PagePadding="4">
-				<Paragraph x:Name="ConsoleParagraph" FontFamily="Courier New" FontSize="13">
-				</Paragraph>
-			</FlowDocument>
-		</FlowDocumentScrollViewer>
-		<CheckBox 
-			x:Name="ChkbIsConsoleAutoScrollToEnd"
-			FocusVisualStyle="{x:Null}"
-			Width="16" Margin="0 -1 16 0"
-			HorizontalAlignment="Right"
-			VerticalAlignment="Top"
-			ToolTip="自动滚屏"
-			IsChecked="True" />
-	</Grid>
 </UserControl>

@@ -19,6 +19,7 @@ namespace NTMiner {
         public App() {
             if (!Debugger.IsAttached && !Design.IsInDesignMode) {
                 Write.Init();
+                System.Console.Title = "启动中";
             }
             Logging.LogDir.SetDir(SpecialPath.LogsDirFullName);
             AppUtil.Init(this);

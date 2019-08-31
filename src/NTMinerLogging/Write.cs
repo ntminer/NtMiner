@@ -20,9 +20,7 @@ namespace NTMiner {
                 lock (_locker) {
                     if (!_isInited) {
                         _isInited = true;
-                        if (DevMode.IsDevMode) {
-                            NTMinerConsole.Show();
-                        }
+                        NTMinerConsole.Show();
                     }
                 }
             }
