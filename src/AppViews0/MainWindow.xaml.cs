@@ -142,12 +142,6 @@ namespace NTMiner.Views {
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             var selectedItem = ((TabControl)sender).SelectedItem;
-            if (selectedItem == TabItemLog) {
-                NTMinerConsole.ShowWindow(NTMinerConsole.Show(), 1);
-            }
-            else {
-                NTMinerConsole.ShowWindow(NTMinerConsole.Show(), 0);
-            }
             if (selectedItem == TabItemToolbox) {
                 if (ToolboxContainer.Child == null) {
                     ToolboxContainer.Child = new Toolbox();
@@ -157,6 +151,12 @@ namespace NTMiner.Views {
                 if (MinerProfileOptionContainer.Child == null) {
                     MinerProfileOptionContainer.Child = new MinerProfileOption();
                 }
+            }
+            NTMinerConsole.ShowWindow(NTMinerConsole.Show(), 0);
+            if (selectedItem == TabItemLog) {
+                TimeSpan.FromMilliseconds(200).Delay().ContinueWith(t => {
+                    NTMinerConsole.ShowWindow(NTMinerConsole.Show(), 1);
+                });
             }
         }
 
