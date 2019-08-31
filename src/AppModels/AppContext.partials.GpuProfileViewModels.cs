@@ -27,7 +27,7 @@ namespace NTMiner {
                         var coinVm = AppContext.Instance.MinerProfileVm.CoinVm;
                         if (coinVm != null) {
                             coinVm.OnOverClockPropertiesChanges();
-                            VirtualRoot.Execute(new CoinOverClockCommand(coinVm.Id, isJoin: false));
+                            VirtualRoot.Execute(new CoinOverClockCommand(coinVm.Id));
                         }
                     });
                 On<GpuProfileAddedOrUpdatedEvent>("添加或更新了Gpu超频数据后刷新VM内存", LogEnum.DevConsole,

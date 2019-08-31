@@ -108,7 +108,7 @@ namespace NTMiner.Vms {
         }
 
         private void ApplyOverClock() {
-            VirtualRoot.Execute(new CoinOverClockCommand(this.Id, isJoin: false));
+            VirtualRoot.Execute(new CoinOverClockCommand(this.Id));
         }
 
         private void FillOverClock(OverClockDataViewModel data) {

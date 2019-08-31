@@ -28,14 +28,10 @@ namespace NTMiner.Core.Profiles.Impl {
                 });
             VirtualRoot.Window<CoinOverClockCommand>("处理币种超频命令", LogEnum.DevConsole,
                 action: message => {
-                    if (message.IsJoin) {
+                    Task.Factory.StartNew(() => {
                         CoinOverClock(root, message.CoinId);
-                    }
-                    else {
-                        Task.Factory.StartNew(() => {
-                            CoinOverClock(root, message.CoinId);
-                        });
-                    }
+                        VirtualRoot.Happened(new CoinOverClockDoneEvent(message.Id));
+                    });
                 });
         }
 

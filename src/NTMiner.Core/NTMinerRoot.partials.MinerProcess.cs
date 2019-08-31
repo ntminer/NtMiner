@@ -1,4 +1,5 @@
-﻿using NTMiner.Core;
+﻿using NTMiner.Bus;
+using NTMiner.Core;
 using NTMiner.Core.Kernels;
 using System;
 using System.Collections;
@@ -30,43 +31,54 @@ namespace NTMiner {
 #endif
                             Write.UserOk("内核进程清理完毕");
                             // 应用超频
-                            if (NTMinerRoot.Instance.GpuProfileSet.IsOverClockEnabled(mineContext.MainCoin.GetId())) {
+                            if (Instance.GpuProfileSet.IsOverClockEnabled(mineContext.MainCoin.GetId())) {
                                 Write.UserInfo("应用超频，如果CPU性能较差耗时可能超过1分钟，请耐心等待");
-                                VirtualRoot.Execute(new CoinOverClockCommand(mineContext.MainCoin.GetId(), isJoin: true));
-                            }
-                            Thread.Sleep(1000);
-                            Write.UserInfo($"解压内核包{mineContext.Kernel.Package}");
-                            // 解压内核包
-                            if (!mineContext.Kernel.ExtractPackage()) {
-                                VirtualRoot.Happened(new StartingMineFailedEvent("内核解压失败，请卸载内核重试。"));
-                            }
-                            else {
-                                Write.UserOk("内核包解压成功");
-                            }
+                                var cmd = new CoinOverClockCommand(mineContext.MainCoin.GetId());
+                                DelegateHandler<CoinOverClockDoneEvent> callback = null;
+                                callback = VirtualRoot.On<CoinOverClockDoneEvent>("超频完成后继续流程", LogEnum.DevConsole,
+                                    message => {
+                                        if (mineContext == null || mineContext != Instance.CurrentMineContext) {
+                                            VirtualRoot.UnPath(callback);
+                                        }
+                                        else if (message.CmdId == cmd.Id) {
+                                            VirtualRoot.UnPath(callback);
+                                            Thread.Sleep(1000);
+                                            Write.UserInfo($"解压内核包{mineContext.Kernel.Package}");
+                                            // 解压内核包
+                                            if (!mineContext.Kernel.ExtractPackage()) {
+                                                VirtualRoot.Happened(new StartingMineFailedEvent("内核解压失败，请卸载内核重试。"));
+                                            }
+                                            else {
+                                                Write.UserOk("内核包解压成功");
+                                            }
 
-                            // 执行文件书写器
-                            mineContext.ExecuteFileWriters();
+                                            // 执行文件书写器
+                                            mineContext.ExecuteFileWriters();
 
-                            Write.UserInfo("总成命令");
-                            // 组装命令
-                            BuildCmdLine(mineContext, out string kernelExeFileFullName, out string arguments);
-                            bool isLogFile = arguments.Contains("{logfile}");
-                            // 这是不应该发生的，如果发生很可能是填写命令的时候拼写错误了
-                            if (!File.Exists(kernelExeFileFullName)) {
-                                Write.UserError(kernelExeFileFullName + "文件不存在，可能是小编拼写错误或是挖矿内核被杀毒软件删除导致，请退出杀毒软件重试或者QQ群联系小编。");
+                                            Write.UserInfo("总成命令");
+                                            // 组装命令
+                                            BuildCmdLine(mineContext, out string kernelExeFileFullName, out string arguments);
+                                            bool isLogFile = arguments.Contains("{logfile}");
+                                            // 这是不应该发生的，如果发生很可能是填写命令的时候拼写错误了
+                                            if (!File.Exists(kernelExeFileFullName)) {
+                                                Write.UserError(kernelExeFileFullName + "文件不存在，可能是小编拼写错误或是挖矿内核被杀毒软件删除导致，请退出杀毒软件重试或者QQ群联系小编。");
+                                            }
+                                            if (isLogFile) {
+                                                Logger.InfoDebugLine("创建日志文件型进程");
+                                                // 如果内核支持日志文件
+                                                // 推迟打印cmdLine，因为{logfile}变量尚未求值
+                                                CreateLogfileProcess(mineContext, kernelExeFileFullName, arguments);
+                                            }
+                                            else {
+                                                Logger.InfoDebugLine("创建管道型进程");
+                                                // 如果内核不支持日志文件
+                                                CreatePipProcess(mineContext, kernelExeFileFullName, arguments);
+                                            }
+                                            VirtualRoot.Happened(new MineStartedEvent(mineContext));
+                                        }
+                                    });
+                                VirtualRoot.Execute(cmd);
                             }
-                            if (isLogFile) {
-                                Logger.InfoDebugLine("创建日志文件型进程");
-                                // 如果内核支持日志文件
-                                // 推迟打印cmdLine，因为{logfile}变量尚未求值
-                                CreateLogfileProcess(mineContext, kernelExeFileFullName, arguments);
-                            }
-                            else {
-                                Logger.InfoDebugLine("创建管道型进程");
-                                // 如果内核不支持日志文件
-                                CreatePipProcess(mineContext, kernelExeFileFullName, arguments);
-                            }
-                            VirtualRoot.Happened(new MineStartedEvent(mineContext));
                         }
                         catch (Exception e) {
                             Logger.ErrorDebugLine(e);

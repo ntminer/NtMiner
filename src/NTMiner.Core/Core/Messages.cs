@@ -343,14 +343,20 @@ namespace NTMiner.Core {
 
     [MessageType(description: "币种超频")]
     public class CoinOverClockCommand : Cmd {
-        public CoinOverClockCommand(Guid coinId, bool isJoin) {
+        public CoinOverClockCommand(Guid coinId) {
             this.CoinId = coinId;
-            this.IsJoin = isJoin;
         }
 
-        public bool IsJoin { get; private set; }
-
         public Guid CoinId { get; private set; }
+    }
+    
+    [MessageType(description: "币种超频完成后")]
+    public class CoinOverClockDoneEvent : EventBase {
+        public CoinOverClockDoneEvent(Guid cmdId) {
+            this.CmdId = cmdId;
+        }
+
+        public Guid CmdId { get; private set; }
     }
 
     [MessageType(description: "Gpu超频数据添加或更新后")]
