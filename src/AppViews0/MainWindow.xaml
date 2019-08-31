@@ -595,6 +595,7 @@
                 <controls:KbButton
                     Margin="4 0 0 0"
                     Padding="8 0"
+                    Height="30"
                     Background="{StaticResource TableHeaderBackground}"
                     Click="BtnOverClockVisible_Click"
 				    CornerRadius="2 2 0 0">
