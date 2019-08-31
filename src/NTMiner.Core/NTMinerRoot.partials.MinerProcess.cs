@@ -354,7 +354,7 @@ namespace NTMiner {
                             }
                             CloseHandle(hReadOut);
                         }, TaskCreationOptions.LongRunning);
-                        ReadPrintLoopLogFileAsync(mineContext, pipLogFileFullName);
+                        ReadPrintLoopLogFileAsync(mineContext, pipLogFileFullName, isWriteToConsole: true);
                     }
                 }
                 else {
