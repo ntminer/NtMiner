@@ -521,8 +521,8 @@
 								</WrapPanel>
 							</StackPanel>
 						</Grid>
-						<uc:Console Grid.Row="1">
-						</uc:Console>
+                        <Rectangle x:Name="ConsoleRectangle" Grid.Row="1">
+						</Rectangle>
 					</Grid>
 				</TabItem>
 				<TabItem x:Name="TabItemSpeedTable">

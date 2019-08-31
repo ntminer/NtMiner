@@ -274,9 +274,6 @@
     <Compile Include="Ucs\StateBar.xaml.cs">
       <DependentUpon>StateBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ucs\Console.xaml.cs">
-      <DependentUpon>Console.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Ucs\KernelOutputTranslaterEdit.xaml.cs">
       <DependentUpon>KernelOutputTranslaterEdit.xaml</DependentUpon>
     </Compile>
@@ -736,10 +733,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Ucs\StateBar.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Ucs\Console.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

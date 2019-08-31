@@ -123,7 +123,6 @@
     <Compile Include="Vms\CoinViewModel.cs" />
     <Compile Include="Vms\ColumnsShowPageViewModel.cs" />
     <Compile Include="Vms\ColumnsShowViewModel.cs" />
-    <Compile Include="Vms\ConsoleViewModel.cs" />
     <Compile Include="Vms\ContainerWindowViewModel.cs" />
     <Compile Include="Vms\ControlCenterHostConfigViewModel.cs" />
     <Compile Include="Vms\DriveViewModel.cs" />

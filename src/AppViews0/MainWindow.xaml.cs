@@ -3,11 +3,22 @@ using NTMiner.Views.Ucs;
 using NTMiner.Vms;
 using System;
 using System.ComponentModel;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Interop;
 
 namespace NTMiner.Views {
+    internal class NativeMethods {
+        internal const int GWL_STYLE = -16;
+        internal const int WS_VISIBLE = 0x10000000;
+        [DllImport("user32.dll")]
+        public static extern int SetWindowLong(IntPtr hwnd, int index, int newStyle);
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
+    }
+
     public partial class MainWindow : BlankWindow {
         private MainWindowViewModel Vm {
             get {
@@ -25,6 +36,7 @@ namespace NTMiner.Views {
 #endif
             UIThread.StartTimer();
             InitializeComponent();
+            NTMinerRoot.RefreshArgsAssembly.Invoke();
             if (Design.IsInDesignMode) {
                 return;
             }
@@ -41,7 +53,7 @@ namespace NTMiner.Views {
                     }
                 }
             };
-            this.SizeChanged += (object sender, SizeChangedEventArgs e)=> {
+            this.SizeChanged += (object sender, SizeChangedEventArgs e) => {
                 if (e.WidthChanged) {
                     const double width = 800;
                     if (e.NewSize.Width < width) {
@@ -51,6 +63,9 @@ namespace NTMiner.Views {
                         Expand();
                     }
                 }
+            };
+            this.ConsoleRectangle.SizeChanged += (object sender, SizeChangedEventArgs e) => {
+                ReSizeConsoleWindow();
             };
             EventHandler changeNotiCenterWindowLocation = NotiCenterWindow.CreateNotiCenterWindowLocationManager(this);
             this.Activated += changeNotiCenterWindowLocation;
@@ -100,6 +115,22 @@ namespace NTMiner.Views {
 #if DEBUG
             Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
 #endif
+        }
+
+        private bool _isFirst = true;
+        private void ReSizeConsoleWindow() {
+            IntPtr console = NTMinerConsole.Show();
+            Point point = ConsoleRectangle.TransformToAncestor(this).Transform(new Point(0, 0));
+            if (_isFirst) {
+                IntPtr parent = new WindowInteropHelper(this).Handle;
+                NativeMethods.SetParent(console, parent);
+                NativeMethods.SetWindowLong(console, NativeMethods.GWL_STYLE, NativeMethods.WS_VISIBLE);
+                _isFirst = false;
+            }
+            int width = (int)ConsoleRectangle.ActualWidth - 1;
+            int height = (int)ConsoleRectangle.ActualHeight;
+
+            NTMinerConsole.MoveWindow(console, (int)point.X, (int)point.Y, width, height, true);
         }
 
         protected override void OnClosing(CancelEventArgs e) {

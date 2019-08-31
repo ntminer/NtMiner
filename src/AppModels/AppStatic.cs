@@ -490,6 +490,9 @@ namespace NTMiner {
 
         public static string OfficialSiteName {
             get {
+                if (Design.IsDevMode) {
+                    return "NTMiner.com";
+                }
                 if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("ThisSystem", "HomePageUrl", out ISysDicItem dicItem) && !string.IsNullOrEmpty(dicItem.Value)) {
                     if (dicItem.Value.StartsWith("https://")) {
                         return dicItem.Value.Substring("https://".Length);
