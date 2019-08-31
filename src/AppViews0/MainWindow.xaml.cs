@@ -141,9 +141,6 @@ namespace NTMiner.Views {
         }
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-            if (ConsoleUc == null) {
-                return;
-            }
             var selectedItem = ((TabControl)sender).SelectedItem;
             if (selectedItem == TabItemLog) {
                 NTMinerConsole.ShowWindow(NTMinerConsole.Show(), 1);
