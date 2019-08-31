@@ -15,7 +15,6 @@ namespace NTMiner.View {
                             _mainWindow = CreateMainWindow();
                             Application.Current.MainWindow = _mainWindow;
                             _mainWindow.Show();
-                            AppContext.Enable();
                             NTMinerRoot.IsUiVisible = true;
                             NTMinerRoot.MainWindowRendedOn = DateTime.Now;
                             VirtualRoot.Happened(new MainWindowShowedEvent());
@@ -27,6 +26,7 @@ namespace NTMiner.View {
                     }
                 }
                 else {
+                    AppContext.Enable();
                     bool needActive = _mainWindow.WindowState != WindowState.Minimized;
                     _mainWindow.ShowWindow(isToggle);
                     if (needActive) {
