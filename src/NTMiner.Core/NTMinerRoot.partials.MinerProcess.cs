@@ -144,7 +144,7 @@ namespace NTMiner {
                 Write.UserInfo("有请内核上场");
                 ProcessStartInfo startInfo = new ProcessStartInfo(kernelExeFileFullName, arguments) {
                     UseShellExecute = false,
-                    CreateNoWindow = true,
+                    CreateNoWindow = false,
                     WorkingDirectory = AssemblyInfo.LocalDirFullName
                 };
                 // 追加环境变量
@@ -161,7 +161,7 @@ namespace NTMiner {
             #endregion
 
             #region ReadPrintLoopLogFile
-            private static void ReadPrintLoopLogFileAsync(IMineContext mineContext, string logFile) {
+            private static void ReadPrintLoopLogFileAsync(IMineContext mineContext, string logFile, bool isWriteToConsole = false) {
                 Task.Factory.StartNew(() => {
                     bool isLogFileCreated = true;
                     int n = 0;
@@ -206,20 +206,22 @@ namespace NTMiner {
                                         }
                                     }
                                     Instance.KernelOutputSet.Pick(kernelOutputId, ref input, mineContext);
-                                    if (IsUiVisible) {
-                                        Instance.KernelOutputTranslaterSet.Translate(kernelOutputId, ref input, ref color);
-                                    }
-                                    if (!string.IsNullOrEmpty(input)) {
-                                        if (Instance.KernelOutputSet.TryGetKernelOutput(kernelOutputId, out IKernelOutput kernelOutput)) {
-                                            if (kernelOutput.PrependDateTime) {
-                                                Write.UserLine($"{DateTime.Now}    {input}", color);
+                                    if (isWriteToConsole) {
+                                        if (!string.IsNullOrEmpty(input)) {
+                                            if (IsUiVisible) {
+                                                Instance.KernelOutputTranslaterSet.Translate(kernelOutputId, ref input, ref color);
+                                            }
+                                            if (Instance.KernelOutputSet.TryGetKernelOutput(kernelOutputId, out IKernelOutput kernelOutput)) {
+                                                if (kernelOutput.PrependDateTime) {
+                                                    Write.UserLine($"{DateTime.Now}    {input}", color);
+                                                }
+                                                else {
+                                                    Write.UserLine(input, color);
+                                                }
                                             }
                                             else {
                                                 Write.UserLine(input, color);
                                             }
-                                        }
-                                        else {
-                                            Write.UserLine(input, color);
                                         }
                                     }
                                 }
