@@ -37,6 +37,7 @@ namespace NTMiner.Core.Gpus.Impl {
             SetPowerLimit(NTMinerRoot.GpuAllId, 0);
             SetTempLimit(NTMinerRoot.GpuAllId, 0);
             SetFanSpeed(NTMinerRoot.GpuAllId, 0);
+            RefreshGpuState(NTMinerRoot.GpuAllId);
         }
 
         protected override void RefreshGpuState(IGpu gpu) {
