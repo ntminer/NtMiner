@@ -80,6 +80,81 @@ namespace NTMiner {
         }
         #endregion
 
+        #region InnerProperty
+
+        public static string Id {
+            get { return VirtualRoot.Id.ToString(); }
+        }
+        public static string BootOn {
+            get => NTMinerRoot.Instance.CreatedOn.ToString("yyyy-MM-dd HH:mm:ss");
+        }
+        public static string LocalDir {
+            get => AssemblyInfo.LocalDirFullName;
+        }
+        public static string ServerDbFileFullName {
+            get {
+                return SpecialPath.ServerDbFileFullName.Replace(LocalDir, Consts.LocalDirParameterName);
+            }
+        }
+        public static string LocalDbFileFullName {
+            get => SpecialPath.LocalDbFileFullName.Replace(LocalDir, Consts.LocalDirParameterName);
+        }
+
+        public static string ServerJsonFileFullName {
+            get { return SpecialPath.ServerJsonFileFullName.Replace(LocalDir, Consts.LocalDirParameterName); }
+        }
+
+        public static string ServerVersionJsonFileFullName {
+            get { return AssemblyInfo.ServerVersionJsonFileFullName.Replace(LocalDir, Consts.LocalDirParameterName); }
+        }
+
+        public static string DaemonFileFullName {
+            get { return SpecialPath.DaemonFileFullName.Replace(LocalDir, Consts.LocalDirParameterName); }
+        }
+
+        public static string DevConsoleFileFullName {
+            get { return SpecialPath.DevConsoleFileFullName.Replace(LocalDir, Consts.LocalDirParameterName); }
+        }
+
+        public static string NTMinerOverClockFileFullName {
+            get { return SpecialPath.NTMinerOverClockFileFullName.Replace(LocalDir, Consts.LocalDirParameterName); }
+        }
+
+        public static string TempDirFullName {
+            get { return SpecialPath.TempDirFullName.Replace(LocalDir, Consts.LocalDirParameterName); }
+        }
+
+        public static string PackagesDirFullName {
+            get { return SpecialPath.PackagesDirFullName.Replace(LocalDir, Consts.LocalDirParameterName); }
+        }
+
+        public static string DownloadDirFullName {
+            get {
+                return SpecialPath.DownloadDirFullName.Replace(LocalDir, Consts.LocalDirParameterName);
+            }
+        }
+
+        public static string KernelsDirFullName {
+            get { return SpecialPath.KernelsDirFullName.Replace(LocalDir, Consts.LocalDirParameterName); }
+        }
+
+        public static string LogsDirFullName {
+            get { return SpecialPath.LogsDirFullName.Replace(LocalDir, Consts.LocalDirParameterName); }
+        }
+
+        public static string AppRuntime {
+            get {
+                if (VirtualRoot.IsMinerStudio) {
+                    return "群控客户端";
+                }
+                else if (VirtualRoot.IsMinerClient) {
+                    return "挖矿端";
+                }
+                return "未知";
+            }
+        }
+        #endregion
+
         public static bool IsMinerClient {
             get => VirtualRoot.IsMinerClient;
         }

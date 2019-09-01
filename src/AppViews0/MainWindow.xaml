@@ -488,7 +488,7 @@
 										</WrapPanel>
 									</WrapPanel>
 								</WrapPanel>
-								<WrapPanel>
+								<WrapPanel Margin="0 0 18 0">
 									<Path
 										Margin="2 2 2 0"
 										VerticalAlignment="Top"
@@ -521,6 +521,22 @@
 								</WrapPanel>
 							</StackPanel>
 						</Grid>
+                        <controls:KbButton 
+							Margin="0 0 1 0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Bottom"
+							ToolTip="打开日志文件夹"
+							Background="White" 
+							BorderThickness="0"
+                            Command="{x:Static app:AppStatic.OpenDir}" 
+                            CommandParameter="{x:Static app:AppStatic.LogsDirFullName}">
+                            <Path
+								Width="15"
+								Height="15"
+								Data="{StaticResource Icon_LogDir}"
+								Fill="Black"
+								Stretch="Fill" />
+                        </controls:KbButton>
                         <Rectangle x:Name="ConsoleRectangle" Grid.Row="1">
 						</Rectangle>
 					</Grid>
