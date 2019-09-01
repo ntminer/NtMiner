@@ -8,7 +8,12 @@ namespace NTMiner.Vms {
         }
 
         public Visibility IsOverClockVisible {
-            get { return _isOverClockVisible; }
+            get {
+                if (Design.IsInDesignMode) {
+                    return Visibility.Visible;
+                }
+                return _isOverClockVisible;
+            }
             set {
                 _isOverClockVisible = value;
                 OnPropertyChanged(nameof(IsOverClockVisible));

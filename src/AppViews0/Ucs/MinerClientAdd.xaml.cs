@@ -10,7 +10,7 @@ namespace NTMiner.Views.Ucs {
             Window window = new MinerClientAdd(vm);
             vm.CloseWindow = () => window.Close();
             if (window.Owner != null) {
-                window.MouseBottom();
+                window.MousePosition();
                 double ownerOpacity = window.Owner.Opacity;
                 window.Owner.Opacity = 0.6;
                 window.ShowDialog();

@@ -24,7 +24,7 @@ namespace NTMiner.Wpf {
             Action<string> onOk) {
             Window window = new InputWindow(title, text, check, onOk);
             if (window.Owner != null) {
-                window.MouseBottom();
+                window.MousePosition();
                 double ownerOpacity = window.Owner.Opacity;
                 window.Owner.Opacity = 0.6;
                 window.ShowDialog();

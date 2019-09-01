@@ -16,6 +16,13 @@ namespace UnitTests {
     [TestClass]
     public class UnitTest1 {
         [TestMethod]
+        public void NaNTest() {
+            Assert.AreEqual(double.NaN, double.NaN);
+            Assert.IsFalse(double.NaN == double.NaN);
+            Assert.IsTrue(double.NaN.Equals(double.NaN));
+        }
+
+        [TestMethod]
         public void Test1() {
             string a = null;
             string s = $"{null}-{a}";

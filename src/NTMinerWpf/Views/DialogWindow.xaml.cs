@@ -14,7 +14,7 @@ namespace NTMiner.Views {
             Action onNo = null) {
             Window window = new DialogWindow(icon, title, message, helpUrl, onYes, onNo);
             if (window.Owner != null) {
-                window.MouseBottom();
+                window.MousePosition();
                 double ownerOpacity = window.Owner.Opacity;
                 window.Owner.Opacity = 0.6;
                 window.ShowDialog();
