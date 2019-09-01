@@ -119,7 +119,7 @@
 					</Path>
 				</WrapPanel>
 			</Grid>
-			<WrapPanel HorizontalAlignment="Right" Margin="0 -15 480 0">
+			<WrapPanel HorizontalAlignment="Right" Margin="0 -13 480 0">
                 <Border Visibility="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.NoPool1,Converter={StaticResource BoolToVisibilityInvertConverter}}">
                     <controls:KbLinkButton
 					    Padding="0"
@@ -148,7 +148,7 @@
 						Command="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.ViewPoolIncome}"
 						CommandParameter="{Binding MinerProfile.CoinVm.CoinProfile.SelectedWallet}"
 						KbDisplayLine="False"
-						Content="主币收益"
+						Content="查看收益"
 						KbSystemButtonHoverBackground="Transparent"
 						Background="Transparent">
 					</controls:KbLinkButton>
