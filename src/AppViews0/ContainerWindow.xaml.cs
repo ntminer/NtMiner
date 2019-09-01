@@ -30,10 +30,17 @@ namespace NTMiner.Views {
             return s_windowDic[vm];
         }
 
+        private bool _isNew = true;
+        public bool IsNew {
+            get {
+                return _isNew;
+            }
+        }
+
         public static ContainerWindow ShowWindow<TUc>(
-            ContainerWindowViewModel vm, 
-            Func<ContainerWindow, TUc> ucFactory, 
-            Action<UserControl> beforeShow = null, 
+            ContainerWindowViewModel vm,
+            Func<ContainerWindow, TUc> ucFactory,
+            Action<UserControl> beforeShow = null,
             bool fixedSize = false) where TUc : UserControl {
             if (vm == null) {
                 throw new ArgumentNullException(nameof(vm));
@@ -49,6 +56,7 @@ namespace NTMiner.Views {
             Type ucType = typeof(TUc);
             if (s_windowDicByType.ContainsKey(ucType)) {
                 window = s_windowDicByType[ucType];
+                window._isNew = false;
             }
             else {
                 s_windowDic.Add(vm, window);
@@ -70,6 +78,11 @@ namespace NTMiner.Views {
         private readonly UserControl _uc;
         private ContainerWindowViewModel _vm;
         private readonly bool _fixedSize;
+
+        public UserControl Uc {
+            get { return _uc; }
+        }
+
         public ContainerWindowViewModel Vm {
             get {
                 return _vm;
@@ -77,9 +90,9 @@ namespace NTMiner.Views {
         }
 
         public ContainerWindow(
-            ContainerWindowViewModel vm, 
-            Func<ContainerWindow, UserControl> ucFactory, 
-            bool fixedSize = false, 
+            ContainerWindowViewModel vm,
+            Func<ContainerWindow, UserControl> ucFactory,
+            bool fixedSize = false,
             bool dragMove = true) {
             this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Save, Save_Executed, Save_Enabled));
             _fixedSize = fixedSize;
