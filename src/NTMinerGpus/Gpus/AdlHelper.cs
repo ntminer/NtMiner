@@ -122,65 +122,57 @@ namespace NTMiner.Gpus {
             }
         }
 
-        public void GetClockRange(
-            int gpuIndex,
-            out int coreClockMin, out int coreClockMax,
-            out int memoryClockMin, out int memoryClockMax,
-            out int voltMin, out int voltMax, out int voltDefault,
-            out int powerMin, out int powerMax, out int powerDefault,
-            out int tempLimitMin, out int tempLimitMax, out int tempLimitDefault,
-            out int fanSpeedMin, out int fanSpeedMax, out int fanSpeedDefault) {
-            coreClockMin = 0;
-            coreClockMax = 0;
-            memoryClockMin = 0;
-            memoryClockMax = 0;
-            powerMin = 0;
-            powerMax = 0;
-            powerDefault = 0;
-            tempLimitMin = 0;
-            tempLimitMax = 0;
-            tempLimitDefault = 0;
-            fanSpeedMin = 0;
-            fanSpeedMax = 0;
-            fanSpeedDefault = 0;
-            voltMin = 0;
-            voltMax = 0;
-            voltDefault = 0;
+        public OverClockRange GetClockRange(int gpuIndex) {
+            OverClockRange result = new OverClockRange(gpuIndex);
             try {
                 if (!TryGpuAdapterIndex(gpuIndex, out int adapterIndex)) {
-                    return;
+                    return result;
                 }
                 ADLODNCapabilitiesX2 info = new ADLODNCapabilitiesX2();
                 var r = AdlNativeMethods.ADL2_OverdriveN_CapabilitiesX2_Get(context, adapterIndex, ref info);
                 if (r < AdlStatus.ADL_OK) {
                     Write.DevError($"{nameof(AdlNativeMethods.ADL2_OverdriveN_CapabilitiesX2_Get)} {r}");
-                    return;
+                    return result;
                 }
-                coreClockMin = info.sEngineClockRange.iMin * 10;
-                coreClockMax = info.sEngineClockRange.iMax * 10;
-                memoryClockMin = info.sMemoryClockRange.iMin * 10;
-                memoryClockMax = info.sMemoryClockRange.iMax * 10;
-                powerMin = info.power.iMin + 100;
-                powerMax = info.power.iMax + 100;
-                powerDefault = info.power.iDefault + 100;
-                tempLimitMin = info.powerTuneTemperature.iMin;
-                tempLimitMax = info.powerTuneTemperature.iMax;
-                tempLimitDefault = info.powerTuneTemperature.iDefault;
-                voltMin = info.svddcRange.iMin;
-                voltMax = info.svddcRange.iMax;
-                voltDefault = info.svddcRange.iDefault;
+                result.PowerCurr = GetPowerLimit(gpuIndex);
+                result.TempCurr = GetTempLimit(gpuIndex);
+                if (GetMemoryClock(gpuIndex, out int memoryClock, out int iVddc)) {
+                    result.MemoryClockDelta = memoryClock;
+                    result.MemoryVoltage = iVddc;
+                }
+                if (GetCoreClock(gpuIndex, out int coreClock, out iVddc)) {
+                    result.CoreClockDelta = coreClock;
+                    result.CoreVoltage = iVddc;
+                }
+                result.CoreClockMin = info.sEngineClockRange.iMin * 10;
+                result.CoreClockMax = info.sEngineClockRange.iMax * 10;
+                result.MemoryClockMin = info.sMemoryClockRange.iMin * 10;
+                result.MemoryClockMax = info.sMemoryClockRange.iMax * 10;
+                result.PowerMin = info.power.iMin + 100;
+                result.PowerMax = info.power.iMax + 100;
+                result.PowerDefault = info.power.iDefault + 100;
+                result.TempLimitMin = info.powerTuneTemperature.iMin;
+                result.TempLimitMax = info.powerTuneTemperature.iMax;
+                result.TempLimitDefault = info.powerTuneTemperature.iDefault;
+                result.VoltMin = info.svddcRange.iMin;
+                result.VoltMax = info.svddcRange.iMax;
+                result.VoltDefault = info.svddcRange.iDefault;
                 if (info.fanSpeed.iMax == 0) {
-                    fanSpeedMin = 0;
+                    result.FanSpeedMin = 0;
                 }
                 else {
-                    fanSpeedMin = info.fanSpeed.iMin * 100 / info.fanSpeed.iMax;
+                    result.FanSpeedMin = info.fanSpeed.iMin * 100 / info.fanSpeed.iMax;
                 }
-                fanSpeedMax = 100;
-                fanSpeedDefault = info.fanSpeed.iDefault;
+                result.FanSpeedMax = 100;
+                result.FanSpeedDefault = info.fanSpeed.iDefault;
+#if DEBUG
+                Write.DevWarn($"GetClockRange {result.ToString()}");
+#endif
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
             }
+            return result;
         }
 
         public bool GetCoreClock(int gpuIndex, out int coreClock, out int iVddc) {

@@ -45,39 +45,8 @@ namespace NTMiner.Core.Gpus.Impl {
                 return;
             }
             try {
-                gpu.PowerCapacity = _adlHelper.GetPowerLimit(gpu.Index);
-                gpu.TempLimit = _adlHelper.GetTempLimit(gpu.Index);
-                if (_adlHelper.GetMemoryClock(gpu.Index, out int memoryClock, out int iVddc)) {
-                    gpu.MemoryClockDelta = memoryClock;
-                    gpu.MemoryVoltage = iVddc;
-                }
-                if (_adlHelper.GetCoreClock(gpu.Index, out int coreClock, out iVddc)) {
-                    gpu.CoreClockDelta = coreClock;
-                    gpu.CoreVoltage = iVddc;
-                }
-                _adlHelper.GetClockRange(
-                    gpu.Index,
-                    out int coreClockDeltaMin, out int coreClockDeltaMax,
-                    out int memoryClockDeltaMin, out int memoryClockDeltaMax,
-                    out int voltMin, out int voltMax, out int voltDefault,
-                    out int powerMin, out int powerMax, out int powerDefault,
-                    out int tempLimitMin, out int tempLimitMax, out int tempLimitDefault,
-                    out int fanSpeedMin, out int fanSpeedMax, out int fanSpeedDefault);
-                gpu.CoreClockDeltaMin = coreClockDeltaMin;
-                gpu.CoreClockDeltaMax = coreClockDeltaMax;
-                gpu.MemoryClockDeltaMin = memoryClockDeltaMin;
-                gpu.MemoryClockDeltaMax = memoryClockDeltaMax;
-                gpu.PowerMin = powerMin;
-                gpu.PowerMax = powerMax;
-                gpu.PowerDefault = powerDefault;
-                gpu.TempLimitMin = tempLimitMin;
-                gpu.TempLimitMax = tempLimitMax;
-                gpu.TempLimitDefault = tempLimitDefault;
-                gpu.CoolMin = fanSpeedMin;
-                gpu.CoolMax = fanSpeedMax;
-                gpu.VoltMin = voltMin;
-                gpu.VoltMax = voltMax;
-                gpu.VoltDefault = voltDefault;
+                OverClockRange range = _adlHelper.GetClockRange(gpu.GetOverClockId());
+                gpu.UpdateState(range);
             }
             catch (System.Exception e) {
                 Logger.ErrorDebugLine(e);

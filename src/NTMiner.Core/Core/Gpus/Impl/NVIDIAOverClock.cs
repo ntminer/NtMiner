@@ -54,33 +54,8 @@ namespace NTMiner.Core.Gpus.Impl {
                 return;
             }
             try {
-                _nvapiHelper.GetClockRange(
-                    gpu.GetOverClockId(),
-                    out int coreClockDeltaMin, out int coreClockDeltaMax, out int coreClockDelta,
-                    out int memoryClockDeltaMin, out int memoryClockDeltaMax, out int memoryClockDelta,
-                    out int powerMin, out int powerMax, out int powerDefault, out int powerLimit,
-                    out int tempLimitMin, out int tempLimitMax, out int tempLimitDefault, out int tempLimit,
-                    out uint fanSpeedCurr, out int fanSpeedMin, out int fanSpeedMax, out int fanSpeedDefault);
-                gpu.PowerCapacity = powerLimit;
-                gpu.TempLimit = tempLimit;
-                gpu.MemoryClockDelta = memoryClockDelta;
-                gpu.CoreClockDelta = coreClockDelta;
-                gpu.CoreClockDeltaMin = coreClockDeltaMin;
-                gpu.CoreClockDeltaMax = coreClockDeltaMax;
-                gpu.MemoryClockDeltaMin = memoryClockDeltaMin;
-                gpu.MemoryClockDeltaMax = memoryClockDeltaMax;
-                gpu.PowerMin = powerMin;
-                gpu.PowerMax = powerMax;
-                gpu.PowerDefault = powerDefault;
-                gpu.TempLimitMin = tempLimitMin;
-                gpu.TempLimitMax = tempLimitMax;
-                gpu.TempLimitDefault = tempLimitDefault;
-                gpu.CoolMin = fanSpeedMin;
-                gpu.CoolMax = fanSpeedMax;
-                if (gpu.FanSpeed != fanSpeedCurr) {
-                    gpu.FanSpeed = fanSpeedCurr;
-                    VirtualRoot.Happened(new GpuStateChangedEvent(gpu));
-                }
+                OverClockRange range = _nvapiHelper.GetClockRange(gpu.GetOverClockId());
+                gpu.UpdateState(range);
             }
             catch (System.Exception e) {
                 Logger.ErrorDebugLine(e);

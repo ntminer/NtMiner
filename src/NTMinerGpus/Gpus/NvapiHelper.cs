@@ -55,79 +55,48 @@ namespace NTMiner.Gpus {
             }
         }
 
-        public void GetClockRange(
-            int busId,
-            out int coreClockMin, out int coreClockMax, out int coreClockDelta,
-            out int memoryClockMin, out int memoryClockMax, out int memoryClockDelta,
-            out int powerMin, out int powerMax, out int powerDefault, out int powerLimit,
-            out int tempLimitMin, out int tempLimitMax, out int tempLimitDefault, out int tempLimit,
-            out uint fanSpeedCurr, out int fanSpeedMin, out int fanSpeedMax, out int fanSpeedDefault) {
-            coreClockMin = 0;
-            coreClockMax = 0;
-            coreClockDelta = 0;
-            memoryClockMin = 0;
-            memoryClockMax = 0;
-            memoryClockDelta = 0;
-            powerMin = 0;
-            powerMax = 0;
-            powerDefault = 0;
-            powerLimit = 0;
-            tempLimitMin = 0;
-            tempLimitMax = 0;
-            tempLimitDefault = 0;
-            tempLimit = 0;
-            fanSpeedCurr = 0;
-            fanSpeedMin = 0;
-            fanSpeedMax = 100;
-            fanSpeedDefault = 0;
+        public OverClockRange GetClockRange(int busId) {
+            OverClockRange result = new OverClockRange(busId);
             try {
                 if (GetClockDelta(busId,
                     out int outCoreCurrFreqDelta, out int outCoreMinFreqDelta, out int outCoreMaxFreqDelta,
                     out int outMemoryCurrFreqDelta, out int outMemoryMinFreqDelta, out int outMemoryMaxFreqDelta)) {
-                    coreClockMin = outCoreMinFreqDelta;
-                    coreClockMax = outCoreMaxFreqDelta;
-                    coreClockDelta = outCoreCurrFreqDelta;
-                    memoryClockMin = outMemoryMinFreqDelta;
-                    memoryClockMax = outMemoryMaxFreqDelta;
-                    memoryClockDelta = outMemoryCurrFreqDelta;
-#if DEBUG
-                    Write.DevWarn($"{nameof(GetClockDelta)} coreClockMin={coreClockMin},coreClockMax={coreClockMax},coreClockDelta={coreClockDelta},memoryClockMin={memoryClockMin},memoryClockMax={memoryClockMax},memoryClockDelta={memoryClockDelta}");
-#endif
+                    result.CoreClockMin = outCoreMinFreqDelta;
+                    result.CoreClockMax = outCoreMaxFreqDelta;
+                    result.CoreClockDelta = outCoreCurrFreqDelta;
+                    result.MemoryClockMin = outMemoryMinFreqDelta;
+                    result.MemoryClockMax = outMemoryMaxFreqDelta;
+                    result.MemoryClockDelta = outMemoryCurrFreqDelta;
                 }
 
                 if (GetPowerLimit(busId, out uint outCurrPower, out uint outMinPower, out uint outDefPower, out uint outMaxPower)) {
-                    powerMin = (int)outMinPower;
-                    powerMax = (int)outMaxPower;
-                    powerDefault = (int)outDefPower;
-                    powerLimit = (int)outCurrPower;
-#if DEBUG
-                    Write.DevWarn($"{nameof(GetPowerLimit)} powerMin={powerMin},powerMax={powerMax},powerDefault={powerDefault},powerLimit={powerLimit}");
-#endif
+                    result.PowerMin = (int)outMinPower;
+                    result.PowerMax = (int)outMaxPower;
+                    result.PowerDefault = (int)outDefPower;
+                    result.PowerCurr = (int)outCurrPower;
                 }
 
                 if (GetTempLimit(busId, out int outCurrTemp, out int outMinTemp, out int outDefTemp, out int outMaxTemp)) {
-                    tempLimitMin = outMinTemp;
-                    tempLimitMax = outMaxTemp;
-                    tempLimitDefault = outDefTemp;
-                    tempLimit = outCurrTemp;
-#if DEBUG
-                    Write.DevWarn($"{nameof(GetTempLimit)} tempLimitMin={tempLimitMin},tempLimitMax={tempLimitMax},tempLimitDefault={tempLimitDefault},tempLimit={tempLimit}");
-#endif
+                    result.TempLimitMin = outMinTemp;
+                    result.TempLimitMax = outMaxTemp;
+                    result.TempLimitDefault = outDefTemp;
+                    result.TempCurr = outCurrTemp;
                 }
 
                 if (GetCooler(busId, out uint currCooler, out uint minCooler, out uint defCooler, out uint maxCooler)) {
-                    fanSpeedCurr = currCooler;
-                    fanSpeedMin = (int)minCooler;
-                    fanSpeedMax = (int)maxCooler;
-                    fanSpeedDefault = (int)defCooler;
-#if DEBUG
-                    Write.DevWarn($"{nameof(GetCooler)} fanSpeedCurr={fanSpeedCurr},fanSpeedMin={fanSpeedMin},fanSpeedMax={fanSpeedMax},fanSpeedDefault={fanSpeedDefault}");
-#endif
+                    result.FanSpeedCurr = (int)currCooler;
+                    result.FanSpeedMin = (int)minCooler;
+                    result.FanSpeedMax = (int)maxCooler;
+                    result.FanSpeedDefault = (int)defCooler;
                 }
+#if DEBUG
+                Write.DevWarn($"GetClockRange {result.ToString()}");
+#endif
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
             }
+            return result;
         }
 
         public uint GetCoreClockBaseFreq(int busId) {
