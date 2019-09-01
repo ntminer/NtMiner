@@ -122,7 +122,7 @@
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
 						<TextBlock
-							Text="内核参级数"
+							Text="内核级参数"
 							VerticalAlignment="Center"
 							Foreground="{StaticResource LableColor}" />
 					</WrapPanel>
