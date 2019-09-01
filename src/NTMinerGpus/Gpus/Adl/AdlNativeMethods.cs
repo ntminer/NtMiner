@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 namespace NTMiner.Gpus.Adl {
     internal class AdlNativeMethods {
         private delegate AdlStatus ADL_Main_Control_CreateDelegate(ADL_Main_Memory_AllocDelegate callback, int enumConnectedAdapters);
-        public delegate AdlStatus ADL2_Main_Control_CreateDelegate(ADL_Main_Memory_AllocDelegate callback, int enumConnectedAdapters, ref IntPtr context);
+        internal delegate AdlStatus ADL2_Main_Control_CreateDelegate(ADL_Main_Memory_AllocDelegate callback, int enumConnectedAdapters, ref IntPtr context);
         private delegate AdlStatus ADL_Adapter_AdapterInfo_GetDelegate(IntPtr info, int size);
 
         internal delegate AdlStatus ADL_Main_Control_DestroyDelegate();
