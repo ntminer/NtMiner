@@ -1,17 +1,7 @@
 ﻿using NTMiner.Gpus;
-using System.Collections.Generic;
 
 namespace NTMiner.Core.Gpus.Impl {
     public class NVIDIAOverClock : OverClockBase, IOverClock {
-        public class ValueItem {
-            public string MethodName;
-            public int GpuIndex;
-            public int Value;
-        }
-
-        private readonly List<ValueItem> _values = new List<ValueItem>();
-        private readonly object _locker = new object();
-
         private readonly NvapiHelper _nvapiHelper;
         public NVIDIAOverClock(NvapiHelper nvapiHelper) {
             _nvapiHelper = nvapiHelper;
