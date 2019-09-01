@@ -14,7 +14,7 @@ namespace NTMiner {
     // ReSharper disable once InconsistentNaming
     public partial class NTMinerRoot : INTMinerRoot {
         private static class MinerProcess {
-            #region CreateProcess
+            #region CreateProcessAsync
             private static readonly object _locker = new object();
             public static void CreateProcessAsync(IMineContext mineContext) {
                 Task.Factory.StartNew(() => {
@@ -42,42 +42,13 @@ namespace NTMiner {
                                         }
                                         else if (message.CmdId == cmd.Id) {
                                             VirtualRoot.UnPath(callback);
-                                            Thread.Sleep(1000);
-                                            Write.UserInfo($"解压内核包{mineContext.Kernel.Package}");
-                                            // 解压内核包
-                                            if (!mineContext.Kernel.ExtractPackage()) {
-                                                VirtualRoot.Happened(new StartingMineFailedEvent("内核解压失败，请卸载内核重试。"));
-                                            }
-                                            else {
-                                                Write.UserOk("内核包解压成功");
-                                            }
-
-                                            // 执行文件书写器
-                                            mineContext.ExecuteFileWriters();
-
-                                            Write.UserInfo("总成命令");
-                                            // 组装命令
-                                            BuildCmdLine(mineContext, out string kernelExeFileFullName, out string arguments);
-                                            bool isLogFile = arguments.Contains("{logfile}");
-                                            // 这是不应该发生的，如果发生很可能是填写命令的时候拼写错误了
-                                            if (!File.Exists(kernelExeFileFullName)) {
-                                                Write.UserError(kernelExeFileFullName + "文件不存在，可能是小编拼写错误或是挖矿内核被杀毒软件删除导致，请退出杀毒软件重试或者QQ群联系小编。");
-                                            }
-                                            if (isLogFile) {
-                                                Logger.InfoDebugLine("创建日志文件型进程");
-                                                // 如果内核支持日志文件
-                                                // 推迟打印cmdLine，因为{logfile}变量尚未求值
-                                                CreateLogfileProcess(mineContext, kernelExeFileFullName, arguments);
-                                            }
-                                            else {
-                                                Logger.InfoDebugLine("创建管道型进程");
-                                                // 如果内核不支持日志文件
-                                                CreatePipProcess(mineContext, kernelExeFileFullName, arguments);
-                                            }
-                                            VirtualRoot.Happened(new MineStartedEvent(mineContext));
+                                            Continue(mineContext);
                                         }
                                     });
                                 VirtualRoot.Execute(cmd);
+                            }
+                            else {
+                                Continue(mineContext);
                             }
                         }
                         catch (Exception e) {
@@ -86,6 +57,42 @@ namespace NTMiner {
                         }
                     }
                 });
+            }
+
+            private static void Continue(IMineContext mineContext) {
+                Thread.Sleep(1000);
+                Write.UserInfo($"解压内核包{mineContext.Kernel.Package}");
+                // 解压内核包
+                if (!mineContext.Kernel.ExtractPackage()) {
+                    VirtualRoot.Happened(new StartingMineFailedEvent("内核解压失败，请卸载内核重试。"));
+                }
+                else {
+                    Write.UserOk("内核包解压成功");
+                }
+
+                // 执行文件书写器
+                mineContext.ExecuteFileWriters();
+
+                Write.UserInfo("总成命令");
+                // 组装命令
+                BuildCmdLine(mineContext, out string kernelExeFileFullName, out string arguments);
+                bool isLogFile = arguments.Contains("{logfile}");
+                // 这是不应该发生的，如果发生很可能是填写命令的时候拼写错误了
+                if (!File.Exists(kernelExeFileFullName)) {
+                    Write.UserError(kernelExeFileFullName + "文件不存在，可能是小编拼写错误或是挖矿内核被杀毒软件删除导致，请退出杀毒软件重试或者QQ群联系小编。");
+                }
+                if (isLogFile) {
+                    Logger.InfoDebugLine("创建日志文件型进程");
+                    // 如果内核支持日志文件
+                    // 推迟打印cmdLine，因为{logfile}变量尚未求值
+                    CreateLogfileProcess(mineContext, kernelExeFileFullName, arguments);
+                }
+                else {
+                    Logger.InfoDebugLine("创建管道型进程");
+                    // 如果内核不支持日志文件
+                    CreatePipProcess(mineContext, kernelExeFileFullName, arguments);
+                }
+                VirtualRoot.Happened(new MineStartedEvent(mineContext));
             }
             #endregion
 
@@ -106,16 +113,16 @@ namespace NTMiner {
             }
             #endregion
 
-            #region Daemon
-            private static Bus.DelegateHandler<Per1MinuteEvent> _sDaemon = null;
-            private static void Daemon(IMineContext mineContext, Action clear) {
-                if (_sDaemon != null) {
-                    VirtualRoot.UnPath(_sDaemon);
-                    _sDaemon = null;
+            #region KernelProcessDaemon
+            private static DelegateHandler<Per1MinuteEvent> _kernelProcessDaemon = null;
+            private static void KernelProcessDaemon(IMineContext mineContext, Action clear) {
+                if (_kernelProcessDaemon != null) {
+                    VirtualRoot.UnPath(_kernelProcessDaemon);
+                    _kernelProcessDaemon = null;
                     clear?.Invoke();
                 }
                 string processName = mineContext.Kernel.GetProcessName();
-                _sDaemon = VirtualRoot.On<Per1MinuteEvent>("周期性检查挖矿内核是否消失，如果消失尝试重启", LogEnum.DevConsole,
+                _kernelProcessDaemon = VirtualRoot.On<Per1MinuteEvent>("周期性检查挖矿内核是否消失，如果消失尝试重启", LogEnum.DevConsole,
                     action: message => {
                         if (mineContext == Instance.CurrentMineContext) {
                             if (!string.IsNullOrEmpty(processName)) {
@@ -131,16 +138,17 @@ namespace NTMiner {
                                     else {
                                         Instance.StopMineAsync();
                                     }
-                                    if (_sDaemon != null) {
-                                        VirtualRoot.UnPath(_sDaemon);
+                                    if (_kernelProcessDaemon != null) {
+                                        VirtualRoot.UnPath(_kernelProcessDaemon);
                                         clear?.Invoke();
                                     }
                                 }
                             }
                         }
                         else {
-                            if (_sDaemon != null) {
-                                VirtualRoot.UnPath(_sDaemon);
+                            if (_kernelProcessDaemon != null) {
+                                VirtualRoot.UnPath(_kernelProcessDaemon);
+                                _kernelProcessDaemon = null;
                                 clear?.Invoke();
                             }
                         }
@@ -167,13 +175,13 @@ namespace NTMiner {
                     StartInfo = startInfo
                 };
                 process.Start();
-                ReadPrintLoopLogFileAsync(mineContext, logFile);
-                Daemon(mineContext, null);
+                ReadPrintLoopLogFileAsync(mineContext, logFile, isWriteToConsole: false);
+                KernelProcessDaemon(mineContext, null);
             }
             #endregion
 
             #region ReadPrintLoopLogFile
-            private static void ReadPrintLoopLogFileAsync(IMineContext mineContext, string logFile, bool isWriteToConsole = false) {
+            private static void ReadPrintLoopLogFileAsync(IMineContext mineContext, string logFile, bool isWriteToConsole) {
                 Task.Factory.StartNew(() => {
                     bool isLogFileCreated = true;
                     int n = 0;
@@ -181,7 +189,7 @@ namespace NTMiner {
                         if (n >= 20) {
                             // 20秒钟都没有建立日志文件，不可能
                             isLogFileCreated = false;
-                            Write.UserFail("呃！意外，竟然20秒钟未产生内核输出文件，请联系开发人员解决。");
+                            Write.UserFail("呃！意外，竟然20秒钟未产生内核输出，请联系开发人员解决。");
                             break;
                         }
                         Thread.Sleep(1000);
@@ -318,7 +326,7 @@ namespace NTMiner {
                     else {
                         Bus.DelegateHandler<MineStopedEvent> closeHandle = null;
                         bool isHWriteOutHasClosed = false;
-                        Daemon(mineContext, () => {
+                        KernelProcessDaemon(mineContext, () => {
                             if (!isHWriteOutHasClosed) {
                                 CloseHandle(hWriteOut);
                                 isHWriteOutHasClosed = true;
@@ -328,9 +336,9 @@ namespace NTMiner {
                         closeHandle = VirtualRoot.On<MineStopedEvent>("挖矿停止后关闭非托管的日志句柄", LogEnum.DevConsole,
                             action: message => {
                                 // 挖矿停止后摘除挖矿内核进程守护器
-                                if (_sDaemon != null) {
-                                    VirtualRoot.UnPath(_sDaemon);
-                                    _sDaemon = null;
+                                if (_kernelProcessDaemon != null) {
+                                    VirtualRoot.UnPath(_kernelProcessDaemon);
+                                    _kernelProcessDaemon = null;
                                 }
                                 if (!isHWriteOutHasClosed) {
                                     CloseHandle(hWriteOut);
