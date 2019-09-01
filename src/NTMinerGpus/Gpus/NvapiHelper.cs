@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace NTMiner.Gpus {
-    public class NvapiHelper {
+    public class NvapiHelper : IGpuHelper {
         private const int VERSION1 = 1 << 16;
         private const int VERSION2 = 2 << 16;
 

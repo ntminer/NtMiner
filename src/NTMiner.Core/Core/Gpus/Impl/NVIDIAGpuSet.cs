@@ -26,7 +26,7 @@ namespace NTMiner.Core.Gpus.Impl {
         private readonly NvmlHelper _nvmlHelper = new NvmlHelper();
         public NVIDIAGpuSet(INTMinerRoot root) {
             _root = root;
-            this.OverClock = new NVIDIAOverClock(_nvapiHelper);
+            this.OverClock = new GpuOverClock(_nvapiHelper);
             this.Properties = new List<GpuSetProperty>();
             var gpus = _nvmlHelper.GetGpus();
             if (gpus.Count > 0) {

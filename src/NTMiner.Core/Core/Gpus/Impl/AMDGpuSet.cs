@@ -32,7 +32,7 @@ namespace NTMiner.Core.Gpus.Impl {
 #endif
             _root = root;
             adlHelper.Init();
-            this.OverClock = new AMDOverClock(adlHelper);
+            this.OverClock = new GpuOverClock(adlHelper);
             int deviceCount = 0;
             deviceCount = adlHelper.GpuCount;
             for (int i = 0; i < deviceCount; i++) {

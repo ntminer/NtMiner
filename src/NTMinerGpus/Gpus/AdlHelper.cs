@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace NTMiner.Gpus {
-    public class AdlHelper {
+    public class AdlHelper : IGpuHelper {
         public struct ATIGPU {
             public static readonly ATIGPU Empty = new ATIGPU {
                 AdapterIndex = -1,
