@@ -1,6 +1,7 @@
 ﻿using NTMiner.Core;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace NTMiner {
     public partial class NTMinerRoot : INTMinerRoot {
@@ -29,10 +30,19 @@ namespace NTMiner {
                 this.MainCoinWallet = mainCoinWallet;
                 this.AutoRestartKernelCount = 0;
                 this.KernelSelfRestartCount = 0;
-                this.CommandLine = commandLine;
+                this.CommandLine = commandLine ?? string.Empty;
                 this.CreatedOn = DateTime.Now;
-                this.PipeFileName = $"{kernel.Code}_pip_{DateTime.Now.Ticks.ToString()}.log";
                 this.Parameters = parameters;
+                string logFileName;
+                if (this.CommandLine.Contains("{logfile}")) {
+                    this.KernelProcessType = KernelProcessType.Logfile;
+                    logFileName = $"{this.Kernel.Code}_{DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss_fff")}.log";
+                }
+                else {
+                    this.KernelProcessType = KernelProcessType.Pip;
+                    logFileName = $"{kernel.Code}_pip_{DateTime.Now.Ticks.ToString()}.log";
+                }
+                this.LogFileFullName = Path.Combine(SpecialPath.LogsDirFullName, logFileName);
             }
 
             public Guid Id { get; private set; }
@@ -55,7 +65,9 @@ namespace NTMiner {
 
             public int KernelSelfRestartCount { get; set; }
 
-            public string PipeFileName { get; private set; }
+            public string LogFileFullName { get; private set; }
+
+            public KernelProcessType KernelProcessType { get; private set; }
 
             public string CommandLine { get; private set; }
 

@@ -615,12 +615,10 @@ namespace NTMiner {
                 }
                 else {
                     string commandLine = BuildAssembleArgs(out Dictionary<string, string> parameters, out Dictionary<Guid, string> fileWriters, out Dictionary<Guid, string> fragments);
-                    if (IsUiVisible) {
-                        if (commandLine != UserKernelCommandLine) {
-                            Logger.WarnDebugLine("意外：MineContext.CommandLine和UserKernelCommandLine不等了");
-                            Logger.WarnDebugLine("UserKernelCommandLine  :" + UserKernelCommandLine);
-                            Logger.WarnDebugLine("MineContext.CommandLine:" + commandLine);
-                        }
+                    if (commandLine != UserKernelCommandLine) {
+                        Logger.WarnDebugLine("意外：MineContext.CommandLine和UserKernelCommandLine不等了");
+                        Logger.WarnDebugLine("UserKernelCommandLine  :" + UserKernelCommandLine);
+                        Logger.WarnDebugLine("MineContext.CommandLine:" + commandLine);
                     }
                     IMineContext mineContext = new MineContext(
                         isRestart,
