@@ -248,5 +248,15 @@ namespace UnitTests {
             Console.WriteLine(uri.ToString());
             Console.WriteLine(SignatureSafeUrl(uri));
         }
+
+        [TestMethod]
+        public void FileStreamTest() {
+            using (FileStream fs = new FileStream(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "test.log"), FileMode.OpenOrCreate, FileAccess.ReadWrite)) {
+                byte[] buffer = { (byte)'a', (byte)'\r', (byte)'b', (byte)'\n', (byte)'c', (byte)'\r', (byte)'\n', (byte)'d' };
+                fs.Write(buffer, 0, buffer.Length);
+                buffer = new byte[0];
+                fs.Write(buffer, 0, buffer.Length);
+            }
+        }
     }
 }

@@ -348,16 +348,22 @@ namespace NTMiner {
                                 VirtualRoot.UnPath(closeHandle);
                             });
                         Task.Factory.StartNew(() => {
-                            FileStream fs = new FileStream(mineContext.LogFileFullName, FileMode.OpenOrCreate, FileAccess.ReadWrite);
-                            using (StreamReader sr = new StreamReader(fs)) {
+                            using (FileStream fs = new FileStream(mineContext.LogFileFullName, FileMode.OpenOrCreate, FileAccess.ReadWrite)) {
+                                const byte r = (byte)'\r';
                                 byte[] buffer = new byte[1024];
                                 int ret;
                                 // Read会阻塞，直到读取到字符或者hWriteOut被关闭
                                 while ((ret = Read(buffer, 0, buffer.Length, hReadOut)) > 0) {
-                                    fs.Write(buffer, 0, ret);
-                                    if (buffer[ret - 1] == '\r' || buffer[ret - 1] == '\n') {
-                                        fs.Flush();
+                                    byte[] data = new byte[ret];
+                                    int n = 0;
+                                    for (int i = 0; i < ret; i++) {
+                                        if (buffer[i] != r) {
+                                            data[n] = buffer[i];
+                                            n++;
+                                        }
                                     }
+                                    fs.Write(data, 0, n);
+                                    fs.Flush();
                                 }
                             }
                             CloseHandle(hReadOut);
