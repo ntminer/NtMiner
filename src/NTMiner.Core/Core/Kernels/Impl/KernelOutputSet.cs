@@ -131,16 +131,17 @@ namespace NTMiner.Core.Kernels.Impl {
         }
 
         private DateTime _kernelRestartKeywordOn = DateTime.MinValue;
-        public void Pick(Guid kernelOutputId, ref string input, IMineContext mineContext) {
+        private string _preline;
+        public void Pick(Guid kernelOutputId, ref string line, IMineContext mineContext) {
             try {
                 InitOnece();
                 if (!_dicById.TryGetValue(kernelOutputId, out KernelOutputData kernelOutput)) {
                     return;
                 }
-                if (string.IsNullOrEmpty(input)) {
+                if (string.IsNullOrEmpty(line)) {
                     return;
                 }
-                if (!string.IsNullOrEmpty(kernelOutput.KernelRestartKeyword) && input.Contains(kernelOutput.KernelRestartKeyword)) {
+                if (!string.IsNullOrEmpty(kernelOutput.KernelRestartKeyword) && line.Contains(kernelOutput.KernelRestartKeyword)) {
                     if (_kernelRestartKeywordOn.AddSeconds(10) < DateTime.Now) {
                         mineContext.KernelSelfRestartCount = mineContext.KernelSelfRestartCount + 1;
                         _kernelRestartKeywordOn = DateTime.Now;
@@ -150,34 +151,35 @@ namespace NTMiner.Core.Kernels.Impl {
                 ICoin coin = mineContext.MainCoin;
                 bool isDual = false;
                 // 如果是双挖上下文且当前输入行中没有主币关键字则视为双挖币
-                if ((mineContext is IDualMineContext dualMineContext) && !input.Contains(mineContext.MainCoin.Code)) {
+                if ((mineContext is IDualMineContext dualMineContext) && !line.Contains(mineContext.MainCoin.Code)) {
                     isDual = true;
                     coin = dualMineContext.DualCoin;
                 }
                 // 这些方法输出的是事件消息
-                PickTotalSpeed(_root, input, kernelOutput, coin, isDual);
-                PickGpuSpeed(input, kernelOutput, coin, isDual);
-                PickTotalShare(_root, input, kernelOutput, coin, isDual);
-                PickAcceptShare(_root, input, kernelOutput, coin, isDual);
-                PickAcceptOneShare(_root, input, kernelOutput, coin, isDual);
-                PickRejectPattern(_root, input, kernelOutput, coin, isDual);
-                PickRejectOneShare(_root, input, kernelOutput, coin, isDual);
-                PickRejectPercent(_root, input, kernelOutput, coin, isDual);
-                PickPoolDelay(input, kernelOutput, isDual);
+                PickTotalSpeed(_root, line, kernelOutput, coin, isDual);
+                PickGpuSpeed(line, kernelOutput, coin, isDual);
+                PickTotalShare(_root, line, kernelOutput, coin, isDual);
+                PickAcceptShare(_root, line, kernelOutput, coin, isDual);
+                PickAcceptOneShare(_root, line, _preline, kernelOutput, coin, isDual);
+                PickRejectPattern(_root, line, kernelOutput, coin, isDual);
+                PickRejectOneShare(_root, line, kernelOutput, coin, isDual);
+                PickRejectPercent(_root, line, kernelOutput, coin, isDual);
+                PickPoolDelay(line, kernelOutput, isDual);
                 // 如果是像BMiner那样的主币和双挖币的输出在同一行那样的模式则一行输出既要视为主币又要视为双挖币
                 if (isDual && kernelOutput.IsDualInSameLine) {
                     coin = mineContext.MainCoin;
                     isDual = false;
-                    PickTotalSpeed(_root, input, kernelOutput, coin, isDual);
-                    PickGpuSpeed(input, kernelOutput, coin, isDual);
-                    PickTotalShare(_root, input, kernelOutput, coin, isDual);
-                    PickAcceptShare(_root, input, kernelOutput, coin, isDual);
-                    PickAcceptOneShare(_root, input, kernelOutput, coin, isDual);
-                    PickRejectPattern(_root, input, kernelOutput, coin, isDual);
-                    PickRejectOneShare(_root, input, kernelOutput, coin, isDual);
-                    PickRejectPercent(_root, input, kernelOutput, coin, isDual);
-                    PickPoolDelay(input, kernelOutput, isDual);
+                    PickTotalSpeed(_root, line, kernelOutput, coin, isDual);
+                    PickGpuSpeed(line, kernelOutput, coin, isDual);
+                    PickTotalShare(_root, line, kernelOutput, coin, isDual);
+                    PickAcceptShare(_root, line, kernelOutput, coin, isDual);
+                    PickAcceptOneShare(_root, line, _preline, kernelOutput, coin, isDual);
+                    PickRejectPattern(_root, line, kernelOutput, coin, isDual);
+                    PickRejectOneShare(_root, line, kernelOutput, coin, isDual);
+                    PickRejectPercent(_root, line, kernelOutput, coin, isDual);
+                    PickPoolDelay(line, kernelOutput, isDual);
                 }
+                _preline = line;
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
@@ -338,13 +340,16 @@ namespace NTMiner.Core.Kernels.Impl {
             }
         }
 
-        private static void PickAcceptOneShare(INTMinerRoot root, string input, IKernelOutput kernelOutput, ICoin coin, bool isDual) {
+        private static void PickAcceptOneShare(INTMinerRoot root, string input, string preline, IKernelOutput kernelOutput, ICoin coin, bool isDual) {
             string acceptOneShare = kernelOutput.AcceptOneShare;
             if (isDual) {
                 acceptOneShare = kernelOutput.DualAcceptOneShare;
             }
             if (string.IsNullOrEmpty(acceptOneShare)) {
                 return;
+            }
+            if (acceptOneShare.Contains("\n")) {
+                input = preline + "\n" + input;
             }
             var match = Regex.Match(input, acceptOneShare, RegexOptions.Compiled);
             if (match.Success) {

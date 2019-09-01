@@ -91,6 +91,13 @@ namespace UnitTests {
         }
 
         [TestMethod]
+        public void RegexTest2() {
+            string line = "bbbabc\ntestaaa";
+            Regex regex = new Regex(@"abc\ntest");
+            Assert.IsTrue(regex.IsMatch(line));
+        }
+
+        [TestMethod]
         public void FileDeleteTest() {
             File.Delete(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Guid.NewGuid().ToString()));
         }
