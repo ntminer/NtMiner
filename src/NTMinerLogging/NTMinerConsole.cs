@@ -12,6 +12,7 @@ namespace NTMiner {
         private static extern IntPtr GetConsoleWindow();
 
         const int STD_INPUT_HANDLE = -10;
+        const uint ENABLE_PROCESSED_INPUT = 0x0001;
         const uint ENABLE_QUICK_EDIT_MODE = 0x0040;
         const uint ENABLE_INSERT_MODE = 0x0020;
         [DllImport(Kernel32DllName, SetLastError = true)]
@@ -29,6 +30,7 @@ namespace NTMiner {
             IntPtr hStdin = GetStdHandle(STD_INPUT_HANDLE);
             uint mode;
             GetConsoleMode(hStdin, out mode);
+            mode &= ~ENABLE_PROCESSED_INPUT;//禁用ctrl+c
             mode &= ~ENABLE_QUICK_EDIT_MODE;//移除快速编辑模式
             mode &= ~ENABLE_INSERT_MODE;    //移除插入模式
             SetConsoleMode(hStdin, mode);
