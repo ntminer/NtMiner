@@ -116,10 +116,6 @@ namespace NTMiner {
             get { return SpecialPath.DevConsoleFileFullName.Replace(LocalDir, Consts.LocalDirParameterName); }
         }
 
-        public static string NTMinerOverClockFileFullName {
-            get { return SpecialPath.NTMinerOverClockFileFullName.Replace(LocalDir, Consts.LocalDirParameterName); }
-        }
-
         public static string TempDirFullName {
             get { return SpecialPath.TempDirFullName.Replace(LocalDir, Consts.LocalDirParameterName); }
         }

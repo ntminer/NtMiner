@@ -100,11 +100,6 @@
             </WrapPanel>
 
             <WrapPanel>
-                <TextBlock Style="{StaticResource LblTb}" Text="超频程序文件名"></TextBlock>
-                <TextBlock Text="{x:Static app:AppStatic.NTMinerOverClockFileFullName}"></TextBlock>
-            </WrapPanel>
-
-            <WrapPanel>
                 <Border Width="{StaticResource LblWidth}">
                     <Button 
                         Style="{StaticResource LblBtn}" 

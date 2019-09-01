@@ -15,7 +15,6 @@ namespace NTMiner {
             if (!Directory.Exists(TempDirFullName)) {
                 Directory.CreateDirectory(TempDirFullName);
             }
-            NTMinerOverClockFileFullName = Path.Combine(TempDirFullName, "NTMinerOverClock.exe");
             ServerDbFileFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "server.litedb");
             ServerJsonFileFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "server.json");
 
@@ -77,8 +76,6 @@ namespace NTMiner {
         public static readonly string DaemonFileFullName;
 
         public static readonly string DevConsoleFileFullName;
-
-        public static readonly string NTMinerOverClockFileFullName;
 
         public static readonly string TempDirFullName;
 
