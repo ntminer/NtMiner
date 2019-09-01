@@ -36,7 +36,7 @@ namespace NTMiner {
                                 DelegateHandler<CoinOverClockDoneEvent> callback = null;
                                 callback = VirtualRoot.On<CoinOverClockDoneEvent>("超频完成后继续流程", LogEnum.DevConsole,
                                     message => {
-                                        if (mineContext == null || mineContext != Instance.CurrentMineContext) {
+                                        if (mineContext != Instance.CurrentMineContext) {
                                             VirtualRoot.UnPath(callback);
                                         }
                                         else if (message.CmdId == cmd.Id) {
@@ -60,6 +60,10 @@ namespace NTMiner {
 
             private static void Continue(IMineContext mineContext) {
                 Thread.Sleep(1000);
+                if (mineContext != Instance.CurrentMineContext) {
+                    Write.UserWarn("挖矿停止");
+                    return;
+                }
                 // 解压内核包
                 if (!mineContext.Kernel.ExtractPackage()) {
                     VirtualRoot.Happened(new StartingMineFailedEvent("内核解压失败，请卸载内核重试。"));
@@ -82,6 +86,10 @@ namespace NTMiner {
                 }
                 Write.UserOk($"\"{kernelExeFileFullName}\" {arguments}");
                 Write.UserInfo($"有请内核上场：{mineContext.KernelProcessType}");
+                if (mineContext != Instance.CurrentMineContext) {
+                    Write.UserWarn("挖矿停止");
+                    return;
+                }
                 switch (mineContext.KernelProcessType) {
                     case KernelProcessType.Logfile:
                         CreateLogfileProcess(mineContext, kernelExeFileFullName, arguments);
