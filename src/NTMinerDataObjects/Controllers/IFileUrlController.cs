@@ -11,6 +11,7 @@ namespace NTMiner.Controllers {
         ResponseBase RemoveNTMinerFile(DataRequest<Guid> request);
         string NTMinerUpdaterUrl();
         string LiteDbExplorerUrl();
+        string NppUrl();
         string PackageUrl(PackageUrlRequest request);
     }
 }

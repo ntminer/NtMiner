@@ -120,6 +120,19 @@ namespace NTMiner.Controllers {
         }
 
         [HttpPost]
+        public string NppUrl() {
+            try {
+                var req = new GeneratePresignedUriRequest("ntminer", "npp.zip", SignHttpMethod.Get);
+                var uri = HostRoot.Instance.OssClient.GeneratePresignedUri(req);
+                return SignatureSafeUrl(uri);
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e);
+                return string.Empty;
+            }
+        }
+
+        [HttpPost]
         public string PackageUrl([FromBody]PackageUrlRequest request) {
             try {
                 if (request == null || string.IsNullOrEmpty(request.Package)) {
