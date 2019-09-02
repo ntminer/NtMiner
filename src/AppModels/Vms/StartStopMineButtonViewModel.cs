@@ -38,9 +38,9 @@ namespace NTMiner.Vms {
                 action: message => {
                     BtnStopText = $"倒计时({--n})";
                     if (n <= 0) {
-                        BtnStopText = "正在挖矿";
                         VirtualRoot.UnPath(handler);
                         if (!NTMinerRoot.IsAutoStartCanceled) {
+                            BtnStopText = "正在挖矿";
                             NTMinerRoot.Instance.StartMine();
                         }
                     }
