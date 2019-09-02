@@ -30,6 +30,7 @@ namespace NTMiner.Vms {
                     }
                 });
             });
+            Logger.InfoDebugLine($"StartStopMineButtonViewModel {NTMinerRoot.IsAutoStart} {this.MinerProfile.IsMining} {VirtualRoot.SecondCount} {MinerProfile.AutoStartDelaySeconds}");
             if (NTMinerRoot.IsAutoStart && !this.MinerProfile.IsMining && VirtualRoot.SecondCount < MinerProfile.AutoStartDelaySeconds) {
                 this.MinerProfile.IsMining = true;
                 int n = MinerProfile.AutoStartDelaySeconds;
