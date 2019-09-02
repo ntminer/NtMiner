@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace NTMiner.Repositories {
-    public class CompositeRepository<T> : IRepository<T> where T : class, ILevelEntity<Guid> {
+    public class HierarchicalRepository<T> : IRepository<T> where T : class, ILevelEntity<Guid> {
         private readonly IRepository<T> _globalRepository;
         private readonly IRepository<T> _profileRepository;
-        public CompositeRepository(IRepository<T> globalRepository, IRepository<T> profileRepository) {
+        public HierarchicalRepository(IRepository<T> globalRepository, IRepository<T> profileRepository) {
             _globalRepository = globalRepository;
             _profileRepository = profileRepository;
         }

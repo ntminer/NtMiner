@@ -129,7 +129,7 @@ namespace NTMiner {
                         if (string.IsNullOrEmpty(_localJson.MinerProfile.MinerName)) {
                             _localJson.MinerProfile.MinerName = GetMinerName();
                             if (string.IsNullOrEmpty(_localJson.MinerProfile.MinerName)) {
-                                var repository = new CommonRepository<Profile.MinerProfileData>(SpecialPath.LocalDbFileFullName);
+                                var repository = new LiteDbReadWriteRepository<Profile.MinerProfileData>(SpecialPath.LocalDbFileFullName);
                                 Profile.MinerProfileData data = repository.GetByKey(Profile.MinerProfileData.DefaultId);
                                 if (data != null) {
                                     _localJson.MinerProfile.MinerName = data.MinerName;
@@ -240,12 +240,12 @@ namespace NTMiner {
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         public static IRepository<T> CreateCompositeRepository<T>() where T : class, ILevelEntity<Guid> {
-            return new CompositeRepository<T>(CreateServerRepository<T>(), CreateLocalRepository<T>());
+            return new HierarchicalRepository<T>(CreateServerRepository<T>(), CreateLocalRepository<T>());
         }
 
         public static IRepository<T> CreateLocalRepository<T>() where T : class, IDbEntity<Guid> {
             if (!IsJsonLocal) {
-                return new CommonRepository<T>(SpecialPath.LocalDbFileFullName);
+                return new LiteDbReadWriteRepository<T>(SpecialPath.LocalDbFileFullName);
             }
             else {
                 return new ReadOnlyRepository<T>(LocalJson);
@@ -254,7 +254,7 @@ namespace NTMiner {
 
         public static IRepository<T> CreateServerRepository<T>() where T : class, IDbEntity<Guid> {
             if (!IsJsonServer) {
-                return new CommonRepository<T>(SpecialPath.ServerDbFileFullName);
+                return new LiteDbReadWriteRepository<T>(SpecialPath.ServerDbFileFullName);
             }
             else {
                 return new ReadOnlyRepository<T>(ServerJson);

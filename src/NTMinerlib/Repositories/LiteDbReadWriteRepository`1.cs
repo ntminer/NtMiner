@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace NTMiner.Repositories {
-    public class CommonRepository<T> : IRepository<T> where T : class, IDbEntity<Guid> {
+    public class LiteDbReadWriteRepository<T> : IRepository<T> where T : class, IDbEntity<Guid> {
         private readonly string _dbFile;
-        public CommonRepository(string dbFile) {
+        public LiteDbReadWriteRepository(string dbFile) {
             _dbFile = dbFile;
         }
 

@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 
 namespace NTMiner.Core.Impl {
-    public class ReadOnlyRepository<T> : IRepository<T>, IReadOnlyRepository where T : class, IDbEntity<Guid> {
+    public class ReadOnlyRepository<T> : IRepository<T>, IJsonReadOnlyRepository where T : class, IDbEntity<Guid> {
         private readonly IJsonDb _jsonDb;
         public ReadOnlyRepository(IJsonDb jsonDb) {
             _jsonDb = jsonDb;

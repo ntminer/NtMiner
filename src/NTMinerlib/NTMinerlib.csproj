@@ -54,7 +54,7 @@
     <Compile Include="TimeSpanExtensions.cs" />
     <Compile Include="User\IUserSet.cs" />
     <Compile Include="NTMinerRegistry.cs" />
-    <Compile Include="Repositories\IReadOnlyRepository.cs" />
+    <Compile Include="Repositories\IJsonReadOnlyRepository.cs" />
     <Compile Include="SortNumberComparer.cs" />
     <Compile Include="HandlerId.cs" />
     <Compile Include="EntityExtensions.cs" />
@@ -62,8 +62,8 @@
     <Compile Include="NTMinerException.cs" />
     <Compile Include="Messages.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\CommonRepository`1.cs" />
-    <Compile Include="Repositories\CompositeRepository`1.cs" />
+    <Compile Include="Repositories\LiteDbReadWriteRepository`1.cs" />
+    <Compile Include="Repositories\HierarchicalRepository`1.cs" />
     <Compile Include="Repositories\DuplicateIdException.cs" />
     <Compile Include="Repositories\IRepository`1.cs" />
     <Compile Include="Serialization\IObjectSerializer.cs" />
