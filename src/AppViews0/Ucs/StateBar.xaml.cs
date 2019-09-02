@@ -31,20 +31,9 @@ namespace NTMiner.Views.Ucs {
                     action: message => {
                         DateTime now = DateTime.Now;
                         Vm.UpdateBootTimeSpan(now - NTMinerRoot.Instance.CreatedOn);
-                        if (NTMinerRoot.IsAutoStart && VirtualRoot.SecondCount <= Vm.MinerProfile.AutoStartDelaySeconds + 2 && !NTMinerRoot.IsAutoStartCanceled) {
-                            return;
-                        }
                         var mineContext = NTMinerRoot.Instance.CurrentMineContext;
                         if (mineContext != null) {
                             Vm.UpdateMineTimeSpan(now - mineContext.CreatedOn);
-                            if (!Vm.MinerProfile.IsMining) {
-                                Vm.MinerProfile.IsMining = true;
-                            }
-                        }
-                        else {
-                            if (Vm.MinerProfile.IsMining) {
-                                Vm.MinerProfile.IsMining = false;
-                            }
                         }
                     });
                 window.On<AppVersionChangedEvent>("发现了服务端新版本", LogEnum.DevConsole,

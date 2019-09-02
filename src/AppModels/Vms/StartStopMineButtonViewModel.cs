@@ -30,8 +30,7 @@ namespace NTMiner.Vms {
                     }
                 });
             });
-            Logger.InfoDebugLine($"StartStopMineButtonViewModel {NTMinerRoot.IsAutoStart} {this.MinerProfile.IsMining} {VirtualRoot.SecondCount} {MinerProfile.AutoStartDelaySeconds}");
-            if (NTMinerRoot.IsAutoStart && !this.MinerProfile.IsMining && VirtualRoot.SecondCount < MinerProfile.AutoStartDelaySeconds) {
+            if (NTMinerRoot.IsAutoStart && !this.MinerProfile.IsMining) {
                 this.MinerProfile.IsMining = true;
                 int n = MinerProfile.AutoStartDelaySeconds;
                 Bus.IDelegateHandler handler = null;
@@ -42,6 +41,7 @@ namespace NTMiner.Vms {
                         VirtualRoot.UnPath(handler);
                         if (!NTMinerRoot.IsAutoStartCanceled) {
                             BtnStopText = "正在挖矿";
+                            MinerProfile.IsMining = true;
                             NTMinerRoot.Instance.StartMine();
                         }
                     }
