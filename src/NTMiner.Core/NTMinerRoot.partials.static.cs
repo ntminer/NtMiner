@@ -248,7 +248,7 @@ namespace NTMiner {
                 return new LiteDbReadWriteRepository<T>(SpecialPath.LocalDbFileFullName);
             }
             else {
-                return new ReadOnlyRepository<T>(LocalJson);
+                return new JsonReadOnlyRepository<T>(LocalJson);
             }
         }
 
@@ -257,7 +257,7 @@ namespace NTMiner {
                 return new LiteDbReadWriteRepository<T>(SpecialPath.ServerDbFileFullName);
             }
             else {
-                return new ReadOnlyRepository<T>(ServerJson);
+                return new JsonReadOnlyRepository<T>(ServerJson);
             }
         }
 

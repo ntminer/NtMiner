@@ -1,12 +1,11 @@
 ﻿using NTMiner.JsonDb;
-using NTMiner.Repositories;
 using System;
 using System.Collections.Generic;
 
-namespace NTMiner.Core.Impl {
-    public class ReadOnlyRepository<T> : IRepository<T>, IJsonReadOnlyRepository where T : class, IDbEntity<Guid> {
+namespace NTMiner.Repositories {
+    public class JsonReadOnlyRepository<T> : IRepository<T>, IJsonReadOnlyRepository where T : class, IDbEntity<Guid> {
         private readonly IJsonDb _jsonDb;
-        public ReadOnlyRepository(IJsonDb jsonDb) {
+        public JsonReadOnlyRepository(IJsonDb jsonDb) {
             _jsonDb = jsonDb;
         }
 

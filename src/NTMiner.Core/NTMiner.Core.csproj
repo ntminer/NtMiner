@@ -134,7 +134,6 @@
     <Compile Include="Core\MinerServer\Impl\ServerAppSettingSet.cs" />
     <Compile Include="Core\MinerServer\Impl\ColumnsShowSet.cs" />
     <Compile Include="Core\MinerServer\Impl\MinerGroupSet.cs" />
-    <Compile Include="Core\Impl\ReadOnlyRepository`1.cs" />
     <Compile Include="Core\IncomePerDay.cs" />
     <Compile Include="Core\Kernels\IKernelInputSet.cs" />
     <Compile Include="Core\Kernels\IKernelOutputSet.cs" />

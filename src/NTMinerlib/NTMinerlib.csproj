@@ -49,6 +49,7 @@
     <Compile Include="NTMinerWebClient.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Repositories\JsonReadOnlyRepository`1.cs" />
     <Compile Include="SignExtensions.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="TimeSpanExtensions.cs" />
