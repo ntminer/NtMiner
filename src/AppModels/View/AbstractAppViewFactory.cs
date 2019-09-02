@@ -13,7 +13,6 @@ namespace NTMiner.View {
                     lock (_locker) {
                         if (_mainWindow == null) {
                             _mainWindow = CreateMainWindow();
-                            Application.Current.MainWindow = _mainWindow;
                             _mainWindow.Show();
                             NTMinerRoot.IsUiVisible = true;
                             NTMinerRoot.MainWindowRendedOn = DateTime.Now;

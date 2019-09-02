@@ -76,9 +76,6 @@ namespace NTMiner {
                     action: message => {
                         UIThread.Execute(() => {
                             try {
-                                if (MainWindow != null) {
-                                    MainWindow.Close();
-                                }
                                 Shutdown();
                             }
                             catch (Exception ex) {

@@ -169,7 +169,7 @@ namespace NTMiner.Views {
             beforeShow?.Invoke(_uc);
             if (Vm.IsDialogWindow || Vm.HasOwner) {
                 var owner = TopWindow.GetTopWindow();
-                if (this != owner && owner != null) {
+                if (this != owner) {
                     this.Owner = owner;
                 }
             }

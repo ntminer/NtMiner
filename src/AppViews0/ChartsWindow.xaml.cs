@@ -14,7 +14,6 @@ namespace NTMiner.Views {
         public static void ShowWindow() {
             if (_sWindow == null) {
                 _sWindow = new ChartsWindow();
-                Application.Current.MainWindow = _sWindow;
             }
             _sWindow.Show();
             if (_sWindow.WindowState == WindowState.Minimized) {
@@ -60,7 +59,6 @@ namespace NTMiner.Views {
 
         protected override void OnClosed(EventArgs e) {
             _sWindow = null;
-            Application.Current.MainWindow = null;
             base.OnClosed(e);
         }
 

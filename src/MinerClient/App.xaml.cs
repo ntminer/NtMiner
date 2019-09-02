@@ -106,7 +106,6 @@ namespace NTMiner {
                         }
                         UIThread.Execute(() => {
                             if (NTMinerRoot.GetIsNoUi() && NTMinerRegistry.GetIsAutoStart()) {
-                                MainWindow = NotiCenterWindow.Instance;
                                 NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage("已切换为无界面模式运行，可在选项页调整设置", "开源矿工");
                             }
                             else {
@@ -172,9 +171,6 @@ namespace NTMiner {
                 action: message => {
                     UIThread.Execute(() => {
                         try {
-                            if (MainWindow != null) {
-                                MainWindow.Close();
-                            }
                             Shutdown();
                         }
                         catch (Exception e) {
@@ -190,9 +186,8 @@ namespace NTMiner {
                             VirtualRoot.Execute(new CloseNTMinerCommand());
                             return;
                         }
-                        MainWindow = NotiCenterWindow.Instance;
                         foreach (Window window in Windows) {
-                            if (window != MainWindow) {
+                            if (window != NotiCenterWindow.Instance) {
                                 window.Close();
                             }
                         }
