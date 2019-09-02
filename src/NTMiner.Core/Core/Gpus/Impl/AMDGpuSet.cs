@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NTMiner.Core.Gpus.Impl {
     internal class AMDGpuSet : IGpuSet {
-        private readonly Dictionary<int, IGpu> _gpus = new Dictionary<int, IGpu>() {
+        private readonly Dictionary<int, Gpu> _gpus = new Dictionary<int, Gpu>() {
             {
                 NTMinerRoot.GpuAllId, Gpu.GpuAll
             }
@@ -87,23 +87,30 @@ namespace NTMiner.Core.Gpus.Impl {
             Write.Stopwatch.Restart();
 #endif
             for (int i = 0; i < Count; i++) {
-                uint power = adlHelper.GetPowerUsage(i);
-                int temp = adlHelper.GetTemperature(i);
-                uint speed = adlHelper.GetFanSpeed(i);
-
-                Gpu gpu = (Gpu)_gpus[i];
-                bool isChanged = gpu.Temperature != temp || gpu.PowerUsage != power || gpu.FanSpeed != speed;
-                gpu.Temperature = temp;
-                gpu.PowerUsage = power;
-                gpu.FanSpeed = speed;
-
-                if (isChanged) {
-                    VirtualRoot.Happened(new GpuStateChangedEvent(gpu));
-                }
+                LoadGpuState(i);
             }
 #if DEBUG
             Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.{nameof(LoadGpuState)}");
 #endif
+        }
+
+        public void LoadGpuState(int gpuIndex) {
+            if (gpuIndex == NTMinerRoot.GpuAllId) {
+                return;
+            }
+            uint power = adlHelper.GetPowerUsage(gpuIndex);
+            int temp = adlHelper.GetTemperature(gpuIndex);
+            uint speed = adlHelper.GetFanSpeed(gpuIndex);
+
+            Gpu gpu = _gpus[gpuIndex];
+            bool isChanged = gpu.Temperature != temp || gpu.PowerUsage != power || gpu.FanSpeed != speed;
+            gpu.Temperature = temp;
+            gpu.PowerUsage = power;
+            gpu.FanSpeed = speed;
+
+            if (isChanged) {
+                VirtualRoot.Happened(new GpuStateChangedEvent(gpu));
+            }
         }
 
         public GpuType GpuType {
@@ -115,20 +122,15 @@ namespace NTMiner.Core.Gpus.Impl {
         public string DriverVersion { get; private set; }
 
         public bool TryGetGpu(int index, out IGpu gpu) {
-            return _gpus.TryGetValue(index, out gpu);
+            Gpu temp;
+            var r = _gpus.TryGetValue(index, out temp);
+            gpu = temp;
+            return r;
         }
 
         public List<GpuSetProperty> Properties { get; private set; }
 
         public IOverClock OverClock { get; private set; }
-
-        public string GetProperty(string key) {
-            GpuSetProperty item = this.Properties.FirstOrDefault(a => a.Code == key);
-            if (item == null || item.Value == null) {
-                return string.Empty;
-            }
-            return item.Value.ToString();
-        }
 
         public IEnumerator<IGpu> GetEnumerator() {
             return _gpus.Values.GetEnumerator();

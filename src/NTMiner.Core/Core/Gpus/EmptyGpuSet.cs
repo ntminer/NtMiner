@@ -45,11 +45,11 @@ namespace NTMiner.Core.Gpus {
             get { return "0.0"; }
         }
 
-        public string GetProperty(string key) {
-            return string.Empty;
+        public void LoadGpuState() {
+            // nothing need todo
         }
 
-        public void LoadGpuState() {
+        public void LoadGpuState(int gpuIndex) {
             // nothing need todo
         }
 

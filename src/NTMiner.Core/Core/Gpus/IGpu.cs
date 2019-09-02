@@ -3,8 +3,8 @@
 namespace NTMiner.Core.Gpus {
     public interface IGpu : IGpuStaticData, IOverClockInput {
         string Description { get; }
-        int Temperature { get; set; }
+        int Temperature { get; }
         uint FanSpeed { get; set; }
-        uint PowerUsage { get; set; }
+        uint PowerUsage { get; }
     }
 }

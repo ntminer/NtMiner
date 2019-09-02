@@ -72,25 +72,29 @@ namespace NTMiner.Core.Gpus.Impl {
         }
 
         public void LoadGpuState() {
-            foreach (Gpu gpu in _gpus.Values) {
-                int i = gpu.Index;
-                if (i == NTMinerRoot.GpuAllId) {
-                    continue;
-                }
-                uint power = _nvmlHelper.GetPowerUsage(i);
-                uint temp = _nvmlHelper.GetTemperature(i);
-                uint fanSpeed;
-                if (!_nvapiHelper.GetFanSpeed(gpu.GetOverClockId(), out fanSpeed)) {
-                    fanSpeed = _nvmlHelper.GetFanSpeed(i);
-                }
-                bool isChanged = gpu.Temperature != temp || gpu.PowerUsage != power || gpu.FanSpeed != fanSpeed;
-                gpu.Temperature = (int)temp;
-                gpu.PowerUsage = power;
-                gpu.FanSpeed = fanSpeed;
+            for (int i = 0; i < Count; i++) {
+                LoadGpuState(i);
+            }
+        }
 
-                if (isChanged) {
-                    VirtualRoot.Happened(new GpuStateChangedEvent(gpu));
-                }
+        public void LoadGpuState(int gpuIndex) {
+            if (gpuIndex == NTMinerRoot.GpuAllId) {
+                return;
+            }
+            var gpu = _gpus[gpuIndex];
+            uint power = _nvmlHelper.GetPowerUsage(gpuIndex);
+            uint temp = _nvmlHelper.GetTemperature(gpuIndex);
+            uint fanSpeed;
+            if (!_nvapiHelper.GetFanSpeed(gpu.GetOverClockId(), out fanSpeed)) {
+                fanSpeed = _nvmlHelper.GetFanSpeed(gpuIndex);
+            }
+            bool isChanged = gpu.Temperature != temp || gpu.PowerUsage != power || gpu.FanSpeed != fanSpeed;
+            gpu.Temperature = (int)temp;
+            gpu.PowerUsage = power;
+            gpu.FanSpeed = fanSpeed;
+
+            if (isChanged) {
+                VirtualRoot.Happened(new GpuStateChangedEvent(gpu));
             }
         }
 
@@ -113,14 +117,6 @@ namespace NTMiner.Core.Gpus.Impl {
         public List<GpuSetProperty> Properties { get; private set; }
 
         public IOverClock OverClock { get; private set; }
-
-        public string GetProperty(string key) {
-            GpuSetProperty item = this.Properties.FirstOrDefault(a => a.Code == key);
-            if (item == null || item.Value == null) {
-                return string.Empty;
-            }
-            return item.Value.ToString();
-        }
 
         public IEnumerator<IGpu> GetEnumerator() {
             return _gpus.Values.GetEnumerator();

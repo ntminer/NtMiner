@@ -75,10 +75,7 @@ namespace NTMiner.Core.Gpus.Impl {
             if (range.FanSpeedDefault != 0) {
                 // 无默认风扇转速
             }
-            if (range.FanSpeedCurr != 0 && gpu.FanSpeed != range.FanSpeedCurr) {
-                gpu.FanSpeed = (uint)range.FanSpeedCurr;
-                VirtualRoot.Happened(new GpuStateChangedEvent(gpu));
-            }
+            NTMinerRoot.Instance.GpuSet.LoadGpuState(gpu.Index);
         }
     }
 }
