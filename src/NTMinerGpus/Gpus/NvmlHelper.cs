@@ -130,15 +130,26 @@ namespace NTMiner.Gpus {
             return true;
         }
 
+        private Dictionary<int, int> _nvmlDeviceGetPowerUsageErrorCountByBusId = new Dictionary<int, int>();
         public uint GetPowerUsage(int gpuIndex) {
             if (!NvmlInit() || !TryGetNvmlDevice(gpuIndex, out nvmlDevice nvmlDevice)) {
                 return 0;
+            }
+            int count;
+            if (_nvmlDeviceGetPowerUsageErrorCountByBusId.TryGetValue(gpuIndex, out count)) {
+                if (count > 1) {
+                    return 0;
+                }
+            }
+            else {
+                _nvmlDeviceGetPowerUsageErrorCountByBusId.Add(gpuIndex, 1);
             }
             uint power = 0;
             try {
                 var r = NvmlNativeMethods.nvmlDeviceGetPowerUsage(nvmlDevice, ref power);
                 power = (uint)(power / 1000.0);
                 if (r != nvmlReturn.Success) {
+                    _nvmlDeviceGetPowerUsageErrorCountByBusId[gpuIndex] = count + 1;
                     Write.DevError($"{nameof(NvmlNativeMethods.nvmlDeviceGetPowerUsage)} {r}");
                 }
             }

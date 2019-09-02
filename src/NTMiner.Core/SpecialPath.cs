@@ -142,7 +142,7 @@ namespace NTMiner {
         private static bool _sIsFirstCallLogsDirFullName = true;
         public static string LogsDirFullName {
             get {
-                string dirFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "logs");
+                string dirFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "Logs");
                 if (_sIsFirstCallLogsDirFullName) {
                     if (!Directory.Exists(dirFullName)) {
                         Directory.CreateDirectory(dirFullName);
@@ -154,10 +154,25 @@ namespace NTMiner {
             }
         }
 
+        private static bool _sIsFirstCallToolsDirFullName = true;
+        public static string ToolsDirFullName {
+            get {
+                string dirFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "Tools");
+                if (_sIsFirstCallToolsDirFullName) {
+                    if (!Directory.Exists(dirFullName)) {
+                        Directory.CreateDirectory(dirFullName);
+                    }
+                    _sIsFirstCallToolsDirFullName = false;
+                }
+
+                return dirFullName;
+            }
+        }
+
         private static bool _sIsFirstCallUpdaterDirFullName = true;
         public static string UpdaterDirFullName {
             get {
-                string dirFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "updater");
+                string dirFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "Updater");
                 if (_sIsFirstCallUpdaterDirFullName) {
                     if (!Directory.Exists(dirFullName)) {
                         Directory.CreateDirectory(dirFullName);
@@ -178,7 +193,7 @@ namespace NTMiner {
         private static bool _sIsFirstCallServicesDirFullName = true;
         public static string ServicesDirFullName {
             get {
-                string dirFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "services");
+                string dirFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "Services");
                 if (_sIsFirstCallServicesDirFullName) {
                     if (!Directory.Exists(dirFullName)) {
                         Directory.CreateDirectory(dirFullName);
