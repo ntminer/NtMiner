@@ -159,10 +159,10 @@ namespace NTMiner.Core.Profiles.Impl {
                 overClock.SetPowerLimit(data.Index, data.PowerCapacity);
                 overClock.SetTempLimit(data.Index, data.TempLimit);
                 if (data.Index == NTMinerRoot.GpuAllId) {
-                    Write.UserLine($"统一超频：{data.ToOverClockString()}", "OverClock", ConsoleColor.Yellow);
+                    Write.UserOk($"统一超频：{data.ToOverClockString()}");
                 }
                 else {
-                    Write.UserLine($"GPU{gpu.Index}超频：{data.ToOverClockString()}", "OverClock", ConsoleColor.Yellow);
+                    Write.UserOk($"GPU{gpu.Index}超频：{data.ToOverClockString()}");
                 }
                 overClock.RefreshGpuState(data.Index);
             }

@@ -4,26 +4,33 @@ using System.Windows.Media;
 
 namespace NTMiner.Vms {
     public class SpeedViewModel : ViewModelBase, ISpeed {
-        private double _speed;
+        private double _value;
         private DateTime _speedOn;
         private string _speedValueText = "0.0";
         private string _speedUnit = "H/s";
         private string _speedText = "0.0 H/s";
+        private int _acceptShare;
+        private int _rejectShare;
 
         public SpeedViewModel(ISpeed speed) {
-            this.Value = speed.Value;
+            Value = speed.Value;
+            SpeedOn = speed.SpeedOn;
+            _acceptShare = speed.AcceptShare;
+            _rejectShare = speed.RejectShare;
         }
 
         public void Update(ISpeed data) {
             this.Value = data.Value;
             this.SpeedOn = data.SpeedOn;
+            this.AcceptShare = data.AcceptShare;
+            this.RejectShare = data.RejectShare;
         }
 
         public double Value {
-            get => _speed;
+            get => _value;
             set {
-                if (_speed != value) {
-                    _speed = value;
+                if (_value != value) {
+                    _value = value;
                     OnPropertyChanged(nameof(Value));
                     value.ToUnitSpeedText(out string speedValueText, out string speedUnit);
                     this.SpeedValueText = speedValueText;
@@ -68,6 +75,22 @@ namespace NTMiner.Vms {
                     OnPropertyChanged(nameof(LastSpeedOnText));
                     OnPropertyChanged(nameof(LastSpeedOnForeground));
                 }
+            }
+        }
+
+        public int AcceptShare {
+            get => _acceptShare;
+            set {
+                _acceptShare = value;
+                OnPropertyChanged(nameof(AcceptShare));
+            }
+        }
+
+        public int RejectShare {
+            get => _rejectShare;
+            set {
+                _rejectShare = value;
+                OnPropertyChanged(nameof(RejectShare));
             }
         }
 
