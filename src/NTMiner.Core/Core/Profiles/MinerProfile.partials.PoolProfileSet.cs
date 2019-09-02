@@ -1,5 +1,4 @@
-﻿using NTMiner.MinerServer;
-using NTMiner.Profile;
+﻿using NTMiner.Profile;
 using NTMiner.Repositories;
 using System;
 using System.Collections.Generic;
@@ -12,14 +11,11 @@ namespace NTMiner.Core.Profiles {
             private readonly INTMinerRoot _root;
             private readonly object _locker = new object();
 
-            private MineWorkData _mineWorkData;
-            public PoolProfileSet(INTMinerRoot root, MineWorkData mineWorkData) {
+            public PoolProfileSet(INTMinerRoot root) {
                 _root = root;
-                _mineWorkData = mineWorkData;
             }
 
-            public void Refresh(MineWorkData mineWorkData) {
-                _mineWorkData = mineWorkData;
+            public void Refresh() {
                 _dicById.Clear();
             }
 
@@ -31,7 +27,7 @@ namespace NTMiner.Core.Profiles {
                     if (_dicById.ContainsKey(poolId)) {
                         return _dicById[poolId];
                     }
-                    PoolProfile coinProfile = PoolProfile.Create(_root, _mineWorkData, poolId);
+                    PoolProfile coinProfile = PoolProfile.Create(_root, poolId);
                     _dicById.Add(poolId, coinProfile);
                     return coinProfile;
                 }
@@ -47,16 +43,15 @@ namespace NTMiner.Core.Profiles {
             }
 
             public class PoolProfile : IPoolProfile {
-                private static readonly PoolProfile Empty = new PoolProfile(null, new PoolProfileData());
+                private static readonly PoolProfile Empty = new PoolProfile(new PoolProfileData());
 
-                private readonly MineWorkData _mineWorkData;
-                public static PoolProfile Create(INTMinerRoot root, MineWorkData mineWorkData, Guid poolIdId) {
+                public static PoolProfile Create(INTMinerRoot root, Guid poolIdId) {
                     if (root.PoolSet.TryGetPool(poolIdId, out IPool pool)) {
-                        var data = GetPoolProfileData(root, mineWorkData, pool.GetId());
+                        var data = GetPoolProfileData(root, pool.GetId());
                         if (data == null) {
                             data = PoolProfileData.CreateDefaultData(pool);
                         }
-                        PoolProfile coinProfile = new PoolProfile(mineWorkData, data);
+                        PoolProfile coinProfile = new PoolProfile(data);
 
                         return coinProfile;
                     }
@@ -67,9 +62,8 @@ namespace NTMiner.Core.Profiles {
 
                 private PoolProfileData _data;
 
-                private static PoolProfileData GetPoolProfileData(INTMinerRoot root, MineWorkData mineWorkData, Guid poolId) {
-                    bool isUseJson = mineWorkData != null;
-                    IRepository<PoolProfileData> repository = NTMinerRoot.CreateLocalRepository<PoolProfileData>(isUseJson);
+                private static PoolProfileData GetPoolProfileData(INTMinerRoot root, Guid poolId) {
+                    IRepository<PoolProfileData> repository = NTMinerRoot.CreateLocalRepository<PoolProfileData>();
                     var result = repository.GetByKey(poolId);
                     if (result == null) {
                         if (root.PoolSet.TryGetPool(poolId, out IPool pool)) {
@@ -80,8 +74,7 @@ namespace NTMiner.Core.Profiles {
                     return result;
                 }
 
-                private PoolProfile(MineWorkData mineWorkData, PoolProfileData data) {
-                    _mineWorkData = mineWorkData;
+                private PoolProfile(PoolProfileData data) {
                     _data = data ?? throw new ArgumentNullException(nameof(data));
                 }
 
@@ -127,8 +120,7 @@ namespace NTMiner.Core.Profiles {
                             var oldValue = propertyInfo.GetValue(this, null);
                             if (oldValue != value) {
                                 propertyInfo.SetValue(this, value, null);
-                                bool isUseJson = _mineWorkData != null;
-                                IRepository<PoolProfileData> repository = NTMinerRoot.CreateLocalRepository<PoolProfileData>(isUseJson);
+                                IRepository<PoolProfileData> repository = NTMinerRoot.CreateLocalRepository<PoolProfileData>();
                                 repository.Update(_data);
                                 VirtualRoot.Happened(new PoolProfilePropertyChangedEvent(this.PoolId, propertyName));
                             }

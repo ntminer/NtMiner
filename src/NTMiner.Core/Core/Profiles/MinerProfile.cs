@@ -18,27 +18,21 @@ namespace NTMiner.Core.Profiles {
         private PoolProfileSet _poolProfileSet;
         private WalletSet _walletSet;
 
-        private bool isUseJson;
-        public MinerProfile(INTMinerRoot root, MineWorkData mineWorkData) {
+        public MinerProfile(INTMinerRoot root) {
             _root = root;
-            Init(root, mineWorkData);
+            Init(root);
         }
 
-        public void ReInit(INTMinerRoot root, MineWorkData mineWorkData) {
-            Init(root, mineWorkData);
+        public void ReInit(INTMinerRoot root) {
+            Init(root);
         }
 
         #region Init
-        private void Init(INTMinerRoot root, MineWorkData mineWorkData) {
-            MineWork = mineWorkData;
-            isUseJson = mineWorkData != null;
-            if (isUseJson) {
-                _data = NTMinerRoot.LocalJson.MinerProfile;
-            }
-            else {
-                IRepository<MinerProfileData> repository = NTMinerRoot.CreateLocalRepository<MinerProfileData>(false);
-                _data = repository.GetAll().FirstOrDefault();
-            }
+        private void Init(INTMinerRoot root) {
+            IRepository<MinerProfileData> minerProfileRepository = NTMinerRoot.CreateLocalRepository<MinerProfileData>();
+            _data = minerProfileRepository.GetAll().FirstOrDefault();
+            IRepository<MineWorkData> mineWorkRepository = NTMinerRoot.CreateLocalRepository<MineWorkData>();
+            MineWork = mineWorkRepository.GetAll().FirstOrDefault();
             if (_data == null) {
                 Guid coinId = Guid.Empty;
                 ICoin coin = root.CoinSet.OrderBy(a => a.Code).FirstOrDefault();
@@ -48,28 +42,28 @@ namespace NTMiner.Core.Profiles {
                 _data = MinerProfileData.CreateDefaultData(coinId);
             }
             if (_coinProfileSet == null) {
-                _coinProfileSet = new CoinProfileSet(root, mineWorkData);
+                _coinProfileSet = new CoinProfileSet(root);
             }
             else {
-                _coinProfileSet.Refresh(mineWorkData);
+                _coinProfileSet.Refresh();
             }
             if (_coinKernelProfileSet == null) {
-                _coinKernelProfileSet = new CoinKernelProfileSet(root, mineWorkData);
+                _coinKernelProfileSet = new CoinKernelProfileSet(root);
             }
             else {
-                _coinKernelProfileSet.Refresh(mineWorkData);
+                _coinKernelProfileSet.Refresh();
             }
             if (_poolProfileSet == null) {
-                _poolProfileSet = new PoolProfileSet(root, mineWorkData);
+                _poolProfileSet = new PoolProfileSet(root);
             }
             else {
-                _poolProfileSet.Refresh(mineWorkData);
+                _poolProfileSet.Refresh();
             }
             if (_walletSet == null) {
-                _walletSet = new WalletSet(root, mineWorkData);
+                _walletSet = new WalletSet(root);
             }
             else {
-                _walletSet.Refresh(mineWorkData);
+                _walletSet.Refresh();
             }
         }
         #endregion
@@ -376,7 +370,7 @@ namespace NTMiner.Core.Profiles {
                     object oldValue = propertyInfo.GetValue(this, null);
                     if (oldValue != value) {
                         propertyInfo.SetValue(this, value, null);
-                        IRepository<MinerProfileData> repository = NTMinerRoot.CreateLocalRepository<MinerProfileData>(isUseJson);
+                        IRepository<MinerProfileData> repository = NTMinerRoot.CreateLocalRepository<MinerProfileData>();
                         repository.Update(_data);
                         VirtualRoot.Happened(new MinerProfilePropertyChangedEvent(propertyName));
                     }

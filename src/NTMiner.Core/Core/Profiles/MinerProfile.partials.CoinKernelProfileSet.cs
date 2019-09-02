@@ -14,14 +14,11 @@ namespace NTMiner.Core.Profiles {
             private readonly INTMinerRoot _root;
             private readonly object _locker = new object();
 
-            private MineWorkData _mineWorkData;
-            public CoinKernelProfileSet(INTMinerRoot root, MineWorkData mineWorkData) {
+            public CoinKernelProfileSet(INTMinerRoot root) {
                 _root = root;
-                _mineWorkData = mineWorkData;
             }
 
-            public void Refresh(MineWorkData mineWorkData) {
-                _mineWorkData = mineWorkData;
+            public void Refresh() {
                 _dicById.Clear();
             }
 
@@ -33,7 +30,7 @@ namespace NTMiner.Core.Profiles {
                     if (_dicById.ContainsKey(coinKernelId)) {
                         return _dicById[coinKernelId];
                     }
-                    CoinKernelProfile coinKernelProfile = CoinKernelProfile.Create(_root, _mineWorkData, coinKernelId);
+                    CoinKernelProfile coinKernelProfile = CoinKernelProfile.Create(_root, coinKernelId);
                     _dicById.Add(coinKernelId, coinKernelProfile);
 
                     return coinKernelProfile;
@@ -50,14 +47,14 @@ namespace NTMiner.Core.Profiles {
             }
 
             private class CoinKernelProfile : ICoinKernelProfile {
-                private static readonly CoinKernelProfile Empty = new CoinKernelProfile(null, new CoinKernelProfileData());
-                public static CoinKernelProfile Create(INTMinerRoot root, MineWorkData mineWorkData, Guid coinKernelId) {
+                private static readonly CoinKernelProfile Empty = new CoinKernelProfile(new CoinKernelProfileData());
+                public static CoinKernelProfile Create(INTMinerRoot root, Guid coinKernelId) {
                     if (root.CoinKernelSet.TryGetCoinKernel(coinKernelId, out ICoinKernel coinKernel)) {
-                        var data = GetCoinKernelProfileData(mineWorkData, coinKernel.GetId());
+                        var data = GetCoinKernelProfileData(coinKernel.GetId());
                         if (data == null) {
                             data = CoinKernelProfileData.CreateDefaultData(coinKernel.GetId());
                         }
-                        CoinKernelProfile coinProfile = new CoinKernelProfile(mineWorkData, data);
+                        CoinKernelProfile coinProfile = new CoinKernelProfile(data);
 
                         var defaultInputSegments = coinKernel.InputSegments.Where(a => a.IsDefault && a.TargetGpu.IsSupportedGpu(NTMinerRoot.Instance.GpuSet.GpuType)).ToArray();
                         string touchedArgs = coinProfile.TouchedArgs;
@@ -95,11 +92,8 @@ namespace NTMiner.Core.Profiles {
                     }
                 }
 
-                private readonly MineWorkData _mineWorkData;
-
-                private static CoinKernelProfileData GetCoinKernelProfileData(MineWorkData mineWorkData, Guid coinKernelId) {
-                    bool isUseJson = mineWorkData != null;
-                    IRepository<CoinKernelProfileData> repository = NTMinerRoot.CreateLocalRepository<CoinKernelProfileData>(isUseJson);
+                private static CoinKernelProfileData GetCoinKernelProfileData(Guid coinKernelId) {
+                    IRepository<CoinKernelProfileData> repository = NTMinerRoot.CreateLocalRepository<CoinKernelProfileData>();
                     var result = repository.GetByKey(coinKernelId);
                     if (result == null) {
                         result = CoinKernelProfileData.CreateDefaultData(coinKernelId);
@@ -108,8 +102,7 @@ namespace NTMiner.Core.Profiles {
                 }
 
                 private CoinKernelProfileData _data;
-                private CoinKernelProfile(MineWorkData mineWorkData, CoinKernelProfileData data) {
-                    _mineWorkData = mineWorkData;
+                private CoinKernelProfile(CoinKernelProfileData data) {
                     _data = data ?? throw new ArgumentNullException(nameof(data));
                 }
 
@@ -182,8 +175,7 @@ namespace NTMiner.Core.Profiles {
                             var oldValue = propertyInfo.GetValue(this, null);
                             if (oldValue != value) {
                                 propertyInfo.SetValue(this, value, null);
-                                bool isUseJson = _mineWorkData != null;
-                                IRepository<CoinKernelProfileData> repository = NTMinerRoot.CreateLocalRepository<CoinKernelProfileData>(isUseJson);
+                                IRepository<CoinKernelProfileData> repository = NTMinerRoot.CreateLocalRepository<CoinKernelProfileData>();
                                 repository.Update(_data);
                                 VirtualRoot.Happened(new CoinKernelProfilePropertyChangedEvent(this.CoinKernelId, propertyName));
                             }

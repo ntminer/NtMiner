@@ -25,6 +25,13 @@ namespace NTMiner {
             get { return _isJsonServer; }
             private set { _isJsonServer = value; }
         }
+
+        private static bool _isJsonLocal;
+        public static bool IsJsonLocal {
+            get { return _isJsonLocal; }
+            private set { _isJsonLocal = value; }
+        }
+
         public static Action RefreshArgsAssembly { get; private set; } = () => { };
         public static void SetRefreshArgsAssembly(Action action) {
             RefreshArgsAssembly = action;
@@ -92,12 +99,9 @@ namespace NTMiner {
             }
         }
 
-        public static void ReInitLocalJson(MineWorkData mineWorkData = null) {
+        public static void ReInitLocalJson() {
             _localJsonInited = false;
-            if (mineWorkData != null) {
-                LocalJsonInit();
-                _localJson.MineWork = mineWorkData;
-            }
+            LocalJsonInit();
         }
 
         private static readonly object _localJsonlocker = new object();
@@ -125,7 +129,7 @@ namespace NTMiner {
                         if (string.IsNullOrEmpty(_localJson.MinerProfile.MinerName)) {
                             _localJson.MinerProfile.MinerName = GetMinerName();
                             if (string.IsNullOrEmpty(_localJson.MinerProfile.MinerName)) {
-                                var repository = CreateLocalRepository<Profile.MinerProfileData>(isUseJson: false);
+                                var repository = new CommonRepository<Profile.MinerProfileData>(SpecialPath.LocalDbFileFullName);
                                 Profile.MinerProfileData data = repository.GetByKey(Profile.MinerProfileData.DefaultId);
                                 if (data != null) {
                                     _localJson.MinerProfile.MinerName = data.MinerName;
@@ -236,11 +240,11 @@ namespace NTMiner {
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         public static IRepository<T> CreateCompositeRepository<T>() where T : class, ILevelEntity<Guid> {
-            return new CompositeRepository<T>(CreateServerRepository<T>(), CreateLocalRepository<T>(isUseJson: false));
+            return new CompositeRepository<T>(CreateServerRepository<T>(), CreateLocalRepository<T>());
         }
 
-        public static IRepository<T> CreateLocalRepository<T>(bool isUseJson) where T : class, IDbEntity<Guid> {
-            if (!isUseJson) {
+        public static IRepository<T> CreateLocalRepository<T>() where T : class, IDbEntity<Guid> {
+            if (!IsJsonLocal) {
                 return new CommonRepository<T>(SpecialPath.LocalDbFileFullName);
             }
             else {

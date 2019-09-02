@@ -119,7 +119,8 @@ namespace NTMiner {
         // MinerProfile对应local.litedb或local.json
         public void ReInitMinerProfile() {
             ReInitLocalJson();
-            this._minerProfile.ReInit(this, LocalJson.MineWork);
+            IsJsonLocal = true;
+            this._minerProfile.ReInit(this);
             // 本地数据集已刷新，此时刷新本地数据集的视图模型集
             VirtualRoot.Happened(new LocalContextReInitedEvent());
             // 本地数据集的视图模型已刷新，此时刷新本地数据集的视图界面
@@ -236,11 +237,8 @@ namespace NTMiner {
             this.MinerGroupSet = new MinerGroupSet(this);
             this.OverClockDataSet = new OverClockDataSet(this);
             this.ColumnsShowSet = new ColumnsShowSet(this);
-            MineWorkData mineWorkData = null;
-            if (isWork) {
-                mineWorkData = LocalJson.MineWork;
-            }
-            this._minerProfile = new MinerProfile(this, mineWorkData);
+            IsJsonLocal = isWork;
+            this._minerProfile = new MinerProfile(this);
 
             // 这几个注册表内部区分挖矿端和群控客户端
             NTMinerRegistry.SetLocation(VirtualRoot.AppFileFullName);
