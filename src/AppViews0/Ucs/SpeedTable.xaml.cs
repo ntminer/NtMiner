@@ -5,6 +5,14 @@ using System.Windows.Input;
 
 namespace NTMiner.Views.Ucs {
     public partial class SpeedTable : UserControl {
+        public Visibility IsOverClockVisible {
+            get { return (Visibility)GetValue(IsOverClockVisibleProperty); }
+            set { SetValue(IsOverClockVisibleProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsOverClockVisibleProperty =
+            DependencyProperty.Register(nameof(IsOverClockVisible), typeof(Visibility), typeof(SpeedTable), new PropertyMetadata(Visibility.Collapsed));
+
         private SpeedTableViewModel Vm {
             get {
                 return (SpeedTableViewModel)this.DataContext;
@@ -17,10 +25,10 @@ namespace NTMiner.Views.Ucs {
 
         public void ShowOrHideOverClock(bool isShow) {
             if (isShow) {
-                Vm.IsOverClockVisible = Visibility.Visible;
+                this.IsOverClockVisible = Visibility.Visible;
             }
             else {
-                Vm.IsOverClockVisible = Visibility.Collapsed;
+                this.IsOverClockVisible = Visibility.Collapsed;
             }
         }
 

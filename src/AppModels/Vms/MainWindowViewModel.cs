@@ -9,16 +9,6 @@ namespace NTMiner.Vms {
         private readonly StateBarViewModel _stateBarVm = new StateBarViewModel();
         private MinerStateViewModel _minerStateVm;
         private SolidColorBrush _daemonStateBrush;
-        private bool _isOverClockVisible = false;
-        public bool IsOverClockVisible {
-            get { return _isOverClockVisible; }
-            set {
-                if (_isOverClockVisible != value) {
-                    _isOverClockVisible = value;
-                    OnPropertyChanged(nameof(IsOverClockVisible));
-                }
-            }
-        }
 
         public MinerStateViewModel MinerStateVm {
             get {

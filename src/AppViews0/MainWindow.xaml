@@ -618,14 +618,14 @@
                     <WrapPanel>
                         <Path
                             Margin="0 1 0 0"
-						    Visibility="{Binding IsOverClockVisible, Converter={StaticResource BoolToVisibilityInvertConverter}}"
+						    Visibility="{Binding ElementName=SpeedTable,Path=IsOverClockVisible,Converter={StaticResource VisibilityInvertConverter}}"
 						    Width="16"
 						    Height="8"
 						    Data="{StaticResource Icon_CloseEye}"
 						    Fill="{StaticResource IconFillColor}"
 						    Stretch="Fill" />
                         <Path
-						    Visibility="{Binding IsOverClockVisible, Converter={StaticResource BoolToVisibilityConverter}}"
+						    Visibility="{Binding ElementName=SpeedTable,Path=IsOverClockVisible}"
 						    Width="16"
 						    Height="12"
 						    Data="{StaticResource Icon_OpenEye}"

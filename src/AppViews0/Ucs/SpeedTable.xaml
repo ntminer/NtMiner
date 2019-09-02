@@ -10,6 +10,7 @@
 		     xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 			 xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
 			 mc:Ignorable="d" 
+             x:Name="Uc"
 			 Background="White"
 			 TextOptions.TextFormattingMode="Display" 
 			 d:DesignHeight="450" d:DesignWidth="800">
@@ -106,7 +107,7 @@
                         <DataTemplate>
                             <StackPanel>
                                 <TextBlock Text="温度" FontSize="10"></TextBlock>
-                                <Border Visibility="{Binding Data.IsOverClockVisible,Source={StaticResource proxy}}" IsEnabled="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockEnabled,Source={StaticResource proxy}}">
+                                <Border Visibility="{Binding ElementName=Uc,Path=IsOverClockVisible}" IsEnabled="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockEnabled,Source={StaticResource proxy}}">
                                     <CheckBox 
                                         Visibility="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockGpuAll,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 			                            FocusVisualStyle="{x:Null}"
@@ -128,7 +129,7 @@
 						<DataTemplate>
                             <StackPanel>
                                 <TextBlock Foreground="{Binding GpuVm.TemperatureForeground}" Text="{Binding GpuVm.TemperatureText}"></TextBlock>
-                                <Border Visibility="{Binding Data.IsOverClockVisible,Source={StaticResource proxy}}">
+                                <Border Visibility="{Binding ElementName=Uc,Path=IsOverClockVisible}">
                                     <CheckBox 
 							            FocusVisualStyle="{x:Null}"
 							            Padding="0" 
@@ -151,7 +152,7 @@
                         <DataTemplate>
                             <StackPanel>
                                 <TextBlock Text="温度阈值" FontSize="10"></TextBlock>
-                                <Border Visibility="{Binding Data.IsOverClockVisible,Source={StaticResource proxy}}" IsEnabled="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockEnabled,Source={StaticResource proxy}}">
+                                <Border Visibility="{Binding ElementName=Uc,Path=IsOverClockVisible}" IsEnabled="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockEnabled,Source={StaticResource proxy}}">
                                     <TextBox 
                                         Visibility="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockGpuAll,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
                                         Style="{StaticResource TextBox}" 
@@ -168,7 +169,7 @@
                         <DataTemplate>
                             <StackPanel>
                                 <TextBlock Text="{Binding GpuVm.TempLimitText}"></TextBlock>
-                                <Border Visibility="{Binding Data.IsOverClockVisible,Source={StaticResource proxy}}">
+                                <Border Visibility="{Binding ElementName=Uc,Path=IsOverClockVisible}">
                                     <TextBox 
                                         Style="{StaticResource TextBox}" 
                                         Visibility="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockGpuAll,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityInvertConverter}}" 
@@ -185,7 +186,7 @@
                         <DataTemplate>
                             <StackPanel>
                                 <TextBlock Text="风扇控制" FontSize="10"></TextBlock>
-                                <Border Visibility="{Binding Data.IsOverClockVisible,Source={StaticResource proxy}}" IsEnabled="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockEnabled,Source={StaticResource proxy}}">
+                                <Border Visibility="{Binding ElementName=Uc,Path=IsOverClockVisible}" IsEnabled="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockEnabled,Source={StaticResource proxy}}">
                                     <TextBox 
                                         Visibility="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockGpuAll,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
                                         Style="{StaticResource TextBox}" 
@@ -202,7 +203,7 @@
                         <DataTemplate>
                             <StackPanel>
                                 <TextBlock Text="{Binding GpuVm.FanSpeedText}"></TextBlock>
-                                <Border Visibility="{Binding Data.IsOverClockVisible,Source={StaticResource proxy}}">
+                                <Border Visibility="{Binding ElementName=Uc,Path=IsOverClockVisible}">
                                     <TextBox 
                                         Style="{StaticResource TextBox}" 
                                         Visibility="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockGpuAll,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityInvertConverter}}" 
@@ -219,7 +220,7 @@
 						<DataTemplate>
                             <StackPanel>
                                 <TextBlock Text="超频核心" FontSize="10"></TextBlock>
-                                <Border Visibility="{Binding Data.IsOverClockVisible,Source={StaticResource proxy}}" IsEnabled="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockEnabled,Source={StaticResource proxy}}">
+                                <Border Visibility="{Binding ElementName=Uc,Path=IsOverClockVisible}" IsEnabled="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockEnabled,Source={StaticResource proxy}}">
                                     <TextBox 
                                         Visibility="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockGpuAll,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
                                         Style="{StaticResource TextBox}" 
@@ -236,7 +237,7 @@
 						<DataTemplate>
                             <StackPanel>
                                 <TextBlock Text="{Binding GpuVm.CoreClockDeltaMText}"></TextBlock>
-                                <Border Visibility="{Binding Data.IsOverClockVisible,Source={StaticResource proxy}}">
+                                <Border Visibility="{Binding ElementName=Uc,Path=IsOverClockVisible}">
                                     <TextBox 
                                         Style="{StaticResource TextBox}" 
                                         Visibility="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockGpuAll,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityInvertConverter}}" 
@@ -253,7 +254,7 @@
                         <DataTemplate>
                             <StackPanel>
                                 <TextBlock Text="核心电压" FontSize="10"></TextBlock>
-                                <Border Visibility="{Binding Data.IsOverClockVisible,Source={StaticResource proxy}}" IsEnabled="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockEnabled,Source={StaticResource proxy}}">
+                                <Border Visibility="{Binding ElementName=Uc,Path=IsOverClockVisible}" IsEnabled="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockEnabled,Source={StaticResource proxy}}">
                                     <TextBox 
                                         Visibility="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockGpuAll,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
                                         Style="{StaticResource TextBox}" 
@@ -270,7 +271,7 @@
                         <DataTemplate>
                             <StackPanel>
                                 <TextBlock Text="{Binding GpuVm.CoreVoltage}"></TextBlock>
-                                <Border Visibility="{Binding Data.IsOverClockVisible,Source={StaticResource proxy}}">
+                                <Border Visibility="{Binding ElementName=Uc,Path=IsOverClockVisible}">
                                     <TextBox 
                                         Style="{StaticResource TextBox}" 
                                         Width="50"
@@ -288,7 +289,7 @@
 						<DataTemplate>
                             <StackPanel>
                                 <TextBlock Text="超频显存" FontSize="10"></TextBlock>
-                                <Border Visibility="{Binding Data.IsOverClockVisible,Source={StaticResource proxy}}" IsEnabled="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockEnabled,Source={StaticResource proxy}}">
+                                <Border Visibility="{Binding ElementName=Uc,Path=IsOverClockVisible}" IsEnabled="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockEnabled,Source={StaticResource proxy}}">
                                     <TextBox 
                                         Visibility="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockGpuAll,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
                                         Style="{StaticResource TextBox}" 
@@ -305,7 +306,7 @@
 						<DataTemplate>
                             <StackPanel>
                                 <TextBlock Text="{Binding GpuVm.MemoryClockDeltaMText}"></TextBlock>
-                                <Border Visibility="{Binding Data.IsOverClockVisible,Source={StaticResource proxy}}">
+                                <Border Visibility="{Binding ElementName=Uc,Path=IsOverClockVisible}">
                                     <TextBox 
                                         Style="{StaticResource TextBox}" 
                                         Visibility="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockGpuAll,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityInvertConverter}}" 
@@ -322,7 +323,7 @@
                         <DataTemplate>
                             <StackPanel>
                                 <TextBlock Text="显存电压" FontSize="10"></TextBlock>
-                                <Border Visibility="{Binding Data.IsOverClockVisible,Source={StaticResource proxy}}" IsEnabled="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockEnabled,Source={StaticResource proxy}}">
+                                <Border Visibility="{Binding ElementName=Uc,Path=IsOverClockVisible}" IsEnabled="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockEnabled,Source={StaticResource proxy}}">
                                     <TextBox 
                                         Visibility="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockGpuAll,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
                                         Style="{StaticResource TextBox}" 
@@ -339,7 +340,7 @@
                         <DataTemplate>
                             <StackPanel>
                                 <TextBlock Text="{Binding GpuVm.MemoryVoltage}"></TextBlock>
-                                <Border Visibility="{Binding Data.IsOverClockVisible,Source={StaticResource proxy}}">
+                                <Border Visibility="{Binding ElementName=Uc,Path=IsOverClockVisible}">
                                     <TextBox 
                                         Style="{StaticResource TextBox}" 
                                         Width="50"
@@ -357,7 +358,7 @@
                         <DataTemplate>
                             <StackPanel>
                                 <TextBlock Text="超频功耗" FontSize="10"></TextBlock>
-                                <Border Visibility="{Binding Data.IsOverClockVisible,Source={StaticResource proxy}}" IsEnabled="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockEnabled,Source={StaticResource proxy}}">
+                                <Border Visibility="{Binding ElementName=Uc,Path=IsOverClockVisible}" IsEnabled="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockEnabled,Source={StaticResource proxy}}">
                                     <TextBox 
                                         Visibility="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockGpuAll,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
                                         Style="{StaticResource TextBox}" 
@@ -374,7 +375,7 @@
                         <DataTemplate>
                             <StackPanel>
                                 <TextBlock Text="{Binding GpuVm.PowerCapacityText}"></TextBlock>
-                                <Border Visibility="{Binding Data.IsOverClockVisible,Source={StaticResource proxy}}">
+                                <Border Visibility="{Binding ElementName=Uc,Path=IsOverClockVisible}">
                                     <TextBox 
                                         Style="{StaticResource TextBox}" 
                                         Visibility="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.IsOverClockGpuAll,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityInvertConverter}}" 
@@ -404,7 +405,7 @@
             </DataGrid.Columns>
         </DataGrid>
         <TextBlock Visibility="{Binding GpuSpeedVms.List, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center">没有矿卡或矿卡未驱动</TextBlock>
-        <WrapPanel Grid.Row="2" Margin="4 2" HorizontalAlignment="Right" Visibility="{Binding IsOverClockVisible}" IsEnabled="{Binding GpuSpeedVms.MinerProfile.CoinVm.IsOverClockEnabled}">
+        <WrapPanel Grid.Row="2" Margin="4 2" HorizontalAlignment="Right" Visibility="{Binding ElementName=Uc,Path=IsOverClockVisible}" IsEnabled="{Binding GpuSpeedVms.MinerProfile.CoinVm.IsOverClockEnabled}">
             <ItemsControl
 				BorderThickness="0"
 				MouseDown="ItemsControl_MouseDown"

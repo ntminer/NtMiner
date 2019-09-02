@@ -206,15 +206,12 @@ namespace NTMiner.Views {
         }
 
         private void BtnOverClockVisible_Click(object sender, RoutedEventArgs e) {
-            ContentControl btn = (ContentControl)sender;
             var speedTableUc = this.SpeedTable;
             if (RightTab.SelectedItem == TabItemSpeedTable) {
-                speedTableUc.ShowOrHideOverClock(isShow: !Vm.IsOverClockVisible);
-                Vm.IsOverClockVisible = !Vm.IsOverClockVisible;
+                speedTableUc.ShowOrHideOverClock(isShow: speedTableUc.IsOverClockVisible == Visibility.Collapsed);
             }
             else {
                 speedTableUc.ShowOrHideOverClock(isShow: true);
-                Vm.IsOverClockVisible = true;
             }
             RightTab.SelectedItem = TabItemSpeedTable;
         }
