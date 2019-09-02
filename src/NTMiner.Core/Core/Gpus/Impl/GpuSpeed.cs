@@ -34,6 +34,22 @@ namespace NTMiner.Core.Gpus.Impl {
             _dualCoinSpeed.RejectShare = 0;
         }
 
+        public void MainCoinAcceptShareIncrease() {
+            _mainCoinSpeed.AcceptShare++;
+        }
+
+        public void DualCoinAcceptShareIncrease() {
+            _dualCoinSpeed.AcceptShare++;
+        }
+
+        public void MainCoinRejectShareIncrease() {
+            _mainCoinSpeed.RejectShare++;
+        }
+
+        public void DualCoinRejectShareIncrease() {
+            _dualCoinSpeed.RejectShare++;
+        }
+
         public void UpdateMainCoinSpeed(double speed, DateTime speedOn) {
             _mainCoinSpeed.Value = speed;
             _mainCoinSpeed.SpeedOn = speedOn;
