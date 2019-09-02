@@ -20,6 +20,11 @@ namespace NTMiner {
         public static readonly string CurrentVersionTag;
 
         public static string ServerVersion;
+        private static bool _isJsonServer;
+        public static bool IsJsonServer {
+            get { return _isJsonServer; }
+            private set { _isJsonServer = value; }
+        }
         public static Action RefreshArgsAssembly { get; private set; } = () => { };
         public static void SetRefreshArgsAssembly(Action action) {
             RefreshArgsAssembly = action;
@@ -230,8 +235,8 @@ namespace NTMiner {
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public static IRepository<T> CreateCompositeRepository<T>(bool isUseJson) where T : class, ILevelEntity<Guid> {
-            return new CompositeRepository<T>(CreateServerRepository<T>(isUseJson), CreateLocalRepository<T>(isUseJson: false));
+        public static IRepository<T> CreateCompositeRepository<T>() where T : class, ILevelEntity<Guid> {
+            return new CompositeRepository<T>(CreateServerRepository<T>(), CreateLocalRepository<T>(isUseJson: false));
         }
 
         public static IRepository<T> CreateLocalRepository<T>(bool isUseJson) where T : class, IDbEntity<Guid> {
@@ -243,8 +248,8 @@ namespace NTMiner {
             }
         }
 
-        public static IRepository<T> CreateServerRepository<T>(bool isUseJson) where T : class, IDbEntity<Guid> {
-            if (!isUseJson) {
+        public static IRepository<T> CreateServerRepository<T>() where T : class, IDbEntity<Guid> {
+            if (!IsJsonServer) {
                 return new CommonRepository<T>(SpecialPath.ServerDbFileFullName);
             }
             else {

@@ -9,11 +9,8 @@ namespace NTMiner.Core.Impl {
         private readonly INTMinerRoot _root;
         private readonly Dictionary<Guid, KernelOutputKeywordData> _dicById = new Dictionary<Guid, KernelOutputKeywordData>();
 
-        private readonly bool _isUseJson;
-
-        public KernelOutputKeywordSet(INTMinerRoot root, bool isUseJson) {
+        public KernelOutputKeywordSet(INTMinerRoot root) {
             _root = root;
-            _isUseJson = isUseJson;
             _root.ServerContextWindow<AddKernelOutputKeywordCommand>("添加内核输出关键字", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
@@ -31,7 +28,7 @@ namespace NTMiner.Core.Impl {
                     }
                     KernelOutputKeywordData entity = new KernelOutputKeywordData().Update(message.Input);
                     _dicById.Add(entity.Id, entity);
-                    var repository = NTMinerRoot.CreateCompositeRepository<KernelOutputKeywordData>(isUseJson);
+                    var repository = NTMinerRoot.CreateCompositeRepository<KernelOutputKeywordData>();
                     repository.Add(entity);
 
                     VirtualRoot.Happened(new KernelOutputKeywordAddedEvent(entity));
@@ -56,7 +53,7 @@ namespace NTMiner.Core.Impl {
                         return;
                     }
                     entity.Update(message.Input);
-                    var repository = NTMinerRoot.CreateCompositeRepository<KernelOutputKeywordData>(isUseJson);
+                    var repository = NTMinerRoot.CreateCompositeRepository<KernelOutputKeywordData>();
                     repository.Update(entity);
 
                     VirtualRoot.Happened(new KernelOutputKeywordUpdatedEvent(entity));
@@ -72,7 +69,7 @@ namespace NTMiner.Core.Impl {
                     }
                     KernelOutputKeywordData entity = _dicById[message.EntityId];
                     _dicById.Remove(entity.GetId());
-                    var repository = NTMinerRoot.CreateCompositeRepository<KernelOutputKeywordData>(isUseJson);
+                    var repository = NTMinerRoot.CreateCompositeRepository<KernelOutputKeywordData>();
                     repository.Remove(message.EntityId);
 
                     VirtualRoot.Happened(new KernelOutputKeywordRemovedEvent(entity));
@@ -92,7 +89,7 @@ namespace NTMiner.Core.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    var repository = NTMinerRoot.CreateCompositeRepository<KernelOutputKeywordData>(_isUseJson);
+                    var repository = NTMinerRoot.CreateCompositeRepository<KernelOutputKeywordData>();
                     foreach (var item in repository.GetAll()) {
                         if (!_dicById.ContainsKey(item.GetId())) {
                             _dicById.Add(item.GetId(), item);

@@ -9,11 +9,8 @@ namespace NTMiner.Core.Kernels.Impl {
         private readonly Dictionary<Guid, KernelOutputFilterData> _dicById = new Dictionary<Guid, KernelOutputFilterData>();
         private readonly Dictionary<Guid, List<KernelOutputFilterData>> _dicByKernelOutputId = new Dictionary<Guid, List<KernelOutputFilterData>>();
         private readonly INTMinerRoot _root;
-        private readonly bool _isUseJson;
-
-        public KernelOutputFilterSet(INTMinerRoot root, bool isUseJson) {
+        public KernelOutputFilterSet(INTMinerRoot root) {
             _root = root;
-            _isUseJson = isUseJson;
             _root.ServerContextWindow<AddKernelOutputFilterCommand>("添加内核输出过滤器", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
@@ -32,7 +29,7 @@ namespace NTMiner.Core.Kernels.Impl {
                         _dicByKernelOutputId.Add(entity.KernelOutputId, new List<KernelOutputFilterData>());
                     }
                     _dicByKernelOutputId[entity.KernelOutputId].Add(entity);
-                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputFilterData>(isUseJson);
+                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputFilterData>();
                     repository.Add(entity);
 
                     VirtualRoot.Happened(new KernelOutputFilterAddedEvent(entity));
@@ -54,7 +51,7 @@ namespace NTMiner.Core.Kernels.Impl {
                         return;
                     }
                     entity.Update(message.Input);
-                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputFilterData>(isUseJson);
+                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputFilterData>();
                     repository.Update(entity);
 
                     VirtualRoot.Happened(new KernelOutputFilterUpdatedEvent(entity));
@@ -71,7 +68,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     KernelOutputFilterData entity = _dicById[message.EntityId];
                     _dicById.Remove(entity.Id);
                     _dicByKernelOutputId[entity.KernelOutputId].Remove(entity);
-                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputFilterData>(isUseJson);
+                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputFilterData>();
                     repository.Remove(entity.Id);
 
                     VirtualRoot.Happened(new KernelOutputFilterRemovedEvent(entity));
@@ -91,7 +88,7 @@ namespace NTMiner.Core.Kernels.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputFilterData>(_isUseJson);
+                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputFilterData>();
                     foreach (var item in repository.GetAll()) {
                         if (!_dicById.ContainsKey(item.GetId())) {
                             _dicById.Add(item.GetId(), item);

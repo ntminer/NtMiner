@@ -7,9 +7,7 @@ namespace NTMiner.Core.Impl {
         private readonly Dictionary<Guid, GroupData> _dicById = new Dictionary<Guid, GroupData>();
 
         private readonly INTMinerRoot _root;
-        private readonly bool _isUseJson;
-        public GroupSet(INTMinerRoot root, bool isUseJson) {
-            _isUseJson = isUseJson;
+        public GroupSet(INTMinerRoot root) {
             _root = root;
             _root.ServerContextWindow<AddGroupCommand>("添加组", LogEnum.DevConsole,
                 action: (message) => {
@@ -25,7 +23,7 @@ namespace NTMiner.Core.Impl {
                     }
                     GroupData entity = new GroupData().Update(message.Input);
                     _dicById.Add(entity.Id, entity);
-                    var repository = NTMinerRoot.CreateServerRepository<GroupData>(isUseJson);
+                    var repository = NTMinerRoot.CreateServerRepository<GroupData>();
                     repository.Add(entity);
 
                     VirtualRoot.Happened(new GroupAddedEvent(entity));
@@ -47,7 +45,7 @@ namespace NTMiner.Core.Impl {
                         return;
                     }
                     entity.Update(message.Input);
-                    var repository = NTMinerRoot.CreateServerRepository<GroupData>(isUseJson);
+                    var repository = NTMinerRoot.CreateServerRepository<GroupData>();
                     repository.Update(entity);
 
                     VirtualRoot.Happened(new GroupUpdatedEvent(entity));
@@ -67,7 +65,7 @@ namespace NTMiner.Core.Impl {
                         VirtualRoot.Execute(new RemoveCoinGroupCommand(id));
                     }
                     _dicById.Remove(entity.GetId());
-                    var repository = NTMinerRoot.CreateServerRepository<GroupData>(isUseJson);
+                    var repository = NTMinerRoot.CreateServerRepository<GroupData>();
                     repository.Remove(message.EntityId);
 
                     VirtualRoot.Happened(new GroupRemovedEvent(entity));
@@ -87,7 +85,7 @@ namespace NTMiner.Core.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    var repository = NTMinerRoot.CreateServerRepository<GroupData>(_isUseJson);
+                    var repository = NTMinerRoot.CreateServerRepository<GroupData>();
                     foreach (var item in repository.GetAll()) {
                         if (!_dicById.ContainsKey(item.GetId())) {
                             _dicById.Add(item.GetId(), item);

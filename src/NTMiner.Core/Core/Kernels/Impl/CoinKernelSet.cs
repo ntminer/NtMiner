@@ -8,10 +8,8 @@ namespace NTMiner.Core.Kernels.Impl {
         private readonly INTMinerRoot _root;
         private readonly Dictionary<Guid, CoinKernelData> _dicById = new Dictionary<Guid, CoinKernelData>();
 
-        private readonly bool _isUseJson;
-        public CoinKernelSet(INTMinerRoot root, bool isUseJson) {
+        public CoinKernelSet(INTMinerRoot root) {
             _root = root;
-            _isUseJson = isUseJson;
             _root.ServerContextWindow<AddCoinKernelCommand>("添加币种内核", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
@@ -29,7 +27,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     }
                     CoinKernelData entity = new CoinKernelData().Update(message.Input);
                     _dicById.Add(entity.Id, entity);
-                    var repository = NTMinerRoot.CreateServerRepository<CoinKernelData>(isUseJson);
+                    var repository = NTMinerRoot.CreateServerRepository<CoinKernelData>();
                     repository.Add(entity);
 
                     VirtualRoot.Happened(new CoinKernelAddedEvent(entity));
@@ -66,7 +64,7 @@ namespace NTMiner.Core.Kernels.Impl {
                         return;
                     }
                     entity.Update(message.Input);
-                    var repository = NTMinerRoot.CreateServerRepository<CoinKernelData>(isUseJson);
+                    var repository = NTMinerRoot.CreateServerRepository<CoinKernelData>();
                     repository.Update(entity);
 
                     VirtualRoot.Happened(new CoinKernelUpdatedEvent(entity));
@@ -82,7 +80,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     }
                     CoinKernelData entity = _dicById[message.EntityId];
                     _dicById.Remove(entity.Id);
-                    var repository = NTMinerRoot.CreateServerRepository<CoinKernelData>(isUseJson);
+                    var repository = NTMinerRoot.CreateServerRepository<CoinKernelData>();
                     repository.Remove(entity.Id);
 
                     VirtualRoot.Happened(new CoinKernelRemovedEvent(entity));
@@ -102,7 +100,7 @@ namespace NTMiner.Core.Kernels.Impl {
                 });
             _root.ServerContextOn<FileWriterRemovedEvent>("移除文件书写器后移除引用关系", LogEnum.DevConsole,
                 action: message => {
-                    var repository = NTMinerRoot.CreateServerRepository<CoinKernelData>(isUseJson);
+                    var repository = NTMinerRoot.CreateServerRepository<CoinKernelData>();
                     var entities = _dicById.Values.Where(a => a.FileWriterIds.Contains(message.Source.GetId())).ToArray();
                     foreach (var entity in entities) {
                         entity.FileWriterIds = new List<Guid>(entity.FileWriterIds.Where(a => a != message.Source.GetId()));
@@ -112,7 +110,7 @@ namespace NTMiner.Core.Kernels.Impl {
                 });
             _root.ServerContextOn<FragmentWriterRemovedEvent>("移除命令行片段书写器后移除引用关系", LogEnum.DevConsole,
                 action: message => {
-                    var repository = NTMinerRoot.CreateServerRepository<CoinKernelData>(isUseJson);
+                    var repository = NTMinerRoot.CreateServerRepository<CoinKernelData>();
                     var entities = _dicById.Values.Where(a => a.FragmentWriterIds.Contains(message.Source.GetId())).ToArray();
                     foreach (var entity in entities) {
                         entity.FragmentWriterIds = new List<Guid>(entity.FragmentWriterIds.Where(a => a != message.Source.GetId()));
@@ -142,7 +140,7 @@ namespace NTMiner.Core.Kernels.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    var repository = NTMinerRoot.CreateServerRepository<CoinKernelData>(_isUseJson);
+                    var repository = NTMinerRoot.CreateServerRepository<CoinKernelData>();
                     foreach (var item in repository.GetAll()) {
                         if (!_dicById.ContainsKey(item.GetId())) {
                             _dicById.Add(item.GetId(), item);

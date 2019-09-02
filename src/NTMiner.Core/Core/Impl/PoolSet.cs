@@ -8,10 +8,8 @@ namespace NTMiner.Core.Impl {
         private readonly INTMinerRoot _root;
         private readonly Dictionary<Guid, PoolData> _dicById = new Dictionary<Guid, PoolData>();
 
-        private readonly bool _isUseJson;
-        public PoolSet(INTMinerRoot root, bool isUseJson) {
+        public PoolSet(INTMinerRoot root) {
             _root = root;
-            _isUseJson = isUseJson;
             _root.ServerContextWindow<AddPoolCommand>("添加矿池", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
@@ -34,7 +32,7 @@ namespace NTMiner.Core.Impl {
                         Server.ControlCenterService.AddOrUpdatePoolAsync(entity, callback: null);
                     }
                     else {
-                        var repository = NTMinerRoot.CreateCompositeRepository<PoolData>(isUseJson);
+                        var repository = NTMinerRoot.CreateCompositeRepository<PoolData>();
                         repository.Add(entity);
                     }
 
@@ -81,7 +79,7 @@ namespace NTMiner.Core.Impl {
                         Server.ControlCenterService.AddOrUpdatePoolAsync(entity, callback: null);
                     }
                     else {
-                        var repository = NTMinerRoot.CreateCompositeRepository<PoolData>(isUseJson);
+                        var repository = NTMinerRoot.CreateCompositeRepository<PoolData>();
                         repository.Update(new PoolData().Update(message.Input));
                     }
 
@@ -103,7 +101,7 @@ namespace NTMiner.Core.Impl {
                         Server.ControlCenterService.RemovePoolAsync(entity.Id, callback: null);
                     }
                     else {
-                        var repository = NTMinerRoot.CreateCompositeRepository<PoolData>(isUseJson);
+                        var repository = NTMinerRoot.CreateCompositeRepository<PoolData>();
                         repository.Remove(message.EntityId);
                     }
                     VirtualRoot.Happened(new PoolRemovedEvent(entity));
@@ -127,7 +125,7 @@ namespace NTMiner.Core.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    var repository = NTMinerRoot.CreateCompositeRepository<PoolData>(_isUseJson);
+                    var repository = NTMinerRoot.CreateCompositeRepository<PoolData>();
                     List<PoolData> data = repository.GetAll().ToList();
                     if (VirtualRoot.IsMinerStudio) {
                         foreach (var item in Server.ControlCenterService.GetPools()) {

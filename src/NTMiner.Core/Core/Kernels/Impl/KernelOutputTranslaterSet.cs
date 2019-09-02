@@ -9,11 +9,8 @@ namespace NTMiner.Core.Kernels.Impl {
         private readonly Dictionary<Guid, KernelOutputTranslaterData> _dicById = new Dictionary<Guid, KernelOutputTranslaterData>();
         private readonly Dictionary<Guid, List<KernelOutputTranslaterData>> _dicByKernelOutputId = new Dictionary<Guid, List<KernelOutputTranslaterData>>();
         private readonly INTMinerRoot _root;
-        private readonly bool _isUseJson;
-
-        public KernelOutputTranslaterSet(INTMinerRoot root, bool isUseJson) {
+        public KernelOutputTranslaterSet(INTMinerRoot root) {
             _root = root;
-            _isUseJson = isUseJson;
             _root.ServerContextWindow<AddKernelOutputTranslaterCommand>("添加内核输出翻译器", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
@@ -32,7 +29,7 @@ namespace NTMiner.Core.Kernels.Impl {
                         _dicByKernelOutputId.Add(entity.KernelOutputId, new List<KernelOutputTranslaterData>());
                     }
                     _dicByKernelOutputId[entity.KernelOutputId].Add(entity);
-                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputTranslaterData>(isUseJson);
+                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputTranslaterData>();
                     repository.Add(entity);
 
                     VirtualRoot.Happened(new KernelOutputTranslaterAddedEvent(entity));
@@ -63,7 +60,7 @@ namespace NTMiner.Core.Kernels.Impl {
                         _colorDic.Remove(entity);
                     }
                     _dicByKernelOutputId[entity.KernelOutputId].Sort(new SortNumberComparer());
-                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputTranslaterData>(isUseJson);
+                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputTranslaterData>();
                     repository.Update(entity);
 
                     VirtualRoot.Happened(new KernelOutputTranslaterUpdatedEvent(entity));
@@ -83,7 +80,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     _colorDic.Remove(entity);
                     _regexDic.Remove(entity);
                     _dicByKernelOutputId[entity.KernelOutputId].Sort(new SortNumberComparer());
-                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputTranslaterData>(isUseJson);
+                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputTranslaterData>();
                     repository.Remove(entity.Id);
 
                     VirtualRoot.Happened(new KernelOutputTranslaterRemovedEvent(entity));
@@ -117,7 +114,7 @@ namespace NTMiner.Core.Kernels.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputTranslaterData>(_isUseJson);
+                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputTranslaterData>();
                     foreach (var item in repository.GetAll()) {
                         if (!_dicById.ContainsKey(item.GetId())) {
                             _dicById.Add(item.GetId(), item);
@@ -192,20 +189,6 @@ namespace NTMiner.Core.Kernels.Impl {
                 return consoleColor;
             }
             return ConsoleColor.White;
-        }
-
-        private static int GetRgbValue(char letter) {
-            int n = letter;
-            if (n >= 87) {
-                n = n - 87;
-            }
-            else if (n >= 55) {
-                n = n - 55;
-            }
-            else if (n >= 48) {
-                n = n - 48;
-            }
-            return n;
         }
 
         private readonly Dictionary<IKernelOutputTranslater, Regex> _regexDic = new Dictionary<IKernelOutputTranslater, Regex>();

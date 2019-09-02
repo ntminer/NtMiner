@@ -299,24 +299,24 @@ namespace NTMiner {
 
         // ServerContext对应server.json
         private void ServerContextInit(bool isWork) {
-            bool isUseJson = !DevMode.IsDebugMode || VirtualRoot.IsMinerStudio || isWork;
-            this.SysDicSet = new SysDicSet(this, isUseJson);
-            this.SysDicItemSet = new SysDicItemSet(this, isUseJson);
-            this.CoinSet = new CoinSet(this, isUseJson);
-            this.GroupSet = new GroupSet(this, isUseJson);
-            this.CoinGroupSet = new CoinGroupSet(this, isUseJson);
-            this.PoolSet = new PoolSet(this, isUseJson);
-            this.CoinKernelSet = new CoinKernelSet(this, isUseJson);
-            this.PoolKernelSet = new PoolKernelSet(this, isUseJson);
-            this.KernelSet = new KernelSet(this, isUseJson);
-            this.FileWriterSet = new FileWriterSet(this, isUseJson);
-            this.FragmentWriterSet = new FragmentWriterSet(this, isUseJson);
-            this.PackageSet = new PackageSet(this, isUseJson);
-            this.KernelInputSet = new KernelInputSet(this, isUseJson);
-            this.KernelOutputSet = new KernelOutputSet(this, isUseJson);
-            this.KernelOutputFilterSet = new KernelOutputFilterSet(this, isUseJson);
-            this.KernelOutputTranslaterSet = new KernelOutputTranslaterSet(this, isUseJson);
-            this.KernelOutputKeywordSet = new KernelOutputKeywordSet(this, isUseJson);
+            IsJsonServer = !DevMode.IsDebugMode || VirtualRoot.IsMinerStudio || isWork;
+            this.SysDicSet = new SysDicSet(this);
+            this.SysDicItemSet = new SysDicItemSet(this);
+            this.CoinSet = new CoinSet(this);
+            this.GroupSet = new GroupSet(this);
+            this.CoinGroupSet = new CoinGroupSet(this);
+            this.PoolSet = new PoolSet(this);
+            this.CoinKernelSet = new CoinKernelSet(this);
+            this.PoolKernelSet = new PoolKernelSet(this);
+            this.KernelSet = new KernelSet(this);
+            this.FileWriterSet = new FileWriterSet(this);
+            this.FragmentWriterSet = new FragmentWriterSet(this);
+            this.PackageSet = new PackageSet(this);
+            this.KernelInputSet = new KernelInputSet(this);
+            this.KernelOutputSet = new KernelOutputSet(this);
+            this.KernelOutputFilterSet = new KernelOutputFilterSet(this);
+            this.KernelOutputTranslaterSet = new KernelOutputTranslaterSet(this);
+            this.KernelOutputKeywordSet = new KernelOutputKeywordSet(this);
         }
 
         private void Link() {

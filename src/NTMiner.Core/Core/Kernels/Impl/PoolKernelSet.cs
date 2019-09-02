@@ -8,16 +8,14 @@ namespace NTMiner.Core.Kernels.Impl {
         private readonly INTMinerRoot _root;
         private readonly Dictionary<Guid, PoolKernelData> _dicById = new Dictionary<Guid, PoolKernelData>();
 
-        private readonly bool _isUseJson;
-        public PoolKernelSet(INTMinerRoot root, bool isUseJson) {
+        public PoolKernelSet(INTMinerRoot root) {
             _root = root;
-            _isUseJson = isUseJson;
             _root.ServerContextWindow<AddPoolKernelCommand>("处理添加矿池级内核命令", LogEnum.DevConsole,
                 action: message => {
                     if (!_dicById.ContainsKey(message.Input.GetId())) {
                         var entity = new PoolKernelData().Update(message.Input);
                         _dicById.Add(message.Input.GetId(), entity);
-                        var repository = NTMinerRoot.CreateServerRepository<PoolKernelData>(isUseJson);
+                        var repository = NTMinerRoot.CreateServerRepository<PoolKernelData>();
                         repository.Add(entity);
                         VirtualRoot.Happened(new PoolKernelAddedEvent(message.Input));
                     }
@@ -27,7 +25,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     if (_dicById.ContainsKey(message.EntityId)) {
                         var entity = _dicById[message.EntityId];
                         _dicById.Remove(message.EntityId);
-                        var repository = NTMinerRoot.CreateServerRepository<PoolKernelData>(isUseJson);
+                        var repository = NTMinerRoot.CreateServerRepository<PoolKernelData>();
                         repository.Remove(message.EntityId);
                         VirtualRoot.Happened(new PoolKernelRemovedEvent(entity));
                     }
@@ -49,7 +47,7 @@ namespace NTMiner.Core.Kernels.Impl {
                         return;
                     }
                     entity.Update(message.Input);
-                    var repository = NTMinerRoot.CreateServerRepository<PoolKernelData>(isUseJson);
+                    var repository = NTMinerRoot.CreateServerRepository<PoolKernelData>();
                     repository.Update(entity);
 
                     VirtualRoot.Happened(new PoolKernelUpdatedEvent(entity));
@@ -76,7 +74,7 @@ namespace NTMiner.Core.Kernels.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    var repository = NTMinerRoot.CreateServerRepository<PoolKernelData>(_isUseJson);
+                    var repository = NTMinerRoot.CreateServerRepository<PoolKernelData>();
                     List<PoolKernelData> list = repository.GetAll().ToList();
                     foreach (IPool pool in _root.PoolSet) {
                         foreach (ICoinKernel coinKernel in _root.CoinKernelSet.Where(a => a.CoinId == pool.CoinId)) {
