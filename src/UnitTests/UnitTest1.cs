@@ -92,6 +92,21 @@ namespace UnitTests {
 
         [TestMethod]
         public void RegexTest2() {
+            string line = "Share accepted";
+            Regex regex = new Regex(@"(Share accepted)|(GPU\s?(?<gpu>\d+).+\nShare accepted)");
+            var match = regex.Match(line);
+            Assert.IsTrue(match.Success);
+
+            line = "GPU 1: this is a test\nShare accepted";
+            regex = new Regex(@"(Share accepted)|(GPU\s?(?<gpu>\d+).+\nShare accepted)");
+            match = regex.Match(line);
+            Assert.IsTrue(match.Success);
+            string gpuText = match.Groups[Consts.GpuIndexGroupName].Value;
+            Assert.AreEqual("1", gpuText);
+        }
+
+        [TestMethod]
+        public void RegexTest3() {
             string line = "bbbabc\ntestaaa";
             Regex regex = new Regex(@"abc\ntest");
             Assert.IsTrue(regex.IsMatch(line));
