@@ -543,6 +543,36 @@ namespace NTMiner {
             }
         }
 
+        public static ICommand OpenLogfile { get; private set; } = new DelegateCommand<string>((logfileFullName) => {
+            OpenTxtFile(logfileFullName);
+        });
+
+        private static void OpenTxtFile(string fileFullName) {
+            string nppDir = Path.Combine(SpecialPath.ToolsDirFullName, "Npp");
+            string nppFileFullName = Path.Combine(nppDir, "notepad++.exe");
+            if (!Directory.Exists(nppDir)) {
+                Directory.CreateDirectory(nppDir);
+            }
+            if (!File.Exists(nppFileFullName)) {
+                OfficialServer.FileUrlService.GetNppUrlAsync((downloadFileUrl, e) => {
+                    if (string.IsNullOrEmpty(downloadFileUrl)) {
+                        return;
+                    }
+                    VirtualRoot.Execute(new ShowFileDownloaderCommand(downloadFileUrl, "Notepad++", (window, isSuccess, message, saveFileFullName) => {
+                        if (isSuccess) {
+                            ZipUtil.DecompressZipFile(saveFileFullName, nppDir);
+                            File.Delete(saveFileFullName);
+                            window?.Close();
+                            Windows.Cmd.RunClose(nppFileFullName, fileFullName);
+                        }
+                    }));
+                });
+            }
+            else {
+                Windows.Cmd.RunClose(nppFileFullName, fileFullName);
+            }
+        }
+
         public static ICommand ShowCalc { get; private set; } = new DelegateCommand<CoinViewModel>(coinVm => {
             VirtualRoot.Execute(new ShowCalcCommand(coinVm));
         });
