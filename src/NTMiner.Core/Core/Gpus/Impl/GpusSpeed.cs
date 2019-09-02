@@ -130,8 +130,7 @@ namespace NTMiner.Core.Gpus.Impl {
                 }
                 // 切换币种了，将所有显卡的当前算力置为0
                 foreach (var item in _currentGpuSpeed.Values) {
-                    item.UpdateMainCoinSpeed(0, now);
-                    item.UpdateDualCoinSpeed(0, now);
+                    item.Reset();
                 }
                 foreach (var avgSpeed in _averageGpuSpeed.Values) {
                     avgSpeed.Reset();

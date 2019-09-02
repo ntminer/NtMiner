@@ -22,14 +22,26 @@ namespace NTMiner.Core.Gpus.Impl {
             get { return _dualCoinSpeed; }
         }
 
+        public void Reset() {
+            _mainCoinSpeed.Value = 0;
+            _mainCoinSpeed.SpeedOn = DateTime.Now;
+            _mainCoinSpeed.AcceptShare = 0;
+            _mainCoinSpeed.RejectShare = 0;
+
+            _dualCoinSpeed.Value = 0;
+            _dualCoinSpeed.SpeedOn = DateTime.Now;
+            _dualCoinSpeed.AcceptShare = 0;
+            _dualCoinSpeed.RejectShare = 0;
+        }
+
         public void UpdateMainCoinSpeed(double speed, DateTime speedOn) {
-            this._mainCoinSpeed.Value = speed;
-            this._mainCoinSpeed.SpeedOn = speedOn;
+            _mainCoinSpeed.Value = speed;
+            _mainCoinSpeed.SpeedOn = speedOn;
         }
 
         public void UpdateDualCoinSpeed(double speed, DateTime speedOn) {
-            this._dualCoinSpeed.Value = speed;
-            this._dualCoinSpeed.SpeedOn = speedOn;
+            _dualCoinSpeed.Value = speed;
+            _dualCoinSpeed.SpeedOn = speedOn;
         }
     }
 }
