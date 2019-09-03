@@ -165,6 +165,9 @@ namespace NTMiner.Core.Kernels.Impl {
                 PickRejectOneShare(_root, line, _preline, kernelOutput, coin, isDual);
                 PickRejectPercent(_root, line, kernelOutput, coin, isDual);
                 PickPoolDelay(line, kernelOutput, isDual);
+                if (!isDual) {
+                    PicFoundOneShare(_root, line, _preline, kernelOutput);
+                }
                 // 如果是像BMiner那样的主币和双挖币的输出在同一行那样的模式则一行输出既要视为主币又要视为双挖币
                 if (isDual && kernelOutput.IsDualInSameLine) {
                     coin = mineContext.MainCoin;
@@ -173,7 +176,6 @@ namespace NTMiner.Core.Kernels.Impl {
                     PickGpuSpeed(line, kernelOutput, coin, isDual);
                     PickTotalShare(_root, line, kernelOutput, coin, isDual);
                     PickAcceptShare(_root, line, kernelOutput, coin, isDual);
-                    PicFoundOneShare(_root, line, _preline, kernelOutput);
                     PickAcceptOneShare(_root, line, kernelOutput, coin, isDual);
                     PickRejectPattern(_root, line, kernelOutput, coin, isDual);
                     PickRejectOneShare(_root, line, _preline, kernelOutput, coin, isDual);

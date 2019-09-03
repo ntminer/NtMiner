@@ -127,7 +127,10 @@ namespace NTMiner.Gpus {
                     info.numClocks = 1;
                     info.pstates[0].clocks[0].domainId = NvGpuPublicClockId.NVAPI_GPU_PUBLIC_CLOCK_GRAPHICS;
                     info.pstates[0].clocks[0].freqDelta_kHz.value = kHz;
-                    return NvSetPStateV2(busId, ref info);
+                    var r = NvSetPStateV2(busId, ref info);
+                    if (!r) {
+                        Write.DevError($"{nameof(SetCoreClock)} {r}");
+                    }
                 }
                 return false;
             }
@@ -148,7 +151,10 @@ namespace NTMiner.Gpus {
                     info.pstates[0].clocks[0].typeId = NvGpuPerfPState20ClockTypeId.NVAPI_GPU_PERF_PSTATE20_CLOCK_TYPE_SINGLE;
                     info.pstates[0].clocks[0].freqDelta_kHz.value = kHz;
 
-                    return NvSetPStateV2(busId, ref info);
+                    var r = NvSetPStateV2(busId, ref info);
+                    if (!r) {
+                        Write.DevError($"{nameof(SetMemoryClock)} {r}");
+                    }
                 }
                 return false;
             }
