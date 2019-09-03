@@ -26,6 +26,30 @@
             <Setter Property="Foreground" Value="White"></Setter>
         </Style>
     </UserControl.Resources>
+    <UserControl.ContextMenu>
+        <ContextMenu>
+            <MenuItem x:Name="MenuItemShowOverClock" Header="显示超频" Visibility="Visible" Padding="4" Click="MenuItemShowOverClock_Click">
+                <MenuItem.Icon>
+                    <Path
+						Width="16"
+						Height="8"
+						Data="{StaticResource Icon_CloseEye}"
+						Fill="{StaticResource IconFillColor}"
+						Stretch="Fill" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem x:Name="MenuItemHideOverClock" Header="隐藏超频" Padding="4" Visibility="Collapsed" Click="MenuItemHideOverClock_Click">
+                <MenuItem.Icon>
+                    <Path
+						Width="16"
+						Height="12"
+						Data="{StaticResource Icon_OpenEye}"
+						Fill="{StaticResource IconFillColor}"
+						Stretch="Fill" />
+                </MenuItem.Icon>
+            </MenuItem>
+        </ContextMenu>
+    </UserControl.ContextMenu>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>

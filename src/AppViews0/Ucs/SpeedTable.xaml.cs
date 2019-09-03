@@ -26,20 +26,28 @@ namespace NTMiner.Views.Ucs {
         public void ShowOrHideOverClock(bool isShow) {
             if (isShow) {
                 this.IsOverClockVisible = Visibility.Visible;
+                this.MenuItemShowOverClock.Visibility = Visibility.Collapsed;
+                this.MenuItemHideOverClock.Visibility = Visibility.Visible;
             }
             else {
                 this.IsOverClockVisible = Visibility.Collapsed;
+                this.MenuItemShowOverClock.Visibility = Visibility.Visible;
+                this.MenuItemHideOverClock.Visibility = Visibility.Collapsed;
             }
-        }
-
-        private void ScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
-            Wpf.Util.ScrollViewer_PreviewMouseDown(sender, e);
         }
 
         private void ItemsControl_MouseDown(object sender, MouseButtonEventArgs e) {
             if (e.LeftButton == MouseButtonState.Pressed) {
                 Window.GetWindow(this).DragMove();
             }
+        }
+
+        private void MenuItemShowOverClock_Click(object sender, RoutedEventArgs e) {
+            ShowOrHideOverClock(true);
+        }
+
+        private void MenuItemHideOverClock_Click(object sender, RoutedEventArgs e) {
+            ShowOrHideOverClock(false);
         }
     }
 }
