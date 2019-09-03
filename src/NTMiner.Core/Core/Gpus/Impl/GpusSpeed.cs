@@ -141,6 +141,7 @@ namespace NTMiner.Core.Gpus.Impl {
             InitOnece();
             foreach (var gpuSpeed in _currentGpuSpeed.Values) {
                 gpuSpeed.ResetShare();
+                VirtualRoot.Happened(new GpuShareChangedEvent(gpuSpeed: gpuSpeed));
             }
         }
 
