@@ -9,6 +9,13 @@ namespace NTMiner.Core.Impl {
             SpeedOn = DateTime.Now;
         }
 
+        public Speed(ISpeed data) {
+            this.SpeedOn = data.SpeedOn;
+            this.Value = data.Value;
+            this.AcceptShare = data.AcceptShare;
+            this.RejectShare = data.RejectShare;
+        }
+
         public DateTime SpeedOn { get; set; }
 
         public double Value { get; set; }
