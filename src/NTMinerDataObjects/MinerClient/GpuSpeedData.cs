@@ -1,5 +1,5 @@
 ﻿namespace NTMiner.MinerClient {
-    public class GpuSpeedData {
+    public class GpuSpeedData : IGpuSpeedData {
         public GpuSpeedData() {
         }
 

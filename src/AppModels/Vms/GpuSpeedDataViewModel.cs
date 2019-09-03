@@ -3,7 +3,7 @@ using System;
 using System.Windows.Media;
 
 namespace NTMiner.Vms {
-    public class GpuSpeedDataViewModel : ViewModelBase {
+    public class GpuSpeedDataViewModel : ViewModelBase, IGpuSpeedData {
         private readonly GpuSpeedData _data;
         private SolidColorBrush _temperatureForeground = MinerClientViewModel.DefaultForeground;
 
@@ -251,6 +251,36 @@ namespace NTMiner.Vms {
                 if (_data.MemoryVoltage != value) {
                     _data.MemoryVoltage = value;
                     OnPropertyChanged(nameof(MemoryVoltage));
+                }
+            }
+        }
+
+        public int FoundShare {
+            get { return _data.FoundShare; }
+            set {
+                if (_data.FoundShare != value) {
+                    _data.FoundShare = value;
+                    OnPropertyChanged(nameof(FoundShare));
+                }
+            }
+        }
+
+        public int AcceptShare {
+            get { return _data.AcceptShare; }
+            set {
+                if (_data.AcceptShare != value) {
+                    _data.AcceptShare = value;
+                    OnPropertyChanged(nameof(AcceptShare));
+                }
+            }
+        }
+
+        public int RejectShare {
+            get { return _data.RejectShare; }
+            set {
+                if (_data.RejectShare != value) {
+                    _data.RejectShare = value;
+                    OnPropertyChanged(nameof(RejectShare));
                 }
             }
         }
