@@ -9,7 +9,9 @@
 		xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 		mc:Ignorable="d"
 		d:DataContext="{d:DesignData Source=/Design/UserViewModel.xaml}"
-		xmlns:local="clr-namespace:NTMiner.Views.Ucs" Background="White">
+		xmlns:local="clr-namespace:NTMiner.Views.Ucs" 
+        d:DesignWidth="520"
+        Background="White">
 	<UserControl.Resources>
 		<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
 			<Setter Property="Width" Value="60"></Setter>

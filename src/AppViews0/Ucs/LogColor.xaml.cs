@@ -7,6 +7,8 @@ namespace NTMiner.Views.Ucs {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "日志配色",
                 IconName = "Icon_Theme",
+                Width = 320,
+                Height = 220,
                 CloseVisible = System.Windows.Visibility.Visible,
             }, ucFactory: (window) => new LogColor(), fixedSize: true);
         }

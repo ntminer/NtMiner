@@ -11,9 +11,10 @@ namespace NTMiner.Views.Ucs {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "币种级参数",
                 FormType = formType,
+                Width = 700,
                 IsDialogWindow = true,
                 IconName = "Icon_Kernel",
-                CloseVisible = System.Windows.Visibility.Visible
+                CloseVisible = Visibility.Visible
             }, ucFactory: (window) =>
             {
                 CoinKernelViewModel vm = new CoinKernelViewModel(source) {

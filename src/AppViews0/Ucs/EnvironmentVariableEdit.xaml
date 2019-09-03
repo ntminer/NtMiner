@@ -10,6 +10,7 @@
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs" 
         mc:Ignorable="d"
         d:DataContext="{d:DesignData Source=/Design/EnvironmentVariableEditViewModel.xaml}"
+        d:DesignWidth="500"
         Background="White">
 	<UserControl.Resources>
 		<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">

@@ -8,6 +8,7 @@ namespace NTMiner.Views.Ucs {
                 Title = "内核输入",
                 FormType = formType,
                 IconName = "Icon_KernelInput",
+                Width = 660,
                 IsDialogWindow = true,
                 CloseVisible = System.Windows.Visibility.Visible
             }, ucFactory: (window) => {

@@ -8,6 +8,7 @@ namespace NTMiner.Views.Ucs {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 IconName = "Icon_NoDevFee",
                 Title = "配置Claymore ETH反抽水",
+                Width = 600,
                 CloseVisible = System.Windows.Visibility.Visible
             }, ucFactory: (window) => {
                 var uc = new EthNoDevFeeEdit();

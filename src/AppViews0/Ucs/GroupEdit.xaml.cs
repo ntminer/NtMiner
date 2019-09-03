@@ -8,6 +8,7 @@ namespace NTMiner.Views.Ucs {
                 Title = "组",
                 FormType = formType,
                 IsDialogWindow = true,
+                Width = 380,
                 CloseVisible = System.Windows.Visibility.Visible,
                 IconName = "Icon_Group"
             }, ucFactory: (window) =>

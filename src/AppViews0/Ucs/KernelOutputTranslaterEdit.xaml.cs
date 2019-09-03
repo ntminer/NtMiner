@@ -9,6 +9,7 @@ namespace NTMiner.Views.Ucs {
                 Title = "内核输出翻译器",
                 FormType = formType,
                 IsDialogWindow = true,
+                Width = 520,
                 CloseVisible = System.Windows.Visibility.Visible,
                 IconName = "Icon_Coin"
             }, ucFactory: (window) =>

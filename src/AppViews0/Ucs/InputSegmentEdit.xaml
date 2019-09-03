@@ -9,6 +9,7 @@
 		xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs" 
         mc:Ignorable="d"
+        d:DesignWidth="500"
         d:DataContext="{d:DesignData Source=/Design/InputSegmentEditViewModel.xaml}"
         Background="White">
 	<UserControl.Resources>

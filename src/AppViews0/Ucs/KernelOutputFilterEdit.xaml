@@ -10,6 +10,7 @@
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs" 
         d:DataContext="{d:DesignData Source=/Design/KernelOutputFilterViewModel.xaml}"
         mc:Ignorable="d"
+        d:DesignWidth="520"
         Background="White">
 	<UserControl.Resources>
 		<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">

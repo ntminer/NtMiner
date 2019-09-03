@@ -9,7 +9,9 @@
 		mc:Ignorable="d"
 		d:DataContext="{d:DesignData Source=/Design/KernelOutputViewModel.xaml}"
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
-		xmlns:local="clr-namespace:NTMiner.Views.Ucs" Background="White">
+		xmlns:local="clr-namespace:NTMiner.Views.Ucs" 
+        d:DesignWidth="900"
+        Background="White">
 	<UserControl.Resources>
 		<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
 			<Setter Property="Foreground" Value="{StaticResource LableColor}"></Setter>

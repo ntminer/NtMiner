@@ -104,23 +104,23 @@ namespace NTMiner.Views {
                 this.SizeToContent = SizeToContent.WidthAndHeight;
             }
             else {
-                if (vm.Height != 0) {
+                if (vm.Height == 0) {
+                    this.SizeToContent = SizeToContent.Height;
+                }
+                else {
                     this.Height = vm.Height;
                     if (vm.MinHeight == 0) {
                         this.MinHeight = vm.Height / 2;
                     }
                 }
-                else {
-                    this.SizeToContent = SizeToContent.Height;
+                if (vm.Width == 0) {
+                    this.SizeToContent = SizeToContent.Width;
                 }
-                if (vm.Width != 0) {
+                else {
                     this.Width = vm.Width;
                     if (vm.MinWidth == 0) {
                         this.MinWidth = vm.Width / 2;
                     }
-                }
-                else {
-                    this.SizeToContent = SizeToContent.Width;
                 }
             }
             if (vm.MinHeight != 0) {

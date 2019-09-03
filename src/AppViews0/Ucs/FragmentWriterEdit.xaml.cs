@@ -8,6 +8,7 @@ namespace NTMiner.Views.Ucs {
                 Title = "命令行片段书写器",
                 FormType = formType,
                 IsDialogWindow = true,
+                Width = 950,
                 CloseVisible = System.Windows.Visibility.Visible,
                 IconName = "Icon_FragmentWriter"
             }, ucFactory: (window) =>

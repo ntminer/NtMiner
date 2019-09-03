@@ -10,6 +10,8 @@ namespace NTMiner.Views.Ucs {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "收益计算器设置",
                 IconName = "Icon_Calc",
+                Width = 600,
+                Height = 600,
                 CloseVisible = Visibility.Visible
             }, ucFactory: (window) => {
                 var uc = new CalcConfig();

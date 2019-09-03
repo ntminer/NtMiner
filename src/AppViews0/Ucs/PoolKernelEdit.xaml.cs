@@ -7,6 +7,7 @@ namespace NTMiner.Views.Ucs {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "矿池级参数",
                 FormType = formType,
+                Width = 550,
                 IsDialogWindow = true,
                 IconName = "Icon_Kernel",
                 CloseVisible = System.Windows.Visibility.Visible

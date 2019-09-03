@@ -8,6 +8,7 @@
         xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
         xmlns:local="clr-namespace:NTMiner.Views.Ucs" 
         mc:Ignorable="d"
+        d:DesignWidth="380"
         d:DataContext="{d:DesignData Source=/Design/GroupViewModel.xaml}"
         Background="White">
     <UserControl.Resources>

@@ -8,6 +8,7 @@ namespace NTMiner.Views.Ucs {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "片段",
                 IsDialogWindow = true,
+                Width = 500,
                 CloseVisible = System.Windows.Visibility.Visible
             }, ucFactory: (window) =>
             {
