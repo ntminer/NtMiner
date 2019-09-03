@@ -54,18 +54,9 @@ namespace NTMiner.Core.Gpus.Impl {
                     if (!_isInited) {
                         DateTime now = DateTime.Now;
                         foreach (var gpu in _root.GpuSet) {
-                            _currentGpuSpeed.Add(gpu.Index, new GpuSpeed(gpu, new Speed() {
-                                Value = 0,
-                                SpeedOn = now
-                            }, new Speed() {
-                                Value = 0,
-                                SpeedOn = now
-                            }));
+                            _currentGpuSpeed.Add(gpu.Index, new GpuSpeed(gpu, mainCoinSpeed: new Speed(), dualCoinSpeed: new Speed()));
                             _gpuSpeedHistory.Add(gpu.Index, new List<IGpuSpeed>());
-                            _averageGpuSpeed.Add(gpu.Index, new AverageSpeedWithHistory {
-                                Speed = 0,
-                                DualSpeed = 0
-                            });
+                            _averageGpuSpeed.Add(gpu.Index, new AverageSpeedWithHistory());
                         }
                         _isInited = true;
                     }

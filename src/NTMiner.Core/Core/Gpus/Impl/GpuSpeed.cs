@@ -23,15 +23,8 @@ namespace NTMiner.Core.Gpus.Impl {
         }
 
         public void Reset() {
-            _mainCoinSpeed.Value = 0;
-            _mainCoinSpeed.SpeedOn = DateTime.Now;
-            _mainCoinSpeed.AcceptShare = 0;
-            _mainCoinSpeed.RejectShare = 0;
-
-            _dualCoinSpeed.Value = 0;
-            _dualCoinSpeed.SpeedOn = DateTime.Now;
-            _dualCoinSpeed.AcceptShare = 0;
-            _dualCoinSpeed.RejectShare = 0;
+            _mainCoinSpeed.Reset();
+            _dualCoinSpeed.Reset();
         }
 
         public void MainCoinAcceptShareIncrease() {

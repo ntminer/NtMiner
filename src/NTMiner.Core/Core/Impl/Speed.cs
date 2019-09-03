@@ -16,6 +16,13 @@ namespace NTMiner.Core.Impl {
             this.RejectShare = data.RejectShare;
         }
 
+        public void Reset() {
+            Value = 0;
+            SpeedOn = DateTime.Now;
+            AcceptShare = 0;
+            RejectShare = 0;
+        }
+
         public DateTime SpeedOn { get; set; }
 
         public double Value { get; set; }
