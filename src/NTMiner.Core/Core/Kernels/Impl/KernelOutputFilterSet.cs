@@ -76,7 +76,7 @@ namespace NTMiner.Core.Kernels.Impl {
         }
 
         private bool _isInited = false;
-        private object _locker = new object();
+        private readonly object _locker = new object();
 
         private void InitOnece() {
             if (_isInited) {

@@ -13,7 +13,7 @@ namespace NTMiner.Ip.Impl {
 
         private IpSet() { }
 
-        private object _locker = new object();
+        private readonly object _locker = new object();
         private DateTime _lastInitOn = DateTime.MinValue;
 
         private void InitOnece() {
