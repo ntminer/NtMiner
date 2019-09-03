@@ -608,6 +608,9 @@ namespace NTMiner {
 
         public static string AppMinerName {
             get {
+                if (Design.IsDevMode) {
+                    return "开源矿工";
+                }
                 if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("ThisSystem", "AppMinerName", out ISysDicItem dicItem)) {
                     return dicItem.Value;
                 }
@@ -617,10 +620,25 @@ namespace NTMiner {
 
         public static string AppMinerDescription {
             get {
+                if (Design.IsDevMode) {
+                    return " - 做最好的矿工";
+                }
                 if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("ThisSystem", "AppMinerName", out ISysDicItem dicItem)) {
                     return " - " + dicItem.Description;
                 }
                 return " - 做最好的矿工";
+            }
+        }
+
+        public static string AppMinerIntro {
+            get {
+                if (Design.IsDevMode) {
+                    return "开源、开放、安全、专业、最高收益。QQ群863725136";
+                }
+                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("ThisSystem", "AppMinerIntro", out ISysDicItem dicItem)) {
+                    return dicItem.Value;
+                }
+                return "开源、开放、安全、专业、最高收益。QQ群863725136";
             }
         }
 
