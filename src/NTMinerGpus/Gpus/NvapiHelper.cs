@@ -335,24 +335,24 @@ namespace NTMiner.Gpus {
             }
         }
 
-        private NvGpuPerfPStates20InfoV1 NvGetPStateV1(int busId) {
-            NvGpuPerfPStates20InfoV1 info = new NvGpuPerfPStates20InfoV1();
+        private bool NvGetPStateV1(int busId, out NvGpuPerfPStates20InfoV1 info) {
+            info = new NvGpuPerfPStates20InfoV1();
             if (NvapiNativeMethods.NvGetPStateV1 == null) {
-                return info;
+                return false;
             }
             try {
                 info.version = (uint)(VERSION1 | (Marshal.SizeOf(typeof(NvGpuPerfPStates20InfoV1))));
                 var r = NvapiNativeMethods.NvGetPStateV1(HandlesByBusId[busId], ref info);
                 if (r != NvStatus.OK) {
                     Write.DevError($"{nameof(NvapiNativeMethods.NvGetPStateV1)} {r}");
+                    return false;
                 }
-                if (r == NvStatus.OK) {
-                    return info;
-                }
+                return true;
             }
-            catch {
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e);
+                return false;
             }
-            return info;
         }
 
         private bool NvGetPStateV2(int busId, out NvGpuPerfPStates20InfoV2 info) {
