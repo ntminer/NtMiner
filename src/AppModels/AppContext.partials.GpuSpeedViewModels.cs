@@ -112,8 +112,6 @@ namespace NTMiner {
                             TotalSpeedVm.MainCoinSpeed.Update(data.MainCoinSpeed);
                             TotalSpeedVm.DualCoinSpeed.Update(data.DualCoinSpeed);
                         }
-                        NTMinerRoot.Instance.GpusSpeed.SetCurrentSpeed(data.Gpu.Index, data.MainCoinSpeed.Value, isDual: false, now: data.MainCoinSpeed.SpeedOn);
-                        NTMinerRoot.Instance.GpusSpeed.SetCurrentSpeed(data.Gpu.Index, data.DualCoinSpeed.Value, isDual: true, now: data.DualCoinSpeed.SpeedOn);
                     }
                 }
             }
