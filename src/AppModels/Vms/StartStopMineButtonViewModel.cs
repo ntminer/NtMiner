@@ -36,7 +36,12 @@ namespace NTMiner.Vms {
                 Bus.IDelegateHandler handler = null;
                 handler = AppContext.On<Per1SecondEvent>("挖矿倒计时", LogEnum.None,
                 action: message => {
-                    BtnStopText = $"倒计时({--n})";
+                    if (NTMinerRoot.IsAutoStartCanceled) {
+                        BtnStopText = $"尚未开始";
+                    }
+                    else {
+                        BtnStopText = $"倒计时({--n})";
+                    }
                     if (n <= 0) {
                         VirtualRoot.UnPath(handler);
                         if (!NTMinerRoot.IsAutoStartCanceled) {
