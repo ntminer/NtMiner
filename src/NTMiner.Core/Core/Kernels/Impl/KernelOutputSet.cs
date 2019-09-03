@@ -184,6 +184,7 @@ namespace NTMiner.Core.Kernels.Impl {
         }
 
         #region private methods
+        #region PickTotalSpeed
         private static void PickTotalSpeed(INTMinerRoot root, string input, IKernelOutput kernelOutput, ICoin coin, bool isDual) {
             string totalSpeedPattern = kernelOutput.TotalSpeedPattern;
             if (isDual) {
@@ -226,7 +227,9 @@ namespace NTMiner.Core.Kernels.Impl {
                 }
             }
         }
+        #endregion
 
+        #region PickPoolDelay
         private static void PickPoolDelay(string input, IKernelOutput kernelOutput, bool isDual) {
             string poolDelayPattern = kernelOutput.PoolDelayPattern;
             if (isDual) {
@@ -241,7 +244,9 @@ namespace NTMiner.Core.Kernels.Impl {
                 VirtualRoot.Happened(new PoolDelayPickedEvent(poolDelayText, isDual));
             }
         }
+        #endregion
 
+        #region PickGpuSpeed
         private static void PickGpuSpeed(string input, IKernelOutput kernelOutput, ICoin coin, bool isDual) {
             string gpuSpeedPattern = kernelOutput.GpuSpeedPattern;
             if (isDual) {
@@ -299,7 +304,9 @@ namespace NTMiner.Core.Kernels.Impl {
                 }
             }
         }
+        #endregion
 
+        #region PickTotalShare
         private static void PickTotalShare(INTMinerRoot root, string input, IKernelOutput kernelOutput, ICoin coin, bool isDual) {
             string totalSharePattern = kernelOutput.TotalSharePattern;
             if (isDual) {
@@ -318,7 +325,9 @@ namespace NTMiner.Core.Kernels.Impl {
                 }
             }
         }
+        #endregion
 
+        #region PickAcceptShare
         private static void PickAcceptShare(INTMinerRoot root, string input, IKernelOutput kernelOutput, ICoin coin, bool isDual) {
             string acceptSharePattern = kernelOutput.AcceptSharePattern;
             if (isDual) {
@@ -336,7 +345,9 @@ namespace NTMiner.Core.Kernels.Impl {
                 }
             }
         }
+        #endregion
 
+        #region PickAcceptOneShare
         private static void PickAcceptOneShare(INTMinerRoot root, string input, string preline, IKernelOutput kernelOutput, ICoin coin, bool isDual) {
             string acceptOneShare = kernelOutput.AcceptOneShare;
             if (isDual) {
@@ -360,7 +371,9 @@ namespace NTMiner.Core.Kernels.Impl {
                 root.CoinShareSet.UpdateShare(coin.GetId(), acceptShareCount: share.AcceptShareCount + 1, rejectShareCount: null, now: DateTime.Now);
             }
         }
+        #endregion
 
+        #region PickRejectPattern
         private static void PickRejectPattern(INTMinerRoot root, string input, IKernelOutput kernelOutput, ICoin coin, bool isDual) {
             string rejectSharePattern = kernelOutput.RejectSharePattern;
             if (isDual) {
@@ -379,7 +392,9 @@ namespace NTMiner.Core.Kernels.Impl {
                 }
             }
         }
+        #endregion
 
+        #region PickRejectOneShare
         private static void PickRejectOneShare(INTMinerRoot root, string input, string preline, IKernelOutput kernelOutput, ICoin coin, bool isDual) {
             string rejectOneShare = kernelOutput.RejectOneShare;
             if (isDual) {
@@ -403,7 +418,9 @@ namespace NTMiner.Core.Kernels.Impl {
                 root.CoinShareSet.UpdateShare(coin.GetId(), null, share.RejectShareCount + 1, DateTime.Now);
             }
         }
+        #endregion
 
+        #region PickRejectPercent
         private static void PickRejectPercent(INTMinerRoot root, string input, IKernelOutput kernelOutput, ICoin coin, bool isDual) {
             string rejectPercentPattern = kernelOutput.RejectPercentPattern;
             if (isDual) {
@@ -420,6 +437,7 @@ namespace NTMiner.Core.Kernels.Impl {
                 root.CoinShareSet.UpdateShare(coin.GetId(), acceptShareCount: null, rejectShareCount: (int)(share.TotalShareCount * rejectPercent), now: DateTime.Now);
             }
         }
+        #endregion
         #endregion
     }
 }

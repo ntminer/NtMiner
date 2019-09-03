@@ -27,19 +27,19 @@ namespace NTMiner.Core.Gpus.Impl {
             _dualCoinSpeed.Reset();
         }
 
-        public void MainCoinAcceptShareIncrease() {
+        public void IncreaseMainCoinAcceptShare() {
             _mainCoinSpeed.AcceptShare++;
         }
 
-        public void DualCoinAcceptShareIncrease() {
+        public void IncreaseDualCoinAcceptShare() {
             _dualCoinSpeed.AcceptShare++;
         }
 
-        public void MainCoinRejectShareIncrease() {
+        public void IncreaseMainCoinRejectShare() {
             _mainCoinSpeed.RejectShare++;
         }
 
-        public void DualCoinRejectShareIncrease() {
+        public void IncreaseDualCoinRejectShare() {
             _dualCoinSpeed.RejectShare++;
         }
 

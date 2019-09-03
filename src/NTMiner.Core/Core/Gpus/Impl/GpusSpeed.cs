@@ -64,7 +64,7 @@ namespace NTMiner.Core.Gpus.Impl {
             }
         }
 
-        public void ClearOutOfDateHistory() {
+        private void ClearOutOfDateHistory() {
             InitOnece();
             DateTime now = DateTime.Now;
             lock (_gpuSpeedHistoryValuesLocker) {
@@ -103,13 +103,38 @@ namespace NTMiner.Core.Gpus.Impl {
             return AverageSpeed.Empty;
         }
 
-        private Guid _mainCoinId;
-        public void SetCurrentSpeed(int gpuIndex, double speed, bool isDual, DateTime now) {
+        public void IncreaseAcceptShare(int gpuIndex, bool isDual) {
             InitOnece();
             GpuSpeed gpuSpeed;
             if (!_currentGpuSpeed.TryGetValue(gpuIndex, out gpuSpeed)) {
                 return;
             }
+            CheckReset();
+            if (isDual) {
+                gpuSpeed.IncreaseDualCoinAcceptShare();
+            }
+            else {
+                gpuSpeed.IncreaseMainCoinAcceptShare();
+            }
+        }
+
+        public void IncreaseRejectShare(int gpuIndex, bool isDual) {
+            InitOnece();
+            GpuSpeed gpuSpeed;
+            if (!_currentGpuSpeed.TryGetValue(gpuIndex, out gpuSpeed)) {
+                return;
+            }
+            CheckReset();
+            if (isDual) {
+                gpuSpeed.IncreaseDualCoinRejectShare();
+            }
+            else {
+                gpuSpeed.IncreaseMainCoinRejectShare();
+            }
+        }
+
+        private Guid _mainCoinId;
+        private void CheckReset() {
             Guid mainCoinId = _root.MinerProfile.CoinId;
             if (this._mainCoinId != mainCoinId) {
                 this._mainCoinId = mainCoinId;
@@ -127,6 +152,15 @@ namespace NTMiner.Core.Gpus.Impl {
                     avgSpeed.Reset();
                 }
             }
+        }
+
+        public void SetCurrentSpeed(int gpuIndex, double speed, bool isDual, DateTime now) {
+            InitOnece();
+            GpuSpeed gpuSpeed;
+            if (!_currentGpuSpeed.TryGetValue(gpuIndex, out gpuSpeed)) {
+                return;
+            }
+            CheckReset();
             lock (_gpuSpeedHistoryValuesLocker) {
                 // 将当前的旧算力加入历史列表
                 if (_gpuSpeedHistory.TryGetValue(gpuSpeed.Gpu.Index, out List<IGpuSpeed> list)) {
