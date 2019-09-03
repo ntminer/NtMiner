@@ -137,7 +137,7 @@ namespace NTMiner.Vms {
 
         public List<KernelOutputFilterViewModel> KernelOutputFilters {
             get {
-                return AppContext.Instance.KernelOutputFilterVms.GetListByKernelId(this.Id).ToList();
+                return new List<KernelOutputFilterViewModel>(AppContext.Instance.KernelOutputFilterVms.GetListByKernelId(this.Id));
             }
         }
 

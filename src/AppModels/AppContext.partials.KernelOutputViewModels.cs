@@ -47,12 +47,6 @@ namespace NTMiner {
                             OnPropertyChanged(nameof(PleaseSelectVms));
                         }
                     });
-                On<KernelOutputFilterRemovedEvent>("移除了内核输出过滤器后刷新VM内存", LogEnum.DevConsole,
-                    action: message => {
-                        if (_dicById.TryGetValue(message.Source.KernelOutputId, out KernelOutputViewModel kernelOutputVm)) {
-                            kernelOutputVm.OnPropertyChanged(nameof(kernelOutputVm.KernelOutputFilters));
-                        }
-                    });
                 Init();
 #if DEBUG
                 Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
