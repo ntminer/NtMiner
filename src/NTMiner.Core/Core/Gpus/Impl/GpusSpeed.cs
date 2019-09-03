@@ -34,6 +34,7 @@ namespace NTMiner.Core.Gpus.Impl {
                 action: message => {
                     var now = DateTime.Now;
                     _root.CoinShareSet.UpdateShare(message.MineContext.MainCoin.GetId(), 0, 0, now);
+                    _root.GpusSpeed.ResetShare();
                     foreach (var gpu in _root.GpuSet) {
                         SetCurrentSpeed(gpuIndex: gpu.Index, speed: 0.0, isDual: false, now: now);
                     }
@@ -114,6 +115,17 @@ namespace NTMiner.Core.Gpus.Impl {
             VirtualRoot.Happened(new GpuShareChangedEvent(gpuSpeed: gpuSpeed));
         }
 
+        public void IncreaseAcceptShare(int gpuIndex) {
+            InitOnece();
+            GpuSpeed gpuSpeed;
+            if (!_currentGpuSpeed.TryGetValue(gpuIndex, out gpuSpeed)) {
+                return;
+            }
+            CheckReset();
+            gpuSpeed.IncreaseMainCoinAcceptShare();
+            VirtualRoot.Happened(new GpuShareChangedEvent(gpuSpeed: gpuSpeed));
+        }
+
         public void IncreaseRejectShare(int gpuIndex) {
             InitOnece();
             GpuSpeed gpuSpeed;
@@ -123,6 +135,13 @@ namespace NTMiner.Core.Gpus.Impl {
             CheckReset();
             gpuSpeed.IncreaseMainCoinRejectShare();
             VirtualRoot.Happened(new GpuShareChangedEvent(gpuSpeed: gpuSpeed));
+        }
+
+        public void ResetShare() {
+            InitOnece();
+            foreach (var gpuSpeed in _currentGpuSpeed.Values) {
+                gpuSpeed.ResetShare();
+            }
         }
 
         private Guid _mainCoinId;

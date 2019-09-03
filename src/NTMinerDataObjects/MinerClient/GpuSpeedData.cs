@@ -14,6 +14,12 @@
 
         public double MainCoinSpeed { get; set; }
 
+        public int FoundShare { get; set; }
+
+        public int AcceptShare { get; set; }
+
+        public int RejectShare { get; set; }
+
         public double DualCoinSpeed { get; set; }
 
         public int Temperature { get; set; }
