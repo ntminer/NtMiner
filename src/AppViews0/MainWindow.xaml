@@ -385,7 +385,6 @@
 								Background="Transparent"
 								FontFamily="Courier New"
 								Text="{x:Static app:AppStatic.AppMinerIntro}"
-								ToolTip="简介"
 								BorderThickness="0" IsReadOnly="True" 
 								Padding="0 0 16 0" Foreground="White">
 							</controls:KbMuiltilineTextBox>
