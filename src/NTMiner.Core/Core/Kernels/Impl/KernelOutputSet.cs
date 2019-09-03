@@ -160,7 +160,7 @@ namespace NTMiner.Core.Kernels.Impl {
                 PickGpuSpeed(line, kernelOutput, coin, isDual);
                 PickTotalShare(_root, line, kernelOutput, coin, isDual);
                 PickAcceptShare(_root, line, kernelOutput, coin, isDual);
-                PickAcceptOneShare(_root, line, kernelOutput, coin, isDual);
+                PickAcceptOneShare(_root, line, _preline, kernelOutput, coin, isDual);
                 PickRejectPattern(_root, line, kernelOutput, coin, isDual);
                 PickRejectOneShare(_root, line, _preline, kernelOutput, coin, isDual);
                 PickRejectPercent(_root, line, kernelOutput, coin, isDual);
@@ -176,7 +176,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     PickGpuSpeed(line, kernelOutput, coin, isDual);
                     PickTotalShare(_root, line, kernelOutput, coin, isDual);
                     PickAcceptShare(_root, line, kernelOutput, coin, isDual);
-                    PickAcceptOneShare(_root, line, kernelOutput, coin, isDual);
+                    PickAcceptOneShare(_root, line, _preline, kernelOutput, coin, isDual);
                     PickRejectPattern(_root, line, kernelOutput, coin, isDual);
                     PickRejectOneShare(_root, line, _preline, kernelOutput, coin, isDual);
                     PickRejectPercent(_root, line, kernelOutput, coin, isDual);
@@ -344,6 +344,9 @@ namespace NTMiner.Core.Kernels.Impl {
             }
             var match = Regex.Match(input, acceptSharePattern, RegexOptions.Compiled);
             if (match.Success) {
+                if (!isDual) {
+
+                }
                 string acceptShareText = match.Groups[Consts.AcceptShareGroupName].Value;
                 int acceptShare;
                 if (int.TryParse(acceptShareText, out acceptShare)) {
@@ -375,7 +378,7 @@ namespace NTMiner.Core.Kernels.Impl {
         #endregion
 
         #region PickAcceptOneShare
-        private static void PickAcceptOneShare(INTMinerRoot root, string input, IKernelOutput kernelOutput, ICoin coin, bool isDual) {
+        private static void PickAcceptOneShare(INTMinerRoot root, string input, string preline, IKernelOutput kernelOutput, ICoin coin, bool isDual) {
             string acceptOneShare = kernelOutput.AcceptOneShare;
             if (isDual) {
                 acceptOneShare = kernelOutput.DualAcceptOneShare;
@@ -383,8 +386,22 @@ namespace NTMiner.Core.Kernels.Impl {
             if (string.IsNullOrEmpty(acceptOneShare)) {
                 return;
             }
+            if (acceptOneShare.Contains("\n")) {
+                input = preline + "\n" + input;
+            }
             var match = Regex.Match(input, acceptOneShare);
             if (match.Success) {
+                if (!isDual) {
+                    string gpuText = match.Groups[Consts.GpuIndexGroupName].Value;
+                    if (!string.IsNullOrEmpty(gpuText)) {
+                        if (int.TryParse(gpuText, out int gpuIndex)) {
+                            if (string.IsNullOrEmpty(kernelOutput.FoundOneShare)) {
+                                root.GpusSpeed.IncreaseFoundShare(gpuIndex);
+                            }
+                            root.GpusSpeed.IncreaseAcceptShare(gpuIndex);
+                        }
+                    }
+                }
                 ICoinShare share = root.CoinShareSet.GetOrCreate(coin.GetId());
                 root.CoinShareSet.UpdateShare(coin.GetId(), acceptShareCount: share.AcceptShareCount + 1, rejectShareCount: null, now: DateTime.Now);
             }
@@ -430,6 +447,9 @@ namespace NTMiner.Core.Kernels.Impl {
                     string gpuText = match.Groups[Consts.GpuIndexGroupName].Value;
                     if (!string.IsNullOrEmpty(gpuText)) {
                         if (int.TryParse(gpuText, out int gpuIndex)) {
+                            if (string.IsNullOrEmpty(kernelOutput.FoundOneShare)) {
+                                root.GpusSpeed.IncreaseFoundShare(gpuIndex);
+                            }
                             root.GpusSpeed.IncreaseRejectShare(gpuIndex);
                         }
                     }

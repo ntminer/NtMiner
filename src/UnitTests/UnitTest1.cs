@@ -114,6 +114,7 @@ namespace UnitTests {
             Assert.IsTrue(match.Success);
             string gpuText = match.Groups[Consts.GpuIndexGroupName].Value;
             Assert.AreEqual("7", gpuText);
+            Assert.IsTrue(string.IsNullOrEmpty(match.Groups["aaa"].Value));
         }
 
         [TestMethod]
