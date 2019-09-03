@@ -38,6 +38,7 @@ namespace NTMiner.Vms {
                 action: message => {
                     if (NTMinerRoot.IsAutoStartCanceled) {
                         BtnStopText = $"尚未开始";
+                        n = 0;
                     }
                     else {
                         BtnStopText = $"倒计时({--n})";
