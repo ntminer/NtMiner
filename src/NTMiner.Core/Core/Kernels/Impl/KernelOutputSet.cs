@@ -12,6 +12,7 @@ namespace NTMiner.Core.Kernels.Impl {
         private readonly INTMinerRoot _root;
         public KernelOutputSet(INTMinerRoot root) {
             _root = root;
+            #region 接线
             _root.ServerContextWindow<AddKernelOutputCommand>("添加内核输出组", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
@@ -78,6 +79,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.Happened(new KernelOutputRemovedEvent(entity));
                 });
+            #endregion
         }
 
         private bool _isInited = false;
@@ -90,6 +92,7 @@ namespace NTMiner.Core.Kernels.Impl {
             Init();
         }
 
+        // 填充空间
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
@@ -364,7 +367,7 @@ namespace NTMiner.Core.Kernels.Impl {
                 string gpuText = match.Groups[Consts.GpuIndexGroupName].Value;
                 if (!string.IsNullOrEmpty(gpuText)) {
                     if (int.TryParse(gpuText, out int gpuIndex)) {
-                        // TODO:单卡接受一个份额
+                        root.GpusSpeed.IncreaseAcceptShare(gpuIndex, isDual);
                     }
                 }
                 ICoinShare share = root.CoinShareSet.GetOrCreate(coin.GetId());
@@ -411,7 +414,7 @@ namespace NTMiner.Core.Kernels.Impl {
                 string gpuText = match.Groups[Consts.GpuIndexGroupName].Value;
                 if (!string.IsNullOrEmpty(gpuText)) {
                     if (int.TryParse(gpuText, out int gpuIndex)) {
-                        // TODO:单卡拒绝一个份额
+                        root.GpusSpeed.IncreaseRejectShare(gpuIndex, isDual);
                     }
                 }
                 ICoinShare share = root.CoinShareSet.GetOrCreate(coin.GetId());
