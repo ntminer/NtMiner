@@ -109,9 +109,11 @@ namespace UnitTests {
 
         [TestMethod]
         public void RegexTest3() {
-            string line = "bbbabc\ntestaaa";
-            Regex regex = new Regex(@"abc\ntest");
-            Assert.IsTrue(regex.IsMatch(line));
+            string line = @"04:33:17:677	1b04	buf: {""result"":true,""id"":17}";
+            var match = Regex.Match(line, @"{""result"":true,""id"":1(?<gpu>\d+)}");
+            Assert.IsTrue(match.Success);
+            string gpuText = match.Groups[Consts.GpuIndexGroupName].Value;
+            Assert.AreEqual("7", gpuText);
         }
 
         [TestMethod]

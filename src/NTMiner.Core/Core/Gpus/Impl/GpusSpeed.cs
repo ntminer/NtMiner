@@ -103,7 +103,7 @@ namespace NTMiner.Core.Gpus.Impl {
             return AverageSpeed.Empty;
         }
 
-        public void IncreaseAcceptShare(int gpuIndex, bool isDual) {
+        public void IncreaseFoundShare(int gpuIndex, bool isDual) {
             InitOnece();
             GpuSpeed gpuSpeed;
             if (!_currentGpuSpeed.TryGetValue(gpuIndex, out gpuSpeed)) {
@@ -111,11 +111,12 @@ namespace NTMiner.Core.Gpus.Impl {
             }
             CheckReset();
             if (isDual) {
-                gpuSpeed.IncreaseDualCoinAcceptShare();
+                gpuSpeed.IncreaseDualCoinFoundShare();
             }
             else {
-                gpuSpeed.IncreaseMainCoinAcceptShare();
+                gpuSpeed.IncreaseMainCoinFoundShare();
             }
+            VirtualRoot.Happened(new GpuShareChangedEvent(isDual: isDual, gpuSpeed: gpuSpeed));
         }
 
         public void IncreaseRejectShare(int gpuIndex, bool isDual) {
@@ -131,6 +132,7 @@ namespace NTMiner.Core.Gpus.Impl {
             else {
                 gpuSpeed.IncreaseMainCoinRejectShare();
             }
+            VirtualRoot.Happened(new GpuShareChangedEvent(isDual: isDual, gpuSpeed: gpuSpeed));
         }
 
         private Guid _mainCoinId;
@@ -196,7 +198,7 @@ namespace NTMiner.Core.Gpus.Impl {
                 }
             }
             if (isChanged) {
-                VirtualRoot.Happened(new GpuSpeedChangedEvent(isDualSpeed: isDual, gpuSpeed: gpuSpeed));
+                VirtualRoot.Happened(new GpuSpeedChangedEvent(isDual: isDual, gpuSpeed: gpuSpeed));
             }
         }
 

@@ -19,6 +19,7 @@ namespace NTMiner.Vms {
         private string _totalSharePattern;
         private string _acceptSharePattern;
         private string _acceptOneShare;
+        private string _foundOneShare;
         private string _gpuSpeedPattern;
         private string _rejectOneShare;
         private string _rejectSharePattern;
@@ -27,6 +28,7 @@ namespace NTMiner.Vms {
         private string _dualTotalSpeedPattern;
         private string _dualTotalSharePattern;
         private string _dualAcceptSharePattern;
+        private string _dualFoundOneShare;
         private string _dualAcceptOneShare;
         private string _dualGpuSpeedPattern;
         private string _dualRejectSharePattern;
@@ -67,12 +69,14 @@ namespace NTMiner.Vms {
             _gpuSpeedPattern = data.GpuSpeedPattern;
             _totalSharePattern = data.TotalSharePattern;
             _acceptSharePattern = data.AcceptSharePattern;
+            _foundOneShare = data.FoundOneShare;
             _acceptOneShare = data.AcceptOneShare;
             _rejectSharePattern = data.RejectSharePattern;
             _rejectOneShare = data.RejectOneShare;
             _rejectPercentPattern = data.RejectPercentPattern;
             _dualGpuSpeedPattern = data.DualGpuSpeedPattern;
             _dualAcceptSharePattern = data.DualAcceptSharePattern;
+            _dualFoundOneShare = data.DualFoundOneShare;
             _dualAcceptOneShare = data.DualAcceptOneShare;
             _dualRejectSharePattern = data.DualRejectSharePattern;
             _dualRejectOneShare = data.DualRejectOneShare;
@@ -254,6 +258,16 @@ namespace NTMiner.Vms {
             }
         }
 
+        public string FoundOneShare {
+            get { return _foundOneShare; }
+            set {
+                if (_foundOneShare != value) {
+                    _foundOneShare = value;
+                    OnPropertyChanged(nameof(FoundOneShare));
+                }
+            }
+        }
+
         public string AcceptOneShare {
             get { return _acceptOneShare; }
             set {
@@ -330,6 +344,16 @@ namespace NTMiner.Vms {
                 if (_dualAcceptOneShare != value) {
                     _dualAcceptOneShare = value;
                     OnPropertyChanged(nameof(DualAcceptOneShare));
+                }
+            }
+        }
+
+        public string DualFoundOneShare {
+            get { return _dualFoundOneShare; }
+            set {
+                if (_dualFoundOneShare != value) {
+                    _dualFoundOneShare = value;
+                    OnPropertyChanged(nameof(DualFoundOneShare));
                 }
             }
         }

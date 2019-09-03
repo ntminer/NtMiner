@@ -11,6 +11,7 @@ namespace NTMiner.Core {
         string TotalSpeedPattern { get; }
         string TotalSharePattern { get; }
         string AcceptSharePattern { get; }
+        string FoundOneShare { get; }
         string AcceptOneShare { get; }
         string RejectSharePattern { get; }
         string RejectOneShare { get; }
@@ -20,6 +21,7 @@ namespace NTMiner.Core {
         string DualTotalSpeedPattern { get; }
         string DualTotalSharePattern { get; }
         string DualAcceptSharePattern { get; }
+        string DualFoundOneShare { get; }
         string DualAcceptOneShare { get; }
         string DualRejectSharePattern { get; }
         string DualRejectOneShare { get; }

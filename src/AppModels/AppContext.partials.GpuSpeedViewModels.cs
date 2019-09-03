@@ -21,6 +21,24 @@ namespace NTMiner {
             private double _incomeDualCoinUsdPerDay;
             private double _incomeDualCoinCnyPerDay;
 
+            private void CheckReset() {
+                Guid mainCoinId = NTMinerRoot.Instance.MinerProfile.CoinId;
+                if (_mainCoinId != mainCoinId) {
+                    _mainCoinId = mainCoinId;
+                    DateTime now = DateTime.Now;
+                    foreach (var item in _list) {
+                        item.MainCoinSpeed.Reset();
+                        item.DualCoinSpeed.Reset();
+                    }
+                    IncomeMainCoinPerDay = 0;
+                    IncomeMainCoinUsdPerDay = 0;
+                    IncomeMainCoinCnyPerDay = 0;
+                    IncomeDualCoinPerDay = 0;
+                    IncomeDualCoinUsdPerDay = 0;
+                    IncomeDualCoinCnyPerDay = 0;
+                }
+            }
+
             private GpuSpeedViewModels() {
 #if DEBUG
                 Write.Stopwatch.Restart();
@@ -34,34 +52,32 @@ namespace NTMiner {
                     this._list.Add(new GpuSpeedViewModel(item));
                 }
                 _totalSpeedVm = this._list.FirstOrDefault(a => a.GpuVm.Index == NTMinerRoot.GpuAllId);
-                On<GpuSpeedChangedEvent>("显卡算力变更后刷新VM内存", LogEnum.DevConsole,
-                    action: (message) => {
-                        Guid mainCoinId = NTMinerRoot.Instance.MinerProfile.CoinId;
-                        if (_mainCoinId != mainCoinId) {
-                            _mainCoinId = mainCoinId;
-                            DateTime now = DateTime.Now;
-                            foreach (var item in _list) {
-                                item.MainCoinSpeed.Value = 0;
-                                item.MainCoinSpeed.SpeedOn = now;
-                                item.DualCoinSpeed.Value = 0;
-                                item.DualCoinSpeed.SpeedOn = now;
-                            }
-                            IncomeMainCoinPerDay = 0;
-                            IncomeMainCoinUsdPerDay = 0;
-                            IncomeMainCoinCnyPerDay = 0;
-                            IncomeDualCoinPerDay = 0;
-                            IncomeDualCoinUsdPerDay = 0;
-                            IncomeDualCoinCnyPerDay = 0;
-                        }
+                On<GpuShareChangedEvent>("显卡份额变更后刷新VM内存", LogEnum.DevConsole,
+                    action: message => {
+                        CheckReset();
                         int index = message.Source.Gpu.Index;
                         GpuSpeedViewModel gpuSpeedVm = _list.FirstOrDefault(a => a.GpuVm.Index == index);
                         if (gpuSpeedVm != null) {
-                            if (message.IsDualSpeed) {
-                                gpuSpeedVm.DualCoinSpeed.Update(message.Source.DualCoinSpeed);
+                            if (message.IsDual) {
+                                gpuSpeedVm.DualCoinSpeed.UpdateShare(message.Source.DualCoinSpeed.FoundShare, message.Source.DualCoinSpeed.RejectShare);
+                            }
+                            else {
+                                gpuSpeedVm.MainCoinSpeed.UpdateShare(message.Source.MainCoinSpeed.FoundShare, message.Source.MainCoinSpeed.RejectShare);
+                            }
+                        }
+                    });
+                On<GpuSpeedChangedEvent>("显卡算力变更后刷新VM内存", LogEnum.DevConsole,
+                    action: (message) => {
+                        CheckReset();
+                        int index = message.Source.Gpu.Index;
+                        GpuSpeedViewModel gpuSpeedVm = _list.FirstOrDefault(a => a.GpuVm.Index == index);
+                        if (gpuSpeedVm != null) {
+                            if (message.IsDual) {
+                                gpuSpeedVm.DualCoinSpeed.UpdateSpeed(message.Source.DualCoinSpeed.Value, message.Source.DualCoinSpeed.SpeedOn);
                                 gpuSpeedVm.OnPropertyChanged(nameof(gpuSpeedVm.AverageDualCoinSpeedText));
                             }
                             else {
-                                gpuSpeedVm.MainCoinSpeed.Update(message.Source.MainCoinSpeed);
+                                gpuSpeedVm.MainCoinSpeed.UpdateSpeed(message.Source.MainCoinSpeed.Value, message.Source.MainCoinSpeed.SpeedOn);
                                 gpuSpeedVm.OnPropertyChanged(nameof(gpuSpeedVm.AverageMainCoinSpeedText));
                             }
                         }
@@ -76,7 +92,7 @@ namespace NTMiner {
                                 IncomeDualCoinCnyPerDay = 0;
                             }
                             else {
-                                if (message.IsDualSpeed) {
+                                if (message.IsDual) {
                                     if (mineContext is IDualMineContext dualMineContext) {
                                         IncomePerDay incomePerDay = NTMinerRoot.Instance.CalcConfigSet.GetIncomePerHashPerDay(dualMineContext.DualCoin.Code);
                                         IncomeDualCoinPerDay = _totalSpeedVm.DualCoinSpeed.Value * incomePerDay.IncomeCoin;
@@ -107,10 +123,9 @@ namespace NTMiner {
                 foreach (var item in this._list) {
                     var data = NTMinerRoot.Instance.GpusSpeed.FirstOrDefault(a => a.Gpu.Index == item.GpuVm.Index);
                     if (data != null) {
-                        DateTime now = DateTime.Now;
                         if (item.GpuVm.Index == NTMinerRoot.GpuAllId) {
-                            TotalSpeedVm.MainCoinSpeed.Update(data.MainCoinSpeed);
-                            TotalSpeedVm.DualCoinSpeed.Update(data.DualCoinSpeed);
+                            TotalSpeedVm.MainCoinSpeed.UpdateSpeed(data.MainCoinSpeed.Value, data.MainCoinSpeed.SpeedOn);
+                            TotalSpeedVm.DualCoinSpeed.UpdateSpeed(data.DualCoinSpeed.Value, data.DualCoinSpeed.SpeedOn);
                         }
                     }
                 }

@@ -369,11 +369,20 @@ namespace NTMiner.Core {
     #region speed and share
     [MessageType(description: "显卡算力变更事件")]
     public class GpuSpeedChangedEvent : DomainEvent<IGpuSpeed> {
-        public GpuSpeedChangedEvent(bool isDualSpeed, IGpuSpeed gpuSpeed) : base(gpuSpeed) {
-            this.IsDualSpeed = isDualSpeed;
+        public GpuSpeedChangedEvent(bool isDual, IGpuSpeed gpuSpeed) : base(gpuSpeed) {
+            this.IsDual = isDual;
         }
 
-        public bool IsDualSpeed { get; private set; }
+        public bool IsDual { get; private set; }
+    }
+
+    [MessageType(description: "显卡份额变更事件")]
+    public class GpuShareChangedEvent : DomainEvent<IGpuSpeed> {
+        public GpuShareChangedEvent(bool isDual, IGpuSpeed gpuSpeed) : base(gpuSpeed) {
+            this.IsDual = isDual;
+        }
+
+        public bool IsDual { get; private set; }
     }
 
     [MessageType(description: "收益变更事件")]

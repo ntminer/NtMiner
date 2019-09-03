@@ -12,7 +12,7 @@
                 <ResourceDictionary Source="pack://application:,,,/NTMinerWpf;component/Styles/KbButton.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/NTMinerWpf;component/Styles/KbTextBox.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/NTMinerWpf;component/Styles/KbComboBox.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/NTMinerWpf;component/Styles/KbCheckBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/NTMinerWpf;component/Styles/CheckBox.xaml" />
 
                 <ResourceDictionary Source="pack://application:,,,/NTMinerWpf;component/Styles/KbDataGrid.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/NTMinerWpf;component/Notifications/Themes/Generic.xaml" />

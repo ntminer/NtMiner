@@ -78,8 +78,13 @@
 						<TextBlock Style="{StaticResource LblTb}" Text="矿池接受份额正则"></TextBlock>
                         <TextBox Style="{StaticResource TbRegex}" Text="{Binding AcceptSharePattern}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}">
 						</TextBox>
-					</WrapPanel>
-					<WrapPanel Margin="0 2">
+                    </WrapPanel>
+                    <WrapPanel Margin="0 2">
+                        <TextBlock Style="{StaticResource LblTb}" Text="矿池找到一个份额正则"></TextBlock>
+                        <TextBox Style="{StaticResource TbRegex}" Text="{Binding FoundOneShare}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}">
+                        </TextBox>
+                    </WrapPanel>
+                    <WrapPanel Margin="0 2">
 						<TextBlock Style="{StaticResource LblTb}" Text="矿池接受一个份额正则"></TextBlock>
                         <TextBox Style="{StaticResource TbRegex}" Text="{Binding AcceptOneShare}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}">
 						</TextBox>
@@ -142,8 +147,13 @@
 						<TextBlock Style="{StaticResource LblTb}" Text="矿池接受份额正则"></TextBlock>
                         <TextBox Style="{StaticResource TbRegex}" Text="{Binding DualAcceptSharePattern}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}">
 						</TextBox>
-					</WrapPanel>
-					<WrapPanel Margin="0 2">
+                    </WrapPanel>
+                    <WrapPanel Margin="0 2">
+                        <TextBlock Style="{StaticResource LblTb}" Text="矿池找到一个份额正则"></TextBlock>
+                        <TextBox Style="{StaticResource TbRegex}" Text="{Binding DualFoundOneShare}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}">
+                        </TextBox>
+                    </WrapPanel>
+                    <WrapPanel Margin="0 2">
 						<TextBlock Style="{StaticResource LblTb}" Text="矿池接受一个份额正则"></TextBlock>
                         <TextBox Style="{StaticResource TbRegex}" Text="{Binding DualAcceptOneShare}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}">
 						</TextBox>

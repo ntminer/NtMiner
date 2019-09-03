@@ -37,7 +37,7 @@
                         <ContentPresenter
                             x:Name="content"
                             Grid.Column="1"
-                            Margin="3,0,0,0"
+                            Margin="2,0,0,0"
                             VerticalAlignment="Center"
                             Content="{TemplateBinding Content}" />
                     </Grid>

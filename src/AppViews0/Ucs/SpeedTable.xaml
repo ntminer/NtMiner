@@ -111,7 +111,21 @@
 							<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding MainCoinSpeed.SpeedText}"></TextBlock>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn MinWidth="54" Width="54" IsReadOnly="True">
+                    <DataGridTemplateColumn.Header>
+                        <TextBlock Text="拒绝/提交" FontSize="10"></TextBlock>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <WrapPanel>
+                                <TextBlock MinWidth="20" TextAlignment="Right" Text="{Binding MainCoinSpeed.RejectShare}"></TextBlock>
+                                <TextBlock Text="/"></TextBlock>
+                                <TextBlock Text="{Binding MainCoinSpeed.FoundShare}"></TextBlock>
+                            </WrapPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTemplateColumn MinWidth="86" Width="86" IsReadOnly="True"
 					Visibility="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled, Source={StaticResource proxy}, Converter={StaticResource BoolToHiddenConverter}}">
 					<DataGridTemplateColumn.Header>

@@ -160,7 +160,8 @@ namespace NTMiner.Core.Kernels.Impl {
                 PickGpuSpeed(line, kernelOutput, coin, isDual);
                 PickTotalShare(_root, line, kernelOutput, coin, isDual);
                 PickAcceptShare(_root, line, kernelOutput, coin, isDual);
-                PickAcceptOneShare(_root, line, _preline, kernelOutput, coin, isDual);
+                PicFoundOneShare(_root, line, _preline, kernelOutput, coin, isDual);
+                PickAcceptOneShare(_root, line, kernelOutput, coin, isDual);
                 PickRejectPattern(_root, line, kernelOutput, coin, isDual);
                 PickRejectOneShare(_root, line, _preline, kernelOutput, coin, isDual);
                 PickRejectPercent(_root, line, kernelOutput, coin, isDual);
@@ -173,7 +174,8 @@ namespace NTMiner.Core.Kernels.Impl {
                     PickGpuSpeed(line, kernelOutput, coin, isDual);
                     PickTotalShare(_root, line, kernelOutput, coin, isDual);
                     PickAcceptShare(_root, line, kernelOutput, coin, isDual);
-                    PickAcceptOneShare(_root, line, _preline, kernelOutput, coin, isDual);
+                    PicFoundOneShare(_root, line, _preline, kernelOutput, coin, isDual);
+                    PickAcceptOneShare(_root, line, kernelOutput, coin, isDual);
                     PickRejectPattern(_root, line, kernelOutput, coin, isDual);
                     PickRejectOneShare(_root, line, _preline, kernelOutput, coin, isDual);
                     PickRejectPercent(_root, line, kernelOutput, coin, isDual);
@@ -350,8 +352,32 @@ namespace NTMiner.Core.Kernels.Impl {
         }
         #endregion
 
+        #region PicFoundOneShare
+        private static void PicFoundOneShare(INTMinerRoot root, string input, string preline, IKernelOutput kernelOutput, ICoin coin, bool isDual) {
+            string foundOneShare = kernelOutput.FoundOneShare;
+            if (isDual) {
+                foundOneShare = kernelOutput.DualFoundOneShare;
+            }
+            if (string.IsNullOrEmpty(foundOneShare)) {
+                return;
+            }
+            if (foundOneShare.Contains("\n")) {
+                input = preline + "\n" + input;
+            }
+            var match = Regex.Match(input, foundOneShare);
+            if (match.Success) {
+                string gpuText = match.Groups[Consts.GpuIndexGroupName].Value;
+                if (!string.IsNullOrEmpty(gpuText)) {
+                    if (int.TryParse(gpuText, out int gpuIndex)) {
+                        root.GpusSpeed.IncreaseFoundShare(gpuIndex, isDual);
+                    }
+                }
+            }
+        }
+        #endregion
+
         #region PickAcceptOneShare
-        private static void PickAcceptOneShare(INTMinerRoot root, string input, string preline, IKernelOutput kernelOutput, ICoin coin, bool isDual) {
+        private static void PickAcceptOneShare(INTMinerRoot root, string input, IKernelOutput kernelOutput, ICoin coin, bool isDual) {
             string acceptOneShare = kernelOutput.AcceptOneShare;
             if (isDual) {
                 acceptOneShare = kernelOutput.DualAcceptOneShare;
@@ -359,17 +385,8 @@ namespace NTMiner.Core.Kernels.Impl {
             if (string.IsNullOrEmpty(acceptOneShare)) {
                 return;
             }
-            if (acceptOneShare.Contains("\n")) {
-                input = preline + "\n" + input;
-            }
-            var match = Regex.Match(input, acceptOneShare, RegexOptions.Compiled);
+            var match = Regex.Match(input, acceptOneShare);
             if (match.Success) {
-                string gpuText = match.Groups[Consts.GpuIndexGroupName].Value;
-                if (!string.IsNullOrEmpty(gpuText)) {
-                    if (int.TryParse(gpuText, out int gpuIndex)) {
-                        root.GpusSpeed.IncreaseAcceptShare(gpuIndex, isDual);
-                    }
-                }
                 ICoinShare share = root.CoinShareSet.GetOrCreate(coin.GetId());
                 root.CoinShareSet.UpdateShare(coin.GetId(), acceptShareCount: share.AcceptShareCount + 1, rejectShareCount: null, now: DateTime.Now);
             }

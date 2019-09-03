@@ -24,6 +24,8 @@ namespace NTMiner.Core {
 
         public string AcceptSharePattern { get; set; }
 
+        public string FoundOneShare { get; set; }
+
         public string AcceptOneShare { get; set; }
 
         public string RejectSharePattern { get; set; }
@@ -41,11 +43,13 @@ namespace NTMiner.Core {
 
         public string DualAcceptSharePattern { get; set; }
 
-        public string DualAcceptOneShare { get; }
+        public string DualFoundOneShare { get; set; }
+
+        public string DualAcceptOneShare { get; set; }
 
         public string DualRejectSharePattern { get; set; }
 
-        public string DualRejectOneShare { get; }
+        public string DualRejectOneShare { get; set; }
 
         public string DualRejectPercentPattern { get; set; }
 

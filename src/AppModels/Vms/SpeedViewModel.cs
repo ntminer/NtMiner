@@ -9,21 +9,31 @@ namespace NTMiner.Vms {
         private string _speedValueText = "0.0";
         private string _speedUnit = "H/s";
         private string _speedText = "0.0 H/s";
-        private int _acceptShare;
+        private int _foundShare;
         private int _rejectShare;
 
         public SpeedViewModel(ISpeed speed) {
             Value = speed.Value;
             SpeedOn = speed.SpeedOn;
-            _acceptShare = speed.AcceptShare;
+            _foundShare = speed.FoundShare;
             _rejectShare = speed.RejectShare;
         }
 
-        public void Update(ISpeed data) {
-            this.Value = data.Value;
-            this.SpeedOn = data.SpeedOn;
-            this.AcceptShare = data.AcceptShare;
-            this.RejectShare = data.RejectShare;
+        public void UpdateSpeed(double value, DateTime speedOn) {
+            this.Value = value;
+            this.SpeedOn = speedOn;
+        }
+
+        public void UpdateShare(int foundShare, int rejectShare) {
+            this.FoundShare = foundShare;
+            this.RejectShare = rejectShare;
+        }
+
+        public void Reset() {
+            this.Value = 0;
+            this.SpeedOn = DateTime.Now;
+            this.FoundShare = 0;
+            this.RejectShare = 0;
         }
 
         public double Value {
@@ -78,11 +88,11 @@ namespace NTMiner.Vms {
             }
         }
 
-        public int AcceptShare {
-            get => _acceptShare;
+        public int FoundShare {
+            get => _foundShare;
             set {
-                _acceptShare = value;
-                OnPropertyChanged(nameof(AcceptShare));
+                _foundShare = value;
+                OnPropertyChanged(nameof(FoundShare));
             }
         }
 
