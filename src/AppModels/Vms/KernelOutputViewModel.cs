@@ -28,7 +28,6 @@ namespace NTMiner.Vms {
         private string _dualTotalSpeedPattern;
         private string _dualTotalSharePattern;
         private string _dualAcceptSharePattern;
-        private string _dualFoundOneShare;
         private string _dualAcceptOneShare;
         private string _dualGpuSpeedPattern;
         private string _dualRejectSharePattern;
@@ -76,7 +75,6 @@ namespace NTMiner.Vms {
             _rejectPercentPattern = data.RejectPercentPattern;
             _dualGpuSpeedPattern = data.DualGpuSpeedPattern;
             _dualAcceptSharePattern = data.DualAcceptSharePattern;
-            _dualFoundOneShare = data.DualFoundOneShare;
             _dualAcceptOneShare = data.DualAcceptOneShare;
             _dualRejectSharePattern = data.DualRejectSharePattern;
             _dualRejectOneShare = data.DualRejectOneShare;
@@ -294,7 +292,17 @@ namespace NTMiner.Vms {
                 if (_rejectOneShare != value) {
                     _rejectOneShare = value;
                     OnPropertyChanged(nameof(RejectOneShare));
+                    OnPropertyChanged(nameof(IsRejectOneGpuShare));
                 }
+            }
+        }
+
+        public bool IsRejectOneGpuShare {
+            get {
+                if (string.IsNullOrEmpty(RejectOneShare)) {
+                    return false;
+                }
+                return RejectOneShare.Contains("?<gpu>");
             }
         }
 
@@ -348,16 +356,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        public string DualFoundOneShare {
-            get { return _dualFoundOneShare; }
-            set {
-                if (_dualFoundOneShare != value) {
-                    _dualFoundOneShare = value;
-                    OnPropertyChanged(nameof(DualFoundOneShare));
-                }
-            }
-        }
-
         public string DualAcceptSharePattern {
             get { return _dualAcceptSharePattern; }
             set {
@@ -385,6 +383,15 @@ namespace NTMiner.Vms {
                     _dualRejectOneShare = value;
                     OnPropertyChanged(nameof(DualRejectOneShare));
                 }
+            }
+        }
+
+        public bool IsDualRejectOneGpuShare {
+            get {
+                if (string.IsNullOrEmpty(DualRejectOneShare)) {
+                    return false;
+                }
+                return DualRejectOneShare.Contains("?<gpu>");
             }
         }
 

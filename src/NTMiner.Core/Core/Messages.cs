@@ -378,11 +378,8 @@ namespace NTMiner.Core {
 
     [MessageType(description: "显卡份额变更事件")]
     public class GpuShareChangedEvent : DomainEvent<IGpuSpeed> {
-        public GpuShareChangedEvent(bool isDual, IGpuSpeed gpuSpeed) : base(gpuSpeed) {
-            this.IsDual = isDual;
+        public GpuShareChangedEvent(IGpuSpeed gpuSpeed) : base(gpuSpeed) {
         }
-
-        public bool IsDual { get; private set; }
     }
 
     [MessageType(description: "收益变更事件")]

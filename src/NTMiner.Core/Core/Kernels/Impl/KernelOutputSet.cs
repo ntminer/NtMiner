@@ -160,7 +160,6 @@ namespace NTMiner.Core.Kernels.Impl {
                 PickGpuSpeed(line, kernelOutput, coin, isDual);
                 PickTotalShare(_root, line, kernelOutput, coin, isDual);
                 PickAcceptShare(_root, line, kernelOutput, coin, isDual);
-                PicFoundOneShare(_root, line, _preline, kernelOutput, coin, isDual);
                 PickAcceptOneShare(_root, line, kernelOutput, coin, isDual);
                 PickRejectPattern(_root, line, kernelOutput, coin, isDual);
                 PickRejectOneShare(_root, line, _preline, kernelOutput, coin, isDual);
@@ -174,7 +173,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     PickGpuSpeed(line, kernelOutput, coin, isDual);
                     PickTotalShare(_root, line, kernelOutput, coin, isDual);
                     PickAcceptShare(_root, line, kernelOutput, coin, isDual);
-                    PicFoundOneShare(_root, line, _preline, kernelOutput, coin, isDual);
+                    PicFoundOneShare(_root, line, _preline, kernelOutput);
                     PickAcceptOneShare(_root, line, kernelOutput, coin, isDual);
                     PickRejectPattern(_root, line, kernelOutput, coin, isDual);
                     PickRejectOneShare(_root, line, _preline, kernelOutput, coin, isDual);
@@ -353,11 +352,8 @@ namespace NTMiner.Core.Kernels.Impl {
         #endregion
 
         #region PicFoundOneShare
-        private static void PicFoundOneShare(INTMinerRoot root, string input, string preline, IKernelOutput kernelOutput, ICoin coin, bool isDual) {
+        private static void PicFoundOneShare(INTMinerRoot root, string input, string preline, IKernelOutput kernelOutput) {
             string foundOneShare = kernelOutput.FoundOneShare;
-            if (isDual) {
-                foundOneShare = kernelOutput.DualFoundOneShare;
-            }
             if (string.IsNullOrEmpty(foundOneShare)) {
                 return;
             }
@@ -369,7 +365,7 @@ namespace NTMiner.Core.Kernels.Impl {
                 string gpuText = match.Groups[Consts.GpuIndexGroupName].Value;
                 if (!string.IsNullOrEmpty(gpuText)) {
                     if (int.TryParse(gpuText, out int gpuIndex)) {
-                        root.GpusSpeed.IncreaseFoundShare(gpuIndex, isDual);
+                        root.GpusSpeed.IncreaseFoundShare(gpuIndex);
                     }
                 }
             }
@@ -428,10 +424,12 @@ namespace NTMiner.Core.Kernels.Impl {
             }
             var match = Regex.Match(input, rejectOneShare, RegexOptions.Compiled);
             if (match.Success) {
-                string gpuText = match.Groups[Consts.GpuIndexGroupName].Value;
-                if (!string.IsNullOrEmpty(gpuText)) {
-                    if (int.TryParse(gpuText, out int gpuIndex)) {
-                        root.GpusSpeed.IncreaseRejectShare(gpuIndex, isDual);
+                if (!isDual) {
+                    string gpuText = match.Groups[Consts.GpuIndexGroupName].Value;
+                    if (!string.IsNullOrEmpty(gpuText)) {
+                        if (int.TryParse(gpuText, out int gpuIndex)) {
+                            root.GpusSpeed.IncreaseRejectShare(gpuIndex);
+                        }
                     }
                 }
                 ICoinShare share = root.CoinShareSet.GetOrCreate(coin.GetId());

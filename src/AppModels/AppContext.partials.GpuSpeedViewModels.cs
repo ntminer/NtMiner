@@ -58,12 +58,7 @@ namespace NTMiner {
                         int index = message.Source.Gpu.Index;
                         GpuSpeedViewModel gpuSpeedVm = _list.FirstOrDefault(a => a.GpuVm.Index == index);
                         if (gpuSpeedVm != null) {
-                            if (message.IsDual) {
-                                gpuSpeedVm.DualCoinSpeed.UpdateShare(message.Source.DualCoinSpeed.FoundShare, message.Source.DualCoinSpeed.RejectShare);
-                            }
-                            else {
-                                gpuSpeedVm.MainCoinSpeed.UpdateShare(message.Source.MainCoinSpeed.FoundShare, message.Source.MainCoinSpeed.RejectShare);
-                            }
+                            gpuSpeedVm.MainCoinSpeed.UpdateShare(message.Source.MainCoinSpeed.FoundShare, message.Source.MainCoinSpeed.RejectShare);
                         }
                     });
                 On<GpuSpeedChangedEvent>("显卡算力变更后刷新VM内存", LogEnum.DevConsole,

@@ -149,11 +149,6 @@
 						</TextBox>
                     </WrapPanel>
                     <WrapPanel Margin="0 2">
-                        <TextBlock Style="{StaticResource LblTb}" Text="矿池找到一个份额正则"></TextBlock>
-                        <TextBox Style="{StaticResource TbRegex}" Text="{Binding DualFoundOneShare}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}">
-                        </TextBox>
-                    </WrapPanel>
-                    <WrapPanel Margin="0 2">
 						<TextBlock Style="{StaticResource LblTb}" Text="矿池接受一个份额正则"></TextBlock>
                         <TextBox Style="{StaticResource TbRegex}" Text="{Binding DualAcceptOneShare}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}">
 						</TextBox>

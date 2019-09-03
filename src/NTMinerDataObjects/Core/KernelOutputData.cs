@@ -43,8 +43,6 @@ namespace NTMiner.Core {
 
         public string DualAcceptSharePattern { get; set; }
 
-        public string DualFoundOneShare { get; set; }
-
         public string DualAcceptOneShare { get; set; }
 
         public string DualRejectSharePattern { get; set; }

@@ -103,36 +103,26 @@ namespace NTMiner.Core.Gpus.Impl {
             return AverageSpeed.Empty;
         }
 
-        public void IncreaseFoundShare(int gpuIndex, bool isDual) {
+        public void IncreaseFoundShare(int gpuIndex) {
             InitOnece();
             GpuSpeed gpuSpeed;
             if (!_currentGpuSpeed.TryGetValue(gpuIndex, out gpuSpeed)) {
                 return;
             }
             CheckReset();
-            if (isDual) {
-                gpuSpeed.IncreaseDualCoinFoundShare();
-            }
-            else {
-                gpuSpeed.IncreaseMainCoinFoundShare();
-            }
-            VirtualRoot.Happened(new GpuShareChangedEvent(isDual: isDual, gpuSpeed: gpuSpeed));
+            gpuSpeed.IncreaseMainCoinFoundShare();
+            VirtualRoot.Happened(new GpuShareChangedEvent(gpuSpeed: gpuSpeed));
         }
 
-        public void IncreaseRejectShare(int gpuIndex, bool isDual) {
+        public void IncreaseRejectShare(int gpuIndex) {
             InitOnece();
             GpuSpeed gpuSpeed;
             if (!_currentGpuSpeed.TryGetValue(gpuIndex, out gpuSpeed)) {
                 return;
             }
             CheckReset();
-            if (isDual) {
-                gpuSpeed.IncreaseDualCoinRejectShare();
-            }
-            else {
-                gpuSpeed.IncreaseMainCoinRejectShare();
-            }
-            VirtualRoot.Happened(new GpuShareChangedEvent(isDual: isDual, gpuSpeed: gpuSpeed));
+            gpuSpeed.IncreaseMainCoinRejectShare();
+            VirtualRoot.Happened(new GpuShareChangedEvent(gpuSpeed: gpuSpeed));
         }
 
         private Guid _mainCoinId;
