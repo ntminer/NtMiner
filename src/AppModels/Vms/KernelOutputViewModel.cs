@@ -262,7 +262,20 @@ namespace NTMiner.Vms {
                 if (_foundOneShare != value) {
                     _foundOneShare = value;
                     OnPropertyChanged(nameof(FoundOneShare));
+                    OnPropertyChanged(nameof(IsFoundOneGpuShare));
                 }
+            }
+        }
+
+        public bool IsFoundOneGpuShare {
+            get {
+                if (!string.IsNullOrEmpty(FoundOneShare) && FoundOneShare.Contains("?<gpu>")) {
+                    return true;
+                }
+                if (!string.IsNullOrEmpty(AcceptOneShare) && AcceptOneShare.Contains("?<gpu>")) {
+                    return true;
+                }
+                return false;
             }
         }
 
@@ -272,6 +285,7 @@ namespace NTMiner.Vms {
                 if (_acceptOneShare != value) {
                     _acceptOneShare = value;
                     OnPropertyChanged(nameof(AcceptOneShare));
+                    OnPropertyChanged(nameof(IsFoundOneGpuShare));
                 }
             }
         }

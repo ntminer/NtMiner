@@ -128,7 +128,7 @@
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn 
                     MinWidth="30" Width="30" IsReadOnly="True"
-                    Visibility="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.CoinKernel.Kernel.KernelOutputVm.FoundOneShare,Source={StaticResource proxy},Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
+                    Visibility="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.CoinKernel.Kernel.KernelOutputVm.IsFoundOneGpuShare,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}">
                     <DataGridTemplateColumn.Header>
                         <TextBlock Text="提交" FontSize="10"></TextBlock>
                     </DataGridTemplateColumn.Header>
