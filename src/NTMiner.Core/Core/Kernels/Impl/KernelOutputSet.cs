@@ -166,6 +166,7 @@ namespace NTMiner.Core.Kernels.Impl {
                 PickRejectPercent(_root, line, kernelOutput, coin, isDual);
                 PickPoolDelay(line, kernelOutput, isDual);
                 if (!isDual) {
+                    // 决定不支持双挖的单卡份额统计
                     PicFoundOneShare(_root, line, _preline, kernelOutput);
                 }
                 // 如果是像BMiner那样的主币和双挖币的输出在同一行那样的模式则一行输出既要视为主币又要视为双挖币
@@ -392,6 +393,7 @@ namespace NTMiner.Core.Kernels.Impl {
             var match = Regex.Match(input, acceptOneShare);
             if (match.Success) {
                 if (!isDual) {
+                    // 决定不支持双挖的单卡份额统计
                     string gpuText = match.Groups[Consts.GpuIndexGroupName].Value;
                     if (!string.IsNullOrEmpty(gpuText)) {
                         if (int.TryParse(gpuText, out int gpuIndex)) {
@@ -444,6 +446,7 @@ namespace NTMiner.Core.Kernels.Impl {
             var match = Regex.Match(input, rejectOneShare, RegexOptions.Compiled);
             if (match.Success) {
                 if (!isDual) {
+                    // 决定不支持双挖的单卡份额统计
                     string gpuText = match.Groups[Consts.GpuIndexGroupName].Value;
                     if (!string.IsNullOrEmpty(gpuText)) {
                         if (int.TryParse(gpuText, out int gpuIndex)) {
