@@ -395,7 +395,6 @@
 					<TextBox 
 						Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.DualCoinWeight, UpdateSourceTrigger=PropertyChanged}"
 						LostFocus="DualCoinWeightSlider_LostFocus"></TextBox>
-					<TextBlock Text="%"></TextBlock>
 				</WrapPanel>
 			</WrapPanel>
 		</WrapPanel>
