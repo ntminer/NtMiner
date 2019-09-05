@@ -142,6 +142,14 @@ namespace NTMiner {
                     return _dicById.Values.ToList();
                 }
             }
+
+            public SysDicItemViewModel GetUpOne(int sortNumber) {
+                return List.OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.SortNumber < sortNumber);
+            }
+
+            public SysDicItemViewModel GetNextOne(int sortNumber) {
+                return List.OrderBy(a => a.SortNumber).FirstOrDefault(a => a.SortNumber > sortNumber);
+            }
         }
     }
 }

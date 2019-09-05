@@ -107,7 +107,7 @@ namespace NTMiner.Vms {
                 }, icon: IconConst.IconConfirm);
             });
             this.SortUp = new DelegateCommand(() => {
-                PoolViewModel upOne = AppContext.Instance.PoolVms.AllPools.OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.CoinId == this.CoinId && a.SortNumber < this.SortNumber);
+                PoolViewModel upOne = AppContext.Instance.PoolVms.GetUpOne(this.CoinId, this.SortNumber);
                 if (upOne != null) {
                     int sortNumber = upOne.SortNumber;
                     upOne.SortNumber = this.SortNumber;
@@ -121,7 +121,7 @@ namespace NTMiner.Vms {
                 }
             });
             this.SortDown = new DelegateCommand(() => {
-                PoolViewModel nextOne = AppContext.Instance.PoolVms.AllPools.OrderBy(a => a.SortNumber).FirstOrDefault(a => a.CoinId == this.CoinId && a.SortNumber > this.SortNumber);
+                PoolViewModel nextOne = AppContext.Instance.PoolVms.GetNextOne(this.CoinId, this.SortNumber);
                 if (nextOne != null) {
                     int sortNumber = nextOne.SortNumber;
                     nextOne.SortNumber = this.SortNumber;
