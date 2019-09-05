@@ -384,6 +384,7 @@
 					Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsAutoDualWeight, Converter={StaticResource BoolToVisibilityInvertConverter}}">
 					<Slider 
 						x:Name="dualCoinWeightSlider" 
+                        VerticalAlignment="Center"
 						Minimum="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.KernelInputVm.DualWeightMin}" 
 						Maximum="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.KernelInputVm.DualWeightMax}" 
 						Width="100"
