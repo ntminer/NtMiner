@@ -8,9 +8,6 @@
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
 		mc:Ignorable="d" d:DesignHeight="408" d:DesignWidth="408">
-	<UserControl.DataContext>
-		<vm:MessageCenterViewModel></vm:MessageCenterViewModel>
-	</UserControl.DataContext>
 	<Grid Background="Black">
 		<FlowDocumentScrollViewer 
 			VerticalScrollBarVisibility="Auto"
