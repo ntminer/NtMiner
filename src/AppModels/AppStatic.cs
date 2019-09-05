@@ -157,6 +157,9 @@ namespace NTMiner {
 
         public static Visibility IsMinerClientVisible {
             get {
+                if (Design.IsInDesignMode) {
+                    return Visibility.Visible;
+                }
                 if (VirtualRoot.IsMinerClient) {
                     return Visibility.Visible;
                 }
@@ -170,6 +173,9 @@ namespace NTMiner {
 
         public static Visibility IsMinerStudioVisible {
             get {
+                if (Design.IsInDesignMode) {
+                    return Visibility.Visible;
+                }
                 if (VirtualRoot.IsMinerStudio) {
                     return Visibility.Visible;
                 }

@@ -153,7 +153,6 @@
     <Compile Include="Vms\KernelsWindowViewModel.cs" />
     <Compile Include="Vms\KernelViewModel.cs" />
     <Compile Include="Vms\LogColorViewModel.cs" />
-    <Compile Include="Vms\MainMenuViewModel.cs" />
     <Compile Include="Vms\MainWindowViewModel.cs" />
     <Compile Include="Vms\MeasureModel.cs" />
     <Compile Include="Vms\MinerClientAddViewModel.cs" />
