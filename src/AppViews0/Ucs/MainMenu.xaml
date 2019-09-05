@@ -123,7 +123,7 @@
 					</MenuItem.Icon>
 				</MenuItem>
 			</MenuItem>
-			<MenuItem Visibility="{x:Static app:AppStatic.IsMinerStudioVisible}" Width="26" Height="30">
+            <MenuItem Visibility="{x:Static app:AppStatic.IsMinerStudioDevVisible}" Width="26" Height="30">
 				<MenuItem.Icon>
 					<Path
 						Width="14"

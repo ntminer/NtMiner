@@ -183,6 +183,20 @@ namespace NTMiner {
             }
         }
 
+        public static Visibility IsMinerStudioDevVisible {
+            get {
+                if (Design.IsInDesignMode) {
+                    return Visibility.Visible;
+                }
+                if (!DevMode.IsDevMode) {
+                    return Visibility.Collapsed;
+                }
+                if (VirtualRoot.IsMinerStudio) {
+                    return Visibility.Visible;
+                }
+                return Visibility.Collapsed;
+            }
+        }
         public static string AppName {
             get {
                 Assembly mainAssembly = Assembly.GetEntryAssembly();
