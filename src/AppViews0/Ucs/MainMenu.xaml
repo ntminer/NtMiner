@@ -11,9 +11,6 @@
 	xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 	Background="{StaticResource ThemeBackground}"
 	mc:Ignorable="d">
-	<UserControl.DataContext>
-		<vm:MainMenuViewModel></vm:MainMenuViewModel>
-	</UserControl.DataContext>
 	<WrapPanel>
 		<Menu Background="Transparent" VerticalAlignment="Center">
 			<MenuItem Width="26" Height="30" Visibility="{x:Static app:AppStatic.IsDevModeVisible}">
@@ -126,7 +123,7 @@
 					</MenuItem.Icon>
 				</MenuItem>
 			</MenuItem>
-			<MenuItem x:Name="MenuItemMinerStudioGroup" Width="26" Height="30">
+            <MenuItem Visibility="{x:Static app:AppStatic.IsMinerStudioDevVisible}" Width="26" Height="30">
 				<MenuItem.Icon>
 					<Path
 						Width="14"
@@ -181,7 +178,7 @@
 					</MenuItem.Icon>
 				</MenuItem>
 			</MenuItem>
-			<MenuItem x:Name="MenuItemMinerClientGroup" Width="26" Height="30">
+			<MenuItem Visibility="{x:Static app:AppStatic.IsMinerClientVisible}" Width="26" Height="30">
 				<MenuItem.Icon>
 					<Path
 						Width="14"
@@ -281,7 +278,7 @@
 					</MenuItem.Icon>
 				</MenuItem>
 			</MenuItem>
-			<MenuItem Width="26" Height="30" Visibility="{Binding ElementName=MenuItemMinerClientGroup,Path=Visibility,Converter={StaticResource VisibilityInvertConverter}}">
+			<MenuItem Width="26" Height="30" Visibility="{x:Static app:AppStatic.IsMinerStudioVisible}">
 				<MenuItem.Icon>
 					<Path
 						Width="14"

@@ -71,6 +71,14 @@ namespace NTMiner {
                     return _dicById.Values.ToList();
                 }
             }
+
+            public PoolViewModel GetNextOne(Guid coinId, int sortNumber) {
+                return AllPools.OrderBy(a => a.SortNumber).FirstOrDefault(a => a.CoinId == coinId && a.SortNumber > sortNumber);
+            }
+
+            public PoolViewModel GetUpOne(Guid coinId, int sortNumber) {
+                return AllPools.OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.CoinId == coinId && a.SortNumber < sortNumber);
+            }
         }
     }
 }

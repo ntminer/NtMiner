@@ -60,7 +60,7 @@ namespace NTMiner.Vms {
                 }, icon: IconConst.IconConfirm);
             });
             this.SortUp = new DelegateCommand(() => {
-                SysDicViewModel upOne = AppContext.Instance.SysDicVms.List.OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.SortNumber < this.SortNumber);
+                SysDicViewModel upOne = AppContext.Instance.SysDicVms.GetUpOne(this.SortNumber);
                 if (upOne != null) {
                     int sortNumber = upOne.SortNumber;
                     upOne.SortNumber = this.SortNumber;
@@ -71,7 +71,7 @@ namespace NTMiner.Vms {
                 }
             });
             this.SortDown = new DelegateCommand(() => {
-                SysDicViewModel nextOne = AppContext.Instance.SysDicVms.List.OrderBy(a => a.SortNumber).FirstOrDefault(a => a.SortNumber > this.SortNumber);
+                SysDicViewModel nextOne = AppContext.Instance.SysDicVms.GetNextOne(this.SortNumber);
                 if (nextOne != null) {
                     int sortNumber = nextOne.SortNumber;
                     nextOne.SortNumber = this.SortNumber;

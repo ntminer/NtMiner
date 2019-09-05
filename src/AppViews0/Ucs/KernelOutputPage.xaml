@@ -87,6 +87,7 @@
             <controls:KbButton 
                 Grid.Row="1"
                 Margin="4"
+                Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
 				Command="{Binding Add}" 

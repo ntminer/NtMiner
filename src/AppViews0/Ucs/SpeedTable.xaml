@@ -27,7 +27,7 @@
         </Style>
     </UserControl.Resources>
     <UserControl.ContextMenu>
-        <ContextMenu>
+        <ContextMenu Padding="0">
             <MenuItem x:Name="MenuItemShowOverClock" Header="显示超频" Visibility="Visible" Padding="4" Click="MenuItemShowOverClock_Click">
                 <MenuItem.Icon>
                     <Path

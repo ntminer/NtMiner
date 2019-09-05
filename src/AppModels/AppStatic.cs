@@ -157,6 +157,9 @@ namespace NTMiner {
 
         public static Visibility IsMinerClientVisible {
             get {
+                if (Design.IsInDesignMode) {
+                    return Visibility.Visible;
+                }
                 if (VirtualRoot.IsMinerClient) {
                     return Visibility.Visible;
                 }
@@ -170,6 +173,9 @@ namespace NTMiner {
 
         public static Visibility IsMinerStudioVisible {
             get {
+                if (Design.IsInDesignMode) {
+                    return Visibility.Visible;
+                }
                 if (VirtualRoot.IsMinerStudio) {
                     return Visibility.Visible;
                 }
@@ -177,6 +183,20 @@ namespace NTMiner {
             }
         }
 
+        public static Visibility IsMinerStudioDevVisible {
+            get {
+                if (Design.IsInDesignMode) {
+                    return Visibility.Visible;
+                }
+                if (!DevMode.IsDevMode) {
+                    return Visibility.Collapsed;
+                }
+                if (VirtualRoot.IsMinerStudio) {
+                    return Visibility.Visible;
+                }
+                return Visibility.Collapsed;
+            }
+        }
         public static string AppName {
             get {
                 Assembly mainAssembly = Assembly.GetEntryAssembly();

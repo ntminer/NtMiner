@@ -118,6 +118,19 @@ namespace UnitTests {
         }
 
         [TestMethod]
+        public void RegexTest4() {
+            string line = @"17:18:33:747	a88	buf: {""result"":true,""id"":12}";
+            string pattern = @"buf:.+(""result"":true,""id"":1(?<gpu>\d+))|(""id"":1(?<gpu>\d+),""result"":true)";
+            var match = Regex.Match(line, pattern);
+            Assert.IsTrue(match.Success);
+            Assert.AreEqual("2", match.Groups["gpu"].Value);
+            line = @"10:52:52:601	1158	buf: {""jsonrpc"":""2.0"",""id"":15,""result"":true}";
+            match = Regex.Match(line, pattern);
+            Assert.IsTrue(match.Success);
+            Assert.AreEqual("5", match.Groups["gpu"].Value);
+        }
+
+        [TestMethod]
         public void FileDeleteTest() {
             File.Delete(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Guid.NewGuid().ToString()));
         }

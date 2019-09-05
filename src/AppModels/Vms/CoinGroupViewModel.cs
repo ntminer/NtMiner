@@ -1,6 +1,5 @@
 ﻿using NTMiner.Core;
 using System;
-using System.Linq;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
@@ -31,7 +30,7 @@ namespace NTMiner.Vms {
                 }, icon: IconConst.IconConfirm);
             });
             this.SortUp = new DelegateCommand(() => {
-                CoinGroupViewModel upOne = AppContext.Instance.CoinGroupVms.GetCoinGroupsByGroupId(this.GroupId).OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.SortNumber < this.SortNumber);
+                CoinGroupViewModel upOne = AppContext.Instance.CoinGroupVms.GetUpOne(this.GroupId, this.SortNumber);
                 if (upOne != null) {
                     int sortNumber = upOne.SortNumber;
                     upOne.SortNumber = this.SortNumber;
@@ -45,7 +44,7 @@ namespace NTMiner.Vms {
                 }
             });
             this.SortDown = new DelegateCommand(() => {
-                CoinGroupViewModel nextOne = AppContext.Instance.CoinGroupVms.GetCoinGroupsByGroupId(this.GroupId).OrderBy(a => a.SortNumber).FirstOrDefault(a => a.SortNumber > this.SortNumber);
+                CoinGroupViewModel nextOne = AppContext.Instance.CoinGroupVms.GetNextOne(this.GroupId, this.SortNumber);
                 if (nextOne != null) {
                     int sortNumber = nextOne.SortNumber;
                     nextOne.SortNumber = this.SortNumber;

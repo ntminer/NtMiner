@@ -11,9 +11,6 @@
 	xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 	Background="{StaticResource ThemeBackground}"
 	mc:Ignorable="d">
-	<UserControl.DataContext>
-		<vm:MainBarViewModel></vm:MainBarViewModel>
-	</UserControl.DataContext>
 	<WrapPanel>
 		<TextBlock
 			Margin="2 0 0 0"
