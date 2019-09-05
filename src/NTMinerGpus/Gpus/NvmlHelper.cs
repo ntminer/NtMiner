@@ -135,9 +135,9 @@ namespace NTMiner.Gpus {
             if (!NvmlInit() || !TryGetNvmlDevice(gpuIndex, out nvmlDevice nvmlDevice)) {
                 return 0;
             }
-            int count;
-            if (_nvmlDeviceGetPowerUsageErrorCountByBusId.TryGetValue(gpuIndex, out count)) {
-                if (count > 1) {
+            int failCount;
+            if (_nvmlDeviceGetPowerUsageErrorCountByBusId.TryGetValue(gpuIndex, out failCount)) {
+                if (failCount > 10) {
                     return 0;
                 }
             }
@@ -149,7 +149,7 @@ namespace NTMiner.Gpus {
                 var r = NvmlNativeMethods.nvmlDeviceGetPowerUsage(nvmlDevice, ref power);
                 power = (uint)(power / 1000.0);
                 if (r != nvmlReturn.Success) {
-                    _nvmlDeviceGetPowerUsageErrorCountByBusId[gpuIndex] = count + 1;
+                    _nvmlDeviceGetPowerUsageErrorCountByBusId[gpuIndex] = failCount + 1;
                     Write.DevError($"{nameof(NvmlNativeMethods.nvmlDeviceGetPowerUsage)} {r}");
                 }
             }

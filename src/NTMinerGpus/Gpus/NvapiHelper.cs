@@ -618,9 +618,9 @@ namespace NTMiner.Gpus {
             if (NvapiNativeMethods.NvGetCoolerSettings == null) {
                 return false;
             }
-            int count;
-            if (_nvGetCoolerSettingsErrorCountByBusId.TryGetValue(busId, out count)) {
-                if (count > 1) {
+            int failCount;
+            if (_nvGetCoolerSettingsErrorCountByBusId.TryGetValue(busId, out failCount)) {
+                if (failCount > 1) {
                     return false;
                 }
             }
@@ -632,7 +632,7 @@ namespace NTMiner.Gpus {
                 NvCoolerTarget coolerIndex = NvCoolerTarget.NVAPI_COOLER_TARGET_ALL;
                 var r = NvapiNativeMethods.NvGetCoolerSettings(HandlesByBusId[busId], coolerIndex, ref info);
                 if (r != NvStatus.OK) {
-                    _nvGetCoolerSettingsErrorCountByBusId[busId] = count + 1;
+                    _nvGetCoolerSettingsErrorCountByBusId[busId] = failCount + 1;
                     Write.DevError($"{nameof(NvapiNativeMethods.NvGetCoolerSettings)} {r}");
                     return false;
                 }
