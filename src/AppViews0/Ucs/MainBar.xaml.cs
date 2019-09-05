@@ -1,5 +1,4 @@
-﻿using NTMiner.Vms;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class MainBar : UserControl {
