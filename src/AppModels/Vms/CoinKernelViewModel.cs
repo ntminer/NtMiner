@@ -1,4 +1,5 @@
 ﻿using NTMiner.Core;
+using NTMiner.Core.Kernels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -387,10 +388,7 @@ namespace NTMiner.Vms {
 
         public bool IsSupportDualMine {
             get {
-                if (!this.Kernel.KernelInputVm.IsSupportDualMine) {
-                    return false;
-                }
-                return this.DualCoinGroupId != Guid.Empty && NTMinerRoot.Instance.GroupSet.TryGetGroup(this.DualCoinGroupId, out IGroup _);
+                return this.GetIsSupportDualMine();
             }
         }
 
