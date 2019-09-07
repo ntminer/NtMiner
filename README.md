@@ -4,7 +4,9 @@
 2. 开源矿工永远开源；
 3. 开源矿工永远不会去破解国人开发的内核；
 
-# 下载地址 阿里云：[点击下载最新版](https://minerjson.oss-cn-beijing.aliyuncs.com/NTMiner.zip)
+# 下载地址：
+## [下载开源矿工挖矿端](https://minerjson.oss-cn-beijing.aliyuncs.com/NTMiner.zip)
+## [下载开源矿工群控端](https://minerjson.oss-cn-beijing.aliyuncs.com/MinerStudio.zip)
 
 ## 起因
 整个区块链行业都是开源开放的，所以我认为挖矿软件必须开源，但做了几年矿工见证的一个个昙花一现的矿工软件却没有一个是开源的。因为我本人是程序员，且热爱开源所以有了这个软件。

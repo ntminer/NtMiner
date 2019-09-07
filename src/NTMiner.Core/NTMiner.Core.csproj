@@ -123,6 +123,7 @@
     <Compile Include="Core\Impl\WorkerEventSet.cs" />
     <Compile Include="Core\Impl\FragmentWriterSet.cs" />
     <Compile Include="Core\Impl\FileWriterSet.cs" />
+    <Compile Include="Core\Kernels\CoinKernelExtension.cs" />
     <Compile Include="Core\Kernels\Impl\PackageSet.cs" />
     <Compile Include="Core\Kernels\IPackageSet.cs" />
     <Compile Include="Core\Kernels\KernelSetExtension.cs" />
