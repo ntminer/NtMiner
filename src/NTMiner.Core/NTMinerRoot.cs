@@ -617,7 +617,7 @@ namespace NTMiner {
                         mainCoinPool, kernel, coinKernel,
                         coinProfile.Wallet, commandLine,
                         parameters, fragments, fileWriters);
-                    if (coinKernelProfile.IsDualCoinEnabled) {
+                    if (coinKernelProfile.IsDualCoinEnabled && kernelInput.IsSupportDualMine && coinKernel.DualCoinGroupId != Guid.Empty && GroupSet.TryGetGroup(coinKernel.DualCoinGroupId, out IGroup _)) {
                         mineContext = new DualMineContext(
                             mineContext, dualCoin, dualCoinPool,
                             coinProfile.DualCoinWallet,

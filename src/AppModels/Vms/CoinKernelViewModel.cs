@@ -390,7 +390,7 @@ namespace NTMiner.Vms {
                 if (!this.Kernel.KernelInputVm.IsSupportDualMine) {
                     return false;
                 }
-                return this.DualCoinGroupId != Guid.Empty;
+                return this.DualCoinGroupId != Guid.Empty && NTMinerRoot.Instance.GroupSet.TryGetGroup(this.DualCoinGroupId, out IGroup _);
             }
         }
 
