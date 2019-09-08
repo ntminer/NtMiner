@@ -72,9 +72,6 @@ namespace NTMiner.Core.Gpus.Impl {
             if (range.FanSpeedMax != 0) {
                 gpu.CoolMax = range.FanSpeedMax;
             }
-            if (range.FanSpeedDefault != 0) {
-                // 无默认风扇转速
-            }
             NTMinerRoot.Instance.GpuSet.LoadGpuState(gpu.Index);
         }
     }

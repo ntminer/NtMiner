@@ -28,7 +28,6 @@
         public int FanSpeedMin { get; set; }
         public int FanSpeedMax { get; set; }
         public int FanSpeedCurr { get; set; }
-        public int FanSpeedDefault { get; set; }
 
         public override string ToString() {
             return $@"GpuIndexOrBusId={GpuIndexOrBusId}
@@ -37,7 +36,7 @@ MemoryClockMin={MemoryClockMin},MemoryClockMax={MemoryClockMax},MemoryClockDelta
 VoltMin={VoltMin},VoltMax={VoltMax},VoltDefault={VoltDefault}
 PowerMin={PowerMin},PowerMax={PowerMax},PowerCurr={PowerCurr},PowerDefault={PowerDefault}
 TempLimitMin={TempLimitMin},TempLimitMax={TempLimitMax},TempCurr={TempCurr},TempLimitDefault={TempLimitDefault}
-FanSpeedMin={FanSpeedMin},FanSpeedMax={FanSpeedMax},FanSpeedCurr={FanSpeedCurr},FanSpeedDefault={FanSpeedDefault}";
+FanSpeedMin={FanSpeedMin},FanSpeedMax={FanSpeedMax},FanSpeedCurr={FanSpeedCurr}";
         }
     }
 }

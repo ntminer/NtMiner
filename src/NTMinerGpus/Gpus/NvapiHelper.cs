@@ -83,11 +83,10 @@ namespace NTMiner.Gpus {
                     result.TempCurr = outCurrTemp;
                 }
 
-                if (GetCooler(busId, out uint currCooler, out uint minCooler, out uint defCooler, out uint maxCooler)) {
+                if (GetCooler(busId, out uint minCooler, out uint currCooler, out uint maxCooler)) {
                     result.FanSpeedCurr = (int)currCooler;
                     result.FanSpeedMin = (int)minCooler;
                     result.FanSpeedMax = (int)maxCooler;
-                    result.FanSpeedDefault = (int)defCooler;
                 }
 #if DEBUG
                 Write.DevWarn($"GetClockRange {result.ToString()}");
@@ -242,7 +241,7 @@ namespace NTMiner.Gpus {
         }
 
         public bool GetFanSpeed(int busId, out uint currCooler) {
-            if (GetCooler(busId, out currCooler, out uint minCooler, out uint defCooler, out uint maxCooler)) {
+            if (GetCooler(busId, out uint minCooler, out currCooler, out uint maxCooler)) {
                 return true;
             }
             return false;
@@ -591,6 +590,32 @@ namespace NTMiner.Gpus {
             return false;
         }
 
+        private HashSet<int> _nvFanCoolersGetStatusNotSupporteds = new HashSet<int>();
+        private bool GetFanCoolersGetStatus(int busId, out PrivateFanCoolersStatusV1 info) {
+            info = new PrivateFanCoolersStatusV1();
+            if (NvapiNativeMethods.NvFanCoolersGetStatus == null) {
+                return false;
+            }
+            if (_nvFanCoolersGetStatusNotSupporteds.Contains(busId)) {
+                return false;
+            }
+            info.version = (uint)(VERSION1 | (Marshal.SizeOf(typeof(PrivateFanCoolersStatusV1))));
+            try {
+                var r = NvapiNativeMethods.NvFanCoolersGetStatus(HandlesByBusId[busId], ref info);
+                if (r != NvStatus.OK) {
+                    if (r == NvStatus.NOT_SUPPORTED) {
+                        _nvFanCoolersGetStatusNotSupporteds.Add(busId);
+                    }
+                    Write.DevError($"{nameof(NvapiNativeMethods.NvFanCoolersGetStatus)} {r}");
+                    return false;
+                }
+                return true;
+            }
+            catch {
+            }
+            return false;
+        }
+
         private HashSet<int> _nvGetCoolerSettingsNotSupporteds = new HashSet<int>();
         private bool GetCoolerSettings(int busId, out NvCoolerSettings info) {
             info = new NvCoolerSettings();
@@ -616,23 +641,6 @@ namespace NTMiner.Gpus {
             catch {
             }
             return false;
-        }
-
-        private bool GetCoolerSettings(int busId, ref uint minCooler, ref uint currCooler, ref uint maxCooler) {
-            try {
-                if (!GetCoolerSettings(busId, out NvCoolerSettings info)) {
-                    return false;
-                }
-                if (info.count > 0) {
-                    minCooler = info.cooler[0].currentMinLevel;
-                    currCooler = info.cooler[0].currentLevel;
-                    maxCooler = info.cooler[0].currentMaxLevel;
-                }
-                return true;
-            }
-            catch {
-                return false;
-            }
         }
 
         private bool NvFanCoolersGetControl(int busId, out PrivateFanCoolersControlV1 info) {
@@ -699,21 +707,32 @@ namespace NTMiner.Gpus {
             #endregion
         }
 
-        private bool GetCooler(int busId, out uint currCooler, out uint minCooler, out uint defCooler, out uint maxCooler) {
+        private bool GetCooler(int busId, out uint minCooler, out uint currCooler, out uint maxCooler) {
             currCooler = 0;
             minCooler = 0;
-            defCooler = 0;
             maxCooler = 0;
             try {
-                bool r = GetCoolerSettings(busId, ref minCooler, ref currCooler, ref maxCooler);
-                if (maxCooler == 0) {
-                    maxCooler = 100;
+                if (GetFanCoolersGetStatus(busId, out PrivateFanCoolersStatusV1 v1)) {
+                    if (v1.FanCoolersStatusCount > 0) {
+                        minCooler = v1.FanCoolersStatusEntries[0].CurrentMinimumLevel;
+                        currCooler = v1.FanCoolersStatusEntries[0].CurrentLevel;
+                        maxCooler = v1.FanCoolersStatusEntries[0].CurrentMaximumLevel;
+                        return true;
+                    }
                 }
-                return r;
+                if (GetCoolerSettings(busId, out NvCoolerSettings info)) {
+                    if (info.count > 0) {
+                        minCooler = info.cooler[0].currentMinLevel;
+                        currCooler = info.cooler[0].currentLevel;
+                        maxCooler = info.cooler[0].currentMaxLevel;
+                        return true;
+                    }
+                }
             }
-            catch {
-                return false;
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e);
             }
+            return false;
         }
         #endregion
     }

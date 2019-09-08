@@ -164,7 +164,6 @@ namespace NTMiner.Gpus {
                     result.FanSpeedMin = info.fanSpeed.iMin * 100 / info.fanSpeed.iMax;
                 }
                 result.FanSpeedMax = 100;
-                result.FanSpeedDefault = info.fanSpeed.iDefault;
 #if DEBUG
                 Write.DevWarn($"GetClockRange {result.ToString()}");
 #endif
