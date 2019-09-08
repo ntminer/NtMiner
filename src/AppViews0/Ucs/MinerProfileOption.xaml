@@ -153,7 +153,6 @@
                                         </Button>
                                     </StackPanel>
                                     <TextBlock VerticalAlignment="Center">分钟收益没有增加重启电脑</TextBlock>
-                                    <TextBlock Foreground="Red" VerticalAlignment="Center">（提醒：注意勾选“自动挖矿”）</TextBlock>
                                 </WrapPanel>
                             </CheckBox>
                         </WrapPanel>
@@ -232,7 +231,6 @@
 										</Button>
 									</StackPanel>
                                     <TextBlock VerticalAlignment="Center">分钟重启电脑</TextBlock>
-                                    <TextBlock Foreground="Red" VerticalAlignment="Center">（提醒：注意勾选“自动挖矿”）</TextBlock>
                                 </WrapPanel>
 							</CheckBox>
 						</WrapPanel>
