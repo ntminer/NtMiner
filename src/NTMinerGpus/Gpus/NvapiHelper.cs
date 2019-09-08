@@ -99,26 +99,6 @@ namespace NTMiner.Gpus {
             return result;
         }
 
-        public uint GetCoreClockBaseFreq(int busId) {
-            return NvGetAllClockFrequenciesV2(busId, (uint)NvGpuPublicClockId.NVAPI_GPU_PUBLIC_CLOCK_GRAPHICS, NvapiConst.NV_GPU_CLOCK_FREQUENCIES_BASE_CLOCK);
-        }
-        public uint GetMemClockBaseFreq(int busId) {
-            return NvGetAllClockFrequenciesV2(busId, (uint)NvGpuPublicClockId.NVAPI_GPU_PUBLIC_CLOCK_MEMORY, NvapiConst.NV_GPU_CLOCK_FREQUENCIES_BASE_CLOCK);
-        }
-        public uint GetCoreClockBoostFreq(int busId) {
-            return NvGetAllClockFrequenciesV2(busId, (uint)NvGpuPublicClockId.NVAPI_GPU_PUBLIC_CLOCK_GRAPHICS, NvapiConst.NV_GPU_CLOCK_FREQUENCIES_BOOST_CLOCK);
-        }
-        public uint GetMemClockBoostFreq(int busId) {
-            return NvGetAllClockFrequenciesV2(busId, (uint)NvGpuPublicClockId.NVAPI_GPU_PUBLIC_CLOCK_MEMORY, NvapiConst.NV_GPU_CLOCK_FREQUENCIES_BOOST_CLOCK);
-        }
-
-        public uint GetCoreClockFreq(int busId) {
-            return NvGetAllClockFrequenciesV2(busId, (uint)NvGpuPublicClockId.NVAPI_GPU_PUBLIC_CLOCK_GRAPHICS, NvapiConst.NV_GPU_CLOCK_FREQUENCIES_CURRENT_FREQ);
-        }
-        public uint GetMemClockFreq(int busId) {
-            return NvGetAllClockFrequenciesV2(busId, (uint)NvGpuPublicClockId.NVAPI_GPU_PUBLIC_CLOCK_MEMORY, NvapiConst.NV_GPU_CLOCK_FREQUENCIES_CURRENT_FREQ);
-        }
-
         public bool SetCoreClock(int busId, int mHz, int voltage) {
             int kHz = mHz * 1000;
             try {
@@ -242,10 +222,10 @@ namespace NTMiner.Gpus {
                 if (GetPowerPoliciesInfo(busId, out outMinPower, out outDefPower, out outMaxPower)) {
                     if (NvPowerPoliciesGetStatus(busId, out NvGpuPowerStatus info)) {
                         outCurrPower = info.entries[0].power;
-                        outCurrPower = outCurrPower / 1000;
-                        outMinPower = outMinPower / 1000;
-                        outDefPower = outDefPower / 1000;
-                        outMaxPower = outMaxPower / 1000;
+                        outCurrPower /= 1000;
+                        outMinPower /= 1000;
+                        outDefPower /= 1000;
+                        outMaxPower /= 1000;
                         return true;
                     }
                 }
@@ -611,10 +591,13 @@ namespace NTMiner.Gpus {
             return false;
         }
 
-        // 20卡不支持该方法，所以尝试两次返回值不正确不再尝试
+        private HashSet<int> _nvGetCoolerSettingsNotSupporteds = new HashSet<int>();
         private bool GetCoolerSettings(int busId, out NvCoolerSettings info) {
             info = new NvCoolerSettings();
             if (NvapiNativeMethods.NvGetCoolerSettings == null) {
+                return false;
+            }
+            if (_nvGetCoolerSettingsNotSupporteds.Contains(busId)) {
                 return false;
             }
             info.version = (uint)(VERSION1 | (Marshal.SizeOf(typeof(NvCoolerSettings))));
@@ -622,6 +605,9 @@ namespace NTMiner.Gpus {
                 NvCoolerTarget coolerIndex = NvCoolerTarget.NVAPI_COOLER_TARGET_ALL;
                 var r = NvapiNativeMethods.NvGetCoolerSettings(HandlesByBusId[busId], coolerIndex, ref info);
                 if (r != NvStatus.OK) {
+                    if (r == NvStatus.NOT_SUPPORTED) {
+                        _nvGetCoolerSettingsNotSupporteds.Add(busId);
+                    }
                     Write.DevError($"{nameof(NvapiNativeMethods.NvGetCoolerSettings)} {r}");
                     return false;
                 }
