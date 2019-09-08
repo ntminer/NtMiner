@@ -41,14 +41,6 @@
 				</TextBox>
 			</WrapPanel>
 
-			<WrapPanel Margin="6 0 0 0">
-				<TextBlock Style="{StaticResource LblTb}"></TextBlock>
-				<CheckBox 
-					FocusVisualStyle="{x:Null}" IsEnabled="{x:Static app:AppStatic.IsDevMode}"
-					Margin="0 2 0 0" IsChecked="{Binding PrependDateTime}" Content="为输出行附加上前缀时间戳（当内核输出默认没有时间戳时勾选）">
-				</CheckBox>
-			</WrapPanel>
-
 			<WrapPanel Margin="6 2 0 0">
 				<TextBlock Style="{StaticResource LblTb}" Text="内核重启一次关键字"></TextBlock>
                 <TextBox Style="{StaticResource TbRegex}" Text="{Binding KernelRestartKeyword}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}">

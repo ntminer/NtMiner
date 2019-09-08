@@ -13,7 +13,6 @@ namespace NTMiner.Vms {
         private Guid _id;
         private string _name;
         private string _kernelRestartKeyword;
-        private bool _prependDateTime;
         private bool _isDualInSameLine;
         private string _totalSpeedPattern;
         private string _totalSharePattern;
@@ -62,7 +61,6 @@ namespace NTMiner.Vms {
         public KernelOutputViewModel(IKernelOutput data) : this(data.GetId()) {
             _name = data.Name;
             _kernelRestartKeyword = data.KernelRestartKeyword;
-            _prependDateTime = data.PrependDateTime;
             _isDualInSameLine = data.IsDualInSameLine;
             _totalSpeedPattern = data.TotalSpeedPattern;
             _gpuSpeedPattern = data.GpuSpeedPattern;
@@ -205,16 +203,6 @@ namespace NTMiner.Vms {
             set {
                 _kernelRestartKeyword = value;
                 OnPropertyChanged(nameof(KernelRestartKeyword));
-            }
-        }
-
-        public bool PrependDateTime {
-            get { return _prependDateTime; }
-            set {
-                if (_prependDateTime != value) {
-                    _prependDateTime = value;
-                    OnPropertyChanged(nameof(PrependDateTime));
-                }
             }
         }
 

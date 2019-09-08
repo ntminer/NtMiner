@@ -14,8 +14,6 @@ namespace NTMiner.Core {
 
         public string KernelRestartKeyword { get; set; }
 
-        public bool PrependDateTime { get; set; }
-
         public bool IsDualInSameLine { get; set; }
 
         public string TotalSpeedPattern { get; set; }

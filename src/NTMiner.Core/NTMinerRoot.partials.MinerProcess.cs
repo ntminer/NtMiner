@@ -235,17 +235,7 @@ namespace NTMiner {
                                             if (IsUiVisible) {
                                                 Instance.KernelOutputTranslaterSet.Translate(kernelOutputId, ref input, ref color);
                                             }
-                                            if (Instance.KernelOutputSet.TryGetKernelOutput(kernelOutputId, out IKernelOutput kernelOutput)) {
-                                                if (kernelOutput.PrependDateTime) {
-                                                    Write.UserLine($"{DateTime.Now}    {input}", color);
-                                                }
-                                                else {
-                                                    Write.UserLine(input, color);
-                                                }
-                                            }
-                                            else {
-                                                Write.UserLine(input, color);
-                                            }
+                                            Write.UserLine(input, color);
                                         }
                                     }
                                 }
