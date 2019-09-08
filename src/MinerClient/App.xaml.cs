@@ -111,6 +111,7 @@ namespace NTMiner {
                             else {
                                 _appViewFactory.ShowMainWindow(isToggle: false);
                             }
+                            StartStopMineButtonViewModel.Instance.AutoStart();
                             AppContext.NotifyIcon = ExtendedNotifyIcon.Create("开源矿工", isMinerStudio: false);
                             splashWindow?.Close();
                         });

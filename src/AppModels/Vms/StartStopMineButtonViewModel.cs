@@ -30,6 +30,12 @@ namespace NTMiner.Vms {
                     }
                 });
             });
+#if DEBUG
+                Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+#endif
+        }
+
+        public void AutoStart() {
             if (NTMinerRoot.IsAutoStart && !this.MinerProfile.IsMining) {
                 this.MinerProfile.IsMining = true;
                 int n = MinerProfile.AutoStartDelaySeconds;
@@ -53,9 +59,6 @@ namespace NTMiner.Vms {
                     }
                 });
             }
-#if DEBUG
-                Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
-#endif
         }
 
         private string _btnStopText = "正在挖矿";
