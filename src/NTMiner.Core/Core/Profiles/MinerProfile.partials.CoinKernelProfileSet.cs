@@ -50,9 +50,11 @@ namespace NTMiner.Core.Profiles {
                 private static readonly CoinKernelProfile Empty = new CoinKernelProfile(new CoinKernelProfileData());
                 public static CoinKernelProfile Create(INTMinerRoot root, Guid coinKernelId) {
                     if (root.CoinKernelSet.TryGetCoinKernel(coinKernelId, out ICoinKernel coinKernel)) {
-                        var data = GetCoinKernelProfileData(coinKernel.GetId());
+                        IRepository<CoinKernelProfileData> repository = NTMinerRoot.CreateLocalRepository<CoinKernelProfileData>();
+                        CoinKernelProfileData data = repository.GetByKey(coinKernelId);
                         if (data == null) {
-                            data = CoinKernelProfileData.CreateDefaultData(coinKernel.GetId());
+                            double dualCoinWeight = GetDualCoinWeight(root, coinKernel.KernelId);
+                            data = CoinKernelProfileData.CreateDefaultData(coinKernel.GetId(), dualCoinWeight);
                         }
                         CoinKernelProfile coinProfile = new CoinKernelProfile(data);
 
@@ -92,13 +94,15 @@ namespace NTMiner.Core.Profiles {
                     }
                 }
 
-                private static CoinKernelProfileData GetCoinKernelProfileData(Guid coinKernelId) {
-                    IRepository<CoinKernelProfileData> repository = NTMinerRoot.CreateLocalRepository<CoinKernelProfileData>();
-                    var result = repository.GetByKey(coinKernelId);
-                    if (result == null) {
-                        result = CoinKernelProfileData.CreateDefaultData(coinKernelId);
+                // 获取默认双挖权重
+                private static double GetDualCoinWeight(INTMinerRoot root, Guid kernelId) {
+                    double dualCoinWeight = 0;
+                    if (root.KernelSet.TryGetKernel(kernelId, out IKernel kernel)) {
+                        if (root.KernelInputSet.TryGetKernelInput(kernel.KernelInputId, out IKernelInput kernelInput)) {
+                            dualCoinWeight = (kernelInput.DualWeightMin + kernelInput.DualWeightMax) / 2;
+                        }
                     }
-                    return result;
+                    return dualCoinWeight;
                 }
 
                 private CoinKernelProfileData _data;

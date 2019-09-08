@@ -16,13 +16,13 @@ namespace NTMiner.Profile {
             this.TouchedArgs = data.TouchedArgs;
         }
 
-        public static CoinKernelProfileData CreateDefaultData(Guid coinKernelId) {
+        public static CoinKernelProfileData CreateDefaultData(Guid coinKernelId, double dualCoinWeight) {
             return new CoinKernelProfileData() {
                 CoinKernelId = coinKernelId,
                 IsDualCoinEnabled = false,
                 IsAutoDualWeight = true,
                 DualCoinId = Guid.Empty,
-                DualCoinWeight = 30,
+                DualCoinWeight = dualCoinWeight,
                 CustomArgs = string.Empty,
                 TouchedArgs = string.Empty
             };
