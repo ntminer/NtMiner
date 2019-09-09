@@ -28,16 +28,6 @@ namespace NTMiner.Vms {
             this.SpeedOn = speedOn;
         }
 
-        public void UpdateShare(int foundShare, int acceptShare, int rejectShare) {
-            this.FoundShare = foundShare;
-            this.AcceptShare = acceptShare;
-            this.RejectShare = rejectShare;
-        }
-
-        public void UpdateIncorrectShare(int incorrectShare) {
-            this.IncorrectShare = incorrectShare;
-        }
-
         public void Reset() {
             this.Value = 0;
             this.SpeedOn = DateTime.Now;

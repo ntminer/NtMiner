@@ -168,6 +168,7 @@ namespace NTMiner.Core.Kernels.Impl {
                 if (!isDual) {
                     // 决定不支持双挖的单卡份额统计
                     PicFoundOneShare(_root, line, _preline, kernelOutput);
+                    PicGotOneIncorrectShare(_root, line, _preline, kernelOutput);
                 }
                 // 如果是像BMiner那样的主币和双挖币的输出在同一行那样的模式则一行输出既要视为主币又要视为双挖币
                 if (isDual && kernelOutput.IsDualInSameLine) {
@@ -372,6 +373,27 @@ namespace NTMiner.Core.Kernels.Impl {
                 if (!string.IsNullOrEmpty(gpuText)) {
                     if (int.TryParse(gpuText, out int gpuIndex)) {
                         root.GpusSpeed.IncreaseFoundShare(gpuIndex);
+                    }
+                }
+            }
+        }
+        #endregion
+
+        #region PicGotOneIncorrectShare
+        private static void PicGotOneIncorrectShare(INTMinerRoot root, string input, string preline, IKernelOutput kernelOutput) {
+            string pattern = kernelOutput.GpuGotOneIncorrectShare;
+            if (string.IsNullOrEmpty(pattern)) {
+                return;
+            }
+            if (pattern.Contains("\n")) {
+                input = preline + "\n" + input;
+            }
+            var match = Regex.Match(input, pattern);
+            if (match.Success) {
+                string gpuText = match.Groups[Consts.GpuIndexGroupName].Value;
+                if (!string.IsNullOrEmpty(gpuText)) {
+                    if (int.TryParse(gpuText, out int gpuIndex)) {
+                        root.GpusSpeed.IncreaseIncorrectShare(gpuIndex);
                     }
                 }
             }

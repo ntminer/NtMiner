@@ -382,6 +382,30 @@ namespace NTMiner.Core {
         }
     }
 
+    [MessageType(description: "找到了一个份额")]
+    public class FoundShareIncreasedEvent : DomainEvent<IGpuSpeed> {
+        public FoundShareIncreasedEvent(IGpuSpeed gpuSpeed) : base(gpuSpeed) {
+        }
+    }
+
+    [MessageType(description: "接受了一个份额")]
+    public class AcceptShareIncreasedEvent : DomainEvent<IGpuSpeed> {
+        public AcceptShareIncreasedEvent(IGpuSpeed gpuSpeed) : base(gpuSpeed) {
+        }
+    }
+
+    [MessageType(description: "拒绝了一个份额")]
+    public class RejectShareIncreasedEvent : DomainEvent<IGpuSpeed> {
+        public RejectShareIncreasedEvent(IGpuSpeed gpuSpeed) : base(gpuSpeed) {
+        }
+    }
+
+    [MessageType(description: "算错了一个份额")]
+    public class IncorrectShareIncreasedEvent : DomainEvent<IGpuSpeed> {
+        public IncorrectShareIncreasedEvent(IGpuSpeed gpuSpeed) : base(gpuSpeed) {
+        }
+    }
+
     [MessageType(description: "收益变更事件")]
     public class ShareChangedEvent : DomainEvent<ICoinShare> {
         public ShareChangedEvent(ICoinShare share) : base(share) {
