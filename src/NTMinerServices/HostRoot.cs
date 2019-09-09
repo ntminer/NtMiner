@@ -13,7 +13,6 @@ namespace NTMiner {
         private static EventWaitHandle WaitHandle = new AutoResetEvent(false);
         public static readonly bool IsNotOfficial = Environment.CommandLine.IndexOf("--notofficial", StringComparison.OrdinalIgnoreCase) != -1;
         public static readonly bool EnableInnerIp = Environment.CommandLine.IndexOf("--enableInnerIp", StringComparison.OrdinalIgnoreCase) != -1;
-        public static ExtendedNotifyIcon NotifyIcon;
         private static Mutex _sMutexApp;
         // 该程序编译为控制台程序，如果不启用内网支持则默认设置为开机自动启动
         [STAThread]
@@ -33,7 +32,6 @@ namespace NTMiner {
                         NTMinerRegistry.SetAutoBoot("NTMinerServices", true);
                     }
                     Type thisType = typeof(HostRoot);
-                    NotifyIcon = ExtendedNotifyIcon.Create(new System.Drawing.Icon(thisType.Assembly.GetManifestResourceStream(thisType, "logo.ico")), "本机群控服务", isShowNotifyIcon: false);
                     Run();
                 }
             }
@@ -48,7 +46,6 @@ namespace NTMiner {
                 _isClosed = true;
                 HttpServer.Stop();
                 _sMutexApp?.Dispose();
-                NotifyIcon?.Dispose();
             }
         }
 

@@ -83,8 +83,6 @@
       <HintPath>..\..\packages\LiveCharts.Wpf.0.9.7\lib\net40\LiveCharts.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Core" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
