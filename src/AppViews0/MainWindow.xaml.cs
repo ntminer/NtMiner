@@ -127,6 +127,7 @@ namespace NTMiner.Views {
                 layer0.ColumnDefinitions.Insert(0, _column1CloneForLayer0);
                 MainArea.SetValue(Grid.ColumnProperty, layer0.ColumnDefinitions.Count - 1);
             }
+            ToogleConsole();
         }
 
         private void Pane1Button_Click(object sender, RoutedEventArgs e) {
@@ -139,6 +140,7 @@ namespace NTMiner.Views {
             else {
                 layer1.Visibility = Visibility.Collapsed;
             }
+            ToogleConsole();
         }
 
         private bool _isFirst = true;
@@ -182,8 +184,12 @@ namespace NTMiner.Views {
                     MinerProfileOptionContainer.Child = new MinerProfileOption();
                 }
             }
+            ToogleConsole();
+        }
+
+        private void ToogleConsole() {
             NTMinerConsole.ShowWindow(NTMinerConsole.Show(), 0);
-            if (selectedItem == TabItemLog) {
+            if (MainArea.SelectedItem == TabItemLog && (pane1Button.Visibility == Visibility.Collapsed || (layer1 != null && layer1.Visibility == Visibility.Collapsed))) {
                 TimeSpan.FromMilliseconds(200).Delay().ContinueWith(t => {
                     NTMinerConsole.ShowWindow(NTMinerConsole.Show(), 1);
                 });
