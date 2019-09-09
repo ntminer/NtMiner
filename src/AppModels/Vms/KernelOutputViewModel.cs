@@ -20,6 +20,7 @@ namespace NTMiner.Vms {
         private string _acceptOneShare;
         private string _foundOneShare;
         private string _gpuSpeedPattern;
+        private string _gpuGotOneIncorrectShare;
         private string _rejectOneShare;
         private string _rejectSharePattern;
         private string _rejectPercentPattern;
@@ -64,6 +65,7 @@ namespace NTMiner.Vms {
             _isDualInSameLine = data.IsDualInSameLine;
             _totalSpeedPattern = data.TotalSpeedPattern;
             _gpuSpeedPattern = data.GpuSpeedPattern;
+            _gpuGotOneIncorrectShare = data.GpuGotOneIncorrectShare;
             _totalSharePattern = data.TotalSharePattern;
             _acceptSharePattern = data.AcceptSharePattern;
             _foundOneShare = data.FoundOneShare;
@@ -324,6 +326,16 @@ namespace NTMiner.Vms {
                 if (_gpuSpeedPattern != value) {
                     _gpuSpeedPattern = value;
                     OnPropertyChanged(nameof(GpuSpeedPattern));
+                }
+            }
+        }
+
+        public string GpuGotOneIncorrectShare {
+            get { return _gpuGotOneIncorrectShare; }
+            set {
+                if (_gpuGotOneIncorrectShare != value) {
+                    _gpuGotOneIncorrectShare = value;
+                    OnPropertyChanged(nameof(GpuGotOneIncorrectShare));
                 }
             }
         }

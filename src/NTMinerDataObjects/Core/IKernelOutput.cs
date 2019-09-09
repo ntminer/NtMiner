@@ -16,6 +16,7 @@ namespace NTMiner.Core {
         string RejectOneShare { get; }
         string RejectPercentPattern { get; }
         string GpuSpeedPattern { get; }
+        string GpuGotOneIncorrectShare { get; }
 
         string DualTotalSpeedPattern { get; }
         string DualTotalSharePattern { get; }

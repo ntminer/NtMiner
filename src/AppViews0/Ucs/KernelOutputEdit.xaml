@@ -72,8 +72,13 @@
 						</TextBox>
                     </WrapPanel>
                     <WrapPanel Margin="0 2">
-                        <TextBlock Style="{StaticResource LblTb}" Text="内核找到一个份额正则"></TextBlock>
+                        <TextBlock Style="{StaticResource LblTb}" Text="显卡找到一个份额正则"></TextBlock>
                         <TextBox Style="{StaticResource TbRegex}" Text="{Binding FoundOneShare}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}">
+                        </TextBox>
+                    </WrapPanel>
+                    <WrapPanel Margin="0 2">
+                        <TextBlock Style="{StaticResource LblTb}" Text="显卡算出一个错误结果正则"></TextBlock>
+                        <TextBox Style="{StaticResource TbRegex}" Text="{Binding GpuGotOneIncorrectShare}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}">
                         </TextBox>
                     </WrapPanel>
                     <WrapPanel Margin="0 2">

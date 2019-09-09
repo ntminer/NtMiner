@@ -34,6 +34,8 @@ namespace NTMiner.Core {
 
         public string GpuSpeedPattern { get; set; }
 
+        public string GpuGotOneIncorrectShare { get; set; }
+
 
         public string DualTotalSpeedPattern { get; set; }
 
