@@ -257,12 +257,12 @@
                                     <TextBlock Text="日志" Padding="2 0 0 1" FontSize="15"></TextBlock>
                                 </WrapPanel>
                             </TabItem.Header>
-                            <Grid Margin="-1 0 0 0" Background="Black">
+                            <Grid Background="Black">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"></RowDefinition>
                                     <RowDefinition Height="*"></RowDefinition>
                                 </Grid.RowDefinitions>
-                                <Grid>
+                                <Grid Margin="2 0 0 0">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto"></RowDefinition>
                                         <RowDefinition Height="Auto"></RowDefinition>
@@ -472,122 +472,121 @@
                         </TabItem>
                     </TabControl>
                 </Grid>
-                <Grid x:Name="layer1" Margin="0 2 0 0" Visibility="Collapsed" HorizontalAlignment="Left" Background="{StaticResource MinerProfileBackground}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition SharedSizeGroup="column1" Width="auto"/>
-                    </Grid.ColumnDefinitions>
-                    <Border 
-				        Background="{StaticResource MinerProfileBackground}"
-				        Padding="0 4 8 0"
-				        BorderThickness="0 1 1 0"
-				        BorderBrush="{StaticResource LineColor}">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"></RowDefinition>
-                                <RowDefinition Height="*"></RowDefinition>
-                            </Grid.RowDefinitions>
-                            <WrapPanel>
-                                <WrapPanel VerticalAlignment="Center" IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}">
-                                    <TextBlock 
-								        FontSize="12"
-								        Foreground="{StaticResource LableColor}"
-								        Padding="0 0 4 0"
-								        Width="50"
-								        VerticalAlignment="Center"
-								        TextAlignment="Right"
-								        TextWrapping="Wrap"
-								        Text="矿机名"></TextBlock>
-                                    <TextBox 
-								        Width="86" 
-								        Padding="3 0 0 0"
-								        Background="{Binding MinerProfile.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
-								        Text="{Binding MinerProfile.MinerName, UpdateSourceTrigger=LostFocus}" 
-								        VerticalContentAlignment="Center">
-                                        <TextBox.ToolTip>
-                                            <StackPanel>
-                                                <TextBlock Text="点号、空格、减号、下划线将被去除。"></TextBlock>
-                                            </StackPanel>
-                                        </TextBox.ToolTip>
-                                    </TextBox>
-                                    <controls:KbButton 
-								        BorderThickness="0"
-								        ToolTip="使用本机名作为矿工名"
-								        Command="{Binding UseThisPcName}"
-								        Background="Transparent"
-								        CornerRadius="2">
-                                        <Path
-									        Width="16"
-									        Height="14"
-									        Data="{StaticResource Icon_WindowsOS}"
-									        Fill="{StaticResource IconFillColor}"
-									        Stretch="Fill" />
-                                    </controls:KbButton>
-                                </WrapPanel>
-                                <uc:StartStopMineButton Margin="20 -2 0 0" StartButtonBackground="{StaticResource ThemeBackground}" StartButtonForeground="{StaticResource ThemeForeground}">
-                                </uc:StartStopMineButton>
+                <Border 
+                    x:Name="layer1"
+                    Margin="0 2 0 0"
+                    Visibility="Collapsed" 
+                    HorizontalAlignment="Left"
+				    Background="{StaticResource MinerProfileBackground}"
+				    Padding="0 4 8 0"
+				    BorderThickness="0 1 1 0"
+				    BorderBrush="{StaticResource LineColor}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <WrapPanel>
+                            <WrapPanel VerticalAlignment="Center" IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}">
+                                <TextBlock 
+								    FontSize="12"
+								    Foreground="{StaticResource LableColor}"
+								    Padding="0 0 4 0"
+								    Width="50"
+								    VerticalAlignment="Center"
+								    TextAlignment="Right"
+								    TextWrapping="Wrap"
+								    Text="矿机名"></TextBlock>
+                                <TextBox 
+								    Width="86" 
+								    Padding="3 0 0 0"
+								    Background="{Binding MinerProfile.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
+								    Text="{Binding MinerProfile.MinerName, UpdateSourceTrigger=LostFocus}" 
+								    VerticalContentAlignment="Center">
+                                    <TextBox.ToolTip>
+                                        <StackPanel>
+                                            <TextBlock Text="点号、空格、减号、下划线将被去除。"></TextBlock>
+                                        </StackPanel>
+                                    </TextBox.ToolTip>
+                                </TextBox>
+                                <controls:KbButton 
+								    BorderThickness="0"
+								    ToolTip="使用本机名作为矿工名"
+								    Command="{Binding UseThisPcName}"
+								    Background="Transparent"
+								    CornerRadius="2">
+                                    <Path
+									    Width="16"
+									    Height="14"
+									    Data="{StaticResource Icon_WindowsOS}"
+									    Fill="{StaticResource IconFillColor}"
+									    Stretch="Fill" />
+                                </controls:KbButton>
                             </WrapPanel>
-                            <ScrollViewer 
-						        Grid.Row="1" 
-						        VerticalScrollBarVisibility="Auto" 
-						        PreviewMouseDown="ScrollViewer_PreviewMouseDown">
-                                <ScrollViewer.Resources>
-                                    <sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">8</sys:Double>
-                                    <sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarButtonHeightKey}">0</sys:Double>
-                                </ScrollViewer.Resources>
-                                <ScrollViewer.ContextMenu>
-                                    <ContextMenu Padding="0">
-                                        <MenuItem 
-									        Visibility="{Binding MinerProfile.CoinVm.CoinProfile.IsHideWallet, Converter={StaticResource BoolToVisibilityConverter}}"
-									        Header="显示用户名/钱包"
-									        Background="Transparent" BorderThickness="0"
-									        Command="{Binding MinerProfile.CoinVm.CoinProfile.ShowWallet}"
-									        HorizontalAlignment="Left">
-                                            <MenuItem.Icon>
-                                                <Path
-						                            Width="16"
-						                            Height="8"
-						                            Data="{StaticResource Icon_CloseEye}"
-						                            Fill="{StaticResource IconFillColor}"
-						                            Stretch="Fill" />
-                                            </MenuItem.Icon>
-                                        </MenuItem>
-                                        <MenuItem 
-									        Visibility="{Binding MinerProfile.CoinVm.CoinProfile.IsShowWallet, Converter={StaticResource BoolToVisibilityConverter}}"
-									        Header="隐藏用户名/钱包"
-									        Background="Transparent" BorderThickness="0"
-									        Command="{Binding MinerProfile.CoinVm.CoinProfile.HideWallet}"
-									        HorizontalAlignment="Left">
-                                            <MenuItem.Icon>
-                                                <Path
-						                            Width="16"
-						                            Height="12"
-						                            Data="{StaticResource Icon_OpenEye}"
-						                            Fill="{StaticResource IconFillColor}"
-						                            Stretch="Fill" />
-                                            </MenuItem.Icon>
-                                        </MenuItem>
-                                    </ContextMenu>
-                                </ScrollViewer.ContextMenu>
-                                <uc:MinerProfileIndex 
-							        Margin="0 4 0 0"
-							        HorizontalAlignment="Left"
-							        IsEnabled="{Binding MinerProfile.IsWorker,Converter={StaticResource BoolInvertConverter}}"/>
-                            </ScrollViewer>
-                            <Button HorizontalAlignment="Right" VerticalAlignment="Top" BorderThickness="0" Width="26" Height="26" Margin="0 0 4 0" Background="Transparent" Click="pane1Pin_Click">
-                                <Path
-							        Width="10"
-							        Height="16"
-							        Data="{StaticResource Icon_Pin}"
-							        Fill="{StaticResource IconFillColor}"
-							        Stretch="Fill">
-                                </Path>
-                                <Button.LayoutTransform>
-                                    <RotateTransform x:Name="PinRotateTransform" Angle="90"/>
-                                </Button.LayoutTransform>
-                            </Button>
-                        </Grid>
-                    </Border>
-                </Grid>
+                            <uc:StartStopMineButton Margin="20 -2 0 0" StartButtonBackground="{StaticResource ThemeBackground}" StartButtonForeground="{StaticResource ThemeForeground}">
+                            </uc:StartStopMineButton>
+                        </WrapPanel>
+                        <ScrollViewer 
+						    Grid.Row="1" 
+						    VerticalScrollBarVisibility="Auto" 
+						    PreviewMouseDown="ScrollViewer_PreviewMouseDown">
+                            <ScrollViewer.Resources>
+                                <sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">8</sys:Double>
+                                <sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarButtonHeightKey}">0</sys:Double>
+                            </ScrollViewer.Resources>
+                            <ScrollViewer.ContextMenu>
+                                <ContextMenu Padding="0">
+                                    <MenuItem 
+									    Visibility="{Binding MinerProfile.CoinVm.CoinProfile.IsHideWallet, Converter={StaticResource BoolToVisibilityConverter}}"
+									    Header="显示用户名/钱包"
+									    Background="Transparent" BorderThickness="0"
+									    Command="{Binding MinerProfile.CoinVm.CoinProfile.ShowWallet}"
+									    HorizontalAlignment="Left">
+                                        <MenuItem.Icon>
+                                            <Path
+						                        Width="16"
+						                        Height="8"
+						                        Data="{StaticResource Icon_CloseEye}"
+						                        Fill="{StaticResource IconFillColor}"
+						                        Stretch="Fill" />
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <MenuItem 
+									    Visibility="{Binding MinerProfile.CoinVm.CoinProfile.IsShowWallet, Converter={StaticResource BoolToVisibilityConverter}}"
+									    Header="隐藏用户名/钱包"
+									    Background="Transparent" BorderThickness="0"
+									    Command="{Binding MinerProfile.CoinVm.CoinProfile.HideWallet}"
+									    HorizontalAlignment="Left">
+                                        <MenuItem.Icon>
+                                            <Path
+						                        Width="16"
+						                        Height="12"
+						                        Data="{StaticResource Icon_OpenEye}"
+						                        Fill="{StaticResource IconFillColor}"
+						                        Stretch="Fill" />
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                </ContextMenu>
+                            </ScrollViewer.ContextMenu>
+                            <uc:MinerProfileIndex 
+							    Margin="0 4 0 0"
+							    HorizontalAlignment="Left"
+							    IsEnabled="{Binding MinerProfile.IsWorker,Converter={StaticResource BoolInvertConverter}}"/>
+                        </ScrollViewer>
+                        <Button HorizontalAlignment="Right" VerticalAlignment="Top" BorderThickness="0" Width="26" Height="26" Margin="0 0 4 0" Background="Transparent" Click="pane1Pin_Click">
+                            <Path
+							    Width="10"
+							    Height="16"
+							    Data="{StaticResource Icon_Pin}"
+							    Fill="{StaticResource IconFillColor}"
+							    Stretch="Fill">
+                            </Path>
+                            <Button.LayoutTransform>
+                                <RotateTransform x:Name="PinRotateTransform" Angle="90"/>
+                            </Button.LayoutTransform>
+                        </Button>
+                    </Grid>
+                </Border>
             </Grid>
         </DockPanel>
         <WrapPanel Grid.Row="1" HorizontalAlignment="Right" Margin="0 -3 4 0" VerticalAlignment="Top">
