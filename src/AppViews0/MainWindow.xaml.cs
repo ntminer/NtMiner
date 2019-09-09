@@ -20,6 +20,11 @@ namespace NTMiner.Views {
     }
 
     public partial class MainWindow : BlankWindow {
+        private readonly ColumnDefinition _column1CloneForLayer0 = new ColumnDefinition {
+            SharedSizeGroup = "column1",
+            Width = new GridLength(332)
+        };
+
         private MainWindowViewModel Vm {
             get {
                 return (MainWindowViewModel)this.DataContext;
@@ -50,17 +55,6 @@ namespace NTMiner.Views {
                     }
                     else {
                         ShowInTaskbar = true;
-                    }
-                }
-            };
-            this.SizeChanged += (object sender, SizeChangedEventArgs e) => {
-                if (e.WidthChanged) {
-                    const double width = 800;
-                    if (e.NewSize.Width < width) {
-                        Collapse();
-                    }
-                    else if (e.NewSize.Width >= width) {
-                        Expand();
                     }
                 }
             };
@@ -117,6 +111,36 @@ namespace NTMiner.Views {
 #endif
         }
 
+        public void pane1Pin_Click(object sender, RoutedEventArgs e) {
+            if (pane1Button.Visibility == Visibility.Collapsed) {
+                layer1.Visibility = Visibility.Collapsed;
+                pane1Button.Visibility = Visibility.Visible;
+                PinRotateTransform.Angle = 90;
+
+                layer0.ColumnDefinitions.Remove(_column1CloneForLayer0);
+                MainArea.SetValue(Grid.ColumnProperty, layer0.ColumnDefinitions.Count - 1);
+            }
+            else {
+                pane1Button.Visibility = Visibility.Collapsed;
+                PinRotateTransform.Angle = 0;
+
+                layer0.ColumnDefinitions.Insert(0, _column1CloneForLayer0);
+                MainArea.SetValue(Grid.ColumnProperty, layer0.ColumnDefinitions.Count - 1);
+            }
+        }
+
+        private void Pane1Button_Click(object sender, RoutedEventArgs e) {
+            if (layer1.Visibility == Visibility.Collapsed) {
+                layer1.Visibility = Visibility.Visible;
+
+                parentGrid.Children.Remove(layer1);
+                parentGrid.Children.Add(layer1);
+            }
+            else {
+                layer1.Visibility = Visibility.Collapsed;
+            }
+        }
+
         private bool _isFirst = true;
         private void ReSizeConsoleWindow() {
             IntPtr console = NTMinerConsole.Show();
@@ -143,31 +167,6 @@ namespace NTMiner.Views {
         private void MetroWindow_MouseDown(object sender, MouseButtonEventArgs e) {
             if (e.LeftButton == MouseButtonState.Pressed) {
                 this.DragMove();
-            }
-        }
-
-        private void BtnLeftTriangle_Click(object sender, RoutedEventArgs e) {
-            Collapse();
-        }
-
-        private void BtnRightTriangle_Click(object sender, RoutedEventArgs e) {
-            Expand();
-        }
-
-        private void Collapse() {
-            MinerProfileContainerLeft.Visibility = Visibility.Collapsed;
-            MinerProfileContainerLeft.Child = null;
-            MinerProfileContainerRight.Child = GridMineStart;
-            TabItemMinerProfile.Visibility = Visibility.Visible;
-        }
-
-        private void Expand() {
-            MinerProfileContainerLeft.Visibility = Visibility.Visible;
-            MinerProfileContainerRight.Child = null;
-            MinerProfileContainerLeft.Child = GridMineStart;
-            TabItemMinerProfile.Visibility = Visibility.Collapsed;
-            if (TabItemMinerProfile.IsSelected) {
-                TabItemLog.IsSelected = true;
             }
         }
 
@@ -207,13 +206,13 @@ namespace NTMiner.Views {
 
         private void BtnOverClockVisible_Click(object sender, RoutedEventArgs e) {
             var speedTableUc = this.SpeedTable;
-            if (RightTab.SelectedItem == TabItemSpeedTable) {
+            if (MainArea.SelectedItem == TabItemSpeedTable) {
                 speedTableUc.ShowOrHideOverClock(isShow: speedTableUc.IsOverClockVisible == Visibility.Collapsed);
             }
             else {
                 speedTableUc.ShowOrHideOverClock(isShow: true);
             }
-            RightTab.SelectedItem = TabItemSpeedTable;
+            MainArea.SelectedItem = TabItemSpeedTable;
         }
     }
 }
