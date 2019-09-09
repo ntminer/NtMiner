@@ -475,7 +475,6 @@
                 <Border 
                     x:Name="layer1"
                     Margin="0 2 0 0"
-                    Visibility="Collapsed" 
                     HorizontalAlignment="Left"
 				    Background="{StaticResource MinerProfileBackground}"
 				    Padding="0 4 8 0"
@@ -582,7 +581,7 @@
 							    Stretch="Fill">
                             </Path>
                             <Button.LayoutTransform>
-                                <RotateTransform x:Name="PinRotateTransform" Angle="90"/>
+                                <RotateTransform x:Name="PinRotateTransform" Angle="0"/>
                             </Button.LayoutTransform>
                         </Button>
                     </Grid>

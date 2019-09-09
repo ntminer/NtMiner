@@ -45,6 +45,7 @@ namespace NTMiner.Views {
             if (Design.IsInDesignMode) {
                 return;
             }
+            ToogleLeft();
             this.StateChanged += (s, e) => {
                 if (Vm.MinerProfile.IsShowInTaskbar) {
                     ShowInTaskbar = true;
@@ -112,6 +113,11 @@ namespace NTMiner.Views {
         }
 
         public void pane1Pin_Click(object sender, RoutedEventArgs e) {
+            ToogleLeft();
+            ToogleConsole();
+        }
+
+        private void ToogleLeft() {
             if (pane1Button.Visibility == Visibility.Collapsed) {
                 layer1.Visibility = Visibility.Collapsed;
                 pane1Button.Visibility = Visibility.Visible;
@@ -127,15 +133,11 @@ namespace NTMiner.Views {
                 layer0.ColumnDefinitions.Insert(0, _column1CloneForLayer0);
                 MainArea.SetValue(Grid.ColumnProperty, layer0.ColumnDefinitions.Count - 1);
             }
-            ToogleConsole();
         }
 
         private void Pane1Button_Click(object sender, RoutedEventArgs e) {
             if (layer1.Visibility == Visibility.Collapsed) {
                 layer1.Visibility = Visibility.Visible;
-
-                parentGrid.Children.Remove(layer1);
-                parentGrid.Children.Add(layer1);
             }
             else {
                 layer1.Visibility = Visibility.Collapsed;
