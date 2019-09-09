@@ -7,5 +7,6 @@ namespace NTMiner.Core {
         int FoundShare { get; }
         int AcceptShare { get; }
         int RejectShare { get; }
+        int IncorrectShare { get; }
     }
 }

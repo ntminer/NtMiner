@@ -15,6 +15,7 @@ namespace NTMiner.Core.Impl {
             this.FoundShare = data.FoundShare;
             this.AcceptShare = data.AcceptShare;
             this.RejectShare = data.RejectShare;
+            this.IncorrectShare = data.IncorrectShare;
         }
 
         public void Reset() {
@@ -23,12 +24,14 @@ namespace NTMiner.Core.Impl {
             FoundShare = 0;
             AcceptShare = 0;
             RejectShare = 0;
+            IncorrectShare = 0;
         }
 
         public void ResetShare() {
             FoundShare = 0;
             AcceptShare = 0;
             RejectShare = 0;
+            IncorrectShare = 0;
         }
 
         public DateTime SpeedOn { get; set; }
@@ -40,5 +43,7 @@ namespace NTMiner.Core.Impl {
         public int AcceptShare { get; set; }
 
         public int RejectShare { get; set; }
+
+        public int IncorrectShare { get; set; }
     }
 }
