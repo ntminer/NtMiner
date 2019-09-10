@@ -130,14 +130,18 @@ namespace NTMiner.Views {
             ToogleLeft();
         }
 
+        private void HideLeft() {
+            layer1.Visibility = Visibility.Collapsed;
+            BtnMinerProfileVisible.Visibility = Visibility.Visible;
+            PinRotateTransform.Angle = 90;
+
+            layer0.ColumnDefinitions.Remove(_column1CloneForLayer0);
+            MainArea.SetValue(Grid.ColumnProperty, layer0.ColumnDefinitions.Count - 1);
+        }
+
         private void ToogleLeft() {
             if (BtnMinerProfileVisible.Visibility == Visibility.Collapsed) {
-                layer1.Visibility = Visibility.Collapsed;
-                BtnMinerProfileVisible.Visibility = Visibility.Visible;
-                PinRotateTransform.Angle = 90;
-
-                layer0.ColumnDefinitions.Remove(_column1CloneForLayer0);
-                MainArea.SetValue(Grid.ColumnProperty, layer0.ColumnDefinitions.Count - 1);
+                HideLeft();
             }
             else {
                 BtnMinerProfileVisible.Visibility = Visibility.Collapsed;
@@ -155,6 +159,10 @@ namespace NTMiner.Views {
             else {
                 layer1.Visibility = Visibility.Collapsed;
             }
+        }
+
+        private void BtnMinerProfileHide_Click(object sender, RoutedEventArgs e) {
+            HideLeft();
         }
 
         protected override void OnClosing(CancelEventArgs e) {
