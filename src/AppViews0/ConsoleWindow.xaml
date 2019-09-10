@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:NTMiner.Views"
         mc:Ignorable="d"
         WindowStyle="None"
+        Background="Black"
         AllowsTransparency="True"
         ShowInTaskbar="False"
         WindowStartupLocation="CenterScreen"
