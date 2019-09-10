@@ -201,7 +201,7 @@
                 <StackPanel.LayoutTransform>
                     <RotateTransform Angle="90"/>
                 </StackPanel.LayoutTransform>
-                <Button x:Name="pane1Button" Click="Pane1Button_Click" Content="挖矿设置"/>
+                <Button x:Name="BtnMinerProfileVisible" FontSize="14" Padding="4 0" Click="BtnMinerProfileVisible_Click" Content="挖矿设置"/>
             </StackPanel>
             <Grid x:Name="parentGrid" Grid.IsSharedSizeScope="True">
                 <Grid x:Name="layer0">
@@ -572,7 +572,7 @@
 							    HorizontalAlignment="Left"
 							    IsEnabled="{Binding MinerProfile.IsWorker,Converter={StaticResource BoolInvertConverter}}"/>
                         </ScrollViewer>
-                        <Button HorizontalAlignment="Right" VerticalAlignment="Top" BorderThickness="0" Width="26" Height="26" Margin="0 0 4 0" Background="Transparent" Click="pane1Pin_Click">
+                        <Button HorizontalAlignment="Right" VerticalAlignment="Top" BorderThickness="0" Width="26" Height="26" Margin="0 0 4 0" Background="Transparent" Click="BtnMinerProfilePin_Click">
                             <Path
 							    Width="10"
 							    Height="16"

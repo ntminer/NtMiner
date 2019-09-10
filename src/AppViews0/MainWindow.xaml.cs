@@ -14,9 +14,9 @@ namespace NTMiner.Views {
         internal const int GWL_STYLE = -16;
         internal const int WS_VISIBLE = 0x10000000;
         [DllImport("user32.dll")]
-        public static extern int SetWindowLong(IntPtr hwnd, int index, int newStyle);
+        internal static extern int SetWindowLong(IntPtr hwnd, int index, int newStyle);
         [DllImport("user32.dll", SetLastError = true)]
-        public static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
+        internal static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
     }
 
     public partial class MainWindow : BlankWindow {
@@ -112,22 +112,22 @@ namespace NTMiner.Views {
 #endif
         }
 
-        public void pane1Pin_Click(object sender, RoutedEventArgs e) {
+        public void BtnMinerProfilePin_Click(object sender, RoutedEventArgs e) {
             ToogleLeft();
             ToogleConsole();
         }
 
         private void ToogleLeft() {
-            if (pane1Button.Visibility == Visibility.Collapsed) {
+            if (BtnMinerProfileVisible.Visibility == Visibility.Collapsed) {
                 layer1.Visibility = Visibility.Collapsed;
-                pane1Button.Visibility = Visibility.Visible;
+                BtnMinerProfileVisible.Visibility = Visibility.Visible;
                 PinRotateTransform.Angle = 90;
 
                 layer0.ColumnDefinitions.Remove(_column1CloneForLayer0);
                 MainArea.SetValue(Grid.ColumnProperty, layer0.ColumnDefinitions.Count - 1);
             }
             else {
-                pane1Button.Visibility = Visibility.Collapsed;
+                BtnMinerProfileVisible.Visibility = Visibility.Collapsed;
                 PinRotateTransform.Angle = 0;
 
                 layer0.ColumnDefinitions.Insert(0, _column1CloneForLayer0);
@@ -135,7 +135,7 @@ namespace NTMiner.Views {
             }
         }
 
-        private void Pane1Button_Click(object sender, RoutedEventArgs e) {
+        private void BtnMinerProfileVisible_Click(object sender, RoutedEventArgs e) {
             if (layer1.Visibility == Visibility.Collapsed) {
                 layer1.Visibility = Visibility.Visible;
             }
@@ -191,7 +191,7 @@ namespace NTMiner.Views {
 
         private void ToogleConsole() {
             NTMinerConsole.ShowWindow(NTMinerConsole.Show(), 0);
-            if (MainArea.SelectedItem == TabItemLog && (pane1Button.Visibility == Visibility.Collapsed || (layer1 != null && layer1.Visibility == Visibility.Collapsed))) {
+            if (MainArea.SelectedItem == TabItemLog && (BtnMinerProfileVisible.Visibility == Visibility.Collapsed || (layer1 != null && layer1.Visibility == Visibility.Collapsed))) {
                 TimeSpan.FromMilliseconds(200).Delay().ContinueWith(t => {
                     NTMinerConsole.ShowWindow(NTMinerConsole.Show(), 1);
                 });
