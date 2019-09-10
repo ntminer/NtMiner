@@ -73,6 +73,11 @@ namespace NTMiner.Views {
                     MoveConsoleWindow();
                 }
             };
+            this.IsVisibleChanged += (s, e) => {
+                if (!this.IsVisible) {
+                    ConsoleWindow.Instance.Hide();
+                }
+            };
             EventHandler changeNotiCenterWindowLocation = NotiCenterWindow.CreateNotiCenterWindowLocationManager(this);
             this.Activated += changeNotiCenterWindowLocation;
             this.LocationChanged += (sender, e)=> {
