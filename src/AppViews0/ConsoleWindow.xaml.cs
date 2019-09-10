@@ -14,7 +14,7 @@ namespace NTMiner.Views {
         internal static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
     }
 
-    public partial class ConsoleWindow : Window {
+    public partial class ConsoleWindow : BlankWindow {
         public const int HeightPadding = 50;
         public static readonly ConsoleWindow Instance = new ConsoleWindow();
 
