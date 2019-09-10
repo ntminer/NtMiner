@@ -201,7 +201,7 @@
                 <StackPanel.LayoutTransform>
                     <RotateTransform Angle="90"/>
                 </StackPanel.LayoutTransform>
-                <Button x:Name="BtnMinerProfileVisible" FontSize="14" Padding="4 0" Click="BtnMinerProfileVisible_Click" Content="挖矿设置"/>
+                <Button x:Name="BtnMinerProfileVisible" FontSize="14" Padding="4 0" Click="BtnMinerProfileVisible_Click" Content="挖矿设置" ToolTip="点击展开或折叠"/>
             </StackPanel>
             <Grid x:Name="parentGrid" Grid.IsSharedSizeScope="True">
                 <Grid x:Name="layer0">
