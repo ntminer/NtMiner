@@ -158,9 +158,6 @@ namespace NTMiner.Views {
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             var selectedItem = ((TabControl)sender).SelectedItem;
-            if (selectedItem != TabItemLog) {
-                ConsoleWindow.Instance.Hide();
-            }
             if (selectedItem == TabItemToolbox) {
                 if (ToolboxContainer.Child == null) {
                     ToolboxContainer.Child = new Toolbox();
@@ -200,7 +197,6 @@ namespace NTMiner.Views {
 
         private void ConsoleRectangle_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e) {
             if (ConsoleRectangle.IsVisible) {
-                ConsoleWindow.Instance.Show();
                 MoveConsoleWindow();
             }
         }
@@ -211,6 +207,7 @@ namespace NTMiner.Views {
 
         private void MoveConsoleWindow() {
             if (ConsoleRectangle == null || !ConsoleRectangle.IsVisible || ConsoleRectangle.ActualWidth == 0) {
+                ConsoleWindow.Instance.Hide();
                 return;
             }
             Point point = ConsoleRectangle.TransformToAncestor(this).Transform(new Point(0, 0));
@@ -226,6 +223,7 @@ namespace NTMiner.Views {
                 ConsoleWindow.Instance.Left = point.X + this.Left;
                 ConsoleWindow.Instance.Top = point.Y + this.Top;
             }
+            ConsoleWindow.Instance.Show();
         }
     }
 }
