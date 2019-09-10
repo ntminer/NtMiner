@@ -310,6 +310,15 @@ namespace NTMiner.Vms {
             }
         }
 
+        public bool IsGotOneIncorrectGpuShare {
+            get {
+                if (string.IsNullOrEmpty(GpuGotOneIncorrectShare)) {
+                    return false;
+                }
+                return GpuGotOneIncorrectShare.Contains("?<gpu>");
+            }
+        }
+
         public string RejectPercentPattern {
             get { return _rejectPercentPattern; }
             set {
@@ -336,6 +345,7 @@ namespace NTMiner.Vms {
                 if (_gpuGotOneIncorrectShare != value) {
                     _gpuGotOneIncorrectShare = value;
                     OnPropertyChanged(nameof(GpuGotOneIncorrectShare));
+                    OnPropertyChanged(nameof(IsGotOneIncorrectGpuShare));
                 }
             }
         }

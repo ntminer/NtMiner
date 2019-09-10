@@ -141,6 +141,20 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn 
+                    MinWidth="30" Width="30" IsReadOnly="True"
+                    Visibility="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.CoinKernel.Kernel.KernelOutputVm.IsGotOneIncorrectGpuShare,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}">
+                    <DataGridTemplateColumn.Header>
+                        <TextBlock Text="无效" FontSize="10"></TextBlock>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <WrapPanel>
+                                <TextBlock Text="{Binding MainCoinSpeed.IncorrectShare}"></TextBlock>
+                            </WrapPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn 
                     MinWidth="86" Width="86" IsReadOnly="True"
 					Visibility="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled, Source={StaticResource proxy}, Converter={StaticResource BoolToHiddenConverter}}">
 					<DataGridTemplateColumn.Header>
