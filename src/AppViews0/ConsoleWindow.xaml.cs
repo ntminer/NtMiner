@@ -38,13 +38,13 @@ namespace NTMiner.Views {
                 NativeMethods.SetWindowLong(console, NativeMethods.GWL_STYLE, NativeMethods.WS_VISIBLE);
                 _isFirst = false;
             }
-            int width = (int)this.ActualWidth - 1;
+            int width = (int)this.ActualWidth - 5;
             if (width < 0) {
                 width = 0;
             }
             int height = (int)this.ActualHeight;
 
-            NTMinerConsole.MoveWindow(console, 0, 0, width, height, true);
+            NTMinerConsole.MoveWindow(console, 4, 0, width, height, true);
         }
 
     }
