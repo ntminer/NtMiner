@@ -21,6 +21,8 @@ namespace NTMiner {
         private static extern bool GetConsoleMode(IntPtr hConsoleHandle, out uint mode);
         [DllImport(Kernel32DllName, SetLastError = true)]
         private static extern bool SetConsoleMode(IntPtr hConsoleHandle, uint mode);
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern bool ShowWindow(IntPtr hWnd, uint nCmdShow);
         [DllImport("user32.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, ExactSpelling = true, SetLastError = true)]
         public static extern void MoveWindow(IntPtr hwnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
 
@@ -41,6 +43,7 @@ namespace NTMiner {
                 DisbleQuickEditMode();
                 console = GetConsoleWindow();
                 MoveWindow(console, -1000, 0, 0, 0, false);
+                ShowWindow(console, 0);
             }
             return console;
         }
