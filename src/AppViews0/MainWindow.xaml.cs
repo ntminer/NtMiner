@@ -10,7 +10,7 @@ using System.Windows.Input;
 using System.Windows.Interop;
 
 namespace NTMiner.Views {
-    public partial class MainWindow : Window {
+    public partial class MainWindow : Window, IMaskWindow {
         private bool mRestoreIfMove = false;
         private readonly ColumnDefinition _column1CloneForLayer0 = new ColumnDefinition {
             SharedSizeGroup = "column1",
@@ -129,6 +129,14 @@ namespace NTMiner.Views {
 #if DEBUG
             Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
 #endif
+        }
+
+        public void ShowMask() {
+            MaskLayer.Visibility = Visibility.Visible;
+        }
+
+        public void HideMask() {
+            MaskLayer.Visibility = Visibility.Collapsed;
         }
 
         public void BtnMinerProfilePin_Click(object sender, RoutedEventArgs e) {

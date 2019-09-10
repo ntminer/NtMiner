@@ -698,5 +698,6 @@
 			BorderBrush="{StaticResource LineColor}" 
 			BorderThickness="0 1 0 0">
 		</uc:StateBar>
+        <Border x:Name="MaskLayer" Grid.RowSpan="3" Background="Black" Opacity="0.4" Visibility="Collapsed"></Border>
 	</Grid>
 </Window>
