@@ -178,15 +178,7 @@ namespace NTMiner.Views {
             }
             if (Vm.IsDialogWindow) {
                 this.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-                if (this.Owner != null) {
-                    double ownerOpacity = this.Owner.Opacity;
-                    this.Owner.Opacity = 0.6;
-                    this.ShowDialog();
-                    this.Owner.Opacity = ownerOpacity;
-                }
-                else {
-                    this.ShowDialog();
-                }
+                this.ShowDialogEx();
             }
             else {
                 this.Topmost = Vm.IsTopMost;

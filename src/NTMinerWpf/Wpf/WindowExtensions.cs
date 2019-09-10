@@ -7,6 +7,9 @@ namespace NTMiner.Wpf {
         /// </summary>
         /// <param name="window"></param>
         public static void MousePosition(this Window window) {
+            if (window.Owner == null) {
+                return;
+            }
             POINT pt;
             if (NativeMethods.GetCursorPos(out pt)) {
                 var width = window.Width.Equals(double.NaN) ? 400 : window.Width;
@@ -38,9 +41,13 @@ namespace NTMiner.Wpf {
 
         public static bool? ShowDialogEx(this Window window) {
             bool? result;
-            var owner = TopWindow.GetTopWindow();
-            if (owner != window) {
-                window.Owner = owner;
+            if (window.Owner == null) {
+                var owner = TopWindow.GetTopWindow();
+                if (owner != window) {
+                    window.Owner = owner;
+                }
+            }
+            if (window.Owner != null) {
                 double ownerOpacity = window.Owner.Opacity;
                 window.Owner.Opacity = 0.6;
                 result = window.ShowDialog();

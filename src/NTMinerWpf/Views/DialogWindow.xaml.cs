@@ -13,16 +13,8 @@ namespace NTMiner.Views {
             Action onYes = null,
             Action onNo = null) {
             Window window = new DialogWindow(icon, title, message, helpUrl, onYes, onNo);
-            if (window.Owner != null) {
-                window.MousePosition();
-                double ownerOpacity = window.Owner.Opacity;
-                window.Owner.Opacity = 0.6;
-                window.ShowDialog();
-                window.Owner.Opacity = ownerOpacity;
-            }
-            else {
-                window.ShowDialog();
-            }
+            window.MousePosition();
+            window.ShowDialogEx();
         }
 
         private readonly Action _onYes;
