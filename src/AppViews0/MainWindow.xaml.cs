@@ -216,16 +216,16 @@ namespace NTMiner.Views {
             }
             Point point = ConsoleRectangle.TransformToAncestor(this).Transform(new Point(0, 0));
             var width = ConsoleRectangle.ActualWidth;
-            var height = ConsoleRectangle.ActualHeight;
+            var height = ConsoleRectangle.ActualHeight + 2 * ConsoleWindow.HeightPadding;
             ConsoleWindow.Instance.Width = width;
             ConsoleWindow.Instance.Height = height;
             if (this.WindowState == WindowState.Maximized) {
                 ConsoleWindow.Instance.Left = point.X;
-                ConsoleWindow.Instance.Top = point.Y;
+                ConsoleWindow.Instance.Top = point.Y - ConsoleWindow.HeightPadding;
             }
             else {
                 ConsoleWindow.Instance.Left = point.X + this.Left;
-                ConsoleWindow.Instance.Top = point.Y + this.Top;
+                ConsoleWindow.Instance.Top = point.Y + this.Top - ConsoleWindow.HeightPadding;
             }
             ConsoleWindow.Instance.Show();
         }

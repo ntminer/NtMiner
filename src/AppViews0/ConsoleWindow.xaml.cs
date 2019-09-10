@@ -15,6 +15,7 @@ namespace NTMiner.Views {
     }
 
     public partial class ConsoleWindow : Window {
+        public const int HeightPadding = 50;
         public static readonly ConsoleWindow Instance = new ConsoleWindow();
 
         public ConsoleWindow() {
@@ -42,10 +43,9 @@ namespace NTMiner.Views {
             if (width < 0) {
                 width = 0;
             }
-            int height = (int)this.ActualHeight;
+            int height = (int)this.ActualHeight - 2 * HeightPadding;
 
-            NTMinerConsole.MoveWindow(console, 4, 0, width, height, true);
+            NTMinerConsole.MoveWindow(console, 4, HeightPadding, width, height, true);
         }
-
     }
 }
