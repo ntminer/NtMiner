@@ -190,10 +190,17 @@ namespace NTMiner.Views {
         }
 
         private void ToogleConsole() {
-            NTMinerConsole.ShowWindow(NTMinerConsole.Show(), 0);
+            var console = NTMinerConsole.Show();
+            NTMinerConsole.MoveWindow(console, -5000, 0, 0, 0, false);
             if (MainArea.SelectedItem == TabItemLog && (BtnMinerProfileVisible.Visibility == Visibility.Collapsed || (layer1 != null && layer1.Visibility == Visibility.Collapsed))) {
                 TimeSpan.FromMilliseconds(200).Delay().ContinueWith(t => {
-                    NTMinerConsole.ShowWindow(NTMinerConsole.Show(), 1);
+                    UIThread.Execute(() => {
+                        int width = (int)ConsoleRectangle.ActualWidth - 1;
+                        int height = (int)ConsoleRectangle.ActualHeight;
+
+                        Point point = ConsoleRectangle.TransformToAncestor(this).Transform(new Point(0, 0));
+                        NTMinerConsole.MoveWindow(console, (int)point.X, (int)point.Y, width, height, true);
+                    });
                 });
             }
         }
