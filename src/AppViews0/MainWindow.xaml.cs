@@ -3,23 +3,12 @@ using NTMiner.Views.Ucs;
 using NTMiner.Vms;
 using System;
 using System.ComponentModel;
-using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Interop;
 
 namespace NTMiner.Views {
-    internal class NativeMethods {
-        internal const int GWL_STYLE = -16;
-        internal const int WS_VISIBLE = 0x10000000;
-        [DllImport("user32.dll")]
-        internal static extern int SetWindowLong(IntPtr hwnd, int index, int newStyle);
-        [DllImport("user32.dll", SetLastError = true)]
-        internal static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
-    }
-
-    public partial class MainWindow : BlankWindow {
+    public partial class MainWindow : Window {
         private readonly ColumnDefinition _column1CloneForLayer0 = new ColumnDefinition {
             SharedSizeGroup = "column1",
             Width = new GridLength(332)
@@ -45,6 +34,8 @@ namespace NTMiner.Views {
             if (Design.IsInDesignMode) {
                 return;
             }
+            ConsoleWindow.Instance.Show();
+            this.Owner = ConsoleWindow.Instance;
             ToogleLeft();
             this.StateChanged += (s, e) => {
                 if (Vm.MinerProfile.IsShowInTaskbar) {
@@ -58,13 +49,22 @@ namespace NTMiner.Views {
                         ShowInTaskbar = true;
                     }
                 }
+                if (WindowState == WindowState.Minimized) {
+                    ConsoleWindow.Instance.Hide();
+                }
+                else {
+                    ConsoleWindow.Instance.Show();
+                    MoveConsoleWindow();
+                }
             };
-            this.ConsoleRectangle.SizeChanged += (object sender, SizeChangedEventArgs e) => {
-                ReSizeConsoleWindow();
-            };
+            this.ConsoleRectangle.SizeChanged += ConsoleRectangle_SizeChanged;
+            this.ConsoleRectangle.IsVisibleChanged += ConsoleRectangle_IsVisibleChanged;
             EventHandler changeNotiCenterWindowLocation = NotiCenterWindow.CreateNotiCenterWindowLocationManager(this);
             this.Activated += changeNotiCenterWindowLocation;
-            this.LocationChanged += changeNotiCenterWindowLocation;
+            this.LocationChanged += (sender, e)=> {
+                changeNotiCenterWindowLocation(sender, e);
+                MoveConsoleWindow();
+            };
             if (DevMode.IsDevMode) {
                 this.On<ServerJsonVersionChangedEvent>("开发者模式展示ServerJsonVersion", LogEnum.DevConsole,
                     action: message => {
@@ -114,9 +114,6 @@ namespace NTMiner.Views {
 
         public void BtnMinerProfilePin_Click(object sender, RoutedEventArgs e) {
             ToogleLeft();
-            if (BtnMinerProfileVisible.Visibility == Visibility.Collapsed) {
-                ToogleConsole();
-            }
         }
 
         private void ToogleLeft() {
@@ -144,23 +141,6 @@ namespace NTMiner.Views {
             else {
                 layer1.Visibility = Visibility.Collapsed;
             }
-            ToogleConsole();
-        }
-
-        private bool _isFirst = true;
-        private void ReSizeConsoleWindow() {
-            IntPtr console = NTMinerConsole.Show();
-            Point point = ConsoleRectangle.TransformToAncestor(this).Transform(new Point(0, 0));
-            if (_isFirst) {
-                IntPtr parent = new WindowInteropHelper(this).Handle;
-                NativeMethods.SetParent(console, parent);
-                NativeMethods.SetWindowLong(console, NativeMethods.GWL_STYLE, NativeMethods.WS_VISIBLE);
-                _isFirst = false;
-            }
-            int width = (int)ConsoleRectangle.ActualWidth - 1;
-            int height = (int)ConsoleRectangle.ActualHeight;
-
-            NTMinerConsole.MoveWindow(console, (int)point.X, (int)point.Y, width, height, true);
         }
 
         protected override void OnClosing(CancelEventArgs e) {
@@ -178,6 +158,9 @@ namespace NTMiner.Views {
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             var selectedItem = ((TabControl)sender).SelectedItem;
+            if (selectedItem != TabItemLog) {
+                ConsoleWindow.Instance.Hide();
+            }
             if (selectedItem == TabItemToolbox) {
                 if (ToolboxContainer.Child == null) {
                     ToolboxContainer.Child = new Toolbox();
@@ -187,17 +170,6 @@ namespace NTMiner.Views {
                 if (MinerProfileOptionContainer.Child == null) {
                     MinerProfileOptionContainer.Child = new MinerProfileOption();
                 }
-            }
-            ToogleConsole();
-        }
-
-        private void ToogleConsole() {
-            var console = NTMinerConsole.Show();
-            NTMinerConsole.ShowWindow(console, 0);
-            if (MainArea.SelectedItem == TabItemLog && (BtnMinerProfileVisible.Visibility == Visibility.Collapsed || (layer1 != null && layer1.Visibility == Visibility.Collapsed))) {
-                TimeSpan.FromMilliseconds(200).Delay().ContinueWith(t => {
-                    NTMinerConsole.ShowWindow(console, 1);
-                });
             }
         }
 
@@ -224,6 +196,36 @@ namespace NTMiner.Views {
                 speedTableUc.ShowOrHideOverClock(isShow: true);
             }
             MainArea.SelectedItem = TabItemSpeedTable;
+        }
+
+        private void ConsoleRectangle_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e) {
+            if (ConsoleRectangle.IsVisible) {
+                ConsoleWindow.Instance.Show();
+                MoveConsoleWindow();
+            }
+        }
+
+        private void ConsoleRectangle_SizeChanged(object sender, SizeChangedEventArgs e) {
+            MoveConsoleWindow();
+        }
+
+        private void MoveConsoleWindow() {
+            if (ConsoleRectangle == null || !ConsoleRectangle.IsVisible || ConsoleRectangle.ActualWidth == 0) {
+                return;
+            }
+            Point point = ConsoleRectangle.TransformToAncestor(this).Transform(new Point(0, 0));
+            var width = ConsoleRectangle.ActualWidth - 1;
+            var height = ConsoleRectangle.ActualHeight;
+            ConsoleWindow.Instance.Width = width;
+            ConsoleWindow.Instance.Height = height;
+            if (this.WindowState == WindowState.Maximized) {
+                ConsoleWindow.Instance.Left = point.X;
+                ConsoleWindow.Instance.Top = point.Y;
+            }
+            else {
+                ConsoleWindow.Instance.Left = point.X + this.Left;
+                ConsoleWindow.Instance.Top = point.Y + this.Top;
+            }
         }
     }
 }

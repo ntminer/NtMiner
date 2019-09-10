@@ -9,7 +9,6 @@
 	xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 	xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
 	xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
-	Background="{StaticResource ThemeBackground}"
 	mc:Ignorable="d">
 	<WrapPanel>
 		<Menu Background="Transparent" VerticalAlignment="Center">
