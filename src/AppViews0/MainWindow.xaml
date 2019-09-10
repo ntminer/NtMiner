@@ -17,6 +17,8 @@
         WindowStyle="None"
         ResizeMode="CanResizeWithGrip"
 		Background="Transparent"
+        BorderThickness="1"
+        BorderBrush="{StaticResource ThemeBackground}"
         AllowsTransparency="True"
 		WindowStartupLocation="CenterScreen"
 		MouseDown="MetroWindow_MouseDown"
