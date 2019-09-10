@@ -39,13 +39,14 @@ namespace NTMiner.Views {
                 NativeMethods.SetWindowLong(console, NativeMethods.GWL_STYLE, NativeMethods.WS_VISIBLE);
                 _isFirst = false;
             }
-            int width = (int)this.ActualWidth - 5;
+            const int paddingLeft = 4;
+            int width = (int)this.ActualWidth - paddingLeft;
             if (width < 0) {
                 width = 0;
             }
             int height = (int)this.ActualHeight - 2 * HeightPadding;
 
-            NTMinerConsole.MoveWindow(console, 4, HeightPadding, width, height, true);
+            NTMinerConsole.MoveWindow(console, paddingLeft, HeightPadding, width, height, true);
         }
     }
 }

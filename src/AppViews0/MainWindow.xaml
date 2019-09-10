@@ -437,7 +437,6 @@
                                     </StackPanel>
                                 </Grid>
                                 <controls:KbButton 
-							        Margin="0 0 1 0"
                                     HorizontalAlignment="Right"
                                     VerticalAlignment="Bottom"
 							        ToolTip="打开日志文件夹"
@@ -640,7 +639,7 @@
                 </CheckBox>
                 <CheckBox
                     Padding="0"
-                    Margin="0 -1 0 0"
+                    Margin="0 -2 0 0"
 				    FocusVisualStyle="{x:Null}"
 				    VerticalContentAlignment="Center"
                     Foreground="{StaticResource ThemeForeground}"
@@ -651,7 +650,7 @@
             <controls:KbButton
                 Margin="4 0 0 0"
                 Padding="8 0"
-                Height="30"
+                Height="32"
                 Background="{StaticResource TableHeaderBackground}"
                 Click="BtnOverClockVisible_Click"
 				CornerRadius="2 2 0 0">
