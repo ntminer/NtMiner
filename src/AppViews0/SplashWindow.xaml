@@ -10,9 +10,10 @@
 		mc:Ignorable="d"
 		WindowStyle="None"
 		AllowsTransparency="True"
-        Topmost="True"
 		MouseDown="MetroWindow_MouseDown"
-		Title="{Binding WindowTitle}" Height="{x:Static app:AppStatic.MainWindowHeight}" Width="{x:Static app:AppStatic.MainWindowWidth}">
+		Title="{Binding WindowTitle}" 
+        Height="260" 
+        Width="520">
 	<Window.DataContext>
 		<vm:SplashWindowViewModel></vm:SplashWindowViewModel>
 	</Window.DataContext>

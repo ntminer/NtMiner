@@ -90,6 +90,15 @@ namespace NTMiner {
                             gpuSpeedVm.MainCoinSpeed.RejectShare = message.Source.MainCoinSpeed.RejectShare;
                         }
                     });
+                On<IncorrectShareIncreasedEvent>("产生一个错误份额后刷新VM内存", LogEnum.DevConsole,
+                    action: message => {
+                        CheckReset();
+                        int index = message.Source.Gpu.Index;
+                        GpuSpeedViewModel gpuSpeedVm = _list.FirstOrDefault(a => a.GpuVm.Index == index);
+                        if (gpuSpeedVm != null) {
+                            gpuSpeedVm.MainCoinSpeed.IncorrectShare = message.Source.MainCoinSpeed.IncorrectShare;
+                        }
+                    });
                 On<GpuSpeedChangedEvent>("显卡算力变更后刷新VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         CheckReset();
