@@ -10,9 +10,9 @@ namespace NTMiner.Views.Ucs {
     public partial class MessageCenter : UserControl {
         public MessageCenter() {
             InitializeComponent();
-            Write.UserLineMethod = (text, foreground) => {
+            Write.SetUserLineMethod((text, foreground) => {
                 WriteLine(this.FlowDocumentScrollViewer, this.ConsoleParagraph, text, foreground);
-            };
+            });
         }
 
         private readonly Dictionary<string, ScrollViewer> _scrollView = new Dictionary<string, ScrollViewer>();

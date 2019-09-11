@@ -42,7 +42,6 @@ namespace NTMiner {
                 AllocConsole();
                 DisbleQuickEditMode();
                 console = GetConsoleWindow();
-                MoveWindow(console, -1000, 0, 0, 0, false);
                 ShowWindow(console, 0);
             }
             return console;

@@ -16,10 +16,6 @@ using System.Windows.Media;
 namespace NTMiner {
     public partial class App : Application, IDisposable {
         public App() {
-            if (!Debugger.IsAttached && !Design.IsInDesignMode) {
-                Write.Init();
-                System.Console.Title = "启动中";
-            }
             Logging.LogDir.SetDir(SpecialPath.LogsDirFullName);
             AppUtil.Init(this);
             InitializeComponent();
