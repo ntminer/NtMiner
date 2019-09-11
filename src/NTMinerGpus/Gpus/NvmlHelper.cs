@@ -130,8 +130,12 @@ namespace NTMiner.Gpus {
             return true;
         }
 
+        private HashSet<int> _nvmlDeviceGetPowerUsageNotSupporteds = new HashSet<int>();
         public uint GetPowerUsage(int gpuIndex) {
             if (!NvmlInit() || !TryGetNvmlDevice(gpuIndex, out nvmlDevice nvmlDevice)) {
+                return 0;
+            }
+            if (_nvmlDeviceGetPowerUsageNotSupporteds.Contains(gpuIndex)) {
                 return 0;
             }
             uint power = 0;
@@ -139,6 +143,9 @@ namespace NTMiner.Gpus {
                 var r = NvmlNativeMethods.nvmlDeviceGetPowerUsage(nvmlDevice, ref power);
                 power = (uint)(power / 1000.0);
                 if (r != nvmlReturn.Success) {
+                    if (r == nvmlReturn.NotSupported) {
+                        _nvmlDeviceGetPowerUsageNotSupporteds.Add(gpuIndex);
+                    }
                     Write.DevError($"{nameof(NvmlNativeMethods.nvmlDeviceGetPowerUsage)} {r}");
                 }
             }
