@@ -4,10 +4,7 @@
 2. 开源矿工永远开源；
 3. 开源矿工永远不会去破解国人开发的内核；
 
-## [下载地址1](https://github.com/ntminer/ntminer/wiki)
-矿机上只需运行挖矿端。
-## [下载地址2](https://gitee.com/ntminer/NTMiner/wikis)
-可选的，通常运行在内网笔记本上，通过群控端管理挖矿端。
+## [下载地址1](https://github.com/ntminer/ntminer/wiki)   [下载地址2](https://gitee.com/ntminer/NTMiner/wikis)
 ### 从源码编译：Visual Studio 2019
 
 ## 起因
