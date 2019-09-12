@@ -65,6 +65,7 @@
                 <controls:KbLinkButton
 					ToolTip="打开官网"
 					FontSize="16"
+                    BorderThickness="0"
 					Command="{x:Static app:AppStatic.OpenOfficialSite}"
 					KbDisplayLine="False"
                     Foreground="{StaticResource ThemeForeground}"
@@ -73,34 +74,35 @@
 					Background="Transparent">
                 </controls:KbLinkButton>
                 <controls:KbLinkButton
-                        Margin="2 0 0 0"
-					    ToolTip="关于开源矿工"
-					    Command="{x:Static app:AppStatic.ShowAbout}"
-					    KbDisplayLine="False"
-					    KbSystemButtonHoverBackground="Transparent"
-					    Background="Transparent"
-					    Foreground="{StaticResource ThemeForeground}">
+                    Margin="2 0 0 0"
+					ToolTip="关于开源矿工"
+                    BorderThickness="0"
+					Command="{x:Static app:AppStatic.ShowAbout}"
+					KbDisplayLine="False"
+					KbSystemButtonHoverBackground="Transparent"
+					Background="Transparent"
+					Foreground="{StaticResource ThemeForeground}">
                     <WrapPanel>
                         <TextBlock
-							    Margin="0"
-							    HorizontalAlignment="Left"
-							    VerticalAlignment="Center"
-							    FontSize="16"
-							    Text="{x:Static app:AppStatic.AppMinerName}" />
+							Margin="0"
+							HorizontalAlignment="Left"
+							VerticalAlignment="Center"
+							FontSize="16"
+							Text="{x:Static app:AppStatic.AppMinerName}" />
                         <TextBlock
-							    Margin="0"
-							    HorizontalAlignment="Left"
-							    VerticalAlignment="Center"
-							    FontSize="16"
-							    Text="{Binding BrandTitle}" />
+							Margin="0"
+							HorizontalAlignment="Left"
+							VerticalAlignment="Center"
+							FontSize="16"
+							Text="{Binding BrandTitle}" />
                         <TextBlock
-                                Visibility="{Binding BrandTitle,Converter={StaticResource NotNullOrEmptyVisibilityInvertConverter}}"
-							    Foreground="{StaticResource ThemeForeground}"
-							    Margin="0"
-							    HorizontalAlignment="Left"
-							    VerticalAlignment="Center"
-							    FontSize="16"
-							    Text="{x:Static app:AppStatic.AppMinerDescription}" />
+                            Visibility="{Binding BrandTitle,Converter={StaticResource NotNullOrEmptyVisibilityInvertConverter}}"
+							Foreground="{StaticResource ThemeForeground}"
+							Margin="0"
+							HorizontalAlignment="Left"
+							VerticalAlignment="Center"
+							FontSize="16"
+							Text="{x:Static app:AppStatic.AppMinerDescription}" />
                     </WrapPanel>
                 </controls:KbLinkButton>
             </WrapPanel>
@@ -131,6 +133,7 @@
                     </WrapPanel>
                     <controls:KbLinkButton
                         Margin="0 0 20 0"
+                        BorderThickness="0"
                         VerticalAlignment="Center"
                         Visibility="{Binding MinerProfile.MineWork,Converter={StaticResource NotNullOrEmptyVisibilityInvertConverter}}"
 				        Command="{x:Static app:AppStatic.DownloadMinerStudio}"
