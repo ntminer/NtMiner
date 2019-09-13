@@ -12,7 +12,7 @@ namespace UnitTestProject1 {
             var str = new StringBuilder();
             var keys = new[]
                 {
-                    "PNPDeviceID",
+                    "PNPDeviceID",  //即插即用逻辑设备的播放装置识别符
                     "AcceleratorCapabilities", //AcceleratorCapabilities  --图形和视频控制器的三维阵列的能力
                     "AdapterCompatibility", //AdapterCompatibility  --用于此控制器与系统比较兼容性一般芯片组
                     "AdapterDACType", //AdapterDACType  --姓名或数字 - 模拟转换器（DAC）芯片的标识符
@@ -55,7 +55,6 @@ namespace UnitTestProject1 {
                     "Name",  //标签由该对象是已知的。当子类，该属性可以被覆盖是一个关键属性。
                     "NumberOfColorPlanes",  //当前一些颜色平面。如果该值不适用于当前视频的配置，输入0（零）
                     "NumberOfVideoPages",  //当前的分辨率和可用内存支持视频页数
-                    "PNPDeviceID",  //即插即用逻辑设备的播放装置识别符
                     "PowerManagementCapabilities",  //逻辑设备的特定功率相关的能力阵列
                     "PowerManagementSupported",  //如果为TRUE，该装置可以是电源管理（可以投入挂起模式，等等）
                     "ProtocolSupported",  //由控制器使用协议访问“控制”的设备
