@@ -48,6 +48,7 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
@@ -58,6 +59,7 @@
     <Compile Include="IPTests.cs" />
     <Compile Include="MarshalTests.cs" />
     <Compile Include="JsonTests.cs" />
+    <Compile Include="WMITests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
