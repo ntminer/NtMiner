@@ -43,6 +43,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Management" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ObjectJsonSerializer.cs" />
