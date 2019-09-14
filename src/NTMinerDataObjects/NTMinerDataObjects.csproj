@@ -39,7 +39,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChangePasswordRequest.cs" />
-    <Compile Include="Controllers\IMinerStudioController.cs" />
     <Compile Include="Core\CoinData.cs" />
     <Compile Include="Core\CoinGroupData.cs" />
     <Compile Include="Core\CoinKernelData.cs" />
@@ -103,15 +102,7 @@
     <Compile Include="Core\IPool.cs" />
     <Compile Include="ISortable.cs" />
     <Compile Include="MinerClient\GpuSpeedData.cs" />
-    <Compile Include="Controllers\IAppSettingController.cs" />
-    <Compile Include="Controllers\IControlCenterController.cs" />
-    <Compile Include="Controllers\IFileUrlController.cs" />
-    <Compile Include="Controllers\IMinerClientController.cs" />
-    <Compile Include="Controllers\INTMinerDaemonController.cs" />
-    <Compile Include="Controllers\IOverClockDataController.cs" />
-    <Compile Include="Controllers\IReportController.cs" />
     <Compile Include="IShowMainWindow.cs" />
-    <Compile Include="Controllers\IWrapperMinerClientController.cs" />
     <Compile Include="MinerClient\SetMinerProfilePropertyRequest.cs" />
     <Compile Include="DataRequest`1.cs" />
     <Compile Include="MinerServer\AppSettingData.cs" />
