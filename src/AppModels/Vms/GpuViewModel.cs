@@ -10,7 +10,6 @@ namespace NTMiner.Vms {
         private int _index;
         private string _busId;
         private string _name;
-        private string _description;
         private int _temperature;
         private uint _fanSpeed;
         private uint _powerUsage;
@@ -42,7 +41,6 @@ namespace NTMiner.Vms {
             _index = data.Index;
             _busId = data.BusId;
             _name = data.Name;
-            _description = data.Description;
             _totalMemory = data.TotalMemory;
             _temperature = data.Temperature;
             _fanSpeed = data.FanSpeed;
@@ -85,7 +83,6 @@ namespace NTMiner.Vms {
             _index = data.Index;
             _busId = data.BusId;
             _name = data.Name;
-            _description = string.Empty;
             _totalMemory = data.TotalMemory;
             _temperature = 0;
             _fanSpeed = 0;
@@ -160,14 +157,6 @@ namespace NTMiner.Vms {
                     _name = value;
                     OnPropertyChanged(nameof(Name));
                 }
-            }
-        }
-
-        public string Description {
-            get { return _description; }
-            set {
-                _description = value;
-                OnPropertyChanged(nameof(Description));
             }
         }
 
