@@ -28,6 +28,21 @@ namespace NTMiner {
         }
     }
 
+    [MessageType(description: "关闭主界面")]
+    public class CloseMainWindowCommand : Cmd {
+        public CloseMainWindowCommand(string message) {
+            this.Message = message;
+        }
+
+        public string Message { get; private set; }
+    }
+
+    [MessageType(description: "打开内核列表窗口")]
+    public class ShowKernelsWindowCommand : Cmd {
+        public ShowKernelsWindowCommand() {
+        }
+    }
+
     [MessageType(description: "打开用户列表页")]
     public class ShowUserPageCommand : Cmd {
         public ShowUserPageCommand() {

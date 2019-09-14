@@ -3,12 +3,6 @@ using NTMiner.Core;
 using System;
 
 namespace NTMiner {
-    [MessageType(description: "打开内核列表窗口")]
-    public class ShowKernelsWindowCommand : Cmd {
-        public ShowKernelsWindowCommand() {
-        }
-    }
-
     [MessageType(description: "打开内核下载界面")]
     public class ShowKernelDownloaderCommand : Cmd {
         public ShowKernelDownloaderCommand(Guid kernelId, Action<bool, string> downloadComplete) {
@@ -95,15 +89,6 @@ namespace NTMiner {
     // ReSharper disable once InconsistentNaming
     public class CloseNTMinerCommand : Cmd {
         public CloseNTMinerCommand() { }
-    }
-
-    [MessageType(description: "关闭主界面")]
-    public class CloseMainWindowCommand : Cmd {
-        public CloseMainWindowCommand(string message) {
-            this.Message = message;
-        }
-
-        public string Message { get; private set; }
     }
 
     [MessageType(description: "刷新开机启动和自动挖矿")]
