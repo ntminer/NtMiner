@@ -694,6 +694,7 @@
         </WrapPanel>
         <!--下状态栏-->
 		<uc:StateBar 
+            x:Name="StateBar"
 			Grid.Row="2" 
 			Padding="0 0 0 2"
 			DataContext="{Binding StateBarVm}"

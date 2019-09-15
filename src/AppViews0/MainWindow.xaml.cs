@@ -242,7 +242,12 @@ namespace NTMiner.Views {
             ConsoleWindow.Instance.Height = height;
             if (this.WindowState == WindowState.Maximized) {
                 ConsoleWindow.Instance.Left = point.X;
-                ConsoleWindow.Instance.Top = point.Y - ConsoleWindow.HeightPadding;
+                if (this.Top < 0) {
+                    ConsoleWindow.Instance.Top = -this.ActualHeight + point.Y - ConsoleWindow.HeightPadding;
+                }
+                else {
+                    ConsoleWindow.Instance.Top = point.Y - ConsoleWindow.HeightPadding;
+                }
             }
             else {
                 ConsoleWindow.Instance.Left = point.X + this.Left;
