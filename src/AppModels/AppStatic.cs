@@ -125,12 +125,12 @@ namespace NTMiner {
 
         public static string DownloadDirFullName {
             get {
-                return SpecialPath.DownloadDirFullName.Replace(TempDir, Consts.LocalDirParameterName);
+                return SpecialPath.DownloadDirFullName.Replace(TempDir, Consts.TempDirParameterName);
             }
         }
 
         public static string KernelsDirFullName {
-            get { return SpecialPath.KernelsDirFullName.Replace(TempDir, Consts.LocalDirParameterName); }
+            get { return SpecialPath.KernelsDirFullName.Replace(TempDir, Consts.TempDirParameterName); }
         }
 
         public static string LogsDirFullName {
@@ -395,7 +395,12 @@ namespace NTMiner {
         }
 
         public static ICommand OpenDir { get; private set; } = new DelegateCommand<string>((dir) => {
-            dir = dir.Replace(Consts.LocalDirParameterName, AssemblyInfo.LocalDirFullName);
+            if (dir.StartsWith(Consts.TempDirParameterName)) {
+                dir = dir.Replace(Consts.TempDirParameterName, AssemblyInfo.TempDirFullName);
+            }
+            else if (dir.StartsWith(Consts.LocalDirParameterName)) {
+                dir = dir.Replace(Consts.LocalDirParameterName, AssemblyInfo.LocalDirFullName);
+            }
             Process.Start(dir);
         });
 
