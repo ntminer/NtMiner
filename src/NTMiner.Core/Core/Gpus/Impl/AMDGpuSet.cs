@@ -1,5 +1,4 @@
-﻿using Microsoft.Win32;
-using NTMiner.Gpus;
+﻿using NTMiner.Gpus;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -76,48 +75,9 @@ namespace NTMiner.Core.Gpus.Impl {
                     });
                 }
             }
-            #region 处理开启A卡计算模式
-            VirtualRoot.Window<SwitchRadeonGpuCommand>("处理开启A卡计算模式命令", LogEnum.DevConsole,
-                action: message => {
-                    if (NTMinerRoot.Instance.GpuSet.GpuType == GpuType.AMD) {
-                        SwitchRadeonGpu();
-                    }
-                });
-            #endregion
 #if DEBUG
             Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
 #endif
-        }
-        private static void SwitchRadeonGpu() {
-            try {
-                var sk = Registry.LocalMachine.OpenSubKey("SYSTEM\\CurrentControlSet\\Control\\Class\\{4d36e968-e325-11ce-bfc1-08002be10318}");
-                var cfs = sk.GetSubKeyNames();
-                var i = 0;
-
-                foreach (var cf in cfs) {
-                    try {
-                        if (!int.TryParse(cf, out int _)) {
-                            continue;
-                        }
-                        var cr = sk.OpenSubKey(cf, true);
-
-                        cr.SetValue("KMD_EnableInternalLargePage", "2", RegistryValueKind.DWord);
-                        cr.SetValue("EnableCrossFireAutoLink", "0", RegistryValueKind.DWord);
-                        cr.SetValue("EnableUlps", "0", RegistryValueKind.DWord);
-
-                        i++;
-                    }
-                    catch (Exception e) {
-                        Logger.ErrorDebugLine(e);
-                        continue;
-                    }
-                }
-                VirtualRoot.Out.ShowSuccessMessage("开启A卡计算模式成功");
-            }
-            catch (Exception e) {
-                Logger.ErrorDebugLine(e);
-                VirtualRoot.Out.ShowErrorMessage("开启A卡计算模式失败", delaySeconds: 4);
-            }
         }
 
         public void LoadGpuState() {

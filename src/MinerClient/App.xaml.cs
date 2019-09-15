@@ -226,6 +226,14 @@ namespace NTMiner {
                     NTMiner.Windows.WindowsUtil.Win10Optimize();
                 });
             #endregion
+            #region 处理开启A卡计算模式
+            VirtualRoot.Window<SwitchRadeonGpuCommand>("处理开启A卡计算模式命令", LogEnum.DevConsole,
+                action: message => {
+                    if (NTMinerRoot.Instance.GpuSet.GpuType == GpuType.AMD) {
+                        SwitchRadeonGpuMode();
+                    }
+                });
+            #endregion
             #region 处理A卡驱动签名
             VirtualRoot.Window<AtikmdagPatcherCommand>("处理A卡驱动签名命令", LogEnum.DevConsole,
                 action: message => {
@@ -256,6 +264,20 @@ namespace NTMiner {
                     NTMiner.Windows.Cmd.RunClose("control", "userpasswords2");
                 });
             #endregion
+        }
+
+        private static void SwitchRadeonGpuMode() {
+            SwitchRadeonGpu.SwitchRadeonGpu.Run((isSuccess, e) => {
+                if (isSuccess) {
+                    VirtualRoot.Out.ShowSuccessMessage("开启A卡计算模式成功");
+                }
+                else if (e != null) {
+                    VirtualRoot.Out.ShowErrorMessage(e.Message, delaySeconds: 4);
+                }
+                else {
+                    VirtualRoot.Out.ShowErrorMessage("开启A卡计算模式失败", delaySeconds: 4);
+                }
+            });
         }
 
         public void Dispose() {
