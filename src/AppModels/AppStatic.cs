@@ -91,6 +91,9 @@ namespace NTMiner {
         public static string LocalDir {
             get => AssemblyInfo.LocalDirFullName;
         }
+        public static string TempDir {
+            get { return AssemblyInfo.TempDirFullName; }
+        }
         public static string ServerDbFileFullName {
             get {
                 return SpecialPath.ServerDbFileFullName.Replace(LocalDir, Consts.LocalDirParameterName);
@@ -116,22 +119,18 @@ namespace NTMiner {
             get { return SpecialPath.DevConsoleFileFullName.Replace(LocalDir, Consts.LocalDirParameterName); }
         }
 
-        public static string TempDirFullName {
-            get { return SpecialPath.TempDirFullName.Replace(LocalDir, Consts.LocalDirParameterName); }
-        }
-
         public static string PackagesDirFullName {
             get { return SpecialPath.PackagesDirFullName.Replace(LocalDir, Consts.LocalDirParameterName); }
         }
 
         public static string DownloadDirFullName {
             get {
-                return SpecialPath.DownloadDirFullName.Replace(LocalDir, Consts.LocalDirParameterName);
+                return SpecialPath.DownloadDirFullName.Replace(TempDir, Consts.LocalDirParameterName);
             }
         }
 
         public static string KernelsDirFullName {
-            get { return SpecialPath.KernelsDirFullName.Replace(LocalDir, Consts.LocalDirParameterName); }
+            get { return SpecialPath.KernelsDirFullName.Replace(TempDir, Consts.LocalDirParameterName); }
         }
 
         public static string LogsDirFullName {

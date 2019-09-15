@@ -103,24 +103,36 @@
                 <Border Width="{StaticResource LblWidth}">
                     <Button 
                         Style="{StaticResource LblBtn}" 
-                        Content="打开临时目录" 
-                        Command="{x:Static app:AppStatic.OpenDir}" 
-                        CommandParameter="{x:Static app:AppStatic.TempDirFullName}">
-                    </Button>
-                </Border>
-                <TextBlock Text="{x:Static app:AppStatic.TempDirFullName}"></TextBlock>
-            </WrapPanel>
-
-            <WrapPanel>
-                <Border Width="{StaticResource LblWidth}">
-                    <Button 
-                        Style="{StaticResource LblBtn}" 
                         Content="打开内核包目录" 
                         Command="{x:Static app:AppStatic.OpenDir}" 
                         CommandParameter="{x:Static app:AppStatic.PackagesDirFullName}">
                     </Button>
                 </Border>
                 <TextBlock Text="{x:Static app:AppStatic.PackagesDirFullName}"></TextBlock>
+            </WrapPanel>
+
+            <WrapPanel>
+                <Border Width="{StaticResource LblWidth}">
+                    <Button 
+                        Style="{StaticResource LblBtn}" 
+                        Content="打开日志目录" 
+                        Command="{x:Static app:AppStatic.OpenDir}" 
+                        CommandParameter="{x:Static app:AppStatic.LogsDirFullName}">
+                    </Button>
+                </Border>
+                <TextBlock Text="{x:Static app:AppStatic.LogsDirFullName}"></TextBlock>
+            </WrapPanel>
+
+            <WrapPanel>
+                <Border Width="{StaticResource LblWidth}">
+                    <Button 
+                        Style="{StaticResource LblBtn}" 
+                        Content="打开临时目录" 
+                        Command="{x:Static app:AppStatic.OpenDir}" 
+                        CommandParameter="{x:Static app:AppStatic.TempDir}">
+                    </Button>
+                </Border>
+                <TextBlock Text="{x:Static app:AppStatic.TempDir}"></TextBlock>
             </WrapPanel>
 
             <WrapPanel>
@@ -145,18 +157,6 @@
                     </Button>
                 </Border>
                 <TextBlock Text="{x:Static app:AppStatic.KernelsDirFullName}"></TextBlock>
-            </WrapPanel>
-
-            <WrapPanel>
-                <Border Width="{StaticResource LblWidth}">
-                    <Button 
-                        Style="{StaticResource LblBtn}" 
-                        Content="打开日志目录" 
-                        Command="{x:Static app:AppStatic.OpenDir}" 
-                        CommandParameter="{x:Static app:AppStatic.LogsDirFullName}">
-                    </Button>
-                </Border>
-                <TextBlock Text="{x:Static app:AppStatic.LogsDirFullName}"></TextBlock>
             </WrapPanel>
         </StackPanel>
     </ScrollViewer>

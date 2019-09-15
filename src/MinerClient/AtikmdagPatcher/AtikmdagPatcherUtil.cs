@@ -15,7 +15,7 @@ namespace NTMiner.AtikmdagPatcher {
                     Type type = typeof(AtikmdagPatcherUtil);
                     Assembly assembly = type.Assembly;
                     string name = "atikmdag-patcher1.4.6.exe";
-                    string fileFullName = Path.Combine(SpecialPath.TempDirFullName, name);
+                    string fileFullName = Path.Combine(AssemblyInfo.TempDirFullName, name);
                     assembly.ExtractManifestResource(type, name, fileFullName);
                     Windows.Cmd.RunClose(fileFullName, string.Empty, waitForExit: false);
                 });

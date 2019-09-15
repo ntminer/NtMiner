@@ -4,17 +4,13 @@ using System.IO;
 namespace NTMiner {
     public static class SpecialPath {
         static SpecialPath() {
-            string daemonDirFullName = Path.Combine(AssemblyInfo.ShareDirFullName, "Daemon");
+            string daemonDirFullName = Path.Combine(AssemblyInfo.TempDirFullName, "Daemon");
             if (!Directory.Exists(daemonDirFullName)) {
                 Directory.CreateDirectory(daemonDirFullName);
             }
             DaemonFileFullName = Path.Combine(daemonDirFullName, "NTMinerDaemon.exe");
             DevConsoleFileFullName = Path.Combine(daemonDirFullName, "DevConsole.exe");
 
-            TempDirFullName = Path.Combine(AssemblyInfo.ShareDirFullName, "Temp");
-            if (!Directory.Exists(TempDirFullName)) {
-                Directory.CreateDirectory(TempDirFullName);
-            }
             ServerDbFileFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "server.litedb");
             ServerJsonFileFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "server.json");
 
@@ -25,7 +21,7 @@ namespace NTMiner {
             if (AssemblyInfo.IsLocalDir && !File.Exists(AssemblyInfo.RootLockFileFullName)) {
                 if (VirtualRoot.IsMinerClient) {
                     #region 迁移
-                    string sharePackagesDir = Path.Combine(AssemblyInfo.ShareDirFullName, "Packages");
+                    string sharePackagesDir = Path.Combine(AssemblyInfo.TempDirFullName, "Packages");
                     if (Directory.Exists(sharePackagesDir)) {
                         foreach (var fileFullName in Directory.GetFiles(sharePackagesDir)) {
                             string destFileName = Path.Combine(PackagesDirFullName, Path.GetFileName(fileFullName));
@@ -34,7 +30,7 @@ namespace NTMiner {
                             }
                         }
                     }
-                    string shareCoinIcoinsDir = Path.Combine(AssemblyInfo.ShareDirFullName, "CoinIcons");
+                    string shareCoinIcoinsDir = Path.Combine(AssemblyInfo.TempDirFullName, "CoinIcons");
                     if (Directory.Exists(shareCoinIcoinsDir)) {
                         foreach (var fileFullName in Directory.GetFiles(shareCoinIcoinsDir)) {
                             string destFileName = Path.Combine(CoinIconsDirFullName, Path.GetFileName(fileFullName));
@@ -44,32 +40,32 @@ namespace NTMiner {
                         }
                     }
                     if (DevMode.IsDevMode) {
-                        string shareServerDbFileFullName = Path.Combine(AssemblyInfo.ShareDirFullName, "server.litedb");
+                        string shareServerDbFileFullName = Path.Combine(AssemblyInfo.TempDirFullName, "server.litedb");
                         if (File.Exists(shareServerDbFileFullName) && !File.Exists(ServerDbFileFullName)) {
                             File.Copy(shareServerDbFileFullName, ServerDbFileFullName);
                         }
                     }
-                    string shareServerJsonFileFullName = Path.Combine(AssemblyInfo.ShareDirFullName, "server.json");
+                    string shareServerJsonFileFullName = Path.Combine(AssemblyInfo.TempDirFullName, "server.json");
                     if (File.Exists(shareServerJsonFileFullName) && !File.Exists(ServerJsonFileFullName)) {
                         File.Copy(shareServerJsonFileFullName, ServerJsonFileFullName);
                     }
-                    string shareLocalDbFileFullName = Path.Combine(AssemblyInfo.ShareDirFullName, "local.litedb");
+                    string shareLocalDbFileFullName = Path.Combine(AssemblyInfo.TempDirFullName, "local.litedb");
                     if (File.Exists(shareLocalDbFileFullName) && !File.Exists(LocalDbFileFullName)) {
                         File.Copy(shareLocalDbFileFullName, LocalDbFileFullName);
                     }
-                    string shareLocalJsonFileFullName = Path.Combine(AssemblyInfo.ShareDirFullName, "local.json");
+                    string shareLocalJsonFileFullName = Path.Combine(AssemblyInfo.TempDirFullName, "local.json");
                     if (File.Exists(shareLocalJsonFileFullName) && !File.Exists(LocalJsonFileFullName)) {
                         File.Copy(shareLocalJsonFileFullName, LocalJsonFileFullName);
                     }
-                    string shareGpuProfilesJsonFileFullName = Path.Combine(AssemblyInfo.ShareDirFullName, "gpuProfiles.json");
+                    string shareGpuProfilesJsonFileFullName = Path.Combine(AssemblyInfo.TempDirFullName, "gpuProfiles.json");
                     if (File.Exists(shareGpuProfilesJsonFileFullName) && !File.Exists(GpuProfilesJsonFileFullName)) {
                         File.Copy(shareGpuProfilesJsonFileFullName, GpuProfilesJsonFileFullName);
                     }
-                    string shareWorkerEventDbFileFullName = Path.Combine(AssemblyInfo.ShareDirFullName, "workerEvent.litedb");
+                    string shareWorkerEventDbFileFullName = Path.Combine(AssemblyInfo.TempDirFullName, "workerEvent.litedb");
                     if (File.Exists(shareWorkerEventDbFileFullName) && !File.Exists(WorkerEventDbFileFullName)) {
                         File.Copy(shareWorkerEventDbFileFullName, WorkerEventDbFileFullName);
                     }
-                    string shareUpdaterFileFullName = Path.Combine(AssemblyInfo.ShareDirFullName, "Updater", "NTMinerUpdater.exe");
+                    string shareUpdaterFileFullName = Path.Combine(AssemblyInfo.TempDirFullName, "Updater", "NTMinerUpdater.exe");
                     if (File.Exists(shareUpdaterFileFullName) && !File.Exists(UpdaterFileFullName)) {
                         File.Copy(shareUpdaterFileFullName, UpdaterFileFullName);
                     }
@@ -132,8 +128,6 @@ namespace NTMiner {
 
         public static readonly string DevConsoleFileFullName;
 
-        public static readonly string TempDirFullName;
-
         private static bool _sIsFirstCallPackageDirFullName = true;
         public static string PackagesDirFullName {
             get {
@@ -167,7 +161,7 @@ namespace NTMiner {
         private static bool _sIsFirstCallDownloadDirFullName = true;
         public static string DownloadDirFullName {
             get {
-                string dirFullName = Path.Combine(TempDirFullName, "Download");
+                string dirFullName = Path.Combine(AssemblyInfo.TempDirFullName, "Download");
                 if (_sIsFirstCallDownloadDirFullName) {
                     if (!Directory.Exists(dirFullName)) {
                         Directory.CreateDirectory(dirFullName);
@@ -182,7 +176,7 @@ namespace NTMiner {
         private static bool _sIsFirstCallKernelsDirFullName = true;
         public static string KernelsDirFullName {
             get {
-                string dirFullName = Path.Combine(TempDirFullName, "Kernels");
+                string dirFullName = Path.Combine(AssemblyInfo.TempDirFullName, "Kernels");
                 if (_sIsFirstCallKernelsDirFullName) {
                     if (!Directory.Exists(dirFullName)) {
                         Directory.CreateDirectory(dirFullName);

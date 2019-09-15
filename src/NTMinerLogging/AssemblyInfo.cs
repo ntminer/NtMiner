@@ -10,12 +10,12 @@ namespace NTMiner {
         public const string MinerJsonBucket = "https://minerjson.oss-cn-beijing.aliyuncs.com/";
         public const string Copyright = "Copyright ©  NTMiner";
 
-        public static readonly string ShareDirFullName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "NTMiner");
+        public static readonly string TempDirFullName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "NTMiner");
         public static readonly string ServerJsonFileName;
         public static readonly string ServerVersionJsonFileFullName;
 
         public static string OfficialServerHost { get; private set; } = "server.ntminer.com";
-        public static string LocalDirFullName { get; private set; } = ShareDirFullName;
+        public static string LocalDirFullName { get; private set; } = TempDirFullName;
         public static readonly string RootLockFileFullName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "root.lock");
         public static readonly string RootConfigFileFullName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "root.config");
         public static readonly bool IsLocalDir;
