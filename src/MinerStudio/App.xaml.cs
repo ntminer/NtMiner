@@ -1,6 +1,7 @@
 ﻿using NTMiner.View;
 using NTMiner.Views;
 using NTMiner.Views.Ucs;
+using NTMiner.Vms;
 using System;
 using System.Diagnostics;
 using System.Threading;
@@ -11,6 +12,7 @@ using System.Windows.Media;
 namespace NTMiner {
     public partial class App : Application, IDisposable {
         public App() {
+            VirtualRoot.SetShowMessage(NotiCenterWindowViewModel.Instance);
             AssemblyInfo.SetLocalDirFullName(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NTMiner"));
             Logging.LogDir.SetDir(SpecialPath.LogsDirFullName);
             AppUtil.Init(this);

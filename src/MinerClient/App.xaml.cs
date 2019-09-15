@@ -16,6 +16,7 @@ using System.Windows.Media;
 namespace NTMiner {
     public partial class App : Application, IDisposable {
         public App() {
+            VirtualRoot.SetShowMessage(NotiCenterWindowViewModel.Instance);
             Logging.LogDir.SetDir(SpecialPath.LogsDirFullName);
             AppUtil.Init(this);
             InitializeComponent();
@@ -225,14 +226,6 @@ namespace NTMiner {
                     NTMiner.Windows.WindowsUtil.Win10Optimize();
                 });
             #endregion
-            #region 处理开启A卡计算模式
-            VirtualRoot.Window<SwitchRadeonGpuCommand>("处理开启A卡计算模式命令", LogEnum.DevConsole,
-                action: message => {
-                    if (NTMinerRoot.Instance.GpuSet.GpuType == GpuType.AMD) {
-                        SwitchRadeonGpuMode();
-                    }
-                });
-            #endregion
             #region 处理A卡驱动签名
             VirtualRoot.Window<AtikmdagPatcherCommand>("处理A卡驱动签名命令", LogEnum.DevConsole,
                 action: message => {
@@ -263,20 +256,6 @@ namespace NTMiner {
                     NTMiner.Windows.Cmd.RunClose("control", "userpasswords2");
                 });
             #endregion
-        }
-
-        private static void SwitchRadeonGpuMode() {
-            SwitchRadeonGpu.SwitchRadeonGpu.Run((isSuccess, e) => {
-                if (isSuccess) {
-                    NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage("开启A卡计算模式成功");
-                }
-                else if (e != null) {
-                    NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage(e.Message, delaySeconds: 4);
-                }
-                else {
-                    NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage("开启A卡计算模式失败", delaySeconds: 4);
-                }
-            });
         }
 
         public void Dispose() {

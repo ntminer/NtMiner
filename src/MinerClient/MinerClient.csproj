@@ -104,7 +104,6 @@
     <Compile Include="AtikmdagPatcher\AtikmdagPatcherUtil.cs" />
     <Compile Include="RemoteDesktopEnabler\Rdp.cs" />
     <Compile Include="RemoteDesktopEnabler\Firewall.cs" />
-    <Compile Include="SwitchRadeonGpu\SwitchRadeonGpu.cs" />
     <Compile Include="Views\HandlerIdsWindow.xaml.cs">
       <DependentUpon>HandlerIdsWindow.xaml</DependentUpon>
     </Compile>
@@ -199,9 +198,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Daemon\DevConsole.exe" />
     <EmbeddedResource Include="Daemon\NTMinerDaemon.exe" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="SwitchRadeonGpu\switch-radeon-gpu.exe" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">

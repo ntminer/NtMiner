@@ -43,6 +43,7 @@
     <Compile Include="AppSetting\LocalAppSettingSet.cs" />
     <Compile Include="AppSetting\IAppSettingSet.cs" />
     <Compile Include="Ip\Util.cs" />
+    <Compile Include="IShowMessage.cs" />
     <Compile Include="Messages.Timing.cs" />
     <Compile Include="NTMinerWebClient.cs">
       <SubType>Component</SubType>
