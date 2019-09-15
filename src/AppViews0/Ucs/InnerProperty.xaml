@@ -61,7 +61,7 @@
                 <Border Width="{StaticResource LblWidth}">
                     <Button 
                         Style="{StaticResource LblBtn}" 
-                        Content="打开本地目录" 
+                        Content="本地目录" 
                         Command="{x:Static app:AppStatic.OpenDir}" 
                         CommandParameter="{x:Static app:AppStatic.LocalDir}">
                     </Button>
@@ -103,7 +103,7 @@
                 <Border Width="{StaticResource LblWidth}">
                     <Button 
                         Style="{StaticResource LblBtn}" 
-                        Content="打开内核包目录" 
+                        Content="内核包目录" 
                         Command="{x:Static app:AppStatic.OpenDir}" 
                         CommandParameter="{x:Static app:AppStatic.PackagesDirFullName}">
                     </Button>
@@ -115,7 +115,7 @@
                 <Border Width="{StaticResource LblWidth}">
                     <Button 
                         Style="{StaticResource LblBtn}" 
-                        Content="打开日志目录" 
+                        Content="日志目录" 
                         Command="{x:Static app:AppStatic.OpenDir}" 
                         CommandParameter="{x:Static app:AppStatic.LogsDirFullName}">
                     </Button>
@@ -123,11 +123,11 @@
                 <TextBlock Text="{x:Static app:AppStatic.LogsDirFullName}"></TextBlock>
             </WrapPanel>
 
-            <WrapPanel>
+            <WrapPanel Margin="0 10 0 0">
                 <Border Width="{StaticResource LblWidth}">
                     <Button 
                         Style="{StaticResource LblBtn}" 
-                        Content="打开临时目录" 
+                        Content="临时目录" 
                         Command="{x:Static app:AppStatic.OpenDir}" 
                         CommandParameter="{x:Static app:AppStatic.TempDir}">
                     </Button>
@@ -139,7 +139,7 @@
                 <Border Width="{StaticResource LblWidth}">
                     <Button 
                         Style="{StaticResource LblBtn}" 
-                        Content="打开下载目录" 
+                        Content="下载目录" 
                         Command="{x:Static app:AppStatic.OpenDir}" 
                         CommandParameter="{x:Static app:AppStatic.DownloadDirFullName}">
                     </Button>
@@ -151,7 +151,7 @@
                 <Border Width="{StaticResource LblWidth}">
                     <Button 
                         Style="{StaticResource LblBtn}" 
-                        Content="打开内核解压目录" 
+                        Content="内核解压目录" 
                         Command="{x:Static app:AppStatic.OpenDir}" 
                         CommandParameter="{x:Static app:AppStatic.KernelsDirFullName}">
                     </Button>
