@@ -22,6 +22,50 @@ namespace NTMiner {
             LocalJsonFileFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "local.json");
             GpuProfilesJsonFileFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "gpuProfiles.json");
             WorkerEventDbFileFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "workerEvent.litedb");
+            if (AssemblyInfo.IsLocalDir && !File.Exists(AssemblyInfo.RootLockFileFullName)) {
+                if (VirtualRoot.IsMinerClient) {
+                    #region 迁移
+                    string sharePackagesDir = Path.Combine(AssemblyInfo.ShareDirFullName, "Packages");
+                    if (Directory.Exists(sharePackagesDir)) {
+                        foreach (var fileFullName in Directory.GetFiles(sharePackagesDir)) {
+                            string destFileName = Path.Combine(PackagesDirFullName, Path.GetFileName(fileFullName));
+                            if (!File.Exists(destFileName)) {
+                                File.Copy(fileFullName, destFileName);
+                            }
+                        }
+                    }
+                    string shareServerDbFileFullName = Path.Combine(AssemblyInfo.ShareDirFullName, "server.litedb");
+                    if (File.Exists(shareServerDbFileFullName) && !File.Exists(ServerDbFileFullName)) {
+                        File.Copy(shareServerDbFileFullName, ServerDbFileFullName);
+                    }
+                    string shareServerJsonFileFullName = Path.Combine(AssemblyInfo.ShareDirFullName, "server.json");
+                    if (File.Exists(shareServerJsonFileFullName) && !File.Exists(ServerJsonFileFullName)) {
+                        File.Copy(shareServerJsonFileFullName, ServerJsonFileFullName);
+                    }
+                    string shareLocalDbFileFullName = Path.Combine(AssemblyInfo.ShareDirFullName, "local.litedb");
+                    if (File.Exists(shareLocalDbFileFullName) && !File.Exists(LocalDbFileFullName)) {
+                        File.Copy(shareLocalDbFileFullName, LocalDbFileFullName);
+                    }
+                    string shareLocalJsonFileFullName = Path.Combine(AssemblyInfo.ShareDirFullName, "local.json");
+                    if (File.Exists(shareLocalJsonFileFullName) && !File.Exists(LocalJsonFileFullName)) {
+                        File.Copy(shareLocalJsonFileFullName, LocalJsonFileFullName);
+                    }
+                    string shareGpuProfilesJsonFileFullName = Path.Combine(AssemblyInfo.ShareDirFullName, "gpuProfiles.json");
+                    if (File.Exists(shareGpuProfilesJsonFileFullName) && !File.Exists(GpuProfilesJsonFileFullName)) {
+                        File.Copy(shareGpuProfilesJsonFileFullName, GpuProfilesJsonFileFullName);
+                    }
+                    string shareWorkerEventDbFileFullName = Path.Combine(AssemblyInfo.ShareDirFullName, "workerEvent.litedb");
+                    if (File.Exists(shareWorkerEventDbFileFullName) && !File.Exists(WorkerEventDbFileFullName)) {
+                        File.Copy(shareWorkerEventDbFileFullName, WorkerEventDbFileFullName);
+                    }
+                    string shareUpdaterFileFullName = Path.Combine(AssemblyInfo.ShareDirFullName, "Updater", "NTMinerUpdater.exe");
+                    if (File.Exists(shareUpdaterFileFullName) && !File.Exists(UpdaterFileFullName)) {
+                        File.Copy(shareUpdaterFileFullName, UpdaterFileFullName);
+                    }
+                    #endregion
+                    File.Move(AssemblyInfo.RootConfigFileFullName, AssemblyInfo.RootLockFileFullName);
+                }
+            }
         }
 
         public static string GetIconFileFullName(ICoin coin) {

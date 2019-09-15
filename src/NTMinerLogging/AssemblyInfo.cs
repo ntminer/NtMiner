@@ -16,6 +16,9 @@ namespace NTMiner {
 
         public static string OfficialServerHost { get; private set; } = "server.ntminer.com";
         public static string LocalDirFullName { get; private set; } = ShareDirFullName;
+        public static readonly string RootLockFileFullName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "root.lock");
+        public static readonly string RootConfigFileFullName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "root.config");
+        public static readonly bool IsLocalDir;
 
         public static void SetOfficialServerHost(string host) {
             OfficialServerHost = host;
@@ -26,8 +29,18 @@ namespace NTMiner {
         }
 
         static AssemblyInfo() {
-            if (!Directory.Exists(LocalDirFullName)) {
-                Directory.CreateDirectory(LocalDirFullName);
+            if (!File.Exists(RootLockFileFullName)) {
+                if (File.Exists(RootConfigFileFullName)) {
+                    LocalDirFullName = AppDomain.CurrentDomain.BaseDirectory;
+                    IsLocalDir = true;
+                }
+                else if (!Directory.Exists(LocalDirFullName)) {
+                    Directory.CreateDirectory(LocalDirFullName);
+                }
+            }
+            else {
+                LocalDirFullName = AppDomain.CurrentDomain.BaseDirectory;
+                IsLocalDir = true;
             }
             if (!System.Version.TryParse(Version, out System.Version version)) {
                 throw new InvalidDataException("版本号格式不正确");
