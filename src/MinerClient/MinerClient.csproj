@@ -143,6 +143,9 @@
     <AppDesigner Include="Properties\" />
     <EmbeddedResource Include="Windows\BlockWAU.bat" />
     <EmbeddedResource Include="Windows\Win10Optimize.reg" />
+    <None Include="root.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AppModels\AppModels.csproj">
