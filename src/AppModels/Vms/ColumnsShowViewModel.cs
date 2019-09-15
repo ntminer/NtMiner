@@ -127,7 +127,7 @@ namespace NTMiner.Vms {
             this.Save = new DelegateCommand(() => {
                 if (NTMinerRoot.Instance.ColumnsShowSet.Contains(this.Id)) {
                     VirtualRoot.Execute(new UpdateColumnsShowCommand(this));
-                    NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage($"保存成功");
+                    VirtualRoot.ShowMessage.ShowSuccessMessage($"保存成功");
                 }
                 else {
                     VirtualRoot.Execute(new AddColumnsShowCommand(this));

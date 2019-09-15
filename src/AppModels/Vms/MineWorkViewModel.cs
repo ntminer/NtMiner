@@ -48,7 +48,7 @@ namespace NTMiner.Vms {
                     return;
                 }
                 if (string.IsNullOrEmpty(this.Name)) {
-                    NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage("作业名称是必须的");
+                    VirtualRoot.ShowMessage.ShowErrorMessage("作业名称是必须的");
                 }
                 bool isMineWorkChanged = false;
                 bool isMinerProfileChanged = false;

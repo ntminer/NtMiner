@@ -1,4 +1,5 @@
 ﻿using NTMiner.Notifications;
+using System;
 
 namespace NTMiner.Vms {
     public class NotiCenterWindowViewModel : ViewModelBase, IShowMessage {
@@ -17,15 +18,41 @@ namespace NTMiner.Vms {
             }
         }
         public void ShowErrorMessage(string message, int? delaySeconds = null) {
-            Manager.ShowErrorMessage(message, delaySeconds);
+            UIThread.Execute(() => {
+                var builder = NotificationMessageBuilder.CreateMessage(Manager);
+                builder.Error(message ?? string.Empty);
+                if (delaySeconds.HasValue && delaySeconds.Value != 0) {
+                    builder
+                        .Dismiss()
+                        .WithDelay(TimeSpan.FromSeconds(4))
+                        .Queue();
+                }
+                else {
+                    builder
+                        .Dismiss().WithButton("忽略", null)
+                        .Queue();
+                }
+            });
         }
 
         public void ShowInfo(string message) {
-            Manager.ShowInfo(message);
+            UIThread.Execute(() => {
+                var builder = NotificationMessageBuilder.CreateMessage(Manager);
+                builder.Warning(message ?? string.Empty)
+                    .Dismiss()
+                    .WithDelay(TimeSpan.FromSeconds(4))
+                    .Queue();
+            });
         }
 
         public void ShowSuccessMessage(string message, string header = "成功") {
-            Manager.ShowSuccessMessage(message, header);
+            UIThread.Execute(() => {
+                var builder = NotificationMessageBuilder.CreateMessage(Manager);
+                builder.Success(header, message)
+                    .Dismiss()
+                    .WithDelay(TimeSpan.FromSeconds(4))
+                    .Queue();
+            });
         }
     }
 }

@@ -95,14 +95,14 @@ namespace NTMiner {
                     NTMinerRoot.Instance.Init(() => {
                         _appViewFactory.Link();
                         if (NTMinerRoot.Instance.GpuSet.Count == 0) {
-                            NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage("没有矿卡或矿卡未驱动。");
+                            VirtualRoot.ShowMessage.ShowErrorMessage("没有矿卡或矿卡未驱动。");
                         }
                         if (NTMinerRoot.Instance.CoinSet.Count == 0) {
-                            NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage("访问阿里云失败，更换本机dns可以解决此问题");
+                            VirtualRoot.ShowMessage.ShowErrorMessage("访问阿里云失败，更换本机dns可以解决此问题");
                         }
                         UIThread.Execute(() => {
                             if (NTMinerRoot.GetIsNoUi() && NTMinerRegistry.GetIsAutoStart()) {
-                                NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage("已切换为无界面模式运行，可在选项页调整设置", "开源矿工");
+                                VirtualRoot.ShowMessage.ShowSuccessMessage("已切换为无界面模式运行，可在选项页调整设置", "开源矿工");
                             }
                             else {
                                 _appViewFactory.ShowMainWindow(isToggle: false);
@@ -188,7 +188,7 @@ namespace NTMiner {
                                 window.Close();
                             }
                         }
-                        NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage(message.Message, "开源矿工");
+                        VirtualRoot.ShowMessage.ShowSuccessMessage(message.Message, "开源矿工");
                     });
                 });
             #region 周期确保守护进程在运行
