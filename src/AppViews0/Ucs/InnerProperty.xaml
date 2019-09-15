@@ -12,7 +12,7 @@
 		Background="White"
 		mc:Ignorable="d" d:DesignWidth="600">
 	<UserControl.Resources>
-        <sys:Double x:Key="LblWidth">160</sys:Double>
+        <sys:Double x:Key="LblWidth">120</sys:Double>
 		<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
 			<Setter Property="Width" Value="{StaticResource LblWidth}"></Setter>
             <Setter Property="Padding" Value="10 4"></Setter>
@@ -95,7 +95,7 @@
             </WrapPanel>
 
             <WrapPanel Visibility="{x:Static app:AppStatic.IsDevModeVisible}">
-                <TextBlock Style="{StaticResource LblTb}" Text="开发者工具程序文件名"></TextBlock>
+                <TextBlock Style="{StaticResource LblTb}"></TextBlock>
                 <TextBlock Text="{x:Static app:AppStatic.DevConsoleFileFullName}"></TextBlock>
             </WrapPanel>
 

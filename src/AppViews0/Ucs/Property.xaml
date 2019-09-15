@@ -10,7 +10,7 @@
 		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
 		xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 		Background="White"
-		mc:Ignorable="d" d:DesignHeight="460" d:DesignWidth="800">
+		mc:Ignorable="d" d:DesignHeight="460" d:DesignWidth="900">
 	<Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
