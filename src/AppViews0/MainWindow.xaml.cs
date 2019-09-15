@@ -236,11 +236,11 @@ namespace NTMiner.Views {
                 ConsoleWindow.Instance.Hide();
                 return;
             }
+            ConsoleWindow.Instance.Show();
             Point point = ConsoleRectangle.TransformToAncestor(this).Transform(new Point(0, 0));
             ConsoleWindow.Instance.Width = this.ActualWidth;
             ConsoleWindow.Instance.Height = this.ActualHeight;
             ConsoleWindow.Instance.UpdatePadding((int)point.X, (int)point.Y);
-            ConsoleWindow.Instance.Show();
         }
 
         private void Window_SourceInitialized(object sender, EventArgs e) {
