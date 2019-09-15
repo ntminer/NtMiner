@@ -34,6 +34,15 @@ namespace NTMiner {
                             }
                         }
                     }
+                    string shareCoinIcoinsDir = Path.Combine(AssemblyInfo.ShareDirFullName, "CoinIcons");
+                    if (Directory.Exists(shareCoinIcoinsDir)) {
+                        foreach (var fileFullName in Directory.GetFiles(shareCoinIcoinsDir)) {
+                            string destFileName = Path.Combine(CoinIconsDirFullName, Path.GetFileName(fileFullName));
+                            if (!File.Exists(destFileName)) {
+                                File.Copy(fileFullName, destFileName);
+                            }
+                        }
+                    }
                     string shareServerDbFileFullName = Path.Combine(AssemblyInfo.ShareDirFullName, "server.litedb");
                     if (File.Exists(shareServerDbFileFullName) && !File.Exists(ServerDbFileFullName)) {
                         File.Copy(shareServerDbFileFullName, ServerDbFileFullName);
@@ -141,7 +150,7 @@ namespace NTMiner {
         private static bool _sIsFirstCallCoinIconDirFullName = true;
         public static string CoinIconsDirFullName {
             get {
-                string dirFullName = Path.Combine(AssemblyInfo.ShareDirFullName, "CoinIcons");
+                string dirFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "CoinIcons");
                 if (_sIsFirstCallCoinIconDirFullName) {
                     if (!Directory.Exists(dirFullName)) {
                         Directory.CreateDirectory(dirFullName);
