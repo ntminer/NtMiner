@@ -1,5 +1,6 @@
 ﻿using NTMiner.MinerServer;
 using NTMiner.Views;
+using NTMiner.Vms;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -30,6 +31,7 @@ namespace NTMiner {
         private Mutex mutexApp;
 
         public App() {
+            VirtualRoot.SetShowMessage(NotiCenterWindowViewModel.Instance);
             AppDomain.CurrentDomain.UnhandledException += (object sender, UnhandledExceptionEventArgs e) => {
                 if (e.ExceptionObject is Exception exception) {
                     Handle(exception);

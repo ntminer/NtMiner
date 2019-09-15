@@ -80,17 +80,7 @@ namespace NTMiner.Core.Gpus.Impl {
             VirtualRoot.Window<SwitchRadeonGpuCommand>("处理开启A卡计算模式命令", LogEnum.DevConsole,
                 action: message => {
                     if (NTMinerRoot.Instance.GpuSet.GpuType == GpuType.AMD) {
-                        SwitchRadeonGpu((isSuccess, e) => {
-                            if (isSuccess) {
-                                VirtualRoot.Out.ShowSuccessMessage("开启A卡计算模式成功");
-                            }
-                            else if (e != null) {
-                                VirtualRoot.Out.ShowErrorMessage(e.Message, delaySeconds: 4);
-                            }
-                            else {
-                                VirtualRoot.Out.ShowErrorMessage("开启A卡计算模式失败", delaySeconds: 4);
-                            }
-                        });
+                        SwitchRadeonGpu();
                     }
                 });
             #endregion
@@ -98,7 +88,7 @@ namespace NTMiner.Core.Gpus.Impl {
             Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
 #endif
         }
-        private static void SwitchRadeonGpu(Action<bool, Exception> callback) {
+        private static void SwitchRadeonGpu() {
             try {
                 var sk = Registry.LocalMachine.OpenSubKey("SYSTEM\\CurrentControlSet\\Control\\Class\\{4d36e968-e325-11ce-bfc1-08002be10318}");
                 var cfs = sk.GetSubKeyNames();
@@ -122,11 +112,11 @@ namespace NTMiner.Core.Gpus.Impl {
                         continue;
                     }
                 }
-                callback?.Invoke(true, null);
+                VirtualRoot.Out.ShowSuccessMessage("开启A卡计算模式成功");
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
-                callback?.Invoke(false, e);
+                VirtualRoot.Out.ShowErrorMessage("开启A卡计算模式失败", delaySeconds: 4);
             }
         }
 
