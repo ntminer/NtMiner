@@ -42,6 +42,11 @@ namespace NTMiner {
                 LocalDirFullName = AppDomain.CurrentDomain.BaseDirectory;
                 IsLocalDir = true;
             }
+            if (IsLocalDir) {
+                if (LocalDirFullName.EndsWith("\\")) {
+                    LocalDirFullName = LocalDirFullName.Substring(0, LocalDirFullName.Length - 1);
+                }
+            }
             if (!System.Version.TryParse(Version, out System.Version version)) {
                 throw new InvalidDataException("版本号格式不正确");
             }
