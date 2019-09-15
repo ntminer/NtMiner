@@ -52,14 +52,7 @@ namespace NTMiner.Views {
                         ShowInTaskbar = true;
                     }
                 }
-                if (WindowState == WindowState.Minimized) {
-                    ConsoleWindow.Instance.Hide();
-                }
-                else {
-                    ConsoleWindow.Instance.WindowState = WindowState.Normal;
-                    ConsoleWindow.Instance.Show();
-                    MoveConsoleWindow();
-                }
+                MoveConsoleWindow();
             };
             this.SizeChanged += (s, e) => {
                 if (!ConsoleRectangle.IsVisible) {
@@ -232,6 +225,13 @@ namespace NTMiner.Views {
         }
 
         private void MoveConsoleWindow() {
+            if (ConsoleWindow.Instance.WindowState != this.WindowState) {
+                ConsoleWindow.Instance.WindowState = this.WindowState;
+            }
+            if (this.WindowState == WindowState.Normal) {
+                ConsoleWindow.Instance.Left = this.Left;
+                ConsoleWindow.Instance.Top = this.Top;
+            }
             if (ConsoleRectangle == null || !ConsoleRectangle.IsVisible || ConsoleRectangle.ActualWidth == 0) {
                 ConsoleWindow.Instance.Hide();
                 return;
@@ -239,13 +239,6 @@ namespace NTMiner.Views {
             Point point = ConsoleRectangle.TransformToAncestor(this).Transform(new Point(0, 0));
             ConsoleWindow.Instance.Width = this.ActualWidth;
             ConsoleWindow.Instance.Height = this.ActualHeight;
-            if (this.WindowState == WindowState.Maximized) {
-                ConsoleWindow.Instance.WindowState = WindowState.Maximized;
-            }
-            else {
-                ConsoleWindow.Instance.Left = this.Left;
-                ConsoleWindow.Instance.Top = this.Top;
-            }
             ConsoleWindow.Instance.UpdatePadding((int)point.X, (int)point.Y);
             ConsoleWindow.Instance.Show();
         }
