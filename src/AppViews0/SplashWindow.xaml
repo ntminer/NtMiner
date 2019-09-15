@@ -31,7 +31,7 @@
             </StackPanel>
 		</WrapPanel>
 		<TextBlock Margin="4 2 0 0" Text="开源矿工" VerticalAlignment="Top" FontSize="14" Foreground="{StaticResource ThemeForeground}"></TextBlock>
-		<WrapPanel Grid.Row="1" Background="{StaticResource ThemeBackground}">
+		<WrapPanel Grid.Row="1" Background="{StaticResource IconFillColor}">
 		</WrapPanel>
 	</Grid>
 </Window>
