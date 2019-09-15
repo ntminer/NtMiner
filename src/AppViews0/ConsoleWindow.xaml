@@ -8,6 +8,5 @@
         mc:Ignorable="d"
         ShowInTaskbar="False"
         WindowStartupLocation="CenterScreen"
-        Title="原版内核控制台窗口" 
-        Height="450" Width="800">
+        Title="原版内核控制台窗口">
 </blankWindow:BlankWindow>

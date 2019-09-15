@@ -56,6 +56,7 @@ namespace NTMiner.Views {
                     ConsoleWindow.Instance.Hide();
                 }
                 else {
+                    ConsoleWindow.Instance.WindowState = WindowState.Normal;
                     ConsoleWindow.Instance.Show();
                     MoveConsoleWindow();
                 }
@@ -236,23 +237,16 @@ namespace NTMiner.Views {
                 return;
             }
             Point point = ConsoleRectangle.TransformToAncestor(this).Transform(new Point(0, 0));
-            var width = ConsoleRectangle.ActualWidth;
-            var height = ConsoleRectangle.ActualHeight + 2 * ConsoleWindow.HeightPadding;
-            ConsoleWindow.Instance.Width = width;
-            ConsoleWindow.Instance.Height = height;
+            ConsoleWindow.Instance.Width = this.ActualWidth;
+            ConsoleWindow.Instance.Height = this.ActualHeight;
             if (this.WindowState == WindowState.Maximized) {
-                ConsoleWindow.Instance.Left = point.X;
-                if (this.Top < 0) {
-                    ConsoleWindow.Instance.Top = -this.ActualHeight + point.Y - ConsoleWindow.HeightPadding;
-                }
-                else {
-                    ConsoleWindow.Instance.Top = point.Y - ConsoleWindow.HeightPadding;
-                }
+                ConsoleWindow.Instance.WindowState = WindowState.Maximized;
             }
             else {
-                ConsoleWindow.Instance.Left = point.X + this.Left;
-                ConsoleWindow.Instance.Top = point.Y + this.Top - ConsoleWindow.HeightPadding;
+                ConsoleWindow.Instance.Left = this.Left;
+                ConsoleWindow.Instance.Top = this.Top;
             }
+            ConsoleWindow.Instance.UpdatePadding((int)point.X, (int)point.Y);
             ConsoleWindow.Instance.Show();
         }
 

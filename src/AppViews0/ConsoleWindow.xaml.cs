@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
-using System.Windows;
 using System.Windows.Interop;
 
 namespace NTMiner.Views {
@@ -15,19 +14,26 @@ namespace NTMiner.Views {
     }
 
     public partial class ConsoleWindow : BlankWindow {
-        public const int HeightPadding = 50;
         public static readonly ConsoleWindow Instance = new ConsoleWindow();
 
         public ConsoleWindow() {
+            this.Width = AppStatic.MainWindowWidth;
+            this.Height = AppStatic.MainWindowHeight;
             InitializeComponent();
-            this.SizeChanged += (object sender, SizeChangedEventArgs e) => {
-                ReSizeConsoleWindow();
-            };
         }
 
         protected override void OnClosing(CancelEventArgs e) {
             e.Cancel = true;
             this.Hide();
+        }
+
+        private int _paddingLeft;
+        private int _paddingTop;
+
+        public void UpdatePadding(int paddingLeft, int paddingTop) {
+            this._paddingLeft = paddingLeft;
+            this._paddingTop = paddingTop;
+            ReSizeConsoleWindow();
         }
 
         private bool _isFirst = true;
@@ -40,13 +46,14 @@ namespace NTMiner.Views {
                 _isFirst = false;
             }
             const int paddingLeft = 4;
-            int width = (int)this.ActualWidth - paddingLeft;
+            const int paddingRight = 1;
+            int width = (int)this.ActualWidth - paddingLeft - paddingRight - _paddingLeft;
             if (width < 0) {
                 width = 0;
             }
-            int height = (int)this.ActualHeight - 2 * HeightPadding;
+            int height = (int)this.ActualHeight - _paddingTop;
 
-            NTMinerConsole.MoveWindow(console, paddingLeft, HeightPadding, width, height, true);
+            NTMinerConsole.MoveWindow(console, paddingLeft + this._paddingLeft, this._paddingTop, width, height, true);
         }
     }
 }
