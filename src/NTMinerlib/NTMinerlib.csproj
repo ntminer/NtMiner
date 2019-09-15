@@ -42,8 +42,9 @@
   <ItemGroup>
     <Compile Include="AppSetting\LocalAppSettingSet.cs" />
     <Compile Include="AppSetting\IAppSettingSet.cs" />
+    <Compile Include="EmptyOut.cs" />
     <Compile Include="Ip\Util.cs" />
-    <Compile Include="IUi.cs" />
+    <Compile Include="IOut.cs" />
     <Compile Include="Messages.Timing.cs" />
     <Compile Include="NTMinerWebClient.cs">
       <SubType>Component</SubType>

@@ -322,11 +322,11 @@ namespace NTMiner {
                 action: message => {
                     try {
                         RegCmdHere();
-                        VirtualRoot.Happened(new RegCmdHereEvent(true, "windows右键命令行添加成功"));
+                        VirtualRoot.Out.ShowSuccessMessage("windows右键命令行添加成功");
                     }
                     catch (Exception e) {
                         Logger.ErrorDebugLine(e);
-                        VirtualRoot.Happened(new RegCmdHereEvent(false, "windows右键命令行添加失败"));
+                        VirtualRoot.Out.ShowErrorMessage("windows右键命令行添加失败");
                     }
                 });
             #region 挖矿开始时将无份额内核重启份额计数置0

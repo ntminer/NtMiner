@@ -57,18 +57,18 @@ namespace NTMiner {
         public static readonly IMessageDispatcher SMessageDispatcher;
         private static readonly ICmdBus SCommandBus;
         private static readonly IEventBus SEventBus;
-        private static IUi _ui;
+        private static IOut _out;
         /// <summary>
-        /// 用户界面
+        /// 输出到系统之外去
         /// </summary>
-        public static IUi Ui {
+        public static IOut Out {
             get {
-                return _ui ?? EmptyUi.Instance;
+                return _out ?? EmptyOut.Instance;
             }
         }
 
-        public static void SetShowMessage(IUi showMessage) {
-            _ui = showMessage;
+        public static void SetShowMessage(IOut showMessage) {
+            _out = showMessage;
         }
 
         static VirtualRoot() {

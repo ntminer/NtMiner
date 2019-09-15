@@ -21,7 +21,7 @@ namespace NTMiner.Vms {
             }
             this.SwitchRadeonGpu = new DelegateCommand(() => {
                 if (MinerProfileViewModel.Instance.IsMining) {
-                    VirtualRoot.Ui.ShowInfo("请先停止挖矿");
+                    VirtualRoot.Out.ShowInfo("请先停止挖矿");
                     return;
                 }
                 this.ShowDialog(message: $"确定运行吗？大概需要花费5到10秒钟时间看到结果", title: "确认", onYes: () => {
@@ -30,7 +30,7 @@ namespace NTMiner.Vms {
             });
             this.AtikmdagPatcher = new DelegateCommand(() => {
                 if (MinerProfileViewModel.Instance.IsMining) {
-                    VirtualRoot.Ui.ShowInfo("请先停止挖矿");
+                    VirtualRoot.Out.ShowInfo("请先停止挖矿");
                     return;
                 }
                 VirtualRoot.Execute(new AtikmdagPatcherCommand());

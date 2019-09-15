@@ -1,14 +1,9 @@
 ﻿namespace NTMiner {
-    public interface IUi {
-        void ShowErrorMessage(string message, int? delaySeconds = null);
-        void ShowInfo(string message);
-        void ShowSuccessMessage(string message, string header = "成功");
-    }
 
-    public class EmptyUi : IUi {
-        public static readonly EmptyUi Instance = new EmptyUi();
+    public class EmptyOut : IOut {
+        public static readonly EmptyOut Instance = new EmptyOut();
 
-        private EmptyUi() { }
+        private EmptyOut() { }
 
         public void ShowErrorMessage(string message, int? delaySeconds = null) {
             // nothing need todo

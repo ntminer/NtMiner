@@ -168,10 +168,10 @@ namespace NTMiner.Vms {
                         message = "已取消";
                     }
                     if (isSuccess) {
-                        VirtualRoot.Ui.ShowSuccessMessage(App.AppType.ToString() + version + "下载成功");
+                        VirtualRoot.Out.ShowSuccessMessage(App.AppType.ToString() + version + "下载成功");
                     }
                     else {
-                        VirtualRoot.Ui.ShowErrorMessage(message, 4);
+                        VirtualRoot.Out.ShowErrorMessage(message, 4);
                     }
                     downloadComplete?.Invoke(isSuccess, message, saveFileFullName);
                 };

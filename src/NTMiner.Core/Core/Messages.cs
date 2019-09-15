@@ -57,31 +57,9 @@ namespace NTMiner.Core {
         public BlockWAUCommand() { }
     }
 
-    [MessageType(description: "禁用win10系统更新后")]
-    public class BlockWAUEvent : EventBase {
-        public BlockWAUEvent(bool isSuccess, string message) {
-            this.IsSuccess = isSuccess;
-            this.Message = message;
-        }
-
-        public bool IsSuccess { get; private set; }
-        public string Message { get; private set; }
-    }
-
     [MessageType(description: "优化window10")]
     public class Win10OptimizeCommand : Cmd {
         public Win10OptimizeCommand() { }
-    }
-
-    [MessageType(description: "优化window10后")]
-    public class Win10OptimizeEvent : EventBase {
-        public Win10OptimizeEvent(bool isSuccess, string message) {
-            this.IsSuccess = isSuccess;
-            this.Message = message;
-        }
-
-        public bool IsSuccess { get; private set; }
-        public string Message { get; private set; }
     }
 
     [MessageType(description: "开起A卡计算模式")]
@@ -99,17 +77,6 @@ namespace NTMiner.Core {
     [MessageType(description: "注册右键打开windindows命令行菜单")]
     public class RegCmdHereCommand : Cmd {
         public RegCmdHereCommand() { }
-    }
-
-    [MessageType(description: "注册右键打开windindows命令行菜单后")]
-    public class RegCmdHereEvent : EventBase {
-        public RegCmdHereEvent(bool isSuccess, string message) {
-            this.IsSuccess = isSuccess;
-            this.Message = message;
-        }
-
-        public bool IsSuccess { get; private set; }
-        public string Message { get; private set; }
     }
 
     #region profile Messages
