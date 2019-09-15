@@ -2,7 +2,7 @@
 using System;
 
 namespace NTMiner.Vms {
-    public class NotiCenterWindowViewModel : ViewModelBase, IShowMessage {
+    public class NotiCenterWindowViewModel : ViewModelBase, IUi {
         public static readonly NotiCenterWindowViewModel Instance = new NotiCenterWindowViewModel();
         public static bool IsHotKeyEnabled = false;
 

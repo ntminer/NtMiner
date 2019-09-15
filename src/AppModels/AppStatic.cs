@@ -55,7 +55,7 @@ namespace NTMiner {
                                         callback?.Invoke();
                                     }
                                     else {
-                                        VirtualRoot.ShowMessage.ShowErrorMessage(message);
+                                        VirtualRoot.Ui.ShowErrorMessage(message);
                                         callback?.Invoke();
                                     }
                                 }
@@ -411,7 +411,7 @@ namespace NTMiner {
         public static ICommand ExportServerJson { get; private set; } = new DelegateCommand(() => {
             try {
                 NTMinerRoot.ExportServerVersionJson(AssemblyInfo.ServerVersionJsonFileFullName);
-                VirtualRoot.ShowMessage.ShowSuccessMessage($"{AssemblyInfo.ServerJsonFileName}", "导出成功");
+                VirtualRoot.Ui.ShowSuccessMessage($"{AssemblyInfo.ServerJsonFileName}", "导出成功");
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
@@ -427,11 +427,11 @@ namespace NTMiner {
                         Key = AssemblyInfo.ServerJsonFileName,
                         Value = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss fff")
                     }));
-                    VirtualRoot.ShowMessage.ShowSuccessMessage($"刷新成功");
+                    VirtualRoot.Ui.ShowSuccessMessage($"刷新成功");
                 }
                 catch (Exception e) {
                     Logger.ErrorDebugLine(e);
-                    VirtualRoot.ShowMessage.ShowErrorMessage($"刷新失败");
+                    VirtualRoot.Ui.ShowErrorMessage($"刷新失败");
                 }
             }, icon: IconConst.IconConfirm));
         });

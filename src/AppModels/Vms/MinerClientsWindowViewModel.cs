@@ -113,7 +113,7 @@ namespace NTMiner.Vms {
                     var selectedMinerClient = this.SelectedMinerClients[0];
                     Wpf.Util.ShowInputDialog("群控矿工名 注意：重新开始挖矿时生效", selectedMinerClient.MinerName, null, minerName => {
                         selectedMinerClient.MinerName = minerName;
-                        VirtualRoot.ShowMessage.ShowSuccessMessage("设置群控矿工名成功，重新开始挖矿时生效。");
+                        VirtualRoot.Ui.ShowSuccessMessage("设置群控矿工名成功，重新开始挖矿时生效。");
                     });
                     return;
                 }
@@ -145,7 +145,7 @@ namespace NTMiner.Vms {
                     foreach (var item in SelectedMinerClients) {
                         item.WindowsLoginName = loginName;
                     }
-                    VirtualRoot.ShowMessage.ShowSuccessMessage("设置远程桌面用户名成功，双击矿机可打开远程桌面。");
+                    VirtualRoot.Ui.ShowSuccessMessage("设置远程桌面用户名成功，双击矿机可打开远程桌面。");
                 });
             }, CanCommand);
             this.OneKeyWindowsLoginPassword = new DelegateCommand(() => {
@@ -153,7 +153,7 @@ namespace NTMiner.Vms {
                     foreach (var item in SelectedMinerClients) {
                         item.WindowsPassword = password;
                     }
-                    VirtualRoot.ShowMessage.ShowSuccessMessage("设置远程桌面密码成功，双击矿机可打开远程桌面。");
+                    VirtualRoot.Ui.ShowSuccessMessage("设置远程桌面密码成功，双击矿机可打开远程桌面。");
                 });
             }, CanCommand);
             this.EditMineWork = new DelegateCommand(() => {
@@ -423,7 +423,7 @@ namespace NTMiner.Vms {
         }
 
         private void ShowNoRecordSelected() {
-            VirtualRoot.ShowMessage.ShowErrorMessage("没有选中记录", 2);
+            VirtualRoot.Ui.ShowErrorMessage("没有选中记录", 2);
         }
 
         public ColumnsShowViewModel ColumnsShow {

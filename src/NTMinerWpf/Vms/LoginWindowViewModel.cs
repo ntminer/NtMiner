@@ -42,7 +42,7 @@ namespace NTMiner.Vms {
         public void ShowMessage(string message, bool isSuccess = false) {
             UIThread.Execute(() => {
                 if (isSuccess) {
-                    VirtualRoot.ShowMessage.ShowSuccessMessage(message);
+                    VirtualRoot.Ui.ShowSuccessMessage(message);
                 }
                 else {
                     NotiCenterWindowViewModel.Instance.Manager.CreateMessage()

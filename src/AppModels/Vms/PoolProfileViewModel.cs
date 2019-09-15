@@ -14,7 +14,7 @@ namespace NTMiner.Vms {
             this.CopyWallet = new DelegateCommand(() => {
                 string wallet = this.UserName ?? "无";
                 Clipboard.SetDataObject(wallet);
-                VirtualRoot.ShowMessage.ShowSuccessMessage(wallet, "复制成功");
+                VirtualRoot.Ui.ShowSuccessMessage(wallet, "复制成功");
             });
         }
 

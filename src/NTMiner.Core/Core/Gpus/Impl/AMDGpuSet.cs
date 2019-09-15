@@ -82,13 +82,13 @@ namespace NTMiner.Core.Gpus.Impl {
                     if (NTMinerRoot.Instance.GpuSet.GpuType == GpuType.AMD) {
                         SwitchRadeonGpu((isSuccess, e) => {
                             if (isSuccess) {
-                                VirtualRoot.ShowMessage.ShowSuccessMessage("开启A卡计算模式成功");
+                                VirtualRoot.Ui.ShowSuccessMessage("开启A卡计算模式成功");
                             }
                             else if (e != null) {
-                                VirtualRoot.ShowMessage.ShowErrorMessage(e.Message, delaySeconds: 4);
+                                VirtualRoot.Ui.ShowErrorMessage(e.Message, delaySeconds: 4);
                             }
                             else {
-                                VirtualRoot.ShowMessage.ShowErrorMessage("开启A卡计算模式失败", delaySeconds: 4);
+                                VirtualRoot.Ui.ShowErrorMessage("开启A卡计算模式失败", delaySeconds: 4);
                             }
                         });
                     }
