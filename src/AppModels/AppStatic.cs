@@ -230,6 +230,12 @@ namespace NTMiner {
             }
         }
 
+        public static bool IsAmdGpu {
+            get {
+                return NTMinerRoot.Instance.GpuSet.GpuType == GpuType.AMD;
+            }
+        }
+
         public static bool IsPoolBrand {
             get {
                 return NTMinerRoot.IsPoolBrand;

@@ -24,6 +24,7 @@
 					Height="50" 
 					Width="200"
 					Margin="4"
+                    IsEnabled="{x:Static app:AppStatic.IsAmdGpu}"
 					Command="{Binding SwitchRadeonGpu}"
 					Cursor="Hand"
 					Background="Transparent">
@@ -44,6 +45,7 @@
 					Height="50" 
 					Width="200"
 					Margin="4"
+                    IsEnabled="{x:Static app:AppStatic.IsAmdGpu}"
 					Command="{Binding AtikmdagPatcher}"
 					Cursor="Hand"
 					Background="Transparent">
