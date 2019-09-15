@@ -43,9 +43,11 @@ namespace NTMiner {
                             }
                         }
                     }
-                    string shareServerDbFileFullName = Path.Combine(AssemblyInfo.ShareDirFullName, "server.litedb");
-                    if (File.Exists(shareServerDbFileFullName) && !File.Exists(ServerDbFileFullName)) {
-                        File.Copy(shareServerDbFileFullName, ServerDbFileFullName);
+                    if (DevMode.IsDevMode) {
+                        string shareServerDbFileFullName = Path.Combine(AssemblyInfo.ShareDirFullName, "server.litedb");
+                        if (File.Exists(shareServerDbFileFullName) && !File.Exists(ServerDbFileFullName)) {
+                            File.Copy(shareServerDbFileFullName, ServerDbFileFullName);
+                        }
                     }
                     string shareServerJsonFileFullName = Path.Combine(AssemblyInfo.ShareDirFullName, "server.json");
                     if (File.Exists(shareServerJsonFileFullName) && !File.Exists(ServerJsonFileFullName)) {
