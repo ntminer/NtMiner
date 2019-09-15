@@ -14,7 +14,7 @@ namespace NTMiner {
             VirtualRoot.StartTimer();
             try {
                 // 将服务器地址设为localhost从而使用内网ip访问免于验证用户名密码
-                AssemblyInfo.OfficialServerHost = "localhost";
+                AssemblyInfo.SetOfficialServerHost("localhost");
                 NTMinerRegistry.SetAutoBoot("NTMiner.CalcConfigUpdater", true);
                 VirtualRoot.On<Per10MinuteEvent>("每10分钟更新收益计算器", LogEnum.DevConsole,
                     action: message => {
@@ -46,7 +46,7 @@ namespace NTMiner {
                     byte[] vdsUUData = null;
                     byte[] vdsZtData = null;
                     try {
-                        Task.WaitAll(new Task[] { vdsUUDataTask, vdsZtDataTask, htmlDataTask }, 20 * 1000);
+                        Task.WaitAll(new Task[] { vdsUUDataTask, vdsZtDataTask, htmlDataTask }, 30 * 1000);
                         htmlData = htmlDataTask.Result;
                         vdsUUData = vdsUUDataTask.Result;
                         vdsZtData = vdsZtDataTask.Result;
@@ -85,10 +85,29 @@ namespace NTMiner {
                                         coinCodes.Add(calcConfigData.CoinCode);
                                         calcConfigData.Speed = incomeItem.Speed;
                                         calcConfigData.SpeedUnit = incomeItem.SpeedUnit;
+                                        calcConfigData.NetSpeed = incomeItem.NetSpeed;
+                                        calcConfigData.NetSpeedUnit = incomeItem.NetSpeedUnit;
                                         calcConfigData.IncomePerDay = incomeItem.IncomeCoin;
                                         calcConfigData.IncomeUsdPerDay = incomeItem.IncomeUsd;
                                         calcConfigData.IncomeCnyPerDay = incomeItem.IncomeCny;
                                         calcConfigData.ModifiedOn = DateTime.Now;
+                                        if (calcConfigData.ModifiedOn.AddMinutes(15) > calcConfigData.ModifiedOn.Date.AddDays(1)) {
+                                            calcConfigData.BaseNetSpeed = calcConfigData.NetSpeed;
+                                            calcConfigData.BaseNetSpeedUnit = calcConfigData.NetSpeedUnit;
+                                        }
+                                        else if(calcConfigData.BaseNetSpeed != 0) {
+                                            if (calcConfigData.NetSpeedUnit == calcConfigData.BaseNetSpeedUnit) {
+                                                calcConfigData.DayWave = (calcConfigData.NetSpeed - calcConfigData.BaseNetSpeed) / calcConfigData.BaseNetSpeed;
+                                            }
+                                            else {
+                                                if (string.IsNullOrEmpty(calcConfigData.BaseNetSpeedUnit)) {
+                                                    calcConfigData.BaseNetSpeedUnit = calcConfigData.NetSpeedUnit;
+                                                }
+                                                var netSpeed = calcConfigData.NetSpeed.FromUnitSpeed(calcConfigData.NetSpeedUnit);
+                                                var baseNetSpeed = calcConfigData.BaseNetSpeed.FromUnitSpeed(calcConfigData.BaseNetSpeedUnit);
+                                                calcConfigData.DayWave = (netSpeed - baseNetSpeed) / baseNetSpeed;
+                                            }
+                                        }
                                     }
                                 }
                                 OfficialServer.CalcConfigService.SaveCalcConfigsAsync(data, callback: (res, e) => {
@@ -146,11 +165,15 @@ namespace NTMiner {
                     incomeItem.SpeedUnit = incomeItem.SpeedUnit.ToLower();
                     incomeItem.SpeedUnit = incomeItem.SpeedUnit.Replace("sol/s", "h/s");
                 }
+                if (!string.IsNullOrEmpty(incomeItem.NetSpeedUnit)) {
+                    incomeItem.NetSpeedUnit = incomeItem.NetSpeedUnit.ToLower();
+                    incomeItem.NetSpeedUnit = incomeItem.NetSpeedUnit.Replace("sol/s", "h/s");
+                }
             }
         }
 
         private static IncomeItem PickVDSIncomeItem(string vdsUUHtml, string vdsZtHtml, double usdCny) {
-            string pattern = "\"symbol\":\"vds\",.+,\"est\":\"(?<incomeCoin>[\\d\\.]+) VDS\\\\/(?<speedUnit>\\w+)\",";
+            string pattern = "\"symbol\":\"vds\",.+,\"hr\":\"(?<netSpeed>[\\d\\.]+)\\s(?<netSpeedUnit>\\w+)\",\"est\":\"(?<incomeCoin>[\\d\\.]+) VDS\\\\/(?<speedUnit>\\w+)\",";
             IncomeItem result = new IncomeItem {
                 CoinCode = "VDS",
                 DataCode = "VDS",
@@ -159,11 +182,16 @@ namespace NTMiner {
             var match = Regex.Match(vdsUUHtml, pattern);
             if (match.Success) {
                 string incomeCoinText = match.Groups["incomeCoin"].Value;
-                string speedUnit = match.Groups["speedUnit"].Value;
-                result.SpeedUnit = speedUnit + "h/s";
+                result.SpeedUnit = match.Groups["speedUnit"].Value + "h/s";
+                string netSpeedText = match.Groups["netSpeed"].Value;
+                result.NetSpeedUnit = match.Groups["netSpeedUnit"].Value + "h/s";
                 double incomeCoin;
                 if (double.TryParse(incomeCoinText, out incomeCoin)) {
                     result.IncomeCoin = incomeCoin;
+                }
+                double netSpeed;
+                if (double.TryParse(netSpeedText, out netSpeed)) {
+                    result.NetSpeed = netSpeed;
                 }
             }
             pattern = "\"VDS\",.+?,\"last\":\"(?<incomeCny>[\\d\\.]+)\"";
@@ -195,7 +223,7 @@ namespace NTMiner {
                     return results;
                 }
                 List<int> indexList = new List<int>();
-                const string splitText = "<div class=\"row-collapse-container\" data-code=";
+                const string splitText = "<tr class=\"row-common";
                 int index = html.IndexOf(splitText);
                 while (index != -1) {
                     indexList.Add(index);
@@ -208,7 +236,8 @@ namespace NTMiner {
                         incomeItem = PickIncomeItem(regex, html.Substring(indexList[i], indexList[i + 1] - indexList[i]));
                     }
                     else {
-                        incomeItem = PickIncomeItem(regex, html.Substring(indexList[i], 2000));
+                        string content = html.Substring(indexList[i]);
+                        incomeItem = PickIncomeItem(regex, content.Substring(0, content.IndexOf("<span class=\"info-title\">币价</span>")));
                     }
                     if (incomeItem != null) {
                         results.Add(incomeItem);
@@ -228,31 +257,36 @@ namespace NTMiner {
                 IncomeItem incomeItem = new IncomeItem() {
                     DataCode = match.Groups["dataCode"].Value,
                     CoinCode = match.Groups["coinCode"].Value,
-                    SpeedUnit = match.Groups["speedUnit"].Value
+                    SpeedUnit = match.Groups["speedUnit"].Value,
+                    NetSpeedUnit = match.Groups["netSpeedUnit"].Value,
                 };
                 if (incomeItem.DataCode == "grin-29") {
                     incomeItem.CoinCode = "grin";
                     incomeItem.SpeedUnit = "h/s";
+                    if (incomeItem.NetSpeedUnit != null) {
+                        incomeItem.NetSpeedUnit = incomeItem.NetSpeedUnit.Replace("g/s", "h/s");
+                    }
                 }
                 else if (incomeItem.DataCode == "grin-31") {
                     incomeItem.CoinCode = "grin31";
                     incomeItem.SpeedUnit = "h/s";
+                    if (incomeItem.NetSpeedUnit != null) {
+                        incomeItem.NetSpeedUnit = incomeItem.NetSpeedUnit.Replace("g/s", "h/s");
+                    }
                 }
                 double.TryParse(match.Groups["speed"].Value, out double speed);
                 incomeItem.Speed = speed;
+                double.TryParse(match.Groups["netSpeed"].Value, out double netSpeed);
+                incomeItem.NetSpeed = netSpeed;
                 double.TryParse(match.Groups["incomeCoin"].Value, out double incomeCoin);
                 incomeItem.IncomeCoin = incomeCoin;
                 double.TryParse(match.Groups["incomeUsd"].Value, out double incomeUsd);
                 incomeItem.IncomeUsd = incomeUsd;
                 if (incomeItem.DataCode == "ae") {
                     incomeItem.SpeedUnit = "h/s";
-                    incomeItem.IncomeCoin = incomeItem.IncomeCoin / 100;
-                    incomeItem.IncomeUsd = incomeItem.IncomeUsd / 100;
-                }
-                if (incomeItem.DataCode == "grin-29")
-                {
-                    incomeItem.IncomeCoin = incomeItem.IncomeCoin * 2;
-                    incomeItem.IncomeUsd = incomeItem.IncomeUsd * 2;
+                    if (incomeItem.NetSpeedUnit != null) {
+                        incomeItem.NetSpeedUnit = incomeItem.NetSpeedUnit.Replace("g/s", "h/s");
+                    }
                 }
                 return incomeItem;
             }
@@ -278,7 +312,7 @@ namespace NTMiner {
         private static async Task<byte[]> GetHtmlAsync(string url) {
             try {
                 using (HttpClient client = new HttpClient()) {
-                    client.Timeout = TimeSpan.FromSeconds(10);
+                    client.Timeout = TimeSpan.FromSeconds(20);
                     return await client.GetByteArrayAsync(url);
                 }
             }

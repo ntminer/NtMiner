@@ -29,6 +29,8 @@ namespace NTMiner.MinerServer {
                 IsAutoRestartKernel = false,
                 IsNoShareRestartKernel = false,
                 NoShareRestartKernelMinutes = 0,
+                IsNoShareRestartComputer = false,
+                NoShareRestartComputerMinutes = 0,
                 IsPeriodicRestartKernel = false,
                 PeriodicRestartKernelHours = 0,
                 IsPeriodicRestartComputer = false,
@@ -71,6 +73,8 @@ namespace NTMiner.MinerServer {
                 IsAutoRestartKernel = speedData.IsAutoRestartKernel,
                 IsNoShareRestartKernel = speedData.IsNoShareRestartKernel,
                 NoShareRestartKernelMinutes = speedData.NoShareRestartKernelMinutes,
+                IsNoShareRestartComputer = speedData.IsNoShareRestartComputer,
+                NoShareRestartComputerMinutes = speedData.NoShareRestartComputerMinutes,
                 IsPeriodicRestartKernel = speedData.IsPeriodicRestartKernel,
                 PeriodicRestartKernelHours = speedData.PeriodicRestartKernelHours,
                 IsPeriodicRestartComputer = speedData.IsPeriodicRestartComputer,
@@ -160,6 +164,8 @@ namespace NTMiner.MinerServer {
             this.IsAutoRestartKernel = speedData.IsAutoRestartKernel;
             this.IsNoShareRestartKernel = speedData.IsNoShareRestartKernel;
             this.NoShareRestartKernelMinutes = speedData.NoShareRestartKernelMinutes;
+            this.IsNoShareRestartComputer = speedData.IsNoShareRestartComputer;
+            this.NoShareRestartComputerMinutes = speedData.NoShareRestartComputerMinutes;
             this.IsPeriodicRestartKernel = speedData.IsPeriodicRestartKernel;
             this.PeriodicRestartKernelHours = speedData.PeriodicRestartKernelHours;
             this.IsPeriodicRestartComputer = speedData.IsPeriodicRestartComputer;
@@ -294,7 +300,9 @@ namespace NTMiner.MinerServer {
         public bool IsAutoStart { get; set; }
         public bool IsAutoRestartKernel { get; set; }
         public bool IsNoShareRestartKernel { get; set; }
+        public bool IsNoShareRestartComputer { get; set; }
         public int NoShareRestartKernelMinutes { get; set; }
+        public int NoShareRestartComputerMinutes { get; set; }
         public bool IsPeriodicRestartKernel { get; set; }
         public int PeriodicRestartKernelHours { get; set; }
         public bool IsPeriodicRestartComputer { get; set; }

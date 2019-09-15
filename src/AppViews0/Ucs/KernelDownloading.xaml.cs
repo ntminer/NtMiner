@@ -9,6 +9,8 @@ namespace NTMiner.Views.Ucs {
                 IsDialogWindow = true,
                 Title = "下载挖矿内核",
                 IconName = "Icon_Download",
+                Width = 294,
+                Height = 120,
                 CloseVisible = System.Windows.Visibility.Visible,
                 FooterVisible = System.Windows.Visibility.Collapsed
             },

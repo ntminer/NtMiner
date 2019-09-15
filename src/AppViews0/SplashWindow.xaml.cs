@@ -12,11 +12,11 @@ namespace NTMiner.Views {
 
         public SplashWindow() {
 #if DEBUG
-            VirtualRoot.Stopwatch.Restart();
+            Write.Stopwatch.Restart();
 #endif
             InitializeComponent();
 #if DEBUG
-            Write.DevWarn($"耗时{VirtualRoot.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+            Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
 #endif
         }
 

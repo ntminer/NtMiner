@@ -11,9 +11,6 @@ namespace NTMiner.Windows {
                     WinRegistry.SetValue(Registry.LocalMachine, subKey, "DisableAntiSpyware", 1);
                     Logger.OkDebugLine("Windows Defender禁用成功");
                 }
-                else {
-                    Logger.OkDebugLine("Windows Defender已经处于禁用状态，无需再次禁用");
-                }
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine("Windows Defender禁用失败，因为异常", e);

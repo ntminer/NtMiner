@@ -10,13 +10,13 @@ namespace NTMiner.Core {
             Icon = string.Empty,
             AlgoId = Guid.Empty,
             Algo = string.Empty,
-            SortNumber = 0,
             TestWallet = string.Empty,
             WalletRegexPattern = string.Empty,
             JustAsDualCoin = false,
             Notice = string.Empty,
             TutorialUrl = string.Empty,
-            IsHot = false
+            IsHot = false,
+            KernelBrand = string.Empty
         };
 
         public CoinData() {
@@ -40,8 +40,6 @@ namespace NTMiner.Core {
 
         public string Algo { get; set; }
 
-        public int SortNumber { get; set; }
-
         public string TestWallet { get; set; }
 
         public string WalletRegexPattern { get; set; }
@@ -52,5 +50,10 @@ namespace NTMiner.Core {
         public string TutorialUrl { get; set; }
 
         public bool IsHot { get; set; }
+
+        public string KernelBrand { get; set; }
+        // 使导出的json向后兼容，待旧版本用户少了可以去除这个属性
+
+        public int SortNumber { get; set; }
     }
 }

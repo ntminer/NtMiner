@@ -10,8 +10,10 @@ namespace NTMiner.Views.Ucs {
             Action<ContainerWindow, bool, string, string> downloadComplete) {
             UIThread.Execute(() => {
                 ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                    Title = "下载器",
+                    Title = "下载 - " + fileTitle,
                     IconName = "Icon_Download",
+                    Height = 200,
+                    Width = 400,
                     CloseVisible = System.Windows.Visibility.Visible,
                 }, ucFactory: (window) => {
                     FileDownloaderViewModel vm = new FileDownloaderViewModel(downloadFileUrl, (isSuccess, message, saveFileFullName) => {

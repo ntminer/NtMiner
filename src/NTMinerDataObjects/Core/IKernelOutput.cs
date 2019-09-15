@@ -3,7 +3,6 @@
 namespace NTMiner.Core {
     public interface IKernelOutput : IEntity<Guid> {
         string Name { get; }
-        bool PrependDateTime { get; }
         bool IsDualInSameLine { get; }
 
         string KernelRestartKeyword { get; }
@@ -11,11 +10,13 @@ namespace NTMiner.Core {
         string TotalSpeedPattern { get; }
         string TotalSharePattern { get; }
         string AcceptSharePattern { get; }
+        string FoundOneShare { get; }
         string AcceptOneShare { get; }
         string RejectSharePattern { get; }
         string RejectOneShare { get; }
         string RejectPercentPattern { get; }
         string GpuSpeedPattern { get; }
+        string GpuGotOneIncorrectShare { get; }
 
         string DualTotalSpeedPattern { get; }
         string DualTotalSharePattern { get; }

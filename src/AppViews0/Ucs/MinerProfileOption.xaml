@@ -3,12 +3,14 @@
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 		xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
-		mc:Ignorable="d" d:DesignHeight="450" d:DesignWidth="600">
+        Background="White"
+		mc:Ignorable="d" d:DesignHeight="650" d:DesignWidth="600">
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<PathGeometry x:Key="Icon_Up">M4,0 L0,4 L8,4 z</PathGeometry>
@@ -38,14 +40,14 @@
 						<TextBlock Style="{StaticResource GroupHeader}">自动化</TextBlock>
 					</GroupBox.Header>
 					<StackPanel>
-						<WrapPanel x:Name="WrapPanelAutoBootAndStart" Margin="0 2">
+                        <WrapPanel Margin="0 2" VerticalAlignment="Center" Visibility="{x:Static app:AppStatic.IsMinerClientVisible}">
 							<CheckBox
+                                VerticalAlignment="Center"
 								Padding="0"
 								FocusVisualStyle="{x:Null}"
-								VerticalContentAlignment="Center"
 								IsChecked="{Binding IsAutoBoot}">
-								<TextBlock VerticalAlignment="Center">开机启动</TextBlock>
-							</CheckBox>
+                                <TextBlock>开机启动</TextBlock>
+                            </CheckBox>
 							<CheckBox
 								Margin="10 0 0 0"
 								Padding="0"
@@ -106,7 +108,7 @@
 							</CheckBox>
 						</WrapPanel>
 						<WrapPanel Margin="0 2">
-							<CheckBox
+                            <CheckBox
 								Padding="0"
 								FocusVisualStyle="{x:Null}"
 								VerticalContentAlignment="Center"
@@ -129,8 +131,33 @@
 									<TextBlock VerticalAlignment="Center">分钟收益没有增加重启内核</TextBlock>
 								</WrapPanel>
 							</CheckBox>
-						</WrapPanel>
-						<WrapPanel Margin="0 2">
+                        </WrapPanel>
+                        <WrapPanel Margin="0 2">
+                            <CheckBox
+								Padding="0"
+								FocusVisualStyle="{x:Null}"
+								VerticalContentAlignment="Center"
+								IsChecked="{Binding IsNoShareRestartComputer}">
+                                <WrapPanel>
+                                    <TextBlock VerticalAlignment="Center">如果</TextBlock>
+                                    <TextBox Style="{StaticResource TbUpDown}" Text="{Binding NoShareRestartComputerMinutes}" HorizontalAlignment="Left"></TextBox>
+                                    <StackPanel Margin="0 0 2 0">
+                                        <Button Height="12" Command="{Binding NoShareRestartComputerMinutesUp}">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
+                                            </Button.Content>
+                                        </Button>
+                                        <Button Height="12" Command="{Binding NoShareRestartComputerMinutesDown}">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
+                                            </Button.Content>
+                                        </Button>
+                                    </StackPanel>
+                                    <TextBlock VerticalAlignment="Center">分钟收益没有增加重启电脑</TextBlock>
+                                </WrapPanel>
+                            </CheckBox>
+                        </WrapPanel>
+                        <WrapPanel Margin="0 2">
 							<CheckBox
 								FocusVisualStyle="{x:Null}"
 								Padding="0"
@@ -204,8 +231,8 @@
 											</Button.Content>
 										</Button>
 									</StackPanel>
-									<TextBlock VerticalAlignment="Center">分钟重启电脑</TextBlock>
-								</WrapPanel>
+                                    <TextBlock VerticalAlignment="Center">分钟重启电脑</TextBlock>
+                                </WrapPanel>
 							</CheckBox>
 						</WrapPanel>
 					</StackPanel>
@@ -227,7 +254,7 @@
 						Text="群控"></TextBlock>
 				</Border>
 			</Grid>
-			<GroupBox x:Name="GroupSystemSetting" Margin="0 6 0 0" Padding="6 0">
+			<GroupBox Margin="0 6 0 0" Padding="6 0" Visibility="{x:Static app:AppStatic.IsMinerClientVisible}">
 				<GroupBox.Header>
 					<TextBlock Style="{StaticResource GroupHeader}">显示</TextBlock>
 				</GroupBox.Header>
@@ -319,13 +346,13 @@
 					<TextBlock Style="{StaticResource GroupHeader}">其它</TextBlock>
 				</GroupBox.Header>
 				<StackPanel>
-					<WrapPanel Margin="0 2">
+					<WrapPanel Margin="0 2" VerticalAlignment="Center">
 						<CheckBox
 							FocusVisualStyle="{x:Null}"
 							Padding="0"
-							VerticalContentAlignment="Center"
-							Content="在状态栏展示电费"
+							VerticalAlignment="Center"
 							IsChecked="{Binding IsEChargeEnabled}">
+                            <TextBlock>在状态栏展示电费</TextBlock>
 						</CheckBox>
 						<TextBlock Margin="10 0 0 0" VerticalAlignment="Center">电价</TextBlock>
 						<TextBox Style="{StaticResource TbUpDown}" Text="{Binding EPrice}" HorizontalAlignment="Left"></TextBox>
@@ -343,13 +370,13 @@
 						</StackPanel>
 						<TextBlock VerticalAlignment="Center">￥/度</TextBlock>
 					</WrapPanel>
-					<WrapPanel Margin="0 2">
+					<WrapPanel Margin="0 2" VerticalAlignment="Center">
 						<CheckBox
 							FocusVisualStyle="{x:Null}"
 							Padding="0"
-							Content="功耗补偿"
-							VerticalContentAlignment="Center"
+							VerticalAlignment="Center"
 							IsChecked="{Binding IsPowerAppend}">
+                            <TextBlock>功耗补偿</TextBlock>
 						</CheckBox>
 						<TextBlock Margin="10 0 0 0" VerticalAlignment="Center">每卡补偿</TextBlock>
 						<TextBox Style="{StaticResource TbUpDown}" Text="{Binding PowerAppend}" HorizontalAlignment="Left"></TextBox>
@@ -366,7 +393,7 @@
 							</Button>
 						</StackPanel>
 						<TextBlock VerticalAlignment="Center">瓦</TextBlock>
-						<TextBlock Foreground="Red" VerticalAlignment="Center">（由于A卡的功耗不准，可以通过功耗补偿修正，可正负）</TextBlock>
+						<TextBlock Foreground="Red" VerticalAlignment="Center">（由于A卡的功耗不准，可以通过功耗补偿修正）</TextBlock>
 					</WrapPanel>
 					<WrapPanel Margin="0 2">
 						<TextBlock VerticalAlignment="Center">显卡温度达到</TextBlock>

@@ -7,7 +7,10 @@
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
 		xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
-		xmlns:local="clr-namespace:NTMiner.Views.Ucs" Background="White">
+		xmlns:local="clr-namespace:NTMiner.Views.Ucs" 
+		mc:Ignorable="d"
+        d:DesignWidth="500"
+        Background="White">
 	<UserControl.Resources>
 		<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
 			<Setter Property="Width" Value="60"></Setter>
@@ -38,7 +41,7 @@
 		<controls:KbButton
 			Command="{Binding Save}" 
 			VerticalAlignment="Bottom"
-			Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
+			Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
 			Margin="0 10 0 0"
 			Padding="15 2"
 			HorizontalAlignment="Center"

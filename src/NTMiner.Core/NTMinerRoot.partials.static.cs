@@ -20,6 +20,18 @@ namespace NTMiner {
         public static readonly string CurrentVersionTag;
 
         public static string ServerVersion;
+        private static bool _isJsonServer;
+        public static bool IsJsonServer {
+            get { return _isJsonServer; }
+            private set { _isJsonServer = value; }
+        }
+
+        private static bool _isJsonLocal;
+        public static bool IsJsonLocal {
+            get { return _isJsonLocal; }
+            private set { _isJsonLocal = value; }
+        }
+
         public static Action RefreshArgsAssembly { get; private set; } = () => { };
         public static void SetRefreshArgsAssembly(Action action) {
             RefreshArgsAssembly = action;
@@ -87,12 +99,9 @@ namespace NTMiner {
             }
         }
 
-        public static void ReInitLocalJson(MineWorkData mineWorkData = null) {
+        public static void ReInitLocalJson() {
             _localJsonInited = false;
-            if (mineWorkData != null) {
-                LocalJsonInit();
-                _localJson.MineWork = mineWorkData;
-            }
+            LocalJsonInit();
         }
 
         private static readonly object _localJsonlocker = new object();
@@ -120,7 +129,7 @@ namespace NTMiner {
                         if (string.IsNullOrEmpty(_localJson.MinerProfile.MinerName)) {
                             _localJson.MinerProfile.MinerName = GetMinerName();
                             if (string.IsNullOrEmpty(_localJson.MinerProfile.MinerName)) {
-                                var repository = CreateLocalRepository<Profile.MinerProfileData>(isUseJson: false);
+                                var repository = new LiteDbReadWriteRepository<Profile.MinerProfileData>(SpecialPath.LocalDbFileFullName);
                                 Profile.MinerProfileData data = repository.GetByKey(Profile.MinerProfileData.DefaultId);
                                 if (data != null) {
                                     _localJson.MinerProfile.MinerName = data.MinerName;
@@ -230,31 +239,33 @@ namespace NTMiner {
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public static IRepository<T> CreateCompositeRepository<T>(bool isUseJson) where T : class, ILevelEntity<Guid> {
-            return new CompositeRepository<T>(CreateServerRepository<T>(isUseJson), CreateLocalRepository<T>(isUseJson: false));
+        public static IRepository<T> CreateCompositeRepository<T>() where T : class, ILevelEntity<Guid> {
+            return new HierarchicalRepository<T>(CreateServerRepository<T>(), CreateLocalRepository<T>());
         }
 
-        public static IRepository<T> CreateLocalRepository<T>(bool isUseJson) where T : class, IDbEntity<Guid> {
-            if (!isUseJson) {
-                return new CommonRepository<T>(SpecialPath.LocalDbFileFullName);
+        public static IRepository<T> CreateLocalRepository<T>() where T : class, IDbEntity<Guid> {
+            if (!IsJsonLocal) {
+                return new LiteDbReadWriteRepository<T>(SpecialPath.LocalDbFileFullName);
             }
             else {
-                return new ReadOnlyRepository<T>(LocalJson);
+                return new JsonReadOnlyRepository<T>(LocalJson);
             }
         }
 
-        public static IRepository<T> CreateServerRepository<T>(bool isUseJson) where T : class, IDbEntity<Guid> {
-            if (!isUseJson) {
-                return new CommonRepository<T>(SpecialPath.ServerDbFileFullName);
+        public static IRepository<T> CreateServerRepository<T>() where T : class, IDbEntity<Guid> {
+            if (!IsJsonServer) {
+                return new LiteDbReadWriteRepository<T>(SpecialPath.ServerDbFileFullName);
             }
             else {
-                return new ReadOnlyRepository<T>(ServerJson);
+                return new JsonReadOnlyRepository<T>(ServerJson);
             }
         }
 
+        // 矿工名中不可以包含的字符
+        private static readonly char[] InvalidChars = { '.', ' ', '-', '_' };
         public static string GetThisPcName() {
             string value = Environment.MachineName.ToLower();
-            value = new string(value.ToCharArray().Where(a => !MinerNameConst.InvalidChars.Contains(a)).ToArray());
+            value = new string(value.ToCharArray().Where(a => !InvalidChars.Contains(a)).ToArray());
             return value;
         }
 
@@ -318,7 +329,7 @@ namespace NTMiner {
         #region AutoNoUi
         public static bool GetIsAutoNoUi() {
             object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "IsAutoNoUi");
-            return value == null || value.ToString() == "True";
+            return value != null && value.ToString() == "True";
         }
 
         public static void SetIsAutoNoUi(bool value) {

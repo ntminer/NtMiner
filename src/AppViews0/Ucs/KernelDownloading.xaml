@@ -12,7 +12,7 @@
 		d:DataContext="{d:DesignData Source=/Design/KernelsWindowViewModel.xaml}"
 		Background="#DCEAF4"
 		BorderThickness="0 0 1 0"
-		mc:Ignorable="d" Height="120" Width="294">
+		mc:Ignorable="d" d:DesignHeight="120" d:DesignWidth="294">
 	<UserControl.DataContext>
 		<vm:KernelDownloadingViewModel></vm:KernelDownloadingViewModel>
 	</UserControl.DataContext>

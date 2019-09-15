@@ -26,28 +26,11 @@ namespace NTMiner {
                 }
             }
 
-            public void StartNoDevFeeAsync(StartNoDevFeeRequest request, Action<ResponseBase, Exception> callback) {
+            public void SetWalletAsync(SetWalletRequest request, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         using (HttpClient client = new HttpClient()) {
-                            Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:{Consts.NTMinerDaemonPort}/api/{s_controllerName}/{nameof(INTMinerDaemonController.StartNoDevFee)}", request);
-                            ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
-                            callback?.Invoke(response, null);
-                        }
-                    }
-                    catch (Exception e) {
-                        callback?.Invoke(null, e);
-                    }
-                });
-            }
-
-            public void StopNoDevFeeAsync(Action<ResponseBase, Exception> callback) {
-                Task.Factory.StartNew(() => {
-                    try {
-                        using (HttpClient client = new HttpClient()) {
-                            client.Timeout = TimeSpan.FromSeconds(2);
-                            RequestBase request = new RequestBase();
-                            Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:{Consts.NTMinerDaemonPort}/api/{s_controllerName}/{nameof(INTMinerDaemonController.StopNoDevFee)}", request);
+                            Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:{Consts.NTMinerDaemonPort}/api/{s_controllerName}/{nameof(INTMinerDaemonController.SetWallet)}", request);
                             ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                             callback?.Invoke(response, null);
                         }

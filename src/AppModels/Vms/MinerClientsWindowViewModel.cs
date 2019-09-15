@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class MinerClientsWindowViewModel : ViewModelBase {
-        public static readonly MinerClientsWindowViewModel Instance = new MinerClientsWindowViewModel();
+        public static readonly MinerClientsWindowViewModel Instance = new MinerClientsWindowViewModel(isInDesignMode: false);
 
         private ColumnsShowViewModel _columnsShow;
         private int _countDown;
@@ -62,8 +62,8 @@ namespace NTMiner.Vms {
         public ICommand OneKeySetting { get; private set; }
 
         #region ctor
-        private MinerClientsWindowViewModel() {
-            if (Design.IsInDesignMode) {
+        public MinerClientsWindowViewModel(bool isInDesignMode = true) {
+            if (Design.IsInDesignMode || isInDesignMode) {
                 return;
             }
             var appSettings = NTMinerRoot.Instance.ServerAppSettingSet;
@@ -113,7 +113,7 @@ namespace NTMiner.Vms {
                     var selectedMinerClient = this.SelectedMinerClients[0];
                     Wpf.Util.ShowInputDialog("群控矿工名 注意：重新开始挖矿时生效", selectedMinerClient.MinerName, null, minerName => {
                         selectedMinerClient.MinerName = minerName;
-                        NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage("设置群控矿工名成功，重新开始挖矿时生效。");
+                        VirtualRoot.Out.ShowSuccessMessage("设置群控矿工名成功，重新开始挖矿时生效。");
                     });
                     return;
                 }
@@ -145,7 +145,7 @@ namespace NTMiner.Vms {
                     foreach (var item in SelectedMinerClients) {
                         item.WindowsLoginName = loginName;
                     }
-                    NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage("设置远程桌面用户名成功，双击矿机可打开远程桌面。");
+                    VirtualRoot.Out.ShowSuccessMessage("设置远程桌面用户名成功，双击矿机可打开远程桌面。");
                 });
             }, CanCommand);
             this.OneKeyWindowsLoginPassword = new DelegateCommand(() => {
@@ -153,7 +153,7 @@ namespace NTMiner.Vms {
                     foreach (var item in SelectedMinerClients) {
                         item.WindowsPassword = password;
                     }
-                    NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage("设置远程桌面密码成功，双击矿机可打开远程桌面。");
+                    VirtualRoot.Out.ShowSuccessMessage("设置远程桌面密码成功，双击矿机可打开远程桌面。");
                 });
             }, CanCommand);
             this.EditMineWork = new DelegateCommand(() => {
@@ -370,14 +370,14 @@ namespace NTMiner.Vms {
         private void RefreshRejectPercentForeground() {
             foreach (MinerClientViewModel item in MinerClients) {
                 if (item.MainCoinRejectPercent >= this.RejectPercent) {
-                    item.MainCoinRejectPercentForeground = MinerClientViewModel.Red;
+                    item.MainCoinRejectPercentForeground = Wpf.Util.RedBrush;
                 }
                 else {
                     item.MainCoinRejectPercentForeground = MinerClientViewModel.DefaultForeground;
                 }
 
                 if (item.DualCoinRejectPercent >= this.RejectPercent) {
-                    item.DualCoinRejectPercentForeground = MinerClientViewModel.Red;
+                    item.DualCoinRejectPercentForeground = Wpf.Util.RedBrush;
                 }
                 else {
                     item.DualCoinRejectPercentForeground = MinerClientViewModel.DefaultForeground;
@@ -410,7 +410,7 @@ namespace NTMiner.Vms {
         private void RefreshMaxTempForeground() {
             foreach (MinerClientViewModel item in MinerClients) {
                 if (item.MaxTemp >= this.MaxTemp) {
-                    item.TempForeground = MinerClientViewModel.Red;
+                    item.TempForeground = Wpf.Util.RedBrush;
                 }
                 else if (item.MaxTemp < this.MinTemp) {
                     item.TempForeground = MinerClientViewModel.Blue;
@@ -423,7 +423,7 @@ namespace NTMiner.Vms {
         }
 
         private void ShowNoRecordSelected() {
-            NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage("没有选中记录", 2);
+            VirtualRoot.Out.ShowErrorMessage("没有选中记录", 2);
         }
 
         public ColumnsShowViewModel ColumnsShow {

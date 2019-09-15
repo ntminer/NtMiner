@@ -10,7 +10,8 @@ namespace NTMiner {
         Fatal,
         Info,
         Debug,
-        Event
+        Event,
+        TimeSpan
     }
 
     public static class MessageTypeExtension {
@@ -30,6 +31,8 @@ namespace NTMiner {
                     return ConsoleColor.Gray;
                 case MessageType.Event:
                     return ConsoleColor.Cyan;
+                case MessageType.TimeSpan:
+                    return ConsoleColor.Gray;
                 case MessageType.Debug:
                 case MessageType.Default:
                 default:

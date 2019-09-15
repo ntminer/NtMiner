@@ -9,14 +9,10 @@
 	xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 	xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
 	xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
-	Background="{StaticResource ThemeBackground}"
 	mc:Ignorable="d">
-	<UserControl.DataContext>
-		<vm:MainMenuViewModel></vm:MainMenuViewModel>
-	</UserControl.DataContext>
 	<WrapPanel>
 		<Menu Background="Transparent" VerticalAlignment="Center">
-			<MenuItem Width="26" Height="30" Visibility="{x:Static app:AppStatic.IsDebugModeVisible}">
+			<MenuItem Width="26" Height="30" Visibility="{x:Static app:AppStatic.IsDevModeVisible}">
 				<MenuItem.Icon>
 					<Path
 						Width="14"
@@ -75,16 +71,6 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="内属性" Command="{x:Static app:AppStatic.ShowInnerProperty}">
-					<MenuItem.Icon>
-						<Path
-							Width="14"
-							Height="14"
-							Data="{StaticResource Icon_Property}"
-							Fill="{StaticResource IconFillColor}"
-							Stretch="Fill" />
-					</MenuItem.Icon>
-				</MenuItem>
 				<MenuItem Header="内核输入" Command="{x:Static app:AppStatic.ShowKernelInputs}">
 					<MenuItem.Icon>
 						<Path
@@ -136,7 +122,7 @@
 					</MenuItem.Icon>
 				</MenuItem>
 			</MenuItem>
-			<MenuItem x:Name="MenuItemMinerStudioGroup" Width="26" Height="30">
+            <MenuItem Visibility="{x:Static app:AppStatic.IsMinerStudioDevVisible}" Width="26" Height="30">
 				<MenuItem.Icon>
 					<Path
 						Width="14"
@@ -191,7 +177,7 @@
 					</MenuItem.Icon>
 				</MenuItem>
 			</MenuItem>
-			<MenuItem x:Name="MenuItemMinerClientGroup" Width="26" Height="30">
+			<MenuItem Visibility="{x:Static app:AppStatic.IsMinerClientVisible}" Width="26" Height="30">
 				<MenuItem.Icon>
 					<Path
 						Width="14"
@@ -270,16 +256,6 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="矿机属性" Command="{x:Static app:AppStatic.ShowOuterProperty}">
-					<MenuItem.Icon>
-						<Path
-							Width="16"
-							Height="16"
-							Data="{StaticResource Icon_Property}"
-							Fill="{StaticResource IconFillColor}"
-							Stretch="Fill" />
-					</MenuItem.Icon>
-				</MenuItem>
 				<MenuItem Header="关于" Command="{x:Static app:AppStatic.ShowAbout}">
 					<MenuItem.Icon>
 						<Path
@@ -301,7 +277,7 @@
 					</MenuItem.Icon>
 				</MenuItem>
 			</MenuItem>
-			<MenuItem Width="26" Height="30" Visibility="{Binding ElementName=MenuItemMinerClientGroup,Path=Visibility,Converter={StaticResource VisibilityInvertConverter}}">
+			<MenuItem Width="26" Height="30" Visibility="{x:Static app:AppStatic.IsMinerStudioVisible}">
 				<MenuItem.Icon>
 					<Path
 						Width="14"

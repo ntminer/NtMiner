@@ -1,14 +1,14 @@
-﻿using NTMiner.Core.Gpus.Impl.Amd;
+﻿using Microsoft.Win32;
+using NTMiner.Gpus;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Management;
 using System.Threading.Tasks;
 
 namespace NTMiner.Core.Gpus.Impl {
     internal class AMDGpuSet : IGpuSet {
-        private readonly Dictionary<int, IGpu> _gpus = new Dictionary<int, IGpu>() {
+        private readonly Dictionary<int, Gpu> _gpus = new Dictionary<int, Gpu>() {
             {
                 NTMinerRoot.GpuAllId, Gpu.GpuAll
             }
@@ -26,14 +26,14 @@ namespace NTMiner.Core.Gpus.Impl {
             this.Properties = new List<GpuSetProperty>();
         }
 
-        private AdlHelper adlHelper = new AdlHelper();
+        private readonly AdlHelper adlHelper = new AdlHelper();
         public AMDGpuSet(INTMinerRoot root) : this() {
 #if DEBUG
-            VirtualRoot.Stopwatch.Restart();
+            Write.Stopwatch.Restart();
 #endif
             _root = root;
             adlHelper.Init();
-            this.OverClock = new AMDOverClock(adlHelper);
+            this.OverClock = new GpuOverClock(adlHelper);
             int deviceCount = 0;
             deviceCount = adlHelper.GpuCount;
             for (int i = 0; i < deviceCount; i++) {
@@ -45,20 +45,19 @@ namespace NTMiner.Core.Gpus.Impl {
                     name = name.Replace("Radeon RX ", string.Empty);
                 }
                 var gpu = Gpu.Create(i, atiGpu.BusNumber.ToString(), name);
-                gpu.TotalMemory = adlHelper.GetTotalMemoryByIndex(i);
+                gpu.TotalMemory = adlHelper.GetTotalMemory(i);
                 _gpus.Add(i, gpu);
             }
             if (deviceCount > 0) {
                 this.DriverVersion = adlHelper.GetDriverVersion();
                 this.Properties.Add(new GpuSetProperty(GpuSetProperty.DRIVER_VERSION, "驱动版本", DriverVersion));
                 const ulong minG = (ulong)5 * 1024 * 1024 * 1024;
-                if (_gpus.Any(a => a.Key != NTMinerRoot.GpuAllId && a.Value.TotalMemory < minG)) {
+                bool has470 = _gpus.Any(a => a.Key != NTMinerRoot.GpuAllId && a.Value.TotalMemory < minG);
+                if (has470) {
                     Dictionary<string, string> kvs = new Dictionary<string, string> {
-                        {"GPU_FORCE_64BIT_PTR","0" },
                         {"GPU_MAX_ALLOC_PERCENT","100" },
                         {"GPU_MAX_HEAP_SIZE","100" },
-                        {"GPU_SINGLE_ALLOC_PERCENT","100" },
-                        { "GPU_USE_SYNC_OBJECTS","1" }
+                        {"GPU_SINGLE_ALLOC_PERCENT","100" }
                     };
                     foreach (var kv in kvs) {
                         var property = new GpuSetProperty(kv.Key, kv.Key, kv.Value);
@@ -71,34 +70,85 @@ namespace NTMiner.Core.Gpus.Impl {
                         }
                     });
                 }
+                else {
+                    Task.Factory.StartNew(() => {
+                        OverClock.RefreshGpuState(NTMinerRoot.GpuAllId);
+                    });
+                }
             }
+            #region 处理开启A卡计算模式
+            VirtualRoot.Window<SwitchRadeonGpuCommand>("处理开启A卡计算模式命令", LogEnum.DevConsole,
+                action: message => {
+                    if (NTMinerRoot.Instance.GpuSet.GpuType == GpuType.AMD) {
+                        SwitchRadeonGpu();
+                    }
+                });
+            #endregion
 #if DEBUG
-            Write.DevWarn($"耗时{VirtualRoot.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+            Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
 #endif
+        }
+        private static void SwitchRadeonGpu() {
+            try {
+                var sk = Registry.LocalMachine.OpenSubKey("SYSTEM\\CurrentControlSet\\Control\\Class\\{4d36e968-e325-11ce-bfc1-08002be10318}");
+                var cfs = sk.GetSubKeyNames();
+                var i = 0;
+
+                foreach (var cf in cfs) {
+                    try {
+                        if (!int.TryParse(cf, out int _)) {
+                            continue;
+                        }
+                        var cr = sk.OpenSubKey(cf, true);
+
+                        cr.SetValue("KMD_EnableInternalLargePage", "2", RegistryValueKind.DWord);
+                        cr.SetValue("EnableCrossFireAutoLink", "0", RegistryValueKind.DWord);
+                        cr.SetValue("EnableUlps", "0", RegistryValueKind.DWord);
+
+                        i++;
+                    }
+                    catch (Exception e) {
+                        Logger.ErrorDebugLine(e);
+                        continue;
+                    }
+                }
+                VirtualRoot.Out.ShowSuccessMessage("开启A卡计算模式成功");
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e);
+                VirtualRoot.Out.ShowErrorMessage("开启A卡计算模式失败", delaySeconds: 4);
+            }
         }
 
         public void LoadGpuState() {
 #if DEBUG
-            VirtualRoot.Stopwatch.Restart();
+            Write.Stopwatch.Restart();
 #endif
             for (int i = 0; i < Count; i++) {
-                uint power = adlHelper.GetPowerUsageByIndex(i);
-                int temp = adlHelper.GetTemperatureByIndex(i);
-                uint speed = adlHelper.GetFanSpeedByIndex(i);
-
-                Gpu gpu = (Gpu)_gpus[i];
-                bool isChanged = gpu.Temperature != temp || gpu.PowerUsage != power || gpu.FanSpeed != speed;
-                gpu.Temperature = temp;
-                gpu.PowerUsage = power;
-                gpu.FanSpeed = speed;
-
-                if (isChanged) {
-                    VirtualRoot.Happened(new GpuStateChangedEvent(gpu));
-                }
+                LoadGpuState(i);
             }
 #if DEBUG
-            Write.DevWarn($"耗时{VirtualRoot.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.{nameof(LoadGpuState)}");
+            Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.{nameof(LoadGpuState)}");
 #endif
+        }
+
+        public void LoadGpuState(int gpuIndex) {
+            if (gpuIndex == NTMinerRoot.GpuAllId) {
+                return;
+            }
+            uint power = adlHelper.GetPowerUsage(gpuIndex);
+            int temp = adlHelper.GetTemperature(gpuIndex);
+            uint speed = adlHelper.GetFanSpeed(gpuIndex);
+
+            Gpu gpu = _gpus[gpuIndex];
+            bool isChanged = gpu.Temperature != temp || gpu.PowerUsage != power || gpu.FanSpeed != speed;
+            gpu.Temperature = temp;
+            gpu.PowerUsage = power;
+            gpu.FanSpeed = speed;
+
+            if (isChanged) {
+                VirtualRoot.Happened(new GpuStateChangedEvent(gpu));
+            }
         }
 
         public GpuType GpuType {
@@ -110,20 +160,15 @@ namespace NTMiner.Core.Gpus.Impl {
         public string DriverVersion { get; private set; }
 
         public bool TryGetGpu(int index, out IGpu gpu) {
-            return _gpus.TryGetValue(index, out gpu);
+            Gpu temp;
+            var r = _gpus.TryGetValue(index, out temp);
+            gpu = temp;
+            return r;
         }
 
         public List<GpuSetProperty> Properties { get; private set; }
 
         public IOverClock OverClock { get; private set; }
-
-        public string GetProperty(string key) {
-            GpuSetProperty item = this.Properties.FirstOrDefault(a => a.Code == key);
-            if (item == null || item.Value == null) {
-                return string.Empty;
-            }
-            return item.Value.ToString();
-        }
 
         public IEnumerator<IGpu> GetEnumerator() {
             return _gpus.Values.GetEnumerator();

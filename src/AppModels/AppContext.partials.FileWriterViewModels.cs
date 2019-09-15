@@ -13,7 +13,7 @@ namespace NTMiner {
             public ICommand Add { get; private set; }
             private FileWriterViewModels() {
 #if DEBUG
-                VirtualRoot.Stopwatch.Restart();
+                Write.Stopwatch.Restart();
 #endif
                 this.Add = new DelegateCommand(() => {
                     new FileWriterViewModel(Guid.NewGuid()).Edit.Execute(FormType.Add);
@@ -49,7 +49,7 @@ namespace NTMiner {
                     });
                 Init();
 #if DEBUG
-                Write.DevWarn($"耗时{VirtualRoot.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+                Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
 #endif
             }
 

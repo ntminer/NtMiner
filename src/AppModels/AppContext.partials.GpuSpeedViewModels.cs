@@ -21,9 +21,27 @@ namespace NTMiner {
             private double _incomeDualCoinUsdPerDay;
             private double _incomeDualCoinCnyPerDay;
 
+            private void CheckReset() {
+                Guid mainCoinId = NTMinerRoot.Instance.MinerProfile.CoinId;
+                if (_mainCoinId != mainCoinId) {
+                    _mainCoinId = mainCoinId;
+                    DateTime now = DateTime.Now;
+                    foreach (var item in _list) {
+                        item.MainCoinSpeed.Reset();
+                        item.DualCoinSpeed.Reset();
+                    }
+                    IncomeMainCoinPerDay = 0;
+                    IncomeMainCoinUsdPerDay = 0;
+                    IncomeMainCoinCnyPerDay = 0;
+                    IncomeDualCoinPerDay = 0;
+                    IncomeDualCoinUsdPerDay = 0;
+                    IncomeDualCoinCnyPerDay = 0;
+                }
+            }
+
             private GpuSpeedViewModels() {
 #if DEBUG
-                VirtualRoot.Stopwatch.Restart();
+                Write.Stopwatch.Restart();
 #endif
                 if (Design.IsInDesignMode) {
                     return;
@@ -34,34 +52,65 @@ namespace NTMiner {
                     this._list.Add(new GpuSpeedViewModel(item));
                 }
                 _totalSpeedVm = this._list.FirstOrDefault(a => a.GpuVm.Index == NTMinerRoot.GpuAllId);
-                On<GpuSpeedChangedEvent>("显卡算力变更后刷新VM内存", LogEnum.DevConsole,
-                    action: (message) => {
-                        Guid mainCoinId = NTMinerRoot.Instance.MinerProfile.CoinId;
-                        if (_mainCoinId != mainCoinId) {
-                            _mainCoinId = mainCoinId;
-                            DateTime now = DateTime.Now;
-                            foreach (var item in _list) {
-                                item.MainCoinSpeed.Value = 0;
-                                item.MainCoinSpeed.SpeedOn = now;
-                                item.DualCoinSpeed.Value = 0;
-                                item.DualCoinSpeed.SpeedOn = now;
-                            }
-                            IncomeMainCoinPerDay = 0;
-                            IncomeMainCoinUsdPerDay = 0;
-                            IncomeMainCoinCnyPerDay = 0;
-                            IncomeDualCoinPerDay = 0;
-                            IncomeDualCoinUsdPerDay = 0;
-                            IncomeDualCoinCnyPerDay = 0;
-                        }
+                On<GpuShareChangedEvent>("显卡份额变更后刷新VM内存", LogEnum.DevConsole,
+                    action: message => {
+                        CheckReset();
                         int index = message.Source.Gpu.Index;
                         GpuSpeedViewModel gpuSpeedVm = _list.FirstOrDefault(a => a.GpuVm.Index == index);
                         if (gpuSpeedVm != null) {
-                            if (message.IsDualSpeed) {
-                                gpuSpeedVm.DualCoinSpeed.Update(message.Source.DualCoinSpeed);
+                            gpuSpeedVm.MainCoinSpeed.FoundShare = message.Source.MainCoinSpeed.FoundShare;
+                            gpuSpeedVm.MainCoinSpeed.AcceptShare = message.Source.MainCoinSpeed.AcceptShare;
+                            gpuSpeedVm.MainCoinSpeed.RejectShare = message.Source.MainCoinSpeed.RejectShare;
+                        }
+                    });
+                On<FoundShareIncreasedEvent>("找到一个份额后刷新VM内存", LogEnum.DevConsole,
+                    action: message => {
+                        CheckReset();
+                        int index = message.Source.Gpu.Index;
+                        GpuSpeedViewModel gpuSpeedVm = _list.FirstOrDefault(a => a.GpuVm.Index == index);
+                        if (gpuSpeedVm != null) {
+                            gpuSpeedVm.MainCoinSpeed.FoundShare = message.Source.MainCoinSpeed.FoundShare;
+                        }
+                    });
+                On<AcceptShareIncreasedEvent>("接受一个份额后刷新VM内存", LogEnum.DevConsole,
+                    action: message => {
+                        CheckReset();
+                        int index = message.Source.Gpu.Index;
+                        GpuSpeedViewModel gpuSpeedVm = _list.FirstOrDefault(a => a.GpuVm.Index == index);
+                        if (gpuSpeedVm != null) {
+                            gpuSpeedVm.MainCoinSpeed.AcceptShare = message.Source.MainCoinSpeed.AcceptShare;
+                        }
+                    });
+                On<RejectShareIncreasedEvent>("拒绝一个份额后刷新VM内存", LogEnum.DevConsole,
+                    action: message => {
+                        CheckReset();
+                        int index = message.Source.Gpu.Index;
+                        GpuSpeedViewModel gpuSpeedVm = _list.FirstOrDefault(a => a.GpuVm.Index == index);
+                        if (gpuSpeedVm != null) {
+                            gpuSpeedVm.MainCoinSpeed.RejectShare = message.Source.MainCoinSpeed.RejectShare;
+                        }
+                    });
+                On<IncorrectShareIncreasedEvent>("产生一个错误份额后刷新VM内存", LogEnum.DevConsole,
+                    action: message => {
+                        CheckReset();
+                        int index = message.Source.Gpu.Index;
+                        GpuSpeedViewModel gpuSpeedVm = _list.FirstOrDefault(a => a.GpuVm.Index == index);
+                        if (gpuSpeedVm != null) {
+                            gpuSpeedVm.MainCoinSpeed.IncorrectShare = message.Source.MainCoinSpeed.IncorrectShare;
+                        }
+                    });
+                On<GpuSpeedChangedEvent>("显卡算力变更后刷新VM内存", LogEnum.DevConsole,
+                    action: (message) => {
+                        CheckReset();
+                        int index = message.Source.Gpu.Index;
+                        GpuSpeedViewModel gpuSpeedVm = _list.FirstOrDefault(a => a.GpuVm.Index == index);
+                        if (gpuSpeedVm != null) {
+                            if (message.IsDual) {
+                                gpuSpeedVm.DualCoinSpeed.UpdateSpeed(message.Source.DualCoinSpeed.Value, message.Source.DualCoinSpeed.SpeedOn);
                                 gpuSpeedVm.OnPropertyChanged(nameof(gpuSpeedVm.AverageDualCoinSpeedText));
                             }
                             else {
-                                gpuSpeedVm.MainCoinSpeed.Update(message.Source.MainCoinSpeed);
+                                gpuSpeedVm.MainCoinSpeed.UpdateSpeed(message.Source.MainCoinSpeed.Value, message.Source.MainCoinSpeed.SpeedOn);
                                 gpuSpeedVm.OnPropertyChanged(nameof(gpuSpeedVm.AverageMainCoinSpeedText));
                             }
                         }
@@ -76,7 +125,7 @@ namespace NTMiner {
                                 IncomeDualCoinCnyPerDay = 0;
                             }
                             else {
-                                if (message.IsDualSpeed) {
+                                if (message.IsDual) {
                                     if (mineContext is IDualMineContext dualMineContext) {
                                         IncomePerDay incomePerDay = NTMinerRoot.Instance.CalcConfigSet.GetIncomePerHashPerDay(dualMineContext.DualCoin.Code);
                                         IncomeDualCoinPerDay = _totalSpeedVm.DualCoinSpeed.Value * incomePerDay.IncomeCoin;
@@ -99,7 +148,7 @@ namespace NTMiner {
                         TotalSpeedVm.DualCoinSpeed.OnPropertyChanged(nameof(SpeedViewModel.LastSpeedOnText));
                     });
 #if DEBUG
-                Write.DevWarn($"耗时{VirtualRoot.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+                Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
 #endif
             }
 
@@ -107,13 +156,10 @@ namespace NTMiner {
                 foreach (var item in this._list) {
                     var data = NTMinerRoot.Instance.GpusSpeed.FirstOrDefault(a => a.Gpu.Index == item.GpuVm.Index);
                     if (data != null) {
-                        DateTime now = DateTime.Now;
                         if (item.GpuVm.Index == NTMinerRoot.GpuAllId) {
-                            TotalSpeedVm.MainCoinSpeed.Update(data.MainCoinSpeed);
-                            TotalSpeedVm.DualCoinSpeed.Update(data.DualCoinSpeed);
+                            TotalSpeedVm.MainCoinSpeed.UpdateSpeed(data.MainCoinSpeed.Value, data.MainCoinSpeed.SpeedOn);
+                            TotalSpeedVm.DualCoinSpeed.UpdateSpeed(data.DualCoinSpeed.Value, data.DualCoinSpeed.SpeedOn);
                         }
-                        NTMinerRoot.Instance.GpusSpeed.SetCurrentSpeed(data.Gpu.Index, data.MainCoinSpeed.Value, isDual: false, now: data.MainCoinSpeed.SpeedOn);
-                        NTMinerRoot.Instance.GpusSpeed.SetCurrentSpeed(data.Gpu.Index, data.DualCoinSpeed.Value, isDual: true, now: data.DualCoinSpeed.SpeedOn);
                     }
                 }
             }

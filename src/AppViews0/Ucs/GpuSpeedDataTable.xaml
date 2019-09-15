@@ -9,6 +9,7 @@
 			 xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 			 xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
 			 mc:Ignorable="d" 
+             d:DataContext="{d:DesignData Source=/Design/GpuSpeedDataViewModels.xaml}"
 			 Background="Transparent"
 			 TextOptions.TextFormattingMode="Display" 
 			 d:DesignHeight="250" d:DesignWidth="800">
@@ -37,7 +38,7 @@
 				</Style>
 			</DataGrid.Resources>
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Header="编号" IsReadOnly="True">
+                <DataGridTemplateColumn MinWidth="40" Width="40" Header="编号" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel>
@@ -47,7 +48,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="80" Width="Auto" Header="名称" IsReadOnly="True">
+                <DataGridTemplateColumn MinWidth="70" Width="Auto" Header="名称" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding Name}"></TextBlock>
@@ -91,15 +92,27 @@
 							<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding DualCoinSpeedText}"></TextBlock>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Width="50" IsReadOnly="True">
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="60" IsReadOnly="True">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="功耗" FontSize="12"></TextBlock>
+                                <TextBlock Text="{Binding Data.PowerUsageWText, Source={StaticResource proxy2}}" FontSize="11"></TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding PowerUsageWText}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="50" IsReadOnly="True">
 					<DataGridTemplateColumn.HeaderTemplate>
-						<DataTemplate>
-							<StackPanel>
-								<TextBlock Text="温度" FontSize="12"></TextBlock>
-								<TextBlock Text="{Binding Data.TemperatureSumText, Source={StaticResource proxy2}}" FontSize="11"></TextBlock>
-							</StackPanel>
-						</DataTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="温度" FontSize="12"></TextBlock>
+                        </DataTemplate>
 					</DataGridTemplateColumn.HeaderTemplate>
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
@@ -113,23 +126,32 @@
 							<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding FanSpeedText}"></TextBlock>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Width="60" IsReadOnly="True">
-					<DataGridTemplateColumn.HeaderTemplate>
-						<DataTemplate>
-							<StackPanel>
-								<TextBlock Text="功耗" FontSize="12"></TextBlock>
-								<TextBlock Text="{Binding Data.PowerUsageWText, Source={StaticResource proxy2}}" FontSize="11"></TextBlock>
-							</StackPanel>
-						</DataTemplate>
-					</DataGridTemplateColumn.HeaderTemplate>
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding PowerUsageWText}"></TextBlock>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Width="60" IsReadOnly="True">
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="70" IsReadOnly="True">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="核心电压？" ToolTip="'核心电压'可能显示为0，因为挖矿端自2.6.0.0开始上报核心电压且只支持A卡" TextWrapping="Wrap" FontSize="12"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding CoreVoltage}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="70" IsReadOnly="True">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="显存电压？" ToolTip="'显存电压'可能显示为0，因为挖矿端自2.6.0.0开始上报显存电压且只支持A卡" TextWrapping="Wrap" FontSize="12"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding MemoryVoltage}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="60" IsReadOnly="True">
 					<DataGridTemplateColumn.HeaderTemplate>
 						<DataTemplate>
 							<TextBlock Text="超频功耗" TextWrapping="Wrap" FontSize="12"></TextBlock>
@@ -144,7 +166,7 @@
 				<DataGridTemplateColumn Width="70" IsReadOnly="True">
 					<DataGridTemplateColumn.HeaderTemplate>
 						<DataTemplate>
-							<TextBlock Text="超频温度？" ToolTip="'超频温度'可能显示为0，因为挖矿端自2.2.0.6开始上报超频温度" TextWrapping="Wrap" FontSize="12"></TextBlock>
+                            <TextBlock Text="温度阈值？" ToolTip="'温度阈值'可能显示为0，因为挖矿端自2.2.0.6开始上报温度阈值" TextWrapping="Wrap" FontSize="12"></TextBlock>
 						</DataTemplate>
 					</DataGridTemplateColumn.HeaderTemplate>
 					<DataGridTemplateColumn.CellTemplate>
@@ -179,6 +201,5 @@
 				</DataGridTemplateColumn>
 			</DataGrid.Columns>
 		</DataGrid>
-		<StackPanel Margin="0 32 0 0" Background="#00ffffff"></StackPanel>
 	</Grid>
 </UserControl>

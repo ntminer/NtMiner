@@ -13,7 +13,7 @@ namespace NTMiner.Vms {
                 string outDir = Path.GetDirectoryName(VirtualRoot.AppFileFullName);
                 string outFileFullName = Path.Combine(outDir, outFileName);
                 VirtualRoot.TagBrandId(Consts.KernelBrandId, brandItem.GetId(), VirtualRoot.AppFileFullName, outFileFullName);
-                NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage($"打码成功:{outFileName}");
+                VirtualRoot.Out.ShowSuccessMessage($"打码成功:{outFileName}");
                 Process.Start(outDir);
             }, brandItem => brandItem != SysDicItemViewModel.PleaseSelect);
             this.TagPoolBrand = new DelegateCommand<SysDicItemViewModel>(brandItem => {
@@ -21,7 +21,7 @@ namespace NTMiner.Vms {
                 string outDir = Path.GetDirectoryName(VirtualRoot.AppFileFullName);
                 string outFileFullName = Path.Combine(outDir, outFileName);
                 VirtualRoot.TagBrandId(Consts.PoolBrandId, brandItem.GetId(), VirtualRoot.AppFileFullName, outFileFullName);
-                NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage($"打码成功:{outFileName}");
+                VirtualRoot.Out.ShowSuccessMessage($"打码成功:{outFileName}");
                 Process.Start(outDir);
             }, brandItem => brandItem != SysDicItemViewModel.PleaseSelect);
         }

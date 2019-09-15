@@ -128,11 +128,15 @@
 									Data="{StaticResource Icon_User}"
 									Fill="{StaticResource IconFillColor}"
 									Stretch="Fill" />
-								<TextBlock 
-									Text="{Binding Name}" 
-									ToolTip="{Binding Name}"
-									VerticalAlignment="Center"></TextBlock>
-							</WrapPanel>
+                                <controls:KbLinkButton
+									Padding="0"
+									Command="{Binding OpenWebsite}"
+									KbDisplayLine="False"
+									KbSystemButtonHoverBackground="Transparent"
+									Background="Transparent">
+                                    <TextBlock Text="{Binding Name}" Foreground="{StaticResource LinkForeground}"></TextBlock>
+                                </controls:KbLinkButton>
+                            </WrapPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>

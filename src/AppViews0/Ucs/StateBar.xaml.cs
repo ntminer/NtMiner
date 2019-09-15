@@ -1,7 +1,6 @@
 ﻿using NTMiner.Vms;
 using System;
 using System.Windows.Controls;
-using System.Windows.Media;
 
 namespace NTMiner.Views.Ucs {
     public partial class StateBar : UserControl {
@@ -32,20 +31,9 @@ namespace NTMiner.Views.Ucs {
                     action: message => {
                         DateTime now = DateTime.Now;
                         Vm.UpdateBootTimeSpan(now - NTMinerRoot.Instance.CreatedOn);
-                        if (NTMinerRoot.IsAutoStart && VirtualRoot.SecondCount <= Vm.MinerProfile.AutoStartDelaySeconds && !NTMinerRoot.IsAutoStartCanceled) {
-                            return;
-                        }
                         var mineContext = NTMinerRoot.Instance.CurrentMineContext;
                         if (mineContext != null) {
                             Vm.UpdateMineTimeSpan(now - mineContext.CreatedOn);
-                            if (!Vm.MinerProfile.IsMining) {
-                                Vm.MinerProfile.IsMining = true;
-                            }
-                        }
-                        else {
-                            if (Vm.MinerProfile.IsMining) {
-                                Vm.MinerProfile.IsMining = false;
-                            }
                         }
                     });
                 window.On<AppVersionChangedEvent>("发现了服务端新版本", LogEnum.DevConsole,
@@ -70,7 +58,7 @@ namespace NTMiner.Views.Ucs {
             var gpuSet = NTMinerRoot.Instance.GpuSet;
             // 建议每张显卡至少对应4G虚拟内存，否则标红
             if (NTMinerRoot.OSVirtualMemoryMb < gpuSet.Count * 4) {
-                BtnShowVirtualMemory.Foreground = new SolidColorBrush(Colors.Red);
+                BtnShowVirtualMemory.Foreground = Wpf.Util.RedBrush;
             }
         }
     }

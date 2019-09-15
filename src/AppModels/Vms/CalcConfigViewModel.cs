@@ -8,9 +8,14 @@ namespace NTMiner.Vms {
         private double _incomeCnyPerDay;
         private string _speedUnit;
         private double _speed;
+        private string _netSpeedUnit;
+        private double _netSpeed;
+        private double _baseNetSpeed;
+        private string _baseNetSpeedUnit;
         private string _coinCode;
         private DateTime _createdOn;
         private DateTime _modifiedOn;
+        private double _dayWave;
 
         public CalcConfigViewModel(ICalcConfig data) {
             _incomePerDay = data.IncomePerDay;
@@ -18,6 +23,11 @@ namespace NTMiner.Vms {
             _incomeCnyPerDay = data.IncomeCnyPerDay;
             _speed = data.Speed;
             _speedUnit = data.SpeedUnit;
+            _netSpeed = data.NetSpeed;
+            _baseNetSpeed = data.BaseNetSpeed;
+            _baseNetSpeedUnit = data.BaseNetSpeedUnit;
+            _dayWave = data.DayWave;
+            _netSpeedUnit = data.NetSpeedUnit;
             _coinCode = data.CoinCode;
             _createdOn = data.CreatedOn;
             _modifiedOn = data.ModifiedOn;
@@ -50,6 +60,56 @@ namespace NTMiner.Vms {
                     _speedUnit = value;
                     OnPropertyChanged(nameof(SpeedUnit));
                     OnPropertyChanged(nameof(SpeedUnitVm));
+                }
+            }
+        }
+
+        public double NetSpeed {
+            get => _netSpeed;
+            set {
+                if (Math.Abs(_netSpeed - value) > 0.01) {
+                    _netSpeed = value;
+                    OnPropertyChanged(nameof(NetSpeed));
+                }
+            }
+        }
+
+        public double BaseNetSpeed {
+            get { return _baseNetSpeed; }
+            set {
+                if (Math.Abs(_baseNetSpeed - value) > 0.001) {
+                    _baseNetSpeed = value;
+                    OnPropertyChanged(nameof(BaseNetSpeed));
+                }
+            }
+        }
+
+        public string BaseNetSpeedUnit {
+            get { return _baseNetSpeedUnit; }
+            set {
+                if (value != _baseNetSpeedUnit) {
+                    _baseNetSpeedUnit = value;
+                    OnPropertyChanged(nameof(BaseNetSpeedUnit));
+                }
+            }
+        }
+
+        public double DayWave {
+            get => _dayWave;
+            set {
+                if (Math.Abs(_dayWave - value) > 0.0001) {
+                    _dayWave = value;
+                    OnPropertyChanged(nameof(DayWave));
+                }
+            }
+        }
+
+        public string NetSpeedUnit {
+            get => _netSpeedUnit;
+            set {
+                if (_netSpeedUnit != value) {
+                    _netSpeedUnit = value;
+                    OnPropertyChanged(nameof(NetSpeedUnit));
                 }
             }
         }

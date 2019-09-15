@@ -1,6 +1,7 @@
 ﻿using NTMiner.View;
 using NTMiner.Views;
 using NTMiner.Views.Ucs;
+using NTMiner.Vms;
 using System;
 using System.Diagnostics;
 using System.Threading;
@@ -11,12 +12,9 @@ using System.Windows.Media;
 namespace NTMiner {
     public partial class App : Application, IDisposable {
         public App() {
-            if (DevMode.IsDevMode && !Debugger.IsAttached && !Design.IsInDesignMode) {
-                Write.Init();
-            }
-            VirtualRoot.SetIsMinerStudio(true);
-            AssemblyInfo.LocalDirFullName = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NTMiner");
-            Logging.LogDir.SetDir(System.IO.Path.Combine(AssemblyInfo.LocalDirFullName, "Logs"));
+            VirtualRoot.SetShowMessage(NotiCenterWindowViewModel.Instance);
+            AssemblyInfo.SetLocalDirFullName(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NTMiner"));
+            Logging.LogDir.SetDir(SpecialPath.LogsDirFullName);
             AppUtil.Init(this);
             InitializeComponent();
         }
@@ -35,7 +33,7 @@ namespace NTMiner {
                 Server.ControlCenterService.CloseServices();
             }
             base.OnExit(e);
-            ConsoleManager.Hide();
+            NTMinerConsole.Hide();
         }
 
         protected override void OnStartup(StartupEventArgs e) {
@@ -59,7 +57,6 @@ namespace NTMiner {
 
             if (createdNew) {
                 this.ShutdownMode = ShutdownMode.OnExplicitShutdown;
-                VirtualRoot.SetIsMinerClient(false);
                 NotiCenterWindow.Instance.Show();
                 LoginWindow loginWindow = new LoginWindow();
                 var result = loginWindow.ShowDialog();
@@ -78,9 +75,6 @@ namespace NTMiner {
                     action: message => {
                         UIThread.Execute(() => {
                             try {
-                                if (MainWindow != null) {
-                                    MainWindow.Close();
-                                }
                                 Shutdown();
                             }
                             catch (Exception ex) {

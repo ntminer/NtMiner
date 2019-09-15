@@ -34,8 +34,6 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
@@ -96,6 +94,7 @@
     <Compile Include="Notifications\NotificationMessageManagerEventArgs.cs" />
     <Compile Include="Notifications\NotificationMessageManagerEventHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\IMaskWindow.cs" />
     <Compile Include="Views\InputWindow.xaml.cs">
       <DependentUpon>InputWindow.xaml</DependentUpon>
     </Compile>
@@ -130,6 +129,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Notifications\Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\CheckBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -199,6 +202,10 @@
     <ProjectReference Include="..\BlankWindow\BlankWindow.csproj">
       <Project>{b7107a67-a76e-4313-8c5b-3265dde238b6}</Project>
       <Name>BlankWindow</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NTMinerBus\NTMinerBus.csproj">
+      <Project>{e17f278a-e393-403e-9d37-e371036d7a02}</Project>
+      <Name>NTMinerBus</Name>
     </ProjectReference>
     <ProjectReference Include="..\NTMinerDataObjects\NTMinerDataObjects.csproj">
       <Project>{defc7387-f9fa-4651-a281-6612efb7fbb6}</Project>

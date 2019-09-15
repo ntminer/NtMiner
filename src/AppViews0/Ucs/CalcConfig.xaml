@@ -9,8 +9,8 @@
 	xmlns:sys="clr-namespace:System;assembly=mscorlib"
 	xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 	xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
-	Width="600"
-	Height="600"
+	d:DesignWidth="600"
+	d:DesignHeight="600"
 	mc:Ignorable="d">
 	<UserControl.DataContext>
 		<vm:CalcConfigViewModels></vm:CalcConfigViewModels>

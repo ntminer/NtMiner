@@ -1,25 +1,17 @@
-﻿using System.Windows;
+﻿using NTMiner.Vms;
 using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class MinerProfileOption : UserControl {
-        public AppContext.MinerProfileViewModel Vm {
+        public MinerProfileViewModel Vm {
             get {
-                return (AppContext.MinerProfileViewModel)this.DataContext;
+                return (MinerProfileViewModel)this.DataContext;
             }
         }
 
         public MinerProfileOption() {
             this.DataContext = AppContext.Instance.MinerProfileVm;
             InitializeComponent();
-            if (VirtualRoot.IsMinerStudio) {
-                this.GroupSystemSetting.Visibility = Visibility.Collapsed;
-                this.WrapPanelAutoBootAndStart.Visibility = Visibility.Collapsed;
-            }
-            else {
-                this.GroupSystemSetting.Visibility = Visibility.Visible;
-                this.WrapPanelAutoBootAndStart.Visibility = Visibility.Visible;
-            }
         }
 
         private void ButtonHotKey_KeyDown(object sender, System.Windows.Input.KeyEventArgs e) {

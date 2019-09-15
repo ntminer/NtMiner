@@ -4,15 +4,15 @@ namespace NTMiner {
     public static class AppStatic {
         public static bool IsDebugMode {
             get {
-                return Design.IsDebugMode;
+                return Design.IsDevMode;
             }
         }
 
-        public static bool IsNotDebugMode => !Design.IsDebugMode;
+        public static bool IsNotDebugMode => !Design.IsDevMode;
 
         public static Visibility IsDebugModeVisible {
             get {
-                if (Design.IsDebugMode) {
+                if (Design.IsDevMode) {
                     return Visibility.Visible;
                 }
                 return Visibility.Collapsed;

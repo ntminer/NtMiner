@@ -9,16 +9,8 @@ namespace NTMiner.Views.Ucs {
             MinerClientAddViewModel vm = new MinerClientAddViewModel();
             Window window = new MinerClientAdd(vm);
             vm.CloseWindow = () => window.Close();
-            if (window.Owner != null) {
-                window.MouseBottom();
-                double ownerOpacity = window.Owner.Opacity;
-                window.Owner.Opacity = 0.6;
-                window.ShowDialog();
-                window.Owner.Opacity = ownerOpacity;
-            }
-            else {
-                window.ShowDialog();
-            }
+            window.MousePosition();
+            window.ShowDialogEx();
         }
 
         private MinerClientAddViewModel Vm {

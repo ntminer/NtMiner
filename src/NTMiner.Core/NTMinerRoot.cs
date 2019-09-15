@@ -11,15 +11,16 @@ using NTMiner.Core.MinerServer;
 using NTMiner.Core.MinerServer.Impl;
 using NTMiner.Core.Profiles;
 using NTMiner.Core.Profiles.Impl;
-using NTMiner.Daemon;
 using NTMiner.MinerServer;
 using NTMiner.Profile;
 using NTMiner.User;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Management;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -69,77 +70,136 @@ namespace NTMiner {
         public void Init(Action callback) {
             Task.Factory.StartNew(() => {
                 bool isWork = Environment.GetCommandLineArgs().Contains("--work", StringComparer.OrdinalIgnoreCase);
-                if (isWork) {
+                if (isWork) { // 是作业
                     DoInit(isWork, callback);
                     if (VirtualRoot.IsMinerClient) {
                         NTMinerRegistry.SetIsLastIsWork(true);
                     }
-                    return;
                 }
-                else {
+                else { // 不是作业
                     if (VirtualRoot.IsMinerClient) {
                         NTMinerRegistry.SetIsLastIsWork(false);
                     }
-                }
-                // 如果是Debug模式且不是群控客户端且不是作业则使用本地数据库初始化
-                if (DevMode.IsDebugMode && !VirtualRoot.IsMinerStudio) {
-                    DoInit(isWork: false, callback: callback);
-                    return;
-                }
-                Logger.InfoDebugLine("开始下载server.json");
-                SpecialPath.GetAliyunServerJson((data) => {
-                    // 如果server.json未下载成功则不覆写本地server.json
-                    if (data != null && data.Length != 0) {
-                        Logger.InfoDebugLine("GetAliyunServerJson下载成功");
-                        var serverJson = Encoding.UTF8.GetString(data);
-                        if (!string.IsNullOrEmpty(serverJson)) {
-                            SpecialPath.WriteServerJsonFile(serverJson);
-                        }
-                        OfficialServer.GetJsonFileVersionAsync(AssemblyInfo.ServerJsonFileName, (serverJsonFileVersion, minerClientVersion) => {
-                            SetServerJsonVersion(serverJsonFileVersion);
-                            AppVersionChangedEvent.PublishIfNewVersion(minerClientVersion);
-                        });
+                    // 如果是Debug模式且不是群控客户端则使用本地数据库初始化
+                    bool useLocalDb = DevMode.IsDebugMode && !VirtualRoot.IsMinerStudio;
+                    if (useLocalDb) {
+                        DoInit(isWork: false, callback: callback);
                     }
                     else {
-                        Logger.InfoDebugLine("GetAliyunServerJson下载失败");
-                    }
-                    DoInit(isWork, callback);
-                });
-                #region 发生了用户活动时检查serverJson是否有新版本
-                VirtualRoot.On<UserActionEvent>("发生了用户活动时检查serverJson是否有新版本", LogEnum.DevConsole,
-                    action: message => {
-                        OfficialServer.GetJsonFileVersionAsync(AssemblyInfo.ServerJsonFileName, (serverJsonFileVersion, minerClientVersion) => {
-                            AppVersionChangedEvent.PublishIfNewVersion(minerClientVersion);
-                            string localServerJsonFileVersion = GetServerJsonVersion();
-                            if (!string.IsNullOrEmpty(serverJsonFileVersion) && localServerJsonFileVersion != serverJsonFileVersion) {
-                                SpecialPath.GetAliyunServerJson((data) => {
-                                    Write.UserInfo($"server.json配置文件有新版本{localServerJsonFileVersion}->{serverJsonFileVersion}");
-                                    string rawJson = Encoding.UTF8.GetString(data);
-                                    SpecialPath.WriteServerJsonFile(rawJson);
+                        Logger.InfoDebugLine("开始下载server.json");
+                        GetAliyunServerJson((data) => {
+                            // 如果server.json未下载成功则不覆写本地server.json
+                            if (data != null && data.Length != 0) {
+                                Logger.InfoDebugLine("GetAliyunServerJson下载成功");
+                                var serverJson = Encoding.UTF8.GetString(data);
+                                if (!string.IsNullOrEmpty(serverJson)) {
+                                    SpecialPath.WriteServerJsonFile(serverJson);
+                                }
+                                OfficialServer.GetJsonFileVersionAsync(AssemblyInfo.ServerJsonFileName, (serverJsonFileVersion, minerClientVersion) => {
                                     SetServerJsonVersion(serverJsonFileVersion);
-                                    ReInitServerJson();
-                                    bool isUseJson = !DevMode.IsDebugMode || VirtualRoot.IsMinerStudio;
-                                    if (isUseJson) {
-                                        // 作业模式下界面是禁用的，所以这里的初始化isWork必然是false
-                                        ContextReInit(isWork: VirtualRoot.IsMinerStudio);
-                                        Write.UserInfo("刷新完成");
-                                    }
-                                    else {
-                                        Write.UserInfo("不是使用的server.json，无需刷新");
-                                    }
+                                    AppVersionChangedEvent.PublishIfNewVersion(minerClientVersion);
                                 });
                             }
                             else {
-                                Write.DevDebug("server.json没有新版本");
+                                Logger.InfoDebugLine("GetAliyunServerJson下载失败");
                             }
+                            DoInit(isWork, callback);
                         });
+                        #region 发生了用户活动时检查serverJson是否有新版本
+                        VirtualRoot.On<UserActionEvent>("发生了用户活动时检查serverJson是否有新版本", LogEnum.DevConsole,
+                            action: message => {
+                                RefreshServerJsonFile();
+                            });
+                        #endregion
+                    }
+                }
+            });
+        }
+
+        // MinerProfile对应local.litedb或local.json
+        public void ReInitMinerProfile() {
+            ReInitLocalJson();
+            IsJsonLocal = true;
+            this._minerProfile.ReInit(this);
+            // 本地数据集已刷新，此时刷新本地数据集的视图模型集
+            VirtualRoot.Happened(new LocalContextReInitedEvent());
+            // 本地数据集的视图模型已刷新，此时刷新本地数据集的视图界面
+            VirtualRoot.Happened(new LocalContextVmsReInitedEvent());
+            RefreshArgsAssembly();
+        }
+
+        private void RefreshServerJsonFile() {
+            OfficialServer.GetJsonFileVersionAsync(AssemblyInfo.ServerJsonFileName, (serverJsonFileVersion, minerClientVersion) => {
+                AppVersionChangedEvent.PublishIfNewVersion(minerClientVersion);
+                string localServerJsonFileVersion = GetServerJsonVersion();
+                if (!string.IsNullOrEmpty(serverJsonFileVersion) && localServerJsonFileVersion != serverJsonFileVersion) {
+                    GetAliyunServerJson((data) => {
+                        Write.UserInfo($"更新配置{localServerJsonFileVersion}->{serverJsonFileVersion}");
+                        string rawJson = Encoding.UTF8.GetString(data);
+                        SpecialPath.WriteServerJsonFile(rawJson);
+                        SetServerJsonVersion(serverJsonFileVersion);
+                        ReInitServerJson();
+                        // 作业模式下界面是禁用的，所以这里的初始化isWork必然是false
+                        ContextReInit(isWork: VirtualRoot.IsMinerStudio);
+                        Write.UserInfo("更新成功");
                     });
-                #endregion
+                }
+                else {
+                    Write.DevDebug("server.json没有新版本");
+                }
             });
-            // 因为这个操作大概需要200毫秒
+        }
+
+        #endregion
+
+        #region private methods
+        private static void GetAliyunServerJson(Action<byte[]> callback) {
+            string serverJsonFileUrl = AssemblyInfo.MinerJsonBucket + AssemblyInfo.ServerJsonFileName;
+            string fileUrl = serverJsonFileUrl + "?t=" + DateTime.Now.Ticks;
             Task.Factory.StartNew(() => {
-                NVIDIAGpuSet.NvmlInit();
+                try {
+                    var webRequest = WebRequest.Create(fileUrl);
+                    webRequest.Timeout = 20 * 1000;
+                    webRequest.Method = "GET";
+                    webRequest.Headers.Add("Accept-Encoding", "gzip, deflate, br");
+                    var response = webRequest.GetResponse();
+                    using (MemoryStream ms = new MemoryStream())
+                    using (Stream stream = response.GetResponseStream()) {
+                        byte[] buffer = new byte[1024];
+                        int n = stream.Read(buffer, 0, buffer.Length);
+                        while (n > 0) {
+                            ms.Write(buffer, 0, n);
+                            n = stream.Read(buffer, 0, buffer.Length);
+                        }
+                        byte[] data = new byte[ms.Length];
+                        ms.Position = 0;
+                        ms.Read(data, 0, data.Length);
+                        data = ZipDecompress(data);
+                        callback?.Invoke(data);
+                    }
+                    Logger.InfoDebugLine($"下载完成：{fileUrl}");
+                }
+                catch (Exception e) {
+                    Logger.ErrorDebugLine(e);
+                    callback?.Invoke(new byte[0]);
+                }
             });
+        }
+
+        private static byte[] ZipDecompress(byte[] zippedData) {
+            MemoryStream ms = new MemoryStream(zippedData);
+            GZipStream compressedzipStream = new GZipStream(ms, CompressionMode.Decompress);
+            MemoryStream outBuffer = new MemoryStream();
+            byte[] block = new byte[1024];
+            while (true) {
+                int bytesRead = compressedzipStream.Read(block, 0, block.Length);
+                if (bytesRead <= 0)
+                    break;
+                else
+                    outBuffer.Write(block, 0, bytesRead);
+            }
+            compressedzipStream.Close();
+            return outBuffer.ToArray();
         }
 
         private string GetServerJsonVersion() {
@@ -162,12 +222,12 @@ namespace NTMiner {
 
         private MinerProfile _minerProfile;
         private void DoInit(bool isWork, Action callback) {
-            GpuProfileSet.Instance.Register(this);
             this.ServerAppSettingSet = new ServerAppSettingSet(this);
             this.CalcConfigSet = new CalcConfigSet(this);
 
             ServerContextInit(isWork);
 
+            this.GpuProfileSet = new GpuProfileSet(this);
             this.WorkerEventSet = new WorkerEventSet(this);
             this.UserSet = new UserSet();
             this.KernelProfileSet = new KernelProfileSet(this);
@@ -177,17 +237,42 @@ namespace NTMiner {
             this.MinerGroupSet = new MinerGroupSet(this);
             this.OverClockDataSet = new OverClockDataSet(this);
             this.ColumnsShowSet = new ColumnsShowSet(this);
-            MineWorkData mineWorkData = null;
-            if (isWork) {
-                mineWorkData = LocalJson.MineWork;
-            }
-            this._minerProfile = new MinerProfile(this, mineWorkData);
+            IsJsonLocal = isWork;
+            this._minerProfile = new MinerProfile(this);
 
             // 这几个注册表内部区分挖矿端和群控客户端
             NTMinerRegistry.SetLocation(VirtualRoot.AppFileFullName);
             NTMinerRegistry.SetArguments(string.Join(" ", CommandLineArgs.Args));
             NTMinerRegistry.SetCurrentVersion(CurrentVersion.ToString());
             NTMinerRegistry.SetCurrentVersionTag(CurrentVersionTag);
+
+            if (VirtualRoot.IsMinerClient) {
+                OfficialServer.GetTimeAsync((remoteTime) => {
+                    if (Math.Abs((DateTime.Now - remoteTime).TotalSeconds) < Timestamp.DesyncSeconds) {
+                        Logger.OkDebugLine("时间同步");
+                    }
+                    else {
+                        Write.UserWarn($"本机时间和服务器时间不同步，请调整，本地：{DateTime.Now}，服务器：{remoteTime}");
+                    }
+                });
+
+                Report.Init(this);
+                Link();
+                // 当显卡温度变更时守卫温度防线
+                TempGruarder.Instance.Init(this);
+                // 因为这里耗时500毫秒左右
+                Task.Factory.StartNew(() => {
+                    Windows.Error.DisableWindowsErrorUI();
+                    if (NTMinerRegistry.GetIsAutoDisableWindowsFirewall()) {
+                        Windows.Firewall.DisableFirewall();
+                    }
+                    Windows.UAC.DisableUAC();
+                    Windows.WAU.DisableWAUAsync();
+                    Windows.Defender.DisableAntiSpyware();
+                    Windows.Power.PowerCfgOff();
+                    Windows.BcdEdit.IgnoreAllFailures();
+                });
+            }
 
             callback?.Invoke();
         }
@@ -212,106 +297,59 @@ namespace NTMiner {
 
         // ServerContext对应server.json
         private void ServerContextInit(bool isWork) {
-            bool isUseJson = !DevMode.IsDebugMode || VirtualRoot.IsMinerStudio || isWork;
-            this.SysDicSet = new SysDicSet(this, isUseJson);
-            this.SysDicItemSet = new SysDicItemSet(this, isUseJson);
-            this.CoinSet = new CoinSet(this, isUseJson);
-            this.GroupSet = new GroupSet(this, isUseJson);
-            this.CoinGroupSet = new CoinGroupSet(this, isUseJson);
-            this.PoolSet = new PoolSet(this, isUseJson);
-            this.CoinKernelSet = new CoinKernelSet(this, isUseJson);
-            this.PoolKernelSet = new PoolKernelSet(this, isUseJson);
-            this.KernelSet = new KernelSet(this, isUseJson);
-            this.FileWriterSet = new FileWriterSet(this, isUseJson);
-            this.FragmentWriterSet = new FragmentWriterSet(this, isUseJson);
-            this.PackageSet = new PackageSet(this, isUseJson);
-            this.KernelInputSet = new KernelInputSet(this, isUseJson);
-            this.KernelOutputSet = new KernelOutputSet(this, isUseJson);
-            this.KernelOutputFilterSet = new KernelOutputFilterSet(this, isUseJson);
-            this.KernelOutputTranslaterSet = new KernelOutputTranslaterSet(this, isUseJson);
-            this.KernelOutputKeywordSet = new KernelOutputKeywordSet(this, isUseJson);
+            IsJsonServer = !DevMode.IsDebugMode || VirtualRoot.IsMinerStudio || isWork;
+            this.SysDicSet = new SysDicSet(this);
+            this.SysDicItemSet = new SysDicItemSet(this);
+            this.CoinSet = new CoinSet(this);
+            this.GroupSet = new GroupSet(this);
+            this.CoinGroupSet = new CoinGroupSet(this);
+            this.PoolSet = new PoolSet(this);
+            this.CoinKernelSet = new CoinKernelSet(this);
+            this.PoolKernelSet = new PoolKernelSet(this);
+            this.KernelSet = new KernelSet(this);
+            this.FileWriterSet = new FileWriterSet(this);
+            this.FragmentWriterSet = new FragmentWriterSet(this);
+            this.PackageSet = new PackageSet(this);
+            this.KernelInputSet = new KernelInputSet(this);
+            this.KernelOutputSet = new KernelOutputSet(this);
+            this.KernelOutputFilterSet = new KernelOutputFilterSet(this);
+            this.KernelOutputTranslaterSet = new KernelOutputTranslaterSet(this);
+            this.KernelOutputKeywordSet = new KernelOutputKeywordSet(this);
         }
 
-        // MinerProfile对应local.litedb或local.json
-        public void ReInitMinerProfile() {
-            ReInitLocalJson();
-            this._minerProfile.ReInit(this, LocalJson.MineWork);
-            // 本地数据集已刷新，此时刷新本地数据集的视图模型集
-            VirtualRoot.Happened(new LocalContextReInitedEvent());
-            // 本地数据集的视图模型已刷新，此时刷新本地数据集的视图界面
-            VirtualRoot.Happened(new LocalContextVmsReInitedEvent());
-            RefreshArgsAssembly();
-        }
-
-        #endregion
-
-        #region Start
-        public void Start() {
-            OfficialServer.GetTimeAsync((remoteTime) => {
-                if (Math.Abs((DateTime.Now - remoteTime).TotalSeconds) < Timestamp.DesyncSeconds) {
-                    Logger.OkDebugLine("时间同步");
-                }
-                else {
-                    Logger.WarnDebugLine($"本机时间和服务器时间不同步，请调整，本地：{DateTime.Now}，服务器：{remoteTime}");
-                }
-            });
-
-            Report.Init(this);
-
+        private void Link() {
             VirtualRoot.Window<RegCmdHereCommand>("处理注册右键打开windows命令行菜单命令", LogEnum.DevConsole,
                 action: message => {
-                    string cmdHere = "SOFTWARE\\Classes\\Directory\\background\\shell\\cmd_here";
-                    string cmdHereCommand = cmdHere + "\\command";
-                    string cmdPrompt = "SOFTWARE\\Classes\\Folder\\shell\\cmdPrompt";
-                    string cmdPromptCommand = cmdPrompt + "\\command";
                     try {
-                        Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdHere, "", "命令行");
-                        Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdHere, "Icon", "cmd.exe");
-                        Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdHereCommand, "", "\"cmd.exe\"");
-                        Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdPrompt, "", "命令行");
-                        Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdPromptCommand, "", "\"cmd.exe\" \"cd %1\"");
-                        cmdHere = "SOFTWARE\\Classes\\Directory\\shell\\cmd_here";
-                        cmdHereCommand = cmdHere + "\\command";
-                        Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdHere, "", "命令行");
-                        Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdHere, "Icon", "cmd.exe");
-                        Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdHereCommand, "", "\"cmd.exe\"");
-                        VirtualRoot.Happened(new RegCmdHereEvent(true, "windows右键命令行添加成功"));
+                        RegCmdHere();
+                        VirtualRoot.Out.ShowSuccessMessage("windows右键命令行添加成功");
                     }
                     catch (Exception e) {
                         Logger.ErrorDebugLine(e);
-                        VirtualRoot.Happened(new RegCmdHereEvent(false, "windows右键命令行添加失败"));
+                        VirtualRoot.Out.ShowErrorMessage("windows右键命令行添加失败");
                     }
                 });
             #region 挖矿开始时将无份额内核重启份额计数置0
             int shareCount = 0;
             DateTime shareOn = DateTime.Now;
-            VirtualRoot.On<MineStartedEvent>("挖矿开始后将无份额内核重启份额计数置0，应用超频，启动NoDevFee，启动DevConsole，清理除当前外的Temp/Kernel", LogEnum.DevConsole,
+            VirtualRoot.On<MineStartedEvent>("挖矿开始后将无份额内核重启份额计数置0", LogEnum.DevConsole,
                 action: message => {
                     // 将无份额内核重启份额计数置0
                     shareCount = 0;
-                    shareOn = DateTime.Now;
-                    try {
-                        if (GpuProfileSet.Instance.IsOverClockEnabled(message.MineContext.MainCoin.GetId())) {
-                            VirtualRoot.Execute(new CoinOverClockCommand(message.MineContext.MainCoin.GetId()));
-                        }
+                    if (!message.MineContext.IsRestart) {
+                        shareOn = DateTime.Now;
                     }
-                    catch (Exception e) {
-                        Logger.ErrorDebugLine(e);
-                    }
-                    StartNoDevFeeAsync();
                 });
             #endregion
             #region 每20秒钟检查是否需要重启
-            VirtualRoot.On<Per20SecondEvent>("每20秒钟阻止windows系统休眠、检查是否需要重启", LogEnum.None,
+            VirtualRoot.On<Per20SecondEvent>("每20秒钟检查是否需要重启", LogEnum.None,
                 action: message => {
-                    // 阻止windows休眠
-                    Windows.Power.PreventWindowsSleep();
                     #region 重启电脑
                     try {
                         if (MinerProfile.IsPeriodicRestartComputer) {
                             if ((DateTime.Now - this.CreatedOn).TotalMinutes > 60 * MinerProfile.PeriodicRestartComputerHours + MinerProfile.PeriodicRestartComputerMinutes) {
                                 Logger.WarnWriteLine($"每运行{MinerProfile.PeriodicRestartKernelHours}小时{MinerProfile.PeriodicRestartComputerMinutes}分钟重启电脑");
-                                Windows.Power.Restart(10);
+                                Windows.Power.Restart(60);
                                 VirtualRoot.Execute(new CloseNTMinerCommand());
                                 return;// 退出
                             }
@@ -339,24 +377,41 @@ namespace NTMiner {
 
                     #region 收益没有增加重启内核
                     try {
-                        if (IsMining && MinerProfile.IsNoShareRestartKernel) {
-                            if ((DateTime.Now - shareOn).TotalMinutes > MinerProfile.NoShareRestartKernelMinutes) {
-                                if (this.CurrentMineContext.MainCoin != null) {
-                                    ICoinShare mainCoinShare = this.CoinShareSet.GetOrCreate(this.CurrentMineContext.MainCoin.GetId());
-                                    int totalShare = mainCoinShare.TotalShareCount;
-                                    if ((this.CurrentMineContext is IDualMineContext dualMineContext) && dualMineContext.DualCoin != null) {
-                                        ICoinShare dualCoinShare = this.CoinShareSet.GetOrCreate(dualMineContext.DualCoin.GetId());
-                                        totalShare += dualCoinShare.TotalShareCount;
+                        if (IsMining && this.CurrentMineContext.MainCoin != null) {
+                            int totalShare = 0;
+                            bool restartComputer = MinerProfile.IsNoShareRestartComputer && (DateTime.Now - shareOn).TotalMinutes > MinerProfile.NoShareRestartComputerMinutes;
+                            bool restartKernel = MinerProfile.IsNoShareRestartKernel && (DateTime.Now - shareOn).TotalMinutes > MinerProfile.NoShareRestartKernelMinutes;
+                            if (restartComputer || restartKernel) {
+                                ICoinShare mainCoinShare = this.CoinShareSet.GetOrCreate(this.CurrentMineContext.MainCoin.GetId());
+                                totalShare = mainCoinShare.TotalShareCount;
+                                if ((this.CurrentMineContext is IDualMineContext dualMineContext) && dualMineContext.DualCoin != null) {
+                                    ICoinShare dualCoinShare = this.CoinShareSet.GetOrCreate(dualMineContext.DualCoin.GetId());
+                                    totalShare += dualCoinShare.TotalShareCount;
+                                }
+                                // 如果份额没有增加
+                                if (shareCount == totalShare) {
+                                    if (restartComputer) {
+                                        if (!NTMinerRegistry.GetIsAutoBoot()) {
+                                            NTMinerRegistry.SetIsAutoBoot(true);
+                                        }
+                                        if (!NTMinerRegistry.GetIsAutoStart()) {
+                                            NTMinerRegistry.SetIsAutoStart(true);
+                                        }
+                                        Logger.WarnWriteLine($"{MinerProfile.NoShareRestartComputerMinutes}分钟收益没有增加重启电脑");
+                                        Windows.Power.Restart(60);
+                                        VirtualRoot.Execute(new CloseNTMinerCommand());
+                                        return;// 退出
                                     }
-                                    if (shareCount == totalShare) {
+                                    // 产生过份额或者已经两倍重启内核时间了
+                                    if (restartKernel && (totalShare > 0 || (DateTime.Now - shareOn).TotalMinutes > 2 * MinerProfile.NoShareRestartKernelMinutes)) {
                                         Logger.WarnWriteLine($"{MinerProfile.NoShareRestartKernelMinutes}分钟收益没有增加重启内核");
                                         RestartMine();
                                         return;// 退出
                                     }
-                                    else {
-                                        shareCount = totalShare;
-                                        shareOn = DateTime.Now;
-                                    }
+                                }
+                                if (totalShare > shareCount) {
+                                    shareCount = totalShare;
+                                    shareOn = DateTime.Now;
                                 }
                             }
                         }
@@ -365,19 +420,7 @@ namespace NTMiner {
                         Logger.ErrorDebugLine(e);
                     }
                     #endregion
-
-                    if (IsMining) {
-                        if (NTMinerRegistry.GetDaemonActiveOn().AddSeconds(20) < message.Timestamp) {
-                            StartNoDevFeeAsync();
-                        }
-                    }
                 });
-            #endregion
-            #region 停止挖矿后停止NoDevFee
-            VirtualRoot.On<MineStopedEvent>("停止挖矿后停止NoDevFee", LogEnum.DevConsole,
-                 action: message => {
-                     Client.NTMinerDaemonService.StopNoDevFeeAsync(callback: null);
-                 });
             #endregion
             VirtualRoot.On<Per10SecondEvent>("周期刷新显卡状态", LogEnum.None,
                 action: message => {
@@ -386,48 +429,24 @@ namespace NTMiner {
                         GpuSet.LoadGpuState();
                     });
                 });
-            // 当显卡温度变更时守卫温度防线
-            TempGruarder.Instance.Init(this);
-            // 因为这里耗时500毫秒左右
-            Task.Factory.StartNew(() => {
-                Windows.Error.DisableWindowsErrorUI();
-                if (NTMinerRegistry.GetIsAutoDisableWindowsFirewall()) {
-                    Windows.Firewall.DisableFirewall();
-                }
-                Windows.UAC.DisableUAC();
-                Windows.WAU.DisableWAUAsync();
-                Windows.Defender.DisableAntiSpyware();
-                Windows.Power.PowerCfgOff();
-                Windows.BcdEdit.IgnoreAllFailures();
-            });
-
-            RefreshArgsAssembly.Invoke();
         }
 
-        private void StartNoDevFeeAsync() {
-            var context = CurrentMineContext;
-            if (context == null || context.MainCoin == null || context.Kernel == null) {
-                return;
-            }
-            string testWallet = context.MainCoin.TestWallet;
-            string kernelName = context.Kernel.GetFullName();
-            if (string.IsNullOrEmpty(testWallet) || string.IsNullOrEmpty(kernelName)) {
-                return;
-            }
-            string ourWallet = context.MainCoinWallet;
-            if (context.MainCoinPool.IsUserMode) {
-                IPoolProfile poolProfile = MinerProfile.GetPoolProfile(context.MainCoinPool.GetId());
-                ourWallet = poolProfile.UserName;
-            }
-            StartNoDevFeeRequest request = new StartNoDevFeeRequest {
-                ContextId = context.Id.GetHashCode(),
-                MinerName = context.MinerName,
-                Coin = context.MainCoin.Code,
-                OurWallet = ourWallet,
-                TestWallet = testWallet,
-                KernelName = kernelName
-            };
-            Client.NTMinerDaemonService.StartNoDevFeeAsync(request, callback: null);
+        // 在Windows右键上下文菜单中添加“命令行”菜单
+        private static void RegCmdHere() {
+            string cmdHere = "SOFTWARE\\Classes\\Directory\\background\\shell\\cmd_here";
+            string cmdHereCommand = cmdHere + "\\command";
+            string cmdPrompt = "SOFTWARE\\Classes\\Folder\\shell\\cmdPrompt";
+            string cmdPromptCommand = cmdPrompt + "\\command";
+            Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdHere, "", "命令行");
+            Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdHere, "Icon", "cmd.exe");
+            Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdHereCommand, "", "\"cmd.exe\"");
+            Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdPrompt, "", "命令行");
+            Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdPromptCommand, "", "\"cmd.exe\" \"cd %1\"");
+            cmdHere = "SOFTWARE\\Classes\\Directory\\shell\\cmd_here";
+            cmdHereCommand = cmdHere + "\\command";
+            Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdHere, "", "命令行");
+            Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdHere, "Icon", "cmd.exe");
+            Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdHereCommand, "", "\"cmd.exe\"");
         }
         #endregion
 
@@ -447,13 +466,6 @@ namespace NTMiner {
             }
             Task.Factory.StartNew(() => {
                 StopMine();
-                for (int i = 1; i <= 10; i++) {
-                    if (i % 2 == 0) {
-                        Write.UserInfo($"显卡性能恢复中{i * 10}%");
-                    }
-                    System.Threading.Thread.Sleep(1000);
-                }
-                Write.UserOk("显卡性能恢复完毕");
                 callback?.Invoke();
             });
         }
@@ -488,7 +500,7 @@ namespace NTMiner {
                 if (isWork) {
                     ContextReInit(true);
                 }
-                StartMine();
+                StartMine(isRestart: true);
             }
             else {
                 this.StopMineAsync(() => {
@@ -496,7 +508,7 @@ namespace NTMiner {
                     if (isWork) {
                         ContextReInit(true);
                     }
-                    StartMine();
+                    StartMine(isRestart: true);
                 });
             }
             NTMinerRegistry.SetIsLastIsWork(isWork);
@@ -504,7 +516,7 @@ namespace NTMiner {
         #endregion
 
         #region StartMine
-        public void StartMine() {
+        public void StartMine(bool isRestart = false) {
             try {
                 Logger.EventWriteLine("开始挖矿");
                 IWorkProfile minerProfile = this.MinerProfile;
@@ -585,7 +597,7 @@ namespace NTMiner {
                     Logger.WarnWriteLine(kernel.GetFullName() + "本地内核包不存在，开始自动下载");
                     VirtualRoot.Execute(new ShowKernelDownloaderCommand(kernel.GetId(), downloadComplete: (isSuccess, message) => {
                         if (isSuccess) {
-                            StartMine();
+                            StartMine(isRestart);
                         }
                         else {
                             VirtualRoot.Happened(new StartingMineFailedEvent("内核下载：" + message));
@@ -594,19 +606,18 @@ namespace NTMiner {
                 }
                 else {
                     string commandLine = BuildAssembleArgs(out Dictionary<string, string> parameters, out Dictionary<Guid, string> fileWriters, out Dictionary<Guid, string> fragments);
-                    if (IsUiVisible) {
-                        if (commandLine != UserKernelCommandLine) {
-                            Logger.WarnDebugLine("意外：MineContext.CommandLine和UserKernelCommandLine不等了");
-                            Logger.WarnDebugLine("UserKernelCommandLine  :" + UserKernelCommandLine);
-                            Logger.WarnDebugLine("MineContext.CommandLine:" + commandLine);
-                        }
+                    if (commandLine != UserKernelCommandLine) {
+                        Logger.WarnDebugLine("意外：MineContext.CommandLine和UserKernelCommandLine不等了");
+                        Logger.WarnDebugLine("UserKernelCommandLine  :" + UserKernelCommandLine);
+                        Logger.WarnDebugLine("MineContext.CommandLine:" + commandLine);
                     }
                     IMineContext mineContext = new MineContext(
+                        isRestart,
                         this.MinerProfile.MinerName, mainCoin,
                         mainCoinPool, kernel, coinKernel,
                         coinProfile.Wallet, commandLine,
                         parameters, fragments, fileWriters);
-                    if (coinKernelProfile.IsDualCoinEnabled) {
+                    if (coinKernelProfile.IsDualCoinEnabled && coinKernel.GetIsSupportDualMine()) {
                         mineContext = new DualMineContext(
                             mineContext, dualCoin, dualCoinPool,
                             coinProfile.DualCoinWallet,
@@ -622,7 +633,7 @@ namespace NTMiner {
             }
         }
         #endregion
-        
+
         private IMineContext _currentMineContext;
         public IMineContext CurrentMineContext {
             get {
@@ -635,6 +646,8 @@ namespace NTMiner {
                 return CurrentMineContext != null;
             }
         }
+
+        public IGpuProfileSet GpuProfileSet { get; private set; }
 
         public IWorkProfile MinerProfile {
             get { return _minerProfile; }

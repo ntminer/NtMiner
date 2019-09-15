@@ -125,9 +125,8 @@
 						Fill="{StaticResource IconFillColor}"
 						Stretch="Fill" />
 				</controls:KbButton>
-				<Button IsDefault="True" Command="{Binding Search}" Background="Transparent" BorderThickness="0"></Button>
 				<controls:KbButton  
-					Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
+					Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
 					Command="{Binding Add}" 
 					Background="Transparent" BorderThickness="0"
 					Margin="20 0 0 0"
@@ -142,7 +141,7 @@
 					</WrapPanel>
 				</controls:KbButton>
 				<controls:KbButton  
-					Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
+					Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
 					Command="{Binding ShowPackages}" 
 					Background="Transparent" BorderThickness="0"
 					Margin="20 0 0 0"
@@ -158,18 +157,9 @@
 				</controls:KbButton>
 			</WrapPanel>
 			<WrapPanel Grid.Column="1" HorizontalAlignment="Right">
-				<controls:KbSystemMinButton 
-					Height="36"
-					KbSystemButtonSize="40"
-					KbSystemButtonForeground="#385263" />
-				<controls:KbSystemMaxButton
-					Height="36"
-					KbSystemButtonSize="40"
-					KbSystemButtonForeground="#385263" />
-				<controls:KbSystemCloseButton 
-					Height="36"
-					KbSystemButtonSize="40"
-					KbSystemButtonForeground="#385263" />
+				<controls:KbSystemMinButton Height="36" KbSystemButtonForeground="#385263" />
+				<controls:KbSystemMaxButton Height="36" KbSystemButtonForeground="#385263" />
+				<controls:KbSystemCloseButton Height="36" KbSystemButtonForeground="#385263" />
 			</WrapPanel>
 		</Grid>
 		<uc:KernelGrid DataContext="{Binding}" Margin="0 0 10 0" Background="Transparent"></uc:KernelGrid>

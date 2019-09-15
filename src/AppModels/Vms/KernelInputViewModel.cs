@@ -15,8 +15,6 @@ namespace NTMiner.Vms {
         private string _name;
         private string _args;
         private bool _isSupportDualMine;
-        private string _dualFullArgs;
-        private Guid _dualCoinGroupId;
         private double _dualWeightMin;
         private double _dualWeightMax;
         private bool _isAutoDualWeight;
@@ -48,8 +46,6 @@ namespace NTMiner.Vms {
             _name = data.Name;
             _args = data.Args;
             _isSupportDualMine = data.IsSupportDualMine;
-            _dualFullArgs = data.DualFullArgs;
-            _dualCoinGroupId = data.DualCoinGroupId;
             _dualWeightMin = data.DualWeightMin;
             _dualWeightMax = data.DualWeightMax;
             _isAutoDualWeight = data.IsAutoDualWeight;
@@ -146,37 +142,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        public Guid DualCoinGroupId {
-            get => _dualCoinGroupId;
-            set {
-                if (_dualCoinGroupId != value) {
-                    _dualCoinGroupId = value;
-                    OnPropertyChanged(nameof(DualCoinGroupId));
-                }
-            }
-        }
-
-        public GroupViewModel DualCoinGroup {
-            get {
-                if (this.DualCoinGroupId == Guid.Empty) {
-                    return GroupViewModel.PleaseSelect;
-                }
-                if (_dualCoinGroup == null || _dualCoinGroup.Id != this.DualCoinGroupId) {
-                    AppContext.Instance.GroupVms.TryGetGroupVm(DualCoinGroupId, out _dualCoinGroup);
-                    if (_dualCoinGroup == null) {
-                        _dualCoinGroup = GroupViewModel.PleaseSelect;
-                    }
-                }
-                return _dualCoinGroup;
-            }
-            set {
-                if (DualCoinGroupId != value.Id) {
-                    DualCoinGroupId = value.Id;
-                    OnPropertyChanged(nameof(DualCoinGroup));
-                }
-            }
-        }
-
         public string Args {
             get { return _args; }
             set {
@@ -247,16 +212,6 @@ namespace NTMiner.Vms {
                 if (_dualWeightArg != value) {
                     _dualWeightArg = value;
                     OnPropertyChanged(nameof(DualWeightArg));
-                }
-            }
-        }
-
-        public string DualFullArgs {
-            get { return _dualFullArgs; }
-            set {
-                if (_dualFullArgs != value) {
-                    _dualFullArgs = value;
-                    OnPropertyChanged(nameof(DualFullArgs));
                 }
             }
         }

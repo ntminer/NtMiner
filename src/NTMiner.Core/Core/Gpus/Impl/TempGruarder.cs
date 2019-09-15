@@ -1,5 +1,5 @@
-﻿using NTMiner.Core.Profiles;
-using NTMiner.MinerClient;
+﻿using NTMiner.MinerClient;
+using NTMiner.Profile;
 using System;
 using System.Collections.Generic;
 
@@ -29,11 +29,11 @@ namespace NTMiner.Core.Gpus.Impl {
                         return;
                     }
                     IGpuProfile gpuProfile;
-                    if (GpuProfileSet.Instance.IsOverClockGpuAll(root.MinerProfile.CoinId)) {
-                        gpuProfile = GpuProfileSet.Instance.GetGpuProfile(root.MinerProfile.CoinId, NTMinerRoot.GpuAllId);
+                    if (NTMinerRoot.Instance.GpuProfileSet.IsOverClockGpuAll(root.MinerProfile.CoinId)) {
+                        gpuProfile = NTMinerRoot.Instance.GpuProfileSet.GetGpuProfile(root.MinerProfile.CoinId, NTMinerRoot.GpuAllId);
                     }
                     else {
-                        gpuProfile = GpuProfileSet.Instance.GetGpuProfile(root.MinerProfile.CoinId, gpu.Index);
+                        gpuProfile = NTMinerRoot.Instance.GpuProfileSet.GetGpuProfile(root.MinerProfile.CoinId, gpu.Index);
                     }
                     if (!gpuProfile.IsAutoFanSpeed) {
                         return;
@@ -65,7 +65,7 @@ namespace NTMiner.Core.Gpus.Impl {
                             }
                             if (cool >= gpu.CoolMin) {
                                 _fightedOnDic[gpu.Index] = DateTime.Now;
-                                root.GpuSet.OverClock.SetCool(gpu.Index, cool);
+                                root.GpuSet.OverClock.SetFanSpeed(gpu.Index, cool);
                                 Write.DevDebug($"GPU{gpu.Index} 风扇转速由{gpu.FanSpeed}%调低至{cool}%");
                             }
                         }
@@ -86,7 +86,7 @@ namespace NTMiner.Core.Gpus.Impl {
                             cool = 100;
                         }
                         if (cool <= 100) {
-                            root.GpuSet.OverClock.SetCool(gpu.Index, (int)cool);
+                            root.GpuSet.OverClock.SetFanSpeed(gpu.Index, (int)cool);
                             Write.DevDebug($"GPU{gpu.Index} 风扇转速由{gpu.FanSpeed}%调高至{cool}%");
                         }
                     }

@@ -8,6 +8,9 @@ namespace NTMiner.Profile {
         bool IsNoShareRestartKernel { get; }
         int NoShareRestartKernelMinutes { get; }
 
+        bool IsNoShareRestartComputer { get; }
+        int NoShareRestartComputerMinutes { get; }
+
         bool IsPeriodicRestartKernel { get; }
         int PeriodicRestartKernelHours { get; }
         int PeriodicRestartKernelMinutes { get; }

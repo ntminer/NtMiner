@@ -13,13 +13,14 @@ namespace NTMiner.Vms {
         private Guid _id;
         private string _name;
         private string _kernelRestartKeyword;
-        private bool _prependDateTime;
         private bool _isDualInSameLine;
         private string _totalSpeedPattern;
         private string _totalSharePattern;
         private string _acceptSharePattern;
         private string _acceptOneShare;
+        private string _foundOneShare;
         private string _gpuSpeedPattern;
+        private string _gpuGotOneIncorrectShare;
         private string _rejectOneShare;
         private string _rejectSharePattern;
         private string _rejectPercentPattern;
@@ -61,12 +62,13 @@ namespace NTMiner.Vms {
         public KernelOutputViewModel(IKernelOutput data) : this(data.GetId()) {
             _name = data.Name;
             _kernelRestartKeyword = data.KernelRestartKeyword;
-            _prependDateTime = data.PrependDateTime;
             _isDualInSameLine = data.IsDualInSameLine;
             _totalSpeedPattern = data.TotalSpeedPattern;
             _gpuSpeedPattern = data.GpuSpeedPattern;
+            _gpuGotOneIncorrectShare = data.GpuGotOneIncorrectShare;
             _totalSharePattern = data.TotalSharePattern;
             _acceptSharePattern = data.AcceptSharePattern;
+            _foundOneShare = data.FoundOneShare;
             _acceptOneShare = data.AcceptOneShare;
             _rejectSharePattern = data.RejectSharePattern;
             _rejectOneShare = data.RejectOneShare;
@@ -133,7 +135,7 @@ namespace NTMiner.Vms {
 
         public List<KernelOutputFilterViewModel> KernelOutputFilters {
             get {
-                return AppContext.Instance.KernelOutputFilterVms.GetListByKernelId(this.Id).ToList();
+                return new List<KernelOutputFilterViewModel>(AppContext.Instance.KernelOutputFilterVms.GetListByKernelId(this.Id));
             }
         }
 
@@ -206,16 +208,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        public bool PrependDateTime {
-            get { return _prependDateTime; }
-            set {
-                if (_prependDateTime != value) {
-                    _prependDateTime = value;
-                    OnPropertyChanged(nameof(PrependDateTime));
-                }
-            }
-        }
-
         public bool IsDualInSameLine {
             get { return _isDualInSameLine; }
             set {
@@ -254,12 +246,36 @@ namespace NTMiner.Vms {
             }
         }
 
+        public string FoundOneShare {
+            get { return _foundOneShare; }
+            set {
+                if (_foundOneShare != value) {
+                    _foundOneShare = value;
+                    OnPropertyChanged(nameof(FoundOneShare));
+                    OnPropertyChanged(nameof(IsFoundOneGpuShare));
+                }
+            }
+        }
+
+        public bool IsFoundOneGpuShare {
+            get {
+                if (!string.IsNullOrEmpty(FoundOneShare) && FoundOneShare.Contains("?<gpu>")) {
+                    return true;
+                }
+                if (!string.IsNullOrEmpty(AcceptOneShare) && AcceptOneShare.Contains("?<gpu>")) {
+                    return true;
+                }
+                return false;
+            }
+        }
+
         public string AcceptOneShare {
             get { return _acceptOneShare; }
             set {
                 if (_acceptOneShare != value) {
                     _acceptOneShare = value;
                     OnPropertyChanged(nameof(AcceptOneShare));
+                    OnPropertyChanged(nameof(IsFoundOneGpuShare));
                 }
             }
         }
@@ -280,7 +296,26 @@ namespace NTMiner.Vms {
                 if (_rejectOneShare != value) {
                     _rejectOneShare = value;
                     OnPropertyChanged(nameof(RejectOneShare));
+                    OnPropertyChanged(nameof(IsRejectOneGpuShare));
                 }
+            }
+        }
+
+        public bool IsRejectOneGpuShare {
+            get {
+                if (string.IsNullOrEmpty(RejectOneShare)) {
+                    return false;
+                }
+                return RejectOneShare.Contains("?<gpu>");
+            }
+        }
+
+        public bool IsGotOneIncorrectGpuShare {
+            get {
+                if (string.IsNullOrEmpty(GpuGotOneIncorrectShare)) {
+                    return false;
+                }
+                return GpuGotOneIncorrectShare.Contains("?<gpu>");
             }
         }
 
@@ -300,6 +335,17 @@ namespace NTMiner.Vms {
                 if (_gpuSpeedPattern != value) {
                     _gpuSpeedPattern = value;
                     OnPropertyChanged(nameof(GpuSpeedPattern));
+                }
+            }
+        }
+
+        public string GpuGotOneIncorrectShare {
+            get { return _gpuGotOneIncorrectShare; }
+            set {
+                if (_gpuGotOneIncorrectShare != value) {
+                    _gpuGotOneIncorrectShare = value;
+                    OnPropertyChanged(nameof(GpuGotOneIncorrectShare));
+                    OnPropertyChanged(nameof(IsGotOneIncorrectGpuShare));
                 }
             }
         }
@@ -361,6 +407,15 @@ namespace NTMiner.Vms {
                     _dualRejectOneShare = value;
                     OnPropertyChanged(nameof(DualRejectOneShare));
                 }
+            }
+        }
+
+        public bool IsDualRejectOneGpuShare {
+            get {
+                if (string.IsNullOrEmpty(DualRejectOneShare)) {
+                    return false;
+                }
+                return DualRejectOneShare.Contains("?<gpu>");
             }
         }
 
@@ -428,9 +483,14 @@ namespace NTMiner.Vms {
             }
         }
 
+
         public string KernelFullNames {
             get {
-                string names = string.Join(";", AppContext.Instance.KernelVms.AllKernels.Where(a => a.KernelOutputId == this.Id).Select(a => a.FullName));
+                string names = string.Join(";", AppContext.Instance.KernelVms.AllKernels
+                    .Where(a => a.KernelOutputId == this.Id)
+                    .OrderBy(a => a.Code)
+                    .ThenByDescending(a => a.Version)
+                    .Select(a => a.FullName));
                 if (string.IsNullOrEmpty(names)) {
                     return "无";
                 }

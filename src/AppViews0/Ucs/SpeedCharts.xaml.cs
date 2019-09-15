@@ -115,7 +115,6 @@ namespace NTMiner.Views.Ucs {
                     });
             });
 
-            SolidColorBrush White = new SolidColorBrush(Colors.White);
             Vm.PropertyChanged += (object sender, System.ComponentModel.PropertyChangedEventArgs e) => {
                 if (e.PropertyName == nameof(Vm.CurrentSpeedChartVm)) {
                     SpeedChartViewModel currentItem = Vm.CurrentSpeedChartVm;
@@ -129,7 +128,7 @@ namespace NTMiner.Views.Ucs {
                                 DisableAnimations = true,
                                 Hoverable = false,
                                 DataTooltip = null,
-                                Background = White,
+                                Background = Wpf.Util.WhiteBrush,
                                 Padding = new Thickness(4, 0, 0, 0),
                                 Visibility = Visibility.Visible
                             };

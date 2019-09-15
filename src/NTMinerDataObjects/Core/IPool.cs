@@ -16,5 +16,7 @@ namespace NTMiner.Core {
         string TutorialUrl { get; }
         bool NoPool1 { get; }
         bool NotPool1 { get; }
+        string MinerNamePrefix { get; }
+        string MinerNamePostfix { get; }
     }
 }

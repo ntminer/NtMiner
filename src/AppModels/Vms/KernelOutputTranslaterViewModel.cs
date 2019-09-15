@@ -70,7 +70,7 @@ namespace NTMiner.Vms {
                 }, icon: IconConst.IconConfirm);
             });
             this.SortUp = new DelegateCommand(() => {
-                KernelOutputTranslaterViewModel upOne = AppContext.Instance.KernelOutputTranslaterVms.GetListByKernelId(this.KernelOutputId).OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.SortNumber < this.SortNumber);
+                KernelOutputTranslaterViewModel upOne = AppContext.Instance.KernelOutputTranslaterVms.GetUpOne(this.KernelOutputId, this.SortNumber);
                 if (upOne != null) {
                     int sortNumber = upOne.SortNumber;
                     upOne.SortNumber = this.SortNumber;
@@ -84,7 +84,7 @@ namespace NTMiner.Vms {
                 }
             });
             this.SortDown = new DelegateCommand(() => {
-                KernelOutputTranslaterViewModel nextOne = AppContext.Instance.KernelOutputTranslaterVms.GetListByKernelId(this.KernelOutputId).OrderBy(a => a.SortNumber).FirstOrDefault(a => a.SortNumber > this.SortNumber);
+                KernelOutputTranslaterViewModel nextOne = AppContext.Instance.KernelOutputTranslaterVms.GetNextOne(this.KernelOutputId, this.SortNumber);
                 if (nextOne != null) {
                     int sortNumber = nextOne.SortNumber;
                     nextOne.SortNumber = this.SortNumber;
@@ -153,16 +153,15 @@ namespace NTMiner.Vms {
             }
         }
 
-        private static readonly SolidColorBrush s_white = new SolidColorBrush(Colors.White);
         public SolidColorBrush ColorBrush {
             get {
                 if (string.IsNullOrEmpty(this.Color)) {
-                    return s_white;
+                    return Wpf.Util.WhiteBrush;
                 }
                 if (ColorDicItem != null && ColorDicItem.Value.TryParse(out ConsoleColor consoleColor)) {
                     return new SolidColorBrush(consoleColor.ToMediaColor());
                 }
-                return s_white;
+                return Wpf.Util.WhiteBrush;
             }
         }
 

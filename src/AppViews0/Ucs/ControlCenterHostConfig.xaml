@@ -8,7 +8,7 @@
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
-		mc:Ignorable="d" Height="120" Width="400">
+		mc:Ignorable="d" d:DesignHeight="120" d:DesignWidth="400">
 	<UserControl.DataContext>
 		<vm:ControlCenterHostConfigViewModel></vm:ControlCenterHostConfigViewModel>
 	</UserControl.DataContext>

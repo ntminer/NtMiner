@@ -13,7 +13,7 @@ namespace NTMiner {
 
             private KernelOutputTranslaterViewModels() {
 #if DEBUG
-                VirtualRoot.Stopwatch.Restart();
+                Write.Stopwatch.Restart();
 #endif
                 VirtualRoot.On<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
@@ -65,7 +65,7 @@ namespace NTMiner {
                     });
                 Init();
 #if DEBUG
-                Write.DevWarn($"耗时{VirtualRoot.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+                Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
 #endif
             }
 
@@ -91,6 +91,14 @@ namespace NTMiner {
                     return _dicByKernelOutputId[kernelId];
                 }
                 return new List<KernelOutputTranslaterViewModel>();
+            }
+
+            public KernelOutputTranslaterViewModel GetNextOne(Guid kernelOutputId, int sortNumber) {
+                return GetListByKernelId(kernelOutputId).OrderBy(a => a.SortNumber).FirstOrDefault(a => a.SortNumber > sortNumber);
+            }
+
+            public KernelOutputTranslaterViewModel GetUpOne(Guid kernelOutputId, int sortNumber) {
+                return GetListByKernelId(kernelOutputId).OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.SortNumber < sortNumber);
             }
         }
     }

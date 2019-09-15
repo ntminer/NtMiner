@@ -2,8 +2,14 @@
 using System.Collections.Generic;
 
 namespace NTMiner.Core {
+    public enum KernelProcessType {
+        Logfile,
+        Pip
+    }
+
     public interface IMineContext {
         Guid Id { get; }
+        bool IsRestart { get; }
         string MinerName { get; }
         ICoin MainCoin { get; }
         IPool MainCoinPool { get; }
@@ -12,8 +18,8 @@ namespace NTMiner.Core {
         string MainCoinWallet { get; }
         int AutoRestartKernelCount { get; set; }
         int KernelSelfRestartCount { get; set; }
-        string PipeFileName { get; }
-
+        string LogFileFullName { get; }
+        KernelProcessType KernelProcessType { get; }
         string CommandLine { get; }
 
         DateTime CreatedOn { get; }

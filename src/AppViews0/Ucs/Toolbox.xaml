@@ -24,6 +24,7 @@
 					Height="50" 
 					Width="200"
 					Margin="4"
+                    IsEnabled="{x:Static app:AppStatic.IsAmdGpu}"
 					Command="{Binding SwitchRadeonGpu}"
 					Cursor="Hand"
 					Background="Transparent">
@@ -44,6 +45,7 @@
 					Height="50" 
 					Width="200"
 					Margin="4"
+                    IsEnabled="{x:Static app:AppStatic.IsAmdGpu}"
 					Command="{Binding AtikmdagPatcher}"
 					Cursor="Hand"
 					Background="Transparent">
@@ -259,8 +261,28 @@
 							<TextBlock Foreground="{StaticResource LableColor}">点击打开收益计算器</TextBlock>
 						</StackPanel>
 					</WrapPanel>
-				</controls:KbButton>
-			</WrapPanel>
+                </controls:KbButton>
+                <controls:KbButton 
+					Height="50" 
+					Width="200"
+					Margin="4"
+					Command="{x:Static app:AppStatic.ShowEthNoDevFee}"
+					Cursor="Hand"
+					Background="Transparent">
+                    <WrapPanel VerticalAlignment="Center">
+                        <Path 
+							Width="30"
+							Height="30"
+							Data="{StaticResource Icon_NoDevFee}"
+							Fill="Black"
+							Stretch="Fill" />
+                        <StackPanel Margin="8 0 0 0" Width="152">
+                            <TextBlock FontWeight="Bold" FontSize="14">Claymore ETH反抽水</TextBlock>
+                            <TextBlock Foreground="{StaticResource LableColor}">拦截老外的内核开发费</TextBlock>
+                        </StackPanel>
+                    </WrapPanel>
+                </controls:KbButton>
+            </WrapPanel>
 		</ScrollViewer>
 	</Grid>
 </UserControl>

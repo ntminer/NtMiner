@@ -1,13 +1,15 @@
 ﻿using NTMiner.Core;
 using System;
-using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace NTMiner.Vms {
     public class MainWindowViewModel : ViewModelBase {
         private string _serverJsonVersion;
         private readonly StateBarViewModel _stateBarVm = new StateBarViewModel();
         private MinerStateViewModel _minerStateVm;
+        private SolidColorBrush _daemonStateBrush;
+
         public MinerStateViewModel MinerStateVm {
             get {
                 if (_minerStateVm == null) {
@@ -25,6 +27,7 @@ namespace NTMiner.Vms {
             if (Design.IsInDesignMode) {
                 return;
             }
+            RefreshDaemonStateBrush();
             this.CloseMainWindow = new DelegateCommand(() => {
                 VirtualRoot.Execute(new CloseMainWindowCommand("已切换为无界面模式运行"));
             });
@@ -83,7 +86,7 @@ namespace NTMiner.Vms {
             }
         }
 
-        public AppContext.MinerProfileViewModel MinerProfile {
+        public MinerProfileViewModel MinerProfile {
             get {
                 return AppContext.Instance.MinerProfileVm;
             }
@@ -99,15 +102,26 @@ namespace NTMiner.Vms {
             }
         }
 
-        public Visibility IsOverClockVisible {
-            get {
-                if (Design.IsInDesignMode) {
-                    return Visibility.Visible;
+        public SolidColorBrush DaemonStateBrush {
+            get => _daemonStateBrush;
+            set {
+                if (_daemonStateBrush != value) {
+                    _daemonStateBrush = value;
+                    OnPropertyChanged(nameof(DaemonStateBrush));
                 }
-                if (NTMinerRoot.Instance.GpuSet.GpuType == GpuType.NVIDIA) {
-                    return Visibility.Visible;
-                }
-                return Visibility.Collapsed;
+            }
+        }
+
+        public void RefreshDaemonStateBrush() {
+            if (NTMinerRoot.Instance.CreatedOn.AddSeconds(10) > DateTime.Now) {
+                // 如果刚刚启动10秒钟内视为白色正常状态
+                DaemonStateBrush = Wpf.Util.WhiteBrush;
+            }
+            else if (NTMinerRegistry.GetDaemonActiveOn().AddSeconds(20) >= DateTime.Now) {
+                DaemonStateBrush = Wpf.Util.WhiteBrush;
+            }
+            else {
+                DaemonStateBrush = Wpf.Util.RedBrush;
             }
         }
     }

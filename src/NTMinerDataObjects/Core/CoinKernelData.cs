@@ -24,17 +24,20 @@ namespace NTMiner.Core {
 
         public bool IsSupportPool1 { get; set; }
 
-        public int SortNumber { get; set; }
-
         public Guid DualCoinGroupId { get; set; }
 
         public string Args { get; set; }
+
+        public string DualFullArgs { get; set; }
 
         public string Notice { get; set; }
 
         public bool IsHot { get; set; }
 
         public bool IsRecommend { get; set; }
+
+        // 使导出的json向后兼容，待旧版本用户少了可以去除这个属性
+        public int SortNumber { get; set; }
 
         public List<EnvironmentVariable> EnvironmentVariables { get; set; }
 

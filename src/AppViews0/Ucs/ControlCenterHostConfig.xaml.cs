@@ -8,6 +8,8 @@ namespace NTMiner.Views.Ucs {
                 Title = "群控服务器",
                 IsDialogWindow = true,
                 IconName = "Icon_Server",
+                Width = 400,
+                Height = 120,
                 CloseVisible = System.Windows.Visibility.Visible
             }, ucFactory: (window) => {
                 var uc = new ControlCenterHostConfig();

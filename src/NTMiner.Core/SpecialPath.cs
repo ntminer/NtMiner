@@ -1,75 +1,20 @@
 ﻿using NTMiner.Core;
-using System;
 using System.IO;
-using System.IO.Compression;
-using System.Net;
-using System.Threading.Tasks;
 
 namespace NTMiner {
     public static class SpecialPath {
-        private static readonly string ServerJsonFileUrl = AssemblyInfo.MinerJsonBucket + AssemblyInfo.ServerJsonFileName;
-
-        public static void GetAliyunServerJson(Action<byte[]> callback) {
-            string fileUrl = ServerJsonFileUrl + "?t=" + DateTime.Now.Ticks;
-            Task.Factory.StartNew(() => {
-                try {
-                    var webRequest = WebRequest.Create(fileUrl);
-                    webRequest.Timeout = 20 * 1000;
-                    webRequest.Method = "GET";
-                    webRequest.Headers.Add("Accept-Encoding", "gzip, deflate, br");
-                    var response = webRequest.GetResponse();
-                    using (MemoryStream ms = new MemoryStream())
-                    using (Stream stream = response.GetResponseStream()) {
-                        byte[] buffer = new byte[1024];
-                        int n = stream.Read(buffer, 0, buffer.Length);
-                        while (n > 0) {
-                            ms.Write(buffer, 0, n);
-                            n = stream.Read(buffer, 0, buffer.Length);
-                        }
-                        byte[] data = new byte[ms.Length];
-                        ms.Position = 0;
-                        ms.Read(data, 0, data.Length);
-                        data = ZipDecompress(data);
-                        callback?.Invoke(data);
-                    }
-                    Logger.InfoDebugLine($"下载完成：{fileUrl}");
-                }
-                catch (Exception e) {
-                    Logger.ErrorDebugLine(e);
-                    callback?.Invoke(new byte[0]);
-                }
-            });
-        }
-
-        private static byte[] ZipDecompress(byte[] zippedData) {
-            MemoryStream ms = new MemoryStream(zippedData);
-            GZipStream compressedzipStream = new GZipStream(ms, CompressionMode.Decompress);
-            MemoryStream outBuffer = new MemoryStream();
-            byte[] block = new byte[1024];
-            while (true) {
-                int bytesRead = compressedzipStream.Read(block, 0, block.Length);
-                if (bytesRead <= 0)
-                    break;
-                else
-                    outBuffer.Write(block, 0, bytesRead);
-            }
-            compressedzipStream.Close();
-            return outBuffer.ToArray();
-        }
-
         static SpecialPath() {
             string daemonDirFullName = Path.Combine(AssemblyInfo.ShareDirFullName, "Daemon");
             if (!Directory.Exists(daemonDirFullName)) {
                 Directory.CreateDirectory(daemonDirFullName);
             }
-            DaemonFileFullName = Path.Combine(daemonDirFullName, "NTMinerDaemon.exe");            
+            DaemonFileFullName = Path.Combine(daemonDirFullName, "NTMinerDaemon.exe");
             DevConsoleFileFullName = Path.Combine(daemonDirFullName, "DevConsole.exe");
 
             TempDirFullName = Path.Combine(AssemblyInfo.ShareDirFullName, "Temp");
             if (!Directory.Exists(TempDirFullName)) {
                 Directory.CreateDirectory(TempDirFullName);
             }
-            NTMinerOverClockFileFullName = Path.Combine(TempDirFullName, "NTMinerOverClock.exe");
             ServerDbFileFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "server.litedb");
             ServerJsonFileFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "server.json");
 
@@ -132,8 +77,6 @@ namespace NTMiner {
 
         public static readonly string DevConsoleFileFullName;
 
-        public static readonly string NTMinerOverClockFileFullName;
-
         public static readonly string TempDirFullName;
 
         private static bool _sIsFirstCallPackageDirFullName = true;
@@ -143,12 +86,6 @@ namespace NTMiner {
                 if (_sIsFirstCallPackageDirFullName) {
                     if (!Directory.Exists(dirFullName)) {
                         Directory.CreateDirectory(dirFullName);
-                        var shareDir = Path.Combine(AssemblyInfo.ShareDirFullName, "Packages");
-                        if (Directory.Exists(shareDir)) {
-                            foreach (var fileFullName in Directory.GetFiles(shareDir)) {
-                                File.Copy(fileFullName, Path.Combine(dirFullName, Path.GetFileName(fileFullName)), overwrite: false);
-                            }
-                        }
                     }
                     _sIsFirstCallPackageDirFullName = false;
                 }
@@ -205,7 +142,7 @@ namespace NTMiner {
         private static bool _sIsFirstCallLogsDirFullName = true;
         public static string LogsDirFullName {
             get {
-                string dirFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "logs");
+                string dirFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "Logs");
                 if (_sIsFirstCallLogsDirFullName) {
                     if (!Directory.Exists(dirFullName)) {
                         Directory.CreateDirectory(dirFullName);
@@ -214,6 +151,63 @@ namespace NTMiner {
                 }
 
                 return dirFullName;
+            }
+        }
+
+        private static bool _sIsFirstCallToolsDirFullName = true;
+        public static string ToolsDirFullName {
+            get {
+                string dirFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "Tools");
+                if (_sIsFirstCallToolsDirFullName) {
+                    if (!Directory.Exists(dirFullName)) {
+                        Directory.CreateDirectory(dirFullName);
+                    }
+                    _sIsFirstCallToolsDirFullName = false;
+                }
+
+                return dirFullName;
+            }
+        }
+
+        private static bool _sIsFirstCallUpdaterDirFullName = true;
+        public static string UpdaterDirFullName {
+            get {
+                string dirFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "Updater");
+                if (_sIsFirstCallUpdaterDirFullName) {
+                    if (!Directory.Exists(dirFullName)) {
+                        Directory.CreateDirectory(dirFullName);
+                    }
+                    _sIsFirstCallUpdaterDirFullName = false;
+                }
+
+                return dirFullName;
+            }
+        }
+
+        public static string UpdaterFileFullName {
+            get {
+                return Path.Combine(UpdaterDirFullName, "NTMinerUpdater.exe");
+            }
+        }
+
+        private static bool _sIsFirstCallServicesDirFullName = true;
+        public static string ServicesDirFullName {
+            get {
+                string dirFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "Services");
+                if (_sIsFirstCallServicesDirFullName) {
+                    if (!Directory.Exists(dirFullName)) {
+                        Directory.CreateDirectory(dirFullName);
+                    }
+                    _sIsFirstCallServicesDirFullName = false;
+                }
+
+                return dirFullName;
+            }
+        }
+
+        public static string ServicesFileFullName {
+            get {
+                return Path.Combine(ServicesDirFullName, "NTMinerServices.exe");
             }
         }
     }

@@ -2,6 +2,7 @@
 using NTMiner.Vms;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NTMiner {
     public partial class AppContext {
@@ -12,7 +13,7 @@ namespace NTMiner {
             private readonly Dictionary<Guid, List<CoinGroupViewModel>> _listByGroupId = new Dictionary<Guid, List<CoinGroupViewModel>>();
             private CoinGroupViewModels() {
 #if DEBUG
-                VirtualRoot.Stopwatch.Restart();
+                Write.Stopwatch.Restart();
 #endif
                 VirtualRoot.On<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
@@ -59,7 +60,7 @@ namespace NTMiner {
                     });
                 Init();
 #if DEBUG
-                Write.DevWarn($"耗时{VirtualRoot.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+                Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
 #endif
             }
 
@@ -92,6 +93,14 @@ namespace NTMiner {
                     return new List<CoinGroupViewModel>();
                 }
                 return _listByGroupId[groupId];
+            }
+
+            public CoinGroupViewModel GetNextOne(Guid groupId, int sortNumber) {
+                return GetCoinGroupsByGroupId(groupId).OrderBy(a => a.SortNumber).FirstOrDefault(a => a.SortNumber > sortNumber);
+            }
+
+            public CoinGroupViewModel GetUpOne(Guid groupId, int sortNumber) {
+                return GetCoinGroupsByGroupId(groupId).OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.SortNumber < sortNumber);
             }
         }
     }

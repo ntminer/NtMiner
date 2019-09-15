@@ -28,9 +28,7 @@ namespace NTMiner {
 
         void Exit();
 
-        void Start();
-
-        void StartMine();
+        void StartMine(bool isRestart = false);
 
         void RestartMine(bool isWork = false);
 
@@ -39,6 +37,8 @@ namespace NTMiner {
         IMineContext CurrentMineContext { get; }
 
         bool IsMining { get; }
+
+        IGpuProfileSet GpuProfileSet { get; }
 
         IWorkProfile MinerProfile { get; }
 
@@ -97,7 +97,6 @@ namespace NTMiner {
         IWorkerEventSet WorkerEventSet { get; }
 
         IKernelOutputKeywordSet KernelOutputKeywordSet { get; }
-
         string BuildAssembleArgs(out Dictionary<string, string> parameters, out Dictionary<Guid, string> fileWriters, out Dictionary<Guid, string> fragments);
     }
 }

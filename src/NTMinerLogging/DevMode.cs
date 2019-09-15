@@ -11,9 +11,9 @@ namespace NTMiner {
         public static bool IsDebugMode { get; private set; }
         public static bool IsDevMode { get; private set; }
 
-        // 为了在设计视图避开日志控制台窗口
-        public static void SetIsDevMode(bool value) {
-            IsDevMode = value;
+        public static void SetDevMode() {
+            IsDebugMode = true;
+            IsDevMode = true;
         }
 
         static DevMode() {

@@ -28,6 +28,21 @@ namespace NTMiner {
         }
     }
 
+    [MessageType(description: "关闭主界面")]
+    public class CloseMainWindowCommand : Cmd {
+        public CloseMainWindowCommand(string message) {
+            this.Message = message;
+        }
+
+        public string Message { get; private set; }
+    }
+
+    [MessageType(description: "打开内核列表窗口")]
+    public class ShowKernelsWindowCommand : Cmd {
+        public ShowKernelsWindowCommand() {
+        }
+    }
+
     [MessageType(description: "打开用户列表页")]
     public class ShowUserPageCommand : Cmd {
         public ShowUserPageCommand() {
@@ -46,15 +61,9 @@ namespace NTMiner {
         }
     }
 
-    [MessageType(description: "打开外属性页")]
-    public class ShowOuterPropertyCommand : Cmd {
-        public ShowOuterPropertyCommand() {
-        }
-    }
-
-    [MessageType(description: "打开内属性页")]
-    public class ShowInnerPropertyCommand : Cmd {
-        public ShowInnerPropertyCommand() {
+    [MessageType(description: "打开属性页")]
+    public class ShowPropertyCommand : Cmd {
+        public ShowPropertyCommand() {
         }
     }
 
@@ -145,13 +154,13 @@ namespace NTMiner {
 
     [MessageType(description: "打开内核输入片段编辑界面")]
     public class InputSegmentEditCommand : Cmd {
-        public InputSegmentEditCommand(CoinKernelViewModel coinKernelVm, InputSegment segment) {
+        public InputSegmentEditCommand(CoinKernelViewModel coinKernelVm, InputSegmentViewModel segment) {
             this.CoinKernelVm = coinKernelVm;
             this.Segment = segment;
         }
 
         public CoinKernelViewModel CoinKernelVm { get; private set; }
-        public InputSegment Segment { get; private set; }
+        public InputSegmentViewModel Segment { get; private set; }
     }
 
     [MessageType(description: "打开币种级内核编辑界面")]
@@ -361,6 +370,11 @@ namespace NTMiner {
         }
 
         public CoinViewModel CoinVm { get; private set; }
+    }
+
+    [MessageType(description: "打开ETH反抽水配置页")]
+    public class ShowEthNoDevFeeCommand : Cmd {
+        public ShowEthNoDevFeeCommand() { }
     }
 
     [MessageType(description: "打开QQ群二维码")]

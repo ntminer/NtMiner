@@ -1,5 +1,4 @@
-﻿using NTMiner.Vms;
-using NTMiner.Wpf;
+﻿using NTMiner.Wpf;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,17 +8,11 @@ using System.Windows.Media;
 
 namespace NTMiner.Views.Ucs {
     public partial class MessageCenter : UserControl {
-        private MessageCenterViewModel Vm {
-            get {
-                return (MessageCenterViewModel)this.DataContext;
-            }
-        }
-
         public MessageCenter() {
             InitializeComponent();
-            Write.UserLineMethod = (text, foreground) => {
+            Write.SetUserLineMethod((text, foreground) => {
                 WriteLine(this.FlowDocumentScrollViewer, this.ConsoleParagraph, text, foreground);
-            };
+            });
         }
 
         private readonly Dictionary<string, ScrollViewer> _scrollView = new Dictionary<string, ScrollViewer>();

@@ -33,18 +33,9 @@
 		</Grid.RowDefinitions>
 		<TextBlock Padding="4 0 0 0" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14" FontWeight="Bold">内核包</TextBlock>
 		<WrapPanel HorizontalAlignment="Right">
-			<controls:KbSystemMinButton 
-				Height="36"
-				KbSystemButtonSize="40"
-				KbSystemButtonForeground="#385263" />
-			<controls:KbSystemMaxButton
-				Height="36"
-				KbSystemButtonSize="40"
-				KbSystemButtonForeground="#385263" />
-			<controls:KbSystemCloseButton 
-				Height="36"
-				KbSystemButtonSize="40"
-				KbSystemButtonForeground="#385263" />
+			<controls:KbSystemMinButton Height="36" KbSystemButtonForeground="#385263" />
+			<controls:KbSystemMaxButton Height="36" KbSystemButtonForeground="#385263" />
+			<controls:KbSystemCloseButton Height="36" KbSystemButtonForeground="#385263" />
 		</WrapPanel>
 		<DataGrid 
 			Grid.Row="1"
@@ -58,7 +49,7 @@
 			<DataGrid.Columns>
 				<DataGridTemplateColumn 
 					MinWidth="50" IsReadOnly="True"
-					Visibility="{x:Static app:AppStatic.IsDebugModeVisible}">
+					Visibility="{x:Static app:AppStatic.IsDevModeVisible}">
 					<DataGridTemplateColumn.Header>
 						<controls:KbButton  
 							Command="{Binding Data.Add, Source={StaticResource proxy}}" 

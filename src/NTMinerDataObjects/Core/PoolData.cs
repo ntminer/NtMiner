@@ -23,6 +23,8 @@ namespace NTMiner.Core {
             this.TutorialUrl = data.TutorialUrl;
             this.NoPool1 = data.NoPool1;
             this.NotPool1 = data.NotPool1;
+            this.MinerNamePrefix = data.MinerNamePrefix;
+            this.MinerNamePostfix = data.MinerNamePostfix;
         }
 
         public Guid GetId() {
@@ -65,6 +67,10 @@ namespace NTMiner.Core {
         public bool NoPool1 { get; set; }
 
         public bool NotPool1 { get; set; }
+
+        public string MinerNamePrefix { get; set; }
+
+        public string MinerNamePostfix { get; set; }
 
         public StringBuilder GetSignData() {
             return this.BuildSign();

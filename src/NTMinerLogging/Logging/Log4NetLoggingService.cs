@@ -2,20 +2,18 @@
 using log4net.Config;
 using System;
 using System.IO;
-using System.Xml;
 
 namespace NTMiner.Logging {
     public sealed class Log4NetLoggingService : ILoggingService {
         private readonly ILog _log;
 
         public Log4NetLoggingService() {
-            XmlDocument xmlDoc = new XmlDocument();
             string logFileName = $"root{AssemblyInfo.Version}.{AssemblyInfo.Build}.log";
             string logFile = $"logs\\{logFileName}";
             if (!string.IsNullOrEmpty(LogDir.Dir)) {
                 logFile = Path.Combine(LogDir.Dir, logFileName);
             }
-            xmlDoc.LoadXml(
+            byte[] buffer = System.Text.Encoding.UTF8.GetBytes(
 $@"<log4net>
   <root>
     <level value=""ALL"" />
@@ -36,7 +34,9 @@ $@"<log4net>
   </appender>
 </log4net>
 ");
-            XmlConfigurator.Configure(xmlDoc.DocumentElement);
+            using (MemoryStream ms = new MemoryStream(buffer)) {
+                XmlConfigurator.Configure(ms);
+            }
             _log = LogManager.GetLogger("global");
         }
 

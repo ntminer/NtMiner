@@ -1,5 +1,5 @@
 ﻿namespace NTMiner.MinerClient {
-    public class GpuSpeedData {
+    public class GpuSpeedData : IGpuSpeedData {
         public GpuSpeedData() {
         }
 
@@ -14,6 +14,12 @@
 
         public double MainCoinSpeed { get; set; }
 
+        public int FoundShare { get; set; }
+
+        public int AcceptShare { get; set; }
+
+        public int RejectShare { get; set; }
+
         public double DualCoinSpeed { get; set; }
 
         public int Temperature { get; set; }
@@ -26,5 +32,7 @@
         public int Cool { get; set; }
         public double PowerCapacity { get; set; }
         public int TempLimit { get; set; }
+        public int CoreVoltage { get; set; }
+        public int MemoryVoltage { get; set; }
     }
 }

@@ -1,11 +1,8 @@
 ﻿using NTMiner.Core;
-using NTMiner.Core.Kernels;
-using NTMiner.Core.Profiles;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -20,7 +17,6 @@ namespace NTMiner.Vms {
             _icon = string.Empty,
             _id = Guid.Empty,
             _testWallet = string.Empty,
-            _sortNumber = 0,
             _justAsDualCoin = false,
             _walletRegexPattern = string.Empty,
             _notice = string.Empty,
@@ -36,7 +32,6 @@ namespace NTMiner.Vms {
 
         private Guid _id;
         private string _code;
-        private int _sortNumber;
         private Guid _algoId;
         private string _testWallet;
         private string _enName;
@@ -48,6 +43,7 @@ namespace NTMiner.Vms {
         private string _iconImageSource;
         private string _tutorialUrl;
         private bool _isHot;
+        private string _kernelBrand;
         private List<GpuProfileViewModel> _gpuProfileVms;
         private readonly CoinIncomeViewModel _coinIncomeVm;
 
@@ -63,8 +59,6 @@ namespace NTMiner.Vms {
 
         public ICommand Remove { get; private set; }
         public ICommand Edit { get; private set; }
-        public ICommand SortUp { get; private set; }
-        public ICommand SortDown { get; private set; }
         public ICommand AddPool { get; private set; }
         public ICommand AddWallet { get; private set; }
         public ICommand Save { get; private set; }
@@ -92,7 +86,6 @@ namespace NTMiner.Vms {
 
         public CoinViewModel(ICoin data) : this(data.GetId()) {
             _code = data.Code;
-            _sortNumber = data.SortNumber;
             _algoId = data.AlgoId;
             _testWallet = data.TestWallet;
             _enName = data.EnName;
@@ -103,6 +96,7 @@ namespace NTMiner.Vms {
             _notice = data.Notice;
             _tutorialUrl = data.TutorialUrl;
             _isHot = data.IsHot;
+            _kernelBrand = data.KernelBrand;
             string iconFileFullName = SpecialPath.GetIconFileFullName(data);
             if (!string.IsNullOrEmpty(iconFileFullName) && File.Exists(iconFileFullName)) {
                 _iconImageSource = iconFileFullName;
@@ -114,17 +108,13 @@ namespace NTMiner.Vms {
         }
 
         private void ApplyOverClock() {
-            VirtualRoot.Execute(new AddOrUpdateGpuProfileCommand(GpuAllProfileVm));
-            var list = GpuProfileVms.ToArray();
-            foreach (var item in list) {
-                VirtualRoot.Execute(new AddOrUpdateGpuProfileCommand(item));
-            }
             VirtualRoot.Execute(new CoinOverClockCommand(this.Id));
         }
 
         private void FillOverClock(OverClockDataViewModel data) {
             if (IsOverClockGpuAll) {
                 GpuAllProfileVm.Update(data);
+                VirtualRoot.Execute(new AddOrUpdateGpuProfileCommand(GpuAllProfileVm));
             }
             else {
                 foreach (var item in GpuProfileVms) {
@@ -132,6 +122,7 @@ namespace NTMiner.Vms {
                         continue;
                     }
                     item.Update(data);
+                    VirtualRoot.Execute(new AddOrUpdateGpuProfileCommand(item));
                 }
             }
         }
@@ -175,7 +166,7 @@ namespace NTMiner.Vms {
                 }, icon: IconConst.IconConfirm);
             });
             this.RestoreOverClock = new DelegateCommand(() => {
-                this.ShowDialog(message: $"确定恢复默认并禁用超频界面吗？", title: "确认", onYes: () => {
+                this.ShowDialog(message: $"确定恢复默认吗？", title: "确认", onYes: () => {
                     NTMinerRoot.Instance.GpuSet.OverClock.Restore();
                     this.IsOverClockEnabled = false;
                 }, icon: IconConst.IconConfirm);
@@ -191,6 +182,7 @@ namespace NTMiner.Vms {
                             continue;
                         }
                         item.Update((IOverClockInput)data);
+                        VirtualRoot.Execute(new AddOrUpdateGpuProfileCommand(item));
                     }
                 }, icon: IconConst.IconConfirm);
             });
@@ -225,30 +217,6 @@ namespace NTMiner.Vms {
                     VirtualRoot.Execute(new RemoveCoinCommand(this.Id));
                 }, icon: IconConst.IconConfirm);
             });
-            this.SortUp = new DelegateCommand(() => {
-                CoinViewModel upOne = AppContext.Instance.CoinVms.AllCoins.OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.SortNumber < this.SortNumber);
-                if (upOne != null) {
-                    int sortNumber = upOne.SortNumber;
-                    upOne.SortNumber = this.SortNumber;
-                    VirtualRoot.Execute(new UpdateCoinCommand(upOne));
-                    this.SortNumber = sortNumber;
-                    VirtualRoot.Execute(new UpdateCoinCommand(this));
-                    AppContext.Instance.CoinVms.OnPropertyChanged(nameof(AppContext.CoinViewModels.MainCoins));
-                    AppContext.Instance.CoinVms.OnPropertyChanged(nameof(AppContext.CoinViewModels.AllCoins));
-                }
-            });
-            this.SortDown = new DelegateCommand(() => {
-                CoinViewModel nextOne = AppContext.Instance.CoinVms.AllCoins.OrderBy(a => a.SortNumber).FirstOrDefault(a => a.SortNumber > this.SortNumber);
-                if (nextOne != null) {
-                    int sortNumber = nextOne.SortNumber;
-                    nextOne.SortNumber = this.SortNumber;
-                    VirtualRoot.Execute(new UpdateCoinCommand(nextOne));
-                    this.SortNumber = sortNumber;
-                    VirtualRoot.Execute(new UpdateCoinCommand(this));
-                    AppContext.Instance.CoinVms.OnPropertyChanged(nameof(AppContext.CoinViewModels.MainCoins));
-                    AppContext.Instance.CoinVms.OnPropertyChanged(nameof(AppContext.CoinViewModels.AllCoins));
-                }
-            });
 
             this.AddPool = new DelegateCommand(() => {
                 int sortNumber = this.Pools.Count == 0 ? 1 : this.Pools.Max(a => a.SortNumber) + 1;
@@ -276,17 +244,17 @@ namespace NTMiner.Vms {
         }
 
         public bool IsOverClockEnabled {
-            get { return GpuProfileSet.Instance.IsOverClockEnabled(this.Id); }
+            get { return NTMinerRoot.Instance.GpuProfileSet.IsOverClockEnabled(this.Id); }
             set {
-                GpuProfileSet.Instance.SetIsOverClockEnabled(this.Id, value);
+                NTMinerRoot.Instance.GpuProfileSet.SetIsOverClockEnabled(this.Id, value);
                 OnPropertyChanged(nameof(IsOverClockEnabled));
             }
         }
 
         public bool IsOverClockGpuAll {
-            get { return GpuProfileSet.Instance.IsOverClockGpuAll(this.Id); }
+            get { return NTMinerRoot.Instance.GpuProfileSet.IsOverClockGpuAll(this.Id); }
             set {
-                GpuProfileSet.Instance.SetIsOverClockGpuAll(this.Id, value);
+                NTMinerRoot.Instance.GpuProfileSet.SetIsOverClockGpuAll(this.Id, value);
                 OnPropertyChanged(nameof(IsOverClockGpuAll));
             }
         }
@@ -340,13 +308,7 @@ namespace NTMiner.Vms {
                     return true;
                 }
                 foreach (var coinKernel in NTMinerRoot.Instance.CoinKernelSet.Where(a => a.CoinId == this.Id)) {
-                    if (coinKernel.SupportedGpu == SupportedGpu.Both) {
-                        return true;
-                    }
-                    if (coinKernel.SupportedGpu == SupportedGpu.NVIDIA && NTMinerRoot.Instance.GpuSet.GpuType == GpuType.NVIDIA) {
-                        return true;
-                    }
-                    if (coinKernel.SupportedGpu == SupportedGpu.AMD && NTMinerRoot.Instance.GpuSet.GpuType == GpuType.AMD) {
+                    if (coinKernel.SupportedGpu.IsSupportedGpu(NTMinerRoot.Instance.GpuSet.GpuType)) {
                         return true;
                     }
                 }
@@ -484,16 +446,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        public int SortNumber {
-            get => _sortNumber;
-            set {
-                if (_sortNumber != value) {
-                    _sortNumber = value;
-                    OnPropertyChanged(nameof(SortNumber));
-                }
-            }
-        }
-
         public string TestWallet {
             get => _testWallet;
             set {
@@ -556,6 +508,107 @@ namespace NTMiner.Vms {
             set {
                 _isHot = value;
                 OnPropertyChanged(nameof(IsHot));
+            }
+        }
+
+        public string KernelBrand {
+            get { return _kernelBrand; }
+            set {
+                if (_kernelBrand != value) {
+                    _kernelBrand = value;
+                    OnPropertyChanged(nameof(KernelBrand));
+                    if (string.IsNullOrEmpty(value)) {
+                        _kernelBrandDic.Clear();
+                    }
+                }
+            }
+        }
+
+        private string _oldKernelBrand;
+        private readonly Dictionary<GpuType, Guid> _kernelBrandDic = new Dictionary<GpuType, Guid>();
+        private Dictionary<GpuType, Guid> KernelBrandDic {
+            get {
+                if (string.IsNullOrEmpty(this.KernelBrand)) {
+                    return _kernelBrandDic;
+                }
+                if (_oldKernelBrand == this.KernelBrand) {
+                    return _kernelBrandDic;
+                }
+                _oldKernelBrand = this.KernelBrand;
+                if (_kernelBrandDic.ContainsKey(GpuType.AMD)) {
+                    _kernelBrandDic[GpuType.AMD] = this.GetKernelBrandId(GpuType.AMD);
+                }
+                else {
+                    _kernelBrandDic.Add(GpuType.AMD, this.GetKernelBrandId(GpuType.AMD));
+                }
+                if (_kernelBrandDic.ContainsKey(GpuType.NVIDIA)) {
+                    _kernelBrandDic[GpuType.NVIDIA] = this.GetKernelBrandId(GpuType.NVIDIA);
+                }
+                else {
+                    _kernelBrandDic.Add(GpuType.NVIDIA, this.GetKernelBrandId(GpuType.NVIDIA));
+                }
+                return _kernelBrandDic;
+            }
+        }
+
+        public SysDicItemViewModel NKernelBrand {
+            get {
+                if (KernelBrandDic.TryGetValue(GpuType.NVIDIA, out Guid id)) {
+                    if (AppContext.SysDicItemViewModels.Instance.TryGetValue(id, out SysDicItemViewModel sysDicItemVm)) {
+                        return sysDicItemVm;
+                    }
+                    return null;
+                }
+                return null;
+            }
+            set {
+                if (value != NKernelBrand) {
+                    if (value == SysDicItemViewModel.PleaseSelect) {
+                        value = null;
+                    }
+                    SetKernelBrand(value, AKernelBrand);
+                    OnPropertyChanged(nameof(NKernelBrand));
+                }
+            }
+        }
+
+        public SysDicItemViewModel AKernelBrand {
+            get {
+                if (KernelBrandDic.TryGetValue(GpuType.AMD, out Guid id)) {
+                    if (AppContext.SysDicItemViewModels.Instance.TryGetValue(id, out SysDicItemViewModel sysDicItemVm)) {
+                        return sysDicItemVm;
+                    }
+                    return null;
+                }
+                return null;
+            }
+            set {
+                if (value != AKernelBrand) {
+                    if (value == SysDicItemViewModel.PleaseSelect) {
+                        value = null;
+                    }
+                    SetKernelBrand(NKernelBrand, value);
+                    OnPropertyChanged(nameof(AKernelBrand));
+                }
+            }
+        }
+
+        private void SetKernelBrand(SysDicItemViewModel n, SysDicItemViewModel a) {
+            if (n == null) {
+                if (a == null) {
+                    this.KernelBrand = string.Empty;
+                }
+                else {
+                    this.KernelBrand = $"{GpuType.AMD.GetName()}:{a.Id}";
+                }
+            }
+            else {
+                if (a == null) {
+                    this.KernelBrand = $"{GpuType.NVIDIA.GetName()}:{n.Id}";
+                }
+                else {
+                    this.KernelBrand = $"{GpuType.NVIDIA.GetName()}:{n.Id};{GpuType.AMD.GetName()}:{a.Id}";
+                }
             }
         }
 
@@ -651,19 +704,16 @@ namespace NTMiner.Vms {
 
         public List<CoinKernelViewModel> CoinKernels {
             get {
-                return AppContext.Instance.CoinKernelVms.AllCoinKernels.Where(a => a.CoinId == this.Id && a.Kernel.PublishState == PublishStatus.Published).OrderBy(a => a.SortNumber).ToList();
+                return AppContext.Instance.CoinKernelVms.AllCoinKernels
+                    .Where(a => a.CoinId == this.Id && a.Kernel != null && a.Kernel.PublishState == PublishStatus.Published)
+                    .OrderBy(a => a.Kernel.Code)
+                    .ThenByDescending(a => a.Kernel.Version).ToList();
             }
         }
 
         public CoinKernelViewModel CoinKernel {
             get {
                 CoinKernelViewModel coinKernel = CoinKernels.FirstOrDefault(a => a.Id == CoinProfile.CoinKernelId);
-                if (coinKernel == null || !coinKernel.Kernel.IsSupported(this)) {
-                    coinKernel = CoinKernels.FirstOrDefault(a => a.Kernel.IsSupported(this));
-                    if (coinKernel != null) {
-                        CoinProfile.CoinKernelId = coinKernel.Id;
-                    }
-                }
                 return coinKernel;
             }
             set {

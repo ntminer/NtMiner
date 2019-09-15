@@ -9,10 +9,8 @@ namespace NTMiner.Core.Impl {
         private readonly Dictionary<string, CoinData> _dicByCode = new Dictionary<string, CoinData>(StringComparer.OrdinalIgnoreCase);
         private readonly Dictionary<Guid, CoinData> _dicById = new Dictionary<Guid, CoinData>();
 
-        private readonly bool _isUseJson;
-        public CoinSet(INTMinerRoot root, bool isUseJson) {
+        public CoinSet(INTMinerRoot root) {
             _root = root;
-            _isUseJson = isUseJson;
             _root.ServerContextWindow<AddCoinCommand>("添加币种", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
@@ -31,7 +29,7 @@ namespace NTMiner.Core.Impl {
                     CoinData entity = new CoinData().Update(message.Input);
                     _dicById.Add(entity.Id, entity);
                     _dicByCode.Add(entity.Code, entity);
-                    var repository = NTMinerRoot.CreateServerRepository<CoinData>(isUseJson);
+                    var repository = NTMinerRoot.CreateServerRepository<CoinData>();
                     repository.Add(entity);
 
                     VirtualRoot.Happened(new CoinAddedEvent(entity));
@@ -53,7 +51,7 @@ namespace NTMiner.Core.Impl {
                         return;
                     }
                     entity.Update(message.Input);
-                    var repository = NTMinerRoot.CreateServerRepository<CoinData>(isUseJson);
+                    var repository = NTMinerRoot.CreateServerRepository<CoinData>();
                     repository.Update(entity);
 
                     VirtualRoot.Happened(new CoinUpdatedEvent(message.Input));
@@ -88,7 +86,7 @@ namespace NTMiner.Core.Impl {
                     if (_dicByCode.ContainsKey(entity.Code)) {
                         _dicByCode.Remove(entity.Code);
                     }
-                    var repository = NTMinerRoot.CreateServerRepository<CoinData>(isUseJson);
+                    var repository = NTMinerRoot.CreateServerRepository<CoinData>();
                     repository.Remove(entity.Id);
 
                     VirtualRoot.Happened(new CoinRemovedEvent(entity));
@@ -96,7 +94,7 @@ namespace NTMiner.Core.Impl {
         }
 
         private bool _isInited = false;
-        private object _locker = new object();
+        private readonly object _locker = new object();
 
         public int Count {
             get {
@@ -115,7 +113,7 @@ namespace NTMiner.Core.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    var repository = NTMinerRoot.CreateServerRepository<CoinData>(_isUseJson);
+                    var repository = NTMinerRoot.CreateServerRepository<CoinData>();
                     foreach (var item in repository.GetAll()) {
                         if (!_dicById.ContainsKey(item.GetId())) {
                             _dicById.Add(item.GetId(), item);

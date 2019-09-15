@@ -1,6 +1,9 @@
 ﻿namespace NTMiner.MinerClient {
     public interface IGpuStaticData {
         int Index { get; }
+        /// <summary>
+        /// 必须是数字格式
+        /// </summary>
         string BusId { get; }
         string Name { get; }
 
@@ -13,6 +16,10 @@
 
         int MemoryClockDeltaMin { get; set; }
         int MemoryClockDeltaMax { get; set; }
+
+        int VoltMin { get; set; }
+        int VoltMax { get; set; }
+        int VoltDefault { get; set; }
 
         int CoolMin { get; set; }
         int CoolMax { get; set; }

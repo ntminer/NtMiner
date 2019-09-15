@@ -33,6 +33,12 @@ namespace NTMiner.Views {
                         Calc.ShowWindow(message.CoinVm);
                     });
                 });
+            VirtualRoot.Window<ShowEthNoDevFeeCommand>(LogEnum.DevConsole,
+                action: message => {
+                    UIThread.Execute(() => {
+                        EthNoDevFeeEdit.ShowWindow();
+                    });
+                });
             VirtualRoot.Window<ShowCalcConfigCommand>(LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
@@ -105,16 +111,10 @@ namespace NTMiner.Views {
                         NotificationSample.ShowWindow();
                     });
                 });
-            VirtualRoot.Window<ShowOuterPropertyCommand>(LogEnum.DevConsole,
+            VirtualRoot.Window<ShowPropertyCommand>(LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
-                        OuterProperty.ShowWindow();
-                    });
-                });
-            VirtualRoot.Window<ShowInnerPropertyCommand>(LogEnum.DevConsole,
-                action: message => {
-                    UIThread.Execute(() => {
-                        InnerProperty.ShowWindow();
+                        Property.ShowWindow();
                     });
                 });
             VirtualRoot.Window<ShowChartsWindowCommand>(LogEnum.DevConsole,
@@ -194,6 +194,12 @@ namespace NTMiner.Views {
                 action: message => {
                     UIThread.Execute(() => {
                         FileWriterPage.ShowWindow();
+                    });
+                });
+            VirtualRoot.Window<FileWriterEditCommand>(LogEnum.DevConsole,
+                action: message => {
+                    UIThread.Execute(() => {
+                        FileWriterEdit.ShowWindow(message.FormType, message.Source);
                     });
                 });
             VirtualRoot.Window<ShowFragmentWriterPageCommand>(LogEnum.DevConsole,

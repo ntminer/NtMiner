@@ -27,12 +27,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        public Bios Bios {
-            get {
-                return Bios.Instance;
-            }
-        }
-
         public Ram Ram {
             get {
                 return Ram.Instance;

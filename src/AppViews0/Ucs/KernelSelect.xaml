@@ -11,6 +11,7 @@
 		BorderBrush="{StaticResource LineColor}"
 		BorderThickness="1"
 		Background="White"
+        d:DataContext="{d:DesignData Source=/Design/KernelSelectViewModel.xaml}"
 		mc:Ignorable="d" Width="300">
 	<Grid>
 		<Grid.RowDefinitions>

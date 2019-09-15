@@ -11,6 +11,12 @@ namespace NTMiner.Vms {
         public ICommand Save { get; private set; }
         public Action CloseWindow { get; set; }
 
+        public EnvironmentVariableEditViewModel() {
+            if (!Design.IsInDesignMode) {
+                throw new InvalidProgramException();
+            }
+        }
+
         public EnvironmentVariableEditViewModel(CoinKernelViewModel coinKernelViewModel, EnvironmentVariable environmentVariable) {
             _key = environmentVariable.Key;
             _value = environmentVariable.Value;

@@ -4,19 +4,29 @@ using System.IO;
 
 namespace NTMiner.Windows {
     public static class Cmd {
-        public static void RunClose(string filePullName, string args, bool waitForExit = false) {
-            if (string.IsNullOrEmpty(filePullName)) {
+        const string cmdMsg = "注意cmd参数中不能带参数，参数必须放在args中";
+        /// <summary>
+        /// 注意cmd参数中不能带参数，参数必须放在args中
+        /// </summary>
+        public static void RunClose(string cmd, string args, bool waitForExit = false) {
+            if (string.IsNullOrEmpty(cmd)) {
                 return;
             }
             try {
-                if (Path.IsPathRooted(filePullName)) {
-                    filePullName = $"\"{filePullName}\"";
+                if (Path.IsPathRooted(cmd)) {
+                    cmd = $"\"{cmd}\"";
                 }
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine($"cmd={cmd} {cmdMsg}");
+                Logger.ErrorDebugLine(e);
+            }
+            try {
                 using (Process proc = new Process()) {
                     proc.StartInfo.CreateNoWindow = true;
                     proc.StartInfo.UseShellExecute = false;
                     proc.StartInfo.FileName = "cmd.exe";
-                    proc.StartInfo.Arguments = $"/C {filePullName} {args}";
+                    proc.StartInfo.Arguments = $"/C {cmd} {args}";
                     proc.StartInfo.WorkingDirectory = AssemblyInfo.LocalDirFullName;
                     proc.Start();
                     if (waitForExit) {
@@ -29,19 +39,28 @@ namespace NTMiner.Windows {
             }
         }
 
-        public static void RunClose(string filePullName, string args, ref int exitCode) {
-            if (string.IsNullOrEmpty(filePullName)) {
+        /// <summary>
+        /// 注意cmd参数中不能带参数，参数必须放在args中
+        /// </summary>
+        public static void RunClose(string cmd, string args, ref int exitCode) {
+            if (string.IsNullOrEmpty(cmd)) {
                 return;
             }
             try {
-                if (Path.IsPathRooted(filePullName)) {
-                    filePullName = $"\"{filePullName}\"";
+                if (Path.IsPathRooted(cmd)) {
+                    cmd = $"\"{cmd}\"";
                 }
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine($"cmd={cmd} {cmdMsg}");
+                Logger.ErrorDebugLine(e);
+            }
+            try {
                 using (Process proc = new Process()) {
                     proc.StartInfo.CreateNoWindow = true;
                     proc.StartInfo.UseShellExecute = false;
                     proc.StartInfo.FileName = "cmd.exe";
-                    proc.StartInfo.Arguments = $"/C {filePullName} {args}";
+                    proc.StartInfo.Arguments = $"/C {cmd} {args}";
                     proc.StartInfo.WorkingDirectory = AssemblyInfo.LocalDirFullName;
                     proc.Start();
                     proc.WaitForExit(10 * 1000);
@@ -53,15 +72,24 @@ namespace NTMiner.Windows {
             }
         }
 
-        public static void RunClose(string filePullName, string args, ref int exitCode, out string output) {
-            if (string.IsNullOrEmpty(filePullName)) {
+        /// <summary>
+        /// 注意cmd参数中不能带参数，参数必须放在args中
+        /// </summary>
+        public static void RunClose(string cmd, string args, ref int exitCode, out string output) {
+            if (string.IsNullOrEmpty(cmd)) {
                 output = string.Empty;
                 return;
             }
             try {
-                if (Path.IsPathRooted(filePullName)) {
-                    filePullName = $"\"{filePullName}\"";
+                if (Path.IsPathRooted(cmd)) {
+                    cmd = $"\"{cmd}\"";
                 }
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine($"cmd={cmd} {cmdMsg}");
+                Logger.ErrorDebugLine(e);
+            }
+            try {
                 using (Process proc = new Process()) {
                     proc.StartInfo.CreateNoWindow = true;
                     proc.StartInfo.UseShellExecute = false;
@@ -69,7 +97,7 @@ namespace NTMiner.Windows {
                     proc.StartInfo.RedirectStandardOutput = true;
                     proc.StartInfo.RedirectStandardError = true;
                     proc.StartInfo.FileName = "cmd.exe";
-                    proc.StartInfo.Arguments = $"/C {filePullName} {args}";
+                    proc.StartInfo.Arguments = $"/C {cmd} {args}";
                     proc.StartInfo.WorkingDirectory = AssemblyInfo.LocalDirFullName;
                     proc.Start();
 

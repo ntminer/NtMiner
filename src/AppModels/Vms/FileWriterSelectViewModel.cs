@@ -9,6 +9,12 @@ namespace NTMiner.Vms {
 
         public ICommand HideView { get; set; }
 
+        public FileWriterSelectViewModel() {
+            if (!Design.IsInDesignMode) {
+                throw new InvalidProgramException();
+            }
+        }
+
         public FileWriterSelectViewModel(Action<FileWriterViewModel> onOk) {
             OnOk = onOk;
         }

@@ -30,7 +30,7 @@
             <DataGrid.Columns>
                 <DataGridTemplateColumn 
                     MinWidth="100" IsReadOnly="True"
-                    Visibility="{x:Static app:AppStatic.IsDebugModeVisible}">
+                    Visibility="{x:Static app:AppStatic.IsDevModeVisible}">
                     <DataGridTemplateColumn.Header>
                         <controls:KbButton  
                             Command="{Binding Data.SysDicVms.Add, Source={StaticResource proxy}}" 
@@ -121,7 +121,7 @@
                 <DataGridTextColumn IsReadOnly="True" Header="名称" Binding="{Binding Name}">
                 </DataGridTextColumn>
                 <DataGridTextColumn 
-                        Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
+                        Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
                         IsReadOnly="True" Header="排序" Binding="{Binding SortNumber}">
                 </DataGridTextColumn>
             </DataGrid.Columns>
@@ -141,7 +141,7 @@
                     Width="Auto" IsReadOnly="True">
                     <DataGridTemplateColumn.Header>
                         <controls:KbButton 
-                            Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
+                            Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
                             Command="{Binding Data.AddSysDicItem, Source={StaticResource proxy}}" 
                             Background="Transparent" BorderThickness="0"
                             Margin="10 0"
@@ -159,7 +159,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel 
-                                Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
+                                Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
                                 HorizontalAlignment="Right" 
                                 Background="Transparent" 
                                 VerticalAlignment="Center" 
@@ -233,7 +233,7 @@
                 <DataGridTextColumn Width="*" IsReadOnly="True" Header="备注" Binding="{Binding Description}">
                 </DataGridTextColumn>
                 <DataGridTextColumn 
-                    Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
+                    Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
                     IsReadOnly="True" Header="排序" Binding="{Binding SortNumber}">
                 </DataGridTextColumn>
             </DataGrid.Columns>

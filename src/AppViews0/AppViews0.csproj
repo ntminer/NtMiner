@@ -83,8 +83,6 @@
       <HintPath>..\..\packages\LiveCharts.Wpf.0.9.7\lib\net40\LiveCharts.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Core" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
@@ -94,6 +92,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppViewFactory.cs" />
+    <Compile Include="ConsoleWindow.xaml.cs">
+      <DependentUpon>ConsoleWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ContainerWindow.xaml.cs">
       <DependentUpon>ContainerWindow.xaml</DependentUpon>
     </Compile>
@@ -118,11 +119,17 @@
     <Compile Include="Ucs\FileWriterSelect.xaml.cs">
       <DependentUpon>FileWriterSelect.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Ucs\EthNoDevFeeEdit.xaml.cs">
+      <DependentUpon>EthNoDevFeeEdit.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Ucs\KernelOutputSelect.xaml.cs">
       <DependentUpon>KernelOutputSelect.xaml</DependentUpon>
     </Compile>
     <Compile Include="Ucs\KernelInputSelect.xaml.cs">
       <DependentUpon>KernelInputSelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ucs\Property.xaml.cs">
+      <DependentUpon>Property.xaml</DependentUpon>
     </Compile>
     <Compile Include="Ucs\SysDicItemSelect.xaml.cs">
       <DependentUpon>SysDicItemSelect.xaml</DependentUpon>
@@ -183,9 +190,6 @@
     </Compile>
     <Compile Include="Ucs\MinerClientUc.xaml.cs">
       <DependentUpon>MinerClientUc.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\GpuOverClock.xaml.cs">
-      <DependentUpon>GpuOverClock.xaml</DependentUpon>
     </Compile>
     <Compile Include="Ucs\Calc.xaml.cs">
       <DependentUpon>Calc.xaml</DependentUpon>
@@ -268,14 +272,8 @@
     <Compile Include="Ucs\MinerGroupEdit.xaml.cs">
       <DependentUpon>MinerGroupEdit.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ucs\KernelHelpPage.xaml.cs">
-      <DependentUpon>KernelHelpPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Ucs\StateBar.xaml.cs">
       <DependentUpon>StateBar.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\Console.xaml.cs">
-      <DependentUpon>Console.xaml</DependentUpon>
     </Compile>
     <Compile Include="Ucs\KernelOutputTranslaterEdit.xaml.cs">
       <DependentUpon>KernelOutputTranslaterEdit.xaml</DependentUpon>
@@ -343,9 +341,9 @@
     <Compile Include="Ucs\CoinPage.xaml.cs">
       <DependentUpon>CoinPage.xaml</DependentUpon>
     </Compile>
-    <Page Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="ConsoleWindow.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ContainerWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -354,6 +352,90 @@
     <Page Include="ChartsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Design\MinerClientsWindowViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Design\MinerNamesSeterViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Design\MinerClientSettingViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Design\MinerClientAddViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Design\KernelSelectViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Design\KernelOutputSelectViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Design\KernelOutputFilterViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Design\KernelInputSelectViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Design\InputSegmentEditViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Design\GroupViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Design\GpuSpeedDataViewModels.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Design\GpuProfilesPageViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Design\MinerProfileViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Design\FragmentWriterSelectViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Design\FragmentWriterViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Design\FileWriterSelectViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Design\FileWriterViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Design\FileDownloaderViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Design\EnvironmentVariableEditViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Design\CoinKernelSelectViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Design\CoinSelectViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Design\MinerStateViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -395,11 +477,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Ucs\EthNoDevFeeEdit.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Ucs\KernelOutputSelect.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Ucs\KernelInputSelect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ucs\Property.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -500,10 +590,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Design\OverClockDataViewModel.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Ucs\GpuOverClock.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -647,19 +733,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\KernelHelpPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Design\KernelViewModel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Ucs\StateBar.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Ucs\Console.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -804,6 +882,10 @@
     <ProjectReference Include="..\NTMiner.Core\NTMiner.Core.csproj">
       <Project>{85d052ab-44b8-46f3-9d7b-f624c24fd8ba}</Project>
       <Name>NTMiner.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NTMinerBus\NTMinerBus.csproj">
+      <Project>{e17f278a-e393-403e-9d37-e371036d7a02}</Project>
+      <Name>NTMinerBus</Name>
     </ProjectReference>
     <ProjectReference Include="..\NTMinerDataObjects\NTMinerDataObjects.csproj">
       <Project>{defc7387-f9fa-4651-a281-6612efb7fbb6}</Project>

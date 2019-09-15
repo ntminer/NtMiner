@@ -5,9 +5,12 @@
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+		xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 		mc:Ignorable="d"
 		d:DataContext="{d:DesignData Source=/Design/KernelOutputTranslaterViewModel.xaml}"
-		xmlns:local="clr-namespace:NTMiner.Views.Ucs" Background="White">
+		xmlns:local="clr-namespace:NTMiner.Views.Ucs" 
+        Background="White"
+        d:DesignWidth="520">
 	<UserControl.Resources>
 		<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
 			<Setter Property="Width" Value="80"></Setter>
@@ -16,26 +19,26 @@
 	<StackPanel Margin="10">
 		<WrapPanel Margin="0 2">
 			<TextBlock Style="{StaticResource LblTb}">排序:</TextBlock>
-			<TextBox Width="92" VerticalContentAlignment="Center" Text="{Binding SortNumber}">
+			<TextBox Width="92" VerticalContentAlignment="Center" Text="{Binding SortNumber}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}">
 			</TextBox>
 			<TextBlock Style="{StaticResource LblTb}">是前译:</TextBlock>
 			<CheckBox IsChecked="{Binding IsPre}" VerticalContentAlignment="Center"
-				FocusVisualStyle="{x:Null}">
+				FocusVisualStyle="{x:Null}" IsEnabled="{x:Static app:AppStatic.IsDevMode}">
 			</CheckBox>
 		</WrapPanel>
 		<WrapPanel Margin="0 2">
 			<TextBlock Style="{StaticResource LblTb}">正则表达式:</TextBlock>
-			<TextBox Width="420" VerticalContentAlignment="Center" Text="{Binding RegexPattern}">
+            <TextBox Width="420" VerticalContentAlignment="Center" Text="{Binding RegexPattern}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}">
 			</TextBox>
 		</WrapPanel>
 		<WrapPanel Margin="0 2">
 			<TextBlock Style="{StaticResource LblTb}">替换为:</TextBlock>
-			<TextBox Width="420" VerticalContentAlignment="Center" Text="{Binding Replacement}">
+            <TextBox Width="420" VerticalContentAlignment="Center" Text="{Binding Replacement}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}">
 			</TextBox>
 		</WrapPanel>
 		<WrapPanel Margin="0 2">
 			<TextBlock Style="{StaticResource LblTb}">颜色:</TextBlock>
-			<WrapPanel>
+            <WrapPanel IsEnabled="{x:Static app:AppStatic.IsDevMode}">
 				<controls:KbButton 
 					x:Name="ButtonLogColor"
 					Padding="4 0"
@@ -65,6 +68,7 @@
 				StaysOpen="False"></Popup>
 		</WrapPanel>
 		<controls:KbButton
+            Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
 			Command="{Binding Save}" 
 			Margin="0 10 0 0"
 			Padding="15 2"

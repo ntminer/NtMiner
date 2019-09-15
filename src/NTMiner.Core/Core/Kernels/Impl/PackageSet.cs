@@ -9,10 +9,8 @@ namespace NTMiner.Core.Kernels.Impl {
         private readonly INTMinerRoot _root;
         private readonly Dictionary<Guid, PackageData> _dicById = new Dictionary<Guid, PackageData>();
 
-        private readonly bool _isUseJson;
-        public PackageSet(INTMinerRoot root, bool isUseJson) {
+        public PackageSet(INTMinerRoot root) {
             _root = root;
-            _isUseJson = isUseJson;
             _root.ServerContextWindow<AddPackageCommand>("添加包", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
@@ -30,7 +28,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     }
                     PackageData entity = new PackageData().Update(message.Input);
                     _dicById.Add(entity.Id, entity);
-                    IRepository<PackageData> repository = NTMinerRoot.CreateServerRepository<PackageData>(isUseJson);
+                    IRepository<PackageData> repository = NTMinerRoot.CreateServerRepository<PackageData>();
                     repository.Add(entity);
 
                     VirtualRoot.Happened(new PackageAddedEvent(entity));
@@ -55,7 +53,7 @@ namespace NTMiner.Core.Kernels.Impl {
                         return;
                     }
                     entity.Update(message.Input);
-                    IRepository<PackageData> repository = NTMinerRoot.CreateServerRepository<PackageData>(isUseJson);
+                    IRepository<PackageData> repository = NTMinerRoot.CreateServerRepository<PackageData>();
                     repository.Update(entity);
 
                     VirtualRoot.Happened(new PackageUpdatedEvent(entity));
@@ -71,7 +69,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     }
                     PackageData entity = _dicById[message.EntityId];
                     _dicById.Remove(entity.Id);
-                    IRepository<PackageData> repository = NTMinerRoot.CreateServerRepository<PackageData>(isUseJson);
+                    IRepository<PackageData> repository = NTMinerRoot.CreateServerRepository<PackageData>();
                     repository.Remove(entity.Id);
 
                     VirtualRoot.Happened(new PackageRemovedEvent(entity));
@@ -79,7 +77,7 @@ namespace NTMiner.Core.Kernels.Impl {
         }
 
         private bool _isInited = false;
-        private object _locker = new object();
+        private readonly object _locker = new object();
 
         public int Count {
             get {
@@ -98,7 +96,7 @@ namespace NTMiner.Core.Kernels.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    IRepository<PackageData> repository = NTMinerRoot.CreateServerRepository<PackageData>(_isUseJson);
+                    IRepository<PackageData> repository = NTMinerRoot.CreateServerRepository<PackageData>();
                     foreach (var item in repository.GetAll()) {
                         if (!_dicById.ContainsKey(item.GetId())) {
                             _dicById.Add(item.GetId(), item);

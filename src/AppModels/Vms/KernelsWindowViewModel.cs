@@ -121,7 +121,7 @@ namespace NTMiner.Vms {
             }
         }
 
-        public AppContext.MinerProfileViewModel MinerProfile {
+        public MinerProfileViewModel MinerProfile {
             get {
                 return AppContext.Instance.MinerProfileVm;
             }
@@ -197,7 +197,7 @@ namespace NTMiner.Vms {
         public List<KernelViewModel> QueryResults {
             get {
                 IQueryable<KernelViewModel> query = AppContext.Instance.KernelVms.AllKernels.AsQueryable();
-                if (!Design.IsDebugMode) {
+                if (!Design.IsDevMode) {
                     query = query.Where(a => a.PublishState == PublishStatus.Published);
                 }
                 if (!string.IsNullOrEmpty(Keyword)) {

@@ -1,34 +1,53 @@
 ﻿using NTMiner.Vms;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace NTMiner.Views.Ucs {
     public partial class SpeedTable : UserControl {
-        private AppContext.GpuSpeedViewModels Vm {
+        public Visibility IsOverClockVisible {
+            get { return (Visibility)GetValue(IsOverClockVisibleProperty); }
+            set { SetValue(IsOverClockVisibleProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsOverClockVisibleProperty =
+            DependencyProperty.Register(nameof(IsOverClockVisible), typeof(Visibility), typeof(SpeedTable), new PropertyMetadata(Visibility.Collapsed));
+
+        private SpeedTableViewModel Vm {
             get {
-                return AppContext.Instance.GpuSpeedVms;
+                return (SpeedTableViewModel)this.DataContext;
             }
         }
 
         public SpeedTable() {
-            this.DataContext = AppContext.Instance.GpuSpeedVms;
             InitializeComponent();
         }
 
-        private void DataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            DataGrid dg = (DataGrid)sender;
-            Point p = e.GetPosition(dg);
-            if (p.Y < dg.ColumnHeaderHeight) {
-                return;
-            }
-            if (dg.SelectedItem != null) {
-                GpuSpeedViewModel gpuSpeedVm = (GpuSpeedViewModel)dg.SelectedItem;
-                gpuSpeedVm.OpenChart.Execute(null);
+        public void ShowOrHideOverClock(bool isShow) {
+            if (isShow) {
+                this.IsOverClockVisible = Visibility.Visible;
+                this.MenuItemShowOverClock.Visibility = Visibility.Collapsed;
+                this.MenuItemHideOverClock.Visibility = Visibility.Visible;
             }
             else {
-                SpeedCharts.ShowWindow(null);
+                this.IsOverClockVisible = Visibility.Collapsed;
+                this.MenuItemShowOverClock.Visibility = Visibility.Visible;
+                this.MenuItemHideOverClock.Visibility = Visibility.Collapsed;
             }
-            e.Handled = true;
+        }
+
+        private void ItemsControl_MouseDown(object sender, MouseButtonEventArgs e) {
+            if (e.LeftButton == MouseButtonState.Pressed) {
+                Window.GetWindow(this).DragMove();
+            }
+        }
+
+        private void MenuItemShowOverClock_Click(object sender, RoutedEventArgs e) {
+            ShowOrHideOverClock(true);
+        }
+
+        private void MenuItemHideOverClock_Click(object sender, RoutedEventArgs e) {
+            ShowOrHideOverClock(false);
         }
     }
 }

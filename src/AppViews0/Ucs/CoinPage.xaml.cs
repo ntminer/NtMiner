@@ -52,7 +52,7 @@ namespace NTMiner.Views.Ucs {
 
         private void Current_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) {
             if (e.PropertyName == nameof(AppContext.Instance.CoinVms.AllCoins)) {
-                Vm.OnPropertyChanged(nameof(Vm.List));
+                Vm.OnPropertyChanged(nameof(Vm.QueryResults));
             }
         }
 
@@ -80,12 +80,10 @@ namespace NTMiner.Views.Ucs {
             PopupKernel.Child = new KernelSelect(
                 new KernelSelectViewModel(coinVm, null, onOk: selectedResult => {
                     if (selectedResult != null) {
-                        int sortNumber = coinVm.CoinKernels.Count == 0 ? 1 : coinVm.CoinKernels.Max(a => a.SortNumber) + 1;
                         VirtualRoot.Execute(new AddCoinKernelCommand(new CoinKernelViewModel(Guid.NewGuid()) {
                             Args = string.Empty,
                             CoinId = coinVm.Id,
-                            KernelId = selectedResult.Id,
-                            SortNumber = sortNumber
+                            KernelId = selectedResult.Id
                         }));
                         PopupKernel.IsOpen = false;
                     }

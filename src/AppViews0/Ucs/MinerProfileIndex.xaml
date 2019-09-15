@@ -84,7 +84,7 @@
 					Click="KbButtonKernel_Clicked">
 					<controls:KbButton.ContextMenu>
 						<ContextMenu>
-							<MenuItem Header="编辑" Command="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.Edit}">
+							<MenuItem Header="编辑" Command="{Binding MinerProfile.CoinVm.CoinKernel.Edit}">
 							</MenuItem>
 						</ContextMenu>
 					</controls:KbButton.ContextMenu>
@@ -384,6 +384,7 @@
 					Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsAutoDualWeight, Converter={StaticResource BoolToVisibilityInvertConverter}}">
 					<Slider 
 						x:Name="dualCoinWeightSlider" 
+                        VerticalAlignment="Center"
 						Minimum="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.KernelInputVm.DualWeightMin}" 
 						Maximum="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.KernelInputVm.DualWeightMax}" 
 						Width="100"
@@ -395,7 +396,6 @@
 					<TextBox 
 						Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.DualCoinWeight, UpdateSourceTrigger=PropertyChanged}"
 						LostFocus="DualCoinWeightSlider_LostFocus"></TextBox>
-					<TextBlock Text="%"></TextBlock>
 				</WrapPanel>
 			</WrapPanel>
 		</WrapPanel>
@@ -421,11 +421,11 @@
 				</TextBox.ToolTip>
 			</TextBox>
         </WrapPanel>
-        <WrapPanel Margin="0 0 0 4" Visibility="{Binding MinerProfile.CoinVm.CoinKernel.InputSegmentVms,Converter={StaticResource NoRecordInvertVisibilityConverter}}">
+        <WrapPanel Margin="0 0 0 4" Visibility="{Binding MinerProfile.CoinVm.CoinKernel.GpuInputSegmentVms,Converter={StaticResource NoRecordInvertVisibilityConverter}}">
             <TextBlock Style="{StaticResource LblTb}" />
             <ItemsControl
 			    IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}"
-			    ItemsSource="{Binding MinerProfile.CoinVm.CoinKernel.InputSegmentVms}"
+			    ItemsSource="{Binding MinerProfile.CoinVm.CoinKernel.GpuInputSegmentVms}"
 			    BorderThickness="0"
 			    VerticalAlignment="Center"
 			    ScrollViewer.HorizontalScrollBarVisibility="Disabled">
@@ -437,7 +437,7 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <CheckBox Padding="0" IsChecked="{Binding IsChecked}" FocusVisualStyle="{x:Null}" Content="{Binding Name}" ToolTip="{Binding Description}"></CheckBox>
+                        <CheckBox Margin="0 0 4 0" IsChecked="{Binding IsChecked}" FocusVisualStyle="{x:Null}" Content="{Binding Name}" ToolTip="{Binding Description}"></CheckBox>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

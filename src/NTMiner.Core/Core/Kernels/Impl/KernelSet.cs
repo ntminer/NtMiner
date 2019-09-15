@@ -9,10 +9,8 @@ namespace NTMiner.Core.Kernels.Impl {
         private readonly INTMinerRoot _root;
         private readonly Dictionary<Guid, KernelData> _dicById = new Dictionary<Guid, KernelData>();
 
-        private readonly bool _isUseJson;
-        public KernelSet(INTMinerRoot root, bool isUseJson) {
+        public KernelSet(INTMinerRoot root) {
             _root = root;
-            _isUseJson = isUseJson;
             _root.ServerContextWindow<AddKernelCommand>("添加内核", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
@@ -27,7 +25,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     }
                     KernelData entity = new KernelData().Update(message.Input);
                     _dicById.Add(entity.Id, entity);
-                    IRepository<KernelData> repository = NTMinerRoot.CreateServerRepository<KernelData>(isUseJson);
+                    IRepository<KernelData> repository = NTMinerRoot.CreateServerRepository<KernelData>();
                     repository.Add(entity);
 
                     VirtualRoot.Happened(new KernelAddedEvent(entity));
@@ -49,7 +47,7 @@ namespace NTMiner.Core.Kernels.Impl {
                         return;
                     }
                     entity.Update(message.Input);
-                    IRepository<KernelData> repository = NTMinerRoot.CreateServerRepository<KernelData>(isUseJson);
+                    IRepository<KernelData> repository = NTMinerRoot.CreateServerRepository<KernelData>();
                     repository.Update(entity);
 
                     VirtualRoot.Happened(new KernelUpdatedEvent(entity));
@@ -69,7 +67,7 @@ namespace NTMiner.Core.Kernels.Impl {
                         VirtualRoot.Execute(new RemoveCoinKernelCommand(coinKernelId));
                     }
                     _dicById.Remove(entity.Id);
-                    IRepository<KernelData> repository = NTMinerRoot.CreateServerRepository<KernelData>(isUseJson);
+                    IRepository<KernelData> repository = NTMinerRoot.CreateServerRepository<KernelData>();
                     repository.Remove(entity.Id);
 
                     VirtualRoot.Happened(new KernelRemovedEvent(entity));
@@ -77,7 +75,7 @@ namespace NTMiner.Core.Kernels.Impl {
         }
 
         private bool _isInited = false;
-        private object _locker = new object();
+        private readonly object _locker = new object();
 
         public int Count {
             get {
@@ -96,7 +94,7 @@ namespace NTMiner.Core.Kernels.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    IRepository<KernelData> repository = NTMinerRoot.CreateServerRepository<KernelData>(_isUseJson);
+                    IRepository<KernelData> repository = NTMinerRoot.CreateServerRepository<KernelData>();
                     foreach (var item in repository.GetAll()) {
                         if (!_dicById.ContainsKey(item.GetId())) {
                             _dicById.Add(item.GetId(), item);

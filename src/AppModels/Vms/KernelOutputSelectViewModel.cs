@@ -9,6 +9,12 @@ namespace NTMiner.Vms {
 
         public ICommand HideView { get; set; }
 
+        public KernelOutputSelectViewModel() {
+            if (!Design.IsInDesignMode) {
+                throw new InvalidProgramException();
+            }
+        }
+
         public KernelOutputSelectViewModel(KernelOutputViewModel selected, Action<KernelOutputViewModel> onOk) {
             _selectedResult = selected;
             OnOk = onOk;

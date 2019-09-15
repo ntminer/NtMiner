@@ -4,21 +4,36 @@ using System.Reflection;
 
 namespace NTMiner {
     public static class AssemblyInfo {
-        public static string ShareDirFullName { get; set; } = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "NTMiner");
-        public static string LocalDirFullName { get; set; } = ShareDirFullName;
-        public const string Version = "2.3.4";
-        public const string Build = "1";
-        public const string Copyright = "Copyright ©  2019";
+        public const string Version = "2.6.5";
+        public const string Build = "0";
         public const string Tag = "蛮吉";
-        public static readonly string ServerJsonFileName = $"server2.0.0.json";
-        public static string ServerVersionJsonFileFullName = Path.Combine(LocalDirFullName, ServerJsonFileName);
-        public static string OfficialServerHost = "server.ntminer.com";
-        public static readonly string MinerJsonBucket = "https://minerjson.oss-cn-beijing.aliyuncs.com/";
+        public const string MinerJsonBucket = "https://minerjson.oss-cn-beijing.aliyuncs.com/";
+        public const string Copyright = "Copyright ©  NTMiner";
+
+        public static readonly string ShareDirFullName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "NTMiner");
+        public static readonly string ServerJsonFileName;
+        public static readonly string ServerVersionJsonFileFullName;
+
+        public static string OfficialServerHost { get; private set; } = "server.ntminer.com";
+        public static string LocalDirFullName { get; private set; } = ShareDirFullName;
+
+        public static void SetOfficialServerHost(string host) {
+            OfficialServerHost = host;
+        }
+
+        public static void SetLocalDirFullName(string dirFullName) {
+            LocalDirFullName = dirFullName;
+        }
 
         static AssemblyInfo() {
             if (!Directory.Exists(LocalDirFullName)) {
                 Directory.CreateDirectory(LocalDirFullName);
             }
+            if (!System.Version.TryParse(Version, out System.Version version)) {
+                throw new InvalidDataException("版本号格式不正确");
+            }
+            ServerJsonFileName = $"server{version.Major}.0.0.json";
+            ServerVersionJsonFileFullName = Path.Combine(LocalDirFullName, ServerJsonFileName);
         }
 
         public static void ExtractManifestResource(this Assembly assembly, Type type, string name, string saveFileFuleName) {

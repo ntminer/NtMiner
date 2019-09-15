@@ -217,8 +217,10 @@ namespace NTMiner.Vms {
                     if (string.IsNullOrEmpty(packageUrl)) {
                         downloadComplete?.Invoke(false, "未获取到内核包下载地址", saveFileFullName);
                     }
-                    Logger.InfoDebugLine("下载：" + packageUrl);
-                    webClient.DownloadFileAsync(new Uri(packageUrl), saveFileFullName);
+                    else {
+                        Logger.InfoDebugLine("下载：" + packageUrl);
+                        webClient.DownloadFileAsync(new Uri(packageUrl), saveFileFullName);
+                    }
                 });
             }
         }

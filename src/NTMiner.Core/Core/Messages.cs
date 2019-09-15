@@ -2,6 +2,7 @@
 using NTMiner.Core.Gpus;
 using NTMiner.MinerClient;
 using NTMiner.MinerServer;
+using NTMiner.Profile;
 using System;
 
 namespace NTMiner.Core {
@@ -56,31 +57,9 @@ namespace NTMiner.Core {
         public BlockWAUCommand() { }
     }
 
-    [MessageType(description: "禁用win10系统更新后")]
-    public class BlockWAUEvent : EventBase {
-        public BlockWAUEvent(bool isSuccess, string message) {
-            this.IsSuccess = isSuccess;
-            this.Message = message;
-        }
-
-        public bool IsSuccess { get; private set; }
-        public string Message { get; private set; }
-    }
-
     [MessageType(description: "优化window10")]
     public class Win10OptimizeCommand : Cmd {
         public Win10OptimizeCommand() { }
-    }
-
-    [MessageType(description: "优化window10后")]
-    public class Win10OptimizeEvent : EventBase {
-        public Win10OptimizeEvent(bool isSuccess, string message) {
-            this.IsSuccess = isSuccess;
-            this.Message = message;
-        }
-
-        public bool IsSuccess { get; private set; }
-        public string Message { get; private set; }
     }
 
     [MessageType(description: "开起A卡计算模式")]
@@ -98,17 +77,6 @@ namespace NTMiner.Core {
     [MessageType(description: "注册右键打开windindows命令行菜单")]
     public class RegCmdHereCommand : Cmd {
         public RegCmdHereCommand() { }
-    }
-
-    [MessageType(description: "注册右键打开windindows命令行菜单后")]
-    public class RegCmdHereEvent : EventBase {
-        public RegCmdHereEvent(bool isSuccess, string message) {
-            this.IsSuccess = isSuccess;
-            this.Message = message;
-        }
-
-        public bool IsSuccess { get; private set; }
-        public string Message { get; private set; }
     }
 
     #region profile Messages
@@ -348,6 +316,15 @@ namespace NTMiner.Core {
 
         public Guid CoinId { get; private set; }
     }
+    
+    [MessageType(description: "币种超频完成后")]
+    public class CoinOverClockDoneEvent : EventBase {
+        public CoinOverClockDoneEvent(Guid cmdId) {
+            this.CmdId = cmdId;
+        }
+
+        public Guid CmdId { get; private set; }
+    }
 
     [MessageType(description: "Gpu超频数据添加或更新后")]
     public class GpuProfileAddedOrUpdatedEvent : DomainEvent<IGpuProfile> {
@@ -359,11 +336,41 @@ namespace NTMiner.Core {
     #region speed and share
     [MessageType(description: "显卡算力变更事件")]
     public class GpuSpeedChangedEvent : DomainEvent<IGpuSpeed> {
-        public GpuSpeedChangedEvent(bool isDualSpeed, IGpuSpeed gpuSpeed) : base(gpuSpeed) {
-            this.IsDualSpeed = isDualSpeed;
+        public GpuSpeedChangedEvent(bool isDual, IGpuSpeed gpuSpeed) : base(gpuSpeed) {
+            this.IsDual = isDual;
         }
 
-        public bool IsDualSpeed { get; private set; }
+        public bool IsDual { get; private set; }
+    }
+
+    [MessageType(description: "显卡份额变更事件")]
+    public class GpuShareChangedEvent : DomainEvent<IGpuSpeed> {
+        public GpuShareChangedEvent(IGpuSpeed gpuSpeed) : base(gpuSpeed) {
+        }
+    }
+
+    [MessageType(description: "找到了一个份额")]
+    public class FoundShareIncreasedEvent : DomainEvent<IGpuSpeed> {
+        public FoundShareIncreasedEvent(IGpuSpeed gpuSpeed) : base(gpuSpeed) {
+        }
+    }
+
+    [MessageType(description: "接受了一个份额")]
+    public class AcceptShareIncreasedEvent : DomainEvent<IGpuSpeed> {
+        public AcceptShareIncreasedEvent(IGpuSpeed gpuSpeed) : base(gpuSpeed) {
+        }
+    }
+
+    [MessageType(description: "拒绝了一个份额")]
+    public class RejectShareIncreasedEvent : DomainEvent<IGpuSpeed> {
+        public RejectShareIncreasedEvent(IGpuSpeed gpuSpeed) : base(gpuSpeed) {
+        }
+    }
+
+    [MessageType(description: "算错了一个份额")]
+    public class IncorrectShareIncreasedEvent : DomainEvent<IGpuSpeed> {
+        public IncorrectShareIncreasedEvent(IGpuSpeed gpuSpeed) : base(gpuSpeed) {
+        }
     }
 
     [MessageType(description: "收益变更事件")]

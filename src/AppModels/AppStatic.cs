@@ -19,13 +19,8 @@ namespace NTMiner {
         #region Upgrade
         public static void Upgrade(string fileName, Action callback) {
             try {
-                string updaterDirFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "Updater");
-                if (!Directory.Exists(updaterDirFullName)) {
-                    Directory.CreateDirectory(updaterDirFullName);
-                }
                 OfficialServer.FileUrlService.GetNTMinerUpdaterUrlAsync((downloadFileUrl, e) => {
                     try {
-                        string ntMinerUpdaterFileFullName = Path.Combine(updaterDirFullName, "NTMinerUpdater.exe");
                         string argument = string.Empty;
                         if (!string.IsNullOrEmpty(fileName)) {
                             argument = "ntminerFileName=" + fileName;
@@ -34,8 +29,8 @@ namespace NTMiner {
                             argument += " --minerstudio";
                         }
                         if (string.IsNullOrEmpty(downloadFileUrl)) {
-                            if (File.Exists(ntMinerUpdaterFileFullName)) {
-                                NTMiner.Windows.Cmd.RunClose(ntMinerUpdaterFileFullName, argument);
+                            if (File.Exists(SpecialPath.UpdaterFileFullName)) {
+                                NTMiner.Windows.Cmd.RunClose(SpecialPath.UpdaterFileFullName, argument);
                             }
                             callback?.Invoke();
                             return;
@@ -45,22 +40,22 @@ namespace NTMiner {
                         if (NTMinerRoot.Instance.LocalAppSettingSet.TryGetAppSetting("UpdaterVersion", out IAppSetting appSetting) && appSetting.Value != null) {
                             updaterVersion = appSetting.Value.ToString();
                         }
-                        if (string.IsNullOrEmpty(updaterVersion) || !File.Exists(ntMinerUpdaterFileFullName) || uri.AbsolutePath != updaterVersion) {
+                        if (string.IsNullOrEmpty(updaterVersion) || !File.Exists(SpecialPath.UpdaterFileFullName) || uri.AbsolutePath != updaterVersion) {
                             VirtualRoot.Execute(new ShowFileDownloaderCommand(downloadFileUrl, "开源矿工更新器", (window, isSuccess, message, saveFileFullName) => {
                                 try {
                                     if (isSuccess) {
-                                        File.Copy(saveFileFullName, ntMinerUpdaterFileFullName, overwrite: true);
+                                        File.Copy(saveFileFullName, SpecialPath.UpdaterFileFullName, overwrite: true);
                                         File.Delete(saveFileFullName);
                                         VirtualRoot.Execute(new ChangeLocalAppSettingCommand(new AppSettingData {
                                             Key = "UpdaterVersion",
                                             Value = uri.AbsolutePath
                                         }));
                                         window?.Close();
-                                        NTMiner.Windows.Cmd.RunClose(ntMinerUpdaterFileFullName, argument);
+                                        NTMiner.Windows.Cmd.RunClose(SpecialPath.UpdaterFileFullName, argument);
                                         callback?.Invoke();
                                     }
                                     else {
-                                        NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage(message);
+                                        VirtualRoot.Out.ShowErrorMessage(message);
                                         callback?.Invoke();
                                     }
                                 }
@@ -70,7 +65,7 @@ namespace NTMiner {
                             }));
                         }
                         else {
-                            Windows.Cmd.RunClose(ntMinerUpdaterFileFullName, argument);
+                            Windows.Cmd.RunClose(SpecialPath.UpdaterFileFullName, argument);
                             callback?.Invoke();
                         }
                     }
@@ -85,10 +80,123 @@ namespace NTMiner {
         }
         #endregion
 
+        #region InnerProperty
+
+        public static string Id {
+            get { return VirtualRoot.Id.ToString(); }
+        }
+        public static string BootOn {
+            get => NTMinerRoot.Instance.CreatedOn.ToString("yyyy-MM-dd HH:mm:ss");
+        }
+        public static string LocalDir {
+            get => AssemblyInfo.LocalDirFullName;
+        }
+        public static string ServerDbFileFullName {
+            get {
+                return SpecialPath.ServerDbFileFullName.Replace(LocalDir, Consts.LocalDirParameterName);
+            }
+        }
+        public static string LocalDbFileFullName {
+            get => SpecialPath.LocalDbFileFullName.Replace(LocalDir, Consts.LocalDirParameterName);
+        }
+
+        public static string ServerJsonFileFullName {
+            get { return SpecialPath.ServerJsonFileFullName.Replace(LocalDir, Consts.LocalDirParameterName); }
+        }
+
+        public static string ServerVersionJsonFileFullName {
+            get { return AssemblyInfo.ServerVersionJsonFileFullName.Replace(LocalDir, Consts.LocalDirParameterName); }
+        }
+
+        public static string DaemonFileFullName {
+            get { return SpecialPath.DaemonFileFullName.Replace(LocalDir, Consts.LocalDirParameterName); }
+        }
+
+        public static string DevConsoleFileFullName {
+            get { return SpecialPath.DevConsoleFileFullName.Replace(LocalDir, Consts.LocalDirParameterName); }
+        }
+
+        public static string TempDirFullName {
+            get { return SpecialPath.TempDirFullName.Replace(LocalDir, Consts.LocalDirParameterName); }
+        }
+
+        public static string PackagesDirFullName {
+            get { return SpecialPath.PackagesDirFullName.Replace(LocalDir, Consts.LocalDirParameterName); }
+        }
+
+        public static string DownloadDirFullName {
+            get {
+                return SpecialPath.DownloadDirFullName.Replace(LocalDir, Consts.LocalDirParameterName);
+            }
+        }
+
+        public static string KernelsDirFullName {
+            get { return SpecialPath.KernelsDirFullName.Replace(LocalDir, Consts.LocalDirParameterName); }
+        }
+
+        public static string LogsDirFullName {
+            get { return SpecialPath.LogsDirFullName.Replace(LocalDir, Consts.LocalDirParameterName); }
+        }
+
+        public static string AppRuntime {
+            get {
+                if (VirtualRoot.IsMinerStudio) {
+                    return "群控客户端";
+                }
+                else if (VirtualRoot.IsMinerClient) {
+                    return "挖矿端";
+                }
+                return "未知";
+            }
+        }
+        #endregion
+
         public static bool IsMinerClient {
             get => VirtualRoot.IsMinerClient;
         }
 
+        public static Visibility IsMinerClientVisible {
+            get {
+                if (Design.IsInDesignMode) {
+                    return Visibility.Visible;
+                }
+                if (VirtualRoot.IsMinerClient) {
+                    return Visibility.Visible;
+                }
+                return Visibility.Collapsed;
+            }
+        }
+
+        public static bool IsMinerStudio {
+            get => VirtualRoot.IsMinerStudio;
+        }
+
+        public static Visibility IsMinerStudioVisible {
+            get {
+                if (Design.IsInDesignMode) {
+                    return Visibility.Visible;
+                }
+                if (VirtualRoot.IsMinerStudio) {
+                    return Visibility.Visible;
+                }
+                return Visibility.Collapsed;
+            }
+        }
+
+        public static Visibility IsMinerStudioDevVisible {
+            get {
+                if (Design.IsInDesignMode) {
+                    return Visibility.Visible;
+                }
+                if (!DevMode.IsDevMode) {
+                    return Visibility.Collapsed;
+                }
+                if (VirtualRoot.IsMinerStudio) {
+                    return Visibility.Visible;
+                }
+                return Visibility.Collapsed;
+            }
+        }
         public static string AppName {
             get {
                 Assembly mainAssembly = Assembly.GetEntryAssembly();
@@ -96,26 +204,17 @@ namespace NTMiner {
             }
         }
 
-        public static bool IsDebugMode {
+        public static bool IsDevMode {
             get {
-                return Design.IsDebugMode;
+                return Design.IsDevMode;
             }
         }
 
-        public static bool IsNotDebugMode => !Design.IsDebugMode;
-
-        public static Visibility IsDebugModeVisible {
-            get {
-                if (Design.IsDebugMode) {
-                    return Visibility.Visible;
-                }
-                return Visibility.Collapsed;
-            }
-        }
+        public static bool IsNotDevMode => !Design.IsDevMode;
 
         public static Visibility IsDevModeVisible {
             get {
-                if (DevMode.IsDevMode) {
+                if (Design.IsDevMode) {
                     return Visibility.Visible;
                 }
                 return Visibility.Collapsed;
@@ -128,6 +227,12 @@ namespace NTMiner {
                     return Visibility.Visible;
                 }
                 return Visibility.Collapsed;
+            }
+        }
+
+        public static bool IsAmdGpu {
+            get {
+                return NTMinerRoot.Instance.GpuSet.GpuType == GpuType.AMD;
             }
         }
 
@@ -283,12 +388,17 @@ namespace NTMiner {
                 if (gpuSet.GpuType == GpuType.NVIDIA) {
                     var cudaVersion = gpuSet.Properties.FirstOrDefault(a => a.Code == "CudaVersion");
                     if (cudaVersion != null) {
-                        return $"{gpuSet.DriverVersion} / {cudaVersion.Value}";
+                        return $"{gpuSet.DriverVersion}_{cudaVersion.Value}";
                     }
                 }
                 return gpuSet.DriverVersion;
             }
         }
+
+        public static ICommand OpenDir { get; private set; } = new DelegateCommand<string>((dir) => {
+            dir = dir.Replace(Consts.LocalDirParameterName, AssemblyInfo.LocalDirFullName);
+            Process.Start(dir);
+        });
 
         public static ICommand ViewUrl { get; private set; } = new DelegateCommand<string>(url => {
             Process.Start(url);
@@ -301,7 +411,7 @@ namespace NTMiner {
         public static ICommand ExportServerJson { get; private set; } = new DelegateCommand(() => {
             try {
                 NTMinerRoot.ExportServerVersionJson(AssemblyInfo.ServerVersionJsonFileFullName);
-                NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage($"{AssemblyInfo.ServerJsonFileName}", "导出成功");
+                VirtualRoot.Out.ShowSuccessMessage($"{AssemblyInfo.ServerJsonFileName}", "导出成功");
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
@@ -317,11 +427,11 @@ namespace NTMiner {
                         Key = AssemblyInfo.ServerJsonFileName,
                         Value = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss fff")
                     }));
-                    NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage($"刷新成功");
+                    VirtualRoot.Out.ShowSuccessMessage($"刷新成功");
                 }
                 catch (Exception e) {
                     Logger.ErrorDebugLine(e);
-                    NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage($"刷新失败");
+                    VirtualRoot.Out.ShowErrorMessage($"刷新失败");
                 }
             }, icon: IconConst.IconConfirm));
         });
@@ -338,16 +448,16 @@ namespace NTMiner {
             VirtualRoot.Execute(new ShowChartsWindowCommand());
         });
 
-        public static ICommand ShowOuterProperty { get; private set; } = new DelegateCommand(() => {
-            VirtualRoot.Execute(new ShowOuterPropertyCommand());
-        });
-
-        public static ICommand ShowInnerProperty { get; private set; } = new DelegateCommand(() => {
-            VirtualRoot.Execute(new ShowInnerPropertyCommand());
+        public static ICommand ShowProperty { get; private set; } = new DelegateCommand(() => {
+            VirtualRoot.Execute(new ShowPropertyCommand());
         });
 
         public static ICommand JoinQQGroup { get; private set; } = new DelegateCommand(() => {
-            Process.Start("https://jq.qq.com/?_wv=1027&k=5ZPsuCk");
+            string url = "https://jq.qq.com/?_wv=1027&k=5ZPsuCk";
+            if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("ThisSystem", "QQGroupJoinUrl", out ISysDicItem dicItem)) {
+                url = dicItem.Value;
+            }
+            Process.Start(url);
         });
 
         public static ICommand RunAsAdministrator { get; private set; } = new DelegateCommand(Wpf.Util.RunAsAdministrator);
@@ -411,7 +521,11 @@ namespace NTMiner {
             VirtualRoot.Execute(new UpgradeCommand(string.Empty, null));
         });
         public static ICommand ShowHelp { get; private set; } = new DelegateCommand(() => {
-            Process.Start("http://ntminer.com/");
+            string url = "http://ntminer.com/";
+            if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("ThisSystem", "HelpUrl", out ISysDicItem dicItem)) {
+                url = dicItem.Value;
+            }
+            Process.Start(url);
         });
         public static ICommand ShowMinerClients { get; private set; } = new DelegateCommand(() => {
             VirtualRoot.Execute(new ShowMinerClientsWindowCommand());
@@ -430,7 +544,7 @@ namespace NTMiner {
         });
 
         private static void OpenLiteDb(string dbFileFullName) {
-            string liteDbExplorerDir = Path.Combine(AssemblyInfo.LocalDirFullName, "LiteDBExplorerPortable");
+            string liteDbExplorerDir = Path.Combine(SpecialPath.ToolsDirFullName, "LiteDBExplorerPortable");
             string liteDbExplorerFileFullName = Path.Combine(liteDbExplorerDir, "LiteDbExplorer.exe");
             if (!Directory.Exists(liteDbExplorerDir)) {
                 Directory.CreateDirectory(liteDbExplorerDir);
@@ -455,24 +569,127 @@ namespace NTMiner {
             }
         }
 
+        public static ICommand OpenLogfile { get; private set; } = new DelegateCommand<string>((logfileFullName) => {
+            OpenTxtFile(logfileFullName);
+        });
+
+        private static void OpenTxtFile(string fileFullName) {
+            string nppDir = Path.Combine(SpecialPath.ToolsDirFullName, "Npp");
+            string nppFileFullName = Path.Combine(nppDir, "notepad++.exe");
+            if (!Directory.Exists(nppDir)) {
+                Directory.CreateDirectory(nppDir);
+            }
+            if (!File.Exists(nppFileFullName)) {
+                OfficialServer.FileUrlService.GetNppUrlAsync((downloadFileUrl, e) => {
+                    if (string.IsNullOrEmpty(downloadFileUrl)) {
+                        return;
+                    }
+                    VirtualRoot.Execute(new ShowFileDownloaderCommand(downloadFileUrl, "Notepad++", (window, isSuccess, message, saveFileFullName) => {
+                        if (isSuccess) {
+                            ZipUtil.DecompressZipFile(saveFileFullName, nppDir);
+                            File.Delete(saveFileFullName);
+                            window?.Close();
+                            Windows.Cmd.RunClose(nppFileFullName, fileFullName);
+                        }
+                    }));
+                });
+            }
+            else {
+                Windows.Cmd.RunClose(nppFileFullName, fileFullName);
+            }
+        }
+
         public static ICommand ShowCalc { get; private set; } = new DelegateCommand<CoinViewModel>(coinVm => {
             VirtualRoot.Execute(new ShowCalcCommand(coinVm));
         });
 
-        public static ICommand OpenOfficialSite { get; private set; } = new DelegateCommand(() => {
-            Process.Start("http://ntminer.com/");
+        public static ICommand ShowEthNoDevFee { get; private set; } = new DelegateCommand(() => {
+            VirtualRoot.Execute(new ShowEthNoDevFeeCommand());
         });
 
+        public static ICommand OpenOfficialSite { get; private set; } = new DelegateCommand(() => {
+            string url = "http://ntminer.com/";
+            if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("ThisSystem", "HomePageUrl", out ISysDicItem dicItem)) {
+                url = dicItem.Value;
+            }
+            Process.Start(url);
+        });
+
+        public static string OfficialSiteName {
+            get {
+                if (Design.IsDevMode) {
+                    return "NTMiner.com";
+                }
+                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("ThisSystem", "HomePageUrl", out ISysDicItem dicItem) && !string.IsNullOrEmpty(dicItem.Value)) {
+                    if (dicItem.Value.StartsWith("https://")) {
+                        return dicItem.Value.Substring("https://".Length);
+                    }
+                    if (dicItem.Value.StartsWith("http://")) {
+                        return dicItem.Value.Substring("http://".Length);
+                    }
+                }
+                return "NTMiner.com";
+            }
+        }
+
+        public static string AppMinerName {
+            get {
+                if (Design.IsDevMode) {
+                    return "开源矿工";
+                }
+                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("ThisSystem", "AppMinerName", out ISysDicItem dicItem)) {
+                    return dicItem.Value;
+                }
+                return "开源矿工";
+            }
+        }
+
+        public static string AppMinerDescription {
+            get {
+                if (Design.IsDevMode) {
+                    return " - 做最好的矿工";
+                }
+                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("ThisSystem", "AppMinerName", out ISysDicItem dicItem)) {
+                    return " - " + dicItem.Description;
+                }
+                return " - 做最好的矿工";
+            }
+        }
+
+        public static string AppMinerIntro {
+            get {
+                if (Design.IsDevMode) {
+                    return "开源、开放、安全、专业、最高收益。QQ群863725136";
+                }
+                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("ThisSystem", "AppMinerIntro", out ISysDicItem dicItem)) {
+                    return dicItem.Value;
+                }
+                return "开源、开放、安全、专业、最高收益。QQ群863725136";
+            }
+        }
+
         public static ICommand BusinessModel { get; private set; } = new DelegateCommand(() => {
-            Process.Start("https://www.loserhub.cn/posts/details/52");
+            string url = "https://www.loserhub.cn/posts/details/52";
+            if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("ThisSystem", "BusinessModelUrl", out ISysDicItem dicItem)) {
+                url = dicItem.Value;
+            }
+            Process.Start(url);
         });
 
         public static ICommand OpenGithub { get; private set; } = new DelegateCommand(() => {
-            Process.Start("https://github.com/ntminer-project/ntminer");
+            string url = "https://github.com/ntminer/ntminer";
+            if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("ThisSystem", "GithubUrl", out ISysDicItem dicItem)) {
+                url = dicItem.Value;
+            }
+            Process.Start(url);
         });
 
         public static ICommand OpenDiscussSite { get; private set; } = new DelegateCommand(() => {
-            Process.Start("https://github.com/ntminer-project/ntminer/issues");
+            string url = "https://github.com/ntminer/ntminer/issues";
+            if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("ThisSystem", "DiscussUrl", out ISysDicItem dicItem)) {
+                url = dicItem.Value;
+            }
+            Process.Start(url);
         });
 
         public static ICommand DownloadMinerStudio { get; private set; } = new DelegateCommand(() => {

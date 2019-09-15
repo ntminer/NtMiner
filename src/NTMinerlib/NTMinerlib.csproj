@@ -38,51 +38,33 @@
       <HintPath>..\..\packages\Newtonsoft.Json.11.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppSetting\LocalAppSettingSet.cs" />
-    <Compile Include="Bus\IDelegateHandler.cs" />
     <Compile Include="AppSetting\IAppSettingSet.cs" />
-    <Compile Include="Bus\Cmd.cs" />
-    <Compile Include="Bus\DelegateHandler`1.cs" />
-    <Compile Include="Bus\DirectBus\DirectBus.cs" />
-    <Compile Include="Bus\DirectBus\DirectCommandBus.cs" />
-    <Compile Include="Bus\DirectBus\DirectEventBus.cs" />
-    <Compile Include="Bus\EventBase.cs" />
+    <Compile Include="EmptyOut.cs" />
     <Compile Include="Ip\Util.cs" />
+    <Compile Include="IOut.cs" />
+    <Compile Include="Messages.Timing.cs" />
     <Compile Include="NTMinerWebClient.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Repositories\JsonReadOnlyRepository`1.cs" />
     <Compile Include="SignExtensions.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="TimeSpanExtensions.cs" />
     <Compile Include="User\IUserSet.cs" />
     <Compile Include="NTMinerRegistry.cs" />
-    <Compile Include="Repositories\IReadOnlyRepository.cs" />
+    <Compile Include="Repositories\IJsonReadOnlyRepository.cs" />
     <Compile Include="SortNumberComparer.cs" />
     <Compile Include="HandlerId.cs" />
-    <Compile Include="Bus\IBus.cs" />
-    <Compile Include="Bus\ICmd.cs" />
-    <Compile Include="Bus\ICmdBus.cs" />
-    <Compile Include="Bus\IEvent.cs" />
-    <Compile Include="Bus\IEventBus.cs" />
-    <Compile Include="Bus\IMessage.cs" />
-    <Compile Include="Bus\IMessageDispatcher.cs" />
-    <Compile Include="IHandlerId.cs" />
-    <Compile Include="LogEnum.cs" />
-    <Compile Include="Bus\MessageDispatcher.cs" />
-    <Compile Include="Bus\MessageDispatcherExtensions.cs" />
-    <Compile Include="Bus\MessageDispatchEventArgs.cs" />
-    <Compile Include="Bus\MessageTypeAttribute.cs" />
     <Compile Include="EntityExtensions.cs" />
     <Compile Include="EnumExtension.cs" />
     <Compile Include="NTMinerException.cs" />
     <Compile Include="Messages.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\CommonRepository`1.cs" />
-    <Compile Include="Repositories\CompositeRepository`1.cs" />
+    <Compile Include="Repositories\LiteDbReadWriteRepository`1.cs" />
+    <Compile Include="Repositories\HierarchicalRepository`1.cs" />
     <Compile Include="Repositories\DuplicateIdException.cs" />
     <Compile Include="Repositories\IRepository`1.cs" />
     <Compile Include="Serialization\IObjectSerializer.cs" />
@@ -91,6 +73,7 @@
     <Compile Include="User\Messages.cs" />
     <Compile Include="ValidationException.cs" />
     <Compile Include="Consts.cs" />
+    <Compile Include="VirtualRoot.partials.cs" />
     <Compile Include="Windows\ConsoleHandler.cs" />
     <Compile Include="Windows\WinRegistry.cs" />
     <Compile Include="Windows\Role.cs" />
@@ -101,6 +84,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NTMinerBus\NTMinerBus.csproj">
+      <Project>{e17f278a-e393-403e-9d37-e371036d7a02}</Project>
+      <Name>NTMinerBus</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NTMinerDataObjects\NTMinerDataObjects.csproj">
       <Project>{defc7387-f9fa-4651-a281-6612efb7fbb6}</Project>
       <Name>NTMinerDataObjects</Name>

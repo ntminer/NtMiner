@@ -8,7 +8,7 @@ using System.Linq;
 namespace NTMiner {
     public static class Report {
         public static void Init(INTMinerRoot root) {
-            VirtualRoot.On<HasBoot5SecondEvent>("登录服务器并报告一次0算力", LogEnum.DevConsole,
+            VirtualRoot.On<HasBoot10SecondEvent>("登录服务器并报告一次0算力", LogEnum.DevConsole,
                 action: message => {
                     // 报告0算力从而告知服务器该客户端当前在线的币种
                     ReportSpeed();
@@ -68,6 +68,8 @@ namespace NTMiner {
                 DiskSpace = NTMinerRoot.DiskSpace,
                 IsAutoRestartKernel = root.MinerProfile.IsAutoRestartKernel,
                 IsNoShareRestartKernel = root.MinerProfile.IsNoShareRestartKernel,
+                IsNoShareRestartComputer = root.MinerProfile.IsNoShareRestartComputer,
+                NoShareRestartComputerMinutes = root.MinerProfile.NoShareRestartComputerMinutes,
                 IsPeriodicRestartComputer = root.MinerProfile.IsPeriodicRestartComputer,
                 IsPeriodicRestartKernel = root.MinerProfile.IsPeriodicRestartKernel,
                 NoShareRestartKernelMinutes = root.MinerProfile.NoShareRestartKernelMinutes,
@@ -79,6 +81,9 @@ namespace NTMiner {
                     TotalMemory = a.Gpu.TotalMemory,
                     MainCoinSpeed = a.MainCoinSpeed.Value,
                     DualCoinSpeed = a.DualCoinSpeed.Value,
+                    AcceptShare = a.MainCoinSpeed.AcceptShare,
+                    FoundShare = a.MainCoinSpeed.FoundShare,
+                    RejectShare = a.MainCoinSpeed.RejectShare,
                     FanSpeed = a.Gpu.FanSpeed,
                     Temperature = a.Gpu.Temperature,
                     PowerUsage = a.Gpu.PowerUsage,
@@ -86,7 +91,9 @@ namespace NTMiner {
                     PowerCapacity = a.Gpu.PowerCapacity,
                     CoreClockDelta = a.Gpu.CoreClockDelta,
                     MemoryClockDelta = a.Gpu.MemoryClockDelta,
-                    TempLimit = a.Gpu.TempLimit
+                    TempLimit = a.Gpu.TempLimit,
+                    CoreVoltage = a.Gpu.CoreVoltage,
+                    MemoryVoltage = a.Gpu.MemoryVoltage
                 }).ToArray()
             };
             #region 当前选中的币种是什么

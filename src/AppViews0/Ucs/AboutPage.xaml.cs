@@ -7,6 +7,8 @@ namespace NTMiner.Views.Ucs {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "关于",
                 IconName = "Icon_About",
+                Width = 520,
+                Height = 320,
                 CloseVisible = System.Windows.Visibility.Visible,
                 FooterVisible = System.Windows.Visibility.Collapsed
             }, ucFactory: (window) => new AboutPage(), fixedSize: true);

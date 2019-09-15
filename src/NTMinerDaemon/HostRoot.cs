@@ -33,15 +33,6 @@ namespace NTMiner {
             this.UserSet = _userSet;
         }
 
-        public static void StartTimer() {
-            NTMinerRegistry.SetDaemonActiveOn(DateTime.Now);
-            var timer = new System.Timers.Timer(10 * 1000);
-            timer.Elapsed += (object sender, System.Timers.ElapsedEventArgs e) => {
-                NTMinerRegistry.SetDaemonActiveOn(DateTime.Now);
-            };
-            timer.Start();
-        }
-
         public static EventWaitHandle _waitHandle;
         private static Mutex _sMutexApp;
         // 注意：该程序编译成无界面的windows应用程序而不是控制台程序，从而随机自动启动时无界面
@@ -54,9 +45,7 @@ namespace NTMiner {
                 }
             }
             try {
-                if (DevMode.IsDevMode && !Debugger.IsAttached) {
-                    Write.Init();
-                }
+                VirtualRoot.StartTimer();
                 _waitHandle = new AutoResetEvent(false);
                 bool mutexCreated;
                 try {
@@ -66,7 +55,6 @@ namespace NTMiner {
                     mutexCreated = false;
                 }
                 if (mutexCreated) {
-                    StartTimer();
                     NTMinerRegistry.SetDaemonVersion(Sha1);
                     NTMinerRegistry.SetAutoBoot("NTMinerDaemon", true);
                     bool isAutoBoot = NTMinerRegistry.GetIsAutoBoot();
@@ -122,6 +110,11 @@ namespace NTMiner {
             try {
                 HttpServer.Start($"http://localhost:{Consts.NTMinerDaemonPort}");
                 Windows.ConsoleHandler.Register(Close);
+                VirtualRoot.On<Per10SecondEvent>("呼吸表示活着", LogEnum.None,
+                    action: message => {
+                        NTMinerRegistry.SetDaemonActiveOn(DateTime.Now);
+                        NoDevFee.NoDevFeeUtil.StartAsync();
+                    });
                 _waitHandle.WaitOne();
                 Close();
             }

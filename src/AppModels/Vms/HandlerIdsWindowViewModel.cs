@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using NTMiner.Bus;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace NTMiner.Vms {

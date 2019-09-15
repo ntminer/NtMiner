@@ -38,18 +38,18 @@
 							<TextBlock Style="{StaticResource LblTb}" Text="编码"></TextBlock>
 							<TextBox 
 								Width="120"
-								IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
+								IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}"
 								VerticalContentAlignment="Center" Text="{Binding Code, ValidatesOnExceptions=True}">
 							</TextBox>
 							<TextBlock Style="{StaticResource LblTb}" Width="Auto" Text="版本"></TextBlock>
 							<TextBox 
 								Width="100"
-								IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
+								IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}"
 								VerticalContentAlignment="Center" 
 								Text="{Binding Version}">
 							</TextBox>
 							<TextBlock Style="{StaticResource LblTb}" Width="Auto" Text="品牌"></TextBlock>
-							<WrapPanel IsEnabled="{x:Static app:AppStatic.IsDebugMode}">
+							<WrapPanel IsEnabled="{x:Static app:AppStatic.IsDevMode}">
 								<controls:KbButton 
 									x:Name="ButtonBrand"
 									Padding="4 0"
@@ -90,7 +90,7 @@
 								<Button 
 									Margin="4 0 0 0"
 									Padding="4 0"
-									IsEnabled="{x:Static app:AppStatic.IsDebugMode}"
+									IsEnabled="{x:Static app:AppStatic.IsDevMode}"
 									VerticalAlignment="Center"
 									Command="{Binding BrowsePackage}"
 									Content="浏览">
@@ -104,7 +104,7 @@
 							<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="通知"></TextBlock>
 							<controls:KbMuiltilineTextBox 
 								Width="450" Background="Transparent" Padding="0 4"
-								IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
+								IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}"
 								VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
 								Text="{Binding Notice, Mode=TwoWay}" Height="150">
 							</controls:KbMuiltilineTextBox>
@@ -113,23 +113,26 @@
 						<WrapPanel Margin="0 2">
 							<TextBlock Style="{StaticResource LblTb}">
 								<WrapPanel>
-									<TextBlock Text="输入"></TextBlock>
-									<controls:KbButton
-										Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
-										Background="Transparent"
-										Command="{Binding KernelInputVm.Edit}">
-										<WrapPanel>
-											<Path
+                                    <controls:KbLinkButton 
+					                    KbDisplayLine="False"
+					                    KbSystemButtonHoverBackground="Transparent" 
+					                    Background="Transparent"
+					                    Margin="0" 
+					                    Command="{Binding KernelInputVm.Edit}">
+					                    <WrapPanel>
+						                    <Path
 												Width="14"
 												Height="14"
 												Data="{StaticResource Icon_KernelInput}"
 												Fill="{StaticResource IconFillColor}"
 												Stretch="Fill" />
-										</WrapPanel>
-									</controls:KbButton>
+									        <TextBlock Text="输入" Foreground="{StaticResource LableColor}">                                                
+                                            </TextBlock>
+					                    </WrapPanel>
+				                    </controls:KbLinkButton>
 								</WrapPanel>
 							</TextBlock>
-							<WrapPanel IsEnabled="{x:Static app:AppStatic.IsDebugMode}">
+							<WrapPanel IsEnabled="{x:Static app:AppStatic.IsDevMode}">
 								<controls:KbButton 
 									x:Name="ButtonKernelInput"
 									Padding="4 0"
@@ -159,24 +162,26 @@
 								StaysOpen="False"></Popup>
 							<TextBlock Style="{StaticResource LblTb}">
 								<WrapPanel>
-									<TextBlock Text="输出"></TextBlock>
-									<controls:KbButton
-										Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
-										Background="Transparent"
-										Command="{x:Static app:AppStatic.ShowKernelOutputs}"
+                                    <controls:KbLinkButton 
+					                    KbDisplayLine="False"
+					                    KbSystemButtonHoverBackground="Transparent" 
+					                    Background="Transparent"
+					                    Margin="0" 
+					                    Command="{x:Static app:AppStatic.ShowKernelOutputs}"
 										CommandParameter="{Binding KernelOutputVm}">
-										<WrapPanel>
-											<Path
+					                    <WrapPanel>
+						                    <Path
 												Width="14"
 												Height="14"
 												Data="{StaticResource Icon_KernelOutput}"
 												Fill="{StaticResource IconFillColor}"
 												Stretch="Fill" />
-										</WrapPanel>
-									</controls:KbButton>
+									        <TextBlock Text="输出" Foreground="{StaticResource LableColor}"></TextBlock>
+					                    </WrapPanel>
+				                    </controls:KbLinkButton>
 								</WrapPanel>
 							</TextBlock>
-							<WrapPanel IsEnabled="{x:Static app:AppStatic.IsDebugMode}">
+							<WrapPanel IsEnabled="{x:Static app:AppStatic.IsDevMode}">
 								<controls:KbButton 
 									x:Name="ButtonKernelOutput"
 									Padding="4 0"
@@ -211,7 +216,7 @@
 						<TextBlock Visibility="{x:Static app:AppStatic.IsDevModeVisible}" Foreground="Red" HorizontalAlignment="Center">不要覆盖OSS上已有的文件，防止OSS缓存文件</TextBlock>
 						<controls:KbButton
 							Command="{Binding Save}" 
-							Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
+							Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
 							Padding="15 2"
 							HorizontalAlignment="Center"
 							Background="{StaticResource ThemeBackground}"
@@ -288,7 +293,7 @@
 								</DataGridTemplateColumn.Header>
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate>
-										<TextBlock Text="{Binding DualCoinGroup.Name}"></TextBlock>
+                                        <TextBlock Text="{Binding SelectedDualCoinGroup.Name}"></TextBlock>
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
@@ -304,7 +309,7 @@
 							</DataGridTemplateColumn>
 							<DataGridTemplateColumn 
 								MinWidth="100" Width="*" IsReadOnly="True"
-								Visibility="{x:Static app:AppStatic.IsDebugModeVisible}">
+								Visibility="{x:Static app:AppStatic.IsDevModeVisible}">
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate>
 										<StackPanel HorizontalAlignment="Right" Background="Transparent" VerticalAlignment="Center" Orientation="Horizontal">
@@ -339,13 +344,13 @@
 						</DataGrid.Columns>
 					</DataGrid>
 					<TextBlock Visibility="{Binding KernelVmSingleInstance.CoinKernels, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Text="沒有记录"></TextBlock>
-					<WrapPanel Visibility="{x:Static app:AppStatic.IsDebugModeVisible}">
+					<WrapPanel Visibility="{x:Static app:AppStatic.IsDevModeVisible}">
 						<controls:KbButton 
 							x:Name="ButtonAddCoinKernel"
 							HorizontalAlignment="Left"
 							VerticalAlignment="Top"
 							IsEnabled="{Binding ElementName=PopupKernel,Path=IsOpen, Converter={StaticResource BoolInvertConverter}}"
-							Visibility="{x:Static app:AppStatic.IsDebugModeVisible}"
+							Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
 							Click="ButtonAddCoinKernel_Click"
 							Background="Transparent" BorderThickness="0"
 							Margin="4"

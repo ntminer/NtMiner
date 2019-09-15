@@ -8,6 +8,7 @@ namespace NTMiner.Views.Ucs {
                 Title = "矿工分组",
                 FormType = formType,
                 IsDialogWindow = true,
+                Width = 520,
                 CloseVisible = System.Windows.Visibility.Visible,
                 IconName = "Icon_MinerGroup"
             }, ucFactory: (window) => {

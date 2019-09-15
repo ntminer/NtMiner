@@ -34,11 +34,11 @@ namespace NTMiner.Views {
             if (NotiCenterWindowViewModel.IsHotKeyEnabled) {
                 HotKeyUtil.RegHotKey = (key) => {
                     if (!RegHotKey(key, out string message)) {
-                        NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage(message, 4);
+                        VirtualRoot.Out.ShowErrorMessage(message, 4);
                         return false;
                     }
                     else {
-                        NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage($"热键Ctrl + Alt + {key.ToString()} 设置成功");
+                        VirtualRoot.Out.ShowSuccessMessage($"热键Ctrl + Alt + {key.ToString()} 设置成功");
                         return true;
                     }
                 };

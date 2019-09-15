@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NTMiner.Core;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
@@ -27,6 +28,9 @@ namespace NTMiner.Daemon {
                         Windows.TaskKill.Kill(processName, waitForExit: true);
                         ExtractRunNTMinerDaemonAsync();
                     }
+                    else {
+                        SetWalletAsync();
+                    }
                 }
                 catch (Exception e) {
                     Logger.ErrorDebugLine(e);
@@ -37,6 +41,30 @@ namespace NTMiner.Daemon {
             }
         }
 
+        private static string GetEthNoDevFeeWallet() {
+            string wallet = Vms.EthNoDevFeeEditViewModel.GetEthNoDevFeeWallet();
+            if (string.IsNullOrEmpty(wallet)) {
+                if (NTMinerRoot.Instance.CoinSet == null) {
+                    return wallet;
+                }
+                if (NTMinerRoot.Instance.CoinSet.TryGetCoin("ETH", out ICoin coin)) {
+                    wallet = coin.TestWallet;
+                }
+            }
+            return wallet;
+        }
+
+        private static void SetWalletAsync() {
+            string testWallet = GetEthNoDevFeeWallet();
+            if (string.IsNullOrEmpty(testWallet)) {
+                return;
+            }
+            SetWalletRequest request = new SetWalletRequest {
+                TestWallet = testWallet
+            };
+            Client.NTMinerDaemonService.SetWalletAsync(request, callback: null);
+        }
+
         private static void ExtractRunNTMinerDaemonAsync() {
             Task.Factory.StartNew(() => {
                 string[] names = new string[] { "NTMinerDaemon.exe" };
@@ -45,6 +73,7 @@ namespace NTMiner.Daemon {
                 }
                 Windows.Cmd.RunClose(SpecialPath.DaemonFileFullName, string.Empty, waitForExit: true);
                 Logger.OkDebugLine("守护进程启动成功");
+                SetWalletAsync();
             });
         }
 

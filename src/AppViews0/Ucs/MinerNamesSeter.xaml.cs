@@ -7,6 +7,7 @@ namespace NTMiner.Views.Ucs {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "群控矿工名",
                 IsDialogWindow = true,
+                Width = 270,
                 CloseVisible = System.Windows.Visibility.Visible,
                 IconName = "Icon_MinerName"
             }, ucFactory: (window) => {

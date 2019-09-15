@@ -14,8 +14,6 @@ namespace NTMiner.Core {
 
         public string KernelRestartKeyword { get; set; }
 
-        public bool PrependDateTime { get; set; }
-
         public bool IsDualInSameLine { get; set; }
 
         public string TotalSpeedPattern { get; set; }
@@ -23,6 +21,8 @@ namespace NTMiner.Core {
         public string TotalSharePattern { get; set; }
 
         public string AcceptSharePattern { get; set; }
+
+        public string FoundOneShare { get; set; }
 
         public string AcceptOneShare { get; set; }
 
@@ -34,6 +34,8 @@ namespace NTMiner.Core {
 
         public string GpuSpeedPattern { get; set; }
 
+        public string GpuGotOneIncorrectShare { get; set; }
+
 
         public string DualTotalSpeedPattern { get; set; }
 
@@ -41,11 +43,11 @@ namespace NTMiner.Core {
 
         public string DualAcceptSharePattern { get; set; }
 
-        public string DualAcceptOneShare { get; }
+        public string DualAcceptOneShare { get; set; }
 
         public string DualRejectSharePattern { get; set; }
 
-        public string DualRejectOneShare { get; }
+        public string DualRejectOneShare { get; set; }
 
         public string DualRejectPercentPattern { get; set; }
 

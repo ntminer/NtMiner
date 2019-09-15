@@ -13,6 +13,7 @@
 		BorderThickness="1"
 		Background="White"
 		mc:Ignorable="d" 
+        d:DataContext="{d:DesignData Source=/Design/FileWriterSelectViewModel.xaml}"
 		d:DesignHeight="300"
 		MaxHeight="400"
 		Width="800">

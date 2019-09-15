@@ -4,26 +4,44 @@ using System.Windows.Media;
 
 namespace NTMiner.Vms {
     public class SpeedViewModel : ViewModelBase, ISpeed {
-        private double _speed;
+        private double _value;
         private DateTime _speedOn;
         private string _speedValueText = "0.0";
         private string _speedUnit = "H/s";
         private string _speedText = "0.0 H/s";
+        private int _foundShare;
+        private int _acceptShare;
+        private int _rejectShare;
+        private int _incorrectShare;
 
         public SpeedViewModel(ISpeed speed) {
-            this.Value = speed.Value;
+            Value = speed.Value;
+            SpeedOn = speed.SpeedOn;
+            _foundShare = speed.FoundShare;
+            _acceptShare = speed.AcceptShare;
+            _rejectShare = speed.RejectShare;
+            _incorrectShare = speed.IncorrectShare;
         }
 
-        public void Update(ISpeed data) {
-            this.Value = data.Value;
-            this.SpeedOn = data.SpeedOn;
+        public void UpdateSpeed(double value, DateTime speedOn) {
+            this.Value = value;
+            this.SpeedOn = speedOn;
+        }
+
+        public void Reset() {
+            this.Value = 0;
+            this.SpeedOn = DateTime.Now;
+            this.FoundShare = 0;
+            this.AcceptShare = 0;
+            this.RejectShare = 0;
+            this.IncorrectShare = 0;
         }
 
         public double Value {
-            get => _speed;
+            get => _value;
             set {
-                if (_speed != value) {
-                    _speed = value;
+                if (_value != value) {
+                    _value = value;
                     OnPropertyChanged(nameof(Value));
                     value.ToUnitSpeedText(out string speedValueText, out string speedUnit);
                     this.SpeedValueText = speedValueText;
@@ -71,6 +89,38 @@ namespace NTMiner.Vms {
             }
         }
 
+        public int FoundShare {
+            get => _foundShare;
+            set {
+                _foundShare = value;
+                OnPropertyChanged(nameof(FoundShare));
+            }
+        }
+
+        public int AcceptShare {
+            get { return _acceptShare; }
+            set {
+                _acceptShare = value;
+                OnPropertyChanged(nameof(AcceptShare));
+            }
+        }
+
+        public int RejectShare {
+            get => _rejectShare;
+            set {
+                _rejectShare = value;
+                OnPropertyChanged(nameof(RejectShare));
+            }
+        }
+
+        public int IncorrectShare {
+            get { return _incorrectShare; }
+            set {
+                _incorrectShare = value;
+                OnPropertyChanged(nameof(IncorrectShare));
+            }
+        }
+
         public string LastSpeedOnText {
             get {
                 if (!NTMinerRoot.Instance.IsMining || SpeedOn <= Timestamp.UnixBaseTime) {
@@ -90,14 +140,12 @@ namespace NTMiner.Vms {
             }
         }
 
-        private static readonly SolidColorBrush Black = new SolidColorBrush(Colors.Black);
-        public static readonly SolidColorBrush Red = new SolidColorBrush(Colors.Red);
         public SolidColorBrush LastSpeedOnForeground {
             get {
                 if (SpeedOn.AddSeconds(120) < DateTime.Now) {
-                    return Red;
+                    return Wpf.Util.RedBrush;
                 }
-                return Black;
+                return Wpf.Util.BlackBrush;
             }
         }
     }

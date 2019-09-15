@@ -3,9 +3,9 @@
 大部分程序会有一些需要周期执行的事情，也有一些需要在程序启动后执行一次的事情。很明显这类事情和时间有关，因为它们都需要在特定时间发生。这类需要执行的逻辑可以由时间事件发生器触发。
 
 ## 时间事件发生器
-时间事件发生器是挂载在虚拟根[VirtualRoot](<https://github.com/ntminer-project/ntminer/blob/master/src/NTMinerlib/VirtualRoot.cs>)上的一个组件，它负责在特定的时间将特定类型的事件发布到系统总线上去。时间事件发生器会发布的事件有：
+时间事件发生器是挂载在虚拟根[VirtualRoot](<https://github.com/ntminer/ntminer/blob/master/src/NTMinerlib/VirtualRoot.cs>)上的一个组件，它负责在特定的时间将特定类型的事件发布到系统总线上去。时间事件发生器会发布的事件有：
 
-[代码位置](https://github.com/ntminer-project/ntminer/blob/master/src/NTMinerlib/Messages.cs)
+[代码位置](https://github.com/ntminer/ntminer/blob/master/src/NTMinerlib/Messages.cs)
 
 ```
 HasBoot1SecondEvent
@@ -41,7 +41,7 @@ Per24HourEvent
 
 ## 由谁发出这些时间事件?
 
-可以看出，这类时间事件不属于任何模块，它们是由硬件系统的cpu发出的，所以对于我们的系统来说应该把时间事件发生器放在我们的系统的虚拟根[VirtualRoot](<https://github.com/ntminer-project/ntminer/blob/master/src/NTMinerlib/VirtualRoot.cs>)上。
+可以看出，这类时间事件不属于任何模块，它们是由硬件系统的cpu发出的，所以对于我们的系统来说应该把时间事件发生器放在我们的系统的虚拟根[VirtualRoot](<https://github.com/ntminer/ntminer/blob/master/src/NTMinerlib/VirtualRoot.cs>)上。
 
 ## 这些消息发送到什么地方去?
 发布到系统总线上去。每一个系统都应该有自己内部的系统总线，时间事件消息正是发布到系统自己内部的总线上去的。系统内部的各组件根据自己的需求从总线上订阅事件修建事件消息所行走的路径。

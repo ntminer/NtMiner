@@ -11,6 +11,7 @@
 		WindowStartupLocation="CenterOwner"
 		MouseDown="Window_MouseDown"
 		Background="White"
+        d:DataContext="{d:DesignData Source=/Design/MinerClientAddViewModel.xaml}"
 		mc:Ignorable="d" Width="300" MinHeight="120">
 	<blankWindow:BlankWindow.Resources>
 		<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">

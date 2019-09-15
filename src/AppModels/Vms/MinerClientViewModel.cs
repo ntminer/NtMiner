@@ -10,7 +10,6 @@ using System.Windows.Media;
 
 namespace NTMiner.Vms {
     public class MinerClientViewModel : ViewModelBase, IClientData {
-        public static readonly SolidColorBrush Red = new SolidColorBrush(Colors.Red);
         public static readonly SolidColorBrush Blue = new SolidColorBrush(Colors.Blue);
         public static readonly SolidColorBrush DefaultForeground = new SolidColorBrush(Color.FromArgb(0xFF, 0x5A, 0x5A, 0x5A));
 
@@ -81,12 +80,12 @@ namespace NTMiner.Vms {
                 });
             });
             this.RemoteDesktop = new DelegateCommand(() => {
-                if (string.IsNullOrEmpty(this.WindowsLoginName) || string.IsNullOrEmpty(this.WindowsPassword)) {
-                    NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage("没有填写远程桌面用户名密码", 4);
+                if (string.IsNullOrEmpty(this.WindowsLoginName)) {
+                    VirtualRoot.Out.ShowErrorMessage("没有填写远程桌面用户名", 4);
                     return;
                 }
                 AppContext.RemoteDesktop?.Invoke(new RemoteDesktopInput(this.MinerIp, this.WindowsLoginName, this.WindowsPassword, this.MinerName, message => {
-                    NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage(message, 4);
+                    VirtualRoot.Out.ShowErrorMessage(message, 4);
                 }));
             });
             this.RestartWindows = new DelegateCommand(() => {
@@ -887,12 +886,6 @@ namespace NTMiner.Vms {
             get { return $"{GpuTable.Sum(a => a.PowerUsage).ToString("f0")}W"; }
         }
 
-        public string TemperatureSumText {
-            get {
-                return $"{GpuTable.Sum(a => a.Temperature)}℃";
-            }
-        }
-
         public int MaxTemp {
             get {
                 if (GpuTable == null || GpuTable.Length == 0) {
@@ -942,11 +935,10 @@ namespace NTMiner.Vms {
                 OnPropertyChanged(nameof(GpuTable));
                 OnPropertyChanged(nameof(TotalPower));
                 OnPropertyChanged(nameof(TotalPowerText));
-                OnPropertyChanged(nameof(TemperatureSumText));
                 OnPropertyChanged(nameof(MaxTemp));
                 OnPropertyChanged(nameof(MaxTempText));
                 OnPropertyChanged(nameof(GpuCount));
-                this.GpuTableVm = new GpuSpeedDataViewModels(MainCoinCode, DualCoinCode, MainCoinSpeedText, DualCoinSpeedText, TotalPowerText, TemperatureSumText, value);
+                this.GpuTableVm = new GpuSpeedDataViewModels(MainCoinCode, DualCoinCode, MainCoinSpeedText, DualCoinSpeedText, TotalPowerText, value);
             }
         }
 
@@ -974,6 +966,14 @@ namespace NTMiner.Vms {
             set {
                 _data.IsNoShareRestartKernel = value;
                 OnPropertyChanged(nameof(IsNoShareRestartKernel));
+            }
+        }
+
+        public bool IsNoShareRestartComputer {
+            get { return _data.IsNoShareRestartComputer; }
+            set {
+                _data.IsNoShareRestartComputer = value;
+                OnPropertyChanged(nameof(IsNoShareRestartComputer));
             }
         }
 
@@ -1023,7 +1023,7 @@ namespace NTMiner.Vms {
             }
             foreach (var gpuSpeedData in GpuTableVm.List) {
                 if (gpuSpeedData.Temperature >= maxTemp) {
-                    gpuSpeedData.TemperatureForeground = Red;
+                    gpuSpeedData.TemperatureForeground = Wpf.Util.RedBrush;
                 }
                 else if (gpuSpeedData.Temperature < minTemp) {
                     gpuSpeedData.TemperatureForeground = Blue;

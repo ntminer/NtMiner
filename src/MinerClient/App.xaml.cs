@@ -1,6 +1,5 @@
 ﻿using NTMiner.Core;
 using NTMiner.Notifications;
-using NTMiner.OverClock;
 using NTMiner.RemoteDesktopEnabler;
 using NTMiner.View;
 using NTMiner.Views;
@@ -8,7 +7,6 @@ using NTMiner.Views.Ucs;
 using NTMiner.Vms;
 using System;
 using System.Diagnostics;
-using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -18,10 +16,8 @@ using System.Windows.Media;
 namespace NTMiner {
     public partial class App : Application, IDisposable {
         public App() {
-            if (DevMode.IsDevMode && !Debugger.IsAttached && !Design.IsInDesignMode) {
-                Write.Init();
-            }
-            Logging.LogDir.SetDir(Path.Combine(AssemblyInfo.LocalDirFullName, "Logs"));
+            VirtualRoot.SetShowMessage(NotiCenterWindowViewModel.Instance);
+            Logging.LogDir.SetDir(SpecialPath.LogsDirFullName);
             AppUtil.Init(this);
             InitializeComponent();
         }
@@ -36,7 +32,7 @@ namespace NTMiner {
             NTMinerRoot.Instance.Exit();
             HttpServer.Stop();
             base.OnExit(e);
-            ConsoleManager.Hide();
+            NTMinerConsole.Hide();
         }
 
         protected override void OnStartup(StartupEventArgs e) {
@@ -71,9 +67,7 @@ namespace NTMiner {
                         Shutdown();
                         Environment.Exit(0);
                     }
-                    NTMinerOverClockUtil.ExtractResource();
 
-                    VirtualRoot.SetIsMinerClient(true);
                     NotiCenterWindowViewModel.IsHotKeyEnabled = true;
                     Window splashWindow = _appViewFactory.CreateSplashWindow();
                     splashWindow.Show();
@@ -101,16 +95,19 @@ namespace NTMiner {
                     NTMinerRoot.Instance.Init(() => {
                         _appViewFactory.Link();
                         if (NTMinerRoot.Instance.GpuSet.Count == 0) {
-                            NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage("没有矿卡或矿卡未驱动。");
+                            VirtualRoot.Out.ShowErrorMessage("没有矿卡或矿卡未驱动。");
+                        }
+                        if (NTMinerRoot.Instance.CoinSet.Count == 0) {
+                            VirtualRoot.Out.ShowErrorMessage("访问阿里云失败，更换本机dns可以解决此问题");
                         }
                         UIThread.Execute(() => {
                             if (NTMinerRoot.GetIsNoUi() && NTMinerRegistry.GetIsAutoStart()) {
-                                MainWindow = NotiCenterWindow.Instance;
-                                NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage("已切换为无界面模式运行，可在选项页调整设置", "开源矿工");
+                                VirtualRoot.Out.ShowSuccessMessage("已切换为无界面模式运行，可在选项页调整设置", "开源矿工");
                             }
                             else {
                                 _appViewFactory.ShowMainWindow(isToggle: false);
                             }
+                            StartStopMineButtonViewModel.Instance.AutoStart();
                             AppContext.NotifyIcon = ExtendedNotifyIcon.Create("开源矿工", isMinerStudio: false);
                             splashWindow?.Close();
                         });
@@ -123,7 +120,7 @@ namespace NTMiner {
                         Task.Factory.StartNew(() => {
                             try {
                                 HttpServer.Start($"http://localhost:{Consts.MinerClientPort}");
-                                NTMinerRoot.Instance.Start();
+                                Daemon.DaemonUtil.RunNTMinerDaemon();
                             }
                             catch (Exception ex) {
                                 Logger.ErrorDebugLine(ex);
@@ -171,9 +168,6 @@ namespace NTMiner {
                 action: message => {
                     UIThread.Execute(() => {
                         try {
-                            if (MainWindow != null) {
-                                MainWindow.Close();
-                            }
                             Shutdown();
                         }
                         catch (Exception e) {
@@ -189,22 +183,18 @@ namespace NTMiner {
                             VirtualRoot.Execute(new CloseNTMinerCommand());
                             return;
                         }
-                        MainWindow = NotiCenterWindow.Instance;
                         foreach (Window window in Windows) {
-                            if (window != MainWindow) {
+                            if (window != NotiCenterWindow.Instance) {
                                 window.Close();
                             }
                         }
-                        NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage(message.Message, "开源矿工");
+                        VirtualRoot.Out.ShowSuccessMessage(message.Message, "开源矿工");
                     });
                 });
             #region 周期确保守护进程在运行
-            Daemon.DaemonUtil.RunNTMinerDaemon();
-            VirtualRoot.On<Per20SecondEvent>("周期确保守护进程在运行", LogEnum.DevConsole,
+            VirtualRoot.On<Per1MinuteEvent>("周期确保守护进程在运行", LogEnum.DevConsole,
                 action: message => {
-                    if (NTMinerRegistry.GetDaemonActiveOn().AddSeconds(20) < DateTime.Now) {
-                        Daemon.DaemonUtil.RunNTMinerDaemon();
-                    }
+                    Daemon.DaemonUtil.RunNTMinerDaemon();
                 });
             #endregion
             #region 1080小药丸
@@ -234,14 +224,6 @@ namespace NTMiner {
             VirtualRoot.Window<Win10OptimizeCommand>("处理优化windows命令", LogEnum.DevConsole,
                 action: message => {
                     NTMiner.Windows.WindowsUtil.Win10Optimize();
-                });
-            #endregion
-            #region 处理开启A卡计算模式
-            VirtualRoot.Window<SwitchRadeonGpuCommand>("处理开启A卡计算模式命令", LogEnum.DevConsole,
-                action: message => {
-                    if (NTMinerRoot.Instance.GpuSet.GpuType == GpuType.AMD) {
-                        SwitchRadeonGpuMode();
-                    }
                 });
             #endregion
             #region 处理A卡驱动签名
@@ -274,20 +256,6 @@ namespace NTMiner {
                     NTMiner.Windows.Cmd.RunClose("control", "userpasswords2");
                 });
             #endregion
-        }
-
-        private static void SwitchRadeonGpuMode() {
-            SwitchRadeonGpu.SwitchRadeonGpu.Run((isSuccess, e) => {
-                if (isSuccess) {
-                    NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage("开启A卡计算模式成功");
-                }
-                else if (e != null) {
-                    NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage(e.Message, delaySeconds: 4);
-                }
-                else {
-                    NotiCenterWindowViewModel.Instance.Manager.ShowErrorMessage("开启A卡计算模式失败", delaySeconds: 4);
-                }
-            });
         }
 
         public void Dispose() {

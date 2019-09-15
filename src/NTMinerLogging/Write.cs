@@ -1,23 +1,27 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace NTMiner {
     public static class Write {
+        public static readonly Stopwatch Stopwatch = new Stopwatch();
+
         private static readonly Action<string, ConsoleColor> _consoleUserLineMethod = (line, color) => {
+            InitOnece();
             ConsoleColor oldColor = Console.ForegroundColor;
             Console.ForegroundColor = color;
             Console.WriteLine(line);
             Console.ForegroundColor = oldColor;
         };
-        public static Action<string, ConsoleColor> UserLineMethod = _consoleUserLineMethod;
+        private static Action<string, ConsoleColor> UserLineMethod = _consoleUserLineMethod;
 
         private static readonly object _locker = new object();
         private static bool _isInited = false;
-        public static void  Init() {
+        private static void InitOnece() {
             if (!_isInited) {
                 lock (_locker) {
                     if (!_isInited) {
                         _isInited = true;
-                        ConsoleManager.Show();
+                        NTMinerConsole.Show();
                     }
                 }
             }
@@ -25,6 +29,10 @@ namespace NTMiner {
 
         public static void SetConsoleUserLineMethod() {
             UserLineMethod = _consoleUserLineMethod;
+        }
+
+        public static void SetUserLineMethod(Action<string, ConsoleColor> action) {
+            UserLineMethod = action;
         }
 
         public static void UserLine(string text, MessageType messageType = MessageType.Default) {
@@ -71,6 +79,7 @@ namespace NTMiner {
             if (!DevMode.IsDevMode) {
                 return;
             }
+            InitOnece();
             text = $"{DateTime.Now.ToString("HH:mm:ss fff")}  {messageType.ToString()} {text}";
             ConsoleColor oldColor = Console.ForegroundColor;
             Console.ForegroundColor = messageType.ToConsoleColor();
@@ -92,6 +101,10 @@ namespace NTMiner {
 
         public static void DevWarn(string text) {
             DevLine(text, MessageType.Warn);
+        }
+
+        public static void DevTimeSpan(string text) {
+            DevLine(text, MessageType.TimeSpan);
         }
 
         public static void DevFail(string text) {

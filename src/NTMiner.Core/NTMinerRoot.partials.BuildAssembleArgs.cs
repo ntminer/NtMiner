@@ -10,6 +10,7 @@ using System.Text.RegularExpressions;
 
 namespace NTMiner {
     public partial class NTMinerRoot : INTMinerRoot {
+        // 有的内核对序号9以后的GPU用字母编号
         private static readonly string[] gpuIndexChars = new string[] { "a", "b", "c", "d", "e", "f", "g", "h" };
         public string BuildAssembleArgs(out Dictionary<string, string> parameters, out Dictionary<Guid, string> fileWriters, out Dictionary<Guid, string> fragments) {
             parameters = new Dictionary<string, string>();
@@ -42,7 +43,7 @@ namespace NTMiner {
             }
             string kernelArgs = kernelInput.Args;
             string coinKernelArgs = coinKernel.Args;
-            string customArgs = coinKernelProfile.CustomArgs;
+            string customArgs = coinKernelProfile.CustomArgs ?? string.Empty;
             parameters.Add(Consts.MainCoinParameterName, mainCoin.Code);
             if (mainCoinPool.IsUserMode) {
                 IPoolProfile poolProfile = MinerProfile.GetPoolProfile(mainCoinPool.GetId());
@@ -60,9 +61,10 @@ namespace NTMiner {
             parameters.Add(Consts.HostParameterName, mainCoinPool.GetHost());
             parameters.Add(Consts.PortParameterName, mainCoinPool.GetPort().ToString());
             parameters.Add(Consts.PoolParameterName, mainCoinPool.Server);
-            parameters.Add(Consts.WorkerParameterName, this.MinerProfile.MinerName);
+            string minerName = $"{mainCoinPool.MinerNamePrefix}{this.MinerProfile.MinerName}{mainCoinPool.MinerNamePostfix}";
+            parameters.Add(Consts.WorkerParameterName, minerName);
             if (coinKernel.IsSupportPool1 && !mainCoinPool.NoPool1) {
-                parameters.Add(Consts.Worker1ParameterName, this.MinerProfile.MinerName);
+                parameters.Add(Consts.Worker1ParameterName, minerName);
                 if (PoolSet.TryGetPool(coinProfile.PoolId1, out IPool mainCoinPool1)) {
                     parameters.Add(Consts.Host1ParameterName, mainCoinPool1.GetHost());
                     parameters.Add(Consts.Port1ParameterName, mainCoinPool1.GetPort().ToString());
@@ -85,9 +87,6 @@ namespace NTMiner {
             // 这里不要考虑{logfile}，{logfile}往后推迟
             if (coinKernelProfile.IsDualCoinEnabled && kernelInput.IsSupportDualMine) {
                 Guid dualCoinGroupId = coinKernel.DualCoinGroupId;
-                if (dualCoinGroupId == Guid.Empty) {
-                    dualCoinGroupId = kernelInput.DualCoinGroupId;
-                }
                 if (dualCoinGroupId != Guid.Empty) {
                     if (this.CoinSet.TryGetCoin(coinKernelProfile.DualCoinId, out ICoin dualCoin)) {
                         ICoinProfile dualCoinProfile = this.MinerProfile.GetCoinProfile(dualCoin.GetId());
@@ -105,7 +104,7 @@ namespace NTMiner {
                             parameters.Add(Consts.DualPortParameterName, dualCoinPool.GetPort().ToString());
                             parameters.Add(Consts.DualPoolParameterName, dualCoinPool.Server);
 
-                            kernelArgs = kernelInput.DualFullArgs;
+                            kernelArgs = coinKernel.DualFullArgs;
                             AssembleArgs(parameters, ref kernelArgs, isDual: true);
                             AssembleArgs(parameters, ref poolKernelArgs, isDual: true);
                             AssembleArgs(parameters, ref customArgs, isDual: true);

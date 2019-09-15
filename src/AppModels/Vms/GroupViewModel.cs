@@ -7,7 +7,7 @@ using System.Windows.Input;
 namespace NTMiner.Vms {
     public class GroupViewModel : ViewModelBase, IGroup, IEditableViewModel {
         public static readonly GroupViewModel PleaseSelect = new GroupViewModel(Guid.Empty) {
-            _name = "本级未定义",
+            _name = "不支持双挖",
             _sortNumber = 0
         };
 
@@ -23,6 +23,12 @@ namespace NTMiner.Vms {
         public ICommand Save { get; private set; }
 
         public Action CloseWindow { get; set; }
+
+        public GroupViewModel() {
+            if (!Design.IsInDesignMode) {
+                throw new InvalidProgramException();
+            }
+        }
 
         public GroupViewModel(IGroup data) : this(data.GetId()) {
             _name = data.Name;
@@ -58,7 +64,7 @@ namespace NTMiner.Vms {
                 }, icon: IconConst.IconConfirm);
             });
             this.SortUp = new DelegateCommand(() => {
-                GroupViewModel upOne = AppContext.Instance.GroupVms.List.OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.SortNumber < this.SortNumber);
+                GroupViewModel upOne = AppContext.Instance.GroupVms.GetUpOne(this.SortNumber);
                 if (upOne != null) {
                     int sortNumber = upOne.SortNumber;
                     upOne.SortNumber = this.SortNumber;
@@ -69,7 +75,7 @@ namespace NTMiner.Vms {
                 }
             });
             this.SortDown = new DelegateCommand(() => {
-                GroupViewModel nextOne = AppContext.Instance.GroupVms.List.OrderBy(a => a.SortNumber).FirstOrDefault(a => a.SortNumber > this.SortNumber);
+                GroupViewModel nextOne = AppContext.Instance.GroupVms.GetNextOne(this.SortNumber);
                 if (nextOne != null) {
                     int sortNumber = nextOne.SortNumber;
                     nextOne.SortNumber = this.SortNumber;
@@ -109,14 +115,14 @@ namespace NTMiner.Vms {
                         list.Add(item);
                     }
                 }
-                return list.OrderBy(a => a.SortNumber).ToList();
+                return list.OrderBy(a => a.Code).ToList();
             }
         }
 
         public List<CoinViewModel> DualCoinVms {
             get {
                 var coinGroupVms = AppContext.Instance.CoinGroupVms.GetCoinGroupsByGroupId(this.Id);
-                return coinGroupVms.Where(a => a.CoinVm != CoinViewModel.Empty).Select(a => a.CoinVm).OrderBy(a => a.SortNumber).ToList();
+                return coinGroupVms.Where(a => a.CoinVm != CoinViewModel.Empty).Select(a => a.CoinVm).OrderBy(a => a.Code).ToList();
             }
         }
 

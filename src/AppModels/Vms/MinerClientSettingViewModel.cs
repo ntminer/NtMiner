@@ -10,6 +10,12 @@ namespace NTMiner.Vms {
 
         public ICommand Save { get; private set; }
 
+        public MinerClientSettingViewModel() {
+            if (!Design.IsInDesignMode) {
+                throw new InvalidProgramException();
+            }
+        }
+
         public MinerClientSettingViewModel(MinerClientViewModel[] minerClients) {
             if (minerClients != null && minerClients.Length == 1) {
                 _isAutoBoot = minerClients[0].IsAutoBoot;

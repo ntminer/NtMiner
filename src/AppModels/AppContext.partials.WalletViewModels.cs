@@ -11,7 +11,7 @@ namespace NTMiner {
             private readonly Dictionary<Guid, WalletViewModel> _dicById = new Dictionary<Guid, WalletViewModel>();
             private WalletViewModels() {
 #if DEBUG
-                VirtualRoot.Stopwatch.Restart();
+                Write.Stopwatch.Restart();
 #endif
                 VirtualRoot.On<LocalContextReInitedEvent>("LocalContext刷新后刷新钱包Vm内存", LogEnum.None,
                     action: message=> {
@@ -47,7 +47,7 @@ namespace NTMiner {
                     });
                 Init();
 #if DEBUG
-                Write.DevWarn($"耗时{VirtualRoot.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+                Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
 #endif
             }
 
@@ -61,6 +61,14 @@ namespace NTMiner {
                 get {
                     return _dicById.Values.ToList();
                 }
+            }
+
+            public WalletViewModel GetUpOne(Guid coinId, int sortNumber) {
+                return WalletList.OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.CoinId == coinId && a.SortNumber < sortNumber);
+            }
+
+            public WalletViewModel GetNextOne(Guid coinId, int sortNumber) {
+                return WalletList.OrderBy(a => a.SortNumber).FirstOrDefault(a => a.CoinId == coinId && a.SortNumber > sortNumber);
             }
         }
     }

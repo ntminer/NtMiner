@@ -1,5 +1,4 @@
-﻿using NTMiner.MinerServer;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace NTMiner.Core.Profiles.Impl {
@@ -7,10 +6,8 @@ namespace NTMiner.Core.Profiles.Impl {
         private readonly INTMinerRoot _root;
         private readonly Dictionary<Guid, WalletData> _dicById = new Dictionary<Guid, WalletData>();
 
-        private MineWorkData _mineWorkData;
-        public WalletSet(INTMinerRoot root, MineWorkData mineWorkData) {
+        public WalletSet(INTMinerRoot root) {
             _root = root;
-            _mineWorkData = mineWorkData;
             VirtualRoot.Window<AddWalletCommand>("添加钱包", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
@@ -78,7 +75,7 @@ namespace NTMiner.Core.Profiles.Impl {
                 Server.ControlCenterService.AddOrUpdateWalletAsync(entity, null);
             }
             else {
-                var repository = NTMinerRoot.CreateLocalRepository<WalletData>(isUseJson: false);
+                var repository = NTMinerRoot.CreateLocalRepository<WalletData>();
                 repository.Add(entity);
             }
         }
@@ -88,7 +85,7 @@ namespace NTMiner.Core.Profiles.Impl {
                 Server.ControlCenterService.AddOrUpdateWalletAsync(entity, null);
             }
             else {
-                var repository = NTMinerRoot.CreateLocalRepository<WalletData>(isUseJson: false);
+                var repository = NTMinerRoot.CreateLocalRepository<WalletData>();
                 repository.Update(entity);
             }
         }
@@ -98,19 +95,18 @@ namespace NTMiner.Core.Profiles.Impl {
                 Server.ControlCenterService.RemoveWalletAsync(id, null);
             }
             else {
-                var repository = NTMinerRoot.CreateLocalRepository<WalletData>(isUseJson: false);
+                var repository = NTMinerRoot.CreateLocalRepository<WalletData>();
                 repository.Remove(id);
             }
         }
 
-        public void Refresh(MineWorkData mineWorkData) {
-            _mineWorkData = mineWorkData;
+        public void Refresh() {
             _dicById.Clear();
             _isInited = false;
         }
 
         private bool _isInited = false;
-        private object _locker = new object();
+        private readonly object _locker = new object();
 
         private void InitOnece() {
             if (_isInited) {
@@ -137,8 +133,7 @@ namespace NTMiner.Core.Profiles.Impl {
                     }
                 }
                 else {
-                    bool isUseJson = _mineWorkData != null;
-                    var repository = NTMinerRoot.CreateLocalRepository<WalletData>(isUseJson: isUseJson);
+                    var repository = NTMinerRoot.CreateLocalRepository<WalletData>();
                     lock (_locker) {
                         if (!_isInited) {
                             foreach (var item in repository.GetAll()) {

@@ -14,6 +14,12 @@ namespace NTMiner.Vms {
 
         public Action CloseWindow { get; set; }
 
+        public FragmentWriterViewModel() {
+            if (!Design.IsInDesignMode) {
+                throw new InvalidProgramException();
+            }
+        }
+
         public FragmentWriterViewModel(IFragmentWriter data) : this(data.GetId()) {
             _name = data.Name;
             _body = data.Body;

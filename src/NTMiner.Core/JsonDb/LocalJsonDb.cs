@@ -70,6 +70,10 @@ namespace NTMiner.JsonDb {
                     return this.PoolProfiles.Cast<T>();
                 case nameof(WalletData):
                     return this.Wallets.Cast<T>();
+                case nameof(MinerProfileData):
+                    return GetMinerProfiles().Cast<T>();
+                case nameof(MineWorkData):
+                    return GetMineWorks().Cast<T>();
                 default:
                     return new List<T>();
             }
@@ -83,7 +87,15 @@ namespace NTMiner.JsonDb {
 
         public MinerProfileData MinerProfile { get; set; }
 
+        private IEnumerable<MinerProfileData> GetMinerProfiles() {
+            yield return MinerProfile;
+        }
+
         public MineWorkData MineWork { get; set; }
+
+        private IEnumerable<MineWorkData> GetMineWorks() {
+            yield return MineWork;
+        }
 
         public PoolData[] Pools { get; set; }
 

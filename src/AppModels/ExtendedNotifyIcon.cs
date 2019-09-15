@@ -24,11 +24,14 @@ namespace NTMiner {
                 Icon = icon,
                 Visible = isMinerStudio || NTMinerRoot.GetIsShowNotifyIcon(),
                 Text = text,
-                ContextMenu = new ContextMenu()
+                ContextMenuStrip = new ContextMenuStrip {
+                    BackColor = Color.White,
+                    ShowImageMargin = false
+                }
             };
-            _targetNotifyIcon.ContextMenu.MenuItems.Add(new MenuItem("退出" + text, (sender, e) => {
+            _targetNotifyIcon.ContextMenuStrip.Items.Add("退出" + text, null, (sender, e)=> {
                 VirtualRoot.Execute(new CloseNTMinerCommand());
-            }));
+            });
             _targetNotifyIcon.MouseDown += (object sender, MouseEventArgs e) => {
                 if (e.Button == MouseButtons.Left) {
                     VirtualRoot.Execute(new ShowMainWindowCommand(isToggle: true));

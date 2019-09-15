@@ -9,7 +9,7 @@
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
 		xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
-		mc:Ignorable="d" Height="320" Width="520">
+		mc:Ignorable="d" d:DesignHeight="320" d:DesignWidth="520">
 	<UserControl.DataContext>
 		<vm:AboutPageViewModel></vm:AboutPageViewModel>
 	</UserControl.DataContext>

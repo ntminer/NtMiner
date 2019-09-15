@@ -10,7 +10,7 @@
 		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
 		xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 		Background="White"
-		mc:Ignorable="d" d:DesignHeight="460" d:DesignWidth="700">
+		mc:Ignorable="d" d:DesignHeight="460" d:DesignWidth="430">
 	<UserControl.DataContext>
 		<vm:OuterPropertyViewModel></vm:OuterPropertyViewModel>
 	</UserControl.DataContext>
@@ -27,6 +27,7 @@
 		<ScrollViewer
 			Padding="4 0 0 0"
 			VerticalScrollBarVisibility="Auto" 
+            HorizontalScrollBarVisibility="Auto"
 			PreviewMouseDown="ScrollViewer_PreviewMouseDown">
 			<StackPanel>
 				<WrapPanel Margin="0 4 0 0">
@@ -68,7 +69,7 @@
 						</WrapPanel>
 					</controls:KbButton>
 				</WrapPanel>
-				<GroupBox Header="CPU">
+				<GroupBox Header="CPU" Padding="0 0 10 0">
 					<StackPanel>
 						<WrapPanel>
 							<TextBlock Style="{StaticResource LblTb}" Text="CPU厂商"></TextBlock>
@@ -85,30 +86,6 @@
 					</StackPanel>
 				</GroupBox>
 
-				<GroupBox Header="BIOS">
-					<StackPanel>
-						<WrapPanel>
-							<TextBlock Style="{StaticResource LblTb}" Text="Bios型号"></TextBlock>
-							<TextBlock Text="{Binding Bios.MotherboardModel}"></TextBlock>
-						</WrapPanel>
-						<WrapPanel>
-							<TextBlock Style="{StaticResource LblTb}" Text="Bios制造商"></TextBlock>
-							<TextBlock Text="{Binding Bios.MotherboardManufacturer}" ToolTip="{Binding Bios.MotherboardManufacturer}"></TextBlock>
-						</WrapPanel>
-						<WrapPanel>
-							<TextBlock Style="{StaticResource LblTb}" Text="Bios发布日期"></TextBlock>
-							<TextBlock Text="{Binding Bios.BiosReleaseDate}"></TextBlock>
-						</WrapPanel>
-						<WrapPanel>
-							<TextBlock Style="{StaticResource LblTb}" Text="Bios供应商"></TextBlock>
-							<TextBlock Text="{Binding Bios.BiosVendor}" ToolTip="{Binding Bios.BiosVendor}"></TextBlock>
-						</WrapPanel>
-						<WrapPanel>
-							<TextBlock Style="{StaticResource LblTb}" Text="Bios版本"></TextBlock>
-							<TextBlock Text="{Binding Bios.BiosVersion}" ToolTip="{Binding Bios.BiosVersion}"></TextBlock>
-						</WrapPanel>
-					</StackPanel>
-				</GroupBox>
 				<ItemsControl 
 					ItemsSource="{Binding GpuSetProperties}" 
 					Background="Transparent" 

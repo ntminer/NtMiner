@@ -11,8 +11,6 @@
 		xmlns:local="clr-namespace:NTMiner.Views"
 		ResizeMode="NoResize"
 		Background="White"
-		BorderThickness="0.8"
-		BorderBrush="{StaticResource IconFillColor}"
 		mc:Ignorable="d"
 		d:DataContext="{d:DesignData Source=Design/NTMinerFileViewModel.xaml}"
 		WindowStartupLocation="CenterOwner"
@@ -40,9 +38,7 @@
 			<WrapPanel 
 				DockPanel.Dock="Right"
 				HorizontalAlignment="Right">
-				<controls:KbSystemCloseButton
-					Height="30"
-					KbSystemButtonForeground="{StaticResource ThemeForeground}" />
+				<controls:KbSystemCloseButton Height="30" />
 			</WrapPanel>
 		</DockPanel>
 		<StackPanel Grid.Row="1" Background="White" VerticalAlignment="Center">

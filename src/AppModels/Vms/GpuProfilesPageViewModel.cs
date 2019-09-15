@@ -1,5 +1,6 @@
 ﻿using NTMiner.JsonDb;
 using NTMiner.MinerClient;
+using NTMiner.Profile;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,12 @@ namespace NTMiner.Vms {
         public ICommand Save { get; private set; }
 
         public Action CloseWindow { get; set; }
+
+        public GpuProfilesPageViewModel() {
+            if (!Design.IsInDesignMode) {
+                throw new InvalidProgramException();
+            }
+        }
 
         public GpuProfilesPageViewModel(MinerClientsWindowViewModel minerClientsWindowVm) {
             _minerClientsWindowVm = minerClientsWindowVm;
@@ -53,7 +60,7 @@ namespace NTMiner.Vms {
                 foreach (var client in minerClientsWindowVm.SelectedMinerClients) {
                     Client.NTMinerDaemonService.SaveGpuProfilesJsonAsync(client.MinerIp, json);
                 }
-                NotiCenterWindowViewModel.Instance.Manager.ShowSuccessMessage("应用成功，请观察效果");
+                VirtualRoot.Out.ShowSuccessMessage("应用成功，请观察效果");
                 CloseWindow?.Invoke();
             });
             Client.NTMinerDaemonService.GetGpuProfilesJsonAsync(_minerClientVm.MinerIp, (data, e) => {

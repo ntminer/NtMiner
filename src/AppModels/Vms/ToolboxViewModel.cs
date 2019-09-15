@@ -1,5 +1,4 @@
-﻿using Microsoft.Win32;
-using NTMiner.Core;
+﻿using NTMiner.Core;
 using System.Diagnostics;
 using System.Windows.Input;
 
@@ -21,13 +20,21 @@ namespace NTMiner.Vms {
                 return;
             }
             this.SwitchRadeonGpu = new DelegateCommand(() => {
+                if (MinerProfileViewModel.Instance.IsMining) {
+                    VirtualRoot.Out.ShowInfo("请先停止挖矿");
+                    return;
+                }
                 this.ShowDialog(message: $"确定运行吗？大概需要花费5到10秒钟时间看到结果", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new SwitchRadeonGpuCommand());
                 }, icon: IconConst.IconConfirm);
-            }, () => NTMinerRoot.Instance.GpuSet.GpuType == GpuType.AMD && !AppContext.MinerProfileViewModel.Instance.IsMining);
+            });
             this.AtikmdagPatcher = new DelegateCommand(() => {
+                if (MinerProfileViewModel.Instance.IsMining) {
+                    VirtualRoot.Out.ShowInfo("请先停止挖矿");
+                    return;
+                }
                 VirtualRoot.Execute(new AtikmdagPatcherCommand());
-            }, () => NTMinerRoot.Instance.GpuSet.GpuType == GpuType.AMD && !AppContext.MinerProfileViewModel.Instance.IsMining);
+            });
             this.NavigateToNvidiaDriverWin10 = new DelegateCommand(() => {
                 Process.Start("https://www.geforce.cn/drivers/results/137770");
             });
@@ -43,14 +50,14 @@ namespace NTMiner.Vms {
                 }, icon: IconConst.IconConfirm);
             });
             this.BlockWAU = new DelegateCommand(() => {
-                this.ShowDialog(message: $"确定禁用Windows系统更新吗？", title: "确认", onYes: () => {
+                this.ShowDialog(message: $"确定禁用Windows系统更新吗？禁用后可在Windows服务中找到Windows Update手动启用。", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new BlockWAUCommand());
-                }, icon: IconConst.IconConfirm);
+                }, icon: IconConst.IconConfirm, helpUrl: "https://www.loserhub.cn/posts/details/91");
             });
             this.Win10Optimize = new DelegateCommand(() => {
                 this.ShowDialog(message: $"确定面向挖矿优化windows吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new Win10OptimizeCommand());
-                }, icon: IconConst.IconConfirm);
+                }, icon: IconConst.IconConfirm, helpUrl: "https://www.loserhub.cn/posts/details/83");
             });
             this.EnableWindowsRemoteDesktop = new DelegateCommand(() => {
                 VirtualRoot.Execute(new EnableWindowsRemoteDesktopCommand());

@@ -13,7 +13,7 @@
 		xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 		Background="{StaticResource ThemeBackground}"
 		WindowState="Maximized"
-		DataContext="{x:Static vm:MinerClientsWindowViewModel.Instance}"
+        d:DataContext="{d:DesignData Source=/Design/MinerClientsWindowViewModel.xaml}"
 		WindowStartupLocation="CenterScreen"
 		MouseDown="MetroWindow_MouseDown"
 		Title="矿机列表"
@@ -82,15 +82,9 @@
 				</controls:KbButton>
 				<uc:MainMenu Background="Transparent">
 				</uc:MainMenu>
-				<controls:KbSystemMinButton
-					Height="30"
-					KbSystemButtonSize="40" />
-				<controls:KbSystemMaxButton
-					Height="30"
-					KbSystemButtonSize="40" />
-				<controls:KbSystemCloseButton
-					Height="30"
-					KbSystemButtonSize="40" />
+				<controls:KbSystemMinButton Height="30" />
+				<controls:KbSystemMaxButton Height="30" />
+				<controls:KbSystemCloseButton Height="30" />
 			</WrapPanel>
 		</Grid>
 		<WrapPanel Grid.Row="1" Grid.Column="2" Background="#EEEEF2">

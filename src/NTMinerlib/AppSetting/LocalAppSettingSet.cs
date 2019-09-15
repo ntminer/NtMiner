@@ -1,4 +1,5 @@
 ﻿using LiteDB;
+using NTMiner.Bus;
 using NTMiner.MinerServer;
 using System.Collections;
 using System.Collections.Generic;

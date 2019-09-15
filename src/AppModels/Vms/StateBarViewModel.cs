@@ -1,5 +1,4 @@
-﻿using Microsoft.Win32;
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -95,7 +94,7 @@ namespace NTMiner.Vms {
                 CheckUpdateForeground = (SolidColorBrush)Application.Current.Resources["LableColor"];
             }
             else {
-                CheckUpdateForeground = new SolidColorBrush(Colors.Red);
+                CheckUpdateForeground = Wpf.Util.RedBrush;
             }
         }
 
@@ -182,13 +181,13 @@ namespace NTMiner.Vms {
             }
         }
 
-        public AppContext.MinerProfileViewModel MinerProfile {
+        public MinerProfileViewModel MinerProfile {
             get {
                 return AppContext.Instance.MinerProfileVm;
             }
         }
 
-        public AppContext.GpuStatusBarViewModel GpuStatusBarVm {
+        public GpuStatusBarViewModel GpuStatusBarVm {
             get {
                 return AppContext.Instance.GpuStatusBarVm;
             }

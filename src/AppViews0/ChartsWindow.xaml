@@ -80,15 +80,9 @@
 					</controls:KbButton>
 					<uc:MainMenu>
 					</uc:MainMenu>
-					<controls:KbSystemMinButton
-						Height="30"
-						KbSystemButtonSize="40" />
-					<controls:KbSystemMaxButton
-						Height="30"
-						KbSystemButtonSize="40" />
-					<controls:KbSystemCloseButton
-						Height="30"
-						KbSystemButtonSize="40" />
+                    <controls:KbSystemMinButton Height="30" />
+                    <controls:KbSystemMaxButton Height="30" />
+                    <controls:KbSystemCloseButton Height="30" />
 				</WrapPanel>
 			</WrapPanel>
         </Grid>

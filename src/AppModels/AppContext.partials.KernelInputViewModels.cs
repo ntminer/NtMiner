@@ -12,7 +12,7 @@ namespace NTMiner {
 
             private KernelInputViewModels() {
 #if DEBUG
-                VirtualRoot.Stopwatch.Restart();
+                Write.Stopwatch.Restart();
 #endif
                 VirtualRoot.On<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
@@ -36,9 +36,8 @@ namespace NTMiner {
                             if (item != null) {
                                 bool isSupportDualMine = item.IsSupportDualMine;
                                 string args = item.Args;
-                                string dualFullArgs = item.DualFullArgs;
                                 item.Update(message.Source);
-                                if (args != item.Args || dualFullArgs != item.DualFullArgs) {
+                                if (args != item.Args) {
                                     CoinViewModel coinVm = AppContext.Instance.MinerProfileVm.CoinVm;
                                     if (coinVm != null && coinVm.CoinKernel != null && coinVm.CoinKernel.Kernel.KernelInputId == item.Id) {
                                         NTMinerRoot.RefreshArgsAssembly.Invoke();
@@ -47,7 +46,6 @@ namespace NTMiner {
                                 if (isSupportDualMine != item.IsSupportDualMine) {
                                     foreach (var coinKernelVm in AppContext.Instance.CoinKernelVms.AllCoinKernels.Where(a => a.KernelId == message.Source.GetId())) {
                                         coinKernelVm.OnPropertyChanged(nameof(coinKernelVm.IsSupportDualMine));
-                                        coinKernelVm.OnPropertyChanged(nameof(coinKernelVm.DualCoinGroup));
                                     }
                                 }
                             }
@@ -62,7 +60,7 @@ namespace NTMiner {
                     });
                 Init();
 #if DEBUG
-                Write.DevWarn($"耗时{VirtualRoot.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+                Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
 #endif
             }
 

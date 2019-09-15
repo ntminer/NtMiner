@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using NTMiner.Vms;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -11,7 +12,7 @@ namespace NTMiner.Views.Ucs {
             set { SetValue(StartButtonBackgroundProperty, value); }
         }
         public static readonly DependencyProperty StartButtonBackgroundProperty =
-            DependencyProperty.Register("StartButtonBackground", typeof(SolidColorBrush), typeof(StartStopMineButton), new PropertyMetadata(new SolidColorBrush(Colors.Transparent)));
+            DependencyProperty.Register("StartButtonBackground", typeof(SolidColorBrush), typeof(StartStopMineButton), new PropertyMetadata(Wpf.Util.TransparentBrush));
 
 
         [Description("开始按钮前景色"), Category("KbSkin")]
@@ -20,9 +21,9 @@ namespace NTMiner.Views.Ucs {
             set { SetValue(StartButtonForegroundProperty, value); }
         }
         public static readonly DependencyProperty StartButtonForegroundProperty =
-            DependencyProperty.Register("StartButtonForeground", typeof(SolidColorBrush), typeof(StartStopMineButton), new PropertyMetadata(new SolidColorBrush(Colors.Transparent)));
+            DependencyProperty.Register("StartButtonForeground", typeof(SolidColorBrush), typeof(StartStopMineButton), new PropertyMetadata(Wpf.Util.TransparentBrush));
 
-        private AppContext.StartStopMineButtonViewModel Vm {
+        private StartStopMineButtonViewModel Vm {
             get {
                 return AppContext.Instance.StartStopMineButtonVm;
             }

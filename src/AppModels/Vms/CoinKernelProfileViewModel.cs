@@ -104,11 +104,19 @@ namespace NTMiner.Vms {
             }
         }
 
+        public string TouchedArgs {
+            get { return _inner.TouchedArgs; }
+            set {
+                NTMinerRoot.Instance.MinerProfile.SetCoinKernelProfileProperty(this.CoinKernelId, nameof(TouchedArgs), value);
+                OnPropertyChanged(nameof(TouchedArgs));
+            }
+        }
+
         public CoinViewModel SelectedDualCoin {
             get {
                 if (!AppContext.Instance.CoinVms.TryGetCoinVm(this.DualCoinId, out CoinViewModel coin)) {
                     if (AppContext.Instance.CoinKernelVms.TryGetCoinKernelVm(this.CoinKernelId, out CoinKernelViewModel coinKernelVm)) {
-                        coin = coinKernelVm.DualCoinGroup.DualCoinVms.FirstOrDefault();
+                        coin = coinKernelVm.SelectedDualCoinGroup.DualCoinVms.FirstOrDefault();
                     }
                     if (coin != null) {
                         DualCoinId = coin.Id;

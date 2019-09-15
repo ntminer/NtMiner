@@ -12,7 +12,7 @@ namespace NTMiner {
             private readonly Dictionary<Guid, CoinKernelViewModel> _dicById = new Dictionary<Guid, CoinKernelViewModel>();
             private CoinKernelViewModels() {
 #if DEBUG
-                VirtualRoot.Stopwatch.Restart();
+                Write.Stopwatch.Restart();
 #endif
                 VirtualRoot.On<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
@@ -46,7 +46,6 @@ namespace NTMiner {
                     action: (message) => {
                         CoinKernelViewModel entity = _dicById[message.Source.GetId()];
                         var supportedGpu = entity.SupportedGpu;
-                        int sortNumber = entity.SortNumber;
                         Guid dualCoinGroupId = entity.DualCoinGroupId;
                         entity.Update(message.Source);
                         if (supportedGpu != entity.SupportedGpu) {
@@ -60,15 +59,6 @@ namespace NTMiner {
                             }
                             var kernelVm = entity.Kernel;
                             kernelVm.OnPropertyChanged(nameof(kernelVm.CoinKernels));
-                        }
-                        if (dualCoinGroupId != entity.DualCoinGroupId) {
-                            entity.OnPropertyChanged(nameof(entity.DualCoinGroup));
-                        }
-                        if (sortNumber != entity.SortNumber) {
-                            CoinViewModel coinVm;
-                            if (AppContext.Instance.CoinVms.TryGetCoinVm(entity.CoinId, out coinVm)) {
-                                coinVm.OnPropertyChanged(nameof(coinVm.CoinKernels));
-                            }
                         }
                     });
                 On<CoinKernelRemovedEvent>("移除了币种内核后刷新VM内存", LogEnum.DevConsole,
@@ -92,7 +82,7 @@ namespace NTMiner {
                     });
                 Init();
 #if DEBUG
-                Write.DevWarn($"耗时{VirtualRoot.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+                Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
 #endif
             }
 

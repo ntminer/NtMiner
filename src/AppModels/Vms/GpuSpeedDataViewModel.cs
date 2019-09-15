@@ -3,7 +3,7 @@ using System;
 using System.Windows.Media;
 
 namespace NTMiner.Vms {
-    public class GpuSpeedDataViewModel : ViewModelBase {
+    public class GpuSpeedDataViewModel : ViewModelBase, IGpuSpeedData {
         private readonly GpuSpeedData _data;
         private SolidColorBrush _temperatureForeground = MinerClientViewModel.DefaultForeground;
 
@@ -13,25 +13,31 @@ namespace NTMiner.Vms {
         public int Index {
             get { return _data.Index; }
             set {
-                _data.Index = value;
-                OnPropertyChanged(nameof(Index));
+                if (_data.Index != value) {
+                    _data.Index = value;
+                    OnPropertyChanged(nameof(Index));
+                }
             }
         }
 
         public string Name {
             get { return _data.Name; }
             set {
-                _data.Name = value;
-                OnPropertyChanged(nameof(Name));
+                if (_data.Name != value) {
+                    _data.Name = value;
+                    OnPropertyChanged(nameof(Name));
+                }
             }
         }
 
         public ulong TotalMemory {
             get { return _data.TotalMemory; }
             set {
-                _data.TotalMemory = value;
-                OnPropertyChanged(nameof(TotalMemory));
-                OnPropertyChanged(nameof(TotalMemoryGbText));
+                if (_data.TotalMemory != value) {
+                    _data.TotalMemory = value;
+                    OnPropertyChanged(nameof(TotalMemory));
+                    OnPropertyChanged(nameof(TotalMemoryGbText));
+                }
             }
         }
 
@@ -45,9 +51,11 @@ namespace NTMiner.Vms {
         public double MainCoinSpeed {
             get { return _data.MainCoinSpeed; }
             set {
-                _data.MainCoinSpeed = value;
-                OnPropertyChanged(nameof(MainCoinSpeed));
-                OnPropertyChanged(nameof(MainCoinSpeedText));
+                if (_data.MainCoinSpeed != value) {
+                    _data.MainCoinSpeed = value;
+                    OnPropertyChanged(nameof(MainCoinSpeed));
+                    OnPropertyChanged(nameof(MainCoinSpeedText));
+                }
             }
         }
 
@@ -60,9 +68,11 @@ namespace NTMiner.Vms {
         public double DualCoinSpeed {
             get { return _data.DualCoinSpeed; }
             set {
-                _data.DualCoinSpeed = value;
-                OnPropertyChanged(nameof(DualCoinSpeed));
-                OnPropertyChanged(nameof(DualCoinSpeedText));
+                if (_data.DualCoinSpeed != value) {
+                    _data.DualCoinSpeed = value;
+                    OnPropertyChanged(nameof(DualCoinSpeed));
+                    OnPropertyChanged(nameof(DualCoinSpeedText));
+                }
             }
         }
 
@@ -75,9 +85,11 @@ namespace NTMiner.Vms {
         public int Temperature {
             get { return _data.Temperature; }
             set {
-                _data.Temperature = value;
-                OnPropertyChanged(nameof(Temperature));
-                OnPropertyChanged(nameof(TemperatureText));
+                if (_data.Temperature != value) {
+                    _data.Temperature = value;
+                    OnPropertyChanged(nameof(Temperature));
+                    OnPropertyChanged(nameof(TemperatureText));
+                }
             }
         }
 
@@ -100,9 +112,11 @@ namespace NTMiner.Vms {
         public uint FanSpeed {
             get { return _data.FanSpeed; }
             set {
-                _data.FanSpeed = value;
-                OnPropertyChanged(nameof(FanSpeed));
-                OnPropertyChanged(nameof(FanSpeedText));
+                if (_data.FanSpeed != value) {
+                    _data.FanSpeed = value;
+                    OnPropertyChanged(nameof(FanSpeed));
+                    OnPropertyChanged(nameof(FanSpeedText));
+                }
             }
         }
 
@@ -115,10 +129,12 @@ namespace NTMiner.Vms {
         public uint PowerUsage {
             get { return _data.PowerUsage; }
             set {
-                _data.PowerUsage = value;
-                OnPropertyChanged(nameof(PowerUsage));
-                OnPropertyChanged(nameof(PowerUsageW));
-                OnPropertyChanged(nameof(PowerUsageWText));
+                if (_data.PowerUsage != value) {
+                    _data.PowerUsage = value;
+                    OnPropertyChanged(nameof(PowerUsage));
+                    OnPropertyChanged(nameof(PowerUsageW));
+                    OnPropertyChanged(nameof(PowerUsageWText));
+                }
             }
         }
 
@@ -137,9 +153,11 @@ namespace NTMiner.Vms {
         public int CoreClockDelta {
             get => _data.CoreClockDelta;
             set {
-                _data.CoreClockDelta = value;
-                OnPropertyChanged(nameof(CoreClockDelta));
-                OnPropertyChanged(nameof(CoreClockDeltaMText));
+                if (_data.CoreClockDelta != value) {
+                    _data.CoreClockDelta = value;
+                    OnPropertyChanged(nameof(CoreClockDelta));
+                    OnPropertyChanged(nameof(CoreClockDeltaMText));
+                }
             }
         }
 
@@ -152,9 +170,11 @@ namespace NTMiner.Vms {
         public int MemoryClockDelta {
             get => _data.MemoryClockDelta;
             set {
-                _data.MemoryClockDelta = value;
-                OnPropertyChanged(nameof(MemoryClockDelta));
-                OnPropertyChanged(nameof(MemoryClockDeltaMText));
+                if (_data.MemoryClockDelta != value) {
+                    _data.MemoryClockDelta = value;
+                    OnPropertyChanged(nameof(MemoryClockDelta));
+                    OnPropertyChanged(nameof(MemoryClockDeltaMText));
+                }
             }
         }
 
@@ -167,9 +187,11 @@ namespace NTMiner.Vms {
         public int Cool {
             get => _data.Cool;
             set {
-                _data.Cool = value;
-                OnPropertyChanged(nameof(Cool));
-                OnPropertyChanged(nameof(CoolText));
+                if (_data.Cool != value) {
+                    _data.Cool = value;
+                    OnPropertyChanged(nameof(Cool));
+                    OnPropertyChanged(nameof(CoolText));
+                }
             }
         }
 
@@ -182,9 +204,11 @@ namespace NTMiner.Vms {
         public double PowerCapacity {
             get => _data.PowerCapacity;
             set {
-                _data.PowerCapacity = value;
-                OnPropertyChanged(nameof(PowerCapacity));
-                OnPropertyChanged(nameof(PowerCapacityText));
+                if (_data.PowerCapacity != value) {
+                    _data.PowerCapacity = value;
+                    OnPropertyChanged(nameof(PowerCapacity));
+                    OnPropertyChanged(nameof(PowerCapacityText));
+                }
             }
         }
 
@@ -197,15 +221,67 @@ namespace NTMiner.Vms {
         public int TempLimit {
             get { return _data.TempLimit; }
             set {
-                _data.TempLimit = value;
-                OnPropertyChanged(nameof(TempLimit));
-                OnPropertyChanged(nameof(TempLimitText));
+                if (_data.TempLimit != value) {
+                    _data.TempLimit = value;
+                    OnPropertyChanged(nameof(TempLimit));
+                    OnPropertyChanged(nameof(TempLimitText));
+                }
             }
         }
 
         public string TempLimitText {
             get {
                 return this.TempLimit + "℃";
+            }
+        }
+
+        public int CoreVoltage {
+            get { return _data.CoreVoltage; }
+            set {
+                if (_data.CoreVoltage != value) {
+                    _data.CoreVoltage = value;
+                    OnPropertyChanged(nameof(CoreVoltage));
+                }
+            }
+        }
+
+        public int MemoryVoltage {
+            get { return _data.MemoryVoltage; }
+            set {
+                if (_data.MemoryVoltage != value) {
+                    _data.MemoryVoltage = value;
+                    OnPropertyChanged(nameof(MemoryVoltage));
+                }
+            }
+        }
+
+        public int FoundShare {
+            get { return _data.FoundShare; }
+            set {
+                if (_data.FoundShare != value) {
+                    _data.FoundShare = value;
+                    OnPropertyChanged(nameof(FoundShare));
+                }
+            }
+        }
+
+        public int AcceptShare {
+            get { return _data.AcceptShare; }
+            set {
+                if (_data.AcceptShare != value) {
+                    _data.AcceptShare = value;
+                    OnPropertyChanged(nameof(AcceptShare));
+                }
+            }
+        }
+
+        public int RejectShare {
+            get { return _data.RejectShare; }
+            set {
+                if (_data.RejectShare != value) {
+                    _data.RejectShare = value;
+                    OnPropertyChanged(nameof(RejectShare));
+                }
             }
         }
     }

@@ -13,11 +13,13 @@
 		BorderThickness="1"
 		Background="White"
 		mc:Ignorable="d" 
-		d:DesignHeight="300">
+		d:DesignHeight="300"
+        d:DataContext="{d:DesignData Source=/Design/CoinSelectViewModel.xaml}">
 	<Grid>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto"></RowDefinition>
-			<RowDefinition Height="*" MinHeight="100"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*" MinHeight="100"></RowDefinition>
 			<RowDefinition Height="Auto"></RowDefinition>
 		</Grid.RowDefinitions>
 		<WrapPanel HorizontalAlignment="Left">
@@ -75,6 +77,7 @@
 					<TextBlock Margin="4 0 0 0" Text="管理" Foreground="{StaticResource ThemeForeground}"></TextBlock>
 				</WrapPanel>
 			</controls:KbButton>
+            <TextBlock VerticalAlignment="Center" Foreground="{StaticResource LableColor}">按字母表排序</TextBlock>
 		</WrapPanel>
 		<controls:KbButton 
 			Background="Transparent" 
@@ -89,8 +92,36 @@
 				Fill="Black"
 				Stretch="Fill" />
 		</controls:KbButton>
-		<DataGrid 
-			Grid.Row="1"
+        <ListBox 
+            Grid.Row="1"
+            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+            Visibility="{Binding IsPromoteHotCoin,Converter={StaticResource BoolToVisibilityConverter}}"
+			Background="{StaticResource TableHeaderBackground}"
+			ItemsSource="{Binding HotCoins}"
+            SelectedItem="{Binding SelectedResult}"
+			ItemContainerStyle="{StaticResource ListBoxBarItem}"
+			BorderThickness="0">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel>
+                    </WrapPanel>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border Padding="10 0" Background="Transparent" MouseUp="DataGrid_MouseUp">
+                        <StackPanel>
+                            <Image Width="26" Height="26" Source="{Binding IconImageSource}">
+                            </Image>
+                            <TextBlock HorizontalAlignment="Center" Text="{Binding Code}">
+                            </TextBlock>
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <DataGrid 
+			Grid.Row="2"
 			Margin="0" 
 			ItemsSource="{Binding QueryResults}" 
 			SelectedItem="{Binding SelectedResult}"
@@ -101,7 +132,7 @@
 				<DataGridTemplateColumn Width="40" Header="图标" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<Image Width="30" Height="30" Source="{Binding IconImageSource}">
+                            <Image Width="26" Height="26" Source="{Binding IconImageSource}">
 							</Image>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
@@ -146,7 +177,7 @@
 				</DataGridTemplateColumn>
 			</DataGrid.Columns>
 		</DataGrid>
-		<TextBlock Grid.Row="1" Visibility="{Binding QueryResults, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center">没有记录</TextBlock>
-		<TextBox Grid.Row="2" Visibility="{x:Static app:AppStatic.IsBrandSpecifiedCollapsed}" IsReadOnly="True" BorderThickness="0" Foreground="{StaticResource LableColor}" FontSize="12">支持所有适合显卡挖的币，少币种？Q群2362120103报小编</TextBox>
+		<TextBlock Grid.Row="2" Visibility="{Binding QueryResults, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center">没有记录</TextBlock>
+		<TextBox Grid.Row="3" Visibility="{x:Static app:AppStatic.IsBrandSpecifiedCollapsed}" IsReadOnly="True" BorderThickness="0" Foreground="{StaticResource LableColor}" FontSize="12">支持所有适合显卡挖的币，少币种？Q群2362120103报小编</TextBox>
 	</Grid>
 </UserControl>

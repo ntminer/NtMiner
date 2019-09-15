@@ -11,7 +11,9 @@
 		WindowStyle="None"
 		AllowsTransparency="True"
 		MouseDown="MetroWindow_MouseDown"
-		Title="{Binding WindowTitle}" Height="260" Width="520">
+		Title="{Binding WindowTitle}" 
+        Height="260" 
+        Width="520">
 	<Window.DataContext>
 		<vm:SplashWindowViewModel></vm:SplashWindowViewModel>
 	</Window.DataContext>

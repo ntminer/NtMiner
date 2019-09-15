@@ -1,4 +1,6 @@
 ﻿using NTMiner.Core;
+using NTMiner.Core.Profiles;
+using NTMiner.Profile;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -31,6 +33,8 @@ namespace NTMiner.Vms {
         private string _tutorialUrl;
         private bool _noPool1;
         private bool _notPool1;
+        private string _minerNamePrefix;
+        private string _minerNamePostfix;
         private CoinViewModel _coinVm;
 
         public Guid GetId() {
@@ -70,6 +74,8 @@ namespace NTMiner.Vms {
             _tutorialUrl = data.TutorialUrl;
             _noPool1 = data.NoPool1;
             _notPool1 = data.NotPool1;
+            _minerNamePrefix = data.MinerNamePrefix;
+            _minerNamePostfix = data.MinerNamePostfix;
         }
 
         public PoolViewModel(Guid id) {
@@ -101,7 +107,7 @@ namespace NTMiner.Vms {
                 }, icon: IconConst.IconConfirm);
             });
             this.SortUp = new DelegateCommand(() => {
-                PoolViewModel upOne = AppContext.Instance.PoolVms.AllPools.OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.CoinId == this.CoinId && a.SortNumber < this.SortNumber);
+                PoolViewModel upOne = AppContext.Instance.PoolVms.GetUpOne(this.CoinId, this.SortNumber);
                 if (upOne != null) {
                     int sortNumber = upOne.SortNumber;
                     upOne.SortNumber = this.SortNumber;
@@ -115,7 +121,7 @@ namespace NTMiner.Vms {
                 }
             });
             this.SortDown = new DelegateCommand(() => {
-                PoolViewModel nextOne = AppContext.Instance.PoolVms.AllPools.OrderBy(a => a.SortNumber).FirstOrDefault(a => a.CoinId == this.CoinId && a.SortNumber > this.SortNumber);
+                PoolViewModel nextOne = AppContext.Instance.PoolVms.GetNextOne(this.CoinId, this.SortNumber);
                 if (nextOne != null) {
                     int sortNumber = nextOne.SortNumber;
                     nextOne.SortNumber = this.SortNumber;
@@ -307,6 +313,7 @@ namespace NTMiner.Vms {
                     if (string.IsNullOrEmpty(value)) {
                         throw new ValidationException("矿池地址是必须的");
                     }
+                    RefreshArgsAssembly();
                 }
             }
         }
@@ -366,6 +373,27 @@ namespace NTMiner.Vms {
                     _isUserMode = value;
                     OnPropertyChanged(nameof(IsUserMode));
                     AppContext.Instance.MinerProfileVm.OnPropertyChanged(nameof(AppContext.Instance.MinerProfileVm.IsAllMainCoinPoolIsUserMode));
+                    RefreshArgsAssembly();
+                }
+            }
+        }
+
+        private static ICoinProfile GetDualCoinProfile() {
+            var workProfile = NTMinerRoot.Instance.MinerProfile;
+            var mainCoinProfile = workProfile.GetCoinProfile(workProfile.CoinId);
+            var coinKernelProfile = workProfile.GetCoinKernelProfile(mainCoinProfile.CoinKernelId);
+            return workProfile.GetCoinProfile(coinKernelProfile.DualCoinId);
+        }
+
+        private void RefreshArgsAssembly() {
+            var mainCoinProfile = NTMinerRoot.Instance.MinerProfile.GetCoinProfile(NTMinerRoot.Instance.MinerProfile.CoinId);
+            if (mainCoinProfile.PoolId == this.Id || mainCoinProfile.PoolId1 == this.Id) {
+                NTMinerRoot.RefreshArgsAssembly.Invoke();
+            }
+            else {
+                var dualCoinProfile = GetDualCoinProfile();
+                if (dualCoinProfile.PoolId == this.Id || dualCoinProfile.PoolId1 == this.Id) {
+                    NTMinerRoot.RefreshArgsAssembly.Invoke();
                 }
             }
         }
@@ -395,6 +423,7 @@ namespace NTMiner.Vms {
             set {
                 _noPool1 = value;
                 OnPropertyChanged(nameof(NoPool1));
+                RefreshArgsAssembly();
             }
         }
 
@@ -403,6 +432,25 @@ namespace NTMiner.Vms {
             set {
                 _notPool1 = value;
                 OnPropertyChanged(nameof(NotPool1));
+                RefreshArgsAssembly();
+            }
+        }
+
+        public string MinerNamePrefix {
+            get => _minerNamePrefix;
+            set {
+                _minerNamePrefix = value;
+                OnPropertyChanged(nameof(MinerNamePrefix));
+                RefreshArgsAssembly();
+            }
+        }
+
+        public string MinerNamePostfix {
+            get => _minerNamePostfix;
+            set {
+                _minerNamePostfix = value;
+                OnPropertyChanged(nameof(MinerNamePostfix));
+                RefreshArgsAssembly();
             }
         }
 

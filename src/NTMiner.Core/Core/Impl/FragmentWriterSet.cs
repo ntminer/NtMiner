@@ -7,10 +7,8 @@ namespace NTMiner.Core.Impl {
         private readonly Dictionary<Guid, FragmentWriterData> _dicById = new Dictionary<Guid, FragmentWriterData>();
 
         private readonly INTMinerRoot _root;
-        private readonly bool _isUseJson;
 
-        public FragmentWriterSet(INTMinerRoot root, bool isUseJson) {
-            _isUseJson = isUseJson;
+        public FragmentWriterSet(INTMinerRoot root) {
             _root = root;
             _root.ServerContextWindow<AddFragmentWriterCommand>("添加命令行片段书写器", LogEnum.DevConsole,
                 action: (message) => {
@@ -26,7 +24,7 @@ namespace NTMiner.Core.Impl {
                     }
                     FragmentWriterData entity = new FragmentWriterData().Update(message.Input);
                     _dicById.Add(entity.Id, entity);
-                    var repository = NTMinerRoot.CreateServerRepository<FragmentWriterData>(isUseJson);
+                    var repository = NTMinerRoot.CreateServerRepository<FragmentWriterData>();
                     repository.Add(entity);
 
                     VirtualRoot.Happened(new FragmentWriterAddedEvent(entity));
@@ -48,7 +46,7 @@ namespace NTMiner.Core.Impl {
                         return;
                     }
                     entity.Update(message.Input);
-                    var repository = NTMinerRoot.CreateServerRepository<FragmentWriterData>(isUseJson);
+                    var repository = NTMinerRoot.CreateServerRepository<FragmentWriterData>();
                     repository.Update(entity);
 
                     VirtualRoot.Happened(new FragmentWriterUpdatedEvent(entity));
@@ -64,7 +62,7 @@ namespace NTMiner.Core.Impl {
                     }
                     FragmentWriterData entity = _dicById[message.EntityId];
                     _dicById.Remove(entity.GetId());
-                    var repository = NTMinerRoot.CreateServerRepository<FragmentWriterData>(isUseJson);
+                    var repository = NTMinerRoot.CreateServerRepository<FragmentWriterData>();
                     repository.Remove(message.EntityId);
 
                     VirtualRoot.Happened(new FragmentWriterRemovedEvent(entity));
@@ -72,7 +70,7 @@ namespace NTMiner.Core.Impl {
         }
 
         private bool _isInited = false;
-        private object _locker = new object();
+        private readonly object _locker = new object();
 
         private void InitOnece() {
             if (_isInited) {
@@ -84,7 +82,7 @@ namespace NTMiner.Core.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    var repository = NTMinerRoot.CreateServerRepository<FragmentWriterData>(_isUseJson);
+                    var repository = NTMinerRoot.CreateServerRepository<FragmentWriterData>();
                     foreach (var item in repository.GetAll()) {
                         if (!_dicById.ContainsKey(item.GetId())) {
                             _dicById.Add(item.GetId(), item);

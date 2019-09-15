@@ -7,10 +7,8 @@ namespace NTMiner.Core.Impl {
         private readonly Dictionary<Guid, FileWriterData> _dicById = new Dictionary<Guid, FileWriterData>();
 
         private readonly INTMinerRoot _root;
-        private readonly bool _isUseJson;
 
-        public FileWriterSet(INTMinerRoot root, bool isUseJson) {
-            _isUseJson = isUseJson;
+        public FileWriterSet(INTMinerRoot root) {
             _root = root;
             _root.ServerContextWindow<AddFileWriterCommand>("添加文件书写器", LogEnum.DevConsole,
                 action: (message) => {
@@ -26,7 +24,7 @@ namespace NTMiner.Core.Impl {
                     }
                     FileWriterData entity = new FileWriterData().Update(message.Input);
                     _dicById.Add(entity.Id, entity);
-                    var repository = NTMinerRoot.CreateServerRepository<FileWriterData>(isUseJson);
+                    var repository = NTMinerRoot.CreateServerRepository<FileWriterData>();
                     repository.Add(entity);
 
                     VirtualRoot.Happened(new FileWriterAddedEvent(entity));
@@ -48,7 +46,7 @@ namespace NTMiner.Core.Impl {
                         return;
                     }
                     entity.Update(message.Input);
-                    var repository = NTMinerRoot.CreateServerRepository<FileWriterData>(isUseJson);
+                    var repository = NTMinerRoot.CreateServerRepository<FileWriterData>();
                     repository.Update(entity);
 
                     VirtualRoot.Happened(new FileWriterUpdatedEvent(entity));
@@ -64,7 +62,7 @@ namespace NTMiner.Core.Impl {
                     }
                     FileWriterData entity = _dicById[message.EntityId];
                     _dicById.Remove(entity.GetId());
-                    var repository = NTMinerRoot.CreateServerRepository<FileWriterData>(isUseJson);
+                    var repository = NTMinerRoot.CreateServerRepository<FileWriterData>();
                     repository.Remove(message.EntityId);
 
                     VirtualRoot.Happened(new FileWriterRemovedEvent(entity));
@@ -72,7 +70,7 @@ namespace NTMiner.Core.Impl {
         }
 
         private bool _isInited = false;
-        private object _locker = new object();
+        private readonly object _locker = new object();
 
         private void InitOnece() {
             if (_isInited) {
@@ -84,7 +82,7 @@ namespace NTMiner.Core.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    var repository = NTMinerRoot.CreateServerRepository<FileWriterData>(_isUseJson);
+                    var repository = NTMinerRoot.CreateServerRepository<FileWriterData>();
                     foreach (var item in repository.GetAll()) {
                         if (!_dicById.ContainsKey(item.GetId())) {
                             _dicById.Add(item.GetId(), item);

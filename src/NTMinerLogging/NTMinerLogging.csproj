@@ -35,13 +35,12 @@
       <HintPath>..\..\packages\log4net.2.0.8\lib\net40-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="DevConsole.cs" />
+    <Compile Include="LogEnum.cs" />
+    <Compile Include="NTMinerConsole.cs" />
     <Compile Include="DevMode.cs" />
     <Compile Include="ExceptionExtension.cs" />
     <Compile Include="Logger.cs" />

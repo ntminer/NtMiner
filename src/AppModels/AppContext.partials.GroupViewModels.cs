@@ -13,7 +13,7 @@ namespace NTMiner {
             public ICommand Add { get; private set; }
             private GroupViewModels() {
 #if DEBUG
-                VirtualRoot.Stopwatch.Restart();
+                Write.Stopwatch.Restart();
 #endif
                 this.Add = new DelegateCommand(() => {
                     new GroupViewModel(Guid.NewGuid()) {
@@ -56,7 +56,7 @@ namespace NTMiner {
                     });
                 Init();
 #if DEBUG
-                Write.DevWarn($"耗时{VirtualRoot.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+                Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
 #endif
             }
 
@@ -87,6 +87,14 @@ namespace NTMiner {
                 get {
                     return _dicById.Values.OrderBy(a => a.SortNumber).ToList();
                 }
+            }
+
+            public GroupViewModel GetNextOne(int sortNumber) {
+                return List.OrderBy(a => a.SortNumber).FirstOrDefault(a => a.SortNumber > sortNumber);
+            }
+
+            public GroupViewModel GetUpOne(int sortNumber) {
+                return List.OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.SortNumber < sortNumber);
             }
 
             private IEnumerable<GroupViewModel> GetSelectionItems() {

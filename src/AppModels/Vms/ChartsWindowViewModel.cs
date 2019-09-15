@@ -46,7 +46,7 @@ namespace NTMiner.Vms {
             get {
                 if (_chartVms == null) {
                     _chartVms = new List<ChartViewModel>();
-                    foreach (var coinVm in AppContext.Instance.MinerClientsWindowVm.MineCoinVms.AllCoins.OrderBy(a => a.SortNumber)) {
+                    foreach (var coinVm in AppContext.Instance.MinerClientsWindowVm.MineCoinVms.AllCoins.OrderBy(a => a.Code)) {
                         _chartVms.Add(new ChartViewModel(coinVm));
                     }
                 }

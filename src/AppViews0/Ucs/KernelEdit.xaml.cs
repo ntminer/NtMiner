@@ -70,12 +70,10 @@ namespace NTMiner.Views.Ucs {
                     if (selectedResult == null || selectedResult.Id == Guid.Empty) {
                         return;
                     }
-                    int sortNumber = selectedResult.CoinKernels.Count == 0 ? 1 : selectedResult.CoinKernels.Max(a => a.SortNumber) + 1;
                     VirtualRoot.Execute(new AddCoinKernelCommand(new CoinKernelViewModel(Guid.NewGuid()) {
                         Args = string.Empty,
                         CoinId = selectedResult.Id,
-                        KernelId = Vm.Id,
-                        SortNumber = sortNumber
+                        KernelId = Vm.Id
                     }));
                     PopupKernel.IsOpen = false;
                 }) {

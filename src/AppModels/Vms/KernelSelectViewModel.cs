@@ -13,6 +13,12 @@ namespace NTMiner.Vms {
         public ICommand ClearKeyword { get; private set; }
         public ICommand HideView { get; set; }
 
+        public KernelSelectViewModel() {
+            if (!Design.IsInDesignMode) {
+                throw new InvalidProgramException();
+            }
+        }
+
         public KernelSelectViewModel(CoinViewModel coin, KernelViewModel selectedKernel, Action<KernelViewModel> onOk) {
             _coin = coin;
             _selectedResult = selectedKernel;
@@ -58,7 +64,7 @@ namespace NTMiner.Vms {
             get {
                 IQueryable<KernelViewModel> query = AppContext.Instance.KernelVms.AllKernels.Where(a => !a.SupportedCoinVms.Contains(Coin))
                     .Where(a => a.PackageVm.AlgoIds.Contains(this.Coin.AlgoId)).AsQueryable();
-                if (!Design.IsDebugMode) {
+                if (!Design.IsDevMode) {
                     query = query.Where(a => a.PublishState == PublishStatus.Published);
                 }
                 if (!string.IsNullOrEmpty(Keyword)) {

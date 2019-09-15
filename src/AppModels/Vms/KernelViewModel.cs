@@ -205,15 +205,11 @@ namespace NTMiner.Vms {
             }
         }
 
-        public List<KernelViewModel> OtherVersionKernelVms {
-            get {
-                return AppContext.Instance.KernelVms.AllKernels.Where(a => a.Code == this.Code && a.Id != this.Id).OrderBy(a => a.Code + a.Version).ToList();
-            }
-        }
-
         public List<CoinKernelViewModel> CoinKernels {
             get {
-                return AppContext.Instance.CoinKernelVms.AllCoinKernels.Where(a => a.KernelId == this.Id).OrderBy(a => a.SortNumber).ToList();
+                return AppContext.Instance.CoinKernelVms.AllCoinKernels
+                    .Where(a => a.KernelId == this.Id)
+                    .OrderBy(a => a.CoinCode).ToList();
             }
         }
 
@@ -228,7 +224,7 @@ namespace NTMiner.Vms {
                         list.Add(item);
                     }
                 }
-                return list.OrderBy(a => a.SortNumber).ToList();
+                return list.OrderBy(a => a.Code).ToList();
             }
         }
 
@@ -387,7 +383,7 @@ namespace NTMiner.Vms {
             get {
                 StringBuilder sb = new StringBuilder();
                 int len = sb.Length;
-                foreach (var coinVm in SupportedCoinVms.OrderBy(a => a.SortNumber)) {
+                foreach (var coinVm in SupportedCoinVms.OrderBy(a => a.Code)) {
                     if (len != sb.Length) {
                         sb.Append(",");
                     }

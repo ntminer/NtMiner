@@ -99,23 +99,23 @@ namespace NTMiner {
 
         #region IsAutoStart
         public static bool GetIsAutoStart() {
-            object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "IsAutoStart");
+            object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistrySubKey, "IsAutoStart");
             return value != null && value.ToString() == "True";
         }
 
         public static void SetIsAutoStart(bool value) {
-            Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "IsAutoStart", value);
+            Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistrySubKey, "IsAutoStart", value);
         }
         #endregion
 
         #region IsAutoDisableWindowsFirewall
         public static bool GetIsAutoDisableWindowsFirewall() {
-            object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "IsAutoDisableWindowsFirewall");
+            object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistrySubKey, "IsAutoDisableWindowsFirewall");
             return value == null || value.ToString() == "True";
         }
 
         public static void SetIsAutoDisableWindowsFirewall(bool value) {
-            Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "IsAutoDisableWindowsFirewall", value);
+            Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistrySubKey, "IsAutoDisableWindowsFirewall", value);
         }
         #endregion
 
@@ -221,7 +221,7 @@ namespace NTMiner {
         }
         #endregion
 
-        #region DaemonVersion
+        #region DaemonActiveOn
         public static DateTime GetDaemonActiveOn() {
             object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistrySubKey, "DaemonActiveOn");
             if (value == null) {

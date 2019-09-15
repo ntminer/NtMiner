@@ -7,6 +7,7 @@ namespace NTMiner.Views.Ucs {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "钱包",
                 FormType = formType,
+                Width = 520,
                 IconName = "Icon_Wallet",
                 IsDialogWindow = true,
                 CloseVisible = System.Windows.Visibility.Visible

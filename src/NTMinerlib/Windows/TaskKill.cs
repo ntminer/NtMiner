@@ -12,9 +12,9 @@ namespace NTMiner.Windows {
                 if (string.IsNullOrEmpty(processName)) {
                     return;
                 }
-                string cmd = $"taskkill /F /T /IM {processName}.exe";
-                Cmd.RunClose(cmd, string.Empty, waitForExit);
-                Write.DevDebug(cmd);
+                string args = $"/F /T /IM {processName}.exe";
+                Cmd.RunClose("taskkill", args, waitForExit);
+                Write.DevDebug(args);
             }
             catch {
             }
@@ -30,9 +30,9 @@ namespace NTMiner.Windows {
                 return;
             }
             try {
-                string cmd = $"taskkill /F /FI \"pid ne {process.Id}\" /T /IM {process.ProcessName}.exe";
-                Cmd.RunClose(cmd, string.Empty, waitForExit);
-                Write.DevDebug(cmd);
+                string args = $"/F /FI \"pid ne {process.Id}\" /T /IM {process.ProcessName}.exe";
+                Cmd.RunClose("taskkill", args, waitForExit);
+                Write.DevDebug(args);
             }
             catch {
             }

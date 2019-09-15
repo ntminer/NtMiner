@@ -18,7 +18,7 @@ namespace NTMiner {
             private readonly GpuViewModel _gpuAllVm;
             private GpuViewModels() {
 #if DEBUG
-                VirtualRoot.Stopwatch.Restart();
+                Write.Stopwatch.Restart();
 #endif
                 if (Design.IsInDesignMode) {
                     return;
@@ -75,9 +75,13 @@ namespace NTMiner {
                             vm.TempLimitDefault = message.Source.TempLimitDefault;
                             vm.TempLimitMax = message.Source.TempLimitMax;
                             vm.TempLimitMin = message.Source.TempLimitMin;
+                            vm.CoreVoltage = message.Source.CoreVoltage;
+                            vm.MemoryVoltage = message.Source.MemoryVoltage;
+                            vm.VoltMin = message.Source.VoltMin;
+                            vm.VoltMax = message.Source.VoltMax;
+                            vm.VoltDefault = message.Source.VoltDefault;
                             if (_gpuAllVm != null) {
                                 _gpuAllVm.OnPropertyChanged(nameof(_gpuAllVm.TemperatureText));
-                                _gpuAllVm.OnPropertyChanged(nameof(_gpuAllVm.TemperatureSumText));
                                 _gpuAllVm.OnPropertyChanged(nameof(_gpuAllVm.FanSpeedText));
                                 _gpuAllVm.OnPropertyChanged(nameof(_gpuAllVm.PowerUsageWText));
                                 _gpuAllVm.OnPropertyChanged(nameof(_gpuAllVm.CoreClockDeltaMText));
@@ -94,7 +98,7 @@ namespace NTMiner {
                         }
                     });
 #if DEBUG
-                Write.DevWarn($"耗时{VirtualRoot.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+                Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
 #endif
             }
 

@@ -8,7 +8,7 @@ namespace NTMiner.Core.Gpus.Impl {
     internal class GpusSpeed : IGpusSpeed {
         private readonly Dictionary<int, GpuSpeed> _currentGpuSpeed = new Dictionary<int, GpuSpeed>();
         private Dictionary<int, List<IGpuSpeed>> _gpuSpeedHistory = new Dictionary<int, List<IGpuSpeed>>();
-        private readonly Dictionary<int, AverageSpeed> _averageGpuSpeed = new Dictionary<int, AverageSpeed>();
+        private readonly Dictionary<int, AverageSpeedWithHistory> _averageGpuSpeed = new Dictionary<int, AverageSpeedWithHistory>();
         private readonly object _gpuSpeedHistoryValuesLocker = new object();
 
         private readonly INTMinerRoot _root;
@@ -34,6 +34,7 @@ namespace NTMiner.Core.Gpus.Impl {
                 action: message => {
                     var now = DateTime.Now;
                     _root.CoinShareSet.UpdateShare(message.MineContext.MainCoin.GetId(), 0, 0, now);
+                    _root.GpusSpeed.ResetShare();
                     foreach (var gpu in _root.GpuSet) {
                         SetCurrentSpeed(gpuIndex: gpu.Index, speed: 0.0, isDual: false, now: now);
                     }
@@ -54,18 +55,9 @@ namespace NTMiner.Core.Gpus.Impl {
                     if (!_isInited) {
                         DateTime now = DateTime.Now;
                         foreach (var gpu in _root.GpuSet) {
-                            _currentGpuSpeed.Add(gpu.Index, new GpuSpeed(gpu, new Speed() {
-                                Value = 0,
-                                SpeedOn = now
-                            }, new Speed() {
-                                Value = 0,
-                                SpeedOn = now
-                            }));
+                            _currentGpuSpeed.Add(gpu.Index, new GpuSpeed(gpu, mainCoinSpeed: new Speed(), dualCoinSpeed: new Speed()));
                             _gpuSpeedHistory.Add(gpu.Index, new List<IGpuSpeed>());
-                            _averageGpuSpeed.Add(gpu.Index, new AverageSpeed {
-                                Speed = 0,
-                                DualSpeed = 0
-                            });
+                            _averageGpuSpeed.Add(gpu.Index, new AverageSpeedWithHistory());
                         }
                         _isInited = true;
                     }
@@ -73,7 +65,7 @@ namespace NTMiner.Core.Gpus.Impl {
             }
         }
 
-        public void ClearOutOfDateHistory() {
+        private void ClearOutOfDateHistory() {
             InitOnece();
             DateTime now = DateTime.Now;
             lock (_gpuSpeedHistoryValuesLocker) {
@@ -100,19 +92,72 @@ namespace NTMiner.Core.Gpus.Impl {
 
         public AverageSpeed GetAverageSpeed(int gpuIndex) {
             InitOnece();
-            if (_averageGpuSpeed.TryGetValue(gpuIndex, out AverageSpeed averageSpeed)) {
-                return averageSpeed;
+            if (_averageGpuSpeed.TryGetValue(gpuIndex, out AverageSpeedWithHistory averageSpeed)) {
+                if (averageSpeed.SpeedHistory.Count != 0) {
+                    return new AverageSpeed() {
+                        Speed = averageSpeed.SpeedHistory.Average(),
+                        DualSpeed = averageSpeed.DualSpeedHistory.Average()
+                    };
+                }
+                return averageSpeed.ToAverageSpeed();
             }
             return AverageSpeed.Empty;
         }
 
-        private Guid _mainCoinId;
-        public void SetCurrentSpeed(int gpuIndex, double speed, bool isDual, DateTime now) {
+        public void IncreaseFoundShare(int gpuIndex) {
             InitOnece();
             GpuSpeed gpuSpeed;
             if (!_currentGpuSpeed.TryGetValue(gpuIndex, out gpuSpeed)) {
                 return;
             }
+            CheckReset();
+            gpuSpeed.IncreaseMainCoinFoundShare();
+            VirtualRoot.Happened(new FoundShareIncreasedEvent(gpuSpeed: gpuSpeed));
+        }
+
+        public void IncreaseAcceptShare(int gpuIndex) {
+            InitOnece();
+            GpuSpeed gpuSpeed;
+            if (!_currentGpuSpeed.TryGetValue(gpuIndex, out gpuSpeed)) {
+                return;
+            }
+            CheckReset();
+            gpuSpeed.IncreaseMainCoinAcceptShare();
+            VirtualRoot.Happened(new AcceptShareIncreasedEvent(gpuSpeed: gpuSpeed));
+        }
+
+        public void IncreaseRejectShare(int gpuIndex) {
+            InitOnece();
+            GpuSpeed gpuSpeed;
+            if (!_currentGpuSpeed.TryGetValue(gpuIndex, out gpuSpeed)) {
+                return;
+            }
+            CheckReset();
+            gpuSpeed.IncreaseMainCoinRejectShare();
+            VirtualRoot.Happened(new RejectShareIncreasedEvent(gpuSpeed: gpuSpeed));
+        }
+
+        public void IncreaseIncorrectShare(int gpuIndex) {
+            InitOnece();
+            GpuSpeed gpuSpeed;
+            if (!_currentGpuSpeed.TryGetValue(gpuIndex, out gpuSpeed)) {
+                return;
+            }
+            CheckReset();
+            gpuSpeed.IncreaseMainCoinIncorrectShare();
+            VirtualRoot.Happened(new IncorrectShareIncreasedEvent(gpuSpeed: gpuSpeed));
+        }
+
+        public void ResetShare() {
+            InitOnece();
+            foreach (var gpuSpeed in _currentGpuSpeed.Values) {
+                gpuSpeed.ResetShare();
+                VirtualRoot.Happened(new GpuShareChangedEvent(gpuSpeed: gpuSpeed));
+            }
+        }
+
+        private Guid _mainCoinId;
+        private void CheckReset() {
             Guid mainCoinId = _root.MinerProfile.CoinId;
             if (this._mainCoinId != mainCoinId) {
                 this._mainCoinId = mainCoinId;
@@ -124,10 +169,21 @@ namespace NTMiner.Core.Gpus.Impl {
                 }
                 // 切换币种了，将所有显卡的当前算力置为0
                 foreach (var item in _currentGpuSpeed.Values) {
-                    item.UpdateMainCoinSpeed(0, now);
-                    item.UpdateDualCoinSpeed(0, now);
+                    item.Reset();
+                }
+                foreach (var avgSpeed in _averageGpuSpeed.Values) {
+                    avgSpeed.Reset();
                 }
             }
+        }
+
+        public void SetCurrentSpeed(int gpuIndex, double speed, bool isDual, DateTime now) {
+            InitOnece();
+            GpuSpeed gpuSpeed;
+            if (!_currentGpuSpeed.TryGetValue(gpuIndex, out gpuSpeed)) {
+                return;
+            }
+            CheckReset();
             lock (_gpuSpeedHistoryValuesLocker) {
                 // 将当前的旧算力加入历史列表
                 if (_gpuSpeedHistory.TryGetValue(gpuSpeed.Gpu.Index, out List<IGpuSpeed> list)) {
@@ -148,7 +204,7 @@ namespace NTMiner.Core.Gpus.Impl {
                     gpuSpeed.UpdateMainCoinSpeed(speed, now);
                 }
             }
-            if (_averageGpuSpeed.TryGetValue(gpuIndex, out AverageSpeed averageSpeed)) {
+            if (_averageGpuSpeed.TryGetValue(gpuIndex, out AverageSpeedWithHistory averageSpeed)) {
                 if (isDual) {
                     var array = _gpuSpeedHistory[gpuIndex].Where(a => a.DualCoinSpeed.Value != 0).ToArray();
                     if (array.Length != 0) {
@@ -163,7 +219,7 @@ namespace NTMiner.Core.Gpus.Impl {
                 }
             }
             if (isChanged) {
-                VirtualRoot.Happened(new GpuSpeedChangedEvent(isDualSpeed: isDual, gpuSpeed: gpuSpeed));
+                VirtualRoot.Happened(new GpuSpeedChangedEvent(isDual: isDual, gpuSpeed: gpuSpeed));
             }
         }
 

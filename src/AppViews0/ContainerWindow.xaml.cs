@@ -30,10 +30,17 @@ namespace NTMiner.Views {
             return s_windowDic[vm];
         }
 
+        private bool _isNew = true;
+        public bool IsNew {
+            get {
+                return _isNew;
+            }
+        }
+
         public static ContainerWindow ShowWindow<TUc>(
-            ContainerWindowViewModel vm, 
-            Func<ContainerWindow, TUc> ucFactory, 
-            Action<UserControl> beforeShow = null, 
+            ContainerWindowViewModel vm,
+            Func<ContainerWindow, TUc> ucFactory,
+            Action<UserControl> beforeShow = null,
             bool fixedSize = false) where TUc : UserControl {
             if (vm == null) {
                 throw new ArgumentNullException(nameof(vm));
@@ -41,10 +48,7 @@ namespace NTMiner.Views {
             if (ucFactory == null) {
                 throw new ArgumentNullException(nameof(ucFactory));
             }
-            ContainerWindow window = new ContainerWindow(vm, ucFactory, fixedSize) {
-                WindowStartupLocation = WindowStartupLocation.Manual,
-                Owner = null
-            };
+            ContainerWindow window = new ContainerWindow(vm, ucFactory, fixedSize);
             if (vm.IsDialogWindow) {
                 window.ShowWindow(beforeShow);
                 return window;
@@ -52,6 +56,7 @@ namespace NTMiner.Views {
             Type ucType = typeof(TUc);
             if (s_windowDicByType.ContainsKey(ucType)) {
                 window = s_windowDicByType[ucType];
+                window._isNew = false;
             }
             else {
                 s_windowDic.Add(vm, window);
@@ -60,11 +65,9 @@ namespace NTMiner.Views {
                 };
                 s_windowDicByType.Add(ucType, window);
                 if (s_windowLeftDic.ContainsKey(ucType)) {
-                    s_windowDicByType[ucType].Left = s_windowLeftDic[ucType];
-                    s_windowDicByType[ucType].Top = s_windowTopDic[ucType];
-                }
-                else {
-                    s_windowDicByType[ucType].WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                    window.WindowStartupLocation = WindowStartupLocation.Manual;
+                    window.Left = s_windowLeftDic[ucType];
+                    window.Top = s_windowTopDic[ucType];
                 }
             }
             window.ShowWindow(beforeShow);
@@ -75,6 +78,11 @@ namespace NTMiner.Views {
         private readonly UserControl _uc;
         private ContainerWindowViewModel _vm;
         private readonly bool _fixedSize;
+
+        public UserControl Uc {
+            get { return _uc; }
+        }
+
         public ContainerWindowViewModel Vm {
             get {
                 return _vm;
@@ -82,9 +90,9 @@ namespace NTMiner.Views {
         }
 
         public ContainerWindow(
-            ContainerWindowViewModel vm, 
-            Func<ContainerWindow, UserControl> ucFactory, 
-            bool fixedSize = false, 
+            ContainerWindowViewModel vm,
+            Func<ContainerWindow, UserControl> ucFactory,
+            bool fixedSize = false,
             bool dragMove = true) {
             this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Save, Save_Executed, Save_Enabled));
             _fixedSize = fixedSize;
@@ -96,23 +104,23 @@ namespace NTMiner.Views {
                 this.SizeToContent = SizeToContent.WidthAndHeight;
             }
             else {
-                if (vm.Height != 0) {
+                if (vm.Height == 0) {
+                    this.SizeToContent = SizeToContent.Height;
+                }
+                else {
                     this.Height = vm.Height;
                     if (vm.MinHeight == 0) {
                         this.MinHeight = vm.Height / 2;
                     }
                 }
-                else {
-                    this.SizeToContent = SizeToContent.Height;
+                if (vm.Width == 0) {
+                    this.SizeToContent = SizeToContent.Width;
                 }
-                if (vm.Width != 0) {
+                else {
                     this.Width = vm.Width;
                     if (vm.MinWidth == 0) {
                         this.MinWidth = vm.Width / 2;
                     }
-                }
-                else {
-                    this.SizeToContent = SizeToContent.Width;
                 }
             }
             if (vm.MinHeight != 0) {
@@ -161,7 +169,7 @@ namespace NTMiner.Views {
             beforeShow?.Invoke(_uc);
             if (Vm.IsDialogWindow || Vm.HasOwner) {
                 var owner = TopWindow.GetTopWindow();
-                if (this != owner && owner != null) {
+                if (this != owner) {
                     this.Owner = owner;
                 }
             }
@@ -170,15 +178,7 @@ namespace NTMiner.Views {
             }
             if (Vm.IsDialogWindow) {
                 this.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-                if (this.Owner != null) {
-                    double ownerOpacity = this.Owner.Opacity;
-                    this.Owner.Opacity = 0.6;
-                    this.ShowDialog();
-                    this.Owner.Opacity = ownerOpacity;
-                }
-                else {
-                    this.ShowDialog();
-                }
+                this.ShowDialogEx();
             }
             else {
                 this.Topmost = Vm.IsTopMost;
