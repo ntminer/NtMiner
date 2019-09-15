@@ -24,7 +24,7 @@ namespace NTMiner.Vms {
                     VirtualRoot.Out.ShowInfo("请先停止挖矿");
                     return;
                 }
-                this.ShowDialog(message: $"确认开启吗？", title: "确认", onYes: () => {
+                this.ShowDialog(message: $"开启过程大概需要花费5到10秒钟", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new SwitchRadeonGpuCommand());
                 }, icon: IconConst.IconConfirm);
             });
