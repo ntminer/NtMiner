@@ -57,7 +57,7 @@
                 <TextBlock Text="{x:Static app:AppStatic.BootOn}"></TextBlock>
             </WrapPanel>
 
-            <WrapPanel>
+            <WrapPanel Margin="0 10 0 0">
                 <Border Width="{StaticResource LblWidth}">
                     <Button 
                         Style="{StaticResource LblBtn}" 
