@@ -35,6 +35,7 @@ namespace NTMiner.Profile {
             this.AutoStartDelaySeconds = 15;
             this.IsAutoDisableWindowsFirewall = true;
             this.IsShowInTaskbar = true;
+            this.IsNoUi = false;
         }
 
         public MinerProfileData(IMinerProfile data) {
@@ -63,6 +64,7 @@ namespace NTMiner.Profile {
             this.AutoStartDelaySeconds = data.AutoStartDelaySeconds;
             this.IsAutoDisableWindowsFirewall = data.IsAutoDisableWindowsFirewall;
             this.IsShowInTaskbar = data.IsShowInTaskbar;
+            this.IsNoUi = data.IsNoUi;
         }
 
         public Guid GetId() {
@@ -105,6 +107,8 @@ namespace NTMiner.Profile {
         public bool IsAutoDisableWindowsFirewall { get; set; }
 
         public bool IsShowInTaskbar { get; set; }
+
+        public bool IsNoUi { get; set; }
 
         public override string ToString() {
             return this.BuildSign().ToString();

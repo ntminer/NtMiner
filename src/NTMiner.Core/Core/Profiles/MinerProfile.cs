@@ -350,6 +350,13 @@ namespace NTMiner.Core.Profiles {
                 _data.IsShowInTaskbar = value;
             }
         }
+
+        public bool IsNoUi {
+            get => _data.IsNoUi;
+            private set {
+                _data.IsNoUi = value;
+            }
+        }
         #endregion
 
         private static Dictionary<string, PropertyInfo> s_properties;

@@ -101,7 +101,7 @@ namespace NTMiner {
                             VirtualRoot.Out.ShowErrorMessage("访问阿里云失败，更换本机dns可以解决此问题");
                         }
                         UIThread.Execute(() => {
-                            if (NTMinerRoot.GetIsNoUi() && NTMinerRegistry.GetIsAutoStart()) {
+                            if (NTMinerRoot.Instance.MinerProfile.IsNoUi && NTMinerRegistry.GetIsAutoStart()) {
                                 VirtualRoot.Out.ShowSuccessMessage("已切换为无界面模式运行，可在选项页调整设置", "开源矿工");
                             }
                             else {

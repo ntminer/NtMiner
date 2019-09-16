@@ -35,5 +35,6 @@ namespace NTMiner.Profile {
         int AutoStartDelaySeconds { get; }
         bool IsAutoDisableWindowsFirewall { get; }
         bool IsShowInTaskbar { get; }
+        bool IsNoUi { get; }
     }
 }
