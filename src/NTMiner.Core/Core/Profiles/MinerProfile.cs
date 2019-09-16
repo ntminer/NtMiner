@@ -378,6 +378,13 @@ namespace NTMiner.Core.Profiles {
                 _data.IsShowNotifyIcon = value;
             }
         }
+
+        public bool IsCloseMeanExit {
+            get => _data.IsCloseMeanExit;
+            private set {
+                _data.IsCloseMeanExit = value;
+            }
+        }
         #endregion
 
         private static Dictionary<string, PropertyInfo> s_properties;

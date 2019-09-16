@@ -39,6 +39,7 @@ namespace NTMiner.Profile {
             this.IsAutoNoUi = false;
             this.AutoNoUiMinutes = 10;
             this.IsShowNotifyIcon = true;
+            this.IsCloseMeanExit = false;
         }
 
         public MinerProfileData(IMinerProfile data) {
@@ -71,6 +72,7 @@ namespace NTMiner.Profile {
             this.IsAutoNoUi = data.IsAutoNoUi;
             this.AutoNoUiMinutes = data.AutoNoUiMinutes;
             this.IsShowNotifyIcon = data.IsShowNotifyIcon;
+            this.IsCloseMeanExit = data.IsCloseMeanExit;
         }
 
         public Guid GetId() {
@@ -121,6 +123,8 @@ namespace NTMiner.Profile {
         public int AutoNoUiMinutes { get; set; }
 
         public bool IsShowNotifyIcon { get; set; }
+
+        public bool IsCloseMeanExit { get; set; }
 
         public override string ToString() {
             return this.BuildSign().ToString();

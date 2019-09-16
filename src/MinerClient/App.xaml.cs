@@ -179,7 +179,7 @@ namespace NTMiner {
             VirtualRoot.Window<CloseMainWindowCommand>("处理关闭主界面命令", LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
-                        if (NTMinerRoot.GetIsCloseMeanExit()) {
+                        if (NTMinerRoot.Instance.MinerProfile.IsCloseMeanExit) {
                             VirtualRoot.Execute(new CloseNTMinerCommand());
                             return;
                         }

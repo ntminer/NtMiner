@@ -302,17 +302,6 @@ namespace NTMiner {
         }
         #endregion
 
-        #region IsCloseMeanExit
-        public static bool GetIsCloseMeanExit() {
-            object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "IsCloseMeanExit");
-            return value != null && value.ToString() == "True";
-        }
-
-        public static void SetIsCloseMeanExit(bool value) {
-            Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "IsCloseMeanExit", value);
-        }
-        #endregion
-
         #region IsShowCommandLine
         public static bool GetIsShowCommandLine() {
             object isAutoBootValue = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "IsShowCommandLine");

@@ -39,5 +39,6 @@ namespace NTMiner.Profile {
         bool IsAutoNoUi { get; }
         int AutoNoUiMinutes { get; }
         bool IsShowNotifyIcon { get; }
+        bool IsCloseMeanExit { get; }
     }
 }

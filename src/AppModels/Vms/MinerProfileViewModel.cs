@@ -316,10 +316,10 @@ namespace NTMiner.Vms {
         }
 
         public bool IsCloseMeanExit {
-            get => NTMinerRoot.GetIsCloseMeanExit();
+            get => NTMinerRoot.Instance.MinerProfile.IsCloseMeanExit;
             set {
-                if (NTMinerRoot.GetIsCloseMeanExit() != value) {
-                    NTMinerRoot.SetIsCloseMeanExit(value);
+                if (NTMinerRoot.Instance.MinerProfile.IsCloseMeanExit != value) {
+                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsCloseMeanExit), value);
                     OnPropertyChanged(nameof(IsCloseMeanExit));
                 }
             }
