@@ -225,12 +225,12 @@
                     <RotateTransform Angle="90"/>
                 </StackPanel.LayoutTransform>
                 <Button 
-                    x:Name="BtnMinerProfileVisible" 
+                    x:Name="BtnMinerProfileGrip" 
                     BorderThickness="0"
                     FontSize="14" 
                     Padding="4 0" 
                     Background="{StaticResource MinerProfileBackground}"
-                    Click="BtnMinerProfileVisible_Click" 
+                    Click="BtnMinerProfileGrip_Click" 
                     Content="挖矿设置" 
                     ToolTip="点击展开或折叠"/>
             </StackPanel>

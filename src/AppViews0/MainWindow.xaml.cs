@@ -137,9 +137,13 @@ namespace NTMiner.Views {
             ToogleLeft();
         }
 
+        private void BtnMinerProfileHide_Click(object sender, RoutedEventArgs e) {
+            HideLeft();
+        }
+
         private void HideLeft() {
             layer1.Visibility = Visibility.Collapsed;
-            BtnMinerProfileVisible.Visibility = Visibility.Visible;
+            BtnMinerProfileGrip.Visibility = Visibility.Visible;
             PinRotateTransform.Angle = 90;
 
             layer0.ColumnDefinitions.Remove(_column1CloneForLayer0);
@@ -147,11 +151,11 @@ namespace NTMiner.Views {
         }
 
         private void ToogleLeft() {
-            if (BtnMinerProfileVisible.Visibility == Visibility.Collapsed) {
+            if (BtnMinerProfileGrip.Visibility == Visibility.Collapsed) {
                 HideLeft();
             }
             else {
-                BtnMinerProfileVisible.Visibility = Visibility.Collapsed;
+                BtnMinerProfileGrip.Visibility = Visibility.Collapsed;
                 PinRotateTransform.Angle = 0;
 
                 layer0.ColumnDefinitions.Insert(0, _column1CloneForLayer0);
@@ -159,17 +163,13 @@ namespace NTMiner.Views {
             }
         }
 
-        private void BtnMinerProfileVisible_Click(object sender, RoutedEventArgs e) {
+        private void BtnMinerProfileGrip_Click(object sender, RoutedEventArgs e) {
             if (layer1.Visibility == Visibility.Collapsed) {
                 layer1.Visibility = Visibility.Visible;
             }
             else {
                 layer1.Visibility = Visibility.Collapsed;
             }
-        }
-
-        private void BtnMinerProfileHide_Click(object sender, RoutedEventArgs e) {
-            HideLeft();
         }
 
         protected override void OnClosing(CancelEventArgs e) {
