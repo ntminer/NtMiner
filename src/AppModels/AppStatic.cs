@@ -134,7 +134,7 @@ namespace NTMiner {
         }
 
         public static string LogsDirFullName {
-            get { return SpecialPath.LogsDirFullName.Replace(LocalDir, Consts.LocalDirParameterName); }
+            get { return SpecialPath.LogsDirFullName.Replace(TempDir, Consts.TempDirParameterName); }
         }
 
         public static string AppRuntime {

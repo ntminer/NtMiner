@@ -111,18 +111,6 @@
                 <TextBlock Text="{x:Static app:AppStatic.PackagesDirFullName}"></TextBlock>
             </WrapPanel>
 
-            <WrapPanel>
-                <Border Width="{StaticResource LblWidth}">
-                    <Button 
-                        Style="{StaticResource LblBtn}" 
-                        Content="日志目录" 
-                        Command="{x:Static app:AppStatic.OpenDir}" 
-                        CommandParameter="{x:Static app:AppStatic.LogsDirFullName}">
-                    </Button>
-                </Border>
-                <TextBlock Text="{x:Static app:AppStatic.LogsDirFullName}"></TextBlock>
-            </WrapPanel>
-
             <WrapPanel Margin="0 10 0 0">
                 <Border Width="{StaticResource LblWidth}">
                     <Button 
@@ -133,6 +121,18 @@
                     </Button>
                 </Border>
                 <TextBlock Text="{x:Static app:AppStatic.TempDir}"></TextBlock>
+            </WrapPanel>
+
+            <WrapPanel>
+                <Border Width="{StaticResource LblWidth}">
+                    <Button 
+                        Style="{StaticResource LblBtn}" 
+                        Content="日志目录" 
+                        Command="{x:Static app:AppStatic.OpenDir}" 
+                        CommandParameter="{x:Static app:AppStatic.LogsDirFullName}">
+                    </Button>
+                </Border>
+                <TextBlock Text="{x:Static app:AppStatic.LogsDirFullName}"></TextBlock>
             </WrapPanel>
 
             <WrapPanel>

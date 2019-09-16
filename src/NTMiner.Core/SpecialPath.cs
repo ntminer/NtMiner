@@ -30,15 +30,6 @@ namespace NTMiner {
                             }
                         }
                     }
-                    string shareCoinIcoinsDir = Path.Combine(AssemblyInfo.TempDirFullName, "CoinIcons");
-                    if (Directory.Exists(shareCoinIcoinsDir)) {
-                        foreach (var fileFullName in Directory.GetFiles(shareCoinIcoinsDir)) {
-                            string destFileName = Path.Combine(CoinIconsDirFullName, Path.GetFileName(fileFullName));
-                            if (!File.Exists(destFileName)) {
-                                File.Copy(fileFullName, destFileName);
-                            }
-                        }
-                    }
                     if (DevMode.IsDevMode) {
                         string shareServerDbFileFullName = Path.Combine(AssemblyInfo.TempDirFullName, "server.litedb");
                         if (File.Exists(shareServerDbFileFullName) && !File.Exists(ServerDbFileFullName)) {
@@ -146,7 +137,7 @@ namespace NTMiner {
         private static bool _sIsFirstCallCoinIconDirFullName = true;
         public static string CoinIconsDirFullName {
             get {
-                string dirFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "CoinIcons");
+                string dirFullName = Path.Combine(AssemblyInfo.TempDirFullName, "CoinIcons");
                 if (_sIsFirstCallCoinIconDirFullName) {
                     if (!Directory.Exists(dirFullName)) {
                         Directory.CreateDirectory(dirFullName);
@@ -191,7 +182,7 @@ namespace NTMiner {
         private static bool _sIsFirstCallLogsDirFullName = true;
         public static string LogsDirFullName {
             get {
-                string dirFullName = Path.Combine(AssemblyInfo.LocalDirFullName, "Logs");
+                string dirFullName = Path.Combine(AssemblyInfo.TempDirFullName, "Logs");
                 if (_sIsFirstCallLogsDirFullName) {
                     if (!Directory.Exists(dirFullName)) {
                         Directory.CreateDirectory(dirFullName);
