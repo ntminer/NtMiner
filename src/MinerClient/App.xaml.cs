@@ -95,10 +95,10 @@ namespace NTMiner {
                     NTMinerRoot.Instance.Init(() => {
                         _appViewFactory.Link();
                         if (NTMinerRoot.Instance.GpuSet.Count == 0) {
-                            VirtualRoot.Out.ShowErrorMessage("没有矿卡或矿卡未驱动。");
+                            VirtualRoot.Out.ShowInfo("没有矿卡或矿卡未驱动。");
                         }
                         if (NTMinerRoot.Instance.CoinSet.Count == 0) {
-                            VirtualRoot.Out.ShowErrorMessage("访问阿里云失败，更换本机dns可以解决此问题");
+                            VirtualRoot.Out.ShowInfo("访问阿里云失败，请尝试更换本机dns解决此问题");
                         }
                         UIThread.Execute(() => {
                             if (NTMinerRoot.Instance.MinerProfile.IsNoUi && NTMinerRegistry.GetIsAutoStart()) {
