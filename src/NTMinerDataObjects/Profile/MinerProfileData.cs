@@ -37,6 +37,7 @@ namespace NTMiner.Profile {
             this.IsShowInTaskbar = true;
             this.IsNoUi = false;
             this.IsAutoNoUi = false;
+            this.AutoNoUiMinutes = 10;
         }
 
         public MinerProfileData(IMinerProfile data) {
@@ -67,6 +68,7 @@ namespace NTMiner.Profile {
             this.IsShowInTaskbar = data.IsShowInTaskbar;
             this.IsNoUi = data.IsNoUi;
             this.IsAutoNoUi = data.IsAutoNoUi;
+            this.AutoNoUiMinutes = data.AutoNoUiMinutes;
         }
 
         public Guid GetId() {
@@ -113,6 +115,8 @@ namespace NTMiner.Profile {
         public bool IsNoUi { get; set; }
 
         public bool IsAutoNoUi { get; set; }
+
+        public int AutoNoUiMinutes { get; set; }
 
         public override string ToString() {
             return this.BuildSign().ToString();

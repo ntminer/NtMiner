@@ -37,5 +37,6 @@ namespace NTMiner.Profile {
         bool IsShowInTaskbar { get; }
         bool IsNoUi { get; }
         bool IsAutoNoUi { get; }
+        int AutoNoUiMinutes { get; }
     }
 }

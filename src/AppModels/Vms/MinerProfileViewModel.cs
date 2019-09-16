@@ -295,10 +295,10 @@ namespace NTMiner.Vms {
         }
 
         public int AutoNoUiMinutes {
-            get { return NTMinerRoot.GetAutoNoUiMinutes(); }
+            get { return NTMinerRoot.Instance.MinerProfile.AutoNoUiMinutes; }
             set {
-                if (NTMinerRoot.GetAutoNoUiMinutes() != value) {
-                    NTMinerRoot.SetAutoNoUiMinutes(value);
+                if (NTMinerRoot.Instance.MinerProfile.AutoNoUiMinutes != value) {
+                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(AutoNoUiMinutes), value);
                     OnPropertyChanged(nameof(AutoNoUiMinutes));
                 }
             }

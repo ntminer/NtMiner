@@ -302,21 +302,6 @@ namespace NTMiner {
         }
         #endregion
 
-        #region AutoNoUiMinutes
-        public static int GetAutoNoUiMinutes() {
-            object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "AutoNoUiMinutes");
-            if (value == null) {
-                return 10;
-            }
-            int.TryParse(value.ToString(), out int v);
-            return v;
-        }
-
-        public static void SetAutoNoUiMinutes(int value) {
-            Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "AutoNoUiMinutes", value);
-        }
-        #endregion
-
         #region IsShowNotifyIcon
         public static bool GetIsShowNotifyIcon() {
             object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "IsShowNotifyIcon");
