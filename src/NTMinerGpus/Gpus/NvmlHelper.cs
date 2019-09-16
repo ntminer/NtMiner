@@ -170,14 +170,21 @@ namespace NTMiner.Gpus {
             return temp;
         }
 
+        private HashSet<int> _nvmlDeviceGetFanSpeedNotSupporteds = new HashSet<int>();
         public uint GetFanSpeed(int gpuIndex) {
             if (!NvmlInit() || !TryGetNvmlDevice(gpuIndex, out nvmlDevice nvmlDevice)) {
+                return 0;
+            }
+            if (_nvmlDeviceGetFanSpeedNotSupporteds.Contains(gpuIndex)) {
                 return 0;
             }
             uint fanSpeed = 0;
             try {
                 var r = NvmlNativeMethods.nvmlDeviceGetFanSpeed(nvmlDevice, ref fanSpeed);
                 if (r != nvmlReturn.Success) {
+                    if (r == nvmlReturn.NotSupported) {
+                        _nvmlDeviceGetFanSpeedNotSupporteds.Add(gpuIndex);
+                    }
                     Write.DevError($"{nameof(NvmlNativeMethods.nvmlDeviceGetFanSpeed)} {r}");
                 }
             }
