@@ -36,5 +36,6 @@ namespace NTMiner.Profile {
         bool IsAutoDisableWindowsFirewall { get; }
         bool IsShowInTaskbar { get; }
         bool IsNoUi { get; }
+        bool IsAutoNoUi { get; }
     }
 }

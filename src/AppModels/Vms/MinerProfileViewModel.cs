@@ -285,10 +285,10 @@ namespace NTMiner.Vms {
         }
 
         public bool IsAutoNoUi {
-            get { return NTMinerRoot.GetIsAutoNoUi(); }
+            get { return NTMinerRoot.Instance.MinerProfile.IsAutoNoUi; }
             set {
-                if (NTMinerRoot.GetIsAutoNoUi() != value) {
-                    NTMinerRoot.SetIsAutoNoUi(value);
+                if (NTMinerRoot.Instance.MinerProfile.IsAutoNoUi != value) {
+                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsAutoNoUi), value);
                     OnPropertyChanged(nameof(IsAutoNoUi));
                 }
             }

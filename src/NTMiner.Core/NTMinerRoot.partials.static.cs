@@ -302,17 +302,6 @@ namespace NTMiner {
         }
         #endregion
 
-        #region AutoNoUi
-        public static bool GetIsAutoNoUi() {
-            object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "IsAutoNoUi");
-            return value != null && value.ToString() == "True";
-        }
-
-        public static void SetIsAutoNoUi(bool value) {
-            Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "IsAutoNoUi", value);
-        }
-        #endregion
-
         #region AutoNoUiMinutes
         public static int GetAutoNoUiMinutes() {
             object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "AutoNoUiMinutes");

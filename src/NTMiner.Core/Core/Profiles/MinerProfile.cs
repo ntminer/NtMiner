@@ -357,6 +357,13 @@ namespace NTMiner.Core.Profiles {
                 _data.IsNoUi = value;
             }
         }
+
+        public bool IsAutoNoUi {
+            get => _data.IsAutoNoUi;
+            private set {
+                _data.IsAutoNoUi = value;
+            }
+        }
         #endregion
 
         private static Dictionary<string, PropertyInfo> s_properties;
