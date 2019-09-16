@@ -146,8 +146,8 @@ namespace NTMiner.Views {
             BtnMinerProfileGrip.Visibility = Visibility.Visible;
             PinRotateTransform.Angle = 90;
 
-            layer0.ColumnDefinitions.Remove(_column1CloneForLayer0);
-            MainArea.SetValue(Grid.ColumnProperty, layer0.ColumnDefinitions.Count - 1);
+            mainLayer.ColumnDefinitions.Remove(_column1CloneForLayer0);
+            MainArea.SetValue(Grid.ColumnProperty, mainLayer.ColumnDefinitions.Count - 1);
         }
 
         private void ToogleLeft() {
@@ -158,8 +158,8 @@ namespace NTMiner.Views {
                 BtnMinerProfileGrip.Visibility = Visibility.Collapsed;
                 PinRotateTransform.Angle = 0;
 
-                layer0.ColumnDefinitions.Insert(0, _column1CloneForLayer0);
-                MainArea.SetValue(Grid.ColumnProperty, layer0.ColumnDefinitions.Count - 1);
+                mainLayer.ColumnDefinitions.Insert(0, _column1CloneForLayer0);
+                MainArea.SetValue(Grid.ColumnProperty, mainLayer.ColumnDefinitions.Count - 1);
             }
         }
 

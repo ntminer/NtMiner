@@ -235,7 +235,7 @@
                     ToolTip="点击展开或折叠"/>
             </StackPanel>
             <Grid x:Name="parentGrid" Grid.IsSharedSizeScope="True">
-                <Grid x:Name="layer0">
+                <Grid x:Name="mainLayer">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
