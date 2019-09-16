@@ -302,17 +302,6 @@ namespace NTMiner {
         }
         #endregion
 
-        #region IsShowInTaskbar
-        public static bool GetIsShowInTaskbar() {
-            object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "IsShowInTaskbar");
-            return value == null || value.ToString() == "True";
-        }
-
-        public static void SetIsShowInTaskbar(bool value) {
-            Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "IsShowInTaskbar", value);
-        }
-        #endregion
-
         #region IsNoUi
         public static bool GetIsNoUi() {
             object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "IsNoUi");

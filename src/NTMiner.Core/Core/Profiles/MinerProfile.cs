@@ -343,6 +343,13 @@ namespace NTMiner.Core.Profiles {
                 _data.IsAutoDisableWindowsFirewall = value;
             }
         }
+
+        public bool IsShowInTaskbar {
+            get => _data.IsShowInTaskbar;
+            private set {
+                _data.IsShowInTaskbar = value;
+            }
+        }
         #endregion
 
         private static Dictionary<string, PropertyInfo> s_properties;

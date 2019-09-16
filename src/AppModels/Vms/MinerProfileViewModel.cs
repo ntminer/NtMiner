@@ -265,10 +265,10 @@ namespace NTMiner.Vms {
         }
 
         public bool IsShowInTaskbar {
-            get => NTMinerRoot.GetIsShowInTaskbar();
+            get => NTMinerRoot.Instance.MinerProfile.IsShowInTaskbar;
             set {
-                if (NTMinerRoot.GetIsShowInTaskbar() != value) {
-                    NTMinerRoot.SetIsShowInTaskbar(value);
+                if (NTMinerRoot.Instance.MinerProfile.IsShowInTaskbar != value) {
+                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsShowInTaskbar), value);
                     OnPropertyChanged(nameof(IsShowInTaskbar));
                 }
             }
@@ -369,8 +369,10 @@ namespace NTMiner.Vms {
         public bool IsAutoDisableWindowsFirewall {
             get => NTMinerRoot.Instance.MinerProfile.IsAutoDisableWindowsFirewall;
             set {
-                NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsAutoDisableWindowsFirewall), value);
-                OnPropertyChanged(nameof(IsAutoDisableWindowsFirewall));
+                if (NTMinerRoot.Instance.MinerProfile.IsAutoDisableWindowsFirewall != value) {
+                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsAutoDisableWindowsFirewall), value);
+                    OnPropertyChanged(nameof(IsAutoDisableWindowsFirewall));
+                }
             }
         }
 
