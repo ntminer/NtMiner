@@ -503,7 +503,7 @@
                     </TabControl>
                 </Grid>
                 <Border 
-                    x:Name="layer1"
+                    x:Name="minerProfileLayer"
                     Margin="0 2 0 0"
                     HorizontalAlignment="Left"
 				    Background="{StaticResource MinerProfileBackground}"

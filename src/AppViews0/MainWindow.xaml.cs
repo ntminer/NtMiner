@@ -142,7 +142,7 @@ namespace NTMiner.Views {
         }
 
         private void HideLeft() {
-            layer1.Visibility = Visibility.Collapsed;
+            minerProfileLayer.Visibility = Visibility.Collapsed;
             BtnMinerProfileGrip.Visibility = Visibility.Visible;
             PinRotateTransform.Angle = 90;
 
@@ -164,11 +164,11 @@ namespace NTMiner.Views {
         }
 
         private void BtnMinerProfileGrip_Click(object sender, RoutedEventArgs e) {
-            if (layer1.Visibility == Visibility.Collapsed) {
-                layer1.Visibility = Visibility.Visible;
+            if (minerProfileLayer.Visibility == Visibility.Collapsed) {
+                minerProfileLayer.Visibility = Visibility.Visible;
             }
             else {
-                layer1.Visibility = Visibility.Collapsed;
+                minerProfileLayer.Visibility = Visibility.Collapsed;
             }
         }
 
