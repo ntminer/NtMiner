@@ -262,7 +262,7 @@ namespace NTMiner {
         // 矿工名中不可以包含的字符
         private static readonly char[] InvalidChars = { '.', ' ', '-', '_' };
         public static string GetThisPcName() {
-            string value = Environment.MachineName.ToLower();
+            string value = Environment.MachineName;
             value = new string(value.ToCharArray().Where(a => !InvalidChars.Contains(a)).ToArray());
             return value;
         }
