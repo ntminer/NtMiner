@@ -1,5 +1,4 @@
 ﻿using Microsoft.Win32;
-using NTMiner.Core.Impl;
 using NTMiner.JsonDb;
 using NTMiner.MinerServer;
 using NTMiner.Repositories;
@@ -40,7 +39,6 @@ namespace NTMiner {
         public static DateTime MainWindowRendedOn = DateTime.MinValue;
 
         public static bool IsUseDevConsole = false;
-        // ReSharper disable once InconsistentNaming
         public static int OSVirtualMemoryMb;
         public static string UserKernelCommandLine;
 

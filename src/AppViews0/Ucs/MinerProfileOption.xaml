@@ -73,7 +73,7 @@
 								</WrapPanel>
 							</CheckBox>
                         </WrapPanel>
-                        <WrapPanel Margin="0 2">
+                        <WrapPanel Margin="0 2" Visibility="{x:Static app:AppStatic.IsMinerClientVisible}">
                             <CheckBox
 								Padding="0"
 								FocusVisualStyle="{x:Null}"
