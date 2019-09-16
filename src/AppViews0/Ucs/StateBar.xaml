@@ -312,8 +312,16 @@
 							Data="{StaticResource Icon_RemoteDesktop}"
 							Fill="{Binding IsRemoteDesktopEnabled,Converter={StaticResource BoolToBrushConverter}}"
 							Stretch="Fill" />
-					</controls:KbButton>
-					<TextBlock Text=" / " Foreground="{StaticResource LableColor}"></TextBlock>
+                    </controls:KbButton>
+                    <controls:KbButton 
+						Background="Transparent"
+						Margin="4 0 0 0"
+						ToolTip="本机IP"
+                        Foreground="{StaticResource LableColor}"
+                        Content="{Binding LocalIps}"
+						CornerRadius="2">
+                    </controls:KbButton>
+                    <TextBlock Text=" / " Foreground="{StaticResource LableColor}"></TextBlock>
 					<controls:KbButton 
 						x:Name="BtnShowVirtualMemory"
 						Command="{x:Static app:AppStatic.ShowVirtualMemory}"

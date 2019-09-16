@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -196,6 +197,12 @@ namespace NTMiner.Vms {
         public AppContext.GpuViewModels GpuVms {
             get {
                 return AppContext.Instance.GpuVms;
+            }
+        }
+
+        public string LocalIps {
+            get {
+                return string.Join(",", VirtualRoot.GetLocalIps().Select(a => a.ToString()));
             }
         }
     }
