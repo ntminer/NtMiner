@@ -2,8 +2,13 @@
 using NTMiner.Bus.DirectBus;
 using NTMiner.Serialization;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
+using System.Net;
+using System.Net.NetworkInformation;
+using System.Net.Sockets;
 using System.Reflection;
 using System.Text;
 
@@ -77,6 +82,24 @@ namespace NTMiner {
             SMessageDispatcher = new MessageDispatcher();
             SCommandBus = new DirectCommandBus(SMessageDispatcher);
             SEventBus = new DirectEventBus(SMessageDispatcher);
+        }
+
+        public static List<IPAddress> GetLocalIps() {
+            List<IPAddress> ipaddress = new List<IPAddress>();
+
+            //获取网卡
+            NetworkInterface[] interfaces = NetworkInterface.GetAllNetworkInterfaces().Where(a => a.Name.StartsWith("wlan", StringComparison.OrdinalIgnoreCase)).ToArray();
+            foreach (NetworkInterface ni in interfaces) {
+                var ippros = ni.GetIPProperties().UnicastAddresses;
+                foreach (UnicastIPAddressInformation ip in ippros) {
+                    //忽略不是ipv4的
+                    if (ip.Address.AddressFamily != AddressFamily.InterNetwork) {
+                        continue;
+                    }
+                    ipaddress.Add(ip.Address);
+                }
+            }
+            return ipaddress;
         }
 
         public static Guid ConvertToGuid(object obj) {
