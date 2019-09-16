@@ -336,6 +336,13 @@ namespace NTMiner.Core.Profiles {
                 _data.AutoStartDelaySeconds = value;
             }
         }
+
+        public bool IsAutoDisableWindowsFirewall {
+            get => _data.IsAutoDisableWindowsFirewall;
+            private set {
+                _data.IsAutoDisableWindowsFirewall = value;
+            }
+        }
         #endregion
 
         private static Dictionary<string, PropertyInfo> s_properties;

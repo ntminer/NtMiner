@@ -5,6 +5,7 @@ using System.Linq;
 
 namespace NTMiner {
     public static class NTMinerRegistry {
+        #region 设置Windows开机启动
         /// <summary>
         /// 将当前程序设置为windows开机自动启动
         /// </summary>
@@ -24,6 +25,7 @@ namespace NTMiner {
                 Windows.WinRegistry.DeleteValue(Registry.CurrentUser, AutoRunSubKey, valueName);
             }
         }
+        #endregion
 
         public const string NTMinerRegistrySubKey = @".DEFAULT\Software\NTMiner";
 
@@ -105,17 +107,6 @@ namespace NTMiner {
 
         public static void SetIsAutoStart(bool value) {
             Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistrySubKey, "IsAutoStart", value);
-        }
-        #endregion
-
-        #region IsAutoDisableWindowsFirewall
-        public static bool GetIsAutoDisableWindowsFirewall() {
-            object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistrySubKey, "IsAutoDisableWindowsFirewall");
-            return value == null || value.ToString() == "True";
-        }
-
-        public static void SetIsAutoDisableWindowsFirewall(bool value) {
-            Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistrySubKey, "IsAutoDisableWindowsFirewall", value);
         }
         #endregion
 

@@ -367,9 +367,9 @@ namespace NTMiner.Vms {
         }
 
         public bool IsAutoDisableWindowsFirewall {
-            get => NTMinerRegistry.GetIsAutoDisableWindowsFirewall();
+            get => NTMinerRoot.Instance.MinerProfile.IsAutoDisableWindowsFirewall;
             set {
-                NTMinerRegistry.SetIsAutoDisableWindowsFirewall(value);
+                NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsAutoDisableWindowsFirewall), value);
                 OnPropertyChanged(nameof(IsAutoDisableWindowsFirewall));
             }
         }

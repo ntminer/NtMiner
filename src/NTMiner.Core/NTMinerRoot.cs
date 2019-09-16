@@ -263,7 +263,7 @@ namespace NTMiner {
                 // 因为这里耗时500毫秒左右
                 Task.Factory.StartNew(() => {
                     Windows.Error.DisableWindowsErrorUI();
-                    if (NTMinerRegistry.GetIsAutoDisableWindowsFirewall()) {
+                    if (MinerProfile.IsAutoDisableWindowsFirewall) {
                         Windows.Firewall.DisableFirewall();
                     }
                     Windows.UAC.DisableUAC();

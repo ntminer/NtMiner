@@ -33,5 +33,6 @@ namespace NTMiner.Profile {
         int PowerAppend { get; }
         int MaxTemp { get; }
         int AutoStartDelaySeconds { get; }
+        bool IsAutoDisableWindowsFirewall { get; }
     }
 }

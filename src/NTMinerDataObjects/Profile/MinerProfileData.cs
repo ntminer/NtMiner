@@ -33,6 +33,7 @@ namespace NTMiner.Profile {
             this.PowerAppend = 0;
             this.MaxTemp = 80;
             this.AutoStartDelaySeconds = 15;
+            this.IsAutoDisableWindowsFirewall = true;
         }
 
         public MinerProfileData(IMinerProfile data) {
@@ -59,6 +60,7 @@ namespace NTMiner.Profile {
             this.PowerAppend = data.PowerAppend;
             this.MaxTemp = data.MaxTemp;
             this.AutoStartDelaySeconds = data.AutoStartDelaySeconds;
+            this.IsAutoDisableWindowsFirewall = data.IsAutoDisableWindowsFirewall;
         }
 
         public Guid GetId() {
@@ -97,6 +99,8 @@ namespace NTMiner.Profile {
         public int MaxTemp { get; set; }
 
         public int AutoStartDelaySeconds { get; set; }
+
+        public bool IsAutoDisableWindowsFirewall { get; set; }
 
         public override string ToString() {
             return this.BuildSign().ToString();
