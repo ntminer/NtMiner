@@ -12,8 +12,8 @@ using System.Windows.Interop;
 namespace NTMiner.Views {
     public partial class MainWindow : Window, IMaskWindow {
         private bool mRestoreIfMove = false;
-        private readonly ColumnDefinition _column1CloneForLayer0 = new ColumnDefinition {
-            SharedSizeGroup = "column1",
+        private readonly ColumnDefinition _mainLayerColumn0 = new ColumnDefinition {
+            SharedSizeGroup = "column0",
             Width = new GridLength(332)
         };
 
@@ -146,7 +146,7 @@ namespace NTMiner.Views {
             BtnMinerProfileGrip.Visibility = Visibility.Visible;
             PinRotateTransform.Angle = 90;
 
-            mainLayer.ColumnDefinitions.Remove(_column1CloneForLayer0);
+            mainLayer.ColumnDefinitions.Remove(_mainLayerColumn0);
             MainArea.SetValue(Grid.ColumnProperty, mainLayer.ColumnDefinitions.Count - 1);
         }
 
@@ -158,7 +158,7 @@ namespace NTMiner.Views {
                 BtnMinerProfileGrip.Visibility = Visibility.Collapsed;
                 PinRotateTransform.Angle = 0;
 
-                mainLayer.ColumnDefinitions.Insert(0, _column1CloneForLayer0);
+                mainLayer.ColumnDefinitions.Insert(0, _mainLayerColumn0);
                 MainArea.SetValue(Grid.ColumnProperty, mainLayer.ColumnDefinitions.Count - 1);
             }
         }
