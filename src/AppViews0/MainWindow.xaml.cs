@@ -62,9 +62,15 @@ namespace NTMiner.Views {
             this.ConsoleRectangle.SizeChanged += (s,e)=> {
                 MoveConsoleWindow();
             };
+            bool isFirst = true;
             this.ConsoleRectangle.IsVisibleChanged += (s, e)=> {
                 if (ConsoleRectangle.IsVisible) {
-                    MoveConsoleWindow();
+                    if (isFirst) {
+                        isFirst = false;
+                    }
+                    else {
+                        MoveConsoleWindow();
+                    }
                 }
             };
             this.IsVisibleChanged += (s, e) => {
