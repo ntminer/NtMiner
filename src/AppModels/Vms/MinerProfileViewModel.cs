@@ -566,10 +566,10 @@ namespace NTMiner.Vms {
         }
 
         public bool IsShowCommandLine {
-            get { return NTMinerRoot.GetIsShowCommandLine(); }
+            get { return NTMinerRoot.Instance.MinerProfile.IsShowCommandLine; }
             set {
-                if (NTMinerRoot.GetIsShowCommandLine() != value) {
-                    NTMinerRoot.SetIsShowCommandLine(value);
+                if (NTMinerRoot.Instance.MinerProfile.IsShowCommandLine != value) {
+                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsShowCommandLine), value);
                     OnPropertyChanged(nameof(IsShowCommandLine));
                 }
             }

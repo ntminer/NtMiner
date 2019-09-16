@@ -385,6 +385,13 @@ namespace NTMiner.Core.Profiles {
                 _data.IsCloseMeanExit = value;
             }
         }
+
+        public bool IsShowCommandLine {
+            get => _data.IsShowCommandLine;
+            private set {
+                _data.IsShowCommandLine = value;
+            }
+        }
         #endregion
 
         private static Dictionary<string, PropertyInfo> s_properties;

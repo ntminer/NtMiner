@@ -302,17 +302,6 @@ namespace NTMiner {
         }
         #endregion
 
-        #region IsShowCommandLine
-        public static bool GetIsShowCommandLine() {
-            object isAutoBootValue = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "IsShowCommandLine");
-            return isAutoBootValue != null && isAutoBootValue.ToString() == "True";
-        }
-
-        public static void SetIsShowCommandLine(bool value) {
-            Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "IsShowCommandLine", value);
-        }
-        #endregion
-
         #region GetIsRemoteDesktopEnabled
         public static bool GetIsRemoteDesktopEnabled() {
             return (int)Windows.WinRegistry.GetValue(Registry.LocalMachine, "SYSTEM\\CurrentControlSet\\Control\\Terminal Server", "fDenyTSConnections") == 0;
