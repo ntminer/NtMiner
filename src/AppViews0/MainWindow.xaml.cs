@@ -137,7 +137,7 @@ namespace NTMiner.Views {
             ToogleLeft();
         }
 
-        private void BtnMinerProfileHide_Click(object sender, RoutedEventArgs e) {
+        private void BtnMinerProfileClose_Click(object sender, RoutedEventArgs e) {
             HideLeft();
         }
 

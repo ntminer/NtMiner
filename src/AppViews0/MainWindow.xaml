@@ -628,7 +628,7 @@
                                 Height="20" 
                                 ToolTip="关闭"
                                 Background="Transparent" 
-                                Click="BtnMinerProfileHide_Click">
+                                Click="BtnMinerProfileClose_Click">
                                 <Path
 							        Width="10"
 							        Height="10"
