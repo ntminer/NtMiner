@@ -27,17 +27,8 @@ namespace NTMiner.Views {
             this.Hide();
         }
 
-        private int _paddingLeft;
-        private int _paddingTop;
-
-        public void UpdatePadding(int paddingLeft, int paddingTop) {
-            this._paddingLeft = paddingLeft;
-            this._paddingTop = paddingTop;
-            ReSizeConsoleWindow();
-        }
-
         private bool _isFirst = true;
-        private void ReSizeConsoleWindow() {
+        public void ReSizeConsoleWindow(int marginLeft, int marginTop) {
             IntPtr console = NTMinerConsole.Show();
             if (_isFirst) {
                 IntPtr parent = new WindowInteropHelper(this).Handle;
@@ -47,13 +38,13 @@ namespace NTMiner.Views {
             }
             const int paddingLeft = 4;
             const int paddingRight = 1;
-            int width = (int)this.ActualWidth - paddingLeft - paddingRight - _paddingLeft;
+            int width = (int)this.ActualWidth - paddingLeft - paddingRight - marginLeft;
             if (width < 0) {
                 width = 0;
             }
-            int height = (int)this.ActualHeight - _paddingTop;
+            int height = (int)this.ActualHeight - marginTop;
 
-            NTMinerConsole.MoveWindow(console, paddingLeft + this._paddingLeft, this._paddingTop, width, height, true);
+            NTMinerConsole.MoveWindow(console, paddingLeft + marginLeft, marginTop, width, height, true);
         }
     }
 }

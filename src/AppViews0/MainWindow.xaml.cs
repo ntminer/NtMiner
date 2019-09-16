@@ -59,11 +59,11 @@ namespace NTMiner.Views {
                     ConsoleWindow.Instance.Hide();
                 }
             };
-            this.ConsoleRectangle.SizeChanged += (s,e)=> {
+            this.ConsoleRectangle.SizeChanged += (s, e) => {
                 MoveConsoleWindow();
             };
             bool isFirst = true;
-            this.ConsoleRectangle.IsVisibleChanged += (s, e)=> {
+            this.ConsoleRectangle.IsVisibleChanged += (s, e) => {
                 if (ConsoleRectangle.IsVisible) {
                     if (isFirst) {
                         isFirst = false;
@@ -80,7 +80,7 @@ namespace NTMiner.Views {
             };
             EventHandler changeNotiCenterWindowLocation = NotiCenterWindow.CreateNotiCenterWindowLocationManager(this);
             this.Activated += changeNotiCenterWindowLocation;
-            this.LocationChanged += (sender, e)=> {
+            this.LocationChanged += (sender, e) => {
                 changeNotiCenterWindowLocation(sender, e);
                 MoveConsoleWindow();
             };
@@ -231,22 +231,32 @@ namespace NTMiner.Views {
         }
 
         private void MoveConsoleWindow() {
+            if (this.WindowState == WindowState.Minimized || ConsoleRectangle == null || !ConsoleRectangle.IsVisible || ConsoleRectangle.ActualWidth == 0) {
+                ConsoleWindow.Instance.Hide();
+                return;
+            }
             if (ConsoleWindow.Instance.WindowState != this.WindowState) {
                 ConsoleWindow.Instance.WindowState = this.WindowState;
             }
             if (this.WindowState == WindowState.Normal) {
-                ConsoleWindow.Instance.Left = this.Left;
-                ConsoleWindow.Instance.Top = this.Top;
+                if (ConsoleWindow.Instance.Left != this.Left) {
+                    ConsoleWindow.Instance.Left = this.Left;
+                }
+                if (ConsoleWindow.Instance.Top != this.Top) {
+                    ConsoleWindow.Instance.Top = this.Top;
+                }
             }
-            if (ConsoleRectangle == null || !ConsoleRectangle.IsVisible || ConsoleRectangle.ActualWidth == 0) {
-                ConsoleWindow.Instance.Hide();
-                return;
+            if (!ConsoleWindow.Instance.IsVisible) {
+                ConsoleWindow.Instance.Show();
             }
-            ConsoleWindow.Instance.Show();
             Point point = ConsoleRectangle.TransformToAncestor(this).Transform(new Point(0, 0));
-            ConsoleWindow.Instance.Width = this.ActualWidth;
-            ConsoleWindow.Instance.Height = this.ActualHeight;
-            ConsoleWindow.Instance.UpdatePadding((int)point.X, (int)point.Y);
+            if (ConsoleWindow.Instance.Width != this.ActualWidth) {
+                ConsoleWindow.Instance.Width = this.ActualWidth;
+            }
+            if (ConsoleWindow.Instance.Height != this.ActualHeight) {
+                ConsoleWindow.Instance.Height = this.ActualHeight;
+            }
+            ConsoleWindow.Instance.ReSizeConsoleWindow(marginLeft: (int)point.X, marginTop: (int)point.Y);
         }
 
         private void Window_SourceInitialized(object sender, EventArgs e) {
