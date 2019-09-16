@@ -371,6 +371,13 @@ namespace NTMiner.Core.Profiles {
                 _data.AutoNoUiMinutes = value;
             }
         }
+
+        public bool IsShowNotifyIcon {
+            get => _data.IsShowNotifyIcon;
+            private set {
+                _data.IsShowNotifyIcon = value;
+            }
+        }
         #endregion
 
         private static Dictionary<string, PropertyInfo> s_properties;

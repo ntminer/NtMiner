@@ -302,17 +302,6 @@ namespace NTMiner {
         }
         #endregion
 
-        #region IsShowNotifyIcon
-        public static bool GetIsShowNotifyIcon() {
-            object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "IsShowNotifyIcon");
-            return value == null || value.ToString() == "True";
-        }
-
-        public static void SetIsShowNotifyIcon(bool value) {
-            Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "IsShowNotifyIcon", value);
-        }
-        #endregion
-
         #region IsCloseMeanExit
         public static bool GetIsCloseMeanExit() {
             object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "IsCloseMeanExit");

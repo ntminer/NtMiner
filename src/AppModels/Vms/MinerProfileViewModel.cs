@@ -305,10 +305,10 @@ namespace NTMiner.Vms {
         }
 
         public bool IsShowNotifyIcon {
-            get => NTMinerRoot.GetIsShowNotifyIcon();
+            get => NTMinerRoot.Instance.MinerProfile.IsShowNotifyIcon;
             set {
-                if (NTMinerRoot.GetIsShowNotifyIcon() != value) {
-                    NTMinerRoot.SetIsShowNotifyIcon(value);
+                if (NTMinerRoot.Instance.MinerProfile.IsShowNotifyIcon != value) {
+                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsShowNotifyIcon), value);
                     OnPropertyChanged(nameof(IsShowNotifyIcon));
                     AppContext.NotifyIcon?.RefreshIcon();
                 }

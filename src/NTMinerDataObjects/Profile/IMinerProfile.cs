@@ -38,5 +38,6 @@ namespace NTMiner.Profile {
         bool IsNoUi { get; }
         bool IsAutoNoUi { get; }
         int AutoNoUiMinutes { get; }
+        bool IsShowNotifyIcon { get; }
     }
 }
