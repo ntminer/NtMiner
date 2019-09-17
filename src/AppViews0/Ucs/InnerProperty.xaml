@@ -61,12 +61,12 @@
                 <Border Width="{StaticResource LblWidth}">
                     <Button 
                         Style="{StaticResource LblBtn}" 
-                        Content="本地目录" 
+                        Content="家目录" 
                         Command="{x:Static app:AppStatic.OpenDir}" 
-                        CommandParameter="{x:Static app:AppStatic.LocalDir}">
+                        CommandParameter="{x:Static app:AppStatic.HomeDir}">
                     </Button>
                 </Border>
-                <TextBlock Text="{x:Static app:AppStatic.LocalDir}"></TextBlock>
+                <TextBlock Text="{x:Static app:AppStatic.HomeDir}"></TextBlock>
             </WrapPanel>
 
             <WrapPanel Visibility="{x:Static app:AppStatic.IsDevModeVisible}">

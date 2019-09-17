@@ -15,43 +15,43 @@ namespace NTMiner {
         public static readonly string ServerVersionJsonFileFullName;
 
         public static string OfficialServerHost { get; private set; } = "server.ntminer.com";
-        public static string LocalDirFullName { get; private set; } = TempDirFullName;
+        public static string HomeDirFullName { get; private set; } = TempDirFullName;
         public static readonly string RootLockFileFullName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "root.lock");
         public static readonly string RootConfigFileFullName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "root.config");
-        public static readonly bool IsLocalDir;
+        public static readonly bool IsLocalHome;
 
         public static void SetOfficialServerHost(string host) {
             OfficialServerHost = host;
         }
 
-        public static void SetLocalDirFullName(string dirFullName) {
-            LocalDirFullName = dirFullName;
+        public static void SetHomeDirFullName(string dirFullName) {
+            HomeDirFullName = dirFullName;
         }
 
         static AssemblyInfo() {
             if (!File.Exists(RootLockFileFullName)) {
                 if (File.Exists(RootConfigFileFullName)) {
-                    LocalDirFullName = AppDomain.CurrentDomain.BaseDirectory;
-                    IsLocalDir = true;
+                    HomeDirFullName = AppDomain.CurrentDomain.BaseDirectory;
+                    IsLocalHome = true;
                 }
-                else if (!Directory.Exists(LocalDirFullName)) {
-                    Directory.CreateDirectory(LocalDirFullName);
+                else if (!Directory.Exists(HomeDirFullName)) {
+                    Directory.CreateDirectory(HomeDirFullName);
                 }
             }
             else {
-                LocalDirFullName = AppDomain.CurrentDomain.BaseDirectory;
-                IsLocalDir = true;
+                HomeDirFullName = AppDomain.CurrentDomain.BaseDirectory;
+                IsLocalHome = true;
             }
-            if (IsLocalDir) {
-                if (LocalDirFullName.EndsWith("\\")) {
-                    LocalDirFullName = LocalDirFullName.Substring(0, LocalDirFullName.Length - 1);
+            if (IsLocalHome) {
+                if (HomeDirFullName.EndsWith("\\")) {
+                    HomeDirFullName = HomeDirFullName.Substring(0, HomeDirFullName.Length - 1);
                 }
             }
             if (!System.Version.TryParse(Version, out System.Version version)) {
                 throw new InvalidDataException("版本号格式不正确");
             }
             ServerJsonFileName = $"server{version.Major}.0.0.json";
-            ServerVersionJsonFileFullName = Path.Combine(LocalDirFullName, ServerJsonFileName);
+            ServerVersionJsonFileFullName = Path.Combine(HomeDirFullName, ServerJsonFileName);
         }
 
         public static void ExtractManifestResource(this Assembly assembly, Type type, string name, string saveFileFuleName) {

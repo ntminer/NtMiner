@@ -88,39 +88,39 @@ namespace NTMiner {
         public static string BootOn {
             get => NTMinerRoot.Instance.CreatedOn.ToString("yyyy-MM-dd HH:mm:ss");
         }
-        public static string LocalDir {
-            get => AssemblyInfo.LocalDirFullName;
+        public static string HomeDir {
+            get => AssemblyInfo.HomeDirFullName;
         }
         public static string TempDir {
             get { return AssemblyInfo.TempDirFullName; }
         }
         public static string ServerDbFileFullName {
             get {
-                return SpecialPath.ServerDbFileFullName.Replace(LocalDir, Consts.LocalDirParameterName);
+                return SpecialPath.ServerDbFileFullName.Replace(HomeDir, Consts.HomeDirParameterName);
             }
         }
         public static string LocalDbFileFullName {
-            get => SpecialPath.LocalDbFileFullName.Replace(LocalDir, Consts.LocalDirParameterName);
+            get => SpecialPath.LocalDbFileFullName.Replace(HomeDir, Consts.HomeDirParameterName);
         }
 
         public static string ServerJsonFileFullName {
-            get { return SpecialPath.ServerJsonFileFullName.Replace(LocalDir, Consts.LocalDirParameterName); }
+            get { return SpecialPath.ServerJsonFileFullName.Replace(HomeDir, Consts.HomeDirParameterName); }
         }
 
         public static string ServerVersionJsonFileFullName {
-            get { return AssemblyInfo.ServerVersionJsonFileFullName.Replace(LocalDir, Consts.LocalDirParameterName); }
+            get { return AssemblyInfo.ServerVersionJsonFileFullName.Replace(HomeDir, Consts.HomeDirParameterName); }
         }
 
         public static string DaemonFileFullName {
-            get { return SpecialPath.DaemonFileFullName.Replace(LocalDir, Consts.LocalDirParameterName); }
+            get { return SpecialPath.DaemonFileFullName.Replace(HomeDir, Consts.HomeDirParameterName); }
         }
 
         public static string DevConsoleFileFullName {
-            get { return SpecialPath.DevConsoleFileFullName.Replace(LocalDir, Consts.LocalDirParameterName); }
+            get { return SpecialPath.DevConsoleFileFullName.Replace(HomeDir, Consts.HomeDirParameterName); }
         }
 
         public static string PackagesDirFullName {
-            get { return SpecialPath.PackagesDirFullName.Replace(LocalDir, Consts.LocalDirParameterName); }
+            get { return SpecialPath.PackagesDirFullName.Replace(HomeDir, Consts.HomeDirParameterName); }
         }
 
         public static string DownloadDirFullName {
@@ -401,8 +401,8 @@ namespace NTMiner {
             if (dir.StartsWith(Consts.TempDirParameterName)) {
                 dir = dir.Replace(Consts.TempDirParameterName, AssemblyInfo.TempDirFullName);
             }
-            else if (dir.StartsWith(Consts.LocalDirParameterName)) {
-                dir = dir.Replace(Consts.LocalDirParameterName, AssemblyInfo.LocalDirFullName);
+            else if (dir.StartsWith(Consts.HomeDirParameterName)) {
+                dir = dir.Replace(Consts.HomeDirParameterName, AssemblyInfo.HomeDirFullName);
             }
             Process.Start(dir);
         });
@@ -541,7 +541,7 @@ namespace NTMiner {
             VirtualRoot.Execute(new ShowCalcConfigCommand());
         });
         public static ICommand ShowGlobalDir { get; private set; } = new DelegateCommand(() => {
-            Process.Start(AssemblyInfo.LocalDirFullName);
+            Process.Start(AssemblyInfo.HomeDirFullName);
         });
         public static ICommand OpenLocalLiteDb { get; private set; } = new DelegateCommand(() => {
             OpenLiteDb(SpecialPath.LocalDbFileFullName);

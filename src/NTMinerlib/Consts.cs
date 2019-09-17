@@ -1,6 +1,6 @@
 ﻿namespace NTMiner {
     public static class Consts {
-        public const string LocalDirParameterName = "{本地目录}";
+        public const string HomeDirParameterName = "{家目录}";
         public const string TempDirParameterName = "{临时目录}";
         public const int MinerClientPort = 3336;
         public const int NTMinerDaemonPort = 3337;
