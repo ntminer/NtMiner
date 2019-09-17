@@ -391,11 +391,8 @@ namespace NTMiner {
                                 // 如果份额没有增加
                                 if (shareCount == totalShare) {
                                     if (restartComputer) {
-                                        if (!NTMinerRegistry.GetIsAutoBoot()) {
-                                            NTMinerRegistry.SetIsAutoBoot(true);
-                                        }
-                                        if (!NTMinerRegistry.GetIsAutoStart()) {
-                                            NTMinerRegistry.SetIsAutoStart(true);
+                                        if (!MinerProfile.IsAutoBoot || !MinerProfile.IsAutoStart) {
+                                            VirtualRoot.Execute(new SetAutoStartCommand(true, true));
                                         }
                                         Logger.WarnWriteLine($"{MinerProfile.NoShareRestartComputerMinutes}分钟收益没有增加重启电脑");
                                         Windows.Power.Restart(60);

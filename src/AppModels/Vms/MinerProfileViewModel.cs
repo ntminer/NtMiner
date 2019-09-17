@@ -174,8 +174,11 @@ namespace NTMiner.Vms {
                 });
             AppContext.Window<RefreshAutoBootStartCommand>("刷新开机启动和自动挖矿的展示", LogEnum.UserConsole,
                 action: message => {
-                    OnPropertyChanged(nameof(IsAutoBoot));
-                    OnPropertyChanged(nameof(IsAutoStart));
+                    MinerProfileData data = NTMinerRoot.CreateLocalRepository<MinerProfileData>().GetByKey(this.Id);
+                    if (data != null) {
+                        this.IsAutoBoot = data.IsAutoBoot;
+                        this.IsAutoStart = data.IsAutoStart;
+                    }
                 });
             AppContext.On<MinerProfilePropertyChangedEvent>("MinerProfile设置变更后刷新VM内存", LogEnum.DevConsole,
                 action: message => {
@@ -351,18 +354,22 @@ namespace NTMiner.Vms {
         }
 
         public bool IsAutoBoot {
-            get => NTMinerRegistry.GetIsAutoBoot();
+            get => NTMinerRoot.Instance.MinerProfile.IsAutoBoot;
             set {
-                NTMinerRegistry.SetIsAutoBoot(value);
-                OnPropertyChanged(nameof(IsAutoBoot));
+                if (NTMinerRoot.Instance.MinerProfile.IsAutoBoot != value) {
+                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsAutoBoot), value);
+                    OnPropertyChanged(nameof(IsAutoBoot));
+                }
             }
         }
 
         public bool IsAutoStart {
-            get => NTMinerRegistry.GetIsAutoStart();
+            get => NTMinerRoot.Instance.MinerProfile.IsAutoStart;
             set {
-                NTMinerRegistry.SetIsAutoStart(value);
-                OnPropertyChanged(nameof(IsAutoStart));
+                if (NTMinerRoot.Instance.MinerProfile.IsAutoStart != value) {
+                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsAutoStart), value);
+                    OnPropertyChanged(nameof(IsAutoStart));
+                }
             }
         }
 

@@ -392,6 +392,20 @@ namespace NTMiner.Core.Profiles {
                 _data.IsShowCommandLine = value;
             }
         }
+
+        public bool IsAutoBoot {
+            get => _data.IsAutoBoot;
+            private set {
+                _data.IsAutoBoot = value;
+            }
+        }
+
+        public bool IsAutoStart {
+            get => _data.IsAutoStart;
+            private set {
+                _data.IsAutoStart = value;
+            }
+        }
         #endregion
 
         private static Dictionary<string, PropertyInfo> s_properties;

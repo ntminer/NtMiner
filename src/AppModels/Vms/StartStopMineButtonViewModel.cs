@@ -36,7 +36,8 @@ namespace NTMiner.Vms {
         }
 
         public void AutoStart() {
-            if (NTMinerRoot.IsAutoStart && !this.MinerProfile.IsMining) {
+            bool IsAutoStart = (MinerProfile.IsAutoStart || CommandLineArgs.IsAutoStart);
+            if (IsAutoStart && !this.MinerProfile.IsMining) {
                 this.MinerProfile.IsMining = true;
                 int n = MinerProfile.AutoStartDelaySeconds;
                 Bus.IDelegateHandler handler = null;

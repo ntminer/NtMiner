@@ -68,8 +68,7 @@ namespace NTMiner {
 
         [HttpPost]
         public void SetAutoBootStart([FromUri]bool autoBoot, [FromUri]bool autoStart) {
-            NTMinerRegistry.SetIsAutoBoot(autoBoot);
-            NTMinerRegistry.SetIsAutoStart(autoStart);
+            MinerProfileUtil.SetAutoStart(autoBoot, autoStart);
             if (IsNTMinerOpened()) {
                 using (HttpClient client = new HttpClient()) {
                     Task<HttpResponseMessage> message = client.PostAsync($"http://localhost:{Consts.MinerClientPort}/api/MinerClient/RefreshAutoBootStart", null);

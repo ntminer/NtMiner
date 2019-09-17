@@ -36,8 +36,8 @@ namespace NTMiner {
             INTMinerRoot root = NTMinerRoot.Instance;
             SpeedData data = new SpeedData {
                 KernelSelfRestartCount = 0,
-                IsAutoBoot = NTMinerRegistry.GetIsAutoBoot(),
-                IsAutoStart = NTMinerRegistry.GetIsAutoStart(),
+                IsAutoBoot = root.MinerProfile.IsAutoBoot,
+                IsAutoStart = root.MinerProfile.IsAutoStart,
                 Version = NTMinerRoot.CurrentVersion.ToString(4),
                 BootOn = root.CreatedOn,
                 MineStartedOn = null,

@@ -12,7 +12,6 @@ namespace NTMiner {
     public partial class NTMinerRoot {
         public const int SpeedHistoryLengthByMinute = 10;
         public const int GpuAllId = -1;
-        public static readonly bool IsAutoStart = (NTMinerRegistry.GetIsAutoStart() || CommandLineArgs.IsAutoStart);
         private static readonly NTMinerRoot S_Instance = new NTMinerRoot();
         public static readonly INTMinerRoot Instance = S_Instance;
         public static readonly Version CurrentVersion;

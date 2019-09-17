@@ -14,6 +14,17 @@ namespace NTMiner {
         public Action<bool, string> DownloadComplete { get; private set; }
     }
 
+    [MessageType(description: "设置开机自动挖矿")]
+    public class SetAutoStartCommand : Cmd {
+        public SetAutoStartCommand(bool isAutoBoot, bool isAutoStart) {
+            this.IsAutoBoot = isAutoBoot;
+            this.IsAutoStart = isAutoStart;
+        }
+
+        public bool IsAutoBoot { get; private set; }
+        public bool IsAutoStart { get; private set; }
+    }
+
     [MessageType(description: "ServerContext刷新后")]
     public class ServerContextReInitedEvent : EventBase {
         public ServerContextReInitedEvent() { }
