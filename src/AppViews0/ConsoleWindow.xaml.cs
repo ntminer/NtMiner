@@ -30,6 +30,7 @@ namespace NTMiner.Views {
         private bool _isFirst = true;
         public void ReSizeConsoleWindow(int marginLeft, int marginTop) {
             IntPtr console = NTMinerConsole.Show();
+            bool bRepaint = !_isFirst;
             if (_isFirst) {
                 IntPtr parent = new WindowInteropHelper(this).Handle;
                 NativeMethods.SetParent(console, parent);
@@ -44,7 +45,7 @@ namespace NTMiner.Views {
             }
             int height = (int)this.ActualHeight - marginTop;
 
-            NTMinerConsole.MoveWindow(console, paddingLeft + marginLeft, marginTop, width, height, true);
+            NTMinerConsole.MoveWindow(console, paddingLeft + marginLeft, marginTop, width, height, bRepaint);
         }
     }
 }

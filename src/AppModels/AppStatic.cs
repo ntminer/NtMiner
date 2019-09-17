@@ -283,11 +283,8 @@ namespace NTMiner {
 
         public static double MainWindowHeight {
             get {
-                if (SystemParameters.WorkArea.Size.Height >= 640) {
-                    return 640;
-                }
-                else if (SystemParameters.WorkArea.Size.Height >= 600) {
-                    return 600;
+                if (SystemParameters.WorkArea.Size.Height >= 620) {
+                    return 620;
                 }
                 else if (SystemParameters.WorkArea.Size.Height >= 520) {
                     return 520;
