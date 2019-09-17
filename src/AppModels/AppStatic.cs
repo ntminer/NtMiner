@@ -295,6 +295,9 @@ namespace NTMiner {
 
         public static double MainWindowWidth {
             get {
+                if (SystemParameters.WorkArea.Size.Width >= 1050) {
+                    return 1050;
+                }
                 if (SystemParameters.WorkArea.Size.Width >= 1000) {
                     return 1000;
                 }

@@ -10,10 +10,14 @@
 		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
 		xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 		Background="White"
-		mc:Ignorable="d" d:DesignHeight="420" d:DesignWidth="660">
+		mc:Ignorable="d" d:DesignHeight="420" d:DesignWidth="700">
 	<UserControl.DataContext>
 		<vm:ToolboxViewModel></vm:ToolboxViewModel>
 	</UserControl.DataContext>
+    <UserControl.Resources>
+        <sys:Double x:Key="ItemWidth">220</sys:Double>
+        <sys:Double x:Key="ItemHeight">50</sys:Double>
+    </UserControl.Resources>
 	<Grid>
 		<ScrollViewer
 			Padding="4 0 0 0"
@@ -21,8 +25,8 @@
 			PreviewMouseDown="ScrollViewer_PreviewMouseDown">
 			<WrapPanel>
 				<controls:KbButton 
-					Height="50" 
-					Width="200"
+					Height="{StaticResource ItemHeight}" 
+					Width="{StaticResource ItemWidth}"
 					Margin="4"
                     IsEnabled="{x:Static app:AppStatic.IsAmdGpu}"
 					Command="{Binding SwitchRadeonGpu}"
@@ -41,9 +45,9 @@
 						</StackPanel>
 					</WrapPanel>
 				</controls:KbButton>
-				<controls:KbButton 
-					Height="50" 
-					Width="200"
+                <controls:KbButton 
+					Height="{StaticResource ItemHeight}" 
+					Width="{StaticResource ItemWidth}"
 					Margin="4"
                     IsEnabled="{x:Static app:AppStatic.IsAmdGpu}"
 					Command="{Binding AtikmdagPatcher}"
@@ -62,9 +66,9 @@
 						</StackPanel>
 					</WrapPanel>
 				</controls:KbButton>
-				<controls:KbButton 
-					Height="50" 
-					Width="200"
+                <controls:KbButton 
+					Height="{StaticResource ItemHeight}" 
+					Width="{StaticResource ItemWidth}"
 					Margin="4"
 					Cursor="Hand"
 					Command="{Binding NavigateToAmdDriver}"
@@ -82,9 +86,9 @@
 						</StackPanel>
 					</WrapPanel>
 				</controls:KbButton>
-				<controls:KbButton 
-					Height="50" 
-					Width="200"
+                <controls:KbButton 
+					Height="{StaticResource ItemHeight}" 
+					Width="{StaticResource ItemWidth}"
 					Margin="4"
 					Cursor="Hand"
 					ToolTip="如果没有20系列的卡，挖矿建议使用3xx驱动。"
@@ -120,9 +124,9 @@
 						</StackPanel>
 					</WrapPanel>
 				</controls:KbButton>
-				<controls:KbButton 
-					Height="50" 
-					Width="200"
+                <controls:KbButton 
+					Height="{StaticResource ItemHeight}" 
+					Width="{StaticResource ItemWidth}"
 					Margin="4"
 					Command="{x:Static app:AppStatic.ShowVirtualMemory}"
 					Cursor="Hand"
@@ -140,9 +144,9 @@
 						</StackPanel>
 					</WrapPanel>
 				</controls:KbButton>
-				<controls:KbButton 
-					Height="50" 
-					Width="200"
+                <controls:KbButton 
+					Height="{StaticResource ItemHeight}" 
+					Width="{StaticResource ItemWidth}"
 					Margin="4"
 					IsEnabled="{Binding IsRemoteDesktopEnabled,Converter={StaticResource BoolInvertConverter}}"
 					Command="{Binding EnableWindowsRemoteDesktop}"
@@ -161,9 +165,9 @@
 						</StackPanel>
 					</WrapPanel>
 				</controls:KbButton>
-				<controls:KbButton 
-					Height="50" 
-					Width="200"
+                <controls:KbButton 
+					Height="{StaticResource ItemHeight}" 
+					Width="{StaticResource ItemWidth}"
 					Margin="4"
 					IsEnabled="{Binding IsAutoAdminLogon,Converter={StaticResource BoolInvertConverter}}"
 					Command="{Binding WindowsAutoLogon}"
@@ -182,9 +186,9 @@
 						</StackPanel>
 					</WrapPanel>
 				</controls:KbButton>
-				<controls:KbButton 
-					Height="50" 
-					Width="200"
+                <controls:KbButton 
+					Height="{StaticResource ItemHeight}" 
+					Width="{StaticResource ItemWidth}"
 					Margin="4"
 					Command="{Binding Win10Optimize}"
 					Cursor="Hand"
@@ -202,9 +206,9 @@
 						</StackPanel>
 					</WrapPanel>
 				</controls:KbButton>
-				<controls:KbButton 
-					Height="50" 
-					Width="200"
+                <controls:KbButton 
+					Height="{StaticResource ItemHeight}" 
+					Width="{StaticResource ItemWidth}"
 					Margin="4"
 					Command="{Binding RegCmdHere}"
 					Cursor="Hand"
@@ -222,9 +226,9 @@
 						</StackPanel>
 					</WrapPanel>
 				</controls:KbButton>
-				<controls:KbButton 
-					Height="50" 
-					Width="200"
+                <controls:KbButton 
+					Height="{StaticResource ItemHeight}" 
+					Width="{StaticResource ItemWidth}"
 					Margin="4"
 					Command="{Binding BlockWAU}"
 					Cursor="Hand"
@@ -242,9 +246,9 @@
 						</StackPanel>
 					</WrapPanel>
 				</controls:KbButton>
-				<controls:KbButton 
-					Height="50" 
-					Width="200"
+                <controls:KbButton 
+					Height="{StaticResource ItemHeight}" 
+					Width="{StaticResource ItemWidth}"
 					Margin="4"
 					Command="{x:Static app:AppStatic.ShowCalc}"
 					Cursor="Hand"
@@ -263,8 +267,8 @@
 					</WrapPanel>
                 </controls:KbButton>
                 <controls:KbButton 
-					Height="50" 
-					Width="200"
+					Height="{StaticResource ItemHeight}" 
+					Width="{StaticResource ItemWidth}"
 					Margin="4"
 					Command="{x:Static app:AppStatic.ShowEthNoDevFee}"
 					Cursor="Hand"
