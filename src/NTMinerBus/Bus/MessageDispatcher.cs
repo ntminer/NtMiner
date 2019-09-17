@@ -39,9 +39,6 @@ namespace NTMiner.Bus {
                                 Write.DevDebug($"({messageType.Name})->({tMessageHandler.HandlerId.Location.Name}){tMessageHandler.HandlerId.Description}");
                             }
                             break;
-                        case LogEnum.UserConsole:
-                            Write.UserInfo($"({messageType.Name})->({tMessageHandler.HandlerId.Location.Name}){tMessageHandler.HandlerId.Description}");
-                            break;
                         case LogEnum.Log:
                             Logger.InfoDebugLine($"({messageType.Name})->({tMessageHandler.HandlerId.Location.Name}){tMessageHandler.HandlerId.Description}");
                             break;

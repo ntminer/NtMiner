@@ -164,7 +164,7 @@ namespace NTMiner {
         }
 
         private void Link() {
-            VirtualRoot.Window<CloseNTMinerCommand>("处理关闭NTMiner客户端命令", LogEnum.UserConsole,
+            VirtualRoot.Window<CloseNTMinerCommand>("处理关闭NTMiner客户端命令", LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
                         try {

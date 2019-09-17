@@ -172,7 +172,7 @@ namespace NTMiner.Vms {
                 action: message => {
                     OnPropertyChanged(nameof(CoinVm));
                 });
-            AppContext.Window<RefreshAutoBootStartCommand>("刷新开机启动和自动挖矿的展示", LogEnum.UserConsole,
+            AppContext.Window<RefreshAutoBootStartCommand>("刷新开机启动和自动挖矿的展示", LogEnum.DevConsole,
                 action: message => {
                     MinerProfileData data = NTMinerRoot.CreateLocalRepository<MinerProfileData>().GetByKey(this.Id);
                     if (data != null) {
