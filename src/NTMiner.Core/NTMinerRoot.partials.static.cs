@@ -1,5 +1,4 @@
-﻿using Microsoft.Win32;
-using NTMiner.JsonDb;
+﻿using NTMiner.JsonDb;
 using NTMiner.MinerServer;
 using NTMiner.Repositories;
 using System;
@@ -124,7 +123,7 @@ namespace NTMiner {
                         // 这里的逻辑是，当用户在主界面填写矿工名时，矿工名会被交换到注册表从而当用户使用群控但没有填写群控矿工名时作为缺省矿工名
                         // 但是旧版本的挖矿端并没有把矿工名交换到注册表去所以当注册表中没有矿工名时需读取local.litedb中的矿工名
                         if (string.IsNullOrEmpty(_localJson.MinerProfile.MinerName)) {
-                            _localJson.MinerProfile.MinerName = GetMinerName();
+                            _localJson.MinerProfile.MinerName = NTMinerRegistry.GetMinerName();
                             if (string.IsNullOrEmpty(_localJson.MinerProfile.MinerName)) {
                                 var repository = new LiteDbReadWriteRepository<Profile.MinerProfileData>(SpecialPath.LocalDbFileFullName);
                                 Profile.MinerProfileData data = repository.GetByKey(Profile.MinerProfileData.DefaultId);
@@ -287,23 +286,6 @@ namespace NTMiner {
 
                 return _diskSpace;
             }
-        }
-        #endregion
-
-        #region MinerName 非群控模式时将矿工名交换到注册表从而作为群控模式时未指定矿工名的缺省矿工名
-        public static string GetMinerName() {
-            object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "MinerName");
-            return (value ?? string.Empty).ToString();
-        }
-
-        public static void SetMinerName(string value) {
-            Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "MinerName", value);
-        }
-        #endregion
-
-        #region GetIsRemoteDesktopEnabled
-        public static bool GetIsRemoteDesktopEnabled() {
-            return (int)Windows.WinRegistry.GetValue(Registry.LocalMachine, "SYSTEM\\CurrentControlSet\\Control\\Terminal Server", "fDenyTSConnections") == 0;
         }
         #endregion
     }

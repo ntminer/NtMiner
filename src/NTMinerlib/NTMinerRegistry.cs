@@ -224,6 +224,23 @@ namespace NTMiner {
         }
         #endregion
 
+        #region MinerName 非群控模式时将矿工名交换到注册表从而作为群控模式时未指定矿工名的缺省矿工名
+        public static string GetMinerName() {
+            object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "MinerName");
+            return (value ?? string.Empty).ToString();
+        }
+
+        public static void SetMinerName(string value) {
+            Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "MinerName", value);
+        }
+        #endregion
+
+        #region GetIsRemoteDesktopEnabled
+        public static bool GetIsRemoteDesktopEnabled() {
+            return (int)Windows.WinRegistry.GetValue(Registry.LocalMachine, "SYSTEM\\CurrentControlSet\\Control\\Terminal Server", "fDenyTSConnections") == 0;
+        }
+        #endregion
+
         #region GetIndexHtmlFileFullName
         public static string GetIndexHtmlFileFullName() {
             object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistrySubKey, "IndexHtmlFileFullName");

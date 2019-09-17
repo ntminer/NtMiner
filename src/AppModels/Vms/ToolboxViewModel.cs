@@ -82,7 +82,7 @@ namespace NTMiner.Vms {
 
         public bool IsRemoteDesktopEnabled {
             get {
-                return NTMinerRoot.GetIsRemoteDesktopEnabled();
+                return NTMinerRegistry.GetIsRemoteDesktopEnabled();
             }
         }
 

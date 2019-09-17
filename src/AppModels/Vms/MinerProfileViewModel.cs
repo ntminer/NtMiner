@@ -253,14 +253,14 @@ namespace NTMiner.Vms {
                 string minerName = NTMinerRoot.Instance.MinerProfile.MinerName;
                 // 群控模式时可能未指定群控矿工名，此时使用本地模式交换到注册表的本地矿工名
                 if (string.IsNullOrEmpty(minerName)) {
-                    return NTMinerRoot.GetMinerName();
+                    return NTMinerRegistry.GetMinerName();
                 }
                 return minerName;
             }
             set {
                 if (NTMinerRoot.Instance.MinerProfile.MinerName != value) {
                     NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(MinerName), value);
-                    NTMinerRoot.SetMinerName(value);
+                    NTMinerRegistry.SetMinerName(value);
                     NTMinerRoot.RefreshArgsAssembly.Invoke();
                     OnPropertyChanged(nameof(MinerName));
                 }
