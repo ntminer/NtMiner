@@ -10,12 +10,12 @@
 		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
 		xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 		Background="White"
-		mc:Ignorable="d" d:DesignHeight="420" d:DesignWidth="700">
+		mc:Ignorable="d" d:DesignHeight="420" d:DesignWidth="740">
 	<UserControl.DataContext>
 		<vm:ToolboxViewModel></vm:ToolboxViewModel>
 	</UserControl.DataContext>
     <UserControl.Resources>
-        <sys:Double x:Key="ItemWidth">220</sys:Double>
+        <sys:Double x:Key="ItemWidth">230</sys:Double>
         <sys:Double x:Key="ItemHeight">50</sys:Double>
     </UserControl.Resources>
 	<Grid>
