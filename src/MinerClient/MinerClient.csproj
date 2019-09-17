@@ -214,10 +214,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="AtikmdagPatcher\atikmdag-patcher1.4.6.exe" />
+    <EmbeddedResource Include="SwitchRadeonGpu\switch-radeon-gpu.exe" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="SwitchRadeonGpu\switch-radeon-gpu.exe" />
+    <EmbeddedResource Include="AtikmdagPatcher\atikmdag-patcher1.4.7.exe" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\Fody.5.0.0\build\Fody.targets" Condition="Exists('..\..\packages\Fody.5.0.0\build\Fody.targets')" />
