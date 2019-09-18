@@ -16,7 +16,7 @@ namespace NTMiner {
         public static readonly Version CurrentVersion;
         public static readonly string CurrentVersionTag;
 
-        public static string ServerVersion;
+        public static Version ServerVersion;
         private static bool _isJsonServer;
         public static bool IsJsonServer {
             get { return _isJsonServer; }
@@ -83,7 +83,7 @@ namespace NTMiner {
         static NTMinerRoot() {
             Assembly mainAssembly = Assembly.GetEntryAssembly();
             CurrentVersion = mainAssembly.GetName().Version;
-            ServerVersion = CurrentVersion.ToString();
+            ServerVersion = CurrentVersion;
             CurrentVersionTag = ((AssemblyDescriptionAttribute)mainAssembly.GetCustomAttributes(typeof(AssemblyDescriptionAttribute), inherit: false).First()).Description;
         }
 

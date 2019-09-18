@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace NTMiner {
     public static class AssemblyInfo {
-        public const string Version = "2.6.5";
+        public const string Version = "2.6.6";
         public const string Build = "0";
         public const string Tag = "蛮吉";
         public const string MinerJsonBucket = "https://minerjson.oss-cn-beijing.aliyuncs.com/";

@@ -97,7 +97,7 @@ namespace NTMiner.Vms {
                 Clipboard.SetDataObject(ips);
                 VirtualRoot.Out.ShowSuccessMessage(ips, "复制成功");
             });
-            SetCheckUpdateForeground(isLatest: NTMinerRoot.CurrentVersion.ToString() == NTMinerRoot.ServerVersion);
+            SetCheckUpdateForeground(isLatest: NTMinerRoot.CurrentVersion >= NTMinerRoot.ServerVersion);
         }
 
         public void SetCheckUpdateForeground(bool isLatest) {
