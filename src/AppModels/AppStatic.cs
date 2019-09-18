@@ -9,6 +9,7 @@ using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace NTMiner {
@@ -422,6 +423,45 @@ namespace NTMiner {
                     }
                 }
                 return gpuSet.DriverVersion.ToString();
+            }
+        }
+
+        private static readonly SolidColorBrush Red = new SolidColorBrush(Colors.Red);
+        public static SolidColorBrush DriverVersionColor {
+            get {
+                var gpuSet = NTMinerRoot.Instance.GpuSet;
+                switch (gpuSet.GpuType) {
+                    case GpuType.NVIDIA:
+                        if (gpuSet.DriverVersion < MinNvidiaDriverVersion) {
+                            return Red;
+                        }
+                        break;
+                    case GpuType.AMD:
+                        if (gpuSet.DriverVersion < MinAmdDriverVersion) {
+                            return Red;
+                        }
+                        break;
+                }
+                return (SolidColorBrush)Application.Current.Resources["LableColor"];
+            }
+        }
+
+        public static string DriverVersionToolTip {
+            get {
+                var gpuSet = NTMinerRoot.Instance.GpuSet;
+                switch (gpuSet.GpuType) {
+                    case GpuType.NVIDIA:
+                        if (gpuSet.DriverVersion < MinNvidiaDriverVersion) {
+                            return "显卡驱动版本较低";
+                        }
+                        break;
+                    case GpuType.AMD:
+                        if (gpuSet.DriverVersion < MinAmdDriverVersion) {
+                            return "显卡驱动版本较低";
+                        }
+                        break;
+                }
+                return "显卡驱动版本";
             }
         }
 

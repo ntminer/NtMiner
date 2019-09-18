@@ -316,7 +316,7 @@
                     <controls:KbButton 
 						Background="Transparent"
 						Margin="4 0 0 0"
-						ToolTip="本机IP，点击刷新，右键复制"
+						ToolTip="点击刷新，右键复制"
                         Command="{Binding RefreshLocalIps}"
                         MouseRightButtonUp="BtnLocalIps_MouseRightButtonUp"
                         Foreground="{StaticResource LableColor}"
@@ -335,7 +335,7 @@
 						Foreground="{StaticResource LableColor}"></controls:KbButton>
 					<TextBlock Text=" / " Foreground="{StaticResource LableColor}"></TextBlock>
 					<WrapPanel>
-						<TextBlock Text="{x:Static app:AppStatic.DriverVersion}" ToolTip="显卡驱动版本" Foreground="{StaticResource LableColor}"></TextBlock>
+                        <TextBlock Text="{x:Static app:AppStatic.DriverVersion}" ToolTip="{x:Static app:AppStatic.DriverVersionToolTip}" Foreground="{x:Static app:AppStatic.DriverVersionColor}"></TextBlock>
 						<TextBlock Text=" / " Foreground="{StaticResource LableColor}"></TextBlock>
 					</WrapPanel>
 					<TextBlock Text="{x:Static app:AppStatic.GpuSetInfo}" MaxWidth="260" ToolTip="{x:Static app:AppStatic.GpuSetInfo}" Foreground="{StaticResource LableColor}"></TextBlock>
