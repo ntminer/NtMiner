@@ -86,44 +86,63 @@
 						</StackPanel>
 					</WrapPanel>
 				</controls:KbButton>
-                <controls:KbButton 
+                <Border 
 					Height="{StaticResource ItemHeight}" 
 					Width="{StaticResource ItemWidth}"
 					Margin="4"
-					Cursor="Hand"
-					ToolTip="如果没有20系列的卡，挖矿建议使用3xx驱动。"
+                    Padding="20 0 0 0"
 					Background="Transparent">
 					<WrapPanel VerticalAlignment="Center">
 						<Path 
-							Width="30"
+							Width="32"
 							Height="30"
 							Data="{StaticResource Icon_Nvidia}"
 							Fill="Green"
 							Stretch="Fill" />
-						<StackPanel Margin="8 0 0 0" Width="152">
-							<controls:KbLinkButton
+						<Grid Margin="8 0 0 0" Width="152">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="40"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <controls:KbLinkButton
 								Command="{Binding NavigateToNvidiaDriverWin10}"
 								Padding="0"
 								HorizontalAlignment="Left"
+					            ToolTip="如果没有20系列的卡，挖矿建议使用3xx驱动。"
 								KbDisplayLine="False"
 								KbSystemButtonHoverBackground="Transparent"
-								Background="Transparent"
-								FontSize="14">
-								<TextBlock Text="N卡驱动399.24_win10" Foreground="{StaticResource LinkForeground}"></TextBlock>
-							</controls:KbLinkButton>
-							<controls:KbLinkButton 
+								Background="Transparent">
+                                <TextBlock Text="399.24_win10" FontSize="14" Foreground="{StaticResource LinkForeground}"></TextBlock>
+                            </controls:KbLinkButton>
+                            <controls:KbLinkButton 
+                                Grid.Row="1"
 								Command="{Binding NavigateToNvidiaDriverWin7}"
 								Padding="0"
+					            ToolTip="如果没有20系列的卡，挖矿建议使用3xx驱动。"
 								HorizontalAlignment="Left"
 								KbDisplayLine="False"
 								KbSystemButtonHoverBackground="Transparent"
-								Background="Transparent"
-								FontSize="14">
-								<TextBlock Text="N卡驱动399.24_win7" Foreground="{StaticResource LinkForeground}"></TextBlock>
-							</controls:KbLinkButton>
-						</StackPanel>
+								Background="Transparent">
+                                <TextBlock Text="399.24_win7" FontSize="14" Foreground="{StaticResource LinkForeground}"></TextBlock>
+                            </controls:KbLinkButton>
+                            <controls:KbLinkButton 
+                                Grid.Row="1"
+                                Grid.Column="1"
+								Command="{Binding NavigateToNvidiaDriverMore}"
+								Padding="0"
+								HorizontalAlignment="Right"
+								KbDisplayLine="False"
+								KbSystemButtonHoverBackground="Transparent"
+								Background="Transparent">
+                                <TextBlock Text="更多" Foreground="{StaticResource LinkForeground}"></TextBlock>
+                            </controls:KbLinkButton>
+                        </Grid>
 					</WrapPanel>
-				</controls:KbButton>
+				</Border>
                 <controls:KbButton 
 					Height="{StaticResource ItemHeight}" 
 					Width="{StaticResource ItemWidth}"

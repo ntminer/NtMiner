@@ -8,6 +8,7 @@ namespace NTMiner.Vms {
         public ICommand AtikmdagPatcher { get; private set; }
         public ICommand NavigateToNvidiaDriverWin10 { get; private set; }
         public ICommand NavigateToNvidiaDriverWin7 { get; private set; }
+        public ICommand NavigateToNvidiaDriverMore { get; private set; }
         public ICommand NavigateToAmdDriver { get; private set; }
         public ICommand RegCmdHere { get; private set; }
         public ICommand BlockWAU { get; private set; }
@@ -40,6 +41,9 @@ namespace NTMiner.Vms {
             });
             this.NavigateToNvidiaDriverWin7 = new DelegateCommand(() => {
                 Process.Start("https://www.geforce.cn/drivers/results/137752");
+            });
+            this.NavigateToNvidiaDriverMore = new DelegateCommand(() => {
+                Process.Start("https://www.geforce.cn/drivers");
             });
             this.NavigateToAmdDriver = new DelegateCommand(() => {
                 Process.Start("https://www.amd.com/zh-hans/support");
