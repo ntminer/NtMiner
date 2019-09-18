@@ -16,6 +16,14 @@ namespace UnitTests {
     [TestClass]
     public class UnitTest1 {
         [TestMethod]
+        public void VersionTest() {
+            Assert.AreEqual(new Version(), new Version());
+            Assert.IsTrue(new Version() == new Version());
+            Assert.IsTrue(new Version().Equals(new Version()));
+            Assert.AreEqual("0.0", new Version().ToString());
+        }
+
+        [TestMethod]
         public void NaNTest() {
             Assert.AreEqual(double.NaN, double.NaN);
             Assert.IsFalse(double.NaN == double.NaN);

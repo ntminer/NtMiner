@@ -193,14 +193,14 @@ namespace NTMiner.Gpus {
             return fanSpeed;
         }
 
-        public void GetVersion(out string driverVersion, out string nvmlVersion) {
-            driverVersion = "0.0";
+        public void GetVersion(out Version driverVersion, out string nvmlVersion) {
+            driverVersion = new Version();
             nvmlVersion = "0.0";
             if (!NvmlInit()) {
                 return;
             }
             try {
-                var r = NvmlNativeMethods.nvmlSystemGetDriverVersion(out driverVersion);
+                var r = NvmlNativeMethods.nvmlSystemGetDriverVersion(out string version);
                 if (r != nvmlReturn.Success) {
                     Write.DevError($"{nameof(NvmlNativeMethods.nvmlSystemGetDriverVersion)} {r}");
                 }
@@ -208,8 +208,8 @@ namespace NTMiner.Gpus {
                 if (r != nvmlReturn.Success) {
                     Write.DevError($"{nameof(NvmlNativeMethods.nvmlSystemGetNVMLVersion)} {r}");
                 }
-                if (string.IsNullOrEmpty(driverVersion)) {
-                    driverVersion = "0.0";
+                if (!string.IsNullOrEmpty(version) && Version.TryParse(version, out Version v)) {
+                    driverVersion = v;
                 }
                 if (string.IsNullOrEmpty(nvmlVersion)) {
                     nvmlVersion = "0.0";

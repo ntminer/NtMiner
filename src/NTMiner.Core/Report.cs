@@ -61,7 +61,7 @@ namespace NTMiner {
                 Kernel = string.Empty,
                 MainCoinPool = string.Empty,
                 OSName = Windows.OS.Instance.WindowsEdition,
-                GpuDriver = root.GpuSet.DriverVersion,
+                GpuDriver = root.GpuSet.DriverVersion.ToString(),
                 GpuType = root.GpuSet.GpuType,
                 OSVirtualMemoryMb = NTMinerRoot.OSVirtualMemoryMb,
                 KernelCommandLine = NTMinerRoot.UserKernelCommandLine,

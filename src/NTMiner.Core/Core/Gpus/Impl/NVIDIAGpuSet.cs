@@ -14,7 +14,7 @@ namespace NTMiner.Core.Gpus.Impl {
         };
 
         private readonly INTMinerRoot _root;
-        private readonly string _driverVersion;
+        private readonly Version _driverVersion;
 
         public int Count {
             get {
@@ -38,14 +38,12 @@ namespace NTMiner.Core.Gpus.Impl {
                 _nvmlHelper.GetVersion(out _driverVersion, out string nvmlVersion);
                 this.Properties.Add(new GpuSetProperty(GpuSetProperty.DRIVER_VERSION, "驱动版本", _driverVersion));
                 try {
-                    if (double.TryParse(_driverVersion, out double driverVersionNum)) {
-                        var item = root.SysDicItemSet.GetSysDicItems("CudaVersion")
-                            .Select(a => new { Version = double.Parse(a.Value), a })
-                            .OrderByDescending(a => a.Version)
-                            .FirstOrDefault(a => driverVersionNum >= a.Version);
-                        if (item != null) {
-                            this.Properties.Add(new GpuSetProperty("CudaVersion", "Cuda版本", item.a.Code));
-                        }
+                    var item = root.SysDicItemSet.GetSysDicItems("CudaVersion")
+                        .Select(a => new { Version = double.Parse(a.Value), a })
+                        .OrderByDescending(a => a.Version)
+                        .FirstOrDefault(a => _driverVersion.Major >= a.Version);
+                    if (item != null) {
+                        this.Properties.Add(new GpuSetProperty("CudaVersion", "Cuda版本", item.a.Code));
                     }
                 }
                 catch (Exception e) {
@@ -104,7 +102,7 @@ namespace NTMiner.Core.Gpus.Impl {
             }
         }
 
-        public string DriverVersion {
+        public Version DriverVersion {
             get { return _driverVersion; }
         }
 

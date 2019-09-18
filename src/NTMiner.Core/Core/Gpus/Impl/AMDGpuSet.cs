@@ -117,7 +117,7 @@ namespace NTMiner.Core.Gpus.Impl {
             }
         }
 
-        public string DriverVersion { get; private set; }
+        public Version DriverVersion { get; private set; }
 
         public bool TryGetGpu(int index, out IGpu gpu) {
             Gpu temp;

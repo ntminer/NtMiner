@@ -86,20 +86,20 @@ namespace NTMiner.Gpus {
             get { return _gpuNames.Count; }
         }
 
-        public string GetDriverVersion() {
+        public Version GetDriverVersion() {
             ADLVersionsInfoX2 info = new ADLVersionsInfoX2();
             try {
                 var r = AdlNativeMethods.ADL2_Graphics_VersionsX2_Get(context, ref info);
                 if (r < AdlStatus.ADL_OK) {
                     Write.DevError($"{nameof(AdlNativeMethods.ADL2_Graphics_VersionsX2_Get)} {r}");
                 }
-                if (string.IsNullOrEmpty(info.strCrimsonVersion)) {
-                    return "0.0";
+                if (string.IsNullOrEmpty(info.strCrimsonVersion) || !Version.TryParse(info.strCrimsonVersion, out Version v)) {
+                    return new Version();
                 }
-                return info.strCrimsonVersion;
+                return v;
             }
             catch {
-                return "0.0";
+                return new Version();
             }
         }
 

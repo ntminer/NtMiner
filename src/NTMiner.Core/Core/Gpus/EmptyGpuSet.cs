@@ -1,4 +1,5 @@
 ﻿using NTMiner.Core.Gpus.Impl;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -41,8 +42,8 @@ namespace NTMiner.Core.Gpus {
 
         public IOverClock OverClock { get; private set; } = new EmptyOverClock();
 
-        public string DriverVersion {
-            get { return "0.0"; }
+        public Version DriverVersion {
+            get { return new Version(); }
         }
 
         public void LoadGpuState() {

@@ -1,12 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace NTMiner.Core.Gpus {
     public interface IGpuSet : IEnumerable<IGpu> {
         GpuType GpuType { get; }
         /// <summary>
-        /// NVIDIA的驱动版本号形如399.24，AMD的驱动版本号形如23.20.15025.1004
+        /// NVIDIA的驱动版本号形如399.24，AMD的驱动版本号形如18.6.1
+        /// 都是正常格式的版本号
         /// </summary>
-        string DriverVersion { get; }
+        Version DriverVersion { get; }
         IOverClock OverClock { get; }
         int Count { get; }
 

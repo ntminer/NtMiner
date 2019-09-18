@@ -421,7 +421,7 @@ namespace NTMiner {
                         return $"{gpuSet.DriverVersion}_{cudaVersion.Value}";
                     }
                 }
-                return gpuSet.DriverVersion;
+                return gpuSet.DriverVersion.ToString();
             }
         }
 
