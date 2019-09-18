@@ -93,6 +93,9 @@ namespace NTMiner.Gpus {
                 if (r < AdlStatus.ADL_OK) {
                     Write.DevError($"{nameof(AdlNativeMethods.ADL2_Graphics_VersionsX2_Get)} {r}");
                 }
+                if (string.IsNullOrEmpty(info.strCrimsonVersion)) {
+                    return "0.0";
+                }
                 return info.strCrimsonVersion;
             }
             catch {
