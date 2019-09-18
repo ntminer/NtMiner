@@ -426,19 +426,18 @@ namespace NTMiner {
             }
         }
 
-        private static readonly SolidColorBrush Red = new SolidColorBrush(Colors.Red);
         public static SolidColorBrush DriverVersionColor {
             get {
                 var gpuSet = NTMinerRoot.Instance.GpuSet;
                 switch (gpuSet.GpuType) {
                     case GpuType.NVIDIA:
                         if (gpuSet.DriverVersion < MinNvidiaDriverVersion) {
-                            return Red;
+                            return Wpf.Util.RedBrush;
                         }
                         break;
                     case GpuType.AMD:
                         if (gpuSet.DriverVersion < MinAmdDriverVersion) {
-                            return Red;
+                            return Wpf.Util.RedBrush;
                         }
                         break;
                 }
