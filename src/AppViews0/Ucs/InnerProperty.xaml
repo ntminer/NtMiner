@@ -89,16 +89,6 @@
                 <TextBlock Text="{x:Static app:AppStatic.LocalDbFileFullName}"></TextBlock>
             </WrapPanel>
 
-            <WrapPanel Visibility="{x:Static app:AppStatic.IsDevModeVisible}">
-                <TextBlock Style="{StaticResource LblTb}" Text="守护程序文件名"></TextBlock>
-                <TextBlock Text="{x:Static app:AppStatic.DaemonFileFullName}"></TextBlock>
-            </WrapPanel>
-
-            <WrapPanel Visibility="{x:Static app:AppStatic.IsDevModeVisible}">
-                <TextBlock Style="{StaticResource LblTb}"></TextBlock>
-                <TextBlock Text="{x:Static app:AppStatic.DevConsoleFileFullName}"></TextBlock>
-            </WrapPanel>
-
             <WrapPanel>
                 <Border Width="{StaticResource LblWidth}">
                     <Button 
@@ -157,6 +147,16 @@
                     </Button>
                 </Border>
                 <TextBlock Text="{x:Static app:AppStatic.KernelsDirFullName}"></TextBlock>
+            </WrapPanel>
+
+            <WrapPanel Visibility="{x:Static app:AppStatic.IsDevModeVisible}">
+                <TextBlock Style="{StaticResource LblTb}" Text="守护程序文件名"></TextBlock>
+                <TextBlock Text="{x:Static app:AppStatic.DaemonFileFullName}"></TextBlock>
+            </WrapPanel>
+
+            <WrapPanel Visibility="{x:Static app:AppStatic.IsDevModeVisible}">
+                <TextBlock Style="{StaticResource LblTb}"></TextBlock>
+                <TextBlock Text="{x:Static app:AppStatic.DevConsoleFileFullName}"></TextBlock>
             </WrapPanel>
         </StackPanel>
     </ScrollViewer>

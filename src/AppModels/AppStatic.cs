@@ -112,16 +112,16 @@ namespace NTMiner {
             get { return AssemblyInfo.ServerVersionJsonFileFullName.Replace(HomeDir, Consts.HomeDirParameterName); }
         }
 
+        public static string PackagesDirFullName {
+            get { return SpecialPath.PackagesDirFullName.Replace(HomeDir, Consts.HomeDirParameterName); }
+        }
+
         public static string DaemonFileFullName {
-            get { return SpecialPath.DaemonFileFullName.Replace(HomeDir, Consts.HomeDirParameterName); }
+            get { return SpecialPath.DaemonFileFullName.Replace(TempDir, Consts.TempDirParameterName); }
         }
 
         public static string DevConsoleFileFullName {
-            get { return SpecialPath.DevConsoleFileFullName.Replace(HomeDir, Consts.HomeDirParameterName); }
-        }
-
-        public static string PackagesDirFullName {
-            get { return SpecialPath.PackagesDirFullName.Replace(HomeDir, Consts.HomeDirParameterName); }
+            get { return SpecialPath.DevConsoleFileFullName.Replace(TempDir, Consts.TempDirParameterName); }
         }
 
         public static string DownloadDirFullName {
