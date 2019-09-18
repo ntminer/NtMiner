@@ -11,7 +11,7 @@ namespace NTMiner.Vms {
         public static readonly MinerProfileViewModel Instance = new MinerProfileViewModel();
 
         private readonly string _linkFileFullName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), "开源矿工.lnk");
-        private readonly string _linkFileDescription = "开源矿工 - 做最好的矿工";
+        private readonly string _linkFileDescription = "开源矿工 - 做最好的矿工 https://ntminer.com";
         public ICommand AutoStartDelaySecondsUp { get; private set; }
         public ICommand AutoStartDelaySecondsDown { get; private set; }
 
@@ -595,7 +595,7 @@ namespace NTMiner.Vms {
             bool isDo = !File.Exists(_linkFileFullName);
             if (!isDo) {
                 string targetPath = WindowsShortcut.GetTargetPath(_linkFileFullName);
-                isDo = !_linkFileFullName.Equals(targetPath, StringComparison.OrdinalIgnoreCase);
+                isDo = !VirtualRoot.AppFileFullName.Equals(targetPath, StringComparison.OrdinalIgnoreCase);
             }
             if (isDo) {
                 WindowsShortcut.CreateShortcut(_linkFileFullName, VirtualRoot.AppFileFullName, _linkFileDescription);
