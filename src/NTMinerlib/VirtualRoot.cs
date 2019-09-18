@@ -88,10 +88,14 @@ namespace NTMiner {
             List<IPAddress> ipaddress = new List<IPAddress>();
 
             //获取网卡
-            NetworkInterface[] interfaces = NetworkInterface.GetAllNetworkInterfaces().Where(a => a.Name.StartsWith("wlan", StringComparison.OrdinalIgnoreCase)).ToArray();
-            foreach (NetworkInterface ni in interfaces) {
-                var ippros = ni.GetIPProperties().UnicastAddresses;
-                foreach (UnicastIPAddressInformation ip in ippros) {
+            var items = NetworkInterface.GetAllNetworkInterfaces();
+            foreach (NetworkInterface ni in items) {
+                IPInterfaceProperties ipipros = ni.GetIPProperties();
+                // 忽略没有默认网关的
+                if (ipipros.GatewayAddresses.Count == 0) {
+                    continue;
+                }
+                foreach (UnicastIPAddressInformation ip in ipipros.UnicastAddresses) {
                     //忽略不是ipv4的
                     if (ip.Address.AddressFamily != AddressFamily.InterNetwork) {
                         continue;
