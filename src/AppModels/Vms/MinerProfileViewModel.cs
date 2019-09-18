@@ -589,6 +589,9 @@ namespace NTMiner.Vms {
         }
 
         private void CreateShortcut() {
+            if (!VirtualRoot.IsMinerClient) {
+                return;
+            }
             bool isDo = !File.Exists(_linkFileFullName);
             if (!isDo) {
                 string targetPath = WindowsShortcut.GetTargetPath(_linkFileFullName);
@@ -605,11 +608,13 @@ namespace NTMiner.Vms {
                 if (NTMinerRoot.Instance.MinerProfile.IsCreateShortcut != value) {
                     NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsCreateShortcut), value);
                     OnPropertyChanged(nameof(IsCreateShortcut));
-                    if (value) {
-                        CreateShortcut();
-                    }
-                    else {
-                        File.Delete(_linkFileFullName);
+                    if (VirtualRoot.IsMinerClient) {
+                        if (value) {
+                            CreateShortcut();
+                        }
+                        else {
+                            File.Delete(_linkFileFullName);
+                        }
                     }
                 }
             }
