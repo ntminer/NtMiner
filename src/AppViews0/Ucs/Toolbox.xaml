@@ -71,7 +71,8 @@
 					Width="{StaticResource ItemWidth}"
 					Margin="4"
 					Cursor="Hand"
-					Command="{Binding NavigateToAmdDriver}"
+					Command="{Binding NavigateToDriver}"
+                    CommandParameter="{Binding AmdDriverMore}"
 					Background="Transparent">
 					<WrapPanel VerticalAlignment="Center">
 						<Path 
@@ -81,7 +82,7 @@
 							Fill="Red"
 							Stretch="Fill" />
 						<StackPanel Margin="8 0 0 0" Width="152">
-							<TextBlock FontWeight="Bold" FontSize="14">A卡驱动下载</TextBlock>
+                            <TextBlock FontWeight="Bold" FontSize="14" Text="{Binding AmdDriverMore.Description}"></TextBlock>
 							<TextBlock Foreground="{StaticResource LableColor}">打开AMD官网下载A卡驱动</TextBlock>
 						</StackPanel>
 					</WrapPanel>
@@ -109,36 +110,38 @@
                                 <RowDefinition></RowDefinition>
                             </Grid.RowDefinitions>
                             <controls:KbLinkButton
-								Command="{Binding NavigateToNvidiaDriverWin10}"
+								Command="{Binding NavigateToDriver}"
+                                CommandParameter="{Binding NvidiaDriverWin10}"
 								Padding="0"
 								HorizontalAlignment="Left"
-					            ToolTip="如果没有20系列的卡，挖矿建议使用3xx驱动。"
 								KbDisplayLine="False"
 								KbSystemButtonHoverBackground="Transparent"
 								Background="Transparent">
-                                <TextBlock Text="399.24_win10" FontSize="14" Foreground="{StaticResource LinkForeground}"></TextBlock>
+                                <TextBlock Text="{Binding NvidiaDriverWin10.Description}" FontSize="14" Foreground="{StaticResource LinkForeground}"></TextBlock>
                             </controls:KbLinkButton>
                             <controls:KbLinkButton 
                                 Grid.Row="1"
-								Command="{Binding NavigateToNvidiaDriverWin7}"
+								Command="{Binding NavigateToDriver}"
+                                CommandParameter="{Binding NvidiaDriverWin7}"
 								Padding="0"
-					            ToolTip="如果没有20系列的卡，挖矿建议使用3xx驱动。"
 								HorizontalAlignment="Left"
 								KbDisplayLine="False"
 								KbSystemButtonHoverBackground="Transparent"
 								Background="Transparent">
-                                <TextBlock Text="399.24_win7" FontSize="14" Foreground="{StaticResource LinkForeground}"></TextBlock>
+                                <TextBlock Text="{Binding NvidiaDriverWin7.Description}" FontSize="14" Foreground="{StaticResource LinkForeground}"></TextBlock>
                             </controls:KbLinkButton>
                             <controls:KbLinkButton 
                                 Grid.Row="1"
                                 Grid.Column="1"
-								Command="{Binding NavigateToNvidiaDriverMore}"
+								Command="{Binding NavigateToDriver}"
+                                CommandParameter="{Binding NvidiaDriverMore}"
 								Padding="0"
+					            ToolTip="如果没有20系列的卡，挖矿建议使用3xx驱动。"
 								HorizontalAlignment="Right"
 								KbDisplayLine="False"
 								KbSystemButtonHoverBackground="Transparent"
 								Background="Transparent">
-                                <TextBlock Text="更多" Foreground="{StaticResource LinkForeground}"></TextBlock>
+                                <TextBlock Text="{Binding NvidiaDriverMore.Description}" Foreground="{StaticResource LinkForeground}"></TextBlock>
                             </controls:KbLinkButton>
                         </Grid>
 					</WrapPanel>
