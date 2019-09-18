@@ -256,7 +256,8 @@ namespace NTMiner.Views {
             if (ConsoleWindow.Instance.Height != this.ActualHeight) {
                 ConsoleWindow.Instance.Height = this.ActualHeight;
             }
-            ConsoleWindow.Instance.ReSizeConsoleWindow(marginLeft: (int)point.X, marginTop: (int)point.Y);
+            int marginBottom = (int)StateBar.ActualHeight;
+            ConsoleWindow.Instance.ReSizeConsoleWindow(marginLeft: (int)point.X, marginTop: (int)point.Y, marginBottom);
         }
 
         private void Window_SourceInitialized(object sender, EventArgs e) {

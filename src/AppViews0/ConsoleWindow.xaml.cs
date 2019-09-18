@@ -28,7 +28,7 @@ namespace NTMiner.Views {
         }
 
         private bool _isFirst = true;
-        public void ReSizeConsoleWindow(int marginLeft, int marginTop) {
+        public void ReSizeConsoleWindow(int marginLeft, int marginTop, int marginBottom) {
             IntPtr console = NTMinerConsole.Show();
             bool bRepaint = !_isFirst;
             if (_isFirst) {
@@ -43,7 +43,7 @@ namespace NTMiner.Views {
             if (width < 0) {
                 width = 0;
             }
-            int height = (int)this.ActualHeight - marginTop;
+            int height = (int)this.ActualHeight - marginTop - marginBottom;
 
             NTMinerConsole.MoveWindow(console, paddingLeft + marginLeft, marginTop, width, height, bRepaint);
         }
