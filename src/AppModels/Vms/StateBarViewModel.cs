@@ -212,7 +212,11 @@ namespace NTMiner.Vms {
 
         public string LocalIps {
             get {
-                return string.Join("，", VirtualRoot.GetLocalIps().Select(a => a.ToString()));
+                string ips = string.Join("，", VirtualRoot.GetLocalIps().Select(a => a.ToString()));
+                if (string.IsNullOrEmpty(ips)) {
+                    return "无";
+                }
+                return ips;
             }
         }
     }
