@@ -345,8 +345,17 @@
 				<GroupBox.Header>
 					<TextBlock Style="{StaticResource GroupHeader}">其它</TextBlock>
 				</GroupBox.Header>
-				<StackPanel>
-					<WrapPanel Margin="0 2" VerticalAlignment="Center">
+                <StackPanel>
+                    <WrapPanel Margin="0 2" Visibility="{x:Static app:AppStatic.IsMinerClientVisible}">
+                        <CheckBox
+							Padding="0"
+							FocusVisualStyle="{x:Null}"
+							VerticalContentAlignment="Center"
+							IsChecked="{Binding IsCreateShortcut}">
+                            <TextBlock VerticalAlignment="Center">创建桌面快捷方式</TextBlock>
+                        </CheckBox>
+                    </WrapPanel>
+                    <WrapPanel Margin="0 2" VerticalAlignment="Center">
 						<CheckBox
 							FocusVisualStyle="{x:Null}"
 							Padding="0"

@@ -43,6 +43,7 @@ namespace NTMiner.Profile {
             this.IsShowCommandLine = false;
             this.IsAutoBoot = true;
             this.IsAutoStart = false;
+            this.IsCreateShortcut = true;
         }
 
         public MinerProfileData(IMinerProfile data) {
@@ -79,6 +80,7 @@ namespace NTMiner.Profile {
             this.IsShowCommandLine = data.IsShowCommandLine;
             this.IsAutoBoot = data.IsAutoBoot;
             this.IsAutoStart = data.IsAutoStart;
+            this.IsCreateShortcut = data.IsCreateShortcut;
         }
 
         public Guid GetId() {
@@ -137,6 +139,8 @@ namespace NTMiner.Profile {
         public bool IsAutoBoot { get; set; }
 
         public bool IsAutoStart { get; set; }
+
+        public bool IsCreateShortcut { get; set; }
 
         public override string ToString() {
             return this.BuildSign().ToString();

@@ -24,6 +24,18 @@ namespace UnitTests {
         }
 
         [TestMethod]
+        public void ShortcutTest() {
+            string linkFileFullName= Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), "ShortcutTest.lnk");
+            File.Delete(linkFileFullName);
+            Assert.IsTrue(string.IsNullOrEmpty(WindowsShortcut.GetTargetPath(linkFileFullName)));
+            WindowsShortcut.CreateShortcut(linkFileFullName, VirtualRoot.AppFileFullName, "this is a test");
+            Assert.AreEqual(VirtualRoot.AppFileFullName, WindowsShortcut.GetTargetPath(linkFileFullName));
+            string testFileFullName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "notepad.exe");
+            WindowsShortcut.CreateShortcut(linkFileFullName, testFileFullName, "this is a test");
+            Assert.AreEqual(testFileFullName, WindowsShortcut.GetTargetPath(linkFileFullName), ignoreCase: true);
+        }
+
+        [TestMethod]
         public void NaNTest() {
             Assert.AreEqual(double.NaN, double.NaN);
             Assert.IsFalse(double.NaN == double.NaN);

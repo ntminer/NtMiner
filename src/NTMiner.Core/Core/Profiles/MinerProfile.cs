@@ -406,6 +406,13 @@ namespace NTMiner.Core.Profiles {
                 _data.IsAutoStart = value;
             }
         }
+
+        public bool IsCreateShortcut {
+            get => _data.IsCreateShortcut;
+            private set {
+                _data.IsCreateShortcut = value;
+            }
+        }
         #endregion
 
         private static Dictionary<string, PropertyInfo> s_properties;

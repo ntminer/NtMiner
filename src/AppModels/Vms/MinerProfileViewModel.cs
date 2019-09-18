@@ -2,6 +2,7 @@
 using NTMiner.MinerServer;
 using NTMiner.Profile;
 using System;
+using System.IO;
 using System.Linq;
 using System.Windows.Input;
 
@@ -9,6 +10,8 @@ namespace NTMiner.Vms {
     public class MinerProfileViewModel : ViewModelBase, IMinerProfile {
         public static readonly MinerProfileViewModel Instance = new MinerProfileViewModel();
 
+        private readonly string _linkFileFullName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), "开源矿工.lnk");
+        private readonly string _linkFileDescription = "开源矿工 - 做最好的矿工";
         public ICommand AutoStartDelaySecondsUp { get; private set; }
         public ICommand AutoStartDelaySecondsDown { get; private set; }
 
@@ -46,13 +49,16 @@ namespace NTMiner.Vms {
 
         public MinerProfileViewModel() {
 #if DEBUG
-                Write.Stopwatch.Restart();
+            Write.Stopwatch.Restart();
 #endif
             if (Design.IsInDesignMode) {
                 return;
             }
             if (Instance != null) {
                 throw new InvalidProgramException();
+            }
+            if (this.IsCreateShortcut) {
+                CreateShortcut();
             }
             this.AutoStartDelaySecondsUp = new DelegateCommand(() => {
                 this.AutoStartDelaySeconds++;
@@ -200,7 +206,7 @@ namespace NTMiner.Vms {
                     }
                 });
 #if DEBUG
-                Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+            Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
 #endif
         }
 
@@ -578,6 +584,33 @@ namespace NTMiner.Vms {
                 if (NTMinerRoot.Instance.MinerProfile.IsShowCommandLine != value) {
                     NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsShowCommandLine), value);
                     OnPropertyChanged(nameof(IsShowCommandLine));
+                }
+            }
+        }
+
+        private void CreateShortcut() {
+            bool isDo = !File.Exists(_linkFileFullName);
+            if (!isDo) {
+                string targetPath = WindowsShortcut.GetTargetPath(_linkFileFullName);
+                isDo = !_linkFileFullName.Equals(targetPath, StringComparison.OrdinalIgnoreCase);
+            }
+            if (isDo) {
+                WindowsShortcut.CreateShortcut(_linkFileFullName, VirtualRoot.AppFileFullName, _linkFileDescription);
+            }
+        }
+
+        public bool IsCreateShortcut {
+            get { return NTMinerRoot.Instance.MinerProfile.IsCreateShortcut; }
+            set {
+                if (NTMinerRoot.Instance.MinerProfile.IsCreateShortcut != value) {
+                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsCreateShortcut), value);
+                    OnPropertyChanged(nameof(IsCreateShortcut));
+                    if (value) {
+                        CreateShortcut();
+                    }
+                    else {
+                        File.Delete(_linkFileFullName);
+                    }
                 }
             }
         }

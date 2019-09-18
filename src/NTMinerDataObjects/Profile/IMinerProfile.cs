@@ -43,5 +43,6 @@ namespace NTMiner.Profile {
         bool IsShowCommandLine { get; }
         bool IsAutoBoot { get; }
         bool IsAutoStart { get; }
+        bool IsCreateShortcut { get; }
     }
 }
