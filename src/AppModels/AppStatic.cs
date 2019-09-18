@@ -365,6 +365,34 @@ namespace NTMiner {
             }
         }
 
+        public static Version MinAmdDriverVersion {
+            get {
+                if (Design.IsInDesignMode) {
+                    return new Version();
+                }
+                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("ThisSystem", "MinAmdDriverVersion", out ISysDicItem dicItem)) {
+                    if (Version.TryParse(dicItem.Value, out Version version)) {
+                        return version;
+                    }
+                }
+                return new Version(17,10,2);
+            }
+        }
+
+        public static Version MinNvidiaDriverVersion {
+            get {
+                if (Design.IsInDesignMode) {
+                    return new Version();
+                }
+                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("ThisSystem", "MinNvidiaDriverVersion", out ISysDicItem dicItem)) {
+                    if (Version.TryParse(dicItem.Value, out Version version)) {
+                        return version;
+                    }
+                }
+                return new Version(399, 24);
+            }
+        }
+
         private static readonly string _windowsEdition = Windows.OS.Instance.WindowsEdition?.Replace("Windows ", "Win");
         public static string WindowsEdition {
             get {
