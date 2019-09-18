@@ -31,6 +31,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -105,6 +106,7 @@
     <Compile Include="Vms\ServerHostItem.cs" />
     <Compile Include="ViewModelExtension.cs" />
     <Compile Include="WindowExtension.cs" />
+    <Compile Include="WindowsShortcut.cs" />
     <Compile Include="Wpf\DataGridExtesnsion.cs" />
     <Compile Include="Wpf\NativeMethods.cs" />
     <Compile Include="Wpf\TopWindow.cs" />
@@ -224,6 +226,16 @@
       <Name>NTMinerRpcClient</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <COMReference Include="IWshRuntimeLibrary">
+      <Guid>{F935DC20-1CF0-11D0-ADB9-00C04FD58A0B}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
