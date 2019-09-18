@@ -580,6 +580,18 @@ namespace NTMiner {
             OpenTxtFile(logfileFullName);
         });
 
+        public static string NppPackageUrl {
+            get {
+                if (Design.IsDevMode) {
+                    return "https://minerjson.oss-cn-beijing.aliyuncs.com/npp.zip";
+                }
+                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("Tool", "npp", out ISysDicItem dicItem)) {
+                    return dicItem.Value;
+                }
+                return "https://minerjson.oss-cn-beijing.aliyuncs.com/npp.zip";
+            }
+        }
+
         private static void OpenTxtFile(string fileFullName) {
             string nppDir = Path.Combine(SpecialPath.ToolsDirFullName, "Npp");
             string nppFileFullName = Path.Combine(nppDir, "notepad++.exe");
@@ -587,19 +599,14 @@ namespace NTMiner {
                 Directory.CreateDirectory(nppDir);
             }
             if (!File.Exists(nppFileFullName)) {
-                OfficialServer.FileUrlService.GetNppUrlAsync((downloadFileUrl, e) => {
-                    if (string.IsNullOrEmpty(downloadFileUrl)) {
-                        return;
+                VirtualRoot.Execute(new ShowFileDownloaderCommand(NppPackageUrl, "Notepad++", (window, isSuccess, message, saveFileFullName) => {
+                    if (isSuccess) {
+                        ZipUtil.DecompressZipFile(saveFileFullName, nppDir);
+                        File.Delete(saveFileFullName);
+                        window?.Close();
+                        Windows.Cmd.RunClose(nppFileFullName, fileFullName);
                     }
-                    VirtualRoot.Execute(new ShowFileDownloaderCommand(downloadFileUrl, "Notepad++", (window, isSuccess, message, saveFileFullName) => {
-                        if (isSuccess) {
-                            ZipUtil.DecompressZipFile(saveFileFullName, nppDir);
-                            File.Delete(saveFileFullName);
-                            window?.Close();
-                            Windows.Cmd.RunClose(nppFileFullName, fileFullName);
-                        }
-                    }));
-                });
+                }));
             }
             else {
                 Windows.Cmd.RunClose(nppFileFullName, fileFullName);
