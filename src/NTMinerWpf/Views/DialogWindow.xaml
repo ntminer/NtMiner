@@ -115,6 +115,7 @@
                         Fill="{StaticResource ThemeForeground}"
                         Stretch="Fill" />
                     <TextBlock
+                        x:Name="yesText"
                         FontSize="14"
                         Padding="0 4"
                         Foreground="{StaticResource ThemeForeground}"
@@ -138,6 +139,7 @@
                         Fill="White"
                         Stretch="Fill" />
                     <TextBlock
+                        x:Name="noText"
                         FontSize="14"
                         Padding="0 4"
                         Foreground="White"

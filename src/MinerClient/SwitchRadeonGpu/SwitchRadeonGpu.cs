@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 /// </summary>
 namespace NTMiner.SwitchRadeonGpu {
     public static class SwitchRadeonGpu {
-        public static void Run(Action<bool, Exception> callback) {
+        public static void Run(bool on, Action<bool, Exception> callback) {
             try {
                 Task.Factory.StartNew(() => {
                     Type type = typeof(SwitchRadeonGpu);
@@ -17,7 +17,7 @@ namespace NTMiner.SwitchRadeonGpu {
                     string name = "switch-radeon-gpu.exe";
                     string fileFullName = Path.Combine(AssemblyInfo.TempDirFullName, name);
                     assembly.ExtractManifestResource(type, name, fileFullName);
-                    Windows.Cmd.RunClose(fileFullName, "--compute=on --admin --restart", waitForExit: true);
+                    Windows.Cmd.RunClose(fileFullName, $"--compute={(on ? "on" : "off")} --admin --restart", waitForExit: true);
                     callback?.Invoke(true, null);
                 });
             }

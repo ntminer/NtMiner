@@ -41,7 +41,7 @@
 							Stretch="Fill" />
 						<StackPanel Margin="8 0 0 0" Width="152">
 							<TextBlock FontWeight="Bold" FontSize="14">A卡计算模式</TextBlock>
-							<TextBlock Foreground="{StaticResource LableColor}">一键开启所有A卡的计算模式</TextBlock>
+							<TextBlock Foreground="{StaticResource LableColor}">开启/关闭所有A卡的计算模式</TextBlock>
 						</StackPanel>
 					</WrapPanel>
 				</controls:KbButton>

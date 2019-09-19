@@ -11,8 +11,10 @@ namespace NTMiner.Views {
             string message = null,
             string helpUrl = null,
             Action onYes = null,
-            Action onNo = null) {
-            Window window = new DialogWindow(icon, title, message, helpUrl, onYes, onNo);
+            Action onNo = null,
+            string yesText = null,
+            string noText = null) {
+            Window window = new DialogWindow(icon, title, message, helpUrl, onYes, onNo, yesText, noText);
             window.MousePosition();
             window.ShowDialogEx();
         }
@@ -26,9 +28,17 @@ namespace NTMiner.Views {
             string message, 
             string helpUrl,
             Action onYes, 
-            Action onNo) {
+            Action onNo,
+            string yesText = null,
+            string noText = null) {
             _helpUrl = helpUrl;
             InitializeComponent();
+            if (!string.IsNullOrEmpty(yesText)) {
+                this.yesText.Text = yesText;
+            }
+            if (!string.IsNullOrEmpty(noText)) {
+                this.noText.Text = noText;
+            }
             if (!string.IsNullOrEmpty(helpUrl)) {
                 this.BtnHelp.Visibility = Visibility.Visible;
             }

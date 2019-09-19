@@ -64,8 +64,11 @@ namespace NTMiner.Core {
 
     [MessageType(description: "开起A卡计算模式")]
     public class SwitchRadeonGpuCommand : Cmd {
-        public SwitchRadeonGpuCommand() {
+        public SwitchRadeonGpuCommand(bool on) {
+            this.On = on;
         }
+
+        public bool On { get; private set; }
     }
 
     [MessageType(description: "A卡驱动签名")]
