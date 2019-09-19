@@ -5,7 +5,7 @@ namespace NTMiner.Bus {
 
     public class MessageDispatcher : IMessageDispatcher {
         private readonly Dictionary<Type, List<object>> _handlers = new Dictionary<Type, List<object>>();
-        private readonly HashSet<string> _paths = new HashSet<string>();
+        private readonly Dictionary<string, List<IHandlerId>> _paths = new Dictionary<string, List<IHandlerId>>();
         private readonly List<IHandlerId> _handlerIds = new List<IHandlerId>();
         private readonly object _locker = new object();
 
@@ -62,10 +62,15 @@ namespace NTMiner.Bus {
                 var keyType = typeof(TMessage);
 
                 var handlerId = handler.HandlerId;
-                if (!_paths.Contains(handlerId.HandlerPath)) {
-                    _paths.Add(handlerId.HandlerPath);
+                if (!_paths.ContainsKey(handlerId.HandlerPath)) {
+                    _paths.Add(handlerId.HandlerPath, new List<IHandlerId> { handlerId });
                 }
                 else {
+                    List<IHandlerId> handlerIds = _paths[handlerId.HandlerPath];
+                    if (handlerIds.Count == 1) {
+                        Write.DevWarn($"重复的路径:{handlerIds[0].HandlerPath} {handlerIds[0].Description}");
+                    }
+                    handlerIds.Add(handlerId);
                     Write.DevWarn($"重复的路径:{handlerId.HandlerPath} {handlerId.Description}");
                 }
                 if (_handlers.ContainsKey(keyType)) {
