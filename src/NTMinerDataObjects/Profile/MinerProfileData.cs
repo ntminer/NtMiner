@@ -42,7 +42,7 @@ namespace NTMiner.Profile {
             this.IsCloseMeanExit = false;
             this.IsShowCommandLine = false;
             this.IsAutoBoot = true;
-            this.IsAutoStart = false;
+            this.IsAutoStart = true;
             this.IsCreateShortcut = true;
         }
 
