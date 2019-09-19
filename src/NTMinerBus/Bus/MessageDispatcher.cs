@@ -66,7 +66,7 @@ namespace NTMiner.Bus {
                     _paths.Add(handlerId.HandlerPath);
                 }
                 else {
-                    Write.DevWarn($"重复的路径:{handlerId.HandlerPath}");
+                    Write.DevWarn($"重复的路径:{handlerId.HandlerPath} {handlerId.Description}");
                 }
                 if (_handlers.ContainsKey(keyType)) {
                     var registeredHandlers = _handlers[keyType];
