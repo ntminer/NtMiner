@@ -570,6 +570,23 @@
                             <uc:StartStopMineButton Margin="20 -2 0 0" StartButtonBackground="{StaticResource ThemeBackground}" StartButtonForeground="{StaticResource ThemeForeground}">
                             </uc:StartStopMineButton>
                         </WrapPanel>
+                        <Border
+                            Grid.Row="1"
+                            Margin="0 0 0 8"
+					        Width="30"
+					        Height="30"
+					        Background="Red"
+					        HorizontalAlignment="Right" 
+					        VerticalAlignment="Bottom" 
+					        CornerRadius="15"
+					        Visibility="{Binding MinerProfile.IsWorker,Converter={StaticResource BoolToVisibilityConverter}}">
+                            <TextBlock 
+						        HorizontalAlignment="Center"
+						        VerticalAlignment="Center"
+						        Foreground="White" 
+						        FontWeight="Bold"
+						        Text="群控"></TextBlock>
+                        </Border>
                         <ScrollViewer 
 						    Grid.Row="1" 
 						    VerticalScrollBarVisibility="Auto" 
