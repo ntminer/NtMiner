@@ -128,8 +128,23 @@
                         Margin="0 0 20 0" 
                         VerticalAlignment="Center" 
                         Visibility="{Binding MinerProfile.MineWork,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
-                        <TextBlock Foreground="{StaticResource ThemeForeground}">作业：</TextBlock>
-                        <TextBlock Foreground="{StaticResource ThemeForeground}" Text="{Binding MinerProfile.MineWork.Name}" ToolTip="{Binding MinerProfile.MineWork.Description}"></TextBlock>
+                        <Border
+					        Width="30"
+					        Height="30"
+					        Background="Red"
+					        HorizontalAlignment="Right" 
+					        VerticalAlignment="Top" 
+					        CornerRadius="15"
+					        Visibility="{Binding MinerProfile.IsWorker,Converter={StaticResource BoolToVisibilityConverter}}">
+                            <TextBlock 
+						        HorizontalAlignment="Center"
+						        VerticalAlignment="Center"
+						        Foreground="White" 
+						        FontWeight="Bold"
+						        Text="群控"></TextBlock>
+                        </Border>
+                        <TextBlock Foreground="{StaticResource ThemeForeground}" VerticalAlignment="Center">作业：</TextBlock>
+                        <TextBlock Foreground="{StaticResource ThemeForeground}" VerticalAlignment="Center" Text="{Binding MinerProfile.MineWork.Name}" ToolTip="{Binding MinerProfile.MineWork.Description}"></TextBlock>
                     </WrapPanel>
                     <controls:KbLinkButton
                         Margin="0 0 20 0"
