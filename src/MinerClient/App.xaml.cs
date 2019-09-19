@@ -92,16 +92,6 @@ namespace NTMiner {
                             AppContext.Instance.MinerProfileVm.IsMining = false;
                             Write.UserFail(message.Message);
                         });
-                    VirtualRoot.On<MineStartedEvent>("挖矿开始后更新界面挖矿状态", LogEnum.DevConsole,
-                        action: message => {
-                            AppContext.Instance.MinerProfileVm.IsMining = true;
-                            StartStopMineButtonViewModel.Instance.BtnStopText = "正在挖矿";
-                        });
-                    VirtualRoot.On<MineStopedEvent>("挖矿停止后更新界面挖矿状态", LogEnum.DevConsole,
-                        action: message => {
-                            AppContext.Instance.MinerProfileVm.IsMining = false;
-                            StartStopMineButtonViewModel.Instance.BtnStopText = "尚未开始";
-                        });
                     NTMinerRoot.Instance.Init(() => {
                         _appViewFactory.Link();
                         if (NTMinerRoot.Instance.GpuSet.Count == 0) {
@@ -207,9 +197,11 @@ namespace NTMiner {
                     Daemon.DaemonUtil.RunNTMinerDaemon();
                 });
             #endregion
-            #region 1080小药丸
-            VirtualRoot.On<MineStartedEvent>("开始挖矿后启动1080ti小药丸、挖矿开始后如果需要启动DevConsole则启动DevConsole", LogEnum.DevConsole,
+            #region 开始和停止挖矿后
+            VirtualRoot.On<MineStartedEvent>("开始挖矿后启动1080ti小药丸、挖矿开始后如果需要启动DevConsole则启动DevConsole 挖矿开始后更新界面挖矿状态", LogEnum.DevConsole,
                 action: message => {
+                    AppContext.Instance.MinerProfileVm.IsMining = true;
+                    StartStopMineButtonViewModel.Instance.BtnStopText = "正在挖矿";
                     // 启动DevConsole
                     if (NTMinerRoot.IsUseDevConsole) {
                         var mineContext = message.MineContext;
@@ -219,8 +211,10 @@ namespace NTMiner {
                     }
                     OhGodAnETHlargementPill.OhGodAnETHlargementPillUtil.Start();
                 });
-            VirtualRoot.On<MineStopedEvent>("停止挖矿后停止1080ti小药丸", LogEnum.DevConsole,
+            VirtualRoot.On<MineStopedEvent>("停止挖矿后停止1080ti小药丸 挖矿停止后更新界面挖矿状态", LogEnum.DevConsole,
                 action: message => {
+                    AppContext.Instance.MinerProfileVm.IsMining = false;
+                    StartStopMineButtonViewModel.Instance.BtnStopText = "尚未开始";
                     OhGodAnETHlargementPill.OhGodAnETHlargementPillUtil.Stop();
                 });
             #endregion
