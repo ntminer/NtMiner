@@ -25,7 +25,7 @@ namespace NTMiner.Vms {
                 this.ShowDialog(message: $"过程大概需要花费5到10秒钟", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new SwitchRadeonGpuCommand(on: true));
                 }, onNo: () => {
-                    this.ShowDialog(message: "确认关闭计算模式？", title: "二次确认", onYes: () => {
+                    this.ShowDialog(message: "关闭计算模式挖矿算力会减半，确定关闭计算模式？", title: "二次确认", onYes: () => {
                         VirtualRoot.Execute(new SwitchRadeonGpuCommand(on: false));
                     }, icon: IconConst.IconConfirm);
                 }, icon: IconConst.IconConfirm, yesText: "开启计算模式", noText: "关闭计算模式");
