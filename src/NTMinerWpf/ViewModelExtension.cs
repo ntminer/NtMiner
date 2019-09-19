@@ -9,7 +9,7 @@ namespace NTMiner {
             string message = null,
             string helpUrl = null,
             Action onYes = null,
-            Action onNo = null,
+            Func<bool> onNo = null,
             string yesText = null,
             string noText = null) {
             DialogWindow.ShowDialog(icon, title, message, helpUrl, onYes, onNo, yesText, noText);

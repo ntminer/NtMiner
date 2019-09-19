@@ -11,7 +11,7 @@ namespace NTMiner.Views {
             string message = null,
             string helpUrl = null,
             Action onYes = null,
-            Action onNo = null,
+            Func<bool> onNo = null,
             string yesText = null,
             string noText = null) {
             Window window = new DialogWindow(icon, title, message, helpUrl, onYes, onNo, yesText, noText);
@@ -20,15 +20,15 @@ namespace NTMiner.Views {
         }
 
         private readonly Action _onYes;
-        private readonly Action _onNo;
+        private readonly Func<bool> _onNo;
         private readonly string _helpUrl;
         private DialogWindow(
             string icon, 
             string title, 
             string message, 
             string helpUrl,
-            Action onYes, 
-            Action onNo,
+            Action onYes,
+            Func<bool> onNo,
             string yesText = null,
             string noText = null) {
             _helpUrl = helpUrl;
@@ -69,8 +69,14 @@ namespace NTMiner.Views {
         }
 
         private void KbNoButton_Click(object sender, RoutedEventArgs e) {
-            _onNo?.Invoke();
-            this.Close();
+            if (_onNo != null) {
+                if (_onNo.Invoke()) {
+                    this.Close();
+                }
+            }
+            else {
+                this.Close();
+            }
         }
 
         private void KbOkButton_Click(object sender, RoutedEventArgs e) {
