@@ -11,7 +11,7 @@ namespace NTMiner.Core.Impl {
 
         public CoinSet(INTMinerRoot root) {
             _root = root;
-            _root.ServerContextWindow<AddCoinCommand>("添加币种", LogEnum.DevConsole,
+            _root.ServerContextCmdPath<AddCoinCommand>("添加币种", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -34,7 +34,7 @@ namespace NTMiner.Core.Impl {
 
                     VirtualRoot.Happened(new CoinAddedEvent(entity));
                 });
-            _root.ServerContextWindow<UpdateCoinCommand>("更新币种", LogEnum.DevConsole,
+            _root.ServerContextCmdPath<UpdateCoinCommand>("更新币种", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -56,7 +56,7 @@ namespace NTMiner.Core.Impl {
 
                     VirtualRoot.Happened(new CoinUpdatedEvent(message.Input));
                 });
-            _root.ServerContextWindow<RemoveCoinCommand>("移除币种", LogEnum.DevConsole,
+            _root.ServerContextCmdPath<RemoveCoinCommand>("移除币种", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {

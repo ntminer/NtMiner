@@ -19,11 +19,11 @@ namespace NTMiner {
                     return;
                 }
                 Init(refresh: false);
-                On<OverClockDataSetInitedEvent>("超频建议集初始化后", LogEnum.DevConsole,
+                EventPath<OverClockDataSetInitedEvent>("超频建议集初始化后", LogEnum.DevConsole,
                     action: message => {
                         Init(refresh: true);
                     });
-                On<OverClockDataAddedEvent>("添加超频建议后刷新VM内存", LogEnum.DevConsole,
+                EventPath<OverClockDataAddedEvent>("添加超频建议后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         if (!_dicById.ContainsKey(message.Source.GetId())) {
                             _dicById.Add(message.Source.GetId(), new OverClockDataViewModel(message.Source));
@@ -34,11 +34,11 @@ namespace NTMiner {
                             }
                         }
                     });
-                On<OverClockDataUpdatedEvent>("更新超频建议后刷新VM内存", LogEnum.DevConsole,
+                EventPath<OverClockDataUpdatedEvent>("更新超频建议后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById[message.Source.GetId()].Update(message.Source);
                     });
-                On<OverClockDataRemovedEvent>("删除超频建议后刷新VM内存", LogEnum.DevConsole,
+                EventPath<OverClockDataRemovedEvent>("删除超频建议后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById.Remove(message.Source.GetId());
                         OnPropertyChanged(nameof(List));

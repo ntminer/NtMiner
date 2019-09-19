@@ -20,16 +20,16 @@ namespace NTMiner {
                         SortNumber = Count + 1
                     }.Edit.Execute(FormType.Add);
                 });
-                VirtualRoot.On<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
+                VirtualRoot.EventPath<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById.Clear();
                         Init();
                     });
-                VirtualRoot.On<ServerContextVmsReInitedEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
+                VirtualRoot.EventPath<ServerContextVmsReInitedEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
                     action: message => {
                         OnPropertyChangeds();
                     });
-                On<GroupAddedEvent>("添加了组后调整VM内存", LogEnum.DevConsole,
+                EventPath<GroupAddedEvent>("添加了组后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         if (!_dicById.ContainsKey(message.Source.GetId())) {
                             GroupViewModel groupVm = new GroupViewModel(message.Source);
@@ -37,7 +37,7 @@ namespace NTMiner {
                             OnPropertyChangeds();
                         }
                     });
-                On<GroupUpdatedEvent>("更新了组后调整VM内存", LogEnum.DevConsole,
+                EventPath<GroupUpdatedEvent>("更新了组后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         if (_dicById.ContainsKey(message.Source.GetId())) {
                             GroupViewModel entity = _dicById[message.Source.GetId()];
@@ -49,7 +49,7 @@ namespace NTMiner {
                             }
                         }
                     });
-                On<GroupRemovedEvent>("删除了组后调整VM内存", LogEnum.DevConsole,
+                EventPath<GroupRemovedEvent>("删除了组后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         _dicById.Remove(message.Source.GetId());
                         OnPropertyChangeds();

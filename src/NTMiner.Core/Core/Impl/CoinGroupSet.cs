@@ -10,7 +10,7 @@ namespace NTMiner.Core.Impl {
         private readonly INTMinerRoot _root;
         public CoinGroupSet(INTMinerRoot root) {
             _root = root;
-            _root.ServerContextWindow<AddCoinGroupCommand>("添加币组", LogEnum.DevConsole,
+            _root.ServerContextCmdPath<AddCoinGroupCommand>("添加币组", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -29,7 +29,7 @@ namespace NTMiner.Core.Impl {
 
                     VirtualRoot.Happened(new CoinGroupAddedEvent(entity));
                 });
-            _root.ServerContextWindow<RemoveCoinGroupCommand>("移除币组", LogEnum.DevConsole,
+            _root.ServerContextCmdPath<RemoveCoinGroupCommand>("移除币组", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {

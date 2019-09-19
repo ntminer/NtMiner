@@ -8,7 +8,7 @@ namespace NTMiner.Core.Profiles.Impl {
 
         public WalletSet(INTMinerRoot root) {
             _root = root;
-            VirtualRoot.Window<AddWalletCommand>("添加钱包", LogEnum.DevConsole,
+            VirtualRoot.CmdPath<AddWalletCommand>("添加钱包", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -29,7 +29,7 @@ namespace NTMiner.Core.Profiles.Impl {
 
                     VirtualRoot.Happened(new WalletAddedEvent(entity));
                 });
-            VirtualRoot.Window<UpdateWalletCommand>("更新钱包", LogEnum.DevConsole,
+            VirtualRoot.CmdPath<UpdateWalletCommand>("更新钱包", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -53,7 +53,7 @@ namespace NTMiner.Core.Profiles.Impl {
 
                     VirtualRoot.Happened(new WalletUpdatedEvent(entity));
                 });
-            VirtualRoot.Window<RemoveWalletCommand>("移除钱包", LogEnum.DevConsole,
+            VirtualRoot.CmdPath<RemoveWalletCommand>("移除钱包", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {

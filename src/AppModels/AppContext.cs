@@ -19,7 +19,7 @@ namespace NTMiner {
         /// <summary>
         /// 命令窗口。使用该方法的代码行应将前两个参数放在第一行以方便vs查找引用时展示出参数信息
         /// </summary>
-        public static DelegateHandler<TCmd> Window<TCmd>(string description, LogEnum logType, Action<TCmd> action)
+        public static DelegateHandler<TCmd> CmdPath<TCmd>(string description, LogEnum logType, Action<TCmd> action)
             where TCmd : ICmd {
             return VirtualRoot.Path(description, logType, action).AddToCollection(_contextHandlers);
         }
@@ -27,7 +27,7 @@ namespace NTMiner {
         /// <summary>
         /// 事件响应
         /// </summary>
-        public static DelegateHandler<TEvent> On<TEvent>(string description, LogEnum logType, Action<TEvent> action)
+        public static DelegateHandler<TEvent> EventPath<TEvent>(string description, LogEnum logType, Action<TEvent> action)
             where TEvent : IEvent {
             return VirtualRoot.Path(description, logType, action).AddToCollection(_contextHandlers);
         }

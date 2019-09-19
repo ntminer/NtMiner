@@ -27,7 +27,7 @@ namespace NTMiner {
         /// <summary>
         /// 命令窗口。使用该方法的代码行应将前两个参数放在第一行以方便vs查找引用时展示出参数信息
         /// </summary>
-        public static void Window<TCmd>(this Window window, string description, LogEnum logType, Action<TCmd> action)
+        public static void CmdPath<TCmd>(this Window window, string description, LogEnum logType, Action<TCmd> action)
             where TCmd : ICmd {
             if (Design.IsInDesignMode) {
                 return;
@@ -47,7 +47,7 @@ namespace NTMiner {
         /// <summary>
         /// 事件响应
         /// </summary>
-        public static void On<TEvent>(this Window window, string description, LogEnum logType, Action<TEvent> action)
+        public static void EventPath<TEvent>(this Window window, string description, LogEnum logType, Action<TEvent> action)
             where TEvent : IEvent {
             if (Design.IsInDesignMode) {
                 return;

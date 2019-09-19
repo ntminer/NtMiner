@@ -13,7 +13,7 @@ namespace NTMiner.Core.Kernels.Impl {
         public KernelOutputSet(INTMinerRoot root) {
             _root = root;
             #region 接线
-            _root.ServerContextWindow<AddKernelOutputCommand>("添加内核输出组", LogEnum.DevConsole,
+            _root.ServerContextCmdPath<AddKernelOutputCommand>("添加内核输出组", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -29,7 +29,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.Happened(new KernelOutputAddedEvent(entity));
                 });
-            _root.ServerContextWindow<UpdateKernelOutputCommand>("更新内核输出组", LogEnum.DevConsole,
+            _root.ServerContextCmdPath<UpdateKernelOutputCommand>("更新内核输出组", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -51,7 +51,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.Happened(new KernelOutputUpdatedEvent(entity));
                 });
-            _root.ServerContextWindow<RemoveKernelOutputCommand>("移除内核输出组", LogEnum.DevConsole,
+            _root.ServerContextCmdPath<RemoveKernelOutputCommand>("移除内核输出组", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {

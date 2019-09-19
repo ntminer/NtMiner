@@ -14,16 +14,16 @@ namespace NTMiner {
 #if DEBUG
                 Write.Stopwatch.Restart();
 #endif
-                VirtualRoot.On<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
+                VirtualRoot.EventPath<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById.Clear();
                         Init();
                     });
-                VirtualRoot.On<ServerContextVmsReInitedEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
+                VirtualRoot.EventPath<ServerContextVmsReInitedEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
                     action: message => {
                         OnPropertyChanged(nameof(AllPackages));
                     });
-                On<PackageAddedEvent>("添加了包后调整VM内存", LogEnum.DevConsole,
+                EventPath<PackageAddedEvent>("添加了包后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         _dicById.Add(message.Source.GetId(), new PackageViewModel(message.Source));
                         OnPropertyChanged(nameof(AllPackages));
@@ -31,7 +31,7 @@ namespace NTMiner {
                             item.OnPropertyChanged(nameof(item.IsPackageValid));
                         }
                     });
-                On<PackageRemovedEvent>("删除了包后调整VM内存", LogEnum.DevConsole,
+                EventPath<PackageRemovedEvent>("删除了包后调整VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById.Remove(message.Source.GetId());
                         OnPropertyChanged(nameof(AllPackages));
@@ -39,7 +39,7 @@ namespace NTMiner {
                             item.OnPropertyChanged(nameof(item.IsPackageValid));
                         }
                     });
-                On<PackageUpdatedEvent>("更新了包后调整VM内存", LogEnum.DevConsole,
+                EventPath<PackageUpdatedEvent>("更新了包后调整VM内存", LogEnum.DevConsole,
                     action: message => {
                         var entity = _dicById[message.Source.GetId()];
                         entity.Update(message.Source);

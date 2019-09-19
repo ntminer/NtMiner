@@ -16,7 +16,7 @@ namespace NTMiner.Views.Ucs {
             InitializeComponent();
             this.TbDateTime.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm");
             this.RunOneceOnLoaded((window) => {
-                window.On<MinutePartChangedEvent>("整分钟时更新MinerClientUc上的日期时间计时器", LogEnum.None,
+                window.EventPath<MinutePartChangedEvent>("整分钟时更新MinerClientUc上的日期时间计时器", LogEnum.None,
                     action: message => {
                         this.TbDateTime.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm");
                     });

@@ -36,7 +36,7 @@ namespace NTMiner {
         /// <summary>
         /// 命令窗口。使用该方法的代码行应将前两个参数放在第一行以方便vs查找引用时展示出参数信息
         /// </summary>
-        public static DelegateHandler<TCmd> Window<TCmd>(LogEnum logType, Action<TCmd> action)
+        public static DelegateHandler<TCmd> CmdPath<TCmd>(LogEnum logType, Action<TCmd> action)
             where TCmd : ICmd {
             MessageTypeAttribute messageTypeDescription = MessageTypeAttribute.GetMessageTypeDescription(typeof(TCmd));
             string description = "处理" + messageTypeDescription.Description;
@@ -46,7 +46,7 @@ namespace NTMiner {
         /// <summary>
         /// 事件响应
         /// </summary>
-        public static DelegateHandler<TEvent> On<TEvent>(LogEnum logType, Action<TEvent> action)
+        public static DelegateHandler<TEvent> EventPath<TEvent>(LogEnum logType, Action<TEvent> action)
             where TEvent : IEvent {
             MessageTypeAttribute messageTypeDescription = MessageTypeAttribute.GetMessageTypeDescription(typeof(TEvent));
             string description = "处理" + messageTypeDescription.Description;
@@ -56,7 +56,7 @@ namespace NTMiner {
         /// <summary>
         /// 命令窗口。使用该方法的代码行应将前两个参数放在第一行以方便vs查找引用时展示出参数信息
         /// </summary>
-        public static DelegateHandler<TCmd> Window<TCmd>(string description, LogEnum logType, Action<TCmd> action)
+        public static DelegateHandler<TCmd> CmdPath<TCmd>(string description, LogEnum logType, Action<TCmd> action)
             where TCmd : ICmd {
             return Path(description, logType, action);
         }
@@ -64,7 +64,7 @@ namespace NTMiner {
         /// <summary>
         /// 事件响应
         /// </summary>
-        public static DelegateHandler<TEvent> On<TEvent>(string description, LogEnum logType, Action<TEvent> action)
+        public static DelegateHandler<TEvent> EventPath<TEvent>(string description, LogEnum logType, Action<TEvent> action)
             where TEvent : IEvent {
             return Path(description, logType, action);
         }

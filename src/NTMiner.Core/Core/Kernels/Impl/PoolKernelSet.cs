@@ -10,7 +10,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
         public PoolKernelSet(INTMinerRoot root) {
             _root = root;
-            _root.ServerContextWindow<AddPoolKernelCommand>("处理添加矿池级内核命令", LogEnum.DevConsole,
+            _root.ServerContextCmdPath<AddPoolKernelCommand>("处理添加矿池级内核命令", LogEnum.DevConsole,
                 action: message => {
                     if (!_dicById.ContainsKey(message.Input.GetId())) {
                         var entity = new PoolKernelData().Update(message.Input);
@@ -20,7 +20,7 @@ namespace NTMiner.Core.Kernels.Impl {
                         VirtualRoot.Happened(new PoolKernelAddedEvent(message.Input));
                     }
                 });
-            _root.ServerContextWindow<RemovePoolKernelCommand>("处理移除矿池级内核命令", LogEnum.DevConsole,
+            _root.ServerContextCmdPath<RemovePoolKernelCommand>("处理移除矿池级内核命令", LogEnum.DevConsole,
                 action: message => {
                     if (_dicById.ContainsKey(message.EntityId)) {
                         var entity = _dicById[message.EntityId];
@@ -30,7 +30,7 @@ namespace NTMiner.Core.Kernels.Impl {
                         VirtualRoot.Happened(new PoolKernelRemovedEvent(entity));
                     }
                 });
-            _root.ServerContextWindow<UpdatePoolKernelCommand>("更新矿池内核", LogEnum.DevConsole,
+            _root.ServerContextCmdPath<UpdatePoolKernelCommand>("更新矿池内核", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {

@@ -9,7 +9,7 @@ namespace NTMiner.Core.Impl {
         private readonly INTMinerRoot _root;
         public GroupSet(INTMinerRoot root) {
             _root = root;
-            _root.ServerContextWindow<AddGroupCommand>("添加组", LogEnum.DevConsole,
+            _root.ServerContextCmdPath<AddGroupCommand>("添加组", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -28,7 +28,7 @@ namespace NTMiner.Core.Impl {
 
                     VirtualRoot.Happened(new GroupAddedEvent(entity));
                 });
-            _root.ServerContextWindow<UpdateGroupCommand>("更新组", LogEnum.DevConsole,
+            _root.ServerContextCmdPath<UpdateGroupCommand>("更新组", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -50,7 +50,7 @@ namespace NTMiner.Core.Impl {
 
                     VirtualRoot.Happened(new GroupUpdatedEvent(entity));
                 });
-            _root.ServerContextWindow<RemoveGroupCommand>("移除组", LogEnum.DevConsole,
+            _root.ServerContextCmdPath<RemoveGroupCommand>("移除组", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {

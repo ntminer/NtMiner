@@ -110,7 +110,7 @@ namespace NTMiner {
             try {
                 HttpServer.Start($"http://localhost:{Consts.NTMinerDaemonPort}");
                 Windows.ConsoleHandler.Register(Close);
-                VirtualRoot.On<Per10SecondEvent>("呼吸表示活着", LogEnum.None,
+                VirtualRoot.EventPath<Per10SecondEvent>("呼吸表示活着", LogEnum.None,
                     action: message => {
                         NTMinerRegistry.SetDaemonActiveOn(DateTime.Now);
                         NoDevFee.NoDevFeeUtil.StartAsync();

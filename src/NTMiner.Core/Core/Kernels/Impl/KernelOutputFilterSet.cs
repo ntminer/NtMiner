@@ -11,7 +11,7 @@ namespace NTMiner.Core.Kernels.Impl {
         private readonly INTMinerRoot _root;
         public KernelOutputFilterSet(INTMinerRoot root) {
             _root = root;
-            _root.ServerContextWindow<AddKernelOutputFilterCommand>("添加内核输出过滤器", LogEnum.DevConsole,
+            _root.ServerContextCmdPath<AddKernelOutputFilterCommand>("添加内核输出过滤器", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -34,7 +34,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.Happened(new KernelOutputFilterAddedEvent(entity));
                 });
-            _root.ServerContextWindow<UpdateKernelOutputFilterCommand>("更新内核输出过滤器", LogEnum.DevConsole,
+            _root.ServerContextCmdPath<UpdateKernelOutputFilterCommand>("更新内核输出过滤器", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -56,7 +56,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.Happened(new KernelOutputFilterUpdatedEvent(entity));
                 });
-            _root.ServerContextWindow<RemoveKernelOutputFilterCommand>("移除内核输出过滤器", LogEnum.DevConsole,
+            _root.ServerContextCmdPath<RemoveKernelOutputFilterCommand>("移除内核输出过滤器", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {

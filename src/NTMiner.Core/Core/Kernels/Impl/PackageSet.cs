@@ -11,7 +11,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
         public PackageSet(INTMinerRoot root) {
             _root = root;
-            _root.ServerContextWindow<AddPackageCommand>("添加包", LogEnum.DevConsole,
+            _root.ServerContextCmdPath<AddPackageCommand>("添加包", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -33,7 +33,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.Happened(new PackageAddedEvent(entity));
                 });
-            _root.ServerContextWindow<UpdatePackageCommand>("更新包", LogEnum.DevConsole,
+            _root.ServerContextCmdPath<UpdatePackageCommand>("更新包", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -58,7 +58,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.Happened(new PackageUpdatedEvent(entity));
                 });
-            _root.ServerContextWindow<RemovePackageCommand>("移除包", LogEnum.DevConsole,
+            _root.ServerContextCmdPath<RemovePackageCommand>("移除包", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {

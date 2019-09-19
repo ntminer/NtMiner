@@ -12,7 +12,7 @@ namespace NTMiner.Core.Profiles.Impl {
         private GpuProfilesJsonDb _data = new GpuProfilesJsonDb();
 
         public GpuProfileSet(INTMinerRoot root) {
-            VirtualRoot.Window<AddOrUpdateGpuProfileCommand>("处理添加或更新Gpu超频数据命令", LogEnum.DevConsole,
+            VirtualRoot.CmdPath<AddOrUpdateGpuProfileCommand>("处理添加或更新Gpu超频数据命令", LogEnum.DevConsole,
                 action: message => {
                     GpuProfileData data = _data.GpuProfiles.FirstOrDefault(a => a.CoinId == message.Input.CoinId && a.Index == message.Input.Index);
                     if (data != null) {
@@ -26,7 +26,7 @@ namespace NTMiner.Core.Profiles.Impl {
                     }
                     VirtualRoot.Happened(new GpuProfileAddedOrUpdatedEvent(data));
                 });
-            VirtualRoot.Window<CoinOverClockCommand>("处理币种超频命令", LogEnum.DevConsole,
+            VirtualRoot.CmdPath<CoinOverClockCommand>("处理币种超频命令", LogEnum.DevConsole,
                 action: message => {
                     Task.Factory.StartNew(() => {
                         CoinOverClock(root, message.CoinId);

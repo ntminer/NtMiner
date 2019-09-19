@@ -34,7 +34,7 @@ namespace NTMiner {
                                 Write.UserWarn("应用超频，如果CPU性能较差耗时可能超过1分钟，请耐心等待");
                                 var cmd = new CoinOverClockCommand(mineContext.MainCoin.GetId());
                                 DelegateHandler<CoinOverClockDoneEvent> callback = null;
-                                callback = VirtualRoot.On<CoinOverClockDoneEvent>("超频完成后继续流程", LogEnum.DevConsole,
+                                callback = VirtualRoot.EventPath<CoinOverClockDoneEvent>("超频完成后继续流程", LogEnum.DevConsole,
                                     message => {
                                         if (mineContext != Instance.CurrentMineContext) {
                                             VirtualRoot.UnPath(callback);
@@ -130,7 +130,7 @@ namespace NTMiner {
                     clear?.Invoke();
                 }
                 string processName = mineContext.Kernel.GetProcessName();
-                _kernelProcessDaemon = VirtualRoot.On<Per1MinuteEvent>("周期性检查挖矿内核是否消失，如果消失尝试重启", LogEnum.DevConsole,
+                _kernelProcessDaemon = VirtualRoot.EventPath<Per1MinuteEvent>("周期性检查挖矿内核是否消失，如果消失尝试重启", LogEnum.DevConsole,
                     action: message => {
                         if (mineContext == Instance.CurrentMineContext) {
                             if (!string.IsNullOrEmpty(processName)) {
@@ -322,7 +322,7 @@ namespace NTMiner {
                             }
                             VirtualRoot.UnPath(closeHandle);
                         });
-                        closeHandle = VirtualRoot.On<MineStopedEvent>("挖矿停止后关闭非托管的日志句柄", LogEnum.DevConsole,
+                        closeHandle = VirtualRoot.EventPath<MineStopedEvent>("挖矿停止后关闭非托管的日志句柄", LogEnum.DevConsole,
                             action: message => {
                                 // 挖矿停止后摘除挖矿内核进程守护器
                                 if (_kernelProcessDaemon != null) {

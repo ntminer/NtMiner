@@ -11,7 +11,7 @@ namespace NTMiner.Core.Impl {
 
         public KernelOutputKeywordSet(INTMinerRoot root) {
             _root = root;
-            _root.ServerContextWindow<AddKernelOutputKeywordCommand>("添加内核输出关键字", LogEnum.DevConsole,
+            _root.ServerContextCmdPath<AddKernelOutputKeywordCommand>("添加内核输出关键字", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -33,7 +33,7 @@ namespace NTMiner.Core.Impl {
 
                     VirtualRoot.Happened(new KernelOutputKeywordAddedEvent(entity));
                 });
-            _root.ServerContextWindow<UpdateKernelOutputKeywordCommand>("更新内核输出关键字", LogEnum.DevConsole,
+            _root.ServerContextCmdPath<UpdateKernelOutputKeywordCommand>("更新内核输出关键字", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -58,7 +58,7 @@ namespace NTMiner.Core.Impl {
 
                     VirtualRoot.Happened(new KernelOutputKeywordUpdatedEvent(entity));
                 });
-            _root.ServerContextWindow<RemoveKernelOutputKeywordCommand>("移除内核输出关键字", LogEnum.DevConsole,
+            _root.ServerContextCmdPath<RemoveKernelOutputKeywordCommand>("移除内核输出关键字", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {

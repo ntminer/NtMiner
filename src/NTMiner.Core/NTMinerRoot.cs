@@ -31,7 +31,7 @@ namespace NTMiner {
         /// <summary>
         /// 命令窗口。使用该方法的代码行应将前两个参数放在第一行以方便vs查找引用时展示出参数信息
         /// </summary>
-        public DelegateHandler<TCmd> ServerContextWindow<TCmd>(string description, LogEnum logType, Action<TCmd> action)
+        public DelegateHandler<TCmd> ServerContextCmdPath<TCmd>(string description, LogEnum logType, Action<TCmd> action)
             where TCmd : ICmd {
             return VirtualRoot.Path(description, logType, action).AddToCollection(_serverContextHandlers);
         }
@@ -39,7 +39,7 @@ namespace NTMiner {
         /// <summary>
         /// 事件响应
         /// </summary>
-        public DelegateHandler<TEvent> ServerContextOn<TEvent>(string description, LogEnum logType, Action<TEvent> action)
+        public DelegateHandler<TEvent> ServerContextEventPath<TEvent>(string description, LogEnum logType, Action<TEvent> action)
             where TEvent : IEvent {
             return VirtualRoot.Path(description, logType, action).AddToCollection(_serverContextHandlers);
         }
@@ -106,7 +106,7 @@ namespace NTMiner {
                             DoInit(isWork, callback);
                         });
                         #region 发生了用户活动时检查serverJson是否有新版本
-                        VirtualRoot.On<UserActionEvent>("发生了用户活动时检查serverJson是否有新版本", LogEnum.DevConsole,
+                        VirtualRoot.EventPath<UserActionEvent>("发生了用户活动时检查serverJson是否有新版本", LogEnum.DevConsole,
                             action: message => {
                                 RefreshServerJsonFile();
                             });
@@ -318,7 +318,7 @@ namespace NTMiner {
         }
 
         private void Link() {
-            VirtualRoot.Window<RegCmdHereCommand>("处理注册右键打开windows命令行菜单命令", LogEnum.DevConsole,
+            VirtualRoot.CmdPath<RegCmdHereCommand>("处理注册右键打开windows命令行菜单命令", LogEnum.DevConsole,
                 action: message => {
                     try {
                         RegCmdHere();
@@ -332,7 +332,7 @@ namespace NTMiner {
             #region 挖矿开始时将无份额内核重启份额计数置0
             int shareCount = 0;
             DateTime shareOn = DateTime.Now;
-            VirtualRoot.On<MineStartedEvent>("挖矿开始后将无份额内核重启份额计数置0", LogEnum.DevConsole,
+            VirtualRoot.EventPath<MineStartedEvent>("挖矿开始后将无份额内核重启份额计数置0", LogEnum.DevConsole,
                 action: message => {
                     // 将无份额内核重启份额计数置0
                     shareCount = 0;
@@ -342,7 +342,7 @@ namespace NTMiner {
                 });
             #endregion
             #region 每20秒钟检查是否需要重启
-            VirtualRoot.On<Per20SecondEvent>("每20秒钟检查是否需要重启", LogEnum.None,
+            VirtualRoot.EventPath<Per20SecondEvent>("每20秒钟检查是否需要重启", LogEnum.None,
                 action: message => {
                     #region 重启电脑
                     try {
@@ -419,7 +419,7 @@ namespace NTMiner {
                     #endregion
                 });
             #endregion
-            VirtualRoot.On<Per10SecondEvent>("周期刷新显卡状态", LogEnum.None,
+            VirtualRoot.EventPath<Per10SecondEvent>("周期刷新显卡状态", LogEnum.None,
                 action: message => {
                     // 因为遇到显卡系统状态变更时可能费时
                     Task.Factory.StartNew(() => {
