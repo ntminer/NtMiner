@@ -92,6 +92,16 @@ namespace NTMiner {
                             AppContext.Instance.MinerProfileVm.IsMining = false;
                             Write.UserFail(message.Message);
                         });
+                    VirtualRoot.On<MineStartedEvent>("挖矿开始后更新界面挖矿状态", LogEnum.DevConsole,
+                        action: message => {
+                            AppContext.Instance.MinerProfileVm.IsMining = true;
+                            StartStopMineButtonViewModel.Instance.BtnStopText = "正在挖矿";
+                        });
+                    VirtualRoot.On<MineStopedEvent>("挖矿停止后更新界面挖矿状态", LogEnum.DevConsole,
+                        action: message => {
+                            AppContext.Instance.MinerProfileVm.IsMining = false;
+                            StartStopMineButtonViewModel.Instance.BtnStopText = "尚未开始";
+                        });
                     NTMinerRoot.Instance.Init(() => {
                         _appViewFactory.Link();
                         if (NTMinerRoot.Instance.GpuSet.Count == 0) {
