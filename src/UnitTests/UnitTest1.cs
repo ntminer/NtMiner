@@ -33,6 +33,7 @@ namespace UnitTests {
             string testFileFullName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "notepad.exe");
             WindowsShortcut.CreateShortcut(linkFileFullName, testFileFullName, "this is a test");
             Assert.AreEqual(testFileFullName, WindowsShortcut.GetTargetPath(linkFileFullName), ignoreCase: true);
+            File.Delete(linkFileFullName);
         }
 
         [TestMethod]
