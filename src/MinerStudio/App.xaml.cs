@@ -12,7 +12,7 @@ using System.Windows.Media;
 namespace NTMiner {
     public partial class App : Application, IDisposable {
         public App() {
-            VirtualRoot.SetShowMessage(NotiCenterWindowViewModel.Instance);
+            VirtualRoot.SetOut(NotiCenterWindowViewModel.Instance);
             AssemblyInfo.SetHomeDirFullName(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NTMiner"));
             Logging.LogDir.SetDir(SpecialPath.LogsDirFullName);
             AppUtil.Init(this);

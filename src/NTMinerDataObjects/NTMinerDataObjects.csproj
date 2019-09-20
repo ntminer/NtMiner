@@ -83,6 +83,8 @@
     <Compile Include="JsonDb\IGpuProfilesJsonDb.cs" />
     <Compile Include="JsonDb\IJsonDb.cs" />
     <Compile Include="MinerClient\IGpuSpeedData.cs" />
+    <Compile Include="MinerClient\ILocalIp.cs" />
+    <Compile Include="MinerClient\LocalIpData.cs" />
     <Compile Include="Profile\GpuProfileExtension.cs" />
     <Compile Include="MinerClient\IKernelOutputKeyword.cs" />
     <Compile Include="MinerClient\IWorkerEvent.cs" />

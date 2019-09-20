@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
@@ -17,6 +16,7 @@ namespace NTMiner {
         public static readonly string AppFileFullName = Process.GetCurrentProcess().MainModule.FileName;
         public static Guid Id { get; private set; }
 
+        #region IsMinerClient
         private static bool _isMinerClient;
         private static bool _isMinerClientDetected = false;
         private static readonly object _isMinerClientLocker = new object();
@@ -36,7 +36,9 @@ namespace NTMiner {
                 return _isMinerClient;
             }
         }
+        #endregion
 
+        #region IsMinerStudio
         private static bool _isMinerStudio;
         private static bool _isMinerStudioDetected = false;
         private static readonly object _isMinerStudioLocker = new object();
@@ -56,12 +58,14 @@ namespace NTMiner {
                 return _isMinerStudio;
             }
         }
+        #endregion
 
         public static IObjectSerializer JsonSerializer { get; private set; }
 
         public static readonly IMessageDispatcher SMessageDispatcher;
         private static readonly ICmdBus SCommandBus;
         private static readonly IEventBus SEventBus;
+        #region Out
         private static IOut _out;
         /// <summary>
         /// 输出到系统之外去
@@ -72,9 +76,10 @@ namespace NTMiner {
             }
         }
 
-        public static void SetShowMessage(IOut showMessage) {
-            _out = showMessage;
+        public static void SetOut(IOut ntOut) {
+            _out = ntOut;
         }
+        #endregion
 
         static VirtualRoot() {
             Id = NTMinerRegistry.GetClientId();
@@ -106,6 +111,7 @@ namespace NTMiner {
             return ipaddress;
         }
 
+        #region ConvertToGuid
         public static Guid ConvertToGuid(object obj) {
             if (obj == null) {
                 return Guid.Empty;
@@ -120,7 +126,9 @@ namespace NTMiner {
             }
             return Guid.Empty;
         }
+        #endregion
 
+        #region TagBrandId
         public static void TagBrandId(string brandKeyword, Guid brandId, string inputFileFullName, string outFileFullName) {
             string brand = $"{brandKeyword}{brandId}{brandKeyword}";
             string rawBrand = $"{brandKeyword}{GetBrandId(inputFileFullName, brandKeyword)}{brandKeyword}";
@@ -148,7 +156,9 @@ namespace NTMiner {
             }
             File.WriteAllBytes(outFileFullName, source);
         }
+        #endregion
 
+        #region GetBrandId
         public static Guid GetBrandId(string fileFullName, string keyword) {
 #if DEBUG
             Write.Stopwatch.Restart();
@@ -195,5 +205,6 @@ namespace NTMiner {
 #endif
             return guid;
         }
+        #endregion
     }
 }

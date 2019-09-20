@@ -31,7 +31,7 @@ namespace NTMiner {
         private Mutex mutexApp;
 
         public App() {
-            VirtualRoot.SetShowMessage(NotiCenterWindowViewModel.Instance);
+            VirtualRoot.SetOut(NotiCenterWindowViewModel.Instance);
             AppDomain.CurrentDomain.UnhandledException += (object sender, UnhandledExceptionEventArgs e) => {
                 if (e.ExceptionObject is Exception exception) {
                     Handle(exception);
