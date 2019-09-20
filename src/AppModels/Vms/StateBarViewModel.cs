@@ -73,7 +73,6 @@ namespace NTMiner.Vms {
         public ICommand WindowsAutoLogon { get; private set; }
         public ICommand EnableWindowsRemoteDesktop { get; private set; }
         public ICommand RefreshLocalIps { get; private set; }
-        public ICommand CopyLocalIps { get; private set; }
 
         public StateBarViewModel() {
             if (Design.IsInDesignMode) {
@@ -91,11 +90,6 @@ namespace NTMiner.Vms {
             });
             this.RefreshLocalIps = new DelegateCommand(() => {
                 this.OnPropertyChanged(nameof(LocalIps));
-            });
-            this.CopyLocalIps = new DelegateCommand(() => {
-                string ips = this.LocalIps ?? "无";
-                Clipboard.SetDataObject(ips);
-                VirtualRoot.Out.ShowSuccessMessage(ips, "复制成功");
             });
             SetCheckUpdateForeground(isLatest: NTMinerRoot.CurrentVersion >= NTMinerRoot.ServerVersion);
         }

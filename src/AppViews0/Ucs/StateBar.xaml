@@ -316,9 +316,8 @@
                     <controls:KbButton 
 						Background="Transparent"
 						Margin="4 0 0 0"
-						ToolTip="双击设置，单击刷新，右键复制"
+						ToolTip="双击设置，单击刷新"
                         Command="{Binding RefreshLocalIps}"
-                        MouseRightButtonUp="BtnLocalIps_MouseRightButtonUp"
                         Foreground="{StaticResource LableColor}"
                         Content="{Binding LocalIps}"
 						CornerRadius="2">
