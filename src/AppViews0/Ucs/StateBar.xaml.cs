@@ -66,12 +66,11 @@ namespace NTMiner.Views.Ucs {
             }
         }
 
-        private void BtnLocalIps_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            LocalIpConfig.ShowWindow();
-        }
-
-        private void BtnLocalIps_Click(object sender, System.Windows.RoutedEventArgs e) {
+        private void BtnLocalIps_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
             Vm.RefreshLocalIps();
+            if (e.ClickCount == 2) {
+                LocalIpConfig.ShowWindow();
+            }
         }
     }
 }
