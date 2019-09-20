@@ -10,7 +10,6 @@ namespace NTMiner.Views.Ucs {
                 Title = "IP设置",
                 IconName = "Icon_Ip",
                 Width = 465,
-                Height = 480,
                 IsDialogWindow = true,
                 FooterVisible = Visibility.Collapsed,
                 CloseVisible = Visibility.Visible
