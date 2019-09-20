@@ -42,9 +42,16 @@ namespace NTMiner.Ip.Impl {
                     if (defaultIpGateways.Length == 0) {
                         continue;
                     }
-                    string[] dNSServerSearchOrder = new string[0];
+                    string dNSServer0 = string.Empty;
+                    string dNSServer1 = string.Empty;
                     if (mo["DNSServerSearchOrder"] != null) {
-                        dNSServerSearchOrder = (string[])mo["DNSServerSearchOrder"];
+                        string[] dNSServerSearchOrder = (string[])mo["DNSServerSearchOrder"];
+                        if (dNSServerSearchOrder.Length > 0) {
+                            dNSServer0 = dNSServerSearchOrder[0];
+                        }
+                        if (dNSServerSearchOrder.Length > 1) {
+                            dNSServer1 = dNSServerSearchOrder[1];
+                        }
                     }
                     string ipAddress = string.Empty;
                     if (mo["IPAddress"] != null) {
@@ -54,11 +61,12 @@ namespace NTMiner.Ip.Impl {
                         }
                     }
                     list.Add(new LocalIpData {
-                        DefaultIPGateway = defaultIpGateways,
+                        DefaultIPGateway = defaultIpGateways[0],
                         DHCPEnabled = (bool)mo["DHCPEnabled"],
                         DHCPServer = (string)mo["DHCPServer"],
                         SettingID = new Guid(mo["SettingID"].ToString()),
-                        DNSServerSearchOrder = dNSServerSearchOrder,
+                        DNSServer0 = dNSServer0,
+                        DNSServer1 = dNSServer1,
                         IPAddress = ipAddress
                     });
                 }

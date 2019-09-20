@@ -107,6 +107,9 @@
     <Compile Include="Ucs\BrandTag.xaml.cs">
       <DependentUpon>BrandTag.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Ucs\LocalIpConfig.xaml.cs">
+      <DependentUpon>LocalIpConfig.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Ucs\FragmentWriterEdit.xaml.cs">
       <DependentUpon>FragmentWriterEdit.xaml</DependentUpon>
     </Compile>
@@ -458,6 +461,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Ucs\BrandTag.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ucs\LocalIpConfig.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

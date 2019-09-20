@@ -61,5 +61,9 @@ namespace NTMiner.Views.Ucs {
                 BtnShowVirtualMemory.Foreground = Wpf.Util.RedBrush;
             }
         }
+
+        private void BtnLocalIps_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+            LocalIpConfig.ShowWindow();
+        }
     }
 }

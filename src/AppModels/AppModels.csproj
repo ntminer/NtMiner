@@ -109,6 +109,8 @@
     <Compile Include="Vms\HandlerIdsWindowViewModel.cs" />
     <Compile Include="Vms\KernelOutputSelectViewModel.cs" />
     <Compile Include="Vms\KernelInputSelectViewModel.cs" />
+    <Compile Include="Vms\LocalIpConfigViewModel.cs" />
+    <Compile Include="Vms\LocalIpViewModel.cs" />
     <Compile Include="Vms\MinerProfileViewModel.cs" />
     <Compile Include="Vms\SpeedTableViewModel.cs" />
     <Compile Include="Vms\StartStopMineButtonViewModel.cs" />

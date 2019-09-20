@@ -3,13 +3,11 @@
 namespace NTMiner.MinerClient {
     public class LocalIpData : ILocalIp {
         public LocalIpData() {
-            this.DefaultIPGateway = new string[0];
-            this.DNSServerSearchOrder = new string[0];
         }
 
         public Guid SettingID { get; set; }
 
-        public string[] DefaultIPGateway { get; set; }
+        public string DefaultIPGateway { get; set; }
 
         public bool DHCPEnabled { get; set; }
 
@@ -17,16 +15,22 @@ namespace NTMiner.MinerClient {
 
         public string IPAddress { get; set; }
 
-        public string[] DNSServerSearchOrder { get; set; }
+        public string IPSubnet { get; set; }
+
+        public string DNSServer0 { get; set; }
+
+        public string DNSServer1 { get; set; }
 
         public override string ToString() {
             return
 $@"SettingID={SettingID}
-DefaultIPGateway={string.Join(",", DefaultIPGateway)}
+DefaultIPGateway={DefaultIPGateway}
 DHCPEnabled={DHCPEnabled}
 DHCPServer={DHCPServer}
 IPAddress={IPAddress}
-DNSServerSearchOrder={string.Join(",", DNSServerSearchOrder)}";
+IPSubnet={IPSubnet}
+DNSServer0={DNSServer0}
+DNSServer1={DNSServer1}";
         }
     }
 }
