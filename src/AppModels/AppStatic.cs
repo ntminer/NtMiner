@@ -314,25 +314,25 @@ namespace NTMiner {
 
         public static IEnumerable<EnumItem<SupportedGpu>> SupportedGpuEnumItems {
             get {
-                return EnumSet.SupportedGpuEnumItems;
+                return NTMinerRoot.SupportedGpuEnumItems;
             }
         }
 
         public static IEnumerable<EnumItem<GpuType>> GpuTypeEnumItems {
             get {
-                return EnumSet.GpuTypeEnumItems;
+                return NTMinerRoot.GpuTypeEnumItems;
             }
         }
 
         public static IEnumerable<EnumItem<PublishStatus>> PublishStatusEnumItems {
             get {
-                return EnumSet.PublishStatusEnumItems;
+                return NTMinerRoot.PublishStatusEnumItems;
             }
         }
 
         public static IEnumerable<EnumItem<MineStatus>> MineStatusEnumItems {
             get {
-                return EnumSet.MineStatusEnumItems;
+                return NTMinerRoot.MineStatusEnumItems;
             }
         }
 

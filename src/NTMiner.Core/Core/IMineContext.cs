@@ -2,11 +2,6 @@
 using System.Collections.Generic;
 
 namespace NTMiner.Core {
-    public enum KernelProcessType {
-        Logfile,
-        Pip
-    }
-
     public interface IMineContext {
         Guid Id { get; }
         bool IsRestart { get; }

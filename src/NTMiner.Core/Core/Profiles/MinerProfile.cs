@@ -147,13 +147,13 @@ namespace NTMiner.Core.Profiles {
         public string MinerName {
             get {
                 if (string.IsNullOrEmpty(_data.MinerName)) {
-                    _data.MinerName = NTMinerRoot.GetThisPcName();
+                    _data.MinerName = NTMinerRoot.ThisPcName;
                 }
                 return _data.MinerName;
             }
             set {
                 if (string.IsNullOrEmpty(value)) {
-                    value = NTMinerRoot.GetThisPcName();
+                    value = NTMinerRoot.ThisPcName;
                 }
                 _data.MinerName = value;
             }

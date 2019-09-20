@@ -24,7 +24,7 @@ namespace NTMiner {
                             Write.Stopwatch.Restart();
 #endif
                             // 清理除当前外的Temp/Kernel
-                            Cleaner.Clear();
+                            Cleaner.Instance.Clear();
 #if DEBUG
                             Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {nameof(MinerProcess)}.{nameof(CreateProcessAsync)}[{nameof(Cleaner)}.{nameof(Cleaner.Clear)}]");
 #endif

@@ -97,7 +97,7 @@ namespace NTMiner.Vms {
             if (this._columnsShow == null) {
                 this._columnsShow = this.ColumnsShows.List.FirstOrDefault();
             }
-            this._mineStatusEnumItem = EnumSet.MineStatusEnumItems.FirstOrDefault(a => a.Value == MineStatus.All);
+            this._mineStatusEnumItem = NTMinerRoot.MineStatusEnumItems.FirstOrDefault(a => a.Value == MineStatus.All);
             this._coinVm = CoinViewModel.PleaseSelect;
             this._selectedMineWork = MineWorkViewModel.PleaseSelect;
             this._selectedMinerGroup = MinerGroupViewModel.PleaseSelect;

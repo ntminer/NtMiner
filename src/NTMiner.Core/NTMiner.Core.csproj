@@ -77,7 +77,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cleaner.cs" />
     <Compile Include="CommandLineArgs.cs" />
     <Compile Include="CommandLineArgs.partial.cs" />
     <Compile Include="Core\AverageSpeed.cs" />
@@ -108,6 +107,7 @@
     <Compile Include="Core\Impl\WorkerEventSet.cs" />
     <Compile Include="Core\Impl\FragmentWriterSet.cs" />
     <Compile Include="Core\Impl\FileWriterSet.cs" />
+    <Compile Include="Core\KernelProcessType.cs" />
     <Compile Include="Core\Kernels\CoinKernelExtension.cs" />
     <Compile Include="Core\Kernels\Impl\PackageSet.cs" />
     <Compile Include="Core\Kernels\IPackageSet.cs" />
@@ -148,11 +148,11 @@
     <Compile Include="Core\PoolExtensions.cs" />
     <Compile Include="Core\IDualMineContext.cs" />
     <Compile Include="Core\IMineContext.cs" />
-    <Compile Include="EnumSet.cs" />
     <Compile Include="JsonDb\ILocalJsonDb.cs" />
     <Compile Include="JsonDb\IServerJsonDb.cs" />
     <Compile Include="JsonDb\LocalJsonDb.cs" />
     <Compile Include="JsonDb\ServerJsonDb.cs" />
+    <Compile Include="NTMinerRoot.partials.Cleaner.cs" />
     <Compile Include="NTMinerRoot.partials.MineContext.cs" />
     <Compile Include="NTMinerRoot.partials.MinerProcess.cs" />
     <Compile Include="Report.cs" />

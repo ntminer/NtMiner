@@ -443,7 +443,7 @@ namespace NTMiner.Vms {
 
         public EnumItem<SupportedGpu> SupportedGpuEnumItem {
             get {
-                return EnumSet.SupportedGpuEnumItems.FirstOrDefault(a => a.Value == SupportedGpu);
+                return NTMinerRoot.SupportedGpuEnumItems.FirstOrDefault(a => a.Value == SupportedGpu);
             }
             set {
                 if (SupportedGpu != value.Value) {

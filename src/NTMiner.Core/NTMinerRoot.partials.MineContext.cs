@@ -5,6 +5,7 @@ using System.IO;
 
 namespace NTMiner {
     public partial class NTMinerRoot : INTMinerRoot {
+        #region MineContext
         private class MineContext : IMineContext {
             public MineContext(
                 bool isRestart,
@@ -79,7 +80,9 @@ namespace NTMiner {
 
             public Dictionary<Guid, string> FileWriters { get; private set; }
         }
+        #endregion
 
+        #region DualMineContext
         private class DualMineContext : MineContext, IDualMineContext {
             public DualMineContext(
                 IMineContext mineContext,
@@ -116,5 +119,6 @@ namespace NTMiner {
 
             public double DualCoinWeight { get; private set; }
         }
+        #endregion
     }
 }

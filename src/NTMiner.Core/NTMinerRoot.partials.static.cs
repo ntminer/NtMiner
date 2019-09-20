@@ -1,8 +1,10 @@
-﻿using NTMiner.JsonDb;
+﻿using NTMiner.Core;
+using NTMiner.JsonDb;
 using NTMiner.MinerServer;
 using NTMiner.Profile;
 using NTMiner.Repositories;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -10,6 +12,13 @@ using System.Text;
 
 namespace NTMiner {
     public partial class NTMinerRoot {
+        static NTMinerRoot() {
+            Assembly mainAssembly = Assembly.GetEntryAssembly();
+            CurrentVersion = mainAssembly.GetName().Version;
+            ServerVersion = CurrentVersion;
+            CurrentVersionTag = ((AssemblyDescriptionAttribute)mainAssembly.GetCustomAttributes(typeof(AssemblyDescriptionAttribute), inherit: false).First()).Description;
+        }
+
         public const int SpeedHistoryLengthByMinute = 10;
         public const int GpuAllId = -1;
         private static readonly NTMinerRoot S_Instance = new NTMinerRoot();
@@ -28,6 +37,16 @@ namespace NTMiner {
         public static bool IsJsonLocal {
             get { return _isJsonLocal; }
             private set { _isJsonLocal = value; }
+        }
+
+        // 矿工名中不可以包含的字符
+        private static readonly char[] InvalidChars = { '.', ' ', '-', '_' };
+        public static string ThisPcName {
+            get {
+                string value = Environment.MachineName;
+                value = new string(value.ToCharArray().Where(a => !InvalidChars.Contains(a)).ToArray());
+                return value;
+            }
         }
 
         public static Action RefreshArgsAssembly { get; private set; } = () => { };
@@ -81,12 +100,13 @@ namespace NTMiner {
             }
         }
 
-        static NTMinerRoot() {
-            Assembly mainAssembly = Assembly.GetEntryAssembly();
-            CurrentVersion = mainAssembly.GetName().Version;
-            ServerVersion = CurrentVersion;
-            CurrentVersionTag = ((AssemblyDescriptionAttribute)mainAssembly.GetCustomAttributes(typeof(AssemblyDescriptionAttribute), inherit: false).First()).Description;
-        }
+        public static readonly IEnumerable<EnumItem<SupportedGpu>> SupportedGpuEnumItems = SupportedGpu.AMD.GetEnumItems();
+
+        public static readonly IEnumerable<EnumItem<GpuType>> GpuTypeEnumItems = GpuType.AMD.GetEnumItems();
+
+        public static readonly IEnumerable<EnumItem<PublishStatus>> PublishStatusEnumItems = PublishStatus.Published.GetEnumItems();
+
+        public static readonly IEnumerable<EnumItem<MineStatus>> MineStatusEnumItems = MineStatus.All.GetEnumItems();
 
         private static LocalJsonDb _localJson;
         public static ILocalJsonDb LocalJson {
@@ -101,6 +121,7 @@ namespace NTMiner {
             LocalJsonInit();
         }
 
+        #region LocalJsonInit
         private static readonly object _localJsonlocker = new object();
         private static bool _localJsonInited = false;
         // 从磁盘读取local.json反序列化为LocalJson对象
@@ -148,6 +169,7 @@ namespace NTMiner {
                 }
             }
         }
+        #endregion
 
         private static ServerJsonDb _serverJson;
         public static IServerJsonDb ServerJson {
@@ -213,6 +235,7 @@ namespace NTMiner {
         }
         #endregion
 
+        #region ExportJson
         /// <summary>
         /// 将当前的系统状态导出到给定的json文件
         /// </summary>
@@ -239,7 +262,9 @@ namespace NTMiner {
                 Logger.ErrorDebugLine(e);
             }
         }
+        #endregion
 
+        #region CreateRepository
         /// <summary>
         /// 创建组合仓储，组合仓储由ServerDb和ProfileDb层序组成。
         /// 如果是开发者则访问ServerDb且只访问GlobalDb，否则将ServerDb和ProfileDb并起来访问且不能修改删除GlobalDb。
@@ -267,14 +292,7 @@ namespace NTMiner {
                 return new JsonReadOnlyRepository<T>(ServerJson);
             }
         }
-
-        // 矿工名中不可以包含的字符
-        private static readonly char[] InvalidChars = { '.', ' ', '-', '_' };
-        public static string GetThisPcName() {
-            string value = Environment.MachineName;
-            value = new string(value.ToCharArray().Where(a => !InvalidChars.Contains(a)).ToArray());
-            return value;
-        }
+        #endregion
 
         #region DiskSpace
         private static DateTime _diskSpaceOn = DateTime.MinValue;
