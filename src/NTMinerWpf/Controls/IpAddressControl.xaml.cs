@@ -22,7 +22,8 @@ namespace NTMiner.Controls {
             }
         }
 
-        private void Part4_KeyDown(object sender, System.Windows.Input.KeyEventArgs e) {
+        private void Part4_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e) {
+            _lastLostFocus = "part4";
             if (e.Key == Key.Back && part4.Text == "") {
                 part3.CaretIndex = part3.Text.Length;
                 part3.Focus();
@@ -40,7 +41,8 @@ namespace NTMiner.Controls {
             }
         }
 
-        private void Part2_KeyDown(object sender, System.Windows.Input.KeyEventArgs e) {
+        private void Part2_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e) {
+            _lastLostFocus = "part2";
             if (e.Key == Key.Back && part2.Text == "") {
                 part1.CaretIndex = part1.Text.Length;
                 part1.Focus();
@@ -62,7 +64,8 @@ namespace NTMiner.Controls {
             }
         }
 
-        private void Part3_KeyDown(object sender, System.Windows.Input.KeyEventArgs e) {
+        private void Part3_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e) {
+            _lastLostFocus = "part3";
             if (e.Key == Key.Back && part3.Text == "") {
                 part2.CaretIndex = part2.Text.Length;
                 part2.Focus();
@@ -85,6 +88,7 @@ namespace NTMiner.Controls {
         }
 
         private void Part1_PreviewKeyDown(object sender, KeyEventArgs e) {
+            _lastLostFocus = "part1";
             if (e.Key == Key.Right && part1.CaretIndex == part1.Text.Length) {
                 part2.Focus();
                 e.Handled = true;
@@ -94,6 +98,26 @@ namespace NTMiner.Controls {
                     var vm = this.DataContext as IpAddressViewModel;
                     Clipboard.SetText(vm.AddressText);
                 }
+            }
+        }
+
+        private string _lastLostFocus = string.Empty;
+
+        private void Part2_GotFocus(object sender, RoutedEventArgs e) {
+            if (_lastLostFocus == "part1") {
+                part2.SelectAll();
+            }
+        }
+
+        private void Part3_GotFocus(object sender, RoutedEventArgs e) {
+            if (_lastLostFocus == "part2") {
+                part3.SelectAll();
+            }
+        }
+
+        private void Part4_GotFocus(object sender, RoutedEventArgs e) {
+            if (_lastLostFocus == "part3") {
+                part4.SelectAll();
             }
         }
     }

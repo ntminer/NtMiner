@@ -85,11 +85,12 @@
         <TextBox
             Grid.Column="2"
             x:Name="part2"
+            GotFocus="Part2_GotFocus"
             BorderThickness="0"
             VerticalAlignment="Stretch"
             VerticalContentAlignment="Center"
             HorizontalContentAlignment="Center"
-            PreviewKeyDown="Part2_KeyDown"
+            PreviewKeyDown="Part2_PreviewKeyDown"
             controls:FocusChangeExtension.IsFocused="{Binding IsPart2Focused}"
             Style="{StaticResource CustomTextBoxTextStyle}"
             Validation.ErrorTemplate="{StaticResource validationTemplate}">
@@ -107,11 +108,12 @@
         <TextBox
             Grid.Column="4"
             x:Name="part3"
+            GotFocus="Part3_GotFocus"
             BorderThickness="0"
             VerticalAlignment="Stretch"
             VerticalContentAlignment="Center"
             HorizontalContentAlignment="Center"
-            PreviewKeyDown="Part3_KeyDown"
+            PreviewKeyDown="Part3_PreviewKeyDown"
             controls:FocusChangeExtension.IsFocused="{Binding IsPart3Focused}"
             Style="{StaticResource CustomTextBoxTextStyle}"
             Validation.ErrorTemplate="{StaticResource validationTemplate}">
@@ -129,11 +131,12 @@
         <TextBox
             Grid.Column="6"
             x:Name="part4"
+            GotFocus="Part4_GotFocus"
             BorderThickness="0"
             VerticalAlignment="Stretch"
             VerticalContentAlignment="Center"
             HorizontalContentAlignment="Center"
-            PreviewKeyDown="Part4_KeyDown"
+            PreviewKeyDown="Part4_PreviewKeyDown"
             controls:FocusChangeExtension.IsFocused="{Binding IsPart4Focused}"
             Style="{StaticResource CustomTextBoxTextStyle}"
             Validation.ErrorTemplate="{StaticResource validationTemplate}">
