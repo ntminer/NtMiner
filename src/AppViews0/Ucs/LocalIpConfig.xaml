@@ -36,11 +36,11 @@
                     <GroupBox Header="{Binding Name}" BorderThickness="1" BorderBrush="{StaticResource LineColor}" Background="White" Padding="10 4 10 10" Margin="10 0 10 10">
                         <StackPanel>
                             <RadioButton GroupName="DHCP" Margin="9 2 0 2" IsChecked="{Binding DHCPEnabled}">自动获得 IP 地址</RadioButton>
-                            <GroupBox IsEnabled="{Binding DHCPEnabled,Converter={StaticResource BoolInvertConverter}}">
+                            <GroupBox>
                                 <GroupBox.Header>
                                     <RadioButton GroupName="DHCP" IsChecked="{Binding DHCPEnabled,Converter={StaticResource BoolInvertConverter}}">使用下面的 IP 地址</RadioButton>
                                 </GroupBox.Header>
-                                <StackPanel>
+                                <StackPanel IsEnabled="{Binding DHCPEnabled,Converter={StaticResource BoolInvertConverter}}">
                                     <WrapPanel Margin="0 0 0 4">
                                         <TextBlock Style="{StaticResource LblTb}" Text="IP 地址:"></TextBlock>
                                         <controls:IpAddressControl BorderThickness="1" BorderBrush="#666" DataContext="{Binding IPAddressVm, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}" Width="150" Height="25"/>
@@ -56,11 +56,11 @@
                                 </StackPanel>
                             </GroupBox>
                             <RadioButton GroupName="AutoDNSServer" Margin="9 8 0 2" IsChecked="{Binding IsAutoDNSServer}">自动获得 DNS 服务器地址</RadioButton>
-                            <GroupBox IsEnabled="{Binding IsAutoDNSServer,Converter={StaticResource BoolInvertConverter}}">
+                            <GroupBox>
                                 <GroupBox.Header>
                                     <RadioButton GroupName="AutoDNSServer" IsChecked="{Binding IsAutoDNSServer,Converter={StaticResource BoolInvertConverter}}">使用下面的 DNS 服务器地址</RadioButton>
                                 </GroupBox.Header>
-                                <StackPanel>
+                                <StackPanel IsEnabled="{Binding IsAutoDNSServer,Converter={StaticResource BoolInvertConverter}}">
                                     <WrapPanel Margin="0 0 0 4">
                                         <TextBlock Style="{StaticResource LblTb}" Text="首选 DNS 服务器:"></TextBlock>
                                         <controls:IpAddressControl BorderThickness="1" BorderBrush="#666" DataContext="{Binding DNSServer0Vm, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}" Width="150" Height="25"/>

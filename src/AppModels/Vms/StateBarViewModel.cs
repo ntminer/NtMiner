@@ -72,7 +72,6 @@ namespace NTMiner.Vms {
         public ICommand ConfigControlCenterHost { get; private set; }
         public ICommand WindowsAutoLogon { get; private set; }
         public ICommand EnableWindowsRemoteDesktop { get; private set; }
-        public ICommand RefreshLocalIps { get; private set; }
 
         public StateBarViewModel() {
             if (Design.IsInDesignMode) {
@@ -88,10 +87,12 @@ namespace NTMiner.Vms {
             this.EnableWindowsRemoteDesktop = new DelegateCommand(() => {
                 VirtualRoot.Execute(new EnableWindowsRemoteDesktopCommand());
             });
-            this.RefreshLocalIps = new DelegateCommand(() => {
-                this.OnPropertyChanged(nameof(LocalIps));
-            });
             SetCheckUpdateForeground(isLatest: NTMinerRoot.CurrentVersion >= NTMinerRoot.ServerVersion);
+        }
+
+        public void RefreshLocalIps() {
+            VirtualRoot.LocalIpSet.Refresh();
+            this.OnPropertyChanged(nameof(LocalIps));
         }
 
         public void SetCheckUpdateForeground(bool isLatest) {

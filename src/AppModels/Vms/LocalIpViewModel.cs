@@ -82,8 +82,10 @@ namespace NTMiner.Vms {
         public bool DHCPEnabled {
             get => _dHCPEnabled;
             set {
-                _dHCPEnabled = value;
-                OnPropertyChanged(nameof(DHCPEnabled));
+                if (_dHCPEnabled != value) {
+                    _dHCPEnabled = value;
+                    OnPropertyChanged(nameof(DHCPEnabled));
+                }
             }
         }
 
@@ -162,8 +164,10 @@ namespace NTMiner.Vms {
         public bool IsAutoDNSServer {
             get => _isAutoDNSServer;
             set {
-                _isAutoDNSServer = value;
-                OnPropertyChanged(nameof(IsAutoDNSServer));
+                if (_isAutoDNSServer != value) {
+                    _isAutoDNSServer = value;
+                    OnPropertyChanged(nameof(IsAutoDNSServer));
+                }
             }
         }
     }
