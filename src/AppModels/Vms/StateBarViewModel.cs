@@ -105,7 +105,6 @@ namespace NTMiner.Vms {
         }
 
         public void RefreshLocalIps() {
-            VirtualRoot.LocalIpSet.Refresh();
             LocalIps = GetLocalIps();
         }
 

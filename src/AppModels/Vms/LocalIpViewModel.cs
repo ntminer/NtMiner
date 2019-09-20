@@ -1,17 +1,13 @@
 ﻿using NTMiner.MinerClient;
+using System;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class LocalIpViewModel : ViewModelBase, ILocalIp {
         private string _settingID;
         private string _name;
-        private string _iPAddress;
-        private string _iPSubnet;
         private string _dHCPServer;
         private bool _dHCPEnabled;
-        private string _defaultIPGateway;
-        private string _dNSServer0;
-        private string _dNSServer1;
         private bool _isAutoDNSServer;
         private IpAddressViewModel _iPAddressVm;
         private IpAddressViewModel _iPSubnetVm;
@@ -24,17 +20,12 @@ namespace NTMiner.Vms {
         public LocalIpViewModel(ILocalIp data) {
             _settingID = data.SettingID;
             _name = data.Name;
-            _iPAddress = data.IPAddress;
-            _iPSubnet = data.IPSubnet;
             _dHCPServer = data.DHCPServer;
             _dHCPEnabled = data.DHCPEnabled;
-            _defaultIPGateway = data.DefaultIPGateway;
             if (data.DefaultIPGateway == data.DNSServer0) {
                 _isAutoDNSServer = true;
             }
             else {
-                _dNSServer0 = data.DNSServer0;
-                _dNSServer1 = data.DNSServer1;
                 _isAutoDNSServer = false;
             }
             _iPAddressVm = new IpAddressViewModel(data.IPAddress);
@@ -43,7 +34,10 @@ namespace NTMiner.Vms {
             _dNSServer0Vm = new IpAddressViewModel(data.DNSServer0);
             _dNSServer1Vm = new IpAddressViewModel(data.DNSServer1);
             this.Save = new DelegateCommand(() => {
-
+                VirtualRoot.LocalIpSet.SetIp(this, this.IsAutoDNSServer);
+                TimeSpan.FromSeconds(3).Delay().ContinueWith(t => {
+                    VirtualRoot.LocalIpSet.Refresh();
+                });
             });
         }
 
@@ -64,11 +58,7 @@ namespace NTMiner.Vms {
         }
 
         public string DefaultIPGateway {
-            get => _defaultIPGateway;
-            set {
-                _defaultIPGateway = value;
-                OnPropertyChanged(nameof(DefaultIPGateway));
-            }
+            get => DefaultIPGatewayVm.AddressText;
         }
 
         public IpAddressViewModel DefaultIPGatewayVm {
@@ -79,12 +69,39 @@ namespace NTMiner.Vms {
             }
         }
 
+        public string DHCPEnabledGroupName1 {
+            get {
+                return this.SettingID + 1;
+            }
+        }
+
+        public string DHCPEnabledGroupName2 {
+            get {
+                return this.SettingID + 2;
+            }
+        }
+
+        public string DHCPEnabledGroupName3 {
+            get {
+                return this.SettingID + 3;
+            }
+        }
+
+        public string DHCPEnabledGroupName4 {
+            get {
+                return this.SettingID + 4;
+            }
+        }
+
         public bool DHCPEnabled {
             get => _dHCPEnabled;
             set {
                 if (_dHCPEnabled != value) {
                     _dHCPEnabled = value;
                     OnPropertyChanged(nameof(DHCPEnabled));
+                    if (!value) {
+                        IsAutoDNSServer = false;
+                    }
                 }
             }
         }
@@ -98,11 +115,7 @@ namespace NTMiner.Vms {
         }
 
         public string IPAddress {
-            get => _iPAddress;
-            set {
-                _iPAddress = value;
-                OnPropertyChanged(nameof(IPAddress));
-            }
+            get => IPAddressVm.AddressText;
         }
 
         public IpAddressViewModel IPAddressVm {
@@ -114,11 +127,7 @@ namespace NTMiner.Vms {
         }
 
         public string IPSubnet {
-            get { return _iPSubnet; }
-            set {
-                _iPSubnet = value;
-                OnPropertyChanged(nameof(IPSubnet));
-            }
+            get { return IPSubnetVm.AddressText; }
         }
 
         public IpAddressViewModel IPSubnetVm {
@@ -130,11 +139,7 @@ namespace NTMiner.Vms {
         }
 
         public string DNSServer0 {
-            get => _dNSServer0;
-            set {
-                _dNSServer0 = value;
-                OnPropertyChanged(nameof(DNSServer0));
-            }
+            get => DNSServer0Vm.AddressText;
         }
 
         public IpAddressViewModel DNSServer0Vm {
@@ -146,11 +151,7 @@ namespace NTMiner.Vms {
         }
 
         public string DNSServer1 {
-            get => _dNSServer1;
-            set {
-                _dNSServer1 = value;
-                OnPropertyChanged(nameof(DNSServer1));
-            }
+            get => DNSServer1Vm.AddressText;
         }
 
         public IpAddressViewModel DNSServer1Vm {

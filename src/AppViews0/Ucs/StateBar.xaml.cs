@@ -25,7 +25,13 @@ namespace NTMiner.Views.Ucs {
                 // 时间事件是在WPF UI线程的，所以这里不用考虑访问UI线程创建的Vm对象的问题
                 window.EventPath<Per1MinuteEvent>("周期刷新状态栏的IP展示", LogEnum.DevConsole,
                     action: message => {
-                        Vm.RefreshLocalIps();
+                        VirtualRoot.LocalIpSet.Refresh();
+                    });
+                window.EventPath<LocalIpSetRefreshedEvent>("本机IP集刷新后刷新状态栏", LogEnum.DevConsole,
+                    action: message => {
+                        UIThread.Execute(() => {
+                            Vm.RefreshLocalIps();
+                        });
                     });
                 window.EventPath<MinutePartChangedEvent>("时间的分钟部分变更过更新计时器显示", LogEnum.None,
                     action: message => {
@@ -72,7 +78,7 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void BtnLocalIps_Click(object sender, System.Windows.RoutedEventArgs e) {
-            Vm.RefreshLocalIps();
+            VirtualRoot.LocalIpSet.Refresh();
         }
     }
 }

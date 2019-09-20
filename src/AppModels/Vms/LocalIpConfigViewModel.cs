@@ -5,10 +5,19 @@ namespace NTMiner.Vms {
         private List<LocalIpViewModel> _localIpVms;
 
         public LocalIpConfigViewModel() {
+            Init();
+        }
+
+        private void Init() {
             _localIpVms = new List<LocalIpViewModel>();
             foreach (var localIp in VirtualRoot.LocalIpSet) {
                 _localIpVms.Add(new LocalIpViewModel(localIp));
             }
+        }
+
+        public void Refresh() {
+            Init();
+            OnPropertyChanged(nameof(LocalIpVms));
         }
 
         public List<LocalIpViewModel> LocalIpVms {

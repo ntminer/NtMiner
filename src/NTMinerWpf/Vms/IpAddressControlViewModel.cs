@@ -8,7 +8,7 @@ namespace NTMiner.Vms {
         }
 
         public string AddressText {
-            get { return $"{Part1 ?? "0"}.{Part2 ?? "0"}.{Part3 ?? "0"}.{Part4 ?? "0"}"; }
+            get { return $"{(string.IsNullOrEmpty(Part1) ? "0" : Part1)}.{(string.IsNullOrEmpty(Part2) ? "0" : Part2)}.{(string.IsNullOrEmpty(Part3) ? "0" : Part3)}.{(string.IsNullOrEmpty(Part4) ? "0" : Part4)}"; }
         }
 
         private string _currentFocused;
