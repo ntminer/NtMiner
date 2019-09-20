@@ -219,7 +219,7 @@ namespace NTMiner.Vms {
                 }
                 foreach (var localIp in VirtualRoot.LocalIpSet) {
                     foreach (var item in localIp.IPAddress) {
-                        sb.Append(item);
+                        sb.Append(item).Append(localIp.DHCPEnabled? "🔒" : string.Empty);
                     }
                 }
                 return sb.ToString();
