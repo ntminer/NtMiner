@@ -33,6 +33,7 @@ namespace NTMiner {
                             if (Instance.GpuProfileSet.IsOverClockEnabled(mineContext.MainCoin.GetId())) {
                                 Write.UserWarn("应用超频，如果CPU性能较差耗时可能超过1分钟，请耐心等待");
                                 var cmd = new CoinOverClockCommand(mineContext.MainCoin.GetId());
+                                // N卡超频当cpu性能非常差时较耗时，所以这里弄个回调
                                 DelegateHandler<CoinOverClockDoneEvent> callback = null;
                                 callback = VirtualRoot.EventPath<CoinOverClockDoneEvent>("超频完成后继续流程", LogEnum.DevConsole,
                                     message => {
@@ -41,13 +42,13 @@ namespace NTMiner {
                                         }
                                         else if (message.CmdId == cmd.Id) {
                                             VirtualRoot.UnPath(callback);
-                                            Continue(mineContext);
+                                            ContinueCreateProcess(mineContext);
                                         }
                                     });
                                 VirtualRoot.Execute(cmd);
                             }
                             else {
-                                Continue(mineContext);
+                                ContinueCreateProcess(mineContext);
                             }
                         }
                         catch (Exception e) {
@@ -58,7 +59,7 @@ namespace NTMiner {
                 });
             }
 
-            private static void Continue(IMineContext mineContext) {
+            private static void ContinueCreateProcess(IMineContext mineContext) {
                 Thread.Sleep(1000);
                 if (mineContext != Instance.CurrentMineContext) {
                     Write.UserWarn("挖矿停止");
