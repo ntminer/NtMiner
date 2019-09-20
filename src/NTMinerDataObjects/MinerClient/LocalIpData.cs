@@ -19,5 +19,15 @@ namespace NTMiner.MinerClient {
         public string[] IPAddress { get; set; }
 
         public string[] DNSServerSearchOrder { get; set; }
+
+        public override string ToString() {
+            return
+$@"SettingID={SettingID}
+DefaultIPGateway={string.Join(",", DefaultIPGateway)}
+DHCPEnabled={DHCPEnabled}
+DHCPServer={DHCPServer}
+IPAddress={string.Join(",", IPAddress)}
+DNSServerSearchOrder={string.Join(",", DNSServerSearchOrder)}";
+        }
     }
 }

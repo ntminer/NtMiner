@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Linq;
+using System.Text;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -212,11 +212,17 @@ namespace NTMiner.Vms {
 
         public string LocalIps {
             get {
-                string ips = string.Join("，", VirtualRoot.GetLocalIps().Select(a => a.ToString()));
-                if (string.IsNullOrEmpty(ips)) {
-                    return "无网络";
+                StringBuilder sb = new StringBuilder();
+                int len = sb.Length;
+                if (len != sb.Length) {
+                    sb.Append("，");
                 }
-                return ips;
+                foreach (var localIp in VirtualRoot.LocalIpSet) {
+                    foreach (var item in localIp.IPAddress) {
+                        sb.Append(item);
+                    }
+                }
+                return sb.ToString();
             }
         }
     }

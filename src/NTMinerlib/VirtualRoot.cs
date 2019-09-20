@@ -1,13 +1,11 @@
 ﻿using NTMiner.Bus;
 using NTMiner.Bus.DirectBus;
+using NTMiner.Ip;
+using NTMiner.Ip.Impl;
 using NTMiner.Serialization;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Net;
-using System.Net.NetworkInformation;
-using System.Net.Sockets;
 using System.Reflection;
 using System.Text;
 
@@ -60,6 +58,7 @@ namespace NTMiner {
         }
         #endregion
 
+        public static ILocalIpSet LocalIpSet { get; private set; }
         public static IObjectSerializer JsonSerializer { get; private set; }
 
         public static readonly IMessageDispatcher SMessageDispatcher;
@@ -83,32 +82,11 @@ namespace NTMiner {
 
         static VirtualRoot() {
             Id = NTMinerRegistry.GetClientId();
+            LocalIpSet = new LocalIpSet();
             JsonSerializer = new ObjectJsonSerializer();
             SMessageDispatcher = new MessageDispatcher();
             SCommandBus = new DirectCommandBus(SMessageDispatcher);
             SEventBus = new DirectEventBus(SMessageDispatcher);
-        }
-
-        public static List<IPAddress> GetLocalIps() {
-            List<IPAddress> ipaddress = new List<IPAddress>();
-
-            //获取网卡
-            var items = NetworkInterface.GetAllNetworkInterfaces();
-            foreach (NetworkInterface ni in items) {
-                IPInterfaceProperties ipipros = ni.GetIPProperties();
-                // 忽略没有默认网关的
-                if (ipipros.GatewayAddresses.Count == 0) {
-                    continue;
-                }
-                foreach (UnicastIPAddressInformation ip in ipipros.UnicastAddresses) {
-                    //忽略不是ipv4的
-                    if (ip.Address.AddressFamily != AddressFamily.InterNetwork) {
-                        continue;
-                    }
-                    ipaddress.Add(ip.Address);
-                }
-            }
-            return ipaddress;
         }
 
         #region ConvertToGuid
