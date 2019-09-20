@@ -317,7 +317,8 @@
 						Background="Transparent"
 						Margin="4 0 0 0"
 						ToolTip="双击设置，单击刷新"
-                        MouseDown="BtnLocalIps_MouseDown"
+                        Click="BtnLocalIps_Click"
+                        MouseDoubleClick="BtnLocalIps_MouseDoubleClick"
                         Foreground="{StaticResource LableColor}"
                         Content="{Binding LocalIps}"
 						CornerRadius="2">

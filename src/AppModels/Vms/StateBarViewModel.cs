@@ -14,6 +14,7 @@ namespace NTMiner.Vms {
         private string _dualPoolDelayText;
         private string _timeText;
         private string _dateText;
+        private string _localIps;
 
         public bool IsAutoAdminLogon {
             get { return Windows.OS.Instance.IsAutoAdminLogon; }
@@ -87,12 +88,25 @@ namespace NTMiner.Vms {
             this.EnableWindowsRemoteDesktop = new DelegateCommand(() => {
                 VirtualRoot.Execute(new EnableWindowsRemoteDesktopCommand());
             });
+            _localIps = GetLocalIps();
             SetCheckUpdateForeground(isLatest: NTMinerRoot.CurrentVersion >= NTMinerRoot.ServerVersion);
+        }
+
+        private string GetLocalIps() {
+            StringBuilder sb = new StringBuilder();
+            int len = sb.Length;
+            foreach (var localIp in VirtualRoot.LocalIpSet) {
+                if (len != sb.Length) {
+                    sb.Append("，");
+                }
+                sb.Append(localIp.IPAddress).Append(localIp.DHCPEnabled ? "(dhcp)" : "🔒");
+            }
+            return sb.ToString();
         }
 
         public void RefreshLocalIps() {
             VirtualRoot.LocalIpSet.Refresh();
-            this.OnPropertyChanged(nameof(LocalIps));
+            LocalIps = GetLocalIps();
         }
 
         public void SetCheckUpdateForeground(bool isLatest) {
@@ -206,16 +220,10 @@ namespace NTMiner.Vms {
         }
 
         public string LocalIps {
-            get {
-                StringBuilder sb = new StringBuilder();
-                int len = sb.Length;
-                foreach (var localIp in VirtualRoot.LocalIpSet) {
-                    if (len != sb.Length) {
-                        sb.Append("，");
-                    }
-                    sb.Append(localIp.IPAddress).Append(localIp.DHCPEnabled ? "(dhcp)" : "🔒");
-                }
-                return sb.ToString();
+            get { return _localIps; }
+            set {
+                _localIps = value;
+                OnPropertyChanged(nameof(LocalIps));
             }
         }
     }
