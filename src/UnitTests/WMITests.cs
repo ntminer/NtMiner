@@ -31,6 +31,9 @@ namespace UnitTestProject1 {
                 if (!(bool)mo["IPEnabled"]) {
                     continue;
                 }
+                if (mo["DefaultIPGateway"] == null || ((string[])mo["DefaultIPGateway"]).Length == 0) {
+                    continue;
+                }
                 foreach (var kv in mo.Properties) {
                     str.Append(kv.Name);
                     str.Append(": ");
