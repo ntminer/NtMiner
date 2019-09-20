@@ -57,6 +57,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlankWindow", "src\BlankWin
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{E32C4009-7A81-4A60-B561-286D8A0C5E06}"
 	ProjectSection(SolutionItems) = preProject
+		docs\IncorrectShare.md = docs\IncorrectShare.md
 		docs\NTMiner0.md = docs\NTMiner0.md
 		docs\NTMiner1.md = docs\NTMiner1.md
 		docs\NTMinerBkPool.md = docs\NTMinerBkPool.md
