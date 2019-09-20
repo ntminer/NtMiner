@@ -53,16 +53,7 @@ namespace NTMiner.Ip.Impl {
                 }
                 else {
                     ManagementBaseObject inPar = mo.GetMethodParameters("SetDNSServerSearchOrder");
-                    if (data.DNSServer0 == "0.0.0.0") {
-                        VirtualRoot.Out.ShowErrorMessage("首选 DNS 服务器不能为空", delaySeconds: 4);
-                        return;
-                    }
-                    if (data.DNSServer1 == "0.0.0.0") {
-                        inPar["DNSServerSearchOrder"] = new string[] { data.DNSServer0 };
-                    }
-                    else {
-                        inPar["DNSServerSearchOrder"] = new string[] { data.DNSServer0, data.DNSServer1 };
-                    }
+                    inPar["DNSServerSearchOrder"] = new string[] { data.DNSServer0, data.DNSServer1 };
                     mo.InvokeMethod("SetDNSServerSearchOrder", inPar, null);
                 }
             }

@@ -27,6 +27,14 @@ namespace NTMiner.Vms {
             _dNSServer0Vm = new IpAddressViewModel(data.DNSServer0);
             _dNSServer1Vm = new IpAddressViewModel(data.DNSServer1);
             this.Save = new DelegateCommand(() => {
+                if (this.IsAutoDNSServer) {
+                    if (_dNSServer0Vm.IsEmpty) {
+                        _dNSServer0Vm.SetAddress("114.114.114.114");
+                    }
+                    if (_dNSServer1Vm.IsEmpty) {
+                        _dNSServer1Vm.SetAddress("114.114.114.115");
+                    }
+                }
                 VirtualRoot.LocalIpSet.SetIp(this, this.IsAutoDNSServer);
                 TimeSpan.FromSeconds(3).Delay().ContinueWith(t => {
                     VirtualRoot.LocalIpSet.Refresh();
