@@ -214,13 +214,11 @@ namespace NTMiner.Vms {
             get {
                 StringBuilder sb = new StringBuilder();
                 int len = sb.Length;
-                if (len != sb.Length) {
-                    sb.Append("，");
-                }
                 foreach (var localIp in VirtualRoot.LocalIpSet) {
-                    foreach (var item in localIp.IPAddress) {
-                        sb.Append(item).Append(localIp.DHCPEnabled? "🔒" : string.Empty);
+                    if (len != sb.Length) {
+                        sb.Append("，");
                     }
+                    sb.Append(localIp.IPAddress).Append(localIp.DHCPEnabled ? "(dhcp)" : "🔒");
                 }
                 return sb.ToString();
             }

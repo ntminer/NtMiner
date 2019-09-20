@@ -674,7 +674,7 @@
                 </Border>
             </Grid>
         </DockPanel>
-        <WrapPanel Grid.Row="1" HorizontalAlignment="Right" Margin="0 -3 4 0" VerticalAlignment="Top">
+        <WrapPanel Grid.Row="1" HorizontalAlignment="Right" Background="{StaticResource ThemeBackground}" Margin="0 -3 4 0" VerticalAlignment="Top">
             <StackPanel Margin="4 0 0 0">
                 <CheckBox 
                     Padding="0"

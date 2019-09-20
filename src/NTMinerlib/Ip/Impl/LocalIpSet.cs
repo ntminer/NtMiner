@@ -46,9 +46,12 @@ namespace NTMiner.Ip.Impl {
                     if (mo["DNSServerSearchOrder"] != null) {
                         dNSServerSearchOrder = (string[])mo["DNSServerSearchOrder"];
                     }
-                    string[] ipAddress = new string[0];
+                    string ipAddress = string.Empty;
                     if (mo["IPAddress"] != null) {
-                        ipAddress = (string[])mo["IPAddress"];
+                        string[] items = (string[])mo["IPAddress"];
+                        if (items.Length != 0) {
+                            ipAddress = items[0];// 只去Ipv4
+                        }
                     }
                     list.Add(new LocalIpData {
                         DefaultIPGateway = defaultIpGateways,

@@ -6,7 +6,7 @@ namespace NTMiner.MinerClient {
         string[] DefaultIPGateway { get; }
         bool DHCPEnabled { get; }
         string DHCPServer { get; }
-        string[] IPAddress { get; }
+        string IPAddress { get; }
         string[] DNSServerSearchOrder { get; }
     }
 }
