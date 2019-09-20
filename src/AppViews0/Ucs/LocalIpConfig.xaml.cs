@@ -7,7 +7,7 @@ namespace NTMiner.Views.Ucs {
     public partial class LocalIpConfig : UserControl {
         public static void ShowWindow() {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                Title = "IP设置",
+                Title = "管理本机 IP",
                 IconName = "Icon_Ip",
                 Width = 450,
                 IsDialogWindow = true,
