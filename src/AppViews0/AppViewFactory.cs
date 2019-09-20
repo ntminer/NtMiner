@@ -33,6 +33,12 @@ namespace NTMiner.Views {
                         Calc.ShowWindow(message.CoinVm);
                     });
                 });
+            VirtualRoot.CmdPath<ShowLocalIpsCommand>(LogEnum.DevConsole,
+                action: message => {
+                    UIThread.Execute(() => {
+                        LocalIpConfig.ShowWindow();
+                    });
+                });
             VirtualRoot.CmdPath<ShowEthNoDevFeeCommand>(LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {

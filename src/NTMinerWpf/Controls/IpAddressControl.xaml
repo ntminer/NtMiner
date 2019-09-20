@@ -41,11 +41,11 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition MinWidth="30" />
-            <ColumnDefinition Width="10" />
+            <ColumnDefinition Width="3" />
             <ColumnDefinition MinWidth="30" />
-            <ColumnDefinition Width="10" />
+            <ColumnDefinition Width="3" />
             <ColumnDefinition MinWidth="30" />
-            <ColumnDefinition Width="10" />
+            <ColumnDefinition Width="3" />
             <ColumnDefinition MinWidth="30" />
         </Grid.ColumnDefinitions>
 
@@ -72,7 +72,7 @@
         </TextBox>
         <TextBlock
             Grid.Column="1"
-            HorizontalAlignment="Center"
+            Padding="0"
             FontSize="15"
             Margin="0 -8 0 0"
             Text="."
@@ -100,7 +100,6 @@
         </TextBox>
         <TextBlock
             Grid.Column="3"
-            HorizontalAlignment="Center"
             FontSize="15"
             Margin="0 -8 0 0"
             Text="."
@@ -128,7 +127,6 @@
         </TextBox>
         <TextBlock
             Grid.Column="5"
-            HorizontalAlignment="Center"
             FontSize="15"
             Margin="0 -8 0 0"
             Text="."

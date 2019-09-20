@@ -684,6 +684,10 @@ namespace NTMiner {
             VirtualRoot.Execute(new ShowCalcCommand(coinVm));
         });
 
+        public static ICommand ShowLocalIps { get; private set; } = new DelegateCommand(() => {
+            VirtualRoot.Execute(new ShowLocalIpsCommand());
+        });
+
         public static ICommand ShowEthNoDevFee { get; private set; } = new DelegateCommand(() => {
             VirtualRoot.Execute(new ShowEthNoDevFeeCommand());
         });

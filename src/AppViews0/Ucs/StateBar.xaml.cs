@@ -67,7 +67,8 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void BtnLocalIps_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            LocalIpConfig.ShowWindow();
+            AppStatic.ShowLocalIps.Execute(null);
+            e.Handled = true;
         }
 
         private void BtnLocalIps_Click(object sender, System.Windows.RoutedEventArgs e) {

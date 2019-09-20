@@ -308,6 +308,26 @@
                         </StackPanel>
                     </WrapPanel>
                 </controls:KbButton>
+                <controls:KbButton 
+					Height="{StaticResource ItemHeight}" 
+					Width="{StaticResource ItemWidth}"
+					Margin="4"
+					Command="{x:Static app:AppStatic.ShowLocalIps}"
+					Cursor="Hand"
+					Background="Transparent">
+                    <WrapPanel VerticalAlignment="Center">
+                        <Path 
+							Width="30"
+							Height="30"
+							Data="{StaticResource Icon_Ip}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+                        <StackPanel Margin="8 0 0 0" Width="152">
+                            <TextBlock FontWeight="Bold" FontSize="14">管理本机 IP</TextBlock>
+                            <TextBlock Foreground="{StaticResource LableColor}">一键设置固定 IP</TextBlock>
+                        </StackPanel>
+                    </WrapPanel>
+                </controls:KbButton>
             </WrapPanel>
 		</ScrollViewer>
 	</Grid>
