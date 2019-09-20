@@ -5,10 +5,10 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:controls="clr-namespace:NTMiner.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Margin="10,0"
     d:DesignHeight="50"
     d:DesignWidth="800"
-    mc:Ignorable="d" Background="White">
+    Background="White"
+    mc:Ignorable="d">
     <UserControl.Resources>
         <ControlTemplate x:Key="validationTemplate">
             <DockPanel>
@@ -24,6 +24,7 @@
         </ControlTemplate>
         <Style x:Key="CustomTextBoxTextStyle" TargetType="TextBox">
             <Setter Property="MaxLength" Value="3" />
+            <Setter Property="Background" Value="White"></Setter>
             <Setter Property="HorizontalAlignment" Value="Stretch" />
             <Setter Property="VerticalAlignment" Value="Center" />
             <Style.Triggers>
@@ -74,8 +75,7 @@
             HorizontalAlignment="Center"
             FontSize="15"
             Text="."
-            VerticalAlignment="Center"
-      />
+            VerticalAlignment="Center" />
 
         <!--  Part 2  -->
         <TextBox

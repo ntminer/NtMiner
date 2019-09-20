@@ -5,31 +5,33 @@ namespace NTMiner.Vms {
     public class IpAddressViewModel : ViewModelBase {
         public event EventHandler AddressChanged;
 
-        public IpAddressViewModel() { }
+        public IpAddressViewModel(string address) {
+            SetAddress(address);
+        }
 
         public string AddressText {
             get { return $"{Part1 ?? "0"}.{Part2 ?? "0"}.{Part3 ?? "0"}.{Part4 ?? "0"}"; }
         }
 
-        private bool isPart1Focused;
+        private bool _isPart1Focused;
 
         public bool IsPart1Focused {
-            get { return isPart1Focused; }
+            get { return _isPart1Focused; }
             set {
-                isPart1Focused = value;
+                _isPart1Focused = value;
                 OnPropertyChanged(nameof(IsPart1Focused));
             }
         }
 
-        private string part1;
+        private string _part1;
 
         public string Part1 {
-            get { return part1; }
+            get { return _part1; }
             set {
-                part1 = value;
+                _part1 = value;
                 SetFocus(true, false, false, false);
 
-                var moveNext = CanMoveNext(ref part1);
+                var moveNext = CanMoveNext(ref _part1);
 
                 OnPropertyChanged(nameof(Part1));
                 OnPropertyChanged(nameof(AddressText));
@@ -41,26 +43,26 @@ namespace NTMiner.Vms {
             }
         }
 
-        private bool isPart2Focused;
+        private bool _isPart2Focused;
 
         public bool IsPart2Focused {
-            get { return isPart2Focused; }
+            get { return _isPart2Focused; }
             set {
-                isPart2Focused = value;
+                _isPart2Focused = value;
                 OnPropertyChanged(nameof(IsPart2Focused));
             }
         }
 
 
-        private string part2;
+        private string _part2;
 
         public string Part2 {
-            get { return part2; }
+            get { return _part2; }
             set {
-                part2 = value;
+                _part2 = value;
                 SetFocus(false, true, false, false);
 
-                var moveNext = CanMoveNext(ref part2);
+                var moveNext = CanMoveNext(ref _part2);
 
                 OnPropertyChanged(nameof(Part2));
                 OnPropertyChanged(nameof(AddressText));
@@ -72,24 +74,24 @@ namespace NTMiner.Vms {
             }
         }
 
-        private bool isPart3Focused;
+        private bool _isPart3Focused;
 
         public bool IsPart3Focused {
-            get { return isPart3Focused; }
+            get { return _isPart3Focused; }
             set {
-                isPart3Focused = value;
+                _isPart3Focused = value;
                 OnPropertyChanged(nameof(IsPart3Focused));
             }
         }
 
-        private string part3;
+        private string _part3;
 
         public string Part3 {
-            get { return part3; }
+            get { return _part3; }
             set {
-                part3 = value;
+                _part3 = value;
                 SetFocus(false, false, true, false);
-                var moveNext = CanMoveNext(ref part3);
+                var moveNext = CanMoveNext(ref _part3);
 
                 OnPropertyChanged(nameof(Part3));
                 OnPropertyChanged(nameof(AddressText));
@@ -101,37 +103,40 @@ namespace NTMiner.Vms {
             }
         }
 
-        private bool isPart4Focused;
+        private bool _isPart4Focused;
 
         public bool IsPart4Focused {
-            get { return isPart4Focused; }
+            get { return _isPart4Focused; }
             set {
-                isPart4Focused = value;
+                _isPart4Focused = value;
                 OnPropertyChanged(nameof(IsPart4Focused));
             }
         }
 
-        private string part4;
+        private string _part4;
 
         public string Part4 {
-            get { return part4; }
+            get { return _part4; }
             set {
-                part4 = value;
+                _part4 = value;
                 SetFocus(false, false, false, true);
-                var moveNext = CanMoveNext(ref part4);
+                var moveNext = CanMoveNext(ref _part4);
 
                 OnPropertyChanged(nameof(Part4));
                 OnPropertyChanged(nameof(AddressText));
                 AddressChanged?.Invoke(this, EventArgs.Empty);
-
             }
         }
 
         public void SetAddress(string address) {
-            if (string.IsNullOrWhiteSpace(address))
+            if (string.IsNullOrWhiteSpace(address)) {
                 return;
+            }
 
             var parts = address.Split('.');
+            if (parts.Length != 4) {
+                return;
+            }
 
             if (int.TryParse(parts[0], out var num0)) {
                 Part1 = num0.ToString();
@@ -148,7 +153,6 @@ namespace NTMiner.Vms {
             if (int.TryParse(parts[3], out var num3)) {
                 Part4 = parts[3];
             }
-
         }
 
         private bool CanMoveNext(ref string part) {

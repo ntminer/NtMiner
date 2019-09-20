@@ -9,7 +9,6 @@ namespace NTMiner.Controls {
         public IpAddressControl() {
             InitializeComponent();
             DataObject.AddPastingHandler(part1, TextBox_Pasting);
-
         }
 
 
@@ -21,7 +20,6 @@ namespace NTMiner.Controls {
                 part1.Focus();
                 e.CancelCommand();
             }
-
         }
 
         private void Part4_KeyDown(object sender, System.Windows.Input.KeyEventArgs e) {

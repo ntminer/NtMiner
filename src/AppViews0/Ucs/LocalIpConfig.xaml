@@ -17,7 +17,7 @@
     </UserControl.DataContext>
     <UserControl.Resources>
         <Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
-            <Setter Property="Width" Value="120"></Setter>
+            <Setter Property="Width" Value="160"></Setter>
             <Setter Property="TextAlignment" Value="Left"></Setter>
         </Style>
     </UserControl.Resources>
@@ -41,14 +41,17 @@
                                     <RadioButton GroupName="DHCP" IsChecked="{Binding DHCPEnabled,Converter={StaticResource BoolInvertConverter}}">使用下面的 IP 地址</RadioButton>
                                 </GroupBox.Header>
                                 <StackPanel>
-                                    <WrapPanel>
+                                    <WrapPanel Margin="0 0 0 4">
                                         <TextBlock Style="{StaticResource LblTb}" Text="IP 地址:"></TextBlock>
+                                        <controls:IpAddressControl BorderThickness="1" BorderBrush="#666" DataContext="{Binding IPAddressVm, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}" Width="150" Height="25"/>
                                     </WrapPanel>
-                                    <WrapPanel>
+                                    <WrapPanel Margin="0 0 0 4">
                                         <TextBlock Style="{StaticResource LblTb}" Text="子网掩码:"></TextBlock>
+                                        <controls:IpAddressControl BorderThickness="1" BorderBrush="#666" DataContext="{Binding IPSubnetVm, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}" Width="150" Height="25"/>
                                     </WrapPanel>
                                     <WrapPanel>
                                         <TextBlock Style="{StaticResource LblTb}" Text="默认网关:"></TextBlock>
+                                        <controls:IpAddressControl BorderThickness="1" BorderBrush="#666" DataContext="{Binding DefaultIPGatewayVm, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}" Width="150" Height="25"/>
                                     </WrapPanel>
                                 </StackPanel>
                             </GroupBox>
@@ -58,11 +61,13 @@
                                     <RadioButton GroupName="AutoDNSServer" IsChecked="{Binding IsAutoDNSServer,Converter={StaticResource BoolInvertConverter}}">使用下面的 DNS 服务器地址</RadioButton>
                                 </GroupBox.Header>
                                 <StackPanel>
-                                    <WrapPanel>
+                                    <WrapPanel Margin="0 0 0 4">
                                         <TextBlock Style="{StaticResource LblTb}" Text="首选 DNS 服务器:"></TextBlock>
+                                        <controls:IpAddressControl BorderThickness="1" BorderBrush="#666" DataContext="{Binding DNSServer0Vm, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}" Width="150" Height="25"/>
                                     </WrapPanel>
                                     <WrapPanel>
                                         <TextBlock Style="{StaticResource LblTb}" Text="备用 DNS 服务器:"></TextBlock>
+                                        <controls:IpAddressControl BorderThickness="1" BorderBrush="#666" DataContext="{Binding DNSServer1Vm, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}" Width="150" Height="25"/>
                                     </WrapPanel>
                                 </StackPanel>
                             </GroupBox>
