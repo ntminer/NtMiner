@@ -5,8 +5,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:controls="clr-namespace:NTMiner.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DesignHeight="50"
-    d:DesignWidth="800"
+    Height="25"
+    Width="150"
     Background="White"
     mc:Ignorable="d">
     <UserControl.Resources>
@@ -37,15 +37,24 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        <Style x:Key="DotBorder" TargetType="Border">
+            <Setter Property="Margin" Value="0 2 0 0"></Setter>
+            <Setter Property="Width" Value="2" />
+            <Setter Property="Height" Value="2" />
+            <Setter Property="Background" Value="Black"></Setter>
+            <Setter Property="CornerRadius" Value="1" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+        </Style>
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition MinWidth="30" />
-            <ColumnDefinition Width="3" />
+            <ColumnDefinition Width="2" />
             <ColumnDefinition MinWidth="30" />
-            <ColumnDefinition Width="3" />
+            <ColumnDefinition Width="2" />
             <ColumnDefinition MinWidth="30" />
-            <ColumnDefinition Width="3" />
+            <ColumnDefinition Width="2" />
             <ColumnDefinition MinWidth="30" />
         </Grid.ColumnDefinitions>
 
@@ -70,13 +79,7 @@
                 </Binding>
             </TextBox.Text>
         </TextBox>
-        <TextBlock
-            Grid.Column="1"
-            Padding="0"
-            FontSize="15"
-            Margin="0 -8 0 0"
-            Text="."
-            VerticalAlignment="Center" />
+        <Border Grid.Column="1" Style="{StaticResource DotBorder}" />
 
         <!--  Part 2  -->
         <TextBox
@@ -98,12 +101,7 @@
                 </Binding>
             </TextBox.Text>
         </TextBox>
-        <TextBlock
-            Grid.Column="3"
-            FontSize="15"
-            Margin="0 -8 0 0"
-            Text="."
-            VerticalAlignment="Center"/>
+        <Border Grid.Column="3" Style="{StaticResource DotBorder}" />
 
         <!--  Part 3  -->
         <TextBox
@@ -125,12 +123,7 @@
                 </Binding>
             </TextBox.Text>
         </TextBox>
-        <TextBlock
-            Grid.Column="5"
-            FontSize="15"
-            Margin="0 -8 0 0"
-            Text="."
-            VerticalAlignment="Center"/>
+        <Border Grid.Column="5" Style="{StaticResource DotBorder}" />
 
         <!--  Part 4  -->
         <TextBox

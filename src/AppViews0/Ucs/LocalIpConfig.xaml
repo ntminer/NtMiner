@@ -9,7 +9,7 @@
 	xmlns:sys="clr-namespace:System;assembly=mscorlib"
 	xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 	xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
-	d:DesignWidth="600"
+	d:DesignWidth="450"
 	d:DesignHeight="600"
 	mc:Ignorable="d">
 	<UserControl.DataContext>
@@ -33,9 +33,9 @@
 			ScrollViewer.HorizontalScrollBarVisibility="Disabled">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <GroupBox Header="{Binding Name}" BorderThickness="1" BorderBrush="{StaticResource LineColor}" Background="White" Padding="10 4 10 10" Margin="10 0 10 10">
+                    <GroupBox Header="{Binding Name}" BorderThickness="1" BorderBrush="{StaticResource LineColor}" Background="White" Padding="10 4 10 0" Margin="10 0 10 10">
                         <StackPanel>
-                            <RadioButton GroupName="DHCP" Margin="9 2 0 2" IsChecked="{Binding DHCPEnabled}">自动获得 IP 地址</RadioButton>
+                            <RadioButton GroupName="DHCP" Margin="9 2 0 4" IsChecked="{Binding DHCPEnabled}">自动获得 IP 地址</RadioButton>
                             <GroupBox>
                                 <GroupBox.Header>
                                     <RadioButton GroupName="DHCP" IsChecked="{Binding DHCPEnabled,Converter={StaticResource BoolInvertConverter}}">使用下面的 IP 地址</RadioButton>
@@ -43,19 +43,19 @@
                                 <StackPanel IsEnabled="{Binding DHCPEnabled,Converter={StaticResource BoolInvertConverter}}">
                                     <WrapPanel Margin="0 0 0 4">
                                         <TextBlock Style="{StaticResource LblTb}" Text="IP 地址:"></TextBlock>
-                                        <controls:IpAddressControl BorderThickness="1" BorderBrush="#666" DataContext="{Binding IPAddressVm, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}" Width="150" Height="25"/>
+                                        <controls:IpAddressControl BorderThickness="1" BorderBrush="#666" DataContext="{Binding IPAddressVm, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}"/>
                                     </WrapPanel>
                                     <WrapPanel Margin="0 0 0 4">
                                         <TextBlock Style="{StaticResource LblTb}" Text="子网掩码:"></TextBlock>
-                                        <controls:IpAddressControl BorderThickness="1" BorderBrush="#666" DataContext="{Binding IPSubnetVm, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}" Width="150" Height="25"/>
+                                        <controls:IpAddressControl BorderThickness="1" BorderBrush="#666" DataContext="{Binding IPSubnetVm, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}"/>
                                     </WrapPanel>
                                     <WrapPanel>
                                         <TextBlock Style="{StaticResource LblTb}" Text="默认网关:"></TextBlock>
-                                        <controls:IpAddressControl BorderThickness="1" BorderBrush="#666" DataContext="{Binding DefaultIPGatewayVm, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}" Width="150" Height="25"/>
+                                        <controls:IpAddressControl BorderThickness="1" BorderBrush="#666" DataContext="{Binding DefaultIPGatewayVm, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}"/>
                                     </WrapPanel>
                                 </StackPanel>
                             </GroupBox>
-                            <RadioButton GroupName="AutoDNSServer" Margin="9 8 0 2" IsChecked="{Binding IsAutoDNSServer}">自动获得 DNS 服务器地址</RadioButton>
+                            <RadioButton GroupName="AutoDNSServer" Margin="9 8 0 4" IsChecked="{Binding IsAutoDNSServer}">自动获得 DNS 服务器地址</RadioButton>
                             <GroupBox>
                                 <GroupBox.Header>
                                     <RadioButton GroupName="AutoDNSServer" IsChecked="{Binding IsAutoDNSServer,Converter={StaticResource BoolInvertConverter}}">使用下面的 DNS 服务器地址</RadioButton>
@@ -63,11 +63,11 @@
                                 <StackPanel IsEnabled="{Binding IsAutoDNSServer,Converter={StaticResource BoolInvertConverter}}">
                                     <WrapPanel Margin="0 0 0 4">
                                         <TextBlock Style="{StaticResource LblTb}" Text="首选 DNS 服务器:"></TextBlock>
-                                        <controls:IpAddressControl BorderThickness="1" BorderBrush="#666" DataContext="{Binding DNSServer0Vm, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}" Width="150" Height="25"/>
+                                        <controls:IpAddressControl BorderThickness="1" BorderBrush="#666" DataContext="{Binding DNSServer0Vm, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}"/>
                                     </WrapPanel>
                                     <WrapPanel>
                                         <TextBlock Style="{StaticResource LblTb}" Text="备用 DNS 服务器:"></TextBlock>
-                                        <controls:IpAddressControl BorderThickness="1" BorderBrush="#666" DataContext="{Binding DNSServer1Vm, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}" Width="150" Height="25"/>
+                                        <controls:IpAddressControl BorderThickness="1" BorderBrush="#666" DataContext="{Binding DNSServer1Vm, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}"/>
                                     </WrapPanel>
                                 </StackPanel>
                             </GroupBox>

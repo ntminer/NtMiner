@@ -9,7 +9,7 @@ namespace NTMiner.Views.Ucs {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "IP设置",
                 IconName = "Icon_Ip",
-                Width = 465,
+                Width = 450,
                 FooterVisible = Visibility.Collapsed,
                 CloseVisible = Visibility.Visible
             }, ucFactory: (window) => {
