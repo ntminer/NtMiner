@@ -1,6 +1,4 @@
 ﻿using NTMiner.MinerClient;
-using System;
-using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class LocalIpViewModel : ViewModelBase, ILocalIp {
@@ -13,8 +11,6 @@ namespace NTMiner.Vms {
         private IpAddressViewModel _defaultIPGatewayVm;
         private IpAddressViewModel _dNSServer0Vm;
         private IpAddressViewModel _dNSServer1Vm;
-
-        public ICommand Save { get; private set; }
 
         public LocalIpViewModel(ILocalIp data) {
             _settingID = data.SettingID;
@@ -31,20 +27,6 @@ namespace NTMiner.Vms {
             _defaultIPGatewayVm = new IpAddressViewModel(data.DefaultIPGateway);
             _dNSServer0Vm = new IpAddressViewModel(data.DNSServer0);
             _dNSServer1Vm = new IpAddressViewModel(data.DNSServer1);
-            this.Save = new DelegateCommand(() => {
-                if (!this.IsAutoDNSServer) {
-                    if (_dNSServer0Vm.IsEmpty) {
-                        _dNSServer0Vm.SetAddress("114.114.114.114");
-                    }
-                    if (_dNSServer1Vm.IsEmpty) {
-                        _dNSServer1Vm.SetAddress("114.114.114.115");
-                    }
-                }
-                VirtualRoot.LocalIpSet.SetIp(this, this.IsAutoDNSServer);
-                TimeSpan.FromSeconds(3).Delay().ContinueWith(t => {
-                    VirtualRoot.LocalIpSet.Refresh();
-                });
-            });
         }
 
         public void Update(ILocalIp data) {

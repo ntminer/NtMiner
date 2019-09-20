@@ -31,6 +31,9 @@
 			ItemsSource="{Binding LocalIpVms}"
 			BorderThickness="0"
 			ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            <ItemsControl.Resources>
+                <controls:BindingProxy x:Key="proxy" Data="{Binding}" />
+            </ItemsControl.Resources>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <GroupBox Header="{Binding Name}" BorderThickness="1" BorderBrush="{StaticResource LineColor}" Background="White" Padding="10 4 10 0" Margin="10 0 10 10">
@@ -73,7 +76,8 @@
                             </GroupBox>
                             <controls:KbButton
                                 Margin="0 2 0 0"
-			                    Command="{Binding Save}" 
+			                    Command="{Binding Data.Save,Source={StaticResource proxy}}" 
+                                CommandParameter="{Binding}"
 			                    HorizontalAlignment="Right"
 			                    Padding="4 0"
 			                    Background="{StaticResource ThemeBackground}"

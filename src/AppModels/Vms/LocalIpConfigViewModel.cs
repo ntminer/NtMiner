@@ -1,14 +1,37 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class LocalIpConfigViewModel : ViewModelBase {
         private List<LocalIpViewModel> _localIpVms = new List<LocalIpViewModel>();
 
+        public ICommand Save { get; private set; }
+
+        public Action CloseWindow { get; set; }
+
         public LocalIpConfigViewModel() {
             foreach (var localIp in VirtualRoot.LocalIpSet) {
                 _localIpVms.Add(new LocalIpViewModel(localIp));
             }
+            this.Save = new DelegateCommand<LocalIpViewModel>((vm) => {
+                if (!vm.IsAutoDNSServer) {
+                    if (vm.DNSServer0Vm.IsEmpty) {
+                        vm.DNSServer0Vm.SetAddress("114.114.114.114");
+                    }
+                    if (vm.DNSServer1Vm.IsEmpty) {
+                        vm.DNSServer1Vm.SetAddress("114.114.114.115");
+                    }
+                }
+                VirtualRoot.LocalIpSet.SetIp(vm, vm.IsAutoDNSServer);
+                if (_localIpVms.Count == 1) {
+                    CloseWindow?.Invoke();
+                }
+                TimeSpan.FromSeconds(3).Delay().ContinueWith(t => {
+                    VirtualRoot.LocalIpSet.Refresh();
+                });
+            });
         }
 
         public void Refresh() {
