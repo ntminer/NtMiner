@@ -26,6 +26,15 @@ namespace NTMiner {
         public static readonly Version CurrentVersion;
         public static readonly string CurrentVersionTag;
 
+        private static bool _isIpConfiging = false;
+        public static bool IsIpConfiging {
+            get { return _isIpConfiging; }
+        }
+
+        public static void SetIsIpConfiging(bool value) {
+            _isIpConfiging = value;
+        }
+
         public static Version ServerVersion;
         private static bool _isJsonServer;
         public static bool IsJsonServer {

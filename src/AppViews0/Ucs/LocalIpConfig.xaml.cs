@@ -10,6 +10,7 @@ namespace NTMiner.Views.Ucs {
                 Title = "IP设置",
                 IconName = "Icon_Ip",
                 Width = 450,
+                IsDialogWindow = true,
                 FooterVisible = Visibility.Collapsed,
                 CloseVisible = Visibility.Visible
             }, ucFactory: (window) => {
@@ -20,13 +21,17 @@ namespace NTMiner.Views.Ucs {
                         window.DragMove();
                     }
                 };
-                window.EventPath<LocalIpSetRefreshedEvent>("本机IP集刷新后刷新状态栏", LogEnum.DevConsole,
+                window.EventPath<LocalIpSetRefreshedEvent>("本机IP集刷新后刷新IP设置页", LogEnum.DevConsole,
                     action: message => {
                         UIThread.Execute(() => {
                             vm.Refresh();
                         });
                     });
                 return uc;
+            }, beforeShow: (window)=> {
+                NTMinerRoot.SetIsIpConfiging(true);
+            }, afterClose: ()=> {
+                NTMinerRoot.SetIsIpConfiging(false);
             }, fixedSize: true);
         }
 

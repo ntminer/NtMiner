@@ -25,7 +25,9 @@ namespace NTMiner.Views.Ucs {
                 // 时间事件是在WPF UI线程的，所以这里不用考虑访问UI线程创建的Vm对象的问题
                 window.EventPath<Per1MinuteEvent>("周期刷新状态栏的IP展示", LogEnum.DevConsole,
                     action: message => {
-                        VirtualRoot.LocalIpSet.Refresh();
+                        if (!NTMinerRoot.IsIpConfiging) {
+                            VirtualRoot.LocalIpSet.Refresh();
+                        }
                     });
                 window.EventPath<LocalIpSetRefreshedEvent>("本机IP集刷新后刷新状态栏", LogEnum.DevConsole,
                     action: message => {

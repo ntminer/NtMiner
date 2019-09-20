@@ -20,14 +20,19 @@ namespace NTMiner.Vms {
             _settingID = data.SettingID;
             _name = data.Name;
             _dHCPEnabled = data.DHCPEnabled;
-            _isAutoDNSServer = string.IsNullOrEmpty(data.DNSServer0);
+            if (!data.DHCPEnabled) {
+                _isAutoDNSServer = false;
+            }
+            else {
+                _isAutoDNSServer = string.IsNullOrEmpty(data.DNSServer0);
+            }
             _iPAddressVm = new IpAddressViewModel(data.IPAddress);
             _iPSubnetVm = new IpAddressViewModel(data.IPSubnet);
             _defaultIPGatewayVm = new IpAddressViewModel(data.DefaultIPGateway);
             _dNSServer0Vm = new IpAddressViewModel(data.DNSServer0);
             _dNSServer1Vm = new IpAddressViewModel(data.DNSServer1);
             this.Save = new DelegateCommand(() => {
-                if (this.IsAutoDNSServer) {
+                if (!this.IsAutoDNSServer) {
                     if (_dNSServer0Vm.IsEmpty) {
                         _dNSServer0Vm.SetAddress("114.114.114.114");
                     }
