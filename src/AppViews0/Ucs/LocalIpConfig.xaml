@@ -17,7 +17,7 @@
     </UserControl.DataContext>
     <UserControl.Resources>
         <Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
-            <Setter Property="Width" Value="160"></Setter>
+            <Setter Property="Width" Value="210"></Setter>
             <Setter Property="TextAlignment" Value="Left"></Setter>
         </Style>
     </UserControl.Resources>
@@ -36,7 +36,7 @@
                     <GroupBox Header="{Binding Name}" BorderThickness="1" BorderBrush="{StaticResource LineColor}" Background="White" Padding="10 4 10 10" Margin="10 0 10 10">
                         <StackPanel>
                             <RadioButton GroupName="DHCP" Margin="9 2 0 2" IsChecked="{Binding DHCPEnabled}">自动获得 IP 地址</RadioButton>
-                            <GroupBox>
+                            <GroupBox IsEnabled="{Binding DHCPEnabled,Converter={StaticResource BoolInvertConverter}}">
                                 <GroupBox.Header>
                                     <RadioButton GroupName="DHCP" IsChecked="{Binding DHCPEnabled,Converter={StaticResource BoolInvertConverter}}">使用下面的 IP 地址</RadioButton>
                                 </GroupBox.Header>
@@ -56,7 +56,7 @@
                                 </StackPanel>
                             </GroupBox>
                             <RadioButton GroupName="AutoDNSServer" Margin="9 8 0 2" IsChecked="{Binding IsAutoDNSServer}">自动获得 DNS 服务器地址</RadioButton>
-                            <GroupBox>
+                            <GroupBox IsEnabled="{Binding IsAutoDNSServer,Converter={StaticResource BoolInvertConverter}}">
                                 <GroupBox.Header>
                                     <RadioButton GroupName="AutoDNSServer" IsChecked="{Binding IsAutoDNSServer,Converter={StaticResource BoolInvertConverter}}">使用下面的 DNS 服务器地址</RadioButton>
                                 </GroupBox.Header>

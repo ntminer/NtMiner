@@ -58,7 +58,14 @@ namespace NTMiner.Ip.Impl {
                     if (mo["IPAddress"] != null) {
                         string[] items = (string[])mo["IPAddress"];
                         if (items.Length != 0) {
-                            ipAddress = items[0];// 只去Ipv4
+                            ipAddress = items[0];// 只取Ipv4
+                        }
+                    }
+                    string ipSubnet = string.Empty;
+                    if (mo["IPSubnet"] != null) {
+                        string[] items = (string[])mo["IPSubnet"];
+                        if (items.Length != 0) {
+                            ipSubnet = items[0];// 只取Ipv4
                         }
                     }
                     list.Add(new LocalIpData {
@@ -66,6 +73,7 @@ namespace NTMiner.Ip.Impl {
                         DHCPEnabled = (bool)mo["DHCPEnabled"],
                         DHCPServer = (string)mo["DHCPServer"],
                         SettingID = (string)mo["SettingID"],
+                        IPSubnet = ipSubnet,
                         DNSServer0 = dNSServer0,
                         DNSServer1 = dNSServer1,
                         IPAddress = ipAddress

@@ -30,8 +30,6 @@ namespace NTMiner.Vms {
             _dHCPEnabled = data.DHCPEnabled;
             _defaultIPGateway = data.DefaultIPGateway;
             if (data.DefaultIPGateway == data.DNSServer0) {
-                _dNSServer0 = string.Empty;
-                _dNSServer1 = string.Empty;
                 _isAutoDNSServer = true;
             }
             else {
