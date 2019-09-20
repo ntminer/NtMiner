@@ -14,30 +14,82 @@
 	mc:Ignorable="d">
 	<UserControl.DataContext>
         <vm:LocalIpConfigViewModel></vm:LocalIpConfigViewModel>
-	</UserControl.DataContext>
+    </UserControl.DataContext>
+    <UserControl.Resources>
+        <Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
+            <Setter Property="Width" Value="120"></Setter>
+            <Setter Property="TextAlignment" Value="Left"></Setter>
+        </Style>
+    </UserControl.Resources>
     <ScrollViewer 
 		VerticalScrollBarVisibility="Auto" 
 		PreviewMouseDown="ScrollViewer_PreviewMouseDown">
         <ItemsControl 
-			Padding="70 0 0 0"
-			HorizontalContentAlignment="Center"
 			x:Name="ItemsControl"
-			Background="White"
+			HorizontalContentAlignment="Center"
+            Background="{StaticResource MinerProfileBackground}"
 			ItemsSource="{Binding LocalIpVms}"
 			BorderThickness="0"
 			ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-            <ItemsControl.Resources>
-                
-            </ItemsControl.Resources>
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel>
-                    </WrapPanel>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    
+                    <GroupBox Header="{Binding Name}" BorderThickness="1" BorderBrush="{StaticResource LineColor}" Background="White" Padding="10 4 10 10" Margin="10 0 10 10">
+                        <StackPanel>
+                            <RadioButton GroupName="DHCP" Margin="9 2 0 2" IsChecked="{Binding DHCPEnabled}">自动获得 IP 地址</RadioButton>
+                            <GroupBox>
+                                <GroupBox.Header>
+                                    <RadioButton GroupName="DHCP" IsChecked="{Binding DHCPEnabled,Converter={StaticResource BoolInvertConverter}}">使用下面的 IP 地址</RadioButton>
+                                </GroupBox.Header>
+                                <StackPanel>
+                                    <WrapPanel>
+                                        <TextBlock Style="{StaticResource LblTb}" Text="IP 地址:"></TextBlock>
+                                    </WrapPanel>
+                                    <WrapPanel>
+                                        <TextBlock Style="{StaticResource LblTb}" Text="子网掩码:"></TextBlock>
+                                    </WrapPanel>
+                                    <WrapPanel>
+                                        <TextBlock Style="{StaticResource LblTb}" Text="默认网关:"></TextBlock>
+                                    </WrapPanel>
+                                </StackPanel>
+                            </GroupBox>
+                            <RadioButton GroupName="AutoDNSServer" Margin="9 8 0 2" IsChecked="{Binding IsAutoDNSServer}">自动获得 DNS 服务器地址</RadioButton>
+                            <GroupBox>
+                                <GroupBox.Header>
+                                    <RadioButton GroupName="AutoDNSServer" IsChecked="{Binding IsAutoDNSServer,Converter={StaticResource BoolInvertConverter}}">使用下面的 DNS 服务器地址</RadioButton>
+                                </GroupBox.Header>
+                                <StackPanel>
+                                    <WrapPanel>
+                                        <TextBlock Style="{StaticResource LblTb}" Text="首选 DNS 服务器:"></TextBlock>
+                                    </WrapPanel>
+                                    <WrapPanel>
+                                        <TextBlock Style="{StaticResource LblTb}" Text="备用 DNS 服务器:"></TextBlock>
+                                    </WrapPanel>
+                                </StackPanel>
+                            </GroupBox>
+                            <controls:KbButton
+                                Margin="0 2 0 0"
+			                    Command="{Binding Save}" 
+			                    HorizontalAlignment="Right"
+			                    Padding="4 0"
+			                    Background="{StaticResource ThemeBackground}"
+			                    Foreground="{StaticResource ThemeForeground}"
+			                    CornerRadius="2">
+                                <WrapPanel>
+                                    <Path
+					                    Width="12"
+					                    Height="12"
+					                    Data="{StaticResource Icon_Ok}"
+					                    Fill="{StaticResource ThemeForeground}"
+					                    Stretch="Fill" />
+                                    <TextBlock
+					                    Padding="4"
+					                    VerticalAlignment="Center"
+					                    Foreground="{StaticResource ThemeForeground}"
+					                    Text="确定" />
+                                </WrapPanel>
+                            </controls:KbButton>
+                        </StackPanel>
+                    </GroupBox>                    
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

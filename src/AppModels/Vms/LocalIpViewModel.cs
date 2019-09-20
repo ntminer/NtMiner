@@ -1,33 +1,56 @@
 ﻿using NTMiner.MinerClient;
-using System;
+using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class LocalIpViewModel : ViewModelBase, ILocalIp {
+        private string _settingID;
+        private string _name;
         private string _iPAddress;
         private string _iPSubnet;
         private string _dHCPServer;
         private bool _dHCPEnabled;
         private string _defaultIPGateway;
-        private Guid _settingID;
         private string _dNSServer0;
         private string _dNSServer1;
+        private bool _isAutoDNSServer;
+        public ICommand Save { get; private set; }
 
         public LocalIpViewModel(ILocalIp data) {
+            _settingID = data.SettingID;
+            _name = data.Name;
             _iPAddress = data.IPAddress;
             _iPSubnet = data.IPSubnet;
             _dHCPServer = data.DHCPServer;
             _dHCPEnabled = data.DHCPEnabled;
             _defaultIPGateway = data.DefaultIPGateway;
-            _settingID = data.SettingID;
-            _dNSServer0 = data.DNSServer0;
-            _dNSServer1 = data.DNSServer1;
+            if (data.DefaultIPGateway == data.DNSServer0) {
+                _dNSServer0 = string.Empty;
+                _dNSServer1 = string.Empty;
+                _isAutoDNSServer = true;
+            }
+            else {
+                _dNSServer0 = data.DNSServer0;
+                _dNSServer1 = data.DNSServer1;
+                _isAutoDNSServer = false;
+            }
+            this.Save = new DelegateCommand(() => {
+
+            });
         }
 
-        public Guid SettingID {
+        public string SettingID {
             get => _settingID;
             set {
                 _settingID = value;
                 OnPropertyChanged(nameof(SettingID));
+            }
+        }
+
+        public string Name {
+            get { return _name; }
+            set {
+                _name = value;
+                OnPropertyChanged(nameof(Name));
             }
         }
 
@@ -84,6 +107,14 @@ namespace NTMiner.Vms {
             set {
                 _dNSServer1 = value;
                 OnPropertyChanged(nameof(DNSServer1));
+            }
+        }
+
+        public bool IsAutoDNSServer {
+            get => _isAutoDNSServer;
+            set {
+                _isAutoDNSServer = value;
+                OnPropertyChanged(nameof(IsAutoDNSServer));
             }
         }
     }

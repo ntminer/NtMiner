@@ -1,11 +1,11 @@
-﻿using System;
-
-namespace NTMiner.MinerClient {
+﻿namespace NTMiner.MinerClient {
     public class LocalIpData : ILocalIp {
         public LocalIpData() {
         }
 
-        public Guid SettingID { get; set; }
+        public string SettingID { get; set; }
+
+        public string Name { get; set; }
 
         public string DefaultIPGateway { get; set; }
 
@@ -24,6 +24,7 @@ namespace NTMiner.MinerClient {
         public override string ToString() {
             return
 $@"SettingID={SettingID}
+Name={Name}
 DefaultIPGateway={DefaultIPGateway}
 DHCPEnabled={DHCPEnabled}
 DHCPServer={DHCPServer}

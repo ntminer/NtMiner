@@ -43,6 +43,12 @@
   <ItemGroup>
     <Compile Include="AppUtil.cs" />
     <Compile Include="ColorMapper.cs" />
+    <Compile Include="Controls\ControlExtensions.cs" />
+    <Compile Include="Controls\IpAddressControl.xaml.cs">
+      <DependentUpon>IpAddressControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Vms\IpAddressControlViewModel.cs" />
+    <Compile Include="Controls\IPRangeValidationRule.cs" />
     <Compile Include="Controls\KbButton.cs" />
     <Compile Include="Controls\KbComboBox.cs" />
     <Compile Include="Controls\KbLinkButton.cs" />
@@ -130,6 +136,10 @@
     <Compile Include="Controls\BindingProxy.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Controls\IpAddressControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Notifications\Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

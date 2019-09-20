@@ -17,7 +17,6 @@ namespace NTMiner.Views.Ucs {
             }, ucFactory: (window) => {
                 var uc = new LocalIpConfig();
                 LocalIpConfigViewModel vm = (LocalIpConfigViewModel)uc.DataContext;
-                vm.CloseWindow = () => window.Close();
                 uc.ItemsControl.MouseDown += (object sender, MouseButtonEventArgs e)=> {
                     if (e.LeftButton == MouseButtonState.Pressed) {
                         window.DragMove();

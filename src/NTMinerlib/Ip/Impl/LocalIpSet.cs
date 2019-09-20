@@ -3,10 +3,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Management;
+using System.Net.NetworkInformation;
 
 namespace NTMiner.Ip.Impl {
     public class LocalIpSet : ILocalIpSet {
-        private List<ILocalIp> _localIps = new List<ILocalIp>();
+        private List<LocalIpData> _localIps = new List<LocalIpData>();
 
         public LocalIpSet() { }
 
@@ -29,8 +30,8 @@ namespace NTMiner.Ip.Impl {
             }
         }
 
-        private static List<ILocalIp> GetLocalIps() {
-            List<ILocalIp> list = new List<ILocalIp>();
+        private static List<LocalIpData> GetLocalIps() {
+            List<LocalIpData> list = new List<LocalIpData>();
             try {
                 ManagementClass mc = new ManagementClass("Win32_NetworkAdapterConfiguration");
                 ManagementObjectCollection moc = mc.GetInstances();
@@ -64,17 +65,30 @@ namespace NTMiner.Ip.Impl {
                         DefaultIPGateway = defaultIpGateways[0],
                         DHCPEnabled = (bool)mo["DHCPEnabled"],
                         DHCPServer = (string)mo["DHCPServer"],
-                        SettingID = new Guid(mo["SettingID"].ToString()),
+                        SettingID = (string)mo["SettingID"],
                         DNSServer0 = dNSServer0,
                         DNSServer1 = dNSServer1,
                         IPAddress = ipAddress
                     });
+                    FillNames(list);
                 }
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
             }
             return list;
+        }
+
+        private static void FillNames(List<LocalIpData> list) {
+            //获取网卡
+            var items = NetworkInterface.GetAllNetworkInterfaces();
+            foreach (var item in list) {
+                foreach (NetworkInterface ni in items) {
+                    if (ni.Id == item.SettingID) {
+                        item.Name = ni.Name;
+                    }
+                }
+            }
         }
 
         public void Refresh() {

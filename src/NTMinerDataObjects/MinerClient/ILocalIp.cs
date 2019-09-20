@@ -2,7 +2,8 @@
 
 namespace NTMiner.MinerClient {
     public interface ILocalIp {
-        Guid SettingID { get; }
+        string SettingID { get; }
+        string Name { get; }
         string DefaultIPGateway { get; }
         bool DHCPEnabled { get; }
         string DHCPServer { get; }

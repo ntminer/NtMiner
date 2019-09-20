@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows.Input;
+﻿using System.Collections.Generic;
 
 namespace NTMiner.Vms {
     public class LocalIpConfigViewModel : ViewModelBase {
         private List<LocalIpViewModel> _localIpVms;
-
-        public ICommand Save { get; private set; }
-
-        public Action CloseWindow { get; set; }
 
         public LocalIpConfigViewModel() {
             _localIpVms = new List<LocalIpViewModel>();
