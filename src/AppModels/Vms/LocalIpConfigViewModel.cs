@@ -1,23 +1,23 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace NTMiner.Vms {
     public class LocalIpConfigViewModel : ViewModelBase {
-        private List<LocalIpViewModel> _localIpVms;
+        private List<LocalIpViewModel> _localIpVms = new List<LocalIpViewModel>();
 
         public LocalIpConfigViewModel() {
-            Init();
-        }
-
-        private void Init() {
-            _localIpVms = new List<LocalIpViewModel>();
             foreach (var localIp in VirtualRoot.LocalIpSet) {
                 _localIpVms.Add(new LocalIpViewModel(localIp));
             }
         }
 
         public void Refresh() {
-            Init();
-            OnPropertyChanged(nameof(LocalIpVms));
+            foreach (var item in _localIpVms) {
+                var data = VirtualRoot.LocalIpSet.FirstOrDefault(a => a.SettingID == item.SettingID);
+                if (data != null) {
+                    item.Update(data);
+                }
+            }
         }
 
         public List<LocalIpViewModel> LocalIpVms {

@@ -11,8 +11,6 @@
 
         public bool DHCPEnabled { get; set; }
 
-        public string DHCPServer { get; set; }
-
         public string IPAddress { get; set; }
 
         public string IPSubnet { get; set; }
@@ -27,7 +25,6 @@ $@"SettingID={SettingID}
 Name={Name}
 DefaultIPGateway={DefaultIPGateway}
 DHCPEnabled={DHCPEnabled}
-DHCPServer={DHCPServer}
 IPAddress={IPAddress}
 IPSubnet={IPSubnet}
 DNSServer0={DNSServer0}

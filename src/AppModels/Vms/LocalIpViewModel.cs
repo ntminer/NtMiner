@@ -6,7 +6,6 @@ namespace NTMiner.Vms {
     public class LocalIpViewModel : ViewModelBase, ILocalIp {
         private string _settingID;
         private string _name;
-        private string _dHCPServer;
         private bool _dHCPEnabled;
         private bool _isAutoDNSServer;
         private IpAddressViewModel _iPAddressVm;
@@ -20,14 +19,8 @@ namespace NTMiner.Vms {
         public LocalIpViewModel(ILocalIp data) {
             _settingID = data.SettingID;
             _name = data.Name;
-            _dHCPServer = data.DHCPServer;
             _dHCPEnabled = data.DHCPEnabled;
-            if (data.DefaultIPGateway == data.DNSServer0) {
-                _isAutoDNSServer = true;
-            }
-            else {
-                _isAutoDNSServer = false;
-            }
+            _isAutoDNSServer = string.IsNullOrEmpty(data.DNSServer0);
             _iPAddressVm = new IpAddressViewModel(data.IPAddress);
             _iPSubnetVm = new IpAddressViewModel(data.IPSubnet);
             _defaultIPGatewayVm = new IpAddressViewModel(data.DefaultIPGateway);
@@ -39,6 +32,15 @@ namespace NTMiner.Vms {
                     VirtualRoot.LocalIpSet.Refresh();
                 });
             });
+        }
+
+        public void Update(ILocalIp data) {
+            this.Name = data.Name;
+            _iPAddressVm.SetAddress(data.IPAddress);
+            _iPSubnetVm.SetAddress(data.IPSubnet);
+            _defaultIPGatewayVm.SetAddress(data.DefaultIPGateway);
+            _dNSServer0Vm.SetAddress(data.DNSServer0);
+            _dNSServer1Vm.SetAddress(data.DNSServer1);
         }
 
         public string SettingID {
@@ -103,14 +105,6 @@ namespace NTMiner.Vms {
                         IsAutoDNSServer = false;
                     }
                 }
-            }
-        }
-
-        public string DHCPServer {
-            get => _dHCPServer;
-            set {
-                _dHCPServer = value;
-                OnPropertyChanged(nameof(DHCPServer));
             }
         }
 

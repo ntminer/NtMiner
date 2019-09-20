@@ -54,7 +54,7 @@ namespace NTMiner.Ip.Impl {
                 else {
                     ManagementBaseObject inPar = mo.GetMethodParameters("SetDNSServerSearchOrder");
                     if (data.DNSServer0 == "0.0.0.0") {
-                        VirtualRoot.Out.ShowErrorMessage("首选 DNS 服务器不能为空");
+                        VirtualRoot.Out.ShowErrorMessage("首选 DNS 服务器不能为空", delaySeconds: 4);
                         return;
                     }
                     if (data.DNSServer1 == "0.0.0.0") {
@@ -98,7 +98,9 @@ namespace NTMiner.Ip.Impl {
                         if (mo["DNSServerSearchOrder"] != null) {
                             string[] dNSServerSearchOrder = (string[])mo["DNSServerSearchOrder"];
                             if (dNSServerSearchOrder.Length > 0) {
-                                dNSServer0 = dNSServerSearchOrder[0];
+                                if (dNSServerSearchOrder[0] != defaultIpGateways[0]) {
+                                    dNSServer0 = dNSServerSearchOrder[0];
+                                }
                             }
                             if (dNSServerSearchOrder.Length > 1) {
                                 dNSServer1 = dNSServerSearchOrder[1];
@@ -121,7 +123,6 @@ namespace NTMiner.Ip.Impl {
                         list.Add(new LocalIpData {
                             DefaultIPGateway = defaultIpGateways[0],
                             DHCPEnabled = (bool)mo["DHCPEnabled"],
-                            DHCPServer = (string)mo["DHCPServer"],
                             SettingID = (string)mo["SettingID"],
                             IPSubnet = ipSubnet,
                             DNSServer0 = dNSServer0,
