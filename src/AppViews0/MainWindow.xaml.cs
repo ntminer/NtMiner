@@ -8,6 +8,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
+using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace NTMiner.Views {
     public partial class MainWindow : Window, IMaskWindow {
@@ -23,6 +25,8 @@ namespace NTMiner.Views {
             }
         }
 
+        private const int WM_SYSCOMMAND = 0x112;
+        private HwndSource hwndSource;
         public MainWindow() {
             this.MinHeight = 430;
             this.MinWidth = 640;
@@ -129,6 +133,28 @@ namespace NTMiner.Views {
 #if DEBUG
             Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
 #endif
+        }
+
+        public void resetCursor() {
+            if (Mouse.LeftButton != MouseButtonState.Pressed) {
+                this.Cursor = Cursors.Arrow;
+            }
+        }
+
+        public void dragWindow() {
+            this.DragMove();
+        }
+
+        private void Resize(object sender, MouseButtonEventArgs e) {
+            this.resizeWindow(sender);
+        }
+
+        private void DisplayResizeCursor(object sender, MouseEventArgs e) {
+            this.displayResizeCursor(sender);
+        }
+
+        private void ResetCursor(object sender, MouseEventArgs e) {
+            this.resetCursor();
         }
 
         public void ShowMask() {
@@ -263,6 +289,102 @@ namespace NTMiner.Views {
         private void Window_SourceInitialized(object sender, EventArgs e) {
             IntPtr mWindowHandle = (new WindowInteropHelper(this)).Handle;
             HwndSource.FromHwnd(mWindowHandle).AddHook(new HwndSourceHook(WindowProc));
+            hwndSource = PresentationSource.FromVisual((Visual)sender) as HwndSource;
+        }
+
+        public enum ResizeDirection {
+            Left = 1,
+            Right = 2,
+            Top = 3,
+            TopLeft = 4,
+            TopRight = 5,
+            Bottom = 6,
+            BottomLeft = 7,
+            BottomRight = 8,
+        }
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        private static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
+
+
+        private void ResizeWindow(ResizeDirection direction) {
+            SendMessage(hwndSource.Handle, WM_SYSCOMMAND, (IntPtr)(61440 + direction), IntPtr.Zero);
+        }
+
+
+        public void resizeWindow(object sender) {
+            Rectangle clickedRectangle = sender as Rectangle;
+
+            switch (clickedRectangle.Name) {
+                case "top":
+                    this.Cursor = Cursors.SizeNS;
+                    ResizeWindow(ResizeDirection.Top);
+                    break;
+                case "bottom":
+                    this.Cursor = Cursors.SizeNS;
+                    ResizeWindow(ResizeDirection.Bottom);
+                    break;
+                case "left":
+                    this.Cursor = Cursors.SizeWE;
+                    ResizeWindow(ResizeDirection.Left);
+                    break;
+                case "right":
+                    this.Cursor = Cursors.SizeWE;
+                    ResizeWindow(ResizeDirection.Right);
+                    break;
+                case "topLeft":
+                    this.Cursor = Cursors.SizeNWSE;
+                    ResizeWindow(ResizeDirection.TopLeft);
+                    break;
+                case "topRight":
+                    this.Cursor = Cursors.SizeNESW;
+                    ResizeWindow(ResizeDirection.TopRight);
+                    break;
+                case "bottomLeft":
+                    this.Cursor = Cursors.SizeNESW;
+                    ResizeWindow(ResizeDirection.BottomLeft);
+                    break;
+                case "bottomRight":
+                    this.Cursor = Cursors.SizeNWSE;
+                    ResizeWindow(ResizeDirection.BottomRight);
+                    break;
+                default:
+                    break;
+            }
+        }
+        
+        public void displayResizeCursor(object sender) {
+
+            Rectangle clickedRectangle = sender as Rectangle;
+
+            switch (clickedRectangle.Name) {
+                case "top":
+                    this.Cursor = Cursors.SizeNS;
+                    break;
+                case "bottom":
+                    this.Cursor = Cursors.SizeNS;
+                    break;
+                case "left":
+                    this.Cursor = Cursors.SizeWE;
+                    break;
+                case "right":
+                    this.Cursor = Cursors.SizeWE;
+                    break;
+                case "topLeft":
+                    this.Cursor = Cursors.SizeNWSE;
+                    break;
+                case "topRight":
+                    this.Cursor = Cursors.SizeNESW;
+                    break;
+                case "bottomLeft":
+                    this.Cursor = Cursors.SizeNESW;
+                    break;
+                case "bottomRight":
+                    this.Cursor = Cursors.SizeNWSE;
+                    break;
+                default:
+                    break;
+            }
         }
 
         private static IntPtr WindowProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled) {
@@ -340,7 +462,7 @@ namespace NTMiner.Views {
         }
 
         private void rctHeader_PreviewMouseMove(object sender, MouseEventArgs e) {
-            if (mRestoreIfMove) {
+            if (mRestoreIfMove && e.LeftButton == MouseButtonState.Pressed) {
                 mRestoreIfMove = false;
 
                 double percentHorizontal = e.GetPosition(this).X / ActualWidth;
