@@ -287,9 +287,8 @@ namespace NTMiner.Views {
         }
 
         private void Window_SourceInitialized(object sender, EventArgs e) {
-            IntPtr mWindowHandle = (new WindowInteropHelper(this)).Handle;
-            HwndSource.FromHwnd(mWindowHandle).AddHook(new HwndSourceHook(WindowProc));
             hwndSource = PresentationSource.FromVisual((Visual)sender) as HwndSource;
+            hwndSource.AddHook(new HwndSourceHook(WindowProc));
         }
 
         public enum ResizeDirection {
@@ -442,10 +441,7 @@ namespace NTMiner.Views {
 
         private void rctHeader_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
             if (e.ClickCount == 2) {
-                if ((ResizeMode == ResizeMode.CanResize) || (ResizeMode == ResizeMode.CanResizeWithGrip)) {
-                    SwitchWindowState();
-                }
-
+                SwitchWindowState();
                 return;
             }
 
