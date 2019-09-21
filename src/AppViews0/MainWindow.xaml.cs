@@ -56,6 +56,12 @@ namespace NTMiner.Views {
                         ShowInTaskbar = true;
                     }
                 }
+                if (WindowState == WindowState.Maximized) {
+                    ResizeCursors.Visibility = Visibility.Collapsed;
+                }
+                else {
+                    ResizeCursors.Visibility = Visibility.Visible;
+                }
                 MoveConsoleWindow();
             };
             this.SizeChanged += (s, e) => {
