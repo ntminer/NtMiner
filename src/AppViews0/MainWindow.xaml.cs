@@ -277,6 +277,12 @@ namespace NTMiner.Views {
             if (ConsoleWindow.Instance.WindowState != this.WindowState) {
                 ConsoleWindow.Instance.WindowState = this.WindowState;
             }
+            if (ConsoleWindow.Instance.Width != this.ActualWidth) {
+                ConsoleWindow.Instance.Width = this.ActualWidth;
+            }
+            if (ConsoleWindow.Instance.Height != this.ActualHeight) {
+                ConsoleWindow.Instance.Height = this.ActualHeight;
+            }
             if (this.WindowState == WindowState.Normal) {
                 if (ConsoleWindow.Instance.Left != this.Left) {
                     ConsoleWindow.Instance.Left = this.Left;
@@ -285,14 +291,8 @@ namespace NTMiner.Views {
                     ConsoleWindow.Instance.Top = this.Top;
                 }
             }
-            Point point = ConsoleRectangle.TransformToAncestor(this).Transform(new Point(0, 0));
-            if (ConsoleWindow.Instance.Width != this.ActualWidth) {
-                ConsoleWindow.Instance.Width = this.ActualWidth;
-            }
-            if (ConsoleWindow.Instance.Height != this.ActualHeight) {
-                ConsoleWindow.Instance.Height = this.ActualHeight;
-            }
             int marginBottom = (int)StateBar.ActualHeight;
+            Point point = ConsoleRectangle.TransformToAncestor(this).Transform(new Point(0, 0));
             ConsoleWindow.Instance.ReSizeConsoleWindow(marginLeft: (int)point.X, marginTop: (int)point.Y, marginBottom);
         }
 
