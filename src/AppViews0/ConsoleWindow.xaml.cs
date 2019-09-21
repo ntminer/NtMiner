@@ -29,7 +29,7 @@ namespace NTMiner.Views {
 
         public void ReSizeConsoleWindow(int marginLeft, int marginTop, int marginBottom) {
             const int paddingLeft = 4;
-            const int paddingRight = 1;
+            const int paddingRight = 5;
             int width = (int)this.ActualWidth - paddingLeft - paddingRight - marginLeft;
             if (width < 0) {
                 width = 0;

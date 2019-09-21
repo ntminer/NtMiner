@@ -27,6 +27,7 @@ namespace NTMiner.Views {
 
         private const int WM_SYSCOMMAND = 0x112;
         private HwndSource hwndSource;
+        private readonly Brush _borderBrush;
         public MainWindow() {
             this.MinHeight = 430;
             this.MinWidth = 640;
@@ -37,6 +38,7 @@ namespace NTMiner.Views {
 #endif
             UIThread.StartTimer();
             InitializeComponent();
+            _borderBrush = this.BorderBrush;
             NTMinerRoot.RefreshArgsAssembly.Invoke();
             if (Design.IsInDesignMode) {
                 return;
@@ -58,9 +60,11 @@ namespace NTMiner.Views {
                 }
                 if (WindowState == WindowState.Maximized) {
                     ResizeCursors.Visibility = Visibility.Collapsed;
+                    this.BorderBrush = Wpf.Util.BlackBrush;
                 }
                 else {
                     ResizeCursors.Visibility = Visibility.Visible;
+                    this.BorderBrush = _borderBrush;
                 }
                 MoveConsoleWindow();
             };
@@ -267,6 +271,9 @@ namespace NTMiner.Views {
                 ConsoleWindow.Instance.Hide();
                 return;
             }
+            if (!ConsoleWindow.Instance.IsVisible) {
+                ConsoleWindow.Instance.Show();
+            }
             if (ConsoleWindow.Instance.WindowState != this.WindowState) {
                 ConsoleWindow.Instance.WindowState = this.WindowState;
             }
@@ -277,9 +284,6 @@ namespace NTMiner.Views {
                 if (ConsoleWindow.Instance.Top != this.Top) {
                     ConsoleWindow.Instance.Top = this.Top;
                 }
-            }
-            if (!ConsoleWindow.Instance.IsVisible) {
-                ConsoleWindow.Instance.Show();
             }
             Point point = ConsoleRectangle.TransformToAncestor(this).Transform(new Point(0, 0));
             if (ConsoleWindow.Instance.Width != this.ActualWidth) {
