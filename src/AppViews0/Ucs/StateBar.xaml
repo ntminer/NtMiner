@@ -369,7 +369,7 @@
 							Foreground="{StaticResource LableColor}"></TextBlock>
 					</WrapPanel>
 				</WrapPanel>
-				<StackPanel Grid.Column="1" HorizontalAlignment="Right" Margin="0 -17 4 0">
+				<StackPanel Grid.Column="1" HorizontalAlignment="Right" Margin="0 -17 0 0">
 					<TextBlock HorizontalAlignment="Center" Text="{Binding TimeText}" Foreground="{StaticResource LableColor}"></TextBlock>
 					<TextBlock Text="{Binding DateText}" Foreground="{StaticResource LableColor}"></TextBlock>
 				</StackPanel>
