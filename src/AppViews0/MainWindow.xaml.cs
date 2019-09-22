@@ -237,10 +237,14 @@ namespace NTMiner.Views {
         }
 
         public void ShowMask() {
+            if (this.WindowState != WindowState.Maximized) {
+                this.BorderBrush = Wpf.Util.TransparentBrush;
+            }
             MaskLayer.Visibility = Visibility.Visible;
         }
 
         public void HideMask() {
+            this.BorderBrush = _borderBrush;
             MaskLayer.Visibility = Visibility.Collapsed;
         }
 
