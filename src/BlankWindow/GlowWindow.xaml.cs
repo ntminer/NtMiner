@@ -9,7 +9,7 @@ using System.Windows.Interop;
 using RECT = NTMiner.Native.RECT;
 
 namespace NTMiner {
-    partial class GlowWindow : Window {
+    partial class GlowWindow : Window, IDisposable {
         private readonly Func<Point, Cursor> getCursor;
         private readonly Func<Point, HitTestValues> getHitTestValue;
         private readonly Func<RECT, double> getLeft;
@@ -258,6 +258,12 @@ namespace NTMiner {
             }
 
             return IntPtr.Zero;
+        }
+
+        public void Dispose() {
+            if (resizeModeChangeNotifier != null) {
+                resizeModeChangeNotifier.Dispose();
+            }
         }
     }
 }

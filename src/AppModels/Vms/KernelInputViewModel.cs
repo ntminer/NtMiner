@@ -23,7 +23,6 @@ namespace NTMiner.Vms {
         private int _deviceBaseIndex;
         private string _devicesSeparator;
 
-        private GroupViewModel _dualCoinGroup;
         private bool _isDeviceAllNotEqualsNone;
         private string _nDevicePrefix;
         private string _nDevicePostfix;

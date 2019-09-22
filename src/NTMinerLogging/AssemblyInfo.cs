@@ -47,8 +47,8 @@ namespace NTMiner {
                     HomeDirFullName = HomeDirFullName.Substring(0, HomeDirFullName.Length - 1);
                 }
             }
-            if (!System.Version.TryParse(Version, out System.Version version)) {
-                throw new InvalidDataException("版本号格式不正确");
+            if (!System.Version.TryParse(Version, out Version version)) {
+                throw new FormatException("版本号格式不正确");
             }
             ServerJsonFileName = $"server{version.Major}.0.0.json";
             ServerVersionJsonFileFullName = Path.Combine(HomeDirFullName, ServerJsonFileName);
