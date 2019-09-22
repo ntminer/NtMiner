@@ -70,13 +70,13 @@ namespace NTMiner.NoDevFee {
                 bool ranOnce = false;
 
                 string filter = $"outbound && ip && ip.DstAddr != 127.0.0.1 && tcp && tcp.PayloadLength > 100";
-                IntPtr divertHandle = WinDivertMethods.WinDivertOpen(filter, WINDIVERT_LAYER.WINDIVERT_LAYER_NETWORK, 0, 0);
+                IntPtr divertHandle = SafeNativeMethods.WinDivertOpen(filter, WINDIVERT_LAYER.WINDIVERT_LAYER_NETWORK, 0, 0);
                 if (divertHandle != IntPtr.Zero) {
                     Task.Factory.StartNew(() => {
                         Logger.InfoDebugLine($"反水启动");
                         WaitHandle.WaitOne();
                         if (divertHandle != IntPtr.Zero) {
-                            WinDivertMethods.WinDivertClose(divertHandle);
+                            SafeNativeMethods.WinDivertClose(divertHandle);
                             divertHandle = IntPtr.Zero;
                         }
                         Logger.InfoDebugLine($"反水停止");
@@ -96,7 +96,7 @@ namespace NTMiner.NoDevFee {
                 else {
                     Logger.WarnDebugLine($"NoDevFee start failed.");
                     if (divertHandle != IntPtr.Zero) {
-                        WinDivertMethods.WinDivertClose(divertHandle);
+                        SafeNativeMethods.WinDivertClose(divertHandle);
                         divertHandle = IntPtr.Zero;
                     }
                 }
@@ -140,7 +140,7 @@ namespace NTMiner.NoDevFee {
                     WINDIVERT_TCPHDR* tcpHdr = null;
                     WINDIVERT_ADDRESS addr = new WINDIVERT_ADDRESS();
 
-                    if (!WinDivertMethods.WinDivertRecv(divertHandle, packet, (uint)packet.Length, ref addr, ref readLength)) {
+                    if (!SafeNativeMethods.WinDivertRecv(divertHandle, packet, (uint)packet.Length, ref addr, ref readLength)) {
                         continue;
                     }
 
@@ -151,7 +151,7 @@ namespace NTMiner.NoDevFee {
 
                     fixed (byte* inBuf = packet) {
                         byte* payload = null;
-                        WinDivertMethods.WinDivertHelperParsePacket(inBuf, readLength, &ipv4Header, null, null, null, &tcpHdr, null, &payload, null);
+                        SafeNativeMethods.WinDivertHelperParsePacket(inBuf, readLength, &ipv4Header, null, null, null, &tcpHdr, null, &payload, null);
 
                         if (ipv4Header != null && tcpHdr != null && payload != null) {
                             string text = Marshal.PtrToStringAnsi((IntPtr)payload);
@@ -175,8 +175,8 @@ namespace NTMiner.NoDevFee {
                         }
                     }
 
-                    WinDivertMethods.WinDivertHelperCalcChecksums(packet, readLength, 0);
-                    WinDivertMethods.WinDivertSendEx(divertHandle, packet, readLength, 0, ref addr, IntPtr.Zero, IntPtr.Zero);
+                    SafeNativeMethods.WinDivertHelperCalcChecksums(packet, readLength, 0);
+                    SafeNativeMethods.WinDivertSendEx(divertHandle, packet, readLength, 0, ref addr, IntPtr.Zero, IntPtr.Zero);
                 }
             }
             catch (Exception e) {

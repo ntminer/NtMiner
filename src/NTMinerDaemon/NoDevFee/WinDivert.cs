@@ -691,7 +691,7 @@ namespace NTMiner.NoDevFee {
         public ushort Checksum;
     }
 
-    internal class WinDivertMethods {
+    internal class SafeNativeMethods {
         private const string dllPath = "WinDivert.dll";
         /// Return Type: HANDLE->void*
         ///filter: char*
