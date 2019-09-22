@@ -57,9 +57,9 @@ namespace NTMiner {
         /// </summary>
         /// <param name="serverVersion"></param>
         public static void PublishIfNewVersion(string serverVersion) {
-            if (!string.IsNullOrEmpty(serverVersion) && serverVersion != NTMinerRoot.CurrentVersion.ToString()) {
+            if (!string.IsNullOrEmpty(serverVersion) && serverVersion != MainAssemblyInfo.CurrentVersion.ToString()) {
                 if (Version.TryParse(serverVersion, out Version v)) {
-                    if (v > NTMinerRoot.CurrentVersion) {
+                    if (v > MainAssemblyInfo.CurrentVersion) {
                         NTMinerRoot.ServerVersion = v;
                         VirtualRoot.Happened(new AppVersionChangedEvent());
                     }

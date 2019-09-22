@@ -42,7 +42,7 @@ namespace NTMiner {
                 string dbFile = Path.Combine(Path.GetDirectoryName(location), "local.litedb");
                 bool isDbFileExist = File.Exists(dbFile);
                 if (!isDbFileExist) {
-                    dbFile = Path.Combine(AssemblyInfo.TempDirFullName, "local.litedb");
+                    dbFile = Path.Combine(MainAssemblyInfo.TempDirFullName, "local.litedb");
                     isDbFileExist = File.Exists(dbFile);
                 }
                 if (!isDbFileExist) {

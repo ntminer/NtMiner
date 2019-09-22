@@ -1,15 +1,18 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 
 namespace NTMiner {
-    public static class AssemblyInfo {
+    public static class MainAssemblyInfo {
         public const string Version = "2.6.6";
         public const string Build = "2";
         public const string Tag = "蛮吉";
         public const string MinerJsonBucket = "https://minerjson.oss-cn-beijing.aliyuncs.com/";
         public const string Copyright = "Copyright ©  NTMiner";
 
+        public static readonly Version CurrentVersion;
+        public static readonly string CurrentVersionTag = string.Empty;
         public static readonly string TempDirFullName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "NTMiner");
         public static readonly string ServerJsonFileName;
         public static readonly string ServerVersionJsonFileFullName;
@@ -28,7 +31,11 @@ namespace NTMiner {
             HomeDirFullName = dirFullName;
         }
 
-        static AssemblyInfo() {
+        static MainAssemblyInfo() {
+            Assembly mainAssembly = Assembly.GetEntryAssembly();
+            CurrentVersion = mainAssembly.GetName().Version;
+            var description = (AssemblyDescriptionAttribute)mainAssembly.GetCustomAttributes(typeof(AssemblyDescriptionAttribute), inherit: false).FirstOrDefault();
+            CurrentVersionTag = description?.Description;
             if (!File.Exists(RootLockFileFullName)) {
                 if (File.Exists(RootConfigFileFullName)) {
                     HomeDirFullName = AppDomain.CurrentDomain.BaseDirectory;
@@ -47,10 +54,7 @@ namespace NTMiner {
                     HomeDirFullName = HomeDirFullName.Substring(0, HomeDirFullName.Length - 1);
                 }
             }
-            if (!System.Version.TryParse(Version, out Version version)) {
-                throw new FormatException("版本号格式不正确");
-            }
-            ServerJsonFileName = $"server{version.Major}.0.0.json";
+            ServerJsonFileName = $"server{CurrentVersion.Major}.0.0.json";
             ServerVersionJsonFileFullName = Path.Combine(HomeDirFullName, ServerJsonFileName);
         }
 

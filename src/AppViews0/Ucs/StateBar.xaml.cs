@@ -51,7 +51,7 @@ namespace NTMiner.Views.Ucs {
                 window.EventPath<AppVersionChangedEvent>("发现了服务端新版本", LogEnum.DevConsole,
                     action: message => {
                         UIThread.Execute(() => {
-                            Vm.SetCheckUpdateForeground(isLatest: NTMinerRoot.CurrentVersion >= NTMinerRoot.ServerVersion);
+                            Vm.SetCheckUpdateForeground(isLatest: MainAssemblyInfo.CurrentVersion >= NTMinerRoot.ServerVersion);
                         });
                     });
                 window.EventPath<KernelSelfRestartedEvent>("内核自我重启时刷新计数器", LogEnum.DevConsole,

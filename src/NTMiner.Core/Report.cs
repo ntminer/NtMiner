@@ -26,7 +26,7 @@ namespace NTMiner {
 
             VirtualRoot.EventPath<MineStopedEvent>("停止挖矿后报告状态", LogEnum.DevConsole,
                 action: message => {
-                    Server.ReportService.ReportStateAsync(AssemblyInfo.OfficialServerHost, VirtualRoot.Id, isMining: false);
+                    Server.ReportService.ReportStateAsync(MainAssemblyInfo.OfficialServerHost, VirtualRoot.Id, isMining: false);
                 });
         }
 
@@ -38,7 +38,7 @@ namespace NTMiner {
                 KernelSelfRestartCount = 0,
                 IsAutoBoot = root.MinerProfile.IsAutoBoot,
                 IsAutoStart = root.MinerProfile.IsAutoStart,
-                Version = NTMinerRoot.CurrentVersion.ToString(4),
+                Version = MainAssemblyInfo.CurrentVersion.ToString(4),
                 BootOn = root.CreatedOn,
                 MineStartedOn = null,
                 IsMining = root.IsMining,
@@ -182,7 +182,7 @@ namespace NTMiner {
         private static void ReportSpeed() {
             try {
                 SpeedData data = CreateSpeedData();
-                Server.ReportService.ReportSpeedAsync(AssemblyInfo.OfficialServerHost, data);
+                Server.ReportService.ReportSpeedAsync(MainAssemblyInfo.OfficialServerHost, data);
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);

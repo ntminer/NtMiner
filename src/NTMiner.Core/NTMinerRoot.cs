@@ -95,7 +95,7 @@ namespace NTMiner {
                                 if (!string.IsNullOrEmpty(serverJson)) {
                                     SpecialPath.WriteServerJsonFile(serverJson);
                                 }
-                                OfficialServer.GetJsonFileVersionAsync(AssemblyInfo.ServerJsonFileName, (serverJsonFileVersion, minerClientVersion) => {
+                                OfficialServer.GetJsonFileVersionAsync(MainAssemblyInfo.ServerJsonFileName, (serverJsonFileVersion, minerClientVersion) => {
                                     SetServerJsonVersion(serverJsonFileVersion);
                                     AppVersionChangedEvent.PublishIfNewVersion(minerClientVersion);
                                 });
@@ -129,7 +129,7 @@ namespace NTMiner {
         }
 
         private void RefreshServerJsonFile() {
-            OfficialServer.GetJsonFileVersionAsync(AssemblyInfo.ServerJsonFileName, (serverJsonFileVersion, minerClientVersion) => {
+            OfficialServer.GetJsonFileVersionAsync(MainAssemblyInfo.ServerJsonFileName, (serverJsonFileVersion, minerClientVersion) => {
                 AppVersionChangedEvent.PublishIfNewVersion(minerClientVersion);
                 string localServerJsonFileVersion = GetServerJsonVersion();
                 if (!string.IsNullOrEmpty(serverJsonFileVersion) && localServerJsonFileVersion != serverJsonFileVersion) {
@@ -154,7 +154,7 @@ namespace NTMiner {
 
         #region private methods
         private static void GetAliyunServerJson(Action<byte[]> callback) {
-            string serverJsonFileUrl = AssemblyInfo.MinerJsonBucket + AssemblyInfo.ServerJsonFileName;
+            string serverJsonFileUrl = MainAssemblyInfo.MinerJsonBucket + MainAssemblyInfo.ServerJsonFileName;
             string fileUrl = serverJsonFileUrl + "?t=" + DateTime.Now.Ticks;
             Task.Factory.StartNew(() => {
                 try {
@@ -243,8 +243,8 @@ namespace NTMiner {
             // 这几个注册表内部区分挖矿端和群控客户端
             NTMinerRegistry.SetLocation(VirtualRoot.AppFileFullName);
             NTMinerRegistry.SetArguments(string.Join(" ", CommandLineArgs.Args));
-            NTMinerRegistry.SetCurrentVersion(CurrentVersion.ToString());
-            NTMinerRegistry.SetCurrentVersionTag(CurrentVersionTag);
+            NTMinerRegistry.SetCurrentVersion(MainAssemblyInfo.CurrentVersion.ToString());
+            NTMinerRegistry.SetCurrentVersionTag(MainAssemblyInfo.CurrentVersionTag);
 
             if (VirtualRoot.IsMinerClient) {
                 OfficialServer.GetTimeAsync((remoteTime) => {

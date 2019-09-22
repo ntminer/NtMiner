@@ -170,7 +170,7 @@ namespace NTMiner {
                 ProcessStartInfo startInfo = new ProcessStartInfo(kernelExeFileFullName, arguments) {
                     UseShellExecute = false,
                     CreateNoWindow = false,
-                    WorkingDirectory = AssemblyInfo.TempDirFullName
+                    WorkingDirectory = MainAssemblyInfo.TempDirFullName
                 };
                 // 追加环境变量
                 foreach (var item in mineContext.CoinKernel.EnvironmentVariables) {

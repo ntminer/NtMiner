@@ -15,7 +15,7 @@ namespace NTMiner.Windows {
                     Type type = typeof(WindowsUtil);
                     Assembly assembly = type.Assembly;
                     string name = "BlockWAU.bat";
-                    string fileFullName = Path.Combine(AssemblyInfo.TempDirFullName, name);
+                    string fileFullName = Path.Combine(MainAssemblyInfo.TempDirFullName, name);
                     assembly.ExtractManifestResource(type, name, fileFullName);
                     Cmd.RunClose(fileFullName, string.Empty, waitForExit: true);
                     VirtualRoot.Out.ShowSuccessMessage("禁用windows系统更新成功");
@@ -33,7 +33,7 @@ namespace NTMiner.Windows {
                     Type type = typeof(WindowsUtil);
                     Assembly assembly = type.Assembly;
                     string name = "Win10Optimize.reg";
-                    string fileFullName = Path.Combine(AssemblyInfo.TempDirFullName, name);
+                    string fileFullName = Path.Combine(MainAssemblyInfo.TempDirFullName, name);
                     assembly.ExtractManifestResource(type, name, fileFullName);
                     Cmd.RunClose("regedit", $"/s \"{fileFullName}\"", waitForExit: true);
                     VirtualRoot.Out.ShowSuccessMessage("优化Windows成功");

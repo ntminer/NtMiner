@@ -7,24 +7,18 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 
 namespace NTMiner {
     public partial class NTMinerRoot {
         static NTMinerRoot() {
-            Assembly mainAssembly = Assembly.GetEntryAssembly();
-            CurrentVersion = mainAssembly.GetName().Version;
-            ServerVersion = CurrentVersion;
-            CurrentVersionTag = ((AssemblyDescriptionAttribute)mainAssembly.GetCustomAttributes(typeof(AssemblyDescriptionAttribute), inherit: false).First()).Description;
+            ServerVersion = MainAssemblyInfo.CurrentVersion;
         }
 
         public const int SpeedHistoryLengthByMinute = 10;
         public const int GpuAllId = -1;
         private static readonly NTMinerRoot S_Instance = new NTMinerRoot();
         public static readonly INTMinerRoot Instance = S_Instance;
-        public static readonly Version CurrentVersion;
-        public static readonly string CurrentVersionTag;
 
         private static bool _isIpConfiging = false;
         public static bool IsIpConfiging {

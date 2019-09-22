@@ -89,7 +89,7 @@ namespace NTMiner.Vms {
                 VirtualRoot.Execute(new EnableWindowsRemoteDesktopCommand());
             });
             _localIps = GetLocalIps();
-            SetCheckUpdateForeground(isLatest: NTMinerRoot.CurrentVersion >= NTMinerRoot.ServerVersion);
+            SetCheckUpdateForeground(isLatest: MainAssemblyInfo.CurrentVersion >= NTMinerRoot.ServerVersion);
         }
 
         private string GetLocalIps() {

@@ -5,7 +5,7 @@ namespace NTMiner.Vms {
         public AboutPageViewModel() {
         }
 
-        public Version CurrentVersion => NTMinerRoot.CurrentVersion;
+        public Version CurrentVersion => MainAssemblyInfo.CurrentVersion;
 
         public int ThisYear => DateTime.Now.Year;
     }
