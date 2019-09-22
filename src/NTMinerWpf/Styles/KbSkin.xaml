@@ -71,7 +71,10 @@
 			</Trigger>
 		</Style.Triggers>
     </Style>
-	<Style TargetType="TabItem">
+    <Style TargetType="ScrollViewer">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"></Setter>
+    </Style>
+    <Style TargetType="TabItem">
 		<Setter Property="FocusVisualStyle" Value="{x:Null}"></Setter>
 	</Style>
 	<Style x:Key="ListBoxBarItem" TargetType="ListBoxItem">
