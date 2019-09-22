@@ -12,7 +12,10 @@ namespace NTMiner.Vms {
         private IpAddressViewModel _dNSServer0Vm;
         private IpAddressViewModel _dNSServer1Vm;
 
+        private readonly ILocalIp _data;
+        private readonly bool _isAutoDNSServerInitial;
         public LocalIpViewModel(ILocalIp data) {
+            _data = data;
             _settingID = data.SettingID;
             _name = data.Name;
             _dHCPEnabled = data.DHCPEnabled;
@@ -22,6 +25,7 @@ namespace NTMiner.Vms {
             else {
                 _isAutoDNSServer = string.IsNullOrEmpty(data.DNSServer0);
             }
+            _isAutoDNSServerInitial = _isAutoDNSServer;
             _iPAddressVm = new IpAddressViewModel(data.IPAddress);
             _iPSubnetVm = new IpAddressViewModel(data.IPSubnet);
             _defaultIPGatewayVm = new IpAddressViewModel(data.DefaultIPGateway);
@@ -36,6 +40,25 @@ namespace NTMiner.Vms {
             _defaultIPGatewayVm.SetAddress(data.DefaultIPGateway);
             _dNSServer0Vm.SetAddress(data.DNSServer0);
             _dNSServer1Vm.SetAddress(data.DNSServer1);
+        }
+
+        public bool IsChanged {
+            get {
+                if (_dHCPEnabled != _data.DHCPEnabled || _isAutoDNSServer != _isAutoDNSServerInitial) {
+                    return true;
+                }
+                if (_dHCPEnabled == _data.DHCPEnabled) {
+                    if (_iPAddressVm.AddressText != _data.IPAddress || _iPSubnetVm.AddressText != _data.IPSubnet || _defaultIPGatewayVm.AddressText != _data.DefaultIPGateway) {
+                        return true;
+                    }
+                }
+                if (_isAutoDNSServer == _isAutoDNSServerInitial) {
+                    if (_dNSServer0Vm.AddressText != _data.DNSServer0 || _dNSServer1Vm.AddressText != _data.DNSServer1) {
+                        return true;
+                    }
+                }
+                return false;
+            }
         }
 
         public string SettingID {

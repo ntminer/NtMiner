@@ -31,7 +31,7 @@ namespace NTMiner.Vms {
                 TimeSpan.FromSeconds(3).Delay().ContinueWith(t => {
                     VirtualRoot.LocalIpSet.Refresh();
                 });
-            });
+            }, (vm) => vm.IsChanged);
         }
 
         public void Refresh() {
