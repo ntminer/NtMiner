@@ -11,7 +11,7 @@ namespace NTMiner.Vms {
             get { return $"{(string.IsNullOrEmpty(Part1) ? "0" : Part1)}.{(string.IsNullOrEmpty(Part2) ? "0" : Part2)}.{(string.IsNullOrEmpty(Part3) ? "0" : Part3)}.{(string.IsNullOrEmpty(Part4) ? "0" : Part4)}"; }
         }
 
-        public bool IsEmpty {
+        public bool IsAnyEmpty {
             get {
                 return string.IsNullOrEmpty(Part1) || string.IsNullOrEmpty(Part2) || string.IsNullOrEmpty(Part3) || string.IsNullOrEmpty(Part4);
             }
