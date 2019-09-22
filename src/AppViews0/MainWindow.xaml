@@ -111,9 +111,9 @@
                 <Border
                     Grid.Column="1"
                     Background="{StaticResource ThemeBackground}"
-                    PreviewMouseLeftButtonDown="rctHeader_PreviewMouseLeftButtonDown" 
-                    PreviewMouseLeftButtonUp="rctHeader_PreviewMouseLeftButtonUp" 
-                    PreviewMouseMove="rctHeader_PreviewMouseMove"></Border>
+                    PreviewMouseLeftButtonDown="RctHeader_PreviewMouseLeftButtonDown" 
+                    PreviewMouseLeftButtonUp="RctHeader_PreviewMouseLeftButtonUp" 
+                    PreviewMouseMove="RctHeader_PreviewMouseMove"></Border>
                 <WrapPanel Grid.Column="2">
                     <WrapPanel Margin="0" HorizontalAlignment="Right" VerticalAlignment="Top">
                         <TextBlock 

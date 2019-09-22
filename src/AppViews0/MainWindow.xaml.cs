@@ -75,6 +75,16 @@ namespace NTMiner.Views {
             [DllImport("user32.dll")]
             internal static extern bool GetMonitorInfo(IntPtr hMonitor, MONITORINFO lpmi);
         }
+        public enum ResizeDirection {
+            Left = 1,
+            Right = 2,
+            Top = 3,
+            TopLeft = 4,
+            TopRight = 5,
+            Bottom = 6,
+            BottomLeft = 7,
+            BottomRight = 8,
+        }
 
         private bool mRestoreIfMove = false;
         private readonly ColumnDefinition _mainLayerColumn0 = new ColumnDefinition {
@@ -208,26 +218,22 @@ namespace NTMiner.Views {
 #endif
         }
 
-        public void resetCursor() {
+        private void ResetCursor() {
             if (Mouse.LeftButton != MouseButtonState.Pressed) {
                 this.Cursor = Cursors.Arrow;
             }
         }
 
-        public void dragWindow() {
-            this.DragMove();
-        }
-
         private void Resize(object sender, MouseButtonEventArgs e) {
-            this.resizeWindow(sender);
+            this.ResizeWindow(sender);
         }
 
         private void DisplayResizeCursor(object sender, MouseEventArgs e) {
-            this.displayResizeCursor(sender);
+            this.DisplayResizeCursor(sender);
         }
 
         private void ResetCursor(object sender, MouseEventArgs e) {
-            this.resetCursor();
+            this.ResetCursor();
         }
 
         public void ShowMask() {
@@ -364,23 +370,12 @@ namespace NTMiner.Views {
             hwndSource.AddHook(new HwndSourceHook(WindowProc));
         }
 
-        public enum ResizeDirection {
-            Left = 1,
-            Right = 2,
-            Top = 3,
-            TopLeft = 4,
-            TopRight = 5,
-            Bottom = 6,
-            BottomLeft = 7,
-            BottomRight = 8,
-        }
-        
         private void ResizeWindow(ResizeDirection direction) {
             SafeNativeMethods.SendMessage(hwndSource.Handle, WM_SYSCOMMAND, (IntPtr)(61440 + direction), IntPtr.Zero);
         }
 
 
-        public void resizeWindow(object sender) {
+        private void ResizeWindow(object sender) {
             Rectangle clickedRectangle = sender as Rectangle;
 
             switch (clickedRectangle.Name) {
@@ -421,8 +416,7 @@ namespace NTMiner.Views {
             }
         }
         
-        public void displayResizeCursor(object sender) {
-
+        private void DisplayResizeCursor(object sender) {
             Rectangle clickedRectangle = sender as Rectangle;
 
             switch (clickedRectangle.Name) {
@@ -508,7 +502,7 @@ namespace NTMiner.Views {
             }
         }
 
-        private void rctHeader_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
+        private void RctHeader_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
             if (e.ClickCount == 2) {
                 SwitchWindowState();
                 return;
@@ -522,11 +516,11 @@ namespace NTMiner.Views {
             DragMove();
         }
 
-        private void rctHeader_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e) {
+        private void RctHeader_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e) {
             mRestoreIfMove = false;
         }
 
-        private void rctHeader_PreviewMouseMove(object sender, MouseEventArgs e) {
+        private void RctHeader_PreviewMouseMove(object sender, MouseEventArgs e) {
             if (mRestoreIfMove && e.LeftButton == MouseButtonState.Pressed) {
                 mRestoreIfMove = false;
 
