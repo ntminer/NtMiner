@@ -53,7 +53,15 @@ namespace NTMiner.Vms {
                     }
                 }
                 if (_isAutoDNSServer == _isAutoDNSServerInitial) {
-                    if (_dNSServer0Vm.AddressText != _data.DNSServer0 || _dNSServer1Vm.AddressText != _data.DNSServer1) {
+                    string dns0 = _dNSServer0Vm.AddressText;
+                    if (dns0 == "0.0.0.0") {
+                        dns0 = string.Empty;
+                    }
+                    string dns1 = _dNSServer1Vm.AddressText;
+                    if (dns1 == "0.0.0.0") {
+                        dns1 = string.Empty;
+                    }
+                    if (dns0 != _data.DNSServer0 || dns1 != _data.DNSServer1) {
                         return true;
                     }
                 }
