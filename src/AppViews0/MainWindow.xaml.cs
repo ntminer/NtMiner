@@ -13,6 +13,69 @@ using System.Windows.Shapes;
 
 namespace NTMiner.Views {
     public partial class MainWindow : Window, IMaskWindow {
+        internal static class SafeNativeMethods {
+            #region enum struct class
+            internal enum MonitorOptions : uint {
+                MONITOR_DEFAULTTONULL = 0x00000000,
+                MONITOR_DEFAULTTOPRIMARY = 0x00000001,
+                MONITOR_DEFAULTTONEAREST = 0x00000002
+            }
+
+            [StructLayout(LayoutKind.Sequential)]
+            public struct POINT {
+                public int X;
+                public int Y;
+
+                public POINT(int x, int y) {
+                    this.X = x;
+                    this.Y = y;
+                }
+            }
+
+            [StructLayout(LayoutKind.Sequential)]
+            public struct MINMAXINFO {
+                public POINT ptReserved;
+                public POINT ptMaxSize;
+                public POINT ptMaxPosition;
+                public POINT ptMinTrackSize;
+                public POINT ptMaxTrackSize;
+            };
+
+            [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
+            public class MONITORINFO {
+                public int cbSize = Marshal.SizeOf(typeof(MONITORINFO));
+                public RECT rcMonitor = new RECT();
+                public RECT rcWork = new RECT();
+                public int dwFlags = 0;
+            }
+
+            [StructLayout(LayoutKind.Sequential)]
+            public struct RECT {
+                public int Left, Top, Right, Bottom;
+
+                public RECT(int left, int top, int right, int bottom) {
+                    this.Left = left;
+                    this.Top = top;
+                    this.Right = right;
+                    this.Bottom = bottom;
+                }
+            }
+            #endregion
+
+            [DllImport("user32.dll", CharSet = CharSet.Auto)]
+            internal static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
+
+            [DllImport("user32.dll")]
+            [return: MarshalAs(UnmanagedType.Bool)]
+            internal static extern bool GetCursorPos(out POINT lpPoint);
+
+            [DllImport("user32.dll", SetLastError = true)]
+            internal static extern IntPtr MonitorFromPoint(POINT pt, MonitorOptions dwFlags);
+
+            [DllImport("user32.dll")]
+            internal static extern bool GetMonitorInfo(IntPtr hMonitor, MONITORINFO lpmi);
+        }
+
         private bool mRestoreIfMove = false;
         private readonly ColumnDefinition _mainLayerColumn0 = new ColumnDefinition {
             SharedSizeGroup = "column0",
@@ -311,13 +374,9 @@ namespace NTMiner.Views {
             BottomLeft = 7,
             BottomRight = 8,
         }
-
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        private static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
-
-
+        
         private void ResizeWindow(ResizeDirection direction) {
-            SendMessage(hwndSource.Handle, WM_SYSCOMMAND, (IntPtr)(61440 + direction), IntPtr.Zero);
+            SafeNativeMethods.SendMessage(hwndSource.Handle, WM_SYSCOMMAND, (IntPtr)(61440 + direction), IntPtr.Zero);
         }
 
 
@@ -407,18 +466,18 @@ namespace NTMiner.Views {
         }
 
         private static void WmGetMinMaxInfo(IntPtr hwnd, IntPtr lParam) {
-            POINT lMousePosition;
-            GetCursorPos(out lMousePosition);
+            SafeNativeMethods.POINT lMousePosition;
+            SafeNativeMethods.GetCursorPos(out lMousePosition);
 
-            IntPtr lPrimaryScreen = MonitorFromPoint(new POINT(0, 0), MonitorOptions.MONITOR_DEFAULTTOPRIMARY);
-            MONITORINFO lPrimaryScreenInfo = new MONITORINFO();
-            if (GetMonitorInfo(lPrimaryScreen, lPrimaryScreenInfo) == false) {
+            IntPtr lPrimaryScreen = SafeNativeMethods.MonitorFromPoint(new SafeNativeMethods.POINT(0, 0), SafeNativeMethods.MonitorOptions.MONITOR_DEFAULTTOPRIMARY);
+            SafeNativeMethods.MONITORINFO lPrimaryScreenInfo = new SafeNativeMethods.MONITORINFO();
+            if (SafeNativeMethods.GetMonitorInfo(lPrimaryScreen, lPrimaryScreenInfo) == false) {
                 return;
             }
 
-            IntPtr lCurrentScreen = MonitorFromPoint(lMousePosition, MonitorOptions.MONITOR_DEFAULTTONEAREST);
+            IntPtr lCurrentScreen = SafeNativeMethods.MonitorFromPoint(lMousePosition, SafeNativeMethods.MonitorOptions.MONITOR_DEFAULTTONEAREST);
 
-            MINMAXINFO lMmi = (MINMAXINFO)Marshal.PtrToStructure(lParam, typeof(MINMAXINFO));
+            SafeNativeMethods.MINMAXINFO lMmi = (SafeNativeMethods.MINMAXINFO)Marshal.PtrToStructure(lParam, typeof(SafeNativeMethods.MINMAXINFO));
 
             if (lPrimaryScreen.Equals(lCurrentScreen) == true) {
                 lMmi.ptMaxPosition.X = lPrimaryScreenInfo.rcWork.Left;
@@ -479,69 +538,13 @@ namespace NTMiner.Views {
 
                 WindowState = WindowState.Normal;
 
-                POINT lMousePosition;
-                GetCursorPos(out lMousePosition);
+                SafeNativeMethods.POINT lMousePosition;
+                SafeNativeMethods.GetCursorPos(out lMousePosition);
 
                 Left = lMousePosition.X - targetHorizontal;
                 Top = lMousePosition.Y - targetVertical;
 
                 DragMove();
-            }
-        }
-
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        static extern bool GetCursorPos(out POINT lpPoint);
-
-        [DllImport("user32.dll", SetLastError = true)]
-        static extern IntPtr MonitorFromPoint(POINT pt, MonitorOptions dwFlags);
-
-        enum MonitorOptions : uint {
-            MONITOR_DEFAULTTONULL = 0x00000000,
-            MONITOR_DEFAULTTOPRIMARY = 0x00000001,
-            MONITOR_DEFAULTTONEAREST = 0x00000002
-        }
-
-        [DllImport("user32.dll")]
-        static extern bool GetMonitorInfo(IntPtr hMonitor, MONITORINFO lpmi);
-
-        [StructLayout(LayoutKind.Sequential)]
-        public struct POINT {
-            public int X;
-            public int Y;
-
-            public POINT(int x, int y) {
-                this.X = x;
-                this.Y = y;
-            }
-        }
-
-        [StructLayout(LayoutKind.Sequential)]
-        public struct MINMAXINFO {
-            public POINT ptReserved;
-            public POINT ptMaxSize;
-            public POINT ptMaxPosition;
-            public POINT ptMinTrackSize;
-            public POINT ptMaxTrackSize;
-        };
-
-        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
-        public class MONITORINFO {
-            public int cbSize = Marshal.SizeOf(typeof(MONITORINFO));
-            public RECT rcMonitor = new RECT();
-            public RECT rcWork = new RECT();
-            public int dwFlags = 0;
-        }
-
-        [StructLayout(LayoutKind.Sequential)]
-        public struct RECT {
-            public int Left, Top, Right, Bottom;
-
-            public RECT(int left, int top, int right, int bottom) {
-                this.Left = left;
-                this.Top = top;
-                this.Right = right;
-                this.Bottom = bottom;
             }
         }
     }
