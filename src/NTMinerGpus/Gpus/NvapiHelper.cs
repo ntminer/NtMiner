@@ -105,6 +105,7 @@ namespace NTMiner.Gpus {
                     info.numPStates = 1;
                     info.numClocks = 1;
                     info.pstates[0].clocks[0].domainId = NvGpuPublicClockId.NVAPI_GPU_PUBLIC_CLOCK_GRAPHICS;
+                    info.pstates[0].clocks[0].typeId = NvGpuPerfPState20ClockTypeId.NVAPI_GPU_PERF_PSTATE20_CLOCK_TYPE_SINGLE;
                     info.pstates[0].clocks[0].freqDelta_kHz.value = kHz;
                     var r = NvSetPStateV2(busId, ref info);
                     if (!r) {
