@@ -601,10 +601,6 @@
 						        Grid.Row="1" 
 						        VerticalScrollBarVisibility="Auto" 
 						        PreviewMouseDown="ScrollViewer_PreviewMouseDown">
-                                <ScrollViewer.Resources>
-                                    <sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">8</sys:Double>
-                                    <sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarButtonHeightKey}">0</sys:Double>
-                                </ScrollViewer.Resources>
                                 <ScrollViewer.ContextMenu>
                                     <ContextMenu Padding="0">
                                         <MenuItem 

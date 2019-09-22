@@ -30,6 +30,17 @@
                 <SolidColorBrush Color="#FFEEEEEE" />
             </Setter.Value>
         </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type DataGrid}">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True">
+                        <ScrollViewer Template="{StaticResource ScrollViewerControlTemplate1}" Focusable="false">
+                            <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                        </ScrollViewer>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
     
     <Style TargetType="DataGridColumnHeader">
