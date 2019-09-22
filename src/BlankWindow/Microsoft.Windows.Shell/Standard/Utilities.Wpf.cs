@@ -77,7 +77,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
         private static int _GetBitDepth() {
             if (s_bitDepth == 0) {
                 using (SafeDC dc = SafeDC.GetDesktop()) {
-                    s_bitDepth = NativeMethods.GetDeviceCaps(dc, DeviceCap.BITSPIXEL) * NativeMethods.GetDeviceCaps(dc, DeviceCap.PLANES);
+                    s_bitDepth = SafeNativeMethods.GetDeviceCaps(dc, DeviceCap.BITSPIXEL) * SafeNativeMethods.GetDeviceCaps(dc, DeviceCap.PLANES);
                 }
             }
             return s_bitDepth;
@@ -246,13 +246,13 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
                     // We are not bubbling out GDI+ errors when creating the native image fails.
                     IntPtr bitmap = IntPtr.Zero;
                     try {
-                        Status gpStatus = NativeMethods.GdipCreateBitmapFromStream(istm, out bitmap);
+                        Status gpStatus = SafeNativeMethods.GdipCreateBitmapFromStream(istm, out bitmap);
                         if (Status.Ok != gpStatus) {
                             return IntPtr.Zero;
                         }
 
                         IntPtr hicon;
-                        gpStatus = NativeMethods.GdipCreateHICONFromBitmap(bitmap, out hicon);
+                        gpStatus = SafeNativeMethods.GdipCreateHICONFromBitmap(bitmap, out hicon);
                         if (Status.Ok != gpStatus) {
                             return IntPtr.Zero;
                         }

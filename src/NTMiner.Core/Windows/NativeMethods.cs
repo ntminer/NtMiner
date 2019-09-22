@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using static NTMiner.Windows.Ram;
 
 namespace NTMiner.Windows {
-    internal static partial class NativeMethods {
+    internal static partial class SafeNativeMethods {
         [return: MarshalAs(UnmanagedType.Bool)]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
         internal static extern bool GlobalMemoryStatusEx([In, Out]MemoryStatusEx lpBuffer);

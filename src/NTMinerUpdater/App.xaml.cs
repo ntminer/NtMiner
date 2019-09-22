@@ -13,7 +13,7 @@ using System.Windows.Threading;
 
 namespace NTMiner {
     public partial class App : Application, IDisposable {
-        private static class NativeMethods {
+        private static class SafeNativeMethods {
             [DllImport("User32.dll")]
             public static extern bool ShowWindowAsync(IntPtr hWnd, int cmdShow);
 
@@ -109,8 +109,8 @@ namespace NTMiner {
 
         private const int SW_SHOWNOMAL = 1;
         private static void Show(Process instance) {
-            NativeMethods.ShowWindowAsync(instance.MainWindowHandle, SW_SHOWNOMAL);
-            NativeMethods.SetForegroundWindow(instance.MainWindowHandle);
+            SafeNativeMethods.ShowWindowAsync(instance.MainWindowHandle, SW_SHOWNOMAL);
+            SafeNativeMethods.SetForegroundWindow(instance.MainWindowHandle);
         }
     }
 }

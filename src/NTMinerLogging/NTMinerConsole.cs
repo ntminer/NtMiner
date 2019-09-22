@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace NTMiner {
     public static class NTMinerConsole {
-        internal static class SafeNativeMethods {
+        private static class SafeNativeMethods {
             private const string Kernel32DllName = "kernel32.dll";
             [DllImport(Kernel32DllName)]
             internal static extern bool AllocConsole();

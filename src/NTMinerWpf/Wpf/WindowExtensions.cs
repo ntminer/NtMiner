@@ -12,7 +12,7 @@ namespace NTMiner.Wpf {
                 return;
             }
             POINT pt;
-            if (NativeMethods.GetCursorPos(out pt)) {
+            if (SafeNativeMethods.GetCursorPos(out pt)) {
                 var width = window.Width.Equals(double.NaN) ? 400 : window.Width;
                 var height = window.Height.Equals(double.NaN) ? 200 : window.Height;
                 window.WindowStartupLocation = WindowStartupLocation.Manual;

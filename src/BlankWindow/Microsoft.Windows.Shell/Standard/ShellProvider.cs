@@ -1236,7 +1236,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
 
             Guid iidShellItem2 = new Guid(IID.ShellItem2);
             object unk;
-            HRESULT hr = NativeMethods.SHCreateItemFromParsingName(path, null, ref iidShellItem2, out unk);
+            HRESULT hr = SafeNativeMethods.SHCreateItemFromParsingName(path, null, ref iidShellItem2, out unk);
 
             // Silently absorb errors such as ERROR_FILE_NOT_FOUND, ERROR_PATH_NOT_FOUND.
             // Let others pass through

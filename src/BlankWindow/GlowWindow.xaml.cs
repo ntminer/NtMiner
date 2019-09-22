@@ -226,7 +226,7 @@ namespace NTMiner {
         }
 
         internal void UpdateCore(RECT rect) {
-            NativeMethods.SetWindowPos(handle, ownerHandle,
+            SafeNativeMethods.SetWindowPos(handle, ownerHandle,
                                        (int)(getLeft(rect)),
                                        (int)(getTop(rect)),
                                        (int)(getWidth(rect)),
@@ -248,7 +248,7 @@ namespace NTMiner {
 
             if (msg == (int)WM.LBUTTONDOWN) {
                 var pt = new Point((int)lParam & 0xFFFF, ((int)lParam >> 16) & 0xFFFF);
-                NativeMethods.PostMessage(ownerHandle, (uint)WM.NCLBUTTONDOWN, (IntPtr)getHitTestValue(pt), IntPtr.Zero);
+                SafeNativeMethods.PostMessage(ownerHandle, (uint)WM.NCLBUTTONDOWN, (IntPtr)getHitTestValue(pt), IntPtr.Zero);
             }
             if (msg == (int)WM.NCHITTEST) {
                 var ptScreen = new Point((int)lParam & 0xFFFF, ((int)lParam >> 16) & 0xFFFF);

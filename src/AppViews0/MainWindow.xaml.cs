@@ -13,7 +13,7 @@ using System.Windows.Shapes;
 
 namespace NTMiner.Views {
     public partial class MainWindow : Window, IMaskWindow {
-        internal static class SafeNativeMethods {
+        private static class SafeNativeMethods {
             #region enum struct class
             internal enum MonitorOptions : uint {
                 MONITOR_DEFAULTTONULL = 0x00000000,

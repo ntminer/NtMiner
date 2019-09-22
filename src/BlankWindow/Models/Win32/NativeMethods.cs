@@ -2,22 +2,22 @@
 using System.Runtime.InteropServices;
 
 namespace NTMiner.Models.Win32 {
-    static class NativeMethods {
+    internal static class SafeNativeMethods {
         public static WS GetWindowLong(this IntPtr hWnd) {
-            return (WS)NativeMethods.GetWindowLong(hWnd, (int)GWL.STYLE);
+            return (WS)GetWindowLong(hWnd, (int)GWL.STYLE);
         }
         public static WSEX GetWindowLongEx(this IntPtr hWnd) {
-            return (WSEX)NativeMethods.GetWindowLong(hWnd, (int)GWL.EXSTYLE);
+            return (WSEX)GetWindowLong(hWnd, (int)GWL.EXSTYLE);
         }
 
         [DllImport("user32.dll", EntryPoint = "GetWindowLongA", SetLastError = true)]
         public static extern int GetWindowLong(IntPtr hWnd, int nIndex);
 
         public static WS SetWindowLong(this IntPtr hWnd, WS dwNewLong) {
-            return (WS)NativeMethods.SetWindowLong(hWnd, (int)GWL.STYLE, (int)dwNewLong);
+            return (WS)SetWindowLong(hWnd, (int)GWL.STYLE, (int)dwNewLong);
         }
         public static WSEX SetWindowLongEx(this IntPtr hWnd, WSEX dwNewLong) {
-            return (WSEX)NativeMethods.SetWindowLong(hWnd, (int)GWL.EXSTYLE, (int)dwNewLong);
+            return (WSEX)SetWindowLong(hWnd, (int)GWL.EXSTYLE, (int)dwNewLong);
         }
 
         [DllImport("user32.dll")]

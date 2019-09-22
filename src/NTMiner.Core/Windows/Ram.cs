@@ -16,7 +16,7 @@ namespace NTMiner.Windows {
         public string TotalPhysicalMemory {
             get {
                 MemoryStatusEx mEx = new MemoryStatusEx();
-                if (NativeMethods.GlobalMemoryStatusEx(mEx)) {
+                if (SafeNativeMethods.GlobalMemoryStatusEx(mEx)) {
                     const double m = 1024 * 1024;
                     const double g = (double)(m * 1024);
                     return Math.Round(mEx.ullTotalPhys / g, 0).ToString() + $" GB";
@@ -32,7 +32,7 @@ namespace NTMiner.Windows {
         public string AvailablePhysicalMemory {
             get {
                 MemoryStatusEx mEx = new MemoryStatusEx();
-                if (NativeMethods.GlobalMemoryStatusEx(mEx)) {
+                if (SafeNativeMethods.GlobalMemoryStatusEx(mEx)) {
                     return Convert.ToString(mEx.ullAvailPhys);
                 }
 
@@ -47,7 +47,7 @@ namespace NTMiner.Windows {
         public string TotalPageFile {
             get {
                 MemoryStatusEx mEx = new MemoryStatusEx();
-                if (NativeMethods.GlobalMemoryStatusEx(mEx)) {
+                if (SafeNativeMethods.GlobalMemoryStatusEx(mEx)) {
                     return Convert.ToString(mEx.ullTotalPageFile);
                 }
 
@@ -61,7 +61,7 @@ namespace NTMiner.Windows {
         public string AvailablePageFile {
             get {
                 MemoryStatusEx mEx = new MemoryStatusEx();
-                if (NativeMethods.GlobalMemoryStatusEx(mEx)) {
+                if (SafeNativeMethods.GlobalMemoryStatusEx(mEx)) {
                     return Convert.ToString(mEx.ullAvailPageFile);
                 }
 
@@ -76,7 +76,7 @@ namespace NTMiner.Windows {
         public string TotalVirtual {
             get {
                 MemoryStatusEx mEx = new MemoryStatusEx();
-                if (NativeMethods.GlobalMemoryStatusEx(mEx)) {
+                if (SafeNativeMethods.GlobalMemoryStatusEx(mEx)) {
                     return Convert.ToString(mEx.ullTotalVirtual);
                 }
 
@@ -91,7 +91,7 @@ namespace NTMiner.Windows {
         public string AvailableVirtual {
             get {
                 MemoryStatusEx mEx = new MemoryStatusEx();
-                if (NativeMethods.GlobalMemoryStatusEx(mEx)) {
+                if (SafeNativeMethods.GlobalMemoryStatusEx(mEx)) {
                     return Convert.ToString(mEx.ullAvailVirtual);
                 }
 

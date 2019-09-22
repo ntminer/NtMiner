@@ -1333,12 +1333,12 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
         private SafeFindHandle() : base(true) { }
 
         protected override bool ReleaseHandle() {
-            return NativeMethods.FindClose(handle);
+            return SafeNativeMethods.FindClose(handle);
         }
     }
 
     internal sealed class SafeDC : SafeHandleZeroOrMinusOneIsInvalid {
-        private static class NativeMethods {
+        private static class SafeNativeMethods {
             [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
             [DllImport("user32.dll")]
             public static extern int ReleaseDC(IntPtr hWnd, IntPtr hDC);
@@ -1378,14 +1378,14 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
         [ReliabilityContract(Consistency.WillNotCorruptState, Cer.MayFail)]
         protected override bool ReleaseHandle() {
             if (_created) {
-                return NativeMethods.DeleteDC(handle);
+                return SafeNativeMethods.DeleteDC(handle);
             }
 
             if (!_hwnd.HasValue || _hwnd.Value == IntPtr.Zero) {
                 return true;
             }
 
-            return NativeMethods.ReleaseDC(_hwnd.Value, handle) == 1;
+            return SafeNativeMethods.ReleaseDC(_hwnd.Value, handle) == 1;
         }
 
         [SuppressMessage("Microsoft.Usage", "CA2201:DoNotRaiseReservedExceptionTypes"), SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
@@ -1393,7 +1393,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
             SafeDC dc = null;
             try {
                 // Should this really be on the driver parameter?
-                dc = NativeMethods.CreateDC(deviceName, null, IntPtr.Zero, IntPtr.Zero);
+                dc = SafeNativeMethods.CreateDC(deviceName, null, IntPtr.Zero, IntPtr.Zero);
             }
             finally {
                 if (dc != null) {
@@ -1417,7 +1417,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
                 if (hdc != null) {
                     hPtr = hdc.handle;
                 }
-                dc = NativeMethods.CreateCompatibleDC(hPtr);
+                dc = SafeNativeMethods.CreateCompatibleDC(hPtr);
                 if (dc == null) {
                     HRESULT.ThrowLastError();
                 }
@@ -1440,7 +1440,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
         public static SafeDC GetDC(IntPtr hwnd) {
             SafeDC dc = null;
             try {
-                dc = NativeMethods.GetDC(hwnd);
+                dc = SafeNativeMethods.GetDC(hwnd);
             }
             finally {
                 if (dc != null) {
@@ -1481,7 +1481,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
 
         [ReliabilityContract(Consistency.WillNotCorruptState, Cer.MayFail)]
         protected override bool ReleaseHandle() {
-            return NativeMethods.DeleteObject(handle);
+            return SafeNativeMethods.DeleteObject(handle);
         }
     }
 
@@ -1493,7 +1493,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
 
         [ReliabilityContract(Consistency.WillNotCorruptState, Cer.MayFail)]
         protected override bool ReleaseHandle() {
-            Status s = NativeMethods.GdiplusShutdown(this.handle);
+            Status s = SafeNativeMethods.GdiplusShutdown(this.handle);
             return s == Status.Ok;
         }
 
@@ -1502,7 +1502,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
         public static SafeGdiplusStartupToken Startup() {
             IntPtr unsafeHandle;
             StartupOutput output;
-            Status s = NativeMethods.GdiplusStartup(out unsafeHandle, new StartupInput(), out output);
+            Status s = SafeNativeMethods.GdiplusStartup(out unsafeHandle, new StartupInput(), out output);
             if (s == Status.Ok) {
                 SafeGdiplusStartupToken safeHandle = new SafeGdiplusStartupToken(unsafeHandle);
                 return safeHandle;
@@ -1728,7 +1728,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
     [SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses")]
     [StructLayout(LayoutKind.Explicit)]
     internal class PROPVARIANT : IDisposable {
-        private static class NativeMethods {
+        private static class SafeNativeMethods {
             [DllImport("ole32.dll")]
             internal static extern HRESULT PropVariantClear(PROPVARIANT pvar);
         }
@@ -1779,7 +1779,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
         }
 
         public void Clear() {
-            HRESULT hr = NativeMethods.PropVariantClear(this);
+            HRESULT hr = SafeNativeMethods.PropVariantClear(this);
             Assert.IsTrue(hr.Succeeded);
         }
 
@@ -2348,7 +2348,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
     internal delegate IntPtr MessageHandler(WM uMsg, IntPtr wParam, IntPtr lParam, out bool handled);
 
     // Some native methods are shimmed through public versions that handle converting failures into thrown exceptions.
-    internal static class NativeMethods {
+    internal static class SafeNativeMethods {
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         [DllImport("user32.dll", EntryPoint = "AdjustWindowRectEx", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]

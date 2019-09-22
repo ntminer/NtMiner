@@ -84,8 +84,8 @@ namespace NTMiner.Windows {
         /// </summary>
         public string ProcessorLevel {
             get {
-                NativeMethods.SystemInfo pInfo = new NativeMethods.SystemInfo();
-                NativeMethods.GetSystemInfo(ref pInfo);
+                SafeNativeMethods.SystemInfo pInfo = new SafeNativeMethods.SystemInfo();
+                SafeNativeMethods.GetSystemInfo(ref pInfo);
                 return pInfo.dwProcessorLevel.ToString();
             }
         }
@@ -95,8 +95,8 @@ namespace NTMiner.Windows {
         /// </summary>
         public string ProcessorRevision {
             get {
-                NativeMethods.SystemInfo pInfo = new NativeMethods.SystemInfo();
-                NativeMethods.GetSystemInfo(ref pInfo);
+                SafeNativeMethods.SystemInfo pInfo = new SafeNativeMethods.SystemInfo();
+                SafeNativeMethods.GetSystemInfo(ref pInfo);
 
                 return pInfo.dwProcessorRevision.ToString();
             }
@@ -159,8 +159,8 @@ namespace NTMiner.Windows {
         /// </summary>
         /// <returns>A string representing the architecture name</returns>
         private string DetermineArchitecture() {
-            NativeMethods.SystemInfo sysInfo = new NativeMethods.SystemInfo();
-            NativeMethods.GetSystemInfo(ref sysInfo);
+            SafeNativeMethods.SystemInfo sysInfo = new SafeNativeMethods.SystemInfo();
+            SafeNativeMethods.GetSystemInfo(ref sysInfo);
 
             switch (sysInfo.uProcessorInfo.wProcessorArchitecture) {
                 case (ushort)ProcessorInfo.ProcessorArchitecture.Intel:

@@ -12,8 +12,8 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
             using (SafeDC desktop = SafeDC.GetDesktop()) {
                 // Can get these in the static constructor.  They shouldn't vary window to window,
                 // and changing the system DPI requires a restart.
-                int pixelsPerInchX = NativeMethods.GetDeviceCaps(desktop, DeviceCap.LOGPIXELSX);
-                int pixelsPerInchY = NativeMethods.GetDeviceCaps(desktop, DeviceCap.LOGPIXELSY);
+                int pixelsPerInchX = SafeNativeMethods.GetDeviceCaps(desktop, DeviceCap.LOGPIXELSX);
+                int pixelsPerInchY = SafeNativeMethods.GetDeviceCaps(desktop, DeviceCap.LOGPIXELSY);
 
                 _transformToDip = Matrix.Identity;
                 _transformToDip.Scale(96d / (double)pixelsPerInchX, 96d / (double)pixelsPerInchY);
