@@ -401,6 +401,28 @@ namespace NTMiner {
             }
         }
 
+        public static string WindowsEditionToolTip {
+            get {
+                var osVersion = Environment.OSVersion.Version;
+                // Win7下WinDivert.sys文件签名问题
+                if (osVersion < new Version(6, 2)) {
+                    return "Windows版本较低，建议使用Win10系统";
+                }
+                return "操作系统";
+            }
+        }
+
+        public static SolidColorBrush WindowsEditionColor {
+            get {
+                var osVersion = Environment.OSVersion.Version;
+                // Win7下WinDivert.sys文件签名问题
+                if (osVersion < new Version(6, 2)) {
+                    return Wpf.Util.RedBrush;
+                }
+                return (SolidColorBrush)Application.Current.Resources["LableColor"];
+            }
+        }
+
         public static string TotalVirtualMemoryGbText {
             get {
                 return AppContext.Instance.VirtualMemorySetVm.TotalVirtualMemoryGbText;

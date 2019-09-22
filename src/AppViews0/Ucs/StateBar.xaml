@@ -286,7 +286,7 @@
                     </WrapPanel>
                 </controls:KbButton>
                 <WrapPanel Grid.Column="1" HorizontalAlignment="Right" Margin="0 0 70 0">
-					<TextBlock Text="{x:Static app:AppStatic.WindowsEdition}" ToolTip="操作系统" Foreground="{StaticResource LableColor}"></TextBlock>
+                    <TextBlock Text="{x:Static app:AppStatic.WindowsEdition}" ToolTip="{x:Static app:AppStatic.WindowsEditionToolTip}" Foreground="{x:Static app:AppStatic.WindowsEditionColor}"></TextBlock>
 					<controls:KbButton 
 						Background="Transparent"
 						Margin="4 0 0 0"
