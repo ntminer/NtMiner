@@ -13,15 +13,9 @@
             <ScrollBar x:Name="PART_VerticalScrollBar" AutomationProperties.AutomationId="VerticalScrollBar" Cursor="Arrow" Grid.Column="1" Maximum="{TemplateBinding ScrollableHeight}" Minimum="0"  Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportHeight}" Style="{DynamicResource ScrollBarStyle1}"/>
         </Grid>
     </ControlTemplate>
-    <LinearGradientBrush x:Key="VerticalScrollBarBackground" EndPoint="1,0" StartPoint="0,0">
-        <GradientStop Color="#E1E1E1" Offset="0"/>
-        <GradientStop Color="#EDEDED" Offset="0.20"/>
-        <GradientStop Color="#EDEDED" Offset="0.80"/>
-        <GradientStop Color="#E3E3E3" Offset="1"/>
-    </LinearGradientBrush>
     <SolidColorBrush x:Key="ScrollBarDisabledBackground" Color="#F4F4F4"/>
-    <sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">12</sys:Double>
-    <sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarButtonHeightKey}">10</sys:Double>
+    <sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">10</sys:Double>
+    <sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarButtonHeightKey}">8</sys:Double>
     <Style TargetType="ScrollViewer">
         <Setter Property="FocusVisualStyle" Value="{x:Null}"></Setter>
         <Setter Property="Template" Value="{StaticResource ScrollViewerControlTemplate1}"></Setter>
@@ -61,12 +55,6 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <LinearGradientBrush x:Key="HorizontalScrollBarBackground" EndPoint="0,1" StartPoint="0,0">
-        <GradientStop Color="#E1E1E1" Offset="0"/>
-        <GradientStop Color="#EDEDED" Offset="0.20"/>
-        <GradientStop Color="#EDEDED" Offset="0.80"/>
-        <GradientStop Color="#E3E3E3" Offset="1"/>
-    </LinearGradientBrush>
     <Style x:Key="HorizontalScrollBarPageButton" TargetType="{x:Type RepeatButton}">
         <Setter Property="OverridesDefaultStyle" Value="true"/>
         <Setter Property="Background" Value="Transparent"/>
@@ -81,7 +69,7 @@
         </Setter>
     </Style>
     <Style x:Key="ScrollBarStyle1" TargetType="{x:Type ScrollBar}">
-        <Setter Property="Background" Value="{StaticResource VerticalScrollBarBackground}"/>
+        <Setter Property="Background" Value="#CDCDCD"/>
         <Setter Property="Stylus.IsPressAndHoldEnabled" Value="false"/>
         <Setter Property="Stylus.IsFlicksEnabled" Value="false"/>
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
@@ -157,7 +145,7 @@
                 <Setter Property="MinWidth" Value="0"/>
                 <Setter Property="Height" Value="{DynamicResource {x:Static SystemParameters.HorizontalScrollBarHeightKey}}"/>
                 <Setter Property="MinHeight" Value="{DynamicResource {x:Static SystemParameters.HorizontalScrollBarHeightKey}}"/>
-                <Setter Property="Background" Value="{StaticResource HorizontalScrollBarBackground}"/>
+                <Setter Property="Background" Value="#CDCDCD"/>
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type ScrollBar}">
