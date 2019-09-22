@@ -1,5 +1,4 @@
-﻿using NTMiner.MinerClient;
-using NTMiner.Profile;
+﻿using NTMiner.Profile;
 using System;
 using System.Collections.Generic;
 
