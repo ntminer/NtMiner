@@ -329,6 +329,10 @@ namespace NTMiner {
                         VirtualRoot.Out.ShowErrorMessage("windows右键命令行添加失败");
                     }
                 });
+            VirtualRoot.EventPath<Per1MinuteEvent>("每1分钟阻止系统休眠", LogEnum.None,
+                action: message => {
+                    Windows.Power.PreventSleep();
+                });
             #region 挖矿开始时将无份额内核重启份额计数置0
             int shareCount = 0;
             DateTime shareOn = DateTime.Now;

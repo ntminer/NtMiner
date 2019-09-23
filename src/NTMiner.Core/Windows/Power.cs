@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 namespace NTMiner.Windows {
     public static class Power {
         [DllImport("kernel32.dll")]
-        internal static extern uint SetThreadExecutionState(ExecutionFlag flags);
+        private static extern uint SetThreadExecutionState(ExecutionFlag flags);
         [Flags]
         internal enum ExecutionFlag : uint {
             ES_AWAYMODE_REQUIRED = 0x00000040,
@@ -12,6 +12,10 @@ namespace NTMiner.Windows {
             System = 0x00000001,
             Display = 0x00000002,
             Continus = 0x80000000,
+        }
+
+        public static void PreventSleep() {
+            SetThreadExecutionState(ExecutionFlag.System | ExecutionFlag.Display | ExecutionFlag.Continus);
         }
 
         public static void Restart(int delaySeconds = 0) {
