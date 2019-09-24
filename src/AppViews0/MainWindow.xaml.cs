@@ -119,6 +119,15 @@ namespace NTMiner.Views {
             ConsoleWindow.Instance.Show();
             this.Owner = ConsoleWindow.Instance;
             ToogleLeft();
+            this.IsVisibleChanged += (object sender, DependencyPropertyChangedEventArgs e) => {
+                if (this.IsVisible) {
+                    NTMinerRoot.IsUiVisible = true;
+                    NTMinerRoot.MainWindowRendedOn = DateTime.Now;
+                }
+                else {
+                    NTMinerRoot.IsUiVisible = false;
+                }
+            };
             this.StateChanged += (s, e) => {
                 if (Vm.MinerProfile.IsShowInTaskbar) {
                     ShowInTaskbar = true;

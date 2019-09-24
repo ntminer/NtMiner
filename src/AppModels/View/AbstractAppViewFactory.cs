@@ -14,13 +14,7 @@ namespace NTMiner.View {
                         if (_mainWindow == null) {
                             _mainWindow = CreateMainWindow();
                             _mainWindow.Show();
-                            NTMinerRoot.IsUiVisible = true;
-                            NTMinerRoot.MainWindowRendedOn = DateTime.Now;
                             VirtualRoot.Happened(new MainWindowShowedEvent());
-                            _mainWindow.Closed += (object sender, EventArgs e) => {
-                                NTMinerRoot.IsUiVisible = false;
-                                _mainWindow = null;
-                            };
                         }
                     }
                 }
