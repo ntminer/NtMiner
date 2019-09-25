@@ -327,16 +327,6 @@ namespace NTMiner.Views {
             Wpf.Util.ScrollViewer_PreviewMouseDown(sender, e);
         }
 
-        private void NTMinerLogo_MouseDown(object sender, MouseButtonEventArgs e) {
-            if (e.ClickCount == 2) {
-                if (NTMinerRoot.IsBrandSpecified) {
-                    return;
-                }
-                BrandTag.ShowWindow();
-                e.Handled = true;
-            }
-        }
-
         private void BtnOverClockVisible_Click(object sender, RoutedEventArgs e) {
             var speedTableUc = this.SpeedTable;
             if (MainArea.SelectedItem == TabItemSpeedTable) {

@@ -97,6 +97,11 @@ namespace NTMiner {
         }
     }
 
+    [MessageType(description: "打开品牌打码页")]
+    public class ShowTagBrandCommand : Cmd {
+        public ShowTagBrandCommand() { }
+    }
+
     [MessageType(description: "打开币种页面")]
     public class ShowCoinPageCommand : Cmd {
         public ShowCoinPageCommand(CoinViewModel currentCoin, string tabType) {

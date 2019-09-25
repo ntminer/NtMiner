@@ -81,6 +81,13 @@ namespace NTMiner.Views {
                         KernelInputPage.ShowWindow();
                     });
                 });
+            VirtualRoot.CmdPath<ShowTagBrandCommand>(LogEnum.DevConsole,
+                action: message => {
+                    if (NTMinerRoot.IsBrandSpecified) {
+                        return;
+                    }
+                    BrandTag.ShowWindow();
+                });
             VirtualRoot.CmdPath<ShowCoinPageCommand>(LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
