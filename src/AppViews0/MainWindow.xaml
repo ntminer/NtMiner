@@ -156,128 +156,126 @@
                     PreviewMouseLeftButtonDown="RctHeader_PreviewMouseLeftButtonDown" 
                     PreviewMouseLeftButtonUp="RctHeader_PreviewMouseLeftButtonUp" 
                     PreviewMouseMove="RctHeader_PreviewMouseMove"></Border>
-                <WrapPanel Grid.Column="2">
-                    <WrapPanel Margin="0" HorizontalAlignment="Right" VerticalAlignment="Top">
-                        <TextBlock 
-						    VerticalAlignment="Center"
-						    Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
-						    ToolTip="ServerJsonVersion"
-						    Text="{Binding ServerJsonVersion}" 
-						    Foreground="{StaticResource ThemeForeground}"></TextBlock>
-                        <CheckBox 
-                            Margin="0 0 12 0"
-						    FocusVisualStyle="{x:Null}"
-						    Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
-						    VerticalAlignment="Center"
-						    Cursor="Hand"
-						    Foreground="{StaticResource ThemeForeground}"
-						    IsChecked="{Binding IsUseDevConsole}">
-                            <TextBlock Text="DevConsole" Foreground="{StaticResource ThemeForeground}"></TextBlock>
-                        </CheckBox>
-                        <WrapPanel 
-                            Margin="0 0 20 0" 
-                            VerticalAlignment="Center" 
-                            Visibility="{Binding MinerProfile.MineWork,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
-                            <Border
-					            Width="30"
-					            Height="30"
-					            Background="Red"
-					            HorizontalAlignment="Right" 
-					            VerticalAlignment="Top" 
-					            CornerRadius="15"
-					            Visibility="{Binding MinerProfile.IsWorker,Converter={StaticResource BoolToVisibilityConverter}}">
-                                <TextBlock 
-						            HorizontalAlignment="Center"
-						            VerticalAlignment="Center"
-						            Foreground="White" 
-						            FontWeight="Bold"
-						            Text="群控"></TextBlock>
-                            </Border>
-                            <TextBlock Foreground="{StaticResource ThemeForeground}" VerticalAlignment="Center">作业：</TextBlock>
-                            <TextBlock Foreground="{StaticResource ThemeForeground}" VerticalAlignment="Center" Text="{Binding MinerProfile.MineWork.Name}" ToolTip="{Binding MinerProfile.MineWork.Description}"></TextBlock>
-                        </WrapPanel>
-                        <controls:KbLinkButton
-                            Margin="0 0 20 0"
-                            BorderThickness="0"
-                            VerticalAlignment="Center"
-                            Visibility="{Binding MinerProfile.MineWork,Converter={StaticResource NotNullOrEmptyVisibilityInvertConverter}}"
-				            Command="{x:Static app:AppStatic.DownloadMinerStudio}"
-				            KbDisplayLine="False"
-				            Foreground="{StaticResource ThemeForeground}"
-				            KbSystemButtonHoverBackground="Transparent"
-				            Background="Transparent">
-                            <WrapPanel>
-                                <Path 
-						            Width="14"
-						            Height="13"
-						            Data="{StaticResource Icon_ControlCenter}"
-						            Fill="{StaticResource ThemeForeground}"
-						            Stretch="Fill" />
-                                <TextBlock Foreground="{StaticResource ThemeForeground}">下载群控</TextBlock>
-                            </WrapPanel>
-                        </controls:KbLinkButton>
-                        <controls:KbButton 
-						    Margin="0 0 12 0"
-						    ToolTip="属性"
-						    Background="Transparent" BorderThickness="0"
-						    Command="{x:Static app:AppStatic.ShowProperty}">
-                            <WrapPanel>
-                                <Path 
-								    Height="18"
-								    Width="18"
-								    Data="{StaticResource Icon_Property}"
-								    Fill="{StaticResource ThemeForeground}"
-								    Stretch="Fill" />
-                            </WrapPanel>
-                        </controls:KbButton>
-                        <controls:KbButton 
-						    Margin="0 0 12 0"
-						    ToolTip="算力图"
-						    Background="Transparent" BorderThickness="0"
-						    Command="{x:Static app:AppStatic.ShowSpeedChart}">
-                            <WrapPanel>
-                                <Path 
-								    Height="18"
-								    Width="18"
-								    Data="{StaticResource Icon_Speed}"
-								    Fill="{StaticResource ThemeForeground}"
-								    Stretch="Fill" />
-                            </WrapPanel>
-                        </controls:KbButton>
-                        <controls:KbButton 
-						    Margin="0 0 12 0"
-						    ToolTip="收益计算器"
-						    Background="Transparent" BorderThickness="0"
-						    Command="{x:Static app:AppStatic.ShowCalc}">
-                            <WrapPanel>
-                                <Path 
-								    Height="18"
-								    Width="18"
-								    Data="{StaticResource Icon_Calc}"
-								    Fill="{StaticResource ThemeForeground}"
-								    Stretch="Fill" />
-                            </WrapPanel>
-                        </controls:KbButton>
-                        <controls:KbButton 
-						    Margin="0 0 12 0"
-						    ToolTip="内核"
-						    Background="Transparent" BorderThickness="0"
-						    Command="{x:Static app:AppStatic.ShowKernels}">
-                            <WrapPanel>
-                                <Path 
-								    Height="18"
-								    Width="18"
-								    Data="{StaticResource Icon_Kernel}"
-								    Fill="{StaticResource ThemeForeground}"
-								    Stretch="Fill" />
-                            </WrapPanel>
-                        </controls:KbButton>
-                        <uc:MainMenu VerticalAlignment="Center">
-                        </uc:MainMenu>
-                        <controls:KbSystemMinButton Height="32" />
-                        <controls:KbSystemMaxButton Height="32" />
-                        <controls:KbSystemCloseButton Command="{Binding CloseMainWindow}" Height="32" />
+                <WrapPanel Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Top">
+                    <TextBlock 
+						VerticalAlignment="Center"
+						Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
+						ToolTip="ServerJsonVersion"
+						Text="{Binding ServerJsonVersion}" 
+						Foreground="{StaticResource ThemeForeground}"></TextBlock>
+                    <CheckBox 
+                        Margin="0 0 12 0"
+						FocusVisualStyle="{x:Null}"
+						Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
+						VerticalAlignment="Center"
+						Cursor="Hand"
+						Foreground="{StaticResource ThemeForeground}"
+						IsChecked="{Binding IsUseDevConsole}">
+                        <TextBlock Text="DevConsole" Foreground="{StaticResource ThemeForeground}"></TextBlock>
+                    </CheckBox>
+                    <WrapPanel 
+                        Margin="0 0 20 0" 
+                        VerticalAlignment="Center" 
+                        Visibility="{Binding MinerProfile.MineWork,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
+                        <Border
+					        Width="30"
+					        Height="30"
+					        Background="Red"
+					        HorizontalAlignment="Right" 
+					        VerticalAlignment="Top" 
+					        CornerRadius="15"
+					        Visibility="{Binding MinerProfile.IsWorker,Converter={StaticResource BoolToVisibilityConverter}}">
+                            <TextBlock 
+						        HorizontalAlignment="Center"
+						        VerticalAlignment="Center"
+						        Foreground="White" 
+						        FontWeight="Bold"
+						        Text="群控"></TextBlock>
+                        </Border>
+                        <TextBlock Foreground="{StaticResource ThemeForeground}" VerticalAlignment="Center">作业：</TextBlock>
+                        <TextBlock Foreground="{StaticResource ThemeForeground}" VerticalAlignment="Center" Text="{Binding MinerProfile.MineWork.Name}" ToolTip="{Binding MinerProfile.MineWork.Description}"></TextBlock>
                     </WrapPanel>
+                    <controls:KbLinkButton
+                        Margin="0 0 20 0"
+                        BorderThickness="0"
+                        VerticalAlignment="Center"
+                        Visibility="{Binding MinerProfile.MineWork,Converter={StaticResource NotNullOrEmptyVisibilityInvertConverter}}"
+				        Command="{x:Static app:AppStatic.DownloadMinerStudio}"
+				        KbDisplayLine="False"
+				        Foreground="{StaticResource ThemeForeground}"
+				        KbSystemButtonHoverBackground="Transparent"
+				        Background="Transparent">
+                        <WrapPanel>
+                            <Path 
+						        Width="14"
+						        Height="13"
+						        Data="{StaticResource Icon_ControlCenter}"
+						        Fill="{StaticResource ThemeForeground}"
+						        Stretch="Fill" />
+                            <TextBlock Foreground="{StaticResource ThemeForeground}">下载群控</TextBlock>
+                        </WrapPanel>
+                    </controls:KbLinkButton>
+                    <controls:KbButton 
+						Margin="0 0 12 0"
+						ToolTip="属性"
+						Background="Transparent" BorderThickness="0"
+						Command="{x:Static app:AppStatic.ShowProperty}">
+                        <WrapPanel>
+                            <Path 
+								Height="18"
+								Width="18"
+								Data="{StaticResource Icon_Property}"
+								Fill="{StaticResource ThemeForeground}"
+								Stretch="Fill" />
+                        </WrapPanel>
+                    </controls:KbButton>
+                    <controls:KbButton 
+						Margin="0 0 12 0"
+						ToolTip="算力图"
+						Background="Transparent" BorderThickness="0"
+						Command="{x:Static app:AppStatic.ShowSpeedChart}">
+                        <WrapPanel>
+                            <Path 
+								Height="18"
+								Width="18"
+								Data="{StaticResource Icon_Speed}"
+								Fill="{StaticResource ThemeForeground}"
+								Stretch="Fill" />
+                        </WrapPanel>
+                    </controls:KbButton>
+                    <controls:KbButton 
+						Margin="0 0 12 0"
+						ToolTip="收益计算器"
+						Background="Transparent" BorderThickness="0"
+						Command="{x:Static app:AppStatic.ShowCalc}">
+                        <WrapPanel>
+                            <Path 
+								Height="18"
+								Width="18"
+								Data="{StaticResource Icon_Calc}"
+								Fill="{StaticResource ThemeForeground}"
+								Stretch="Fill" />
+                        </WrapPanel>
+                    </controls:KbButton>
+                    <controls:KbButton 
+						Margin="0 0 12 0"
+						ToolTip="内核"
+						Background="Transparent" BorderThickness="0"
+						Command="{x:Static app:AppStatic.ShowKernels}">
+                        <WrapPanel>
+                            <Path 
+								Height="18"
+								Width="18"
+								Data="{StaticResource Icon_Kernel}"
+								Fill="{StaticResource ThemeForeground}"
+								Stretch="Fill" />
+                        </WrapPanel>
+                    </controls:KbButton>
+                    <uc:MainMenu VerticalAlignment="Center">
+                    </uc:MainMenu>
+                    <controls:KbSystemMinButton Height="32" />
+                    <controls:KbSystemMaxButton Height="32" />
+                    <controls:KbSystemCloseButton Command="{Binding CloseMainWindow}" Height="32" />
                 </WrapPanel>
             </Grid>
             <DockPanel Grid.Row="1">
