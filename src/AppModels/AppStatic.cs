@@ -497,6 +497,9 @@ namespace NTMiner {
         });
 
         public static ICommand ViewUrl { get; private set; } = new DelegateCommand<string>(url => {
+            if (string.IsNullOrEmpty(url)) {
+                return;
+            }
             Process.Start(url);
         });
 

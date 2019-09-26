@@ -47,7 +47,6 @@ namespace NTMiner.Vms {
         public ICommand SortDown { get; private set; }
 
         public ICommand ViewPoolIncome { get; private set; }
-        public ICommand OpenWebsite { get; private set; }
         public ICommand Save { get; private set; }
 
         public Action CloseWindow { get; set; }
@@ -153,12 +152,6 @@ namespace NTMiner.Vms {
                     url = url.Replace("{worker}", NTMinerRoot.Instance.MinerProfile.MinerName);
                     Process.Start(url);
                 }
-            });
-            this.OpenWebsite = new DelegateCommand(() => {
-                if (string.IsNullOrEmpty(Website)) {
-                    return;
-                }
-                Process.Start(Website);
             });
         }
 
