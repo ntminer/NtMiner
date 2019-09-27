@@ -470,17 +470,21 @@ namespace NTMiner {
         public static string DriverVersionToolTip {
             get {
                 var gpuSet = NTMinerRoot.Instance.GpuSet;
+                bool isTooLow = false;
                 switch (gpuSet.GpuType) {
                     case GpuType.NVIDIA:
                         if (gpuSet.DriverVersion < MinNvidiaDriverVersion) {
-                            return "显卡驱动版本较低";
+                            isTooLow = true;
                         }
                         break;
                     case GpuType.AMD:
                         if (gpuSet.DriverVersion < MinAmdDriverVersion) {
-                            return "显卡驱动版本较低";
+                            isTooLow = true;
                         }
                         break;
+                }
+                if (isTooLow) {
+                    return "显卡驱动版本较低，工具箱里有驱动下载地址";
                 }
                 return "显卡驱动版本";
             }
