@@ -28,9 +28,6 @@ namespace NTMiner.Vms {
                 if (_localIpVms.Count == 1) {
                     CloseWindow?.Invoke();
                 }
-                TimeSpan.FromSeconds(3).Delay().ContinueWith(t => {
-                    VirtualRoot.LocalIpSet.Refresh();
-                });
             }, (vm) => vm.IsChanged);
         }
 

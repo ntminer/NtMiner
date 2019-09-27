@@ -20,15 +20,6 @@ namespace NTMiner {
         private static readonly NTMinerRoot S_Instance = new NTMinerRoot();
         public static readonly INTMinerRoot Instance = S_Instance;
 
-        private static bool _isIpConfiging = false;
-        public static bool IsIpConfiging {
-            get { return _isIpConfiging; }
-        }
-
-        public static void SetIsIpConfiging(bool value) {
-            _isIpConfiging = value;
-        }
-
         public static Version ServerVersion;
         private static bool _isJsonServer;
         public static bool IsJsonServer {

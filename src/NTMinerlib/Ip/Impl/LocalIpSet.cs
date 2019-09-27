@@ -9,7 +9,19 @@ namespace NTMiner.Ip.Impl {
     public class LocalIpSet : ILocalIpSet {
         private List<LocalIpData> _localIps = new List<LocalIpData>();
 
-        public LocalIpSet() { }
+        public LocalIpSet() {
+            NetworkChange.NetworkAddressChanged += (object sender, EventArgs e)=> {
+                Refresh();
+            };
+            NetworkChange.NetworkAvailabilityChanged += (object sender, NetworkAvailabilityEventArgs e)=> {
+                Refresh();
+            };
+        }
+
+        private void Refresh() {
+            _isInited = false;
+            VirtualRoot.Happened(new LocalIpSetRefreshedEvent());
+        }
 
         private bool _isInited = false;
         private readonly object _locker = new object();
@@ -140,11 +152,6 @@ namespace NTMiner.Ip.Impl {
                     }
                 }
             }
-        }
-
-        public void Refresh() {
-            _isInited = false;
-            VirtualRoot.Happened(new LocalIpSetRefreshedEvent());
         }
 
         public IEnumerator<ILocalIp> GetEnumerator() {

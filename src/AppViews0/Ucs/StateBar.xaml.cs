@@ -1,6 +1,7 @@
 ﻿using NTMiner.Vms;
 using System;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace NTMiner.Views.Ucs {
     public partial class StateBar : UserControl {
@@ -22,13 +23,6 @@ namespace NTMiner.Views.Ucs {
                     Vm.OnPropertyChanged(nameof(Vm.IsRemoteDesktopEnabled));
                     Vm.OnPropertyChanged(nameof(Vm.RemoteDesktopToolTip));
                 };
-                // 时间事件是在WPF UI线程的，所以这里不用考虑访问UI线程创建的Vm对象的问题
-                window.EventPath<Per1MinuteEvent>("周期刷新状态栏的IP展示", LogEnum.DevConsole,
-                    action: message => {
-                        if (!NTMinerRoot.IsIpConfiging) {
-                            VirtualRoot.LocalIpSet.Refresh();
-                        }
-                    });
                 window.EventPath<LocalIpSetRefreshedEvent>("本机IP集刷新后刷新状态栏", LogEnum.DevConsole,
                     action: message => {
                         UIThread.Execute(() => {
@@ -74,13 +68,9 @@ namespace NTMiner.Views.Ucs {
             }
         }
 
-        private void BtnLocalIps_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+        private void BtnLocalIps_Click(object sender, MouseButtonEventArgs e) {
             AppStatic.ShowLocalIps.Execute(null);
             e.Handled = true;
-        }
-
-        private void BtnLocalIps_Click(object sender, System.Windows.RoutedEventArgs e) {
-            VirtualRoot.LocalIpSet.Refresh();
         }
     }
 }

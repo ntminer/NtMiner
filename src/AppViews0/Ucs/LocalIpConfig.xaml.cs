@@ -29,10 +29,6 @@ namespace NTMiner.Views.Ucs {
                         });
                     });
                 return uc;
-            }, beforeShow: (window)=> {
-                NTMinerRoot.SetIsIpConfiging(true);
-            }, afterClose: ()=> {
-                NTMinerRoot.SetIsIpConfiging(false);
             }, fixedSize: true);
         }
 

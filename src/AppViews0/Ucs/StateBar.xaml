@@ -316,9 +316,8 @@
                     <controls:KbButton 
 						Background="Transparent"
 						Margin="4 0 0 0"
-						ToolTip="双击设置，单击刷新"
-                        Click="BtnLocalIps_Click"
-                        MouseDoubleClick="BtnLocalIps_MouseDoubleClick"
+						ToolTip="打开IP设置"
+                        MouseDoubleClick="BtnLocalIps_Click"
                         Foreground="{StaticResource LableColor}"
                         Content="{Binding LocalIps}"
 						CornerRadius="2">
