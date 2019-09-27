@@ -226,7 +226,7 @@
 							<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
 						</DataGrid.Resources>
 						<DataGrid.Columns>
-							<DataGridTemplateColumn MinWidth="100" IsReadOnly="True">
+							<DataGridTemplateColumn MinWidth="80" IsReadOnly="True">
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate>
 										<StackPanel 
