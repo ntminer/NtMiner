@@ -1,7 +1,6 @@
 ﻿using NTMiner.Vms;
 using System;
 using System.Windows.Controls;
-using System.Windows.Input;
 
 namespace NTMiner.Views.Ucs {
     public partial class StateBar : UserControl {
@@ -66,11 +65,6 @@ namespace NTMiner.Views.Ucs {
             if (NTMinerRoot.OSVirtualMemoryMb < gpuSet.Count * 4) {
                 BtnShowVirtualMemory.Foreground = Wpf.Util.RedBrush;
             }
-        }
-
-        private void BtnLocalIps_Click(object sender, MouseButtonEventArgs e) {
-            AppStatic.ShowLocalIps.Execute(null);
-            e.Handled = true;
         }
     }
 }

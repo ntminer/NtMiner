@@ -317,7 +317,7 @@
 						Background="Transparent"
 						Margin="4 0 0 0"
 						ToolTip="打开IP设置"
-                        MouseDoubleClick="BtnLocalIps_Click"
+                        Command="{x:Static app:AppStatic.ShowLocalIps}"
                         Foreground="{StaticResource LableColor}"
                         Content="{Binding LocalIps}"
 						CornerRadius="2">
