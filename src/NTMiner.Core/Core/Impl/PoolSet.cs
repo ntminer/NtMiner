@@ -5,8 +5,14 @@ using System.Linq;
 
 namespace NTMiner.Core.Impl {
     internal class PoolSet : IPoolSet {
+        private class PoolDelay {
+            public string MainCoinPoolDelayText;
+            public string DualCoinPoolDelayText;
+        }
+
         private readonly INTMinerRoot _root;
         private readonly Dictionary<Guid, PoolData> _dicById = new Dictionary<Guid, PoolData>();
+        private readonly Dictionary<Guid, PoolDelay> _poolDelayById = new Dictionary<Guid, PoolDelay>();
 
         public PoolSet(INTMinerRoot root) {
             _root = root;
@@ -94,7 +100,7 @@ namespace NTMiner.Core.Impl {
                     if (!_dicById.ContainsKey(message.EntityId)) {
                         return;
                     }
-                    
+
                     PoolData entity = _dicById[message.EntityId];
                     _dicById.Remove(entity.GetId());
                     if (VirtualRoot.IsMinerStudio) {
@@ -108,6 +114,31 @@ namespace NTMiner.Core.Impl {
                     Guid[] toRemoves = root.PoolKernelSet.Where(a => a.PoolId == message.EntityId).Select(a => a.GetId()).ToArray();
                     foreach (Guid poolKernelId in toRemoves) {
                         VirtualRoot.Execute(new RemovePoolKernelCommand(poolKernelId));
+                    }
+                });
+            VirtualRoot.EventPath<PoolDelayPickedEvent>("提取了矿池延时后记录进内存", LogEnum.DevConsole,
+                action: message => {
+                    if (message.IsDual) {
+                        if (_poolDelayById.TryGetValue(message.PoolId, out PoolDelay poolDelay)) {
+                            poolDelay.DualCoinPoolDelayText = message.PoolDelayText;
+                        }
+                        else {
+                            _poolDelayById.Add(message.PoolId, new PoolDelay {
+                                MainCoinPoolDelayText = message.IsDual ? string.Empty : message.PoolDelayText,
+                                DualCoinPoolDelayText = message.IsDual ? message.PoolDelayText : string.Empty
+                            });
+                        }
+                    }
+                    else {
+                        if (_poolDelayById.TryGetValue(message.PoolId, out PoolDelay poolDelay)) {
+                            poolDelay.MainCoinPoolDelayText = message.PoolDelayText;
+                        }
+                        else {
+                            _poolDelayById.Add(message.PoolId, new PoolDelay {
+                                MainCoinPoolDelayText = message.IsDual ? string.Empty : message.PoolDelayText,
+                                DualCoinPoolDelayText = message.IsDual ? message.PoolDelayText : string.Empty
+                            });
+                        }
                     }
                 });
         }
@@ -159,6 +190,35 @@ namespace NTMiner.Core.Impl {
             var r = _dicById.TryGetValue(poolId, out PoolData p);
             pool = p;
             return r;
+        }
+
+        public string GetPoolDelayText(Guid poolId, bool isDual) {
+            InitOnece();
+            if (_poolDelayById.TryGetValue(poolId, out PoolDelay tuple)) {
+                if (isDual) {
+                    return tuple.DualCoinPoolDelayText;
+                }
+                return tuple.MainCoinPoolDelayText;
+            }
+            return string.Empty;
+        }
+
+        public void SetPoolDelayText(Guid poolId, bool isDual, string delayText) {
+            InitOnece();
+            if (_poolDelayById.TryGetValue(poolId, out PoolDelay tuple)) {
+                if (isDual) {
+                    tuple.DualCoinPoolDelayText = delayText;
+                }
+                else {
+                    tuple.MainCoinPoolDelayText = delayText;
+                }
+            }
+            else {
+                _poolDelayById.Add(poolId, new PoolDelay() {
+                    MainCoinPoolDelayText = isDual ? string.Empty : delayText,
+                    DualCoinPoolDelayText = isDual ? delayText : string.Empty
+                });
+            }
         }
 
         public IEnumerator<IPool> GetEnumerator() {

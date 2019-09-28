@@ -40,11 +40,13 @@ namespace NTMiner.Core {
 
     [MessageType(description: "从内核输出中提取了矿池延时")]
     public class PoolDelayPickedEvent : EventBase {
-        public PoolDelayPickedEvent(string poolDelay, bool isDual) {
+        public PoolDelayPickedEvent(Guid poolId, bool isDual, string poolDelay) {
             this.PoolDelayText = poolDelay;
+            this.PoolId = poolId;
             this.IsDual = isDual;
         }
 
+        public Guid PoolId { get; private set; }
         public bool IsDual { get; private set; }
         /// <summary>
         /// 矿池延时只用于展示，没有其它用户所以是字符串

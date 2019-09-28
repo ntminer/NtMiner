@@ -150,10 +150,12 @@ namespace NTMiner.Core.Kernels.Impl {
                 }
                 ICoin coin = mineContext.MainCoin;
                 bool isDual = false;
+                Guid poolId = mineContext.MainCoinPool.GetId();
                 // 如果是双挖上下文且当前输入行中没有主币关键字则视为双挖币
                 if ((mineContext is IDualMineContext dualMineContext) && !line.Contains(mineContext.MainCoin.Code)) {
                     isDual = true;
                     coin = dualMineContext.DualCoin;
+                    poolId = dualMineContext.DualCoinPool.GetId();
                 }
                 // 这些方法输出的是事件消息
                 PickTotalSpeed(_root, line, kernelOutput, coin, isDual);
@@ -164,7 +166,7 @@ namespace NTMiner.Core.Kernels.Impl {
                 PickRejectPattern(_root, line, kernelOutput, coin, isDual);
                 PickRejectOneShare(_root, line, _preline, kernelOutput, coin, isDual);
                 PickRejectPercent(_root, line, kernelOutput, coin, isDual);
-                PickPoolDelay(line, kernelOutput, isDual);
+                PickPoolDelay(line, kernelOutput, isDual, poolId);
                 if (!isDual) {
                     // 决定不支持双挖的单卡份额统计
                     PicFoundOneShare(_root, line, _preline, kernelOutput);
@@ -182,7 +184,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     PickRejectPattern(_root, line, kernelOutput, coin, isDual);
                     PickRejectOneShare(_root, line, _preline, kernelOutput, coin, isDual);
                     PickRejectPercent(_root, line, kernelOutput, coin, isDual);
-                    PickPoolDelay(line, kernelOutput, isDual);
+                    PickPoolDelay(line, kernelOutput, isDual, poolId);
                 }
                 _preline = line;
             }
@@ -238,7 +240,7 @@ namespace NTMiner.Core.Kernels.Impl {
         #endregion
 
         #region PickPoolDelay
-        private static void PickPoolDelay(string input, IKernelOutput kernelOutput, bool isDual) {
+        private static void PickPoolDelay(string input, IKernelOutput kernelOutput, bool isDual, Guid poolId) {
             string poolDelayPattern = kernelOutput.PoolDelayPattern;
             if (isDual) {
                 poolDelayPattern = kernelOutput.DualPoolDelayPattern;
@@ -249,7 +251,7 @@ namespace NTMiner.Core.Kernels.Impl {
             Match match = Regex.Match(input, poolDelayPattern, RegexOptions.Compiled);
             if (match.Success) {
                 string poolDelayText = match.Groups[Consts.PoolDelayGroupName].Value;
-                VirtualRoot.Happened(new PoolDelayPickedEvent(poolDelayText, isDual));
+                VirtualRoot.Happened(new PoolDelayPickedEvent(poolId, isDual, poolDelayText));
             }
         }
         #endregion
