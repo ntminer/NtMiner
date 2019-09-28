@@ -60,6 +60,9 @@ namespace NTMiner.MinerServer {
                 DualCoinRejectShare = 0,
                 DualCoinSpeed = 0,
                 KernelCommandLine = String.Empty,
+                MainCoinPoolDelay = string.Empty,
+                DualCoinPoolDelay = string.Empty,
+                DiskSpace = string.Empty,
                 GpuTable = new GpuSpeedData[0]
             };
         }
@@ -113,7 +116,9 @@ namespace NTMiner.MinerServer {
                 WindowsLoginName = string.Empty,
                 WindowsPassword = string.Empty,
                 ClientName = speedData.MinerName,
-                DiskSpace = speedData.DiskSpace
+                DiskSpace = speedData.DiskSpace,
+                MainCoinPoolDelay = speedData.MainCoinPoolDelay,
+                DualCoinPoolDelay = speedData.DualCoinPoolDelay
             };
         }
 
@@ -199,6 +204,8 @@ namespace NTMiner.MinerServer {
             this.DualCoinSpeed = speedData.DualCoinSpeed;
             this.KernelCommandLine = speedData.KernelCommandLine;
             this.GpuTable = speedData.GpuTable;
+            this.MainCoinPoolDelay = speedData.MainCoinPoolDelay;
+            this.DualCoinPoolDelay = speedData.DualCoinPoolDelay;
         }
 
         public int GetMainCoinShareDelta(bool isPull) {
@@ -349,6 +356,8 @@ namespace NTMiner.MinerServer {
 
         public string MainCoinWallet { get; set; }
 
+        public string MainCoinPoolDelay { get; set; }
+
         public string Kernel { get; set; }
 
         public bool IsDualCoinEnabled { get; set; }
@@ -367,6 +376,8 @@ namespace NTMiner.MinerServer {
         public string DualCoinPool { get; set; }
 
         public string DualCoinWallet { get; set; }
+
+        public string DualCoinPoolDelay { get; set; }
 
         public DateTime CreatedOn { get; set; }
 

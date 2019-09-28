@@ -50,6 +50,8 @@ namespace NTMiner.MinerClient {
 
         public string MainCoinWallet { get; set; }
 
+        public string MainCoinPoolDelay { get; set; }
+
         public string Kernel { get; set; }
 
         public string DualCoinCode { get; set; }
@@ -57,6 +59,8 @@ namespace NTMiner.MinerClient {
         public string DualCoinPool { get; set; }
 
         public string DualCoinWallet { get; set; }
+
+        public string DualCoinPoolDelay { get; set; }
 
         public int MainCoinTotalShare { get; set; }
 

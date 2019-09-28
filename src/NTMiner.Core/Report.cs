@@ -75,6 +75,9 @@ namespace NTMiner {
                 NoShareRestartKernelMinutes = root.MinerProfile.NoShareRestartKernelMinutes,
                 PeriodicRestartComputerHours = root.MinerProfile.PeriodicRestartComputerHours,
                 PeriodicRestartKernelHours = root.MinerProfile.PeriodicRestartKernelHours,
+                MainCoinPoolDelay = string.Empty,
+                DualCoinPoolDelay = string.Empty,
+                MinerIp = string.Empty,
                 GpuTable = root.GpusSpeed.Where(a => a.Gpu.Index != NTMinerRoot.GpuAllId).Select(a => new GpuSpeedData {
                     Index = a.Gpu.Index,
                     Name = a.Gpu.Name,
@@ -103,6 +106,9 @@ namespace NTMiner {
                 data.MainCoinWallet = coinProfile.Wallet;
                 if (root.PoolSet.TryGetPool(coinProfile.PoolId, out IPool mainCoinPool)) {
                     data.MainCoinPool = mainCoinPool.Server;
+                    if (root.IsMining) {
+                        data.MainCoinPoolDelay = root.PoolSet.GetPoolDelayText(mainCoinPool.GetId(), isDual: false);
+                    }
                     if (mainCoinPool.IsUserMode) {
                         IPoolProfile mainCoinPoolProfile = root.MinerProfile.GetPoolProfile(coinProfile.PoolId);
                         data.MainCoinWallet = mainCoinPoolProfile.UserName;
@@ -123,6 +129,9 @@ namespace NTMiner {
                                 data.DualCoinWallet = dualCoinProfile.DualCoinWallet;
                                 if (root.PoolSet.TryGetPool(dualCoinProfile.DualCoinPoolId, out IPool dualCoinPool)) {
                                     data.DualCoinPool = dualCoinPool.Server;
+                                    if (root.IsMining) {
+                                        data.DualCoinPoolDelay = root.PoolSet.GetPoolDelayText(dualCoinPool.GetId(), isDual: true);
+                                    }
                                     if (dualCoinPool.IsUserMode) {
                                         IPoolProfile dualCoinPoolProfile = root.MinerProfile.GetPoolProfile(dualCoinProfile.DualCoinPoolId);
                                         data.DualCoinWallet = dualCoinPoolProfile.UserName;

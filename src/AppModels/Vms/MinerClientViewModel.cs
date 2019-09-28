@@ -1017,6 +1017,22 @@ namespace NTMiner.Vms {
             }
         }
 
+        public string MainCoinPoolDelay {
+            get { return _data.MainCoinPoolDelay; }
+            set {
+                _data.MainCoinPoolDelay = value;
+                OnPropertyChanged(nameof(MainCoinPoolDelay));
+            }
+        }
+
+        public string DualCoinPoolDelay {
+            get { return _data.DualCoinPoolDelay; }
+            set {
+                _data.DualCoinPoolDelay = value;
+                OnPropertyChanged(nameof(DualCoinPoolDelay));
+            }
+        }
+
         public void RefreshGpusForeground(uint minTemp, uint maxTemp) {
             if (GpuTableVm == null) {
                 return;
