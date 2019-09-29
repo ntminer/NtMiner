@@ -329,7 +329,6 @@
 				</WrapPanel>
 			</StackPanel>
 		</StackPanel>
-		<GridSplitter Grid.Row="2" Grid.Column="0" BorderThickness="0 0 1 0" BorderBrush="{StaticResource LineColor}" VerticalAlignment="Stretch" HorizontalAlignment="Right" Width="6" Background="Transparent"></GridSplitter>
 		<Grid Grid.Row="2" Grid.Column="1" Background="{StaticResource MinerProfileBackground}">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="*"></RowDefinition>
