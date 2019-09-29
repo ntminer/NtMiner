@@ -669,6 +669,7 @@ namespace NTMiner.Vms {
             }
         }
 
+        [Description("自动重启内核")]
         public bool IsAutoRestartKernel {
             get => _isAutoRestartKernel;
             set {
@@ -680,6 +681,7 @@ namespace NTMiner.Vms {
             }
         }
 
+        [Description("无份额重启内核")]
         public bool IsNoShareRestartKernel {
             get => _isNoShareRestartKernel;
             set {
@@ -691,6 +693,7 @@ namespace NTMiner.Vms {
             }
         }
 
+        [Description("无份额重启电脑")]
         public bool IsNoShareRestartComputer {
             get { return _isNoShareRestartComputer; }
             set {
@@ -702,6 +705,7 @@ namespace NTMiner.Vms {
             }
         }
 
+        [Description("周期重启内核")]
         public bool IsPeriodicRestartKernel {
             get => _isPeriodicRestartKernel;
             set {
@@ -713,6 +717,7 @@ namespace NTMiner.Vms {
             }
         }
 
+        [Description("周期重启电脑")]
         public bool IsPeriodicRestartComputer {
             get => _isPeriodicRestartComputer;
             set {
@@ -724,6 +729,7 @@ namespace NTMiner.Vms {
             }
         }
 
+        [Description("矿池延时")]
         public bool MainCoinPoolDelay {
             get { return _mainCoinPoolDelay; }
             set {
@@ -735,6 +741,7 @@ namespace NTMiner.Vms {
             }
         }
 
+        [Description("双挖矿池延时")]
         public bool DualCoinPoolDelay {
             get { return _dualCoinPoolDelay; }
             set {
