@@ -87,7 +87,7 @@
 				<controls:KbSystemCloseButton Height="30" />
 			</WrapPanel>
 		</Grid>
-		<WrapPanel Grid.Row="1" Grid.Column="2" Background="#EEEEF2">
+		<WrapPanel Grid.Row="1" Grid.Column="1" Background="#EEEEF2">
 			<Menu>
 				<MenuItem Header="开挖" Padding="4" Margin="0 0 6 0" Command="{Binding StartMine}">
 					<MenuItem.Icon>
