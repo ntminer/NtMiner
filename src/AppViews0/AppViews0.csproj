@@ -131,6 +131,9 @@
     <Compile Include="Ucs\KernelInputSelect.xaml.cs">
       <DependentUpon>KernelInputSelect.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Ucs\MinerClientsToolBar.xaml.cs">
+      <DependentUpon>MinerClientsToolBar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Ucs\Property.xaml.cs">
       <DependentUpon>Property.xaml</DependentUpon>
     </Compile>
@@ -493,6 +496,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Ucs\KernelInputSelect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ucs\MinerClientsToolBar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

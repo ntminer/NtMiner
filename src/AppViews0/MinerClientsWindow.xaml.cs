@@ -95,25 +95,6 @@ namespace NTMiner.Views {
             Wpf.Util.ScrollViewer_PreviewMouseDown(sender, e);
         }
 
-        private void MenuItemWork_Click(object sender, RoutedEventArgs e) {
-            PopMineWork.IsOpen = !PopMineWork.IsOpen;
-        }
-
-        private void MenuItemGroup_Click(object sender, RoutedEventArgs e) {
-            PopMinerGroup.IsOpen = !PopMinerGroup.IsOpen;
-        }
-
-        private void PopupButton_Click(object sender, RoutedEventArgs e) {
-            PopMineWork.IsOpen = PopMinerGroup.IsOpen = PopUpgrade.IsOpen = false;
-        }
-
-        private void MenuItemUpgrade_Click(object sender, RoutedEventArgs e) {
-            OfficialServer.FileUrlService.GetNTMinerFilesAsync(NTMinerAppType.MinerClient, (ntMinerFiles, ex) => {
-                Vm.NTMinerFileList = (ntMinerFiles ?? new List<NTMinerFileData>()).OrderByDescending(a => a.GetVersion()).ToList();
-            });
-            PopUpgrade.IsOpen = !PopUpgrade.IsOpen;
-        }
-
         private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
             DataGrid dg = (DataGrid)sender;
             Point p = e.GetPosition(dg);
