@@ -1003,8 +1003,37 @@
 								<TextBlock Text="{Binding MainCoinRejectPercentText}" Foreground="{Binding MainCoinRejectPercentForeground}"></TextBlock>
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
-					</DataGridTemplateColumn>
-					<!--DualCoinCode-->
+                    </DataGridTemplateColumn>
+                    <!--MainCoinPoolDelay-->
+                    <DataGridTemplateColumn 
+						Visibility="{Binding Data.ColumnsShow.MainCoinPoolDelay,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+						IsReadOnly="True">
+                        <DataGridTemplateColumn.Header>
+                            <WrapPanel>
+                                <TextBlock>矿池延时</TextBlock>
+                                <controls:KbButton
+									ToolTip="不展示"
+									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+									CommandParameter="MainCoinPoolDelay"
+									Background="Transparent">
+                                    <WrapPanel>
+                                        <Path
+											Width="14"
+											Height="8"
+											Data="{StaticResource Icon_Hide}"
+											Fill="#FF5A5A5A"
+											Stretch="Fill" />
+                                    </WrapPanel>
+                                </controls:KbButton>
+                            </WrapPanel>
+                        </DataGridTemplateColumn.Header>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding MainCoinPoolDelay}"></TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <!--DualCoinCode-->
 					<DataGridTemplateColumn 
 						Visibility="{Binding Data.ColumnsShow.DualCoinCode,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 						IsReadOnly="True">
@@ -1135,8 +1164,37 @@
 								<TextBlock Text="{Binding DualCoinRejectPercentText}" Foreground="{Binding DualCoinRejectPercentForeground}"></TextBlock>
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
-					</DataGridTemplateColumn>
-					<!--TotalPowerText-->
+                    </DataGridTemplateColumn>
+                    <!--DualCoinPoolDelay-->
+                    <DataGridTemplateColumn 
+						Visibility="{Binding Data.ColumnsShow.DualCoinPoolDelay,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+						IsReadOnly="True">
+                        <DataGridTemplateColumn.Header>
+                            <WrapPanel>
+                                <TextBlock>矿池延时</TextBlock>
+                                <controls:KbButton
+									ToolTip="不展示"
+									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+									CommandParameter="DualCoinPoolDelay"
+									Background="Transparent">
+                                    <WrapPanel>
+                                        <Path
+											Width="14"
+											Height="8"
+											Data="{StaticResource Icon_Hide}"
+											Fill="#FF5A5A5A"
+											Stretch="Fill" />
+                                    </WrapPanel>
+                                </controls:KbButton>
+                            </WrapPanel>
+                        </DataGridTemplateColumn.Header>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding DualCoinPoolDelay}"></TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <!--TotalPowerText-->
 					<DataGridTemplateColumn 
 						Visibility="{Binding Data.ColumnsShow.TotalPowerText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 						IsReadOnly="True">

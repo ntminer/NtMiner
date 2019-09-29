@@ -80,6 +80,8 @@ namespace NTMiner.Vms {
         private bool _isNoShareRestartComputer;
         private bool _isPeriodicRestartKernel;
         private bool _isPeriodicRestartComputer;
+        private bool _mainCoinPoolDelay;
+        private bool _dualCoinPoolDelay;
 
         private List<ColumnItem> _columnItems = null;
         public List<ColumnItem> ColumnItems {
@@ -190,6 +192,8 @@ namespace NTMiner.Vms {
             _isNoShareRestartComputer = data.IsNoShareRestartComputer;
             _isPeriodicRestartKernel = data.IsPeriodicRestartKernel;
             _isPeriodicRestartComputer = data.IsPeriodicRestartComputer;
+            _mainCoinPoolDelay = data.MainCoinPoolDelay;
+            _dualCoinPoolDelay = data.DualCoinPoolDelay;
         }
 
         public bool IsPleaseSelect {
@@ -715,6 +719,28 @@ namespace NTMiner.Vms {
                 if (_isPeriodicRestartComputer != value) {
                     _isPeriodicRestartComputer = value;
                     OnPropertyChanged(nameof(IsPeriodicRestartComputer));
+                    UpdateColumnsShowAsync();
+                }
+            }
+        }
+
+        public bool MainCoinPoolDelay {
+            get { return _mainCoinPoolDelay; }
+            set {
+                if (_mainCoinPoolDelay != value) {
+                    _mainCoinPoolDelay = value;
+                    OnPropertyChanged(nameof(MainCoinPoolDelay));
+                    UpdateColumnsShowAsync();
+                }
+            }
+        }
+
+        public bool DualCoinPoolDelay {
+            get { return _dualCoinPoolDelay; }
+            set {
+                if (_dualCoinPoolDelay != value) {
+                    _dualCoinPoolDelay = value;
+                    OnPropertyChanged(nameof(DualCoinPoolDelay));
                     UpdateColumnsShowAsync();
                 }
             }

@@ -10,12 +10,14 @@ namespace NTMiner.MinerServer {
         bool MinerGroup  { get; }
         bool MainCoinCode  { get; }
         bool MainCoinSpeedText  { get; }
+        bool MainCoinPoolDelay { get; }
         bool GpuTableVm { get; }
         bool MainCoinWallet  { get; }
         bool MainCoinPool  { get; }
         bool Kernel  { get; }
         bool DualCoinCode  { get; }
         bool DualCoinSpeedText  { get; }
+        bool DualCoinPoolDelay { get; }
         bool DualCoinWallet  { get; }
         bool DualCoinPool  { get; }
         bool LastActivedOnText  { get; }

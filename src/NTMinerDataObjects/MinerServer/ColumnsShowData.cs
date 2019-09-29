@@ -46,7 +46,9 @@ namespace NTMiner.MinerServer {
             Version = true,
             WindowsLoginNameAndPassword = true,
             WindowsPassword = true,
-            Work = true
+            Work = true,
+            MainCoinPoolDelay = true,
+            DualCoinPoolDelay = true
         };
 
         public ColumnsShowData() { }
@@ -140,6 +142,10 @@ namespace NTMiner.MinerServer {
         public bool IsPeriodicRestartComputer { get; set; }
 
         public bool IsNoShareRestartComputer { get; set; }
+
+        public bool MainCoinPoolDelay { get; set; }
+
+        public bool DualCoinPoolDelay { get; set; }
 
         public StringBuilder GetSignData() {
             return this.BuildSign();
