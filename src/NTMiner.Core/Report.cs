@@ -78,26 +78,7 @@ namespace NTMiner {
                 MainCoinPoolDelay = string.Empty,
                 DualCoinPoolDelay = string.Empty,
                 MinerIp = string.Empty,
-                GpuTable = root.GpusSpeed.Where(a => a.Gpu.Index != NTMinerRoot.GpuAllId).Select(a => new GpuSpeedData {
-                    Index = a.Gpu.Index,
-                    Name = a.Gpu.Name,
-                    TotalMemory = a.Gpu.TotalMemory,
-                    MainCoinSpeed = a.MainCoinSpeed.Value,
-                    DualCoinSpeed = a.DualCoinSpeed.Value,
-                    AcceptShare = a.MainCoinSpeed.AcceptShare,
-                    FoundShare = a.MainCoinSpeed.FoundShare,
-                    RejectShare = a.MainCoinSpeed.RejectShare,
-                    FanSpeed = a.Gpu.FanSpeed,
-                    Temperature = a.Gpu.Temperature,
-                    PowerUsage = a.Gpu.PowerUsage,
-                    Cool = a.Gpu.Cool,
-                    PowerCapacity = a.Gpu.PowerCapacity,
-                    CoreClockDelta = a.Gpu.CoreClockDelta,
-                    MemoryClockDelta = a.Gpu.MemoryClockDelta,
-                    TempLimit = a.Gpu.TempLimit,
-                    CoreVoltage = a.Gpu.CoreVoltage,
-                    MemoryVoltage = a.Gpu.MemoryVoltage
-                }).ToArray()
+                GpuTable = root.GpusSpeed.Where(a => a.Gpu.Index != NTMinerRoot.GpuAllId).Select(a => a.ToGpuSpeedData()).ToArray()
             };
             #region 当前选中的币种是什么
             if (root.CoinSet.TryGetCoin(root.MinerProfile.CoinId, out ICoin mainCoin)) {
