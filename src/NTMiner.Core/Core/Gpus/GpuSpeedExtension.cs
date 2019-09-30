@@ -18,6 +18,7 @@ namespace NTMiner.Core.Gpus {
                 AcceptShare = data.MainCoinSpeed.AcceptShare,
                 FoundShare = data.MainCoinSpeed.FoundShare,
                 RejectShare = data.MainCoinSpeed.RejectShare,
+                IncorrectShare = data.MainCoinSpeed.IncorrectShare,
                 FanSpeed = data.Gpu.FanSpeed,
                 Temperature = data.Gpu.Temperature,
                 PowerUsage = data.Gpu.PowerUsage,

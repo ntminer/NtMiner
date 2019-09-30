@@ -10,7 +10,7 @@
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
 		d:DataContext="{d:DesignData Source=/Design/MinerClientViewModel.xaml}"
-		mc:Ignorable="d">
+		mc:Ignorable="d" d:DesignWidth="1200">
 	<UserControl.Resources>
 		<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
 			<Setter Property="Width" Value="130"></Setter>
@@ -320,8 +320,227 @@
 					IsReadOnly="True"
 					Text="{Binding MaxTempText, Mode=OneWay}"></TextBox>
 			</StackPanel>
-			<uc:GpuSpeedDataTable Grid.Column="1" HorizontalAlignment="Left" DataContext="{Binding GpuTableVm}"></uc:GpuSpeedDataTable>
-		</Grid>
+            <DataGrid 
+                Grid.Column="1" 
+                HorizontalAlignment="Left" 
+                DataContext="{Binding GpuTableVm}"
+			    ColumnHeaderHeight="32"
+			    MinRowHeight="24"
+			    IsReadOnly="True"
+			    Background="Transparent"
+			    ItemsSource="{Binding List}">
+                <DataGrid.Resources>
+                    <controls:BindingProxy x:Key="proxy2" Data="{Binding}" />
+                    <Style TargetType="DataGridColumnHeader">
+                        <Style.Resources>
+                            <ResourceDictionary />
+                        </Style.Resources>
+                        <Setter Property="UseLayoutRounding" Value="True" />
+                        <Setter Property="Foreground" Value="#FF5A5A5A" />
+                        <Setter Property="Background" Value="Transparent"></Setter>
+                        <Setter Property="FontWeight" Value="Bold"></Setter>
+                        <Setter Property="Focusable" Value="False"></Setter>
+                    </Style>
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="Foreground" Value="#FF666666" />
+                        <Setter Property="Background" Value="Transparent"></Setter>
+                    </Style>
+                </DataGrid.Resources>
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn MinWidth="40" Width="40" Header="编号" IsReadOnly="True">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <WrapPanel>
+                                    <TextBlock Text="GPU"></TextBlock>
+                                    <TextBlock Text="{Binding Index}"></TextBlock>
+                                </WrapPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn MinWidth="70" Width="Auto" Header="名称" IsReadOnly="True">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}"></TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="40" IsReadOnly="True">
+                        <DataGridTemplateColumn.Header>
+                            <TextBlock Text="显存?" ToolTip="'显存'可能显示为0，因为挖矿端自2.2.0.6开始提供改数据"></TextBlock>
+                        </DataGridTemplateColumn.Header>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding TotalMemoryGbText}"></TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="90" IsReadOnly="True">
+                        <DataGridTemplateColumn.Header>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Data.MainCoinCode, Source={StaticResource proxy2}}" FontSize="12"></TextBlock>
+                                <TextBlock Text="{Binding Data.MainCoinSpeedText, Source={StaticResource proxy2}}" FontSize="11"></TextBlock>
+                            </StackPanel>
+                        </DataGridTemplateColumn.Header>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding MainCoinSpeedText}"></TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="40" IsReadOnly="True">
+                        <DataGridTemplateColumn.Header>
+                            <TextBlock Text="拒绝?" ToolTip="'拒绝'，挖矿端自2.6.3开始提供改数据"></TextBlock>
+                        </DataGridTemplateColumn.Header>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding RejectShare}"></TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="40" IsReadOnly="True">
+                        <DataGridTemplateColumn.Header>
+                            <TextBlock Text="找到?" ToolTip="'找到'，挖矿端自2.6.3开始提供改数据"></TextBlock>
+                        </DataGridTemplateColumn.Header>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding FoundShare}"></TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="40" IsReadOnly="True">
+                        <DataGridTemplateColumn.Header>
+                            <TextBlock Text="无效?" ToolTip="'无效'，挖矿端自2.6.3开始提供改数据"></TextBlock>
+                        </DataGridTemplateColumn.Header>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding IncorrectShare}"></TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn 
+					    Width="90" IsReadOnly="True"
+					    Visibility="{Binding Data.DualCoinCode, Source={StaticResource proxy2}, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
+                        <DataGridTemplateColumn.Header>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Data.DualCoinCode, Source={StaticResource proxy2}}" FontSize="12"></TextBlock>
+                                <TextBlock Text="{Binding Data.DualCoinSpeedText, Source={StaticResource proxy2}}" FontSize="11"></TextBlock>
+                            </StackPanel>
+                        </DataGridTemplateColumn.Header>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding DualCoinSpeedText}"></TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="60" IsReadOnly="True">
+                        <DataGridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <TextBlock Text="功耗" FontSize="12"></TextBlock>
+                                    <TextBlock Text="{Binding Data.PowerUsageWText, Source={StaticResource proxy2}}" FontSize="11"></TextBlock>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.HeaderTemplate>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding PowerUsageWText}"></TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="50" IsReadOnly="True">
+                        <DataGridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="温度" FontSize="12"></TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.HeaderTemplate>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Foreground="{Binding TemperatureForeground}" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding TemperatureText}"></TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="风扇" Width="50" IsReadOnly="True">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding FanSpeedText}"></TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="70" IsReadOnly="True">
+                        <DataGridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="核心电压？" ToolTip="'核心电压'可能显示为0，因为挖矿端自2.6.0.0开始上报核心电压且只支持A卡" TextWrapping="Wrap" FontSize="12"></TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.HeaderTemplate>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding CoreVoltage}"></TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="70" IsReadOnly="True">
+                        <DataGridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="显存电压？" ToolTip="'显存电压'可能显示为0，因为挖矿端自2.6.0.0开始上报显存电压且只支持A卡" TextWrapping="Wrap" FontSize="12"></TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.HeaderTemplate>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding MemoryVoltage}"></TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="60" IsReadOnly="True">
+                        <DataGridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="超频功耗" TextWrapping="Wrap" FontSize="12"></TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.HeaderTemplate>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding PowerCapacityText}"></TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="70" IsReadOnly="True">
+                        <DataGridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="温度阈值？" ToolTip="'温度阈值'可能显示为0，因为挖矿端自2.2.0.6开始上报温度阈值" TextWrapping="Wrap" FontSize="12"></TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.HeaderTemplate>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding TempLimitText}"></TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="60" IsReadOnly="True">
+                        <DataGridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="超频核心" TextWrapping="Wrap" FontSize="12"></TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.HeaderTemplate>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding CoreClockDeltaMText}"></TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="60" IsReadOnly="True">
+                        <DataGridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="超频显存" TextWrapping="Wrap" FontSize="12"></TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.HeaderTemplate>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding MemoryClockDeltaMText}"></TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
 		<Border Style="{StaticResource RowLine}"></Border>
 		<WrapPanel Style="{StaticResource Row}">
 			<WrapPanel Style="{StaticResource Row}" Width="{StaticResource OneColWidth}">

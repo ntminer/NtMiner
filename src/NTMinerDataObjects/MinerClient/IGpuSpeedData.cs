@@ -13,6 +13,8 @@
 
         int RejectShare { get; }
 
+        int IncorrectShare { get; }
+
         double DualCoinSpeed { get; }
 
         int Temperature { get; }

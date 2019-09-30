@@ -930,7 +930,7 @@ namespace NTMiner.Vms {
 
         public GpuSpeedData[] GpuTable {
             get => _data.GpuTable;
-            set {
+            private set {
                 _data.GpuTable = value;
                 OnPropertyChanged(nameof(GpuTable));
                 OnPropertyChanged(nameof(TotalPower));

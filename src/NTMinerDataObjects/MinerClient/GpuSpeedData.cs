@@ -20,6 +20,8 @@
 
         public int RejectShare { get; set; }
 
+        public int IncorrectShare { get; set; }
+
         public double DualCoinSpeed { get; set; }
 
         public int Temperature { get; set; }
