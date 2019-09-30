@@ -78,6 +78,12 @@ namespace NTMiner.MinerClient {
 
         public string KernelCommandLine { get; set; }
 
+        public bool IsRejectOneGpuShare { get; set; }
+
+        public bool IsFoundOneGpuShare { get; set; }
+
+        public bool IsGotOneIncorrectGpuShare { get; set; }
+
         public GpuSpeedData[] GpuTable { get; set; }
     }
 }

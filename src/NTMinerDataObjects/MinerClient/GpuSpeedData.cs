@@ -36,5 +36,9 @@
         public int TempLimit { get; set; }
         public int CoreVoltage { get; set; }
         public int MemoryVoltage { get; set; }
+        public bool IsRejectOneGpuShare { get; set; }
+        public bool IsFoundOneGpuShare { get; set; }
+        public bool IsGotOneIncorrectGpuShare { get; set; }
+
     }
 }

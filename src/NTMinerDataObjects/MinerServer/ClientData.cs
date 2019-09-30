@@ -63,6 +63,9 @@ namespace NTMiner.MinerServer {
                 MainCoinPoolDelay = string.Empty,
                 DualCoinPoolDelay = string.Empty,
                 DiskSpace = string.Empty,
+                IsFoundOneGpuShare = false,
+                IsRejectOneGpuShare = false,
+                IsGotOneIncorrectGpuShare = false,
                 GpuTable = new GpuSpeedData[0]
             };
         }
@@ -118,7 +121,10 @@ namespace NTMiner.MinerServer {
                 ClientName = speedData.MinerName,
                 DiskSpace = speedData.DiskSpace,
                 MainCoinPoolDelay = speedData.MainCoinPoolDelay,
-                DualCoinPoolDelay = speedData.DualCoinPoolDelay
+                DualCoinPoolDelay = speedData.DualCoinPoolDelay,
+                IsFoundOneGpuShare = speedData.IsFoundOneGpuShare,
+                IsRejectOneGpuShare = speedData.IsRejectOneGpuShare,
+                IsGotOneIncorrectGpuShare = speedData.IsGotOneIncorrectGpuShare
             };
         }
 
@@ -162,7 +168,7 @@ namespace NTMiner.MinerServer {
                 _preDualCoinRejectShare = this.DualCoinRejectShare;
             }
             _preDualCoin = this.DualCoinCode;
-            
+
             this.ClientId = speedData.ClientId;
             this.IsAutoBoot = speedData.IsAutoBoot;
             this.IsAutoStart = speedData.IsAutoStart;
@@ -206,6 +212,9 @@ namespace NTMiner.MinerServer {
             this.GpuTable = speedData.GpuTable;
             this.MainCoinPoolDelay = speedData.MainCoinPoolDelay;
             this.DualCoinPoolDelay = speedData.DualCoinPoolDelay;
+            this.IsFoundOneGpuShare = speedData.IsFoundOneGpuShare;
+            this.IsRejectOneGpuShare = speedData.IsRejectOneGpuShare;
+            this.IsGotOneIncorrectGpuShare = speedData.IsGotOneIncorrectGpuShare;
         }
 
         public int GetMainCoinShareDelta(bool isPull) {
@@ -386,6 +395,12 @@ namespace NTMiner.MinerServer {
         public Guid GroupId { get; set; }
 
         public string KernelCommandLine { get; set; }
+
+        public bool IsRejectOneGpuShare { get; set; }
+
+        public bool IsFoundOneGpuShare { get; set; }
+
+        public bool IsGotOneIncorrectGpuShare { get; set; }
 
         public GpuSpeedData[] GpuTable { get; set; }
     }

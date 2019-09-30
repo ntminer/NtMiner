@@ -11,6 +11,9 @@ namespace NTMiner.Vms {
         private string _mainCoinSpeedText;
         private string _dualCoinSpeedText;
         private string _powerUsageWText;
+        private bool _isRejectOneGpuShare;
+        private bool _isFoundOneGpuShare;
+        private bool _isGotOneIncorrectGpuShare;
 
         public GpuSpeedDataViewModels() {
             if (!Design.IsInDesignMode) {
@@ -24,12 +27,18 @@ namespace NTMiner.Vms {
             string mainCoinTotalSpeedText,
             string dualCoinTotalSpeedText,
             string totalPowerText,
+            bool isRejectOneGpuShare,
+            bool isFoundOneGpuShare,
+            bool isGotOneIncorrectGpuShare,
             GpuSpeedData[] datas) {
             this._mainCoinCode = mainCoinCode;
             this._dualCoinCode = dualCoinCode;
             this._mainCoinSpeedText = mainCoinTotalSpeedText;
             this._dualCoinSpeedText = dualCoinTotalSpeedText;
             this._powerUsageWText = totalPowerText;
+            this._isRejectOneGpuShare = isRejectOneGpuShare;
+            this._isFoundOneGpuShare = isFoundOneGpuShare;
+            this._isGotOneIncorrectGpuShare = isGotOneIncorrectGpuShare;
             if (datas != null && datas.Length != 0) {
                 foreach (var data in datas) {
                     _gpuSpeeds.Add(new GpuSpeedDataViewModel(data));
@@ -70,6 +79,36 @@ namespace NTMiner.Vms {
             set {
                 _powerUsageWText = value;
                 OnPropertyChanged(nameof(PowerUsageWText));
+            }
+        }
+
+        public bool IsRejectOneGpuShare {
+            get => _isRejectOneGpuShare;
+            set {
+                if (value != _isRejectOneGpuShare) {
+                    _isRejectOneGpuShare = value;
+                    OnPropertyChanged(nameof(IsRejectOneGpuShare));
+                }
+            }
+        }
+
+        public bool IsFoundOneGpuShare {
+            get => _isFoundOneGpuShare;
+            set {
+                if (_isFoundOneGpuShare != value) {
+                    _isFoundOneGpuShare = value;
+                    OnPropertyChanged(nameof(IsFoundOneGpuShare));
+                }
+            }
+        }
+
+        public bool IsGotOneIncorrectGpuShare {
+            get => _isGotOneIncorrectGpuShare;
+            set {
+                if (_isGotOneIncorrectGpuShare != value) {
+                    _isGotOneIncorrectGpuShare = value;
+                    OnPropertyChanged(nameof(IsGotOneIncorrectGpuShare));
+                }
             }
         }
 

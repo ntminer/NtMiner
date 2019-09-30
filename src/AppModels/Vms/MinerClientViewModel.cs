@@ -935,7 +935,40 @@ namespace NTMiner.Vms {
                 OnPropertyChanged(nameof(MaxTemp));
                 OnPropertyChanged(nameof(MaxTempText));
                 OnPropertyChanged(nameof(GpuCount));
-                this.GpuTableVm = new GpuSpeedDataViewModels(MainCoinCode, DualCoinCode, MainCoinSpeedText, DualCoinSpeedText, TotalPowerText, value);
+                this.GpuTableVm = new GpuSpeedDataViewModels(
+                    MainCoinCode, DualCoinCode, MainCoinSpeedText, 
+                    DualCoinSpeedText, TotalPowerText,
+                    IsRejectOneGpuShare, IsFoundOneGpuShare, IsGotOneIncorrectGpuShare, value);
+            }
+        }
+
+        public bool IsRejectOneGpuShare {
+            get => _data.IsRejectOneGpuShare;
+            set {
+                if (value != _data.IsRejectOneGpuShare) {
+                    _data.IsRejectOneGpuShare = value;
+                    OnPropertyChanged(nameof(IsRejectOneGpuShare));
+                }
+            }
+        }
+
+        public bool IsFoundOneGpuShare {
+            get => _data.IsFoundOneGpuShare;
+            set {
+                if (_data.IsFoundOneGpuShare != value) {
+                    _data.IsFoundOneGpuShare = value;
+                    OnPropertyChanged(nameof(IsFoundOneGpuShare));
+                }
+            }
+        }
+
+        public bool IsGotOneIncorrectGpuShare {
+            get => _data.IsGotOneIncorrectGpuShare;
+            set {
+                if (_data.IsGotOneIncorrectGpuShare != value) {
+                    _data.IsGotOneIncorrectGpuShare = value;
+                    OnPropertyChanged(nameof(IsGotOneIncorrectGpuShare));
+                }
             }
         }
 

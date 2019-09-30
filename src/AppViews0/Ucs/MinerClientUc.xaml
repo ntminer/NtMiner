@@ -386,7 +386,9 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="40" IsReadOnly="True">
+                    <DataGridTemplateColumn 
+                        Width="40" IsReadOnly="True"
+                        Visibility="{Binding Data.IsRejectOneGpuShare,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}">
                         <DataGridTemplateColumn.Header>
                             <TextBlock Text="拒绝?" ToolTip="'拒绝'，挖矿端自2.6.6.3开始提供改数据"></TextBlock>
                         </DataGridTemplateColumn.Header>
@@ -396,7 +398,9 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="40" IsReadOnly="True">
+                    <DataGridTemplateColumn 
+                        Width="40" IsReadOnly="True"
+                        Visibility="{Binding Data.IsFoundOneGpuShare,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}">
                         <DataGridTemplateColumn.Header>
                             <TextBlock Text="找到?" ToolTip="'找到'，挖矿端自2.6.6.3开始提供改数据"></TextBlock>
                         </DataGridTemplateColumn.Header>
@@ -406,7 +410,9 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="40" IsReadOnly="True">
+                    <DataGridTemplateColumn 
+                        Width="40" IsReadOnly="True"
+                        Visibility="{Binding Data.IsGotOneIncorrectGpuShare,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}">
                         <DataGridTemplateColumn.Header>
                             <TextBlock Text="无效?" ToolTip="'无效'，挖矿端自2.6.6.3开始提供改数据"></TextBlock>
                         </DataGridTemplateColumn.Header>

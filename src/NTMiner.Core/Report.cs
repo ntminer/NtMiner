@@ -78,6 +78,9 @@ namespace NTMiner {
                 MainCoinPoolDelay = string.Empty,
                 DualCoinPoolDelay = string.Empty,
                 MinerIp = string.Empty,
+                IsFoundOneGpuShare = false,
+                IsGotOneIncorrectGpuShare = false,
+                IsRejectOneGpuShare = false,
                 GpuTable = root.GpusSpeed.Where(a => a.Gpu.Index != NTMinerRoot.GpuAllId).Select(a => a.ToGpuSpeedData()).ToArray()
             };
             #region 当前选中的币种是什么
@@ -101,6 +104,11 @@ namespace NTMiner {
                 if (root.CoinKernelSet.TryGetCoinKernel(coinProfile.CoinKernelId, out ICoinKernel coinKernel)) {
                     if (root.KernelSet.TryGetKernel(coinKernel.KernelId, out IKernel kernel)) {
                         data.Kernel = kernel.GetFullName();
+                        if (root.KernelOutputSet.TryGetKernelOutput(kernel.KernelOutputId, out IKernelOutput kernelOutput)) {
+                            data.IsFoundOneGpuShare = !string.IsNullOrEmpty(kernelOutput.FoundOneShare);
+                            data.IsGotOneIncorrectGpuShare = !string.IsNullOrEmpty(kernelOutput.GpuGotOneIncorrectShare);
+                            data.IsRejectOneGpuShare = !string.IsNullOrEmpty(kernelOutput.RejectOneShare);
+                        }
                         ICoinKernelProfile coinKernelProfile = root.MinerProfile.GetCoinKernelProfile(coinProfile.CoinKernelId);
                         data.IsDualCoinEnabled = coinKernelProfile.IsDualCoinEnabled;
                         if (coinKernelProfile.IsDualCoinEnabled) {
