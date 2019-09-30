@@ -130,6 +130,11 @@ namespace NTMiner.Vms {
         }
         #endregion
 
+        // 便于工具追踪代码
+        public void Update(IClientData data) {
+            EntityExtensions.Update(this, data);
+        }
+
         public AppContext.MineWorkViewModels MineWorkVms {
             get { return AppContext.Instance.MineWorkVms; }
         }
