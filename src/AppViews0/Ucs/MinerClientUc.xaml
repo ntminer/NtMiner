@@ -365,7 +365,7 @@
                     </DataGridTemplateColumn>
                     <DataGridTemplateColumn Width="40" IsReadOnly="True">
                         <DataGridTemplateColumn.Header>
-                            <TextBlock Text="显存?" ToolTip="'显存'可能显示为0，因为挖矿端自2.2.0.6开始提供改数据"></TextBlock>
+                            <TextBlock Text="显存?" ToolTip="'显存'可能显示为0，因为挖矿端自2.2.0.6开始提供该数据"></TextBlock>
                         </DataGridTemplateColumn.Header>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -390,7 +390,7 @@
                         Width="40" IsReadOnly="True"
                         Visibility="{Binding Data.IsRejectOneGpuShare,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}">
                         <DataGridTemplateColumn.Header>
-                            <TextBlock Text="拒绝?" ToolTip="'拒绝'，挖矿端自2.6.6.3开始提供改数据"></TextBlock>
+                            <TextBlock Text="拒绝?" ToolTip="'拒绝'，挖矿端自2.6.6.3开始提供该数据"></TextBlock>
                         </DataGridTemplateColumn.Header>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -402,7 +402,7 @@
                         Width="40" IsReadOnly="True"
                         Visibility="{Binding Data.IsFoundOneGpuShare,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}">
                         <DataGridTemplateColumn.Header>
-                            <TextBlock Text="找到?" ToolTip="'找到'，挖矿端自2.6.6.3开始提供改数据"></TextBlock>
+                            <TextBlock Text="找到?" ToolTip="'找到'，挖矿端自2.6.6.3开始提供该数据"></TextBlock>
                         </DataGridTemplateColumn.Header>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -414,7 +414,7 @@
                         Width="40" IsReadOnly="True"
                         Visibility="{Binding Data.IsGotOneIncorrectGpuShare,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}">
                         <DataGridTemplateColumn.Header>
-                            <TextBlock Text="无效?" ToolTip="'无效'，挖矿端自2.6.6.3开始提供改数据"></TextBlock>
+                            <TextBlock Text="无效?" ToolTip="'无效'，挖矿端自2.6.6.3开始提供该数据"></TextBlock>
                         </DataGridTemplateColumn.Header>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
