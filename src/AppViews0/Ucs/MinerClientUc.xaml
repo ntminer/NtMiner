@@ -388,7 +388,7 @@
                     </DataGridTemplateColumn>
                     <DataGridTemplateColumn Width="40" IsReadOnly="True">
                         <DataGridTemplateColumn.Header>
-                            <TextBlock Text="拒绝?" ToolTip="'拒绝'，挖矿端自2.6.3开始提供改数据"></TextBlock>
+                            <TextBlock Text="拒绝?" ToolTip="'拒绝'，挖矿端自2.6.6.3开始提供改数据"></TextBlock>
                         </DataGridTemplateColumn.Header>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -398,7 +398,7 @@
                     </DataGridTemplateColumn>
                     <DataGridTemplateColumn Width="40" IsReadOnly="True">
                         <DataGridTemplateColumn.Header>
-                            <TextBlock Text="找到?" ToolTip="'找到'，挖矿端自2.6.3开始提供改数据"></TextBlock>
+                            <TextBlock Text="找到?" ToolTip="'找到'，挖矿端自2.6.6.3开始提供改数据"></TextBlock>
                         </DataGridTemplateColumn.Header>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -408,7 +408,7 @@
                     </DataGridTemplateColumn>
                     <DataGridTemplateColumn Width="40" IsReadOnly="True">
                         <DataGridTemplateColumn.Header>
-                            <TextBlock Text="无效?" ToolTip="'无效'，挖矿端自2.6.3开始提供改数据"></TextBlock>
+                            <TextBlock Text="无效?" ToolTip="'无效'，挖矿端自2.6.6.3开始提供改数据"></TextBlock>
                         </DataGridTemplateColumn.Header>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
