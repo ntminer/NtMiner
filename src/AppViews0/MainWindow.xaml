@@ -94,7 +94,10 @@
 						                Stretch="Fill" />
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Header="品牌推广计划" Command="{x:Static app:AppStatic.ShowTagBrand}">
+                            <MenuItem 
+                                Header="品牌推广计划" 
+                                Command="{x:Static app:AppStatic.ShowTagBrand}"
+                                Visibility="{x:Static app:AppStatic.IsBrandSpecifiedCollapsed}">
                                 <MenuItem.Icon>
                                     <Path
 						                Width="14"
