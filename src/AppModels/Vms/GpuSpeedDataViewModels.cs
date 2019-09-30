@@ -1,9 +1,10 @@
 ﻿using NTMiner.MinerClient;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace NTMiner.Vms {
-    public class GpuSpeedDataViewModels : ViewModelBase {
+    public class GpuSpeedDataViewModels : ViewModelBase, IEnumerable<GpuSpeedDataViewModel> {
         private readonly List<GpuSpeedDataViewModel> _gpuSpeeds = new List<GpuSpeedDataViewModel>();
         private string _mainCoinCode;
         private string _dualCoinCode;
@@ -76,6 +77,14 @@ namespace NTMiner.Vms {
             get {
                 return _gpuSpeeds;
             }
+        }
+
+        public IEnumerator<GpuSpeedDataViewModel> GetEnumerator() {
+            return _gpuSpeeds.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator() {
+            return _gpuSpeeds.GetEnumerator();
         }
     }
 }

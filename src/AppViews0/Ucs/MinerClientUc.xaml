@@ -323,14 +323,13 @@
             <DataGrid 
                 Grid.Column="1" 
                 HorizontalAlignment="Left" 
-                DataContext="{Binding GpuTableVm}"
 			    ColumnHeaderHeight="32"
 			    MinRowHeight="24"
 			    IsReadOnly="True"
 			    Background="Transparent"
-			    ItemsSource="{Binding List}">
+			    ItemsSource="{Binding GpuTableVm}">
                 <DataGrid.Resources>
-                    <controls:BindingProxy x:Key="proxy2" Data="{Binding}" />
+                    <controls:BindingProxy x:Key="proxy" Data="{Binding GpuTableVm}" />
                     <Style TargetType="DataGridColumnHeader">
                         <Style.Resources>
                             <ResourceDictionary />
@@ -377,8 +376,8 @@
                     <DataGridTemplateColumn Width="90" IsReadOnly="True">
                         <DataGridTemplateColumn.Header>
                             <StackPanel>
-                                <TextBlock Text="{Binding Data.MainCoinCode, Source={StaticResource proxy2}}" FontSize="12"></TextBlock>
-                                <TextBlock Text="{Binding Data.MainCoinSpeedText, Source={StaticResource proxy2}}" FontSize="11"></TextBlock>
+                                <TextBlock Text="{Binding Data.MainCoinCode, Source={StaticResource proxy}}" FontSize="12"></TextBlock>
+                                <TextBlock Text="{Binding Data.MainCoinSpeedText, Source={StaticResource proxy}}" FontSize="11"></TextBlock>
                             </StackPanel>
                         </DataGridTemplateColumn.Header>
                         <DataGridTemplateColumn.CellTemplate>
@@ -419,11 +418,11 @@
                     </DataGridTemplateColumn>
                     <DataGridTemplateColumn 
 					    Width="90" IsReadOnly="True"
-					    Visibility="{Binding Data.DualCoinCode, Source={StaticResource proxy2}, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
+					    Visibility="{Binding Data.DualCoinCode, Source={StaticResource proxy}, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
                         <DataGridTemplateColumn.Header>
                             <StackPanel>
-                                <TextBlock Text="{Binding Data.DualCoinCode, Source={StaticResource proxy2}}" FontSize="12"></TextBlock>
-                                <TextBlock Text="{Binding Data.DualCoinSpeedText, Source={StaticResource proxy2}}" FontSize="11"></TextBlock>
+                                <TextBlock Text="{Binding Data.DualCoinCode, Source={StaticResource proxy}}" FontSize="12"></TextBlock>
+                                <TextBlock Text="{Binding Data.DualCoinSpeedText, Source={StaticResource proxy}}" FontSize="11"></TextBlock>
                             </StackPanel>
                         </DataGridTemplateColumn.Header>
                         <DataGridTemplateColumn.CellTemplate>
@@ -437,7 +436,7 @@
                             <DataTemplate>
                                 <StackPanel>
                                     <TextBlock Text="功耗" FontSize="12"></TextBlock>
-                                    <TextBlock Text="{Binding Data.PowerUsageWText, Source={StaticResource proxy2}}" FontSize="11"></TextBlock>
+                                    <TextBlock Text="{Binding Data.PowerUsageWText, Source={StaticResource proxy}}" FontSize="11"></TextBlock>
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.HeaderTemplate>
