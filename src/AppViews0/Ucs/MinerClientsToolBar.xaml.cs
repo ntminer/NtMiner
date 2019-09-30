@@ -27,7 +27,9 @@ namespace NTMiner.Views.Ucs {
 
         private void MenuItemUpgrade_Click(object sender, RoutedEventArgs e) {
             OfficialServer.FileUrlService.GetNTMinerFilesAsync(NTMinerAppType.MinerClient, (ntMinerFiles, ex) => {
-                Vm.NTMinerFileList = (ntMinerFiles ?? new List<NTMinerFileData>()).OrderByDescending(a => a.GetVersion()).ToList();
+                UIThread.Execute(() => {
+                    Vm.NTMinerFileList = (ntMinerFiles ?? new List<NTMinerFileData>()).OrderByDescending(a => a.GetVersion()).ToList();
+                });
             });
             PopUpgrade.IsOpen = !PopUpgrade.IsOpen;
         }
