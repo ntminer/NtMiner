@@ -33,8 +33,6 @@ namespace NTMiner.Vms {
         public ICommand StopMine { get; private set; }
         public ICommand Remove { get; private set; }
         public ICommand Refresh { get; private set; }
-        public ICommand OneKeyOverClock { get; private set; }
-        public ICommand OneKeyUpgrade { get; private set; }
 
         private readonly ClientData _data;
         #region ctor
@@ -48,12 +46,6 @@ namespace NTMiner.Vms {
             _data = clientData;
             RefreshMainCoinIncome();
             RefreshDualCoinIncome();
-            this.OneKeyOverClock = new DelegateCommand(() => {
-
-            });
-            this.OneKeyUpgrade = new DelegateCommand(() => {
-
-            });
             this.Remove = new DelegateCommand(() => {
                 this.ShowDialog(message: $"确定删除该矿机吗？", title: "确认", onYes: () => {
                     Server.ControlCenterService.RemoveClientsAsync(new List<string> { this.Id }, (response, e) => {
