@@ -1,10 +1,36 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace NTMiner {
     public static class SpecialPath {
-        public static readonly string NTMinerLocalJsonFileFullName = Path.Combine(VirtualRoot.HomeDirFullName, "local.json");
-        public static readonly string NTMinerServerJsonFileFullName = Path.Combine(VirtualRoot.HomeDirFullName, "server.json");
-        public static string GpuProfilesJsonFileFullName = Path.Combine(VirtualRoot.HomeDirFullName, "gpuProfiles.json");
+        private static readonly string _homeDirFullName;
+        public static readonly string NTMinerLocalJsonFileFullName;
+        public static readonly string NTMinerServerJsonFileFullName;
+        public static readonly string GpuProfilesJsonFileFullName;
+
+        static SpecialPath() {
+            string location = NTMinerRegistry.GetLocation();
+            if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
+                try {
+                    if (File.Exists(Path.Combine(Path.GetDirectoryName(location), "home.lock"))) {
+                        _homeDirFullName = Path.GetDirectoryName(location);
+                    }
+                    else {
+                        _homeDirFullName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "NTMiner");
+                    }
+                }
+                catch {
+                    _homeDirFullName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "NTMiner");
+                }
+            }
+            else {
+                _homeDirFullName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "NTMiner");
+            }
+            NTMinerLocalJsonFileFullName = Path.Combine(_homeDirFullName, "local.json");
+            NTMinerServerJsonFileFullName = Path.Combine(_homeDirFullName, "server.json");
+            GpuProfilesJsonFileFullName = Path.Combine(_homeDirFullName, "gpuProfiles.json");
+        }
+
         public static string ReadGpuProfilesJsonFile() {
             if (File.Exists(GpuProfilesJsonFileFullName)) {
                 return File.ReadAllText(GpuProfilesJsonFileFullName);
