@@ -197,7 +197,6 @@
     <Compile Include="Windows\UAC.cs" />
     <Compile Include="Windows\WAU.cs" />
     <Compile Include="Windows\Bios.cs" />
-    <Compile Include="Windows\DiskSpaceFlags.cs" />
     <Compile Include="Windows\OS.cs" />
     <Compile Include="Windows\Cpu.cs" />
     <Compile Include="Windows\Ram.cs" />
