@@ -225,7 +225,7 @@
 					Width="112"
                     Padding="0 0 20 0"
 					Background="{Binding IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
-					IsEnabled="{Binding IsMining, Converter={StaticResource BoolInvertConverter}}"
+					IsReadOnly="{Binding IsMining}"
 					VerticalContentAlignment="Center" 
 					Text="{Binding CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.PoolProfileVm.UserName}">
 				</TextBox>
