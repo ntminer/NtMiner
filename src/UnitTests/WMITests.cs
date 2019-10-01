@@ -4,7 +4,7 @@ using System.Collections;
 using System.Management;
 using System.Text;
 
-namespace UnitTestProject1 {
+namespace UnitTests {
     [TestClass]
     public class WMITests {
         [TestMethod]
