@@ -38,7 +38,7 @@
 						IsChecked="{Binding MinerProfile.IsAutoStart}" />
 				</WrapPanel>
 				<WrapPanel Grid.Column="1" HorizontalAlignment="Right">
-					<local:StartStopMineButton StartButtonBackground="Transparent" StartButtonForeground="Black">
+					<local:StartStopMineButton StartButtonBackground="Transparent" StartButtonForeground="Black" TextVisible="Collapsed">
 					</local:StartStopMineButton>
 					<StackPanel Height="28" Margin="2 -2 0 0" VerticalAlignment="Top">
 						<WrapPanel>
