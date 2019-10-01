@@ -9,7 +9,7 @@
 			 xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 			 xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 			 d:DataContext="{d:DesignData Source=/Design/StateBarViewModel.xaml}"
-			 mc:Ignorable="d" d:DesignWidth="800">
+			 mc:Ignorable="d" d:DesignWidth="1000">
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<Style x:Key="Lbl" TargetType="TextBlock">
@@ -316,7 +316,8 @@
                     <controls:KbButton 
 						Background="Transparent"
 						Margin="4 0 0 0"
-						ToolTip="打开IP设置"
+						ToolTip="管理本机 IP"
+                        Cursor="Hand"
                         Command="{x:Static app:AppStatic.ShowLocalIps}"
                         Foreground="{StaticResource LableColor}"
                         Content="{Binding LocalIps}"
