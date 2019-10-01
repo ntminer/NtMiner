@@ -23,7 +23,7 @@ namespace NTMiner.Notifications.Controls {
         /// The manager property.
         /// </summary>
         public static readonly DependencyProperty ManagerProperty =
-            DependencyProperty.Register("Manager", typeof(INotificationMessageManager), typeof(NotificationMessageContainer), new PropertyMetadata(null, ManagerPropertyChangedCallback));
+            DependencyProperty.Register(nameof(Manager), typeof(INotificationMessageManager), typeof(NotificationMessageContainer), new PropertyMetadata(null, ManagerPropertyChangedCallback));
 
         /// <summary>
         /// Managers the property changed callback.

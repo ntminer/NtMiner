@@ -10,6 +10,6 @@ namespace NTMiner.Controls {
         }
 
         public static readonly DependencyProperty IconColorProperty =
-            DependencyProperty.Register("IconColor", typeof(SolidColorBrush), typeof(KbRadioButton), new PropertyMetadata(new SolidColorBrush(Color.FromArgb(255, 255, 255, 255))));
+            DependencyProperty.Register(nameof(IconColor), typeof(SolidColorBrush), typeof(KbRadioButton), new PropertyMetadata(new SolidColorBrush(Color.FromArgb(255, 255, 255, 255))));
     }
 }

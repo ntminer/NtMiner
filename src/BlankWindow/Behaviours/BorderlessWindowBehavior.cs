@@ -222,7 +222,7 @@ namespace NTMiner.Behaviours {
             window.SetIsHitTestVisibleInChromeProperty<ContentControl>("PART_WindowButtonCommands");
         }
 
-        public static readonly DependencyProperty EnableDWMDropShadowProperty = DependencyProperty.Register("EnableDWMDropShadow", typeof(bool), typeof(BorderlessWindowBehavior), new PropertyMetadata(false));
+        public static readonly DependencyProperty EnableDWMDropShadowProperty = DependencyProperty.Register(nameof(EnableDWMDropShadow), typeof(bool), typeof(BorderlessWindowBehavior), new PropertyMetadata(false));
 
         public bool EnableDWMDropShadow {
             get { return (bool)GetValue(EnableDWMDropShadowProperty); }

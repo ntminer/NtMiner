@@ -8,6 +8,6 @@ namespace NTMiner.Controls {
         }
 
         public static readonly DependencyProperty KbDisplayLineProperty =
-            DependencyProperty.Register("KbDisplayLine", typeof(bool), typeof(KbLinkButton), new PropertyMetadata(true));
+            DependencyProperty.Register(nameof(KbDisplayLine), typeof(bool), typeof(KbLinkButton), new PropertyMetadata(true));
     }
 }

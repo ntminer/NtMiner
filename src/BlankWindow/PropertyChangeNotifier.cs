@@ -63,7 +63,7 @@ namespace NTMiner {
         /// Identifies the <see cref="Value"/> dependency property
         /// </summary>
         public static readonly DependencyProperty ValueProperty
-            = DependencyProperty.Register("Value", typeof(object), typeof(PropertyChangeNotifier),
+            = DependencyProperty.Register(nameof(Value), typeof(object), typeof(PropertyChangeNotifier),
                                           new FrameworkPropertyMetadata(null, new PropertyChangedCallback(OnPropertyChanged)));
 
         /// <summary>

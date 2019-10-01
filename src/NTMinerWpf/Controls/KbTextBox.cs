@@ -9,25 +9,25 @@ namespace NTMiner.Controls {
             set { SetValue(HintProperty, value); }
         }
         public static readonly DependencyProperty HintProperty =
-            DependencyProperty.Register("Hint", typeof(string), typeof(KbTextBox), new PropertyMetadata(""));
+            DependencyProperty.Register(nameof(Hint), typeof(string), typeof(KbTextBox), new PropertyMetadata(""));
         public CornerRadius CornerRadius {
             get { return (CornerRadius)GetValue(CornerRadiusProperty); }
             set { SetValue(CornerRadiusProperty, value); }
         }
         public static readonly DependencyProperty CornerRadiusProperty =
-            DependencyProperty.Register("CornerRadius", typeof(CornerRadius), typeof(KbTextBox), new PropertyMetadata(new CornerRadius(2)));
+            DependencyProperty.Register(nameof(CornerRadius), typeof(CornerRadius), typeof(KbTextBox), new PropertyMetadata(new CornerRadius(2)));
         public Geometry Icon {
             get { return (Geometry)GetValue(IconProperty); }
             set { SetValue(IconProperty, value); }
         }
         public static readonly DependencyProperty IconProperty =
-            DependencyProperty.Register("Icon", typeof(Geometry), typeof(KbTextBox), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(Icon), typeof(Geometry), typeof(KbTextBox), new PropertyMetadata(null));
         public bool ShowIcon {
             get { return (bool)GetValue(ShowIconProperty); }
             set { SetValue(ShowIconProperty, value); }
         }
         public static readonly DependencyProperty ShowIconProperty =
-            DependencyProperty.Register("ShowIcon", typeof(bool), typeof(KbTextBox), new PropertyMetadata(false));
+            DependencyProperty.Register(nameof(ShowIcon), typeof(bool), typeof(KbTextBox), new PropertyMetadata(false));
 
 
         public double IconWidth {
@@ -35,7 +35,7 @@ namespace NTMiner.Controls {
             set { SetValue(IconWidthProperty, value); }
         }
         public static readonly DependencyProperty IconWidthProperty =
-            DependencyProperty.Register("IconWidth", typeof(double), typeof(KbTextBox), new PropertyMetadata(15.0));
+            DependencyProperty.Register(nameof(IconWidth), typeof(double), typeof(KbTextBox), new PropertyMetadata(15.0));
 
 
         public double IconHeight {
@@ -43,7 +43,7 @@ namespace NTMiner.Controls {
             set { SetValue(IconHeightProperty, value); }
         }
         public static readonly DependencyProperty IconHeightProperty =
-            DependencyProperty.Register("IconHeight", typeof(double), typeof(KbTextBox), new PropertyMetadata(15.0));
+            DependencyProperty.Register(nameof(IconHeight), typeof(double), typeof(KbTextBox), new PropertyMetadata(15.0));
 
 
         public SolidColorBrush SelectedColor {
@@ -51,6 +51,6 @@ namespace NTMiner.Controls {
             set { SetValue(SelectedColorProperty, value); }
         }
         public static readonly DependencyProperty SelectedColorProperty =
-            DependencyProperty.Register("SelectedColor", typeof(SolidColorBrush), typeof(KbTextBox), new PropertyMetadata(new SolidColorBrush(Color.FromArgb(255, 124, 125, 133))));
+            DependencyProperty.Register(nameof(SelectedColor), typeof(SolidColorBrush), typeof(KbTextBox), new PropertyMetadata(new SolidColorBrush(Color.FromArgb(255, 124, 125, 133))));
     }
 }

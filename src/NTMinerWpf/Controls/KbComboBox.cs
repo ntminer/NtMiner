@@ -9,14 +9,14 @@ namespace NTMiner.Controls {
             set { SetValue(ToolbarProperty, value); }
         }
         public static readonly DependencyProperty ToolbarProperty =
-            DependencyProperty.Register("Toolbar", typeof(FrameworkElement), typeof(KbComboBox), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(Toolbar), typeof(FrameworkElement), typeof(KbComboBox), new PropertyMetadata(null));
 
         public ContextMenu ContextMenuEx {
             get { return (ContextMenu)GetValue(ContextMenuExProperty); }
             set { SetValue(ContextMenuExProperty, value); }
         }
         public static readonly DependencyProperty ContextMenuExProperty =
-            DependencyProperty.Register("ContextMenuEx", typeof(ContextMenu), typeof(KbComboBox), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(ContextMenuEx), typeof(ContextMenu), typeof(KbComboBox), new PropertyMetadata(null));
 
         protected override void OnPreviewMouseRightButtonDown(MouseButtonEventArgs e) {
             if (e.GetPosition(this).Y < this.ActualHeight) {
