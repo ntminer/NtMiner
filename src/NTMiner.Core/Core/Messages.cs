@@ -137,15 +137,6 @@ namespace NTMiner.Core {
     #endregion
 
     #region MineWork Messages
-    [MessageType(description: "作业设置变更后")]
-    public class MineWorkPropertyChangedEvent : EventBase {
-        public MineWorkPropertyChangedEvent(string propertyName) {
-            this.PropertyName = propertyName;
-        }
-
-        public string PropertyName { get; private set; }
-    }
-
     [MessageType(description: "添加工作")]
     public class AddMineWorkCommand : AddEntityCommand<IMineWork> {
         public AddMineWorkCommand(IMineWork input) : base(input) {
@@ -573,12 +564,6 @@ namespace NTMiner.Core {
     [MessageType(description: "添加了币组后")]
     public class CoinGroupAddedEvent : DomainEvent<ICoinGroup> {
         public CoinGroupAddedEvent(ICoinGroup source) : base(source) {
-        }
-    }
-
-    [MessageType(description: "更新了币组后")]
-    public class CoinGroupUpdatedEvent : DomainEvent<ICoinGroup> {
-        public CoinGroupUpdatedEvent(ICoinGroup source) : base(source) {
         }
     }
 

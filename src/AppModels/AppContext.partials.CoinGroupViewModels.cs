@@ -33,20 +33,6 @@ namespace NTMiner {
                             OnGroupPropertyChanged(coinGroupVm.GroupId);
                         }
                     });
-                EventPath<CoinGroupUpdatedEvent>("更新了币组后调整VM内存", LogEnum.DevConsole,
-                    action: (message) => {
-                        if (_dicById.ContainsKey(message.Source.GetId())) {
-                            CoinGroupViewModel entity = _dicById[message.Source.GetId()];
-                            int sortNumber = entity.SortNumber;
-                            entity.Update(message.Source);
-                            if (sortNumber != entity.SortNumber) {
-                                GroupViewModel groupVm;
-                                if (AppContext.Instance.GroupVms.TryGetGroupVm(entity.GroupId, out groupVm)) {
-                                    groupVm.OnPropertyChanged(nameof(groupVm.CoinGroupVms));
-                                }
-                            }
-                        }
-                    });
                 EventPath<CoinGroupRemovedEvent>("删除了币组后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         if (_dicById.ContainsKey(message.Source.GetId())) {

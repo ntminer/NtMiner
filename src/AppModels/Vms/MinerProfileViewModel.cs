@@ -190,10 +190,6 @@ namespace NTMiner.Vms {
                 action: message => {
                     OnPropertyChanged(message.PropertyName);
                 });
-            AppContext.EventPath<MineWorkPropertyChangedEvent>("MineWork设置变更后刷新VM内存", LogEnum.DevConsole,
-                action: message => {
-                    OnPropertyChanged(message.PropertyName);
-                });
 
             VirtualRoot.EventPath<LocalContextVmsReInitedEvent>("本地上下文视图模型集刷新后刷新界面", LogEnum.DevConsole,
                 action: message => {
@@ -687,6 +683,12 @@ namespace NTMiner.Vms {
             set {
                 _isMining = value;
                 OnPropertyChanged(nameof(IsMining));
+            }
+        }
+
+        public bool IsWorkerOrMining {
+            get {
+                return IsMining || IsWorker;
             }
         }
     }
