@@ -15,6 +15,32 @@ namespace NTMiner.Vms {
         private string _timeText;
         private string _dateText;
         private string _localIps;
+        private DateTime _now = DateTime.MinValue;
+        private string _cpuPerformanceText;
+        private string _cpuTemperatureText;
+
+
+        public ICommand ConfigControlCenterHost { get; private set; }
+        public ICommand WindowsAutoLogon { get; private set; }
+        public ICommand EnableWindowsRemoteDesktop { get; private set; }
+
+        public StateBarViewModel() {
+            if (Design.IsInDesignMode) {
+                return;
+            }
+            UpdateDateTime();
+            this.ConfigControlCenterHost = new DelegateCommand(() => {
+                VirtualRoot.Execute(new ShowControlCenterHostConfigCommand());
+            });
+            this.WindowsAutoLogon = new DelegateCommand(() => {
+                VirtualRoot.Execute(new EnableOrDisableWindowsAutoLoginCommand());
+            });
+            this.EnableWindowsRemoteDesktop = new DelegateCommand(() => {
+                VirtualRoot.Execute(new EnableWindowsRemoteDesktopCommand());
+            });
+            _localIps = GetLocalIps();
+            SetCheckUpdateForeground(isLatest: MainAssemblyInfo.CurrentVersion >= NTMinerRoot.ServerVersion);
+        }
 
         public bool IsAutoAdminLogon {
             get { return Windows.OS.Instance.IsAutoAdminLogon; }
@@ -59,7 +85,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        private DateTime _now = DateTime.MinValue;
         public void UpdateDateTime() {
             DateTime now = DateTime.Now;
             if (_now.Minute != now.Minute || _now == DateTime.MinValue) {
@@ -70,26 +95,24 @@ namespace NTMiner.Vms {
             }
         }
 
-        public ICommand ConfigControlCenterHost { get; private set; }
-        public ICommand WindowsAutoLogon { get; private set; }
-        public ICommand EnableWindowsRemoteDesktop { get; private set; }
-
-        public StateBarViewModel() {
-            if (Design.IsInDesignMode) {
-                return;
+        public string CpuPerformanceText {
+            get => _cpuPerformanceText;
+            set {
+                if (_cpuPerformanceText != value) {
+                    _cpuPerformanceText = value;
+                    OnPropertyChanged(nameof(CpuPerformanceText));
+                }
             }
-            UpdateDateTime();
-            this.ConfigControlCenterHost = new DelegateCommand(() => {
-                VirtualRoot.Execute(new ShowControlCenterHostConfigCommand());
-            });
-            this.WindowsAutoLogon = new DelegateCommand(() => {
-                VirtualRoot.Execute(new EnableOrDisableWindowsAutoLoginCommand());
-            });
-            this.EnableWindowsRemoteDesktop = new DelegateCommand(() => {
-                VirtualRoot.Execute(new EnableWindowsRemoteDesktopCommand());
-            });
-            _localIps = GetLocalIps();
-            SetCheckUpdateForeground(isLatest: MainAssemblyInfo.CurrentVersion >= NTMinerRoot.ServerVersion);
+        }
+
+        public string CpuTemperatureText {
+            get => _cpuTemperatureText;
+            set {
+                if (_cpuTemperatureText != value) {
+                    _cpuTemperatureText = value;
+                    OnPropertyChanged(nameof(CpuTemperatureText));
+                }
+            }
         }
 
         private string GetLocalIps() {

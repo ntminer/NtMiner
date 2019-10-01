@@ -107,8 +107,20 @@
 								Margin="0 -4 0 0" 
 								Padding="0" 
 								HorizontalAlignment="Left" />
-						</StackPanel>
-					</WrapPanel>
+                        </StackPanel>
+                        <Path
+							Margin="0 0 2 0"
+							Width="24"
+							Height="20"
+							Data="{StaticResource Icon_Cpu}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill">
+                        </Path>
+                        <StackPanel Margin="2 -2 0 0">
+                            <TextBlock Width="50" Text="{Binding CpuPerformanceText}" ToolTip="CPU使用率" Padding="0" HorizontalAlignment="Left" />
+                            <TextBlock Width="50" Text="{Binding CpuTemperatureText}" ToolTip="CPU温度" Margin="0 -4 0 0" Padding="0" HorizontalAlignment="Left" />
+                        </StackPanel>
+                    </WrapPanel>
 					<Path
 						Width="24"
 						Height="24"

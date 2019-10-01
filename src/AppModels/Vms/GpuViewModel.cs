@@ -303,7 +303,7 @@ namespace NTMiner.Vms {
 
         public string EChargeText {
             get {
-                return ECharge.ToString("f2") + "￥/天";
+                return ECharge.ToString("f1") + "￥/天";
             }
         }
 
