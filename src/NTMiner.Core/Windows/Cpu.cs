@@ -12,6 +12,13 @@ namespace NTMiner.Windows {
 
         // This stores the total number of logical cores in the processor
         private readonly int numberOfProcessors = Environment.ProcessorCount;
+        private readonly PerformanceCounter _cpuPerformanceCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
+
+        private Cpu() { }
+
+        public double GetPerformance() {
+            return _cpuPerformanceCounter.NextValue();
+        }
 
         private static bool _isFirstGetCpuId = true;
         private static string _cpuId;
@@ -131,7 +138,7 @@ namespace NTMiner.Windows {
         /// Gets processor info depending on what logical processor is chosen
         /// </summary>
         /// <param name="key">Value to get from a key</param>
-   //   /// <param name="specificLogicalProcessor">Which logical processor info is retrieved from. 0 represents the first core, etc.</param>
+        /// <param name="specificLogicalProcessor">Which logical processor info is retrieved from. 0 represents the first core, etc.</param>
         /// <returns>The key value</returns>
         private string RetrieveProcessorInfo(string key) //int specificLogicalProcessor)
         {
