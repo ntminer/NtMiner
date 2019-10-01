@@ -205,6 +205,7 @@
 					<Grid>
 						<TextBox 
 							Width="112"
+                            Padding="0 0 20 0"
 							Background="{Binding MinerProfile.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
 							IsReadOnly="{Binding MinerProfile.IsMining}"
 							VerticalContentAlignment="Center" 
@@ -212,15 +213,43 @@
 						</TextBox>
 						<Path
 							Margin="1 0"
-							Width="110"
+							Width="90"
 							Height="16"
 							HorizontalAlignment="Left"
 							Data="M98 480.86h829.99v63.79H98z"
 							Fill="{StaticResource ThemeBackground}"
 							Stretch="Fill"
 							Visibility="{Binding MinerProfile.CoinVm.CoinProfile.IsHideWallet, Converter={StaticResource BoolToVisibilityConverter}}" />
-					</Grid>
-				</WrapPanel>
+                    </Grid>
+                    <Grid Margin="-20 0 0 0">
+                        <controls:KbButton 
+					        ToolTip="显示用户名密码"
+					        Background="Transparent" BorderThickness="0"
+					        Command="{Binding MinerProfile.CoinVm.CoinProfile.ShowWallet}"
+					        HorizontalAlignment="Left">
+                            <Path
+						        Visibility="{Binding MinerProfile.CoinVm.CoinProfile.IsHideWallet, Converter={StaticResource BoolToVisibilityConverter}}"
+						        Width="16"
+						        Height="8"
+						        Data="{StaticResource Icon_CloseEye}"
+						        Fill="{StaticResource IconFillColor}"
+						        Stretch="Fill" />
+                        </controls:KbButton>
+                        <controls:KbButton 
+					        ToolTip="隐藏用户名密码"
+					        Background="Transparent" BorderThickness="0"
+					        Command="{Binding MinerProfile.CoinVm.CoinProfile.HideWallet}"
+					        HorizontalAlignment="Left">
+                            <Path
+						        Visibility="{Binding MinerProfile.CoinVm.CoinProfile.IsShowWallet, Converter={StaticResource BoolToVisibilityConverter}}"
+						        Width="16"
+						        Height="12"
+						        Data="{StaticResource Icon_OpenEye}"
+						        Fill="{StaticResource IconFillColor}"
+						        Stretch="Fill" />
+                        </controls:KbButton>
+                    </Grid>
+                </WrapPanel>
 			</Border>
 			<Border HorizontalAlignment="Left" Visibility="{Binding MinerProfile.CoinVm.CoinKernel.IsSupportPool1, Converter={StaticResource BoolToVisibilityConverter}}">
 				<WrapPanel Margin="0 0 0 4" Visibility="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool1.IsUserMode, Converter={StaticResource BoolToVisibilityConverter}}">

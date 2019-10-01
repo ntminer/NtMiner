@@ -222,7 +222,8 @@
 			<TextBlock Style="{StaticResource LblTb}" Text="用户名"></TextBlock>
 			<Grid>
 				<TextBox 
-					Width="136"
+					Width="112"
+                    Padding="0 0 20 0"
 					Background="{Binding IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
 					IsEnabled="{Binding IsMining, Converter={StaticResource BoolInvertConverter}}"
 					VerticalContentAlignment="Center" 
@@ -230,7 +231,7 @@
 				</TextBox>
 				<Path
 					Margin="1 0"
-					Width="134"
+					Width="90"
 					Height="16"
 					HorizontalAlignment="Left"
 					Data="M98 480.86h829.99v63.79H98z"
@@ -238,7 +239,7 @@
 					Stretch="Fill"
 					Visibility="{Binding CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.IsDualCoinHideWallet, Converter={StaticResource BoolToVisibilityConverter}}" />
 			</Grid>
-			<Grid>
+			<Grid Margin="-20 0 0 0">
 				<controls:KbButton 
 					ToolTip="显示用户名密码"
 					Background="Transparent" BorderThickness="0"
@@ -266,20 +267,6 @@
 						Stretch="Fill" />
 				</controls:KbButton>
 			</Grid>
-			<controls:KbButton
-				Margin="4 0 0 0"
-				Padding="2" 
-				ToolTip="复制钱包地址"
-				Background="Transparent" BorderThickness="0"
-				Command="{Binding CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.PoolProfileVm.CopyWallet}"
-				HorizontalAlignment="Left">
-				<Path
-					Width="14"
-					Height="14"
-					Data="{StaticResource Icon_Copy}"
-					Fill="{StaticResource IconFillColor}"
-					Stretch="Fill" />
-			</controls:KbButton>
 		</WrapPanel>
 	</StackPanel>
 </UserControl>
