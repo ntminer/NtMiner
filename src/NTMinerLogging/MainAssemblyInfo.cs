@@ -33,9 +33,16 @@ namespace NTMiner {
 
         static MainAssemblyInfo() {
             Assembly mainAssembly = Assembly.GetEntryAssembly();
-            CurrentVersion = mainAssembly.GetName().Version;
-            var description = (AssemblyDescriptionAttribute)mainAssembly.GetCustomAttributes(typeof(AssemblyDescriptionAttribute), inherit: false).FirstOrDefault();
-            CurrentVersionTag = description?.Description;
+            // 单元测试时为null
+            if (mainAssembly != null) {
+                CurrentVersion = mainAssembly.GetName().Version;
+                var description = (AssemblyDescriptionAttribute)mainAssembly.GetCustomAttributes(typeof(AssemblyDescriptionAttribute), inherit: false).FirstOrDefault();
+                CurrentVersionTag = description?.Description;
+                ServerJsonFileName = $"server{CurrentVersion.Major}.0.0.json";
+            }
+            else {
+                ServerJsonFileName = $"server2.0.0.json";
+            }
             if (!File.Exists(RootLockFileFullName)) {
                 if (File.Exists(RootConfigFileFullName)) {
                     HomeDirFullName = AppDomain.CurrentDomain.BaseDirectory;
@@ -54,7 +61,6 @@ namespace NTMiner {
                     HomeDirFullName = HomeDirFullName.Substring(0, HomeDirFullName.Length - 1);
                 }
             }
-            ServerJsonFileName = $"server{CurrentVersion.Major}.0.0.json";
             ServerVersionJsonFileFullName = Path.Combine(HomeDirFullName, ServerJsonFileName);
         }
 
