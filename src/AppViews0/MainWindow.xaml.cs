@@ -4,6 +4,7 @@ using NTMiner.Vms;
 using System;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -222,24 +223,55 @@ namespace NTMiner.Views {
                     }
                     Vm.RefreshDaemonStateBrush();
                 });
-            int cpuPerformance = 0;
-            int cpuTemperature = 0;
             this.EventPath<Per1SecondEvent>("每秒钟更新CPU使用率和温度", LogEnum.None,
                 action: message => {
-                    int performance = (int)Windows.Cpu.Instance.GetPerformance();
-                    int temperature = (int)Windows.Cpu.Instance.GetTemperature();
-                    if (cpuPerformance != performance) {
-                        cpuTemperature = performance;
-                        Vm.StateBarVm.CpuPerformanceText = performance.ToString() + " %";
-                    }
-                    if (cpuTemperature != temperature) {
-                        cpuTemperature = temperature;
-                        Vm.StateBarVm.CpuTemperatureText = temperature.ToString() + " ℃";
-                    }
+                    RefreshCpu();
                 });
 #if DEBUG
             Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
 #endif
+        }
+
+        private int cpuPerformance = 0;
+        private int cpuTemperature = 0;
+        private bool isFirstRefreshCpu = true;
+        private void RefreshCpu() {
+            if (isFirstRefreshCpu) {
+                isFirstRefreshCpu = false;
+                Task.Factory.StartNew(() => {
+#if DEBUG
+            Write.Stopwatch.Restart();
+#endif
+                    int performance = (int)Windows.Cpu.Instance.GetPerformance();
+                    // 因为初始化费时间
+                    int temperature = (int)Windows.Cpu.Instance.GetTemperature();
+#if DEBUG
+            Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.RefreshCpu");
+#endif
+                    UIThread.Execute(() => {
+                        if (cpuPerformance != performance) {
+                            cpuTemperature = performance;
+                            Vm.StateBarVm.CpuPerformanceText = performance.ToString() + " %";
+                        }
+                        if (cpuTemperature != temperature) {
+                            cpuTemperature = temperature;
+                            Vm.StateBarVm.CpuTemperatureText = temperature.ToString() + " ℃";
+                        }
+                    });
+                });
+            }
+            else {
+                int performance = (int)Windows.Cpu.Instance.GetPerformance();
+                int temperature = (int)Windows.Cpu.Instance.GetTemperature();
+                if (cpuPerformance != performance) {
+                    cpuTemperature = performance;
+                    Vm.StateBarVm.CpuPerformanceText = performance.ToString() + " %";
+                }
+                if (cpuTemperature != temperature) {
+                    cpuTemperature = temperature;
+                    Vm.StateBarVm.CpuTemperatureText = temperature.ToString() + " ℃";
+                }
+            }
         }
 
         private void ResetCursor() {
