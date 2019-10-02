@@ -59,45 +59,49 @@
 						</WrapPanel>
 					</StackPanel>
 					<WrapPanel VerticalAlignment="Center">
-						<Path
-							Margin="0 0 2 0"
-							Width="10"
-							Height="18"
-							Data="{StaticResource Icon_Temperature}"
-							Fill="{StaticResource IconFillColor}"
-							Stretch="Fill" />
+                        <Border Margin="0 0 2 0" ToolTip="显卡温度" Background="Transparent">
+                            <Path
+							    Width="10"
+							    Height="18"
+							    Data="{StaticResource Icon_Temperature}"
+							    Fill="{StaticResource IconFillColor}"
+							    Stretch="Fill" />
+                        </Border>
 						<StackPanel Margin="2 -2 0 0">
 							<TextBlock Width="50" Text="{Binding GpuVms.TemperatureMinText}" ToolTip="最低" Padding="0" HorizontalAlignment="Left" />
 							<TextBlock Width="50" Text="{Binding GpuVms.TemperatureMaxText}" ToolTip="最高" Margin="0 -4 0 0" Padding="0" HorizontalAlignment="Left" />
 						</StackPanel>
-						<Path
-							Margin="0 0 2 0"
-							Width="18"
-							Height="18"
-							Data="{StaticResource Icon_Fan}"
-							Fill="{StaticResource IconFillColor}"
-							Stretch="Fill">
-						</Path>
+                        <Border Margin="0 0 2 0" ToolTip="显卡风扇" Background="Transparent">
+                            <Path
+							    Width="18"
+							    Height="18"
+							    Data="{StaticResource Icon_Fan}"
+							    Fill="{StaticResource IconFillColor}"
+							    Stretch="Fill">
+                            </Path>
+                        </Border>
 						<StackPanel Margin="2 -2 0 0">
 							<TextBlock Width="50" Text="{Binding GpuVms.FanSpeedMinText}" ToolTip="最低" Padding="0" HorizontalAlignment="Left" />
 							<TextBlock Width="50" Text="{Binding GpuVms.FanSpeedMaxText}" ToolTip="最高" Margin="0 -4 0 0" Padding="0" HorizontalAlignment="Left" />
 						</StackPanel>
-						<Path
-							Margin="0 0 2 0"
-							Width="13"
-							Height="18"
-							Visibility="{Binding MinerProfile.IsEChargeEnabled,Converter={StaticResource BoolToVisibilityInvertConverter}}"
-							Data="{StaticResource Icon_Power}"
-							Fill="{StaticResource IconFillColor}"
-							Stretch="Fill" />
-						<Path
-							Margin="0 0 2 0"
-							Width="13"
-							Height="18"
-							Visibility="{Binding MinerProfile.IsEChargeEnabled,Converter={StaticResource BoolToVisibilityConverter}}"
-							Data="{StaticResource Icon_ECharge}"
-							Fill="{StaticResource IconFillColor}"
-							Stretch="Fill" />
+                        <Border Margin="0 0 2 0" ToolTip="显卡功耗" Background="Transparent">
+                            <Path
+							    Width="13"
+							    Height="18"
+							    Visibility="{Binding MinerProfile.IsEChargeEnabled,Converter={StaticResource BoolToVisibilityInvertConverter}}"
+							    Data="{StaticResource Icon_Power}"
+							    Fill="{StaticResource IconFillColor}"
+							    Stretch="Fill" />
+                        </Border>
+                        <Border Margin="0 0 2 0" ToolTip="显卡功耗" Background="Transparent">
+                            <Path
+							    Width="13"
+							    Height="18"
+							    Visibility="{Binding MinerProfile.IsEChargeEnabled,Converter={StaticResource BoolToVisibilityConverter}}"
+							    Data="{StaticResource Icon_ECharge}"
+							    Fill="{StaticResource IconFillColor}"
+							    Stretch="Fill" />
+                        </Border>
 						<StackPanel Margin="2 -2 0 0" VerticalAlignment="Center" ToolTip="可在'选项'页调整电价">
 							<TextBlock Width="60" Text="{Binding GpuStatusBarVm.GpuAllVm.PowerUsageWText}" Padding="0" HorizontalAlignment="Left" />
 							<TextBlock 
@@ -108,14 +112,15 @@
 								Padding="0" 
 								HorizontalAlignment="Left" />
                         </StackPanel>
-                        <Path
-							Margin="0 0 2 0"
-							Width="24"
-							Height="20"
-							Data="{StaticResource Icon_Cpu}"
-							Fill="{StaticResource IconFillColor}"
-							Stretch="Fill">
-                        </Path>
+                        <Border Margin="0 0 2 0" ToolTip="CPU" Background="Transparent">
+                            <Path
+							    Width="24"
+							    Height="20"
+							    Data="{StaticResource Icon_Cpu}"
+							    Fill="{StaticResource IconFillColor}"
+							    Stretch="Fill">
+                            </Path>
+                        </Border>
                         <StackPanel Margin="2 -2 0 0">
                             <TextBlock Width="50" Text="{Binding CpuPerformanceText}" ToolTip="CPU使用率" Padding="0" HorizontalAlignment="Left" />
                             <TextBlock Width="50" Text="{Binding CpuTemperatureText}" ToolTip="CPU温度" Margin="0 -4 0 0" Padding="0" HorizontalAlignment="Left" />
