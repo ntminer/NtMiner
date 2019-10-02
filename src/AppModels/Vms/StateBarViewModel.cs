@@ -16,8 +16,8 @@ namespace NTMiner.Vms {
         private string _dateText;
         private string _localIps;
         private DateTime _now = DateTime.MinValue;
-        private string _cpuPerformanceText;
-        private string _cpuTemperatureText;
+        private string _cpuPerformanceText = "0 %";
+        private string _cpuTemperatureText = "0 ℃";
 
 
         public ICommand ConfigControlCenterHost { get; private set; }

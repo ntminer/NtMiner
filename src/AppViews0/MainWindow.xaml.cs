@@ -222,6 +222,21 @@ namespace NTMiner.Views {
                     }
                     Vm.RefreshDaemonStateBrush();
                 });
+            int cpuPerformance = 0;
+            int cpuTemperature = 0;
+            this.EventPath<Per1SecondEvent>("每秒钟更新CPU使用率和温度", LogEnum.None,
+                action: message => {
+                    int performance = (int)Windows.Cpu.Instance.GetPerformance();
+                    int temperature = (int)Windows.Cpu.Instance.GetTemperature();
+                    if (cpuPerformance != performance) {
+                        cpuTemperature = performance;
+                        Vm.StateBarVm.CpuPerformanceText = performance.ToString() + " %";
+                    }
+                    if (cpuTemperature != temperature) {
+                        cpuTemperature = temperature;
+                        Vm.StateBarVm.CpuTemperatureText = temperature.ToString() + " ℃";
+                    }
+                });
 #if DEBUG
             Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
 #endif
