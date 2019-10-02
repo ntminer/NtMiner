@@ -159,7 +159,6 @@
     <Compile Include="Vms\MinerGroupViewModel.cs" />
     <Compile Include="Vms\MinerNamesSeterViewModel.cs" />
     <Compile Include="Vms\MinerProfileIndexViewModel.cs" />
-    <Compile Include="Vms\MinerStateViewModel.cs" />
     <Compile Include="Vms\MineWorkViewModel.cs" />
     <Compile Include="Vms\MinuteItem.cs" />
     <Compile Include="Vms\NTMinerUpdaterConfigViewModel.cs" />

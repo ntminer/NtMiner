@@ -7,17 +7,7 @@ namespace NTMiner.Vms {
     public class MainWindowViewModel : ViewModelBase {
         private string _serverJsonVersion;
         private readonly StateBarViewModel _stateBarVm = new StateBarViewModel();
-        private MinerStateViewModel _minerStateVm;
         private SolidColorBrush _daemonStateBrush;
-
-        public MinerStateViewModel MinerStateVm {
-            get {
-                if (_minerStateVm == null) {
-                    _minerStateVm = new MinerStateViewModel(_stateBarVm);
-                }
-                return _minerStateVm;
-            }
-        }
 
         public ICommand CustomTheme { get; private set; }
         public ICommand UseThisPcName { get; private set; }
