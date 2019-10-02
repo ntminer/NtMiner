@@ -11,7 +11,7 @@
 	<WrapPanel Height="28">
 		<Button
 			IsDefault="True"
-            ToolTip="开始挖矿"
+            ToolTip="尚未开始"
 			Command="{Binding StartMine}" 
 			Visibility="{Binding MinerProfile.IsMining, Converter={StaticResource BoolToVisibilityInvertConverter}}">
 			<Button.Template>
@@ -62,7 +62,7 @@
 		</Button>
 		<Button                        
 			Command="{Binding StopMine}" 
-            ToolTip="停止挖矿"
+            ToolTip="正在挖矿"
 			Visibility="{Binding MinerProfile.IsMining, Converter={StaticResource BoolToVisibilityConverter}}">
 			<Button.Template>
 				<ControlTemplate>
