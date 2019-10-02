@@ -13,11 +13,32 @@ namespace NTMiner.Windows {
         // This stores the total number of logical cores in the processor
         private readonly int numberOfProcessors = Environment.ProcessorCount;
         private readonly PerformanceCounter _cpuPerformanceCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
+        private HardwareProviders.CPU.Cpu[] _gpus = null;
+        private readonly object _cpusLocker = new object();
 
         private Cpu() { }
 
         public double GetPerformance() {
             return _cpuPerformanceCounter.NextValue();
+        }
+
+        public float GetTemperature() {
+            if (_gpus == null) {
+                lock (_cpusLocker) {
+                    if (_gpus == null) {
+                        _gpus = HardwareProviders.CPU.Cpu.Discover();
+                    }
+                }
+            }
+            else {
+                foreach (var cpu in _gpus) {
+                    cpu.Update();
+                }
+            }
+            foreach (var cpu in _gpus) {
+                return cpu.PackageTemperature.Value ?? 0.0f;
+            }
+            return 0.0f;
         }
 
         private static bool _isFirstGetCpuId = true;

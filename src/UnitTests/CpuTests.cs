@@ -19,9 +19,13 @@ namespace UnitTests {
         public void CpuTest2() {
             var cpus = Cpu.Discover();
 
-            foreach (var cpu in cpus) {
-                Print(cpu.CoreTemperatures);
-                Console.WriteLine(cpu.PackageTemperature.ToString());
+            for (int i = 0; i < 100; i++) {
+                foreach (var cpu in cpus) {
+                    cpu.Update();
+                    Console.WriteLine(cpu.PackageTemperature.ToString());
+                }
+                Console.WriteLine(NTMiner.Windows.Cpu.Instance.GetTemperature());
+                System.Threading.Thread.Sleep(10);
             }
         }
         private static void Print(Sensor[] sensors) {

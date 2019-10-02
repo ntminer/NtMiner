@@ -224,6 +224,14 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\HardwareProviders.CPU\HardwareProviders.CPU.csproj">
+      <Project>{7de56519-4fc8-4a72-a143-098acc4de53c}</Project>
+      <Name>HardwareProviders.CPU</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HardwareProviders\HardwareProviders.csproj">
+      <Project>{6cf39d75-a7d7-4546-b29a-888294dc3e38}</Project>
+      <Name>HardwareProviders</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NTMinerBus\NTMinerBus.csproj">
       <Project>{e17f278a-e393-403e-9d37-e371036d7a02}</Project>
       <Name>NTMinerBus</Name>
