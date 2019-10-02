@@ -6,6 +6,6 @@ namespace NTMiner.Core.Kernels {
         bool Contains(Guid kernelOutputTranslaterId);
         bool TryGetKernelOutputTranslater(Guid kernelOutputTranslaterId, out IKernelOutputTranslater kernelOutputTranslater);
         IEnumerable<IKernelOutputTranslater> GetKernelOutputTranslaters(Guid kernelOutputId);
-        void Translate(Guid kernelOutputId, ref string input, ref ConsoleColor color, bool isPre = false);
+        void Translate(IMineContext mineContext, ref string input, ref ConsoleColor color, bool isPre = false);
     }
 }

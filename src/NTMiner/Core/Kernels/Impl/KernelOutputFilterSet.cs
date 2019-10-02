@@ -152,16 +152,13 @@ namespace NTMiner.Core.Kernels.Impl {
             return regex;
         }
 
-        public void Filter(Guid kernelId, ref string input) {
+        public void Filter(IMineContext mineContext, ref string input) {
             try {
                 InitOnece();
                 if (string.IsNullOrEmpty(input)) {
                     return;
                 }
-                if (!_dicByKernelOutputId.ContainsKey(kernelId)) {
-                    return;
-                }
-                foreach (var kernelOutputFilter in _dicByKernelOutputId[kernelId]) {
+                foreach (var kernelOutputFilter in _dicByKernelOutputId[mineContext.KernelOutput.GetId()]) {
                     Regex regex = GetRegex(kernelOutputFilter);
                     if (regex == null) {
                         continue;
