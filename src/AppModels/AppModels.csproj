@@ -192,10 +192,6 @@
     <Compile Include="Vms\WalletViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NTMiner.Core\NTMiner.Core.csproj">
-      <Project>{85d052ab-44b8-46f3-9d7b-f624c24fd8ba}</Project>
-      <Name>NTMiner.Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\NTMinerBus\NTMinerBus.csproj">
       <Project>{e17f278a-e393-403e-9d37-e371036d7a02}</Project>
       <Name>NTMinerBus</Name>
@@ -219,6 +215,10 @@
     <ProjectReference Include="..\NTMinerWpf\NTMinerWpf.csproj">
       <Project>{dd8e010e-d5e9-47cf-9cb4-8dc6e13d483d}</Project>
       <Name>NTMinerWpf</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NTMiner\NTMiner.csproj">
+      <Project>{85d052ab-44b8-46f3-9d7b-f624c24fd8ba}</Project>
+      <Name>NTMiner</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
