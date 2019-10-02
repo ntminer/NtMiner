@@ -162,15 +162,15 @@ namespace NTMiner.Core.Kernels.Impl {
                 PickGpuSpeed(_root, mineContext.UseDevices, line, kernelOutput, coin, isDual);
                 PickTotalShare(_root, line, kernelOutput, coin, isDual);
                 PickAcceptShare(_root, line, kernelOutput, coin, isDual);
-                PickAcceptOneShare(_root, line, _preline, kernelOutput, coin, isDual);
+                PickAcceptOneShare(_root, mineContext.UseDevices, line, _preline, kernelOutput, coin, isDual);
                 PickRejectPattern(_root, line, kernelOutput, coin, isDual);
-                PickRejectOneShare(_root, line, _preline, kernelOutput, coin, isDual);
+                PickRejectOneShare(_root, mineContext.UseDevices, line, _preline, kernelOutput, coin, isDual);
                 PickRejectPercent(_root, line, kernelOutput, coin, isDual);
                 PickPoolDelay(line, kernelOutput, isDual, poolId);
                 if (!isDual) {
                     // 决定不支持双挖的单卡份额统计
-                    PicFoundOneShare(_root, line, _preline, kernelOutput);
-                    PicGotOneIncorrectShare(_root, line, _preline, kernelOutput);
+                    PicFoundOneShare(_root, mineContext.UseDevices, line, _preline, kernelOutput);
+                    PicGotOneIncorrectShare(_root, mineContext.UseDevices, line, _preline, kernelOutput);
                 }
                 // 如果是像BMiner那样的主币和双挖币的输出在同一行那样的模式则一行输出既要视为主币又要视为双挖币
                 if (isDual && kernelOutput.IsDualInSameLine) {
@@ -180,9 +180,9 @@ namespace NTMiner.Core.Kernels.Impl {
                     PickGpuSpeed(_root, mineContext.UseDevices, line, kernelOutput, coin, isDual);
                     PickTotalShare(_root, line, kernelOutput, coin, isDual);
                     PickAcceptShare(_root, line, kernelOutput, coin, isDual);
-                    PickAcceptOneShare(_root, line, _preline, kernelOutput, coin, isDual);
+                    PickAcceptOneShare(_root, mineContext.UseDevices, line, _preline, kernelOutput, coin, isDual);
                     PickRejectPattern(_root, line, kernelOutput, coin, isDual);
-                    PickRejectOneShare(_root, line, _preline, kernelOutput, coin, isDual);
+                    PickRejectOneShare(_root, mineContext.UseDevices, line, _preline, kernelOutput, coin, isDual);
                     PickRejectPercent(_root, line, kernelOutput, coin, isDual);
                     PickPoolDelay(line, kernelOutput, isDual, poolId);
                 }
@@ -297,14 +297,8 @@ namespace NTMiner.Core.Kernels.Impl {
                         }
                     }
                     if (kernelOutput.IsOffset) {
-                        if (useDevices.Length != root.GpuSet.Count) {
-                            int n = 0;
-                            for (int j = 0; j < gpu; j++) {
-                                if (!useDevices.Contains(j)) {
-                                    n++;
-                                }
-                            }
-                            gpu += n;
+                        if (useDevices.Length != 0 && useDevices.Length != root.GpuSet.Count && gpu < useDevices.Length) {
+                            gpu = useDevices[gpu];
                         }
                     }
                     if (double.TryParse(gpuSpeedText, out double gpuSpeed)) {
@@ -358,9 +352,6 @@ namespace NTMiner.Core.Kernels.Impl {
             }
             var match = Regex.Match(input, acceptSharePattern, RegexOptions.Compiled);
             if (match.Success) {
-                if (!isDual) {
-
-                }
                 string acceptShareText = match.Groups[Consts.AcceptShareGroupName].Value;
                 int acceptShare;
                 if (int.TryParse(acceptShareText, out acceptShare)) {
@@ -371,7 +362,7 @@ namespace NTMiner.Core.Kernels.Impl {
         #endregion
 
         #region PicFoundOneShare
-        private static void PicFoundOneShare(INTMinerRoot root, string input, string preline, IKernelOutput kernelOutput) {
+        private static void PicFoundOneShare(INTMinerRoot root, int[] useDevices, string input, string preline, IKernelOutput kernelOutput) {
             string foundOneShare = kernelOutput.FoundOneShare;
             if (string.IsNullOrEmpty(foundOneShare)) {
                 return;
@@ -384,6 +375,11 @@ namespace NTMiner.Core.Kernels.Impl {
                 string gpuText = match.Groups[Consts.GpuIndexGroupName].Value;
                 if (!string.IsNullOrEmpty(gpuText)) {
                     if (int.TryParse(gpuText, out int gpuIndex)) {
+                        if (kernelOutput.IsOffset) {
+                            if (useDevices.Length != 0 && useDevices.Length != root.GpuSet.Count && gpuIndex < useDevices.Length) {
+                                gpuIndex = useDevices[gpuIndex];
+                            }
+                        }
                         root.GpusSpeed.IncreaseFoundShare(gpuIndex);
                     }
                 }
@@ -392,7 +388,7 @@ namespace NTMiner.Core.Kernels.Impl {
         #endregion
 
         #region PicGotOneIncorrectShare
-        private static void PicGotOneIncorrectShare(INTMinerRoot root, string input, string preline, IKernelOutput kernelOutput) {
+        private static void PicGotOneIncorrectShare(INTMinerRoot root, int[] useDevices, string input, string preline, IKernelOutput kernelOutput) {
             string pattern = kernelOutput.GpuGotOneIncorrectShare;
             if (string.IsNullOrEmpty(pattern)) {
                 return;
@@ -405,6 +401,11 @@ namespace NTMiner.Core.Kernels.Impl {
                 string gpuText = match.Groups[Consts.GpuIndexGroupName].Value;
                 if (!string.IsNullOrEmpty(gpuText)) {
                     if (int.TryParse(gpuText, out int gpuIndex)) {
+                        if (kernelOutput.IsOffset) {
+                            if (useDevices.Length != 0 && useDevices.Length != root.GpuSet.Count && gpuIndex < useDevices.Length) {
+                                gpuIndex = useDevices[gpuIndex];
+                            }
+                        }
                         root.GpusSpeed.IncreaseIncorrectShare(gpuIndex);
                     }
                 }
@@ -413,7 +414,7 @@ namespace NTMiner.Core.Kernels.Impl {
         #endregion
 
         #region PickAcceptOneShare
-        private static void PickAcceptOneShare(INTMinerRoot root, string input, string preline, IKernelOutput kernelOutput, ICoin coin, bool isDual) {
+        private static void PickAcceptOneShare(INTMinerRoot root, int[] useDevices, string input, string preline, IKernelOutput kernelOutput, ICoin coin, bool isDual) {
             string acceptOneShare = kernelOutput.AcceptOneShare;
             if (isDual) {
                 acceptOneShare = kernelOutput.DualAcceptOneShare;
@@ -431,6 +432,11 @@ namespace NTMiner.Core.Kernels.Impl {
                     string gpuText = match.Groups[Consts.GpuIndexGroupName].Value;
                     if (!string.IsNullOrEmpty(gpuText)) {
                         if (int.TryParse(gpuText, out int gpuIndex)) {
+                            if (kernelOutput.IsOffset) {
+                                if (useDevices.Length != 0 && useDevices.Length != root.GpuSet.Count && gpuIndex < useDevices.Length) {
+                                    gpuIndex = useDevices[gpuIndex];
+                                }
+                            }
                             if (string.IsNullOrEmpty(kernelOutput.FoundOneShare)) {
                                 root.GpusSpeed.IncreaseFoundShare(gpuIndex);
                             }
@@ -466,7 +472,7 @@ namespace NTMiner.Core.Kernels.Impl {
         #endregion
 
         #region PickRejectOneShare
-        private static void PickRejectOneShare(INTMinerRoot root, string input, string preline, IKernelOutput kernelOutput, ICoin coin, bool isDual) {
+        private static void PickRejectOneShare(INTMinerRoot root, int[] useDevices, string input, string preline, IKernelOutput kernelOutput, ICoin coin, bool isDual) {
             string rejectOneShare = kernelOutput.RejectOneShare;
             if (isDual) {
                 rejectOneShare = kernelOutput.DualRejectOneShare;
@@ -484,6 +490,11 @@ namespace NTMiner.Core.Kernels.Impl {
                     string gpuText = match.Groups[Consts.GpuIndexGroupName].Value;
                     if (!string.IsNullOrEmpty(gpuText)) {
                         if (int.TryParse(gpuText, out int gpuIndex)) {
+                            if (kernelOutput.IsOffset) {
+                                if (useDevices.Length != 0 && useDevices.Length != root.GpuSet.Count && gpuIndex < useDevices.Length) {
+                                    gpuIndex = useDevices[gpuIndex];
+                                }
+                            }
                             if (string.IsNullOrEmpty(kernelOutput.FoundOneShare)) {
                                 root.GpusSpeed.IncreaseFoundShare(gpuIndex);
                             }
