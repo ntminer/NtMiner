@@ -159,7 +159,7 @@ namespace NTMiner.Core.Kernels.Impl {
                 }
                 // 这些方法输出的是事件消息
                 PickTotalSpeed(_root, line, kernelOutput, coin, isDual);
-                PickGpuSpeed(line, kernelOutput, coin, isDual);
+                PickGpuSpeed(_root, mineContext.UseDevices, line, kernelOutput, coin, isDual);
                 PickTotalShare(_root, line, kernelOutput, coin, isDual);
                 PickAcceptShare(_root, line, kernelOutput, coin, isDual);
                 PickAcceptOneShare(_root, line, _preline, kernelOutput, coin, isDual);
@@ -177,7 +177,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     coin = mineContext.MainCoin;
                     isDual = false;
                     PickTotalSpeed(_root, line, kernelOutput, coin, isDual);
-                    PickGpuSpeed(line, kernelOutput, coin, isDual);
+                    PickGpuSpeed(_root, mineContext.UseDevices, line, kernelOutput, coin, isDual);
                     PickTotalShare(_root, line, kernelOutput, coin, isDual);
                     PickAcceptShare(_root, line, kernelOutput, coin, isDual);
                     PickAcceptOneShare(_root, line, _preline, kernelOutput, coin, isDual);
@@ -257,7 +257,7 @@ namespace NTMiner.Core.Kernels.Impl {
         #endregion
 
         #region PickGpuSpeed
-        private static void PickGpuSpeed(string input, IKernelOutput kernelOutput, ICoin coin, bool isDual) {
+        private static void PickGpuSpeed(INTMinerRoot root, int[] useDevices, string input, IKernelOutput kernelOutput, ICoin coin, bool isDual) {
             string gpuSpeedPattern = kernelOutput.GpuSpeedPattern;
             if (isDual) {
                 gpuSpeedPattern = kernelOutput.DualGpuSpeedPattern;
@@ -296,8 +296,18 @@ namespace NTMiner.Core.Kernels.Impl {
                             }
                         }
                     }
-                    double gpuSpeed;
-                    if (double.TryParse(gpuSpeedText, out gpuSpeed)) {
+                    if (kernelOutput.IsOffset) {
+                        if (useDevices.Length != root.GpuSet.Count) {
+                            int n = 0;
+                            for (int j = 0; j < gpu; j++) {
+                                if (!useDevices.Contains(j)) {
+                                    n++;
+                                }
+                            }
+                            gpu += n;
+                        }
+                    }
+                    if (double.TryParse(gpuSpeedText, out double gpuSpeed)) {
                         double gpuSpeedL = gpuSpeed.FromUnitSpeed(gpuSpeedUnit);
                         gpuSpeeds.SetCurrentSpeed(gpu, gpuSpeedL, isDual, now);
                     }

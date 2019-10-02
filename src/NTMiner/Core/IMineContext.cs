@@ -21,5 +21,6 @@ namespace NTMiner.Core {
         Dictionary<string, string> Parameters { get; }
         Dictionary<Guid, string> Fragments { get; }
         Dictionary<Guid, string> FileWriters { get; }
+        int[] UseDevices { get; }
     }
 }

@@ -18,7 +18,8 @@ namespace NTMiner {
                 string commandLine,
                 Dictionary<string, string> parameters,
                 Dictionary<Guid, string> fragments,
-                Dictionary<Guid, string> fileWriters) {
+                Dictionary<Guid, string> fileWriters,
+                int[] useDevices) {
                 this.Fragments = fragments;
                 this.FileWriters = fileWriters;
                 this.Id = Guid.NewGuid();
@@ -34,6 +35,7 @@ namespace NTMiner {
                 this.CommandLine = commandLine ?? string.Empty;
                 this.CreatedOn = DateTime.Now;
                 this.Parameters = parameters;
+                this.UseDevices = useDevices;
                 string logFileName;
                 if (this.CommandLine.Contains("{logfile}")) {
                     this.KernelProcessType = KernelProcessType.Logfile;
@@ -79,6 +81,8 @@ namespace NTMiner {
             public Dictionary<Guid, string> Fragments { get; private set; }
 
             public Dictionary<Guid, string> FileWriters { get; private set; }
+
+            public int[] UseDevices { get; private set; }
         }
         #endregion
 
@@ -92,7 +96,8 @@ namespace NTMiner {
                 double dualCoinWeight,
                 Dictionary<string, string> parameters,
                 Dictionary<Guid, string> fragments,
-                Dictionary<Guid, string> fileWriters) : base(
+                Dictionary<Guid, string> fileWriters,
+                int[] useDevices) : base(
                     mineContext.IsRestart,
                     mineContext.MinerName,
                     mineContext.MainCoin,
@@ -103,7 +108,8 @@ namespace NTMiner {
                     mineContext.CommandLine,
                     parameters,
                     fragments,
-                    fileWriters) {
+                    fileWriters,
+                    useDevices) {
                 this.DualCoin = dualCoin;
                 this.DualCoinPool = dualCoinPool;
                 this.DualCoinWallet = dualCoinWallet;

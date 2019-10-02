@@ -175,8 +175,8 @@ namespace NTMiner {
         private string GetDevicesArgs(IKernelInput kernelInput) {
             string devicesArgs = string.Empty;
             if (!string.IsNullOrWhiteSpace(kernelInput.DevicesArg)) {
-                List<int> useDevices = this.GpuSet.GetUseDevices();
-                if ((useDevices.Count != 0 && useDevices.Count != GpuSet.Count) || kernelInput.IsDeviceAllNotEqualsNone) {
+                int[] useDevices = this.GpuSet.GetUseDevices();
+                if ((useDevices.Length != 0 && useDevices.Length != GpuSet.Count) || kernelInput.IsDeviceAllNotEqualsNone) {
                     string separator = kernelInput.DevicesSeparator;
                     // 因为空格在界面上不易被人读取所以以关键字代替空格
                     if (kernelInput.DevicesSeparator == Consts.SpaceKeyword) {

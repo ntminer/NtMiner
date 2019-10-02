@@ -8,12 +8,12 @@ namespace NTMiner.Core.Gpus {
             if (gpuIndex < 0 || gpuIndex >= gpuSet.Count) {
                 return false;
             }
-            List<int> devices = GetUseDevices(gpuSet);
+            List<int> devices = GetUseDevices(gpuSet).ToList();
             return devices.Contains(gpuIndex);
         }
 
         public static void SetIsUseDevice(this IGpuSet gpuSet, int gpuIndex, bool isUse) {
-            List<int> devices = GetUseDevices(gpuSet);
+            List<int> devices = GetUseDevices(gpuSet).ToList();
             if (!isUse) {
                 devices.Remove(gpuIndex);
             }
@@ -24,7 +24,7 @@ namespace NTMiner.Core.Gpus {
             SetUseDevices(gpuSet, devices);
         }
 
-        public static List<int> GetUseDevices(this IGpuSet gpuSet) {
+        public static int[] GetUseDevices(this IGpuSet gpuSet) {
             List<int> list = new List<int>();
             if (NTMinerRoot.Instance.LocalAppSettingSet.TryGetAppSetting("UseDevices", out IAppSetting setting) && setting.Value != null) {
                 string[] parts = setting.Value.ToString().Split(',');
@@ -42,7 +42,7 @@ namespace NTMiner.Core.Gpus {
                     list.Add(gpu.Index);
                 }
             }
-            return list;
+            return list.ToArray();
         }
 
         private static void SetUseDevices(IGpuSet gpuSet, List<int> gpuIndexes) {

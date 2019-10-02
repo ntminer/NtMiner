@@ -699,8 +699,8 @@ namespace NTMiner.Vms {
         public bool IsDeviceArgInclude {
             get => NTMinerRoot.Instance.GpuSet.GetIsUseDevice(this.Index);
             set {
-                List<int> old = NTMinerRoot.Instance.GpuSet.GetUseDevices();
-                bool refreshAllGpu = !value && old.Count <= 1;
+                int[] old = NTMinerRoot.Instance.GpuSet.GetUseDevices();
+                bool refreshAllGpu = !value && old.Length <= 1;
                 NTMinerRoot.Instance.GpuSet.SetIsUseDevice(this.Index, value);
                 if (refreshAllGpu) {
                     foreach (var gpuVm in AppContext.Instance.GpuVms) {

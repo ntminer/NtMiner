@@ -617,13 +617,13 @@ namespace NTMiner {
                         this.MinerProfile.MinerName, mainCoin,
                         mainCoinPool, kernel, coinKernel,
                         coinProfile.Wallet, commandLine,
-                        parameters, fragments, fileWriters);
+                        parameters, fragments, fileWriters, GpuSet.GetUseDevices());
                     if (coinKernelProfile.IsDualCoinEnabled && coinKernel.GetIsSupportDualMine()) {
                         mineContext = new DualMineContext(
                             mineContext, dualCoin, dualCoinPool,
                             coinProfile.DualCoinWallet,
                             coinKernelProfile.DualCoinWeight,
-                            parameters, fragments, fileWriters);
+                            parameters, fragments, fileWriters, GpuSet.GetUseDevices());
                     }
                     _currentMineContext = mineContext;
                     MinerProcess.CreateProcessAsync(mineContext);
