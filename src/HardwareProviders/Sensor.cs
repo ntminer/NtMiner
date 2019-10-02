@@ -27,8 +27,7 @@ namespace HardwareProviders {
 
         private float sum;
 
-        public Sensor(string name, int index, SensorType sensorType,
-            Hardware hardware) :
+        public Sensor(string name, int index, SensorType sensorType, Hardware hardware) :
             this(name, index, sensorType, hardware, null) {
         }
 

@@ -9,22 +9,19 @@ namespace UnitTests {
     public class CpuTests {
         [TestMethod]
         public void CpuTest1() {
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 100; i++) {
                 Console.WriteLine("电脑CPU使用率：" + NTMiner.Windows.Cpu.Instance.GetPerformance().ToString("f1") + " %");
-                System.Threading.Thread.Sleep(1000);
+                System.Threading.Thread.Sleep(10);
             }
         }
 
         [TestMethod]
         public void CpuTest2() {
-            var cpu = Cpu.Discover();
+            var cpus = Cpu.Discover();
 
-            foreach (var item in cpu) {
-                Print(item.CoreTemperatures);
-                Print(item.CoreClocks);
-                Print(item.CorePowers);
-                Print(item.CoreVoltages);
-                Print(item.CoreClocks);
+            foreach (var cpu in cpus) {
+                Print(cpu.CoreTemperatures);
+                Console.WriteLine(cpu.PackageTemperature.ToString());
             }
         }
         private static void Print(Sensor[] sensors) {
