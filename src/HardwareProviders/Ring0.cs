@@ -1,10 +1,9 @@
-﻿using System;
+﻿using HardwareProviders.Internals;
+using System;
 using System.IO;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
-using HardwareProviders.Internals;
 
 //SecurityIdentifier
 
@@ -57,22 +56,17 @@ namespace HardwareProviders {
 
         public static bool IsOpen => driver != null;
 
-        private static Assembly GetAssembly() {
-            return typeof(Ring0).Assembly;
-        }
-
         private static string GetTempFileName() {
             // try to create one in the application folder
-            var location = GetAssembly().Location;
-            if (!string.IsNullOrEmpty(location))
-                try {
-                    var fileName = Path.ChangeExtension(location, ".sys");
-                    using (var stream = File.Create(fileName)) {
-                        return fileName;
-                    }
+            var fileName = Path.Combine(NTMiner.MainAssemblyInfo.TempDirFullName, "HardwareProviders.sys");
+            try {
+                using (var stream = File.Create(fileName)) {
+                    return fileName;
                 }
-                catch (Exception) {
-                }
+            }
+            catch (Exception) {
+            }
+
 
             // if this failed, try to get a file in the temporary folder
             try {
@@ -92,17 +86,14 @@ namespace HardwareProviders {
         }
 
         private static bool ExtractDriver(string fileName) {
-            var resourceName = "HardwareProviders." +
-                               (OperatingSystem.Is64Bit ? "WinRing0x64.sys" : "WinRing0.sys");
+            var resourceName = OperatingSystem.Is64Bit ? "WinRing0x64.sys" : "WinRing0.sys";
 
-            var names = GetAssembly().GetManifestResourceNames();
             byte[] buffer = null;
-            foreach (var name in names)
-                if (name.Replace('\\', '.') == resourceName)
-                    using (var stream = GetAssembly().GetManifestResourceStream(name)) {
-                        buffer = new byte[stream.Length];
-                        stream.Read(buffer, 0, buffer.Length);
-                    }
+            Type type = typeof(Ring0);
+            using (var stream = type.Assembly.GetManifestResourceStream(type, resourceName)) {
+                buffer = new byte[stream.Length];
+                stream.Read(buffer, 0, buffer.Length);
+            }
 
             if (buffer == null)
                 return false;
