@@ -296,7 +296,7 @@ namespace NTMiner.Core.Kernels.Impl {
                             }
                         }
                     }
-                    if (kernelOutput.IsOffset) {
+                    if (kernelOutput.IsMapGpuIndex) {
                         if (useDevices.Length != 0 && useDevices.Length != root.GpuSet.Count && gpu < useDevices.Length) {
                             gpu = useDevices[gpu];
                         }
@@ -375,7 +375,7 @@ namespace NTMiner.Core.Kernels.Impl {
                 string gpuText = match.Groups[Consts.GpuIndexGroupName].Value;
                 if (!string.IsNullOrEmpty(gpuText)) {
                     if (int.TryParse(gpuText, out int gpuIndex)) {
-                        if (kernelOutput.IsOffset) {
+                        if (kernelOutput.IsMapGpuIndex) {
                             if (useDevices.Length != 0 && useDevices.Length != root.GpuSet.Count && gpuIndex < useDevices.Length) {
                                 gpuIndex = useDevices[gpuIndex];
                             }
@@ -401,7 +401,7 @@ namespace NTMiner.Core.Kernels.Impl {
                 string gpuText = match.Groups[Consts.GpuIndexGroupName].Value;
                 if (!string.IsNullOrEmpty(gpuText)) {
                     if (int.TryParse(gpuText, out int gpuIndex)) {
-                        if (kernelOutput.IsOffset) {
+                        if (kernelOutput.IsMapGpuIndex) {
                             if (useDevices.Length != 0 && useDevices.Length != root.GpuSet.Count && gpuIndex < useDevices.Length) {
                                 gpuIndex = useDevices[gpuIndex];
                             }
@@ -432,7 +432,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     string gpuText = match.Groups[Consts.GpuIndexGroupName].Value;
                     if (!string.IsNullOrEmpty(gpuText)) {
                         if (int.TryParse(gpuText, out int gpuIndex)) {
-                            if (kernelOutput.IsOffset) {
+                            if (kernelOutput.IsMapGpuIndex) {
                                 if (useDevices.Length != 0 && useDevices.Length != root.GpuSet.Count && gpuIndex < useDevices.Length) {
                                     gpuIndex = useDevices[gpuIndex];
                                 }
@@ -490,7 +490,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     string gpuText = match.Groups[Consts.GpuIndexGroupName].Value;
                     if (!string.IsNullOrEmpty(gpuText)) {
                         if (int.TryParse(gpuText, out int gpuIndex)) {
-                            if (kernelOutput.IsOffset) {
+                            if (kernelOutput.IsMapGpuIndex) {
                                 if (useDevices.Length != 0 && useDevices.Length != root.GpuSet.Count && gpuIndex < useDevices.Length) {
                                     gpuIndex = useDevices[gpuIndex];
                                 }

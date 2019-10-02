@@ -63,6 +63,6 @@ namespace NTMiner.Core {
 
         public int GpuBaseIndex { get; set; }
 
-        public bool IsOffset { get; set; }
+        public bool IsMapGpuIndex { get; set; }
     }
 }
