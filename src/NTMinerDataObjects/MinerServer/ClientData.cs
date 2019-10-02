@@ -66,6 +66,8 @@ namespace NTMiner.MinerServer {
                 IsFoundOneGpuShare = false,
                 IsRejectOneGpuShare = false,
                 IsGotOneIncorrectGpuShare = false,
+                CpuPerformance = 0,
+                CpuTemperature = 0,
                 GpuTable = new GpuSpeedData[0]
             };
         }
@@ -124,7 +126,9 @@ namespace NTMiner.MinerServer {
                 DualCoinPoolDelay = speedData.DualCoinPoolDelay,
                 IsFoundOneGpuShare = speedData.IsFoundOneGpuShare,
                 IsRejectOneGpuShare = speedData.IsRejectOneGpuShare,
-                IsGotOneIncorrectGpuShare = speedData.IsGotOneIncorrectGpuShare
+                IsGotOneIncorrectGpuShare = speedData.IsGotOneIncorrectGpuShare,
+                CpuTemperature = speedData.CpuTemperature,
+                CpuPerformance = speedData.CpuPerformance
             };
         }
 
@@ -215,6 +219,8 @@ namespace NTMiner.MinerServer {
             this.IsFoundOneGpuShare = speedData.IsFoundOneGpuShare;
             this.IsRejectOneGpuShare = speedData.IsRejectOneGpuShare;
             this.IsGotOneIncorrectGpuShare = speedData.IsGotOneIncorrectGpuShare;
+            this.CpuPerformance = speedData.CpuPerformance;
+            this.CpuTemperature = speedData.CpuTemperature;
         }
 
         public int GetMainCoinShareDelta(bool isPull) {
@@ -401,6 +407,10 @@ namespace NTMiner.MinerServer {
         public bool IsFoundOneGpuShare { get; set; }
 
         public bool IsGotOneIncorrectGpuShare { get; set; }
+
+        public int CpuPerformance { get; set; }
+
+        public int CpuTemperature { get; set; }
 
         public GpuSpeedData[] GpuTable { get; set; }
     }

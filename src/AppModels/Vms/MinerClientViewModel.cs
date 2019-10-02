@@ -938,7 +938,8 @@ namespace NTMiner.Vms {
                 this.GpuTableVm = new GpuSpeedDataViewModels(
                     MainCoinCode, DualCoinCode, MainCoinSpeedText, 
                     DualCoinSpeedText, TotalPowerText,
-                    IsRejectOneGpuShare, IsFoundOneGpuShare, IsGotOneIncorrectGpuShare, value);
+                    IsRejectOneGpuShare, IsFoundOneGpuShare, IsGotOneIncorrectGpuShare,
+                    CpuPerformance, CpuTemperature ,value);
             }
         }
 
@@ -1060,6 +1061,22 @@ namespace NTMiner.Vms {
             set {
                 _data.DualCoinPoolDelay = value;
                 OnPropertyChanged(nameof(DualCoinPoolDelay));
+            }
+        }
+
+        public int CpuPerformance {
+            get { return _data.CpuPerformance; }
+            set {
+                _data.CpuPerformance = value;
+                OnPropertyChanged(nameof(CpuPerformance));
+            }
+        }
+
+        public int CpuTemperature {
+            get { return _data.CpuTemperature; }
+            set {
+                _data.CpuTemperature = value;
+                OnPropertyChanged(nameof(CpuTemperature));
             }
         }
 

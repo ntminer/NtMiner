@@ -87,6 +87,8 @@ namespace NTMiner.MinerServer {
         bool IsRejectOneGpuShare { get; }
         bool IsFoundOneGpuShare { get; }
         bool IsGotOneIncorrectGpuShare { get; }
+        int CpuPerformance { get; }
+        int CpuTemperature { get; }
 
         GpuSpeedData[] GpuTable { get; }
     }

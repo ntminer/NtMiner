@@ -14,6 +14,8 @@ namespace NTMiner.Vms {
         private bool _isRejectOneGpuShare;
         private bool _isFoundOneGpuShare;
         private bool _isGotOneIncorrectGpuShare;
+        private int _cpuPerformance;
+        private int _cpuTemperature;
 
         public GpuSpeedDataViewModels() {
             if (!Design.IsInDesignMode) {
@@ -30,6 +32,8 @@ namespace NTMiner.Vms {
             bool isRejectOneGpuShare,
             bool isFoundOneGpuShare,
             bool isGotOneIncorrectGpuShare,
+            int cpuPerformance,
+            int cpuTemperature,
             GpuSpeedData[] datas) {
             this._mainCoinCode = mainCoinCode;
             this._dualCoinCode = dualCoinCode;
@@ -39,6 +43,8 @@ namespace NTMiner.Vms {
             this._isRejectOneGpuShare = isRejectOneGpuShare;
             this._isFoundOneGpuShare = isFoundOneGpuShare;
             this._isGotOneIncorrectGpuShare = isGotOneIncorrectGpuShare;
+            this._cpuPerformance = cpuPerformance;
+            this._cpuTemperature = cpuTemperature;
             if (datas != null && datas.Length != 0) {
                 foreach (var data in datas) {
                     _gpuSpeeds.Add(new GpuSpeedDataViewModel(data));
@@ -109,6 +115,22 @@ namespace NTMiner.Vms {
                     _isGotOneIncorrectGpuShare = value;
                     OnPropertyChanged(nameof(IsGotOneIncorrectGpuShare));
                 }
+            }
+        }
+
+        public int CpuPerformance {
+            get => _cpuPerformance;
+            set {
+                _cpuPerformance = value;
+                OnPropertyChanged(nameof(CpuPerformance));
+            }
+        }
+
+        public int CpuTemperature {
+            get => _cpuTemperature;
+            set {
+                _cpuTemperature = value;
+                OnPropertyChanged(nameof(CpuTemperature));
             }
         }
 

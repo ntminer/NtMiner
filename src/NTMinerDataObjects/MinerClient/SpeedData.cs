@@ -84,6 +84,10 @@ namespace NTMiner.MinerClient {
 
         public bool IsGotOneIncorrectGpuShare { get; set; }
 
+        public int CpuPerformance { get; set; }
+
+        public int CpuTemperature { get; set; }
+
         public GpuSpeedData[] GpuTable { get; set; }
     }
 }

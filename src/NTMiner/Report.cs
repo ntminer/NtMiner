@@ -81,6 +81,8 @@ namespace NTMiner {
                 IsFoundOneGpuShare = false,
                 IsGotOneIncorrectGpuShare = false,
                 IsRejectOneGpuShare = false,
+                CpuPerformance = (int)Windows.Cpu.Instance.GetPerformance(),
+                CpuTemperature = (int)Windows.Cpu.Instance.GetTemperature(),
                 GpuTable = root.GpusSpeed.Where(a => a.Gpu.Index != NTMinerRoot.GpuAllId).Select(a => a.ToGpuSpeedData()).ToArray()
             };
             #region 当前选中的币种是什么
