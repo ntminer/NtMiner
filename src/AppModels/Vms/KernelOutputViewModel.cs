@@ -40,6 +40,7 @@ namespace NTMiner.Vms {
         private string _speedUnit;
         private string _dualSpeedUnit;
         private int _gpuBaseIndex;
+        private bool _isOffset;
 
         public ICommand Remove { get; private set; }
         public ICommand Edit { get; private set; }
@@ -86,6 +87,7 @@ namespace NTMiner.Vms {
             _speedUnit = data.SpeedUnit;
             _dualSpeedUnit = data.DualSpeedUnit;
             _gpuBaseIndex = data.GpuBaseIndex;
+            _isOffset = data.IsOffset;
         }
 
         public KernelOutputViewModel(Guid id) {
@@ -480,6 +482,14 @@ namespace NTMiner.Vms {
             set {
                 _gpuBaseIndex = value;
                 OnPropertyChanged(nameof(GpuBaseIndex));
+            }
+        }
+
+        public bool IsOffset {
+            get { return _isOffset; }
+            set {
+                _isOffset = value;
+                OnPropertyChanged(nameof(IsOffset));
             }
         }
 

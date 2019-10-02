@@ -62,5 +62,7 @@ namespace NTMiner.Core {
         public string DualSpeedUnit { get; set; }
 
         public int GpuBaseIndex { get; set; }
+
+        public bool IsOffset { get; set; }
     }
 }
