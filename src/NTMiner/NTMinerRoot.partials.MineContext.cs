@@ -13,6 +13,8 @@ namespace NTMiner {
                 ICoin mainCoin,
                 IPool mainCoinPool,
                 IKernel kernel,
+                IKernelInput kernelInput,
+                IKernelOutput kernelOutput,
                 ICoinKernel coinKernel,
                 string mainCoinWallet,
                 string commandLine,
@@ -36,6 +38,8 @@ namespace NTMiner {
                 this.CreatedOn = DateTime.Now;
                 this.Parameters = parameters;
                 this.UseDevices = useDevices;
+                this.KernelInput = kernelInput;
+                this.KernelOutput = kernelOutput;
                 string logFileName;
                 if (this.CommandLine.Contains("{logfile}")) {
                     this.KernelProcessType = KernelProcessType.Logfile;
@@ -83,6 +87,10 @@ namespace NTMiner {
             public Dictionary<Guid, string> FileWriters { get; private set; }
 
             public int[] UseDevices { get; private set; }
+
+            public IKernelInput KernelInput { get; private set; }
+
+            public IKernelOutput KernelOutput { get; private set; }
         }
         #endregion
 
@@ -103,6 +111,8 @@ namespace NTMiner {
                     mineContext.MainCoin,
                     mineContext.MainCoinPool,
                     mineContext.Kernel,
+                    mineContext.KernelInput,
+                    mineContext.KernelOutput,
                     mineContext.CoinKernel,
                     mineContext.MainCoinWallet,
                     mineContext.CommandLine,

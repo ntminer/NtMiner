@@ -231,7 +231,7 @@ namespace NTMiner {
                                             input = input.Replace("ETH", mineContext.MainCoin.Code);
                                         }
                                     }
-                                    Instance.KernelOutputSet.Pick(kernelOutputId, ref input, mineContext);
+                                    Instance.KernelOutputSet.Pick(ref input, mineContext);
                                     if (isWriteToConsole) {
                                         if (!string.IsNullOrEmpty(input)) {
                                             Write.UserLine(input, ConsoleColor.White);

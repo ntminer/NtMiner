@@ -546,6 +546,10 @@ namespace NTMiner {
                     VirtualRoot.Happened(new StartingMineFailedEvent("未设置内核输入。"));
                     return;
                 }
+                if (!this.KernelOutputSet.TryGetKernelOutput(kernel.KernelOutputId, out IKernelOutput kernelOutput)) {
+                    VirtualRoot.Happened(new StartingMineFailedEvent("未设置内核输出。"));
+                    return;
+                }
                 if (string.IsNullOrEmpty(coinProfile.Wallet)) {
                     MinerProfile.SetCoinProfileProperty(mainCoin.GetId(), nameof(coinProfile.Wallet), mainCoin.TestWallet);
                 }
@@ -615,7 +619,7 @@ namespace NTMiner {
                     IMineContext mineContext = new MineContext(
                         isRestart,
                         this.MinerProfile.MinerName, mainCoin,
-                        mainCoinPool, kernel, coinKernel,
+                        mainCoinPool, kernel, kernelInput, kernelOutput, coinKernel,
                         coinProfile.Wallet, commandLine,
                         parameters, fragments, fileWriters, GpuSet.GetUseDevices());
                     if (coinKernelProfile.IsDualCoinEnabled && coinKernel.GetIsSupportDualMine()) {

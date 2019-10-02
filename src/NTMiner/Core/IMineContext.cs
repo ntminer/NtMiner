@@ -22,5 +22,7 @@ namespace NTMiner.Core {
         Dictionary<Guid, string> Fragments { get; }
         Dictionary<Guid, string> FileWriters { get; }
         int[] UseDevices { get; }
+        IKernelInput KernelInput { get; }
+        IKernelOutput KernelOutput { get; }
     }
 }
