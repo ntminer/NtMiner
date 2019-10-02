@@ -48,7 +48,7 @@ namespace NTMiner.Vms {
                         n = 0;
                     }
                     else {
-                        BtnStopText = $"倒计时({--n})";
+                        BtnStopText = $"倒计时{--n}";
                     }
                     if (n <= 0) {
                         VirtualRoot.UnPath(handler);
