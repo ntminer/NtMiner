@@ -23,20 +23,25 @@ namespace NTMiner.Windows {
         }
 
         public float GetTemperature() {
-            if (_gpus == null) {
-                lock (_cpusLocker) {
-                    if (_gpus == null) {
-                        _gpus = HardwareProviders.CPU.Cpu.Discover();
+            try {
+                if (_gpus == null) {
+                    lock (_cpusLocker) {
+                        if (_gpus == null) {
+                            _gpus = HardwareProviders.CPU.Cpu.Discover();
+                        }
                     }
                 }
-            }
-            else {
+                else {
+                    foreach (var cpu in _gpus) {
+                        cpu.Update();
+                    }
+                }
                 foreach (var cpu in _gpus) {
-                    cpu.Update();
+                    return cpu.PackageTemperature.Value ?? 0.0f;
                 }
             }
-            foreach (var cpu in _gpus) {
-                return cpu.PackageTemperature.Value ?? 0.0f;
+            catch {
+                _gpus = new HardwareProviders.CPU.Cpu[0];
             }
             return 0.0f;
         }
