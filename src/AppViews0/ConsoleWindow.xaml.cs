@@ -22,6 +22,7 @@ namespace NTMiner.Views {
             this.Width = AppStatic.MainWindowWidth;
             this.Height = AppStatic.MainWindowHeight;
             InitializeComponent();
+            this.Show();
         }
 
         protected override void OnClosing(CancelEventArgs e) {

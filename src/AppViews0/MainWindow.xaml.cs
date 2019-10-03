@@ -117,8 +117,6 @@ namespace NTMiner.Views {
             if (Design.IsInDesignMode) {
                 return;
             }
-            ConsoleWindow.Instance.Show();
-            this.Owner = ConsoleWindow.Instance;
             ToogleLeft();
             this.IsVisibleChanged += (object sender, DependencyPropertyChangedEventArgs e) => {
                 if (this.IsVisible) {

@@ -16,6 +16,7 @@
 		d:DesignWidth="1100"
         WindowStyle="None"
         ResizeMode="NoResize"
+        Owner="{x:Static local:ConsoleWindow.Instance}"
 		Background="Transparent"
         BorderThickness="1"
         BorderBrush="{StaticResource ThemeBackground}"
@@ -281,26 +282,28 @@
                     <controls:KbSystemCloseButton Command="{Binding CloseMainWindow}" Height="32" />
                 </WrapPanel>
             </Grid>
-            <DockPanel Grid.Row="1">
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
                 <StackPanel 
                     Margin="0 2 0 0"
-                    Orientation="Horizontal" 
-                    DockPanel.Dock="Left" 
                     Background="White">
                     <StackPanel.LayoutTransform>
-                        <RotateTransform Angle="90"/>
+                        <RotateTransform Angle="-90"/>
                     </StackPanel.LayoutTransform>
                     <Button 
                         x:Name="BtnMinerProfileGrip" 
+                        HorizontalAlignment="Right"
                         BorderThickness="0"
-                        FontSize="14" 
                         Padding="4 0" 
                         Background="{StaticResource MinerProfileBackground}"
                         Click="BtnMinerProfileGrip_Click" 
                         Content="挖矿设置" 
                         ToolTip="点击展开或折叠"/>
                 </StackPanel>
-                <Grid x:Name="parentGrid" Grid.IsSharedSizeScope="True">
+                <Grid Grid.Column="1" x:Name="parentGrid" Grid.IsSharedSizeScope="True">
                     <Grid x:Name="mainLayer">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
@@ -692,7 +695,7 @@
                         </Grid>
                     </Border>
                 </Grid>
-            </DockPanel>
+            </Grid>
             <WrapPanel Grid.Row="1" HorizontalAlignment="Right" Background="{StaticResource ThemeBackground}" Margin="0 -3 4 0" VerticalAlignment="Top">
                 <StackPanel Margin="4 0 0 0">
                     <CheckBox 
