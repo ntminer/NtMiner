@@ -69,6 +69,7 @@ namespace NTMiner {
                     }
 
                     NotiCenterWindowViewModel.IsHotKeyEnabled = true;
+                    ConsoleWindow.Instance.Show();
                     Window splashWindow = _appViewFactory.CreateSplashWindow();
                     splashWindow.Show();
                     NotiCenterWindow.Instance.Show();
