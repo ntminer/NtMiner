@@ -44,5 +44,11 @@ namespace NTMiner.Profile {
         bool IsAutoBoot { get; }
         bool IsAutoStart { get; }
         bool IsCreateShortcut { get; }
+        bool IsAutoStopByCpu { get; }
+        int CpuStopTemperature { get; }
+        int CpuGETemperatureSeconds { get; }
+        bool IsAutoStartByCpu { get; }
+        int CpuStartTemperature { get; }
+        int CpuLETemperatureSeconds { get; }
     }
 }

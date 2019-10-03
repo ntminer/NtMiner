@@ -413,6 +413,48 @@ namespace NTMiner.Core.Profiles {
                 _data.IsCreateShortcut = value;
             }
         }
+
+        public bool IsAutoStopByCpu {
+            get => _data.IsAutoStopByCpu;
+            private set {
+                _data.IsAutoStopByCpu = value;
+            }
+        }
+
+        public int CpuStopTemperature {
+            get => _data.CpuStopTemperature;
+            private set {
+                _data.CpuStopTemperature = value;
+            }
+        }
+
+        public int CpuGETemperatureSeconds {
+            get => _data.CpuGETemperatureSeconds;
+            private set {
+                _data.CpuGETemperatureSeconds = value;
+            }
+        }
+
+        public bool IsAutoStartByCpu {
+            get => _data.IsAutoStartByCpu;
+            private set {
+                _data.IsAutoStartByCpu = value;
+            }
+        }
+
+        public int CpuStartTemperature {
+            get => _data.CpuStartTemperature;
+            private set {
+                _data.CpuStartTemperature = value;
+            }
+        }
+
+        public int CpuLETemperatureSeconds {
+            get => _data.CpuLETemperatureSeconds;
+            private set {
+                _data.CpuLETemperatureSeconds = value;
+            }
+        }
         #endregion
 
         private static Dictionary<string, PropertyInfo> s_properties;

@@ -44,6 +44,12 @@ namespace NTMiner.Profile {
             this.IsAutoBoot = true;
             this.IsAutoStart = true;
             this.IsCreateShortcut = true;
+            this.IsAutoStopByCpu = false;
+            this.IsAutoStartByCpu = false;
+            this.CpuGETemperatureSeconds = 60;
+            this.CpuLETemperatureSeconds = 60;
+            this.CpuStartTemperature = 40;
+            this.CpuStopTemperature = 65;
         }
 
         public MinerProfileData(IMinerProfile data) {
@@ -81,6 +87,12 @@ namespace NTMiner.Profile {
             this.IsAutoBoot = data.IsAutoBoot;
             this.IsAutoStart = data.IsAutoStart;
             this.IsCreateShortcut = data.IsCreateShortcut;
+            this.IsAutoStopByCpu = data.IsAutoStopByCpu;
+            this.IsAutoStartByCpu = data.IsAutoStartByCpu;
+            this.CpuGETemperatureSeconds = data.CpuGETemperatureSeconds;
+            this.CpuLETemperatureSeconds = data.CpuLETemperatureSeconds;
+            this.CpuStartTemperature = data.CpuStartTemperature;
+            this.CpuStopTemperature = data.CpuStopTemperature;
         }
 
         public Guid GetId() {
@@ -141,6 +153,18 @@ namespace NTMiner.Profile {
         public bool IsAutoStart { get; set; }
 
         public bool IsCreateShortcut { get; set; }
+
+        public bool IsAutoStopByCpu { get; set; }
+
+        public int CpuStopTemperature { get; set; }
+
+        public int CpuGETemperatureSeconds { get; set; }
+
+        public bool IsAutoStartByCpu { get; set; }
+
+        public int CpuStartTemperature { get; set; }
+
+        public int CpuLETemperatureSeconds { get; set; }
 
         public override string ToString() {
             return this.BuildSign().ToString();

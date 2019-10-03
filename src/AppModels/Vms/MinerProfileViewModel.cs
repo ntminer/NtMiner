@@ -646,6 +646,66 @@ namespace NTMiner.Vms {
             }
         }
 
+        public bool IsAutoStopByCpu {
+            get => NTMinerRoot.Instance.MinerProfile.IsAutoStopByCpu;
+            set {
+                if (NTMinerRoot.Instance.MinerProfile.IsAutoStopByCpu != value) {
+                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsAutoStopByCpu), value);
+                    OnPropertyChanged(nameof(IsAutoStopByCpu));
+                }
+            }
+        }
+
+        public int CpuStopTemperature {
+            get => NTMinerRoot.Instance.MinerProfile.CpuStopTemperature;
+            set {
+                if (NTMinerRoot.Instance.MinerProfile.CpuStopTemperature != value) {
+                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(CpuStopTemperature), value);
+                    OnPropertyChanged(nameof(CpuStopTemperature));
+                }
+            }
+        }
+
+        public int CpuGETemperatureSeconds {
+            get => NTMinerRoot.Instance.MinerProfile.CpuGETemperatureSeconds;
+            set {
+                if (NTMinerRoot.Instance.MinerProfile.CpuGETemperatureSeconds != value) {
+                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(CpuGETemperatureSeconds), value);
+                    OnPropertyChanged(nameof(CpuGETemperatureSeconds));
+                }
+            }
+        }
+
+        public bool IsAutoStartByCpu {
+            get => NTMinerRoot.Instance.MinerProfile.IsAutoStartByCpu;
+            set {
+                if (NTMinerRoot.Instance.MinerProfile.IsAutoStartByCpu != value) {
+                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsAutoStartByCpu), value);
+                    OnPropertyChanged(nameof(IsAutoStartByCpu));
+                }
+            }
+        }
+
+        public int CpuStartTemperature {
+            get => NTMinerRoot.Instance.MinerProfile.CpuStartTemperature;
+            set {
+                if (NTMinerRoot.Instance.MinerProfile.CpuStartTemperature != value) {
+                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(CpuStartTemperature), value);
+                    OnPropertyChanged(nameof(CpuStartTemperature));
+                }
+            }
+        }
+
+        public int CpuLETemperatureSeconds {
+            get => NTMinerRoot.Instance.MinerProfile.CpuLETemperatureSeconds;
+            set {
+                if (NTMinerRoot.Instance.MinerProfile.CpuLETemperatureSeconds != value) {
+                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(CpuLETemperatureSeconds), value);
+                    OnPropertyChanged(nameof(CpuLETemperatureSeconds));
+                }
+            }
+        }
+
         public CoinViewModel CoinVm {
             get {
                 if (!AppContext.Instance.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm) || !coinVm.IsSupported) {
