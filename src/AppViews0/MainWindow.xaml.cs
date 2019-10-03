@@ -223,10 +223,7 @@ namespace NTMiner.Views {
                     }
                     Vm.RefreshDaemonStateBrush();
                 });
-            this.EventPath<Per1SecondEvent>("每秒钟更新CPU使用率和温度", LogEnum.None,
-                action: message => {
-                    RefreshCpu();
-                });
+            RefreshCpu();
 #if DEBUG
             Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
 #endif
@@ -240,13 +237,13 @@ namespace NTMiner.Views {
                 isFirstRefreshCpu = false;
                 Task.Factory.StartNew(() => {
 #if DEBUG
-            Write.Stopwatch.Restart();
+                    Write.Stopwatch.Restart();
 #endif
                     int performance = (int)Windows.Cpu.Instance.GetPerformance();
                     // 因为初始化费时间
                     int temperature = (int)Windows.Cpu.Instance.GetTemperature();
 #if DEBUG
-            Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.RefreshCpu");
+                    Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.RefreshCpu");
 #endif
                     UIThread.Execute(() => {
                         if (cpuPerformance != performance) {
@@ -258,6 +255,10 @@ namespace NTMiner.Views {
                             Vm.StateBarVm.CpuTemperatureText = temperature.ToString() + " ℃";
                         }
                     });
+                    this.EventPath<Per1SecondEvent>("每秒钟更新CPU使用率和温度", LogEnum.None,
+                        action: message => {
+                            RefreshCpu();
+                        });
                 });
             }
             else {
@@ -465,7 +466,7 @@ namespace NTMiner.Views {
                     break;
             }
         }
-        
+
         private void DisplayResizeCursor(object sender) {
             Rectangle clickedRectangle = sender as Rectangle;
 
