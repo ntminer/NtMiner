@@ -10,6 +10,7 @@
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
         Background="White"
+        d:DataContext="{d:DesignData Source=/Design/MinerProfileViewModel.xaml}"
 		mc:Ignorable="d" d:DesignHeight="650" d:DesignWidth="600">
 	<UserControl.Resources>
 		<ResourceDictionary>
@@ -79,7 +80,7 @@
 								FocusVisualStyle="{x:Null}"
 								VerticalContentAlignment="Center"
 								IsChecked="{Binding IsAutoDisableWindowsFirewall}">
-                                <TextBlock VerticalAlignment="Center">启动开源矿工时自动关闭Windows防火墙</TextBlock>
+                                <TextBlock VerticalAlignment="Center">启动开源矿工时自动关闭 Windows 防火墙</TextBlock>
                             </CheckBox>
                         </WrapPanel>
                         <WrapPanel Margin="0 2">
@@ -234,8 +235,87 @@
                                     <TextBlock VerticalAlignment="Center">分钟重启电脑</TextBlock>
                                 </WrapPanel>
 							</CheckBox>
-						</WrapPanel>
-					</StackPanel>
+                        </WrapPanel>
+                        <WrapPanel Margin="0 2">
+                            <CheckBox
+								FocusVisualStyle="{x:Null}"
+								Padding="0"
+								VerticalContentAlignment="Center"
+								IsChecked="{Binding IsAutoStopByCpu}">
+                                <WrapPanel>
+                                    <TextBlock VerticalAlignment="Center">CPU 温度持续</TextBlock>
+                                    <TextBox Style="{StaticResource TbUpDown}" Text="{Binding CpuGETemperatureSeconds}" HorizontalAlignment="Left"></TextBox>
+                                    <StackPanel Margin="0 0 2 0">
+                                        <Button Height="12" Command="{Binding CpuGETemperatureSecondsUp}">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
+                                            </Button.Content>
+                                        </Button>
+                                        <Button Height="12" Command="{Binding CpuGETemperatureSecondsDown}">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
+                                            </Button.Content>
+                                        </Button>
+                                    </StackPanel>
+                                    <TextBlock VerticalAlignment="Center">秒不低于</TextBlock>
+                                    <TextBox Style="{StaticResource TbUpDown}" Text="{Binding CpuStopTemperature,ValidatesOnExceptions=True}" HorizontalAlignment="Left"></TextBox>
+                                    <StackPanel Margin="0 0 2 0">
+                                        <Button Height="12" Command="{Binding CpuStopTemperatureUp}">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
+                                            </Button.Content>
+                                        </Button>
+                                        <Button Height="12" Command="{Binding CpuStopTemperatureDown}">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
+                                            </Button.Content>
+                                        </Button>
+                                    </StackPanel>
+                                    <TextBlock VerticalAlignment="Center">℃ 停止挖矿</TextBlock>
+                                </WrapPanel>
+                            </CheckBox>
+                        </WrapPanel>
+                        <WrapPanel Margin="0 2">
+                            <CheckBox
+								FocusVisualStyle="{x:Null}"
+								Padding="0"
+                                IsEnabled="{Binding IsAutoStopByCpu}"
+								VerticalContentAlignment="Center"
+								IsChecked="{Binding IsAutoStartByCpu}">
+                                <WrapPanel>
+                                    <TextBlock VerticalAlignment="Center">CPU 温度持续</TextBlock>
+                                    <TextBox Style="{StaticResource TbUpDown}" Text="{Binding CpuLETemperatureSeconds}" HorizontalAlignment="Left"></TextBox>
+                                    <StackPanel Margin="0 0 2 0">
+                                        <Button Height="12" Command="{Binding CpuLETemperatureSecondsUp}">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
+                                            </Button.Content>
+                                        </Button>
+                                        <Button Height="12" Command="{Binding CpuLETemperatureSecondsDown}">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
+                                            </Button.Content>
+                                        </Button>
+                                    </StackPanel>
+                                    <TextBlock VerticalAlignment="Center">秒不高于</TextBlock>
+                                    <TextBox Style="{StaticResource TbUpDown}" Text="{Binding CpuStartTemperature,ValidatesOnExceptions=True}" HorizontalAlignment="Left"></TextBox>
+                                    <StackPanel Margin="0 0 2 0">
+                                        <Button Height="12" Command="{Binding CpuStartTemperatureUp}">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
+                                            </Button.Content>
+                                        </Button>
+                                        <Button Height="12" Command="{Binding CpuStartTemperatureDown}">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
+                                            </Button.Content>
+                                        </Button>
+                                    </StackPanel>
+                                    <TextBlock VerticalAlignment="Center">℃ 开始挖矿</TextBlock>
+                                </WrapPanel>
+                            </CheckBox>
+                        </WrapPanel>
+                    </StackPanel>
 				</GroupBox>
 				<Border
 					Margin="0 10 10 0"

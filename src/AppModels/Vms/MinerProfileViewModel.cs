@@ -35,6 +35,18 @@ namespace NTMiner.Vms {
         public ICommand PeriodicRestartComputerMinutesUp { get; private set; }
         public ICommand PeriodicRestartComputerMinutesDown { get; private set; }
 
+        public ICommand CpuGETemperatureSecondsUp { get; private set; }
+        public ICommand CpuGETemperatureSecondsDown { get; private set; }
+
+        public ICommand CpuStopTemperatureUp { get; private set; }
+        public ICommand CpuStopTemperatureDown { get; private set; }
+
+        public ICommand CpuLETemperatureSecondsUp { get; private set; }
+        public ICommand CpuLETemperatureSecondsDown { get; private set; }
+
+        public ICommand CpuStartTemperatureUp { get; private set; }
+        public ICommand CpuStartTemperatureDown { get; private set; }
+
         public ICommand EPriceUp { get; private set; }
         public ICommand EPriceDown { get; private set; }
 
@@ -123,6 +135,30 @@ namespace NTMiner.Vms {
                 if (this.PeriodicRestartComputerMinutes > 0) {
                     this.PeriodicRestartComputerMinutes--;
                 }
+            });
+            this.CpuGETemperatureSecondsUp = new DelegateCommand(() => {
+                this.CpuGETemperatureSeconds++;
+            });
+            this.CpuGETemperatureSecondsDown = new DelegateCommand(() => {
+                this.CpuGETemperatureSeconds--;
+            });
+            this.CpuStopTemperatureUp = new DelegateCommand(() => {
+                this.CpuStopTemperature++;
+            });
+            this.CpuStopTemperatureDown = new DelegateCommand(() => {
+                this.CpuStopTemperature--;
+            });
+            this.CpuLETemperatureSecondsUp = new DelegateCommand(() => {
+                this.CpuLETemperatureSeconds++;
+            });
+            this.CpuLETemperatureSecondsDown = new DelegateCommand(() => {
+                this.CpuLETemperatureSeconds--;
+            });
+            this.CpuStartTemperatureUp = new DelegateCommand(() => {
+                this.CpuStartTemperature++;
+            });
+            this.CpuStartTemperatureDown = new DelegateCommand(() => {
+                this.CpuStartTemperature--;
             });
             this.EPriceUp = new DelegateCommand(() => {
                 this.EPrice = Math.Round(this.EPrice + 0.1, 2);
