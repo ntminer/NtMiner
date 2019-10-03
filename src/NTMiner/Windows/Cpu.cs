@@ -13,7 +13,7 @@ namespace NTMiner.Windows {
         // This stores the total number of logical cores in the processor
         private readonly int numberOfProcessors = Environment.ProcessorCount;
         private readonly PerformanceCounter _cpuPerformanceCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
-        private HardwareProviders.CPU.Cpu[] _gpus = null;
+        private HardwareProviders.CPU.Cpu[] _cpus = null;
         private readonly object _cpusLocker = new object();
 
         private Cpu() { }
@@ -24,24 +24,37 @@ namespace NTMiner.Windows {
 
         public float GetTemperature() {
             try {
-                if (_gpus == null) {
+                if (_cpus == null) {
                     lock (_cpusLocker) {
-                        if (_gpus == null) {
-                            _gpus = HardwareProviders.CPU.Cpu.Discover();
+                        if (_cpus == null) {
+                            _cpus = HardwareProviders.CPU.Cpu.Discover();
                         }
                     }
                 }
                 else {
-                    foreach (var cpu in _gpus) {
+                    foreach (var cpu in _cpus) {
                         cpu.Update();
                     }
                 }
-                foreach (var cpu in _gpus) {
-                    return cpu.PackageTemperature.Value ?? 0.0f;
+                foreach (var cpu in _cpus) {
+                    if (cpu.PackageTemperature != null && cpu.PackageTemperature.Value.HasValue) {
+                        return cpu.PackageTemperature.Value.Value;
+                    }
                 }
+                int n = 0;
+                float sum = 0.0f;
+                foreach (var cpu in _cpus) {
+                    foreach (var item in cpu.CoreTemperatures) {
+                        if (item != null && item.Value.HasValue) {
+                            sum += item.Value.Value;
+                            n++;
+                        }
+                    }
+                }
+                return sum / n;
             }
             catch {
-                _gpus = new HardwareProviders.CPU.Cpu[0];
+                _cpus = new HardwareProviders.CPU.Cpu[0];
             }
             return 0.0f;
         }
