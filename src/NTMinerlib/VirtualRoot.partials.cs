@@ -29,7 +29,7 @@ namespace NTMiner {
             StackTrace ss = new StackTrace(false);
             // 0是Path，1是Window或On，2是当地
             Type location = ss.GetFrame(2).GetMethod().DeclaringType;
-            return SMessageDispatcher.Register(location, description, logType, action);
+            return SMessageDispatcher.Connect(location, description, logType, action);
         }
 
         /// <summary>

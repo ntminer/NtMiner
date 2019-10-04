@@ -11,7 +11,7 @@
         public event Action<IHandlerId> Disconnected;
 
         #region IMessageDispatcher Members
-        public void DispatchMessage<TMessage>(TMessage message) {
+        public void Dispatch<TMessage>(TMessage message) {
             if (message == null) {
                 throw new ArgumentNullException(nameof(message));
             }

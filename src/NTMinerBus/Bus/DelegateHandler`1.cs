@@ -2,23 +2,12 @@
 using System.ComponentModel;
 
 namespace NTMiner.Bus {
-    /// <summary>
-    /// 委托处理器，该处理器将处理逻辑委托给构造时传入的委托。
-    /// </summary>
-    /// <typeparam name="TMessage"></typeparam>
     public class DelegateHandler<TMessage> : IHandlerId, INotifyPropertyChanged {
         private readonly Action<TMessage> _action;
         private bool _isEnabled;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="location">该处理器在第0级空间的位置</param>
-        /// <param name="description">处理器描述</param>
-        /// <param name="logType">观察日志</param>
-        /// <param name="action">委托</param>
         public DelegateHandler(Type location, string description, LogEnum logType, Action<TMessage> action) {
             this.IsEnabled = true;
             MessageType = typeof(TMessage);
