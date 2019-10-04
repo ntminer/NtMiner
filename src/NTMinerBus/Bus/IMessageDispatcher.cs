@@ -8,7 +8,7 @@ namespace NTMiner.Bus {
 
         void Register<TMessage>(DelegateHandler<TMessage> handler);
 
-        void UnRegister(IDelegateHandler handler);
+        void UnRegister(IMessageHandler handler);
 
         IEnumerable<IHandlerId> HandlerIds { get; }
         event Action<IHandlerId> HandlerIdAdded;

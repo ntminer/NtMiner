@@ -44,7 +44,7 @@
     <Compile Include="Bus\IBus.cs" />
     <Compile Include="Bus\ICmd.cs" />
     <Compile Include="Bus\ICmdBus.cs" />
-    <Compile Include="Bus\IDelegateHandler.cs" />
+    <Compile Include="Bus\IMessageHandler.cs" />
     <Compile Include="Bus\IEvent.cs" />
     <Compile Include="Bus\IEventBus.cs" />
     <Compile Include="Bus\IHandlerId.cs" />
@@ -53,6 +53,7 @@
     <Compile Include="Bus\MessageDispatcher.cs" />
     <Compile Include="Bus\MessageDispatcherExtensions.cs" />
     <Compile Include="Bus\MessageDispatchEventArgs.cs" />
+    <Compile Include="Bus\MessageHandlerExtensions.cs" />
     <Compile Include="Bus\MessageTypeAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

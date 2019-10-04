@@ -70,7 +70,7 @@ namespace NTMiner {
         }
 
         // 拆除消息（命令或事件）的运动路径
-        public static void UnPath(IDelegateHandler handler) {
+        public static void UnPath(IMessageHandler handler) {
             if (handler == null) {
                 return;
             }

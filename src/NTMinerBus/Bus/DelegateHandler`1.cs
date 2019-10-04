@@ -1,8 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace NTMiner.Bus {
-    public class DelegateHandler<TMessage> : IDelegateHandler {
+    /// <summary>
+    /// 委托处理器，该处理器将处理逻辑委托给构造时传入的委托。
+    /// </summary>
+    /// <typeparam name="TMessage"></typeparam>
+    public class DelegateHandler<TMessage> : IMessageHandler {
         private readonly Action<TMessage> _action;
 
         public IHandlerId HandlerId { get; private set; }
@@ -20,13 +23,6 @@ namespace NTMiner.Bus {
                 Logger.ErrorDebugLine(HandlerId.HandlerPath + ":" + e.Message, e);
                 throw;
             }
-        }
-
-        public DelegateHandler<TMessage> AddToCollection(List<IDelegateHandler> handlers) {
-            if (!handlers.Contains(this)) {
-                handlers.Add(this);
-            }
-            return this;
         }
     }
 }

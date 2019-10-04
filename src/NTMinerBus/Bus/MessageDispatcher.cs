@@ -91,7 +91,7 @@ namespace NTMiner.Bus {
             }
         }
 
-        public void UnRegister(IDelegateHandler handler) {
+        public void UnRegister(IMessageHandler handler) {
             if (handler == null) {
                 return;
             }

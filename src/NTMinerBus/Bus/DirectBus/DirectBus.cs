@@ -34,12 +34,6 @@ namespace NTMiner.Bus.DirectBus {
                 }
             }
         }
-
-        public void Clear() {
-            lock (_queueLock) {
-                this._messageQueue.Clear();
-            }
-        }
         #endregion
 
         public void Commit() {

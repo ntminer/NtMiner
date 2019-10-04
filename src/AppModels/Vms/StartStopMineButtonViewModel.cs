@@ -40,7 +40,7 @@ namespace NTMiner.Vms {
             if (IsAutoStart && !this.MinerProfile.IsMining) {
                 this.MinerProfile.IsMining = true;
                 int n = MinerProfile.AutoStartDelaySeconds;
-                Bus.IDelegateHandler handler = null;
+                Bus.IMessageHandler handler = null;
                 handler = AppContext.EventPath<Per1SecondEvent>("挖矿倒计时", LogEnum.None,
                 action: message => {
                     if (NTMinerRoot.IsAutoStartCanceled) {
