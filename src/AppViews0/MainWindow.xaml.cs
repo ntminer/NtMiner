@@ -230,8 +230,6 @@ namespace NTMiner.Views {
         private int cpuPerformance = 0;
         private int cpuTemperature = 0;
         private bool isFirstRefreshCpu = true;
-        private int _highTemperatureCount = 0;
-        private int _lowTemperatureCount = 0;
         const string StopedByCpuTemperature = "StopedByCpuTemperature";
         private void RefreshCpu() {
             if (isFirstRefreshCpu) {
@@ -275,28 +273,31 @@ namespace NTMiner.Views {
                 }
                 if (Vm.MinerProfile.IsAutoStopByCpu) {
                     if (NTMinerRoot.Instance.IsMining) {
+                        Vm.MinerProfile.LowTemperatureCount = 0;
                         if (temperature >= Vm.MinerProfile.CpuStopTemperature) {
-                            _highTemperatureCount++;
+                            Vm.MinerProfile.HighTemperatureCount++;
                         }
                         else {
-                            _highTemperatureCount = 0;
+                            Vm.MinerProfile.HighTemperatureCount = 0;
                         }
-                        if (_highTemperatureCount >= Vm.MinerProfile.CpuGETemperatureSeconds) {
-                            _highTemperatureCount = 0;
+                        if (Vm.MinerProfile.HighTemperatureCount >= Vm.MinerProfile.CpuGETemperatureSeconds) {
+                            Vm.MinerProfile.HighTemperatureCount = 0;
                             NTMinerRoot.Instance.StopMineAsync(StopedByCpuTemperature);
+                            Write.UserWarn($"自动停止挖矿，因为 CPU 温度连续{Vm.MinerProfile.CpuGETemperatureSeconds}秒不低于{Vm.MinerProfile.CpuStopTemperature}℃");
                         }
                     }
                     else {
-                        _highTemperatureCount = 0;
+                        Vm.MinerProfile.HighTemperatureCount = 0;
                         if (Vm.MinerProfile.IsAutoStartByCpu && NTMinerRoot.Instance.StopReason == StopedByCpuTemperature) {
                             if (temperature <= Vm.MinerProfile.CpuStartTemperature) {
-                                _lowTemperatureCount++;
+                                Vm.MinerProfile.LowTemperatureCount++;
                             }
                             else {
-                                _lowTemperatureCount = 0;
+                                Vm.MinerProfile.LowTemperatureCount = 0;
                             }
-                            if (_lowTemperatureCount >= Vm.MinerProfile.CpuLETemperatureSeconds) {
-                                _lowTemperatureCount = 0;
+                            if (Vm.MinerProfile.LowTemperatureCount >= Vm.MinerProfile.CpuLETemperatureSeconds) {
+                                Vm.MinerProfile.LowTemperatureCount = 0;
+                                Write.UserWarn($"自动开始挖矿，因为 CPU 温度连续{Vm.MinerProfile.CpuLETemperatureSeconds}秒不高于{Vm.MinerProfile.CpuStartTemperature}℃");
                                 NTMinerRoot.Instance.StartMine();
                             }
                         }
