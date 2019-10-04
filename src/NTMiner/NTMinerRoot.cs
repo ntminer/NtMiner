@@ -454,23 +454,25 @@ namespace NTMiner {
         #region Exit
         public void Exit() {
             if (_currentMineContext != null) {
-                StopMine();
+                StopMine(stopReason: "Exit");
             }
         }
         #endregion
 
+        public string StopReason { get; private set; }
         #region StopMine
-        public void StopMineAsync(Action callback = null) {
+        public void StopMineAsync(string stopReason, Action callback = null) {
             if (!IsMining) {
                 callback?.Invoke();
                 return;
             }
             Task.Factory.StartNew(() => {
-                StopMine();
+                StopMine(stopReason);
                 callback?.Invoke();
             });
         }
-        private void StopMine() {
+        private void StopMine(string stopReason) {
+            this.StopReason = stopReason;
             if (!IsMining) {
                 return;
             }
@@ -504,7 +506,7 @@ namespace NTMiner {
                 StartMine(isRestart: true);
             }
             else {
-                this.StopMineAsync(() => {
+                this.StopMineAsync("RestartMine", () => {
                     Logger.EventWriteLine("正在重启内核");
                     if (isWork) {
                         ContextReInit(true);
@@ -595,7 +597,7 @@ namespace NTMiner {
                     return;
                 }
                 if (IsMining) {
-                    this.StopMine();
+                    this.StopMine(stopReason: "StartMine");
                 }
                 string packageZipFileFullName = Path.Combine(SpecialPath.PackagesDirFullName, kernel.Package);
                 if (!File.Exists(packageZipFileFullName)) {

@@ -230,6 +230,9 @@ namespace NTMiner.Views {
         private int cpuPerformance = 0;
         private int cpuTemperature = 0;
         private bool isFirstRefreshCpu = true;
+        private int _highTemperatureCount = 0;
+        private int _lowTemperatureCount = 0;
+        const string StopedByCpuTemperature = "StopedByCpuTemperature";
         private void RefreshCpu() {
             if (isFirstRefreshCpu) {
                 isFirstRefreshCpu = false;
@@ -269,6 +272,35 @@ namespace NTMiner.Views {
                 if (cpuTemperature != temperature) {
                     cpuTemperature = temperature;
                     Vm.StateBarVm.CpuTemperatureText = temperature.ToString() + " ℃";
+                }
+                if (Vm.MinerProfile.IsAutoStopByCpu) {
+                    if (NTMinerRoot.Instance.IsMining) {
+                        if (temperature >= Vm.MinerProfile.CpuStopTemperature) {
+                            _highTemperatureCount++;
+                        }
+                        else {
+                            _highTemperatureCount = 0;
+                        }
+                        if (_highTemperatureCount >= Vm.MinerProfile.CpuGETemperatureSeconds) {
+                            _highTemperatureCount = 0;
+                            NTMinerRoot.Instance.StopMineAsync(StopedByCpuTemperature);
+                        }
+                    }
+                    else {
+                        _highTemperatureCount = 0;
+                        if (Vm.MinerProfile.IsAutoStartByCpu && NTMinerRoot.Instance.StopReason == StopedByCpuTemperature) {
+                            if (temperature <= Vm.MinerProfile.CpuStartTemperature) {
+                                _lowTemperatureCount++;
+                            }
+                            else {
+                                _lowTemperatureCount = 0;
+                            }
+                            if (_lowTemperatureCount >= Vm.MinerProfile.CpuLETemperatureSeconds) {
+                                _lowTemperatureCount = 0;
+                                NTMinerRoot.Instance.StartMine();
+                            }
+                        }
+                    }
                 }
             }
         }

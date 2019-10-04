@@ -145,7 +145,7 @@ namespace NTMiner {
                                         Instance.CurrentMineContext.AutoRestartKernelCount = mineContext.AutoRestartKernelCount;
                                     }
                                     else {
-                                        Instance.StopMineAsync();
+                                        Instance.StopMineAsync(stopReason: "KernelProcessLost");
                                     }
                                     if (_kernelProcessDaemon != null) {
                                         VirtualRoot.UnPath(_kernelProcessDaemon);

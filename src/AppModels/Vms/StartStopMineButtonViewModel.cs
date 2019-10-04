@@ -25,7 +25,7 @@ namespace NTMiner.Vms {
                     this.MinerProfile.IsMining = false;
                 }
                 NTMinerRoot.IsAutoStartCanceled = true;
-                NTMinerRoot.Instance.StopMineAsync(() => {
+                NTMinerRoot.Instance.StopMineAsync("UserAction", () => {
                     if (!NTMinerRoot.Instance.IsMining) {
                         this.MinerProfile.IsMining = false;
                     }
