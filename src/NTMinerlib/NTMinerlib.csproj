@@ -60,7 +60,6 @@
     <Compile Include="NTMinerRegistry.cs" />
     <Compile Include="Repositories\IJsonReadOnlyRepository.cs" />
     <Compile Include="SortNumberComparer.cs" />
-    <Compile Include="HandlerId.cs" />
     <Compile Include="EntityExtensions.cs" />
     <Compile Include="EnumExtension.cs" />
     <Compile Include="NTMinerException.cs" />

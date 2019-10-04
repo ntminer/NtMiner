@@ -26,12 +26,12 @@ using System.Threading.Tasks;
 
 namespace NTMiner {
     public partial class NTMinerRoot : INTMinerRoot {
-        private readonly List<IMessageHandler> _serverContextHandlers = new List<IMessageHandler>();
+        private readonly List<IHandlerId> _serverContextHandlers = new List<IHandlerId>();
 
         /// <summary>
         /// 命令窗口。使用该方法的代码行应将前两个参数放在第一行以方便vs查找引用时展示出参数信息
         /// </summary>
-        public IMessageHandler ServerContextCmdPath<TCmd>(string description, LogEnum logType, Action<TCmd> action)
+        public IHandlerId ServerContextCmdPath<TCmd>(string description, LogEnum logType, Action<TCmd> action)
             where TCmd : ICmd {
             return VirtualRoot.Path(description, logType, action).AddToCollection(_serverContextHandlers);
         }
@@ -39,7 +39,7 @@ namespace NTMiner {
         /// <summary>
         /// 事件响应
         /// </summary>
-        public IMessageHandler ServerContextEventPath<TEvent>(string description, LogEnum logType, Action<TEvent> action)
+        public IHandlerId ServerContextEventPath<TEvent>(string description, LogEnum logType, Action<TEvent> action)
             where TEvent : IEvent {
             return VirtualRoot.Path(description, logType, action).AddToCollection(_serverContextHandlers);
         }

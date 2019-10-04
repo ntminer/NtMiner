@@ -35,9 +35,9 @@ namespace NTMiner {
             if (window.Resources == null) {
                 window.Resources = new ResourceDictionary();
             }
-            List<IMessageHandler> contextHandlers = (List<IMessageHandler>)window.Resources["ntminer_contextHandlers"];
+            List<IHandlerId> contextHandlers = (List<IHandlerId>)window.Resources["ntminer_contextHandlers"];
             if (contextHandlers == null) {
-                contextHandlers = new List<IMessageHandler>();
+                contextHandlers = new List<IHandlerId>();
                 window.Resources.Add("ntminer_contextHandlers", contextHandlers);
                 window.Closed += UiElement_Closed;
             }
@@ -55,9 +55,9 @@ namespace NTMiner {
             if (window.Resources == null) {
                 window.Resources = new ResourceDictionary();
             }
-            List<IMessageHandler> contextHandlers = (List<IMessageHandler>)window.Resources["ntminer_contextHandlers"];
+            List<IHandlerId> contextHandlers = (List<IHandlerId>)window.Resources["ntminer_contextHandlers"];
             if (contextHandlers == null) {
-                contextHandlers = new List<IMessageHandler>();
+                contextHandlers = new List<IHandlerId>();
                 window.Resources.Add("ntminer_contextHandlers", contextHandlers);
                 window.Closed += UiElement_Closed; ;
             }
@@ -66,7 +66,7 @@ namespace NTMiner {
 
         private static void UiElement_Closed(object sender, EventArgs e) {
             Window uiElement = (Window)sender;
-            List<IMessageHandler> contextHandlers = (List<IMessageHandler>)uiElement.Resources["ntminer_contextHandlers"];
+            List<IHandlerId> contextHandlers = (List<IHandlerId>)uiElement.Resources["ntminer_contextHandlers"];
             foreach (var handler in contextHandlers) {
                 VirtualRoot.UnPath(handler);
             }

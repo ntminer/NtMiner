@@ -29,18 +29,18 @@ namespace NTMiner.Bus {
                 var messageHandlers = _handlers[messageType].ToArray();
                 foreach (var messageHandler in messageHandlers) {
                     var tMessageHandler = (DelegateHandler<TMessage>)messageHandler;
-                    if (!tMessageHandler.HandlerId.IsEnabled) {
+                    if (!tMessageHandler.IsEnabled) {
                         continue;
                     }
                     var evtArgs = new MessageDispatchEventArgs(message, messageHandler.GetType(), messageHandler);
-                    switch (tMessageHandler.HandlerId.LogType) {
+                    switch (tMessageHandler.LogType) {
                         case LogEnum.DevConsole:
                             if (DevMode.IsDevMode) {
-                                Write.DevDebug($"({messageType.Name})->({tMessageHandler.HandlerId.Location.Name}){tMessageHandler.HandlerId.Description}");
+                                Write.DevDebug($"({messageType.Name})->({tMessageHandler.Location.Name}){tMessageHandler.Description}");
                             }
                             break;
                         case LogEnum.Log:
-                            Logger.InfoDebugLine($"({messageType.Name})->({tMessageHandler.HandlerId.Location.Name}){tMessageHandler.HandlerId.Description}");
+                            Logger.InfoDebugLine($"({messageType.Name})->({tMessageHandler.Location.Name}){tMessageHandler.Description}");
                             break;
                         case LogEnum.None:
                         default:
@@ -61,7 +61,7 @@ namespace NTMiner.Bus {
             lock (_locker) {
                 var keyType = typeof(TMessage);
 
-                var handlerId = handler.HandlerId;
+                var handlerId = handler;
                 if (!_paths.ContainsKey(handlerId.HandlerPath)) {
                     _paths.Add(handlerId.HandlerPath, new List<IHandlerId> { handlerId });
                 }
@@ -86,27 +86,26 @@ namespace NTMiner.Bus {
                     var registeredHandlers = new List<dynamic> { handler };
                     _handlers.Add(keyType, registeredHandlers);
                 }
-                _handlerIds.Add(handler.HandlerId);
-                HandlerIdAdded?.Invoke(handler.HandlerId);
+                _handlerIds.Add(handlerId);
+                HandlerIdAdded?.Invoke(handlerId);
             }
         }
 
-        public void UnRegister(IMessageHandler handler) {
-            if (handler == null) {
+        public void UnRegister(IHandlerId handlerId) {
+            if (handlerId == null) {
                 return;
             }
             lock (_locker) {
-                var handlerId = handler.HandlerId;
                 _paths.Remove(handlerId.HandlerPath);
                 var keyType = handlerId.MessageType;
                 if (_handlers.ContainsKey(keyType) &&
                     _handlers[keyType] != null &&
                     _handlers[keyType].Count > 0 &&
-                    _handlers[keyType].Contains(handler)) {
-                    _handlers[keyType].Remove(handler);
+                    _handlers[keyType].Contains(handlerId)) {
+                    _handlers[keyType].Remove(handlerId);
                     _handlerIds.Remove(handlerId);
                     HandlerIdRemoved?.Invoke(handlerId);
-                    Write.DevDebug("拆除路径" + handler.HandlerId.HandlerPath);
+                    Write.DevDebug("拆除路径" + handlerId.HandlerPath);
                 }
             }
         }

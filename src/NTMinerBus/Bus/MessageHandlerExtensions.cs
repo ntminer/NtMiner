@@ -3,7 +3,7 @@
 namespace NTMiner.Bus {
     public static class MessageHandlerExtensions {
 
-        public static IMessageHandler AddToCollection(this IMessageHandler handler, List<IMessageHandler> handlers) {
+        public static IHandlerId AddToCollection(this IHandlerId handler, List<IHandlerId> handlers) {
             if (!handlers.Contains(handler)) {
                 handlers.Add(handler);
             }

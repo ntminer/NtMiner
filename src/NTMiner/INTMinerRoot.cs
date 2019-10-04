@@ -11,8 +11,8 @@ using System.Collections.Generic;
 
 namespace NTMiner {
     public interface INTMinerRoot {
-        IMessageHandler ServerContextCmdPath<TCmd>(string description, LogEnum logType, Action<TCmd> action) where TCmd : ICmd;
-        IMessageHandler ServerContextEventPath<TEvent>(string description, LogEnum logType, Action<TEvent> action) where TEvent : IEvent;
+        IHandlerId ServerContextCmdPath<TCmd>(string description, LogEnum logType, Action<TCmd> action) where TCmd : ICmd;
+        IHandlerId ServerContextEventPath<TEvent>(string description, LogEnum logType, Action<TEvent> action) where TEvent : IEvent;
         
         void ReInitMinerProfile();
 

@@ -29,8 +29,7 @@ namespace NTMiner {
             StackTrace ss = new StackTrace(false);
             // 0是Path，1是Window或On，2是当地
             Type location = ss.GetFrame(2).GetMethod().DeclaringType;
-            IHandlerId handlerId = HandlerId.Create(typeof(TMessage), location, description, logType);
-            return SMessageDispatcher.Register(handlerId, action);
+            return SMessageDispatcher.Register(typeof(TMessage), location, description, logType, action);
         }
 
         /// <summary>
@@ -70,7 +69,7 @@ namespace NTMiner {
         }
 
         // 拆除消息（命令或事件）的运动路径
-        public static void UnPath(IMessageHandler handler) {
+        public static void UnPath(IHandlerId handler) {
             if (handler == null) {
                 return;
             }

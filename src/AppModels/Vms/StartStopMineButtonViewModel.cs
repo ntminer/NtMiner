@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using NTMiner.Bus;
+using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class StartStopMineButtonViewModel : ViewModelBase {
@@ -40,7 +41,7 @@ namespace NTMiner.Vms {
             if (IsAutoStart && !this.MinerProfile.IsMining) {
                 this.MinerProfile.IsMining = true;
                 int n = MinerProfile.AutoStartDelaySeconds;
-                Bus.IMessageHandler handler = null;
+                IHandlerId handler = null;
                 handler = AppContext.EventPath<Per1SecondEvent>("挖矿倒计时", LogEnum.None,
                 action: message => {
                     if (NTMinerRoot.IsAutoStartCanceled) {
