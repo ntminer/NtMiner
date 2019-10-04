@@ -12,10 +12,17 @@ namespace NTMiner.Bus {
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public DelegateHandler(Type messageType, Type location, string description, LogEnum logType, Action<TMessage> action) {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="location">该处理器在第0级空间的位置</param>
+        /// <param name="description">处理器描述</param>
+        /// <param name="logType">观察日志</param>
+        /// <param name="action"></param>
+        public DelegateHandler(Type location, string description, LogEnum logType, Action<TMessage> action) {
             this.IsEnabled = true;
-            string path = $"{location.FullName}[{messageType.FullName}]";
-            MessageType = messageType;
+            MessageType = typeof(TMessage);
+            string path = $"{location.FullName}[{MessageType.FullName}]";
             Location = location;
             HandlerPath = path;
             Description = description;
