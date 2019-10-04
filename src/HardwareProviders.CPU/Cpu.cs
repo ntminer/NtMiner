@@ -162,6 +162,7 @@ namespace HardwareProviders.CPU {
                     threads.Add(new CpuId(i));
                 }
                 catch (ArgumentOutOfRangeException) {
+                    break;
                 }
 
             var processors =
