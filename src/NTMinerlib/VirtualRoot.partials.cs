@@ -73,7 +73,7 @@ namespace NTMiner {
             if (handler == null) {
                 return;
             }
-            SMessageDispatcher.UnRegister(handler);
+            SMessageDispatcher.Disconnect(handler);
         }
 
         public static int _secondCount = 0;

@@ -18,7 +18,7 @@ namespace NTMiner.Bus {
         /// <param name="location">该处理器在第0级空间的位置</param>
         /// <param name="description">处理器描述</param>
         /// <param name="logType">观察日志</param>
-        /// <param name="action"></param>
+        /// <param name="action">委托</param>
         public DelegateHandler(Type location, string description, LogEnum logType, Action<TMessage> action) {
             this.IsEnabled = true;
             MessageType = typeof(TMessage);
@@ -30,11 +30,11 @@ namespace NTMiner.Bus {
             _action = action;
         }
 
-        public Type MessageType { get; set; }
-        public Type Location { get; set; }
-        public string HandlerPath { get; set; }
-        public LogEnum LogType { get; set; }
-        public string Description { get; set; }
+        public Type MessageType { get; private set; }
+        public Type Location { get; private set; }
+        public string HandlerPath { get; private set; }
+        public LogEnum LogType { get; private set; }
+        public string Description { get; private set; }
         public bool IsEnabled {
             get => _isEnabled;
             set {

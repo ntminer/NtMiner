@@ -1,22 +1,14 @@
-﻿
-namespace NTMiner.Bus {
+﻿namespace NTMiner.Bus {
     using System;
     using System.Collections.Generic;
 
     public class MessageDispatcher : IMessageDispatcher {
         private readonly Dictionary<Type, List<object>> _handlers = new Dictionary<Type, List<object>>();
         private readonly Dictionary<string, List<IHandlerId>> _paths = new Dictionary<string, List<IHandlerId>>();
-        private readonly List<IHandlerId> _handlerIds = new List<IHandlerId>();
         private readonly object _locker = new object();
 
-        public IEnumerable<IHandlerId> HandlerIds {
-            get {
-                return _handlerIds;
-            }
-        }
-
-        public event Action<IHandlerId> HandlerIdAdded;
-        public event Action<IHandlerId> HandlerIdRemoved;
+        public event Action<IHandlerId> Connected;
+        public event Action<IHandlerId> Disconnected;
 
         #region IMessageDispatcher Members
         public void DispatchMessage<TMessage>(TMessage message) {
@@ -54,7 +46,7 @@ namespace NTMiner.Bus {
             }
         }
 
-        public void Register<TMessage>(DelegateHandler<TMessage> handler) {
+        public void Connect<TMessage>(DelegateHandler<TMessage> handler) {
             if (handler == null) {
                 throw new ArgumentNullException(nameof(handler));
             }
@@ -86,12 +78,11 @@ namespace NTMiner.Bus {
                     var registeredHandlers = new List<dynamic> { handler };
                     _handlers.Add(keyType, registeredHandlers);
                 }
-                _handlerIds.Add(handlerId);
-                HandlerIdAdded?.Invoke(handlerId);
+                Connected?.Invoke(handlerId);
             }
         }
 
-        public void UnRegister(IHandlerId handlerId) {
+        public void Disconnect(IHandlerId handlerId) {
             if (handlerId == null) {
                 return;
             }
@@ -103,9 +94,8 @@ namespace NTMiner.Bus {
                     _handlers[keyType].Count > 0 &&
                     _handlers[keyType].Contains(handlerId)) {
                     _handlers[keyType].Remove(handlerId);
-                    _handlerIds.Remove(handlerId);
-                    HandlerIdRemoved?.Invoke(handlerId);
                     Write.DevDebug("拆除路径" + handlerId.HandlerPath);
+                    Disconnected?.Invoke(handlerId);
                 }
             }
         }

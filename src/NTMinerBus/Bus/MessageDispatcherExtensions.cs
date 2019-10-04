@@ -7,7 +7,7 @@ namespace NTMiner.Bus {
                 throw new ArgumentNullException(nameof(action));
             }
             DelegateHandler<TMessage> handler = new DelegateHandler<TMessage>(location, description, logType, action);
-            dispatcher.Register(handler);
+            dispatcher.Connect(handler);
             return handler;
         }
     }
