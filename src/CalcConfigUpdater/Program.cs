@@ -9,20 +9,6 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace NTMiner {
-    public class DataConfig {
-        public string currency { get; set; }
-        public string scale { get; set; }
-        public double estimatedProfit { get; set; }
-        public string unit { get; set; }
-        public double price { get; set; }
-        public double rate { get; set; }
-        public double difficulty { get; set; }
-
-        public override string ToString() {
-            return $"'currency':'{currency}','scale':'{scale}','estimatedProfit':{estimatedProfit},'unit':'{unit}','price':{price},'rate':{rate},'difficulty':{difficulty}";
-        }
-    }
-
     public class Program {
         static void Main(string[] args) {
             VirtualRoot.StartTimer();
@@ -47,21 +33,6 @@ namespace NTMiner {
             }
 
             System.Threading.Thread.Sleep(1000);
-        }
-
-        public static async Task<List<DataConfig>> GetDataConfig() {
-            List<DataConfig> dataConfigs = new List<DataConfig>();
-            var htmlData = await GetHtmlAsync("https://www.f2pool.com/");
-            if (htmlData != null && htmlData.Length != 0) {
-                string html = Encoding.UTF8.GetString(htmlData);
-                string[] strs = html.Split(new string[] { "data-config=" }, StringSplitOptions.RemoveEmptyEntries);
-                for (int i = 1; i < strs.Length; i++) {
-                    string json = strs[i].Substring(0, strs[i].IndexOf('}')) + "}";
-                    json = json.Trim(new char[] { '\'', '"' });
-                    dataConfigs.Add(VirtualRoot.JsonSerializer.Deserialize<DataConfig>(json));
-                }
-            }
-            return dataConfigs;
         }
 
         private static void UpdateAsync() {
@@ -340,7 +311,7 @@ namespace NTMiner {
             }
         }
 
-        public static async Task<byte[]> GetHtmlAsync(string url) {
+        private static async Task<byte[]> GetHtmlAsync(string url) {
             try {
                 using (HttpClient client = new HttpClient()) {
                     client.Timeout = TimeSpan.FromSeconds(20);
