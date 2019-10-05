@@ -9,7 +9,21 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace NTMiner {
-    class Program {
+    public class DataConfig {
+        public string currency { get; set; }
+        public string scale { get; set; }
+        public double estimatedProfit { get; set; }
+        public string unit { get; set; }
+        public double price { get; set; }
+        public double rate { get; set; }
+        public double difficulty { get; set; }
+
+        public override string ToString() {
+            return $"'currency':'{currency}','scale':'{scale}','estimatedProfit':{estimatedProfit},'unit':'{unit}','price':{price},'rate':{rate},'difficulty':{difficulty}";
+        }
+    }
+
+    public class Program {
         static void Main(string[] args) {
             VirtualRoot.StartTimer();
             try {
@@ -309,7 +323,7 @@ namespace NTMiner {
             }
         }
 
-        private static async Task<byte[]> GetHtmlAsync(string url) {
+        public static async Task<byte[]> GetHtmlAsync(string url) {
             try {
                 using (HttpClient client = new HttpClient()) {
                     client.Timeout = TimeSpan.FromSeconds(20);

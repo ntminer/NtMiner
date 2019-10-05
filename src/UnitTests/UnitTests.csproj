@@ -60,6 +60,7 @@
     <Compile Include="IPTests.cs" />
     <Compile Include="MarshalTests.cs" />
     <Compile Include="JsonTests.cs" />
+    <Compile Include="CalcConfigUpdaterTests.cs" />
     <Compile Include="WMITests.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -67,6 +68,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CalcConfigUpdater\CalcConfigUpdater.csproj">
+      <Project>{5646cada-feaf-4991-abda-dbebcd54d792}</Project>
+      <Name>CalcConfigUpdater</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HardwareProviders.CPU\HardwareProviders.CPU.csproj">
       <Project>{7de56519-4fc8-4a72-a143-098acc4de53c}</Project>
       <Name>HardwareProviders.CPU</Name>
