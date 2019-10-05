@@ -155,10 +155,10 @@ namespace NTMiner.Core.Kernels.Impl {
         public void Filter(IMineContext mineContext, ref string input) {
             try {
                 InitOnece();
-                if (string.IsNullOrEmpty(input)) {
+                if (string.IsNullOrEmpty(input) || !_dicByKernelOutputId.ContainsKey(mineContext.Kernel.KernelOutputId)) {
                     return;
                 }
-                foreach (var kernelOutputFilter in _dicByKernelOutputId[mineContext.KernelOutput.GetId()]) {
+                foreach (var kernelOutputFilter in _dicByKernelOutputId[mineContext.Kernel.KernelOutputId]) {
                     Regex regex = GetRegex(kernelOutputFilter);
                     if (regex == null) {
                         continue;
