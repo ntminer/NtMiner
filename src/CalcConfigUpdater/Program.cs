@@ -302,6 +302,9 @@ namespace NTMiner {
                         incomeItem.NetSpeedUnit = incomeItem.NetSpeedUnit.Replace("g/s", "h/s");
                     }
                 }
+                if (incomeItem.DataCode == "ckb") {
+                    incomeItem.CoinCode = "ckb";
+                }
                 double.TryParse(match.Groups["speed"].Value, out double speed);
                 incomeItem.Speed = speed;
                 double.TryParse(match.Groups["netSpeed"].Value, out double netSpeed);
