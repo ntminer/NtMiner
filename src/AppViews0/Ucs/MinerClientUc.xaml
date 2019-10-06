@@ -19,10 +19,6 @@
 		<Style x:Key="Row" TargetType="WrapPanel">
 			<Setter Property="Margin" Value="0 4"></Setter>
 		</Style>
-		<Style x:Key="RowLine" TargetType="Border">
-			<Setter Property="BorderBrush" Value="#EEEEEE"></Setter>
-			<Setter Property="BorderThickness" Value="0 1 0 0"></Setter>
-		</Style>
 		<sys:Double x:Key="OneColWidth">480</sys:Double>
 	</UserControl.Resources>
 	<StackPanel HorizontalAlignment="Left">
@@ -105,7 +101,6 @@
 				</MenuItem>
 			</Menu>
 		</Grid>
-		<Border Style="{StaticResource RowLine}"></Border>
 		<Grid Margin="0 4">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -121,9 +116,9 @@
 					<TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White">未挖矿</TextBlock>
 				</Border>
 				<TextBlock Style="{StaticResource LblTb}" Width="80" Padding="0 0 10 0">运行时长</TextBlock>
-				<TextBlock Text="{Binding BootTimeSpanText}" VerticalAlignment="Center"></TextBlock>
+				<TextBlock Text="{Binding BootTimeSpanText}" Width="100" VerticalAlignment="Center"></TextBlock>
 				<TextBlock Style="{StaticResource LblTb}" Width="80" Padding="0 0 10 0">挖矿时长</TextBlock>
-				<TextBlock Text="{Binding MineTimeSpanText}" VerticalAlignment="Center"></TextBlock>
+                <TextBlock Text="{Binding MineTimeSpanText}" Width="100" VerticalAlignment="Center"></TextBlock>
 				<TextBlock Style="{StaticResource LblTb}" Width="50" Padding="0 0 10 0">作业</TextBlock>
 				<ComboBox
 					MinWidth="100"
@@ -131,36 +126,37 @@
 					DisplayMemberPath="Name"
 					SelectedItem="{Binding SelectedMineWork}"
 					Text="{Binding SelectedMineWork.Name, Mode=OneWay}"></ComboBox>
-				<TextBlock Style="{StaticResource LblTb}" Width="80" Padding="0 0 10 0">群控矿机名</TextBlock>
-				<TextBox 
-					VerticalAlignment="Center"
-					ToolTip="注意：修改矿机名后需重新开始挖矿才能反应到矿池"
-					Width="120"
-					Text="{Binding MinerName}"></TextBox>
-			</WrapPanel>
+                <TextBlock Style="{StaticResource LblTb}" Width="50" Padding="0 0 10 0">分组</TextBlock>
+                <ComboBox 
+					MinWidth="100"
+					ItemsSource="{Binding MinerGroupVms.List}"
+					DisplayMemberPath="Name"
+					SelectedItem="{Binding SelectedMinerGroup}"></ComboBox>
+            </WrapPanel>
 		</Grid>
-		<Border Style="{StaticResource RowLine}"></Border>
 		<Grid Margin="0 4">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto"></ColumnDefinition>
 				<ColumnDefinition Width="*"></ColumnDefinition>
 			</Grid.ColumnDefinitions>
-			<TextBlock Style="{StaticResource LblTb}">矿机名</TextBlock>
+            <TextBlock Style="{StaticResource LblTb}">矿机名/群控名</TextBlock>
 			<WrapPanel Grid.Column="1">
-				<TextBox 
-					VerticalAlignment="Center"
-					Width="100"
-					IsReadOnly="False"
-					BorderThickness="0"
-					Text="{Binding ClientName,Mode=OneWay}"></TextBox>
-				<WrapPanel VerticalAlignment="Center">
-					<TextBlock Style="{StaticResource LblTb}" Width="40" Padding="0 0 10 0">分组</TextBlock>
-					<ComboBox 
-						MinWidth="100"
-						ItemsSource="{Binding MinerGroupVms.List}"
-						DisplayMemberPath="Name"
-						SelectedItem="{Binding SelectedMinerGroup}"></ComboBox>
-				</WrapPanel>
+                <WrapPanel Width="160">
+                    <TextBox 
+					    VerticalAlignment="Center"
+					    IsReadOnly="False"
+					    BorderThickness="0"
+					    Text="{Binding ClientName,Mode=OneWay}"></TextBox>
+                    <TextBlock 
+                        Padding="4 0"
+					    VerticalAlignment="Center"
+					    Text="/"></TextBlock>
+                    <TextBox 
+					    VerticalAlignment="Center"
+					    ToolTip="注意：修改矿机名后需重新开始挖矿才能反应到矿池"
+					    Width="70"
+					    Text="{Binding MinerName}"></TextBox>
+                </WrapPanel>
 				<WrapPanel VerticalAlignment="Center">
 					<TextBlock Style="{StaticResource LblTb}" Width="50" Padding="0 0 10 0">IP</TextBlock>
 					<controls:KbButton
@@ -194,7 +190,6 @@
 				</WrapPanel>
 			</WrapPanel>
 		</Grid>
-		<Border Style="{StaticResource RowLine}"></Border>
 		<Grid Margin="0 4">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -254,7 +249,6 @@
 				</WrapPanel>
 			</WrapPanel>
 		</Grid>
-		<Border Style="{StaticResource RowLine}"></Border>
 		<Grid Margin="0 4" Visibility="{Binding DualCoinCode,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -302,7 +296,6 @@
 				</WrapPanel>
 			</WrapPanel>
 		</Grid>
-		<Border Style="{StaticResource RowLine}"></Border>
 		<Grid Margin="0 4">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -546,7 +539,6 @@
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
-		<Border Style="{StaticResource RowLine}"></Border>
 		<WrapPanel Style="{StaticResource Row}">
 			<WrapPanel Style="{StaticResource Row}">
 				<TextBlock Style="{StaticResource LblTb}">主币矿池</TextBlock>
@@ -591,7 +583,6 @@
                     Text="{Binding Version, Mode=OneWay}"></TextBox>
             </WrapPanel>
         </WrapPanel>
-		<Border Style="{StaticResource RowLine}"></Border>
 		<WrapPanel Style="{StaticResource Row}">
 			<WrapPanel>
 				<TextBlock Style="{StaticResource LblTb}">操作系统</TextBlock>
@@ -637,7 +628,6 @@
 				    Text="否"></TextBlock>
             </WrapPanel>
         </WrapPanel>
-		<Border Style="{StaticResource RowLine}"></Border>
 		<WrapPanel Style="{StaticResource Row}">
 			<TextBlock Style="{StaticResource LblTb}">显卡</TextBlock>
 			<Path
@@ -674,7 +664,6 @@
 				IsReadOnly="True"
 				Text="{Binding GpuDriver, Mode=OneWay}"></TextBox>
 		</WrapPanel>
-		<Border Style="{StaticResource RowLine}"></Border>
 		<Grid Margin="0 4">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -690,6 +679,5 @@
 				ToolTip="{Binding KernelCommandLine}"
 				Text="{Binding KernelCommandLine, Mode=OneWay}"></controls:KbMuiltilineTextBox>
 		</Grid>
-		<Border Style="{StaticResource RowLine}"></Border>
 	</StackPanel>
 </UserControl>

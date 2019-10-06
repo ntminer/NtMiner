@@ -303,7 +303,7 @@ namespace NTMiner.Vms {
             }
         }
 
-        [Description("群控矿机名")]
+        [Description("群控名")]
         public bool MinerName {
             get { return _minerName; }
             set {
