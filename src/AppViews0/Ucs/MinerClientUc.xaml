@@ -349,8 +349,8 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <WrapPanel>
-                                <TextBlock Text="GPU"></TextBlock>
-                                <TextBlock Text="{Binding Index}"></TextBlock>
+                                <TextBlock Text="GPU" Foreground="{StaticResource LableColor}"></TextBlock>
+                                <TextBlock Text="{Binding Index}" Foreground="{StaticResource LableColor}"></TextBlock>
                             </WrapPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
