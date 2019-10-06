@@ -105,17 +105,17 @@
 			</Grid.ColumnDefinitions>
 			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Center">最后更新</TextBlock>
 			<WrapPanel Grid.Column="1">
-				<TextBlock Width="60" Text="{Binding LastActivedOnText}" VerticalAlignment="Center"></TextBlock>
+				<TextBlock Width="50" Text="{Binding LastActivedOnText}" VerticalAlignment="Center"></TextBlock>
 				<Border Width="40" Height="19" Background="Green" Visibility="{Binding IsMining,Converter={StaticResource BoolToVisibilityConverter}}">
 					<TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White">挖矿中</TextBlock>
 				</Border>
 				<Border Width="40" Height="19" Background="Red" Visibility="{Binding IsMining,Converter={StaticResource BoolToVisibilityInvertConverter}}">
 					<TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White">未挖矿</TextBlock>
 				</Border>
-				<TextBlock Style="{StaticResource LblTb}" Width="80" Padding="0 0 10 0">运行时长</TextBlock>
-				<TextBlock Text="{Binding BootTimeSpanText}" Width="100" VerticalAlignment="Center"></TextBlock>
-				<TextBlock Style="{StaticResource LblTb}" Width="80" Padding="0 0 10 0">挖矿时长</TextBlock>
-                <TextBlock Text="{Binding MineTimeSpanText}" Width="100" VerticalAlignment="Center"></TextBlock>
+				<TextBlock Style="{StaticResource LblTb}" Width="70" Padding="0 0 10 0">运行时长</TextBlock>
+				<TextBlock Text="{Binding BootTimeSpanText}" Width="110" VerticalAlignment="Center"></TextBlock>
+				<TextBlock Style="{StaticResource LblTb}" Width="70" Padding="0 0 10 0">挖矿时长</TextBlock>
+                <TextBlock Text="{Binding MineTimeSpanText}" Width="110" VerticalAlignment="Center"></TextBlock>
 				<TextBlock Style="{StaticResource LblTb}" Width="50" Padding="0 0 10 0">作业</TextBlock>
 				<ComboBox
 					MinWidth="100"
