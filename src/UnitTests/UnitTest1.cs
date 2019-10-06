@@ -200,12 +200,6 @@ namespace UnitTests {
         }
 
         [TestMethod]
-        public void RunCloseTest() {
-            string location = NTMiner.NTMinerRegistry.GetLocation();
-            NTMiner.Windows.Cmd.RunClose(location, string.Empty);
-        }
-
-        [TestMethod]
         public void StringJoinTest() {
             object[] values = new object[] { "tsss", 1, null, (UnitTest1)null };
             Console.WriteLine(string.Join(",", values));
@@ -273,25 +267,6 @@ namespace UnitTests {
         [TestMethod]
         public void DoubleToIntTest() {
             Assert.AreEqual(1, (int)1.1);
-        }
-
-        [TestMethod]
-        public void ZipTest() {
-            ZipUtil.DecompressZipFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "lolminer0.7Alpha5.zip"), Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "temp"));
-        }
-
-        [TestMethod]
-        public void OperatorTest() {
-            ServerHostItem v1 = new ServerHostItem("localhost");
-            ServerHostItem v2 = new ServerHostItem("localhost");
-            Assert.AreEqual(v1, v2);
-            Assert.IsTrue(v1 == v2);
-            Assert.IsFalse(v1 != v2);
-            Assert.IsFalse(v1 == null);
-            Assert.IsFalse(null == v1);
-            v1 = null;
-            v2 = null;
-            Assert.IsTrue(v1 == v2);
         }
 
         private string SignatureSafeUrl(Uri uri) {

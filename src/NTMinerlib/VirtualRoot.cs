@@ -50,7 +50,12 @@ namespace NTMiner {
                         return _isMinerStudio;
                     }
                     // 基于约定
-                    _isMinerStudio = Environment.CommandLine.IndexOf("--minerstudio", StringComparison.OrdinalIgnoreCase) != -1 || Assembly.GetEntryAssembly().GetManifestResourceInfo("NTMiner.NTMinerServices.NTMinerServices.exe") != null;
+                    var assembly = Assembly.GetEntryAssembly();
+                    // 单元测试时assembly为null
+                    if (assembly == null) {
+                        return false;
+                    }
+                    _isMinerStudio = Environment.CommandLine.IndexOf("--minerstudio", StringComparison.OrdinalIgnoreCase) != -1 || assembly.GetManifestResourceInfo("NTMiner.NTMinerServices.NTMinerServices.exe") != null;
                     _isMinerStudioDetected = true;
                 }
                 return _isMinerStudio;
