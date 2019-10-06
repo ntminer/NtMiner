@@ -138,7 +138,7 @@
 			</Grid.ColumnDefinitions>
             <TextBlock Style="{StaticResource LblTb}">矿机名/群控名</TextBlock>
 			<WrapPanel Grid.Column="1">
-                <WrapPanel Width="160">
+                <WrapPanel Width="140">
                     <TextBox 
 					    VerticalAlignment="Center"
 					    IsReadOnly="False"
@@ -151,11 +151,11 @@
                     <TextBox 
 					    VerticalAlignment="Center"
 					    ToolTip="注意：修改矿机名后需重新开始挖矿才能反应到矿池"
-					    Width="70"
+					    Width="60"
 					    Text="{Binding MinerName}"></TextBox>
                 </WrapPanel>
 				<WrapPanel VerticalAlignment="Center">
-					<TextBlock Style="{StaticResource LblTb}" Width="50" Padding="0 0 10 0">IP</TextBlock>
+					<TextBlock Style="{StaticResource LblTb}" Width="30" Padding="0 0 10 0">IP</TextBlock>
 					<controls:KbButton
 						BorderThickness="0"
 						Background="Transparent"
@@ -181,11 +181,35 @@
 				</WrapPanel>
 				<WrapPanel VerticalAlignment="Center">
 					<TextBlock Style="{StaticResource LblTb}" Padding="0 0 4 0">远程桌面登录名</TextBlock>
-					<TextBox x:Name="TbWindowsLoginName" Width="100" Text="{Binding WindowsLoginName,UpdateSourceTrigger=LostFocus}"></TextBox>
+					<TextBox x:Name="TbWindowsLoginName" Width="80" Text="{Binding WindowsLoginName,UpdateSourceTrigger=LostFocus}"></TextBox>
 					<TextBlock Style="{StaticResource LblTb}" Width="40" Padding="0 0 4 0">密码</TextBlock>
-					<PasswordBox Width="100" BorderBrush="{Binding ElementName=TbWindowsLoginName,Path=BorderBrush}" VerticalContentAlignment="Center" Background="Transparent" controls:PasswordBoxHelper.Attach="true" controls:PasswordBoxHelper.Password="{Binding WindowsPassword, Mode=TwoWay, ValidatesOnExceptions=True, UpdateSourceTrigger=LostFocus}"/>
-				</WrapPanel>
-			</WrapPanel>
+                    <PasswordBox Width="80" BorderBrush="{Binding ElementName=TbWindowsLoginName,Path=BorderBrush}" VerticalContentAlignment="Center" Background="Transparent" controls:PasswordBoxHelper.Attach="true" controls:PasswordBoxHelper.Password="{Binding WindowsPassword, Mode=TwoWay, ValidatesOnExceptions=True, UpdateSourceTrigger=LostFocus}"/>
+                </WrapPanel>
+                <WrapPanel VerticalAlignment="Center">
+                    <TextBlock Style="{StaticResource LblTb}" Width="Auto">开机启动</TextBlock>
+                    <TextBlock 
+                        Width="40"
+				        Visibility="{Binding IsAutoBoot,Converter={StaticResource BoolToVisibilityConverter}}"
+				        Text="是"></TextBlock>
+                    <TextBlock 
+                        Width="40"
+                        Foreground="Red"
+				        Visibility="{Binding IsAutoBoot,Converter={StaticResource BoolToVisibilityInvertConverter}}"
+				        Text="否"></TextBlock>
+                </WrapPanel>
+                <WrapPanel VerticalAlignment="Center">
+                    <TextBlock Style="{StaticResource LblTb}" Width="Auto">自动挖矿</TextBlock>
+                    <TextBlock 
+                        Width="40"
+				        Visibility="{Binding IsAutoStart,Converter={StaticResource BoolToVisibilityConverter}}"
+				        Text="是"></TextBlock>
+                    <TextBlock 
+                        Foreground="Red"
+                        Width="40"
+				        Visibility="{Binding IsAutoStart,Converter={StaticResource BoolToVisibilityInvertConverter}}"
+				        Text="否"></TextBlock>
+                </WrapPanel>
+            </WrapPanel>
 		</Grid>
 		<Grid Margin="0 2">
 			<Grid.ColumnDefinitions>
@@ -310,7 +334,7 @@
                         <ResourceDictionary />
                     </Style.Resources>
                     <Setter Property="UseLayoutRounding" Value="True" />
-                    <Setter Property="Foreground" Value="#FF5A5A5A" />
+                    <Setter Property="Foreground" Value="{StaticResource LableColor}" />
                     <Setter Property="Background" Value="Transparent"></Setter>
                     <Setter Property="FontWeight" Value="Bold"></Setter>
                     <Setter Property="Focusable" Value="False"></Setter>
@@ -433,9 +457,8 @@
                             <StackPanel>
                                 <TextBlock Text="温度" FontSize="12"></TextBlock>
                                 <TextBox 
-					                HorizontalAlignment="Right"
 					                ToolTip="最高卡温"
-					                Padding="0 0 20 0"
+                                    FontSize="12"
 					                BorderThickness="0"
 					                Background="Transparent"
 					                Foreground="{Binding Data.TempForeground,Source={StaticResource proxy}}"
@@ -595,67 +618,43 @@
                     BorderThickness="0" 
                     Text="{Binding OSVirtualMemoryGbText, Mode=OneWay}"></TextBox>
             </WrapPanel>
-            <WrapPanel VerticalAlignment="Center">
-                <TextBlock Style="{StaticResource LblTb}" Width="Auto">开机启动</TextBlock>
-                <TextBlock 
-                    Width="50"
-				    Visibility="{Binding IsAutoBoot,Converter={StaticResource BoolToVisibilityConverter}}"
-				    Text="是"></TextBlock>
-                <TextBlock 
-                    Width="50"
-                    Foreground="Red"
-				    Visibility="{Binding IsAutoBoot,Converter={StaticResource BoolToVisibilityInvertConverter}}"
-				    Text="否"></TextBlock>
-            </WrapPanel>
-            <WrapPanel VerticalAlignment="Center">
-                <TextBlock Style="{StaticResource LblTb}" Width="Auto">自动挖矿</TextBlock>
-                <TextBlock 
-                    Width="50"
-				    Visibility="{Binding IsAutoStart,Converter={StaticResource BoolToVisibilityConverter}}"
-				    Text="是"></TextBlock>
-                <TextBlock 
-                    Foreground="Red"
-                    Width="50"
-				    Visibility="{Binding IsAutoStart,Converter={StaticResource BoolToVisibilityInvertConverter}}"
-				    Text="否"></TextBlock>
+            <WrapPanel>
+                <TextBlock Style="{StaticResource LblTb}" Width="Auto">显卡</TextBlock>
+                <Path
+				    Width="18"
+				    Height="14"
+				    ToolTip="NVIDIA"
+				    Visibility="{Binding IsNvidiaIconVisible}"
+				    Data="{StaticResource Icon_Nvidia}"
+				    Fill="Green"
+				    Stretch="Fill" />
+                <Path
+				    Width="16"
+				    Height="14"
+				    ToolTip="AMD"
+				    Visibility="{Binding IsAMDIconVisible}"
+				    Data="{StaticResource Icon_AMD}"
+				    Fill="Red"
+				    Stretch="Fill" />
+                <TextBlock VerticalAlignment="Center" Text=" x "></TextBlock>
+                <TextBlock VerticalAlignment="Center" Text="{Binding GpuCount}"></TextBlock>
+                <TextBox 
+				    Margin="4 0 0 0"
+				    Padding="0"
+				    BorderThickness="0"
+				    Background="Transparent"
+				    IsReadOnly="True"
+				    ToolTip="{Binding GpuInfo}"
+				    Text="{Binding GpuInfo, Mode=OneWay}"></TextBox>
+                <TextBox 
+				    Margin="4 0 0 0"
+				    Padding="0"
+				    BorderThickness="0"
+				    Background="Transparent"
+				    IsReadOnly="True"
+				    Text="{Binding GpuDriver, Mode=OneWay}"></TextBox>
             </WrapPanel>
         </WrapPanel>
-		<WrapPanel Margin="0 2">
-			<TextBlock Style="{StaticResource LblTb}">显卡</TextBlock>
-			<Path
-				Width="18"
-				Height="14"
-				ToolTip="NVIDIA"
-				Visibility="{Binding IsNvidiaIconVisible}"
-				Data="{StaticResource Icon_Nvidia}"
-				Fill="Green"
-				Stretch="Fill" />
-			<Path
-				Width="16"
-				Height="14"
-				ToolTip="AMD"
-				Visibility="{Binding IsAMDIconVisible}"
-				Data="{StaticResource Icon_AMD}"
-				Fill="Red"
-				Stretch="Fill" />
-			<TextBlock VerticalAlignment="Center" Text=" x "></TextBlock>
-			<TextBlock VerticalAlignment="Center" Text="{Binding GpuCount}"></TextBlock>
-			<TextBox 
-				Margin="4 0 0 0"
-				Padding="0"
-				BorderThickness="0"
-				Background="Transparent"
-				IsReadOnly="True"
-				ToolTip="{Binding GpuInfo}"
-				Text="{Binding GpuInfo, Mode=OneWay}"></TextBox>
-			<TextBox 
-				Margin="4 0 0 0"
-				Padding="0"
-				BorderThickness="0"
-				Background="Transparent"
-				IsReadOnly="True"
-				Text="{Binding GpuDriver, Mode=OneWay}"></TextBox>
-		</WrapPanel>
 		<Grid Margin="0 2">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto"></ColumnDefinition>
