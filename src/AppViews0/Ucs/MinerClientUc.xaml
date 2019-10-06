@@ -323,6 +323,8 @@
 			    ItemsSource="{Binding GpuTableVm}">
                 <DataGrid.Resources>
                     <controls:BindingProxy x:Key="proxy" Data="{Binding GpuTableVm}" />
+                    <sys:Double x:Key="{x:Static SystemParameters.HorizontalScrollBarHeightKey}">10</sys:Double>
+                    <sys:Double x:Key="{x:Static SystemParameters.HorizontalScrollBarButtonWidthKey}">0</sys:Double>
                     <Style TargetType="DataGridColumnHeader">
                         <Style.Resources>
                             <ResourceDictionary />
