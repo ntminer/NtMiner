@@ -337,7 +337,7 @@ namespace NTMiner.Vms {
             }
         }
 
-        public const string WINDOWS_LOGIN_NAME_AND_PASSWORD = "远程桌面用户名密码";
+        public const string WINDOWS_LOGIN_NAME_AND_PASSWORD = "远程桌面";
         [Description(WINDOWS_LOGIN_NAME_AND_PASSWORD)]
         public bool WindowsLoginNameAndPassword {
             get => _windowsLoginNameAndPassword;

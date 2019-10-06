@@ -148,7 +148,7 @@
 					    BorderThickness="0"
 					    Text="{Binding ClientName,Mode=OneWay}"></TextBox>
                     <TextBlock 
-                        Padding="4 0"
+                        Padding="0 0 4 0"
 					    VerticalAlignment="Center"
 					    Text="/"></TextBlock>
                     <TextBox 

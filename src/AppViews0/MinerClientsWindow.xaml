@@ -520,7 +520,7 @@
 						IsReadOnly="True">
 						<DataGridTextColumn.Header>
 							<WrapPanel>
-								<TextBlock>运行时长</TextBlock>
+                                <TextBlock Text="{x:Static vm:ColumnsShowViewModel.BOOT_TIME_SPAN_TEXT}"></TextBlock>
 								<controls:KbButton
 									ToolTip="不展示"
 									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
@@ -545,7 +545,7 @@
 						IsReadOnly="True">
 						<DataGridTextColumn.Header>
 							<WrapPanel>
-								<TextBlock>挖矿时长</TextBlock>
+                                <TextBlock Text="{x:Static vm:ColumnsShowViewModel.MINE_TIME_SPAN_TEXT}"></TextBlock>
 								<controls:KbButton
 									ToolTip="不展示"
 									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
@@ -570,7 +570,7 @@
 						IsReadOnly="True">
 						<DataGridTextColumn.Header>
 							<WrapPanel>
-								<TextBlock>作业</TextBlock>
+                                <TextBlock Text="{x:Static vm:ColumnsShowViewModel.WORK}"></TextBlock>
 								<controls:KbButton
 									ToolTip="不展示"
 									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
@@ -595,7 +595,7 @@
 						IsReadOnly="True">
 						<DataGridTextColumn.Header>
 							<WrapPanel>
-								<TextBlock>分组</TextBlock>
+                                <TextBlock Text="{x:Static vm:ColumnsShowViewModel.MINER_GROUP}"></TextBlock>
 								<controls:KbButton
 									ToolTip="不展示"
 									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
@@ -620,7 +620,7 @@
 						IsReadOnly="True">
 						<DataGridTextColumn.Header>
 							<WrapPanel>
-								<TextBlock>矿机名</TextBlock>
+                                <TextBlock Text="{x:Static vm:ColumnsShowViewModel.CLIENT_NAME}"></TextBlock>
 								<controls:KbButton
 									ToolTip="不展示"
 									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
@@ -645,7 +645,7 @@
 						IsReadOnly="False">
 						<DataGridTextColumn.Header>
 							<WrapPanel>
-								<TextBlock>群控名</TextBlock>
+                                <TextBlock Text="{x:Static vm:ColumnsShowViewModel.MINER_NAME}"></TextBlock>
 								<controls:KbButton
 									ToolTip="不展示"
 									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
@@ -669,7 +669,7 @@
 						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
-								<TextBlock>IP</TextBlock>
+                                <TextBlock Text="{x:Static vm:ColumnsShowViewModel.MINER_IP}"></TextBlock>
 								<controls:KbButton
 									ToolTip="不展示"
 									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
@@ -718,7 +718,7 @@
 						IsReadOnly="False">
 						<DataGridTextColumn.Header>
 							<WrapPanel>
-								<TextBlock>远程桌面用户名</TextBlock>
+                                <TextBlock Text="{x:Static vm:ColumnsShowViewModel.WINDOWS_LOGIN_NAME_AND_PASSWORD}"></TextBlock>
 								<controls:KbButton
 									ToolTip="不展示"
 									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
@@ -743,7 +743,7 @@
 						IsReadOnly="False">
 						<DataGridTextColumn.Header>
 							<WrapPanel>
-								<TextBlock>远程桌面密码</TextBlock>
+                                <TextBlock Text="{x:Static vm:ColumnsShowViewModel.WINDOWS_LOGIN_NAME_AND_PASSWORD}"></TextBlock>
 								<controls:KbButton
 									ToolTip="不展示"
 									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
@@ -767,7 +767,7 @@
 						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
-								<TextBlock>显卡类型</TextBlock>
+                                <TextBlock Text="{x:Static vm:ColumnsShowViewModel.GPU_TYPE}"></TextBlock>
 								<controls:KbButton
 									ToolTip="不展示"
 									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
@@ -817,7 +817,7 @@
 						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
-								<TextBlock>显卡</TextBlock>
+                                <TextBlock Text="{x:Static vm:ColumnsShowViewModel.GPU_INFO}"></TextBlock>
 								<controls:KbButton
 									ToolTip="不展示"
 									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
@@ -853,7 +853,7 @@
 						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
-								<TextBlock>显卡驱动</TextBlock>
+                                <TextBlock Text="{x:Static vm:ColumnsShowViewModel.GPU_DRIVER}"></TextBlock>
 								<controls:KbButton
 									ToolTip="不展示"
 									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
@@ -888,7 +888,7 @@
 						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
-								<TextBlock>主挖币种</TextBlock>
+                                <TextBlock Text="{x:Static vm:ColumnsShowViewModel.MAIN_COIN_CODE}"></TextBlock>
 								<controls:KbButton
 									ToolTip="不展示"
 									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
@@ -919,7 +919,7 @@
 						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
-								<TextBlock>主币算力</TextBlock>
+                                <TextBlock Text="{x:Static vm:ColumnsShowViewModel.MAIN_COIN_SPEED_TEXT}"></TextBlock>
 								<controls:KbButton
 									ToolTip="不展示"
 									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
@@ -948,7 +948,7 @@
 						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
-								<TextBlock>拒绝次数</TextBlock>
+                                <TextBlock Text="{x:Static vm:ColumnsShowViewModel.MAIN_COIN_REJECT_PERCENT_TEXT}"></TextBlock>
 								<controls:KbButton
 									ToolTip="不展示"
 									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
@@ -981,7 +981,7 @@
 						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
-								<TextBlock>拒绝率</TextBlock>
+                                <TextBlock Text="{x:Static vm:ColumnsShowViewModel.MAIN_COIN_REJECT_PERCENT_TEXT}"></TextBlock>
 								<controls:KbButton
 									ToolTip="不展示"
 									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
@@ -1010,7 +1010,7 @@
 						IsReadOnly="True">
                         <DataGridTemplateColumn.Header>
                             <WrapPanel>
-                                <TextBlock>矿池延时</TextBlock>
+                                <TextBlock Text="{x:Static vm:ColumnsShowViewModel.MAIN_COIN_POOL_DELAY}"></TextBlock>
                                 <controls:KbButton
 									ToolTip="不展示"
 									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
@@ -1039,7 +1039,7 @@
 						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
-								<TextBlock>双挖币种</TextBlock>
+                                <TextBlock Text="{x:Static vm:ColumnsShowViewModel.DUAL_COIN_CODE}"></TextBlock>
 								<controls:KbButton
 									ToolTip="不展示"
 									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
@@ -1074,7 +1074,7 @@
 						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
-								<TextBlock>双挖算力</TextBlock>
+                                <TextBlock Text="{x:Static vm:ColumnsShowViewModel.DUAL_COIN_SPEED_TEXT}"></TextBlock>
 								<controls:KbButton
 									ToolTip="不展示"
 									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
@@ -1109,7 +1109,7 @@
 						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
-								<TextBlock>拒绝次数</TextBlock>
+                                <TextBlock Text="{x:Static vm:ColumnsShowViewModel.DUAL_COIN_REJECT_PERCENT_TEXT}"></TextBlock>
 								<controls:KbButton
 									ToolTip="不展示"
 									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
@@ -1142,7 +1142,7 @@
 						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
-								<TextBlock>拒绝率</TextBlock>
+                                <TextBlock Text="{x:Static vm:ColumnsShowViewModel.DUAL_COIN_REJECT_PERCENT_TEXT}"></TextBlock>
 								<controls:KbButton
 									ToolTip="不展示"
 									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
@@ -1171,7 +1171,7 @@
 						IsReadOnly="True">
                         <DataGridTemplateColumn.Header>
                             <WrapPanel>
-                                <TextBlock>矿池延时</TextBlock>
+                                <TextBlock Text="{x:Static vm:ColumnsShowViewModel.DUAL_COIN_POOL_DELAY}"></TextBlock>
                                 <controls:KbButton
 									ToolTip="不展示"
 									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
@@ -1200,7 +1200,7 @@
 						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
-								<TextBlock>功耗</TextBlock>
+                                <TextBlock Text="{x:Static vm:ColumnsShowViewModel.TOTAL_POWER_TEXT}"></TextBlock>
 								<controls:KbButton
 									ToolTip="不展示"
 									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
@@ -1229,7 +1229,7 @@
 						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
-								<TextBlock>最高卡温</TextBlock>
+                                <TextBlock Text="{x:Static vm:ColumnsShowViewModel.MAX_TEMP_TEXT}"></TextBlock>
 								<controls:KbButton
 									ToolTip="不展示"
 									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
@@ -1258,7 +1258,7 @@
 						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
-								<TextBlock>主币预期收益</TextBlock>
+                                <TextBlock Text="{x:Static vm:ColumnsShowViewModel.INCOME_MAIN_COIN_PER_DAY_TEXT}"></TextBlock>
 								<controls:KbButton
 									ToolTip="不展示"
 									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
@@ -1310,7 +1310,7 @@
 						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
-								<TextBlock>双挖币预期收益</TextBlock>
+                                <TextBlock Text="{x:Static vm:ColumnsShowViewModel.INCOME_DUAL_COIN_PER_DAY_TEXT}"></TextBlock>
 								<controls:KbButton
 									ToolTip="不展示"
 									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
@@ -1362,7 +1362,7 @@
 						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
-								<TextBlock>主币钱包</TextBlock>
+                                <TextBlock Text="{x:Static vm:ColumnsShowViewModel.MAIN_COIN_WALLET}"></TextBlock>
 								<controls:KbButton
 									ToolTip="不展示"
 									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
@@ -1397,7 +1397,7 @@
 						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
-								<TextBlock>主币矿池</TextBlock>
+                                <TextBlock Text="{x:Static vm:ColumnsShowViewModel.MAIN_COIN_POOL}"></TextBlock>
 								<controls:KbButton
 									ToolTip="不展示"
 									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
@@ -1433,7 +1433,7 @@
 						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
-								<TextBlock>内核</TextBlock>
+                                <TextBlock Text="{x:Static vm:ColumnsShowViewModel.KERNEL}"></TextBlock>
 								<controls:KbButton
 									ToolTip="不展示"
 									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
@@ -1468,7 +1468,7 @@
 						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
-								<TextBlock>双挖钱包</TextBlock>
+                                <TextBlock Text="{x:Static vm:ColumnsShowViewModel.DUAL_COIN_WALLET}"></TextBlock>
 								<controls:KbButton
 									ToolTip="不展示"
 									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
@@ -1503,7 +1503,7 @@
 						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
-								<TextBlock>双挖矿池</TextBlock>
+                                <TextBlock Text="{x:Static vm:ColumnsShowViewModel.DUAL_COIN_POOL}"></TextBlock>
 								<controls:KbButton
 									ToolTip="不展示"
 									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
@@ -1539,7 +1539,7 @@
 						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
-								<TextBlock>客户端版本</TextBlock>
+                                <TextBlock Text="{x:Static vm:ColumnsShowViewModel.VERSION}"></TextBlock>
 								<controls:KbButton
 									ToolTip="不展示"
 									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
@@ -1568,7 +1568,7 @@
 						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
-								<TextBlock>操作系统</TextBlock>
+                                <TextBlock Text="{x:Static vm:ColumnsShowViewModel.OS_NAME}"></TextBlock>
 								<controls:KbButton
 									ToolTip="不展示"
 									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
@@ -1597,7 +1597,7 @@
 						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
-								<TextBlock>虚拟内存</TextBlock>
+                                <TextBlock Text="{x:Static vm:ColumnsShowViewModel.OS_VIRTUAL_MEMORY_GB_TEXT}"></TextBlock>
 								<controls:KbButton
 									ToolTip="不展示"
 									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
@@ -1626,7 +1626,7 @@
 						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
-								<TextBlock>剩余磁盘</TextBlock>
+                                <TextBlock Text="{x:Static vm:ColumnsShowViewModel.DISK_SPACE}"></TextBlock>
 								<controls:KbButton
 									ToolTip="不展示"
 									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
@@ -1655,7 +1655,7 @@
 						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
-								<TextBlock>开机自动启动</TextBlock>
+                                <TextBlock Text="{x:Static vm:ColumnsShowViewModel.IS_AUTO_BOOT}"></TextBlock>
 								<controls:KbButton
 									ToolTip="不展示"
 									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
@@ -1688,7 +1688,7 @@
 						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
-								<TextBlock>自动挖矿</TextBlock>
+                                <TextBlock Text="{x:Static vm:ColumnsShowViewModel.IS_AUTO_START}"></TextBlock>
 								<controls:KbButton
 									ToolTip="不展示"
 									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
@@ -1721,7 +1721,7 @@
 						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
-								<TextBlock>内核命令行</TextBlock>
+                                <TextBlock Text="{x:Static vm:ColumnsShowViewModel.KERNEL_COMMAND_LINE}"></TextBlock>
 								<controls:KbButton
 									ToolTip="不展示"
 									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
