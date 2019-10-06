@@ -581,7 +581,7 @@
 					Text="{Binding Kernel, Mode=OneWay}"></TextBox>
             </WrapPanel>
             <WrapPanel Style="{StaticResource Row}">
-                <TextBlock Style="{StaticResource LblTb}" Width="Auto">客户端版本</TextBlock>
+                <TextBlock Style="{StaticResource LblTb}" Width="Auto">开源版本</TextBlock>
                 <TextBox 
                     Padding="0" 
                     Width="200"
@@ -615,11 +615,11 @@
             <WrapPanel VerticalAlignment="Center">
                 <TextBlock Style="{StaticResource LblTb}" Width="Auto">开机启动</TextBlock>
                 <TextBlock 
-                    Width="100"
+                    Width="50"
 				    Visibility="{Binding IsAutoBoot,Converter={StaticResource BoolToVisibilityConverter}}"
 				    Text="是"></TextBlock>
                 <TextBlock 
-                    Width="100"
+                    Width="50"
                     Foreground="Red"
 				    Visibility="{Binding IsAutoBoot,Converter={StaticResource BoolToVisibilityInvertConverter}}"
 				    Text="否"></TextBlock>
@@ -627,12 +627,12 @@
             <WrapPanel VerticalAlignment="Center">
                 <TextBlock Style="{StaticResource LblTb}" Width="Auto">自动挖矿</TextBlock>
                 <TextBlock 
-                    Width="100"
+                    Width="50"
 				    Visibility="{Binding IsAutoStart,Converter={StaticResource BoolToVisibilityConverter}}"
 				    Text="是"></TextBlock>
                 <TextBlock 
                     Foreground="Red"
-                    Width="100"
+                    Width="50"
 				    Visibility="{Binding IsAutoStart,Converter={StaticResource BoolToVisibilityInvertConverter}}"
 				    Text="否"></TextBlock>
             </WrapPanel>
