@@ -20,7 +20,6 @@ namespace NTMiner.Vms {
         private double _incomeDualCoinUsdPerDay;
         private double _incomeDualCoinCnyPerDay;
         private MinerGroupViewModel _selectedMinerGroup;
-        private SolidColorBrush _tempForeground;
         private SolidColorBrush _dualCoinRejectPercentForeground;
         private SolidColorBrush _mainCoinRejectPercentForeground;
 
@@ -883,32 +882,6 @@ namespace NTMiner.Vms {
             get { return $"{GpuTable.Sum(a => a.PowerUsage).ToString("f0")}W"; }
         }
 
-        public int MaxTemp {
-            get {
-                if (GpuTable == null || GpuTable.Length == 0) {
-                    return 0;
-                }
-                return GpuTable.Max(a => a.Temperature);
-            }
-        }
-
-        public string MaxTempText {
-            get {
-                if (GpuTable == null || GpuTable.Length == 0) {
-                    return "0";
-                }
-                return GpuTable.Max(a => a.Temperature).ToString("f0") + "℃";
-            }
-        }
-
-        public SolidColorBrush TempForeground {
-            get => _tempForeground;
-            set {
-                _tempForeground = value;
-                OnPropertyChanged(nameof(TempForeground));
-            }
-        }
-
         public SolidColorBrush MainCoinRejectPercentForeground {
             get => _mainCoinRejectPercentForeground;
             set {
@@ -932,14 +905,13 @@ namespace NTMiner.Vms {
                 OnPropertyChanged(nameof(GpuTable));
                 OnPropertyChanged(nameof(TotalPower));
                 OnPropertyChanged(nameof(TotalPowerText));
-                OnPropertyChanged(nameof(MaxTemp));
-                OnPropertyChanged(nameof(MaxTempText));
                 OnPropertyChanged(nameof(GpuCount));
+                int maxTemperature = _data.GpuTable.Length == 0 ? 0 : _data.GpuTable.Max(a => a.Temperature);
                 this.GpuTableVm = new GpuSpeedDataViewModels(
                     MainCoinCode, DualCoinCode, MainCoinSpeedText, 
                     DualCoinSpeedText, TotalPowerText,
                     IsRejectOneGpuShare, IsFoundOneGpuShare, IsGotOneIncorrectGpuShare,
-                    CpuPerformance, CpuTemperature ,value);
+                    CpuPerformance, CpuTemperature, maxTemperature, value);
             }
         }
 

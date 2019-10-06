@@ -409,14 +409,17 @@ namespace NTMiner.Vms {
 
         private void RefreshMaxTempForeground() {
             foreach (MinerClientViewModel item in MinerClients) {
-                if (item.MaxTemp >= this.MaxTemp) {
-                    item.TempForeground = Wpf.Util.RedBrush;
+                if (item.GpuTableVm == null) {
+                    continue;
                 }
-                else if (item.MaxTemp < this.MinTemp) {
-                    item.TempForeground = MinerClientViewModel.Blue;
+                if (item.GpuTableVm.MaxTemp >= this.MaxTemp) {
+                    item.GpuTableVm.TempForeground = Wpf.Util.RedBrush;
+                }
+                else if (item.GpuTableVm.MaxTemp < this.MinTemp) {
+                    item.GpuTableVm.TempForeground = MinerClientViewModel.Blue;
                 }
                 else {
-                    item.TempForeground = MinerClientViewModel.DefaultForeground;
+                    item.GpuTableVm.TempForeground = MinerClientViewModel.DefaultForeground;
                 }
                 item.RefreshGpusForeground(this.MinTemp, this.MaxTemp);
             }

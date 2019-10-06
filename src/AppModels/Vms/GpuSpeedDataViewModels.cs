@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Windows.Media;
 
 namespace NTMiner.Vms {
     public class GpuSpeedDataViewModels : ViewModelBase, IEnumerable<GpuSpeedDataViewModel> {
@@ -16,6 +17,9 @@ namespace NTMiner.Vms {
         private bool _isGotOneIncorrectGpuShare;
         private int _cpuPerformance;
         private int _cpuTemperature;
+        private string _maxTempText;
+        private SolidColorBrush _tempForeground;
+        private int _maxTemp;
 
         public GpuSpeedDataViewModels() {
             if (!Design.IsInDesignMode) {
@@ -34,6 +38,7 @@ namespace NTMiner.Vms {
             bool isGotOneIncorrectGpuShare,
             int cpuPerformance,
             int cpuTemperature,
+            int maxTemp,
             GpuSpeedData[] datas) {
             this._mainCoinCode = mainCoinCode;
             this._dualCoinCode = dualCoinCode;
@@ -45,10 +50,36 @@ namespace NTMiner.Vms {
             this._isGotOneIncorrectGpuShare = isGotOneIncorrectGpuShare;
             this._cpuPerformance = cpuPerformance;
             this._cpuTemperature = cpuTemperature;
+            this._maxTemp = maxTemp;
+            this._maxTempText = maxTemp.ToString("f0") + "℃";
             if (datas != null && datas.Length != 0) {
                 foreach (var data in datas) {
                     _gpuSpeeds.Add(new GpuSpeedDataViewModel(data));
                 }
+            }
+        }
+
+        public int MaxTemp {
+            get => _maxTemp;
+            set {
+                _maxTemp = value;
+                OnPropertyChanged(nameof(MaxTemp));
+            }
+        }
+
+        public SolidColorBrush TempForeground {
+            get => _tempForeground;
+            set {
+                _tempForeground = value;
+                OnPropertyChanged(nameof(TempForeground));
+            }
+        }
+
+        public string MaxTempText {
+            get => _maxTempText;
+            set {
+                _maxTempText = value;
+                OnPropertyChanged(nameof(MaxTempText));
             }
         }
 

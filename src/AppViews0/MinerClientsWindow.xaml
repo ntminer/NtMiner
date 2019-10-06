@@ -1248,7 +1248,7 @@
 						</DataGridTemplateColumn.Header>
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
-								<TextBlock Text="{Binding MaxTempText}" Foreground="{Binding TempForeground}"></TextBlock>
+                                <TextBlock Text="{Binding GpuTableVm.MaxTempText}" Foreground="{Binding GpuTableVm.TempForeground}"></TextBlock>
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
