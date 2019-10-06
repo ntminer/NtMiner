@@ -19,7 +19,7 @@
 		<sys:Double x:Key="OneColWidth">480</sys:Double>
 	</UserControl.Resources>
 	<StackPanel HorizontalAlignment="Left">
-		<Grid Margin="0 2">
+		<Grid Margin="0 3">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto"></ColumnDefinition>
 				<ColumnDefinition Width="*"></ColumnDefinition>
@@ -98,7 +98,7 @@
 				</MenuItem>
 			</Menu>
 		</Grid>
-		<Grid Margin="0 2">
+		<Grid Margin="0 3">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto"></ColumnDefinition>
 				<ColumnDefinition Width="*"></ColumnDefinition>
@@ -131,7 +131,7 @@
 					SelectedItem="{Binding SelectedMinerGroup}"></ComboBox>
             </WrapPanel>
 		</Grid>
-		<Grid Margin="0 2">
+		<Grid Margin="0 3">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto"></ColumnDefinition>
 				<ColumnDefinition Width="*"></ColumnDefinition>
@@ -211,7 +211,7 @@
                 </WrapPanel>
             </WrapPanel>
 		</Grid>
-		<Grid Margin="0 2">
+		<Grid Margin="0 3">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto"></ColumnDefinition>
 				<ColumnDefinition Width="*"></ColumnDefinition>
@@ -270,7 +270,7 @@
 				</WrapPanel>
 			</WrapPanel>
 		</Grid>
-		<Grid Margin="0 2" Visibility="{Binding DualCoinCode,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
+		<Grid Margin="0 3" Visibility="{Binding DualCoinCode,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto"></ColumnDefinition>
 				<ColumnDefinition Width="*"></ColumnDefinition>
@@ -318,7 +318,7 @@
 			</WrapPanel>
 		</Grid>
         <DataGrid
-            Margin="40 2 0 2"
+            Margin="40 3 0 3"
             HorizontalAlignment="Left" 
 			ColumnHeaderHeight="32"
 			MinRowHeight="24"
@@ -554,7 +554,7 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <WrapPanel Margin="0 2">
+        <WrapPanel Margin="0 3">
 			<WrapPanel>
 				<TextBlock Style="{StaticResource LblTb}">主币矿池</TextBlock>
 				<TextBox 
@@ -598,7 +598,7 @@
                     Text="{Binding Version, Mode=OneWay}"></TextBox>
             </WrapPanel>
         </WrapPanel>
-		<WrapPanel Margin="0 2">
+		<WrapPanel Margin="0 3">
 			<WrapPanel>
 				<TextBlock Style="{StaticResource LblTb}">操作系统</TextBlock>
 				<TextBox 
@@ -655,7 +655,7 @@
 				    Text="{Binding GpuDriver, Mode=OneWay}"></TextBox>
             </WrapPanel>
         </WrapPanel>
-		<Grid Margin="0 2">
+		<Grid Margin="0 3">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto"></ColumnDefinition>
 				<ColumnDefinition Width="*"></ColumnDefinition>
