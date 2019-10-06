@@ -33,7 +33,6 @@
     <SolidColorBrush x:Key="WindowBorderBrush">#9B9FB9</SolidColorBrush>
     <SolidColorBrush x:Key="TableHeaderBackground">#F5F4F5</SolidColorBrush>
     <SolidColorBrush x:Key="TableHeaderForeground">#FF5A5A5A</SolidColorBrush>
-    <SolidColorBrush x:Key="ConsoleBackground">#0C0C0C</SolidColorBrush>
 
     <ControlTemplate x:Key="ErrorTemplate">
 		<DockPanel LastChildFill="true">
