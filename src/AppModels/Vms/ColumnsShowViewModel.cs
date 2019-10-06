@@ -225,7 +225,8 @@ namespace NTMiner.Vms {
             }
         }
 
-        [Description("最后更新")]
+        public const string LAST_ACTIVED_ON_TEXT = "最后更新";
+        [Description(LAST_ACTIVED_ON_TEXT)]
         public bool LastActivedOnText {
             get => _lastActivedOnText;
             set {
@@ -238,7 +239,8 @@ namespace NTMiner.Vms {
             }
         }
 
-        [Description("运行时长")]
+        public const string BOOT_TIME_SPAN_TEXT = "运行时长";
+        [Description(BOOT_TIME_SPAN_TEXT)]
         public bool BootTimeSpanText {
             get { return _bootTimeSpanText; }
             set {
@@ -251,7 +253,8 @@ namespace NTMiner.Vms {
             }
         }
 
-        [Description("挖矿时长")]
+        public const string MINE_TIME_SPAN_TEXT = "挖矿时长";
+        [Description(MINE_TIME_SPAN_TEXT)]
         public bool MineTimeSpanText {
             get { return _mineTimeSpanText; }
             set {
@@ -264,7 +267,8 @@ namespace NTMiner.Vms {
             }
         }
 
-        [Description("作业")]
+        public const string WORK = "作业";
+        [Description(WORK)]
         public bool Work {
             get => _work;
             set {
@@ -277,7 +281,8 @@ namespace NTMiner.Vms {
             }
         }
 
-        [Description("分组")]
+        public const string MINER_GROUP = "分组";
+        [Description(MINER_GROUP)]
         public bool MinerGroup {
             get { return _minerGroup; }
             set {
@@ -290,7 +295,8 @@ namespace NTMiner.Vms {
             }
         }
 
-        [Description("矿机名")]
+        public const string CLIENT_NAME = "矿机名";
+        [Description(CLIENT_NAME)]
         public bool ClientName {
             get { return _clientName; }
             set {
@@ -303,7 +309,8 @@ namespace NTMiner.Vms {
             }
         }
 
-        [Description("群控名")]
+        public const string MINER_NAME = "群控名";
+        [Description(MINER_NAME)]
         public bool MinerName {
             get { return _minerName; }
             set {
@@ -316,7 +323,8 @@ namespace NTMiner.Vms {
             }
         }
 
-        [Description("IP")]
+        public const string MINER_IP = "IP";
+        [Description(MINER_IP)]
         public bool MinerIp {
             get { return _minerIp; }
             set {
@@ -329,7 +337,8 @@ namespace NTMiner.Vms {
             }
         }
 
-        [Description("远程桌面用户名密码")]
+        public const string WINDOWS_LOGIN_NAME_AND_PASSWORD = "远程桌面用户名密码";
+        [Description(WINDOWS_LOGIN_NAME_AND_PASSWORD)]
         public bool WindowsLoginNameAndPassword {
             get => _windowsLoginNameAndPassword;
             set {
@@ -342,7 +351,8 @@ namespace NTMiner.Vms {
             }
         }
 
-        [Description("显卡类型")]
+        public const string GPU_TYPE = "显卡类型";
+        [Description(GPU_TYPE)]
         public bool GpuType {
             get => _gpuType;
             set {
@@ -355,7 +365,8 @@ namespace NTMiner.Vms {
             }
         }
 
-        [Description("显卡")]
+        public const string GPU_INFO = "显卡";
+        [Description(GPU_INFO)]
         public bool GpuInfo {
             get => _gpuInfo;
             set {
@@ -368,7 +379,8 @@ namespace NTMiner.Vms {
             }
         }
 
-        [Description("显卡驱动")]
+        public const string GPU_DRIVER = "显卡驱动";
+        [Description(GPU_DRIVER)]
         public bool GpuDriver {
             get => _gpuDriver;
             set {
@@ -381,7 +393,8 @@ namespace NTMiner.Vms {
             }
         }
 
-        [Description("主挖币种")]
+        public const string MAIN_COIN_CODE = "主挖币种";
+        [Description(MAIN_COIN_CODE)]
         public bool MainCoinCode {
             get {
                 return _mainCoinCode;
@@ -396,7 +409,8 @@ namespace NTMiner.Vms {
             }
         }
 
-        [Description("主币算力")]
+        public const string MAIN_COIN_SPEED_TEXT = "主币算力";
+        [Description(MAIN_COIN_SPEED_TEXT)]
         public bool MainCoinSpeedText {
             get { return _mainCoinSpeedText; }
             set {
@@ -409,7 +423,8 @@ namespace NTMiner.Vms {
             }
         }
 
-        [Description("主币拒绝")]
+        public const string MAIN_COIN_REJECT_PERCENT_TEXT = "主币拒绝";
+        [Description(MAIN_COIN_REJECT_PERCENT_TEXT)]
         public bool MainCoinRejectPercentText {
             get => _mainCoinRejectPercentText;
             set {
@@ -422,7 +437,8 @@ namespace NTMiner.Vms {
             }
         }
 
-        [Description("双挖币种")]
+        public const string DUAL_COIN_CODE = "双挖币种";
+        [Description(DUAL_COIN_CODE)]
         public bool DualCoinCode {
             get => _dualCoinCode;
             set {
@@ -435,7 +451,8 @@ namespace NTMiner.Vms {
             }
         }
 
-        [Description("双挖币算力")]
+        public const string DUAL_COIN_SPEED_TEXT = "双挖币算力";
+        [Description(DUAL_COIN_SPEED_TEXT)]
         public bool DualCoinSpeedText {
             get => _dualCoinSpeedText;
             set {
@@ -448,7 +465,8 @@ namespace NTMiner.Vms {
             }
         }
 
-        [Description("双挖币拒绝")]
+        public const string DUAL_COIN_REJECT_PERCENT_TEXT = "双挖币拒绝";
+        [Description(DUAL_COIN_REJECT_PERCENT_TEXT)]
         public bool DualCoinRejectPercentText {
             get => _dualCoinRejectPercentText;
             set {
@@ -461,7 +479,8 @@ namespace NTMiner.Vms {
             }
         }
 
-        [Description("功耗")]
+        public const string TOTAL_POWER_TEXT = "功耗";
+        [Description(TOTAL_POWER_TEXT)]
         public bool TotalPowerText {
             get => _totalPowerText;
             set {
@@ -474,7 +493,8 @@ namespace NTMiner.Vms {
             }
         }
 
-        [Description("最高卡温")]
+        public const string MAX_TEMP_TEXT = "最高卡温";
+        [Description(MAX_TEMP_TEXT)]
         public bool MaxTempText {
             get => _maxTempText;
             set {
@@ -487,7 +507,8 @@ namespace NTMiner.Vms {
             }
         }
 
-        [Description("主币预期收益")]
+        public const string INCOME_MAIN_COIN_PER_DAY_TEXT = "主币预期收益";
+        [Description(INCOME_MAIN_COIN_PER_DAY_TEXT)]
         public bool IncomeMainCoinPerDayText {
             get => _incomeMainCoinPerDayText;
             set {
@@ -500,7 +521,8 @@ namespace NTMiner.Vms {
             }
         }
 
-        [Description("双挖币预期收益")]
+        public const string INCOME_DUAL_COIN_PER_DAY_TEXT = "双挖币预期收益";
+        [Description(INCOME_DUAL_COIN_PER_DAY_TEXT)]
         public bool IncomeDualCoinPerDayText {
             get => _incomeDualCoinPerDayText;
             set {
@@ -513,7 +535,8 @@ namespace NTMiner.Vms {
             }
         }
 
-        [Description("主币钱包")]
+        public const string MAIN_COIN_WALLET = "主币钱包";
+        [Description(MAIN_COIN_WALLET)]
         public bool MainCoinWallet {
             get => _mainCoinWallet;
             set {
@@ -526,7 +549,8 @@ namespace NTMiner.Vms {
             }
         }
 
-        [Description("主币矿池")]
+        public const string MAIN_COIN_POOL = "主币矿池";
+        [Description(MAIN_COIN_POOL)]
         public bool MainCoinPool {
             get => _mainCoinPool;
             set {
@@ -539,7 +563,8 @@ namespace NTMiner.Vms {
             }
         }
 
-        [Description("内核")]
+        public const string KERNEL = "内核";
+        [Description(KERNEL)]
         public bool Kernel {
             get => _kernel;
             set {
@@ -552,7 +577,8 @@ namespace NTMiner.Vms {
             }
         }
 
-        [Description("双挖币钱包")]
+        public const string DUAL_COIN_WALLET = "双挖币钱包";
+        [Description(DUAL_COIN_WALLET)]
         public bool DualCoinWallet {
             get => _dualCoinWallet;
             set {
@@ -565,7 +591,8 @@ namespace NTMiner.Vms {
             }
         }
 
-        [Description("双挖币矿池")]
+        public const string DUAL_COIN_POOL = "双挖币矿池";
+        [Description(DUAL_COIN_POOL)]
         public bool DualCoinPool {
             get => _dualCoinPool;
             set {
@@ -578,7 +605,8 @@ namespace NTMiner.Vms {
             }
         }
 
-        [Description("客户端版本")]
+        public const string VERSION = "客户端版本";
+        [Description(VERSION)]
         public bool Version {
             get => _version;
             set {
@@ -591,7 +619,8 @@ namespace NTMiner.Vms {
             }
         }
 
-        [Description("操作系统")]
+        public const string OS_NAME = "操作系统";
+        [Description(OS_NAME)]
         public bool OSName {
             get => _oSName;
             set {
@@ -604,7 +633,8 @@ namespace NTMiner.Vms {
             }
         }
 
-        [Description("虚拟内存")]
+        public const string OS_VIRTUAL_MEMORY_GB_TEXT = "虚拟内存";
+        [Description(OS_VIRTUAL_MEMORY_GB_TEXT)]
         public bool OSVirtualMemoryGbText {
             get => _oSVirtualMemoryGbText;
             set {
@@ -617,7 +647,8 @@ namespace NTMiner.Vms {
             }
         }
 
-        [Description("剩余磁盘")]
+        public const string DISK_SPACE = "剩余磁盘";
+        [Description(DISK_SPACE)]
         public bool DiskSpace {
             get => _diskSpace;
             set {
@@ -630,7 +661,8 @@ namespace NTMiner.Vms {
             }
         }
 
-        [Description("开机启动")]
+        public const string IS_AUTO_BOOT = "开机启动";
+        [Description(IS_AUTO_BOOT)]
         public bool IsAutoBoot {
             get => _isAutoBoot;
             set {
@@ -643,7 +675,8 @@ namespace NTMiner.Vms {
             }
         }
 
-        [Description("自动挖矿")]
+        public const string IS_AUTO_START = "自动挖矿";
+        [Description(IS_AUTO_START)]
         public bool IsAutoStart {
             get => _isAutoStart;
             set {
@@ -656,7 +689,8 @@ namespace NTMiner.Vms {
             }
         }
 
-        [Description("内核命令行")]
+        public const string KERNEL_COMMAND_LINE = "内核命令行";
+        [Description(KERNEL_COMMAND_LINE)]
         public bool KernelCommandLine {
             get => _kernelCommandLine;
             set {
@@ -669,7 +703,8 @@ namespace NTMiner.Vms {
             }
         }
 
-        [Description("自动重启内核")]
+        public const string IS_AUTO_RESTART_KERNEL = "自动重启内核";
+        [Description(IS_AUTO_RESTART_KERNEL)]
         public bool IsAutoRestartKernel {
             get => _isAutoRestartKernel;
             set {
@@ -681,7 +716,8 @@ namespace NTMiner.Vms {
             }
         }
 
-        [Description("无份额重启内核")]
+        public const string IS_NO_SHARE_RESTART_KERNEL = "无份额重启内核";
+        [Description(IS_NO_SHARE_RESTART_KERNEL)]
         public bool IsNoShareRestartKernel {
             get => _isNoShareRestartKernel;
             set {
@@ -693,7 +729,8 @@ namespace NTMiner.Vms {
             }
         }
 
-        [Description("无份额重启电脑")]
+        public const string IS_NO_SHARE_RESTART_COMPUTER = "无份额重启电脑";
+        [Description(IS_NO_SHARE_RESTART_COMPUTER)]
         public bool IsNoShareRestartComputer {
             get { return _isNoShareRestartComputer; }
             set {
@@ -705,7 +742,8 @@ namespace NTMiner.Vms {
             }
         }
 
-        [Description("周期重启内核")]
+        public const string IS_PERIODIC_RESTART_KERNEL = "周期重启内核";
+        [Description(IS_PERIODIC_RESTART_KERNEL)]
         public bool IsPeriodicRestartKernel {
             get => _isPeriodicRestartKernel;
             set {
@@ -717,7 +755,8 @@ namespace NTMiner.Vms {
             }
         }
 
-        [Description("周期重启电脑")]
+        public const string IS_PERIODIC_RESTART_COMPUTER = "周期重启电脑";
+        [Description(IS_PERIODIC_RESTART_COMPUTER)]
         public bool IsPeriodicRestartComputer {
             get => _isPeriodicRestartComputer;
             set {
@@ -729,7 +768,8 @@ namespace NTMiner.Vms {
             }
         }
 
-        [Description("矿池延时")]
+        public const string MAIN_COIN_POOL_DELAY = "矿池延时";
+        [Description(MAIN_COIN_POOL_DELAY)]
         public bool MainCoinPoolDelay {
             get { return _mainCoinPoolDelay; }
             set {
@@ -741,7 +781,8 @@ namespace NTMiner.Vms {
             }
         }
 
-        [Description("双挖矿池延时")]
+        public const string DUAL_COIN_POOL_DELAY = "双挖矿池延时";
+        [Description(DUAL_COIN_POOL_DELAY)]
         public bool DualCoinPoolDelay {
             get { return _dualCoinPoolDelay; }
             set {

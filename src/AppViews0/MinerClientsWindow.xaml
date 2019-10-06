@@ -484,7 +484,7 @@
 						<DataGridTemplateColumn.Header>
 							<StackPanel>
 								<WrapPanel>
-									<TextBlock Text="最后更新"></TextBlock>
+									<TextBlock Text="{x:Static vm:ColumnsShowViewModel.LAST_ACTIVED_ON_TEXT}"></TextBlock>
 									<controls:KbButton
 										ToolTip="不展示"
 										Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
