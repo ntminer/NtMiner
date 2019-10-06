@@ -660,7 +660,7 @@
 				<ColumnDefinition Width="Auto"></ColumnDefinition>
 				<ColumnDefinition Width="*"></ColumnDefinition>
 			</Grid.ColumnDefinitions>
-			<TextBlock Style="{StaticResource LblTb}">内核命令行</TextBlock>
+			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top">内核命令行</TextBlock>
 			<controls:KbMuiltilineTextBox 
 				Grid.Column="1"
 				Padding="0"
