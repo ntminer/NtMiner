@@ -120,7 +120,6 @@
 					<Grid.RowDefinitions>
 						<RowDefinition Height="*"></RowDefinition>
 						<RowDefinition Height="Auto"></RowDefinition>
-						<RowDefinition Height="Auto"></RowDefinition>
 					</Grid.RowDefinitions>
 					<WrapPanel>
 						<TextBlock 
@@ -159,11 +158,7 @@
 							</ItemsControl.ItemTemplate>
 						</ItemsControl>
 					</WrapPanel>
-					<StackPanel Grid.Row="1">
-						<TextBlock VerticalAlignment="Center" Foreground="{StaticResource LableColor}">填0表示使用默认值</TextBlock>
-						<TextBlock VerticalAlignment="Center" Foreground="{StaticResource LableColor}">温度阈值：表示达到这个温度时显卡将自动降频</TextBlock>
-					</StackPanel>
-					<WrapPanel Grid.Row="2" VerticalAlignment="Bottom">
+					<WrapPanel Grid.Row="1" VerticalAlignment="Bottom">
 						<controls:KbButton
 							Height="21"
 							Padding="6 2"
