@@ -346,7 +346,7 @@
                     </Style>
                 </DataGrid.Resources>
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn MinWidth="40" Width="40" Header="编号" IsReadOnly="True">
+                    <DataGridTemplateColumn MinWidth="40" Width="46" Header="编号" IsReadOnly="True">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <WrapPanel>
