@@ -422,29 +422,30 @@ namespace NTMiner.Views {
                 ConsoleWindow.Instance.Hide();
                 return;
             }
-            if (!ConsoleWindow.Instance.IsVisible) {
-                ConsoleWindow.Instance.Show();
+            ConsoleWindow consoleWindow = ConsoleWindow.Instance;
+            if (!consoleWindow.IsVisible) {
+                consoleWindow.Show();
             }
-            if (ConsoleWindow.Instance.WindowState != this.WindowState) {
-                ConsoleWindow.Instance.WindowState = this.WindowState;
+            if (consoleWindow.WindowState != this.WindowState) {
+                consoleWindow.WindowState = this.WindowState;
             }
-            if (ConsoleWindow.Instance.Width != this.ActualWidth) {
-                ConsoleWindow.Instance.Width = this.ActualWidth;
+            if (consoleWindow.Width != this.ActualWidth) {
+                consoleWindow.Width = this.ActualWidth;
             }
-            if (ConsoleWindow.Instance.Height != this.ActualHeight) {
-                ConsoleWindow.Instance.Height = this.ActualHeight;
+            if (consoleWindow.Height != this.ActualHeight) {
+                consoleWindow.Height = this.ActualHeight;
             }
             if (this.WindowState == WindowState.Normal) {
-                if (ConsoleWindow.Instance.Left != this.Left) {
-                    ConsoleWindow.Instance.Left = this.Left;
+                if (consoleWindow.Left != this.Left) {
+                    consoleWindow.Left = this.Left;
                 }
-                if (ConsoleWindow.Instance.Top != this.Top) {
-                    ConsoleWindow.Instance.Top = this.Top;
+                if (consoleWindow.Top != this.Top) {
+                    consoleWindow.Top = this.Top;
                 }
             }
             int marginBottom = (int)StateBar.ActualHeight;
             Point point = ConsoleRectangle.TransformToAncestor(this).Transform(new Point(0, 0));
-            ConsoleWindow.Instance.ReSizeConsoleWindow(marginLeft: (int)point.X, marginTop: (int)point.Y, marginBottom);
+            consoleWindow.ReSizeConsoleWindow(marginLeft: (int)point.X, marginTop: (int)point.Y, marginBottom);
         }
 
         private void Window_SourceInitialized(object sender, EventArgs e) {

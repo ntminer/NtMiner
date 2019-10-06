@@ -18,20 +18,13 @@
 		<vm:SplashWindowViewModel></vm:SplashWindowViewModel>
 	</Window.DataContext>
 	<Grid Background="{StaticResource IconFillColor}">
-		<Grid.RowDefinitions>
-			<RowDefinition Height="*"></RowDefinition>
-			<RowDefinition Height="20"></RowDefinition>
-		</Grid.RowDefinitions>
-		<WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-			<Image Width="120" Height="120" Source="{x:Static app:AppStatic.BigLogoImageSource}">
-			</Image>
+        <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Image Width="120" Height="120" Source="{x:Static app:AppStatic.BigLogoImageSource}">
+            </Image>
             <StackPanel Margin="10 0 0 0" VerticalAlignment="Center">
                 <TextBlock FontSize="50" Foreground="{StaticResource ThemeForeground}" Text="{Binding WindowTitle}"></TextBlock>
                 <TextBlock FontSize="20" Foreground="{StaticResource ThemeForeground}" Text="{Binding Version}"></TextBlock>
             </StackPanel>
-		</WrapPanel>
-		<TextBlock Margin="4 2 0 0" Text="开源矿工" VerticalAlignment="Top" FontSize="14" Foreground="{StaticResource ThemeForeground}"></TextBlock>
-		<WrapPanel Grid.Row="1" Background="{StaticResource IconFillColor}">
-		</WrapPanel>
-	</Grid>
+        </WrapPanel>
+    </Grid>
 </Window>

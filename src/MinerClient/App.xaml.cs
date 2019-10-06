@@ -111,6 +111,7 @@ namespace NTMiner {
                             StartStopMineButtonViewModel.Instance.AutoStart();
                             AppContext.NotifyIcon = ExtendedNotifyIcon.Create("开源矿工", isMinerStudio: false);
                             splashWindow?.Close();
+                            ConsoleWindow.Instance.Background = Wpf.Util.BlackBrush;
                         });
                         #region 处理显示主界面命令
                         VirtualRoot.CmdPath<ShowMainWindowCommand>("处理显示主界面命令", LogEnum.DevConsole,
