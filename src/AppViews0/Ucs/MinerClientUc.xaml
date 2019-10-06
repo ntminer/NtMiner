@@ -13,7 +13,7 @@
 		mc:Ignorable="d" d:DesignWidth="1200">
 	<UserControl.Resources>
 		<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
-			<Setter Property="Width" Value="130"></Setter>
+			<Setter Property="Width" Value="100"></Setter>
 			<Setter Property="Padding" Value="0 0 20 0"></Setter>
 		</Style>
 		<sys:Double x:Key="OneColWidth">480</sys:Double>
@@ -180,7 +180,7 @@
 						Text="{Binding MinerIp, Mode=OneWay}"></TextBox>
 				</WrapPanel>
 				<WrapPanel VerticalAlignment="Center">
-					<TextBlock Style="{StaticResource LblTb}" Width="100" Padding="0 0 4 0">远程桌面登录名</TextBlock>
+					<TextBlock Style="{StaticResource LblTb}" Padding="0 0 4 0">远程桌面登录名</TextBlock>
 					<TextBox x:Name="TbWindowsLoginName" Width="100" Text="{Binding WindowsLoginName,UpdateSourceTrigger=LostFocus}"></TextBox>
 					<TextBlock Style="{StaticResource LblTb}" Width="40" Padding="0 0 4 0">密码</TextBlock>
 					<PasswordBox Width="100" BorderBrush="{Binding ElementName=TbWindowsLoginName,Path=BorderBrush}" VerticalContentAlignment="Center" Background="Transparent" controls:PasswordBoxHelper.Attach="true" controls:PasswordBoxHelper.Password="{Binding WindowsPassword, Mode=TwoWay, ValidatesOnExceptions=True, UpdateSourceTrigger=LostFocus}"/>
