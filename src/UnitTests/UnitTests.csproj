@@ -58,6 +58,7 @@
     <Compile Include="IPTests.cs" />
     <Compile Include="MarshalTests.cs" />
     <Compile Include="JsonTests.cs" />
+    <Compile Include="RegexTests.cs" />
     <Compile Include="WMITests.cs" />
   </ItemGroup>
   <ItemGroup>
