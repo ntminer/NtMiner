@@ -7,6 +7,38 @@ namespace UnitTests {
     [TestClass]
     public class RegexTests {
         [TestMethod]
+        public void RegexPerfomanceTest() {
+            string text = @"11:55:42:201	384	ETH: GPU0 14.015 Mh/s, GPU1 21.048 Mh/s";
+            Write.Stopwatch.Restart();
+            for (int i = 0; i < 1000; i++) {
+                Regex regex = new Regex(@"GPU(?<gpu>\d+) (?<gpuSpeed>[\d\.]+) (?<gpuSpeedUnit>.+?/s)");
+                MatchCollection matches = regex.Matches(text);
+                foreach (Match match in matches) {
+                    var a = match.Groups["gpu"];
+                    var b = match.Groups["gpuSpeed"];
+                    var c = match.Groups["gpuSpeedUnit"];
+                    var d = match.Groups["notexit"];
+                }
+            }
+            Write.Stopwatch.Stop();
+            Console.WriteLine($"非编译：耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒");
+
+            Regex regex1 = new Regex(@"GPU(?<gpu>\d+) (?<gpuSpeed>[\d\.]+) (?<gpuSpeedUnit>.+?/s)", RegexOptions.Compiled);
+            Write.Stopwatch.Restart();
+            for (int i = 0; i < 1000; i++) {
+                MatchCollection matches = regex1.Matches(text);
+                foreach (Match match in matches) {
+                    var a = match.Groups["gpu"];
+                    var b = match.Groups["gpuSpeed"];
+                    var c = match.Groups["gpuSpeedUnit"];
+                    var d = match.Groups["notexit"];
+                }
+            }
+            Write.Stopwatch.Stop();
+            Console.WriteLine($"编译 ：耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒");
+        }
+
+        [TestMethod]
         public void RegexReplaceTest() {
             Regex regex = new Regex(@"t=");
             string text = @"11:55:42:201	384	ETH: GPU0 t=88 fan=77, GPU1 t=66 fan=99";
