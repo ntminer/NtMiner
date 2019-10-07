@@ -200,7 +200,8 @@ namespace NTMiner.Core.Kernels.Impl {
             if (string.IsNullOrEmpty(totalSpeedPattern)) {
                 return;
             }
-            Match match = Regex.Match(input, totalSpeedPattern);
+            Regex regex = new Regex(totalSpeedPattern);
+            Match match = regex.Match(input);
             if (match.Success) {
                 string totalSpeedText = match.Groups[Consts.TotalSpeedGroupName].Value;
                 string totalSpeedUnit = match.Groups[Consts.TotalSpeedUnitGroupName].Value;
@@ -245,7 +246,8 @@ namespace NTMiner.Core.Kernels.Impl {
             if (string.IsNullOrEmpty(poolDelayPattern)) {
                 return;
             }
-            Match match = Regex.Match(input, poolDelayPattern);
+            Regex regex = new Regex(poolDelayPattern);
+            Match match = regex.Match(input);
             if (match.Success) {
                 string poolDelayText = match.Groups[Consts.PoolDelayGroupName].Value;
                 VirtualRoot.Happened(new PoolDelayPickedEvent(poolId, isDual, poolDelayText));
@@ -326,7 +328,8 @@ namespace NTMiner.Core.Kernels.Impl {
             if (string.IsNullOrEmpty(totalSharePattern)) {
                 return;
             }
-            var match = Regex.Match(input, totalSharePattern);
+            Regex regex = new Regex(totalSharePattern);
+            var match = regex.Match(input);
             if (match.Success) {
                 string totalShareText = match.Groups[Consts.TotalShareGroupName].Value;
                 int totalShare;
@@ -347,7 +350,8 @@ namespace NTMiner.Core.Kernels.Impl {
             if (string.IsNullOrEmpty(acceptSharePattern)) {
                 return;
             }
-            var match = Regex.Match(input, acceptSharePattern);
+            Regex regex = new Regex(acceptSharePattern);
+            var match = regex.Match(input);
             if (match.Success) {
                 string acceptShareText = match.Groups[Consts.AcceptShareGroupName].Value;
                 int acceptShare;
@@ -367,7 +371,8 @@ namespace NTMiner.Core.Kernels.Impl {
             if (foundOneShare.Contains("\n")) {
                 input = preline + "\n" + input;
             }
-            var match = Regex.Match(input, foundOneShare);
+            Regex regex = new Regex(foundOneShare);
+            var match = regex.Match(input);
             if (match.Success) {
                 string gpuText = match.Groups[Consts.GpuIndexGroupName].Value;
                 if (!string.IsNullOrEmpty(gpuText)) {
@@ -393,7 +398,8 @@ namespace NTMiner.Core.Kernels.Impl {
             if (pattern.Contains("\n")) {
                 input = preline + "\n" + input;
             }
-            var match = Regex.Match(input, pattern);
+            Regex regex = new Regex(pattern);
+            var match = regex.Match(input);
             if (match.Success) {
                 string gpuText = match.Groups[Consts.GpuIndexGroupName].Value;
                 if (!string.IsNullOrEmpty(gpuText)) {
@@ -422,7 +428,8 @@ namespace NTMiner.Core.Kernels.Impl {
             if (acceptOneShare.Contains("\n")) {
                 input = preline + "\n" + input;
             }
-            var match = Regex.Match(input, acceptOneShare);
+            Regex regex = new Regex(acceptOneShare);
+            var match = regex.Match(input);
             if (match.Success) {
                 if (!isDual) {
                     // 决定不支持双挖的单卡份额统计
@@ -456,7 +463,8 @@ namespace NTMiner.Core.Kernels.Impl {
             if (string.IsNullOrEmpty(rejectSharePattern)) {
                 return;
             }
-            var match = Regex.Match(input, rejectSharePattern);
+            Regex regex = new Regex(rejectSharePattern);
+            var match = regex.Match(input);
             if (match.Success) {
                 string rejectShareText = match.Groups[Consts.RejectShareGroupName].Value;
 
@@ -480,7 +488,8 @@ namespace NTMiner.Core.Kernels.Impl {
             if (rejectOneShare.Contains("\n")) {
                 input = preline + "\n" + input;
             }
-            var match = Regex.Match(input, rejectOneShare);
+            Regex regex = new Regex(rejectOneShare);
+            var match = regex.Match(input);
             if (match.Success) {
                 if (!isDual) {
                     // 决定不支持双挖的单卡份额统计
@@ -514,7 +523,8 @@ namespace NTMiner.Core.Kernels.Impl {
             if (string.IsNullOrEmpty(rejectPercentPattern)) {
                 return;
             }
-            var match = Regex.Match(input, rejectPercentPattern);
+            Regex regex = new Regex(rejectPercentPattern);
+            var match = regex.Match(input);
             string rejectPercentText = match.Groups[Consts.RejectPercentGroupName].Value;
             double rejectPercent;
             if (double.TryParse(rejectPercentText, out rejectPercent)) {
