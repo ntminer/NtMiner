@@ -104,6 +104,7 @@ namespace NTMiner {
                         UIThread.Execute(() => {
                             if (NTMinerRoot.Instance.MinerProfile.IsNoUi && NTMinerRoot.Instance.MinerProfile.IsAutoStart) {
                                 VirtualRoot.Out.ShowSuccessMessage("已切换为无界面模式运行，可在选项页调整设置", "开源矿工");
+                                ConsoleWindow.Instance.Hide();
                             }
                             else {
                                 _appViewFactory.ShowMainWindow(isToggle: false);
