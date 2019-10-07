@@ -24,7 +24,6 @@
                     if (!tMessageHandler.IsEnabled) {
                         continue;
                     }
-                    var evtArgs = new MessageDispatchEventArgs(message, messageHandler.GetType(), messageHandler);
                     switch (tMessageHandler.LogType) {
                         case LogEnum.DevConsole:
                             if (DevMode.IsDevMode) {

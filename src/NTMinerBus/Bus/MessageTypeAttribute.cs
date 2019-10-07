@@ -31,7 +31,7 @@ namespace NTMiner.Bus {
         public string Description { get; private set; }
         /// <summary>
         /// 事件通常都会有响应，但有些事件不一定会有响应：比如<see cref="Per100MinuteEvent"/>、<see cref="HasBoot100MinuteEvent"/>等事件就不一定会有响应。
-        /// 如果某些类型的事件确实不一定有响应时将该属性值为true表示“我知道该事件不一定有响应，不要再在DevConsole打印一行黄子警告我了！”
+        /// 如果某些类型的事件确实不一定有响应时将该属性置为true表示“我知道该事件不一定有响应，不要再在DevConsole打印一行黄字警告我了！”
         /// </summary>
         public bool IsCanNoHandler { get; private set; }
     }
