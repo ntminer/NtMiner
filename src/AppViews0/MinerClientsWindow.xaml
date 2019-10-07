@@ -21,6 +21,7 @@
 	<blankWindow:BlankWindow.Resources>
 		<ResourceDictionary>
 			<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
+                <Setter Property="Width" Value="60"></Setter>
 			</Style>
 		</ResourceDictionary>
 	</blankWindow:BlankWindow.Resources>
@@ -312,19 +313,19 @@
 					<TextBox HorizontalAlignment="Left" VerticalContentAlignment="Center" Text="{Binding Wallet}" Width="208" Background="White"></TextBox>
 				</GroupBox>
 				<WrapPanel>
-					<TextBlock Style="{StaticResource LblTb}" Width="50">IP</TextBlock>
+					<TextBlock Style="{StaticResource LblTb}">IP</TextBlock>
 					<TextBox VerticalContentAlignment="Center" Width="150" Text="{Binding MinerIp, ValidatesOnExceptions=True}" Background="White"></TextBox>
 				</WrapPanel>
 				<WrapPanel>
-					<TextBlock Style="{StaticResource LblTb}" Width="50">矿机名</TextBlock>
+					<TextBlock Style="{StaticResource LblTb}">矿机名</TextBlock>
 					<TextBox VerticalContentAlignment="Center" Width="150" Text="{Binding MinerName}" Background="White"></TextBox>
 				</WrapPanel>
 				<WrapPanel>
-					<TextBlock Style="{StaticResource LblTb}" Width="50">内核</TextBlock>
+					<TextBlock Style="{StaticResource LblTb}">内核</TextBlock>
 					<TextBox VerticalContentAlignment="Center" ToolTip="内核名以此开头的内核" Width="150" Text="{Binding Kernel}" Background="White"></TextBox>
 				</WrapPanel>
 				<WrapPanel>
-                    <TextBlock Style="{StaticResource LblTb}" Width="50">开源版本</TextBlock>
+                    <TextBlock Style="{StaticResource LblTb}">开源版本</TextBlock>
 					<TextBox VerticalContentAlignment="Center" ToolTip="客户端版本号以此开头的客户端" Width="150" Text="{Binding Version}" Background="White"></TextBox>
 				</WrapPanel>
 			</StackPanel>
