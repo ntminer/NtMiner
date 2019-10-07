@@ -1947,23 +1947,29 @@
 						</Button.Template>
 					</Button>
 				</WrapPanel>
-			</Grid>
-			<Grid Grid.Row="1" Margin="0 6 0 0">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="*"></ColumnDefinition>
-					<ColumnDefinition Width="1000"></ColumnDefinition>
-				</Grid.ColumnDefinitions>
-				<uc:MessageCenter Grid.Column="0"></uc:MessageCenter>
-				<ScrollViewer 
-					Grid.Column="1" 
-					Background="#EEEEF2"
-					PreviewMouseDown="ScrollViewer_PreviewMouseDown"
-					VerticalScrollBarVisibility="Visible"
-					Visibility="{Binding CurrentMinerClient,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
-					<uc:MinerClientUc DataContext="{Binding CurrentMinerClient}"></uc:MinerClientUc>
-				</ScrollViewer>
-				<GridSplitter Grid.Column="1" Width="6" Background="Transparent" HorizontalAlignment="Left" VerticalAlignment="Stretch"></GridSplitter>
-			</Grid>
+            </Grid>
+            <ScrollViewer 
+                Grid.Row="1" Margin="0 6 0 0"
+				Background="#EEEEF2"
+				PreviewMouseDown="ScrollViewer_PreviewMouseDown"
+				VerticalScrollBarVisibility="Disabled"
+                HorizontalScrollBarVisibility="Auto">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="1000"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <uc:MessageCenter Grid.Column="0"></uc:MessageCenter>
+                    <ScrollViewer 
+                        Grid.Column="1" 
+				        VerticalScrollBarVisibility="Auto"
+                        HorizontalScrollBarVisibility="Disabled"
+				        PreviewMouseDown="ScrollViewer_PreviewMouseDown"
+                        Visibility="{Binding CurrentMinerClient,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
+                        <uc:MinerClientUc DataContext="{Binding CurrentMinerClient}"></uc:MinerClientUc>
+                    </ScrollViewer>
+                </Grid>
+            </ScrollViewer>
 		</Grid>
 		<WrapPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Background="{StaticResource ThemeBackground}">
 			<WrapPanel Margin="4 0 0 0">
