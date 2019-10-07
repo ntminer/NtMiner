@@ -295,11 +295,11 @@ namespace NTMiner {
             return null;
         }
 
+        private static Regex regexPickUsdCny = new Regex(@"CURRENCY_CONF\.usd_cny = Number\('(\d+\.?\d*)' \|\| \d+\.?\d*\);");
         private static double PickUsdCny(string html) {
             try {
                 double result = 0;
-                Regex regex = new Regex(@"CURRENCY_CONF\.usd_cny = Number\('(\d+\.?\d*)' \|\| \d+\.?\d*\);");
-                var matchs = regex.Match(html);
+                var matchs = regexPickUsdCny.Match(html);
                 if (matchs.Success) {
                     double.TryParse(matchs.Groups[1].Value, out result);
                 }
