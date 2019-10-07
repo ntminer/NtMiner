@@ -94,7 +94,7 @@ namespace NTMiner {
                                             calcConfigData.BaseNetSpeed = calcConfigData.NetSpeed;
                                             calcConfigData.BaseNetSpeedUnit = calcConfigData.NetSpeedUnit;
                                         }
-                                        else if(calcConfigData.BaseNetSpeed != 0) {
+                                        else if (calcConfigData.BaseNetSpeed != 0) {
                                             if (calcConfigData.NetSpeedUnit == calcConfigData.BaseNetSpeedUnit) {
                                                 calcConfigData.DayWave = (calcConfigData.NetSpeed - calcConfigData.BaseNetSpeed) / calcConfigData.BaseNetSpeed;
                                             }
@@ -228,7 +228,7 @@ namespace NTMiner {
                     indexList.Add(index);
                     index = html.IndexOf(splitText, index + splitText.Length);
                 }
-                Regex regex = new Regex(pattern, RegexOptions.Compiled);
+                Regex regex = VirtualRoot.GetRegex(pattern);
                 for (int i = 0; i < indexList.Count; i++) {
                     IncomeItem incomeItem;
                     if (i + 1 < indexList.Count) {
@@ -295,11 +295,11 @@ namespace NTMiner {
             return null;
         }
 
-        private static Regex regexPickUsdCny = new Regex(@"CURRENCY_CONF\.usd_cny = Number\('(\d+\.?\d*)' \|\| \d+\.?\d*\);");
         private static double PickUsdCny(string html) {
             try {
                 double result = 0;
-                var matchs = regexPickUsdCny.Match(html);
+                var regex = VirtualRoot.GetRegex(@"CURRENCY_CONF\.usd_cny = Number\('(\d+\.?\d*)' \|\| \d+\.?\d*\);");
+                var matchs = regex.Match(html);
                 if (matchs.Success) {
                     double.TryParse(matchs.Groups[1].Value, out result);
                 }

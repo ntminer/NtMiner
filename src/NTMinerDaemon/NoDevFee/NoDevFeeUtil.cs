@@ -19,12 +19,12 @@ namespace NTMiner.NoDevFee {
                 string text = string.Join(" ", lines) + " ";
                 const string walletPattern = @"-ewal\s+(\w+)\s";
                 const string minerNamePattern = @"-eworker\s+(\w+)\s";
-                Regex regex = new Regex(walletPattern, RegexOptions.Compiled);
+                Regex regex = VirtualRoot.GetRegex(walletPattern);
                 var matches = regex.Matches(text);
                 if (matches.Count != 0) {
                     userWallet = matches[matches.Count - 1].Groups[1].Value;
                 }
-                regex = new Regex(minerNamePattern, RegexOptions.Compiled);
+                regex = VirtualRoot.GetRegex(minerNamePattern);
                 matches = regex.Matches(text);
                 if (matches.Count != 0) {
                     minerName = matches[matches.Count - 1].Groups[1].Value;

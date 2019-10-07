@@ -200,7 +200,7 @@ namespace NTMiner.Core.Kernels.Impl {
             if (string.IsNullOrEmpty(totalSpeedPattern)) {
                 return;
             }
-            Regex regex = new Regex(totalSpeedPattern);
+            Regex regex = VirtualRoot.GetRegex(totalSpeedPattern);
             Match match = regex.Match(input);
             if (match.Success) {
                 string totalSpeedText = match.Groups[Consts.TotalSpeedGroupName].Value;
@@ -246,7 +246,7 @@ namespace NTMiner.Core.Kernels.Impl {
             if (string.IsNullOrEmpty(poolDelayPattern)) {
                 return;
             }
-            Regex regex = new Regex(poolDelayPattern);
+            Regex regex = VirtualRoot.GetRegex(poolDelayPattern);
             Match match = regex.Match(input);
             if (match.Success) {
                 string poolDelayText = match.Groups[Consts.PoolDelayGroupName].Value;
@@ -266,7 +266,7 @@ namespace NTMiner.Core.Kernels.Impl {
             }
             var now = DateTime.Now;
             bool hasGpuId = gpuSpeedPattern.Contains($"?<{Consts.GpuIndexGroupName}>");
-            Regex regex = new Regex(gpuSpeedPattern);
+            Regex regex = VirtualRoot.GetRegex(gpuSpeedPattern);
             MatchCollection matches = regex.Matches(input);
             if (matches.Count > 0) {
                 IGpusSpeed gpuSpeeds = NTMinerRoot.Instance.GpusSpeed;
@@ -328,7 +328,7 @@ namespace NTMiner.Core.Kernels.Impl {
             if (string.IsNullOrEmpty(totalSharePattern)) {
                 return;
             }
-            Regex regex = new Regex(totalSharePattern);
+            Regex regex = VirtualRoot.GetRegex(totalSharePattern);
             var match = regex.Match(input);
             if (match.Success) {
                 string totalShareText = match.Groups[Consts.TotalShareGroupName].Value;
@@ -350,7 +350,7 @@ namespace NTMiner.Core.Kernels.Impl {
             if (string.IsNullOrEmpty(acceptSharePattern)) {
                 return;
             }
-            Regex regex = new Regex(acceptSharePattern);
+            Regex regex = VirtualRoot.GetRegex(acceptSharePattern);
             var match = regex.Match(input);
             if (match.Success) {
                 string acceptShareText = match.Groups[Consts.AcceptShareGroupName].Value;
@@ -371,7 +371,7 @@ namespace NTMiner.Core.Kernels.Impl {
             if (foundOneShare.Contains("\n")) {
                 input = preline + "\n" + input;
             }
-            Regex regex = new Regex(foundOneShare);
+            Regex regex = VirtualRoot.GetRegex(foundOneShare);
             var match = regex.Match(input);
             if (match.Success) {
                 string gpuText = match.Groups[Consts.GpuIndexGroupName].Value;
@@ -398,7 +398,7 @@ namespace NTMiner.Core.Kernels.Impl {
             if (pattern.Contains("\n")) {
                 input = preline + "\n" + input;
             }
-            Regex regex = new Regex(pattern);
+            Regex regex = VirtualRoot.GetRegex(pattern);
             var match = regex.Match(input);
             if (match.Success) {
                 string gpuText = match.Groups[Consts.GpuIndexGroupName].Value;
@@ -428,7 +428,7 @@ namespace NTMiner.Core.Kernels.Impl {
             if (acceptOneShare.Contains("\n")) {
                 input = preline + "\n" + input;
             }
-            Regex regex = new Regex(acceptOneShare);
+            Regex regex = VirtualRoot.GetRegex(acceptOneShare);
             var match = regex.Match(input);
             if (match.Success) {
                 if (!isDual) {
@@ -463,7 +463,7 @@ namespace NTMiner.Core.Kernels.Impl {
             if (string.IsNullOrEmpty(rejectSharePattern)) {
                 return;
             }
-            Regex regex = new Regex(rejectSharePattern);
+            Regex regex = VirtualRoot.GetRegex(rejectSharePattern);
             var match = regex.Match(input);
             if (match.Success) {
                 string rejectShareText = match.Groups[Consts.RejectShareGroupName].Value;
@@ -488,7 +488,7 @@ namespace NTMiner.Core.Kernels.Impl {
             if (rejectOneShare.Contains("\n")) {
                 input = preline + "\n" + input;
             }
-            Regex regex = new Regex(rejectOneShare);
+            Regex regex = VirtualRoot.GetRegex(rejectOneShare);
             var match = regex.Match(input);
             if (match.Success) {
                 if (!isDual) {
@@ -523,7 +523,7 @@ namespace NTMiner.Core.Kernels.Impl {
             if (string.IsNullOrEmpty(rejectPercentPattern)) {
                 return;
             }
-            Regex regex = new Regex(rejectPercentPattern);
+            Regex regex = VirtualRoot.GetRegex(rejectPercentPattern);
             var match = regex.Match(input);
             string rejectPercentText = match.Groups[Consts.RejectPercentGroupName].Value;
             double rejectPercent;

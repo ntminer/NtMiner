@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NTMiner;
 using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace UnitTests {
@@ -10,7 +11,7 @@ namespace UnitTests {
         public void RegexPerfomanceTest() {
             string text = @"11:55:42:201	384	ETH: GPU0 14.015 Mh/s, GPU1 21.048 Mh/s";
             Write.Stopwatch.Restart();
-            for (int i = 0; i < 1000; i++) {
+            for (int i = 0; i < 100; i++) {
                 Regex regex = new Regex(@"GPU(?<gpu>\d+) (?<gpuSpeed>[\d\.]+) (?<gpuSpeedUnit>.+?/s)");
                 MatchCollection matches = regex.Matches(text);
                 foreach (Match match in matches) {
@@ -23,10 +24,17 @@ namespace UnitTests {
             Write.Stopwatch.Stop();
             Console.WriteLine($"非编译：耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒");
 
-            Regex regex1 = new Regex(@"GPU(?<gpu>\d+) (?<gpuSpeed>[\d\.]+) (?<gpuSpeedUnit>.+?/s)", RegexOptions.Compiled);
-            Write.Stopwatch.Restart();
+            string pattern= @"GPU(?<gpu>\d+) (?<gpuSpeed>[\d\.]+) (?<gpuSpeedUnit>.+?/s)";
+             Regex regex1 = new Regex(pattern, RegexOptions.Compiled);
+            Dictionary<string, Regex> dic = new Dictionary<string, Regex> {
+                {pattern, regex1 }
+            };
             for (int i = 0; i < 1000; i++) {
-                MatchCollection matches = regex1.Matches(text);
+                dic.Add(Guid.NewGuid().ToString(), new Regex(Guid.NewGuid().ToString()));
+            }
+            Write.Stopwatch.Restart();
+            for (int i = 0; i < 100; i++) {
+                MatchCollection matches = dic[pattern].Matches(text);
                 foreach (Match match in matches) {
                     var a = match.Groups["gpu"];
                     var b = match.Groups["gpuSpeed"];

@@ -53,9 +53,6 @@ namespace NTMiner.Core.Kernels.Impl {
                     string regexPattern = entity.RegexPattern;
                     string color = entity.Color;
                     entity.Update(message.Input);
-                    if (entity.RegexPattern != regexPattern) {
-                        _regexDic.Remove(entity);
-                    }
                     if (entity.Color != color) {
                         _colorDic.Remove(entity);
                     }
@@ -78,7 +75,6 @@ namespace NTMiner.Core.Kernels.Impl {
                     _dicById.Remove(entity.Id);
                     _dicByKernelOutputId[entity.KernelOutputId].Remove(entity);
                     _colorDic.Remove(entity);
-                    _regexDic.Remove(entity);
                     _dicByKernelOutputId[entity.KernelOutputId].Sort(new SortNumberComparer());
                     var repository = NTMinerRoot.CreateServerRepository<KernelOutputTranslaterData>();
                     repository.Remove(entity.Id);
@@ -191,22 +187,6 @@ namespace NTMiner.Core.Kernels.Impl {
             return ConsoleColor.White;
         }
 
-        private readonly Dictionary<IKernelOutputTranslater, Regex> _regexDic = new Dictionary<IKernelOutputTranslater, Regex>();
-        private Regex GetRegex(IKernelOutputTranslater consoleTranslater) {
-            if (string.IsNullOrEmpty(consoleTranslater.RegexPattern)) {
-                return null;
-            }
-            Regex regex;
-            if (!_regexDic.ContainsKey(consoleTranslater)) {
-                regex = new Regex(consoleTranslater.RegexPattern);
-                _regexDic.Add(consoleTranslater, regex);
-            }
-            else {
-                regex = _regexDic[consoleTranslater];
-            }
-            return regex;
-        }
-
         public void Translate(IMineContext mineContext, ref string input, ref ConsoleColor color, bool isPre = false) {
             try {
                 InitOnece();
@@ -217,7 +197,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     if (isPre && !consoleTranslater.IsPre) {
                         continue;
                     }
-                    Regex regex = GetRegex(consoleTranslater);
+                    Regex regex = VirtualRoot.GetRegex(consoleTranslater.RegexPattern);
                     if (regex == null) {
                         continue;
                     }

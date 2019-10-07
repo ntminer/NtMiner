@@ -1,6 +1,8 @@
 ﻿using NTMiner.Bus;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 using System.Timers;
 
 namespace NTMiner {
@@ -74,6 +76,24 @@ namespace NTMiner {
                 return;
             }
             SMessageDispatcher.Disconnect(handler);
+        }
+
+        private static readonly Dictionary<string, Regex> _regexDic = new Dictionary<string, Regex>();
+        private static readonly object _regexDicLocker = new object();
+        public static Regex GetRegex(string pattern) {
+            if (string.IsNullOrEmpty(pattern)) {
+                return null;
+            }
+            if (_regexDic.TryGetValue(pattern, out Regex regex)) {
+                return regex;
+            }
+            lock (_regexDicLocker) {
+                if (!_regexDic.TryGetValue(pattern, out regex)) {
+                    regex = new Regex(pattern, RegexOptions.Compiled);
+                    _regexDic.Add(pattern, regex);
+                }
+                return regex;
+            }
         }
 
         public static int _secondCount = 0;

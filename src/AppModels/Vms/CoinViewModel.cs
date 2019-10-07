@@ -453,7 +453,7 @@ namespace NTMiner.Vms {
                     _testWallet = value ?? string.Empty;
                     OnPropertyChanged(nameof(TestWallet));
                     if (!string.IsNullOrEmpty(WalletRegexPattern)) {
-                        Regex regex = new Regex(WalletRegexPattern);
+                        Regex regex = VirtualRoot.GetRegex(WalletRegexPattern);
                         if (!regex.IsMatch(value ?? string.Empty)) {
                             throw new ValidationException("钱包地址格式不正确。");
                         }

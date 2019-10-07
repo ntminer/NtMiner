@@ -136,22 +136,6 @@ namespace NTMiner.Core.Kernels.Impl {
             return _dicById.Values.GetEnumerator();
         }
 
-        private readonly Dictionary<IKernelOutputFilter, Regex> _regexDic = new Dictionary<IKernelOutputFilter, Regex>();
-        private Regex GetRegex(IKernelOutputFilter kernelOutputFilter) {
-            if (string.IsNullOrEmpty(kernelOutputFilter.RegexPattern)) {
-                return null;
-            }
-            Regex regex;
-            if (!_regexDic.ContainsKey(kernelOutputFilter)) {
-                regex = new Regex(kernelOutputFilter.RegexPattern);
-                _regexDic.Add(kernelOutputFilter, regex);
-            }
-            else {
-                regex = _regexDic[kernelOutputFilter];
-            }
-            return regex;
-        }
-
         public void Filter(IMineContext mineContext, ref string input) {
             try {
                 InitOnece();
@@ -159,7 +143,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     return;
                 }
                 foreach (var kernelOutputFilter in _dicByKernelOutputId[mineContext.Kernel.KernelOutputId]) {
-                    Regex regex = GetRegex(kernelOutputFilter);
+                    Regex regex = VirtualRoot.GetRegex(kernelOutputFilter.RegexPattern);
                     if (regex == null) {
                         continue;
                     }

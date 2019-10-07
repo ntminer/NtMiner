@@ -194,7 +194,7 @@ namespace NTMiner.Vms {
                     _address = value ?? string.Empty;
                     OnPropertyChanged(nameof(Address));
                     if (!string.IsNullOrEmpty(Coin.WalletRegexPattern)) {
-                        Regex regex = new Regex(Coin.WalletRegexPattern);
+                        Regex regex = VirtualRoot.GetRegex(Coin.WalletRegexPattern);
                         if (!regex.IsMatch(value ?? string.Empty)) {
                             throw new ValidationException("钱包地址格式不正确。");
                         }
