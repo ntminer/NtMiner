@@ -605,7 +605,7 @@ namespace NTMiner.Vms {
             }
         }
 
-        public const string VERSION = "客户端版本";
+        public const string VERSION = "开源版本";
         [Description(VERSION)]
         public bool Version {
             get => _version;

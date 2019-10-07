@@ -324,7 +324,7 @@
 					<TextBox VerticalContentAlignment="Center" ToolTip="内核名以此开头的内核" Width="150" Text="{Binding Kernel}" Background="White"></TextBox>
 				</WrapPanel>
 				<WrapPanel>
-					<TextBlock Style="{StaticResource LblTb}" Width="50">版本</TextBlock>
+                    <TextBlock Style="{StaticResource LblTb}" Width="50">开源版本</TextBlock>
 					<TextBox VerticalContentAlignment="Center" ToolTip="客户端版本号以此开头的客户端" Width="150" Text="{Binding Version}" Background="White"></TextBox>
 				</WrapPanel>
 			</StackPanel>
