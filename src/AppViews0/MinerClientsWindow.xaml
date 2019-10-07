@@ -33,7 +33,7 @@
 			<RowDefinition Height="Auto"></RowDefinition>
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="220"></ColumnDefinition>
+			<ColumnDefinition Width="234"></ColumnDefinition>
 			<ColumnDefinition Width="*"></ColumnDefinition>
 		</Grid.ColumnDefinitions>
 		<!--上标题栏-->
@@ -90,247 +90,264 @@
 		</Grid>
 		<uc:MinerClientsToolBar Grid.Row="1" Grid.Column="1" DataContext="{Binding}" Background="#EEEEF2">
 		</uc:MinerClientsToolBar>
-		<StackPanel Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" Background="#F5F5F5">
-			<ListBox 
-				Background="Transparent"
-				ItemsSource="{Binding MineCoinVms.PleaseSelect}"
-				SelectedItem="{Binding CoinVm}"
-				ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-				ScrollViewer.VerticalScrollBarVisibility="Disabled"
-				ItemContainerStyle="{StaticResource ListBoxBarItem}"
-				BorderThickness="0">
-				<ListBox.ItemsPanel>
-					<ItemsPanelTemplate>
-						<WrapPanel>
-						</WrapPanel>
-					</ItemsPanelTemplate>
-				</ListBox.ItemsPanel>
-				<ListBox.ItemTemplate>
-					<DataTemplate>
-						<TextBlock Padding="10 2" Text="{Binding Code}"></TextBlock>
-					</DataTemplate>
-				</ListBox.ItemTemplate>
-			</ListBox>
-			<GroupBox>
-				<GroupBox.Header>
-					<WrapPanel>
-						<TextBlock VerticalAlignment="Center">作业</TextBlock>
-						<controls:KbButton  
-							Command="{Binding MineWorkVms.Add}" 
-							Background="Transparent" 
-							BorderThickness="0"
-							Margin="2 0"
-							CornerRadius="2">
-							<WrapPanel>
-								<Path
-									Width="18"
-									Height="18"
-									ToolTip="新建作业"
-									Data="{StaticResource Icon_Add}"
-									Fill="{StaticResource IconFillColor}"
-									Stretch="Fill" />
-							</WrapPanel>
-						</controls:KbButton>
-						<controls:KbButton  
-							Command="{Binding SelectedMineWork.Edit}" 
-							Background="Transparent" 
-							BorderThickness="0"
-							Margin="2 0"
-							CornerRadius="2">
-							<WrapPanel>
-								<Path
-									Width="18"
-									Height="18"
-									ToolTip="编辑作业"
-									Data="{StaticResource Icon_Edit}"
-									Fill="{StaticResource IconFillColor}"
-									Stretch="Fill" />
-							</WrapPanel>
-						</controls:KbButton>
-						<controls:KbButton  
-							Command="{Binding SelectedMineWork.Remove}" 
-							Background="Transparent" 
-							BorderThickness="0"
-							Margin="2 0"
-							CornerRadius="2">
-							<WrapPanel>
-								<Path
-									Width="18"
-									Height="18"
-									ToolTip="删除作业"
-									Data="{StaticResource Icon_Delete}"
-									Fill="{StaticResource IconFillColor}"
-									Stretch="Fill" />
-							</WrapPanel>
-						</controls:KbButton>
-					</WrapPanel>
-				</GroupBox.Header>
-				<ListBox 
-					Background="Transparent"
-					ItemsSource="{Binding MineWorkVms.MineWorkVmItems}"
-					SelectedItem="{Binding SelectedMineWork}"
-					ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-					ScrollViewer.VerticalScrollBarVisibility="Disabled"
-					ItemContainerStyle="{StaticResource ListBoxBarItem}"
-					BorderThickness="0">
-					<ListBox.ItemsPanel>
-						<ItemsPanelTemplate>
-							<WrapPanel>
-							</WrapPanel>
-						</ItemsPanelTemplate>
-					</ListBox.ItemsPanel>
-					<ListBox.ItemTemplate>
-						<DataTemplate>
-							<TextBlock Padding="10 2" Text="{Binding Name}" ToolTip="{Binding Description}"></TextBlock>
-						</DataTemplate>
-					</ListBox.ItemTemplate>
-				</ListBox>
-			</GroupBox>
-			<StackPanel Visibility="{Binding IsMineWorkSelected, Converter={StaticResource BoolToVisibilityInvertConverter}}">
-				<GroupBox>
-					<GroupBox.Header>
-						<WrapPanel>
-							<TextBlock VerticalAlignment="Center">分组</TextBlock>
-							<controls:KbButton  
-								Command="{Binding MinerGroupVms.Add}" 
-								Background="Transparent" 
-								ToolTip="新建组"
-								BorderThickness="0"
-								Margin="2 0"
-								CornerRadius="2">
-								<WrapPanel>
-									<Path
-										Width="18"
-										Height="18"
-										Data="{StaticResource Icon_Add}"
-										Fill="{StaticResource IconFillColor}"
-										Stretch="Fill" />
-								</WrapPanel>
-							</controls:KbButton>
-							<controls:KbButton  
-								Command="{Binding SelectedMinerGroup.Edit}" 
-								Background="Transparent" 
-								BorderThickness="0"
-								Margin="2 0"
-								CornerRadius="2">
-								<WrapPanel>
-									<Path
-										Width="18"
-										Height="18"
-										ToolTip="编辑组"
-										Data="{StaticResource Icon_Edit}"
-										Fill="{StaticResource IconFillColor}"
-										Stretch="Fill" />
-								</WrapPanel>
-							</controls:KbButton>
-							<controls:KbButton  
-									Command="{Binding SelectedMinerGroup.Remove}" 
-									Background="Transparent" 
-									BorderThickness="0"
-									Margin="2 0"
-									CornerRadius="2">
-								<WrapPanel>
-									<Path
-										Width="18"
-										Height="18"
-										ToolTip="删除组"
-										Data="{StaticResource Icon_Delete}"
-										Fill="{StaticResource IconFillColor}"
-										Stretch="Fill" />
-								</WrapPanel>
-							</controls:KbButton>
-						</WrapPanel>
-					</GroupBox.Header>
-					<ListBox 
-						Background="Transparent"				
-						ItemsSource="{Binding MinerGroupVms.MinerGroupItems}"
-						SelectedItem="{Binding SelectedMinerGroup}"
-						ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-						ScrollViewer.VerticalScrollBarVisibility="Disabled"
-						ItemContainerStyle="{StaticResource ListBoxBarItem}"
-						BorderThickness="0">
-						<ListBox.ItemsPanel>
-							<ItemsPanelTemplate>
-								<WrapPanel>
-								</WrapPanel>
-							</ItemsPanelTemplate>
-						</ListBox.ItemsPanel>
-						<ListBox.ItemTemplate>
-							<DataTemplate>
-								<TextBlock Padding="10 2" Text="{Binding Name}" ToolTip="{Binding Description}"></TextBlock>
-							</DataTemplate>
-						</ListBox.ItemTemplate>
-					</ListBox>
-				</GroupBox>
-				<GroupBox Header="状态">
-					<ListBox 
-						Background="Transparent"
-						ItemsSource="{x:Static app:AppStatic.MineStatusEnumItems}"
-						SelectedItem="{Binding MineStatusEnumItem}"
-						ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-						ScrollViewer.VerticalScrollBarVisibility="Disabled"
-						ItemContainerStyle="{StaticResource ListBoxBarItem}"
-						BorderThickness="0">
-						<ListBox.ItemsPanel>
-							<ItemsPanelTemplate>
-								<WrapPanel>
-								</WrapPanel>
-							</ItemsPanelTemplate>
-						</ListBox.ItemsPanel>
-						<ListBox.ItemTemplate>
-							<DataTemplate>
-								<TextBlock Padding="10 2" Text="{Binding Description}"></TextBlock>
-							</DataTemplate>
-						</ListBox.ItemTemplate>
-					</ListBox>
-				</GroupBox>
-				<GroupBox Header="矿池">
-					<StackPanel>
-						<TextBox HorizontalAlignment="Left" VerticalContentAlignment="Center" Text="{Binding Pool}" Width="208" Background="White"></TextBox>
-						<ListBox 
-							Background="Transparent"
-							ItemsSource="{Binding CoinVm.OptionPools}"
-							SelectedItem="{Binding PoolVm}"
-							ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-							ScrollViewer.VerticalScrollBarVisibility="Disabled"
-							ItemContainerStyle="{StaticResource ListBoxBarItem}"
-							BorderThickness="0">
-							<ListBox.ItemsPanel>
-								<ItemsPanelTemplate>
-									<WrapPanel>
-									</WrapPanel>
-								</ItemsPanelTemplate>
-							</ListBox.ItemsPanel>
-							<ListBox.ItemTemplate>
-								<DataTemplate>
-									<TextBlock Padding="10 2" Text="{Binding Name}"></TextBlock>
-								</DataTemplate>
-							</ListBox.ItemTemplate>
-						</ListBox>
-					</StackPanel>
-				</GroupBox>
-				<GroupBox Header="钱包">
-					<TextBox HorizontalAlignment="Left" VerticalContentAlignment="Center" Text="{Binding Wallet}" Width="208" Background="White"></TextBox>
-				</GroupBox>
-				<WrapPanel>
-					<TextBlock Style="{StaticResource LblTb}">IP</TextBlock>
-					<TextBox VerticalContentAlignment="Center" Width="150" Text="{Binding MinerIp, ValidatesOnExceptions=True}" Background="White"></TextBox>
-				</WrapPanel>
-				<WrapPanel>
-					<TextBlock Style="{StaticResource LblTb}">矿机名</TextBlock>
-					<TextBox VerticalContentAlignment="Center" Width="150" Text="{Binding MinerName}" Background="White"></TextBox>
-				</WrapPanel>
-				<WrapPanel>
-					<TextBlock Style="{StaticResource LblTb}">内核</TextBlock>
-					<TextBox VerticalContentAlignment="Center" ToolTip="内核名以此开头的内核" Width="150" Text="{Binding Kernel}" Background="White"></TextBox>
-				</WrapPanel>
-				<WrapPanel>
-                    <TextBlock Style="{StaticResource LblTb}">开源版本</TextBlock>
-					<TextBox VerticalContentAlignment="Center" ToolTip="客户端版本号以此开头的客户端" Width="150" Text="{Binding Version}" Background="White"></TextBox>
-				</WrapPanel>
-			</StackPanel>
-		</StackPanel>
-		<Grid Grid.Row="2" Grid.Column="1" Background="{StaticResource MinerProfileBackground}">
+        <Border
+            Grid.Row="1" 
+            Grid.Column="0" 
+            Grid.RowSpan="2" 
+			BorderThickness="0 0 1 0"
+            BorderBrush="{StaticResource LineColor}">
+            <ScrollViewer 
+                Padding="0 0 4 0"
+			    PreviewMouseDown="ScrollViewer_PreviewMouseDown"
+                HorizontalScrollBarVisibility="Disabled"
+                VerticalScrollBarVisibility="Auto"
+                Background="#F5F5F5">
+                <StackPanel Margin="0 0 0 40">
+                    <ListBox 
+				        Background="Transparent"
+				        ItemsSource="{Binding MineCoinVms.PleaseSelect}"
+				        SelectedItem="{Binding CoinVm}"
+				        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+				        ScrollViewer.VerticalScrollBarVisibility="Disabled"
+				        ItemContainerStyle="{StaticResource ListBoxBarItem}"
+				        BorderThickness="0">
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel>
+                                </WrapPanel>
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Padding="10 2" Text="{Binding Code}"></TextBlock>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <GroupBox>
+                        <GroupBox.Header>
+                            <WrapPanel>
+                                <TextBlock VerticalAlignment="Center">作业</TextBlock>
+                                <controls:KbButton  
+							        Command="{Binding MineWorkVms.Add}" 
+							        Background="Transparent" 
+							        BorderThickness="0"
+							        Margin="2 0"
+							        CornerRadius="2">
+                                    <WrapPanel>
+                                        <Path
+									        Width="18"
+									        Height="18"
+									        ToolTip="新建作业"
+									        Data="{StaticResource Icon_Add}"
+									        Fill="{StaticResource IconFillColor}"
+									        Stretch="Fill" />
+                                    </WrapPanel>
+                                </controls:KbButton>
+                                <controls:KbButton  
+							        Command="{Binding SelectedMineWork.Edit}" 
+							        Background="Transparent" 
+							        BorderThickness="0"
+							        Margin="2 0"
+							        CornerRadius="2">
+                                    <WrapPanel>
+                                        <Path
+									        Width="18"
+									        Height="18"
+									        ToolTip="编辑作业"
+									        Data="{StaticResource Icon_Edit}"
+									        Fill="{StaticResource IconFillColor}"
+									        Stretch="Fill" />
+                                    </WrapPanel>
+                                </controls:KbButton>
+                                <controls:KbButton  
+							        Command="{Binding SelectedMineWork.Remove}" 
+							        Background="Transparent" 
+							        BorderThickness="0"
+							        Margin="2 0"
+							        CornerRadius="2">
+                                    <WrapPanel>
+                                        <Path
+									        Width="18"
+									        Height="18"
+									        ToolTip="删除作业"
+									        Data="{StaticResource Icon_Delete}"
+									        Fill="{StaticResource IconFillColor}"
+									        Stretch="Fill" />
+                                    </WrapPanel>
+                                </controls:KbButton>
+                            </WrapPanel>
+                        </GroupBox.Header>
+                        <ListBox 
+					        Background="Transparent"
+					        ItemsSource="{Binding MineWorkVms.MineWorkVmItems}"
+					        SelectedItem="{Binding SelectedMineWork}"
+					        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+					        ScrollViewer.VerticalScrollBarVisibility="Disabled"
+					        ItemContainerStyle="{StaticResource ListBoxBarItem}"
+					        BorderThickness="0">
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel>
+                                    </WrapPanel>
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Padding="10 2" Text="{Binding Name}" ToolTip="{Binding Description}"></TextBlock>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </GroupBox>
+                    <StackPanel Visibility="{Binding IsMineWorkSelected, Converter={StaticResource BoolToVisibilityInvertConverter}}">
+                        <GroupBox>
+                            <GroupBox.Header>
+                                <WrapPanel>
+                                    <TextBlock VerticalAlignment="Center">分组</TextBlock>
+                                    <controls:KbButton  
+								        Command="{Binding MinerGroupVms.Add}" 
+								        Background="Transparent" 
+								        ToolTip="新建组"
+								        BorderThickness="0"
+								        Margin="2 0"
+								        CornerRadius="2">
+                                        <WrapPanel>
+                                            <Path
+										        Width="18"
+										        Height="18"
+										        Data="{StaticResource Icon_Add}"
+										        Fill="{StaticResource IconFillColor}"
+										        Stretch="Fill" />
+                                        </WrapPanel>
+                                    </controls:KbButton>
+                                    <controls:KbButton  
+								        Command="{Binding SelectedMinerGroup.Edit}" 
+								        Background="Transparent" 
+								        BorderThickness="0"
+								        Margin="2 0"
+								        CornerRadius="2">
+                                        <WrapPanel>
+                                            <Path
+										        Width="18"
+										        Height="18"
+										        ToolTip="编辑组"
+										        Data="{StaticResource Icon_Edit}"
+										        Fill="{StaticResource IconFillColor}"
+										        Stretch="Fill" />
+                                        </WrapPanel>
+                                    </controls:KbButton>
+                                    <controls:KbButton  
+									    Command="{Binding SelectedMinerGroup.Remove}" 
+									    Background="Transparent" 
+									    BorderThickness="0"
+									    Margin="2 0"
+									    CornerRadius="2">
+                                        <WrapPanel>
+                                            <Path
+										        Width="18"
+										        Height="18"
+										        ToolTip="删除组"
+										        Data="{StaticResource Icon_Delete}"
+										        Fill="{StaticResource IconFillColor}"
+										        Stretch="Fill" />
+                                        </WrapPanel>
+                                    </controls:KbButton>
+                                </WrapPanel>
+                            </GroupBox.Header>
+                            <ListBox 
+						        Background="Transparent"				
+						        ItemsSource="{Binding MinerGroupVms.MinerGroupItems}"
+						        SelectedItem="{Binding SelectedMinerGroup}"
+						        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+						        ScrollViewer.VerticalScrollBarVisibility="Disabled"
+						        ItemContainerStyle="{StaticResource ListBoxBarItem}"
+						        BorderThickness="0">
+                                <ListBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel>
+                                        </WrapPanel>
+                                    </ItemsPanelTemplate>
+                                </ListBox.ItemsPanel>
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Padding="10 2" Text="{Binding Name}" ToolTip="{Binding Description}"></TextBlock>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </GroupBox>
+                        <GroupBox Header="状态">
+                            <ListBox 
+						        Background="Transparent"
+						        ItemsSource="{x:Static app:AppStatic.MineStatusEnumItems}"
+						        SelectedItem="{Binding MineStatusEnumItem}"
+						        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+						        ScrollViewer.VerticalScrollBarVisibility="Disabled"
+						        ItemContainerStyle="{StaticResource ListBoxBarItem}"
+						        BorderThickness="0">
+                                <ListBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel>
+                                        </WrapPanel>
+                                    </ItemsPanelTemplate>
+                                </ListBox.ItemsPanel>
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Padding="10 2" Text="{Binding Description}"></TextBlock>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </GroupBox>
+                        <GroupBox Header="矿池">
+                            <StackPanel>
+                                <TextBox HorizontalAlignment="Left" VerticalContentAlignment="Center" Text="{Binding Pool}" Width="200" Background="White"></TextBox>
+                                <ListBox 
+							        Background="Transparent"
+							        ItemsSource="{Binding CoinVm.OptionPools}"
+							        SelectedItem="{Binding PoolVm}"
+							        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+							        ScrollViewer.VerticalScrollBarVisibility="Disabled"
+							        ItemContainerStyle="{StaticResource ListBoxBarItem}"
+							        BorderThickness="0">
+                                    <ListBox.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel>
+                                            </WrapPanel>
+                                        </ItemsPanelTemplate>
+                                    </ListBox.ItemsPanel>
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Padding="10 2" Text="{Binding Name}"></TextBlock>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox Header="钱包">
+                            <TextBox HorizontalAlignment="Left" VerticalContentAlignment="Center" Text="{Binding Wallet}" Width="200" Background="White"></TextBox>
+                        </GroupBox>
+                        <WrapPanel>
+                            <TextBlock Style="{StaticResource LblTb}">IP</TextBlock>
+                            <TextBox VerticalContentAlignment="Center" Width="146" Text="{Binding MinerIp, ValidatesOnExceptions=True}" Background="White"></TextBox>
+                        </WrapPanel>
+                        <WrapPanel>
+                            <TextBlock Style="{StaticResource LblTb}">矿机名</TextBlock>
+                            <TextBox VerticalContentAlignment="Center" Width="146" Text="{Binding MinerName}" Background="White"></TextBox>
+                        </WrapPanel>
+                        <WrapPanel>
+                            <TextBlock Style="{StaticResource LblTb}">内核</TextBlock>
+                            <TextBox VerticalContentAlignment="Center" ToolTip="内核名以此开头的内核" Width="146" Text="{Binding Kernel}" Background="White"></TextBox>
+                        </WrapPanel>
+                        <WrapPanel>
+                            <TextBlock Style="{StaticResource LblTb}">开源版本</TextBlock>
+                            <TextBox VerticalContentAlignment="Center" ToolTip="客户端版本号以此开头的客户端" Width="146" Text="{Binding Version}" Background="White"></TextBox>
+                        </WrapPanel>
+                    </StackPanel>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+		<Grid 
+            Grid.Row="2" 
+            Grid.Column="1" 
+            Background="{StaticResource MinerProfileBackground}">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="*"></RowDefinition>
 				<RowDefinition Height="470"></RowDefinition>
