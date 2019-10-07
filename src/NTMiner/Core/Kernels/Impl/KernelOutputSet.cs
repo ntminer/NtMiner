@@ -155,8 +155,8 @@ namespace NTMiner.Core.Kernels.Impl {
                     poolId = dualMineContext.DualCoinPool.GetId();
                 }
                 // 这些方法输出的是事件消息
-                PickTotalSpeed(_root, line, mineContext.KernelOutput, coin, isDual);
-                PickGpuSpeed(_root, mineContext, line, mineContext.KernelOutput, coin, isDual);
+                PickTotalSpeed(_root, line, mineContext.KernelOutput, isDual);
+                PickGpuSpeed(_root, mineContext, line, mineContext.KernelOutput, isDual);
                 PickTotalShare(_root, line, mineContext.KernelOutput, coin, isDual);
                 PickAcceptShare(_root, line, mineContext.KernelOutput, coin, isDual);
                 PickAcceptOneShare(_root, mineContext, line, _preline, mineContext.KernelOutput, coin, isDual);
@@ -173,8 +173,8 @@ namespace NTMiner.Core.Kernels.Impl {
                 if (isDual && mineContext.KernelOutput.IsDualInSameLine) {
                     coin = mineContext.MainCoin;
                     isDual = false;
-                    PickTotalSpeed(_root, line, mineContext.KernelOutput, coin, isDual);
-                    PickGpuSpeed(_root, mineContext, line, mineContext.KernelOutput, coin, isDual);
+                    PickTotalSpeed(_root, line, mineContext.KernelOutput, isDual);
+                    PickGpuSpeed(_root, mineContext, line, mineContext.KernelOutput, isDual);
                     PickTotalShare(_root, line, mineContext.KernelOutput, coin, isDual);
                     PickAcceptShare(_root, line, mineContext.KernelOutput, coin, isDual);
                     PickAcceptOneShare(_root, mineContext, line, _preline, mineContext.KernelOutput, coin, isDual);
@@ -192,7 +192,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
         #region private methods
         #region PickTotalSpeed
-        private static void PickTotalSpeed(INTMinerRoot root, string input, IKernelOutput kernelOutput, ICoin coin, bool isDual) {
+        private static void PickTotalSpeed(INTMinerRoot root, string input, IKernelOutput kernelOutput, bool isDual) {
             string totalSpeedPattern = kernelOutput.TotalSpeedPattern;
             if (isDual) {
                 totalSpeedPattern = kernelOutput.DualTotalSpeedPattern;
@@ -200,7 +200,7 @@ namespace NTMiner.Core.Kernels.Impl {
             if (string.IsNullOrEmpty(totalSpeedPattern)) {
                 return;
             }
-            Match match = Regex.Match(input, totalSpeedPattern, RegexOptions.Compiled);
+            Match match = Regex.Match(input, totalSpeedPattern);
             if (match.Success) {
                 string totalSpeedText = match.Groups[Consts.TotalSpeedGroupName].Value;
                 string totalSpeedUnit = match.Groups[Consts.TotalSpeedUnitGroupName].Value;
@@ -245,7 +245,7 @@ namespace NTMiner.Core.Kernels.Impl {
             if (string.IsNullOrEmpty(poolDelayPattern)) {
                 return;
             }
-            Match match = Regex.Match(input, poolDelayPattern, RegexOptions.Compiled);
+            Match match = Regex.Match(input, poolDelayPattern);
             if (match.Success) {
                 string poolDelayText = match.Groups[Consts.PoolDelayGroupName].Value;
                 VirtualRoot.Happened(new PoolDelayPickedEvent(poolId, isDual, poolDelayText));
@@ -254,7 +254,7 @@ namespace NTMiner.Core.Kernels.Impl {
         #endregion
 
         #region PickGpuSpeed
-        private static void PickGpuSpeed(INTMinerRoot root, IMineContext mineContext, string input, IKernelOutput kernelOutput, ICoin coin, bool isDual) {
+        private static void PickGpuSpeed(INTMinerRoot root, IMineContext mineContext, string input, IKernelOutput kernelOutput, bool isDual) {
             string gpuSpeedPattern = kernelOutput.GpuSpeedPattern;
             if (isDual) {
                 gpuSpeedPattern = kernelOutput.DualGpuSpeedPattern;
@@ -326,7 +326,7 @@ namespace NTMiner.Core.Kernels.Impl {
             if (string.IsNullOrEmpty(totalSharePattern)) {
                 return;
             }
-            var match = Regex.Match(input, totalSharePattern, RegexOptions.Compiled);
+            var match = Regex.Match(input, totalSharePattern);
             if (match.Success) {
                 string totalShareText = match.Groups[Consts.TotalShareGroupName].Value;
                 int totalShare;
@@ -347,7 +347,7 @@ namespace NTMiner.Core.Kernels.Impl {
             if (string.IsNullOrEmpty(acceptSharePattern)) {
                 return;
             }
-            var match = Regex.Match(input, acceptSharePattern, RegexOptions.Compiled);
+            var match = Regex.Match(input, acceptSharePattern);
             if (match.Success) {
                 string acceptShareText = match.Groups[Consts.AcceptShareGroupName].Value;
                 int acceptShare;
@@ -456,7 +456,7 @@ namespace NTMiner.Core.Kernels.Impl {
             if (string.IsNullOrEmpty(rejectSharePattern)) {
                 return;
             }
-            var match = Regex.Match(input, rejectSharePattern, RegexOptions.Compiled);
+            var match = Regex.Match(input, rejectSharePattern);
             if (match.Success) {
                 string rejectShareText = match.Groups[Consts.RejectShareGroupName].Value;
 
@@ -480,7 +480,7 @@ namespace NTMiner.Core.Kernels.Impl {
             if (rejectOneShare.Contains("\n")) {
                 input = preline + "\n" + input;
             }
-            var match = Regex.Match(input, rejectOneShare, RegexOptions.Compiled);
+            var match = Regex.Match(input, rejectOneShare);
             if (match.Success) {
                 if (!isDual) {
                     // 决定不支持双挖的单卡份额统计
@@ -514,7 +514,7 @@ namespace NTMiner.Core.Kernels.Impl {
             if (string.IsNullOrEmpty(rejectPercentPattern)) {
                 return;
             }
-            var match = Regex.Match(input, rejectPercentPattern, RegexOptions.Compiled);
+            var match = Regex.Match(input, rejectPercentPattern);
             string rejectPercentText = match.Groups[Consts.RejectPercentGroupName].Value;
             double rejectPercent;
             if (double.TryParse(rejectPercentText, out rejectPercent)) {
