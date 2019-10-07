@@ -438,14 +438,11 @@
                         <DataTemplate>
                             <StackPanel>
                                 <TextBlock Text="温度" FontSize="12"></TextBlock>
-                                <TextBox 
+                                <TextBlock 
 					                ToolTip="最高卡温"
-                                    FontSize="12"
-					                BorderThickness="0"
-					                Background="Transparent"
+                                    FontSize="11"
 					                Foreground="{Binding Data.TempForeground,Source={StaticResource proxy}}"
-					                IsReadOnly="True"
-					                Text="{Binding Data.MaxTempText,Source={StaticResource proxy}, Mode=OneWay}"></TextBox>
+					                Text="{Binding Data.MaxTempText,Source={StaticResource proxy}}"></TextBlock>
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.HeaderTemplate>
