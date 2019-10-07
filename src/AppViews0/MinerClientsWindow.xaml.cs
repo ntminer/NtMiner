@@ -95,6 +95,24 @@ namespace NTMiner.Views {
             Wpf.Util.ScrollViewer_PreviewMouseDown(sender, e);
         }
 
+        public void ScrollViewer_PreviewMouseDown1(object sender, MouseButtonEventArgs e) {
+            if (e.LeftButton == MouseButtonState.Pressed && e.Source.GetType() == typeof(ScrollViewer)) {
+                ScrollViewer scrollViewer = (ScrollViewer)sender;
+                Point p = e.GetPosition(scrollViewer);
+                if (p.X > scrollViewer.ActualWidth - SystemParameters.ScrollWidth) {
+                    return;
+                }
+                if (scrollViewer.ComputedHorizontalScrollBarVisibility == Visibility.Visible) {
+                    p = e.GetPosition(scrollViewer);
+                    if (p.Y > scrollViewer.ActualHeight - SystemParameters.ScrollHeight) {
+                        return;
+                    }
+                }
+                this.DragMove();
+                e.Handled = true;
+            }
+        }
+
         private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
             DataGrid dg = (DataGrid)sender;
             Point p = e.GetPosition(dg);

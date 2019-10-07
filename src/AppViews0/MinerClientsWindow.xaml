@@ -1951,12 +1951,12 @@
             <ScrollViewer 
                 Grid.Row="1" Margin="0 6 0 0"
 				Background="#EEEEF2"
-				PreviewMouseDown="ScrollViewer_PreviewMouseDown"
+				PreviewMouseDown="ScrollViewer_PreviewMouseDown1"
 				VerticalScrollBarVisibility="Disabled"
                 HorizontalScrollBarVisibility="Auto">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*" MinWidth="500"></ColumnDefinition>
                         <ColumnDefinition Width="1000"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <uc:MessageCenter Grid.Column="0"></uc:MessageCenter>
