@@ -536,25 +536,29 @@
         <WrapPanel Margin="0 3">
 			<WrapPanel>
 				<TextBlock Style="{StaticResource LblTb}">主币矿池</TextBlock>
-				<TextBox 
-					Padding="0"
-					ToolTip="{Binding MainCoinPool}"
-					BorderThickness="0"
-					Background="Transparent"
-					IsReadOnly="True"
-                    Width="200"
-					Text="{Binding MainCoinPool, Mode=OneWay}"></TextBox>
+                <WrapPanel Width="200">
+                    <TextBox 
+					    Padding="0"
+					    ToolTip="{Binding MainCoinPool}"
+					    BorderThickness="0"
+					    Background="Transparent"
+					    IsReadOnly="True"
+					    Text="{Binding MainCoinPool, Mode=OneWay}"></TextBox>
+                    <TextBlock Text="{Binding MainCoinPoolDelay}" VerticalAlignment="Bottom"></TextBlock>
+                </WrapPanel>
 			</WrapPanel>
             <WrapPanel Visibility="{Binding DualCoinPool,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
 				<TextBlock Style="{StaticResource LblTb}" Width="Auto">双挖矿池</TextBlock>
-				<TextBox 
-					Padding="0"
-					ToolTip="{Binding DualCoinPool}"
-					BorderThickness="0"
-					Background="Transparent"
-					IsReadOnly="True"
-                    Width="200"
-					Text="{Binding DualCoinPool, Mode=OneWay}"></TextBox>
+                <WrapPanel Width="200">
+                    <TextBox 
+					    Padding="0"
+					    ToolTip="{Binding DualCoinPool}"
+					    BorderThickness="0"
+					    Background="Transparent"
+					    IsReadOnly="True"
+					    Text="{Binding DualCoinPool, Mode=OneWay}"></TextBox>
+                    <TextBlock Text="{Binding DualCoinPoolDelay}" VerticalAlignment="Bottom"></TextBlock>
+                </WrapPanel>
             </WrapPanel>
             <WrapPanel>
                 <TextBlock Style="{StaticResource LblTb}" Width="Auto">挖矿内核</TextBlock>

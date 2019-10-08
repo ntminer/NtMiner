@@ -1718,8 +1718,173 @@
 								</WrapPanel>
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
-					</DataGridTemplateColumn>
-					<!--KernelCommandLine-->
+                    </DataGridTemplateColumn>
+                    <!--IsAutoRestartKernel-->
+                    <DataGridTemplateColumn 
+						Visibility="{Binding Data.ColumnsShow.IsAutoRestartKernel,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+						IsReadOnly="True">
+                        <DataGridTemplateColumn.Header>
+                            <WrapPanel>
+                                <TextBlock Text="{x:Static vm:ColumnsShowViewModel.IS_AUTO_RESTART_KERNEL}" ToolTip="如果内核进程意外消失，自动重启内核"></TextBlock>
+                                <controls:KbButton
+									ToolTip="不展示"
+									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+									CommandParameter="IsAutoRestartKernel"
+									Background="Transparent">
+                                    <WrapPanel>
+                                        <Path
+											Width="14"
+											Height="8"
+											Data="{StaticResource Icon_Hide}"
+											Fill="#FF5A5A5A"
+											Stretch="Fill" />
+                                    </WrapPanel>
+                                </controls:KbButton>
+                            </WrapPanel>
+                        </DataGridTemplateColumn.Header>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <WrapPanel>
+                                    <TextBlock 
+										Visibility="{Binding IsAutoRestartKernel,Converter={StaticResource BoolToVisibilityConverter}}"
+										Text="是"></TextBlock>
+                                </WrapPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <!--IsNoShareRestartKernel-->
+                    <DataGridTemplateColumn 
+						Visibility="{Binding Data.ColumnsShow.IsNoShareRestartKernel,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+						IsReadOnly="True">
+                        <DataGridTemplateColumn.Header>
+                            <WrapPanel>
+                                <TextBlock Text="{x:Static vm:ColumnsShowViewModel.IS_NO_SHARE_RESTART_KERNEL}"></TextBlock>
+                                <controls:KbButton
+									ToolTip="不展示"
+									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+									CommandParameter="IsNoShareRestartKernel"
+									Background="Transparent">
+                                    <WrapPanel>
+                                        <Path
+											Width="14"
+											Height="8"
+											Data="{StaticResource Icon_Hide}"
+											Fill="#FF5A5A5A"
+											Stretch="Fill" />
+                                    </WrapPanel>
+                                </controls:KbButton>
+                            </WrapPanel>
+                        </DataGridTemplateColumn.Header>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <WrapPanel>
+                                    <TextBlock 
+										Visibility="{Binding IsNoShareRestartKernel,Converter={StaticResource BoolToVisibilityConverter}}"
+										Text="是"></TextBlock>
+                                </WrapPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <!--IsNoShareRestartComputer-->
+                    <DataGridTemplateColumn 
+						Visibility="{Binding Data.ColumnsShow.IsNoShareRestartComputer,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+						IsReadOnly="True">
+                        <DataGridTemplateColumn.Header>
+                            <WrapPanel>
+                                <TextBlock Text="{x:Static vm:ColumnsShowViewModel.IS_NO_SHARE_RESTART_COMPUTER}"></TextBlock>
+                                <controls:KbButton
+									ToolTip="不展示"
+									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+									CommandParameter="IsNoShareRestartComputer"
+									Background="Transparent">
+                                    <WrapPanel>
+                                        <Path
+											Width="14"
+											Height="8"
+											Data="{StaticResource Icon_Hide}"
+											Fill="#FF5A5A5A"
+											Stretch="Fill" />
+                                    </WrapPanel>
+                                </controls:KbButton>
+                            </WrapPanel>
+                        </DataGridTemplateColumn.Header>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <WrapPanel>
+                                    <TextBlock 
+										Visibility="{Binding IsNoShareRestartComputer,Converter={StaticResource BoolToVisibilityConverter}}"
+										Text="是"></TextBlock>
+                                </WrapPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <!--IsPeriodicRestartKernel-->
+                    <DataGridTemplateColumn 
+						Visibility="{Binding Data.ColumnsShow.IsPeriodicRestartKernel,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+						IsReadOnly="True">
+                        <DataGridTemplateColumn.Header>
+                            <WrapPanel>
+                                <TextBlock Text="{x:Static vm:ColumnsShowViewModel.IS_PERIODIC_RESTART_KERNEL}"></TextBlock>
+                                <controls:KbButton
+									ToolTip="不展示"
+									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+									CommandParameter="IsPeriodicRestartKernel"
+									Background="Transparent">
+                                    <WrapPanel>
+                                        <Path
+											Width="14"
+											Height="8"
+											Data="{StaticResource Icon_Hide}"
+											Fill="#FF5A5A5A"
+											Stretch="Fill" />
+                                    </WrapPanel>
+                                </controls:KbButton>
+                            </WrapPanel>
+                        </DataGridTemplateColumn.Header>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <WrapPanel>
+                                    <TextBlock 
+										Visibility="{Binding IsPeriodicRestartKernel,Converter={StaticResource BoolToVisibilityConverter}}"
+										Text="是"></TextBlock>
+                                </WrapPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <!--IsPeriodicRestartComputer-->
+                    <DataGridTemplateColumn 
+						Visibility="{Binding Data.ColumnsShow.IsPeriodicRestartComputer,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+						IsReadOnly="True">
+                        <DataGridTemplateColumn.Header>
+                            <WrapPanel>
+                                <TextBlock Text="{x:Static vm:ColumnsShowViewModel.IS_PERIODIC_RESTART_COMPUTER}"></TextBlock>
+                                <controls:KbButton
+									ToolTip="不展示"
+									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+									CommandParameter="IsPeriodicRestartComputer"
+									Background="Transparent">
+                                    <WrapPanel>
+                                        <Path
+											Width="14"
+											Height="8"
+											Data="{StaticResource Icon_Hide}"
+											Fill="#FF5A5A5A"
+											Stretch="Fill" />
+                                    </WrapPanel>
+                                </controls:KbButton>
+                            </WrapPanel>
+                        </DataGridTemplateColumn.Header>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <WrapPanel>
+                                    <TextBlock 
+										Visibility="{Binding IsPeriodicRestartComputer,Converter={StaticResource BoolToVisibilityConverter}}"
+										Text="是"></TextBlock>
+                                </WrapPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <!--KernelCommandLine-->
 					<DataGridTemplateColumn 
 						Visibility="{Binding Data.ColumnsShow.KernelCommandLine,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 						IsReadOnly="True">
