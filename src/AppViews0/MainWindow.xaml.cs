@@ -230,7 +230,6 @@ namespace NTMiner.Views {
         private int cpuPerformance = 0;
         private int cpuTemperature = 0;
         private bool isFirstRefreshCpu = true;
-        const string StopedByCpuTemperature = "StopedByCpuTemperature";
         private void RefreshCpu() {
             if (isFirstRefreshCpu) {
                 isFirstRefreshCpu = false;
@@ -282,13 +281,13 @@ namespace NTMiner.Views {
                         }
                         if (Vm.MinerProfile.HighTemperatureCount >= Vm.MinerProfile.CpuGETemperatureSeconds) {
                             Vm.MinerProfile.HighTemperatureCount = 0;
-                            NTMinerRoot.Instance.StopMineAsync(StopedByCpuTemperature);
+                            NTMinerRoot.Instance.StopMineAsync(StopMineReason.HighCpuTemperature);
                             Write.UserWarn($"自动停止挖矿，因为 CPU 温度连续{Vm.MinerProfile.CpuGETemperatureSeconds}秒不低于{Vm.MinerProfile.CpuStopTemperature}℃");
                         }
                     }
                     else {
                         Vm.MinerProfile.HighTemperatureCount = 0;
-                        if (Vm.MinerProfile.IsAutoStartByCpu && NTMinerRoot.Instance.StopReason == StopedByCpuTemperature) {
+                        if (Vm.MinerProfile.IsAutoStartByCpu && NTMinerRoot.Instance.StopReason == StopMineReason.HighCpuTemperature) {
                             if (temperature <= Vm.MinerProfile.CpuStartTemperature) {
                                 Vm.MinerProfile.LowTemperatureCount++;
                             }
@@ -306,12 +305,6 @@ namespace NTMiner.Views {
             }
         }
 
-        private void ResetCursor() {
-            if (Mouse.LeftButton != MouseButtonState.Pressed) {
-                this.Cursor = Cursors.Arrow;
-            }
-        }
-
         private void Resize(object sender, MouseButtonEventArgs e) {
             this.ResizeWindow(sender);
         }
@@ -321,7 +314,9 @@ namespace NTMiner.Views {
         }
 
         private void ResetCursor(object sender, MouseEventArgs e) {
-            this.ResetCursor();
+            if (Mouse.LeftButton != MouseButtonState.Pressed) {
+                this.Cursor = Cursors.Arrow;
+            }
         }
 
         public void ShowMask() {

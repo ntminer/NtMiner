@@ -188,6 +188,7 @@
     <Compile Include="NTMinerRoot.cs" />
     <Compile Include="NTMinerRoot.partials.static.cs" />
     <Compile Include="SpecialPath.cs" />
+    <Compile Include="StopMineReason.cs" />
     <Compile Include="Windows\BcdEdit.cs" />
     <Compile Include="Windows\Defender.cs" />
     <Compile Include="Windows\NativeMethods.cs" />

@@ -32,8 +32,8 @@ namespace NTMiner {
 
         void RestartMine(bool isWork = false);
 
-        string StopReason { get; }
-        void StopMineAsync(string stopReason, Action callback = null);
+        StopMineReason StopReason { get; }
+        void StopMineAsync(StopMineReason stopReason, Action callback = null);
 
         IMineContext CurrentMineContext { get; }
 
