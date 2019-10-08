@@ -47,7 +47,6 @@ namespace NTMiner.Vms {
         private bool _minerGroup;
         private bool _mainCoinCode;
         private bool _mainCoinSpeedText;
-        private bool _gpuTableVms;
         private bool _mainCoinWallet;
         private bool _mainCoinPool;
         private bool _kernel;
@@ -159,7 +158,6 @@ namespace NTMiner.Vms {
             _minerGroup = data.MinerGroup;
             _mainCoinCode = data.MainCoinCode;
             _mainCoinSpeedText = data.MainCoinSpeedText;
-            _gpuTableVms = data.GpuTableVm;
             _mainCoinWallet = data.MainCoinWallet;
             _mainCoinPool = data.MainCoinPool;
             _kernel = data.Kernel;
@@ -711,6 +709,7 @@ namespace NTMiner.Vms {
                 if (_isAutoRestartKernel != value) {
                     _isAutoRestartKernel = value;
                     OnPropertyChanged(nameof(IsAutoRestartKernel));
+                    OnColumnItemChanged(nameof(IsAutoRestartKernel));
                     UpdateColumnsShowAsync();
                 }
             }
@@ -724,6 +723,7 @@ namespace NTMiner.Vms {
                 if (_isNoShareRestartKernel != value) {
                     _isNoShareRestartKernel = value;
                     OnPropertyChanged(nameof(IsNoShareRestartKernel));
+                    OnColumnItemChanged(nameof(IsNoShareRestartKernel));
                     UpdateColumnsShowAsync();
                 }
             }
@@ -737,6 +737,7 @@ namespace NTMiner.Vms {
                 if (_isNoShareRestartComputer != value) {
                     _isNoShareRestartComputer = value;
                     OnPropertyChanged(nameof(IsNoShareRestartComputer));
+                    OnColumnItemChanged(nameof(IsNoShareRestartComputer));
                     UpdateColumnsShowAsync();
                 }
             }
@@ -750,6 +751,7 @@ namespace NTMiner.Vms {
                 if (_isPeriodicRestartKernel != value) {
                     _isPeriodicRestartKernel = value;
                     OnPropertyChanged(nameof(IsPeriodicRestartKernel));
+                    OnColumnItemChanged(nameof(IsPeriodicRestartKernel));
                     UpdateColumnsShowAsync();
                 }
             }
@@ -763,6 +765,7 @@ namespace NTMiner.Vms {
                 if (_isPeriodicRestartComputer != value) {
                     _isPeriodicRestartComputer = value;
                     OnPropertyChanged(nameof(IsPeriodicRestartComputer));
+                    OnColumnItemChanged(nameof(IsPeriodicRestartComputer));
                     UpdateColumnsShowAsync();
                 }
             }
@@ -776,6 +779,7 @@ namespace NTMiner.Vms {
                 if (_mainCoinPoolDelay != value) {
                     _mainCoinPoolDelay = value;
                     OnPropertyChanged(nameof(MainCoinPoolDelay));
+                    OnColumnItemChanged(nameof(MainCoinPoolDelay));
                     UpdateColumnsShowAsync();
                 }
             }
@@ -789,17 +793,7 @@ namespace NTMiner.Vms {
                 if (_dualCoinPoolDelay != value) {
                     _dualCoinPoolDelay = value;
                     OnPropertyChanged(nameof(DualCoinPoolDelay));
-                    UpdateColumnsShowAsync();
-                }
-            }
-        }
-
-        public bool GpuTableVm {
-            get { return _gpuTableVms; }
-            set {
-                if (_gpuTableVms != value) {
-                    _gpuTableVms = value;
-                    OnPropertyChanged(nameof(GpuTableVm));
+                    OnColumnItemChanged(nameof(DualCoinPoolDelay));
                     UpdateColumnsShowAsync();
                 }
             }

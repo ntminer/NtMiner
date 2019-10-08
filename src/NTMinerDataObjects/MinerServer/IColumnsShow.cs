@@ -11,7 +11,6 @@ namespace NTMiner.MinerServer {
         bool MainCoinCode  { get; }
         bool MainCoinSpeedText  { get; }
         bool MainCoinPoolDelay { get; }
-        bool GpuTableVm { get; }
         bool MainCoinWallet  { get; }
         bool MainCoinPool  { get; }
         bool Kernel  { get; }

@@ -16,7 +16,6 @@ namespace NTMiner.MinerServer {
             DualCoinWallet = true,
             GpuDriver = true,
             GpuInfo = true,
-            GpuTableVm = true,
             GpuType = true,
             IncomeDualCoinPerDayText = true,
             IncomeMainCoinPerDayText = true,
@@ -74,8 +73,6 @@ namespace NTMiner.MinerServer {
         public bool MainCoinCode{ get; set; }
 
         public bool MainCoinSpeedText{ get; set; }
-
-        public bool GpuTableVm { get; set; }
 
         public bool MainCoinWallet{ get; set; }
 
