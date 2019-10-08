@@ -46,8 +46,8 @@ namespace NTMiner {
             string customArgs = coinKernelProfile.CustomArgs ?? string.Empty;
             parameters.Add(Consts.MainCoinParameterName, mainCoin.Code);
             string userName = string.Empty;
-            string password = string.Empty;
-            string wallet = wallet = coinProfile.Wallet;
+            string password = Consts.PasswordDefaultValue;
+            string wallet = coinProfile.Wallet;
             if (mainCoinPool.IsUserMode) {
                 IPoolProfile poolProfile = MinerProfile.GetPoolProfile(mainCoinPool.GetId());
                 password = poolProfile.Password;
@@ -56,6 +56,9 @@ namespace NTMiner {
                 }
                 userName = poolProfile.UserName;
                 wallet = poolProfile.UserName;
+            }
+            else {
+                userName = wallet;
             }
             parameters.Add(Consts.UserNameParameterName, userName);
             parameters.Add(Consts.PasswordParameterName, password);
@@ -94,8 +97,8 @@ namespace NTMiner {
                         ICoinProfile dualCoinProfile = this.MinerProfile.GetCoinProfile(dualCoin.GetId());
                         if (PoolSet.TryGetPool(dualCoinProfile.DualCoinPoolId, out IPool dualCoinPool)) {
                             string dualUserName = string.Empty;
-                            string dualPassword = string.Empty;
-                            string dualWallet = wallet = dualCoinProfile.DualCoinWallet;
+                            string dualPassword = Consts.PasswordDefaultValue;
+                            string dualWallet = dualCoinProfile.DualCoinWallet;
                             parameters.Add(Consts.DualCoinParameterName, dualCoin.Code);
                             if (dualCoinPool.IsUserMode) {
                                 IPoolProfile dualPoolProfile = MinerProfile.GetPoolProfile(dualCoinPool.GetId());
@@ -105,6 +108,9 @@ namespace NTMiner {
                                 }
                                 dualUserName = dualPoolProfile.UserName;
                                 dualWallet = dualPoolProfile.UserName;
+                            }
+                            else {
+                                dualUserName = dualWallet;
                             }
                             parameters.Add(Consts.DualUserNameParameterName, dualUserName);
                             parameters.Add(Consts.DualPasswordParameterName, dualPassword);
