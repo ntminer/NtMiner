@@ -1951,7 +1951,6 @@
             <ScrollViewer 
                 Grid.Row="1" Margin="0 6 0 0"
 				Background="#EEEEF2"
-				PreviewMouseDown="ScrollViewer_PreviewMouseDown1"
 				VerticalScrollBarVisibility="Disabled"
                 HorizontalScrollBarVisibility="Auto">
                 <Grid>
@@ -1962,9 +1961,10 @@
                     <uc:MessageCenter Grid.Column="0"></uc:MessageCenter>
                     <ScrollViewer 
                         Grid.Column="1" 
+                        Style="{StaticResource LeftBarScroolView}"
 				        VerticalScrollBarVisibility="Auto"
                         HorizontalScrollBarVisibility="Disabled"
-				        PreviewMouseDown="ScrollViewer_PreviewMouseDown"
+				        PreviewMouseDown="MinerClientUcScrollViewer_PreviewMouseDown"
                         Visibility="{Binding CurrentMinerClient,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
                         <uc:MinerClientUc DataContext="{Binding CurrentMinerClient}"></uc:MinerClientUc>
                     </ScrollViewer>

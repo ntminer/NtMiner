@@ -95,11 +95,11 @@ namespace NTMiner.Views {
             Wpf.Util.ScrollViewer_PreviewMouseDown(sender, e);
         }
 
-        public void ScrollViewer_PreviewMouseDown1(object sender, MouseButtonEventArgs e) {
+        private void MinerClientUcScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
             if (e.LeftButton == MouseButtonState.Pressed && e.Source.GetType() == typeof(ScrollViewer)) {
                 ScrollViewer scrollViewer = (ScrollViewer)sender;
                 Point p = e.GetPosition(scrollViewer);
-                if (p.X > scrollViewer.ActualWidth - SystemParameters.ScrollWidth) {
+                if (p.X < SystemParameters.ScrollWidth) {
                     return;
                 }
                 if (scrollViewer.ComputedHorizontalScrollBarVisibility == Visibility.Visible) {
