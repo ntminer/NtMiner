@@ -45,19 +45,21 @@ namespace NTMiner {
             string coinKernelArgs = coinKernel.Args;
             string customArgs = coinKernelProfile.CustomArgs ?? string.Empty;
             parameters.Add(Consts.MainCoinParameterName, mainCoin.Code);
+            string userName = string.Empty;
+            string password = string.Empty;
+            string wallet = wallet = coinProfile.Wallet;
             if (mainCoinPool.IsUserMode) {
                 IPoolProfile poolProfile = MinerProfile.GetPoolProfile(mainCoinPool.GetId());
-                string password = poolProfile.Password;
+                password = poolProfile.Password;
                 if (string.IsNullOrEmpty(password)) {
                     password = Consts.PasswordDefaultValue;
                 }
-                parameters.Add(Consts.UserNameParameterName, poolProfile.UserName);
-                parameters.Add(Consts.PasswordParameterName, password);
-                parameters.Add(Consts.WalletParameterName, poolProfile.UserName);
+                userName = poolProfile.UserName;
+                wallet = poolProfile.UserName;
             }
-            else {
-                parameters.Add(Consts.WalletParameterName, coinProfile.Wallet);
-            }
+            parameters.Add(Consts.UserNameParameterName, userName);
+            parameters.Add(Consts.PasswordParameterName, password);
+            parameters.Add(Consts.WalletParameterName, wallet);
             parameters.Add(Consts.HostParameterName, mainCoinPool.GetHost());
             parameters.Add(Consts.PortParameterName, mainCoinPool.GetPort().ToString());
             parameters.Add(Consts.PoolParameterName, mainCoinPool.Server);
@@ -91,20 +93,22 @@ namespace NTMiner {
                     if (this.CoinSet.TryGetCoin(coinKernelProfile.DualCoinId, out ICoin dualCoin)) {
                         ICoinProfile dualCoinProfile = this.MinerProfile.GetCoinProfile(dualCoin.GetId());
                         if (PoolSet.TryGetPool(dualCoinProfile.DualCoinPoolId, out IPool dualCoinPool)) {
+                            string dualUserName = string.Empty;
+                            string dualPassword = string.Empty;
+                            string dualWallet = wallet = dualCoinProfile.DualCoinWallet;
                             parameters.Add(Consts.DualCoinParameterName, dualCoin.Code);
                             if (dualCoinPool.IsUserMode) {
                                 IPoolProfile dualPoolProfile = MinerProfile.GetPoolProfile(dualCoinPool.GetId());
-                                string dualPassword = dualPoolProfile.Password;
+                                dualPassword = dualPoolProfile.Password;
                                 if (string.IsNullOrEmpty(dualPassword)) {
                                     dualPassword = Consts.PasswordDefaultValue;
                                 }
-                                parameters.Add(Consts.DualUserNameParameterName, dualPoolProfile.UserName);
-                                parameters.Add(Consts.DualPasswordParameterName, dualPassword);
-                                parameters.Add(Consts.DualWalletParameterName, dualPoolProfile.UserName);
+                                dualUserName = dualPoolProfile.UserName;
+                                dualWallet = dualPoolProfile.UserName;
                             }
-                            else {
-                                parameters.Add(Consts.DualWalletParameterName, dualCoinProfile.DualCoinWallet);
-                            }
+                            parameters.Add(Consts.DualUserNameParameterName, dualUserName);
+                            parameters.Add(Consts.DualPasswordParameterName, dualPassword);
+                            parameters.Add(Consts.DualWalletParameterName, dualWallet);
                             parameters.Add(Consts.DualHostParameterName, dualCoinPool.GetHost());
                             parameters.Add(Consts.DualPortParameterName, dualCoinPool.GetPort().ToString());
                             parameters.Add(Consts.DualPoolParameterName, dualCoinPool.Server);
