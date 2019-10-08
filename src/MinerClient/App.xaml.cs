@@ -69,8 +69,7 @@ namespace NTMiner {
                     }
 
                     NotiCenterWindowViewModel.IsHotKeyEnabled = true;
-                    ConsoleWindow.Instance.Show();
-                    Window splashWindow = _appViewFactory.CreateSplashWindow();
+                    ISplashWindow splashWindow = _appViewFactory.CreateSplashWindow();
                     splashWindow.Show();
                     NotiCenterWindow.Instance.Show();
                     if (DevMode.IsDevMode) {
@@ -104,14 +103,13 @@ namespace NTMiner {
                         UIThread.Execute(() => {
                             if (NTMinerRoot.Instance.MinerProfile.IsNoUi && NTMinerRoot.Instance.MinerProfile.IsAutoStart) {
                                 VirtualRoot.Out.ShowSuccessMessage("已切换为无界面模式运行，可在选项页调整设置", "开源矿工");
-                                ConsoleWindow.Instance.Hide();
                             }
                             else {
                                 _appViewFactory.ShowMainWindow(isToggle: false);
                             }
                             StartStopMineButtonViewModel.Instance.AutoStart();
                             AppContext.NotifyIcon = ExtendedNotifyIcon.Create("开源矿工", isMinerStudio: false);
-                            splashWindow?.Close();
+                            splashWindow?.NormalClose();
                         });
                         #region 处理显示主界面命令
                         VirtualRoot.CmdPath<ShowMainWindowCommand>("处理显示主界面命令", LogEnum.DevConsole,

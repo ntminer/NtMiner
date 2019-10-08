@@ -10,7 +10,7 @@ namespace NTMiner.Views {
             return new MainWindow();
         }
 
-        public override Window CreateSplashWindow() {
+        public override ISplashWindow CreateSplashWindow() {
             return new SplashWindow();
         }
 

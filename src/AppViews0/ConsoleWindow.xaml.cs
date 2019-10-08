@@ -18,7 +18,7 @@ namespace NTMiner.Views {
     public partial class ConsoleWindow : BlankWindow {
         public static readonly ConsoleWindow Instance = new ConsoleWindow();
 
-        public ConsoleWindow() {
+        private ConsoleWindow() {
             this.Width = AppStatic.MainWindowWidth;
             this.Height = AppStatic.MainWindowHeight;
             InitializeComponent();

@@ -16,7 +16,6 @@
 		d:DesignWidth="1100"
         WindowStyle="None"
         ResizeMode="NoResize"
-        Owner="{x:Static local:ConsoleWindow.Instance}"
 		Background="Transparent"
         BorderThickness="1"
         BorderBrush="{StaticResource ThemeBackground}"

@@ -1,9 +1,13 @@
-﻿using NTMiner.Vms;
+﻿using NTMiner.View;
+using NTMiner.Vms;
+using System;
 using System.Windows;
 using System.Windows.Input;
 
 namespace NTMiner.Views {
-    public partial class SplashWindow : Window {
+    public partial class SplashWindow : Window, ISplashWindow {
+        private bool _isNormalClose = false;
+
         public SplashWindowViewModel Vm {
             get {
                 return (SplashWindowViewModel)this.DataContext;
@@ -24,6 +28,18 @@ namespace NTMiner.Views {
             if (e.LeftButton == MouseButtonState.Pressed) {
                 this.DragMove();
             }
+        }
+
+        protected override void OnClosed(EventArgs e) {
+            base.OnClosed(e);
+            if (!_isNormalClose) {
+                Application.Current.Shutdown();
+            }
+        }
+
+        public void NormalClose() {
+            _isNormalClose = true;
+            this.Close();
         }
     }
 }

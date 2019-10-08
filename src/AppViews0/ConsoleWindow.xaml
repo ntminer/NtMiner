@@ -11,6 +11,7 @@
         Background="Black"
         Height="260" 
         Width="520"
+        WindowState="Minimized"
         WindowStartupLocation="CenterScreen"
         SourceInitialized="Window_SourceInitialized"
         Title="原版内核控制台窗口">

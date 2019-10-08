@@ -31,7 +31,7 @@ namespace NTMiner.View {
 
         public abstract void Link();
         public abstract Window CreateMainWindow();
-        public abstract Window CreateSplashWindow();
+        public abstract ISplashWindow CreateSplashWindow();
 
         public void ShowMainWindow(Application app, NTMinerAppType appType) {
             try {
