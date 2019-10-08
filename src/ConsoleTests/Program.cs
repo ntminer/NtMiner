@@ -8,6 +8,7 @@ namespace NTMiner {
         static void Main(string[] args) {
             DevMode.SetDevMode();
 
+            //CpuTest();
             WebSocketTest();
 
             Console.ReadKey();

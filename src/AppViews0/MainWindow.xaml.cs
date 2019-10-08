@@ -227,12 +227,25 @@ namespace NTMiner.Views {
 #endif
         }
 
-        private int cpuPerformance = 0;
-        private int cpuTemperature = 0;
-        private bool isFirstRefreshCpu = true;
+        private int _cpuPerformance = 0;
+        private int _cpuTemperature = 0;
+        private void UpdateCpuView(int performance, int temperature) {
+            if (temperature < 0) {
+                temperature = 0;
+            }
+            if (_cpuPerformance != performance) {
+                _cpuTemperature = performance;
+                Vm.StateBarVm.CpuPerformanceText = performance.ToString() + " %";
+            }
+            if (_cpuTemperature != temperature) {
+                _cpuTemperature = temperature;
+                Vm.StateBarVm.CpuTemperatureText = temperature.ToString() + " ℃";
+            }
+        }
+        private bool _isFirstRefreshCpu = true;
         private void RefreshCpu() {
-            if (isFirstRefreshCpu) {
-                isFirstRefreshCpu = false;
+            if (_isFirstRefreshCpu) {
+                _isFirstRefreshCpu = false;
                 Task.Factory.StartNew(() => {
 #if DEBUG
                     Write.Stopwatch.Restart();
@@ -244,14 +257,7 @@ namespace NTMiner.Views {
                     Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.RefreshCpu");
 #endif
                     UIThread.Execute(() => {
-                        if (cpuPerformance != performance) {
-                            cpuTemperature = performance;
-                            Vm.StateBarVm.CpuPerformanceText = performance.ToString() + " %";
-                        }
-                        if (cpuTemperature != temperature) {
-                            cpuTemperature = temperature;
-                            Vm.StateBarVm.CpuTemperatureText = temperature.ToString() + " ℃";
-                        }
+                        UpdateCpuView(performance, temperature);
                     });
                     this.EventPath<Per1SecondEvent>("每秒钟更新CPU使用率和温度", LogEnum.None,
                         action: message => {
@@ -262,14 +268,7 @@ namespace NTMiner.Views {
             else {
                 int performance = (int)Windows.Cpu.Instance.GetPerformance();
                 int temperature = (int)Windows.Cpu.Instance.GetTemperature();
-                if (cpuPerformance != performance) {
-                    cpuTemperature = performance;
-                    Vm.StateBarVm.CpuPerformanceText = performance.ToString() + " %";
-                }
-                if (cpuTemperature != temperature) {
-                    cpuTemperature = temperature;
-                    Vm.StateBarVm.CpuTemperatureText = temperature.ToString() + " ℃";
-                }
+                UpdateCpuView(performance, temperature);
                 if (Vm.MinerProfile.IsAutoStopByCpu) {
                     if (NTMinerRoot.Instance.IsMining) {
                         Vm.MinerProfile.LowTemperatureCount = 0;
