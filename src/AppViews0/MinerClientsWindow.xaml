@@ -1682,7 +1682,7 @@
 							        Width="16"
 							        Height="16"
 							        Data="{Binding IsAutoBoot,Converter={StaticResource BoolToStreamGeometryConverter}}"
-							        Fill="Black"
+							        Fill="{StaticResource LableColor}"
 							        Stretch="Fill" />
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
@@ -1716,7 +1716,7 @@
 							        Width="16"
 							        Height="16"
 							        Data="{Binding IsAutoStart,Converter={StaticResource BoolToStreamGeometryConverter}}"
-							        Fill="Black"
+							        Fill="{StaticResource LableColor}"
 							        Stretch="Fill" />
                             </DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
@@ -1750,7 +1750,7 @@
 							        Width="16"
 							        Height="16"
 							        Data="{Binding IsAutoRestartKernel,Converter={StaticResource BoolToStreamGeometryConverter}}"
-							        Fill="Black"
+							        Fill="{StaticResource LableColor}"
 							        Stretch="Fill" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
@@ -1784,7 +1784,7 @@
 							        Width="16"
 							        Height="16"
 							        Data="{Binding IsNoShareRestartKernel,Converter={StaticResource BoolToStreamGeometryConverter}}"
-							        Fill="Black"
+							        Fill="{StaticResource LableColor}"
 							        Stretch="Fill" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
@@ -1818,7 +1818,7 @@
 							        Width="16"
 							        Height="16"
 							        Data="{Binding IsNoShareRestartComputer,Converter={StaticResource BoolToStreamGeometryConverter}}"
-							        Fill="Black"
+							        Fill="{StaticResource LableColor}"
 							        Stretch="Fill" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
@@ -1852,7 +1852,7 @@
 							        Width="16"
 							        Height="16"
 							        Data="{Binding IsPeriodicRestartKernel,Converter={StaticResource BoolToStreamGeometryConverter}}"
-							        Fill="Black"
+							        Fill="{StaticResource LableColor}"
 							        Stretch="Fill" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
@@ -1886,7 +1886,7 @@
 							        Width="16"
 							        Height="16"
 							        Data="{Binding IsPeriodicRestartComputer,Converter={StaticResource BoolToStreamGeometryConverter}}"
-							        Fill="Black"
+							        Fill="{StaticResource LableColor}"
 							        Stretch="Fill" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>

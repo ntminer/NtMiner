@@ -191,7 +191,7 @@
 						Width="16"
 						Height="16"
 						Data="{Binding IsAutoBoot,Converter={StaticResource BoolToStreamGeometryConverter}}"
-						Fill="Black"
+						Fill="{StaticResource LableColor}"
 						Stretch="Fill" />
                 </WrapPanel>
                 <WrapPanel VerticalAlignment="Center">
@@ -200,7 +200,7 @@
 						Width="16"
 						Height="16"
 						Data="{Binding IsAutoStart,Converter={StaticResource BoolToStreamGeometryConverter}}"
-						Fill="Black"
+						Fill="{StaticResource LableColor}"
 						Stretch="Fill" />
                 </WrapPanel>
             </WrapPanel>
