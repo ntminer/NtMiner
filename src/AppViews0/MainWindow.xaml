@@ -701,7 +701,7 @@
                     <CheckBox 
                         Padding="0"
 				        VerticalContentAlignment="Center"
-				        ToolTip="挖矿开始时自动应用超频" 
+				        ToolTip="启用超频(挖矿开始前自动应用超频)" 
                         Foreground="{StaticResource ThemeForeground}"
 				        IsChecked="{Binding MinerProfile.CoinVm.IsOverClockEnabled}">
                         <WrapPanel>
