@@ -17,8 +17,8 @@
         mc:Ignorable="d" Width="400" MinHeight="200">
     <blankWindow:BlankWindow.Resources>
         <ResourceDictionary>
-            <PathGeometry x:Key="Icon" Figures="{x:Null}">
-            </PathGeometry>
+            <StreamGeometry x:Key="Icon">
+            </StreamGeometry>
         </ResourceDictionary>
     </blankWindow:BlankWindow.Resources>
     <Grid> 

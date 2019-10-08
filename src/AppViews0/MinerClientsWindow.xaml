@@ -1665,7 +1665,7 @@
 									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
 									CommandParameter="IsAutoBoot"
 									Background="Transparent">
-									<WrapPanel>
+                                    <WrapPanel>
 										<Path
 											Width="14"
 											Height="8"
@@ -1677,12 +1677,13 @@
 							</WrapPanel>
 						</DataGridTemplateColumn.Header>
 						<DataGridTemplateColumn.CellTemplate>
-							<DataTemplate>
-								<WrapPanel>
-									<TextBlock 
-										Visibility="{Binding IsAutoBoot,Converter={StaticResource BoolToVisibilityConverter}}"
-										Text="是"></TextBlock>
-								</WrapPanel>
+                            <DataTemplate>
+                                <Path
+							        Width="16"
+							        Height="16"
+							        Data="{Binding IsAutoBoot,Converter={StaticResource BoolToStreamGeometryConverter}}"
+							        Fill="Black"
+							        Stretch="Fill" />
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
@@ -1711,12 +1712,13 @@
 						</DataGridTemplateColumn.Header>
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
-								<WrapPanel>
-									<TextBlock 
-										Visibility="{Binding IsAutoStart,Converter={StaticResource BoolToVisibilityConverter}}"
-										Text="是"></TextBlock>
-								</WrapPanel>
-							</DataTemplate>
+                                <Path
+							        Width="16"
+							        Height="16"
+							        Data="{Binding IsAutoStart,Converter={StaticResource BoolToStreamGeometryConverter}}"
+							        Fill="Black"
+							        Stretch="Fill" />
+                            </DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                     <!--IsAutoRestartKernel-->
@@ -1744,11 +1746,12 @@
                         </DataGridTemplateColumn.Header>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <WrapPanel>
-                                    <TextBlock 
-										Visibility="{Binding IsAutoRestartKernel,Converter={StaticResource BoolToVisibilityConverter}}"
-										Text="是"></TextBlock>
-                                </WrapPanel>
+                                <Path
+							        Width="16"
+							        Height="16"
+							        Data="{Binding IsAutoRestartKernel,Converter={StaticResource BoolToStreamGeometryConverter}}"
+							        Fill="Black"
+							        Stretch="Fill" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
@@ -1777,11 +1780,12 @@
                         </DataGridTemplateColumn.Header>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <WrapPanel>
-                                    <TextBlock 
-										Visibility="{Binding IsNoShareRestartKernel,Converter={StaticResource BoolToVisibilityConverter}}"
-										Text="是"></TextBlock>
-                                </WrapPanel>
+                                <Path
+							        Width="16"
+							        Height="16"
+							        Data="{Binding IsNoShareRestartKernel,Converter={StaticResource BoolToStreamGeometryConverter}}"
+							        Fill="Black"
+							        Stretch="Fill" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
@@ -1810,11 +1814,12 @@
                         </DataGridTemplateColumn.Header>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <WrapPanel>
-                                    <TextBlock 
-										Visibility="{Binding IsNoShareRestartComputer,Converter={StaticResource BoolToVisibilityConverter}}"
-										Text="是"></TextBlock>
-                                </WrapPanel>
+                                <Path
+							        Width="16"
+							        Height="16"
+							        Data="{Binding IsNoShareRestartComputer,Converter={StaticResource BoolToStreamGeometryConverter}}"
+							        Fill="Black"
+							        Stretch="Fill" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
@@ -1843,11 +1848,12 @@
                         </DataGridTemplateColumn.Header>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <WrapPanel>
-                                    <TextBlock 
-										Visibility="{Binding IsPeriodicRestartKernel,Converter={StaticResource BoolToVisibilityConverter}}"
-										Text="是"></TextBlock>
-                                </WrapPanel>
+                                <Path
+							        Width="16"
+							        Height="16"
+							        Data="{Binding IsPeriodicRestartKernel,Converter={StaticResource BoolToStreamGeometryConverter}}"
+							        Fill="Black"
+							        Stretch="Fill" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
@@ -1876,11 +1882,12 @@
                         </DataGridTemplateColumn.Header>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <WrapPanel>
-                                    <TextBlock 
-										Visibility="{Binding IsPeriodicRestartComputer,Converter={StaticResource BoolToVisibilityConverter}}"
-										Text="是"></TextBlock>
-                                </WrapPanel>
+                                <Path
+							        Width="16"
+							        Height="16"
+							        Data="{Binding IsPeriodicRestartComputer,Converter={StaticResource BoolToStreamGeometryConverter}}"
+							        Fill="Black"
+							        Stretch="Fill" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

@@ -14,8 +14,8 @@
 		mc:Ignorable="d" d:DesignHeight="650" d:DesignWidth="600">
 	<UserControl.Resources>
 		<ResourceDictionary>
-			<PathGeometry x:Key="Icon_Up">M4,0 L0,4 L8,4 z</PathGeometry>
-			<PathGeometry x:Key="Icon_Down">M0,0 L8,0 L4,4 z</PathGeometry>
+			<StreamGeometry x:Key="Icon_Up">M4,0 L0,4 L8,4 z</StreamGeometry>
+            <StreamGeometry x:Key="Icon_Down">M0,0 L8,0 L4,4 z</StreamGeometry>
 			<Style x:Key="GroupHeader" TargetType="TextBlock">
 				<Setter Property="FontSize" Value="16"></Setter>
 				<Setter Property="FontWeight" Value="Bold"></Setter>

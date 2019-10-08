@@ -47,6 +47,7 @@
     <Compile Include="Controls\IpAddressControl.xaml.cs">
       <DependentUpon>IpAddressControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\BoolToStreamGeometryConverter.cs" />
     <Compile Include="Vms\IpAddressControlViewModel.cs" />
     <Compile Include="Controls\IPRangeValidationRule.cs" />
     <Compile Include="Controls\KbButton.cs" />

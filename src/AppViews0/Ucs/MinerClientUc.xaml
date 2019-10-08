@@ -187,23 +187,21 @@
                 </WrapPanel>
                 <WrapPanel VerticalAlignment="Center">
                     <TextBlock Style="{StaticResource LblTb}" Width="Auto" Padding="10 0 10 0">开机启动</TextBlock>
-                    <TextBlock 
-				        Visibility="{Binding IsAutoBoot,Converter={StaticResource BoolToVisibilityConverter}}"
-				        Text="是"></TextBlock>
-                    <TextBlock 
-                        Foreground="Red"
-				        Visibility="{Binding IsAutoBoot,Converter={StaticResource BoolToVisibilityInvertConverter}}"
-				        Text="否"></TextBlock>
+                    <Path
+						Width="16"
+						Height="16"
+						Data="{Binding IsAutoBoot,Converter={StaticResource BoolToStreamGeometryConverter}}"
+						Fill="Black"
+						Stretch="Fill" />
                 </WrapPanel>
                 <WrapPanel VerticalAlignment="Center">
                     <TextBlock Style="{StaticResource LblTb}" Width="Auto" Padding="10 0 10 0">自动挖矿</TextBlock>
-                    <TextBlock 
-				        Visibility="{Binding IsAutoStart,Converter={StaticResource BoolToVisibilityConverter}}"
-				        Text="是"></TextBlock>
-                    <TextBlock 
-                        Foreground="Red"
-				        Visibility="{Binding IsAutoStart,Converter={StaticResource BoolToVisibilityInvertConverter}}"
-				        Text="否"></TextBlock>
+                    <Path
+						Width="16"
+						Height="16"
+						Data="{Binding IsAutoStart,Converter={StaticResource BoolToStreamGeometryConverter}}"
+						Fill="Black"
+						Stretch="Fill" />
                 </WrapPanel>
             </WrapPanel>
 		</Grid>
