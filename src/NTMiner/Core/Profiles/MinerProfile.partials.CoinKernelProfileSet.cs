@@ -56,6 +56,12 @@ namespace NTMiner.Core.Profiles {
                             double dualCoinWeight = GetDualCoinWeight(root, coinKernel.KernelId);
                             data = CoinKernelProfileData.CreateDefaultData(coinKernel.GetId(), dualCoinWeight);
                         }
+                        if (root.GroupSet.TryGetGroup(coinKernel.DualCoinGroupId, out IGroup group)) {
+                            var coinIds = root.CoinGroupSet.GetGroupCoinIds(coinKernel.DualCoinGroupId);
+                            if (!coinIds.Contains(data.DualCoinId)) {
+                                data.DualCoinId = coinIds.FirstOrDefault();
+                            }
+                        }
                         CoinKernelProfile coinProfile = new CoinKernelProfile(data);
 
                         var defaultInputSegments = coinKernel.InputSegments.Where(a => a.IsDefault && a.TargetGpu.IsSupportedGpu(NTMinerRoot.Instance.GpuSet.GpuType)).ToArray();

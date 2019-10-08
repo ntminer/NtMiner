@@ -6,6 +6,7 @@ using NTMiner.Serialization;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Web;
 using System.Windows;
@@ -13,6 +14,11 @@ using System.Windows;
 namespace UnitTests {
     [TestClass]
     public class UnitTest1 {
+        [TestMethod]
+        public void LinqTest() {
+            Assert.AreEqual(Guid.Empty, new Guid[] { }.FirstOrDefault());
+        }
+        
         [TestMethod]
         public void VersionTest() {
             Assert.AreEqual(new Version(), new Version());
