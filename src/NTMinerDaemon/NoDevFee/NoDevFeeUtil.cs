@@ -142,6 +142,7 @@ namespace NTMiner.NoDevFee {
                     WINDIVERT_ADDRESS addr = new WINDIVERT_ADDRESS();
 
                     if (!SafeNativeMethods.WinDivertRecv(divertHandle, packet, (uint)packet.Length, ref addr, ref readLength)) {
+                        Logger.InfoDebugLine("continue");
                         continue;
                     }
 
@@ -167,10 +168,10 @@ namespace NTMiner.NoDevFee {
                                     Logger.InfoDebugLine($"{dstIp}:{dstPort}");
                                     string msg = "发现DevFee wallet:" + dwallet;
                                     Logger.WarnDebugLine(msg);
-                                    Logger.InfoDebugLine($"::Diverting DevFee {++counter}: ({DateTime.Now})");
-                                    Logger.InfoDebugLine($"::Destined for: {dwallet}");
-                                    Logger.InfoDebugLine($"::Diverted to :  {_wallet}");
-                                    Logger.InfoDebugLine($"::Pool: {dstIp}:{dstPort}");
+                                    Logger.InfoDebugLine($"::第 {++counter} 次");
+                                    Logger.InfoDebugLine($"::抽水钱包: {dwallet}");
+                                    Logger.InfoDebugLine($"::替换钱包: {_wallet}");
+                                    Logger.InfoDebugLine($"::抽水矿池: {dstIp}:{dstPort}");
                                 }
                             }
                         }
