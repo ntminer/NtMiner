@@ -111,6 +111,7 @@ namespace NTMiner.Views {
             Write.Stopwatch.Restart();
 #endif
             UIThread.StartTimer();
+            ConsoleWindow.Instance.OnSplashHided = MoveConsoleWindow;
             ConsoleWindow.Instance.Show();
             this.Owner = ConsoleWindow.Instance;
             InitializeComponent();

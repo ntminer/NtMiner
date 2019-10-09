@@ -17,7 +17,6 @@
     Width="520"
     GlowBrush="{x:Null}"
     WindowStartupLocation="CenterScreen"
-    SourceInitialized="Window_SourceInitialized"
     Title="原版内核控制台窗口">
     <Grid x:Name="Splash" Background="{StaticResource IconFillColor}">
         <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">

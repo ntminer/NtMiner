@@ -18,7 +18,7 @@ namespace NTMiner.Views {
 
     public partial class ConsoleWindow : BlankWindow {
         public static readonly ConsoleWindow Instance = new ConsoleWindow();
-
+        public Action OnSplashHided;
         private ConsoleWindow() {
             this.Width = AppStatic.MainWindowWidth;
             this.Height = AppStatic.MainWindowHeight;
@@ -31,9 +31,16 @@ namespace NTMiner.Views {
             }
         }
 
+        private bool _isSplashed = false;
         public void HideSplash() {
             Splash.Visibility = Visibility.Collapsed;
             this.ShowInTaskbar = false;
+            IntPtr parent = new WindowInteropHelper(this).Handle;
+            IntPtr console = NTMinerConsole.Show();
+            SafeNativeMethods.SetParent(console, parent);
+            SafeNativeMethods.SetWindowLong(console, SafeNativeMethods.GWL_STYLE, SafeNativeMethods.WS_VISIBLE);
+            _isSplashed = true;
+            OnSplashHided?.Invoke();
         }
 
         protected override void OnClosed(EventArgs e) {
@@ -42,6 +49,9 @@ namespace NTMiner.Views {
         }
 
         public void ReSizeConsoleWindow(int marginLeft, int marginTop, int marginBottom) {
+            if (!_isSplashed) {
+                return;
+            }
             const int paddingLeft = 4;
             const int paddingRight = 5;
             int width = (int)this.ActualWidth - paddingLeft - paddingRight - marginLeft;
@@ -52,13 +62,6 @@ namespace NTMiner.Views {
 
             IntPtr console = NTMinerConsole.Show();
             SafeNativeMethods.MoveWindow(console, paddingLeft + marginLeft, marginTop, width, height, true);
-        }
-
-        private void Window_SourceInitialized(object sender, EventArgs e) {
-            IntPtr parent = new WindowInteropHelper(this).Handle;
-            IntPtr console = NTMinerConsole.Show();
-            SafeNativeMethods.SetParent(console, parent);
-            SafeNativeMethods.SetWindowLong(console, SafeNativeMethods.GWL_STYLE, SafeNativeMethods.WS_VISIBLE);
         }
     }
 }
