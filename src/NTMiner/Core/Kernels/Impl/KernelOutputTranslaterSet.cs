@@ -187,13 +187,13 @@ namespace NTMiner.Core.Kernels.Impl {
             return ConsoleColor.White;
         }
 
-        public void Translate(IMineContext mineContext, ref string input, ref ConsoleColor color, bool isPre = false) {
+        public void Translate(Guid kernelOutputId, ref string input, ref ConsoleColor color, bool isPre = false) {
             try {
                 InitOnece();
-                if (string.IsNullOrEmpty(input)) {
+                if (string.IsNullOrEmpty(input) || !_dicByKernelOutputId.TryGetValue(kernelOutputId, out List<KernelOutputTranslaterData> translaters)) {
                     return;
                 }
-                foreach (var consoleTranslater in _dicByKernelOutputId[mineContext.KernelOutput.GetId()]) {
+                foreach (var consoleTranslater in translaters) {
                     if (isPre && !consoleTranslater.IsPre) {
                         continue;
                     }

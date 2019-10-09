@@ -6,6 +6,6 @@ namespace NTMiner.Core.Kernels {
         bool Contains(Guid kernelOutputFilterId);
         bool TryGetKernelOutputFilter(Guid kernelOutputFilterId, out IKernelOutputFilter kernelOutputFilter);
         IEnumerable<IKernelOutputFilter> GetKernelOutputFilters(Guid kernelOutputId);
-        void Filter(IMineContext mineContext, ref string input);
+        void Filter(Guid kernelOutputId, ref string input);
     }
 }

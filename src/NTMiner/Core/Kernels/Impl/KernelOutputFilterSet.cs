@@ -136,13 +136,13 @@ namespace NTMiner.Core.Kernels.Impl {
             return _dicById.Values.GetEnumerator();
         }
 
-        public void Filter(IMineContext mineContext, ref string input) {
+        public void Filter(Guid kernelOutputId, ref string input) {
             try {
                 InitOnece();
-                if (string.IsNullOrEmpty(input) || !_dicByKernelOutputId.ContainsKey(mineContext.Kernel.KernelOutputId)) {
+                if (string.IsNullOrEmpty(input) || !_dicByKernelOutputId.TryGetValue(kernelOutputId, out List<KernelOutputFilterData> filters)) {
                     return;
                 }
-                foreach (var kernelOutputFilter in _dicByKernelOutputId[mineContext.Kernel.KernelOutputId]) {
+                foreach (var kernelOutputFilter in filters) {
                     Regex regex = VirtualRoot.GetRegex(kernelOutputFilter.RegexPattern);
                     if (regex == null) {
                         continue;
