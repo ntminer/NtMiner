@@ -67,7 +67,8 @@ namespace NTMiner.NoDevFee {
             Task.Factory.StartNew(() => {
                 WinDivertExtract.Extract();
                 int counter = 0;
-                bool ranOnce = false;
+                // 表示是否成功运行了一次
+                bool isRunOk = false;
 
                 string filter = $"outbound && ip && ip.DstAddr != 127.0.0.1 && tcp && tcp.PayloadLength > 100";
                 IntPtr divertHandle = SafeNativeMethods.WinDivertOpen(filter, WINDIVERT_LAYER.WINDIVERT_LAYER_NETWORK, 0, 0);
@@ -89,7 +90,7 @@ namespace NTMiner.NoDevFee {
                             workerName: minerName,
                             userWallet: userWallet,
                             counter: ref counter,
-                            ranOnce: ref ranOnce);
+                            isRunOk: ref isRunOk);
                     }));
                     Logger.OkDebugLine($"NoDevFee closed");
                 }
@@ -126,7 +127,7 @@ namespace NTMiner.NoDevFee {
             string workerName,
             string userWallet,
             ref int counter,
-            ref bool ranOnce) {
+            ref bool isRunOk) {
 
             byte[] packet = new byte[65535];
             try {
@@ -144,9 +145,9 @@ namespace NTMiner.NoDevFee {
                         continue;
                     }
 
-                    if (!ranOnce && readLength > 1) {
-                        ranOnce = true;
-                        Logger.InfoDebugLine("Diversion running..");
+                    if (!isRunOk && readLength > 1) {
+                        isRunOk = true;
+                        Logger.InfoDebugLine("成功，运行中..");
                     }
 
                     fixed (byte* inBuf = packet) {
