@@ -97,7 +97,7 @@ namespace NTMiner.Gpus.Nvapi {
                 return;
             }
 
-            if (NvInitialize() == NvStatus.OK) {
+            if (NvInitialize() == NvStatus.NVAPI_OK) {
                 GetDelegate(0x5F608315, out NvGetTachReading);
                 GetDelegate(0x60DED2ED, out NvGetPStates);
                 GetDelegate(0xE5AC921F, out NvEnumPhysicalGPUs);
