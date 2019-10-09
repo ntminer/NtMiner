@@ -183,8 +183,9 @@ namespace NTMiner {
                             VirtualRoot.Execute(new CloseNTMinerCommand());
                             return;
                         }
+                        ConsoleWindow.Instance.Hide();
                         foreach (Window window in Windows) {
-                            if (window != NotiCenterWindow.Instance) {
+                            if (window != NotiCenterWindow.Instance && window != ConsoleWindow.Instance) {
                                 window.Close();
                             }
                         }

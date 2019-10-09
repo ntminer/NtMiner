@@ -33,6 +33,7 @@ namespace NTMiner.Views {
 
         public void HideSplash() {
             Splash.Visibility = Visibility.Collapsed;
+            this.ShowInTaskbar = false;
         }
 
         protected override void OnClosed(EventArgs e) {

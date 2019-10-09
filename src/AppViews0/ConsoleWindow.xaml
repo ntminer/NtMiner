@@ -10,7 +10,6 @@
 	xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
     mc:Ignorable="d"
-    ShowInTaskbar="False"
     ResizeMode="NoResize"
     Background="Black"
     MouseDown="MetroWindow_MouseDown"
