@@ -571,11 +571,11 @@ namespace NTMiner.Views {
         private void SwitchWindowState() {
             switch (WindowState) {
                 case WindowState.Normal: {
-                        WindowState = WindowState.Maximized;
+                        Microsoft.Windows.Shell.SystemCommands.MaximizeWindow(this);
                         break;
                     }
                 case WindowState.Maximized: {
-                        WindowState = WindowState.Normal;
+                        Microsoft.Windows.Shell.SystemCommands.RestoreWindow(this);
                         break;
                     }
             }
