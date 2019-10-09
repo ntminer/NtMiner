@@ -1,6 +1,7 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Runtime.InteropServices;
+using System.Windows;
+using System.Windows.Input;
 using System.Windows.Interop;
 
 namespace NTMiner.Views {
@@ -24,9 +25,19 @@ namespace NTMiner.Views {
             InitializeComponent();
         }
 
-        protected override void OnClosing(CancelEventArgs e) {
-            e.Cancel = true;
-            this.Hide();
+        private void MetroWindow_MouseDown(object sender, MouseButtonEventArgs e) {
+            if (e.LeftButton == MouseButtonState.Pressed) {
+                this.DragMove();
+            }
+        }
+
+        public void HideSplash() {
+            Splash.Visibility = Visibility.Collapsed;
+        }
+
+        protected override void OnClosed(EventArgs e) {
+            base.OnClosed(e);
+            Application.Current.Shutdown();
         }
 
         public void ReSizeConsoleWindow(int marginLeft, int marginTop, int marginBottom) {

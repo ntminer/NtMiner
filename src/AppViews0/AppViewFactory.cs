@@ -10,10 +10,6 @@ namespace NTMiner.Views {
             return new MainWindow();
         }
 
-        public override ISplashWindow CreateSplashWindow() {
-            return new SplashWindow();
-        }
-
         public override void Link() {
             VirtualRoot.CmdPath<ShowDialogWindowCommand>(LogEnum.DevConsole,
                 action: message => {

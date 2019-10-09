@@ -5,7 +5,6 @@ namespace NTMiner.View {
     public interface IAppViewFactory {
         void ShowMainWindow(bool isToggle);
         void ShowMainWindow(Application app, NTMinerAppType appType);
-        ISplashWindow CreateSplashWindow();
         void Link();
     }
 }

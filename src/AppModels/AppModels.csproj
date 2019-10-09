@@ -178,7 +178,6 @@
     <Compile Include="Vms\SpeedChartViewModels.cs" />
     <Compile Include="Vms\SpeedUnitViewModel.cs" />
     <Compile Include="Vms\SpeedViewModel.cs" />
-    <Compile Include="Vms\SplashWindowViewModel.cs" />
     <Compile Include="Vms\StateBarViewModel.cs" />
     <Compile Include="Vms\SysDicItemViewModel.cs" />
     <Compile Include="Vms\SysDicPageViewModel.cs" />
