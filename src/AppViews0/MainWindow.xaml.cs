@@ -442,7 +442,7 @@ namespace NTMiner.Views {
             }
             int marginBottom = (int)StateBar.ActualHeight;
             Point point = ConsoleRectangle.TransformToAncestor(this).Transform(new Point(0, 0));
-            consoleWindow.ReSizeConsoleWindow(marginLeft: (int)point.X, marginTop: (int)point.Y, marginBottom);
+            consoleWindow.ReSizeConsoleWindow(marginLeft: (int)point.X, marginTop: (int)point.Y, (int)ConsoleRectangle.ActualHeight);
         }
 
         private void Window_SourceInitialized(object sender, EventArgs e) {

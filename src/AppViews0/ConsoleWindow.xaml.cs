@@ -48,7 +48,7 @@ namespace NTMiner.Views {
             Application.Current.Shutdown();
         }
 
-        public void ReSizeConsoleWindow(int marginLeft, int marginTop, int marginBottom) {
+        public void ReSizeConsoleWindow(int marginLeft, int marginTop, int height) {
             if (!_isSplashed) {
                 return;
             }
@@ -58,7 +58,6 @@ namespace NTMiner.Views {
             if (width < 0) {
                 width = 0;
             }
-            int height = (int)this.ActualHeight - marginTop - marginBottom;
 
             IntPtr console = NTMinerConsole.Show();
             SafeNativeMethods.MoveWindow(console, paddingLeft + marginLeft, marginTop, width, height, true);
