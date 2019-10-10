@@ -37,6 +37,20 @@ namespace UnitTests {
         }
 
         [TestMethod]
+        public void ProcessInfoTest2() {
+            string wmiQuery = $"select ExecutablePath from Win32_Process";
+            using (ManagementObjectSearcher searcher = new ManagementObjectSearcher(wmiQuery)) {
+                using (ManagementObjectCollection retObjectCollection = searcher.Get()) {
+                    foreach (ManagementObject retObject in retObjectCollection) {
+                        foreach (var kv in retObject.Properties) {
+                            Console.WriteLine(kv.Name + ":" + kv.Value);
+                        }
+                    }
+                }
+            }
+        }
+
+        [TestMethod]
         public void IpTest() {
             var str = new StringBuilder();
             ManagementClass mc = new ManagementClass("Win32_NetworkAdapterConfiguration");
