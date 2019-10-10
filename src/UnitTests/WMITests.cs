@@ -51,6 +51,14 @@ namespace UnitTests {
         }
 
         [TestMethod]
+        public void GetCommandLineTest() {
+            var cmdLines = NTMiner.Windows.WMI.GetCommandLines("devenv.exe");
+            foreach (var item in cmdLines) {
+                Console.WriteLine(item);
+            }
+        }
+
+        [TestMethod]
         public void IpTest() {
             var str = new StringBuilder();
             ManagementClass mc = new ManagementClass("Win32_NetworkAdapterConfiguration");

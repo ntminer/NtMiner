@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Management;
 
 namespace NTMiner.Windows {
@@ -30,6 +31,12 @@ namespace NTMiner.Windows {
                 return new List<string>();
             }
             List<string> results = new List<string>();
+            if (string.IsNullOrEmpty(processName)) {
+                return results;
+            }
+            if (!processName.EndsWith(".exe", StringComparison.OrdinalIgnoreCase)) {
+                processName += ".exe";
+            }
             string wmiQuery = $"select CommandLine from Win32_Process where Name='{processName}'";
             using (ManagementObjectSearcher searcher = new ManagementObjectSearcher(wmiQuery)) {
                 using (ManagementObjectCollection retObjectCollection = searcher.Get()) {
