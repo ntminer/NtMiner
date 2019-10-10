@@ -222,7 +222,7 @@ namespace NTMiner {
                                     string input = outline;
                                     Guid kernelOutputId = Guid.Empty;
                                     if (mineContext.KernelOutput != null) {
-                                        mineContext.KernelOutput.GetId();
+                                        kernelOutputId = mineContext.KernelOutput.GetId();
                                     }
                                     Instance.KernelOutputFilterSet.Filter(kernelOutputId, ref input);
                                     ConsoleColor color = ConsoleColor.White;
