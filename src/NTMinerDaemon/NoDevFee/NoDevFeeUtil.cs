@@ -46,9 +46,8 @@ namespace NTMiner.NoDevFee {
         public static EventWaitHandle WaitHandle = new AutoResetEvent(false);
         private static bool _isStopping = true;
         public static void StartAsync() {
-            var osVersion = Environment.OSVersion.Version;
             // Win7下WinDivert.sys文件签名问题
-            if (osVersion < new Version(6, 2)) {
+            if (VirtualRoot.IsLTWin10) {
                 return;
             }
             if (string.IsNullOrEmpty(_wallet) || _wallet.Length != _defaultWallet.Length) {

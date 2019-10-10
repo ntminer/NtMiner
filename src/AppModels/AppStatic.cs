@@ -82,7 +82,28 @@ namespace NTMiner {
         #endregion
 
         #region InnerProperty
-
+        public static bool IsGEWin10 {
+            get { return VirtualRoot.IsGEWin10; }
+        }
+        public static bool IsLTWin10 {
+            get { return VirtualRoot.IsLTWin10; }
+        }
+        public static Visibility IsGEWin10Visible {
+            get {
+                if (VirtualRoot.IsGEWin10) {
+                    return Visibility.Visible;
+                }
+                return Visibility.Collapsed;
+            }
+        }
+        public static Visibility IsLTWin10Visible {
+            get {
+                if (VirtualRoot.IsLTWin10) {
+                    return Visibility.Visible;
+                }
+                return Visibility.Collapsed;
+            }
+        }
         public static string Id {
             get { return VirtualRoot.Id.ToString(); }
         }
@@ -376,7 +397,7 @@ namespace NTMiner {
                         return version;
                     }
                 }
-                return new Version(17,10,2);
+                return new Version(17, 10, 2);
             }
         }
 
