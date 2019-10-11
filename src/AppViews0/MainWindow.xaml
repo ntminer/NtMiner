@@ -18,7 +18,7 @@
         ResizeMode="NoResize"
 		Background="Transparent"
         BorderThickness="1"
-        BorderBrush="{StaticResource ThemeBackground}"
+        BorderBrush="{StaticResource IconFillColor}"
         AllowsTransparency="True"
 		WindowStartupLocation="CenterScreen"
 		MouseDown="MetroWindow_MouseDown"
