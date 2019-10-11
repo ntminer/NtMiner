@@ -16,7 +16,7 @@ namespace NTMiner.Views {
         internal static extern void MoveWindow(IntPtr hwnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
     }
 
-    public partial class ConsoleWindow : BlankWindow {
+    public partial class ConsoleWindow : Window {
         public static readonly ConsoleWindow Instance = new ConsoleWindow();
         public Action OnSplashHided;
         private ConsoleWindow() {
