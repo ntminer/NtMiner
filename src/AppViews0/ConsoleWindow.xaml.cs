@@ -48,10 +48,17 @@ namespace NTMiner.Views {
             Application.Current.Shutdown();
         }
 
+        private int _marginLeft, _marginTop, _height;
         public void ReSizeConsoleWindow(int marginLeft, int marginTop, int height) {
             if (!_isSplashed) {
                 return;
             }
+            if (_marginLeft == marginLeft && _marginTop == marginTop && _height == height) {
+                return;
+            }
+            _marginLeft = marginLeft;
+            _marginTop = marginTop;
+            _height = height;
             const int paddingLeft = 4;
             const int paddingRight = 5;
             int width = (int)this.ActualWidth - paddingLeft - paddingRight - marginLeft;
