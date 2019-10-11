@@ -1,4 +1,4 @@
-﻿<Window 
+﻿<blankWindow:BlankWindow 
     x:Class="NTMiner.Views.ConsoleWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -30,4 +30,4 @@
         </WrapPanel>
         <controls:KbSystemCloseButton HorizontalAlignment="Right" VerticalAlignment="Top" Height="32" />
     </Grid>
-</Window>
+</blankWindow:BlankWindow>
