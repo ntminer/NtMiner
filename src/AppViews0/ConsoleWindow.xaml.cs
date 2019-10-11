@@ -25,10 +25,6 @@ namespace NTMiner.Views {
             InitializeComponent();
         }
 
-        private void ConsoleWindow_Activated(object sender, EventArgs e) {
-            // 什么都不做，为了解决Owner可能被会知道ChildWindows上面的问题
-        }
-
         private void MetroWindow_MouseDown(object sender, MouseButtonEventArgs e) {
             if (e.LeftButton == MouseButtonState.Pressed) {
                 this.DragMove();
