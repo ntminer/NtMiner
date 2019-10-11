@@ -129,6 +129,12 @@ namespace NTMiner.Views {
                     NTMinerRoot.IsUiVisible = false;
                 }
             };
+            this.Activated += (object sender, EventArgs e)=> {
+                this.Topmost = true;
+            };
+            this.Deactivated += (object sender, EventArgs e) => {
+                this.Topmost = false;
+            };
             this.StateChanged += (s, e) => {
                 if (Vm.MinerProfile.IsShowInTaskbar) {
                     ShowInTaskbar = true;
