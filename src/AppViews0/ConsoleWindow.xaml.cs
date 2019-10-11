@@ -22,9 +22,11 @@ namespace NTMiner.Views {
             this.Width = AppStatic.MainWindowWidth;
             this.Height = AppStatic.MainWindowHeight;
             if (VirtualRoot.IsGEWin10) {
+                // 解决展开子窗口力的Popup时父窗口可能被绘制到子窗口上面的问题，这应该是WPF的BUG。
                 this.AllowsTransparency = true;
             }
             else {
+                // Win7下需要置为false，否则显示不出控制台窗口
                 this.AllowsTransparency = false;
             }
             InitializeComponent();
