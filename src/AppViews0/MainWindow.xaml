@@ -53,7 +53,7 @@
                 Grid.RowSpan="2"
                 Height="70"
                 VerticalAlignment="Top" 
-                Fill="{StaticResource ThemeBackground}" >
+                Fill="{StaticResource ThemeBackground}">
             </Rectangle>
             <!--上标题栏-->
             <Grid>

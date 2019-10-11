@@ -112,7 +112,6 @@ namespace NTMiner.Views {
 #endif
             UIThread.StartTimer();
             ConsoleWindow.Instance.OnSplashHided = MoveConsoleWindow;
-            ConsoleWindow.Instance.Show();
             this.Owner = ConsoleWindow.Instance;
             InitializeComponent();
             _borderBrush = this.BorderBrush;
