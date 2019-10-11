@@ -23,9 +23,6 @@ namespace NTMiner.Views {
             this.Width = AppStatic.MainWindowWidth;
             this.Height = AppStatic.MainWindowHeight;
             InitializeComponent();
-            this.Activated += (object sender, EventArgs e)=> {
-                // 什么都不做，即可解决展开子窗口力的Popup时父窗口可能被绘制到子窗口上面的问题，这应该是WPF的BUG。
-            };
         }
 
         private void ConsoleWindow_Activated(object sender, EventArgs e) {
