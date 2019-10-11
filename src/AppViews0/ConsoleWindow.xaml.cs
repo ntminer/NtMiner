@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Windows;
-using System.Windows.Input;
 using System.Windows.Interop;
 
 namespace NTMiner.Views {
@@ -16,19 +15,19 @@ namespace NTMiner.Views {
         internal static extern void MoveWindow(IntPtr hwnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
     }
 
-    public partial class ConsoleWindow : BlankWindow {
+    public partial class ConsoleWindow : Window {
         public static readonly ConsoleWindow Instance = new ConsoleWindow();
         public Action OnSplashHided;
         private ConsoleWindow() {
             this.Width = AppStatic.MainWindowWidth;
             this.Height = AppStatic.MainWindowHeight;
-            InitializeComponent();
-        }
-
-        private void MetroWindow_MouseDown(object sender, MouseButtonEventArgs e) {
-            if (e.LeftButton == MouseButtonState.Pressed) {
-                this.DragMove();
+            if (VirtualRoot.IsGEWin10) {
+                this.AllowsTransparency = true;
             }
+            else {
+                this.AllowsTransparency = false;
+            }
+            InitializeComponent();
         }
 
         private bool _isSplashed = false;
