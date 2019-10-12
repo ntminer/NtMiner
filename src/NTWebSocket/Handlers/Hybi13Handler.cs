@@ -20,7 +20,7 @@ namespace NTWebSocket.Handlers {
             );
         }
 
-        public static byte[] FrameData(byte[] payload, FrameType frameType) {
+        private static byte[] FrameData(byte[] payload, FrameType frameType) {
             var memoryStream = new MemoryStream();
             byte op = (byte)((byte)frameType + 128);
 
@@ -45,7 +45,7 @@ namespace NTWebSocket.Handlers {
             return memoryStream.ToArray();
         }
 
-        public static void ReceiveData(List<byte> data, ReadState readState, Action<FrameType, byte[]> processFrame) {
+        private static void ReceiveData(List<byte> data, ReadState readState, Action<FrameType, byte[]> processFrame) {
 
             while (data.Count >= 2) {
                 var isFinal = (data[0] & 128) != 0;
@@ -111,7 +111,7 @@ namespace NTWebSocket.Handlers {
             }
         }
 
-        public static void ProcessFrame(FrameType frameType, byte[] data, Action<string> onMessage, Action onClose, Action<byte[]> onBinary, Action<byte[]> onPing, Action<byte[]> onPong) {
+        private static void ProcessFrame(FrameType frameType, byte[] data, Action<string> onMessage, Action onClose, Action<byte[]> onBinary, Action<byte[]> onPing, Action<byte[]> onPong) {
             switch (frameType) {
                 case FrameType.Close:
                     if (data.Length == 1 || data.Length > 125)
@@ -147,7 +147,7 @@ namespace NTWebSocket.Handlers {
         }
 
 
-        public static byte[] BuildHandshake(WebSocketHttpRequest request, string subProtocol) {
+        private static byte[] BuildHandshake(WebSocketHttpRequest request, string subProtocol) {
             NTWebSocketLog.Debug("Building Hybi-14 Response");
 
             var builder = new StringBuilder();

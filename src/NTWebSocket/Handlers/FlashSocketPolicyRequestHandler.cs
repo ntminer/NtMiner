@@ -14,7 +14,7 @@ namespace NTWebSocket.Handlers {
             return new ComposableHandler(handshake: sub => Handshake(request, sub));
         }
 
-        public static byte[] Handshake(WebSocketHttpRequest request, string subProtocol) {
+        private static byte[] Handshake(WebSocketHttpRequest request, string subProtocol) {
             NTWebSocketLog.Debug("Building Flash Socket Policy Response");
             return Encoding.UTF8.GetBytes(PolicyResponse);
         }

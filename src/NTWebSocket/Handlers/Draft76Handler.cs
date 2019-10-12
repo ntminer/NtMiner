@@ -17,7 +17,7 @@ namespace NTWebSocket.Handlers {
                 receiveData: data => ReceiveData(onMessage, data));
         }
 
-        public static void ReceiveData(Action<string> onMessage, List<byte> data) {
+        private static void ReceiveData(Action<string> onMessage, List<byte> data) {
             while (data.Count > 0) {
                 if (data[0] != Start)
                     throw new WebSocketException(WebSocketStatusCodes.InvalidFramePayloadData);
@@ -39,7 +39,7 @@ namespace NTWebSocket.Handlers {
             }
         }
 
-        public static byte[] FrameText(string data) {
+        private static byte[] FrameText(string data) {
             byte[] bytes = Encoding.UTF8.GetBytes(data);
             // wrap the array with the wrapper bytes
             var wrappedBytes = new byte[bytes.Length + 2];
@@ -49,7 +49,7 @@ namespace NTWebSocket.Handlers {
             return wrappedBytes;
         }
 
-        public static byte[] Handshake(WebSocketHttpRequest request, string subProtocol) {
+        private static byte[] Handshake(WebSocketHttpRequest request, string subProtocol) {
             NTWebSocketLog.Debug("Building Draft76 Response");
 
             var builder = new StringBuilder();
@@ -78,7 +78,7 @@ namespace NTWebSocket.Handlers {
             return byteResponse;
         }
 
-        public static byte[] CalculateAnswerBytes(string key1, string key2, ArraySegment<byte> challenge) {
+        private static byte[] CalculateAnswerBytes(string key1, string key2, ArraySegment<byte> challenge) {
             byte[] result1Bytes = ParseKey(key1);
             byte[] result2Bytes = ParseKey(key2);
 

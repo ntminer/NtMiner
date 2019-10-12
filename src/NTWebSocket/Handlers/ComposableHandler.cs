@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 namespace NTWebSocket.Handlers {
     public class ComposableHandler : IHandler {
-        public readonly Func<string, byte[]> Handshake = s => new byte[0];
-        public readonly Func<string, byte[]> TextFrame = x => new byte[0];
-        public readonly Func<byte[], byte[]> BinaryFrame = x => new byte[0];
-        public readonly Action<List<byte>> ReceiveData = delegate { };
-        public readonly Func<byte[], byte[]> PingFrame = i => new byte[0];
-        public readonly Func<byte[], byte[]> PongFrame = i => new byte[0];
-        public readonly Func<int, byte[]> CloseFrame = i => new byte[0];
+        private readonly Func<string, byte[]> _handshake = s => new byte[0];
+        private readonly Func<string, byte[]> _textFrame = x => new byte[0];
+        private readonly Func<byte[], byte[]> _binaryFrame = x => new byte[0];
+        private readonly Action<List<byte>> _receiveData = delegate { };
+        private readonly Func<byte[], byte[]> _pingFrame = i => new byte[0];
+        private readonly Func<byte[], byte[]> _pongFrame = i => new byte[0];
+        private readonly Func<int, byte[]> _closeFrame = i => new byte[0];
 
         private readonly List<byte> _data = new List<byte>();
 
@@ -22,56 +22,56 @@ namespace NTWebSocket.Handlers {
             Func<byte[], byte[]> pongFrame = null,
             Func<int, byte[]> closeFrame = null) {
             if (handshake != null) {
-                Handshake = handshake;
+                _handshake = handshake;
             }
             if (textFrame != null) {
-                TextFrame = textFrame;
+                _textFrame = textFrame;
             }
             if (binaryFrame != null) {
-                BinaryFrame = binaryFrame;
+                _binaryFrame = binaryFrame;
             }
             if (receiveData != null) {
-                ReceiveData = receiveData;
+                _receiveData = receiveData;
             }
             if (pingFrame != null) {
-                PingFrame = pingFrame;
+                _pingFrame = pingFrame;
             }
             if (pongFrame != null) {
-                PongFrame = pongFrame;
+                _pongFrame = pongFrame;
             }
             if (closeFrame != null) {
-                CloseFrame = closeFrame;
+                _closeFrame = closeFrame;
             }
         }
 
         public byte[] CreateHandshake(string subProtocol = null) {
-            return Handshake(subProtocol);
+            return _handshake(subProtocol);
         }
 
         public void Receive(IEnumerable<byte> data) {
             _data.AddRange(data);
 
-            ReceiveData(_data);
+            _receiveData(_data);
         }
 
         public byte[] FrameText(string text) {
-            return TextFrame(text);
+            return _textFrame(text);
         }
 
         public byte[] FrameBinary(byte[] bytes) {
-            return BinaryFrame(bytes);
+            return _binaryFrame(bytes);
         }
 
         public byte[] FramePing(byte[] bytes) {
-            return PingFrame(bytes);
+            return _pingFrame(bytes);
         }
 
         public byte[] FramePong(byte[] bytes) {
-            return PongFrame(bytes);
+            return _pongFrame(bytes);
         }
 
         public byte[] FrameClose(int code) {
-            return CloseFrame(code);
+            return _closeFrame(code);
         }
     }
 }
