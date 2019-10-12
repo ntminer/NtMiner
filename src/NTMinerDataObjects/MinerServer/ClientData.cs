@@ -39,6 +39,8 @@ namespace NTMiner.MinerServer {
                 PeriodicRestartKernelHours = 0,
                 IsPeriodicRestartComputer = false,
                 PeriodicRestartComputerHours = 0,
+                PeriodicRestartKernelMinutes = 10,
+                PeriodicRestartComputerMinutes = 10,
                 IsAutoStartByCpu = false,
                 IsAutoStopByCpu = false,
                 CpuGETemperatureSeconds = 60,
@@ -99,6 +101,8 @@ namespace NTMiner.MinerServer {
                 PeriodicRestartKernelHours = speedData.PeriodicRestartKernelHours,
                 IsPeriodicRestartComputer = speedData.IsPeriodicRestartComputer,
                 PeriodicRestartComputerHours = speedData.PeriodicRestartComputerHours,
+                PeriodicRestartComputerMinutes = speedData.PeriodicRestartComputerMinutes,
+                PeriodicRestartKernelMinutes = speedData.PeriodicRestartKernelMinutes,
                 IsAutoStopByCpu = speedData.IsAutoStopByCpu,
                 IsAutoStartByCpu = speedData.IsAutoStartByCpu,
                 CpuStopTemperature = speedData.CpuStopTemperature,
@@ -207,6 +211,8 @@ namespace NTMiner.MinerServer {
             this.PeriodicRestartKernelHours = speedData.PeriodicRestartKernelHours;
             this.IsPeriodicRestartComputer = speedData.IsPeriodicRestartComputer;
             this.PeriodicRestartComputerHours = speedData.PeriodicRestartComputerHours;
+            this.PeriodicRestartComputerMinutes = speedData.PeriodicRestartComputerMinutes;
+            this.PeriodicRestartKernelMinutes = speedData.PeriodicRestartKernelMinutes;
             this.IsAutoStopByCpu = speedData.IsAutoStopByCpu;
             this.IsAutoStartByCpu = speedData.IsAutoStartByCpu;
             this.CpuStopTemperature = speedData.CpuStopTemperature;
@@ -361,6 +367,8 @@ namespace NTMiner.MinerServer {
         public int PeriodicRestartKernelHours { get; set; }
         public bool IsPeriodicRestartComputer { get; set; }
         public int PeriodicRestartComputerHours { get; set; }
+        public int PeriodicRestartKernelMinutes { get; set; }
+        public int PeriodicRestartComputerMinutes { get; set; }
         public bool IsAutoStopByCpu { get; set; }
         public int CpuGETemperatureSeconds { get; set; }
         public int CpuStopTemperature { get; set; }

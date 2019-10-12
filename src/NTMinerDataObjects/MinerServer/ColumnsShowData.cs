@@ -30,6 +30,10 @@ namespace NTMiner.MinerServer {
             NoShareRestartComputerMinutes = true,
             IsPeriodicRestartComputer = true,
             IsPeriodicRestartKernel = true,
+            PeriodicRestartKernelMinutes = true,
+            PeriodicRestartComputerMinutes = true,
+            PeriodicRestartComputerHours = true,
+            PeriodicRestartKernelHours = true,
             MinerIp = true,
             Kernel = true,
             KernelCommandLine = true,
@@ -155,6 +159,14 @@ namespace NTMiner.MinerServer {
         public bool MainCoinPoolDelay { get; set; }
 
         public bool DualCoinPoolDelay { get; set; }
+
+        public bool PeriodicRestartKernelHours { get; set; }
+
+        public bool PeriodicRestartKernelMinutes { get; set; }
+
+        public bool PeriodicRestartComputerHours { get; set; }
+
+        public bool PeriodicRestartComputerMinutes { get; set; }
 
         public StringBuilder GetSignData() {
             return this.BuildSign();

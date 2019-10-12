@@ -20,6 +20,8 @@ namespace NTMiner.MinerClient {
         public int PeriodicRestartKernelHours { get; set; }
         public bool IsPeriodicRestartComputer { get; set; }
         public int PeriodicRestartComputerHours { get; set; }
+        public int PeriodicRestartKernelMinutes { get; set; }
+        public int PeriodicRestartComputerMinutes { get; set; }
         public bool IsAutoStopByCpu { get; set; }
         public int CpuGETemperatureSeconds { get; set; }
         public int CpuStopTemperature { get; set; }

@@ -82,7 +82,11 @@ namespace NTMiner.Vms {
         private bool _isNoShareRestartComputer;
         private bool _noShareRestartComputerMinutes;
         private bool _isPeriodicRestartKernel;
+        private bool _periodicRestartKernelHours;
+        private bool _periodicRestartKernelMinutes;
         private bool _isPeriodicRestartComputer;
+        private bool _periodicRestartComputerHours;
+        private bool _periodicRestartComputerMinutes;
         private bool _mainCoinPoolDelay;
         private bool _dualCoinPoolDelay;
 
@@ -203,7 +207,11 @@ namespace NTMiner.Vms {
             _isNoShareRestartComputer = data.IsNoShareRestartComputer;
             _noShareRestartComputerMinutes = data.NoShareRestartComputerMinutes;
             _isPeriodicRestartKernel = data.IsPeriodicRestartKernel;
+            _periodicRestartKernelHours = data.PeriodicRestartKernelHours;
+            _periodicRestartKernelMinutes = data.PeriodicRestartKernelMinutes;
             _isPeriodicRestartComputer = data.IsPeriodicRestartComputer;
+            _periodicRestartComputerHours = data.PeriodicRestartComputerHours;
+            _periodicRestartComputerMinutes = data.PeriodicRestartComputerMinutes;
             _mainCoinPoolDelay = data.MainCoinPoolDelay;
             _dualCoinPoolDelay = data.DualCoinPoolDelay;
         }
@@ -750,6 +758,51 @@ namespace NTMiner.Vms {
                 if (_isPeriodicRestartComputer != value) {
                     _isPeriodicRestartComputer = value;
                     OnColumnItemChanged(nameof(IsPeriodicRestartComputer));
+                }
+            }
+        }
+
+        public const string PERIODIC_RESTART_KERNEL_HOURS = "周期重启内核小时";
+        [Description(PERIODIC_RESTART_KERNEL_HOURS)]
+        public bool PeriodicRestartKernelHours {
+            get => _periodicRestartKernelHours;
+            set {
+                if (_periodicRestartKernelHours != value) {
+                    _periodicRestartKernelHours = value;
+                    OnColumnItemChanged(nameof(PeriodicRestartKernelHours));
+                }
+            }
+        }
+        public const string PERIODIC_RESTART_KERNEL_MINUTES = "周期重启内核分钟";
+        [Description(PERIODIC_RESTART_KERNEL_MINUTES)]
+        public bool PeriodicRestartKernelMinutes {
+            get => _periodicRestartKernelMinutes;
+            set {
+                if (_periodicRestartKernelMinutes != value) {
+                    _periodicRestartKernelMinutes = value;
+                    OnColumnItemChanged(nameof(PeriodicRestartKernelMinutes));
+                }
+            }
+        }
+        public const string PERIODIC_RESTART_COMPUTER_HOURS = "周期重启电脑小时";
+        [Description(PERIODIC_RESTART_COMPUTER_HOURS)]
+        public bool PeriodicRestartComputerHours {
+            get => _periodicRestartComputerHours;
+            set {
+                if (_periodicRestartComputerHours != value) {
+                    _periodicRestartComputerHours = value;
+                    OnColumnItemChanged(nameof(PeriodicRestartComputerHours));
+                }
+            }
+        }
+        public const string PERIODIC_RESTART_COMPUTER_MINUTES = "周期重启电脑分钟";
+        [Description(PERIODIC_RESTART_COMPUTER_MINUTES)]
+        public bool PeriodicRestartComputerMinutes {
+            get => _periodicRestartComputerMinutes;
+            set {
+                if (_periodicRestartComputerMinutes != value) {
+                    _periodicRestartComputerMinutes = value;
+                    OnColumnItemChanged(nameof(PeriodicRestartComputerMinutes));
                 }
             }
         }

@@ -89,9 +89,11 @@ namespace NTMiner.MinerServer {
         int NoShareRestartKernelMinutes { get; }
         bool IsPeriodicRestartKernel { get; }
         int PeriodicRestartKernelHours { get; }
+        int PeriodicRestartKernelMinutes { get; }
         bool IsPeriodicRestartComputer { get; }
         int NoShareRestartComputerMinutes { get; }
         int PeriodicRestartComputerHours { get; }
+        int PeriodicRestartComputerMinutes { get; }
         bool IsRejectOneGpuShare { get; }
         bool IsFoundOneGpuShare { get; }
         bool IsGotOneIncorrectGpuShare { get; }

@@ -1064,6 +1064,22 @@ namespace NTMiner.Vms {
             }
         }
 
+        public int PeriodicRestartKernelMinutes {
+            get { return _data.PeriodicRestartKernelMinutes; }
+            set {
+                _data.PeriodicRestartKernelMinutes = value;
+                OnPropertyChanged(nameof(PeriodicRestartKernelMinutes));
+            }
+        }
+
+        public int PeriodicRestartComputerMinutes {
+            get { return _data.PeriodicRestartComputerMinutes; }
+            set {
+                _data.PeriodicRestartComputerMinutes = value;
+                OnPropertyChanged(nameof(PeriodicRestartComputerMinutes));
+            }
+        }
+
         public string MainCoinPoolDelay {
             get { return _data.MainCoinPoolDelay; }
             set {

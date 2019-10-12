@@ -17,7 +17,7 @@
 		WindowStartupLocation="CenterScreen"
 		MouseDown="MetroWindow_MouseDown"
 		Title="矿机列表"
-		mc:Ignorable="d" d:DesignHeight="1000" d:DesignWidth="3600">
+		mc:Ignorable="d" d:DesignHeight="1000" d:DesignWidth="5600">
 	<blankWindow:BlankWindow.Resources>
 		<ResourceDictionary>
 			<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
