@@ -59,6 +59,7 @@
     <Compile Include="MarshalTests.cs" />
     <Compile Include="JsonTests.cs" />
     <Compile Include="RegexTests.cs" />
+    <Compile Include="TimingTests.cs" />
     <Compile Include="WMITests.cs" />
   </ItemGroup>
   <ItemGroup>

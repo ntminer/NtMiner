@@ -132,7 +132,7 @@ namespace NTMiner {
             DateTime now = DateTime.Now;
             if (now.Minute != _dateTime.Minute) {
                 _dateTime = now;
-                Happened(new MinutePartChangedEvent());
+                Happened(MinutePartChangedEvent.Instance);
             }
             #region one
             if (_secondCount <= 20) {
@@ -183,42 +183,42 @@ namespace NTMiner {
             #endregion
 
             #region per
-            Happened(new Per1SecondEvent());
+            Happened(Per1SecondEvent.Instance);
             if (_secondCount % 2 == 0) {
-                Happened(new Per2SecondEvent());
+                Happened(Per2SecondEvent.Instance);
+                if (_secondCount % 10 == 0) {
+                    Happened(Per10SecondEvent.Instance);
+                    if (_secondCount % 20 == 0) {
+                        Happened(Per20SecondEvent.Instance);
+                        if (_secondCount % 60 == 0) {
+                            Happened(Per1MinuteEvent.Instance);
+                            if (_secondCount % 120 == 0) {
+                                Happened(Per2MinuteEvent.Instance);
+                                if (_secondCount % 600 == 0) {
+                                    Happened(Per10MinuteEvent.Instance);
+                                    if (_secondCount % 1200 == 0) {
+                                        Happened(Per20MinuteEvent.Instance);
+                                        if (_secondCount % 6000 == 0) {
+                                            Happened(Per100MinuteEvent.Instance);
+                                        }
+                                        if (_secondCount % daySecond == 0) {
+                                            Happened(Per24HourEvent.Instance);
+                                        }
+                                    }
+                                    if (_secondCount % 3000 == 0) {
+                                        Happened(Per50MinuteEvent.Instance);
+                                    }
+                                }
+                            }
+                            if (_secondCount % 300 == 0) {
+                                Happened(Per5MinuteEvent.Instance);
+                            }
+                        }
+                    }
+                }
             }
             if (_secondCount % 5 == 0) {
-                Happened(new Per5SecondEvent());
-            }
-            if (_secondCount % 10 == 0) {
-                Happened(new Per10SecondEvent());
-            }
-            if (_secondCount % 20 == 0) {
-                Happened(new Per20SecondEvent());
-            }
-            if (_secondCount % 60 == 0) {
-                Happened(new Per1MinuteEvent());
-            }
-            if (_secondCount % 120 == 0) {
-                Happened(new Per2MinuteEvent());
-            }
-            if (_secondCount % 300 == 0) {
-                Happened(new Per5MinuteEvent());
-            }
-            if (_secondCount % 600 == 0) {
-                Happened(new Per10MinuteEvent());
-            }
-            if (_secondCount % 1200 == 0) {
-                Happened(new Per20MinuteEvent());
-            }
-            if (_secondCount % 3000 == 0) {
-                Happened(new Per50MinuteEvent());
-            }
-            if (_secondCount % 6000 == 0) {
-                Happened(new Per100MinuteEvent());
-            }
-            if (_secondCount % daySecond == 0) {
-                Happened(new Per24HourEvent());
+                Happened(Per5SecondEvent.Instance);
             }
             #endregion
         }
