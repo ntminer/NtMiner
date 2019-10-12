@@ -55,7 +55,13 @@ namespace NTMiner.MinerServer {
             WindowsPassword = true,
             Work = true,
             MainCoinPoolDelay = true,
-            DualCoinPoolDelay = true
+            DualCoinPoolDelay = true,
+            IsAutoStartByCpu = true,
+            IsAutoStopByCpu = true,
+            CpuGETemperatureSeconds = true,
+            CpuLETemperatureSeconds = true,
+            CpuStartTemperature = true,
+            CpuStopTemperature = true
         };
 
         public ColumnsShowData() { }
@@ -167,6 +173,18 @@ namespace NTMiner.MinerServer {
         public bool PeriodicRestartComputerHours { get; set; }
 
         public bool PeriodicRestartComputerMinutes { get; set; }
+
+        public bool IsAutoStopByCpu { get; set; }
+
+        public bool IsAutoStartByCpu { get; set; }
+
+        public bool CpuGETemperatureSeconds { get; set; }
+
+        public bool CpuStopTemperature { get; set; }
+
+        public bool CpuLETemperatureSeconds { get; set; }
+
+        public bool CpuStartTemperature { get; set; }
 
         public StringBuilder GetSignData() {
             return this.BuildSign();

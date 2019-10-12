@@ -52,5 +52,11 @@ namespace NTMiner.MinerServer {
         bool PeriodicRestartKernelMinutes { get; }
         bool PeriodicRestartComputerHours { get; }
         bool PeriodicRestartComputerMinutes { get; }
+        bool IsAutoStopByCpu { get; }
+        bool IsAutoStartByCpu { get; }
+        bool CpuGETemperatureSeconds { get; }
+        bool CpuStopTemperature { get; }
+        bool CpuLETemperatureSeconds { get; }
+        bool CpuStartTemperature { get; }
     }
 }

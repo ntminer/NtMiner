@@ -89,8 +89,15 @@ namespace NTMiner.Vms {
         private bool _periodicRestartComputerMinutes;
         private bool _mainCoinPoolDelay;
         private bool _dualCoinPoolDelay;
+        private bool _isAutoStopByCpu;
+        private bool _isAutoStartByCpu;
+        private bool _cpuGETemperatureSeconds;
+        private bool _cpuStopTemperature;
+        private bool _cpuLETemperatureSeconds;
+        private bool _cpuStartTemperature;
 
         private List<ColumnItem> _columnItems = null;
+
         public List<ColumnItem> ColumnItems {
             get {
                 if (_columnItems == null) {
@@ -214,6 +221,12 @@ namespace NTMiner.Vms {
             _periodicRestartComputerMinutes = data.PeriodicRestartComputerMinutes;
             _mainCoinPoolDelay = data.MainCoinPoolDelay;
             _dualCoinPoolDelay = data.DualCoinPoolDelay;
+            _isAutoStopByCpu = data.IsAutoStopByCpu;
+            _isAutoStartByCpu = data.IsAutoStartByCpu;
+            _cpuGETemperatureSeconds = data.CpuGETemperatureSeconds;
+            _cpuStopTemperature = data.CpuStopTemperature;
+            _cpuLETemperatureSeconds = data.CpuLETemperatureSeconds;
+            _cpuStartTemperature = data.CpuStartTemperature;
         }
 
         public bool IsPleaseSelect {
@@ -827,6 +840,66 @@ namespace NTMiner.Vms {
                 if (_dualCoinPoolDelay != value) {
                     _dualCoinPoolDelay = value;
                     OnColumnItemChanged(nameof(DualCoinPoolDelay));
+                }
+            }
+        }
+
+        public bool IsAutoStopByCpu {
+            get => _isAutoStopByCpu;
+            set {
+                if (_isAutoStopByCpu != value) {
+                    _isAutoStopByCpu = value;
+                    OnPropertyChanged(nameof(IsAutoStopByCpu));
+                }
+            }
+        }
+
+        public bool IsAutoStartByCpu {
+            get => _isAutoStartByCpu;
+            set {
+                if (_isAutoStartByCpu != value) {
+                    _isAutoStartByCpu = value;
+                    OnPropertyChanged(nameof(IsAutoStartByCpu));
+                }
+            }
+        }
+
+        public bool CpuGETemperatureSeconds {
+            get => _cpuGETemperatureSeconds;
+            set {
+                if (_cpuGETemperatureSeconds != value) {
+                    _cpuGETemperatureSeconds = value;
+                    OnPropertyChanged(nameof(CpuGETemperatureSeconds));
+                }
+            }
+        }
+
+        public bool CpuStopTemperature {
+            get => _cpuStopTemperature;
+            set {
+                if (_cpuStopTemperature != value) {
+                    _cpuStopTemperature = value;
+                    OnPropertyChanged(nameof(CpuStopTemperature));
+                }
+            }
+        }
+
+        public bool CpuLETemperatureSeconds {
+            get => _cpuLETemperatureSeconds;
+            set {
+                if (_cpuLETemperatureSeconds != value) {
+                    _cpuLETemperatureSeconds = value;
+                    OnPropertyChanged(nameof(CpuLETemperatureSeconds));
+                }
+            }
+        }
+
+        public bool CpuStartTemperature {
+            get => _cpuStartTemperature;
+            set {
+                if (_cpuStartTemperature != value) {
+                    _cpuStartTemperature = value;
+                    OnPropertyChanged(nameof(CpuStartTemperature));
                 }
             }
         }
