@@ -69,6 +69,7 @@ namespace NTMiner {
                 KernelCommandLine = NTMinerRoot.UserKernelCommandLine,
                 DiskSpace = NTMinerRoot.DiskSpace,
                 IsAutoRestartKernel = root.MinerProfile.IsAutoRestartKernel,
+                AutoRestartKernelTimes = root.MinerProfile.AutoRestartKernelTimes,
                 IsNoShareRestartKernel = root.MinerProfile.IsNoShareRestartKernel,
                 IsNoShareRestartComputer = root.MinerProfile.IsNoShareRestartComputer,
                 NoShareRestartComputerMinutes = root.MinerProfile.NoShareRestartComputerMinutes,

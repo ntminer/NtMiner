@@ -182,6 +182,14 @@ namespace NTMiner.Vms {
             }
         }
 
+        public int AutoStartDelaySeconds {
+            get { return _data.AutoStartDelaySeconds; }
+            set {
+                _data.AutoStartDelaySeconds = value;
+                OnPropertyChanged(nameof(AutoStartDelaySeconds));
+            }
+        }
+
         public Guid WorkId {
             get => _data.WorkId;
             set {
@@ -189,6 +197,26 @@ namespace NTMiner.Vms {
                     _data.WorkId = value;
                     OnPropertyChanged(nameof(WorkId));
                     OnPropertyChanged(nameof(SelectedMineWork));
+                }
+            }
+        }
+
+        public Guid MineWorkId {
+            get => _data.MineWorkId;
+            set {
+                if (_data.MineWorkId != value) {
+                    _data.MineWorkId = value;
+                    OnPropertyChanged(nameof(MineWorkId));
+                }
+            }
+        }
+
+        public string MineWorkName {
+            get => _data.MineWorkName;
+            set {
+                if (_data.MineWorkName != value) {
+                    _data.MineWorkName = value;
+                    OnPropertyChanged(nameof(MineWorkName));
                 }
             }
         }
@@ -961,6 +989,14 @@ namespace NTMiner.Vms {
             set {
                 _data.IsAutoRestartKernel = value;
                 OnPropertyChanged(nameof(IsAutoRestartKernel));
+            }
+        }
+
+        public int AutoRestartKernelTimes {
+            get { return _data.AutoRestartKernelTimes; }
+            set {
+                _data.AutoRestartKernelTimes = value;
+                OnPropertyChanged(nameof(AutoRestartKernelTimes));
             }
         }
 

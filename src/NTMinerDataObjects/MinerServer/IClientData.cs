@@ -8,7 +8,13 @@ namespace NTMiner.MinerServer {
 
         bool IsAutoStart { get; }
 
+        int AutoStartDelaySeconds { get; }
+
         Guid WorkId { get; }
+
+        Guid MineWorkId { get; }
+
+        string MineWorkName { get; }
 
         string Version { get; }
 
@@ -78,6 +84,7 @@ namespace NTMiner.MinerServer {
 
         string KernelCommandLine { get; }
         bool IsAutoRestartKernel { get; }
+        int AutoRestartKernelTimes { get; }
         bool IsNoShareRestartKernel { get; }
         int NoShareRestartKernelMinutes { get; }
         bool IsPeriodicRestartKernel { get; }

@@ -11,6 +11,7 @@ namespace NTMiner.MinerClient {
         public bool IsAutoStart { get; set; }
         public int AutoStartDelaySeconds { get; set; }
         public bool IsAutoRestartKernel { get; set; }
+        public int AutoRestartKernelTimes { get; set; }
         public bool IsNoShareRestartKernel { get; set; }
         public int NoShareRestartKernelMinutes { get; set; }
         public bool IsNoShareRestartComputer { get; set; }
