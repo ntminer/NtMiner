@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace NTWebSocket {
     public class WebSocketConnection : IWebSocketConnection {
-        public WebSocketConnection(ISocket socket, Action<IWebSocketConnection> initialize, Func<byte[], WebSocketHttpRequest> parseRequest, Func<WebSocketHttpRequest, IHandler> handlerFactory, Func<IEnumerable<string>, string> negotiateSubProtocol) {
+        public WebSocketConnection(
+            ISocket socket, 
+            Action<IWebSocketConnection> initialize, 
+            Func<byte[], WebSocketHttpRequest> parseRequest, 
+            Func<WebSocketHttpRequest, IHandler> handlerFactory, 
+            Func<IEnumerable<string>, string> negotiateSubProtocol) {
+
             Socket = socket;
             OnOpen = () => { };
             OnClose = () => { };

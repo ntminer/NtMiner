@@ -3,7 +3,14 @@ using NTWebSocket.Handlers;
 
 namespace NTWebSocket {
     public class HandlerFactory {
-        public static IHandler BuildHandler(WebSocketHttpRequest request, Action<string> onMessage, Action onClose, Action<byte[]> onBinary, Action<byte[]> onPing, Action<byte[]> onPong) {
+        public static IHandler BuildHandler(
+            WebSocketHttpRequest request, 
+            Action<string> onMessage, 
+            Action onClose, 
+            Action<byte[]> onBinary, 
+            Action<byte[]> onPing, 
+            Action<byte[]> onPong) {
+
             var version = GetVersion(request);
 
             switch (version) {
