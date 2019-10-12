@@ -1910,6 +1910,35 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
+                    <!--NoShareRestartComputerMinutes-->
+                    <DataGridTemplateColumn 
+						Visibility="{Binding Data.ColumnsShow.NoShareRestartComputerMinutes,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+						IsReadOnly="True">
+                        <DataGridTemplateColumn.Header>
+                            <WrapPanel>
+                                <TextBlock Text="{x:Static vm:ColumnsShowViewModel.NO_SHARE_RESTART_COMPUTER_MINUTES}"></TextBlock>
+                                <controls:KbButton
+									ToolTip="不展示"
+									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+									CommandParameter="NoShareRestartComputerMinutes"
+									Background="Transparent">
+                                    <WrapPanel>
+                                        <Path
+											Width="14"
+											Height="8"
+											Data="{StaticResource Icon_Hide}"
+											Fill="#FF5A5A5A"
+											Stretch="Fill" />
+                                    </WrapPanel>
+                                </controls:KbButton>
+                            </WrapPanel>
+                        </DataGridTemplateColumn.Header>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding NoShareRestartComputerMinutes}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                     <!--IsPeriodicRestartKernel-->
                     <DataGridTemplateColumn 
 						Visibility="{Binding Data.ColumnsShow.IsPeriodicRestartKernel,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"

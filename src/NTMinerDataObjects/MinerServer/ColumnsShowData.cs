@@ -26,7 +26,8 @@ namespace NTMiner.MinerServer {
             AutoStartDelaySeconds = true,
             IsNoShareRestartKernel = true,
             NoShareRestartKernelMinutes = true,
-            IsNoShareRestartComputer = false,
+            IsNoShareRestartComputer = true,
+            NoShareRestartComputerMinutes = true,
             IsPeriodicRestartComputer = true,
             IsPeriodicRestartKernel = true,
             MinerIp = true,
@@ -148,6 +149,8 @@ namespace NTMiner.MinerServer {
         public bool IsPeriodicRestartComputer { get; set; }
 
         public bool IsNoShareRestartComputer { get; set; }
+
+        public bool NoShareRestartComputerMinutes { get; set; }
 
         public bool MainCoinPoolDelay { get; set; }
 

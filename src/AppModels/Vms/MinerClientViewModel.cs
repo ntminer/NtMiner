@@ -1016,6 +1016,14 @@ namespace NTMiner.Vms {
             }
         }
 
+        public int NoShareRestartComputerMinutes {
+            get { return _data.NoShareRestartComputerMinutes; }
+            set {
+                _data.NoShareRestartComputerMinutes = value;
+                OnPropertyChanged(nameof(NoShareRestartComputerMinutes));
+            }
+        }
+
         public bool IsPeriodicRestartKernel {
             get { return _data.IsPeriodicRestartKernel; }
             set {

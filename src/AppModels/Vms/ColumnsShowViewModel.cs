@@ -80,6 +80,7 @@ namespace NTMiner.Vms {
         private bool _isNoShareRestartKernel;
         private bool _noShareRestartKernelMinutes;
         private bool _isNoShareRestartComputer;
+        private bool _noShareRestartComputerMinutes;
         private bool _isPeriodicRestartKernel;
         private bool _isPeriodicRestartComputer;
         private bool _mainCoinPoolDelay;
@@ -200,6 +201,7 @@ namespace NTMiner.Vms {
             _isNoShareRestartKernel = data.IsNoShareRestartKernel;
             _noShareRestartKernelMinutes = data.NoShareRestartKernelMinutes;
             _isNoShareRestartComputer = data.IsNoShareRestartComputer;
+            _noShareRestartComputerMinutes = data.NoShareRestartComputerMinutes;
             _isPeriodicRestartKernel = data.IsPeriodicRestartKernel;
             _isPeriodicRestartComputer = data.IsPeriodicRestartComputer;
             _mainCoinPoolDelay = data.MainCoinPoolDelay;
@@ -712,6 +714,18 @@ namespace NTMiner.Vms {
                 if (_isNoShareRestartComputer != value) {
                     _isNoShareRestartComputer = value;
                     OnColumnItemChanged(nameof(IsNoShareRestartComputer));
+                }
+            }
+        }
+
+        public const string NO_SHARE_RESTART_COMPUTER_MINUTES = "周期（分钟）";
+        [Description(NO_SHARE_RESTART_COMPUTER_MINUTES)]
+        public bool NoShareRestartComputerMinutes {
+            get { return _noShareRestartComputerMinutes; }
+            set {
+                if (_noShareRestartComputerMinutes != value) {
+                    _noShareRestartComputerMinutes = value;
+                    OnColumnItemChanged(nameof(NoShareRestartComputerMinutes));
                 }
             }
         }

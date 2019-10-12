@@ -45,6 +45,7 @@ namespace NTMiner.MinerServer {
         bool IsNoShareRestartKernel { get; }
         bool NoShareRestartKernelMinutes { get; }
         bool IsNoShareRestartComputer { get; }
+        bool NoShareRestartComputerMinutes { get; }
         bool IsPeriodicRestartKernel { get; }
         bool IsPeriodicRestartComputer { get; }
     }
