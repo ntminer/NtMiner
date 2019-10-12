@@ -1857,6 +1857,40 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
+                    <!--NoShareRestartKernelMinutes-->
+                    <DataGridTemplateColumn 
+						Visibility="{Binding Data.ColumnsShow.NoShareRestartKernelMinutes,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+						IsReadOnly="True">
+                        <DataGridTemplateColumn.Header>
+                            <WrapPanel>
+                                <TextBlock Text="{x:Static vm:ColumnsShowViewModel.NO_SHARE_RESTART_KERNEL_MINUTES}"></TextBlock>
+                                <controls:KbButton
+									ToolTip="不展示"
+									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+									CommandParameter="NoShareRestartKernelMinutes"
+									Background="Transparent">
+                                    <WrapPanel>
+                                        <Path
+											Width="14"
+											Height="8"
+											Data="{StaticResource Icon_Hide}"
+											Fill="#FF5A5A5A"
+											Stretch="Fill" />
+                                    </WrapPanel>
+                                </controls:KbButton>
+                            </WrapPanel>
+                        </DataGridTemplateColumn.Header>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Path
+							        Width="16"
+							        Height="16"
+							        Data="{Binding NoShareRestartKernelMinutes,Converter={StaticResource BoolToStreamGeometryConverter}}"
+							        Fill="{StaticResource LableColor}"
+							        Stretch="Fill" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                     <!--IsNoShareRestartComputer-->
                     <DataGridTemplateColumn 
 						Visibility="{Binding Data.ColumnsShow.IsNoShareRestartComputer,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
