@@ -21,6 +21,7 @@ namespace NTMiner.MinerServer {
             IncomeMainCoinPerDayText = true,
             IsAutoBoot = true,
             IsAutoRestartKernel = true,
+            AutoRestartKernelTimes = true,
             IsAutoStart = true,
             AutoStartDelaySeconds = true,
             IsNoShareRestartKernel = true,
@@ -134,6 +135,8 @@ namespace NTMiner.MinerServer {
         public bool DiskSpace { get; set; }
 
         public bool IsAutoRestartKernel { get; set; }
+
+        public bool AutoRestartKernelTimes { get; set; }
 
         public bool IsNoShareRestartKernel { get; set; }
 

@@ -76,6 +76,7 @@ namespace NTMiner.Vms {
         private bool _kernelCommandLine;
         private bool _diskSpace;
         private bool _isAutoRestartKernel;
+        private bool _autoRestartKernelTimes;
         private bool _isNoShareRestartKernel;
         private bool _isNoShareRestartComputer;
         private bool _isPeriodicRestartKernel;
@@ -194,6 +195,7 @@ namespace NTMiner.Vms {
             _kernelCommandLine = data.KernelCommandLine;
             _diskSpace = data.DiskSpace;
             _isAutoRestartKernel = data.IsAutoRestartKernel;
+            _autoRestartKernelTimes = data.AutoRestartKernelTimes;
             _isNoShareRestartKernel = data.IsNoShareRestartKernel;
             _isNoShareRestartComputer = data.IsNoShareRestartComputer;
             _isPeriodicRestartKernel = data.IsPeriodicRestartKernel;
@@ -660,6 +662,18 @@ namespace NTMiner.Vms {
                 if (_isAutoRestartKernel != value) {
                     _isAutoRestartKernel = value;
                     OnColumnItemChanged(nameof(IsAutoRestartKernel));
+                }
+            }
+        }
+
+        public const string AUTO_RESTART_KERNEL_TIMES = "重启次数上限";
+        [Description(AUTO_RESTART_KERNEL_TIMES)]
+        public bool AutoRestartKernelTimes {
+            get => _autoRestartKernelTimes;
+            set {
+                if (_autoRestartKernelTimes != value) {
+                    _autoRestartKernelTimes = value;
+                    OnColumnItemChanged(nameof(AutoRestartKernelTimes));
                 }
             }
         }

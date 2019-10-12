@@ -41,6 +41,7 @@ namespace NTMiner.MinerServer {
         bool MaxTempText { get; }
         bool KernelCommandLine { get; }
         bool IsAutoRestartKernel { get; }
+        bool AutoRestartKernelTimes { get; }
         bool IsNoShareRestartKernel { get; }
         bool IsNoShareRestartComputer { get; }
         bool IsPeriodicRestartKernel { get; }
