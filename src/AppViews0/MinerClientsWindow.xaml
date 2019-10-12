@@ -17,7 +17,7 @@
 		WindowStartupLocation="CenterScreen"
 		MouseDown="MetroWindow_MouseDown"
 		Title="矿机列表"
-		mc:Ignorable="d" d:DesignHeight="1000" d:DesignWidth="5600">
+		mc:Ignorable="d" d:DesignHeight="1000" d:DesignWidth="5300">
 	<blankWindow:BlankWindow.Resources>
 		<ResourceDictionary>
 			<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
@@ -2120,6 +2120,190 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding PeriodicRestartComputerMinutes}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <!--IsAutoStopByCpu-->
+                    <DataGridTemplateColumn 
+						Visibility="{Binding Data.ColumnsShow.IsAutoStopByCpu,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+						IsReadOnly="True">
+                        <DataGridTemplateColumn.Header>
+                            <WrapPanel>
+                                <TextBlock Text="{x:Static vm:ColumnsShowViewModel.IS_AUTO_STOP_BY_CPU}"></TextBlock>
+                                <controls:KbButton
+									ToolTip="不展示"
+									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+									CommandParameter="IsAutoStopByCpu"
+									Background="Transparent">
+                                    <WrapPanel>
+                                        <Path
+											Width="14"
+											Height="8"
+											Data="{StaticResource Icon_Hide}"
+											Fill="#FF5A5A5A"
+											Stretch="Fill" />
+                                    </WrapPanel>
+                                </controls:KbButton>
+                            </WrapPanel>
+                        </DataGridTemplateColumn.Header>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Path
+							        Width="16"
+							        Height="16"
+							        Data="{Binding IsAutoStopByCpu,Converter={StaticResource BoolToStreamGeometryConverter}}"
+							        Fill="{StaticResource LableColor}"
+							        Stretch="Fill" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <!--CpuGETemperatureSeconds-->
+                    <DataGridTemplateColumn 
+						Visibility="{Binding Data.ColumnsShow.CpuGETemperatureSeconds,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+						IsReadOnly="True">
+                        <DataGridTemplateColumn.Header>
+                            <WrapPanel>
+                                <TextBlock Text="{x:Static vm:ColumnsShowViewModel.CPU_GE_TEMPERATURE_SECONDS}"></TextBlock>
+                                <controls:KbButton
+									ToolTip="不展示"
+									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+									CommandParameter="CpuGETemperatureSeconds"
+									Background="Transparent">
+                                    <WrapPanel>
+                                        <Path
+											Width="14"
+											Height="8"
+											Data="{StaticResource Icon_Hide}"
+											Fill="#FF5A5A5A"
+											Stretch="Fill" />
+                                    </WrapPanel>
+                                </controls:KbButton>
+                            </WrapPanel>
+                        </DataGridTemplateColumn.Header>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding CpuGETemperatureSeconds}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <!--CpuStopTemperature-->
+                    <DataGridTemplateColumn 
+						Visibility="{Binding Data.ColumnsShow.CpuStopTemperature,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+						IsReadOnly="True">
+                        <DataGridTemplateColumn.Header>
+                            <WrapPanel>
+                                <TextBlock Text="{x:Static vm:ColumnsShowViewModel.CPU_STOP_TEMPERATURE}"></TextBlock>
+                                <controls:KbButton
+									ToolTip="不展示"
+									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+									CommandParameter="CpuStopTemperature"
+									Background="Transparent">
+                                    <WrapPanel>
+                                        <Path
+											Width="14"
+											Height="8"
+											Data="{StaticResource Icon_Hide}"
+											Fill="#FF5A5A5A"
+											Stretch="Fill" />
+                                    </WrapPanel>
+                                </controls:KbButton>
+                            </WrapPanel>
+                        </DataGridTemplateColumn.Header>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding CpuStopTemperature}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <!--IsAutoStartByCpu-->
+                    <DataGridTemplateColumn 
+						Visibility="{Binding Data.ColumnsShow.IsAutoStartByCpu,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+						IsReadOnly="True">
+                        <DataGridTemplateColumn.Header>
+                            <WrapPanel>
+                                <TextBlock Text="{x:Static vm:ColumnsShowViewModel.IS_AUTO_START_BY_CPU}"></TextBlock>
+                                <controls:KbButton
+									ToolTip="不展示"
+									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+									CommandParameter="IsAutoStartByCpu"
+									Background="Transparent">
+                                    <WrapPanel>
+                                        <Path
+											Width="14"
+											Height="8"
+											Data="{StaticResource Icon_Hide}"
+											Fill="#FF5A5A5A"
+											Stretch="Fill" />
+                                    </WrapPanel>
+                                </controls:KbButton>
+                            </WrapPanel>
+                        </DataGridTemplateColumn.Header>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Path
+							        Width="16"
+							        Height="16"
+							        Data="{Binding IsAutoStartByCpu,Converter={StaticResource BoolToStreamGeometryConverter}}"
+							        Fill="{StaticResource LableColor}"
+							        Stretch="Fill" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <!--CpuLETemperatureSeconds-->
+                    <DataGridTemplateColumn 
+						Visibility="{Binding Data.ColumnsShow.CpuLETemperatureSeconds,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+						IsReadOnly="True">
+                        <DataGridTemplateColumn.Header>
+                            <WrapPanel>
+                                <TextBlock Text="{x:Static vm:ColumnsShowViewModel.CPU_LE_TEMPERATURE_SECONDS}"></TextBlock>
+                                <controls:KbButton
+									ToolTip="不展示"
+									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+									CommandParameter="CpuLETemperatureSeconds"
+									Background="Transparent">
+                                    <WrapPanel>
+                                        <Path
+											Width="14"
+											Height="8"
+											Data="{StaticResource Icon_Hide}"
+											Fill="#FF5A5A5A"
+											Stretch="Fill" />
+                                    </WrapPanel>
+                                </controls:KbButton>
+                            </WrapPanel>
+                        </DataGridTemplateColumn.Header>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding CpuLETemperatureSeconds}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <!--CpuStartTemperature-->
+                    <DataGridTemplateColumn 
+						Visibility="{Binding Data.ColumnsShow.CpuStartTemperature,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+						IsReadOnly="True">
+                        <DataGridTemplateColumn.Header>
+                            <WrapPanel>
+                                <TextBlock Text="{x:Static vm:ColumnsShowViewModel.CPU_START_TEMPERATURE}"></TextBlock>
+                                <controls:KbButton
+									ToolTip="不展示"
+									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+									CommandParameter="CpuStartTemperature"
+									Background="Transparent">
+                                    <WrapPanel>
+                                        <Path
+											Width="14"
+											Height="8"
+											Data="{StaticResource Icon_Hide}"
+											Fill="#FF5A5A5A"
+											Stretch="Fill" />
+                                    </WrapPanel>
+                                </controls:KbButton>
+                            </WrapPanel>
+                        </DataGridTemplateColumn.Header>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding CpuStartTemperature}"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

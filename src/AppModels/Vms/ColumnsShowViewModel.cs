@@ -844,6 +844,8 @@ namespace NTMiner.Vms {
             }
         }
 
+        public const string IS_AUTO_STOP_BY_CPU = "CPU高温自动停止挖矿";
+        [Description(IS_AUTO_STOP_BY_CPU)]
         public bool IsAutoStopByCpu {
             get => _isAutoStopByCpu;
             set {
@@ -854,6 +856,8 @@ namespace NTMiner.Vms {
             }
         }
 
+        public const string IS_AUTO_START_BY_CPU = "CPU低温自动开始挖矿";
+        [Description(IS_AUTO_START_BY_CPU)]
         public bool IsAutoStartByCpu {
             get => _isAutoStartByCpu;
             set {
@@ -864,6 +868,8 @@ namespace NTMiner.Vms {
             }
         }
 
+        public const string CPU_GE_TEMPERATURE_SECONDS = "CPU高温秒数";
+        [Description(CPU_GE_TEMPERATURE_SECONDS)]
         public bool CpuGETemperatureSeconds {
             get => _cpuGETemperatureSeconds;
             set {
@@ -874,6 +880,8 @@ namespace NTMiner.Vms {
             }
         }
 
+        public const string CPU_STOP_TEMPERATURE = "CPU高温";
+        [Description(CPU_STOP_TEMPERATURE)]
         public bool CpuStopTemperature {
             get => _cpuStopTemperature;
             set {
@@ -884,6 +892,8 @@ namespace NTMiner.Vms {
             }
         }
 
+        public const string CPU_LE_TEMPERATURE_SECONDS = "CPU低温秒数";
+        [Description(CPU_LE_TEMPERATURE_SECONDS)]
         public bool CpuLETemperatureSeconds {
             get => _cpuLETemperatureSeconds;
             set {
@@ -894,6 +904,8 @@ namespace NTMiner.Vms {
             }
         }
 
+        public const string CPU_START_TEMPERATURE = "CPU低温";
+        [Description(CPU_START_TEMPERATURE)]
         public bool CpuStartTemperature {
             get => _cpuStartTemperature;
             set {
