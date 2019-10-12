@@ -120,15 +120,16 @@ namespace NTWebSocket {
 
             connection = new WebSocketConnection(
                 clientSocket,
-                _config,
-                bytes => RequestParser.Parse(bytes, _scheme),
-                r => HandlerFactory.BuildHandler(r,
-                                                 s => connection.OnMessage(s),
-                                                 connection.Close,
-                                                 b => connection.OnBinary(b),
-                                                 b => connection.OnPing(b),
-                                                 b => connection.OnPong(b)),
-                s => SubProtocolNegotiator.Negotiate(SupportedSubProtocols, s));
+                initialize: _config,
+                parseRequest: bytes => RequestParser.Parse(bytes, _scheme),
+                handlerFactory: r => HandlerFactory.BuildHandler(
+                    request: r,
+                    onMessage: s => connection.OnMessage(s),
+                    onClose: connection.Close,
+                    onBinary: b => connection.OnBinary(b),
+                    onPing: b => connection.OnPing(b),
+                    onPong: b => connection.OnPong(b)),
+                negotiateSubProtocol: s => SubProtocolNegotiator.Negotiate(SupportedSubProtocols, s));
 
             if (IsSecure) {
                 NTWebSocketLog.Debug("Authenticating Secure Connection");
