@@ -129,7 +129,7 @@
 											</Button.Content>
 										</Button>
 									</StackPanel>
-									<TextBlock VerticalAlignment="Center">分钟收益没有增加重启内核</TextBlock>
+									<TextBlock VerticalAlignment="Center">分钟无份额重启内核</TextBlock>
 								</WrapPanel>
 							</CheckBox>
                         </WrapPanel>
@@ -154,7 +154,7 @@
                                             </Button.Content>
                                         </Button>
                                     </StackPanel>
-                                    <TextBlock VerticalAlignment="Center">分钟收益没有增加重启电脑</TextBlock>
+                                    <TextBlock VerticalAlignment="Center">分钟无份额重启电脑</TextBlock>
                                 </WrapPanel>
                             </CheckBox>
                         </WrapPanel>

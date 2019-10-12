@@ -379,7 +379,7 @@ namespace NTMiner {
                     }
                     #endregion
 
-                    #region 收益没有增加重启内核
+                    #region 无份额重启内核
                     try {
                         if (IsMining && this.CurrentMineContext.MainCoin != null) {
                             int totalShare = 0;
@@ -398,14 +398,14 @@ namespace NTMiner {
                                         if (!MinerProfile.IsAutoBoot || !MinerProfile.IsAutoStart) {
                                             VirtualRoot.Execute(new SetAutoStartCommand(true, true));
                                         }
-                                        Logger.WarnWriteLine($"{MinerProfile.NoShareRestartComputerMinutes}分钟收益没有增加重启电脑");
+                                        Logger.WarnWriteLine($"{MinerProfile.NoShareRestartComputerMinutes}分钟无份额重启电脑");
                                         Windows.Power.Restart(60);
                                         VirtualRoot.Execute(new CloseNTMinerCommand());
                                         return;// 退出
                                     }
                                     // 产生过份额或者已经两倍重启内核时间了
                                     if (restartKernel && (totalShare > 0 || (DateTime.Now - shareOn).TotalMinutes > 2 * MinerProfile.NoShareRestartKernelMinutes)) {
-                                        Logger.WarnWriteLine($"{MinerProfile.NoShareRestartKernelMinutes}分钟收益没有增加重启内核");
+                                        Logger.WarnWriteLine($"{MinerProfile.NoShareRestartKernelMinutes}分钟无份额重启内核");
                                         RestartMine();
                                         return;// 退出
                                     }
