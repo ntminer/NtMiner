@@ -94,6 +94,12 @@ namespace NTMiner.MinerServer {
         bool IsRejectOneGpuShare { get; }
         bool IsFoundOneGpuShare { get; }
         bool IsGotOneIncorrectGpuShare { get; }
+        bool IsAutoStopByCpu { get; }
+        int CpuGETemperatureSeconds { get; }
+        int CpuStopTemperature { get; }
+        bool IsAutoStartByCpu { get; }
+        int CpuLETemperatureSeconds { get; }
+        int CpuStartTemperature { get; }
         int CpuPerformance { get; }
         int CpuTemperature { get; }
 

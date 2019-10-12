@@ -39,6 +39,12 @@ namespace NTMiner.MinerServer {
                 PeriodicRestartKernelHours = 0,
                 IsPeriodicRestartComputer = false,
                 PeriodicRestartComputerHours = 0,
+                IsAutoStartByCpu = false,
+                IsAutoStopByCpu = false,
+                CpuGETemperatureSeconds = 60,
+                CpuLETemperatureSeconds = 60,
+                CpuStartTemperature = 40,
+                CpuStopTemperature = 65,
                 GpuDriver = String.Empty,
                 GpuType = GpuType.Empty,
                 OSName = String.Empty,
@@ -93,6 +99,12 @@ namespace NTMiner.MinerServer {
                 PeriodicRestartKernelHours = speedData.PeriodicRestartKernelHours,
                 IsPeriodicRestartComputer = speedData.IsPeriodicRestartComputer,
                 PeriodicRestartComputerHours = speedData.PeriodicRestartComputerHours,
+                IsAutoStopByCpu = speedData.IsAutoStopByCpu,
+                IsAutoStartByCpu = speedData.IsAutoStartByCpu,
+                CpuStopTemperature = speedData.CpuStopTemperature,
+                CpuStartTemperature = speedData.CpuStartTemperature,
+                CpuLETemperatureSeconds = speedData.CpuLETemperatureSeconds,
+                CpuGETemperatureSeconds = speedData.CpuGETemperatureSeconds,
                 MinerName = string.Empty,
                 GpuDriver = speedData.GpuDriver,
                 GpuType = speedData.GpuType,
@@ -195,6 +207,12 @@ namespace NTMiner.MinerServer {
             this.PeriodicRestartKernelHours = speedData.PeriodicRestartKernelHours;
             this.IsPeriodicRestartComputer = speedData.IsPeriodicRestartComputer;
             this.PeriodicRestartComputerHours = speedData.PeriodicRestartComputerHours;
+            this.IsAutoStopByCpu = speedData.IsAutoStopByCpu;
+            this.IsAutoStartByCpu = speedData.IsAutoStartByCpu;
+            this.CpuStopTemperature = speedData.CpuStopTemperature;
+            this.CpuStartTemperature = speedData.CpuStartTemperature;
+            this.CpuLETemperatureSeconds = speedData.CpuLETemperatureSeconds;
+            this.CpuGETemperatureSeconds = speedData.CpuGETemperatureSeconds;
             this.GpuDriver = speedData.GpuDriver;
             this.GpuType = speedData.GpuType;
             this.OSName = speedData.OSName;
@@ -343,6 +361,12 @@ namespace NTMiner.MinerServer {
         public int PeriodicRestartKernelHours { get; set; }
         public bool IsPeriodicRestartComputer { get; set; }
         public int PeriodicRestartComputerHours { get; set; }
+        public bool IsAutoStopByCpu { get; set; }
+        public int CpuGETemperatureSeconds { get; set; }
+        public int CpuStopTemperature { get; set; }
+        public bool IsAutoStartByCpu { get; set; }
+        public int CpuLETemperatureSeconds { get; set; }
+        public int CpuStartTemperature { get; set; }
         public string OSName { get; set; }
         public int OSVirtualMemoryMb { get; set; }
         public string DiskSpace { get; set; }

@@ -1088,6 +1088,54 @@ namespace NTMiner.Vms {
             }
         }
 
+        public bool IsAutoStopByCpu {
+            get { return _data.IsAutoStopByCpu; }
+            set {
+                _data.IsAutoStopByCpu = value;
+                OnPropertyChanged(nameof(IsAutoStopByCpu));
+            }
+        }
+
+        public int CpuGETemperatureSeconds {
+            get { return _data.CpuGETemperatureSeconds; }
+            set {
+                _data.CpuGETemperatureSeconds = value;
+                OnPropertyChanged(nameof(CpuGETemperatureSeconds));
+            }
+        }
+
+        public int CpuStopTemperature {
+            get { return _data.CpuStopTemperature; }
+            set {
+                _data.CpuStopTemperature = value;
+                OnPropertyChanged(nameof(CpuStopTemperature));
+            }
+        }
+
+        public bool IsAutoStartByCpu {
+            get { return _data.IsAutoStartByCpu; }
+            set {
+                _data.IsAutoStartByCpu = value;
+                OnPropertyChanged(nameof(IsAutoStartByCpu));
+            }
+        }
+
+        public int CpuLETemperatureSeconds {
+            get { return _data.CpuLETemperatureSeconds; }
+            set {
+                _data.CpuLETemperatureSeconds = value;
+                OnPropertyChanged(nameof(CpuLETemperatureSeconds));
+            }
+        }
+
+        public int CpuStartTemperature {
+            get { return _data.CpuStartTemperature; }
+            set {
+                _data.CpuStartTemperature = value;
+                OnPropertyChanged(nameof(CpuStartTemperature));
+            }
+        }
+
         public void RefreshGpusForeground(uint minTemp, uint maxTemp) {
             if (GpuTableVm == null) {
                 return;
