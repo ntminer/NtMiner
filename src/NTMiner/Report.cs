@@ -42,7 +42,8 @@ namespace NTMiner {
                 BootOn = root.CreatedOn,
                 MineStartedOn = null,
                 IsMining = root.IsMining,
-                MineWorkId = root.MinerProfile.MineWork != null ? root.MinerProfile.MineWork.GetId() : Guid.Empty,
+                MineWorkId = Guid.Empty,
+                MineWorkName = string.Empty,
                 MinerName = root.MinerProfile.MinerName,
                 GpuInfo = root.GpuSetInfo,
                 ClientId = VirtualRoot.Id,
@@ -85,6 +86,10 @@ namespace NTMiner {
                 CpuTemperature = (int)Windows.Cpu.Instance.GetTemperature(),
                 GpuTable = root.GpusSpeed.Where(a => a.Gpu.Index != NTMinerRoot.GpuAllId).Select(a => a.ToGpuSpeedData()).ToArray()
             };
+            if (root.MinerProfile.MineWork != null) {
+                data.MineWorkId = root.MinerProfile.MineWork.GetId();
+                data.MineWorkName = root.MinerProfile.MineWork.Name;
+            }
             #region 当前选中的币种是什么
             if (root.CoinSet.TryGetCoin(root.MinerProfile.CoinId, out ICoin mainCoin)) {
                 data.MainCoinCode = mainCoin.Code;

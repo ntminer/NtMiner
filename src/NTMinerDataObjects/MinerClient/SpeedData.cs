@@ -42,6 +42,8 @@ namespace NTMiner.MinerClient {
 
         public Guid MineWorkId { get; set; }
 
+        public string MineWorkName { get; set; }
+
         public string MinerName { get; set; }
 
         public string MainCoinCode { get; set; }

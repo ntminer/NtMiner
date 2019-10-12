@@ -21,6 +21,8 @@ namespace NTMiner.MinerServer {
                 CreatedOn = data.CreatedOn,
                 GroupId = data.GroupId,
                 WorkId = data.WorkId,
+                MineWorkId = Guid.Empty,
+                MineWorkName = string.Empty,
                 WindowsLoginName = data.WindowsLoginName,
                 WindowsPassword = data.WindowsPassword,
                 Id = data.Id,
@@ -118,6 +120,8 @@ namespace NTMiner.MinerServer {
                 GpuTable = speedData.GpuTable,
                 GroupId = Guid.Empty,
                 WorkId = Guid.Empty,
+                MineWorkId = speedData.MineWorkId,
+                MineWorkName = speedData.MineWorkName,
                 WindowsLoginName = string.Empty,
                 WindowsPassword = string.Empty,
                 ClientName = speedData.MinerName,
@@ -221,6 +225,8 @@ namespace NTMiner.MinerServer {
             this.IsGotOneIncorrectGpuShare = speedData.IsGotOneIncorrectGpuShare;
             this.CpuPerformance = speedData.CpuPerformance;
             this.CpuTemperature = speedData.CpuTemperature;
+            this.MineWorkId = speedData.MineWorkId;
+            this.MineWorkName = speedData.MineWorkName;
         }
 
         public int GetMainCoinShareDelta(bool isPull) {
@@ -336,7 +342,17 @@ namespace NTMiner.MinerServer {
         public string GpuDriver { get; set; }
         public string GpuInfo { get; set; }
 
+        /// <summary>
+        /// 服务的指定的作业
+        /// </summary>
         public Guid WorkId { get; set; }
+
+        /// <summary>
+        /// 挖矿端上报的作业
+        /// </summary>
+        public Guid MineWorkId { get; set; }
+
+        public string MineWorkName { get; set; }
 
         public string Version { get; set; }
 
