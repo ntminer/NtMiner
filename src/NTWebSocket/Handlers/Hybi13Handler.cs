@@ -9,15 +9,15 @@ namespace NTWebSocket.Handlers {
     public static class Hybi13Handler {
         public static IHandler Create(WebSocketHttpRequest request, Action<string> onMessage, Action onClose, Action<byte[]> onBinary, Action<byte[]> onPing, Action<byte[]> onPong) {
             var readState = new ReadState();
-            return new ComposableHandler {
-                Handshake = sub => BuildHandshake(request, sub),
-                TextFrame = s => FrameData(Encoding.UTF8.GetBytes(s), FrameType.Text),
-                BinaryFrame = s => FrameData(s, FrameType.Binary),
-                PingFrame = s => FrameData(s, FrameType.Ping),
-                PongFrame = s => FrameData(s, FrameType.Pong),
-                CloseFrame = i => FrameData(i.ToBigEndianBytes<ushort>(), FrameType.Close),
-                ReceiveData = d => ReceiveData(d, readState, (op, data) => ProcessFrame(op, data, onMessage, onClose, onBinary, onPing, onPong))
-            };
+            return new ComposableHandler(
+                handshake: sub => BuildHandshake(request, sub),
+                textFrame: s => FrameData(Encoding.UTF8.GetBytes(s), FrameType.Text),
+                binaryFrame: s => FrameData(s, FrameType.Binary),
+                pingFrame: s => FrameData(s, FrameType.Ping),
+                pongFrame: s => FrameData(s, FrameType.Pong),
+                closeFrame: i => FrameData(i.ToBigEndianBytes<ushort>(), FrameType.Close),
+                receiveData: d => ReceiveData(d, readState, (op, data) => ProcessFrame(op, data, onMessage, onClose, onBinary, onPing, onPong))
+            );
         }
 
         public static byte[] FrameData(byte[] payload, FrameType frameType) {

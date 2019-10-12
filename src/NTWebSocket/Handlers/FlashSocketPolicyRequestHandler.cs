@@ -11,9 +11,7 @@ namespace NTWebSocket.Handlers {
 "\0";
 
         public static IHandler Create(WebSocketHttpRequest request) {
-            return new ComposableHandler {
-                Handshake = sub => Handshake(request, sub),
-            };
+            return new ComposableHandler(handshake: sub => Handshake(request, sub));
         }
 
         public static byte[] Handshake(WebSocketHttpRequest request, string subProtocol) {

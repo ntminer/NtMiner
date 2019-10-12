@@ -11,11 +11,10 @@ namespace NTWebSocket.Handlers {
         private const int MaxSize = 1024 * 1024 * 5;
 
         public static IHandler Create(WebSocketHttpRequest request, Action<string> onMessage) {
-            return new ComposableHandler {
-                TextFrame = FrameText,
-                Handshake = sub => Handshake(request, sub),
-                ReceiveData = data => ReceiveData(onMessage, data)
-            };
+            return new ComposableHandler(
+                textFrame: FrameText, 
+                handshake: sub => Handshake(request, sub),
+                receiveData: data => ReceiveData(onMessage, data));
         }
 
         public static void ReceiveData(Action<string> onMessage, List<byte> data) {
