@@ -256,7 +256,7 @@ namespace NTMiner {
                     }
                 });
 
-                Report.Init(this);
+                Report.Init();
                 Link();
                 // 当显卡温度变更时守卫温度防线
                 TempGruarder.Instance.Init(this);

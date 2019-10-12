@@ -1,5 +1,6 @@
 ﻿using NTMiner.Core;
 using NTMiner.Core.Gpus;
+using NTMiner.Core.Profiles;
 using NTMiner.MinerClient;
 using NTMiner.Profile;
 using System;
@@ -7,7 +8,7 @@ using System.Linq;
 
 namespace NTMiner {
     public static class Report {
-        public static void Init(INTMinerRoot root) {
+        public static void Init() {
             VirtualRoot.EventPath<HasBoot10SecondEvent>("登录服务器并报告一次0算力", LogEnum.DevConsole,
                 action: message => {
                     // 报告0算力从而告知服务器该客户端当前在线的币种
@@ -34,18 +35,19 @@ namespace NTMiner {
         private static ICoin _sLastSpeedDualCoin;
         public static SpeedData CreateSpeedData() {
             INTMinerRoot root = NTMinerRoot.Instance;
+            IWorkProfile workProfile = root.MinerProfile;
             SpeedData data = new SpeedData {
                 KernelSelfRestartCount = 0,
-                IsAutoBoot = root.MinerProfile.IsAutoBoot,
-                IsAutoStart = root.MinerProfile.IsAutoStart,
-                AutoStartDelaySeconds = root.MinerProfile.AutoStartDelaySeconds,
+                IsAutoBoot = workProfile.IsAutoBoot,
+                IsAutoStart = workProfile.IsAutoStart,
+                AutoStartDelaySeconds = workProfile.AutoStartDelaySeconds,
                 Version = MainAssemblyInfo.CurrentVersion.ToString(4),
                 BootOn = root.CreatedOn,
                 MineStartedOn = null,
                 IsMining = root.IsMining,
                 MineWorkId = Guid.Empty,
                 MineWorkName = string.Empty,
-                MinerName = root.MinerProfile.MinerName,
+                MinerName = workProfile.MinerName,
                 GpuInfo = root.GpuSetInfo,
                 ClientId = VirtualRoot.Id,
                 MainCoinCode = string.Empty,
@@ -68,22 +70,22 @@ namespace NTMiner {
                 OSVirtualMemoryMb = NTMinerRoot.OSVirtualMemoryMb,
                 KernelCommandLine = NTMinerRoot.UserKernelCommandLine,
                 DiskSpace = NTMinerRoot.DiskSpace,
-                IsAutoRestartKernel = root.MinerProfile.IsAutoRestartKernel,
-                AutoRestartKernelTimes = root.MinerProfile.AutoRestartKernelTimes,
-                IsNoShareRestartKernel = root.MinerProfile.IsNoShareRestartKernel,
-                NoShareRestartKernelMinutes = root.MinerProfile.NoShareRestartKernelMinutes,
-                IsNoShareRestartComputer = root.MinerProfile.IsNoShareRestartComputer,
-                NoShareRestartComputerMinutes = root.MinerProfile.NoShareRestartComputerMinutes,
-                IsPeriodicRestartComputer = root.MinerProfile.IsPeriodicRestartComputer,
-                PeriodicRestartComputerHours = root.MinerProfile.PeriodicRestartComputerHours,
-                IsPeriodicRestartKernel = root.MinerProfile.IsPeriodicRestartKernel,
-                PeriodicRestartKernelHours = root.MinerProfile.PeriodicRestartKernelHours,
-                IsAutoStartByCpu = root.MinerProfile.IsAutoStartByCpu,
-                IsAutoStopByCpu = root.MinerProfile.IsAutoStopByCpu,
-                CpuGETemperatureSeconds = root.MinerProfile.CpuGETemperatureSeconds,
-                CpuLETemperatureSeconds = root.MinerProfile.CpuLETemperatureSeconds,
-                CpuStartTemperature = root.MinerProfile.CpuStartTemperature,
-                CpuStopTemperature = root.MinerProfile.CpuStopTemperature,
+                IsAutoRestartKernel = workProfile.IsAutoRestartKernel,
+                AutoRestartKernelTimes = workProfile.AutoRestartKernelTimes,
+                IsNoShareRestartKernel = workProfile.IsNoShareRestartKernel,
+                NoShareRestartKernelMinutes = workProfile.NoShareRestartKernelMinutes,
+                IsNoShareRestartComputer = workProfile.IsNoShareRestartComputer,
+                NoShareRestartComputerMinutes = workProfile.NoShareRestartComputerMinutes,
+                IsPeriodicRestartComputer = workProfile.IsPeriodicRestartComputer,
+                PeriodicRestartComputerHours = workProfile.PeriodicRestartComputerHours,
+                IsPeriodicRestartKernel = workProfile.IsPeriodicRestartKernel,
+                PeriodicRestartKernelHours = workProfile.PeriodicRestartKernelHours,
+                IsAutoStartByCpu = workProfile.IsAutoStartByCpu,
+                IsAutoStopByCpu = workProfile.IsAutoStopByCpu,
+                CpuGETemperatureSeconds = workProfile.CpuGETemperatureSeconds,
+                CpuLETemperatureSeconds = workProfile.CpuLETemperatureSeconds,
+                CpuStartTemperature = workProfile.CpuStartTemperature,
+                CpuStopTemperature = workProfile.CpuStopTemperature,
                 MainCoinPoolDelay = string.Empty,
                 DualCoinPoolDelay = string.Empty,
                 MinerIp = string.Empty,
@@ -94,14 +96,14 @@ namespace NTMiner {
                 CpuTemperature = (int)Windows.Cpu.Instance.GetTemperature(),
                 GpuTable = root.GpusSpeed.Where(a => a.Gpu.Index != NTMinerRoot.GpuAllId).Select(a => a.ToGpuSpeedData()).ToArray()
             };
-            if (root.MinerProfile.MineWork != null) {
-                data.MineWorkId = root.MinerProfile.MineWork.GetId();
-                data.MineWorkName = root.MinerProfile.MineWork.Name;
+            if (workProfile.MineWork != null) {
+                data.MineWorkId = workProfile.MineWork.GetId();
+                data.MineWorkName = workProfile.MineWork.Name;
             }
             #region 当前选中的币种是什么
-            if (root.CoinSet.TryGetCoin(root.MinerProfile.CoinId, out ICoin mainCoin)) {
+            if (root.CoinSet.TryGetCoin(workProfile.CoinId, out ICoin mainCoin)) {
                 data.MainCoinCode = mainCoin.Code;
-                ICoinProfile coinProfile = root.MinerProfile.GetCoinProfile(mainCoin.GetId());
+                ICoinProfile coinProfile = workProfile.GetCoinProfile(mainCoin.GetId());
                 data.MainCoinWallet = coinProfile.Wallet;
                 if (root.PoolSet.TryGetPool(coinProfile.PoolId, out IPool mainCoinPool)) {
                     data.MainCoinPool = mainCoinPool.Server;
@@ -109,7 +111,7 @@ namespace NTMiner {
                         data.MainCoinPoolDelay = root.PoolSet.GetPoolDelayText(mainCoinPool.GetId(), isDual: false);
                     }
                     if (mainCoinPool.IsUserMode) {
-                        IPoolProfile mainCoinPoolProfile = root.MinerProfile.GetPoolProfile(coinProfile.PoolId);
+                        IPoolProfile mainCoinPoolProfile = workProfile.GetPoolProfile(coinProfile.PoolId);
                         data.MainCoinWallet = mainCoinPoolProfile.UserName;
                     }
                 }
@@ -124,12 +126,12 @@ namespace NTMiner {
                             data.IsGotOneIncorrectGpuShare = !string.IsNullOrEmpty(kernelOutput.GpuGotOneIncorrectShare);
                             data.IsRejectOneGpuShare = !string.IsNullOrEmpty(kernelOutput.RejectOneShare);
                         }
-                        ICoinKernelProfile coinKernelProfile = root.MinerProfile.GetCoinKernelProfile(coinProfile.CoinKernelId);
+                        ICoinKernelProfile coinKernelProfile = workProfile.GetCoinKernelProfile(coinProfile.CoinKernelId);
                         data.IsDualCoinEnabled = coinKernelProfile.IsDualCoinEnabled;
                         if (coinKernelProfile.IsDualCoinEnabled) {
                             if (root.CoinSet.TryGetCoin(coinKernelProfile.DualCoinId, out ICoin dualCoin)) {
                                 data.DualCoinCode = dualCoin.Code;
-                                ICoinProfile dualCoinProfile = root.MinerProfile.GetCoinProfile(dualCoin.GetId());
+                                ICoinProfile dualCoinProfile = workProfile.GetCoinProfile(dualCoin.GetId());
                                 data.DualCoinWallet = dualCoinProfile.DualCoinWallet;
                                 if (root.PoolSet.TryGetPool(dualCoinProfile.DualCoinPoolId, out IPool dualCoinPool)) {
                                     data.DualCoinPool = dualCoinPool.Server;
@@ -137,7 +139,7 @@ namespace NTMiner {
                                         data.DualCoinPoolDelay = root.PoolSet.GetPoolDelayText(dualCoinPool.GetId(), isDual: true);
                                     }
                                     if (dualCoinPool.IsUserMode) {
-                                        IPoolProfile dualCoinPoolProfile = root.MinerProfile.GetPoolProfile(dualCoinProfile.DualCoinPoolId);
+                                        IPoolProfile dualCoinPoolProfile = workProfile.GetPoolProfile(dualCoinProfile.DualCoinPoolId);
                                         data.DualCoinWallet = dualCoinPoolProfile.UserName;
                                     }
                                 }
