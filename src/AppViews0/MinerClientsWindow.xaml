@@ -1746,12 +1746,7 @@
                         </DataGridTemplateColumn.Header>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Path
-							        Width="16"
-							        Height="16"
-							        Data="{Binding AutoStartDelaySeconds,Converter={StaticResource BoolToStreamGeometryConverter}}"
-							        Fill="{StaticResource LableColor}"
-							        Stretch="Fill" />
+                                <TextBlock Text="{Binding AutoStartDelaySeconds}"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
@@ -1814,12 +1809,7 @@
                         </DataGridTemplateColumn.Header>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Path
-							        Width="16"
-							        Height="16"
-							        Data="{Binding AutoRestartKernelTimes,Converter={StaticResource BoolToStreamGeometryConverter}}"
-							        Fill="{StaticResource LableColor}"
-							        Stretch="Fill" />
+                                <TextBlock Text="{Binding AutoRestartKernelTimes}"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
@@ -1882,12 +1872,7 @@
                         </DataGridTemplateColumn.Header>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Path
-							        Width="16"
-							        Height="16"
-							        Data="{Binding NoShareRestartKernelMinutes,Converter={StaticResource BoolToStreamGeometryConverter}}"
-							        Fill="{StaticResource LableColor}"
-							        Stretch="Fill" />
+                                <TextBlock Text="{Binding NoShareRestartKernelMinutes}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
