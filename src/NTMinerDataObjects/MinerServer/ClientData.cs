@@ -28,6 +28,7 @@ namespace NTMiner.MinerServer {
                 Id = data.Id,
                 IsAutoBoot = false,
                 IsAutoStart = false,
+                AutoStartDelaySeconds = 15,
                 IsAutoRestartKernel = false,
                 IsNoShareRestartKernel = false,
                 NoShareRestartKernelMinutes = 0,
@@ -80,6 +81,7 @@ namespace NTMiner.MinerServer {
                 ClientId = speedData.ClientId,
                 IsAutoBoot = speedData.IsAutoBoot,
                 IsAutoStart = speedData.IsAutoStart,
+                AutoStartDelaySeconds = speedData.AutoStartDelaySeconds,
                 IsAutoRestartKernel = speedData.IsAutoRestartKernel,
                 IsNoShareRestartKernel = speedData.IsNoShareRestartKernel,
                 NoShareRestartKernelMinutes = speedData.NoShareRestartKernelMinutes,
@@ -180,6 +182,7 @@ namespace NTMiner.MinerServer {
             this.ClientId = speedData.ClientId;
             this.IsAutoBoot = speedData.IsAutoBoot;
             this.IsAutoStart = speedData.IsAutoStart;
+            this.AutoStartDelaySeconds = speedData.AutoStartDelaySeconds;
             this.IsAutoRestartKernel = speedData.IsAutoRestartKernel;
             this.IsNoShareRestartKernel = speedData.IsNoShareRestartKernel;
             this.NoShareRestartKernelMinutes = speedData.NoShareRestartKernelMinutes;
@@ -326,6 +329,7 @@ namespace NTMiner.MinerServer {
         public Guid ClientId { get; set; }
         public bool IsAutoBoot { get; set; }
         public bool IsAutoStart { get; set; }
+        public int AutoStartDelaySeconds { get; set; }
         public bool IsAutoRestartKernel { get; set; }
         public bool IsNoShareRestartKernel { get; set; }
         public bool IsNoShareRestartComputer { get; set; }

@@ -38,6 +38,7 @@ namespace NTMiner {
                 KernelSelfRestartCount = 0,
                 IsAutoBoot = root.MinerProfile.IsAutoBoot,
                 IsAutoStart = root.MinerProfile.IsAutoStart,
+                AutoStartDelaySeconds = root.MinerProfile.AutoStartDelaySeconds,
                 Version = MainAssemblyInfo.CurrentVersion.ToString(4),
                 BootOn = root.CreatedOn,
                 MineStartedOn = null,
