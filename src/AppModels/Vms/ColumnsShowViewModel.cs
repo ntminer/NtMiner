@@ -694,7 +694,7 @@ namespace NTMiner.Vms {
             }
         }
 
-        public const string NO_SHARE_RESTART_KERNEL_MINUTES = "周期（分钟）";
+        public const string NO_SHARE_RESTART_KERNEL_MINUTES = "无份额重启内核分钟";
         [Description(NO_SHARE_RESTART_KERNEL_MINUTES)]
         public bool NoShareRestartKernelMinutes {
             get => _noShareRestartKernelMinutes;
@@ -718,7 +718,7 @@ namespace NTMiner.Vms {
             }
         }
 
-        public const string NO_SHARE_RESTART_COMPUTER_MINUTES = "周期（分钟）";
+        public const string NO_SHARE_RESTART_COMPUTER_MINUTES = "无份额重启电脑分钟";
         [Description(NO_SHARE_RESTART_COMPUTER_MINUTES)]
         public bool NoShareRestartComputerMinutes {
             get { return _noShareRestartComputerMinutes; }
