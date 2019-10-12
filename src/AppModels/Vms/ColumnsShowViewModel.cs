@@ -66,6 +66,7 @@ namespace NTMiner.Vms {
         private bool _incomeDualCoinPerDayText;
         private bool _isAutoBoot;
         private bool _isAutoStart;
+        private bool _autoStartDelaySeconds;
         private bool _oSName;
         private bool _oSVirtualMemoryGbText;
         private bool _gpuType;
@@ -183,6 +184,7 @@ namespace NTMiner.Vms {
             _incomeDualCoinPerDayText = data.IncomeDualCoinPerDayText;
             _isAutoBoot = data.IsAutoBoot;
             _isAutoStart = data.IsAutoStart;
+            _autoStartDelaySeconds = data.AutoStartDelaySeconds;
             _oSName = data.OSName;
             _oSVirtualMemoryGbText = data.OSVirtualMemoryGbText;
             _gpuType = data.GpuType;
@@ -622,6 +624,18 @@ namespace NTMiner.Vms {
                 if (_isAutoStart != value) {
                     _isAutoStart = value;
                     OnColumnItemChanged(nameof(IsAutoStart));
+                }
+            }
+        }
+
+        public const string AUTO_START_DELAY_SECONDS = "延时秒数";
+        [Description(AUTO_START_DELAY_SECONDS)]
+        public bool AutoStartDelaySeconds {
+            get => _autoStartDelaySeconds;
+            set {
+                if (_autoStartDelaySeconds != value) {
+                    _autoStartDelaySeconds = value;
+                    OnColumnItemChanged(nameof(AutoStartDelaySeconds));
                 }
             }
         }

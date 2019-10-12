@@ -31,6 +31,7 @@ namespace NTMiner.MinerServer {
         bool IncomeDualCoinPerDayText { get; }
         bool IsAutoBoot { get; }
         bool IsAutoStart { get; }
+        bool AutoStartDelaySeconds { get; }
         bool OSName { get; }
         bool OSVirtualMemoryGbText { get; }
         bool DiskSpace { get; }

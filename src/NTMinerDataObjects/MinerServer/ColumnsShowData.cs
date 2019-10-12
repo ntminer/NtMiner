@@ -22,6 +22,7 @@ namespace NTMiner.MinerServer {
             IsAutoBoot = true,
             IsAutoRestartKernel = true,
             IsAutoStart = true,
+            AutoStartDelaySeconds = true,
             IsNoShareRestartKernel = true,
             IsNoShareRestartComputer = false,
             IsPeriodicRestartComputer = true,
@@ -113,6 +114,8 @@ namespace NTMiner.MinerServer {
         public bool IsAutoBoot { get; set; }
 
         public bool IsAutoStart { get; set; }
+
+        public bool AutoStartDelaySeconds { get; set; }
 
         public bool OSName { get; set; }
 

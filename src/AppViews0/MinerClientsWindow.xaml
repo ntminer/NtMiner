@@ -1721,6 +1721,40 @@
                             </DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
+                    <!--AutoStartDelaySeconds-->
+                    <DataGridTemplateColumn 
+						Visibility="{Binding Data.ColumnsShow.AutoStartDelaySeconds,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+						IsReadOnly="True">
+                        <DataGridTemplateColumn.Header>
+                            <WrapPanel>
+                                <TextBlock Text="{x:Static vm:ColumnsShowViewModel.AUTO_START_DELAY_SECONDS}"></TextBlock>
+                                <controls:KbButton
+									ToolTip="不展示"
+									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+									CommandParameter="AutoStartDelaySeconds"
+									Background="Transparent">
+                                    <WrapPanel>
+                                        <Path
+											Width="14"
+											Height="8"
+											Data="{StaticResource Icon_Hide}"
+											Fill="#FF5A5A5A"
+											Stretch="Fill" />
+                                    </WrapPanel>
+                                </controls:KbButton>
+                            </WrapPanel>
+                        </DataGridTemplateColumn.Header>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Path
+							        Width="16"
+							        Height="16"
+							        Data="{Binding AutoStartDelaySeconds,Converter={StaticResource BoolToStreamGeometryConverter}}"
+							        Fill="{StaticResource LableColor}"
+							        Stretch="Fill" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                     <!--IsAutoRestartKernel-->
                     <DataGridTemplateColumn 
 						Visibility="{Binding Data.ColumnsShow.IsAutoRestartKernel,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
