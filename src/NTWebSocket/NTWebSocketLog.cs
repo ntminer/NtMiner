@@ -8,7 +8,7 @@ namespace NTWebSocket {
         Error
     }
 
-    public class NTWebSocketLog {
+    public static class NTWebSocketLog {
         public static LogLevel Level = LogLevel.Info;
 
         public static Action<LogLevel, string, Exception> LogAction = (level, message, ex) => {

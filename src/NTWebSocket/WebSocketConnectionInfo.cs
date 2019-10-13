@@ -36,7 +36,7 @@ namespace NTWebSocket {
         }
 
 
-        WebSocketConnectionInfo() {
+        private WebSocketConnectionInfo() {
             Cookies = new Dictionary<string, string>();
             Id = Guid.NewGuid();
         }

@@ -2,7 +2,7 @@ using System;
 using NTWebSocket.Handlers;
 
 namespace NTWebSocket {
-    public class HandlerFactory {
+    public static class HandlerFactory {
         public static IHandler BuildHandler(
             WebSocketHttpRequest request, 
             Action<string> onMessage, 

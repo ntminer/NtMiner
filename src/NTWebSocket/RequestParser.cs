@@ -2,7 +2,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 
 namespace NTWebSocket {
-    public class RequestParser {
+    public static class RequestParser {
         const string pattern = @"^(?<method>[^\s]+)\s(?<path>[^\s]+)\sHTTP\/1\.1\r\n" + // request line
                                @"((?<field_name>[^:\r\n]+):(?([^\r\n])\s)*(?<field_value>[^\r\n]*)\r\n)+" + //headers
                                @"\r\n" + //newline
