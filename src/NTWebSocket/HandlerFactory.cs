@@ -27,7 +27,7 @@ namespace NTWebSocket {
             throw new WebSocketException(WebSocketStatusCodes.UnsupportedDataType);
         }
 
-        public static string GetVersion(WebSocketHttpRequest request) {
+        private static string GetVersion(WebSocketHttpRequest request) {
             string version;
             if (request.Headers.TryGetValue("Sec-WebSocket-Version", out version))
                 return version;
