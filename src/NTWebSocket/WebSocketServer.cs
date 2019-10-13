@@ -1,4 +1,3 @@
-using NTWebSocket.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -24,10 +23,8 @@ namespace NTWebSocket {
             var socket = new Socket(_locationIP.AddressFamily, SocketType.Stream, ProtocolType.IP);
 
             if (SupportDualStack) {
-                if (!NTWebSocketRuntime.IsRunningOnMono() && NTWebSocketRuntime.IsRunningOnWindows()) {
-                    socket.SetSocketOption(SocketOptionLevel.IPv6, SocketOptionName.IPv6Only, false);
-                    socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, 1);
-                }
+                socket.SetSocketOption(SocketOptionLevel.IPv6, SocketOptionName.IPv6Only, false);
+                socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, 1);
             }
 
             ListenerSocket = new SocketWrapper(socket);

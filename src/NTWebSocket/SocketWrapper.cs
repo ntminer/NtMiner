@@ -1,4 +1,3 @@
-using NTWebSocket.Helpers;
 using System;
 using System.IO;
 using System.Net;
@@ -54,9 +53,7 @@ namespace NTWebSocket {
 
             // The tcp keepalive default values on most systems
             // are huge (~7200s). Set them to something more reasonable.
-            if (NTWebSocketRuntime.IsRunningOnWindows()) {
-                SetKeepAlive(socket, KeepAliveInterval, RetryInterval);
-            }
+            SetKeepAlive(socket, KeepAliveInterval, RetryInterval);
         }
 
         public Task Authenticate(X509Certificate2 certificate, SslProtocols enabledSslProtocols, Action callback, Action<Exception> error) {
