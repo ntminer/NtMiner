@@ -23,13 +23,13 @@ namespace NTWebSocket.Tests {
 "GET /demo HTTP/1.1\r\n" +
 "Host: example.com\r\n" +
 "Connection: Upgrade\r\n" +
-"Sec-WebSocket-Key2: 12998 5 Y3 1  .P00\r\n" +
+"Sec-WebSocket-Key2: "+ Key2 + "\r\n" +
 "Sec-WebSocket-Protocol: sample\r\n" +
 "Upgrade: WebSocket\r\n" +
-"Sec-WebSocket-Key1: 4 @1  46546xW%0l 1 5\r\n" +
+"Sec-WebSocket-Key1: "+ Key1 + "\r\n" +
 "Origin: http://example.com\r\n" +
 "\r\n" +
-"^n:ds[4U";
+Challenge;
 
         private const string ExampleResponse =
 "HTTP/1.1 101 WebSocket Protocol Handshake\r\n" +
@@ -39,7 +39,7 @@ namespace NTWebSocket.Tests {
 "Sec-WebSocket-Location: ws://example.com/demo\r\n" +
 "Sec-WebSocket-Protocol: sample\r\n" +
 "\r\n" +
-"8jKS'y:G*Co,Wxa-";
+ExpectedAnswer;
 
         const string Key1 = "4 @1  46546xW%0l 1 5";
         const string Key2 = "12998 5 Y3 1  .P00";
