@@ -5,6 +5,9 @@ using System.Security.Cryptography;
 using System.Text;
 
 namespace NTWebSocket.Handlers {
+    /// <summary>
+    /// 注意这个依赖MD5，有些windows可能禁用了MD5
+    /// </summary>
     public static class Draft76Handler {
         private const byte End = 255;
         private const byte Start = 0;
@@ -19,15 +22,17 @@ namespace NTWebSocket.Handlers {
 
         private static void ReceiveData(Action<string> onMessage, List<byte> data) {
             while (data.Count > 0) {
-                if (data[0] != Start)
+                if (data[0] != Start) {
                     throw new WebSocketException(WebSocketStatusCodes.InvalidFramePayloadData);
+                }
 
                 var endIndex = data.IndexOf(End);
-                if (endIndex < 0)
+                if (endIndex < 0) {
                     return;
-
-                if (endIndex > MaxSize)
+                }
+                if (endIndex > MaxSize) {
                     throw new WebSocketException(WebSocketStatusCodes.MessageTooBig);
+                }
 
                 var bytes = data.Skip(1).Take(endIndex - 1).ToArray();
 
@@ -59,8 +64,9 @@ namespace NTWebSocket.Handlers {
             builder.AppendFormat("Sec-WebSocket-Origin: {0}\r\n", request["Origin"]);
             builder.AppendFormat("Sec-WebSocket-Location: {0}://{1}{2}\r\n", request.Scheme, request["Host"], request.Path);
 
-            if (subProtocol != null)
+            if (subProtocol != null) {
                 builder.AppendFormat("Sec-WebSocket-Protocol: {0}\r\n", subProtocol);
+            }
 
             builder.Append("\r\n");
 
@@ -87,6 +93,7 @@ namespace NTWebSocket.Handlers {
             Array.Copy(result2Bytes, 0, rawAnswer, 4, 4);
             Array.Copy(challenge.Array, challenge.Offset, rawAnswer, 8, 8);
 
+            // 注意并非所有的windows设置都默认支持MD5
             return MD5.Create().ComputeHash(rawAnswer);
         }
 
@@ -97,8 +104,9 @@ namespace NTWebSocket.Handlers {
             var value = (int)(long.Parse(digits) / spaces);
 
             byte[] result = BitConverter.GetBytes(value);
-            if (BitConverter.IsLittleEndian)
+            if (BitConverter.IsLittleEndian) {
                 Array.Reverse(result);
+            }
             return result;
         }
     }

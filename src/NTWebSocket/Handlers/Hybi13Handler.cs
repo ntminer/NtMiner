@@ -65,14 +65,16 @@ namespace NTWebSocket.Handlers {
                 int payloadLength;
 
                 if (length == 127) {
-                    if (data.Count < index + 8)
+                    if (data.Count < index + 8) {
                         return; //Not complete
+                    }
                     payloadLength = data.Skip(index).Take(8).ToArray().ToLittleEndianInt();
                     index += 8;
                 }
                 else if (length == 126) {
-                    if (data.Count < index + 2)
+                    if (data.Count < index + 2) {
                         return; //Not complete
+                    }
                     payloadLength = data.Skip(index).Take(2).ToArray().ToLittleEndianInt();
                     index += 2;
                 }
@@ -80,26 +82,30 @@ namespace NTWebSocket.Handlers {
                     payloadLength = length;
                 }
 
-                if (data.Count < index + 4)
+                if (data.Count < index + 4) {
                     return; //Not complete
+                }
 
                 var maskBytes = data.Skip(index).Take(4).ToArray();
 
                 index += 4;
 
 
-                if (data.Count < index + payloadLength)
+                if (data.Count < index + payloadLength) {
                     return; //Not complete
+                }
 
                 byte[] payloadData = new byte[payloadLength];
-                for (int i = 0; i < payloadLength; i++)
+                for (int i = 0; i < payloadLength; i++) {
                     payloadData[i] = (byte)(data[index + i] ^ maskBytes[i % 4]);
+                }
 
                 readState.Data.AddRange(payloadData);
                 data.RemoveRange(0, index + payloadLength);
 
-                if (frameType != FrameType.Continuation)
+                if (frameType != FrameType.Continuation) {
                     readState.FrameType = frameType;
+                }
 
                 if (isFinal && readState.FrameType.HasValue) {
                     var stateData = readState.Data.ToArray();
@@ -114,17 +120,20 @@ namespace NTWebSocket.Handlers {
         private static void ProcessFrame(FrameType frameType, byte[] data, Action<string> onMessage, Action onClose, Action<byte[]> onBinary, Action<byte[]> onPing, Action<byte[]> onPong) {
             switch (frameType) {
                 case FrameType.Close:
-                    if (data.Length == 1 || data.Length > 125)
+                    if (data.Length == 1 || data.Length > 125) {
                         throw new WebSocketException(WebSocketStatusCodes.ProtocolError);
+                    }
 
                     if (data.Length >= 2) {
                         var closeCode = (ushort)data.Take(2).ToArray().ToLittleEndianInt();
-                        if (!WebSocketStatusCodes.ValidCloseCodes.Contains(closeCode) && (closeCode < 3000 || closeCode > 4999))
+                        if (!WebSocketStatusCodes.ValidCloseCodes.Contains(closeCode) && (closeCode < 3000 || closeCode > 4999)) {
                             throw new WebSocketException(WebSocketStatusCodes.ProtocolError);
+                        }
                     }
 
-                    if (data.Length > 2)
+                    if (data.Length > 2) {
                         ReadUTF8PayloadData(data.Skip(2).ToArray());
+                    }
 
                     onClose();
                     break;
@@ -155,8 +164,9 @@ namespace NTWebSocket.Handlers {
             builder.Append("HTTP/1.1 101 Switching Protocols\r\n");
             builder.Append("Upgrade: websocket\r\n");
             builder.Append("Connection: Upgrade\r\n");
-            if (subProtocol != null)
+            if (subProtocol != null) {
                 builder.AppendFormat("Sec-WebSocket-Protocol: {0}\r\n", subProtocol);
+            }
 
             var responseKey = CreateResponseKey(request["Sec-WebSocket-Key"]);
             builder.AppendFormat("Sec-WebSocket-Accept: {0}\r\n", responseKey);
