@@ -5,18 +5,15 @@ using System.Collections.Generic;
 
 namespace NTMiner.Core.Impl {
     public class WorkerEventSet : IWorkerEventSet {
-        private readonly INTMinerRoot _root;
-
         private int _lastWorkerEventId;
 
-        public WorkerEventSet(INTMinerRoot root) {
-            _root = root;
+        public WorkerEventSet() {
             VirtualRoot.EventPath<WorkerEventHappenedEvent>("将矿机事件记录到磁盘", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
                     using (LiteDatabase db = new LiteDatabase($"filename={SpecialPath.WorkerEventDbFileFullName};journal=false")) {
                         var col = db.GetCollection<WorkerEventData>();
-                        _lastWorkerEventId = col.Insert(WorkerEventData.Create(message.Source));
+                        _lastWorkerEventId = col.Insert(WorkerEventData.Create(message.Source)).AsInt32;
                     }
                 });
         }
@@ -40,7 +37,7 @@ namespace NTMiner.Core.Impl {
                 if (!_isInited) {
                     using (LiteDatabase db = new LiteDatabase($"filename={SpecialPath.WorkerEventDbFileFullName};journal=false")) {
                         var col = db.GetCollection<WorkerEventData>();
-                        _lastWorkerEventId = col.Max(a => a.Id);
+                        _lastWorkerEventId = col.Max(a => a.Id).AsInt32;
                     }
                     _isInited = true;
                 }
@@ -55,14 +52,14 @@ namespace NTMiner.Core.Impl {
                     if (!string.IsNullOrEmpty(keyword)) {
                         return col.Find(
                             Query.And(
-                                Query.GT(nameof(WorkerEventData.Id), _lastWorkerEventId - VirtualRoot.WorkerEventSetSliding),
+                                Query.GTE("_id", _lastWorkerEventId - VirtualRoot.WorkerEventSetSliding),
                                 Query.EQ(nameof(WorkerEventData.EventTypeId), typeId),
                                 Query.Contains(nameof(WorkerEventData.Content), keyword))); ;
                     }
                     else {
                         return col.Find(
                             Query.And(
-                                Query.GT(nameof(WorkerEventData.Id), _lastWorkerEventId - VirtualRoot.WorkerEventSetSliding),
+                                Query.GTE("_id", _lastWorkerEventId - VirtualRoot.WorkerEventSetSliding),
                                 Query.EQ(nameof(WorkerEventData.EventTypeId), typeId)));
                     }
                 }
@@ -70,11 +67,11 @@ namespace NTMiner.Core.Impl {
                     if (!string.IsNullOrEmpty(keyword)) {
                         return col.Find(
                             Query.And(
-                                Query.GT(nameof(WorkerEventData.Id), _lastWorkerEventId - VirtualRoot.WorkerEventSetSliding),
+                                Query.GTE("_id", _lastWorkerEventId - VirtualRoot.WorkerEventSetSliding),
                                 Query.Contains(nameof(WorkerEventData.Content), keyword)));
                     }
                     else {
-                        return col.Find(Query.GT(nameof(WorkerEventData.Id), _lastWorkerEventId - VirtualRoot.WorkerEventSetSliding));
+                        return col.Find(Query.GTE("_id", _lastWorkerEventId - VirtualRoot.WorkerEventSetSliding));
                     }
                 }
             }
