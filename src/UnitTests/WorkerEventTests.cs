@@ -26,6 +26,14 @@ namespace UnitTests {
             Assert.IsTrue(workerEvnets.Count == 1);
             Assert.AreEqual(data.Guid, workerEvnets[0].GetId());
             Assert.AreEqual(NTMinerRoot.Instance.WorkerEventSet.LastWorkerEventId, workerEvnets[0].Id);
+            workerEvnets = NTMinerRoot.Instance.WorkerEventSet.GetEvents(data.EventTypeId, string.Empty).ToList();
+            Assert.IsTrue(workerEvnets.Count == 1);
+            workerEvnets = NTMinerRoot.Instance.WorkerEventSet.GetEvents(Guid.Empty, "test").ToList();
+            Assert.IsTrue(workerEvnets.Count == 1);
+            workerEvnets = NTMinerRoot.Instance.WorkerEventSet.GetEvents(data.EventTypeId, "test").ToList();
+            Assert.IsTrue(workerEvnets.Count == 1);
+            workerEvnets = NTMinerRoot.Instance.WorkerEventSet.GetEvents(Guid.Empty, "aaaaaa").ToList();
+            Assert.IsTrue(workerEvnets.Count == 0);
         }
     }
 }
