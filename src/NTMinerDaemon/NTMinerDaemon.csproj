@@ -107,11 +107,14 @@
     <Compile Include="..\NTMinerlib\User\IUserSet.cs">
       <Link>User\IUserSet.cs</Link>
     </Compile>
-    <Compile Include="..\NTMinerlib\Consts.cs">
-      <Link>Consts.cs</Link>
+    <Compile Include="..\NTMinerlib\VirtualRoot.partials.Bus.cs">
+      <Link>VirtualRoot.partials.Bus.cs</Link>
     </Compile>
-    <Compile Include="..\NTMinerlib\VirtualRoot.partials.cs">
-      <Link>VirtualRoot.partials.cs</Link>
+    <Compile Include="..\NTMinerlib\VirtualRoot.partials.Common.cs">
+      <Link>VirtualRoot.partials.Common.cs</Link>
+    </Compile>
+    <Compile Include="..\NTMinerlib\VirtualRoot.partials.Consts.cs">
+      <Link>VirtualRoot.partials.Consts.cs</Link>
     </Compile>
     <Compile Include="..\NTMinerlib\Windows\Cmd.cs">
       <Link>Windows\Cmd.cs</Link>

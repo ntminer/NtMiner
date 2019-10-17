@@ -1,5 +1,5 @@
 ﻿namespace NTMiner {
-    public static class Consts {
+    public partial class VirtualRoot {
         public const string HomeDirParameterName = "{家目录}";
         public const string TempDirParameterName = "{临时目录}";
         public const int MinerClientPort = 3336;

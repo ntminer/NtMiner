@@ -166,11 +166,11 @@ namespace NTMiner.Vms {
         public string GroupNames {
             get {
                 return string.Join("、", new string[] {
-                    Consts.TotalSpeedGroupName, Consts.TotalSpeedUnitGroupName,
-                    Consts.TotalShareGroupName, Consts.AcceptShareGroupName,
-                    Consts.RejectShareGroupName, Consts.RejectPercentGroupName,
-                    Consts.GpuIndexGroupName, Consts.GpuSpeedGroupName,
-                    Consts.GpuSpeedUnitGroupName, Consts.PoolDelayGroupName
+                    VirtualRoot.TotalSpeedGroupName, VirtualRoot.TotalSpeedUnitGroupName,
+                    VirtualRoot.TotalShareGroupName, VirtualRoot.AcceptShareGroupName,
+                    VirtualRoot.RejectShareGroupName, VirtualRoot.RejectPercentGroupName,
+                    VirtualRoot.GpuIndexGroupName, VirtualRoot.GpuSpeedGroupName,
+                    VirtualRoot.GpuSpeedUnitGroupName, VirtualRoot.PoolDelayGroupName
                 });
             }
         }

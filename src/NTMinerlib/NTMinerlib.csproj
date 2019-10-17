@@ -74,8 +74,9 @@
     <Compile Include="VirtualRoot.cs" />
     <Compile Include="User\Messages.cs" />
     <Compile Include="ValidationException.cs" />
-    <Compile Include="Consts.cs" />
-    <Compile Include="VirtualRoot.partials.cs" />
+    <Compile Include="VirtualRoot.partials.Common.cs" />
+    <Compile Include="VirtualRoot.partials.Consts.cs" />
+    <Compile Include="VirtualRoot.partials.Bus.cs" />
     <Compile Include="Windows\ConsoleHandler.cs" />
     <Compile Include="Windows\WinRegistry.cs" />
     <Compile Include="Windows\Role.cs" />

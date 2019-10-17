@@ -13,7 +13,7 @@ namespace NTMiner {
     public static partial class VirtualRoot {
         public static readonly string AppFileFullName = Process.GetCurrentProcess().MainModule.FileName;
         public static Guid Id { get; private set; }
-
+        
         #region IsMinerClient
         private static bool _isMinerClient;
         private static bool _isMinerClientDetected = false;

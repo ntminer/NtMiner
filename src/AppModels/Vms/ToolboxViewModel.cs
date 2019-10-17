@@ -71,7 +71,7 @@ namespace NTMiner.Vms {
 
         public SysDicItemViewModel NvidiaDriverWin10 {
             get {
-                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(Consts.ThisSystemSysDicCode, "NvidiaDriverWin10", out ISysDicItem item)) {
+                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(VirtualRoot.ThisSystemSysDicCode, "NvidiaDriverWin10", out ISysDicItem item)) {
                     if (AppContext.Instance.SysDicItemVms.TryGetValue(item.GetId(), out SysDicItemViewModel vm)) {
                         return vm;
                     }
@@ -82,7 +82,7 @@ namespace NTMiner.Vms {
 
         public SysDicItemViewModel NvidiaDriverWin7 {
             get {
-                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(Consts.ThisSystemSysDicCode, "NvidiaDriverWin7", out ISysDicItem item)) {
+                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(VirtualRoot.ThisSystemSysDicCode, "NvidiaDriverWin7", out ISysDicItem item)) {
                     if (AppContext.Instance.SysDicItemVms.TryGetValue(item.GetId(), out SysDicItemViewModel vm)) {
                         return vm;
                     }
@@ -93,7 +93,7 @@ namespace NTMiner.Vms {
 
         public SysDicItemViewModel NvidiaDriverMore {
             get {
-                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(Consts.ThisSystemSysDicCode, "NvidiaDriverMore", out ISysDicItem item)) {
+                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(VirtualRoot.ThisSystemSysDicCode, "NvidiaDriverMore", out ISysDicItem item)) {
                     if (AppContext.Instance.SysDicItemVms.TryGetValue(item.GetId(), out SysDicItemViewModel vm)) {
                         return vm;
                     }
@@ -104,7 +104,7 @@ namespace NTMiner.Vms {
 
         public SysDicItemViewModel AmdDriverMore {
             get {
-                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(Consts.ThisSystemSysDicCode, "AmdDriverMore", out ISysDicItem item)) {
+                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(VirtualRoot.ThisSystemSysDicCode, "AmdDriverMore", out ISysDicItem item)) {
                     if (AppContext.Instance.SysDicItemVms.TryGetValue(item.GetId(), out SysDicItemViewModel vm)) {
                         return vm;
                     }
