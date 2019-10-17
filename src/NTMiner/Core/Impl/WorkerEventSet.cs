@@ -27,7 +27,7 @@ namespace NTMiner.Core.Impl {
                         return col.Find(
                             Query.And(
                                 Query.EQ(nameof(WorkerEventData.EventTypeId), typeId),
-                                Query.Contains(nameof(WorkerEventData.Description), keyword)));
+                                Query.Contains(nameof(WorkerEventData.Content), keyword)));
                     }
                     else {
                         return col.Find(Query.EQ(nameof(WorkerEventData.EventTypeId), typeId));
@@ -35,7 +35,7 @@ namespace NTMiner.Core.Impl {
                 }
                 else {
                     if (!string.IsNullOrEmpty(keyword)) {
-                        return col.Find(Query.Contains(nameof(WorkerEventData.Description), keyword));
+                        return col.Find(Query.Contains(nameof(WorkerEventData.Content), keyword));
                     }
                     else {
                         return col.FindAll();
