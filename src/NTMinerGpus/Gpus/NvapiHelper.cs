@@ -670,7 +670,7 @@ namespace NTMiner.Gpus {
                 NvCoolerTarget coolerIndex = NvCoolerTarget.NVAPI_COOLER_TARGET_ALL;
                 var r = NvapiNativeMethods.NvGetCoolerSettings(handle, coolerIndex, ref info);
                 if (r != NvStatus.NVAPI_OK) {
-                    if (r == NvStatus.NVAPI_NOT_SUPPORTED || r == NvStatus.NVAPI_FIRMWARE_REVISION_NOT_SUPPORTED) {
+                    if (r == NvStatus.NVAPI_NOT_SUPPORTED || r == NvStatus.NVAPI_FIRMWARE_REVISION_NOT_SUPPORTED || r == NvStatus.NVAPI_GPU_NOT_POWERED) {
                         _nvGetCoolerSettingsNotSupporteds.Add(busId);
                     }
                     Write.DevError($"{nameof(NvapiNativeMethods.NvGetCoolerSettings)} {r}");
