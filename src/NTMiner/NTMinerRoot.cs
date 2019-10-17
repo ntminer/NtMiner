@@ -154,7 +154,7 @@ namespace NTMiner {
 
         #region private methods
         private static void GetAliyunServerJson(Action<byte[]> callback) {
-            string serverJsonFileUrl = MainAssemblyInfo.MinerJsonBucket + MainAssemblyInfo.ServerJsonFileName;
+            string serverJsonFileUrl = $"{OfficialServer.MinerJsonBucket}{MainAssemblyInfo.ServerJsonFileName}";
             string fileUrl = serverJsonFileUrl + "?t=" + DateTime.Now.Ticks;
             Task.Factory.StartNew(() => {
                 try {

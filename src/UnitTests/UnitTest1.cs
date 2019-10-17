@@ -60,7 +60,9 @@ namespace UnitTests {
         [TestMethod]
         public void NaNTest() {
             Assert.AreEqual(double.NaN, double.NaN);
+#pragma warning disable CS1718 // 对同一变量进行了比较
             Assert.IsFalse(double.NaN == double.NaN);
+#pragma warning restore CS1718 // 对同一变量进行了比较
             Assert.IsTrue(double.NaN.Equals(double.NaN));
         }
 
@@ -213,20 +215,12 @@ namespace UnitTests {
             Assert.AreEqual(1, (int)1.1);
         }
 
-        private string SignatureSafeUrl(Uri uri) {
-            string url = uri.ToString();
-            if (url.Length > 28) {
-                string signature = url.Substring(url.Length - 28);
-                return url.Substring(0, url.Length - 28) + HttpUtility.UrlEncode(signature);
-            }
-            return url;
-        }
-
         [TestMethod]
         public void AliOSSUrlTest() {
-            Uri uri = new Uri("http://ntminer.oss-cn-beijing.aliyuncs.com/packages/HSPMinerAE2.1.2.zip?Expires=1554472712&OSSAccessKeyId=LTAIHNApO2ImeMxI&Signature=FVTf+nX4grLKcPRxpJd9nf3Py7I=");
+            Uri uri = new Uri($"{OfficialServer.MinerJsonBucket}packages/HSPMinerAE2.1.2.zip?Expires=1554472712&OSSAccessKeyId=LTAIHNApO2ImeMxI&Signature=FVTf+nX4grLKcPRxpJd9nf3Py7I=");
             Console.WriteLine(uri.ToString());
-            Console.WriteLine(SignatureSafeUrl(uri));
+            Console.WriteLine(OfficialServer.SignatureSafeUrl(uri));
+            Console.WriteLine(HttpUtility.UrlEncode(uri.ToString()));
         }
 
         [TestMethod]

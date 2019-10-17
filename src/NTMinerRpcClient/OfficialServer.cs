@@ -5,12 +5,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace NTMiner {
     public static partial class OfficialServer {
+        public const string MinerJsonBucket = "https://minerjson.oss-cn-beijing.aliyuncs.com/";
         public static readonly FileUrlServiceFace FileUrlService = FileUrlServiceFace.Instance;
         public static readonly OverClockDataServiceFace OverClockDataService = OverClockDataServiceFace.Instance;
         public static readonly CalcConfigServiceFace CalcConfigService = CalcConfigServiceFace.Instance;
+
+        public static string SignatureSafeUrl(Uri uri) {
+            string url = uri.ToString();
+            if (url.Length > MinerJsonBucket.Length) {
+                string signature = url.Substring(url.Length - MinerJsonBucket.Length);
+                return url.Substring(0, url.Length - MinerJsonBucket.Length) + HttpUtility.UrlEncode(signature);
+            }
+            return url;
+        }
 
         #region private methods
         private static void PostAsync<T>(string controller, string action, Dictionary<string, string> query, object param, Action<T, Exception> callback, int timeountMilliseconds = 0) where T : class {

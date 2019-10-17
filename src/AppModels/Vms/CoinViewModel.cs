@@ -393,7 +393,7 @@ namespace NTMiner.Vms {
                         File.Delete(iconFileFullName);
                     }
                 };
-                client.DownloadFileAsync(new Uri(MainAssemblyInfo.MinerJsonBucket + "coin_icons/" + this.Icon), iconFileFullName);
+                client.DownloadFileAsync(new Uri($"{OfficialServer.MinerJsonBucket}coin_icons/{this.Icon}"), iconFileFullName);
             }
         }
 
