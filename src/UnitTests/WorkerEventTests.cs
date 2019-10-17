@@ -35,5 +35,26 @@ namespace UnitTests {
             workerEvnets = NTMinerRoot.Instance.WorkerEventSet.GetEvents(Guid.Empty, "aaaaaa").ToList();
             Assert.IsTrue(workerEvnets.Count == 0);
         }
+
+        [TestMethod]
+        public void BenchmarkTest() {
+            File.Delete(SpecialPath.WorkerEventDbFileFullName);
+            Assert.IsTrue(NTMinerRoot.Instance.WorkerEventSet.LastWorkerEventId == 0);
+            int times = 2000;
+            Guid eventTypeId = Guid.NewGuid();
+            for (int i = 0; i < times; i++) {
+                var data = new WorkerEventData {
+                    Content = "this is a test",
+                    EventOn = DateTime.Now,
+                    EventTypeId = eventTypeId,
+                    Guid = Guid.NewGuid(),
+                    Id = 0
+                };
+                VirtualRoot.Happened(new WorkerEventHappenedEvent(data));
+            }
+            Assert.IsTrue(NTMinerRoot.Instance.WorkerEventSet.LastWorkerEventId == times);
+            var workerEvnets = NTMinerRoot.Instance.WorkerEventSet.GetEvents(eventTypeId, "test").ToList();
+            Assert.AreEqual(VirtualRoot.WorkerEventSetSliding, workerEvnets.Count);
+        }
     }
 }

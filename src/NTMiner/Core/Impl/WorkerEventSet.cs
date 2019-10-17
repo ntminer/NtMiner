@@ -52,14 +52,14 @@ namespace NTMiner.Core.Impl {
                     if (!string.IsNullOrEmpty(keyword)) {
                         return col.Find(
                             Query.And(
-                                Query.GTE("_id", _lastWorkerEventId - VirtualRoot.WorkerEventSetSliding),
+                                Query.GT("_id", _lastWorkerEventId - VirtualRoot.WorkerEventSetSliding),
                                 Query.EQ(nameof(WorkerEventData.EventTypeId), typeId),
                                 Query.Contains(nameof(WorkerEventData.Content), keyword))); ;
                     }
                     else {
                         return col.Find(
                             Query.And(
-                                Query.GTE("_id", _lastWorkerEventId - VirtualRoot.WorkerEventSetSliding),
+                                Query.GT("_id", _lastWorkerEventId - VirtualRoot.WorkerEventSetSliding),
                                 Query.EQ(nameof(WorkerEventData.EventTypeId), typeId)));
                     }
                 }
@@ -67,11 +67,11 @@ namespace NTMiner.Core.Impl {
                     if (!string.IsNullOrEmpty(keyword)) {
                         return col.Find(
                             Query.And(
-                                Query.GTE("_id", _lastWorkerEventId - VirtualRoot.WorkerEventSetSliding),
+                                Query.GT("_id", _lastWorkerEventId - VirtualRoot.WorkerEventSetSliding),
                                 Query.Contains(nameof(WorkerEventData.Content), keyword)));
                     }
                     else {
-                        return col.Find(Query.GTE("_id", _lastWorkerEventId - VirtualRoot.WorkerEventSetSliding));
+                        return col.Find(Query.GT("_id", _lastWorkerEventId - VirtualRoot.WorkerEventSetSliding));
                     }
                 }
             }
