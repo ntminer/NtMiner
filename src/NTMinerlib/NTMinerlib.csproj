@@ -49,9 +49,6 @@
     <Compile Include="Ip\Util.cs" />
     <Compile Include="IOut.cs" />
     <Compile Include="Messages.Timing.cs" />
-    <Compile Include="NTMinerWebClient.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Repositories\JsonReadOnlyRepository`1.cs" />
     <Compile Include="SignExtensions.cs" />
     <Compile Include="StringExtensions.cs" />

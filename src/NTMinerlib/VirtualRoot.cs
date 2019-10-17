@@ -6,6 +6,7 @@ using NTMiner.Serialization;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Net;
 using System.Reflection;
 using System.Text;
 
@@ -197,5 +198,30 @@ namespace NTMiner {
             return guid;
         }
         #endregion
+
+        public static WebClient CreateWebClient(int timeoutSeconds = 180) {
+            return new NTMinerWebClient(timeoutSeconds);
+        }
+
+        public class NTMinerWebClient : WebClient {
+            /// <summary>
+            /// 单位秒，默认60秒
+            /// </summary>
+            public int TimeoutSeconds { get; set; }
+
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="timeoutSeconds">秒</param>
+            public NTMinerWebClient(int timeoutSeconds) {
+                this.TimeoutSeconds = timeoutSeconds;
+            }
+
+            protected override WebRequest GetWebRequest(Uri address) {
+                var result = base.GetWebRequest(address);
+                result.Timeout = this.TimeoutSeconds * 1000;
+                return result;
+            }
+        }
     }
 }

@@ -150,7 +150,7 @@ namespace NTMiner.Vms {
             Logger.InfoDebugLine("下载：" + fileName);
             string saveFileFullName = Path.Combine(SpecialPath.DownloadDirFullName, App.AppType.ToString() + version);
             progressChanged?.Invoke(0);
-            using (NTMinerWebClient webClient = new NTMinerWebClient()) {
+            using (var webClient = VirtualRoot.CreateWebClient()) {
                 cancel = () => {
                     webClient.CancelAsync();
                 };
