@@ -85,7 +85,7 @@ namespace NTMiner {
                 get {
                     List<SysDicItemViewModel> list = new List<SysDicItemViewModel>();
                     SysDicViewModel sysDic;
-                    if (AppContext.Instance.SysDicVms.TryGetSysDicVm("KernelBrand", out sysDic)) {
+                    if (AppContext.Instance.SysDicVms.TryGetSysDicVm(Consts.KernelBrandSysDicCode, out sysDic)) {
                         list.AddRange(List.Where(a => a.DicId == sysDic.Id).OrderBy(a => a.SortNumber));
                     }
                     return list;
@@ -98,7 +98,7 @@ namespace NTMiner {
                         SysDicItemViewModel.PleaseSelect
                     };
                     SysDicViewModel sysDic;
-                    if (AppContext.Instance.SysDicVms.TryGetSysDicVm("KernelBrand", out sysDic)) {
+                    if (AppContext.Instance.SysDicVms.TryGetSysDicVm(Consts.KernelBrandSysDicCode, out sysDic)) {
                         list.AddRange(List.Where(a => a.DicId == sysDic.Id).OrderBy(a => a.SortNumber));
                     }
                     return list;
@@ -109,7 +109,7 @@ namespace NTMiner {
                 get {
                     List<SysDicItemViewModel> list = new List<SysDicItemViewModel>();
                     SysDicViewModel sysDic;
-                    if (AppContext.Instance.SysDicVms.TryGetSysDicVm("PoolBrand", out sysDic)) {
+                    if (AppContext.Instance.SysDicVms.TryGetSysDicVm(Consts.PoolBrandSysDicCode, out sysDic)) {
                         list.AddRange(List.Where(a => a.DicId == sysDic.Id).OrderBy(a => a.SortNumber));
                     }
                     return list;
@@ -120,7 +120,7 @@ namespace NTMiner {
                 get {
                     List<SysDicItemViewModel> list = new List<SysDicItemViewModel>();
                     SysDicViewModel sysDic;
-                    if (AppContext.Instance.SysDicVms.TryGetSysDicVm("Algo", out sysDic)) {
+                    if (AppContext.Instance.SysDicVms.TryGetSysDicVm(Consts.AlgoSysDicCode, out sysDic)) {
                         list.AddRange(List.Where(a => a.DicId == sysDic.Id).OrderBy(a => a.SortNumber));
                     }
                     return list;
