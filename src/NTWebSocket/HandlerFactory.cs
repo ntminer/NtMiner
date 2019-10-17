@@ -27,19 +27,23 @@ namespace NTWebSocket {
             throw new WebSocketException(WebSocketStatusCodes.UnsupportedDataType);
         }
 
-        private static string GetVersion(WebSocketHttpRequest request) {
+        public static string GetVersion(WebSocketHttpRequest request) {
             string version;
-            if (request.Headers.TryGetValue("Sec-WebSocket-Version", out version))
+            if (request.Headers.TryGetValue("Sec-WebSocket-Version", out version)) {
                 return version;
+            }
 
-            if (request.Headers.TryGetValue("Sec-WebSocket-Draft", out version))
+            if (request.Headers.TryGetValue("Sec-WebSocket-Draft", out version)) {
                 return version;
+            }
 
-            if (request.Headers.ContainsKey("Sec-WebSocket-Key1"))
+            if (request.Headers.ContainsKey("Sec-WebSocket-Key1")) {
                 return "76";
+            }
 
-            if ((request.Body != null) && request.Body.ToLower().Contains("policy-file-request"))
+            if ((request.Body != null) && request.Body.ToLower().Contains("policy-file-request")) {
                 return "policy-file-request";
+            }
 
             return "75";
         }
