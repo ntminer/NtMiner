@@ -7,6 +7,8 @@
         public const int MinerStudioPort = 3338;
         public const int ControlCenterPort = 3339;
 
+        public const int WorkerEventSetSliding = 1000;
+
         #region 系统字典编码
         public const string KernelBrandSysDicCode = "KernelBrand";
         public const string PoolBrandSysDicCode = "PoolBrand";

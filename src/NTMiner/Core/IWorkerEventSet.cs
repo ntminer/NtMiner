@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 namespace NTMiner.Core {
     public interface IWorkerEventSet {
+        int LastWorkerEventId { get; }
+
         /// <summary>
         /// 简化，不分页，基于最近1000条
         /// </summary>
