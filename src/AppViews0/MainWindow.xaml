@@ -546,8 +546,8 @@
                                         <TextBlock Text="事件" Padding="2 0 0 1" FontSize="15"></TextBlock>
                                     </WrapPanel>
                                 </TabItem.Header>
-                                <uc:EventCenter>
-                                </uc:EventCenter>
+                                <uc:WorkerEvents>
+                                </uc:WorkerEvents>
                             </TabItem>
                             <TabItem x:Name="TabItemSpeedTable">
                                 <TabItem.Header>
