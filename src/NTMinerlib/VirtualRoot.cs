@@ -49,13 +49,18 @@ namespace NTMiner {
                     if (_isMinerStudioDetected) {
                         return _isMinerStudio;
                     }
-                    // 基于约定
-                    var assembly = Assembly.GetEntryAssembly();
-                    // 单元测试时assembly为null
-                    if (assembly == null) {
-                        return false;
+                    if (Environment.CommandLine.IndexOf("--minerstudio", StringComparison.OrdinalIgnoreCase) != -1) {
+                        _isMinerStudio = true;
                     }
-                    _isMinerStudio = Environment.CommandLine.IndexOf("--minerstudio", StringComparison.OrdinalIgnoreCase) != -1 || assembly.GetManifestResourceInfo("NTMiner.NTMinerServices.NTMinerServices.exe") != null;
+                    else {
+                        // 基于约定
+                        var assembly = Assembly.GetEntryAssembly();
+                        // 单元测试时assembly为null
+                        if (assembly == null) {
+                            return false;
+                        }
+                        _isMinerStudio = assembly.GetManifestResourceInfo("NTMiner.NTMinerServices.NTMinerServices.exe") != null;
+                    }
                     _isMinerStudioDetected = true;
                 }
                 return _isMinerStudio;

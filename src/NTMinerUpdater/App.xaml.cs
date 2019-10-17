@@ -21,12 +21,15 @@ namespace NTMiner {
             public static extern bool SetForegroundWindow(IntPtr hWnd);
         }
 
-        public static readonly NTMinerAppType AppType;
-        public static readonly bool IsInDesignMode = (bool)DesignerProperties.IsInDesignModeProperty.GetMetadata(typeof(DependencyObject)).DefaultValue;
-
-        static App() {
-            AppType = Environment.CommandLine.IndexOf("--minerstudio", StringComparison.OrdinalIgnoreCase) != -1 ? NTMinerAppType.MinerStudio : NTMinerAppType.MinerClient;
+        public static NTMinerAppType AppType {
+            get {
+                if (VirtualRoot.IsMinerStudio) {
+                    return NTMinerAppType.MinerStudio;
+                }
+                return NTMinerAppType.MinerClient;
+            }
         }
+        public static readonly bool IsInDesignMode = (bool)DesignerProperties.IsInDesignModeProperty.GetMetadata(typeof(DependencyObject)).DefaultValue;
 
         private Mutex mutexApp;
 
