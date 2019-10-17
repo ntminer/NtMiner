@@ -10,12 +10,18 @@ namespace NTMiner.Vms {
         }
 
         public Guid GetId() {
-            return this.Id;
+            return _data.Guid;
         }
 
-        public Guid Id {
+        public int Id {
             get {
                 return _data.Id;
+            }
+        }
+
+        public Guid Guid {
+            get {
+                return _data.Guid;
             }
         }
 
