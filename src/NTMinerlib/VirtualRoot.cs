@@ -89,6 +89,26 @@ namespace NTMiner {
             }
         }
 
+        #region 这是一个外部不需要知道的类型
+        private class EmptyOut : IOut {
+            public static readonly EmptyOut Instance = new EmptyOut();
+
+            private EmptyOut() { }
+
+            public void ShowErrorMessage(string message, int? delaySeconds = null) {
+                // nothing need todo
+            }
+
+            public void ShowInfo(string message) {
+                // nothing need todo
+            }
+
+            public void ShowSuccessMessage(string message, string header = "成功") {
+                // nothing need todo
+            }
+        }
+        #endregion
+
         public static void SetOut(IOut ntOut) {
             _out = ntOut;
         }
@@ -203,7 +223,7 @@ namespace NTMiner {
             return new NTMinerWebClient(timeoutSeconds);
         }
 
-        public class NTMinerWebClient : WebClient {
+        private class NTMinerWebClient : WebClient {
             /// <summary>
             /// 单位秒，默认60秒
             /// </summary>
