@@ -355,8 +355,8 @@
                                 <TabItem.Header>
                                     <WrapPanel>
                                         <Path 
-								            Width="15"
-								            Height="15"
+								            Width="14"
+								            Height="16"
 								            Data="{StaticResource Icon_Output}"
 								            Fill="Black"
 								            Stretch="Fill" />
@@ -533,6 +533,21 @@
                                     <Rectangle Grid.Row="1" x:Name="ConsoleRectangle"></Rectangle>
                                     <Rectangle Grid.Row="1" HorizontalAlignment="Right" Width="4" Fill="Black"></Rectangle>
                                 </Grid>
+                            </TabItem>
+                            <TabItem x:Name="TabItemEventCenter">
+                                <TabItem.Header>
+                                    <WrapPanel>
+                                        <Path 
+								            Width="14"
+								            Height="16"
+								            Data="{StaticResource Icon_Event}"
+								            Fill="Black"
+								            Stretch="Fill" />
+                                        <TextBlock Text="事件" Padding="2 0 0 1" FontSize="15"></TextBlock>
+                                    </WrapPanel>
+                                </TabItem.Header>
+                                <uc:EventCenter>
+                                </uc:EventCenter>
                             </TabItem>
                             <TabItem x:Name="TabItemSpeedTable">
                                 <TabItem.Header>
