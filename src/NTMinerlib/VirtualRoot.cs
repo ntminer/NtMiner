@@ -10,6 +10,9 @@ using System.Reflection;
 using System.Text;
 
 namespace NTMiner {
+    /// <summary>
+    /// 虚拟根是0，是纯静态的，是先天地而存在的。
+    /// </summary>
     public static partial class VirtualRoot {
         public static readonly string AppFileFullName = Process.GetCurrentProcess().MainModule.FileName;
         public static Guid Id { get; private set; }

@@ -6,6 +6,15 @@ using System.Text.RegularExpressions;
 
 namespace NTMiner.Core.Kernels.Impl {
     internal class KernelOutputTranslaterSet : IKernelOutputTranslaterSet {
+        public class SortNumberComparer : IComparer<ISortable> {
+            public int Compare(ISortable x, ISortable y) {
+                if (x == null || y == null) {
+                    throw new ArgumentNullException();
+                }
+                return x.SortNumber - y.SortNumber;
+            }
+        }
+
         private readonly Dictionary<Guid, KernelOutputTranslaterData> _dicById = new Dictionary<Guid, KernelOutputTranslaterData>();
         private readonly Dictionary<Guid, List<KernelOutputTranslaterData>> _dicByKernelOutputId = new Dictionary<Guid, List<KernelOutputTranslaterData>>();
         private readonly INTMinerRoot _root;

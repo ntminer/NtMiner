@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 using System.Timers;
 
 namespace NTMiner {
-    public partial class VirtualRoot {
+    public static partial class VirtualRoot {
         /// <summary>
         /// 发生某个事件
         /// </summary>
