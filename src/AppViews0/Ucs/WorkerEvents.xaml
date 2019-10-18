@@ -61,7 +61,7 @@
 						Width="14"
 						Height="14"
 						Data="{StaticResource Icon_Waring}"
-						Fill="#9EA1CE"
+						Fill="{StaticResource Warn}"
 						Stretch="Fill" />
                     <TextBlock>警告</TextBlock>
                     <TextBlock Margin="4 0 0 0" Text="{Binding WarnCount}"></TextBlock>
@@ -127,23 +127,15 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn MinWidth="40" Width="60" IsReadOnly="True">
-                    <DataGridTemplateColumn.HeaderTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="类型"></TextBlock>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.HeaderTemplate>
+                <DataGridTemplateColumn MinWidth="20" Width="20" IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <WrapPanel>
-                                <Path
-						            Width="14"
-						            Height="14"
-						            Data="{Binding EventTypeIcon}"
-						            Fill="{Binding IconFill}"
-						            Stretch="Fill" />
-                                <TextBlock Margin="2 0 0 0" Text="{Binding EventTypeText}" Foreground="{Binding Foreground}"></TextBlock>
-                            </WrapPanel>
+                            <Path
+						        Width="14"
+						        Height="14"
+						        Data="{Binding EventTypeIcon}"
+						        Fill="{Binding IconFill}"
+						        Stretch="Fill" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
