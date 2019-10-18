@@ -22,26 +22,61 @@
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
-        <ListBox 
-			Background="Transparent"
-			ItemsSource="{x:Static app:AppStatic.WorkerEventChannelEnumItems}"
-			SelectedItem="{Binding SelectedChannel}"
-			MouseDown="ListBox_MouseDown"
-			ItemContainerStyle="{StaticResource ListBoxBarItem}"
-			BorderThickness="0">
-            <ListBox.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel>
-                    </WrapPanel>
-                </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Padding="10 2" Text="{Binding Description}">
-                    </TextBlock>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+        <WrapPanel>
+            <ListBox 
+			    Background="Transparent"
+			    ItemsSource="{x:Static app:AppStatic.WorkerEventChannelEnumItems}"
+			    SelectedItem="{Binding SelectedChannel}"
+			    MouseDown="ListBox_MouseDown"
+			    ItemContainerStyle="{StaticResource ListBoxBarItem}"
+			    BorderThickness="0">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel>
+                        </WrapPanel>
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Padding="10 2" Text="{Binding Description}">
+                        </TextBlock>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <CheckBox Margin="10 0 0 0" IsChecked="True">
+                <WrapPanel>
+                    <Path
+						Width="14"
+						Height="14"
+						Data="{StaticResource Icon_Error}"
+						Fill="Red"
+						Stretch="Fill" />
+                    <TextBlock>错误</TextBlock>
+                </WrapPanel>
+            </CheckBox>
+            <CheckBox Margin="10 0 0 0" IsChecked="True">
+                <WrapPanel>
+                    <Path
+						Width="14"
+						Height="14"
+						Data="{StaticResource Icon_Waring}"
+						Fill="#9EA1CE"
+						Stretch="Fill" />
+                    <TextBlock>警告</TextBlock>
+                </WrapPanel>
+            </CheckBox>
+            <CheckBox Margin="10 0 0 0" IsChecked="True">
+                <WrapPanel>
+                    <Path
+						Width="14"
+						Height="14"
+						Data="{StaticResource Icon_Info}"
+						Fill="{StaticResource IconFillColor}"
+						Stretch="Fill" />
+                    <TextBlock>消息</TextBlock>
+                </WrapPanel>
+            </CheckBox>
+        </WrapPanel>
         <DataGrid 
             Grid.Row="1"
 			ItemsSource="{Binding WorkerEventVms}" 
