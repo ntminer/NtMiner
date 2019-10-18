@@ -118,45 +118,45 @@ namespace NTMiner {
         }
         public static string ServerDbFileFullName {
             get {
-                return SpecialPath.ServerDbFileFullName.Replace(HomeDir, Consts.HomeDirParameterName);
+                return SpecialPath.ServerDbFileFullName.Replace(HomeDir, VirtualRoot.HomeDirParameterName);
             }
         }
         public static string LocalDbFileFullName {
-            get => SpecialPath.LocalDbFileFullName.Replace(HomeDir, Consts.HomeDirParameterName);
+            get => SpecialPath.LocalDbFileFullName.Replace(HomeDir, VirtualRoot.HomeDirParameterName);
         }
 
         public static string ServerJsonFileFullName {
-            get { return SpecialPath.ServerJsonFileFullName.Replace(HomeDir, Consts.HomeDirParameterName); }
+            get { return SpecialPath.ServerJsonFileFullName.Replace(HomeDir, VirtualRoot.HomeDirParameterName); }
         }
 
         public static string ServerVersionJsonFileFullName {
-            get { return MainAssemblyInfo.ServerVersionJsonFileFullName.Replace(HomeDir, Consts.HomeDirParameterName); }
+            get { return MainAssemblyInfo.ServerVersionJsonFileFullName.Replace(HomeDir, VirtualRoot.HomeDirParameterName); }
         }
 
         public static string PackagesDirFullName {
-            get { return SpecialPath.PackagesDirFullName.Replace(HomeDir, Consts.HomeDirParameterName); }
+            get { return SpecialPath.PackagesDirFullName.Replace(HomeDir, VirtualRoot.HomeDirParameterName); }
         }
 
         public static string DaemonFileFullName {
-            get { return SpecialPath.DaemonFileFullName.Replace(TempDir, Consts.TempDirParameterName); }
+            get { return SpecialPath.DaemonFileFullName.Replace(TempDir, VirtualRoot.TempDirParameterName); }
         }
 
         public static string DevConsoleFileFullName {
-            get { return SpecialPath.DevConsoleFileFullName.Replace(TempDir, Consts.TempDirParameterName); }
+            get { return SpecialPath.DevConsoleFileFullName.Replace(TempDir, VirtualRoot.TempDirParameterName); }
         }
 
         public static string DownloadDirFullName {
             get {
-                return SpecialPath.DownloadDirFullName.Replace(TempDir, Consts.TempDirParameterName);
+                return SpecialPath.DownloadDirFullName.Replace(TempDir, VirtualRoot.TempDirParameterName);
             }
         }
 
         public static string KernelsDirFullName {
-            get { return SpecialPath.KernelsDirFullName.Replace(TempDir, Consts.TempDirParameterName); }
+            get { return SpecialPath.KernelsDirFullName.Replace(TempDir, VirtualRoot.TempDirParameterName); }
         }
 
         public static string LogsDirFullName {
-            get { return SpecialPath.LogsDirFullName.Replace(TempDir, Consts.TempDirParameterName); }
+            get { return SpecialPath.LogsDirFullName.Replace(TempDir, VirtualRoot.TempDirParameterName); }
         }
 
         public static string AppRuntime {
@@ -380,7 +380,7 @@ namespace NTMiner {
                 if (Design.IsInDesignMode) {
                     return string.Empty;
                 }
-                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("ThisSystem", "QQGroup", out ISysDicItem dicItem)) {
+                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(VirtualRoot.ThisSystemSysDicCode, "QQGroup", out ISysDicItem dicItem)) {
                     return dicItem.Value;
                 }
                 return "863725136";
@@ -392,7 +392,7 @@ namespace NTMiner {
                 if (Design.IsInDesignMode) {
                     return new Version();
                 }
-                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("ThisSystem", "MinAmdDriverVersion", out ISysDicItem dicItem)) {
+                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(VirtualRoot.ThisSystemSysDicCode, "MinAmdDriverVersion", out ISysDicItem dicItem)) {
                     if (Version.TryParse(dicItem.Value, out Version version)) {
                         return version;
                     }
@@ -406,7 +406,7 @@ namespace NTMiner {
                 if (Design.IsInDesignMode) {
                     return new Version();
                 }
-                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("ThisSystem", "MinNvidiaDriverVersion", out ISysDicItem dicItem)) {
+                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(VirtualRoot.ThisSystemSysDicCode, "MinNvidiaDriverVersion", out ISysDicItem dicItem)) {
                     if (Version.TryParse(dicItem.Value, out Version version)) {
                         return version;
                     }
@@ -460,7 +460,7 @@ namespace NTMiner {
             get {
                 var gpuSet = NTMinerRoot.Instance.GpuSet;
                 if (gpuSet.GpuType == GpuType.NVIDIA) {
-                    var cudaVersion = gpuSet.Properties.FirstOrDefault(a => a.Code == "CudaVersion");
+                    var cudaVersion = gpuSet.Properties.FirstOrDefault(a => a.Code == VirtualRoot.CudaVersionSysDicCode);
                     if (cudaVersion != null) {
                         return $"{gpuSet.DriverVersion}_{cudaVersion.Value}";
                     }
@@ -512,11 +512,11 @@ namespace NTMiner {
         }
 
         public static ICommand OpenDir { get; private set; } = new DelegateCommand<string>((dir) => {
-            if (dir.StartsWith(Consts.TempDirParameterName)) {
-                dir = dir.Replace(Consts.TempDirParameterName, MainAssemblyInfo.TempDirFullName);
+            if (dir.StartsWith(VirtualRoot.TempDirParameterName)) {
+                dir = dir.Replace(VirtualRoot.TempDirParameterName, MainAssemblyInfo.TempDirFullName);
             }
-            else if (dir.StartsWith(Consts.HomeDirParameterName)) {
-                dir = dir.Replace(Consts.HomeDirParameterName, MainAssemblyInfo.HomeDirFullName);
+            else if (dir.StartsWith(VirtualRoot.HomeDirParameterName)) {
+                dir = dir.Replace(VirtualRoot.HomeDirParameterName, MainAssemblyInfo.HomeDirFullName);
             }
             Process.Start(dir);
         });
@@ -578,7 +578,7 @@ namespace NTMiner {
 
         public static ICommand JoinQQGroup { get; private set; } = new DelegateCommand(() => {
             string url = "https://jq.qq.com/?_wv=1027&k=5ZPsuCk";
-            if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("ThisSystem", "QQGroupJoinUrl", out ISysDicItem dicItem)) {
+            if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(VirtualRoot.ThisSystemSysDicCode, "QQGroupJoinUrl", out ISysDicItem dicItem)) {
                 url = dicItem.Value;
             }
             Process.Start(url);
@@ -615,10 +615,10 @@ namespace NTMiner {
             VirtualRoot.Execute(new ShowTagBrandCommand());
         });
         public static ICommand ManagePools { get; private set; } = new DelegateCommand<CoinViewModel>(coinVm => {
-            VirtualRoot.Execute(new ShowCoinPageCommand(coinVm, Consts.PoolParameterName));
+            VirtualRoot.Execute(new ShowCoinPageCommand(coinVm, VirtualRoot.PoolParameterName));
         });
         public static ICommand ManageWallet { get; private set; } = new DelegateCommand<CoinViewModel>(coinVm => {
-            VirtualRoot.Execute(new ShowCoinPageCommand(coinVm, Consts.WalletParameterName));
+            VirtualRoot.Execute(new ShowCoinPageCommand(coinVm, VirtualRoot.WalletParameterName));
         });
         public static ICommand ShowKernelInputs { get; private set; } = new DelegateCommand(() => {
             VirtualRoot.Execute(new ShowKernelInputPageCommand());
@@ -649,7 +649,7 @@ namespace NTMiner {
         });
         public static ICommand ShowHelp { get; private set; } = new DelegateCommand(() => {
             string url = "http://ntminer.com/";
-            if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("ThisSystem", "HelpUrl", out ISysDicItem dicItem)) {
+            if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(VirtualRoot.ThisSystemSysDicCode, "HelpUrl", out ISysDicItem dicItem)) {
                 url = dicItem.Value;
             }
             Process.Start(url);
@@ -747,7 +747,7 @@ namespace NTMiner {
 
         public static ICommand OpenOfficialSite { get; private set; } = new DelegateCommand(() => {
             string url = "http://ntminer.com/";
-            if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("ThisSystem", "HomePageUrl", out ISysDicItem dicItem)) {
+            if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(VirtualRoot.ThisSystemSysDicCode, "HomePageUrl", out ISysDicItem dicItem)) {
                 url = dicItem.Value;
             }
             Process.Start(url);
@@ -758,7 +758,7 @@ namespace NTMiner {
                 if (Design.IsDevMode) {
                     return "NTMiner.com";
                 }
-                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("ThisSystem", "HomePageUrl", out ISysDicItem dicItem) && !string.IsNullOrEmpty(dicItem.Value)) {
+                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(VirtualRoot.ThisSystemSysDicCode, "HomePageUrl", out ISysDicItem dicItem) && !string.IsNullOrEmpty(dicItem.Value)) {
                     if (dicItem.Value.StartsWith("https://")) {
                         return dicItem.Value.Substring("https://".Length);
                     }
@@ -775,7 +775,7 @@ namespace NTMiner {
                 if (Design.IsDevMode) {
                     return "开源矿工";
                 }
-                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("ThisSystem", "AppMinerName", out ISysDicItem dicItem)) {
+                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(VirtualRoot.ThisSystemSysDicCode, "AppMinerName", out ISysDicItem dicItem)) {
                     return dicItem.Value;
                 }
                 return "开源矿工";
@@ -787,7 +787,7 @@ namespace NTMiner {
                 if (Design.IsDevMode) {
                     return " - 做最好的矿工";
                 }
-                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("ThisSystem", "AppMinerName", out ISysDicItem dicItem)) {
+                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(VirtualRoot.ThisSystemSysDicCode, "AppMinerName", out ISysDicItem dicItem)) {
                     return " - " + dicItem.Description;
                 }
                 return " - 做最好的矿工";
@@ -799,7 +799,7 @@ namespace NTMiner {
                 if (Design.IsDevMode) {
                     return "开源、开放、安全、专业、最高收益。QQ群863725136";
                 }
-                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("ThisSystem", "AppMinerIntro", out ISysDicItem dicItem)) {
+                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(VirtualRoot.ThisSystemSysDicCode, "AppMinerIntro", out ISysDicItem dicItem)) {
                     return dicItem.Value;
                 }
                 return "开源、开放、安全、专业、最高收益。QQ群863725136";
@@ -808,7 +808,7 @@ namespace NTMiner {
 
         public static ICommand BusinessModel { get; private set; } = new DelegateCommand(() => {
             string url = "https://www.loserhub.cn/posts/details/52";
-            if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("ThisSystem", "BusinessModelUrl", out ISysDicItem dicItem)) {
+            if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(VirtualRoot.ThisSystemSysDicCode, "BusinessModelUrl", out ISysDicItem dicItem)) {
                 url = dicItem.Value;
             }
             Process.Start(url);
@@ -816,7 +816,7 @@ namespace NTMiner {
 
         public static ICommand OpenGithub { get; private set; } = new DelegateCommand(() => {
             string url = "https://github.com/ntminer/ntminer";
-            if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("ThisSystem", "GithubUrl", out ISysDicItem dicItem)) {
+            if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(VirtualRoot.ThisSystemSysDicCode, "GithubUrl", out ISysDicItem dicItem)) {
                 url = dicItem.Value;
             }
             Process.Start(url);
@@ -824,7 +824,7 @@ namespace NTMiner {
 
         public static ICommand OpenDiscussSite { get; private set; } = new DelegateCommand(() => {
             string url = "https://github.com/ntminer/ntminer/issues";
-            if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("ThisSystem", "DiscussUrl", out ISysDicItem dicItem)) {
+            if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(VirtualRoot.ThisSystemSysDicCode, "DiscussUrl", out ISysDicItem dicItem)) {
                 url = dicItem.Value;
             }
             Process.Start(url);

@@ -67,7 +67,9 @@
                 if (_handlers.ContainsKey(keyType)) {
                     var registeredHandlers = _handlers[keyType];
                     if (registeredHandlers.Count > 0 && typeof(ICmd).IsAssignableFrom(keyType)) {
-                        throw new Exception($"one {typeof(TMessage).Name} cmd can be handle and only be handle by one handler");
+                        // 因为一种命令只应被一个处理器处理，命令实际上可以设计为不走总线，
+                        // 之所以设计为统一走总线只是为了将通过命令类型集中表达起文档作用。
+                        throw new Exception($"一种命令只应被一个处理器处理:{typeof(TMessage).Name}");
                     }
                     if (!registeredHandlers.Contains(handler)) {
                         registeredHandlers.Add(handler);

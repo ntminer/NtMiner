@@ -137,6 +137,9 @@
     <Compile Include="Ucs\Property.xaml.cs">
       <DependentUpon>Property.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Ucs\WorkerEvents.xaml.cs">
+      <DependentUpon>WorkerEvents.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Ucs\SysDicItemSelect.xaml.cs">
       <DependentUpon>SysDicItemSelect.xaml</DependentUpon>
     </Compile>
@@ -498,6 +501,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Ucs\Property.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ucs\WorkerEvents.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

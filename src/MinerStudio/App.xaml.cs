@@ -110,7 +110,7 @@ namespace NTMiner {
                         VirtualRoot.Execute(new ShowChartsWindowCommand());
                     });
                 #endregion
-                HttpServer.Start($"http://localhost:{Consts.MinerStudioPort}");
+                HttpServer.Start($"http://localhost:{VirtualRoot.MinerStudioPort}");
                 AppContext.RemoteDesktop = MsRdpRemoteDesktop.OpenRemoteDesktop;
             });
         }

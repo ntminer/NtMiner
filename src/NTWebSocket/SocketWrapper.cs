@@ -122,15 +122,17 @@ namespace NTWebSocket {
         }
 
         public void Dispose() {
-            _tokenSource.Cancel();
-            if (_stream != null) _stream.Dispose();
-            if (_socket != null) _socket.Dispose();
+            Close();
         }
 
         public void Close() {
             _tokenSource.Cancel();
-            if (_stream != null) _stream.Close();
-            if (_socket != null) _socket.Close();
+            if (_stream != null) {
+                _stream.Close();
+            }
+            if (_socket != null) {
+                _socket.Close();
+            }
         }
 
         public int EndSend(IAsyncResult asyncResult) {

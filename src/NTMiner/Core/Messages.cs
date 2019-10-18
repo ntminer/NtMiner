@@ -1032,8 +1032,8 @@ namespace NTMiner.Core {
 
     #region WorkerEvent Messages
     [MessageType(description: "发生了矿机事件")]
-    public class WorkerEventOccurredEvent : DomainEvent<IWorkerEvent> {
-        public WorkerEventOccurredEvent(IWorkerEvent source) : base(source) {
+    public class WorkerEventHappenedEvent : DomainEvent<IWorkerEvent> {
+        public WorkerEventHappenedEvent(IWorkerEvent source) : base(source) {
         }
     }
     #endregion

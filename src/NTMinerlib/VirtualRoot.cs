@@ -6,14 +6,18 @@ using NTMiner.Serialization;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Net;
 using System.Reflection;
 using System.Text;
 
 namespace NTMiner {
+    /// <summary>
+    /// 虚拟根是0，是纯静态的，是先天地而存在的。
+    /// </summary>
     public static partial class VirtualRoot {
         public static readonly string AppFileFullName = Process.GetCurrentProcess().MainModule.FileName;
         public static Guid Id { get; private set; }
-
+        
         #region IsMinerClient
         private static bool _isMinerClient;
         private static bool _isMinerClientDetected = false;
@@ -84,6 +88,26 @@ namespace NTMiner {
                 return _out ?? EmptyOut.Instance;
             }
         }
+
+        #region 这是一个外部不需要知道的类型
+        private class EmptyOut : IOut {
+            public static readonly EmptyOut Instance = new EmptyOut();
+
+            private EmptyOut() { }
+
+            public void ShowErrorMessage(string message, int? delaySeconds = null) {
+                // nothing need todo
+            }
+
+            public void ShowInfo(string message) {
+                // nothing need todo
+            }
+
+            public void ShowSuccessMessage(string message, string header = "成功") {
+                // nothing need todo
+            }
+        }
+        #endregion
 
         public static void SetOut(IOut ntOut) {
             _out = ntOut;
@@ -194,5 +218,30 @@ namespace NTMiner {
             return guid;
         }
         #endregion
+
+        public static WebClient CreateWebClient(int timeoutSeconds = 180) {
+            return new NTMinerWebClient(timeoutSeconds);
+        }
+
+        private class NTMinerWebClient : WebClient {
+            /// <summary>
+            /// 单位秒，默认60秒
+            /// </summary>
+            public int TimeoutSeconds { get; set; }
+
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="timeoutSeconds">秒</param>
+            public NTMinerWebClient(int timeoutSeconds) {
+                this.TimeoutSeconds = timeoutSeconds;
+            }
+
+            protected override WebRequest GetWebRequest(Uri address) {
+                var result = base.GetWebRequest(address);
+                result.Timeout = this.TimeoutSeconds * 1000;
+                return result;
+            }
+        }
     }
 }

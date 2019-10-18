@@ -228,7 +228,6 @@ namespace NTMiner {
             ServerContextInit(isWork);
 
             this.GpuProfileSet = new GpuProfileSet(this);
-            this.WorkerEventSet = new WorkerEventSet(this);
             this.UserSet = new UserSet();
             this.KernelProfileSet = new KernelProfileSet(this);
             this.GpusSpeed = new GpusSpeed(this);
@@ -791,7 +790,7 @@ namespace NTMiner {
 
         public IKernelOutputTranslaterSet KernelOutputTranslaterSet { get; private set; }
 
-        public IWorkerEventSet WorkerEventSet { get; private set; }
+        public IWorkerEventSet WorkerEventSet { get; private set; } = new WorkerEventSet();
 
         public IKernelOutputKeywordSet KernelOutputKeywordSet { get; private set; }
     }

@@ -6,10 +6,7 @@ using System.Text.RegularExpressions;
 using System.Timers;
 
 namespace NTMiner {
-    public partial class VirtualRoot {
-        public static readonly bool IsGEWin10 = Environment.OSVersion.Version >= new Version(6, 2);
-        public static readonly bool IsLTWin10 = Environment.OSVersion.Version < new Version(6, 2);
-
+    public static partial class VirtualRoot {
         /// <summary>
         /// 发生某个事件
         /// </summary>

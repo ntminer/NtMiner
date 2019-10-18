@@ -43,15 +43,11 @@
   <ItemGroup>
     <Compile Include="AppSetting\LocalAppSettingSet.cs" />
     <Compile Include="AppSetting\IAppSettingSet.cs" />
-    <Compile Include="EmptyOut.cs" />
     <Compile Include="Ip\ILocalIpSet.cs" />
     <Compile Include="Ip\Impl\LocalIpSet.cs" />
     <Compile Include="Ip\Util.cs" />
     <Compile Include="IOut.cs" />
     <Compile Include="Messages.Timing.cs" />
-    <Compile Include="NTMinerWebClient.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Repositories\JsonReadOnlyRepository`1.cs" />
     <Compile Include="SignExtensions.cs" />
     <Compile Include="StringExtensions.cs" />
@@ -59,7 +55,6 @@
     <Compile Include="User\IUserSet.cs" />
     <Compile Include="NTMinerRegistry.cs" />
     <Compile Include="Repositories\IJsonReadOnlyRepository.cs" />
-    <Compile Include="SortNumberComparer.cs" />
     <Compile Include="EntityExtensions.cs" />
     <Compile Include="EnumExtension.cs" />
     <Compile Include="NTMinerException.cs" />
@@ -74,8 +69,9 @@
     <Compile Include="VirtualRoot.cs" />
     <Compile Include="User\Messages.cs" />
     <Compile Include="ValidationException.cs" />
-    <Compile Include="Consts.cs" />
-    <Compile Include="VirtualRoot.partials.cs" />
+    <Compile Include="VirtualRoot.partials.Common.cs" />
+    <Compile Include="VirtualRoot.partials.Consts.cs" />
+    <Compile Include="VirtualRoot.partials.Bus.cs" />
     <Compile Include="Windows\ConsoleHandler.cs" />
     <Compile Include="Windows\WinRegistry.cs" />
     <Compile Include="Windows\Role.cs" />

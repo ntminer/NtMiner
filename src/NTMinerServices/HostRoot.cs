@@ -56,7 +56,7 @@ namespace NTMiner {
 
         private static void Run() {
             try {
-                string baseAddress = $"http://localhost:{Consts.ControlCenterPort}";
+                string baseAddress = $"http://localhost:{VirtualRoot.ControlCenterPort}";
                 HttpServer.Start(baseAddress);
                 Windows.ConsoleHandler.Register(Close);
                 WaitHandle.WaitOne();

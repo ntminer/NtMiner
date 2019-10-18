@@ -203,8 +203,8 @@ namespace NTMiner.Core.Kernels.Impl {
             Regex regex = VirtualRoot.GetRegex(totalSpeedPattern);
             Match match = regex.Match(input);
             if (match.Success) {
-                string totalSpeedText = match.Groups[Consts.TotalSpeedGroupName].Value;
-                string totalSpeedUnit = match.Groups[Consts.TotalSpeedUnitGroupName].Value;
+                string totalSpeedText = match.Groups[VirtualRoot.TotalSpeedGroupName].Value;
+                string totalSpeedUnit = match.Groups[VirtualRoot.TotalSpeedUnitGroupName].Value;
                 if (string.IsNullOrEmpty(totalSpeedUnit)) {
                     if (isDual) {
                         totalSpeedUnit = kernelOutput.DualSpeedUnit;
@@ -249,7 +249,7 @@ namespace NTMiner.Core.Kernels.Impl {
             Regex regex = VirtualRoot.GetRegex(poolDelayPattern);
             Match match = regex.Match(input);
             if (match.Success) {
-                string poolDelayText = match.Groups[Consts.PoolDelayGroupName].Value;
+                string poolDelayText = match.Groups[VirtualRoot.PoolDelayGroupName].Value;
                 VirtualRoot.Happened(new PoolDelayPickedEvent(poolId, isDual, poolDelayText));
             }
         }
@@ -265,15 +265,15 @@ namespace NTMiner.Core.Kernels.Impl {
                 return;
             }
             var now = DateTime.Now;
-            bool hasGpuId = gpuSpeedPattern.Contains($"?<{Consts.GpuIndexGroupName}>");
+            bool hasGpuId = gpuSpeedPattern.Contains($"?<{VirtualRoot.GpuIndexGroupName}>");
             Regex regex = VirtualRoot.GetRegex(gpuSpeedPattern);
             MatchCollection matches = regex.Matches(input);
             if (matches.Count > 0) {
                 IGpusSpeed gpuSpeeds = NTMinerRoot.Instance.GpusSpeed;
                 for (int i = 0; i < matches.Count; i++) {
                     Match match = matches[i];
-                    string gpuSpeedText = match.Groups[Consts.GpuSpeedGroupName].Value;
-                    string gpuSpeedUnit = match.Groups[Consts.GpuSpeedUnitGroupName].Value;
+                    string gpuSpeedText = match.Groups[VirtualRoot.GpuSpeedGroupName].Value;
+                    string gpuSpeedUnit = match.Groups[VirtualRoot.GpuSpeedUnitGroupName].Value;
                     if (string.IsNullOrEmpty(gpuSpeedUnit)) {
                         if (isDual) {
                             gpuSpeedUnit = kernelOutput.DualSpeedUnit;
@@ -284,7 +284,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     }
                     int gpu = i;
                     if (hasGpuId) {
-                        string gpuText = match.Groups[Consts.GpuIndexGroupName].Value;
+                        string gpuText = match.Groups[VirtualRoot.GpuIndexGroupName].Value;
                         if (!int.TryParse(gpuText, out gpu)) {
                             gpu = i;
                         }
@@ -331,7 +331,7 @@ namespace NTMiner.Core.Kernels.Impl {
             Regex regex = VirtualRoot.GetRegex(totalSharePattern);
             var match = regex.Match(input);
             if (match.Success) {
-                string totalShareText = match.Groups[Consts.TotalShareGroupName].Value;
+                string totalShareText = match.Groups[VirtualRoot.TotalShareGroupName].Value;
                 int totalShare;
                 if (int.TryParse(totalShareText, out totalShare)) {
                     ICoinShare share = root.CoinShareSet.GetOrCreate(coin.GetId());
@@ -353,7 +353,7 @@ namespace NTMiner.Core.Kernels.Impl {
             Regex regex = VirtualRoot.GetRegex(acceptSharePattern);
             var match = regex.Match(input);
             if (match.Success) {
-                string acceptShareText = match.Groups[Consts.AcceptShareGroupName].Value;
+                string acceptShareText = match.Groups[VirtualRoot.AcceptShareGroupName].Value;
                 int acceptShare;
                 if (int.TryParse(acceptShareText, out acceptShare)) {
                     root.CoinShareSet.UpdateShare(coin.GetId(), acceptShareCount: acceptShare, rejectShareCount: null, now: DateTime.Now);
@@ -374,7 +374,7 @@ namespace NTMiner.Core.Kernels.Impl {
             Regex regex = VirtualRoot.GetRegex(foundOneShare);
             var match = regex.Match(input);
             if (match.Success) {
-                string gpuText = match.Groups[Consts.GpuIndexGroupName].Value;
+                string gpuText = match.Groups[VirtualRoot.GpuIndexGroupName].Value;
                 if (!string.IsNullOrEmpty(gpuText)) {
                     if (int.TryParse(gpuText, out int gpuIndex)) {
                         if (kernelOutput.IsMapGpuIndex && !string.IsNullOrWhiteSpace(mineContext.KernelInput.DevicesArg)) {
@@ -401,7 +401,7 @@ namespace NTMiner.Core.Kernels.Impl {
             Regex regex = VirtualRoot.GetRegex(pattern);
             var match = regex.Match(input);
             if (match.Success) {
-                string gpuText = match.Groups[Consts.GpuIndexGroupName].Value;
+                string gpuText = match.Groups[VirtualRoot.GpuIndexGroupName].Value;
                 if (!string.IsNullOrEmpty(gpuText)) {
                     if (int.TryParse(gpuText, out int gpuIndex)) {
                         if (kernelOutput.IsMapGpuIndex && !string.IsNullOrWhiteSpace(mineContext.KernelInput.DevicesArg)) {
@@ -433,7 +433,7 @@ namespace NTMiner.Core.Kernels.Impl {
             if (match.Success) {
                 if (!isDual) {
                     // 决定不支持双挖的单卡份额统计
-                    string gpuText = match.Groups[Consts.GpuIndexGroupName].Value;
+                    string gpuText = match.Groups[VirtualRoot.GpuIndexGroupName].Value;
                     if (!string.IsNullOrEmpty(gpuText)) {
                         if (int.TryParse(gpuText, out int gpuIndex)) {
                             if (kernelOutput.IsMapGpuIndex && !string.IsNullOrWhiteSpace(mineContext.KernelInput.DevicesArg)) {
@@ -466,7 +466,7 @@ namespace NTMiner.Core.Kernels.Impl {
             Regex regex = VirtualRoot.GetRegex(rejectSharePattern);
             var match = regex.Match(input);
             if (match.Success) {
-                string rejectShareText = match.Groups[Consts.RejectShareGroupName].Value;
+                string rejectShareText = match.Groups[VirtualRoot.RejectShareGroupName].Value;
 
                 int rejectShare;
                 if (int.TryParse(rejectShareText, out rejectShare)) {
@@ -493,7 +493,7 @@ namespace NTMiner.Core.Kernels.Impl {
             if (match.Success) {
                 if (!isDual) {
                     // 决定不支持双挖的单卡份额统计
-                    string gpuText = match.Groups[Consts.GpuIndexGroupName].Value;
+                    string gpuText = match.Groups[VirtualRoot.GpuIndexGroupName].Value;
                     if (!string.IsNullOrEmpty(gpuText)) {
                         if (int.TryParse(gpuText, out int gpuIndex)) {
                             if (kernelOutput.IsMapGpuIndex && !string.IsNullOrWhiteSpace(mineContext.KernelInput.DevicesArg)) {
@@ -525,7 +525,7 @@ namespace NTMiner.Core.Kernels.Impl {
             }
             Regex regex = VirtualRoot.GetRegex(rejectPercentPattern);
             var match = regex.Match(input);
-            string rejectPercentText = match.Groups[Consts.RejectPercentGroupName].Value;
+            string rejectPercentText = match.Groups[VirtualRoot.RejectPercentGroupName].Value;
             double rejectPercent;
             if (double.TryParse(rejectPercentText, out rejectPercent)) {
                 ICoinShare share = root.CoinShareSet.GetOrCreate(coin.GetId());

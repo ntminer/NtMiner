@@ -87,16 +87,16 @@ namespace NTMiner.Vms {
                             }
                             try {
                                 if (File.Exists(location)) {
-                                    Guid kernelBrandId = VirtualRoot.GetBrandId(location, Consts.KernelBrandId);
+                                    Guid kernelBrandId = VirtualRoot.GetBrandId(location, VirtualRoot.KernelBrandId);
                                     if (kernelBrandId != Guid.Empty) {
                                         Logger.InfoDebugLine("内核品牌打码开始");
-                                        VirtualRoot.TagBrandId(Consts.KernelBrandId, kernelBrandId, saveFileFullName, saveFileFullName);
+                                        VirtualRoot.TagBrandId(VirtualRoot.KernelBrandId, kernelBrandId, saveFileFullName, saveFileFullName);
                                         Logger.OkDebugLine("内核品牌打码成功");
                                     }
-                                    Guid poolBrandId = VirtualRoot.GetBrandId(location, Consts.PoolBrandId);
+                                    Guid poolBrandId = VirtualRoot.GetBrandId(location, VirtualRoot.PoolBrandId);
                                     if (poolBrandId != Guid.Empty) {
                                         Logger.InfoDebugLine("矿池打码开始");
-                                        VirtualRoot.TagBrandId(Consts.PoolBrandId, poolBrandId, saveFileFullName, saveFileFullName);
+                                        VirtualRoot.TagBrandId(VirtualRoot.PoolBrandId, poolBrandId, saveFileFullName, saveFileFullName);
                                         Logger.OkDebugLine("矿池打码成功");
                                     }
                                 }
@@ -150,7 +150,7 @@ namespace NTMiner.Vms {
             Logger.InfoDebugLine("下载：" + fileName);
             string saveFileFullName = Path.Combine(SpecialPath.DownloadDirFullName, App.AppType.ToString() + version);
             progressChanged?.Invoke(0);
-            using (NTMinerWebClient webClient = new NTMinerWebClient()) {
+            using (var webClient = VirtualRoot.CreateWebClient()) {
                 cancel = () => {
                     webClient.CancelAsync();
                 };
