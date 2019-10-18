@@ -10,7 +10,7 @@ namespace NTMiner.Core.Impl {
 
         public WorkerEventSet() {
             _connectionString = $"filename={SpecialPath.WorkerEventDbFileFullName};journal=false";
-            VirtualRoot.EventPath<WorkerEventHappenedEvent>("将矿机事件记录到磁盘", LogEnum.DevConsole,
+            VirtualRoot.EventPath<WorkerEvent>("将矿机事件记录到磁盘", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
                     using (LiteDatabase db = new LiteDatabase(_connectionString)) {

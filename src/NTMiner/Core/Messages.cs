@@ -54,6 +54,7 @@ namespace NTMiner.Core {
         public string PoolDelayText { get; private set; }
     }
 
+    #region toolbox
     [MessageType(description: "禁用win10系统更新")]
     public class BlockWAUCommand : Cmd {
         public BlockWAUCommand() { }
@@ -83,6 +84,7 @@ namespace NTMiner.Core {
     public class RegCmdHereCommand : Cmd {
         public RegCmdHereCommand() { }
     }
+    #endregion
 
     #region profile Messages
     [MessageType(description: "MinerProfile设置变更后")]
@@ -1032,8 +1034,8 @@ namespace NTMiner.Core {
 
     #region WorkerEvent Messages
     [MessageType(description: "发生了矿机事件")]
-    public class WorkerEventHappenedEvent : EventBase {
-        public WorkerEventHappenedEvent(Guid eventTypeId, string content) {
+    public class WorkerEvent : EventBase {
+        public WorkerEvent(Guid eventTypeId, string content) {
             this.EventTypeId = eventTypeId;
             this.Content = content;
         }

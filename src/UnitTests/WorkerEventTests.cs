@@ -14,7 +14,7 @@ namespace UnitTests {
             Assert.IsTrue(NTMinerRoot.Instance.WorkerEventSet.LastWorkerEventId == 0);
             Guid eventTypeId = Guid.NewGuid();
             string content = "this is a test";
-            VirtualRoot.Happened(new WorkerEventHappenedEvent(eventTypeId, content));
+            VirtualRoot.Happened(new WorkerEvent(eventTypeId, content));
             Assert.IsTrue(NTMinerRoot.Instance.WorkerEventSet.LastWorkerEventId == 1);
             var workerEvnets = NTMinerRoot.Instance.WorkerEventSet.GetEvents(Guid.Empty, string.Empty).ToList();
             Assert.IsTrue(workerEvnets.Count == 1);
@@ -37,7 +37,7 @@ namespace UnitTests {
             Guid eventTypeId = Guid.NewGuid();
             string content = "this is a test";
             for (int i = 0; i < times; i++) {
-                VirtualRoot.Happened(new WorkerEventHappenedEvent(eventTypeId, content));
+                VirtualRoot.Happened(new WorkerEvent(eventTypeId, content));
             }
             Assert.IsTrue(NTMinerRoot.Instance.WorkerEventSet.LastWorkerEventId == times);
             var workerEvnets = NTMinerRoot.Instance.WorkerEventSet.GetEvents(eventTypeId, "test").ToList();
