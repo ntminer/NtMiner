@@ -1035,12 +1035,12 @@ namespace NTMiner.Core {
     #region WorkerEvent Messages
     [MessageType(description: "发生了矿机事件")]
     public class WorkerEvent : EventBase {
-        public WorkerEvent(Guid eventTypeId, string content) {
-            this.EventTypeId = eventTypeId;
+        public WorkerEvent(WorkerEventChannel Channel, string content) {
+            this.Channel = Channel;
             this.Content = content;
         }
 
-        public Guid EventTypeId { get; private set; }
+        public WorkerEventChannel Channel { get; private set; }
         public string Content { get; private set; }
     }
     #endregion

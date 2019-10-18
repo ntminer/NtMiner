@@ -17,7 +17,7 @@ namespace NTMiner.Core.Impl {
                         var col = db.GetCollection<WorkerEventData>();
                         _lastWorkerEventId = col.Insert(new WorkerEventData {
                             Id = 0,
-                            ChannelId = message.EventTypeId,
+                            Channel = message.Channel,
                             Content = message.Content,
                             EventOn = DateTime.Now
                         }).AsInt32;
@@ -51,23 +51,23 @@ namespace NTMiner.Core.Impl {
             }
         }
 
-        public IEnumerable<IWorkerEvent> GetEvents(Guid typeId, string keyword) {
+        public IEnumerable<IWorkerEvent> GetEvents(WorkerEventChannel channel, string keyword) {
             InitOnece();
             using (LiteDatabase db = new LiteDatabase(_connectionString)) {
                 var col = db.GetCollection<WorkerEventData>();
-                if (typeId != Guid.Empty) {
+                if (channel != WorkerEventChannel.Undefined) {
                     if (!string.IsNullOrEmpty(keyword)) {
                         return col.Find(
                             Query.And(
                                 Query.GT("_id", _lastWorkerEventId - VirtualRoot.WorkerEventSetSliding),
-                                Query.EQ(nameof(WorkerEventData.ChannelId), typeId),
-                                Query.Contains(nameof(WorkerEventData.Content), keyword))); ;
+                                Query.EQ(nameof(WorkerEventData.Channel), channel.GetName()),
+                                Query.Contains(nameof(WorkerEventData.Content), keyword)));
                     }
                     else {
                         return col.Find(
                             Query.And(
                                 Query.GT("_id", _lastWorkerEventId - VirtualRoot.WorkerEventSetSliding),
-                                Query.EQ(nameof(WorkerEventData.ChannelId), typeId)));
+                                Query.EQ(nameof(WorkerEventData.Channel), channel.GetName())));
                     }
                 }
                 else {

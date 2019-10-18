@@ -19,9 +19,9 @@ namespace NTMiner.Vms {
             }
         }
 
-        public Guid ChannelId {
+        public WorkerEventChannel Channel {
             get {
-                return _data.ChannelId;
+                return _data.Channel;
             }
         }
 
