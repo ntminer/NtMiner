@@ -11,7 +11,7 @@ namespace UnitTests {
         public void TestMethod1() {
             File.Delete(VirtualRoot.WorkerEventDbFileFullName);
             Assert.IsTrue(VirtualRoot.WorkerEvents.LastWorkerEventId == 0);
-            WorkerEventChannel eventChannel = WorkerEventChannel.MinerClient;
+            WorkerEventChannel eventChannel = WorkerEventChannel.Local;
             string content = "this is a test";
             VirtualRoot.WorkerEvent(eventChannel, WorkerEventType.Info, content);
             Assert.IsTrue(VirtualRoot.WorkerEvents.LastWorkerEventId == 1);
@@ -33,7 +33,7 @@ namespace UnitTests {
             File.Delete(VirtualRoot.WorkerEventDbFileFullName);
             Assert.IsTrue(VirtualRoot.WorkerEvents.LastWorkerEventId == 0);
             int times = 2000;
-            WorkerEventChannel eventChannel = WorkerEventChannel.MinerClient;
+            WorkerEventChannel eventChannel = WorkerEventChannel.Local;
             string content = "this is a test";
             for (int i = 0; i < times; i++) {
                 VirtualRoot.WorkerEvent(eventChannel, WorkerEventType.Info, content);

@@ -9,7 +9,7 @@
 
         public const int WorkerEventSetSliding = 1000;
 
-        public const string RPCWorkerEvent = "远程请求：";
+        public const string RPCWorkerEvent = "请求：";
         public const string UserActionWorkerEvent = "用户操作：";
 
         #region 系统字典编码
