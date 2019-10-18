@@ -1,4 +1,7 @@
-﻿namespace NTMiner.MinerClient {
+﻿namespace NTMiner {
+    /// <summary>
+    /// 频道是平的，主题是分层的。开源矿工的挖矿事件没有主题需求。
+    /// </summary>
     public enum WorkerEventChannel {
         Undefined = 0,
         /// <summary>
@@ -21,6 +24,10 @@
         /// <summary>
         /// 基于内核输出和关键字提取的事件
         /// </summary>
-        KernelOutput = 5
+        KernelOutput = 5,
+        /// <summary>
+        /// 远程调用
+        /// </summary>
+        RPC,
     }
 }
