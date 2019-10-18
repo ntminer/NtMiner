@@ -27,7 +27,7 @@ namespace NTMiner {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                VirtualRoot.WorkerEvent(WorkerEventChannel.MinerStudio, $"{VirtualRoot.WorkerEventFromMinerStudio}退出挖矿端");
+                VirtualRoot.WorkerEvent(WorkerEventChannel.MinerDaemon, $"{VirtualRoot.WorkerEventFromMinerStudio}退出挖矿端");
                 TimeSpan.FromMilliseconds(100).Delay().ContinueWith((t) => {
                     VirtualRoot.Execute(new CloseNTMinerCommand());
                 });
@@ -45,7 +45,7 @@ namespace NTMiner {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                VirtualRoot.WorkerEvent(WorkerEventChannel.MinerStudio, $"{VirtualRoot.WorkerEventFromMinerStudio}开始挖矿");
+                VirtualRoot.WorkerEvent(WorkerEventChannel.MinerDaemon, $"{VirtualRoot.WorkerEventFromMinerStudio}开始挖矿");
                 NTMinerRoot.Instance.RestartMine(isWork: request.WorkId != Guid.Empty);
                 return ResponseBase.Ok();
             }
@@ -61,7 +61,7 @@ namespace NTMiner {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                VirtualRoot.WorkerEvent(WorkerEventChannel.MinerStudio, $"{VirtualRoot.WorkerEventFromMinerStudio}停止挖矿");
+                VirtualRoot.WorkerEvent(WorkerEventChannel.MinerDaemon, $"{VirtualRoot.WorkerEventFromMinerStudio}停止挖矿");
                 NTMinerRoot.Instance.StopMineAsync(StopMineReason.RPCUserAction);
                 return ResponseBase.Ok();
             }

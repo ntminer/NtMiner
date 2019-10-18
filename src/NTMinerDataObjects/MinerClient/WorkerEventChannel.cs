@@ -15,8 +15,12 @@
         /// </summary>
         MinerStudio = 3,
         /// <summary>
+        /// 挖矿端守护进程本地事件或来自挖矿端守护进程的事件
+        /// </summary>
+        MinerDaemon = 4,
+        /// <summary>
         /// 基于内核输出和关键字提取的事件
         /// </summary>
-        KernelOutput = 4
+        KernelOutput = 5
     }
 }

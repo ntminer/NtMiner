@@ -128,6 +128,9 @@
     <Compile Include="..\NTMinerlib\Windows\WinRegistry.cs">
       <Link>Windows\WinRegistry.cs</Link>
     </Compile>
+    <Compile Include="..\NTMinerlib\WorkerEvent.cs">
+      <Link>WorkerEvent.cs</Link>
+    </Compile>
     <Compile Include="..\NTMiner\Windows\Power.cs">
       <Link>Windows\Power.cs</Link>
     </Compile>
