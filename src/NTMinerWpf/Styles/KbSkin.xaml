@@ -133,6 +133,7 @@
 		<Setter Property="FocusVisualStyle" Value="{x:Null}"></Setter>
 	</Style>
 	<Style x:Key="ListBoxBarItem" TargetType="ListBoxItem">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"></Setter>
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="ListBoxItem">
