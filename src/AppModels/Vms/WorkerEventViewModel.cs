@@ -9,19 +9,13 @@ namespace NTMiner.Vms {
             _data = data;
         }
 
-        public Guid GetId() {
-            return _data.Guid;
+        public int GetId() {
+            return _data.Id;
         }
 
         public int Id {
             get {
                 return _data.Id;
-            }
-        }
-
-        public Guid Guid {
-            get {
-                return _data.Guid;
             }
         }
 

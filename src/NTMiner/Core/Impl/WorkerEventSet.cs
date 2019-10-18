@@ -6,14 +6,21 @@ using System.Collections.Generic;
 namespace NTMiner.Core.Impl {
     public class WorkerEventSet : IWorkerEventSet {
         private int _lastWorkerEventId;
+        private readonly string _connectionString;
 
         public WorkerEventSet() {
+            _connectionString = $"filename={SpecialPath.WorkerEventDbFileFullName};journal=false";
             VirtualRoot.EventPath<WorkerEventHappenedEvent>("将矿机事件记录到磁盘", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
-                    using (LiteDatabase db = new LiteDatabase($"filename={SpecialPath.WorkerEventDbFileFullName};journal=false")) {
+                    using (LiteDatabase db = new LiteDatabase(_connectionString)) {
                         var col = db.GetCollection<WorkerEventData>();
-                        _lastWorkerEventId = col.Insert(WorkerEventData.Create(message.Source)).AsInt32;
+                        _lastWorkerEventId = col.Insert(new WorkerEventData {
+                            Id = 0,
+                            EventTypeId = message.EventTypeId,
+                            Content = message.Content,
+                            EventOn = DateTime.Now
+                        }).AsInt32;
                     }
                 });
         }
@@ -35,7 +42,7 @@ namespace NTMiner.Core.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    using (LiteDatabase db = new LiteDatabase($"filename={SpecialPath.WorkerEventDbFileFullName};journal=false")) {
+                    using (LiteDatabase db = new LiteDatabase(_connectionString)) {
                         var col = db.GetCollection<WorkerEventData>();
                         _lastWorkerEventId = col.Max(a => a.Id).AsInt32;
                     }
@@ -46,7 +53,7 @@ namespace NTMiner.Core.Impl {
 
         public IEnumerable<IWorkerEvent> GetEvents(Guid typeId, string keyword) {
             InitOnece();
-            using (LiteDatabase db = new LiteDatabase($"filename={SpecialPath.WorkerEventDbFileFullName};journal=false")) {
+            using (LiteDatabase db = new LiteDatabase(_connectionString)) {
                 var col = db.GetCollection<WorkerEventData>();
                 if (typeId != Guid.Empty) {
                     if (!string.IsNullOrEmpty(keyword)) {
