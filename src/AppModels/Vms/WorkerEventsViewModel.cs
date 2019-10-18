@@ -6,7 +6,7 @@
         private readonly ObservableCollection<WorkerEventViewModel> _workerEventVms;
 
         public WorkerEventsViewModel() {
-            var data = VirtualRoot.WorkerEvents.GetEvents(WorkerEventChannel.Undefined, string.Empty).Select(a=>new WorkerEventViewModel(a));
+            var data = VirtualRoot.WorkerEvents.GetEvents(WorkerEventChannel.Undefined, string.Empty).OrderByDescending(a => a.Id).Select(a => new WorkerEventViewModel(a));
             _workerEventVms = new ObservableCollection<WorkerEventViewModel>(data);
         }
 
