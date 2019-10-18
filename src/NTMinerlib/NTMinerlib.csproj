@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="AppSetting\LocalAppSettingSet.cs" />
     <Compile Include="AppSetting\IAppSettingSet.cs" />
+    <Compile Include="WorkerEvent.cs" />
     <Compile Include="Ip\ILocalIpSet.cs" />
     <Compile Include="Ip\Impl\LocalIpSet.cs" />
     <Compile Include="Ip\Util.cs" />
@@ -77,7 +78,6 @@
     <Compile Include="Windows\Role.cs" />
     <Compile Include="Windows\Cmd.cs" />
     <Compile Include="Windows\TaskKill.cs" />
-    <Compile Include="WorkerEvent.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

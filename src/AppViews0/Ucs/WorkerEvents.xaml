@@ -43,7 +43,7 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            <CheckBox Margin="10 0 0 0" IsChecked="True">
+            <CheckBox Margin="20 0 0 0" IsChecked="True">
                 <WrapPanel>
                     <Path
 						Width="14"
@@ -61,7 +61,7 @@
 						Width="14"
 						Height="14"
 						Data="{StaticResource Icon_Waring}"
-						Fill="#9EA1CE"
+						Fill="{StaticResource Warn}"
 						Stretch="Fill" />
                     <TextBlock>警告</TextBlock>
                     <TextBlock Margin="4 0 0 0" Text="{Binding WarnCount}"></TextBlock>
@@ -75,7 +75,7 @@
 						Data="{StaticResource Icon_Info}"
 						Fill="{StaticResource IconFillColor}"
 						Stretch="Fill" />
-                    <TextBlock>消息</TextBlock>
+                    <TextBlock>信息</TextBlock>
                     <TextBlock Margin="4 0 0 0" Text="{Binding InfoCount}"></TextBlock>
                 </WrapPanel>
             </CheckBox>
@@ -91,15 +91,27 @@
                 <controls:BindingProxy x:Key="proxy" Data="{Binding}" />
             </DataGrid.Resources>
             <DataGrid.Columns>
-                <DataGridTemplateColumn MinWidth="40" Width="40" IsReadOnly="True">
+                <DataGridTemplateColumn MinWidth="40" Width="60" IsReadOnly="True">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
-                            <TextBlock Text="标识"></TextBlock>
+                            <TextBlock Text="频道"></TextBlock>
                         </DataTemplate>
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Id}"></TextBlock>
+                            <TextBlock Text="{Binding ChannelText}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn MinWidth="20" Width="20" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Path
+						        Width="14"
+						        Height="14"
+						        Data="{Binding EventTypeIcon}"
+						        Fill="{Binding IconFill}"
+						        Stretch="Fill" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -115,35 +127,15 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn MinWidth="40" Width="60" IsReadOnly="True">
+                <DataGridTemplateColumn MinWidth="60" Width="160" IsReadOnly="True">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
-                            <TextBlock Text="频道"></TextBlock>
+                            <TextBlock Text="来源"></TextBlock>
                         </DataTemplate>
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding ChannelText}"></TextBlock>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn MinWidth="40" Width="60" IsReadOnly="True">
-                    <DataGridTemplateColumn.HeaderTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="类型"></TextBlock>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.HeaderTemplate>
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <WrapPanel>
-                                <Path
-						            Width="14"
-						            Height="14"
-						            Data="{Binding EventTypeIcon}"
-						            Fill="{Binding IconFill}"
-						            Stretch="Fill" />
-                                <TextBlock Margin="2 0 0 0" Text="{Binding EventTypeText}" Foreground="{Binding Foreground}"></TextBlock>
-                            </WrapPanel>
+                            <TextBlock Text="{Binding Provider}"></TextBlock>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

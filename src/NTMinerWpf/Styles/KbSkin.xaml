@@ -23,8 +23,9 @@
 	<converters:ConsoleColorToMediaColorConverter x:Key="ConsoleColorToMediaColorConverter" />
 
 	<SolidColorBrush x:Key="LinkForeground">#0072C1</SolidColorBrush>
-	<SolidColorBrush x:Key="IconFillColor">#278CDE</SolidColorBrush>
-	<SolidColorBrush x:Key="TransparentColor" Color="#00FFFFFF" />
+    <SolidColorBrush x:Key="IconFillColor">#278CDE</SolidColorBrush>
+    <SolidColorBrush x:Key="Warn">#F9BA48</SolidColorBrush>
+    <SolidColorBrush x:Key="TransparentColor" Color="#00FFFFFF" />
 	<SolidColorBrush x:Key="LableColor" Color="#99000000"></SolidColorBrush>
 	<SolidColorBrush x:Key="LineColor">#D9D9D9</SolidColorBrush>
     <SolidColorBrush x:Key="ThemeBackground">#009AD9</SolidColorBrush>
