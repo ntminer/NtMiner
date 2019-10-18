@@ -16,11 +16,13 @@ namespace NTMiner.Vms {
                 Write.Stopwatch.Restart();
 #endif
             this.StartMine = new DelegateCommand(() => {
+                VirtualRoot.WorkerEvent(WorkerEventChannel.MinerClient, "点击开始挖矿");
                 this.MinerProfile.IsMining = true;
                 NTMinerRoot.Instance.StartMine();
                 BtnStopText = "正在挖矿";
             });
             this.StopMine = new DelegateCommand(() => {
+                VirtualRoot.WorkerEvent(WorkerEventChannel.MinerClient, "点击停止挖矿");
                 if (!NTMinerRoot.Instance.IsMining) {
                     this.MinerProfile.IsMining = false;
                 }

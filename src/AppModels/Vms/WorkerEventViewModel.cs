@@ -36,5 +36,21 @@ namespace NTMiner.Vms {
                 return _data.EventOn;
             }
         }
+
+        public string EventOnText {
+            get {
+                int offDay = (DateTime.Now.Date - _data.EventOn.Date).Days;
+                switch (offDay) {
+                    case 0:
+                        return $"今天 {_data.EventOn.TimeOfDay.ToString("hh\\:mm\\:ss")}";
+                    case 1:
+                        return $"左天 {_data.EventOn.TimeOfDay.ToString("hh\\:mm\\:ss")}";
+                    case 2:
+                        return $"前天 {_data.EventOn.TimeOfDay.ToString("hh\\:mm\\:ss")}";
+                    default:
+                        return _data.EventOn.ToString("yyyy-MM-dd HH:mm:ss");
+                }
+            }
+        }
     }
 }
