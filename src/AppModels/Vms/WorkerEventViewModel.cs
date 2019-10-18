@@ -25,9 +25,21 @@ namespace NTMiner.Vms {
             }
         }
 
-        public WorkerEventType Level {
+        public string ChannelText {
             get {
-                return _data.Level;
+                return _data.Channel.GetDescription();
+            }
+        }
+
+        public WorkerEventType EventType {
+            get {
+                return _data.EventType;
+            }
+        }
+
+        public string EventTypeText {
+            get {
+                return _data.EventType.GetDescription();
             }
         }
 

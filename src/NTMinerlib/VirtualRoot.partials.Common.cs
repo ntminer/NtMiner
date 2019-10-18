@@ -26,7 +26,7 @@ namespace NTMiner {
                 var data = new WorkerEventData {
                     Id = 0,
                     Channel = channel,
-                    Level = level,
+                    EventType = level,
                     Content = content,
                     EventOn = DateTime.Now
                 };
