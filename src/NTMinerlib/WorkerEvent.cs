@@ -1,14 +1,10 @@
 ﻿using NTMiner.Bus;
+using NTMiner.MinerClient;
 
 namespace NTMiner {
     [MessageType(description: "发生了矿机事件")]
-    public class WorkerEvent : EventBase {
-        public WorkerEvent(WorkerEventChannel Channel, string content) {
-            this.Channel = Channel;
-            this.Content = content;
+    public class WorkerEvent : DomainEvent<IWorkerEvent> {
+        public WorkerEvent(IWorkerEvent source) : base(source) {
         }
-
-        public WorkerEventChannel Channel { get; private set; }
-        public string Content { get; private set; }
     }
 }

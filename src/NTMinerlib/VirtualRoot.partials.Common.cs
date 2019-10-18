@@ -10,7 +10,7 @@ namespace NTMiner {
         public static readonly string WorkerEventDbFileFullName = System.IO.Path.Combine(MainAssemblyInfo.HomeDirFullName, "workerEvent.litedb");
         
         public static void WorkerEvent(WorkerEventChannel channel, string content) {
-            Happened(new WorkerEvent(channel, content));
+            WorkerEvents.Add(channel, content);
         }
 
         public class WorkerEventSet {
@@ -19,19 +19,22 @@ namespace NTMiner {
 
             internal WorkerEventSet() {
                 _connectionString = $"filename={WorkerEventDbFileFullName};journal=false";
-                EventPath<WorkerEvent>("将矿机事件记录到磁盘", LogEnum.DevConsole,
-                    action: message => {
-                        InitOnece();
-                        using (LiteDatabase db = new LiteDatabase(_connectionString)) {
-                            var col = db.GetCollection<WorkerEventData>();
-                            _lastWorkerEventId = col.Insert(new WorkerEventData {
-                                Id = 0,
-                                Channel = message.Channel,
-                                Content = message.Content,
-                                EventOn = DateTime.Now
-                            }).AsInt32;
-                        }
-                    });
+            }
+
+            public void Add(WorkerEventChannel channel, string content) {
+                InitOnece();
+                var data = new WorkerEventData {
+                    Id = 0,
+                    Channel = channel,
+                    Content = content,
+                    EventOn = DateTime.Now
+                };
+                using (LiteDatabase db = new LiteDatabase(_connectionString)) {
+                    var col = db.GetCollection<WorkerEventData>();
+                    data.Id = col.Insert(data).AsInt32;
+                    _lastWorkerEventId = data.Id;
+                }
+                Happened(new WorkerEvent(data));
             }
 
             public int LastWorkerEventId {
