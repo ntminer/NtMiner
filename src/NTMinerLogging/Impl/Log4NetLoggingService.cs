@@ -3,7 +3,7 @@ using log4net.Config;
 using System;
 using System.IO;
 
-namespace NTMiner.Logging {
+namespace NTMiner.Impl {
     public sealed class Log4NetLoggingService : ILoggingService {
         private readonly ILog _log;
 

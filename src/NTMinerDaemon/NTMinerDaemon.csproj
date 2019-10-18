@@ -89,6 +89,9 @@
     <Compile Include="..\MinerClient\RemoteDesktopEnabler\Rdp.cs">
       <Link>RemoteDesktopEnabler\Rdp.cs</Link>
     </Compile>
+    <Compile Include="..\NTMinerlib\EnumExtension.cs">
+      <Link>EnumExtension.cs</Link>
+    </Compile>
     <Compile Include="..\NTMinerlib\Messages.Timing.cs">
       <Link>Messages.Timing.cs</Link>
     </Compile>

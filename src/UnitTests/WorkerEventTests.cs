@@ -9,37 +9,37 @@ namespace UnitTests {
     public class WorkerEventTests {
         [TestMethod]
         public void TestMethod1() {
-            File.Delete(SpecialPath.WorkerEventDbFileFullName);
-            Assert.IsTrue(NTMinerRoot.Instance.WorkerEventSet.LastWorkerEventId == 0);
+            File.Delete(VirtualRoot.WorkerEventDbFileFullName);
+            Assert.IsTrue(VirtualRoot.WorkerEvents.LastWorkerEventId == 0);
             WorkerEventChannel eventChannel = WorkerEventChannel.MinerClient;
             string content = "this is a test";
             VirtualRoot.WorkerEvent(eventChannel, content);
-            Assert.IsTrue(NTMinerRoot.Instance.WorkerEventSet.LastWorkerEventId == 1);
-            var workerEvnets = NTMinerRoot.Instance.WorkerEventSet.GetEvents(WorkerEventChannel.Undefined, string.Empty).ToList();
+            Assert.IsTrue(VirtualRoot.WorkerEvents.LastWorkerEventId == 1);
+            var workerEvnets = VirtualRoot.WorkerEvents.GetEvents(WorkerEventChannel.Undefined, string.Empty).ToList();
             Assert.IsTrue(workerEvnets.Count == 1);
-            Assert.AreEqual(NTMinerRoot.Instance.WorkerEventSet.LastWorkerEventId, workerEvnets[0].Id);
-            workerEvnets = NTMinerRoot.Instance.WorkerEventSet.GetEvents(eventChannel, string.Empty).ToList();
+            Assert.AreEqual(VirtualRoot.WorkerEvents.LastWorkerEventId, workerEvnets[0].Id);
+            workerEvnets = VirtualRoot.WorkerEvents.GetEvents(eventChannel, string.Empty).ToList();
             Assert.IsTrue(workerEvnets.Count == 1);
-            workerEvnets = NTMinerRoot.Instance.WorkerEventSet.GetEvents(WorkerEventChannel.Undefined, "test").ToList();
+            workerEvnets = VirtualRoot.WorkerEvents.GetEvents(WorkerEventChannel.Undefined, "test").ToList();
             Assert.IsTrue(workerEvnets.Count == 1);
-            workerEvnets = NTMinerRoot.Instance.WorkerEventSet.GetEvents(eventChannel, "test").ToList();
+            workerEvnets = VirtualRoot.WorkerEvents.GetEvents(eventChannel, "test").ToList();
             Assert.IsTrue(workerEvnets.Count == 1);
-            workerEvnets = NTMinerRoot.Instance.WorkerEventSet.GetEvents(WorkerEventChannel.Undefined, "aaaaaa").ToList();
+            workerEvnets = VirtualRoot.WorkerEvents.GetEvents(WorkerEventChannel.Undefined, "aaaaaa").ToList();
             Assert.IsTrue(workerEvnets.Count == 0);
         }
 
         [TestMethod]
         public void BenchmarkTest() {
-            File.Delete(SpecialPath.WorkerEventDbFileFullName);
-            Assert.IsTrue(NTMinerRoot.Instance.WorkerEventSet.LastWorkerEventId == 0);
+            File.Delete(VirtualRoot.WorkerEventDbFileFullName);
+            Assert.IsTrue(VirtualRoot.WorkerEvents.LastWorkerEventId == 0);
             int times = 2000;
             WorkerEventChannel eventChannel = WorkerEventChannel.MinerClient;
             string content = "this is a test";
             for (int i = 0; i < times; i++) {
                 VirtualRoot.WorkerEvent(eventChannel, content);
             }
-            Assert.IsTrue(NTMinerRoot.Instance.WorkerEventSet.LastWorkerEventId == times);
-            var workerEvnets = NTMinerRoot.Instance.WorkerEventSet.GetEvents(eventChannel, "test").ToList();
+            Assert.IsTrue(VirtualRoot.WorkerEvents.LastWorkerEventId == times);
+            var workerEvnets = VirtualRoot.WorkerEvents.GetEvents(eventChannel, "test").ToList();
             Assert.AreEqual(VirtualRoot.WorkerEventSetSliding, workerEvnets.Count);
         }
     }
