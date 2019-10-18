@@ -17,7 +17,7 @@ namespace NTMiner.Core.Impl {
                         var col = db.GetCollection<WorkerEventData>();
                         _lastWorkerEventId = col.Insert(new WorkerEventData {
                             Id = 0,
-                            EventTypeId = message.EventTypeId,
+                            ChannelId = message.EventTypeId,
                             Content = message.Content,
                             EventOn = DateTime.Now
                         }).AsInt32;
@@ -60,14 +60,14 @@ namespace NTMiner.Core.Impl {
                         return col.Find(
                             Query.And(
                                 Query.GT("_id", _lastWorkerEventId - VirtualRoot.WorkerEventSetSliding),
-                                Query.EQ(nameof(WorkerEventData.EventTypeId), typeId),
+                                Query.EQ(nameof(WorkerEventData.ChannelId), typeId),
                                 Query.Contains(nameof(WorkerEventData.Content), keyword))); ;
                     }
                     else {
                         return col.Find(
                             Query.And(
                                 Query.GT("_id", _lastWorkerEventId - VirtualRoot.WorkerEventSetSliding),
-                                Query.EQ(nameof(WorkerEventData.EventTypeId), typeId)));
+                                Query.EQ(nameof(WorkerEventData.ChannelId), typeId)));
                     }
                 }
                 else {

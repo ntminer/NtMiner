@@ -16,7 +16,7 @@
         public const string LogColorSysDicCode = "LogColor";
         public const string CudaVersionSysDicCode = "CudaVersion";
         public const string ThisSystemSysDicCode = "ThisSystem";
-        public const string EventTypeSysDicCode = "EventType";
+        public const string EventChannelSysDicCode = "EventChannel";
         #endregion
 
         #region 打在程序集中的定位关键字

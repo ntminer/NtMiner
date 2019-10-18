@@ -11,7 +11,7 @@ namespace NTMiner.MinerClient {
         // Id will be auto-incremented by litedb
         public int Id { get; set; }
 
-        public Guid EventTypeId { get; set; }
+        public Guid ChannelId { get; set; }
 
         public string Content { get; set; }
 

@@ -19,9 +19,9 @@ namespace NTMiner.Vms {
             }
         }
 
-        public Guid EventTypeId {
+        public Guid ChannelId {
             get {
-                return _data.EventTypeId;
+                return _data.ChannelId;
             }
         }
 
