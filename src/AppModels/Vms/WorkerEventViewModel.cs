@@ -3,9 +3,9 @@ using System;
 
 namespace NTMiner.Vms {
     public class WorkerEventViewModel : ViewModelBase, IWorkerEvent {
-        private readonly WorkerEventData _data;
+        private readonly IWorkerEvent _data;
 
-        public WorkerEventViewModel(WorkerEventData data) {
+        public WorkerEventViewModel(IWorkerEvent data) {
             _data = data;
         }
 
