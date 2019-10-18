@@ -1,6 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NTMiner;
-using NTMiner.MinerClient;
 using System.IO;
 using System.Linq;
 
@@ -15,17 +14,10 @@ namespace UnitTests {
             string content = "this is a test";
             VirtualRoot.WorkerEvent(eventChannel, WorkerEventType.Info, content);
             Assert.IsTrue(VirtualRoot.WorkerEvents.LastWorkerEventId == 1);
-            var workerEvnets = VirtualRoot.WorkerEvents.GetEvents(WorkerEventChannel.Undefined, string.Empty).ToList();
+            var workerEvnets = VirtualRoot.WorkerEvents.GetEvents().ToList();
             Assert.IsTrue(workerEvnets.Count == 1);
             Assert.AreEqual(VirtualRoot.WorkerEvents.LastWorkerEventId, workerEvnets[0].Id);
-            workerEvnets = VirtualRoot.WorkerEvents.GetEvents(eventChannel, string.Empty).ToList();
-            Assert.IsTrue(workerEvnets.Count == 1);
-            workerEvnets = VirtualRoot.WorkerEvents.GetEvents(WorkerEventChannel.Undefined, "test").ToList();
-            Assert.IsTrue(workerEvnets.Count == 1);
-            workerEvnets = VirtualRoot.WorkerEvents.GetEvents(eventChannel, "test").ToList();
-            Assert.IsTrue(workerEvnets.Count == 1);
-            workerEvnets = VirtualRoot.WorkerEvents.GetEvents(WorkerEventChannel.Undefined, "aaaaaa").ToList();
-            Assert.IsTrue(workerEvnets.Count == 0);
+            workerEvnets = VirtualRoot.WorkerEvents.GetEvents().ToList();
         }
 
         [TestMethod]
@@ -39,7 +31,7 @@ namespace UnitTests {
                 VirtualRoot.WorkerEvent(eventChannel, WorkerEventType.Info, content);
             }
             Assert.IsTrue(VirtualRoot.WorkerEvents.LastWorkerEventId == times);
-            var workerEvnets = VirtualRoot.WorkerEvents.GetEvents(eventChannel, "test").ToList();
+            var workerEvnets = VirtualRoot.WorkerEvents.GetEvents().ToList();
             Assert.AreEqual(VirtualRoot.WorkerEventSetSliding, workerEvnets.Count);
         }
     }

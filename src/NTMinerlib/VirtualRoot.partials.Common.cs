@@ -64,36 +64,11 @@ namespace NTMiner {
                 }
             }
 
-            public IEnumerable<IWorkerEvent> GetEvents(WorkerEventChannel channel, string keyword) {
+            public IEnumerable<IWorkerEvent> GetEvents() {
                 InitOnece();
                 using (LiteDatabase db = new LiteDatabase(_connectionString)) {
                     var col = db.GetCollection<WorkerEventData>();
-                    if (channel != WorkerEventChannel.Undefined) {
-                        if (!string.IsNullOrEmpty(keyword)) {
-                            return col.Find(
-                                Query.And(
-                                    Query.GT("_id", _lastWorkerEventId - WorkerEventSetSliding),
-                                    Query.EQ(nameof(WorkerEventData.Channel), channel.GetName()),
-                                    Query.Contains(nameof(WorkerEventData.Content), keyword)));
-                        }
-                        else {
-                            return col.Find(
-                                Query.And(
-                                    Query.GT("_id", _lastWorkerEventId - WorkerEventSetSliding),
-                                    Query.EQ(nameof(WorkerEventData.Channel), channel.GetName())));
-                        }
-                    }
-                    else {
-                        if (!string.IsNullOrEmpty(keyword)) {
-                            return col.Find(
-                                Query.And(
-                                    Query.GT("_id", _lastWorkerEventId - WorkerEventSetSliding),
-                                    Query.Contains(nameof(WorkerEventData.Content), keyword)));
-                        }
-                        else {
-                            return col.Find(Query.GT("_id", _lastWorkerEventId - WorkerEventSetSliding));
-                        }
-                    }
+                    return col.Find(Query.GT("_id", _lastWorkerEventId - WorkerEventSetSliding));
                 }
             }
         }

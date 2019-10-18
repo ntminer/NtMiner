@@ -23,6 +23,13 @@ namespace NTMiner.Views.Ucs {
             });
         }
 
+        private void ListBox_MouseDown(object sender, MouseButtonEventArgs e) {
+            if (e.LeftButton == MouseButtonState.Pressed) {
+                Window window = Window.GetWindow(this);
+                window.DragMove();
+            }
+        }
+
         private void ItemsControl_MouseDown(object sender, MouseButtonEventArgs e) {
             if (e.LeftButton == MouseButtonState.Pressed) {
                 Window.GetWindow(this).DragMove();

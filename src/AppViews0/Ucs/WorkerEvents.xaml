@@ -18,7 +18,32 @@
         <vm:WorkerEventsViewModel></vm:WorkerEventsViewModel>
     </UserControl.DataContext>
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <ListBox 
+			Background="Transparent"
+			ItemsSource="{x:Static app:AppStatic.WorkerEventChannelEnumItems}"
+			SelectedItem="{Binding SelectedChannel}"
+			MouseDown="ListBox_MouseDown"
+			ItemContainerStyle="{StaticResource ListBoxBarItem}"
+			BorderThickness="0">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel>
+                    </WrapPanel>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Padding="10 2" Text="{Binding Description}">
+                    </TextBlock>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
         <DataGrid 
+            Grid.Row="1"
 			ItemsSource="{Binding WorkerEventVms}" 
 			Background="Transparent" 
 			ColumnHeaderHeight="34"
@@ -40,7 +65,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn MinWidth="100" Width="100" IsReadOnly="True">
+                <DataGridTemplateColumn MinWidth="100" Width="120" IsReadOnly="True">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
                             <TextBlock Text="时间"></TextBlock>
@@ -52,7 +77,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn MinWidth="40" Width="100" IsReadOnly="True">
+                <DataGridTemplateColumn MinWidth="40" Width="60" IsReadOnly="True">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
                             <TextBlock Text="频道"></TextBlock>
@@ -64,7 +89,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn MinWidth="40" Width="70" IsReadOnly="True">
+                <DataGridTemplateColumn MinWidth="40" Width="50" IsReadOnly="True">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
                             <TextBlock Text="类型"></TextBlock>
