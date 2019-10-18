@@ -9,8 +9,8 @@ namespace NTMiner.Vms {
             _data = data;
         }
 
-        public Guid GetId() {
-            return _data.Guid;
+        public int GetId() {
+            return _data.Id;
         }
 
         public int Id {
@@ -19,15 +19,9 @@ namespace NTMiner.Vms {
             }
         }
 
-        public Guid Guid {
+        public WorkerEventChannel Channel {
             get {
-                return _data.Guid;
-            }
-        }
-
-        public Guid EventTypeId {
-            get {
-                return _data.EventTypeId;
+                return _data.Channel;
             }
         }
 

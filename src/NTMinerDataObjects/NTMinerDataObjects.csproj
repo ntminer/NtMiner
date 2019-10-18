@@ -85,6 +85,7 @@
     <Compile Include="MinerClient\IGpuSpeedData.cs" />
     <Compile Include="MinerClient\ILocalIp.cs" />
     <Compile Include="MinerClient\LocalIpData.cs" />
+    <Compile Include="MinerClient\WorkerEventChannel.cs" />
     <Compile Include="Profile\GpuProfileExtension.cs" />
     <Compile Include="MinerClient\IKernelOutputKeyword.cs" />
     <Compile Include="MinerClient\IWorkerEvent.cs" />
