@@ -127,7 +127,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn MinWidth="40" Width="50" IsReadOnly="True">
+                <DataGridTemplateColumn MinWidth="40" Width="60" IsReadOnly="True">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
                             <TextBlock Text="类型"></TextBlock>
@@ -135,7 +135,15 @@
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding EventTypeText}" Foreground="{Binding Foreground}"></TextBlock>
+                            <WrapPanel>
+                                <Path
+						            Width="14"
+						            Height="14"
+						            Data="{Binding EventTypeIcon}"
+						            Fill="{Binding IconFill}"
+						            Stretch="Fill" />
+                                <TextBlock Margin="2 0 0 0" Text="{Binding EventTypeText}" Foreground="{Binding Foreground}"></TextBlock>
+                            </WrapPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

@@ -1,13 +1,21 @@
 ﻿using NTMiner.MinerClient;
 using System;
+using System.Windows;
 using System.Windows.Media;
 
 namespace NTMiner.Vms {
     public class WorkerEventViewModel : ViewModelBase, IWorkerEvent {
+        private static readonly StreamGeometry ErrorIcon = (StreamGeometry)Application.Current.Resources["Icon_Error"];
+        private static readonly StreamGeometry WarnIcon = (StreamGeometry)Application.Current.Resources["Icon_Waring"];
+        private static readonly StreamGeometry InfoIcon = (StreamGeometry)Application.Current.Resources["Icon_Info"];
+        private static readonly SolidColorBrush IconFillColor = (SolidColorBrush)Application.Current.Resources["IconFillColor"];
+
         private readonly IWorkerEvent _data;
+        private readonly WorkerEventType _eventType;
 
         public WorkerEventViewModel(IWorkerEvent data) {
             _data = data;
+            _data.EventType.TryParse(out _eventType);
         }
 
         public int GetId() {
@@ -43,30 +51,61 @@ namespace NTMiner.Vms {
 
         public string EventTypeText {
             get {
-                if (_data.EventType.TryParse(out WorkerEventType eventType)) {
-                    return eventType.GetDescription();
+                if (_eventType != WorkerEventType.Undefined) {
+                    return _eventType.GetDescription();
                 }
                 return "未知";
             }
         }
 
+        public StreamGeometry EventTypeIcon {
+            get {
+                switch (_eventType) {
+                    case WorkerEventType.Undefined:
+                        return null;
+                    case WorkerEventType.Info:
+                        return InfoIcon;
+                    case WorkerEventType.Warn:
+                        return WarnIcon;
+                    case WorkerEventType.Error:
+                        return ErrorIcon;
+                    default:
+                        return null;
+                }
+            }
+        }
+
+        public SolidColorBrush IconFill {
+            get {
+                switch (_eventType) {
+                    case WorkerEventType.Undefined:
+                        return Wpf.Util.BlackBrush;
+                    case WorkerEventType.Info:
+                        return IconFillColor;
+                    case WorkerEventType.Warn:
+                        return Wpf.Util.WarnBrush;
+                    case WorkerEventType.Error:
+                        return Wpf.Util.RedBrush;
+                    default:
+                        return Wpf.Util.BlackBrush;
+                }
+            }
+        }
+
         public SolidColorBrush Foreground {
             get {
-                if (_data.EventType.TryParse(out WorkerEventType eventType)) {
-                    switch (eventType) {
-                        case WorkerEventType.Undefined:
-                            return Wpf.Util.BlackBrush;
-                        case WorkerEventType.Info:
-                            return Wpf.Util.BlackBrush;
-                        case WorkerEventType.Warn:
-                            return Wpf.Util.WarnBrush;
-                        case WorkerEventType.Error:
-                            return Wpf.Util.RedBrush;
-                        default:
-                            return Wpf.Util.BlackBrush;
-                    }
+                switch (_eventType) {
+                    case WorkerEventType.Undefined:
+                        return Wpf.Util.BlackBrush;
+                    case WorkerEventType.Info:
+                        return Wpf.Util.BlackBrush;
+                    case WorkerEventType.Warn:
+                        return Wpf.Util.WarnBrush;
+                    case WorkerEventType.Error:
+                        return Wpf.Util.RedBrush;
+                    default:
+                        return Wpf.Util.BlackBrush;
                 }
-                return Wpf.Util.BlackBrush;
             }
         }
 
