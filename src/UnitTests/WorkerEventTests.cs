@@ -13,7 +13,7 @@ namespace UnitTests {
             Assert.IsTrue(VirtualRoot.WorkerEvents.LastWorkerEventId == 0);
             WorkerEventChannel eventChannel = WorkerEventChannel.MinerClient;
             string content = "this is a test";
-            VirtualRoot.WorkerEvent(eventChannel, content);
+            VirtualRoot.WorkerEvent(eventChannel, WorkerEventType.Info, content);
             Assert.IsTrue(VirtualRoot.WorkerEvents.LastWorkerEventId == 1);
             var workerEvnets = VirtualRoot.WorkerEvents.GetEvents(WorkerEventChannel.Undefined, string.Empty).ToList();
             Assert.IsTrue(workerEvnets.Count == 1);
@@ -36,7 +36,7 @@ namespace UnitTests {
             WorkerEventChannel eventChannel = WorkerEventChannel.MinerClient;
             string content = "this is a test";
             for (int i = 0; i < times; i++) {
-                VirtualRoot.WorkerEvent(eventChannel, content);
+                VirtualRoot.WorkerEvent(eventChannel, WorkerEventType.Info, content);
             }
             Assert.IsTrue(VirtualRoot.WorkerEvents.LastWorkerEventId == times);
             var workerEvnets = VirtualRoot.WorkerEvents.GetEvents(eventChannel, "test").ToList();

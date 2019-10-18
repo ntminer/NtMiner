@@ -179,6 +179,7 @@
     <Compile Include="MinerServer\UpdateClientRequest.cs" />
     <Compile Include="UserData.cs" />
     <Compile Include="Core\WalletData.cs" />
+    <Compile Include="WorkerEventType.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

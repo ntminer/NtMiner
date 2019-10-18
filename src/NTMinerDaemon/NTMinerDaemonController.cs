@@ -17,7 +17,7 @@ namespace NTMiner {
         [HttpPost]
         public ResponseBase EnableWindowsRemoteDesktop() {
             try {
-                VirtualRoot.WorkerEvent(WorkerEventChannel.RPC, $"{VirtualRoot.RPCWorkerEvent}启用Windows远程桌面");
+                VirtualRoot.WorkerEvent(WorkerEventChannel.RPC, WorkerEventType.Info, $"{VirtualRoot.RPCWorkerEvent}启用Windows远程桌面");
                 Rdp.SetRdpEnabled(true, true);
                 Firewall.AddRemoteDesktopRule();
                 return ResponseBase.Ok();
@@ -30,7 +30,7 @@ namespace NTMiner {
 
         [HttpPost]
         public void CloseDaemon() {
-            VirtualRoot.WorkerEvent(WorkerEventChannel.RPC, $"{VirtualRoot.RPCWorkerEvent}退出守护进程");
+            VirtualRoot.WorkerEvent(WorkerEventChannel.RPC, WorkerEventType.Info, $"{VirtualRoot.RPCWorkerEvent}退出守护进程");
             // 延迟100毫秒再退出从而避免当前的CloseDaemon请求尚未收到响应
             TimeSpan.FromMilliseconds(100).Delay().ContinueWith(t => {
                 HostRoot.Exit();
@@ -41,7 +41,7 @@ namespace NTMiner {
         [HttpPost]
         public string GetGpuProfilesJson() {
             try {
-                VirtualRoot.WorkerEvent(WorkerEventChannel.RPC, $"{VirtualRoot.RPCWorkerEvent}获取显卡参数");
+                VirtualRoot.WorkerEvent(WorkerEventChannel.RPC, WorkerEventType.Info, $"{VirtualRoot.RPCWorkerEvent}获取显卡参数");
                 return SpecialPath.ReadGpuProfilesJsonFile();
             }
             catch (Exception e) {
@@ -55,7 +55,7 @@ namespace NTMiner {
         [HttpPost]
         public void SaveGpuProfilesJson() {
             try {
-                VirtualRoot.WorkerEvent(WorkerEventChannel.RPC, $"{VirtualRoot.RPCWorkerEvent}保存显卡参数");
+                VirtualRoot.WorkerEvent(WorkerEventChannel.RPC, WorkerEventType.Info, $"{VirtualRoot.RPCWorkerEvent}保存显卡参数");
                 string json = Request.Content.ReadAsStringAsync().Result;
                 SpecialPath.SaveGpuProfilesJsonFile(json);
                 if (IsNTMinerOpened()) {
@@ -73,7 +73,7 @@ namespace NTMiner {
 
         [HttpPost]
         public void SetAutoBootStart([FromUri]bool autoBoot, [FromUri]bool autoStart) {
-            VirtualRoot.WorkerEvent(WorkerEventChannel.RPC, $"{VirtualRoot.RPCWorkerEvent}开机启动{(autoBoot ? "√": "×")}，自动挖矿{(autoStart ? "√" : "×")}");
+            VirtualRoot.WorkerEvent(WorkerEventChannel.RPC, WorkerEventType.Info, $"{VirtualRoot.RPCWorkerEvent}开机启动{(autoBoot ? "√": "×")}，自动挖矿{(autoStart ? "√" : "×")}");
             MinerProfileUtil.SetAutoStart(autoBoot, autoStart);
             if (IsNTMinerOpened()) {
                 using (HttpClient client = new HttpClient()) {
@@ -89,7 +89,7 @@ namespace NTMiner {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                VirtualRoot.WorkerEvent(WorkerEventChannel.RPC, $"{VirtualRoot.RPCWorkerEvent}重启矿机");
+                VirtualRoot.WorkerEvent(WorkerEventChannel.RPC, WorkerEventType.Info, $"{VirtualRoot.RPCWorkerEvent}重启矿机");
                 Windows.Power.Restart(10);
                 CloseNTMiner();
                 return ResponseBase.Ok();
@@ -106,7 +106,7 @@ namespace NTMiner {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                VirtualRoot.WorkerEvent(WorkerEventChannel.RPC, $"{VirtualRoot.RPCWorkerEvent}关机");
+                VirtualRoot.WorkerEvent(WorkerEventChannel.RPC, WorkerEventType.Info, $"{VirtualRoot.RPCWorkerEvent}关机");
                 Windows.Power.Shutdown(10);
                 CloseNTMiner();
                 return ResponseBase.Ok();
@@ -133,7 +133,7 @@ namespace NTMiner {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                VirtualRoot.WorkerEvent(WorkerEventChannel.RPC, $"{VirtualRoot.RPCWorkerEvent}开始挖矿");
+                VirtualRoot.WorkerEvent(WorkerEventChannel.RPC, WorkerEventType.Info, $"{VirtualRoot.RPCWorkerEvent}开始挖矿");
                 ResponseBase response;
                 if (request.WorkId != Guid.Empty) {
                     File.WriteAllText(SpecialPath.NTMinerLocalJsonFileFullName, request.LocalJson);
@@ -174,7 +174,7 @@ namespace NTMiner {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                VirtualRoot.WorkerEvent(WorkerEventChannel.RPC, $"{VirtualRoot.RPCWorkerEvent}停止挖矿");
+                VirtualRoot.WorkerEvent(WorkerEventChannel.RPC, WorkerEventType.Info, $"{VirtualRoot.RPCWorkerEvent}停止挖矿");
                 ResponseBase response;
                 if (!IsNTMinerOpened()) {
                     return ResponseBase.Ok();
@@ -202,7 +202,7 @@ namespace NTMiner {
             if (request == null) {
                 return ResponseBase.InvalidInput("参数错误");
             }
-            VirtualRoot.WorkerEvent(WorkerEventChannel.RPC, $"{VirtualRoot.RPCWorkerEvent}重启挖矿端");
+            VirtualRoot.WorkerEvent(WorkerEventChannel.RPC, WorkerEventType.Info, $"{VirtualRoot.RPCWorkerEvent}重启挖矿端");
             if (request.WorkId != Guid.Empty) {
                 File.WriteAllText(SpecialPath.NTMinerLocalJsonFileFullName, request.LocalJson);
                 File.WriteAllText(SpecialPath.NTMinerServerJsonFileFullName, request.ServerJson);
@@ -230,7 +230,7 @@ namespace NTMiner {
         }
 
         private void CloseNTMiner() {
-            VirtualRoot.WorkerEvent(WorkerEventChannel.RPC, $"{VirtualRoot.RPCWorkerEvent}退出挖矿端");
+            VirtualRoot.WorkerEvent(WorkerEventChannel.RPC, WorkerEventType.Info, $"{VirtualRoot.RPCWorkerEvent}退出挖矿端");
             bool isClosed = false;
             try {
                 using (HttpClient client = new HttpClient()) {
@@ -261,7 +261,7 @@ namespace NTMiner {
             if (request == null || string.IsNullOrEmpty(request.NTMinerFileName)) {
                 return ResponseBase.InvalidInput("参数错误");
             }
-            VirtualRoot.WorkerEvent(WorkerEventChannel.RPC, $"{VirtualRoot.RPCWorkerEvent}升级挖矿端至{request.NTMinerFileName}");
+            VirtualRoot.WorkerEvent(WorkerEventChannel.RPC, WorkerEventType.Info, $"{VirtualRoot.RPCWorkerEvent}升级挖矿端至{request.NTMinerFileName}");
             Task.Factory.StartNew(() => {
                 try {
                     string location = NTMinerRegistry.GetLocation();

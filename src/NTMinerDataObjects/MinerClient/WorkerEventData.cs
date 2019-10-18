@@ -13,6 +13,8 @@ namespace NTMiner.MinerClient {
 
         public WorkerEventChannel Channel { get; set; }
 
+        public WorkerEventType Level { get; set; }
+
         public string Content { get; set; }
 
         public DateTime EventOn { get; set; }
