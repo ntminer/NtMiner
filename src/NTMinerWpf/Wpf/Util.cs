@@ -15,6 +15,7 @@ namespace NTMiner.Wpf {
         public static readonly SolidColorBrush BlackBrush = new SolidColorBrush(Colors.Black);
         public static readonly SolidColorBrush GreenBrush = new SolidColorBrush(Colors.Green);
         public static readonly SolidColorBrush RedBrush = new SolidColorBrush(Colors.Red);
+        public static readonly SolidColorBrush WarnBrush = new SolidColorBrush(Color.FromRgb(0x9E, 0xA1, 0xCE));
 
         // 这个方法没有放在InputWindow类型中是为了去除编译时对MahaApps.Metro的依赖供AppModels使用
         public static void ShowInputDialog(

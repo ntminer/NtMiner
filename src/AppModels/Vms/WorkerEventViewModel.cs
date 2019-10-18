@@ -1,5 +1,6 @@
 ﻿using NTMiner.MinerClient;
 using System;
+using System.Windows.Media;
 
 namespace NTMiner.Vms {
     public class WorkerEventViewModel : ViewModelBase, IWorkerEvent {
@@ -40,6 +41,23 @@ namespace NTMiner.Vms {
         public string EventTypeText {
             get {
                 return _data.EventType.GetDescription();
+            }
+        }
+
+        public SolidColorBrush Foreground {
+            get {
+                switch (_data.EventType) {
+                    case WorkerEventType.Undefined:
+                        return Wpf.Util.BlackBrush;
+                    case WorkerEventType.Info:
+                        return Wpf.Util.BlackBrush;
+                    case WorkerEventType.Warn:
+                        return Wpf.Util.WarnBrush;
+                    case WorkerEventType.Error:
+                        return Wpf.Util.RedBrush;
+                    default:
+                        return Wpf.Util.BlackBrush;
+                }
             }
         }
 
