@@ -9,10 +9,10 @@ namespace NTMiner {
         [Description("不指定")]
         Unspecified,
         /// <summary>
-        /// 本地
+        /// 这
         /// </summary>
-        [Description("--")]
-        Local,
+        [Description("这")]
+        This,
         /// <summary>
         /// 基于内核输出和关键字提取的事件
         /// </summary>

@@ -35,6 +35,12 @@ namespace NTMiner.Vms {
             }
         }
 
+        public string Provider {
+            get {
+                return _data.Provider;
+            }
+        }
+
         public string ChannelText {
             get {
                 if (_data.Channel.TryParse(out WorkerEventChannel channel)) {
