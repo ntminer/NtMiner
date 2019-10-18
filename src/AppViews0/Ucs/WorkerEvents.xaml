@@ -79,6 +79,26 @@
                     <TextBlock Margin="4 0 0 0" Text="{Binding InfoCount}"></TextBlock>
                 </WrapPanel>
             </CheckBox>
+            <controls:KbButton
+			    Margin="20 0 0 0"
+                Height="20"
+			    Padding="6 2"
+                Background="Transparent"
+                Cursor="Hand"
+			    CornerRadius="2">
+                <WrapPanel>
+                    <Path
+					    Width="12"
+					    Height="12"
+					    Data="{StaticResource Icon_Clear}"
+					    Fill="Red"
+					    Stretch="Fill" />
+                    <TextBlock
+					    Padding="2 0"
+					    VerticalAlignment="Center"
+					    Text="清空日志" />
+                </WrapPanel>
+            </controls:KbButton>
         </WrapPanel>
         <DataGrid 
             Grid.Row="1"
