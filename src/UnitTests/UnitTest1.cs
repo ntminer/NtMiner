@@ -3,12 +3,11 @@ using NTMiner;
 using NTMiner.Controllers;
 using NTMiner.Profile;
 using NTMiner.Serialization;
-using NTMiner.Vms;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Security.Cryptography;
-using System.Text.RegularExpressions;
 using System.Web;
 using System.Windows;
 
@@ -16,9 +15,54 @@ namespace UnitTests {
     [TestClass]
     public class UnitTest1 {
         [TestMethod]
+        public void DictionarySetTest() {
+            var dic = new Dictionary<string, string>();
+            // 与指定的键相关联的值。 如果指定键未找到，则 Get 操作引发 System.Collections.Generic.KeyNotFoundException，而
+            // Set 操作创建一个带指定键的新元素。
+            dic["test1"] = "value1";
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(KeyNotFoundException))]
+        public void DictionaryGetTest() {
+            var dic = new Dictionary<string, string>();
+            // 与指定的键相关联的值。 如果指定键未找到，则 Get 操作引发 System.Collections.Generic.KeyNotFoundException，而
+            // Set 操作创建一个带指定键的新元素。
+            var v = dic["test1"];
+        }
+
+        [TestMethod]
+        public void LinqTest() {
+            Assert.AreEqual(Guid.Empty, new Guid[] { }.FirstOrDefault());
+        }
+        
+        [TestMethod]
+        public void VersionTest() {
+            Assert.AreEqual(new Version(), new Version());
+            Assert.IsTrue(new Version() == new Version());
+            Assert.IsTrue(new Version().Equals(new Version()));
+            Assert.AreEqual("0.0", new Version().ToString());
+        }
+
+        [TestMethod]
+        public void ShortcutTest() {
+            string linkFileFullName= Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), "ShortcutTest.lnk");
+            File.Delete(linkFileFullName);
+            Assert.IsTrue(string.IsNullOrEmpty(WindowsShortcut.GetTargetPath(linkFileFullName)));
+            WindowsShortcut.CreateShortcut(linkFileFullName, VirtualRoot.AppFileFullName, "this is a test");
+            Assert.AreEqual(VirtualRoot.AppFileFullName, WindowsShortcut.GetTargetPath(linkFileFullName));
+            string testFileFullName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "notepad.exe");
+            WindowsShortcut.CreateShortcut(linkFileFullName, testFileFullName, "this is a test");
+            Assert.AreEqual(testFileFullName, WindowsShortcut.GetTargetPath(linkFileFullName), ignoreCase: true);
+            File.Delete(linkFileFullName);
+        }
+
+        [TestMethod]
         public void NaNTest() {
             Assert.AreEqual(double.NaN, double.NaN);
+#pragma warning disable CS1718 // 对同一变量进行了比较
             Assert.IsFalse(double.NaN == double.NaN);
+#pragma warning restore CS1718 // 对同一变量进行了比较
             Assert.IsTrue(double.NaN.Equals(double.NaN));
         }
 
@@ -51,83 +95,6 @@ namespace UnitTests {
         public void GetFileNameTest() {
             Assert.AreEqual("a", Path.GetFileNameWithoutExtension("a.txt"));
             Assert.AreEqual("a", Path.GetFileNameWithoutExtension("a"));
-        }
-
-        [TestMethod]
-        public void RegexReplaceTest() {
-            Regex regex = new Regex(@"t=");
-            string text = @"11:55:42:201	384	ETH: GPU0 t=88 fan=77, GPU1 t=66 fan=99";
-            text = regex.Replace(text, "温度=");
-            regex = new Regex(@"fan=");
-            text = regex.Replace(text, "风扇=");
-            Console.WriteLine(text);
-        }
-
-        [TestMethod]
-        public void RegexTest() {
-            Regex regex = new Regex(@"GPU(?<gpu>\d+) (?<gpuSpeed>[\d\.]+) (?<gpuSpeedUnit>.+?/s)");
-            string text = @"11:55:42:201	384	ETH: GPU0 14.015 Mh/s, GPU1 21.048 Mh/s";
-            MatchCollection matches = regex.Matches(text);
-            foreach (Match match in matches) {
-                Console.WriteLine(match.Groups["gpu"]);
-                Console.WriteLine(match.Groups["gpuSpeed"]);
-                Console.WriteLine(match.Groups["gpuSpeedUnit"]);
-                Console.WriteLine("notexit=" + match.Groups["notexit"]);
-            }
-        }
-
-        [TestMethod]
-        public void RegexTest1() {
-            string line = "11.1 h/s | 12.2 h/s | 13.3 h/s";
-            Regex regex = new Regex(@"(?<gpuSpeed>\d+\.?\d*) (?<gpuSpeedUnit>.+?/s)(?: \|)?");
-            MatchCollection matches = regex.Matches(line);
-            for (int gpuId = 0; gpuId < matches.Count; gpuId++) {
-                Match match = matches[gpuId];
-                double gpuSpeed;
-                string gpuSpeedUnit = match.Groups["gpuSpeedUnit"].Value;
-                double.TryParse(match.Groups["gpuSpeed"].Value, out gpuSpeed);
-                Console.WriteLine($"GPU{gpuId} {gpuSpeed} {gpuSpeedUnit}");
-            }
-        }
-
-        [TestMethod]
-        public void RegexTest2() {
-            string line = "Share accepted";
-            Regex regex = new Regex(@"(Share accepted)|(GPU\s?(?<gpu>\d+).+\nShare accepted)");
-            var match = regex.Match(line);
-            Assert.IsTrue(match.Success);
-            string gpuText = match.Groups[Consts.GpuIndexGroupName].Value;
-            Assert.AreEqual("", gpuText);
-
-            line = "GPU 1: this is a test\nShare accepted";
-            regex = new Regex(@"(Share accepted)|(GPU\s?(?<gpu>\d+).+\nShare accepted)");
-            match = regex.Match(line);
-            Assert.IsTrue(match.Success);
-            gpuText = match.Groups[Consts.GpuIndexGroupName].Value;
-            Assert.AreEqual("1", gpuText);
-        }
-
-        [TestMethod]
-        public void RegexTest3() {
-            string line = @"04:33:17:677	1b04	buf: {""result"":true,""id"":17}";
-            var match = Regex.Match(line, @"{""result"":true,""id"":1(?<gpu>\d+)}");
-            Assert.IsTrue(match.Success);
-            string gpuText = match.Groups[Consts.GpuIndexGroupName].Value;
-            Assert.AreEqual("7", gpuText);
-            Assert.IsTrue(string.IsNullOrEmpty(match.Groups["aaa"].Value));
-        }
-
-        [TestMethod]
-        public void RegexTest4() {
-            string line = @"17:18:33:747	a88	buf: {""result"":true,""id"":12}";
-            string pattern = @"buf:.+(""result"":true,""id"":1(?<gpu>\d+))|(""id"":1(?<gpu>\d+),""result"":true)";
-            var match = Regex.Match(line, pattern);
-            Assert.IsTrue(match.Success);
-            Assert.AreEqual("2", match.Groups["gpu"].Value);
-            line = @"10:52:52:601	1158	buf: {""jsonrpc"":""2.0"",""id"":15,""result"":true}";
-            match = Regex.Match(line, pattern);
-            Assert.IsTrue(match.Success);
-            Assert.AreEqual("5", match.Groups["gpu"].Value);
         }
 
         [TestMethod]
@@ -176,12 +143,6 @@ namespace UnitTests {
         public void ResourceDictionaryTest() {
             ResourceDictionary dic = new ResourceDictionary();
             dic["aaa"] = "aaa";
-        }
-
-        [TestMethod]
-        public void RunCloseTest() {
-            string location = NTMiner.NTMinerRegistry.GetLocation();
-            NTMiner.Windows.Cmd.RunClose(location, string.Empty);
         }
 
         [TestMethod]
@@ -255,38 +216,11 @@ namespace UnitTests {
         }
 
         [TestMethod]
-        public void ZipTest() {
-            ZipUtil.DecompressZipFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "lolminer0.7Alpha5.zip"), Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "temp"));
-        }
-
-        [TestMethod]
-        public void OperatorTest() {
-            ServerHostItem v1 = new ServerHostItem("localhost");
-            ServerHostItem v2 = new ServerHostItem("localhost");
-            Assert.AreEqual(v1, v2);
-            Assert.IsTrue(v1 == v2);
-            Assert.IsFalse(v1 != v2);
-            Assert.IsFalse(v1 == null);
-            Assert.IsFalse(null == v1);
-            v1 = null;
-            v2 = null;
-            Assert.IsTrue(v1 == v2);
-        }
-
-        private string SignatureSafeUrl(Uri uri) {
-            string url = uri.ToString();
-            if (url.Length > 28) {
-                string signature = url.Substring(url.Length - 28);
-                return url.Substring(0, url.Length - 28) + HttpUtility.UrlEncode(signature);
-            }
-            return url;
-        }
-
-        [TestMethod]
         public void AliOSSUrlTest() {
-            Uri uri = new Uri("http://ntminer.oss-cn-beijing.aliyuncs.com/packages/HSPMinerAE2.1.2.zip?Expires=1554472712&OSSAccessKeyId=LTAIHNApO2ImeMxI&Signature=FVTf+nX4grLKcPRxpJd9nf3Py7I=");
+            Uri uri = new Uri($"{OfficialServer.MinerJsonBucket}packages/HSPMinerAE2.1.2.zip?Expires=1554472712&OSSAccessKeyId=LTAIHNApO2ImeMxI&Signature=FVTf+nX4grLKcPRxpJd9nf3Py7I=");
             Console.WriteLine(uri.ToString());
-            Console.WriteLine(SignatureSafeUrl(uri));
+            Console.WriteLine(OfficialServer.SignatureSafeUrl(uri));
+            Console.WriteLine(HttpUtility.UrlEncode(uri.ToString()));
         }
 
         [TestMethod]

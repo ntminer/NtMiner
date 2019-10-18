@@ -12,7 +12,7 @@
 		Background="White"
 		mc:Ignorable="d" d:DesignWidth="600">
 	<UserControl.Resources>
-        <sys:Double x:Key="LblWidth">160</sys:Double>
+        <sys:Double x:Key="LblWidth">120</sys:Double>
 		<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
 			<Setter Property="Width" Value="{StaticResource LblWidth}"></Setter>
             <Setter Property="Padding" Value="10 4"></Setter>
@@ -57,16 +57,16 @@
                 <TextBlock Text="{x:Static app:AppStatic.BootOn}"></TextBlock>
             </WrapPanel>
 
-            <WrapPanel>
+            <WrapPanel Margin="0 10 0 0">
                 <Border Width="{StaticResource LblWidth}">
                     <Button 
                         Style="{StaticResource LblBtn}" 
-                        Content="打开本地目录" 
+                        Content="家目录" 
                         Command="{x:Static app:AppStatic.OpenDir}" 
-                        CommandParameter="{x:Static app:AppStatic.LocalDir}">
+                        CommandParameter="{x:Static app:AppStatic.HomeDir}">
                     </Button>
                 </Border>
-                <TextBlock Text="{x:Static app:AppStatic.LocalDir}"></TextBlock>
+                <TextBlock Text="{x:Static app:AppStatic.HomeDir}"></TextBlock>
             </WrapPanel>
 
             <WrapPanel Visibility="{x:Static app:AppStatic.IsDevModeVisible}">
@@ -79,7 +79,7 @@
                 <TextBlock Text="{x:Static app:AppStatic.ServerJsonFileFullName}"></TextBlock>
             </WrapPanel>
 
-            <WrapPanel>
+            <WrapPanel Visibility="{x:Static app:AppStatic.IsDevModeVisible}">
                 <TextBlock Style="{StaticResource LblTb}" Text="服务端导出文件名"></TextBlock>
                 <TextBlock Text="{x:Static app:AppStatic.ServerVersionJsonFileFullName}"></TextBlock>
             </WrapPanel>
@@ -89,33 +89,11 @@
                 <TextBlock Text="{x:Static app:AppStatic.LocalDbFileFullName}"></TextBlock>
             </WrapPanel>
 
-            <WrapPanel Visibility="{x:Static app:AppStatic.IsDevModeVisible}">
-                <TextBlock Style="{StaticResource LblTb}" Text="守护程序文件名"></TextBlock>
-                <TextBlock Text="{x:Static app:AppStatic.DaemonFileFullName}"></TextBlock>
-            </WrapPanel>
-
-            <WrapPanel Visibility="{x:Static app:AppStatic.IsDevModeVisible}">
-                <TextBlock Style="{StaticResource LblTb}" Text="开发者工具程序文件名"></TextBlock>
-                <TextBlock Text="{x:Static app:AppStatic.DevConsoleFileFullName}"></TextBlock>
-            </WrapPanel>
-
             <WrapPanel>
                 <Border Width="{StaticResource LblWidth}">
                     <Button 
                         Style="{StaticResource LblBtn}" 
-                        Content="打开临时目录" 
-                        Command="{x:Static app:AppStatic.OpenDir}" 
-                        CommandParameter="{x:Static app:AppStatic.TempDirFullName}">
-                    </Button>
-                </Border>
-                <TextBlock Text="{x:Static app:AppStatic.TempDirFullName}"></TextBlock>
-            </WrapPanel>
-
-            <WrapPanel>
-                <Border Width="{StaticResource LblWidth}">
-                    <Button 
-                        Style="{StaticResource LblBtn}" 
-                        Content="打开内核包目录" 
+                        Content="内核包目录" 
                         Command="{x:Static app:AppStatic.OpenDir}" 
                         CommandParameter="{x:Static app:AppStatic.PackagesDirFullName}">
                     </Button>
@@ -123,11 +101,35 @@
                 <TextBlock Text="{x:Static app:AppStatic.PackagesDirFullName}"></TextBlock>
             </WrapPanel>
 
+            <WrapPanel Margin="0 10 0 0">
+                <Border Width="{StaticResource LblWidth}">
+                    <Button 
+                        Style="{StaticResource LblBtn}" 
+                        Content="临时目录" 
+                        Command="{x:Static app:AppStatic.OpenDir}" 
+                        CommandParameter="{x:Static app:AppStatic.TempDir}">
+                    </Button>
+                </Border>
+                <TextBlock Text="{x:Static app:AppStatic.TempDir}"></TextBlock>
+            </WrapPanel>
+
             <WrapPanel>
                 <Border Width="{StaticResource LblWidth}">
                     <Button 
                         Style="{StaticResource LblBtn}" 
-                        Content="打开下载目录" 
+                        Content="日志目录" 
+                        Command="{x:Static app:AppStatic.OpenDir}" 
+                        CommandParameter="{x:Static app:AppStatic.LogsDirFullName}">
+                    </Button>
+                </Border>
+                <TextBlock Text="{x:Static app:AppStatic.LogsDirFullName}"></TextBlock>
+            </WrapPanel>
+
+            <WrapPanel>
+                <Border Width="{StaticResource LblWidth}">
+                    <Button 
+                        Style="{StaticResource LblBtn}" 
+                        Content="下载目录" 
                         Command="{x:Static app:AppStatic.OpenDir}" 
                         CommandParameter="{x:Static app:AppStatic.DownloadDirFullName}">
                     </Button>
@@ -139,7 +141,7 @@
                 <Border Width="{StaticResource LblWidth}">
                     <Button 
                         Style="{StaticResource LblBtn}" 
-                        Content="打开内核解压目录" 
+                        Content="内核解压目录" 
                         Command="{x:Static app:AppStatic.OpenDir}" 
                         CommandParameter="{x:Static app:AppStatic.KernelsDirFullName}">
                     </Button>
@@ -147,16 +149,14 @@
                 <TextBlock Text="{x:Static app:AppStatic.KernelsDirFullName}"></TextBlock>
             </WrapPanel>
 
-            <WrapPanel>
-                <Border Width="{StaticResource LblWidth}">
-                    <Button 
-                        Style="{StaticResource LblBtn}" 
-                        Content="打开日志目录" 
-                        Command="{x:Static app:AppStatic.OpenDir}" 
-                        CommandParameter="{x:Static app:AppStatic.LogsDirFullName}">
-                    </Button>
-                </Border>
-                <TextBlock Text="{x:Static app:AppStatic.LogsDirFullName}"></TextBlock>
+            <WrapPanel Visibility="{x:Static app:AppStatic.IsDevModeVisible}">
+                <TextBlock Style="{StaticResource LblTb}" Text="守护程序文件名"></TextBlock>
+                <TextBlock Text="{x:Static app:AppStatic.DaemonFileFullName}"></TextBlock>
+            </WrapPanel>
+
+            <WrapPanel Visibility="{x:Static app:AppStatic.IsDevModeVisible}">
+                <TextBlock Style="{StaticResource LblTb}"></TextBlock>
+                <TextBlock Text="{x:Static app:AppStatic.DevConsoleFileFullName}"></TextBlock>
             </WrapPanel>
         </StackPanel>
     </ScrollViewer>

@@ -22,7 +22,7 @@ namespace NTMiner {
             _isMinerStudio = isMinerStudio;
             _targetNotifyIcon = new NotifyIcon {
                 Icon = icon,
-                Visible = isMinerStudio || NTMinerRoot.GetIsShowNotifyIcon(),
+                Visible = isMinerStudio || NTMinerRoot.Instance.MinerProfile.IsShowNotifyIcon,
                 Text = text,
                 ContextMenuStrip = new ContextMenuStrip {
                     BackColor = Color.White,
@@ -40,7 +40,7 @@ namespace NTMiner {
         }
 
         public void RefreshIcon() {
-            _targetNotifyIcon.Visible = _isMinerStudio || NTMinerRoot.GetIsShowNotifyIcon();
+            _targetNotifyIcon.Visible = _isMinerStudio || NTMinerRoot.Instance.MinerProfile.IsShowNotifyIcon;
         }
 
         #region IDisposable Members

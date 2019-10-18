@@ -33,6 +33,23 @@ namespace NTMiner.Profile {
             this.PowerAppend = 0;
             this.MaxTemp = 80;
             this.AutoStartDelaySeconds = 15;
+            this.IsAutoDisableWindowsFirewall = true;
+            this.IsShowInTaskbar = true;
+            this.IsNoUi = false;
+            this.IsAutoNoUi = false;
+            this.AutoNoUiMinutes = 10;
+            this.IsShowNotifyIcon = true;
+            this.IsCloseMeanExit = false;
+            this.IsShowCommandLine = false;
+            this.IsAutoBoot = true;
+            this.IsAutoStart = true;
+            this.IsCreateShortcut = true;
+            this.IsAutoStopByCpu = false;
+            this.IsAutoStartByCpu = false;
+            this.CpuGETemperatureSeconds = 60;
+            this.CpuLETemperatureSeconds = 60;
+            this.CpuStartTemperature = 40;
+            this.CpuStopTemperature = 65;
         }
 
         public MinerProfileData(IMinerProfile data) {
@@ -59,6 +76,23 @@ namespace NTMiner.Profile {
             this.PowerAppend = data.PowerAppend;
             this.MaxTemp = data.MaxTemp;
             this.AutoStartDelaySeconds = data.AutoStartDelaySeconds;
+            this.IsAutoDisableWindowsFirewall = data.IsAutoDisableWindowsFirewall;
+            this.IsShowInTaskbar = data.IsShowInTaskbar;
+            this.IsNoUi = data.IsNoUi;
+            this.IsAutoNoUi = data.IsAutoNoUi;
+            this.AutoNoUiMinutes = data.AutoNoUiMinutes;
+            this.IsShowNotifyIcon = data.IsShowNotifyIcon;
+            this.IsCloseMeanExit = data.IsCloseMeanExit;
+            this.IsShowCommandLine = data.IsShowCommandLine;
+            this.IsAutoBoot = data.IsAutoBoot;
+            this.IsAutoStart = data.IsAutoStart;
+            this.IsCreateShortcut = data.IsCreateShortcut;
+            this.IsAutoStopByCpu = data.IsAutoStopByCpu;
+            this.IsAutoStartByCpu = data.IsAutoStartByCpu;
+            this.CpuGETemperatureSeconds = data.CpuGETemperatureSeconds;
+            this.CpuLETemperatureSeconds = data.CpuLETemperatureSeconds;
+            this.CpuStartTemperature = data.CpuStartTemperature;
+            this.CpuStopTemperature = data.CpuStopTemperature;
         }
 
         public Guid GetId() {
@@ -97,6 +131,40 @@ namespace NTMiner.Profile {
         public int MaxTemp { get; set; }
 
         public int AutoStartDelaySeconds { get; set; }
+
+        public bool IsAutoDisableWindowsFirewall { get; set; }
+
+        public bool IsShowInTaskbar { get; set; }
+
+        public bool IsNoUi { get; set; }
+
+        public bool IsAutoNoUi { get; set; }
+
+        public int AutoNoUiMinutes { get; set; }
+
+        public bool IsShowNotifyIcon { get; set; }
+
+        public bool IsCloseMeanExit { get; set; }
+
+        public bool IsShowCommandLine { get; set; }
+
+        public bool IsAutoBoot { get; set; }
+
+        public bool IsAutoStart { get; set; }
+
+        public bool IsCreateShortcut { get; set; }
+
+        public bool IsAutoStopByCpu { get; set; }
+
+        public int CpuStopTemperature { get; set; }
+
+        public int CpuGETemperatureSeconds { get; set; }
+
+        public bool IsAutoStartByCpu { get; set; }
+
+        public int CpuStartTemperature { get; set; }
+
+        public int CpuLETemperatureSeconds { get; set; }
 
         public override string ToString() {
             return this.BuildSign().ToString();

@@ -12,22 +12,25 @@ namespace NTMiner.MinerClient {
                 return result;
             }
             return new WorkerEventData {
-                Id = data.EventTypeId,
+                Guid = data.GetId(),
                 EventTypeId = data.EventTypeId,
-                Description = data.Description,
+                Content = data.Content,
                 EventOn = data.EventOn
             };
         }
 
         public Guid GetId() {
-            return this.Id;
+            return this.Guid;
         }
 
-        public Guid Id { get; set; }
+        // Id will be auto-incremented by litedb
+        public int Id { get; set; }
+
+        public Guid Guid { get; set; }
 
         public Guid EventTypeId { get; set; }
 
-        public string Description { get; set; }
+        public string Content { get; set; }
 
         public DateTime EventOn { get; set; }
     }

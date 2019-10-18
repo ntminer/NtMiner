@@ -10,7 +10,6 @@
         xmlns:local="clr-namespace:NTMiner.Views"
         ResizeMode="NoResize"
         SizeToContent="Height"
-        FontSize="20"
         BorderBrush="{StaticResource IconFillColor}"
         WindowStartupLocation="CenterOwner"
         MouseDown="Window_MouseDown"
@@ -18,8 +17,8 @@
         mc:Ignorable="d" Width="400" MinHeight="200">
     <blankWindow:BlankWindow.Resources>
         <ResourceDictionary>
-            <PathGeometry x:Key="Icon" Figures="{x:Null}">
-            </PathGeometry>
+            <StreamGeometry x:Key="Icon">
+            </StreamGeometry>
         </ResourceDictionary>
     </blankWindow:BlankWindow.Resources>
     <Grid> 
@@ -72,7 +71,7 @@
             </controls:KbLinkButton>
         </DockPanel>
         <StackPanel Grid.Row="1" Margin="10 20 10 10" HorizontalAlignment="Center" VerticalAlignment="Top">
-            <TextBlock x:Name="TextBlockMessage" VerticalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+            <TextBlock x:Name="TextBlockMessage" FontSize="16" VerticalAlignment="Center" TextWrapping="Wrap"></TextBlock>
         </StackPanel>
         <WrapPanel Grid.Row="2" HorizontalAlignment="Center" Margin="0 0 0 30">
             <controls:KbButton 
@@ -116,6 +115,7 @@
                         Fill="{StaticResource ThemeForeground}"
                         Stretch="Fill" />
                     <TextBlock
+                        x:Name="yesText"
                         FontSize="14"
                         Padding="0 4"
                         Foreground="{StaticResource ThemeForeground}"
@@ -139,6 +139,7 @@
                         Fill="White"
                         Stretch="Fill" />
                     <TextBlock
+                        x:Name="noText"
                         FontSize="14"
                         Padding="0 4"
                         Foreground="White"

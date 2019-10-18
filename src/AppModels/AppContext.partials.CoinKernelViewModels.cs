@@ -14,16 +14,16 @@ namespace NTMiner {
 #if DEBUG
                 Write.Stopwatch.Restart();
 #endif
-                VirtualRoot.On<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
+                VirtualRoot.EventPath<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById.Clear();
                         Init();
                     });
-                VirtualRoot.On<ServerContextVmsReInitedEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
+                VirtualRoot.EventPath<ServerContextVmsReInitedEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
                     action: message => {
                         OnPropertyChanged(nameof(AllCoinKernels));
                     });
-                On<CoinKernelAddedEvent>("添加了币种内核后刷新VM内存", LogEnum.DevConsole,
+                EventPath<CoinKernelAddedEvent>("添加了币种内核后刷新VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         var coinKernelVm = new CoinKernelViewModel(message.Source);
                         _dicById.Add(message.Source.GetId(), coinKernelVm);
@@ -42,7 +42,7 @@ namespace NTMiner {
                             kernelVm.OnPropertyChanged(nameof(kernelVm.SupportedCoins));
                         }
                     });
-                On<CoinKernelUpdatedEvent>("更新了币种内核后刷新VM内存", LogEnum.DevConsole,
+                EventPath<CoinKernelUpdatedEvent>("更新了币种内核后刷新VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         CoinKernelViewModel entity = _dicById[message.Source.GetId()];
                         var supportedGpu = entity.SupportedGpu;
@@ -61,7 +61,7 @@ namespace NTMiner {
                             kernelVm.OnPropertyChanged(nameof(kernelVm.CoinKernels));
                         }
                     });
-                On<CoinKernelRemovedEvent>("移除了币种内核后刷新VM内存", LogEnum.DevConsole,
+                EventPath<CoinKernelRemovedEvent>("移除了币种内核后刷新VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         CoinKernelViewModel coinKernelVm;
                         if (_dicById.TryGetValue(message.Source.GetId(), out coinKernelVm)) {

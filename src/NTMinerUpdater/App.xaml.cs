@@ -13,7 +13,7 @@ using System.Windows.Threading;
 
 namespace NTMiner {
     public partial class App : Application, IDisposable {
-        private static class NativeMethods {
+        private static class SafeNativeMethods {
             [DllImport("User32.dll")]
             public static extern bool ShowWindowAsync(IntPtr hWnd, int cmdShow);
 
@@ -21,17 +21,20 @@ namespace NTMiner {
             public static extern bool SetForegroundWindow(IntPtr hWnd);
         }
 
-        public static readonly NTMinerAppType AppType;
-        public static readonly bool IsInDesignMode = (bool)DesignerProperties.IsInDesignModeProperty.GetMetadata(typeof(DependencyObject)).DefaultValue;
-
-        static App() {
-            AppType = Environment.CommandLine.IndexOf("--minerstudio", StringComparison.OrdinalIgnoreCase) != -1 ? NTMinerAppType.MinerStudio : NTMinerAppType.MinerClient;
+        public static NTMinerAppType AppType {
+            get {
+                if (VirtualRoot.IsMinerStudio) {
+                    return NTMinerAppType.MinerStudio;
+                }
+                return NTMinerAppType.MinerClient;
+            }
         }
+        public static readonly bool IsInDesignMode = (bool)DesignerProperties.IsInDesignModeProperty.GetMetadata(typeof(DependencyObject)).DefaultValue;
 
         private Mutex mutexApp;
 
         public App() {
-            VirtualRoot.SetShowMessage(NotiCenterWindowViewModel.Instance);
+            VirtualRoot.SetOut(NotiCenterWindowViewModel.Instance);
             AppDomain.CurrentDomain.UnhandledException += (object sender, UnhandledExceptionEventArgs e) => {
                 if (e.ExceptionObject is Exception exception) {
                     Handle(exception);
@@ -109,8 +112,8 @@ namespace NTMiner {
 
         private const int SW_SHOWNOMAL = 1;
         private static void Show(Process instance) {
-            NativeMethods.ShowWindowAsync(instance.MainWindowHandle, SW_SHOWNOMAL);
-            NativeMethods.SetForegroundWindow(instance.MainWindowHandle);
+            SafeNativeMethods.ShowWindowAsync(instance.MainWindowHandle, SW_SHOWNOMAL);
+            SafeNativeMethods.SetForegroundWindow(instance.MainWindowHandle);
         }
     }
 }

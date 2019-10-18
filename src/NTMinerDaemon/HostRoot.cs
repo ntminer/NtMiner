@@ -57,7 +57,7 @@ namespace NTMiner {
                 if (mutexCreated) {
                     NTMinerRegistry.SetDaemonVersion(Sha1);
                     NTMinerRegistry.SetAutoBoot("NTMinerDaemon", true);
-                    bool isAutoBoot = NTMinerRegistry.GetIsAutoBoot();
+                    bool isAutoBoot = MinerProfileUtil.GetIsAutoBoot();
                     if (isAutoBoot) {
                         string location = NTMinerRegistry.GetLocation();
                         if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
@@ -108,9 +108,9 @@ namespace NTMiner {
 
         private static void Run() {
             try {
-                HttpServer.Start($"http://localhost:{Consts.NTMinerDaemonPort}");
+                HttpServer.Start($"http://localhost:{VirtualRoot.NTMinerDaemonPort}");
                 Windows.ConsoleHandler.Register(Close);
-                VirtualRoot.On<Per10SecondEvent>("呼吸表示活着", LogEnum.None,
+                VirtualRoot.EventPath<Per10SecondEvent>("呼吸表示活着", LogEnum.None,
                     action: message => {
                         NTMinerRegistry.SetDaemonActiveOn(DateTime.Now);
                         NoDevFee.NoDevFeeUtil.StartAsync();

@@ -14,7 +14,7 @@
 		WindowStartupLocation="CenterScreen"
 		MouseDown="MetroWindow_MouseDown"
 		DataContext="{x:Static vm:MainWindowViewModel.Instance}"
-		Title="NTMinerUpdater" Height="492" Width="333">
+		Title="NTMinerUpdater" Height="440" Width="333">
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="30"></RowDefinition>
@@ -37,7 +37,7 @@
             <uc:HistoryUc></uc:HistoryUc>
 			
 			<!--start下方两个大按钮和下载进度条-->
-			<Grid Grid.Row="1" Height="140" Background="White" Visibility="{Binding IsReady, Converter={StaticResource BoolToVisibilityConverter}}">
+			<Grid Grid.Row="1" Height="118" Background="White" Visibility="{Binding IsReady, Converter={StaticResource BoolToVisibilityConverter}}">
 				<controls:KbButton
 					VerticalAlignment="Center"
 					HorizontalAlignment="Center"
@@ -116,6 +116,7 @@
 			HorizontalAlignment="Right"
 			VerticalAlignment="Bottom"
 			Background="Transparent"
+            Cursor="Hand"
 			BorderThickness="0"
 			Width="66"
 			Margin="0 0 4 4"

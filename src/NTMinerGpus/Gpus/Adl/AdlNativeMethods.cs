@@ -118,15 +118,17 @@ namespace NTMiner.Gpus.Adl {
 
             // the ADLAdapterInfo.VendorID field reported by ADL is wrong on 
             // Windows systems (parse error), so we fix this here
+            Regex regex1 = new Regex("PCI_VEN_([A-Fa-f0-9]{1,4})&.*");
+            Regex regex2 = new Regex("[0-9]+:[0-9]+:([0-9]+):[0-9]+:[0-9]+");
             for (int i = 0; i < info.Length; i++) {
                 // try Windows UDID format
-                Match m = Regex.Match(info[i].UDID, "PCI_VEN_([A-Fa-f0-9]{1,4})&.*");
+                Match m = regex1.Match(info[i].UDID);
                 if (m.Success && m.Groups.Count == 2) {
                     info[i].VendorID = Convert.ToInt32(m.Groups[1].Value, 16);
                     continue;
                 }
                 // if above failed, try Unix UDID format
-                m = Regex.Match(info[i].UDID, "[0-9]+:[0-9]+:([0-9]+):[0-9]+:[0-9]+");
+                m = regex2.Match(info[i].UDID);
                 if (m.Success && m.Groups.Count == 2) {
                     info[i].VendorID = Convert.ToInt32(m.Groups[1].Value, 10);
                 }

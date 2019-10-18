@@ -9,6 +9,7 @@ namespace NTMiner {
         StringBuilder GetSignData();
     }
 
+    [AttributeUsage(AttributeTargets.Property)]
     public class ManualSignAttribute : Attribute {
         public ManualSignAttribute() { }
     }

@@ -52,13 +52,13 @@ namespace NTMiner.Vms {
 
         public Version CurrentVersion {
             get {
-                return NTMinerRoot.CurrentVersion;
+                return MainAssemblyInfo.CurrentVersion;
             }
         }
 
         public string VersionTag {
             get {
-                return NTMinerRoot.CurrentVersionTag;
+                return MainAssemblyInfo.CurrentVersionTag;
             }
         }
 

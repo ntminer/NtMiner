@@ -5,6 +5,7 @@ using System.Linq;
 
 namespace NTMiner {
     public static class NTMinerRegistry {
+        #region 设置Windows开机启动
         /// <summary>
         /// 将当前程序设置为windows开机自动启动
         /// </summary>
@@ -24,6 +25,7 @@ namespace NTMiner {
                 Windows.WinRegistry.DeleteValue(Registry.CurrentUser, AutoRunSubKey, valueName);
             }
         }
+        #endregion
 
         public const string NTMinerRegistrySubKey = @".DEFAULT\Software\NTMiner";
 
@@ -83,39 +85,6 @@ namespace NTMiner {
                 valueName = MinerStudio + "Arguments";
             }
             Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistrySubKey, valueName, arguments);
-        }
-        #endregion
-
-        #region IsAutoBoot
-        public static bool GetIsAutoBoot() {
-            object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistrySubKey, "IsAutoBoot");
-            return value == null || value.ToString() == "True";
-        }
-
-        public static void SetIsAutoBoot(bool value) {
-            Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistrySubKey, "IsAutoBoot", value);
-        }
-        #endregion
-
-        #region IsAutoStart
-        public static bool GetIsAutoStart() {
-            object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistrySubKey, "IsAutoStart");
-            return value != null && value.ToString() == "True";
-        }
-
-        public static void SetIsAutoStart(bool value) {
-            Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistrySubKey, "IsAutoStart", value);
-        }
-        #endregion
-
-        #region IsAutoDisableWindowsFirewall
-        public static bool GetIsAutoDisableWindowsFirewall() {
-            object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistrySubKey, "IsAutoDisableWindowsFirewall");
-            return value == null || value.ToString() == "True";
-        }
-
-        public static void SetIsAutoDisableWindowsFirewall(bool value) {
-            Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistrySubKey, "IsAutoDisableWindowsFirewall", value);
         }
         #endregion
 
@@ -252,6 +221,23 @@ namespace NTMiner {
                 Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistrySubKey, "ClientId", id.ToString());
             }
             return id;
+        }
+        #endregion
+
+        #region MinerName 非群控模式时将矿工名交换到注册表从而作为群控模式时未指定矿工名的缺省矿工名
+        public static string GetMinerName() {
+            object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "MinerName");
+            return (value ?? string.Empty).ToString();
+        }
+
+        public static void SetMinerName(string value) {
+            Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "MinerName", value);
+        }
+        #endregion
+
+        #region GetIsRemoteDesktopEnabled
+        public static bool GetIsRemoteDesktopEnabled() {
+            return (int)Windows.WinRegistry.GetValue(Registry.LocalMachine, "SYSTEM\\CurrentControlSet\\Control\\Terminal Server", "fDenyTSConnections") == 0;
         }
         #endregion
 

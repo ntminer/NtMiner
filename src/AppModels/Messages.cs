@@ -97,6 +97,11 @@ namespace NTMiner {
         }
     }
 
+    [MessageType(description: "打开品牌打码页")]
+    public class ShowTagBrandCommand : Cmd {
+        public ShowTagBrandCommand() { }
+    }
+
     [MessageType(description: "打开币种页面")]
     public class ShowCoinPageCommand : Cmd {
         public ShowCoinPageCommand(CoinViewModel currentCoin, string tabType) {
@@ -343,7 +348,7 @@ namespace NTMiner {
 
     public class ShowFileDownloaderCommand : Cmd {
         public ShowFileDownloaderCommand(
-            string downloadFileUrl, 
+            string downloadFileUrl,
             string fileTitle,
             // window, isSuccess, message, saveFileFullName, etagValue
             Action<Window, bool, string, string> downloadComplete) {
@@ -370,6 +375,11 @@ namespace NTMiner {
         }
 
         public CoinViewModel CoinVm { get; private set; }
+    }
+
+    [MessageType(description: "打开本机IP管理页")]
+    public class ShowLocalIpsCommand : Cmd {
+        public ShowLocalIpsCommand() { }
     }
 
     [MessageType(description: "打开ETH反抽水配置页")]
@@ -403,7 +413,7 @@ namespace NTMiner {
         public Action OnNo { get; private set; }
     }
 
-    [MessageType(description: "打开作群控矿机名设置界面")]
+    [MessageType(description: "打开作群控名设置界面")]
     public class ShowMinerNamesSeterCommand : Cmd {
         public ShowMinerNamesSeterCommand(MinerNamesSeterViewModel vm) {
             this.Vm = vm;

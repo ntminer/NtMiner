@@ -47,7 +47,6 @@ namespace NTMiner.Vms {
         private bool _minerGroup;
         private bool _mainCoinCode;
         private bool _mainCoinSpeedText;
-        private bool _gpuTableVms;
         private bool _mainCoinWallet;
         private bool _mainCoinPool;
         private bool _kernel;
@@ -67,6 +66,7 @@ namespace NTMiner.Vms {
         private bool _incomeDualCoinPerDayText;
         private bool _isAutoBoot;
         private bool _isAutoStart;
+        private bool _autoStartDelaySeconds;
         private bool _oSName;
         private bool _oSVirtualMemoryGbText;
         private bool _gpuType;
@@ -76,12 +76,28 @@ namespace NTMiner.Vms {
         private bool _kernelCommandLine;
         private bool _diskSpace;
         private bool _isAutoRestartKernel;
+        private bool _autoRestartKernelTimes;
         private bool _isNoShareRestartKernel;
+        private bool _noShareRestartKernelMinutes;
         private bool _isNoShareRestartComputer;
+        private bool _noShareRestartComputerMinutes;
         private bool _isPeriodicRestartKernel;
+        private bool _periodicRestartKernelHours;
+        private bool _periodicRestartKernelMinutes;
         private bool _isPeriodicRestartComputer;
+        private bool _periodicRestartComputerHours;
+        private bool _periodicRestartComputerMinutes;
+        private bool _mainCoinPoolDelay;
+        private bool _dualCoinPoolDelay;
+        private bool _isAutoStopByCpu;
+        private bool _isAutoStartByCpu;
+        private bool _cpuGETemperatureSeconds;
+        private bool _cpuStopTemperature;
+        private bool _cpuLETemperatureSeconds;
+        private bool _cpuStartTemperature;
 
         private List<ColumnItem> _columnItems = null;
+
         public List<ColumnItem> ColumnItems {
             get {
                 if (_columnItems == null) {
@@ -96,10 +112,16 @@ namespace NTMiner.Vms {
         }
 
         private void OnColumnItemChanged(string propertyName) {
+            OnPropertyChanged(propertyName);
             ColumnItem item = this.ColumnItems.FirstOrDefault(a => a.PropertyInfo.Name == propertyName);
             if (item != null) {
                 item.OnPropertyChanged(nameof(item.IsChecked));
             }
+            Server.ControlCenterService.AddOrUpdateColumnsShowAsync(new ColumnsShowData().Update(this), (response, exception) => {
+                if (!response.IsSuccess()) {
+                    Write.UserFail(response.ReadMessage(exception));
+                }
+            });
         }
 
         public ICommand Hide { get; private set; }
@@ -157,7 +179,6 @@ namespace NTMiner.Vms {
             _minerGroup = data.MinerGroup;
             _mainCoinCode = data.MainCoinCode;
             _mainCoinSpeedText = data.MainCoinSpeedText;
-            _gpuTableVms = data.GpuTableVm;
             _mainCoinWallet = data.MainCoinWallet;
             _mainCoinPool = data.MainCoinPool;
             _kernel = data.Kernel;
@@ -177,6 +198,7 @@ namespace NTMiner.Vms {
             _incomeDualCoinPerDayText = data.IncomeDualCoinPerDayText;
             _isAutoBoot = data.IsAutoBoot;
             _isAutoStart = data.IsAutoStart;
+            _autoStartDelaySeconds = data.AutoStartDelaySeconds;
             _oSName = data.OSName;
             _oSVirtualMemoryGbText = data.OSVirtualMemoryGbText;
             _gpuType = data.GpuType;
@@ -186,10 +208,25 @@ namespace NTMiner.Vms {
             _kernelCommandLine = data.KernelCommandLine;
             _diskSpace = data.DiskSpace;
             _isAutoRestartKernel = data.IsAutoRestartKernel;
+            _autoRestartKernelTimes = data.AutoRestartKernelTimes;
             _isNoShareRestartKernel = data.IsNoShareRestartKernel;
+            _noShareRestartKernelMinutes = data.NoShareRestartKernelMinutes;
             _isNoShareRestartComputer = data.IsNoShareRestartComputer;
+            _noShareRestartComputerMinutes = data.NoShareRestartComputerMinutes;
             _isPeriodicRestartKernel = data.IsPeriodicRestartKernel;
+            _periodicRestartKernelHours = data.PeriodicRestartKernelHours;
+            _periodicRestartKernelMinutes = data.PeriodicRestartKernelMinutes;
             _isPeriodicRestartComputer = data.IsPeriodicRestartComputer;
+            _periodicRestartComputerHours = data.PeriodicRestartComputerHours;
+            _periodicRestartComputerMinutes = data.PeriodicRestartComputerMinutes;
+            _mainCoinPoolDelay = data.MainCoinPoolDelay;
+            _dualCoinPoolDelay = data.DualCoinPoolDelay;
+            _isAutoStopByCpu = data.IsAutoStopByCpu;
+            _isAutoStartByCpu = data.IsAutoStartByCpu;
+            _cpuGETemperatureSeconds = data.CpuGETemperatureSeconds;
+            _cpuStopTemperature = data.CpuStopTemperature;
+            _cpuLETemperatureSeconds = data.CpuLETemperatureSeconds;
+            _cpuStartTemperature = data.CpuStartTemperature;
         }
 
         public bool IsPleaseSelect {
@@ -215,169 +252,157 @@ namespace NTMiner.Vms {
             set {
                 if (_columnsShowName != value) {
                     _columnsShowName = value;
-                    OnPropertyChanged(nameof(ColumnsShowName));
-                    UpdateColumnsShowAsync();
+                    OnColumnItemChanged(nameof(ColumnsShowName));
                 }
             }
         }
 
-        [Description("最后更新")]
+        public const string LAST_ACTIVED_ON_TEXT = "最后更新";
+        [Description(LAST_ACTIVED_ON_TEXT)]
         public bool LastActivedOnText {
             get => _lastActivedOnText;
             set {
                 if (_lastActivedOnText != value) {
                     _lastActivedOnText = value;
-                    OnPropertyChanged(nameof(LastActivedOnText));
                     OnColumnItemChanged(nameof(LastActivedOnText));
-                    UpdateColumnsShowAsync();
                 }
             }
         }
 
-        [Description("运行时长")]
+        public const string BOOT_TIME_SPAN_TEXT = "运行时长";
+        [Description(BOOT_TIME_SPAN_TEXT)]
         public bool BootTimeSpanText {
             get { return _bootTimeSpanText; }
             set {
                 if (_bootTimeSpanText != value) {
                     _bootTimeSpanText = value;
-                    OnPropertyChanged(nameof(BootTimeSpanText));
                     OnColumnItemChanged(nameof(BootTimeSpanText));
-                    UpdateColumnsShowAsync();
                 }
             }
         }
 
-        [Description("挖矿时长")]
+        public const string MINE_TIME_SPAN_TEXT = "挖矿时长";
+        [Description(MINE_TIME_SPAN_TEXT)]
         public bool MineTimeSpanText {
             get { return _mineTimeSpanText; }
             set {
                 if (_mineTimeSpanText != value) {
                     _mineTimeSpanText = value;
-                    OnPropertyChanged(nameof(MineTimeSpanText));
                     OnColumnItemChanged(nameof(MineTimeSpanText));
-                    UpdateColumnsShowAsync();
                 }
             }
         }
 
-        [Description("作业")]
+        public const string WORK = "作业";
+        [Description(WORK)]
         public bool Work {
             get => _work;
             set {
                 if (_work != value) {
                     _work = value;
-                    OnPropertyChanged(nameof(Work));
                     OnColumnItemChanged(nameof(Work));
-                    UpdateColumnsShowAsync();
                 }
             }
         }
 
-        [Description("分组")]
+        public const string MINER_GROUP = "分组";
+        [Description(MINER_GROUP)]
         public bool MinerGroup {
             get { return _minerGroup; }
             set {
                 if (_minerGroup != value) {
                     _minerGroup = value;
-                    OnPropertyChanged(nameof(MinerGroup));
                     OnColumnItemChanged(nameof(MinerGroup));
-                    UpdateColumnsShowAsync();
                 }
             }
         }
 
-        [Description("矿机名")]
+        public const string CLIENT_NAME = "矿机名";
+        [Description(CLIENT_NAME)]
         public bool ClientName {
             get { return _clientName; }
             set {
                 if (_clientName != value) {
                     _clientName = value;
-                    OnPropertyChanged(nameof(ClientName));
                     OnColumnItemChanged(nameof(ClientName));
-                    UpdateColumnsShowAsync();
                 }
             }
         }
 
-        [Description("群控矿机名")]
+        public const string MINER_NAME = "群控名";
+        [Description(MINER_NAME)]
         public bool MinerName {
             get { return _minerName; }
             set {
                 if (_minerName != value) {
                     _minerName = value;
-                    OnPropertyChanged(nameof(MinerName));
                     OnColumnItemChanged(nameof(MinerName));
-                    UpdateColumnsShowAsync();
                 }
             }
         }
 
-        [Description("IP")]
+        public const string MINER_IP = "IP";
+        [Description(MINER_IP)]
         public bool MinerIp {
             get { return _minerIp; }
             set {
                 if (_minerIp != value) {
                     _minerIp = value;
-                    OnPropertyChanged(nameof(MinerIp));
                     OnColumnItemChanged(nameof(MinerIp));
-                    UpdateColumnsShowAsync();
                 }
             }
         }
 
-        [Description("远程桌面用户名密码")]
+        public const string WINDOWS_LOGIN_NAME_AND_PASSWORD = "远程桌面";
+        [Description(WINDOWS_LOGIN_NAME_AND_PASSWORD)]
         public bool WindowsLoginNameAndPassword {
             get => _windowsLoginNameAndPassword;
             set {
                 if (_windowsLoginNameAndPassword != value) {
                     _windowsLoginNameAndPassword = value;
-                    OnPropertyChanged(nameof(WindowsLoginNameAndPassword));
                     OnColumnItemChanged(nameof(WindowsLoginNameAndPassword));
-                    UpdateColumnsShowAsync();
                 }
             }
         }
 
-        [Description("显卡类型")]
+        public const string GPU_TYPE = "显卡类型";
+        [Description(GPU_TYPE)]
         public bool GpuType {
             get => _gpuType;
             set {
                 if (_gpuType != value) {
                     _gpuType = value;
-                    OnPropertyChanged(nameof(GpuType));
                     OnColumnItemChanged(nameof(GpuType));
-                    UpdateColumnsShowAsync();
                 }
             }
         }
 
-        [Description("显卡")]
+        public const string GPU_INFO = "显卡";
+        [Description(GPU_INFO)]
         public bool GpuInfo {
             get => _gpuInfo;
             set {
                 if (_gpuInfo != value) {
                     _gpuInfo = value;
-                    OnPropertyChanged(nameof(GpuInfo));
                     OnColumnItemChanged(nameof(GpuInfo));
-                    UpdateColumnsShowAsync();
                 }
             }
         }
 
-        [Description("显卡驱动")]
+        public const string GPU_DRIVER = "显卡驱动";
+        [Description(GPU_DRIVER)]
         public bool GpuDriver {
             get => _gpuDriver;
             set {
                 if (_gpuDriver != value) {
                     _gpuDriver = value;
-                    OnPropertyChanged(nameof(GpuDriver));
                     OnColumnItemChanged(nameof(GpuDriver));
-                    UpdateColumnsShowAsync();
                 }
             }
         }
 
-        [Description("主挖币种")]
+        public const string MAIN_COIN_CODE = "主挖币种";
+        [Description(MAIN_COIN_CODE)]
         public bool MainCoinCode {
             get {
                 return _mainCoinCode;
@@ -385,358 +410,510 @@ namespace NTMiner.Vms {
             set {
                 if (_mainCoinCode != value) {
                     _mainCoinCode = value;
-                    OnPropertyChanged(nameof(MainCoinCode));
                     OnColumnItemChanged(nameof(MainCoinCode));
-                    UpdateColumnsShowAsync();
                 }
             }
         }
 
-        [Description("主币算力")]
+        public const string MAIN_COIN_SPEED_TEXT = "主币算力";
+        [Description(MAIN_COIN_SPEED_TEXT)]
         public bool MainCoinSpeedText {
             get { return _mainCoinSpeedText; }
             set {
                 if (_mainCoinSpeedText != value) {
                     _mainCoinSpeedText = value;
-                    OnPropertyChanged(nameof(MainCoinSpeedText));
                     OnColumnItemChanged(nameof(MainCoinSpeedText));
-                    UpdateColumnsShowAsync();
                 }
             }
         }
 
-        [Description("主币拒绝")]
+        public const string MAIN_COIN_REJECT_PERCENT_TEXT = "主币拒绝";
+        [Description(MAIN_COIN_REJECT_PERCENT_TEXT)]
         public bool MainCoinRejectPercentText {
             get => _mainCoinRejectPercentText;
             set {
                 if (_mainCoinRejectPercentText != value) {
                     _mainCoinRejectPercentText = value;
-                    OnPropertyChanged(nameof(MainCoinRejectPercentText));
                     OnColumnItemChanged(nameof(MainCoinRejectPercentText));
-                    UpdateColumnsShowAsync();
                 }
             }
         }
 
-        [Description("双挖币种")]
+        public const string DUAL_COIN_CODE = "双挖币种";
+        [Description(DUAL_COIN_CODE)]
         public bool DualCoinCode {
             get => _dualCoinCode;
             set {
                 if (_dualCoinCode != value) {
                     _dualCoinCode = value;
-                    OnPropertyChanged(nameof(DualCoinCode));
                     OnColumnItemChanged(nameof(DualCoinCode));
-                    UpdateColumnsShowAsync();
                 }
             }
         }
 
-        [Description("双挖币算力")]
+        public const string DUAL_COIN_SPEED_TEXT = "双挖币算力";
+        [Description(DUAL_COIN_SPEED_TEXT)]
         public bool DualCoinSpeedText {
             get => _dualCoinSpeedText;
             set {
                 if (_dualCoinSpeedText != value) {
                     _dualCoinSpeedText = value;
-                    OnPropertyChanged(nameof(DualCoinSpeedText));
                     OnColumnItemChanged(nameof(DualCoinSpeedText));
-                    UpdateColumnsShowAsync();
                 }
             }
         }
 
-        [Description("双挖币拒绝")]
+        public const string DUAL_COIN_REJECT_PERCENT_TEXT = "双挖币拒绝";
+        [Description(DUAL_COIN_REJECT_PERCENT_TEXT)]
         public bool DualCoinRejectPercentText {
             get => _dualCoinRejectPercentText;
             set {
                 if (_dualCoinRejectPercentText != value) {
                     _dualCoinRejectPercentText = value;
-                    OnPropertyChanged(nameof(DualCoinRejectPercentText));
                     OnColumnItemChanged(nameof(DualCoinRejectPercentText));
-                    UpdateColumnsShowAsync();
                 }
             }
         }
 
-        [Description("功耗")]
+        public const string TOTAL_POWER_TEXT = "功耗";
+        [Description(TOTAL_POWER_TEXT)]
         public bool TotalPowerText {
             get => _totalPowerText;
             set {
                 if (_totalPowerText != value) {
                     _totalPowerText = value;
-                    OnPropertyChanged(nameof(TotalPowerText));
                     OnColumnItemChanged(nameof(TotalPowerText));
-                    UpdateColumnsShowAsync();
                 }
             }
         }
 
-        [Description("最高卡温")]
+        public const string MAX_TEMP_TEXT = "最高卡温";
+        [Description(MAX_TEMP_TEXT)]
         public bool MaxTempText {
             get => _maxTempText;
             set {
                 if (_maxTempText != value) {
                     _maxTempText = value;
-                    OnPropertyChanged(nameof(MaxTempText));
                     OnColumnItemChanged(nameof(MaxTempText));
-                    UpdateColumnsShowAsync();
                 }
             }
         }
 
-        [Description("主币预期收益")]
+        public const string INCOME_MAIN_COIN_PER_DAY_TEXT = "主币预期收益";
+        [Description(INCOME_MAIN_COIN_PER_DAY_TEXT)]
         public bool IncomeMainCoinPerDayText {
             get => _incomeMainCoinPerDayText;
             set {
                 if (_incomeMainCoinPerDayText != value) {
                     _incomeMainCoinPerDayText = value;
-                    OnPropertyChanged(nameof(IncomeMainCoinPerDayText));
                     OnColumnItemChanged(nameof(IncomeMainCoinPerDayText));
-                    UpdateColumnsShowAsync();
                 }
             }
         }
 
-        [Description("双挖币预期收益")]
+        public const string INCOME_DUAL_COIN_PER_DAY_TEXT = "双挖币预期收益";
+        [Description(INCOME_DUAL_COIN_PER_DAY_TEXT)]
         public bool IncomeDualCoinPerDayText {
             get => _incomeDualCoinPerDayText;
             set {
                 if (_incomeDualCoinPerDayText != value) {
                     _incomeDualCoinPerDayText = value;
-                    OnPropertyChanged(nameof(IncomeDualCoinPerDayText));
                     OnColumnItemChanged(nameof(IncomeDualCoinPerDayText));
-                    UpdateColumnsShowAsync();
                 }
             }
         }
 
-        [Description("主币钱包")]
+        public const string MAIN_COIN_WALLET = "主币钱包";
+        [Description(MAIN_COIN_WALLET)]
         public bool MainCoinWallet {
             get => _mainCoinWallet;
             set {
                 if (_mainCoinWallet != value) {
                     _mainCoinWallet = value;
-                    OnPropertyChanged(nameof(MainCoinWallet));
                     OnColumnItemChanged(nameof(MainCoinWallet));
-                    UpdateColumnsShowAsync();
                 }
             }
         }
 
-        [Description("主币矿池")]
+        public const string MAIN_COIN_POOL = "主币矿池";
+        [Description(MAIN_COIN_POOL)]
         public bool MainCoinPool {
             get => _mainCoinPool;
             set {
                 if (_mainCoinPool != value) {
                     _mainCoinPool = value;
-                    OnPropertyChanged(nameof(MainCoinPool));
                     OnColumnItemChanged(nameof(MainCoinPool));
-                    UpdateColumnsShowAsync();
                 }
             }
         }
 
-        [Description("内核")]
+        public const string KERNEL = "内核";
+        [Description(KERNEL)]
         public bool Kernel {
             get => _kernel;
             set {
                 if (_kernel != value) {
                     _kernel = value;
-                    OnPropertyChanged(nameof(Kernel));
                     OnColumnItemChanged(nameof(Kernel));
-                    UpdateColumnsShowAsync();
                 }
             }
         }
 
-        [Description("双挖币钱包")]
+        public const string DUAL_COIN_WALLET = "双挖币钱包";
+        [Description(DUAL_COIN_WALLET)]
         public bool DualCoinWallet {
             get => _dualCoinWallet;
             set {
                 if (_dualCoinWallet != value) {
                     _dualCoinWallet = value;
-                    OnPropertyChanged(nameof(DualCoinWallet));
                     OnColumnItemChanged(nameof(DualCoinWallet));
-                    UpdateColumnsShowAsync();
                 }
             }
         }
 
-        [Description("双挖币矿池")]
+        public const string DUAL_COIN_POOL = "双挖币矿池";
+        [Description(DUAL_COIN_POOL)]
         public bool DualCoinPool {
             get => _dualCoinPool;
             set {
                 if (_dualCoinPool != value) {
                     _dualCoinPool = value;
-                    OnPropertyChanged(nameof(DualCoinPool));
                     OnColumnItemChanged(nameof(DualCoinPool));
-                    UpdateColumnsShowAsync();
                 }
             }
         }
 
-        [Description("客户端版本")]
+        public const string VERSION = "开源版本";
+        [Description(VERSION)]
         public bool Version {
             get => _version;
             set {
                 if (_version != value) {
                     _version = value;
-                    OnPropertyChanged(nameof(Version));
                     OnColumnItemChanged(nameof(Version));
-                    UpdateColumnsShowAsync();
                 }
             }
         }
 
-        [Description("操作系统")]
+        public const string OS_NAME = "操作系统";
+        [Description(OS_NAME)]
         public bool OSName {
             get => _oSName;
             set {
                 if (_oSName != value) {
                     _oSName = value;
-                    OnPropertyChanged(nameof(OSName));
                     OnColumnItemChanged(nameof(OSName));
-                    UpdateColumnsShowAsync();
                 }
             }
         }
 
-        [Description("虚拟内存")]
+        public const string OS_VIRTUAL_MEMORY_GB_TEXT = "虚拟内存";
+        [Description(OS_VIRTUAL_MEMORY_GB_TEXT)]
         public bool OSVirtualMemoryGbText {
             get => _oSVirtualMemoryGbText;
             set {
                 if (_oSVirtualMemoryGbText != value) {
                     _oSVirtualMemoryGbText = value;
-                    OnPropertyChanged(nameof(OSVirtualMemoryGbText));
                     OnColumnItemChanged(nameof(OSVirtualMemoryGbText));
-                    UpdateColumnsShowAsync();
                 }
             }
         }
 
-        [Description("剩余磁盘")]
+        public const string DISK_SPACE = "剩余磁盘";
+        [Description(DISK_SPACE)]
         public bool DiskSpace {
             get => _diskSpace;
             set {
                 if (_diskSpace != value) {
                     _diskSpace = value;
-                    OnPropertyChanged(nameof(DiskSpace));
                     OnColumnItemChanged(nameof(DiskSpace));
-                    UpdateColumnsShowAsync();
                 }
             }
         }
 
-        [Description("开机启动")]
+        public const string IS_AUTO_BOOT = "开机启动";
+        [Description(IS_AUTO_BOOT)]
         public bool IsAutoBoot {
             get => _isAutoBoot;
             set {
                 if (_isAutoBoot != value) {
                     _isAutoBoot = value;
-                    OnPropertyChanged(nameof(IsAutoBoot));
                     OnColumnItemChanged(nameof(IsAutoBoot));
-                    UpdateColumnsShowAsync();
                 }
             }
         }
 
-        [Description("自动挖矿")]
+        public const string IS_AUTO_START = "自动挖矿";
+        [Description(IS_AUTO_START)]
         public bool IsAutoStart {
             get => _isAutoStart;
             set {
                 if (_isAutoStart != value) {
                     _isAutoStart = value;
-                    OnPropertyChanged(nameof(IsAutoStart));
                     OnColumnItemChanged(nameof(IsAutoStart));
-                    UpdateColumnsShowAsync();
                 }
             }
         }
 
-        [Description("内核命令行")]
+        public const string AUTO_START_DELAY_SECONDS = "延时秒数";
+        [Description(AUTO_START_DELAY_SECONDS)]
+        public bool AutoStartDelaySeconds {
+            get => _autoStartDelaySeconds;
+            set {
+                if (_autoStartDelaySeconds != value) {
+                    _autoStartDelaySeconds = value;
+                    OnColumnItemChanged(nameof(AutoStartDelaySeconds));
+                }
+            }
+        }
+
+        public const string KERNEL_COMMAND_LINE = "内核命令行";
+        [Description(KERNEL_COMMAND_LINE)]
         public bool KernelCommandLine {
             get => _kernelCommandLine;
             set {
                 if (_kernelCommandLine != value) {
                     _kernelCommandLine = value;
-                    OnPropertyChanged(nameof(KernelCommandLine));
                     OnColumnItemChanged(nameof(KernelCommandLine));
-                    UpdateColumnsShowAsync();
                 }
             }
         }
 
+        public const string IS_AUTO_RESTART_KERNEL = "自动重启内核";
+        [Description(IS_AUTO_RESTART_KERNEL)]
         public bool IsAutoRestartKernel {
             get => _isAutoRestartKernel;
             set {
                 if (_isAutoRestartKernel != value) {
                     _isAutoRestartKernel = value;
-                    OnPropertyChanged(nameof(IsAutoRestartKernel));
-                    UpdateColumnsShowAsync();
+                    OnColumnItemChanged(nameof(IsAutoRestartKernel));
                 }
             }
         }
 
+        public const string AUTO_RESTART_KERNEL_TIMES = "重启次数上限";
+        [Description(AUTO_RESTART_KERNEL_TIMES)]
+        public bool AutoRestartKernelTimes {
+            get => _autoRestartKernelTimes;
+            set {
+                if (_autoRestartKernelTimes != value) {
+                    _autoRestartKernelTimes = value;
+                    OnColumnItemChanged(nameof(AutoRestartKernelTimes));
+                }
+            }
+        }
+
+        public const string IS_NO_SHARE_RESTART_KERNEL = "无份额重启内核";
+        [Description(IS_NO_SHARE_RESTART_KERNEL)]
         public bool IsNoShareRestartKernel {
             get => _isNoShareRestartKernel;
             set {
                 if (_isNoShareRestartKernel != value) {
                     _isNoShareRestartKernel = value;
-                    OnPropertyChanged(nameof(IsNoShareRestartKernel));
-                    UpdateColumnsShowAsync();
+                    OnColumnItemChanged(nameof(IsNoShareRestartKernel));
                 }
             }
         }
 
+        public const string NO_SHARE_RESTART_KERNEL_MINUTES = "无份额重启内核分钟";
+        [Description(NO_SHARE_RESTART_KERNEL_MINUTES)]
+        public bool NoShareRestartKernelMinutes {
+            get => _noShareRestartKernelMinutes;
+            set {
+                if (_noShareRestartKernelMinutes != value) {
+                    _noShareRestartKernelMinutes = value;
+                    OnColumnItemChanged(nameof(NoShareRestartKernelMinutes));
+                }
+            }
+        }
+
+        public const string IS_NO_SHARE_RESTART_COMPUTER = "无份额重启电脑";
+        [Description(IS_NO_SHARE_RESTART_COMPUTER)]
         public bool IsNoShareRestartComputer {
             get { return _isNoShareRestartComputer; }
             set {
                 if (_isNoShareRestartComputer != value) {
                     _isNoShareRestartComputer = value;
-                    OnPropertyChanged(nameof(IsNoShareRestartComputer));
-                    UpdateColumnsShowAsync();
+                    OnColumnItemChanged(nameof(IsNoShareRestartComputer));
                 }
             }
         }
 
+        public const string NO_SHARE_RESTART_COMPUTER_MINUTES = "无份额重启电脑分钟";
+        [Description(NO_SHARE_RESTART_COMPUTER_MINUTES)]
+        public bool NoShareRestartComputerMinutes {
+            get { return _noShareRestartComputerMinutes; }
+            set {
+                if (_noShareRestartComputerMinutes != value) {
+                    _noShareRestartComputerMinutes = value;
+                    OnColumnItemChanged(nameof(NoShareRestartComputerMinutes));
+                }
+            }
+        }
+
+        public const string IS_PERIODIC_RESTART_KERNEL = "周期重启内核";
+        [Description(IS_PERIODIC_RESTART_KERNEL)]
         public bool IsPeriodicRestartKernel {
             get => _isPeriodicRestartKernel;
             set {
                 if (_isPeriodicRestartKernel != value) {
                     _isPeriodicRestartKernel = value;
-                    OnPropertyChanged(nameof(IsPeriodicRestartKernel));
-                    UpdateColumnsShowAsync();
+                    OnColumnItemChanged(nameof(IsPeriodicRestartKernel));
                 }
             }
         }
 
+        public const string IS_PERIODIC_RESTART_COMPUTER = "周期重启电脑";
+        [Description(IS_PERIODIC_RESTART_COMPUTER)]
         public bool IsPeriodicRestartComputer {
             get => _isPeriodicRestartComputer;
             set {
                 if (_isPeriodicRestartComputer != value) {
                     _isPeriodicRestartComputer = value;
-                    OnPropertyChanged(nameof(IsPeriodicRestartComputer));
-                    UpdateColumnsShowAsync();
+                    OnColumnItemChanged(nameof(IsPeriodicRestartComputer));
                 }
             }
         }
 
-        public bool GpuTableVm {
-            get { return _gpuTableVms; }
+        public const string PERIODIC_RESTART_KERNEL_HOURS = "周期重启内核小时";
+        [Description(PERIODIC_RESTART_KERNEL_HOURS)]
+        public bool PeriodicRestartKernelHours {
+            get => _periodicRestartKernelHours;
             set {
-                if (_gpuTableVms != value) {
-                    _gpuTableVms = value;
-                    OnPropertyChanged(nameof(GpuTableVm));
-                    UpdateColumnsShowAsync();
+                if (_periodicRestartKernelHours != value) {
+                    _periodicRestartKernelHours = value;
+                    OnColumnItemChanged(nameof(PeriodicRestartKernelHours));
+                }
+            }
+        }
+        public const string PERIODIC_RESTART_KERNEL_MINUTES = "周期重启内核分钟";
+        [Description(PERIODIC_RESTART_KERNEL_MINUTES)]
+        public bool PeriodicRestartKernelMinutes {
+            get => _periodicRestartKernelMinutes;
+            set {
+                if (_periodicRestartKernelMinutes != value) {
+                    _periodicRestartKernelMinutes = value;
+                    OnColumnItemChanged(nameof(PeriodicRestartKernelMinutes));
+                }
+            }
+        }
+        public const string PERIODIC_RESTART_COMPUTER_HOURS = "周期重启电脑小时";
+        [Description(PERIODIC_RESTART_COMPUTER_HOURS)]
+        public bool PeriodicRestartComputerHours {
+            get => _periodicRestartComputerHours;
+            set {
+                if (_periodicRestartComputerHours != value) {
+                    _periodicRestartComputerHours = value;
+                    OnColumnItemChanged(nameof(PeriodicRestartComputerHours));
+                }
+            }
+        }
+        public const string PERIODIC_RESTART_COMPUTER_MINUTES = "周期重启电脑分钟";
+        [Description(PERIODIC_RESTART_COMPUTER_MINUTES)]
+        public bool PeriodicRestartComputerMinutes {
+            get => _periodicRestartComputerMinutes;
+            set {
+                if (_periodicRestartComputerMinutes != value) {
+                    _periodicRestartComputerMinutes = value;
+                    OnColumnItemChanged(nameof(PeriodicRestartComputerMinutes));
                 }
             }
         }
 
-        private void UpdateColumnsShowAsync() {
-            Server.ControlCenterService.AddOrUpdateColumnsShowAsync(new ColumnsShowData().Update(this), (response, exception) => {
-                if (!response.IsSuccess()) {
-                    Write.UserFail(response.ReadMessage(exception));
+        public const string MAIN_COIN_POOL_DELAY = "矿池延时";
+        [Description(MAIN_COIN_POOL_DELAY)]
+        public bool MainCoinPoolDelay {
+            get { return _mainCoinPoolDelay; }
+            set {
+                if (_mainCoinPoolDelay != value) {
+                    _mainCoinPoolDelay = value;
+                    OnColumnItemChanged(nameof(MainCoinPoolDelay));
                 }
-            });
+            }
+        }
+
+        public const string DUAL_COIN_POOL_DELAY = "双挖矿池延时";
+        [Description(DUAL_COIN_POOL_DELAY)]
+        public bool DualCoinPoolDelay {
+            get { return _dualCoinPoolDelay; }
+            set {
+                if (_dualCoinPoolDelay != value) {
+                    _dualCoinPoolDelay = value;
+                    OnColumnItemChanged(nameof(DualCoinPoolDelay));
+                }
+            }
+        }
+
+        public const string IS_AUTO_STOP_BY_CPU = "CPU高温自动停止挖矿";
+        [Description(IS_AUTO_STOP_BY_CPU)]
+        public bool IsAutoStopByCpu {
+            get => _isAutoStopByCpu;
+            set {
+                if (_isAutoStopByCpu != value) {
+                    _isAutoStopByCpu = value;
+                    OnPropertyChanged(nameof(IsAutoStopByCpu));
+                }
+            }
+        }
+
+        public const string IS_AUTO_START_BY_CPU = "CPU低温自动开始挖矿";
+        [Description(IS_AUTO_START_BY_CPU)]
+        public bool IsAutoStartByCpu {
+            get => _isAutoStartByCpu;
+            set {
+                if (_isAutoStartByCpu != value) {
+                    _isAutoStartByCpu = value;
+                    OnPropertyChanged(nameof(IsAutoStartByCpu));
+                }
+            }
+        }
+
+        public const string CPU_GE_TEMPERATURE_SECONDS = "CPU高温秒数";
+        [Description(CPU_GE_TEMPERATURE_SECONDS)]
+        public bool CpuGETemperatureSeconds {
+            get => _cpuGETemperatureSeconds;
+            set {
+                if (_cpuGETemperatureSeconds != value) {
+                    _cpuGETemperatureSeconds = value;
+                    OnPropertyChanged(nameof(CpuGETemperatureSeconds));
+                }
+            }
+        }
+
+        public const string CPU_STOP_TEMPERATURE = "CPU高温";
+        [Description(CPU_STOP_TEMPERATURE)]
+        public bool CpuStopTemperature {
+            get => _cpuStopTemperature;
+            set {
+                if (_cpuStopTemperature != value) {
+                    _cpuStopTemperature = value;
+                    OnPropertyChanged(nameof(CpuStopTemperature));
+                }
+            }
+        }
+
+        public const string CPU_LE_TEMPERATURE_SECONDS = "CPU低温秒数";
+        [Description(CPU_LE_TEMPERATURE_SECONDS)]
+        public bool CpuLETemperatureSeconds {
+            get => _cpuLETemperatureSeconds;
+            set {
+                if (_cpuLETemperatureSeconds != value) {
+                    _cpuLETemperatureSeconds = value;
+                    OnPropertyChanged(nameof(CpuLETemperatureSeconds));
+                }
+            }
+        }
+
+        public const string CPU_START_TEMPERATURE = "CPU低温";
+        [Description(CPU_START_TEMPERATURE)]
+        public bool CpuStartTemperature {
+            get => _cpuStartTemperature;
+            set {
+                if (_cpuStartTemperature != value) {
+                    _cpuStartTemperature = value;
+                    OnPropertyChanged(nameof(CpuStartTemperature));
+                }
+            }
         }
     }
 }

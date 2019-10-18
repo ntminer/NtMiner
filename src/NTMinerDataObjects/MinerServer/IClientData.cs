@@ -8,7 +8,13 @@ namespace NTMiner.MinerServer {
 
         bool IsAutoStart { get; }
 
+        int AutoStartDelaySeconds { get; }
+
         Guid WorkId { get; }
+
+        Guid MineWorkId { get; }
+
+        string MineWorkName { get; }
 
         string Version { get; }
 
@@ -42,6 +48,8 @@ namespace NTMiner.MinerServer {
 
         string MainCoinWallet { get; }
 
+        string MainCoinPoolDelay { get; }
+
         string Kernel { get; }
 
         bool IsDualCoinEnabled { get; }
@@ -57,6 +65,8 @@ namespace NTMiner.MinerServer {
         string DualCoinPool { get; }
 
         string DualCoinWallet { get; }
+
+        string DualCoinPoolDelay { get; }
 
         string GpuInfo { get; }
 
@@ -74,12 +84,28 @@ namespace NTMiner.MinerServer {
 
         string KernelCommandLine { get; }
         bool IsAutoRestartKernel { get; }
+        int AutoRestartKernelTimes { get; }
         bool IsNoShareRestartKernel { get; }
         int NoShareRestartKernelMinutes { get; }
         bool IsPeriodicRestartKernel { get; }
         int PeriodicRestartKernelHours { get; }
+        int PeriodicRestartKernelMinutes { get; }
         bool IsPeriodicRestartComputer { get; }
+        int NoShareRestartComputerMinutes { get; }
         int PeriodicRestartComputerHours { get; }
+        int PeriodicRestartComputerMinutes { get; }
+        bool IsRejectOneGpuShare { get; }
+        bool IsFoundOneGpuShare { get; }
+        bool IsGotOneIncorrectGpuShare { get; }
+        bool IsAutoStopByCpu { get; }
+        int CpuGETemperatureSeconds { get; }
+        int CpuStopTemperature { get; }
+        bool IsAutoStartByCpu { get; }
+        int CpuLETemperatureSeconds { get; }
+        int CpuStartTemperature { get; }
+        int CpuPerformance { get; }
+        int CpuTemperature { get; }
+
         GpuSpeedData[] GpuTable { get; }
     }
 }

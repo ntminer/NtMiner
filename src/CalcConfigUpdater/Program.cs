@@ -9,14 +9,14 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace NTMiner {
-    class Program {
+    public class Program {
         static void Main(string[] args) {
             VirtualRoot.StartTimer();
             try {
                 // 将服务器地址设为localhost从而使用内网ip访问免于验证用户名密码
-                AssemblyInfo.SetOfficialServerHost("localhost");
+                MainAssemblyInfo.SetOfficialServerHost("localhost");
                 NTMinerRegistry.SetAutoBoot("NTMiner.CalcConfigUpdater", true);
-                VirtualRoot.On<Per10MinuteEvent>("每10分钟更新收益计算器", LogEnum.DevConsole,
+                VirtualRoot.EventPath<Per10MinuteEvent>("每10分钟更新收益计算器", LogEnum.DevConsole,
                     action: message => {
                         UpdateAsync();
                     });
@@ -34,7 +34,6 @@ namespace NTMiner {
 
             System.Threading.Thread.Sleep(1000);
         }
-
 
         private static void UpdateAsync() {
             Task.Factory.StartNew(() => {
@@ -95,7 +94,7 @@ namespace NTMiner {
                                             calcConfigData.BaseNetSpeed = calcConfigData.NetSpeed;
                                             calcConfigData.BaseNetSpeedUnit = calcConfigData.NetSpeedUnit;
                                         }
-                                        else if(calcConfigData.BaseNetSpeed != 0) {
+                                        else if (calcConfigData.BaseNetSpeed != 0) {
                                             if (calcConfigData.NetSpeedUnit == calcConfigData.BaseNetSpeedUnit) {
                                                 calcConfigData.DayWave = (calcConfigData.NetSpeed - calcConfigData.BaseNetSpeed) / calcConfigData.BaseNetSpeed;
                                             }
@@ -173,13 +172,14 @@ namespace NTMiner {
         }
 
         private static IncomeItem PickVDSIncomeItem(string vdsUUHtml, string vdsZtHtml, double usdCny) {
-            string pattern = "\"symbol\":\"vds\",.+,\"hr\":\"(?<netSpeed>[\\d\\.]+)\\s(?<netSpeedUnit>\\w+)\",\"est\":\"(?<incomeCoin>[\\d\\.]+) VDS\\\\/(?<speedUnit>\\w+)\",";
+            const string pattern = "\"symbol\":\"vds\",.+,\"hr\":\"(?<netSpeed>[\\d\\.]+)\\s(?<netSpeedUnit>\\w+)\",\"est\":\"(?<incomeCoin>[\\d\\.]+) VDS\\\\/(?<speedUnit>\\w+)\",";
             IncomeItem result = new IncomeItem {
                 CoinCode = "VDS",
                 DataCode = "VDS",
                 Speed = 1,
             };
-            var match = Regex.Match(vdsUUHtml, pattern);
+            var regex = VirtualRoot.GetRegex(pattern);
+            var match = regex.Match(vdsUUHtml);
             if (match.Success) {
                 string incomeCoinText = match.Groups["incomeCoin"].Value;
                 result.SpeedUnit = match.Groups["speedUnit"].Value + "h/s";
@@ -194,8 +194,9 @@ namespace NTMiner {
                     result.NetSpeed = netSpeed;
                 }
             }
-            pattern = "\"VDS\",.+?,\"last\":\"(?<incomeCny>[\\d\\.]+)\"";
-            match = Regex.Match(vdsZtHtml, pattern);
+            const string pattern1 = "\"VDS\",.+?,\"last\":\"(?<incomeCny>[\\d\\.]+)\"";
+            regex = VirtualRoot.GetRegex(pattern1);
+            match = regex.Match(vdsZtHtml);
             if (match.Success) {
                 string incomeCnyText = match.Groups["incomeCny"].Value;
                 double incomeCny;
@@ -229,7 +230,7 @@ namespace NTMiner {
                     indexList.Add(index);
                     index = html.IndexOf(splitText, index + splitText.Length);
                 }
-                Regex regex = new Regex(pattern, RegexOptions.Compiled);
+                Regex regex = VirtualRoot.GetRegex(pattern);
                 for (int i = 0; i < indexList.Count; i++) {
                     IncomeItem incomeItem;
                     if (i + 1 < indexList.Count) {
@@ -274,6 +275,9 @@ namespace NTMiner {
                         incomeItem.NetSpeedUnit = incomeItem.NetSpeedUnit.Replace("g/s", "h/s");
                     }
                 }
+                if (incomeItem.DataCode == "ckb") {
+                    incomeItem.CoinCode = "ckb";
+                }
                 double.TryParse(match.Groups["speed"].Value, out double speed);
                 incomeItem.Speed = speed;
                 double.TryParse(match.Groups["netSpeed"].Value, out double netSpeed);
@@ -296,7 +300,7 @@ namespace NTMiner {
         private static double PickUsdCny(string html) {
             try {
                 double result = 0;
-                Regex regex = new Regex(@"CURRENCY_CONF\.usd_cny = Number\('(\d+\.?\d*)' \|\| \d+\.?\d*\);");
+                var regex = VirtualRoot.GetRegex(@"CURRENCY_CONF\.usd_cny = Number\('(\d+\.?\d*)' \|\| \d+\.?\d*\);");
                 var matchs = regex.Match(html);
                 if (matchs.Success) {
                     double.TryParse(matchs.Groups[1].Value, out result);

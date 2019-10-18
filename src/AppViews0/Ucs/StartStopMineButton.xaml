@@ -8,17 +8,18 @@
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 		x:Name="Self"
 		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels">
-	<WrapPanel Width="90" Height="28">
+	<WrapPanel Height="28">
 		<Button
 			IsDefault="True"
+            ToolTip="尚未开始"
 			Command="{Binding StartMine}" 
 			Visibility="{Binding MinerProfile.IsMining, Converter={StaticResource BoolToVisibilityInvertConverter}}">
 			<Button.Template>
 				<ControlTemplate>
 					<Border 
 						x:Name="Content"
-						Width="90"
 						Height="28"
+                        Padding="8 0"
 						Background="{Binding ElementName=Self,Path=StartButtonBackground}"
 						BorderThickness="0" 
 						BorderBrush="{StaticResource LineColor}">
@@ -31,12 +32,14 @@
 								Fill="{Binding ElementName=Self,Path=StartButtonForeground}"
 								Stretch="Fill">
 							</Path>
-							<TextBlock
-								Padding="4 2 4 4"
+                            <TextBlock
 								x:Name="Text"
+                                Width="66"
+								Padding="4 0 0 0"
+                                Visibility="{Binding ElementName=Self,Path=TextVisible}"
 								VerticalAlignment="Center"
 								Foreground="{Binding ElementName=Self,Path=StartButtonForeground}"
-								FontSize="14"
+								FontSize="15"
 								Text="尚未开始" />
 						</WrapPanel>
 					</Border>
@@ -59,13 +62,14 @@
 		</Button>
 		<Button                        
 			Command="{Binding StopMine}" 
+            ToolTip="正在挖矿"
 			Visibility="{Binding MinerProfile.IsMining, Converter={StaticResource BoolToVisibilityConverter}}">
 			<Button.Template>
 				<ControlTemplate>
 					<Border 
 						x:Name="Content"
-						Width="90"
 						Height="28"
+                        Padding="8 0"
 						Background="Transparent"
 						BorderThickness="0" 
 						BorderBrush="{StaticResource LineColor}">
@@ -78,12 +82,14 @@
 								Fill="{StaticResource IconFillColor}"
 								Stretch="Fill">
 							</Path>
-							<TextBlock
-								Padding="4 2 4 4"
+                            <TextBlock
 								x:Name="Text"
+                                Width="66"
+								Padding="4 0 0 0"
+                                Visibility="{Binding ElementName=Self,Path=TextVisible}"
 								VerticalAlignment="Center"
 								Foreground="{StaticResource IconFillColor}"
-								FontSize="14"
+								FontSize="15"
 								Text="{Binding BtnStopText}" />
 						</WrapPanel>
 					</Border>

@@ -78,13 +78,21 @@
 							<TextBlock Style="{StaticResource LblTb}">核心</TextBlock>
 							<TextBox Style="{StaticResource TextBox}" ToolTip="{Binding CoinVm.GpuAllProfileVm.GpuVm.CoreClockDeltaMinMaxMText}" Text="{Binding CoinVm.GpuAllProfileVm.CoreClockDelta, ValidatesOnExceptions=True}"></TextBox>
 							<TextBlock VerticalAlignment="Center">M</TextBlock>
-						</WrapPanel>
-						<WrapPanel>
+                        </WrapPanel>
+                        <WrapPanel VerticalAlignment="Center">
+                            <TextBlock Style="{StaticResource LblTb}">核心电压</TextBlock>
+                            <TextBox Style="{StaticResource TextBox}" ToolTip="{Binding CoinVm.GpuAllProfileVm.GpuVm.VoltageMinMaxText}" Text="{Binding CoinVm.GpuAllProfileVm.CoreVoltage, ValidatesOnExceptions=True}"></TextBox>
+                        </WrapPanel>
+                        <WrapPanel>
 							<TextBlock Style="{StaticResource LblTb}">显存</TextBlock>
 							<TextBox Style="{StaticResource TextBox}" ToolTip="{Binding CoinVm.GpuAllProfileVm.GpuVm.MemoryClockDeltaMinMaxMText}" Text="{Binding CoinVm.GpuAllProfileVm.MemoryClockDelta, ValidatesOnExceptions=True}"></TextBox>
 							<TextBlock VerticalAlignment="Center">M</TextBlock>
-						</WrapPanel>
-						<WrapPanel>
+                        </WrapPanel>
+                        <WrapPanel VerticalAlignment="Center">
+                            <TextBlock Style="{StaticResource LblTb}">显存电压</TextBlock>
+                            <TextBox Style="{StaticResource TextBox}" ToolTip="{Binding CoinVm.GpuAllProfileVm.GpuVm.VoltageMinMaxText}" Text="{Binding CoinVm.GpuAllProfileVm.MemoryVoltage, ValidatesOnExceptions=True}"></TextBox>
+                        </WrapPanel>
+                        <WrapPanel>
 							<TextBlock Style="{StaticResource LblTb}">功耗</TextBlock>
 							<TextBox Style="{StaticResource TextBox}" ToolTip="{Binding CoinVm.GpuAllProfileVm.GpuVm.PowerMinMaxText}" Text="{Binding CoinVm.GpuAllProfileVm.PowerCapacity, ValidatesOnExceptions=True}"></TextBox>
 							<TextBlock VerticalAlignment="Center">%</TextBlock>
@@ -119,7 +127,6 @@
 				<Grid Margin="10 4">
 					<Grid.RowDefinitions>
 						<RowDefinition Height="*"></RowDefinition>
-						<RowDefinition Height="Auto"></RowDefinition>
 						<RowDefinition Height="Auto"></RowDefinition>
 					</Grid.RowDefinitions>
 					<WrapPanel>
@@ -159,11 +166,7 @@
 							</ItemsControl.ItemTemplate>
 						</ItemsControl>
 					</WrapPanel>
-					<StackPanel Grid.Row="1">
-						<TextBlock VerticalAlignment="Center" Foreground="{StaticResource LableColor}">填0表示使用默认值</TextBlock>
-						<TextBlock VerticalAlignment="Center" Foreground="{StaticResource LableColor}">温度阈值：表示达到这个温度时显卡将自动降频</TextBlock>
-					</StackPanel>
-					<WrapPanel Grid.Row="2" VerticalAlignment="Bottom">
+					<WrapPanel Grid.Row="1" VerticalAlignment="Bottom">
 						<controls:KbButton
 							Height="21"
 							Padding="6 2"
@@ -216,13 +219,21 @@
 											<TextBlock Style="{StaticResource LblTb}">核心</TextBlock>
 											<TextBox Style="{StaticResource TextBox}" ToolTip="{Binding GpuVm.CoreClockDeltaMinMaxMText}" Text="{Binding CoreClockDelta, ValidatesOnExceptions=True}"></TextBox>
 											<TextBlock VerticalAlignment="Center">M</TextBlock>
-										</WrapPanel>
-										<WrapPanel>
+                                        </WrapPanel>
+                                        <WrapPanel>
+                                            <TextBlock Style="{StaticResource LblTb}">核心电压</TextBlock>
+                                            <TextBox Style="{StaticResource TextBox}" ToolTip="{Binding GpuVm.VoltageMinMaxText}" Text="{Binding CoreVoltage, ValidatesOnExceptions=True}"></TextBox>
+                                        </WrapPanel>
+                                        <WrapPanel>
 											<TextBlock Style="{StaticResource LblTb}">显存</TextBlock>
 											<TextBox Style="{StaticResource TextBox}" ToolTip="{Binding GpuVm.MemoryClockDeltaMinMaxMText}" Text="{Binding MemoryClockDelta, ValidatesOnExceptions=True}"></TextBox>
 											<TextBlock VerticalAlignment="Center">M</TextBlock>
-										</WrapPanel>
-										<WrapPanel>
+                                        </WrapPanel>
+                                        <WrapPanel>
+                                            <TextBlock Style="{StaticResource LblTb}">显存电压</TextBlock>
+                                            <TextBox Style="{StaticResource TextBox}" ToolTip="{Binding GpuVm.VoltageMinMaxText}" Text="{Binding MemoryVoltage, ValidatesOnExceptions=True}"></TextBox>
+                                        </WrapPanel>
+                                        <WrapPanel>
 											<TextBlock Style="{StaticResource LblTb}">功耗</TextBlock>
 											<TextBox Style="{StaticResource TextBox}" ToolTip="{Binding GpuVm.PowerMinMaxText}" Text="{Binding PowerCapacity, ValidatesOnExceptions=True}"></TextBox>
 											<TextBlock VerticalAlignment="Center">%</TextBlock>

@@ -11,7 +11,7 @@ namespace NTMiner.Wpf {
         }
     }
 
-    public class NativeMethods {
+    internal class SafeNativeMethods {
         [DllImport("user32.dll")]
         internal static extern IntPtr GetForegroundWindow();
 

@@ -320,49 +320,49 @@ namespace NTMiner.Notifications.Controls {
         /// The overlay content property.
         /// </summary>
         public static readonly DependencyProperty OverlayContentProperty =
-            DependencyProperty.Register("OverlayContent", typeof(object), typeof(NotificationMessage), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(OverlayContent), typeof(object), typeof(NotificationMessage), new PropertyMetadata(null));
 
         /// <summary>
         /// The additional content top property.
         /// </summary>
         public static readonly DependencyProperty AdditionalContentTopProperty =
-            DependencyProperty.Register("AdditionalContentTop", typeof(object), typeof(NotificationMessage), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(AdditionalContentTop), typeof(object), typeof(NotificationMessage), new PropertyMetadata(null));
 
         /// <summary>
         /// The additional content bottom property.
         /// </summary>
         public static readonly DependencyProperty AdditionalContentBottomProperty =
-            DependencyProperty.Register("AdditionalContentBottom", typeof(object), typeof(NotificationMessage), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(AdditionalContentBottom), typeof(object), typeof(NotificationMessage), new PropertyMetadata(null));
 
         /// <summary>
         /// The additional content left property.
         /// </summary>
         public static readonly DependencyProperty AdditionalContentLeftProperty =
-            DependencyProperty.Register("AdditionalContentLeft", typeof(object), typeof(NotificationMessage), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(AdditionalContentLeft), typeof(object), typeof(NotificationMessage), new PropertyMetadata(null));
 
         /// <summary>
         /// The additional content right property.
         /// </summary>
         public static readonly DependencyProperty AdditionalContentRightProperty =
-            DependencyProperty.Register("AdditionalContentRight", typeof(object), typeof(NotificationMessage), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(AdditionalContentRight), typeof(object), typeof(NotificationMessage), new PropertyMetadata(null));
 
         /// <summary>
         /// The additional content main property.
         /// </summary>
         public static readonly DependencyProperty AdditionalContentMainProperty =
-            DependencyProperty.Register("AdditionalContentMain", typeof(object), typeof(NotificationMessage), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(AdditionalContentMain), typeof(object), typeof(NotificationMessage), new PropertyMetadata(null));
 
         /// <summary>
         /// The additional content over badge property.
         /// </summary>
         public static readonly DependencyProperty AdditionalContentOverBadgeProperty =
-            DependencyProperty.Register("AdditionalContentOverBadge", typeof(object), typeof(NotificationMessage), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(AdditionalContentOverBadge), typeof(object), typeof(NotificationMessage), new PropertyMetadata(null));
 
         /// <summary>
         /// The accent brush property.
         /// </summary>
         public static readonly DependencyProperty AccentBrushProperty =
-            DependencyProperty.Register("AccentBrush", typeof(Brush), typeof(NotificationMessage), new PropertyMetadata(null, AccentBrushPropertyChangedCallback));
+            DependencyProperty.Register(nameof(AccentBrush), typeof(Brush), typeof(NotificationMessage), new PropertyMetadata(null, AccentBrushPropertyChangedCallback));
 
         /// <summary>
         /// Accents the brush property changed callback.
@@ -386,25 +386,25 @@ namespace NTMiner.Notifications.Controls {
         /// The button accent brush property.
         /// </summary>
         public static readonly DependencyProperty ButtonAccentBrushProperty =
-            DependencyProperty.Register("ButtonAccentBrush", typeof(Brush), typeof(NotificationMessage), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(ButtonAccentBrush), typeof(Brush), typeof(NotificationMessage), new PropertyMetadata(null));
 
         /// <summary>
         /// The badge visibility property.
         /// </summary>
         public static readonly DependencyProperty BadgeVisibilityProperty =
-            DependencyProperty.Register("BadgeVisibility", typeof(Visibility), typeof(NotificationMessage), new PropertyMetadata(Visibility.Collapsed));
+            DependencyProperty.Register(nameof(BadgeVisibility), typeof(Visibility), typeof(NotificationMessage), new PropertyMetadata(Visibility.Collapsed));
 
         /// <summary>
         /// The badge accent brush property.
         /// </summary>
         public static readonly DependencyProperty BadgeAccentBrushProperty =
-            DependencyProperty.Register("BadgeAccentBrush", typeof(Brush), typeof(NotificationMessage), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(BadgeAccentBrush), typeof(Brush), typeof(NotificationMessage), new PropertyMetadata(null));
 
         /// <summary>
         /// The badge text property.
         /// </summary>
         public static readonly DependencyProperty BadgeTextProperty =
-            DependencyProperty.Register("BadgeText", typeof(string), typeof(NotificationMessage), new PropertyMetadata(null, BadgeTextPropertyChangedCallback));
+            DependencyProperty.Register(nameof(BadgeText), typeof(string), typeof(NotificationMessage), new PropertyMetadata(null, BadgeTextPropertyChangedCallback));
 
         /// <summary>
         /// Badges the text property changed callback.
@@ -424,13 +424,13 @@ namespace NTMiner.Notifications.Controls {
         /// The header visibility property.
         /// </summary>
         public static readonly DependencyProperty HeaderVisibilityProperty =
-            DependencyProperty.Register("HeaderVisibility", typeof(Visibility), typeof(NotificationMessage), new PropertyMetadata(Visibility.Collapsed));
+            DependencyProperty.Register(nameof(HeaderVisibility), typeof(Visibility), typeof(NotificationMessage), new PropertyMetadata(Visibility.Collapsed));
 
         /// <summary>
         /// The header property.
         /// </summary>
         public static readonly DependencyProperty HeaderProperty =
-            DependencyProperty.Register("Header", typeof(string), typeof(NotificationMessage), new PropertyMetadata(null, HeaderPropertyChangesCallback));
+            DependencyProperty.Register(nameof(Header), typeof(string), typeof(NotificationMessage), new PropertyMetadata(null, HeaderPropertyChangesCallback));
 
         /// <summary>
         /// Headers the property changes callback.
@@ -450,13 +450,13 @@ namespace NTMiner.Notifications.Controls {
         /// The message visibility property.
         /// </summary>
         public static readonly DependencyProperty MessageVisibilityProperty =
-            DependencyProperty.Register("MessageVisibility", typeof(Visibility), typeof(NotificationMessage), new PropertyMetadata(Visibility.Collapsed));
+            DependencyProperty.Register(nameof(MessageVisibility), typeof(Visibility), typeof(NotificationMessage), new PropertyMetadata(Visibility.Collapsed));
 
         /// <summary>
         /// The message property.
         /// </summary>
         public static readonly DependencyProperty MessageProperty =
-            DependencyProperty.Register("Message", typeof(string), typeof(NotificationMessage), new PropertyMetadata(null, MessagePropertyChangesCallback));
+            DependencyProperty.Register(nameof(Message), typeof(string), typeof(NotificationMessage), new PropertyMetadata(null, MessagePropertyChangesCallback));
 
         /// <summary>
         /// Messages the property changes callback.
@@ -476,49 +476,49 @@ namespace NTMiner.Notifications.Controls {
         /// The buttons property.
         /// </summary>
         public static readonly DependencyProperty ButtonsProperty =
-            DependencyProperty.Register("Buttons", typeof(ObservableCollection<object>), typeof(NotificationMessage), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(Buttons), typeof(ObservableCollection<object>), typeof(NotificationMessage), new PropertyMetadata(null));
 
         /// <summary>
         /// The animates property.
         /// </summary>
         public static readonly DependencyProperty AnimatesProperty =
-            DependencyProperty.Register("Animates", typeof(bool), typeof(NotificationMessage), new PropertyMetadata(false));
+            DependencyProperty.Register(nameof(Animates), typeof(bool), typeof(NotificationMessage), new PropertyMetadata(false));
 
         /// <summary>
         /// The animation in duration property (in seconds).
         /// </summary>
         public static readonly DependencyProperty AnimationInDurationProperty =
-            DependencyProperty.Register("AnimationInDuration", typeof(double), typeof(NotificationMessage), new PropertyMetadata(0.25));
+            DependencyProperty.Register(nameof(AnimationInDuration), typeof(double), typeof(NotificationMessage), new PropertyMetadata(0.25));
 
         /// <summary>
         /// The animation out duration property (in seconds).
         /// </summary>
         public static readonly DependencyProperty AnimationOutDurationProperty =
-            DependencyProperty.Register("AnimationOutDuration", typeof(double), typeof(NotificationMessage), new PropertyMetadata(0.25));
+            DependencyProperty.Register(nameof(AnimationOutDuration), typeof(double), typeof(NotificationMessage), new PropertyMetadata(0.25));
 
         /// <summary>
         /// The animation in property.
         /// </summary>
         public static readonly DependencyProperty AnimationInProperty =
-            DependencyProperty.Register("AnimationIn", typeof(AnimationTimeline), typeof(NotificationMessage), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(AnimationIn), typeof(AnimationTimeline), typeof(NotificationMessage), new PropertyMetadata(null));
 
         /// <summary>
         /// The animation out property.
         /// </summary>
         public static readonly DependencyProperty AnimationOutProperty =
-            DependencyProperty.Register("AnimationOut", typeof(AnimationTimeline), typeof(NotificationMessage), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(AnimationOut), typeof(AnimationTimeline), typeof(NotificationMessage), new PropertyMetadata(null));
 
         /// <summary>
         /// The animation in dependency property.
         /// </summary>
         public static readonly DependencyProperty AnimationInDependencyPropProperty =
-            DependencyProperty.Register("AnimationInDependencyProperty", typeof(DependencyProperty), typeof(NotificationMessage), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(AnimationInDependencyProperty), typeof(DependencyProperty), typeof(NotificationMessage), new PropertyMetadata(null));
 
         /// <summary>
         /// The animation out dependency property.
         /// </summary>
         public static readonly DependencyProperty AnimationOutDependencyPropProperty =
-            DependencyProperty.Register("AnimationOutDependencyProperty", typeof(DependencyProperty), typeof(NotificationMessage), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(AnimationOutDependencyProperty), typeof(DependencyProperty), typeof(NotificationMessage), new PropertyMetadata(null));
 
 
         /// <summary>

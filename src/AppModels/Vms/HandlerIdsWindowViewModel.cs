@@ -4,16 +4,15 @@ using System.Collections.ObjectModel;
 
 namespace NTMiner.Vms {
     public class HandlerIdsWindowViewModel : ViewModelBase {
-        private readonly ObservableCollection<IHandlerId> _handlerIds;
+        private readonly ObservableCollection<IHandlerId> _handlerIds = new ObservableCollection<IHandlerId>();
 
         public HandlerIdsWindowViewModel() {
-            _handlerIds = new ObservableCollection<IHandlerId>(VirtualRoot.SMessageDispatcher.HandlerIds);
-            VirtualRoot.SMessageDispatcher.HandlerIdAdded += (handlerId)=> {
+            VirtualRoot.SMessageDispatcher.Connected += (handlerId)=> {
                 UIThread.Execute(() => {
                     _handlerIds.Add(handlerId);
                 });
             };
-            VirtualRoot.SMessageDispatcher.HandlerIdRemoved += (handlerId) => {
+            VirtualRoot.SMessageDispatcher.Disconnected += (handlerId) => {
                 UIThread.Execute(() => {
                     _handlerIds.Remove(handlerId);
                 });

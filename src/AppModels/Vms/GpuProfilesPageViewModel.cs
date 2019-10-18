@@ -36,6 +36,12 @@ namespace NTMiner.Vms {
                 throw new InvalidProgramException();
             }
             _minerClientVm = minerClientsWindowVm.SelectedMinerClients[0];
+            if (AppContext.Instance.CoinVms.TryGetCoinVm(_minerClientVm.MainCoinCode, out CoinViewModel outCoinVm)) {
+                this._coinVm = outCoinVm;
+            }
+            if (this._coinVm == null) {
+                this._coinVm = CoinVms.MainCoins.FirstOrDefault();
+            }
             this.Save = new DelegateCommand(() => {
                 if (_data == null) {
                     return;
@@ -125,10 +131,6 @@ namespace NTMiner.Vms {
                         #endregion
                         coinVm.GpuAllProfileVm = gpuAllProfileVm;
                         coinVm.GpuProfileVms = gpuProfileVms;
-                    }
-                    this.CoinVm = CoinVms.MainCoins.FirstOrDefault(a => a.IsOverClockEnabled);
-                    if (this.CoinVm == null) {
-                        this.CoinVm = CoinVms.MainCoins.FirstOrDefault();
                     }
                 }
             });

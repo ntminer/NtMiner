@@ -20,7 +20,6 @@ namespace NTMiner.Vms {
         private double _incomeDualCoinUsdPerDay;
         private double _incomeDualCoinCnyPerDay;
         private MinerGroupViewModel _selectedMinerGroup;
-        private SolidColorBrush _tempForeground;
         private SolidColorBrush _dualCoinRejectPercentForeground;
         private SolidColorBrush _mainCoinRejectPercentForeground;
 
@@ -33,8 +32,6 @@ namespace NTMiner.Vms {
         public ICommand StopMine { get; private set; }
         public ICommand Remove { get; private set; }
         public ICommand Refresh { get; private set; }
-        public ICommand OneKeyOverClock { get; private set; }
-        public ICommand OneKeyUpgrade { get; private set; }
 
         private readonly ClientData _data;
         #region ctor
@@ -48,12 +45,6 @@ namespace NTMiner.Vms {
             _data = clientData;
             RefreshMainCoinIncome();
             RefreshDualCoinIncome();
-            this.OneKeyOverClock = new DelegateCommand(() => {
-
-            });
-            this.OneKeyUpgrade = new DelegateCommand(() => {
-
-            });
             this.Remove = new DelegateCommand(() => {
                 this.ShowDialog(message: $"确定删除该矿机吗？", title: "确认", onYes: () => {
                     Server.ControlCenterService.RemoveClientsAsync(new List<string> { this.Id }, (response, e) => {
@@ -138,6 +129,11 @@ namespace NTMiner.Vms {
         }
         #endregion
 
+        // 便于工具追踪代码
+        public void Update(IClientData data) {
+            EntityExtensions.Update(this, data);
+        }
+
         public AppContext.MineWorkViewModels MineWorkVms {
             get { return AppContext.Instance.MineWorkVms; }
         }
@@ -186,6 +182,14 @@ namespace NTMiner.Vms {
             }
         }
 
+        public int AutoStartDelaySeconds {
+            get { return _data.AutoStartDelaySeconds; }
+            set {
+                _data.AutoStartDelaySeconds = value;
+                OnPropertyChanged(nameof(AutoStartDelaySeconds));
+            }
+        }
+
         public Guid WorkId {
             get => _data.WorkId;
             set {
@@ -193,6 +197,26 @@ namespace NTMiner.Vms {
                     _data.WorkId = value;
                     OnPropertyChanged(nameof(WorkId));
                     OnPropertyChanged(nameof(SelectedMineWork));
+                }
+            }
+        }
+
+        public Guid MineWorkId {
+            get => _data.MineWorkId;
+            set {
+                if (_data.MineWorkId != value) {
+                    _data.MineWorkId = value;
+                    OnPropertyChanged(nameof(MineWorkId));
+                }
+            }
+        }
+
+        public string MineWorkName {
+            get => _data.MineWorkName;
+            set {
+                if (_data.MineWorkName != value) {
+                    _data.MineWorkName = value;
+                    OnPropertyChanged(nameof(MineWorkName));
                 }
             }
         }
@@ -886,32 +910,6 @@ namespace NTMiner.Vms {
             get { return $"{GpuTable.Sum(a => a.PowerUsage).ToString("f0")}W"; }
         }
 
-        public int MaxTemp {
-            get {
-                if (GpuTable == null || GpuTable.Length == 0) {
-                    return 0;
-                }
-                return GpuTable.Max(a => a.Temperature);
-            }
-        }
-
-        public string MaxTempText {
-            get {
-                if (GpuTable == null || GpuTable.Length == 0) {
-                    return "0";
-                }
-                return GpuTable.Max(a => a.Temperature).ToString("f0") + "℃";
-            }
-        }
-
-        public SolidColorBrush TempForeground {
-            get => _tempForeground;
-            set {
-                _tempForeground = value;
-                OnPropertyChanged(nameof(TempForeground));
-            }
-        }
-
         public SolidColorBrush MainCoinRejectPercentForeground {
             get => _mainCoinRejectPercentForeground;
             set {
@@ -935,10 +933,43 @@ namespace NTMiner.Vms {
                 OnPropertyChanged(nameof(GpuTable));
                 OnPropertyChanged(nameof(TotalPower));
                 OnPropertyChanged(nameof(TotalPowerText));
-                OnPropertyChanged(nameof(MaxTemp));
-                OnPropertyChanged(nameof(MaxTempText));
                 OnPropertyChanged(nameof(GpuCount));
-                this.GpuTableVm = new GpuSpeedDataViewModels(MainCoinCode, DualCoinCode, MainCoinSpeedText, DualCoinSpeedText, TotalPowerText, value);
+                int maxTemperature = _data.GpuTable.Length == 0 ? 0 : _data.GpuTable.Max(a => a.Temperature);
+                this.GpuTableVm = new GpuSpeedDataViewModels(
+                    MainCoinCode, DualCoinCode, MainCoinSpeedText, 
+                    DualCoinSpeedText, TotalPowerText,
+                    IsRejectOneGpuShare, IsFoundOneGpuShare, IsGotOneIncorrectGpuShare,
+                    CpuPerformance, CpuTemperature, maxTemperature, value);
+            }
+        }
+
+        public bool IsRejectOneGpuShare {
+            get => _data.IsRejectOneGpuShare;
+            set {
+                if (value != _data.IsRejectOneGpuShare) {
+                    _data.IsRejectOneGpuShare = value;
+                    OnPropertyChanged(nameof(IsRejectOneGpuShare));
+                }
+            }
+        }
+
+        public bool IsFoundOneGpuShare {
+            get => _data.IsFoundOneGpuShare;
+            set {
+                if (_data.IsFoundOneGpuShare != value) {
+                    _data.IsFoundOneGpuShare = value;
+                    OnPropertyChanged(nameof(IsFoundOneGpuShare));
+                }
+            }
+        }
+
+        public bool IsGotOneIncorrectGpuShare {
+            get => _data.IsGotOneIncorrectGpuShare;
+            set {
+                if (_data.IsGotOneIncorrectGpuShare != value) {
+                    _data.IsGotOneIncorrectGpuShare = value;
+                    OnPropertyChanged(nameof(IsGotOneIncorrectGpuShare));
+                }
             }
         }
 
@@ -961,6 +992,14 @@ namespace NTMiner.Vms {
             }
         }
 
+        public int AutoRestartKernelTimes {
+            get { return _data.AutoRestartKernelTimes; }
+            set {
+                _data.AutoRestartKernelTimes = value;
+                OnPropertyChanged(nameof(AutoRestartKernelTimes));
+            }
+        }
+
         public bool IsNoShareRestartKernel {
             get { return _data.IsNoShareRestartKernel; }
             set {
@@ -974,6 +1013,14 @@ namespace NTMiner.Vms {
             set {
                 _data.IsNoShareRestartComputer = value;
                 OnPropertyChanged(nameof(IsNoShareRestartComputer));
+            }
+        }
+
+        public int NoShareRestartComputerMinutes {
+            get { return _data.NoShareRestartComputerMinutes; }
+            set {
+                _data.NoShareRestartComputerMinutes = value;
+                OnPropertyChanged(nameof(NoShareRestartComputerMinutes));
             }
         }
 
@@ -1014,6 +1061,102 @@ namespace NTMiner.Vms {
             set {
                 _data.PeriodicRestartComputerHours = value;
                 OnPropertyChanged(nameof(PeriodicRestartComputerHours));
+            }
+        }
+
+        public int PeriodicRestartKernelMinutes {
+            get { return _data.PeriodicRestartKernelMinutes; }
+            set {
+                _data.PeriodicRestartKernelMinutes = value;
+                OnPropertyChanged(nameof(PeriodicRestartKernelMinutes));
+            }
+        }
+
+        public int PeriodicRestartComputerMinutes {
+            get { return _data.PeriodicRestartComputerMinutes; }
+            set {
+                _data.PeriodicRestartComputerMinutes = value;
+                OnPropertyChanged(nameof(PeriodicRestartComputerMinutes));
+            }
+        }
+
+        public string MainCoinPoolDelay {
+            get { return _data.MainCoinPoolDelay; }
+            set {
+                _data.MainCoinPoolDelay = value;
+                OnPropertyChanged(nameof(MainCoinPoolDelay));
+            }
+        }
+
+        public string DualCoinPoolDelay {
+            get { return _data.DualCoinPoolDelay; }
+            set {
+                _data.DualCoinPoolDelay = value;
+                OnPropertyChanged(nameof(DualCoinPoolDelay));
+            }
+        }
+
+        public int CpuPerformance {
+            get { return _data.CpuPerformance; }
+            set {
+                _data.CpuPerformance = value;
+                OnPropertyChanged(nameof(CpuPerformance));
+            }
+        }
+
+        public int CpuTemperature {
+            get { return _data.CpuTemperature; }
+            set {
+                _data.CpuTemperature = value;
+                OnPropertyChanged(nameof(CpuTemperature));
+            }
+        }
+
+        public bool IsAutoStopByCpu {
+            get { return _data.IsAutoStopByCpu; }
+            set {
+                _data.IsAutoStopByCpu = value;
+                OnPropertyChanged(nameof(IsAutoStopByCpu));
+            }
+        }
+
+        public int CpuGETemperatureSeconds {
+            get { return _data.CpuGETemperatureSeconds; }
+            set {
+                _data.CpuGETemperatureSeconds = value;
+                OnPropertyChanged(nameof(CpuGETemperatureSeconds));
+            }
+        }
+
+        public int CpuStopTemperature {
+            get { return _data.CpuStopTemperature; }
+            set {
+                _data.CpuStopTemperature = value;
+                OnPropertyChanged(nameof(CpuStopTemperature));
+            }
+        }
+
+        public bool IsAutoStartByCpu {
+            get { return _data.IsAutoStartByCpu; }
+            set {
+                _data.IsAutoStartByCpu = value;
+                OnPropertyChanged(nameof(IsAutoStartByCpu));
+            }
+        }
+
+        public int CpuLETemperatureSeconds {
+            get { return _data.CpuLETemperatureSeconds; }
+            set {
+                _data.CpuLETemperatureSeconds = value;
+                OnPropertyChanged(nameof(CpuLETemperatureSeconds));
+            }
+        }
+
+        public int CpuStartTemperature {
+            get { return _data.CpuStartTemperature; }
+            set {
+                _data.CpuStartTemperature = value;
+                OnPropertyChanged(nameof(CpuStartTemperature));
             }
         }
 

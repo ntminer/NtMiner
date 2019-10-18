@@ -11,7 +11,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
             IntPtr p = hicon;
             hicon = IntPtr.Zero;
             if (IntPtr.Zero != p) {
-                NativeMethods.DestroyIcon(p);
+                SafeNativeMethods.DestroyIcon(p);
             }
         }
 
@@ -21,7 +21,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
             IntPtr p = gdiObject;
             gdiObject = IntPtr.Zero;
             if (IntPtr.Zero != p) {
-                NativeMethods.DeleteObject(p);
+                SafeNativeMethods.DeleteObject(p);
             }
         }
 
@@ -29,8 +29,8 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
         public static void SafeDestroyWindow(ref IntPtr hwnd) {
             IntPtr p = hwnd;
             hwnd = IntPtr.Zero;
-            if (NativeMethods.IsWindow(p)) {
-                NativeMethods.DestroyWindow(p);
+            if (SafeNativeMethods.IsWindow(p)) {
+                SafeNativeMethods.DestroyWindow(p);
             }
         }
 
@@ -41,7 +41,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
             IntPtr p = gdipImage;
             gdipImage = IntPtr.Zero;
             if (IntPtr.Zero != p) {
-                NativeMethods.GdipDisposeImage(p);
+                SafeNativeMethods.GdipDisposeImage(p);
             }
         }
 

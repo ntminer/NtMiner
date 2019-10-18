@@ -246,7 +246,7 @@ namespace NTMiner.Microsoft.Windows.Shell {
             _UpdateSystemMenu(_window.WindowState);
             _UpdateFrameState(true);
 
-            NativeMethods.SetWindowPos(_hwnd, IntPtr.Zero, 0, 0, 0, 0, _SwpFlags);
+            SafeNativeMethods.SetWindowPos(_hwnd, IntPtr.Zero, 0, 0, 0, 0, _SwpFlags);
         }
 
         private void _FixupTemplateIssues() {
@@ -270,7 +270,7 @@ namespace NTMiner.Microsoft.Windows.Shell {
             Transform templateFixupTransform = null;
 
             if (_IsPresentationFrameworkVersionLessThan4) {
-                RECT rcWindow = NativeMethods.GetWindowRect(_hwnd);
+                RECT rcWindow = SafeNativeMethods.GetWindowRect(_hwnd);
                 RECT rcAdjustedClient = _GetAdjustedWindowRect(rcWindow);
 
                 Rect rcLogicalWindow = DpiHelper.DeviceRectToLogical(new Rect(rcWindow.Left, rcWindow.Top, rcWindow.Width, rcWindow.Height));
@@ -340,7 +340,7 @@ namespace NTMiner.Microsoft.Windows.Shell {
                 // try to undo what WPF did after it has done its thing.
                 if (_hasUserMovedWindow) {
                     _hasUserMovedWindow = false;
-                    WINDOWPLACEMENT wp = NativeMethods.GetWindowPlacement(_hwnd);
+                    WINDOWPLACEMENT wp = SafeNativeMethods.GetWindowPlacement(_hwnd);
 
                     RECT adjustedDeviceRc = _GetAdjustedWindowRect(new RECT { Bottom = 100, Right = 100 });
                     Point adjustedTopLeft = DpiHelper.DevicePixelsToLogical(
@@ -358,10 +358,10 @@ namespace NTMiner.Microsoft.Windows.Shell {
             // This should only be used to work around issues in the Framework that were fixed in 4.0
             Assert.IsTrue(_IsPresentationFrameworkVersionLessThan4);
 
-            var style = (WS)NativeMethods.GetWindowLongPtr(_hwnd, GWL.STYLE);
-            var exstyle = (WS_EX)NativeMethods.GetWindowLongPtr(_hwnd, GWL.EXSTYLE);
+            var style = (WS)SafeNativeMethods.GetWindowLongPtr(_hwnd, GWL.STYLE);
+            var exstyle = (WS_EX)SafeNativeMethods.GetWindowLongPtr(_hwnd, GWL.EXSTYLE);
 
-            return NativeMethods.AdjustWindowRectEx(rcWindow, style, false, exstyle);
+            return SafeNativeMethods.AdjustWindowRectEx(rcWindow, style, false, exstyle);
         }
 
         // Windows tries hard to hide this state from applications.
@@ -415,7 +415,7 @@ namespace NTMiner.Microsoft.Windows.Shell {
             // Setting the caption text and icon cause Windows to redraw the caption.
             // Letting the default WndProc handle the message without the WS_VISIBLE
             // style applied bypasses the redraw.
-            IntPtr lRet = NativeMethods.DefWindowProc(_hwnd, uMsg, wParam, lParam);
+            IntPtr lRet = SafeNativeMethods.DefWindowProc(_hwnd, uMsg, wParam, lParam);
 
             // Put back the style we removed.
             if (modified) {
@@ -426,11 +426,11 @@ namespace NTMiner.Microsoft.Windows.Shell {
         }
 
         private IntPtr _HandleRestoreWindow(WM uMsg, IntPtr wParam, IntPtr lParam, out bool handled) {
-            WINDOWPLACEMENT wpl = NativeMethods.GetWindowPlacement(_hwnd);
+            WINDOWPLACEMENT wpl = SafeNativeMethods.GetWindowPlacement(_hwnd);
             if (SC.RESTORE == (SC)wParam.ToInt32() && wpl.showCmd == SW.SHOWMAXIMIZED && _MinimizeAnimation) {
                 bool modified = _ModifyStyle(WS.DLGFRAME, 0);
 
-                IntPtr lRet = NativeMethods.DefWindowProc(_hwnd, uMsg, wParam, lParam);
+                IntPtr lRet = SafeNativeMethods.DefWindowProc(_hwnd, uMsg, wParam, lParam);
 
                 // Put back the style we removed.
                 if (modified) {
@@ -455,7 +455,7 @@ namespace NTMiner.Microsoft.Windows.Shell {
 
             // Directly call DefWindowProc with a custom parameter
             // which bypasses any other handling of the message.
-            IntPtr lRet = NativeMethods.DefWindowProc(_hwnd, WM.NCACTIVATE, wParam, new IntPtr(-1));
+            IntPtr lRet = SafeNativeMethods.DefWindowProc(_hwnd, WM.NCACTIVATE, wParam, new IntPtr(-1));
             handled = true;
             return lRet;
         }
@@ -465,14 +465,14 @@ namespace NTMiner.Microsoft.Windows.Shell {
         /// </summary>
         private static RECT AdjustWorkingAreaForAutoHide(IntPtr monitorContainingApplication, RECT area) {
             // maybe we can use ReBarWindow32 isntead Shell_TrayWnd
-            IntPtr hwnd = NativeMethods.FindWindow("Shell_TrayWnd", null);
-            IntPtr monitorWithTaskbarOnIt = NativeMethods.MonitorFromWindow(hwnd, (uint)MonitorOptions.MONITOR_DEFAULTTONEAREST);
+            IntPtr hwnd = SafeNativeMethods.FindWindow("Shell_TrayWnd", null);
+            IntPtr monitorWithTaskbarOnIt = SafeNativeMethods.MonitorFromWindow(hwnd, (uint)MonitorOptions.MONITOR_DEFAULTTONEAREST);
 
             var abd = new APPBARDATA();
             abd.cbSize = Marshal.SizeOf(abd);
             abd.hWnd = hwnd;
-            NativeMethods.SHAppBarMessage((int)ABMsg.ABM_GETTASKBARPOS, ref abd);
-            bool autoHide = Convert.ToBoolean(NativeMethods.SHAppBarMessage((int)ABMsg.ABM_GETSTATE, ref abd));
+            SafeNativeMethods.SHAppBarMessage((int)ABMsg.ABM_GETTASKBARPOS, ref abd);
+            bool autoHide = Convert.ToBoolean(SafeNativeMethods.SHAppBarMessage((int)ABMsg.ABM_GETSTATE, ref abd));
 
             if (!autoHide || !Equals(monitorContainingApplication, monitorWithTaskbarOnIt)) {
                 return area;
@@ -510,15 +510,15 @@ namespace NTMiner.Microsoft.Windows.Shell {
 
             var redraw = false;
 
-            if (NativeMethods.GetWindowPlacement(_hwnd).showCmd == SW.MAXIMIZE) {
+            if (SafeNativeMethods.GetWindowPlacement(_hwnd).showCmd == SW.MAXIMIZE) {
                 if (_MinimizeAnimation) {
-                    IntPtr mon = NativeMethods.MonitorFromWindow(_hwnd, (uint)MonitorOptions.MONITOR_DEFAULTTONEAREST);
-                    MONITORINFO mi = NativeMethods.GetMonitorInfo(mon);
+                    IntPtr mon = SafeNativeMethods.MonitorFromWindow(_hwnd, (uint)MonitorOptions.MONITOR_DEFAULTTONEAREST);
+                    MONITORINFO mi = SafeNativeMethods.GetMonitorInfo(mon);
 
                     RECT rc = (RECT)Marshal.PtrToStructure(lParam, typeof(RECT));
-                    NativeMethods.DefWindowProc(_hwnd, WM.NCCALCSIZE, wParam, lParam);
+                    SafeNativeMethods.DefWindowProc(_hwnd, WM.NCCALCSIZE, wParam, lParam);
                     RECT def = (RECT)Marshal.PtrToStructure(lParam, typeof(RECT));
-                    def.Top = (int)(rc.Top + NativeMethods.GetWindowInfo(_hwnd).cyWindowBorders);
+                    def.Top = (int)(rc.Top + SafeNativeMethods.GetWindowInfo(_hwnd).cyWindowBorders);
 
                     // monitor an work area will be equal if taskbar is hidden
                     if (mi.rcMonitor.Height == mi.rcWork.Height && mi.rcMonitor.Width == mi.rcWork.Width) {
@@ -611,7 +611,7 @@ namespace NTMiner.Microsoft.Windows.Shell {
             if (_chromeInfo.UseAeroCaptionButtons) {
                 if (Utility.IsOSVistaOrNewer && _chromeInfo.GlassFrameThickness != default(Thickness) && _isGlassEnabled) {
                     // If we're on Vista, give the DWM a chance to handle the message first.
-                    handled = NativeMethods.DwmDefWindowProc(_hwnd, uMsg, wParam, lParam, out IntPtr lRet);
+                    handled = SafeNativeMethods.DwmDefWindowProc(_hwnd, uMsg, wParam, lParam, out IntPtr lRet);
 
                     if (IntPtr.Zero != lRet) {
                         // If DWM claims to have handled this, then respect their call.
@@ -715,9 +715,9 @@ namespace NTMiner.Microsoft.Windows.Shell {
             WindowState state = _GetHwndState();
             if (ignoreTaskBar && state == WindowState.Maximized) {
                 MINMAXINFO mmi = (MINMAXINFO)Marshal.PtrToStructure(lParam, typeof(MINMAXINFO));
-                IntPtr monitor = NativeMethods.MonitorFromWindow(_hwnd, (uint)MonitorOptions.MONITOR_DEFAULTTONEAREST);
+                IntPtr monitor = SafeNativeMethods.MonitorFromWindow(_hwnd, (uint)MonitorOptions.MONITOR_DEFAULTTONEAREST);
                 if (monitor != IntPtr.Zero) {
-                    MONITORINFO monitorInfo = NativeMethods.GetMonitorInfoW(monitor);
+                    MONITORINFO monitorInfo = SafeNativeMethods.GetMonitorInfoW(monitor);
                     RECT rcWorkArea = monitorInfo.rcWork;
                     RECT rcMonitorArea = monitorInfo.rcMonitor;
 
@@ -804,10 +804,10 @@ namespace NTMiner.Microsoft.Windows.Shell {
              */
             WindowState state = _GetHwndState();
             if (state == WindowState.Maximized) {
-                IntPtr monitorFromWindow = NativeMethods.MonitorFromWindow(_hwnd, (uint)MonitorOptions.MONITOR_DEFAULTTONEAREST);
+                IntPtr monitorFromWindow = SafeNativeMethods.MonitorFromWindow(_hwnd, (uint)MonitorOptions.MONITOR_DEFAULTTONEAREST);
                 if (monitorFromWindow != IntPtr.Zero) {
                     var ignoreTaskBar = _chromeInfo.IgnoreTaskbarOnMaximize;// || _chromeInfo.UseNoneWindowStyle;
-                    MONITORINFO monitorInfo = NativeMethods.GetMonitorInfoW(monitorFromWindow);
+                    MONITORINFO monitorInfo = SafeNativeMethods.GetMonitorInfoW(monitorFromWindow);
                     RECT rcMonitorArea = ignoreTaskBar ? monitorInfo.rcMonitor : monitorInfo.rcWork;
                     /*
                      * ASYNCWINDOWPOS
@@ -825,7 +825,7 @@ namespace NTMiner.Microsoft.Windows.Shell {
                      * area are saved and copied back into the client area after the window is sized or repositioned.
                      * 
                      */
-                    NativeMethods.SetWindowPos(_hwnd, IntPtr.Zero, rcMonitorArea.Left, rcMonitorArea.Top, rcMonitorArea.Width, rcMonitorArea.Height, SWP.ASYNCWINDOWPOS | SWP.FRAMECHANGED | SWP.NOCOPYBITS);
+                    SafeNativeMethods.SetWindowPos(_hwnd, IntPtr.Zero, rcMonitorArea.Left, rcMonitorArea.Top, rcMonitorArea.Width, rcMonitorArea.Height, SWP.ASYNCWINDOWPOS | SWP.FRAMECHANGED | SWP.NOCOPYBITS);
                 }
             }
 
@@ -883,13 +883,13 @@ namespace NTMiner.Microsoft.Windows.Shell {
         /// <returns>Whether the styles of the HWND were modified as a result of this call.</returns>
         private bool _ModifyStyle(WS removeStyle, WS addStyle) {
             Assert.IsNotDefault(_hwnd);
-            var dwStyle = (WS)NativeMethods.GetWindowLongPtr(_hwnd, GWL.STYLE).ToInt32();
+            var dwStyle = (WS)SafeNativeMethods.GetWindowLongPtr(_hwnd, GWL.STYLE).ToInt32();
             var dwNewStyle = (dwStyle & ~removeStyle) | addStyle;
             if (dwStyle == dwNewStyle) {
                 return false;
             }
 
-            NativeMethods.SetWindowLongPtr(_hwnd, GWL.STYLE, new IntPtr((int)dwNewStyle));
+            SafeNativeMethods.SetWindowLongPtr(_hwnd, GWL.STYLE, new IntPtr((int)dwNewStyle));
             return true;
         }
 
@@ -897,7 +897,7 @@ namespace NTMiner.Microsoft.Windows.Shell {
         /// Get the WindowState as the native HWND knows it to be.  This isn't necessarily the same as what Window thinks.
         /// </summary>
         private WindowState _GetHwndState() {
-            var wpl = NativeMethods.GetWindowPlacement(_hwnd);
+            var wpl = SafeNativeMethods.GetWindowPlacement(_hwnd);
             switch (wpl.showCmd) {
                 case SW.SHOWMINIMIZED: return WindowState.Minimized;
                 case SW.SHOWMAXIMIZED: return WindowState.Maximized;
@@ -911,7 +911,7 @@ namespace NTMiner.Microsoft.Windows.Shell {
         /// <returns>The bounding rectangle for the window.</returns>
         private Rect _GetWindowRect() {
             // Get the window rectangle.
-            RECT windowPosition = NativeMethods.GetWindowRect(_hwnd);
+            RECT windowPosition = SafeNativeMethods.GetWindowRect(_hwnd);
             return new Rect(windowPosition.Left, windowPosition.Top, windowPosition.Width, windowPosition.Height);
         }
 
@@ -933,9 +933,9 @@ namespace NTMiner.Microsoft.Windows.Shell {
             if (null != assumeState || _lastMenuState != state) {
                 _lastMenuState = state;
 
-                IntPtr hmenu = NativeMethods.GetSystemMenu(_hwnd, false);
+                IntPtr hmenu = SafeNativeMethods.GetSystemMenu(_hwnd, false);
                 if (IntPtr.Zero != hmenu) {
-                    var dwStyle = (WS)NativeMethods.GetWindowLongPtr(_hwnd, GWL.STYLE).ToInt32();
+                    var dwStyle = (WS)SafeNativeMethods.GetWindowLongPtr(_hwnd, GWL.STYLE).ToInt32();
 
                     bool canMinimize = Utility.IsFlagSet((int)dwStyle, (int)WS.MINIMIZEBOX);
                     bool canMaximize = Utility.IsFlagSet((int)dwStyle, (int)WS.MAXIMIZEBOX);
@@ -943,25 +943,25 @@ namespace NTMiner.Microsoft.Windows.Shell {
 
                     switch (state) {
                         case WindowState.Maximized:
-                            NativeMethods.EnableMenuItem(hmenu, SC.RESTORE, mfEnabled);
-                            NativeMethods.EnableMenuItem(hmenu, SC.MOVE, mfDisabled);
-                            NativeMethods.EnableMenuItem(hmenu, SC.SIZE, mfDisabled);
-                            NativeMethods.EnableMenuItem(hmenu, SC.MINIMIZE, canMinimize ? mfEnabled : mfDisabled);
-                            NativeMethods.EnableMenuItem(hmenu, SC.MAXIMIZE, mfDisabled);
+                            SafeNativeMethods.EnableMenuItem(hmenu, SC.RESTORE, mfEnabled);
+                            SafeNativeMethods.EnableMenuItem(hmenu, SC.MOVE, mfDisabled);
+                            SafeNativeMethods.EnableMenuItem(hmenu, SC.SIZE, mfDisabled);
+                            SafeNativeMethods.EnableMenuItem(hmenu, SC.MINIMIZE, canMinimize ? mfEnabled : mfDisabled);
+                            SafeNativeMethods.EnableMenuItem(hmenu, SC.MAXIMIZE, mfDisabled);
                             break;
                         case WindowState.Minimized:
-                            NativeMethods.EnableMenuItem(hmenu, SC.RESTORE, mfEnabled);
-                            NativeMethods.EnableMenuItem(hmenu, SC.MOVE, mfDisabled);
-                            NativeMethods.EnableMenuItem(hmenu, SC.SIZE, mfDisabled);
-                            NativeMethods.EnableMenuItem(hmenu, SC.MINIMIZE, mfDisabled);
-                            NativeMethods.EnableMenuItem(hmenu, SC.MAXIMIZE, canMaximize ? mfEnabled : mfDisabled);
+                            SafeNativeMethods.EnableMenuItem(hmenu, SC.RESTORE, mfEnabled);
+                            SafeNativeMethods.EnableMenuItem(hmenu, SC.MOVE, mfDisabled);
+                            SafeNativeMethods.EnableMenuItem(hmenu, SC.SIZE, mfDisabled);
+                            SafeNativeMethods.EnableMenuItem(hmenu, SC.MINIMIZE, mfDisabled);
+                            SafeNativeMethods.EnableMenuItem(hmenu, SC.MAXIMIZE, canMaximize ? mfEnabled : mfDisabled);
                             break;
                         default:
-                            NativeMethods.EnableMenuItem(hmenu, SC.RESTORE, mfDisabled);
-                            NativeMethods.EnableMenuItem(hmenu, SC.MOVE, mfEnabled);
-                            NativeMethods.EnableMenuItem(hmenu, SC.SIZE, canSize ? mfEnabled : mfDisabled);
-                            NativeMethods.EnableMenuItem(hmenu, SC.MINIMIZE, canMinimize ? mfEnabled : mfDisabled);
-                            NativeMethods.EnableMenuItem(hmenu, SC.MAXIMIZE, canMaximize ? mfEnabled : mfDisabled);
+                            SafeNativeMethods.EnableMenuItem(hmenu, SC.RESTORE, mfDisabled);
+                            SafeNativeMethods.EnableMenuItem(hmenu, SC.MOVE, mfEnabled);
+                            SafeNativeMethods.EnableMenuItem(hmenu, SC.SIZE, canSize ? mfEnabled : mfDisabled);
+                            SafeNativeMethods.EnableMenuItem(hmenu, SC.MINIMIZE, canMinimize ? mfEnabled : mfDisabled);
+                            SafeNativeMethods.EnableMenuItem(hmenu, SC.MAXIMIZE, canMaximize ? mfEnabled : mfDisabled);
                             break;
                     }
                 }
@@ -974,7 +974,7 @@ namespace NTMiner.Microsoft.Windows.Shell {
             }
 
             // Don't rely on SystemParameters2 for this, just make the check ourselves.
-            bool frameState = NativeMethods.DwmIsCompositionEnabled();
+            bool frameState = SafeNativeMethods.DwmIsCompositionEnabled();
 
             if (force || frameState != _isGlassEnabled) {
                 _isGlassEnabled = frameState && _chromeInfo.GlassFrameThickness != default(Thickness);
@@ -998,20 +998,20 @@ namespace NTMiner.Microsoft.Windows.Shell {
                 // update the glass frame too, if the user sets the glass frame thickness to 0 at run time
                 _ExtendGlassFrame();
 
-                NativeMethods.SetWindowPos(_hwnd, IntPtr.Zero, 0, 0, 0, 0, _SwpFlags);
+                SafeNativeMethods.SetWindowPos(_hwnd, IntPtr.Zero, 0, 0, 0, 0, _SwpFlags);
             }
         }
 
         private void _ClearRoundingRegion() {
-            NativeMethods.SetWindowRgn(_hwnd, IntPtr.Zero, NativeMethods.IsWindowVisible(_hwnd));
+            SafeNativeMethods.SetWindowRgn(_hwnd, IntPtr.Zero, SafeNativeMethods.IsWindowVisible(_hwnd));
         }
 
         private static RECT _GetClientRectRelativeToWindowRect(IntPtr hWnd) {
-            RECT windowRect = NativeMethods.GetWindowRect(hWnd);
-            RECT clientRect = NativeMethods.GetClientRect(hWnd);
+            RECT windowRect = SafeNativeMethods.GetWindowRect(hWnd);
+            RECT clientRect = SafeNativeMethods.GetClientRect(hWnd);
 
             POINT test = new POINT() { x = 0, y = 0 };
-            NativeMethods.ClientToScreen(hWnd, ref test);
+            SafeNativeMethods.ClientToScreen(hWnd, ref test);
             clientRect.Offset(test.x - windowRect.Left, test.y - windowRect.Top);
             return clientRect;
         }
@@ -1019,7 +1019,7 @@ namespace NTMiner.Microsoft.Windows.Shell {
         private void _SetRoundingRegion(WINDOWPOS? wp) {
             // We're early - WPF hasn't necessarily updated the state of the window.
             // Need to query it ourselves.
-            WINDOWPLACEMENT wpl = NativeMethods.GetWindowPlacement(_hwnd);
+            WINDOWPLACEMENT wpl = SafeNativeMethods.GetWindowPlacement(_hwnd);
 
             if (wpl.showCmd == SW.SHOWMAXIMIZED) {
                 RECT rcMax;
@@ -1040,9 +1040,9 @@ namespace NTMiner.Microsoft.Windows.Shell {
                         top = (int)r.Top;
                     }
 
-                    IntPtr hMon = NativeMethods.MonitorFromWindow(_hwnd, (uint)MonitorOptions.MONITOR_DEFAULTTONEAREST);
+                    IntPtr hMon = SafeNativeMethods.MonitorFromWindow(_hwnd, (uint)MonitorOptions.MONITOR_DEFAULTTONEAREST);
 
-                    MONITORINFO mi = NativeMethods.GetMonitorInfo(hMon);
+                    MONITORINFO mi = SafeNativeMethods.GetMonitorInfo(hMon);
                     rcMax = _chromeInfo.IgnoreTaskbarOnMaximize ? mi.rcMonitor : mi.rcWork;
                     // The location of maximized window takes into account the border that Windows was
                     // going to remove, so we also need to consider it.
@@ -1051,8 +1051,8 @@ namespace NTMiner.Microsoft.Windows.Shell {
 
                 IntPtr hrgn = IntPtr.Zero;
                 try {
-                    hrgn = NativeMethods.CreateRectRgnIndirect(rcMax);
-                    NativeMethods.SetWindowRgn(_hwnd, hrgn, NativeMethods.IsWindowVisible(_hwnd));
+                    hrgn = SafeNativeMethods.CreateRectRgnIndirect(rcMax);
+                    SafeNativeMethods.SetWindowRgn(_hwnd, hrgn, SafeNativeMethods.IsWindowVisible(_hwnd));
                     hrgn = IntPtr.Zero;
                 }
                 finally {
@@ -1119,7 +1119,7 @@ namespace NTMiner.Microsoft.Windows.Shell {
                         _CreateAndCombineRoundRectRgn(hrgn, bottomRightRegionRect, bottomRightRadius);
                     }
 
-                    NativeMethods.SetWindowRgn(_hwnd, hrgn, NativeMethods.IsWindowVisible(_hwnd));
+                    SafeNativeMethods.SetWindowRgn(_hwnd, hrgn, SafeNativeMethods.IsWindowVisible(_hwnd));
                     hrgn = IntPtr.Zero;
                 }
                 finally {
@@ -1133,7 +1133,7 @@ namespace NTMiner.Microsoft.Windows.Shell {
             // Round outwards.
 
             if (DoubleUtilities.AreClose(0, radius)) {
-                return NativeMethods.CreateRectRgn(
+                return SafeNativeMethods.CreateRectRgn(
                     (int)Math.Floor(region.Left),
                     (int)Math.Floor(region.Top),
                     (int)Math.Ceiling(region.Right),
@@ -1141,7 +1141,7 @@ namespace NTMiner.Microsoft.Windows.Shell {
             }
 
             // RoundedRect HRGNs require an additional pixel of padding on the bottom right to look correct.
-            return NativeMethods.CreateRoundRectRgn(
+            return SafeNativeMethods.CreateRoundRectRgn(
                 (int)Math.Floor(region.Left),
                 (int)Math.Floor(region.Top),
                 (int)Math.Ceiling(region.Right) + 1,
@@ -1155,7 +1155,7 @@ namespace NTMiner.Microsoft.Windows.Shell {
             IntPtr hrgn = IntPtr.Zero;
             try {
                 hrgn = _CreateRoundRectRgn(region, radius);
-                CombineRgnResult result = NativeMethods.CombineRgn(hrgnSource, hrgnSource, hrgn, RGN.OR);
+                CombineRgnResult result = SafeNativeMethods.CombineRgn(hrgnSource, hrgnSource, hrgn, RGN.OR);
                 if (result == CombineRgnResult.ERROR) {
                     throw new InvalidOperationException("Unable to combine two HRGNs.");
                 }
@@ -1196,7 +1196,7 @@ namespace NTMiner.Microsoft.Windows.Shell {
             }
 
             // Ensure standard HWND background painting when DWM isn't enabled.
-            if (!NativeMethods.DwmIsCompositionEnabled()) {
+            if (!SafeNativeMethods.DwmIsCompositionEnabled()) {
                 // Apply the transparent background to the HWND for disabled DwmIsComposition too
                 // but only if the window has the flag AllowsTransparency turned on
                 if (_window.AllowsTransparency) {
@@ -1247,7 +1247,7 @@ namespace NTMiner.Microsoft.Windows.Shell {
                     cyBottomHeight = (int)Math.Ceiling(deviceGlassThickness.Bottom),
                 };
 
-                NativeMethods.DwmExtendFrameIntoClientArea(_hwnd, ref dwmMargin);
+                SafeNativeMethods.DwmExtendFrameIntoClientArea(_hwnd, ref dwmMargin);
             }
         }
 
@@ -1357,16 +1357,16 @@ namespace NTMiner.Microsoft.Windows.Shell {
 
             _hwndSource.CompositionTarget.BackgroundColor = SystemColors.WindowColor;
 
-            if (NativeMethods.DwmIsCompositionEnabled()) {
+            if (SafeNativeMethods.DwmIsCompositionEnabled()) {
                 // If glass is enabled, push it back to the normal bounds.
                 var dwmMargin = new MARGINS();
-                NativeMethods.DwmExtendFrameIntoClientArea(_hwnd, ref dwmMargin);
+                SafeNativeMethods.DwmExtendFrameIntoClientArea(_hwnd, ref dwmMargin);
             }
         }
 
         private void _RestoreHrgn() {
             _ClearRoundingRegion();
-            NativeMethods.SetWindowPos(_hwnd, IntPtr.Zero, 0, 0, 0, 0, _SwpFlags);
+            SafeNativeMethods.SetWindowPos(_hwnd, IntPtr.Zero, 0, 0, 0, 0, _SwpFlags);
         }
 
         #endregion

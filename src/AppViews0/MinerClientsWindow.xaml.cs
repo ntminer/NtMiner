@@ -35,7 +35,7 @@ namespace NTMiner.Views {
             this.DataContext = Vm;
             this.DataContext = AppContext.Instance.MinerClientsWindowVm;
             InitializeComponent();
-            this.On<Per1SecondEvent>("刷新倒计时秒表", LogEnum.None,
+            this.EventPath<Per1SecondEvent>("刷新倒计时秒表", LogEnum.None,
                 action: message => {
                     var minerClients = Vm.MinerClients.ToArray();
                     if (Vm.CountDown > 0) {
@@ -45,7 +45,7 @@ namespace NTMiner.Views {
                         }
                     }
                 });
-            this.On<Per10SecondEvent>("周期刷新在线客户端列表", LogEnum.DevConsole,
+            this.EventPath<Per10SecondEvent>("周期刷新在线客户端列表", LogEnum.DevConsole,
                 action: message => {
                     AppContext.Instance.MinerClientsWindowVm.QueryMinerClients();
                 });
@@ -95,23 +95,22 @@ namespace NTMiner.Views {
             Wpf.Util.ScrollViewer_PreviewMouseDown(sender, e);
         }
 
-        private void MenuItemWork_Click(object sender, RoutedEventArgs e) {
-            PopMineWork.IsOpen = !PopMineWork.IsOpen;
-        }
-
-        private void MenuItemGroup_Click(object sender, RoutedEventArgs e) {
-            PopMinerGroup.IsOpen = !PopMinerGroup.IsOpen;
-        }
-
-        private void PopupButton_Click(object sender, RoutedEventArgs e) {
-            PopMineWork.IsOpen = PopMinerGroup.IsOpen = PopUpgrade.IsOpen = false;
-        }
-
-        private void MenuItemUpgrade_Click(object sender, RoutedEventArgs e) {
-            OfficialServer.FileUrlService.GetNTMinerFilesAsync(NTMinerAppType.MinerClient, (ntMinerFiles, ex) => {
-                Vm.NTMinerFileList = (ntMinerFiles ?? new List<NTMinerFileData>()).OrderByDescending(a => a.GetVersion()).ToList();
-            });
-            PopUpgrade.IsOpen = !PopUpgrade.IsOpen;
+        private void MinerClientUcScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
+            if (e.LeftButton == MouseButtonState.Pressed && e.Source.GetType() == typeof(ScrollViewer)) {
+                ScrollViewer scrollViewer = (ScrollViewer)sender;
+                Point p = e.GetPosition(scrollViewer);
+                if (p.X < SystemParameters.ScrollWidth) {
+                    return;
+                }
+                if (scrollViewer.ComputedHorizontalScrollBarVisibility == Visibility.Visible) {
+                    p = e.GetPosition(scrollViewer);
+                    if (p.Y > scrollViewer.ActualHeight - SystemParameters.ScrollHeight) {
+                        return;
+                    }
+                }
+                this.DragMove();
+                e.Handled = true;
+            }
         }
 
         private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e) {

@@ -41,7 +41,7 @@ namespace NTMiner.Vms {
                     OnPropertyChanged(nameof(EthNoDevFeeWallet));
                     if (NTMinerRoot.Instance.CoinSet.TryGetCoin("ETH", out ICoin coin)) {
                         if (!string.IsNullOrEmpty(coin.WalletRegexPattern)) {
-                            Regex regex = new Regex(coin.WalletRegexPattern);
+                            Regex regex = VirtualRoot.GetRegex(coin.WalletRegexPattern);
                             if (!regex.IsMatch(value)) {
                                 throw new ValidationException("钱包地址格式不正确。");
                             }

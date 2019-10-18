@@ -9,7 +9,7 @@
 			 xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 			 xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 			 d:DataContext="{d:DesignData Source=/Design/StateBarViewModel.xaml}"
-			 mc:Ignorable="d" d:DesignWidth="800">
+			 mc:Ignorable="d" d:DesignWidth="1000">
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<Style x:Key="Lbl" TargetType="TextBlock">
@@ -25,7 +25,7 @@
 					<ColumnDefinition Width="Auto"></ColumnDefinition>
 					<ColumnDefinition Width="*"></ColumnDefinition>
 				</Grid.ColumnDefinitions>
-				<WrapPanel>
+                <WrapPanel IsEnabled="{Binding MinerProfile.IsWorker,Converter={StaticResource BoolInvertConverter}}">
 					<CheckBox
 						FocusVisualStyle="{x:Null}"
 						Content="开机启动"
@@ -38,7 +38,7 @@
 						IsChecked="{Binding MinerProfile.IsAutoStart}" />
 				</WrapPanel>
 				<WrapPanel Grid.Column="1" HorizontalAlignment="Right">
-					<local:StartStopMineButton StartButtonBackground="Transparent" StartButtonForeground="Black">
+					<local:StartStopMineButton StartButtonBackground="Transparent" StartButtonForeground="Black" TextVisible="Collapsed">
 					</local:StartStopMineButton>
 					<StackPanel Height="28" Margin="2 -2 0 0" VerticalAlignment="Top">
 						<WrapPanel>
@@ -58,46 +58,63 @@
 								Background="Transparent"></TextBlock>
 						</WrapPanel>
 					</StackPanel>
-					<WrapPanel VerticalAlignment="Center">
-						<Path
-							Margin="0 0 2 0"
-							Width="10"
-							Height="18"
-							Data="{StaticResource Icon_Temperature}"
-							Fill="{StaticResource IconFillColor}"
-							Stretch="Fill" />
+                    <WrapPanel VerticalAlignment="Center">
+                        <Border Margin="0 0 2 0" ToolTip="CPU" Background="Transparent">
+                            <Path
+							    Width="24"
+							    Height="20"
+							    Data="{StaticResource Icon_Cpu}"
+							    Fill="{StaticResource IconFillColor}"
+							    Stretch="Fill">
+                            </Path>
+                        </Border>
+                        <StackPanel Margin="2 -2 0 0">
+                            <TextBlock Width="50" Text="{Binding CpuPerformanceText}" ToolTip="CPU使用率" Padding="0" HorizontalAlignment="Left" />
+                            <TextBlock Width="50" Text="{Binding CpuTemperatureText}" ToolTip="CPU温度" Margin="0 -4 0 0" Padding="0" HorizontalAlignment="Left" />
+                        </StackPanel>
+                        <Border Margin="0 0 2 0" ToolTip="显卡温度" Background="Transparent">
+                            <Path
+							    Width="10"
+							    Height="18"
+							    Data="{StaticResource Icon_Temperature}"
+							    Fill="{StaticResource IconFillColor}"
+							    Stretch="Fill" />
+                        </Border>
 						<StackPanel Margin="2 -2 0 0">
 							<TextBlock Width="50" Text="{Binding GpuVms.TemperatureMinText}" ToolTip="最低" Padding="0" HorizontalAlignment="Left" />
 							<TextBlock Width="50" Text="{Binding GpuVms.TemperatureMaxText}" ToolTip="最高" Margin="0 -4 0 0" Padding="0" HorizontalAlignment="Left" />
 						</StackPanel>
-						<Path
-							Margin="0 0 2 0"
-							Width="18"
-							Height="18"
-							Data="{StaticResource Icon_Fan}"
-							Fill="{StaticResource IconFillColor}"
-							Stretch="Fill">
-						</Path>
+                        <Border Margin="0 0 2 0" ToolTip="显卡风扇" Background="Transparent">
+                            <Path
+							    Width="18"
+							    Height="18"
+							    Data="{StaticResource Icon_Fan}"
+							    Fill="{StaticResource IconFillColor}"
+							    Stretch="Fill">
+                            </Path>
+                        </Border>
 						<StackPanel Margin="2 -2 0 0">
 							<TextBlock Width="50" Text="{Binding GpuVms.FanSpeedMinText}" ToolTip="最低" Padding="0" HorizontalAlignment="Left" />
 							<TextBlock Width="50" Text="{Binding GpuVms.FanSpeedMaxText}" ToolTip="最高" Margin="0 -4 0 0" Padding="0" HorizontalAlignment="Left" />
 						</StackPanel>
-						<Path
-							Margin="0 0 2 0"
-							Width="13"
-							Height="18"
-							Visibility="{Binding MinerProfile.IsEChargeEnabled,Converter={StaticResource BoolToVisibilityInvertConverter}}"
-							Data="{StaticResource Icon_Power}"
-							Fill="{StaticResource IconFillColor}"
-							Stretch="Fill" />
-						<Path
-							Margin="0 0 2 0"
-							Width="13"
-							Height="18"
-							Visibility="{Binding MinerProfile.IsEChargeEnabled,Converter={StaticResource BoolToVisibilityConverter}}"
-							Data="{StaticResource Icon_ECharge}"
-							Fill="{StaticResource IconFillColor}"
-							Stretch="Fill" />
+                        <Border Margin="0 0 2 0" ToolTip="显卡功耗" Background="Transparent">
+                            <Path
+							    Width="13"
+							    Height="18"
+							    Visibility="{Binding MinerProfile.IsEChargeEnabled,Converter={StaticResource BoolToVisibilityInvertConverter}}"
+							    Data="{StaticResource Icon_Power}"
+							    Fill="{StaticResource IconFillColor}"
+							    Stretch="Fill" />
+                        </Border>
+                        <Border Margin="0 0 2 0" ToolTip="显卡功耗" Background="Transparent">
+                            <Path
+							    Width="13"
+							    Height="18"
+							    Visibility="{Binding MinerProfile.IsEChargeEnabled,Converter={StaticResource BoolToVisibilityConverter}}"
+							    Data="{StaticResource Icon_ECharge}"
+							    Fill="{StaticResource IconFillColor}"
+							    Stretch="Fill" />
+                        </Border>
 						<StackPanel Margin="2 -2 0 0" VerticalAlignment="Center" ToolTip="可在'选项'页调整电价">
 							<TextBlock Width="60" Text="{Binding GpuStatusBarVm.GpuAllVm.PowerUsageWText}" Padding="0" HorizontalAlignment="Left" />
 							<TextBlock 
@@ -107,8 +124,8 @@
 								Margin="0 -4 0 0" 
 								Padding="0" 
 								HorizontalAlignment="Left" />
-						</StackPanel>
-					</WrapPanel>
+                        </StackPanel>
+                    </WrapPanel>
 					<Path
 						Width="24"
 						Height="24"
@@ -286,7 +303,7 @@
                     </WrapPanel>
                 </controls:KbButton>
                 <WrapPanel Grid.Column="1" HorizontalAlignment="Right" Margin="0 0 70 0">
-					<TextBlock Text="{x:Static app:AppStatic.WindowsEdition}" ToolTip="操作系统" Foreground="{StaticResource LableColor}"></TextBlock>
+                    <TextBlock Text="{x:Static app:AppStatic.WindowsEdition}" ToolTip="{x:Static app:AppStatic.WindowsEditionToolTip}" Foreground="{x:Static app:AppStatic.WindowsEditionColor}"></TextBlock>
 					<controls:KbButton 
 						Background="Transparent"
 						Margin="4 0 0 0"
@@ -312,8 +329,18 @@
 							Data="{StaticResource Icon_RemoteDesktop}"
 							Fill="{Binding IsRemoteDesktopEnabled,Converter={StaticResource BoolToBrushConverter}}"
 							Stretch="Fill" />
-					</controls:KbButton>
-					<TextBlock Text=" / " Foreground="{StaticResource LableColor}"></TextBlock>
+                    </controls:KbButton>
+                    <controls:KbButton 
+						Background="Transparent"
+						Margin="4 0 0 0"
+						ToolTip="管理本机 IP"
+                        Cursor="Hand"
+                        Command="{x:Static app:AppStatic.ShowLocalIps}"
+                        Foreground="{StaticResource LableColor}"
+                        Content="{Binding LocalIps}"
+						CornerRadius="2">
+                    </controls:KbButton>
+                    <TextBlock Text=" / " Foreground="{StaticResource LableColor}"></TextBlock>
 					<controls:KbButton 
 						x:Name="BtnShowVirtualMemory"
 						Command="{x:Static app:AppStatic.ShowVirtualMemory}"
@@ -325,7 +352,7 @@
 						Foreground="{StaticResource LableColor}"></controls:KbButton>
 					<TextBlock Text=" / " Foreground="{StaticResource LableColor}"></TextBlock>
 					<WrapPanel>
-						<TextBlock Text="{x:Static app:AppStatic.DriverVersion}" ToolTip="显卡驱动版本" Foreground="{StaticResource LableColor}"></TextBlock>
+                        <TextBlock Text="{x:Static app:AppStatic.DriverVersion}" ToolTip="{x:Static app:AppStatic.DriverVersionToolTip}" Foreground="{x:Static app:AppStatic.DriverVersionColor}"></TextBlock>
 						<TextBlock Text=" / " Foreground="{StaticResource LableColor}"></TextBlock>
 					</WrapPanel>
 					<TextBlock Text="{x:Static app:AppStatic.GpuSetInfo}" MaxWidth="260" ToolTip="{x:Static app:AppStatic.GpuSetInfo}" Foreground="{StaticResource LableColor}"></TextBlock>

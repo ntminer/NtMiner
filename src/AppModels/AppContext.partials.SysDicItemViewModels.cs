@@ -14,16 +14,16 @@ namespace NTMiner {
 #if DEBUG
                 Write.Stopwatch.Restart();
 #endif
-                VirtualRoot.On<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
+                VirtualRoot.EventPath<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById.Clear();
                         Init();
                     });
-                VirtualRoot.On<ServerContextVmsReInitedEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
+                VirtualRoot.EventPath<ServerContextVmsReInitedEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
                     action: message => {
                         OnPropertyChangeds();
                     });
-                On<SysDicItemAddedEvent>("添加了系统字典项后调整VM内存", LogEnum.DevConsole,
+                EventPath<SysDicItemAddedEvent>("添加了系统字典项后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         if (!_dicById.ContainsKey(message.Source.GetId())) {
                             _dicById.Add(message.Source.GetId(), new SysDicItemViewModel(message.Source));
@@ -35,7 +35,7 @@ namespace NTMiner {
                             }
                         }
                     });
-                On<SysDicItemUpdatedEvent>("更新了系统字典项后调整VM内存", LogEnum.DevConsole,
+                EventPath<SysDicItemUpdatedEvent>("更新了系统字典项后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         if (_dicById.ContainsKey(message.Source.GetId())) {
                             SysDicItemViewModel entity = _dicById[message.Source.GetId()];
@@ -50,7 +50,7 @@ namespace NTMiner {
                             }
                         }
                     });
-                On<SysDicItemRemovedEvent>("删除了系统字典项后调整VM内存", LogEnum.DevConsole,
+                EventPath<SysDicItemRemovedEvent>("删除了系统字典项后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         _dicById.Remove(message.Source.GetId());
                         OnPropertyChangeds();
@@ -85,7 +85,7 @@ namespace NTMiner {
                 get {
                     List<SysDicItemViewModel> list = new List<SysDicItemViewModel>();
                     SysDicViewModel sysDic;
-                    if (AppContext.Instance.SysDicVms.TryGetSysDicVm("KernelBrand", out sysDic)) {
+                    if (AppContext.Instance.SysDicVms.TryGetSysDicVm(VirtualRoot.KernelBrandSysDicCode, out sysDic)) {
                         list.AddRange(List.Where(a => a.DicId == sysDic.Id).OrderBy(a => a.SortNumber));
                     }
                     return list;
@@ -98,7 +98,7 @@ namespace NTMiner {
                         SysDicItemViewModel.PleaseSelect
                     };
                     SysDicViewModel sysDic;
-                    if (AppContext.Instance.SysDicVms.TryGetSysDicVm("KernelBrand", out sysDic)) {
+                    if (AppContext.Instance.SysDicVms.TryGetSysDicVm(VirtualRoot.KernelBrandSysDicCode, out sysDic)) {
                         list.AddRange(List.Where(a => a.DicId == sysDic.Id).OrderBy(a => a.SortNumber));
                     }
                     return list;
@@ -109,7 +109,7 @@ namespace NTMiner {
                 get {
                     List<SysDicItemViewModel> list = new List<SysDicItemViewModel>();
                     SysDicViewModel sysDic;
-                    if (AppContext.Instance.SysDicVms.TryGetSysDicVm("PoolBrand", out sysDic)) {
+                    if (AppContext.Instance.SysDicVms.TryGetSysDicVm(VirtualRoot.PoolBrandSysDicCode, out sysDic)) {
                         list.AddRange(List.Where(a => a.DicId == sysDic.Id).OrderBy(a => a.SortNumber));
                     }
                     return list;
@@ -120,7 +120,7 @@ namespace NTMiner {
                 get {
                     List<SysDicItemViewModel> list = new List<SysDicItemViewModel>();
                     SysDicViewModel sysDic;
-                    if (AppContext.Instance.SysDicVms.TryGetSysDicVm("Algo", out sysDic)) {
+                    if (AppContext.Instance.SysDicVms.TryGetSysDicVm(VirtualRoot.AlgoSysDicCode, out sysDic)) {
                         list.AddRange(List.Where(a => a.DicId == sysDic.Id).OrderBy(a => a.SortNumber));
                     }
                     return list;

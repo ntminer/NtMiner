@@ -1,17 +1,14 @@
-﻿
-using System;
-using System.Collections.Generic;
+﻿using System;
 
 namespace NTMiner.Bus {
     public interface IMessageDispatcher {
-        void DispatchMessage<TMessage>(TMessage message);
+        void Dispatch<TMessage>(TMessage message);
 
-        void Register<TMessage>(DelegateHandler<TMessage> handler);
+        void Connect<TMessage>(DelegateHandler<TMessage> handler);
 
-        void UnRegister(IDelegateHandler handler);
+        void Disconnect(IHandlerId handlerId);
 
-        IEnumerable<IHandlerId> HandlerIds { get; }
-        event Action<IHandlerId> HandlerIdAdded;
-        event Action<IHandlerId> HandlerIdRemoved;
+        event Action<IHandlerId> Connected;
+        event Action<IHandlerId> Disconnected;
     }
 }

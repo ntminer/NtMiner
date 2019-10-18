@@ -170,14 +170,21 @@ namespace NTMiner.Gpus {
             return temp;
         }
 
+        private HashSet<int> _nvmlDeviceGetFanSpeedNotSupporteds = new HashSet<int>();
         public uint GetFanSpeed(int gpuIndex) {
             if (!NvmlInit() || !TryGetNvmlDevice(gpuIndex, out nvmlDevice nvmlDevice)) {
+                return 0;
+            }
+            if (_nvmlDeviceGetFanSpeedNotSupporteds.Contains(gpuIndex)) {
                 return 0;
             }
             uint fanSpeed = 0;
             try {
                 var r = NvmlNativeMethods.nvmlDeviceGetFanSpeed(nvmlDevice, ref fanSpeed);
                 if (r != nvmlReturn.Success) {
+                    if (r == nvmlReturn.NotSupported) {
+                        _nvmlDeviceGetFanSpeedNotSupporteds.Add(gpuIndex);
+                    }
                     Write.DevError($"{nameof(NvmlNativeMethods.nvmlDeviceGetFanSpeed)} {r}");
                 }
             }
@@ -186,20 +193,26 @@ namespace NTMiner.Gpus {
             return fanSpeed;
         }
 
-        public void GetVersion(out string driverVersion, out string nvmlVersion) {
-            driverVersion = string.Empty;
-            nvmlVersion = string.Empty;
+        public void GetVersion(out Version driverVersion, out string nvmlVersion) {
+            driverVersion = new Version();
+            nvmlVersion = "0.0";
             if (!NvmlInit()) {
                 return;
             }
             try {
-                var r = NvmlNativeMethods.nvmlSystemGetDriverVersion(out driverVersion);
+                var r = NvmlNativeMethods.nvmlSystemGetDriverVersion(out string version);
                 if (r != nvmlReturn.Success) {
                     Write.DevError($"{nameof(NvmlNativeMethods.nvmlSystemGetDriverVersion)} {r}");
                 }
                 r = NvmlNativeMethods.nvmlSystemGetNVMLVersion(out nvmlVersion);
                 if (r != nvmlReturn.Success) {
                     Write.DevError($"{nameof(NvmlNativeMethods.nvmlSystemGetNVMLVersion)} {r}");
+                }
+                if (!string.IsNullOrEmpty(version) && Version.TryParse(version, out Version v)) {
+                    driverVersion = v;
+                }
+                if (string.IsNullOrEmpty(nvmlVersion)) {
+                    nvmlVersion = "0.0";
                 }
             }
             catch {

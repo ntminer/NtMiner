@@ -21,12 +21,16 @@ namespace NTMiner.MinerServer {
                 CreatedOn = data.CreatedOn,
                 GroupId = data.GroupId,
                 WorkId = data.WorkId,
+                MineWorkId = Guid.Empty,
+                MineWorkName = string.Empty,
                 WindowsLoginName = data.WindowsLoginName,
                 WindowsPassword = data.WindowsPassword,
                 Id = data.Id,
                 IsAutoBoot = false,
                 IsAutoStart = false,
+                AutoStartDelaySeconds = 15,
                 IsAutoRestartKernel = false,
+                AutoRestartKernelTimes = 10,
                 IsNoShareRestartKernel = false,
                 NoShareRestartKernelMinutes = 0,
                 IsNoShareRestartComputer = false,
@@ -35,6 +39,14 @@ namespace NTMiner.MinerServer {
                 PeriodicRestartKernelHours = 0,
                 IsPeriodicRestartComputer = false,
                 PeriodicRestartComputerHours = 0,
+                PeriodicRestartKernelMinutes = 10,
+                PeriodicRestartComputerMinutes = 10,
+                IsAutoStartByCpu = false,
+                IsAutoStopByCpu = false,
+                CpuGETemperatureSeconds = 60,
+                CpuLETemperatureSeconds = 60,
+                CpuStartTemperature = 40,
+                CpuStopTemperature = 65,
                 GpuDriver = String.Empty,
                 GpuType = GpuType.Empty,
                 OSName = String.Empty,
@@ -60,6 +72,14 @@ namespace NTMiner.MinerServer {
                 DualCoinRejectShare = 0,
                 DualCoinSpeed = 0,
                 KernelCommandLine = String.Empty,
+                MainCoinPoolDelay = string.Empty,
+                DualCoinPoolDelay = string.Empty,
+                DiskSpace = string.Empty,
+                IsFoundOneGpuShare = false,
+                IsRejectOneGpuShare = false,
+                IsGotOneIncorrectGpuShare = false,
+                CpuPerformance = 0,
+                CpuTemperature = 0,
                 GpuTable = new GpuSpeedData[0]
             };
         }
@@ -70,7 +90,9 @@ namespace NTMiner.MinerServer {
                 ClientId = speedData.ClientId,
                 IsAutoBoot = speedData.IsAutoBoot,
                 IsAutoStart = speedData.IsAutoStart,
+                AutoStartDelaySeconds = speedData.AutoStartDelaySeconds,
                 IsAutoRestartKernel = speedData.IsAutoRestartKernel,
+                AutoRestartKernelTimes = speedData.AutoRestartKernelTimes,
                 IsNoShareRestartKernel = speedData.IsNoShareRestartKernel,
                 NoShareRestartKernelMinutes = speedData.NoShareRestartKernelMinutes,
                 IsNoShareRestartComputer = speedData.IsNoShareRestartComputer,
@@ -79,6 +101,14 @@ namespace NTMiner.MinerServer {
                 PeriodicRestartKernelHours = speedData.PeriodicRestartKernelHours,
                 IsPeriodicRestartComputer = speedData.IsPeriodicRestartComputer,
                 PeriodicRestartComputerHours = speedData.PeriodicRestartComputerHours,
+                PeriodicRestartComputerMinutes = speedData.PeriodicRestartComputerMinutes,
+                PeriodicRestartKernelMinutes = speedData.PeriodicRestartKernelMinutes,
+                IsAutoStopByCpu = speedData.IsAutoStopByCpu,
+                IsAutoStartByCpu = speedData.IsAutoStartByCpu,
+                CpuStopTemperature = speedData.CpuStopTemperature,
+                CpuStartTemperature = speedData.CpuStartTemperature,
+                CpuLETemperatureSeconds = speedData.CpuLETemperatureSeconds,
+                CpuGETemperatureSeconds = speedData.CpuGETemperatureSeconds,
                 MinerName = string.Empty,
                 GpuDriver = speedData.GpuDriver,
                 GpuType = speedData.GpuType,
@@ -110,10 +140,19 @@ namespace NTMiner.MinerServer {
                 GpuTable = speedData.GpuTable,
                 GroupId = Guid.Empty,
                 WorkId = Guid.Empty,
+                MineWorkId = speedData.MineWorkId,
+                MineWorkName = speedData.MineWorkName,
                 WindowsLoginName = string.Empty,
                 WindowsPassword = string.Empty,
                 ClientName = speedData.MinerName,
-                DiskSpace = speedData.DiskSpace
+                DiskSpace = speedData.DiskSpace,
+                MainCoinPoolDelay = speedData.MainCoinPoolDelay,
+                DualCoinPoolDelay = speedData.DualCoinPoolDelay,
+                IsFoundOneGpuShare = speedData.IsFoundOneGpuShare,
+                IsRejectOneGpuShare = speedData.IsRejectOneGpuShare,
+                IsGotOneIncorrectGpuShare = speedData.IsGotOneIncorrectGpuShare,
+                CpuTemperature = speedData.CpuTemperature,
+                CpuPerformance = speedData.CpuPerformance
             };
         }
 
@@ -157,11 +196,13 @@ namespace NTMiner.MinerServer {
                 _preDualCoinRejectShare = this.DualCoinRejectShare;
             }
             _preDualCoin = this.DualCoinCode;
-            
+
             this.ClientId = speedData.ClientId;
             this.IsAutoBoot = speedData.IsAutoBoot;
             this.IsAutoStart = speedData.IsAutoStart;
+            this.AutoStartDelaySeconds = speedData.AutoStartDelaySeconds;
             this.IsAutoRestartKernel = speedData.IsAutoRestartKernel;
+            this.AutoRestartKernelTimes = speedData.AutoRestartKernelTimes;
             this.IsNoShareRestartKernel = speedData.IsNoShareRestartKernel;
             this.NoShareRestartKernelMinutes = speedData.NoShareRestartKernelMinutes;
             this.IsNoShareRestartComputer = speedData.IsNoShareRestartComputer;
@@ -170,6 +211,14 @@ namespace NTMiner.MinerServer {
             this.PeriodicRestartKernelHours = speedData.PeriodicRestartKernelHours;
             this.IsPeriodicRestartComputer = speedData.IsPeriodicRestartComputer;
             this.PeriodicRestartComputerHours = speedData.PeriodicRestartComputerHours;
+            this.PeriodicRestartComputerMinutes = speedData.PeriodicRestartComputerMinutes;
+            this.PeriodicRestartKernelMinutes = speedData.PeriodicRestartKernelMinutes;
+            this.IsAutoStopByCpu = speedData.IsAutoStopByCpu;
+            this.IsAutoStartByCpu = speedData.IsAutoStartByCpu;
+            this.CpuStopTemperature = speedData.CpuStopTemperature;
+            this.CpuStartTemperature = speedData.CpuStartTemperature;
+            this.CpuLETemperatureSeconds = speedData.CpuLETemperatureSeconds;
+            this.CpuGETemperatureSeconds = speedData.CpuGETemperatureSeconds;
             this.GpuDriver = speedData.GpuDriver;
             this.GpuType = speedData.GpuType;
             this.OSName = speedData.OSName;
@@ -199,6 +248,15 @@ namespace NTMiner.MinerServer {
             this.DualCoinSpeed = speedData.DualCoinSpeed;
             this.KernelCommandLine = speedData.KernelCommandLine;
             this.GpuTable = speedData.GpuTable;
+            this.MainCoinPoolDelay = speedData.MainCoinPoolDelay;
+            this.DualCoinPoolDelay = speedData.DualCoinPoolDelay;
+            this.IsFoundOneGpuShare = speedData.IsFoundOneGpuShare;
+            this.IsRejectOneGpuShare = speedData.IsRejectOneGpuShare;
+            this.IsGotOneIncorrectGpuShare = speedData.IsGotOneIncorrectGpuShare;
+            this.CpuPerformance = speedData.CpuPerformance;
+            this.CpuTemperature = speedData.CpuTemperature;
+            this.MineWorkId = speedData.MineWorkId;
+            this.MineWorkName = speedData.MineWorkName;
         }
 
         public int GetMainCoinShareDelta(bool isPull) {
@@ -298,7 +356,9 @@ namespace NTMiner.MinerServer {
         public Guid ClientId { get; set; }
         public bool IsAutoBoot { get; set; }
         public bool IsAutoStart { get; set; }
+        public int AutoStartDelaySeconds { get; set; }
         public bool IsAutoRestartKernel { get; set; }
+        public int AutoRestartKernelTimes { get; set; }
         public bool IsNoShareRestartKernel { get; set; }
         public bool IsNoShareRestartComputer { get; set; }
         public int NoShareRestartKernelMinutes { get; set; }
@@ -307,6 +367,14 @@ namespace NTMiner.MinerServer {
         public int PeriodicRestartKernelHours { get; set; }
         public bool IsPeriodicRestartComputer { get; set; }
         public int PeriodicRestartComputerHours { get; set; }
+        public int PeriodicRestartKernelMinutes { get; set; }
+        public int PeriodicRestartComputerMinutes { get; set; }
+        public bool IsAutoStopByCpu { get; set; }
+        public int CpuGETemperatureSeconds { get; set; }
+        public int CpuStopTemperature { get; set; }
+        public bool IsAutoStartByCpu { get; set; }
+        public int CpuLETemperatureSeconds { get; set; }
+        public int CpuStartTemperature { get; set; }
         public string OSName { get; set; }
         public int OSVirtualMemoryMb { get; set; }
         public string DiskSpace { get; set; }
@@ -314,7 +382,17 @@ namespace NTMiner.MinerServer {
         public string GpuDriver { get; set; }
         public string GpuInfo { get; set; }
 
+        /// <summary>
+        /// 服务的指定的作业
+        /// </summary>
         public Guid WorkId { get; set; }
+
+        /// <summary>
+        /// 挖矿端上报的作业
+        /// </summary>
+        public Guid MineWorkId { get; set; }
+
+        public string MineWorkName { get; set; }
 
         public string Version { get; set; }
 
@@ -349,6 +427,8 @@ namespace NTMiner.MinerServer {
 
         public string MainCoinWallet { get; set; }
 
+        public string MainCoinPoolDelay { get; set; }
+
         public string Kernel { get; set; }
 
         public bool IsDualCoinEnabled { get; set; }
@@ -368,6 +448,8 @@ namespace NTMiner.MinerServer {
 
         public string DualCoinWallet { get; set; }
 
+        public string DualCoinPoolDelay { get; set; }
+
         public DateTime CreatedOn { get; set; }
 
         public DateTime ModifiedOn { get; set; }
@@ -375,6 +457,16 @@ namespace NTMiner.MinerServer {
         public Guid GroupId { get; set; }
 
         public string KernelCommandLine { get; set; }
+
+        public bool IsRejectOneGpuShare { get; set; }
+
+        public bool IsFoundOneGpuShare { get; set; }
+
+        public bool IsGotOneIncorrectGpuShare { get; set; }
+
+        public int CpuPerformance { get; set; }
+
+        public int CpuTemperature { get; set; }
 
         public GpuSpeedData[] GpuTable { get; set; }
     }

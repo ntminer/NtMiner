@@ -192,7 +192,7 @@ namespace NTMiner.Vms {
         public SysDicViewModel LogColorDicVm {
             get {
                 if (_clorDic == null) {
-                    AppContext.Instance.SysDicVms.TryGetSysDicVm(Consts.LogColorDicKey, out _clorDic);
+                    AppContext.Instance.SysDicVms.TryGetSysDicVm(VirtualRoot.LogColorSysDicCode, out _clorDic);
                 }
                 return _clorDic;
             }

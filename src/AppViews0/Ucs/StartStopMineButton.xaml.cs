@@ -12,16 +12,23 @@ namespace NTMiner.Views.Ucs {
             set { SetValue(StartButtonBackgroundProperty, value); }
         }
         public static readonly DependencyProperty StartButtonBackgroundProperty =
-            DependencyProperty.Register("StartButtonBackground", typeof(SolidColorBrush), typeof(StartStopMineButton), new PropertyMetadata(Wpf.Util.TransparentBrush));
-
-
+            DependencyProperty.Register(nameof(StartButtonBackground), typeof(SolidColorBrush), typeof(StartStopMineButton), new PropertyMetadata(Wpf.Util.TransparentBrush));
+        
         [Description("开始按钮前景色"), Category("KbSkin")]
         public SolidColorBrush StartButtonForeground {
             get { return (SolidColorBrush)GetValue(StartButtonForegroundProperty); }
             set { SetValue(StartButtonForegroundProperty, value); }
         }
         public static readonly DependencyProperty StartButtonForegroundProperty =
-            DependencyProperty.Register("StartButtonForeground", typeof(SolidColorBrush), typeof(StartStopMineButton), new PropertyMetadata(Wpf.Util.TransparentBrush));
+            DependencyProperty.Register(nameof(StartButtonForeground), typeof(SolidColorBrush), typeof(StartStopMineButton), new PropertyMetadata(Wpf.Util.TransparentBrush));
+
+        [Description("是否显示按钮文字"), Category("KbSkin")]
+        public Visibility TextVisible {
+            get { return (Visibility)GetValue(TextVisibleProperty); }
+            set { SetValue(TextVisibleProperty, value); }
+        }
+        public static readonly DependencyProperty TextVisibleProperty =
+            DependencyProperty.Register(nameof(TextVisible), typeof(Visibility), typeof(StartStopMineButton), new PropertyMetadata(Visibility.Visible));
 
         private StartStopMineButtonViewModel Vm {
             get {

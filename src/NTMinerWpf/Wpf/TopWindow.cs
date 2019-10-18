@@ -5,7 +5,7 @@ using System.Windows.Interop;
 namespace NTMiner.Wpf {
     public static class TopWindow {
         public static Window GetTopWindow() {
-            IntPtr hwnd = NativeMethods.GetForegroundWindow();
+            IntPtr hwnd = SafeNativeMethods.GetForegroundWindow();
             if (hwnd == IntPtr.Zero)
                 return null;
 

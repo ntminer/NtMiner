@@ -2,20 +2,10 @@
 using NTMiner.MinerServer;
 using System;
 using System.Collections.Generic;
-using System.Web;
 using System.Web.Http;
 
 namespace NTMiner.Controllers {
     public class FileUrlController : ApiControllerBase, IFileUrlController {
-        private string SignatureSafeUrl(Uri uri) {
-            string url = uri.ToString();
-            if (url.Length > 28) {
-                string signature = url.Substring(url.Length - 28);
-                return url.Substring(0, url.Length - 28) + HttpUtility.UrlEncode(signature);
-            }
-            return url;
-        }
-
         [HttpPost]
         public string MinerJsonPutUrl([FromBody]MinerJsonPutUrlRequest request) {
             if (request == null || string.IsNullOrEmpty(request.FileName)) {
@@ -24,7 +14,7 @@ namespace NTMiner.Controllers {
             try {
                 var req = new GeneratePresignedUriRequest("minerjson", request.FileName, SignHttpMethod.Put);
                 var uri = HostRoot.Instance.OssClient.GeneratePresignedUri(req);
-                return SignatureSafeUrl(uri);
+                return OfficialServer.SignatureSafeUrl(uri);
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
@@ -41,7 +31,7 @@ namespace NTMiner.Controllers {
                 Expiration = DateTime.Now.AddMinutes(10)
             };
             var uri = HostRoot.Instance.OssClient.GeneratePresignedUri(req);
-            return SignatureSafeUrl(uri);
+            return OfficialServer.SignatureSafeUrl(uri);
         }
 
         [HttpPost]
@@ -98,7 +88,7 @@ namespace NTMiner.Controllers {
                 }
                 var req = new GeneratePresignedUriRequest("ntminer", ntminerUpdaterFileName, SignHttpMethod.Get);
                 var uri = HostRoot.Instance.OssClient.GeneratePresignedUri(req);
-                return SignatureSafeUrl(uri);
+                return OfficialServer.SignatureSafeUrl(uri);
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
@@ -111,20 +101,7 @@ namespace NTMiner.Controllers {
             try {
                 var req = new GeneratePresignedUriRequest("ntminer", "LiteDBExplorerPortable.zip", SignHttpMethod.Get);
                 var uri = HostRoot.Instance.OssClient.GeneratePresignedUri(req);
-                return SignatureSafeUrl(uri);
-            }
-            catch (Exception e) {
-                Logger.ErrorDebugLine(e);
-                return string.Empty;
-            }
-        }
-
-        [HttpPost]
-        public string NppUrl() {
-            try {
-                var req = new GeneratePresignedUriRequest("ntminer", "npp.zip", SignHttpMethod.Get);
-                var uri = HostRoot.Instance.OssClient.GeneratePresignedUri(req);
-                return SignatureSafeUrl(uri);
+                return OfficialServer.SignatureSafeUrl(uri);
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
@@ -142,7 +119,7 @@ namespace NTMiner.Controllers {
                     Expiration = DateTime.Now.AddMinutes(10)
                 };
                 var uri = HostRoot.Instance.OssClient.GeneratePresignedUri(req);
-                return SignatureSafeUrl(uri);
+                return OfficialServer.SignatureSafeUrl(uri);
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);

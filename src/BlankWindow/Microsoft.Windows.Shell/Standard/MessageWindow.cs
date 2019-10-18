@@ -28,20 +28,20 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
                 cbSize = Marshal.SizeOf(typeof(WNDCLASSEX)),
                 style = classStyle,
                 lpfnWndProc = s_WndProc,
-                hInstance = NativeMethods.GetModuleHandle(null),
-                hbrBackground = NativeMethods.GetStockObject(StockObject.NULL_BRUSH),
+                hInstance = SafeNativeMethods.GetModuleHandle(null),
+                hbrBackground = SafeNativeMethods.GetStockObject(StockObject.NULL_BRUSH),
                 lpszMenuName = "",
                 lpszClassName = _className,
             };
 
-            NativeMethods.RegisterClassEx(ref wc);
+            SafeNativeMethods.RegisterClassEx(ref wc);
 
             GCHandle gcHandle = default(GCHandle);
             try {
                 gcHandle = GCHandle.Alloc(this);
                 IntPtr pinnedThisPtr = (IntPtr)gcHandle;
 
-                Handle = NativeMethods.CreateWindowEx(
+                Handle = SafeNativeMethods.CreateWindowEx(
                     exStyle,
                     _className,
                     name,
@@ -114,7 +114,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
             }
             else {
                 if (!s_windowLookup.TryGetValue(hwnd, out hwndWrapper)) {
-                    return NativeMethods.DefWindowProc(hwnd, msg, wParam, lParam);
+                    return SafeNativeMethods.DefWindowProc(hwnd, msg, wParam, lParam);
                 }
             }
             Assert.IsNotNull(hwndWrapper);
@@ -124,7 +124,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
                 ret = callback(hwnd, msg, wParam, lParam);
             }
             else {
-                ret = NativeMethods.DefWindowProc(hwnd, msg, wParam, lParam);
+                ret = SafeNativeMethods.DefWindowProc(hwnd, msg, wParam, lParam);
             }
 
             if (msg == WM.NCDESTROY) {
@@ -137,7 +137,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
 
         private static object _DestroyWindow(IntPtr hwnd, string className) {
             Utility.SafeDestroyWindow(ref hwnd);
-            NativeMethods.UnregisterClass(className, NativeMethods.GetModuleHandle(null));
+            SafeNativeMethods.UnregisterClass(className, SafeNativeMethods.GetModuleHandle(null));
             return null;
         }
     }

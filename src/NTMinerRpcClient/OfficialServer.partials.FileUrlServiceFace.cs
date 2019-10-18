@@ -60,12 +60,6 @@ namespace NTMiner {
             }
             #endregion
 
-            #region GetNppUrlAsync
-            public void GetNppUrlAsync(Action<string, Exception> callback) {
-                PostAsync(SControllerName, nameof(IFileUrlController.NppUrl), null, null, callback);
-            }
-            #endregion
-
             #region GetNTMinerUpdaterUrlAsync
             // ReSharper disable once InconsistentNaming
             public void GetNTMinerUpdaterUrlAsync(Action<string, Exception> callback) {

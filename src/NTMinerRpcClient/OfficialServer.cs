@@ -5,12 +5,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace NTMiner {
     public static partial class OfficialServer {
+        public const string MinerJsonBucket = "https://minerjson.oss-cn-beijing.aliyuncs.com/";
         public static readonly FileUrlServiceFace FileUrlService = FileUrlServiceFace.Instance;
         public static readonly OverClockDataServiceFace OverClockDataService = OverClockDataServiceFace.Instance;
         public static readonly CalcConfigServiceFace CalcConfigService = CalcConfigServiceFace.Instance;
+
+        public static string SignatureSafeUrl(Uri uri) {
+            string url = uri.ToString();
+            if (url.Length > MinerJsonBucket.Length) {
+                string signature = url.Substring(url.Length - MinerJsonBucket.Length);
+                return url.Substring(0, url.Length - MinerJsonBucket.Length) + HttpUtility.UrlEncode(signature);
+            }
+            return url;
+        }
 
         #region private methods
         private static void PostAsync<T>(string controller, string action, Dictionary<string, string> query, object param, Action<T, Exception> callback, int timeountMilliseconds = 0) where T : class {
@@ -24,7 +35,7 @@ namespace NTMiner {
                         if (query != null && query.Count != 0) {
                             queryString = "?" + string.Join("&", query.Select(a => a.Key + "=" + a.Value));
                         }
-                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{AssemblyInfo.OfficialServerHost}:{Consts.ControlCenterPort}/api/{controller}/{action}{queryString}", param);
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{MainAssemblyInfo.OfficialServerHost}:{VirtualRoot.ControlCenterPort}/api/{controller}/{action}{queryString}", param);
                         T response = message.Result.Content.ReadAsAsync<T>().Result;
                         callback?.Invoke(response, null);
                     }
@@ -44,7 +55,7 @@ namespace NTMiner {
                             queryString = "?" + string.Join("&", param.Select(a => a.Key + "=" + a.Value));
                         }
 
-                        Task<HttpResponseMessage> message = client.GetAsync($"http://{AssemblyInfo.OfficialServerHost}:{Consts.ControlCenterPort}/api/{controller}/{action}{queryString}");
+                        Task<HttpResponseMessage> message = client.GetAsync($"http://{MainAssemblyInfo.OfficialServerHost}:{VirtualRoot.ControlCenterPort}/api/{controller}/{action}{queryString}");
                         T response = message.Result.Content.ReadAsAsync<T>().Result;
                         callback?.Invoke(response, null);
                     }

@@ -1,25 +1,55 @@
-﻿using System;
-using System.Management;
-using System.Text;
+﻿using NTWebSocket;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NTMiner {
     class Program {
         static void Main(string[] args) {
             DevMode.SetDevMode();
 
-            ObjectJsonSerializer objectJsonSerializer = new ObjectJsonSerializer();
-            ManagementObjectSearcher managementObject = new ManagementObjectSearcher("select * from Win32_VideoController");
-            var str = new StringBuilder();
-            foreach (ManagementObject m in managementObject.Get()) {
-                foreach (var kv in m.Properties) {
-                    str.Append(kv.Name);
-                    str.Append(": ");
-                    str.Append(kv.Value);
-                    str.Append("\n");
+            //CpuTest();
+            WebSocketTest();
+
+            Console.ReadKey();
+        }
+        
+        static void CpuTest() {
+            foreach (var cpu in HardwareProviders.CPU.Cpu.Discover()) {
+                Console.WriteLine(cpu.PackageTemperature?.ToString());
+                foreach (var item in cpu.CoreTemperatures) {
+                    Console.WriteLine(item.Value?.ToString());
                 }
             }
-            Console.WriteLine(str);
-            Console.ReadKey();
+        }
+
+        static void WebSocketTest() {
+            NTWebSocketLog.Level = LogLevel.Debug;
+            var allSockets = new List<IWebSocketConnection>();
+            var server = new WebSocketServer("ws://0.0.0.0:8181");
+            server.Start(socket => {
+                socket.OnOpen = () => {
+                    Console.WriteLine("Open!");
+                    allSockets.Add(socket);
+                };
+                socket.OnClose = () => {
+                    Console.WriteLine("Close!");
+                    allSockets.Remove(socket);
+                };
+                socket.OnMessage = message => {
+                    Console.WriteLine(message);
+                    allSockets.ToList().ForEach(s => s.Send("Echo: " + message));
+                };
+            });
+
+
+            var input = Console.ReadLine();
+            while (input != "exit") {
+                foreach (var socket in allSockets.ToList()) {
+                    socket.Send(input);
+                }
+                input = Console.ReadLine();
+            }
         }
     }
 }

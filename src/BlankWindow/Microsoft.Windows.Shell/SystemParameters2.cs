@@ -43,7 +43,7 @@ namespace NTMiner.Microsoft.Windows.Shell {
         // This region is a grouping of both, for each of the exposed properties.
 
         private void _InitializeIsGlassEnabled() {
-            IsGlassEnabled = NativeMethods.DwmIsCompositionEnabled();
+            IsGlassEnabled = SafeNativeMethods.DwmIsCompositionEnabled();
         }
 
         private void _UpdateIsGlassEnabled(IntPtr wParam, IntPtr lParam) {
@@ -54,7 +54,7 @@ namespace NTMiner.Microsoft.Windows.Shell {
         private void _InitializeGlassColor() {
             bool isOpaque;
             uint color;
-            NativeMethods.DwmGetColorizationColor(out color, out isOpaque);
+            SafeNativeMethods.DwmGetColorizationColor(out color, out isOpaque);
             color |= isOpaque ? 0xFF000000 : 0;
 
             WindowGlassColor = Utility.ColorFromArgbDword(color);
@@ -76,7 +76,7 @@ namespace NTMiner.Microsoft.Windows.Shell {
         }
 
         private void _InitializeCaptionHeight() {
-            Point ptCaption = new Point(0, NativeMethods.GetSystemMetrics(SM.CYCAPTION));
+            Point ptCaption = new Point(0, SafeNativeMethods.GetSystemMetrics(SM.CYCAPTION));
             WindowCaptionHeight = DpiHelper.DevicePixelsToLogical(ptCaption).Y;
         }
 
@@ -86,8 +86,8 @@ namespace NTMiner.Microsoft.Windows.Shell {
 
         private void _InitializeWindowResizeBorderThickness() {
             Size frameSize = new Size(
-                NativeMethods.GetSystemMetrics(SM.CXSIZEFRAME),
-                NativeMethods.GetSystemMetrics(SM.CYSIZEFRAME));
+                SafeNativeMethods.GetSystemMetrics(SM.CXSIZEFRAME),
+                SafeNativeMethods.GetSystemMetrics(SM.CYSIZEFRAME));
             Size frameSizeInDips = DpiHelper.DeviceSizeToLogical(frameSize);
             WindowResizeBorderThickness = new Thickness(frameSizeInDips.Width, frameSizeInDips.Height, frameSizeInDips.Width, frameSizeInDips.Height);
         }
@@ -98,10 +98,10 @@ namespace NTMiner.Microsoft.Windows.Shell {
 
         private void _InitializeWindowNonClientFrameThickness() {
             Size frameSize = new Size(
-                NativeMethods.GetSystemMetrics(SM.CXSIZEFRAME),
-                NativeMethods.GetSystemMetrics(SM.CYSIZEFRAME));
+                SafeNativeMethods.GetSystemMetrics(SM.CXSIZEFRAME),
+                SafeNativeMethods.GetSystemMetrics(SM.CYSIZEFRAME));
             Size frameSizeInDips = DpiHelper.DeviceSizeToLogical(frameSize);
-            int captionHeight = NativeMethods.GetSystemMetrics(SM.CYCAPTION);
+            int captionHeight = SafeNativeMethods.GetSystemMetrics(SM.CYCAPTION);
             double captionHeightInDips = DpiHelper.DevicePixelsToLogical(new Point(0, captionHeight)).Y;
             WindowNonClientFrameThickness = new Thickness(frameSizeInDips.Width, frameSizeInDips.Height + captionHeightInDips, frameSizeInDips.Width, frameSizeInDips.Height);
         }
@@ -112,8 +112,8 @@ namespace NTMiner.Microsoft.Windows.Shell {
 
         private void _InitializeSmallIconSize() {
             SmallIconSize = new Size(
-                NativeMethods.GetSystemMetrics(SM.CXSMICON),
-                NativeMethods.GetSystemMetrics(SM.CYSMICON));
+                SafeNativeMethods.GetSystemMetrics(SM.CXSMICON),
+                SafeNativeMethods.GetSystemMetrics(SM.CYSMICON));
         }
 
         private void _UpdateSmallIconSize(IntPtr wParam, IntPtr lParam) {
@@ -123,11 +123,11 @@ namespace NTMiner.Microsoft.Windows.Shell {
         private void _LegacyInitializeCaptionButtonLocation() {
             // This calculation isn't quite right, but it's pretty close.
             // I expect this is good enough for the scenarios where this is expected to be used.
-            int captionX = NativeMethods.GetSystemMetrics(SM.CXSIZE);
-            int captionY = NativeMethods.GetSystemMetrics(SM.CYSIZE);
+            int captionX = SafeNativeMethods.GetSystemMetrics(SM.CXSIZE);
+            int captionY = SafeNativeMethods.GetSystemMetrics(SM.CYSIZE);
 
-            int frameX = NativeMethods.GetSystemMetrics(SM.CXSIZEFRAME) + NativeMethods.GetSystemMetrics(SM.CXEDGE);
-            int frameY = NativeMethods.GetSystemMetrics(SM.CYSIZEFRAME) + NativeMethods.GetSystemMetrics(SM.CYEDGE);
+            int frameX = SafeNativeMethods.GetSystemMetrics(SM.CXSIZEFRAME) + SafeNativeMethods.GetSystemMetrics(SM.CXEDGE);
+            int frameY = SafeNativeMethods.GetSystemMetrics(SM.CYSIZEFRAME) + SafeNativeMethods.GetSystemMetrics(SM.CYEDGE);
 
             Rect captionRect = new Rect(0, 0, captionX * 3, captionY);
             captionRect.Offset(-frameX - captionRect.Width, frameY);
@@ -138,7 +138,7 @@ namespace NTMiner.Microsoft.Windows.Shell {
         [SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands")]
         private void _InitializeCaptionButtonLocation() {
             // There is a completely different way to do this on XP.
-            if (!Utility.IsOSVistaOrNewer || !NativeMethods.IsThemeActive()) {
+            if (!Utility.IsOSVistaOrNewer || !SafeNativeMethods.IsThemeActive()) {
                 _LegacyInitializeCaptionButtonLocation();
                 return;
             }
@@ -149,12 +149,12 @@ namespace NTMiner.Microsoft.Windows.Shell {
                 Marshal.StructureToPtr(tbix, lParam, false);
                 // This might flash a window in the taskbar while being calculated.
                 // WM_GETTITLEBARINFOEX doesn't work correctly unless the window is visible while processing.
-                NativeMethods.ShowWindow(_messageHwnd.Handle, SW.SHOW);
-                NativeMethods.SendMessage(_messageHwnd.Handle, WM.GETTITLEBARINFOEX, IntPtr.Zero, lParam);
+                SafeNativeMethods.ShowWindow(_messageHwnd.Handle, SW.SHOW);
+                SafeNativeMethods.SendMessage(_messageHwnd.Handle, WM.GETTITLEBARINFOEX, IntPtr.Zero, lParam);
                 tbix = (TITLEBARINFOEX)Marshal.PtrToStructure(lParam, typeof(TITLEBARINFOEX));
             }
             finally {
-                NativeMethods.ShowWindow(_messageHwnd.Handle, SW.HIDE);
+                SafeNativeMethods.ShowWindow(_messageHwnd.Handle, SW.HIDE);
                 Utility.SafeFreeHGlobal(ref lParam);
             }
 
@@ -164,7 +164,7 @@ namespace NTMiner.Microsoft.Windows.Shell {
             // For all known themes, the RECT for the maximize box shouldn't add anything to the union of the minimize and close boxes.
             Assert.AreEqual(rcAllCaptionButtons, RECT.Union(rcAllCaptionButtons, tbix.rgrect_MaximizeButton));
 
-            RECT rcWindow = NativeMethods.GetWindowRect(_messageHwnd.Handle);
+            RECT rcWindow = SafeNativeMethods.GetWindowRect(_messageHwnd.Handle);
 
             // Reorient the Top/Right to be relative to the top right edge of the Window.
             var deviceCaptionLocation = new Rect(
@@ -183,7 +183,7 @@ namespace NTMiner.Microsoft.Windows.Shell {
         }
 
         private void _InitializeHighContrast() {
-            HIGHCONTRAST hc = NativeMethods.SystemParameterInfo_GetHIGHCONTRAST();
+            HIGHCONTRAST hc = SafeNativeMethods.SystemParameterInfo_GetHIGHCONTRAST();
             HighContrast = (hc.dwFlags & HCF.HIGHCONTRASTON) != 0;
         }
 
@@ -192,7 +192,7 @@ namespace NTMiner.Microsoft.Windows.Shell {
         }
 
         private void _InitializeThemeInfo() {
-            if (!NativeMethods.IsThemeActive()) {
+            if (!SafeNativeMethods.IsThemeActive()) {
                 UxThemeName = "Classic";
                 UxThemeColor = "";
                 return;
@@ -201,7 +201,7 @@ namespace NTMiner.Microsoft.Windows.Shell {
             string name;
             string color;
             string size;
-            NativeMethods.GetCurrentThemeName(out name, out color, out size);
+            SafeNativeMethods.GetCurrentThemeName(out name, out color, out size);
 
             // Consider whether this is the most useful way to expose this...
             UxThemeName = System.IO.Path.GetFileNameWithoutExtension(name);
@@ -235,7 +235,7 @@ namespace NTMiner.Microsoft.Windows.Shell {
                     break;
                 case "AERO":
                     // Aero has two cases.  One with glass and one without...
-                    if (NativeMethods.DwmIsCompositionEnabled()) {
+                    if (SafeNativeMethods.DwmIsCompositionEnabled()) {
                         cornerRadius = new CornerRadius(8);
                     }
                     else {
@@ -329,7 +329,7 @@ namespace NTMiner.Microsoft.Windows.Shell {
                 }
             }
 
-            return NativeMethods.DefWindowProc(hwnd, msg, wParam, lParam);
+            return SafeNativeMethods.DefWindowProc(hwnd, msg, wParam, lParam);
         }
 
         public bool IsGlassEnabled {
@@ -337,7 +337,7 @@ namespace NTMiner.Microsoft.Windows.Shell {
                 // return _isGlassEnabled;
                 // It turns out there may be some lag between someone asking this
                 // and the window getting updated.  It's not too expensive, just always do the check.
-                return NativeMethods.DwmIsCompositionEnabled();
+                return SafeNativeMethods.DwmIsCompositionEnabled();
             }
             private set {
                 if (value != _isGlassEnabled) {

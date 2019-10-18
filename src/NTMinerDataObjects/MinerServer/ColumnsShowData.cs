@@ -16,17 +16,24 @@ namespace NTMiner.MinerServer {
             DualCoinWallet = true,
             GpuDriver = true,
             GpuInfo = true,
-            GpuTableVm = true,
             GpuType = true,
             IncomeDualCoinPerDayText = true,
             IncomeMainCoinPerDayText = true,
             IsAutoBoot = true,
             IsAutoRestartKernel = true,
+            AutoRestartKernelTimes = true,
             IsAutoStart = true,
+            AutoStartDelaySeconds = true,
             IsNoShareRestartKernel = true,
-            IsNoShareRestartComputer = false,
+            NoShareRestartKernelMinutes = true,
+            IsNoShareRestartComputer = true,
+            NoShareRestartComputerMinutes = true,
             IsPeriodicRestartComputer = true,
             IsPeriodicRestartKernel = true,
+            PeriodicRestartKernelMinutes = true,
+            PeriodicRestartComputerMinutes = true,
+            PeriodicRestartComputerHours = true,
+            PeriodicRestartKernelHours = true,
             MinerIp = true,
             Kernel = true,
             KernelCommandLine = true,
@@ -46,7 +53,15 @@ namespace NTMiner.MinerServer {
             Version = true,
             WindowsLoginNameAndPassword = true,
             WindowsPassword = true,
-            Work = true
+            Work = true,
+            MainCoinPoolDelay = true,
+            DualCoinPoolDelay = true,
+            IsAutoStartByCpu = true,
+            IsAutoStopByCpu = true,
+            CpuGETemperatureSeconds = true,
+            CpuLETemperatureSeconds = true,
+            CpuStartTemperature = true,
+            CpuStopTemperature = true
         };
 
         public ColumnsShowData() { }
@@ -72,8 +87,6 @@ namespace NTMiner.MinerServer {
         public bool MainCoinCode{ get; set; }
 
         public bool MainCoinSpeedText{ get; set; }
-
-        public bool GpuTableVm { get; set; }
 
         public bool MainCoinWallet{ get; set; }
 
@@ -115,6 +128,8 @@ namespace NTMiner.MinerServer {
 
         public bool IsAutoStart { get; set; }
 
+        public bool AutoStartDelaySeconds { get; set; }
+
         public bool OSName { get; set; }
 
         public bool OSVirtualMemoryGbText { get; set; }
@@ -133,13 +148,43 @@ namespace NTMiner.MinerServer {
 
         public bool IsAutoRestartKernel { get; set; }
 
+        public bool AutoRestartKernelTimes { get; set; }
+
         public bool IsNoShareRestartKernel { get; set; }
+
+        public bool NoShareRestartKernelMinutes { get; set; }
 
         public bool IsPeriodicRestartKernel { get; set; }
 
         public bool IsPeriodicRestartComputer { get; set; }
 
         public bool IsNoShareRestartComputer { get; set; }
+
+        public bool NoShareRestartComputerMinutes { get; set; }
+
+        public bool MainCoinPoolDelay { get; set; }
+
+        public bool DualCoinPoolDelay { get; set; }
+
+        public bool PeriodicRestartKernelHours { get; set; }
+
+        public bool PeriodicRestartKernelMinutes { get; set; }
+
+        public bool PeriodicRestartComputerHours { get; set; }
+
+        public bool PeriodicRestartComputerMinutes { get; set; }
+
+        public bool IsAutoStopByCpu { get; set; }
+
+        public bool IsAutoStartByCpu { get; set; }
+
+        public bool CpuGETemperatureSeconds { get; set; }
+
+        public bool CpuStopTemperature { get; set; }
+
+        public bool CpuLETemperatureSeconds { get; set; }
+
+        public bool CpuStartTemperature { get; set; }
 
         public StringBuilder GetSignData() {
             return this.BuildSign();

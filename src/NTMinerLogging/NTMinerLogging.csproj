@@ -38,7 +38,7 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="MainAssemblyInfo.cs" />
     <Compile Include="LogEnum.cs" />
     <Compile Include="NTMinerConsole.cs" />
     <Compile Include="DevMode.cs" />

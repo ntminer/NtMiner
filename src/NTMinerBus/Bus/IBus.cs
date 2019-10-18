@@ -8,7 +8,5 @@ namespace NTMiner.Bus {
         void Publish<TMessage>(IEnumerable<TMessage> messages);
 
         void Commit();
-
-        void Clear();
     }
 }

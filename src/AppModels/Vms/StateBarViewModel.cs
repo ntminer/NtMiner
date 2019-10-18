@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -13,6 +14,33 @@ namespace NTMiner.Vms {
         private string _dualPoolDelayText;
         private string _timeText;
         private string _dateText;
+        private string _localIps;
+        private DateTime _now = DateTime.MinValue;
+        private string _cpuPerformanceText = "0 %";
+        private string _cpuTemperatureText = "0 ℃";
+
+
+        public ICommand ConfigControlCenterHost { get; private set; }
+        public ICommand WindowsAutoLogon { get; private set; }
+        public ICommand EnableWindowsRemoteDesktop { get; private set; }
+
+        public StateBarViewModel() {
+            if (Design.IsInDesignMode) {
+                return;
+            }
+            UpdateDateTime();
+            this.ConfigControlCenterHost = new DelegateCommand(() => {
+                VirtualRoot.Execute(new ShowControlCenterHostConfigCommand());
+            });
+            this.WindowsAutoLogon = new DelegateCommand(() => {
+                VirtualRoot.Execute(new EnableOrDisableWindowsAutoLoginCommand());
+            });
+            this.EnableWindowsRemoteDesktop = new DelegateCommand(() => {
+                VirtualRoot.Execute(new EnableWindowsRemoteDesktopCommand());
+            });
+            _localIps = GetLocalIps();
+            SetCheckUpdateForeground(isLatest: MainAssemblyInfo.CurrentVersion >= NTMinerRoot.ServerVersion);
+        }
 
         public bool IsAutoAdminLogon {
             get { return Windows.OS.Instance.IsAutoAdminLogon; }
@@ -29,7 +57,7 @@ namespace NTMiner.Vms {
 
         public bool IsRemoteDesktopEnabled {
             get {
-                return NTMinerRoot.GetIsRemoteDesktopEnabled();
+                return NTMinerRegistry.GetIsRemoteDesktopEnabled();
             }
         }
 
@@ -57,7 +85,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        private DateTime _now = DateTime.MinValue;
         public void UpdateDateTime() {
             DateTime now = DateTime.Now;
             if (_now.Minute != now.Minute || _now == DateTime.MinValue) {
@@ -68,25 +95,40 @@ namespace NTMiner.Vms {
             }
         }
 
-        public ICommand ConfigControlCenterHost { get; private set; }
-        public ICommand WindowsAutoLogon { get; private set; }
-        public ICommand EnableWindowsRemoteDesktop { get; private set; }
-
-        public StateBarViewModel() {
-            if (Design.IsInDesignMode) {
-                return;
+        public string CpuPerformanceText {
+            get => _cpuPerformanceText;
+            set {
+                if (_cpuPerformanceText != value) {
+                    _cpuPerformanceText = value;
+                    OnPropertyChanged(nameof(CpuPerformanceText));
+                }
             }
-            UpdateDateTime();
-            this.ConfigControlCenterHost = new DelegateCommand(() => {
-                VirtualRoot.Execute(new ShowControlCenterHostConfigCommand());
-            });
-            this.WindowsAutoLogon = new DelegateCommand(() => {
-                VirtualRoot.Execute(new EnableOrDisableWindowsAutoLoginCommand());
-            });
-            this.EnableWindowsRemoteDesktop = new DelegateCommand(() => {
-                VirtualRoot.Execute(new EnableWindowsRemoteDesktopCommand());
-            });
-            SetCheckUpdateForeground(isLatest: NTMinerRoot.CurrentVersion.ToString() == NTMinerRoot.ServerVersion);
+        }
+
+        public string CpuTemperatureText {
+            get => _cpuTemperatureText;
+            set {
+                if (_cpuTemperatureText != value) {
+                    _cpuTemperatureText = value;
+                    OnPropertyChanged(nameof(CpuTemperatureText));
+                }
+            }
+        }
+
+        private string GetLocalIps() {
+            StringBuilder sb = new StringBuilder();
+            int len = sb.Length;
+            foreach (var localIp in VirtualRoot.LocalIpSet) {
+                if (len != sb.Length) {
+                    sb.Append("，");
+                }
+                sb.Append(localIp.IPAddress).Append(localIp.DHCPEnabled ? "(dhcp)" : "🔒");
+            }
+            return sb.ToString();
+        }
+
+        public void RefreshLocalIps() {
+            LocalIps = GetLocalIps();
         }
 
         public void SetCheckUpdateForeground(bool isLatest) {
@@ -196,6 +238,14 @@ namespace NTMiner.Vms {
         public AppContext.GpuViewModels GpuVms {
             get {
                 return AppContext.Instance.GpuVms;
+            }
+        }
+
+        public string LocalIps {
+            get { return _localIps; }
+            set {
+                _localIps = value;
+                OnPropertyChanged(nameof(LocalIps));
             }
         }
     }

@@ -19,16 +19,16 @@ namespace NTMiner {
 #if DEBUG
                 Write.Stopwatch.Restart();
 #endif
-                VirtualRoot.On<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
+                VirtualRoot.EventPath<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById.Clear();
                         Init();
                     });
-                VirtualRoot.On<ServerContextVmsReInitedEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
+                VirtualRoot.EventPath<ServerContextVmsReInitedEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
                     action: message => {
                         OnPropertyChanged(nameof(AllKernels));
                     });
-                On<KernelAddedEvent>("添加了内核后调整VM内存", LogEnum.DevConsole,
+                EventPath<KernelAddedEvent>("添加了内核后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         _dicById.Add(message.Source.GetId(), new KernelViewModel(message.Source));
                         OnPropertyChanged(nameof(AllKernels));
@@ -36,7 +36,7 @@ namespace NTMiner {
                             coinKernelVm.OnPropertyChanged(nameof(coinKernelVm.IsSupportDualMine));
                         }
                     });
-                On<KernelRemovedEvent>("删除了内核后调整VM内存", LogEnum.DevConsole,
+                EventPath<KernelRemovedEvent>("删除了内核后调整VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById.Remove(message.Source.GetId());
                         OnPropertyChanged(nameof(AllKernels));
@@ -44,7 +44,7 @@ namespace NTMiner {
                             coinKernelVm.OnPropertyChanged(nameof(coinKernelVm.IsSupportDualMine));
                         }
                     });
-                On<KernelUpdatedEvent>("更新了内核后调整VM内存", LogEnum.DevConsole,
+                EventPath<KernelUpdatedEvent>("更新了内核后调整VM内存", LogEnum.DevConsole,
                     action: message => {
                         var entity = _dicById[message.Source.GetId()];
                         PublishStatus publishStatus = entity.PublishState;

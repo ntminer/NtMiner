@@ -23,7 +23,6 @@ namespace NTMiner.Vms {
         private int _deviceBaseIndex;
         private string _devicesSeparator;
 
-        private GroupViewModel _dualCoinGroup;
         private bool _isDeviceAllNotEqualsNone;
         private string _nDevicePrefix;
         private string _nDevicePostfix;
@@ -99,10 +98,10 @@ namespace NTMiner.Vms {
         public string ParameterNames {
             get {
                 return string.Join("、", new string[] {
-                    Consts.MainCoinParameterName, Consts.WalletParameterName,
-                    Consts.UserNameParameterName, Consts.PasswordParameterName,
-                    Consts.HostParameterName, Consts.PortParameterName,
-                    Consts.PoolParameterName, Consts.WorkerParameterName
+                    VirtualRoot.MainCoinParameterName, VirtualRoot.WalletParameterName,
+                    VirtualRoot.UserNameParameterName, VirtualRoot.PasswordParameterName,
+                    VirtualRoot.HostParameterName, VirtualRoot.PortParameterName,
+                    VirtualRoot.PoolParameterName, VirtualRoot.WorkerParameterName
                 });
             }
         }
@@ -110,10 +109,10 @@ namespace NTMiner.Vms {
         public string DualParameterNames {
             get {
                 return string.Join("、", new string[] {
-                    Consts.DualCoinParameterName, Consts.DualWalletParameterName,
-                    Consts.DualUserNameParameterName, Consts.DualPasswordParameterName,
-                    Consts.DualHostParameterName, Consts.DualPortParameterName,
-                    Consts.DualPoolParameterName
+                    VirtualRoot.DualCoinParameterName, VirtualRoot.DualWalletParameterName,
+                    VirtualRoot.DualUserNameParameterName, VirtualRoot.DualPasswordParameterName,
+                    VirtualRoot.DualHostParameterName, VirtualRoot.DualPortParameterName,
+                    VirtualRoot.DualPoolParameterName
                 });
             }
         }
@@ -265,7 +264,7 @@ namespace NTMiner.Vms {
 
         public bool IsDevicesSpaceSeparator {
             get {
-                return DevicesSeparator == Consts.SpaceKeyword;
+                return DevicesSeparator == VirtualRoot.SpaceKeyword;
             }
         }
 

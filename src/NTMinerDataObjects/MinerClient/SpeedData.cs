@@ -9,7 +9,9 @@ namespace NTMiner.MinerClient {
         public int KernelSelfRestartCount { get; set; }
         public bool IsAutoBoot { get; set; }
         public bool IsAutoStart { get; set; }
+        public int AutoStartDelaySeconds { get; set; }
         public bool IsAutoRestartKernel { get; set; }
+        public int AutoRestartKernelTimes { get; set; }
         public bool IsNoShareRestartKernel { get; set; }
         public int NoShareRestartKernelMinutes { get; set; }
         public bool IsNoShareRestartComputer { get; set; }
@@ -18,6 +20,14 @@ namespace NTMiner.MinerClient {
         public int PeriodicRestartKernelHours { get; set; }
         public bool IsPeriodicRestartComputer { get; set; }
         public int PeriodicRestartComputerHours { get; set; }
+        public int PeriodicRestartKernelMinutes { get; set; }
+        public int PeriodicRestartComputerMinutes { get; set; }
+        public bool IsAutoStopByCpu { get; set; }
+        public int CpuGETemperatureSeconds { get; set; }
+        public int CpuStopTemperature { get; set; }
+        public bool IsAutoStartByCpu { get; set; }
+        public int CpuLETemperatureSeconds { get; set; }
+        public int CpuStartTemperature { get; set; }
         public string GpuDriver { get; set; }
         public GpuType GpuType { get; set; }
         // ReSharper disable once InconsistentNaming
@@ -42,6 +52,8 @@ namespace NTMiner.MinerClient {
 
         public Guid MineWorkId { get; set; }
 
+        public string MineWorkName { get; set; }
+
         public string MinerName { get; set; }
 
         public string MainCoinCode { get; set; }
@@ -50,6 +62,8 @@ namespace NTMiner.MinerClient {
 
         public string MainCoinWallet { get; set; }
 
+        public string MainCoinPoolDelay { get; set; }
+
         public string Kernel { get; set; }
 
         public string DualCoinCode { get; set; }
@@ -57,6 +71,8 @@ namespace NTMiner.MinerClient {
         public string DualCoinPool { get; set; }
 
         public string DualCoinWallet { get; set; }
+
+        public string DualCoinPoolDelay { get; set; }
 
         public int MainCoinTotalShare { get; set; }
 
@@ -73,6 +89,16 @@ namespace NTMiner.MinerClient {
         public double DualCoinSpeed { get; set; }
 
         public string KernelCommandLine { get; set; }
+
+        public bool IsRejectOneGpuShare { get; set; }
+
+        public bool IsFoundOneGpuShare { get; set; }
+
+        public bool IsGotOneIncorrectGpuShare { get; set; }
+
+        public int CpuPerformance { get; set; }
+
+        public int CpuTemperature { get; set; }
 
         public GpuSpeedData[] GpuTable { get; set; }
     }

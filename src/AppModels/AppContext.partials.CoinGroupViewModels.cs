@@ -15,13 +15,13 @@ namespace NTMiner {
 #if DEBUG
                 Write.Stopwatch.Restart();
 #endif
-                VirtualRoot.On<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
+                VirtualRoot.EventPath<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById.Clear();
                         _listByGroupId.Clear();
                         Init();
                     });
-                On<CoinGroupAddedEvent>("添加了币组后调整VM内存", LogEnum.DevConsole,
+                EventPath<CoinGroupAddedEvent>("添加了币组后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         if (!_dicById.ContainsKey(message.Source.GetId())) {
                             CoinGroupViewModel coinGroupVm = new CoinGroupViewModel(message.Source);
@@ -33,21 +33,7 @@ namespace NTMiner {
                             OnGroupPropertyChanged(coinGroupVm.GroupId);
                         }
                     });
-                On<CoinGroupUpdatedEvent>("更新了币组后调整VM内存", LogEnum.DevConsole,
-                    action: (message) => {
-                        if (_dicById.ContainsKey(message.Source.GetId())) {
-                            CoinGroupViewModel entity = _dicById[message.Source.GetId()];
-                            int sortNumber = entity.SortNumber;
-                            entity.Update(message.Source);
-                            if (sortNumber != entity.SortNumber) {
-                                GroupViewModel groupVm;
-                                if (AppContext.Instance.GroupVms.TryGetGroupVm(entity.GroupId, out groupVm)) {
-                                    groupVm.OnPropertyChanged(nameof(groupVm.CoinGroupVms));
-                                }
-                            }
-                        }
-                    });
-                On<CoinGroupRemovedEvent>("删除了币组后调整VM内存", LogEnum.DevConsole,
+                EventPath<CoinGroupRemovedEvent>("删除了币组后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         if (_dicById.ContainsKey(message.Source.GetId())) {
                             var entity = _dicById[message.Source.GetId()];

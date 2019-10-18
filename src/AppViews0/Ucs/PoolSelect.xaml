@@ -119,23 +119,30 @@
 				<DataGridTemplateColumn Width="130" Header="名称" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<WrapPanel>
-								<Path
+                            <WrapPanel>
+                                <controls:KbLinkButton
+									Padding="0"
+								    Command="{x:Static app:AppStatic.ViewUrl}"
+								    CommandParameter="{Binding Website}"
+									KbDisplayLine="False"
+									KbSystemButtonHoverBackground="Transparent"
+									Background="Transparent">
+                                    <Path
+						                Width="14"
+						                Height="14"
+						                Data="{StaticResource Icon_Home}"
+						                Fill="{StaticResource IconFillColor}"
+						                Stretch="Fill" />
+                                </controls:KbLinkButton>
+                                <Path
 									Width="14"
 									Height="14"
 									ToolTip="用户名密码模式"
 									Visibility="{Binding IsUserMode, Converter={StaticResource BoolToVisibilityConverter}}"
 									Data="{StaticResource Icon_User}"
-									Fill="{StaticResource IconFillColor}"
+									Fill="{StaticResource LableColor}"
 									Stretch="Fill" />
-                                <controls:KbLinkButton
-									Padding="0"
-									Command="{Binding OpenWebsite}"
-									KbDisplayLine="False"
-									KbSystemButtonHoverBackground="Transparent"
-									Background="Transparent">
-                                    <TextBlock Text="{Binding Name}" Foreground="{StaticResource LinkForeground}"></TextBlock>
-                                </controls:KbLinkButton>
+                                <TextBlock Margin="4 0 0 0" Text="{Binding Name}"></TextBlock>
                             </WrapPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
@@ -150,10 +157,10 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Width="40" IsReadOnly="True">
+				<DataGridTemplateColumn Width="60" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<controls:KbLinkButton
+                            <controls:KbLinkButton
 								VerticalAlignment="Center"
 								Padding="0"
 								Visibility="{Binding TutorialUrl,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
@@ -163,7 +170,7 @@
 								Content="教程"
 								KbSystemButtonHoverBackground="Transparent"
 								Background="Transparent">
-							</controls:KbLinkButton>
+                            </controls:KbLinkButton>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>

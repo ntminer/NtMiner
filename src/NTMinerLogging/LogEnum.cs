@@ -6,8 +6,6 @@ namespace NTMiner {
         None,
         [Description("打印到控制台")]
         DevConsole,
-        [Description("打印到用户控制台")]
-        UserConsole,
         [Description("写入日志文件")]
         Log
     }

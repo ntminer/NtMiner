@@ -7,17 +7,7 @@ namespace NTMiner.Vms {
     public class MainWindowViewModel : ViewModelBase {
         private string _serverJsonVersion;
         private readonly StateBarViewModel _stateBarVm = new StateBarViewModel();
-        private MinerStateViewModel _minerStateVm;
         private SolidColorBrush _daemonStateBrush;
-
-        public MinerStateViewModel MinerStateVm {
-            get {
-                if (_minerStateVm == null) {
-                    _minerStateVm = new MinerStateViewModel(_stateBarVm);
-                }
-                return _minerStateVm;
-            }
-        }
 
         public ICommand CustomTheme { get; private set; }
         public ICommand UseThisPcName { get; private set; }
@@ -35,7 +25,7 @@ namespace NTMiner.Vms {
                 VirtualRoot.Execute(new ShowLogColorCommand());
             });
             this.UseThisPcName = new DelegateCommand(() => {
-                string thisPcName = NTMinerRoot.GetThisPcName();
+                string thisPcName = NTMinerRoot.ThisPcName;
                 this.ShowDialog(message: $"确定使用本机名{thisPcName}作为矿机名吗？", title: "确认", onYes: () => {
                     MinerProfile.MinerName = thisPcName;
                 }, icon: IconConst.IconConfirm);

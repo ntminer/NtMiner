@@ -104,6 +104,11 @@ namespace NTMiner {
         }
     }
 
+    [MessageType(description: "本机IP集刷新后")]
+    public class LocalIpSetRefreshedEvent : EventBase {
+        public LocalIpSetRefreshedEvent() { }
+    }
+
     [MessageType(description: "LocalAppSetting变更后")]
     public class LocalAppSettingChangedEvent : DomainEvent<IAppSetting> {
         public LocalAppSettingChangedEvent(IAppSetting source) : base(source) {

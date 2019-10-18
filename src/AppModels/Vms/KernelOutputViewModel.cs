@@ -40,6 +40,7 @@ namespace NTMiner.Vms {
         private string _speedUnit;
         private string _dualSpeedUnit;
         private int _gpuBaseIndex;
+        private bool _isMapGpuIndex;
 
         public ICommand Remove { get; private set; }
         public ICommand Edit { get; private set; }
@@ -86,6 +87,7 @@ namespace NTMiner.Vms {
             _speedUnit = data.SpeedUnit;
             _dualSpeedUnit = data.DualSpeedUnit;
             _gpuBaseIndex = data.GpuBaseIndex;
+            _isMapGpuIndex = data.IsMapGpuIndex;
         }
 
         public KernelOutputViewModel(Guid id) {
@@ -164,11 +166,11 @@ namespace NTMiner.Vms {
         public string GroupNames {
             get {
                 return string.Join("、", new string[] {
-                    Consts.TotalSpeedGroupName, Consts.TotalSpeedUnitGroupName,
-                    Consts.TotalShareGroupName, Consts.AcceptShareGroupName,
-                    Consts.RejectShareGroupName, Consts.RejectPercentGroupName,
-                    Consts.GpuIndexGroupName, Consts.GpuSpeedGroupName,
-                    Consts.GpuSpeedUnitGroupName, Consts.PoolDelayGroupName
+                    VirtualRoot.TotalSpeedGroupName, VirtualRoot.TotalSpeedUnitGroupName,
+                    VirtualRoot.TotalShareGroupName, VirtualRoot.AcceptShareGroupName,
+                    VirtualRoot.RejectShareGroupName, VirtualRoot.RejectPercentGroupName,
+                    VirtualRoot.GpuIndexGroupName, VirtualRoot.GpuSpeedGroupName,
+                    VirtualRoot.GpuSpeedUnitGroupName, VirtualRoot.PoolDelayGroupName
                 });
             }
         }
@@ -480,6 +482,14 @@ namespace NTMiner.Vms {
             set {
                 _gpuBaseIndex = value;
                 OnPropertyChanged(nameof(GpuBaseIndex));
+            }
+        }
+
+        public bool IsMapGpuIndex {
+            get { return _isMapGpuIndex; }
+            set {
+                _isMapGpuIndex = value;
+                OnPropertyChanged(nameof(IsMapGpuIndex));
             }
         }
 

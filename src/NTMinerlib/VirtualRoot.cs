@@ -1,17 +1,24 @@
 ﻿using NTMiner.Bus;
 using NTMiner.Bus.DirectBus;
+using NTMiner.Ip;
+using NTMiner.Ip.Impl;
 using NTMiner.Serialization;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Net;
 using System.Reflection;
 using System.Text;
 
 namespace NTMiner {
+    /// <summary>
+    /// 虚拟根是0，是纯静态的，是先天地而存在的。
+    /// </summary>
     public static partial class VirtualRoot {
         public static readonly string AppFileFullName = Process.GetCurrentProcess().MainModule.FileName;
         public static Guid Id { get; private set; }
-
+        
+        #region IsMinerClient
         private static bool _isMinerClient;
         private static bool _isMinerClientDetected = false;
         private static readonly object _isMinerClientLocker = new object();
@@ -31,7 +38,9 @@ namespace NTMiner {
                 return _isMinerClient;
             }
         }
+        #endregion
 
+        #region IsMinerStudio
         private static bool _isMinerStudio;
         private static bool _isMinerStudioDetected = false;
         private static readonly object _isMinerStudioLocker = new object();
@@ -44,19 +53,32 @@ namespace NTMiner {
                     if (_isMinerStudioDetected) {
                         return _isMinerStudio;
                     }
-                    // 基于约定
-                    _isMinerStudio = Environment.CommandLine.IndexOf("--minerstudio", StringComparison.OrdinalIgnoreCase) != -1 || Assembly.GetEntryAssembly().GetManifestResourceInfo("NTMiner.NTMinerServices.NTMinerServices.exe") != null;
+                    if (Environment.CommandLine.IndexOf("--minerstudio", StringComparison.OrdinalIgnoreCase) != -1) {
+                        _isMinerStudio = true;
+                    }
+                    else {
+                        // 基于约定
+                        var assembly = Assembly.GetEntryAssembly();
+                        // 单元测试时assembly为null
+                        if (assembly == null) {
+                            return false;
+                        }
+                        _isMinerStudio = assembly.GetManifestResourceInfo("NTMiner.NTMinerServices.NTMinerServices.exe") != null;
+                    }
                     _isMinerStudioDetected = true;
                 }
                 return _isMinerStudio;
             }
         }
+        #endregion
 
+        public static ILocalIpSet LocalIpSet { get; private set; }
         public static IObjectSerializer JsonSerializer { get; private set; }
 
         public static readonly IMessageDispatcher SMessageDispatcher;
         private static readonly ICmdBus SCommandBus;
         private static readonly IEventBus SEventBus;
+        #region Out
         private static IOut _out;
         /// <summary>
         /// 输出到系统之外去
@@ -67,18 +89,41 @@ namespace NTMiner {
             }
         }
 
-        public static void SetShowMessage(IOut showMessage) {
-            _out = showMessage;
+        #region 这是一个外部不需要知道的类型
+        private class EmptyOut : IOut {
+            public static readonly EmptyOut Instance = new EmptyOut();
+
+            private EmptyOut() { }
+
+            public void ShowErrorMessage(string message, int? delaySeconds = null) {
+                // nothing need todo
+            }
+
+            public void ShowInfo(string message) {
+                // nothing need todo
+            }
+
+            public void ShowSuccessMessage(string message, string header = "成功") {
+                // nothing need todo
+            }
         }
+        #endregion
+
+        public static void SetOut(IOut ntOut) {
+            _out = ntOut;
+        }
+        #endregion
 
         static VirtualRoot() {
             Id = NTMinerRegistry.GetClientId();
+            LocalIpSet = new LocalIpSet();
             JsonSerializer = new ObjectJsonSerializer();
             SMessageDispatcher = new MessageDispatcher();
             SCommandBus = new DirectCommandBus(SMessageDispatcher);
             SEventBus = new DirectEventBus(SMessageDispatcher);
         }
 
+        #region ConvertToGuid
         public static Guid ConvertToGuid(object obj) {
             if (obj == null) {
                 return Guid.Empty;
@@ -93,7 +138,9 @@ namespace NTMiner {
             }
             return Guid.Empty;
         }
+        #endregion
 
+        #region TagBrandId
         public static void TagBrandId(string brandKeyword, Guid brandId, string inputFileFullName, string outFileFullName) {
             string brand = $"{brandKeyword}{brandId}{brandKeyword}";
             string rawBrand = $"{brandKeyword}{GetBrandId(inputFileFullName, brandKeyword)}{brandKeyword}";
@@ -121,7 +168,9 @@ namespace NTMiner {
             }
             File.WriteAllBytes(outFileFullName, source);
         }
+        #endregion
 
+        #region GetBrandId
         public static Guid GetBrandId(string fileFullName, string keyword) {
 #if DEBUG
             Write.Stopwatch.Restart();
@@ -167,6 +216,32 @@ namespace NTMiner {
             Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {typeof(VirtualRoot).Name}.GetBrandId");
 #endif
             return guid;
+        }
+        #endregion
+
+        public static WebClient CreateWebClient(int timeoutSeconds = 180) {
+            return new NTMinerWebClient(timeoutSeconds);
+        }
+
+        private class NTMinerWebClient : WebClient {
+            /// <summary>
+            /// 单位秒，默认60秒
+            /// </summary>
+            public int TimeoutSeconds { get; set; }
+
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="timeoutSeconds">秒</param>
+            public NTMinerWebClient(int timeoutSeconds) {
+                this.TimeoutSeconds = timeoutSeconds;
+            }
+
+            protected override WebRequest GetWebRequest(Uri address) {
+                var result = base.GetWebRequest(address);
+                result.Timeout = this.TimeoutSeconds * 1000;
+                return result;
+            }
         }
     }
 }

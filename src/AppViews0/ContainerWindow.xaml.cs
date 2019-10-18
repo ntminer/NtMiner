@@ -41,6 +41,7 @@ namespace NTMiner.Views {
             ContainerWindowViewModel vm,
             Func<ContainerWindow, TUc> ucFactory,
             Action<UserControl> beforeShow = null,
+            Action afterClose = null,
             bool fixedSize = false) where TUc : UserControl {
             if (vm == null) {
                 throw new ArgumentNullException(nameof(vm));
@@ -62,6 +63,7 @@ namespace NTMiner.Views {
                 s_windowDic.Add(vm, window);
                 window.Closed += (object sender, EventArgs e) => {
                     s_windowDic.Remove(vm);
+                    afterClose?.Invoke();
                 };
                 s_windowDicByType.Add(ucType, window);
                 if (s_windowLeftDic.ContainsKey(ucType)) {

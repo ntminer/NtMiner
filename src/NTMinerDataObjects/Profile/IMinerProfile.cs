@@ -33,5 +33,22 @@ namespace NTMiner.Profile {
         int PowerAppend { get; }
         int MaxTemp { get; }
         int AutoStartDelaySeconds { get; }
+        bool IsAutoDisableWindowsFirewall { get; }
+        bool IsShowInTaskbar { get; }
+        bool IsNoUi { get; }
+        bool IsAutoNoUi { get; }
+        int AutoNoUiMinutes { get; }
+        bool IsShowNotifyIcon { get; }
+        bool IsCloseMeanExit { get; }
+        bool IsShowCommandLine { get; }
+        bool IsAutoBoot { get; }
+        bool IsAutoStart { get; }
+        bool IsCreateShortcut { get; }
+        bool IsAutoStopByCpu { get; }
+        int CpuStopTemperature { get; }
+        int CpuGETemperatureSeconds { get; }
+        bool IsAutoStartByCpu { get; }
+        int CpuStartTemperature { get; }
+        int CpuLETemperatureSeconds { get; }
     }
 }

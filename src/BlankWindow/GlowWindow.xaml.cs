@@ -9,7 +9,7 @@ using System.Windows.Interop;
 using RECT = NTMiner.Native.RECT;
 
 namespace NTMiner {
-    partial class GlowWindow : Window {
+    partial class GlowWindow : Window, IDisposable {
         private readonly Func<Point, Cursor> getCursor;
         private readonly Func<Point, HitTestValues> getHitTestValue;
         private readonly Func<RECT, double> getLeft;
@@ -226,7 +226,7 @@ namespace NTMiner {
         }
 
         internal void UpdateCore(RECT rect) {
-            NativeMethods.SetWindowPos(handle, ownerHandle,
+            SafeNativeMethods.SetWindowPos(handle, ownerHandle,
                                        (int)(getLeft(rect)),
                                        (int)(getTop(rect)),
                                        (int)(getWidth(rect)),
@@ -248,7 +248,7 @@ namespace NTMiner {
 
             if (msg == (int)WM.LBUTTONDOWN) {
                 var pt = new Point((int)lParam & 0xFFFF, ((int)lParam >> 16) & 0xFFFF);
-                NativeMethods.PostMessage(ownerHandle, (uint)WM.NCLBUTTONDOWN, (IntPtr)getHitTestValue(pt), IntPtr.Zero);
+                SafeNativeMethods.PostMessage(ownerHandle, (uint)WM.NCLBUTTONDOWN, (IntPtr)getHitTestValue(pt), IntPtr.Zero);
             }
             if (msg == (int)WM.NCHITTEST) {
                 var ptScreen = new Point((int)lParam & 0xFFFF, ((int)lParam >> 16) & 0xFFFF);
@@ -258,6 +258,12 @@ namespace NTMiner {
             }
 
             return IntPtr.Zero;
+        }
+
+        public void Dispose() {
+            if (resizeModeChangeNotifier != null) {
+                resizeModeChangeNotifier.Dispose();
+            }
         }
     }
 }

@@ -23,11 +23,11 @@ namespace NTMiner.Microsoft.Windows.Shell {
 
         private static void _PostSystemCommand(Window window, SC command) {
             IntPtr hwnd = new WindowInteropHelper(window).Handle;
-            if (hwnd == IntPtr.Zero || !NativeMethods.IsWindow(hwnd)) {
+            if (hwnd == IntPtr.Zero || !SafeNativeMethods.IsWindow(hwnd)) {
                 return;
             }
 
-            NativeMethods.PostMessage(hwnd, WM.SYSCOMMAND, new IntPtr((int)command), IntPtr.Zero);
+            SafeNativeMethods.PostMessage(hwnd, WM.SYSCOMMAND, new IntPtr((int)command), IntPtr.Zero);
         }
 
         public static void CloseWindow(Window window) {
@@ -64,15 +64,15 @@ namespace NTMiner.Microsoft.Windows.Shell {
 
             Verify.IsNotNull(window, "window");
             IntPtr hwnd = new WindowInteropHelper(window).Handle;
-            if (hwnd == IntPtr.Zero || !NativeMethods.IsWindow(hwnd)) {
+            if (hwnd == IntPtr.Zero || !SafeNativeMethods.IsWindow(hwnd)) {
                 return;
             }
 
-            IntPtr hmenu = NativeMethods.GetSystemMenu(hwnd, false);
+            IntPtr hmenu = SafeNativeMethods.GetSystemMenu(hwnd, false);
 
-            uint cmd = NativeMethods.TrackPopupMenuEx(hmenu, TPM_LEFTBUTTON | TPM_RETURNCMD, (int)physicalScreenLocation.X, (int)physicalScreenLocation.Y, hwnd, IntPtr.Zero);
+            uint cmd = SafeNativeMethods.TrackPopupMenuEx(hmenu, TPM_LEFTBUTTON | TPM_RETURNCMD, (int)physicalScreenLocation.X, (int)physicalScreenLocation.Y, hwnd, IntPtr.Zero);
             if (0 != cmd) {
-                NativeMethods.PostMessage(hwnd, WM.SYSCOMMAND, new IntPtr(cmd), IntPtr.Zero);
+                SafeNativeMethods.PostMessage(hwnd, WM.SYSCOMMAND, new IntPtr(cmd), IntPtr.Zero);
             }
         }
     }

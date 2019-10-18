@@ -8,8 +8,8 @@ namespace NTMiner.Views.Ucs {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "属性",
                 IconName = "Icon_Property",
-                Width = DevMode.IsDebugMode ? AppStatic.MainWindowWidth : 960,
-                Height = 520,
+                Width = 900,
+                Height = 420,
                 CloseVisible = Visibility.Visible
             }, ucFactory: (window) => {
                 var uc = new Property();

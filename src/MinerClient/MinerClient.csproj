@@ -104,6 +104,7 @@
     <Compile Include="AtikmdagPatcher\AtikmdagPatcherUtil.cs" />
     <Compile Include="RemoteDesktopEnabler\Rdp.cs" />
     <Compile Include="RemoteDesktopEnabler\Firewall.cs" />
+    <Compile Include="SwitchRadeonGpu\SwitchRadeonGpu.cs" />
     <Compile Include="Views\HandlerIdsWindow.xaml.cs">
       <DependentUpon>HandlerIdsWindow.xaml</DependentUpon>
     </Compile>
@@ -142,6 +143,9 @@
     <AppDesigner Include="Properties\" />
     <EmbeddedResource Include="Windows\BlockWAU.bat" />
     <EmbeddedResource Include="Windows\Win10Optimize.reg" />
+    <None Include="home.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AppModels\AppModels.csproj">
@@ -159,10 +163,6 @@
     <ProjectReference Include="..\MinerClientSelfHost\MinerClientSelfHost.csproj">
       <Project>{134d71fc-0b67-4a5a-ac05-67509de3b86b}</Project>
       <Name>MinerClientSelfHost</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NTMiner.Core\NTMiner.Core.csproj">
-      <Project>{85d052ab-44b8-46f3-9d7b-f624c24fd8ba}</Project>
-      <Name>NTMiner.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\NTMinerBus\NTMinerBus.csproj">
       <Project>{e17f278a-e393-403e-9d37-e371036d7a02}</Project>
@@ -188,6 +188,10 @@
       <Project>{dd8e010e-d5e9-47cf-9cb4-8dc6e13d483d}</Project>
       <Name>NTMinerWpf</Name>
     </ProjectReference>
+    <ProjectReference Include="..\NTMiner\NTMiner.csproj">
+      <Project>{85d052ab-44b8-46f3-9d7b-f624c24fd8ba}</Project>
+      <Name>NTMiner</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="logo.ico" />
@@ -210,7 +214,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="AtikmdagPatcher\atikmdag-patcher1.4.6.exe" />
+    <EmbeddedResource Include="SwitchRadeonGpu\switch-radeon-gpu.exe" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="AtikmdagPatcher\atikmdag-patcher1.4.7.exe" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\Fody.5.0.0\build\Fody.targets" Condition="Exists('..\..\packages\Fody.5.0.0\build\Fody.targets')" />

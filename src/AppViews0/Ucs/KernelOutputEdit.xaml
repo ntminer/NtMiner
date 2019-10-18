@@ -103,11 +103,14 @@
 					</WrapPanel>
 					<WrapPanel Margin="0 2">
 						<TextBlock Style="{StaticResource LblTb}" Text="单卡算力正则"></TextBlock>
-                        <TextBox Style="{StaticResource TbRegex}" Width="400" Text="{Binding GpuSpeedPattern}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}">
-						</TextBox>
-						<TextBlock VerticalAlignment="Center" Margin="6 0 0 0">GPU序号序基</TextBlock>
-                        <TextBox Width="120" Text="{Binding GpuBaseIndex}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}"></TextBox>
+                        <TextBox Style="{StaticResource TbRegex}" Text="{Binding GpuSpeedPattern}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}">
+						</TextBox>						
 					</WrapPanel>
+                    <WrapPanel Margin="0 2">
+                        <TextBlock Style="{StaticResource LblTb}">GPU序号序基</TextBlock>
+                        <TextBox Width="120" Text="{Binding GpuBaseIndex}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}"></TextBox>
+                        <CheckBox Margin="10 0 0 0" IsChecked="{Binding IsMapGpuIndex}" Content="非全选显卡时映射显卡编号" IsEnabled="{x:Static app:AppStatic.IsDevMode}"></CheckBox>
+                    </WrapPanel>
 					<WrapPanel Margin="0 2">
 						<TextBlock Style="{StaticResource LblTb}" Text="矿池延时正则"></TextBlock>
                         <TextBox Style="{StaticResource TbRegex}" Text="{Binding PoolDelayPattern}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}">

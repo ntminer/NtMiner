@@ -59,7 +59,7 @@ namespace NTMiner {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                NTMinerRoot.Instance.StopMineAsync();
+                NTMinerRoot.Instance.StopMineAsync(StopMineReason.RPCUserAction);
                 return ResponseBase.Ok();
             }
             catch (Exception e) {

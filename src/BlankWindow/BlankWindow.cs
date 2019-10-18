@@ -16,7 +16,7 @@ namespace NTMiner {
         }
 
         public static readonly DependencyProperty TitleBarHeightProperty =
-            DependencyProperty.Register("TitleBarHeight", typeof(double), typeof(BlankWindow), new PropertyMetadata(30d));
+            DependencyProperty.Register(nameof(TitleBarHeight), typeof(double), typeof(BlankWindow), new PropertyMetadata(30d));
 
         public bool IgnoreTaskbarOnMaximize {
             get { return (bool)GetValue(IgnoreTaskbarOnMaximizeProperty); }
@@ -24,21 +24,21 @@ namespace NTMiner {
         }
 
         public static readonly DependencyProperty IgnoreTaskbarOnMaximizeProperty =
-          DependencyProperty.Register("IgnoreTaskbarOnMaximize", typeof(bool), typeof(BlankWindow), new PropertyMetadata(false));
+          DependencyProperty.Register(nameof(IgnoreTaskbarOnMaximize), typeof(bool), typeof(BlankWindow), new PropertyMetadata(false));
 
         public Brush GlowBrush {
             get { return (Brush)GetValue(GlowBrushProperty); }
             set { SetValue(GlowBrushProperty, value); }
         }
 
-        public static readonly DependencyProperty GlowBrushProperty = DependencyProperty.Register("GlowBrush", typeof(Brush), typeof(BlankWindow), new PropertyMetadata(null));
+        public static readonly DependencyProperty GlowBrushProperty = DependencyProperty.Register(nameof(GlowBrush), typeof(Brush), typeof(BlankWindow), new PropertyMetadata(null));
 
         public Brush NonActiveGlowBrush {
             get { return (Brush)GetValue(NonActiveGlowBrushProperty); }
             set { SetValue(NonActiveGlowBrushProperty, value); }
         }
 
-        public static readonly DependencyProperty NonActiveGlowBrushProperty = DependencyProperty.Register("NonActiveGlowBrush", typeof(Brush), typeof(BlankWindow), new PropertyMetadata(new SolidColorBrush(Color.FromRgb(153, 153, 153)))); // #999999
+        public static readonly DependencyProperty NonActiveGlowBrushProperty = DependencyProperty.Register(nameof(NonActiveGlowBrush), typeof(Brush), typeof(BlankWindow), new PropertyMetadata(new SolidColorBrush(Color.FromRgb(153, 153, 153)))); // #999999
 
         public bool HasMaximized {
             get { return (bool)GetValue(HasMaximizedProperty); }
@@ -47,7 +47,7 @@ namespace NTMiner {
 
         // Using a DependencyProperty as the backing store for HasMaximized.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty HasMaximizedProperty =
-            DependencyProperty.Register("HasMaximized", typeof(bool), typeof(BlankWindow), new PropertyMetadata(false));
+            DependencyProperty.Register(nameof(HasMaximized), typeof(bool), typeof(BlankWindow), new PropertyMetadata(false));
 
         static BlankWindow() {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(BlankWindow), new FrameworkPropertyMetadata(typeof(BlankWindow)));

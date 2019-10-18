@@ -6,9 +6,7 @@ namespace NTMiner.Vms {
     public class ToolboxViewModel : ViewModelBase {
         public ICommand SwitchRadeonGpu { get; private set; }
         public ICommand AtikmdagPatcher { get; private set; }
-        public ICommand NavigateToNvidiaDriverWin10 { get; private set; }
-        public ICommand NavigateToNvidiaDriverWin7 { get; private set; }
-        public ICommand NavigateToAmdDriver { get; private set; }
+        public ICommand NavigateToDriver { get; private set; }
         public ICommand RegCmdHere { get; private set; }
         public ICommand BlockWAU { get; private set; }
         public ICommand Win10Optimize { get; private set; }
@@ -24,9 +22,16 @@ namespace NTMiner.Vms {
                     VirtualRoot.Out.ShowInfo("请先停止挖矿");
                     return;
                 }
-                this.ShowDialog(message: $"确定运行吗？大概需要花费5到10秒钟时间看到结果", title: "确认", onYes: () => {
-                    VirtualRoot.Execute(new SwitchRadeonGpuCommand());
-                }, icon: IconConst.IconConfirm);
+                this.ShowDialog(message: $"过程大概需要花费5到10秒钟", title: "确认", onYes: () => {
+                    VirtualRoot.Execute(new SwitchRadeonGpuCommand(on: true));
+                }, onNo: () => {
+                    bool isClose = false;
+                    this.ShowDialog(message: "关闭计算模式挖矿算力会减半，确定关闭计算模式？", title: "二次确认", onYes: () => {
+                        isClose = true;
+                        VirtualRoot.Execute(new SwitchRadeonGpuCommand(on: false));
+                    }, icon: IconConst.IconConfirm);
+                    return isClose;
+                }, icon: IconConst.IconConfirm, yesText: "开启计算模式", noText: "关闭计算模式");
             });
             this.AtikmdagPatcher = new DelegateCommand(() => {
                 if (MinerProfileViewModel.Instance.IsMining) {
@@ -35,14 +40,11 @@ namespace NTMiner.Vms {
                 }
                 VirtualRoot.Execute(new AtikmdagPatcherCommand());
             });
-            this.NavigateToNvidiaDriverWin10 = new DelegateCommand(() => {
-                Process.Start("https://www.geforce.cn/drivers/results/137770");
-            });
-            this.NavigateToNvidiaDriverWin7 = new DelegateCommand(() => {
-                Process.Start("https://www.geforce.cn/drivers/results/137752");
-            });
-            this.NavigateToAmdDriver = new DelegateCommand(() => {
-                Process.Start("https://www.amd.com/zh-hans/support");
+            this.NavigateToDriver = new DelegateCommand<SysDicItemViewModel>((item) => {
+                if (item == null) {
+                    return;
+                }
+                Process.Start(item.Value);
             });
             this.RegCmdHere = new DelegateCommand(() => {
                 this.ShowDialog(message: $"确定在windows右键上下文菜单中添加\"命令行\"菜单吗？", title: "确认", onYes: () => {
@@ -67,6 +69,50 @@ namespace NTMiner.Vms {
             });
         }
 
+        public SysDicItemViewModel NvidiaDriverWin10 {
+            get {
+                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(VirtualRoot.ThisSystemSysDicCode, "NvidiaDriverWin10", out ISysDicItem item)) {
+                    if (AppContext.Instance.SysDicItemVms.TryGetValue(item.GetId(), out SysDicItemViewModel vm)) {
+                        return vm;
+                    }
+                }
+                return null;
+            }
+        }
+
+        public SysDicItemViewModel NvidiaDriverWin7 {
+            get {
+                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(VirtualRoot.ThisSystemSysDicCode, "NvidiaDriverWin7", out ISysDicItem item)) {
+                    if (AppContext.Instance.SysDicItemVms.TryGetValue(item.GetId(), out SysDicItemViewModel vm)) {
+                        return vm;
+                    }
+                }
+                return null;
+            }
+        }
+
+        public SysDicItemViewModel NvidiaDriverMore {
+            get {
+                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(VirtualRoot.ThisSystemSysDicCode, "NvidiaDriverMore", out ISysDicItem item)) {
+                    if (AppContext.Instance.SysDicItemVms.TryGetValue(item.GetId(), out SysDicItemViewModel vm)) {
+                        return vm;
+                    }
+                }
+                return null;
+            }
+        }
+
+        public SysDicItemViewModel AmdDriverMore {
+            get {
+                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(VirtualRoot.ThisSystemSysDicCode, "AmdDriverMore", out ISysDicItem item)) {
+                    if (AppContext.Instance.SysDicItemVms.TryGetValue(item.GetId(), out SysDicItemViewModel vm)) {
+                        return vm;
+                    }
+                }
+                return null;
+            }
+        }
+
         public bool IsAutoAdminLogon {
             get { return Windows.OS.Instance.IsAutoAdminLogon; }
         }
@@ -82,7 +128,7 @@ namespace NTMiner.Vms {
 
         public bool IsRemoteDesktopEnabled {
             get {
-                return NTMinerRoot.GetIsRemoteDesktopEnabled();
+                return NTMinerRegistry.GetIsRemoteDesktopEnabled();
             }
         }
 

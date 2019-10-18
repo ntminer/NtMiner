@@ -14,7 +14,7 @@
                 <ResourceDictionary Source="pack://application:,,,/NTMinerWpf;component/Styles/KbComboBox.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/NTMinerWpf;component/Styles/CheckBox.xaml" />
 
-                <ResourceDictionary Source="pack://application:,,,/NTMinerWpf;component/Styles/KbDataGrid.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/NTMinerWpf;component/Styles/DataGrid.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/NTMinerWpf;component/Notifications/Themes/Generic.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

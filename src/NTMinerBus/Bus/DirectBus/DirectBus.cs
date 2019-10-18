@@ -34,12 +34,6 @@ namespace NTMiner.Bus.DirectBus {
                 }
             }
         }
-
-        public void Clear() {
-            lock (_queueLock) {
-                this._messageQueue.Clear();
-            }
-        }
         #endregion
 
         public void Commit() {
@@ -47,7 +41,7 @@ namespace NTMiner.Bus.DirectBus {
                 _backupMessageArray = new dynamic[_messageQueue.Count];
                 _messageQueue.CopyTo(_backupMessageArray, 0);
                 while (_messageQueue.Count > 0) {
-                    _dispatcher.DispatchMessage(_messageQueue.Dequeue());
+                    _dispatcher.Dispatch(_messageQueue.Dequeue());
                 }
             }
         }

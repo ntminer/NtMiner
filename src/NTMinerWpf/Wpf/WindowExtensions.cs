@@ -1,6 +1,5 @@
 ﻿using NTMiner.Views;
 using System.Windows;
-using System.Windows.Media;
 
 namespace NTMiner.Wpf {
     public static class WindowExtensions {
@@ -13,7 +12,7 @@ namespace NTMiner.Wpf {
                 return;
             }
             POINT pt;
-            if (NativeMethods.GetCursorPos(out pt)) {
+            if (SafeNativeMethods.GetCursorPos(out pt)) {
                 var width = window.Width.Equals(double.NaN) ? 400 : window.Width;
                 var height = window.Height.Equals(double.NaN) ? 200 : window.Height;
                 window.WindowStartupLocation = WindowStartupLocation.Manual;
@@ -41,8 +40,6 @@ namespace NTMiner.Wpf {
             }
         }
 
-        private static readonly SolidColorBrush White = new SolidColorBrush(Colors.White);
-        private static readonly SolidColorBrush Transparent = new SolidColorBrush(Colors.Transparent);
         public static bool? ShowDialogEx(this Window window) {
             bool? result;
             if (window.Owner == null) {

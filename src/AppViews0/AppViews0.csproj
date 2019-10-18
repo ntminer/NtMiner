@@ -107,6 +107,9 @@
     <Compile Include="Ucs\BrandTag.xaml.cs">
       <DependentUpon>BrandTag.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Ucs\LocalIpConfig.xaml.cs">
+      <DependentUpon>LocalIpConfig.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Ucs\FragmentWriterEdit.xaml.cs">
       <DependentUpon>FragmentWriterEdit.xaml</DependentUpon>
     </Compile>
@@ -128,8 +131,14 @@
     <Compile Include="Ucs\KernelInputSelect.xaml.cs">
       <DependentUpon>KernelInputSelect.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Ucs\MinerClientsToolBar.xaml.cs">
+      <DependentUpon>MinerClientsToolBar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Ucs\Property.xaml.cs">
       <DependentUpon>Property.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ucs\WorkerEvents.xaml.cs">
+      <DependentUpon>WorkerEvents.xaml</DependentUpon>
     </Compile>
     <Compile Include="Ucs\SysDicItemSelect.xaml.cs">
       <DependentUpon>SysDicItemSelect.xaml</DependentUpon>
@@ -151,9 +160,6 @@
     </Compile>
     <Compile Include="NotificationSample.xaml.cs">
       <DependentUpon>NotificationSample.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SplashWindow.xaml.cs">
-      <DependentUpon>SplashWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Ucs\CoinSelect.xaml.cs">
       <DependentUpon>CoinSelect.xaml</DependentUpon>
@@ -202,9 +208,6 @@
     </Compile>
     <Compile Include="Ucs\EnvironmentVariableEdit.xaml.cs">
       <DependentUpon>EnvironmentVariableEdit.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\GpuSpeedDataTable.xaml.cs">
-      <DependentUpon>GpuSpeedDataTable.xaml</DependentUpon>
     </Compile>
     <Compile Include="Ucs\GpuProfilesPage.xaml.cs">
       <DependentUpon>GpuProfilesPage.xaml</DependentUpon>
@@ -353,6 +356,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Design\MinerProfileIndexViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Design\MinerClientsWindowViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -437,10 +444,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Design\MinerStateViewModel.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Design\StateBarViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -458,6 +461,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Ucs\BrandTag.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ucs\LocalIpConfig.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -489,7 +496,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Ucs\MinerClientsToolBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Ucs\Property.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ucs\WorkerEvents.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -520,10 +535,6 @@
     <Page Include="NotificationSample.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SplashWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Ucs\CoinSelect.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -614,10 +625,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Ucs\EnvironmentVariableEdit.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Ucs\GpuSpeedDataTable.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -879,10 +886,6 @@
       <Project>{b7107a67-a76e-4313-8c5b-3265dde238b6}</Project>
       <Name>BlankWindow</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NTMiner.Core\NTMiner.Core.csproj">
-      <Project>{85d052ab-44b8-46f3-9d7b-f624c24fd8ba}</Project>
-      <Name>NTMiner.Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\NTMinerBus\NTMinerBus.csproj">
       <Project>{e17f278a-e393-403e-9d37-e371036d7a02}</Project>
       <Name>NTMinerBus</Name>
@@ -906,6 +909,10 @@
     <ProjectReference Include="..\NTMinerWpf\NTMinerWpf.csproj">
       <Project>{dd8e010e-d5e9-47cf-9cb4-8dc6e13d483d}</Project>
       <Name>NTMinerWpf</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NTMiner\NTMiner.csproj">
+      <Project>{85d052ab-44b8-46f3-9d7b-f624c24fd8ba}</Project>
+      <Name>NTMiner</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

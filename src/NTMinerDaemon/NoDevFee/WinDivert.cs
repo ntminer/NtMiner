@@ -186,6 +186,7 @@ namespace NTMiner.NoDevFee {
             hdr.TrafficClass1 = val;
         }
 
+#pragma warning disable IDE0060 // 删除未使用的参数
         /// <summary>
         /// Sets the flow label value.
         /// </summary>
@@ -196,6 +197,7 @@ namespace NTMiner.NoDevFee {
         /// The value.
         /// </param>
         public static void WINDIVERT_IPV6HDR_SET_FLOWLABEL(WINDIVERT_IPV6HDR hdr, uint val) {
+#pragma warning restore IDE0060 // 删除未使用的参数
             //hdr.FlowLabel0 = (uint)(val >> 16);
             //hdr.FlowLabel1 = (ushort)val;
         }
@@ -272,14 +274,12 @@ namespace NTMiner.NoDevFee {
         ///Version : 4
         private byte bitvector1;
 
+#pragma warning disable CS0649 // 赋值，字段将一直保持默认值
         /// UINT8->unsigned char
         public byte TOS;
 
         /// UINT16->unsigned short
         public ushort Length;
-
-        /// UINT16->unsigned short
-        public ushort Id;
 
         /// UINT16->unsigned short
         public ushort FragOff0;
@@ -289,9 +289,12 @@ namespace NTMiner.NoDevFee {
 
         /// UINT8->unsigned char
         public byte Protocol;
+        /// UINT16->unsigned short
+        public ushort Id;
 
         /// UINT16->unsigned short
         public ushort Checksum;
+#pragma warning restore CS0649 // 对同一变量进行了比较
 
         /// UINT32->unsigned int
         public IPAddress SrcAddr {
@@ -375,6 +378,7 @@ namespace NTMiner.NoDevFee {
             }
         }
 
+#pragma warning disable CS0649 // 赋值，字段将一直保持默认值
         /// TrafficClass0 : 4
         ///Version : 4
         ///FlowLabel0 : 4
@@ -392,6 +396,7 @@ namespace NTMiner.NoDevFee {
 
         /// UINT8->unsigned char
         public byte HopLimit;
+#pragma warning restore CS0649 // 对同一变量进行了比较
 
         /// UINT32[4]
         public IPAddress SrcAddr {
@@ -691,7 +696,7 @@ namespace NTMiner.NoDevFee {
         public ushort Checksum;
     }
 
-    internal class WinDivertMethods {
+    internal class SafeNativeMethods {
         private const string dllPath = "WinDivert.dll";
         /// Return Type: HANDLE->void*
         ///filter: char*

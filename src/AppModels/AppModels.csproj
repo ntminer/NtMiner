@@ -85,6 +85,7 @@
     <Compile Include="RemoteDesktopInput.cs" />
     <Compile Include="View\AbstractAppViewFactory.cs" />
     <Compile Include="View\IAppViewFactory.cs" />
+    <Compile Include="View\ISplashWindow.cs" />
     <Compile Include="Vms\AboutPageViewModel.cs" />
     <Compile Include="Vms\AlgoSelectItem.cs" />
     <Compile Include="Vms\BrandTagViewModel.cs" />
@@ -101,6 +102,7 @@
     <Compile Include="Vms\CoinPageViewModel.cs" />
     <Compile Include="Vms\CoinProfileViewModel.cs" />
     <Compile Include="Vms\EthNoDevFeeEditViewModel.cs" />
+    <Compile Include="Vms\WorkerEventsViewModel.cs" />
     <Compile Include="Vms\FragmentWriterPageViewModel.cs" />
     <Compile Include="Vms\FragmentWriterSelectViewModel.cs" />
     <Compile Include="Vms\FileWriterSelectViewModel.cs" />
@@ -109,6 +111,8 @@
     <Compile Include="Vms\HandlerIdsWindowViewModel.cs" />
     <Compile Include="Vms\KernelOutputSelectViewModel.cs" />
     <Compile Include="Vms\KernelInputSelectViewModel.cs" />
+    <Compile Include="Vms\LocalIpConfigViewModel.cs" />
+    <Compile Include="Vms\LocalIpViewModel.cs" />
     <Compile Include="Vms\MinerProfileViewModel.cs" />
     <Compile Include="Vms\SpeedTableViewModel.cs" />
     <Compile Include="Vms\StartStopMineButtonViewModel.cs" />
@@ -157,7 +161,6 @@
     <Compile Include="Vms\MinerGroupViewModel.cs" />
     <Compile Include="Vms\MinerNamesSeterViewModel.cs" />
     <Compile Include="Vms\MinerProfileIndexViewModel.cs" />
-    <Compile Include="Vms\MinerStateViewModel.cs" />
     <Compile Include="Vms\MineWorkViewModel.cs" />
     <Compile Include="Vms\MinuteItem.cs" />
     <Compile Include="Vms\NTMinerUpdaterConfigViewModel.cs" />
@@ -176,7 +179,6 @@
     <Compile Include="Vms\SpeedChartViewModels.cs" />
     <Compile Include="Vms\SpeedUnitViewModel.cs" />
     <Compile Include="Vms\SpeedViewModel.cs" />
-    <Compile Include="Vms\SplashWindowViewModel.cs" />
     <Compile Include="Vms\StateBarViewModel.cs" />
     <Compile Include="Vms\SysDicItemViewModel.cs" />
     <Compile Include="Vms\SysDicPageViewModel.cs" />
@@ -188,12 +190,9 @@
     <Compile Include="Vms\VirtualMemoryViewModel.cs" />
     <Compile Include="Vms\WalletSelectViewModel.cs" />
     <Compile Include="Vms\WalletViewModel.cs" />
+    <Compile Include="Vms\WorkerEventViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NTMiner.Core\NTMiner.Core.csproj">
-      <Project>{85d052ab-44b8-46f3-9d7b-f624c24fd8ba}</Project>
-      <Name>NTMiner.Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\NTMinerBus\NTMinerBus.csproj">
       <Project>{e17f278a-e393-403e-9d37-e371036d7a02}</Project>
       <Name>NTMinerBus</Name>
@@ -217,6 +216,10 @@
     <ProjectReference Include="..\NTMinerWpf\NTMinerWpf.csproj">
       <Project>{dd8e010e-d5e9-47cf-9cb4-8dc6e13d483d}</Project>
       <Name>NTMinerWpf</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NTMiner\NTMiner.csproj">
+      <Project>{85d052ab-44b8-46f3-9d7b-f624c24fd8ba}</Project>
+      <Name>NTMiner</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

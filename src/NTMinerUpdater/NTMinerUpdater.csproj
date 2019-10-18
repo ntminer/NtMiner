@@ -67,10 +67,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="..\NTMiner.Core\CommandLineArgs.cs">
+    <Compile Include="..\NTMiner\CommandLineArgs.cs">
       <Link>CommandLineArgs.cs</Link>
     </Compile>
-    <Compile Include="..\NTMiner.Core\SpecialPath.cs">
+    <Compile Include="..\NTMiner\SpecialPath.cs">
       <Link>SpecialPath.cs</Link>
     </Compile>
     <Compile Include="App.xaml.cs">

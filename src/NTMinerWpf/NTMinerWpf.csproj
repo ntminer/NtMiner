@@ -31,6 +31,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -42,6 +43,13 @@
   <ItemGroup>
     <Compile Include="AppUtil.cs" />
     <Compile Include="ColorMapper.cs" />
+    <Compile Include="Controls\ControlExtensions.cs" />
+    <Compile Include="Controls\IpAddressControl.xaml.cs">
+      <DependentUpon>IpAddressControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\BoolToStreamGeometryConverter.cs" />
+    <Compile Include="Vms\IpAddressControlViewModel.cs" />
+    <Compile Include="Controls\IPRangeValidationRule.cs" />
     <Compile Include="Controls\KbButton.cs" />
     <Compile Include="Controls\KbComboBox.cs" />
     <Compile Include="Controls\KbLinkButton.cs" />
@@ -105,6 +113,7 @@
     <Compile Include="Vms\ServerHostItem.cs" />
     <Compile Include="ViewModelExtension.cs" />
     <Compile Include="WindowExtension.cs" />
+    <Compile Include="WindowsShortcut.cs" />
     <Compile Include="Wpf\DataGridExtesnsion.cs" />
     <Compile Include="Wpf\NativeMethods.cs" />
     <Compile Include="Wpf\TopWindow.cs" />
@@ -128,6 +137,10 @@
     <Compile Include="Controls\BindingProxy.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Controls\IpAddressControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Notifications\Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -144,7 +157,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Styles\KbDataGrid.xaml">
+    <Page Include="Styles\DataGrid.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -224,6 +237,16 @@
       <Name>NTMinerRpcClient</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <COMReference Include="IWshRuntimeLibrary">
+      <Guid>{F935DC20-1CF0-11D0-ADB9-00C04FD58A0B}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

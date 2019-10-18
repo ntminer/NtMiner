@@ -58,8 +58,9 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <Style TargetType="{x:Type controls:KbSystemMinButton}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:KbSystemMinButton}">
@@ -94,6 +95,7 @@
     </Style>
 
     <Style TargetType="{x:Type controls:KbSystemMaxButton}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:KbSystemMaxButton}">
@@ -128,6 +130,7 @@
     </Style>
 
     <Style TargetType="{x:Type controls:KbSystemCloseButton}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:KbSystemCloseButton}">
@@ -161,6 +164,7 @@
     </Style>
 
     <Style TargetType="{x:Type controls:KbLinkButton}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Cursor" Value="Hand" />
         <Setter Property="Foreground" Value="{StaticResource LinkForeground}"></Setter>
         <Setter Property="Template">

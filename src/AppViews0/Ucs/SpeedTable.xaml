@@ -13,7 +13,7 @@
              x:Name="Uc"
 			 Background="White"
 			 TextOptions.TextFormattingMode="Display" 
-			 d:DesignHeight="450" d:DesignWidth="800">
+			 d:DesignHeight="450" d:DesignWidth="1200">
     <UserControl.DataContext>
         <vm:SpeedTableViewModel></vm:SpeedTableViewModel>
     </UserControl.DataContext>
@@ -130,7 +130,7 @@
                     MinWidth="30" Width="30" IsReadOnly="True"
                     Visibility="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.CoinKernel.Kernel.KernelOutputVm.IsFoundOneGpuShare,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}">
                     <DataGridTemplateColumn.Header>
-                        <TextBlock Text="提交" FontSize="10"></TextBlock>
+                        <TextBlock Text="找到" FontSize="10"></TextBlock>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

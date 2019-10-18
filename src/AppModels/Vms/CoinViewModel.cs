@@ -384,8 +384,8 @@ namespace NTMiner.Vms {
             if (File.Exists(iconFileFullName)) {
                 return;
             }
-            using (NTMinerWebClient client = new NTMinerWebClient(10)) {
-                client.DownloadFileCompleted += (object sender, System.ComponentModel.AsyncCompletedEventArgs e) => {
+            using (var webClient = VirtualRoot.CreateWebClient(10)) {
+                webClient.DownloadFileCompleted += (object sender, System.ComponentModel.AsyncCompletedEventArgs e) => {
                     if (!e.Cancelled && e.Error == null) {
                         VirtualRoot.Happened(new CoinIconDownloadedEvent(this));
                     }
@@ -393,7 +393,7 @@ namespace NTMiner.Vms {
                         File.Delete(iconFileFullName);
                     }
                 };
-                client.DownloadFileAsync(new Uri(AssemblyInfo.MinerJsonBucket + "coin_icons/" + this.Icon), iconFileFullName);
+                webClient.DownloadFileAsync(new Uri($"{OfficialServer.MinerJsonBucket}coin_icons/{this.Icon}"), iconFileFullName);
             }
         }
 
@@ -453,7 +453,7 @@ namespace NTMiner.Vms {
                     _testWallet = value ?? string.Empty;
                     OnPropertyChanged(nameof(TestWallet));
                     if (!string.IsNullOrEmpty(WalletRegexPattern)) {
-                        Regex regex = new Regex(WalletRegexPattern);
+                        Regex regex = VirtualRoot.GetRegex(WalletRegexPattern);
                         if (!regex.IsMatch(value ?? string.Empty)) {
                             throw new ValidationException("钱包地址格式不正确。");
                         }

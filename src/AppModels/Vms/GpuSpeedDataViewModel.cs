@@ -284,5 +284,15 @@ namespace NTMiner.Vms {
                 }
             }
         }
+
+        public int IncorrectShare {
+            get { return _data.IncorrectShare; }
+            set {
+                if (_data.IncorrectShare != value) {
+                    _data.IncorrectShare = value;
+                    OnPropertyChanged(nameof(IncorrectShare));
+                }
+            }
+        }
     }
 }

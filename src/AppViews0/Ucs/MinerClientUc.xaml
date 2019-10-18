@@ -10,23 +10,16 @@
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
 		d:DataContext="{d:DesignData Source=/Design/MinerClientViewModel.xaml}"
-		mc:Ignorable="d">
+		mc:Ignorable="d" d:DesignWidth="1200">
 	<UserControl.Resources>
 		<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
-			<Setter Property="Width" Value="130"></Setter>
+			<Setter Property="Width" Value="100"></Setter>
 			<Setter Property="Padding" Value="0 0 20 0"></Setter>
-		</Style>
-		<Style x:Key="Row" TargetType="WrapPanel">
-			<Setter Property="Margin" Value="0 4"></Setter>
-		</Style>
-		<Style x:Key="RowLine" TargetType="Border">
-			<Setter Property="BorderBrush" Value="#EEEEEE"></Setter>
-			<Setter Property="BorderThickness" Value="0 1 0 0"></Setter>
 		</Style>
 		<sys:Double x:Key="OneColWidth">480</sys:Double>
 	</UserControl.Resources>
 	<StackPanel HorizontalAlignment="Left">
-		<Grid Margin="0 4">
+		<Grid Margin="0 3">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto"></ColumnDefinition>
 				<ColumnDefinition Width="*"></ColumnDefinition>
@@ -105,25 +98,24 @@
 				</MenuItem>
 			</Menu>
 		</Grid>
-		<Border Style="{StaticResource RowLine}"></Border>
-		<Grid Margin="0 4">
+		<Grid Margin="0 3">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto"></ColumnDefinition>
 				<ColumnDefinition Width="*"></ColumnDefinition>
 			</Grid.ColumnDefinitions>
 			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Center">最后更新</TextBlock>
 			<WrapPanel Grid.Column="1">
-				<TextBlock Width="60" Text="{Binding LastActivedOnText}" VerticalAlignment="Center"></TextBlock>
+				<TextBlock Width="50" Text="{Binding LastActivedOnText}" VerticalAlignment="Center"></TextBlock>
 				<Border Width="40" Height="19" Background="Green" Visibility="{Binding IsMining,Converter={StaticResource BoolToVisibilityConverter}}">
 					<TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White">挖矿中</TextBlock>
 				</Border>
 				<Border Width="40" Height="19" Background="Red" Visibility="{Binding IsMining,Converter={StaticResource BoolToVisibilityInvertConverter}}">
 					<TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White">未挖矿</TextBlock>
 				</Border>
-				<TextBlock Style="{StaticResource LblTb}" Width="80" Padding="0 0 10 0">运行时长</TextBlock>
-				<TextBlock Text="{Binding BootTimeSpanText}" VerticalAlignment="Center"></TextBlock>
-				<TextBlock Style="{StaticResource LblTb}" Width="80" Padding="0 0 10 0">挖矿时长</TextBlock>
-				<TextBlock Text="{Binding MineTimeSpanText}" VerticalAlignment="Center"></TextBlock>
+				<TextBlock Style="{StaticResource LblTb}" Width="70" Padding="0 0 10 0">运行时长</TextBlock>
+				<TextBlock Text="{Binding BootTimeSpanText}" Width="110" VerticalAlignment="Center"></TextBlock>
+				<TextBlock Style="{StaticResource LblTb}" Width="70" Padding="0 0 10 0">挖矿时长</TextBlock>
+                <TextBlock Text="{Binding MineTimeSpanText}" Width="110" VerticalAlignment="Center"></TextBlock>
 				<TextBlock Style="{StaticResource LblTb}" Width="50" Padding="0 0 10 0">作业</TextBlock>
 				<ComboBox
 					MinWidth="100"
@@ -131,38 +123,39 @@
 					DisplayMemberPath="Name"
 					SelectedItem="{Binding SelectedMineWork}"
 					Text="{Binding SelectedMineWork.Name, Mode=OneWay}"></ComboBox>
-				<TextBlock Style="{StaticResource LblTb}" Width="80" Padding="0 0 10 0">群控矿机名</TextBlock>
-				<TextBox 
-					VerticalAlignment="Center"
-					ToolTip="注意：修改矿机名后需重新开始挖矿才能反应到矿池"
-					Width="120"
-					Text="{Binding MinerName}"></TextBox>
-			</WrapPanel>
+                <TextBlock Style="{StaticResource LblTb}" Width="50" Padding="0 0 10 0">分组</TextBlock>
+                <ComboBox 
+					MinWidth="100"
+					ItemsSource="{Binding MinerGroupVms.List}"
+					DisplayMemberPath="Name"
+					SelectedItem="{Binding SelectedMinerGroup}"></ComboBox>
+            </WrapPanel>
 		</Grid>
-		<Border Style="{StaticResource RowLine}"></Border>
-		<Grid Margin="0 4">
+		<Grid Margin="0 3">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto"></ColumnDefinition>
 				<ColumnDefinition Width="*"></ColumnDefinition>
 			</Grid.ColumnDefinitions>
-			<TextBlock Style="{StaticResource LblTb}">矿机名</TextBlock>
+            <TextBlock Style="{StaticResource LblTb}">矿机名/群控名</TextBlock>
 			<WrapPanel Grid.Column="1">
-				<TextBox 
-					VerticalAlignment="Center"
-					Width="100"
-					IsReadOnly="False"
-					BorderThickness="0"
-					Text="{Binding ClientName,Mode=OneWay}"></TextBox>
+                <WrapPanel Width="140">
+                    <TextBox 
+					    VerticalAlignment="Center"
+					    IsReadOnly="False"
+					    BorderThickness="0"
+					    Text="{Binding ClientName,Mode=OneWay}"></TextBox>
+                    <TextBlock 
+                        Padding="0 0 4 0"
+					    VerticalAlignment="Center"
+					    Text="/"></TextBlock>
+                    <TextBox 
+					    VerticalAlignment="Center"
+					    ToolTip="注意：修改矿机名后需重新开始挖矿才能反应到矿池"
+					    Width="60"
+					    Text="{Binding MinerName}"></TextBox>
+                </WrapPanel>
 				<WrapPanel VerticalAlignment="Center">
-					<TextBlock Style="{StaticResource LblTb}" Width="40" Padding="0 0 10 0">分组</TextBlock>
-					<ComboBox 
-						MinWidth="100"
-						ItemsSource="{Binding MinerGroupVms.List}"
-						DisplayMemberPath="Name"
-						SelectedItem="{Binding SelectedMinerGroup}"></ComboBox>
-				</WrapPanel>
-				<WrapPanel VerticalAlignment="Center">
-					<TextBlock Style="{StaticResource LblTb}" Width="50" Padding="0 0 10 0">IP</TextBlock>
+					<TextBlock Style="{StaticResource LblTb}" Width="30" Padding="0 0 10 0">IP</TextBlock>
 					<controls:KbButton
 						BorderThickness="0"
 						Background="Transparent"
@@ -187,15 +180,32 @@
 						Text="{Binding MinerIp, Mode=OneWay}"></TextBox>
 				</WrapPanel>
 				<WrapPanel VerticalAlignment="Center">
-					<TextBlock Style="{StaticResource LblTb}" Width="100" Padding="0 0 4 0">远程桌面登录名</TextBlock>
-					<TextBox x:Name="TbWindowsLoginName" Width="100" Text="{Binding WindowsLoginName,UpdateSourceTrigger=LostFocus}"></TextBox>
+					<TextBlock Style="{StaticResource LblTb}" Padding="0 0 4 0">远程桌面登录名</TextBlock>
+					<TextBox x:Name="TbWindowsLoginName" Width="80" Text="{Binding WindowsLoginName,UpdateSourceTrigger=LostFocus}"></TextBox>
 					<TextBlock Style="{StaticResource LblTb}" Width="40" Padding="0 0 4 0">密码</TextBlock>
-					<PasswordBox Width="100" BorderBrush="{Binding ElementName=TbWindowsLoginName,Path=BorderBrush}" VerticalContentAlignment="Center" Background="Transparent" controls:PasswordBoxHelper.Attach="true" controls:PasswordBoxHelper.Password="{Binding WindowsPassword, Mode=TwoWay, ValidatesOnExceptions=True, UpdateSourceTrigger=LostFocus}"/>
-				</WrapPanel>
-			</WrapPanel>
+                    <PasswordBox Width="80" BorderBrush="{Binding ElementName=TbWindowsLoginName,Path=BorderBrush}" VerticalContentAlignment="Center" Background="Transparent" controls:PasswordBoxHelper.Attach="true" controls:PasswordBoxHelper.Password="{Binding WindowsPassword, Mode=TwoWay, ValidatesOnExceptions=True, UpdateSourceTrigger=LostFocus}"/>
+                </WrapPanel>
+                <WrapPanel VerticalAlignment="Center">
+                    <TextBlock Style="{StaticResource LblTb}" Width="Auto" Padding="10 0 10 0">开机启动</TextBlock>
+                    <Path
+						Width="16"
+						Height="16"
+						Data="{Binding IsAutoBoot,Converter={StaticResource BoolToStreamGeometryConverter}}"
+						Fill="{StaticResource LableColor}"
+						Stretch="Fill" />
+                </WrapPanel>
+                <WrapPanel VerticalAlignment="Center">
+                    <TextBlock Style="{StaticResource LblTb}" Width="Auto" Padding="10 0 10 0">自动挖矿</TextBlock>
+                    <Path
+						Width="16"
+						Height="16"
+						Data="{Binding IsAutoStart,Converter={StaticResource BoolToStreamGeometryConverter}}"
+						Fill="{StaticResource LableColor}"
+						Stretch="Fill" />
+                </WrapPanel>
+            </WrapPanel>
 		</Grid>
-		<Border Style="{StaticResource RowLine}"></Border>
-		<Grid Margin="0 4">
+		<Grid Margin="0 3">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto"></ColumnDefinition>
 				<ColumnDefinition Width="*"></ColumnDefinition>
@@ -236,13 +246,6 @@
 						Padding="0"
 						Foreground="{StaticResource LableColor}"></TextBlock>
 					<TextBlock Text=", "></TextBlock>
-					<TextBlock Text="{Binding IncomeMainCoinUsdPerDayText}"></TextBlock>
-					<TextBlock 
-						Text="$" 
-						Margin="2 0 0 0"
-						Padding="0"
-						Foreground="{StaticResource LableColor}"></TextBlock>
-					<TextBlock Text=", "></TextBlock>
 					<TextBlock Text="{Binding IncomeMainCoinCnyPerDayText}"></TextBlock>
 					<TextBlock 
 						Text="￥" 
@@ -254,8 +257,7 @@
 				</WrapPanel>
 			</WrapPanel>
 		</Grid>
-		<Border Style="{StaticResource RowLine}"></Border>
-		<Grid Margin="0 4" Visibility="{Binding DualCoinCode,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
+		<Grid Margin="0 3" Visibility="{Binding DualCoinCode,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto"></ColumnDefinition>
 				<ColumnDefinition Width="*"></ColumnDefinition>
@@ -284,13 +286,6 @@
 						Padding="0"
 						Foreground="{StaticResource LableColor}"></TextBlock>
 					<TextBlock Text=", "></TextBlock>
-					<TextBlock Text="{Binding IncomeDualCoinUsdPerDayText}"></TextBlock>
-					<TextBlock 
-						Text="$" 
-						Margin="2 0 0 0"
-						Padding="0"
-						Foreground="{StaticResource LableColor}"></TextBlock>
-					<TextBlock Text=", "></TextBlock>
 					<TextBlock Text="{Binding IncomeDualCoinCnyPerDayText}"></TextBlock>
 					<TextBlock 
 						Text="￥" 
@@ -302,135 +297,351 @@
 				</WrapPanel>
 			</WrapPanel>
 		</Grid>
-		<Border Style="{StaticResource RowLine}"></Border>
-		<Grid Margin="0 4">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="Auto"></ColumnDefinition>
-				<ColumnDefinition Width="*"></ColumnDefinition>
-			</Grid.ColumnDefinitions>
-			<StackPanel>
-				<TextBlock Style="{StaticResource LblTb}">显卡表格</TextBlock>
-				<TextBox 
-					HorizontalAlignment="Right"
-					ToolTip="最高卡温"
-					Padding="0 0 20 0"
-					BorderThickness="0"
-					Background="Transparent"
-					Foreground="{Binding TempForeground}"
-					IsReadOnly="True"
-					Text="{Binding MaxTempText, Mode=OneWay}"></TextBox>
-			</StackPanel>
-			<uc:GpuSpeedDataTable Grid.Column="1" HorizontalAlignment="Left" DataContext="{Binding GpuTableVm}"></uc:GpuSpeedDataTable>
-		</Grid>
-		<Border Style="{StaticResource RowLine}"></Border>
-		<WrapPanel Style="{StaticResource Row}">
-			<WrapPanel Style="{StaticResource Row}" Width="{StaticResource OneColWidth}">
+        <DataGrid
+            Margin="44 3 0 3"
+            HorizontalAlignment="Left" 
+			ColumnHeaderHeight="32"
+			MinRowHeight="24"
+			IsReadOnly="True"
+			Background="Transparent"
+			ItemsSource="{Binding GpuTableVm}">
+            <DataGrid.Resources>
+                <controls:BindingProxy x:Key="proxy" Data="{Binding GpuTableVm}" />
+                <sys:Double x:Key="{x:Static SystemParameters.HorizontalScrollBarHeightKey}">10</sys:Double>
+                <sys:Double x:Key="{x:Static SystemParameters.HorizontalScrollBarButtonWidthKey}">0</sys:Double>
+                <Style TargetType="DataGridColumnHeader">
+                    <Style.Resources>
+                        <ResourceDictionary />
+                    </Style.Resources>
+                    <Setter Property="UseLayoutRounding" Value="True" />
+                    <Setter Property="Foreground" Value="{StaticResource LableColor}" />
+                    <Setter Property="Background" Value="Transparent"></Setter>
+                    <Setter Property="FontWeight" Value="Bold"></Setter>
+                    <Setter Property="Focusable" Value="False"></Setter>
+                </Style>
+                <Style TargetType="DataGridRow">
+                    <Setter Property="Foreground" Value="#FF666666" />
+                    <Setter Property="Background" Value="Transparent"></Setter>
+                </Style>
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTemplateColumn MinWidth="40" Width="46" Header="编号" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <WrapPanel>
+                                <TextBlock Text="GPU" Foreground="{StaticResource LableColor}"></TextBlock>
+                                <TextBlock Text="{Binding Index}" Foreground="{StaticResource LableColor}"></TextBlock>
+                            </WrapPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn MinWidth="70" Width="Auto" Header="名称" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="40" IsReadOnly="True">
+                    <DataGridTemplateColumn.Header>
+                        <TextBlock Text="显存?" ToolTip="'显存'可能显示为0，因为挖矿端自2.2.0.6开始提供该数据"></TextBlock>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding TotalMemoryGbText}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="90" IsReadOnly="True">
+                    <DataGridTemplateColumn.Header>
+                        <StackPanel>
+                            <TextBlock Text="{Binding Data.MainCoinCode, Source={StaticResource proxy}}" FontSize="12"></TextBlock>
+                            <TextBlock Text="{Binding Data.MainCoinSpeedText, Source={StaticResource proxy}}" FontSize="11"></TextBlock>
+                        </StackPanel>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding MainCoinSpeedText}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn 
+                    Width="40" IsReadOnly="True"
+                    Visibility="{Binding Data.IsRejectOneGpuShare,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}">
+                    <DataGridTemplateColumn.Header>
+                        <TextBlock Text="拒绝?" ToolTip="'拒绝'，挖矿端自2.6.6.3开始提供该数据"></TextBlock>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding RejectShare}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn 
+                    Width="40" IsReadOnly="True"
+                    Visibility="{Binding Data.IsFoundOneGpuShare,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}">
+                    <DataGridTemplateColumn.Header>
+                        <TextBlock Text="找到?" ToolTip="'找到'，挖矿端自2.6.6.3开始提供该数据"></TextBlock>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding FoundShare}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn 
+                    Width="40" IsReadOnly="True"
+                    Visibility="{Binding Data.IsGotOneIncorrectGpuShare,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}">
+                    <DataGridTemplateColumn.Header>
+                        <TextBlock Text="无效?" ToolTip="'无效'，挖矿端自2.6.6.3开始提供该数据"></TextBlock>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding IncorrectShare}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn 
+					Width="90" IsReadOnly="True"
+					Visibility="{Binding Data.DualCoinCode, Source={StaticResource proxy}, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
+                    <DataGridTemplateColumn.Header>
+                        <StackPanel>
+                            <TextBlock Text="{Binding Data.DualCoinCode, Source={StaticResource proxy}}" FontSize="12"></TextBlock>
+                            <TextBlock Text="{Binding Data.DualCoinSpeedText, Source={StaticResource proxy}}" FontSize="11"></TextBlock>
+                        </StackPanel>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding DualCoinSpeedText}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="60" IsReadOnly="True">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="功耗" FontSize="12"></TextBlock>
+                                <TextBlock Text="{Binding Data.PowerUsageWText, Source={StaticResource proxy}}" FontSize="11"></TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding PowerUsageWText}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="50" IsReadOnly="True">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="温度" FontSize="12"></TextBlock>
+                                <TextBlock 
+					                ToolTip="最高卡温"
+                                    FontSize="11"
+					                Foreground="{Binding Data.TempForeground,Source={StaticResource proxy}}"
+					                Text="{Binding Data.MaxTempText,Source={StaticResource proxy}}"></TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Foreground="{Binding TemperatureForeground}" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding TemperatureText}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="风扇" Width="50" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding FanSpeedText}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="70" IsReadOnly="True">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="核心电压？" ToolTip="'核心电压'可能显示为0，因为挖矿端自2.6.0.0开始上报核心电压且只支持A卡" TextWrapping="Wrap" FontSize="12"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding CoreVoltage}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="70" IsReadOnly="True">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="显存电压？" ToolTip="'显存电压'可能显示为0，因为挖矿端自2.6.0.0开始上报显存电压且只支持A卡" TextWrapping="Wrap" FontSize="12"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding MemoryVoltage}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="60" IsReadOnly="True">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="超频功耗" TextWrapping="Wrap" FontSize="12"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding PowerCapacityText}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="70" IsReadOnly="True">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="温度阈值？" ToolTip="'温度阈值'可能显示为0，因为挖矿端自2.2.0.6开始上报温度阈值" TextWrapping="Wrap" FontSize="12"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding TempLimitText}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="60" IsReadOnly="True">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="超频核心" TextWrapping="Wrap" FontSize="12"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding CoreClockDeltaMText}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="60" IsReadOnly="True">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="超频显存" TextWrapping="Wrap" FontSize="12"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding MemoryClockDeltaMText}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <WrapPanel Margin="0 3">
+			<WrapPanel>
 				<TextBlock Style="{StaticResource LblTb}">主币矿池</TextBlock>
-				<TextBox 
+                <WrapPanel Width="200">
+                    <TextBox 
+					    Padding="0"
+					    ToolTip="{Binding MainCoinPool}"
+					    BorderThickness="0"
+					    Background="Transparent"
+					    IsReadOnly="True"
+					    Text="{Binding MainCoinPool, Mode=OneWay}"></TextBox>
+                    <TextBlock Text="{Binding MainCoinPoolDelay}" VerticalAlignment="Bottom"></TextBlock>
+                </WrapPanel>
+			</WrapPanel>
+            <WrapPanel Visibility="{Binding DualCoinPool,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
+				<TextBlock Style="{StaticResource LblTb}" Width="Auto">双挖矿池</TextBlock>
+                <WrapPanel Width="200">
+                    <TextBox 
+					    Padding="0"
+					    ToolTip="{Binding DualCoinPool}"
+					    BorderThickness="0"
+					    Background="Transparent"
+					    IsReadOnly="True"
+					    Text="{Binding DualCoinPool, Mode=OneWay}"></TextBox>
+                    <TextBlock Text="{Binding DualCoinPoolDelay}" VerticalAlignment="Bottom"></TextBlock>
+                </WrapPanel>
+            </WrapPanel>
+            <WrapPanel>
+                <TextBlock Style="{StaticResource LblTb}" Width="Auto">挖矿内核</TextBlock>
+                <TextBox 
 					Padding="0"
-					ToolTip="{Binding MainCoinPool}"
 					BorderThickness="0"
 					Background="Transparent"
 					IsReadOnly="True"
-					Text="{Binding MainCoinPool, Mode=OneWay}"></TextBox>
-			</WrapPanel>
-			<WrapPanel Style="{StaticResource Row}">
-				<TextBlock Style="{StaticResource LblTb}">双挖矿池</TextBlock>
-				<TextBox 
-					Padding="0"
-					ToolTip="{Binding DualCoinPool}"
-					BorderThickness="0"
-					Background="Transparent"
-					IsReadOnly="True"
-					Text="{Binding DualCoinPool, Mode=OneWay}"></TextBox>
-			</WrapPanel>
-		</WrapPanel>
-		<Border Style="{StaticResource RowLine}"></Border>
-		<WrapPanel Style="{StaticResource Row}">
-			<WrapPanel Style="{StaticResource Row}" Width="{StaticResource OneColWidth}">
-				<TextBlock Style="{StaticResource LblTb}">客户端版本</TextBlock>
-				<TextBox Padding="0" IsReadOnly="True" Background="Transparent" BorderThickness="0" Text="{Binding Version, Mode=OneWay}"></TextBox>
-			</WrapPanel>
-			<WrapPanel Style="{StaticResource Row}">
-				<TextBlock Style="{StaticResource LblTb}">挖矿内核</TextBlock>
-				<TextBox 
-					Padding="0"
-					BorderThickness="0"
-					Background="Transparent"
-					IsReadOnly="True"
+                    Width="200"
 					Text="{Binding Kernel, Mode=OneWay}"></TextBox>
-			</WrapPanel>
-		</WrapPanel>
-		<Border Style="{StaticResource RowLine}"></Border>
-		<WrapPanel Style="{StaticResource Row}">
-			<WrapPanel Width="{StaticResource OneColWidth}">
+            </WrapPanel>
+            <WrapPanel>
+                <TextBlock Style="{StaticResource LblTb}" Width="Auto">开源版本</TextBlock>
+                <TextBox 
+                    Padding="0" 
+                    Width="200"
+                    IsReadOnly="True" 
+                    Background="Transparent" 
+                    BorderThickness="0" 
+                    Text="{Binding Version, Mode=OneWay}"></TextBox>
+            </WrapPanel>
+        </WrapPanel>
+		<WrapPanel Margin="0 3">
+			<WrapPanel>
 				<TextBlock Style="{StaticResource LblTb}">操作系统</TextBlock>
-				<TextBox IsReadOnly="True" Background="Transparent" BorderThickness="0" Text="{Binding OSName, Mode=OneWay}"></TextBox>
+				<TextBox 
+                    IsReadOnly="True" 
+                    Background="Transparent" 
+                    Width="200"
+                    BorderThickness="0" 
+                    Text="{Binding OSName, Mode=OneWay}"></TextBox>
 			</WrapPanel>
 			<WrapPanel>
-				<TextBlock Style="{StaticResource LblTb}">虚拟内存</TextBlock>
-				<TextBox Padding="0" IsReadOnly="True" Background="Transparent" BorderThickness="0" Text="{Binding OSVirtualMemoryGbText, Mode=OneWay}"></TextBox>
-			</WrapPanel>
-		</WrapPanel>
-		<Border Style="{StaticResource RowLine}"></Border>
-		<WrapPanel Style="{StaticResource Row}">
-			<WrapPanel Width="{StaticResource OneColWidth}">
-				<TextBlock Style="{StaticResource LblTb}">开机启动</TextBlock>
-				<TextBlock 
-				Visibility="{Binding IsAutoBoot,Converter={StaticResource BoolToVisibilityConverter}}"
-				Text="是"></TextBlock>
-			</WrapPanel>
-			<WrapPanel>
-				<TextBlock Style="{StaticResource LblTb}">自动挖矿</TextBlock>
-				<TextBlock 
-				Visibility="{Binding IsAutoStart,Converter={StaticResource BoolToVisibilityConverter}}"
-				Text="是"></TextBlock>
-			</WrapPanel>
-		</WrapPanel>
-		<Border Style="{StaticResource RowLine}"></Border>
-		<WrapPanel Style="{StaticResource Row}">
-			<TextBlock Style="{StaticResource LblTb}">显卡</TextBlock>
-			<Path
-				Width="18"
-				Height="14"
-				ToolTip="NVIDIA"
-				Visibility="{Binding IsNvidiaIconVisible}"
-				Data="{StaticResource Icon_Nvidia}"
-				Fill="Green"
-				Stretch="Fill" />
-			<Path
-				Width="16"
-				Height="14"
-				ToolTip="AMD"
-				Visibility="{Binding IsAMDIconVisible}"
-				Data="{StaticResource Icon_AMD}"
-				Fill="Red"
-				Stretch="Fill" />
-			<TextBlock Text=" x "></TextBlock>
-			<TextBlock Text="{Binding GpuCount}"></TextBlock>
-			<TextBox 
-				Margin="4 0 0 0"
-				Padding="0"
-				BorderThickness="0"
-				Background="Transparent"
-				IsReadOnly="True"
-				ToolTip="{Binding GpuInfo}"
-				Text="{Binding GpuInfo, Mode=OneWay}"></TextBox>
-			<TextBox 
-				Margin="4 0 0 0"
-				Padding="0"
-				BorderThickness="0"
-				Background="Transparent"
-				IsReadOnly="True"
-				Text="{Binding GpuDriver, Mode=OneWay}"></TextBox>
-		</WrapPanel>
-		<Border Style="{StaticResource RowLine}"></Border>
-		<Grid Margin="0 4">
+				<TextBlock Style="{StaticResource LblTb}" Width="Auto">虚拟内存</TextBlock>
+				<TextBox 
+                    Padding="0" 
+                    IsReadOnly="True" 
+                    Width="200"
+                    Background="Transparent" 
+                    BorderThickness="0" 
+                    Text="{Binding OSVirtualMemoryGbText, Mode=OneWay}"></TextBox>
+            </WrapPanel>
+            <WrapPanel>
+                <TextBlock Style="{StaticResource LblTb}" Width="Auto">显卡</TextBlock>
+                <Path
+				    Width="18"
+				    Height="14"
+				    ToolTip="NVIDIA"
+				    Visibility="{Binding IsNvidiaIconVisible}"
+				    Data="{StaticResource Icon_Nvidia}"
+				    Fill="Green"
+				    Stretch="Fill" />
+                <Path
+				    Width="16"
+				    Height="14"
+				    ToolTip="AMD"
+				    Visibility="{Binding IsAMDIconVisible}"
+				    Data="{StaticResource Icon_AMD}"
+				    Fill="Red"
+				    Stretch="Fill" />
+                <TextBlock VerticalAlignment="Center" Text=" x "></TextBlock>
+                <TextBlock VerticalAlignment="Center" Text="{Binding GpuCount}"></TextBlock>
+                <TextBox 
+				    Margin="4 0 0 0"
+				    Padding="0"
+				    BorderThickness="0"
+				    Background="Transparent"
+				    IsReadOnly="True"
+				    ToolTip="{Binding GpuInfo}"
+				    Text="{Binding GpuInfo, Mode=OneWay}"></TextBox>
+                <TextBox 
+				    Margin="4 0 0 0"
+				    Padding="0"
+				    BorderThickness="0"
+				    Background="Transparent"
+				    IsReadOnly="True"
+				    Text="{Binding GpuDriver, Mode=OneWay}"></TextBox>
+            </WrapPanel>
+        </WrapPanel>
+		<Grid Margin="0 3">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto"></ColumnDefinition>
 				<ColumnDefinition Width="*"></ColumnDefinition>
 			</Grid.ColumnDefinitions>
-			<TextBlock Style="{StaticResource LblTb}">内核命令行</TextBlock>
+			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top">内核命令行</TextBlock>
 			<controls:KbMuiltilineTextBox 
 				Grid.Column="1"
 				Padding="0"
@@ -440,6 +651,5 @@
 				ToolTip="{Binding KernelCommandLine}"
 				Text="{Binding KernelCommandLine, Mode=OneWay}"></controls:KbMuiltilineTextBox>
 		</Grid>
-		<Border Style="{StaticResource RowLine}"></Border>
 	</StackPanel>
 </UserControl>

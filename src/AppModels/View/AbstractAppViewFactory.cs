@@ -14,13 +14,7 @@ namespace NTMiner.View {
                         if (_mainWindow == null) {
                             _mainWindow = CreateMainWindow();
                             _mainWindow.Show();
-                            NTMinerRoot.IsUiVisible = true;
-                            NTMinerRoot.MainWindowRendedOn = DateTime.Now;
                             VirtualRoot.Happened(new MainWindowShowedEvent());
-                            _mainWindow.Closed += (object sender, EventArgs e) => {
-                                NTMinerRoot.IsUiVisible = false;
-                                _mainWindow = null;
-                            };
                         }
                     }
                 }
@@ -37,13 +31,12 @@ namespace NTMiner.View {
 
         public abstract void Link();
         public abstract Window CreateMainWindow();
-        public abstract Window CreateSplashWindow();
 
         public void ShowMainWindow(Application app, NTMinerAppType appType) {
             try {
                 switch (appType) {
                     case NTMinerAppType.MinerClient:
-                        Client.MinerClientService.ShowMainWindowAsync(Consts.MinerClientPort, (isSuccess, exception) => {
+                        Client.MinerClientService.ShowMainWindowAsync(VirtualRoot.MinerClientPort, (isSuccess, exception) => {
                             if (!isSuccess) {
                                 RestartNTMiner();
                             }
@@ -53,7 +46,7 @@ namespace NTMiner.View {
                         });
                         break;
                     case NTMinerAppType.MinerStudio:
-                        Client.MinerStudioService.ShowMainWindowAsync(Consts.MinerStudioPort, (isSuccess, exception) => {
+                        Client.MinerStudioService.ShowMainWindowAsync(VirtualRoot.MinerStudioPort, (isSuccess, exception) => {
                             if (!isSuccess) {
                                 RestartNTMiner();
                             }
