@@ -1,6 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NTMiner;
-using NTMiner.Core;
 using NTMiner.MinerClient;
 using System.IO;
 using System.Linq;
@@ -14,7 +13,7 @@ namespace UnitTests {
             Assert.IsTrue(NTMinerRoot.Instance.WorkerEventSet.LastWorkerEventId == 0);
             WorkerEventChannel eventChannel = WorkerEventChannel.MinerClient;
             string content = "this is a test";
-            VirtualRoot.Happened(new WorkerEvent(eventChannel, content));
+            NTMinerRoot.WorkerEvent(eventChannel, content);
             Assert.IsTrue(NTMinerRoot.Instance.WorkerEventSet.LastWorkerEventId == 1);
             var workerEvnets = NTMinerRoot.Instance.WorkerEventSet.GetEvents(WorkerEventChannel.Undefined, string.Empty).ToList();
             Assert.IsTrue(workerEvnets.Count == 1);
@@ -37,7 +36,7 @@ namespace UnitTests {
             WorkerEventChannel eventChannel = WorkerEventChannel.MinerClient;
             string content = "this is a test";
             for (int i = 0; i < times; i++) {
-                VirtualRoot.Happened(new WorkerEvent(eventChannel, content));
+                NTMinerRoot.WorkerEvent(eventChannel, content);
             }
             Assert.IsTrue(NTMinerRoot.Instance.WorkerEventSet.LastWorkerEventId == times);
             var workerEvnets = NTMinerRoot.Instance.WorkerEventSet.GetEvents(eventChannel, "test").ToList();

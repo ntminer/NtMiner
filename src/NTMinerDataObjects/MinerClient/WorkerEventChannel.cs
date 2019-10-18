@@ -2,7 +2,7 @@
     public enum WorkerEventChannel {
         Undefined = 0,
         /// <summary>
-        /// 挖矿端本地事件
+        /// 挖矿端本地事件或来自挖矿端的事件
         /// </summary>
         MinerClient = 1,
         /// <summary>
@@ -11,7 +11,7 @@
         /// </summary>
         MinerServer = 2,
         /// <summary>
-        /// 群控客户端本地事件
+        /// 群控客户端本地事件或来自群控客户端的事件
         /// </summary>
         MinerStudio = 3,
         /// <summary>

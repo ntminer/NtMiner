@@ -9,6 +9,8 @@
 
         public const int WorkerEventSetSliding = 1000;
 
+        public const string WorkerEventFromMinerStudio = "来自群控的请求：";
+
         #region 系统字典编码
         public const string KernelBrandSysDicCode = "KernelBrand";
         public const string PoolBrandSysDicCode = "PoolBrand";
