@@ -28,7 +28,7 @@
                 <controls:BindingProxy x:Key="proxy" Data="{Binding}" />
             </DataGrid.Resources>
             <DataGrid.Columns>
-                <DataGridTemplateColumn MinWidth="40" Width="60" IsReadOnly="True">
+                <DataGridTemplateColumn MinWidth="40" Width="40" IsReadOnly="True">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
                             <TextBlock Text="标识"></TextBlock>
@@ -64,10 +64,10 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn MinWidth="40" Width="60" IsReadOnly="True">
+                <DataGridTemplateColumn MinWidth="40" Width="70" IsReadOnly="True">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
-                            <TextBlock Text="级别"></TextBlock>
+                            <TextBlock Text="类型"></TextBlock>
                         </DataTemplate>
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
