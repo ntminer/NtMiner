@@ -2,6 +2,7 @@
 using NTMiner.Bus.DirectBus;
 using NTMiner.Ip;
 using NTMiner.Ip.Impl;
+using NTMiner.MinerClient;
 using NTMiner.Serialization;
 using System;
 using System.Diagnostics;
@@ -121,6 +122,10 @@ namespace NTMiner {
             SMessageDispatcher = new MessageDispatcher();
             SCommandBus = new DirectCommandBus(SMessageDispatcher);
             SEventBus = new DirectEventBus(SMessageDispatcher);
+        }
+
+        public static void WorkerEvent(WorkerEventChannel channel, string content) {
+            Happened(new WorkerEvent(channel, content));
         }
 
         #region ConvertToGuid

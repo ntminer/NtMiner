@@ -27,7 +27,7 @@ namespace NTMiner {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                NTMinerRoot.WorkerEvent(WorkerEventChannel.MinerStudio, $"{VirtualRoot.WorkerEventFromMinerStudio}退出挖矿端");
+                VirtualRoot.WorkerEvent(WorkerEventChannel.MinerStudio, $"{VirtualRoot.WorkerEventFromMinerStudio}退出挖矿端");
                 TimeSpan.FromMilliseconds(100).Delay().ContinueWith((t) => {
                     VirtualRoot.Execute(new CloseNTMinerCommand());
                 });
@@ -45,7 +45,7 @@ namespace NTMiner {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                NTMinerRoot.WorkerEvent(WorkerEventChannel.MinerStudio, $"{VirtualRoot.WorkerEventFromMinerStudio}开始挖矿");
+                VirtualRoot.WorkerEvent(WorkerEventChannel.MinerStudio, $"{VirtualRoot.WorkerEventFromMinerStudio}开始挖矿");
                 NTMinerRoot.Instance.RestartMine(isWork: request.WorkId != Guid.Empty);
                 return ResponseBase.Ok();
             }
@@ -61,7 +61,7 @@ namespace NTMiner {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                NTMinerRoot.WorkerEvent(WorkerEventChannel.MinerStudio, $"{VirtualRoot.WorkerEventFromMinerStudio}停止挖矿");
+                VirtualRoot.WorkerEvent(WorkerEventChannel.MinerStudio, $"{VirtualRoot.WorkerEventFromMinerStudio}停止挖矿");
                 NTMinerRoot.Instance.StopMineAsync(StopMineReason.RPCUserAction);
                 return ResponseBase.Ok();
             }
@@ -77,7 +77,7 @@ namespace NTMiner {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                NTMinerRoot.WorkerEvent(WorkerEventChannel.MinerStudio, $"{VirtualRoot.WorkerEventFromMinerStudio}设置挖矿参数");
+                VirtualRoot.WorkerEvent(WorkerEventChannel.MinerStudio, $"{VirtualRoot.WorkerEventFromMinerStudio}设置挖矿参数");
                 NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(request.PropertyName, request.Value);
                 return ResponseBase.Ok();
             }
@@ -106,7 +106,7 @@ namespace NTMiner {
 
         [HttpPost]
         public void OverClock() {
-            NTMinerRoot.WorkerEvent(WorkerEventChannel.MinerStudio, $"{VirtualRoot.WorkerEventFromMinerStudio}刷新超频");
+            VirtualRoot.WorkerEvent(WorkerEventChannel.MinerStudio, $"{VirtualRoot.WorkerEventFromMinerStudio}刷新超频");
             NTMinerRoot.Instance.GpuProfileSet.Refresh();
         }
     }

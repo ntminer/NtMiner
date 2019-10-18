@@ -1,6 +1,5 @@
 ﻿using NTMiner.Core;
 using NTMiner.JsonDb;
-using NTMiner.MinerClient;
 using NTMiner.MinerServer;
 using NTMiner.Profile;
 using NTMiner.Repositories;
@@ -312,9 +311,5 @@ namespace NTMiner {
             }
         }
         #endregion
-
-        public static void WorkerEvent(WorkerEventChannel channel, string content) {
-            VirtualRoot.Happened(new WorkerEvent(channel, content));
-        }
     }
 }

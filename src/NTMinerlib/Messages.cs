@@ -1,4 +1,5 @@
 ﻿using NTMiner.Bus;
+using NTMiner.MinerClient;
 using System;
 using System.Collections.Generic;
 
@@ -120,4 +121,17 @@ namespace NTMiner {
         public UserActionEvent() {
         }
     }
+
+    #region WorkerEvent Messages
+    [MessageType(description: "发生了矿机事件")]
+    public class WorkerEvent : EventBase {
+        public WorkerEvent(WorkerEventChannel Channel, string content) {
+            this.Channel = Channel;
+            this.Content = content;
+        }
+
+        public WorkerEventChannel Channel { get; private set; }
+        public string Content { get; private set; }
+    }
+    #endregion
 }
