@@ -9,8 +9,8 @@ namespace NTMiner {
         public static readonly bool IsLTWin10 = Environment.OSVersion.Version < new Version(6, 2);
         public static readonly string WorkerEventDbFileFullName = System.IO.Path.Combine(MainAssemblyInfo.HomeDirFullName, "workerEvent.litedb");
         
-        public static void WorkerEvent(WorkerEventChannel channel, WorkerEventType level, string content) {
-            WorkerEvents.Add(channel, level, content);
+        public static void WorkerEvent(WorkerEventChannel channel, WorkerEventType eventType, string content) {
+            WorkerEvents.Add(channel.GetName(), eventType.GetName(), content);
         }
 
         public class WorkerEventSet {
@@ -21,12 +21,12 @@ namespace NTMiner {
                 _connectionString = $"filename={WorkerEventDbFileFullName};journal=false";
             }
 
-            public void Add(WorkerEventChannel channel, WorkerEventType level, string content) {
+            public void Add(string channel, string eventType, string content) {
                 InitOnece();
                 var data = new WorkerEventData {
                     Id = 0,
                     Channel = channel,
-                    EventType = level,
+                    EventType = eventType,
                     Content = content,
                     EventOn = DateTime.Now
                 };

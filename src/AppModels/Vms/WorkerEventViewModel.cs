@@ -20,7 +20,7 @@ namespace NTMiner.Vms {
             }
         }
 
-        public WorkerEventChannel Channel {
+        public string Channel {
             get {
                 return _data.Channel;
             }
@@ -28,11 +28,14 @@ namespace NTMiner.Vms {
 
         public string ChannelText {
             get {
-                return _data.Channel.GetDescription();
+                if (_data.Channel.TryParse(out WorkerEventChannel channel)) {
+                    return channel.GetDescription();
+                }
+                return "未知";
             }
         }
 
-        public WorkerEventType EventType {
+        public string EventType {
             get {
                 return _data.EventType;
             }
@@ -40,24 +43,30 @@ namespace NTMiner.Vms {
 
         public string EventTypeText {
             get {
-                return _data.EventType.GetDescription();
+                if (_data.EventType.TryParse(out WorkerEventType eventType)) {
+                    return eventType.GetDescription();
+                }
+                return "未知";
             }
         }
 
         public SolidColorBrush Foreground {
             get {
-                switch (_data.EventType) {
-                    case WorkerEventType.Undefined:
-                        return Wpf.Util.BlackBrush;
-                    case WorkerEventType.Info:
-                        return Wpf.Util.BlackBrush;
-                    case WorkerEventType.Warn:
-                        return Wpf.Util.WarnBrush;
-                    case WorkerEventType.Error:
-                        return Wpf.Util.RedBrush;
-                    default:
-                        return Wpf.Util.BlackBrush;
+                if (_data.EventType.TryParse(out WorkerEventType eventType)) {
+                    switch (eventType) {
+                        case WorkerEventType.Undefined:
+                            return Wpf.Util.BlackBrush;
+                        case WorkerEventType.Info:
+                            return Wpf.Util.BlackBrush;
+                        case WorkerEventType.Warn:
+                            return Wpf.Util.WarnBrush;
+                        case WorkerEventType.Error:
+                            return Wpf.Util.RedBrush;
+                        default:
+                            return Wpf.Util.BlackBrush;
+                    }
                 }
+                return Wpf.Util.BlackBrush;
             }
         }
 
