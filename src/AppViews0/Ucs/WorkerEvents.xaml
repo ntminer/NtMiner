@@ -52,6 +52,7 @@
 						Fill="Red"
 						Stretch="Fill" />
                     <TextBlock>错误</TextBlock>
+                    <TextBlock Margin="4 0 0 0" Text="{Binding ErrorCount}"></TextBlock>
                 </WrapPanel>
             </CheckBox>
             <CheckBox Margin="10 0 0 0" IsChecked="True">
@@ -63,6 +64,7 @@
 						Fill="#9EA1CE"
 						Stretch="Fill" />
                     <TextBlock>警告</TextBlock>
+                    <TextBlock Margin="4 0 0 0" Text="{Binding WarnCount}"></TextBlock>
                 </WrapPanel>
             </CheckBox>
             <CheckBox Margin="10 0 0 0" IsChecked="True">
@@ -74,6 +76,7 @@
 						Fill="{StaticResource IconFillColor}"
 						Stretch="Fill" />
                     <TextBlock>消息</TextBlock>
+                    <TextBlock Margin="4 0 0 0" Text="{Binding InfoCount}"></TextBlock>
                 </WrapPanel>
             </CheckBox>
         </WrapPanel>

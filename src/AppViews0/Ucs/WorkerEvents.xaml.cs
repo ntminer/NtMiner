@@ -18,6 +18,7 @@ namespace NTMiner.Views.Ucs {
                     action: message => {
                         UIThread.Execute(() => {
                             Vm.WorkerEventVms.Insert(0, new WorkerEventViewModel(message.Source));
+                            Vm.RefreshCount(message.Source);
                         });
                     });
             });
