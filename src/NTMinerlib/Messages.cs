@@ -5,21 +5,6 @@ using System.Collections.Generic;
 namespace NTMiner {
 
     #region abstract
-    public abstract class DomainEvent<TEntity> : IEvent {
-        protected DomainEvent(TEntity source) {
-            this.Id = Guid.NewGuid();
-            this.Source = source;
-            this.Timestamp = DateTime.Now;
-        }
-        public Guid GetId() {
-            return this.Id;
-        }
-
-        public Guid Id { get; private set; }
-        public DateTime Timestamp { get; private set; }
-        public TEntity Source { get; private set; }
-    }
-
     public abstract class AddEntityCommand<TEntity> : Cmd where TEntity : class, IEntity<Guid> {
         protected AddEntityCommand(TEntity input) {
             this.Input = input ?? throw new ArgumentNullException(nameof(input));

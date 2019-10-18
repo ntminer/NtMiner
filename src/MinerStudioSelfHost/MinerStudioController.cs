@@ -1,4 +1,5 @@
 ﻿using NTMiner.Controllers;
+using NTMiner.MinerClient;
 using System;
 using System.Web.Http;
 
@@ -25,6 +26,7 @@ namespace NTMiner {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
+                VirtualRoot.WorkerEvent(WorkerEventChannel.Local, WorkerEventType.Info, $"{VirtualRoot.RPCWorkerEvent}退出群控端");
                 TimeSpan.FromMilliseconds(100).Delay().ContinueWith(t => {
                     VirtualRoot.Execute(new CloseNTMinerCommand());
                 });

@@ -16,8 +16,7 @@ namespace NTMiner {
 
             LocalDbFileFullName = Path.Combine(MainAssemblyInfo.HomeDirFullName, "local.litedb");
             LocalJsonFileFullName = Path.Combine(MainAssemblyInfo.HomeDirFullName, "local.json");
-            GpuProfilesJsonFileFullName = Path.Combine(MainAssemblyInfo.HomeDirFullName, "gpuProfiles.json");
-            WorkerEventDbFileFullName = Path.Combine(MainAssemblyInfo.HomeDirFullName, "workerEvent.litedb");
+            GpuProfilesJsonFileFullName = Path.Combine(MainAssemblyInfo.HomeDirFullName, "gpuProfiles.json");           
             if (MainAssemblyInfo.IsLocalHome && !File.Exists(MainAssemblyInfo.RootLockFileFullName)) {
                 if (VirtualRoot.IsMinerClient) {
                     #region 迁移
@@ -53,8 +52,8 @@ namespace NTMiner {
                         File.Copy(shareGpuProfilesJsonFileFullName, GpuProfilesJsonFileFullName);
                     }
                     string shareWorkerEventDbFileFullName = Path.Combine(MainAssemblyInfo.TempDirFullName, "workerEvent.litedb");
-                    if (File.Exists(shareWorkerEventDbFileFullName) && !File.Exists(WorkerEventDbFileFullName)) {
-                        File.Copy(shareWorkerEventDbFileFullName, WorkerEventDbFileFullName);
+                    if (File.Exists(shareWorkerEventDbFileFullName) && !File.Exists(VirtualRoot.WorkerEventDbFileFullName)) {
+                        File.Copy(shareWorkerEventDbFileFullName, VirtualRoot.WorkerEventDbFileFullName);
                     }
                     string shareUpdaterFileFullName = Path.Combine(MainAssemblyInfo.TempDirFullName, "Updater", "NTMinerUpdater.exe");
                     if (File.Exists(shareUpdaterFileFullName) && !File.Exists(UpdaterFileFullName)) {
@@ -110,7 +109,6 @@ namespace NTMiner {
         public static readonly string LocalJsonFileFullName;
         public static readonly string GpuProfilesJsonFileFullName;
 
-        public static readonly string WorkerEventDbFileFullName;
         public static readonly string ServerDbFileFullName;
 
         public static readonly string ServerJsonFileFullName;

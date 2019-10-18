@@ -78,6 +78,7 @@ namespace NTMiner {
         public static readonly IMessageDispatcher SMessageDispatcher;
         private static readonly ICmdBus SCommandBus;
         private static readonly IEventBus SEventBus;
+        public static readonly WorkerEventSet WorkerEvents;
         #region Out
         private static IOut _out;
         /// <summary>
@@ -121,6 +122,7 @@ namespace NTMiner {
             SMessageDispatcher = new MessageDispatcher();
             SCommandBus = new DirectCommandBus(SMessageDispatcher);
             SEventBus = new DirectEventBus(SMessageDispatcher);
+            WorkerEvents = new WorkerEventSet();
         }
 
         #region ConvertToGuid

@@ -357,6 +357,12 @@ namespace NTMiner {
             }
         }
 
+        public static IEnumerable<EnumItem<WorkerEventChannel>> WorkerEventChannelEnumItems {
+            get {
+                return NTMinerRoot.WorkerEventChannelEnumItems;
+            }
+        }
+
         public static string CurrentVersion {
             get {
                 return MainAssemblyInfo.CurrentVersion.ToString();

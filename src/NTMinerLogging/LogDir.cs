@@ -1,4 +1,4 @@
-﻿namespace NTMiner.Logging {
+﻿namespace NTMiner {
     public static class LogDir {
         private static string s_logDir;
         public static string Dir {

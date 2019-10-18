@@ -44,9 +44,9 @@
     <Compile Include="DevMode.cs" />
     <Compile Include="ExceptionExtension.cs" />
     <Compile Include="Logger.cs" />
-    <Compile Include="Logging\ILoggingService.cs" />
-    <Compile Include="Logging\Log4NetLoggingService.cs" />
-    <Compile Include="Logging\LogDir.cs" />
+    <Compile Include="ILoggingService.cs" />
+    <Compile Include="Impl\Log4NetLoggingService.cs" />
+    <Compile Include="LogDir.cs" />
     <Compile Include="MessageType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Write.cs" />

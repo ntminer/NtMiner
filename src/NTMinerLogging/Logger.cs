@@ -1,4 +1,4 @@
-﻿using NTMiner.Logging;
+﻿using NTMiner.Impl;
 using System;
 
 namespace NTMiner {

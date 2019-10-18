@@ -18,6 +18,148 @@
         <vm:WorkerEventsViewModel></vm:WorkerEventsViewModel>
     </UserControl.DataContext>
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <WrapPanel>
+            <ListBox 
+			    Background="Transparent"
+			    ItemsSource="{x:Static app:AppStatic.WorkerEventChannelEnumItems}"
+			    SelectedItem="{Binding SelectedChannel}"
+			    MouseDown="ListBox_MouseDown"
+			    ItemContainerStyle="{StaticResource ListBoxBarItem}"
+			    BorderThickness="0">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel>
+                        </WrapPanel>
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Padding="10 2" Text="{Binding Description}">
+                        </TextBlock>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <CheckBox Margin="10 0 0 0" IsChecked="True">
+                <WrapPanel>
+                    <Path
+						Width="14"
+						Height="14"
+						Data="{StaticResource Icon_Error}"
+						Fill="Red"
+						Stretch="Fill" />
+                    <TextBlock>错误</TextBlock>
+                    <TextBlock Margin="4 0 0 0" Text="{Binding ErrorCount}"></TextBlock>
+                </WrapPanel>
+            </CheckBox>
+            <CheckBox Margin="10 0 0 0" IsChecked="True">
+                <WrapPanel>
+                    <Path
+						Width="14"
+						Height="14"
+						Data="{StaticResource Icon_Waring}"
+						Fill="#9EA1CE"
+						Stretch="Fill" />
+                    <TextBlock>警告</TextBlock>
+                    <TextBlock Margin="4 0 0 0" Text="{Binding WarnCount}"></TextBlock>
+                </WrapPanel>
+            </CheckBox>
+            <CheckBox Margin="10 0 0 0" IsChecked="True">
+                <WrapPanel>
+                    <Path
+						Width="14"
+						Height="14"
+						Data="{StaticResource Icon_Info}"
+						Fill="{StaticResource IconFillColor}"
+						Stretch="Fill" />
+                    <TextBlock>消息</TextBlock>
+                    <TextBlock Margin="4 0 0 0" Text="{Binding InfoCount}"></TextBlock>
+                </WrapPanel>
+            </CheckBox>
+        </WrapPanel>
+        <DataGrid 
+            Grid.Row="1"
+			ItemsSource="{Binding WorkerEventVms}" 
+			Background="Transparent" 
+			ColumnHeaderHeight="34"
+			HorizontalScrollBarVisibility="Auto"
+            BorderThickness="0">
+            <DataGrid.Resources>
+                <controls:BindingProxy x:Key="proxy" Data="{Binding}" />
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTemplateColumn MinWidth="40" Width="40" IsReadOnly="True">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="标识"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Id}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn MinWidth="100" Width="120" IsReadOnly="True">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="时间"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding EventOnText}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn MinWidth="40" Width="60" IsReadOnly="True">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="频道"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ChannelText}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn MinWidth="40" Width="60" IsReadOnly="True">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="类型"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <WrapPanel>
+                                <Path
+						            Width="14"
+						            Height="14"
+						            Data="{Binding EventTypeIcon}"
+						            Fill="{Binding IconFill}"
+						            Stretch="Fill" />
+                                <TextBlock Margin="2 0 0 0" Text="{Binding EventTypeText}" Foreground="{Binding Foreground}"></TextBlock>
+                            </WrapPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn MinWidth="100" Width="*" IsReadOnly="True">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="内容"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Content}" Foreground="{Binding Foreground}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </UserControl>

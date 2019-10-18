@@ -89,6 +89,9 @@
     <Compile Include="..\MinerClient\RemoteDesktopEnabler\Rdp.cs">
       <Link>RemoteDesktopEnabler\Rdp.cs</Link>
     </Compile>
+    <Compile Include="..\NTMinerlib\EnumExtension.cs">
+      <Link>EnumExtension.cs</Link>
+    </Compile>
     <Compile Include="..\NTMinerlib\Messages.Timing.cs">
       <Link>Messages.Timing.cs</Link>
     </Compile>
@@ -127,6 +130,9 @@
     </Compile>
     <Compile Include="..\NTMinerlib\Windows\WinRegistry.cs">
       <Link>Windows\WinRegistry.cs</Link>
+    </Compile>
+    <Compile Include="..\NTMinerlib\WorkerEvent.cs">
+      <Link>WorkerEvent.cs</Link>
     </Compile>
     <Compile Include="..\NTMiner\Windows\Power.cs">
       <Link>Windows\Power.cs</Link>

@@ -790,8 +790,6 @@ namespace NTMiner {
 
         public IKernelOutputTranslaterSet KernelOutputTranslaterSet { get; private set; }
 
-        public IWorkerEventSet WorkerEventSet { get; private set; } = new WorkerEventSet();
-
         public IKernelOutputKeywordSet KernelOutputKeywordSet { get; private set; }
     }
 }

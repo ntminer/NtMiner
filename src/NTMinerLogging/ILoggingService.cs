@@ -1,5 +1,5 @@
 ﻿
-namespace NTMiner.Logging {
+namespace NTMiner {
     using System;
 
     public interface ILoggingService {
