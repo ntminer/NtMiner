@@ -10,62 +10,60 @@ namespace NTMiner.Core.MinerServer.Impl {
         private readonly INTMinerRoot _root;
         public ServerAppSettingSet(INTMinerRoot root) {
             _root = root;
-            VirtualRoot.CreateCmdPath<ChangeServerAppSettingCommand>(
-                action: message => {
-                    if (message.AppSetting == null) {
-                        return;
+            VirtualRoot.CreateCmdPath<ChangeServerAppSettingCommand>(action: message => {
+                if (message.AppSetting == null) {
+                    return;
+                }
+                AppSettingData oldValue;
+                if (_dicByKey.TryGetValue(message.AppSetting.Key, out AppSettingData entity)) {
+                    oldValue = new AppSettingData {
+                        Key = entity.Key,
+                        Value = entity.Value
+                    };
+                    entity.Value = message.AppSetting.Value;
+                }
+                else {
+                    entity = AppSettingData.Create(message.AppSetting);
+                    oldValue = null;
+                    _dicByKey.Add(message.AppSetting.Key, entity);
+                }
+                Server.AppSettingService.SetAppSettingAsync(entity, (response, exception) => {
+                    if (!response.IsSuccess()) {
+                        if (oldValue == null) {
+                            _dicByKey.Remove(message.AppSetting.Key);
+                        }
+                        else {
+                            entity.Value = oldValue.Value;
+                        }
+                        Write.UserFail(response.ReadMessage(exception));
+                        VirtualRoot.Happened(new ServerAppSettingChangedEvent(entity));
                     }
+                });
+                VirtualRoot.Happened(new ServerAppSettingChangedEvent(entity));
+            });
+            VirtualRoot.CreateCmdPath<ChangeServerAppSettingsCommand>(action: message => {
+                if (message.AppSettings == null) {
+                    return;
+                }
+                foreach (var item in message.AppSettings) {
                     AppSettingData oldValue;
-                    if (_dicByKey.TryGetValue(message.AppSetting.Key, out AppSettingData entity)) {
+                    if (_dicByKey.TryGetValue(item.Key, out AppSettingData entity)) {
                         oldValue = new AppSettingData {
                             Key = entity.Key,
                             Value = entity.Value
                         };
-                        entity.Value = message.AppSetting.Value;
+                        entity.Value = item.Value;
                     }
                     else {
-                        entity = AppSettingData.Create(message.AppSetting);
+                        entity = AppSettingData.Create(item);
                         oldValue = null;
-                        _dicByKey.Add(message.AppSetting.Key, entity);
+                        _dicByKey.Add(item.Key, entity);
                     }
-                    Server.AppSettingService.SetAppSettingAsync(entity, (response, exception) => {
-                        if (!response.IsSuccess()) {
-                            if (oldValue == null) {
-                                _dicByKey.Remove(message.AppSetting.Key);
-                            }
-                            else {
-                                entity.Value = oldValue.Value;
-                            }
-                            Write.UserFail(response.ReadMessage(exception));
-                            VirtualRoot.Happened(new ServerAppSettingChangedEvent(entity));
-                        }
-                    });
                     VirtualRoot.Happened(new ServerAppSettingChangedEvent(entity));
+                }
+                Server.AppSettingService.SetAppSettingsAsync(message.AppSettings.Select(a => AppSettingData.Create(a)).ToList(), (response, exception) => {
                 });
-            VirtualRoot.CreateCmdPath<ChangeServerAppSettingsCommand>(
-                action: message => {
-                    if (message.AppSettings == null) {
-                        return;
-                    }
-                    foreach (var item in message.AppSettings) {
-                        AppSettingData oldValue;
-                        if (_dicByKey.TryGetValue(item.Key, out AppSettingData entity)) {
-                            oldValue = new AppSettingData {
-                                Key = entity.Key,
-                                Value = entity.Value
-                            };
-                            entity.Value = item.Value;
-                        }
-                        else {
-                            entity = AppSettingData.Create(item);
-                            oldValue = null;
-                            _dicByKey.Add(item.Key, entity);
-                        }
-                        VirtualRoot.Happened(new ServerAppSettingChangedEvent(entity));
-                    }
-                    Server.AppSettingService.SetAppSettingsAsync(message.AppSettings.Select(a=>AppSettingData.Create(a)).ToList(), (response, exception) => {
-                    });
-                });
+            });
         }
 
         private bool _isInited = false;

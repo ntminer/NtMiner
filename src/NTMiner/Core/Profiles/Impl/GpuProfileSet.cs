@@ -12,27 +12,25 @@ namespace NTMiner.Core.Profiles.Impl {
         private GpuProfilesJsonDb _data = new GpuProfilesJsonDb();
 
         public GpuProfileSet(INTMinerRoot root) {
-            VirtualRoot.CreateCmdPath<AddOrUpdateGpuProfileCommand>(
-                action: message => {
-                    GpuProfileData data = _data.GpuProfiles.FirstOrDefault(a => a.CoinId == message.Input.CoinId && a.Index == message.Input.Index);
-                    if (data != null) {
-                        data.Update(message.Input);
-                        Save();
-                    }
-                    else {
-                        data = new GpuProfileData(message.Input);
-                        _data.GpuProfiles.Add(data);
-                        Save();
-                    }
-                    VirtualRoot.Happened(new GpuProfileAddedOrUpdatedEvent(data));
+            VirtualRoot.CreateCmdPath<AddOrUpdateGpuProfileCommand>(action: message => {
+                GpuProfileData data = _data.GpuProfiles.FirstOrDefault(a => a.CoinId == message.Input.CoinId && a.Index == message.Input.Index);
+                if (data != null) {
+                    data.Update(message.Input);
+                    Save();
+                }
+                else {
+                    data = new GpuProfileData(message.Input);
+                    _data.GpuProfiles.Add(data);
+                    Save();
+                }
+                VirtualRoot.Happened(new GpuProfileAddedOrUpdatedEvent(data));
+            });
+            VirtualRoot.CreateCmdPath<CoinOverClockCommand>(action: message => {
+                Task.Factory.StartNew(() => {
+                    CoinOverClock(root, message.CoinId);
+                    VirtualRoot.Happened(new CoinOverClockDoneEvent(message.Id));
                 });
-            VirtualRoot.CreateCmdPath<CoinOverClockCommand>(
-                action: message => {
-                    Task.Factory.StartNew(() => {
-                        CoinOverClock(root, message.CoinId);
-                        VirtualRoot.Happened(new CoinOverClockDoneEvent(message.Id));
-                    });
-                });
+            });
         }
 
         public void Refresh() {

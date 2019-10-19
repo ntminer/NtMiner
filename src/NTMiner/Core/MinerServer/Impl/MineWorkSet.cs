@@ -6,70 +6,67 @@ using System.Collections.Generic;
 namespace NTMiner.Core.MinerServer.Impl {
     public class MineWorkSet : IMineWorkSet {
         private readonly Dictionary<Guid, MineWorkData> _dicById = new Dictionary<Guid, MineWorkData>();
-        
+
         private readonly INTMinerRoot _root;
         public MineWorkSet(INTMinerRoot root) {
             _root = root;
-            VirtualRoot.CreateCmdPath<AddMineWorkCommand>(
-                action: (message) => {
-                    InitOnece();
-                    if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
-                        throw new ArgumentNullException();
+            VirtualRoot.CreateCmdPath<AddMineWorkCommand>(action: (message) => {
+                InitOnece();
+                if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
+                    throw new ArgumentNullException();
+                }
+                if (_dicById.ContainsKey(message.Input.GetId())) {
+                    return;
+                }
+                MineWorkData entity = new MineWorkData().Update(message.Input);
+                var response = Server.ControlCenterService.AddOrUpdateMineWork(entity);
+                if (response.IsSuccess()) {
+                    _dicById.Add(entity.Id, entity);
+                    VirtualRoot.Happened(new MineWorkAddedEvent(entity));
+                }
+                else {
+                    Write.UserFail(response?.Description);
+                }
+            });
+            VirtualRoot.CreateCmdPath<UpdateMineWorkCommand>(action: (message) => {
+                InitOnece();
+                if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
+                    throw new ArgumentNullException();
+                }
+                if (!_dicById.ContainsKey(message.Input.GetId())) {
+                    return;
+                }
+                MineWorkData entity = _dicById[message.Input.GetId()];
+                MineWorkData oldValue = new MineWorkData().Update(entity);
+                entity.Update(message.Input);
+                Server.ControlCenterService.AddOrUpdateMineWorkAsync(entity, (response, exception) => {
+                    if (!response.IsSuccess()) {
+                        entity.Update(oldValue);
+                        VirtualRoot.Happened(new MineWorkUpdatedEvent(entity));
+                        Write.UserFail(response.ReadMessage(exception));
                     }
-                    if (_dicById.ContainsKey(message.Input.GetId())) {
-                        return;
-                    }
-                    MineWorkData entity = new MineWorkData().Update(message.Input);
-                    var response = Server.ControlCenterService.AddOrUpdateMineWork(entity);
+                });
+                VirtualRoot.Happened(new MineWorkUpdatedEvent(entity));
+            });
+            VirtualRoot.CreateCmdPath<RemoveMineWorkCommand>(action: (message) => {
+                InitOnece();
+                if (message == null || message.EntityId == Guid.Empty) {
+                    throw new ArgumentNullException();
+                }
+                if (!_dicById.ContainsKey(message.EntityId)) {
+                    return;
+                }
+                MineWorkData entity = _dicById[message.EntityId];
+                Server.ControlCenterService.RemoveMineWorkAsync(entity.Id, (response, exception) => {
                     if (response.IsSuccess()) {
-                        _dicById.Add(entity.Id, entity);
-                        VirtualRoot.Happened(new MineWorkAddedEvent(entity));
+                        _dicById.Remove(entity.Id);
+                        VirtualRoot.Happened(new MineWorkRemovedEvent(entity));
                     }
                     else {
-                        Write.UserFail(response?.Description);
+                        Write.UserFail(response.ReadMessage(exception));
                     }
                 });
-            VirtualRoot.CreateCmdPath<UpdateMineWorkCommand>(
-                action: (message) => {
-                    InitOnece();
-                    if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
-                        throw new ArgumentNullException();
-                    }
-                    if (!_dicById.ContainsKey(message.Input.GetId())) {
-                        return;
-                    }
-                    MineWorkData entity = _dicById[message.Input.GetId()];
-                    MineWorkData oldValue = new MineWorkData().Update(entity);
-                    entity.Update(message.Input);
-                    Server.ControlCenterService.AddOrUpdateMineWorkAsync(entity, (response, exception) => {
-                        if (!response.IsSuccess()) {
-                            entity.Update(oldValue);
-                            VirtualRoot.Happened(new MineWorkUpdatedEvent(entity));
-                            Write.UserFail(response.ReadMessage(exception));
-                        }
-                    });
-                    VirtualRoot.Happened(new MineWorkUpdatedEvent(entity));
-                });
-            VirtualRoot.CreateCmdPath<RemoveMineWorkCommand>(
-                action: (message) => {
-                    InitOnece();
-                    if (message == null || message.EntityId == Guid.Empty) {
-                        throw new ArgumentNullException();
-                    }
-                    if (!_dicById.ContainsKey(message.EntityId)) {
-                        return;
-                    }
-                    MineWorkData entity = _dicById[message.EntityId];
-                    Server.ControlCenterService.RemoveMineWorkAsync(entity.Id, (response, exception) => {
-                        if (response.IsSuccess()) {
-                            _dicById.Remove(entity.Id);
-                            VirtualRoot.Happened(new MineWorkRemovedEvent(entity));
-                        }
-                        else {
-                            Write.UserFail(response.ReadMessage(exception));
-                        }
-                    });
-                });
+            });
         }
 
         private bool _isInited = false;

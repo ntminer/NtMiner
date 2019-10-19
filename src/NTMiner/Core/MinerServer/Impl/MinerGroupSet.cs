@@ -10,73 +10,70 @@ namespace NTMiner.Core.MinerServer.Impl {
 
         public MinerGroupSet(INTMinerRoot root) {
             _root = root;
-            VirtualRoot.CreateCmdPath<AddMinerGroupCommand>(
-                action: (message) => {
-                    InitOnece();
-                    if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
-                        throw new ArgumentNullException();
+            VirtualRoot.CreateCmdPath<AddMinerGroupCommand>(action: (message) => {
+                InitOnece();
+                if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
+                    throw new ArgumentNullException();
+                }
+                if (string.IsNullOrEmpty(message.Input.Name)) {
+                    throw new ValidationException("minerGroup name can't be null or empty");
+                }
+                if (_dicById.ContainsKey(message.Input.GetId())) {
+                    return;
+                }
+                MinerGroupData entity = new MinerGroupData().Update(message.Input);
+                Server.ControlCenterService.AddOrUpdateMinerGroupAsync(entity, (response, exception) => {
+                    if (response.IsSuccess()) {
+                        _dicById.Add(entity.Id, entity);
+                        VirtualRoot.Happened(new MinerGroupAddedEvent(entity));
                     }
-                    if (string.IsNullOrEmpty(message.Input.Name)) {
-                        throw new ValidationException("minerGroup name can't be null or empty");
+                    else {
+                        Write.UserFail(response.ReadMessage(exception));
                     }
-                    if (_dicById.ContainsKey(message.Input.GetId())) {
-                        return;
-                    }
-                    MinerGroupData entity = new MinerGroupData().Update(message.Input);
-                    Server.ControlCenterService.AddOrUpdateMinerGroupAsync(entity, (response, exception) => {
-                        if (response.IsSuccess()) {
-                            _dicById.Add(entity.Id, entity);
-                            VirtualRoot.Happened(new MinerGroupAddedEvent(entity));
-                        }
-                        else {
-                            Write.UserFail(response.ReadMessage(exception));
-                        }
-                    });
                 });
-            VirtualRoot.CreateCmdPath<UpdateMinerGroupCommand>(
-                action: (message) => {
-                    InitOnece();
-                    if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
-                        throw new ArgumentNullException();
+            });
+            VirtualRoot.CreateCmdPath<UpdateMinerGroupCommand>(action: (message) => {
+                InitOnece();
+                if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
+                    throw new ArgumentNullException();
+                }
+                if (string.IsNullOrEmpty(message.Input.Name)) {
+                    throw new ValidationException("minerGroup name can't be null or empty");
+                }
+                if (!_dicById.ContainsKey(message.Input.GetId())) {
+                    return;
+                }
+                MinerGroupData entity = _dicById[message.Input.GetId()];
+                MinerGroupData oldValue = new MinerGroupData().Update(entity);
+                entity.Update(message.Input);
+                Server.ControlCenterService.AddOrUpdateMinerGroupAsync(entity, (response, exception) => {
+                    if (!response.IsSuccess()) {
+                        entity.Update(oldValue);
+                        VirtualRoot.Happened(new MinerGroupUpdatedEvent(entity));
+                        Write.UserFail(response.ReadMessage(exception));
                     }
-                    if (string.IsNullOrEmpty(message.Input.Name)) {
-                        throw new ValidationException("minerGroup name can't be null or empty");
-                    }
-                    if (!_dicById.ContainsKey(message.Input.GetId())) {
-                        return;
-                    }
-                    MinerGroupData entity = _dicById[message.Input.GetId()];
-                    MinerGroupData oldValue = new MinerGroupData().Update(entity);
-                    entity.Update(message.Input);
-                    Server.ControlCenterService.AddOrUpdateMinerGroupAsync(entity, (response, exception) => {
-                        if (!response.IsSuccess()) {
-                            entity.Update(oldValue);
-                            VirtualRoot.Happened(new MinerGroupUpdatedEvent(entity));
-                            Write.UserFail(response.ReadMessage(exception));
-                        }
-                    });
-                    VirtualRoot.Happened(new MinerGroupUpdatedEvent(entity));
                 });
-            VirtualRoot.CreateCmdPath<RemoveMinerGroupCommand>(
-                action: (message) => {
-                    InitOnece();
-                    if (message == null || message.EntityId == Guid.Empty) {
-                        throw new ArgumentNullException();
+                VirtualRoot.Happened(new MinerGroupUpdatedEvent(entity));
+            });
+            VirtualRoot.CreateCmdPath<RemoveMinerGroupCommand>(action: (message) => {
+                InitOnece();
+                if (message == null || message.EntityId == Guid.Empty) {
+                    throw new ArgumentNullException();
+                }
+                if (!_dicById.ContainsKey(message.EntityId)) {
+                    return;
+                }
+                MinerGroupData entity = _dicById[message.EntityId];
+                Server.ControlCenterService.RemoveMinerGroupAsync(entity.Id, (response, exception) => {
+                    if (response.IsSuccess()) {
+                        _dicById.Remove(entity.Id);
+                        VirtualRoot.Happened(new MinerGroupRemovedEvent(entity));
                     }
-                    if (!_dicById.ContainsKey(message.EntityId)) {
-                        return;
+                    else {
+                        Write.UserFail(response.ReadMessage(exception));
                     }
-                    MinerGroupData entity = _dicById[message.EntityId];
-                    Server.ControlCenterService.RemoveMinerGroupAsync(entity.Id, (response, exception) => {
-                        if (response.IsSuccess()) {
-                            _dicById.Remove(entity.Id);
-                            VirtualRoot.Happened(new MinerGroupRemovedEvent(entity));
-                        }
-                        else {
-                            Write.UserFail(response.ReadMessage(exception));
-                        }
-                    });
                 });
+            });
         }
 
         private bool _isInited = false;

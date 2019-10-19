@@ -11,42 +11,39 @@ namespace NTMiner.Data.Impl {
         private readonly string _dbFileFullName;
         public UserSet(string dbFileFullName) {
             _dbFileFullName = dbFileFullName;
-            VirtualRoot.CreateCmdPath<AddUserCommand>(
-                action: message => {
-                    if (!_dicByLoginName.ContainsKey(message.User.LoginName)) {
-                        UserData entity = new UserData(message.User);
-                        _dicByLoginName.Add(message.User.LoginName, entity);
-                        using (LiteDatabase db = new LiteDatabase(_dbFileFullName)) {
-                            var col = db.GetCollection<UserData>();
-                            col.Insert(entity);
-                        }
-                        VirtualRoot.Happened(new UserAddedEvent(entity));
+            VirtualRoot.CreateCmdPath<AddUserCommand>(action: message => {
+                if (!_dicByLoginName.ContainsKey(message.User.LoginName)) {
+                    UserData entity = new UserData(message.User);
+                    _dicByLoginName.Add(message.User.LoginName, entity);
+                    using (LiteDatabase db = new LiteDatabase(_dbFileFullName)) {
+                        var col = db.GetCollection<UserData>();
+                        col.Insert(entity);
                     }
-                });
-            VirtualRoot.CreateCmdPath<UpdateUserCommand>(
-                action: message => {
-                    if (_dicByLoginName.ContainsKey(message.User.LoginName)) {
-                        UserData entity = _dicByLoginName[message.User.LoginName];
-                        entity.Update(message.User);
-                        using (LiteDatabase db = new LiteDatabase(_dbFileFullName)) {
-                            var col = db.GetCollection<UserData>();
-                            col.Update(entity);
-                        }
-                        VirtualRoot.Happened(new UserUpdatedEvent(entity));
+                    VirtualRoot.Happened(new UserAddedEvent(entity));
+                }
+            });
+            VirtualRoot.CreateCmdPath<UpdateUserCommand>(action: message => {
+                if (_dicByLoginName.ContainsKey(message.User.LoginName)) {
+                    UserData entity = _dicByLoginName[message.User.LoginName];
+                    entity.Update(message.User);
+                    using (LiteDatabase db = new LiteDatabase(_dbFileFullName)) {
+                        var col = db.GetCollection<UserData>();
+                        col.Update(entity);
                     }
-                });
-            VirtualRoot.CreateCmdPath<RemoveUserCommand>(
-                action: message => {
-                    if (_dicByLoginName.ContainsKey(message.LoginName)) {
-                        UserData entity = _dicByLoginName[message.LoginName];
-                        _dicByLoginName.Remove(entity.LoginName);
-                        using (LiteDatabase db = new LiteDatabase(_dbFileFullName)) {
-                            var col = db.GetCollection<UserData>();
-                            col.Delete(message.LoginName);
-                        }
-                        VirtualRoot.Happened(new UserRemovedEvent(entity));
+                    VirtualRoot.Happened(new UserUpdatedEvent(entity));
+                }
+            });
+            VirtualRoot.CreateCmdPath<RemoveUserCommand>(action: message => {
+                if (_dicByLoginName.ContainsKey(message.LoginName)) {
+                    UserData entity = _dicByLoginName[message.LoginName];
+                    _dicByLoginName.Remove(entity.LoginName);
+                    using (LiteDatabase db = new LiteDatabase(_dbFileFullName)) {
+                        var col = db.GetCollection<UserData>();
+                        col.Delete(message.LoginName);
                     }
-                });
+                    VirtualRoot.Happened(new UserRemovedEvent(entity));
+                }
+            });
         }
 
         private bool _isInited = false;

@@ -9,62 +9,59 @@ namespace NTMiner.Core.MinerServer.Impl {
         private Dictionary<string, UserData> _dicByLoginName = new Dictionary<string, UserData>();
 
         public UserSet() {
-            VirtualRoot.CreateCmdPath<AddUserCommand>(
-                action: message => {
-                    if (!_dicByLoginName.ContainsKey(message.User.LoginName)) {
-                        Server.ControlCenterService.AddUserAsync(new UserData {
-                            LoginName = message.User.LoginName,
-                            Password = message.User.Password,
-                            IsEnabled = message.User.IsEnabled,
-                            Description = message.User.Description
-                        }, (response, exception) => {
-                            if (response.IsSuccess()) {
-                                UserData entity = new UserData(message.User);
-                                _dicByLoginName.Add(message.User.LoginName, entity);
-                                VirtualRoot.Happened(new UserAddedEvent(entity));
-                            }
-                            else {
-                                Write.UserFail(response.ReadMessage(exception));
-                            }
-                        });
-                    }
-                });
-            VirtualRoot.CreateCmdPath<UpdateUserCommand>(
-                action: message => {
-                    if (_dicByLoginName.ContainsKey(message.User.LoginName)) {
-                        UserData entity = _dicByLoginName[message.User.LoginName];
-                        UserData oldValue = new UserData(entity);
-                        entity.Update(message.User);
-                        Server.ControlCenterService.UpdateUserAsync(new UserData {
-                            LoginName = message.User.LoginName,
-                            Password = message.User.Password,
-                            IsEnabled = message.User.IsEnabled,
-                            Description = message.User.Description
-                        }, (response, exception) => {
-                            if (!response.IsSuccess()) {
-                                entity.Update(oldValue);
-                                VirtualRoot.Happened(new UserUpdatedEvent(entity));
-                                Write.UserFail(response.ReadMessage(exception));
-                            }
-                        });
-                        VirtualRoot.Happened(new UserUpdatedEvent(entity));
-                    }
-                });
-            VirtualRoot.CreateCmdPath<RemoveUserCommand>(
-                action: message => {
-                    if (_dicByLoginName.ContainsKey(message.LoginName)) {
-                        UserData entity = _dicByLoginName[message.LoginName];
-                        Server.ControlCenterService.RemoveUserAsync(message.LoginName, (response, exception) => {
-                            if (response.IsSuccess()) {
-                                _dicByLoginName.Remove(entity.LoginName);
-                                VirtualRoot.Happened(new UserRemovedEvent(entity));
-                            }
-                            else {
-                                Write.UserFail(response.ReadMessage(exception));
-                            }
-                        });
-                    }
-                });
+            VirtualRoot.CreateCmdPath<AddUserCommand>(action: message => {
+                if (!_dicByLoginName.ContainsKey(message.User.LoginName)) {
+                    Server.ControlCenterService.AddUserAsync(new UserData {
+                        LoginName = message.User.LoginName,
+                        Password = message.User.Password,
+                        IsEnabled = message.User.IsEnabled,
+                        Description = message.User.Description
+                    }, (response, exception) => {
+                        if (response.IsSuccess()) {
+                            UserData entity = new UserData(message.User);
+                            _dicByLoginName.Add(message.User.LoginName, entity);
+                            VirtualRoot.Happened(new UserAddedEvent(entity));
+                        }
+                        else {
+                            Write.UserFail(response.ReadMessage(exception));
+                        }
+                    });
+                }
+            });
+            VirtualRoot.CreateCmdPath<UpdateUserCommand>(action: message => {
+                if (_dicByLoginName.ContainsKey(message.User.LoginName)) {
+                    UserData entity = _dicByLoginName[message.User.LoginName];
+                    UserData oldValue = new UserData(entity);
+                    entity.Update(message.User);
+                    Server.ControlCenterService.UpdateUserAsync(new UserData {
+                        LoginName = message.User.LoginName,
+                        Password = message.User.Password,
+                        IsEnabled = message.User.IsEnabled,
+                        Description = message.User.Description
+                    }, (response, exception) => {
+                        if (!response.IsSuccess()) {
+                            entity.Update(oldValue);
+                            VirtualRoot.Happened(new UserUpdatedEvent(entity));
+                            Write.UserFail(response.ReadMessage(exception));
+                        }
+                    });
+                    VirtualRoot.Happened(new UserUpdatedEvent(entity));
+                }
+            });
+            VirtualRoot.CreateCmdPath<RemoveUserCommand>(action: message => {
+                if (_dicByLoginName.ContainsKey(message.LoginName)) {
+                    UserData entity = _dicByLoginName[message.LoginName];
+                    Server.ControlCenterService.RemoveUserAsync(message.LoginName, (response, exception) => {
+                        if (response.IsSuccess()) {
+                            _dicByLoginName.Remove(entity.LoginName);
+                            VirtualRoot.Happened(new UserRemovedEvent(entity));
+                        }
+                        else {
+                            Write.UserFail(response.ReadMessage(exception));
+                        }
+                    });
+                }
+            });
         }
 
         private readonly object _locker = new object();

@@ -317,17 +317,16 @@ namespace NTMiner {
         }
 
         private void Link() {
-            VirtualRoot.CreateCmdPath<RegCmdHereCommand>(
-                action: message => {
-                    try {
-                        RegCmdHere();
-                        VirtualRoot.Out.ShowSuccessMessage("windows右键命令行添加成功");
-                    }
-                    catch (Exception e) {
-                        Logger.ErrorDebugLine(e);
-                        VirtualRoot.Out.ShowErrorMessage("windows右键命令行添加失败");
-                    }
-                });
+            VirtualRoot.CreateCmdPath<RegCmdHereCommand>(action: message => {
+                try {
+                    RegCmdHere();
+                    VirtualRoot.Out.ShowSuccessMessage("windows右键命令行添加成功");
+                }
+                catch (Exception e) {
+                    Logger.ErrorDebugLine(e);
+                    VirtualRoot.Out.ShowErrorMessage("windows右键命令行添加失败");
+                }
+            });
             VirtualRoot.CreateEventPath<Per1MinuteEvent>("每1分钟阻止系统休眠", LogEnum.None,
                 action: message => {
                     Windows.Power.PreventSleep();

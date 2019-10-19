@@ -38,16 +38,14 @@ namespace NTMiner {
         protected override void OnStartup(StartupEventArgs e) {
             RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
             // 通过群控升级挖矿端的时候升级器可能不存在所以需要下载，下载的时候需要用到下载器所以下载器需要提前注册
-            VirtualRoot.CreateCmdPath<ShowFileDownloaderCommand>(
-                action: message => {
-                    UIThread.Execute(() => {
-                        FileDownloader.ShowWindow(message.DownloadFileUrl, message.FileTitle, message.DownloadComplete);
-                    });
+            VirtualRoot.CreateCmdPath<ShowFileDownloaderCommand>(action: message => {
+                UIThread.Execute(() => {
+                    FileDownloader.ShowWindow(message.DownloadFileUrl, message.FileTitle, message.DownloadComplete);
                 });
-            VirtualRoot.CreateCmdPath<UpgradeCommand>(
-                action: message => {
-                    AppStatic.Upgrade(message.FileName, message.Callback);
-                });
+            });
+            VirtualRoot.CreateCmdPath<UpgradeCommand>(action: message => {
+                AppStatic.Upgrade(message.FileName, message.Callback);
+            });
             if (!string.IsNullOrEmpty(CommandLineArgs.Upgrade)) {
                 VirtualRoot.Execute(new UpgradeCommand(CommandLineArgs.Upgrade, () => {
                     UIThread.Execute(() => { Environment.Exit(0); });
@@ -83,7 +81,7 @@ namespace NTMiner {
                                 Wpf.Util.RunAsAdministrator();
                             })
                             .Dismiss().WithButton("忽略", button => {
-                                
+
                             }).Queue();
                     }
                     VirtualRoot.CreateEventPath<StartingMineFailedEvent>("开始挖矿失败", LogEnum.DevConsole,
@@ -112,10 +110,9 @@ namespace NTMiner {
                             ConsoleWindow.Instance.HideSplash();
                         });
                         #region 处理显示主界面命令
-                        VirtualRoot.CreateCmdPath<ShowMainWindowCommand>(
-                            action: message => {
-                                ShowMainWindow(message.IsToggle);
-                            });
+                        VirtualRoot.CreateCmdPath<ShowMainWindowCommand>(action: message => {
+                            ShowMainWindow(message.IsToggle);
+                        });
                         #endregion
                         Task.Factory.StartNew(() => {
                             try {
@@ -164,34 +161,32 @@ namespace NTMiner {
         }
 
         private void Link() {
-            VirtualRoot.CreateCmdPath<CloseNTMinerCommand>(
-                action: message => {
-                    UIThread.Execute(() => {
-                        try {
-                            Shutdown();
-                        }
-                        catch (Exception e) {
-                            Logger.ErrorDebugLine(e);
-                            Environment.Exit(0);
-                        }
-                    });
+            VirtualRoot.CreateCmdPath<CloseNTMinerCommand>(action: message => {
+                UIThread.Execute(() => {
+                    try {
+                        Shutdown();
+                    }
+                    catch (Exception e) {
+                        Logger.ErrorDebugLine(e);
+                        Environment.Exit(0);
+                    }
                 });
-            VirtualRoot.CreateCmdPath<CloseMainWindowCommand>(
-                action: message => {
-                    UIThread.Execute(() => {
-                        if (NTMinerRoot.Instance.MinerProfile.IsCloseMeanExit) {
-                            VirtualRoot.Execute(new CloseNTMinerCommand());
-                            return;
+            });
+            VirtualRoot.CreateCmdPath<CloseMainWindowCommand>(action: message => {
+                UIThread.Execute(() => {
+                    if (NTMinerRoot.Instance.MinerProfile.IsCloseMeanExit) {
+                        VirtualRoot.Execute(new CloseNTMinerCommand());
+                        return;
+                    }
+                    ConsoleWindow.Instance.Hide();
+                    foreach (Window window in Windows) {
+                        if (window != NotiCenterWindow.Instance && window != ConsoleWindow.Instance) {
+                            window.Close();
                         }
-                        ConsoleWindow.Instance.Hide();
-                        foreach (Window window in Windows) {
-                            if (window != NotiCenterWindow.Instance && window != ConsoleWindow.Instance) {
-                                window.Close();
-                            }
-                        }
-                        VirtualRoot.Out.ShowSuccessMessage(message.Message, "开源矿工");
-                    });
+                    }
+                    VirtualRoot.Out.ShowSuccessMessage(message.Message, "开源矿工");
                 });
+            });
             #region 周期确保守护进程在运行
             VirtualRoot.CreateEventPath<Per1MinuteEvent>("周期确保守护进程在运行", LogEnum.DevConsole,
                 action: message => {
@@ -220,54 +215,48 @@ namespace NTMiner {
                 });
             #endregion
             #region 处理禁用win10系统更新
-            VirtualRoot.CreateCmdPath<BlockWAUCommand>(
-                action: message => {
-                    NTMiner.Windows.WindowsUtil.BlockWAU();
-                });
+            VirtualRoot.CreateCmdPath<BlockWAUCommand>(action: message => {
+                NTMiner.Windows.WindowsUtil.BlockWAU();
+            });
             #endregion
             #region 优化windows
-            VirtualRoot.CreateCmdPath<Win10OptimizeCommand>(
-                action: message => {
-                    NTMiner.Windows.WindowsUtil.Win10Optimize();
-                });
+            VirtualRoot.CreateCmdPath<Win10OptimizeCommand>(action: message => {
+                NTMiner.Windows.WindowsUtil.Win10Optimize();
+            });
             #endregion
             #region 处理开启A卡计算模式
-            VirtualRoot.CreateCmdPath<SwitchRadeonGpuCommand>(
-                action: message => {
-                    if (NTMinerRoot.Instance.GpuSet.GpuType == GpuType.AMD) {
-                        SwitchRadeonGpuMode(message.On);
-                    }
-                });
+            VirtualRoot.CreateCmdPath<SwitchRadeonGpuCommand>(action: message => {
+                if (NTMinerRoot.Instance.GpuSet.GpuType == GpuType.AMD) {
+                    SwitchRadeonGpuMode(message.On);
+                }
+            });
             #endregion
             #region 处理A卡驱动签名
-            VirtualRoot.CreateCmdPath<AtikmdagPatcherCommand>(
-                action: message => {
-                    if (NTMinerRoot.Instance.GpuSet.GpuType == GpuType.AMD) {
-                        AtikmdagPatcher.AtikmdagPatcherUtil.Run();
-                    }
-                });
+            VirtualRoot.CreateCmdPath<AtikmdagPatcherCommand>(action: message => {
+                if (NTMinerRoot.Instance.GpuSet.GpuType == GpuType.AMD) {
+                    AtikmdagPatcher.AtikmdagPatcherUtil.Run();
+                }
+            });
             #endregion
             #region 启用或禁用windows远程桌面
-            VirtualRoot.CreateCmdPath<EnableWindowsRemoteDesktopCommand>(
-                action: message => {
-                    if (NTMinerRegistry.GetIsRemoteDesktopEnabled()) {
-                        return;
-                    }
-                    string msg = "确定启用Windows远程桌面吗？";
-                    DialogWindow.ShowDialog(message: msg, title: "确认", onYes: () => {
-                        Rdp.SetRdpEnabled(true, true);
-                        Firewall.AddRemoteDesktopRule();
-                    }, icon: IconConst.IconConfirm);
-                });
+            VirtualRoot.CreateCmdPath<EnableWindowsRemoteDesktopCommand>(action: message => {
+                if (NTMinerRegistry.GetIsRemoteDesktopEnabled()) {
+                    return;
+                }
+                string msg = "确定启用Windows远程桌面吗？";
+                DialogWindow.ShowDialog(message: msg, title: "确认", onYes: () => {
+                    Rdp.SetRdpEnabled(true, true);
+                    Firewall.AddRemoteDesktopRule();
+                }, icon: IconConst.IconConfirm);
+            });
             #endregion
             #region 启用或禁用windows开机自动登录
-            VirtualRoot.CreateCmdPath<EnableOrDisableWindowsAutoLoginCommand>(
-                action: message => {
-                    if (NTMiner.Windows.OS.Instance.IsAutoAdminLogon) {
-                        return;
-                    }
-                    NTMiner.Windows.Cmd.RunClose("control", "userpasswords2");
-                });
+            VirtualRoot.CreateCmdPath<EnableOrDisableWindowsAutoLoginCommand>(action: message => {
+                if (NTMiner.Windows.OS.Instance.IsAutoAdminLogon) {
+                    return;
+                }
+                NTMiner.Windows.Cmd.RunClose("control", "userpasswords2");
+            });
             #endregion
         }
 
