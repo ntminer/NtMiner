@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -32,13 +33,15 @@ namespace NTMiner.Vms {
             }
             foreach (var dic in Application.Current.Resources.MergedDictionaries) {
                 if (dic.Contains("Icon_Icon")) {
+                    var list = new List<Icon>();
                     foreach (var key in dic.Keys) {
-                        _icons.Add(new Icon {
+                        list.Add(new Icon {
                             Key = key.ToString(),
                             Data = (StreamGeometry)dic[key],
                             BorderBrush = Wpf.Util.TransparentBrush
                         });
                     }
+                    _icons = list.OrderBy(a => a.Key).ToList();
                     break;
                 }
             }
