@@ -137,8 +137,8 @@
     <Compile Include="Ucs\Property.xaml.cs">
       <DependentUpon>Property.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ucs\WorkerEvents.xaml.cs">
-      <DependentUpon>WorkerEvents.xaml</DependentUpon>
+    <Compile Include="Ucs\WorkerMessages.xaml.cs">
+      <DependentUpon>WorkerMessages.xaml</DependentUpon>
     </Compile>
     <Compile Include="Ucs\SysDicItemSelect.xaml.cs">
       <DependentUpon>SysDicItemSelect.xaml</DependentUpon>
@@ -508,7 +508,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\WorkerEvents.xaml">
+    <Page Include="Ucs\WorkerMessages.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

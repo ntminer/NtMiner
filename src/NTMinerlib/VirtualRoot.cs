@@ -1,11 +1,16 @@
-﻿using NTMiner.Bus;
+﻿using LiteDB;
+using NTMiner.Bus;
 using NTMiner.Bus.DirectBus;
 using NTMiner.Ip;
 using NTMiner.Ip.Impl;
+using NTMiner.MinerClient;
 using NTMiner.Serialization;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Text;
@@ -16,6 +21,7 @@ namespace NTMiner {
     /// </summary>
     public static partial class VirtualRoot {
         public static readonly string AppFileFullName = Process.GetCurrentProcess().MainModule.FileName;
+        public static readonly string WorkerMessageDbFileFullName = Path.Combine(MainAssemblyInfo.TempDirFullName, "workerMessage.litedb");
         public static Guid Id { get; private set; }
         
         #region IsMinerClient
@@ -78,7 +84,7 @@ namespace NTMiner {
         public static readonly IMessageDispatcher SMessageDispatcher;
         private static readonly ICmdBus SCommandBus;
         private static readonly IEventBus SEventBus;
-        public static readonly WorkerEventSet WorkerEvents;
+        public static readonly WorkerMessageSet WorkerMessages;
         #region Out
         private static IOut _out;
         /// <summary>
@@ -122,7 +128,7 @@ namespace NTMiner {
             SMessageDispatcher = new MessageDispatcher();
             SCommandBus = new DirectCommandBus(SMessageDispatcher);
             SEventBus = new DirectEventBus(SMessageDispatcher);
-            WorkerEvents = new WorkerEventSet();
+            WorkerMessages = new WorkerMessageSet();
         }
 
         #region ConvertToGuid
@@ -221,8 +227,96 @@ namespace NTMiner {
         }
         #endregion
 
+        public static void WorkerMessage(WorkerMessageChannel channel, string provider, WorkerMessageType messageType, string content) {
+            WorkerMessages.Add(channel.GetName(), provider, messageType.GetName(), content);
+        }
+
         public static WebClient CreateWebClient(int timeoutSeconds = 180) {
             return new NTMinerWebClient(timeoutSeconds);
+        }
+
+        #region 内部类
+        public class WorkerMessageSet : IEnumerable<IWorkerMessage> {
+            private readonly string _connectionString;
+            private readonly LinkedList<WorkerMessageData> _records = new LinkedList<WorkerMessageData>();
+
+            internal WorkerMessageSet() {
+                _connectionString = $"filename={WorkerMessageDbFileFullName};journal=false";
+            }
+
+            public int Count {
+                get {
+                    InitOnece();
+                    return _records.Count;
+                }
+            }
+
+            public void Add(string channel, string provider, string messageType, string content) {
+                InitOnece();
+                var data = new WorkerMessageData {
+                    Id = Guid.NewGuid(),
+                    Channel = channel,
+                    Provider = provider,
+                    MessageType = messageType,
+                    Content = content,
+                    Timestamp = DateTime.Now
+                };
+                lock (_locker) {
+                    _records.AddFirst(data);
+                    while (_records.Count > WorkerMessageSetCapacity) {
+                        var toRemove = _records.Last;
+                        _records.RemoveLast();
+                        using (LiteDatabase db = new LiteDatabase(_connectionString)) {
+                            var col = db.GetCollection<WorkerMessageData>();
+                            col.Delete(toRemove.Value.Id);
+                        }
+                    }
+                }
+                using (LiteDatabase db = new LiteDatabase(_connectionString)) {
+                    var col = db.GetCollection<WorkerMessageData>();
+                    col.Insert(data);
+                }
+                Happened(new WorkerMessage(data));
+            }
+
+            private bool _isInited = false;
+            private readonly object _locker = new object();
+
+            private void InitOnece() {
+                if (_isInited) {
+                    return;
+                }
+                Init();
+            }
+
+            private void Init() {
+                lock (_locker) {
+                    if (!_isInited) {
+                        using (LiteDatabase db = new LiteDatabase(_connectionString)) {
+                            var col = db.GetCollection<WorkerMessageData>();
+                            foreach (var item in col.FindAll().OrderBy(a => a.Timestamp)) {
+                                if (_records.Count < WorkerMessageSetCapacity) {
+                                    _records.AddFirst(item);
+                                }
+                                else {
+                                    col.Delete(item.Id);
+                                }
+                            }
+                        }
+                        _isInited = true;
+                    }
+                }
+            }
+
+            public IEnumerator<IWorkerMessage> GetEnumerator() {
+                InitOnece();
+                return _records.GetEnumerator();
+            }
+
+            IEnumerator IEnumerable.GetEnumerator() {
+                InitOnece();
+                return _records.GetEnumerator();
+            }
         }
 
         private class NTMinerWebClient : WebClient {
@@ -245,5 +339,6 @@ namespace NTMiner {
                 return result;
             }
         }
+        #endregion
     }
 }

@@ -4,24 +4,15 @@ using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace NTMiner.Views.Ucs {
-    public partial class WorkerEvents : UserControl {
-        private WorkerEventsViewModel Vm {
+    public partial class WorkerMessages : UserControl {
+        private WorkerMessagesViewModel Vm {
             get {
-                return (WorkerEventsViewModel)this.DataContext;
+                return (WorkerMessagesViewModel)this.DataContext;
             }
         }
 
-        public WorkerEvents() {
+        public WorkerMessages() {
             InitializeComponent();
-            this.RunOneceOnLoaded(window => {
-                window.EventPath<WorkerEvent>("发生了挖矿事件后刷新Vm内存", LogEnum.DevConsole,
-                    action: message => {
-                        UIThread.Execute(() => {
-                            Vm.WorkerEventVms.Insert(0, new WorkerEventViewModel(message.Source));
-                            Vm.RefreshCount(message.Source);
-                        });
-                    });
-            });
         }
 
         private void ListBox_MouseDown(object sender, MouseButtonEventArgs e) {

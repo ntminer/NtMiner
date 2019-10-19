@@ -38,20 +38,18 @@ namespace NTMiner {
 
         protected override void OnStartup(StartupEventArgs e) {
             RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
-            VirtualRoot.CmdPath<ShowFileDownloaderCommand>(LogEnum.DevConsole,
-                action: message => {
-                    UIThread.Execute(() => {
-                        FileDownloader.ShowWindow(message.DownloadFileUrl, message.FileTitle, message.DownloadComplete);
-                    });
+            VirtualRoot.CreateCmdPath<ShowFileDownloaderCommand>(action: message => {
+                UIThread.Execute(() => {
+                    FileDownloader.ShowWindow(message.DownloadFileUrl, message.FileTitle, message.DownloadComplete);
                 });
-            VirtualRoot.CmdPath<UpgradeCommand>(LogEnum.DevConsole,
-                action: message => {
-                    AppStatic.Upgrade(message.FileName, message.Callback);
-                });
+            });
+            VirtualRoot.CreateCmdPath<UpgradeCommand>(action: message => {
+                AppStatic.Upgrade(message.FileName, message.Callback);
+            });
             try {
                 appMutex = new Mutex(true, s_appPipName, out createdNew);
             }
-            catch (Exception){
+            catch (Exception) {
                 createdNew = false;
             }
 
@@ -71,18 +69,17 @@ namespace NTMiner {
                         Init();
                     }
                 }
-                VirtualRoot.CmdPath<CloseNTMinerCommand>("处理关闭群控客户端命令", LogEnum.DevConsole,
-                    action: message => {
-                        UIThread.Execute(() => {
-                            try {
-                                Shutdown();
-                            }
-                            catch (Exception ex) {
-                                Logger.ErrorDebugLine(ex);
-                                Environment.Exit(0);
-                            }
-                        });
+                VirtualRoot.CreateCmdPath<CloseNTMinerCommand>(action: message => {
+                    UIThread.Execute(() => {
+                        try {
+                            Shutdown();
+                        }
+                        catch (Exception ex) {
+                            Logger.ErrorDebugLine(ex);
+                            Environment.Exit(0);
+                        }
                     });
+                });
             }
             else {
                 try {
@@ -105,10 +102,9 @@ namespace NTMiner {
                     AppContext.NotifyIcon = ExtendedNotifyIcon.Create("群控客户端", isMinerStudio: true);
                 });
                 #region 处理显示主界面命令
-                VirtualRoot.CmdPath<ShowMainWindowCommand>("处理显示主界面命令", LogEnum.DevConsole,
-                    action: message => {
-                        VirtualRoot.Execute(new ShowChartsWindowCommand());
-                    });
+                VirtualRoot.CreateCmdPath<ShowMainWindowCommand>(action: message => {
+                    VirtualRoot.Execute(new ShowChartsWindowCommand());
+                });
                 #endregion
                 HttpServer.Start($"http://localhost:{VirtualRoot.MinerStudioPort}");
                 AppContext.RemoteDesktop = MsRdpRemoteDesktop.OpenRemoteDesktop;

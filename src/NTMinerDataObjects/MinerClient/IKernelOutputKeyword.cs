@@ -2,7 +2,8 @@
 
 namespace NTMiner.MinerClient {
     public interface IKernelOutputKeyword : ILevelEntity<Guid> {
-        Guid WorkerEventTypeId { get; }
+        Guid KernelOutputId { get; }
+        string WorkerMessageType { get; }
         string Keyword { get; }
     }
 }

@@ -195,7 +195,7 @@ namespace NTMiner.Views {
                 this.EventPath<ServerJsonVersionChangedEvent>("开发者模式展示ServerJsonVersion", LogEnum.DevConsole,
                     action: message => {
                         UIThread.Execute(() => {
-                            Vm.ServerJsonVersion = Vm.GetServerJsonVersion();
+                            Vm.ServerJsonVersion = NTMinerRoot.Instance.GetServerJsonVersion();
                         });
                     });
             }
@@ -246,7 +246,7 @@ namespace NTMiner.Views {
                 temperature = 0;
             }
             if (_cpuPerformance != performance) {
-                _cpuTemperature = performance;
+                _cpuPerformance = performance;
                 Vm.StateBarVm.CpuPerformanceText = performance.ToString() + " %";
             }
             if (_cpuTemperature != temperature) {
@@ -449,7 +449,6 @@ namespace NTMiner.Views {
                     consoleWindow.Top = this.Top;
                 }
             }
-            int marginBottom = (int)StateBar.ActualHeight;
             Point point = ConsoleRectangle.TransformToAncestor(this).Transform(new Point(0, 0));
             consoleWindow.ReSizeConsoleWindow(marginLeft: (int)point.X, marginTop: (int)point.Y, (int)ConsoleRectangle.ActualHeight);
         }

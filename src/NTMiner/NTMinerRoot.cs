@@ -33,7 +33,7 @@ namespace NTMiner {
         /// </summary>
         public IHandlerId ServerContextCmdPath<TCmd>(string description, LogEnum logType, Action<TCmd> action)
             where TCmd : ICmd {
-            return VirtualRoot.Path(description, logType, action).AddToCollection(_serverContextHandlers);
+            return VirtualRoot.CreatePath(description, logType, action).AddToCollection(_serverContextHandlers);
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace NTMiner {
         /// </summary>
         public IHandlerId ServerContextEventPath<TEvent>(string description, LogEnum logType, Action<TEvent> action)
             where TEvent : IEvent {
-            return VirtualRoot.Path(description, logType, action).AddToCollection(_serverContextHandlers);
+            return VirtualRoot.CreatePath(description, logType, action).AddToCollection(_serverContextHandlers);
         }
 
         public IUserSet UserSet { get; private set; }
@@ -106,7 +106,7 @@ namespace NTMiner {
                             DoInit(isWork, callback);
                         });
                         #region 发生了用户活动时检查serverJson是否有新版本
-                        VirtualRoot.EventPath<UserActionEvent>("发生了用户活动时检查serverJson是否有新版本", LogEnum.DevConsole,
+                        VirtualRoot.CreateEventPath<UserActionEvent>("发生了用户活动时检查serverJson是否有新版本", LogEnum.DevConsole,
                             action: message => {
                                 RefreshServerJsonFile();
                             });
@@ -202,7 +202,7 @@ namespace NTMiner {
             return outBuffer.ToArray();
         }
 
-        private string GetServerJsonVersion() {
+        public string GetServerJsonVersion() {
             string serverJsonVersion = string.Empty;
             if (LocalAppSettingSet.TryGetAppSetting("ServerJsonVersion", out IAppSetting setting) && setting.Value != null) {
                 serverJsonVersion = setting.Value.ToString();
@@ -278,7 +278,7 @@ namespace NTMiner {
 
         private void ContextReInit(bool isWork) {
             foreach (var handler in _serverContextHandlers) {
-                VirtualRoot.UnPath(handler);
+                VirtualRoot.DeletePath(handler);
             }
             _serverContextHandlers.Clear();
             if (isWork) {
@@ -317,25 +317,24 @@ namespace NTMiner {
         }
 
         private void Link() {
-            VirtualRoot.CmdPath<RegCmdHereCommand>("处理注册右键打开windows命令行菜单命令", LogEnum.DevConsole,
-                action: message => {
-                    try {
-                        RegCmdHere();
-                        VirtualRoot.Out.ShowSuccessMessage("windows右键命令行添加成功");
-                    }
-                    catch (Exception e) {
-                        Logger.ErrorDebugLine(e);
-                        VirtualRoot.Out.ShowErrorMessage("windows右键命令行添加失败");
-                    }
-                });
-            VirtualRoot.EventPath<Per1MinuteEvent>("每1分钟阻止系统休眠", LogEnum.None,
+            VirtualRoot.CreateCmdPath<RegCmdHereCommand>(action: message => {
+                try {
+                    RegCmdHere();
+                    VirtualRoot.Out.ShowSuccessMessage("windows右键命令行添加成功");
+                }
+                catch (Exception e) {
+                    Logger.ErrorDebugLine(e);
+                    VirtualRoot.Out.ShowErrorMessage("windows右键命令行添加失败");
+                }
+            });
+            VirtualRoot.CreateEventPath<Per1MinuteEvent>("每1分钟阻止系统休眠", LogEnum.None,
                 action: message => {
                     Windows.Power.PreventSleep();
                 });
             #region 挖矿开始时将无份额内核重启份额计数置0
             int shareCount = 0;
             DateTime shareOn = DateTime.Now;
-            VirtualRoot.EventPath<MineStartedEvent>("挖矿开始后将无份额内核重启份额计数置0", LogEnum.DevConsole,
+            VirtualRoot.CreateEventPath<MineStartedEvent>("挖矿开始后将无份额内核重启份额计数置0", LogEnum.DevConsole,
                 action: message => {
                     // 将无份额内核重启份额计数置0
                     shareCount = 0;
@@ -345,7 +344,7 @@ namespace NTMiner {
                 });
             #endregion
             #region 每20秒钟检查是否需要重启
-            VirtualRoot.EventPath<Per20SecondEvent>("每20秒钟检查是否需要重启", LogEnum.None,
+            VirtualRoot.CreateEventPath<Per20SecondEvent>("每20秒钟检查是否需要重启", LogEnum.None,
                 action: message => {
                     #region 重启电脑
                     try {
@@ -422,7 +421,7 @@ namespace NTMiner {
                     #endregion
                 });
             #endregion
-            VirtualRoot.EventPath<Per10SecondEvent>("周期刷新显卡状态", LogEnum.None,
+            VirtualRoot.CreateEventPath<Per10SecondEvent>("周期刷新显卡状态", LogEnum.None,
                 action: message => {
                     // 因为遇到显卡系统状态变更时可能费时
                     Task.Factory.StartNew(() => {

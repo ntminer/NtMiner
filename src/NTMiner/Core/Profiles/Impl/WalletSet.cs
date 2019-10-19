@@ -8,66 +8,63 @@ namespace NTMiner.Core.Profiles.Impl {
 
         public WalletSet(INTMinerRoot root) {
             _root = root;
-            VirtualRoot.CmdPath<AddWalletCommand>("添加钱包", LogEnum.DevConsole,
-                action: message => {
-                    InitOnece();
-                    if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
-                        throw new ArgumentNullException();
-                    }
-                    if (!_root.CoinSet.Contains(message.Input.CoinId)) {
-                        throw new ValidationException("there is not coin with id " + message.Input.CoinId);
-                    }
-                    if (string.IsNullOrEmpty(message.Input.Address)) {
-                        throw new ValidationException("wallet code and Address can't be null or empty");
-                    }
-                    if (_dicById.ContainsKey(message.Input.GetId())) {
-                        return;
-                    }
-                    WalletData entity = new WalletData().Update(message.Input);
-                    _dicById.Add(entity.Id, entity);
-                    AddWallet(entity);
+            VirtualRoot.CreateCmdPath<AddWalletCommand>(action: message => {
+                InitOnece();
+                if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
+                    throw new ArgumentNullException();
+                }
+                if (!_root.CoinSet.Contains(message.Input.CoinId)) {
+                    throw new ValidationException("there is not coin with id " + message.Input.CoinId);
+                }
+                if (string.IsNullOrEmpty(message.Input.Address)) {
+                    throw new ValidationException("wallet code and Address can't be null or empty");
+                }
+                if (_dicById.ContainsKey(message.Input.GetId())) {
+                    return;
+                }
+                WalletData entity = new WalletData().Update(message.Input);
+                _dicById.Add(entity.Id, entity);
+                AddWallet(entity);
 
-                    VirtualRoot.Happened(new WalletAddedEvent(entity));
-                });
-            VirtualRoot.CmdPath<UpdateWalletCommand>("更新钱包", LogEnum.DevConsole,
-                action: message => {
-                    InitOnece();
-                    if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
-                        throw new ArgumentNullException();
-                    }
-                    if (!_root.CoinSet.Contains(message.Input.CoinId)) {
-                        throw new ValidationException("there is not coin with id " + message.Input.CoinId);
-                    }
-                    if (string.IsNullOrEmpty(message.Input.Address)) {
-                        throw new ValidationException("wallet Address can't be null or empty");
-                    }
-                    if (string.IsNullOrEmpty(message.Input.Name)) {
-                        throw new ValidationException("wallet name can't be null or empty");
-                    }
-                    if (!_dicById.ContainsKey(message.Input.GetId())) {
-                        return;
-                    }
-                    WalletData entity = _dicById[message.Input.GetId()];
-                    entity.Update(message.Input);
-                    UpdateWallet(entity);
+                VirtualRoot.Happened(new WalletAddedEvent(entity));
+            });
+            VirtualRoot.CreateCmdPath<UpdateWalletCommand>(action: message => {
+                InitOnece();
+                if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
+                    throw new ArgumentNullException();
+                }
+                if (!_root.CoinSet.Contains(message.Input.CoinId)) {
+                    throw new ValidationException("there is not coin with id " + message.Input.CoinId);
+                }
+                if (string.IsNullOrEmpty(message.Input.Address)) {
+                    throw new ValidationException("wallet Address can't be null or empty");
+                }
+                if (string.IsNullOrEmpty(message.Input.Name)) {
+                    throw new ValidationException("wallet name can't be null or empty");
+                }
+                if (!_dicById.ContainsKey(message.Input.GetId())) {
+                    return;
+                }
+                WalletData entity = _dicById[message.Input.GetId()];
+                entity.Update(message.Input);
+                UpdateWallet(entity);
 
-                    VirtualRoot.Happened(new WalletUpdatedEvent(entity));
-                });
-            VirtualRoot.CmdPath<RemoveWalletCommand>("移除钱包", LogEnum.DevConsole,
-                action: (message) => {
-                    InitOnece();
-                    if (message == null || message.EntityId == Guid.Empty) {
-                        throw new ArgumentNullException();
-                    }
-                    if (!_dicById.ContainsKey(message.EntityId)) {
-                        return;
-                    }
-                    WalletData entity = _dicById[message.EntityId];
-                    _dicById.Remove(entity.GetId());
-                    RemoveWallet(entity.Id);
+                VirtualRoot.Happened(new WalletUpdatedEvent(entity));
+            });
+            VirtualRoot.CreateCmdPath<RemoveWalletCommand>(action: (message) => {
+                InitOnece();
+                if (message == null || message.EntityId == Guid.Empty) {
+                    throw new ArgumentNullException();
+                }
+                if (!_dicById.ContainsKey(message.EntityId)) {
+                    return;
+                }
+                WalletData entity = _dicById[message.EntityId];
+                _dicById.Remove(entity.GetId());
+                RemoveWallet(entity.Id);
 
-                    VirtualRoot.Happened(new WalletRemovedEvent(entity));
-                });
+                VirtualRoot.Happened(new WalletRemovedEvent(entity));
+            });
         }
 
         private void AddWallet(WalletData entity) {

@@ -102,7 +102,7 @@
     <Compile Include="Vms\CoinPageViewModel.cs" />
     <Compile Include="Vms\CoinProfileViewModel.cs" />
     <Compile Include="Vms\EthNoDevFeeEditViewModel.cs" />
-    <Compile Include="Vms\WorkerEventsViewModel.cs" />
+    <Compile Include="Vms\WorkerMessagesViewModel.cs" />
     <Compile Include="Vms\FragmentWriterPageViewModel.cs" />
     <Compile Include="Vms\FragmentWriterSelectViewModel.cs" />
     <Compile Include="Vms\FileWriterSelectViewModel.cs" />
@@ -190,7 +190,7 @@
     <Compile Include="Vms\VirtualMemoryViewModel.cs" />
     <Compile Include="Vms\WalletSelectViewModel.cs" />
     <Compile Include="Vms\WalletViewModel.cs" />
-    <Compile Include="Vms\WorkerEventViewModel.cs" />
+    <Compile Include="Vms\WorkerMessageViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NTMinerBus\NTMinerBus.csproj">

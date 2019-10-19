@@ -214,7 +214,7 @@ namespace NTMiner.Vms {
                 }
                 this.ArgsAssembly = NTMinerRoot.Instance.BuildAssembleArgs(out _, out _, out _);
             });
-            VirtualRoot.EventPath<ServerContextVmsReInitedEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
+            VirtualRoot.CreateEventPath<ServerContextVmsReInitedEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
                 action: message => {
                     OnPropertyChanged(nameof(CoinVm));
                 });
@@ -231,7 +231,7 @@ namespace NTMiner.Vms {
                     OnPropertyChanged(message.PropertyName);
                 });
 
-            VirtualRoot.EventPath<LocalContextVmsReInitedEvent>("本地上下文视图模型集刷新后刷新界面", LogEnum.DevConsole,
+            VirtualRoot.CreateEventPath<LocalContextVmsReInitedEvent>("本地上下文视图模型集刷新后刷新界面", LogEnum.DevConsole,
                 action: message => {
                     AllPropertyChanged();
                     if (CoinVm != null) {

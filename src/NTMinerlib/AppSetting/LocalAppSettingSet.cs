@@ -11,28 +11,27 @@ namespace NTMiner.AppSetting {
 
         public LocalAppSettingSet(string dbFileFullName) {
             _dbFileFullName = dbFileFullName;
-            VirtualRoot.CmdPath<ChangeLocalAppSettingCommand>("处理设置AppSetting命令", LogEnum.DevConsole,
-                action: message => {
-                    if (message.AppSetting == null) {
-                        return;
+            VirtualRoot.CreateCmdPath<ChangeLocalAppSettingCommand>(action: message => {
+                if (message.AppSetting == null) {
+                    return;
+                }
+                if (_dicByKey.TryGetValue(message.AppSetting.Key, out AppSettingData entity)) {
+                    entity.Value = message.AppSetting.Value;
+                    using (LiteDatabase db = new LiteDatabase(_dbFileFullName)) {
+                        var col = db.GetCollection<AppSettingData>();
+                        col.Update(entity);
                     }
-                    if (_dicByKey.TryGetValue(message.AppSetting.Key, out AppSettingData entity)) {
-                        entity.Value = message.AppSetting.Value;
-                        using (LiteDatabase db = new LiteDatabase(_dbFileFullName)) {
-                            var col = db.GetCollection<AppSettingData>();
-                            col.Update(entity);
-                        }
+                }
+                else {
+                    entity = AppSettingData.Create(message.AppSetting);
+                    _dicByKey.Add(message.AppSetting.Key, entity);
+                    using (LiteDatabase db = new LiteDatabase(_dbFileFullName)) {
+                        var col = db.GetCollection<AppSettingData>();
+                        col.Insert(entity);
                     }
-                    else {
-                        entity = AppSettingData.Create(message.AppSetting);
-                        _dicByKey.Add(message.AppSetting.Key, entity);
-                        using (LiteDatabase db = new LiteDatabase(_dbFileFullName)) {
-                            var col = db.GetCollection<AppSettingData>();
-                            col.Insert(entity);
-                        }
-                    }
-                    VirtualRoot.Happened(new LocalAppSettingChangedEvent(entity));
-                });
+                }
+                VirtualRoot.Happened(new LocalAppSettingChangedEvent(entity));
+            });
         }
 
         private bool _isInited = false;

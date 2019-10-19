@@ -85,12 +85,12 @@
     <Compile Include="MinerClient\IGpuSpeedData.cs" />
     <Compile Include="MinerClient\ILocalIp.cs" />
     <Compile Include="MinerClient\LocalIpData.cs" />
-    <Compile Include="WorkerEventChannel.cs" />
+    <Compile Include="WorkerMessageChannel.cs" />
     <Compile Include="Profile\GpuProfileExtension.cs" />
     <Compile Include="MinerClient\IKernelOutputKeyword.cs" />
-    <Compile Include="MinerClient\IWorkerEvent.cs" />
+    <Compile Include="MinerClient\IWorkerMessage.cs" />
     <Compile Include="MinerClient\KernelOutputKeywordData.cs" />
-    <Compile Include="MinerClient\WorkerEventData.cs" />
+    <Compile Include="MinerClient\WorkerMessageData.cs" />
     <Compile Include="MinerClient\GpuData.cs" />
     <Compile Include="MinerClient\IGpuStaticData.cs" />
     <Compile Include="MinerServer\AddClientRequest.cs" />
@@ -179,7 +179,7 @@
     <Compile Include="MinerServer\UpdateClientRequest.cs" />
     <Compile Include="UserData.cs" />
     <Compile Include="Core\WalletData.cs" />
-    <Compile Include="WorkerEventType.cs" />
+    <Compile Include="WorkerMessageType.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

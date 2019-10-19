@@ -534,20 +534,20 @@
                                     <Rectangle Grid.Row="1" HorizontalAlignment="Right" Width="4" Fill="Black"></Rectangle>
                                 </Grid>
                             </TabItem>
-                            <TabItem x:Name="TabItemEventCenter">
+                            <TabItem>
                                 <TabItem.Header>
                                     <WrapPanel>
                                         <Path 
-								            Width="14"
-								            Height="16"
-								            Data="{StaticResource Icon_Event}"
+								            Width="18"
+								            Height="15"
+								            Data="{StaticResource Icon_Message}"
 								            Fill="Black"
 								            Stretch="Fill" />
-                                        <TextBlock Text="事件" Padding="2 0 0 1" FontSize="15"></TextBlock>
+                                        <TextBlock Text="消息" Padding="2 0 0 1" FontSize="15"></TextBlock>
                                     </WrapPanel>
                                 </TabItem.Header>
-                                <uc:WorkerEvents>
-                                </uc:WorkerEvents>
+                                <uc:WorkerMessages>
+                                </uc:WorkerMessages>
                             </TabItem>
                             <TabItem x:Name="TabItemSpeedTable">
                                 <TabItem.Header>
@@ -582,7 +582,7 @@
                                 <TabItem.Header>
                                     <WrapPanel>
                                         <Path 
-								            Width="15"
+								            Width="17"
 								            Height="15"
 								            Data="{StaticResource Icon_Toolbox}"
 								            Fill="Black"

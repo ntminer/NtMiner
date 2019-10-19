@@ -4,26 +4,36 @@ using System.Windows;
 using System.Windows.Media;
 
 namespace NTMiner.Vms {
-    public class WorkerEventViewModel : ViewModelBase, IWorkerEvent {
+    public class WorkerMessageViewModel : ViewModelBase, IWorkerMessage {
         private static readonly StreamGeometry ErrorIcon = (StreamGeometry)Application.Current.Resources["Icon_Error"];
         private static readonly StreamGeometry WarnIcon = (StreamGeometry)Application.Current.Resources["Icon_Waring"];
         private static readonly StreamGeometry InfoIcon = (StreamGeometry)Application.Current.Resources["Icon_Info"];
         private static readonly SolidColorBrush IconFillColor = (SolidColorBrush)Application.Current.Resources["IconFillColor"];
         private static readonly SolidColorBrush Warn = (SolidColorBrush)Application.Current.Resources["Warn"];
 
-        private readonly IWorkerEvent _data;
-        private readonly WorkerEventType _eventType;
+        private readonly IWorkerMessage _data;
+        private readonly WorkerMessageChannel _channel;
+        private readonly WorkerMessageType _messageType;
 
-        public WorkerEventViewModel(IWorkerEvent data) {
-            _data = data;
-            _data.EventType.TryParse(out _eventType);
+        public WorkerMessageChannel ChannelEnum {
+            get { return _channel; }
         }
 
-        public int GetId() {
+        public WorkerMessageType MessageTypeEnum {
+            get { return _messageType; }
+        }
+
+        public WorkerMessageViewModel(IWorkerMessage data) {
+            _data = data;
+            _data.MessageType.TryParse(out _messageType);
+            _data.Channel.TryParse(out _channel);
+        }
+
+        public Guid GetId() {
             return _data.Id;
         }
 
-        public int Id {
+        public Guid Id {
             get {
                 return _data.Id;
             }
@@ -43,38 +53,38 @@ namespace NTMiner.Vms {
 
         public string ChannelText {
             get {
-                if (_data.Channel.TryParse(out WorkerEventChannel channel)) {
-                    return channel.GetDescription();
+                if (_channel != WorkerMessageChannel.Unspecified) {
+                    return _channel.GetDescription();
                 }
                 return "未知";
             }
         }
 
-        public string EventType {
+        public string MessageType {
             get {
-                return _data.EventType;
+                return _data.MessageType;
             }
         }
 
-        public string EventTypeText {
+        public string MessageTypeText {
             get {
-                if (_eventType != WorkerEventType.Undefined) {
-                    return _eventType.GetDescription();
+                if (_messageType != WorkerMessageType.Undefined) {
+                    return _messageType.GetDescription();
                 }
                 return "未知";
             }
         }
 
-        public StreamGeometry EventTypeIcon {
+        public StreamGeometry MessageTypeIcon {
             get {
-                switch (_eventType) {
-                    case WorkerEventType.Undefined:
+                switch (_messageType) {
+                    case WorkerMessageType.Undefined:
                         return null;
-                    case WorkerEventType.Info:
+                    case WorkerMessageType.Info:
                         return InfoIcon;
-                    case WorkerEventType.Warn:
+                    case WorkerMessageType.Warn:
                         return WarnIcon;
-                    case WorkerEventType.Error:
+                    case WorkerMessageType.Error:
                         return ErrorIcon;
                     default:
                         return null;
@@ -84,14 +94,14 @@ namespace NTMiner.Vms {
 
         public SolidColorBrush IconFill {
             get {
-                switch (_eventType) {
-                    case WorkerEventType.Undefined:
+                switch (_messageType) {
+                    case WorkerMessageType.Undefined:
                         return Wpf.Util.BlackBrush;
-                    case WorkerEventType.Info:
+                    case WorkerMessageType.Info:
                         return IconFillColor;
-                    case WorkerEventType.Warn:
+                    case WorkerMessageType.Warn:
                         return Warn;
-                    case WorkerEventType.Error:
+                    case WorkerMessageType.Error:
                         return Wpf.Util.RedBrush;
                     default:
                         return Wpf.Util.BlackBrush;
@@ -101,14 +111,14 @@ namespace NTMiner.Vms {
 
         public SolidColorBrush Foreground {
             get {
-                switch (_eventType) {
-                    case WorkerEventType.Undefined:
+                switch (_messageType) {
+                    case WorkerMessageType.Undefined:
                         return Wpf.Util.BlackBrush;
-                    case WorkerEventType.Info:
+                    case WorkerMessageType.Info:
                         return Wpf.Util.BlackBrush;
-                    case WorkerEventType.Warn:
+                    case WorkerMessageType.Warn:
                         return Warn;
-                    case WorkerEventType.Error:
+                    case WorkerMessageType.Error:
                         return Wpf.Util.RedBrush;
                     default:
                         return Wpf.Util.BlackBrush;
@@ -122,24 +132,24 @@ namespace NTMiner.Vms {
             }
         }
 
-        public DateTime EventOn {
+        public DateTime Timestamp {
             get {
-                return _data.EventOn;
+                return _data.Timestamp;
             }
         }
 
-        public string EventOnText {
+        public string TimestampText {
             get {
-                int offDay = (DateTime.Now.Date - _data.EventOn.Date).Days;
+                int offDay = (DateTime.Now.Date - _data.Timestamp.Date).Days;
                 switch (offDay) {
                     case 0:
-                        return $"今天 {_data.EventOn.TimeOfDay.ToString("hh\\:mm\\:ss")}";
+                        return $"今天 {_data.Timestamp.TimeOfDay.ToString("hh\\:mm\\:ss")}";
                     case 1:
-                        return $"左天 {_data.EventOn.TimeOfDay.ToString("hh\\:mm\\:ss")}";
+                        return $"左天 {_data.Timestamp.TimeOfDay.ToString("hh\\:mm\\:ss")}";
                     case 2:
-                        return $"前天 {_data.EventOn.TimeOfDay.ToString("hh\\:mm\\:ss")}";
+                        return $"前天 {_data.Timestamp.TimeOfDay.ToString("hh\\:mm\\:ss")}";
                     default:
-                        return _data.EventOn.ToString("yyyy-MM-dd HH:mm:ss");
+                        return _data.Timestamp.ToString("yyyy-MM-dd HH:mm:ss");
                 }
             }
         }

@@ -2,7 +2,7 @@
 
 namespace NTMiner {
     /// <remarks>持久层存的是枚举名</remarks>
-    public enum WorkerEventType {
+    public enum WorkerMessageType {
         [Description("未定义")]
         Undefined,
         [Description("消息")]

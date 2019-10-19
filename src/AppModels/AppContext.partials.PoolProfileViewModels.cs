@@ -19,7 +19,7 @@ namespace NTMiner {
                             vm.OnPropertyChanged(message.PropertyName);
                         }
                     });
-                VirtualRoot.EventPath<LocalContextReInitedEvent>("LocalContext刷新后刷新VM内存", LogEnum.DevConsole,
+                VirtualRoot.CreateEventPath<LocalContextReInitedEvent>("LocalContext刷新后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById.Clear();
                     });

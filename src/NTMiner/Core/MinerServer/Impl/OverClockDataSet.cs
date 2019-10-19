@@ -11,70 +11,67 @@ namespace NTMiner.Core.MinerServer.Impl {
 
         public OverClockDataSet(INTMinerRoot root) {
             _root = root;
-            VirtualRoot.CmdPath<AddOverClockDataCommand>("添加超频建议", LogEnum.DevConsole,
-                action: (message) => {
-                    if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
-                        throw new ArgumentNullException();
+            VirtualRoot.CreateCmdPath<AddOverClockDataCommand>(action: (message) => {
+                if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
+                    throw new ArgumentNullException();
+                }
+                if (string.IsNullOrEmpty(message.Input.Name)) {
+                    throw new ValidationException("OverClockData name can't be null or empty");
+                }
+                if (_dicById.ContainsKey(message.Input.GetId())) {
+                    return;
+                }
+                OverClockData entity = new OverClockData().Update(message.Input);
+                OfficialServer.OverClockDataService.AddOrUpdateOverClockDataAsync(entity, (response, e) => {
+                    if (response.IsSuccess()) {
+                        _dicById.Add(entity.Id, entity);
+                        VirtualRoot.Happened(new OverClockDataAddedEvent(entity));
                     }
-                    if (string.IsNullOrEmpty(message.Input.Name)) {
-                        throw new ValidationException("OverClockData name can't be null or empty");
+                    else {
+                        Write.UserFail(response.ReadMessage(e));
                     }
-                    if (_dicById.ContainsKey(message.Input.GetId())) {
-                        return;
-                    }
-                    OverClockData entity = new OverClockData().Update(message.Input);
-                    OfficialServer.OverClockDataService.AddOrUpdateOverClockDataAsync(entity, (response, e) => {
-                        if (response.IsSuccess()) {
-                            _dicById.Add(entity.Id, entity);
-                            VirtualRoot.Happened(new OverClockDataAddedEvent(entity));
-                        }
-                        else {
-                            Write.UserFail(response.ReadMessage(e));
-                        }
-                    });
                 });
-            VirtualRoot.CmdPath<UpdateOverClockDataCommand>("更新超频建议", LogEnum.DevConsole,
-                action: (message) => {
-                    if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
-                        throw new ArgumentNullException();
+            });
+            VirtualRoot.CreateCmdPath<UpdateOverClockDataCommand>(action: (message) => {
+                if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
+                    throw new ArgumentNullException();
+                }
+                if (string.IsNullOrEmpty(message.Input.Name)) {
+                    throw new ValidationException("minerGroup name can't be null or empty");
+                }
+                if (!_dicById.ContainsKey(message.Input.GetId())) {
+                    return;
+                }
+                OverClockData entity = _dicById[message.Input.GetId()];
+                OverClockData oldValue = new OverClockData().Update(entity);
+                entity.Update(message.Input);
+                OfficialServer.OverClockDataService.AddOrUpdateOverClockDataAsync(entity, (response, e) => {
+                    if (!response.IsSuccess()) {
+                        entity.Update(oldValue);
+                        VirtualRoot.Happened(new OverClockDataUpdatedEvent(entity));
+                        Write.UserFail(response.ReadMessage(e));
                     }
-                    if (string.IsNullOrEmpty(message.Input.Name)) {
-                        throw new ValidationException("minerGroup name can't be null or empty");
-                    }
-                    if (!_dicById.ContainsKey(message.Input.GetId())) {
-                        return;
-                    }
-                    OverClockData entity = _dicById[message.Input.GetId()];
-                    OverClockData oldValue = new OverClockData().Update(entity);
-                    entity.Update(message.Input);
-                    OfficialServer.OverClockDataService.AddOrUpdateOverClockDataAsync(entity, (response, e) => {
-                        if (!response.IsSuccess()) {
-                            entity.Update(oldValue);
-                            VirtualRoot.Happened(new OverClockDataUpdatedEvent(entity));
-                            Write.UserFail(response.ReadMessage(e));
-                        }
-                    });
-                    VirtualRoot.Happened(new OverClockDataUpdatedEvent(entity));
                 });
-            VirtualRoot.CmdPath<RemoveOverClockDataCommand>("移除超频建议", LogEnum.DevConsole,
-                action: (message) => {
-                    if (message == null || message.EntityId == Guid.Empty) {
-                        throw new ArgumentNullException();
+                VirtualRoot.Happened(new OverClockDataUpdatedEvent(entity));
+            });
+            VirtualRoot.CreateCmdPath<RemoveOverClockDataCommand>(action: (message) => {
+                if (message == null || message.EntityId == Guid.Empty) {
+                    throw new ArgumentNullException();
+                }
+                if (!_dicById.ContainsKey(message.EntityId)) {
+                    return;
+                }
+                OverClockData entity = _dicById[message.EntityId];
+                OfficialServer.OverClockDataService.RemoveOverClockDataAsync(entity.Id, (response, e) => {
+                    if (response.IsSuccess()) {
+                        _dicById.Remove(entity.Id);
+                        VirtualRoot.Happened(new OverClockDataRemovedEvent(entity));
                     }
-                    if (!_dicById.ContainsKey(message.EntityId)) {
-                        return;
+                    else {
+                        Write.UserFail(response.ReadMessage(e));
                     }
-                    OverClockData entity = _dicById[message.EntityId];
-                    OfficialServer.OverClockDataService.RemoveOverClockDataAsync(entity.Id, (response, e) => {
-                        if (response.IsSuccess()) {
-                            _dicById.Remove(entity.Id);
-                            VirtualRoot.Happened(new OverClockDataRemovedEvent(entity));
-                        }
-                        else {
-                            Write.UserFail(response.ReadMessage(e));
-                        }
-                    });
                 });
+            });
         }
 
         private bool _isInited = false;

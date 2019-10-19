@@ -60,7 +60,7 @@
     <Compile Include="JsonTests.cs" />
     <Compile Include="RegexTests.cs" />
     <Compile Include="TimingTests.cs" />
-    <Compile Include="WorkerEventTests.cs" />
+    <Compile Include="WorkerMessageTests.cs" />
     <Compile Include="WMITests.cs" />
   </ItemGroup>
   <ItemGroup>
