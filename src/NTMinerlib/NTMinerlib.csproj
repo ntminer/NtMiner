@@ -43,7 +43,7 @@
   <ItemGroup>
     <Compile Include="AppSetting\LocalAppSettingSet.cs" />
     <Compile Include="AppSetting\IAppSettingSet.cs" />
-    <Compile Include="WorkerEvent.cs" />
+    <Compile Include="WorkerMessage.cs" />
     <Compile Include="Ip\ILocalIpSet.cs" />
     <Compile Include="Ip\Impl\LocalIpSet.cs" />
     <Compile Include="Ip\Util.cs" />

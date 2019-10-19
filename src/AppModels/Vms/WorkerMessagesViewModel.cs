@@ -3,19 +3,19 @@
     using System.Collections.ObjectModel;
     using System.Linq;
 
-    public class WorkerEventsViewModel : ViewModelBase {
-        private readonly ObservableCollection<WorkerEventViewModel> _workerEventVms;
-        private ObservableCollection<WorkerEventViewModel> _queyResults;
+    public class WorkerMessagesViewModel : ViewModelBase {
+        private readonly ObservableCollection<WorkerMessageViewModel> _workerMessageVms;
+        private ObservableCollection<WorkerMessageViewModel> _queyResults;
         private EnumItem<WorkerMessageChannel> _selectedChannel;
         private int _errorCount;
         private int _warnCount;
         private int _infoCount;
 
-        public WorkerEventsViewModel() {
-            var data = VirtualRoot.WorkerEvents.Select(a => new WorkerEventViewModel(a));
-            _workerEventVms = new ObservableCollection<WorkerEventViewModel>(data);
-            _queyResults = _workerEventVms;
-            foreach (var item in _workerEventVms) {
+        public WorkerMessagesViewModel() {
+            var data = VirtualRoot.WorkerMessages.Select(a => new WorkerMessageViewModel(a));
+            _workerMessageVms = new ObservableCollection<WorkerMessageViewModel>(data);
+            _queyResults = _workerMessageVms;
+            foreach (var item in _workerMessageVms) {
                 switch (item.MessageTypeEnum) {
                     case WorkerMessageType.Error:
                         _errorCount++;
@@ -32,10 +32,10 @@
             }
             _selectedChannel = WorkerMessageChannel.Unspecified.GetEnumItem();
 
-            VirtualRoot.CreateEventPath<WorkerEvent>("发生了挖矿事件后刷新Vm内存", LogEnum.DevConsole,
+            VirtualRoot.CreateEventPath<WorkerMessage>("发生了挖矿事件后刷新Vm内存", LogEnum.DevConsole,
                 action: message => {
-                    var vm = new WorkerEventViewModel(message.Source);
-                    _workerEventVms.Insert(0, vm);
+                    var vm = new WorkerMessageViewModel(message.Source);
+                    _workerMessageVms.Insert(0, vm);
                     switch (vm.MessageTypeEnum) {
                         case WorkerMessageType.Error:
                             ErrorCount++;
@@ -181,14 +181,14 @@
             }
         }
 
-        public ObservableCollection<WorkerEventViewModel> QueryResults {
+        public ObservableCollection<WorkerMessageViewModel> QueryResults {
             get {
                 return _queyResults;
             }
         }
 
         private void RefreshQueryResults() {
-            var query = _workerEventVms.AsQueryable();
+            var query = _workerMessageVms.AsQueryable();
             if (SelectedChannel.Value != WorkerMessageChannel.Unspecified) {
                 string channel = SelectedChannel.Value.GetName();
                 query = query.Where(a => a.Channel == channel);
@@ -199,7 +199,7 @@
                     || (a.MessageTypeEnum == WorkerMessageType.Warn && IsWarnChecked)
                     || (a.MessageTypeEnum == WorkerMessageType.Info && IsInfoChecked));
             }
-            _queyResults = new ObservableCollection<WorkerEventViewModel>(query);
+            _queyResults = new ObservableCollection<WorkerMessageViewModel>(query);
             OnPropertyChanged(nameof(QueryResults));
         }
     }

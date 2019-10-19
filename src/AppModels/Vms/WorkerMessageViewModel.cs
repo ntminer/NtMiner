@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Media;
 
 namespace NTMiner.Vms {
-    public class WorkerEventViewModel : ViewModelBase, IWorkerMessage {
+    public class WorkerMessageViewModel : ViewModelBase, IWorkerMessage {
         private static readonly StreamGeometry ErrorIcon = (StreamGeometry)Application.Current.Resources["Icon_Error"];
         private static readonly StreamGeometry WarnIcon = (StreamGeometry)Application.Current.Resources["Icon_Waring"];
         private static readonly StreamGeometry InfoIcon = (StreamGeometry)Application.Current.Resources["Icon_Info"];
@@ -13,19 +13,19 @@ namespace NTMiner.Vms {
 
         private readonly IWorkerMessage _data;
         private readonly WorkerMessageChannel _channel;
-        private readonly WorkerMessageType _eventType;
+        private readonly WorkerMessageType _messageType;
 
         public WorkerMessageChannel ChannelEnum {
             get { return _channel; }
         }
 
         public WorkerMessageType MessageTypeEnum {
-            get { return _eventType; }
+            get { return _messageType; }
         }
 
-        public WorkerEventViewModel(IWorkerMessage data) {
+        public WorkerMessageViewModel(IWorkerMessage data) {
             _data = data;
-            _data.MessageType.TryParse(out _eventType);
+            _data.MessageType.TryParse(out _messageType);
             _data.Channel.TryParse(out _channel);
         }
 
@@ -68,8 +68,8 @@ namespace NTMiner.Vms {
 
         public string MessageTypeText {
             get {
-                if (_eventType != WorkerMessageType.Undefined) {
-                    return _eventType.GetDescription();
+                if (_messageType != WorkerMessageType.Undefined) {
+                    return _messageType.GetDescription();
                 }
                 return "未知";
             }
@@ -77,7 +77,7 @@ namespace NTMiner.Vms {
 
         public StreamGeometry MessageTypeIcon {
             get {
-                switch (_eventType) {
+                switch (_messageType) {
                     case WorkerMessageType.Undefined:
                         return null;
                     case WorkerMessageType.Info:
@@ -94,7 +94,7 @@ namespace NTMiner.Vms {
 
         public SolidColorBrush IconFill {
             get {
-                switch (_eventType) {
+                switch (_messageType) {
                     case WorkerMessageType.Undefined:
                         return Wpf.Util.BlackBrush;
                     case WorkerMessageType.Info:
@@ -111,7 +111,7 @@ namespace NTMiner.Vms {
 
         public SolidColorBrush Foreground {
             get {
-                switch (_eventType) {
+                switch (_messageType) {
                     case WorkerMessageType.Undefined:
                         return Wpf.Util.BlackBrush;
                     case WorkerMessageType.Info:
@@ -132,24 +132,24 @@ namespace NTMiner.Vms {
             }
         }
 
-        public DateTime EventOn {
+        public DateTime Timestamp {
             get {
-                return _data.EventOn;
+                return _data.Timestamp;
             }
         }
 
-        public string EventOnText {
+        public string TimestampText {
             get {
-                int offDay = (DateTime.Now.Date - _data.EventOn.Date).Days;
+                int offDay = (DateTime.Now.Date - _data.Timestamp.Date).Days;
                 switch (offDay) {
                     case 0:
-                        return $"今天 {_data.EventOn.TimeOfDay.ToString("hh\\:mm\\:ss")}";
+                        return $"今天 {_data.Timestamp.TimeOfDay.ToString("hh\\:mm\\:ss")}";
                     case 1:
-                        return $"左天 {_data.EventOn.TimeOfDay.ToString("hh\\:mm\\:ss")}";
+                        return $"左天 {_data.Timestamp.TimeOfDay.ToString("hh\\:mm\\:ss")}";
                     case 2:
-                        return $"前天 {_data.EventOn.TimeOfDay.ToString("hh\\:mm\\:ss")}";
+                        return $"前天 {_data.Timestamp.TimeOfDay.ToString("hh\\:mm\\:ss")}";
                     default:
-                        return _data.EventOn.ToString("yyyy-MM-dd HH:mm:ss");
+                        return _data.Timestamp.ToString("yyyy-MM-dd HH:mm:ss");
                 }
             }
         }

@@ -21,7 +21,7 @@ namespace NTMiner {
     /// </summary>
     public static partial class VirtualRoot {
         public static readonly string AppFileFullName = Process.GetCurrentProcess().MainModule.FileName;
-        public static readonly string WorkerEventDbFileFullName = Path.Combine(MainAssemblyInfo.TempDirFullName, "workerEvent.litedb");
+        public static readonly string WorkerMessageDbFileFullName = Path.Combine(MainAssemblyInfo.TempDirFullName, "workerMessage.litedb");
         public static Guid Id { get; private set; }
         
         #region IsMinerClient
@@ -84,7 +84,7 @@ namespace NTMiner {
         public static readonly IMessageDispatcher SMessageDispatcher;
         private static readonly ICmdBus SCommandBus;
         private static readonly IEventBus SEventBus;
-        public static readonly WorkerEventSet WorkerEvents;
+        public static readonly WorkerMessageSet WorkerMessages;
         #region Out
         private static IOut _out;
         /// <summary>
@@ -128,7 +128,7 @@ namespace NTMiner {
             SMessageDispatcher = new MessageDispatcher();
             SCommandBus = new DirectCommandBus(SMessageDispatcher);
             SEventBus = new DirectEventBus(SMessageDispatcher);
-            WorkerEvents = new WorkerEventSet();
+            WorkerMessages = new WorkerMessageSet();
         }
 
         #region ConvertToGuid
@@ -227,8 +227,8 @@ namespace NTMiner {
         }
         #endregion
 
-        public static void WorkerEvent(WorkerMessageChannel channel, string provider, WorkerMessageType eventType, string content) {
-            WorkerEvents.Add(channel.GetName(), provider, eventType.GetName(), content);
+        public static void WorkerMessage(WorkerMessageChannel channel, string provider, WorkerMessageType messageType, string content) {
+            WorkerMessages.Add(channel.GetName(), provider, messageType.GetName(), content);
         }
 
         public static WebClient CreateWebClient(int timeoutSeconds = 180) {
@@ -236,12 +236,12 @@ namespace NTMiner {
         }
 
         #region 内部类
-        public class WorkerEventSet : IEnumerable<IWorkerMessage> {
+        public class WorkerMessageSet : IEnumerable<IWorkerMessage> {
             private readonly string _connectionString;
             private readonly LinkedList<WorkerMessageData> _records = new LinkedList<WorkerMessageData>();
 
-            internal WorkerEventSet() {
-                _connectionString = $"filename={WorkerEventDbFileFullName};journal=false";
+            internal WorkerMessageSet() {
+                _connectionString = $"filename={WorkerMessageDbFileFullName};journal=false";
             }
 
             public int Count {
@@ -251,19 +251,19 @@ namespace NTMiner {
                 }
             }
 
-            public void Add(string channel, string provider, string eventType, string content) {
+            public void Add(string channel, string provider, string messageType, string content) {
                 InitOnece();
                 var data = new WorkerMessageData {
                     Id = Guid.NewGuid(),
                     Channel = channel,
                     Provider = provider,
-                    MessageType = eventType,
+                    MessageType = messageType,
                     Content = content,
-                    EventOn = DateTime.Now
+                    Timestamp = DateTime.Now
                 };
                 lock (_locker) {
                     _records.AddFirst(data);
-                    while (_records.Count > WorkerEventSetCapacity) {
+                    while (_records.Count > WorkerMessageSetCapacity) {
                         var toRemove = _records.Last;
                         _records.RemoveLast();
                         using (LiteDatabase db = new LiteDatabase(_connectionString)) {
@@ -276,7 +276,7 @@ namespace NTMiner {
                     var col = db.GetCollection<WorkerMessageData>();
                     col.Insert(data);
                 }
-                Happened(new WorkerEvent(data));
+                Happened(new WorkerMessage(data));
             }
 
             private bool _isInited = false;
@@ -294,8 +294,8 @@ namespace NTMiner {
                     if (!_isInited) {
                         using (LiteDatabase db = new LiteDatabase(_connectionString)) {
                             var col = db.GetCollection<WorkerMessageData>();
-                            foreach (var item in col.FindAll().OrderBy(a => a.EventOn)) {
-                                if (_records.Count < WorkerEventSetCapacity) {
+                            foreach (var item in col.FindAll().OrderBy(a => a.Timestamp)) {
+                                if (_records.Count < WorkerMessageSetCapacity) {
                                     _records.AddFirst(item);
                                 }
                                 else {

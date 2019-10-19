@@ -102,7 +102,7 @@ namespace NTMiner {
 
         public static readonly IEnumerable<EnumItem<MineStatus>> MineStatusEnumItems = MineStatus.All.GetEnumItems();
 
-        public static readonly IEnumerable<EnumItem<WorkerMessageChannel>> WorkerEventChannelEnumItems = WorkerMessageChannel.Unspecified.GetEnumItems();
+        public static readonly IEnumerable<EnumItem<WorkerMessageChannel>> WorkerMessageChannelEnumItems = WorkerMessageChannel.Unspecified.GetEnumItems();
 
         private static LocalJsonDb _localJson;
         public static ILocalJsonDb LocalJson {

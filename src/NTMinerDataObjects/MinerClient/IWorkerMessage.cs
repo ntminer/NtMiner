@@ -10,6 +10,6 @@ namespace NTMiner.MinerClient {
         string Provider { get; }
         string MessageType { get; }
         string Content { get; }
-        DateTime EventOn { get; }
+        DateTime Timestamp { get; }
     }
 }

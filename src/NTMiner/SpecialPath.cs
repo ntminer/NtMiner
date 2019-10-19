@@ -51,9 +51,9 @@ namespace NTMiner {
                     if (File.Exists(shareGpuProfilesJsonFileFullName) && !File.Exists(GpuProfilesJsonFileFullName)) {
                         File.Copy(shareGpuProfilesJsonFileFullName, GpuProfilesJsonFileFullName);
                     }
-                    string shareWorkerEventDbFileFullName = Path.Combine(MainAssemblyInfo.TempDirFullName, "workerEvent.litedb");
-                    if (File.Exists(shareWorkerEventDbFileFullName) && !File.Exists(VirtualRoot.WorkerEventDbFileFullName)) {
-                        File.Copy(shareWorkerEventDbFileFullName, VirtualRoot.WorkerEventDbFileFullName);
+                    string shareWorkerMessageDbFileFullName = Path.Combine(MainAssemblyInfo.TempDirFullName, "workerMessage.litedb");
+                    if (File.Exists(shareWorkerMessageDbFileFullName) && !File.Exists(VirtualRoot.WorkerMessageDbFileFullName)) {
+                        File.Copy(shareWorkerMessageDbFileFullName, VirtualRoot.WorkerMessageDbFileFullName);
                     }
                     string shareUpdaterFileFullName = Path.Combine(MainAssemblyInfo.TempDirFullName, "Updater", "NTMinerUpdater.exe");
                     if (File.Exists(shareUpdaterFileFullName) && !File.Exists(UpdaterFileFullName)) {

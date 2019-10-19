@@ -18,6 +18,6 @@ namespace NTMiner.MinerClient {
 
         public string Content { get; set; }
 
-        public DateTime EventOn { get; set; }
+        public DateTime Timestamp { get; set; }
     }
 }
