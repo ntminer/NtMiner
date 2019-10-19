@@ -24,7 +24,7 @@
         </Grid.RowDefinitions>
         <WrapPanel>
             <ListBox 
-                Margin="0 0 20 0"
+                Margin="0 0 10 0"
 			    Background="Transparent"
 			    ItemsSource="{x:Static app:AppStatic.WorkerMessageChannelEnumItems}"
 			    SelectedItem="{Binding SelectedChannel}"
@@ -44,7 +44,7 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            <WrapPanel Margin="0 0 20 0" VerticalAlignment="Center">
+            <WrapPanel Margin="0 0 10 0" VerticalAlignment="Center">
                 <CheckBox IsChecked="{Binding IsErrorChecked}">
                     <WrapPanel>
                         <Path
@@ -82,7 +82,7 @@
                     </WrapPanel>
                 </CheckBox>
             </WrapPanel>
-            <WrapPanel Margin="0 0 20 0" VerticalAlignment="Center">
+            <WrapPanel Margin="0 0 10 0" VerticalAlignment="Center">
                 <Path 
 				    Width="12"
 				    Height="12"
@@ -91,7 +91,7 @@
 				    Data="{StaticResource Icon_Serach}"></Path>
                 <controls:KbTextBox 
 				    x:Name="TbKeyword" 
-                    Width="154" 
+                    Width="134" 
                     Height="22"
 				    Text="{Binding Keyword, UpdateSourceTrigger=PropertyChanged}" 
 				    VerticalContentAlignment="Center"
@@ -116,10 +116,10 @@
 					    Stretch="Fill" />
                 </controls:KbButton>
             </WrapPanel>
-            <WrapPanel Margin="0 0 20 0" VerticalAlignment="Center">
+            <WrapPanel Margin="0 0 10 0" VerticalAlignment="Center">
                 <controls:KbButton
                     Height="20"
-			        Padding="6 2"
+			        Padding="2"
                     Background="Transparent"
                     Cursor="Hand"
 			        CornerRadius="2">
@@ -133,13 +133,13 @@
                         <TextBlock
 					        Padding="2 0"
 					        VerticalAlignment="Center"
-					        Text="清空日志" />
+					        Text="清空" />
                     </WrapPanel>
                 </controls:KbButton>
                 <controls:KbButton
                     Margin="4 0 0 0"
                     Height="20"
-			        Padding="6 2"
+			        Padding="2"
                     Background="Transparent"
                     Cursor="Hand"
 			        CornerRadius="2">
@@ -153,7 +153,7 @@
                         <TextBlock
 					        Padding="2 0"
 					        VerticalAlignment="Center"
-					        Text="自定义" />
+					        Text="配置" />
                     </WrapPanel>
                 </controls:KbButton>
             </WrapPanel>
