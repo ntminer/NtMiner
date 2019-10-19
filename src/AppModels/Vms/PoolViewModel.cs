@@ -103,7 +103,7 @@ namespace NTMiner.Vms {
                 }
                 this.ShowDialog(message: $"您确定删除{this.Name}矿池吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemovePoolCommand(this.Id));
-                }, icon: IconConst.IconConfirm);
+                });
             });
             this.SortUp = new DelegateCommand(() => {
                 PoolViewModel upOne = AppContext.Instance.PoolVms.GetUpOne(this.CoinId, this.SortNumber);

@@ -59,7 +59,7 @@ namespace NTMiner.Vms {
                 }
                 this.ShowDialog(message: $"您确定删除{this.Name}内核包吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemovePackageCommand(this.Id));
-                }, icon: IconConst.IconConfirm);
+                });
             });
             this.BrowsePackage = new DelegateCommand(() => {
                 OpenFileDialog openFileDialog = new OpenFileDialog {

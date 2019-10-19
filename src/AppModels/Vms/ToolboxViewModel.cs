@@ -29,9 +29,9 @@ namespace NTMiner.Vms {
                     this.ShowDialog(message: "关闭计算模式挖矿算力会减半，确定关闭计算模式？", title: "二次确认", onYes: () => {
                         isClose = true;
                         VirtualRoot.Execute(new SwitchRadeonGpuCommand(on: false));
-                    }, icon: IconConst.IconConfirm);
+                    });
                     return isClose;
-                }, icon: IconConst.IconConfirm, yesText: "开启计算模式", noText: "关闭计算模式");
+                }, yesText: "开启计算模式", noText: "关闭计算模式");
             });
             this.AtikmdagPatcher = new DelegateCommand(() => {
                 if (MinerProfileViewModel.Instance.IsMining) {
@@ -49,17 +49,17 @@ namespace NTMiner.Vms {
             this.RegCmdHere = new DelegateCommand(() => {
                 this.ShowDialog(message: $"确定在windows右键上下文菜单中添加\"命令行\"菜单吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RegCmdHereCommand());
-                }, icon: IconConst.IconConfirm);
+                });
             });
             this.BlockWAU = new DelegateCommand(() => {
                 this.ShowDialog(message: $"确定禁用Windows系统更新吗？禁用后可在Windows服务中找到Windows Update手动启用。", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new BlockWAUCommand());
-                }, icon: IconConst.IconConfirm, helpUrl: "https://www.loserhub.cn/posts/details/91");
+                }, helpUrl: "https://www.loserhub.cn/posts/details/91");
             });
             this.Win10Optimize = new DelegateCommand(() => {
                 this.ShowDialog(message: $"确定面向挖矿优化windows吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new Win10OptimizeCommand());
-                }, icon: IconConst.IconConfirm, helpUrl: "https://www.loserhub.cn/posts/details/83");
+                }, helpUrl: "https://www.loserhub.cn/posts/details/83");
             });
             this.EnableWindowsRemoteDesktop = new DelegateCommand(() => {
                 VirtualRoot.Execute(new EnableWindowsRemoteDesktopCommand());

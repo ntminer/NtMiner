@@ -4,7 +4,7 @@ using System;
 
 namespace NTMiner {
     public static class ViewModelExtension {
-        public static void ShowDialog(this ViewModelBase vm, string icon = null,
+        public static void ShowDialog(this ViewModelBase vm, string icon = "Icon_Confirm",
             string title = null,
             string message = null,
             string helpUrl = null,

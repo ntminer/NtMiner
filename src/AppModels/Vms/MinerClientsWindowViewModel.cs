@@ -184,7 +184,7 @@ namespace NTMiner.Vms {
                             }
                         });
                     }
-                }, icon: IconConst.IconConfirm);
+                });
             }, (ntminerFileData) => this.SelectedMinerClients != null && this.SelectedMinerClients.Length != 0);
             this.AddMinerClient = new DelegateCommand(()=> {
                 VirtualRoot.Execute(new ShowMinerClientAddCommand());
@@ -204,7 +204,7 @@ namespace NTMiner.Vms {
                                 QueryMinerClients();
                             }
                         });
-                    }, icon: IconConst.IconConfirm);
+                    });
                 }
             }, CanCommand);
             this.RefreshMinerClients = new DelegateCommand(() => {
@@ -240,7 +240,7 @@ namespace NTMiner.Vms {
                                 }
                             });
                         }
-                    }, icon: IconConst.IconConfirm);
+                    });
                 }
             }, CanCommand);
             this.ShutdownWindows = new DelegateCommand(() => {
@@ -256,7 +256,7 @@ namespace NTMiner.Vms {
                                 }
                             });
                         }
-                    }, icon: IconConst.IconConfirm);
+                    });
                 }
             }, CanCommand);
             this.RestartNTMiner = new DelegateCommand(() => {
@@ -272,7 +272,7 @@ namespace NTMiner.Vms {
                                 }
                             });
                         }
-                    }, icon: IconConst.IconConfirm);
+                    });
                 }
             }, CanCommand);
             this.StartMine = new DelegateCommand(() => {
@@ -306,7 +306,7 @@ namespace NTMiner.Vms {
                             });
                             Server.ControlCenterService.UpdateClientAsync(item.Id, nameof(item.IsMining), item.IsMining, null);
                         }
-                    }, icon: IconConst.IconConfirm);
+                    });
                 }
             }, CanCommand);
             this.PageUp = new DelegateCommand(() => {

@@ -55,7 +55,7 @@ namespace NTMiner.Vms {
                             AppContext.Instance.MinerClientsWindowVm.QueryMinerClients();
                         }
                     });
-                }, icon: IconConst.IconConfirm);
+                });
             });
             this.Refresh = new DelegateCommand(() => {
                 Server.ControlCenterService.RefreshClientsAsync(new List<string> { this.Id }, (response, e) => {
@@ -86,7 +86,7 @@ namespace NTMiner.Vms {
                             Write.UserFail(response.ReadMessage(e));
                         }
                     });
-                }, icon: IconConst.IconConfirm);
+                });
             });
             this.ShutdownWindows = new DelegateCommand(() => {
                 this.ShowDialog(message: $"确定关闭{this.MinerName}({this.MinerIp})电脑吗？", title: "确认", onYes: () => {
@@ -95,7 +95,7 @@ namespace NTMiner.Vms {
                             Write.UserFail(response.ReadMessage(e));
                         }
                     });
-                }, icon: IconConst.IconConfirm);
+                });
             });
             this.RestartNTMiner = new DelegateCommand(() => {
                 this.ShowDialog(message: $"确定重启{this.MinerName}({this.MinerIp})挖矿客户端吗？", title: "确认", onYes: () => {
@@ -104,7 +104,7 @@ namespace NTMiner.Vms {
                             Write.UserFail(response.ReadMessage(e));
                         }
                     });
-                }, icon: IconConst.IconConfirm);
+                });
             });
             this.StartMine = new DelegateCommand(() => {
                 IsMining = true;
@@ -124,7 +124,7 @@ namespace NTMiner.Vms {
                         }
                     });
                     Server.ControlCenterService.UpdateClientAsync(this.Id, nameof(IsMining), IsMining, null);
-                }, icon: IconConst.IconConfirm);
+                });
             });
         }
         #endregion

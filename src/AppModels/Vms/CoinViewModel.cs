@@ -158,18 +158,18 @@ namespace NTMiner.Vms {
                 this.ShowDialog(message: data.Tooltip, title: "确定应用该超频设置吗？", onYes: () => {
                     FillOverClock(data);
                     ApplyOverClock();
-                }, icon: IconConst.IconConfirm);
+                });
             });
             this.ApplyCustomOverClock = new DelegateCommand(() => {
                 this.ShowDialog(message: $"确定应用您的自定义超频吗？", title: "确认自定义超频", onYes: () => {
                     ApplyOverClock();
-                }, icon: IconConst.IconConfirm);
+                });
             });
             this.RestoreOverClock = new DelegateCommand(() => {
                 this.ShowDialog(message: $"确定恢复默认吗？", title: "确认", onYes: () => {
                     NTMinerRoot.Instance.GpuSet.OverClock.Restore();
                     this.IsOverClockEnabled = false;
-                }, icon: IconConst.IconConfirm);
+                });
             });
             this.FillOverClockForm = new DelegateCommand<OverClockDataViewModel>((data) => {
                 FillOverClock(data);
@@ -184,7 +184,7 @@ namespace NTMiner.Vms {
                         item.Update((IOverClockInput)data);
                         VirtualRoot.Execute(new AddOrUpdateGpuProfileCommand(item));
                     }
-                }, icon: IconConst.IconConfirm);
+                });
             });
             this.AddOverClockData = new DelegateCommand(() => {
                 new OverClockDataViewModel(Guid.NewGuid()) {
@@ -215,7 +215,7 @@ namespace NTMiner.Vms {
                 }
                 this.ShowDialog(message: $"您确定删除{this.Code}币种吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveCoinCommand(this.Id));
-                }, icon: IconConst.IconConfirm);
+                });
             });
 
             this.AddPool = new DelegateCommand(() => {

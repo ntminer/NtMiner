@@ -166,7 +166,7 @@ namespace NTMiner.Vms {
                 }
                 this.ShowDialog(message: $"您确定删除{this.ColumnsShowName}吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveColumnsShowCommand(this.Id));
-                }, icon: IconConst.IconConfirm);
+                });
             });
         }
 

@@ -65,7 +65,7 @@ namespace NTMiner.Vms {
                 }
                 this.ShowDialog(message: $"您确定删除{this.Code}系统字典项吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveSysDicItemCommand(this.Id));
-                }, icon: IconConst.IconConfirm);
+                });
             });
             this.SortUp = new DelegateCommand(() => {
                 SysDicItemViewModel upOne = AppContext.Instance.SysDicItemVms.GetUpOne(this.SortNumber);

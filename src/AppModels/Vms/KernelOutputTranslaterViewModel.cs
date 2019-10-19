@@ -67,7 +67,7 @@ namespace NTMiner.Vms {
                 }
                 this.ShowDialog(message: $"您确定删除{this.RegexPattern}内核输出翻译器吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveKernelOutputTranslaterCommand(this.Id));
-                }, icon: IconConst.IconConfirm);
+                });
             });
             this.SortUp = new DelegateCommand(() => {
                 KernelOutputTranslaterViewModel upOne = AppContext.Instance.KernelOutputTranslaterVms.GetUpOne(this.KernelOutputId, this.SortNumber);

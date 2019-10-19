@@ -247,7 +247,7 @@ namespace NTMiner {
                 DialogWindow.ShowDialog(message: msg, title: "确认", onYes: () => {
                     Rdp.SetRdpEnabled(true, true);
                     Firewall.AddRemoteDesktopRule();
-                }, icon: IconConst.IconConfirm);
+                });
             });
             #endregion
             #region 启用或禁用windows开机自动登录

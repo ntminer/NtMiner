@@ -563,7 +563,7 @@ namespace NTMiner {
                     Logger.ErrorDebugLine(e);
                     VirtualRoot.Out.ShowErrorMessage($"刷新失败");
                 }
-            }, icon: IconConst.IconConfirm));
+            }));
         });
 
         public static ICommand ShowUsers { get; private set; } = new DelegateCommand(() => {

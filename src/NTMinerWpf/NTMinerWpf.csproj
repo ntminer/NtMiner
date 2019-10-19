@@ -87,7 +87,6 @@
     <Compile Include="DelegateCommand`1.cs" />
     <Compile Include="Design.cs" />
     <Compile Include="HotKeyUtil.cs" />
-    <Compile Include="IconConst.cs" />
     <Compile Include="SystemHotKey.cs" />
     <Compile Include="UIThread.cs" />
     <Compile Include="Notifications\ContentLocation.cs" />

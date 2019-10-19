@@ -49,7 +49,7 @@ namespace NTMiner.Vms {
                 }
                 this.ShowDialog(message: $"您确定删除{this.RegexPattern}内核输出过滤器吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveKernelOutputFilterCommand(this.Id));
-                }, icon: IconConst.IconConfirm);
+                });
             });
         }
 
