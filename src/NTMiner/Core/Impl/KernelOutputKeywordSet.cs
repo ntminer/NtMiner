@@ -20,8 +20,11 @@ namespace NTMiner.Core.Impl {
                     if (_dicById.ContainsKey(message.Input.GetId())) {
                         return;
                     }
+                    if (string.IsNullOrEmpty(message.Input.WorkerMessageType)) {
+                        throw new ValidationException("WorkerMessageType can't be null or empty");
+                    }
                     if (string.IsNullOrEmpty(message.Input.Keyword)) {
-                        throw new ValidationException("EventType name can't be null or empty");
+                        throw new ValidationException("Keyword can't be null or empty");
                     }
                     if (_dicById.Values.Any(a => a.Keyword == message.Input.Keyword && a.Id != message.Input.GetId())) {
                         throw new ValidationException($"关键字{message.Input.Keyword}已存在");
@@ -39,8 +42,11 @@ namespace NTMiner.Core.Impl {
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
                         throw new ArgumentNullException();
                     }
+                    if (string.IsNullOrEmpty(message.Input.WorkerMessageType)) {
+                        throw new ValidationException("WorkerMessageType can't be null or empty");
+                    }
                     if (string.IsNullOrEmpty(message.Input.Keyword)) {
-                        throw new ValidationException("EventType name can't be null or empty");
+                        throw new ValidationException("Keyword can't be null or empty");
                     }
                     if (!_dicById.ContainsKey(message.Input.GetId())) {
                         return;
@@ -100,14 +106,14 @@ namespace NTMiner.Core.Impl {
             }
         }
 
-        public bool Contains(string keyword) {
+        public IEnumerable<IKernelOutputKeyword> GetKeywords(Guid kernelOutputId) {
             InitOnece();
-            return _dicById.Values.Any(a => a.Keyword == keyword);
+            return _dicById.Values.Where(a => a.KernelOutputId == kernelOutputId);
         }
 
-        public bool Contains(Guid id) {
+        public bool Contains(Guid kernelOutputId, string keyword) {
             InitOnece();
-            return _dicById.ContainsKey(id);
+            return _dicById.Values.Any(a => a.KernelOutputId == kernelOutputId && a.Keyword == keyword);
         }
 
         public bool TryGetKernelOutputKeyword(Guid id, out IKernelOutputKeyword keyword) {

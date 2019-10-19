@@ -5,7 +5,7 @@ namespace NTMiner {
     /// 频道是平的，主题是分层的。开源矿工的挖矿事件没有主题需求。
     /// </summary>
     /// <remarks>持久层存的是枚举名</remarks>
-    public enum WorkerEventChannel {
+    public enum WorkerMessageChannel {
         [Description("全部频道")]
         Unspecified,
         /// <summary>

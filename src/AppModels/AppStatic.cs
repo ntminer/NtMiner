@@ -357,7 +357,7 @@ namespace NTMiner {
             }
         }
 
-        public static IEnumerable<EnumItem<WorkerEventChannel>> WorkerEventChannelEnumItems {
+        public static IEnumerable<EnumItem<WorkerMessageChannel>> WorkerEventChannelEnumItems {
             get {
                 return NTMinerRoot.WorkerEventChannelEnumItems;
             }

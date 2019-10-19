@@ -4,28 +4,28 @@ using System.Windows;
 using System.Windows.Media;
 
 namespace NTMiner.Vms {
-    public class WorkerEventViewModel : ViewModelBase, IWorkerEvent {
+    public class WorkerEventViewModel : ViewModelBase, IWorkerMessage {
         private static readonly StreamGeometry ErrorIcon = (StreamGeometry)Application.Current.Resources["Icon_Error"];
         private static readonly StreamGeometry WarnIcon = (StreamGeometry)Application.Current.Resources["Icon_Waring"];
         private static readonly StreamGeometry InfoIcon = (StreamGeometry)Application.Current.Resources["Icon_Info"];
         private static readonly SolidColorBrush IconFillColor = (SolidColorBrush)Application.Current.Resources["IconFillColor"];
         private static readonly SolidColorBrush Warn = (SolidColorBrush)Application.Current.Resources["Warn"];
 
-        private readonly IWorkerEvent _data;
-        private readonly WorkerEventChannel _channel;
-        private readonly WorkerEventType _eventType;
+        private readonly IWorkerMessage _data;
+        private readonly WorkerMessageChannel _channel;
+        private readonly WorkerMessageType _eventType;
 
-        public WorkerEventChannel ChannelEnum {
+        public WorkerMessageChannel ChannelEnum {
             get { return _channel; }
         }
 
-        public WorkerEventType EventTypeEnum {
+        public WorkerMessageType MessageTypeEnum {
             get { return _eventType; }
         }
 
-        public WorkerEventViewModel(IWorkerEvent data) {
+        public WorkerEventViewModel(IWorkerMessage data) {
             _data = data;
-            _data.EventType.TryParse(out _eventType);
+            _data.MessageType.TryParse(out _eventType);
             _data.Channel.TryParse(out _channel);
         }
 
@@ -53,38 +53,38 @@ namespace NTMiner.Vms {
 
         public string ChannelText {
             get {
-                if (_channel != WorkerEventChannel.Unspecified) {
+                if (_channel != WorkerMessageChannel.Unspecified) {
                     return _channel.GetDescription();
                 }
                 return "未知";
             }
         }
 
-        public string EventType {
+        public string MessageType {
             get {
-                return _data.EventType;
+                return _data.MessageType;
             }
         }
 
-        public string EventTypeText {
+        public string MessageTypeText {
             get {
-                if (_eventType != WorkerEventType.Undefined) {
+                if (_eventType != WorkerMessageType.Undefined) {
                     return _eventType.GetDescription();
                 }
                 return "未知";
             }
         }
 
-        public StreamGeometry EventTypeIcon {
+        public StreamGeometry MessageTypeIcon {
             get {
                 switch (_eventType) {
-                    case WorkerEventType.Undefined:
+                    case WorkerMessageType.Undefined:
                         return null;
-                    case WorkerEventType.Info:
+                    case WorkerMessageType.Info:
                         return InfoIcon;
-                    case WorkerEventType.Warn:
+                    case WorkerMessageType.Warn:
                         return WarnIcon;
-                    case WorkerEventType.Error:
+                    case WorkerMessageType.Error:
                         return ErrorIcon;
                     default:
                         return null;
@@ -95,13 +95,13 @@ namespace NTMiner.Vms {
         public SolidColorBrush IconFill {
             get {
                 switch (_eventType) {
-                    case WorkerEventType.Undefined:
+                    case WorkerMessageType.Undefined:
                         return Wpf.Util.BlackBrush;
-                    case WorkerEventType.Info:
+                    case WorkerMessageType.Info:
                         return IconFillColor;
-                    case WorkerEventType.Warn:
+                    case WorkerMessageType.Warn:
                         return Warn;
-                    case WorkerEventType.Error:
+                    case WorkerMessageType.Error:
                         return Wpf.Util.RedBrush;
                     default:
                         return Wpf.Util.BlackBrush;
@@ -112,13 +112,13 @@ namespace NTMiner.Vms {
         public SolidColorBrush Foreground {
             get {
                 switch (_eventType) {
-                    case WorkerEventType.Undefined:
+                    case WorkerMessageType.Undefined:
                         return Wpf.Util.BlackBrush;
-                    case WorkerEventType.Info:
+                    case WorkerMessageType.Info:
                         return Wpf.Util.BlackBrush;
-                    case WorkerEventType.Warn:
+                    case WorkerMessageType.Warn:
                         return Warn;
-                    case WorkerEventType.Error:
+                    case WorkerMessageType.Error:
                         return Wpf.Util.RedBrush;
                     default:
                         return Wpf.Util.BlackBrush;

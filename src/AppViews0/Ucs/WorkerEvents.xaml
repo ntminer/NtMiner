@@ -137,7 +137,7 @@
                             <Path
 						        Width="14"
 						        Height="14"
-						        Data="{Binding EventTypeIcon}"
+						        Data="{Binding MessageTypeIcon}"
 						        Fill="{Binding IconFill}"
 						        Stretch="Fill" />
                         </DataTemplate>

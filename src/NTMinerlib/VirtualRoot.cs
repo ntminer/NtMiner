@@ -227,7 +227,7 @@ namespace NTMiner {
         }
         #endregion
 
-        public static void WorkerEvent(WorkerEventChannel channel, string provider, WorkerEventType eventType, string content) {
+        public static void WorkerEvent(WorkerMessageChannel channel, string provider, WorkerMessageType eventType, string content) {
             WorkerEvents.Add(channel.GetName(), provider, eventType.GetName(), content);
         }
 
@@ -236,9 +236,9 @@ namespace NTMiner {
         }
 
         #region 内部类
-        public class WorkerEventSet : IEnumerable<IWorkerEvent> {
+        public class WorkerEventSet : IEnumerable<IWorkerMessage> {
             private readonly string _connectionString;
-            private readonly LinkedList<WorkerEventData> _records = new LinkedList<WorkerEventData>();
+            private readonly LinkedList<WorkerMessageData> _records = new LinkedList<WorkerMessageData>();
 
             internal WorkerEventSet() {
                 _connectionString = $"filename={WorkerEventDbFileFullName};journal=false";
@@ -253,11 +253,11 @@ namespace NTMiner {
 
             public void Add(string channel, string provider, string eventType, string content) {
                 InitOnece();
-                var data = new WorkerEventData {
+                var data = new WorkerMessageData {
                     Id = Guid.NewGuid(),
                     Channel = channel,
                     Provider = provider,
-                    EventType = eventType,
+                    MessageType = eventType,
                     Content = content,
                     EventOn = DateTime.Now
                 };
@@ -267,13 +267,13 @@ namespace NTMiner {
                         var toRemove = _records.Last;
                         _records.RemoveLast();
                         using (LiteDatabase db = new LiteDatabase(_connectionString)) {
-                            var col = db.GetCollection<WorkerEventData>();
+                            var col = db.GetCollection<WorkerMessageData>();
                             col.Delete(toRemove.Value.Id);
                         }
                     }
                 }
                 using (LiteDatabase db = new LiteDatabase(_connectionString)) {
-                    var col = db.GetCollection<WorkerEventData>();
+                    var col = db.GetCollection<WorkerMessageData>();
                     col.Insert(data);
                 }
                 Happened(new WorkerEvent(data));
@@ -293,7 +293,7 @@ namespace NTMiner {
                 lock (_locker) {
                     if (!_isInited) {
                         using (LiteDatabase db = new LiteDatabase(_connectionString)) {
-                            var col = db.GetCollection<WorkerEventData>();
+                            var col = db.GetCollection<WorkerMessageData>();
                             foreach (var item in col.FindAll().OrderBy(a => a.EventOn)) {
                                 if (_records.Count < WorkerEventSetCapacity) {
                                     _records.AddFirst(item);
@@ -308,7 +308,7 @@ namespace NTMiner {
                 }
             }
 
-            public IEnumerator<IWorkerEvent> GetEnumerator() {
+            public IEnumerator<IWorkerMessage> GetEnumerator() {
                 InitOnece();
                 return _records.GetEnumerator();
             }

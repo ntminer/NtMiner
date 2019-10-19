@@ -6,7 +6,7 @@
     public class WorkerEventsViewModel : ViewModelBase {
         private readonly ObservableCollection<WorkerEventViewModel> _workerEventVms;
         private ObservableCollection<WorkerEventViewModel> _queyResults;
-        private EnumItem<WorkerEventChannel> _selectedChannel;
+        private EnumItem<WorkerMessageChannel> _selectedChannel;
         private int _errorCount;
         private int _warnCount;
         private int _infoCount;
@@ -16,34 +16,34 @@
             _workerEventVms = new ObservableCollection<WorkerEventViewModel>(data);
             _queyResults = _workerEventVms;
             foreach (var item in _workerEventVms) {
-                switch (item.EventTypeEnum) {
-                    case WorkerEventType.Error:
+                switch (item.MessageTypeEnum) {
+                    case WorkerMessageType.Error:
                         _errorCount++;
                         break;
-                    case WorkerEventType.Warn:
+                    case WorkerMessageType.Warn:
                         _warnCount++;
                         break;
-                    case WorkerEventType.Info:
+                    case WorkerMessageType.Info:
                         _infoCount++;
                         break;
                     default:
                         break;
                 }
             }
-            _selectedChannel = WorkerEventChannel.Unspecified.GetEnumItem();
+            _selectedChannel = WorkerMessageChannel.Unspecified.GetEnumItem();
 
             VirtualRoot.CreateEventPath<WorkerEvent>("发生了挖矿事件后刷新Vm内存", LogEnum.DevConsole,
                 action: message => {
                     var vm = new WorkerEventViewModel(message.Source);
                     _workerEventVms.Insert(0, vm);
-                    switch (vm.EventTypeEnum) {
-                        case WorkerEventType.Error:
+                    switch (vm.MessageTypeEnum) {
+                        case WorkerMessageType.Error:
                             ErrorCount++;
                             break;
-                        case WorkerEventType.Warn:
+                        case WorkerMessageType.Warn:
                             WarnCount++;
                             break;
-                        case WorkerEventType.Info:
+                        case WorkerMessageType.Info:
                             InfoCount++;
                             break;
                         default:
@@ -51,49 +51,49 @@
                     }
 
                     #region 更新QueryResults
-                    bool isCurrentChannel = SelectedChannel.Value == WorkerEventChannel.Unspecified;
-                    bool isEventTypeChecked = IsErrorChecked && IsWarnChecked && IsInfoChecked;
+                    bool isCurrentChannel = SelectedChannel.Value == WorkerMessageChannel.Unspecified;
+                    bool isMessageTypeChecked = IsErrorChecked && IsWarnChecked && IsInfoChecked;
                     if (!isCurrentChannel) {
                         switch (vm.ChannelEnum) {
-                            case WorkerEventChannel.Kernel:
-                                isCurrentChannel = SelectedChannel.Value == WorkerEventChannel.Kernel;
+                            case WorkerMessageChannel.Kernel:
+                                isCurrentChannel = SelectedChannel.Value == WorkerMessageChannel.Kernel;
                                 break;
-                            case WorkerEventChannel.Server:
-                                isCurrentChannel = SelectedChannel.Value == WorkerEventChannel.Server;
+                            case WorkerMessageChannel.Server:
+                                isCurrentChannel = SelectedChannel.Value == WorkerMessageChannel.Server;
                                 break;
-                            case WorkerEventChannel.This:
-                                isCurrentChannel = SelectedChannel.Value == WorkerEventChannel.This;
+                            case WorkerMessageChannel.This:
+                                isCurrentChannel = SelectedChannel.Value == WorkerMessageChannel.This;
                                 break;
-                            case WorkerEventChannel.Unspecified:
+                            case WorkerMessageChannel.Unspecified:
                                 isCurrentChannel = true;
                                 break;
                             default:
                                 break;
                         }
                     }
-                    if (!isEventTypeChecked) {
-                        switch (vm.EventTypeEnum) {
-                            case WorkerEventType.Error:
-                                isEventTypeChecked = IsErrorChecked;
+                    if (!isMessageTypeChecked) {
+                        switch (vm.MessageTypeEnum) {
+                            case WorkerMessageType.Error:
+                                isMessageTypeChecked = IsErrorChecked;
                                 break;
-                            case WorkerEventType.Warn:
-                                isEventTypeChecked = IsWarnChecked;
+                            case WorkerMessageType.Warn:
+                                isMessageTypeChecked = IsWarnChecked;
                                 break;
-                            case WorkerEventType.Info:
-                                isEventTypeChecked = IsInfoChecked;
+                            case WorkerMessageType.Info:
+                                isMessageTypeChecked = IsInfoChecked;
                                 break;
                             default:
                                 break;
                         }
                     }
-                    if (isCurrentChannel && isEventTypeChecked) {
+                    if (isCurrentChannel && isMessageTypeChecked) {
                         _queyResults.Insert(0, vm);
                     }
                     #endregion
                 });
         }
 
-        public EnumItem<WorkerEventChannel> SelectedChannel {
+        public EnumItem<WorkerMessageChannel> SelectedChannel {
             get => _selectedChannel;
             set {
                 if (_selectedChannel != value) {
@@ -189,15 +189,15 @@
 
         private void RefreshQueryResults() {
             var query = _workerEventVms.AsQueryable();
-            if (SelectedChannel.Value != WorkerEventChannel.Unspecified) {
+            if (SelectedChannel.Value != WorkerMessageChannel.Unspecified) {
                 string channel = SelectedChannel.Value.GetName();
                 query = query.Where(a => a.Channel == channel);
             }
             if (!IsErrorChecked || !IsWarnChecked || !IsInfoChecked) {
-                query = query.Where(a => a.EventTypeEnum == WorkerEventType.Undefined
-                    || (a.EventTypeEnum == WorkerEventType.Error && IsErrorChecked)
-                    || (a.EventTypeEnum == WorkerEventType.Warn && IsWarnChecked)
-                    || (a.EventTypeEnum == WorkerEventType.Info && IsInfoChecked));
+                query = query.Where(a => a.MessageTypeEnum == WorkerMessageType.Undefined
+                    || (a.MessageTypeEnum == WorkerMessageType.Error && IsErrorChecked)
+                    || (a.MessageTypeEnum == WorkerMessageType.Warn && IsWarnChecked)
+                    || (a.MessageTypeEnum == WorkerMessageType.Info && IsInfoChecked));
             }
             _queyResults = new ObservableCollection<WorkerEventViewModel>(query);
             OnPropertyChanged(nameof(QueryResults));

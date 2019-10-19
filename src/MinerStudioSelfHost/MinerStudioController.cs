@@ -25,7 +25,7 @@ namespace NTMiner {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                VirtualRoot.WorkerEvent(WorkerEventChannel.This, nameof(MinerStudioController), WorkerEventType.Info, $"退出群控端");
+                VirtualRoot.WorkerEvent(WorkerMessageChannel.This, nameof(MinerStudioController), WorkerMessageType.Info, $"退出群控端");
                 TimeSpan.FromMilliseconds(100).Delay().ContinueWith(t => {
                     VirtualRoot.Execute(new CloseNTMinerCommand());
                 });

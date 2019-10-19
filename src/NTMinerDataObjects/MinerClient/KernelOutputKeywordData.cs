@@ -16,8 +16,9 @@ namespace NTMiner.MinerClient {
         }
 
         public Guid Id { get; set; }
+        public Guid KernelOutputId { get; set; }
 
-        public Guid WorkerEventTypeId { get; set; }
+        public string WorkerMessageType { get; set; }
 
         public string Keyword { get; set; }
     }
