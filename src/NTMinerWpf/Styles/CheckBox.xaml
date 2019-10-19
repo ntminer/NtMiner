@@ -72,9 +72,6 @@
                         <Trigger Property="IsChecked" Value="False">
                             <Setter TargetName="border" Property="BorderBrush" Value="Transparent" />
                         </Trigger>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource IconFillColor}" />
-                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
