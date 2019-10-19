@@ -116,7 +116,7 @@ namespace NTMiner.Core.Impl {
                         VirtualRoot.Execute(new RemovePoolKernelCommand(poolKernelId));
                     }
                 });
-            VirtualRoot.EventPath<PoolDelayPickedEvent>("提取了矿池延时后记录进内存", LogEnum.DevConsole,
+            VirtualRoot.CreateEventPath<PoolDelayPickedEvent>("提取了矿池延时后记录进内存", LogEnum.DevConsole,
                 action: message => {
                     if (message.IsDual) {
                         if (_poolDelayById.TryGetValue(message.PoolId, out PoolDelay poolDelay)) {

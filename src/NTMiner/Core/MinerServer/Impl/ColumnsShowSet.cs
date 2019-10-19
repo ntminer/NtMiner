@@ -10,7 +10,7 @@ namespace NTMiner.Core.MinerServer.Impl {
         private readonly INTMinerRoot _root;
         public ColumnsShowSet(INTMinerRoot root) {
             _root = root;
-            VirtualRoot.CmdPath<AddColumnsShowCommand>("添加列显", LogEnum.DevConsole,
+            VirtualRoot.CreateCmdPath<AddColumnsShowCommand>(
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty || message.Input.GetId() == ColumnsShowData.PleaseSelect.Id) {
@@ -30,7 +30,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                         }
                     });
                 });
-            VirtualRoot.CmdPath<UpdateColumnsShowCommand>("更新列显", LogEnum.DevConsole,
+            VirtualRoot.CreateCmdPath<UpdateColumnsShowCommand>(
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -51,7 +51,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                     });
                     VirtualRoot.Happened(new ColumnsShowUpdatedEvent(entity));
                 });
-            VirtualRoot.CmdPath<RemoveColumnsShowCommand>("移除列显", LogEnum.DevConsole,
+            VirtualRoot.CreateCmdPath<RemoveColumnsShowCommand>(
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty || message.EntityId == ColumnsShowData.PleaseSelect.Id) {

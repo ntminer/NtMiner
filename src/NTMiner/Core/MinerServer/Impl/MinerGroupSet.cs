@@ -10,7 +10,7 @@ namespace NTMiner.Core.MinerServer.Impl {
 
         public MinerGroupSet(INTMinerRoot root) {
             _root = root;
-            VirtualRoot.CmdPath<AddMinerGroupCommand>("添加矿机分组", LogEnum.DevConsole,
+            VirtualRoot.CreateCmdPath<AddMinerGroupCommand>(
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -33,7 +33,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                         }
                     });
                 });
-            VirtualRoot.CmdPath<UpdateMinerGroupCommand>("更新矿机分组", LogEnum.DevConsole,
+            VirtualRoot.CreateCmdPath<UpdateMinerGroupCommand>(
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -57,7 +57,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                     });
                     VirtualRoot.Happened(new MinerGroupUpdatedEvent(entity));
                 });
-            VirtualRoot.CmdPath<RemoveMinerGroupCommand>("移除矿机分组", LogEnum.DevConsole,
+            VirtualRoot.CreateCmdPath<RemoveMinerGroupCommand>(
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {

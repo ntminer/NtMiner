@@ -35,13 +35,13 @@ namespace NTMiner {
                                 var cmd = new CoinOverClockCommand(mineContext.MainCoin.GetId());
                                 // N卡超频当cpu性能非常差时较耗时，所以这里弄个回调
                                 DelegateHandler<CoinOverClockDoneEvent> callback = null;
-                                callback = VirtualRoot.EventPath<CoinOverClockDoneEvent>("超频完成后继续流程", LogEnum.DevConsole,
+                                callback = VirtualRoot.CreateEventPath<CoinOverClockDoneEvent>("超频完成后继续流程", LogEnum.DevConsole,
                                     message => {
                                         if (mineContext != Instance.CurrentMineContext) {
-                                            VirtualRoot.UnPath(callback);
+                                            VirtualRoot.DeletePath(callback);
                                         }
                                         else if (message.CmdId == cmd.Id) {
-                                            VirtualRoot.UnPath(callback);
+                                            VirtualRoot.DeletePath(callback);
                                             ContinueCreateProcess(mineContext);
                                         }
                                     });
@@ -126,12 +126,12 @@ namespace NTMiner {
             private static DelegateHandler<Per1MinuteEvent> _kernelProcessDaemon = null;
             private static void KernelProcessDaemon(IMineContext mineContext, Action clear) {
                 if (_kernelProcessDaemon != null) {
-                    VirtualRoot.UnPath(_kernelProcessDaemon);
+                    VirtualRoot.DeletePath(_kernelProcessDaemon);
                     _kernelProcessDaemon = null;
                     clear?.Invoke();
                 }
                 string processName = mineContext.Kernel.GetProcessName();
-                _kernelProcessDaemon = VirtualRoot.EventPath<Per1MinuteEvent>("周期性检查挖矿内核是否消失，如果消失尝试重启", LogEnum.DevConsole,
+                _kernelProcessDaemon = VirtualRoot.CreateEventPath<Per1MinuteEvent>("周期性检查挖矿内核是否消失，如果消失尝试重启", LogEnum.DevConsole,
                     action: message => {
                         if (mineContext == Instance.CurrentMineContext) {
                             if (!string.IsNullOrEmpty(processName)) {
@@ -148,7 +148,7 @@ namespace NTMiner {
                                         Instance.StopMineAsync(StopMineReason.KernelProcessLost);
                                     }
                                     if (_kernelProcessDaemon != null) {
-                                        VirtualRoot.UnPath(_kernelProcessDaemon);
+                                        VirtualRoot.DeletePath(_kernelProcessDaemon);
                                         clear?.Invoke();
                                     }
                                 }
@@ -156,7 +156,7 @@ namespace NTMiner {
                         }
                         else {
                             if (_kernelProcessDaemon != null) {
-                                VirtualRoot.UnPath(_kernelProcessDaemon);
+                                VirtualRoot.DeletePath(_kernelProcessDaemon);
                                 _kernelProcessDaemon = null;
                                 clear?.Invoke();
                             }
@@ -324,20 +324,20 @@ namespace NTMiner {
                                 CloseHandle(hWriteOut);
                                 isHWriteOutHasClosed = true;
                             }
-                            VirtualRoot.UnPath(closeHandle);
+                            VirtualRoot.DeletePath(closeHandle);
                         });
-                        closeHandle = VirtualRoot.EventPath<MineStopedEvent>("挖矿停止后关闭非托管的日志句柄", LogEnum.DevConsole,
+                        closeHandle = VirtualRoot.CreateEventPath<MineStopedEvent>("挖矿停止后关闭非托管的日志句柄", LogEnum.DevConsole,
                             action: message => {
                                 // 挖矿停止后摘除挖矿内核进程守护器
                                 if (_kernelProcessDaemon != null) {
-                                    VirtualRoot.UnPath(_kernelProcessDaemon);
+                                    VirtualRoot.DeletePath(_kernelProcessDaemon);
                                     _kernelProcessDaemon = null;
                                 }
                                 if (!isHWriteOutHasClosed) {
                                     CloseHandle(hWriteOut);
                                     isHWriteOutHasClosed = true;
                                 }
-                                VirtualRoot.UnPath(closeHandle);
+                                VirtualRoot.DeletePath(closeHandle);
                             });
                         Task.Factory.StartNew(() => {
                             using (FileStream fs = new FileStream(mineContext.LogFileFullName, FileMode.OpenOrCreate, FileAccess.ReadWrite)) {

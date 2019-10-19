@@ -54,7 +54,7 @@ namespace NTMiner.Vms {
                         BtnStopText = $"倒计时{--n}";
                     }
                     if (n <= 0) {
-                        VirtualRoot.UnPath(handler);
+                        VirtualRoot.DeletePath(handler);
                         if (!NTMinerRoot.IsAutoStartCanceled) {
                             BtnStopText = "正在挖矿";
                             MinerProfile.IsMining = true;

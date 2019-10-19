@@ -11,7 +11,7 @@ namespace NTMiner.AppSetting {
 
         public LocalAppSettingSet(string dbFileFullName) {
             _dbFileFullName = dbFileFullName;
-            VirtualRoot.CmdPath<ChangeLocalAppSettingCommand>("处理设置AppSetting命令", LogEnum.DevConsole,
+            VirtualRoot.CreateCmdPath<ChangeLocalAppSettingCommand>(
                 action: message => {
                     if (message.AppSetting == null) {
                         return;

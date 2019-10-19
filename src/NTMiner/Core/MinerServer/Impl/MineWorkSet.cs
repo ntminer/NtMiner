@@ -10,7 +10,7 @@ namespace NTMiner.Core.MinerServer.Impl {
         private readonly INTMinerRoot _root;
         public MineWorkSet(INTMinerRoot root) {
             _root = root;
-            VirtualRoot.CmdPath<AddMineWorkCommand>("添加工作", LogEnum.DevConsole,
+            VirtualRoot.CreateCmdPath<AddMineWorkCommand>(
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -29,7 +29,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                         Write.UserFail(response?.Description);
                     }
                 });
-            VirtualRoot.CmdPath<UpdateMineWorkCommand>("更新工作", LogEnum.DevConsole,
+            VirtualRoot.CreateCmdPath<UpdateMineWorkCommand>(
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -50,7 +50,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                     });
                     VirtualRoot.Happened(new MineWorkUpdatedEvent(entity));
                 });
-            VirtualRoot.CmdPath<RemoveMineWorkCommand>("移除工作", LogEnum.DevConsole,
+            VirtualRoot.CreateCmdPath<RemoveMineWorkCommand>(
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {

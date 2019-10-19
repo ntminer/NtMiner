@@ -7,7 +7,7 @@ namespace NTMiner {
     public static partial class VirtualRoot {
         public static readonly bool IsGEWin10 = Environment.OSVersion.Version >= new Version(6, 2);
         public static readonly bool IsLTWin10 = Environment.OSVersion.Version < new Version(6, 2);
-        public static readonly string WorkerEventDbFileFullName = System.IO.Path.Combine(MainAssemblyInfo.HomeDirFullName, "workerEvent.litedb");
+        public static readonly string WorkerEventDbFileFullName = System.IO.Path.Combine(MainAssemblyInfo.TempDirFullName, "workerEvent.litedb");
         
         public static void WorkerEvent(WorkerEventChannel channel, string provider, WorkerEventType eventType, string content) {
             WorkerEvents.Add(channel.GetName(), provider, eventType.GetName(), content);
