@@ -19,11 +19,11 @@ namespace NTMiner.Vms {
             _data.EventType.TryParse(out _eventType);
         }
 
-        public int GetId() {
+        public Guid GetId() {
             return _data.Id;
         }
 
-        public int Id {
+        public Guid Id {
             get {
                 return _data.Id;
             }

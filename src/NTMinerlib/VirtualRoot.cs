@@ -6,9 +6,11 @@ using NTMiner.Ip.Impl;
 using NTMiner.MinerClient;
 using NTMiner.Serialization;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Text;
@@ -234,34 +236,47 @@ namespace NTMiner {
         }
 
         #region 内部类
-        public class WorkerEventSet {
-            private int _lastWorkerEventId;
+        public class WorkerEventSet : IEnumerable<IWorkerEvent> {
             private readonly string _connectionString;
+            private readonly LinkedList<WorkerEventData> _records = new LinkedList<WorkerEventData>();
 
             internal WorkerEventSet() {
                 _connectionString = $"filename={WorkerEventDbFileFullName};journal=false";
             }
 
+            public int Count {
+                get {
+                    InitOnece();
+                    return _records.Count;
+                }
+            }
+
             public void Add(string channel, string provider, string eventType, string content) {
                 InitOnece();
                 var data = new WorkerEventData {
-                    Id = 0,
+                    Id = Guid.NewGuid(),
                     Channel = channel,
                     Provider = provider,
                     EventType = eventType,
                     Content = content,
                     EventOn = DateTime.Now
                 };
+                lock (_locker) {
+                    _records.AddFirst(data);
+                    while (_records.Count > WorkerEventSetCapacity) {
+                        var toRemove = _records.Last;
+                        _records.RemoveLast();
+                        using (LiteDatabase db = new LiteDatabase(_connectionString)) {
+                            var col = db.GetCollection<WorkerEventData>();
+                            col.Delete(toRemove.Value.Id);
+                        }
+                    }
+                }
                 using (LiteDatabase db = new LiteDatabase(_connectionString)) {
                     var col = db.GetCollection<WorkerEventData>();
-                    data.Id = col.Insert(data).AsInt32;
-                    _lastWorkerEventId = data.Id;
+                    col.Insert(data);
                 }
                 Happened(new WorkerEvent(data));
-            }
-
-            public int LastWorkerEventId {
-                get { return _lastWorkerEventId; }
             }
 
             private bool _isInited = false;
@@ -279,19 +294,28 @@ namespace NTMiner {
                     if (!_isInited) {
                         using (LiteDatabase db = new LiteDatabase(_connectionString)) {
                             var col = db.GetCollection<WorkerEventData>();
-                            _lastWorkerEventId = col.Max(a => a.Id).AsInt32;
+                            foreach (var item in col.FindAll().OrderBy(a => a.EventOn)) {
+                                if (_records.Count < WorkerEventSetCapacity) {
+                                    _records.AddFirst(item);
+                                }
+                                else {
+                                    col.Delete(item.Id);
+                                }
+                            }
                         }
                         _isInited = true;
                     }
                 }
             }
 
-            public IEnumerable<IWorkerEvent> GetEvents() {
+            public IEnumerator<IWorkerEvent> GetEnumerator() {
                 InitOnece();
-                using (LiteDatabase db = new LiteDatabase(_connectionString)) {
-                    var col = db.GetCollection<WorkerEventData>();
-                    return col.Find(Query.GT("_id", _lastWorkerEventId - WorkerEventSetSliding));
-                }
+                return _records.GetEnumerator();
+            }
+
+            IEnumerator IEnumerable.GetEnumerator() {
+                InitOnece();
+                return _records.GetEnumerator();
             }
         }
 

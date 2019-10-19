@@ -11,8 +11,9 @@
         private int _infoCount;
 
         public WorkerEventsViewModel() {
-            var data = VirtualRoot.WorkerEvents.GetEvents().OrderByDescending(a => a.Id).Select(a => new WorkerEventViewModel(a)).ToArray();
-            foreach (var item in data) {
+            var data = VirtualRoot.WorkerEvents.Select(a => new WorkerEventViewModel(a));
+            _workerEventVms = new ObservableCollection<WorkerEventViewModel>(data);
+            foreach (var item in _workerEventVms) {
                 switch (item.EventType) {
                     case nameof(WorkerEventType.Error):
                         _errorCount++;
@@ -27,7 +28,6 @@
                         break;
                 }
             }
-            _workerEventVms = new ObservableCollection<WorkerEventViewModel>(data);
             _selectedChannel = WorkerEventChannel.Unspecified.GetEnumItem();
         }
 

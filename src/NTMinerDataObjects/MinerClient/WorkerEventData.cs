@@ -1,15 +1,14 @@
 ﻿using System;
 
 namespace NTMiner.MinerClient {
-    public class WorkerEventData : IWorkerEvent, IDbEntity<int> {
+    public class WorkerEventData : IWorkerEvent, IDbEntity<Guid> {
         public WorkerEventData() { }
 
-        public int GetId() {
+        public Guid GetId() {
             return this.Id;
         }
 
-        // Id will be auto-incremented by litedb
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         public string Channel { get; set; }
 
