@@ -22,7 +22,7 @@
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
-        <WrapPanel>
+        <WrapPanel HorizontalAlignment="Left">
             <ListBox 
 			    Background="Transparent"
 			    ItemsSource="{x:Static app:AppStatic.WorkerEventChannelEnumItems}"
@@ -79,8 +79,9 @@
                     <TextBlock Margin="4 0 0 0" Text="{Binding InfoCount}"></TextBlock>
                 </WrapPanel>
             </CheckBox>
+        </WrapPanel>
+        <WrapPanel HorizontalAlignment="Right">
             <controls:KbButton
-			    Margin="20 0 0 0"
                 Height="20"
 			    Padding="6 2"
                 Background="Transparent"
@@ -97,6 +98,25 @@
 					    Padding="2 0"
 					    VerticalAlignment="Center"
 					    Text="清空日志" />
+                </WrapPanel>
+            </controls:KbButton>
+            <controls:KbButton
+                Height="20"
+			    Padding="6 2"
+                Background="Transparent"
+                Cursor="Hand"
+			    CornerRadius="2">
+                <WrapPanel>
+                    <Path
+					    Width="12"
+					    Height="12"
+					    Data="{StaticResource Icon_Setting}"
+					    Fill="{StaticResource IconFillColor}"
+					    Stretch="Fill" />
+                    <TextBlock
+					    Padding="2 0"
+					    VerticalAlignment="Center"
+					    Text="自定义" />
                 </WrapPanel>
             </controls:KbButton>
         </WrapPanel>
