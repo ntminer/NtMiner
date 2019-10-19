@@ -48,9 +48,14 @@
       <DependentUpon>IpAddressControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\BoolToStreamGeometryConverter.cs" />
+    <Compile Include="Messages.cs" />
+    <Compile Include="Views\ContainerWindow.xaml.cs">
+      <DependentUpon>ContainerWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Ucs\Icons.xaml.cs">
       <DependentUpon>Icons.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Vms\ContainerWindowViewModel.cs" />
     <Compile Include="Vms\IconsViewModel.cs" />
     <Compile Include="Vms\IpAddressControlViewModel.cs" />
     <Compile Include="Controls\IPRangeValidationRule.cs" />
@@ -173,6 +178,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Styles\KbTextBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ContainerWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

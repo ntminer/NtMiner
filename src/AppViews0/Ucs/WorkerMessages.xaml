@@ -90,10 +90,11 @@
 				    Stretch="Fill"
 				    Data="{StaticResource Icon_Serach}"></Path>
                 <controls:KbTextBox 
+                    Margin="4 0 0 0"
 				    x:Name="TbKeyword" 
                     Width="134" 
                     Height="22"
-				    Text="{Binding Keyword, UpdateSourceTrigger=PropertyChanged}" 
+				    Text="{Binding Keyword, UpdateSourceTrigger=LostFocus}" 
 				    VerticalContentAlignment="Center"
 				    Hint="请输入关键字"
 				    BorderBrush="{StaticResource LineColor}"
