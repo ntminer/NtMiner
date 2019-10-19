@@ -43,7 +43,7 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            <CheckBox Margin="20 0 0 0" IsChecked="True">
+            <CheckBox Margin="20 0 0 0" IsChecked="{Binding IsErrorChecked}">
                 <WrapPanel>
                     <Path
 						Width="14"
@@ -55,7 +55,7 @@
                     <TextBlock Margin="4 0 0 0" Text="{Binding ErrorCount}"></TextBlock>
                 </WrapPanel>
             </CheckBox>
-            <CheckBox Margin="10 0 0 0" IsChecked="True">
+            <CheckBox Margin="10 0 0 0" IsChecked="{Binding IsWarnChecked}">
                 <WrapPanel>
                     <Path
 						Width="14"
@@ -67,7 +67,7 @@
                     <TextBlock Margin="4 0 0 0" Text="{Binding WarnCount}"></TextBlock>
                 </WrapPanel>
             </CheckBox>
-            <CheckBox Margin="10 0 0 0" IsChecked="True">
+            <CheckBox Margin="10 0 0 0" IsChecked="{Binding IsInfoChecked}">
                 <WrapPanel>
                     <Path
 						Width="14"
@@ -102,7 +102,7 @@
         </WrapPanel>
         <DataGrid 
             Grid.Row="1"
-			ItemsSource="{Binding WorkerEventVms}" 
+			ItemsSource="{Binding QueryResults}" 
 			Background="Transparent" 
 			ColumnHeaderHeight="34"
 			HorizontalScrollBarVisibility="Auto"

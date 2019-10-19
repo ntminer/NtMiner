@@ -12,11 +12,21 @@ namespace NTMiner.Vms {
         private static readonly SolidColorBrush Warn = (SolidColorBrush)Application.Current.Resources["Warn"];
 
         private readonly IWorkerEvent _data;
+        private readonly WorkerEventChannel _channel;
         private readonly WorkerEventType _eventType;
+
+        public WorkerEventChannel ChannelEnum {
+            get { return _channel; }
+        }
+
+        public WorkerEventType EventTypeEnum {
+            get { return _eventType; }
+        }
 
         public WorkerEventViewModel(IWorkerEvent data) {
             _data = data;
             _data.EventType.TryParse(out _eventType);
+            _data.Channel.TryParse(out _channel);
         }
 
         public Guid GetId() {
@@ -43,8 +53,8 @@ namespace NTMiner.Vms {
 
         public string ChannelText {
             get {
-                if (_data.Channel.TryParse(out WorkerEventChannel channel)) {
-                    return channel.GetDescription();
+                if (_channel != WorkerEventChannel.Unspecified) {
+                    return _channel.GetDescription();
                 }
                 return "未知";
             }
