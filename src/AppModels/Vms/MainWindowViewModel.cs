@@ -31,16 +31,8 @@ namespace NTMiner.Vms {
                 }, icon: IconConst.IconConfirm);
             });
             if (DevMode.IsDevMode) {
-                _serverJsonVersion = GetServerJsonVersion();
+                _serverJsonVersion = NTMinerRoot.Instance.GetServerJsonVersion();
             }
-        }
-
-        public string GetServerJsonVersion() {
-            string serverJsonVersion = string.Empty;
-            if (NTMinerRoot.Instance.LocalAppSettingSet.TryGetAppSetting("ServerJsonVersion", out IAppSetting setting) && setting.Value != null) {
-                serverJsonVersion = setting.Value.ToString();
-            }
-            return serverJsonVersion;
         }
 
         public string BrandTitle {

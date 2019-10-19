@@ -202,7 +202,7 @@ namespace NTMiner {
             return outBuffer.ToArray();
         }
 
-        private string GetServerJsonVersion() {
+        public string GetServerJsonVersion() {
             string serverJsonVersion = string.Empty;
             if (LocalAppSettingSet.TryGetAppSetting("ServerJsonVersion", out IAppSetting setting) && setting.Value != null) {
                 serverJsonVersion = setting.Value.ToString();

@@ -16,6 +16,8 @@ namespace NTMiner {
         
         void ReInitMinerProfile();
 
+        string GetServerJsonVersion();
+
         IUserSet UserSet { get; }
 
         DateTime CreatedOn { get; }

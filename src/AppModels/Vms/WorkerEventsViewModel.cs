@@ -1,4 +1,5 @@
 ﻿namespace NTMiner.Vms {
+    using NTMiner.MinerServer;
     using System.Collections.ObjectModel;
     using System.Linq;
 
@@ -9,9 +10,6 @@
         private int _errorCount;
         private int _warnCount;
         private int _infoCount;
-        private bool _isErrorChecked = true;
-        private bool _isWarnChecked = true;
-        private bool _isInfoChecked = true;
 
         public WorkerEventsViewModel() {
             var data = VirtualRoot.WorkerEvents.Select(a => new WorkerEventViewModel(a));
@@ -107,25 +105,55 @@
         }
 
         public bool IsErrorChecked {
-            get => _isErrorChecked;
+            get {
+                bool value = true; ;
+                if (NTMinerRoot.Instance.LocalAppSettingSet.TryGetAppSetting(nameof(IsErrorChecked), out IAppSetting setting) && setting.Value != null) {
+                    value = (bool)setting.Value;
+                }
+                return value;
+            }
             set {
-                _isErrorChecked = value;
+                AppSettingData appSettingData = new AppSettingData() {
+                    Key = nameof(IsErrorChecked),
+                    Value = value
+                };
+                VirtualRoot.Execute(new ChangeLocalAppSettingCommand(appSettingData));
                 OnPropertyChanged(nameof(IsErrorChecked));
                 RefreshQueryResults();
             }
         }
         public bool IsWarnChecked {
-            get => _isWarnChecked;
+            get {
+                bool value = true; ;
+                if (NTMinerRoot.Instance.LocalAppSettingSet.TryGetAppSetting(nameof(IsWarnChecked), out IAppSetting setting) && setting.Value != null) {
+                    value = (bool)setting.Value;
+                }
+                return value;
+            }
             set {
-                _isWarnChecked = value;
-                OnPropertyChanged(nameof(_isWarnChecked));
+                AppSettingData appSettingData = new AppSettingData() {
+                    Key = nameof(IsWarnChecked),
+                    Value = value
+                };
+                VirtualRoot.Execute(new ChangeLocalAppSettingCommand(appSettingData));
+                OnPropertyChanged(nameof(IsWarnChecked));
                 RefreshQueryResults();
             }
         }
         public bool IsInfoChecked {
-            get => _isInfoChecked;
+            get {
+                bool value = true; ;
+                if (NTMinerRoot.Instance.LocalAppSettingSet.TryGetAppSetting(nameof(IsInfoChecked), out IAppSetting setting) && setting.Value != null) {
+                    value = (bool)setting.Value;
+                }
+                return value;
+            }
             set {
-                _isInfoChecked = value;
+                AppSettingData appSettingData = new AppSettingData() {
+                    Key = nameof(IsInfoChecked),
+                    Value = value
+                };
+                VirtualRoot.Execute(new ChangeLocalAppSettingCommand(appSettingData));
                 OnPropertyChanged(nameof(IsInfoChecked));
                 RefreshQueryResults();
             }
