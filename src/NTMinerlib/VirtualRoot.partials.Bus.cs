@@ -29,13 +29,13 @@ namespace NTMiner {
         // 修建消息（命令或事件）的运动路径
         public static DelegateHandler<TMessage> CreatePath<TMessage>(string description, LogEnum logType, Action<TMessage> action) {
             StackTrace ss = new StackTrace(false);
-            // 0是Path，1是Window或On，2是当地
+            // 0是CreatePath，1是CreateCmdPath或CreateEventPath，2是当地
             Type location = ss.GetFrame(2).GetMethod().DeclaringType;
             return SMessageDispatcher.Connect(location, description, logType, action);
         }
 
         /// <summary>
-        /// 命令窗口。
+        /// 创建命令路径
         /// </summary>
         public static DelegateHandler<TCmd> CreateCmdPath<TCmd>(Action<TCmd> action, LogEnum logType = LogEnum.DevConsole)
             where TCmd : ICmd {
@@ -45,7 +45,7 @@ namespace NTMiner {
         }
 
         /// <summary>
-        /// 事件响应
+        /// 创建事件路径
         /// </summary>
         public static DelegateHandler<TEvent> CreateEventPath<TEvent>(string description, LogEnum logType, Action<TEvent> action)
             where TEvent : IEvent {
@@ -62,6 +62,7 @@ namespace NTMiner {
 
         private static readonly Dictionary<string, Regex> _regexDic = new Dictionary<string, Regex>();
         private static readonly object _regexDicLocker = new object();
+        // 缓存构建的正则对象
         public static Regex GetRegex(string pattern) {
             if (string.IsNullOrEmpty(pattern)) {
                 return null;

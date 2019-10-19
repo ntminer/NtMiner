@@ -6,7 +6,7 @@ namespace NTMiner {
     /// </summary>
     /// <remarks>持久层存的是枚举名</remarks>
     public enum WorkerEventChannel {
-        [Description("不指定")]
+        [Description("全部")]
         Unspecified,
         /// <summary>
         /// 这
