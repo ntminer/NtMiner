@@ -1,9 +1,12 @@
-﻿using NTMiner.Bus;
+﻿using LiteDB;
+using NTMiner.Bus;
 using NTMiner.Bus.DirectBus;
 using NTMiner.Ip;
 using NTMiner.Ip.Impl;
+using NTMiner.MinerClient;
 using NTMiner.Serialization;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
@@ -16,6 +19,7 @@ namespace NTMiner {
     /// </summary>
     public static partial class VirtualRoot {
         public static readonly string AppFileFullName = Process.GetCurrentProcess().MainModule.FileName;
+        public static readonly string WorkerEventDbFileFullName = Path.Combine(MainAssemblyInfo.TempDirFullName, "workerEvent.litedb");
         public static Guid Id { get; private set; }
         
         #region IsMinerClient
@@ -221,8 +225,74 @@ namespace NTMiner {
         }
         #endregion
 
+        public static void WorkerEvent(WorkerEventChannel channel, string provider, WorkerEventType eventType, string content) {
+            WorkerEvents.Add(channel.GetName(), provider, eventType.GetName(), content);
+        }
+
         public static WebClient CreateWebClient(int timeoutSeconds = 180) {
             return new NTMinerWebClient(timeoutSeconds);
+        }
+
+        #region 内部类
+        public class WorkerEventSet {
+            private int _lastWorkerEventId;
+            private readonly string _connectionString;
+
+            internal WorkerEventSet() {
+                _connectionString = $"filename={WorkerEventDbFileFullName};journal=false";
+            }
+
+            public void Add(string channel, string provider, string eventType, string content) {
+                InitOnece();
+                var data = new WorkerEventData {
+                    Id = 0,
+                    Channel = channel,
+                    Provider = provider,
+                    EventType = eventType,
+                    Content = content,
+                    EventOn = DateTime.Now
+                };
+                using (LiteDatabase db = new LiteDatabase(_connectionString)) {
+                    var col = db.GetCollection<WorkerEventData>();
+                    data.Id = col.Insert(data).AsInt32;
+                    _lastWorkerEventId = data.Id;
+                }
+                Happened(new WorkerEvent(data));
+            }
+
+            public int LastWorkerEventId {
+                get { return _lastWorkerEventId; }
+            }
+
+            private bool _isInited = false;
+            private readonly object _locker = new object();
+
+            private void InitOnece() {
+                if (_isInited) {
+                    return;
+                }
+                Init();
+            }
+
+            private void Init() {
+                lock (_locker) {
+                    if (!_isInited) {
+                        using (LiteDatabase db = new LiteDatabase(_connectionString)) {
+                            var col = db.GetCollection<WorkerEventData>();
+                            _lastWorkerEventId = col.Max(a => a.Id).AsInt32;
+                        }
+                        _isInited = true;
+                    }
+                }
+            }
+
+            public IEnumerable<IWorkerEvent> GetEvents() {
+                InitOnece();
+                using (LiteDatabase db = new LiteDatabase(_connectionString)) {
+                    var col = db.GetCollection<WorkerEventData>();
+                    return col.Find(Query.GT("_id", _lastWorkerEventId - WorkerEventSetSliding));
+                }
+            }
         }
 
         private class NTMinerWebClient : WebClient {
@@ -245,5 +315,6 @@ namespace NTMiner {
                 return result;
             }
         }
+        #endregion
     }
 }
