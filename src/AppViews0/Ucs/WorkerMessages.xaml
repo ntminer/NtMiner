@@ -22,8 +22,9 @@
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
-        <WrapPanel HorizontalAlignment="Left">
+        <WrapPanel>
             <ListBox 
+                Margin="0 0 20 0"
 			    Background="Transparent"
 			    ItemsSource="{x:Static app:AppStatic.WorkerMessageChannelEnumItems}"
 			    SelectedItem="{Binding SelectedChannel}"
@@ -43,86 +44,124 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            <CheckBox Margin="20 0 0 0" IsChecked="{Binding IsErrorChecked}">
-                <WrapPanel>
+            <WrapPanel Margin="0 0 20 0" VerticalAlignment="Center">
+                <CheckBox IsChecked="{Binding IsErrorChecked}">
+                    <WrapPanel>
+                        <Path
+						    Width="14"
+						    Height="14"
+						    Data="{StaticResource Icon_Error}"
+						    Fill="Red"
+						    Stretch="Fill" />
+                        <TextBlock>错误</TextBlock>
+                        <TextBlock Margin="4 0 0 0" Text="{Binding ErrorCount}"></TextBlock>
+                    </WrapPanel>
+                </CheckBox>
+                <CheckBox Margin="10 0 0 0" IsChecked="{Binding IsWarnChecked}">
+                    <WrapPanel>
+                        <Path
+						    Width="14"
+						    Height="14"
+						    Data="{StaticResource Icon_Waring}"
+						    Fill="{StaticResource Warn}"
+						    Stretch="Fill" />
+                        <TextBlock>警告</TextBlock>
+                        <TextBlock Margin="4 0 0 0" Text="{Binding WarnCount}"></TextBlock>
+                    </WrapPanel>
+                </CheckBox>
+                <CheckBox Margin="10 0 0 0" IsChecked="{Binding IsInfoChecked}">
+                    <WrapPanel>
+                        <Path
+						    Width="14"
+						    Height="14"
+						    Data="{StaticResource Icon_Info}"
+						    Fill="{StaticResource IconFillColor}"
+						    Stretch="Fill" />
+                        <TextBlock>信息</TextBlock>
+                        <TextBlock Margin="4 0 0 0" Text="{Binding InfoCount}"></TextBlock>
+                    </WrapPanel>
+                </CheckBox>
+            </WrapPanel>
+            <WrapPanel Margin="0 0 20 0" VerticalAlignment="Center">
+                <Path 
+				    Width="12"
+				    Height="12"
+				    Fill="{StaticResource IconFillColor}"
+				    Stretch="Fill"
+				    Data="{StaticResource Icon_Serach}"></Path>
+                <controls:KbTextBox 
+				    x:Name="TbKeyword" 
+                    Width="154" 
+                    Height="22"
+				    Text="{Binding Keyword, UpdateSourceTrigger=PropertyChanged}" 
+				    VerticalContentAlignment="Center"
+				    Hint="请输入关键字"
+				    BorderBrush="{StaticResource LineColor}"
+				    BorderThickness="1"
+				    Background="White"
+				    SelectedColor="#409EFF" />
+                <controls:KbButton 
+				    Height="20"
+				    Background="Transparent" 
+				    BorderThickness="0"
+				    Command="{Binding ClearKeyword}"
+				    Visibility="{Binding ElementName=TbKeyword,Path=Text, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
+				    Margin="-14 0 0 0" 
+				    HorizontalAlignment="Left">
                     <Path
-						Width="14"
-						Height="14"
-						Data="{StaticResource Icon_Error}"
-						Fill="Red"
-						Stretch="Fill" />
-                    <TextBlock>错误</TextBlock>
-                    <TextBlock Margin="4 0 0 0" Text="{Binding ErrorCount}"></TextBlock>
-                </WrapPanel>
-            </CheckBox>
-            <CheckBox Margin="10 0 0 0" IsChecked="{Binding IsWarnChecked}">
-                <WrapPanel>
-                    <Path
-						Width="14"
-						Height="14"
-						Data="{StaticResource Icon_Waring}"
-						Fill="{StaticResource Warn}"
-						Stretch="Fill" />
-                    <TextBlock>警告</TextBlock>
-                    <TextBlock Margin="4 0 0 0" Text="{Binding WarnCount}"></TextBlock>
-                </WrapPanel>
-            </CheckBox>
-            <CheckBox Margin="10 0 0 0" IsChecked="{Binding IsInfoChecked}">
-                <WrapPanel>
-                    <Path
-						Width="14"
-						Height="14"
-						Data="{StaticResource Icon_Info}"
-						Fill="{StaticResource IconFillColor}"
-						Stretch="Fill" />
-                    <TextBlock>信息</TextBlock>
-                    <TextBlock Margin="4 0 0 0" Text="{Binding InfoCount}"></TextBlock>
-                </WrapPanel>
-            </CheckBox>
-        </WrapPanel>
-        <WrapPanel HorizontalAlignment="Right">
-            <controls:KbButton
-                Height="20"
-			    Padding="6 2"
-                Background="Transparent"
-                Cursor="Hand"
-			    CornerRadius="2">
-                <WrapPanel>
-                    <Path
-					    Width="12"
-					    Height="12"
-					    Data="{StaticResource Icon_Clear}"
-					    Fill="Red"
-					    Stretch="Fill" />
-                    <TextBlock
-					    Padding="2 0"
-					    VerticalAlignment="Center"
-					    Text="清空日志" />
-                </WrapPanel>
-            </controls:KbButton>
-            <controls:KbButton
-                Height="20"
-			    Padding="6 2"
-                Background="Transparent"
-                Cursor="Hand"
-			    CornerRadius="2">
-                <WrapPanel>
-                    <Path
-					    Width="12"
-					    Height="12"
-					    Data="{StaticResource Icon_Setting}"
+					    Width="8"
+					    Height="8"
+					    Data="{StaticResource Icon_Close}"
 					    Fill="{StaticResource IconFillColor}"
 					    Stretch="Fill" />
-                    <TextBlock
-					    Padding="2 0"
-					    VerticalAlignment="Center"
-					    Text="自定义" />
-                </WrapPanel>
-            </controls:KbButton>
+                </controls:KbButton>
+            </WrapPanel>
+            <WrapPanel Margin="0 0 20 0" VerticalAlignment="Center">
+                <controls:KbButton
+                    Height="20"
+			        Padding="6 2"
+                    Background="Transparent"
+                    Cursor="Hand"
+			        CornerRadius="2">
+                    <WrapPanel>
+                        <Path
+					        Width="12"
+					        Height="12"
+					        Data="{StaticResource Icon_Clear}"
+					        Fill="Red"
+					        Stretch="Fill" />
+                        <TextBlock
+					        Padding="2 0"
+					        VerticalAlignment="Center"
+					        Text="清空日志" />
+                    </WrapPanel>
+                </controls:KbButton>
+                <controls:KbButton
+                    Margin="4 0 0 0"
+                    Height="20"
+			        Padding="6 2"
+                    Background="Transparent"
+                    Cursor="Hand"
+			        CornerRadius="2">
+                    <WrapPanel>
+                        <Path
+					        Width="12"
+					        Height="12"
+					        Data="{StaticResource Icon_Setting}"
+					        Fill="{StaticResource IconFillColor}"
+					        Stretch="Fill" />
+                        <TextBlock
+					        Padding="2 0"
+					        VerticalAlignment="Center"
+					        Text="自定义" />
+                    </WrapPanel>
+                </controls:KbButton>
+            </WrapPanel>
         </WrapPanel>
         <DataGrid 
             Grid.Row="1"
 			ItemsSource="{Binding QueryResults}" 
+            EnableRowVirtualization="True"
 			Background="Transparent" 
 			ColumnHeaderHeight="34"
 			HorizontalScrollBarVisibility="Auto"
@@ -182,7 +221,7 @@
                 <DataGridTemplateColumn MinWidth="100" Width="*" IsReadOnly="True">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
-                            <TextBlock Text="内容"></TextBlock>
+                            <TextBlock>内容</TextBlock>
                         </DataTemplate>
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>

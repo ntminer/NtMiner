@@ -2,6 +2,7 @@
     using NTMiner.MinerServer;
     using System.Collections.ObjectModel;
     using System.Linq;
+    using System.Windows.Input;
 
     public class WorkerMessagesViewModel : ViewModelBase {
         private readonly ObservableCollection<WorkerMessageViewModel> _workerMessageVms;
@@ -10,6 +11,9 @@
         private int _errorCount;
         private int _warnCount;
         private int _infoCount;
+        private string _keyword;
+
+        public ICommand ClearKeyword { get; private set; }
 
         public WorkerMessagesViewModel() {
             var data = VirtualRoot.WorkerMessages.Select(a => new WorkerMessageViewModel(a));
@@ -32,6 +36,9 @@
             }
             _selectedChannel = WorkerMessageChannel.Unspecified.GetEnumItem();
 
+            this.ClearKeyword = new DelegateCommand(() => {
+                this.Keyword = string.Empty;
+            });
             VirtualRoot.CreateEventPath<WorkerMessage>("发生了挖矿事件后刷新Vm内存", LogEnum.DevConsole,
                 action: message => {
                     var vm = new WorkerMessageViewModel(message.Source);
@@ -93,6 +100,16 @@
                         #endregion
                     }
                 });
+        }
+
+        public string Keyword {
+            get => _keyword;
+            set {
+                if (_keyword != value) {
+                    _keyword = value;
+                    OnPropertyChanged(nameof(Keyword));
+                }
+            }
         }
 
         public EnumItem<WorkerMessageChannel> SelectedChannel {
