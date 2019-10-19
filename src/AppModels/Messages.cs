@@ -201,15 +201,6 @@ namespace NTMiner {
         public ColumnsShowViewModel Source { get; private set; }
     }
 
-    [MessageType(description: "打开装饰器窗口")]
-    public class ShowContainerWindowCommand : Cmd {
-        public ShowContainerWindowCommand(ContainerWindowViewModel vm) {
-            this.Vm = vm;
-        }
-
-        public ContainerWindowViewModel Vm { get; private set; }
-    }
-
     [MessageType(description: "打开算力图界面")]
     public class ShowSpeedChartsCommand : Cmd {
         public ShowSpeedChartsCommand(GpuSpeedViewModel gpuSpeedVm = null) {

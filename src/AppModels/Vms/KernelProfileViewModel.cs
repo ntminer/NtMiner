@@ -27,7 +27,7 @@ namespace NTMiner.Vms {
         public ICommand Install { get; private set; }
         public ICommand UnInstall { get; private set; }
 
-        private KernelViewModel _kernelVm;
+        private readonly KernelViewModel _kernelVm;
         public KernelProfileViewModel(KernelViewModel kernelVm, IKernelProfile kernelProfile) {
             _kernelVm = kernelVm;
             _kernelProfile = kernelProfile;
@@ -64,7 +64,7 @@ namespace NTMiner.Vms {
                         }
                     }
                     Refresh();
-                }, icon: IconConst.IconConfirm);
+                });
             });
         }
 

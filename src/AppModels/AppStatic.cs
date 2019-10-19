@@ -517,6 +517,10 @@ namespace NTMiner {
             }
         }
 
+        public static ICommand ShowIcons { get; private set; } = new DelegateCommand(() => {
+            Views.Ucs.Icons.ShowWindow();
+        });
+
         public static ICommand OpenDir { get; private set; } = new DelegateCommand<string>((dir) => {
             if (dir.StartsWith(VirtualRoot.TempDirParameterName)) {
                 dir = dir.Replace(VirtualRoot.TempDirParameterName, MainAssemblyInfo.TempDirFullName);
@@ -563,7 +567,7 @@ namespace NTMiner {
                     Logger.ErrorDebugLine(e);
                     VirtualRoot.Out.ShowErrorMessage($"刷新失败");
                 }
-            }, icon: IconConst.IconConfirm));
+            }));
         });
 
         public static ICommand ShowUsers { get; private set; } = new DelegateCommand(() => {

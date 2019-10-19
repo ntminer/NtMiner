@@ -98,7 +98,7 @@ namespace NTMiner.Vms {
                 this.ShowDialog(message: $"您确定删除环境变量{environmentVariable.Key}吗？", title: "确认", onYes: () => {
                     this.EnvironmentVariables.Remove(environmentVariable);
                     EnvironmentVariables = EnvironmentVariables.ToList();
-                }, icon: IconConst.IconConfirm);
+                });
             });
             this.AddSegment = new DelegateCommand(() => {
                 VirtualRoot.Execute(new InputSegmentEditCommand(this, new InputSegmentViewModel()));
@@ -110,7 +110,7 @@ namespace NTMiner.Vms {
                 this.ShowDialog(message: $"您确定删除片段{segment.Name}吗？", title: "确认", onYes: () => {
                     this.InputSegments.Remove(segment);
                     InputSegments = InputSegments.ToList();
-                }, icon: IconConst.IconConfirm);
+                });
             });
             this.RemoveFileWriter = new DelegateCommand<FileWriterViewModel>((writer) => {
                 this.ShowDialog(message: $"您确定删除文件书写器{writer.Name}吗？", title: "确认", onYes: () => {
@@ -118,7 +118,7 @@ namespace NTMiner.Vms {
                     List<Guid> writerIds = new List<Guid>(this.FileWriterIds);
                     writerIds.Remove(writer.Id);
                     this.FileWriterIds = writerIds;
-                }, icon: IconConst.IconConfirm);
+                });
             });
             this.RemoveFragmentWriter = new DelegateCommand<FragmentWriterViewModel>((writer) => {
                 this.ShowDialog(message: $"您确定删除文件书写器{writer.Name}吗？", title: "确认", onYes: () => {
@@ -126,7 +126,7 @@ namespace NTMiner.Vms {
                     List<Guid> writerIds = new List<Guid>(this.FragmentWriterIds);
                     writerIds.Remove(writer.Id);
                     this.FragmentWriterIds = writerIds;
-                }, icon: IconConst.IconConfirm);
+                });
             });
             this.Save = new DelegateCommand(() => {
                 if (NTMinerRoot.Instance.CoinKernelSet.Contains(this.Id)) {
@@ -144,7 +144,7 @@ namespace NTMiner.Vms {
                 this.ShowDialog(message: $"您确定删除{Kernel.Code}币种内核吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveCoinKernelCommand(this.Id));
                     Kernel.OnPropertyChanged(nameof(Kernel.SupportedCoins));
-                }, icon: IconConst.IconConfirm);
+                });
             });
         }
 

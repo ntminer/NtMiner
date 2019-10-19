@@ -59,7 +59,7 @@ namespace NTMiner.Vms {
                 }
                 this.ShowDialog(message: $"您确定删除{this.Name}吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveOverClockDataCommand(this.Id));
-                }, icon: IconConst.IconConfirm);
+                });
             });
         }
 

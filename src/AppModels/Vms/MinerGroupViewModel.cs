@@ -55,7 +55,7 @@ namespace NTMiner.Vms {
                 }
                 this.ShowDialog(message: $"您确定删除{this.Name}吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveMinerGroupCommand(this.Id));
-                }, icon: IconConst.IconConfirm);
+                });
             }, () => {
                 return this != PleaseSelect;
             });

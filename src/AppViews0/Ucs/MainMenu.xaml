@@ -245,8 +245,18 @@
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
 					</MenuItem.Icon>
-				</MenuItem>
-				<MenuItem Header="帮助" Command="{x:Static app:AppStatic.ShowHelp}">
+                </MenuItem>
+                <MenuItem Header="图标" Command="{x:Static app:AppStatic.ShowIcons}">
+                    <MenuItem.Icon>
+                        <Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_Icon}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="帮助" Command="{x:Static app:AppStatic.ShowHelp}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -341,8 +351,18 @@
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
 					</MenuItem.Icon>
-				</MenuItem>
-				<MenuItem Header="帮助" Command="{x:Static app:AppStatic.ShowHelp}">
+                </MenuItem>
+                <MenuItem Header="图标" Command="{x:Static app:AppStatic.ShowIcons}">
+                    <MenuItem.Icon>
+                        <Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_Icon}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="帮助" Command="{x:Static app:AppStatic.ShowHelp}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"

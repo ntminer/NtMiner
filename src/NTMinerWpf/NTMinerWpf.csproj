@@ -48,6 +48,15 @@
       <DependentUpon>IpAddressControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\BoolToStreamGeometryConverter.cs" />
+    <Compile Include="Messages.cs" />
+    <Compile Include="Views\ContainerWindow.xaml.cs">
+      <DependentUpon>ContainerWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\Icons.xaml.cs">
+      <DependentUpon>Icons.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Vms\ContainerWindowViewModel.cs" />
+    <Compile Include="Vms\IconsViewModel.cs" />
     <Compile Include="Vms\IpAddressControlViewModel.cs" />
     <Compile Include="Controls\IPRangeValidationRule.cs" />
     <Compile Include="Controls\KbButton.cs" />
@@ -83,7 +92,6 @@
     <Compile Include="DelegateCommand`1.cs" />
     <Compile Include="Design.cs" />
     <Compile Include="HotKeyUtil.cs" />
-    <Compile Include="IconConst.cs" />
     <Compile Include="SystemHotKey.cs" />
     <Compile Include="UIThread.cs" />
     <Compile Include="Notifications\ContentLocation.cs" />
@@ -161,7 +169,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Styles\KbIcon.xaml">
+    <Page Include="Styles\KbIcons.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -170,6 +178,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Styles\KbTextBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ContainerWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -186,6 +198,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\LoginWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Ucs\Icons.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

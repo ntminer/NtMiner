@@ -61,7 +61,7 @@ namespace NTMiner.Vms {
                 }
                 this.ShowDialog(message: $"您确定删除{this.Name}组吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveGroupCommand(this.Id));
-                }, icon: IconConst.IconConfirm);
+                });
             });
             this.SortUp = new DelegateCommand(() => {
                 GroupViewModel upOne = AppContext.Instance.GroupVms.GetUpOne(this.SortNumber);
