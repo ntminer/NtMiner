@@ -97,13 +97,13 @@ namespace NTMiner.Vms {
         public void RefreshDaemonStateBrush() {
             if (NTMinerRoot.Instance.CreatedOn.AddSeconds(10) > DateTime.Now) {
                 // 如果刚刚启动10秒钟内视为白色正常状态
-                DaemonStateBrush = Wpf.Util.WhiteBrush;
+                DaemonStateBrush = Util.WhiteBrush;
             }
             else if (NTMinerRegistry.GetDaemonActiveOn().AddSeconds(20) >= DateTime.Now) {
-                DaemonStateBrush = Wpf.Util.WhiteBrush;
+                DaemonStateBrush = Util.WhiteBrush;
             }
             else {
-                DaemonStateBrush = Wpf.Util.RedBrush;
+                DaemonStateBrush = Util.RedBrush;
             }
         }
     }

@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Interop;
 
-namespace NTMiner.Wpf {
+namespace NTMiner {
     public static class TopWindow {
         public static Window GetTopWindow() {
             IntPtr hwnd = SafeNativeMethods.GetForegroundWindow();

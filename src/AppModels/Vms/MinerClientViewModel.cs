@@ -1166,7 +1166,7 @@ namespace NTMiner.Vms {
             }
             foreach (var gpuSpeedData in GpuTableVm.List) {
                 if (gpuSpeedData.Temperature >= maxTemp) {
-                    gpuSpeedData.TemperatureForeground = Wpf.Util.RedBrush;
+                    gpuSpeedData.TemperatureForeground = Util.RedBrush;
                 }
                 else if (gpuSpeedData.Temperature < minTemp) {
                     gpuSpeedData.TemperatureForeground = Blue;

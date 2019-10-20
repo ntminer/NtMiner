@@ -444,7 +444,7 @@ namespace NTMiner {
                 var osVersion = Environment.OSVersion.Version;
                 // Win7下WinDivert.sys文件签名问题
                 if (osVersion < new Version(6, 2)) {
-                    return Wpf.Util.RedBrush;
+                    return Util.RedBrush;
                 }
                 return (SolidColorBrush)Application.Current.Resources["LableColor"];
             }
@@ -481,12 +481,12 @@ namespace NTMiner {
                 switch (gpuSet.GpuType) {
                     case GpuType.NVIDIA:
                         if (gpuSet.DriverVersion < MinNvidiaDriverVersion) {
-                            return Wpf.Util.RedBrush;
+                            return Util.RedBrush;
                         }
                         break;
                     case GpuType.AMD:
                         if (gpuSet.DriverVersion < MinAmdDriverVersion) {
-                            return Wpf.Util.RedBrush;
+                            return Util.RedBrush;
                         }
                         break;
                 }
@@ -594,7 +594,7 @@ namespace NTMiner {
             Process.Start(url);
         });
 
-        public static ICommand RunAsAdministrator { get; private set; } = new DelegateCommand(Wpf.Util.RunAsAdministrator);
+        public static ICommand RunAsAdministrator { get; private set; } = new DelegateCommand(Util.RunAsAdministrator);
 
         public static ICommand ShowNotificationSample { get; private set; } = new DelegateCommand(() => {
             VirtualRoot.Execute(new ShowNotificationSampleCommand());

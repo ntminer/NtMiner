@@ -8,7 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace NTMiner.Wpf {
+namespace NTMiner {
     public static class Util {
         public static readonly SolidColorBrush TransparentBrush = new SolidColorBrush(Colors.Transparent);
         public static readonly SolidColorBrush WhiteBrush = new SolidColorBrush(Colors.White);

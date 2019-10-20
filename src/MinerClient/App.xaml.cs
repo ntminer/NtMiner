@@ -81,7 +81,7 @@ namespace NTMiner {
                             .CreateMessage()
                             .Warning("请以管理员身份运行。")
                             .WithButton("点击以管理员身份运行", button => {
-                                Wpf.Util.RunAsAdministrator();
+                                Util.RunAsAdministrator();
                             })
                             .Dismiss().WithButton("忽略", button => {
 

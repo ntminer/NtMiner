@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace NTMiner.Wpf {
+namespace NTMiner {
     public struct POINT {
         public int X;
         public int Y;

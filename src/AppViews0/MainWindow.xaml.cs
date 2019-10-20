@@ -153,7 +153,7 @@ namespace NTMiner.Views {
                 }
                 if (WindowState == WindowState.Maximized) {
                     ResizeCursors.Visibility = Visibility.Collapsed;
-                    this.BorderBrush = Wpf.Util.BlackBrush;
+                    this.BorderBrush = Util.BlackBrush;
                 }
                 else {
                     ResizeCursors.Visibility = Visibility.Visible;
@@ -332,7 +332,7 @@ namespace NTMiner.Views {
 
         public void ShowMask() {
             if (this.WindowState != WindowState.Maximized) {
-                this.BorderBrush = Wpf.Util.TransparentBrush;
+                this.BorderBrush = Util.TransparentBrush;
             }
             MaskLayer.Visibility = Visibility.Visible;
         }
@@ -409,7 +409,7 @@ namespace NTMiner.Views {
         }
 
         private void ScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
-            Wpf.Util.ScrollViewer_PreviewMouseDown(sender, e);
+            Util.ScrollViewer_PreviewMouseDown(sender, e);
         }
 
         private void BtnOverClockVisible_Click(object sender, RoutedEventArgs e) {

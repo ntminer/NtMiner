@@ -96,15 +96,15 @@ namespace NTMiner.Vms {
             get {
                 switch (_messageType) {
                     case WorkerMessageType.Undefined:
-                        return Wpf.Util.BlackBrush;
+                        return Util.BlackBrush;
                     case WorkerMessageType.Info:
                         return IconFillColor;
                     case WorkerMessageType.Warn:
                         return Warn;
                     case WorkerMessageType.Error:
-                        return Wpf.Util.RedBrush;
+                        return Util.RedBrush;
                     default:
-                        return Wpf.Util.BlackBrush;
+                        return Util.BlackBrush;
                 }
             }
         }
@@ -113,15 +113,15 @@ namespace NTMiner.Vms {
             get {
                 switch (_messageType) {
                     case WorkerMessageType.Undefined:
-                        return Wpf.Util.BlackBrush;
+                        return Util.BlackBrush;
                     case WorkerMessageType.Info:
-                        return Wpf.Util.BlackBrush;
+                        return Util.BlackBrush;
                     case WorkerMessageType.Warn:
                         return Warn;
                     case WorkerMessageType.Error:
-                        return Wpf.Util.RedBrush;
+                        return Util.RedBrush;
                     default:
-                        return Wpf.Util.BlackBrush;
+                        return Util.BlackBrush;
                 }
             }
         }

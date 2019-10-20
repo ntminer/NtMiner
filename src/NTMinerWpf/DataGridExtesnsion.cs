@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 
-namespace NTMiner.Wpf {
+namespace NTMiner {
     public static class DataGridExtesnsion {
         /// <summary>
         /// Method checks whether the mouse is on the required Target

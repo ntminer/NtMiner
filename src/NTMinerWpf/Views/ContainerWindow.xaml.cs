@@ -1,5 +1,4 @@
 ﻿using NTMiner.Vms;
-using NTMiner.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Windows;

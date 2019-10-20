@@ -111,7 +111,7 @@ namespace NTMiner.Vms {
             this.OneKeyMinerNames = new DelegateCommand(() => {
                 if (this.SelectedMinerClients.Length == 1) {
                     var selectedMinerClient = this.SelectedMinerClients[0];
-                    Wpf.Util.ShowInputDialog("群控矿工名 注意：重新开始挖矿时生效", selectedMinerClient.MinerName, null, minerName => {
+                    Util.ShowInputDialog("群控矿工名 注意：重新开始挖矿时生效", selectedMinerClient.MinerName, null, minerName => {
                         selectedMinerClient.MinerName = minerName;
                         VirtualRoot.Out.ShowSuccessMessage("设置群控矿工名成功，重新开始挖矿时生效。");
                     });
@@ -141,7 +141,7 @@ namespace NTMiner.Vms {
                 }
             }, CanCommand);
             this.OneKeyWindowsLoginName = new DelegateCommand(() => {
-                Wpf.Util.ShowInputDialog("远程桌面用户名", string.Empty, null, loginName => {
+                Util.ShowInputDialog("远程桌面用户名", string.Empty, null, loginName => {
                     foreach (var item in SelectedMinerClients) {
                         item.WindowsLoginName = loginName;
                     }
@@ -149,7 +149,7 @@ namespace NTMiner.Vms {
                 });
             }, CanCommand);
             this.OneKeyWindowsLoginPassword = new DelegateCommand(() => {
-                Wpf.Util.ShowInputDialog("远程桌面密码", string.Empty, null, password => {
+                Util.ShowInputDialog("远程桌面密码", string.Empty, null, password => {
                     foreach (var item in SelectedMinerClients) {
                         item.WindowsPassword = password;
                     }
@@ -370,14 +370,14 @@ namespace NTMiner.Vms {
         private void RefreshRejectPercentForeground() {
             foreach (MinerClientViewModel item in MinerClients) {
                 if (item.MainCoinRejectPercent >= this.RejectPercent) {
-                    item.MainCoinRejectPercentForeground = Wpf.Util.RedBrush;
+                    item.MainCoinRejectPercentForeground = Util.RedBrush;
                 }
                 else {
                     item.MainCoinRejectPercentForeground = MinerClientViewModel.DefaultForeground;
                 }
 
                 if (item.DualCoinRejectPercent >= this.RejectPercent) {
-                    item.DualCoinRejectPercentForeground = Wpf.Util.RedBrush;
+                    item.DualCoinRejectPercentForeground = Util.RedBrush;
                 }
                 else {
                     item.DualCoinRejectPercentForeground = MinerClientViewModel.DefaultForeground;
@@ -413,7 +413,7 @@ namespace NTMiner.Vms {
                     continue;
                 }
                 if (item.GpuTableVm.MaxTemp >= this.MaxTemp) {
-                    item.GpuTableVm.TempForeground = Wpf.Util.RedBrush;
+                    item.GpuTableVm.TempForeground = Util.RedBrush;
                 }
                 else if (item.GpuTableVm.MaxTemp < this.MinTemp) {
                     item.GpuTableVm.TempForeground = MinerClientViewModel.Blue;

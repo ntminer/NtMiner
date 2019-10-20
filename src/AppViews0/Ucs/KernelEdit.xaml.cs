@@ -36,7 +36,7 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void CoinKernelDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
-            Wpf.Util.DataGrid_MouseDoubleClick<CoinKernelViewModel>(sender, e);
+            Util.DataGrid_MouseDoubleClick<CoinKernelViewModel>(sender, e);
         }
 
         private void KbButtonBrand_Clicked(object sender, RoutedEventArgs e) {

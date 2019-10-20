@@ -45,7 +45,7 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void ScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
-            Wpf.Util.ScrollViewer_PreviewMouseDown(sender, e);
+            Util.ScrollViewer_PreviewMouseDown(sender, e);
         }
     }
 }

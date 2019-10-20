@@ -29,7 +29,7 @@ namespace NTMiner.Vms {
                 NetSpeedUnit = calcConfig.NetSpeedUnit;
                 if (calcConfig.DayWave > 0) {
                     DayWaveText = $"+{(calcConfig.DayWave * 100).ToString("f2")}%";
-                    DayWaveBrush = Wpf.Util.GreenBrush;
+                    DayWaveBrush = Util.GreenBrush;
                 }
                 else if (calcConfig.DayWave == 0) {
                     DayWaveText = "0%";
@@ -37,7 +37,7 @@ namespace NTMiner.Vms {
                 }
                 else {
                     DayWaveText = $"{(calcConfig.DayWave * 100).ToString("f2")}%";
-                    DayWaveBrush = Wpf.Util.RedBrush;
+                    DayWaveBrush = Util.RedBrush;
                 }
                 var incomePerDay = NTMinerRoot.Instance.CalcConfigSet.GetIncomePerHashPerDay(_coinVm.Code);
                 var v = this.Speed.FromUnitSpeed(this.SpeedUnitVm.Unit) * incomePerDay.IncomeCoin;
@@ -62,7 +62,7 @@ namespace NTMiner.Vms {
                     BackgroundBrush = LightRed;
                 }
                 else {
-                    BackgroundBrush = Wpf.Util.TransparentBrush;
+                    BackgroundBrush = Util.TransparentBrush;
                 }
                 OnPropertyChanged(nameof(SpeedUnitVm));
             }
@@ -76,7 +76,7 @@ namespace NTMiner.Vms {
                 NetSpeedUnit = string.Empty;
                 DayWaveText = string.Empty;
                 ModifiedOn = DateTime.MinValue;
-                BackgroundBrush = Wpf.Util.RedBrush;
+                BackgroundBrush = Util.RedBrush;
             }
         }
 
