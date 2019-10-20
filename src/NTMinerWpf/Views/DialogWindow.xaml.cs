@@ -38,11 +38,11 @@ namespace NTMiner.Views {
 
         private void KbNoButton_Click(object sender, RoutedEventArgs e) {
             if (Vm.OnNo != null) {
-                if (Vm.IsConfirmNo && Vm.NoText != "请再次点击") {
+                if (Vm.IsConfirmNo && !Vm.NoText.StartsWith("请再点一次")) {
                     string noText = Vm.NoText;
                     TimeSpan.FromSeconds(4).Delay(perSecondCallback: n => {
                         UIThread.Execute(() => {
-                            Vm.NoText = $"请再点一次{n}";
+                            Vm.NoText = $"请再点一次({n})";
                         });
                     }).ContinueWith(t => {
                         UIThread.Execute(() => {
