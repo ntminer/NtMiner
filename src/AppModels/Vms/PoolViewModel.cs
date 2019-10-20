@@ -101,9 +101,9 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                this.ShowDialog(message: $"您确定删除{this.Name}矿池吗？", title: "确认", onYes: () => {
+                this.ShowDialog(new DialogWindowViewModel(message: $"您确定删除{this.Name}矿池吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemovePoolCommand(this.Id));
-                });
+                }));
             });
             this.SortUp = new DelegateCommand(() => {
                 PoolViewModel upOne = AppContext.Instance.PoolVms.GetUpOne(this.CoinId, this.SortNumber);
@@ -224,8 +224,7 @@ namespace NTMiner.Vms {
                 if (this.BrandId == Guid.Empty) {
                     return SysDicItemViewModel.PleaseSelect;
                 }
-                SysDicItemViewModel item;
-                if (AppContext.Instance.SysDicItemVms.TryGetValue(this.BrandId, out item)) {
+                if (AppContext.Instance.SysDicItemVms.TryGetValue(this.BrandId, out SysDicItemViewModel item)) {
                     return item;
                 }
                 return SysDicItemViewModel.PleaseSelect;

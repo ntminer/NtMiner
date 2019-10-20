@@ -43,7 +43,7 @@ namespace NTMiner.Vms {
         }
 
         public DialogWindowViewModel(
-            string icon = null,
+            string icon = "Icon_Confirm",
             string title = null,
             string message = null,
             string helpUrl = null,

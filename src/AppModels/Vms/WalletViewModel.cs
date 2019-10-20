@@ -74,9 +74,9 @@ namespace NTMiner.Vms {
                 if (this.IsTestWallet) {
                     return;
                 }
-                this.ShowDialog(message: $"您确定删除{this.Name}钱包吗？", title: "确认", onYes: () => {
+                this.ShowDialog(new DialogWindowViewModel(message: $"您确定删除{this.Name}钱包吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveWalletCommand(this.Id));
-                });
+                }));
             });
             this.SortUp = new DelegateCommand(() => {
                 WalletViewModel upOne = AppContext.Instance.WalletVms.GetUpOne(this.CoinId, this.SortNumber);

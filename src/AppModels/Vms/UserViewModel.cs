@@ -51,9 +51,9 @@ namespace NTMiner.Vms {
                 if (VirtualRoot.IsMinerStudio && this.LoginName == SingleUser.LoginName) {
                     throw new ValidationException("不能删除自己");
                 }
-                this.ShowDialog(message: $"您确定删除{this.LoginName}吗？", title: "确认", onYes: () => {
+                this.ShowDialog(new DialogWindowViewModel(message: $"您确定删除{this.LoginName}吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveUserCommand(this.LoginName));
-                });
+                }));
             });
             this.Enable = new DelegateCommand(() => {
                 if (!VirtualRoot.IsMinerStudio) {
@@ -62,10 +62,10 @@ namespace NTMiner.Vms {
                 if (this.IsEnabled) {
                     return;
                 }
-                this.ShowDialog(message: $"您确定启用{this.LoginName}吗？", title: "确认", onYes: () => {
+                this.ShowDialog(new DialogWindowViewModel(message: $"您确定启用{this.LoginName}吗？", title: "确认", onYes: () => {
                     this.IsEnabled = true;
                     VirtualRoot.Execute(new UpdateUserCommand(this));
-                });
+                }));
             });
             this.Disable = new DelegateCommand(() => {
                 if (!VirtualRoot.IsMinerStudio) {
@@ -74,10 +74,10 @@ namespace NTMiner.Vms {
                 if (!this.IsEnabled) {
                     return;
                 }
-                this.ShowDialog(message: $"您确定禁用{this.LoginName}吗？", title: "确认", onYes: () => {
+                this.ShowDialog(new DialogWindowViewModel(message: $"您确定禁用{this.LoginName}吗？", title: "确认", onYes: () => {
                     this.IsEnabled = false;
                     VirtualRoot.Execute(new UpdateUserCommand(this));
-                });
+                }));
             });
         }
 

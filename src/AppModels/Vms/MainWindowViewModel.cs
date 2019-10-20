@@ -26,9 +26,9 @@ namespace NTMiner.Vms {
             });
             this.UseThisPcName = new DelegateCommand(() => {
                 string thisPcName = NTMinerRoot.ThisPcName;
-                this.ShowDialog(message: $"确定使用本机名{thisPcName}作为矿机名吗？", title: "确认", onYes: () => {
+                this.ShowDialog(new DialogWindowViewModel(message: $"确定使用本机名{thisPcName}作为矿机名吗？", title: "确认", onYes: () => {
                     MinerProfile.MinerName = thisPcName;
-                });
+                }));
             });
             if (DevMode.IsDevMode) {
                 _serverJsonVersion = NTMinerRoot.Instance.GetServerJsonVersion();
