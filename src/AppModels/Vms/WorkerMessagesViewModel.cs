@@ -41,64 +41,66 @@
             });
             VirtualRoot.CreateEventPath<WorkerMessage>("发生了挖矿事件后刷新Vm内存", LogEnum.DevConsole,
                 action: message => {
-                    var vm = new WorkerMessageViewModel(message.Source);
-                    _workerMessageVms.Insert(0, vm);
-                    switch (vm.MessageTypeEnum) {
-                        case WorkerMessageType.Error:
-                            ErrorCount++;
-                            break;
-                        case WorkerMessageType.Warn:
-                            WarnCount++;
-                            break;
-                        case WorkerMessageType.Info:
-                            InfoCount++;
-                            break;
-                        default:
-                            break;
-                    }
+                    UIThread.Execute(() => {
+                        var vm = new WorkerMessageViewModel(message.Source);
+                        _workerMessageVms.Insert(0, vm);
+                        switch (vm.MessageTypeEnum) {
+                            case WorkerMessageType.Error:
+                                ErrorCount++;
+                                break;
+                            case WorkerMessageType.Warn:
+                                WarnCount++;
+                                break;
+                            case WorkerMessageType.Info:
+                                InfoCount++;
+                                break;
+                            default:
+                                break;
+                        }
 
-                    if (_queyResults != _workerMessageVms) {
-                        #region 更新QueryResults
-                        bool isCurrentChannel = SelectedChannel.Value == WorkerMessageChannel.Unspecified;
-                        bool isMessageTypeChecked = IsErrorChecked && IsWarnChecked && IsInfoChecked;
-                        if (!isCurrentChannel) {
-                            switch (vm.ChannelEnum) {
-                                case WorkerMessageChannel.Kernel:
-                                    isCurrentChannel = SelectedChannel.Value == WorkerMessageChannel.Kernel;
-                                    break;
-                                case WorkerMessageChannel.Server:
-                                    isCurrentChannel = SelectedChannel.Value == WorkerMessageChannel.Server;
-                                    break;
-                                case WorkerMessageChannel.This:
-                                    isCurrentChannel = SelectedChannel.Value == WorkerMessageChannel.This;
-                                    break;
-                                case WorkerMessageChannel.Unspecified:
-                                    isCurrentChannel = true;
-                                    break;
-                                default:
-                                    break;
+                        if (_queyResults != _workerMessageVms) {
+                            #region 更新QueryResults
+                            bool isCurrentChannel = SelectedChannel.Value == WorkerMessageChannel.Unspecified;
+                            bool isMessageTypeChecked = IsErrorChecked && IsWarnChecked && IsInfoChecked;
+                            if (!isCurrentChannel) {
+                                switch (vm.ChannelEnum) {
+                                    case WorkerMessageChannel.Kernel:
+                                        isCurrentChannel = SelectedChannel.Value == WorkerMessageChannel.Kernel;
+                                        break;
+                                    case WorkerMessageChannel.Server:
+                                        isCurrentChannel = SelectedChannel.Value == WorkerMessageChannel.Server;
+                                        break;
+                                    case WorkerMessageChannel.This:
+                                        isCurrentChannel = SelectedChannel.Value == WorkerMessageChannel.This;
+                                        break;
+                                    case WorkerMessageChannel.Unspecified:
+                                        isCurrentChannel = true;
+                                        break;
+                                    default:
+                                        break;
+                                }
                             }
-                        }
-                        if (!isMessageTypeChecked) {
-                            switch (vm.MessageTypeEnum) {
-                                case WorkerMessageType.Error:
-                                    isMessageTypeChecked = IsErrorChecked;
-                                    break;
-                                case WorkerMessageType.Warn:
-                                    isMessageTypeChecked = IsWarnChecked;
-                                    break;
-                                case WorkerMessageType.Info:
-                                    isMessageTypeChecked = IsInfoChecked;
-                                    break;
-                                default:
-                                    break;
+                            if (!isMessageTypeChecked) {
+                                switch (vm.MessageTypeEnum) {
+                                    case WorkerMessageType.Error:
+                                        isMessageTypeChecked = IsErrorChecked;
+                                        break;
+                                    case WorkerMessageType.Warn:
+                                        isMessageTypeChecked = IsWarnChecked;
+                                        break;
+                                    case WorkerMessageType.Info:
+                                        isMessageTypeChecked = IsInfoChecked;
+                                        break;
+                                    default:
+                                        break;
+                                }
                             }
+                            if (isCurrentChannel && isMessageTypeChecked) {
+                                _queyResults.Insert(0, vm);
+                            }
+                            #endregion
                         }
-                        if (isCurrentChannel && isMessageTypeChecked) {
-                            _queyResults.Insert(0, vm);
-                        }
-                        #endregion
-                    }
+                    });
                 });
         }
 
