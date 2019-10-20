@@ -75,7 +75,7 @@ namespace NTMiner.Vms {
                 LabelFormatter = speedFormatter,
                 MinValue = 0,
                 FontSize = 14,
-                Foreground = Wpf.Util.BlackBrush,
+                Foreground = WpfUtil.BlackBrush,
                 Separator = new Separator()
             };
             this._axisYShadow = new AxesCollection() {
@@ -84,7 +84,7 @@ namespace NTMiner.Vms {
             this._axisXShadow = new AxesCollection() {
                 new Axis() {
                     LabelFormatter = dateTimeFormatter,
-                    Foreground = Wpf.Util.BlackBrush,
+                    Foreground = WpfUtil.BlackBrush,
                     MaxValue = 0,
                     FontSize = 12,
                     MinValue=0,

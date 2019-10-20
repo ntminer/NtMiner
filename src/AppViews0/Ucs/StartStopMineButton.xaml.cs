@@ -12,7 +12,7 @@ namespace NTMiner.Views.Ucs {
             set { SetValue(StartButtonBackgroundProperty, value); }
         }
         public static readonly DependencyProperty StartButtonBackgroundProperty =
-            DependencyProperty.Register(nameof(StartButtonBackground), typeof(SolidColorBrush), typeof(StartStopMineButton), new PropertyMetadata(Wpf.Util.TransparentBrush));
+            DependencyProperty.Register(nameof(StartButtonBackground), typeof(SolidColorBrush), typeof(StartStopMineButton), new PropertyMetadata(WpfUtil.TransparentBrush));
         
         [Description("开始按钮前景色"), Category("KbSkin")]
         public SolidColorBrush StartButtonForeground {
@@ -20,7 +20,7 @@ namespace NTMiner.Views.Ucs {
             set { SetValue(StartButtonForegroundProperty, value); }
         }
         public static readonly DependencyProperty StartButtonForegroundProperty =
-            DependencyProperty.Register(nameof(StartButtonForeground), typeof(SolidColorBrush), typeof(StartStopMineButton), new PropertyMetadata(Wpf.Util.TransparentBrush));
+            DependencyProperty.Register(nameof(StartButtonForeground), typeof(SolidColorBrush), typeof(StartStopMineButton), new PropertyMetadata(WpfUtil.TransparentBrush));
 
         [Description("是否显示按钮文字"), Category("KbSkin")]
         public Visibility TextVisible {

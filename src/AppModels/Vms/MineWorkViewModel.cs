@@ -100,7 +100,7 @@ namespace NTMiner.Vms {
                     return;
                 }
                 if (!AppContext.Instance.MineWorkVms.TryGetMineWorkVm(this.Id, out MineWorkViewModel mineWorkVm)) {
-                    Wpf.Util.ShowInputDialog("作业名称", string.Empty, workName => {
+                    WpfUtil.ShowInputDialog("作业名称", string.Empty, workName => {
                         if (string.IsNullOrEmpty(workName)) {
                             return "作业名称是必须的";
                         }
@@ -133,9 +133,9 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                this.ShowDialog(message: $"您确定删除吗？", title: "确认", onYes: () => {
+                this.ShowDialog(new DialogWindowViewModel(message: $"您确定删除吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveMineWorkCommand(this.Id));
-                });
+                }));
             }, () => {
                 if (this == PleaseSelect) {
                     return false;

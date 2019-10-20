@@ -1,5 +1,6 @@
 ﻿using NTMiner.View;
 using NTMiner.Views.Ucs;
+using NTMiner.Vms;
 using System.Windows;
 
 namespace NTMiner.Views {
@@ -13,7 +14,7 @@ namespace NTMiner.Views {
         public override void Link() {
             VirtualRoot.CreateCmdPath<ShowDialogWindowCommand>(action: message => {
                 UIThread.Execute(() => {
-                    DialogWindow.ShowDialog(message: message.Message, title: message.Title, onYes: message.OnYes, icon: message.Icon);
+                    DialogWindow.ShowDialog(new DialogWindowViewModel(message: message.Message, title: message.Title, onYes: message.OnYes, icon: message.Icon));
                 });
             });
             VirtualRoot.CreateCmdPath<ShowQQGroupQrCodeCommand>(action: message => {

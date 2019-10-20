@@ -8,9 +8,9 @@ namespace NTMiner.Converters {
     public class TrueTransparentElseWhiteConverter : IValueConverter {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
             if (value is bool b && b) {
-                return Wpf.Util.TransparentBrush;
+                return WpfUtil.TransparentBrush;
             }
-            return Wpf.Util.WhiteBrush;
+            return WpfUtil.WhiteBrush;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {

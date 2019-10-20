@@ -1,5 +1,4 @@
-﻿using NTMiner.Wpf;
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Input;
 
@@ -17,7 +16,7 @@ namespace NTMiner.Views {
             TbTitle.Text = title;
             TbText.Text = text;
 
-            var owner = TopWindow.GetTopWindow();
+            var owner = WpfUtil.GetTopWindow();
             if (this != owner) {
                 this.Owner = owner;
             }

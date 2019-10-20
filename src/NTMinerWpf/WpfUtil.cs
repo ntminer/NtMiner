@@ -6,10 +6,30 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 
-namespace NTMiner.Wpf {
-    public static class Util {
+namespace NTMiner {
+    public static class WpfUtil {
+        public static Window GetTopWindow() {
+            IntPtr hwnd = SafeNativeMethods.GetForegroundWindow();
+            if (hwnd == IntPtr.Zero)
+                return null;
+
+            return GetWindowFromHwnd(hwnd);
+        }
+
+        private static Window GetWindowFromHwnd(IntPtr hwnd) {
+            HwndSource hds = HwndSource.FromHwnd(hwnd);
+            if (hds == null) {
+                return Application.Current.MainWindow;
+            }
+            if (hds.RootVisual is Window) {
+                return (Window)hds.RootVisual;
+            }
+            return Application.Current.MainWindow;
+        }
+
         public static readonly SolidColorBrush TransparentBrush = new SolidColorBrush(Colors.Transparent);
         public static readonly SolidColorBrush WhiteBrush = new SolidColorBrush(Colors.White);
         public static readonly SolidColorBrush BlackBrush = new SolidColorBrush(Colors.Black);

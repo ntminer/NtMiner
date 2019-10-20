@@ -1,5 +1,4 @@
 ﻿using NTMiner.Vms;
-using NTMiner.Wpf;
 using System.Windows;
 using System.Windows.Media;
 
@@ -15,7 +14,7 @@ namespace NTMiner.Views {
             this.DataContext = vm;
             InitializeComponent();
             this.PathIcon.Data = (Geometry)Application.Current.Resources[iconName];
-            this.Owner = TopWindow.GetTopWindow();
+            this.Owner = WpfUtil.GetTopWindow();
         }
 
         private void MetroWindow_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {

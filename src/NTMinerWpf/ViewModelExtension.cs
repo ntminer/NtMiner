@@ -1,18 +1,11 @@
 ﻿using NTMiner.Views;
 using NTMiner.Vms;
-using System;
 
 namespace NTMiner {
     public static class ViewModelExtension {
-        public static void ShowDialog(this ViewModelBase vm, string icon = "Icon_Confirm",
-            string title = null,
-            string message = null,
-            string helpUrl = null,
-            Action onYes = null,
-            Func<bool> onNo = null,
-            string yesText = null,
-            string noText = null) {
-            DialogWindow.ShowDialog(icon, title, message, helpUrl, onYes, onNo, yesText, noText);
+        // 起编译时免导入DialogWindow所在的NTMiner.Views命名空间的作用
+        public static void ShowDialog(this ViewModelBase vm, DialogWindowViewModel config) {
+            DialogWindow.ShowDialog(config);
         }
     }
 }

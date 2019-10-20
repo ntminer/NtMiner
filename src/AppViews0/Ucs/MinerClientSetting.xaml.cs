@@ -1,5 +1,4 @@
 ﻿using NTMiner.Vms;
-using NTMiner.Wpf;
 using System.Windows;
 using System.Windows.Input;
 
@@ -12,15 +11,10 @@ namespace NTMiner.Views.Ucs {
             window.ShowDialogEx();
         }
 
-        private MinerClientSettingViewModel Vm {
-            get {
-                return (MinerClientSettingViewModel)this.DataContext;
-            }
-        }
         public MinerClientSetting(MinerClientSettingViewModel vm) {
             this.DataContext = vm;
             InitializeComponent();
-            var owner = TopWindow.GetTopWindow();
+            var owner = WpfUtil.GetTopWindow();
             if (this != owner) {
                 this.Owner = owner;
             }

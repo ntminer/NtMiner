@@ -32,8 +32,7 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                IMinerGroup group;
-                if (NTMinerRoot.Instance.MinerGroupSet.TryGetMinerGroup(this.Id, out group)) {
+                if (NTMinerRoot.Instance.MinerGroupSet.TryGetMinerGroup(this.Id, out IMinerGroup group)) {
                     VirtualRoot.Execute(new UpdateMinerGroupCommand(this));
                 }
                 else {
@@ -53,9 +52,9 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                this.ShowDialog(message: $"您确定删除{this.Name}吗？", title: "确认", onYes: () => {
+                this.ShowDialog(new DialogWindowViewModel(message: $"您确定删除{this.Name}吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveMinerGroupCommand(this.Id));
-                });
+                }));
             }, () => {
                 return this != PleaseSelect;
             });

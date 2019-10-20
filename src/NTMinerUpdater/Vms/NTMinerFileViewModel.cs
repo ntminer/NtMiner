@@ -1,6 +1,5 @@
 ﻿using NTMiner.MinerServer;
 using NTMiner.Views;
-using NTMiner.Wpf;
 using System;
 using System.Linq;
 using System.Windows;
@@ -32,7 +31,7 @@ namespace NTMiner.Vms {
                         if (response.IsSuccess()) {
                             MainWindowViewModel.Instance.Refresh();
                             UIThread.Execute(() => {
-                                TopWindow.GetTopWindow()?.Close();
+                                WpfUtil.GetTopWindow()?.Close();
                             });
                         }
                         else {
@@ -47,7 +46,7 @@ namespace NTMiner.Vms {
             });
             this.Remove = new DelegateCommand(() => {
                 if (Login()) {
-                    this.ShowDialog(message: $"确定删除{this.Version}({this.VersionTag})吗？", title: "确认", onYes: () => {
+                    this.ShowDialog(new DialogWindowViewModel(message: $"确定删除{this.Version}({this.VersionTag})吗？", title: "确认", onYes: () => {
                         OfficialServer.FileUrlService.RemoveNTMinerFileAsync(this.Id, (response, e) => {
                             MainWindowViewModel.Instance.SelectedNTMinerFile = MainWindowViewModel.Instance.NTMinerFiles.FirstOrDefault();
                             if (this == MainWindowViewModel.Instance.ServerLatestVm) {
@@ -56,7 +55,7 @@ namespace NTMiner.Vms {
                             }
                             MainWindowViewModel.Instance.Refresh();
                         });
-                    });
+                    }));
                 }
             });
         }
@@ -65,7 +64,7 @@ namespace NTMiner.Vms {
             if (string.IsNullOrEmpty(SingleUser.LoginName) || string.IsNullOrEmpty(SingleUser.PasswordSha1)) {
                 LoginWindow window = new LoginWindow() {
                     WindowStartupLocation = WindowStartupLocation.CenterOwner,
-                    Owner = TopWindow.GetTopWindow()
+                    Owner = WpfUtil.GetTopWindow()
                 };
                 var result = window.ShowDialogEx();
                 return result.HasValue && result.Value;
