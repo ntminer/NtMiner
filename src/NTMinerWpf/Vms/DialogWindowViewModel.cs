@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 
 namespace NTMiner.Vms {
     public class DialogWindowViewModel : ViewModelBase {
@@ -11,6 +12,36 @@ namespace NTMiner.Vms {
         private string _yesText;
         private string _noText;
 
+        public Visibility BtnOkVisible {
+            get {
+                if (Design.IsInDesignMode) {
+                    return Visibility.Visible;
+                }
+                if (_onYes != null || _onNo != null) {
+                    return Visibility.Collapsed;
+                }
+                return Visibility.Visible;
+            }
+        }
+
+        public Visibility BtnYesNoVisible {
+            get {
+                if (Design.IsInDesignMode) {
+                    return Visibility.Visible;
+                }
+                if (_onYes == null && _onNo == null) {
+                    return Visibility.Collapsed;
+                }
+                return Visibility.Visible;
+            }
+        }
+
+        public DialogWindowViewModel() {
+            if (!Design.IsInDesignMode) {
+                throw new InvalidProgramException();
+            }
+        }
+
         public DialogWindowViewModel(
             string icon = null,
             string title = null,
@@ -18,8 +49,8 @@ namespace NTMiner.Vms {
             string helpUrl = null,
             Action onYes = null,
             Func<bool> onNo = null,
-            string yesText = null,
-            string noText = null) {
+            string yesText = "是",
+            string noText = "否") {
             _icon = icon;
             _title = title;
             _message = message;
@@ -53,7 +84,12 @@ namespace NTMiner.Vms {
             }
         }
         public string HelpUrl {
-            get => _helpUrl;
+            get {
+                if (Design.IsInDesignMode) {
+                    return "https://ntminer.com/";
+                }
+                return _helpUrl;
+            }
             set {
                 _helpUrl = value;
                 OnPropertyChanged(nameof(HelpUrl));

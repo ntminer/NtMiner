@@ -21,17 +21,6 @@ namespace NTMiner.Views {
         private DialogWindow(DialogWindowViewModel vm) {
             this.DataContext = vm;
             InitializeComponent();
-            if (!string.IsNullOrEmpty(vm.YesText)) {
-                this.yesText.Text = vm.YesText;
-            }
-            if (!string.IsNullOrEmpty(vm.NoText)) {
-                this.noText.Text = vm.NoText;
-            }
-            if (!string.IsNullOrEmpty(vm.HelpUrl)) {
-                this.BtnHelp.Visibility = Visibility.Visible;
-            }
-            this.TextBlockTitle.Text = vm.Title;
-            this.TextBlockMessage.Text = vm.Message;
             if (!string.IsNullOrEmpty(vm.Icon) && Application.Current.Resources.Contains(vm.Icon)) {
                 this.Resources["Icon"] = Application.Current.Resources[vm.Icon];
             }
@@ -39,13 +28,6 @@ namespace NTMiner.Views {
             var owner = TopWindow.GetTopWindow();
             if (this != owner) {
                 this.Owner = owner;
-            }
-            if (vm.OnYes != null || vm.OnNo != null) {
-                this.BtnOk.Visibility = Visibility.Collapsed;
-            }
-            if (vm.OnYes == null && vm.OnNo == null) {
-                this.BtnYes.Visibility = Visibility.Collapsed;
-                this.BtnNo.Visibility = Visibility.Collapsed;
             }
         }
 
