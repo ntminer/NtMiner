@@ -28,9 +28,11 @@ namespace NTMiner {
                 response = ResponseBase.Expired<TResponse>();
                 return false;
             }
-            if (sign != GetSign(data, user.LoginName, user.Password, timestamp)) {
+            string mySign = GetSign(data, user.LoginName, user.Password, timestamp);
+            if (sign != mySign) {
                 string message = "用户名或密码错误";
                 response = ResponseBase.Forbidden<TResponse>(message);
+                Write.DevDebug($"{message} sign:{sign} mySign:{mySign}");
                 return false;
             }
             response = null;

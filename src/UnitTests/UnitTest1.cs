@@ -217,10 +217,9 @@ namespace UnitTests {
 
         [TestMethod]
         public void AliOSSUrlTest() {
-            Uri uri = new Uri($"{OfficialServer.MinerJsonBucket}packages/HSPMinerAE2.1.2.zip?Expires=1554472712&OSSAccessKeyId=LTAIHNApO2ImeMxI&Signature=FVTf+nX4grLKcPRxpJd9nf3Py7I=");
+            Uri uri = new Uri($"{OfficialServer.NTMinerBucket}packages/HSPMinerAE2.1.2.zip?Expires=1554472712&OSSAccessKeyId=LTAIHNApO2ImeMxI&Signature=FVTf+nX4grLKcPRxpJd9nf3Py7I=");
             Console.WriteLine(uri.ToString());
             Console.WriteLine(OfficialServer.SignatureSafeUrl(uri));
-            Console.WriteLine(HttpUtility.UrlEncode(uri.ToString()));
         }
 
         [TestMethod]
