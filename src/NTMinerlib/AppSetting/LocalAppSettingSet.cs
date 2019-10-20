@@ -17,18 +17,14 @@ namespace NTMiner.AppSetting {
                 }
                 if (_dicByKey.TryGetValue(message.AppSetting.Key, out AppSettingData entity)) {
                     entity.Value = message.AppSetting.Value;
-                    using (LiteDatabase db = new LiteDatabase(_dbFileFullName)) {
-                        var col = db.GetCollection<AppSettingData>();
-                        col.Update(entity);
-                    }
                 }
                 else {
                     entity = AppSettingData.Create(message.AppSetting);
-                    _dicByKey.Add(message.AppSetting.Key, entity);
-                    using (LiteDatabase db = new LiteDatabase(_dbFileFullName)) {
-                        var col = db.GetCollection<AppSettingData>();
-                        col.Insert(entity);
-                    }
+                    _dicByKey[message.AppSetting.Key] = entity;
+                }
+                using (LiteDatabase db = new LiteDatabase(_dbFileFullName)) {
+                    var col = db.GetCollection<AppSettingData>();
+                    col.Upsert(entity);
                 }
                 VirtualRoot.Happened(new LocalAppSettingChangedEvent(entity));
             });
