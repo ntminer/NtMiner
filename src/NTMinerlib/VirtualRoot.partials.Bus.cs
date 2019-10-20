@@ -100,7 +100,7 @@ namespace NTMiner {
             DateTime now = DateTime.Now;
             if (now.Minute != _dateTime.Minute) {
                 _dateTime = now;
-                Happened(MinutePartChangedEvent.Instance);
+                Happened(new MinutePartChangedEvent());
             }
             #region one
             if (_secondCount <= 20) {
@@ -151,42 +151,42 @@ namespace NTMiner {
             #endregion
 
             #region per
-            Happened(Per1SecondEvent.Instance);
+            Happened(new Per1SecondEvent());
             if (_secondCount % 2 == 0) {
-                Happened(Per2SecondEvent.Instance);
+                Happened(new Per2SecondEvent());
                 if (_secondCount % 10 == 0) {
-                    Happened(Per10SecondEvent.Instance);
+                    Happened(new Per10SecondEvent());
                     if (_secondCount % 20 == 0) {
-                        Happened(Per20SecondEvent.Instance);
+                        Happened(new Per20SecondEvent());
                         if (_secondCount % 60 == 0) {
-                            Happened(Per1MinuteEvent.Instance);
+                            Happened(new Per1MinuteEvent());
                             if (_secondCount % 120 == 0) {
-                                Happened(Per2MinuteEvent.Instance);
+                                Happened(new Per2MinuteEvent());
                                 if (_secondCount % 600 == 0) {
-                                    Happened(Per10MinuteEvent.Instance);
+                                    Happened(new Per10MinuteEvent());
                                     if (_secondCount % 1200 == 0) {
-                                        Happened(Per20MinuteEvent.Instance);
+                                        Happened(new Per20MinuteEvent());
                                         if (_secondCount % 6000 == 0) {
-                                            Happened(Per100MinuteEvent.Instance);
+                                            Happened(new Per100MinuteEvent());
                                         }
                                         if (_secondCount % daySecond == 0) {
-                                            Happened(Per24HourEvent.Instance);
+                                            Happened(new Per24HourEvent());
                                         }
                                     }
                                     if (_secondCount % 3000 == 0) {
-                                        Happened(Per50MinuteEvent.Instance);
+                                        Happened(new Per50MinuteEvent());
                                     }
                                 }
                             }
                             if (_secondCount % 300 == 0) {
-                                Happened(Per5MinuteEvent.Instance);
+                                Happened(new Per5MinuteEvent());
                             }
                         }
                     }
                 }
             }
             if (_secondCount % 5 == 0) {
-                Happened(Per5SecondEvent.Instance);
+                Happened(new Per5SecondEvent());
             }
             #endregion
         }
