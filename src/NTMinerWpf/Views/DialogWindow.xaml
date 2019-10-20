@@ -102,6 +102,7 @@
             <controls:KbButton 
                 Padding="15 2"
                 Margin="20 0"
+                ToolTip="{Binding BtnYesToolTip}"
                 Visibility="{Binding BtnYesNoVisible}"
                 Click="KbYesButton_Click"
                 Background="{StaticResource ThemeBackground}"
@@ -126,6 +127,7 @@
             <controls:KbButton 
                 Padding="15 2"
                 Margin="20 0"
+                ToolTip="{Binding BtnNoToolTip}"
                 Visibility="{Binding BtnYesNoVisible}"
                 Click="KbNoButton_Click"
                 Background="Red"
