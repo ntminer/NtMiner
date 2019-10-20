@@ -1,76 +1,62 @@
-﻿using NTMiner.Wpf;
-using System;
+﻿using NTMiner.Vms;
+using NTMiner.Wpf;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
 
 namespace NTMiner.Views {
     public partial class DialogWindow : BlankWindow {
-        public static void ShowDialog(string icon = null,
-            string title = null,
-            string message = null,
-            string helpUrl = null,
-            Action onYes = null,
-            Func<bool> onNo = null,
-            string yesText = null,
-            string noText = null) {
-            Window window = new DialogWindow(icon, title, message, helpUrl, onYes, onNo, yesText, noText);
+        public static void ShowDialog(DialogWindowViewModel vm) {
+            Window window = new DialogWindow(vm);
             window.MousePosition();
             window.ShowDialogEx();
         }
 
-        private readonly Action _onYes;
-        private readonly Func<bool> _onNo;
-        private readonly string _helpUrl;
-        private DialogWindow(
-            string icon, 
-            string title, 
-            string message, 
-            string helpUrl,
-            Action onYes,
-            Func<bool> onNo,
-            string yesText = null,
-            string noText = null) {
-            _helpUrl = helpUrl;
+        public DialogWindowViewModel Vm {
+            get {
+                return (DialogWindowViewModel)this.DataContext;
+            }
+        }
+
+        private DialogWindow(DialogWindowViewModel vm) {
+            this.DataContext = vm;
             InitializeComponent();
-            if (!string.IsNullOrEmpty(yesText)) {
-                this.yesText.Text = yesText;
+            if (!string.IsNullOrEmpty(vm.YesText)) {
+                this.yesText.Text = vm.YesText;
             }
-            if (!string.IsNullOrEmpty(noText)) {
-                this.noText.Text = noText;
+            if (!string.IsNullOrEmpty(vm.NoText)) {
+                this.noText.Text = vm.NoText;
             }
-            if (!string.IsNullOrEmpty(helpUrl)) {
+            if (!string.IsNullOrEmpty(vm.HelpUrl)) {
                 this.BtnHelp.Visibility = Visibility.Visible;
             }
-            this.TextBlockTitle.Text = title;
-            this.TextBlockMessage.Text = message;
-            if (!string.IsNullOrEmpty(icon) && Application.Current.Resources.Contains(icon)) {
-                this.Resources["Icon"] = Application.Current.Resources[icon];
+            this.TextBlockTitle.Text = vm.Title;
+            this.TextBlockMessage.Text = vm.Message;
+            if (!string.IsNullOrEmpty(vm.Icon) && Application.Current.Resources.Contains(vm.Icon)) {
+                this.Resources["Icon"] = Application.Current.Resources[vm.Icon];
             }
 
             var owner = TopWindow.GetTopWindow();
             if (this != owner) {
                 this.Owner = owner;
             }
-            _onYes = onYes;
-            _onNo = onNo;
-            if (onYes != null || onNo != null) {
+            if (vm.OnYes != null || vm.OnNo != null) {
                 this.BtnOk.Visibility = Visibility.Collapsed;
             }
-            if (onYes == null && onNo == null) {
+            if (vm.OnYes == null && vm.OnNo == null) {
                 this.BtnYes.Visibility = Visibility.Collapsed;
                 this.BtnNo.Visibility = Visibility.Collapsed;
             }
         }
 
         private void KbYesButton_Click(object sender, RoutedEventArgs e) {
-            _onYes?.Invoke();
+            Vm.OnYes?.Invoke();
             this.Close();
         }
 
         private void KbNoButton_Click(object sender, RoutedEventArgs e) {
-            if (_onNo != null) {
-                if (_onNo.Invoke()) {
+            if (Vm.OnNo != null) {
+                if (Vm.OnNo.Invoke()) {
                     this.Close();
                 }
             }
@@ -90,8 +76,8 @@ namespace NTMiner.Views {
         }
 
         private void Help_Click(object sender, RoutedEventArgs e) {
-            if (!string.IsNullOrEmpty(_helpUrl)) {
-                Process.Start(_helpUrl);
+            if (!string.IsNullOrEmpty(Vm.HelpUrl)) {
+                Process.Start(Vm.HelpUrl);
             }
         }
     }

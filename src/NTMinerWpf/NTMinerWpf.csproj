@@ -56,6 +56,7 @@
       <DependentUpon>Icons.xaml</DependentUpon>
     </Compile>
     <Compile Include="Vms\ContainerWindowViewModel.cs" />
+    <Compile Include="Vms\DialogWindowViewModel.cs" />
     <Compile Include="Vms\IconsViewModel.cs" />
     <Compile Include="Vms\IpAddressControlViewModel.cs" />
     <Compile Include="Controls\IPRangeValidationRule.cs" />

@@ -1,4 +1,5 @@
 ﻿using NTMiner.Views;
+using NTMiner.Vms;
 using System;
 using System.Threading;
 using System.Windows;
@@ -45,7 +46,7 @@ namespace NTMiner {
                 return;
             }
             if (e is ValidationException) {
-                DialogWindow.ShowDialog(title: "验证失败", message: e.Message, icon: "Icon_Error");
+                DialogWindow.ShowDialog(new DialogWindowViewModel(title: "验证失败", message: e.Message, icon: "Icon_Error"));
             }
             else {
                 Logger.ErrorDebugLine(e);

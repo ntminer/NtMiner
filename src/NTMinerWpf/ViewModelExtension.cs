@@ -12,7 +12,15 @@ namespace NTMiner {
             Func<bool> onNo = null,
             string yesText = null,
             string noText = null) {
-            DialogWindow.ShowDialog(icon, title, message, helpUrl, onYes, onNo, yesText, noText);
+            DialogWindow.ShowDialog(new DialogWindowViewModel(
+                icon: icon, 
+                title: title, 
+                message: message, 
+                helpUrl: helpUrl, 
+                onYes: onYes, 
+                onNo: onNo, 
+                yesText: yesText, 
+                noText: noText));
         }
     }
 }
