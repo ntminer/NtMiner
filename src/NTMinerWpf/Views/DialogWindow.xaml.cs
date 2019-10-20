@@ -1,4 +1,5 @@
 ﻿using NTMiner.Vms;
+using System;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
@@ -37,7 +38,16 @@ namespace NTMiner.Views {
 
         private void KbNoButton_Click(object sender, RoutedEventArgs e) {
             if (Vm.OnNo != null) {
-                if (Vm.OnNo.Invoke()) {
+                if (Vm.IsConfirmNo && Vm.NoText != "请再次点击") {
+                    string noText = Vm.NoText;
+                    Vm.NoText = "请再次点击";
+                    TimeSpan.FromSeconds(4).Delay().ContinueWith(t => {
+                        UIThread.Execute(() => {
+                            Vm.NoText = noText;
+                        });
+                    });
+                }
+                else if (Vm.OnNo.Invoke()) {
                     this.Close();
                 }
             }

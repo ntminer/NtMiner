@@ -14,6 +14,7 @@ namespace NTMiner.Vms {
         private string _btnOkToolTip;
         private string _btnYesToolTip;
         private string _btnNoToolTip;
+        private bool _isConfirmNo;
 
         public Visibility BtnOkVisible {
             get {
@@ -63,6 +64,14 @@ namespace NTMiner.Vms {
             }
         }
 
+        public bool IsConfirmNo {
+            get { return _isConfirmNo; }
+            set {
+                _isConfirmNo = value;
+                OnPropertyChanged(nameof(IsConfirmNo));
+            }
+        }
+
         public DialogWindowViewModel() {
             if (!Design.IsInDesignMode) {
                 throw new InvalidProgramException();
@@ -80,7 +89,8 @@ namespace NTMiner.Vms {
             string noText = "否",
             string btnOkToolTip = null,
             string btnYesToolTip = null,
-            string btnNoToolTip = null) {
+            string btnNoToolTip = null,
+            bool isConfirmNo = false) {
             _icon = icon;
             _title = title;
             _message = message;
@@ -92,6 +102,7 @@ namespace NTMiner.Vms {
             _btnOkToolTip = btnOkToolTip;
             _btnYesToolTip = btnYesToolTip;
             _btnNoToolTip = btnNoToolTip;
+            _isConfirmNo = isConfirmNo;
         }
 
         public string Icon {
