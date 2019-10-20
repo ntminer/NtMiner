@@ -11,6 +11,9 @@ namespace NTMiner.Vms {
         private Func<bool> _onNo;
         private string _yesText;
         private string _noText;
+        private string _btnOkToolTip;
+        private string _btnYesToolTip;
+        private string _btnNoToolTip;
 
         public Visibility BtnOkVisible {
             get {
@@ -24,6 +27,14 @@ namespace NTMiner.Vms {
             }
         }
 
+        public string BtnOkToolTip {
+            get => _btnOkToolTip;
+            set {
+                _btnOkToolTip = value;
+                OnPropertyChanged(nameof(BtnOkToolTip));
+            }
+        }
+
         public Visibility BtnYesNoVisible {
             get {
                 if (Design.IsInDesignMode) {
@@ -33,6 +44,22 @@ namespace NTMiner.Vms {
                     return Visibility.Collapsed;
                 }
                 return Visibility.Visible;
+            }
+        }
+
+        public string BtnYesToolTip {
+            get => _btnYesToolTip;
+            set {
+                _btnYesToolTip = value;
+                OnPropertyChanged(nameof(BtnYesToolTip));
+            }
+        }
+
+        public string BtnNoToolTip {
+            get => _btnNoToolTip;
+            set {
+                _btnNoToolTip = value;
+                OnPropertyChanged(nameof(BtnNoToolTip));
             }
         }
 
@@ -50,7 +77,10 @@ namespace NTMiner.Vms {
             Action onYes = null,
             Func<bool> onNo = null,
             string yesText = "是",
-            string noText = "否") {
+            string noText = "否",
+            string btnOkToolTip = null,
+            string btnYesToolTip = null,
+            string btnNoToolTip = null) {
             _icon = icon;
             _title = title;
             _message = message;
@@ -59,6 +89,9 @@ namespace NTMiner.Vms {
             _onNo = onNo;
             _yesText = yesText;
             _noText = noText;
+            _btnOkToolTip = btnOkToolTip;
+            _btnYesToolTip = btnYesToolTip;
+            _btnNoToolTip = btnNoToolTip;
         }
 
         public string Icon {

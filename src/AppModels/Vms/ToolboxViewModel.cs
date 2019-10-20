@@ -22,16 +22,19 @@ namespace NTMiner.Vms {
                     VirtualRoot.Out.ShowInfo("请先停止挖矿");
                     return;
                 }
-                this.ShowDialog(new DialogWindowViewModel(message: $"过程大概需要花费5到10秒钟", title: "确认", onYes: () => {
-                    VirtualRoot.Execute(new SwitchRadeonGpuCommand(on: true));
-                }, onNo: () => {
-                    bool isClose = false;
-                    this.ShowDialog(new DialogWindowViewModel(message: "关闭计算模式挖矿算力会减半，确定关闭计算模式？", title: "二次确认", onYes: () => {
-                        isClose = true;
-                        VirtualRoot.Execute(new SwitchRadeonGpuCommand(on: false));
-                    }));
-                    return isClose;
-                }, yesText: "开启计算模式", noText: "关闭计算模式"));
+                var config = new DialogWindowViewModel(
+                    btnNoToolTip: "注意：关闭计算模式挖矿算力会减半",
+                    message: $"过程大概需要花费5到10秒钟", title: "确认", onYes: () => {
+                        VirtualRoot.Execute(new SwitchRadeonGpuCommand(on: true));
+                    }, onNo: () => {
+                        bool isClose = false;
+                        this.ShowDialog(new DialogWindowViewModel(message: "关闭计算模式挖矿算力会减半，确定关闭计算模式？", title: "二次确认", onYes: () => {
+                            isClose = true;
+                            VirtualRoot.Execute(new SwitchRadeonGpuCommand(on: false));
+                        }));
+                        return isClose;
+                    }, yesText: "开启计算模式", noText: "关闭计算模式");
+                this.ShowDialog(config);
             });
             this.AtikmdagPatcher = new DelegateCommand(() => {
                 if (MinerProfileViewModel.Instance.IsMining) {
