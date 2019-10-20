@@ -10,15 +10,16 @@ using System.Web;
 namespace NTMiner {
     public static partial class OfficialServer {
         public const string MinerJsonBucket = "https://minerjson.oss-cn-beijing.aliyuncs.com/";
+        public const string NTMinerBucket = "https://ntminer.oss-cn-beijing.aliyuncs.com/";
         public static readonly FileUrlServiceFace FileUrlService = FileUrlServiceFace.Instance;
         public static readonly OverClockDataServiceFace OverClockDataService = OverClockDataServiceFace.Instance;
         public static readonly CalcConfigServiceFace CalcConfigService = CalcConfigServiceFace.Instance;
 
         public static string SignatureSafeUrl(Uri uri) {
             string url = uri.ToString();
-            if (url.Length > MinerJsonBucket.Length) {
-                string signature = url.Substring(url.Length - MinerJsonBucket.Length);
-                return url.Substring(0, url.Length - MinerJsonBucket.Length) + HttpUtility.UrlEncode(signature);
+            int index = url.IndexOf('?');
+            if (index != -1) {
+                return url.Substring(0, index + 1) + HttpUtility.UrlEncode(url.Substring(index + 1));
             }
             return url;
         }
