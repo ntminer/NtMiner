@@ -40,8 +40,11 @@ namespace NTMiner.Views {
             if (Vm.OnNo != null) {
                 if (Vm.IsConfirmNo && Vm.NoText != "请再次点击") {
                     string noText = Vm.NoText;
-                    Vm.NoText = "请再次点击";
-                    TimeSpan.FromSeconds(4).Delay().ContinueWith(t => {
+                    TimeSpan.FromSeconds(4).Delay(perSecondCallback: n => {
+                        UIThread.Execute(() => {
+                            Vm.NoText = $"请再点一次{n}";
+                        });
+                    }).ContinueWith(t => {
                         UIThread.Execute(() => {
                             Vm.NoText = noText;
                         });
