@@ -143,9 +143,9 @@ namespace NTMiner.Vms {
         public SolidColorBrush LastSpeedOnForeground {
             get {
                 if (SpeedOn.AddSeconds(120) < DateTime.Now) {
-                    return Util.RedBrush;
+                    return WpfUtil.RedBrush;
                 }
-                return Util.BlackBrush;
+                return WpfUtil.BlackBrush;
             }
         }
     }

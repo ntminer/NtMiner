@@ -125,7 +125,6 @@
     <Compile Include="WindowsShortcut.cs" />
     <Compile Include="DataGridExtesnsion.cs" />
     <Compile Include="NativeMethods.cs" />
-    <Compile Include="TopWindow.cs" />
     <Compile Include="Views\NotiCenterWindow.xaml.cs">
       <DependentUpon>NotiCenterWindow.xaml</DependentUpon>
     </Compile>
@@ -141,7 +140,7 @@
     <Compile Include="Views\LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Util.cs" />
+    <Compile Include="WpfUtil.cs" />
     <Compile Include="Controls\BindingProxy.cs" />
   </ItemGroup>
   <ItemGroup>

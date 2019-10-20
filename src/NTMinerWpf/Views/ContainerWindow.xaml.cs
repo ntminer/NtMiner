@@ -77,8 +77,7 @@ namespace NTMiner.Views {
         #endregion
 
         private readonly UserControl _uc;
-        private ContainerWindowViewModel _vm;
-        private readonly bool _fixedSize;
+        private readonly ContainerWindowViewModel _vm;
 
         public UserControl Uc {
             get { return _uc; }
@@ -96,7 +95,6 @@ namespace NTMiner.Views {
             bool fixedSize = false,
             bool dragMove = true) {
             this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Save, Save_Executed, Save_Enabled));
-            _fixedSize = fixedSize;
             _uc = ucFactory(this);
             vm.UcResourceDic = _uc.Resources;
             _vm = vm;
@@ -169,7 +167,7 @@ namespace NTMiner.Views {
         public void ShowWindow(Action<UserControl> beforeShow = null) {
             beforeShow?.Invoke(_uc);
             if (Vm.IsDialogWindow || Vm.HasOwner) {
-                var owner = TopWindow.GetTopWindow();
+                var owner = WpfUtil.GetTopWindow();
                 if (this != owner) {
                     this.Owner = owner;
                 }

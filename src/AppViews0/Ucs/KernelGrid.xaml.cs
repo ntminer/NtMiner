@@ -16,7 +16,7 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
-            Util.DataGrid_MouseDoubleClick<KernelViewModel>(sender, e);
+            WpfUtil.DataGrid_MouseDoubleClick<KernelViewModel>(sender, e);
         }
 
         private void ButtonLeftCoin_Click(object sender, RoutedEventArgs e) {
@@ -34,7 +34,7 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void CoinsScrollView_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
-            Util.ScrollViewer_PreviewMouseDown(sender, e);
+            WpfUtil.ScrollViewer_PreviewMouseDown(sender, e);
         }
 
         private void ListBox_MouseDown(object sender, MouseButtonEventArgs e) {
@@ -59,7 +59,7 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void BrandsScrollView_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
-            Util.ScrollViewer_PreviewMouseDown(sender, e);
+            WpfUtil.ScrollViewer_PreviewMouseDown(sender, e);
         }
 
     }

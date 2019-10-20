@@ -156,12 +156,12 @@ namespace NTMiner.Vms {
         public SolidColorBrush ColorBrush {
             get {
                 if (string.IsNullOrEmpty(this.Color)) {
-                    return Util.WhiteBrush;
+                    return WpfUtil.WhiteBrush;
                 }
                 if (ColorDicItem != null && ColorDicItem.Value.TryParse(out ConsoleColor consoleColor)) {
                     return new SolidColorBrush(consoleColor.ToMediaColor());
                 }
-                return Util.WhiteBrush;
+                return WpfUtil.WhiteBrush;
             }
         }
 

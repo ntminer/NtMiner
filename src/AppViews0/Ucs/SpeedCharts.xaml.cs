@@ -128,7 +128,7 @@ namespace NTMiner.Views.Ucs {
                                 DisableAnimations = true,
                                 Hoverable = false,
                                 DataTooltip = null,
-                                Background = Util.WhiteBrush,
+                                Background = WpfUtil.WhiteBrush,
                                 Padding = new Thickness(4, 0, 0, 0),
                                 Visibility = Visibility.Visible
                             };
@@ -192,7 +192,7 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void ScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
-            Util.ScrollViewer_PreviewMouseDown(sender, e);
+            WpfUtil.ScrollViewer_PreviewMouseDown(sender, e);
         }
     }
 }

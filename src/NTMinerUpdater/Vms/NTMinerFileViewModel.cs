@@ -31,7 +31,7 @@ namespace NTMiner.Vms {
                         if (response.IsSuccess()) {
                             MainWindowViewModel.Instance.Refresh();
                             UIThread.Execute(() => {
-                                TopWindow.GetTopWindow()?.Close();
+                                WpfUtil.GetTopWindow()?.Close();
                             });
                         }
                         else {
@@ -64,7 +64,7 @@ namespace NTMiner.Vms {
             if (string.IsNullOrEmpty(SingleUser.LoginName) || string.IsNullOrEmpty(SingleUser.PasswordSha1)) {
                 LoginWindow window = new LoginWindow() {
                     WindowStartupLocation = WindowStartupLocation.CenterOwner,
-                    Owner = TopWindow.GetTopWindow()
+                    Owner = WpfUtil.GetTopWindow()
                 };
                 var result = window.ShowDialogEx();
                 return result.HasValue && result.Value;

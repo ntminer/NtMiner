@@ -15,7 +15,7 @@ namespace NTMiner.Views.Ucs {
         public MinerClientAdd(MinerClientAddViewModel vm) {
             this.DataContext = vm;
             InitializeComponent();
-            var owner = TopWindow.GetTopWindow();
+            var owner = WpfUtil.GetTopWindow();
             if (this != owner) {
                 this.Owner = owner;
             }

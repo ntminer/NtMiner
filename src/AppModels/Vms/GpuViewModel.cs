@@ -207,9 +207,9 @@ namespace NTMiner.Vms {
         public SolidColorBrush TemperatureForeground {
             get {
                 if (this.Temperature >= AppContext.Instance.MinerProfileVm.MaxTemp) {
-                    return Util.RedBrush;
+                    return WpfUtil.RedBrush;
                 }
-                return Util.BlackBrush;
+                return WpfUtil.BlackBrush;
             }
         }
 

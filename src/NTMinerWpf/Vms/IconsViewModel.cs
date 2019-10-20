@@ -38,7 +38,7 @@ namespace NTMiner.Vms {
                         list.Add(new Icon {
                             Key = key.ToString(),
                             Data = (StreamGeometry)dic[key],
-                            BorderBrush = Util.TransparentBrush
+                            BorderBrush = WpfUtil.TransparentBrush
                         });
                     }
                     _icons = list.OrderBy(a => a.Key).ToList();
@@ -58,16 +58,16 @@ namespace NTMiner.Vms {
                 if (!string.IsNullOrEmpty(value)) {
                     foreach (var icon in _icons) {
                         if (icon.Key.IgnoreCaseContains(value)) {
-                            icon.BorderBrush = Util.RedBrush;
+                            icon.BorderBrush = WpfUtil.RedBrush;
                         }
                         else {
-                            icon.BorderBrush = Util.TransparentBrush;
+                            icon.BorderBrush = WpfUtil.TransparentBrush;
                         }
                     }
                 }
                 else {
                     foreach (var icon in _icons) {
-                        icon.BorderBrush = Util.TransparentBrush;
+                        icon.BorderBrush = WpfUtil.TransparentBrush;
                     }
                 }
             }

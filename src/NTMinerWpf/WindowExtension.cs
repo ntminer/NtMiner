@@ -13,8 +13,7 @@ namespace NTMiner {
             if (window.Owner == null) {
                 return;
             }
-            POINT pt;
-            if (SafeNativeMethods.GetCursorPos(out pt)) {
+            if (SafeNativeMethods.GetCursorPos(out POINT pt)) {
                 var width = window.Width.Equals(double.NaN) ? 400 : window.Width;
                 var height = window.Height.Equals(double.NaN) ? 200 : window.Height;
                 window.WindowStartupLocation = WindowStartupLocation.Manual;
@@ -45,7 +44,7 @@ namespace NTMiner {
         public static bool? ShowDialogEx(this Window window) {
             bool? result;
             if (window.Owner == null) {
-                var owner = TopWindow.GetTopWindow();
+                var owner = WpfUtil.GetTopWindow();
                 if (owner != window) {
                     window.Owner = owner;
                 }

@@ -24,7 +24,7 @@ namespace NTMiner.Views {
                 this.Resources["Icon"] = Application.Current.Resources[vm.Icon];
             }
 
-            var owner = TopWindow.GetTopWindow();
+            var owner = WpfUtil.GetTopWindow();
             if (this != owner) {
                 this.Owner = owner;
             }
