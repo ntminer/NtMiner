@@ -16,10 +16,14 @@ namespace NTMiner {
         public static readonly CalcConfigServiceFace CalcConfigService = CalcConfigServiceFace.Instance;
 
         public static string SignatureSafeUrl(Uri uri) {
+            // https://ntminer.oss-cn-beijing.aliyuncs.com/packages/HSPMinerAE2.1.2.zip?Expires=1554472712&OSSAccessKeyId=LTAIHNApO2ImeMxI&Signature=FVTf+nX4grLKcPRxpJd9nf3Py7I=
+            // Signature的值长度是28
             string url = uri.ToString();
-            int index = url.IndexOf('?');
+            const string keyword = "Signature=";
+            int index = url.IndexOf(keyword);
             if (index != -1) {
-                return url.Substring(0, index + 1) + HttpUtility.UrlEncode(url.Substring(index + 1));
+                string signature = url.Substring(index + keyword.Length, 28);
+                return url.Substring(0, index) + keyword + HttpUtility.UrlEncode(signature) + url.Substring(index + keyword.Length + 28);
             }
             return url;
         }
