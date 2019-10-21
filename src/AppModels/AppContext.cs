@@ -208,6 +208,12 @@ namespace NTMiner {
             }
         }
 
+        public NTMinerWalletViewModels NTMinerWalletVms {
+            get {
+                return NTMinerWalletViewModels.Instance;
+            }
+        }
+
         public PoolProfileViewModels PoolProfileVms {
             get {
                 return PoolProfileViewModels.Instance;

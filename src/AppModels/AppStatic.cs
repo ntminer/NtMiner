@@ -578,6 +578,10 @@ namespace NTMiner {
             VirtualRoot.Execute(new ShowOverClockDataPageCommand());
         });
 
+        public static ICommand ShowNTMinerWallets { get; private set; } = new DelegateCommand(() => {
+            VirtualRoot.Execute(new ShowNTMinerWalletPageCommand());
+        });
+
         public static ICommand ShowChartsWindow { get; private set; } = new DelegateCommand(() => {
             VirtualRoot.Execute(new ShowChartsWindowCommand());
         });

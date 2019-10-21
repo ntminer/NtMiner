@@ -87,6 +87,7 @@
     <Compile Include="MinerClient\LocalIpData.cs" />
     <Compile Include="MinerServer\INTMinerWallet.cs" />
     <Compile Include="MinerServer\NTMinerWalletData.cs" />
+    <Compile Include="MinerServer\NTMinerWalletsRequest.cs" />
     <Compile Include="WorkerMessageChannel.cs" />
     <Compile Include="Profile\GpuProfileExtension.cs" />
     <Compile Include="MinerClient\IKernelOutputKeyword.cs" />

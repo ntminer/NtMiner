@@ -4,7 +4,7 @@ using System;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class NTMinerWalletViewModel : ViewModelBase, INTMinerWallet {
+    public class NTMinerWalletViewModel : ViewModelBase, INTMinerWallet, IEditableViewModel {
         private Guid _id;
         private Guid _coinId;
         private string _wallet;

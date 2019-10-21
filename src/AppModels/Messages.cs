@@ -55,6 +55,12 @@ namespace NTMiner {
         }
     }
 
+    [MessageType(description: "打开NTMiner钱包列表页")]
+    public class ShowNTMinerWalletPageCommand : Cmd {
+        public ShowNTMinerWalletPageCommand() {
+        }
+    }
+
     [MessageType(description: "打开群控算力图表窗口")]
     public class ShowChartsWindowCommand : Cmd {
         public ShowChartsWindowCommand() {

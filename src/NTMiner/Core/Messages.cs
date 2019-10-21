@@ -294,6 +294,12 @@ namespace NTMiner.Core {
         public OverClockDataSetInitedEvent() {
         }
     }
+
+    [MessageType(description: "NTMiner钱包集初始化后")]
+    public class NTMinerWalletSetInitedEvent : EventBase {
+        public NTMinerWalletSetInitedEvent() {
+        }
+    }
     #endregion
 
     #region ColumnsShow Messages

@@ -89,6 +89,7 @@
     <Compile Include="Controllers\ControlCenterController.cs" />
     <Compile Include="Controllers\FileUrlController.cs" />
     <Compile Include="Controllers\IndexController.cs" />
+    <Compile Include="Controllers\NTMinerWalletController.cs" />
     <Compile Include="Controllers\WrapperMinerClientController.cs" />
     <Compile Include="Controllers\OverClockDataController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
