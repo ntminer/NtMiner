@@ -49,6 +49,8 @@ namespace NTMiner {
 
         IMinerGroupSet MinerGroupSet { get; }
 
+        INTMinerWalletSet NTMinerWalletSet { get; }
+
         IColumnsShowSet ColumnsShowSet { get; }
 
         IOverClockDataSet OverClockDataSet { get; }

@@ -234,6 +234,7 @@ namespace NTMiner {
             this.CoinShareSet = new CoinShareSet(this);
             this.MineWorkSet = new MineWorkSet(this);
             this.MinerGroupSet = new MinerGroupSet(this);
+            this.NTMinerWalletSet = new NTMinerWalletSet(this);
             this.OverClockDataSet = new OverClockDataSet(this);
             this.ColumnsShowSet = new ColumnsShowSet(this);
             IsJsonLocal = isWork;
@@ -661,6 +662,8 @@ namespace NTMiner {
         public IMineWorkSet MineWorkSet { get; private set; }
 
         public IMinerGroupSet MinerGroupSet { get; private set; }
+
+        public INTMinerWalletSet NTMinerWalletSet { get; private set; }
 
         public IColumnsShowSet ColumnsShowSet { get; private set; }
 

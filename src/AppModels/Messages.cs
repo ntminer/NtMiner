@@ -439,6 +439,17 @@ namespace NTMiner {
         public MinerGroupViewModel Source { get; private set; }
     }
 
+    [MessageType(description: "打开NTMiner钱包编辑界面")]
+    public class NTMinerWalletEditCommand : Cmd {
+        public NTMinerWalletEditCommand(FormType formType, NTMinerWalletViewModel source) {
+            this.FormType = formType;
+            this.Source = source;
+        }
+
+        public FormType FormType { get; private set; }
+        public NTMinerWalletViewModel Source { get; private set; }
+    }
+
     [MessageType(description: "打开作业编辑界面")]
     public class MineWorkEditCommand : Cmd {
         public MineWorkEditCommand(FormType formType, MineWorkViewModel source) {

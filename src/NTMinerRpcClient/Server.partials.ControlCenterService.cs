@@ -319,6 +319,7 @@ namespace NTMiner {
             }
             #endregion
 
+            #region GetLocalJson
             public string GetLocalJson(Guid workId) {
                 try {
                     DataRequest<Guid> request = new DataRequest<Guid>() {
@@ -334,6 +335,7 @@ namespace NTMiner {
                 }
                 return string.Empty;
             }
+            #endregion
 
             #region GetWallets
             // TODO:异步化
@@ -452,6 +454,47 @@ namespace NTMiner {
                     Data = id
                 };
                 PostAsync(SControllerName, nameof(IControlCenterController.RemoveColumnsShow), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
+            }
+            #endregion
+
+            #region GetNTMinerWallets
+            // TODO:异步化
+            /// <summary>
+            /// 同步方法
+            /// </summary>
+            /// <returns></returns>
+            public List<NTMinerWalletData> GetNTMinerWallets() {
+                try {
+                    SignRequest request = new SignRequest {
+                    };
+                    DataResponse<List<NTMinerWalletData>> response = Post<DataResponse<List<NTMinerWalletData>>>(SControllerName, nameof(IControlCenterController.NTMinerWallets), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, timeout: 2000);
+                    if (response != null && response.Data != null) {
+                        return response.Data;
+                    }
+                    return new List<NTMinerWalletData>();
+                }
+                catch (Exception e) {
+                    Logger.ErrorDebugLine(e);
+                    return new List<NTMinerWalletData>();
+                }
+            }
+            #endregion
+
+            #region AddOrUpdateNTMinerWalletAsync
+            public void AddOrUpdateNTMinerWalletAsync(NTMinerWalletData entity, Action<ResponseBase, Exception> callback) {
+                DataRequest<NTMinerWalletData> request = new DataRequest<NTMinerWalletData> {
+                    Data = entity
+                };
+                PostAsync(SControllerName, nameof(IControlCenterController.AddOrUpdateNTMinerWallet), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
+            }
+            #endregion
+
+            #region RemoveNTMinerWalletAsync
+            public void RemoveNTMinerWalletAsync(Guid id, Action<ResponseBase, Exception> callback) {
+                DataRequest<Guid> request = new DataRequest<Guid>() {
+                    Data = id
+                };
+                PostAsync(SControllerName, nameof(IControlCenterController.RemoveNTMinerWallet), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
             }
             #endregion
         }

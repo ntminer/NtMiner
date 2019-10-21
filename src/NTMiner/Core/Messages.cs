@@ -214,6 +214,44 @@ namespace NTMiner.Core {
     }
     #endregion
 
+    #region NTMinerWallet Messages
+    [MessageType(description: "添加NTMiner钱包")]
+    public class AddNTMinerWalletCommand : AddEntityCommand<INTMinerWallet> {
+        public AddNTMinerWalletCommand(INTMinerWallet input) : base(input) {
+        }
+    }
+
+    [MessageType(description: "更新NTMiner钱包")]
+    public class UpdateNTMinerWalletCommand : UpdateEntityCommand<INTMinerWallet> {
+        public UpdateNTMinerWalletCommand(INTMinerWallet input) : base(input) {
+        }
+    }
+
+    [MessageType(description: "删除NTMiner钱包")]
+    public class RemoveNTMinerWalletCommand : RemoveEntityCommand {
+        public RemoveNTMinerWalletCommand(Guid entityId) : base(entityId) {
+        }
+    }
+
+    [MessageType(description: "添加NTMiner钱包后")]
+    public class NTMinerWalletAddedEvent : DomainEvent<INTMinerWallet> {
+        public NTMinerWalletAddedEvent(INTMinerWallet source) : base(source) {
+        }
+    }
+
+    [MessageType(description: "更新NTMiner钱包后")]
+    public class NTMinerWalletUpdatedEvent : DomainEvent<INTMinerWallet> {
+        public NTMinerWalletUpdatedEvent(INTMinerWallet source) : base(source) {
+        }
+    }
+
+    [MessageType(description: "删除NTMiner钱包后")]
+    public class NTMinerWalletRemovedEvent : DomainEvent<INTMinerWallet> {
+        public NTMinerWalletRemovedEvent(INTMinerWallet source) : base(source) {
+        }
+    }
+    #endregion
+
     #region OverClockData Messages
     [MessageType(description: "添加超频建议")]
     public class AddOverClockDataCommand : AddEntityCommand<IOverClockData> {
