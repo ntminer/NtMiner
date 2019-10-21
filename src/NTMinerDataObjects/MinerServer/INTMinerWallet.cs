@@ -2,7 +2,7 @@
 
 namespace NTMiner.MinerServer {
     public interface INTMinerWallet : IDbEntity<Guid> {
-        string CoinCode { get; }
+        Guid CoinId { get; }
         string Wallet { get; }
     }
 }
