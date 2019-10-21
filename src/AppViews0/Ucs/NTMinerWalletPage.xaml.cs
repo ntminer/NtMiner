@@ -8,7 +8,7 @@ namespace NTMiner.Views.Ucs {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "NTMiner钱包",
                 IconName = "Icon_Wallet",
-                Width = 600,
+                Width = 800,
                 Height = 400,
                 CloseVisible = Visibility.Visible
             }, ucFactory: (window) => new NTMinerWalletPage(), fixedSize: true);
