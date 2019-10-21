@@ -134,6 +134,7 @@ namespace NTMiner {
             this.AppSettingSet = new LocalAppSettingSet(SpecialPath.LocalDbFileFullName);
             this.CalcConfigSet = new CalcConfigSet(this);
             this.ColumnsShowSet = new ColumnsShowSet(this);
+            this.NTMinerWalletSet = new NTMinerWalletSet(this);
             this.ClientSet = new ClientSet(this);
             this.CoinSnapshotSet = new CoinSnapshotSet(this);
             this.MineWorkSet = new MineWorkSet(this);
@@ -151,6 +152,8 @@ namespace NTMiner {
         public ICalcConfigSet CalcConfigSet { get; private set; }
 
         public IColumnsShowSet ColumnsShowSet { get; private set; }
+
+        public INTMinerWalletSet NTMinerWalletSet { get; private set; }
 
         public IClientSet ClientSet { get; private set; }
 

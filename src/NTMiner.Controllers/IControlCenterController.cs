@@ -40,5 +40,8 @@ namespace NTMiner.Controllers {
         DataResponse<List<ColumnsShowData>> ColumnsShows(SignRequest request);
         ResponseBase AddOrUpdateColumnsShow(DataRequest<ColumnsShowData> request);
         ResponseBase RemoveColumnsShow(DataRequest<Guid> request);
+        DataResponse<List<NTMinerWalletData>> NTMinerWallets(SignRequest request);
+        ResponseBase AddOrUpdateNTMinerWallet(DataRequest<NTMinerWalletData> request);
+        ResponseBase RemoveNTMinerWallet(DataRequest<Guid> request);
     }
 }

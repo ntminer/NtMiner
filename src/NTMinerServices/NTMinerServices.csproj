@@ -107,11 +107,13 @@
     <Compile Include="Data\Impl\MinerGroupSet.cs" />
     <Compile Include="Data\Impl\MineWorkSet.cs" />
     <Compile Include="Data\Impl\NTMinerFileSet.cs" />
+    <Compile Include="Data\Impl\NTMinerWalletSet.cs" />
     <Compile Include="Data\Impl\OverClockDataSet.cs" />
     <Compile Include="Data\Impl\PoolSet.cs" />
     <Compile Include="Data\Impl\UserSet.cs" />
     <Compile Include="Data\Impl\WalletSet.cs" />
     <Compile Include="Data\INTMinerFileSet.cs" />
+    <Compile Include="Data\INTMinerWalletSet.cs" />
     <Compile Include="Data\IOverClockDataSet.cs" />
     <Compile Include="Data\IPoolSet.cs" />
     <Compile Include="Data\IWalletSet.cs" />

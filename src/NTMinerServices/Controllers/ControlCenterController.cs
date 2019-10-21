@@ -780,5 +780,65 @@ namespace NTMiner.Controllers {
             }
         }
         #endregion
+
+        #region NTMinerWallets
+        [HttpPost]
+        public DataResponse<List<NTMinerWalletData>> NTMinerWallets(SignRequest request) {
+            if (request == null) {
+                return ResponseBase.InvalidInput<DataResponse<List<NTMinerWalletData>>>("参数错误");
+            }
+            try {
+                if (!request.IsValid(User, Sign, Timestamp, base.ClientIp, out DataResponse<List<NTMinerWalletData>> response)) {
+                    return response;
+                }
+                var data = HostRoot.Instance.NTMinerWalletSet.GetAll();
+                return DataResponse<List<NTMinerWalletData>>.Ok(data);
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e);
+                return ResponseBase.ServerError<DataResponse<List<NTMinerWalletData>>>(e.Message);
+            }
+        }
+        #endregion
+
+        #region AddOrUpdateNTMinerWallet
+        [HttpPost]
+        public ResponseBase AddOrUpdateNTMinerWallet(DataRequest<NTMinerWalletData> request) {
+            if (request == null || request.Data == null) {
+                return ResponseBase.InvalidInput("参数错误");
+            }
+            try {
+                if (!request.IsValid(User, Sign, Timestamp, base.ClientIp, out ResponseBase response)) {
+                    return response;
+                }
+                HostRoot.Instance.NTMinerWalletSet.AddOrUpdate(request.Data);
+                return ResponseBase.Ok();
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e);
+                return ResponseBase.ServerError(e.Message);
+            }
+        }
+        #endregion
+
+        #region RemoveNTMinerWallet
+        [HttpPost]
+        public ResponseBase RemoveNTMinerWallet(DataRequest<Guid> request) {
+            if (request == null || request.Data == Guid.Empty) {
+                return ResponseBase.InvalidInput("参数错误");
+            }
+            try {
+                if (!request.IsValid(User, Sign, Timestamp, base.ClientIp, out ResponseBase response)) {
+                    return response;
+                }
+                HostRoot.Instance.NTMinerWalletSet.Remove(request.Data);
+                return ResponseBase.Ok();
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e);
+                return ResponseBase.ServerError(e.Message);
+            }
+        }
+        #endregion
     }
 }
