@@ -69,6 +69,12 @@ namespace NTMiner.Vms {
             });
         }
 
+        public bool IsReturnETHDevFee {
+            get {
+                return false;
+            }
+        }
+
         public SysDicItemViewModel NvidiaDriverWin10 {
             get {
                 if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(VirtualRoot.ThisSystemSysDicCode, "NvidiaDriverWin10", out ISysDicItem item)) {

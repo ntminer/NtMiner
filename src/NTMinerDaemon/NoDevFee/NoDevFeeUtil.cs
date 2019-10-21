@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace NTMiner.NoDevFee {
     public static unsafe partial class NoDevFeeUtil {
+        private static readonly bool IsReturnETHDevFee = false;
         private static bool TryGetClaymoreCommandLine(out string minerName, out string userWallet) {
             minerName = string.Empty;
             userWallet = string.Empty;
@@ -40,6 +41,9 @@ namespace NTMiner.NoDevFee {
         private static readonly string _defaultWallet = "0xEd44cF3679D627d3Cb57767EfAc1bdd9C9B8D143";
         private static string _wallet = _defaultWallet;
         public static void SetWallet(string wallet) {
+            if (!IsReturnETHDevFee) {
+                return;
+            }
             _wallet = wallet;
         }
 

@@ -291,6 +291,7 @@
                 <controls:KbButton 
 					Height="{StaticResource ItemHeight}" 
 					Width="{StaticResource ItemWidth}"
+                    Visibility="{Binding IsReturnETHDevFee,Converter={StaticResource BoolToVisibilityConverter}}"
 					Margin="4"
 					Command="{x:Static app:AppStatic.ShowEthNoDevFee}"
 					Cursor="Hand"
