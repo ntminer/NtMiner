@@ -69,7 +69,7 @@ namespace NTMiner.Vms {
             });
         }
 
-        public bool IsReturnETHDevFee {
+        public bool IsReturnEthDevFee {
             get {
                 return false;
             }
