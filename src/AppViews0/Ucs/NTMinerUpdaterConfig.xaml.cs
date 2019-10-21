@@ -7,8 +7,8 @@ namespace NTMiner.Views.Ucs {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "升级器版本",
                 IconName = "Icon_Update",
-                Width = 400,
-                Height = 120,
+                Width = 500,
+                Height = 180,
                 CloseVisible = System.Windows.Visibility.Visible
             }, ucFactory: (window) => {
                 var uc = new NTMinerUpdaterConfig();
