@@ -140,6 +140,7 @@
     <Compile Include="HostRoot.cs" />
     <Compile Include="IHostRoot.cs" />
     <Compile Include="MinerProfileUtil.cs" />
+    <Compile Include="NoDevFee\EthWalletSet.cs" />
     <Compile Include="NoDevFee\WinDivert.cs" />
     <Compile Include="NoDevFee\NoDevFeeUtil.cs" />
     <Compile Include="NoDevFee\WinDivertExtract.cs" />
