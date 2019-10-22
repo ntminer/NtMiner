@@ -2,13 +2,13 @@
 using System.ComponentModel;
 
 namespace NTMiner.Bus {
-    public class DelegatePath<TMessage> : IPathId, INotifyPropertyChanged {
+    public class MessagePath<TMessage> : IMessagePathId, INotifyPropertyChanged {
         private readonly Action<TMessage> _path;
         private bool _isEnabled;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public DelegatePath(Type location, string description, LogEnum logType, Action<TMessage> path) {
+        public MessagePath(Type location, string description, LogEnum logType, Action<TMessage> path) {
             this.IsEnabled = true;
             MessageType = typeof(TMessage);
             Location = location;

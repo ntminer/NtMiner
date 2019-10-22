@@ -2,7 +2,7 @@
 
 namespace NTMiner.Bus {
     
-    public interface IPathId {
+    public interface IMessagePathId {
         Type MessageType { get; }
         bool IsEnabled { get; set; }
         Type Location { get; }

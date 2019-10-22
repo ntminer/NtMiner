@@ -73,7 +73,7 @@ namespace NTMiner {
                     ConsoleWindow.Instance.Show();
                     NotiCenterWindow.Instance.Show();
                     if (DevMode.IsDevMode) {
-                        PathIdsWindow window = new PathIdsWindow();
+                        MessagePathIdsWindow window = new MessagePathIdsWindow();
                         window.Show();
                     }
                     if (!NTMiner.Windows.Role.IsAdministrator) {

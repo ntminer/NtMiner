@@ -101,8 +101,8 @@
     <Compile Include="PackagesWindow.xaml.cs">
       <DependentUpon>PackagesWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PathIdsWindow.xaml.cs">
-      <DependentUpon>PathIdsWindow.xaml</DependentUpon>
+    <Compile Include="MessagePathIdsWindow.xaml.cs">
+      <DependentUpon>MessagePathIdsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Ucs\BrandTag.xaml.cs">
       <DependentUpon>BrandTag.xaml</DependentUpon>
@@ -466,7 +466,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="PathIdsWindow.xaml">
+    <Page Include="MessagePathIdsWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

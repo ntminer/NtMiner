@@ -1,5 +1,5 @@
 ﻿<blankWindow:BlankWindow
-	x:Class="NTMiner.Views.PathIdsWindow"
+	x:Class="NTMiner.Views.MessagePathIdsWindow"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:blankWindow="http://NTMiner.com"
@@ -8,7 +8,7 @@
 	xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
 	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 	mc:Ignorable="d"
-	Title="处理器标识"
+	Title="消息路径标识"
 	Width="1340"
 	Height="800"
 	Background="#EEECEF"
@@ -16,7 +16,7 @@
 	WindowStartupLocation="CenterScreen"
 	TextOptions.TextFormattingMode="Display">
 	<blankWindow:BlankWindow.DataContext>
-		<vm:PathIdsWindowViewModel></vm:PathIdsWindowViewModel>
+		<vm:MessagePathIdsWindowViewModel></vm:MessagePathIdsWindowViewModel>
 	</blankWindow:BlankWindow.DataContext>
 	<Grid>
 		<Grid.RowDefinitions>
@@ -24,7 +24,7 @@
 			<RowDefinition Height="*"></RowDefinition>
 		</Grid.RowDefinitions>
 		<WrapPanel>
-			<TextBlock FontSize="14" Padding="4" FontWeight="Bold">处理器标识</TextBlock>
+			<TextBlock FontSize="14" Padding="4" FontWeight="Bold">消息路径标识</TextBlock>
 			<TextBlock FontSize="14" Padding="4" FontWeight="Bold" Text="{Binding HandlerIds.Count}"></TextBlock>
 		</WrapPanel>
 		<WrapPanel HorizontalAlignment="Right">

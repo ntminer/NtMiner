@@ -34,7 +34,7 @@ namespace NTMiner {
                                 Write.UserWarn("应用超频，如果CPU性能较差耗时可能超过1分钟，请耐心等待");
                                 var cmd = new CoinOverClockCommand(mineContext.MainCoin.GetId());
                                 // N卡超频当cpu性能非常差时较耗时，所以这里弄个回调
-                                DelegatePath<CoinOverClockDoneEvent> callback = null;
+                                MessagePath<CoinOverClockDoneEvent> callback = null;
                                 callback = VirtualRoot.CreateEventPath<CoinOverClockDoneEvent>("超频完成后继续流程", LogEnum.DevConsole,
                                     message => {
                                         if (mineContext != Instance.CurrentMineContext) {
@@ -123,7 +123,7 @@ namespace NTMiner {
             #endregion
 
             #region KernelProcessDaemon
-            private static DelegatePath<Per1MinuteEvent> _kernelProcessDaemon = null;
+            private static MessagePath<Per1MinuteEvent> _kernelProcessDaemon = null;
             private static void KernelProcessDaemon(IMineContext mineContext, Action clear) {
                 if (_kernelProcessDaemon != null) {
                     VirtualRoot.DeletePath(_kernelProcessDaemon);
@@ -317,7 +317,7 @@ namespace NTMiner {
                         VirtualRoot.Happened(new StartingMineFailedEvent($"管道型进程创建失败 lasterr:{lasterr}"));
                     }
                     else {
-                        Bus.DelegatePath<MineStopedEvent> closeHandle = null;
+                        Bus.MessagePath<MineStopedEvent> closeHandle = null;
                         bool isHWriteOutHasClosed = false;
                         KernelProcessDaemon(mineContext, () => {
                             if (!isHWriteOutHasClosed) {

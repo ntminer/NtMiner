@@ -4,11 +4,11 @@
 
     public class MessageDispatcher : IMessageDispatcher {
         private readonly Dictionary<Type, List<object>> _handlers = new Dictionary<Type, List<object>>();
-        private readonly Dictionary<string, List<IPathId>> _paths = new Dictionary<string, List<IPathId>>();
+        private readonly Dictionary<string, List<IMessagePathId>> _paths = new Dictionary<string, List<IMessagePathId>>();
         private readonly object _locker = new object();
 
-        public event Action<IPathId> Connected;
-        public event Action<IPathId> Disconnected;
+        public event Action<IMessagePathId> Connected;
+        public event Action<IMessagePathId> Disconnected;
 
         #region IMessageDispatcher Members
         public void Dispatch<TMessage>(TMessage message) {
@@ -20,7 +20,7 @@
             if (_handlers.ContainsKey(messageType)) {
                 var messageHandlers = _handlers[messageType].ToArray();
                 foreach (var messageHandler in messageHandlers) {
-                    var tMessageHandler = (DelegatePath<TMessage>)messageHandler;
+                    var tMessageHandler = (MessagePath<TMessage>)messageHandler;
                     if (!tMessageHandler.IsEnabled) {
                         continue;
                     }
@@ -45,7 +45,7 @@
             }
         }
 
-        public void Connect<TMessage>(DelegatePath<TMessage> handler) {
+        public void Connect<TMessage>(MessagePath<TMessage> handler) {
             if (handler == null) {
                 throw new ArgumentNullException(nameof(handler));
             }
@@ -54,10 +54,10 @@
 
                 var handlerId = handler;
                 if (!_paths.ContainsKey(handlerId.Path)) {
-                    _paths.Add(handlerId.Path, new List<IPathId> { handlerId });
+                    _paths.Add(handlerId.Path, new List<IMessagePathId> { handlerId });
                 }
                 else {
-                    List<IPathId> handlerIds = _paths[handlerId.Path];
+                    List<IMessagePathId> handlerIds = _paths[handlerId.Path];
                     if (handlerIds.Count == 1) {
                         Write.DevWarn($"重复的路径:{handlerIds[0].Path} {handlerIds[0].Description}");
                     }
@@ -83,7 +83,7 @@
             }
         }
 
-        public void Disconnect(IPathId handlerId) {
+        public void Disconnect(IMessagePathId handlerId) {
             if (handlerId == null) {
                 return;
             }

@@ -111,7 +111,7 @@
     <Compile Include="Vms\FileWriterSelectViewModel.cs" />
     <Compile Include="Vms\FragmentWriterViewModel.cs" />
     <Compile Include="Vms\GpuStatusBarViewModel.cs" />
-    <Compile Include="Vms\PathIdsWindowViewModel.cs" />
+    <Compile Include="Vms\MessagePathIdsWindowViewModel.cs" />
     <Compile Include="Vms\KernelOutputSelectViewModel.cs" />
     <Compile Include="Vms\KernelInputSelectViewModel.cs" />
     <Compile Include="Vms\LocalIpConfigViewModel.cs" />

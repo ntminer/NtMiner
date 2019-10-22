@@ -10,7 +10,7 @@ namespace NTMiner {
         public static ExtendedNotifyIcon NotifyIcon;
         public static Action<RemoteDesktopInput> RemoteDesktop;
 
-        private static readonly List<IPathId> _contextHandlers = new List<IPathId>();
+        private static readonly List<IMessagePathId> _contextHandlers = new List<IMessagePathId>();
 
         private AppContext() {
         }
@@ -19,7 +19,7 @@ namespace NTMiner {
         /// <summary>
         /// 命令窗口。使用该方法的代码行应将前两个参数放在第一行以方便vs查找引用时展示出参数信息
         /// </summary>
-        public static IPathId CmdPath<TCmd>(string description, LogEnum logType, Action<TCmd> action)
+        public static IMessagePathId CmdPath<TCmd>(string description, LogEnum logType, Action<TCmd> action)
             where TCmd : ICmd {
             return VirtualRoot.CreatePath(description, logType, action).AddToCollection(_contextHandlers);
         }
@@ -27,7 +27,7 @@ namespace NTMiner {
         /// <summary>
         /// 事件响应
         /// </summary>
-        public static IPathId EventPath<TEvent>(string description, LogEnum logType, Action<TEvent> action)
+        public static IMessagePathId EventPath<TEvent>(string description, LogEnum logType, Action<TEvent> action)
             where TEvent : IEvent {
             return VirtualRoot.CreatePath(description, logType, action).AddToCollection(_contextHandlers);
         }
