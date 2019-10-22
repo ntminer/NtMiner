@@ -23,10 +23,13 @@ namespace NTMiner {
         public static readonly string AppFileFullName = Process.GetCurrentProcess().MainModule.FileName;
         public static string WorkerMessageDbFileFullName {
             get {
-                if (IsMinerStudio) {
-                    Path.Combine(MainAssemblyInfo.HomeDirFullName, "workerMessage.litedb");
+                if (IsMinerClient) {
+                    return Path.Combine(MainAssemblyInfo.TempDirFullName, "workerMessage.litedb");
                 }
-                return Path.Combine(MainAssemblyInfo.TempDirFullName, "workerMessage.litedb");
+                if (IsMinerStudio) {
+                    return Path.Combine(MainAssemblyInfo.HomeDirFullName, "workerMessage.litedb");
+                }
+                return string.Empty;
             }
         }
         public static Guid Id { get; private set; }
@@ -273,7 +276,9 @@ namespace NTMiner {
             private readonly LinkedList<WorkerMessageData> _records = new LinkedList<WorkerMessageData>();
 
             internal WorkerMessageSet() {
-                _connectionString = $"filename={WorkerMessageDbFileFullName};journal=false";
+                if (!string.IsNullOrEmpty(WorkerMessageDbFileFullName)) {
+                    _connectionString = $"filename={WorkerMessageDbFileFullName};journal=false";
+                }
             }
 
             public int Count {
@@ -284,6 +289,9 @@ namespace NTMiner {
             }
 
             public void Add(string channel, string provider, string messageType, string content) {
+                if (string.IsNullOrEmpty(_connectionString)) {
+                    return;
+                }
                 InitOnece();
                 var data = new WorkerMessageData {
                     Id = Guid.NewGuid(),
@@ -313,6 +321,9 @@ namespace NTMiner {
             }
 
             public void Clear() {
+                if (string.IsNullOrEmpty(_connectionString)) {
+                    return;
+                }
                 using (LiteDatabase db = new LiteDatabase(_connectionString)) {
                     lock (_locker) {
                         _records.Clear();
@@ -335,6 +346,9 @@ namespace NTMiner {
             private void Init() {
                 lock (_locker) {
                     if (!_isInited) {
+                        if (string.IsNullOrEmpty(_connectionString)) {
+                            return;
+                        }
                         using (LiteDatabase db = new LiteDatabase(_connectionString)) {
                             var col = db.GetCollection<WorkerMessageData>();
                             foreach (var item in col.FindAll().OrderBy(a => a.Timestamp)) {
