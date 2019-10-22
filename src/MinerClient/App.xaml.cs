@@ -91,10 +91,10 @@ namespace NTMiner {
                     NTMinerRoot.Instance.Init(() => {
                         _appViewFactory.Link();
                         if (NTMinerRoot.Instance.GpuSet.Count == 0) {
-                            VirtualRoot.Out.ShowInfo("没有矿卡或矿卡未驱动。");
+                            VirtualRoot.WorkerMessage(WorkerMessageChannel.This, nameof(App), WorkerMessageType.Error, "没有矿卡或矿卡未驱动。", toOut: true);
                         }
                         if (NTMinerRoot.Instance.CoinSet.Count == 0) {
-                            VirtualRoot.Out.ShowInfo("访问阿里云失败，请尝试更换本机dns解决此问题");
+                            VirtualRoot.WorkerMessage(WorkerMessageChannel.This, nameof(App), WorkerMessageType.Error, "访问阿里云失败，请尝试更换本机dns解决此问题。", toOut: true);
                         }
                         UIThread.Execute(() => {
                             if (NTMinerRoot.Instance.MinerProfile.IsNoUi && NTMinerRoot.Instance.MinerProfile.IsAutoStart) {
@@ -254,10 +254,10 @@ namespace NTMiner {
             SwitchRadeonGpu.SwitchRadeonGpu.Run(on, (isSuccess, e) => {
                 if (isSuccess) {
                     if (on) {
-                        VirtualRoot.Out.ShowSuccess("开启A卡计算模式成功");
+                        VirtualRoot.WorkerMessage(WorkerMessageChannel.This, nameof(App), WorkerMessageType.Info, "开启A卡计算模式成功", toOut: true);
                     }
                     else {
-                        VirtualRoot.Out.ShowSuccess("关闭A卡计算模式成功");
+                        VirtualRoot.WorkerMessage(WorkerMessageChannel.This, nameof(App), WorkerMessageType.Info, "关闭A卡计算模式成功", toOut: true);
                     }
                 }
                 else if (e != null) {
@@ -265,10 +265,10 @@ namespace NTMiner {
                 }
                 else {
                     if (on) {
-                        VirtualRoot.Out.ShowError("开启A卡计算模式失败", delaySeconds: 4);
+                        VirtualRoot.WorkerMessage(WorkerMessageChannel.This, nameof(App), WorkerMessageType.Error, "开启A卡计算模式失败", toOut: true);
                     }
                     else {
-                        VirtualRoot.Out.ShowError("关闭A卡计算模式失败", delaySeconds: 4);
+                        VirtualRoot.WorkerMessage(WorkerMessageChannel.This, nameof(App), WorkerMessageType.Error, "关闭A卡计算模式失败", toOut: true);
                     }
                 }
             });

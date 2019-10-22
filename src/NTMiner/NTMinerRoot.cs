@@ -323,12 +323,11 @@ namespace NTMiner {
         private void Link() {
             VirtualRoot.BuildCmdPath<RegCmdHereCommand>(action: message => {
                 try {
-                    RegCmdHere();
-                    VirtualRoot.Out.ShowSuccess("windows右键命令行添加成功");
+                    RegCmdHere(); VirtualRoot.WorkerMessage(WorkerMessageChannel.This, nameof(NTMinerRoot), WorkerMessageType.Info, "windows右键命令行添加成功", toOut: true);
                 }
                 catch (Exception e) {
                     Logger.ErrorDebugLine(e);
-                    VirtualRoot.Out.ShowError("windows右键命令行添加失败");
+                    RegCmdHere(); VirtualRoot.WorkerMessage(WorkerMessageChannel.This, nameof(NTMinerRoot), WorkerMessageType.Error, "windows右键命令行添加失败", toOut: true);
                 }
             });
             VirtualRoot.BuildEventPath<Per1MinuteEvent>("每1分钟阻止系统休眠", LogEnum.None,

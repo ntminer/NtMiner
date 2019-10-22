@@ -207,6 +207,7 @@ namespace NTMiner.Vms {
                             message = "下载失败";
                             string errorMessage = e.Error.GetInnerMessage();
                             VirtualRoot.Out.ShowError(errorMessage);
+                            // 这里就不记录异常了，因为异常很可能是因为磁盘空间不足
                         }
                         if (e.Cancelled) {
                             message = "已取消";

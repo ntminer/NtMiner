@@ -75,7 +75,7 @@ namespace NTMiner.Vms {
                     VirtualRoot.Out.ShowError("没有填写远程桌面用户名", 4);
                     return;
                 }
-                AppContext.RemoteDesktop?.Invoke(new RemoteDesktopInput(this.MinerIp, this.WindowsLoginName, this.WindowsPassword, this.MinerName, message => {
+                AppContext.RemoteDesktop?.Invoke(new RemoteDesktopInput(this.MinerIp, this.WindowsLoginName, this.WindowsPassword, this.MinerName, onDisconnected: message => {
                     VirtualRoot.Out.ShowError(message, 4);
                 }));
             });

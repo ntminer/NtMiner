@@ -33,7 +33,7 @@ namespace NTMiner.NTMinerServices {
                     }
                     catch (Exception e) {
                         Logger.ErrorDebugLine(e);
-                        VirtualRoot.Out.ShowError("启动失败，请重试，如果问题一直持续请联系开发者解决问题");
+                        VirtualRoot.WorkerMessage(WorkerMessageChannel.This, nameof(NTMinerServicesUtil), WorkerMessageType.Error, "启动失败，请重试，如果问题一直持续请联系开发者解决问题", toOut: true);
                     }
                 });
             }
