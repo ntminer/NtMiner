@@ -18,7 +18,15 @@
         <vm:MessagePathIdsViewModel></vm:MessagePathIdsViewModel>
     </UserControl.DataContext>
     <Grid>
-        <DataGrid ItemsSource="{Binding PathIds}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <WrapPanel Grid.Row="0">
+            <TextBlock>总记录数</TextBlock>
+            <TextBlock Margin="4 0 0 0" Text="{Binding PathIds.Count}"></TextBlock>
+        </WrapPanel>
+        <DataGrid Grid.Row="1" ItemsSource="{Binding PathIds}">
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="IsEnabled">
                     <DataGridTemplateColumn.CellTemplate>
