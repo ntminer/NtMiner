@@ -143,6 +143,7 @@
                 if (_keyword != value) {
                     _keyword = value;
                     OnPropertyChanged(nameof(Keyword));
+                    RefreshQueryResults();
                 }
             }
         }
@@ -242,7 +243,7 @@
         }
 
         private void RefreshQueryResults() {
-            if (SelectedChannel.Value == WorkerMessageChannel.Unspecified && IsErrorChecked && IsWarnChecked && IsInfoChecked) {
+            if (SelectedChannel.Value == WorkerMessageChannel.Unspecified && IsErrorChecked && IsWarnChecked && IsInfoChecked && string.IsNullOrEmpty(Keyword)) {
                 _queyResults = _workerMessageVms;
                 OnPropertyChanged(nameof(QueryResults));
                 return;
