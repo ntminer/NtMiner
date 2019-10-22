@@ -21,7 +21,14 @@ namespace NTMiner {
     /// </summary>
     public static partial class VirtualRoot {
         public static readonly string AppFileFullName = Process.GetCurrentProcess().MainModule.FileName;
-        public static readonly string WorkerMessageDbFileFullName = Path.Combine(MainAssemblyInfo.TempDirFullName, "workerMessage.litedb");
+        public static string WorkerMessageDbFileFullName {
+            get {
+                if (IsMinerStudio) {
+                    Path.Combine(MainAssemblyInfo.HomeDirFullName, "workerMessage.litedb");
+                }
+                return Path.Combine(MainAssemblyInfo.TempDirFullName, "workerMessage.litedb");
+            }
+        }
         public static Guid Id { get; private set; }
         
         #region IsMinerClient
