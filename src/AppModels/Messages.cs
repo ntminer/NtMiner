@@ -43,6 +43,12 @@ namespace NTMiner {
         }
     }
 
+    [MessageType(description: "打开消息路径标识集页")]
+    public class ShowMessagePathIdsCommand : Cmd {
+        public ShowMessagePathIdsCommand() {
+        }
+    }
+
     [MessageType(description: "打开用户列表页")]
     public class ShowUserPageCommand : Cmd {
         public ShowUserPageCommand() {
@@ -52,6 +58,12 @@ namespace NTMiner {
     [MessageType(description: "打开超频菜谱列表页")]
     public class ShowOverClockDataPageCommand : Cmd {
         public ShowOverClockDataPageCommand() {
+        }
+    }
+
+    [MessageType(description: "打开NTMiner钱包列表页")]
+    public class ShowNTMinerWalletPageCommand : Cmd {
+        public ShowNTMinerWalletPageCommand() {
         }
     }
 
@@ -437,6 +449,17 @@ namespace NTMiner {
 
         public FormType FormType { get; private set; }
         public MinerGroupViewModel Source { get; private set; }
+    }
+
+    [MessageType(description: "打开NTMiner钱包编辑界面")]
+    public class NTMinerWalletEditCommand : Cmd {
+        public NTMinerWalletEditCommand(FormType formType, NTMinerWalletViewModel source) {
+            this.FormType = formType;
+            this.Source = source;
+        }
+
+        public FormType FormType { get; private set; }
+        public NTMinerWalletViewModel Source { get; private set; }
     }
 
     [MessageType(description: "打开作业编辑界面")]

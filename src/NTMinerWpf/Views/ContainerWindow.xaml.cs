@@ -13,13 +13,7 @@ namespace NTMiner.Views {
         private static readonly Dictionary<Type, double> s_windowTopDic = new Dictionary<Type, double>();
         private static readonly Dictionary<ContainerWindowViewModel, ContainerWindow> s_windowDic = new Dictionary<ContainerWindowViewModel, ContainerWindow>();
 
-        public static ICommand CloseWindow { get; private set; }
-
         static ContainerWindow() {
-            CloseWindow = new DelegateCommand<ContainerWindowViewModel>((vm) => {
-                ContainerWindow window = GetWindow(vm);
-                window?.Close();
-            });
         }
 
         public static ContainerWindow GetWindow(ContainerWindowViewModel vm) {

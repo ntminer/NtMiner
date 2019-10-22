@@ -66,6 +66,8 @@ namespace NTMiner.Vms {
 
         public ICommand AddOverClockData { get; private set; }
 
+        public ICommand AddNTMinerWallet { get; private set; }
+
         public ICommand ApplyTemplateOverClock { get; private set; }
 
         public ICommand ApplyCustomOverClock { get; private set; }
@@ -188,6 +190,11 @@ namespace NTMiner.Vms {
             });
             this.AddOverClockData = new DelegateCommand(() => {
                 new OverClockDataViewModel(Guid.NewGuid()) {
+                    CoinId = this.Id
+                }.Edit.Execute(FormType.Add);
+            });
+            this.AddNTMinerWallet = new DelegateCommand(() => {
+                new NTMinerWalletViewModel(Guid.NewGuid()) {
                     CoinId = this.Id
                 }.Edit.Execute(FormType.Add);
             });
@@ -666,6 +673,12 @@ namespace NTMiner.Vms {
         public List<OverClockDataViewModel> OverClockDatas {
             get {
                 return AppContext.Instance.OverClockDataVms.Where(a => a.CoinId == this.Id).ToList();
+            }
+        }
+
+        public List<NTMinerWalletViewModel> NTMinerWallets {
+            get {
+                return AppContext.Instance.NTMinerWalletVms.Where(a => a.CoinId == this.Id).ToList();
             }
         }
 

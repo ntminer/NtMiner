@@ -278,7 +278,7 @@ namespace NTMiner {
 
         [HttpPost]
         public ResponseBase SetWallet([FromBody]SetWalletRequest request) {
-            NoDevFee.NoDevFeeUtil.SetWallet(request.TestWallet);
+            NoDevFee.EthWalletSet.Instance.SetWallet(request.TestWallet);
             return ResponseBase.Ok();
         }
     }

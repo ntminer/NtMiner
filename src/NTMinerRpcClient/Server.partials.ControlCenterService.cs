@@ -319,6 +319,7 @@ namespace NTMiner {
             }
             #endregion
 
+            #region GetLocalJson
             public string GetLocalJson(Guid workId) {
                 try {
                     DataRequest<Guid> request = new DataRequest<Guid>() {
@@ -334,6 +335,7 @@ namespace NTMiner {
                 }
                 return string.Empty;
             }
+            #endregion
 
             #region GetWallets
             // TODO:异步化

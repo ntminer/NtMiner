@@ -191,6 +191,16 @@ namespace NTMiner.Views {
                 changeNotiCenterWindowLocation(sender, e);
                 MoveConsoleWindow();
             };
+            VirtualRoot.CreateCmdPath<CloseMainWindowCommand>(action: message => {
+                UIThread.Execute(() => {
+                    if (NTMinerRoot.Instance.MinerProfile.IsCloseMeanExit) {
+                        VirtualRoot.Execute(new CloseNTMinerCommand());
+                        return;
+                    }
+                    this.Close();
+                    VirtualRoot.Out.ShowSuccessMessage(message.Message, "开源矿工");
+                });
+            });
             if (DevMode.IsDevMode) {
                 this.EventPath<ServerJsonVersionChangedEvent>("开发者模式展示ServerJsonVersion", LogEnum.DevConsole,
                     action: message => {
@@ -384,7 +394,6 @@ namespace NTMiner.Views {
         protected override void OnClosing(CancelEventArgs e) {
             e.Cancel = true;
             AppContext.Disable();
-            Write.SetConsoleUserLineMethod();
             this.Hide();
         }
 

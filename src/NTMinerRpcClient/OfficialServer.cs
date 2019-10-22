@@ -13,6 +13,7 @@ namespace NTMiner {
         public const string NTMinerBucket = "https://ntminer.oss-cn-beijing.aliyuncs.com/";
         public static readonly FileUrlServiceFace FileUrlService = FileUrlServiceFace.Instance;
         public static readonly OverClockDataServiceFace OverClockDataService = OverClockDataServiceFace.Instance;
+        public static readonly NTMinerWalletServiceFace NTMinerWalletService = NTMinerWalletServiceFace.Instance;
         public static readonly CalcConfigServiceFace CalcConfigService = CalcConfigServiceFace.Instance;
 
         public static string SignatureSafeUrl(Uri uri) {

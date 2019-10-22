@@ -27,7 +27,7 @@ namespace NTMiner {
         }
 
         // 修建消息（命令或事件）的运动路径
-        public static DelegateHandler<TMessage> CreatePath<TMessage>(string description, LogEnum logType, Action<TMessage> action) {
+        public static MessagePath<TMessage> CreatePath<TMessage>(string description, LogEnum logType, Action<TMessage> action) {
             StackTrace ss = new StackTrace(false);
             // 0是CreatePath，1是CreateCmdPath或CreateEventPath，2是当地
             Type location = ss.GetFrame(2).GetMethod().DeclaringType;
@@ -37,7 +37,7 @@ namespace NTMiner {
         /// <summary>
         /// 创建命令路径
         /// </summary>
-        public static DelegateHandler<TCmd> CreateCmdPath<TCmd>(Action<TCmd> action, LogEnum logType = LogEnum.DevConsole)
+        public static MessagePath<TCmd> CreateCmdPath<TCmd>(Action<TCmd> action, LogEnum logType = LogEnum.DevConsole)
             where TCmd : ICmd {
             MessageTypeAttribute messageTypeDescription = MessageTypeAttribute.GetMessageTypeDescription(typeof(TCmd));
             string description = "处理" + messageTypeDescription.Description;
@@ -47,13 +47,13 @@ namespace NTMiner {
         /// <summary>
         /// 创建事件路径
         /// </summary>
-        public static DelegateHandler<TEvent> CreateEventPath<TEvent>(string description, LogEnum logType, Action<TEvent> action)
+        public static MessagePath<TEvent> CreateEventPath<TEvent>(string description, LogEnum logType, Action<TEvent> action)
             where TEvent : IEvent {
             return CreatePath(description, logType, action);
         }
 
         // 拆除消息（命令或事件）的运动路径
-        public static void DeletePath(IHandlerId handler) {
+        public static void DeletePath(IMessagePathId handler) {
             if (handler == null) {
                 return;
             }

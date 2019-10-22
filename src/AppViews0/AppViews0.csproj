@@ -131,8 +131,17 @@
     <Compile Include="Ucs\MinerClientsToolBar.xaml.cs">
       <DependentUpon>MinerClientsToolBar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Ucs\NTMinerWalletEdit.xaml.cs">
+      <DependentUpon>NTMinerWalletEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ucs\NTMinerWalletPage.xaml.cs">
+      <DependentUpon>NTMinerWalletPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Ucs\Property.xaml.cs">
       <DependentUpon>Property.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ucs\MessagePathIds.xaml.cs">
+      <DependentUpon>MessagePathIds.xaml</DependentUpon>
     </Compile>
     <Compile Include="Ucs\WorkerMessages.xaml.cs">
       <DependentUpon>WorkerMessages.xaml</DependentUpon>
@@ -349,6 +358,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Design\NTMinerWalletViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Design\StartStopMineButtonViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -493,7 +506,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Ucs\NTMinerWalletEdit.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ucs\NTMinerWalletPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Ucs\Property.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ucs\MessagePathIds.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

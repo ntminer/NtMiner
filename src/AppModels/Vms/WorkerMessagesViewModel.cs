@@ -5,7 +5,7 @@
     using System.Windows.Input;
 
     public class WorkerMessagesViewModel : ViewModelBase {
-        private readonly ObservableCollection<WorkerMessageViewModel> _workerMessageVms;
+        private ObservableCollection<WorkerMessageViewModel> _workerMessageVms;
         private ObservableCollection<WorkerMessageViewModel> _queyResults;
         private EnumItem<WorkerMessageChannel> _selectedChannel;
         private int _errorCount;
@@ -14,6 +14,7 @@
         private string _keyword;
 
         public ICommand ClearKeyword { get; private set; }
+        public ICommand Clear { get; private set; }
 
         public WorkerMessagesViewModel() {
             var data = VirtualRoot.WorkerMessages.Select(a => new WorkerMessageViewModel(a));
@@ -39,7 +40,23 @@
             this.ClearKeyword = new DelegateCommand(() => {
                 this.Keyword = string.Empty;
             });
-            VirtualRoot.CreateEventPath<WorkerMessage>("发生了挖矿事件后刷新Vm内存", LogEnum.DevConsole,
+            this.Clear = new DelegateCommand(() => {
+                this.ShowDialog(new DialogWindowViewModel(message: "确定清空吗？", title: "确认", onYes: () => {
+                    VirtualRoot.WorkerMessages.Clear();
+                }));
+            });
+            VirtualRoot.CreateEventPath<WorkerMessageClearedEvent>("清空挖矿消息集后刷新VM内存", LogEnum.DevConsole,
+                action: message => {
+                    UIThread.Execute(() => {
+                        _workerMessageVms = new ObservableCollection<WorkerMessageViewModel>();
+                        _queyResults = new ObservableCollection<WorkerMessageViewModel>();
+                        OnPropertyChanged(nameof(QueryResults));
+                        ErrorCount = 0;
+                        WarnCount = 0;
+                        InfoCount = 0;
+                    });
+                });
+            VirtualRoot.CreateEventPath<WorkerMessageAddedEvent>("发生了挖矿事件后刷新Vm内存", LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
                         var vm = new WorkerMessageViewModel(message.Source);

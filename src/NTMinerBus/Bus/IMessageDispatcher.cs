@@ -1,14 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace NTMiner.Bus {
     public interface IMessageDispatcher {
+        IEnumerable<IMessagePathId> GetAllPaths();
         void Dispatch<TMessage>(TMessage message);
 
-        void Connect<TMessage>(DelegateHandler<TMessage> handler);
+        void Connect<TMessage>(MessagePath<TMessage> handler);
 
-        void Disconnect(IHandlerId handlerId);
+        void Disconnect(IMessagePathId handlerId);
 
-        event Action<IHandlerId> Connected;
-        event Action<IHandlerId> Disconnected;
+        event Action<IMessagePathId> Connected;
+        event Action<IMessagePathId> Disconnected;
     }
 }

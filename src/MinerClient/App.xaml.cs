@@ -26,7 +26,7 @@ namespace NTMiner {
 
         private bool createdNew;
         private Mutex appMutex;
-        private static string s_appPipName = "ntminerclient";
+        private static readonly string s_appPipName = "ntminerclient";
         protected override void OnExit(ExitEventArgs e) {
             AppContext.NotifyIcon?.Dispose();
             NTMinerRoot.Instance.Exit();
@@ -72,10 +72,6 @@ namespace NTMiner {
                     NotiCenterWindowViewModel.IsHotKeyEnabled = true;
                     ConsoleWindow.Instance.Show();
                     NotiCenterWindow.Instance.Show();
-                    if (DevMode.IsDevMode) {
-                        HandlerIdsWindow window = new HandlerIdsWindow();
-                        window.Show();
-                    }
                     if (!NTMiner.Windows.Role.IsAdministrator) {
                         NotiCenterWindowViewModel.Instance.Manager
                             .CreateMessage()
@@ -178,21 +174,6 @@ namespace NTMiner {
                     }
                 });
             });
-            VirtualRoot.CreateCmdPath<CloseMainWindowCommand>(action: message => {
-                UIThread.Execute(() => {
-                    if (NTMinerRoot.Instance.MinerProfile.IsCloseMeanExit) {
-                        VirtualRoot.Execute(new CloseNTMinerCommand());
-                        return;
-                    }
-                    ConsoleWindow.Instance.Hide();
-                    foreach (Window window in Windows) {
-                        if (window != NotiCenterWindow.Instance && window != ConsoleWindow.Instance) {
-                            window.Close();
-                        }
-                    }
-                    VirtualRoot.Out.ShowSuccessMessage(message.Message, "开源矿工");
-                });
-            });
             #region 周期确保守护进程在运行
             VirtualRoot.CreateEventPath<Per1MinuteEvent>("周期确保守护进程在运行", LogEnum.DevConsole,
                 action: message => {
@@ -200,7 +181,7 @@ namespace NTMiner {
                 });
             #endregion
             #region 开始和停止挖矿后
-            VirtualRoot.CreateEventPath<MineStartedEvent>("开始挖矿后启动1080ti小药丸、挖矿开始后如果需要启动DevConsole则启动DevConsole 挖矿开始后更新界面挖矿状态", LogEnum.DevConsole,
+            VirtualRoot.CreateEventPath<MineStartedEvent>("启动1080ti小药丸、启动DevConsole? 更新挖矿按钮状态", LogEnum.DevConsole,
                 action: message => {
                     AppContext.Instance.MinerProfileVm.IsMining = true;
                     StartStopMineButtonViewModel.Instance.BtnStopText = "正在挖矿";

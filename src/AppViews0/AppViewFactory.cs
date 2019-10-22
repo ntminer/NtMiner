@@ -118,6 +118,16 @@ namespace NTMiner.Views {
                     OverClockDataPage.ShowWindow();
                 });
             });
+            VirtualRoot.CreateCmdPath<ShowNTMinerWalletPageCommand>(action: message => {
+                UIThread.Execute(() => {
+                    NTMinerWalletPage.ShowWindow();
+                });
+            });
+            VirtualRoot.CreateCmdPath<ShowMessagePathIdsCommand>(action: message => {
+                UIThread.Execute(() => {
+                    MessagePathIds.ShowWindow();
+                });
+            });
             VirtualRoot.CreateCmdPath<ShowUserPageCommand>(action: message => {
                 UIThread.Execute(() => {
                     UserPage.ShowWindow();
@@ -252,6 +262,11 @@ namespace NTMiner.Views {
             VirtualRoot.CreateCmdPath<MinerGroupEditCommand>(action: message => {
                 UIThread.Execute(() => {
                     MinerGroupEdit.ShowWindow(message.FormType, message.Source);
+                });
+            });
+            VirtualRoot.CreateCmdPath<NTMinerWalletEditCommand>(action: message => {
+                UIThread.Execute(() => {
+                    NTMinerWalletEdit.ShowWindow(message.FormType, message.Source);
                 });
             });
             VirtualRoot.CreateCmdPath<MineWorkEditCommand>(action: message => {

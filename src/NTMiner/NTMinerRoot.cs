@@ -26,12 +26,12 @@ using System.Threading.Tasks;
 
 namespace NTMiner {
     public partial class NTMinerRoot : INTMinerRoot {
-        private readonly List<IHandlerId> _serverContextHandlers = new List<IHandlerId>();
+        private readonly List<IMessagePathId> _serverContextHandlers = new List<IMessagePathId>();
 
         /// <summary>
         /// 命令窗口。使用该方法的代码行应将前两个参数放在第一行以方便vs查找引用时展示出参数信息
         /// </summary>
-        public IHandlerId ServerContextCmdPath<TCmd>(string description, LogEnum logType, Action<TCmd> action)
+        public IMessagePathId ServerContextCmdPath<TCmd>(string description, LogEnum logType, Action<TCmd> action)
             where TCmd : ICmd {
             return VirtualRoot.CreatePath(description, logType, action).AddToCollection(_serverContextHandlers);
         }
@@ -39,7 +39,7 @@ namespace NTMiner {
         /// <summary>
         /// 事件响应
         /// </summary>
-        public IHandlerId ServerContextEventPath<TEvent>(string description, LogEnum logType, Action<TEvent> action)
+        public IMessagePathId ServerContextEventPath<TEvent>(string description, LogEnum logType, Action<TEvent> action)
             where TEvent : IEvent {
             return VirtualRoot.CreatePath(description, logType, action).AddToCollection(_serverContextHandlers);
         }
@@ -234,6 +234,7 @@ namespace NTMiner {
             this.CoinShareSet = new CoinShareSet(this);
             this.MineWorkSet = new MineWorkSet(this);
             this.MinerGroupSet = new MinerGroupSet(this);
+            this.NTMinerWalletSet = new NTMinerWalletSet(this);
             this.OverClockDataSet = new OverClockDataSet(this);
             this.ColumnsShowSet = new ColumnsShowSet(this);
             IsJsonLocal = isWork;
@@ -661,6 +662,8 @@ namespace NTMiner {
         public IMineWorkSet MineWorkSet { get; private set; }
 
         public IMinerGroupSet MinerGroupSet { get; private set; }
+
+        public INTMinerWalletSet NTMinerWalletSet { get; private set; }
 
         public IColumnsShowSet ColumnsShowSet { get; private set; }
 

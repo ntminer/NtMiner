@@ -13,12 +13,12 @@
 		<vm:NTMinerUpdaterConfigViewModel></vm:NTMinerUpdaterConfigViewModel>
 	</UserControl.DataContext>
 	<StackPanel VerticalAlignment="Center">
-		<WrapPanel Margin="0 10 0 0">
-			<TextBlock Width="120" TextAlignment="Right" Foreground="{StaticResource LableColor}">升级器文件名：</TextBlock>
-			<TextBox Width="200" Text="{Binding FileName, ValidatesOnExceptions=True}" VerticalAlignment="Center"></TextBox>
+		<WrapPanel Margin="0 0 0 10">
+            <TextBlock Width="120" TextAlignment="Right" Foreground="{StaticResource LableColor}" VerticalAlignment="Center">升级器文件名：</TextBlock>
+			<TextBox Width="250" Text="{Binding FileName, ValidatesOnExceptions=True}" VerticalAlignment="Center"></TextBox>
 		</WrapPanel>
 		<TextBlock 
-			Padding="30 0"
+			Padding="20 0"
 			Foreground="Red"
 			TextWrapping="Wrap">如果客户端没有升级器文件或者客户端记录的之前下载的升级器文件和这里设置的不同则客户端会再次下载升级器文件，从而提供一个机会可以在后续升级升级器本身。</TextBlock>
 		<controls:KbButton

@@ -66,6 +66,7 @@
     <Compile Include="AppContext.partials.KernelOutputTranslaterViewModels.cs" />
     <Compile Include="AppContext.partials.KernelOutputViewModels.cs" />
     <Compile Include="AppContext.partials.KernelViewModels.cs" />
+    <Compile Include="AppContext.partials.NTMinerWalletViewModels.cs" />
     <Compile Include="AppContext.partials.MinerGroupViewModels.cs" />
     <Compile Include="AppContext.partials.MineWorkViewModels.cs" />
     <Compile Include="AppContext.partials.OverClockDataViewModels.cs" />
@@ -102,13 +103,15 @@
     <Compile Include="Vms\CoinPageViewModel.cs" />
     <Compile Include="Vms\CoinProfileViewModel.cs" />
     <Compile Include="Vms\EthNoDevFeeEditViewModel.cs" />
+    <Compile Include="Vms\MessagePathIdsViewModel.cs" />
+    <Compile Include="Vms\NTMinerWalletPageViewModel.cs" />
+    <Compile Include="Vms\NTMinerWalletViewModel.cs" />
     <Compile Include="Vms\WorkerMessagesViewModel.cs" />
     <Compile Include="Vms\FragmentWriterPageViewModel.cs" />
     <Compile Include="Vms\FragmentWriterSelectViewModel.cs" />
     <Compile Include="Vms\FileWriterSelectViewModel.cs" />
     <Compile Include="Vms\FragmentWriterViewModel.cs" />
     <Compile Include="Vms\GpuStatusBarViewModel.cs" />
-    <Compile Include="Vms\HandlerIdsWindowViewModel.cs" />
     <Compile Include="Vms\KernelOutputSelectViewModel.cs" />
     <Compile Include="Vms\KernelInputSelectViewModel.cs" />
     <Compile Include="Vms\LocalIpConfigViewModel.cs" />
