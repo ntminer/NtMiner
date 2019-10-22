@@ -17,7 +17,6 @@
         WindowStyle="None"
         ResizeMode="NoResize"
 		Background="Transparent"
-        Topmost="True"
         BorderThickness="1"
         BorderBrush="{StaticResource IconFillColor}"
         AllowsTransparency="True"
