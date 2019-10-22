@@ -248,8 +248,16 @@ namespace NTMiner {
         }
         #endregion
 
-        public static void WorkerMessage(WorkerMessageChannel channel, string provider, WorkerMessageType messageType, string content) {
-            WorkerMessage(channel, provider, messageType, content, toOut: false);
+        public static void ThisWorkerMessage(string provider, WorkerMessageType messageType, string content) {
+            WorkerMessage(WorkerMessageChannel.This, provider, messageType, content, toOut: false);
+        }
+
+        public static void KernelWorkerMessage(string provider, WorkerMessageType messageType, string content) {
+            WorkerMessage(WorkerMessageChannel.Kernel, provider, messageType, content, toOut: false);
+        }
+
+        public static void ServerWorkerMessage(string provider, WorkerMessageType messageType, string content) {
+            WorkerMessage(WorkerMessageChannel.Server, provider, messageType, content, toOut: false);
         }
 
         public static void WorkerMessage(WorkerMessageChannel channel, string provider, WorkerMessageType messageType, string content, bool toOut) {

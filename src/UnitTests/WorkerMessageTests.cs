@@ -9,9 +9,8 @@ namespace UnitTests {
         public void TestMethod1() {
             File.Delete(VirtualRoot.WorkerMessageDbFileFullName);
             Assert.IsTrue(VirtualRoot.WorkerMessages.Count == 0);
-            WorkerMessageChannel eventChannel = WorkerMessageChannel.This;
             string content = "this is a test";
-            VirtualRoot.WorkerMessage(eventChannel, nameof(WorkerMessageTests), WorkerMessageType.Info, content);
+            VirtualRoot.ThisWorkerMessage(nameof(WorkerMessageTests), WorkerMessageType.Info, content);
             Assert.IsTrue(VirtualRoot.WorkerMessages.Count == 1);
             Assert.IsTrue(VirtualRoot.WorkerMessages.Count == 1);
         }
@@ -21,10 +20,9 @@ namespace UnitTests {
             File.Delete(VirtualRoot.WorkerMessageDbFileFullName);
             int times = 2000;
             Assert.IsTrue(times > VirtualRoot.WorkerMessageSetCapacity);
-            WorkerMessageChannel eventChannel = WorkerMessageChannel.This;
             string content = "this is a test";
             for (int i = 0; i < times; i++) {
-                VirtualRoot.WorkerMessage(eventChannel, nameof(WorkerMessageTests), WorkerMessageType.Info, content);
+                VirtualRoot.ThisWorkerMessage(nameof(WorkerMessageTests), WorkerMessageType.Info, content);
             }
             Assert.IsTrue(VirtualRoot.WorkerMessages.Count == VirtualRoot.WorkerMessageSetCapacity);
         }

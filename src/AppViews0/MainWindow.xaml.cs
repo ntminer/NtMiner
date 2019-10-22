@@ -305,7 +305,7 @@ namespace NTMiner.Views {
                         if (Vm.MinerProfile.HighTemperatureCount >= Vm.MinerProfile.CpuGETemperatureSeconds) {
                             Vm.MinerProfile.HighTemperatureCount = 0;
                             NTMinerRoot.Instance.StopMineAsync(StopMineReason.HighCpuTemperature);
-                            VirtualRoot.WorkerMessage(WorkerMessageChannel.This, nameof(MainWindow), WorkerMessageType.Info, $"自动停止挖矿，因为 CPU 温度连续{Vm.MinerProfile.CpuGETemperatureSeconds}秒不低于{Vm.MinerProfile.CpuStopTemperature}℃");
+                            VirtualRoot.ThisWorkerMessage(nameof(MainWindow), WorkerMessageType.Info, $"自动停止挖矿，因为 CPU 温度连续{Vm.MinerProfile.CpuGETemperatureSeconds}秒不低于{Vm.MinerProfile.CpuStopTemperature}℃");
                         }
                     }
                     else {
@@ -319,7 +319,7 @@ namespace NTMiner.Views {
                             }
                             if (Vm.MinerProfile.LowTemperatureCount >= Vm.MinerProfile.CpuLETemperatureSeconds) {
                                 Vm.MinerProfile.LowTemperatureCount = 0;
-                                VirtualRoot.WorkerMessage(WorkerMessageChannel.This, nameof(MainWindow), WorkerMessageType.Info, $"自动开始挖矿，因为 CPU 温度连续{Vm.MinerProfile.CpuLETemperatureSeconds}秒不高于{Vm.MinerProfile.CpuStartTemperature}℃");
+                                VirtualRoot.ThisWorkerMessage(nameof(MainWindow), WorkerMessageType.Info, $"自动开始挖矿，因为 CPU 温度连续{Vm.MinerProfile.CpuLETemperatureSeconds}秒不高于{Vm.MinerProfile.CpuStartTemperature}℃");
                                 NTMinerRoot.Instance.StartMine();
                             }
                         }
@@ -559,8 +559,7 @@ namespace NTMiner.Views {
         }
 
         private static void WmGetMinMaxInfo(IntPtr hwnd, IntPtr lParam) {
-            SafeNativeMethods.POINT lMousePosition;
-            SafeNativeMethods.GetCursorPos(out lMousePosition);
+            SafeNativeMethods.GetCursorPos(out SafeNativeMethods.POINT lMousePosition);
 
             IntPtr lPrimaryScreen = SafeNativeMethods.MonitorFromPoint(new SafeNativeMethods.POINT(0, 0), SafeNativeMethods.MonitorOptions.MONITOR_DEFAULTTOPRIMARY);
             SafeNativeMethods.MONITORINFO lPrimaryScreenInfo = new SafeNativeMethods.MONITORINFO();
@@ -631,8 +630,7 @@ namespace NTMiner.Views {
 
                 WindowState = WindowState.Normal;
 
-                SafeNativeMethods.POINT lMousePosition;
-                SafeNativeMethods.GetCursorPos(out lMousePosition);
+                SafeNativeMethods.GetCursorPos(out SafeNativeMethods.POINT lMousePosition);
 
                 Left = lMousePosition.X - targetHorizontal;
                 Top = lMousePosition.Y - targetVertical;
