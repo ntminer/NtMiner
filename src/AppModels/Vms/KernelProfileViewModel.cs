@@ -205,6 +205,8 @@ namespace NTMiner.Vms {
                         string message = "下载成功";
                         if (e.Error != null) {
                             message = "下载失败";
+                            string errorMessage = e.Error.GetInnerMessage();
+                            VirtualRoot.Out.ShowErrorMessage(errorMessage);
                             Logger.ErrorDebugLine(e.Error.Message, e.Error);
                         }
                         if (e.Cancelled) {
