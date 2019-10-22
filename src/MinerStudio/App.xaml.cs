@@ -38,12 +38,12 @@ namespace NTMiner {
 
         protected override void OnStartup(StartupEventArgs e) {
             RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
-            VirtualRoot.CreateCmdPath<ShowFileDownloaderCommand>(action: message => {
+            VirtualRoot.BuildCmdPath<ShowFileDownloaderCommand>(action: message => {
                 UIThread.Execute(() => {
                     FileDownloader.ShowWindow(message.DownloadFileUrl, message.FileTitle, message.DownloadComplete);
                 });
             });
-            VirtualRoot.CreateCmdPath<UpgradeCommand>(action: message => {
+            VirtualRoot.BuildCmdPath<UpgradeCommand>(action: message => {
                 AppStatic.Upgrade(message.FileName, message.Callback);
             });
             try {
@@ -69,7 +69,7 @@ namespace NTMiner {
                         Init();
                     }
                 }
-                VirtualRoot.CreateCmdPath<CloseNTMinerCommand>(action: message => {
+                VirtualRoot.BuildCmdPath<CloseNTMinerCommand>(action: message => {
                     UIThread.Execute(() => {
                         try {
                             Shutdown();
@@ -105,7 +105,7 @@ namespace NTMiner {
                     AppContext.NotifyIcon = ExtendedNotifyIcon.Create("群控客户端", isMinerStudio: true);
                 });
                 #region 处理显示主界面命令
-                VirtualRoot.CreateCmdPath<ShowMainWindowCommand>(action: message => {
+                VirtualRoot.BuildCmdPath<ShowMainWindowCommand>(action: message => {
                     VirtualRoot.Execute(new ShowChartsWindowCommand());
                 });
                 #endregion

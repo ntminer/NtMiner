@@ -10,7 +10,7 @@ namespace NTMiner.Core.MinerServer.Impl {
         private readonly INTMinerRoot _root;
         public ServerAppSettingSet(INTMinerRoot root) {
             _root = root;
-            VirtualRoot.CreateCmdPath<ChangeServerAppSettingCommand>(action: message => {
+            VirtualRoot.BuildCmdPath<ChangeServerAppSettingCommand>(action: message => {
                 if (message.AppSetting == null) {
                     return;
                 }
@@ -41,7 +41,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 });
                 VirtualRoot.Happened(new ServerAppSettingChangedEvent(entity));
             });
-            VirtualRoot.CreateCmdPath<ChangeServerAppSettingsCommand>(action: message => {
+            VirtualRoot.BuildCmdPath<ChangeServerAppSettingsCommand>(action: message => {
                 if (message.AppSettings == null) {
                     return;
                 }

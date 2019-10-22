@@ -10,7 +10,7 @@ namespace NTMiner.Core.MinerServer.Impl {
         private readonly INTMinerRoot _root;
         public ColumnsShowSet(INTMinerRoot root) {
             _root = root;
-            VirtualRoot.CreateCmdPath<AddColumnsShowCommand>(action: (message) => {
+            VirtualRoot.BuildCmdPath<AddColumnsShowCommand>(action: (message) => {
                 InitOnece();
                 if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty || message.Input.GetId() == ColumnsShowData.PleaseSelect.Id) {
                     throw new ArgumentNullException();
@@ -29,7 +29,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                     }
                 });
             });
-            VirtualRoot.CreateCmdPath<UpdateColumnsShowCommand>(action: (message) => {
+            VirtualRoot.BuildCmdPath<UpdateColumnsShowCommand>(action: (message) => {
                 InitOnece();
                 if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
                     throw new ArgumentNullException();
@@ -49,7 +49,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 });
                 VirtualRoot.Happened(new ColumnsShowUpdatedEvent(entity));
             });
-            VirtualRoot.CreateCmdPath<RemoveColumnsShowCommand>(action: (message) => {
+            VirtualRoot.BuildCmdPath<RemoveColumnsShowCommand>(action: (message) => {
                 InitOnece();
                 if (message == null || message.EntityId == Guid.Empty || message.EntityId == ColumnsShowData.PleaseSelect.Id) {
                     throw new ArgumentNullException();

@@ -10,7 +10,7 @@ namespace NTMiner.Core.MinerServer.Impl {
 
         public MinerGroupSet(INTMinerRoot root) {
             _root = root;
-            VirtualRoot.CreateCmdPath<AddMinerGroupCommand>(action: (message) => {
+            VirtualRoot.BuildCmdPath<AddMinerGroupCommand>(action: (message) => {
                 InitOnece();
                 if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
                     throw new ArgumentNullException();
@@ -32,7 +32,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                     }
                 });
             });
-            VirtualRoot.CreateCmdPath<UpdateMinerGroupCommand>(action: (message) => {
+            VirtualRoot.BuildCmdPath<UpdateMinerGroupCommand>(action: (message) => {
                 InitOnece();
                 if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
                     throw new ArgumentNullException();
@@ -55,7 +55,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 });
                 VirtualRoot.Happened(new MinerGroupUpdatedEvent(entity));
             });
-            VirtualRoot.CreateCmdPath<RemoveMinerGroupCommand>(action: (message) => {
+            VirtualRoot.BuildCmdPath<RemoveMinerGroupCommand>(action: (message) => {
                 InitOnece();
                 if (message == null || message.EntityId == Guid.Empty) {
                     throw new ArgumentNullException();

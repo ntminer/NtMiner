@@ -10,7 +10,7 @@ namespace NTMiner.Core.MinerServer.Impl {
 
         public NTMinerWalletSet(INTMinerRoot root) {
             _root = root;
-            VirtualRoot.CreateCmdPath<AddNTMinerWalletCommand>(action: (message) => {
+            VirtualRoot.BuildCmdPath<AddNTMinerWalletCommand>(action: (message) => {
                 if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
                     throw new ArgumentNullException();
                 }
@@ -31,7 +31,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                     }
                 });
             });
-            VirtualRoot.CreateCmdPath<UpdateNTMinerWalletCommand>(action: (message) => {
+            VirtualRoot.BuildCmdPath<UpdateNTMinerWalletCommand>(action: (message) => {
                 if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
                     throw new ArgumentNullException();
                 }
@@ -53,7 +53,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 });
                 VirtualRoot.Happened(new NTMinerWalletUpdatedEvent(entity));
             });
-            VirtualRoot.CreateCmdPath<RemoveNTMinerWalletCommand>(action: (message) => {
+            VirtualRoot.BuildCmdPath<RemoveNTMinerWalletCommand>(action: (message) => {
                 if (message == null || message.EntityId == Guid.Empty) {
                     throw new ArgumentNullException();
                 }

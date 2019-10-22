@@ -191,7 +191,7 @@ namespace NTMiner.Views {
                 changeNotiCenterWindowLocation(sender, e);
                 MoveConsoleWindow();
             };
-            VirtualRoot.CreateCmdPath<CloseMainWindowCommand>(action: message => {
+            VirtualRoot.BuildCmdPath<CloseMainWindowCommand>(action: message => {
                 UIThread.Execute(() => {
                     if (NTMinerRoot.Instance.MinerProfile.IsCloseMeanExit) {
                         VirtualRoot.Execute(new CloseNTMinerCommand());

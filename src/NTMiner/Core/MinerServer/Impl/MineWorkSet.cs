@@ -10,7 +10,7 @@ namespace NTMiner.Core.MinerServer.Impl {
         private readonly INTMinerRoot _root;
         public MineWorkSet(INTMinerRoot root) {
             _root = root;
-            VirtualRoot.CreateCmdPath<AddMineWorkCommand>(action: (message) => {
+            VirtualRoot.BuildCmdPath<AddMineWorkCommand>(action: (message) => {
                 InitOnece();
                 if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
                     throw new ArgumentNullException();
@@ -28,7 +28,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                     Write.UserFail(response?.Description);
                 }
             });
-            VirtualRoot.CreateCmdPath<UpdateMineWorkCommand>(action: (message) => {
+            VirtualRoot.BuildCmdPath<UpdateMineWorkCommand>(action: (message) => {
                 InitOnece();
                 if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
                     throw new ArgumentNullException();
@@ -48,7 +48,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 });
                 VirtualRoot.Happened(new MineWorkUpdatedEvent(entity));
             });
-            VirtualRoot.CreateCmdPath<RemoveMineWorkCommand>(action: (message) => {
+            VirtualRoot.BuildCmdPath<RemoveMineWorkCommand>(action: (message) => {
                 InitOnece();
                 if (message == null || message.EntityId == Guid.Empty) {
                     throw new ArgumentNullException();

@@ -45,7 +45,7 @@
                     VirtualRoot.WorkerMessages.Clear();
                 }));
             });
-            VirtualRoot.CreateEventPath<WorkerMessageClearedEvent>("清空挖矿消息集后刷新VM内存", LogEnum.DevConsole,
+            VirtualRoot.BuildEventPath<WorkerMessageClearedEvent>("清空挖矿消息集后刷新VM内存", LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
                         _workerMessageVms = new ObservableCollection<WorkerMessageViewModel>();
@@ -56,7 +56,7 @@
                         InfoCount = 0;
                     });
                 });
-            VirtualRoot.CreateEventPath<WorkerMessageAddedEvent>("发生了挖矿事件后刷新Vm内存", LogEnum.DevConsole,
+            VirtualRoot.BuildEventPath<WorkerMessageAddedEvent>("发生了挖矿事件后刷新Vm内存", LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
                         var vm = new WorkerMessageViewModel(message.Source);

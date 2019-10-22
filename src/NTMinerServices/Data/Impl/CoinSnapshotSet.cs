@@ -11,11 +11,11 @@ namespace NTMiner.Data.Impl {
         private readonly List<CoinSnapshotData> _dataList = new List<CoinSnapshotData>();
         internal CoinSnapshotSet(IHostRoot root) {
             _root = root;
-            VirtualRoot.CreateEventPath<Per10SecondEvent>("周期性拍摄快照", LogEnum.DevConsole,
+            VirtualRoot.BuildEventPath<Per10SecondEvent>("周期性拍摄快照", LogEnum.DevConsole,
                 action: message => {
                     Snapshot(message.Timestamp);
                 });
-            VirtualRoot.CreateEventPath<Per2MinuteEvent>("周期性拍摄快照", LogEnum.DevConsole,
+            VirtualRoot.BuildEventPath<Per2MinuteEvent>("周期性拍摄快照", LogEnum.DevConsole,
                 action: message => {
                     DateTime time = DateTime.Now.AddMinutes(-20);
                     List<CoinSnapshotData> toRemoves = _dataList.Where(a => a.Timestamp < time).ToList();

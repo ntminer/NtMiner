@@ -7,8 +7,17 @@ namespace NTMiner.Bus {
         private bool _isEnabled;
 
         public event PropertyChangedEventHandler PropertyChanged;
+        
+        public static MessagePath<TMessage> Build(IMessageDispatcher dispatcher, Type location, string description, LogEnum logType, Action<TMessage> action) {
+            if (action == null) {
+                throw new ArgumentNullException(nameof(action));
+            }
+            MessagePath<TMessage> handler = new MessagePath<TMessage>(location, description, logType, action);
+            dispatcher.Connect(handler);
+            return handler;
+        }
 
-        public MessagePath(Type location, string description, LogEnum logType, Action<TMessage> path) {
+        private MessagePath(Type location, string description, LogEnum logType, Action<TMessage> path) {
             this.IsEnabled = true;
             MessageType = typeof(TMessage);
             Location = location;
