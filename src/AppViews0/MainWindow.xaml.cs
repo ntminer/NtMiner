@@ -131,9 +131,7 @@ namespace NTMiner.Views {
             };
             // 解决主界面上的popup或菜单展开时可能导致下面的控制台窗口跑到上面的windows bug
             this.Activated += (object sender, EventArgs e)=> {
-                if (NotiCenterWindow.Instance.Owner != this) {
-                    NotiCenterWindow.Instance.Owner = this;
-                }
+                NotiCenterWindow.Instance.SwitchOwner(this);
             };
             this.Deactivated += (object sender, EventArgs e) => {
                 if (Topmost) {

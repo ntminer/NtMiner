@@ -65,64 +65,63 @@ namespace NTMiner.Vms {
                     ntMinerFile = SelectedNTMinerFile.FileName;
                     version = SelectedNTMinerFile.Version;
                 }
-                Download(ntMinerFile, version, progressChanged: (percent) => {
-                    this.DownloadMessage = percent + "%";
-                    this.DownloadPercent = (double)percent / 100;
-                }, downloadComplete: (isSuccess, message, saveFileFullName) => {
-                    this.DownloadMessage = message;
-                    this.DownloadPercent = 0;
-                    if (isSuccess) {
-                        this.DownloadMessage = "更新成功，正在重启";
-                        if (VirtualRoot.IsMinerStudio) {
-                            Client.MinerStudioService.CloseMinerStudio();
-                        }
-                        else {
-                            Client.MinerClientService.CloseNTMiner();
-                        }
-                        TimeSpan.FromSeconds(3).Delay().ContinueWith((t) => {
-                            string location = NTMinerRegistry.GetLocation();
-                            if (string.IsNullOrEmpty(location) || !File.Exists(location)) {
-                                location = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ntMinerFile);
+                Download(ntMinerFile, version,
+                    progressChanged: (percent) => {
+                        this.DownloadMessage = percent + "%";
+                        this.DownloadPercent = (double)percent / 100;
+                    },
+                    downloadComplete: (isSuccess, message, saveFileFullName) => {
+                        this.DownloadMessage = message;
+                        this.DownloadPercent = 0;
+                        if (isSuccess) {
+                            this.DownloadMessage = "更新成功，正在重启";
+                            if (VirtualRoot.IsMinerStudio) {
+                                Client.MinerStudioService.CloseMinerStudio();
                             }
-                            try {
-                                if (File.Exists(location)) {
-                                    Guid kernelBrandId = VirtualRoot.GetBrandId(location, VirtualRoot.KernelBrandId);
-                                    if (kernelBrandId != Guid.Empty) {
-                                        Logger.InfoDebugLine("内核品牌打码开始");
-                                        VirtualRoot.TagBrandId(VirtualRoot.KernelBrandId, kernelBrandId, saveFileFullName, saveFileFullName);
-                                        Logger.OkDebugLine("内核品牌打码成功");
-                                    }
-                                    Guid poolBrandId = VirtualRoot.GetBrandId(location, VirtualRoot.PoolBrandId);
-                                    if (poolBrandId != Guid.Empty) {
-                                        Logger.InfoDebugLine("矿池打码开始");
-                                        VirtualRoot.TagBrandId(VirtualRoot.PoolBrandId, poolBrandId, saveFileFullName, saveFileFullName);
-                                        Logger.OkDebugLine("矿池打码成功");
+                            else {
+                                Client.MinerClientService.CloseNTMiner();
+                            }
+                            TimeSpan.FromSeconds(3).Delay().ContinueWith((t) => {
+                                string location = NTMinerRegistry.GetLocation();
+                                if (string.IsNullOrEmpty(location) || !File.Exists(location)) {
+                                    location = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ntMinerFile);
+                                }
+                                try {
+                                    if (File.Exists(location)) {
+                                        Guid kernelBrandId = VirtualRoot.GetBrandId(location, VirtualRoot.KernelBrandId);
+                                        if (kernelBrandId != Guid.Empty) {
+                                            VirtualRoot.TagBrandId(VirtualRoot.KernelBrandId, kernelBrandId, saveFileFullName, saveFileFullName);
+                                        }
+                                        Guid poolBrandId = VirtualRoot.GetBrandId(location, VirtualRoot.PoolBrandId);
+                                        if (poolBrandId != Guid.Empty) {
+                                            VirtualRoot.TagBrandId(VirtualRoot.PoolBrandId, poolBrandId, saveFileFullName, saveFileFullName);
+                                        }
                                     }
                                 }
-                            }
-                            catch (Exception e) {
-                                Logger.ErrorDebugLine(e);
-                            }
-                            Logger.InfoDebugLine("复制开始");
-                            File.Copy(saveFileFullName, location, overwrite: true);
-                            File.Delete(saveFileFullName);
-                            Logger.InfoDebugLine("复制完成，删除旧文件");
-                            string arguments = NTMinerRegistry.GetArguments();
-                            Logger.InfoDebugLine("启动新程序");
-                            Process.Start(location, arguments);
-                            this.IsDownloading = false;
-                            UIThread.Execute(() => {
-                                Logger.InfoDebugLine("退出升级器");
-                                Application.Current.MainWindow?.Close();
+                                catch (Exception e) {
+                                    Logger.ErrorDebugLine(e);
+                                }
+                                try {
+                                    File.Copy(saveFileFullName, location, overwrite: true);
+                                }
+                                catch (Exception e) {
+                                    VirtualRoot.Out.ShowError(e.Message);
+                                }
+                                File.Delete(saveFileFullName);
+                                string arguments = NTMinerRegistry.GetArguments();
+                                Process.Start(location, arguments);
+                                this.IsDownloading = false;
+                                UIThread.Execute(() => {
+                                    Application.Current.MainWindow?.Close();
+                                });
                             });
-                        });
-                    }
-                    else {
-                        TimeSpan.FromSeconds(2).Delay().ContinueWith((t) => {
-                            this.IsDownloading = false;
-                        });
-                    }
-                }, cancel: out _cancel);
+                        }
+                        else {
+                            TimeSpan.FromSeconds(2).Delay().ContinueWith((t) => {
+                                this.IsDownloading = false;
+                            });
+                        }
+                    }, cancel: out _cancel);
             }, () => !IsDownloading);
             this.ShowHistory = new DelegateCommand(() => {
                 if (IsHistoryVisible == Visibility.Visible) {
@@ -146,7 +145,6 @@ namespace NTMiner.Vms {
             Action<int> progressChanged,
             Action<bool, string, string> downloadComplete,
             out Action cancel) {
-            Logger.InfoDebugLine("下载：" + fileName);
             string saveFileFullName = Path.Combine(SpecialPath.DownloadDirFullName, App.AppType.ToString() + version);
             progressChanged?.Invoke(0);
             using (var webClient = VirtualRoot.CreateWebClient()) {
@@ -161,13 +159,13 @@ namespace NTMiner.Vms {
                     string message = "下载成功";
                     if (e.Error != null) {
                         message = "下载失败";
-                        Logger.ErrorDebugLine(e.Error.Message, e.Error);
+                        VirtualRoot.Out.ShowError(e.Error.Message);
                     }
                     if (e.Cancelled) {
                         message = "已取消";
                     }
                     if (isSuccess) {
-                        VirtualRoot.Out.ShowSuccess(App.AppType.ToString() + version + "下载成功");
+                        // nothing need todo
                     }
                     else {
                         VirtualRoot.Out.ShowError(message, 4);
@@ -189,7 +187,6 @@ namespace NTMiner.Vms {
                 else {
                     ServerLatestVm = this.NTMinerFiles.OrderByDescending(a => a.VersionData).FirstOrDefault();
                     if (ServerLatestVm.VersionData > LocalNTMinerVersion) {
-                        Logger.WarnDebugLine("发现新版本" + ServerLatestVm.Version);
                         this.SelectedNTMinerFile = ServerLatestVm;
                         LocalIsLatest = false;
                     }

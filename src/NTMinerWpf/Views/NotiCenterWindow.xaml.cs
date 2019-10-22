@@ -45,6 +45,14 @@ namespace NTMiner.Views {
             }
         }
 
+        public void SwitchOwner(Window window) {
+            if (Owner != window) {
+                Owner = window;
+                Instance.Left = window.Left + (window.Width - Instance.Width) / 2;
+                Instance.Top = window.Top + 10;
+            }
+        }
+
         private bool RegHotKey(System.Windows.Forms.Keys key, out string message) {
             if (!SystemHotKey.RegHotKey(_thisWindowHandle, c_hotKeyId, SystemHotKey.KeyModifiers.Alt | SystemHotKey.KeyModifiers.Ctrl, key, out message)) {
                 message = $"Ctrl + Alt + {key.ToString()} " + message;

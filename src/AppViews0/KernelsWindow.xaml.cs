@@ -36,9 +36,7 @@ namespace NTMiner.Views {
             }
             AppContext.Instance.KernelVms.PropertyChanged += Current_PropertyChanged;
             this.Activated += (object sender, EventArgs e) => {
-                if (NotiCenterWindow.Instance.Owner != this) {
-                    NotiCenterWindow.Instance.Owner = this;
-                }
+                NotiCenterWindow.Instance.SwitchOwner(this);
             };
         }
 
