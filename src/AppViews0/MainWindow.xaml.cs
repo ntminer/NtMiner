@@ -132,10 +132,10 @@ namespace NTMiner.Views {
             };
             this.Activated += (sender, e)=> {
                 NotiCenterWindow.Instance.SwitchOwner(this);
-                // 100毫秒后将TopMost置为false以解决一个奇怪的问题。
+                // 200毫秒后将TopMost置为false以解决一个奇怪的问题。
                 // 这个问题的描述是：如果不这样做的话主窗口下面的ConsoleWindow会在主界面上出现
                 // Popup层时跑到上面来，比如当展开主界面上的菜单时、选币种矿池时都会出现Popup层。
-                TimeSpan.FromMilliseconds(100).Delay().ContinueWith(t => {
+                TimeSpan.FromMilliseconds(200).Delay().ContinueWith(t => {
                     UIThread.Execute(() => {
                         this.Topmost = false;
                     });
