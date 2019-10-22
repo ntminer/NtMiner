@@ -217,22 +217,28 @@
         public int ErrorCount {
             get => _errorCount;
             set {
-                _errorCount = value;
-                OnPropertyChanged(nameof(ErrorCount));
+                if (_errorCount != value) {
+                    _errorCount = value;
+                    OnPropertyChanged(nameof(ErrorCount));
+                }
             }
         }
         public int WarnCount {
             get => _warnCount;
             set {
-                _warnCount = value;
-                OnPropertyChanged(nameof(WarnCount));
+                if (_warnCount != value) {
+                    _warnCount = value;
+                    OnPropertyChanged(nameof(WarnCount));
+                }
             }
         }
         public int InfoCount {
             get => _infoCount;
             set {
-                _infoCount = value;
-                OnPropertyChanged(nameof(InfoCount));
+                if (_infoCount != value) {
+                    _infoCount = value;
+                    OnPropertyChanged(nameof(InfoCount));
+                }
             }
         }
 
