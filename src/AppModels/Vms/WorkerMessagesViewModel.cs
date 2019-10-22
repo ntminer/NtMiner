@@ -258,6 +258,9 @@
                     || (a.MessageTypeEnum == WorkerMessageType.Warn && IsWarnChecked)
                     || (a.MessageTypeEnum == WorkerMessageType.Info && IsInfoChecked));
             }
+            if (!string.IsNullOrEmpty(Keyword)) {
+                query = query.Where(a => a.Content != null && a.Content.Contains(Keyword));
+            }
             _queyResults = new ObservableCollection<WorkerMessageViewModel>(query);
             OnPropertyChanged(nameof(QueryResults));
         }
