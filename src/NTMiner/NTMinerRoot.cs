@@ -189,17 +189,20 @@ namespace NTMiner {
         private static byte[] ZipDecompress(byte[] zippedData) {
             MemoryStream ms = new MemoryStream(zippedData);
             GZipStream compressedzipStream = new GZipStream(ms, CompressionMode.Decompress);
-            MemoryStream outBuffer = new MemoryStream();
-            byte[] block = new byte[1024];
-            while (true) {
-                int bytesRead = compressedzipStream.Read(block, 0, block.Length);
-                if (bytesRead <= 0)
-                    break;
-                else
-                    outBuffer.Write(block, 0, bytesRead);
+            using (MemoryStream outBuffer = new MemoryStream()) {
+                byte[] block = new byte[1024];
+                while (true) {
+                    int bytesRead = compressedzipStream.Read(block, 0, block.Length);
+                    if (bytesRead <= 0) {
+                        break;
+                    }
+                    else {
+                        outBuffer.Write(block, 0, bytesRead);
+                    }
+                }
+                compressedzipStream.Close();
+                return outBuffer.ToArray();
             }
-            compressedzipStream.Close();
-            return outBuffer.ToArray();
         }
 
         public string GetServerJsonVersion() {
@@ -710,10 +713,12 @@ namespace NTMiner {
         private static bool IsNCard {
             get {
                 try {
-                    foreach (ManagementBaseObject item in new ManagementObjectSearcher("SELECT Caption FROM Win32_VideoController").Get()) {
-                        foreach (var property in item.Properties) {
-                            if ((property.Value ?? string.Empty).ToString().Contains("NVIDIA")) {
-                                return true;
+                    using (var mos = new ManagementObjectSearcher("SELECT Caption FROM Win32_VideoController")) {
+                        foreach (ManagementBaseObject item in mos.Get()) {
+                            foreach (var property in item.Properties) {
+                                if ((property.Value ?? string.Empty).ToString().Contains("NVIDIA")) {
+                                    return true;
+                                }
                             }
                         }
                     }
@@ -726,7 +731,7 @@ namespace NTMiner {
         }
 
         private IGpuSet _gpuSet;
-        private object _gpuSetLocker = new object();
+        private readonly object _gpuSetLocker = new object();
         public IGpuSet GpuSet {
             get {
                 if (_gpuSet == null) {
