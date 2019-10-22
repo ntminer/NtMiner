@@ -268,6 +268,7 @@ namespace NTMiner {
                     Content = content,
                     Timestamp = DateTime.Now
                 };
+                // TODO:批量持久化，异步持久化
                 lock (_locker) {
                     _records.AddFirst(data);
                     while (_records.Count > WorkerMessageSetCapacity) {
@@ -283,7 +284,17 @@ namespace NTMiner {
                     var col = db.GetCollection<WorkerMessageData>();
                     col.Insert(data);
                 }
-                Happened(new WorkerMessage(data));
+                Happened(new WorkerMessageAddedEvent(data));
+            }
+
+            public void Clear() {
+                using (LiteDatabase db = new LiteDatabase(_connectionString)) {
+                    lock (_locker) {
+                        _records.Clear();
+                    }
+                    db.DropCollection(nameof(WorkerMessageData));
+                }
+                Happened(new WorkerMessageClearedEvent());
             }
 
             private bool _isInited = false;

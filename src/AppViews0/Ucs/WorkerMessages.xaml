@@ -121,6 +121,7 @@
                 <controls:KbButton
                     Height="20"
 			        Padding="2"
+                    Command="{Binding Clear}"
                     Background="Transparent"
                     ToolTip="清空日志"
                     Cursor="Hand"
