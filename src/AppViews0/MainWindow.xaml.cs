@@ -134,10 +134,11 @@ namespace NTMiner.Views {
                 if (NotiCenterWindow.Instance.Owner != this) {
                     NotiCenterWindow.Instance.Owner = this;
                 }
-                this.Topmost = true;
             };
             this.Deactivated += (object sender, EventArgs e) => {
-                this.Topmost = false;
+                if (Topmost) {
+                    Topmost = false;
+                }
             };
             this.StateChanged += (s, e) => {
                 if (Vm.MinerProfile.IsShowInTaskbar) {
