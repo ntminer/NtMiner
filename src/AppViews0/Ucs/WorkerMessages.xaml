@@ -229,7 +229,7 @@
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Content}" Foreground="{Binding Foreground}"></TextBlock>
+                            <TextBlock Text="{Binding Content}" ToolTip="{Binding Content}" Foreground="{Binding Foreground}"></TextBlock>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
