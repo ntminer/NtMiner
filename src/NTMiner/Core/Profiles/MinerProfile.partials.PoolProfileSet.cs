@@ -122,7 +122,7 @@ namespace NTMiner.Core.Profiles {
                                 propertyInfo.SetValue(this, value, null);
                                 IRepository<PoolProfileData> repository = NTMinerRoot.CreateLocalRepository<PoolProfileData>();
                                 repository.Update(_data);
-                                VirtualRoot.Happened(new PoolProfilePropertyChangedEvent(this.PoolId, propertyName));
+                                VirtualRoot.RaiseEvent(new PoolProfilePropertyChangedEvent(this.PoolId, propertyName));
                             }
                         }
                     }

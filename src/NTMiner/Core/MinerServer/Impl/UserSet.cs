@@ -20,7 +20,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                         if (response.IsSuccess()) {
                             UserData entity = new UserData(message.User);
                             _dicByLoginName.Add(message.User.LoginName, entity);
-                            VirtualRoot.Happened(new UserAddedEvent(entity));
+                            VirtualRoot.RaiseEvent(new UserAddedEvent(entity));
                         }
                         else {
                             Write.UserFail(response.ReadMessage(exception));
@@ -41,11 +41,11 @@ namespace NTMiner.Core.MinerServer.Impl {
                     }, (response, exception) => {
                         if (!response.IsSuccess()) {
                             entity.Update(oldValue);
-                            VirtualRoot.Happened(new UserUpdatedEvent(entity));
+                            VirtualRoot.RaiseEvent(new UserUpdatedEvent(entity));
                             Write.UserFail(response.ReadMessage(exception));
                         }
                     });
-                    VirtualRoot.Happened(new UserUpdatedEvent(entity));
+                    VirtualRoot.RaiseEvent(new UserUpdatedEvent(entity));
                 }
             });
             VirtualRoot.BuildCmdPath<RemoveUserCommand>(action: message => {
@@ -54,7 +54,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                     Server.ControlCenterService.RemoveUserAsync(message.LoginName, (response, exception) => {
                         if (response.IsSuccess()) {
                             _dicByLoginName.Remove(entity.LoginName);
-                            VirtualRoot.Happened(new UserRemovedEvent(entity));
+                            VirtualRoot.RaiseEvent(new UserRemovedEvent(entity));
                         }
                         else {
                             Write.UserFail(response.ReadMessage(exception));

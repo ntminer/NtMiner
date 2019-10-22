@@ -7,20 +7,11 @@ using System.Timers;
 
 namespace NTMiner {
     public static partial class VirtualRoot {
-        /// <summary>
-        /// 发生某个事件
-        /// </summary>
-        /// <typeparam name="TEvent"></typeparam>
-        /// <param name="evnt"></param>
-        public static void Happened<TEvent>(TEvent evnt) where TEvent : class, IEvent {
+        public static void RaiseEvent<TEvent>(TEvent evnt) where TEvent : class, IEvent {
             SEventBus.Publish(evnt);
             SEventBus.Commit();
         }
 
-        /// <summary>
-        /// 执行某个命令
-        /// </summary>
-        /// <param name="command"></param>
         public static void Execute(ICmd command) {
             SCommandBus.Publish(command);
             SCommandBus.Commit();
@@ -34,9 +25,6 @@ namespace NTMiner {
             return MessagePath<TMessage>.Build(SMessageDispatcher, location, description, logType, action);
         }
 
-        /// <summary>
-        /// 创建命令路径
-        /// </summary>
         public static MessagePath<TCmd> BuildCmdPath<TCmd>(Action<TCmd> action, LogEnum logType = LogEnum.DevConsole)
             where TCmd : ICmd {
             MessageTypeAttribute messageTypeDescription = MessageTypeAttribute.GetMessageTypeDescription(typeof(TCmd));
@@ -44,15 +32,11 @@ namespace NTMiner {
             return BuildPath(description, logType, action);
         }
 
-        /// <summary>
-        /// 创建事件路径
-        /// </summary>
         public static MessagePath<TEvent> BuildEventPath<TEvent>(string description, LogEnum logType, Action<TEvent> action)
             where TEvent : IEvent {
             return BuildPath(description, logType, action);
         }
 
-        // 拆除消息（命令或事件）的运动路径
         public static void DeletePath(IMessagePathId handler) {
             if (handler == null) {
                 return;
@@ -62,7 +46,7 @@ namespace NTMiner {
 
         private static readonly Dictionary<string, Regex> _regexDic = new Dictionary<string, Regex>();
         private static readonly object _regexDicLocker = new object();
-        // 缓存构建的正则对象
+        // 【性能】缓存构建的正则对象
         public static Regex GetRegex(string pattern) {
             if (string.IsNullOrEmpty(pattern)) {
                 return null;
@@ -100,93 +84,93 @@ namespace NTMiner {
             DateTime now = DateTime.Now;
             if (now.Minute != _dateTime.Minute) {
                 _dateTime = now;
-                Happened(new MinutePartChangedEvent());
+                RaiseEvent(new MinutePartChangedEvent());
             }
             #region one
             if (_secondCount <= 20) {
                 if (_secondCount == 1) {
-                    Happened(new HasBoot1SecondEvent());
+                    RaiseEvent(new HasBoot1SecondEvent());
                 }
                 if (_secondCount == 2) {
-                    Happened(new HasBoot2SecondEvent());
+                    RaiseEvent(new HasBoot2SecondEvent());
                 }
                 if (_secondCount == 5) {
-                    Happened(new HasBoot5SecondEvent());
+                    RaiseEvent(new HasBoot5SecondEvent());
                 }
                 if (_secondCount == 10) {
-                    Happened(new HasBoot10SecondEvent());
+                    RaiseEvent(new HasBoot10SecondEvent());
                 }
                 if (_secondCount == 20) {
-                    Happened(new HasBoot20SecondEvent());
+                    RaiseEvent(new HasBoot20SecondEvent());
                 }
             }
             else if (_secondCount <= 6000) {
                 if (_secondCount == 60) {
-                    Happened(new HasBoot1MinuteEvent());
+                    RaiseEvent(new HasBoot1MinuteEvent());
                 }
                 if (_secondCount == 120) {
-                    Happened(new HasBoot2MinuteEvent());
+                    RaiseEvent(new HasBoot2MinuteEvent());
                 }
                 if (_secondCount == 300) {
-                    Happened(new HasBoot5MinuteEvent());
+                    RaiseEvent(new HasBoot5MinuteEvent());
                 }
                 if (_secondCount == 600) {
-                    Happened(new HasBoot10MinuteEvent());
+                    RaiseEvent(new HasBoot10MinuteEvent());
                 }
                 if (_secondCount == 1200) {
-                    Happened(new HasBoot20MinuteEvent());
+                    RaiseEvent(new HasBoot20MinuteEvent());
                 }
                 if (_secondCount == 3000) {
-                    Happened(new HasBoot50MinuteEvent());
+                    RaiseEvent(new HasBoot50MinuteEvent());
                 }
                 if (_secondCount == 6000) {
-                    Happened(new HasBoot100MinuteEvent());
+                    RaiseEvent(new HasBoot100MinuteEvent());
                 }
             }
             else if (_secondCount <= daySecond) {
                 if (_secondCount == daySecond) {
-                    Happened(new HasBoot24HourEvent());
+                    RaiseEvent(new HasBoot24HourEvent());
                 }
             }
             #endregion
 
             #region per
-            Happened(new Per1SecondEvent());
+            RaiseEvent(new Per1SecondEvent());
             if (_secondCount % 2 == 0) {
-                Happened(new Per2SecondEvent());
+                RaiseEvent(new Per2SecondEvent());
                 if (_secondCount % 10 == 0) {
-                    Happened(new Per10SecondEvent());
+                    RaiseEvent(new Per10SecondEvent());
                     if (_secondCount % 20 == 0) {
-                        Happened(new Per20SecondEvent());
+                        RaiseEvent(new Per20SecondEvent());
                         if (_secondCount % 60 == 0) {
-                            Happened(new Per1MinuteEvent());
+                            RaiseEvent(new Per1MinuteEvent());
                             if (_secondCount % 120 == 0) {
-                                Happened(new Per2MinuteEvent());
+                                RaiseEvent(new Per2MinuteEvent());
                                 if (_secondCount % 600 == 0) {
-                                    Happened(new Per10MinuteEvent());
+                                    RaiseEvent(new Per10MinuteEvent());
                                     if (_secondCount % 1200 == 0) {
-                                        Happened(new Per20MinuteEvent());
+                                        RaiseEvent(new Per20MinuteEvent());
                                         if (_secondCount % 6000 == 0) {
-                                            Happened(new Per100MinuteEvent());
+                                            RaiseEvent(new Per100MinuteEvent());
                                         }
                                         if (_secondCount % daySecond == 0) {
-                                            Happened(new Per24HourEvent());
+                                            RaiseEvent(new Per24HourEvent());
                                         }
                                     }
                                     if (_secondCount % 3000 == 0) {
-                                        Happened(new Per50MinuteEvent());
+                                        RaiseEvent(new Per50MinuteEvent());
                                     }
                                 }
                             }
                             if (_secondCount % 300 == 0) {
-                                Happened(new Per5MinuteEvent());
+                                RaiseEvent(new Per5MinuteEvent());
                             }
                         }
                     }
                 }
             }
             if (_secondCount % 5 == 0) {
-                Happened(new Per5SecondEvent());
+                RaiseEvent(new Per5SecondEvent());
             }
             #endregion
         }

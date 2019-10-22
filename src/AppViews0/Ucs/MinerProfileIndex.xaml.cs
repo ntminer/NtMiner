@@ -233,7 +233,7 @@ namespace NTMiner.Views.Ucs {
 
         private static void UserActionHappend() {
             if (!DevMode.IsDebugMode) {
-                VirtualRoot.Happened(new UserActionEvent());
+                VirtualRoot.RaiseEvent(new UserActionEvent());
             }
         }
 

@@ -26,7 +26,7 @@ namespace NTMiner.Core.Impl {
                 _initedOn = now;
                 OfficialServer.CalcConfigService.GetCalcConfigsAsync(data => {
                     Init(data);
-                    VirtualRoot.Happened(new CalcConfigSetInitedEvent());
+                    VirtualRoot.RaiseEvent(new CalcConfigSetInitedEvent());
                 });
             }
         }

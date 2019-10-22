@@ -25,7 +25,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 OfficialServer.OverClockDataService.AddOrUpdateOverClockDataAsync(entity, (response, e) => {
                     if (response.IsSuccess()) {
                         _dicById.Add(entity.Id, entity);
-                        VirtualRoot.Happened(new OverClockDataAddedEvent(entity));
+                        VirtualRoot.RaiseEvent(new OverClockDataAddedEvent(entity));
                     }
                     else {
                         Write.UserFail(response.ReadMessage(e));
@@ -48,11 +48,11 @@ namespace NTMiner.Core.MinerServer.Impl {
                 OfficialServer.OverClockDataService.AddOrUpdateOverClockDataAsync(entity, (response, e) => {
                     if (!response.IsSuccess()) {
                         entity.Update(oldValue);
-                        VirtualRoot.Happened(new OverClockDataUpdatedEvent(entity));
+                        VirtualRoot.RaiseEvent(new OverClockDataUpdatedEvent(entity));
                         Write.UserFail(response.ReadMessage(e));
                     }
                 });
-                VirtualRoot.Happened(new OverClockDataUpdatedEvent(entity));
+                VirtualRoot.RaiseEvent(new OverClockDataUpdatedEvent(entity));
             });
             VirtualRoot.BuildCmdPath<RemoveOverClockDataCommand>(action: (message) => {
                 if (message == null || message.EntityId == Guid.Empty) {
@@ -65,7 +65,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 OfficialServer.OverClockDataService.RemoveOverClockDataAsync(entity.Id, (response, e) => {
                     if (response.IsSuccess()) {
                         _dicById.Remove(entity.Id);
-                        VirtualRoot.Happened(new OverClockDataRemovedEvent(entity));
+                        VirtualRoot.RaiseEvent(new OverClockDataRemovedEvent(entity));
                     }
                     else {
                         Write.UserFail(response.ReadMessage(e));
@@ -95,7 +95,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                         }
                     }
                 }
-                VirtualRoot.Happened(new OverClockDataSetInitedEvent());
+                VirtualRoot.RaiseEvent(new OverClockDataSetInitedEvent());
             });
         }
 

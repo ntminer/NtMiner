@@ -30,7 +30,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<CoinKernelData>();
                     repository.Add(entity);
 
-                    VirtualRoot.Happened(new CoinKernelAddedEvent(entity));
+                    VirtualRoot.RaiseEvent(new CoinKernelAddedEvent(entity));
 
                     ICoin coin;
                     if (root.CoinSet.TryGetCoin(message.Input.CoinId, out coin)) {
@@ -67,7 +67,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<CoinKernelData>();
                     repository.Update(entity);
 
-                    VirtualRoot.Happened(new CoinKernelUpdatedEvent(entity));
+                    VirtualRoot.RaiseEvent(new CoinKernelUpdatedEvent(entity));
                 });
             _root.ServerContextCmdPath<RemoveCoinKernelCommand>("移除币种内核", LogEnum.DevConsole,
                 action: (message) => {
@@ -83,7 +83,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<CoinKernelData>();
                     repository.Remove(entity.Id);
 
-                    VirtualRoot.Happened(new CoinKernelRemovedEvent(entity));
+                    VirtualRoot.RaiseEvent(new CoinKernelRemovedEvent(entity));
                     ICoin coin;
                     if (root.CoinSet.TryGetCoin(entity.CoinId, out coin)) {
                         List<Guid> toRemoves = new List<Guid>();
@@ -105,7 +105,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     foreach (var entity in entities) {
                         entity.FileWriterIds = new List<Guid>(entity.FileWriterIds.Where(a => a != message.Source.GetId()));
                         repository.Update(entity);
-                        VirtualRoot.Happened(new CoinKernelUpdatedEvent(entity));
+                        VirtualRoot.RaiseEvent(new CoinKernelUpdatedEvent(entity));
                     }
                 });
             _root.ServerContextEventPath<FragmentWriterRemovedEvent>("移除命令行片段书写器后移除引用关系", LogEnum.DevConsole,
@@ -115,7 +115,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     foreach (var entity in entities) {
                         entity.FragmentWriterIds = new List<Guid>(entity.FragmentWriterIds.Where(a => a != message.Source.GetId()));
                         repository.Update(entity);
-                        VirtualRoot.Happened(new CoinKernelUpdatedEvent(entity));
+                        VirtualRoot.RaiseEvent(new CoinKernelUpdatedEvent(entity));
                     }
                 });
         }

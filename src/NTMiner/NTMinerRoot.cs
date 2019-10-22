@@ -122,9 +122,9 @@ namespace NTMiner {
             IsJsonLocal = true;
             this._minerProfile.ReInit(this);
             // 本地数据集已刷新，此时刷新本地数据集的视图模型集
-            VirtualRoot.Happened(new LocalContextReInitedEvent());
+            VirtualRoot.RaiseEvent(new LocalContextReInitedEvent());
             // 本地数据集的视图模型已刷新，此时刷新本地数据集的视图界面
-            VirtualRoot.Happened(new LocalContextVmsReInitedEvent());
+            VirtualRoot.RaiseEvent(new LocalContextVmsReInitedEvent());
             RefreshArgsAssembly();
         }
 
@@ -217,7 +217,7 @@ namespace NTMiner {
             };
             string oldVersion = GetServerJsonVersion();
             VirtualRoot.Execute(new ChangeLocalAppSettingCommand(appSettingData));
-            VirtualRoot.Happened(new ServerJsonVersionChangedEvent(oldVersion, serverJsonVersion));
+            VirtualRoot.RaiseEvent(new ServerJsonVersionChangedEvent(oldVersion, serverJsonVersion));
         }
 
         private MinerProfile _minerProfile;
@@ -287,9 +287,9 @@ namespace NTMiner {
             }
             ServerContextInit(isWork);
             // CoreContext的视图模型集此时刷新
-            VirtualRoot.Happened(new ServerContextReInitedEvent());
+            VirtualRoot.RaiseEvent(new ServerContextReInitedEvent());
             // CoreContext的视图模型集已全部刷新，此时刷新视图界面
-            VirtualRoot.Happened(new ServerContextVmsReInitedEvent());
+            VirtualRoot.RaiseEvent(new ServerContextVmsReInitedEvent());
             if (isWork) {
                 ReInitMinerProfile();
             }
@@ -488,7 +488,7 @@ namespace NTMiner {
                 }
                 var mineContext = _currentMineContext;
                 _currentMineContext = null;
-                VirtualRoot.Happened(new MineStopedEvent(mineContext));
+                VirtualRoot.RaiseEvent(new MineStopedEvent(mineContext));
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
@@ -523,32 +523,32 @@ namespace NTMiner {
                 Logger.EventWriteLine("开始挖矿");
                 IWorkProfile minerProfile = this.MinerProfile;
                 if (!this.CoinSet.TryGetCoin(minerProfile.CoinId, out ICoin mainCoin)) {
-                    VirtualRoot.Happened(new StartingMineFailedEvent("没有选择主挖币种。"));
+                    VirtualRoot.RaiseEvent(new StartingMineFailedEvent("没有选择主挖币种。"));
                     return;
                 }
                 ICoinProfile coinProfile = minerProfile.GetCoinProfile(minerProfile.CoinId);
                 if (!this.PoolSet.TryGetPool(coinProfile.PoolId, out IPool mainCoinPool)) {
-                    VirtualRoot.Happened(new StartingMineFailedEvent("没有选择主币矿池。"));
+                    VirtualRoot.RaiseEvent(new StartingMineFailedEvent("没有选择主币矿池。"));
                     return;
                 }
                 if (!this.CoinKernelSet.TryGetCoinKernel(coinProfile.CoinKernelId, out ICoinKernel coinKernel)) {
-                    VirtualRoot.Happened(new StartingMineFailedEvent("没有选择挖矿内核。"));
+                    VirtualRoot.RaiseEvent(new StartingMineFailedEvent("没有选择挖矿内核。"));
                     return;
                 }
                 if (!this.KernelSet.TryGetKernel(coinKernel.KernelId, out IKernel kernel)) {
-                    VirtualRoot.Happened(new StartingMineFailedEvent("无效的挖矿内核。"));
+                    VirtualRoot.RaiseEvent(new StartingMineFailedEvent("无效的挖矿内核。"));
                     return;
                 }
                 if (!kernel.IsSupported(mainCoin)) {
-                    VirtualRoot.Happened(new StartingMineFailedEvent($"该内核不支持{GpuSet.GpuType.GetDescription()}卡。"));
+                    VirtualRoot.RaiseEvent(new StartingMineFailedEvent($"该内核不支持{GpuSet.GpuType.GetDescription()}卡。"));
                     return;
                 }
                 if (!this.KernelInputSet.TryGetKernelInput(kernel.KernelInputId, out IKernelInput kernelInput)) {
-                    VirtualRoot.Happened(new StartingMineFailedEvent("未设置内核输入。"));
+                    VirtualRoot.RaiseEvent(new StartingMineFailedEvent("未设置内核输入。"));
                     return;
                 }
                 if (!this.KernelOutputSet.TryGetKernelOutput(kernel.KernelOutputId, out IKernelOutput kernelOutput)) {
-                    VirtualRoot.Happened(new StartingMineFailedEvent("未设置内核输出。"));
+                    VirtualRoot.RaiseEvent(new StartingMineFailedEvent("未设置内核输出。"));
                     return;
                 }
                 if (string.IsNullOrEmpty(coinProfile.Wallet)) {
@@ -558,12 +558,12 @@ namespace NTMiner {
                     IPoolProfile poolProfile = minerProfile.GetPoolProfile(mainCoinPool.GetId());
                     string userName = poolProfile.UserName;
                     if (string.IsNullOrEmpty(userName)) {
-                        VirtualRoot.Happened(new StartingMineFailedEvent("没有填写矿池用户名。"));
+                        VirtualRoot.RaiseEvent(new StartingMineFailedEvent("没有填写矿池用户名。"));
                         return;
                     }
                 }
                 if (string.IsNullOrEmpty(coinProfile.Wallet) && !mainCoinPool.IsUserMode) {
-                    VirtualRoot.Happened(new StartingMineFailedEvent("没有填写钱包地址。"));
+                    VirtualRoot.RaiseEvent(new StartingMineFailedEvent("没有填写钱包地址。"));
                     return;
                 }
                 ICoinKernelProfile coinKernelProfile = minerProfile.GetCoinKernelProfile(coinKernel.GetId());
@@ -571,28 +571,28 @@ namespace NTMiner {
                 IPool dualCoinPool = null;
                 if (coinKernelProfile.IsDualCoinEnabled) {
                     if (!this.CoinSet.TryGetCoin(coinKernelProfile.DualCoinId, out dualCoin)) {
-                        VirtualRoot.Happened(new StartingMineFailedEvent("没有选择双挖币种。"));
+                        VirtualRoot.RaiseEvent(new StartingMineFailedEvent("没有选择双挖币种。"));
                         return;
                     }
                     coinProfile = minerProfile.GetCoinProfile(coinKernelProfile.DualCoinId);
                     if (!this.PoolSet.TryGetPool(coinProfile.DualCoinPoolId, out dualCoinPool)) {
-                        VirtualRoot.Happened(new StartingMineFailedEvent("没有选择双挖矿池。"));
+                        VirtualRoot.RaiseEvent(new StartingMineFailedEvent("没有选择双挖矿池。"));
                         return;
                     }
                     if (string.IsNullOrEmpty(coinProfile.DualCoinWallet)) {
                         MinerProfile.SetCoinProfileProperty(dualCoin.GetId(), nameof(coinProfile.DualCoinWallet), dualCoin.TestWallet);
                     }
                     if (string.IsNullOrEmpty(coinProfile.DualCoinWallet)) {
-                        VirtualRoot.Happened(new StartingMineFailedEvent("没有填写双挖钱包。"));
+                        VirtualRoot.RaiseEvent(new StartingMineFailedEvent("没有填写双挖钱包。"));
                         return;
                     }
                 }
                 if (string.IsNullOrEmpty(kernel.Package)) {
-                    VirtualRoot.Happened(new StartingMineFailedEvent(kernel.GetFullName() + "没有内核包"));
+                    VirtualRoot.RaiseEvent(new StartingMineFailedEvent(kernel.GetFullName() + "没有内核包"));
                     return;
                 }
                 if (string.IsNullOrEmpty(kernelInput.Args)) {
-                    VirtualRoot.Happened(new StartingMineFailedEvent("没有配置运行参数。"));
+                    VirtualRoot.RaiseEvent(new StartingMineFailedEvent("没有配置运行参数。"));
                     return;
                 }
                 if (IsMining) {
@@ -606,7 +606,7 @@ namespace NTMiner {
                             StartMine(isRestart);
                         }
                         else {
-                            VirtualRoot.Happened(new StartingMineFailedEvent("内核下载：" + message));
+                            VirtualRoot.RaiseEvent(new StartingMineFailedEvent("内核下载：" + message));
                         }
                     }));
                 }

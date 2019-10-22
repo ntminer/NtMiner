@@ -284,7 +284,7 @@ namespace NTMiner {
                     var col = db.GetCollection<WorkerMessageData>();
                     col.Insert(data);
                 }
-                Happened(new WorkerMessageAddedEvent(data));
+                RaiseEvent(new WorkerMessageAddedEvent(data));
             }
 
             public void Clear() {
@@ -294,7 +294,7 @@ namespace NTMiner {
                     }
                     db.DropCollection(nameof(WorkerMessageData));
                 }
-                Happened(new WorkerMessageClearedEvent());
+                RaiseEvent(new WorkerMessageClearedEvent());
             }
 
             private bool _isInited = false;

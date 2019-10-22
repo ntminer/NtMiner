@@ -24,7 +24,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 OfficialServer.NTMinerWalletService.AddOrUpdateNTMinerWalletAsync(entity, (response, e) => {
                     if (response.IsSuccess()) {
                         _dicById.Add(entity.Id, entity);
-                        VirtualRoot.Happened(new NTMinerWalletAddedEvent(entity));
+                        VirtualRoot.RaiseEvent(new NTMinerWalletAddedEvent(entity));
                     }
                     else {
                         Write.UserFail(response.ReadMessage(e));
@@ -47,11 +47,11 @@ namespace NTMiner.Core.MinerServer.Impl {
                 OfficialServer.NTMinerWalletService.AddOrUpdateNTMinerWalletAsync(entity, (response, e) => {
                     if (!response.IsSuccess()) {
                         entity.Update(oldValue);
-                        VirtualRoot.Happened(new NTMinerWalletUpdatedEvent(entity));
+                        VirtualRoot.RaiseEvent(new NTMinerWalletUpdatedEvent(entity));
                         Write.UserFail(response.ReadMessage(e));
                     }
                 });
-                VirtualRoot.Happened(new NTMinerWalletUpdatedEvent(entity));
+                VirtualRoot.RaiseEvent(new NTMinerWalletUpdatedEvent(entity));
             });
             VirtualRoot.BuildCmdPath<RemoveNTMinerWalletCommand>(action: (message) => {
                 if (message == null || message.EntityId == Guid.Empty) {
@@ -64,7 +64,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 OfficialServer.NTMinerWalletService.RemoveNTMinerWalletAsync(entity.Id, (response, e) => {
                     if (response.IsSuccess()) {
                         _dicById.Remove(entity.Id);
-                        VirtualRoot.Happened(new NTMinerWalletRemovedEvent(entity));
+                        VirtualRoot.RaiseEvent(new NTMinerWalletRemovedEvent(entity));
                     }
                     else {
                         Write.UserFail(response.ReadMessage(e));
@@ -96,7 +96,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                         }
                     }
                 }
-                VirtualRoot.Happened(new NTMinerWalletSetInitedEvent());
+                VirtualRoot.RaiseEvent(new NTMinerWalletSetInitedEvent());
             });
         }
 

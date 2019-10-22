@@ -26,7 +26,7 @@ namespace NTMiner.Core.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<GroupData>();
                     repository.Add(entity);
 
-                    VirtualRoot.Happened(new GroupAddedEvent(entity));
+                    VirtualRoot.RaiseEvent(new GroupAddedEvent(entity));
                 });
             _root.ServerContextCmdPath<UpdateGroupCommand>("更新组", LogEnum.DevConsole,
                 action: (message) => {
@@ -48,7 +48,7 @@ namespace NTMiner.Core.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<GroupData>();
                     repository.Update(entity);
 
-                    VirtualRoot.Happened(new GroupUpdatedEvent(entity));
+                    VirtualRoot.RaiseEvent(new GroupUpdatedEvent(entity));
                 });
             _root.ServerContextCmdPath<RemoveGroupCommand>("移除组", LogEnum.DevConsole,
                 action: (message) => {
@@ -68,7 +68,7 @@ namespace NTMiner.Core.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<GroupData>();
                     repository.Remove(message.EntityId);
 
-                    VirtualRoot.Happened(new GroupRemovedEvent(entity));
+                    VirtualRoot.RaiseEvent(new GroupRemovedEvent(entity));
                 });
         }
 

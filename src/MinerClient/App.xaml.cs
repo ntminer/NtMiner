@@ -152,10 +152,10 @@ namespace NTMiner {
                         return;
                     }
                     var coinShare = NTMinerRoot.Instance.CoinShareSet.GetOrCreate(mainCoin.GetId());
-                    VirtualRoot.Happened(new ShareChangedEvent(coinShare));
+                    VirtualRoot.RaiseEvent(new ShareChangedEvent(coinShare));
                     if ((NTMinerRoot.Instance.CurrentMineContext is IDualMineContext dualMineContext) && dualMineContext.DualCoin != null) {
                         coinShare = NTMinerRoot.Instance.CoinShareSet.GetOrCreate(dualMineContext.DualCoin.GetId());
-                        VirtualRoot.Happened(new ShareChangedEvent(coinShare));
+                        VirtualRoot.RaiseEvent(new ShareChangedEvent(coinShare));
                     }
                     AppContext.Instance.GpuSpeedVms.Refresh();
                 }

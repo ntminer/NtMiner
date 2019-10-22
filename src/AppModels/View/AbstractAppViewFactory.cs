@@ -14,7 +14,7 @@ namespace NTMiner.View {
                         if (_mainWindow == null) {
                             _mainWindow = CreateMainWindow();
                             _mainWindow.Show();
-                            VirtualRoot.Happened(new MainWindowShowedEvent());
+                            VirtualRoot.RaiseEvent(new MainWindowShowedEvent());
                         }
                     }
                 }

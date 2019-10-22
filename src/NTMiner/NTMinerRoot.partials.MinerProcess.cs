@@ -67,7 +67,7 @@ namespace NTMiner {
                 }
                 // 解压内核包
                 if (!mineContext.Kernel.ExtractPackage()) {
-                    VirtualRoot.Happened(new StartingMineFailedEvent("内核解压失败，请卸载内核重试。"));
+                    VirtualRoot.RaiseEvent(new StartingMineFailedEvent("内核解压失败，请卸载内核重试。"));
                 }
                 else {
                     Write.UserOk("内核包解压成功");
@@ -101,7 +101,7 @@ namespace NTMiner {
                     default:
                         throw new InvalidProgramException();
                 }
-                VirtualRoot.Happened(new MineStartedEvent(mineContext));
+                VirtualRoot.RaiseEvent(new MineStartedEvent(mineContext));
             }
             #endregion
 
@@ -314,7 +314,7 @@ namespace NTMiner {
                     lpProcessInformation: out _)) {
                     if (bret == false) {
                         int lasterr = Marshal.GetLastWin32Error();
-                        VirtualRoot.Happened(new StartingMineFailedEvent($"管道型进程创建失败 lasterr:{lasterr}"));
+                        VirtualRoot.RaiseEvent(new StartingMineFailedEvent($"管道型进程创建失败 lasterr:{lasterr}"));
                     }
                     else {
                         Bus.MessagePath<MineStopedEvent> closeHandle = null;
@@ -364,7 +364,7 @@ namespace NTMiner {
                     }
                 }
                 else {
-                    VirtualRoot.Happened(new StartingMineFailedEvent($"内核启动失败，请重试"));
+                    VirtualRoot.RaiseEvent(new StartingMineFailedEvent($"内核启动失败，请重试"));
                 }
             }
 

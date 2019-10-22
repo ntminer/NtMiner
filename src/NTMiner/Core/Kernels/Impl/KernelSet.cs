@@ -28,7 +28,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     IRepository<KernelData> repository = NTMinerRoot.CreateServerRepository<KernelData>();
                     repository.Add(entity);
 
-                    VirtualRoot.Happened(new KernelAddedEvent(entity));
+                    VirtualRoot.RaiseEvent(new KernelAddedEvent(entity));
                 });
             _root.ServerContextCmdPath<UpdateKernelCommand>("更新内核", LogEnum.DevConsole,
                 action: message => {
@@ -50,7 +50,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     IRepository<KernelData> repository = NTMinerRoot.CreateServerRepository<KernelData>();
                     repository.Update(entity);
 
-                    VirtualRoot.Happened(new KernelUpdatedEvent(entity));
+                    VirtualRoot.RaiseEvent(new KernelUpdatedEvent(entity));
                 });
             _root.ServerContextCmdPath<RemoveKernelCommand>("移除内核", LogEnum.DevConsole,
                 action: message => {
@@ -70,7 +70,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     IRepository<KernelData> repository = NTMinerRoot.CreateServerRepository<KernelData>();
                     repository.Remove(entity.Id);
 
-                    VirtualRoot.Happened(new KernelRemovedEvent(entity));
+                    VirtualRoot.RaiseEvent(new KernelRemovedEvent(entity));
                 });
         }
 

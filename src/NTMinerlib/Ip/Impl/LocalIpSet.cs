@@ -20,7 +20,7 @@ namespace NTMiner.Ip.Impl {
 
         private void Refresh() {
             _isInited = false;
-            VirtualRoot.Happened(new LocalIpSetRefreshedEvent());
+            VirtualRoot.RaiseEvent(new LocalIpSetRefreshedEvent());
         }
 
         private bool _isInited = false;
