@@ -14,6 +14,8 @@ namespace NTMiner.View {
                         if (_mainWindow == null) {
                             _mainWindow = CreateMainWindow();
                             _mainWindow.Show();
+                            // 激活从而切换NotiCenterWindow的Owner
+                            _mainWindow.Activate();
                             VirtualRoot.RaiseEvent(new MainWindowShowedEvent());
                         }
                     }

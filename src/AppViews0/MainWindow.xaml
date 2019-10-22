@@ -12,6 +12,7 @@
 		xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 		mc:Ignorable="d"
 		Title="{x:Static app:AppStatic.AppName}"
+        Topmost="True"
 		d:DesignHeight="630"
 		d:DesignWidth="1100"
         WindowStyle="None"
