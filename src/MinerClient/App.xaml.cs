@@ -181,7 +181,7 @@ namespace NTMiner {
                 });
             #endregion
             #region 开始和停止挖矿后
-            VirtualRoot.CreateEventPath<MineStartedEvent>("开始挖矿后启动1080ti小药丸、挖矿开始后如果需要启动DevConsole则启动DevConsole 挖矿开始后更新界面挖矿状态", LogEnum.DevConsole,
+            VirtualRoot.CreateEventPath<MineStartedEvent>("启动1080ti小药丸、启动DevConsole? 更新挖矿按钮状态", LogEnum.DevConsole,
                 action: message => {
                     AppContext.Instance.MinerProfileVm.IsMining = true;
                     StartStopMineButtonViewModel.Instance.BtnStopText = "正在挖矿";
