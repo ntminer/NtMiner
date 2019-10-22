@@ -194,7 +194,7 @@ namespace NTMiner {
                         if (n >= 20) {
                             // 20秒钟都没有建立日志文件，不可能
                             isLogFileCreated = false;
-                            Write.UserFail("呃！意外，竟然20秒钟未产生内核输出，请联系开发人员解决。");
+                            Write.UserFail("呃！意外，竟然20秒钟未产生内核输出。常见原因：1.挖矿内核被杀毒软件删除; 2.没有磁盘空间了; 3.反馈给开发人员");
                             break;
                         }
                         Thread.Sleep(1000);
@@ -202,7 +202,7 @@ namespace NTMiner {
                             Write.UserInfo("等待内核出场");
                         }
                         if (mineContext != Instance.CurrentMineContext) {
-                            Write.UserWarn("挖矿上下文变更，结束内核输出等待。");
+                            Write.UserWarn("结束内核输出等待。");
                             isLogFileCreated = false;
                             break;
                         }

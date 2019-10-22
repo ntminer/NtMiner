@@ -528,7 +528,6 @@ namespace NTMiner {
         #region StartMine
         public void StartMine(bool isRestart = false) {
             try {
-                Logger.EventWriteLine("开始挖矿");
                 IWorkProfile minerProfile = this.MinerProfile;
                 if (!this.CoinSet.TryGetCoin(minerProfile.CoinId, out ICoin mainCoin)) {
                     VirtualRoot.RaiseEvent(new StartingMineFailedEvent("没有选择主挖币种。"));
@@ -640,6 +639,7 @@ namespace NTMiner {
                     }
                     _currentMineContext = mineContext;
                     MinerProcess.CreateProcessAsync(mineContext);
+                    Logger.EventWriteLine("开始挖矿");
                 }
             }
             catch (Exception e) {

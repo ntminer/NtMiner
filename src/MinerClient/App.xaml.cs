@@ -86,7 +86,7 @@ namespace NTMiner {
                     VirtualRoot.BuildEventPath<StartingMineFailedEvent>("开始挖矿失败", LogEnum.DevConsole,
                         action: message => {
                             AppContext.Instance.MinerProfileVm.IsMining = false;
-                            Write.UserFail(message.Message);
+                            VirtualRoot.Out.ShowError(message.Message);
                         });
                     NTMinerRoot.Instance.Init(() => {
                         _appViewFactory.Link();
