@@ -174,21 +174,6 @@ namespace NTMiner {
                     }
                 });
             });
-            VirtualRoot.CreateCmdPath<CloseMainWindowCommand>(action: message => {
-                UIThread.Execute(() => {
-                    if (NTMinerRoot.Instance.MinerProfile.IsCloseMeanExit) {
-                        VirtualRoot.Execute(new CloseNTMinerCommand());
-                        return;
-                    }
-                    ConsoleWindow.Instance.Hide();
-                    foreach (Window window in Windows) {
-                        if (window != NotiCenterWindow.Instance && window != ConsoleWindow.Instance) {
-                            window.Close();
-                        }
-                    }
-                    VirtualRoot.Out.ShowSuccessMessage(message.Message, "开源矿工");
-                });
-            });
             #region 周期确保守护进程在运行
             VirtualRoot.CreateEventPath<Per1MinuteEvent>("周期确保守护进程在运行", LogEnum.DevConsole,
                 action: message => {

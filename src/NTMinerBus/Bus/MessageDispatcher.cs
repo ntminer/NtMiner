@@ -11,6 +11,16 @@
         public event Action<IMessagePathId> Disconnected;
 
         #region IMessageDispatcher Members
+        public IEnumerable<IMessagePathId> GetAllPaths() {
+            lock (_locker) {
+                foreach (var item in _paths) {
+                    foreach (var path in item.Value) {
+                        yield return path;
+                    }
+                }
+            }
+        }
+
         public void Dispatch<TMessage>(TMessage message) {
             if (message == null) {
                 throw new ArgumentNullException(nameof(message));
@@ -45,24 +55,24 @@
             }
         }
 
-        public void Connect<TMessage>(MessagePath<TMessage> handler) {
-            if (handler == null) {
-                throw new ArgumentNullException(nameof(handler));
+        public void Connect<TMessage>(MessagePath<TMessage> path) {
+            if (path == null) {
+                throw new ArgumentNullException(nameof(path));
             }
             lock (_locker) {
                 var keyType = typeof(TMessage);
 
-                var handlerId = handler;
-                if (!_paths.ContainsKey(handlerId.Path)) {
-                    _paths.Add(handlerId.Path, new List<IMessagePathId> { handlerId });
+                var pathId = path;
+                if (!_paths.ContainsKey(pathId.Path)) {
+                    _paths.Add(pathId.Path, new List<IMessagePathId> { pathId });
                 }
                 else {
-                    List<IMessagePathId> handlerIds = _paths[handlerId.Path];
+                    List<IMessagePathId> handlerIds = _paths[pathId.Path];
                     if (handlerIds.Count == 1) {
                         Write.DevWarn($"重复的路径:{handlerIds[0].Path} {handlerIds[0].Description}");
                     }
-                    handlerIds.Add(handlerId);
-                    Write.DevWarn($"重复的路径:{handlerId.Path} {handlerId.Description}");
+                    handlerIds.Add(pathId);
+                    Write.DevWarn($"重复的路径:{pathId.Path} {pathId.Description}");
                 }
                 if (_handlers.ContainsKey(keyType)) {
                     var registeredHandlers = _handlers[keyType];
@@ -71,15 +81,15 @@
                         // 之所以设计为统一走总线只是为了将通过命令类型集中表达起文档作用。
                         throw new Exception($"一种命令只应被一个处理器处理:{typeof(TMessage).Name}");
                     }
-                    if (!registeredHandlers.Contains(handler)) {
-                        registeredHandlers.Add(handler);
+                    if (!registeredHandlers.Contains(path)) {
+                        registeredHandlers.Add(path);
                     }
                 }
                 else {
-                    var registeredHandlers = new List<dynamic> { handler };
+                    var registeredHandlers = new List<dynamic> { path };
                     _handlers.Add(keyType, registeredHandlers);
                 }
-                Connected?.Invoke(handlerId);
+                Connected?.Invoke(pathId);
             }
         }
 

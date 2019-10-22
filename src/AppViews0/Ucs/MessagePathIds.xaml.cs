@@ -1,4 +1,5 @@
-﻿using NTMiner.Vms;
+﻿using NTMiner.Bus;
+using NTMiner.Vms;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -9,6 +10,7 @@ namespace NTMiner.Views.Ucs {
                 Title = "消息路径标识集",
                 IconName = "Icon_Logo",
                 Width = 1200,
+                Height = 600,
                 CloseVisible = Visibility.Visible
             }, ucFactory: (window) => {
                 var uc = new MessagePathIds();
@@ -24,6 +26,25 @@ namespace NTMiner.Views.Ucs {
 
         public MessagePathIds() {
             InitializeComponent();
+            this.RunOneceOnLoaded(onLoad: window => {
+                VirtualRoot.SMessageDispatcher.Connected += OnPathConnected;
+                VirtualRoot.SMessageDispatcher.Disconnected += OnPathDisconnected;
+            }, onUnload: window => {
+                VirtualRoot.SMessageDispatcher.Connected -= OnPathConnected;
+                VirtualRoot.SMessageDispatcher.Disconnected -= OnPathDisconnected;
+            });
+        }
+
+        private void OnPathConnected(IMessagePathId pathId) {
+            UIThread.Execute(() => {
+                Vm.PathIds.Add(pathId);
+            });
+        }
+
+        private void OnPathDisconnected(IMessagePathId pathId) {
+            UIThread.Execute(() => {
+                Vm.PathIds.Remove(pathId);
+            });
         }
     }
 }

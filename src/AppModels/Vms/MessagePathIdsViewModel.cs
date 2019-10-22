@@ -1,25 +1,15 @@
 ﻿using NTMiner.Bus;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace NTMiner.Vms {
     public class MessagePathIdsViewModel : ViewModelBase {
-        private readonly ObservableCollection<IMessagePathId> _pathIds = new ObservableCollection<IMessagePathId>();
+        private readonly ObservableCollection<IMessagePathId> _pathIds;
 
         public MessagePathIdsViewModel() {
-            VirtualRoot.SMessageDispatcher.Connected += (pathId) => {
-                UIThread.Execute(() => {
-                    _pathIds.Add(pathId);
-                });
-            };
-            VirtualRoot.SMessageDispatcher.Disconnected += (pathId) => {
-                UIThread.Execute(() => {
-                    _pathIds.Remove(pathId);
-                });
-            };
+            _pathIds = new ObservableCollection<IMessagePathId>(VirtualRoot.SMessageDispatcher.GetAllPaths());
         }
 
-        public IEnumerable<IMessagePathId> PathIds {
+        public ObservableCollection<IMessagePathId> PathIds {
             get {
                 return _pathIds;
             }

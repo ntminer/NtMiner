@@ -27,10 +27,6 @@ namespace NTMiner {
             }
         }
 
-        public static void SetConsoleUserLineMethod() {
-            UserLineMethod = _consoleUserLineMethod;
-        }
-
         public static void SetUserLineMethod(Action<string, ConsoleColor> action) {
             UserLineMethod = action;
         }

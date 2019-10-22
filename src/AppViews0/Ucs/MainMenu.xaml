@@ -20,8 +20,18 @@
 						Data="{StaticResource Icon_Developer}"
 						Fill="{StaticResource ThemeForeground}"
 						Stretch="Fill" />
-				</MenuItem.Icon>
-				<MenuItem Header="global dir" Command="{x:Static app:AppStatic.ShowGlobalDir}">
+                </MenuItem.Icon>
+                <MenuItem Header="消息路径标识集" Command="{x:Static app:AppStatic.ShowMessagePathIds}">
+                    <MenuItem.Icon>
+                        <Path
+							Width="14"
+							Height="14"
+							Data="{StaticResource Icon_Message}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="global dir" Command="{x:Static app:AppStatic.ShowGlobalDir}">
 					<MenuItem.Icon>
 						<Path
 							Width="14"
