@@ -608,7 +608,7 @@ namespace NTMiner {
                 }
                 string packageZipFileFullName = Path.Combine(SpecialPath.PackagesDirFullName, kernel.Package);
                 if (!File.Exists(packageZipFileFullName)) {
-                    Logger.WarnWriteLine(kernel.GetFullName() + "本地内核包不存在，开始自动下载");
+                    VirtualRoot.WorkerMessage(WorkerMessageChannel.This, nameof(NTMinerRoot), WorkerMessageType.Info, kernel.GetFullName() + "本地内核包不存在，开始自动下载");
                     VirtualRoot.Execute(new ShowKernelDownloaderCommand(kernel.GetId(), downloadComplete: (isSuccess, message) => {
                         if (isSuccess) {
                             StartMine(isRestart);
