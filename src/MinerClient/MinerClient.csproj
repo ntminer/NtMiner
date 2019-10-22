@@ -105,9 +105,6 @@
     <Compile Include="RemoteDesktopEnabler\Rdp.cs" />
     <Compile Include="RemoteDesktopEnabler\Firewall.cs" />
     <Compile Include="SwitchRadeonGpu\SwitchRadeonGpu.cs" />
-    <Compile Include="Views\HandlerIdsWindow.xaml.cs">
-      <DependentUpon>HandlerIdsWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Windows\WindowsUtil.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -208,10 +205,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Views\HandlerIdsWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="SwitchRadeonGpu\switch-radeon-gpu.exe" />

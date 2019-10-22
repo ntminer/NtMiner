@@ -4,11 +4,11 @@
 
     public class MessageDispatcher : IMessageDispatcher {
         private readonly Dictionary<Type, List<object>> _handlers = new Dictionary<Type, List<object>>();
-        private readonly Dictionary<string, List<IHandlerId>> _paths = new Dictionary<string, List<IHandlerId>>();
+        private readonly Dictionary<string, List<IPathId>> _paths = new Dictionary<string, List<IPathId>>();
         private readonly object _locker = new object();
 
-        public event Action<IHandlerId> Connected;
-        public event Action<IHandlerId> Disconnected;
+        public event Action<IPathId> Connected;
+        public event Action<IPathId> Disconnected;
 
         #region IMessageDispatcher Members
         public void Dispatch<TMessage>(TMessage message) {
@@ -20,7 +20,7 @@
             if (_handlers.ContainsKey(messageType)) {
                 var messageHandlers = _handlers[messageType].ToArray();
                 foreach (var messageHandler in messageHandlers) {
-                    var tMessageHandler = (DelegateHandler<TMessage>)messageHandler;
+                    var tMessageHandler = (DelegatePath<TMessage>)messageHandler;
                     if (!tMessageHandler.IsEnabled) {
                         continue;
                     }
@@ -37,7 +37,7 @@
                         default:
                             break;
                     }
-                    tMessageHandler.Handle(message);
+                    tMessageHandler.Run(message);
                 }
             }
             else if (!messageTypeDescription.IsCanNoHandler) {
@@ -45,7 +45,7 @@
             }
         }
 
-        public void Connect<TMessage>(DelegateHandler<TMessage> handler) {
+        public void Connect<TMessage>(DelegatePath<TMessage> handler) {
             if (handler == null) {
                 throw new ArgumentNullException(nameof(handler));
             }
@@ -53,16 +53,16 @@
                 var keyType = typeof(TMessage);
 
                 var handlerId = handler;
-                if (!_paths.ContainsKey(handlerId.HandlerPath)) {
-                    _paths.Add(handlerId.HandlerPath, new List<IHandlerId> { handlerId });
+                if (!_paths.ContainsKey(handlerId.Path)) {
+                    _paths.Add(handlerId.Path, new List<IPathId> { handlerId });
                 }
                 else {
-                    List<IHandlerId> handlerIds = _paths[handlerId.HandlerPath];
+                    List<IPathId> handlerIds = _paths[handlerId.Path];
                     if (handlerIds.Count == 1) {
-                        Write.DevWarn($"重复的路径:{handlerIds[0].HandlerPath} {handlerIds[0].Description}");
+                        Write.DevWarn($"重复的路径:{handlerIds[0].Path} {handlerIds[0].Description}");
                     }
                     handlerIds.Add(handlerId);
-                    Write.DevWarn($"重复的路径:{handlerId.HandlerPath} {handlerId.Description}");
+                    Write.DevWarn($"重复的路径:{handlerId.Path} {handlerId.Description}");
                 }
                 if (_handlers.ContainsKey(keyType)) {
                     var registeredHandlers = _handlers[keyType];
@@ -83,19 +83,19 @@
             }
         }
 
-        public void Disconnect(IHandlerId handlerId) {
+        public void Disconnect(IPathId handlerId) {
             if (handlerId == null) {
                 return;
             }
             lock (_locker) {
-                _paths.Remove(handlerId.HandlerPath);
+                _paths.Remove(handlerId.Path);
                 var keyType = handlerId.MessageType;
                 if (_handlers.ContainsKey(keyType) &&
                     _handlers[keyType] != null &&
                     _handlers[keyType].Count > 0 &&
                     _handlers[keyType].Contains(handlerId)) {
                     _handlers[keyType].Remove(handlerId);
-                    Write.DevDebug("拆除路径" + handlerId.HandlerPath);
+                    Write.DevDebug("拆除路径" + handlerId.Path);
                     Disconnected?.Invoke(handlerId);
                 }
             }

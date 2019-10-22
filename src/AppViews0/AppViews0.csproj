@@ -101,6 +101,9 @@
     <Compile Include="PackagesWindow.xaml.cs">
       <DependentUpon>PackagesWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PathIdsWindow.xaml.cs">
+      <DependentUpon>PathIdsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Ucs\BrandTag.xaml.cs">
       <DependentUpon>BrandTag.xaml</DependentUpon>
     </Compile>
@@ -460,6 +463,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Design\PackageViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PathIdsWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

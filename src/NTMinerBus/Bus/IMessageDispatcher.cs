@@ -4,11 +4,11 @@ namespace NTMiner.Bus {
     public interface IMessageDispatcher {
         void Dispatch<TMessage>(TMessage message);
 
-        void Connect<TMessage>(DelegateHandler<TMessage> handler);
+        void Connect<TMessage>(DelegatePath<TMessage> handler);
 
-        void Disconnect(IHandlerId handlerId);
+        void Disconnect(IPathId handlerId);
 
-        event Action<IHandlerId> Connected;
-        event Action<IHandlerId> Disconnected;
+        event Action<IPathId> Connected;
+        event Action<IPathId> Disconnected;
     }
 }

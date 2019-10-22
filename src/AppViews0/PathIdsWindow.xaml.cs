@@ -3,14 +3,14 @@ using System.ComponentModel;
 using System.Windows.Input;
 
 namespace NTMiner.Views {
-    public partial class HandlerIdsWindow : BlankWindow {
-        public HandlerIdsWindowViewModel Vm {
+    public partial class PathIdsWindow : BlankWindow {
+        public PathIdsWindowViewModel Vm {
             get {
-                return (HandlerIdsWindowViewModel)this.DataContext;
+                return (PathIdsWindowViewModel)this.DataContext;
             }
         }
 
-        public HandlerIdsWindow() {
+        public PathIdsWindow() {
             InitializeComponent();
         }
 

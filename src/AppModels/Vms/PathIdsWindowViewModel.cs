@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace NTMiner.Vms {
-    public class HandlerIdsWindowViewModel : ViewModelBase {
-        private readonly ObservableCollection<IHandlerId> _handlerIds = new ObservableCollection<IHandlerId>();
+    public class PathIdsWindowViewModel : ViewModelBase {
+        private readonly ObservableCollection<IPathId> _handlerIds = new ObservableCollection<IPathId>();
 
-        public HandlerIdsWindowViewModel() {
+        public PathIdsWindowViewModel() {
             VirtualRoot.SMessageDispatcher.Connected += (handlerId)=> {
                 UIThread.Execute(() => {
                     _handlerIds.Add(handlerId);
@@ -19,7 +19,7 @@ namespace NTMiner.Vms {
             };
         }
 
-        public IEnumerable<IHandlerId> HandlerIds {
+        public IEnumerable<IPathId> HandlerIds {
             get {
                 return _handlerIds;
             }

@@ -2,26 +2,25 @@
 using System.ComponentModel;
 
 namespace NTMiner.Bus {
-    public class DelegateHandler<TMessage> : IHandlerId, INotifyPropertyChanged {
-        private readonly Action<TMessage> _action;
+    public class DelegatePath<TMessage> : IPathId, INotifyPropertyChanged {
+        private readonly Action<TMessage> _path;
         private bool _isEnabled;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public DelegateHandler(Type location, string description, LogEnum logType, Action<TMessage> action) {
+        public DelegatePath(Type location, string description, LogEnum logType, Action<TMessage> path) {
             this.IsEnabled = true;
             MessageType = typeof(TMessage);
-            string path = $"{location.FullName}[{MessageType.FullName}]";
             Location = location;
-            HandlerPath = path;
+            Path = $"{location.FullName}[{MessageType.FullName}]";
             Description = description;
             LogType = logType;
-            _action = action;
+            _path = path;
         }
 
         public Type MessageType { get; private set; }
         public Type Location { get; private set; }
-        public string HandlerPath { get; private set; }
+        public string Path { get; private set; }
         public LogEnum LogType { get; private set; }
         public string Description { get; private set; }
         public bool IsEnabled {
@@ -32,12 +31,12 @@ namespace NTMiner.Bus {
             }
         }
 
-        public void Handle(TMessage message) {
+        public void Run(TMessage message) {
             try {
-                _action?.Invoke(message);
+                _path?.Invoke(message);
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine(HandlerPath + ":" + e.Message, e);
+                Logger.ErrorDebugLine(Path + ":" + e.Message, e);
                 throw;
             }
         }

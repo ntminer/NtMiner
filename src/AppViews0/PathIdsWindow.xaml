@@ -1,5 +1,5 @@
 ﻿<blankWindow:BlankWindow
-	x:Class="NTMiner.Views.HandlerIdsWindow"
+	x:Class="NTMiner.Views.PathIdsWindow"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:blankWindow="http://NTMiner.com"
@@ -16,7 +16,7 @@
 	WindowStartupLocation="CenterScreen"
 	TextOptions.TextFormattingMode="Display">
 	<blankWindow:BlankWindow.DataContext>
-		<vm:HandlerIdsWindowViewModel></vm:HandlerIdsWindowViewModel>
+		<vm:PathIdsWindowViewModel></vm:PathIdsWindowViewModel>
 	</blankWindow:BlankWindow.DataContext>
 	<Grid>
 		<Grid.RowDefinitions>

@@ -2,11 +2,11 @@
 
 namespace NTMiner.Bus {
     
-    public interface IHandlerId {
+    public interface IPathId {
         Type MessageType { get; }
         bool IsEnabled { get; set; }
         Type Location { get; }
-        string HandlerPath { get; }
+        string Path { get; }
         LogEnum LogType { get; }
         string Description { get; }
     }
