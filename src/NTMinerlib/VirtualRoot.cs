@@ -109,7 +109,7 @@ namespace NTMiner {
 
             private EmptyOut() { }
 
-            public void ShowErrorMessage(string message, int? delaySeconds = null) {
+            public void ShowError(string message, int? delaySeconds = null) {
                 // nothing need todo
             }
 
@@ -117,7 +117,11 @@ namespace NTMiner {
                 // nothing need todo
             }
 
-            public void ShowSuccessMessage(string message, string header = "成功") {
+            public void ShowSuccess(string message, string header = "成功") {
+                // nothing need todo
+            }
+
+            public void ShowWarn(string message, int? delaySeconds = null) {
                 // nothing need todo
             }
         }
@@ -235,6 +239,27 @@ namespace NTMiner {
         #endregion
 
         public static void WorkerMessage(WorkerMessageChannel channel, string provider, WorkerMessageType messageType, string content) {
+            WorkerMessage(channel, provider, messageType, content, toOut: false);
+        }
+
+        public static void WorkerMessage(WorkerMessageChannel channel, string provider, WorkerMessageType messageType, string content, bool toOut) {
+            if (toOut) {
+                switch (messageType) {
+                    case WorkerMessageType.Undefined:
+                        break;
+                    case WorkerMessageType.Info:
+                        Out.ShowInfo(content);
+                        break;
+                    case WorkerMessageType.Warn:
+                        Out.ShowWarn(content);
+                        break;
+                    case WorkerMessageType.Error:
+                        Out.ShowError(content);
+                        break;
+                    default:
+                        break;
+                }
+            }
             WorkerMessages.Add(channel.GetName(), provider, messageType.GetName(), content);
         }
 

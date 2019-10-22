@@ -99,7 +99,7 @@ namespace NTMiner {
                         UIThread.Execute(() => {
                             if (NTMinerRoot.Instance.MinerProfile.IsNoUi && NTMinerRoot.Instance.MinerProfile.IsAutoStart) {
                                 ConsoleWindow.Instance.Hide();
-                                VirtualRoot.Out.ShowSuccessMessage("已切换为无界面模式运行，可在选项页调整设置", "开源矿工");
+                                VirtualRoot.Out.ShowSuccess("已切换为无界面模式运行，可在选项页调整设置", "开源矿工");
                             }
                             else {
                                 _appViewFactory.ShowMainWindow(isToggle: false);
@@ -254,21 +254,21 @@ namespace NTMiner {
             SwitchRadeonGpu.SwitchRadeonGpu.Run(on, (isSuccess, e) => {
                 if (isSuccess) {
                     if (on) {
-                        VirtualRoot.Out.ShowSuccessMessage("开启A卡计算模式成功");
+                        VirtualRoot.Out.ShowSuccess("开启A卡计算模式成功");
                     }
                     else {
-                        VirtualRoot.Out.ShowSuccessMessage("关闭A卡计算模式成功");
+                        VirtualRoot.Out.ShowSuccess("关闭A卡计算模式成功");
                     }
                 }
                 else if (e != null) {
-                    VirtualRoot.Out.ShowErrorMessage(e.Message, delaySeconds: 4);
+                    VirtualRoot.Out.ShowError(e.Message, delaySeconds: 4);
                 }
                 else {
                     if (on) {
-                        VirtualRoot.Out.ShowErrorMessage("开启A卡计算模式失败", delaySeconds: 4);
+                        VirtualRoot.Out.ShowError("开启A卡计算模式失败", delaySeconds: 4);
                     }
                     else {
-                        VirtualRoot.Out.ShowErrorMessage("关闭A卡计算模式失败", delaySeconds: 4);
+                        VirtualRoot.Out.ShowError("关闭A卡计算模式失败", delaySeconds: 4);
                     }
                 }
             });

@@ -199,7 +199,7 @@ namespace NTMiner.Views {
                         return;
                     }
                     this.Close();
-                    VirtualRoot.Out.ShowSuccessMessage(message.Message, "开源矿工");
+                    VirtualRoot.Out.ShowSuccess(message.Message, "开源矿工");
                 });
             });
             if (DevMode.IsDevMode) {
