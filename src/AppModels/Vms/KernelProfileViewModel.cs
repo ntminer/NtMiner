@@ -216,11 +216,12 @@ namespace NTMiner.Vms {
                 };
                 OfficialServer.FileUrlService.GetPackageUrlAsync(package, (packageUrl, e) => {
                     if (string.IsNullOrEmpty(packageUrl)) {
-                        downloadComplete?.Invoke(false, "未获取到内核包下载地址", saveFileFullName);
-                        VirtualRoot.WorkerMessage(WorkerMessageChannel.This, nameof(KernelProfileViewModel), WorkerMessageType.Error, "未获取到内核包下载地址"+ package);
+                        string msg = $"未获取到{package}内核包下载地址";
+                        downloadComplete?.Invoke(false, msg, saveFileFullName);
+                        VirtualRoot.WorkerMessage(WorkerMessageChannel.This, nameof(KernelProfileViewModel), WorkerMessageType.Error, msg);
                     }
                     else {
-                        VirtualRoot.WorkerMessage(WorkerMessageChannel.This, nameof(KernelProfileViewModel), WorkerMessageType.Info, "下载：" + packageUrl);
+                        VirtualRoot.WorkerMessage(WorkerMessageChannel.This, nameof(KernelProfileViewModel), WorkerMessageType.Info, "下载：" + package);
                         webClient.DownloadFileAsync(new Uri(packageUrl), saveFileFullName);
                     }
                 });
