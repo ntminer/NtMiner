@@ -63,7 +63,7 @@
 						    Width="14"
 						    Height="14"
 						    Data="{StaticResource Icon_Waring}"
-						    Fill="{StaticResource Warn}"
+						    Fill="{StaticResource WarnColor}"
 						    Stretch="Fill" />
                         <TextBlock>警告</TextBlock>
                         <TextBlock Margin="4 0 0 0" Text="{Binding WarnCount}"></TextBlock>

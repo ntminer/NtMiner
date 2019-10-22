@@ -10,7 +10,7 @@ namespace NTMiner.Vms {
         private static readonly StreamGeometry WarnIcon = (StreamGeometry)Application.Current.Resources["Icon_Waring"];
         private static readonly StreamGeometry InfoIcon = (StreamGeometry)Application.Current.Resources["Icon_Info"];
         private static readonly SolidColorBrush IconFillColor = (SolidColorBrush)Application.Current.Resources["IconFillColor"];
-        private static readonly SolidColorBrush Warn = (SolidColorBrush)Application.Current.Resources["Warn"];
+        private static readonly SolidColorBrush WarnColor = (SolidColorBrush)Application.Current.Resources["WarnColor"];
 
         private readonly IWorkerMessage _data;
         private readonly WorkerMessageChannel _channel;
@@ -106,7 +106,7 @@ namespace NTMiner.Vms {
                     case WorkerMessageType.Info:
                         return IconFillColor;
                     case WorkerMessageType.Warn:
-                        return Warn;
+                        return WarnColor;
                     case WorkerMessageType.Error:
                         return WpfUtil.RedBrush;
                     default:
@@ -123,7 +123,7 @@ namespace NTMiner.Vms {
                     case WorkerMessageType.Info:
                         return WpfUtil.BlackBrush;
                     case WorkerMessageType.Warn:
-                        return Warn;
+                        return WarnColor;
                     case WorkerMessageType.Error:
                         return WpfUtil.RedBrush;
                     default:
