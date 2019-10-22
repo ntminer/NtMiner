@@ -49,7 +49,7 @@ namespace NTMiner.Vms {
         }
 
 
-        public int TotalVirtualMemoryGb {
+        public double TotalVirtualMemoryGb {
             get {
                 return _dic.Values.Sum(a => a.MaxSizeGb);
             }
@@ -57,7 +57,7 @@ namespace NTMiner.Vms {
 
         public string TotalVirtualMemoryGbText {
             get {
-                return TotalVirtualMemoryGb + " G";
+                return TotalVirtualMemoryGb.ToString("f1") + " G";
             }
         }
 
@@ -88,14 +88,12 @@ namespace NTMiner.Vms {
 
         private VirtualMemoryViewModel Parse(string vmReg) {
             string driveName;
-            int minsize = 0;
-            int maxsize = 0;
             try {
                 string[] strarr = vmReg.Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
                 if (strarr.Length == 3) {
                     driveName = strarr[0].Substring(0, 3);
-                    minsize = Convert.ToInt32(strarr[1]);
-                    maxsize = Convert.ToInt32(strarr[2]);
+                    int minsize = Convert.ToInt32(strarr[1]);
+                    int maxsize = Convert.ToInt32(strarr[2]);
                     return new VirtualMemoryViewModel(driveName, maxsize);
                 }
                 return null;
