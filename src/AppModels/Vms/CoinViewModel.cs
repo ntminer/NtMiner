@@ -394,7 +394,7 @@ namespace NTMiner.Vms {
             using (var webClient = VirtualRoot.CreateWebClient(10)) {
                 webClient.DownloadFileCompleted += (object sender, System.ComponentModel.AsyncCompletedEventArgs e) => {
                     if (!e.Cancelled && e.Error == null) {
-                        VirtualRoot.Happened(new CoinIconDownloadedEvent(this));
+                        VirtualRoot.RaiseEvent(new CoinIconDownloadedEvent(this));
                     }
                     else {
                         File.Delete(iconFileFullName);

@@ -11,7 +11,7 @@ namespace NTMiner.Core.Impl {
 
         public CalcConfigSet(INTMinerRoot root) {
             _root = root;
-            VirtualRoot.CreateEventPath<MainWindowShowedEvent>("主界面显示后刷新收益计算器", LogEnum.DevConsole,
+            VirtualRoot.BuildEventPath<MainWindowShowedEvent>("主界面显示后刷新收益计算器", LogEnum.DevConsole,
                 action: message => {
                     Init(forceRefresh: true);
                 });
@@ -26,7 +26,7 @@ namespace NTMiner.Core.Impl {
                 _initedOn = now;
                 OfficialServer.CalcConfigService.GetCalcConfigsAsync(data => {
                     Init(data);
-                    VirtualRoot.Happened(new CalcConfigSetInitedEvent());
+                    VirtualRoot.RaiseEvent(new CalcConfigSetInitedEvent());
                 });
             }
         }

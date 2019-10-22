@@ -13,10 +13,7 @@ namespace NTMiner.Bus.DirectBus {
 
         #region Ctor
         protected DirectBus(IMessageDispatcher dispatcher) {
-            if (dispatcher == null) {
-                throw new ArgumentNullException("dispatcher");
-            }
-            this._dispatcher = dispatcher;
+            this._dispatcher = dispatcher ?? throw new ArgumentNullException("dispatcher");
         }
         #endregion
 

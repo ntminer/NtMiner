@@ -284,7 +284,7 @@ namespace NTMiner.Core.Profiles {
             private set {
                 if (_data.EPrice != value) {
                     _data.EPrice = value;
-                    VirtualRoot.Happened(new EPriceChangedEvent());
+                    VirtualRoot.RaiseEvent(new EPriceChangedEvent());
                 }
             }
         }
@@ -296,7 +296,7 @@ namespace NTMiner.Core.Profiles {
             private set {
                 if (_data.IsPowerAppend != value) {
                     _data.IsPowerAppend = value;
-                    VirtualRoot.Happened(new PowerAppendChangedEvent());
+                    VirtualRoot.RaiseEvent(new PowerAppendChangedEvent());
                 }
             }
         }
@@ -308,7 +308,7 @@ namespace NTMiner.Core.Profiles {
             private set {
                 if (_data.PowerAppend != value) {
                     _data.PowerAppend = value;
-                    VirtualRoot.Happened(new PowerAppendChangedEvent());
+                    VirtualRoot.RaiseEvent(new PowerAppendChangedEvent());
                 }
             }
         }
@@ -325,7 +325,7 @@ namespace NTMiner.Core.Profiles {
             private set {
                 if (_data.MaxTemp != value) {
                     _data.MaxTemp = value;
-                    VirtualRoot.Happened(new MaxTempChangedEvent());
+                    VirtualRoot.RaiseEvent(new MaxTempChangedEvent());
                 }
             }
         }
@@ -491,7 +491,7 @@ namespace NTMiner.Core.Profiles {
                         propertyInfo.SetValue(this, value, null);
                         IRepository<MinerProfileData> repository = NTMinerRoot.CreateLocalRepository<MinerProfileData>();
                         repository.Update(_data);
-                        VirtualRoot.Happened(new MinerProfilePropertyChangedEvent(propertyName));
+                        VirtualRoot.RaiseEvent(new MinerProfilePropertyChangedEvent(propertyName));
                     }
                 }
             }

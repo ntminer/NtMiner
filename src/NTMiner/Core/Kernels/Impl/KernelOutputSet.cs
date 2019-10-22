@@ -27,7 +27,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<KernelOutputData>();
                     repository.Add(entity);
 
-                    VirtualRoot.Happened(new KernelOutputAddedEvent(entity));
+                    VirtualRoot.RaiseEvent(new KernelOutputAddedEvent(entity));
                 });
             _root.ServerContextCmdPath<UpdateKernelOutputCommand>("更新内核输出组", LogEnum.DevConsole,
                 action: (message) => {
@@ -49,7 +49,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<KernelOutputData>();
                     repository.Update(entity);
 
-                    VirtualRoot.Happened(new KernelOutputUpdatedEvent(entity));
+                    VirtualRoot.RaiseEvent(new KernelOutputUpdatedEvent(entity));
                 });
             _root.ServerContextCmdPath<RemoveKernelOutputCommand>("移除内核输出组", LogEnum.DevConsole,
                 action: (message) => {
@@ -77,7 +77,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<KernelOutputData>();
                     repository.Remove(message.EntityId);
 
-                    VirtualRoot.Happened(new KernelOutputRemovedEvent(entity));
+                    VirtualRoot.RaiseEvent(new KernelOutputRemovedEvent(entity));
                 });
             #endregion
         }
@@ -142,7 +142,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     if (_kernelRestartKeywordOn.AddSeconds(10) < DateTime.Now) {
                         mineContext.KernelSelfRestartCount = mineContext.KernelSelfRestartCount + 1;
                         _kernelRestartKeywordOn = DateTime.Now;
-                        VirtualRoot.Happened(new KernelSelfRestartedEvent());
+                        VirtualRoot.RaiseEvent(new KernelSelfRestartedEvent());
                     }
                 }
                 ICoin coin = mineContext.MainCoin;
@@ -250,7 +250,7 @@ namespace NTMiner.Core.Kernels.Impl {
             Match match = regex.Match(input);
             if (match.Success) {
                 string poolDelayText = match.Groups[VirtualRoot.PoolDelayGroupName].Value;
-                VirtualRoot.Happened(new PoolDelayPickedEvent(poolId, isDual, poolDelayText));
+                VirtualRoot.RaiseEvent(new PoolDelayPickedEvent(poolId, isDual, poolDelayText));
             }
         }
         #endregion

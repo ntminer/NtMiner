@@ -17,10 +17,28 @@ namespace NTMiner.Vms {
                 return _manager;
             }
         }
-        public void ShowErrorMessage(string message, int? delaySeconds = null) {
+        public void ShowError(string message, int? delaySeconds = null) {
             UIThread.Execute(() => {
                 var builder = NotificationMessageBuilder.CreateMessage(Manager);
                 builder.Error(message ?? string.Empty);
+                if (delaySeconds.HasValue && delaySeconds.Value != 0) {
+                    builder
+                        .Dismiss()
+                        .WithDelay(TimeSpan.FromSeconds(4))
+                        .Queue();
+                }
+                else {
+                    builder
+                        .Dismiss().WithButton("忽略", null)
+                        .Queue();
+                }
+            });
+        }
+
+        public void ShowWarn(string message, int? delaySeconds = null) {
+            UIThread.Execute(() => {
+                var builder = NotificationMessageBuilder.CreateMessage(Manager);
+                builder.Warning(message ?? string.Empty);
                 if (delaySeconds.HasValue && delaySeconds.Value != 0) {
                     builder
                         .Dismiss()
@@ -45,7 +63,7 @@ namespace NTMiner.Vms {
             });
         }
 
-        public void ShowSuccessMessage(string message, string header = "成功") {
+        public void ShowSuccess(string message, string header = "成功") {
             UIThread.Execute(() => {
                 var builder = NotificationMessageBuilder.CreateMessage(Manager);
                 builder.Success(header, message)

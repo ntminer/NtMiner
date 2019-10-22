@@ -113,6 +113,7 @@ namespace NTMiner.Views {
             UIThread.StartTimer();
             ConsoleWindow.Instance.OnSplashHided = MoveConsoleWindow;
             this.Owner = ConsoleWindow.Instance;
+            ConsoleWindow.Instance.Activate();
             InitializeComponent();
             _borderBrush = this.BorderBrush;
             NTMinerRoot.RefreshArgsAssembly.Invoke();
@@ -129,15 +130,16 @@ namespace NTMiner.Views {
                     NTMinerRoot.IsUiVisible = false;
                 }
             };
-            // 解决主界面上的popup或菜单展开时可能导致下面的控制台窗口跑到上面的windows bug
-            this.Activated += (object sender, EventArgs e)=> {
-                if (NotiCenterWindow.Instance.Owner != this) {
-                    NotiCenterWindow.Instance.Owner = this;
-                }
-                this.Topmost = true;
-            };
-            this.Deactivated += (object sender, EventArgs e) => {
-                this.Topmost = false;
+            this.Activated += (sender, e)=> {
+                NotiCenterWindow.Instance.SwitchOwner(this);
+                // 200毫秒后将TopMost置为false以解决一个奇怪的问题。
+                // 这个问题的描述是：如果不这样做的话主窗口下面的ConsoleWindow会在主界面上出现
+                // Popup层时跑到上面来，比如当展开主界面上的菜单时、选币种矿池时都会出现Popup层。
+                TimeSpan.FromMilliseconds(200).Delay().ContinueWith(t => {
+                    UIThread.Execute(() => {
+                        this.Topmost = false;
+                    });
+                });
             };
             this.StateChanged += (s, e) => {
                 if (Vm.MinerProfile.IsShowInTaskbar) {
@@ -191,14 +193,14 @@ namespace NTMiner.Views {
                 changeNotiCenterWindowLocation(sender, e);
                 MoveConsoleWindow();
             };
-            VirtualRoot.CreateCmdPath<CloseMainWindowCommand>(action: message => {
+            VirtualRoot.BuildCmdPath<CloseMainWindowCommand>(action: message => {
                 UIThread.Execute(() => {
                     if (NTMinerRoot.Instance.MinerProfile.IsCloseMeanExit) {
                         VirtualRoot.Execute(new CloseNTMinerCommand());
                         return;
                     }
                     this.Close();
-                    VirtualRoot.Out.ShowSuccessMessage(message.Message, "开源矿工");
+                    VirtualRoot.Out.ShowSuccess(message.Message, "开源矿工");
                 });
             });
             if (DevMode.IsDevMode) {
@@ -303,7 +305,7 @@ namespace NTMiner.Views {
                         if (Vm.MinerProfile.HighTemperatureCount >= Vm.MinerProfile.CpuGETemperatureSeconds) {
                             Vm.MinerProfile.HighTemperatureCount = 0;
                             NTMinerRoot.Instance.StopMineAsync(StopMineReason.HighCpuTemperature);
-                            Write.UserWarn($"自动停止挖矿，因为 CPU 温度连续{Vm.MinerProfile.CpuGETemperatureSeconds}秒不低于{Vm.MinerProfile.CpuStopTemperature}℃");
+                            VirtualRoot.WorkerMessage(WorkerMessageChannel.This, nameof(MainWindow), WorkerMessageType.Info, $"自动停止挖矿，因为 CPU 温度连续{Vm.MinerProfile.CpuGETemperatureSeconds}秒不低于{Vm.MinerProfile.CpuStopTemperature}℃");
                         }
                     }
                     else {
@@ -317,7 +319,7 @@ namespace NTMiner.Views {
                             }
                             if (Vm.MinerProfile.LowTemperatureCount >= Vm.MinerProfile.CpuLETemperatureSeconds) {
                                 Vm.MinerProfile.LowTemperatureCount = 0;
-                                Write.UserWarn($"自动开始挖矿，因为 CPU 温度连续{Vm.MinerProfile.CpuLETemperatureSeconds}秒不高于{Vm.MinerProfile.CpuStartTemperature}℃");
+                                VirtualRoot.WorkerMessage(WorkerMessageChannel.This, nameof(MainWindow), WorkerMessageType.Info, $"自动开始挖矿，因为 CPU 温度连续{Vm.MinerProfile.CpuLETemperatureSeconds}秒不高于{Vm.MinerProfile.CpuStartTemperature}℃");
                                 NTMinerRoot.Instance.StartMine();
                             }
                         }

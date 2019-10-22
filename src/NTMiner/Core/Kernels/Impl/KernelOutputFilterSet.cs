@@ -32,7 +32,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<KernelOutputFilterData>();
                     repository.Add(entity);
 
-                    VirtualRoot.Happened(new KernelOutputFilterAddedEvent(entity));
+                    VirtualRoot.RaiseEvent(new KernelOutputFilterAddedEvent(entity));
                 });
             _root.ServerContextCmdPath<UpdateKernelOutputFilterCommand>("更新内核输出过滤器", LogEnum.DevConsole,
                 action: (message) => {
@@ -54,7 +54,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<KernelOutputFilterData>();
                     repository.Update(entity);
 
-                    VirtualRoot.Happened(new KernelOutputFilterUpdatedEvent(entity));
+                    VirtualRoot.RaiseEvent(new KernelOutputFilterUpdatedEvent(entity));
                 });
             _root.ServerContextCmdPath<RemoveKernelOutputFilterCommand>("移除内核输出过滤器", LogEnum.DevConsole,
                 action: (message) => {
@@ -71,7 +71,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<KernelOutputFilterData>();
                     repository.Remove(entity.Id);
 
-                    VirtualRoot.Happened(new KernelOutputFilterRemovedEvent(entity));
+                    VirtualRoot.RaiseEvent(new KernelOutputFilterRemovedEvent(entity));
                 });
         }
 

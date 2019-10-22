@@ -187,7 +187,7 @@ namespace NTMiner.Core.Profiles {
                                 propertyInfo.SetValue(this, value, null);
                                 IRepository<CoinKernelProfileData> repository = NTMinerRoot.CreateLocalRepository<CoinKernelProfileData>();
                                 repository.Update(_data);
-                                VirtualRoot.Happened(new CoinKernelProfilePropertyChangedEvent(this.CoinKernelId, propertyName));
+                                VirtualRoot.RaiseEvent(new CoinKernelProfilePropertyChangedEvent(this.CoinKernelId, propertyName));
                             }
                         }
                     }

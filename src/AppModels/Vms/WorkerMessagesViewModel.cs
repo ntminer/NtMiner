@@ -19,7 +19,6 @@
         public WorkerMessagesViewModel() {
             var data = VirtualRoot.WorkerMessages.Select(a => new WorkerMessageViewModel(a));
             _workerMessageVms = new ObservableCollection<WorkerMessageViewModel>(data);
-            _queyResults = _workerMessageVms;
             foreach (var item in _workerMessageVms) {
                 switch (item.MessageTypeEnum) {
                     case WorkerMessageType.Error:
@@ -36,6 +35,7 @@
                 }
             }
             _selectedChannel = WorkerMessageChannel.Unspecified.GetEnumItem();
+            RefreshQueryResults();
 
             this.ClearKeyword = new DelegateCommand(() => {
                 this.Keyword = string.Empty;
@@ -45,7 +45,7 @@
                     VirtualRoot.WorkerMessages.Clear();
                 }));
             });
-            VirtualRoot.CreateEventPath<WorkerMessageClearedEvent>("清空挖矿消息集后刷新VM内存", LogEnum.DevConsole,
+            VirtualRoot.BuildEventPath<WorkerMessageClearedEvent>("清空挖矿消息集后刷新VM内存", LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
                         _workerMessageVms = new ObservableCollection<WorkerMessageViewModel>();
@@ -56,20 +56,36 @@
                         InfoCount = 0;
                     });
                 });
-            VirtualRoot.CreateEventPath<WorkerMessageAddedEvent>("发生了挖矿事件后刷新Vm内存", LogEnum.DevConsole,
+            VirtualRoot.BuildEventPath<WorkerMessageAddedEvent>("发生了挖矿事件后刷新Vm内存", LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
                         var vm = new WorkerMessageViewModel(message.Source);
                         _workerMessageVms.Insert(0, vm);
+                        foreach (var item in message.Removes) {
+                            var toRemove = _workerMessageVms.FirstOrDefault(a => a.Id == item.Id);
+                            if (toRemove != null) {
+                                _workerMessageVms.Remove(toRemove);
+                            }
+                        }
+                        int removedCount = 0;
                         switch (vm.MessageTypeEnum) {
                             case WorkerMessageType.Error:
-                                ErrorCount++;
+                                removedCount = message.Removes.Count(a => a.MessageType == WorkerMessageType.Error.GetName());
+                                if (removedCount != 1) {
+                                    ErrorCount += 1 - removedCount;
+                                }
                                 break;
                             case WorkerMessageType.Warn:
-                                WarnCount++;
+                                removedCount = message.Removes.Count(a => a.MessageType == WorkerMessageType.Warn.GetName());
+                                if (removedCount != 1) {
+                                    WarnCount += 1 - removedCount;
+                                }
                                 break;
                             case WorkerMessageType.Info:
-                                InfoCount++;
+                                removedCount = message.Removes.Count(a => a.MessageType == WorkerMessageType.Info.GetName());
+                                if (removedCount != 1) {
+                                    InfoCount += 1 - removedCount;
+                                }
                                 break;
                             default:
                                 break;
@@ -127,6 +143,7 @@
                 if (_keyword != value) {
                     _keyword = value;
                     OnPropertyChanged(nameof(Keyword));
+                    RefreshQueryResults();
                 }
             }
         }
@@ -200,22 +217,28 @@
         public int ErrorCount {
             get => _errorCount;
             set {
-                _errorCount = value;
-                OnPropertyChanged(nameof(ErrorCount));
+                if (_errorCount != value) {
+                    _errorCount = value;
+                    OnPropertyChanged(nameof(ErrorCount));
+                }
             }
         }
         public int WarnCount {
             get => _warnCount;
             set {
-                _warnCount = value;
-                OnPropertyChanged(nameof(WarnCount));
+                if (_warnCount != value) {
+                    _warnCount = value;
+                    OnPropertyChanged(nameof(WarnCount));
+                }
             }
         }
         public int InfoCount {
             get => _infoCount;
             set {
-                _infoCount = value;
-                OnPropertyChanged(nameof(InfoCount));
+                if (_infoCount != value) {
+                    _infoCount = value;
+                    OnPropertyChanged(nameof(InfoCount));
+                }
             }
         }
 
@@ -226,6 +249,11 @@
         }
 
         private void RefreshQueryResults() {
+            if (SelectedChannel.Value == WorkerMessageChannel.Unspecified && IsErrorChecked && IsWarnChecked && IsInfoChecked && string.IsNullOrEmpty(Keyword)) {
+                _queyResults = _workerMessageVms;
+                OnPropertyChanged(nameof(QueryResults));
+                return;
+            }
             var query = _workerMessageVms.AsQueryable();
             if (SelectedChannel.Value != WorkerMessageChannel.Unspecified) {
                 string channel = SelectedChannel.Value.GetName();
@@ -236,6 +264,9 @@
                     || (a.MessageTypeEnum == WorkerMessageType.Error && IsErrorChecked)
                     || (a.MessageTypeEnum == WorkerMessageType.Warn && IsWarnChecked)
                     || (a.MessageTypeEnum == WorkerMessageType.Info && IsInfoChecked));
+            }
+            if (!string.IsNullOrEmpty(Keyword)) {
+                query = query.Where(a => a.Content != null && a.Content.Contains(Keyword));
             }
             _queyResults = new ObservableCollection<WorkerMessageViewModel>(query);
             OnPropertyChanged(nameof(QueryResults));

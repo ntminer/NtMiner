@@ -102,8 +102,13 @@
 										<Button Command="{Binding Set}" CommandParameter="6">64G</Button>
 										<Button Command="{Binding Set}" CommandParameter="7">128G</Button>
 									</WrapPanel>
-									<TextBox Canvas.Left="252" Width="48" BorderThickness="0" Background="White" Text="{Binding VirtualMemory.MaxSizeMb}"></TextBox>
-									<TextBlock Canvas.Left="300">Mb</TextBlock>
+                                    <StackPanel Canvas.Left="252" Canvas.Top="-12">
+                                        <WrapPanel>
+                                            <TextBox Width="48" Height="20" VerticalAlignment="Center" Background="White" Text="{Binding VirtualMemory.MaxSizeMb}"></TextBox>
+                                            <TextBlock VerticalAlignment="Center">Mb</TextBlock>
+                                        </WrapPanel>
+                                        <TextBlock Margin="4 0 0 0" Text="{Binding VirtualMemory.MaxSizeGbText}"></TextBlock>
+                                    </StackPanel>
 								</Canvas>
 							</StackPanel>
 						</StackPanel>

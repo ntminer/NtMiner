@@ -10,7 +10,7 @@ namespace NTMiner.Core.MinerServer.Impl {
 
         public MinerGroupSet(INTMinerRoot root) {
             _root = root;
-            VirtualRoot.CreateCmdPath<AddMinerGroupCommand>(action: (message) => {
+            VirtualRoot.BuildCmdPath<AddMinerGroupCommand>(action: (message) => {
                 InitOnece();
                 if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
                     throw new ArgumentNullException();
@@ -25,14 +25,14 @@ namespace NTMiner.Core.MinerServer.Impl {
                 Server.ControlCenterService.AddOrUpdateMinerGroupAsync(entity, (response, exception) => {
                     if (response.IsSuccess()) {
                         _dicById.Add(entity.Id, entity);
-                        VirtualRoot.Happened(new MinerGroupAddedEvent(entity));
+                        VirtualRoot.RaiseEvent(new MinerGroupAddedEvent(entity));
                     }
                     else {
                         Write.UserFail(response.ReadMessage(exception));
                     }
                 });
             });
-            VirtualRoot.CreateCmdPath<UpdateMinerGroupCommand>(action: (message) => {
+            VirtualRoot.BuildCmdPath<UpdateMinerGroupCommand>(action: (message) => {
                 InitOnece();
                 if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
                     throw new ArgumentNullException();
@@ -49,13 +49,13 @@ namespace NTMiner.Core.MinerServer.Impl {
                 Server.ControlCenterService.AddOrUpdateMinerGroupAsync(entity, (response, exception) => {
                     if (!response.IsSuccess()) {
                         entity.Update(oldValue);
-                        VirtualRoot.Happened(new MinerGroupUpdatedEvent(entity));
+                        VirtualRoot.RaiseEvent(new MinerGroupUpdatedEvent(entity));
                         Write.UserFail(response.ReadMessage(exception));
                     }
                 });
-                VirtualRoot.Happened(new MinerGroupUpdatedEvent(entity));
+                VirtualRoot.RaiseEvent(new MinerGroupUpdatedEvent(entity));
             });
-            VirtualRoot.CreateCmdPath<RemoveMinerGroupCommand>(action: (message) => {
+            VirtualRoot.BuildCmdPath<RemoveMinerGroupCommand>(action: (message) => {
                 InitOnece();
                 if (message == null || message.EntityId == Guid.Empty) {
                     throw new ArgumentNullException();
@@ -67,7 +67,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 Server.ControlCenterService.RemoveMinerGroupAsync(entity.Id, (response, exception) => {
                     if (response.IsSuccess()) {
                         _dicById.Remove(entity.Id);
-                        VirtualRoot.Happened(new MinerGroupRemovedEvent(entity));
+                        VirtualRoot.RaiseEvent(new MinerGroupRemovedEvent(entity));
                     }
                     else {
                         Write.UserFail(response.ReadMessage(exception));

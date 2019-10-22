@@ -41,7 +41,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<KernelOutputTranslaterData>();
                     repository.Add(entity);
 
-                    VirtualRoot.Happened(new KernelOutputTranslaterAddedEvent(entity));
+                    VirtualRoot.RaiseEvent(new KernelOutputTranslaterAddedEvent(entity));
                 });
             _root.ServerContextCmdPath<UpdateKernelOutputTranslaterCommand>("更新内核输出翻译器", LogEnum.DevConsole,
                 action: (message) => {
@@ -69,7 +69,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<KernelOutputTranslaterData>();
                     repository.Update(entity);
 
-                    VirtualRoot.Happened(new KernelOutputTranslaterUpdatedEvent(entity));
+                    VirtualRoot.RaiseEvent(new KernelOutputTranslaterUpdatedEvent(entity));
                 });
             _root.ServerContextCmdPath<RemoveKernelOutputTranslaterCommand>("移除内核输出翻译器", LogEnum.DevConsole,
                 action: (message) => {
@@ -88,7 +88,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<KernelOutputTranslaterData>();
                     repository.Remove(entity.Id);
 
-                    VirtualRoot.Happened(new KernelOutputTranslaterRemovedEvent(entity));
+                    VirtualRoot.RaiseEvent(new KernelOutputTranslaterRemovedEvent(entity));
                 });
             _root.ServerContextEventPath<SysDicItemUpdatedEvent>($"{VirtualRoot.LogColorSysDicCode}字典项更新后刷新翻译器内存", LogEnum.DevConsole,
                 action: message => {

@@ -21,8 +21,5 @@
 		SizeToContent="Height"
 		Title="通知中心"
 		MouseDown="MetroWindow_MouseDown">
-	<Grid>
-		<notification:NotificationMessageContainer
-			Manager="{Binding Manager}" />
-	</Grid>
+    <notification:NotificationMessageContainer Manager="{Binding Manager}" />
 </Window>

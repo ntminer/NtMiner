@@ -12,7 +12,7 @@ namespace NTMiner.Core.Profiles.Impl {
         private GpuProfilesJsonDb _data = new GpuProfilesJsonDb();
 
         public GpuProfileSet(INTMinerRoot root) {
-            VirtualRoot.CreateCmdPath<AddOrUpdateGpuProfileCommand>(action: message => {
+            VirtualRoot.BuildCmdPath<AddOrUpdateGpuProfileCommand>(action: message => {
                 GpuProfileData data = _data.GpuProfiles.FirstOrDefault(a => a.CoinId == message.Input.CoinId && a.Index == message.Input.Index);
                 if (data != null) {
                     data.Update(message.Input);
@@ -23,19 +23,19 @@ namespace NTMiner.Core.Profiles.Impl {
                     _data.GpuProfiles.Add(data);
                     Save();
                 }
-                VirtualRoot.Happened(new GpuProfileAddedOrUpdatedEvent(data));
+                VirtualRoot.RaiseEvent(new GpuProfileAddedOrUpdatedEvent(data));
             });
-            VirtualRoot.CreateCmdPath<CoinOverClockCommand>(action: message => {
+            VirtualRoot.BuildCmdPath<CoinOverClockCommand>(action: message => {
                 Task.Factory.StartNew(() => {
                     CoinOverClock(root, message.CoinId);
-                    VirtualRoot.Happened(new CoinOverClockDoneEvent(message.Id));
+                    VirtualRoot.RaiseEvent(new CoinOverClockDoneEvent(message.Id));
                 });
             });
         }
 
         public void Refresh() {
             _isInited = false;
-            VirtualRoot.Happened(new GpuProfileSetRefreshedEvent());
+            VirtualRoot.RaiseEvent(new GpuProfileSetRefreshedEvent());
         }
 
         public bool IsOverClockEnabled(Guid coinId) {

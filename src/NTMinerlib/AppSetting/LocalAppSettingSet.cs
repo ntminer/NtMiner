@@ -11,7 +11,7 @@ namespace NTMiner.AppSetting {
 
         public LocalAppSettingSet(string dbFileFullName) {
             _dbFileFullName = dbFileFullName;
-            VirtualRoot.CreateCmdPath<ChangeLocalAppSettingCommand>(action: message => {
+            VirtualRoot.BuildCmdPath<ChangeLocalAppSettingCommand>(action: message => {
                 if (message.AppSetting == null) {
                     return;
                 }
@@ -26,7 +26,7 @@ namespace NTMiner.AppSetting {
                     var col = db.GetCollection<AppSettingData>();
                     col.Upsert(entity);
                 }
-                VirtualRoot.Happened(new LocalAppSettingChangedEvent(entity));
+                VirtualRoot.RaiseEvent(new LocalAppSettingChangedEvent(entity));
             });
         }
 

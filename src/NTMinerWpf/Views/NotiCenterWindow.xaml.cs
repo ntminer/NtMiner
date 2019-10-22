@@ -34,14 +34,24 @@ namespace NTMiner.Views {
             if (NotiCenterWindowViewModel.IsHotKeyEnabled) {
                 HotKeyUtil.RegHotKey = (key) => {
                     if (!RegHotKey(key, out string message)) {
-                        VirtualRoot.Out.ShowErrorMessage(message, 4);
+                        VirtualRoot.Out.ShowError(message, 4);
                         return false;
                     }
                     else {
-                        VirtualRoot.Out.ShowSuccessMessage($"热键Ctrl + Alt + {key.ToString()} 设置成功");
+                        VirtualRoot.WorkerMessage(WorkerMessageChannel.This, nameof(NotiCenterWindow), WorkerMessageType.Info, $"热键Ctrl + Alt + {key.ToString()} 设置成功", toOut: true);
                         return true;
                     }
                 };
+            }
+        }
+
+        public void SwitchOwner(Window window) {
+            if (Owner != window) {
+                Owner = window;
+                Instance.Left = window.Left + (window.Width - Instance.Width) / 2;
+                Instance.Top = window.Top + 10;
+                // 因为挖矿端的MainWindow也是TopMost的，所以需要激活一下通知窗口从而让通知窗口在父窗口的上面
+                this.Activate();
             }
         }
 

@@ -18,7 +18,7 @@ namespace NTMiner.Core.Gpus.Impl {
             catch (System.Exception e) {
                 Logger.ErrorDebugLine(e);
             }
-            VirtualRoot.Happened(new GpuStateChangedEvent(gpu));
+            VirtualRoot.RaiseEvent(new GpuStateChangedEvent(gpu));
         }
 
         public void SetCoreClock(int gpuIndex, int value, int voltage) {

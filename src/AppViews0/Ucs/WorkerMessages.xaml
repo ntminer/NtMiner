@@ -63,7 +63,7 @@
 						    Width="14"
 						    Height="14"
 						    Data="{StaticResource Icon_Waring}"
-						    Fill="{StaticResource Warn}"
+						    Fill="{StaticResource WarnColor}"
 						    Stretch="Fill" />
                         <TextBlock>警告</TextBlock>
                         <TextBlock Margin="4 0 0 0" Text="{Binding WarnCount}"></TextBlock>
@@ -185,7 +185,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn MinWidth="40" Width="60" IsReadOnly="True">
+                <DataGridTemplateColumn MinWidth="60" Width="60" IsReadOnly="True">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
                             <TextBlock Text="频道"></TextBlock>
@@ -209,7 +209,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn MinWidth="60" Width="200" IsReadOnly="True">
+                <DataGridTemplateColumn MinWidth="100" Width="200" IsReadOnly="True">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
                             <TextBlock Text="来源"></TextBlock>
@@ -221,7 +221,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn MinWidth="100" Width="*" IsReadOnly="True">
+                <DataGridTemplateColumn MinWidth="200" Width="*" IsReadOnly="True">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
                             <TextBlock>内容</TextBlock>
@@ -229,7 +229,29 @@
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Content}" Foreground="{Binding Foreground}"></TextBlock>
+                            <TextBlock Text="{Binding Content}" ToolTip="{Binding Content}" Foreground="{Binding Foreground}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn MinWidth="30" Width="30" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <controls:KbButton 
+								Margin="2 0"
+								Command="{Binding ViewDetails}" 
+                                Background="Transparent" 
+                                BorderThickness="0"
+								CornerRadius="2" 
+                                ToolTip="详情">
+                                <WrapPanel>
+                                    <Path
+									    Width="18"
+									    Height="18"
+									    Data="{StaticResource Icon_Details}"
+									    Fill="{StaticResource IconFillColor}"
+									    Stretch="Fill" />
+                                </WrapPanel>
+                            </controls:KbButton>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

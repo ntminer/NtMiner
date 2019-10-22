@@ -32,7 +32,7 @@ namespace NTMiner.Core.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<CoinData>();
                     repository.Add(entity);
 
-                    VirtualRoot.Happened(new CoinAddedEvent(entity));
+                    VirtualRoot.RaiseEvent(new CoinAddedEvent(entity));
                 });
             _root.ServerContextCmdPath<UpdateCoinCommand>("更新币种", LogEnum.DevConsole,
                 action: message => {
@@ -54,7 +54,7 @@ namespace NTMiner.Core.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<CoinData>();
                     repository.Update(entity);
 
-                    VirtualRoot.Happened(new CoinUpdatedEvent(message.Input));
+                    VirtualRoot.RaiseEvent(new CoinUpdatedEvent(message.Input));
                 });
             _root.ServerContextCmdPath<RemoveCoinCommand>("移除币种", LogEnum.DevConsole,
                 action: message => {
@@ -89,7 +89,7 @@ namespace NTMiner.Core.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<CoinData>();
                     repository.Remove(entity.Id);
 
-                    VirtualRoot.Happened(new CoinRemovedEvent(entity));
+                    VirtualRoot.RaiseEvent(new CoinRemovedEvent(entity));
                 });
         }
 

@@ -35,6 +35,9 @@ namespace NTMiner.Views {
                 this.Width += 600;
             }
             AppContext.Instance.KernelVms.PropertyChanged += Current_PropertyChanged;
+            this.Activated += (object sender, EventArgs e) => {
+                NotiCenterWindow.Instance.SwitchOwner(this);
+            };
         }
 
         protected override void OnClosed(EventArgs e) {

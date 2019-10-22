@@ -23,10 +23,13 @@ namespace NTMiner {
         public static readonly string AppFileFullName = Process.GetCurrentProcess().MainModule.FileName;
         public static string WorkerMessageDbFileFullName {
             get {
-                if (IsMinerStudio) {
-                    Path.Combine(MainAssemblyInfo.HomeDirFullName, "workerMessage.litedb");
+                if (IsMinerClient) {
+                    return Path.Combine(MainAssemblyInfo.TempDirFullName, "workerMessage.litedb");
                 }
-                return Path.Combine(MainAssemblyInfo.TempDirFullName, "workerMessage.litedb");
+                if (IsMinerStudio) {
+                    return Path.Combine(MainAssemblyInfo.HomeDirFullName, "workerMessage.litedb");
+                }
+                return string.Empty;
             }
         }
         public static Guid Id { get; private set; }
@@ -44,8 +47,15 @@ namespace NTMiner {
                     if (_isMinerClientDetected) {
                         return _isMinerClient;
                     }
-                    // 基于约定
-                    _isMinerClient = Assembly.GetEntryAssembly().GetManifestResourceInfo("NTMiner.Daemon.NTMinerDaemon.exe") != null;
+                    var assembly = Assembly.GetEntryAssembly();
+                    // 单元测试时assembly为null
+                    if (assembly == null) { 
+                        _isMinerClient = true;
+                    }
+                    else {
+                        // 基于约定
+                        _isMinerClient = assembly.GetManifestResourceInfo("NTMiner.Daemon.NTMinerDaemon.exe") != null;
+                    }
                     _isMinerClientDetected = true;
                 }
                 return _isMinerClient;
@@ -109,7 +119,7 @@ namespace NTMiner {
 
             private EmptyOut() { }
 
-            public void ShowErrorMessage(string message, int? delaySeconds = null) {
+            public void ShowError(string message, int? delaySeconds = null) {
                 // nothing need todo
             }
 
@@ -117,7 +127,11 @@ namespace NTMiner {
                 // nothing need todo
             }
 
-            public void ShowSuccessMessage(string message, string header = "成功") {
+            public void ShowSuccess(string message, string header = "成功") {
+                // nothing need todo
+            }
+
+            public void ShowWarn(string message, int? delaySeconds = null) {
                 // nothing need todo
             }
         }
@@ -235,6 +249,27 @@ namespace NTMiner {
         #endregion
 
         public static void WorkerMessage(WorkerMessageChannel channel, string provider, WorkerMessageType messageType, string content) {
+            WorkerMessage(channel, provider, messageType, content, toOut: false);
+        }
+
+        public static void WorkerMessage(WorkerMessageChannel channel, string provider, WorkerMessageType messageType, string content, bool toOut) {
+            if (toOut) {
+                switch (messageType) {
+                    case WorkerMessageType.Undefined:
+                        break;
+                    case WorkerMessageType.Info:
+                        Out.ShowInfo(content);
+                        break;
+                    case WorkerMessageType.Warn:
+                        Out.ShowWarn(content);
+                        break;
+                    case WorkerMessageType.Error:
+                        Out.ShowError(content);
+                        break;
+                    default:
+                        break;
+                }
+            }
             WorkerMessages.Add(channel.GetName(), provider, messageType.GetName(), content);
         }
 
@@ -248,7 +283,9 @@ namespace NTMiner {
             private readonly LinkedList<WorkerMessageData> _records = new LinkedList<WorkerMessageData>();
 
             internal WorkerMessageSet() {
-                _connectionString = $"filename={WorkerMessageDbFileFullName};journal=false";
+                if (!string.IsNullOrEmpty(WorkerMessageDbFileFullName)) {
+                    _connectionString = $"filename={WorkerMessageDbFileFullName};journal=false";
+                }
             }
 
             public int Count {
@@ -259,6 +296,9 @@ namespace NTMiner {
             }
 
             public void Add(string channel, string provider, string messageType, string content) {
+                if (string.IsNullOrEmpty(_connectionString)) {
+                    return;
+                }
                 InitOnece();
                 var data = new WorkerMessageData {
                     Id = Guid.NewGuid(),
@@ -269,10 +309,12 @@ namespace NTMiner {
                     Timestamp = DateTime.Now
                 };
                 // TODO:批量持久化，异步持久化
+                List<IWorkerMessage> removes = new List<IWorkerMessage>();
                 lock (_locker) {
                     _records.AddFirst(data);
                     while (_records.Count > WorkerMessageSetCapacity) {
                         var toRemove = _records.Last;
+                        removes.Add(toRemove.Value);
                         _records.RemoveLast();
                         using (LiteDatabase db = new LiteDatabase(_connectionString)) {
                             var col = db.GetCollection<WorkerMessageData>();
@@ -284,17 +326,20 @@ namespace NTMiner {
                     var col = db.GetCollection<WorkerMessageData>();
                     col.Insert(data);
                 }
-                Happened(new WorkerMessageAddedEvent(data));
+                RaiseEvent(new WorkerMessageAddedEvent(data, removes));
             }
 
             public void Clear() {
+                if (string.IsNullOrEmpty(_connectionString)) {
+                    return;
+                }
                 using (LiteDatabase db = new LiteDatabase(_connectionString)) {
                     lock (_locker) {
                         _records.Clear();
                     }
                     db.DropCollection(nameof(WorkerMessageData));
                 }
-                Happened(new WorkerMessageClearedEvent());
+                RaiseEvent(new WorkerMessageClearedEvent());
             }
 
             private bool _isInited = false;
@@ -310,6 +355,9 @@ namespace NTMiner {
             private void Init() {
                 lock (_locker) {
                     if (!_isInited) {
+                        if (string.IsNullOrEmpty(_connectionString)) {
+                            return;
+                        }
                         using (LiteDatabase db = new LiteDatabase(_connectionString)) {
                             var col = db.GetCollection<WorkerMessageData>();
                             foreach (var item in col.FindAll().OrderBy(a => a.Timestamp)) {

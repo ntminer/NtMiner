@@ -33,7 +33,7 @@ namespace NTMiner {
         /// </summary>
         public IMessagePathId ServerContextCmdPath<TCmd>(string description, LogEnum logType, Action<TCmd> action)
             where TCmd : ICmd {
-            return VirtualRoot.CreatePath(description, logType, action).AddToCollection(_serverContextHandlers);
+            return VirtualRoot.BuildPath(description, logType, action).AddToCollection(_serverContextHandlers);
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace NTMiner {
         /// </summary>
         public IMessagePathId ServerContextEventPath<TEvent>(string description, LogEnum logType, Action<TEvent> action)
             where TEvent : IEvent {
-            return VirtualRoot.CreatePath(description, logType, action).AddToCollection(_serverContextHandlers);
+            return VirtualRoot.BuildPath(description, logType, action).AddToCollection(_serverContextHandlers);
         }
 
         public IUserSet UserSet { get; private set; }
@@ -101,12 +101,18 @@ namespace NTMiner {
                                 });
                             }
                             else {
-                                Logger.InfoDebugLine("GetAliyunServerJson下载失败");
+                                string message = "配置文件下载失败，使用最后一次成功下载的配置文件";
+                                var messageType = WorkerMessageType.Warn;
+                                if (!File.Exists(SpecialPath.ServerJsonFileFullName)) {
+                                    messageType = WorkerMessageType.Error;
+                                    message = "配置文件下载失败，这是第一次运行开源矿工，配置文件至少需要成功下载一次，请检查网络是否可用";
+                                }
+                                VirtualRoot.WorkerMessage(WorkerMessageChannel.This, nameof(NTMinerRoot), messageType, message, toOut: true);
                             }
                             DoInit(isWork, callback);
                         });
                         #region 发生了用户活动时检查serverJson是否有新版本
-                        VirtualRoot.CreateEventPath<UserActionEvent>("发生了用户活动时检查serverJson是否有新版本", LogEnum.DevConsole,
+                        VirtualRoot.BuildEventPath<UserActionEvent>("发生了用户活动时检查serverJson是否有新版本", LogEnum.DevConsole,
                             action: message => {
                                 RefreshServerJsonFile();
                             });
@@ -122,9 +128,9 @@ namespace NTMiner {
             IsJsonLocal = true;
             this._minerProfile.ReInit(this);
             // 本地数据集已刷新，此时刷新本地数据集的视图模型集
-            VirtualRoot.Happened(new LocalContextReInitedEvent());
+            VirtualRoot.RaiseEvent(new LocalContextReInitedEvent());
             // 本地数据集的视图模型已刷新，此时刷新本地数据集的视图界面
-            VirtualRoot.Happened(new LocalContextVmsReInitedEvent());
+            VirtualRoot.RaiseEvent(new LocalContextVmsReInitedEvent());
             RefreshArgsAssembly();
         }
 
@@ -189,17 +195,20 @@ namespace NTMiner {
         private static byte[] ZipDecompress(byte[] zippedData) {
             MemoryStream ms = new MemoryStream(zippedData);
             GZipStream compressedzipStream = new GZipStream(ms, CompressionMode.Decompress);
-            MemoryStream outBuffer = new MemoryStream();
-            byte[] block = new byte[1024];
-            while (true) {
-                int bytesRead = compressedzipStream.Read(block, 0, block.Length);
-                if (bytesRead <= 0)
-                    break;
-                else
-                    outBuffer.Write(block, 0, bytesRead);
+            using (MemoryStream outBuffer = new MemoryStream()) {
+                byte[] block = new byte[1024];
+                while (true) {
+                    int bytesRead = compressedzipStream.Read(block, 0, block.Length);
+                    if (bytesRead <= 0) {
+                        break;
+                    }
+                    else {
+                        outBuffer.Write(block, 0, bytesRead);
+                    }
+                }
+                compressedzipStream.Close();
+                return outBuffer.ToArray();
             }
-            compressedzipStream.Close();
-            return outBuffer.ToArray();
         }
 
         public string GetServerJsonVersion() {
@@ -217,7 +226,7 @@ namespace NTMiner {
             };
             string oldVersion = GetServerJsonVersion();
             VirtualRoot.Execute(new ChangeLocalAppSettingCommand(appSettingData));
-            VirtualRoot.Happened(new ServerJsonVersionChangedEvent(oldVersion, serverJsonVersion));
+            VirtualRoot.RaiseEvent(new ServerJsonVersionChangedEvent(oldVersion, serverJsonVersion));
         }
 
         private MinerProfile _minerProfile;
@@ -287,9 +296,9 @@ namespace NTMiner {
             }
             ServerContextInit(isWork);
             // CoreContext的视图模型集此时刷新
-            VirtualRoot.Happened(new ServerContextReInitedEvent());
+            VirtualRoot.RaiseEvent(new ServerContextReInitedEvent());
             // CoreContext的视图模型集已全部刷新，此时刷新视图界面
-            VirtualRoot.Happened(new ServerContextVmsReInitedEvent());
+            VirtualRoot.RaiseEvent(new ServerContextVmsReInitedEvent());
             if (isWork) {
                 ReInitMinerProfile();
             }
@@ -318,24 +327,23 @@ namespace NTMiner {
         }
 
         private void Link() {
-            VirtualRoot.CreateCmdPath<RegCmdHereCommand>(action: message => {
+            VirtualRoot.BuildCmdPath<RegCmdHereCommand>(action: message => {
                 try {
-                    RegCmdHere();
-                    VirtualRoot.Out.ShowSuccessMessage("windows右键命令行添加成功");
+                    RegCmdHere(); VirtualRoot.WorkerMessage(WorkerMessageChannel.This, nameof(NTMinerRoot), WorkerMessageType.Info, "windows右键命令行添加成功", toOut: true);
                 }
                 catch (Exception e) {
                     Logger.ErrorDebugLine(e);
-                    VirtualRoot.Out.ShowErrorMessage("windows右键命令行添加失败");
+                    RegCmdHere(); VirtualRoot.WorkerMessage(WorkerMessageChannel.This, nameof(NTMinerRoot), WorkerMessageType.Error, "windows右键命令行添加失败", toOut: true);
                 }
             });
-            VirtualRoot.CreateEventPath<Per1MinuteEvent>("每1分钟阻止系统休眠", LogEnum.None,
+            VirtualRoot.BuildEventPath<Per1MinuteEvent>("每1分钟阻止系统休眠", LogEnum.None,
                 action: message => {
                     Windows.Power.PreventSleep();
                 });
             #region 挖矿开始时将无份额内核重启份额计数置0
             int shareCount = 0;
             DateTime shareOn = DateTime.Now;
-            VirtualRoot.CreateEventPath<MineStartedEvent>("挖矿开始后将无份额内核重启份额计数置0", LogEnum.DevConsole,
+            VirtualRoot.BuildEventPath<MineStartedEvent>("挖矿开始后将无份额内核重启份额计数置0", LogEnum.DevConsole,
                 action: message => {
                     // 将无份额内核重启份额计数置0
                     shareCount = 0;
@@ -345,7 +353,7 @@ namespace NTMiner {
                 });
             #endregion
             #region 每20秒钟检查是否需要重启
-            VirtualRoot.CreateEventPath<Per20SecondEvent>("每20秒钟检查是否需要重启", LogEnum.None,
+            VirtualRoot.BuildEventPath<Per20SecondEvent>("每20秒钟检查是否需要重启", LogEnum.None,
                 action: message => {
                     #region 重启电脑
                     try {
@@ -422,7 +430,7 @@ namespace NTMiner {
                     #endregion
                 });
             #endregion
-            VirtualRoot.CreateEventPath<Per10SecondEvent>("周期刷新显卡状态", LogEnum.None,
+            VirtualRoot.BuildEventPath<Per10SecondEvent>("周期刷新显卡状态", LogEnum.None,
                 action: message => {
                     // 因为遇到显卡系统状态变更时可能费时
                     Task.Factory.StartNew(() => {
@@ -488,7 +496,7 @@ namespace NTMiner {
                 }
                 var mineContext = _currentMineContext;
                 _currentMineContext = null;
-                VirtualRoot.Happened(new MineStopedEvent(mineContext));
+                VirtualRoot.RaiseEvent(new MineStopedEvent(mineContext));
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
@@ -520,35 +528,34 @@ namespace NTMiner {
         #region StartMine
         public void StartMine(bool isRestart = false) {
             try {
-                Logger.EventWriteLine("开始挖矿");
                 IWorkProfile minerProfile = this.MinerProfile;
                 if (!this.CoinSet.TryGetCoin(minerProfile.CoinId, out ICoin mainCoin)) {
-                    VirtualRoot.Happened(new StartingMineFailedEvent("没有选择主挖币种。"));
+                    VirtualRoot.RaiseEvent(new StartingMineFailedEvent("没有选择主挖币种。"));
                     return;
                 }
                 ICoinProfile coinProfile = minerProfile.GetCoinProfile(minerProfile.CoinId);
                 if (!this.PoolSet.TryGetPool(coinProfile.PoolId, out IPool mainCoinPool)) {
-                    VirtualRoot.Happened(new StartingMineFailedEvent("没有选择主币矿池。"));
+                    VirtualRoot.RaiseEvent(new StartingMineFailedEvent("没有选择主币矿池。"));
                     return;
                 }
                 if (!this.CoinKernelSet.TryGetCoinKernel(coinProfile.CoinKernelId, out ICoinKernel coinKernel)) {
-                    VirtualRoot.Happened(new StartingMineFailedEvent("没有选择挖矿内核。"));
+                    VirtualRoot.RaiseEvent(new StartingMineFailedEvent("没有选择挖矿内核。"));
                     return;
                 }
                 if (!this.KernelSet.TryGetKernel(coinKernel.KernelId, out IKernel kernel)) {
-                    VirtualRoot.Happened(new StartingMineFailedEvent("无效的挖矿内核。"));
+                    VirtualRoot.RaiseEvent(new StartingMineFailedEvent("无效的挖矿内核。"));
                     return;
                 }
                 if (!kernel.IsSupported(mainCoin)) {
-                    VirtualRoot.Happened(new StartingMineFailedEvent($"该内核不支持{GpuSet.GpuType.GetDescription()}卡。"));
+                    VirtualRoot.RaiseEvent(new StartingMineFailedEvent($"该内核不支持{GpuSet.GpuType.GetDescription()}卡。"));
                     return;
                 }
                 if (!this.KernelInputSet.TryGetKernelInput(kernel.KernelInputId, out IKernelInput kernelInput)) {
-                    VirtualRoot.Happened(new StartingMineFailedEvent("未设置内核输入。"));
+                    VirtualRoot.RaiseEvent(new StartingMineFailedEvent("未设置内核输入。"));
                     return;
                 }
                 if (!this.KernelOutputSet.TryGetKernelOutput(kernel.KernelOutputId, out IKernelOutput kernelOutput)) {
-                    VirtualRoot.Happened(new StartingMineFailedEvent("未设置内核输出。"));
+                    VirtualRoot.RaiseEvent(new StartingMineFailedEvent("未设置内核输出。"));
                     return;
                 }
                 if (string.IsNullOrEmpty(coinProfile.Wallet)) {
@@ -558,12 +565,12 @@ namespace NTMiner {
                     IPoolProfile poolProfile = minerProfile.GetPoolProfile(mainCoinPool.GetId());
                     string userName = poolProfile.UserName;
                     if (string.IsNullOrEmpty(userName)) {
-                        VirtualRoot.Happened(new StartingMineFailedEvent("没有填写矿池用户名。"));
+                        VirtualRoot.RaiseEvent(new StartingMineFailedEvent("没有填写矿池用户名。"));
                         return;
                     }
                 }
                 if (string.IsNullOrEmpty(coinProfile.Wallet) && !mainCoinPool.IsUserMode) {
-                    VirtualRoot.Happened(new StartingMineFailedEvent("没有填写钱包地址。"));
+                    VirtualRoot.RaiseEvent(new StartingMineFailedEvent("没有填写钱包地址。"));
                     return;
                 }
                 ICoinKernelProfile coinKernelProfile = minerProfile.GetCoinKernelProfile(coinKernel.GetId());
@@ -571,28 +578,28 @@ namespace NTMiner {
                 IPool dualCoinPool = null;
                 if (coinKernelProfile.IsDualCoinEnabled) {
                     if (!this.CoinSet.TryGetCoin(coinKernelProfile.DualCoinId, out dualCoin)) {
-                        VirtualRoot.Happened(new StartingMineFailedEvent("没有选择双挖币种。"));
+                        VirtualRoot.RaiseEvent(new StartingMineFailedEvent("没有选择双挖币种。"));
                         return;
                     }
                     coinProfile = minerProfile.GetCoinProfile(coinKernelProfile.DualCoinId);
                     if (!this.PoolSet.TryGetPool(coinProfile.DualCoinPoolId, out dualCoinPool)) {
-                        VirtualRoot.Happened(new StartingMineFailedEvent("没有选择双挖矿池。"));
+                        VirtualRoot.RaiseEvent(new StartingMineFailedEvent("没有选择双挖矿池。"));
                         return;
                     }
                     if (string.IsNullOrEmpty(coinProfile.DualCoinWallet)) {
                         MinerProfile.SetCoinProfileProperty(dualCoin.GetId(), nameof(coinProfile.DualCoinWallet), dualCoin.TestWallet);
                     }
                     if (string.IsNullOrEmpty(coinProfile.DualCoinWallet)) {
-                        VirtualRoot.Happened(new StartingMineFailedEvent("没有填写双挖钱包。"));
+                        VirtualRoot.RaiseEvent(new StartingMineFailedEvent("没有填写双挖钱包。"));
                         return;
                     }
                 }
                 if (string.IsNullOrEmpty(kernel.Package)) {
-                    VirtualRoot.Happened(new StartingMineFailedEvent(kernel.GetFullName() + "没有内核包"));
+                    VirtualRoot.RaiseEvent(new StartingMineFailedEvent(kernel.GetFullName() + "没有内核包"));
                     return;
                 }
                 if (string.IsNullOrEmpty(kernelInput.Args)) {
-                    VirtualRoot.Happened(new StartingMineFailedEvent("没有配置运行参数。"));
+                    VirtualRoot.RaiseEvent(new StartingMineFailedEvent("没有配置运行参数。"));
                     return;
                 }
                 if (IsMining) {
@@ -600,13 +607,13 @@ namespace NTMiner {
                 }
                 string packageZipFileFullName = Path.Combine(SpecialPath.PackagesDirFullName, kernel.Package);
                 if (!File.Exists(packageZipFileFullName)) {
-                    Logger.WarnWriteLine(kernel.GetFullName() + "本地内核包不存在，开始自动下载");
+                    VirtualRoot.WorkerMessage(WorkerMessageChannel.This, nameof(NTMinerRoot), WorkerMessageType.Info, kernel.GetFullName() + "本地内核包不存在，开始自动下载");
                     VirtualRoot.Execute(new ShowKernelDownloaderCommand(kernel.GetId(), downloadComplete: (isSuccess, message) => {
                         if (isSuccess) {
                             StartMine(isRestart);
                         }
                         else {
-                            VirtualRoot.Happened(new StartingMineFailedEvent("内核下载：" + message));
+                            VirtualRoot.RaiseEvent(new StartingMineFailedEvent("内核下载：" + message));
                         }
                     }));
                 }
@@ -632,6 +639,7 @@ namespace NTMiner {
                     }
                     _currentMineContext = mineContext;
                     MinerProcess.CreateProcessAsync(mineContext);
+                    Logger.EventWriteLine("开始挖矿");
                 }
             }
             catch (Exception e) {
@@ -710,10 +718,12 @@ namespace NTMiner {
         private static bool IsNCard {
             get {
                 try {
-                    foreach (ManagementBaseObject item in new ManagementObjectSearcher("SELECT Caption FROM Win32_VideoController").Get()) {
-                        foreach (var property in item.Properties) {
-                            if ((property.Value ?? string.Empty).ToString().Contains("NVIDIA")) {
-                                return true;
+                    using (var mos = new ManagementObjectSearcher("SELECT Caption FROM Win32_VideoController")) {
+                        foreach (ManagementBaseObject item in mos.Get()) {
+                            foreach (var property in item.Properties) {
+                                if ((property.Value ?? string.Empty).ToString().Contains("NVIDIA")) {
+                                    return true;
+                                }
                             }
                         }
                     }
@@ -726,7 +736,7 @@ namespace NTMiner {
         }
 
         private IGpuSet _gpuSet;
-        private object _gpuSetLocker = new object();
+        private readonly object _gpuSetLocker = new object();
         public IGpuSet GpuSet {
             get {
                 if (_gpuSet == null) {

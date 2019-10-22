@@ -1,6 +1,7 @@
 ﻿using NTMiner.MinerClient;
 using System;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace NTMiner.Vms {
@@ -9,11 +10,22 @@ namespace NTMiner.Vms {
         private static readonly StreamGeometry WarnIcon = (StreamGeometry)Application.Current.Resources["Icon_Waring"];
         private static readonly StreamGeometry InfoIcon = (StreamGeometry)Application.Current.Resources["Icon_Info"];
         private static readonly SolidColorBrush IconFillColor = (SolidColorBrush)Application.Current.Resources["IconFillColor"];
-        private static readonly SolidColorBrush Warn = (SolidColorBrush)Application.Current.Resources["Warn"];
+        private static readonly SolidColorBrush WarnColor = (SolidColorBrush)Application.Current.Resources["WarnColor"];
 
         private readonly IWorkerMessage _data;
         private readonly WorkerMessageChannel _channel;
         private readonly WorkerMessageType _messageType;
+
+        public ICommand ViewDetails { get; private set; }
+
+        public WorkerMessageViewModel(IWorkerMessage data) {
+            _data = data;
+            _data.MessageType.TryParse(out _messageType);
+            _data.Channel.TryParse(out _channel);
+            this.ViewDetails = new DelegateCommand(() => {
+
+            });
+        }
 
         public WorkerMessageChannel ChannelEnum {
             get { return _channel; }
@@ -21,12 +33,6 @@ namespace NTMiner.Vms {
 
         public WorkerMessageType MessageTypeEnum {
             get { return _messageType; }
-        }
-
-        public WorkerMessageViewModel(IWorkerMessage data) {
-            _data = data;
-            _data.MessageType.TryParse(out _messageType);
-            _data.Channel.TryParse(out _channel);
         }
 
         public Guid GetId() {
@@ -100,7 +106,7 @@ namespace NTMiner.Vms {
                     case WorkerMessageType.Info:
                         return IconFillColor;
                     case WorkerMessageType.Warn:
-                        return Warn;
+                        return WarnColor;
                     case WorkerMessageType.Error:
                         return WpfUtil.RedBrush;
                     default:
@@ -117,7 +123,7 @@ namespace NTMiner.Vms {
                     case WorkerMessageType.Info:
                         return WpfUtil.BlackBrush;
                     case WorkerMessageType.Warn:
-                        return Warn;
+                        return WarnColor;
                     case WorkerMessageType.Error:
                         return WpfUtil.RedBrush;
                     default:

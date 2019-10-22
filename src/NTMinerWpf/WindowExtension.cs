@@ -104,7 +104,7 @@ namespace NTMiner {
                 window.Resources.Add("ntminer_contextHandlers", contextHandlers);
                 window.Closed += UiElement_Closed;
             }
-            VirtualRoot.CreatePath(description, logType, action).AddToCollection(contextHandlers);
+            VirtualRoot.BuildPath(description, logType, action).AddToCollection(contextHandlers);
         }
 
         /// <summary>
@@ -124,7 +124,7 @@ namespace NTMiner {
                 window.Resources.Add("ntminer_contextHandlers", contextHandlers);
                 window.Closed += UiElement_Closed; ;
             }
-            VirtualRoot.CreatePath(description, logType, action).AddToCollection(contextHandlers);
+            VirtualRoot.BuildPath(description, logType, action).AddToCollection(contextHandlers);
         }
 
         private static void UiElement_Closed(object sender, EventArgs e) {

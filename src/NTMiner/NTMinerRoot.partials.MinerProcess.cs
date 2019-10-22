@@ -35,7 +35,7 @@ namespace NTMiner {
                                 var cmd = new CoinOverClockCommand(mineContext.MainCoin.GetId());
                                 // N卡超频当cpu性能非常差时较耗时，所以这里弄个回调
                                 MessagePath<CoinOverClockDoneEvent> callback = null;
-                                callback = VirtualRoot.CreateEventPath<CoinOverClockDoneEvent>("超频完成后继续流程", LogEnum.DevConsole,
+                                callback = VirtualRoot.BuildEventPath<CoinOverClockDoneEvent>("超频完成后继续流程", LogEnum.DevConsole,
                                     message => {
                                         if (mineContext != Instance.CurrentMineContext) {
                                             VirtualRoot.DeletePath(callback);
@@ -67,7 +67,7 @@ namespace NTMiner {
                 }
                 // 解压内核包
                 if (!mineContext.Kernel.ExtractPackage()) {
-                    VirtualRoot.Happened(new StartingMineFailedEvent("内核解压失败，请卸载内核重试。"));
+                    VirtualRoot.RaiseEvent(new StartingMineFailedEvent("内核解压失败，请卸载内核重试。"));
                 }
                 else {
                     Write.UserOk("内核包解压成功");
@@ -101,7 +101,7 @@ namespace NTMiner {
                     default:
                         throw new InvalidProgramException();
                 }
-                VirtualRoot.Happened(new MineStartedEvent(mineContext));
+                VirtualRoot.RaiseEvent(new MineStartedEvent(mineContext));
             }
             #endregion
 
@@ -131,7 +131,7 @@ namespace NTMiner {
                     clear?.Invoke();
                 }
                 string processName = mineContext.Kernel.GetProcessName();
-                _kernelProcessDaemon = VirtualRoot.CreateEventPath<Per1MinuteEvent>("周期性检查挖矿内核是否消失，如果消失尝试重启", LogEnum.DevConsole,
+                _kernelProcessDaemon = VirtualRoot.BuildEventPath<Per1MinuteEvent>("周期性检查挖矿内核是否消失，如果消失尝试重启", LogEnum.DevConsole,
                     action: message => {
                         if (mineContext == Instance.CurrentMineContext) {
                             if (!string.IsNullOrEmpty(processName)) {
@@ -194,7 +194,7 @@ namespace NTMiner {
                         if (n >= 20) {
                             // 20秒钟都没有建立日志文件，不可能
                             isLogFileCreated = false;
-                            Write.UserFail("呃！意外，竟然20秒钟未产生内核输出，请联系开发人员解决。");
+                            Write.UserFail("呃！意外，竟然20秒钟未产生内核输出。常见原因：1.挖矿内核被杀毒软件删除; 2.没有磁盘空间了; 3.反馈给开发人员");
                             break;
                         }
                         Thread.Sleep(1000);
@@ -202,7 +202,7 @@ namespace NTMiner {
                             Write.UserInfo("等待内核出场");
                         }
                         if (mineContext != Instance.CurrentMineContext) {
-                            Write.UserWarn("挖矿上下文变更，结束内核输出等待。");
+                            Write.UserWarn("结束内核输出等待。");
                             isLogFileCreated = false;
                             break;
                         }
@@ -314,7 +314,7 @@ namespace NTMiner {
                     lpProcessInformation: out _)) {
                     if (bret == false) {
                         int lasterr = Marshal.GetLastWin32Error();
-                        VirtualRoot.Happened(new StartingMineFailedEvent($"管道型进程创建失败 lasterr:{lasterr}"));
+                        VirtualRoot.RaiseEvent(new StartingMineFailedEvent($"管道型进程创建失败 lasterr:{lasterr}"));
                     }
                     else {
                         Bus.MessagePath<MineStopedEvent> closeHandle = null;
@@ -326,7 +326,7 @@ namespace NTMiner {
                             }
                             VirtualRoot.DeletePath(closeHandle);
                         });
-                        closeHandle = VirtualRoot.CreateEventPath<MineStopedEvent>("挖矿停止后关闭非托管的日志句柄", LogEnum.DevConsole,
+                        closeHandle = VirtualRoot.BuildEventPath<MineStopedEvent>("挖矿停止后关闭非托管的日志句柄", LogEnum.DevConsole,
                             action: message => {
                                 // 挖矿停止后摘除挖矿内核进程守护器
                                 if (_kernelProcessDaemon != null) {
@@ -364,7 +364,7 @@ namespace NTMiner {
                     }
                 }
                 else {
-                    VirtualRoot.Happened(new StartingMineFailedEvent($"内核启动失败，请重试"));
+                    VirtualRoot.RaiseEvent(new StartingMineFailedEvent($"内核启动失败，请重试"));
                 }
             }
 

@@ -9,23 +9,23 @@ using System.Linq;
 namespace NTMiner {
     public static class Report {
         public static void Init() {
-            VirtualRoot.CreateEventPath<HasBoot10SecondEvent>("登录服务器并报告一次0算力", LogEnum.DevConsole,
+            VirtualRoot.BuildEventPath<HasBoot10SecondEvent>("登录服务器并报告一次0算力", LogEnum.DevConsole,
                 action: message => {
                     // 报告0算力从而告知服务器该客户端当前在线的币种
                     ReportSpeed();
                 });
 
-            VirtualRoot.CreateEventPath<Per2MinuteEvent>("每两分钟上报一次", LogEnum.DevConsole,
+            VirtualRoot.BuildEventPath<Per2MinuteEvent>("每两分钟上报一次", LogEnum.DevConsole,
                 action: message => {
                     ReportSpeed();
                 });
 
-            VirtualRoot.CreateEventPath<MineStartedEvent>("开始挖矿后报告状态", LogEnum.DevConsole,
+            VirtualRoot.BuildEventPath<MineStartedEvent>("开始挖矿后报告状态", LogEnum.DevConsole,
                 action: message => {
                     ReportSpeed();
                 });
 
-            VirtualRoot.CreateEventPath<MineStopedEvent>("停止挖矿后报告状态", LogEnum.DevConsole,
+            VirtualRoot.BuildEventPath<MineStopedEvent>("停止挖矿后报告状态", LogEnum.DevConsole,
                 action: message => {
                     Server.ReportService.ReportStateAsync(MainAssemblyInfo.OfficialServerHost, VirtualRoot.Id, isMining: false);
                 });

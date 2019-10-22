@@ -21,7 +21,7 @@ namespace NTMiner {
         /// </summary>
         public static IMessagePathId CmdPath<TCmd>(string description, LogEnum logType, Action<TCmd> action)
             where TCmd : ICmd {
-            return VirtualRoot.CreatePath(description, logType, action).AddToCollection(_contextHandlers);
+            return VirtualRoot.BuildPath(description, logType, action).AddToCollection(_contextHandlers);
         }
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace NTMiner {
         /// </summary>
         public static IMessagePathId EventPath<TEvent>(string description, LogEnum logType, Action<TEvent> action)
             where TEvent : IEvent {
-            return VirtualRoot.CreatePath(description, logType, action).AddToCollection(_contextHandlers);
+            return VirtualRoot.BuildPath(description, logType, action).AddToCollection(_contextHandlers);
         }
 
         public static void Enable() {

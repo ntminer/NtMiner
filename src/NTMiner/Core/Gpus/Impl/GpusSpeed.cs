@@ -14,12 +14,12 @@ namespace NTMiner.Core.Gpus.Impl {
         private readonly INTMinerRoot _root;
         public GpusSpeed(INTMinerRoot root) {
             _root = root;
-            VirtualRoot.CreateEventPath<Per10MinuteEvent>("周期清除过期的历史算力", LogEnum.DevConsole,
+            VirtualRoot.BuildEventPath<Per10MinuteEvent>("周期清除过期的历史算力", LogEnum.DevConsole,
                 action: message => {
                     ClearOutOfDateHistory();
                 });
 
-            VirtualRoot.CreateEventPath<MineStopedEvent>("停止挖矿后产生一次0算力", LogEnum.DevConsole,
+            VirtualRoot.BuildEventPath<MineStopedEvent>("停止挖矿后产生一次0算力", LogEnum.DevConsole,
                 action: message => {
                     var now = DateTime.Now;
                     foreach (var gpu in _root.GpuSet) {
@@ -30,7 +30,7 @@ namespace NTMiner.Core.Gpus.Impl {
                     }
                 });
 
-            VirtualRoot.CreateEventPath<MineStartedEvent>("挖矿开始时产生一次0算力0份额", LogEnum.DevConsole,
+            VirtualRoot.BuildEventPath<MineStartedEvent>("挖矿开始时产生一次0算力0份额", LogEnum.DevConsole,
                 action: message => {
                     var now = DateTime.Now;
                     _root.CoinShareSet.UpdateShare(message.MineContext.MainCoin.GetId(), 0, 0, now);
@@ -112,7 +112,7 @@ namespace NTMiner.Core.Gpus.Impl {
             }
             CheckReset();
             gpuSpeed.IncreaseMainCoinFoundShare();
-            VirtualRoot.Happened(new FoundShareIncreasedEvent(gpuSpeed: gpuSpeed));
+            VirtualRoot.RaiseEvent(new FoundShareIncreasedEvent(gpuSpeed: gpuSpeed));
         }
 
         public void IncreaseAcceptShare(int gpuIndex) {
@@ -123,7 +123,7 @@ namespace NTMiner.Core.Gpus.Impl {
             }
             CheckReset();
             gpuSpeed.IncreaseMainCoinAcceptShare();
-            VirtualRoot.Happened(new AcceptShareIncreasedEvent(gpuSpeed: gpuSpeed));
+            VirtualRoot.RaiseEvent(new AcceptShareIncreasedEvent(gpuSpeed: gpuSpeed));
         }
 
         public void IncreaseRejectShare(int gpuIndex) {
@@ -134,7 +134,7 @@ namespace NTMiner.Core.Gpus.Impl {
             }
             CheckReset();
             gpuSpeed.IncreaseMainCoinRejectShare();
-            VirtualRoot.Happened(new RejectShareIncreasedEvent(gpuSpeed: gpuSpeed));
+            VirtualRoot.RaiseEvent(new RejectShareIncreasedEvent(gpuSpeed: gpuSpeed));
         }
 
         public void IncreaseIncorrectShare(int gpuIndex) {
@@ -145,14 +145,14 @@ namespace NTMiner.Core.Gpus.Impl {
             }
             CheckReset();
             gpuSpeed.IncreaseMainCoinIncorrectShare();
-            VirtualRoot.Happened(new IncorrectShareIncreasedEvent(gpuSpeed: gpuSpeed));
+            VirtualRoot.RaiseEvent(new IncorrectShareIncreasedEvent(gpuSpeed: gpuSpeed));
         }
 
         public void ResetShare() {
             InitOnece();
             foreach (var gpuSpeed in _currentGpuSpeed.Values) {
                 gpuSpeed.ResetShare();
-                VirtualRoot.Happened(new GpuShareChangedEvent(gpuSpeed: gpuSpeed));
+                VirtualRoot.RaiseEvent(new GpuShareChangedEvent(gpuSpeed: gpuSpeed));
             }
         }
 
@@ -219,7 +219,7 @@ namespace NTMiner.Core.Gpus.Impl {
                 }
             }
             if (isChanged) {
-                VirtualRoot.Happened(new GpuSpeedChangedEvent(isDual: isDual, gpuSpeed: gpuSpeed));
+                VirtualRoot.RaiseEvent(new GpuSpeedChangedEvent(isDual: isDual, gpuSpeed: gpuSpeed));
             }
         }
 

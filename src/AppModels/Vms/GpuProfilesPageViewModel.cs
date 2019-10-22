@@ -66,7 +66,7 @@ namespace NTMiner.Vms {
                 foreach (var client in minerClientsWindowVm.SelectedMinerClients) {
                     Client.NTMinerDaemonService.SaveGpuProfilesJsonAsync(client.MinerIp, json);
                 }
-                VirtualRoot.Out.ShowSuccessMessage("应用成功，请观察效果");
+                VirtualRoot.Out.ShowSuccess("应用成功，请观察效果");
                 CloseWindow?.Invoke();
             });
             Client.NTMinerDaemonService.GetGpuProfilesJsonAsync(_minerClientVm.MinerIp, (data, e) => {

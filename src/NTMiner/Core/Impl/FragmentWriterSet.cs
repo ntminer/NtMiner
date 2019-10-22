@@ -27,7 +27,7 @@ namespace NTMiner.Core.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<FragmentWriterData>();
                     repository.Add(entity);
 
-                    VirtualRoot.Happened(new FragmentWriterAddedEvent(entity));
+                    VirtualRoot.RaiseEvent(new FragmentWriterAddedEvent(entity));
                 });
             _root.ServerContextCmdPath<UpdateFragmentWriterCommand>("更新命令行片段书写器", LogEnum.DevConsole,
                 action: (message) => {
@@ -49,7 +49,7 @@ namespace NTMiner.Core.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<FragmentWriterData>();
                     repository.Update(entity);
 
-                    VirtualRoot.Happened(new FragmentWriterUpdatedEvent(entity));
+                    VirtualRoot.RaiseEvent(new FragmentWriterUpdatedEvent(entity));
                 });
             _root.ServerContextCmdPath<RemoveFragmentWriterCommand>("移除组", LogEnum.DevConsole,
                 action: (message) => {
@@ -65,7 +65,7 @@ namespace NTMiner.Core.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<FragmentWriterData>();
                     repository.Remove(message.EntityId);
 
-                    VirtualRoot.Happened(new FragmentWriterRemovedEvent(entity));
+                    VirtualRoot.RaiseEvent(new FragmentWriterRemovedEvent(entity));
                 });
         }
 

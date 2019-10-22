@@ -34,7 +34,7 @@ namespace NTMiner.Core.Impl {
                     var repository = NTMinerRoot.CreateCompositeRepository<KernelOutputKeywordData>();
                     repository.Add(entity);
 
-                    VirtualRoot.Happened(new KernelOutputKeywordAddedEvent(entity));
+                    VirtualRoot.RaiseEvent(new KernelOutputKeywordAddedEvent(entity));
                 });
             _root.ServerContextCmdPath<UpdateKernelOutputKeywordCommand>("更新内核输出关键字", LogEnum.DevConsole,
                 action: (message) => {
@@ -62,7 +62,7 @@ namespace NTMiner.Core.Impl {
                     var repository = NTMinerRoot.CreateCompositeRepository<KernelOutputKeywordData>();
                     repository.Update(entity);
 
-                    VirtualRoot.Happened(new KernelOutputKeywordUpdatedEvent(entity));
+                    VirtualRoot.RaiseEvent(new KernelOutputKeywordUpdatedEvent(entity));
                 });
             _root.ServerContextCmdPath<RemoveKernelOutputKeywordCommand>("移除内核输出关键字", LogEnum.DevConsole,
                 action: (message) => {
@@ -78,7 +78,7 @@ namespace NTMiner.Core.Impl {
                     var repository = NTMinerRoot.CreateCompositeRepository<KernelOutputKeywordData>();
                     repository.Remove(message.EntityId);
 
-                    VirtualRoot.Happened(new KernelOutputKeywordRemovedEvent(entity));
+                    VirtualRoot.RaiseEvent(new KernelOutputKeywordRemovedEvent(entity));
                 });
         }
 

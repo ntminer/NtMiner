@@ -38,12 +38,12 @@ namespace NTMiner {
         protected override void OnStartup(StartupEventArgs e) {
             RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
             // 通过群控升级挖矿端的时候升级器可能不存在所以需要下载，下载的时候需要用到下载器所以下载器需要提前注册
-            VirtualRoot.CreateCmdPath<ShowFileDownloaderCommand>(action: message => {
+            VirtualRoot.BuildCmdPath<ShowFileDownloaderCommand>(action: message => {
                 UIThread.Execute(() => {
                     FileDownloader.ShowWindow(message.DownloadFileUrl, message.FileTitle, message.DownloadComplete);
                 });
             });
-            VirtualRoot.CreateCmdPath<UpgradeCommand>(action: message => {
+            VirtualRoot.BuildCmdPath<UpgradeCommand>(action: message => {
                 AppStatic.Upgrade(message.FileName, message.Callback);
             });
             if (!string.IsNullOrEmpty(CommandLineArgs.Upgrade)) {
@@ -83,23 +83,23 @@ namespace NTMiner {
 
                             }).Queue();
                     }
-                    VirtualRoot.CreateEventPath<StartingMineFailedEvent>("开始挖矿失败", LogEnum.DevConsole,
+                    VirtualRoot.BuildEventPath<StartingMineFailedEvent>("开始挖矿失败", LogEnum.DevConsole,
                         action: message => {
                             AppContext.Instance.MinerProfileVm.IsMining = false;
-                            Write.UserFail(message.Message);
+                            VirtualRoot.Out.ShowError(message.Message);
                         });
                     NTMinerRoot.Instance.Init(() => {
                         _appViewFactory.Link();
                         if (NTMinerRoot.Instance.GpuSet.Count == 0) {
-                            VirtualRoot.Out.ShowInfo("没有矿卡或矿卡未驱动。");
+                            VirtualRoot.WorkerMessage(WorkerMessageChannel.This, nameof(App), WorkerMessageType.Error, "没有矿卡或矿卡未驱动。", toOut: true);
                         }
                         if (NTMinerRoot.Instance.CoinSet.Count == 0) {
-                            VirtualRoot.Out.ShowInfo("访问阿里云失败，请尝试更换本机dns解决此问题");
+                            VirtualRoot.WorkerMessage(WorkerMessageChannel.This, nameof(App), WorkerMessageType.Error, "访问阿里云失败，请尝试更换本机dns解决此问题。", toOut: true);
                         }
                         UIThread.Execute(() => {
                             if (NTMinerRoot.Instance.MinerProfile.IsNoUi && NTMinerRoot.Instance.MinerProfile.IsAutoStart) {
                                 ConsoleWindow.Instance.Hide();
-                                VirtualRoot.Out.ShowSuccessMessage("已切换为无界面模式运行，可在选项页调整设置", "开源矿工");
+                                VirtualRoot.Out.ShowSuccess("已切换为无界面模式运行，可在选项页调整设置", "开源矿工");
                             }
                             else {
                                 _appViewFactory.ShowMainWindow(isToggle: false);
@@ -109,7 +109,7 @@ namespace NTMiner {
                             ConsoleWindow.Instance.HideSplash();
                         });
                         #region 处理显示主界面命令
-                        VirtualRoot.CreateCmdPath<ShowMainWindowCommand>(action: message => {
+                        VirtualRoot.BuildCmdPath<ShowMainWindowCommand>(action: message => {
                             ShowMainWindow(message.IsToggle);
                         });
                         #endregion
@@ -152,10 +152,10 @@ namespace NTMiner {
                         return;
                     }
                     var coinShare = NTMinerRoot.Instance.CoinShareSet.GetOrCreate(mainCoin.GetId());
-                    VirtualRoot.Happened(new ShareChangedEvent(coinShare));
+                    VirtualRoot.RaiseEvent(new ShareChangedEvent(coinShare));
                     if ((NTMinerRoot.Instance.CurrentMineContext is IDualMineContext dualMineContext) && dualMineContext.DualCoin != null) {
                         coinShare = NTMinerRoot.Instance.CoinShareSet.GetOrCreate(dualMineContext.DualCoin.GetId());
-                        VirtualRoot.Happened(new ShareChangedEvent(coinShare));
+                        VirtualRoot.RaiseEvent(new ShareChangedEvent(coinShare));
                     }
                     AppContext.Instance.GpuSpeedVms.Refresh();
                 }
@@ -163,7 +163,7 @@ namespace NTMiner {
         }
 
         private void Link() {
-            VirtualRoot.CreateCmdPath<CloseNTMinerCommand>(action: message => {
+            VirtualRoot.BuildCmdPath<CloseNTMinerCommand>(action: message => {
                 UIThread.Execute(() => {
                     try {
                         Shutdown();
@@ -175,13 +175,13 @@ namespace NTMiner {
                 });
             });
             #region 周期确保守护进程在运行
-            VirtualRoot.CreateEventPath<Per1MinuteEvent>("周期确保守护进程在运行", LogEnum.DevConsole,
+            VirtualRoot.BuildEventPath<Per1MinuteEvent>("周期确保守护进程在运行", LogEnum.DevConsole,
                 action: message => {
                     Daemon.DaemonUtil.RunNTMinerDaemon();
                 });
             #endregion
             #region 开始和停止挖矿后
-            VirtualRoot.CreateEventPath<MineStartedEvent>("启动1080ti小药丸、启动DevConsole? 更新挖矿按钮状态", LogEnum.DevConsole,
+            VirtualRoot.BuildEventPath<MineStartedEvent>("启动1080ti小药丸、启动DevConsole? 更新挖矿按钮状态", LogEnum.DevConsole,
                 action: message => {
                     AppContext.Instance.MinerProfileVm.IsMining = true;
                     StartStopMineButtonViewModel.Instance.BtnStopText = "正在挖矿";
@@ -194,7 +194,7 @@ namespace NTMiner {
                     }
                     OhGodAnETHlargementPill.OhGodAnETHlargementPillUtil.Start();
                 });
-            VirtualRoot.CreateEventPath<MineStopedEvent>("停止挖矿后停止1080ti小药丸 挖矿停止后更新界面挖矿状态", LogEnum.DevConsole,
+            VirtualRoot.BuildEventPath<MineStopedEvent>("停止挖矿后停止1080ti小药丸 挖矿停止后更新界面挖矿状态", LogEnum.DevConsole,
                 action: message => {
                     AppContext.Instance.MinerProfileVm.IsMining = false;
                     StartStopMineButtonViewModel.Instance.BtnStopText = "尚未开始";
@@ -202,31 +202,31 @@ namespace NTMiner {
                 });
             #endregion
             #region 处理禁用win10系统更新
-            VirtualRoot.CreateCmdPath<BlockWAUCommand>(action: message => {
+            VirtualRoot.BuildCmdPath<BlockWAUCommand>(action: message => {
                 NTMiner.Windows.WindowsUtil.BlockWAU();
             });
             #endregion
             #region 优化windows
-            VirtualRoot.CreateCmdPath<Win10OptimizeCommand>(action: message => {
+            VirtualRoot.BuildCmdPath<Win10OptimizeCommand>(action: message => {
                 NTMiner.Windows.WindowsUtil.Win10Optimize();
             });
             #endregion
             #region 处理开启A卡计算模式
-            VirtualRoot.CreateCmdPath<SwitchRadeonGpuCommand>(action: message => {
+            VirtualRoot.BuildCmdPath<SwitchRadeonGpuCommand>(action: message => {
                 if (NTMinerRoot.Instance.GpuSet.GpuType == GpuType.AMD) {
                     SwitchRadeonGpuMode(message.On);
                 }
             });
             #endregion
             #region 处理A卡驱动签名
-            VirtualRoot.CreateCmdPath<AtikmdagPatcherCommand>(action: message => {
+            VirtualRoot.BuildCmdPath<AtikmdagPatcherCommand>(action: message => {
                 if (NTMinerRoot.Instance.GpuSet.GpuType == GpuType.AMD) {
                     AtikmdagPatcher.AtikmdagPatcherUtil.Run();
                 }
             });
             #endregion
             #region 启用或禁用windows远程桌面
-            VirtualRoot.CreateCmdPath<EnableWindowsRemoteDesktopCommand>(action: message => {
+            VirtualRoot.BuildCmdPath<EnableWindowsRemoteDesktopCommand>(action: message => {
                 if (NTMinerRegistry.GetIsRemoteDesktopEnabled()) {
                     return;
                 }
@@ -241,7 +241,7 @@ namespace NTMiner {
             });
             #endregion
             #region 启用或禁用windows开机自动登录
-            VirtualRoot.CreateCmdPath<EnableOrDisableWindowsAutoLoginCommand>(action: message => {
+            VirtualRoot.BuildCmdPath<EnableOrDisableWindowsAutoLoginCommand>(action: message => {
                 if (NTMiner.Windows.OS.Instance.IsAutoAdminLogon) {
                     return;
                 }
@@ -254,21 +254,21 @@ namespace NTMiner {
             SwitchRadeonGpu.SwitchRadeonGpu.Run(on, (isSuccess, e) => {
                 if (isSuccess) {
                     if (on) {
-                        VirtualRoot.Out.ShowSuccessMessage("开启A卡计算模式成功");
+                        VirtualRoot.WorkerMessage(WorkerMessageChannel.This, nameof(App), WorkerMessageType.Info, "开启A卡计算模式成功", toOut: true);
                     }
                     else {
-                        VirtualRoot.Out.ShowSuccessMessage("关闭A卡计算模式成功");
+                        VirtualRoot.WorkerMessage(WorkerMessageChannel.This, nameof(App), WorkerMessageType.Info, "关闭A卡计算模式成功", toOut: true);
                     }
                 }
                 else if (e != null) {
-                    VirtualRoot.Out.ShowErrorMessage(e.Message, delaySeconds: 4);
+                    VirtualRoot.Out.ShowError(e.Message, delaySeconds: 4);
                 }
                 else {
                     if (on) {
-                        VirtualRoot.Out.ShowErrorMessage("开启A卡计算模式失败", delaySeconds: 4);
+                        VirtualRoot.WorkerMessage(WorkerMessageChannel.This, nameof(App), WorkerMessageType.Error, "开启A卡计算模式失败", toOut: true);
                     }
                     else {
-                        VirtualRoot.Out.ShowErrorMessage("关闭A卡计算模式失败", delaySeconds: 4);
+                        VirtualRoot.WorkerMessage(WorkerMessageChannel.This, nameof(App), WorkerMessageType.Error, "关闭A卡计算模式失败", toOut: true);
                     }
                 }
             });

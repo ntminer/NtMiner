@@ -11,7 +11,7 @@ namespace NTMiner.Data.Impl {
         private readonly string _dbFileFullName;
         public UserSet(string dbFileFullName) {
             _dbFileFullName = dbFileFullName;
-            VirtualRoot.CreateCmdPath<AddUserCommand>(action: message => {
+            VirtualRoot.BuildCmdPath<AddUserCommand>(action: message => {
                 if (!_dicByLoginName.ContainsKey(message.User.LoginName)) {
                     UserData entity = new UserData(message.User);
                     _dicByLoginName.Add(message.User.LoginName, entity);
@@ -19,10 +19,10 @@ namespace NTMiner.Data.Impl {
                         var col = db.GetCollection<UserData>();
                         col.Insert(entity);
                     }
-                    VirtualRoot.Happened(new UserAddedEvent(entity));
+                    VirtualRoot.RaiseEvent(new UserAddedEvent(entity));
                 }
             });
-            VirtualRoot.CreateCmdPath<UpdateUserCommand>(action: message => {
+            VirtualRoot.BuildCmdPath<UpdateUserCommand>(action: message => {
                 if (_dicByLoginName.ContainsKey(message.User.LoginName)) {
                     UserData entity = _dicByLoginName[message.User.LoginName];
                     entity.Update(message.User);
@@ -30,10 +30,10 @@ namespace NTMiner.Data.Impl {
                         var col = db.GetCollection<UserData>();
                         col.Update(entity);
                     }
-                    VirtualRoot.Happened(new UserUpdatedEvent(entity));
+                    VirtualRoot.RaiseEvent(new UserUpdatedEvent(entity));
                 }
             });
-            VirtualRoot.CreateCmdPath<RemoveUserCommand>(action: message => {
+            VirtualRoot.BuildCmdPath<RemoveUserCommand>(action: message => {
                 if (_dicByLoginName.ContainsKey(message.LoginName)) {
                     UserData entity = _dicByLoginName[message.LoginName];
                     _dicByLoginName.Remove(entity.LoginName);
@@ -41,7 +41,7 @@ namespace NTMiner.Data.Impl {
                         var col = db.GetCollection<UserData>();
                         col.Delete(message.LoginName);
                     }
-                    VirtualRoot.Happened(new UserRemovedEvent(entity));
+                    VirtualRoot.RaiseEvent(new UserRemovedEvent(entity));
                 }
             });
         }

@@ -31,7 +31,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     IRepository<PackageData> repository = NTMinerRoot.CreateServerRepository<PackageData>();
                     repository.Add(entity);
 
-                    VirtualRoot.Happened(new PackageAddedEvent(entity));
+                    VirtualRoot.RaiseEvent(new PackageAddedEvent(entity));
                 });
             _root.ServerContextCmdPath<UpdatePackageCommand>("更新包", LogEnum.DevConsole,
                 action: message => {
@@ -56,7 +56,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     IRepository<PackageData> repository = NTMinerRoot.CreateServerRepository<PackageData>();
                     repository.Update(entity);
 
-                    VirtualRoot.Happened(new PackageUpdatedEvent(entity));
+                    VirtualRoot.RaiseEvent(new PackageUpdatedEvent(entity));
                 });
             _root.ServerContextCmdPath<RemovePackageCommand>("移除包", LogEnum.DevConsole,
                 action: message => {
@@ -72,7 +72,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     IRepository<PackageData> repository = NTMinerRoot.CreateServerRepository<PackageData>();
                     repository.Remove(entity.Id);
 
-                    VirtualRoot.Happened(new PackageRemovedEvent(entity));
+                    VirtualRoot.RaiseEvent(new PackageRemovedEvent(entity));
                 });
         }
 

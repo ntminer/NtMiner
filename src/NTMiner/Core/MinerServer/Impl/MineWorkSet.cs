@@ -10,7 +10,7 @@ namespace NTMiner.Core.MinerServer.Impl {
         private readonly INTMinerRoot _root;
         public MineWorkSet(INTMinerRoot root) {
             _root = root;
-            VirtualRoot.CreateCmdPath<AddMineWorkCommand>(action: (message) => {
+            VirtualRoot.BuildCmdPath<AddMineWorkCommand>(action: (message) => {
                 InitOnece();
                 if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
                     throw new ArgumentNullException();
@@ -22,13 +22,13 @@ namespace NTMiner.Core.MinerServer.Impl {
                 var response = Server.ControlCenterService.AddOrUpdateMineWork(entity);
                 if (response.IsSuccess()) {
                     _dicById.Add(entity.Id, entity);
-                    VirtualRoot.Happened(new MineWorkAddedEvent(entity));
+                    VirtualRoot.RaiseEvent(new MineWorkAddedEvent(entity));
                 }
                 else {
                     Write.UserFail(response?.Description);
                 }
             });
-            VirtualRoot.CreateCmdPath<UpdateMineWorkCommand>(action: (message) => {
+            VirtualRoot.BuildCmdPath<UpdateMineWorkCommand>(action: (message) => {
                 InitOnece();
                 if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
                     throw new ArgumentNullException();
@@ -42,13 +42,13 @@ namespace NTMiner.Core.MinerServer.Impl {
                 Server.ControlCenterService.AddOrUpdateMineWorkAsync(entity, (response, exception) => {
                     if (!response.IsSuccess()) {
                         entity.Update(oldValue);
-                        VirtualRoot.Happened(new MineWorkUpdatedEvent(entity));
+                        VirtualRoot.RaiseEvent(new MineWorkUpdatedEvent(entity));
                         Write.UserFail(response.ReadMessage(exception));
                     }
                 });
-                VirtualRoot.Happened(new MineWorkUpdatedEvent(entity));
+                VirtualRoot.RaiseEvent(new MineWorkUpdatedEvent(entity));
             });
-            VirtualRoot.CreateCmdPath<RemoveMineWorkCommand>(action: (message) => {
+            VirtualRoot.BuildCmdPath<RemoveMineWorkCommand>(action: (message) => {
                 InitOnece();
                 if (message == null || message.EntityId == Guid.Empty) {
                     throw new ArgumentNullException();
@@ -60,7 +60,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 Server.ControlCenterService.RemoveMineWorkAsync(entity.Id, (response, exception) => {
                     if (response.IsSuccess()) {
                         _dicById.Remove(entity.Id);
-                        VirtualRoot.Happened(new MineWorkRemovedEvent(entity));
+                        VirtualRoot.RaiseEvent(new MineWorkRemovedEvent(entity));
                     }
                     else {
                         Write.UserFail(response.ReadMessage(exception));

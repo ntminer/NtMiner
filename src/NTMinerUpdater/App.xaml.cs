@@ -95,6 +95,7 @@ namespace NTMiner {
             NotiCenterWindow.Instance.Show();
             this.MainWindow = new MainWindow();
             this.MainWindow.Show();
+            NotiCenterWindow.Instance.SwitchOwner(this.MainWindow);
         }
 
         public void Dispose() {
