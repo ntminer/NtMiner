@@ -145,7 +145,7 @@ namespace NTMiner.Vms {
                     case 0:
                         return $"今天 {_data.Timestamp.TimeOfDay.ToString("hh\\:mm\\:ss")}";
                     case 1:
-                        return $"左天 {_data.Timestamp.TimeOfDay.ToString("hh\\:mm\\:ss")}";
+                        return $"昨天 {_data.Timestamp.TimeOfDay.ToString("hh\\:mm\\:ss")}";
                     case 2:
                         return $"前天 {_data.Timestamp.TimeOfDay.ToString("hh\\:mm\\:ss")}";
                     default:
