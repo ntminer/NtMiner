@@ -103,6 +103,7 @@
     <Compile Include="Vms\CoinPageViewModel.cs" />
     <Compile Include="Vms\CoinProfileViewModel.cs" />
     <Compile Include="Vms\EthNoDevFeeEditViewModel.cs" />
+    <Compile Include="Vms\MessagePathIdsViewModel.cs" />
     <Compile Include="Vms\NTMinerWalletPageViewModel.cs" />
     <Compile Include="Vms\NTMinerWalletViewModel.cs" />
     <Compile Include="Vms\WorkerMessagesViewModel.cs" />
@@ -111,7 +112,6 @@
     <Compile Include="Vms\FileWriterSelectViewModel.cs" />
     <Compile Include="Vms\FragmentWriterViewModel.cs" />
     <Compile Include="Vms\GpuStatusBarViewModel.cs" />
-    <Compile Include="Vms\MessagePathIdsWindowViewModel.cs" />
     <Compile Include="Vms\KernelOutputSelectViewModel.cs" />
     <Compile Include="Vms\KernelInputSelectViewModel.cs" />
     <Compile Include="Vms\LocalIpConfigViewModel.cs" />

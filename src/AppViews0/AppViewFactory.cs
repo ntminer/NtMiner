@@ -123,6 +123,11 @@ namespace NTMiner.Views {
                     NTMinerWalletPage.ShowWindow();
                 });
             });
+            VirtualRoot.CreateCmdPath<ShowMessagePathIdsCommand>(action: message => {
+                UIThread.Execute(() => {
+                    MessagePathIds.ShowWindow();
+                });
+            });
             VirtualRoot.CreateCmdPath<ShowUserPageCommand>(action: message => {
                 UIThread.Execute(() => {
                     UserPage.ShowWindow();

@@ -26,7 +26,7 @@ namespace NTMiner {
 
         private bool createdNew;
         private Mutex appMutex;
-        private static string s_appPipName = "ntminerclient";
+        private static readonly string s_appPipName = "ntminerclient";
         protected override void OnExit(ExitEventArgs e) {
             AppContext.NotifyIcon?.Dispose();
             NTMinerRoot.Instance.Exit();
@@ -72,10 +72,6 @@ namespace NTMiner {
                     NotiCenterWindowViewModel.IsHotKeyEnabled = true;
                     ConsoleWindow.Instance.Show();
                     NotiCenterWindow.Instance.Show();
-                    if (DevMode.IsDevMode) {
-                        MessagePathIdsWindow window = new MessagePathIdsWindow();
-                        window.Show();
-                    }
                     if (!NTMiner.Windows.Role.IsAdministrator) {
                         NotiCenterWindowViewModel.Instance.Manager
                             .CreateMessage()

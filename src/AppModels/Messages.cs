@@ -43,6 +43,12 @@ namespace NTMiner {
         }
     }
 
+    [MessageType(description: "打开消息路径标识集页")]
+    public class ShowMessagePathIdsCommand : Cmd {
+        public ShowMessagePathIdsCommand() {
+        }
+    }
+
     [MessageType(description: "打开用户列表页")]
     public class ShowUserPageCommand : Cmd {
         public ShowUserPageCommand() {

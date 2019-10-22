@@ -81,7 +81,7 @@ namespace NTMiner {
         }
         #endregion
 
-        #region InnerProperty
+        #region IsWin10
         public static bool IsGEWin10 {
             get { return VirtualRoot.IsGEWin10; }
         }
@@ -104,6 +104,9 @@ namespace NTMiner {
                 return Visibility.Collapsed;
             }
         }
+        #endregion
+
+        #region InnerProperty
         public static string Id {
             get { return VirtualRoot.Id.ToString(); }
         }
@@ -172,6 +175,7 @@ namespace NTMiner {
         }
         #endregion
 
+        #region IsMinerClient
         public static bool IsMinerClient {
             get => VirtualRoot.IsMinerClient;
         }
@@ -218,13 +222,9 @@ namespace NTMiner {
                 return Visibility.Collapsed;
             }
         }
-        public static string AppName {
-            get {
-                Assembly mainAssembly = Assembly.GetEntryAssembly();
-                return ((AssemblyTitleAttribute)mainAssembly.GetCustomAttributes(typeof(AssemblyTitleAttribute), inherit: false).First()).Title;
-            }
-        }
+        #endregion
 
+        #region IsDev
         public static bool IsDevMode {
             get {
                 return Design.IsDevMode;
@@ -241,7 +241,9 @@ namespace NTMiner {
                 return Visibility.Collapsed;
             }
         }
+        #endregion
 
+        #region IsAmd
         public static Visibility IsAmdGpuVisible {
             get {
                 if (NTMinerRoot.Instance.GpuSet.GpuType == GpuType.AMD) {
@@ -256,7 +258,9 @@ namespace NTMiner {
                 return NTMinerRoot.Instance.GpuSet.GpuType == GpuType.AMD;
             }
         }
+        #endregion
 
+        #region IsBrand
         public static bool IsPoolBrand {
             get {
                 return NTMinerRoot.IsPoolBrand;
@@ -302,6 +306,7 @@ namespace NTMiner {
         public static Visibility IsBrandSpecifiedCollapsed {
             get { return NTMinerRoot.IsBrandSpecified ? Visibility.Collapsed : Visibility.Visible; }
         }
+        #endregion
 
         public static double MainWindowHeight {
             get {
@@ -360,6 +365,13 @@ namespace NTMiner {
         public static IEnumerable<EnumItem<WorkerMessageChannel>> WorkerMessageChannelEnumItems {
             get {
                 return NTMinerRoot.WorkerMessageChannelEnumItems;
+            }
+        }
+
+        public static string AppName {
+            get {
+                Assembly mainAssembly = Assembly.GetEntryAssembly();
+                return ((AssemblyTitleAttribute)mainAssembly.GetCustomAttributes(typeof(AssemblyTitleAttribute), inherit: false).First()).Title;
             }
         }
 
@@ -568,6 +580,10 @@ namespace NTMiner {
                     VirtualRoot.Out.ShowErrorMessage($"刷新失败");
                 }
             }));
+        });
+
+        public static ICommand ShowMessagePathIds { get; private set; } = new DelegateCommand(() => {
+            VirtualRoot.Execute(new ShowMessagePathIdsCommand());
         });
 
         public static ICommand ShowUsers { get; private set; } = new DelegateCommand(() => {
