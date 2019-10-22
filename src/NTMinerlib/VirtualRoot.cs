@@ -47,8 +47,15 @@ namespace NTMiner {
                     if (_isMinerClientDetected) {
                         return _isMinerClient;
                     }
-                    // 基于约定
-                    _isMinerClient = Assembly.GetEntryAssembly().GetManifestResourceInfo("NTMiner.Daemon.NTMinerDaemon.exe") != null;
+                    var assembly = Assembly.GetEntryAssembly();
+                    // 单元测试时assembly为null
+                    if (assembly == null) { 
+                        _isMinerClient = true;
+                    }
+                    else {
+                        // 基于约定
+                        _isMinerClient = assembly.GetManifestResourceInfo("NTMiner.Daemon.NTMinerDaemon.exe") != null;
+                    }
                     _isMinerClientDetected = true;
                 }
                 return _isMinerClient;
