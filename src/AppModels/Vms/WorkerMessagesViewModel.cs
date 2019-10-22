@@ -19,7 +19,6 @@
         public WorkerMessagesViewModel() {
             var data = VirtualRoot.WorkerMessages.Select(a => new WorkerMessageViewModel(a));
             _workerMessageVms = new ObservableCollection<WorkerMessageViewModel>(data);
-            _queyResults = _workerMessageVms;
             foreach (var item in _workerMessageVms) {
                 switch (item.MessageTypeEnum) {
                     case WorkerMessageType.Error:
@@ -36,6 +35,7 @@
                 }
             }
             _selectedChannel = WorkerMessageChannel.Unspecified.GetEnumItem();
+            RefreshQueryResults();
 
             this.ClearKeyword = new DelegateCommand(() => {
                 this.Keyword = string.Empty;
@@ -61,15 +61,31 @@
                     UIThread.Execute(() => {
                         var vm = new WorkerMessageViewModel(message.Source);
                         _workerMessageVms.Insert(0, vm);
+                        foreach (var item in message.Removes) {
+                            var toRemove = _workerMessageVms.FirstOrDefault(a => a.Id == item.Id);
+                            if (toRemove != null) {
+                                _workerMessageVms.Remove(toRemove);
+                            }
+                        }
+                        int removedCount = 0;
                         switch (vm.MessageTypeEnum) {
                             case WorkerMessageType.Error:
-                                ErrorCount++;
+                                removedCount = message.Removes.Count(a => a.MessageType == WorkerMessageType.Error.GetName());
+                                if (removedCount != 1) {
+                                    ErrorCount += 1 - removedCount;
+                                }
                                 break;
                             case WorkerMessageType.Warn:
-                                WarnCount++;
+                                removedCount = message.Removes.Count(a => a.MessageType == WorkerMessageType.Warn.GetName());
+                                if (removedCount != 1) {
+                                    WarnCount += 1 - removedCount;
+                                }
                                 break;
                             case WorkerMessageType.Info:
-                                InfoCount++;
+                                removedCount = message.Removes.Count(a => a.MessageType == WorkerMessageType.Info.GetName());
+                                if (removedCount != 1) {
+                                    InfoCount += 1 - removedCount;
+                                }
                                 break;
                             default:
                                 break;
@@ -226,6 +242,11 @@
         }
 
         private void RefreshQueryResults() {
+            if (SelectedChannel.Value == WorkerMessageChannel.Unspecified && IsErrorChecked && IsWarnChecked && IsInfoChecked) {
+                _queyResults = _workerMessageVms;
+                OnPropertyChanged(nameof(QueryResults));
+                return;
+            }
             var query = _workerMessageVms.AsQueryable();
             if (SelectedChannel.Value != WorkerMessageChannel.Unspecified) {
                 string channel = SelectedChannel.Value.GetName();

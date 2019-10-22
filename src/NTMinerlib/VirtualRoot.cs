@@ -309,10 +309,12 @@ namespace NTMiner {
                     Timestamp = DateTime.Now
                 };
                 // TODO:批量持久化，异步持久化
+                List<IWorkerMessage> removes = new List<IWorkerMessage>();
                 lock (_locker) {
                     _records.AddFirst(data);
                     while (_records.Count > WorkerMessageSetCapacity) {
                         var toRemove = _records.Last;
+                        removes.Add(toRemove.Value);
                         _records.RemoveLast();
                         using (LiteDatabase db = new LiteDatabase(_connectionString)) {
                             var col = db.GetCollection<WorkerMessageData>();
@@ -324,7 +326,7 @@ namespace NTMiner {
                     var col = db.GetCollection<WorkerMessageData>();
                     col.Insert(data);
                 }
-                RaiseEvent(new WorkerMessageAddedEvent(data));
+                RaiseEvent(new WorkerMessageAddedEvent(data, removes));
             }
 
             public void Clear() {
