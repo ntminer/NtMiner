@@ -22,7 +22,7 @@ namespace NTMiner.Views.Ucs {
                         window.DragMove();
                     }
                 };
-                window.EventPath<LocalIpSetRefreshedEvent>("本机IP集刷新后刷新IP设置页", LogEnum.DevConsole,
+                window.BuildEventPath<LocalIpSetRefreshedEvent>("本机IP集刷新后刷新IP设置页", LogEnum.DevConsole,
                     action: message => {
                         UIThread.Execute(() => {
                             vm.Refresh();

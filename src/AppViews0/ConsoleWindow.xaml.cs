@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NTMiner.Bus;
+using System;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
@@ -18,10 +19,34 @@ namespace NTMiner.Views {
     public partial class ConsoleWindow : Window {
         public static readonly ConsoleWindow Instance = new ConsoleWindow();
         public Action OnSplashHided;
+        private double _left;
+        private double _top;
+        IMessagePathId messagePathId = null;
         private ConsoleWindow() {
             this.Width = AppStatic.MainWindowWidth;
             this.Height = AppStatic.MainWindowHeight;
             InitializeComponent();
+            this.LocationChanged += (s, e) => {
+                if (this.Left != _left || this.Top != _top) {
+                    if (this.Background != WpfUtil.BlackBrush) {
+                        this.Background = WpfUtil.BlackBrush;
+                    }
+                    _left = this.Left;
+                    _top = this.Top;
+                    if (messagePathId == null) {
+                        messagePathId = VirtualRoot.BuildEventPath<Per1SecondEvent>("检查控制台窗口位置是否不再变动，如果不再变动将背景置为透明", LogEnum.None,
+                            action: message => {
+                                if (_left == this.Left && _top == this.Top) {
+                                    VirtualRoot.DeletePath(messagePathId);
+                                    messagePathId = null;
+                                    if (this.Background != WpfUtil.TransparentBrush) {
+                                        this.Background = WpfUtil.TransparentBrush;
+                                    }
+                                }
+                            });
+                    }
+                }
+            };
         }
 
         private bool _isSplashed = false;

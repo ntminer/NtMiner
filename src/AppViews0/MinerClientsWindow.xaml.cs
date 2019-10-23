@@ -35,7 +35,7 @@ namespace NTMiner.Views {
             this.DataContext = Vm;
             this.DataContext = AppContext.Instance.MinerClientsWindowVm;
             InitializeComponent();
-            this.EventPath<Per1SecondEvent>("刷新倒计时秒表", LogEnum.None,
+            this.BuildEventPath<Per1SecondEvent>("刷新倒计时秒表", LogEnum.None,
                 action: message => {
                     var minerClients = Vm.MinerClients.ToArray();
                     if (Vm.CountDown > 0) {
@@ -45,7 +45,7 @@ namespace NTMiner.Views {
                         }
                     }
                 });
-            this.EventPath<Per10SecondEvent>("周期刷新在线客户端列表", LogEnum.DevConsole,
+            this.BuildEventPath<Per10SecondEvent>("周期刷新在线客户端列表", LogEnum.DevConsole,
                 action: message => {
                     AppContext.Instance.MinerClientsWindowVm.QueryMinerClients();
                 });

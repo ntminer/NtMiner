@@ -87,10 +87,9 @@ namespace NTMiner {
                 }
             }
         }
-        /// <summary>
-        /// 命令窗口。使用该方法的代码行应将前两个参数放在第一行以方便vs查找引用时展示出参数信息
-        /// </summary>
-        public static void CmdPath<TCmd>(this Window window, string description, LogEnum logType, Action<TCmd> action)
+
+        private const string messagePathIdsResourceKey = "messagePathIds";
+        public static void BuildCmdPath<TCmd>(this Window window, string description, LogEnum logType, Action<TCmd> action)
             where TCmd : ICmd {
             if (Design.IsInDesignMode) {
                 return;
@@ -98,19 +97,16 @@ namespace NTMiner {
             if (window.Resources == null) {
                 window.Resources = new ResourceDictionary();
             }
-            List<IMessagePathId> contextHandlers = (List<IMessagePathId>)window.Resources["ntminer_contextHandlers"];
-            if (contextHandlers == null) {
-                contextHandlers = new List<IMessagePathId>();
-                window.Resources.Add("ntminer_contextHandlers", contextHandlers);
+            List<IMessagePathId> messagePathIds = (List<IMessagePathId>)window.Resources[messagePathIdsResourceKey];
+            if (messagePathIds == null) {
+                messagePathIds = new List<IMessagePathId>();
+                window.Resources.Add(messagePathIdsResourceKey, messagePathIds);
                 window.Closed += UiElement_Closed;
             }
-            VirtualRoot.BuildPath(description, logType, action).AddToCollection(contextHandlers);
+            VirtualRoot.BuildPath(description, logType, action).AddToCollection(messagePathIds);
         }
 
-        /// <summary>
-        /// 事件响应
-        /// </summary>
-        public static void EventPath<TEvent>(this Window window, string description, LogEnum logType, Action<TEvent> action)
+        public static void BuildEventPath<TEvent>(this Window window, string description, LogEnum logType, Action<TEvent> action)
             where TEvent : IEvent {
             if (Design.IsInDesignMode) {
                 return;
@@ -118,19 +114,19 @@ namespace NTMiner {
             if (window.Resources == null) {
                 window.Resources = new ResourceDictionary();
             }
-            List<IMessagePathId> contextHandlers = (List<IMessagePathId>)window.Resources["ntminer_contextHandlers"];
-            if (contextHandlers == null) {
-                contextHandlers = new List<IMessagePathId>();
-                window.Resources.Add("ntminer_contextHandlers", contextHandlers);
+            List<IMessagePathId> messagePathIds = (List<IMessagePathId>)window.Resources[messagePathIdsResourceKey];
+            if (messagePathIds == null) {
+                messagePathIds = new List<IMessagePathId>();
+                window.Resources.Add(messagePathIdsResourceKey, messagePathIds);
                 window.Closed += UiElement_Closed; ;
             }
-            VirtualRoot.BuildPath(description, logType, action).AddToCollection(contextHandlers);
+            VirtualRoot.BuildPath(description, logType, action).AddToCollection(messagePathIds);
         }
 
         private static void UiElement_Closed(object sender, EventArgs e) {
             Window uiElement = (Window)sender;
-            List<IMessagePathId> contextHandlers = (List<IMessagePathId>)uiElement.Resources["ntminer_contextHandlers"];
-            foreach (var handler in contextHandlers) {
+            List<IMessagePathId> messageIds = (List<IMessagePathId>)uiElement.Resources[messagePathIdsResourceKey];
+            foreach (var handler in messageIds) {
                 VirtualRoot.DeletePath(handler);
             }
         }

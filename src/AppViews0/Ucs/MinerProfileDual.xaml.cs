@@ -18,7 +18,7 @@ namespace NTMiner.Views.Ucs {
             this.PopupDualCoin.Closed += Popup_Closed;
             this.PopupDualCoinWallet.Closed += Popup_Closed;
             this.RunOneceOnLoaded((window) => {
-                window.EventPath<LocalContextVmsReInitedEvent>("本地上下文视图模型集刷新后刷新界面上的popup", LogEnum.DevConsole,
+                window.BuildEventPath<LocalContextVmsReInitedEvent>("本地上下文视图模型集刷新后刷新界面上的popup", LogEnum.DevConsole,
                     action: message => {
                         UIThread.Execute(() => {
                             if (Vm.MineWork != null) {
