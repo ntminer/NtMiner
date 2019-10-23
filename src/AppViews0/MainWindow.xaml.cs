@@ -442,6 +442,10 @@ namespace NTMiner.Views {
             if (consoleWindow.Height != this.ActualHeight) {
                 consoleWindow.Height = this.ActualHeight;
             }
+            // 避免触发多显示器问题
+            if (this.WindowState != consoleWindow.WindowState) {
+                consoleWindow.WindowState = this.WindowState;
+            }
             if (this.WindowState == WindowState.Normal) {
                 if (consoleWindow.Left != this.Left) {
                     consoleWindow.Left = this.Left;
