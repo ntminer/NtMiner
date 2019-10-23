@@ -115,6 +115,20 @@ namespace NTMiner.Views {
             this.Owner = ConsoleWindow.Instance;
             ConsoleWindow.Instance.Activate();
             InitializeComponent();
+            this.MainArea.SelectionChanged += (sender, e) => {
+                var selectedItem = MainArea.SelectedItem;
+                if (selectedItem == TabItemToolbox) {
+                    if (ToolboxContainer.Child == null) {
+                        ToolboxContainer.Child = new Toolbox();
+                    }
+                }
+                else if (selectedItem == TabItemMinerProfileOption) {
+                    if (MinerProfileOptionContainer.Child == null) {
+                        MinerProfileOptionContainer.Child = new MinerProfileOption();
+                    }
+                }
+                ToogleConsoleWindow();
+            };
             _borderBrush = this.BorderBrush;
             NTMinerRoot.RefreshArgsAssembly.Invoke();
             if (Design.IsInDesignMode) {
@@ -421,21 +435,6 @@ namespace NTMiner.Views {
             if (e.LeftButton == MouseButtonState.Pressed) {
                 this.DragMove();
             }
-        }
-
-        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-            var selectedItem = ((TabControl)sender).SelectedItem;
-            if (selectedItem == TabItemToolbox) {
-                if (ToolboxContainer.Child == null) {
-                    ToolboxContainer.Child = new Toolbox();
-                }
-            }
-            else if (selectedItem == TabItemMinerProfileOption) {
-                if (MinerProfileOptionContainer.Child == null) {
-                    MinerProfileOptionContainer.Child = new MinerProfileOption();
-                }
-            }
-            ToogleConsoleWindow();
         }
 
         private void ScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {

@@ -311,8 +311,7 @@
                             x:Name="MainArea"
 				            Padding="0"
                             Background="Transparent"
-                            BorderThickness="0"
-				            SelectionChanged="TabControl_SelectionChanged">
+                            BorderThickness="0">
                             <TabControl.Resources>
                                 <Style TargetType="{x:Type TabItem}">
                                     <Setter Property="Template">
