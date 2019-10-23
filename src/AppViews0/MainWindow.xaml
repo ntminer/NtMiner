@@ -350,7 +350,7 @@
                                     </Setter>
                                 </Style>
                             </TabControl.Resources>
-                            <TabItem IsSelected="True" FontSize="14">
+                            <TabItem x:Name="ConsoleTabItem" IsSelected="True" FontSize="14">
                                 <TabItem.Header>
                                     <WrapPanel>
                                         <Path 
