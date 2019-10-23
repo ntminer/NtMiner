@@ -101,6 +101,7 @@ namespace NTMiner.Views {
 
         private const int WM_SYSCOMMAND = 0x112;
         private HwndSource hwndSource;
+        private HwndSource hwndSourceBg;
         private readonly Brush _borderBrush;
         public MainWindow() {
             this.MinHeight = 430;
@@ -451,7 +452,9 @@ namespace NTMiner.Views {
 
         private void Window_SourceInitialized(object sender, EventArgs e) {
             hwndSource = PresentationSource.FromVisual((Visual)sender) as HwndSource;
+            hwndSourceBg = PresentationSource.FromVisual(ConsoleWindow.Instance) as HwndSource;
             hwndSource.AddHook(new HwndSourceHook(WindowProc));
+            hwndSourceBg.AddHook(new HwndSourceHook(WindowProc));
         }
 
         private void ResizeWindow(ResizeDirection direction) {
