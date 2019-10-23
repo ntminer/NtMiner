@@ -116,9 +116,6 @@ namespace NTMiner.Views {
             ConsoleWindow.Instance.Activate();
             InitializeComponent();
             this.MainArea.SelectionChanged += (sender, e) => {
-                if (!this.IsLoaded) {
-                    return;
-                }
                 var selectedItem = MainArea.SelectedItem;
                 if (selectedItem == TabItemToolbox) {
                     if (ToolboxContainer.Child == null) {
@@ -139,9 +136,6 @@ namespace NTMiner.Views {
             }
             ToogleLeft();
             this.IsVisibleChanged += (sender, e) => {
-                if (!this.IsLoaded) {
-                    return;
-                }
                 if (this.IsVisible) {
                     NTMinerRoot.IsUiVisible = true;
                     NTMinerRoot.MainWindowRendedOn = DateTime.Now;
@@ -151,13 +145,7 @@ namespace NTMiner.Views {
                 }
                 ToogleConsoleWindow();
             };
-            this.Activated += (sender, e)=> {
-                NotiCenterWindow.Instance.SwitchOwner(this);
-            };
             this.StateChanged += (s, e) => {
-                if (!this.IsLoaded) {
-                    return;
-                }
                 if (Vm.MinerProfile.IsShowInTaskbar) {
                     ShowInTaskbar = true;
                 }
@@ -189,22 +177,11 @@ namespace NTMiner.Views {
                     consoleWindow.Height = this.ActualHeight;
                 }
             };
-            this.ConsoleRectangle.SizeChanged += (s, e) => {
-                MoveConsoleWindow();
-            };
-            bool isFirst = true;
-            this.ConsoleRectangle.IsVisibleChanged += (s, e) => {
-                if (ConsoleRectangle.IsVisible) {
-                    if (isFirst) {
-                        isFirst = false;
-                    }
-                    else {
-                        MoveConsoleWindow();
-                    }
-                }
-            };
             EventHandler changeNotiCenterWindowLocation = NotiCenterWindow.CreateNotiCenterWindowLocationManager(this);
-            this.Activated += changeNotiCenterWindowLocation;
+            this.Activated += (sender, e) => {
+                changeNotiCenterWindowLocation(sender, e);
+                NotiCenterWindow.Instance.SwitchOwner(this);
+            };
             this.LocationChanged += (sender, e) => {
                 var consoleWindow = ConsoleWindow.Instance;
                 // 避免触发多显示器问题
@@ -281,6 +258,9 @@ namespace NTMiner.Views {
         }
 
         private void ToogleConsoleWindow() {
+            if (!this.IsLoaded) {
+                return;
+            }
             if (this.IsVisible && WindowState != WindowState.Minimized && MainArea.SelectedItem == ConsoleTabItem) {
                 ConsoleWindow.Instance.Show();
             }
@@ -459,6 +439,9 @@ namespace NTMiner.Views {
         }
 
         private void MoveConsoleWindow() {
+            if (!this.IsLoaded) {
+                return;
+            }
             if (!ConsoleWindow.Instance.IsVisible || ConsoleRectangle == null || !ConsoleRectangle.IsVisible) {
                 return;
             }
