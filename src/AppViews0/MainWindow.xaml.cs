@@ -182,8 +182,21 @@ namespace NTMiner.Views {
             EventHandler changeNotiCenterWindowLocation = NotiCenterWindow.CreateNotiCenterWindowLocationManager(this);
             this.Activated += changeNotiCenterWindowLocation;
             this.LocationChanged += (sender, e) => {
-                changeNotiCenterWindowLocation(sender, e);
+                var consoleWindow = ConsoleWindow.Instance;
+                // 避免触发多显示器问题
+                if (this.WindowState != consoleWindow.WindowState) {
+                    consoleWindow.WindowState = this.WindowState;
+                }
+                if (this.WindowState == WindowState.Normal) {
+                    if (consoleWindow.Left != this.Left) {
+                        consoleWindow.Left = this.Left;
+                    }
+                    if (consoleWindow.Top != this.Top) {
+                        consoleWindow.Top = this.Top;
+                    }
+                }
                 MoveConsoleWindow();
+                changeNotiCenterWindowLocation(sender, e);
             };
             VirtualRoot.BuildCmdPath<CloseMainWindowCommand>(action: message => {
                 UIThread.Execute(() => {
@@ -441,18 +454,6 @@ namespace NTMiner.Views {
             }
             if (consoleWindow.Height != this.ActualHeight) {
                 consoleWindow.Height = this.ActualHeight;
-            }
-            // 避免触发多显示器问题
-            if (this.WindowState != consoleWindow.WindowState) {
-                consoleWindow.WindowState = this.WindowState;
-            }
-            if (this.WindowState == WindowState.Normal) {
-                if (consoleWindow.Left != this.Left) {
-                    consoleWindow.Left = this.Left;
-                }
-                if (consoleWindow.Top != this.Top) {
-                    consoleWindow.Top = this.Top;
-                }
             }
             Point point = ConsoleRectangle.TransformToAncestor(this).Transform(new Point(0, 0));
             consoleWindow.ReSizeConsoleWindow(marginLeft: (int)point.X, marginTop: (int)point.Y, (int)ConsoleRectangle.ActualHeight);
