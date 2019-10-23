@@ -127,7 +127,7 @@ namespace NTMiner.Views {
                         MinerProfileOptionContainer.Child = new MinerProfileOption();
                     }
                 }
-                ToogleConsoleWindow();
+                MoveConsoleWindow();
             };
             _borderBrush = this.BorderBrush;
             NTMinerRoot.RefreshArgsAssembly.Invoke();
@@ -143,7 +143,12 @@ namespace NTMiner.Views {
                 else {
                     NTMinerRoot.IsUiVisible = false;
                 }
-                ToogleConsoleWindow();
+                if (!this.IsVisible) {
+                    ConsoleWindow.Instance.Hide();
+                }
+            };
+            this.ConsoleRectangle.IsVisibleChanged += (sender, e) => {
+                MoveConsoleWindow();
             };
             this.StateChanged += (s, e) => {
                 if (Vm.MinerProfile.IsShowInTaskbar) {
@@ -165,17 +170,15 @@ namespace NTMiner.Views {
                     ResizeCursors.Visibility = Visibility.Visible;
                     this.BorderBrush = _borderBrush;
                 }
-                ToogleConsoleWindow();
                 MoveConsoleWindow();
             };
             this.SizeChanged += (s, e) => {
-                var consoleWindow = ConsoleWindow.Instance;
-                if (consoleWindow.Width != this.ActualWidth) {
-                    consoleWindow.Width = this.ActualWidth;
+                if (!ConsoleRectangle.IsVisible) {
+                    ConsoleWindow.Instance.Hide();
                 }
-                if (consoleWindow.Height != this.ActualHeight) {
-                    consoleWindow.Height = this.ActualHeight;
-                }
+            };
+            this.ConsoleRectangle.SizeChanged += (s, e) => {
+                MoveConsoleWindow();
             };
             EventHandler changeNotiCenterWindowLocation = NotiCenterWindow.CreateNotiCenterWindowLocationManager(this);
             this.Activated += (sender, e) => {
@@ -183,19 +186,6 @@ namespace NTMiner.Views {
                 NotiCenterWindow.Instance.SwitchOwner(this);
             };
             this.LocationChanged += (sender, e) => {
-                var consoleWindow = ConsoleWindow.Instance;
-                // 避免触发多显示器问题
-                if (this.WindowState != consoleWindow.WindowState) {
-                    consoleWindow.WindowState = this.WindowState;
-                }
-                if (this.WindowState == WindowState.Normal) {
-                    if (consoleWindow.Left != this.Left) {
-                        consoleWindow.Left = this.Left;
-                    }
-                    if (consoleWindow.Top != this.Top) {
-                        consoleWindow.Top = this.Top;
-                    }
-                }
                 MoveConsoleWindow();
                 changeNotiCenterWindowLocation(sender, e);
             };
@@ -257,16 +247,37 @@ namespace NTMiner.Views {
 #endif
         }
 
-        private void ToogleConsoleWindow() {
+        private void MoveConsoleWindow() {
             if (!this.IsLoaded) {
                 return;
             }
-            if (this.IsVisible && WindowState != WindowState.Minimized && MainArea.SelectedItem == ConsoleTabItem) {
-                ConsoleWindow.Instance.Show();
+            ConsoleWindow consoleWindow = ConsoleWindow.Instance;
+            if (this.WindowState == WindowState.Minimized || ConsoleRectangle == null || !ConsoleRectangle.IsVisible || ConsoleRectangle.ActualWidth == 0) {
+                consoleWindow.Hide();
+                return;
             }
-            else {
-                ConsoleWindow.Instance.Hide();
+            if (!consoleWindow.IsVisible) {
+                consoleWindow.Show();
             }
+            if (consoleWindow.WindowState != this.WindowState) {
+                consoleWindow.WindowState = this.WindowState;
+            }
+            if (consoleWindow.Width != this.ActualWidth) {
+                consoleWindow.Width = this.ActualWidth;
+            }
+            if (consoleWindow.Height != this.ActualHeight) {
+                consoleWindow.Height = this.ActualHeight;
+            }
+            if (this.WindowState == WindowState.Normal) {
+                if (consoleWindow.Left != this.Left) {
+                    consoleWindow.Left = this.Left;
+                }
+                if (consoleWindow.Top != this.Top) {
+                    consoleWindow.Top = this.Top;
+                }
+            }
+            Point point = ConsoleRectangle.TransformToAncestor(this).Transform(new Point(0, 0));
+            consoleWindow.MoveWindow(marginLeft: (int)point.X, marginTop: (int)point.Y, (int)ConsoleRectangle.ActualHeight);
         }
 
         private int _cpuPerformance = 0;
@@ -436,17 +447,6 @@ namespace NTMiner.Views {
                 speedTableUc.ShowOrHideOverClock(isShow: true);
             }
             MainArea.SelectedItem = TabItemSpeedTable;
-        }
-
-        private void MoveConsoleWindow() {
-            if (!this.IsLoaded) {
-                return;
-            }
-            if (!ConsoleWindow.Instance.IsVisible || ConsoleRectangle == null || !ConsoleRectangle.IsVisible) {
-                return;
-            }
-            Point point = ConsoleRectangle.TransformToAncestor(this).Transform(new Point(0, 0));
-            ConsoleWindow.Instance.MoveWindow(marginLeft: (int)point.X, marginTop: (int)point.Y, (int)ConsoleRectangle.ActualHeight);
         }
 
         private void Window_SourceInitialized(object sender, EventArgs e) {
