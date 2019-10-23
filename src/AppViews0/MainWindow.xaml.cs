@@ -409,6 +409,7 @@ namespace NTMiner.Views {
                     MinerProfileOptionContainer.Child = new MinerProfileOption();
                 }
             }
+            MoveConsoleWindow();
         }
 
         private void ScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
