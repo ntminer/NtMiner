@@ -436,9 +436,6 @@ namespace NTMiner.Views {
             if (!consoleWindow.IsVisible) {
                 consoleWindow.Show();
             }
-            if (consoleWindow.WindowState != this.WindowState) {
-                consoleWindow.WindowState = this.WindowState;
-            }
             if (consoleWindow.Width != this.ActualWidth) {
                 consoleWindow.Width = this.ActualWidth;
             }

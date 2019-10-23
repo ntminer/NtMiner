@@ -18,15 +18,23 @@
     Width="520"
     WindowStartupLocation="CenterScreen"
     Title="原版内核控制台窗口">
-    <Grid x:Name="Splash" Background="{StaticResource IconFillColor}">
-        <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Image Width="120" Height="120" Source="{x:Static app:AppStatic.BigLogoImageSource}">
-            </Image>
-            <StackPanel Margin="10 0 0 0" VerticalAlignment="Center">
-                <TextBlock Text="NTMiner" FontSize="50" Foreground="{StaticResource ThemeForeground}"></TextBlock>
-                <TextBlock Text="{x:Static app:AppStatic.VersionFullName}" FontSize="20" Foreground="{StaticResource ThemeForeground}"></TextBlock>
-            </StackPanel>
-        </WrapPanel>
-        <controls:KbSystemCloseButton HorizontalAlignment="Right" VerticalAlignment="Top" Height="32" />
+    <Grid>
+        <Grid x:Name="Splash" Background="{StaticResource IconFillColor}">
+            <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Image Width="120" Height="120" Source="{x:Static app:AppStatic.BigLogoImageSource}">
+                </Image>
+                <StackPanel Margin="10 0 0 0" VerticalAlignment="Center">
+                    <TextBlock Text="NTMiner" FontSize="50" Foreground="{StaticResource ThemeForeground}"></TextBlock>
+                    <TextBlock Text="{x:Static app:AppStatic.VersionFullName}" FontSize="20" Foreground="{StaticResource ThemeForeground}"></TextBlock>
+                </StackPanel>
+            </WrapPanel>
+            <controls:KbSystemCloseButton HorizontalAlignment="Right" VerticalAlignment="Top" Height="32" />
+        </Grid>
+        <Rectangle 
+            x:Name="ConsoleBgRectangle"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top" 
+            Fill="#01000000">
+        </Rectangle>
     </Grid>
 </Window>
