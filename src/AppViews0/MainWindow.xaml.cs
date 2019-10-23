@@ -116,6 +116,9 @@ namespace NTMiner.Views {
             ConsoleWindow.Instance.Activate();
             InitializeComponent();
             this.MainArea.SelectionChanged += (sender, e) => {
+                if (!this.IsLoaded) {
+                    return;
+                }
                 var selectedItem = MainArea.SelectedItem;
                 if (selectedItem == TabItemToolbox) {
                     if (ToolboxContainer.Child == null) {
@@ -135,7 +138,10 @@ namespace NTMiner.Views {
                 return;
             }
             ToogleLeft();
-            this.IsVisibleChanged += (object sender, DependencyPropertyChangedEventArgs e) => {
+            this.IsVisibleChanged += (sender, e) => {
+                if (!this.IsLoaded) {
+                    return;
+                }
                 if (this.IsVisible) {
                     NTMinerRoot.IsUiVisible = true;
                     NTMinerRoot.MainWindowRendedOn = DateTime.Now;
@@ -149,6 +155,9 @@ namespace NTMiner.Views {
                 NotiCenterWindow.Instance.SwitchOwner(this);
             };
             this.StateChanged += (s, e) => {
+                if (!this.IsLoaded) {
+                    return;
+                }
                 if (Vm.MinerProfile.IsShowInTaskbar) {
                     ShowInTaskbar = true;
                 }
@@ -193,9 +202,6 @@ namespace NTMiner.Views {
                         MoveConsoleWindow();
                     }
                 }
-            };
-            this.IsVisibleChanged += (s, e) => {
-                ToogleConsoleWindow();
             };
             EventHandler changeNotiCenterWindowLocation = NotiCenterWindow.CreateNotiCenterWindowLocationManager(this);
             this.Activated += changeNotiCenterWindowLocation;
