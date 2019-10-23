@@ -21,7 +21,7 @@
         BorderBrush="{StaticResource IconFillColor}"
         AllowsTransparency="True"
 		WindowStartupLocation="CenterScreen"
-		MouseDown="MetroWindow_MouseDown"
+		MouseDown="Window_MouseDown"
         SourceInitialized="Window_SourceInitialized"
 		TextOptions.TextFormattingMode="Display">
     <Window.DataContext>

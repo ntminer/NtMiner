@@ -391,7 +391,7 @@ namespace NTMiner.Views {
             this.Hide();
         }
 
-        private void MetroWindow_MouseDown(object sender, MouseButtonEventArgs e) {
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e) {
             if (e.LeftButton == MouseButtonState.Pressed) {
                 this.DragMove();
             }
