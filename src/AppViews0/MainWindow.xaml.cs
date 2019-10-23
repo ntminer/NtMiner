@@ -125,14 +125,11 @@ namespace NTMiner.Views {
                 if (this.IsVisible) {
                     NTMinerRoot.IsUiVisible = true;
                     NTMinerRoot.MainWindowRendedOn = DateTime.Now;
-                    if (MainArea.SelectedItem == ConsoleTabItem) {
-                        ConsoleWindow.Instance.Show();
-                    }
                 }
                 else {
                     NTMinerRoot.IsUiVisible = false;
-                    ConsoleWindow.Instance.Hide();
                 }
+                ToogleConsoleWindow();
             };
             this.Activated += (sender, e)=> {
                 NotiCenterWindow.Instance.SwitchOwner(this);
@@ -149,12 +146,6 @@ namespace NTMiner.Views {
                         ShowInTaskbar = true;
                     }
                 }
-                if (WindowState == WindowState.Minimized) {
-                    ConsoleWindow.Instance.Hide();
-                }
-                else if (MainArea.SelectedItem == ConsoleTabItem) {
-                    ConsoleWindow.Instance.Show();
-                }
                 if (WindowState == WindowState.Maximized) {
                     ResizeCursors.Visibility = Visibility.Collapsed;
                     this.BorderBrush = WpfUtil.BlackBrush;
@@ -163,6 +154,7 @@ namespace NTMiner.Views {
                     ResizeCursors.Visibility = Visibility.Visible;
                     this.BorderBrush = _borderBrush;
                 }
+                ToogleConsoleWindow();
                 MoveConsoleWindow();
             };
             this.SizeChanged += (s, e) => {
@@ -172,9 +164,6 @@ namespace NTMiner.Views {
                 }
                 if (consoleWindow.Height != this.ActualHeight) {
                     consoleWindow.Height = this.ActualHeight;
-                }
-                if (!ConsoleRectangle.IsVisible) {
-                    consoleWindow.Hide();
                 }
             };
             this.ConsoleRectangle.SizeChanged += (s, e) => {
@@ -192,9 +181,7 @@ namespace NTMiner.Views {
                 }
             };
             this.IsVisibleChanged += (s, e) => {
-                if (!this.IsVisible) {
-                    ConsoleWindow.Instance.Hide();
-                }
+                ToogleConsoleWindow();
             };
             EventHandler changeNotiCenterWindowLocation = NotiCenterWindow.CreateNotiCenterWindowLocationManager(this);
             this.Activated += changeNotiCenterWindowLocation;
@@ -271,6 +258,15 @@ namespace NTMiner.Views {
 #if DEBUG
             Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
 #endif
+        }
+
+        private void ToogleConsoleWindow() {
+            if (this.IsVisible && WindowState != WindowState.Minimized && MainArea.SelectedItem == ConsoleTabItem) {
+                ConsoleWindow.Instance.Show();
+            }
+            else {
+                ConsoleWindow.Instance.Hide();
+            }
         }
 
         private int _cpuPerformance = 0;
@@ -439,12 +435,7 @@ namespace NTMiner.Views {
                     MinerProfileOptionContainer.Child = new MinerProfileOption();
                 }
             }
-            if (selectedItem != ConsoleTabItem) {
-                ConsoleWindow.Instance.Hide();
-            }
-            else {
-                ConsoleWindow.Instance.Show();
-            }
+            ToogleConsoleWindow();
         }
 
         private void ScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
