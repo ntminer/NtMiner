@@ -301,6 +301,7 @@ namespace NTMiner {
             // CoreContext的视图模型集已全部刷新，此时刷新视图界面
             VirtualRoot.RaiseEvent(new ServerContextVmsReInitedEvent());
             if (isWork) {
+                IsJsonLocal = true;
                 ReInitMinerProfile();
             }
         }
