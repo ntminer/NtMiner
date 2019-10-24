@@ -140,14 +140,13 @@ namespace NTMiner {
                 string localServerJsonFileVersion = GetServerJsonVersion();
                 if (!string.IsNullOrEmpty(serverJsonFileVersion) && localServerJsonFileVersion != serverJsonFileVersion) {
                     GetAliyunServerJson((data) => {
-                        Write.UserInfo($"更新配置{localServerJsonFileVersion}->{serverJsonFileVersion}");
                         string rawJson = Encoding.UTF8.GetString(data);
                         SpecialPath.WriteServerJsonFile(rawJson);
                         SetServerJsonVersion(serverJsonFileVersion);
                         ReInitServerJson();
                         // 作业模式下界面是禁用的，所以这里的初始化isWork必然是false
                         ContextReInit(isWork: VirtualRoot.IsMinerStudio);
-                        Write.UserInfo("更新成功");
+                        VirtualRoot.ThisWorkerMessage(nameof(NTMinerRoot), WorkerMessageType.Info, $"刷新server.json配置");
                     });
                 }
                 else {
@@ -301,6 +300,7 @@ namespace NTMiner {
             // CoreContext的视图模型集已全部刷新，此时刷新视图界面
             VirtualRoot.RaiseEvent(new ServerContextVmsReInitedEvent());
             if (isWork) {
+                // 有可能是由非作业切换为作业，所以需要对IsJsonLocal赋值
                 IsJsonLocal = true;
                 ReInitMinerProfile();
             }
