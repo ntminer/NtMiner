@@ -25,7 +25,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     }
                     KernelData entity = new KernelData().Update(message.Input);
                     _dicById.Add(entity.Id, entity);
-                    IRepository<KernelData> repository = NTMinerRoot.CreateServerRepository<KernelData>();
+                    var repository = NTMinerRoot.CreateServerRepository<KernelData>();
                     repository.Add(entity);
 
                     VirtualRoot.RaiseEvent(new KernelAddedEvent(entity));
@@ -47,7 +47,7 @@ namespace NTMiner.Core.Kernels.Impl {
                         return;
                     }
                     entity.Update(message.Input);
-                    IRepository<KernelData> repository = NTMinerRoot.CreateServerRepository<KernelData>();
+                    var repository = NTMinerRoot.CreateServerRepository<KernelData>();
                     repository.Update(entity);
 
                     VirtualRoot.RaiseEvent(new KernelUpdatedEvent(entity));
@@ -67,7 +67,7 @@ namespace NTMiner.Core.Kernels.Impl {
                         VirtualRoot.Execute(new RemoveCoinKernelCommand(coinKernelId));
                     }
                     _dicById.Remove(entity.Id);
-                    IRepository<KernelData> repository = NTMinerRoot.CreateServerRepository<KernelData>();
+                    var repository = NTMinerRoot.CreateServerRepository<KernelData>();
                     repository.Remove(entity.Id);
 
                     VirtualRoot.RaiseEvent(new KernelRemovedEvent(entity));
@@ -94,7 +94,7 @@ namespace NTMiner.Core.Kernels.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    IRepository<KernelData> repository = NTMinerRoot.CreateServerRepository<KernelData>();
+                    var repository = NTMinerRoot.CreateServerRepository<KernelData>();
                     foreach (var item in repository.GetAll()) {
                         if (!_dicById.ContainsKey(item.GetId())) {
                             _dicById.Add(item.GetId(), item);
