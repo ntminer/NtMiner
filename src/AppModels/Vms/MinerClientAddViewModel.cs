@@ -55,9 +55,7 @@ namespace NTMiner.Vms {
                             }
                             else {
                                 AppContext.Instance.MinerClientsWindowVm.QueryMinerClients();
-                                UIThread.Execute(() => {
-                                    CloseWindow?.Invoke();
-                                });
+                                UIThread.Execute(CloseWindow);
                             }
                         });
                     }
@@ -72,9 +70,7 @@ namespace NTMiner.Vms {
                         }
                         else {
                             AppContext.Instance.MinerClientsWindowVm.QueryMinerClients();
-                            UIThread.Execute(() => {
-                                CloseWindow?.Invoke();
-                            });
+                            UIThread.Execute(CloseWindow);
                         }
                     });
                 }
