@@ -63,8 +63,8 @@
                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <WrapPanel VerticalAlignment="Center" Background="Transparent">
-                    <Menu Background="Transparent" Width="26" Height="26">
-                        <MenuItem>
+                    <Menu Background="Transparent">
+                        <MenuItem Width="26" Height="30">
                             <MenuItem.Icon>
                                 <Image Width="17" Height="18" Source="/NTMinerWpf;component/Styles/Images/logo32.png"></Image>
                             </MenuItem.Icon>

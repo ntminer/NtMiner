@@ -277,7 +277,7 @@ namespace NTMiner.Views {
                 }
             }
             Point point = ConsoleRectangle.TransformToAncestor(this).Transform(new Point(0, 0));
-            consoleWindow.MoveWindow(marginLeft: (int)point.X, marginTop: (int)point.Y, (int)ConsoleRectangle.ActualHeight);
+            consoleWindow.MoveWindow(marginLeft: (int)point.X, marginTop: (int)point.Y, height: (int)ConsoleRectangle.ActualHeight);
         }
 
         private int _cpuPerformance = 0;
