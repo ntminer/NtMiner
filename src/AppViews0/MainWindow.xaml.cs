@@ -128,7 +128,6 @@ namespace NTMiner.Views {
                         MinerProfileOptionContainer.Child = new MinerProfileOption();
                     }
                 }
-                MoveConsoleWindow();
             };
             _borderBrush = this.BorderBrush;
             NTMinerRoot.RefreshArgsAssembly.Invoke();
@@ -253,7 +252,7 @@ namespace NTMiner.Views {
                 return;
             }
             ConsoleWindow consoleWindow = ConsoleWindow.Instance;
-            if (this.WindowState == WindowState.Minimized || ConsoleRectangle == null || !ConsoleRectangle.IsVisible || ConsoleRectangle.ActualWidth == 0) {
+            if (this.WindowState == WindowState.Minimized || MainArea.SelectedItem != ConsoleTabItem) {
                 consoleWindow.Hide();
                 return;
             }
