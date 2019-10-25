@@ -101,11 +101,22 @@ namespace NTMiner.Vms {
                                 catch (Exception e) {
                                     Logger.ErrorDebugLine(e);
                                 }
-                                try {
-                                    File.Copy(saveFileFullName, location, overwrite: true);
-                                }
-                                catch (Exception e) {
-                                    VirtualRoot.Out.ShowError(e.Message);
+                                int failCount = 0;
+                                while (true) {
+                                    try {
+                                        File.Copy(saveFileFullName, location, overwrite: true);
+                                        break;
+                                    }
+                                    catch (Exception e) {
+                                        failCount++;
+                                        if (failCount == 3) {
+                                            VirtualRoot.Out.ShowError(e.Message);
+                                            break;
+                                        }
+                                        else {
+                                            System.Threading.Thread.Sleep(3000);
+                                        }
+                                    }
                                 }
                                 File.Delete(saveFileFullName);
                                 string arguments = NTMinerRegistry.GetArguments();
