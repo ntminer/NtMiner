@@ -20,6 +20,9 @@ namespace NTMiner {
             };
         }
 
+        /// <summary>
+        /// 在UI线程上执行给定的行为。注意action不应是Vm上的方法，如果是Vm上的方法必须包裹一次。
+        /// </summary>
         public static void Execute(this Action action) {
             s_executor(action);
         }
