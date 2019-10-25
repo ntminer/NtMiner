@@ -107,7 +107,7 @@ namespace NTMiner {
                                     messageType = WorkerMessageType.Error;
                                     message = "配置文件下载失败，这是第一次运行开源矿工，配置文件至少需要成功下载一次，请检查网络是否可用";
                                 }
-                                VirtualRoot.WorkerMessage(WorkerMessageChannel.This, nameof(NTMinerRoot), messageType, message, toOut: true);
+                                VirtualRoot.ThisWorkerMessage(nameof(NTMinerRoot), messageType, message, toOut: true);
                             }
                             DoInit(isWork, callback);
                         });
@@ -332,11 +332,11 @@ namespace NTMiner {
         private void Link() {
             VirtualRoot.BuildCmdPath<RegCmdHereCommand>(action: message => {
                 try {
-                    RegCmdHere(); VirtualRoot.WorkerMessage(WorkerMessageChannel.This, nameof(NTMinerRoot), WorkerMessageType.Info, "windows右键命令行添加成功", toOut: true);
+                    RegCmdHere(); VirtualRoot.ThisWorkerMessage(nameof(NTMinerRoot), WorkerMessageType.Info, "windows右键命令行添加成功", toOut: true);
                 }
                 catch (Exception e) {
                     Logger.ErrorDebugLine(e);
-                    RegCmdHere(); VirtualRoot.WorkerMessage(WorkerMessageChannel.This, nameof(NTMinerRoot), WorkerMessageType.Error, "windows右键命令行添加失败", toOut: true);
+                    RegCmdHere(); VirtualRoot.ThisWorkerMessage(nameof(NTMinerRoot), WorkerMessageType.Error, "windows右键命令行添加失败", toOut: true);
                 }
             });
             VirtualRoot.BuildEventPath<Per1MinuteEvent>("每1分钟阻止系统休眠", LogEnum.None,

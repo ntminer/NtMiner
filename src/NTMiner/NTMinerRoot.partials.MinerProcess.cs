@@ -138,9 +138,9 @@ namespace NTMiner {
                                 Process[] processes = Process.GetProcessesByName(processName);
                                 if (processes.Length == 0) {
                                     mineContext.AutoRestartKernelCount = mineContext.AutoRestartKernelCount + 1;
-                                    Logger.ErrorWriteLine(processName + $"挖矿内核进程消失");
+                                    VirtualRoot.ThisWorkerMessage(nameof(NTMinerRoot), WorkerMessageType.Warn, processName + $"挖矿内核进程消失", toOut: true);
                                     if (Instance.MinerProfile.IsAutoRestartKernel && mineContext.AutoRestartKernelCount <= Instance.MinerProfile.AutoRestartKernelTimes) {
-                                        Logger.WarnWriteLine($"尝试第{mineContext.AutoRestartKernelCount}次重启，共{Instance.MinerProfile.AutoRestartKernelTimes}次");
+                                        VirtualRoot.ThisWorkerMessage(nameof(NTMinerRoot), WorkerMessageType.Info, $"尝试第{mineContext.AutoRestartKernelCount}次重启，共{Instance.MinerProfile.AutoRestartKernelTimes}次", toOut: true);
                                         Instance.RestartMine();
                                         Instance.CurrentMineContext.AutoRestartKernelCount = mineContext.AutoRestartKernelCount;
                                     }
