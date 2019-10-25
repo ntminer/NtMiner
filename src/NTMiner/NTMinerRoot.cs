@@ -119,6 +119,7 @@ namespace NTMiner {
                         #endregion
                     }
                 }
+                VirtualRoot.ThisWorkerMessage(nameof(NTMinerRoot), WorkerMessageType.Info, "启动");
             });
         }
 
@@ -465,6 +466,7 @@ namespace NTMiner {
             if (_currentMineContext != null) {
                 StopMine(StopMineReason.ApplicationExit);
             }
+            VirtualRoot.ThisWorkerMessage(nameof(NTMinerRoot), WorkerMessageType.Info, "退出");
         }
         #endregion
 
