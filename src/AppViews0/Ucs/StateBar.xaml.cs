@@ -24,7 +24,7 @@ namespace NTMiner.Views.Ucs {
                 };
                 window.BuildEventPath<LocalIpSetRefreshedEvent>("本机IP集刷新后刷新状态栏", LogEnum.DevConsole,
                     action: message => {
-                        UIThread.Execute(Vm.RefreshLocalIps);
+                        UIThread.Execute(()=> Vm.RefreshLocalIps());
                     });
                 window.BuildEventPath<MinutePartChangedEvent>("时间的分钟部分变更过更新计时器显示", LogEnum.None,
                     action: message => {
