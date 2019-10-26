@@ -781,14 +781,89 @@
             <Border x:Name="MaskLayer" Grid.RowSpan="3" Background="Black" Opacity="0.4" Visibility="Collapsed"></Border>
         </Grid>
         <Grid Name="ResizeCursors">
-            <Rectangle Fill="#00FFFFFF" Stroke="{x:Null}" Margin="4,0" Name="bottom" MouseEnter="DisplayResizeCursor" MouseLeave="ResetCursor" PreviewMouseDown="Resize" Height="4" VerticalAlignment="Bottom" />
-            <Rectangle Fill="#00FFFFFF" HorizontalAlignment="Left" Margin="0,4,0,0" Name="left" VerticalAlignment="Stretch" Width="4" MouseEnter="DisplayResizeCursor" MouseLeave="ResetCursor" PreviewMouseDown="Resize" />
-            <Rectangle Fill="#00FFFFFF" HorizontalAlignment="Right" Margin="0" Name="right" VerticalAlignment="Stretch" Width="4" MouseEnter="DisplayResizeCursor" MouseLeave="ResetCursor" PreviewMouseDown="Resize" />
-            <Rectangle Fill="#00FFFFFF" Height="8" Width="8" HorizontalAlignment="Left" Name="topLeft" VerticalAlignment="Top" MouseEnter="DisplayResizeCursor" MouseLeave="ResetCursor" PreviewMouseDown="Resize" />
-            <Rectangle Fill="#00FFFFFF" Height="8" Width="8" HorizontalAlignment="Left" Margin="0" Name="bottomLeft" VerticalAlignment="Bottom" MouseEnter="DisplayResizeCursor" MouseLeave="ResetCursor" PreviewMouseDown="Resize" />
-            <Rectangle Fill="#00FFFFFF" Height="8" Width="8" HorizontalAlignment="Right" Margin="0" Name="bottomRight" VerticalAlignment="Bottom" MouseEnter="DisplayResizeCursor" MouseLeave="ResetCursor" PreviewMouseDown="Resize" />
-            <Rectangle Fill="#00FFFFFF" Margin="4,0" Name="top" MouseEnter="DisplayResizeCursor" MouseLeave="ResetCursor" PreviewMouseDown="Resize" Height="4" VerticalAlignment="Top" AllowDrop="True"/>
-            <Rectangle Fill="#00FFFFFF" Height="8" Width="8" HorizontalAlignment="Right" Margin="0" Name="topRight" VerticalAlignment="Top" MouseEnter="DisplayResizeCursor" MouseLeave="ResetCursor" PreviewMouseDown="Resize" />
+            <Rectangle 
+                Name="bottom" 
+                Height="4" 
+                Margin="4,0" 
+                Fill="#00FFFFFF" 
+                Stroke="{x:Null}" 
+                MouseEnter="DisplayResizeCursor" 
+                MouseLeave="ResetCursor" 
+                PreviewMouseDown="Resize" 
+                VerticalAlignment="Bottom" />
+            <Rectangle 
+                Name="left" 
+                Width="4" 
+                Margin="0,4,0,0" 
+                Fill="#00FFFFFF" 
+                HorizontalAlignment="Left" 
+                VerticalAlignment="Stretch" 
+                MouseEnter="DisplayResizeCursor" 
+                MouseLeave="ResetCursor" 
+                PreviewMouseDown="Resize" />
+            <Rectangle 
+                Name="right" 
+                Width="4" 
+                Margin="0" 
+                Fill="#00FFFFFF" 
+                HorizontalAlignment="Right" 
+                VerticalAlignment="Stretch" 
+                MouseEnter="DisplayResizeCursor" 
+                MouseLeave="ResetCursor" 
+                PreviewMouseDown="Resize" />
+            <Rectangle 
+                Name="topLeft" 
+                Height="8" 
+                Width="8" 
+                Fill="#00FFFFFF" 
+                HorizontalAlignment="Left" 
+                VerticalAlignment="Top" 
+                MouseEnter="DisplayResizeCursor" 
+                MouseLeave="ResetCursor" 
+                PreviewMouseDown="Resize" />
+            <Rectangle 
+                Name="bottomLeft" 
+                Height="8" 
+                Width="8" 
+                Margin="0" 
+                Fill="#00FFFFFF" 
+                HorizontalAlignment="Left" 
+                VerticalAlignment="Bottom" 
+                MouseEnter="DisplayResizeCursor" 
+                MouseLeave="ResetCursor" 
+                PreviewMouseDown="Resize" />
+            <Rectangle 
+                Name="bottomRight" 
+                Height="8" 
+                Width="8" 
+                Margin="0" 
+                Fill="#00FFFFFF" 
+                HorizontalAlignment="Right" 
+                VerticalAlignment="Bottom" 
+                MouseEnter="DisplayResizeCursor" 
+                MouseLeave="ResetCursor" 
+                PreviewMouseDown="Resize" />
+            <Rectangle 
+                Name="top" 
+                Margin="4,0" 
+                Height="4" 
+                Fill="#00FFFFFF" 
+                MouseEnter="DisplayResizeCursor" 
+                MouseLeave="ResetCursor" 
+                PreviewMouseDown="Resize" 
+                VerticalAlignment="Top" 
+                AllowDrop="True"/>
+            <Rectangle 
+                Name="topRight" 
+                Height="8" 
+                Width="8" 
+                Margin="0" 
+                Fill="#00FFFFFF" 
+                HorizontalAlignment="Right" 
+                VerticalAlignment="Top" 
+                MouseEnter="DisplayResizeCursor" 
+                MouseLeave="ResetCursor" 
+                PreviewMouseDown="Resize" />
         </Grid>
     </Grid>
 </Window>
