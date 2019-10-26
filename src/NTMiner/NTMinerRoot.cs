@@ -33,7 +33,9 @@ namespace NTMiner {
         /// </summary>
         public IMessagePathId ServerContextCmdPath<TCmd>(string description, LogEnum logType, Action<TCmd> action)
             where TCmd : ICmd {
-            return VirtualRoot.BuildPath(description, logType, action).AddToCollection(_serverContextHandlers);
+            var messagePathId = VirtualRoot.BuildPath(description, logType, action);
+            _serverContextHandlers.Add(messagePathId);
+            return messagePathId;
         }
 
         /// <summary>
@@ -41,7 +43,9 @@ namespace NTMiner {
         /// </summary>
         public IMessagePathId ServerContextEventPath<TEvent>(string description, LogEnum logType, Action<TEvent> action)
             where TEvent : IEvent {
-            return VirtualRoot.BuildPath(description, logType, action).AddToCollection(_serverContextHandlers);
+            var messagePathId = VirtualRoot.BuildPath(description, logType, action);
+            _serverContextHandlers.Add(messagePathId);
+            return messagePathId;
         }
 
         public IUserSet UserSet { get; private set; }

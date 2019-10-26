@@ -103,7 +103,8 @@ namespace NTMiner {
                 window.Resources.Add(messagePathIdsResourceKey, messagePathIds);
                 window.Closed += UiElement_Closed;
             }
-            VirtualRoot.BuildPath(description, logType, action).AddToCollection(messagePathIds);
+            var messagePathId = VirtualRoot.BuildPath(description, logType, action);
+            messagePathIds.Add(messagePathId);
         }
 
         public static void BuildEventPath<TEvent>(this Window window, string description, LogEnum logType, Action<TEvent> action)
@@ -120,7 +121,8 @@ namespace NTMiner {
                 window.Resources.Add(messagePathIdsResourceKey, messagePathIds);
                 window.Closed += UiElement_Closed; ;
             }
-            VirtualRoot.BuildPath(description, logType, action).AddToCollection(messagePathIds);
+            var messagePathId = VirtualRoot.BuildPath(description, logType, action);
+            messagePathIds.Add(messagePathId);
         }
 
         private static void UiElement_Closed(object sender, EventArgs e) {
