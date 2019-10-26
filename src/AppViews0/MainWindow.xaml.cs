@@ -61,6 +61,17 @@ namespace NTMiner.Views {
                     this.Bottom = bottom;
                 }
             }
+
+            public enum ResizeDirection {
+                Left = 1,
+                Right = 2,
+                Top = 3,
+                TopLeft = 4,
+                TopRight = 5,
+                Bottom = 6,
+                BottomLeft = 7,
+                BottomRight = 8,
+            }
             #endregion
 
             [DllImport("user32.dll", CharSet = CharSet.Auto)]
@@ -75,16 +86,6 @@ namespace NTMiner.Views {
 
             [DllImport("user32.dll")]
             internal static extern bool GetMonitorInfo(IntPtr hMonitor, MONITORINFO lpmi);
-        }
-        public enum ResizeDirection {
-            Left = 1,
-            Right = 2,
-            Top = 3,
-            TopLeft = 4,
-            TopRight = 5,
-            Bottom = 6,
-            BottomLeft = 7,
-            BottomRight = 8,
         }
 
         private bool mRestoreIfMove = false;
@@ -244,6 +245,7 @@ namespace NTMiner.Views {
 #endif
         }
 
+        #region 改变下面的控制台窗口的尺寸和位置
         private void MoveConsoleWindow() {
             if (!this.IsLoaded) {
                 return;
@@ -280,7 +282,9 @@ namespace NTMiner.Views {
                 consoleWindow.MoveWindow(marginLeft: (int)point.X, marginTop: (int)point.Y, height: (int)ConsoleRectangle.ActualHeight);
             }
         }
+        #endregion
 
+        #region 更新状态栏展示的CPU使用率和温度
         private int _cpuPerformance = 0;
         private int _cpuTemperature = 0;
         private void UpdateCpuView(int performance, int temperature) {
@@ -357,21 +361,9 @@ namespace NTMiner.Views {
                 }
             }
         }
+        #endregion
 
-        private void Resize(object sender, MouseButtonEventArgs e) {
-            this.ResizeWindow(sender);
-        }
-
-        private void DisplayResizeCursor(object sender, MouseEventArgs e) {
-            this.DisplayResizeCursor(sender);
-        }
-
-        private void ResetCursor(object sender, MouseEventArgs e) {
-            if (Mouse.LeftButton != MouseButtonState.Pressed) {
-                this.Cursor = Cursors.Arrow;
-            }
-        }
-
+        #region 显示或隐藏半透明遮罩层
         public void ShowMask() {
             if (this.WindowState != WindowState.Maximized) {
                 this.BorderBrush = WpfUtil.TransparentBrush;
@@ -383,7 +375,9 @@ namespace NTMiner.Views {
             this.BorderBrush = _borderBrush;
             MaskLayer.Visibility = Visibility.Collapsed;
         }
+        #endregion
 
+        #region 主界面左侧的抽屉
         public void BtnMinerProfilePin_Click(object sender, RoutedEventArgs e) {
             ToogleLeft();
         }
@@ -422,6 +416,7 @@ namespace NTMiner.Views {
                 minerProfileLayer.Visibility = Visibility.Collapsed;
             }
         }
+        #endregion
 
         protected override void OnClosing(CancelEventArgs e) {
             e.Cancel = true;
@@ -457,46 +452,60 @@ namespace NTMiner.Views {
             hwndSourceBg.AddHook(new HwndSourceHook(WindowProc));
         }
 
-        private void ResizeWindow(ResizeDirection direction) {
-            SafeNativeMethods.SendMessage(hwndSource.Handle, WM_SYSCOMMAND, (IntPtr)(61440 + direction), IntPtr.Zero);
+        #region 拖动窗口边缘改变窗口尺寸
+        private void Resize(object sender, MouseButtonEventArgs e) {
+            this.ResizeWindow(sender);
         }
 
+        private void DisplayResizeCursor(object sender, MouseEventArgs e) {
+            this.DisplayResizeCursor(sender);
+        }
 
+        private void ResetCursor(object sender, MouseEventArgs e) {
+            if (Mouse.LeftButton != MouseButtonState.Pressed) {
+                this.Cursor = Cursors.Arrow;
+            }
+        }
+
+        private void ResizeWindow(SafeNativeMethods.ResizeDirection direction) {
+            SafeNativeMethods.SendMessage(hwndSource.Handle, WM_SYSCOMMAND, (IntPtr)(61440 + direction), IntPtr.Zero);
+        }
+        
         private void ResizeWindow(object sender) {
             Rectangle clickedRectangle = sender as Rectangle;
 
             switch (clickedRectangle.Name) {
                 case nameof(this.top):
                     clickedRectangle.Cursor = Cursors.SizeNS;
-                    ResizeWindow(ResizeDirection.Top);
+                    ResizeWindow(SafeNativeMethods.ResizeDirection.Top);
                     break;
                 case nameof(this.bottom):
                     clickedRectangle.Cursor = Cursors.SizeNS;
-                    ResizeWindow(ResizeDirection.Bottom);
+                    ResizeWindow(SafeNativeMethods.ResizeDirection.Bottom);
                     break;
                 case nameof(this.left):
                     clickedRectangle.Cursor = Cursors.SizeWE;
-                    ResizeWindow(ResizeDirection.Left);
+                    ResizeWindow(SafeNativeMethods.ResizeDirection.Left);
                     break;
                 case nameof(this.right):
                     clickedRectangle.Cursor = Cursors.SizeWE;
-                    ResizeWindow(ResizeDirection.Right);
+                    ResizeWindow(SafeNativeMethods.ResizeDirection.Right);
                     break;
                 case nameof(this.topLeft):
                     clickedRectangle.Cursor = Cursors.SizeNWSE;
-                    ResizeWindow(ResizeDirection.TopLeft);
+                    ResizeWindow(SafeNativeMethods.ResizeDirection.TopLeft);
                     break;
                 case nameof(this.topRight):
                     clickedRectangle.Cursor = Cursors.SizeNESW;
-                    ResizeWindow(ResizeDirection.TopRight);
+                    ResizeWindow(SafeNativeMethods.ResizeDirection.TopRight);
                     break;
                 case nameof(this.bottomLeft):
                     clickedRectangle.Cursor = Cursors.SizeNESW;
-                    ResizeWindow(ResizeDirection.BottomLeft);
+                    ResizeWindow(SafeNativeMethods.ResizeDirection.BottomLeft);
                     break;
                 case nameof(this.bottomRight):
                     clickedRectangle.Cursor = Cursors.SizeNWSE;
-                    ResizeWindow(ResizeDirection.BottomRight);
+                    ResizeWindow(SafeNativeMethods.ResizeDirection.BottomRight);
                     break;
                 default:
                     break;
@@ -535,6 +544,7 @@ namespace NTMiner.Views {
                     break;
             }
         }
+        #endregion
 
         private static IntPtr WindowProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled) {
             switch (msg) {
@@ -546,6 +556,7 @@ namespace NTMiner.Views {
             return IntPtr.Zero;
         }
 
+        #region 最大化窗口时避免最大化到Windows任务栏
         private static void WmGetMinMaxInfo(IntPtr hwnd, IntPtr lParam) {
             SafeNativeMethods.GetCursorPos(out SafeNativeMethods.POINT lMousePosition);
 
@@ -574,6 +585,7 @@ namespace NTMiner.Views {
 
             Marshal.StructureToPtr(lMmi, lParam, true);
         }
+        #endregion
 
         private void SwitchWindowState() {
             switch (WindowState) {
@@ -588,6 +600,7 @@ namespace NTMiner.Views {
             }
         }
 
+        #region 拖动窗口头部
         private void RctHeader_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
             if (e.ClickCount == 2) {
                 SwitchWindowState();
@@ -626,6 +639,7 @@ namespace NTMiner.Views {
                 DragMove();
             }
         }
+        #endregion
 
         #region 解决当主界面上方出现popup层时主窗口下面的控制台窗口可能会被windows绘制到上面的BUG
         private void Window_Activated(object sender, EventArgs e) {
