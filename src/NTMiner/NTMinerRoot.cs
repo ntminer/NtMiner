@@ -147,7 +147,7 @@ namespace NTMiner {
                         ReInitServerJson();
                         // 作业模式下界面是禁用的，所以这里的初始化isWork必然是false
                         ContextReInit(isWork: VirtualRoot.IsMinerStudio);
-                        VirtualRoot.ThisWorkerMessage(nameof(NTMinerRoot), WorkerMessageType.Info, $"刷新server.json配置");
+                        VirtualRoot.ThisWorkerMessage(nameof(NTMinerRoot), WorkerMessageType.Info, $"刷新server.json配置", toConsole: true);
                     });
                 }
                 else {
@@ -607,7 +607,7 @@ namespace NTMiner {
                 }
                 string packageZipFileFullName = Path.Combine(SpecialPath.PackagesDirFullName, kernel.Package);
                 if (!File.Exists(packageZipFileFullName)) {
-                    VirtualRoot.ThisWorkerMessage(nameof(NTMinerRoot), WorkerMessageType.Info, kernel.GetFullName() + "本地内核包不存在，开始自动下载");
+                    VirtualRoot.ThisWorkerMessage(nameof(NTMinerRoot), WorkerMessageType.Info, kernel.GetFullName() + "本地内核包不存在，开始自动下载", toConsole: true);
                     VirtualRoot.Execute(new ShowKernelDownloaderCommand(kernel.GetId(), downloadComplete: (isSuccess, message) => {
                         if (isSuccess) {
                             StartMine(isRestart);
@@ -639,7 +639,7 @@ namespace NTMiner {
                     }
                     _currentMineContext = mineContext;
                     MinerProcess.CreateProcessAsync(mineContext);
-                    VirtualRoot.ThisWorkerMessage(nameof(NTMinerRoot), WorkerMessageType.Info, "开始挖矿");
+                    VirtualRoot.ThisWorkerMessage(nameof(NTMinerRoot), WorkerMessageType.Info, "开始挖矿", toConsole: true);
                 }
             }
             catch (Exception e) {
