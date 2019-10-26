@@ -27,7 +27,7 @@ namespace NTMiner {
                     action: message => {
                         OnPropertyChangeds();
                     });
-                EventPath<FragmentWriterAddedEvent>("添加了命令行片段书写器后调整VM内存", LogEnum.DevConsole,
+                AppContextEventPath<FragmentWriterAddedEvent>("添加了命令行片段书写器后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         if (!_dicById.ContainsKey(message.Source.GetId())) {
                             FragmentWriterViewModel groupVm = new FragmentWriterViewModel(message.Source);
@@ -35,14 +35,14 @@ namespace NTMiner {
                             OnPropertyChangeds();
                         }
                     });
-                EventPath<FragmentWriterUpdatedEvent>("更新了命令行片段书写器后调整VM内存", LogEnum.DevConsole,
+                AppContextEventPath<FragmentWriterUpdatedEvent>("更新了命令行片段书写器后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         if (_dicById.ContainsKey(message.Source.GetId())) {
                             FragmentWriterViewModel entity = _dicById[message.Source.GetId()];
                             entity.Update(message.Source);
                         }
                     });
-                EventPath<FragmentWriterRemovedEvent>("删除了命令行片段书写器后调整VM内存", LogEnum.DevConsole,
+                AppContextEventPath<FragmentWriterRemovedEvent>("删除了命令行片段书写器后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         _dicById.Remove(message.Source.GetId());
                         OnPropertyChangeds();

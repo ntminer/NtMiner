@@ -89,7 +89,9 @@ namespace NTMiner {
         }
 
         private const string messagePathIdsResourceKey = "messagePathIds";
-        public static void BuildCmdPath<TCmd>(this Window window, string description, LogEnum logType, Action<TCmd> action)
+
+        // 因为是上下文路径，无需返回路径标识
+        public static void WindowContextCmdPath<TCmd>(this Window window, string description, LogEnum logType, Action<TCmd> action)
             where TCmd : ICmd {
             if (Design.IsInDesignMode) {
                 return;
@@ -107,7 +109,8 @@ namespace NTMiner {
             messagePathIds.Add(messagePathId);
         }
 
-        public static void BuildEventPath<TEvent>(this Window window, string description, LogEnum logType, Action<TEvent> action)
+        // 因为是上下文路径，无需返回路径标识
+        public static void WindowContextEventPath<TEvent>(this Window window, string description, LogEnum logType, Action<TEvent> action)
             where TEvent : IEvent {
             if (Design.IsInDesignMode) {
                 return;

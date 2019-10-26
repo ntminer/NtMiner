@@ -29,7 +29,7 @@ namespace NTMiner {
                     action: message => {
                         OnPropertyChangeds();
                     });
-                EventPath<GroupAddedEvent>("添加了组后调整VM内存", LogEnum.DevConsole,
+                AppContextEventPath<GroupAddedEvent>("添加了组后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         if (!_dicById.ContainsKey(message.Source.GetId())) {
                             GroupViewModel groupVm = new GroupViewModel(message.Source);
@@ -37,7 +37,7 @@ namespace NTMiner {
                             OnPropertyChangeds();
                         }
                     });
-                EventPath<GroupUpdatedEvent>("更新了组后调整VM内存", LogEnum.DevConsole,
+                AppContextEventPath<GroupUpdatedEvent>("更新了组后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         if (_dicById.ContainsKey(message.Source.GetId())) {
                             GroupViewModel entity = _dicById[message.Source.GetId()];
@@ -49,7 +49,7 @@ namespace NTMiner {
                             }
                         }
                     });
-                EventPath<GroupRemovedEvent>("删除了组后调整VM内存", LogEnum.DevConsole,
+                AppContextEventPath<GroupRemovedEvent>("删除了组后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         _dicById.Remove(message.Source.GetId());
                         OnPropertyChangeds();

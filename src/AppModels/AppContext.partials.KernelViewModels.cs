@@ -28,7 +28,7 @@ namespace NTMiner {
                     action: message => {
                         OnPropertyChanged(nameof(AllKernels));
                     });
-                EventPath<KernelAddedEvent>("添加了内核后调整VM内存", LogEnum.DevConsole,
+                AppContextEventPath<KernelAddedEvent>("添加了内核后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         _dicById.Add(message.Source.GetId(), new KernelViewModel(message.Source));
                         OnPropertyChanged(nameof(AllKernels));
@@ -36,7 +36,7 @@ namespace NTMiner {
                             coinKernelVm.OnPropertyChanged(nameof(coinKernelVm.IsSupportDualMine));
                         }
                     });
-                EventPath<KernelRemovedEvent>("删除了内核后调整VM内存", LogEnum.DevConsole,
+                AppContextEventPath<KernelRemovedEvent>("删除了内核后调整VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById.Remove(message.Source.GetId());
                         OnPropertyChanged(nameof(AllKernels));
@@ -44,7 +44,7 @@ namespace NTMiner {
                             coinKernelVm.OnPropertyChanged(nameof(coinKernelVm.IsSupportDualMine));
                         }
                     });
-                EventPath<KernelUpdatedEvent>("更新了内核后调整VM内存", LogEnum.DevConsole,
+                AppContextEventPath<KernelUpdatedEvent>("更新了内核后调整VM内存", LogEnum.DevConsole,
                     action: message => {
                         var entity = _dicById[message.Source.GetId()];
                         PublishStatus publishStatus = entity.PublishState;

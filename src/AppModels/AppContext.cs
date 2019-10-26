@@ -16,19 +16,15 @@ namespace NTMiner {
         }
 
         #region static methods
-        /// <summary>
-        /// 命令窗口。使用该方法的代码行应将前两个参数放在第一行以方便vs查找引用时展示出参数信息
-        /// </summary>
-        public static void CmdPath<TCmd>(string description, LogEnum logType, Action<TCmd> action)
+        // 因为是上下文路径，无需返回路径标识
+        public static void AppContextCmdPath<TCmd>(string description, LogEnum logType, Action<TCmd> action)
             where TCmd : ICmd {
             var messagePathId = VirtualRoot.BuildPath(description, logType, action);
             _contextHandlers.Add(messagePathId);
         }
 
-        /// <summary>
-        /// 事件响应
-        /// </summary>
-        public static void EventPath<TEvent>(string description, LogEnum logType, Action<TEvent> action)
+        // 因为是上下文路径，无需返回路径标识
+        public static void AppContextEventPath<TEvent>(string description, LogEnum logType, Action<TEvent> action)
             where TEvent : IEvent {
             var messagePathId = VirtualRoot.BuildPath(description, logType, action);
             _contextHandlers.Add(messagePathId);

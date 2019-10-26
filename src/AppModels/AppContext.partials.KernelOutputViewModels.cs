@@ -23,14 +23,14 @@ namespace NTMiner {
                     action: message => {
                         AllPropertyChanged();
                     });
-                EventPath<KernelOutputAddedEvent>("添加了内核输出组后刷新VM内存", LogEnum.DevConsole,
+                AppContextEventPath<KernelOutputAddedEvent>("添加了内核输出组后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         var vm = new KernelOutputViewModel(message.Source);
                         _dicById.Add(message.Source.GetId(), vm);
                         OnPropertyChanged(nameof(AllKernelOutputVms));
                         OnPropertyChanged(nameof(PleaseSelectVms));
                     });
-                EventPath<KernelOutputUpdatedEvent>("更新了内核输出组后刷新VM内存", LogEnum.DevConsole,
+                AppContextEventPath<KernelOutputUpdatedEvent>("更新了内核输出组后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         if (_dicById.ContainsKey(message.Source.GetId())) {
                             var item = _dicById[message.Source.GetId()];
@@ -39,7 +39,7 @@ namespace NTMiner {
                             }
                         }
                     });
-                EventPath<KernelOutputRemovedEvent>("移除了内核输出组后刷新VM内存", LogEnum.DevConsole,
+                AppContextEventPath<KernelOutputRemovedEvent>("移除了内核输出组后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         if (_dicById.ContainsKey(message.Source.GetId())) {
                             _dicById.Remove(message.Source.GetId());

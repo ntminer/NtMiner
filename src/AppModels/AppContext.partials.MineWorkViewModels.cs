@@ -25,7 +25,7 @@ namespace NTMiner {
                 this.Add = new DelegateCommand(() => {
                     new MineWorkViewModel(Guid.NewGuid()).Edit.Execute(FormType.Add);
                 });
-                EventPath<MineWorkAddedEvent>("添加作业后刷新VM内存", LogEnum.DevConsole,
+                AppContextEventPath<MineWorkAddedEvent>("添加作业后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         if (!_dicById.ContainsKey(message.Source.GetId())) {
                             _dicById.Add(message.Source.GetId(), new MineWorkViewModel(message.Source));
@@ -36,11 +36,11 @@ namespace NTMiner {
                             }
                         }
                     });
-                EventPath<MineWorkUpdatedEvent>("更新作业后刷新VM内存", LogEnum.DevConsole,
+                AppContextEventPath<MineWorkUpdatedEvent>("更新作业后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById[message.Source.GetId()].Update(message.Source);
                     });
-                EventPath<MineWorkRemovedEvent>("删除作业后刷新VM内存", LogEnum.DevConsole,
+                AppContextEventPath<MineWorkRemovedEvent>("删除作业后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById.Remove(message.Source.GetId());
                         OnPropertyChanged(nameof(List));
