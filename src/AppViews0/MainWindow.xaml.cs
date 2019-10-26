@@ -466,35 +466,35 @@ namespace NTMiner.Views {
             Rectangle clickedRectangle = sender as Rectangle;
 
             switch (clickedRectangle.Name) {
-                case "top":
+                case nameof(this.top):
                     this.Cursor = Cursors.SizeNS;
                     ResizeWindow(ResizeDirection.Top);
                     break;
-                case "bottom":
+                case nameof(this.bottom):
                     this.Cursor = Cursors.SizeNS;
                     ResizeWindow(ResizeDirection.Bottom);
                     break;
-                case "left":
+                case nameof(this.left):
                     this.Cursor = Cursors.SizeWE;
                     ResizeWindow(ResizeDirection.Left);
                     break;
-                case "right":
+                case nameof(this.right):
                     this.Cursor = Cursors.SizeWE;
                     ResizeWindow(ResizeDirection.Right);
                     break;
-                case "topLeft":
+                case nameof(this.topLeft):
                     this.Cursor = Cursors.SizeNWSE;
                     ResizeWindow(ResizeDirection.TopLeft);
                     break;
-                case "topRight":
+                case nameof(this.topRight):
                     this.Cursor = Cursors.SizeNESW;
                     ResizeWindow(ResizeDirection.TopRight);
                     break;
-                case "bottomLeft":
+                case nameof(this.bottomLeft):
                     this.Cursor = Cursors.SizeNESW;
                     ResizeWindow(ResizeDirection.BottomLeft);
                     break;
-                case "bottomRight":
+                case nameof(this.bottomRight):
                     this.Cursor = Cursors.SizeNWSE;
                     ResizeWindow(ResizeDirection.BottomRight);
                     break;
@@ -507,28 +507,28 @@ namespace NTMiner.Views {
             Rectangle clickedRectangle = sender as Rectangle;
 
             switch (clickedRectangle.Name) {
-                case "top":
+                case nameof(this.top):
                     this.Cursor = Cursors.SizeNS;
                     break;
-                case "bottom":
+                case nameof(this.bottom):
                     this.Cursor = Cursors.SizeNS;
                     break;
-                case "left":
+                case nameof(this.left):
                     this.Cursor = Cursors.SizeWE;
                     break;
-                case "right":
+                case nameof(this.right):
                     this.Cursor = Cursors.SizeWE;
                     break;
-                case "topLeft":
+                case nameof(this.topLeft):
                     this.Cursor = Cursors.SizeNWSE;
                     break;
-                case "topRight":
+                case nameof(this.topRight):
                     this.Cursor = Cursors.SizeNESW;
                     break;
-                case "bottomLeft":
+                case nameof(this.bottomLeft):
                     this.Cursor = Cursors.SizeNESW;
                     break;
-                case "bottomRight":
+                case nameof(this.bottomRight):
                     this.Cursor = Cursors.SizeNWSE;
                     break;
                 default:
