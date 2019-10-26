@@ -81,11 +81,43 @@ namespace NTMiner.Views {
             [return: MarshalAs(UnmanagedType.Bool)]
             internal static extern bool GetCursorPos(out POINT lpPoint);
 
-            [DllImport("user32.dll", SetLastError = true)]
-            internal static extern IntPtr MonitorFromPoint(POINT pt, MonitorOptions dwFlags);
+            [DllImport("User32")]
+            internal static extern IntPtr MonitorFromWindow(IntPtr handle, int flags);
 
             [DllImport("user32.dll")]
             internal static extern bool GetMonitorInfo(IntPtr hMonitor, MONITORINFO lpmi);
+        }
+
+        #region 最大化窗口时避免最大化到Windows任务栏
+        private static void WmGetMinMaxInfo(IntPtr hwnd, IntPtr lParam) {
+            SafeNativeMethods.MINMAXINFO mmi = (SafeNativeMethods.MINMAXINFO)Marshal.PtrToStructure(lParam, typeof(SafeNativeMethods.MINMAXINFO));
+
+            // Adjust the maximized size and position to fit the work area of the correct monitor
+            int MONITOR_DEFAULTTONEAREST = 0x00000002;
+            IntPtr monitor = SafeNativeMethods.MonitorFromWindow(hwnd, MONITOR_DEFAULTTONEAREST);
+            if (monitor != IntPtr.Zero) {
+                SafeNativeMethods.MONITORINFO monitorInfo = new SafeNativeMethods.MONITORINFO();
+                SafeNativeMethods.GetMonitorInfo(monitor, monitorInfo);
+                SafeNativeMethods.RECT rcWorkArea = monitorInfo.rcWork;
+                SafeNativeMethods.RECT rcMonitorArea = monitorInfo.rcMonitor;
+                mmi.ptMaxPosition.X = Math.Abs(rcWorkArea.Left - rcMonitorArea.Left);
+                mmi.ptMaxPosition.Y = Math.Abs(rcWorkArea.Top - rcMonitorArea.Top);
+                mmi.ptMaxSize.X = Math.Abs(rcWorkArea.Right - rcWorkArea.Left);
+                mmi.ptMaxSize.Y = Math.Abs(rcWorkArea.Bottom - rcWorkArea.Top);
+            }
+
+            Marshal.StructureToPtr(mmi, lParam, true);
+        }
+        #endregion
+
+        private static IntPtr WindowProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled) {
+            switch (msg) {
+                case 0x0024:
+                    WmGetMinMaxInfo(hwnd, lParam);
+                    break;
+            }
+
+            return IntPtr.Zero;
         }
 
         private bool mRestoreIfMove = false;
@@ -243,6 +275,13 @@ namespace NTMiner.Views {
 #if DEBUG
             Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
 #endif
+        }
+
+        private void Window_SourceInitialized(object sender, EventArgs e) {
+            hwndSource = PresentationSource.FromVisual((Visual)sender) as HwndSource;
+            hwndSourceBg = PresentationSource.FromVisual(ConsoleWindow.Instance) as HwndSource;
+            hwndSource.AddHook(new HwndSourceHook(WindowProc));
+            hwndSourceBg.AddHook(new HwndSourceHook(WindowProc));
         }
 
         #region 改变下面的控制台窗口的尺寸和位置
@@ -445,13 +484,6 @@ namespace NTMiner.Views {
             MainArea.SelectedItem = TabItemSpeedTable;
         }
 
-        private void Window_SourceInitialized(object sender, EventArgs e) {
-            hwndSource = PresentationSource.FromVisual((Visual)sender) as HwndSource;
-            hwndSourceBg = PresentationSource.FromVisual(ConsoleWindow.Instance) as HwndSource;
-            hwndSource.AddHook(new HwndSourceHook(WindowProc));
-            hwndSourceBg.AddHook(new HwndSourceHook(WindowProc));
-        }
-
         #region 拖动窗口边缘改变窗口尺寸
         private void Resize(object sender, MouseButtonEventArgs e) {
             this.ResizeWindow(sender);
@@ -546,57 +578,14 @@ namespace NTMiner.Views {
         }
         #endregion
 
-        private static IntPtr WindowProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled) {
-            switch (msg) {
-                case 0x0024:
-                    WmGetMinMaxInfo(hwnd, lParam);
-                    break;
-            }
-
-            return IntPtr.Zero;
-        }
-
-        #region 最大化窗口时避免最大化到Windows任务栏
-        private static void WmGetMinMaxInfo(IntPtr hwnd, IntPtr lParam) {
-            SafeNativeMethods.GetCursorPos(out SafeNativeMethods.POINT lMousePosition);
-
-            IntPtr lPrimaryScreen = SafeNativeMethods.MonitorFromPoint(new SafeNativeMethods.POINT(0, 0), SafeNativeMethods.MonitorOptions.MONITOR_DEFAULTTOPRIMARY);
-            SafeNativeMethods.MONITORINFO lPrimaryScreenInfo = new SafeNativeMethods.MONITORINFO();
-            if (SafeNativeMethods.GetMonitorInfo(lPrimaryScreen, lPrimaryScreenInfo) == false) {
-                return;
-            }
-
-            IntPtr lCurrentScreen = SafeNativeMethods.MonitorFromPoint(lMousePosition, SafeNativeMethods.MonitorOptions.MONITOR_DEFAULTTONEAREST);
-
-            SafeNativeMethods.MINMAXINFO lMmi = (SafeNativeMethods.MINMAXINFO)Marshal.PtrToStructure(lParam, typeof(SafeNativeMethods.MINMAXINFO));
-
-            if (lPrimaryScreen.Equals(lCurrentScreen) == true) {
-                lMmi.ptMaxPosition.X = lPrimaryScreenInfo.rcWork.Left;
-                lMmi.ptMaxPosition.Y = lPrimaryScreenInfo.rcWork.Top;
-                lMmi.ptMaxSize.X = lPrimaryScreenInfo.rcWork.Right - lPrimaryScreenInfo.rcWork.Left;
-                lMmi.ptMaxSize.Y = lPrimaryScreenInfo.rcWork.Bottom - lPrimaryScreenInfo.rcWork.Top;
-            }
-            else {
-                lMmi.ptMaxPosition.X = lPrimaryScreenInfo.rcMonitor.Left;
-                lMmi.ptMaxPosition.Y = lPrimaryScreenInfo.rcMonitor.Top;
-                lMmi.ptMaxSize.X = lPrimaryScreenInfo.rcMonitor.Right - lPrimaryScreenInfo.rcMonitor.Left;
-                lMmi.ptMaxSize.Y = lPrimaryScreenInfo.rcMonitor.Bottom - lPrimaryScreenInfo.rcMonitor.Top;
-            }
-
-            Marshal.StructureToPtr(lMmi, lParam, true);
-        }
-        #endregion
-
         private void SwitchWindowState() {
             switch (WindowState) {
-                case WindowState.Normal: {
-                        Microsoft.Windows.Shell.SystemCommands.MaximizeWindow(this);
-                        break;
-                    }
-                case WindowState.Maximized: {
-                        Microsoft.Windows.Shell.SystemCommands.RestoreWindow(this);
-                        break;
-                    }
+                case WindowState.Normal:
+                    Microsoft.Windows.Shell.SystemCommands.MaximizeWindow(this);
+                    break;
+                case WindowState.Maximized:
+                    Microsoft.Windows.Shell.SystemCommands.RestoreWindow(this);
+                    break;
             }
         }
 
