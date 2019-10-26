@@ -143,9 +143,7 @@ namespace NTMiner.Views {
                 else {
                     NTMinerRoot.IsUiVisible = false;
                 }
-                if (!this.IsVisible) {
-                    ConsoleWindow.Instance.Hide();
-                }
+                MoveConsoleWindow();
             };
             this.ConsoleRectangle.IsVisibleChanged += (sender, e) => {
                 MoveConsoleWindow();
@@ -252,12 +250,14 @@ namespace NTMiner.Views {
                 return;
             }
             ConsoleWindow consoleWindow = ConsoleWindow.Instance;
-            if (this.WindowState == WindowState.Minimized || MainArea.SelectedItem != ConsoleTabItem) {
+            if (!this.IsVisible || this.WindowState == WindowState.Minimized || MainArea.SelectedItem != ConsoleTabItem) {
                 consoleWindow.Hide();
+                NTMinerConsole.Hide();
                 return;
             }
             if (!consoleWindow.IsVisible) {
                 consoleWindow.Show();
+                NTMinerConsole.Show();
             }
             if (consoleWindow.WindowState != this.WindowState) {
                 consoleWindow.WindowState = this.WindowState;

@@ -32,7 +32,7 @@ namespace NTMiner {
             NTMinerRoot.Instance.Exit();
             HttpServer.Stop();
             base.OnExit(e);
-            NTMinerConsole.Hide();
+            NTMinerConsole.Free();
         }
 
         protected override void OnStartup(StartupEventArgs e) {

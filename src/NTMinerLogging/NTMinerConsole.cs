@@ -44,10 +44,20 @@ namespace NTMiner {
                 DisbleQuickEditMode();
                 console = SafeNativeMethods.GetConsoleWindow();
             }
+            else {
+                SafeNativeMethods.ShowWindow(console, 1);
+            }
             return console;
         }
 
         public static void Hide() {
+            IntPtr console = SafeNativeMethods.GetConsoleWindow();
+            if (console != IntPtr.Zero) {
+                SafeNativeMethods.ShowWindow(console, 0);
+            }
+        }
+
+        public static void Free() {
             IntPtr console = SafeNativeMethods.GetConsoleWindow();
             if (console != IntPtr.Zero) {
                 SafeNativeMethods.FreeConsole();
