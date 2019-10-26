@@ -627,6 +627,7 @@ namespace NTMiner.Views {
             }
         }
 
+        #region 解决当主界面上方出现popup层时主窗口下面的控制台窗口可能会被windows绘制到上面的BUG
         private void Window_MouseEnter(object sender, MouseEventArgs e) {
             if (!Topmost) {
                 Topmost = true;
@@ -638,5 +639,6 @@ namespace NTMiner.Views {
                 Topmost = false;
             }
         }
+        #endregion
     }
 }
