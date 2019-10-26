@@ -492,14 +492,11 @@ namespace NTMiner {
                     string processName = _currentMineContext.Kernel.GetProcessName();
                     Task.Factory.StartNew(() => {
                         Windows.TaskKill.Kill(processName, waitForExit: true);
-                        Logger.EventWriteLine("挖矿停止");
                     });
-                }
-                else {
-                    Logger.EventWriteLine("挖矿停止");
                 }
                 var mineContext = _currentMineContext;
                 _currentMineContext = null;
+                VirtualRoot.ThisWorkerMessage(nameof(NTMinerRoot), WorkerMessageType.Info, "挖矿停止", toConsole: true);
                 VirtualRoot.RaiseEvent(new MineStopedEvent(mineContext));
             }
             catch (Exception e) {
@@ -518,7 +515,6 @@ namespace NTMiner {
             }
             else {
                 this.StopMineAsync(StopMineReason.RestartMine, () => {
-                    Logger.EventWriteLine("正在重启内核");
                     if (isWork) {
                         ContextReInit(true);
                     }
@@ -643,7 +639,7 @@ namespace NTMiner {
                     }
                     _currentMineContext = mineContext;
                     MinerProcess.CreateProcessAsync(mineContext);
-                    Logger.EventWriteLine("开始挖矿");
+                    VirtualRoot.ThisWorkerMessage(nameof(NTMinerRoot), WorkerMessageType.Info, "开始挖矿");
                 }
             }
             catch (Exception e) {
