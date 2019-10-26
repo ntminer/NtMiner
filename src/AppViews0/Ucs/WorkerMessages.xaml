@@ -238,6 +238,7 @@
                         <DataTemplate>
                             <controls:KbButton 
 								Margin="2 0"
+                                Visibility="Collapsed"
 								Command="{Binding ViewDetails}" 
                                 Background="Transparent" 
                                 BorderThickness="0"
