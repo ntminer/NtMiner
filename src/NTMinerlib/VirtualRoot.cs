@@ -248,19 +248,19 @@ namespace NTMiner {
         }
         #endregion
 
-        public static void ThisWorkerMessage(string provider, WorkerMessageType messageType, string content, bool toOut = false) {
-            WorkerMessage(WorkerMessageChannel.This, provider, messageType, content, toOut: toOut);
+        public static void ThisWorkerMessage(string provider, WorkerMessageType messageType, string content, bool toOut = false, bool toConsole = false) {
+            WorkerMessage(WorkerMessageChannel.This, provider, messageType, content, toOut: toOut, toConsole: toConsole);
         }
 
-        public static void KernelWorkerMessage(string provider, WorkerMessageType messageType, string content, bool toOut = false) {
-            WorkerMessage(WorkerMessageChannel.Kernel, provider, messageType, content, toOut: toOut);
+        public static void KernelWorkerMessage(string provider, WorkerMessageType messageType, string content, bool toOut = false, bool toConsole = false) {
+            WorkerMessage(WorkerMessageChannel.Kernel, provider, messageType, content, toOut: toOut, toConsole: toConsole);
         }
 
-        public static void ServerWorkerMessage(string provider, WorkerMessageType messageType, string content, bool toOut = false) {
-            WorkerMessage(WorkerMessageChannel.Server, provider, messageType, content, toOut: toOut);
+        public static void ServerWorkerMessage(string provider, WorkerMessageType messageType, string content, bool toOut = false, bool toConsole = false) {
+            WorkerMessage(WorkerMessageChannel.Server, provider, messageType, content, toOut: toOut, toConsole: toConsole);
         }
 
-        private static void WorkerMessage(WorkerMessageChannel channel, string provider, WorkerMessageType messageType, string content, bool toOut) {
+        private static void WorkerMessage(WorkerMessageChannel channel, string provider, WorkerMessageType messageType, string content, bool toOut, bool toConsole) {
             if (toOut) {
                 switch (messageType) {
                     case WorkerMessageType.Undefined:
@@ -273,6 +273,23 @@ namespace NTMiner {
                         break;
                     case WorkerMessageType.Error:
                         Out.ShowError(content, delaySeconds: 4);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            if (toConsole) {
+                switch (messageType) {
+                    case WorkerMessageType.Undefined:
+                        break;
+                    case WorkerMessageType.Info:
+                        Write.UserInfo(content);
+                        break;
+                    case WorkerMessageType.Warn:
+                        Write.UserWarn(content);
+                        break;
+                    case WorkerMessageType.Error:
+                        Write.UserError(content);
                         break;
                     default:
                         break;

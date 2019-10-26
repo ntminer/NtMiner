@@ -114,7 +114,6 @@ namespace NTMiner.Views {
             UIThread.StartTimer();
             ConsoleWindow.Instance.OnSplashHided = MoveConsoleWindow;
             this.Owner = ConsoleWindow.Instance;
-            ConsoleWindow.Instance.Activate();
             InitializeComponent();
             this.MainArea.SelectionChanged += (sender, e) => {
                 var selectedItem = MainArea.SelectedItem;
@@ -143,9 +142,7 @@ namespace NTMiner.Views {
                 else {
                     NTMinerRoot.IsUiVisible = false;
                 }
-                if (!this.IsVisible) {
-                    ConsoleWindow.Instance.Hide();
-                }
+                MoveConsoleWindow();
             };
             this.ConsoleRectangle.IsVisibleChanged += (sender, e) => {
                 MoveConsoleWindow();
@@ -252,12 +249,14 @@ namespace NTMiner.Views {
                 return;
             }
             ConsoleWindow consoleWindow = ConsoleWindow.Instance;
-            if (this.WindowState == WindowState.Minimized || MainArea.SelectedItem != ConsoleTabItem) {
+            if (!this.IsVisible || this.WindowState == WindowState.Minimized || MainArea.SelectedItem != ConsoleTabItem) {
                 consoleWindow.Hide();
+                NTMinerConsole.Hide();
                 return;
             }
             if (!consoleWindow.IsVisible) {
                 consoleWindow.Show();
+                NTMinerConsole.Show();
             }
             if (consoleWindow.WindowState != this.WindowState) {
                 consoleWindow.WindowState = this.WindowState;
@@ -276,8 +275,10 @@ namespace NTMiner.Views {
                     consoleWindow.Top = this.Top;
                 }
             }
-            Point point = ConsoleRectangle.TransformToAncestor(this).Transform(new Point(0, 0));
-            consoleWindow.MoveWindow(marginLeft: (int)point.X, marginTop: (int)point.Y, height: (int)ConsoleRectangle.ActualHeight);
+            if (ConsoleRectangle != null && ConsoleRectangle.IsVisible) {
+                Point point = ConsoleRectangle.TransformToAncestor(this).Transform(new Point(0, 0));
+                consoleWindow.MoveWindow(marginLeft: (int)point.X, marginTop: (int)point.Y, height: (int)ConsoleRectangle.ActualHeight);
+            }
         }
 
         private int _cpuPerformance = 0;
@@ -334,7 +335,7 @@ namespace NTMiner.Views {
                         if (Vm.MinerProfile.HighTemperatureCount >= Vm.MinerProfile.CpuGETemperatureSeconds) {
                             Vm.MinerProfile.HighTemperatureCount = 0;
                             NTMinerRoot.Instance.StopMineAsync(StopMineReason.HighCpuTemperature);
-                            VirtualRoot.ThisWorkerMessage(nameof(MainWindow), WorkerMessageType.Info, $"自动停止挖矿，因为 CPU 温度连续{Vm.MinerProfile.CpuGETemperatureSeconds}秒不低于{Vm.MinerProfile.CpuStopTemperature}℃");
+                            VirtualRoot.ThisWorkerMessage(nameof(MainWindow), WorkerMessageType.Info, $"自动停止挖矿，因为 CPU 温度连续{Vm.MinerProfile.CpuGETemperatureSeconds}秒不低于{Vm.MinerProfile.CpuStopTemperature}℃", toConsole: true);
                         }
                     }
                     else {
@@ -348,7 +349,7 @@ namespace NTMiner.Views {
                             }
                             if (Vm.MinerProfile.LowTemperatureCount >= Vm.MinerProfile.CpuLETemperatureSeconds) {
                                 Vm.MinerProfile.LowTemperatureCount = 0;
-                                VirtualRoot.ThisWorkerMessage(nameof(MainWindow), WorkerMessageType.Info, $"自动开始挖矿，因为 CPU 温度连续{Vm.MinerProfile.CpuLETemperatureSeconds}秒不高于{Vm.MinerProfile.CpuStartTemperature}℃");
+                                VirtualRoot.ThisWorkerMessage(nameof(MainWindow), WorkerMessageType.Info, $"自动开始挖矿，因为 CPU 温度连续{Vm.MinerProfile.CpuLETemperatureSeconds}秒不高于{Vm.MinerProfile.CpuStartTemperature}℃", toConsole: true);
                                 NTMinerRoot.Instance.StartMine();
                             }
                         }
@@ -625,5 +626,19 @@ namespace NTMiner.Views {
                 DragMove();
             }
         }
+
+        #region 解决当主界面上方出现popup层时主窗口下面的控制台窗口可能会被windows绘制到上面的BUG
+        private void Window_MouseEnter(object sender, MouseEventArgs e) {
+            if (!Topmost) {
+                Topmost = true;
+            }
+        }
+
+        private void Window_MouseLeave(object sender, MouseEventArgs e) {
+            if (Topmost) {
+                Topmost = false;
+            }
+        }
+        #endregion
     }
 }

@@ -33,7 +33,7 @@ namespace NTMiner {
                 Server.ControlCenterService.CloseServices();
             }
             base.OnExit(e);
-            NTMinerConsole.Hide();
+            NTMinerConsole.Free();
         }
 
         protected override void OnStartup(StartupEventArgs e) {

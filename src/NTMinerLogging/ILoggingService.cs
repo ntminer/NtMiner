@@ -12,7 +12,6 @@ namespace NTMiner {
 
         void OkWriteLine(object message);
         void WarnWriteLine(object message);
-        void EventWriteLine(object message);
         void ErrorWriteLine(object message);
     }
 }

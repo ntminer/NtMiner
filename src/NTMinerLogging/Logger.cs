@@ -35,9 +35,6 @@ namespace NTMiner {
         public static void WarnWriteLine(object message) {
             s_logger.WarnWriteLine(message);
         }
-        public static void EventWriteLine(object message) {
-            s_logger.EventWriteLine(message);
-        }
         public static void ErrorWriteLine(object message) {
             s_logger.ErrorWriteLine(message);
         }

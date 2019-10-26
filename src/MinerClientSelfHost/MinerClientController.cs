@@ -45,7 +45,7 @@ namespace NTMiner {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                VirtualRoot.ThisWorkerMessage(nameof(MinerClientController), WorkerMessageType.Info, $"开始挖矿");
+                VirtualRoot.ThisWorkerMessage(nameof(MinerClientController), WorkerMessageType.Info, $"开始挖矿", toConsole: true);
                 NTMinerRoot.Instance.RestartMine(isWork: request.WorkId != Guid.Empty);
                 return ResponseBase.Ok();
             }
@@ -61,7 +61,7 @@ namespace NTMiner {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                VirtualRoot.ThisWorkerMessage(nameof(MinerClientController), WorkerMessageType.Info, $"停止挖矿");
+                VirtualRoot.ThisWorkerMessage(nameof(MinerClientController), WorkerMessageType.Info, $"停止挖矿", toConsole: true);
                 NTMinerRoot.Instance.StopMineAsync(StopMineReason.RPCUserAction);
                 return ResponseBase.Ok();
             }
@@ -106,7 +106,7 @@ namespace NTMiner {
 
         [HttpPost]
         public void OverClock() {
-            VirtualRoot.ThisWorkerMessage(nameof(MinerClientController), WorkerMessageType.Info, $"刷新超频");
+            VirtualRoot.ThisWorkerMessage(nameof(MinerClientController), WorkerMessageType.Info, $"刷新超频", toConsole: true);
             NTMinerRoot.Instance.GpuProfileSet.Refresh();
         }
     }

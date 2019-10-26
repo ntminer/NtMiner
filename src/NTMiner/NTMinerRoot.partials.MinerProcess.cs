@@ -34,7 +34,7 @@ namespace NTMiner {
                                 Write.UserWarn("应用超频，如果CPU性能较差耗时可能超过1分钟，请耐心等待");
                                 var cmd = new CoinOverClockCommand(mineContext.MainCoin.GetId());
                                 // N卡超频当cpu性能非常差时较耗时，所以这里弄个回调
-                                MessagePath<CoinOverClockDoneEvent> callback = null;
+                                IMessagePathId callback = null;
                                 callback = VirtualRoot.BuildEventPath<CoinOverClockDoneEvent>("超频完成后继续流程", LogEnum.DevConsole,
                                     message => {
                                         if (mineContext != Instance.CurrentMineContext) {
@@ -123,7 +123,7 @@ namespace NTMiner {
             #endregion
 
             #region KernelProcessDaemon
-            private static MessagePath<Per1MinuteEvent> _kernelProcessDaemon = null;
+            private static IMessagePathId _kernelProcessDaemon = null;
             private static void KernelProcessDaemon(IMineContext mineContext, Action clear) {
                 if (_kernelProcessDaemon != null) {
                     VirtualRoot.DeletePath(_kernelProcessDaemon);
@@ -137,10 +137,10 @@ namespace NTMiner {
                             if (!string.IsNullOrEmpty(processName)) {
                                 Process[] processes = Process.GetProcessesByName(processName);
                                 if (processes.Length == 0) {
-                                    mineContext.AutoRestartKernelCount = mineContext.AutoRestartKernelCount + 1;
-                                    VirtualRoot.ThisWorkerMessage(nameof(NTMinerRoot), WorkerMessageType.Warn, processName + $"挖矿内核进程消失", toOut: true);
+                                    mineContext.AutoRestartKernelCount += 1;
+                                    VirtualRoot.ThisWorkerMessage(nameof(NTMinerRoot), WorkerMessageType.Warn, processName + $"挖矿内核进程消失", toConsole: true);
                                     if (Instance.MinerProfile.IsAutoRestartKernel && mineContext.AutoRestartKernelCount <= Instance.MinerProfile.AutoRestartKernelTimes) {
-                                        VirtualRoot.ThisWorkerMessage(nameof(NTMinerRoot), WorkerMessageType.Info, $"尝试第{mineContext.AutoRestartKernelCount}次重启，共{Instance.MinerProfile.AutoRestartKernelTimes}次", toOut: true);
+                                        VirtualRoot.ThisWorkerMessage(nameof(NTMinerRoot), WorkerMessageType.Info, $"尝试第{mineContext.AutoRestartKernelCount}次重启，共{Instance.MinerProfile.AutoRestartKernelTimes}次", toConsole: true);
                                         Instance.RestartMine();
                                         Instance.CurrentMineContext.AutoRestartKernelCount = mineContext.AutoRestartKernelCount;
                                     }
@@ -165,6 +165,8 @@ namespace NTMiner {
             }
             #endregion
 
+            private static Process _kernelProcess = null;
+            private static readonly object _kernelProcessLocker = new object();
             #region CreateLogfileProcess
             private static void CreateLogfileProcess(IMineContext mineContext, string kernelExeFileFullName, string arguments) {
                 ProcessStartInfo startInfo = new ProcessStartInfo(kernelExeFileFullName, arguments) {
@@ -176,10 +178,17 @@ namespace NTMiner {
                 foreach (var item in mineContext.CoinKernel.EnvironmentVariables) {
                     startInfo.EnvironmentVariables.Add(item.Key, item.Value);
                 }
-                Process process = new Process {
+                if (_kernelProcess != null) {
+                    lock (_kernelProcessLocker) {
+                        if (_kernelProcess != null) {
+                            _kernelProcess.Dispose();
+                        }
+                    }
+                }
+                _kernelProcess = new Process {
                     StartInfo = startInfo
                 };
-                process.Start();
+                _kernelProcess.Start();
                 ReadPrintLoopLogFileAsync(mineContext, isWriteToConsole: false);
                 KernelProcessDaemon(mineContext, null);
             }
@@ -209,7 +218,6 @@ namespace NTMiner {
                         n++;
                     }
                     if (isLogFileCreated) {
-                        Write.UserOk("内核已上场，下面把舞台交给内核。");
                         StreamReader sreader = null;
                         try {
                             sreader = new StreamReader(File.Open(mineContext.LogFileFullName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite), Encoding.Default);
@@ -252,6 +260,14 @@ namespace NTMiner {
                         }
                         Write.UserWarn("内核表演结束");
                     }
+                    if (_kernelProcess != null) {
+                        lock (_kernelProcessLocker) {
+                            if (_kernelProcess != null) {
+                                _kernelProcess.Dispose();
+                                _kernelProcess = null;
+                            }
+                        }
+                    }
                 }, TaskCreationOptions.LongRunning);
             }
             #endregion
@@ -273,6 +289,14 @@ namespace NTMiner {
                 IntPtr mypointer = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(STARTUPINFO)));
                 Marshal.StructureToPtr(saAttr, mypointer, true);
                 var bret = CreatePipe(out var hReadOut, out var hWriteOut, mypointer, 0);
+                
+                const uint STARTF_USESHOWWINDOW = 0x00000001;
+                const uint STARTF_USESTDHANDLES = 0x00000100;
+                const uint NORMAL_PRIORITY_CLASS = 0x00000020;
+                //const short SW_SHOW = 5;
+                const short SW_HIDE = 0;
+                const int HANDLE_FLAG_INHERIT = 1;
+
                 //ensure the read handle to pipe for stdout is not inherited
                 SetHandleInformation(hReadOut, HANDLE_FLAG_INHERIT, 0);
                 ////Create pipe for the child process's STDIN
@@ -317,7 +341,7 @@ namespace NTMiner {
                         VirtualRoot.RaiseEvent(new StartingMineFailedEvent($"管道型进程创建失败 lasterr:{lasterr}"));
                     }
                     else {
-                        Bus.MessagePath<MineStopedEvent> closeHandle = null;
+                        IMessagePathId closeHandle = null;
                         bool isHWriteOutHasClosed = false;
                         KernelProcessDaemon(mineContext, () => {
                             if (!isHWriteOutHasClosed) {
@@ -460,27 +484,6 @@ namespace NTMiner {
                 }
                 return n;
             }
-
-            private const uint STARTF_USESHOWWINDOW = 0x00000001;
-            private const uint STARTF_USESTDHANDLES = 0x00000100;
-            private const uint STARTF_FORCEONFEEDBACK = 0x00000040;
-            private const uint SF_USEPOSITION = 0x00000004;
-            private const uint STARTF_USESIZE = 0x00000002;
-            private const uint STARTF_USECOUNTCHARS = 0x00000008;
-            private const uint NORMAL_PRIORITY_CLASS = 0x00000020;
-            private const uint CREATE_BREAKAWAY_FROM_JOB = 0x01000000;
-            private const uint CREATE_NO_WINDOW = 0x08000000;
-            private const uint CREATE_UNICODE_ENVIRONMENT = 0x00000400;
-            private const short SW_SHOW = 5;
-            private const short SW_HIDE = 0;
-            private const int STD_OUTPUT_HANDLE = -11;
-            private const int HANDLE_FLAG_INHERIT = 1;
-            private const uint GENERIC_READ = 0x80000000;
-            private const uint FILE_ATTRIBUTE_READONLY = 0x00000001;
-            private const uint FILE_ATTRIBUTE_NORMAL = 0x00000080;
-            private const int OPEN_EXISTING = 3;
-            private const uint CREATE_NEW_CONSOLE = 0x00000010;
-            private const uint STILL_ACTIVE = 0x00000103;
             #endregion
         }
     }

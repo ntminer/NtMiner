@@ -22,6 +22,8 @@
         AllowsTransparency="True"
 		WindowStartupLocation="CenterScreen"
 		MouseDown="Window_MouseDown"
+        MouseEnter="Window_MouseEnter"
+        MouseLeave="Window_MouseLeave"
         SourceInitialized="Window_SourceInitialized"
 		TextOptions.TextFormattingMode="Display">
     <Window.DataContext>

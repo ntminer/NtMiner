@@ -37,17 +37,33 @@ namespace NTMiner {
             SafeNativeMethods.SetConsoleMode(hStdin, mode);
         }
 
-        public static IntPtr Show() {
+        public static IntPtr Alloc() {
             IntPtr console = SafeNativeMethods.GetConsoleWindow();
             if (console == IntPtr.Zero) {
                 SafeNativeMethods.AllocConsole();
                 DisbleQuickEditMode();
                 console = SafeNativeMethods.GetConsoleWindow();
+                SafeNativeMethods.ShowWindow(console, 0);
+            }
+            return console;
+        }
+
+        public static IntPtr Show() {
+            IntPtr console = SafeNativeMethods.GetConsoleWindow();
+            if (console != IntPtr.Zero) {
+                SafeNativeMethods.ShowWindow(console, 1);
             }
             return console;
         }
 
         public static void Hide() {
+            IntPtr console = SafeNativeMethods.GetConsoleWindow();
+            if (console != IntPtr.Zero) {
+                SafeNativeMethods.ShowWindow(console, 0);
+            }
+        }
+
+        public static void Free() {
             IntPtr console = SafeNativeMethods.GetConsoleWindow();
             if (console != IntPtr.Zero) {
                 SafeNativeMethods.FreeConsole();
