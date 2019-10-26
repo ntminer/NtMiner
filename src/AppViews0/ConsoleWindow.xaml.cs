@@ -27,7 +27,7 @@ namespace NTMiner.Views {
             Splash.Visibility = Visibility.Collapsed;
             this.ShowInTaskbar = false;
             IntPtr parent = new WindowInteropHelper(this).Handle;
-            IntPtr console = NTMinerConsole.Show();
+            IntPtr console = NTMinerConsole.Alloc();
             SafeNativeMethods.SetParent(console, parent);
             SafeNativeMethods.SetWindowLong(console, SafeNativeMethods.GWL_STYLE, SafeNativeMethods.WS_VISIBLE);
             _isSplashed = true;
