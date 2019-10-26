@@ -26,11 +26,6 @@ namespace NTMiner.Views {
             public struct POINT {
                 public int X;
                 public int Y;
-
-                public POINT(int x, int y) {
-                    this.X = x;
-                    this.Y = y;
-                }
             }
 
             [StructLayout(LayoutKind.Sequential)]
@@ -53,13 +48,6 @@ namespace NTMiner.Views {
             [StructLayout(LayoutKind.Sequential)]
             public struct RECT {
                 public int Left, Top, Right, Bottom;
-
-                public RECT(int left, int top, int right, int bottom) {
-                    this.Left = left;
-                    this.Top = top;
-                    this.Right = right;
-                    this.Bottom = bottom;
-                }
             }
 
             public enum ResizeDirection {
