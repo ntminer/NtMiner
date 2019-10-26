@@ -23,7 +23,7 @@ namespace NTMiner {
                     action: message => {
                         OnPropertyChanged(nameof(AllPackages));
                     });
-                EventPath<PackageAddedEvent>("添加了包后调整VM内存", LogEnum.DevConsole,
+                AppContextEventPath<PackageAddedEvent>("添加了包后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         _dicById.Add(message.Source.GetId(), new PackageViewModel(message.Source));
                         OnPropertyChanged(nameof(AllPackages));
@@ -31,7 +31,7 @@ namespace NTMiner {
                             item.OnPropertyChanged(nameof(item.IsPackageValid));
                         }
                     });
-                EventPath<PackageRemovedEvent>("删除了包后调整VM内存", LogEnum.DevConsole,
+                AppContextEventPath<PackageRemovedEvent>("删除了包后调整VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById.Remove(message.Source.GetId());
                         OnPropertyChanged(nameof(AllPackages));
@@ -39,7 +39,7 @@ namespace NTMiner {
                             item.OnPropertyChanged(nameof(item.IsPackageValid));
                         }
                     });
-                EventPath<PackageUpdatedEvent>("更新了包后调整VM内存", LogEnum.DevConsole,
+                AppContextEventPath<PackageUpdatedEvent>("更新了包后调整VM内存", LogEnum.DevConsole,
                     action: message => {
                         var entity = _dicById[message.Source.GetId()];
                         entity.Update(message.Source);

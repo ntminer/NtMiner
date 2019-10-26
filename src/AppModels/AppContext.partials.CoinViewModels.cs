@@ -28,19 +28,19 @@ namespace NTMiner {
                     action: message => {
                         AllPropertyChanged();
                     });
-                EventPath<CoinAddedEvent>("添加了币种后刷新VM内存", LogEnum.DevConsole,
+                AppContextEventPath<CoinAddedEvent>("添加了币种后刷新VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         _dicById.Add(message.Source.GetId(), new CoinViewModel(message.Source));
                         AppContext.Instance.MinerProfileVm.OnPropertyChanged(nameof(NTMiner.AppContext.Instance.MinerProfileVm.CoinVm));
                         AllPropertyChanged();
                     });
-                EventPath<CoinRemovedEvent>("移除了币种后刷新VM内存", LogEnum.DevConsole,
+                AppContextEventPath<CoinRemovedEvent>("移除了币种后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById.Remove(message.Source.GetId());
                         AppContext.Instance.MinerProfileVm.OnPropertyChanged(nameof(NTMiner.AppContext.Instance.MinerProfileVm.CoinVm));
                         AllPropertyChanged();
                     });
-                EventPath<CoinUpdatedEvent>("更新了币种后刷新VM内存", LogEnum.DevConsole,
+                AppContextEventPath<CoinUpdatedEvent>("更新了币种后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         CoinViewModel coinVm = _dicById[message.Source.GetId()];
                         bool justAsDualCoin = coinVm.JustAsDualCoin;
@@ -61,7 +61,7 @@ namespace NTMiner {
                             OnPropertyChanged(nameof(MainCoins));
                         }
                     });
-                EventPath<CoinIconDownloadedEvent>("下载了币种图标后", LogEnum.DevConsole,
+                AppContextEventPath<CoinIconDownloadedEvent>("下载了币种图标后", LogEnum.DevConsole,
                     action: message => {
                         try {
                             if (string.IsNullOrEmpty(message.Source.Icon)) {

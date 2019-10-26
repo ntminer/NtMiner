@@ -22,7 +22,7 @@ namespace NTMiner {
                     action: message => {
                         OnPropertyChanged(nameof(AllPools));
                     });
-                EventPath<PoolAddedEvent>("添加矿池后刷新VM内存", LogEnum.DevConsole,
+                AppContextEventPath<PoolAddedEvent>("添加矿池后刷新VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         _dicById.Add(message.Source.GetId(), new PoolViewModel(message.Source));
                         OnPropertyChanged(nameof(AllPools));
@@ -34,7 +34,7 @@ namespace NTMiner {
                             coinVm.OnPropertyChanged(nameof(NTMiner.Vms.CoinViewModel.OptionPools));
                         }
                     });
-                EventPath<PoolRemovedEvent>("删除矿池后刷新VM内存", LogEnum.DevConsole,
+                AppContextEventPath<PoolRemovedEvent>("删除矿池后刷新VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         _dicById.Remove(message.Source.GetId());
                         OnPropertyChanged(nameof(AllPools));
@@ -46,7 +46,7 @@ namespace NTMiner {
                             coinVm.OnPropertyChanged(nameof(CoinViewModel.OptionPools));
                         }
                     });
-                EventPath<PoolUpdatedEvent>("更新矿池后刷新VM内存", LogEnum.DevConsole,
+                AppContextEventPath<PoolUpdatedEvent>("更新矿池后刷新VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         _dicById[message.Source.GetId()].Update(message.Source);
                     });

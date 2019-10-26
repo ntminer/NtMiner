@@ -26,11 +26,6 @@ namespace NTMiner.Views {
             public struct POINT {
                 public int X;
                 public int Y;
-
-                public POINT(int x, int y) {
-                    this.X = x;
-                    this.Y = y;
-                }
             }
 
             [StructLayout(LayoutKind.Sequential)]
@@ -53,13 +48,17 @@ namespace NTMiner.Views {
             [StructLayout(LayoutKind.Sequential)]
             public struct RECT {
                 public int Left, Top, Right, Bottom;
+            }
 
-                public RECT(int left, int top, int right, int bottom) {
-                    this.Left = left;
-                    this.Top = top;
-                    this.Right = right;
-                    this.Bottom = bottom;
-                }
+            public enum ResizeDirection {
+                Left = 1,
+                Right = 2,
+                Top = 3,
+                TopLeft = 4,
+                TopRight = 5,
+                Bottom = 6,
+                BottomLeft = 7,
+                BottomRight = 8,
             }
             #endregion
 
@@ -70,21 +69,44 @@ namespace NTMiner.Views {
             [return: MarshalAs(UnmanagedType.Bool)]
             internal static extern bool GetCursorPos(out POINT lpPoint);
 
-            [DllImport("user32.dll", SetLastError = true)]
-            internal static extern IntPtr MonitorFromPoint(POINT pt, MonitorOptions dwFlags);
+            [DllImport("User32")]
+            internal static extern IntPtr MonitorFromWindow(IntPtr handle, int flags);
 
             [DllImport("user32.dll")]
             internal static extern bool GetMonitorInfo(IntPtr hMonitor, MONITORINFO lpmi);
         }
-        public enum ResizeDirection {
-            Left = 1,
-            Right = 2,
-            Top = 3,
-            TopLeft = 4,
-            TopRight = 5,
-            Bottom = 6,
-            BottomLeft = 7,
-            BottomRight = 8,
+
+        #region 最大化窗口时避免最大化到Windows任务栏
+        private static void WmGetMinMaxInfo(IntPtr hwnd, IntPtr lParam) {
+            SafeNativeMethods.MINMAXINFO mmi = (SafeNativeMethods.MINMAXINFO)Marshal.PtrToStructure(lParam, typeof(SafeNativeMethods.MINMAXINFO));
+
+            // Adjust the maximized size and position to fit the work area of the correct monitor
+            int MONITOR_DEFAULTTONEAREST = 0x00000002;
+            IntPtr monitor = SafeNativeMethods.MonitorFromWindow(hwnd, MONITOR_DEFAULTTONEAREST);
+            if (monitor != IntPtr.Zero) {
+                SafeNativeMethods.MONITORINFO monitorInfo = new SafeNativeMethods.MONITORINFO();
+                SafeNativeMethods.GetMonitorInfo(monitor, monitorInfo);
+                SafeNativeMethods.RECT rcWorkArea = monitorInfo.rcWork;
+                SafeNativeMethods.RECT rcMonitorArea = monitorInfo.rcMonitor;
+                mmi.ptMaxPosition.X = Math.Abs(rcWorkArea.Left - rcMonitorArea.Left);
+                mmi.ptMaxPosition.Y = Math.Abs(rcWorkArea.Top - rcMonitorArea.Top);
+                mmi.ptMaxSize.X = Math.Abs(rcWorkArea.Right - rcWorkArea.Left);
+                mmi.ptMaxSize.Y = Math.Abs(rcWorkArea.Bottom - rcWorkArea.Top);
+            }
+
+            Marshal.StructureToPtr(mmi, lParam, true);
+        }
+        #endregion
+
+        private static IntPtr WindowProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled) {
+            switch (msg) {
+                case 0x0024:
+                    WmGetMinMaxInfo(hwnd, lParam);
+                    handled = true;
+                    break;
+            }
+
+            return IntPtr.Zero;
         }
 
         private bool mRestoreIfMove = false;
@@ -197,14 +219,14 @@ namespace NTMiner.Views {
                 });
             });
             if (DevMode.IsDevMode) {
-                this.BuildEventPath<ServerJsonVersionChangedEvent>("开发者模式展示ServerJsonVersion", LogEnum.DevConsole,
+                this.WindowContextEventPath<ServerJsonVersionChangedEvent>("开发者模式展示ServerJsonVersion", LogEnum.DevConsole,
                     action: message => {
                         UIThread.Execute(() => {
                             Vm.ServerJsonVersion = NTMinerRoot.Instance.GetServerJsonVersion();
                         });
                     });
             }
-            this.BuildEventPath<PoolDelayPickedEvent>("从内核输出中提取了矿池延时时展示到界面", LogEnum.DevConsole,
+            this.WindowContextEventPath<PoolDelayPickedEvent>("从内核输出中提取了矿池延时时展示到界面", LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
                         if (message.IsDual) {
@@ -215,21 +237,21 @@ namespace NTMiner.Views {
                         }
                     });
                 });
-            this.BuildEventPath<MineStartedEvent>("开始挖矿后将清空矿池延时", LogEnum.DevConsole,
+            this.WindowContextEventPath<MineStartedEvent>("开始挖矿后将清空矿池延时", LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
                         Vm.StateBarVm.PoolDelayText = string.Empty;
                         Vm.StateBarVm.DualPoolDelayText = string.Empty;
                     });
                 });
-            this.BuildEventPath<MineStopedEvent>("停止挖矿后将清空矿池延时", LogEnum.DevConsole,
+            this.WindowContextEventPath<MineStopedEvent>("停止挖矿后将清空矿池延时", LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
                         Vm.StateBarVm.PoolDelayText = string.Empty;
                         Vm.StateBarVm.DualPoolDelayText = string.Empty;
                     });
                 });
-            this.BuildEventPath<Per1MinuteEvent>("挖矿中时自动切换为无界面模式 和 守护进程状态显示", LogEnum.DevConsole,
+            this.WindowContextEventPath<Per1MinuteEvent>("挖矿中时自动切换为无界面模式 和 守护进程状态显示", LogEnum.DevConsole,
                 action: message => {
                     if (NTMinerRoot.IsUiVisible && NTMinerRoot.Instance.MinerProfile.IsAutoNoUi && NTMinerRoot.Instance.IsMining) {
                         if (NTMinerRoot.MainWindowRendedOn.AddMinutes(NTMinerRoot.Instance.MinerProfile.AutoNoUiMinutes) < message.Timestamp) {
@@ -244,6 +266,14 @@ namespace NTMiner.Views {
 #endif
         }
 
+        private void Window_SourceInitialized(object sender, EventArgs e) {
+            hwndSource = PresentationSource.FromVisual((Visual)sender) as HwndSource;
+            hwndSourceBg = PresentationSource.FromVisual(ConsoleWindow.Instance) as HwndSource;
+            hwndSource.AddHook(new HwndSourceHook(WindowProc));
+            hwndSourceBg.AddHook(new HwndSourceHook(WindowProc));
+        }
+
+        #region 改变下面的控制台窗口的尺寸和位置
         private void MoveConsoleWindow() {
             if (!this.IsLoaded) {
                 return;
@@ -280,7 +310,9 @@ namespace NTMiner.Views {
                 consoleWindow.MoveWindow(marginLeft: (int)point.X, marginTop: (int)point.Y, height: (int)ConsoleRectangle.ActualHeight);
             }
         }
+        #endregion
 
+        #region 更新状态栏展示的CPU使用率和温度
         private int _cpuPerformance = 0;
         private int _cpuTemperature = 0;
         private void UpdateCpuView(int performance, int temperature) {
@@ -313,7 +345,7 @@ namespace NTMiner.Views {
                     UIThread.Execute(() => {
                         UpdateCpuView(performance, temperature);
                     });
-                    this.BuildEventPath<Per1SecondEvent>("每秒钟更新CPU使用率和温度", LogEnum.None,
+                    this.WindowContextEventPath<Per1SecondEvent>("每秒钟更新CPU使用率和温度", LogEnum.None,
                         action: message => {
                             RefreshCpu();
                         });
@@ -357,21 +389,9 @@ namespace NTMiner.Views {
                 }
             }
         }
+        #endregion
 
-        private void Resize(object sender, MouseButtonEventArgs e) {
-            this.ResizeWindow(sender);
-        }
-
-        private void DisplayResizeCursor(object sender, MouseEventArgs e) {
-            this.DisplayResizeCursor(sender);
-        }
-
-        private void ResetCursor(object sender, MouseEventArgs e) {
-            if (Mouse.LeftButton != MouseButtonState.Pressed) {
-                this.Cursor = Cursors.Arrow;
-            }
-        }
-
+        #region 显示或隐藏半透明遮罩层
         public void ShowMask() {
             if (this.WindowState != WindowState.Maximized) {
                 this.BorderBrush = WpfUtil.TransparentBrush;
@@ -383,7 +403,9 @@ namespace NTMiner.Views {
             this.BorderBrush = _borderBrush;
             MaskLayer.Visibility = Visibility.Collapsed;
         }
+        #endregion
 
+        #region 主界面左侧的抽屉
         public void BtnMinerProfilePin_Click(object sender, RoutedEventArgs e) {
             ToogleLeft();
         }
@@ -422,6 +444,7 @@ namespace NTMiner.Views {
                 minerProfileLayer.Visibility = Visibility.Collapsed;
             }
         }
+        #endregion
 
         protected override void OnClosing(CancelEventArgs e) {
             e.Cancel = true;
@@ -450,53 +473,60 @@ namespace NTMiner.Views {
             MainArea.SelectedItem = TabItemSpeedTable;
         }
 
-        private void Window_SourceInitialized(object sender, EventArgs e) {
-            hwndSource = PresentationSource.FromVisual((Visual)sender) as HwndSource;
-            hwndSourceBg = PresentationSource.FromVisual(ConsoleWindow.Instance) as HwndSource;
-            hwndSource.AddHook(new HwndSourceHook(WindowProc));
-            hwndSourceBg.AddHook(new HwndSourceHook(WindowProc));
+        #region 拖动窗口边缘改变窗口尺寸
+        private void Resize(object sender, MouseButtonEventArgs e) {
+            this.ResizeWindow(sender);
         }
 
-        private void ResizeWindow(ResizeDirection direction) {
+        private void DisplayResizeCursor(object sender, MouseEventArgs e) {
+            this.DisplayResizeCursor(sender);
+        }
+
+        private void ResetCursor(object sender, MouseEventArgs e) {
+            if (Mouse.LeftButton != MouseButtonState.Pressed) {
+                this.Cursor = Cursors.Arrow;
+            }
+        }
+
+        private void ResizeWindow(SafeNativeMethods.ResizeDirection direction) {
             SafeNativeMethods.SendMessage(hwndSource.Handle, WM_SYSCOMMAND, (IntPtr)(61440 + direction), IntPtr.Zero);
         }
-
-
+        
         private void ResizeWindow(object sender) {
             Rectangle clickedRectangle = sender as Rectangle;
 
             switch (clickedRectangle.Name) {
-                case "top":
-                    this.Cursor = Cursors.SizeNS;
-                    ResizeWindow(ResizeDirection.Top);
+                case nameof(this.top):
+                    clickedRectangle.Cursor = Cursors.SizeNS;
+                    ResizeWindow(SafeNativeMethods.ResizeDirection.Top);
                     break;
-                case "bottom":
-                    this.Cursor = Cursors.SizeNS;
-                    ResizeWindow(ResizeDirection.Bottom);
+                case nameof(this.bottom):
+                    clickedRectangle.Cursor = Cursors.SizeNS;
+                    ResizeWindow(SafeNativeMethods.ResizeDirection.Bottom);
                     break;
-                case "left":
-                    this.Cursor = Cursors.SizeWE;
-                    ResizeWindow(ResizeDirection.Left);
+                case nameof(this.left):
+                    clickedRectangle.Cursor = Cursors.SizeWE;
+                    ResizeWindow(SafeNativeMethods.ResizeDirection.Left);
                     break;
-                case "right":
-                    this.Cursor = Cursors.SizeWE;
-                    ResizeWindow(ResizeDirection.Right);
+                case nameof(this.right):
+                    clickedRectangle.Cursor = Cursors.SizeWE;
+                    ResizeWindow(SafeNativeMethods.ResizeDirection.Right);
                     break;
-                case "topLeft":
-                    this.Cursor = Cursors.SizeNWSE;
-                    ResizeWindow(ResizeDirection.TopLeft);
+                case nameof(this.topLeft):
+                    clickedRectangle.Cursor = Cursors.SizeNWSE;
+                    ResizeWindow(SafeNativeMethods.ResizeDirection.TopLeft);
                     break;
-                case "topRight":
-                    this.Cursor = Cursors.SizeNESW;
-                    ResizeWindow(ResizeDirection.TopRight);
+                case nameof(this.topRight):
+                    clickedRectangle.Cursor = Cursors.SizeNESW;
+                    ResizeWindow(SafeNativeMethods.ResizeDirection.TopRight);
                     break;
-                case "bottomLeft":
-                    this.Cursor = Cursors.SizeNESW;
-                    ResizeWindow(ResizeDirection.BottomLeft);
+                case nameof(this.bottomLeft):
+                    clickedRectangle.Cursor = Cursors.SizeNESW;
+                    ResizeWindow(SafeNativeMethods.ResizeDirection.BottomLeft);
                     break;
-                case "bottomRight":
-                    this.Cursor = Cursors.SizeNWSE;
-                    ResizeWindow(ResizeDirection.BottomRight);
+                case nameof(this.bottomRight):
+                    clickedRectangle.Cursor = Cursors.SizeNWSE;
+                    ResizeWindow(SafeNativeMethods.ResizeDirection.BottomRight);
                     break;
                 default:
                     break;
@@ -507,87 +537,48 @@ namespace NTMiner.Views {
             Rectangle clickedRectangle = sender as Rectangle;
 
             switch (clickedRectangle.Name) {
-                case "top":
-                    this.Cursor = Cursors.SizeNS;
+                case nameof(this.top):
+                    clickedRectangle.Cursor = Cursors.SizeNS;
                     break;
-                case "bottom":
-                    this.Cursor = Cursors.SizeNS;
+                case nameof(this.bottom):
+                    clickedRectangle.Cursor = Cursors.SizeNS;
                     break;
-                case "left":
-                    this.Cursor = Cursors.SizeWE;
+                case nameof(this.left):
+                    clickedRectangle.Cursor = Cursors.SizeWE;
                     break;
-                case "right":
-                    this.Cursor = Cursors.SizeWE;
+                case nameof(this.right):
+                    clickedRectangle.Cursor = Cursors.SizeWE;
                     break;
-                case "topLeft":
-                    this.Cursor = Cursors.SizeNWSE;
+                case nameof(this.topLeft):
+                    clickedRectangle.Cursor = Cursors.SizeNWSE;
                     break;
-                case "topRight":
-                    this.Cursor = Cursors.SizeNESW;
+                case nameof(this.topRight):
+                    clickedRectangle.Cursor = Cursors.SizeNESW;
                     break;
-                case "bottomLeft":
-                    this.Cursor = Cursors.SizeNESW;
+                case nameof(this.bottomLeft):
+                    clickedRectangle.Cursor = Cursors.SizeNESW;
                     break;
-                case "bottomRight":
-                    this.Cursor = Cursors.SizeNWSE;
+                case nameof(this.bottomRight):
+                    clickedRectangle.Cursor = Cursors.SizeNWSE;
                     break;
                 default:
                     break;
             }
         }
-
-        private static IntPtr WindowProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled) {
-            switch (msg) {
-                case 0x0024:
-                    WmGetMinMaxInfo(hwnd, lParam);
-                    break;
-            }
-
-            return IntPtr.Zero;
-        }
-
-        private static void WmGetMinMaxInfo(IntPtr hwnd, IntPtr lParam) {
-            SafeNativeMethods.GetCursorPos(out SafeNativeMethods.POINT lMousePosition);
-
-            IntPtr lPrimaryScreen = SafeNativeMethods.MonitorFromPoint(new SafeNativeMethods.POINT(0, 0), SafeNativeMethods.MonitorOptions.MONITOR_DEFAULTTOPRIMARY);
-            SafeNativeMethods.MONITORINFO lPrimaryScreenInfo = new SafeNativeMethods.MONITORINFO();
-            if (SafeNativeMethods.GetMonitorInfo(lPrimaryScreen, lPrimaryScreenInfo) == false) {
-                return;
-            }
-
-            IntPtr lCurrentScreen = SafeNativeMethods.MonitorFromPoint(lMousePosition, SafeNativeMethods.MonitorOptions.MONITOR_DEFAULTTONEAREST);
-
-            SafeNativeMethods.MINMAXINFO lMmi = (SafeNativeMethods.MINMAXINFO)Marshal.PtrToStructure(lParam, typeof(SafeNativeMethods.MINMAXINFO));
-
-            if (lPrimaryScreen.Equals(lCurrentScreen) == true) {
-                lMmi.ptMaxPosition.X = lPrimaryScreenInfo.rcWork.Left;
-                lMmi.ptMaxPosition.Y = lPrimaryScreenInfo.rcWork.Top;
-                lMmi.ptMaxSize.X = lPrimaryScreenInfo.rcWork.Right - lPrimaryScreenInfo.rcWork.Left;
-                lMmi.ptMaxSize.Y = lPrimaryScreenInfo.rcWork.Bottom - lPrimaryScreenInfo.rcWork.Top;
-            }
-            else {
-                lMmi.ptMaxPosition.X = lPrimaryScreenInfo.rcMonitor.Left;
-                lMmi.ptMaxPosition.Y = lPrimaryScreenInfo.rcMonitor.Top;
-                lMmi.ptMaxSize.X = lPrimaryScreenInfo.rcMonitor.Right - lPrimaryScreenInfo.rcMonitor.Left;
-                lMmi.ptMaxSize.Y = lPrimaryScreenInfo.rcMonitor.Bottom - lPrimaryScreenInfo.rcMonitor.Top;
-            }
-
-            Marshal.StructureToPtr(lMmi, lParam, true);
-        }
+        #endregion
 
         private void SwitchWindowState() {
             switch (WindowState) {
-                case WindowState.Normal: {
-                        Microsoft.Windows.Shell.SystemCommands.MaximizeWindow(this);
-                        break;
-                    }
-                case WindowState.Maximized: {
-                        Microsoft.Windows.Shell.SystemCommands.RestoreWindow(this);
-                        break;
-                    }
+                case WindowState.Normal:
+                    Microsoft.Windows.Shell.SystemCommands.MaximizeWindow(this);
+                    break;
+                case WindowState.Maximized:
+                    Microsoft.Windows.Shell.SystemCommands.RestoreWindow(this);
+                    break;
             }
         }
 
+        #region 拖动窗口头部
         private void RctHeader_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
             if (e.ClickCount == 2) {
                 SwitchWindowState();
@@ -626,15 +617,16 @@ namespace NTMiner.Views {
                 DragMove();
             }
         }
+        #endregion
 
         #region 解决当主界面上方出现popup层时主窗口下面的控制台窗口可能会被windows绘制到上面的BUG
-        private void Window_MouseEnter(object sender, MouseEventArgs e) {
+        private void Window_Activated(object sender, EventArgs e) {
             if (!Topmost) {
                 Topmost = true;
             }
         }
 
-        private void Window_MouseLeave(object sender, MouseEventArgs e) {
+        private void Window_Deactivated(object sender, EventArgs e) {
             if (Topmost) {
                 Topmost = false;
             }

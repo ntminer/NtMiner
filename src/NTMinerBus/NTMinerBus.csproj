@@ -51,7 +51,6 @@
     <Compile Include="Bus\IMessage.cs" />
     <Compile Include="Bus\IMessageDispatcher.cs" />
     <Compile Include="Bus\MessageDispatcher.cs" />
-    <Compile Include="Bus\MessageHandlerExtensions.cs" />
     <Compile Include="Bus\MessageTypeAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

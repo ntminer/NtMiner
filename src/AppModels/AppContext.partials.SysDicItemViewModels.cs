@@ -23,7 +23,7 @@ namespace NTMiner {
                     action: message => {
                         OnPropertyChangeds();
                     });
-                EventPath<SysDicItemAddedEvent>("添加了系统字典项后调整VM内存", LogEnum.DevConsole,
+                AppContextEventPath<SysDicItemAddedEvent>("添加了系统字典项后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         if (!_dicById.ContainsKey(message.Source.GetId())) {
                             _dicById.Add(message.Source.GetId(), new SysDicItemViewModel(message.Source));
@@ -35,7 +35,7 @@ namespace NTMiner {
                             }
                         }
                     });
-                EventPath<SysDicItemUpdatedEvent>("更新了系统字典项后调整VM内存", LogEnum.DevConsole,
+                AppContextEventPath<SysDicItemUpdatedEvent>("更新了系统字典项后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         if (_dicById.ContainsKey(message.Source.GetId())) {
                             SysDicItemViewModel entity = _dicById[message.Source.GetId()];
@@ -50,7 +50,7 @@ namespace NTMiner {
                             }
                         }
                     });
-                EventPath<SysDicItemRemovedEvent>("删除了系统字典项后调整VM内存", LogEnum.DevConsole,
+                AppContextEventPath<SysDicItemRemovedEvent>("删除了系统字典项后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         _dicById.Remove(message.Source.GetId());
                         OnPropertyChangeds();

@@ -21,7 +21,7 @@ namespace NTMiner {
                         _listByGroupId.Clear();
                         Init();
                     });
-                EventPath<CoinGroupAddedEvent>("添加了币组后调整VM内存", LogEnum.DevConsole,
+                AppContextEventPath<CoinGroupAddedEvent>("添加了币组后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         if (!_dicById.ContainsKey(message.Source.GetId())) {
                             CoinGroupViewModel coinGroupVm = new CoinGroupViewModel(message.Source);
@@ -33,7 +33,7 @@ namespace NTMiner {
                             OnGroupPropertyChanged(coinGroupVm.GroupId);
                         }
                     });
-                EventPath<CoinGroupRemovedEvent>("删除了币组后调整VM内存", LogEnum.DevConsole,
+                AppContextEventPath<CoinGroupRemovedEvent>("删除了币组后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         if (_dicById.ContainsKey(message.Source.GetId())) {
                             var entity = _dicById[message.Source.GetId()];

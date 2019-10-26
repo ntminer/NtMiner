@@ -20,7 +20,7 @@ namespace NTMiner {
                         _dicByKernelOutputId.Clear();
                         Init();
                     });
-                EventPath<KernelOutputFilterAddedEvent>("添加了内核输出过滤器后刷新VM内存", LogEnum.DevConsole,
+                AppContextEventPath<KernelOutputFilterAddedEvent>("添加了内核输出过滤器后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         if (!_dicById.ContainsKey(message.Source.GetId())) {
                             KernelOutputFilterViewModel vm = new KernelOutputFilterViewModel(message.Source);
@@ -34,13 +34,13 @@ namespace NTMiner {
                             }
                         }
                     });
-                EventPath<KernelOutputFilterUpdatedEvent>("更新了内核输出过滤器后刷新VM内存", LogEnum.DevConsole,
+                AppContextEventPath<KernelOutputFilterUpdatedEvent>("更新了内核输出过滤器后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         if (_dicById.TryGetValue(message.Source.GetId(), out KernelOutputFilterViewModel vm)) {
                             vm.Update(message.Source);
                         }
                     });
-                EventPath<KernelOutputFilterRemovedEvent>("删除了内核输出过滤器后刷新VM内存", LogEnum.DevConsole,
+                AppContextEventPath<KernelOutputFilterRemovedEvent>("删除了内核输出过滤器后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         if (_dicById.TryGetValue(message.Source.GetId(), out KernelOutputFilterViewModel vm)) {
                             _dicById.Remove(vm.Id);
