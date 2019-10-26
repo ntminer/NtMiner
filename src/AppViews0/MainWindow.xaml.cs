@@ -467,35 +467,35 @@ namespace NTMiner.Views {
 
             switch (clickedRectangle.Name) {
                 case nameof(this.top):
-                    this.Cursor = Cursors.SizeNS;
+                    clickedRectangle.Cursor = Cursors.SizeNS;
                     ResizeWindow(ResizeDirection.Top);
                     break;
                 case nameof(this.bottom):
-                    this.Cursor = Cursors.SizeNS;
+                    clickedRectangle.Cursor = Cursors.SizeNS;
                     ResizeWindow(ResizeDirection.Bottom);
                     break;
                 case nameof(this.left):
-                    this.Cursor = Cursors.SizeWE;
+                    clickedRectangle.Cursor = Cursors.SizeWE;
                     ResizeWindow(ResizeDirection.Left);
                     break;
                 case nameof(this.right):
-                    this.Cursor = Cursors.SizeWE;
+                    clickedRectangle.Cursor = Cursors.SizeWE;
                     ResizeWindow(ResizeDirection.Right);
                     break;
                 case nameof(this.topLeft):
-                    this.Cursor = Cursors.SizeNWSE;
+                    clickedRectangle.Cursor = Cursors.SizeNWSE;
                     ResizeWindow(ResizeDirection.TopLeft);
                     break;
                 case nameof(this.topRight):
-                    this.Cursor = Cursors.SizeNESW;
+                    clickedRectangle.Cursor = Cursors.SizeNESW;
                     ResizeWindow(ResizeDirection.TopRight);
                     break;
                 case nameof(this.bottomLeft):
-                    this.Cursor = Cursors.SizeNESW;
+                    clickedRectangle.Cursor = Cursors.SizeNESW;
                     ResizeWindow(ResizeDirection.BottomLeft);
                     break;
                 case nameof(this.bottomRight):
-                    this.Cursor = Cursors.SizeNWSE;
+                    clickedRectangle.Cursor = Cursors.SizeNWSE;
                     ResizeWindow(ResizeDirection.BottomRight);
                     break;
                 default:
@@ -508,28 +508,28 @@ namespace NTMiner.Views {
 
             switch (clickedRectangle.Name) {
                 case nameof(this.top):
-                    this.Cursor = Cursors.SizeNS;
+                    clickedRectangle.Cursor = Cursors.SizeNS;
                     break;
                 case nameof(this.bottom):
-                    this.Cursor = Cursors.SizeNS;
+                    clickedRectangle.Cursor = Cursors.SizeNS;
                     break;
                 case nameof(this.left):
-                    this.Cursor = Cursors.SizeWE;
+                    clickedRectangle.Cursor = Cursors.SizeWE;
                     break;
                 case nameof(this.right):
-                    this.Cursor = Cursors.SizeWE;
+                    clickedRectangle.Cursor = Cursors.SizeWE;
                     break;
                 case nameof(this.topLeft):
-                    this.Cursor = Cursors.SizeNWSE;
+                    clickedRectangle.Cursor = Cursors.SizeNWSE;
                     break;
                 case nameof(this.topRight):
-                    this.Cursor = Cursors.SizeNESW;
+                    clickedRectangle.Cursor = Cursors.SizeNESW;
                     break;
                 case nameof(this.bottomLeft):
-                    this.Cursor = Cursors.SizeNESW;
+                    clickedRectangle.Cursor = Cursors.SizeNESW;
                     break;
                 case nameof(this.bottomRight):
-                    this.Cursor = Cursors.SizeNWSE;
+                    clickedRectangle.Cursor = Cursors.SizeNWSE;
                     break;
                 default:
                     break;
