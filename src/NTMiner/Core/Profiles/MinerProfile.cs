@@ -29,9 +29,9 @@ namespace NTMiner.Core.Profiles {
 
         #region Init
         private void Init(INTMinerRoot root) {
-            IRepository<MinerProfileData> minerProfileRepository = NTMinerRoot.CreateLocalRepository<MinerProfileData>();
+            var minerProfileRepository = NTMinerRoot.CreateLocalRepository<MinerProfileData>();
             _data = minerProfileRepository.GetAll().FirstOrDefault();
-            IRepository<MineWorkData> mineWorkRepository = NTMinerRoot.CreateLocalRepository<MineWorkData>();
+            var mineWorkRepository = NTMinerRoot.CreateLocalRepository<MineWorkData>();
             MineWork = mineWorkRepository.GetAll().FirstOrDefault();
             if (_data == null) {
                 Guid coinId = Guid.Empty;
@@ -489,7 +489,7 @@ namespace NTMiner.Core.Profiles {
                     object oldValue = propertyInfo.GetValue(this, null);
                     if (oldValue != value) {
                         propertyInfo.SetValue(this, value, null);
-                        IRepository<MinerProfileData> repository = NTMinerRoot.CreateLocalRepository<MinerProfileData>();
+                        var repository = NTMinerRoot.CreateLocalRepository<MinerProfileData>();
                         repository.Update(_data);
                         VirtualRoot.RaiseEvent(new MinerProfilePropertyChangedEvent(propertyName));
                     }

@@ -63,7 +63,7 @@ namespace NTMiner.Core.Profiles {
                 private PoolProfileData _data;
 
                 private static PoolProfileData GetPoolProfileData(INTMinerRoot root, Guid poolId) {
-                    IRepository<PoolProfileData> repository = NTMinerRoot.CreateLocalRepository<PoolProfileData>();
+                    var repository = NTMinerRoot.CreateLocalRepository<PoolProfileData>();
                     var result = repository.GetByKey(poolId);
                     if (result == null) {
                         if (root.PoolSet.TryGetPool(poolId, out IPool pool)) {
@@ -120,7 +120,7 @@ namespace NTMiner.Core.Profiles {
                             var oldValue = propertyInfo.GetValue(this, null);
                             if (oldValue != value) {
                                 propertyInfo.SetValue(this, value, null);
-                                IRepository<PoolProfileData> repository = NTMinerRoot.CreateLocalRepository<PoolProfileData>();
+                                var repository = NTMinerRoot.CreateLocalRepository<PoolProfileData>();
                                 repository.Update(_data);
                                 VirtualRoot.RaiseEvent(new PoolProfilePropertyChangedEvent(this.PoolId, propertyName));
                             }

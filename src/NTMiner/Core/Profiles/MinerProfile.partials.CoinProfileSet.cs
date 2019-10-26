@@ -111,7 +111,7 @@ namespace NTMiner.Core.Profiles {
                 private CoinProfileData _data;
 
                 private static CoinProfileData GetCoinProfileData(Guid coinId) {
-                    IRepository<CoinProfileData> repository = NTMinerRoot.CreateLocalRepository<CoinProfileData>();
+                    var repository = NTMinerRoot.CreateLocalRepository<CoinProfileData>();
                     var result = repository.GetByKey(coinId);
                     return result;
                 }
@@ -210,7 +210,7 @@ namespace NTMiner.Core.Profiles {
                             var oldValue = propertyInfo.GetValue(this, null);
                             if (oldValue != value) {
                                 propertyInfo.SetValue(this, value, null);
-                                IRepository<CoinProfileData> repository = NTMinerRoot.CreateLocalRepository<CoinProfileData>();
+                                var repository = NTMinerRoot.CreateLocalRepository<CoinProfileData>();
                                 repository.Update(_data);
                                 VirtualRoot.RaiseEvent(new CoinProfilePropertyChangedEvent(this.CoinId, propertyName));
                             }

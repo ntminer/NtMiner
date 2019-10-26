@@ -43,7 +43,6 @@ namespace NTMiner {
                 SafeNativeMethods.AllocConsole();
                 DisbleQuickEditMode();
                 console = SafeNativeMethods.GetConsoleWindow();
-                SafeNativeMethods.ShowWindow(console, 0);
             }
             return console;
         }

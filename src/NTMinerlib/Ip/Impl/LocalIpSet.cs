@@ -8,13 +8,13 @@ using System.Net.NetworkInformation;
 namespace NTMiner.Ip.Impl {
     public class LocalIpSet : ILocalIpSet {
         private List<LocalIpData> _localIps = new List<LocalIpData>();
-
         public LocalIpSet() {
-            NetworkChange.NetworkAddressChanged += (object sender, EventArgs e)=> {
+            NetworkChange.NetworkAddressChanged += (object sender, EventArgs e) => {
                 Refresh();
+                VirtualRoot.ThisWorkerMessage(nameof(LocalIpSet), WorkerMessageType.Warn, "网络接口的 IP 地址发生了更改");
             };
-            NetworkChange.NetworkAvailabilityChanged += (object sender, NetworkAvailabilityEventArgs e)=> {
-                Refresh();
+            NetworkChange.NetworkAvailabilityChanged += (object sender, NetworkAvailabilityEventArgs e) => {
+                VirtualRoot.ThisWorkerMessage(nameof(LocalIpSet), e.IsAvailable ? WorkerMessageType.Info : WorkerMessageType.Warn, $"网络{(e.IsAvailable ? "可用" : "不可用")}");
             };
         }
 

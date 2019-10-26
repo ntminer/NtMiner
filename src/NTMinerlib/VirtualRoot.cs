@@ -248,11 +248,19 @@ namespace NTMiner {
         }
         #endregion
 
-        public static void WorkerMessage(WorkerMessageChannel channel, string provider, WorkerMessageType messageType, string content) {
-            WorkerMessage(channel, provider, messageType, content, toOut: false);
+        public static void ThisWorkerMessage(string provider, WorkerMessageType messageType, string content, bool toOut = false) {
+            WorkerMessage(WorkerMessageChannel.This, provider, messageType, content, toOut: toOut);
         }
 
-        public static void WorkerMessage(WorkerMessageChannel channel, string provider, WorkerMessageType messageType, string content, bool toOut) {
+        public static void KernelWorkerMessage(string provider, WorkerMessageType messageType, string content, bool toOut = false) {
+            WorkerMessage(WorkerMessageChannel.Kernel, provider, messageType, content, toOut: toOut);
+        }
+
+        public static void ServerWorkerMessage(string provider, WorkerMessageType messageType, string content, bool toOut = false) {
+            WorkerMessage(WorkerMessageChannel.Server, provider, messageType, content, toOut: toOut);
+        }
+
+        private static void WorkerMessage(WorkerMessageChannel channel, string provider, WorkerMessageType messageType, string content, bool toOut) {
             if (toOut) {
                 switch (messageType) {
                     case WorkerMessageType.Undefined:
@@ -261,10 +269,10 @@ namespace NTMiner {
                         Out.ShowInfo(content);
                         break;
                     case WorkerMessageType.Warn:
-                        Out.ShowWarn(content);
+                        Out.ShowWarn(content, delaySeconds: 4);
                         break;
                     case WorkerMessageType.Error:
-                        Out.ShowError(content);
+                        Out.ShowError(content, delaySeconds: 4);
                         break;
                     default:
                         break;

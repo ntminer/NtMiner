@@ -12,7 +12,6 @@
 		xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 		mc:Ignorable="d"
 		Title="{x:Static app:AppStatic.AppName}"
-        Topmost="True"
 		d:DesignHeight="630"
 		d:DesignWidth="1100"
         WindowStyle="None"
@@ -22,7 +21,7 @@
         BorderBrush="{StaticResource IconFillColor}"
         AllowsTransparency="True"
 		WindowStartupLocation="CenterScreen"
-		MouseDown="MetroWindow_MouseDown"
+		MouseDown="Window_MouseDown"
         SourceInitialized="Window_SourceInitialized"
 		TextOptions.TextFormattingMode="Display">
     <Window.DataContext>
@@ -64,8 +63,8 @@
                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <WrapPanel VerticalAlignment="Center" Background="Transparent">
-                    <Menu Background="Transparent" Width="26" Height="26">
-                        <MenuItem>
+                    <Menu Background="Transparent">
+                        <MenuItem Width="26" Height="30">
                             <MenuItem.Icon>
                                 <Image Width="17" Height="18" Source="/NTMinerWpf;component/Styles/Images/logo32.png"></Image>
                             </MenuItem.Icon>
@@ -312,8 +311,7 @@
                             x:Name="MainArea"
 				            Padding="0"
                             Background="Transparent"
-                            BorderThickness="0"
-				            SelectionChanged="TabControl_SelectionChanged">
+                            BorderThickness="0">
                             <TabControl.Resources>
                                 <Style TargetType="{x:Type TabItem}">
                                     <Setter Property="Template">
@@ -351,7 +349,7 @@
                                     </Setter>
                                 </Style>
                             </TabControl.Resources>
-                            <TabItem IsSelected="True" FontSize="14">
+                            <TabItem x:Name="ConsoleTabItem" IsSelected="True" FontSize="14">
                                 <TabItem.Header>
                                     <WrapPanel>
                                         <Path 

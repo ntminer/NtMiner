@@ -107,7 +107,7 @@ namespace NTMiner {
                                     messageType = WorkerMessageType.Error;
                                     message = "配置文件下载失败，这是第一次运行开源矿工，配置文件至少需要成功下载一次，请检查网络是否可用";
                                 }
-                                VirtualRoot.WorkerMessage(WorkerMessageChannel.This, nameof(NTMinerRoot), messageType, message, toOut: true);
+                                VirtualRoot.ThisWorkerMessage(nameof(NTMinerRoot), messageType, message, toOut: true);
                             }
                             DoInit(isWork, callback);
                         });
@@ -119,13 +119,14 @@ namespace NTMiner {
                         #endregion
                     }
                 }
+                VirtualRoot.ThisWorkerMessage(nameof(NTMinerRoot), WorkerMessageType.Info, "启动");
             });
         }
 
         // MinerProfile对应local.litedb或local.json
+        // 群控客户端管理作业时调用该方法切换MinerProfile上下文
         public void ReInitMinerProfile() {
             ReInitLocalJson();
-            IsJsonLocal = true;
             this._minerProfile.ReInit(this);
             // 本地数据集已刷新，此时刷新本地数据集的视图模型集
             VirtualRoot.RaiseEvent(new LocalContextReInitedEvent());
@@ -140,14 +141,13 @@ namespace NTMiner {
                 string localServerJsonFileVersion = GetServerJsonVersion();
                 if (!string.IsNullOrEmpty(serverJsonFileVersion) && localServerJsonFileVersion != serverJsonFileVersion) {
                     GetAliyunServerJson((data) => {
-                        Write.UserInfo($"更新配置{localServerJsonFileVersion}->{serverJsonFileVersion}");
                         string rawJson = Encoding.UTF8.GetString(data);
                         SpecialPath.WriteServerJsonFile(rawJson);
                         SetServerJsonVersion(serverJsonFileVersion);
                         ReInitServerJson();
                         // 作业模式下界面是禁用的，所以这里的初始化isWork必然是false
                         ContextReInit(isWork: VirtualRoot.IsMinerStudio);
-                        Write.UserInfo("更新成功");
+                        VirtualRoot.ThisWorkerMessage(nameof(NTMinerRoot), WorkerMessageType.Info, $"刷新server.json配置");
                     });
                 }
                 else {
@@ -246,7 +246,8 @@ namespace NTMiner {
             this.NTMinerWalletSet = new NTMinerWalletSet(this);
             this.OverClockDataSet = new OverClockDataSet(this);
             this.ColumnsShowSet = new ColumnsShowSet(this);
-            IsJsonLocal = isWork;
+            // 作业和在群控客户端管理作业时
+            IsJsonLocal = isWork || VirtualRoot.IsMinerStudio;
             this._minerProfile = new MinerProfile(this);
 
             // 这几个注册表内部区分挖矿端和群控客户端
@@ -300,6 +301,8 @@ namespace NTMiner {
             // CoreContext的视图模型集已全部刷新，此时刷新视图界面
             VirtualRoot.RaiseEvent(new ServerContextVmsReInitedEvent());
             if (isWork) {
+                // 有可能是由非作业切换为作业，所以需要对IsJsonLocal赋值
+                IsJsonLocal = true;
                 ReInitMinerProfile();
             }
         }
@@ -329,11 +332,11 @@ namespace NTMiner {
         private void Link() {
             VirtualRoot.BuildCmdPath<RegCmdHereCommand>(action: message => {
                 try {
-                    RegCmdHere(); VirtualRoot.WorkerMessage(WorkerMessageChannel.This, nameof(NTMinerRoot), WorkerMessageType.Info, "windows右键命令行添加成功", toOut: true);
+                    RegCmdHere(); VirtualRoot.ThisWorkerMessage(nameof(NTMinerRoot), WorkerMessageType.Info, "windows右键命令行添加成功", toOut: true);
                 }
                 catch (Exception e) {
                     Logger.ErrorDebugLine(e);
-                    RegCmdHere(); VirtualRoot.WorkerMessage(WorkerMessageChannel.This, nameof(NTMinerRoot), WorkerMessageType.Error, "windows右键命令行添加失败", toOut: true);
+                    RegCmdHere(); VirtualRoot.ThisWorkerMessage(nameof(NTMinerRoot), WorkerMessageType.Error, "windows右键命令行添加失败", toOut: true);
                 }
             });
             VirtualRoot.BuildEventPath<Per1MinuteEvent>("每1分钟阻止系统休眠", LogEnum.None,
@@ -463,6 +466,7 @@ namespace NTMiner {
             if (_currentMineContext != null) {
                 StopMine(StopMineReason.ApplicationExit);
             }
+            VirtualRoot.ThisWorkerMessage(nameof(NTMinerRoot), WorkerMessageType.Info, "退出");
         }
         #endregion
 
@@ -607,7 +611,7 @@ namespace NTMiner {
                 }
                 string packageZipFileFullName = Path.Combine(SpecialPath.PackagesDirFullName, kernel.Package);
                 if (!File.Exists(packageZipFileFullName)) {
-                    VirtualRoot.WorkerMessage(WorkerMessageChannel.This, nameof(NTMinerRoot), WorkerMessageType.Info, kernel.GetFullName() + "本地内核包不存在，开始自动下载");
+                    VirtualRoot.ThisWorkerMessage(nameof(NTMinerRoot), WorkerMessageType.Info, kernel.GetFullName() + "本地内核包不存在，开始自动下载");
                     VirtualRoot.Execute(new ShowKernelDownloaderCommand(kernel.GetId(), downloadComplete: (isSuccess, message) => {
                         if (isSuccess) {
                             StartMine(isRestart);

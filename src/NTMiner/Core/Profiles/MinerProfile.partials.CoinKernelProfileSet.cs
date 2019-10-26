@@ -50,7 +50,7 @@ namespace NTMiner.Core.Profiles {
                 private static readonly CoinKernelProfile Empty = new CoinKernelProfile(new CoinKernelProfileData());
                 public static CoinKernelProfile Create(INTMinerRoot root, Guid coinKernelId) {
                     if (root.CoinKernelSet.TryGetCoinKernel(coinKernelId, out ICoinKernel coinKernel)) {
-                        IRepository<CoinKernelProfileData> repository = NTMinerRoot.CreateLocalRepository<CoinKernelProfileData>();
+                        var repository = NTMinerRoot.CreateLocalRepository<CoinKernelProfileData>();
                         CoinKernelProfileData data = repository.GetByKey(coinKernelId);
                         if (data == null) {
                             double dualCoinWeight = GetDualCoinWeight(root, coinKernel.KernelId);
@@ -185,7 +185,7 @@ namespace NTMiner.Core.Profiles {
                             var oldValue = propertyInfo.GetValue(this, null);
                             if (oldValue != value) {
                                 propertyInfo.SetValue(this, value, null);
-                                IRepository<CoinKernelProfileData> repository = NTMinerRoot.CreateLocalRepository<CoinKernelProfileData>();
+                                var repository = NTMinerRoot.CreateLocalRepository<CoinKernelProfileData>();
                                 repository.Update(_data);
                                 VirtualRoot.RaiseEvent(new CoinKernelProfilePropertyChangedEvent(this.CoinKernelId, propertyName));
                             }
