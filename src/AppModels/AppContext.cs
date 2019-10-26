@@ -19,21 +19,19 @@ namespace NTMiner {
         /// <summary>
         /// 命令窗口。使用该方法的代码行应将前两个参数放在第一行以方便vs查找引用时展示出参数信息
         /// </summary>
-        public static IMessagePathId CmdPath<TCmd>(string description, LogEnum logType, Action<TCmd> action)
+        public static void CmdPath<TCmd>(string description, LogEnum logType, Action<TCmd> action)
             where TCmd : ICmd {
             var messagePathId = VirtualRoot.BuildPath(description, logType, action);
             _contextHandlers.Add(messagePathId);
-            return messagePathId;
         }
 
         /// <summary>
         /// 事件响应
         /// </summary>
-        public static IMessagePathId EventPath<TEvent>(string description, LogEnum logType, Action<TEvent> action)
+        public static void EventPath<TEvent>(string description, LogEnum logType, Action<TEvent> action)
             where TEvent : IEvent {
             var messagePathId = VirtualRoot.BuildPath(description, logType, action);
             _contextHandlers.Add(messagePathId);
-            return messagePathId;
         }
 
         public static void Enable() {
