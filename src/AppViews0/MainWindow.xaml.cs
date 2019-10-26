@@ -114,7 +114,6 @@ namespace NTMiner.Views {
             UIThread.StartTimer();
             ConsoleWindow.Instance.OnSplashHided = MoveConsoleWindow;
             this.Owner = ConsoleWindow.Instance;
-            ConsoleWindow.Instance.Activate();
             InitializeComponent();
             this.MainArea.SelectionChanged += (sender, e) => {
                 var selectedItem = MainArea.SelectedItem;
@@ -623,6 +622,18 @@ namespace NTMiner.Views {
                 Top = lMousePosition.Y - targetVertical;
 
                 DragMove();
+            }
+        }
+
+        private void Window_MouseEnter(object sender, MouseEventArgs e) {
+            if (!Topmost) {
+                Topmost = true;
+            }
+        }
+
+        private void Window_MouseLeave(object sender, MouseEventArgs e) {
+            if (Topmost) {
+                Topmost = false;
             }
         }
     }
