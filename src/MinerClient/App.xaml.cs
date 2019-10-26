@@ -90,6 +90,9 @@ namespace NTMiner {
                         });
                     NTMinerRoot.Instance.Init(() => {
                         _appViewFactory.Link();
+                        if (VirtualRoot.IsLTWin10) {
+                            VirtualRoot.ThisWorkerMessage(nameof(App), WorkerMessageType.Warn, AppStatic.LowWinMessage, toConsole: true);
+                        }
                         if (NTMinerRoot.Instance.GpuSet.Count == 0) {
                             VirtualRoot.ThisWorkerMessage(nameof(App), WorkerMessageType.Error, "没有矿卡或矿卡未驱动。", toConsole: true);
                         }

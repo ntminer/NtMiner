@@ -440,12 +440,12 @@ namespace NTMiner {
             }
         }
 
+        public const string LowWinMessage = "Windows版本较低，建议使用Win10系统";
         public static string WindowsEditionToolTip {
             get {
-                var osVersion = Environment.OSVersion.Version;
                 // Win7下WinDivert.sys文件签名问题
-                if (osVersion < new Version(6, 2)) {
-                    return "Windows版本较低，建议使用Win10系统";
+                if (VirtualRoot.IsLTWin10) {
+                    return LowWinMessage;
                 }
                 return "操作系统";
             }
@@ -453,9 +453,8 @@ namespace NTMiner {
 
         public static SolidColorBrush WindowsEditionColor {
             get {
-                var osVersion = Environment.OSVersion.Version;
                 // Win7下WinDivert.sys文件签名问题
-                if (osVersion < new Version(6, 2)) {
+                if (VirtualRoot.IsLTWin10) {
                     return WpfUtil.RedBrush;
                 }
                 return (SolidColorBrush)Application.Current.Resources["LableColor"];
