@@ -103,13 +103,12 @@ namespace NTMiner {
                                 });
                             }
                             else {
-                                string message = "配置文件下载失败，使用最后一次成功下载的配置文件";
-                                var messageType = WorkerMessageType.Warn;
                                 if (!File.Exists(SpecialPath.ServerJsonFileFullName)) {
-                                    messageType = WorkerMessageType.Error;
-                                    message = "配置文件下载失败，这是第一次运行开源矿工，配置文件至少需要成功下载一次，请检查网络是否可用";
+                                    VirtualRoot.ThisWorkerError(nameof(NTMinerRoot), "配置文件下载失败，这是第一次运行开源矿工，配置文件至少需要成功下载一次，请检查网络是否可用", toOut: true);
                                 }
-                                VirtualRoot.ThisWorkerMessage(nameof(NTMinerRoot), messageType, message, toOut: true);
+                                else {
+                                    VirtualRoot.ThisWorkerWarn(nameof(NTMinerRoot), "配置文件下载失败，使用最后一次成功下载的配置文件", toOut: true);
+                                }
                             }
                             DoInit(isWork, callback);
                         });
