@@ -729,6 +729,7 @@ namespace NTMiner.Vms {
                 bool refreshAllGpu = !value && old.Length <= 1;
                 NTMinerRoot.Instance.GpuSet.SetIsUseDevice(this.Index, value);
                 if (refreshAllGpu) {
+                    VirtualRoot.Out.ShowInfo("全不选等于全选");
                     foreach (var gpuVm in AppContext.Instance.GpuVms) {
                         if (gpuVm.Index == NTMinerRoot.GpuAllId) {
                             continue;
