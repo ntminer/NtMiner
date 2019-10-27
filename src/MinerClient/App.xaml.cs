@@ -257,10 +257,10 @@ namespace NTMiner {
             SwitchRadeonGpu.SwitchRadeonGpu.Run(on, (isSuccess, e) => {
                 if (isSuccess) {
                     if (on) {
-                        VirtualRoot.ThisWorkerInfo(nameof(App), "开启A卡计算模式成功", toOut: true);
+                        VirtualRoot.ThisWorkerInfo(nameof(App), "开启A卡计算模式成功", OutEnum.Success);
                     }
                     else {
-                        VirtualRoot.ThisWorkerInfo(nameof(App), "关闭A卡计算模式成功", toOut: true);
+                        VirtualRoot.ThisWorkerInfo(nameof(App), "关闭A卡计算模式成功", OutEnum.Success);
                     }
                 }
                 else if (e != null) {
@@ -268,10 +268,10 @@ namespace NTMiner {
                 }
                 else {
                     if (on) {
-                        VirtualRoot.ThisWorkerError(nameof(App), "开启A卡计算模式失败", toOut: true);
+                        VirtualRoot.ThisWorkerError(nameof(App), "开启A卡计算模式失败", OutEnum.Warn);
                     }
                     else {
-                        VirtualRoot.ThisWorkerError(nameof(App), "关闭A卡计算模式失败", toOut: true);
+                        VirtualRoot.ThisWorkerError(nameof(App), "关闭A卡计算模式失败", OutEnum.Warn);
                     }
                 }
             });

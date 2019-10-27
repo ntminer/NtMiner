@@ -104,10 +104,10 @@ namespace NTMiner {
                             }
                             else {
                                 if (!File.Exists(SpecialPath.ServerJsonFileFullName)) {
-                                    VirtualRoot.ThisWorkerError(nameof(NTMinerRoot), "配置文件下载失败，这是第一次运行开源矿工，配置文件至少需要成功下载一次，请检查网络是否可用", toOut: true);
+                                    VirtualRoot.ThisWorkerError(nameof(NTMinerRoot), "配置文件下载失败，这是第一次运行开源矿工，配置文件至少需要成功下载一次，请检查网络是否可用", OutEnum.Warn);
                                 }
                                 else {
-                                    VirtualRoot.ThisWorkerWarn(nameof(NTMinerRoot), "配置文件下载失败，使用最后一次成功下载的配置文件", toOut: true);
+                                    VirtualRoot.ThisWorkerWarn(nameof(NTMinerRoot), "配置文件下载失败，使用最后一次成功下载的配置文件", OutEnum.Warn);
                                 }
                             }
                             DoInit(isWork, callback);
@@ -333,11 +333,11 @@ namespace NTMiner {
         private void Link() {
             VirtualRoot.BuildCmdPath<RegCmdHereCommand>(action: message => {
                 try {
-                    RegCmdHere(); VirtualRoot.ThisWorkerInfo(nameof(NTMinerRoot), "windows右键命令行添加成功", toOut: true);
+                    RegCmdHere(); VirtualRoot.ThisWorkerInfo(nameof(NTMinerRoot), "windows右键命令行添加成功", OutEnum.Success);
                 }
                 catch (Exception e) {
                     Logger.ErrorDebugLine(e);
-                    RegCmdHere(); VirtualRoot.ThisWorkerError(nameof(NTMinerRoot), "windows右键命令行添加失败", toOut: true);
+                    RegCmdHere(); VirtualRoot.ThisWorkerError(nameof(NTMinerRoot), "windows右键命令行添加失败", OutEnum.Warn);
                 }
             });
             VirtualRoot.BuildEventPath<Per1MinuteEvent>("每1分钟阻止系统休眠", LogEnum.None,

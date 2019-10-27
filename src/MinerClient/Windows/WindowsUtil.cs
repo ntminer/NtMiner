@@ -18,11 +18,11 @@ namespace NTMiner.Windows {
                     string fileFullName = Path.Combine(MainAssemblyInfo.TempDirFullName, name);
                     assembly.ExtractManifestResource(type, name, fileFullName);
                     Cmd.RunClose(fileFullName, string.Empty, waitForExit: true);
-                    VirtualRoot.ThisWorkerInfo(nameof(WindowsUtil), "禁用windows系统更新成功", toOut: true);
+                    VirtualRoot.ThisWorkerInfo(nameof(WindowsUtil), "禁用windows系统更新成功", OutEnum.Success);
                 });
             }
             catch (Exception e) {
-                VirtualRoot.ThisWorkerError(nameof(WindowsUtil), "禁用windows系统更新失败", toOut: true);
+                VirtualRoot.ThisWorkerError(nameof(WindowsUtil), "禁用windows系统更新失败", OutEnum.Warn);
                 Logger.ErrorDebugLine(e);
             }
         }
@@ -36,12 +36,12 @@ namespace NTMiner.Windows {
                     string fileFullName = Path.Combine(MainAssemblyInfo.TempDirFullName, name);
                     assembly.ExtractManifestResource(type, name, fileFullName);
                     Cmd.RunClose("regedit", $"/s \"{fileFullName}\"", waitForExit: true);
-                    VirtualRoot.ThisWorkerInfo(nameof(WindowsUtil), "优化Windows成功", toOut: true);
+                    VirtualRoot.ThisWorkerInfo(nameof(WindowsUtil), "优化Windows成功", OutEnum.Success);
                 });
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
-                VirtualRoot.ThisWorkerError(nameof(WindowsUtil), "优化Windows失败", toOut: true);
+                VirtualRoot.ThisWorkerError(nameof(WindowsUtil), "优化Windows失败", OutEnum.Warn);
             }
         }
     }

@@ -38,7 +38,7 @@ namespace NTMiner.Views {
                         return false;
                     }
                     else {
-                        VirtualRoot.ThisWorkerInfo(nameof(NotiCenterWindow), $"热键Ctrl + Alt + {key.ToString()} 设置成功", toOut: true);
+                        VirtualRoot.ThisWorkerInfo(nameof(NotiCenterWindow), $"热键Ctrl + Alt + {key.ToString()} 设置成功", OutEnum.Success);
                         return true;
                     }
                 };
@@ -80,8 +80,7 @@ namespace NTMiner.Views {
         protected override void OnContentRendered(EventArgs e) {
             base.OnContentRendered(e);
             if (NotiCenterWindowViewModel.IsHotKeyEnabled) {
-                System.Windows.Forms.Keys hotKey;
-                Enum.TryParse(HotKeyUtil.GetHotKey(), out hotKey);
+                Enum.TryParse(HotKeyUtil.GetHotKey(), out System.Windows.Forms.Keys hotKey);
                 if (!RegHotKey(hotKey, out string message)) {
                     NotiCenterWindowViewModel.Instance.Manager
                         .CreateMessage()
