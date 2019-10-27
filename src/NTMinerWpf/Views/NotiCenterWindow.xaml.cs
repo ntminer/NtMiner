@@ -38,7 +38,7 @@ namespace NTMiner.Views {
                         return false;
                     }
                     else {
-                        VirtualRoot.ThisWorkerMessage(nameof(NotiCenterWindow), WorkerMessageType.Info, $"热键Ctrl + Alt + {key.ToString()} 设置成功", toOut: true);
+                        VirtualRoot.ThisWorkerInfo(nameof(NotiCenterWindow), $"热键Ctrl + Alt + {key.ToString()} 设置成功", toOut: true);
                         return true;
                     }
                 };

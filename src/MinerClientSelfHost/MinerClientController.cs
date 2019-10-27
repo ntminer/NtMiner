@@ -27,7 +27,7 @@ namespace NTMiner {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                VirtualRoot.ThisWorkerMessage(nameof(MinerClientController), WorkerMessageType.Info, $"退出挖矿端");
+                VirtualRoot.ThisWorkerInfo(nameof(MinerClientController), $"退出挖矿端");
                 TimeSpan.FromMilliseconds(100).Delay().ContinueWith((t) => {
                     VirtualRoot.Execute(new CloseNTMinerCommand());
                 });
@@ -45,7 +45,7 @@ namespace NTMiner {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                VirtualRoot.ThisWorkerMessage(nameof(MinerClientController), WorkerMessageType.Info, $"开始挖矿", toConsole: true);
+                VirtualRoot.ThisWorkerInfo(nameof(MinerClientController), $"开始挖矿", toConsole: true);
                 NTMinerRoot.Instance.RestartMine(isWork: request.WorkId != Guid.Empty);
                 return ResponseBase.Ok();
             }
@@ -61,7 +61,7 @@ namespace NTMiner {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                VirtualRoot.ThisWorkerMessage(nameof(MinerClientController), WorkerMessageType.Info, $"停止挖矿", toConsole: true);
+                VirtualRoot.ThisWorkerInfo(nameof(MinerClientController), $"停止挖矿", toConsole: true);
                 NTMinerRoot.Instance.StopMineAsync(StopMineReason.RPCUserAction);
                 return ResponseBase.Ok();
             }
@@ -77,7 +77,7 @@ namespace NTMiner {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                VirtualRoot.ThisWorkerMessage(nameof(MinerClientController), WorkerMessageType.Info, $"设置挖矿参数");
+                VirtualRoot.ThisWorkerInfo(nameof(MinerClientController), $"设置挖矿参数");
                 NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(request.PropertyName, request.Value);
                 return ResponseBase.Ok();
             }
@@ -106,7 +106,7 @@ namespace NTMiner {
 
         [HttpPost]
         public void OverClock() {
-            VirtualRoot.ThisWorkerMessage(nameof(MinerClientController), WorkerMessageType.Info, $"刷新超频", toConsole: true);
+            VirtualRoot.ThisWorkerInfo(nameof(MinerClientController), $"刷新超频", toConsole: true);
             NTMinerRoot.Instance.GpuProfileSet.Refresh();
         }
     }
