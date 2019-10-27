@@ -102,7 +102,6 @@ namespace NTMiner.Views {
             switch (msg) {
                 case 0x0024:
                     WmGetMinMaxInfo(hwnd, lParam);
-                    handled = true;
                     break;
             }
 
