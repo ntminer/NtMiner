@@ -18,7 +18,7 @@ namespace NTMiner.Vms {
                         this.FileName = "NTMinerUpdater.exe";
                     }
                     VirtualRoot.Execute(new ChangeServerAppSettingCommand(new AppSettingData {
-                        Key = "ntminerUpdaterFileName",
+                        Key = VirtualRoot.NTMinerUpdaterFileNameAppSettingKey,
                         Value = this.FileName
                     }));
                     CloseWindow?.Invoke();
@@ -27,7 +27,7 @@ namespace NTMiner.Vms {
                     Logger.ErrorDebugLine(e);
                 }
             });
-            if (NTMinerRoot.Instance.ServerAppSettingSet.TryGetAppSetting("ntminerUpdaterFileName", out IAppSetting appSetting) && appSetting.Value != null) {
+            if (NTMinerRoot.Instance.ServerAppSettingSet.TryGetAppSetting(VirtualRoot.NTMinerUpdaterFileNameAppSettingKey, out IAppSetting appSetting) && appSetting.Value != null) {
                 _fileName = appSetting.Value.ToString();
             }
             else {

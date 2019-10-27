@@ -38,7 +38,7 @@ namespace NTMiner {
                         }
                         Uri uri = new Uri(downloadFileUrl);
                         string updaterVersion = string.Empty;
-                        if (NTMinerRoot.Instance.LocalAppSettingSet.TryGetAppSetting("UpdaterVersion", out IAppSetting appSetting) && appSetting.Value != null) {
+                        if (NTMinerRoot.Instance.LocalAppSettingSet.TryGetAppSetting(VirtualRoot.UpdaterVersionAppSettingKey, out IAppSetting appSetting) && appSetting.Value != null) {
                             updaterVersion = appSetting.Value.ToString();
                         }
                         if (string.IsNullOrEmpty(updaterVersion) || !File.Exists(SpecialPath.UpdaterFileFullName) || uri.AbsolutePath != updaterVersion) {
@@ -48,7 +48,7 @@ namespace NTMiner {
                                         File.Copy(saveFileFullName, SpecialPath.UpdaterFileFullName, overwrite: true);
                                         File.Delete(saveFileFullName);
                                         VirtualRoot.Execute(new ChangeLocalAppSettingCommand(new AppSettingData {
-                                            Key = "UpdaterVersion",
+                                            Key = VirtualRoot.UpdaterVersionAppSettingKey,
                                             Value = uri.AbsolutePath
                                         }));
                                         window?.Close();

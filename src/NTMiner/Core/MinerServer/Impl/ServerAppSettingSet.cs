@@ -1,12 +1,13 @@
 ﻿using NTMiner.AppSetting;
 using NTMiner.MinerServer;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace NTMiner.Core.MinerServer.Impl {
     public class ServerAppSettingSet : IAppSettingSet {
-        private readonly Dictionary<string, AppSettingData> _dicByKey = new Dictionary<string, AppSettingData>();
+        private readonly Dictionary<string, AppSettingData> _dicByKey = new Dictionary<string, AppSettingData>(StringComparer.OrdinalIgnoreCase);
         private readonly INTMinerRoot _root;
         public ServerAppSettingSet(INTMinerRoot root) {
             _root = root;

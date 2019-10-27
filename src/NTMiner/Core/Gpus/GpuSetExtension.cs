@@ -8,7 +8,7 @@ namespace NTMiner.Core.Gpus {
             if (gpuIndex < 0 || gpuIndex >= gpuSet.Count) {
                 return false;
             }
-            List<int> devices = GetUseDevices(gpuSet).ToList();
+            int[] devices = GetUseDevices(gpuSet);
             return devices.Contains(gpuIndex);
         }
 
@@ -26,7 +26,7 @@ namespace NTMiner.Core.Gpus {
 
         public static int[] GetUseDevices(this IGpuSet gpuSet) {
             List<int> list = new List<int>();
-            if (NTMinerRoot.Instance.LocalAppSettingSet.TryGetAppSetting("UseDevices", out IAppSetting setting) && setting.Value != null) {
+            if (NTMinerRoot.Instance.LocalAppSettingSet.TryGetAppSetting(VirtualRoot.UseDevicesAppSettingKey, out IAppSetting setting) && setting.Value != null) {
                 string[] parts = setting.Value.ToString().Split(',');
                 foreach (var part in parts) {
                     if (int.TryParse(part, out int index)) {
@@ -34,6 +34,7 @@ namespace NTMiner.Core.Gpus {
                     }
                 }
             }
+            // 全不选等于全选
             if (list.Count == 0) {
                 foreach (var gpu in gpuSet) {
                     if (gpu.Index == NTMinerRoot.GpuAllId) {
@@ -46,11 +47,12 @@ namespace NTMiner.Core.Gpus {
         }
 
         private static void SetUseDevices(IGpuSet gpuSet, List<int> gpuIndexes) {
+            // 全选等于全不选，所以存储空值就可以了，而且可以避免新插显卡问题
             if (gpuIndexes.Count != 0 && gpuIndexes.Count == gpuSet.Count) {
                 gpuIndexes = new List<int>();
             }
             AppSettingData appSettingData = new AppSettingData() {
-                Key = "UseDevices",
+                Key = VirtualRoot.UseDevicesAppSettingKey,
                 Value = string.Join(",", gpuIndexes)// 存逗号分隔的字符串，因为litedb处理List、Array有问题
             };
             VirtualRoot.Execute(new ChangeLocalAppSettingCommand(appSettingData));
