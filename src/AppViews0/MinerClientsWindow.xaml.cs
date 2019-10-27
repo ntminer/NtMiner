@@ -60,16 +60,16 @@ namespace NTMiner.Views {
             VirtualRoot.Execute(new ChangeServerAppSettingsCommand(
                 new AppSettingData[]{
                         new AppSettingData {
-                            Key = "FrozenColumnCount",
+                            Key = VirtualRoot.FrozenColumnCountAppSettingKey,
                             Value = Vm.FrozenColumnCount
                         },new AppSettingData {
-                            Key = "MaxTemp",
+                            Key = VirtualRoot.MaxTempAppSettingKey,
                             Value = Vm.MaxTemp
                         },new AppSettingData {
-                            Key = "MinTemp",
+                            Key = VirtualRoot.MinTempAppSettingKey,
                             Value = Vm.MinTemp
                         },new AppSettingData {
-                            Key = "RejectPercent",
+                            Key = VirtualRoot.RejectPercentAppSettingKey,
                             Value = Vm.RejectPercent
                         }
             }));

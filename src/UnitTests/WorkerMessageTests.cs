@@ -10,7 +10,7 @@ namespace UnitTests {
             File.Delete(VirtualRoot.WorkerMessageDbFileFullName);
             Assert.IsTrue(VirtualRoot.WorkerMessages.Count == 0);
             string content = "this is a test";
-            VirtualRoot.ThisWorkerMessage(nameof(WorkerMessageTests), WorkerMessageType.Info, content);
+            VirtualRoot.ThisWorkerInfo(nameof(WorkerMessageTests), content);
             Assert.IsTrue(VirtualRoot.WorkerMessages.Count == 1);
             Assert.IsTrue(VirtualRoot.WorkerMessages.Count == 1);
         }
@@ -22,7 +22,7 @@ namespace UnitTests {
             Assert.IsTrue(times > VirtualRoot.WorkerMessageSetCapacity);
             string content = "this is a test";
             for (int i = 0; i < times; i++) {
-                VirtualRoot.ThisWorkerMessage(nameof(WorkerMessageTests), WorkerMessageType.Info, content);
+                VirtualRoot.ThisWorkerInfo(nameof(WorkerMessageTests), content);
             }
             Assert.IsTrue(VirtualRoot.WorkerMessages.Count == VirtualRoot.WorkerMessageSetCapacity);
         }

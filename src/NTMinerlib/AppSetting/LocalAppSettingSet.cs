@@ -1,12 +1,12 @@
 ﻿using LiteDB;
-using NTMiner.Bus;
 using NTMiner.MinerServer;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
 namespace NTMiner.AppSetting {
     public class LocalAppSettingSet : IAppSettingSet {
-        private Dictionary<string, AppSettingData> _dicByKey = new Dictionary<string, AppSettingData>();
+        private readonly Dictionary<string, AppSettingData> _dicByKey = new Dictionary<string, AppSettingData>(StringComparer.OrdinalIgnoreCase);
         private readonly string _dbFileFullName;
 
         public LocalAppSettingSet(string dbFileFullName) {

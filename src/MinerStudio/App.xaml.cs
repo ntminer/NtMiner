@@ -101,12 +101,12 @@ namespace NTMiner {
             NTMinerRoot.Instance.Init(() => {
                 _appViewFactory.Link();
                 UIThread.Execute(() => {
-                    VirtualRoot.Execute(new ShowChartsWindowCommand());
+                    VirtualRoot.Execute(new ShowMinerClientsWindowCommand());
                     AppContext.NotifyIcon = ExtendedNotifyIcon.Create("群控客户端", isMinerStudio: true);
                 });
                 #region 处理显示主界面命令
                 VirtualRoot.BuildCmdPath<ShowMainWindowCommand>(action: message => {
-                    VirtualRoot.Execute(new ShowChartsWindowCommand());
+                    VirtualRoot.Execute(new ShowMinerClientsWindowCommand());
                 });
                 #endregion
                 HttpServer.Start($"http://localhost:{VirtualRoot.MinerStudioPort}");

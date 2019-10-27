@@ -9,6 +9,18 @@
 
         public const int WorkerMessageSetCapacity = 1000;
 
+        #region AppSettingKey
+        public const string UseDevicesAppSettingKey = "UseDevices";
+        public const string UpdaterVersionAppSettingKey = "UpdaterVersion";
+        public const string ColumnsShowIdAppSettingKey = "ColumnsShowId";
+        public const string FrozenColumnCountAppSettingKey = "FrozenColumnCount";
+        public const string MaxTempAppSettingKey = "MaxTemp";
+        public const string MinTempAppSettingKey = "MinTemp";
+        public const string RejectPercentAppSettingKey = "RejectPercent";
+        public const string NTMinerUpdaterFileNameAppSettingKey = "NTMinerUpdaterFileName";
+        public const string ServerJsonVersionAppSettingKey = "ServerJsonVersion";
+        #endregion
+
         #region 系统字典编码
         public const string KernelBrandSysDicCode = "KernelBrand";
         public const string PoolBrandSysDicCode = "PoolBrand";

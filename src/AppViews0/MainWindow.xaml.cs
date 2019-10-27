@@ -102,7 +102,6 @@ namespace NTMiner.Views {
             switch (msg) {
                 case 0x0024:
                     WmGetMinMaxInfo(hwnd, lParam);
-                    handled = true;
                     break;
             }
 
@@ -367,7 +366,7 @@ namespace NTMiner.Views {
                         if (Vm.MinerProfile.HighTemperatureCount >= Vm.MinerProfile.CpuGETemperatureSeconds) {
                             Vm.MinerProfile.HighTemperatureCount = 0;
                             NTMinerRoot.Instance.StopMineAsync(StopMineReason.HighCpuTemperature);
-                            VirtualRoot.ThisWorkerMessage(nameof(MainWindow), WorkerMessageType.Info, $"自动停止挖矿，因为 CPU 温度连续{Vm.MinerProfile.CpuGETemperatureSeconds}秒不低于{Vm.MinerProfile.CpuStopTemperature}℃", toConsole: true);
+                            VirtualRoot.ThisWorkerInfo(nameof(MainWindow), $"自动停止挖矿，因为 CPU 温度连续{Vm.MinerProfile.CpuGETemperatureSeconds}秒不低于{Vm.MinerProfile.CpuStopTemperature}℃", toConsole: true);
                         }
                     }
                     else {
@@ -381,7 +380,7 @@ namespace NTMiner.Views {
                             }
                             if (Vm.MinerProfile.LowTemperatureCount >= Vm.MinerProfile.CpuLETemperatureSeconds) {
                                 Vm.MinerProfile.LowTemperatureCount = 0;
-                                VirtualRoot.ThisWorkerMessage(nameof(MainWindow), WorkerMessageType.Info, $"自动开始挖矿，因为 CPU 温度连续{Vm.MinerProfile.CpuLETemperatureSeconds}秒不高于{Vm.MinerProfile.CpuStartTemperature}℃", toConsole: true);
+                                VirtualRoot.ThisWorkerInfo(nameof(MainWindow), $"自动开始挖矿，因为 CPU 温度连续{Vm.MinerProfile.CpuLETemperatureSeconds}秒不高于{Vm.MinerProfile.CpuStartTemperature}℃", toConsole: true);
                                 NTMinerRoot.Instance.StartMine();
                             }
                         }
