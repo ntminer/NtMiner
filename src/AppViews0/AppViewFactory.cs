@@ -133,6 +133,9 @@ namespace NTMiner.Views {
                     UserPage.ShowWindow();
                 });
             });
+            VirtualRoot.BuildCmdPath<ShowRemoteDesktopLoginDialogCommand>(action: message => {
+                RemoteDesktopLogin.ShowWindow(message.Vm);
+            });
             VirtualRoot.BuildCmdPath<ShowKernelsWindowCommand>(action: message => {
                 UIThread.Execute(() => {
                     KernelsWindow.ShowWindow();

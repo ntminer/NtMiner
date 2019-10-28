@@ -2,6 +2,8 @@
 
 namespace NTMiner.Core {
     public class KernelOutputTranslaterData : IKernelOutputTranslater, IDbEntity<Guid>, ISortable {
+        public KernelOutputTranslaterData() { }
+
         public Guid GetId() {
             return this.Id;
         }

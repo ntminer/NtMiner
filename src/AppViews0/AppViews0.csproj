@@ -101,6 +101,9 @@
     <Compile Include="PackagesWindow.xaml.cs">
       <DependentUpon>PackagesWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Ucs\RemoteDesktopLogin.xaml.cs">
+      <DependentUpon>RemoteDesktopLogin.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Ucs\BrandTag.xaml.cs">
       <DependentUpon>BrandTag.xaml</DependentUpon>
     </Compile>
@@ -358,6 +361,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Design\RemoteDesktopLoginViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Design\CalcConfigViewModels.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -475,6 +482,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Design\PackageViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ucs\RemoteDesktopLogin.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

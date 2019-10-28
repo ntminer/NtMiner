@@ -2,6 +2,8 @@
 
 namespace NTMiner.MinerServer {
     public class NTMinerWalletData : INTMinerWallet, IDbEntity<Guid> {
+        public NTMinerWalletData() { }
+
         public Guid GetId() {
             return this.Id;
         }

@@ -31,7 +31,7 @@
 							Stretch="Fill" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="global dir" Command="{x:Static app:AppStatic.ShowGlobalDir}">
+                <MenuItem Header="家目录" Command="{x:Static app:AppStatic.ShowHomeDir}">
 					<MenuItem.Icon>
 						<Path
 							Width="14"
@@ -41,17 +41,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="server db" Command="{x:Static app:AppStatic.OpenServerLiteDb}">
-					<MenuItem.Icon>
-						<Path
-							Width="14"
-							Height="14"
-							Data="{StaticResource Icon_Db}"
-							Fill="{StaticResource IconFillColor}"
-							Stretch="Fill" />
-					</MenuItem.Icon>
-				</MenuItem>
-				<MenuItem Header="serverJson export" Command="{x:Static app:AppStatic.ExportServerJson}">
+                <MenuItem Header="{x:Static app:AppStatic.ExportServerJsonMenuName}" Command="{x:Static app:AppStatic.ExportServerJson}">
 					<MenuItem.Icon>
 						<Path
 							Width="14"
@@ -60,8 +50,18 @@
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
 					</MenuItem.Icon>
-				</MenuItem>
-				<MenuItem Header="local db" Command="{x:Static app:AppStatic.OpenLocalLiteDb}">
+                </MenuItem>
+                <MenuItem Header="server db" Command="{x:Static app:AppStatic.OpenServerLiteDb}">
+                    <MenuItem.Icon>
+                        <Path
+							Width="14"
+							Height="14"
+							Data="{StaticResource Icon_Db}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="local db" Command="{x:Static app:AppStatic.OpenLocalLiteDb}">
 					<MenuItem.Icon>
 						<Path
 							Width="14"

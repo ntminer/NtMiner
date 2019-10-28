@@ -2,6 +2,8 @@
 
 namespace NTMiner.Core {
     public class SysDicItemData : ISysDicItem, IDbEntity<Guid> {
+        public SysDicItemData() { }
+
         public Guid GetId() {
             return this.Id;
         }

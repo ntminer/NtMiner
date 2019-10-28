@@ -186,7 +186,7 @@ namespace NTMiner.Vms {
                     }
                 }));
             }, (ntminerFileData) => this.SelectedMinerClients != null && this.SelectedMinerClients.Length != 0);
-            this.AddMinerClient = new DelegateCommand(()=> {
+            this.AddMinerClient = new DelegateCommand(() => {
                 VirtualRoot.Execute(new ShowMinerClientAddCommand());
             });
             this.RemoveMinerClients = new DelegateCommand(() => {

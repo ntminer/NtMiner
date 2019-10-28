@@ -106,6 +106,7 @@
     <Compile Include="Vms\MessagePathIdsViewModel.cs" />
     <Compile Include="Vms\NTMinerWalletPageViewModel.cs" />
     <Compile Include="Vms\NTMinerWalletViewModel.cs" />
+    <Compile Include="Vms\RemoteDesktopLoginViewModel.cs" />
     <Compile Include="Vms\WorkerMessagesViewModel.cs" />
     <Compile Include="Vms\FragmentWriterPageViewModel.cs" />
     <Compile Include="Vms\FragmentWriterSelectViewModel.cs" />

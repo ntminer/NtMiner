@@ -553,6 +553,12 @@ namespace NTMiner {
             VirtualRoot.Execute(new ShowControlCenterHostConfigCommand());
         });
 
+        public static string ExportServerJsonMenuName {
+            get {
+                return "导出" + MainAssemblyInfo.ServerJsonFileName;
+            }
+        }
+
         public static ICommand ExportServerJson { get; private set; } = new DelegateCommand(() => {
             try {
                 NTMinerRoot.ExportServerVersionJson(MainAssemblyInfo.ServerVersionJsonFileFullName);
@@ -689,7 +695,7 @@ namespace NTMiner {
         public static ICommand ShowCalcConfig { get; private set; } = new DelegateCommand(() => {
             VirtualRoot.Execute(new ShowCalcConfigCommand());
         });
-        public static ICommand ShowGlobalDir { get; private set; } = new DelegateCommand(() => {
+        public static ICommand ShowHomeDir { get; private set; } = new DelegateCommand(() => {
             Process.Start(MainAssemblyInfo.HomeDirFullName);
         });
         public static ICommand OpenLocalLiteDb { get; private set; } = new DelegateCommand(() => {
