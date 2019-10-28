@@ -2,6 +2,8 @@
 
 namespace NTMiner.Core {
     public class KernelOutputFilterData : IKernelOutputFilter, IDbEntity<Guid> {
+        public KernelOutputFilterData() { }
+
         public Guid GetId() {
             return this.Id;
         }
