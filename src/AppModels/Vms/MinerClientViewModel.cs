@@ -72,12 +72,21 @@ namespace NTMiner.Vms {
             });
             this.RemoteDesktop = new DelegateCommand(() => {
                 if (string.IsNullOrEmpty(this.WindowsLoginName)) {
-                    VirtualRoot.Out.ShowError("没有填写远程桌面用户名", 4);
-                    return;
+                    VirtualRoot.Execute(new ShowRemoteDesktopLoginDialogCommand(new RemoteDesktopLoginViewModel {
+                        OnOk = vm => {
+                            this.WindowsLoginName = vm.LoginName;
+                            this.WindowsPassword = vm.Password;
+                            AppContext.RemoteDesktop?.Invoke(new RemoteDesktopInput(this.MinerIp, this.WindowsLoginName, this.WindowsPassword, this.MinerName, onDisconnected: message => {
+                                VirtualRoot.Out.ShowError(message, 4);
+                            }));
+                        }
+                    }));
                 }
-                AppContext.RemoteDesktop?.Invoke(new RemoteDesktopInput(this.MinerIp, this.WindowsLoginName, this.WindowsPassword, this.MinerName, onDisconnected: message => {
-                    VirtualRoot.Out.ShowError(message, 4);
-                }));
+                else {
+                    AppContext.RemoteDesktop?.Invoke(new RemoteDesktopInput(this.MinerIp, this.WindowsLoginName, this.WindowsPassword, this.MinerName, onDisconnected: message => {
+                        VirtualRoot.Out.ShowError(message, 4);
+                    }));
+                }
             });
             this.RestartWindows = new DelegateCommand(() => {
                 this.ShowDialog(new DialogWindowViewModel(message: $"您确定重启{this.MinerName}({this.MinerIp})电脑吗？", title: "确认", onYes: () => {

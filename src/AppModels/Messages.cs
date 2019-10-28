@@ -28,6 +28,15 @@ namespace NTMiner {
         }
     }
 
+    [MessageType(description: "打开收集远程桌面登录名和密码的对话框")]
+    public class ShowRemoteDesktopLoginDialogCommand : Cmd {
+        public ShowRemoteDesktopLoginDialogCommand(RemoteDesktopLoginViewModel vm) {
+            this.Vm = vm;
+        }
+
+        public RemoteDesktopLoginViewModel Vm { get; private set; }
+    }
+
     [MessageType(description: "关闭主界面")]
     public class CloseMainWindowCommand : Cmd {
         public CloseMainWindowCommand(string message) {
