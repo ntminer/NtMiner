@@ -10,15 +10,15 @@
 		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
 		xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
         d:DataContext="{d:DesignData Source=/Design/RemoteDesktopLoginViewModel.xaml}"
-		mc:Ignorable="d" d:DesignHeight="120" d:DesignWidth="360">
-	<Grid>
+		mc:Ignorable="d" d:DesignHeight="120" d:DesignWidth="400">
+	<Grid Margin="0 8 0 0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="80"></ColumnDefinition>
+            <ColumnDefinition Width="100"></ColumnDefinition>
             <ColumnDefinition Width="200"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <TextBlock 

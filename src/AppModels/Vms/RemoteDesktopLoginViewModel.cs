@@ -26,6 +26,10 @@ namespace NTMiner.Vms {
             });
         }
 
+        public string Ip {
+            get; set;
+        }
+
         public string LoginName {
             get => _loginName;
             set {

@@ -5,10 +5,10 @@ namespace NTMiner.Views.Ucs {
     public partial class RemoteDesktopLogin : UserControl {
         public static void ShowWindow(RemoteDesktopLoginViewModel vm) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                Title = "登录远程桌面",
+                Title = "登录远程桌面 - " + vm.Ip,
                 IconName = "Icon_RemoteDesktop",
-                Width = 360,
-                Height = 150,
+                Width = 400,
+                Height = 160,
                 IsDialogWindow = true,
                 CloseVisible = System.Windows.Visibility.Visible,
                 FooterVisible = System.Windows.Visibility.Collapsed

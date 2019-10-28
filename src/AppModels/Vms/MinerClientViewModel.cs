@@ -73,6 +73,7 @@ namespace NTMiner.Vms {
             this.RemoteDesktop = new DelegateCommand(() => {
                 if (string.IsNullOrEmpty(this.WindowsLoginName)) {
                     VirtualRoot.Execute(new ShowRemoteDesktopLoginDialogCommand(new RemoteDesktopLoginViewModel {
+                        Ip = this.MinerIp,
                         OnOk = vm => {
                             this.WindowsLoginName = vm.LoginName;
                             this.WindowsPassword = vm.Password;
