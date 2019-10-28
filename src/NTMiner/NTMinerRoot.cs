@@ -641,6 +641,9 @@ namespace NTMiner {
                     _currentMineContext = mineContext;
                     MinerProcess.CreateProcessAsync(mineContext);
                     VirtualRoot.ThisWorkerInfo(nameof(NTMinerRoot), "开始挖矿", toConsole: true);
+                    if (mineContext.UseDevices.Length != GpuSet.Count) {
+                        VirtualRoot.ThisWorkerWarn(nameof(NTMinerRoot), "未启用全部显卡挖矿", toConsole: true);
+                    }
                 }
             }
             catch (Exception e) {
