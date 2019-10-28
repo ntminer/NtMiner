@@ -76,5 +76,7 @@
 
         // 因为界面上输入框不好体现输入的空格，所以这里对空格进行转义
         public const string SpaceKeyword = "space";
+        // 有的内核对序号9以后的GPU是用字母编号的
+        public static readonly string[] GpuIndexChars = new string[] { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n" };
     }
 }

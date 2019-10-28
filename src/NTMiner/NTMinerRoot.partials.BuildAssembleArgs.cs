@@ -10,8 +10,6 @@ using System.Text.RegularExpressions;
 
 namespace NTMiner {
     public partial class NTMinerRoot : INTMinerRoot {
-        // 有的内核对序号9以后的GPU用字母编号
-        private static readonly string[] gpuIndexChars = new string[] { "a", "b", "c", "d", "e", "f", "g", "h" };
         public string BuildAssembleArgs(out Dictionary<string, string> parameters, out Dictionary<Guid, string> fileWriters, out Dictionary<Guid, string> fragments) {
             parameters = new Dictionary<string, string>();
             fileWriters = new Dictionary<Guid, string>();
@@ -197,45 +195,32 @@ namespace NTMiner {
                     if (kernelInput.DevicesSeparator == VirtualRoot.SpaceKeyword) {
                         separator = " ";
                     }
-                    if (string.IsNullOrEmpty(separator)) {
-                        List<string> gpuIndexes = new List<string>();
-                        foreach (var index in useDevices) {
-                            int i = index;
-                            if (kernelInput.DeviceBaseIndex != 0) {
-                                i = index + kernelInput.DeviceBaseIndex;
-                            }
-                            string nText = i.ToString();
+                    List<string> gpuIndexes = new List<string>();
+                    foreach (var index in useDevices) {
+                        int i = index;
+                        if (kernelInput.DeviceBaseIndex != 0) {
+                            i = index + kernelInput.DeviceBaseIndex;
+                        }
+                        string nText = i.ToString();
+                        // 如果内核没有使用分隔符分割显卡序号的话无法表达两位数的显卡序号，此时这种内核基本都是用ABCDEFGH……表达的后续的两位数
+                        if (string.IsNullOrEmpty(separator)) {
                             if (i > 9) {
-                                nText = gpuIndexChars[i - 10];
+                                nText = VirtualRoot.GpuIndexChars[i - 10];
                             }
-                            gpuIndexes.Add(nText);
                         }
-                        switch (GpuSet.GpuType) {
-                            case GpuType.Empty:
-                                break;
-                            case GpuType.NVIDIA:
-                                devicesArgs = $"{kernelInput.DevicesArg} {string.Join(separator, gpuIndexes.Select(a => $"{kernelInput.NDevicePrefix}{a}{kernelInput.NDevicePostfix}"))}";
-                                break;
-                            case GpuType.AMD:
-                                devicesArgs = $"{kernelInput.DevicesArg} {string.Join(separator, gpuIndexes.Select(a => $"{kernelInput.ADevicePrefix}{a}{kernelInput.ADevicePostfix}"))}";
-                                break;
-                            default:
-                                break;
-                        }
+                        gpuIndexes.Add(nText);
                     }
-                    else {
-                        switch (GpuSet.GpuType) {
-                            case GpuType.Empty:
-                                break;
-                            case GpuType.NVIDIA:
-                                devicesArgs = $"{kernelInput.DevicesArg} {string.Join(separator, useDevices.Select(a => $"{kernelInput.NDevicePrefix}{a}{kernelInput.NDevicePostfix}"))}";
-                                break;
-                            case GpuType.AMD:
-                                devicesArgs = $"{kernelInput.DevicesArg} {string.Join(separator, useDevices.Select(a => $"{kernelInput.ADevicePrefix}{a}{kernelInput.ADevicePostfix}"))}";
-                                break;
-                            default:
-                                break;
-                        }
+                    switch (GpuSet.GpuType) {
+                        case GpuType.Empty:
+                            break;
+                        case GpuType.NVIDIA:
+                            devicesArgs = $"{kernelInput.DevicesArg} {string.Join(separator, gpuIndexes.Select(a => $"{kernelInput.NDevicePrefix}{a}{kernelInput.NDevicePostfix}"))}";
+                            break;
+                        case GpuType.AMD:
+                            devicesArgs = $"{kernelInput.DevicesArg} {string.Join(separator, gpuIndexes.Select(a => $"{kernelInput.ADevicePrefix}{a}{kernelInput.ADevicePostfix}"))}";
+                            break;
+                        default:
+                            break;
                     }
                 }
             }
