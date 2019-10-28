@@ -201,13 +201,7 @@ namespace NTMiner {
                         if (kernelInput.DeviceBaseIndex != 0) {
                             i = index + kernelInput.DeviceBaseIndex;
                         }
-                        string nText = i.ToString();
-                        // 如果内核没有使用分隔符分割显卡序号的话无法表达两位数的显卡序号，此时这种内核基本都是用ABCDEFGH……表达的后续的两位数
-                        if (string.IsNullOrEmpty(separator)) {
-                            if (i > 9) {
-                                nText = VirtualRoot.GpuIndexChars[i - 10];
-                            }
-                        }
+                        string nText = VirtualRoot.GetIndexChar(i, separator);
                         gpuIndexes.Add(nText);
                     }
                     switch (GpuSet.GpuType) {
