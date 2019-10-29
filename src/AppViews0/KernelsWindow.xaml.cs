@@ -40,6 +40,12 @@ namespace NTMiner.Views {
                         VirtualRoot.RaiseEvent(new UserActionEvent());
                     }
                 });
+            this.WindowContextEventPath<ServerContextVmsReInitedEvent>("ServerContext的Vm集刷新后刷新内核宝库", LogEnum.DevConsole,
+                action: message => {
+                    UIThread.Execute(() => {
+                        Vm.OnPropertyChanged(nameof(Vm.QueryResults));
+                    });
+                });
             AppContext.Instance.KernelVms.PropertyChanged += Current_PropertyChanged;
             this.Activated += (object sender, EventArgs e) => {
                 NotiCenterWindow.Instance.SwitchOwner(this);
