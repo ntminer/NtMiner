@@ -88,6 +88,7 @@
         </Grid>
         <Grid Grid.Row="1" Grid.Column="0">
             <DataGrid 
+                RowHeight="30"
 			    ItemsSource="{Binding ChartVms}" 
 			    BorderThickness="0">
                 <DataGrid.Resources>
@@ -124,25 +125,37 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Width="50" Binding="{Binding CoinVm.Code}" IsReadOnly="True">
+                    <DataGridTextColumn Width="80" Binding="{Binding CoinVm.Code}" IsReadOnly="True">
                     </DataGridTextColumn>
-                    <DataGridTemplateColumn MinWidth="50" Width="*" IsReadOnly="True">
+                    <DataGridTemplateColumn Width="50" IsReadOnly="True">
                         <DataGridTemplateColumn.Header>
-                            <WrapPanel HorizontalAlignment="Center">
-                                <TextBlock 
-					                Text="{Binding Data.TotalMiningCount,Source={StaticResource proxy}}" 
-					                ToolTip="总挖矿数" 
-					                Foreground="Green"></TextBlock>
-                                <TextBlock Text="/"></TextBlock>
-                                <TextBlock Text="{Binding Data.TotalOnlineCount,Source={StaticResource proxy}}" ToolTip="总在线数"></TextBlock>
-                            </WrapPanel>
+                            <TextBlock 
+					            Text="{Binding Data.TotalMiningCount,Source={StaticResource proxy}}" 
+					            ToolTip="总挖矿数" 
+					            Foreground="Green"></TextBlock>
                         </DataGridTemplateColumn.Header>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <WrapPanel Margin="0 2">
+                                <WrapPanel>
                                     <WrapPanel VerticalAlignment="Center" Visibility="{Binding CoinVm.JustAsDualCoin, Converter={StaticResource BoolToVisibilityInvertConverter}}">
-                                        <TextBlock Width="40" TextAlignment="Right" Foreground="{Binding MiningColor}" ToolTip="挖矿数" Text="{Binding SnapshotDataVm.MainCoinMiningCount}"></TextBlock>
-                                        <TextBlock>/</TextBlock>
+                                        <TextBlock Width="40" Foreground="{Binding MiningColor}" ToolTip="挖矿数" Text="{Binding SnapshotDataVm.MainCoinMiningCount}"></TextBlock>
+                                    </WrapPanel>
+
+                                    <WrapPanel VerticalAlignment="Center" Visibility="{Binding CoinVm.JustAsDualCoin, Converter={StaticResource BoolToVisibilityConverter}}">
+                                        <TextBlock Width="40" Foreground="{Binding MiningColor}" ToolTip="挖矿数" Text="{Binding SnapshotDataVm.DualCoinMiningCount}"></TextBlock>
+                                    </WrapPanel>
+                                </WrapPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="60" IsReadOnly="True">
+                        <DataGridTemplateColumn.Header>
+                            <TextBlock Text="{Binding Data.TotalOnlineCount,Source={StaticResource proxy}}" ToolTip="总在线数"></TextBlock>
+                        </DataGridTemplateColumn.Header>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <WrapPanel>
+                                    <WrapPanel VerticalAlignment="Center" Visibility="{Binding CoinVm.JustAsDualCoin, Converter={StaticResource BoolToVisibilityInvertConverter}}">
                                         <TextBlock 
 									        Foreground="{Binding OnlineColor}"
 									        ToolTip="在线数" 
@@ -151,8 +164,6 @@
                                     </WrapPanel>
 
                                     <WrapPanel VerticalAlignment="Center" Visibility="{Binding CoinVm.JustAsDualCoin, Converter={StaticResource BoolToVisibilityConverter}}">
-                                        <TextBlock Width="40" TextAlignment="Right" Foreground="{Binding MiningColor}" ToolTip="挖矿数" Text="{Binding SnapshotDataVm.DualCoinMiningCount}"></TextBlock>
-                                        <TextBlock>/</TextBlock>
                                         <TextBlock 
 									        Foreground="{Binding OnlineColor}"
 									        ToolTip="在线数" 
