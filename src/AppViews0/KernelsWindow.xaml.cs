@@ -50,6 +50,9 @@ namespace NTMiner.Views {
             this.Activated += (object sender, EventArgs e) => {
                 NotiCenterWindow.Instance.SwitchOwner(this);
             };
+            if (!Vm.MinerProfile.IsMining) {
+                VirtualRoot.RaiseEvent(new UserActionEvent());
+            }
         }
 
         protected override void OnClosed(EventArgs e) {
