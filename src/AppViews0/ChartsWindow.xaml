@@ -94,7 +94,7 @@
                     <controls:BindingProxy x:Key="proxy" Data="{Binding}" />
                 </DataGrid.Resources>
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn>
+                    <DataGridTemplateColumn IsReadOnly="True">
                         <DataGridTemplateColumn.Header>
                             <CheckBox 
 					            FocusVisualStyle="{x:Null}"
@@ -108,7 +108,7 @@
 								    FocusVisualStyle="{x:Null}"
                                     HorizontalAlignment="Center"
 								    VerticalContentAlignment="Bottom" 
-								    IsChecked="{Binding IsShow,Mode=TwoWay}" 
+								    IsChecked="{Binding IsShow,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
                                     Click="IsShowCheckBox_Click"
 								    ToolTip="显示算力图" 
 								    VerticalAlignment="Center">
