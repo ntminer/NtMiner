@@ -269,9 +269,6 @@
     <Compile Include="Ucs\FileDownloader.xaml.cs">
       <DependentUpon>FileDownloader.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ucs\KernelGrid.xaml.cs">
-      <DependentUpon>KernelGrid.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Ucs\KernelDownloading.xaml.cs">
       <DependentUpon>KernelDownloading.xaml</DependentUpon>
     </Compile>
@@ -758,10 +755,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Ucs\FileDownloader.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Ucs\KernelGrid.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
