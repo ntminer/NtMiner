@@ -212,7 +212,7 @@ namespace NTMiner.Views {
             WpfUtil.ScrollViewer_PreviewMouseDown(sender, e);
         }
 
-        private void IsShowCheckBox_Changed(object sender, RoutedEventArgs e) {
+        private void IsShowCheckBox_Click(object sender, RoutedEventArgs e) {
             Vm.OnPropertyChanged(nameof(Vm.IsShowAll));
         }
     }
