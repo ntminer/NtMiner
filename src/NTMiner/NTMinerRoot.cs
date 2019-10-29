@@ -498,7 +498,7 @@ namespace NTMiner {
                 var mineContext = _currentMineContext;
                 _currentMineContext = null;
                 VirtualRoot.ThisWorkerInfo(nameof(NTMinerRoot), "挖矿停止", toConsole: true);
-                VirtualRoot.RaiseEvent(new MineStopedEvent(mineContext));
+                VirtualRoot.RaiseEvent(new MineStopedEvent(mineContext, stopReason));
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);

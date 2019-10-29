@@ -34,6 +34,12 @@ namespace NTMiner.Views {
             if (DevMode.IsDevMode) {
                 this.Width += 600;
             }
+            this.WindowContextEventPath<MineStopedEvent>("当内核宝库窗口开着时如果是本地手动停止的挖矿则引发UserActionEvent事件", LogEnum.DevConsole,
+                action: message => {
+                    if (message.StopReason == StopMineReason.LocalUserAction) {
+                        VirtualRoot.RaiseEvent(new UserActionEvent());
+                    }
+                });
             AppContext.Instance.KernelVms.PropertyChanged += Current_PropertyChanged;
             this.Activated += (object sender, EventArgs e) => {
                 NotiCenterWindow.Instance.SwitchOwner(this);
