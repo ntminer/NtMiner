@@ -80,7 +80,7 @@ namespace NTMiner {
                 GetCmdNameAndArguments(mineContext, out string kernelExeFileFullName, out string arguments);
                 // 这是不应该发生的，如果发生很可能是填写命令的时候拼写错误了
                 if (!File.Exists(kernelExeFileFullName)) {
-                    Write.UserError(kernelExeFileFullName + "文件不存在，可能是小编拼写错误或是挖矿内核被杀毒软件删除导致，请退出杀毒软件重试或者QQ群联系小编。");
+                    Write.UserError(kernelExeFileFullName + "文件不存在，可能是被杀软删除导致，请退出杀毒软件重试或者QQ群联系小编，解释：大部分挖矿内核会报毒，不是开源矿工的问题也不是杀软的问题，也不是挖矿内核的问题，是挖矿这件事情的问题，可能是挖矿符合了病毒的定义。");
                 }
                 if (mineContext.KernelProcessType == KernelProcessType.Logfile) {
                     arguments = arguments.Replace("{logfile}", mineContext.LogFileFullName);
