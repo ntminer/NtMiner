@@ -4,7 +4,7 @@ using System.IO;
 namespace NTMiner {
     public static class SpecialPath {
         static SpecialPath() {
-            string daemonDirFullName = Path.Combine(MainAssemblyInfo.TempDirFullName, "Daemon");
+            string daemonDirFullName = Path.Combine(MainAssemblyInfo.TempDirFullName, NTKeyword.DaemonDirName);
             if (!Directory.Exists(daemonDirFullName)) {
                 Directory.CreateDirectory(daemonDirFullName);
             }
@@ -20,7 +20,7 @@ namespace NTMiner {
             if (MainAssemblyInfo.IsLocalHome && !File.Exists(MainAssemblyInfo.RootLockFileFullName)) {
                 if (VirtualRoot.IsMinerClient) {
                     #region 迁移
-                    string sharePackagesDir = Path.Combine(MainAssemblyInfo.TempDirFullName, "Packages");
+                    string sharePackagesDir = Path.Combine(MainAssemblyInfo.TempDirFullName, NTKeyword.PackagesDirName);
                     if (Directory.Exists(sharePackagesDir)) {
                         foreach (var fileFullName in Directory.GetFiles(sharePackagesDir)) {
                             string destFileName = Path.Combine(PackagesDirFullName, Path.GetFileName(fileFullName));
@@ -55,7 +55,7 @@ namespace NTMiner {
                     if (File.Exists(shareWorkerMessageDbFileFullName) && !File.Exists(VirtualRoot.WorkerMessageDbFileFullName)) {
                         File.Copy(shareWorkerMessageDbFileFullName, VirtualRoot.WorkerMessageDbFileFullName);
                     }
-                    string shareUpdaterFileFullName = Path.Combine(MainAssemblyInfo.TempDirFullName, "Updater", "NTMinerUpdater.exe");
+                    string shareUpdaterFileFullName = Path.Combine(MainAssemblyInfo.TempDirFullName, NTKeyword.UpdaterDirName, "NTMinerUpdater.exe");
                     if (File.Exists(shareUpdaterFileFullName) && !File.Exists(UpdaterFileFullName)) {
                         File.Copy(shareUpdaterFileFullName, UpdaterFileFullName);
                     }
@@ -120,7 +120,7 @@ namespace NTMiner {
         private static bool _sIsFirstCallPackageDirFullName = true;
         public static string PackagesDirFullName {
             get {
-                string dirFullName = Path.Combine(MainAssemblyInfo.HomeDirFullName, "Packages");
+                string dirFullName = Path.Combine(MainAssemblyInfo.HomeDirFullName, NTKeyword.PackagesDirName);
                 if (_sIsFirstCallPackageDirFullName) {
                     if (!Directory.Exists(dirFullName)) {
                         Directory.CreateDirectory(dirFullName);
@@ -135,7 +135,7 @@ namespace NTMiner {
         private static bool _sIsFirstCallCoinIconDirFullName = true;
         public static string CoinIconsDirFullName {
             get {
-                string dirFullName = Path.Combine(MainAssemblyInfo.TempDirFullName, "CoinIcons");
+                string dirFullName = Path.Combine(MainAssemblyInfo.TempDirFullName, NTKeyword.CoinIconsDirName);
                 if (_sIsFirstCallCoinIconDirFullName) {
                     if (!Directory.Exists(dirFullName)) {
                         Directory.CreateDirectory(dirFullName);
@@ -150,7 +150,7 @@ namespace NTMiner {
         private static bool _sIsFirstCallDownloadDirFullName = true;
         public static string DownloadDirFullName {
             get {
-                string dirFullName = Path.Combine(MainAssemblyInfo.TempDirFullName, "Download");
+                string dirFullName = Path.Combine(MainAssemblyInfo.TempDirFullName, NTKeyword.DownloadDirName);
                 if (_sIsFirstCallDownloadDirFullName) {
                     if (!Directory.Exists(dirFullName)) {
                         Directory.CreateDirectory(dirFullName);
@@ -165,7 +165,7 @@ namespace NTMiner {
         private static bool _sIsFirstCallKernelsDirFullName = true;
         public static string KernelsDirFullName {
             get {
-                string dirFullName = Path.Combine(MainAssemblyInfo.TempDirFullName, "Kernels");
+                string dirFullName = Path.Combine(MainAssemblyInfo.TempDirFullName, NTKeyword.KernelsDirName);
                 if (_sIsFirstCallKernelsDirFullName) {
                     if (!Directory.Exists(dirFullName)) {
                         Directory.CreateDirectory(dirFullName);
@@ -180,7 +180,7 @@ namespace NTMiner {
         private static bool _sIsFirstCallLogsDirFullName = true;
         public static string LogsDirFullName {
             get {
-                string dirFullName = Path.Combine(MainAssemblyInfo.TempDirFullName, "Logs");
+                string dirFullName = Path.Combine(MainAssemblyInfo.TempDirFullName, NTKeyword.LogsDirName);
                 if (_sIsFirstCallLogsDirFullName) {
                     if (!Directory.Exists(dirFullName)) {
                         Directory.CreateDirectory(dirFullName);
@@ -195,7 +195,7 @@ namespace NTMiner {
         private static bool _sIsFirstCallToolsDirFullName = true;
         public static string ToolsDirFullName {
             get {
-                string dirFullName = Path.Combine(MainAssemblyInfo.HomeDirFullName, "Tools");
+                string dirFullName = Path.Combine(MainAssemblyInfo.HomeDirFullName, NTKeyword.ToolsDirName);
                 if (_sIsFirstCallToolsDirFullName) {
                     if (!Directory.Exists(dirFullName)) {
                         Directory.CreateDirectory(dirFullName);
@@ -210,7 +210,7 @@ namespace NTMiner {
         private static bool _sIsFirstCallUpdaterDirFullName = true;
         public static string UpdaterDirFullName {
             get {
-                string dirFullName = Path.Combine(MainAssemblyInfo.HomeDirFullName, "Updater");
+                string dirFullName = Path.Combine(MainAssemblyInfo.HomeDirFullName, NTKeyword.UpdaterDirName);
                 if (_sIsFirstCallUpdaterDirFullName) {
                     if (!Directory.Exists(dirFullName)) {
                         Directory.CreateDirectory(dirFullName);
@@ -231,7 +231,7 @@ namespace NTMiner {
         private static bool _sIsFirstCallServicesDirFullName = true;
         public static string ServicesDirFullName {
             get {
-                string dirFullName = Path.Combine(MainAssemblyInfo.HomeDirFullName, "Services");
+                string dirFullName = Path.Combine(MainAssemblyInfo.HomeDirFullName, NTKeyword.ServicesDirName);
                 if (_sIsFirstCallServicesDirFullName) {
                     if (!Directory.Exists(dirFullName)) {
                         Directory.CreateDirectory(dirFullName);

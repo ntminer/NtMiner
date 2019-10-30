@@ -15,6 +15,18 @@
 
         public const int WorkerMessageSetCapacity = 1000;
 
+        #region 目录名
+        public const string DaemonDirName = "Daemon";
+        public const string PackagesDirName = "Packages";
+        public const string CoinIconsDirName = "CoinIcons";
+        public const string DownloadDirName = "Download";
+        public const string KernelsDirName = "Kernels";
+        public const string LogsDirName = "Logs";
+        public const string ToolsDirName = "Tools";
+        public const string UpdaterDirName = "Updater";
+        public const string ServicesDirName = "Services";
+        #endregion
+
         #region 注册表
         public const string MinerNameRegistryKey = "MinerName";
         public const string ClientIdRegistryKey = "ClientId";
