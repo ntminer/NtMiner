@@ -110,6 +110,7 @@
     <Compile Include="Core\Kernels\KernelSetExtension.cs" />
     <Compile Include="Core\MineContextExtension.cs" />
     <Compile Include="Core\MinerServer\Impl\NTMinerWalletSet.cs" />
+    <Compile Include="Core\MinerServer\Impl\ServerKernelOutputKeywordSet.cs" />
     <Compile Include="Core\MinerServer\Impl\UserSet.cs" />
     <Compile Include="Core\MinerServer\IColumnsShowSet.cs" />
     <Compile Include="Core\MinerServer\IMinerGroupSet.cs" />

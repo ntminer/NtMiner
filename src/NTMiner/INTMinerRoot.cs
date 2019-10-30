@@ -100,7 +100,8 @@ namespace NTMiner {
 
         IKernelOutputTranslaterSet KernelOutputTranslaterSet { get; }
 
-        IKernelOutputKeywordSet KernelOutputKeywordSet { get; }
+        IKernelOutputKeywordSet LocalKernelOutputKeywordSet { get; }
+        IKernelOutputKeywordSet ServerKernelOutputKeywordSet { get; }
         string BuildAssembleArgs(out Dictionary<string, string> parameters, out Dictionary<Guid, string> fileWriters, out Dictionary<Guid, string> fragments);
     }
 }

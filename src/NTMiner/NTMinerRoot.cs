@@ -828,13 +828,23 @@ namespace NTMiner {
 
         public IKernelOutputTranslaterSet KernelOutputTranslaterSet { get; private set; }
 
-        private IKernelOutputKeywordSet _kernelOutputKeywordSet;
-        public IKernelOutputKeywordSet KernelOutputKeywordSet {
+        private IKernelOutputKeywordSet _localKernelOutputKeywordSet;
+        public IKernelOutputKeywordSet LocalKernelOutputKeywordSet {
             get {
-                if (_kernelOutputKeywordSet == null) {
-                    _kernelOutputKeywordSet = new LocalKernelOutputKeywordSet(SpecialPath.LocalDbFileFullName);
+                if (_localKernelOutputKeywordSet == null) {
+                    _localKernelOutputKeywordSet = new LocalKernelOutputKeywordSet(SpecialPath.LocalDbFileFullName);
                 }
-                return _kernelOutputKeywordSet;
+                return _localKernelOutputKeywordSet;
+            }
+        }
+
+        private IKernelOutputKeywordSet _serverKernelOutputKeywordSet;
+        public IKernelOutputKeywordSet ServerKernelOutputKeywordSet {
+            get {
+                if (_serverKernelOutputKeywordSet == null) {
+                    _serverKernelOutputKeywordSet = new ServerKernelOutputKeywordSet();
+                }
+                return _serverKernelOutputKeywordSet;
             }
         }
     }
