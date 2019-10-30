@@ -257,10 +257,6 @@ namespace NTMiner {
             WorkerMessage(WorkerMessageChannel.Kernel, provider, WorkerMessageType.Info, content, outEnum: outEnum, toConsole: toConsole);
         }
 
-        public static void ServerWorkerInfo(string provider, string content, OutEnum outEnum = OutEnum.None, bool toConsole = false) {
-            WorkerMessage(WorkerMessageChannel.Server, provider, WorkerMessageType.Info, content, outEnum: outEnum, toConsole: toConsole);
-        }
-
         public static void ThisWorkerWarn(string provider, string content, OutEnum outEnum = OutEnum.None, bool toConsole = false) {
             WorkerMessage(WorkerMessageChannel.This, provider, WorkerMessageType.Warn, content, outEnum: outEnum, toConsole: toConsole);
         }
@@ -269,20 +265,12 @@ namespace NTMiner {
             WorkerMessage(WorkerMessageChannel.Kernel, provider, WorkerMessageType.Warn, content, outEnum: outEnum, toConsole: toConsole);
         }
 
-        public static void ServerWorkerWarn(string provider, string content, OutEnum outEnum = OutEnum.None, bool toConsole = false) {
-            WorkerMessage(WorkerMessageChannel.Server, provider, WorkerMessageType.Warn, content, outEnum: outEnum, toConsole: toConsole);
-        }
-
         public static void ThisWorkerError(string provider, string content, OutEnum outEnum = OutEnum.None, bool toConsole = false) {
             WorkerMessage(WorkerMessageChannel.This, provider, WorkerMessageType.Error, content, outEnum: outEnum, toConsole: toConsole);
         }
 
         public static void KernelWorkerError(string provider, string content, OutEnum outEnum = OutEnum.None, bool toConsole = false) {
             WorkerMessage(WorkerMessageChannel.Kernel, provider, WorkerMessageType.Error, content, outEnum: outEnum, toConsole: toConsole);
-        }
-
-        public static void ServerWorkerError(string provider, string content, OutEnum outEnum = OutEnum.None, bool toConsole = false) {
-            WorkerMessage(WorkerMessageChannel.Server, provider, WorkerMessageType.Error, content, outEnum: outEnum, toConsole: toConsole);
         }
 
         private static void WorkerMessage(WorkerMessageChannel channel, string provider, WorkerMessageType messageType, string content, OutEnum outEnum, bool toConsole) {
