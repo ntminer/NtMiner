@@ -43,7 +43,7 @@ namespace NTMiner.NTMinerServices {
         }
 
         private static void ExtractRunNTMinerServicesAsync(Action callback) {
-            string[] names = new string[] { "NTMinerServices.exe" };
+            string[] names = new string[] { NTKeyword.NTMinerServicesFileName };
             foreach (var name in names) {
                 ExtractResource(name);
             }
@@ -69,7 +69,7 @@ namespace NTMiner.NTMinerServices {
             get {
                 if (s_thisNTMinerServicesFileVersion == null) {
                     try {
-                        string name = "NTMinerServices.exe";
+                        string name = NTKeyword.NTMinerServicesFileName;
                         Type type = typeof(NTMinerServicesUtil);
                         Assembly assembly = type.Assembly;
                         using (var stream = assembly.GetManifestResourceStream(type, name)) {

@@ -24,10 +24,10 @@ namespace NTMiner {
         public static string WorkerMessageDbFileFullName {
             get {
                 if (IsMinerClient) {
-                    return Path.Combine(MainAssemblyInfo.TempDirFullName, NTKeyword.WorkerMessageDb);
+                    return Path.Combine(MainAssemblyInfo.TempDirFullName, NTKeyword.WorkerMessageDbFileName);
                 }
                 if (IsMinerStudio) {
-                    return Path.Combine(MainAssemblyInfo.HomeDirFullName, NTKeyword.WorkerMessageDb);
+                    return Path.Combine(MainAssemblyInfo.HomeDirFullName, NTKeyword.WorkerMessageDbFileName);
                 }
                 return string.Empty;
             }

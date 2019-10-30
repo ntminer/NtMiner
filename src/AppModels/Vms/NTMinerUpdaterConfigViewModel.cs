@@ -15,7 +15,7 @@ namespace NTMiner.Vms {
             this.Save = new DelegateCommand(() => {
                 try {
                     if (string.IsNullOrEmpty(this.FileName)) {
-                        this.FileName = "NTMinerUpdater.exe";
+                        this.FileName = NTKeyword.NTMinerUpdaterFileName;
                     }
                     VirtualRoot.Execute(new ChangeServerAppSettingCommand(new AppSettingData {
                         Key = NTKeyword.NTMinerUpdaterFileNameAppSettingKey,
@@ -31,7 +31,7 @@ namespace NTMiner.Vms {
                 _fileName = appSetting.Value.ToString();
             }
             else {
-                _fileName = "NTMinerUpdater.exe";
+                _fileName = NTKeyword.NTMinerUpdaterFileName;
             }
         }
 

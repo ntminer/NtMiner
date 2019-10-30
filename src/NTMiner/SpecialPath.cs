@@ -14,9 +14,9 @@ namespace NTMiner {
             ServerDbFileFullName = Path.Combine(MainAssemblyInfo.HomeDirFullName, "server.litedb");
             ServerJsonFileFullName = Path.Combine(MainAssemblyInfo.HomeDirFullName, "server.json");
 
-            LocalDbFileFullName = Path.Combine(MainAssemblyInfo.HomeDirFullName, "local.litedb");
-            LocalJsonFileFullName = Path.Combine(MainAssemblyInfo.HomeDirFullName, "local.json");
-            GpuProfilesJsonFileFullName = Path.Combine(MainAssemblyInfo.HomeDirFullName, "gpuProfiles.json");           
+            LocalDbFileFullName = Path.Combine(MainAssemblyInfo.HomeDirFullName, NTKeyword.LocalDbFileName);
+            LocalJsonFileFullName = Path.Combine(MainAssemblyInfo.HomeDirFullName, NTKeyword.LocalJsonFileName);
+            GpuProfilesJsonFileFullName = Path.Combine(MainAssemblyInfo.HomeDirFullName, NTKeyword.GpuProfilesFileName);           
             if (MainAssemblyInfo.IsLocalHome && !File.Exists(MainAssemblyInfo.RootLockFileFullName)) {
                 if (VirtualRoot.IsMinerClient) {
                     #region 迁移
@@ -39,23 +39,23 @@ namespace NTMiner {
                     if (File.Exists(shareServerJsonFileFullName) && !File.Exists(ServerJsonFileFullName)) {
                         File.Copy(shareServerJsonFileFullName, ServerJsonFileFullName);
                     }
-                    string shareLocalDbFileFullName = Path.Combine(MainAssemblyInfo.TempDirFullName, "local.litedb");
+                    string shareLocalDbFileFullName = Path.Combine(MainAssemblyInfo.TempDirFullName, NTKeyword.LocalDbFileName);
                     if (File.Exists(shareLocalDbFileFullName) && !File.Exists(LocalDbFileFullName)) {
                         File.Copy(shareLocalDbFileFullName, LocalDbFileFullName);
                     }
-                    string shareLocalJsonFileFullName = Path.Combine(MainAssemblyInfo.TempDirFullName, "local.json");
+                    string shareLocalJsonFileFullName = Path.Combine(MainAssemblyInfo.TempDirFullName, NTKeyword.LocalJsonFileName);
                     if (File.Exists(shareLocalJsonFileFullName) && !File.Exists(LocalJsonFileFullName)) {
                         File.Copy(shareLocalJsonFileFullName, LocalJsonFileFullName);
                     }
-                    string shareGpuProfilesJsonFileFullName = Path.Combine(MainAssemblyInfo.TempDirFullName, "gpuProfiles.json");
+                    string shareGpuProfilesJsonFileFullName = Path.Combine(MainAssemblyInfo.TempDirFullName, NTKeyword.GpuProfilesFileName);
                     if (File.Exists(shareGpuProfilesJsonFileFullName) && !File.Exists(GpuProfilesJsonFileFullName)) {
                         File.Copy(shareGpuProfilesJsonFileFullName, GpuProfilesJsonFileFullName);
                     }
-                    string shareWorkerMessageDbFileFullName = Path.Combine(MainAssemblyInfo.TempDirFullName, NTKeyword.WorkerMessageDb);
+                    string shareWorkerMessageDbFileFullName = Path.Combine(MainAssemblyInfo.TempDirFullName, NTKeyword.WorkerMessageDbFileName);
                     if (File.Exists(shareWorkerMessageDbFileFullName) && !File.Exists(VirtualRoot.WorkerMessageDbFileFullName)) {
                         File.Copy(shareWorkerMessageDbFileFullName, VirtualRoot.WorkerMessageDbFileFullName);
                     }
-                    string shareUpdaterFileFullName = Path.Combine(MainAssemblyInfo.TempDirFullName, NTKeyword.UpdaterDirName, "NTMinerUpdater.exe");
+                    string shareUpdaterFileFullName = Path.Combine(MainAssemblyInfo.TempDirFullName, NTKeyword.UpdaterDirName, NTKeyword.NTMinerUpdaterFileName);
                     if (File.Exists(shareUpdaterFileFullName) && !File.Exists(UpdaterFileFullName)) {
                         File.Copy(shareUpdaterFileFullName, UpdaterFileFullName);
                     }
@@ -224,7 +224,7 @@ namespace NTMiner {
 
         public static string UpdaterFileFullName {
             get {
-                return Path.Combine(UpdaterDirFullName, "NTMinerUpdater.exe");
+                return Path.Combine(UpdaterDirFullName, NTKeyword.NTMinerUpdaterFileName);
             }
         }
 
@@ -245,7 +245,7 @@ namespace NTMiner {
 
         public static string ServicesFileFullName {
             get {
-                return Path.Combine(ServicesDirFullName, "NTMinerServices.exe");
+                return Path.Combine(ServicesDirFullName, NTKeyword.NTMinerServicesFileName);
             }
         }
     }

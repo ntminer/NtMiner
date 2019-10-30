@@ -81,7 +81,7 @@ namespace NTMiner.Controllers {
             try {
                 string ntminerUpdaterFileName;
                 if (!HostRoot.Instance.AppSettingSet.TryGetAppSetting(NTKeyword.NTMinerUpdaterFileNameAppSettingKey, out IAppSetting ntminerUpdaterFileNameSetting)) {
-                    ntminerUpdaterFileName = "NTMinerUpdater.exe";
+                    ntminerUpdaterFileName = NTKeyword.NTMinerUpdaterFileName;
                 }
                 else {
                     ntminerUpdaterFileName = (string)ntminerUpdaterFileNameSetting.Value;

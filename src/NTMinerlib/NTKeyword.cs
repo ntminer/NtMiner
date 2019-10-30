@@ -6,7 +6,13 @@
         public const int NTMinerDaemonPort = 3337;
         public const int MinerStudioPort = 3338;
         public const int ControlCenterPort = 3339;
-        public const string WorkerMessageDb = "workerMessage.litedb";
+        public const string WorkerMessageDbFileName = "workerMessage.litedb";
+        public const string NTMinerUpdaterFileName = "NTMinerUpdater.exe";
+        public const string NTMinerServicesFileName = "NTMinerServices.exe";
+        public const string GpuProfilesFileName = "gpuProfiles.json";
+        public const string LocalJsonFileName = "local.json";
+        public const string LocalDbFileName = "local.litedb";
+
         public const string NTMinerDaemonKey = "NTMiner.Daemon.NTMinerDaemon.exe";
         public const string NTMinerServicesKey = "NTMiner.NTMinerServices.NTMinerServices.exe";
         public const string MinerStudioCmdParameterName = "--minerstudio";
