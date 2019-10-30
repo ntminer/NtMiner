@@ -43,6 +43,8 @@
   <ItemGroup>
     <Compile Include="AppSetting\LocalAppSettingSet.cs" />
     <Compile Include="AppSetting\IAppSettingSet.cs" />
+    <Compile Include="KernelOutputKeyword\IKernelOutputKeywordSet.cs" />
+    <Compile Include="KernelOutputKeyword\LocalKernelOutputKeywordSet.cs" />
     <Compile Include="NTKeyword.cs" />
     <Compile Include="OutEnum.cs" />
     <Compile Include="WorkerMessage.cs" />

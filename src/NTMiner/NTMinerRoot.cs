@@ -11,6 +11,7 @@ using NTMiner.Core.MinerServer;
 using NTMiner.Core.MinerServer.Impl;
 using NTMiner.Core.Profiles;
 using NTMiner.Core.Profiles.Impl;
+using NTMiner.KernelOutputKeyword;
 using NTMiner.MinerServer;
 using NTMiner.Profile;
 using NTMiner.User;
@@ -349,7 +350,6 @@ namespace NTMiner {
             this.KernelOutputSet = new KernelOutputSet(this);
             this.KernelOutputFilterSet = new KernelOutputFilterSet(this);
             this.KernelOutputTranslaterSet = new KernelOutputTranslaterSet(this);
-            this.KernelOutputKeywordSet = new LocalKernelOutputKeywordSet(this);
         }
 
         private void Link() {
@@ -828,6 +828,14 @@ namespace NTMiner {
 
         public IKernelOutputTranslaterSet KernelOutputTranslaterSet { get; private set; }
 
-        public IKernelOutputKeywordSet KernelOutputKeywordSet { get; private set; }
+        private IKernelOutputKeywordSet _kernelOutputKeywordSet;
+        public IKernelOutputKeywordSet KernelOutputKeywordSet {
+            get {
+                if (_kernelOutputKeywordSet == null) {
+                    _kernelOutputKeywordSet = new LocalKernelOutputKeywordSet(SpecialPath.LocalDbFileFullName);
+                }
+                return _kernelOutputKeywordSet;
+            }
+        }
     }
 }
